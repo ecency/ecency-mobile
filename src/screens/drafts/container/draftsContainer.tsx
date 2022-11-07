@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
 // Services and Actions
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import {
   useDraftDeleteMutation,
   useGetDraftsQuery,
@@ -20,7 +21,6 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Component
 import DraftsScreen from '../screen/draftsScreen';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const DraftsContainer = ({ currentAccount, navigation, route }) => {
   const { mutate: deleteDraft, isLoading: isDeletingDraft } = useDraftDeleteMutation();

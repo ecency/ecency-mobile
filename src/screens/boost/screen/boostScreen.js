@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
 // Components
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
 
 // Container
@@ -13,7 +14,6 @@ import { InAppPurchaseContainer } from '../../../containers';
 import globalStyles from '../../../globalStyles';
 import UserRibbon from '../../../components/userRibbon/userRibbon';
 import styles from './styles';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const ITEM_SKUS = Platform.select({
   ios: ['099points', '199points', '499points', '999points', '4999points', '9999points'],

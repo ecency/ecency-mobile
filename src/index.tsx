@@ -5,18 +5,17 @@ import { IntlProvider } from 'react-intl';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Host } from 'react-native-portalize';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { flattenMessages } from './utils/flattenMessages';
 import messages from './config/locales';
 
 import Application from './screens/application';
 import { persistor, store } from './redux/store/store';
 import { initQueryClient } from './providers/queries';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const queryClientProviderProps = initQueryClient();
 
 const _renderApp = ({ locale }) => (
-
   <PersistQueryClientProvider {...queryClientProviderProps}>
     <PersistGate loading={null} persistor={persistor}>
       <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
@@ -30,7 +29,6 @@ const _renderApp = ({ locale }) => (
       </IntlProvider>
     </PersistGate>
   </PersistQueryClientProvider>
-
 );
 
 const mapStateToProps = (state) => ({

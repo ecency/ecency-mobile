@@ -3,6 +3,7 @@ import { View, Text, ScrollView } from 'react-native';
 import { useIntl } from 'react-intl';
 
 // Components
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { CollapsibleCard, BasicHeader, TabbedPosts } from '../../../components';
 import { Tag, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
 
@@ -14,7 +15,6 @@ import styles from './communityStyles';
 import { getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
 import { useAppSelector } from '../../../hooks';
 import { TagResult } from '../..';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const CommunityScreen = ({ route }) => {
   const tag = route.params?.tag ?? '';

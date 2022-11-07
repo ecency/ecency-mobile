@@ -3,13 +3,13 @@ import { View } from 'react-native';
 import { debounce } from 'lodash';
 
 // Components
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SearchInput, TabbedPosts } from '../../../components';
 
 // Styles
 import styles from './tagResultStyles';
 
 import { GLOBAL_POST_FILTERS, GLOBAL_POST_FILTERS_VALUE } from '../../../constants/options/filters';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const TagResultScreen = ({ navigation, route }) => {
   const initTag = route.params?.tag ?? '';

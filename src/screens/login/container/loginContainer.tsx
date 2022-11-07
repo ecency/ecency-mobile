@@ -7,6 +7,7 @@ import messaging from '@react-native-firebase/messaging';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { login, loginWithSC2 } from '../../../providers/hive/auth';
 import { lookupAccounts } from '../../../providers/hive/dhive';
 
@@ -36,7 +37,6 @@ import { showActionModal } from '../../../redux/actions/uiAction';
 import { UserAvatar } from '../../../components';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 /*
  *            Props Name        Description                                     Value
@@ -299,6 +299,8 @@ const mapHooksToProps = () => ({
   userActivityMutation: useUserActivityMutation(),
 });
 
-export default gestureHandlerRootHOC(connect(mapStateToProps)(
-  injectIntl((props) => <LoginContainer {...props} {...mapHooksToProps()} />),
-));
+export default gestureHandlerRootHOC(
+  connect(mapStateToProps)(
+    injectIntl((props) => <LoginContainer {...props} {...mapHooksToProps()} />),
+  ),
+);

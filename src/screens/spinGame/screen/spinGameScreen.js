@@ -1,10 +1,10 @@
 import React from 'react';
 
 // Container
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SpinGameContainer, InAppPurchaseContainer } from '../../../containers';
 
 import { SpinGame } from '../../../components';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const SpinGameScreen = gestureHandlerRootHOC(({ route }) => {
   return (

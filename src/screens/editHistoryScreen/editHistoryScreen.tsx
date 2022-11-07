@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import { Alert, FlatList, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import AutoHeightWebView from 'react-native-autoheight-webview';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { BasicHeader, Icon, PostPlaceHolder, TextInput } from '../../components';
 
 // styles
@@ -12,7 +13,6 @@ import { getCommentHistory } from '../../providers/ecency/ecency';
 import { dateToFormatted } from '../../utils/time';
 import historyBuilder from './historyBuilder';
 import getWindowDimensions from '../../utils/getWindowDimensions';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 export interface CommentHistoryListItemDiff {
   title: string;

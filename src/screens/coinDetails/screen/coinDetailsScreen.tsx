@@ -1,6 +1,7 @@
 import { View, Alert, AppState, AppStateStatus, NativeEventSubscription } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { BasicHeader } from '../../../components';
 import { CoinSummary } from '../children';
 import styles from './screen.styles';
@@ -17,7 +18,6 @@ import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 export interface CoinDetailsScreenParams {
   coinId: string;

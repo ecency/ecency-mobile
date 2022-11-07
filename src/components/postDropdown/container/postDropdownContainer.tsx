@@ -525,5 +525,4 @@ const mapHooksToProps = (props) => {
   );
 };
 
-export default
-  connect(mapStateToProps)(injectIntl(mapHooksToProps));
+export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

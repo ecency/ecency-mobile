@@ -13,6 +13,7 @@ import {
 import get from 'lodash/get';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDispatch } from 'react-redux';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import {
   BasicHeader,
   Icon,
@@ -35,7 +36,6 @@ import ROUTES from '../../constants/routeNames';
 import { showProfileModal } from '../../redux/actions/uiAction';
 import RootNavigation from '../../navigation/rootNavigation';
 import { useAppSelector } from '../../hooks';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const ReferScreen = () => {
   const intl = useIntl();

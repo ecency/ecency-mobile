@@ -3,9 +3,9 @@ import { Alert, StatusBar, View, Text } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import styles from './webBrowserStyles';
 import { IconButton } from '../../../components';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 export interface WebBrowserParams {
   url: string;

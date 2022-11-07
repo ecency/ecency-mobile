@@ -4,6 +4,7 @@ import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Services and Actions
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import {
   getFavorites,
   deleteFavorite,
@@ -18,7 +19,6 @@ import ROUTES from '../../../constants/routeNames';
 
 // Component
 import BookmarksScreen from '../screen/bookmarksScreen';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
   const [favorites, setFavorites] = useState([]);

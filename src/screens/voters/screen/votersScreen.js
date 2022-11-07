@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import forEach from 'lodash/forEach';
 
 // Components
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { BasicHeader, FilterBar, VotersDisplay } from '../../../components';
 
 import AccountListContainer from '../../../containers/accountListContainer';
@@ -12,7 +13,6 @@ import AccountListContainer from '../../../containers/accountListContainer';
 import { getActiveVotes } from '../../../providers/hive/dhive';
 import { parseActiveVotes } from '../../../utils/postParser';
 import { getResizedAvatar } from '../../../utils/image';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const filterOptions = ['rewards', 'percent', 'time'];
 

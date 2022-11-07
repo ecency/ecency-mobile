@@ -3,11 +3,11 @@ import { connect, useSelector } from 'react-redux';
 import get from 'lodash/get';
 
 // Services and Action
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { getPost } from '../../../providers/hive/dhive';
 
 // Component
 import PostScreen from '../screen/postScreen';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 /*
  *            Props Name        Description                                     Value

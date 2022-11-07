@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import { debounce } from 'lodash';
 
 // Components
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SearchInput, TabBar } from '../../../components';
 import Communities from './tabs/communities/view/communitiesResults';
 import PostsResults from './tabs/best/view/postsResults';
@@ -14,7 +15,6 @@ import PeopleResults from './tabs/people/view/peopleResults';
 // Styles
 import styles from './searchResultStyles';
 import globalStyles from '../../../globalStyles';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const SearchResultScreen = ({ navigation }) => {
   const [searchValue, setSearchValue] = useState('');

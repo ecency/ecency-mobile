@@ -154,7 +154,6 @@ const postsListContainer = (
     }
 
     return e;
-
   };
 
   return (

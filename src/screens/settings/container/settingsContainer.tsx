@@ -7,6 +7,7 @@ import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
 import messaging from '@react-native-firebase/messaging';
 import { useNavigation } from '@react-navigation/native';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { languageRestart } from '../../../utils/I18nUtils';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
@@ -62,7 +63,6 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 import SettingsScreen from '../screen/settingsScreen';
 import { SERVER_LIST } from '../../../constants/options/api';
 import ROUTES from '../../../constants/routeNames';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 /*
  *            Props Name        Description                                     Value

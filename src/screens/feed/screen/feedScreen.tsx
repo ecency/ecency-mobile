@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import get from 'lodash/get';
 
 // Components
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Header, TabbedPosts } from '../../../components';
 
 // Container
@@ -14,7 +15,6 @@ import styles from './feedStyles';
 import { getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
 
 import { useAppSelector } from '../../../hooks';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const FeedScreen = () => {
   const mainTabs = useAppSelector(

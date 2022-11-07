@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 // Components
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import {
   TabBar,
   BasicHeader,
@@ -15,7 +16,6 @@ import CommunitiesContainer from '../container/communitiesContainer';
 
 import styles from './communitiesScreenStyles';
 import globalStyles from '../../../globalStyles';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const CommunitiesScreen = () => {
   const intl = useIntl();

@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useImperativeHandle,
-  forwardRef,
-} from 'react';
+import React, { useEffect, useState, useRef, useImperativeHandle, forwardRef } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { View, Text, Alert, TouchableOpacity, Keyboard, Platform } from 'react-native';
 import { useIntl } from 'react-intl';

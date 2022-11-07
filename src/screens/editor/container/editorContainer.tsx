@@ -9,6 +9,7 @@ import { isArray } from 'lodash';
 // Services and Actions
 import { Buffer } from 'buffer';
 import { useQueryClient } from '@tanstack/react-query';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
@@ -47,7 +48,6 @@ import QUERIES from '../../../providers/queries/queryKeys';
 import bugsnapInstance from '../../../config/bugsnag';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 /*
  *            Props Name        Description                                     Value
@@ -1166,6 +1166,8 @@ const mapQueriesToProps = () => ({
   userActivityMutation: useUserActivityMutation(),
 });
 
-export default gestureHandlerRootHOC(connect(mapStateToProps)(
-  injectIntl((props) => <EditorContainer {...props} {...mapQueriesToProps()} />),
-));
+export default gestureHandlerRootHOC(
+  connect(mapStateToProps)(
+    injectIntl((props) => <EditorContainer {...props} {...mapQueriesToProps()} />),
+  ),
+);
