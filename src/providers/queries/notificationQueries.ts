@@ -52,7 +52,13 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
   };
 
   const _fetchNextPage = () => {
-    const lastId = _getNextPageParam(notificationQueries.lastItem.data);
+    const lastPage = notificationQueries.lastItem;
+
+    if (!lastPage || lastPage.isFetching) {
+      return;
+    }
+
+    const lastId = _getNextPageParam(lastPage.data);
     if (!pageParams.includes(lastId)) {
       pageParams.push(lastId);
       setPageParams([...pageParams]);
