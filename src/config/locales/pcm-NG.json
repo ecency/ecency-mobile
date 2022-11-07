@@ -142,6 +142,7 @@
     "reply": "follow am yarn",
     "mention": "talk am for inside",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "don dey follow you",
     "unfollow": "no follow you again",
     "ignore": "don dey ignore you",
@@ -229,6 +230,7 @@
       "comment": "Comment",
       "mention": "Mention",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Reblog am",
       "transfers": "Transfer",
       "delegations": "Delegations"
