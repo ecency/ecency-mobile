@@ -142,6 +142,7 @@
     "reply": "vastas",
     "mention": "mainis",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "hakkas sind jälgima",
     "unfollow": "enam ei jälgi sind",
     "ignore": "ignoreeris sind",
@@ -229,6 +230,7 @@
       "comment": "Kommenteeri",
       "mention": "Maini",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Jaga",
       "transfers": "Ülekanded",
       "delegations": "Delegations"
