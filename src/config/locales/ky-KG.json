@@ -142,6 +142,7 @@
     "reply": "жооп",
     "mention": "mentioned in",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "followed you",
     "unfollow": "unfollowed you",
     "ignore": "ignored you",
@@ -229,6 +230,7 @@
       "comment": "Билдирүү",
       "mention": "Mention",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Бөлүшүү",
       "transfers": "Transfers",
       "delegations": "Delegations"
