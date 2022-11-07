@@ -142,6 +142,7 @@
     "reply": "vastasi",
     "mention": "mainittu",
     "favorites": "loi uuden julkaisun",
+    "bookmarks": "made new reply on",
     "follow": "seurasi sinua",
     "unfollow": "lopetti seuraamisesi",
     "ignore": "sivuutti sinut",
@@ -229,6 +230,7 @@
       "comment": "Kommentti",
       "mention": "Maininta",
       "favorite": "Suosikit",
+      "bookmark": "Bookmarks",
       "reblog": "Jako",
       "transfers": "Siirrot",
       "delegations": "Valtuutukset"
