@@ -142,6 +142,7 @@
     "reply": "a răspuns la",
     "mention": "te-a menționat in",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "te urmărește",
     "unfollow": "a anulat urmărirea",
     "ignore": "te-a ignorat",
@@ -229,6 +230,7 @@
       "comment": "Comentarii",
       "mention": "Menționări",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Reblog",
       "transfers": "Transferuri",
       "delegations": "Delegations"
