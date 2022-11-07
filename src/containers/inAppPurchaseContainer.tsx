@@ -98,6 +98,7 @@ class InAppPurchaseContainer extends Component {
       intl,
       fetchData,
       username,
+      email
     } = this.props;
 
     this.purchaseUpdateSubscription = purchaseUpdatedListener((purchase) => {
@@ -111,6 +112,14 @@ class InAppPurchaseContainer extends Component {
           receipt: Platform.OS === 'android' ? token : receipt,
           user: username || name, // username from passed in props from nav params i-e got from url qr scan
         };
+
+        if(email && purchase.productId === '999accounts'){
+          console.log("injecting email address as meta")
+          data.meta = {
+            username:username,
+            email:email
+          }
+        }
 
         purchaseOrder(data)
           .then(async () => {
@@ -211,8 +220,8 @@ class InAppPurchaseContainer extends Component {
   _handleQrPurchase = async () => {
     const { skus, dispatch, intl, route } = this.props;
     const products = await RNIap.getProducts(skus);
-    const productId = route.param?.productId ?? '';
-    const username = route.param?.username ?? '';
+    const productId = route?.param?.productId ?? '';
+    const username = route?.param?.username ?? '';
 
     const product: Product =
       productId && products && products.find((product) => product.productId === productId);

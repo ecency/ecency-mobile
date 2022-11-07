@@ -58,7 +58,7 @@ const RegisterContainer = ({ children }) => {
         } else if (get(err, 'response.data.message')) {
           Alert.alert(
             intl.formatMessage({ id: 'alert.fail' }),
-            err.response.data.message + '\nTry buying account instead',
+            `${err.response.data.message}\nTry buying account instead`,
             [
               {
                 text: 'Buy Account',

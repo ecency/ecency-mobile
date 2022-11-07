@@ -758,12 +758,25 @@ export const getPromotedEntries = async (username: string) => {
   }
 };
 
+
+/**
+ * post inapp purchase method to call
+ * @param data {
+ * platform: 'play_store' : 'app_store',
+ *  product: string,
+ * receipt: string,
+ *  user: string,
+ * meta?: {username: string, email: string}
+ * };
+ * @returns 
+ **/
 export const purchaseOrder = (data) =>
   api
     .post('/purchase-order', data)
     .then((resp) => resp.data)
     .catch((error) => bugsnagInstance.notify(error));
 
+    
 export const getPostReblogs = (data) =>
   api
     .get(`/post-reblogs/${data.author}/${data.permlink}`)
