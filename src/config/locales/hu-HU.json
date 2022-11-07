@@ -142,6 +142,7 @@
     "reply": "válaszolt neked",
     "mention": "megemlített",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "követ téged",
     "unfollow": "már nem követ téged",
     "ignore": "mellőzött téged",
@@ -229,6 +230,7 @@
       "comment": "Hozzászólás",
       "mention": "Említés",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Megosztás",
       "transfers": "Átutalások",
       "delegations": "Delegations"
