@@ -142,6 +142,7 @@
     "reply": "replied to",
     "mention": "mentioned in",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "đã theo dõi bạn",
     "unfollow": "đã bỏ theo dõi bạn",
     "ignore": "đã bỏ qua bạn",
@@ -229,6 +230,7 @@
       "comment": "Câu bình luận",
       "mention": "Nhắc đến",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Đăng lại",
       "transfers": "Những phần chuyển khoản",
       "delegations": "Delegations"
