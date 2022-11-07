@@ -142,6 +142,7 @@
     "reply": "উত্তরে",
     "mention": "উল্লেখিত",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "আপনাকে অনুসরণ করেছে",
     "unfollow": "আপনাকে অননুসরণ করেছে",
     "ignore": "আপনাকে উপেক্ষা করেছে",
@@ -229,6 +230,7 @@
       "comment": "কমেন্ট",
       "mention": "উল্লেখ",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "রিব্লগ",
       "transfers": "স্থানান্তর",
       "delegations": "Delegations"
