@@ -142,6 +142,7 @@
     "reply": "balas kepada",
     "mention": "disebutkan dalam",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "mengikuti anda",
     "unfollow": "berhenti mengikuti anda",
     "ignore": "abaikan anda",
@@ -229,6 +230,7 @@
       "comment": "Komen",
       "mention": "Menyebut",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Reblog",
       "transfers": "Pindah",
       "delegations": "Delegations"
