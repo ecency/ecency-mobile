@@ -142,6 +142,7 @@
     "reply": "отговорено на",
     "mention": "споменато в",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "те последва",
     "unfollow": "не те следва вече",
     "ignore": "те игнорира",
@@ -229,6 +230,7 @@
       "comment": "Коментар",
       "mention": "ви спомена",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Споделяне",
       "transfers": "Преводи",
       "delegations": "Делегация/отдаване"
