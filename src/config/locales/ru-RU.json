@@ -142,6 +142,7 @@
     "reply": "ответил",
     "mention": "упомянул вас в",
     "favorites": "создать новый пост",
+    "bookmarks": "made new reply on",
     "follow": "подписан",
     "unfollow": "отписан",
     "ignore": "игнорирует",
@@ -229,6 +230,7 @@
       "comment": "Комментарии",
       "mention": "Упоминания",
       "favorite": "Избранное",
+      "bookmark": "Bookmarks",
       "reblog": "Репосты",
       "transfers": "Переводы",
       "delegations": "Делегации"
