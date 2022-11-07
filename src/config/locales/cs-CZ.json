@@ -142,6 +142,7 @@
     "reply": "replied to",
     "mention": "zmíněný",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "vás sleduje",
     "unfollow": "unfollowed you",
     "ignore": "ignored you",
@@ -229,6 +230,7 @@
       "comment": "Comment",
       "mention": "Mention",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Reblog",
       "transfers": "Transfers",
       "delegations": "Delegations"
