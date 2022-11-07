@@ -142,6 +142,7 @@
     "reply": " 님이 댓글을 남겼습니다.",
     "mention": "님이 언급하였습니다.",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "님이 팔로우를 시작했습니다",
     "unfollow": "님이 팔로우를 취소했습니다",
     "ignore": "님이 당신을 차단했습니다",
@@ -229,6 +230,7 @@
       "comment": "댓글",
       "mention": "언급",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "리블로그",
       "transfers": "전송",
       "delegations": "임대"
