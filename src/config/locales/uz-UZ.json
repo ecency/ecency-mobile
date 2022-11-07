@@ -142,6 +142,7 @@
     "reply": "javob berdi",
     "mention": "eslatib o'tdi",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "sizni kuzatdi",
     "unfollow": "sizni kuzatishni to'xtatdi",
     "ignore": "sizni rad etdi",
@@ -229,6 +230,7 @@
       "comment": "Izoh",
       "mention": "Eslatma",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Qayta bloglash",
       "transfers": "O'tkazmalar",
       "delegations": "Delegatsiyalar"
