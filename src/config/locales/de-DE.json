@@ -142,6 +142,7 @@
     "reply": "hat geantwortet auf",
     "mention": "erwähnt in",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "folgt dir jetzt",
     "unfollow": "folgt dir nicht mehr",
     "ignore": "ignoriert dich",
@@ -229,6 +230,7 @@
       "comment": "Kommentar",
       "mention": "Erwähnung",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Reblog",
       "transfers": "Überweisungen",
       "delegations": "Delegations"
