@@ -6,6 +6,7 @@ import Config from 'react-native-config';
 import messaging from '@react-native-firebase/messaging';
 
 // Services and Actions
+import { useNavigation } from '@react-navigation/core';
 import { login, loginWithSC2 } from '../../../providers/hive/auth';
 import { lookupAccounts } from '../../../providers/hive/dhive';
 
@@ -35,7 +36,6 @@ import { showActionModal } from '../../../redux/actions/uiAction';
 import { UserAvatar } from '../../../components';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
-import { useNavigation } from '@react-navigation/core';
 
 /*
  *            Props Name        Description                                     Value
@@ -169,7 +169,7 @@ class LoginContainer extends PureComponent {
           dispatch(setFeedPosts([]));
 
           //track user activity for login
-          userActivityMutation.mutate({ pointsTy:PointActivityIds.LOGIN })
+          userActivityMutation.mutate({ pointsTy: PointActivityIds.LOGIN });
           setExistUser(true);
           this._setPushToken(result.name);
           const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
@@ -194,8 +194,8 @@ class LoginContainer extends PureComponent {
         const errorDescription = err?.response?.data?.error_description
           ? err?.response?.data?.error_description
           : intl.formatMessage({
-            id: err.message,
-          });
+              id: err.message,
+            });
         Alert.alert(
           intl.formatMessage({
             id: 'login.login_failed',
@@ -216,6 +216,8 @@ class LoginContainer extends PureComponent {
       comment: 4,
       reblog: 5,
       transfers: 6,
+      favorite: 13,
+      bookmark: 15,
     };
     const notifyTypes = [];
 
@@ -292,10 +294,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapHooksToProps = () => ({
-  navigation:useNavigation(),
-  userActivityMutation: useUserActivityMutation()
-})
+  navigation: useNavigation(),
+  userActivityMutation: useUserActivityMutation(),
+});
 
-export default connect(mapStateToProps)(injectIntl((props) => (
-  <LoginContainer {...props} {...mapHooksToProps()} />
-)));
+export default connect(mapStateToProps)(
+  injectIntl((props) => <LoginContainer {...props} {...mapHooksToProps()} />),
+);

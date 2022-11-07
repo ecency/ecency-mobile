@@ -23,7 +23,7 @@ const transformCacheVoteMap = createTransform(
     comments: new Map(outboundState.comments),
     drafts: new Map(outboundState.drafts),
     subscribedCommunities: new Map(outboundState.subscribedCommunities),
-    pointActivities: new Map(outboundState.pointActivities)
+    pointActivities: new Map(outboundState.pointActivities),
   }),
   { whitelist: ['cache'] },
 );
@@ -43,8 +43,8 @@ const persistConfig = {
   key: 'root',
   // Storage Method (React Native)
   storage: AsyncStorage,
-  version: 1, // New version 0, default or previous version -1, versions are useful migrations
-  // Blacklist (Don't Save Specific Reducers)
+  version: 2, // New version 0, default or previous version -1, versions are useful migrations
+  // // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   timeout: 0,
   transforms: [transformCacheVoteMap, transformWalkthroughMap],
