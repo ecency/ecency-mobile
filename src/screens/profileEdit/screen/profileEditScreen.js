@@ -3,6 +3,7 @@ import { StatusBar } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { ProfileEditContainer } from '../../../containers';
 
 import { AvatarHeader, ProfileEditForm } from '../../../components';
@@ -109,4 +110,4 @@ class ProfileEditScreen extends PureComponent {
   }
 }
 
-export default injectIntl(ProfileEditScreen);
+export default gestureHandlerRootHOC(injectIntl(ProfileEditScreen));

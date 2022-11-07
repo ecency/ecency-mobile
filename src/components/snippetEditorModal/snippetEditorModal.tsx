@@ -44,7 +44,7 @@ const SnippetEditorModal = ({}, ref) => {
     },
   }));
 
-  //save snippet based on editor type
+  // save snippet based on editor type
   const _saveSnippet = async () => {
     if (!title || !body) {
       Alert.alert(intl.formatMessage({ id: 'snippets.message_incomplete' }));

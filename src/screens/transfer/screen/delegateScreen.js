@@ -82,6 +82,7 @@ class DelegateScreen extends Component {
       this.destinationTextInput.current?.focus();
     }
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.from !== this.state.from) {
       this._fetchReceivedVestingShare();
@@ -216,8 +217,11 @@ class DelegateScreen extends Component {
     const { hivePerMVests } = this.props;
     const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
     const parsedHpValue = parseFloat(value);
-    const amountValid =
-      Number.isNaN(parsedHpValue) || parsedHpValue < 0.0 || parsedHpValue >= totalHP ? false : true;
+    const amountValid = !(
+      Number.isNaN(parsedHpValue) ||
+      parsedHpValue < 0.0 ||
+      parsedHpValue >= totalHP
+    );
     return amountValid;
   };
 
@@ -233,7 +237,7 @@ class DelegateScreen extends Component {
     } else {
       this.amountTextInput.current.blur();
       await delay(500);
-      let body =
+      const body =
         intl.formatMessage(
           { id: 'transfer.confirm_summary' },
           {
@@ -280,6 +284,7 @@ class DelegateScreen extends Component {
       }
     }
   };
+
   // Note: dropdown for user account selection. can be used in later implementaion
   _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton
@@ -310,8 +315,8 @@ class DelegateScreen extends Component {
       }
 
       this.setState({ destination: username, usersResult: [], step: 2 }, () => {
-        //since method uses destination from state it sould be called
-        //after state has been updated successfully
+        // since method uses destination from state it sould be called
+        // after state has been updated successfully
         this._fetchReceivedVestingShare();
       });
 
@@ -334,7 +339,7 @@ class DelegateScreen extends Component {
       keyExtractor={(item) => `searched-user-${item}`}
       style={styles.usersDropdown}
       ListFooterComponent={<View />}
-      ListFooterComponentStyle={{ height: 20 }} //this fixes the last item visibility bug
+      ListFooterComponentStyle={{ height: 20 }} // this fixes the last item visibility bug
     />
   );
 
@@ -428,6 +433,7 @@ class DelegateScreen extends Component {
       </View>
     );
   };
+
   render() {
     const {
       intl,
@@ -560,7 +566,7 @@ class DelegateScreen extends Component {
       <View style={styles.stepThreeContainer}>
         <MainButton
           style={styles.button}
-          onPress={() => this._handleNext({ availableVestingShares: availableVestingShares })}
+          onPress={() => this._handleNext({ availableVestingShares })}
           isLoading={isTransfering}
           isDisable={!isAmountValid || step === 1}
         >

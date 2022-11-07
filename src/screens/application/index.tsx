@@ -6,8 +6,8 @@ import ErrorBoundary from './children/errorBoundary';
 import { useInitApplication } from './hook/useInitApplication';
 
 const Application = () => {
-  //New hook to handle all custom app initializations
-  //it will help clean index.tsx stay clean and completely discard ApplicationContainer moving forward
+  // New hook to handle all custom app initializations
+  // it will help clean index.tsx stay clean and completely discard ApplicationContainer moving forward
   useInitApplication();
 
   return (

@@ -16,7 +16,7 @@ interface VideoPlayerProps {
   youtubeVideoId?: string;
   startTime?: number;
   uri?: string;
-  //prop for youtube player
+  // prop for youtube player
   disableAutoplay?: boolean;
 }
 
@@ -59,7 +59,7 @@ const VideoPlayer = ({
   const [shouldPlay, setShouldPlay] = useState(false);
   const _onReady = () => {
     setIsLoading(false);
-    setShouldPlay(disableAutoplay ? false : true);
+    setShouldPlay(!disableAutoplay);
     console.log('ready');
   };
 
@@ -131,7 +131,7 @@ const VideoPlayer = ({
       <View style={{ flex: 1 }}>
         <Video
           source={{
-            uri: uri,
+            uri,
           }}
           onEnd={onEnd}
           onLoad={onLoad}

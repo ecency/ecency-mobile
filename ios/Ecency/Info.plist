@@ -44,8 +44,6 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>hivesigner.com</key>
@@ -68,8 +66,6 @@
 	<string>To get accurate location for sharing</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To choose and share current location</string>
-	<key>NSMainNibFile</key>
-	<string>LaunchScreen</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To share recording or video, microphone access is required</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
@@ -107,7 +103,9 @@
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>BootSplash</string>
+	<key>UIMainStoryboardFile</key>
+	<string>BootSplash</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

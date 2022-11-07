@@ -68,10 +68,10 @@ const PostDisplayView = ({
   // Component Life Cycles
   useEffect(() => {
     if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
-      //track user activity for view post
+      // track user activity for view post
       userActivityMutation.mutate({
-        pointsTy:PointActivityIds.VIEW_POST
-      })
+        pointsTy: PointActivityIds.VIEW_POST,
+      });
     }
   }, []);
 
@@ -140,6 +140,7 @@ const PostDisplayView = ({
             content={post}
             handleCacheVoteIncrement={_handleCacheVoteIncrement}
             parentType={parentPost ? postTypes.COMMENT : postTypes.POST}
+            boldPayout={true}
           />
           <TextWithIcon
             iconName="heart-outline"

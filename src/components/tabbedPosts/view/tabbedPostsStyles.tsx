@@ -64,12 +64,12 @@ export default EStyleSheet.create({
     fontWeight: '500',
     color: '$white',
     marginHorizontal: 4,
-    marginBottom:2
+    marginBottom: 2,
   },
   closeIcon: {
     color: '$white',
     margin: 0,
-    padding: 6
+    padding: 6,
   },
   arrowUpIcon: {
     color: '$white',
@@ -84,10 +84,10 @@ export default EStyleSheet.create({
     marginLeft: -8,
     borderColor: '$primaryBlue',
   },
-  emptyAnimationContainer:{
-    marginTop:56
+  emptyAnimationContainer: {
+    marginTop: 56,
   },
-  followText:{
+  followText: {
     color: '$borderedButtonBlue',
     fontSize: 12,
     fontFamily: '$primaryFont',
@@ -96,12 +96,12 @@ export default EStyleSheet.create({
     borderColor: '$borderedButtonBlue',
     borderWidth: 1,
     borderRadius: 10,
-    paddingVertical:2,
-    paddingHorizontal:12,
-    overflow:'hidden'
+    paddingVertical: 2,
+    paddingHorizontal: 12,
+    overflow: 'hidden',
   },
   unfollowText: {
-    color:'$primaryDarkGray',
-    borderColor:'$primaryDarkGray'
-  }
+    color: '$primaryDarkGray',
+    borderColor: '$primaryDarkGray',
+  },
 });

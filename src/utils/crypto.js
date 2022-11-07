@@ -6,7 +6,7 @@ export const encryptKey = (data, key) => {
   console.log('encrypting: ', data, key);
   const stampedData = getStampedData(data);
   const encJson = CryptoJS.AES.encrypt(JSON.stringify(stampedData), key).toString();
-  let encData = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(encJson));
+  const encData = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(encJson));
   console.log('returning: ', encData);
   return encData;
 };
@@ -25,8 +25,8 @@ export const decryptKey = (data, key, onError) => {
 
 const decryptKeyNew = (data, key) => {
   console.log('decrypting new: ', data, key);
-  let decData = CryptoJS.enc.Base64.parse(data).toString(CryptoJS.enc.Utf8);
-  let bytes = CryptoJS.AES.decrypt(decData, key).toString(CryptoJS.enc.Utf8);
+  const decData = CryptoJS.enc.Base64.parse(data).toString(CryptoJS.enc.Utf8);
+  const bytes = CryptoJS.AES.decrypt(decData, key).toString(CryptoJS.enc.Utf8);
   const stampedData = JSON.parse(bytes);
   const ret = processStampedData(stampedData);
   console.log('returning: ', ret);

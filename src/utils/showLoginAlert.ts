@@ -1,5 +1,5 @@
 import { Alert } from 'react-native';
-import ROUTES from '../../src/constants/routeNames';
+import ROUTES from '../constants/routeNames';
 import RootNavigation from '../navigation/rootNavigation';
 
 const showLoginAlert = ({ intl }) => {
@@ -15,7 +15,7 @@ const showLoginAlert = ({ intl }) => {
       {
         text: intl.formatMessage({ id: 'login.login' }),
         onPress: () => {
-          RootNavigation.navigate({name:ROUTES.SCREENS.LOGIN});
+          RootNavigation.navigate({ name: ROUTES.SCREENS.LOGIN });
         },
       },
     ],

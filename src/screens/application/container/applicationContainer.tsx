@@ -1,5 +1,13 @@
 import { Component } from 'react';
-import { Platform, Alert, Linking, AppState, Appearance } from 'react-native';
+import {
+  Platform,
+  Alert,
+  Linking,
+  AppState,
+  Appearance,
+  NativeEventSubscription,
+  EventSubscription,
+} from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
 import get from 'lodash/get';
@@ -9,10 +17,9 @@ import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import { isEmpty, some } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
-import PushNotification from 'react-native-push-notification';
+import notifee from '@notifee/react-native';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
-import SplashScreen from 'react-native-splash-screen';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -56,7 +63,6 @@ import {
   fetchGlobalProperties,
 } from '../../../redux/actions/accountAction';
 import {
-  isDarkTheme,
   login,
   logoutDone,
   setConnectivityStatus,
@@ -88,7 +94,8 @@ import bugsnapInstance from '../../../config/bugsnag';
 
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
-let removeAppearanceListener = null;
+let appStateSub: NativeEventSubscription | null = null;
+let linkingEventSub: EventSubscription | null = null;
 
 class ApplicationContainer extends Component {
   _pinCodeTimer: any = null;
@@ -108,21 +115,19 @@ class ApplicationContainer extends Component {
 
     this._setNetworkListener();
 
-    Linking.addEventListener('url', this._handleOpenURL);
+    linkingEventSub = Linking.addEventListener('url', this._handleOpenURL);
+    // TOOD: read initial URL
     Linking.getInitialURL().then((url) => {
       this._handleDeepLink(url);
     });
 
-    AppState.addEventListener('change', this._handleAppStateChange);
-
-    this.removeAppearanceListener = Appearance.addChangeListener(this._appearanceChangeListener);
+    appStateSub = AppState.addEventListener('change', this._handleAppStateChange);
 
     this._createPushListener();
 
-    //set avatar cache stamp to invalidate previous session avatars
+    // set avatar cache stamp to invalidate previous session avatars
     dispatch(setAvatarCacheStamp(new Date().getTime()));
 
-    SplashScreen.hide();
     setMomentLocale();
     this._fetchApp();
 
@@ -133,7 +138,7 @@ class ApplicationContainer extends Component {
           params: { hasSharedIntent: true, files },
         });
         // files returns as JSON Array example
-        //[{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
+        // [{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
         ReceiveSharingIntent.clearReceivedFiles(); // clear Intents
       },
       (error) => {
@@ -162,11 +167,14 @@ class ApplicationContainer extends Component {
   componentWillUnmount() {
     const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
-    //TOOD: listen for back press and cancel all pending api requests;
+    // TOOD: listen for back press and cancel all pending api requests;
+    if (linkingEventSub) {
+      linkingEventSub.remove();
+    }
 
-    Linking.removeEventListener('url', this._handleOpenURL);
-
-    AppState.removeEventListener('change', this._handleAppStateChange);
+    if (appStateSub) {
+      appStateSub.remove();
+    }
 
     if (_isPinCodeOpen) {
       clearTimeout(this._pinCodeTimer);
@@ -178,10 +186,6 @@ class ApplicationContainer extends Component {
 
     if (firebaseOnNotificationOpenedAppListener) {
       firebaseOnNotificationOpenedAppListener();
-    }
-
-    if (removeAppearanceListener) {
-      removeAppearanceListener();
     }
 
     this.netListener();
@@ -197,24 +201,11 @@ class ApplicationContainer extends Component {
     });
   };
 
-  //change app theme on the fly
-  _appearanceChangeListener = () => {
-    const { dispatch } = this.props;
-
-    //workaround for bug with Appearece package: https://github.com/facebook/react-native/issues/28525#issuecomment-841812810
-    const colorScheme = Appearance.getColorScheme();
-    getTheme().then((darkThemeSetting) => {
-      if (darkThemeSetting === null) {
-        dispatch(isDarkTheme(colorScheme === 'dark'));
-      }
-    });
-  };
-
   _handleOpenURL = (event) => {
     this._handleDeepLink(event.url);
   };
 
-  _handleDeepLink = async (url = '') => {
+  _handleDeepLink = async (url: string | null) => {
     const { currentAccount } = this.props;
 
     if (!url) {
@@ -229,7 +220,7 @@ class ApplicationContainer extends Component {
         RootNavigation.navigate({
           name,
           params,
-          key: key,
+          key,
         });
       }
     } catch (err) {
@@ -238,7 +229,7 @@ class ApplicationContainer extends Component {
   };
 
   _compareAndPromptForUpdate = async () => {
-    const recheckInterval = 48 * 3600 * 1000; //2 days
+    const recheckInterval = 48 * 3600 * 1000; // 2 days
     const { dispatch, intl } = this.props;
 
     const lastUpdateCheck = await getLastUpdateCheck();
@@ -446,8 +437,8 @@ class ApplicationContainer extends Component {
   _createPushListener = () => {
     (async () => await messaging().requestPermission())();
 
-    PushNotification.setApplicationIconBadgeNumber(0);
-    PushNotification.cancelAllLocalNotifications();
+    notifee.setBadgeCount(0);
+    notifee.cancelAllNotifications();
 
     firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
       console.log('Notification Received: foreground', remoteMessage);
@@ -486,7 +477,7 @@ class ApplicationContainer extends Component {
   };
 
   _refreshUnreadActivityCount = async () => {
-    const { dispatch } = this.props as any;
+    const { dispatch } = this.props;
     const unreadActivityCount = await getUnreadNotificationCount();
     dispatch(updateUnreadActivityCount(unreadActivityCount));
   };
@@ -613,14 +604,14 @@ class ApplicationContainer extends Component {
       let accountData = await getUser(realmObject.username);
       accountData.local = realmObject;
 
-      //cannot migrate or refresh token since pin would null while pin code modal is open
+      // cannot migrate or refresh token since pin would null while pin code modal is open
       if (!isPinCodeOpen || encUnlockPin) {
-        //migration script for previously mast key based logged in user not having access token
+        // migration script for previously mast key based logged in user not having access token
         if (realmObject.authType !== AUTH_TYPE.STEEM_CONNECT && realmObject.accessToken === '') {
           accountData = await migrateToMasterKeyWithAccessToken(accountData, realmObject, pinCode);
         }
 
-        //refresh access token
+        // refresh access token
         accountData = await this._refreshAccessToken(accountData);
       }
 
@@ -637,7 +628,7 @@ class ApplicationContainer extends Component {
       dispatch(updateCurrentAccount(accountData));
       dispatch(fetchSubscribedCommunities(realmObject.username));
       this._connectNotificationServer(accountData.name);
-      //TODO: better update device push token here after access token refresh
+      // TODO: better update device push token here after access token refresh
     } catch (err) {
       Alert.alert(
         `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
@@ -645,34 +636,30 @@ class ApplicationContainer extends Component {
     }
   };
 
-  //update notification settings and update push token for each signed accoutn useing access tokens
+  // update notification settings and update push token for each signed accoutn useing access tokens
   _registerDeviceForNotifications = (settings?: any) => {
-    const {
-      currentAccount,
-      otherAccounts,
-      notificationDetails,
-      isNotificationsEnabled,
-    } = this.props;
+    const { currentAccount, otherAccounts, notificationDetails, isNotificationsEnabled } =
+      this.props;
 
     const isEnabled = settings ? !!settings.notification : isNotificationsEnabled;
     settings = settings || notificationDetails;
 
     const _enabledNotificationForAccount = (account) => {
       const encAccessToken = account?.local?.accessToken;
-      //decrypt access token
+      // decrypt access token
       let accessToken = null;
       if (encAccessToken) {
-        //NOTE: default pin decryption works also for custom pin as other account
-        //keys are not yet being affected by changed pin, which I think we should dig more
+        // NOTE: default pin decryption works also for custom pin as other account
+        // keys are not yet being affected by changed pin, which I think we should dig more
         accessToken = decryptKey(account.name, Config.DEFAULT_PIN);
       }
 
       this._enableNotification(account.name, isEnabled, settings, accessToken);
     };
 
-    //updateing fcm token with settings;
+    // updateing fcm token with settings;
     otherAccounts.forEach((account) => {
-      //since there can be more than one accounts, process access tokens separate
+      // since there can be more than one accounts, process access tokens separate
       if (account?.local?.accessToken) {
         _enabledNotificationForAccount(account);
       } else {
@@ -685,7 +672,7 @@ class ApplicationContainer extends Component {
           ),
         );
 
-        //fallback to current account access token to register atleast logged in account
+        // fallback to current account access token to register atleast logged in account
         if (currentAccount.name === account.name) {
           _enabledNotificationForAccount(currentAccount);
         }
@@ -756,7 +743,7 @@ class ApplicationContainer extends Component {
   };
 
   _enableNotification = async (username, isEnable, settings, accessToken = null) => {
-    //compile notify_types
+    // compile notify_types
     let notify_types = [];
     if (settings) {
       const notifyTypesConst = {
@@ -809,7 +796,7 @@ class ApplicationContainer extends Component {
     _currentAccount.username = accountData.name;
     [_currentAccount.local] = realmData;
 
-    //migreate account to use access token for master key auth type
+    // migreate account to use access token for master key auth type
     if (realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT && realmData[0].accessToken === '') {
       _currentAccount = await migrateToMasterKeyWithAccessToken(
         _currentAccount,
@@ -818,7 +805,7 @@ class ApplicationContainer extends Component {
       );
     }
 
-    //update refresh token
+    // update refresh token
     _currentAccount = await this._refreshAccessToken(_currentAccount);
 
     try {
@@ -906,7 +893,7 @@ export default connect(
     isPinCodeOpen: state.application.isPinCodeOpen,
     encUnlockPin: state.application.encUnlockPin,
     isLogingOut: state.application.isLogingOut,
-    isLoggedIn: state.application.isLoggedIn, //TODO: remove as is not being used in this class
+    isLoggedIn: state.application.isLoggedIn, // TODO: remove as is not being used in this class
     isConnected: state.application.isConnected,
     api: state.application.api,
     isGlobalRenderRequired: state.application.isRenderRequired,

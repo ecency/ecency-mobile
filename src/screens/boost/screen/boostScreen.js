@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
 // Components
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
 
 // Container
@@ -59,4 +60,4 @@ const BoostScreen = ({ route }) => {
   );
 };
 
-export default BoostScreen;
+export default gestureHandlerRootHOC(BoostScreen);

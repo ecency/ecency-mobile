@@ -35,12 +35,9 @@ const TransferAmountInputSection = ({
   setMemo,
   amount,
   setAmount,
-  hsTransfer,
   transferType,
-  selectedAccount,
   fundType,
-  currentAccountName,
-}): JSX.Element => {
+}) => {
   const intl = useIntl();
 
   const _handleOnChange = (state, val) => {

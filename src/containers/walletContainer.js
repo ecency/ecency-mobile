@@ -273,7 +273,7 @@ const WalletContainer = ({
     }
   };
 
-  //process symbol based data
+  // process symbol based data
   let balance = 0;
   let estimateValue = 0;
   let savings = 0;
@@ -330,7 +330,7 @@ const WalletContainer = ({
       unclaimedBalance: unclaimedBalance && unclaimedBalance.trim(),
       estimatedAmount,
 
-      //symbol based data
+      // symbol based data
       balance,
       estimateValue,
       savings,

@@ -3,6 +3,7 @@ import { connect, useSelector } from 'react-redux';
 import get from 'lodash/get';
 
 // Services and Action
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { getPost } from '../../../providers/hive/dhive';
 
 // Component
@@ -121,4 +122,4 @@ const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
 });
 
-export default connect(mapStateToProps)(PostContainer);
+export default gestureHandlerRootHOC(connect(mapStateToProps)(PostContainer));

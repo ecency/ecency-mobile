@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useIntl } from 'react-intl';
 import * as Animatable from 'react-native-animatable';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import RegisterContainer from './registerContainer';
 
 // Internal Components
@@ -50,7 +51,8 @@ const RegisterScreen = ({ navigation, route }) => {
   }, []);
 
   const _handleEmailChange = (value) => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     setIsEmailValid(re.test(value));
     setEmail(value);
   };
@@ -222,4 +224,4 @@ const hideAnimation = {
     height: 0,
   },
 };
-export default RegisterScreen;
+export default gestureHandlerRootHOC(RegisterScreen);

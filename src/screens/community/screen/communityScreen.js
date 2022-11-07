@@ -3,6 +3,7 @@ import { View, Text, ScrollView } from 'react-native';
 import { useIntl } from 'react-intl';
 
 // Components
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { CollapsibleCard, BasicHeader, TabbedPosts } from '../../../components';
 import { Tag, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
 
@@ -125,4 +126,4 @@ const CommunityScreen = ({ route }) => {
   );
 };
 
-export default CommunityScreen;
+export default gestureHandlerRootHOC(CommunityScreen);

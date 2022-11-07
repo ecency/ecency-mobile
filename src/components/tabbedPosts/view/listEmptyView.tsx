@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { get } from 'lodash';
 import { Text, View, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { NoPost, PostCardPlaceHolder, UserListItem } from '../..';
 import globalStyles from '../../../globalStyles';
 import { CommunityListItem, EmptyScreen } from '../../basicUIElements';
@@ -15,7 +16,6 @@ import {
 } from '../../../redux/actions/communitiesAction';
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
 import { getCommunity } from '../../../providers/hive/dhive';
-import { useNavigation } from '@react-navigation/native';
 
 interface TabEmptyViewProps {
   filterKey: string;
@@ -26,8 +26,8 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  
-  //redux properties
+
+  // redux properties
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
   const subscribingCommunities = useSelector(
     (state) => state.communities.subscribingCommunitiesInFeedScreen,
@@ -41,7 +41,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   const leaderboard = useSelector((state) => state.user.leaderboard);
   const communities = useSelector((state) => state.communities.communities);
 
-  //hooks
+  // hooks
 
   useEffect(() => {
     if (isNoPost) {
@@ -127,11 +127,11 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
     setRecommendedUsers(recommendeds);
   }, [followingUsers]);
 
-  //fetching
+  // fetching
   const _getRecommendedUsers = () => dispatch(fetchLeaderboard());
   const _getRecommendedCommunities = () => dispatch(fetchCommunities('', 10));
 
-  //formating
+  // formating
   const _formatRecommendedCommunities = async (communitiesArray) => {
     try {
       const ecency = await getCommunity('hive-125125');
@@ -156,7 +156,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
     setRecommendedUsers(recommendeds);
   };
 
-  //actions related routines
+  // actions related routines
   const _handleSubscribeCommunityButtonPress = (data) => {
     let subscribeAction;
     let successToastText = '';
@@ -221,7 +221,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
     navigation.navigate(ROUTES.SCREENS.LOGIN);
   };
 
-  //render related operations
+  // render related operations
   if (
     (filterKey === 'feed' || filterKey === 'friends' || filterKey === 'communities') &&
     !isLoggedIn

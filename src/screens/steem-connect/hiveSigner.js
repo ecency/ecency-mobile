@@ -71,9 +71,9 @@ class HiveSigner extends PureComponent {
           .catch((error) => {
             Alert.alert(
               'Error',
-              //intl.formatMessage({ id:
+              // intl.formatMessage({ id:
               error,
-              //}),
+              // }),
             );
             // TODO: return
           });

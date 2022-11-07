@@ -33,7 +33,7 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
 
-    //check if is signed in user profile
+    // check if is signed in user profile
     const username = props.route.params?.username ?? '';
     const {
       currentAccount: { name: currentAccountUsername },
@@ -127,7 +127,7 @@ class ProfileContainer extends Component {
       delete query.author;
       delete query.permlink;
       repliesAction(query).then((result) => {
-        let _comments = unionBy(comments, result, 'permlink');
+        const _comments = unionBy(comments, result, 'permlink');
         this.setState({
           comments: _comments,
           isProfileLoading: false,
@@ -159,7 +159,7 @@ class ProfileContainer extends Component {
       following,
     })
       .then(() => {
-        //means user is now being followed
+        // means user is now being followed
         if (!isFollowing) {
           const mutes = currentAccount.mutes || [];
           const mutedIndex = mutes.indexOf(username);
@@ -219,7 +219,7 @@ class ProfileContainer extends Component {
 
         const curMutes = currentAccount.mutes || [];
         if (curMutes.indexOf(username) < 0) {
-          //check to avoid double entry corner case
+          // check to avoid double entry corner case
           currentAccount.mutes = [username, ...curMutes];
         }
         dispatch(updateCurrentAccount(currentAccount));
@@ -246,10 +246,10 @@ class ProfileContainer extends Component {
     });
     if (error) {
       if (error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
-        //when RC is not enough, offer boosting account
+        // when RC is not enough, offer boosting account
         dispatch(setRcOffer(true));
       } else {
-        //when other errors
+        // when other errors
         this.setState(
           {
             error,
@@ -449,6 +449,7 @@ class ProfileContainer extends Component {
       },
     });
   };
+
   _handleOnBackPress = () => {
     const { route } = this.props;
 

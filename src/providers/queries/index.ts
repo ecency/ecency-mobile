@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PersistQueryClientProviderProps } from '@tanstack/react-query-persist-client';
 
 export const initQueryClient = () => {
@@ -26,4 +26,4 @@ export const initQueryClient = () => {
 export * from './notificationQueries';
 export * from './draftQueries';
 export * from './editorQueries';
-export * from './pointQueries'
+export * from './pointQueries';

@@ -1,14 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import { StatusBar, Platform, View, Alert, Text } from 'react-native';
+import { StatusBar, Platform, View, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 
-
-
 import { injectIntl } from 'react-intl';
 
-import { AppNavigator } from '../../../navigation';
 import RootNavigation from '../../../navigation/rootNavigation';
+import { AppNavigator } from '../../../navigation';
 
 // Services
 import {
@@ -34,7 +32,6 @@ import {
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
 
-
 class ApplicationScreen extends Component {
   constructor(props) {
     super(props);
@@ -47,7 +44,7 @@ class ApplicationScreen extends Component {
     const { rcOffer, dispatch, intl } = this.props;
     const { rcOffer: rcOfferPrev } = prevProps;
 
-    //TODO: display action modal instead
+    // TODO: display action modal instead
     if (!rcOfferPrev && rcOffer) {
       setTimeout(() => {
         Alert.alert(
@@ -97,7 +94,6 @@ class ApplicationScreen extends Component {
     }
   }
 
-
   _renderStatusBar() {
     const { isDarkTheme } = this.props;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
@@ -110,9 +106,8 @@ class ApplicationScreen extends Component {
           <StatusBar barStyle={barStyle} backgroundColor={barColor} />
         )}
       </>
-    )
+    );
   }
-
 
   _renderAppNavigator() {
     const { isConnected } = this.props;
@@ -121,17 +116,14 @@ class ApplicationScreen extends Component {
         {!isConnected && <NoInternetConnection />}
 
         <AppNavigator />
-
       </Fragment>
-    )
+    );
   }
-
-
 
   _renderAppModals() {
     const { toastNotification, foregroundNotificationData } = this.props;
     const { isShowToastNotification } = this.state;
-   
+
     return (
       <>
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
@@ -148,10 +140,8 @@ class ApplicationScreen extends Component {
           />
         )}
       </>
-    )
+    );
   }
-
-
 
   render() {
     return (

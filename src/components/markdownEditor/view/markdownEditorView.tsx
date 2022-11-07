@@ -50,10 +50,10 @@ import { useAppSelector } from '../../../hooks';
 
 // const MIN_BODY_INPUT_HEIGHT = 300;
 
-//These variable keep track of body text input state,
-//this helps keep load on minimal compared to both useState and useRef;
-var bodyText = '';
-var bodySelection = { start: 0, end: 0 };
+// These variable keep track of body text input state,
+// this helps keep load on minimal compared to both useState and useRef;
+let bodyText = '';
+let bodySelection = { start: 0, end: 0 };
 
 const MarkdownEditorView = ({
   paramFiles,
@@ -123,7 +123,7 @@ const MarkdownEditorView = ({
 
   useEffect(() => {
     if (bodyText === '' && draftBody !== '') {
-      let draftBodyLength = draftBody.length;
+      const draftBodyLength = draftBody.length;
       _setTextAndSelection({
         selection: { start: draftBodyLength, end: draftBodyLength },
         text: draftBody,
@@ -132,9 +132,9 @@ const MarkdownEditorView = ({
   }, [draftBody]);
 
   useEffect(() => {
-    //hide draft button if fields changes and button was visible
+    // hide draft button if fields changes and button was visible
     if (showDraftLoadButton) {
-      let isCreating =
+      const isCreating =
         get(fields, 'title', '') !== '' ||
         get(fields, 'body', '') !== '' ||
         get(fields, 'tags', []) !== [];
@@ -213,7 +213,7 @@ const MarkdownEditorView = ({
 
       _debouncedOnTextChange();
 
-      //NOTE: onChange method is called by direct parent of MarkdownEditor that is PostForm, do not remove
+      // NOTE: onChange method is called by direct parent of MarkdownEditor that is PostForm, do not remove
       if (onChange) {
         onChange(input);
       }
@@ -258,7 +258,7 @@ const MarkdownEditorView = ({
   const _renderPreview = () => (
     <ScrollView style={styles.previewContainer}>
       {bodyText ? (
-        <PostBody body={renderPostBody(bodyText, true, Platform.OS === 'ios' ? false : true)} />
+        <PostBody body={renderPostBody(bodyText, true, Platform.OS !== 'ios')} />
       ) : (
         <Text>...</Text>
       )}
@@ -394,7 +394,7 @@ const MarkdownEditorView = ({
         <TextInput
           multiline
           autoCorrect={true}
-          autoFocus={!draftBtnTooltipRegistered ? false : true}
+          autoFocus={!!draftBtnTooltipRegistered}
           onChangeText={_changeText}
           onSelectionChange={_handleOnSelectionChange}
           placeholder={intl.formatMessage({

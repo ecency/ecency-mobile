@@ -28,8 +28,6 @@ export const setOtherPosts = (posts, scrollPosition = 0) => ({
   type: SET_OTHER_POSTS,
 });
 
-
-
 export const fetchPosts = (payload) => ({
   payload,
   type: FETCH_POSTS,
@@ -47,8 +45,7 @@ export const filterSelected = (payload) => ({
   type: FILTER_SELECTED,
 });
 
-export const setFeedScreenFilters = (payload:string[]) => ({
+export const setFeedScreenFilters = (payload: string[]) => ({
   payload,
-  type: SET_FEED_SCREEN_FILTERS
-})
-
+  type: SET_FEED_SCREEN_FILTERS,
+});

@@ -102,7 +102,7 @@ class TransferContainer extends Component {
         balance = account.balance.replace(fundType, '');
       }
       if (transferType === 'address_view' && fundType === 'BTC') {
-        //TODO implement transfer of custom tokens
+        // TODO implement transfer of custom tokens
         console.log(tokenAddress);
       }
 

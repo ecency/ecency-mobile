@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 
 // Components
 import { useSelector } from 'react-redux';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
 
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
@@ -51,7 +52,7 @@ const AccountBoost = ({ route }) => {
             <BoostPlaceHolder />
           ) : (
             <View style={styles.contentContainer}>
-              <UserRibbon username={username ? username : currentAccount.name} />
+              <UserRibbon username={username || currentAccount.name} />
               <View style={styles.iconContainer}>
                 <Image style={styles.logoEstm} source={LOGO_ESTM} />
                 <Text style={styles.desc}>
@@ -81,4 +82,4 @@ const AccountBoost = ({ route }) => {
   );
 };
 
-export default AccountBoost;
+export default gestureHandlerRootHOC(AccountBoost);

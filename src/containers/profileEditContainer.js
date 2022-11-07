@@ -76,7 +76,7 @@ class ProfileEditContainer extends Component {
 
     this.setState({ isUploading: true });
 
-    let sign = await signImage(media, currentAccount, pinCode);
+    const sign = await signImage(media, currentAccount, pinCode);
 
     uploadImage(media, currentAccount.name, sign)
       .then((res) => {
@@ -150,7 +150,7 @@ class ProfileEditContainer extends Component {
 
     this.setState({ isLoading: true });
 
-    //TOOD: preserve pinned post permlink
+    // TOOD: preserve pinned post permlink
     const params = {
       profile_image: avatarUrl,
       cover_image: coverUrl,

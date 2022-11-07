@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert, AppState, AppStateStatus } from 'react-native';
+import { Alert, AppState, AppStateStatus, NativeEventSubscription } from 'react-native';
 import get from 'lodash/get';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isArray } from 'lodash';
 
 // Services and Actions
 import { Buffer } from 'buffer';
 import { useQueryClient } from '@tanstack/react-query';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
@@ -56,7 +57,11 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 
 class EditorContainer extends Component<EditorContainerProps, any> {
   _isMounted = false;
+
   _updatedDraftFields = null;
+
+  _appStateSub: NativeEventSubscription | null = null;
+
   _appState = AppState.currentState;
 
   constructor(props) {
@@ -105,7 +110,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         const cachedDrafts: any = queryClient.getQueryData([QUERIES.DRAFTS.GET]);
 
         if (cachedDrafts && cachedDrafts.length) {
-          //get draft from query cache
+          // get draft from query cache
           const _draft = cachedDrafts.find((draft) => draft._id === draftId);
 
           this.setState({
@@ -163,7 +168,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       // handle file/text shared from ReceiveSharingIntent
       if (hasSharedIntent) {
-        const files = navigationParams.files;
+        const { files } = navigationParams;
         console.log('files : ', files);
 
         files.forEach((el) => {
@@ -181,7 +186,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
     this._requestKeyboardFocus();
 
-    AppState.addEventListener('change', this._handleAppStateChange);
+    this._appStateSub = AppState.addEventListener('change', this._handleAppStateChange);
   }
 
   componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>): void {
@@ -195,7 +200,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   }
 
   componentWillUnmount() {
-    AppState.removeEventListener('change', this._handleAppStateChange);
+    if (this._appStateSub) {
+      this._appStateSub.remove();
+    }
     this._isMounted = false;
   }
 
@@ -218,12 +225,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         });
       }
     } else {
-      //TOOD: get draft from redux after reply side is complete
+      // TOOD: get draft from redux after reply side is complete
       const _draftId = paramDraft ? paramDraft._id : DEFAULT_USER_DRAFT_ID + username;
       const _localDraft = drafts.get(_draftId);
 
-      //if _draft is returned and param draft is available, compare timestamp, use latest
-      //if no draft, use result anayways
+      // if _draft is returned and param draft is available, compare timestamp, use latest
+      // if no draft, use result anayways
 
       const _remoteDraftModifiedAt = paramDraft ? new Date(paramDraft.modified).getTime() : 0;
       const _useLocalDraft = _localDraft && _remoteDraftModifiedAt < _localDraft.updated;
@@ -237,10 +244,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             meta: _localDraft.meta ? _localDraft.meta : null,
           },
         });
-        this._loadMeta(_localDraft); //load meta from local draft
+        this._loadMeta(_localDraft); // load meta from local draft
       }
 
-      //if above fails with either no result returned or timestamp is old,
+      // if above fails with either no result returned or timestamp is old,
       // and use draft form nav param if available.
       else if (paramDraft) {
         const _tags = paramDraft.tags.includes(' ')
@@ -256,7 +263,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           draftId: paramDraft._id,
         });
 
-        this._loadMeta(paramDraft); //load meta from param draft
+        this._loadMeta(paramDraft); // load meta from param draft
       }
     }
   };
@@ -284,15 +291,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       if (isArray(draft.meta.beneficiaries)) {
         const filteredBeneficiaries = draft.meta.beneficiaries.filter(
           (item) => item.account !== currentAccount.username,
-        ); //remove default beneficiary from array while saving
+        ); // remove default beneficiary from array while saving
         dispatch(setBeneficiaries(draft._id || TEMP_BENEFICIARIES_ID, filteredBeneficiaries));
       }
     }
   };
+
   _requestKeyboardFocus = () => {
-    //50 ms timeout is added to avoid keyboard not showing up on android
+    // 50 ms timeout is added to avoid keyboard not showing up on android
     setTimeout(() => {
-      //request keyboard focus
+      // request keyboard focus
       this.setState({
         autoFocusText: true,
       });
@@ -305,12 +313,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
    * empty editor, load non-remote draft or most recent remote draft based on timestamps
    * prompts user as well
    * @param isReply
-   **/
+   * */
   _fetchDraftsForComparison = async (isReply) => {
     const { currentAccount, isLoggedIn, drafts } = this.props;
     const username = get(currentAccount, 'name', '');
 
-    //initilizes editor with reply or non remote id less draft
+    // initilizes editor with reply or non remote id less draft
     const _getStorageDraftGeneral = async (requestFocus = true) => {
       await this._getStorageDraft(username, isReply);
       if (requestFocus) {
@@ -318,14 +326,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       }
     };
 
-    //skip comparison if its a reply and run general function
+    // skip comparison if its a reply and run general function
     if (isReply) {
       _getStorageDraftGeneral();
       return;
     }
 
     try {
-      //if not logged in use non remote draft
+      // if not logged in use non remote draft
       if (!isLoggedIn) {
         _getStorageDraftGeneral();
         return;
@@ -336,20 +344,20 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const idLessDraft = drafts.get(DEFAULT_USER_DRAFT_ID + username);
 
       const loadRecentDraft = () => {
-        //if no draft available means local draft is recent
+        // if no draft available means local draft is recent
         if (remoteDrafts.length == 0) {
           _getStorageDraftGeneral(false);
           return;
         }
 
-        //sort darts based on timestamps
+        // sort darts based on timestamps
         remoteDrafts.sort((d1, d2) =>
           new Date(d1.modified).getTime() < new Date(d2.modified).getTime() ? 1 : -1,
         );
         const _draft = remoteDrafts[0];
 
-        //if unsaved local draft is more latest then remote draft, use that instead
-        //if editor was opened from draft screens, this code will be skipped anyways.
+        // if unsaved local draft is more latest then remote draft, use that instead
+        // if editor was opened from draft screens, this code will be skipped anyways.
         if (
           idLessDraft &&
           (idLessDraft.title !== '' || idLessDraft.tags !== '' || idLessDraft.body !== '') &&
@@ -359,7 +367,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           return;
         }
 
-        //initilize editor as draft
+        // initilize editor as draft
         this.setState({
           draftId: _draft._id,
         });
@@ -393,7 +401,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const { currentAccount, dispatch, intl, queryClient } = this.props;
 
     try {
-      //saves draft locallly
+      // saves draft locallly
       this._saveCurrentDraft(this._updatedDraftFields);
     } catch (err) {
       console.warn('local draft safe failed, skipping for remote only', err);
@@ -430,7 +438,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         });
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
 
-        //update draft is draftId is present
+        // update draft is draftId is present
         if (draftId && draftField && !saveAsNew) {
           await updateDraft(
             draftId,
@@ -448,7 +456,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           }
         }
 
-        //create new darft otherwise
+        // create new darft otherwise
         else if (draftField) {
           const response = await addDraft(
             draftField.title || '',
@@ -466,11 +474,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           }
           const filteredBeneficiaries = beneficiaries.filter(
             (item) => item.account !== currentAccount.username,
-          ); //remove default beneficiary from array while saving
+          ); // remove default beneficiary from array while saving
           dispatch(setBeneficiaries(response._id, filteredBeneficiaries));
           dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
 
-          //clear local copy if darft save is successful
+          // clear local copy if darft save is successful
           const username = get(currentAccount, 'name', '');
 
           dispatch(deleteDraftCacheEntry(draftId || DEFAULT_USER_DRAFT_ID + username));
@@ -484,7 +492,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           ),
         );
 
-        //call fetch post to drafts screen
+        // call fetch post to drafts screen
         if (queryClient) {
           queryClient.invalidateQueries([QUERIES.DRAFTS.GET]);
         }
@@ -515,7 +523,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   _saveCurrentDraft = async (fields) => {
     const { draftId, isReply, isEdit, isPostSending } = this.state;
 
-    //skip draft save in case post is sending or is post beign edited
+    // skip draft save in case post is sending or is post beign edited
     if (isPostSending || isEdit) {
       return;
     }
@@ -531,16 +539,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       meta: fields.meta && fields.meta,
     };
 
-    //save reply data
+    // save reply data
     if (isReply && draftField.body !== null) {
       dispatch(updateDraftCache(draftId, draftField));
 
-      //save existing draft data locally
+      // save existing draft data locally
     } else if (draftId) {
       dispatch(updateDraftCache(draftId, draftField));
     }
 
-    //update editor data locally
+    // update editor data locally
     else if (!isReply) {
       dispatch(updateDraftCache(DEFAULT_USER_DRAFT_ID + username, draftField));
     }
@@ -589,10 +597,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       const author = currentAccount.name;
       const options = makeOptions({
-        author: author,
-        permlink: permlink,
+        author,
+        permlink,
         operationType: rewardType,
-        beneficiaries: beneficiaries,
+        beneficiaries,
       });
       const parentPermlink = _tags[0] || 'hive-125125';
       const voteWeight = null;
@@ -629,11 +637,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
               transactionId: response.id,
             });
 
-            //reblog if flag is active
+            // reblog if flag is active
             if (shouldReblog) {
               reblog(currentAccount, pinCode, author, permlink)
                 .then((resp) => {
-                  //track user activity for points on reblog
+                  // track user activity for points on reblog
                   userActivityMutation.mutate({
                     pointsTy: PointActivityIds.REBLOG,
                     transactionId: resp.id,
@@ -645,7 +653,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
                 });
             }
 
-            //post publish updates
+            // post publish updates
             dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
 
             dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
@@ -712,7 +720,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         parentTags,
       )
         .then((response) => {
-          //record user activity for points
+          // record user activity for points
           userActivityMutation.mutate({
             pointsTy: PointActivityIds.COMMENT,
             transactionId: response.id,
@@ -721,7 +729,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
 
-          //create a cache entry
+          // create a cache entry
           dispatch(
             updateCommentCache(
               `${parentAuthor}/${parentPermlink}`,
@@ -777,7 +785,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       let jsonMeta = {};
 
       try {
-        const oldJson = jsonMetadata; //already parsed in postParser.js
+        const oldJson = jsonMetadata; // already parsed in postParser.js
         jsonMeta = makeJsonMetadataForUpdate(oldJson, meta, tags);
       } catch (e) {
         jsonMeta = makeJsonMetadata(meta, tags);
@@ -838,13 +846,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       error.response.jse_shortmsg &&
       error.response.jse_shortmsg.includes('wait to transact')
     ) {
-      //when RC is not enough, offer boosting account
+      // when RC is not enough, offer boosting account
       dispatch(setRcOffer(true));
     } else if (error && error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
-      //when RC is not enough, offer boosting account
+      // when RC is not enough, offer boosting account
       dispatch(setRcOffer(true));
     } else {
-      //when other errors
+      // when other errors
       Alert.alert(
         intl.formatMessage({
           id: 'alert.fail',
@@ -1000,7 +1008,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       author: data.author,
       permlink: data.permlink,
       operationType: rewardType,
-      beneficiaries: beneficiaries,
+      beneficiaries,
     });
 
     addSchedule(
@@ -1154,10 +1162,12 @@ const mapStateToProps = (state) => ({
 });
 
 const mapQueriesToProps = () => ({
-  queryClient: useQueryClient(), // eslint-disable-line
-  userActivityMutation: useUserActivityMutation(), // eslint-disable-line
+  queryClient: useQueryClient(),
+  userActivityMutation: useUserActivityMutation(),
 });
 
-export default connect(mapStateToProps)(
-  injectIntl((props) => <EditorContainer {...props} {...mapQueriesToProps()} />),
+export default gestureHandlerRootHOC(
+  connect(mapStateToProps)(
+    injectIntl((props) => <EditorContainer {...props} {...mapQueriesToProps()} />),
+  ),
 );

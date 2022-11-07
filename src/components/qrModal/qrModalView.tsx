@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, PermissionsAndroid, Platform, Text, View } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import { useIntl } from 'react-intl';
+import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
 import styles from './qrModalStyles';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { toggleQRModal } from '../../redux/actions/uiAction';
-import QRCodeScanner from 'react-native-qrcode-scanner';
 import { deepLinkParser } from '../../utils/deepLinkParser';
-import { useIntl } from 'react-intl';
 import RootNavigation from '../../navigation/rootNavigation';
-import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 
 export interface QRModalProps {}
@@ -155,7 +155,7 @@ export const QRModal = ({}: QRModalProps) => {
         />
         {isProcessing && (
           <View style={styles.activityIndicatorContainer}>
-            <ActivityIndicator color={'white'} style={styles.activityIndicator} />
+            <ActivityIndicator color="white" style={styles.activityIndicator} />
           </View>
         )}
       </View>

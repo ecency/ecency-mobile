@@ -173,13 +173,13 @@ const CommunitiesContainer = ({ children }) => {
             }),
           );
 
-          setSubscriptions(mergeSubCommunitiesCacheInSubList(subs, subscribedCommunitiesCache)); //merge cache with fetched data
+          setSubscriptions(mergeSubCommunitiesCacheInSubList(subs, subscribedCommunitiesCache)); // merge cache with fetched data
           setDiscovers(communities);
           setIsSubscriptionsLoading(false);
           setIsDiscoversLoading(false);
           dispatch(
             fetchSubscribedCommunitiesSuccess(subs.sort((a, b) => a[1].localeCompare(b[1]))),
-          ); //register subscribed data in communities store
+          ); // register subscribed data in communities store
         });
       })
       .catch((err) => {
@@ -191,7 +191,7 @@ const CommunitiesContainer = ({ children }) => {
 
   const _invalidateSubscribedCommunityCache = (fetchedList) => {
     fetchedList.map((listItem) => {
-      let itemExists = subscribedCommunitiesCache.get(listItem[0]);
+      const itemExists = subscribedCommunitiesCache.get(listItem[0]);
       if (itemExists) {
         dispatch(deleteSubscribedCommunityCacheEntry(listItem[0]));
       }
@@ -208,7 +208,7 @@ const CommunitiesContainer = ({ children }) => {
   };
 
   const _handleSubscribeButtonPress = (data, screen) => {
-    setSelectedCommunityItem(data); //set selected item to handle its cache
+    setSelectedCommunityItem(data); // set selected item to handle its cache
     let subscribeAction;
     let successToastText = '';
     let failToastText = '';

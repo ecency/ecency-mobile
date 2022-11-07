@@ -45,10 +45,12 @@ export default EStyleSheet.create({
   },
   amount: {
     fontSize: 10,
+    fontWeight: 'bold',
     color: '$primaryDarkGray',
     marginLeft: 8,
   },
   percent: {
+    fontWeight: 'bold',
     color: '$primaryDarkGray',
     marginRight: 5,
   },
@@ -78,6 +80,9 @@ export default EStyleSheet.create({
     fontSize: 10,
     color: '$primaryDarkGray',
     marginLeft: 8,
+  },
+  boldText: {
+    fontWeight: 'bold',
   },
   declinedPayout: {
     textDecorationLine: 'line-through',

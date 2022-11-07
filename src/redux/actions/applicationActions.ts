@@ -140,7 +140,7 @@ export const changeNotificationSettings = (payload) => {
   }
 };
 
-export const isDarkTheme = (payload) => ({
+export const setIsDarkTheme = (payload) => ({
   payload,
   type: IS_DARK_THEME,
 });

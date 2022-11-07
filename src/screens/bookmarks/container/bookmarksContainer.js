@@ -4,6 +4,7 @@ import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Services and Actions
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import {
   getFavorites,
   deleteFavorite,
@@ -135,4 +136,4 @@ const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default connect(mapStateToProps)(injectIntl(BookmarksContainer));
+export default gestureHandlerRootHOC(connect(mapStateToProps)(injectIntl(BookmarksContainer)));

@@ -4,5 +4,5 @@ const DELETE_ACCOUNT = 'delete_account';
 
 export default {
   SHOW_HIDE_IMGS,
-  DELETE_ACCOUNT
+  DELETE_ACCOUNT,
 };

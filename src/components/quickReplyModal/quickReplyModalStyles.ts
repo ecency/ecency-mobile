@@ -3,18 +3,18 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   sheetContent: {
     backgroundColor: '$primaryBackgroundColor',
-    marginTop:132,
+    marginTop: 132,
   },
 
   container: {
     flex: 1,
-    justifyContent:"flex-end",
+    justifyContent: 'flex-end',
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
 
   modalContainer: {
-    margin:16,
-    borderRadius:16,
+    margin: 16,
+    borderRadius: 16,
     backgroundColor: '$primaryBackgroundColor',
     paddingTop: 16,
     paddingBottom: 16,
@@ -44,7 +44,7 @@ export default EStyleSheet.create({
   },
   textInput: {
     color: '$primaryBlack',
-    paddingHorizontal:16,
+    paddingHorizontal: 16,
     fontSize: 16,
     flexGrow: 1,
     fontWeight: '500',

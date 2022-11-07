@@ -16,8 +16,7 @@ import { Tag } from '../../../basicUIElements';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { toastNotification } from '../../../../redux/actions/uiAction';
 
-
-const SEPARATOR_REGEX = /[,\s]/
+const SEPARATOR_REGEX = /[,\s]/;
 
 const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, setCommunity }) => {
   const dispatch = useAppDispatch();
@@ -30,7 +29,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   const [warning, setWarning] = useState(null);
 
   useEffect(() => {
-    //read and add tag items
+    // read and add tag items
     if (typeof value === 'string') {
       setTags(value.split(' '));
     } else {
@@ -60,7 +59,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
 
   const _registerNewTags = useCallback(
     debounce((newTags: string[], skipLast = true) => {
-      let inputVal = newTags.length > 0 && skipLast && newTags.pop();
+      const inputVal = newTags.length > 0 && skipLast && newTags.pop();
 
       newTags.forEach((tag) => {
         if (tag.startsWith('#')) {
@@ -72,14 +71,14 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
         }
 
         if (!tags.includes(tag)) {
-          //check if tag is community and post communtiy is not already selected
+          // check if tag is community and post communtiy is not already selected
           if (isCommunity(tag) && !isCommunity(tags[0])) {
-            //add community tag
+            // add community tag
             tags.splice(0, 0, tag);
             setCommunity(tag);
             dispatch(toastNotification(intl.formatMessage({ id: 'editor.community_selected' })));
           } else {
-            //add simple tag
+            // add simple tag
             tags.push(tag);
           }
         } else {

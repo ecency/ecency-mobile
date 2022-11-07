@@ -25,7 +25,7 @@ const getWindowDimensions = () => {
 
   if (isAndroidTablet()) {
     // return default dimension if device is android tablet.
-    //There is an issue on certain android tablets in locking orientation which is handled separatly and used default dimensions
+    // There is an issue on certain android tablets in locking orientation which is handled separatly and used default dimensions
     return {
       width: nativeDimensions.width,
       height: nativeDimensions.height,

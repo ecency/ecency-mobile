@@ -1,11 +1,11 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+
 import thunk from 'redux-thunk';
-import { persistStore, persistReducer, createTransform } from 'redux-persist';
+import { createMigrate, createTransform, persistReducer, persistStore } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
-import createMigrate from 'redux-persist/es/createMigrate';
 import Reactotron from '../../../reactotron-config';
 
-import reducer from '../reducers';
+import reducers from '../reducers';
 import MigrationHelpers from '../../utils/migrationHelpers';
 
 const transformCacheVoteMap = createTransform(
@@ -37,7 +37,7 @@ const transformWalkthroughMap = createTransform(
   { whitelist: ['walkthrough'] },
 );
 
-// Middleware: Redux Persist Config
+// // Middleware: Redux Persist Config
 const persistConfig = {
   // Root
   key: 'root',
@@ -46,13 +46,12 @@ const persistConfig = {
   version: 2, // New version 0, default or previous version -1, versions are useful migrations
   // // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
-  timeout: 0,
   transforms: [transformCacheVoteMap, transformWalkthroughMap],
   migrate: createMigrate(MigrationHelpers.reduxMigrations, { debug: false }),
 };
 
-// Middleware: Redux Persist Persisted Reducer
-const persistedReducer = persistReducer(persistConfig, reducer as any);
+// // Middleware: Redux Persist Persisted Reducer
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 const middleware = [thunk];
 
@@ -60,11 +59,11 @@ const enhancers = __DEV__
   ? compose(applyMiddleware(...middleware), Reactotron.createEnhancer())
   : applyMiddleware(...middleware);
 
-const store = createStore(persistedReducer, enhancers);
+export const store = createStore(persistedReducer, enhancers);
 
-const persistor = persistStore(store);
+export const persistor = persistStore(store);
 
-export { store, persistor };
+// export { store, persistor };
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;

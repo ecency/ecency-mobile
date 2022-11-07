@@ -53,21 +53,21 @@ const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn
         subscribedCommunitiesCache.get(data.name)
       ) {
         const itemExistInCache = subscribedCommunitiesCache.get(data.name);
-        setIsSubscribed(itemExistInCache.data[4]); //if item exist in cache, get isSubscribed value from cache
+        setIsSubscribed(itemExistInCache.data[4]); // if item exist in cache, get isSubscribed value from cache
       } else {
         // check in subscribed communities list if selected community exists
         const itemExist = subscribedCommunities.data.find((item) => item[0] === data.name);
-        setIsSubscribed(itemExist ? true : false);
+        setIsSubscribed(!!itemExist);
       }
     }
   }, [data]);
 
   const _handleSubscribeButtonPress = () => {
     const _data = {
-      isSubscribed: isSubscribed,
+      isSubscribed,
       communityId: data.name,
     };
-    setSelectedCommunityItem(_data); //set selected item to handle its cache
+    setSelectedCommunityItem(_data); // set selected item to handle its cache
     const screen = 'communitiesScreenDiscoverTab';
     let subscribeAction;
     let successToastText = '';

@@ -1,37 +1,60 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '12.0'
+platform :ios, '12.4'
+install! 'cocoapods', :deterministic_uuids => false
 
 target 'Ecency' do
   config = use_native_modules!
+
+  # Flags change depending on the env values.
+  flags = get_default_flags()
+
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
   # Pods for Ecency
 
-  use_react_native!(:path => config["reactNativePath"])
+  use_react_native!(
+    :path => config[:reactNativePath],
+    # Hermes is now enabled by default. Disable by setting this flag to false.
+    # Upcoming versions of React Native may rely on get_default_flags(), but
+    # we make it explicit here to aid in the React Native upgrade process.
+    :hermes_enabled => true,
+    :fabric_enabled => flags[:fabric_enabled],
+    # Enables Flipper.
+    #
+    # Note that if you have use_frameworks! enabled, Flipper will not work and
+    # you should disable the next line.
+    :flipper_configuration => FlipperConfiguration.disabled,
+    # An absolute path to your application root.
+    :app_path => "#{Pod::Config.instance.installation_root}/.."
+  )
   
   target 'EcencyTests' do
     inherit! :complete
     # Pods for testing
   end
 
+
   post_install do |installer|
+    react_native_post_install(
+      installer,
+      # Set `mac_catalyst_enabled` to `true` in order to apply patches
+      # necessary for Mac Catalyst builds
+      :mac_catalyst_enabled => false
+    )
+    __apply_Xcode_12_5_M1_post_install_workaround(installer)
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|
         config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
       end
+      if target.name == 'TcpSockets'
+        source_files = target.source_build_phase.files
+        gcd_async_socket = source_files[0] #First file in build phases is GCDAsyncSocket.m, chage index if not the case
+        puts "Deleting source file #{gcd_async_socket.inspect} from target #{target.inspect}."
+        source_files.delete gcd_async_socket
     end
-  end
-
-end
-
-target 'Ecency-tvOS' do
-  # Pods for Ecency-tvOS
-
-  target 'Ecency-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
+    end
   end
 
 end

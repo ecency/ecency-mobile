@@ -6,7 +6,8 @@ import Config from 'react-native-config';
 import messaging from '@react-native-firebase/messaging';
 
 // Services and Actions
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { login, loginWithSC2 } from '../../../providers/hive/auth';
 import { lookupAccounts } from '../../../providers/hive/dhive';
 
@@ -54,7 +55,7 @@ class LoginContainer extends PureComponent {
 
   // Component Life Cycle Functions
   componentDidMount() {
-    //TOOD: migrate getParam to routes.state.param after nt/navigaiton merge
+    // TOOD: migrate getParam to routes.state.param after nt/navigaiton merge
 
     const { route } = this.props;
     const username = route.params?.username ?? '';
@@ -70,22 +71,22 @@ class LoginContainer extends PureComponent {
     const { dispatch, intl } = this.props;
 
     try {
-      //check accessCode formatting and compare expiry
+      // check accessCode formatting and compare expiry
       const dataStr = decodeBase64(code);
       if (!dataStr) {
         throw new Error('login.deep_login_malformed_url');
       }
 
-      let data = JSON.parse(dataStr.slice(0, dataStr.lastIndexOf('}') + 1));
+      const data = JSON.parse(dataStr.slice(0, dataStr.lastIndexOf('}') + 1));
 
       const curTimestamp = new Date().getTime();
-      const expiryTimestamp = data && data.timestamp && data.timestamp * 1000 + 604800000; //add 7 day (604800000ms) expiry
+      const expiryTimestamp = data && data.timestamp && data.timestamp * 1000 + 604800000; // add 7 day (604800000ms) expiry
 
       if (!expiryTimestamp || expiryTimestamp < curTimestamp) {
         throw new Error('login.deep_login_url_expired');
       }
 
-      //Everything is set, show login confirmation
+      // Everything is set, show login confirmation
       dispatch(
         showActionModal({
           title: intl.formatMessage({ id: 'login.deep_login_alert_title' }, { username }),
@@ -168,7 +169,7 @@ class LoginContainer extends PureComponent {
           dispatch(setInitPosts([]));
           dispatch(setFeedPosts([]));
 
-          //track user activity for login
+          // track user activity for login
           userActivityMutation.mutate({ pointsTy: PointActivityIds.LOGIN });
           setExistUser(true);
           this._setPushToken(result.name);
@@ -200,7 +201,7 @@ class LoginContainer extends PureComponent {
           intl.formatMessage({
             id: 'login.login_failed',
           }),
-          ` ${errorDescription}\n${intl.formatMessage({ id: 'login.login_failed_body' })}`, //append login body failure key
+          ` ${errorDescription}\n${intl.formatMessage({ id: 'login.login_failed_body' })}`, // append login body failure key
         );
         dispatch(failedAccount(err.message));
         this.setState({ isLoading: false });
@@ -298,6 +299,8 @@ const mapHooksToProps = () => ({
   userActivityMutation: useUserActivityMutation(),
 });
 
-export default connect(mapStateToProps)(
-  injectIntl((props) => <LoginContainer {...props} {...mapHooksToProps()} />),
+export default gestureHandlerRootHOC(
+  connect(mapStateToProps)(
+    injectIntl((props) => <LoginContainer {...props} {...mapHooksToProps()} />),
+  ),
 );

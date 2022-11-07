@@ -3,11 +3,11 @@ import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
 import { isArray, debounce } from 'lodash';
 
-import styles from './styles';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import styles from './styles';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { BeneficiaryModal, CheckBox, FormInput, IconButton, TextButton } from '../../components';
+import { BeneficiaryModal, CheckBox, FormInput, IconButton, TextButton } from '..';
 import { Beneficiary } from '../../redux/reducers/editorReducer';
 import { lookupAccounts } from '../../providers/hive/dhive';
 import { TEMP_BENEFICIARIES_ID } from '../../redux/constants/constants';
@@ -17,12 +17,11 @@ import {
 } from '../../redux/actions/editorActions';
 
 interface BeneficiarySelectionContentProps {
-
   draftId: string;
   setDisableDone: (value: boolean) => void;
   powerDown?: boolean;
-  label?:string;
-  labelStyle?:string;
+  label?: string;
+  labelStyle?: string;
   powerDownBeneficiaries?: Beneficiary[];
   handleSaveBeneficiary?: (beneficiaries: Beneficiary[]) => void;
   handleRemoveBeneficiary?: (beneficiary: Beneficiary) => void;
@@ -38,7 +37,6 @@ const BeneficiarySelectionContent = ({
   handleSaveBeneficiary,
   handleRemoveBeneficiary,
 }: BeneficiarySelectionContentProps) => {
-
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -76,7 +74,7 @@ const BeneficiarySelectionContent = ({
   const readPowerDownBeneficiaries = () => {
     const tempBeneficiaries = [
       { account: username, weight: 10000, autoPowerUp: false },
-      ...powerDownBeneficiaries as Beneficiary[],
+      ...(powerDownBeneficiaries as Beneficiary[]),
     ];
 
     if (isArray(tempBeneficiaries) && tempBeneficiaries.length > 0) {
@@ -96,8 +94,11 @@ const BeneficiarySelectionContent = ({
   const readTempBeneficiaries = async () => {
     if (beneficiariesMap) {
       const savedBeneficiareis = beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID];
-      const tempBeneficiaries = savedBeneficiareis && savedBeneficiareis.length ?  [DEFAULT_BENEFICIARY, ...beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID]] : [DEFAULT_BENEFICIARY];
-  
+      const tempBeneficiaries =
+        savedBeneficiareis && savedBeneficiareis.length
+          ? [DEFAULT_BENEFICIARY, ...beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID]]
+          : [DEFAULT_BENEFICIARY];
+
       if (isArray(tempBeneficiaries) && tempBeneficiaries.length > 0) {
         //weight correction algorithm.
         let othersWeight = 0;
@@ -242,7 +243,7 @@ const BeneficiarySelectionContent = ({
             onChange={(value) => _onWeightInputChange(value)}
             selectTextOnFocus={true}
             autoFocus={true}
-            returnKeyType={'next'}
+            returnKeyType="next"
             keyboardType="numeric"
           />
         </View>
@@ -315,7 +316,7 @@ const BeneficiarySelectionContent = ({
       beneficiaries[0].weight = beneficiaries[0].weight + item.weight;
       const removedBeneficiary = beneficiaries.splice(index, 1);
       setBeneficiaries([...beneficiaries]);
-      if(handleRemoveBeneficiary){
+      if (handleRemoveBeneficiary) {
         handleRemoveBeneficiary(removedBeneficiary[0]);
         return;
       }
@@ -364,7 +365,9 @@ const BeneficiarySelectionContent = ({
 
   return (
     <View style={styles.container}>
-      <Text style={labelStyle || styles.settingLabel}>{label || intl.formatMessage({ id: 'editor.beneficiaries' })}</Text>
+      <Text style={labelStyle || styles.settingLabel}>
+        {label || intl.formatMessage({ id: 'editor.beneficiaries' })}
+      </Text>
       <FlatList
         data={beneficiaries}
         renderItem={_renderItem}

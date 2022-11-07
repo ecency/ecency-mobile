@@ -1,26 +1,26 @@
 const customBodyScript = `
-var images = document.getElementsByTagName("IMG");
-var imageUrls = [];
-for (var k = 0; k < images.length; k++) {  
-  var src = images[k].getAttribute("src") || '';
+let images = document.getElementsByTagName("IMG");
+let imageUrls = [];
+for (let k = 0; k < images.length; k++) {  
+  let src = images[k].getAttribute("src") || '';
   if (src) {
     imageUrls.push({url: src});
   }
 }
-for (var i = 0; i < images.length; i++) {  
-  var result = {
+for (let i = 0; i < images.length; i++) {  
+  let result = {
     type: 'image',
     images: imageUrls,
     image: images[i].getAttribute("src") || ''
   };
-  var resultStr = JSON.stringify(JSON.stringify(result));
-  var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
+  let resultStr = JSON.stringify(JSON.stringify(result));
+  let message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
   if (!images[i].classList.contains("video-thumbnail") && !images[i].parentNode.classList.contains("markdown-external-link")) {
     images[i].setAttribute("onclick", message);
   }
 }
 document.addEventListener('click', function(event) {
-  var el = event.target;
+  let el = event.target;
   while (el.tagName !== 'A') {
     if (!el.parentNode) {
       break;
@@ -32,8 +32,8 @@ document.addEventListener('click', function(event) {
   }
   if (el.getAttribute('target') === '_external') {
     event.preventDefault();
-    var href = el.getAttribute('href');
-    var result = {
+    let href = el.getAttribute('href');
+    let result = {
       type: '_external',
       href: href
     };
@@ -42,8 +42,8 @@ document.addEventListener('click', function(event) {
   }
   if (el.classList.contains('markdown-external-link')) {
     event.preventDefault();
-    var href = el.getAttribute('data-href');
-    var result = {
+    let href = el.getAttribute('data-href');
+    let result = {
       type: 'markdown-external-link',
       href: href
     };
@@ -51,8 +51,8 @@ document.addEventListener('click', function(event) {
     return true;
   }
   if (el.classList.contains('markdown-author-link')) {
-    var author = el.getAttribute('data-author');
-    var result = {
+    let author = el.getAttribute('data-author');
+    let result = {
       type: 'markdown-author-link',
       author: author
     };
@@ -60,12 +60,12 @@ document.addEventListener('click', function(event) {
     return false;
   }
   if (el.classList.contains('markdown-post-link')) {
-    var category = el.getAttribute('data-tag');
-    var author = el.getAttribute('data-author');
-    var permlink = el.getAttribute('data-permlink');
+    let category = el.getAttribute('data-tag');
+    let author = el.getAttribute('data-author');
+    let permlink = el.getAttribute('data-permlink');
 
 
-    var result = {
+    let result = {
       type: 'markdown-post-link',
       category: category,
       author: author,
@@ -75,9 +75,9 @@ document.addEventListener('click', function(event) {
     return false;
   }
   if (el.classList.contains('markdown-tag-link')) {
-    var tag = el.getAttribute('data-tag');
-    var filter = el.getAttribute('data-filter');
-    var result = {
+    let tag = el.getAttribute('data-tag');
+    let filter = el.getAttribute('data-filter');
+    let result = {
       type: 'markdown-tag-link',
       filter: filter,
       tag: tag
@@ -86,15 +86,15 @@ document.addEventListener('click', function(event) {
     return false;
   }
   if (el.classList.contains('markdown-witnesses-link')) {
-    var result = {
+    let result = {
       type: 'markdown-witnesses-link'
     };
     window.ReactNativeWebView.postMessage(JSON.stringify(result));
     return false;
   }
   if (el.classList.contains('markdown-proposal-link')) {
-    var proposal = el.getAttribute('data-proposal');
-    var result = {
+    let proposal = el.getAttribute('data-proposal');
+    let result = {
       type: 'markdown-proposal-link',
       proposal: proposal
     };
@@ -103,11 +103,11 @@ document.addEventListener('click', function(event) {
   }
 
   if (el.classList.contains('markdown-video-link-youtube')) {
-    var embedUrl = el.getAttribute('data-embed-src');
+    let embedUrl = el.getAttribute('data-embed-src');
 
     if (embedUrl) {
   
-      var result = {
+      let result = {
         type: 'markdown-video-link-youtube',
         tag: embedUrl
       };
@@ -117,14 +117,14 @@ document.addEventListener('click', function(event) {
   }
 
   if (el.classList.contains('markdown-video-link')) {
-    var embedSrc = '<iframe frameborder="0" allowfullscreen src="' + el.getAttribute('data-embed-src') + '"></iframe>';
+    let embedSrc = '<iframe frameborder="0" allowfullscreen src="' + el.getAttribute('data-embed-src') + '"></iframe>';
     if (embedSrc) {
       el.innerHTML = embedSrc;
       return;
     }
-    var videoHref = el.getAttribute('data-video-href');
+    let videoHref = el.getAttribute('data-video-href');
     if (videoHref) {
-      var result = {
+      let result = {
         type: 'markdown-video-link',
         videoHref: videoHref
       };
@@ -134,31 +134,31 @@ document.addEventListener('click', function(event) {
   }
   
 
-  var author = el.getAttribute('data-author').toString();
+  let author = el.getAttribute('data-author').toString();
   window.ReactNativeWebView.postMessage(JSON.stringify(author));
 });
 true;
 `;
 
 const customCommentScript = `
-var longpress = 1500;
-var delay;
-var images = document.getElementsByTagName("IMG");
-var imageUrls = [];
-for (var k = 0; k < images.length; k++) {  
-  var src = images[k].getAttribute("src") || '';
+let longpress = 1500;
+let delay;
+let images = document.getElementsByTagName("IMG");
+let imageUrls = [];
+for (let k = 0; k < images.length; k++) {  
+  let src = images[k].getAttribute("src") || '';
   if (src) {
     imageUrls.push({url: src});
   }
 }
-for (var i = 0; i < images.length; i++) {  
-  var result = {
+for (let i = 0; i < images.length; i++) {  
+  let result = {
     type: 'image',
     images: imageUrls,
     image: images[i].getAttribute("src") || ''
   };
-  var resultStr = JSON.stringify(JSON.stringify(result));
-  var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
+  let resultStr = JSON.stringify(JSON.stringify(result));
+  let message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
   if (!images[i].classList.contains("video-thumbnail") && !images[i].parentNode.classList.contains("markdown-external-link")) {
     images[i].setAttribute("onclick", message);
   }
@@ -166,7 +166,7 @@ for (var i = 0; i < images.length; i++) {
 document.addEventListener('mousedown', function(event) {
   delay = setTimeout(check, longpress);
   function check() {
-    var result = {
+    let result = {
       type: 'longpress',
     };
     window.ReactNativeWebView.postMessage(JSON.stringify(result));
@@ -180,7 +180,7 @@ document.addEventListener('mouseout', function (e) {
   clearTimeout(delay);
 });
 document.addEventListener('click', function(event) {
-  var el = event.target;
+  let el = event.target;
   while (el.tagName !== 'A') {
     if (!el.parentNode) {
       break;
@@ -192,8 +192,8 @@ document.addEventListener('click', function(event) {
   }
   if (el.getAttribute('target') === '_external') {
     event.preventDefault();
-    var href = el.getAttribute('href');
-    var result = {
+    let href = el.getAttribute('href');
+    let result = {
       type: '_external',
       href: href
     };
@@ -202,8 +202,8 @@ document.addEventListener('click', function(event) {
   }
   if (el.classList.contains('markdown-external-link')) {
     event.preventDefault();
-    var href = el.getAttribute('data-href');
-    var result = {
+    let href = el.getAttribute('data-href');
+    let result = {
       type: 'markdown-external-link',
       href: href
     };
@@ -211,8 +211,8 @@ document.addEventListener('click', function(event) {
     return true;
   }
   if (el.classList.contains('markdown-author-link')) {
-    var author = el.getAttribute('data-author');
-    var result = {
+    let author = el.getAttribute('data-author');
+    let result = {
       type: 'markdown-author-link',
       author: author
     };
@@ -220,10 +220,10 @@ document.addEventListener('click', function(event) {
     return false;
   }
   if (el.classList.contains('markdown-post-link')) {
-    var category = el.getAttribute('data-tag');
-    var author = el.getAttribute('data-author');
-    var permlink = el.getAttribute('data-permlink');
-    var result = {
+    let category = el.getAttribute('data-tag');
+    let author = el.getAttribute('data-author');
+    let permlink = el.getAttribute('data-permlink');
+    let result = {
       type: 'markdown-post-link',
       category: category,
       author: author,
@@ -233,8 +233,8 @@ document.addEventListener('click', function(event) {
     return false;
   }
   if (el.classList.contains('markdown-tag-link')) {
-    var tag = el.getAttribute('data-tag');
-    var result = {
+    let tag = el.getAttribute('data-tag');
+    let result = {
       type: 'markdown-tag-link',
       tag: tag
     };
@@ -242,15 +242,15 @@ document.addEventListener('click', function(event) {
     return false;
   }
   if (el.classList.contains('markdown-witnesses-link')) {
-    var result = {
+    let result = {
       type: 'markdown-witnesses-link'
     };
     window.ReactNativeWebView.postMessage(JSON.stringify(result));
     return false;
   }
   if (el.classList.contains('markdown-proposal-link')) {
-    var proposal = el.getAttribute('data-proposal');
-    var result = {
+    let proposal = el.getAttribute('data-proposal');
+    let result = {
       type: 'markdown-proposal-link',
       proposal: proposal
     };
@@ -259,12 +259,12 @@ document.addEventListener('click', function(event) {
   }
 
   if (el.classList.contains('markdown-video-link-youtube')) {
-    var embedUrl = el.getAttribute('data-embed-src');
+    let embedUrl = el.getAttribute('data-embed-src');
 
     if (embedUrl) {
 
 
-      var result = {
+      let result = {
         type: 'markdown-video-link-youtube',
         tag: embedUrl
       };
@@ -275,14 +275,14 @@ document.addEventListener('click', function(event) {
 
 
   if (el.classList.contains('markdown-video-link')) {
-    var embedSrc = '<iframe frameborder="0" allowfullscreen src="' + el.getAttribute('data-embed-src') + '"></iframe>';
+    let embedSrc = '<iframe frameborder="0" allowfullscreen src="' + el.getAttribute('data-embed-src') + '"></iframe>';
     if (embedSrc) {
       el.innerHTML = embedSrc;
       return;
     }
-    var videoHref = el.getAttribute('data-video-href');
+    let videoHref = el.getAttribute('data-video-href');
     if (videoHref) {
-      var result = {
+      let result = {
         type: 'markdown-video-link',
         videoHref: videoHref
       };

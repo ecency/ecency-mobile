@@ -39,9 +39,8 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   // handle cache when searchResultsScreen data updates in communities reducer
   useEffect(() => {
     if (subscribingCommunitiesInSearchResultsScreen && selectedCommunityItem) {
-      const { status } = subscribingCommunitiesInSearchResultsScreen[
-        selectedCommunityItem.communityId
-      ];
+      const { status } =
+        subscribingCommunitiesInSearchResultsScreen[selectedCommunityItem.communityId];
       if (status === statusMessage.SUCCESS) {
         dispatch(updateSubscribedCommunitiesCache(selectedCommunityItem));
       }
@@ -61,9 +60,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
               const itemExistInCache = subscribedCommunitiesCache.get(community.name);
               const _isSubscribed = itemExistInCache
                 ? itemExistInCache.data[4]
-                : subscribedCommunities.data.findIndex((item) => item[0] === community.name) === -1
-                ? false
-                : true;
+                : subscribedCommunities.data.findIndex((item) => item[0] === community.name) !== -1;
               return Object.assign(community, {
                 isSubscribed: _isSubscribed,
               });
@@ -134,7 +131,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   };
 
   const _handleSubscribeButtonPress = (_data, screen) => {
-    setSelectedCommunityItem(_data); //set selected item to handle its cache
+    setSelectedCommunityItem(_data); // set selected item to handle its cache
     let subscribeAction;
     let successToastText = '';
     let failToastText = '';

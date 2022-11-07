@@ -7,6 +7,7 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Services
+import { useNavigation } from '@react-navigation/native';
 import bugsnagInstance from '../config/bugsnag';
 import { purchaseOrder } from '../providers/ecency/ecency';
 
@@ -14,10 +15,10 @@ import { purchaseOrder } from '../providers/ecency/ecency';
 import { default as ROUTES } from '../constants/routeNames';
 import { showActionModal } from '../redux/actions/uiAction';
 import { UserAvatar } from '../components';
-import { useNavigation } from '@react-navigation/native';
 
 class InAppPurchaseContainer extends Component {
   purchaseUpdateSubscription = null;
+
   purchaseErrorSubscription = null;
 
   constructor(props) {
@@ -47,18 +48,15 @@ class InAppPurchaseContainer extends Component {
     RNIap.endConnection();
   }
 
-
   _initContainer = async () => {
-    const {
-      intl,
-    } = this.props;
+    const { intl } = this.props;
     try {
       await RNIap.initConnection();
       if (Platform.OS === 'android') {
-        await RNIap.flushFailedPurchasesCachedAsPendingAndroid(); 
+        await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
       }
 
-      await this._consumeAvailablePurchases()
+      await this._consumeAvailablePurchases();
       this._getItems();
       this._purchaseUpdatedListener();
       await this._handleQrPurchase();
@@ -70,31 +68,28 @@ class InAppPurchaseContainer extends Component {
         intl.formatMessage({
           id: 'alert.connection_issues',
         }),
-        err.message
+        err.message,
       );
     }
-   
-  }
+  };
 
-
-  //this snippet consumes all previously bought purchases 
-  //that are set to be consumed yet
+  // this snippet consumes all previously bought purchases
+  // that are set to be consumed yet
   _consumeAvailablePurchases = async () => {
-    try{
-      //get available purchase
+    try {
+      // get available purchase
       const purchases = await RNIap.getAvailablePurchases();
-      //check consumeable status
+      // check consumeable status
       for (let i = 0; i < purchases.length; i++) {
-        //consume item using finishTransactionx      
+        // consume item using finishTransactionx
         await RNIap.finishTransaction(purchases[i], true);
       }
-    }catch(err){
+    } catch (err) {
       bugsnagInstance.notify(err);
       console.warn(err.code, err.message);
     }
-  }
+  };
 
-  
   // Component Functions
 
   _purchaseUpdatedListener = () => {
@@ -114,7 +109,7 @@ class InAppPurchaseContainer extends Component {
           platform: Platform.OS === 'android' ? 'play_store' : 'app_store',
           product: get(purchase, 'productId'),
           receipt: Platform.OS === 'android' ? token : receipt,
-          user: username ? username : name, //username from passed in props from nav params i-e got from url qr scan
+          user: username || name, // username from passed in props from nav params i-e got from url qr scan
         };
 
         purchaseOrder(data)
@@ -157,7 +152,7 @@ class InAppPurchaseContainer extends Component {
           intl.formatMessage({
             id: 'alert.warning',
           }),
-          error.message
+          error.message,
         );
       }
       this.setState({ isProcessing: false });
@@ -167,9 +162,9 @@ class InAppPurchaseContainer extends Component {
   _getTitle = (title) => {
     let _title = title.toUpperCase();
     if (_title !== 'FREE POINTS') {
-      _title = _title.replace(/[^0-9]+/g, '') + ' POINTS';
+      _title = `${_title.replace(/[^0-9]+/g, '')} POINTS`;
     }
-  
+
     return _title;
   };
 
@@ -183,11 +178,11 @@ class InAppPurchaseContainer extends Component {
     } catch (err) {
       bugsnagInstance.notify(err);
       Alert.alert(
-          intl.formatMessage({
-            id: 'alert.connection_issues',
-          }),
-          error.message
-        );
+        intl.formatMessage({
+          id: 'alert.connection_issues',
+        }),
+        error.message,
+      );
     }
 
     this.setState({ isLoading: false });
@@ -214,28 +209,34 @@ class InAppPurchaseContainer extends Component {
   };
 
   _handleQrPurchase = async () => {
-    const { skus, dispatch, intl, route} = this.props as any;
+    const { skus, dispatch, intl, route } = this.props;
     const products = await RNIap.getProducts(skus);
-    const productId = route.param?.productId ?? ''
-    const username = route.param?.username ?? ''
+    const productId = route.param?.productId ?? '';
+    const username = route.param?.username ?? '';
 
-    const product:Product = productId && products && products.find((product) => product.productId === productId)
-    
+    const product: Product =
+      productId && products && products.find((product) => product.productId === productId);
+
     if (product) {
-
-      let body = intl.formatMessage({
-         id: 'boost.confirm_purchase_summary' 
-        }, {
+      const body = intl.formatMessage(
+        {
+          id: 'boost.confirm_purchase_summary',
+        },
+        {
           points: this._getTitle(product.title),
-           username,
-           price: `${product.currency} ${product.price}`
-          });
+          username,
+          price: `${product.currency} ${product.price}`,
+        },
+      );
 
-          let title = intl.formatMessage({
-            id: 'boost.confirm_purchase' 
-           }, {
-              username,
-             });
+      const title = intl.formatMessage(
+        {
+          id: 'boost.confirm_purchase',
+        },
+        {
+          username,
+        },
+      );
 
       dispatch(
         showActionModal({
@@ -251,13 +252,12 @@ class InAppPurchaseContainer extends Component {
               onPress: async () => await this._buyItem(productId),
             },
           ],
-          headerContent: <UserAvatar username={username} size='xl' />,
+          headerContent: <UserAvatar username={username} size="xl" />,
         }),
       );
     }
-  }
+  };
 
-  
   render() {
     const { children, isNoSpin, navigation } = this.props;
     const { productList, isLoading, isProcessing } = this.state;
@@ -276,7 +276,7 @@ class InAppPurchaseContainer extends Component {
         getItems: this._getItems,
         getTitle: this._getTitle,
         spinProduct: productList.filter((item) => item.productId.includes('spins')),
-        navigation: navigation
+        navigation,
       })
     );
   }
@@ -286,11 +286,10 @@ const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
 });
 
-
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  return <InAppPurchaseContainer {...props} navigation={navigation} />
-}
+  return <InAppPurchaseContainer {...props} navigation={navigation} />;
+};
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
 /* eslint-enable */

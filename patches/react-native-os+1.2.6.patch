@@ -1,0 +1,20 @@
+diff --git a/node_modules/react-native-os/android/build.gradle b/node_modules/react-native-os/android/build.gradle
+index 7055b60..af9f183 100644
+--- a/node_modules/react-native-os/android/build.gradle
++++ b/node_modules/react-native-os/android/build.gradle
+@@ -4,7 +4,7 @@ def safeExtGet(prop, fallback) {
+ 
+ buildscript {
+     repositories {
+-        jcenter()
++        mavenCentral() //patched
+     }
+ 
+     dependencies {
+@@ -44,5 +44,5 @@ repositories {
+ }
+ 
+ dependencies {
+-    compile 'com.facebook.react:react-native:+'
++    implementation 'com.facebook.react:react-native:+'
+ }

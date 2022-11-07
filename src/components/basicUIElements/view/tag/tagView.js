@@ -40,7 +40,7 @@ const Tag = ({
           textStyle,
         ]}
       >
-        {`${prefix ? prefix : ''} ${label}${suffix ? suffix : ''}`}
+        {`${prefix || ''} ${label}${suffix || ''}`}
       </Text>
       {removeEnabled && (
         <Icon

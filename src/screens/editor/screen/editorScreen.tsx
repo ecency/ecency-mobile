@@ -209,6 +209,7 @@ class EditorScreen extends Component {
     const { handleRewardChange } = this.props;
     handleRewardChange(value);
   };
+
   _handleSettingsPress = () => {
     if (this.postOptionsModalRef) {
       this.postOptionsModalRef.show();
@@ -285,7 +286,7 @@ class EditorScreen extends Component {
     }
 
     const { fields: _fields } = this.state;
-    const __tags = tags; //.map((t) => t.replace(/([^a-z0-9-]+)/gi, '').toLowerCase());
+    const __tags = tags; // .map((t) => t.replace(/([^a-z0-9-]+)/gi, '').toLowerCase());
     const __fields = { ..._fields, tags: __tags };
     this.setState({ fields: __fields, isRemoveTag: false }, () => {
       this._handleFormUpdate('tag-area', __fields.tags);
@@ -341,7 +342,7 @@ class EditorScreen extends Component {
     const { saveDraftToDB } = this.props;
     const { fields } = this.state;
 
-    //save draft only if any of field is valid
+    // save draft only if any of field is valid
     if (fields.body || fields.title) {
       saveDraftToDB(fields, saveAsNew);
     }

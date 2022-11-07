@@ -28,7 +28,7 @@ const CommentPlaceHolderView = () => {
               colorFilters={[
                 {
                   keypath: 'comments',
-                  color: color,
+                  color,
                 },
               ]}
             />

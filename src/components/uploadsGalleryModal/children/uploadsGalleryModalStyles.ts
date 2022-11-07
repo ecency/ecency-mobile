@@ -15,7 +15,7 @@ export default EStyleSheet.create({
   },
 
   listContentContainer: {
-    marginTop:8,
+    marginTop: 8,
     paddingRight: 72,
     paddingLeft: 16,
   },
@@ -30,7 +30,7 @@ export default EStyleSheet.create({
     height: THUMB_SIZE,
     width: THUMB_SIZE,
     borderRadius: 16,
-    backgroundColor: '$primaryLightGray'
+    backgroundColor: '$primaryLightGray',
   } as ImageStyle,
 
   gridMediaItem: {
@@ -39,11 +39,11 @@ export default EStyleSheet.create({
     width: GRID_THUMB_SIZE,
     marginVertical: 8,
     borderRadius: 16,
-    backgroundColor: '$primaryLightGray'
+    backgroundColor: '$primaryLightGray',
   } as ImageStyle,
 
   inputContainer: {
-    flex: 1
+    flex: 1,
   } as ViewStyle,
   titleInput: {
     color: '$primaryBlack',
@@ -53,7 +53,7 @@ export default EStyleSheet.create({
     paddingVertical: 0,
     backgroundColor: '$primaryBackgroundColor',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '$primaryDarkGray'
+    borderBottomColor: '$primaryDarkGray',
   } as TextStyle,
 
   title: {
@@ -69,20 +69,19 @@ export default EStyleSheet.create({
     fontSize: 16,
     color: '$primaryBlack',
     marginLeft: 12,
-    alignSelf:'center'
+    alignSelf: 'center',
   },
 
   btnText: {
-    color: '$pureWhite'
+    color: '$pureWhite',
   } as TextStyle,
   saveButton: {
-
     backgroundColor: '$primaryBlue',
     width: 150,
     paddingVertical: 16,
     borderRadius: 32,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   } as ViewStyle,
 
   closeButton: {
@@ -90,14 +89,14 @@ export default EStyleSheet.create({
     paddingVertical: 8,
     borderRadius: 16,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   } as ViewStyle,
 
   actionPanel: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    marginBottom: 16
+    marginBottom: 16,
   } as ViewStyle,
 
   itemIcon: {
@@ -113,8 +112,8 @@ export default EStyleSheet.create({
   selectButtonsContainer: {
     justifyContent: 'space-around',
     paddingVertical: 8,
-    marginRight:8,
-    height: THUMB_SIZE
+    marginRight: 8,
+    height: THUMB_SIZE,
   } as ViewStyle,
 
   selectButton: {
@@ -128,14 +127,14 @@ export default EStyleSheet.create({
     marginTop: -16,
     zIndex: 2,
     borderRadius: 12,
-    backgroundColor: "$primaryBlack"
+    backgroundColor: '$primaryBlack',
   } as ViewStyle,
 
   selectButtonLabel: {
     fontSize: 16,
     textAlignVertical: 'top',
     color: '$primaryBlack',
-    marginLeft: 4
+    marginLeft: 4,
   } as TextStyle,
 
   pillBtnContainer: {
@@ -153,16 +152,15 @@ export default EStyleSheet.create({
     width: THUMB_SIZE / 1.8,
     borderRadius: 0,
     borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20
+    borderBottomRightRadius: 20,
   } as ViewStyle,
-
 
   deleteButtonContainer: {
     position: 'absolute',
     right: 0,
     top: 0,
     bottom: 0,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
 
   deleteButton: {
@@ -171,14 +169,13 @@ export default EStyleSheet.create({
     borderRadius: 0,
     borderBottomLeftRadius: 20,
     borderTopLeftRadius: 20,
-    backgroundColor: '$primaryRed'
+    backgroundColor: '$primaryRed',
   } as ViewStyle,
 
   itemIconWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '$primaryRed',
-
   } as ViewStyle,
 
   minusContainer: {
@@ -200,14 +197,13 @@ export default EStyleSheet.create({
     height: 24,
     width: 24,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   } as ViewStyle,
 
   counterText: {
     color: '$primaryBlack',
-    fontSize: 16
+    fontSize: 16,
   } as TextStyle,
-
 
   checkStyle: {
     backgroundColor: '$white',
@@ -224,7 +220,6 @@ export default EStyleSheet.create({
     marginLeft: 8,
     borderRadius: 20,
     justifyContent: 'center',
-    alignItems: 'center'
-  } as ViewStyle
-
-})
+    alignItems: 'center',
+  } as ViewStyle,
+});

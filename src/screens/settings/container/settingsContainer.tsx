@@ -7,6 +7,7 @@ import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
 import messaging from '@react-native-firebase/messaging';
 import { useNavigation } from '@react-navigation/native';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { languageRestart } from '../../../utils/I18nUtils';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
@@ -18,7 +19,6 @@ import {
   setNotificationSettings,
   setLanguage as setLanguage2DB,
   setNsfw as setNsfw2DB,
-  setTheme,
   removePinCode,
   setAuthStatus,
   setExistUser,
@@ -31,7 +31,6 @@ import {
   changeNotificationSettings,
   setCurrency,
   setApi,
-  isDarkTheme,
   isDefaultFooter,
   setNsfw,
   isPinCodeOpen,
@@ -42,6 +41,7 @@ import {
   setEncryptedUnlockPin,
   setHidePostsThumbnails,
   logout,
+  setIsDarkTheme,
 } from '../../../redux/actions/applicationActions';
 import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes, deleteAccount } from '../../../providers/ecency/ecency';
@@ -105,7 +105,7 @@ class SettingsContainer extends Component {
       case 'language':
         await dispatch(setLanguage(LANGUAGE_VALUE[action]));
         await setLanguage2DB(LANGUAGE_VALUE[action]);
-        await languageRestart(selectedLanguage, LANGUAGE_VALUE[action], intl); //restart the app and flip change layout according to lang direction
+        await languageRestart(selectedLanguage, LANGUAGE_VALUE[action], intl); // restart the app and flip change layout according to lang direction
         break;
 
       case 'api':
@@ -118,12 +118,11 @@ class SettingsContainer extends Component {
         break;
 
       case 'theme':
-        let setting = THEME_OPTIONS[action].value;
+        const setting = THEME_OPTIONS[action].value;
         const systemTheme = Appearance.getColorScheme();
 
-        dispatch(isDarkTheme(setting === null ? systemTheme === 'dark' : setting));
+        dispatch(setIsDarkTheme(setting === null ? systemTheme === 'dark' : setting));
         dispatch(setColorTheme(action));
-        setTheme(setting); //TODO: remove before merging
 
         break;
 
@@ -272,7 +271,7 @@ class SettingsContainer extends Component {
         type: actionType,
       }),
     );
-    //TODO: remove setting notification settings
+    // TODO: remove setting notification settings
     setNotificationSettings({
       action,
       type: actionType,
@@ -393,7 +392,7 @@ class SettingsContainer extends Component {
   };
 
   _handleDeleteAccount = () => {
-    const { dispatch, intl, currentAccount } = this.props as any;
+    const { dispatch, intl, currentAccount } = this.props;
 
     const _onConfirm = () => {
       deleteAccount(currentAccount.username)
@@ -436,6 +435,7 @@ class SettingsContainer extends Component {
       }),
     );
   };
+
   _clearUserData = async () => {
     const { otherAccounts, dispatch } = this.props;
 
@@ -542,4 +542,4 @@ const mapHooksToProps = (props) => {
   const navigation = useNavigation();
   return <SettingsContainer {...props} navigation={navigation} />;
 };
-export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
+export default gestureHandlerRootHOC(connect(mapStateToProps)(injectIntl(mapHooksToProps)));

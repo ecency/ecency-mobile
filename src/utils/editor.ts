@@ -13,13 +13,13 @@ export const generatePermlink = (title, random = false) => {
     return '';
   }
 
-  //TODO: check special character processing
+  // TODO: check special character processing
   const slug = getSlug(title);
   let perm = slug && slug.toString();
 
   if (title) {
     // make shorter url if possible
-    let shortp = perm.split('-');
+    const shortp = perm.split('-');
     if (shortp.length > 5) {
       perm = shortp.slice(0, 5).join('-');
     }
@@ -86,15 +86,11 @@ export const generateReplyPermlink = (toAuthor) => {
 
   const t = new Date(Date.now());
 
-  const timeFormat = `${t.getFullYear().toString()}${(
-    t.getMonth() + 1
-  ).toString()}${t
+  const timeFormat = `${t.getFullYear().toString()}${(t.getMonth() + 1).toString()}${t
     .getDate()
-    .toString()}t${t
-    .getHours()
-    .toString()}${t
-    .getMinutes()
-    .toString()}${t.getSeconds().toString()}${t.getMilliseconds().toString()}z`;
+    .toString()}t${t.getHours().toString()}${t.getMinutes().toString()}${t
+    .getSeconds()
+    .toString()}${t.getMilliseconds().toString()}z`;
 
   return `re-${toAuthor.replace(/\./g, '')}-${timeFormat}`;
 };
@@ -174,7 +170,7 @@ const extractUrls = (body: string) => {
 export const extractImageUrls = ({ body, urls }: { body?: string; urls?: string[] }) => {
   const imgReg = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|heic|webp))/gim;
 
-  let imgUrls = [];
+  const imgUrls = [];
   const mUrls = urls || extractUrls(body);
 
   mUrls.forEach((url) => {
