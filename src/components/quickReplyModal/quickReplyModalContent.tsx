@@ -1,7 +1,6 @@
 import React, {
   useEffect,
   useState,
-  useCallback,
   useRef,
   useImperativeHandle,
   forwardRef,
@@ -14,7 +13,7 @@ import { get } from 'lodash';
 import { postBodySummary } from '@ecency/render-helper';
 import styles from './quickReplyModalStyles';
 import { IconButton, MainButton, TextButton, TextInput, UserAvatar } from '..';
-import { delay, generateReplyPermlink, generateRndStr } from '../../utils/editor';
+import { delay, generateReplyPermlink } from '../../utils/editor';
 import { postComment } from '../../providers/hive/dhive';
 import { toastNotification } from '../../redux/actions/uiAction';
 import {
@@ -213,7 +212,7 @@ export const QuickReplyModalContent = forwardRef(
         onClose();
         await delay(50);
         RootNavigation.navigate({
-          routeName: ROUTES.SCREENS.EDITOR,
+          name: ROUTES.SCREENS.EDITOR,
           key: 'editor_replay',
           params: {
             isReply: true,
