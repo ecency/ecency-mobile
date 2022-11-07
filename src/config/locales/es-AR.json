@@ -142,6 +142,7 @@
     "reply": "respondido a",
     "mention": "te mencionó en",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "te siguió",
     "unfollow": "dejó de seguirte",
     "ignore": "te ignoró",
@@ -229,6 +230,7 @@
       "comment": "Comentario",
       "mention": "Mención",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Reblogueo",
       "transfers": "Transferencias",
       "delegations": "Delegations"
