@@ -142,6 +142,7 @@
     "reply": "cavablandı",
     "mention": "adı çəkildi",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "səni izlədi",
     "unfollow": "səni izləməkdən imtina etdi",
     "ignore": "səni əngəllədi",
@@ -229,6 +230,7 @@
       "comment": "Rəy",
       "mention": "Adını çəkmə",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Paylaşma",
       "transfers": "Köçürmə",
       "delegations": "Delegations"
