@@ -142,6 +142,7 @@
     "reply": "ৰিপ্লাই দিয়ে",
     "mention": "উল্লেখ হৈছে",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "ফʼলʼ কৰে",
     "unfollow": "ফʼলʼ কৰে",
     "ignore": "অৱহেলা কৰে",
@@ -229,6 +230,7 @@
       "comment": "মন্তব্য কৰক",
       "mention": "উল্লেখ",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Reblog",
       "transfers": "Transfers",
       "delegations": "Delegations"
