@@ -142,6 +142,7 @@
     "reply": "hate bersivandin",
     "mention": "hate behskirin",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "te şopand",
     "unfollow": "ji şopa te derket",
     "ignore": "te asteng kir",
@@ -229,6 +230,7 @@
       "comment": "Şîrovekirin",
       "mention": "Behskirin",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Dîsweşandin",
       "transfers": "Transfer",
       "delegations": "Delegations"
