@@ -45,10 +45,12 @@ export default EStyleSheet.create({
   },
   amount: {
     fontSize: 10,
+    fontWeight:'bold',
     color: '$primaryDarkGray',
     marginLeft: 8,
   },
   percent: {
+    fontWeight:'bold',
     color: '$primaryDarkGray',
     marginRight: 5,
   },
