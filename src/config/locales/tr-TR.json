@@ -142,6 +142,7 @@
     "reply": "cevaplandı",
     "mention": "bahsedildi",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "seni takip etti",
     "unfollow": "seni takipetmeyi bıraktı",
     "ignore": "seni engelledi",
@@ -229,6 +230,7 @@
       "comment": "Yorum",
       "mention": "Bahset",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Yeniden yayınla",
       "transfers": "Transferler",
       "delegations": "Delegasyonlar"
