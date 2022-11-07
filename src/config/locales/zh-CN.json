@@ -142,6 +142,7 @@
     "reply": "回复给",
     "mention": "被提及，在",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "关注了您",
     "unfollow": "取消对您的关注",
     "ignore": "屏蔽了您",
@@ -229,6 +230,7 @@
       "comment": "评论",
       "mention": "提到",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "转发",
       "transfers": "转账",
       "delegations": "Delegations"
