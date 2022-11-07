@@ -142,6 +142,7 @@
     "reply": "yerra i",
     "mention": "yettwabder-d deg",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "yeṭṭafaṛ-ik",
     "unfollow": "yeḥbes ur k-yeṭṭafaṛ ara",
     "ignore": "yessanef-ik",
@@ -229,6 +230,7 @@
       "comment": "Awennit",
       "mention": "Abdar",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Aɛiwed n usuffeɣ",
       "transfers": "Iceyyiɛen",
       "delegations": "Delegations"
