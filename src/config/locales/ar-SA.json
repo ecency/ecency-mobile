@@ -142,6 +142,7 @@
     "reply": "الرد على",
     "mention": "أشارك إليك في",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "قام بمتابعتك",
     "unfollow": "قام بإلغاء متابعتك",
     "ignore": "قام بتجاهلك",
@@ -229,6 +230,7 @@
       "comment": "تعليق",
       "mention": "إشارة",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "إعادة النشر",
       "transfers": "التحويلات",
       "delegations": "Delegations"
