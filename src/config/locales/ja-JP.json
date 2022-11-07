@@ -142,6 +142,7 @@
     "reply": "返信",
     "mention": "話題にされました",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "あなたをフォローしました",
     "unfollow": "あなたをフォロー解除しました",
     "ignore": "あなたをミュートしました",
@@ -229,6 +230,7 @@
       "comment": "コメント",
       "mention": "メンション",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "リブログ",
       "transfers": "送金",
       "delegations": "Delegations"
