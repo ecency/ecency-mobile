@@ -142,6 +142,7 @@
     "reply": "tumugon sa",
     "mention": "binanggit sa",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "sinundan ka",
     "unfollow": "hindi kana sinundan",
     "ignore": "ayaw kang makita",
@@ -229,6 +230,7 @@
       "comment": "Komento",
       "mention": "Banggit",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "I-reblog",
       "transfers": "Ilipat",
       "delegations": "Delegations"
