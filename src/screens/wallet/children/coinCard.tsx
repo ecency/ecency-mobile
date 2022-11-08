@@ -58,7 +58,7 @@ export const CoinCard = ({
   }, [isClaiming]);
 
   const _onClaimPress = () => {
-    setClaimExpected(unclaimedRewards ? true : false);
+    setClaimExpected(!!unclaimedRewards);
     onClaimPress();
   };
 
