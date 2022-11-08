@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Platform, Alert } from 'react-native';
-import RNIap, { purchaseErrorListener, purchaseUpdatedListener } from 'react-native-iap';
+import { Platform, Alert, EmitterSubscription } from 'react-native';
+import * as IAP from 'react-native-iap';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -17,9 +17,8 @@ import { showActionModal } from '../redux/actions/uiAction';
 import { UserAvatar } from '../components';
 
 class InAppPurchaseContainer extends Component {
-  purchaseUpdateSubscription = null;
-
-  purchaseErrorSubscription = null;
+  purchaseUpdateSubscription: EmitterSubscription | null = null;
+  purchaseErrorSubscription: EmitterSubscription | null = null;
 
   constructor(props) {
     super(props);
@@ -45,15 +44,15 @@ class InAppPurchaseContainer extends Component {
       this.purchaseErrorSubscription.remove();
       this.purchaseErrorSubscription = null;
     }
-    RNIap.endConnection();
+    IAP.endConnection();
   }
 
   _initContainer = async () => {
     const { intl } = this.props;
     try {
-      await RNIap.initConnection();
+      await IAP.initConnection();
       if (Platform.OS === 'android') {
-        await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
+        await IAP.flushFailedPurchasesCachedAsPendingAndroid()
       }
 
       await this._consumeAvailablePurchases();
@@ -78,11 +77,14 @@ class InAppPurchaseContainer extends Component {
   _consumeAvailablePurchases = async () => {
     try {
       // get available purchase
-      const purchases = await RNIap.getAvailablePurchases();
+      const purchases = await IAP.getAvailablePurchases();
       // check consumeable status
       for (let i = 0; i < purchases.length; i++) {
         // consume item using finishTransactionx
-        await RNIap.finishTransaction(purchases[i], true);
+        await IAP.finishTransaction({
+          purchase: purchases[i],
+          isConsumable: true
+        });
       }
     } catch (err) {
       bugsnagInstance.notify(err);
@@ -100,7 +102,7 @@ class InAppPurchaseContainer extends Component {
       username,
     } = this.props;
 
-    this.purchaseUpdateSubscription = purchaseUpdatedListener((purchase) => {
+    this.purchaseUpdateSubscription = IAP.purchaseUpdatedListener((purchase) => {
       const receipt = get(purchase, 'transactionReceipt');
       const token = get(purchase, 'purchaseToken');
 
@@ -115,7 +117,10 @@ class InAppPurchaseContainer extends Component {
         purchaseOrder(data)
           .then(async () => {
             try {
-              const ackResult = await RNIap.finishTransaction(purchase, true);
+              const ackResult = await IAP.finishTransaction({
+                purchase,
+                isConsumable: true
+              });
               console.info('ackResult', ackResult);
             } catch (ackErr) {
               console.warn('ackErr', ackErr);
@@ -135,7 +140,7 @@ class InAppPurchaseContainer extends Component {
       }
     });
 
-    this.purchaseErrorSubscription = purchaseErrorListener((error) => {
+    this.purchaseErrorSubscription = IAP.purchaseErrorListener((error) => {
       bugsnagInstance.notify(error);
       if (get(error, 'responseCode') === '3' && Platform.OS === 'android') {
         Alert.alert(
@@ -169,14 +174,14 @@ class InAppPurchaseContainer extends Component {
   };
 
   _getItems = async () => {
-    const { skus } = this.props;
+    const { skus, intl } = this.props;
     try {
-      const products = await RNIap.getProducts(skus);
+      const products = await IAP.getProducts({ skus });
       console.log(products);
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
       this.setState({ productList: products });
-    } catch (err) {
-      bugsnagInstance.notify(err);
+    } catch (error) {
+      bugsnagInstance.notify(error);
       Alert.alert(
         intl.formatMessage({
           id: 'alert.connection_issues',
@@ -192,10 +197,11 @@ class InAppPurchaseContainer extends Component {
     const { navigation } = this.props;
 
     if (sku !== 'freePoints') {
-      await this.setState({ isProcessing: true });
+      this.setState({ isProcessing: true });
+
 
       try {
-        RNIap.requestPurchase(sku, false);
+        IAP.requestPurchase(Platform.OS === 'ios' ? { sku } : { skus: [sku] });
       } catch (err) {
         bugsnagInstance.notify(err, (report) => {
           report.addMetadata('sku', sku);
@@ -210,11 +216,11 @@ class InAppPurchaseContainer extends Component {
 
   _handleQrPurchase = async () => {
     const { skus, dispatch, intl, route } = this.props;
-    const products = await RNIap.getProducts(skus);
+    const products = await IAP.getProducts({ skus });
     const productId = route.param?.productId ?? '';
     const username = route.param?.username ?? '';
 
-    const product: Product =
+    const product: IAP.Product =
       productId && products && products.find((product) => product.productId === productId);
 
     if (product) {

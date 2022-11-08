@@ -111,7 +111,7 @@
     "react-native-fingerprint-scanner": "hieuvp/react-native-fingerprint-scanner",
     "react-native-gesture-handler": "^2.8.0",
     "react-native-highlight-words": "^1.0.1",
-    "react-native-iap": "^7.5.6",
+    "react-native-iap": "^12.4.2",
     "react-native-image-crop-picker": "^0.35.2",
     "react-native-image-zoom-viewer": "^2.2.27",
     "react-native-iphone-x-helper": "Norcy/react-native-iphone-x-helper",
