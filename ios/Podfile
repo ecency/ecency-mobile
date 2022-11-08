@@ -44,17 +44,30 @@ target 'Ecency' do
       :mac_catalyst_enabled => false
     )
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
+
     installer.pods_project.targets.each do |target|
+
+      #workarounf for xcode 14 archive signing issue
+      #ref:https://github.com/CocoaPods/CocoaPods/issues/11402#issuecomment-1201464693
+      if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
+        target.build_configurations.each do |config|
+            config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+        end
+      end
+
       target.build_configurations.each do |config|
         config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
       end
+
+      #this workaround resolves duplicate symbolds caused by GCDAsyncSocket inclusion in TcpSockets
       if target.name == 'TcpSockets'
         source_files = target.source_build_phase.files
         gcd_async_socket = source_files[0] #First file in build phases is GCDAsyncSocket.m, chage index if not the case
         puts "Deleting source file #{gcd_async_socket.inspect} from target #{target.inspect}."
         source_files.delete gcd_async_socket
+      end
     end
-    end
+
   end
 
 end
