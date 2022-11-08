@@ -15,6 +15,7 @@ import { purchaseOrder } from '../providers/ecency/ecency';
 import { default as ROUTES } from '../constants/routeNames';
 import { showActionModal } from '../redux/actions/uiAction';
 import { UserAvatar } from '../components';
+import { PurchaseRequestData } from '../providers/ecency/ecency.types';
 
 class InAppPurchaseContainer extends Component {
   purchaseUpdateSubscription = null;
@@ -106,7 +107,7 @@ class InAppPurchaseContainer extends Component {
       const token = get(purchase, 'purchaseToken');
 
       if (receipt) {
-        const data = {
+        const data:PurchaseRequestData = {
           platform: Platform.OS === 'android' ? 'play_store' : 'app_store',
           product: get(purchase, 'productId'),
           receipt: Platform.OS === 'android' ? token : receipt,
@@ -114,7 +115,8 @@ class InAppPurchaseContainer extends Component {
         };
 
         if(email && purchase.productId === '999accounts'){
-          console.log("injecting email address as meta")
+          console.log("injecting purchase account meta")
+          data.user = name || 'ecency' //if user logged in user that name else use ecency,
           data.meta = {
             username:username,
             email:email

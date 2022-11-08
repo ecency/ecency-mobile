@@ -17,6 +17,7 @@ import {
   LatestMarketPrices,
   MediaItem,
   NotificationFilters,
+  PurchaseRequestData,
   ReceivedVestingShare,
   Referral,
   ReferralStat,
@@ -761,16 +762,10 @@ export const getPromotedEntries = async (username: string) => {
 
 /**
  * post inapp purchase method to call
- * @param data {
- * platform: 'play_store' : 'app_store',
- *  product: string,
- * receipt: string,
- *  user: string,
- * meta?: {username: string, email: string}
- * };
+ * @param data PurchaseRequestData
  * @returns 
  **/
-export const purchaseOrder = (data) =>
+export const purchaseOrder = (data:PurchaseRequestData) =>
   api
     .post('/purchase-order', data)
     .then((resp) => resp.data)
