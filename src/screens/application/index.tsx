@@ -1,19 +1,14 @@
 import React from 'react';
 
-import { OrientationLocker, PORTRAIT } from 'react-native-orientation-locker';
-import { useDispatch } from 'react-redux';
 import ApplicationContainer from './container/applicationContainer';
 import ApplicationScreen from './children/applicationScreen';
 import ErrorBoundary from './children/errorBoundary';
-import { setDeviceOrientation } from '../../redux/actions/uiAction';
+import { useInitApplication } from './hook/useInitApplication';
 
 const Application = () => {
-  const dispatch = useDispatch();
-
-  const _handleDeviceOrientationChange = (orientation) => {
-    console.log('device orientation changed at index : ', orientation);
-    dispatch(setDeviceOrientation(orientation));
-  };
+  // New hook to handle all custom app initializations
+  // it will help clean index.tsx stay clean and completely discard ApplicationContainer moving forward
+  useInitApplication();
 
   return (
     <ApplicationContainer>
@@ -26,16 +21,8 @@ const Application = () => {
         toastNotification,
         foregroundNotificationData,
       }) => {
-
         return (
           <ErrorBoundary>
-            <OrientationLocker
-              orientation={PORTRAIT}
-              onChange={(orientation) => console.log('orientation changed : ', orientation)}
-              onDeviceChange={_handleDeviceOrientationChange}
-            />
-
-          
             {isRenderRequire && (
               <ApplicationScreen
                 isConnected={isConnected}

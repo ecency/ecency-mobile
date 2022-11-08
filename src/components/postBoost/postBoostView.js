@@ -119,7 +119,7 @@ class BoostPostScreen extends PureComponent {
     if (!isValid) {
       const postUrl = postUrlParser(permlink);
       if (postUrl && postUrl.author && postUrl.permlink) {
-        let postPermlink = `${postUrl.author}/${postUrl.permlink}`;
+        const postPermlink = `${postUrl.author}/${postUrl.permlink}`;
         this.setState({
           permlink: postPermlink,
           isValid: true,
@@ -129,6 +129,7 @@ class BoostPostScreen extends PureComponent {
       }
     }
   };
+
   render() {
     const { intl } = this.props;
     const { selectedUser, balance, factor, permlinkSuggestions, permlink, isValid } = this.state;

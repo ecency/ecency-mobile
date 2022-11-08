@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withNavigation } from '@react-navigation/compat';
 import { get, has, unionBy, update } from 'lodash';
 import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Providers
+import { useNavigation } from '@react-navigation/native';
 import {
   followUser,
   unfollowUser,
@@ -33,8 +33,8 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
 
-    //check if is signed in user profile
-    const username = props.navigation.getParam('username');
+    // check if is signed in user profile
+    const username = props.route.params?.username ?? '';
     const {
       currentAccount: { name: currentAccountUsername },
     } = props;
@@ -52,22 +52,23 @@ class ProfileContainer extends Component {
       isOwnProfile,
       user: null,
       quickProfile: {
-        reputation: get(props, 'navigation.state.params.reputation', ''),
-        name: get(props, 'navigation.state.params.username', ''),
+        reputation: get(props, 'route.params.reputation', ''),
+        name: get(props, 'route.params.username', ''),
       },
       reverseHeader: !!username,
-      deepLinkFilter: get(props, 'navigation.state.params.deepLinkFilter'),
+      deepLinkFilter: get(props, 'route.params.deepLinkFilter'),
     };
   }
 
   componentDidMount() {
     const {
+      route,
       navigation,
       isConnected,
       isLoggedIn,
       currentAccount: { name: currentAccountUsername },
     } = this.props;
-    const username = get(navigation, 'state.params.username');
+    const username = route.params?.username || '';
 
     const { isOwnProfile } = this.state;
     let targetUsername = currentAccountUsername;
@@ -126,7 +127,7 @@ class ProfileContainer extends Component {
       delete query.author;
       delete query.permlink;
       repliesAction(query).then((result) => {
-        let _comments = unionBy(comments, result, 'permlink');
+        const _comments = unionBy(comments, result, 'permlink');
         this.setState({
           comments: _comments,
           isProfileLoading: false,
@@ -158,7 +159,7 @@ class ProfileContainer extends Component {
       following,
     })
       .then(() => {
-        //means user is now being followed
+        // means user is now being followed
         if (!isFollowing) {
           const mutes = currentAccount.mutes || [];
           const mutedIndex = mutes.indexOf(username);
@@ -218,7 +219,7 @@ class ProfileContainer extends Component {
 
         const curMutes = currentAccount.mutes || [];
         if (curMutes.indexOf(username) < 0) {
-          //check to avoid double entry corner case
+          // check to avoid double entry corner case
           currentAccount.mutes = [username, ...curMutes];
         }
         dispatch(updateCurrentAccount(currentAccount));
@@ -245,10 +246,10 @@ class ProfileContainer extends Component {
     });
     if (error) {
       if (error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
-        //when RC is not enough, offer boosting account
+        // when RC is not enough, offer boosting account
         dispatch(setRcOffer(true));
       } else {
-        //when other errors
+        // when other errors
         this.setState(
           {
             error,
@@ -345,7 +346,7 @@ class ProfileContainer extends Component {
     const count = get(follows, !isFollowingPress ? 'follower_count' : 'following_count');
 
     navigation.navigate({
-      routeName: ROUTES.SCREENS.FOLLOWS,
+      name: ROUTES.SCREENS.FOLLOWS,
       params: {
         isFollowingPress,
         count,
@@ -437,10 +438,10 @@ class ProfileContainer extends Component {
   };
 
   _handleDelegateHp = () => {
-    const { navigation } = this.props;
-    const username = get(navigation, 'state.params.username');
+    const { route, navigation } = this.props;
+    const username = route.params?.username ?? '';
     navigation.navigate({
-      routeName: ROUTES.SCREENS.TRANSFER,
+      name: ROUTES.SCREENS.TRANSFER,
       params: {
         transferType: 'delegate',
         fundType: 'HIVE_POWER',
@@ -448,12 +449,12 @@ class ProfileContainer extends Component {
       },
     });
   };
-  _handleOnBackPress = () => {
-    const { navigation } = this.props;
-    const navigationParams = get(navigation.state, 'params');
 
-    if (get(navigationParams, 'fetchData')) {
-      navigationParams.fetchData();
+  _handleOnBackPress = () => {
+    const { route } = this.props;
+
+    if (route && route.params && route.params.fetchData) {
+      route.params.fetchData();
     }
   };
 
@@ -465,7 +466,7 @@ class ProfileContainer extends Component {
     const { navigation, currentAccount } = this.props;
 
     navigation.navigate({
-      routeName: ROUTES.SCREENS.PROFILE_EDIT,
+      name: ROUTES.SCREENS.PROFILE_EDIT,
       params: {
         fetchUser: () => this.setState({ user: currentAccount }),
       },
@@ -521,8 +522,9 @@ class ProfileContainer extends Component {
       reverseHeader,
       deepLinkFilter,
     } = this.state;
-    const { currency, isDarkTheme, isLoggedIn, navigation, children, isHideImage } = this.props;
-    const activePage = get(navigation.state.params, 'state', 0);
+    const { currency, isDarkTheme, isLoggedIn, children, isHideImage, route } = this.props;
+
+    const activePage = route.params?.state ?? 0;
     const { currencyRate, currencySymbol } = currency;
 
     let votingPower;
@@ -588,5 +590,10 @@ const mapStateToProps = (state) => ({
   isHideImage: state.application.hidePostsThumbnails,
 });
 
-export default connect(mapStateToProps)(injectIntl(withNavigation(ProfileContainer)));
+const mapHooksToProps = (props) => {
+  const navigation = useNavigation();
+  return <ProfileContainer {...props} navigation={navigation} />;
+};
+
+export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
 /* eslint-enable */

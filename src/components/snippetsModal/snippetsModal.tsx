@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
-import { View, FlatList, Text, TouchableOpacity, Alert, RefreshControl } from 'react-native';
+import { View, FlatList, Text, TouchableOpacity, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
-import { deleteFragment } from '../../providers/ecency/ecency';
 import { MainButton } from '..';
 import styles from './snippetsModalStyles';
 
@@ -11,7 +10,7 @@ import SnippetEditorModal, {
 import SnippetItem from './snippetItem';
 import { Snippet } from '../../models';
 import { useAppSelector } from '../../hooks';
-import { useSnippetDeleteMutation, useSnippetsQuery } from '../../providers/queries';
+import { useSnippetsQuery } from '../../providers/queries';
 
 interface SnippetsModalProps {
   handleOnSelect: (snippetText: string) => void;
@@ -25,7 +24,7 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
 
   const snippetsQuery = useSnippetsQuery();
 
-  //render list item for snippet and handle actions;
+  // render list item for snippet and handle actions;
   const _renderItem = ({ item, index }: { item: Snippet; index: number }) => {
     const _onPress = () => handleOnSelect(item.body);
 
@@ -48,7 +47,7 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
     );
   };
 
-  //render empty list placeholder
+  // render empty list placeholder
   const _renderEmptyContent = () => {
     return (
       <>
@@ -57,7 +56,7 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
     );
   };
 
-  //renders footer with add snipept button and shows new snippet modal
+  // renders footer with add snipept button and shows new snippet modal
   const _renderFloatingButton = () => {
     if (!isLoggedIn) {
       return null;

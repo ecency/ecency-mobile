@@ -5,6 +5,9 @@ module.exports = (api) => {
   if (babelEnv !== 'development') {
     plugins.push(['transform-remove-console', { exclude: ['error', 'warn'] }]);
   }
+
+  //Reanimated should be last plugin added in babel
+  plugins.push(['react-native-reanimated/plugin']);
   return {
     presets: ['module:metro-react-native-babel-preset'],
     sourceMaps: true,

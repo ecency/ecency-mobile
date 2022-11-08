@@ -1,0 +1,22 @@
+diff --git a/node_modules/react-native-vector-icons/android/build.gradle b/node_modules/react-native-vector-icons/android/build.gradle
+index 7a686f2..ea53690 100755
+--- a/node_modules/react-native-vector-icons/android/build.gradle
++++ b/node_modules/react-native-vector-icons/android/build.gradle
+@@ -5,7 +5,7 @@ buildscript {
+   if (project == rootProject) {
+     repositories {
+       google()
+-      jcenter()
++      mavenCentral() //patched
+     }
+ 
+     dependencies {
+@@ -38,7 +38,7 @@ android {
+ repositories {
+     mavenLocal()
+     google()
+-    jcenter()
++    mavenCentral() //patched
+     maven {
+         // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+         url "$rootDir/../node_modules/react-native/android"

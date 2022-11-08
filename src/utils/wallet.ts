@@ -507,7 +507,7 @@ export const fetchCoinsData = async ({
 }): Promise<{ [key: string]: CoinData }> => {
   const username = currentAccount.username;
   const coinData = {} as { [key: string]: CoinData };
-  const walletData = {} as any;
+  const walletData = {} ;
 
   if (!username) {
     return walletData;

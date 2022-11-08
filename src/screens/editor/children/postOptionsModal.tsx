@@ -98,7 +98,7 @@ const PostOptionsModal = forwardRef(
     // load rewardtype from props if it is already saved in drafts
     useEffect(() => {
       if (rewardType) {
-        let rewardTypeKey = REWARD_TYPES.findIndex((item) => item.key === rewardType);
+        const rewardTypeKey = REWARD_TYPES.findIndex((item) => item.key === rewardType);
         setRewardTypeIndex(rewardTypeKey);
       }
     }, [rewardType]);

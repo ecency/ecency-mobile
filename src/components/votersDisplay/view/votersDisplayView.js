@@ -1,9 +1,9 @@
 import React from 'react';
 import { SafeAreaView, FlatList, Text } from 'react-native';
-import { withNavigation } from '@react-navigation/compat';
 import { useIntl } from 'react-intl';
 
 // Utils
+import { useNavigation } from '@react-navigation/native';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
@@ -15,21 +15,22 @@ import ROUTES from '../../../constants/routeNames';
 // Styles
 import styles from './votersDisplayStyles';
 
-const VotersDisplayView = ({ votes, navigation, createdAt = '2010-01-01T00:00:00' }) => {
+const VotersDisplayView = ({ votes, createdAt = '2010-01-01T00:00:00' }) => {
+  const navigation = useNavigation();
   const intl = useIntl();
 
-  /*getActiveVotes(get(content, 'author'), get(content, 'permlink'))
+  /* getActiveVotes(get(content, 'author'), get(content, 'permlink'))
     .then((result) => {
       result.sort((a, b) => b.rshares - a.rshares);
 
       const _votes = parseActiveVotes({ ...content, active_votes: result });
       setActiveVotes(_votes);
     })
-    .catch(() => {});*/
+    .catch(() => {}); */
 
   const _handleOnUserPress = (username) => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.PROFILE,
+      name: ROUTES.SCREENS.PROFILE,
       params: {
         username,
       },
@@ -41,7 +42,7 @@ const VotersDisplayView = ({ votes, navigation, createdAt = '2010-01-01T00:00:00
     const value = `$ ${item.reward}`;
     const percent = `${item.percent}%`;
 
-    //snippet to avoid rendering time form long past
+    // snippet to avoid rendering time form long past
     const minTimestamp = new Date(createdAt).getTime();
     const voteTimestamp = new Date(item.time).getTime();
     const timeString = item.time && minTimestamp < voteTimestamp ? getTimeFromNow(item.time) : null;
@@ -78,4 +79,4 @@ const VotersDisplayView = ({ votes, navigation, createdAt = '2010-01-01T00:00:00
   );
 };
 
-export default withNavigation(VotersDisplayView);
+export default VotersDisplayView;

@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 // Containers
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { useIntl } from 'react-intl';
 import moment from 'moment';
 import { LoggedInContainer } from '../../../containers';
@@ -73,12 +73,16 @@ const WalletScreen = ({ navigation }) => {
 
   //side-effects
   useEffect(() => {
-    AppState.addEventListener('change', _handleAppStateChange);
+    const appStateSub = AppState.addEventListener('change', _handleAppStateChange);
 
     //if coinsData is empty, initilise wallet without a fresh acount fetch
     _fetchData(Object.keys(coinsData).length ? true : false);
 
-    return _cleanup;
+    return ()=>{
+      if(appStateSub){
+        appStateSub.remove()
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -88,9 +92,7 @@ const WalletScreen = ({ navigation }) => {
     }
   }, [currency, currentAccount]);
 
-  const _cleanup = () => {
-    AppState.removeEventListener('change', _handleAppStateChange);
-  };
+
 
   //actions
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {
@@ -298,5 +300,5 @@ const WalletScreen = ({ navigation }) => {
   );
 };
 
-export default WalletScreen;
+export default gestureHandlerRootHOC(WalletScreen);
 /* eslint-enable */

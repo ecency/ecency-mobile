@@ -9,12 +9,10 @@ export default EStyleSheet.create({
     minWidth: 40,
     maxWidth: 170,
     marginVertical: 12,
-    paddingVertical:6,
+    paddingVertical: 6,
   },
   revealText: {
     color: '$white',
     fontSize: 14,
   },
 });
-
-

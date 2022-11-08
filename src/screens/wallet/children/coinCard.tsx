@@ -33,7 +33,6 @@ export const CoinCard = ({
   notCrypto,
   isEngine,
   chartData,
-  name,
   currencySymbol,
   symbol,
   changePercent,
@@ -86,9 +85,7 @@ export const CoinCard = ({
 
   const _renderClaimSection = () => {
     if (unclaimedRewards || enableBuy) {
-      const btnTitle = unclaimedRewards
-        ? unclaimedRewards
-        : intl.formatMessage({ id: `wallet.${id}.buy` });
+      const btnTitle = unclaimedRewards || intl.formatMessage({ id: `wallet.${id}.buy` });
 
       const _rightComponent = isLoading ? (
         <ActivityIndicator

@@ -1,7 +1,6 @@
 const isHumanReadable = (input: number): boolean => {
   return Math.abs(input) > 0 && Math.abs(input) <= 100;
-}
-
+};
 
 export const parseReputation = (input: string | number): number => {
   if (typeof input === 'number' && isHumanReadable(input)) {
@@ -9,15 +8,15 @@ export const parseReputation = (input: string | number): number => {
   }
 
   if (typeof input === 'string') {
-      input = Number(input);
+    input = Number(input);
 
-      if (isHumanReadable(input)) {
-          return Math.floor(input);
-      }
+    if (isHumanReadable(input)) {
+      return Math.floor(input);
+    }
   }
 
   if (input === 0) {
-      return 25;
+    return 25;
   }
 
   let neg = false;

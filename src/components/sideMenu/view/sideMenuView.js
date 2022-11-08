@@ -24,7 +24,7 @@ import { TextWithIcon } from '../../basicUIElements';
 import MENU from '../../../constants/sideMenuItems';
 import ROUTES from '../../../constants/routeNames';
 
-//Utils
+// Utils
 import { getVotingPower } from '../../../utils/manaBar';
 
 // Styles
@@ -102,7 +102,7 @@ const SideMenuView = ({
 
   const { buildVersion, appVersion } = VersionNumber;
 
-  let _username = currentAccount.name;
+  const _username = currentAccount.name;
 
   const _renderItem = (item) => (
     <TouchableOpacity

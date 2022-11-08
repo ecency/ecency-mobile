@@ -49,8 +49,8 @@ export default EStyleSheet.create({
   },
   rightWrapper: {
     textAlign: 'center',
-    alignItems: 'center',
-    width: 80,
+    alignItems: 'flex-end',
+    minWidth: 80,
     height: 30,
     justifyContent: 'center',
   },

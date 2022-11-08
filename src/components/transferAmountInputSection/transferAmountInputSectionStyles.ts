@@ -54,7 +54,7 @@ export default EStyleSheet.create({
     textAlign: 'right',
   },
   centerDescription: {
-    marginTop:8,
+    marginTop: 8,
     fontSize: 12,
     color: '$primaryBlack',
     fontWeight: '600',

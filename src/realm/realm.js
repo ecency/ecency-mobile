@@ -1,5 +1,5 @@
 import sha256 from 'crypto-js/sha256';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import parseVersionNumber from '../utils/parseVersionNumber';
 
 // CONSTANTS
@@ -122,7 +122,7 @@ export const removeAllSCAccounts = async () => {
 export const setDraftPost = async (fields, username, draftId) => {
   try {
     let draft = await getItemFromStorage(DRAFT_SCHEMA);
-    let timestamp = new Date().getTime();
+    const timestamp = new Date().getTime();
 
     const data = {
       username,
@@ -134,7 +134,7 @@ export const setDraftPost = async (fields, username, draftId) => {
     };
 
     if (draft && draft.some((e) => e.username === username)) {
-      //check if entry esist
+      // check if entry esist
       const draftIndex = draft.findIndex(
         (item) => draftId === undefined || item.draftId === draftId,
       );
@@ -280,31 +280,6 @@ export const setPinCodeOpen = async (status) => {
     await setItemToStorage(SETTINGS_SCHEMA, setting);
 
     return true;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const setTheme = async (isDarkTheme) => {
-  try {
-    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-
-    setting.isDarkTheme = isDarkTheme;
-    await setItemToStorage(SETTINGS_SCHEMA, setting);
-
-    return true;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const getTheme = async () => {
-  try {
-    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting) {
-      return setting.isDarkTheme;
-    }
-    return false;
   } catch (error) {
     return error;
   }

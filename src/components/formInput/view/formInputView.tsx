@@ -13,21 +13,20 @@ import { getResizedAvatar } from '../../../utils/image';
 // Styles
 import styles from './formInputStyles';
 
-
 interface Props extends TextInputProps {
-  type:string;
-  isFirstImage:boolean;
-  isEditable?:boolean;
-  leftIconName?:string;
-  rightIconName?:string;
-  iconType?:string;
-  wrapperStyle:ViewStyle;
-  height:number;
-  inputStyle:TextStyle;
-  isValid:boolean;
-  onChange?:(value:string)=>void;
-  onFocus?:()=>void;
-  onBlur?:()=>void;
+  type: string;
+  isFirstImage: boolean;
+  isEditable?: boolean;
+  leftIconName?: string;
+  rightIconName?: string;
+  iconType?: string;
+  wrapperStyle: ViewStyle;
+  height: number;
+  inputStyle: TextStyle;
+  isValid: boolean;
+  onChange?: (value: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 const FormInputView = ({
@@ -48,7 +47,7 @@ const FormInputView = ({
   onBlur,
   onFocus,
   ...props
-}:Props) => {
+}: Props) => {
   const [_value, setValue] = useState(value || '');
   const [inputBorderColor, setInputBorderColor] = useState('#e7e7e7');
   const [_isValid, setIsValid] = useState(true);
@@ -65,7 +64,7 @@ const FormInputView = ({
 
   const _handleOnFocus = () => {
     setInputBorderColor('#357ce6');
-    if(onFocus){
+    if (onFocus) {
       onFocus();
     }
   };

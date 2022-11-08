@@ -22,7 +22,7 @@ const PostPlaceHolder = () => {
               colorFilters={[
                 {
                   keypath: 'layer1',
-                  color: color,
+                  color,
                 },
               ]}
             />

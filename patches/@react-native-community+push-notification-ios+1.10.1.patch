@@ -1,0 +1,22 @@
+diff --git a/node_modules/@react-native-community/push-notification-ios/android/build.gradle b/node_modules/@react-native-community/push-notification-ios/android/build.gradle
+index 3231b29..c956229 100644
+--- a/node_modules/@react-native-community/push-notification-ios/android/build.gradle
++++ b/node_modules/@react-native-community/push-notification-ios/android/build.gradle
+@@ -10,7 +10,7 @@ buildscript {
+     }
+     repositories {
+         google()
+-        jcenter()
++        mavenCentral() //patched
+     }
+     dependencies {
+         classpath 'com.android.tools.build:gradle:3.2.1'
+@@ -24,7 +24,7 @@ allprojects {
+     repositories {
+         mavenLocal()
+         google()
+-        jcenter()
++        mavenCentral() //patched
+         maven {
+             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+             url "$rootDir/../node_modules/react-native/android"

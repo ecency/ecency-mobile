@@ -6,12 +6,10 @@ import Config from 'react-native-config';
 import get from 'lodash/get';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
 
-
 // Actions & Services
-import { navigate } from '../../../navigation/service';
-import {
-  updatePinCode,
-} from '../../../providers/hive/auth';
+import { useNavigation } from '@react-navigation/native';
+import RootNavigation from '../../../navigation/rootNavigation';
+import { updatePinCode } from '../../../providers/hive/auth';
 import {
   isPinCodeOpen,
   isRenderRequired,
@@ -33,19 +31,15 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 import MigrationHelpers from '../../../utils/migrationHelpers';
 
 // Component
-import { withNavigation } from '@react-navigation/compat';
 import PinCodeView from '../children/pinCodeView';
-
 
 class PinCodeContainer extends Component {
   screenRef = null;
 
-  
   constructor(props) {
     super(props);
 
     this.state = {
-      isExistUser: null,
       informationText: '',
       newPinCode: null,
       isOldPinVerified: get(props.pinCodeParams, 'isOldPinVerified', false),
@@ -54,10 +48,8 @@ class PinCodeContainer extends Component {
     };
   }
 
-
-  //sets initial pin code screen label based on oldPinVerified param/state
+  // sets initial pin code screen label based on oldPinVerified param/state
   componentDidMount() {
-
     const { intl } = this.props;
     const { isOldPinVerified } = this.state;
 
@@ -100,7 +92,7 @@ class PinCodeContainer extends Component {
       });
       console.log('successfully passed biometric auth');
 
-      //code gets here means biometeric succeeded
+      // code gets here means biometeric succeeded
       if (this.screenRef) {
         const encPin = encUnlockPin || applicationPinCode;
         const verifiedPin = decryptKey(encPin, Config.PIN_KEY, this._onDecryptFail);
@@ -113,9 +105,9 @@ class PinCodeContainer extends Component {
     FingerprintScanner.release();
   };
 
-  //this function updates realm with appropriate master key required for encyrption
-  //this function is important: must run while chaning pin
-  //and even logging in with existing pin code
+  // this function updates realm with appropriate master key required for encyrption
+  // this function is important: must run while chaning pin
+  // and even logging in with existing pin code
 
   _updatePinCodeRealm = async (pinData) => {
     try {
@@ -134,9 +126,8 @@ class PinCodeContainer extends Component {
     }
   };
 
-
-  //routine for checking and setting new pin code, same routine is used for
-  //setting pin for the first time
+  // routine for checking and setting new pin code, same routine is used for
+  // setting pin for the first time
   _resetPinCode = (pin) =>
     new Promise((resolve, reject) => {
       const {
@@ -148,20 +139,18 @@ class PinCodeContainer extends Component {
       } = this.props;
       const { isOldPinVerified, oldPinCode, newPinCode } = this.state;
 
-
-      //if old pin already verified, check new pin setup conditions.
+      // if old pin already verified, check new pin setup conditions.
       if (isOldPinVerified) {
-        //if newPin already exist and pin is a valid pin, compare and set new pin
+        // if newPin already exist and pin is a valid pin, compare and set new pin
         if (pin !== undefined && pin === newPinCode) {
-
           this._savePinCode(pin);
           if (callback) {
             callback(pin, oldPinCode);
           }
 
           if (navigateTo) {
-            navigate({
-              routeName: navigateTo,
+            RootNavigation.navigate({
+              name: navigateTo,
               params: navigateParams,
             });
           } else {
@@ -184,7 +173,7 @@ class PinCodeContainer extends Component {
           resolve();
         }
 
-        //if newPinCode do yet exist, save it in state and prompt user to reneter pin.
+        // if newPinCode do yet exist, save it in state and prompt user to reneter pin.
         else {
           this.setState({
             informationText: intl.formatMessage({
@@ -198,16 +187,14 @@ class PinCodeContainer extends Component {
 
       // if old pin code is not yet verified attempt to verify code
       else {
+        const unlockPin = decryptKey(encUnlockPin, Config.PIN_KEY);
 
-        let unlockPin = decryptKey(encUnlockPin, Config.PIN_KEY)
-
-        //check if pins match
+        // check if pins match
         if (unlockPin !== pin) {
           const err = new Error('alert.invalid_pincode');
           reject(err);
           return;
         }
-
 
         this.setState({ isOldPinVerified: true });
         this.setState({
@@ -218,11 +205,8 @@ class PinCodeContainer extends Component {
           oldPinCode: pin,
         });
         resolve();
-
       }
     });
-
-
 
   _onRefreshTokenFailed = (error) => {
     setTimeout(() => {
@@ -241,9 +225,7 @@ class PinCodeContainer extends Component {
     }, 300);
   };
 
-
-
-  //verifies is the pin entered is right or wrong, also migrates to newer locking method
+  // verifies is the pin entered is right or wrong, also migrates to newer locking method
   _verifyPinCode = async (pin) => {
     try {
       const {
@@ -253,57 +235,59 @@ class PinCodeContainer extends Component {
         encUnlockPin,
         applicationPinCode,
         pinCodeParams: { navigateTo, navigateParams, callback },
-        navigation
+        navigation,
       } = this.props;
       const { oldPinCode } = this.state;
 
-      let unlockPin = encUnlockPin ?
-        decryptKey(encUnlockPin, Config.PIN_KEY) : decryptKey(applicationPinCode, Config.PIN_KEY);
+      const unlockPin = encUnlockPin
+        ? decryptKey(encUnlockPin, Config.PIN_KEY)
+        : decryptKey(applicationPinCode, Config.PIN_KEY);
 
-
-      //check if pins match
+      // check if pins match
       if (unlockPin !== pin) {
-        throw new Error(intl.formatMessage({
-          id: 'alert.invalid_pincode',
-        }));
+        throw new Error(
+          intl.formatMessage({
+            id: 'alert.invalid_pincode',
+          }),
+        );
       }
 
-      //migrate data to default pin if encUnlockPin is not set.
+      // migrate data to default pin if encUnlockPin is not set.
       if (!encUnlockPin) {
-        await MigrationHelpers.migrateUserEncryption(dispatch, currentAccount, applicationPinCode, this._onRefreshTokenFailed);
+        await MigrationHelpers.migrateUserEncryption(
+          dispatch,
+          currentAccount,
+          applicationPinCode,
+          this._onRefreshTokenFailed,
+        );
       }
 
-
-      //on successful code verification run requested operation passed as props
+      // on successful code verification run requested operation passed as props
       if (callback) {
         callback(pin, oldPinCode);
       }
 
       if (navigateTo) {
-        navigate({
-          routeName: navigateTo,
+        RootNavigation.navigate({
+          name: navigateTo,
           params: navigateParams,
         });
       } else {
         navigation.goBack();
       }
-      
 
       return true;
     } catch (err) {
-      throw err
+      throw err;
     }
-  }
+  };
 
-
-  //encryptes and saved unlockPin
+  // encryptes and saved unlockPin
   _savePinCode = (pin) => {
     const { dispatch } = this.props;
     const encryptedPin = encryptKey(pin, Config.PIN_KEY);
     dispatch(setEncryptedUnlockPin(encryptedPin));
   };
-
-
 
   _forgotPinCode = async () => {
     const { otherAccounts, dispatch, navigation } = this.props;
@@ -320,8 +304,7 @@ class PinCodeContainer extends Component {
         }
         dispatch(logoutDone());
         dispatch(isPinCodeOpen(false));
-        dispatch(isRenderRequired(true))
-
+        dispatch(isRenderRequired(true));
       })
       .catch((err) => {
         console.warn('Failed to remove user data', err);
@@ -332,11 +315,11 @@ class PinCodeContainer extends Component {
     console.warn('Failed to set pin: ', error);
     const { intl } = this.props;
     const { failedAttempts } = this.state;
-    //increment failed attempt
+    // increment failed attempt
     const totalAttempts = failedAttempts + 1;
 
     if (totalAttempts < 3) {
-      //shwo failure alert box
+      // shwo failure alert box
       Alert.alert(
         intl.formatMessage({
           id: 'alert.warning',
@@ -360,7 +343,7 @@ class PinCodeContainer extends Component {
 
       return false;
     } else {
-      //wipe user data
+      // wipe user data
       this._forgotPinCode();
       return true;
     }
@@ -391,8 +374,7 @@ class PinCodeContainer extends Component {
         await this._verifyPinCode(pin);
       }
 
-      return true
-
+      return true;
     } catch (error) {
       return this._handleFailedAttempt(error);
     }
@@ -447,4 +429,9 @@ const mapStateToProps = (state) => ({
   isBiometricEnabled: state.application.isBiometricEnabled,
 });
 
-export default withNavigation(injectIntl(connect(mapStateToProps)(PinCodeContainer)));
+const mapHooksToProps = (props) => {
+  const navigation = useNavigation();
+  return <PinCodeContainer {...props} navigation={navigation} />;
+};
+
+export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

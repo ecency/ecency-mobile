@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ActivityIndicator, Alert, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { FlatList } from 'react-native-gesture-handler';
 import ESStyleSheet from 'react-native-extended-stylesheet';
@@ -51,7 +51,7 @@ const ThumbSelectionContent = ({
     }
   }, [body]);
 
-  //VIEW_RENDERERS
+  // VIEW_RENDERERS
   const _renderImageItem = ({ item, index }: { item: string; index: number }) => {
     const _onPress = () => {
       onThumbSelection(item);

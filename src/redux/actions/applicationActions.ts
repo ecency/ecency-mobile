@@ -5,6 +5,7 @@ import {
   CHANGE_FOLLOW_NOTIFICATION,
   CHANGE_MENTION_NOTIFICATION,
   CHANGE_FAVORITE_NOTIFICATION,
+  CHANGE_BOOKMARK_NOTIFICATION,
   CHANGE_REBLOG_NOTIFICATION,
   CHANGE_TRANSFERS_NOTIFICATION,
   CHANGE_ALL_NOTIFICATION_SETTINGS,
@@ -110,6 +111,12 @@ export const changeNotificationSettings = (payload) => {
         type: CHANGE_FAVORITE_NOTIFICATION,
       };
 
+    case 'notification.bookmark':
+      return {
+        payload: payload.action,
+        type: CHANGE_BOOKMARK_NOTIFICATION,
+      };
+
     case 'notification.reblog':
       return {
         payload: payload.action,
@@ -133,7 +140,7 @@ export const changeNotificationSettings = (payload) => {
   }
 };
 
-export const isDarkTheme = (payload) => ({
+export const setIsDarkTheme = (payload) => ({
   payload,
   type: IS_DARK_THEME,
 });

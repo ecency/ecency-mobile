@@ -18,7 +18,7 @@ const SnippetItem = ({ id, title, body, index, onEditPress }: SnippetItemProps) 
   const snippetsDeleteMutation = useSnippetDeleteMutation();
 
   const _onRemovePress = () => {
-    //asks for remvoe confirmation and run remove routing upon confirming
+    // asks for remvoe confirmation and run remove routing upon confirming
     if (id) {
       Alert.alert(
         intl.formatMessage({ id: 'snippets.title_remove_confirmation' }),

@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import forEach from 'lodash/forEach';
 
 // Components
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { BasicHeader, FilterBar, VotersDisplay } from '../../../components';
 
 import AccountListContainer from '../../../containers/accountListContainer';
@@ -78,4 +79,4 @@ const VotersScreen = ({ route }) => {
   );
 };
 
-export default VotersScreen;
+export default gestureHandlerRootHOC(VotersScreen);

@@ -7,9 +7,9 @@ export default EStyleSheet.create({
     backgroundColor: '$pureWhite',
   },
   activityIndicator: {
-    position:'absolute', 
-    alignSelf:'center', 
-    top:0, 
-    bottom:0
-  }
+    position: 'absolute',
+    alignSelf: 'center',
+    top: 0,
+    bottom: 0,
+  },
 });

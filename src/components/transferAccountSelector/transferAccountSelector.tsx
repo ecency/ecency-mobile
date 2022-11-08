@@ -44,7 +44,7 @@ const TransferAccountSelector = ({
   setIsUsernameValid,
   memo,
   setMemo,
-}): JSX.Element => {
+}) => {
   const intl = useIntl();
 
   const _handleOnDropdownChange = (value) => {

@@ -101,7 +101,7 @@ export default (url) => {
     };
   }
 
-  let profile = url.match(/^https?:\/\/(.*)\/(@[\w.\d-]+)$/);
+  const profile = url.match(/^https?:\/\/(.*)\/(@[\w.\d-]+)$/);
   if (profile) {
     if (profile && profile.length === 3) {
       return {
@@ -125,12 +125,9 @@ export default (url) => {
   }
 
   if (
-    [
-      'https://ecency.com',
-      'https://hive.blog',
-      'https://peakd.com',
-      'https://leofinance.io',
-    ].some((x) => url.startsWith(x))
+    ['https://ecency.com', 'https://hive.blog', 'https://peakd.com', 'https://leofinance.io'].some(
+      (x) => url.startsWith(x),
+    )
   ) {
     return parseAuthorPermlink(url);
   }

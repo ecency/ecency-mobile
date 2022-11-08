@@ -4,13 +4,12 @@ import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
 // Components
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { Comment, TextButton } from '../..';
 
 // Styles
 import styles from './commentStyles';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { OptionsModal } from '../../atoms';
-
 
 const CommentsView = ({
   avatarSize,
@@ -36,12 +35,11 @@ const CommentsView = ({
   flatListProps,
   openReplyThread,
   fetchedAt,
-  incrementRepliesCount
+  incrementRepliesCount,
 }) => {
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
   const commentMenu = useRef<any>();
-
 
   const _openCommentMenu = (item) => {
     if (commentMenu.current) {
@@ -52,21 +50,20 @@ const CommentsView = ({
 
   const _openReplyThread = (item) => {
     if (item && openReplyThread) {
-      openReplyThread(item)
+      openReplyThread(item);
     }
-
-  }
+  };
 
   const _readMoreComments = () => {
     if (comments[0] && openReplyThread) {
-      openReplyThread(comments[0])
+      openReplyThread(comments[0]);
     }
   };
 
   const _onMenuItemPress = (index) => {
-    handleOnPressCommentMenu(index, selectedComment)
+    handleOnPressCommentMenu(index, selectedComment);
     setSelectedComment(null);
-  }
+  };
 
   const menuItems = [
     intl.formatMessage({ id: 'post.copy_link' }),
@@ -74,7 +71,6 @@ const CommentsView = ({
     intl.formatMessage({ id: 'post.open_thread' }),
     intl.formatMessage({ id: 'alert.cancel' }),
   ];
-
 
   if (!hideManyCommentsButton && hasManyComments) {
     return (
@@ -86,7 +82,6 @@ const CommentsView = ({
       />
     );
   }
-
 
   const _renderItem = ({ item }) => {
     return (
@@ -115,29 +110,30 @@ const CommentsView = ({
         fetchedAt={fetchedAt}
         incrementRepliesCount={incrementRepliesCount}
       />
-    )
+    );
   };
 
-
-  const styleOerride = commentNumber > 1 ? {
-    backgroundColor: EStyleSheet.value('$primaryLightBackground'),
-    marginTop: 8,
-  } : null
+  const styleOerride =
+    commentNumber > 1
+      ? {
+          backgroundColor: EStyleSheet.value('$primaryLightBackground'),
+          marginTop: 8,
+        }
+      : null;
 
   const _renderEmptyContent = () => {
-    if(commentNumber > 1){
+    if (commentNumber > 1) {
       return;
     }
     const _onPress = () => {
-      handleOnReplyPress()
-    }
+      handleOnReplyPress();
+    };
     return (
       <Text onPress={_onPress} style={styles.emptyText}>
-        {intl.formatMessage({ id: "comments.no_comments" })}
+        {intl.formatMessage({ id: 'comments.no_comments' })}
       </Text>
-    )
-  }
-
+    );
+  };
 
   return (
     <Fragment>

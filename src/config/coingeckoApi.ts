@@ -8,5 +8,4 @@ const coingeckoApi = axios.create({
   baseURL: `${BASE_URL}/${PATH_API}/${API_VERSION}`,
 });
 
-
 export default coingeckoApi;

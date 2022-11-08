@@ -37,6 +37,7 @@ class ToastNotification extends Component {
         }
       });
   };
+
   _hideToast = () => {
     const { isTop } = this.props;
     const finalPosition = isTop ? { top: 0 } : { bottom: 0 };

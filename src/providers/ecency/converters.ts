@@ -1,6 +1,12 @@
 import { COIN_IDS } from '../../constants/defaultCoins';
 import { Referral } from '../../models';
-import { CommentHistoryItem, LatestMarketPrices, LatestQuotes, QuoteItem, ReferralStat } from './ecency.types';
+import {
+  CommentHistoryItem,
+  LatestMarketPrices,
+  LatestQuotes,
+  QuoteItem,
+  ReferralStat,
+} from './ecency.types';
 
 export const convertReferral = (rawData: any) => {
   return {
@@ -19,23 +25,23 @@ export const convertReferralStat = (rawData: any) => {
   } as ReferralStat;
 };
 
-export const convertQuoteItem = (rawData:any, currencyRate:number) => {
-  if(!rawData){
+export const convertQuoteItem = (rawData: any, currencyRate: number) => {
+  if (!rawData) {
     return null;
   }
   return {
-    price:rawData.price * currencyRate,
-    percentChange:rawData.percent_change,
-    lastUpdated:rawData.last_updated,
-  } as QuoteItem
-}
+    price: rawData.price * currencyRate,
+    percentChange: rawData.percent_change,
+    lastUpdated: rawData.last_updated,
+  } as QuoteItem;
+};
 
-export const convertLatestQuotes = (rawData: any, currencyRate:number) => {
+export const convertLatestQuotes = (rawData: any, currencyRate: number) => {
   return {
-    [COIN_IDS.HIVE]:convertQuoteItem(rawData.hive.quotes.usd, currencyRate),
-    [COIN_IDS.HP]:convertQuoteItem(rawData.hive.quotes.usd, currencyRate),
-    [COIN_IDS.HBD]:convertQuoteItem(rawData.hbd.quotes.usd, currencyRate),
-    [COIN_IDS.ECENCY]:convertQuoteItem(rawData.estm.quotes.usd, currencyRate)
+    [COIN_IDS.HIVE]: convertQuoteItem(rawData.hive.quotes.usd, currencyRate),
+    [COIN_IDS.HP]: convertQuoteItem(rawData.hive.quotes.usd, currencyRate),
+    [COIN_IDS.HBD]: convertQuoteItem(rawData.hbd.quotes.usd, currencyRate),
+    [COIN_IDS.ECENCY]: convertQuoteItem(rawData.estm.quotes.usd, currencyRate),
   } as LatestQuotes;
 };
 

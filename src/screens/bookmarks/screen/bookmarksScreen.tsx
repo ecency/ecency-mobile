@@ -25,7 +25,6 @@ const BookmarksScreen = ({
   const [activeTab, setActiveTab] = useState(0);
   const actionSheetRef = useRef(null);
 
-
   const _renderItem = (item, index, itemType) => {
     const isFavorites = itemType === 'favorites';
     const text = isFavorites ? item.account : `${item.author}/${item.permlink}`;
@@ -82,9 +81,9 @@ const BookmarksScreen = ({
     );
   };
   const _handleLongPress = (_selectedItemId) => {
-    if(actionSheetRef.current){
+    if (actionSheetRef.current) {
       setSelectedItemId(_selectedItemId);
-      actionSheetRef.current.show()
+      actionSheetRef.current.show();
     }
   };
 

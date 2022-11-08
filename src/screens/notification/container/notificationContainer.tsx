@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
 // Constants
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import ROUTES from '../../../constants/routeNames';
 
 // Components
@@ -55,7 +56,7 @@ const NotificationContainer = ({ navigation }) => {
   useEffect(() => {
     if (currentAccount.unread_activity_count > unreadCountRef.current) {
       queryClient.invalidateQueries([QUERIES.NOTIFICATIONS.GET]);
-      //TODO: fetch new notifications instead
+      // TODO: fetch new notifications instead
     }
     unreadCountRef.current = currentAccount.unread_activity_count;
   }, [currentAccount.unread_activity_count]);
@@ -115,7 +116,7 @@ const NotificationContainer = ({ navigation }) => {
     dispatch(showProfileModal(username));
   };
 
-  //TODO: handle mark as read mutations
+  // TODO: handle mark as read mutations
   const _readAllNotification = () => {
     if (!isConnected) {
       return;
@@ -146,5 +147,5 @@ const NotificationContainer = ({ navigation }) => {
   );
 };
 
-export default NotificationContainer;
+export default gestureHandlerRootHOC(NotificationContainer);
 /* eslint-enable */

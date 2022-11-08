@@ -1,0 +1,171 @@
+diff --git a/node_modules/react-native-scrollable-tab-view/DefaultTabBar.js b/node_modules/react-native-scrollable-tab-view/DefaultTabBar.js
+index da58b52..c16e40b 100644
+--- a/node_modules/react-native-scrollable-tab-view/DefaultTabBar.js
++++ b/node_modules/react-native-scrollable-tab-view/DefaultTabBar.js
+@@ -1,6 +1,7 @@
+ const React = require('react');
+ const { ViewPropTypes } = ReactNative = require('react-native');
+ const PropTypes = require('prop-types');
++const { TextPropTypes } = require('deprecated-react-native-prop-types');
+ const createReactClass = require('create-react-class');
+ const {
+   StyleSheet,
+@@ -18,7 +19,7 @@ const DefaultTabBar = createReactClass({
+     backgroundColor: PropTypes.string,
+     activeTextColor: PropTypes.string,
+     inactiveTextColor: PropTypes.string,
+-    textStyle: Text.propTypes.style,
++    textStyle: TextPropTypes.style,
+     tabStyle: ViewPropTypes.style,
+     renderTab: PropTypes.func,
+     underlineStyle: ViewPropTypes.style,
+diff --git a/node_modules/react-native-scrollable-tab-view/Example/android/build.gradle b/node_modules/react-native-scrollable-tab-view/Example/android/build.gradle
+index eed9972..61bdb60 100644
+--- a/node_modules/react-native-scrollable-tab-view/Example/android/build.gradle
++++ b/node_modules/react-native-scrollable-tab-view/Example/android/build.gradle
+@@ -2,7 +2,7 @@
+ 
+ buildscript {
+     repositories {
+-        jcenter()
++        mavenCentral() //patched
+     }
+     dependencies {
+         classpath 'com.android.tools.build:gradle:2.2.3'
+@@ -15,7 +15,7 @@ buildscript {
+ allprojects {
+     repositories {
+         mavenLocal()
+-        jcenter()
++        mavenCentral() //patched
+         maven {
+             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+             url "$rootDir/../node_modules/react-native/android"
+diff --git a/node_modules/react-native-scrollable-tab-view/Example/package.json b/node_modules/react-native-scrollable-tab-view/Example/package.json
+index 43348c7..3b037c0 100644
+--- a/node_modules/react-native-scrollable-tab-view/Example/package.json
++++ b/node_modules/react-native-scrollable-tab-view/Example/package.json
+@@ -1,26 +1,78 @@
+ {
+-	"name": "Example",
+-	"version": "0.0.1",
+-	"private": true,
+-	"scripts": {
+-		"start": "node node_modules/react-native/local-cli/cli.js start",
+-		"test": "jest"
+-	},
+-	"dependencies": {
+-		"create-react-class": "^15.6.2",
+-		"react": "16.0.0",
+-		"react-native": "0.48.4",
+-		"react-native-scrollable-tab-view": "file:../",
+-		"react-native-vector-icons": "^4.4.0",
+-		"react-navigation": "^1.0.0-beta.13"
+-	},
+-	"devDependencies": {
+-		"babel-jest": "21.2.0",
+-		"babel-preset-react-native": "4.0.0",
+-		"jest": "21.2.1",
+-		"react-test-renderer": "16.0.0"
+-	},
+-	"jest": {
+-		"preset": "react-native"
+-	}
++  "name": "Example",
++  "version": "0.0.1",
++  "private": true,
++  "scripts": {
++    "start": "node node_modules/react-native/local-cli/cli.js start",
++    "test": "jest"
++  },
++  "dependencies": {
++    "create-react-class": "^15.6.2",
++    "react": "16.0.0",
++    "react-native": "0.48.4",
++    "react-native-scrollable-tab-view": "file:../",
++    "react-native-vector-icons": "^4.4.0",
++    "react-navigation": "^1.0.0-beta.13"
++  },
++  "devDependencies": {
++    "babel-jest": "21.2.0",
++    "babel-preset-react-native": "4.0.0",
++    "jest": "21.2.1",
++    "react-test-renderer": "16.0.0"
++  },
++  "jest": {
++    "preset": "react-native"
++  },
++  "react-native": {
++    "zlib": "browserify-zlib",
++    "console": "console-browserify",
++    "constants": "constants-browserify",
++    "crypto": "react-native-crypto",
++    "dns": "dns.js",
++    "net": "react-native-tcp",
++    "domain": "domain-browser",
++    "http": "@tradle/react-native-http",
++    "https": "https-browserify",
++    "os": "react-native-os",
++    "path": "path-browserify",
++    "querystring": "querystring-es3",
++    "fs": "react-native-level-fs",
++    "_stream_transform": "readable-stream/transform",
++    "_stream_readable": "readable-stream/readable",
++    "_stream_writable": "readable-stream/writable",
++    "_stream_duplex": "readable-stream/duplex",
++    "_stream_passthrough": "readable-stream/passthrough",
++    "dgram": "react-native-udp",
++    "stream": "stream-browserify",
++    "timers": "timers-browserify",
++    "tty": "tty-browserify",
++    "vm": "vm-browserify",
++    "tls": false
++  },
++  "browser": {
++    "zlib": "browserify-zlib",
++    "console": "console-browserify",
++    "constants": "constants-browserify",
++    "crypto": "react-native-crypto",
++    "dns": "dns.js",
++    "net": "react-native-tcp",
++    "domain": "domain-browser",
++    "http": "@tradle/react-native-http",
++    "https": "https-browserify",
++    "os": "react-native-os",
++    "path": "path-browserify",
++    "querystring": "querystring-es3",
++    "fs": "react-native-level-fs",
++    "_stream_transform": "readable-stream/transform",
++    "_stream_readable": "readable-stream/readable",
++    "_stream_writable": "readable-stream/writable",
++    "_stream_duplex": "readable-stream/duplex",
++    "_stream_passthrough": "readable-stream/passthrough",
++    "dgram": "react-native-udp",
++    "stream": "stream-browserify",
++    "timers": "timers-browserify",
++    "tty": "tty-browserify",
++    "vm": "vm-browserify",
++    "tls": false
++  }
+ }
+diff --git a/node_modules/react-native-scrollable-tab-view/ScrollableTabBar.js b/node_modules/react-native-scrollable-tab-view/ScrollableTabBar.js
+index 1500b2d..0be6fea 100644
+--- a/node_modules/react-native-scrollable-tab-view/ScrollableTabBar.js
++++ b/node_modules/react-native-scrollable-tab-view/ScrollableTabBar.js
+@@ -1,6 +1,7 @@
+ const React = require('react');
+ const { ViewPropTypes } = ReactNative = require('react-native');
+ const PropTypes = require('prop-types');
++const { TextPropTypes } = require('deprecated-react-native-prop-types');
+ const createReactClass = require('create-react-class');
+ const {
+   View,
+@@ -27,7 +28,7 @@ const ScrollableTabBar = createReactClass({
+     style: ViewPropTypes.style,
+     tabStyle: ViewPropTypes.style,
+     tabsContainerStyle: ViewPropTypes.style,
+-    textStyle: Text.propTypes.style,
++    textStyle: TextPropTypes.style,
+     renderTab: PropTypes.func,
+     underlineStyle: ViewPropTypes.style,
+     onScroll: PropTypes.func,

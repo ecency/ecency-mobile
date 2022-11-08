@@ -6,7 +6,7 @@ import { injectIntl } from 'react-intl';
 // Utils
 import FastImage from 'react-native-fast-image';
 import { getTimeFromNow } from '../../../utils/time';
-//import bugsnagInstance from '../../../config/bugsnag';
+// import bugsnagInstance from '../../../config/bugsnag';
 
 // Components
 import { PostHeaderDescription } from '../../postElements';
@@ -47,7 +47,7 @@ const PostCardView = ({
   isMuted,
   pageType,
 }) => {
-  //local state to manage fake upvote if available
+  // local state to manage fake upvote if available
   const activeVotesCount = activeVotes ? activeVotes.length : 0;
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
   const [calcImgHeight, setCalcImgHeight] = useState(imageHeight || 300);
@@ -75,13 +75,13 @@ const PostCardView = ({
   };
 
   const _handleCacheVoteIncrement = () => {
-    //fake increment vote using based on local change
+    // fake increment vote using based on local change
     setCacheVoteIcrement(1);
   };
 
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
 
-  var images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
+  let images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
   if (content.thumbnail) {
     if (isMuted || (nsfw !== '0' && content.nsfw)) {
       images = { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };

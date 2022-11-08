@@ -2,14 +2,13 @@
 import React, { useRef, Fragment, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { useIntl } from 'react-intl';
-import { withNavigation } from '@react-navigation/compat';
 import get from 'lodash/get';
 
 // Components
-import { Icon, MainButton, DropdownButton, HorizontalIconList, WalletLineItem } from '../..';
+import { useNavigation } from '@react-navigation/native';
+import { Icon, MainButton, DropdownButton, WalletLineItem } from '../..';
 
 // Constants
-import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
 import { default as ROUTES } from '../../../constants/routeNames';
 
 // Styles
@@ -19,7 +18,6 @@ const WalletHeaderView = ({
   claim,
   isClaiming,
   handleOnDropdownSelected,
-  navigation,
   unclaimedBalance,
   userBalance,
   type = '',
@@ -35,6 +33,8 @@ const WalletHeaderView = ({
   reload,
   refreshing,
 }) => {
+  const navigation = useNavigation();
+
   const intl = useIntl();
   const dropdownRef = useRef();
 
@@ -147,5 +147,5 @@ const WalletHeaderView = ({
   );
 };
 
-export default withNavigation(WalletHeaderView);
+export default WalletHeaderView;
 /* eslint-enable */

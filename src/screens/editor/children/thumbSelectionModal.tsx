@@ -20,7 +20,7 @@ const ThumbSelectionModal = ({ onThumbSelection, thumbUrl }: ThumbSelectionModal
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const sheetModalRef = useRef<ActionSheet>();
 
-  //CALLBACK_METHODS
+  // CALLBACK_METHODS
   useImperativeHandle(ref, () => ({
     show: (postBody: string) => {
       console.log('Showing action modal');
@@ -44,7 +44,7 @@ const ThumbSelectionModal = ({ onThumbSelection, thumbUrl }: ThumbSelectionModal
     sheetModalRef.current?.setModalVisible(false);
   };
 
-  //VIEW_RENDERERS
+  // VIEW_RENDERERS
   const _renderImageItem = ({ item, index }: { item: string; index: number }) => {
     const _onPress = () => {
       _onSelection(index);

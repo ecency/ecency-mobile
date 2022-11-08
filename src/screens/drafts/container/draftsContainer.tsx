@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
 // Services and Actions
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import {
   useDraftDeleteMutation,
   useGetDraftsQuery,
@@ -24,10 +25,8 @@ import DraftsScreen from '../screen/draftsScreen';
 const DraftsContainer = ({ currentAccount, navigation, route }) => {
   const { mutate: deleteDraft, isLoading: isDeletingDraft } = useDraftDeleteMutation();
   const { mutate: deleteSchedule, isLoading: isDeletingSchedule } = useScheduleDeleteMutation();
-  const {
-    mutate: moveScheduleToDrafts,
-    isLoading: isMovingToDrafts,
-  } = useMoveScheduleToDraftsMutation();
+  const { mutate: moveScheduleToDrafts, isLoading: isMovingToDrafts } =
+    useMoveScheduleToDraftsMutation();
 
   const {
     isLoading: isLoadingDrafts,
@@ -87,4 +86,4 @@ const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default injectIntl(connect(mapStateToProps)(DraftsContainer));
+export default gestureHandlerRootHOC(injectIntl(connect(mapStateToProps)(DraftsContainer)));

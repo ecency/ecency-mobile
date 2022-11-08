@@ -101,10 +101,14 @@ class PowerDownView extends Component {
     const { hivePerMVests } = this.props;
     const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
     const parsedHpValue = parseFloat(value.toString().replace(',', '.'));
-    const amountValid =
-      Number.isNaN(parsedHpValue) || parsedHpValue < 0.0 || parsedHpValue >= totalHP ? false : true;
+    const amountValid = !(
+      Number.isNaN(parsedHpValue) ||
+      parsedHpValue < 0.0 ||
+      parsedHpValue >= totalHP
+    );
     return amountValid;
   };
+
   _handleAmountChange = ({ hpValue, availableVestingShares }) => {
     const { hivePerMVests } = this.props;
     const parsedValue = parseFloat(hpValue.toString().replace(',', '.'));
@@ -217,7 +221,7 @@ class PowerDownView extends Component {
         percent: item.weight / 100,
         autoPowerUp: item.autoPowerUp,
       }));
-      let latestDestinationAccount = destinationAccounts[destinationAccounts.length - 1];
+      const latestDestinationAccount = destinationAccounts[destinationAccounts.length - 1];
       if (latestDestinationAccount.username && latestDestinationAccount.percent) {
         this._handleOnSubmit(
           latestDestinationAccount.username,
@@ -282,6 +286,7 @@ class PowerDownView extends Component {
   _handleSetDisableDone = (value) => {
     this.setState({ disableDone: value });
   };
+
   _handleOnDropdownChange = (value) => {
     const { fetchBalance } = this.props;
 
@@ -419,12 +424,12 @@ class PowerDownView extends Component {
             {intl.formatMessage({ id: 'transfer.powering_down' })}
           </Text>
           <Text style={styles.sectionSubheading}>
-            {intl.formatMessage({ id: 'transfer.powering_down_subheading' }) +
-              '\n' +
-              intl.formatMessage(
-                { id: 'transfer.powering_down_info' },
-                { days: days, hp: poweringDownFund },
-              )}
+            {`${intl.formatMessage({
+              id: 'transfer.powering_down_subheading',
+            })}\n${intl.formatMessage(
+              { id: 'transfer.powering_down_info' },
+              { days, hp: poweringDownFund },
+            )}`}
           </Text>
         </View>
       );

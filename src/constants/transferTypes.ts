@@ -10,7 +10,7 @@ const DELEGATE = 'delegate';
 const POWER_DOWN = 'power_down';
 const ADDRESS_VIEW = 'address_view';
 const DELEGATE_VESTING_SHARES = 'delegate_vesting_shares';
-const WITHDRAW_VESTING = 'withdraw_vesting'
+const WITHDRAW_VESTING = 'withdraw_vesting';
 
 export default {
   TRANSFER_TOKEN,
@@ -25,5 +25,5 @@ export default {
   POWER_DOWN,
   ADDRESS_VIEW,
   DELEGATE_VESTING_SHARES,
-  WITHDRAW_VESTING
+  WITHDRAW_VESTING,
 };

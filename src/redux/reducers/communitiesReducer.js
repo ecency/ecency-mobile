@@ -27,32 +27,32 @@ const initialState = {
     status: statusMessage.PENDING,
   },
   subscribingCommunitiesInFeedScreen: {
-    //['name']: {
+    // ['name']: {
     //  isSubscribed: false,
     //  loading: false,
     //  error: false,
-    //}
+    // }
   },
   subscribingCommunitiesInCommunitiesScreenDiscoverTab: {
-    //['name']: {
+    // ['name']: {
     //  isSubscribed: false,
     //  loading: false,
     //  error: false,
-    //}
+    // }
   },
   subscribingCommunitiesInCommunitiesScreenJoinedTab: {
-    //['name']: {
+    // ['name']: {
     //  isSubscribed: false,
     //  loading: false,
     //  error: false,
-    //}
+    // }
   },
   subscribingCommunitiesInSearchResultsScreen: {
-    //['name']: {
+    // ['name']: {
     //  isSubscribed: false,
     //  loading: false,
     //  error: false,
-    //}
+    // }
   },
 };
 
