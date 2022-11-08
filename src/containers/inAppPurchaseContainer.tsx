@@ -18,6 +18,7 @@ import { UserAvatar } from '../components';
 
 class InAppPurchaseContainer extends Component {
   purchaseUpdateSubscription: EmitterSubscription | null = null;
+
   purchaseErrorSubscription: EmitterSubscription | null = null;
 
   constructor(props) {
@@ -52,7 +53,7 @@ class InAppPurchaseContainer extends Component {
     try {
       await IAP.initConnection();
       if (Platform.OS === 'android') {
-        await IAP.flushFailedPurchasesCachedAsPendingAndroid()
+        await IAP.flushFailedPurchasesCachedAsPendingAndroid();
       }
 
       await this._consumeAvailablePurchases();
@@ -83,7 +84,7 @@ class InAppPurchaseContainer extends Component {
         // consume item using finishTransactionx
         await IAP.finishTransaction({
           purchase: purchases[i],
-          isConsumable: true
+          isConsumable: true,
         });
       }
     } catch (err) {
@@ -119,7 +120,7 @@ class InAppPurchaseContainer extends Component {
             try {
               const ackResult = await IAP.finishTransaction({
                 purchase,
-                isConsumable: true
+                isConsumable: true,
               });
               console.info('ackResult', ackResult);
             } catch (ackErr) {
@@ -198,7 +199,6 @@ class InAppPurchaseContainer extends Component {
 
     if (sku !== 'freePoints') {
       this.setState({ isProcessing: true });
-
 
       try {
         IAP.requestPurchase(Platform.OS === 'ios' ? { sku } : { skus: [sku] });
