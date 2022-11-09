@@ -19,8 +19,9 @@
 		05B6C49724C306CE00B7FA60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		05B6C4A724C306CE00B7FA60 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 588019232355C26B008397D1 /* AppCenter-Config.plist */; };
 		06844A5529119F05002FCC34 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06844A5429119F05002FCC34 /* BootSplash.storyboard */; };
+		06C79CF7291BC879009303B5 /* hermes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F72CA5290B2D7F003392F3 /* hermes.xcframework */; };
+		06C79CF8291BC879009303B5 /* hermes.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 06F72CA5290B2D7F003392F3 /* hermes.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		06F72CA3290B2159003392F3 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 06F72CA2290B2159003392F3 /* AppDelegate.mm */; };
-		06F72CA6290B2D7F003392F3 /* hermes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F72CA5290B2D7F003392F3 /* hermes.xcframework */; };
 		070D165EE2426D3BFD0F009C /* libPods-Ecency.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A20A4091C647F3817494D39A /* libPods-Ecency.a */; };
 		1CD0B89E258019B600A7D78E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CD0B89B258019B600A7D78E /* GoogleService-Info.plist */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -69,6 +70,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		06C79CF9291BC879009303B5 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				06C79CF8291BC879009303B5 /* hermes.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		58C9F50524CE017800A026DD /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -167,8 +179,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06F72CA6290B2D7F003392F3 /* hermes.xcframework in Frameworks */,
 				05B6C49424C306CE00B7FA60 /* StoreKit.framework in Frameworks */,
+				06C79CF7291BC879009303B5 /* hermes.xcframework in Frameworks */,
 				070D165EE2426D3BFD0F009C /* libPods-Ecency.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -404,6 +416,7 @@
 				3D1F6693773C4541A695BB3C /* Upload source maps to Bugsnag */,
 				1176D7594CFCC98BD864C2C0 /* [CP] Copy Pods Resources */,
 				C690FE879278A17D0AE1C6BF /* [CP-User] [RNFB] Core Configuration */,
+				06C79CF9291BC879009303B5 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
