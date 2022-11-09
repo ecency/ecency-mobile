@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { isLandscape } from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { AppState, NativeEventSubscription, useColorScheme } from 'react-native';
+import { Appearance, AppState, NativeEventSubscription, useColorScheme } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
@@ -52,7 +52,13 @@ export const useInitApplication = () => {
 
   useEffect(() => {
     if (THEME_OPTIONS[colorTheme].value === null) {
-      dispatch(setIsDarkTheme(systemColorScheme === 'dark'));
+      // workaround to avoid hook callback glitch on iOS causing momentary theme flash
+      setTimeout(() => {
+        const sysDarkTheme = Appearance.getColorScheme() === 'dark';
+        if (sysDarkTheme !== isDarkTheme) {
+          dispatch(setIsDarkTheme(sysDarkTheme));
+        }
+      }, 200);
     }
   }, [systemColorScheme]);
 
