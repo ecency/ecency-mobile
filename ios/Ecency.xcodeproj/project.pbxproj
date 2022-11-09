@@ -18,9 +18,9 @@
 		05B6C49424C306CE00B7FA60 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58190B3B23294814000EA0E1 /* StoreKit.framework */; };
 		05B6C49724C306CE00B7FA60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		05B6C4A724C306CE00B7FA60 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 588019232355C26B008397D1 /* AppCenter-Config.plist */; };
+		0604FF82291C1192008F323C /* hermes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F72CA5290B2D7F003392F3 /* hermes.xcframework */; };
 		06844A5529119F05002FCC34 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06844A5429119F05002FCC34 /* BootSplash.storyboard */; };
 		06F72CA3290B2159003392F3 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 06F72CA2290B2159003392F3 /* AppDelegate.mm */; };
-		06F72CA6290B2D7F003392F3 /* hermes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F72CA5290B2D7F003392F3 /* hermes.xcframework */; };
 		1CD0B89E258019B600A7D78E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CD0B89B258019B600A7D78E /* GoogleService-Info.plist */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -167,8 +167,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06F72CA6290B2D7F003392F3 /* hermes.xcframework in Frameworks */,
 				05B6C49424C306CE00B7FA60 /* StoreKit.framework in Frameworks */,
+				0604FF82291C1192008F323C /* hermes.xcframework in Frameworks */,
 				4C862CA54961F248740FD033 /* libPods-Ecency.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -362,6 +362,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				6B252B733476BB711CE6A142 /* [CP] Copy Pods Resources */,
+				F3C6394C6EBC87626F25D7D5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -404,6 +405,7 @@
 				3D1F6693773C4541A695BB3C /* Upload source maps to Bugsnag */,
 				8CAC790A172583E183AC7A42 /* [CP] Copy Pods Resources */,
 				22F92F057F5D7E3DCA532FB8 /* [CP-User] [RNFB] Core Configuration */,
+				041F6EF745979D40AD8035BC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -590,6 +592,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		041F6EF745979D40AD8035BC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Ecency/Pods-Ecency-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ecency/Pods-Ecency-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		05B6C48E24C306CE00B7FA60 /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -831,6 +851,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F3C6394C6EBC87626F25D7D5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F122414F3F0027D42C /* Start Packager */ = {
