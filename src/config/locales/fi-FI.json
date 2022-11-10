@@ -491,7 +491,7 @@
     "connection_fail": "Yhteys epäonnistui!",
     "connection_success": "Yhdistetty onnistuneesti!",
     "checking": "Tarkistetaan...",
-    "external_link": "Avaa selaimessa",
+    "external_link": "Open external link",
     "not_existing_post": "Julkaisua ei ole! Tarkista linkki ja julkaisija.",
     "google_play_version": "Käytät vanhaa Google Play-versiota. Päivitä se ja yritä uudelleen!",
     "rc_down": "Ei tarpeeksi resurssipisteitä toimintoon! \nTehosta tiliäsi nauttiaksesi kokemuksesta enemmän. Haluatko tehostaa heti?",
