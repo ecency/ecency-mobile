@@ -491,7 +491,7 @@
     "connection_fail": "連接失敗！",
     "connection_success": "連接成功！",
     "checking": "正在檢查…",
-    "external_link": "在瀏覽器中打開",
+    "external_link": "Open external link",
     "not_existing_post": "文章不存在！請檢查連結和作者。",
     "google_play_version": "我們注意到您的設備有舊版本的Google Play。請更新Google Play服務，然後再試一次！",
     "rc_down": "信用資源不夠，未能執行該指令。\n\n增加您的資源以繼續體驗平台。需要立刻增加資源嗎？",
