@@ -491,7 +491,7 @@
     "connection_fail": "Ühendus nurjus!",
     "connection_success": "Edukalt ühendatud!",
     "checking": "Kontrollin...",
-    "external_link": "Ava veebilehitsejas",
+    "external_link": "Open external link",
     "not_existing_post": "Seda postitust ei eksisteeri! Palun kontrolli linki ja autorit.",
     "google_play_version": "Märkasime, et teie seadmes on Google Play vanem versioon. Palun uuenda Google Play services ja proovi uuesti!",
     "rc_down": "Toimingu jaoks pole piisavalt ressursipunkte!\n\nVõimendage oma kontot, et jätkata nautimisega. Kas soovite kohe võimendada oma kontot?",
