@@ -7,6 +7,8 @@ import { getDigitPinCode } from '../providers/hive/dhive';
 import { decryptKey } from '../utils/crypto';
 import bugsnagInstance from './bugsnag';
 
+export const ECENCY_TERMS_URL = `${Config.ECENCY_BACKEND_API}/terms-of-service`;
+
 const api = axios.create({
   baseURL: Config.ECENCY_BACKEND_API,
   headers: {

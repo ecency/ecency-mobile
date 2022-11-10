@@ -98,18 +98,12 @@ const CommentBody = ({
     if (ind === 1) {
       // open link
       if (selectedLink) {
-        Linking.canOpenURL(selectedLink).then((supported) => {
-          if (supported) {
-            Linking.openURL(selectedLink);
-          } else {
-            dispatch(
-              toastNotification(
-                intl.formatMessage({
-                  id: 'alert.failed_to_open',
-                }),
-              ),
-            );
-          }
+        RootNavigation.navigate({
+          name: ROUTES.SCREENS.WEB_BROWSER,
+          params: {
+            url:selectedLink,
+          },
+          key: selectedLink,
         });
       }
     }

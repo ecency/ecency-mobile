@@ -56,7 +56,6 @@ const MainStackNavigator = () => {
       <MainStack.Screen name={ROUTES.SCREENS.ACCOUNT_BOOST} component={AccountBoost} />
       <MainStack.Screen name={ROUTES.SCREENS.COMMUNITY} component={Community} />
       <MainStack.Screen name={ROUTES.SCREENS.COMMUNITIES} component={Communities} />
-      <MainStack.Screen name={ROUTES.SCREENS.WEB_BROWSER} component={WebBrowser} />
       <MainStack.Screen name={ROUTES.SCREENS.REFER} component={ReferScreen} />
       <MainStack.Screen name={ROUTES.SCREENS.COIN_DETAILS} component={CoinDetails} />
       <MainStack.Screen name={ROUTES.SCREENS.EDIT_HISTORY} component={EditHistoryScreen} />
@@ -67,6 +66,7 @@ const MainStackNavigator = () => {
         <MainStack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows} />
         <MainStack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} />
         <MainStack.Screen name={ROUTES.SCREENS.EDITOR} component={Editor} />
+
       </MainStack.Group>
     </MainStack.Navigator>
   );
@@ -83,6 +83,7 @@ export const StackNavigator = ({ initRoute }) => {
       <RootStack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} />
       <RootStack.Screen name={ROUTES.SCREENS.LOGIN} component={Login} />
       <RootStack.Screen name={ROUTES.SCREENS.WELCOME} component={WelcomeScreen} />
+      <MainStack.Screen name={ROUTES.SCREENS.WEB_BROWSER} component={WebBrowser} />
       <RootStack.Screen
         name={ROUTES.SCREENS.PINCODE}
         options={{ gestureEnabled: false }}
