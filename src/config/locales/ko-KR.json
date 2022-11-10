@@ -491,7 +491,7 @@
     "connection_fail": "연결 실패!",
     "connection_success": "성공적으로 연결되었습니다",
     "checking": "확인 중...",
-    "external_link": "브라우저에서 열기",
+    "external_link": "Open external link",
     "not_existing_post": "글이 존재하지 않습니다! permlink와 저자를 확인해주세요.",
     "google_play_version": "기기에 설치된 앱이 구 버전인 것 같습니다. 구글 플레이에서 업데이트된 앱을 다운로드받은 후 다시 시도해보세요!",
     "rc_down": "작업을 수행하기에 리소스 크레딧이 부족합니다!\n\n계속해서 경험을 즐기려면 계정을 부스팅하세요. 지금 계정을 부스팅하시겠습니까?",
