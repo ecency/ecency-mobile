@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { Text, Image, View, SafeAreaView, TouchableOpacity, Linking } from 'react-native';
+import { Text, Image, View, SafeAreaView, TouchableOpacity } from 'react-native';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { gestureHandlerRootHOC, ScrollView } from 'react-native-gesture-handler';
@@ -47,6 +47,17 @@ const WelcomeScreen = () => {
     setIsConsentChecked(isCheck);
   };
 
+  const _onTermsPress = () => {
+    const url = 'https://ecency.com/terms-of-service';
+    navigation.navigate({
+      name:ROUTES.SCREENS.WEB_BROWSER,
+      params:{
+        url
+      },
+      key:url
+    })
+  }
+
   const _renderInfo = (iconName, headingIntlId, bodyIntlId) => (
     <View style={styles.sectionRow}>
       <Icon
@@ -65,7 +76,7 @@ const WelcomeScreen = () => {
   const _renderConsent = () => (
     <View style={styles.consentContainer}>
       <CheckBox isChecked={isConsentChecked} clicked={_onCheckPress} style={styles.checkStyle} />
-      <TouchableOpacity onPress={() => Linking.openURL('https://ecency.com/terms-of-service')}>
+      <TouchableOpacity onPress={_onTermsPress}>
         <View style={styles.consentTextContainer}>
           <Text style={styles.termsDescText}>
             {intl.formatMessage({
