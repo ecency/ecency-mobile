@@ -1,8 +1,6 @@
 import Bugsnag from '@bugsnag/react-native';
-import Config from 'react-native-config';
 
-const bugsnapInstance = Bugsnag.start({
-  apiKey: Config.BUGSNAG_API_KEY,
-});
+//integration reference https://docs.bugsnag.com/platforms/react-native/react-native/
+const bugsnapInstance = Bugsnag.start();
 
 export default bugsnapInstance;
