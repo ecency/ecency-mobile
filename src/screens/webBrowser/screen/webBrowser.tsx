@@ -8,7 +8,6 @@ import styles from './webBrowserStyles';
 import { BasicHeader } from '../../../components';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
-import { WebViewError, WebViewErrorEvent } from 'react-native-webview/lib/WebViewTypes';
 
 export interface WebBrowserParams {
   url: string;
@@ -47,7 +46,7 @@ const WebBrowser = ({ navigation, route }: Props) => {
 
   const _onError = () => {
     Alert.alert(
-      intl.formatMessage({id:'alert.fail'}),
+      intl.formatMessage({ id: 'alert.fail' }),
     )
   }
 
@@ -75,7 +74,7 @@ const WebBrowser = ({ navigation, route }: Props) => {
         />
         {isLoading && (
           <ActivityIndicator
-            style={{ position: "absolute", top:16, left:0, right:0, alignItems:'center' }}
+            style={styles.loading}
             color={EStyleSheet.value('$primaryDarkGray')}
             size="large"
           />
