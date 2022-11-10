@@ -491,7 +491,7 @@
     "connection_fail": "接続に失敗しました！",
     "connection_success": "接続に成功しました！",
     "checking": "確認中...",
-    "external_link": "ブラウザーで開く",
+    "external_link": "Open external link",
     "not_existing_post": "投稿は存在しません！パーマリンクと投稿者を確認してください。",
     "google_play_version": "あなたのデバイスはGoogle Playのバージョンが古いようです。Google Playをアップデートして再度お試しください！",
     "rc_down": "アクションを実行するのに十分なリソースクレジットがありません！ \n\nアカウントを強化して、体験を楽しみましょう。アカウントを強化しますか？",
