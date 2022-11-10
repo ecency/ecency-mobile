@@ -8,6 +8,7 @@ import { gestureHandlerRootHOC, ScrollView } from 'react-native-gesture-handler'
 import VersionNumber from 'react-native-version-number';
 
 import { CheckBox, Icon, MainButton } from '../../../components';
+import { ECENCY_TERMS_URL } from '../../../config/ecencyApi';
 import ROUTES from '../../../constants/routeNames';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { setLastAppVersion, setIsTermsAccepted } from '../../../redux/actions/applicationActions';
@@ -48,7 +49,7 @@ const WelcomeScreen = () => {
   };
 
   const _onTermsPress = () => {
-    const url = 'https://ecency.com/terms-of-service';
+    const url = ECENCY_TERMS_URL;
     navigation.navigate({
       name:ROUTES.SCREENS.WEB_BROWSER,
       params:{
