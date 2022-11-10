@@ -491,7 +491,7 @@
     "connection_fail": "Échec de la connexion !",
     "connection_success": "Connexion réussie!",
     "checking": "Vérification...",
-    "external_link": "Ouvrir dans le navigateur",
+    "external_link": "Open external link",
     "not_existing_post": "Le post n'existe pas ! Veuillez vérifier le lien et l'auteur.",
     "google_play_version": "Nous avons remarqué que votre appareil possède une ancienne version de Google Play. Veuillez mettre à jour les services Google Play et réessayez!",
     "rc_down": "Pas assez de crédits ressources pour effectuer une action ! \n\nBoostez votre compte pour continuer à profiter de l’expérience. Voulez-vous booster votre compte, maintenant?",
