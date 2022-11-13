@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, TouchableHighlight } from 'react-native';
-import Animated, { EasingNode } from 'react-native-reanimated';
-
+import { View as AnimatedView } from 'react-native-animatable';
 // Constants
 
 // Components
@@ -17,55 +16,38 @@ class CollapsibleCardView extends PureComponent {
    *   @prop { type }    title                   - Collapsible title.
    *
    */
-  anime = {
-    height: new Animated.Value(-1),
-    expanded: false,
-    contentHeight: 0,
-  };
 
   constructor(props) {
     super(props);
 
-    this.anime.expanded = props.expanded;
-
     this.state = {
       expanded: props.expanded || false,
     };
+    this.animatedContainerRef = React.createRef(null);
   }
 
-  // Component Functions
-  _initContentHeight = (event) => {
-    if (this.anime.contentHeight > 0) {
-      return;
-    }
-    this.anime.contentHeight = event.nativeEvent.layout.height;
-    this.anime.height.setValue(this.anime.expanded ? this._getMaxValue() : this._getMinValue());
-  };
-
-  _getMaxValue = () => this.anime.contentHeight;
-
-  _getMinValue = () => 0;
-
   _toggleOnPress = () => {
-    const { handleOnExpanded, moreHeight } = this.props;
-    Animated.timing(this.anime.height, {
-      toValue: this.anime.expanded ? this._getMinValue() : this._getMaxValue() + (moreHeight || 0),
-      duration: 200,
-      easing: EasingNode.inOut(EasingNode.ease),
-    }).start();
-    this.anime.expanded = !this.anime.expanded;
+    const { expanded } = this.state;
+    if (this.animatedContainerRef.current) {
+      this.animatedContainerRef.current.animate({
+        0: { height: expanded ? 0 : 200, opacity: expanded ? 0 : 1 },
+        1: { height: expanded ? 200 : 0, opacity: expanded ? 1 : 0 },
+      });
+    }
+
+    const { handleOnExpanded } = this.props;
 
     this.setState({
-      expanded: this.anime.expanded,
+      expanded: !expanded,
     });
 
-    if (handleOnExpanded && this.anime.expanded) {
+    if (handleOnExpanded && expanded) {
       handleOnExpanded();
     }
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isExpanded, moreHeight, locked } = this.props;
+    const { isExpanded, locked } = this.props;
     const { expanded } = this.state;
 
     if (
@@ -74,10 +56,6 @@ class CollapsibleCardView extends PureComponent {
       expanded !== nextProps.isExpanded
     ) {
       this._toggleOnPress();
-    }
-
-    if (moreHeight !== nextProps.moreHeight) {
-      this.anime.height.setValue(this._getMaxValue() + nextProps.moreHeight);
     }
   }
 
@@ -118,12 +96,11 @@ class CollapsibleCardView extends PureComponent {
           )}
         </TouchableHighlight>
 
-        <Animated.View
-          style={[styles.content, { height: this.anime.height, opacity: expanded ? 1 : 0 }]}
-          onLayout={(e) => this._initContentHeight(e)}
-        >
-          <View style={[!fitContent && !noContainer && styles.contentBody]}>{children}</View>
-        </Animated.View>
+        <AnimatedView ref={this.animatedContainerRef} duration={500}>
+          <View style={styles.content}>
+            <View style={[!fitContent && !noContainer && styles.contentBody]}>{children}</View>
+          </View>
+        </AnimatedView>
       </View>
     );
   }
