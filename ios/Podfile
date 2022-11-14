@@ -38,6 +38,21 @@ target 'Ecency' do
     # Pods for testing
   end
 
+  # Convert all permission pods into static libraries
+  pre_install do |installer|
+    Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
+
+    installer.pod_targets.each do |pod|
+      if pod.name.eql?('RNPermissions') || pod.name.start_with?('Permission-')
+        def pod.build_type;
+          # Uncomment the line corresponding to your CocoaPods version
+          Pod::BuildType.static_library # >= 1.9
+          # Pod::Target::BuildType.static_library # < 1.9
+        end
+      end
+    end
+  end
+
 
   post_install do |installer|
     react_native_post_install(
