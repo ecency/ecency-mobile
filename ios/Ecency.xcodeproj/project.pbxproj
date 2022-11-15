@@ -21,7 +21,6 @@
 		0664C2B4E4D5F981584FBA34 /* Pods_Ecency_EcencyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E84CFAAE2B3EAECFA416F6FD /* Pods_Ecency_EcencyTests.framework */; };
 		06844A5529119F05002FCC34 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06844A5429119F05002FCC34 /* BootSplash.storyboard */; };
 		06BC6EA129227F4600BBE9C7 /* hermes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F72CA5290B2D7F003392F3 /* hermes.xcframework */; };
-		06BC6EA229227F4600BBE9C7 /* hermes.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 06F72CA5290B2D7F003392F3 /* hermes.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		06F72CA3290B2159003392F3 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 06F72CA2290B2159003392F3 /* AppDelegate.mm */; };
 		1CD0B89E258019B600A7D78E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CD0B89B258019B600A7D78E /* GoogleService-Info.plist */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -70,17 +69,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		06BC6EA329227F4600BBE9C7 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				06BC6EA229227F4600BBE9C7 /* hermes.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		58C9F50524CE017800A026DD /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -416,7 +404,6 @@
 				3D1F6693773C4541A695BB3C /* Upload source maps to Bugsnag */,
 				34B7630AE58D3884A10CC38E /* [CP] Copy Pods Resources */,
 				AFD374723D7C7734A9F69685 /* [CP-User] [RNFB] Core Configuration */,
-				06BC6EA329227F4600BBE9C7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
