@@ -434,32 +434,43 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _createPushListener = () => {
-    (async () => await messaging().requestPermission())();
+  _createPushListener = async () => {
+    await notifee.requestPermission();
 
     notifee.setBadgeCount(0);
     notifee.cancelAllNotifications();
 
-    firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
-      console.log('Notification Received: foreground', remoteMessage);
+    const _handleNotificationOpen = (remoteMessage) => {
+         console.log('Notification Received, notification oped app:', remoteMessage);
+         this._pushNavigate(remoteMessage);
+    }
 
-      this.setState({
-        foregroundNotificationData: remoteMessage,
-      });
-    });
+    const initialNotification = await notifee.getInitialNotification();
 
-    firebaseOnNotificationOpenedAppListener = messaging().onNotificationOpenedApp(
-      (remoteMessage) => {
-        console.log('Notification Received, notification oped app:', remoteMessage);
-        this._pushNavigate(remoteMessage);
-      },
-    );
+    if(initialNotification?.notification){
+      _handleNotificationOpen(initialNotification.notification);
+    }
 
-    messaging()
-      .getInitialNotification()
-      .then((remoteMessage) => {
-        this._pushNavigate(remoteMessage);
-      });
+    // firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
+    //   console.log('Notification Received: foreground', remoteMessage);
+
+    //   this.setState({
+    //     foregroundNotificationData: remoteMessage,
+    //   });
+    // });
+
+    // firebaseOnNotificationOpenedAppListener = messaging().onNotificationOpenedApp(
+    //   (remoteMessage) => {
+    //     console.log('Notification Received, notification oped app:', remoteMessage);
+    //     this._pushNavigate(remoteMessage);
+    //   },
+    // );
+
+    // messaging()
+    //   .getInitialNotification()
+    //   .then((remoteMessage) => {
+    //     this._pushNavigate(remoteMessage);
+    //   });
   };
 
   _handleConntectionChange = (status) => {
