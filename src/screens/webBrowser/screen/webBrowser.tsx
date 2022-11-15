@@ -4,10 +4,10 @@ import { WebView } from 'react-native-webview';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import styles from './webBrowserStyles';
-import { BasicHeader } from '../../../components';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
+import styles from './webBrowserStyles';
+import { BasicHeader } from '../../../components';
 
 export interface WebBrowserParams {
   url: string;
@@ -28,7 +28,6 @@ const WebBrowser = ({ navigation, route }: Props) => {
 
   const [isLoading, setIsLoading] = useState(true);
 
-
   if (!url) {
     Alert.alert('DEV: url parameter cannot be empty');
     navigation.goBack();
@@ -36,30 +35,27 @@ const WebBrowser = ({ navigation, route }: Props) => {
   }
 
   const urlObj = new URL(url);
-  const title = `${urlObj.host || urlObj.hostname}...`
+  const title = `${urlObj.host || urlObj.hostname}...`;
 
   const _handleRightIconPress = () => {
     Share.share({
       message: url,
     });
-  }
+  };
 
   const _onError = () => {
-    Alert.alert(
-      intl.formatMessage({ id: 'alert.fail' }),
-    )
-  }
+    Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
+  };
 
   return (
-    <SafeAreaView style={styles.container} >
+    <SafeAreaView style={styles.container}>
       <BasicHeader
         title={title}
-        backIconName='close'
-        rightIconName='share'
-        iconType='MaterialIcons'
+        backIconName="close"
+        rightIconName="share"
+        iconType="MaterialIcons"
         handleRightIconPress={_handleRightIconPress}
       />
-
 
       <View style={styles.container}>
         <WebView
@@ -80,8 +76,6 @@ const WebBrowser = ({ navigation, route }: Props) => {
           />
         )}
       </View>
-
-
     </SafeAreaView>
   );
 };

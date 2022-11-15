@@ -51,13 +51,13 @@ const WelcomeScreen = () => {
   const _onTermsPress = () => {
     const url = ECENCY_TERMS_URL;
     navigation.navigate({
-      name:ROUTES.SCREENS.WEB_BROWSER,
-      params:{
-        url
+      name: ROUTES.SCREENS.WEB_BROWSER,
+      params: {
+        url,
       },
-      key:url
-    })
-  }
+      key: url,
+    });
+  };
 
   const _renderInfo = (iconName, headingIntlId, bodyIntlId) => (
     <View style={styles.sectionRow}>

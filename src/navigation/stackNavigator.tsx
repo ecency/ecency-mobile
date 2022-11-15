@@ -66,7 +66,6 @@ const MainStackNavigator = () => {
         <MainStack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows} />
         <MainStack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} />
         <MainStack.Screen name={ROUTES.SCREENS.EDITOR} component={Editor} />
-
       </MainStack.Group>
     </MainStack.Navigator>
   );
