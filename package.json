@@ -132,7 +132,7 @@
     "react-native-qrcode-scanner": "^1.5.5",
     "react-native-qrcode-svg": "^6.0.3",
     "react-native-randombytes": "^3.6.1",
-    "react-native-reanimated": "^2.4.1",
+    "react-native-reanimated": "^2.12.0",
     "react-native-receive-sharing-intent": "^2.0.0",
     "react-native-render-html": "^6.0.5",
     "react-native-restart": "^0.0.24",

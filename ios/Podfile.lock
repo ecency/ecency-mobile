@@ -550,7 +550,7 @@ PODS:
     - React
   - RNPermissions (3.6.1):
     - React-Core
-  - RNReanimated (2.11.0):
+  - RNReanimated (2.12.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -880,7 +880,7 @@ SPEC CHECKSUMS:
   BugsnagReactNative: 90db2ee1ae4e7b04c56ce0bd00c098c818fc1ee7
   BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
-  DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
+  DoubleConversion: cde416483dac037923206447da6e1454df403714
   FBLazyVector: 3b313c3fb52b597f7a9b430798e6367d2b9f07e5
   FBReactNativeSpec: 99a7ecb7e9665d96f2fea706b0844e2f3117f381
   Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
@@ -891,7 +891,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 40bd9054049b2eae9a2c38ef1c3dd213df3605cd
   FirebaseMessaging: 5e5118a2383b3531e730d974680954c679ca0a13
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
-  glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
+  glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   GoogleAppMeasurement: 4c19f031220c72464d460c9daa1fb5d1acce958e
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
@@ -963,7 +963,7 @@ SPEC CHECKSUMS:
   RNNotifee: dcb2593127f40945c4ee5fc09f61d71bbd00b9cf
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
-  RNReanimated: e985de53d37cc67ff4ea98d14615fec185510594
+  RNReanimated: 2a91e85fcd343f8af3c58d3425b99fdd285590a5
   RNScreens: 4830eb40e0793b38849965cd27f4f3a7d7bc65c1
   RNSVG: ecd661f380a07ba690c9c5929c475a44f432d674
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
