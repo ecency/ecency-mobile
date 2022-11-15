@@ -17,7 +17,6 @@ import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import { isEmpty, some } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
-import notifee from '@notifee/react-native';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 
@@ -37,7 +36,6 @@ import {
   setExistUser,
   getLastUpdateCheck,
   setLastUpdateCheck,
-  getTheme,
 } from '../../../realm/realm';
 import { getUser, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
@@ -92,8 +90,8 @@ import MigrationHelpers from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
 
-let firebaseOnNotificationOpenedAppListener = null;
-let firebaseOnMessageListener = null;
+
+let firebaseOnMessageListener:any = null;
 let appStateSub: NativeEventSubscription | null = null;
 let linkingEventSub: EventSubscription | null = null;
 
@@ -182,10 +180,6 @@ class ApplicationContainer extends Component {
 
     if (firebaseOnMessageListener) {
       firebaseOnMessageListener();
-    }
-
-    if (firebaseOnNotificationOpenedAppListener) {
-      firebaseOnNotificationOpenedAppListener();
     }
 
     this.netListener();
@@ -334,97 +328,6 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _pushNavigate = (notification) => {
-    const { dispatch } = this.props;
-    let params = null;
-    let key = null;
-    let routeName = null;
-
-    if (notification) {
-      const push = get(notification, 'data');
-      const type = get(push, 'type', '');
-      const fullPermlink =
-        get(push, 'permlink1', '') + get(push, 'permlink2', '') + get(push, 'permlink3', '');
-      // const username = get(push, 'target', '');
-      const activity_id = get(push, 'id', '');
-
-      switch (type) {
-        case 'vote':
-        case 'unvote':
-          params = {
-            author: get(push, 'target', ''),
-            permlink: fullPermlink,
-          };
-          key = fullPermlink;
-          routeName = ROUTES.SCREENS.POST;
-          break;
-        case 'mention':
-          params = {
-            author: get(push, 'source', ''),
-            permlink: fullPermlink,
-          };
-          key = fullPermlink;
-          routeName = ROUTES.SCREENS.POST;
-          break;
-
-        case 'follow':
-        case 'unfollow':
-        case 'ignore':
-          params = {
-            username: get(push, 'source', ''),
-          };
-          key = get(push, 'source', '');
-          routeName = ROUTES.SCREENS.PROFILE;
-          break;
-
-        case 'reblog':
-          params = {
-            author: get(push, 'target', ''),
-            permlink: fullPermlink,
-          };
-          key = fullPermlink;
-          routeName = ROUTES.SCREENS.POST;
-          break;
-
-        case 'reply':
-          params = {
-            author: get(push, 'source', ''),
-            permlink: fullPermlink,
-          };
-          key = fullPermlink;
-          routeName = ROUTES.SCREENS.POST;
-          break;
-
-        case 'transfer':
-          routeName = ROUTES.TABBAR.PROFILE;
-          params = {
-            activePage: 2,
-          };
-          break;
-
-        case 'inactive':
-          routeName = ROUTES.SCREENS.EDITOR;
-          key = push.source || 'inactive';
-          break;
-
-        default:
-          break;
-      }
-
-      markNotifications(activity_id).then((result) => {
-        dispatch(updateUnreadActivityCount(result.unread));
-      });
-
-      if (!some(params, isEmpty)) {
-        RootNavigation.navigate({
-          name: routeName,
-          params,
-          key,
-        });
-      }
-    }
-  };
-
   _showNotificationToast = (remoteMessage) => {
     const { dispatch } = this.props;
 
@@ -435,42 +338,17 @@ class ApplicationContainer extends Component {
   };
 
   _createPushListener = async () => {
-    await notifee.requestPermission();
+    await messaging().requestPermission();
 
-    notifee.setBadgeCount(0);
-    notifee.cancelAllNotifications();
 
-    const _handleNotificationOpen = (remoteMessage) => {
-         console.log('Notification Received, notification oped app:', remoteMessage);
-         this._pushNavigate(remoteMessage);
-    }
+    firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
+      console.log('Notification Received: foreground', remoteMessage);
 
-    const initialNotification = await notifee.getInitialNotification();
+      this.setState({
+        foregroundNotificationData: remoteMessage,
+      });
+    });
 
-    if(initialNotification?.notification){
-      _handleNotificationOpen(initialNotification.notification);
-    }
-
-    // firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
-    //   console.log('Notification Received: foreground', remoteMessage);
-
-    //   this.setState({
-    //     foregroundNotificationData: remoteMessage,
-    //   });
-    // });
-
-    // firebaseOnNotificationOpenedAppListener = messaging().onNotificationOpenedApp(
-    //   (remoteMessage) => {
-    //     console.log('Notification Received, notification oped app:', remoteMessage);
-    //     this._pushNavigate(remoteMessage);
-    //   },
-    // );
-
-    // messaging()
-    //   .getInitialNotification()
-    //   .then((remoteMessage) => {
-    //     this._pushNavigate(remoteMessage);
-    //   });
   };
 
   _handleConntectionChange = (status) => {

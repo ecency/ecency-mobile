@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { isLandscape } from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Appearance, AppState, NativeEventSubscription, useColorScheme } from 'react-native';
+import { Alert, Appearance, AppState, NativeEventSubscription, useColorScheme } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
@@ -12,6 +12,12 @@ import lightTheme from '../../../themes/lightTheme';
 import { useUserActivityMutation } from '../../../providers/queries';
 import THEME_OPTIONS from '../../../constants/options/theme';
 import { setIsDarkTheme } from '../../../redux/actions/applicationActions';
+import notifee, { EventType } from '@notifee/react-native';
+import { markNotifications } from '../../../providers/ecency/ecency';
+import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
+import RootNavigation from '../../../navigation/rootNavigation';
+import { isEmpty, some, get } from 'lodash';
+import ROUTES from '../../../constants/routeNames';
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
@@ -21,6 +27,8 @@ export const useInitApplication = () => {
 
   const appState = useRef(AppState.currentState);
   const appStateSubRef = useRef<NativeEventSubscription | null>(null);
+
+  const notifeeEventRef = useRef(null);
 
   const userActivityMutation = useUserActivityMutation();
 
@@ -47,6 +55,8 @@ export const useInitApplication = () => {
 
     userActivityMutation.lazyMutatePendingActivities();
 
+    _initPushListener()
+
     return _cleanup;
   }, []);
 
@@ -66,7 +76,31 @@ export const useInitApplication = () => {
     if (appStateSubRef.current) {
       appStateSubRef.current.remove();
     }
+
+    if (notifeeEventRef.current){
+      notifeeEventRef.current();
+    }
   };
+
+
+
+  const _initPushListener = async () => {
+    await notifee.requestPermission();
+
+    notifee.setBadgeCount(0);
+    notifee.cancelAllNotifications();
+
+    notifeeEventRef.current = notifee.onForegroundEvent(({type, detail})=>{
+      if(type === EventType.PRESS){
+        console.log('notification open app', detail);
+        _pushNavigate(detail.notification);
+
+      }
+      
+    })
+    
+  }
+
 
   const _handleAppStateChange = (nextAppState) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
@@ -74,5 +108,96 @@ export const useInitApplication = () => {
     }
 
     appState.current = nextAppState;
+  };
+
+  const _pushNavigate = (notification) => {
+
+    let params = null;
+    let key = null;
+    let routeName = null;
+
+    if (notification) {
+      const push = get(notification, 'data');
+      const type = get(push, 'type', '');
+      const fullPermlink =
+        get(push, 'permlink1', '') + get(push, 'permlink2', '') + get(push, 'permlink3', '');
+      // const username = get(push, 'target', '');
+      const activity_id = get(push, 'id', '');
+
+      switch (type) {
+        case 'vote':
+        case 'unvote':
+          params = {
+            author: get(push, 'target', ''),
+            permlink: fullPermlink,
+          };
+          key = fullPermlink;
+          routeName = ROUTES.SCREENS.POST;
+          break;
+        case 'mention':
+          params = {
+            author: get(push, 'source', ''),
+            permlink: fullPermlink,
+          };
+          key = fullPermlink;
+          routeName = ROUTES.SCREENS.POST;
+          break;
+
+        case 'follow':
+        case 'unfollow':
+        case 'ignore':
+          params = {
+            username: get(push, 'source', ''),
+          };
+          key = get(push, 'source', '');
+          routeName = ROUTES.SCREENS.PROFILE;
+          break;
+
+        case 'reblog':
+          params = {
+            author: get(push, 'target', ''),
+            permlink: fullPermlink,
+          };
+          key = fullPermlink;
+          routeName = ROUTES.SCREENS.POST;
+          break;
+
+        case 'reply':
+          params = {
+            author: get(push, 'source', ''),
+            permlink: fullPermlink,
+          };
+          key = fullPermlink;
+          routeName = ROUTES.SCREENS.POST;
+          break;
+
+        case 'transfer':
+          routeName = ROUTES.TABBAR.PROFILE;
+          params = {
+            activePage: 2,
+          };
+          break;
+
+        case 'inactive':
+          routeName = ROUTES.SCREENS.EDITOR;
+          key = push.source || 'inactive';
+          break;
+
+        default:
+          break;
+      }
+
+      markNotifications(activity_id).then((result) => {
+        dispatch(updateUnreadActivityCount(result.unread));
+      });
+
+      if (!some(params, isEmpty)) {
+        RootNavigation.navigate({
+          name: routeName,
+          params,
+          key,
+        });
+      }
+    }
   };
 };
