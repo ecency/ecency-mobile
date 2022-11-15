@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { isLandscape } from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Alert, Appearance, AppState, NativeEventSubscription, useColorScheme } from 'react-native';
+import { Alert, Appearance, AppState, NativeEventSubscription, Platform, useColorScheme } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
@@ -18,6 +18,7 @@ import { updateUnreadActivityCount } from '../../../redux/actions/accountAction'
 import RootNavigation from '../../../navigation/rootNavigation';
 import { isEmpty, some, get } from 'lodash';
 import ROUTES from '../../../constants/routeNames';
+import messaging from '@react-native-firebase/messaging';
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +29,8 @@ export const useInitApplication = () => {
   const appState = useRef(AppState.currentState);
   const appStateSubRef = useRef<NativeEventSubscription | null>(null);
 
-  const notifeeEventRef = useRef(null);
+  const notifeeEventRef = useRef<any>(null);
+  const messagingEventRef = useRef<any>(null);
 
   const userActivityMutation = useUserActivityMutation();
 
@@ -80,6 +82,10 @@ export const useInitApplication = () => {
     if (notifeeEventRef.current){
       notifeeEventRef.current();
     }
+
+    if(messagingEventRef.current){
+      messagingEventRef.current();
+    }
   };
 
 
@@ -90,14 +96,30 @@ export const useInitApplication = () => {
     notifee.setBadgeCount(0);
     notifee.cancelAllNotifications();
 
-    notifeeEventRef.current = notifee.onForegroundEvent(({type, detail})=>{
-      if(type === EventType.PRESS){
-        console.log('notification open app', detail);
-        _pushNavigate(detail.notification);
 
+    //on android messaging event work fine for both background and quite state
+    //while notifee events do not fuction as expected
+    if(Platform.OS === 'android'){
+      messagingEventRef.current = messaging().onNotificationOpenedApp((remoteMessage)=>{
+        _pushNavigate(remoteMessage);
+      })
+
+      const initialNotification = await messaging().getInitialNotification()
+      if(initialNotification){
+        _pushNavigate(initialNotification)
       }
-      
-    })
+    }else if (Platform.OS === 'ios'){
+      //for ios, notifee events work while messaging event are malfunctioning, the foreground event 
+      // on ios is called if user opens/starts app from notification
+      notifeeEventRef.current = notifee.onForegroundEvent(({type, detail})=>{
+        if(type === EventType.PRESS){
+          _pushNavigate(detail.notification);
+        }
+      })
+  
+    }
+   
+    
     
   }
 
