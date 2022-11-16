@@ -5,8 +5,9 @@ import {
   useQueries,
   useQueryClient,
 } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useIntl } from 'react-intl';
+import { unionBy } from 'lodash';
 import bugsnapInstance from '../../config/bugsnag';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { updateUnreadActivityCount } from '../../redux/actions/accountAction';
@@ -15,16 +16,12 @@ import { getNotifications, markNotifications } from '../ecency/ecency';
 import { NotificationFilters } from '../ecency/ecency.types';
 import { markHiveNotifications } from '../hive/dhive';
 import QUERIES from './queryKeys';
-import { unionBy } from 'lodash';
-
 
 const FETCH_LIMIT = 20;
 
 export const useNotificationsQuery = (filter: NotificationFilters) => {
-  const [data, setData] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [pageParams, setPageParams] = useState(['']);
-
 
   const _fetchNotifications = async (pageParam: string) => {
     console.log('fetching page since:', pageParam);
@@ -39,11 +36,6 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
     return lastId;
   };
 
-  const _onSuccess = () => {
-    const dataArrs = notificationQueries.map((query)=>query.data);
-    const _data = unionBy(...dataArrs, 'id')
-    setData(_data);
-  }
 
   // query initialization
   const notificationQueries = useQueries({
@@ -51,7 +43,6 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
       queryKey: [QUERIES.NOTIFICATIONS.GET, filter, pageParam],
       queryFn: () => _fetchNotifications(pageParam),
       initialData: [],
-      onSuccess:_onSuccess
     })),
   });
 
@@ -76,8 +67,10 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
     }
   };
 
+  const _dataArrs = notificationQueries.map(query => query.data);
+
   return {
-    data,
+    data: unionBy(..._dataArrs, 'id'),
     isRefreshing,
     isLoading: notificationQueries.lastItem.isLoading || notificationQueries.lastItem.isFetching,
     fetchNextPage: _fetchNextPage,

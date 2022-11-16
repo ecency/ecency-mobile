@@ -101,7 +101,7 @@ const CommentBody = ({
         RootNavigation.navigate({
           name: ROUTES.SCREENS.WEB_BROWSER,
           params: {
-            url:selectedLink,
+            url: selectedLink,
           },
           key: selectedLink,
         });
