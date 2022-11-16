@@ -90,8 +90,7 @@ import MigrationHelpers from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
 
-
-let firebaseOnMessageListener:any = null;
+let firebaseOnMessageListener: any = null;
 let appStateSub: NativeEventSubscription | null = null;
 let linkingEventSub: EventSubscription | null = null;
 
@@ -340,7 +339,6 @@ class ApplicationContainer extends Component {
   _createPushListener = async () => {
     await messaging().requestPermission();
 
-
     firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
       console.log('Notification Received: foreground', remoteMessage);
 
@@ -348,7 +346,6 @@ class ApplicationContainer extends Component {
         foregroundNotificationData: remoteMessage,
       });
     });
-
   };
 
   _handleConntectionChange = (status) => {

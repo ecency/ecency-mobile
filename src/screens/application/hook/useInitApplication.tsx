@@ -2,7 +2,17 @@ import { useEffect, useRef } from 'react';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { isLandscape } from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Alert, Appearance, AppState, NativeEventSubscription, Platform, useColorScheme } from 'react-native';
+import {
+  Alert,
+  Appearance,
+  AppState,
+  NativeEventSubscription,
+  Platform,
+  useColorScheme,
+} from 'react-native';
+import notifee, { EventType } from '@notifee/react-native';
+import { isEmpty, some, get } from 'lodash';
+import messaging from '@react-native-firebase/messaging';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
@@ -12,13 +22,10 @@ import lightTheme from '../../../themes/lightTheme';
 import { useUserActivityMutation } from '../../../providers/queries';
 import THEME_OPTIONS from '../../../constants/options/theme';
 import { setIsDarkTheme } from '../../../redux/actions/applicationActions';
-import notifee, { EventType } from '@notifee/react-native';
 import { markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 import RootNavigation from '../../../navigation/rootNavigation';
-import { isEmpty, some, get } from 'lodash';
 import ROUTES from '../../../constants/routeNames';
-import messaging from '@react-native-firebase/messaging';
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
@@ -57,7 +64,7 @@ export const useInitApplication = () => {
 
     userActivityMutation.lazyMutatePendingActivities();
 
-    _initPushListener()
+    _initPushListener();
 
     return _cleanup;
   }, []);
@@ -79,16 +86,14 @@ export const useInitApplication = () => {
       appStateSubRef.current.remove();
     }
 
-    if (notifeeEventRef.current){
+    if (notifeeEventRef.current) {
       notifeeEventRef.current();
     }
 
-    if(messagingEventRef.current){
+    if (messagingEventRef.current) {
       messagingEventRef.current();
     }
   };
-
-
 
   const _initPushListener = async () => {
     await notifee.requestPermission();
@@ -96,33 +101,27 @@ export const useInitApplication = () => {
     notifee.setBadgeCount(0);
     notifee.cancelAllNotifications();
 
-
-    //on android messaging event work fine for both background and quite state
-    //while notifee events do not fuction as expected
-    if(Platform.OS === 'android'){
-      messagingEventRef.current = messaging().onNotificationOpenedApp((remoteMessage)=>{
+    // on android messaging event work fine for both background and quite state
+    // while notifee events do not fuction as expected
+    if (Platform.OS === 'android') {
+      messagingEventRef.current = messaging().onNotificationOpenedApp((remoteMessage) => {
         _pushNavigate(remoteMessage);
-      })
+      });
 
-      const initialNotification = await messaging().getInitialNotification()
-      if(initialNotification){
-        _pushNavigate(initialNotification)
+      const initialNotification = await messaging().getInitialNotification();
+      if (initialNotification) {
+        _pushNavigate(initialNotification);
       }
-    }else if (Platform.OS === 'ios'){
-      //for ios, notifee events work while messaging event are malfunctioning, the foreground event 
+    } else if (Platform.OS === 'ios') {
+      // for ios, notifee events work while messaging event are malfunctioning, the foreground event
       // on ios is called if user opens/starts app from notification
-      notifeeEventRef.current = notifee.onForegroundEvent(({type, detail})=>{
-        if(type === EventType.PRESS){
+      notifeeEventRef.current = notifee.onForegroundEvent(({ type, detail }) => {
+        if (type === EventType.PRESS) {
           _pushNavigate(detail.notification);
         }
-      })
-  
+      });
     }
-   
-    
-    
-  }
-
+  };
 
   const _handleAppStateChange = (nextAppState) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
@@ -133,7 +132,6 @@ export const useInitApplication = () => {
   };
 
   const _pushNavigate = (notification) => {
-
     let params = null;
     let key = null;
     let routeName = null;

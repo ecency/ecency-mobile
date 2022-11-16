@@ -5,8 +5,9 @@ import {
   useQueries,
   useQueryClient,
 } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { unionBy } from 'lodash';
 import bugsnapInstance from '../../config/bugsnag';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { updateUnreadActivityCount } from '../../redux/actions/accountAction';
@@ -19,6 +20,7 @@ import QUERIES from './queryKeys';
 const FETCH_LIMIT = 20;
 
 export const useNotificationsQuery = (filter: NotificationFilters) => {
+  const [data, setData] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [pageParams, setPageParams] = useState(['']);
 
@@ -35,12 +37,19 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
     return lastId;
   };
 
+  const _onSuccess = () => {
+    const dataArrs = notificationQueries.map((query) => query.data);
+    const _data = unionBy(...dataArrs, 'id');
+    setData(_data);
+  };
+
   // query initialization
   const notificationQueries = useQueries({
     queries: pageParams.map((pageParam) => ({
       queryKey: [QUERIES.NOTIFICATIONS.GET, filter, pageParam],
       queryFn: () => _fetchNotifications(pageParam),
       initialData: [],
+      onSuccess: _onSuccess,
     })),
   });
 
@@ -66,7 +75,7 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
   };
 
   return {
-    data: notificationQueries.flatMap((query) => query.data),
+    data,
     isRefreshing,
     isLoading: notificationQueries.lastItem.isLoading || notificationQueries.lastItem.isFetching,
     fetchNextPage: _fetchNextPage,
