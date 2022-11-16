@@ -182,6 +182,8 @@ export const useInitApplication = () => {
           routeName = ROUTES.SCREENS.POST;
           break;
 
+        case 'favorites':
+        case 'bookmarks':
         case 'reply':
           params = {
             author: get(push, 'source', ''),
