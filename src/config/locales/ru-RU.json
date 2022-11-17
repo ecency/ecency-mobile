@@ -41,7 +41,7 @@
     "comment_desc": "Каждый сделанный комментарий помогает вам наращивать аудиторию, а также приносит по 5 баллов.",
     "checkin_desc": "Каждый вход в приложение дает вам 0,25 баллов.",
     "vote_desc": "Голосуя, вы вознаграждаете других авторов, а также зарабатываете баллы в количестве 0,01 x вес голоса.",
-    "reblog_desc": "Делитесь постами, что вам нравятся, с друзьями и зарабатывайте баллы.",
+    "reblog_desc": "Поделитесь понравившейся публикацией с друзьями и заработайте баллы.",
     "login_desc": "При первой авторизации в приложении вы получите 100 баллов.",
     "checkin_extra_desc": "Постоянное использование приложения дает шанс заработать дополнительные баллы. Больше активности - больше вознаграждений.",
     "dropdown_transfer": "Подарить",
@@ -61,7 +61,7 @@
     "amount_information": "Потяните ползунок чтобы установить сумму",
     "amount": "Сумма",
     "memo": "Примечание",
-    "tap_update": "Tap to update",
+    "tap_update": "Нажмите, чтобы обновить",
     "information": "Вы уверены, что хотите перевести средства?",
     "amount_desc": "Баланс",
     "memo_desc": "Эта заметка публична",
@@ -141,6 +141,8 @@
     "unvote": "проголосовано против",
     "reply": "ответил",
     "mention": "упомянул вас в",
+    "favorites": "создать новый пост",
+    "bookmarks": "made new reply on",
     "follow": "подписан",
     "unfollow": "отписан",
     "ignore": "игнорирует",
@@ -227,6 +229,8 @@
       "vote": "Голоса",
       "comment": "Комментарии",
       "mention": "Упоминания",
+      "favorite": "Избранное",
+      "bookmark": "Bookmarks",
       "reblog": "Репосты",
       "transfers": "Переводы",
       "delegations": "Делегации"
@@ -270,14 +274,14 @@
     "login": "Войти",
     "steemconnect_description": "Если вы не хотите хранить зашифрованные ключи на своем устройстве, используйте Hivesigner.",
     "steemconnect_fee_description": "информация",
-    "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first",
-    "login_failed": "Login Failed",
-    "login_failed_body": "try a different key or try again later.",
-    "deep_login_alert_title": "Easy Login @{username}",
-    "deep_login_alert_body": "Verify direct login using access code",
-    "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "not_loggedin_alert": "Не авторизован",
+    "not_loggedin_alert_desc": "Пожалуйста, сначала авторизуйтесь",
+    "login_failed": "Ошибка авторизации",
+    "login_failed_body": "попробуйте другой ключ или повторите попытку позже.",
+    "deep_login_alert_title": "Простой вход @{username}",
+    "deep_login_alert_body": "Подтвердите авторизацию с помощью кода доступа",
+    "deep_login_url_expired": "Срок действия URL-адреса для авторизации истёк, пожалуйста, используйте закрытый ключ или пароль для входа",
+    "deep_login_malformed_url": "Неверный URL-адрес для входа, используйте закрытый ключ или пароль для входа."
   },
   "register": {
     "button": "Зарегистрироваться",
@@ -350,6 +354,7 @@
     "limited_characters": "Используйте только строчные буквы, цифры и одно тире",
     "limited_firstchar": "Тег должен начинаться с буквы",
     "limited_lastchar": "Тег должен заканчиваться буквой или цифрой",
+    "tag_duplicate": "Тег уже существует",
     "setting_schedule": "Запланированное время",
     "setting_reward": "Вознаграждение",
     "setting_reblog": "Репост",
@@ -362,6 +367,7 @@
     "options": "Параметры",
     "my_blog": "Мой блог",
     "select_community": "Выбрать сообщество",
+    "community_selected": "Выбранное сообщество",
     "my_communities": "Мои сообщества",
     "top_communities": "Топовые сообщества",
     "schedule_modal_title": "Отложить пост",
@@ -417,15 +423,15 @@
     "btn_cancel": "Отмена"
   },
   "uploads_modal": {
-    "label_no_images": "No Existing Uploads...",
+    "label_no_images": "Нет существующих загрузок...",
     "title": "Загруженные изображения",
     "title_remove_confirmation": "Удалить изображение",
     "btn_add": "Изображение",
     "btn_insert": "ВСТАВИТЬ",
     "btn_delete": "УДАЛИТЬ",
-    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "confirm_delete": "Вы уверены, что хотите удалить изображения из своих загрузок?",
     "message_failed": "Не удалось загрузить изображение",
-    "delete_failed": "Failed to delete image",
+    "delete_failed": "Не удалось удалить изображение",
     "failed_count": "Не удалось загрузить {failedCount} из {totalCount} выбранного изображения(ов)"
   },
   "pincode": {
@@ -469,7 +475,7 @@
     "invalid_pincode": "Неверный пин-код. Пожалуйста, проверьте и попробуйте еще раз.",
     "remove_alert": "Вы уверены, что хотите удалить?",
     "clear_alert": "Вы уверены, что хотите очистить?",
-    "clear_user_alert": "Вы уверены, что хотите удалить все Ваши данные?",
+    "clear_user_alert": "Вы уверены, что хотите удалить все данные своей учётной записи?",
     "decrypt_fail_alert": "Повреждено состояние приложения, пожалуйста, перезайдите для сброса.",
     "clear": "Очистить",
     "cancel": "Отмена",
@@ -485,7 +491,7 @@
     "connection_fail": "Ошибка подключения!",
     "connection_success": "Успешное подключение!",
     "checking": "Проверка...",
-    "external_link": "Открыть в браузере",
+    "external_link": "Open external link",
     "not_existing_post": "Такого поста не существует! Пожалуйста, проверьте ссылку и автора.",
     "google_play_version": "Мы заметили, что на вашем устройстве старая версия Google Play. Пожалуйста, обновите сервисы Google Play и попробуйте еще раз!",
     "rc_down": "Недостаточно ресурс кредитов для совершения действия! \n\nУсильте свой аккаунт, чтобы и далее получать удовольствие от использования. Хотите усилить свой аккаунт сейчас?",
@@ -560,7 +566,7 @@
   },
   "delete": {
     "confirm_delete_title": "Подтвердите удаление",
-    "confirm_delete_body": "Вы уверены, что хотите удалить учетную запись? Это сотрет все ваши данные",
+    "confirm_delete_body": "Вы уверены, что хотите удалить учётную запись? Это сотрёт все ваши данные",
     "request_sent": "Ваш запрос на удаление отправлен"
   },
   "favorites": {
@@ -601,7 +607,7 @@
     "pin-community": "Закрепить в сообществе",
     "unpin-community": "Открепить от сообщества",
     "edit-history": "История изменений",
-    "mute": "Mute / Block"
+    "mute": "Отключить / Блокировать"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
@@ -642,7 +648,7 @@
     "steemconnect_title": "Hivesigner транзакция",
     "estimated_weekly": "Примерно в неделю",
     "destination_accounts": "Аккаунт(ы) получателя",
-    "stop_information": "Вы действительно хотите остановить?",
+    "stop_information": "Вы уверены, что хотите остановиться?",
     "percent": "Процент",
     "auto_vests": "Авто Vests",
     "vests": "Vests",
@@ -705,7 +711,7 @@
   },
   "promote": {
     "title": "Продвинуть",
-    "days": "дня(ей)",
+    "days": "дн.",
     "user": "Пользователь",
     "permlink": "Пост",
     "permlinkPlaceholder": "имя пользователя/ссылка",
@@ -715,7 +721,7 @@
     "title": "Усилить"
   },
   "voters_dropdown": {
-    "rewards": "ВОЗНАГРАЖДЕНИЕ",
+    "rewards": "НАГРАДЫ",
     "percent": "ПРОЦЕНТ",
     "time": "ВРЕМЯ"
   },
@@ -786,7 +792,7 @@
     "mute": "ОТКЛЮЧИТЬ / ЗАБЛОКИРОВАТЬ",
     "unmute": "ВКЛЮЧИТЬ / РАЗБЛОКИРОВАТЬ",
     "report": "ПОЖАЛОВАТЬСЯ НА ПОЛЬЗОВАТЕЛЯ",
-    "delegate": "ДЕЛЕГИРОВАТЬ СИЛУ HIVE"
+    "delegate": "ДЕЛЕГИРОВАТЬ HIVE POWER"
   },
   "communities": {
     "joined": "Членство",
@@ -822,12 +828,12 @@
     "minute": "минут",
     "hour": "часов",
     "week": "недель",
-    "day": "дней",
+    "day": "дн.",
     "month": "месяцев",
     "year": "лет"
   },
   "quick_reply": {
-    "placeholder": "Add a comment...",
+    "placeholder": "Добавить комментарий...",
     "comment": "Комментарий",
     "reply": "ОТВЕТИТЬ",
     "close": "ЗАКРЫТЬ"
