@@ -72,7 +72,7 @@ class HiveSigner extends PureComponent {
             Alert.alert(
               'Error',
               // intl.formatMessage({ id:
-              error,
+              error.message || error.toString(),
               // }),
             );
             // TODO: return
