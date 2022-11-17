@@ -96,7 +96,7 @@ const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
         navigation.navigate({
           name: ROUTES.SCREENS.WEB_BROWSER,
           params: {
-            url:selectedLink,
+            url: selectedLink,
           },
           key: selectedLink,
         });

@@ -12,18 +12,17 @@ import ROUTES from '../../../constants/routeNames';
 import styles from './informationAreaStyles';
 
 const FormInputView = ({ description, iconName, bold, link }) => {
-
   const navigation = useNavigation();
 
   const _onPress = () => {
     navigation.navigate({
       name: ROUTES.SCREENS.WEB_BROWSER,
       params: {
-        url: link
+        url: link,
       },
-      key: link
-    })
-  }
+      key: link,
+    });
+  };
 
   return (
     <TouchableOpacity onPress={_onPress}>
@@ -32,8 +31,7 @@ const FormInputView = ({ description, iconName, bold, link }) => {
         <Text style={[styles.infoText, bold && styles.bold]}>{description}</Text>
       </View>
     </TouchableOpacity>
-  )
-}
-
+  );
+};
 
 export default FormInputView;
