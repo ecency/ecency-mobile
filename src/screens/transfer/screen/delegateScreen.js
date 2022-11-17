@@ -165,17 +165,20 @@ class DelegateScreen extends Component {
           this.setState({
             delegatedHP: vestsToHp(vest_shares.amount, hivePerMVests).toFixed(3),
             hp: vestsToHp(vest_shares.amount, hivePerMVests).toFixed(3),
+            amount: vest_shares.amount,
           });
         } else {
           this.setState({
             delegatedHP: 0,
             hp: 0,
+            amount: 0,
           });
         }
       } else {
         this.setState({
           delegatedHP: 0,
           hp: 0,
+          amount: 0,
         });
       }
     } catch (err) {
