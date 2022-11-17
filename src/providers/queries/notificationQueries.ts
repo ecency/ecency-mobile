@@ -36,7 +36,6 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
     return lastId;
   };
 
-
   // query initialization
   const notificationQueries = useQueries({
     queries: pageParams.map((pageParam) => ({
@@ -67,7 +66,7 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
     }
   };
 
-  const _dataArrs = notificationQueries.map(query => query.data);
+  const _dataArrs = notificationQueries.map((query) => query.data);
 
   return {
     data: unionBy(..._dataArrs, 'id'),
