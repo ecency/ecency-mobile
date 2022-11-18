@@ -61,7 +61,7 @@
     "amount_information": "Arraste o controle deslizante para ajustar a quantia",
     "amount": "Quantia",
     "memo": "Memo",
-    "tap_update": "Tap to update",
+    "tap_update": "Toque para atualizar",
     "information": "Tem certeza que deseja transferir fundos?",
     "amount_desc": "Balanço",
     "memo_desc": "Este memo é público",
@@ -133,14 +133,16 @@
     "conversions_requested": "Conversões Solicitadas",
     "expires": "expira em",
     "pending_requests": "Solicitações Pendentes",
-    "boost_account": "Boost",
-    "get_boost": "Get Boost"
+    "boost_account": "Impulsionar",
+    "get_boost": "Obtenha Impulso"
   },
   "notification": {
     "vote": "votou",
     "unvote": "não curtiu",
     "reply": "respondeu a",
     "mention": "mencionado em",
+    "favorites": "criar nova publicação",
+    "bookmarks": "made new reply on",
     "follow": "seguiu você",
     "unfollow": "deixou de seguir você",
     "ignore": "ignorou você",
@@ -227,12 +229,14 @@
       "vote": "Votar",
       "comment": "Comentar",
       "mention": "Menção",
+      "favorite": "Favoritos",
+      "bookmark": "Bookmarks",
       "reblog": "Republicar",
       "transfers": "Transferências",
       "delegations": "Delegações"
     },
     "pincode": "Código PIN",
-    "biometric": "Finger Print / Face Unlock",
+    "biometric": "Impressão digital / Desbloqueio facial",
     "reset_pin": "Redefinir o código Pin",
     "reset": "Reiniciar",
     "nsfw_content": "NSFW",
@@ -252,8 +256,8 @@
     "feedback_success": "Email aberto com sucesso",
     "feedback_fail": "Não se pôde abrir o cliente de e-mail",
     "server_fail": "Servidor não disponível",
-    "show_imgs": "Show Images",
-    "delete_account": "Delete Account"
+    "show_imgs": "Mostrar Imagens",
+    "delete_account": "Deletar conta"
   },
   "voters": {
     "voters_info": "Informação de eleitores",
@@ -270,10 +274,10 @@
     "login": "ENTRAR",
     "steemconnect_description": "Se você não quiser manter sua senha criptográfica salva no dispositivo, você pode usar o Hivesigner.",
     "steemconnect_fee_description": "info",
-    "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first",
-    "login_failed": "Login Failed",
-    "login_failed_body": "try a different key or try again later.",
+    "not_loggedin_alert": "Não Conectado",
+    "not_loggedin_alert_desc": "Por favor, inicie a sessão primeiro",
+    "login_failed": "Falha no login",
+    "login_failed_body": "insira a chave correta ou tente mais tarde.",
     "deep_login_alert_title": "Easy Login @{username}",
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
@@ -350,6 +354,7 @@
     "limited_characters": "Usa apenas letras minúsculas, dígitos e um hífen",
     "limited_firstchar": "Tag deve começar com uma letra",
     "limited_lastchar": "Tag deve terminar com letra ou número",
+    "tag_duplicate": "Tag exists already",
     "setting_schedule": "Hora do Agendamento",
     "setting_reward": "Recompensa",
     "setting_reblog": "Repostar",
@@ -362,6 +367,7 @@
     "options": "Opções",
     "my_blog": "Meu Blog",
     "select_community": "Escolha uma comunidade",
+    "community_selected": "Community Selected",
     "my_communities": "Minhas Comunidades",
     "top_communities": "Principais Comunidades",
     "schedule_modal_title": "Agendar Post",
@@ -417,15 +423,15 @@
     "btn_cancel": "Cancelar"
   },
   "uploads_modal": {
-    "label_no_images": "No Existing Uploads...",
+    "label_no_images": "Nenhuma imagem carregada...",
     "title": "Imagens Enviadas",
     "title_remove_confirmation": "Deletar imagem",
     "btn_add": "Imagem",
     "btn_insert": "INSERIR",
     "btn_delete": "EXCLUIR",
-    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "confirm_delete": "Tem certeza de que deseja excluir as imagens dos seus envios",
     "message_failed": "Falha ao carregar imagem",
-    "delete_failed": "Failed to delete image",
+    "delete_failed": "Falha ao apagar imagem",
     "failed_count": "Falha ao enviar {failedCount} de {totalCount} foto(s) selecionada(s)"
   },
   "pincode": {
@@ -485,7 +491,7 @@
     "connection_fail": "Falha na conexão!",
     "connection_success": "Conectado com sucesso!",
     "checking": "A verificar...",
-    "external_link": "Abrir no Navegador",
+    "external_link": "Open external link",
     "not_existing_post": "Este post não existe! Por favor, verifique o permlink e o autor.",
     "google_play_version": "Notamos que seu dispositivo tem versão antiga do Google Play. Por favor, atualize o Google Play Services e tente novamente!",
     "rc_down": "Não há créditos de recursos suficientes para executar uma ação! \n\nImpulsione sua conta para continuar a desfrutar da experiência. Você deseja impulsionar sua conta agora?",
@@ -559,9 +565,9 @@
     "confirm_report_body": "Tem certeza que quer denunciar?"
   },
   "delete": {
-    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_title": "Confirmar exclusão",
     "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
-    "request_sent": "Your request for deletion is sent"
+    "request_sent": "Seu pedido de exclusão foi enviado"
   },
   "favorites": {
     "title": "Favoritos",
@@ -601,7 +607,7 @@
     "pin-community": "Fixar na comunidade",
     "unpin-community": "Desafixar da comunidade",
     "edit-history": "Histórico de Edição",
-    "mute": "Mute / Block"
+    "mute": "Silenciar / Bloquear"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
@@ -734,7 +740,7 @@
     "reveal_comment": "Revelar comentário",
     "read_more": "Ler mais comentários",
     "more_replies": "respostas",
-    "no_comments": "Be the first to respond..."
+    "no_comments": "Seja o primeiro a comentar..."
   },
   "search_result": {
     "others": "Outros",
@@ -849,8 +855,8 @@
     "qr_scan": "Leitor QR",
     "open": "Abrir URL",
     "detected_url": "URL detectada",
-    "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url."
+    "unsupported_alert_title": "URL não suportada!",
+    "unsupported_alert_desc": "Por favor, forneça um endereço URL válido da Ecency."
   },
   "history": {
     "edit": "Editar Histórico",

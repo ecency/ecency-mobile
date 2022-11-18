@@ -3,6 +3,6 @@
     <item name="splashBackground" type="color">#1e2835</item>
     <item name="notification_icon" type="color">#1e2835</item>
     <color name="primary_dark">#ffffff</color>
-    <color name="splashscreen_bg">#1e2835</color>
+    <color name="bootsplash_background">#1e2835</color>
     <color name="app_bg">#1e2835</color>
 </resources>

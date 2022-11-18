@@ -61,7 +61,7 @@
     "amount_information": "Siirrä kytkintä muuttaaksesi määrää",
     "amount": "Määrä",
     "memo": "Muistio",
-    "tap_update": "Tap to update",
+    "tap_update": "Napsauta päivittääksesi",
     "information": "Haluatko varmasti siirtää varoja?",
     "amount_desc": "Saldo",
     "memo_desc": "Tämä muistio on julkinen",
@@ -141,6 +141,8 @@
     "unvote": "äänestetty alas",
     "reply": "vastasi",
     "mention": "mainittu",
+    "favorites": "loi uuden julkaisun",
+    "bookmarks": "made new reply on",
     "follow": "seurasi sinua",
     "unfollow": "lopetti seuraamisesi",
     "ignore": "sivuutti sinut",
@@ -227,6 +229,8 @@
       "vote": "Äänestys",
       "comment": "Kommentti",
       "mention": "Maininta",
+      "favorite": "Suosikit",
+      "bookmark": "Bookmarks",
       "reblog": "Jako",
       "transfers": "Siirrot",
       "delegations": "Valtuutukset"
@@ -272,12 +276,12 @@
     "steemconnect_fee_description": "tietoa",
     "not_loggedin_alert": "Ei Kirjautunut",
     "not_loggedin_alert_desc": "Kirjaudu ensin sisään",
-    "login_failed": "Login Failed",
-    "login_failed_body": "try a different key or try again later.",
-    "deep_login_alert_title": "Easy Login @{username}",
-    "deep_login_alert_body": "Verify direct login using access code",
-    "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "login_failed": "Kirjautuminen epäonnistui",
+    "login_failed_body": "yritä toista avainta tai yritä myöhemmin uudelleen.",
+    "deep_login_alert_title": "Helppo kirjautuminen @{username}",
+    "deep_login_alert_body": "Vahvista suora kirjautuminen pääsykoodilla",
+    "deep_login_url_expired": "Kirjautumisosoite vanhentunut, käytä yksityistä avainta tai salasanaa kirjautuaksesi",
+    "deep_login_malformed_url": "Virheellinen sisäänkirjautumisosoite, käytä yksityistä avainta tai salasanaa kirjautumiseen"
   },
   "register": {
     "button": "Luo tili",
@@ -350,6 +354,7 @@
     "limited_characters": "Käytä vain pieniä kirjaimia, numeroita ja yhtä viivaa",
     "limited_firstchar": "Tag alkaa kirjaimella",
     "limited_lastchar": "Tagi päättyy kirjaimeen tai numeroon",
+    "tag_duplicate": "Tunniste on jo olemassa",
     "setting_schedule": "Aikataulutus",
     "setting_reward": "Palkkio",
     "setting_reblog": "Jako",
@@ -362,6 +367,7 @@
     "options": "Asetukset",
     "my_blog": "Oma Blogi",
     "select_community": "Valitse yhteisö",
+    "community_selected": "Yhteisön Valitsemat",
     "my_communities": "Yhteisöni",
     "top_communities": "Suosituimmat Yhteisöt",
     "schedule_modal_title": "Ajasta julkaisu",
@@ -417,15 +423,15 @@
     "btn_cancel": "Peruuta"
   },
   "uploads_modal": {
-    "label_no_images": "No Existing Uploads...",
+    "label_no_images": "Ei Latauksia...",
     "title": "Ladatut kuvat",
     "title_remove_confirmation": "Poista kuva",
     "btn_add": "Kuva",
     "btn_insert": "Lisää",
     "btn_delete": "POISTA",
-    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "confirm_delete": "Haluatko varmasti poistaa kuvat latauksistasi",
     "message_failed": "Kuvan lataaminen epäonnistui",
-    "delete_failed": "Failed to delete image",
+    "delete_failed": "Kuvan poisto epäonnistui",
     "failed_count": "Ei voitu ladata {failedCount} valituista kuvista {totalCount}"
   },
   "pincode": {
@@ -485,7 +491,7 @@
     "connection_fail": "Yhteys epäonnistui!",
     "connection_success": "Yhdistetty onnistuneesti!",
     "checking": "Tarkistetaan...",
-    "external_link": "Avaa selaimessa",
+    "external_link": "Open external link",
     "not_existing_post": "Julkaisua ei ole! Tarkista linkki ja julkaisija.",
     "google_play_version": "Käytät vanhaa Google Play-versiota. Päivitä se ja yritä uudelleen!",
     "rc_down": "Ei tarpeeksi resurssipisteitä toimintoon! \nTehosta tiliäsi nauttiaksesi kokemuksesta enemmän. Haluatko tehostaa heti?",
@@ -827,7 +833,7 @@
     "year": "vuotta"
   },
   "quick_reply": {
-    "placeholder": "Add a comment...",
+    "placeholder": "Lisää kommentti...",
     "comment": "Kommentti",
     "reply": "VASTAA",
     "close": "SULJE"

@@ -61,7 +61,7 @@
     "amount_information": "राशि समायोजित करने के लिए स्लाइडर को खींचें।",
     "amount": "रकम",
     "memo": "ज्ञापन",
-    "tap_update": "Tap to update",
+    "tap_update": "अपडेट करने के लिए टैप करें",
     "information": "क्या आप रकम स्थान्तरित करना चाहते हैं?",
     "amount_desc": "शेष रकम",
     "memo_desc": "यह ज्ञापन सार्वजनिक है",
@@ -94,7 +94,7 @@
     "ecency": {
       "title": "अंक",
       "name": "इसेंसी अंक",
-      "buy": "GET POINTS"
+      "buy": "अंक प्राप्त करें"
     },
     "savinghive": {
       "title": "हाइव बचत"
@@ -104,7 +104,7 @@
     },
     "hive": {
       "title": "हाइव",
-      "name": "Hive Token",
+      "name": "हाइव टोकन",
       "buy": "हाइव प्राप्त करें"
     },
     "hbd": {
@@ -113,34 +113,36 @@
     },
     "hive_power": {
       "title": "हाइव पावर",
-      "name": "Hive Power"
+      "name": "हाइव पावर"
     },
     "hive_dollar": {
-      "name": "Hive Dollar"
+      "name": "हाइव डॉलर"
     },
     "btc": {
       "title": "बीटीसी",
       "buy": "बीटीसी प्राप्त करें",
       "address": "प्राप्त करना"
     },
-    "last_updated": "Last Updated:",
-    "updating": "Updating...",
-    "coin_details": "Details",
-    "change": "Change",
-    "activities": "Activities",
-    "savings_withdrawal": "Pending Withdrawals",
-    "open_orders": "Open Orders",
-    "conversions_requested": "Conversions Requested",
-    "expires": "expires",
-    "pending_requests": "Pending Requests",
-    "boost_account": "Boost",
-    "get_boost": "Get Boost"
+    "last_updated": "अंतिम अद्यतन:",
+    "updating": "अपडेट हो रहा है...",
+    "coin_details": "विवरण",
+    "change": "परिवर्तन",
+    "activities": "क्रियाएँ",
+    "savings_withdrawal": "लंबित निकासी",
+    "open_orders": "खुला ऑर्डर्स",
+    "conversions_requested": "रूपांतरण का अनुरोध किया गया",
+    "expires": "समय सीमा समाप्त",
+    "pending_requests": "अनुरोध लंबित",
+    "boost_account": "बूस्ट",
+    "get_boost": "बूस्ट प्राप्त करें"
   },
   "notification": {
     "vote": "मतदान किया",
     "unvote": "डाउनवोट किया",
     "reply": "को उत्तर दिया",
     "mention": "में वर्णित",
+    "favorites": "नई पोस्ट बनाई",
+    "bookmarks": "made new reply on",
     "follow": "आपके साथ जुड़ा",
     "unfollow": "आपका साथ छोड़ा",
     "ignore": "आपको अनदेखा किया",
@@ -220,19 +222,21 @@
     "currency": "मुद्रा",
     "language": "भाषा",
     "server": "सर्वर",
-    "color_theme": "Appearance",
+    "color_theme": "स्वरूप",
     "push_notification": "संभर अधिसूचना",
     "notification": {
       "follow": "का पालन करें",
       "vote": "वोट",
       "comment": "टिप्पणी",
       "mention": "उल्लेख",
+      "favorite": "पसंदीदा",
+      "bookmark": "Bookmarks",
       "reblog": "पुनर्प्रेशण",
       "transfers": "स्थानांतरण",
       "delegations": "डेलीगेशन्स"
     },
     "pincode": "Pincode",
-    "biometric": "Finger Print / Face Unlock",
+    "biometric": "फिंगर प्रिंट / फेस अनलॉक",
     "reset_pin": "पिन कोड रीसेट करें",
     "reset": "पुनः नियोजन",
     "nsfw_content": "एनडीएफडब्ल्यू",
@@ -245,15 +249,15 @@
       "always_warn": "हमेशा चेतावनी देते हैं"
     },
     "theme": {
-      "system": "Device settings",
-      "light": "Light",
-      "dark": "Dark"
+      "system": "डिवाइस सेटिंग",
+      "light": "लाइट",
+      "dark": "डार्क"
     },
     "feedback_success": "ईमेल सफलतापूर्वक खुला",
     "feedback_fail": "ईमेल क्लाइंट नहीं खोल सका",
     "server_fail": "Server उपलब्ध नहीं है",
-    "show_imgs": "Show Images",
-    "delete_account": "Delete Account"
+    "show_imgs": "छवियां दिखाएं",
+    "delete_account": "खाता हटा दो"
   },
   "voters": {
     "voters_info": "मतदाताओं की जानकारी",
@@ -270,14 +274,14 @@
     "login": "लॉगिन करें",
     "steemconnect_description": "यदि आप अपने पासवर्ड को अपने डिवाइस पर एन्क्रिप्ट और सहेज कर नहीं रखना चाहते हैं, तो आप हाइवसाईनरका उपयोग कर सकते हैं।",
     "steemconnect_fee_description": "जानकारी",
-    "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first",
-    "login_failed": "Login Failed",
-    "login_failed_body": "try a different key or try again later.",
-    "deep_login_alert_title": "Easy Login @{username}",
-    "deep_login_alert_body": "Verify direct login using access code",
-    "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "not_loggedin_alert": "लॉग इन नहीं है",
+    "not_loggedin_alert_desc": "पहले लॉगिन करें",
+    "login_failed": "लॉगिन असफल",
+    "login_failed_body": "कोई दूसरी कुंजी आज़माएं या बाद में फिर से कोशिश करें.",
+    "deep_login_alert_title": "आसान लॉगिन @{username}",
+    "deep_login_alert_body": "एक्सेस कोड का उपयोग करके सीधे लॉगिन सत्यापित करें",
+    "deep_login_url_expired": "लॉगिन यूआरएल समाप्त हो गया है, कृपया लॉगिन करने के लिए निजी कुंजी या पासवर्ड का उपयोग करें",
+    "deep_login_malformed_url": "विकृत लॉगिन यूआरएल, लॉग इन करने के लिए कृपया निजी कुंजी या पासवर्ड का उपयोग करें"
   },
   "register": {
     "button": "साइन अप करें",
@@ -319,7 +323,7 @@
     "add_an_existing_account": "एक मौजूदा खाता जोड़ें",
     "accounts": "खाते",
     "refer": "रेफर करें और कमाएं",
-    "qr": "QR Scan"
+    "qr": "क्यूआर स्कैन"
   },
   "header": {
     "title": "आपकी अपनी संभरण को अपने अनुकूल संयोजित करने के लिए लॉगिन करें",
@@ -350,6 +354,7 @@
     "limited_characters": "केवल निचले अक्षरों, अंकों और एक डैश का उपयोग करें",
     "limited_firstchar": "टैग को एक पत्र के साथ शुरू करना चाहिए",
     "limited_lastchar": "टैग को पत्र या संख्या के साथ समाप्त होना चाहिए",
+    "tag_duplicate": "Tag exists already",
     "setting_schedule": "Scheduling Time",
     "setting_reward": "इनाम",
     "setting_reblog": "रीब्लॉग",
@@ -362,6 +367,7 @@
     "options": "विकल्प",
     "my_blog": "मेरा ब्लॉग",
     "select_community": "एक समुदाय चुनें",
+    "community_selected": "Community Selected",
     "my_communities": "मेरे समुदाय",
     "top_communities": "शीर्ष समुदाय",
     "schedule_modal_title": "पोस्ट शेड्यूल करें",
@@ -388,17 +394,17 @@
     "draft_save_title": "ड्राफ्ट सहेजा जा रहा है",
     "draft_update": "वर्तमान ड्राफ्ट अपडेट करें",
     "draft_save_new": "नए ड्राफ़्ट के रूप में सहेजें",
-    "label": "Label",
-    "enter_label_placeholder": "Enter Label (Optional)",
-    "url": "URL",
-    "enter_url_placeholder": "Enter URL",
-    "link_type_text": "Type of Link",
+    "label": "लेबल",
+    "enter_label_placeholder": "लेबल दर्ज करें (वैकल्पिक)",
+    "url": "यूआरएल",
+    "enter_url_placeholder": "यू आर एल दर्ज करो",
+    "link_type_text": "लिंक का प्रकार",
     "insert_link": "लिंक डालें",
-    "preview": "Preview",
-    "invalid_url_error": "Please insert valid url",
-    "plain": "Plain",
-    "video": "Video",
-    "image": "Image"
+    "preview": "पूर्वावलोकन",
+    "invalid_url_error": "कृपया मान्य यूआरएल डालें",
+    "plain": "प्लेन",
+    "video": "वीडियो",
+    "image": "छवि"
   },
   "snippets": {
     "label_no_snippets": "कोई स्निपेट नहीं मिला",
@@ -417,16 +423,16 @@
     "btn_cancel": "रद्द करें"
   },
   "uploads_modal": {
-    "label_no_images": "No Existing Uploads...",
+    "label_no_images": "कोई मौजूदा अपलोड नहीं...",
     "title": "छवियाँ अपलोड की गईं",
     "title_remove_confirmation": "छवि हटाएं",
     "btn_add": "छवि",
     "btn_insert": "सम्मिलित करें",
     "btn_delete": "हटाएँ",
-    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "confirm_delete": "क्या आप वाकई अपने अपलोड से छवियों को हटाना चाहते हैं",
     "message_failed": "छवि अपलोड करने में विफल",
-    "delete_failed": "Failed to delete image",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "delete_failed": "छवि हटाने में विफल",
+    "failed_count": "{totalCount} चयनित छवियों में से {failedCount} अपलोड करने में विफल"
   },
   "pincode": {
     "enter_text": "खोलनें के लिए पिन डालें",
@@ -436,7 +442,7 @@
     "pin_not_matched": "पिन मेल नहीं खाता, कृपया पुनः प्रयास करें।",
     "attempts_postfix": "असफल प्रयास",
     "message_reset_warning": "अगले असफल प्रयास पर उपयोगकर्ता डेटा मिटा दिया जाएगा",
-    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
+    "biometric_desc": "जारी रखने के लिए डिवाइस स्कैनर पर अपना फ़िंगरप्रिंट स्कैन करें"
   },
   "alert": {
     "success": "सफल!",
@@ -485,7 +491,7 @@
     "connection_fail": "कनेक्ट करना विफल रहा",
     "connection_success": "सफलतापूर्वक जुड़ा हुआ है!",
     "checking": "जाँच हो रही है...",
-    "external_link": "ब्राउज़र में खोलें",
+    "external_link": "Open external link",
     "not_existing_post": "पद मौजूद नहीं है! कृपया पर्मलिंक और लेखक की जाँच करें।",
     "google_play_version": "हमने देखा कि आपके डिवाइस में गूगल प्ले का पुराना संस्करण है। कृपया गूगल प्ले सेवाओं को अपडेट करें और पुनः प्रयास करें!",
     "rc_down": "कार्रवाई करने के लिए पर्याप्त संसाधन क्रेडिट नहीं! \n\nअनुभव का आनंद लेना जारी रखने के लिए अपने खाते को बढ़ावा दें। क्या आप अब अपना खाता बढ़ाना चाहते हैं?",
@@ -505,9 +511,9 @@
     "restart_ecency": "इसेंसी फिर से शुरू करें?",
     "restart_ecency_desc": "परिवर्तनों को लागू करने के लिए पुनः आरंभ करने की आवश्यकता होगी।",
     "invalid_response": "अनुरोध संसाधित नहीं किया जा सका, बाद में पुन: प्रयास करें।",
-    "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
-    "connection_issues": "The server is unreachable, please check your connection and try again."
+    "wallet_updating": "वॉलेट अपडेट जारी है, अपडेट खत्म होते ही फिर से कोशिश करें",
+    "claim_failed": "पुरस्कारों का दावा करने में विफल, {message}\nपुन: प्रयास करें या support@ecency.com पर लिखें",
+    "connection_issues": "सर्वर पहुंच योग्य नहीं है, कृपया अपने कनेक्शन की जांच करें और पुन: प्रयास करें।"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
@@ -539,10 +545,10 @@
     "deleted": "निर्धारित लेख हट गया",
     "move": "प्रलेख में भेजें",
     "moved": "प्रलेख में गया",
-    "pending": "Pending",
-    "postponed": "Postponed",
-    "published": "Published",
-    "error": "Error"
+    "pending": "लंबित",
+    "postponed": "स्थगित",
+    "published": "प्रकाशित",
+    "error": "त्रुटि"
   },
   "bookmarks": {
     "title": "पृष्टस्मृतियाँ",
@@ -559,9 +565,9 @@
     "confirm_report_body": "क्या आप वाकई रिपोर्ट चाहते हैं?"
   },
   "delete": {
-    "confirm_delete_title": "Confirm Delete",
-    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
-    "request_sent": "Your request for deletion is sent"
+    "confirm_delete_title": "हटाने की पुष्टि करें",
+    "confirm_delete_body": "क्या आप वाकई खाता हटाना चाहते हैं? यह आपका सारा डेटा मिटा देगा",
+    "request_sent": "हटाने के लिए आपका अनुरोध भेजा गया है"
   },
   "favorites": {
     "title": "पसंदीदा",
@@ -596,17 +602,17 @@
     "promote": "प्रचार करना",
     "boost": "प्रोत्साहन",
     "report": "विवरण",
-    "pin-blog": "Pin to blog",
-    "unpin-blog": "Unpin from blog",
-    "pin-community": "Pin to community",
-    "unpin-community": "Unpin from community",
-    "edit-history": "Edit History",
-    "mute": "Mute / Block"
+    "pin-blog": "ब्लॉग पर पिन करें",
+    "unpin-blog": "ब्लॉग से अनपिन करें",
+    "pin-community": "समुदाय को पिन करें",
+    "unpin-community": "समुदाय से अनपिन करें",
+    "edit-history": "इतिहास संपादित करें",
+    "mute": "म्यूट / ब्लॉक"
   },
   "deep_link": {
     "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",
     "no_existing_post": "कोई विद्यमान पोस्ट नहीं",
-    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
+    "invalid_link": "यूआरएल अमान्य है, आप वैध यूआरएल के साथ फिर से कोशिश कर सकते हैं या इसे वेब ब्राउज़र में खोलने का प्रयास कर सकते हैं"
   },
   "search": {
     "posts": "पोस्ट",
@@ -645,7 +651,7 @@
     "stop_information": "क्या आप वाकई रोकना चाहते हैं?",
     "percent": "प्रतिशत",
     "auto_vests": "ऑटो वैस्ट",
-    "vests": "Vests",
+    "vests": "वेस्ट्स",
     "save": "सहेजें",
     "percent_information": "प्रतिशत जानकारी",
     "next": "अगला",
@@ -661,7 +667,7 @@
     "account_detail_head": "अकाउंट विवरण",
     "account_detail_subhead": "हाइव पावर डेलीगेटेड के लिए उपयोगकर्ता नाम दर्ज करें",
     "delegat_detail_head": "डेलीगेशन विवरण",
-    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
+    "delegat_detail_subhead": "नई राशि पहले से प्रत्यायोजित हाइव पावर को अधिलेखित कर देती है ",
     "new_amount": "नई राशि",
     "review": "समीक्षा",
     "confirm": "डेलीगेशन की पुष्टि करें",
@@ -670,31 +676,31 @@
     "username_alert": "उपयोगकर्ता नाम त्रुटि!",
     "username_alert_detail": "कृपया भिन्न उपयोगकर्ता नाम चुनें",
     "power_down": "क्षमता कम करें",
-    "power_down_amount_head": "Withdraw Amount",
-    "power_down_amount_subhead": "Enter amount for powering down hive power",
-    "withdraw_accounts": "Withdraw Accounts",
-    "amount_hp": "Amount (HP)",
-    "powering_down": "Powering Down",
-    "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
-    "invalid_amount": "Invalid Amount",
-    "invalid_amount_desc": "Please enter valid amount",
-    "account_select_title": "Account Details",
-    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "Transfer Details",
-    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
+    "power_down_amount_head": "विथ्ड्रॉ राशि",
+    "power_down_amount_subhead": "हाइव पावर को कम करने के लिए राशि दर्ज करें",
+    "withdraw_accounts": "निकाशी खाते",
+    "amount_hp": "राशि (एचपी)",
+    "powering_down": "पावर डाउन",
+    "powering_down_subheading": "आप वर्तमान में पावर डाउन कर रहे हैं।",
+    "powering_down_info": "अगला पावर डाउन {days} दिनों में है, {hp} हाइव",
+    "invalid_amount": "अमान्य राशि",
+    "invalid_amount_desc": "कृपया मान्य राशि दर्ज करें",
+    "account_select_title": "अकाउंट विवरण",
+    "account_select_description": "धन से संबंधित संचालन अपरिवर्तनीय हैं, सुनिश्चित करें कि प्राप्तकर्ता का उपयोगकर्ता नाम सही है",
+    "amount_select_title": "स्थानांतरण विवरण",
+    "amount_select_description": "अधिकतम उपलब्ध शेष राशि के भीतर स्थानांतरण राशि दर्ज करें और 0.001 से अधिक होनी चाहिए"
   },
   "boost": {
     "title": "अंक प्राप्त करें",
     "buy": "अंक प्राप्त करें",
     "next": "अगला",
-    "info": "Actual value of vote you receive may vary",
+    "info": "आपको प्राप्त होने वाले वोट का वास्तविक मूल्य भिन्न हो सकता है",
     "account": {
       "title": "खाता बूस्ट प्राप्त करें",
       "desc": "30 दिनों का प्रतिनिधिमंडल आपके वोटों और सामाजिक गतिविधियों को बढ़ावा देगा और आपको अधिक संसाधन क्रेडिट के साथ अधिक कार्रवाई देगा।"
     },
-    "confirm_purchase": "Confirm Purchase @{username}",
-    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
+    "confirm_purchase": "खरीद की पुष्टि करें @{username}",
+    "confirm_purchase_summary": "{username} के लिए {price} पर {points} ख़रीदना"
   },
   "free_estm": {
     "title": "नि: शुल्क अंक",
@@ -734,7 +740,7 @@
     "reveal_comment": "टिप्पणी का खुलासा",
     "read_more": "अधिक टिप्पणियाँ पढ़ें",
     "more_replies": "जवाब",
-    "no_comments": "Be the first to respond..."
+    "no_comments": "जवाब देने वाले पहले बनें..."
   },
   "search_result": {
     "others": "अन्यों",
@@ -786,7 +792,7 @@
     "mute": "म्यूट / ब्लॉक",
     "unmute": "अनम्यूट / अनब्लॉक",
     "report": "उपयोगकर्ता को रिपोर्ट करें",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "डेलीगेट हाइव पावर"
   },
   "communities": {
     "joined": "सदस्यता",
@@ -814,8 +820,8 @@
     "line3_heading": "इसेंसी समुदायों में शामिल हों!",
     "line3_body": "अपने समुदाय का निर्माण करें, पुरस्कृत हों और दूसरों को पुरस्कृत करें।",
     "get_started": "शुरू हो जाओ!",
-    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
-    "terms_text": "Read Here!"
+    "terms_description": "स्वीकार करके, आप हमारी सेवा की शर्तों और गोपनीयता नीतियों से सहमत होते हैं।",
+    "terms_text": "यहाँ पढ़ें!"
   },
   "time": {
     "second": "सेकंड्स",
@@ -827,7 +833,7 @@
     "year": "वर्षों"
   },
   "quick_reply": {
-    "placeholder": "Add a comment...",
+    "placeholder": "एक टिप्पणी जोड़ने...",
     "comment": "टिप्पणी",
     "reply": "जवाब",
     "close": "बंद करे"
@@ -846,14 +852,14 @@
     "empty_text": "आज ही अपने प्रियजनों को देखें और निःशुल्क अंक अर्जित करें"
   },
   "qr": {
-    "qr_scan": "QR Scan",
-    "open": "Open URL",
-    "detected_url": "Detected URL",
-    "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url."
+    "qr_scan": "क्यूआर स्कैन",
+    "open": "यूआरएल खोलें",
+    "detected_url": "यूआरएल का पता चला",
+    "unsupported_alert_title": "असमर्थित यूआरएल!",
+    "unsupported_alert_desc": "कृपया एक मान्य ईसेंसी यूआरएल स्कैन करें।"
   },
   "history": {
-    "edit": "Edit History",
-    "version": "Version"
+    "edit": "इतिहास संपादित करें",
+    "version": "संस्करण"
   }
 }
