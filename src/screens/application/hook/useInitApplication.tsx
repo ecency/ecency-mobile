@@ -105,11 +105,13 @@ export const useInitApplication = () => {
     // while notifee events do not fuction as expected
     if (Platform.OS === 'android') {
       messagingEventRef.current = messaging().onNotificationOpenedApp((remoteMessage) => {
+        console.log("Notificaiton opened app", remoteMessage)
         _pushNavigate(remoteMessage);
       });
 
       const initialNotification = await messaging().getInitialNotification();
       if (initialNotification) {
+         console.log("Initial Notification", initialNotification)
         _pushNavigate(initialNotification);
       }
     } else if (Platform.OS === 'ios') {
@@ -182,8 +184,8 @@ export const useInitApplication = () => {
           routeName = ROUTES.SCREENS.POST;
           break;
 
-        case 'favorites':
-        case 'bookmarks':
+        case 'favorite':
+        case 'bookmark':
         case 'reply':
           params = {
             author: get(push, 'source', ''),
