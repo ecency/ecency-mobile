@@ -55,9 +55,14 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 
 const middleware = [thunk];
 
-const enhancers = __DEV__
-  ? compose(applyMiddleware(...middleware), Reactotron.createEnhancer())
-  : applyMiddleware(...middleware);
+let enhancers;
+if(__DEV__){
+  const createDebugger = require('redux-flipper').default;
+  middleware.push(createDebugger());
+  enhancers = compose(applyMiddleware(...middleware), Reactotron.createEnhancer())
+} else {
+  enhancers = applyMiddleware(...middleware)
+}
 
 export const store = createStore(persistedReducer, enhancers);
 

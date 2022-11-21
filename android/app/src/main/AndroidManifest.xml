@@ -150,6 +150,8 @@
             <data android:mimeType="image/*" />
         </intent-filter>
       </activity>
+      <activity android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
+        android:exported="true"/>
       <meta-data
           android:name="com.google.firebase.messaging.default_notification_icon"
           android:resource="@drawable/ic_notification" />
