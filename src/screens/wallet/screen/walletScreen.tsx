@@ -17,14 +17,14 @@ import moment from 'moment';
 import { LoggedInContainer } from '../../../containers';
 
 // Components
-import { Header, HorizontalIconList, PostCardPlaceHolder } from '../../../components';
+import { Header, HorizontalIconList, PostCardPlaceHolder, TextButton } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './walletScreenStyles';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { CoinCard } from '../children';
+import { CoinCard, TokensSelectModal } from '../children';
 import { fetchMarketChart, INTERVAL_HOURLY } from '../../../providers/coingecko/coingecko';
 import ROUTES from '../../../constants/routeNames';
 import { CoinDetailsScreenParams } from '../../coinDetails/screen/coinDetailsScreen';
@@ -49,6 +49,7 @@ const WalletScreen = ({ navigation }) => {
 
   //refs
   const appState = useRef(AppState.currentState);
+  const tokensSelectRef = useRef(null)
 
   //redux
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
@@ -78,8 +79,8 @@ const WalletScreen = ({ navigation }) => {
     //if coinsData is empty, initilise wallet without a fresh acount fetch
     _fetchData(Object.keys(coinsData).length ? true : false);
 
-    return ()=>{
-      if(appStateSub){
+    return () => {
+      if (appStateSub) {
         appStateSub.remove()
       }
     };
@@ -254,12 +255,25 @@ const WalletScreen = ({ navigation }) => {
           {isLoading
             ? intl.formatMessage({ id: 'wallet.updating' })
             : `${intl.formatMessage({ id: 'wallet.last_updated' })} ${moment(
-                updateTimestamp,
-              ).format('HH:mm:ss')}`}
+              updateTimestamp,
+            ).format('HH:mm:ss')}`}
         </Text>
       </View>
     );
   };
+
+  const _renderFooter = () => {
+    return (
+      <TextButton
+        text={"Manage Tokens"}
+        onPress={() => {
+          if (tokensSelectRef.current) {
+            tokensSelectRef.current.showModal();
+          }
+        }}
+      />
+    )
+  }
 
   const _refreshControl = (
     <RefreshControl
@@ -288,14 +302,19 @@ const WalletScreen = ({ navigation }) => {
                 style={globalStyles.tabBarBottom}
                 ListEmptyComponent={<PostCardPlaceHolder />}
                 ListHeaderComponent={_renderHeader}
+                ListFooterComponent={_renderFooter}
                 renderItem={_renderItem}
                 keyExtractor={(item, index) => index.toString()}
                 refreshControl={_refreshControl}
               />
+
             </View>
           )}
         </LoggedInContainer>
       </SafeAreaView>
+      <TokensSelectModal
+        ref={tokensSelectRef}
+      />
     </Fragment>
   );
 };
