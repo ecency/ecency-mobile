@@ -5,42 +5,26 @@ const DEFAULT_COINS = [
     id: 'ecency',
     symbol: 'Points',
     notCrypto: true,
+    isEngine: false,
   },
   {
     id: 'hive_power',
     symbol: 'HP',
     notCrypto: true,
+    isEngine: false,
   },
   {
     id: 'hive',
     symbol: 'HIVE',
     notCrypto: false,
+    isEngine: false,
   },
   {
     id: 'hive_dollar',
     symbol: 'HBD',
     notCrypto: false,
-  },
-  {
-    id: 'POB',
-    symbol: 'POB',
-    notCrypto: true,
-  },
-  {
-    id: 'ARCHON',
-    symbol: 'ARCHON',
-    notCrypto: true,
-  },
-  {
-    id: 'WAIV',
-    symbol: 'WAIV',
-    notCrypto: true,
-  },
-  {
-    id: 'CCC',
-    symbol: 'CCC',
-    notCrypto: true,
-  },
+    isEngine: false,
+  }
 ] as CoinBase[];
 
 export const COIN_IDS = {

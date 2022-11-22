@@ -18,6 +18,7 @@ export interface CoinBase {
   id: string;
   symbol: string;
   notCrypto: boolean;
+  isEngine: boolean;
 }
 
 export interface CoinData {
