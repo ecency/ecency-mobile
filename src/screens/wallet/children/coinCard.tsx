@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React, { ComponentType, Fragment, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import FastImage from 'react-native-fast-image';
 import styles from '../styles/children.styles';
 import { Icon, MainButton, SimpleChart } from '../../../components';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
@@ -11,6 +12,7 @@ export interface CoinCardProps {
   id: string;
   chartData: number[];
   name: string;
+  iconUrl?: string;
   notCrypto?: boolean;
   isEngine?: boolean;
   symbol: string;
@@ -31,6 +33,7 @@ export interface CoinCardProps {
 export const CoinCard = ({
   id,
   name,
+  iconUrl,
   notCrypto,
   isEngine,
   chartData,
@@ -70,16 +73,19 @@ export const CoinCard = ({
 
   const _renderHeader = (
     <View style={styles.cardHeader}>
-      {/* <View style={styles.logo} /> */}
+      {iconUrl && <FastImage style={styles.logo} resizeMode="cover" source={{ uri: iconUrl }} />}
+
       <View style={styles.cardTitleContainer}>
         <Text style={styles.textTitle}>{symbol}</Text>
         <Text style={styles.textSubtitle}>{_name}</Text>
       </View>
       <View style={styles.cardValuesContainer}>
         <Text style={styles.textTitle}>{value}</Text>
-        <Text style={styles.textSubtitleRight}>
-          {`${(ownedTokens * currentValue).toFixed(2)}${currencySymbol}`}
-        </Text>
+        {!isEngine && (
+          <Text style={styles.textSubtitleRight}>
+            {`${(ownedTokens * currentValue).toFixed(2)}${currencySymbol}`}
+          </Text>
+        )}
       </View>
     </View>
   );
@@ -175,8 +181,8 @@ export const CoinCard = ({
         {_renderHeader}
         {_renderClaimSection()}
         {_renderBoostAccount()}
-        {!notCrypto && _renderGraph()}
-        {!notCrypto ? _renderFooter : <View style={{ height: 12 }} />}
+        {!notCrypto && !isEngine && _renderGraph()}
+        {!notCrypto && !isEngine ? _renderFooter : <View style={{ height: 12 }} />}
         {footerComponent && footerComponent}
       </View>
     </TouchableOpacity>

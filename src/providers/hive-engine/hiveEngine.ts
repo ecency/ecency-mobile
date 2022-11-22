@@ -75,7 +75,7 @@ export const fetchHiveEngineTokenBalances = async (
   } catch (err) {
     console.warn('Failed to get engine token balances', err);
     bugsnapInstance.notify(err);
-    throw err;
+    throw err; 
   }
 };
 

@@ -17,7 +17,7 @@ import moment from 'moment';
 import { LoggedInContainer } from '../../../containers';
 
 // Components
-import { Header, HorizontalIconList, PostCardPlaceHolder, TextButton } from '../../../components';
+import { Header, HorizontalIconList, IconButton, PostCardPlaceHolder, TextButton } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -201,6 +201,10 @@ const WalletScreen = ({ navigation }) => {
     const _balance = coinData.balance + (coinData.savings || 0);
     const quote = quotes && quotes[item.id] ? quotes[item.id] : quotes[COIN_IDS.HIVE];
 
+    //check engine token section start
+    const nextIndex = index+1
+    const engineSectionStarts = !item.isEngine && (selectedCoins.length === nextIndex || selectedCoins[nextIndex].isEngine);
+
     const _onCardPress = () => {
       navigation.navigate(ROUTES.SCREENS.COIN_DETAILS, {
         coinId: item.id,
@@ -225,26 +229,30 @@ const WalletScreen = ({ navigation }) => {
     };
 
     return (
-      <CoinCard
-        name={coinData.name}
-        chartData={_tokenMarketData || []}
-        currentValue={quote.price || 0}
-        changePercent={quote.percentChange || 0}
-        currencySymbol={currency.currencySymbol}
-        ownedTokens={_balance}
-        unclaimedRewards={coinData.unclaimedBalance}
-        enableBuy={!coinData.unclaimedBalance && item.id === COIN_IDS.ECENCY}
-        isClaiming={isClaiming}
-        isLoading={isLoading}
-        isEngine={coinData.isEngine}
-        onCardPress={_onCardPress}
-        onClaimPress={_onClaimPress}
-        onBoostAccountPress={_onBoostAccountPress}
-        footerComponent={
-          index === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />
-        }
-        {...item}
-      />
+      <>
+        <CoinCard
+          name={coinData.name}
+          iconUrl={coinData.iconUrl}
+          chartData={_tokenMarketData || []}
+          currentValue={quote.price || 0}
+          changePercent={quote.percentChange || 0}
+          currencySymbol={currency.currencySymbol}
+          ownedTokens={_balance}
+          unclaimedRewards={coinData.unclaimedBalance}
+          enableBuy={!coinData.unclaimedBalance && item.id === COIN_IDS.ECENCY}
+          isClaiming={isClaiming}
+          isLoading={isLoading}
+          isEngine={coinData.isEngine}
+          onCardPress={_onCardPress}
+          onClaimPress={_onClaimPress}
+          onBoostAccountPress={_onBoostAccountPress}
+          footerComponent={
+            index === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />
+          }
+          {...item}
+        />
+        {engineSectionStarts && _renderEngineHeader()}
+      </>
     );
   };
 
@@ -262,16 +270,21 @@ const WalletScreen = ({ navigation }) => {
     );
   };
 
-  const _renderFooter = () => {
+  const _renderEngineHeader = () => {
     return (
+
       <TextButton
-        text={"Manage Tokens"}
+        text={"Manage Engine Tokens"}
+        textStyle={styles.engineBtnText}
+        style={styles.engineBtnContainer}
         onPress={() => {
           if (tokensSelectRef.current) {
             tokensSelectRef.current.showModal();
           }
         }}
       />
+
+
     )
   }
 
@@ -302,7 +315,6 @@ const WalletScreen = ({ navigation }) => {
                 style={globalStyles.tabBarBottom}
                 ListEmptyComponent={<PostCardPlaceHolder />}
                 ListHeaderComponent={_renderHeader}
-                ListFooterComponent={_renderFooter}
                 renderItem={_renderItem}
                 keyExtractor={(item, index) => index.toString()}
                 refreshControl={_refreshControl}

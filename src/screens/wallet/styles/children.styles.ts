@@ -68,7 +68,7 @@ export default EStyleSheet.create({
     height: 24,
     width: 24,
     borderRadius: 12,
-    backgroundColor: '$primaryBlue',
+    marginRight:8
   } as ImageStyle,
 
   menuIcon: {

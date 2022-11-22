@@ -19,4 +19,12 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     flex: 1,
   },
+  engineBtnContainer: {
+    alignItems: 'flex-end',
+    marginHorizontal: 32,
+    marginVertical: 8,
+  },
+  engineBtnText: {
+    color: '$primaryBlue',
+  },
 });

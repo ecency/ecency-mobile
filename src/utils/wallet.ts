@@ -696,6 +696,7 @@ export const fetchCoinsData = async ({
         coinData[item.symbol] = {
           name: item.name || '',
           symbol: item.symbol,
+          iconUrl: item.icon || '',
           balance: balance,
           estimateValue: (balance + savings) * ppHive,
           savings: savings,
