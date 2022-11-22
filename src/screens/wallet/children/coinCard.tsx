@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React, { ComponentType, Fragment, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import styles from './children.styles';
+import styles from '../styles/children.styles';
 import { Icon, MainButton, SimpleChart } from '../../../components';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { COIN_IDS } from '../../../constants/defaultCoins';
@@ -30,6 +30,7 @@ export interface CoinCardProps {
 
 export const CoinCard = ({
   id,
+  name,
   notCrypto,
   isEngine,
   chartData,
