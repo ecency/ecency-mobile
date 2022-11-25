@@ -2,13 +2,13 @@ import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } f
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import styles from '../styles/tokensSelectModa.styles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { CheckBox, TextButton } from '../../../components';
 import { CoinBase } from '../../../redux/reducers/walletReducer';
 import DEFAULT_COINS from '../../../constants/defaultCoins';
 import { setSelectedCoins } from '../../../redux/actions/walletActions';
-import { FlatList } from 'react-native-gesture-handler';
 
 export const TokensSelectModal = forwardRef(({}, ref) => {
   const sheetModalRef = useRef<ActionSheet>();
@@ -97,7 +97,7 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
           />
         </View>
       </View>
-    )
+    );
   };
 
   return (
@@ -111,4 +111,3 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
     </ActionSheet>
   );
 });
-
