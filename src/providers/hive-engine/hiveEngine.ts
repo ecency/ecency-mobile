@@ -13,6 +13,7 @@ import {
   TokenBalance,
   TokenStatus,
   HiveEngineToken,
+  EngineMetric,
 } from './hiveEngine.types';
 import { convertEngineToken } from './converters';
 import bugsnapInstance from '../../config/bugsnag';
@@ -67,8 +68,10 @@ export const fetchHiveEngineTokenBalances = async (
   try {
     const balances = await fetchTokenBalances(account);
     const tokens = await fetchTokens(balances.map((t) => t.symbol));
+    
 
     return balances.map((balance) => {
+
       const token = tokens.find((t) => t.symbol == balance.symbol);
       return convertEngineToken(balance, token);
     });
@@ -88,6 +91,8 @@ export const getUnclaimedRewards = async (account: string): Promise<TokenStatus[
     return [];
   });
 };
+
+
 
 // export const claimRewards = async (
 //   account: string,
@@ -118,4 +123,44 @@ export const getUnclaimedRewards = async (account: string): Promise<TokenStatus[
 //   });
 
 //   return broadcastPostingJSON(account, "ssc-mainnet-hive", json);
+// };
+
+
+export const getMetrics = async (symbol?:string, account?:string) => {
+  try {
+
+    const data = {
+      jsonrpc: JSON_RPC.RPC_2,
+      method: Methods.FIND ,
+      params: {
+        contract: EngineContracts.MARKET,
+        table: EngineTables.METRICS,
+        query: {
+          symbol: symbol,
+          account: account
+        }
+      },
+      id: EngineIds.ONE
+    };
+  
+    const response = await hiveEngineApi.post(PATH_CONTRACTS, data )
+    if(!response.data.result){
+      throw new Error("No metric data returned")
+    }
+
+    return response.data.result as EngineMetric[]
+
+  } catch (err) {
+    console.warn('Failed to get engine metrices', err);
+    bugsnapInstance.notify(err);
+    throw err; 
+  }
+}
+
+// export const getMarketData = async (symbol: any) => {
+//   const url: any = engine.chartApi;
+//   const { data: history } = await axios.get(`${url}`, {
+//     params: { symbol, interval: "daily" }
+//   });
+//   return history;
 // };

@@ -66,16 +66,33 @@ export enum JSON_RPC {
 
 export enum EngineContracts {
   TOKENS = 'tokens',
+  MARKET = 'market'
 }
 
 export enum EngineTables {
   BALANCES = 'balances',
   DELEGATIONS = 'delegations',
   TOKENS = 'tokens',
+  METRICS = 'metrics',
 }
 
 export enum EngineIds {
   ONE = '1',
+}
+
+export interface EngineMetric {
+  _id: number
+  highestBid: string;
+  lastDayPrice: string;
+  lastDayPriceExpiration: number;
+  lastPrice: string;
+  lowestAsk: string;
+  priceChangeHive:string;
+  priceChangePercent:string;
+  symbol: string;
+  volume: string;
+  volumeExpiration: number;
+
 }
 
 interface EngineQuery {

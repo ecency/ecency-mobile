@@ -1,3 +1,8 @@
+/**
+ * hive engine docs reference: 
+ * https://hive-engine.github.io/engine-docs/
+ */
+
 import axios from 'axios';
 
 const BASE_URL = 'https://api.hive-engine.com';
