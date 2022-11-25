@@ -691,7 +691,7 @@ export const fetchCoinsData = async ({
       if (item) {
         const balance = item.balance;
         const savings = item.stake;
-        const ppHive = _prices.hive.price;
+        const ppHive = _prices.hive.price * (item.tokenPrice || 1); 
 
         coinData[item.symbol] = {
           name: item.name || '',
@@ -704,6 +704,7 @@ export const fetchCoinsData = async ({
           currentPrice: ppHive,
           unclaimedBalance: '',
           isEngine: true,
+          percentChange: item.percentChange,
           // actions: HIVE_ACTIONS,
           actions: [],
         };

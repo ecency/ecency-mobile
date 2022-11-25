@@ -41,6 +41,8 @@ export interface HiveEngineToken {
   delegations: string;
   stakedBalanceStr: string;
   balanceStr: string;
+  tokenPrice?: number;
+  percentChange?: number;
 }
 
 export interface TokenMetadata {

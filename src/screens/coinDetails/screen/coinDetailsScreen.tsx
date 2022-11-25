@@ -184,7 +184,7 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
       id={coinId}
       coinSymbol={symbol}
       coinData={coinData}
-      percentChagne={quote.percentChange || 0}
+      percentChagne={quote ? quote.percentChange : (coinData.percentChange || 0)}
       onActionPress={_onActionPress}
       onInfoPress={_onInfoPress}
     />

@@ -67,13 +67,17 @@ export const fetchHiveEngineTokenBalances = async (
 ): Promise<Array<HiveEngineToken | null>> => {
   try {
     const balances = await fetchTokenBalances(account);
-    const tokens = await fetchTokens(balances.map((t) => t.symbol));
+    const symbols = balances.map((t) => t.symbol);
+
+    const tokens = await fetchTokens(symbols);
+    const metrices = await fetchMetics(symbols);
     
 
     return balances.map((balance) => {
 
       const token = tokens.find((t) => t.symbol == balance.symbol);
-      return convertEngineToken(balance, token);
+      const metrics = metrices.find((t) => t.symbol == balance.symbol);
+      return convertEngineToken(balance, token, metrics);
     });
   } catch (err) {
     console.warn('Failed to get engine token balances', err);
@@ -126,7 +130,7 @@ export const getUnclaimedRewards = async (account: string): Promise<TokenStatus[
 // };
 
 
-export const getMetrics = async (symbol?:string, account?:string) => {
+export const fetchMetics = async (tokens?:string[]) => {
   try {
 
     const data = {
@@ -136,8 +140,7 @@ export const getMetrics = async (symbol?:string, account?:string) => {
         contract: EngineContracts.MARKET,
         table: EngineTables.METRICS,
         query: {
-          symbol: symbol,
-          account: account
+          symbol: { $in: tokens },
         }
       },
       id: EngineIds.ONE

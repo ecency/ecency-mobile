@@ -34,6 +34,7 @@ export interface CoinData {
   actions: string[];
   extraDataPairs?: DataPair[];
   isEngine?: boolean;
+  percentChange?:number;
 }
 
 export interface PriceHistory {

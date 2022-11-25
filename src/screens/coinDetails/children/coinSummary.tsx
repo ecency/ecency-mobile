@@ -45,6 +45,8 @@ export const CoinSummary = ({
     });
   }
 
+  const _shRrenderChart = !coinData.isEngine && id !== COIN_IDS.ECENCY && id !== COIN_IDS.HP
+
   return (
     <View>
       <CoinBasics
@@ -55,7 +57,7 @@ export const CoinSummary = ({
         onInfoPress={onInfoPress}
       />
       <CoinActions actions={actions} onActionPress={onActionPress} />
-      {id !== COIN_IDS.ECENCY && id !== COIN_IDS.HP && <CoinChart coinId={id} />}
+      {_shRrenderChart && <CoinChart coinId={id} />}
     </View>
   );
 };
