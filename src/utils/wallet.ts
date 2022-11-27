@@ -39,6 +39,7 @@ import {
   fetchHiveEngineTokenBalances,
   fetchTokenBalances,
 } from '../providers/hive-engine/hiveEngine';
+import { off } from 'process';
 
 export const transferTypes = [
   'curation_reward',
@@ -692,6 +693,20 @@ export const fetchCoinsData = async ({
         const balance = item.balance;
         const ppHive = _prices.hive.price * (item.tokenPrice || 1); 
 
+        const actions = ['transfer']
+
+        if(item.delegationEnabled){
+          actions.push('delegate');
+        }
+
+        if(item.stakingEnabled && item.balance > 0){
+          actions.push('stake')
+        }
+
+        if(item.stake){
+          actions.push('unstake')
+        }
+
         coinData[item.symbol] = {
           name: item.name || '',
           symbol: item.symbol,
@@ -703,8 +718,7 @@ export const fetchCoinsData = async ({
           unclaimedBalance: '',
           isEngine: true,
           percentChange: item.percentChange,
-          // actions: HIVE_ACTIONS,
-          actions: [],
+          actions,
           extraDataPairs:[{
             dataKey: 'staked',
             value: item.stake !== 0 ? `${item.stake}` : '0.00'

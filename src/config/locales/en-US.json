@@ -21,6 +21,8 @@
     "outgoing_transfer_title": "Outgoing transfer",
     "checkin_extra": "Bonus",
     "staked":"Staked",
+    "unstake":"Unstake",
+    "stake":"Stake",
     "delegations_in":"Delegagtions In",
     "delegations_out":"Delegations Out",
     "delegation": "Delegation",
