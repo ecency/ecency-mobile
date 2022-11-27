@@ -690,7 +690,6 @@ export const fetchCoinsData = async ({
     engineData.forEach((item) => {
       if (item) {
         const balance = item.balance;
-        const savings = item.stake;
         const ppHive = _prices.hive.price * (item.tokenPrice || 1); 
 
         coinData[item.symbol] = {
@@ -698,8 +697,7 @@ export const fetchCoinsData = async ({
           symbol: item.symbol,
           iconUrl: item.icon || '',
           balance: balance,
-          estimateValue: (balance + savings) * ppHive,
-          savings: savings,
+          estimateValue: balance * ppHive,
           vsCurrency: vsCurrency,
           currentPrice: ppHive,
           unclaimedBalance: '',
@@ -707,6 +705,16 @@ export const fetchCoinsData = async ({
           percentChange: item.percentChange,
           // actions: HIVE_ACTIONS,
           actions: [],
+          extraDataPairs:[{
+            dataKey: 'staked',
+            value: item.stake !== 0 ? `${item.stake}` : '0.00'
+          },{
+            dataKey: 'delegations_in',
+            value: item.delegationsIn !== 0 ? `${item.delegationsIn}` : '0.00'
+          },{
+            dataKey: 'delegations_out',
+            value: item.delegationsOut !== 0 ? `${item.delegationsOut}` : '0.00'
+          }]
         };
       }
     });

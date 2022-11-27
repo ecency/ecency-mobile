@@ -199,6 +199,7 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
         pendingActivities={coinActivities?.pending || []}
         refreshing={refreshing}
         loading={loading}
+        isEngine={coinData.isEngine}
         onEndReached={_fetchDetails}
         onRefresh={_onRefresh}
       />
