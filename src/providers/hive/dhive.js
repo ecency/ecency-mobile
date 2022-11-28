@@ -113,6 +113,55 @@ export const sendHiveOperations = async (
   return result;
 };
 
+/** reuseable broadcast json method */
+
+export const broadcastPostingJSON = async (
+  id,
+  json,
+  currentAccount,
+  pin
+) => {
+
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = new hsClient({
+      accessToken: token,
+    });
+
+    return api.customJson([], [username], id, JSON.stringify(json))
+      .then((r) => r.result)
+  }
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+
+    const custom_json = {
+      id,
+      json: JSON.stringify(json),
+      required_auths: [],
+      required_posting_auths: [currentAccount.username],
+    };
+    const opArray = [['custom_json', custom_json]];
+
+    return new Promise((resolve, reject) => {
+      sendHiveOperations(opArray, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
+};
+
 export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
 
 export const getDynamicGlobalProperties = () => client.database.getDynamicGlobalProperties();
@@ -1892,40 +1941,15 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 };
 
 export const subscribeCommunity = (currentAccount, pinCode, data) => {
-  const digitPinCode = getDigitPinCode(pinCode);
-  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
-  const username = get(currentAccount, 'name');
 
   const json = JSON.stringify([
     data.isSubscribed ? 'unsubscribe' : 'subscribe',
     { community: data.communityId },
   ]);
 
-  const op = {
-    id: 'community',
-    json,
-    required_auths: [],
-    required_posting_auths: [username],
-  };
-  const opArray = [['custom_json', op]];
-
-  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = new hsClient({
-      accessToken: token,
-    });
-    return api.broadcast(opArray);
-  }
-
-  if (key) {
-    const privateKey = PrivateKey.fromString(key);
-    return sendHiveOperations(opArray, privateKey);
-  }
-
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
+  return broadcastPostingJSON('community', JSON.parse(json), currentAccount, pinCode)
 };
+
 
 export const pinCommunityPost = (
   currentAccount,
@@ -1977,15 +2001,15 @@ export const pinCommunityPost = (
 export const getBtcAddress = (pin, currentAccount) => {
   /* const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
-
+ 
   if (key) {
     const keyPair = bitcoin.ECPair.fromWIF(key);
-    const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
+const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
 
-    // console.log('btc address', address);
-    return { address: address };
-  }
-  */
+// console.log('btc address', address);
+return { address: address };
+}
+*/
   return {
     address: '',
   };
