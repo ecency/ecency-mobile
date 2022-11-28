@@ -18,14 +18,14 @@ export const EngineHeader = ({ refreshing }: EngineHeaderProps) => {
     const dispatch = useAppDispatch();
 
     const currentAccount = useAppSelector(state => state.account.currentAccount);
-    const pinHash = useAppSelector(state=>state.application.pin);
+    const pinHash = useAppSelector(state => state.application.pin);
 
     const firstRenderRef = useRef(true);
     const tokensSelectRef = useRef(null);
 
     const [isClaiming, setIsClaiming] = useState(false);
     const [claimExpected, setClaimExpected] = useState(false);
-    const [unclaimedEngineRewards, setUnclaimedEngineRewards] = useState<TokenStatus[]>([]);
+    const [pendingRewards, setPendingRewards] = useState<TokenStatus[]>([]);
 
     //side-effectsf
     useEffect(() => {
@@ -44,23 +44,43 @@ export const EngineHeader = ({ refreshing }: EngineHeaderProps) => {
 
     const _fetchUnclaimedRewards = async () => {
         const _engineRewards = await fetchUnclaimedRewards(currentAccount.username)
-        setUnclaimedEngineRewards(_engineRewards)
+        setPendingRewards(_engineRewards)
     }
 
 
     const _claimRewards = async () => {
-        try{
+        try {
             setIsClaiming(true)
-            await claimRewards(unclaimedEngineRewards.map(token=>token.symbol), currentAccount, pinHash);
-            await _fetchUnclaimedRewards()
+            await claimRewards(pendingRewards.map(token => token.symbol), currentAccount, pinHash);
+            setPendingRewards([]);
             setIsClaiming(false);
-        } catch(err){
+        } catch (err) {
             setIsClaiming(false)
         }
-
     }
 
 
+    const _claimRewardsPress = async () => {
+        dispatch(showActionModal({
+            title: "Claim Engine Tokens",
+            body: pendingRewards.map(tokenStatus => `${tokenStatus.symbol}: ${tokenStatus.pendingRewards}`).join('\n'),
+            buttons: [
+                {
+                    text: intl.formatMessage({ id: 'alert.cancel' }),
+                    onPress: () => console.log('Cancel'),
+                },
+                {
+                    text: intl.formatMessage({ id: 'alert.confirm' }),
+                    onPress: _claimRewards,
+                },
+            ],
+        }))
+    }
+
+
+
+
+    const _hasUnclaimedRewards = pendingRewards.length > 0;
 
     return (
         <View style={styles.engineHeaderContainer}>
@@ -75,27 +95,15 @@ export const EngineHeader = ({ refreshing }: EngineHeaderProps) => {
                     }
                 }}
             />
-            <TextButton
-                text={`Claim ${unclaimedEngineRewards.length} Rewards`}
-                textStyle={styles.engineBtnText}
-                style={styles.engineBtnContainer}
-                onPress={() => {
-                    dispatch(showActionModal({
-                        title: "Claim Engine Tokens",
-                        body: unclaimedEngineRewards.map(tokenStatus => `${tokenStatus.symbol}: ${tokenStatus.pendingRewards}`).join('\n'),
-                        buttons: [
-                            {
-                                text: intl.formatMessage({ id: 'alert.cancel' }),
-                                onPress: () => console.log('Cancel'),
-                            },
-                            {
-                                text: intl.formatMessage({ id: 'alert.confirm' }),
-                                onPress: _claimRewards,
-                            },
-                        ],
-                    }))
-                }}
-            />
+            {_hasUnclaimedRewards && (
+                <TextButton
+                    text={`Claim ${pendingRewards.length} Rewards`}
+                    textStyle={styles.engineBtnText}
+                    style={styles.engineBtnContainer}
+                    onPress={_claimRewardsPress}
+                />
+            )}
+
             <TokensSelectModal
                 ref={tokensSelectRef}
             />
