@@ -1,6 +1,6 @@
-import { EngineMetric, HiveEngineToken, Token, TokenBalance, TokenMetadata } from './hiveEngine.types';
+import { EngineMetric, HiveEngineToken, Token, TokenBalance, TokenMetadata, TokenStatus } from './hiveEngine.types';
 
-export const convertEngineToken = (balanceObj: TokenBalance, token?: Token, metrics?:EngineMetric) => {
+export const convertEngineToken = (balanceObj: TokenBalance, token?: Token, metrics?: EngineMetric) => {
   if (!balanceObj) {
     return null;
   }
@@ -30,3 +30,14 @@ export const convertEngineToken = (balanceObj: TokenBalance, token?: Token, metr
     percentChange
   } as HiveEngineToken;
 };
+
+
+export const convertRewardsStatus = (rawData: any) => {
+
+  return {
+    symbol:rawData.symbol,
+    pendingToken:rawData.pending_token,
+    precision:rawData.precision,
+    pendingRewards: rawData.pending_token / Math.pow(10, rawData.precision)
+  } as TokenStatus
+}

@@ -53,8 +53,9 @@ export interface TokenMetadata {
 
 export interface TokenStatus {
   symbol: string;
-  pending_token: number;
+  pendingToken: number;
   precision: number;
+  pendingRewards: number;
 }
 
 export enum Methods {

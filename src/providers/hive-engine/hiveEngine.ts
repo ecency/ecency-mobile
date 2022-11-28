@@ -1,4 +1,4 @@
-import hiveEngineApi, { PATH_CONTRACTS } from '../../config/hiveEngineApi';
+import hiveEngineApi, { engineRewardsApi, PATH_CONTRACTS } from '../../config/hiveEngineApi';
 // import HiveEngineToken from "../helper/hive-engine-wallet";
 // import { TransactionConfirmation } from "@hiveio/dhive";
 // import { broadcastPostingJSON } from "./operations";
@@ -15,8 +15,9 @@ import {
   HiveEngineToken,
   EngineMetric,
 } from './hiveEngine.types';
-import { convertEngineToken } from './converters';
+import { convertEngineToken, convertRewardsStatus } from './converters';
 import bugsnapInstance from '../../config/bugsnag';
+
 
 export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => {
   const data: EngineRequestPayload = {
@@ -86,14 +87,27 @@ export const fetchHiveEngineTokenBalances = async (
   }
 };
 
-export const getUnclaimedRewards = async (account: string): Promise<TokenStatus[]> => {
-  return (hiveEngineApi
-    .get(`https://scot-api.hive-engine.com/@${account}?hive=1`)
-    .then((r) => r.data)
-    .then((r) => Object.values(r))
-    .then((r) => r.filter((t) => (t as TokenStatus).pending_token > 0)) as any).catch(() => {
+
+
+export const fetchUnclaimedRewards = async (account: string): Promise<TokenStatus[]> => {
+  try{
+    const response = await engineRewardsApi.get(`@${account}?hive=1`)
+    const rawData = Object.values(response.data)
+    if(!rawData || rawData.length === 0){
+      throw new Error("No rewards data returned");
+    }
+
+    const data = rawData.map(convertRewardsStatus);
+    const filteredData = data.filter(item => item && item.pendingToken > 0)
+    
+    console.log('unclaimed engine rewards data', filteredData);
+    return filteredData;
+  
+  } catch (err) {
+    console.warn("failed ot get unclaimed engine rewards", err)
+    bugsnapInstance.notify(err);
     return [];
-  });
+  }
 };
 
 
