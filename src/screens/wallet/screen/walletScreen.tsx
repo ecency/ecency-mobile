@@ -17,14 +17,14 @@ import moment from 'moment';
 import { LoggedInContainer } from '../../../containers';
 
 // Components
-import { Header, HorizontalIconList, IconButton, PostCardPlaceHolder, TextButton } from '../../../components';
+import { Header, HorizontalIconList, PostCardPlaceHolder } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './walletScreenStyles';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { CoinCard, TokensSelectModal } from '../children';
+import { CoinCard } from '../children';
 import { fetchMarketChart, INTERVAL_HOURLY } from '../../../providers/coingecko/coingecko';
 import ROUTES from '../../../constants/routeNames';
 import { CoinDetailsScreenParams } from '../../coinDetails/screen/coinDetailsScreen';
@@ -40,6 +40,7 @@ import { COIN_IDS } from '../../../constants/defaultCoins';
 import { claimPoints } from '../../../providers/ecency/ePoint';
 import { claimRewardBalance, getAccount } from '../../../providers/hive/dhive';
 import { toastNotification } from '../../../redux/actions/uiAction';
+import { EngineHeader } from '../children/engineHeader';
 
 const CHART_DAYS_RANGE = 1;
 
@@ -49,7 +50,6 @@ const WalletScreen = ({ navigation }) => {
 
   //refs
   const appState = useRef(AppState.currentState);
-  const tokensSelectRef = useRef(null)
 
   //redux
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
@@ -71,6 +71,7 @@ const WalletScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
+
 
   //side-effects
   useEffect(() => {
@@ -100,6 +101,7 @@ const WalletScreen = ({ navigation }) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
       console.log('updating selected coins data on app resume');
       _fetchCoinsData(true);
+
     }
     appState.current = nextAppState;
   };
@@ -110,6 +112,8 @@ const WalletScreen = ({ navigation }) => {
       _fetchCoinsData(refresh);
     }
   };
+
+
 
   const _fetchPriceHistory = () => {
     selectedCoins.forEach(async (token: CoinBase) => {
@@ -202,7 +206,7 @@ const WalletScreen = ({ navigation }) => {
     const quote = quotes && quotes[item.id] ? quotes[item.id] : quotes[COIN_IDS.HIVE];
 
     //check engine token section start
-    const nextIndex = index+1
+    const nextIndex = index + 1
     const engineSectionStarts = !item.isEngine && (selectedCoins.length === nextIndex || selectedCoins[nextIndex].isEngine);
 
     const _onCardPress = () => {
@@ -271,21 +275,7 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _renderEngineHeader = () => {
-    return (
-
-      <TextButton
-        text={"Manage Engine Tokens"}
-        textStyle={styles.engineBtnText}
-        style={styles.engineBtnContainer}
-        onPress={() => {
-          if (tokensSelectRef.current) {
-            tokensSelectRef.current.showModal();
-          }
-        }}
-      />
-
-
-    )
+    return <EngineHeader refreshing={refreshing} />
   }
 
   const _refreshControl = (
@@ -324,9 +314,7 @@ const WalletScreen = ({ navigation }) => {
           )}
         </LoggedInContainer>
       </SafeAreaView>
-      <TokensSelectModal
-        ref={tokensSelectRef}
-      />
+
     </Fragment>
   );
 };
