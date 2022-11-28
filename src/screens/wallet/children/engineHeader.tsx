@@ -2,7 +2,7 @@ import { View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import styles from '../styles/engineHeader.styles';
-import { fetchUnclaimedRewards } from '../../../providers/hive-engine/hiveEngine';
+import { claimRewards, fetchUnclaimedRewards } from '../../../providers/hive-engine/hiveEngine';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { TokenStatus } from '../../../providers/hive-engine/hiveEngine.types';
 import { TokensSelectModal } from './tokensSelectModal';
@@ -18,6 +18,7 @@ export const EngineHeader = ({ refreshing }: EngineHeaderProps) => {
     const dispatch = useAppDispatch();
 
     const currentAccount = useAppSelector(state => state.account.currentAccount);
+    const pinHash = useAppSelector(state=>state.application.pin);
 
     const firstRenderRef = useRef(true);
     const tokensSelectRef = useRef(null);
@@ -44,6 +45,19 @@ export const EngineHeader = ({ refreshing }: EngineHeaderProps) => {
     const _fetchUnclaimedRewards = async () => {
         const _engineRewards = await fetchUnclaimedRewards(currentAccount.username)
         setUnclaimedEngineRewards(_engineRewards)
+    }
+
+
+    const _claimRewards = async () => {
+        try{
+            setIsClaiming(true)
+            await claimRewards(unclaimedEngineRewards.map(token=>token.symbol), currentAccount, pinHash);
+            await _fetchUnclaimedRewards()
+            setIsClaiming(false);
+        } catch(err){
+            setIsClaiming(false)
+        }
+
     }
 
 
@@ -76,9 +90,7 @@ export const EngineHeader = ({ refreshing }: EngineHeaderProps) => {
                             },
                             {
                                 text: intl.formatMessage({ id: 'alert.confirm' }),
-                                onPress: async () => {
-                                    //TOOD perform claim action
-                                },
+                                onPress: _claimRewards,
                             },
                         ],
                     }))

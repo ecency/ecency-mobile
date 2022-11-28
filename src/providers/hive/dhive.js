@@ -119,10 +119,10 @@ export const broadcastPostingJSON = async (
   id,
   json,
   currentAccount,
-  pin
+  pinHash
 ) => {
 
-  const digitPinCode = getDigitPinCode(pin);
+  const digitPinCode = getDigitPinCode(pinHash);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {

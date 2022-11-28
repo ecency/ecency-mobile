@@ -17,6 +17,7 @@ import {
 } from './hiveEngine.types';
 import { convertEngineToken, convertRewardsStatus } from './converters';
 import bugsnapInstance from '../../config/bugsnag';
+import { broadcastPostingJSON } from '../hive/dhive';
 
 
 export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => {
@@ -112,36 +113,40 @@ export const fetchUnclaimedRewards = async (account: string): Promise<TokenStatu
 
 
 
-// export const claimRewards = async (
-//   account: string,
-//   tokens: string[]
-// ): Promise<TransactionConfirmation> => {
-//   const json = JSON.stringify(
-//     tokens.map((r) => {
-//       return { symbol: r };
-//     })
-//   );
+export const claimRewards = async (
+  tokenSymbols:string[],
+  currentAccount: any,
+  pinHash: string,
+) => {
+  const json = JSON.stringify(
+    tokenSymbols.map((r) => {
+      return { symbol: r };
+    })
+  );
 
-//   return broadcastPostingJSON(account, "scot_claim_token", json);
-// };
+  return broadcastPostingJSON("scot_claim_token", json, currentAccount, pinHash);
+};
 
-// export const stakeTokens = async (
-//   account: string,
-//   token: string,
-//   amount: string
-// ): Promise<TransactionConfirmation> => {
-//   const json = JSON.stringify({
-//     contractName: "tokens",
-//     contractAction: "stake",
-//     contractPayload: {
-//       symbol: token,
-//       to: account,
-//       quantity: amount
-//     }
-//   });
 
-//   return broadcastPostingJSON(account, "ssc-mainnet-hive", json);
-// };
+
+export const stakeTokens = async (
+  tokenSymbol: string,
+  amount: string,
+  currentAccount: any,
+  pinHash: string
+) => {
+  const json = JSON.stringify({
+    contractName: "tokens",
+    contractAction: "stake",
+    contractPayload: {
+      symbol: tokenSymbol,
+      to: currentAccount.username,
+      quantity: amount
+    }
+  });
+
+  return broadcastPostingJSON("ssc-mainnet-hive", json, currentAccount, pinHash);
+};
 
 
 export const fetchMetics = async (tokens?:string[]) => {
