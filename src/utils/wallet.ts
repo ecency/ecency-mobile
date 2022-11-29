@@ -1,7 +1,6 @@
 import get from 'lodash/get';
 import { operationOrders } from '@hiveio/dhive/lib/utils';
 import { utils } from '@hiveio/dhive';
-import { PickerIOSItem } from 'react-native';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToHp } from './conversions';
@@ -40,6 +39,7 @@ import {
   fetchTokenBalances,
 } from '../providers/hive-engine/hiveEngine';
 import { off } from 'process';
+import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
 
 export const transferTypes = [
   'curation_reward',
@@ -693,18 +693,18 @@ export const fetchCoinsData = async ({
         const balance = item.balance;
         const ppHive = _prices.hive.price * (item.tokenPrice || 1); 
 
-        const actions = ['transfer_engine']
+        const actions = [`${EngineActions.TRANSFER}_engine`]
 
         if(item.delegationEnabled){
-          actions.push('delegate_engine');
+          actions.push(`${EngineActions.DELEGATE}_engine`);
         }
 
         if(item.stakingEnabled && item.balance > 0){
-          actions.push('stake_engine')
+          actions.push(`${EngineActions.STAKE}_engine`)
         }
 
         if(item.stake){
-          actions.push('unstake_engine')
+          actions.push(`${EngineActions.UNSTAKE}_engine`)
         }
 
         coinData[item.symbol] = {

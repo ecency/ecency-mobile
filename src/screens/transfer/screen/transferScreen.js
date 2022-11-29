@@ -19,6 +19,7 @@ import {
 import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
 import transferTypes from '../../../constants/transferTypes';
+import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineActions';
 
 const TransferView = ({
   currentAccountName,
@@ -44,8 +45,8 @@ const TransferView = ({
       transferType === 'convert'
       ? currentAccountName
       : transferType === 'purchase_estm'
-      ? 'esteem.app'
-      : '',
+        ? 'esteem.app'
+        : '',
   );
   const [amount, setAmount] = useState('');
   const [memo, setMemo] = useState(transferType === 'purchase_estm' ? 'estm-purchase' : '');
@@ -120,6 +121,16 @@ const TransferView = ({
       path = `sign/withdraw_vesting?account=${currentAccountName}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
+
+    } else if (transferType.endsWith('_engine')) {
+      const json = getEngineActionJSON(transferType.split('_')[0], destination, amount, fundType, memo);
+      path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
+        selectedAccount,
+        'name',
+      )}%22%5D&required_posting_auths=%5B%5D&id=ssc-mainnet-hive&json=${encodeURIComponent(
+        JSON.stringify(json),
+      )}`;
+
     } else {
       path = `sign/transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
