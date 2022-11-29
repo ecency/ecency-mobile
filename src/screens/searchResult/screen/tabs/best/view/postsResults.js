@@ -40,7 +40,7 @@ const PostsResults = ({ navigation, searchValue }) => {
           <Text style={styles.title}>{item.title}</Text>
           {!!body && (
             <Highlighter
-              highlightStyle={{ backgroundColor: EStyleSheet.value('$black'), color: EStyleSheet.value('$white') }}
+              highlightStyle={{ backgroundColor: EStyleSheet.value('$primaryDarkGray'), color: EStyleSheet.value('$white') }}
               searchWords={[searchValue]}
               textToHighlight={body.replace(/<mark>/g, '').replace(/<\/mark>/g, '')}
               style={styles.summary}
