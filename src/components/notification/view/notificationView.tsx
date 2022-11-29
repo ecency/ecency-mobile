@@ -19,6 +19,7 @@ import { isToday, isYesterday, isThisWeek, isLastWeek, isThisMonth } from '../..
 // Styles
 import styles from './notificationStyles';
 import globalStyles from '../../../globalStyles';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 class NotificationView extends PureComponent {
   /* Props
@@ -83,7 +84,7 @@ class NotificationView extends PureComponent {
     if (isLoading) {
       return (
         <View style={styles.flatlistFooter}>
-          <ActivityIndicator animating />
+          <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} animating />
         </View>
       );
     }
@@ -178,7 +179,7 @@ class NotificationView extends PureComponent {
 
   _getActivityIndicator = () => (
     <View style={styles.loading}>
-      <ActivityIndicator animating size="large" />
+      <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} animating size="large" />
     </View>
   );
 

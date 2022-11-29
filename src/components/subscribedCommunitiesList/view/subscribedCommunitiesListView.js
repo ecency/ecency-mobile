@@ -16,6 +16,7 @@ import DEFAULT_IMAGE from '../../../assets/no_image.png';
 
 import styles from './subscribedCommunitiesListStyles';
 import globalStyles from '../../../globalStyles';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const SubscribedCommunitiesListView = ({
   data,
@@ -59,7 +60,7 @@ const SubscribedCommunitiesListView = ({
         {subscribingCommunities.hasOwnProperty(item[0]) &&
         subscribingCommunities[item[0]].loading ? (
           <View style={{ width: 65, alignItems: 'center', justifyContent: 'center' }}>
-            <ActivityIndicator />
+            <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />
           </View>
         ) : (
           <Tag

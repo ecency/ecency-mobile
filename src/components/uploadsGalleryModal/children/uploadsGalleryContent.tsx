@@ -218,7 +218,7 @@ const UploadsGalleryContent = ({
 
       {isAddingToUploads && (
         <View style={styles.pillBtnContainer}>
-          <ActivityIndicator color={EStyleSheet.value('$primaryBlack')} />
+          <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />
         </View>
       )}
 
