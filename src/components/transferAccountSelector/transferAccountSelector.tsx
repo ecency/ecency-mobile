@@ -126,7 +126,10 @@ const TransferAccountSelector = ({
         label={intl.formatMessage({ id: 'transfer.from' })}
         rightComponent={() => _renderDropdown(accounts, currentAccountName)}
       />
-      {transferType !== transferTypes.CONVERT && transferType !== transferTypes.PURCHASE_ESTM && (
+      {
+      transferType !== transferTypes.CONVERT && 
+      transferType !== transferTypes.PURCHASE_ESTM && 
+      transferType !== transferTypes.UNSTAKE_ENGINE && (
         <TransferFormItem
           label={intl.formatMessage({ id: 'transfer.to' })}
           rightComponent={() =>

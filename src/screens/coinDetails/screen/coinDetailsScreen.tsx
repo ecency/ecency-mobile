@@ -19,6 +19,7 @@ import ROUTES from '../../../constants/routeNames';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import { transferHiveEngineKey } from '../../../providers/hive-engine/hiveEngineActions';
+import transferTypes from '../../../constants/transferTypes';
 
 export interface CoinDetailsScreenParams {
   coinId: string;
@@ -151,10 +152,19 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
         redeemType: transferType === 'dropdown_promote' ? 'promote' : 'boost',
       };
     } else {
-      const balance =
-        transferType === 'withdraw_hive' || transferType === 'withdraw_hbd'
-          ? coinData.savings
-          : coinData.balance;
+      let balance = coinData.balance;
+
+      switch (transferType) {
+        case transferTypes.UNSTAKE_ENGINE:
+          balance = coinData.extraDataPairs?.reduce(
+            (bal, data) => data.dataKey === 'staked' ? Number(data.value) : bal, 0) ?? 0;
+          break;
+        case transferTypes.WITHDRAW_HIVE:
+        case transferTypes.WITHDRAW_HBD:
+          balance = coinData.savings ?? 0;
+          break;
+      }
+
       navigateParams = {
         transferType: coinId === COIN_IDS.ECENCY ? 'points' : transferType,
         fundType: coinId === COIN_IDS.ECENCY ? 'ESTM' : symbol,

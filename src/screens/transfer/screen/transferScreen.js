@@ -42,7 +42,8 @@ const TransferView = ({
       transferType === 'withdraw_vesting' ||
       transferType === 'withdraw_hive' ||
       transferType === 'withdraw_hbd' ||
-      transferType === 'convert'
+      transferType === 'convert' ||
+      transferType === 'unstake_engine'
       ? currentAccountName
       : transferType === 'purchase_estm'
         ? 'esteem.app'
@@ -58,6 +59,7 @@ const TransferView = ({
       transferType === 'withdraw_vesting' ||
       transferType === 'withdraw_hive' ||
       transferType === 'withdraw_hbd' ||
+      transferType === 'unstake_engine' ||
       (transferType === 'convert' && currentAccountName)
     ),
   );
@@ -123,7 +125,7 @@ const TransferView = ({
       )}`;
 
     } else if (transferType.endsWith('_engine')) {
-      const json = getEngineActionJSON(transferType.split('_')[0], destination, amount, fundType, memo);
+      const json = getEngineActionJSON(transferType.split('_')[0], destination, `${amount} ${fundType}`, fundType, memo);
       path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
         selectedAccount,
         'name',

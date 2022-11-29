@@ -32,6 +32,27 @@ const executeEngineAction = (json: EngineActionJSON, currentAccount: any, pinHas
 }
 
 
+export const getEngineActionJSON = (
+  action: EngineActions,
+  to: string,
+  amount: string,
+  symbol: string,
+  memo?: string
+): EngineActionJSON => {
+  return {
+    contractName: EngineContracts.TOKENS,
+    contractAction: action,
+    contractPayload: {
+      symbol,
+      to,
+      quantity: parseToken(amount).toString(),
+      memo: action === EngineActions.TRANSFER ? memo : undefined
+    }
+  }
+}
+
+
+
 export const claimRewards = async (
   tokenSymbols: string[],
   currentAccount: any,
@@ -53,118 +74,80 @@ export const transferHiveEngine = async (
   pinHash: string,
   data: TransferDataType
 ) => {
-  const json: EngineActionJSON = {
-    contractName: EngineContracts.TOKENS,
-    contractAction: EngineActions.TRANSFER,
-    contractPayload: {
-      symbol: data.fundType,
-      to: data.destination,
-      quantity: parseToken(data.amount).toString(),
-      memo: data.memo
-    }
-  };
+
+  const json = getEngineActionJSON(
+    EngineActions.TRANSFER, 
+    data.destination, 
+    data.amount,
+    data.fundType,
+    data.memo
+  )
 
   return executeEngineAction(json, currentAccount, pinHash);
 
 };
 
 export const delegateHiveEngine = async (
-  symbol: string,
-  to: string,
-  amount: string,
   currentAccount: any,
-  pinHash: string
+  pinHash: string,
+  data: TransferDataType
 ) => {
-  const json: EngineActionJSON = {
-    contractName: EngineContracts.TOKENS,
-    contractAction: EngineActions.DELEGATE,
-    contractPayload: {
-      symbol,
-      to,
-      quantity: amount.toString(),
-    }
-  };
+  const json = getEngineActionJSON(
+    EngineActions.DELEGATE, 
+    data.destination, 
+    data.amount,
+    data.fundType
+  )
 
   return executeEngineAction(json, currentAccount, pinHash);
 };
 
 export const undelegateHiveEngine = async (
-  symbol: string,
-  to: string,
-  amount: string,
   currentAccount: any,
-  pinHash: string
+  pinHash: string,
+  data: TransferDataType
 ) => {
-  const json: EngineActionJSON = {
-    contractName: EngineContracts.TOKENS,
-    contractAction: EngineActions.UNDELEGATE,
-    contractPayload: {
-      symbol,
-      to,
-      quantity: amount.toString(),
-    }
-  };
+  const json = getEngineActionJSON(
+    EngineActions.UNDELEGATE, 
+    data.destination, 
+    data.amount,
+    data.fundType
+  )
 
   return executeEngineAction(json, currentAccount, pinHash);
 };
 
 
 export const stakeHiveEngine = async (
-  symbol: string,
-  to: string,
-  amount: string,
   currentAccount: any,
-  pinHash: string
+  pinHash: string,
+  data: TransferDataType
 ) => {
-  const json: EngineActionJSON = {
-    contractName: EngineContracts.TOKENS,
-    contractAction: EngineActions.STAKE,
-    contractPayload: {
-      symbol,
-      to,
-      quantity: amount.toString(),
-    }
-  };
+  const json = getEngineActionJSON(
+    EngineActions.STAKE, 
+    data.destination, 
+    data.amount,
+    data.fundType
+  )
 
   return executeEngineAction(json, currentAccount, pinHash);
 };
+
+
 
 export const unstakeHiveEngine = async (
-  symbol: string,
-  to: string,
-  amount: string,
   currentAccount: any,
-  pinHash: string
+  pinHash: string,
+  data: TransferDataType
 ) => {
-  const json: EngineActionJSON = {
-    contractName: EngineContracts.TOKENS,
-    contractAction: EngineActions.UNSTAKE,
-    contractPayload: {
-      symbol,
-      to,
-      quantity: amount.toString(),
-    }
-  };
+  const json = getEngineActionJSON(
+    EngineActions.UNSTAKE, 
+    data.destination, 
+    data.amount,
+    data.fundType
+  )
 
   return executeEngineAction(json, currentAccount, pinHash);
 };
 
 
-export const getEngineActionJSON = (
-  action: EngineActions,
-  to: string,
-  quantity: string,
-  symbol: string,
-  memo: string
-): EngineActionJSON => {
-  return {
-    contractName: EngineContracts.TOKENS,
-    contractAction: action,
-    contractPayload: {
-      symbol,
-      to,
-      quantity: quantity,
-      memo: action === EngineActions.TRANSFER ? memo : undefined
-    }
-  }
-}
