@@ -18,6 +18,6 @@ const hiveEngineApi = axios.create({
 export const engineRewardsApi = axios.create({
   baseURL: ENGINE_REWARDS_URL,
   headers: { 'Content-type': 'application/json' },
-})
+});
 
 export default hiveEngineApi;

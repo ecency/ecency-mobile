@@ -141,7 +141,6 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
   };
 
   const _onActionPress = (transferType: string) => {
-
     let navigateTo = ROUTES.SCREENS.TRANSFER;
     let navigateParams = {};
 
@@ -152,12 +151,15 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
         redeemType: transferType === 'dropdown_promote' ? 'promote' : 'boost',
       };
     } else {
-      let balance = coinData.balance;
+      let { balance } = coinData;
 
       switch (transferType) {
         case transferTypes.UNSTAKE_ENGINE:
-          balance = coinData.extraDataPairs?.reduce(
-            (bal, data) => data.dataKey === 'staked' ? Number(data.value) : bal, 0) ?? 0;
+          balance =
+            coinData.extraDataPairs?.reduce(
+              (bal, data) => (data.dataKey === 'staked' ? Number(data.value) : bal),
+              0,
+            ) ?? 0;
           break;
         case transferTypes.WITHDRAW_HIVE:
         case transferTypes.WITHDRAW_HBD:

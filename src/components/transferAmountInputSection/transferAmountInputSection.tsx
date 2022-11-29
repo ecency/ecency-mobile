@@ -71,10 +71,10 @@ const TransferAmountInputSection = ({
         state === 'destination'
           ? destination
           : state === 'amount'
-            ? amount
-            : state === 'memo'
-              ? memo
-              : ''
+          ? amount
+          : state === 'memo'
+          ? memo
+          : ''
       }
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
@@ -119,30 +119,28 @@ const TransferAmountInputSection = ({
         transferType === transferTypes.TRANSFER_TOKEN ||
         transferType === transferTypes.TRANSFER_TO_SAVINGS ||
         transferType === transferTypes.TRANSFER_ENGINE) && (
-          <TransferFormItem
-            label={intl.formatMessage({ id: 'transfer.memo' })}
-            rightComponent={() =>
-              _renderInput(
-                intl.formatMessage({ id: 'transfer.memo_placeholder' }),
-                'memo',
-                'default',
-                true,
-              )
-            }
-            containerStyle={{ height: 80 }}
-          />
-        )}
-      {(transferType === transferTypes.POINTS ||
-        transferType === transferTypes.TRANSFER_TOKEN
-      ) && (
-          <TransferFormItem
-            rightComponentStyle={styles.transferItemRightStyle}
-            containerStyle={styles.transferItemContainer}
-            rightComponent={() =>
-              _renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
-            }
-          />
-        )}
+        <TransferFormItem
+          label={intl.formatMessage({ id: 'transfer.memo' })}
+          rightComponent={() =>
+            _renderInput(
+              intl.formatMessage({ id: 'transfer.memo_placeholder' }),
+              'memo',
+              'default',
+              true,
+            )
+          }
+          containerStyle={{ height: 80 }}
+        />
+      )}
+      {(transferType === transferTypes.POINTS || transferType === transferTypes.TRANSFER_TOKEN) && (
+        <TransferFormItem
+          rightComponentStyle={styles.transferItemRightStyle}
+          containerStyle={styles.transferItemContainer}
+          rightComponent={() =>
+            _renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
+          }
+        />
+      )}
       {transferType === transferTypes.CONVERT && (
         <TransferFormItem
           rightComponent={() =>

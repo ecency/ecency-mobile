@@ -115,13 +115,7 @@ export const sendHiveOperations = async (
 
 /** reuseable broadcast json method with posting auth */
 
-export const broadcastPostingJSON = async (
-  id,
-  json,
-  currentAccount,
-  pinHash
-) => {
-
+export const broadcastPostingJSON = async (id, json, currentAccount, pinHash) => {
   const digitPinCode = getDigitPinCode(pinHash);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
@@ -131,8 +125,7 @@ export const broadcastPostingJSON = async (
       accessToken: token,
     });
 
-    return api.customJson([], [username], id, JSON.stringify(json))
-      .then((r) => r.result)
+    return api.customJson([], [username], id, JSON.stringify(json)).then((r) => r.result);
   }
 
   if (key) {
@@ -1941,15 +1934,10 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 };
 
 export const subscribeCommunity = (currentAccount, pinCode, data) => {
+  const json = [data.isSubscribed ? 'unsubscribe' : 'subscribe', { community: data.communityId }];
 
-  const json = [
-    data.isSubscribed ? 'unsubscribe' : 'subscribe',
-    { community: data.communityId },
-  ];
-
-  return broadcastPostingJSON('community', json, currentAccount, pinCode)
+  return broadcastPostingJSON('community', json, currentAccount, pinCode);
 };
-
 
 export const pinCommunityPost = (
   currentAccount,
@@ -2001,7 +1989,7 @@ export const pinCommunityPost = (
 export const getBtcAddress = (pin, currentAccount) => {
   /* const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
- 
+
   if (key) {
     const keyPair = bitcoin.ECPair.fromWIF(key);
 const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
