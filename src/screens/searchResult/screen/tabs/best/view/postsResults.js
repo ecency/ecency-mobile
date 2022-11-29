@@ -15,6 +15,7 @@ import PostsResultsContainer from '../container/postsResultsContainer';
 
 import { getTimeFromNow } from '../../../../../../utils/time';
 import styles from './postsResultsStyles';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const filterOptions = ['relevance', 'popularity', 'newest'];
 
@@ -39,7 +40,7 @@ const PostsResults = ({ navigation, searchValue }) => {
           <Text style={styles.title}>{item.title}</Text>
           {!!body && (
             <Highlighter
-              highlightStyle={{ backgroundColor: 'yellow' }}
+              highlightStyle={{ backgroundColor: EStyleSheet.value('$black'), color: EStyleSheet.value('$white') }}
               searchWords={[searchValue]}
               textToHighlight={body.replace(/<mark>/g, '').replace(/<\/mark>/g, '')}
               style={styles.summary}

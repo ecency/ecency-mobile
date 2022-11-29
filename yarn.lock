@@ -10519,10 +10519,10 @@ spdx-license-ids@^3.0.0:
   resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.12.tgz#69077835abe2710b65f03969898b6637b505a779"
   integrity sha512-rr+VVSXtRhO4OHbXUiAF7xW3Bo9DuuF6C5jH+q/x15j2jniycgKbxU09Hr0WqlSLUs4i4ltHGXqTe7VHclYWyA==
 
-speakingurl@^1.0.1:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/speakingurl/-/speakingurl-1.1.5.tgz#2d574463aa987cad7ed7c36288c1b1b90a0a5d44"
-  integrity sha512-XNqh5zF0EG7BsvpRZAz8+y/+BhEdZuh7+PvY2fD0J2SjosNS6dS9KCeW0sBVklybnn2JIepu32AbzpGNE1MIIw==
+speakingurl@^14.0.1:
+  version "14.0.1"
+  resolved "https://registry.yarnpkg.com/speakingurl/-/speakingurl-14.0.1.tgz#f37ec8ddc4ab98e9600c1c9ec324a8c48d772a53"
+  integrity sha512-1POYv7uv2gXoyGFpBCmpDVSNV74IfsWlDW216UPjbWufNf+bSU6GdbDsxdcxtfwb4xlI3yxzOTKClUosxARYrQ==
 
 split-on-first@^1.0.0:
   version "1.1.0"
