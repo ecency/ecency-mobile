@@ -56,7 +56,7 @@ const UserListItem = ({
           {!searchValue && <Text style={styles.name}>{text || username}</Text>}
           {!!searchValue && !!text && (
             <Highlighter
-              highlightStyle={{ backgroundColor: EStyleSheet.value('$primaryDarkGray'), color: EStyleSheet.value('$white')  }}
+              highlightStyle={{ backgroundColor: EStyleSheet.value('$darkGrayBackground'), color: EStyleSheet.value('$white')  }}
               searchWords={[searchValue]}
               textToHighlight={text || username}
               style={styles.name}
@@ -64,7 +64,7 @@ const UserListItem = ({
           )}
           {!!searchValue && !!description && (
             <Highlighter
-              highlightStyle={{ backgroundColor: EStyleSheet.value('$primaryDarkGray'), color: EStyleSheet.value('$white')  }}
+              highlightStyle={{ backgroundColor: EStyleSheet.value('$darkGrayBackground'), color: EStyleSheet.value('$white')  }}
               searchWords={[searchValue]}
               textToHighlight={description}
               style={styles.summary}
