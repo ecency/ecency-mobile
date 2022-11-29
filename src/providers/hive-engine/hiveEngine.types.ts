@@ -129,7 +129,7 @@ export interface EngineRequestPayload {
 
 
 
-interface EngineActionPayload {
+export interface EngineActionPayload {
   to:string,
   symbol:string,
   quantity:string,

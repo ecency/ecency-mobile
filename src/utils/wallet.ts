@@ -693,18 +693,18 @@ export const fetchCoinsData = async ({
         const balance = item.balance;
         const ppHive = _prices.hive.price * (item.tokenPrice || 1); 
 
-        const actions = ['transfer']
+        const actions = ['transfer_engine']
 
         if(item.delegationEnabled){
-          actions.push('delegate');
+          actions.push('delegate_engine');
         }
 
         if(item.stakingEnabled && item.balance > 0){
-          actions.push('stake')
+          actions.push('stake_engine')
         }
 
         if(item.stake){
-          actions.push('unstake')
+          actions.push('unstake_engine')
         }
 
         coinData[item.symbol] = {

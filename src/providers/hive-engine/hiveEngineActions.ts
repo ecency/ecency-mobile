@@ -1,7 +1,9 @@
 
 import { PrivateKey } from '@hiveio/dhive';
 import { get } from 'lodash';
+import parseToken from '../../utils/parseToken';
 import { broadcastPostingJSON, getActiveKey, getDigitPinCode, sendHiveOperations } from "../hive/dhive";
+import { TransferDataType } from '../hive/hive.types';
 import { EngineActionJSON, EngineActions, EngineContracts } from './hiveEngine.types';
 
 
@@ -47,21 +49,18 @@ export const claimRewards = async (
   //HE Key Operations
   //documentation reference: https://hive-engine.github.io/engine-docs/actions#actions-tokens
   export const transferHiveEngine = async (
-    symbol: string,
-    to: string,
-    amount: string,
-    memo: string,
-    currentAccount: any,
-    pinHash: string
+    currentAccount:any,
+    pinHash:string,
+    data:TransferDataType
   ) => {
     const json:EngineActionJSON = {
       contractName: EngineContracts.TOKENS,
       contractAction: EngineActions.TRANSFER,
       contractPayload: {
-        symbol,
-        to,
-        quantity: amount.toString(),
-        memo
+        symbol:data.fundType,
+        to:data.destination,
+        quantity: parseToken(data.amount).toString(),
+        memo:data.memo
       }
     };
   

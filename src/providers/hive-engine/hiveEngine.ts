@@ -68,7 +68,7 @@ export const fetchHiveEngineTokenBalances = async (
 ): Promise<Array<HiveEngineToken | null>> => {
   try {
 
-    const balances = await fetchTokenBalances('noumantahir');
+    const balances = await fetchTokenBalances(account);
     const symbols = balances.map((t) => t.symbol);
 
     const tokens = await fetchTokens(symbols);

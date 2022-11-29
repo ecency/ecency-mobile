@@ -37,6 +37,7 @@ const Transfer = ({ navigation, route }) => (
         case 'points':
         case 'withdraw_hive':
         case 'withdraw_hbd':
+        case 'transfer_engine':
           return (
             <TransferView
               accounts={accounts}
