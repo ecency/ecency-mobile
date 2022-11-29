@@ -113,7 +113,7 @@ export const sendHiveOperations = async (
   return result;
 };
 
-/** reuseable broadcast json method */
+/** reuseable broadcast json method with posting auth */
 
 export const broadcastPostingJSON = async (
   id,
@@ -1942,12 +1942,12 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 
 export const subscribeCommunity = (currentAccount, pinCode, data) => {
 
-  const json = JSON.stringify([
+  const json = [
     data.isSubscribed ? 'unsubscribe' : 'subscribe',
     { community: data.communityId },
-  ]);
+  ];
 
-  return broadcastPostingJSON('community', JSON.parse(json), currentAccount, pinCode)
+  return broadcastPostingJSON('community', json, currentAccount, pinCode)
 };
 
 
@@ -2017,7 +2017,7 @@ return { address: address };
 
 // HELPERS
 
-const getAnyPrivateKey = (local, pin) => {
+export const getAnyPrivateKey = (local, pin) => {
   const { postingKey, activeKey } = local;
 
   if (activeKey) {
@@ -2031,7 +2031,7 @@ const getAnyPrivateKey = (local, pin) => {
   return false;
 };
 
-const getActiveKey = (local, pin) => {
+export const getActiveKey = (local, pin) => {
   const { activeKey } = local;
 
   if (activeKey) {

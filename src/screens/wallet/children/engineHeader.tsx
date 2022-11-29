@@ -2,12 +2,13 @@ import { View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import styles from '../styles/engineHeader.styles';
-import { claimRewards, fetchUnclaimedRewards } from '../../../providers/hive-engine/hiveEngine';
+import { fetchUnclaimedRewards } from '../../../providers/hive-engine/hiveEngine';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { TokenStatus } from '../../../providers/hive-engine/hiveEngine.types';
 import { TokensSelectModal } from './tokensSelectModal';
 import { showActionModal } from '../../../redux/actions/uiAction';
 import { TextButton } from '../../../components';
+import { claimRewards } from '../../../providers/hive-engine/hiveEngineActions';
 
 export interface EngineHeaderProps {
     refreshing: boolean

@@ -1,3 +1,37 @@
+export enum Methods {
+  FIND = 'find',
+  FIND_ONE = 'findOne',
+}
+
+export enum JSON_RPC {
+  RPC_2 = '2.0',
+}
+
+export enum EngineContracts {
+  TOKENS = 'tokens',
+  MARKET = 'market'
+}
+
+export enum EngineActions {
+  TRANSFER = 'transfer',
+  DELEGATE = 'delegate',
+  UNDELEGATE = 'undelegate',
+  UNSTAKE = 'unstake',
+  STAKE = 'stake'
+}
+
+export enum EngineTables {
+  BALANCES = 'balances',
+  DELEGATIONS = 'delegations',
+  TOKENS = 'tokens',
+  METRICS = 'metrics',
+}
+
+export enum EngineIds {
+  ONE = '1',
+}
+
+
 export interface TokenBalance {
   symbol: string;
   balance: string;
@@ -58,30 +92,7 @@ export interface TokenStatus {
   pendingRewards: number;
 }
 
-export enum Methods {
-  FIND = 'find',
-  FIND_ONE = 'findOne',
-}
 
-export enum JSON_RPC {
-  RPC_2 = '2.0',
-}
-
-export enum EngineContracts {
-  TOKENS = 'tokens',
-  MARKET = 'market'
-}
-
-export enum EngineTables {
-  BALANCES = 'balances',
-  DELEGATIONS = 'delegations',
-  TOKENS = 'tokens',
-  METRICS = 'metrics',
-}
-
-export enum EngineIds {
-  ONE = '1',
-}
 
 export interface EngineMetric {
   _id: number
@@ -114,4 +125,19 @@ export interface EngineRequestPayload {
   method: Methods;
   params: PayloadParams;
   id: EngineIds;
+}
+
+
+
+interface EngineActionPayload {
+  to:string,
+  symbol:string,
+  quantity:string,
+  memo:string
+}
+
+export interface EngineActionJSON {
+  contractName:EngineContracts;
+  contractAction:EngineActions;
+  contractPayload: EngineActionPayload;
 }

@@ -18,6 +18,7 @@ import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
+import { transferHiveEngineKey } from '../../../providers/hive-engine/hiveEngineActions';
 
 export interface CoinDetailsScreenParams {
   coinId: string;
@@ -45,6 +46,7 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
 
   // redux props
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const pin = useAppSelector((state) => state.application.pin);
   const globalProps = useAppSelector((state) => state.account.globalProps);
   const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
   const coinData: CoinData = useAppSelector((state) => state.wallet.coinsData[coinId]);
@@ -138,6 +140,7 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
   };
 
   const _onActionPress = (transferType: string) => {
+
     let navigateTo = ROUTES.SCREENS.TRANSFER;
     let navigateParams = {};
 
