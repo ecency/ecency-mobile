@@ -29,6 +29,7 @@ const executeEngineAction = (json:EngineActionJSON, currentAccount:any, pinHash:
     );
 }
 
+
 export const claimRewards = async (
     tokenSymbols:string[],
     currentAccount: any,
@@ -45,7 +46,7 @@ export const claimRewards = async (
   
   //HE Key Operations
   //documentation reference: https://hive-engine.github.io/engine-docs/actions#actions-tokens
-  export const transferHiveEngineKey = async (
+  export const transferHiveEngine = async (
     symbol: string,
     to: string,
     amount: string,
@@ -68,115 +69,84 @@ export const claimRewards = async (
   
   };
   
-  // export const delegateHiveEngineKey = async (
-  //   from: string,
-  //   key: PrivateKey,
-  //   symbol: string,
-  //   to: string,
-  //   amount: string
-  // ): Promise<TransactionConfirmation> => {
-  //   const json = JSON.stringify({
-  //     contractName: "tokens",
-  //     contractAction: "delegate",
-  //     contractPayload: {
-  //       symbol,
-  //       to,
-  //       quantity: amount.toString()
-  //     }
-  //   });
+  export const delegateHiveEngine = async (
+    symbol: string,
+    to: string,
+    amount: string,
+    currentAccount: any,
+    pinHash: string
+  ) => {
+    const json:EngineActionJSON = {
+      contractName: EngineContracts.TOKENS,
+      contractAction: EngineActions.DELEGATE,
+      contractPayload: {
+        symbol,
+        to,
+        quantity: amount.toString(),
+      }
+    };
   
-  //   const op = {
-  //     id: "ssc-mainnet-hive",
-  //     json,
-  //     required_auths: [from],
-  //     required_posting_auths: []
-  //   };
+    return executeEngineAction(json, currentAccount, pinHash);
+  };
   
-  //   const result = await hiveClient.broadcast.json(op, key);
-  //   return result;
-  // };
+  export const undelegateHiveEngine = async (
+    symbol: string,
+    to: string,
+    amount: string,
+    currentAccount: any,
+    pinHash: string
+  ) => {
+    const json:EngineActionJSON = {
+      contractName: EngineContracts.TOKENS,
+      contractAction: EngineActions.UNDELEGATE,
+      contractPayload: {
+        symbol,
+        to,
+        quantity: amount.toString(),
+      }
+    };
   
-  // export const undelegateHiveEngineKey = async (
-  //   from: string,
-  //   key: PrivateKey,
-  //   symbol: string,
-  //   to: string,
-  //   amount: string
-  // ): Promise<TransactionConfirmation> => {
-  //   const json = JSON.stringify({
-  //     contractName: "tokens",
-  //     contractAction: "undelegate",
-  //     contractPayload: {
-  //       symbol,
-  //       from: to,
-  //       quantity: amount.toString()
-  //     }
-  //   });
+    return executeEngineAction(json, currentAccount, pinHash);
+  };
+
+
+  export const stakeHiveEngine = async (
+    symbol: string,
+    to: string,
+    amount: string,
+    currentAccount: any,
+    pinHash: string
+  ) => {
+    const json:EngineActionJSON = {
+      contractName: EngineContracts.TOKENS,
+      contractAction: EngineActions.STAKE,
+      contractPayload: {
+        symbol,
+        to,
+        quantity: amount.toString(),
+      }
+    };
   
-  //   const op = {
-  //     id: "ssc-mainnet-hive",
-  //     json,
-  //     required_auths: [from],
-  //     required_posting_auths: []
-  //   };
+    return executeEngineAction(json, currentAccount, pinHash);
+  };
   
-  //   const result = await hiveClient.broadcast.json(op, key);
-  //   return result;
-  // };
+  export const unstakeHiveEngine = async (
+    symbol: string,
+    to: string,
+    amount: string,
+    currentAccount: any,
+    pinHash: string
+  ) => {
+    const json:EngineActionJSON = {
+      contractName: EngineContracts.TOKENS,
+      contractAction: EngineActions.UNSTAKE,
+      contractPayload: {
+        symbol,
+        to,
+        quantity: amount.toString(),
+      }
+    };
   
-  // export const stakeHiveEngineKey = async (
-  //   from: string,
-  //   key: PrivateKey,
-  //   symbol: string,
-  //   to: string,
-  //   amount: string
-  // ): Promise<TransactionConfirmation> => {
-  //   const json = JSON.stringify({
-  //     contractName: "tokens",
-  //     contractAction: "stake",
-  //     contractPayload: {
-  //       symbol,
-  //       to,
-  //       quantity: amount.toString()
-  //     }
-  //   });
-  
-  //   const op = {
-  //     id: "ssc-mainnet-hive",
-  //     json,
-  //     required_auths: [from],
-  //     required_posting_auths: []
-  //   };
-  
-  //   const result = await hiveClient.broadcast.json(op, key);
-  //   return result;
-  // };
-  
-  // export const unstakeHiveEngineKey = async (
-  //   from: string,
-  //   key: PrivateKey,
-  //   symbol: string,
-  //   to: string,
-  //   amount: string
-  // ): Promise<TransactionConfirmation> => {
-  //   const json = JSON.stringify({
-  //     contractName: "tokens",
-  //     contractAction: "stake",
-  //     contractPayload: {
-  //       symbol,
-  //       to,
-  //       quantity: amount.toString()
-  //     }
-  //   });
-  
-  //   const op = {
-  //     id: "ssc-mainnet-hive",
-  //     json,
-  //     required_auths: [from],
-  //     required_posting_auths: []
-  //   };
-  
-  //   const result = await hiveClient.broadcast.json(op, key);
-  //   return result;
-  // };
+    return executeEngineAction(json, currentAccount, pinHash);
+  };
   

@@ -133,7 +133,7 @@ interface EngineActionPayload {
   to:string,
   symbol:string,
   quantity:string,
-  memo:string
+  memo?:string
 }
 
 export interface EngineActionJSON {
