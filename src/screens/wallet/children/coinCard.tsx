@@ -7,6 +7,7 @@ import styles from '../styles/children.styles';
 import { Icon, MainButton, SimpleChart } from '../../../components';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { COIN_IDS } from '../../../constants/defaultCoins';
+import { ClaimButton } from './claimButton';
 
 export interface CoinCardProps {
   id: string;
@@ -94,66 +95,30 @@ export const CoinCard = ({
     if (unclaimedRewards || enableBuy) {
       const btnTitle = unclaimedRewards || intl.formatMessage({ id: `wallet.${id}.buy` });
 
-      const _rightComponent = isLoading ? (
-        <ActivityIndicator
-          color={EStyleSheet.value('$pureWhite')}
-          style={styles.claimActivityIndicator}
-        />
-      ) : (
-        <View style={styles.claimIconWrapper}>
-          <Icon
-            name="add"
-            iconType="MaterialIcons"
-            color={EStyleSheet.value('$primaryBlue')}
-            size={23}
-          />
-        </View>
-      );
-
       return (
-        <View style={styles.claimContainer}>
-          <MainButton
-            isLoading={isClaiming && claimExpected}
-            isDisable={isLoading || (isClaiming && claimExpected)}
-            style={styles.claimBtn}
-            height={50}
-            onPress={_onClaimPress}
-          >
-            <Fragment>
-              <Text style={styles.claimBtnTitle}>{btnTitle}</Text>
-              {_rightComponent}
-            </Fragment>
-          </MainButton>
-        </View>
-      );
+        <ClaimButton 
+          title={btnTitle}
+          isLoading={isLoading}
+          isClaiming={isClaiming}
+          isClaimExpected={claimExpected}
+          onPress={_onClaimPress}
+        />
+      )
+
     }
   };
 
   const _renderBoostAccount = () => {
     if (id === COIN_IDS.HP && ownedTokens < 50) {
-      const _rightComponent = (
-        <View style={styles.claimIconWrapper}>
-          <Icon
-            name="add"
-            iconType="MaterialIcons"
-            color={EStyleSheet.value('$primaryBlue')}
-            size={23}
-          />
-        </View>
-      );
-
+      
+      
       return (
-        <View style={styles.claimContainer}>
-          <MainButton style={styles.claimBtn} height={50} onPress={onBoostAccountPress}>
-            <Fragment>
-              <Text style={styles.claimBtnTitle}>
-                {intl.formatMessage({ id: 'wallet.get_boost' })}
-              </Text>
-              {_rightComponent}
-            </Fragment>
-          </MainButton>
-        </View>
-      );
+        <ClaimButton
+          title={intl.formatMessage({ id: 'wallet.get_boost' })}
+          onPress={onBoostAccountPress}
+        />
+      )
+
     }
   };
 
