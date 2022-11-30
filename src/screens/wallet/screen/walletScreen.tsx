@@ -198,7 +198,11 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _renderItem = ({ item, index }: { item: CoinBase; index: number }) => {
-    const coinData: CoinData = coinsData[item.id] || {};
+    const coinData: CoinData = coinsData[item.id];
+
+    if(!coinData){
+      return null;
+    }
 
     const _tokenMarketData: number[] = priceHistories[item.id] ? priceHistories[item.id].data : [];
 
@@ -231,6 +235,10 @@ const WalletScreen = ({ navigation }) => {
         },
       });
     };
+
+    if(!coinData){
+      return null;
+    }
 
     return (
       <>
