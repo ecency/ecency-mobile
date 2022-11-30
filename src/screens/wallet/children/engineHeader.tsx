@@ -29,7 +29,10 @@ export const EngineHeader = ({ refreshing }: EngineHeaderProps) => {
   const [claimExpected, setClaimExpected] = useState(false);
   const [pendingRewards, setPendingRewards] = useState<TokenStatus[]>([]);
 
-  const _claimRewardsTitle = intl.formatMessage({id:'wallet.engine_claim_btn'}, {count:pendingRewards.length});
+  const _claimRewardsTitle = intl.formatMessage(
+    { id: 'wallet.engine_claim_btn' },
+    { count: pendingRewards.length },
+  );
   // side-effectsf
   useEffect(() => {
     if (refreshing || firstRenderRef.current) {
@@ -53,7 +56,7 @@ export const EngineHeader = ({ refreshing }: EngineHeaderProps) => {
     if (tokensSelectRef.current) {
       tokensSelectRef.current.showModal();
     }
-  }
+  };
 
   const _claimRewards = async () => {
     try {
@@ -96,15 +99,15 @@ export const EngineHeader = ({ refreshing }: EngineHeaderProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerWrapper}>
-        <Text style={styles.title}>{intl.formatMessage({id:'wallet.engine_title'})}</Text>
+        <Text style={styles.title}>{intl.formatMessage({ id: 'wallet.engine_title' })}</Text>
         <IconButton
-            iconStyle={styles.rightIcon}
-            style={styles.rightIconWrapper}
-            iconType="MaterialCommunityIcons"
-            size={20}
-            name="pencil"
-            onPress={_onManagePress}
-          />
+          iconStyle={styles.rightIcon}
+          style={styles.rightIconWrapper}
+          iconType="MaterialCommunityIcons"
+          size={20}
+          name="pencil"
+          onPress={_onManagePress}
+        />
       </View>
 
       <ClaimButton

@@ -18,7 +18,6 @@ import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
-import { transferHiveEngineKey } from '../../../providers/hive-engine/hiveEngineActions';
 import transferTypes from '../../../constants/transferTypes';
 
 export interface CoinDetailsScreenParams {
@@ -163,10 +162,10 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
           break;
         case transferTypes.UNDELEGATE_ENGINE:
           balance =
-          coinData.extraDataPairs?.reduce(
-            (bal, data) => (data.dataKey === 'delegations_out' ? Number(data.value) : bal),
-            0,
-          ) ?? 0;
+            coinData.extraDataPairs?.reduce(
+              (bal, data) => (data.dataKey === 'delegations_out' ? Number(data.value) : bal),
+              0,
+            ) ?? 0;
         case transferTypes.WITHDRAW_HIVE:
         case transferTypes.WITHDRAW_HBD:
           balance = coinData.savings ?? 0;

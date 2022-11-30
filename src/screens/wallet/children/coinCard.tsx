@@ -96,29 +96,25 @@ export const CoinCard = ({
       const btnTitle = unclaimedRewards || intl.formatMessage({ id: `wallet.${id}.buy` });
 
       return (
-        <ClaimButton 
+        <ClaimButton
           title={btnTitle}
           isLoading={isLoading}
           isClaiming={isClaiming}
           isClaimExpected={claimExpected}
           onPress={_onClaimPress}
         />
-      )
-
+      );
     }
   };
 
   const _renderBoostAccount = () => {
     if (id === COIN_IDS.HP && ownedTokens < 50) {
-      
-      
       return (
         <ClaimButton
           title={intl.formatMessage({ id: 'wallet.get_boost' })}
           onPress={onBoostAccountPress}
         />
-      )
-
+      );
     }
   };
 

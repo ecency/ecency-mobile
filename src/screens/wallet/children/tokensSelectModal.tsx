@@ -1,15 +1,15 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import { useIntl } from 'react-intl';
 import styles from '../styles/tokensSelectModa.styles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { CheckBox, TextButton } from '../../../components';
 import { CoinBase } from '../../../redux/reducers/walletReducer';
 import DEFAULT_COINS from '../../../constants/defaultCoins';
 import { setSelectedCoins } from '../../../redux/actions/walletActions';
-import { useIntl } from 'react-intl';
 
 export const TokensSelectModal = forwardRef(({}, ref) => {
   const sheetModalRef = useRef<ActionSheet>();
@@ -86,13 +86,15 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
   const _renderContent = () => {
     return (
       <View style={styles.modalContainer}>
-        <Text style={styles.title}>{intl.formatMessage({id:'wallet.engine_select_tokens'})}</Text>
+        <Text style={styles.title}>
+          {intl.formatMessage({ id: 'wallet.engine_select_tokens' })}
+        </Text>
 
         {_renderOptions()}
 
         <View style={styles.actionPanel}>
           <TextButton
-            text={intl.formatMessage({id:'alert.confirm'})}
+            text={intl.formatMessage({ id: 'alert.confirm' })}
             onPress={_onApply}
             textStyle={styles.btnText}
             style={styles.button}
