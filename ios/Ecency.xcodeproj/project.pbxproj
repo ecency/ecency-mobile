@@ -19,7 +19,6 @@
 		05B6C49724C306CE00B7FA60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		05B6C4A724C306CE00B7FA60 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 588019232355C26B008397D1 /* AppCenter-Config.plist */; };
 		065B9DDE2930E42A004310E4 /* hermes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F72CA5290B2D7F003392F3 /* hermes.xcframework */; };
-		065B9DDF2930E42A004310E4 /* hermes.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 06F72CA5290B2D7F003392F3 /* hermes.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		06844A5529119F05002FCC34 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06844A5429119F05002FCC34 /* BootSplash.storyboard */; };
 		06F72CA3290B2159003392F3 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 06F72CA2290B2159003392F3 /* AppDelegate.mm */; };
 		154D7B6BE9C0AC2184D199D1 /* libPods-Ecency.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00310051DF33C416E604769D /* libPods-Ecency.a */; };
@@ -70,17 +69,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		065B9DE02930E42B004310E4 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				065B9DDF2930E42A004310E4 /* hermes.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		58C9F50524CE017800A026DD /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -415,7 +403,6 @@
 				58C9F50524CE017800A026DD /* Embed App Extensions */,
 				05BAAAEE25BF43F80072EA01 /* ShellScript */,
 				3D1F6693773C4541A695BB3C /* Upload source maps to Bugsnag */,
-				065B9DE02930E42B004310E4 /* Embed Frameworks */,
 				2E2DF52E9572E61DC69EE1D7 /* [CP] Embed Pods Frameworks */,
 				ACF6DE3F3482D224E525B8BF /* [CP] Copy Pods Resources */,
 				2E25A062889827E4CDBE2787 /* [CP-User] [RNFB] Core Configuration */,
