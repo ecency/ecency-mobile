@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useIntl } from 'react-intl';
 
+import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './communityListItemStyles';
 
 import { Tag } from '../../index';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 const CommunityListItem = ({
   index,
@@ -43,7 +43,10 @@ const CommunityListItem = ({
             {isLoggedIn &&
               (isLoadingRightAction ? (
                 <View style={styles.joinTag}>
-                  <ActivityIndicator style={styles.activityIndicator} color={EStyleSheet.value('$primaryBlue')} />
+                  <ActivityIndicator
+                    style={styles.activityIndicator}
+                    color={EStyleSheet.value('$primaryBlue')}
+                  />
                 </View>
               ) : (
                 <Tag

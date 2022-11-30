@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { ActivityIndicator, RefreshControl, View } from 'react-native';
 import { unionBy } from 'lodash';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { Comments, NoPost } from '../..';
 import { useAppSelector } from '../../../hooks';
 import { getAccountPosts } from '../../../providers/hive/dhive';
 import styles from '../profileStyles';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 interface CommentsTabContentProps {
   username: string;
@@ -99,7 +99,9 @@ const CommentsTabContent = ({
 
   const _renderListFooter = () => {
     return (
-      <View style={styles.commentsListFooter}>{loading && <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} size="large" />}</View>
+      <View style={styles.commentsListFooter}>
+        {loading && <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} size="large" />}
+      </View>
     );
   };
 

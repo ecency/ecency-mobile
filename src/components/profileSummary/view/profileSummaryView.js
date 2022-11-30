@@ -253,7 +253,10 @@ class ProfileSummaryView extends PureComponent {
               </TouchableOpacity>
 
               {isProfileLoading ? (
-                <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} style={styles.activityIndicator} />
+                <ActivityIndicator
+                  color={EStyleSheet.value('$primaryBlue')}
+                  style={styles.activityIndicator}
+                />
               ) : (
                 <DropdownButton
                   style={styles.dropdownStyle}

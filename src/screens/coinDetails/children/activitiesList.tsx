@@ -74,7 +74,12 @@ const ActivitiesList = ({
         <Text style={styles.textActivities}>{title}</Text>
       )}
       ListFooterComponent={
-        loading && <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} style={styles.activitiesFooterIndicator} />
+        loading && (
+          <ActivityIndicator
+            color={EStyleSheet.value('$primaryBlue')}
+            style={styles.activitiesFooterIndicator}
+          />
+        )
       }
       ListHeaderComponent={header}
       refreshControl={_refreshControl}
