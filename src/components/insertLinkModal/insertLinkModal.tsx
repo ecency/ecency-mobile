@@ -12,6 +12,7 @@ import { isStringWebLink } from '../markdownEditor/children/formats/utils';
 import applyWebLinkFormat from '../markdownEditor/children/formats/applyWebLinkFormat';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 import Modal from '../modal';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 interface InsertLinkModalProps {
   handleOnInsertLink: ({
@@ -270,7 +271,7 @@ export const InsertLinkModal = forwardRef(
                 ) : null}
               </View>
             </ScrollView>
-            {isLoading && <ActivityIndicator color="$primaryBlue" />}
+            {isLoading && <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />}
           </View>
         </>
       );

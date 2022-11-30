@@ -49,7 +49,7 @@ const IconButton = ({
         />
       ) : (
         <ActivityIndicator
-          color={color || EStyleSheet.value('$primaryBlack')}
+          color={color || EStyleSheet.value('$primaryBlue')}
           style={styles.activityIndicator}
         />
       )}

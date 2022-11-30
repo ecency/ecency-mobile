@@ -12,6 +12,7 @@ import { BasicHeader, UserListItem } from '../../../components';
 
 // Utils
 import styles from './followScreenStyles';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 class FollowsScreen extends PureComponent {
   /* Props
@@ -75,7 +76,7 @@ class FollowsScreen extends PureComponent {
           renderItem={this._renderItem}
           ListEmptyComponent={
             isLoading ? (
-              <ActivityIndicator />
+              <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />
             ) : (
               <Text style={styles.text}>
                 {intl.formatMessage({
