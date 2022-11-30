@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import styles from '../styles/engineHeader.styles';
@@ -7,8 +7,9 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { TokenStatus } from '../../../providers/hive-engine/hiveEngine.types';
 import { TokensSelectModal } from './tokensSelectModal';
 import { showActionModal } from '../../../redux/actions/uiAction';
-import { TextButton } from '../../../components';
+import { IconButton, TextButton } from '../../../components';
 import { claimRewards } from '../../../providers/hive-engine/hiveEngineActions';
+import { ClaimButton } from './claimButton';
 
 export interface EngineHeaderProps {
   refreshing: boolean;
@@ -46,6 +47,12 @@ export const EngineHeader = ({ refreshing }: EngineHeaderProps) => {
     const _engineRewards = await fetchUnclaimedRewards(currentAccount.username);
     setPendingRewards(_engineRewards);
   };
+
+  const _onManagePress = () => {
+    if (tokensSelectRef.current) {
+      tokensSelectRef.current.showModal();
+    }
+  }
 
   const _claimRewards = async () => {
     try {
@@ -86,25 +93,26 @@ export const EngineHeader = ({ refreshing }: EngineHeaderProps) => {
   const _hasUnclaimedRewards = pendingRewards.length > 0;
 
   return (
-    <View style={styles.engineHeaderContainer}>
-      <TextButton
-        text="Manage Engine Tokens"
-        textStyle={styles.engineBtnText}
-        style={styles.engineBtnContainer}
-        onPress={() => {
-          if (tokensSelectRef.current) {
-            tokensSelectRef.current.showModal();
-          }
-        }}
+    <View style={styles.container}>
+      <View style={styles.headerWrapper}>
+        <Text style={styles.title}>Hive Engine Tokens</Text>
+        <IconButton
+            iconStyle={styles.rightIcon}
+            style={styles.rightIconWrapper}
+            iconType="MaterialCommunityIcons"
+            size={20}
+            name="pencil"
+            onPress={_onManagePress}
+          />
+      </View>
+
+      <ClaimButton
+        title={`Claim Rewards (${pendingRewards.length})`}
+        isClaiming={isClaiming}
+        isClaimExpected={true}
+        isDisabled={!_hasUnclaimedRewards}
+        onPress={_claimRewardsPress}
       />
-      {_hasUnclaimedRewards && (
-        <TextButton
-          text={`Claim ${pendingRewards.length} Rewards`}
-          textStyle={styles.engineBtnText}
-          style={styles.engineBtnContainer}
-          onPress={_claimRewardsPress}
-        />
-      )}
 
       <TokensSelectModal ref={tokensSelectRef} />
     </View>

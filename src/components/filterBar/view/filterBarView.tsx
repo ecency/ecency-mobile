@@ -46,10 +46,10 @@ const FilterBarView = ({
         {enableCustomiseButton && (
           <IconButton
             iconStyle={styles.rightIcon}
-            style={styles.rightIconWrapper}
+            style={{}}
             iconType="MaterialIcon"
             size={iconSize || 28}
-            name="add"
+            name="filter"
             onPress={() => onCustomisePress && onCustomisePress()}
           />
         )}

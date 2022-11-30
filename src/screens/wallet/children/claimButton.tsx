@@ -13,6 +13,7 @@ interface ClaimButtonProps {
     isLoading?: boolean;
     isClaiming?: boolean;
     isClaimExpected?: boolean;
+    isDisabled?:boolean;
     onPress: () => void;
 }
 
@@ -22,6 +23,7 @@ export const ClaimButton = ({
     isLoading,
     isClaiming,
     isClaimExpected,
+    isDisabled,
     onPress
 }: ClaimButtonProps) => {
 
@@ -45,11 +47,10 @@ export const ClaimButton = ({
         <View style={styles.claimContainer}>
             <MainButton
                 isLoading={isClaiming && isClaimExpected}
-                isDisable={isLoading || (isClaiming && isClaimExpected)}
+                isDisable={isDisabled || isLoading || (isClaiming && isClaimExpected)}
                 style={styles.claimBtn}
                 height={50}
-                onPress={onPress}
-            >
+                onPress={onPress}>
                 <Fragment>
                     <Text style={styles.claimBtnTitle}>{title}</Text>
                     {_rightComponent}
