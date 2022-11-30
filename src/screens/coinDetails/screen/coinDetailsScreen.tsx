@@ -161,6 +161,12 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
               0,
             ) ?? 0;
           break;
+        case transferTypes.UNDELEGATE_ENGINE:
+          balance =
+          coinData.extraDataPairs?.reduce(
+            (bal, data) => (data.dataKey === 'delegations_out' ? Number(data.value) : bal),
+            0,
+          ) ?? 0;
         case transferTypes.WITHDRAW_HIVE:
         case transferTypes.WITHDRAW_HBD:
           balance = coinData.savings ?? 0;

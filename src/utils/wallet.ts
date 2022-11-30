@@ -693,6 +693,10 @@ export const fetchCoinsData = async ({
           actions.push(`${EngineActions.DELEGATE}_engine`);
         }
 
+        if(item.delegationEnabled && item.delegationsOut){
+          actions.push(`${EngineActions.UNDELEGATE}_engine`);
+        }
+
         if(item.stakingEnabled && item.balance > 0){
           actions.push(`${EngineActions.STAKE}_engine`)
         }
