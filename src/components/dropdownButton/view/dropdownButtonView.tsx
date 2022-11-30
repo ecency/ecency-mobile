@@ -111,7 +111,7 @@ const DropdownButtonView = ({
           </View>
         </View>
       ) : (
-        isHasChildIcon && <ActivityIndicator />
+        isHasChildIcon && <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />
       )}
     </ModalDropdown>
     {!children && !isHasChildIcon && (

@@ -5,6 +5,7 @@ import Highlighter from 'react-native-highlight-words';
 
 import { UserAvatar } from '../../../userAvatar';
 import styles from './userListItemStyles';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const UserListItem = ({
   rightText,
@@ -93,7 +94,7 @@ const UserListItem = ({
           isLoggedIn &&
           (isLoadingRightAction ? (
             <View style={styles.rightWrapper}>
-              <ActivityIndicator style={{ width: 30 }} />
+              <ActivityIndicator style={{ width: 30 }} color={EStyleSheet.value('$primaryBlue')} />
             </View>
           ) : (
             <PopoverController>

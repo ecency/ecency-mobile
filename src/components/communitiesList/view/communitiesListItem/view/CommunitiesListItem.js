@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import styles from './communitiesListItemStyles';
 
 import { Tag } from '../../../../basicUIElements';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const CommunitiesListItem = ({
   index,
@@ -43,7 +44,7 @@ const CommunitiesListItem = ({
             {isLoggedIn &&
               (loading ? (
                 <View style={styles.indicatorView}>
-                  <ActivityIndicator />
+                  <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />
                 </View>
               ) : (
                 <Tag

@@ -80,7 +80,7 @@ const ThumbSelectionContent = ({
   const _renderHeader = () =>
     isUploading && (
       <View style={{ flex: 1, justifyContent: 'center', marginRight: 16 }}>
-        <ActivityIndicator color={ESStyleSheet.value('$primaryBlack')} />
+        <ActivityIndicator color={ESStyleSheet.value('$primaryBlue')} />
       </View>
     );
 
