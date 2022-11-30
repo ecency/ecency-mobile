@@ -54,6 +54,7 @@ export default EStyleSheet.create({
 
   btnText: {
     color: '$pureWhite',
+    textTransform: 'uppercase'
   } as TextStyle,
 
   button: {

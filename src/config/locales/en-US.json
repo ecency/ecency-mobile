@@ -94,6 +94,9 @@
     "fill_convert_request": "Convert Executed",
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
+    "engine_title":"Hive Engine Tokens",
+    "engine_claim_btn":"Claim Rewards ({count})",
+    "engine_select_tokens":"Select Tokens",
     "ecency": {
       "title": "Points",
       "name":"Ecency Points",

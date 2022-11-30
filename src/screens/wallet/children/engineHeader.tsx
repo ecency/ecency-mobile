@@ -29,6 +29,7 @@ export const EngineHeader = ({ refreshing }: EngineHeaderProps) => {
   const [claimExpected, setClaimExpected] = useState(false);
   const [pendingRewards, setPendingRewards] = useState<TokenStatus[]>([]);
 
+  const _claimRewardsTitle = intl.formatMessage({id:'wallet.engine_claim_btn'}, {count:pendingRewards.length});
   // side-effectsf
   useEffect(() => {
     if (refreshing || firstRenderRef.current) {
@@ -72,7 +73,7 @@ export const EngineHeader = ({ refreshing }: EngineHeaderProps) => {
   const _claimRewardsPress = async () => {
     dispatch(
       showActionModal({
-        title: 'Claim Engine Tokens',
+        title: _claimRewardsTitle,
         body: pendingRewards
           .map((tokenStatus) => `${tokenStatus.symbol}: ${tokenStatus.pendingRewards}`)
           .join('\n'),
@@ -95,7 +96,7 @@ export const EngineHeader = ({ refreshing }: EngineHeaderProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerWrapper}>
-        <Text style={styles.title}>Hive Engine Tokens</Text>
+        <Text style={styles.title}>{intl.formatMessage({id:'wallet.engine_title'})}</Text>
         <IconButton
             iconStyle={styles.rightIcon}
             style={styles.rightIconWrapper}
@@ -107,7 +108,7 @@ export const EngineHeader = ({ refreshing }: EngineHeaderProps) => {
       </View>
 
       <ClaimButton
-        title={`Claim Rewards (${pendingRewards.length})`}
+        title={_claimRewardsTitle}
         isClaiming={isClaiming}
         isClaimExpected={true}
         isDisabled={!_hasUnclaimedRewards}

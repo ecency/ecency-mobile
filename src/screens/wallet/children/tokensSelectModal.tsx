@@ -9,10 +9,12 @@ import { CheckBox, TextButton } from '../../../components';
 import { CoinBase } from '../../../redux/reducers/walletReducer';
 import DEFAULT_COINS from '../../../constants/defaultCoins';
 import { setSelectedCoins } from '../../../redux/actions/walletActions';
+import { useIntl } from 'react-intl';
 
 export const TokensSelectModal = forwardRef(({}, ref) => {
   const sheetModalRef = useRef<ActionSheet>();
   const dispatch = useAppDispatch();
+  const intl = useIntl();
 
   const coinsData = useAppSelector((state) => state.wallet.coinsData);
   const selectedCoins: CoinBase[] = useAppSelector((state) => state.wallet.selectedCoins);
@@ -84,13 +86,13 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
   const _renderContent = () => {
     return (
       <View style={styles.modalContainer}>
-        <Text style={styles.title}>SELECT TOKENS</Text>
+        <Text style={styles.title}>{intl.formatMessage({id:'wallet.engine_select_tokens'})}</Text>
 
         {_renderOptions()}
 
         <View style={styles.actionPanel}>
           <TextButton
-            text="APPLY"
+            text={intl.formatMessage({id:'alert.confirm'})}
             onPress={_onApply}
             textStyle={styles.btnText}
             style={styles.button}
