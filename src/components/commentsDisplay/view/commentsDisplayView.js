@@ -1,12 +1,11 @@
 import React, { useState, Fragment, useImperativeHandle, forwardRef, useRef } from 'react';
 import { View } from 'react-native';
-import { injectIntl, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 // Components
 import { FilterBar } from '../../filterBar';
 import { Comments } from '../../comments';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
-import { WriteCommentButton } from './writeCommentButton';
 
 const CommentsDisplayView = forwardRef(
   (
@@ -44,9 +43,7 @@ const CommentsDisplayView = forwardRef(
     };
 
     return (
-      <Fragment>
         <Fragment>
-          <WriteCommentButton ref={writeCommentRef} onPress={handleOnReplyPress} />
           <FilterBar
             dropdownIconName="arrow-drop-down"
             options={VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` }))}
@@ -70,7 +67,6 @@ const CommentsDisplayView = forwardRef(
             />
           </View>
         </Fragment>
-      </Fragment>
     );
   },
 );

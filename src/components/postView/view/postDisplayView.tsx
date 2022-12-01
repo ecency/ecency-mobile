@@ -26,6 +26,7 @@ import { showReplyModal } from '../../../redux/actions/uiAction';
 import postTypes from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import { WriteCommentButton } from '../children/writeCommentButton';
 
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
@@ -52,7 +53,7 @@ const PostDisplayView = ({
   const insets = useSafeAreaInsets();
   const userActivityMutation = useUserActivityMutation();
 
-  const commentsRef = useRef<CommentsDisplay>();
+  const writeCommentRef = useRef<WriteCommentButton>();
   const scrollRef = useRef<ScrollView>();
   const commentsReached = useRef<boolean>(false);
 
@@ -99,10 +100,10 @@ const PostDisplayView = ({
     const _commentButtonBounceOffset = y + HEIGHT / 1.7;
     if (
       !commentsReached.current &&
-      commentsRef.current &&
+      writeCommentRef.current &&
       _commentButtonBounceOffset > postHeight
     ) {
-      commentsRef.current.bounceCommentButton();
+      writeCommentRef.current.bounce();
       commentsReached.current = true;
     }
   };
@@ -130,7 +131,7 @@ const PostDisplayView = ({
     setCacheVoteIcrement(1);
   };
 
-  const _getTabBar = (isFixedFooter = false) => {
+  const _renderActionPanel = (isFixedFooter = false) => {
     return (
       <StickyBar isFixedFooter={isFixedFooter} style={styles.stickyBar}>
         <View style={[styles.stickyWrapper, { paddingBottom: insets.bottom ? insets.bottom : 8 }]}>
@@ -245,6 +246,9 @@ const PostDisplayView = ({
 
   return (
     <View style={styles.container}>
+
+
+
       <ScrollView
         ref={scrollRef}
         style={styles.scroll}
@@ -286,7 +290,8 @@ const PostDisplayView = ({
               </View>
             )}
           </View>
-          {post && !postBodyLoading && (isGetComment || isLoadedComments) && (
+          <WriteCommentButton ref={writeCommentRef} onPress={_showQuickReplyModal} />
+          {false && post && !postBodyLoading && (isGetComment || isLoadedComments) && (
             <CommentsDisplay
               ref={commentsRef}
               author={author || post.author}
@@ -301,7 +306,10 @@ const PostDisplayView = ({
           )}
         </View>
       </ScrollView>
-      {post && _getTabBar(true)}
+
+
+
+      {post && _renderActionPanel(true)}
       <OptionsModal
         ref={actionSheet}
         options={[
