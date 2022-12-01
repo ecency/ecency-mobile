@@ -18,7 +18,7 @@ const CommentsDisplayView = forwardRef(
       handleOnReplyPress,
       fetchedAt,
       postContentView,
-      postBodyLoading
+      isLoading
     },
     ref,
   ) => {
@@ -47,7 +47,7 @@ const CommentsDisplayView = forwardRef(
     const _postContentView = (
       <>
         {postContentView && postContentView}
-        {postBodyLoading && (
+        {isLoading && (
           <FilterBar
             dropdownIconName="arrow-drop-down"
             options={VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` }))}
@@ -74,6 +74,7 @@ const CommentsDisplayView = forwardRef(
         handleOnVotersPress={handleOnVotersPress}
         handleOnReplyPress={handleOnReplyPress}
         fetchedAt={fetchedAt}
+        isLoading={isLoading}
       />
     );
   },

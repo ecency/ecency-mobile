@@ -36,7 +36,8 @@ const CommentsView = ({
   openReplyThread,
   fetchedAt,
   incrementRepliesCount,
-  postContentView
+  postContentView,
+  isLoading
 }) => {
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
@@ -123,7 +124,7 @@ const CommentsView = ({
       : null;
 
   const _renderEmptyContent = () => {
-    if (commentNumber > 1) {
+    if (isLoading || commentNumber > 1) {
       return;
     }
     const _onPress = () => {

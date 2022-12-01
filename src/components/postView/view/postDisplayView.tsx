@@ -297,7 +297,7 @@ const PostDisplayView = ({
           handleOnVotersPress={handleOnVotersPress}
           handleOnReplyPress={_showQuickReplyModal}
           fetchedAt={post?.post_fetched_at}
-          isLoading={postBodyLoading}
+          isLoading={!isLoadedComments}
           postContentView={_postContentView}
         />
       </View>
