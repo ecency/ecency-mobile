@@ -36,6 +36,7 @@ const CommentsView = ({
   openReplyThread,
   fetchedAt,
   incrementRepliesCount,
+  postContentView
 }) => {
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
@@ -134,6 +135,7 @@ const CommentsView = ({
       </Text>
     );
   };
+  
 
   return (
     <Fragment>
@@ -144,6 +146,7 @@ const CommentsView = ({
         renderItem={_renderItem}
         keyExtractor={(item) => get(item, 'permlink')}
         ListEmptyComponent={_renderEmptyContent()}
+        ListHeaderComponent={postContentView}
         {...flatListProps}
       />
       <OptionsModal

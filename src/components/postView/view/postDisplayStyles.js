@@ -28,10 +28,10 @@ export default EStyleSheet.create({
   },
   scroll: {
     // height: '$deviceHeight',
+    flex: 1,
     backgroundColor: '$primaryBackgroundColor',
   },
   scrollContent: {
-    minHeight: getWindowDimensions().height,
     paddingBottom: 50,
     alignItems: 'center',
   },

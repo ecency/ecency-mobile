@@ -48,6 +48,7 @@ const CommentsContainer = ({
   fetchedAt,
   incrementRepliesCount,
   handleOnReplyPress,
+  postContentView
 }) => {
   const navigation = useNavigation();
 
@@ -372,6 +373,7 @@ const CommentsContainer = ({
       openReplyThread={_openReplyThread}
       incrementRepliesCount={incrementRepliesCount}
       fetchedAt={fetchedAt}
+      postContentView={postContentView}
     />
   );
 };

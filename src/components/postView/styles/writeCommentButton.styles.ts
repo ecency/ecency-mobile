@@ -2,7 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
-    padding: 16,
+    paddingVertical: 16,
     height: 40,
     flexDirection: 'row',
     alignItems: 'center',

@@ -244,72 +244,65 @@ const PostDisplayView = ({
     }
   };
 
+
+  const _postContentView = (
+    <>
+      {parentPost && <ParentPost post={parentPost} />}
+
+      <View style={styles.header}>
+        {!post ? (
+          <PostPlaceHolder />
+        ) : (
+          <View onLayout={(event) => _handleOnPostLayout(event)}>
+            {!!post.title && <Text style={styles.title}>{post.title}</Text>}
+            <PostHeaderDescription
+              date={formatedTime}
+              name={author || post.author}
+              currentAccountUsername={name}
+              reputation={post.author_reputation}
+              size={40}
+              inlineTime={true}
+              customStyle={styles.headerLine}
+            />
+            <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
+            {!postBodyLoading && (
+              <View style={styles.footer}>
+                <Tags tags={tags} />
+                <Text style={styles.footerText}>
+                  Posted by
+                  <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
+                  {formatedTime}
+                </Text>
+              </View>
+            )}
+            <WriteCommentButton ref={writeCommentRef} onPress={_showQuickReplyModal} />
+          </View>
+        )}
+      </View>
+    
+    </>
+  )
+
   return (
     <View style={styles.container}>
 
-
-
-      <ScrollView
-        ref={scrollRef}
-        style={styles.scroll}
-        contentContainerStyle={[styles.scrollContent]}
-        onScroll={(event) => _handleOnScroll(event)}
-        scrollEventThrottle={16}
-        overScrollMode="never"
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-      >
-        <View style={{ width: WIDTH }}>
-          {parentPost && <ParentPost post={parentPost} />}
-
-          <View style={styles.header}>
-            {!post ? (
-              <PostPlaceHolder />
-            ) : (
-              <View onLayout={(event) => _handleOnPostLayout(event)}>
-                {!!post.title && <Text style={styles.title}>{post.title}</Text>}
-                <PostHeaderDescription
-                  date={formatedTime}
-                  name={author || post.author}
-                  currentAccountUsername={name}
-                  reputation={post.author_reputation}
-                  size={40}
-                  inlineTime={true}
-                  customStyle={styles.headerLine}
-                />
-                <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
-                {!postBodyLoading && (
-                  <View style={styles.footer}>
-                    <Tags tags={tags} />
-                    <Text style={styles.footerText}>
-                      Posted by
-                      <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
-                      {formatedTime}
-                    </Text>
-                  </View>
-                )}
-              </View>
-            )}
-          </View>
-          <WriteCommentButton ref={writeCommentRef} onPress={_showQuickReplyModal} />
-          {false && post && !postBodyLoading && (isGetComment || isLoadedComments) && (
-            <CommentsDisplay
-              ref={commentsRef}
-              author={author || post.author}
-              mainAuthor={author || post.author}
-              permlink={post.permlink}
-              commentCount={post.children}
-              fetchPost={fetchPost}
-              handleOnVotersPress={handleOnVotersPress}
-              handleOnReplyPress={_showQuickReplyModal}
-              fetchedAt={post.post_fetched_at}
-            />
-          )}
-        </View>
-      </ScrollView>
-
-
-
+      <View
+        style={[styles.scroll, styles.scrollContent, { width: WIDTH }]}>
+        <CommentsDisplay
+          author={author || post?.author}
+          mainAuthor={author || post?.author}
+          permlink={post?.permlink}
+          commentCount={post?.children}
+          fetchPost={fetchPost}
+          handleOnVotersPress={handleOnVotersPress}
+          handleOnReplyPress={_showQuickReplyModal}
+          fetchedAt={post?.post_fetched_at}
+          isLoading={postBodyLoading}
+          postContentView={_postContentView}
+        />
+      </View>
       {post && _renderActionPanel(true)}
+     
       <OptionsModal
         ref={actionSheet}
         options={[
