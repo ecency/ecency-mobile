@@ -713,7 +713,7 @@ export const fetchCoinsData = async ({
           estimateValue: balance * ppHive,
           vsCurrency: vsCurrency,
           currentPrice: ppHive,
-          unclaimedBalance: '',
+          unclaimedBalance: item.unclaimedBalance,
           isEngine: true,
           percentChange: item.percentChange,
           actions,

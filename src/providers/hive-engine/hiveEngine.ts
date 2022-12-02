@@ -73,13 +73,15 @@ export const fetchHiveEngineTokenBalances = async (
 
     const tokens = await fetchTokens(symbols);
     const metrices = await fetchMetics(symbols);
+    const unclaimed = await fetchUnclaimedRewards(account)
     
 
     return balances.map((balance) => {
 
       const token = tokens.find((t) => t.symbol == balance.symbol);
       const metrics = metrices.find((t) => t.symbol == balance.symbol);
-      return convertEngineToken(balance, token, metrics);
+      const pendingRewards = unclaimed.find((t) => t.symbol == balance.symbol);
+      return convertEngineToken(balance, token, metrics, pendingRewards);
     });
   } catch (err) {
     console.warn('Failed to get engine token balances', err);

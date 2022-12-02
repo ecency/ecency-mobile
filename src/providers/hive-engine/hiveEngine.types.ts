@@ -77,6 +77,7 @@ export interface HiveEngineToken {
   balanceStr: string;
   tokenPrice?: number;
   percentChange?: number;
+  unclaimedBalance: string;
 }
 
 export interface TokenMetadata {

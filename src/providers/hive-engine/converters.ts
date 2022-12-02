@@ -1,6 +1,6 @@
 import { EngineMetric, HiveEngineToken, Token, TokenBalance, TokenMetadata, TokenStatus } from './hiveEngine.types';
 
-export const convertEngineToken = (balanceObj: TokenBalance, token?: Token, metrics?: EngineMetric) => {
+export const convertEngineToken = (balanceObj: TokenBalance, token?: Token, metrics?: EngineMetric, tokenStatus?:TokenStatus) => {
   if (!balanceObj) {
     return null;
   }
@@ -14,6 +14,8 @@ export const convertEngineToken = (balanceObj: TokenBalance, token?: Token, metr
   const tokenPrice = metrics ? parseFloat(metrics.lastPrice) : 0;
   const percentChange = metrics ? parseFloat(metrics.priceChangePercent) : 0;
 
+  const unclaimedBalance = tokenStatus ? `${tokenStatus.pendingRewards} ${tokenStatus.symbol}` : '';
+
   return {
     symbol: balanceObj.symbol,
     name: token?.name || '',
@@ -22,12 +24,13 @@ export const convertEngineToken = (balanceObj: TokenBalance, token?: Token, metr
     stakingEnabled: token?.stakingEnabled || false,
     delegationEnabled: token?.delegationEnabled || false,
     stakedBalance: stake + delegationsIn - delegationsOut,
+    unclaimedBalance,
     balance,
     stake,
     delegationsIn,
     delegationsOut,
     tokenPrice,
-    percentChange
+    percentChange,
   } as HiveEngineToken;
 };
 

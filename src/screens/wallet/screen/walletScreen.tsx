@@ -35,12 +35,14 @@ import {
   fetchCoinQuotes,
   resetWalletData,
   setPriceHistory,
+  updateUnclaimedBalance,
 } from '../../../redux/actions/walletActions';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { claimPoints } from '../../../providers/ecency/ePoint';
 import { claimRewardBalance, getAccount } from '../../../providers/hive/dhive';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { EngineHeader } from '../children/engineHeader';
+import { claimRewards } from '../../../providers/hive-engine/hiveEngineActions';
 
 const CHART_DAYS_RANGE = 1;
 
@@ -180,6 +182,27 @@ const WalletScreen = ({ navigation }) => {
     setIsClaiming(false);
   };
 
+  const _claimEngineBalance = async (symbol:string) => {
+    setIsClaiming(true);
+    try {
+      await claimRewards([symbol], currentAccount, pinHash);
+      await _fetchCoinsData(true);
+      dispatch(
+        updateUnclaimedBalance(symbol, '')
+      )
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: 'alert.claim_reward_balance_ok',
+          }),
+        ),
+      );
+    } catch (error) {
+      Alert.alert(intl.formatMessage({ id: 'alert.claim_failed' }, { message: error.message }));
+    }
+    setIsClaiming(false);
+  }
+
   const _claimRewards = (coinId: string) => {
     if (isLoading) {
       setRefreshing(true);
@@ -193,6 +216,9 @@ const WalletScreen = ({ navigation }) => {
 
       case COIN_IDS.HP:
         _claimRewardBalance();
+        break;
+      default:
+        _claimEngineBalance(coinId)
         break;
     }
   };
@@ -208,10 +234,6 @@ const WalletScreen = ({ navigation }) => {
 
     const _balance = coinData.balance + (coinData.savings || 0);
     const quote = quotes && quotes[item.id] ? quotes[item.id] : quotes[COIN_IDS.HIVE];
-
-    //check engine token section start
-    const nextIndex = index + 1
-    const engineSectionStarts = !item.isEngine && (selectedCoins.length === nextIndex || selectedCoins[nextIndex].isEngine);
 
     const _onCardPress = () => {
       navigation.navigate(ROUTES.SCREENS.COIN_DETAILS, {
@@ -241,7 +263,6 @@ const WalletScreen = ({ navigation }) => {
     }
 
     return (
-      <>
         <CoinCard
           name={coinData.name}
           iconUrl={coinData.iconUrl}
@@ -263,8 +284,6 @@ const WalletScreen = ({ navigation }) => {
           }
           {...item}
         />
-        {engineSectionStarts && _renderEngineHeader()}
-      </>
     );
   };
 
