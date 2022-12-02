@@ -7,6 +7,7 @@ import {
   SET_COIN_ACTIVITIES,
   SET_COIN_QUOTES,
   RESET_WALLET_DATA,
+  UPDATE_UNCLAIMED_BALANCE,
 } from '../constants/constants';
 import { CoinActivitiesCollection, CoinBase, CoinData } from '../reducers/walletReducer';
 import { AppDispatch, RootState } from '../store/store';
@@ -45,6 +46,14 @@ export const setCoinActivities = (coinId: string, data: CoinActivitiesCollection
   },
   type: SET_COIN_ACTIVITIES,
 });
+
+export const updateUnclaimedBalance = (coinId:string, balanceStr:string) => ({
+  payload:{
+    id:coinId,
+    unclaimedBalance:balanceStr
+  },
+  type: UPDATE_UNCLAIMED_BALANCE
+})
 
 export const resetWalletData = () => ({
   type: RESET_WALLET_DATA,

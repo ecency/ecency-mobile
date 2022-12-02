@@ -6,6 +6,7 @@ import {
   SET_COIN_ACTIVITIES,
   SET_COIN_QUOTES,
   RESET_WALLET_DATA,
+  UPDATE_UNCLAIMED_BALANCE,
 } from '../constants/constants';
 
 export interface DataPair {
@@ -141,6 +142,12 @@ export default function (state = initialState, action) {
         ...state,
         quotes: payload,
       };
+    }
+    case UPDATE_UNCLAIMED_BALANCE: {
+      state.coinsData[payload.id].unclaimedBalance = payload.unclaimedBalance
+      return {
+        ...state
+      }
     }
     default:
       return state;
