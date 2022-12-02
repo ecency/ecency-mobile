@@ -21,21 +21,7 @@ export const ClaimButton = ({
   isDisabled,
   onPress,
 }: ClaimButtonProps) => {
-  const _rightComponent = isLoading ? (
-    <ActivityIndicator
-      color={EStyleSheet.value('$pureWhite')}
-      style={styles.claimActivityIndicator}
-    />
-  ) : (
-    <View style={styles.claimIconWrapper}>
-      <Icon
-        name="add"
-        iconType="MaterialIcons"
-        color={EStyleSheet.value('$primaryBlue')}
-        size={23}
-      />
-    </View>
-  );
+
 
   return (
     <View style={styles.claimContainer}>
@@ -48,7 +34,14 @@ export const ClaimButton = ({
       >
         <Fragment>
           <Text style={styles.claimBtnTitle}>{title}</Text>
-          {_rightComponent}
+          <View style={styles.claimIconWrapper}>
+            <Icon
+              name="add"
+              iconType="MaterialIcons"
+              color={EStyleSheet.value('$primaryBlue')}
+              size={23}
+            />
+          </View>
         </Fragment>
       </MainButton>
     </View>
