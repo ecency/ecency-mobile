@@ -17,7 +17,7 @@ import moment from 'moment';
 import { LoggedInContainer } from '../../../containers';
 
 // Components
-import { Header, HorizontalIconList, PostCardPlaceHolder } from '../../../components';
+import { Header, HorizontalIconList, PostCardPlaceHolder, TextButton } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -41,7 +41,7 @@ import { COIN_IDS } from '../../../constants/defaultCoins';
 import { claimPoints } from '../../../providers/ecency/ePoint';
 import { claimRewardBalance, getAccount } from '../../../providers/hive/dhive';
 import { toastNotification } from '../../../redux/actions/uiAction';
-import { EngineHeader } from '../children/engineHeader';
+import { EngineHeader, ManageAssets } from '../children/manageAssets';
 import { claimRewards } from '../../../providers/hive-engine/hiveEngineActions';
 
 const CHART_DAYS_RANGE = 1;
@@ -301,9 +301,7 @@ const WalletScreen = ({ navigation }) => {
     );
   };
 
-  const _renderEngineHeader = () => {
-    return <EngineHeader refreshing={refreshing} />
-  }
+
 
   const _refreshControl = (
     <RefreshControl
@@ -332,11 +330,11 @@ const WalletScreen = ({ navigation }) => {
                 style={globalStyles.tabBarBottom}
                 ListEmptyComponent={<PostCardPlaceHolder />}
                 ListHeaderComponent={_renderHeader}
+                ListFooterComponent={<ManageAssets/>}
                 renderItem={_renderItem}
                 keyExtractor={(item, index) => index.toString()}
                 refreshControl={_refreshControl}
               />
-
             </View>
           )}
         </LoggedInContainer>
