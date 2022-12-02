@@ -1,14 +1,13 @@
-import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import React, { ComponentType, Fragment, useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import React, { ComponentType, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import FastImage from 'react-native-fast-image';
 import styles from '../styles/children.styles';
-import { Icon, MainButton, SimpleChart } from '../../../components';
+import { SimpleChart } from '../../../components';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { ClaimButton } from './claimButton';
-import HIVE_ENGINE_ICON from '../../../assets/hive_engine.png';
+
+import { AssetIcon } from '../../../components/atoms';
 
 export interface CoinCardProps {
   id: string;
@@ -73,21 +72,16 @@ export const CoinCard = ({
     : name;
   const value = `${isEngine ? ownedTokens.toFixed(6) : ownedTokens} ${isEngine ? '' : symbol}`;
 
-  const _renderAssetIcon = iconUrl && (
-    <View>
-      <FastImage style={styles.logo} resizeMode="cover" source={{ uri: iconUrl }} />
-      {isEngine && (
-        <View style={styles.hiveEngineWrapper}>
-          <FastImage style={styles.hiveEngineLogo} resizeMode="contain" source={HIVE_ENGINE_ICON} />
-        </View>
-      )}
-    </View>
-  );
 
   const _renderHeader = (
     <View style={styles.cardHeader}>
-      {_renderAssetIcon}
-
+      {iconUrl && (
+        <AssetIcon
+          iconUrl={iconUrl}
+          isEngine={isEngine}
+          containerStyle={styles.logoContainer}
+          iconSize={32} />
+      )}
       <View style={styles.cardTitleContainer}>
         <Text style={styles.textTitle}>{symbol}</Text>
         <Text style={styles.textSubtitle}>{_name}</Text>
@@ -142,9 +136,8 @@ export const CoinCard = ({
   const _renderFooter = (
     <View style={styles.cardFooter}>
       <Text style={styles.textCurValue}>{`${currencySymbol} ${currentValue.toFixed(2)}`}</Text>
-      <Text style={changePercent > 0 ? styles.textDiffPositive : styles.textDiffNegative}>{`${
-        changePercent >= 0 ? '+' : ''
-      }${changePercent.toFixed(1)}%`}</Text>
+      <Text style={changePercent > 0 ? styles.textDiffPositive : styles.textDiffNegative}>{`${changePercent >= 0 ? '+' : ''
+        }${changePercent.toFixed(1)}%`}</Text>
     </View>
   );
 

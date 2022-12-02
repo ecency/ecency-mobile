@@ -33,11 +33,8 @@ export default EStyleSheet.create({
   } as ViewStyle,
 
 
-  logo: {
-    height: 30,
-    width: 30,
-    borderRadius: 15,
-    marginRight: 8
+  logoContainer: {
+    paddingRight: 8
   } as ImageStyle,
 
   menuIcon: {
@@ -99,16 +96,4 @@ export default EStyleSheet.create({
     fontWeight: '300',
     textAlign: 'right',
   } as TextStyle,
-  hiveEngineWrapper:{
-    position: 'absolute',
-    top: -8,
-    right: 2,
-    borderRadius: 10,
-    padding:1,
-    backgroundColor: '$pureWhite',
-  } as ViewStyle,
-  hiveEngineLogo: {
-    height: 14,
-    width: 14
-  } as ImageStyle
 });
