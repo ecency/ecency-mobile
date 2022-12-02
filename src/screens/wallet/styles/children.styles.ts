@@ -34,10 +34,10 @@ export default EStyleSheet.create({
 
 
   logo: {
-    height: 24,
-    width: 24,
-    borderRadius: 12,
-    marginRight:8
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+    marginRight: 8
   } as ImageStyle,
 
   menuIcon: {
@@ -98,5 +98,17 @@ export default EStyleSheet.create({
     color: '$primaryDarkText',
     fontWeight: '300',
     textAlign: 'right',
-  } as TextStyle
+  } as TextStyle,
+  hiveEngineWrapper:{
+    position: 'absolute',
+    top: -8,
+    right: 2,
+    borderRadius: 10,
+    padding:1,
+    backgroundColor: '$pureWhite',
+  } as ViewStyle,
+  hiveEngineLogo: {
+    height: 14,
+    width: 14
+  } as ImageStyle
 });
