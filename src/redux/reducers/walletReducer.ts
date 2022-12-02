@@ -144,10 +144,10 @@ export default function (state = initialState, action) {
       };
     }
     case UPDATE_UNCLAIMED_BALANCE: {
-      state.coinsData[payload.id].unclaimedBalance = payload.unclaimedBalance
+      state.coinsData[payload.id].unclaimedBalance = payload.unclaimedBalance;
       return {
-        ...state
-      }
+        ...state,
+      };
     }
     default:
       return state;

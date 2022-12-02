@@ -21,8 +21,6 @@ export const ClaimButton = ({
   isDisabled,
   onPress,
 }: ClaimButtonProps) => {
-
-
   return (
     <View style={styles.claimContainer}>
       <MainButton

@@ -47,13 +47,13 @@ export const setCoinActivities = (coinId: string, data: CoinActivitiesCollection
   type: SET_COIN_ACTIVITIES,
 });
 
-export const updateUnclaimedBalance = (coinId:string, balanceStr:string) => ({
-  payload:{
-    id:coinId,
-    unclaimedBalance:balanceStr
+export const updateUnclaimedBalance = (coinId: string, balanceStr: string) => ({
+  payload: {
+    id: coinId,
+    unclaimedBalance: balanceStr,
   },
-  type: UPDATE_UNCLAIMED_BALANCE
-})
+  type: UPDATE_UNCLAIMED_BALANCE,
+});
 
 export const resetWalletData = () => ({
   type: RESET_WALLET_DATA,

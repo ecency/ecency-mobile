@@ -76,15 +76,13 @@ export const CoinCard = ({
   const _renderAssetIcon = iconUrl && (
     <View>
       <FastImage style={styles.logo} resizeMode="cover" source={{ uri: iconUrl }} />
-      {
-        isEngine && (
-          <View style={styles.hiveEngineWrapper} >
-            <FastImage style={styles.hiveEngineLogo} resizeMode="contain" source={HIVE_ENGINE_ICON} />
-          </View>
-        )
-      }
+      {isEngine && (
+        <View style={styles.hiveEngineWrapper}>
+          <FastImage style={styles.hiveEngineLogo} resizeMode="contain" source={HIVE_ENGINE_ICON} />
+        </View>
+      )}
     </View>
-  )
+  );
 
   const _renderHeader = (
     <View style={styles.cardHeader}>
@@ -144,8 +142,9 @@ export const CoinCard = ({
   const _renderFooter = (
     <View style={styles.cardFooter}>
       <Text style={styles.textCurValue}>{`${currencySymbol} ${currentValue.toFixed(2)}`}</Text>
-      <Text style={changePercent > 0 ? styles.textDiffPositive : styles.textDiffNegative}>{`${changePercent >= 0 ? '+' : ''
-        }${changePercent.toFixed(1)}%`}</Text>
+      <Text style={changePercent > 0 ? styles.textDiffPositive : styles.textDiffNegative}>{`${
+        changePercent >= 0 ? '+' : ''
+      }${changePercent.toFixed(1)}%`}</Text>
     </View>
   );
 
