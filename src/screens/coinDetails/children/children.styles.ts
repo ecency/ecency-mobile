@@ -9,6 +9,10 @@ export default EStyleSheet.create({
     overflow: 'hidden',
     backgroundColor: '$primaryLightBackground',
   } as ViewStyle,
+  iconContainer:{
+    marginBottom:16, 
+    marginTop:8
+  } as ViewStyle,
   basicsContainer: {
     alignItems: 'center',
     padding: 16,

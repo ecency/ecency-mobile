@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import { View, Text } from 'react-native';
+import { AssetIcon } from '../../../components/atoms';
 import { DataPair } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
 
@@ -9,6 +10,7 @@ interface CoinBasicsProps {
   extraData: DataPair[];
   coinSymbol: string;
   percentChange: number;
+  iconUrl?: string;
   onInfoPress: (id: string) => void;
 }
 
@@ -17,11 +19,13 @@ export const CoinBasics = ({
   extraData,
   coinSymbol,
   percentChange,
+  iconUrl,
   onInfoPress,
 }: CoinBasicsProps) => {
   const intl = useIntl();
   const _renderCoinHeader = (
     <>
+      {iconUrl && <AssetIcon iconUrl={iconUrl} iconSize={56} containerStyle={styles.iconContainer} isEngine={true} />}
       <View style={styles.coinTitleContainer}>
         <Text style={styles.textCoinTitle}>{coinSymbol}</Text>
       </View>
