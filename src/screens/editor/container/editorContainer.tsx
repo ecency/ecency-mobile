@@ -81,6 +81,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       post: null,
       uploadedImage: null,
       community: [],
+      selectedCommunity: null,
       rewardType: 'default',
       sharedSnippetText: null,
       onLoadDraftPress: false,
@@ -125,6 +126,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         this.setState({
           community: navigationParams.community,
         });
+      }
+
+      if(navigationParams.selectedCommunity){
+        this.setState({
+          selectedCommunity: navigationParams.selectedCommunity,
+        })
       }
 
       if (navigationParams.post) {
@@ -1104,6 +1111,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       thumbUrl,
       uploadProgress,
       rewardType,
+      selectedCommunity,
     } = this.state;
 
     const tags = route.params?.tags;
@@ -1137,6 +1145,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         uploadedImage={uploadedImage}
         tags={tags}
         community={community}
+        selectedCommunity={selectedCommunity}
         currentAccount={currentAccount}
         draftId={draftId}
         sharedSnippetText={sharedSnippetText}

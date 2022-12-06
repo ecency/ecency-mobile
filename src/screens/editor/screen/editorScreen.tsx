@@ -77,8 +77,13 @@ class EditorScreen extends Component {
     }
   }
 
-  UNSAFE_componentWillReceiveProps = async (nextProps) => {
-    const { draftPost, isUploading, community, currentAccount } = this.props;
+  UNSAFE_componentWillReceiveProps = async (prevProps,nextProps) => {
+    const { draftPost, isUploading, community, currentAccount, selectedCommunity } = this.props;
+    if(prevProps !== nextProps){
+      this.setState({
+        selectedCommunity: selectedCommunity,
+      })
+    }
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
       if (nextProps.draftPost.tags?.length > 0 && isCommunity(nextProps.draftPost.tags[0])) {
         this._getCommunity(nextProps.draftPost.tags[0]);
@@ -104,6 +109,7 @@ class EditorScreen extends Component {
     if (isUploading !== nextProps) {
       this._handleFormUpdate();
     }
+
   };
 
   // Component Functions

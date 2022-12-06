@@ -100,13 +100,27 @@ const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn
   };
 
   const _handleNewPostButtonPress = () => {
-    navigation.navigate({
-      name: ROUTES.SCREENS.EDITOR,
-      key: 'editor_community_post',
-      params: {
-        community: [tag],
-      },
-    });
+    if (data) {
+      navigation.navigate({
+        name: ROUTES.SCREENS.EDITOR,
+        key: 'editor_community_post',
+        params: {
+          community: [tag],
+          selectedCommunity: {
+            name: data.name,
+            title: data.title,
+          },
+        },
+      });
+    } else {
+      navigation.navigate({
+        name: ROUTES.SCREENS.EDITOR,
+        key: 'editor_community_post',
+        params: {
+          community: [tag],
+        },
+      });
+    }
   };
 
   return (
