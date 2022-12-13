@@ -19,6 +19,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingTop: 16,
+    zIndex: 10,
   } as ViewStyle,
 
   cardTitleContainer: {
@@ -48,32 +49,38 @@ export default EStyleSheet.create({
   dotStyle: {
     backgroundColor: '$darkGrayBackground',
   },
+
+  claimContainer:{
+    marginBottom:16,
+  },
+
   chartContainer: {
-    height: 112,
+    height:80,
+    marginTop:-16,
   },
   cardFooter: {
     position: 'absolute',
-    bottom: 8,
+    bottom: 4,
     left: isRTL() ? 16 : 76,
     right: isRTL() ? 76 : 16,
-    paddingTop: 8,
+    paddingTop: 4,
     flexDirection: isRTL() ? 'row-reverse' : 'row',
     justifyContent: 'space-between',
     borderColor: '$chartText',
     borderTopWidth: EStyleSheet.hairlineWidth,
   } as ViewStyle,
   textDiffPositive: {
-    fontSize: 18,
+    fontSize: 14,
     color: '$primaryGreen',
     textAlign: 'left',
   } as TextStyle,
   textDiffNegative: {
-    fontSize: 16,
+    fontSize: 14,
     color: '$primaryRed',
     textAlign: 'left',
   } as TextStyle,
   textCurValue: {
-    fontSize: 16,
+    fontSize: 14,
     color: '$primaryBlack',
     fontWeight: '300',
     textAlign: 'left',

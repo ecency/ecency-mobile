@@ -25,8 +25,8 @@ export default EStyleSheet.create({
     alignItems: 'center',
     borderRadius: 20,
     marginLeft: 20,
-    width: 24,
-    height: 24,
+    width: 22,
+    height: 22,
   } as ViewStyle,
   claimContainer: {
     flexDirection: 'row',

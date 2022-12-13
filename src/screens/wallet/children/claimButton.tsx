@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { MainButton, Icon } from '../../../components';
 import styles from '../styles/claimButton.styles';
@@ -10,6 +10,7 @@ interface ClaimButtonProps {
   isClaiming?: boolean;
   isClaimExpected?: boolean;
   isDisabled?: boolean;
+  containerStyle:ViewStyle,
   onPress: () => void;
 }
 
@@ -19,15 +20,16 @@ export const ClaimButton = ({
   isClaiming,
   isClaimExpected,
   isDisabled,
+  containerStyle,
   onPress,
 }: ClaimButtonProps) => {
   return (
-    <View style={styles.claimContainer}>
+    <View style={{...styles.claimContainer, ...containerStyle}}>
       <MainButton
         isLoading={isClaiming && isClaimExpected}
         isDisable={isDisabled || isLoading || (isClaiming && isClaimExpected)}
         style={styles.claimBtn}
-        height={50}
+        height={40}
         onPress={onPress}
       >
         <Fragment>
@@ -37,7 +39,7 @@ export const ClaimButton = ({
               name="add"
               iconType="MaterialIcons"
               color={EStyleSheet.value('$primaryBlue')}
-              size={23}
+              size={20}
             />
           </View>
         </Fragment>

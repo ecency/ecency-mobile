@@ -106,7 +106,8 @@ export const CoinCard = ({
           title={btnTitle}
           isLoading={isLoading}
           isClaiming={isClaiming}
-          isClaimExpected={claimExpected}
+          isClaimExpected={ claimExpected}
+          containerStyle={id !== COIN_IDS.ECENCY && styles.claimContainer}
           onPress={_onClaimPress}
         />
       );
@@ -128,7 +129,7 @@ export const CoinCard = ({
     const _baseWidth = getWindowDimensions().width - 32;
     return (
       <View style={styles.chartContainer}>
-        <SimpleChart data={chartData} baseWidth={_baseWidth} showLine={false} chartHeight={130} />
+        <SimpleChart data={chartData} baseWidth={_baseWidth} showLine={false} chartHeight={60} />
       </View>
     );
   };
@@ -145,8 +146,8 @@ export const CoinCard = ({
     <TouchableOpacity onPress={onCardPress}>
       <View style={styles.cardContainer}>
         {_renderHeader}
-        {_renderClaimSection()}
         {_renderBoostAccount()}
+        {_renderClaimSection()}
         {!notCrypto && !isEngine && _renderGraph()}
         {!notCrypto && !isEngine ? _renderFooter : <View style={{ height: 12 }} />}
         {footerComponent && footerComponent}
