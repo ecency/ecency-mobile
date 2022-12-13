@@ -25,6 +25,6 @@ export const engineRewardsApi = axios.create({
 export const engineChartApi = axios.create({
   baseURL: ENGIEN_CHART_URL,
   headers: { 'Content-type': 'application/json' },
-})
+});
 
 export default hiveEngineApi;

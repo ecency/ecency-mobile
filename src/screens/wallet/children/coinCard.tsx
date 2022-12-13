@@ -126,13 +126,18 @@ export const CoinCard = ({
   };
 
   const _renderGraph = () => {
-    if(!chartData.length){
+    if (!chartData.length) {
       return null;
     }
     const _baseWidth = getWindowDimensions().width - 32;
     return (
       <View style={styles.chartContainer}>
-        <SimpleChart data={chartData.slice(0, 24)} baseWidth={_baseWidth} showLine={false} chartHeight={60} />
+        <SimpleChart
+          data={chartData.slice(0, 24)}
+          baseWidth={_baseWidth}
+          showLine={false}
+          chartHeight={60}
+        />
       </View>
     );
   };
