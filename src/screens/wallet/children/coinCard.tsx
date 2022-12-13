@@ -126,10 +126,13 @@ export const CoinCard = ({
   };
 
   const _renderGraph = () => {
+    if(!chartData.length){
+      return null;
+    }
     const _baseWidth = getWindowDimensions().width - 32;
     return (
       <View style={styles.chartContainer}>
-        <SimpleChart data={chartData} baseWidth={_baseWidth} showLine={false} chartHeight={60} />
+        <SimpleChart data={chartData.slice(0, 24)} baseWidth={_baseWidth} showLine={false} chartHeight={60} />
       </View>
     );
   };
@@ -149,8 +152,8 @@ export const CoinCard = ({
         {_renderHeader}
         {_renderBoostAccount()}
         {_renderClaimSection()}
-        {!notCrypto && !isEngine && _renderGraph()}
-        {!notCrypto && !isEngine ? _renderFooter : <View style={{ height: 12 }} />}
+        {!notCrypto && _renderGraph()}
+        {!notCrypto ? _renderFooter : <View style={{ height: 12 }} />}
         {footerComponent && footerComponent}
       </View>
     </TouchableOpacity>

@@ -1,4 +1,4 @@
-import hiveEngineApi, { engineRewardsApi, PATH_CONTRACTS } from '../../config/hiveEngineApi';
+import hiveEngineApi, { engineChartApi, engineRewardsApi, PATH_CONTRACTS } from '../../config/hiveEngineApi';
 // import HiveEngineToken from "../helper/hive-engine-wallet";
 // import { TransactionConfirmation } from "@hiveio/dhive";
 // import { broadcastPostingJSON } from "./operations";
@@ -74,7 +74,7 @@ export const fetchHiveEngineTokenBalances = async (
     const tokens = await fetchTokens(symbols);
     const metrices = await fetchMetics(symbols);
     const unclaimed = await fetchUnclaimedRewards(account)
-    
+
 
     return balances.map((balance) => {
 
@@ -86,26 +86,26 @@ export const fetchHiveEngineTokenBalances = async (
   } catch (err) {
     console.warn('Failed to get engine token balances', err);
     bugsnapInstance.notify(err);
-    throw err; 
+    throw err;
   }
 };
 
 
 
 export const fetchUnclaimedRewards = async (account: string): Promise<TokenStatus[]> => {
-  try{
+  try {
     const response = await engineRewardsApi.get(`@${account}?hive=1`)
     const rawData = Object.values(response.data)
-    if(!rawData || rawData.length === 0){
+    if (!rawData || rawData.length === 0) {
       throw new Error("No rewards data returned");
     }
 
     const data = rawData.map(convertRewardsStatus);
     const filteredData = data.filter(item => item && item.pendingToken > 0)
-    
+
     console.log('unclaimed engine rewards data', filteredData);
     return filteredData;
-  
+
   } catch (err) {
     console.warn("failed ot get unclaimed engine rewards", err)
     bugsnapInstance.notify(err);
@@ -115,12 +115,12 @@ export const fetchUnclaimedRewards = async (account: string): Promise<TokenStatu
 
 
 
-export const fetchMetics = async (tokens?:string[]) => {
+export const fetchMetics = async (tokens?: string[]) => {
   try {
 
     const data = {
       jsonrpc: JSON_RPC.RPC_2,
-      method: Methods.FIND ,
+      method: Methods.FIND,
       params: {
         contract: EngineContracts.MARKET,
         table: EngineTables.METRICS,
@@ -130,9 +130,9 @@ export const fetchMetics = async (tokens?:string[]) => {
       },
       id: EngineIds.ONE
     };
-  
-    const response = await hiveEngineApi.post(PATH_CONTRACTS, data )
-    if(!response.data.result){
+
+    const response = await hiveEngineApi.post(PATH_CONTRACTS, data)
+    if (!response.data.result) {
       throw new Error("No metric data returned")
     }
 
@@ -141,14 +141,19 @@ export const fetchMetics = async (tokens?:string[]) => {
   } catch (err) {
     console.warn('Failed to get engine metrices', err);
     bugsnapInstance.notify(err);
-    throw err; 
+    throw err;
   }
 }
 
-// export const getMarketData = async (symbol: any) => {
-//   const url: any = engine.chartApi;
-//   const { data: history } = await axios.get(`${url}`, {
-//     params: { symbol, interval: "daily" }
-//   });
-//   return history;
-// };
+export const fetchMarketData = async (symbol: any, interval = 'hourly') => {
+  try {
+    const { data: history } = await engineChartApi.get('', {
+      params: { symbol, interval }
+    });
+    return history;
+  } catch (err) {
+    bugsnapInstance.notify(err);
+    console.warn("failed to get chart data", err.message);
+    return []
+  }
+};

@@ -7,6 +7,8 @@ import axios from 'axios';
 
 const BASE_URL = 'https://api.hive-engine.com';
 const ENGINE_REWARDS_URL = 'https://scot-api.hive-engine.com/';
+const ENGIEN_CHART_URL = 'https://info-api.tribaldex.com/market/ohlcv';
+
 const PATH_RPC = 'rpc';
 export const PATH_CONTRACTS = 'contracts';
 
@@ -19,5 +21,10 @@ export const engineRewardsApi = axios.create({
   baseURL: ENGINE_REWARDS_URL,
   headers: { 'Content-type': 'application/json' },
 });
+
+export const engineChartApi = axios.create({
+  baseURL: ENGIEN_CHART_URL,
+  headers: { 'Content-type': 'application/json' },
+})
 
 export default hiveEngineApi;

@@ -43,6 +43,7 @@ import { claimRewardBalance, getAccount } from '../../../providers/hive/dhive';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { EngineHeader, ManageAssets } from '../children/manageAssets';
 import { claimRewards } from '../../../providers/hive-engine/hiveEngineActions';
+import { fetchMarketData } from '../../../providers/hive-engine/hiveEngine';
 
 const CHART_DAYS_RANGE = 1;
 
@@ -123,14 +124,22 @@ const WalletScreen = ({ navigation }) => {
       const curTime = new Date().getTime();
 
       if (!token.notCrypto && curTime > expiresAt) {
-        const marketChart = await fetchMarketChart(
-          token.id,
-          currency.currency,
-          CHART_DAYS_RANGE,
-          INTERVAL_HOURLY,
-        );
-        const priceData = marketChart.prices.map((item) => item.yValue);
+        let priceData:number[] = [];
+        if(token.isEngine){
+          const marketData = await fetchMarketData(token.id)
+          priceData = marketData.map(data=>data.close);
+        } else {
+          const marketChart = await fetchMarketChart(
+            token.id,
+            currency.currency,
+            CHART_DAYS_RANGE,
+            INTERVAL_HOURLY,
+          );
+          priceData = marketChart.prices.map((item) => item.yValue)
+        }
+        
         dispatch(setPriceHistory(token.id, currency.currency, priceData));
+      
       }
     });
   };
