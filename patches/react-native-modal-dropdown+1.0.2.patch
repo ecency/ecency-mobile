@@ -1,3 +1,17 @@
+diff --git a/node_modules/react-native-modal-dropdown/components/ModalDropdown.js b/node_modules/react-native-modal-dropdown/components/ModalDropdown.js
+index c7e4b4f..275b785 100644
+--- a/node_modules/react-native-modal-dropdown/components/ModalDropdown.js
++++ b/node_modules/react-native-modal-dropdown/components/ModalDropdown.js
+@@ -434,7 +434,8 @@ export default class ModalDropdown extends Component {
+         data={options}
+         ref={component => (this.flatList = component)}
+         scrollEnabled={scrollEnabled}
+-        initialScrollIndex={saveScrollPosition ? selectedIndex : -1}
++        // GitHub: https://github.com/siemiatj/react-native-modal-dropdown/issues/49
++        // initialScrollIndex={saveScrollPosition ? selectedIndex : -1}
+         style={styles.list}
+         keyExtractor={(item, i) => (`key-${i}`)}
+         renderItem={this._renderItem}
 diff --git a/node_modules/react-native-modal-dropdown/example/android/build.gradle b/node_modules/react-native-modal-dropdown/example/android/build.gradle
 index eed9972..61bdb60 100644
 --- a/node_modules/react-native-modal-dropdown/example/android/build.gradle
