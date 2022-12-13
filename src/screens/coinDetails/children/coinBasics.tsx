@@ -25,7 +25,14 @@ export const CoinBasics = ({
   const intl = useIntl();
   const _renderCoinHeader = (
     <>
-      {iconUrl && <AssetIcon iconUrl={iconUrl} iconSize={56} containerStyle={styles.iconContainer} isEngine={true} />}
+      {iconUrl && (
+        <AssetIcon
+          iconUrl={iconUrl}
+          iconSize={56}
+          containerStyle={styles.iconContainer}
+          isEngine={true}
+        />
+      )}
       <View style={styles.coinTitleContainer}>
         <Text style={styles.textCoinTitle}>{coinSymbol}</Text>
       </View>

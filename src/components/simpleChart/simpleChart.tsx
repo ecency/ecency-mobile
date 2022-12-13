@@ -39,14 +39,14 @@ export const SimpleChart = ({
       withVerticalLabels={false}
       withHorizontalLines={false}
       withDots={false}
-      withInnerLines={false}      
+      withInnerLines={false}
       chartConfig={{
-        backgroundColor:_chartBackgroundColor,
+        backgroundColor: _chartBackgroundColor,
         backgroundGradientFrom: _chartBackgroundColor,
         backgroundGradientTo: _chartBackgroundColor,
         fillShadowGradient: EStyleSheet.value('$chartBlue'),
         fillShadowGradientOpacity: 0.8,
-        fillShadowGradientTo:_chartBackgroundColor,
+        fillShadowGradientTo: _chartBackgroundColor,
         labelColor: () => EStyleSheet.value('$primaryDarkText'),
         color: () => (showLine ? EStyleSheet.value('$chartBlue') : 'transparent'),
       }}

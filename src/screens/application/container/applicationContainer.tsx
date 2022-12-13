@@ -41,10 +41,7 @@ import {
   refreshSCToken,
   switchAccount,
 } from '../../../providers/hive/auth';
-import {
-  setPushToken,
-  getUnreadNotificationCount,
-} from '../../../providers/ecency/ecency';
+import { setPushToken, getUnreadNotificationCount } from '../../../providers/ecency/ecency';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
 import RootNavigation from '../../../navigation/rootNavigation';
 

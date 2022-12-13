@@ -72,7 +72,6 @@ export const CoinCard = ({
     : name;
   const value = `${isEngine ? ownedTokens.toFixed(6) : ownedTokens} ${isEngine ? '' : symbol}`;
 
-
   const _renderHeader = (
     <View style={styles.cardHeader}>
       {iconUrl && (
@@ -80,7 +79,8 @@ export const CoinCard = ({
           iconUrl={iconUrl}
           isEngine={isEngine}
           containerStyle={styles.logoContainer}
-          iconSize={32} />
+          iconSize={32}
+        />
       )}
       <View style={styles.cardTitleContainer}>
         <Text style={styles.textTitle}>{symbol}</Text>
@@ -106,7 +106,7 @@ export const CoinCard = ({
           title={btnTitle}
           isLoading={isLoading}
           isClaiming={isClaiming}
-          isClaimExpected={ claimExpected}
+          isClaimExpected={claimExpected}
           containerStyle={id !== COIN_IDS.ECENCY && styles.claimContainer}
           onPress={_onClaimPress}
         />
@@ -137,8 +137,9 @@ export const CoinCard = ({
   const _renderFooter = (
     <View style={styles.cardFooter}>
       <Text style={styles.textCurValue}>{`${currencySymbol} ${currentValue.toFixed(2)}`}</Text>
-      <Text style={changePercent > 0 ? styles.textDiffPositive : styles.textDiffNegative}>{`${changePercent >= 0 ? '+' : ''
-        }${changePercent.toFixed(1)}%`}</Text>
+      <Text style={changePercent > 0 ? styles.textDiffPositive : styles.textDiffNegative}>{`${
+        changePercent >= 0 ? '+' : ''
+      }${changePercent.toFixed(1)}%`}</Text>
     </View>
   );
 
