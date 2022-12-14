@@ -9,7 +9,7 @@ import { ClaimButton } from './claimButton';
 
 import { AssetIcon } from '../../../components/atoms';
 
-export interface CoinCardProps {
+export interface AssetCardProps {
   id: string;
   chartData: number[];
   name: string;
@@ -31,7 +31,7 @@ export interface CoinCardProps {
   onBoostAccountPress: () => void;
 }
 
-export const CoinCard = ({
+export const AssetCard = ({
   id,
   name,
   iconUrl,
@@ -51,7 +51,7 @@ export const CoinCard = ({
   onCardPress,
   onClaimPress,
   onBoostAccountPress,
-}: CoinCardProps) => {
+}: AssetCardProps) => {
   const intl = useIntl();
 
   const [claimExpected, setClaimExpected] = useState(false);

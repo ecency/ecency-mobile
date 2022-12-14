@@ -20,18 +20,18 @@ import { COIN_IDS } from '../../../constants/defaultCoins';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import transferTypes from '../../../constants/transferTypes';
 
-export interface CoinDetailsScreenParams {
+export interface AssetDetailsScreenParams {
   coinId: string;
 }
 
-interface CoinDetailsScreenProps {
+interface AssetDetailsScreenProps {
   navigation: any;
   route: any;
 }
 
 const FETCH_ITEMS_LIMIT = 500;
 
-const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
+const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -228,4 +228,4 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
   );
 };
 
-export default gestureHandlerRootHOC(CoinDetailsScreen);
+export default gestureHandlerRootHOC(AssetDetailsScreen);

@@ -24,10 +24,10 @@ import globalStyles from '../../../globalStyles';
 import styles from './walletScreenStyles';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { CoinCard } from '../children';
+import { AssetCard } from '../children';
 import { fetchMarketChart, INTERVAL_HOURLY } from '../../../providers/coingecko/coingecko';
 import ROUTES from '../../../constants/routeNames';
-import { CoinDetailsScreenParams } from '../../coinDetails/screen/coinDetailsScreen';
+import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetailsScreen';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
 import { CoinBase, CoinData } from '../../../redux/reducers/walletReducer';
 import {
@@ -252,9 +252,9 @@ const WalletScreen = ({ navigation }) => {
     const percentChange = quote ? quote.percentChange : coinData.percentChange;
  
     const _onCardPress = () => {
-      navigation.navigate(ROUTES.SCREENS.COIN_DETAILS, {
+      navigation.navigate(ROUTES.SCREENS.ASSET_DETAILS, {
         coinId: item.id,
-      } as CoinDetailsScreenParams);
+      } as AssetDetailsScreenParams);
     };
 
     const _onClaimPress = () => {
@@ -279,7 +279,7 @@ const WalletScreen = ({ navigation }) => {
     }
 
     return (
-        <CoinCard
+        <AssetCard
           name={coinData.name}
           iconUrl={coinData.iconUrl}
           chartData={_tokenMarketData || []}

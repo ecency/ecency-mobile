@@ -29,7 +29,7 @@ import {
   Communities,
   WebBrowser,
   ReferScreen,
-  CoinDetails,
+  AssetDetails,
   EditHistoryScreen,
   WelcomeScreen,
   PinCode,
@@ -57,7 +57,7 @@ const MainStackNavigator = () => {
       <MainStack.Screen name={ROUTES.SCREENS.COMMUNITY} component={Community} />
       <MainStack.Screen name={ROUTES.SCREENS.COMMUNITIES} component={Communities} />
       <MainStack.Screen name={ROUTES.SCREENS.REFER} component={ReferScreen} />
-      <MainStack.Screen name={ROUTES.SCREENS.COIN_DETAILS} component={CoinDetails} />
+      <MainStack.Screen name={ROUTES.SCREENS.ASSET_DETAILS} component={AssetDetails} />
       <MainStack.Screen name={ROUTES.SCREENS.EDIT_HISTORY} component={EditHistoryScreen} />
       <MainStack.Screen name={ROUTES.SCREENS.POST} component={Post} />
       <MainStack.Group screenOptions={{ animation: 'slide_from_bottom' }}>
