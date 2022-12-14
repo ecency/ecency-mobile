@@ -92,8 +92,10 @@ export default EStyleSheet.create({
     },
     // on android the appearing of button was causing momentary glitch with ios variant style
     android: {
-      position: 'absolute',
-      bottom: 56,
+      // position: 'absolute',
+      // bottom: 56,
+      marginBottom: 12,
+      paddingTop: 8,
     },
   }),
   userBubble: {
