@@ -104,6 +104,11 @@ class EditorScreen extends Component {
     if (isUploading !== nextProps) {
       this._handleFormUpdate();
     }
+
+    if (community && community.length > 0) {
+      this._getCommunity(community[0]);
+      this._handleOnTagAdded(community);
+    }
   };
 
   // Component Functions
