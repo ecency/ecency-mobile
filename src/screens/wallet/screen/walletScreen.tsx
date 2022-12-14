@@ -93,9 +93,14 @@ const WalletScreen = ({ navigation }) => {
   useEffect(() => {
     if (currency.currency !== wallet.vsCurrency || currentAccount.username !== wallet.username) {
       dispatch(resetWalletData());
+      _fetchPriceHistory();
       _fetchData(true);
     }
   }, [currency, currentAccount]);
+
+  useEffect(()=>{
+    _fetchPriceHistory();
+  },[selectedCoins])
 
 
 
@@ -103,7 +108,7 @@ const WalletScreen = ({ navigation }) => {
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
       console.log('updating selected coins data on app resume');
-      _fetchCoinsData(true);
+      _fetchData(true);
 
     }
     appState.current = nextAppState;
@@ -123,10 +128,10 @@ const WalletScreen = ({ navigation }) => {
       const expiresAt = priceHistories[token.id]?.expiresAt || 0;
       const curTime = new Date().getTime();
 
-      if (!token.notCrypto && curTime > expiresAt) {
+      if (!token.notCrypto ){//&& curTime > expiresAt) {
         let priceData:number[] = [];
         if(token.isEngine){
-          const marketData = await fetchMarketData(token.id)
+          const marketData:any[] = await fetchMarketData(token.id)
           priceData = marketData.map(data=>data.close);
         } else {
           const marketChart = await fetchMarketChart(
@@ -242,8 +247,11 @@ const WalletScreen = ({ navigation }) => {
     const _tokenMarketData: number[] = priceHistories[item.id] ? priceHistories[item.id].data : [];
 
     const _balance = coinData.balance + (coinData.savings || 0);
-    const quote = quotes && quotes[item.id] ? quotes[item.id] : quotes[COIN_IDS.HIVE];
-
+    const quote = quotes && quotes[item.id];
+    const percentChange = quote ? quote.percentChange : (
+      ((_tokenMarketData.lastItem - _tokenMarketData[0])/_tokenMarketData[0]) * 100
+    )
+ 
     const _onCardPress = () => {
       navigation.navigate(ROUTES.SCREENS.COIN_DETAILS, {
         coinId: item.id,
@@ -276,8 +284,8 @@ const WalletScreen = ({ navigation }) => {
           name={coinData.name}
           iconUrl={coinData.iconUrl}
           chartData={_tokenMarketData || []}
-          currentValue={quote.price || 0}
-          changePercent={quote.percentChange || 0}
+          currentValue={quote?.price || 0}
+          changePercent={percentChange || 0}
           currencySymbol={currency.currencySymbol}
           ownedTokens={_balance}
           unclaimedRewards={coinData.unclaimedBalance}

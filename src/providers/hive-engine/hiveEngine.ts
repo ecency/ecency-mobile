@@ -145,7 +145,7 @@ export const fetchMetics = async (tokens?: string[]) => {
   }
 }
 
-export const fetchMarketData = async (symbol: any, interval = 'hourly') => {
+export const fetchMarketData = async (symbol: any, interval = 'daily') => {
   try {
     const { data: history } = await engineChartApi.get('', {
       params: { symbol, interval }
