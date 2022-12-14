@@ -685,7 +685,7 @@ export const fetchCoinsData = async ({
     engineData.forEach((item) => {
       if (item) {
         const balance = item.balance;
-        const ppHive = _prices.hive.price * (item.tokenPrice || 1); 
+        const ppToken = _prices.hive.price * (item.tokenPrice || 1); 
 
         const actions = [`${EngineActions.TRANSFER}_engine`]
 
@@ -710,9 +710,9 @@ export const fetchCoinsData = async ({
           symbol: item.symbol,
           iconUrl: item.icon || '',
           balance: balance,
-          estimateValue: balance * ppHive,
+          estimateValue: balance * ppToken,
           vsCurrency: vsCurrency,
-          currentPrice: ppHive,
+          currentPrice: ppToken,
           unclaimedBalance: item.unclaimedBalance,
           isEngine: true,
           percentChange: item.percentChange,

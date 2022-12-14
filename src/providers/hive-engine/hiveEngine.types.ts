@@ -142,3 +142,14 @@ export interface EngineActionJSON {
   contractAction:EngineActions;
   contractPayload: EngineActionPayload;
 }
+
+
+export interface MarketData {
+  quoteVolume:number;
+  baseVolume:number;
+  low:number;
+  close:number;
+  high:number;
+  open:number;
+  timestamp:number;
+}

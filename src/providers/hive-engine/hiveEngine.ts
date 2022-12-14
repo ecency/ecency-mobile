@@ -14,8 +14,9 @@ import {
   TokenStatus,
   HiveEngineToken,
   EngineMetric,
+  MarketData,
 } from './hiveEngine.types';
-import { convertEngineToken, convertRewardsStatus } from './converters';
+import { convertEngineToken, convertRewardsStatus, convertMarketData } from './converters';
 import bugsnapInstance from '../../config/bugsnag';
 
 
@@ -145,12 +146,21 @@ export const fetchMetics = async (tokens?: string[]) => {
   }
 }
 
-export const fetchMarketData = async (symbol: any, interval = 'daily') => {
+export const fetchEngineMarketData = async (symbol: any, vsCurrency:string = 'usd', days:number = 0, interval = 'daily') => {
   try {
-    const { data: history } = await engineChartApi.get('', {
+    const response = await engineChartApi.get('', {
       params: { symbol, interval }
     });
-    return history;
+
+    const rawData = response?.data;
+
+    if(!rawData){
+      throw new Error("No data returned");
+    }
+
+    const data:MarketData[] = rawData.map(convertMarketData);
+
+    return days > 1 && data.length > days ? data.slice(data.length - days) : data;
   } catch (err) {
     bugsnapInstance.notify(err);
     console.warn("failed to get chart data", err.message);

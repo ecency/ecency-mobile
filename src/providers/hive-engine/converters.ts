@@ -1,4 +1,5 @@
-import { EngineMetric, HiveEngineToken, Token, TokenBalance, TokenMetadata, TokenStatus } from './hiveEngine.types';
+
+import { EngineMetric, HiveEngineToken, MarketData, Token, TokenBalance, TokenMetadata, TokenStatus } from './hiveEngine.types';
 
 export const convertEngineToken = (balanceObj: TokenBalance, token?: Token, metrics?: EngineMetric, tokenStatus?:TokenStatus) => {
   if (!balanceObj) {
@@ -43,4 +44,18 @@ export const convertRewardsStatus = (rawData: any) => {
     precision:rawData.precision,
     pendingRewards: rawData.pending_token / Math.pow(10, rawData.precision)
   } as TokenStatus
+}
+
+
+export const convertMarketData = (rawData: any) => {
+
+  return {
+    quoteVolume:rawData.quoteVolume,
+    baseVolume:rawData.baseVolume,
+    low:rawData.low,
+    close:rawData.close,
+    high:rawData.high,
+    open:rawData.open,
+    timestamp:rawData.timestamp,
+  } as MarketData
 }

@@ -41,9 +41,9 @@ import { COIN_IDS } from '../../../constants/defaultCoins';
 import { claimPoints } from '../../../providers/ecency/ePoint';
 import { claimRewardBalance, getAccount } from '../../../providers/hive/dhive';
 import { toastNotification } from '../../../redux/actions/uiAction';
-import { EngineHeader, ManageAssets } from '../children/manageAssets';
+import { ManageAssets } from '../children/manageAssets';
 import { claimRewards } from '../../../providers/hive-engine/hiveEngineActions';
-import { fetchMarketData } from '../../../providers/hive-engine/hiveEngine';
+import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
 
 const CHART_DAYS_RANGE = 1;
 
@@ -128,10 +128,10 @@ const WalletScreen = ({ navigation }) => {
       const expiresAt = priceHistories[token.id]?.expiresAt || 0;
       const curTime = new Date().getTime();
 
-      if (!token.notCrypto ){//&& curTime > expiresAt) {
+      if (!token.notCrypto && curTime > expiresAt) {
         let priceData:number[] = [];
         if(token.isEngine){
-          const marketData:any[] = await fetchMarketData(token.id)
+          const marketData = await fetchEngineMarketData(token.id)
           priceData = marketData.map(data=>data.close);
         } else {
           const marketChart = await fetchMarketChart(
@@ -248,9 +248,8 @@ const WalletScreen = ({ navigation }) => {
 
     const _balance = coinData.balance + (coinData.savings || 0);
     const quote = quotes && quotes[item.id];
-    const percentChange = quote ? quote.percentChange : (
-      ((_tokenMarketData.lastItem - _tokenMarketData[0])/_tokenMarketData[0]) * 100
-    )
+
+    const percentChange = quote ? quote.percentChange : coinData.percentChange;
  
     const _onCardPress = () => {
       navigation.navigate(ROUTES.SCREENS.COIN_DETAILS, {
@@ -284,7 +283,7 @@ const WalletScreen = ({ navigation }) => {
           name={coinData.name}
           iconUrl={coinData.iconUrl}
           chartData={_tokenMarketData || []}
-          currentValue={quote?.price || 0}
+          currentValue={quote?.price || coinData?.currentPrice || 0}
           changePercent={percentChange || 0}
           currencySymbol={currency.currencySymbol}
           ownedTokens={_balance}
@@ -292,7 +291,6 @@ const WalletScreen = ({ navigation }) => {
           enableBuy={!coinData.unclaimedBalance && item.id === COIN_IDS.ECENCY}
           isClaiming={isClaiming}
           isLoading={isLoading}
-          isEngine={coinData.isEngine}
           onCardPress={_onCardPress}
           onClaimPress={_onClaimPress}
           onBoostAccountPress={_onBoostAccountPress}

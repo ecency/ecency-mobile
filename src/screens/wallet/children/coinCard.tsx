@@ -88,11 +88,11 @@ export const CoinCard = ({
       </View>
       <View style={styles.cardValuesContainer}>
         <Text style={styles.textTitle}>{value}</Text>
-        {!isEngine && (
+        
           <Text style={styles.textSubtitleRight}>
-            {`${(ownedTokens * currentValue).toFixed(2)}${currencySymbol}`}
+            {`${(ownedTokens * currentValue).toFixed(6)}${currencySymbol}`}
           </Text>
-        )}
+      
       </View>
     </View>
   );
