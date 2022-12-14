@@ -483,6 +483,73 @@ export const fetchCoinActivities = async (
   };
 };
 
+
+const fetchEngineTokensData = async (username:string, hivePrice:number, vsCurrency:string) => {
+
+  const engineCoinData:{ [key: string]: CoinData } = {};
+
+  try{
+    const engineData = await fetchHiveEngineTokenBalances(username);
+    if (engineData) {
+      engineData.forEach((item) => {
+        if (item) {
+          const balance = item.balance;
+          const ppToken = hivePrice * (item.tokenPrice || 1); 
+  
+          const actions = [`${EngineActions.TRANSFER}_engine`]
+  
+          if(item.delegationEnabled){
+            actions.push(`${EngineActions.DELEGATE}_engine`);
+          }
+  
+          if(item.delegationEnabled && item.delegationsOut){
+            actions.push(`${EngineActions.UNDELEGATE}_engine`);
+          }
+  
+          if(item.stakingEnabled && item.balance > 0){
+            actions.push(`${EngineActions.STAKE}_engine`)
+          }
+  
+          if(item.stake){
+            actions.push(`${EngineActions.UNSTAKE}_engine`)
+          }
+  
+          engineCoindData[item.symbol] = {
+            name: item.name || '',
+            symbol: item.symbol,
+            iconUrl: item.icon || '',
+            balance: balance,
+            estimateValue: balance * ppToken,
+            vsCurrency: vsCurrency,
+            currentPrice: ppToken,
+            unclaimedBalance: item.unclaimedBalance,
+            isEngine: true,
+            percentChange: item.percentChange,
+            actions,
+            extraDataPairs:[{
+              dataKey: 'staked',
+              value: item.stake !== 0 ? `${item.stake}` : '0.00'
+            },{
+              dataKey: 'delegations_in',
+              value: item.delegationsIn !== 0 ? `${item.delegationsIn}` : '0.00'
+            },{
+              dataKey: 'delegations_out',
+              value: item.delegationsOut !== 0 ? `${item.delegationsOut}` : '0.00'
+            }]
+          };
+        }
+      });
+    }
+  } catch(err){
+    console.warn("failed to get engine tokens data", err);
+  }
+
+  return engineCoinData;
+  
+
+}
+
+
 export const fetchCoinsData = async ({
   coins,
   currentAccount,
@@ -501,7 +568,7 @@ export const fetchCoinsData = async ({
   refresh: boolean;
 }): Promise<{ [key: string]: CoinData }> => {
   const username = currentAccount.username;
-  const coinData = {} as { [key: string]: CoinData };
+  let coinData = {} as { [key: string]: CoinData };
   const walletData = {} ;
 
   if (!username) {
@@ -680,57 +747,10 @@ export const fetchCoinsData = async ({
     }
   });
 
-  const engineData = await fetchHiveEngineTokenBalances(username);
-  if (engineData) {
-    engineData.forEach((item) => {
-      if (item) {
-        const balance = item.balance;
-        const ppToken = _prices.hive.price * (item.tokenPrice || 1); 
 
-        const actions = [`${EngineActions.TRANSFER}_engine`]
+  const engineCoinsData = await fetchEngineTokensData(username, _prices.hive.price, vsCurrency);
+  coinData = {...coinData, ...engineCoinsData};
 
-        if(item.delegationEnabled){
-          actions.push(`${EngineActions.DELEGATE}_engine`);
-        }
-
-        if(item.delegationEnabled && item.delegationsOut){
-          actions.push(`${EngineActions.UNDELEGATE}_engine`);
-        }
-
-        if(item.stakingEnabled && item.balance > 0){
-          actions.push(`${EngineActions.STAKE}_engine`)
-        }
-
-        if(item.stake){
-          actions.push(`${EngineActions.UNSTAKE}_engine`)
-        }
-
-        coinData[item.symbol] = {
-          name: item.name || '',
-          symbol: item.symbol,
-          iconUrl: item.icon || '',
-          balance: balance,
-          estimateValue: balance * ppToken,
-          vsCurrency: vsCurrency,
-          currentPrice: ppToken,
-          unclaimedBalance: item.unclaimedBalance,
-          isEngine: true,
-          percentChange: item.percentChange,
-          actions,
-          extraDataPairs:[{
-            dataKey: 'staked',
-            value: item.stake !== 0 ? `${item.stake}` : '0.00'
-          },{
-            dataKey: 'delegations_in',
-            value: item.delegationsIn !== 0 ? `${item.delegationsIn}` : '0.00'
-          },{
-            dataKey: 'delegations_out',
-            value: item.delegationsOut !== 0 ? `${item.delegationsOut}` : '0.00'
-          }]
-        };
-      }
-    });
-  }
 
   //TODO:discard unnessacry data processings towards the end of PR
   walletData.rewardHiveBalance = parseToken(userdata.reward_hive_balance);
