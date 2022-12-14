@@ -88,11 +88,10 @@ export const AssetCard = ({
       </View>
       <View style={styles.cardValuesContainer}>
         <Text style={styles.textTitle}>{value}</Text>
-        
-          <Text style={styles.textSubtitleRight}>
-            {`${(ownedTokens * currentValue).toFixed(6)}${currencySymbol}`}
-          </Text>
-      
+
+        <Text style={styles.textSubtitleRight}>
+          {`${(ownedTokens * currentValue).toFixed(6)}${currencySymbol}`}
+        </Text>
       </View>
     </View>
   );
@@ -142,16 +141,17 @@ export const AssetCard = ({
     );
   };
 
-  const _renderFooter = chartData.length > 0 ? (
-    <View style={styles.cardFooter}>
-      <Text style={styles.textCurValue}>{`${currencySymbol} ${currentValue.toFixed(2)}`}</Text>
-      <Text style={changePercent > 0 ? styles.textDiffPositive : styles.textDiffNegative}>{`${
-        changePercent >= 0 ? '+' : ''
-      }${changePercent.toFixed(1)}%`}</Text>
-    </View>
-  ) : (
-    <View style={{height:12}}/>
-  )
+  const _renderFooter =
+    chartData.length > 0 ? (
+      <View style={styles.cardFooter}>
+        <Text style={styles.textCurValue}>{`${currencySymbol} ${currentValue.toFixed(2)}`}</Text>
+        <Text style={changePercent > 0 ? styles.textDiffPositive : styles.textDiffNegative}>{`${
+          changePercent >= 0 ? '+' : ''
+        }${changePercent.toFixed(1)}%`}</Text>
+      </View>
+    ) : (
+      <View style={{ height: 12 }} />
+    );
 
   return (
     <TouchableOpacity onPress={onCardPress}>

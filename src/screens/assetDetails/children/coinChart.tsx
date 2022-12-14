@@ -20,14 +20,18 @@ export const CoinChart = ({ coinId, isEngine }: CoinChartProps) => {
   const [chartData, setChartData] = useState(priceHistory?.data);
 
   const _fetchMarketData = async (days: number) => {
-    if(isEngine){
-      const marketData = await fetchEngineMarketData(coinId, 'usd', days, days > 1 ? 'daily' : 'hourly');
+    if (isEngine) {
+      const marketData = await fetchEngineMarketData(
+        coinId,
+        'usd',
+        days,
+        days > 1 ? 'daily' : 'hourly',
+      );
       setChartData(marketData.map((item) => item.close));
     } else {
       const marketData = await fetchMarketChart(coinId, 'usd', days, 'hourly');
       setChartData(marketData.prices.map((item) => item.yValue));
     }
-
   };
 
   const _onRangeChange = (range) => {
