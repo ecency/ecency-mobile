@@ -171,6 +171,8 @@ const PostDisplayView = ({
               textMarginLeft={20}
               onLongPress={_showQuickReplyModal}
               onPress={() => _scrollToComments()}
+              isLoading={!isLoadedComments}
+            
             />
           )}
           {!isLoggedIn && (
@@ -212,13 +214,8 @@ const PostDisplayView = ({
 
   const { name } = currentAccount;
 
-  // const isPostEnd = scrollHeight > postHeight;
-  const isGetComment = scrollHeight + 300 > postHeight;
   const formatedTime = post && getTimeFromNow(post.created);
 
-  if (isGetComment && !isLoadedComments) {
-    setIsLoadedComments(true);
-  }
 
   if (isPostUnavailable) {
     return (
@@ -243,6 +240,10 @@ const PostDisplayView = ({
       console.log('Not LoggedIn');
     }
   };
+
+  const _handleOnCommentsLoaded = () => {
+    setIsLoadedComments(true)  
+  }
 
 
   const _postContentView = (

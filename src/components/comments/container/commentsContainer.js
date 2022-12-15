@@ -45,11 +45,12 @@ const CommentsContainer = ({
   showAllComments,
   hideManyCommentsButton,
   flatListProps,
+  postContentView,
+  isLoading,
   fetchedAt,
   incrementRepliesCount,
   handleOnReplyPress,
-  postContentView,
-  isLoading
+  handleOnCommentsLoaded,
 }) => {
   const navigation = useNavigation();
 
@@ -182,10 +183,15 @@ const CommentsContainer = ({
           __comments = _sortComments(selectedFilter, __comments);
 
           setLComments(__comments);
+
         })
         .catch(() => {});
     } else {
       _handleCachedComment();
+    }
+
+    if(handleOnCommentsLoaded){
+      handleOnCommentsLoaded();
     }
   };
 
