@@ -1,5 +1,4 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 export default EStyleSheet.create({
   container: {
@@ -28,10 +27,10 @@ export default EStyleSheet.create({
   },
   scroll: {
     // height: '$deviceHeight',
+    flex: 1,
     backgroundColor: '$primaryBackgroundColor',
   },
   scrollContent: {
-    minHeight: getWindowDimensions().height,
     paddingBottom: 50,
     alignItems: 'center',
   },

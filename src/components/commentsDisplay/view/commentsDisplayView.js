@@ -1,12 +1,10 @@
-import React, { useState, Fragment, useImperativeHandle, forwardRef, useRef } from 'react';
-import { View } from 'react-native';
-import { injectIntl, useIntl } from 'react-intl';
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
 
 // Components
-import { FilterBar } from '../../filterBar';
-import { Comments } from '../../comments';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
-import { WriteCommentButton } from './writeCommentButton';
+import { Comments } from '../../comments';
+import { FilterBar } from '../../filterBar';
 
 const CommentsDisplayView = forwardRef(
   (
@@ -16,9 +14,14 @@ const CommentsDisplayView = forwardRef(
       fetchPost,
       permlink,
       mainAuthor,
+      flatListProps,
+      fetchedAt,
+      postContentView,
+      isLoading,
       handleOnVotersPress,
       handleOnReplyPress,
-      fetchedAt,
+      handleOnCommentsLoaded,
+
     },
     ref,
   ) => {
@@ -43,10 +46,11 @@ const CommentsDisplayView = forwardRef(
       setSelectedOptionIndex(index);
     };
 
-    return (
-      <Fragment>
-        <Fragment>
-          <WriteCommentButton ref={writeCommentRef} onPress={handleOnReplyPress} />
+
+    const _postContentView = (
+      <>
+        {postContentView && postContentView}
+        {!isLoading && (
           <FilterBar
             dropdownIconName="arrow-drop-down"
             options={VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` }))}
@@ -56,21 +60,28 @@ const CommentsDisplayView = forwardRef(
             }
             selectedOptionIndex={selectedOptionIndex}
           />
-          <View>
-            <Comments
-              selectedFilter={selectedFilter}
-              fetchPost={fetchPost}
-              commentCount={commentCount}
-              author={author}
-              permlink={permlink}
-              mainAuthor={mainAuthor}
-              handleOnVotersPress={handleOnVotersPress}
-              handleOnReplyPress={handleOnReplyPress}
-              fetchedAt={fetchedAt}
-            />
-          </View>
-        </Fragment>
-      </Fragment>
+        )}
+
+      </>
+    )
+
+    return (
+      <Comments
+        postContentView={_postContentView}
+        selectedFilter={selectedFilter}
+        fetchPost={fetchPost}
+        commentCount={commentCount}
+        author={author}
+        permlink={permlink}
+        mainAuthor={mainAuthor}
+        fetchedAt={fetchedAt}
+        isLoading={isLoading}
+        flatListProps={flatListProps}
+        handleOnVotersPress={handleOnVotersPress}
+        handleOnReplyPress={handleOnReplyPress}
+        handleOnCommentsLoaded={handleOnCommentsLoaded}
+
+      />
     );
   },
 );
