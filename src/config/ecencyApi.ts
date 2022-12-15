@@ -29,7 +29,8 @@ ecencyApi.interceptors.request.use((request) => {
     request.url.startsWith('/private-api/received-vesting/') ||
     request.url.startsWith('/private-api/referrals/') ||
     request.url.startsWith('/private-api/market-data') ||
-    request.url.startsWith('/private-api/comment-history')
+    request.url.startsWith('/private-api/comment-history') ||
+    request.url.startsWith('/private-api/engine')
   ) {
     return request;
   }

@@ -19,8 +19,18 @@ import bugsnapInstance from '../../config/bugsnag';
 import ecencyApi from '../../config/ecencyApi';
 
 
-//proxy path for https://api.hive-engine.com/rpc/contracts;
-const PATH_CONTRACTS = 'private-api/engine-api'
+/**
+ * hive engine docs reference:
+ * https://hive-engine.github.io/engine-docs/
+ * proxied path for https://api.hive-engine.com/rpc/contracts
+ */
+const PATH_ENGINE_CONTRACTS = '/private-api/engine-api';
+
+//proxied path for 'https://scot-api.hive-engine.com/';
+const PATH_ENGINE_REWARDS = '/private-api/engine-reward-api';
+
+//proxied path for 'https://info-api.tribaldex.com/market/ohlcv';
+const PATH_ENGINE_CHART = '/private-api/engine-chart-api';
 
 
 export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => {
@@ -37,7 +47,7 @@ export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => 
     id: EngineIds.ONE,
   };
 
-  return ecencyApi.post(PATH_CONTRACTS, data)
+  return ecencyApi.post(PATH_ENGINE_CONTRACTS, data)
     .then((r) => r.data.result)
     .catch((e) => {
       return [];
@@ -59,7 +69,7 @@ export const fetchTokens = (tokens: string[]): Promise<Token[]> => {
   };
 
   return ecencyApi
-    .post(PATH_CONTRACTS, data)
+    .post(PATH_ENGINE_CONTRACTS, data)
     .then((r) => r.data.result)
     .catch((e) => {
       return [];
@@ -95,9 +105,42 @@ export const fetchHiveEngineTokenBalances = async (
 
 
 
+export const fetchMetics = async (tokens?: string[]) => {
+  try {
+
+    const data = {
+      jsonrpc: JSON_RPC.RPC_2,
+      method: Methods.FIND,
+      params: {
+        contract: EngineContracts.MARKET,
+        table: EngineTables.METRICS,
+        query: {
+          symbol: { $in: tokens },
+        }
+      },
+      id: EngineIds.ONE
+    };
+
+    const response = await ecencyApi.post(PATH_ENGINE_CONTRACTS, data)
+    if (!response.data.result) {
+      throw new Error("No metric data returned")
+    }
+
+    return response.data.result as EngineMetric[]
+
+  } catch (err) {
+    console.warn('Failed to get engine metrices', err);
+    bugsnapInstance.notify(err);
+    throw err;
+  }
+}
+
+
 export const fetchUnclaimedRewards = async (account: string): Promise<TokenStatus[]> => {
   try {
-    const response = await ecencyApi.get(`@${account}?hive=1`)
+    const response = await ecencyApi.get(`${PATH_ENGINE_REWARDS}/@${account}`, {
+      params:{hive:1}
+    })
     const rawData = Object.values(response.data)
     if (!rawData || rawData.length === 0) {
       throw new Error("No rewards data returned");
@@ -116,41 +159,9 @@ export const fetchUnclaimedRewards = async (account: string): Promise<TokenStatu
   }
 };
 
-
-
-export const fetchMetics = async (tokens?: string[]) => {
-  try {
-
-    const data = {
-      jsonrpc: JSON_RPC.RPC_2,
-      method: Methods.FIND,
-      params: {
-        contract: EngineContracts.MARKET,
-        table: EngineTables.METRICS,
-        query: {
-          symbol: { $in: tokens },
-        }
-      },
-      id: EngineIds.ONE
-    };
-
-    const response = await ecencyApi.post(PATH_CONTRACTS, data)
-    if (!response.data.result) {
-      throw new Error("No metric data returned")
-    }
-
-    return response.data.result as EngineMetric[]
-
-  } catch (err) {
-    console.warn('Failed to get engine metrices', err);
-    bugsnapInstance.notify(err);
-    throw err;
-  }
-}
-
 export const fetchEngineMarketData = async (symbol: any, vsCurrency:string = 'usd', days:number = 0, interval = 'daily') => {
   try {
-    const response = await ecencyApi.get('', {
+    const response = await ecencyApi.get(PATH_ENGINE_CHART, {
       params: { symbol, interval }
     });
 
