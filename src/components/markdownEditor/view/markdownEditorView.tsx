@@ -86,6 +86,7 @@ const MarkdownEditorView = ({
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [insertedMediaUrls, setInsertedMediaUrls] = useState([]);
+  const [isDraftUpdated, setIsDraftupdated] = useState(false);
 
   const inputRef = useRef<any>(null);
   const clearRef = useRef<any>(null);
@@ -204,6 +205,10 @@ const MarkdownEditorView = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _changeText = useCallback(
     (input) => {
+      // check if draft is just loaded or is updated. Fix for username bar auto loading when draft ends with a username
+      if (draftBody && !isDraftUpdated && draftBody !== input) {
+        setIsDraftupdated(true);
+      }
       bodyText = input;
 
       if (!isEditing) {
@@ -424,11 +429,14 @@ const MarkdownEditorView = ({
     const _innerContent = (
       <>
         {isAndroidOreo() ? _editorWithoutScroll : _editorWithScroll}
-        <UsernameAutofillBar
-          text={bodyText}
-          selection={bodySelection}
-          onApplyUsername={_onApplyUsername}
-        />
+        {isDraftUpdated && (
+          <UsernameAutofillBar
+            text={bodyText}
+            selection={bodySelection}
+            onApplyUsername={_onApplyUsername}
+          />
+        )}
+
         {_renderFloatingDraftButton()}
 
         <EditorToolbar

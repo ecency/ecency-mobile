@@ -45,9 +45,12 @@ const CommentsContainer = ({
   showAllComments,
   hideManyCommentsButton,
   flatListProps,
+  postContentView,
+  isLoading,
   fetchedAt,
   incrementRepliesCount,
   handleOnReplyPress,
+  handleOnCommentsLoaded,
 }) => {
   const navigation = useNavigation();
 
@@ -180,10 +183,15 @@ const CommentsContainer = ({
           __comments = _sortComments(selectedFilter, __comments);
 
           setLComments(__comments);
+
         })
         .catch(() => {});
     } else {
       _handleCachedComment();
+    }
+
+    if(handleOnCommentsLoaded){
+      handleOnCommentsLoaded();
     }
   };
 
@@ -372,6 +380,8 @@ const CommentsContainer = ({
       openReplyThread={_openReplyThread}
       incrementRepliesCount={incrementRepliesCount}
       fetchedAt={fetchedAt}
+      postContentView={postContentView}
+      isLoading={isLoading}
     />
   );
 };

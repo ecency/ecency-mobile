@@ -4,15 +4,15 @@ import { View as AnimatedView } from 'react-native-animatable';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useIntl } from 'react-intl';
 import UserAvatar from '../../userAvatar';
-import styles from './WriteCommentButtonStyles';
+import styles from '../styles/writeCommentButton.styles';
 import { useAppSelector } from '../../../hooks';
 import showLoginAlert from '../../../utils/showLoginAlert';
 
-interface WriteCommentButton {
+interface WriteCommentButtonProps {
   onPress: () => void;
 }
 
-export const WriteCommentButton = forwardRef(({ onPress }, ref) => {
+export const WriteCommentButton = forwardRef(({ onPress }:WriteCommentButtonProps, ref) => {
   const intl = useIntl();
 
   const animatedContainer = useRef<AnimatedView>();
