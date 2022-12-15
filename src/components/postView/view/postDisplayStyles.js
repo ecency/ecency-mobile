@@ -1,5 +1,4 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 export default EStyleSheet.create({
   container: {

@@ -14,11 +14,14 @@ const CommentsDisplayView = forwardRef(
       fetchPost,
       permlink,
       mainAuthor,
-      handleOnVotersPress,
-      handleOnReplyPress,
+      flatListProps,
       fetchedAt,
       postContentView,
-      isLoading
+      isLoading,
+      handleOnVotersPress,
+      handleOnReplyPress,
+      handleOnCommentsLoaded,
+
     },
     ref,
   ) => {
@@ -47,7 +50,7 @@ const CommentsDisplayView = forwardRef(
     const _postContentView = (
       <>
         {postContentView && postContentView}
-        {isLoading && (
+        {!isLoading && (
           <FilterBar
             dropdownIconName="arrow-drop-down"
             options={VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` }))}
@@ -71,10 +74,13 @@ const CommentsDisplayView = forwardRef(
         author={author}
         permlink={permlink}
         mainAuthor={mainAuthor}
-        handleOnVotersPress={handleOnVotersPress}
-        handleOnReplyPress={handleOnReplyPress}
         fetchedAt={fetchedAt}
         isLoading={isLoading}
+        flatListProps={flatListProps}
+        handleOnVotersPress={handleOnVotersPress}
+        handleOnReplyPress={handleOnReplyPress}
+        handleOnCommentsLoaded={handleOnCommentsLoaded}
+
       />
     );
   },

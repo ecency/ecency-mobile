@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState, Fragment } from 'react';
-import { View, Text, ScrollView, RefreshControl } from 'react-native';
+import { View, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -27,6 +27,7 @@ import postTypes from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { WriteCommentButton } from '../children/writeCommentButton';
+import { FlatList, RefreshControl } from 'react-native-gesture-handler';
 
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
@@ -54,16 +55,13 @@ const PostDisplayView = ({
   const userActivityMutation = useUserActivityMutation();
 
   const writeCommentRef = useRef<WriteCommentButton>();
-  const scrollRef = useRef<ScrollView>();
-  const commentsReached = useRef<boolean>(false);
+  const commentsListRef = useRef<FlatList>(null);
 
-  const [postHeight, setPostHeight] = useState(0);
-  const [scrollHeight, setScrollHeight] = useState(0);
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
   const actionSheet = useRef(null);
   const [refreshing, setRefreshing] = useState(false);
-  const [postBodyLoading, setPostBodyLoading] = useState(false);
+  const [postBodyLoading, setPostBodyLoading] = useState(true);
   const [tags, setTags] = useState([]);
 
   // Component Life Cycles
@@ -92,32 +90,10 @@ const PostDisplayView = ({
     fetchPost().then(() => setRefreshing(false));
   }, [refreshing]);
 
-  const _handleOnScroll = (event) => {
-    const { y } = event.nativeEvent.contentOffset;
-    console.log('scroll height', y);
-    setScrollHeight(HEIGHT + y);
-
-    const _commentButtonBounceOffset = y + HEIGHT / 1.7;
-    if (
-      !commentsReached.current &&
-      writeCommentRef.current &&
-      _commentButtonBounceOffset > postHeight
-    ) {
-      writeCommentRef.current.bounce();
-      commentsReached.current = true;
-    }
-  };
-
-  const _handleOnPostLayout = (event) => {
-    const { height } = event.nativeEvent.layout;
-    console.log('post height', height);
-    setPostHeight(height);
-  };
 
   const _scrollToComments = () => {
-    if (scrollRef.current) {
-      const pos = postHeight;
-      scrollRef.current.scrollTo({ y: pos });
+    if (commentsListRef.current) {
+      commentsListRef.current.scrollToIndex({index:0, viewOffset:108});
     }
   };
 
@@ -183,6 +159,7 @@ const PostDisplayView = ({
               isClickable
               text={get(post, 'children', 0)}
               textMarginLeft={20}
+          
             />
           )}
           <View style={styles.stickyRightWrapper}>
@@ -254,7 +231,7 @@ const PostDisplayView = ({
         {!post ? (
           <PostPlaceHolder />
         ) : (
-          <View onLayout={(event) => _handleOnPostLayout(event)}>
+          <View>
             {!!post.title && <Text style={styles.title}>{post.title}</Text>}
             <PostHeaderDescription
               date={formatedTime}
@@ -274,9 +251,10 @@ const PostDisplayView = ({
                   <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
                   {formatedTime}
                 </Text>
+                <WriteCommentButton ref={writeCommentRef} onPress={_showQuickReplyModal} />
               </View>
             )}
-            <WriteCommentButton ref={writeCommentRef} onPress={_showQuickReplyModal} />
+            
           </View>
         )}
       </View>
@@ -297,9 +275,19 @@ const PostDisplayView = ({
           fetchPost={fetchPost}
           handleOnVotersPress={handleOnVotersPress}
           handleOnReplyPress={_showQuickReplyModal}
+          handleOnCommentsLoaded={_handleOnCommentsLoaded}
           fetchedAt={post?.post_fetched_at}
-          isLoading={!isLoadedComments}
+          isLoading={postBodyLoading}
           postContentView={_postContentView}
+          flatListProps={{
+            ref:commentsListRef,
+            refreshControl:(
+              <RefreshControl 
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            )
+          }}
         />
       </View>
       {post && _renderActionPanel(true)}
