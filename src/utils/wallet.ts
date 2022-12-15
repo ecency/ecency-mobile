@@ -514,7 +514,7 @@ const fetchEngineTokensData = async (username:string, hivePrice:number, vsCurren
             actions.push(`${EngineActions.UNSTAKE}_engine`)
           }
   
-          engineCoindData[item.symbol] = {
+          engineCoinData[item.symbol] = {
             name: item.name || '',
             symbol: item.symbol,
             iconUrl: item.icon || '',

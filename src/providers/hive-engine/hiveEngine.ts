@@ -1,7 +1,5 @@
-import hiveEngineApi, { engineChartApi, engineRewardsApi, PATH_CONTRACTS } from '../../config/hiveEngineApi';
-// import HiveEngineToken from "../helper/hive-engine-wallet";
-// import { TransactionConfirmation } from "@hiveio/dhive";
-// import { broadcastPostingJSON } from "./operations";
+
+
 import {
   EngineContracts,
   EngineIds,
@@ -18,6 +16,11 @@ import {
 } from './hiveEngine.types';
 import { convertEngineToken, convertRewardsStatus, convertMarketData } from './converters';
 import bugsnapInstance from '../../config/bugsnag';
+import ecencyApi from '../../config/ecencyApi';
+
+
+//proxy path for https://api.hive-engine.com/rpc/contracts;
+const PATH_CONTRACTS = 'private-api/engine-api'
 
 
 export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => {
@@ -34,8 +37,7 @@ export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => 
     id: EngineIds.ONE,
   };
 
-  return hiveEngineApi
-    .post(PATH_CONTRACTS, data)
+  return ecencyApi.post(PATH_CONTRACTS, data)
     .then((r) => r.data.result)
     .catch((e) => {
       return [];
@@ -56,7 +58,7 @@ export const fetchTokens = (tokens: string[]): Promise<Token[]> => {
     id: EngineIds.ONE,
   };
 
-  return hiveEngineApi
+  return ecencyApi
     .post(PATH_CONTRACTS, data)
     .then((r) => r.data.result)
     .catch((e) => {
@@ -95,7 +97,7 @@ export const fetchHiveEngineTokenBalances = async (
 
 export const fetchUnclaimedRewards = async (account: string): Promise<TokenStatus[]> => {
   try {
-    const response = await engineRewardsApi.get(`@${account}?hive=1`)
+    const response = await ecencyApi.get(`@${account}?hive=1`)
     const rawData = Object.values(response.data)
     if (!rawData || rawData.length === 0) {
       throw new Error("No rewards data returned");
@@ -132,7 +134,7 @@ export const fetchMetics = async (tokens?: string[]) => {
       id: EngineIds.ONE
     };
 
-    const response = await hiveEngineApi.post(PATH_CONTRACTS, data)
+    const response = await ecencyApi.post(PATH_CONTRACTS, data)
     if (!response.data.result) {
       throw new Error("No metric data returned")
     }
@@ -148,7 +150,7 @@ export const fetchMetics = async (tokens?: string[]) => {
 
 export const fetchEngineMarketData = async (symbol: any, vsCurrency:string = 'usd', days:number = 0, interval = 'daily') => {
   try {
-    const response = await engineChartApi.get('', {
+    const response = await ecencyApi.get('', {
       params: { symbol, interval }
     });
 

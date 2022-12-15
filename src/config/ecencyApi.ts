@@ -9,7 +9,7 @@ import bugsnagInstance from './bugsnag';
 
 export const ECENCY_TERMS_URL = `${Config.ECENCY_BACKEND_API}/terms-of-service`;
 
-const api = axios.create({
+const ecencyApi = axios.create({
   baseURL: Config.ECENCY_BACKEND_API,
   headers: {
     'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use((request) => {
+ecencyApi.interceptors.request.use((request) => {
   console.log('Starting ecency Request', request);
 
   // skip code addition is register and token refresh endpoint is triggered
@@ -62,9 +62,9 @@ api.interceptors.request.use((request) => {
   return request;
 });
 
-api.interceptors.response.use((response) => {
+ecencyApi.interceptors.response.use((response) => {
   console.log('Response:', response);
   return response;
 });
 
-export default api;
+export default ecencyApi;
