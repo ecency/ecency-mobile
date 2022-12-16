@@ -16,7 +16,7 @@ import { fetchCoinActivities } from '../../../utils/wallet';
 import { fetchAndSetCoinsData, setCoinActivities } from '../../../redux/actions/walletActions';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
-import { COIN_IDS } from '../../../constants/defaultCoins';
+import { ASSET_IDS } from '../../../constants/defaultCoins';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import transferTypes from '../../../constants/transferTypes';
 
@@ -143,7 +143,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     let navigateTo = ROUTES.SCREENS.TRANSFER;
     let navigateParams = {};
 
-    if (coinId === COIN_IDS.ECENCY && transferType !== 'dropdown_transfer') {
+    if (coinId === ASSET_IDS.ECENCY && transferType !== 'dropdown_transfer') {
       navigateTo = ROUTES.SCREENS.REDEEM;
       navigateParams = {
         balance: coinData.balance,
@@ -173,8 +173,8 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       }
 
       navigateParams = {
-        transferType: coinId === COIN_IDS.ECENCY ? 'points' : transferType,
-        fundType: coinId === COIN_IDS.ECENCY ? 'ESTM' : symbol,
+        transferType: coinId === ASSET_IDS.ECENCY ? 'points' : transferType,
+        fundType: coinId === ASSET_IDS.ECENCY ? 'ESTM' : symbol,
         balance,
       };
     }

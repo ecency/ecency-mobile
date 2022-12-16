@@ -37,7 +37,7 @@ import {
   setPriceHistory,
   updateUnclaimedBalance,
 } from '../../../redux/actions/walletActions';
-import { COIN_IDS } from '../../../constants/defaultCoins';
+import { ASSET_IDS } from '../../../constants/defaultCoins';
 import { claimPoints } from '../../../providers/ecency/ePoint';
 import { claimRewardBalance, getAccount } from '../../../providers/hive/dhive';
 import { toastNotification } from '../../../redux/actions/uiAction';
@@ -224,11 +224,11 @@ const WalletScreen = ({ navigation }) => {
       return;
     }
     switch (coinId) {
-      case COIN_IDS.ECENCY:
+      case ASSET_IDS.ECENCY:
         _claimEcencyPoints();
         break;
 
-      case COIN_IDS.HP:
+      case ASSET_IDS.HP:
         _claimRewardBalance();
         break;
       default:
@@ -260,7 +260,7 @@ const WalletScreen = ({ navigation }) => {
     const _onClaimPress = () => {
       if (coinData.unclaimedBalance) {
         _claimRewards(item.id);
-      } else if (item.id === COIN_IDS.ECENCY) {
+      } else if (item.id === ASSET_IDS.ECENCY) {
         navigation.navigate(ROUTES.SCREENS.BOOST);
       }
     };
@@ -288,7 +288,7 @@ const WalletScreen = ({ navigation }) => {
           currencySymbol={currency.currencySymbol}
           ownedTokens={_balance}
           unclaimedRewards={coinData.unclaimedBalance}
-          enableBuy={!coinData.unclaimedBalance && item.id === COIN_IDS.ECENCY}
+          enableBuy={!coinData.unclaimedBalance && item.id === ASSET_IDS.ECENCY}
           isClaiming={isClaiming}
           isLoading={isLoading}
           onCardPress={_onCardPress}

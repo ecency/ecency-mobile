@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { CoinActions, CoinBasics, CoinChart } from '.';
 import { FormattedCurrency } from '../../../components';
-import { COIN_IDS } from '../../../constants/defaultCoins';
+import { ASSET_IDS } from '../../../constants/defaultCoins';
 import { CoinData, DataPair } from '../../../redux/reducers/walletReducer';
 
 export interface CoinSummaryProps {
@@ -45,7 +45,7 @@ export const CoinSummary = ({
     });
   }
 
-  const _shRrenderChart = id !== COIN_IDS.ECENCY && id !== COIN_IDS.HP
+  const _shRrenderChart = id !== ASSET_IDS.ECENCY && id !== ASSET_IDS.HP
 
   return (
     <View>
