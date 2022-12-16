@@ -50,6 +50,7 @@ export const CoinSummary = ({
   return (
     <View>
       <CoinBasics
+        assetId={id}
         iconUrl={coinData.iconUrl}
         valuePairs={valuePairs}
         extraData={extraDataPairs}

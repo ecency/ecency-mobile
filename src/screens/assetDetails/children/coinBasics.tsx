@@ -6,6 +6,7 @@ import { DataPair } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
 
 interface CoinBasicsProps {
+  assetId:string;
   valuePairs: DataPair[];
   extraData: DataPair[];
   coinSymbol: string;
@@ -15,24 +16,27 @@ interface CoinBasicsProps {
 }
 
 export const CoinBasics = ({
+  assetId,
   valuePairs,
   extraData,
   coinSymbol,
   percentChange,
   iconUrl,
+  isEngine,
   onInfoPress,
 }: CoinBasicsProps) => {
   const intl = useIntl();
   const _renderCoinHeader = (
     <>
-      {iconUrl && (
+
         <AssetIcon
+          id={assetId}
           iconUrl={iconUrl}
           iconSize={56}
           containerStyle={styles.iconContainer}
-          isEngine={true}
+          isEngine={isEngine}
         />
-      )}
+      
       <View style={styles.coinTitleContainer}>
         <Text style={styles.textCoinTitle}>{coinSymbol}</Text>
       </View>
