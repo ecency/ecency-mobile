@@ -50,12 +50,12 @@ export const convertRewardsStatus = (rawData: any) => {
 export const convertMarketData = (rawData: any) => {
 
   return {
-    quoteVolume:rawData.quoteVolume,
-    baseVolume:rawData.baseVolume,
-    low:rawData.low,
-    close:rawData.close,
-    high:rawData.high,
-    open:rawData.open,
+    quoteVolume:parseFloat(rawData.quoteVolume),
+    baseVolume:parseFloat(rawData.baseVolume),
+    low:parseFloat(rawData.low),
+    close:parseFloat(rawData.close),
+    high:parseFloat(rawData.high),
+    open:parseFloat(rawData.open),
     timestamp:rawData.timestamp,
   } as MarketData
 }
