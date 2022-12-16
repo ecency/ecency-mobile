@@ -12,7 +12,7 @@ interface WriteCommentButtonProps {
   onPress: () => void;
 }
 
-export const WriteCommentButton = forwardRef(({ onPress }:WriteCommentButtonProps, ref) => {
+export const WriteCommentButton = forwardRef(({ onPress }: WriteCommentButtonProps, ref) => {
   const intl = useIntl();
 
   const animatedContainer = useRef<AnimatedView>();

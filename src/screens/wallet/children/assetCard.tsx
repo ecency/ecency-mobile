@@ -74,13 +74,13 @@ export const AssetCard = ({
 
   const _renderHeader = (
     <View style={styles.cardHeader}>
-        <AssetIcon
-          id={id}
-          iconUrl={iconUrl}
-          isEngine={isEngine}
-          containerStyle={styles.logoContainer}
-          iconSize={32}
-        />
+      <AssetIcon
+        id={id}
+        iconUrl={iconUrl}
+        isEngine={isEngine}
+        containerStyle={styles.logoContainer}
+        iconSize={32}
+      />
       <View style={styles.cardTitleContainer}>
         <Text style={styles.textTitle}>{symbol}</Text>
         <Text style={styles.textSubtitle}>{_name}</Text>

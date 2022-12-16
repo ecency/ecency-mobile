@@ -183,14 +183,13 @@ const CommentsContainer = ({
           __comments = _sortComments(selectedFilter, __comments);
 
           setLComments(__comments);
-
         })
         .catch(() => {});
     } else {
       _handleCachedComment();
     }
 
-    if(handleOnCommentsLoaded){
+    if (handleOnCommentsLoaded) {
       handleOnCommentsLoaded();
     }
   };

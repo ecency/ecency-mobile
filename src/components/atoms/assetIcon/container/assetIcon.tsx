@@ -9,24 +9,22 @@ import ECENCY_ICON from '../../../../assets/ecency-logo.png';
 import { ASSET_IDS } from '../../../../constants/defaultAssets';
 
 interface AssetIconProps {
-  id:string;
+  id: string;
   iconUrl?: string;
   isEngine?: boolean;
   iconSize?: number;
   containerStyle?: ViewStyle;
 }
 
-export const AssetIcon = ({id, iconUrl, isEngine, containerStyle, iconSize }: AssetIconProps) => {
+export const AssetIcon = ({ id, iconUrl, isEngine, containerStyle, iconSize }: AssetIconProps) => {
   if (iconSize) {
   }
 
-  const _logoStyle = iconSize
-    ? { ...styles.logo, width: iconSize, height: iconSize}
-    : styles.logo;
+  const _logoStyle = iconSize ? { ...styles.logo, width: iconSize, height: iconSize } : styles.logo;
 
-  let _iconSource = iconUrl && {uri:iconUrl};
-  if(!_iconSource){
-    switch(id){
+  let _iconSource = iconUrl && { uri: iconUrl };
+  if (!_iconSource) {
+    switch (id) {
       case ASSET_IDS.HBD:
         _iconSource = HBD_ICON;
         break;
@@ -40,7 +38,7 @@ export const AssetIcon = ({id, iconUrl, isEngine, containerStyle, iconSize }: As
     }
   }
 
-  if(!_iconSource){
+  if (!_iconSource) {
     return null;
   }
 

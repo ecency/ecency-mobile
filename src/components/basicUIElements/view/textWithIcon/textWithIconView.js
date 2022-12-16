@@ -22,7 +22,7 @@ const TextWithIcon = ({
     setLtext(text);
   }, [text]);
 
-  const _iconStyle = [styles.icon, iconStyle, iconSize && { fontSize: iconSize }]
+  const _iconStyle = [styles.icon, iconStyle, iconSize && { fontSize: iconSize }];
 
   return (
     <View style={styles.container}>
@@ -37,11 +37,7 @@ const TextWithIcon = ({
           {isLoading ? (
             <ActivityIndicator style={_iconStyle} color={EStyleSheet.value('$iconColor')} />
           ) : (
-            <Icon
-              style={_iconStyle}
-              name={iconName}
-              iconType={iconType}
-            />
+            <Icon style={_iconStyle} name={iconName} iconType={iconType} />
           )}
 
           <Text style={[styles.text, textStyle]}>{ltext}</Text>

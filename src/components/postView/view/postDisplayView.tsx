@@ -7,6 +7,7 @@ import get from 'lodash/get';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Utils
+import { FlatList, RefreshControl } from 'react-native-gesture-handler';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
@@ -27,7 +28,6 @@ import postTypes from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { WriteCommentButton } from '../children/writeCommentButton';
-import { FlatList, RefreshControl } from 'react-native-gesture-handler';
 
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
@@ -90,10 +90,9 @@ const PostDisplayView = ({
     fetchPost().then(() => setRefreshing(false));
   }, [refreshing]);
 
-
   const _scrollToComments = () => {
     if (commentsListRef.current) {
-      commentsListRef.current.scrollToIndex({index:0, viewOffset:108});
+      commentsListRef.current.scrollToIndex({ index: 0, viewOffset: 108 });
     }
   };
 
@@ -148,7 +147,6 @@ const PostDisplayView = ({
               onLongPress={_showQuickReplyModal}
               onPress={() => _scrollToComments()}
               isLoading={!isLoadedComments}
-            
             />
           )}
           {!isLoggedIn && (
@@ -159,7 +157,6 @@ const PostDisplayView = ({
               isClickable
               text={get(post, 'children', 0)}
               textMarginLeft={20}
-          
             />
           )}
           <View style={styles.stickyRightWrapper}>
@@ -193,7 +190,6 @@ const PostDisplayView = ({
 
   const formatedTime = post && getTimeFromNow(post.created);
 
-
   if (isPostUnavailable) {
     return (
       <NoPost
@@ -219,9 +215,8 @@ const PostDisplayView = ({
   };
 
   const _handleOnCommentsLoaded = () => {
-    setIsLoadedComments(true)  
-  }
-
+    setIsLoadedComments(true);
+  };
 
   const _postContentView = (
     <>
@@ -254,19 +249,15 @@ const PostDisplayView = ({
                 <WriteCommentButton ref={writeCommentRef} onPress={_showQuickReplyModal} />
               </View>
             )}
-            
           </View>
         )}
       </View>
-    
     </>
-  )
+  );
 
   return (
     <View style={styles.container}>
-
-      <View
-        style={[styles.scroll, styles.scrollContent, { width: WIDTH }]}>
+      <View style={[styles.scroll, styles.scrollContent, { width: WIDTH }]}>
         <CommentsDisplay
           author={author || post?.author}
           mainAuthor={author || post?.author}
@@ -280,18 +271,13 @@ const PostDisplayView = ({
           isLoading={postBodyLoading}
           postContentView={_postContentView}
           flatListProps={{
-            ref:commentsListRef,
-            refreshControl:(
-              <RefreshControl 
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />
-            )
+            ref: commentsListRef,
+            refreshControl: <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />,
           }}
         />
       </View>
       {post && _renderActionPanel(true)}
-     
+
       <OptionsModal
         ref={actionSheet}
         options={[
