@@ -60,14 +60,14 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
   // state
   const [symbol] = useState(selectedCoins.find((item) => item.id === coinId).symbol);
-  const [refreshing, setRefreshing] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [completedActivities, setCompletedActivities] = useState(coinActivities?.completed || []);
   const [noMoreActivities, setNoMoreActivities] = useState(false);
 
   // side-effects
   useEffect(() => {
-    _fetchDetails(true);
+    _fetchDetails();
     const appStateSub = AppState.addEventListener('change', _handleAppStateChange);
     return _cleanup(appStateSub);
   }, []);

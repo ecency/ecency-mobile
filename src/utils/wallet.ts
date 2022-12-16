@@ -460,6 +460,10 @@ export const fetchCoinActivities = async (
         limit,
       );
       break;
+    default: return {
+      completed:[],
+      pending:[]
+    };
   }
 
   const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
