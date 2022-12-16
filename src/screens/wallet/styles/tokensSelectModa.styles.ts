@@ -57,6 +57,10 @@ export default EStyleSheet.create({
     textTransform: 'uppercase'
   } as TextStyle,
 
+  assetIconContainer:{
+    width:32,
+  },
+
   button: {
     backgroundColor: '$primaryBlue',
     width: 150,

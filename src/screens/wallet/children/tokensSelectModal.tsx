@@ -10,6 +10,7 @@ import { CheckBox, TextButton } from '../../../components';
 import { CoinBase } from '../../../redux/reducers/walletReducer';
 import DEFAULT_ASSETS from '../../../constants/defaultAssets';
 import { setSelectedCoins } from '../../../redux/actions/walletActions';
+import { AssetIcon } from '../../../components/atoms';
 
 export const TokensSelectModal = forwardRef(({}, ref) => {
   const sheetModalRef = useRef<ActionSheet>();
@@ -66,7 +67,10 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
       return (
         <TouchableOpacity onPress={_onPress}>
           <View style={styles.checkView}>
-            <Text style={styles.informationText}>{key}</Text>
+            <View style={{flexDirection:'row', alignItems:'center'}}>
+              <AssetIcon containerStyle={styles.assetIconContainer} iconUrl={item.iconUrl} isEngine={item.isEngine} iconSize={24} />
+              <Text style={styles.informationText}>{key}</Text>
+            </View>
             <CheckBox locked isChecked={isSelected} />
           </View>
         </TouchableOpacity>
