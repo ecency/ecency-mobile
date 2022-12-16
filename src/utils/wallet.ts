@@ -27,7 +27,7 @@ import { getEstimatedAmount } from './vote';
 import { getPointsSummary, getPointsHistory } from '../providers/ecency/ePoint';
 // Constant
 import POINTS from '../constants/options/points';
-import { COIN_IDS } from '../constants/defaultCoins';
+import { ASSET_IDS } from '../constants/defaultCoins';
 
 import parseAsset from './parseAsset';
 import {
@@ -385,7 +385,7 @@ export const fetchCoinActivities = async (
   let history = [];
 
   switch (coinId) {
-    case COIN_IDS.ECENCY: {
+    case ASSET_IDS.ECENCY: {
       //TODO: remove condition when we have a way to fetch paginated points data
       if (startIndex !== -1) {
         return {
@@ -412,7 +412,7 @@ export const fetchCoinActivities = async (
         pending: [] as CoinActivity[],
       };
     }
-    case COIN_IDS.HIVE:
+    case ASSET_IDS.HIVE:
       history = await getAccountHistory(
         username,
         [
@@ -427,7 +427,7 @@ export const fetchCoinActivities = async (
         limit,
       );
       break;
-    case COIN_IDS.HBD:
+    case ASSET_IDS.HBD:
       history = await getAccountHistory(
         username,
         [
@@ -443,7 +443,7 @@ export const fetchCoinActivities = async (
         limit,
       );
       break;
-    case COIN_IDS.HP:
+    case ASSET_IDS.HP:
       history = await getAccountHistory(
         username,
         [
@@ -586,7 +586,7 @@ export const fetchCoinsData = async ({
 
   coins.forEach((coinBase) => {
     switch (coinBase.id) {
-      case COIN_IDS.ECENCY: {
+      case ASSET_IDS.ECENCY: {
         const balance = _pointsSummary.points ? parseFloat(_pointsSummary.points) : 0;
         const unclaimedFloat = parseFloat(_pointsSummary.unclaimed_points || '0');
         const unclaimedBalance = unclaimedFloat ? unclaimedFloat + ' Points' : '';
@@ -602,7 +602,7 @@ export const fetchCoinsData = async ({
         };
         break;
       }
-      case COIN_IDS.HIVE: {
+      case ASSET_IDS.HIVE: {
         const balance = parseToken(userdata.balance);
         const savings = parseToken(userdata.savings_balance);
         const ppHive = _prices[coinBase.id].price;
@@ -619,7 +619,7 @@ export const fetchCoinsData = async ({
         break;
       }
 
-      case COIN_IDS.HBD: {
+      case ASSET_IDS.HBD: {
         const balance = parseToken(userdata.hbd_balance);
         const savings = parseToken(userdata.savings_hbd_balance);
         const ppHbd = _prices[coinBase.id].price;
@@ -635,7 +635,7 @@ export const fetchCoinsData = async ({
         };
         break;
       }
-      case COIN_IDS.HP: {
+      case ASSET_IDS.HP: {
         const _getBalanceStr = (val: number, cur: string) =>
           val ? Math.round(val * 1000) / 1000 + cur : '';
         const balance =
@@ -714,7 +714,7 @@ export const fetchCoinsData = async ({
           },
         ]);
 
-        const ppHive = _prices[COIN_IDS.HIVE].price;
+        const ppHive = _prices[ASSET_IDS.HIVE].price;
         coinData[coinBase.id] = {
           balance: Math.round(balance * 1000) / 1000,
           estimateValue: balance * ppHive,

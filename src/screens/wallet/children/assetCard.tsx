@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import styles from '../styles/children.styles';
 import { SimpleChart } from '../../../components';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
-import { COIN_IDS } from '../../../constants/defaultCoins';
+import { ASSET_IDS } from '../../../constants/defaultCoins';
 import { ClaimButton } from './claimButton';
 
 import { AssetIcon } from '../../../components/atoms';
@@ -76,6 +76,7 @@ export const AssetCard = ({
     <View style={styles.cardHeader}>
       {iconUrl && (
         <AssetIcon
+          id={id}
           iconUrl={iconUrl}
           isEngine={isEngine}
           containerStyle={styles.logoContainer}
@@ -106,7 +107,7 @@ export const AssetCard = ({
           isLoading={isLoading}
           isClaiming={isClaiming}
           isClaimExpected={claimExpected}
-          containerStyle={id !== COIN_IDS.ECENCY && styles.claimContainer}
+          containerStyle={id !== ASSET_IDS.ECENCY && styles.claimContainer}
           onPress={_onClaimPress}
         />
       );
@@ -114,7 +115,7 @@ export const AssetCard = ({
   };
 
   const _renderBoostAccount = () => {
-    if (id === COIN_IDS.HP && ownedTokens < 50) {
+    if (id === ASSET_IDS.HP && ownedTokens < 50) {
       return (
         <ClaimButton
           title={intl.formatMessage({ id: 'wallet.get_boost' })}

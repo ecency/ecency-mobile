@@ -27,11 +27,12 @@ const DEFAULT_COINS = [
   }
 ] as CoinBase[];
 
-export const COIN_IDS = {
-  ECENCY: 'ecency',
-  HIVE: 'hive',
-  HBD: 'hive_dollar',
-  HP: 'hive_power',
+
+export enum ASSET_IDS {
+  ECENCY= 'ecency',
+  HIVE= 'hive',
+  HBD= 'hive_dollar',
+  HP= 'hive_power',
 };
 
 export default DEFAULT_COINS;

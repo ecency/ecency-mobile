@@ -1,4 +1,4 @@
-import DEFAULT_COINS, { COIN_IDS } from '../../constants/defaultCoins';
+import DEFAULT_COINS, { ASSET_IDS } from '../../constants/defaultCoins';
 import {
   SET_PRICE_HISTORY,
   SET_SELECTED_COINS,
@@ -124,7 +124,7 @@ export default function (state = initialState, action) {
     case SET_PRICE_HISTORY: {
       const expiresAt =
         new Date().getTime() +
-        (payload.id === COIN_IDS.HBD || payload.id === COIN_IDS.HIVE ? ONE_HOUR_MS : TEN_MIN_MS);
+        (payload.id === ASSET_IDS.HBD || payload.id === ASSET_IDS.HIVE ? ONE_HOUR_MS : TEN_MIN_MS);
 
       state.priceHistories[payload.id] = {
         expiresAt,

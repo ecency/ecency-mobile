@@ -3,8 +3,10 @@ import { View, ViewStyle } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import styles from '../styles/assetIcon.styles';
 import HIVE_ENGINE_ICON from '../../../../assets/hive_engine.png';
+import { ASSET_IDS } from '../../../../constants/defaultCoins';
 
 interface AssetIconProps {
+  id:ASSET_IDS
   iconUrl: string;
   isEngine?: boolean;
   iconSize?: number;
