@@ -17,7 +17,7 @@ import { getEstimatedAmount } from '../utils/vote';
 
 // Constants
 import ROUTES from '../constants/routeNames';
-import { ASSET_IDS } from '../constants/defaultCoins';
+import { ASSET_IDS } from '../constants/defaultAssets';
 
 const HIVE_DROPDOWN = [
   'purchase_estm',

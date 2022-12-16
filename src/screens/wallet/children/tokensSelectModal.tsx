@@ -8,7 +8,7 @@ import styles from '../styles/tokensSelectModa.styles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { CheckBox, TextButton } from '../../../components';
 import { CoinBase } from '../../../redux/reducers/walletReducer';
-import DEFAULT_COINS from '../../../constants/defaultCoins';
+import DEFAULT_ASSETS from '../../../constants/defaultAssets';
 import { setSelectedCoins } from '../../../redux/actions/walletActions';
 
 export const TokensSelectModal = forwardRef(({}, ref) => {
@@ -30,7 +30,7 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
   }));
 
   const _onApply = () => {
-    dispatch(setSelectedCoins([...DEFAULT_COINS, ...selection]));
+    dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...selection]));
     if (sheetModalRef.current) {
       sheetModalRef.current.hide();
     }

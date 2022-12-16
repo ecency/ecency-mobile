@@ -27,7 +27,7 @@ import { getEstimatedAmount } from './vote';
 import { getPointsSummary, getPointsHistory } from '../providers/ecency/ePoint';
 // Constant
 import POINTS from '../constants/options/points';
-import { ASSET_IDS } from '../constants/defaultCoins';
+import { ASSET_IDS } from '../constants/defaultAssets';
 
 import parseAsset from './parseAsset';
 import {

@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { CoinActions, CoinBasics, CoinChart } from '.';
 import { FormattedCurrency } from '../../../components';
-import { ASSET_IDS } from '../../../constants/defaultCoins';
+import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { CoinData, DataPair } from '../../../redux/reducers/walletReducer';
 
 export interface CoinSummaryProps {

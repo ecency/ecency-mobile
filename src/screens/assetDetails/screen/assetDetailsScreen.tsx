@@ -16,7 +16,7 @@ import { fetchCoinActivities } from '../../../utils/wallet';
 import { fetchAndSetCoinsData, setCoinActivities } from '../../../redux/actions/walletActions';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
-import { ASSET_IDS } from '../../../constants/defaultCoins';
+import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import transferTypes from '../../../constants/transferTypes';
 

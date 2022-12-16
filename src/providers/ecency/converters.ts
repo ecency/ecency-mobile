@@ -1,4 +1,4 @@
-import { ASSET_IDS } from '../../constants/defaultCoins';
+import { ASSET_IDS } from '../../constants/defaultAssets';
 import { Referral } from '../../models';
 import {
   CommentHistoryItem,

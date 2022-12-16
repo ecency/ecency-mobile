@@ -37,7 +37,7 @@ import {
   setPriceHistory,
   updateUnclaimedBalance,
 } from '../../../redux/actions/walletActions';
-import { ASSET_IDS } from '../../../constants/defaultCoins';
+import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { claimPoints } from '../../../providers/ecency/ePoint';
 import { claimRewardBalance, getAccount } from '../../../providers/hive/dhive';
 import { toastNotification } from '../../../redux/actions/uiAction';

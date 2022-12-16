@@ -1,4 +1,4 @@
-import DEFAULT_COINS, { ASSET_IDS } from '../../constants/defaultCoins';
+import DEFAULT_ASSETS, { ASSET_IDS } from '../../constants/defaultAssets';
 import {
   SET_PRICE_HISTORY,
   SET_SELECTED_COINS,
@@ -87,7 +87,7 @@ interface State {
 }
 
 const initialState: State = {
-  selectedCoins: DEFAULT_COINS,
+  selectedCoins: DEFAULT_ASSETS,
   coinsData: {},
   priceHistories: {},
   coinsActivities: {},

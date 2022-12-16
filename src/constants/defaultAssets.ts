@@ -1,6 +1,6 @@
 import { CoinBase } from '../redux/reducers/walletReducer';
 
-const DEFAULT_COINS = [
+const DEFAULT_ASSETS = [
   {
     id: 'ecency',
     symbol: 'Points',
@@ -35,4 +35,4 @@ export enum ASSET_IDS {
   HP= 'hive_power',
 };
 
-export default DEFAULT_COINS;
+export default DEFAULT_ASSETS;

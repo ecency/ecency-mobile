@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import styles from '../styles/children.styles';
 import { SimpleChart } from '../../../components';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
-import { ASSET_IDS } from '../../../constants/defaultCoins';
+import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { ClaimButton } from './claimButton';
 
 import { AssetIcon } from '../../../components/atoms';
