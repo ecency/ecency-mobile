@@ -138,7 +138,7 @@ export const fetchMetics = async (tokens?: string[]) => {
 
 export const fetchUnclaimedRewards = async (account: string): Promise<TokenStatus[]> => {
   try {
-    const response = await ecencyApi.get(`${PATH_ENGINE_REWARDS}/@${account}`, {
+    const response = await ecencyApi.get(`${PATH_ENGINE_REWARDS}/${account}`, {
       params:{hive:1}
     })
     const rawData = Object.values(response.data)
