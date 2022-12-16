@@ -28,18 +28,19 @@ export const CoinBasics = ({
   const intl = useIntl();
   const _renderCoinHeader = (
     <>
-
-        <AssetIcon
+      
+      
+      <View style={styles.coinTitleContainer}>
+      <AssetIcon
           id={assetId}
           iconUrl={iconUrl}
-          iconSize={56}
+          iconSize={40}
           containerStyle={styles.iconContainer}
           isEngine={isEngine}
         />
-      
-      <View style={styles.coinTitleContainer}>
         <Text style={styles.textCoinTitle}>{coinSymbol}</Text>
       </View>
+
       <Text style={styles.textHeaderChange}>
         {intl.formatMessage({ id: 'wallet.change' })}
         <Text style={percentChange > 0 ? styles.textPositive : styles.textNegative}>

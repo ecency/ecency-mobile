@@ -10,8 +10,7 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryLightBackground',
   } as ViewStyle,
   iconContainer:{
-    marginBottom:16, 
-    marginTop:8
+    marginRight:8
   } as ViewStyle,
   basicsContainer: {
     alignItems: 'center',
@@ -19,7 +18,8 @@ export default EStyleSheet.create({
   } as ViewStyle,
   coinTitleContainer: {
     flexDirection: 'row',
-    marginTop: 8,
+    alignItems:'center',
+    marginTop:8
   } as ViewStyle,
   textCoinTitle: {
     color: '$primaryBlack',
