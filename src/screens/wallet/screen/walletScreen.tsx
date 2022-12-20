@@ -286,7 +286,7 @@ const WalletScreen = ({ navigation }) => {
           currentValue={quote?.price || coinData?.currentPrice || 0}
           changePercent={percentChange || 0}
           currencySymbol={currency.currencySymbol}
-          ownedTokens={_balance}
+          ownedBalance={_balance}
           unclaimedRewards={coinData.unclaimedBalance}
           enableBuy={!coinData.unclaimedBalance && item.id === ASSET_IDS.ECENCY}
           isClaiming={isClaiming}

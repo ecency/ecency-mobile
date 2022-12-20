@@ -20,7 +20,7 @@ export interface AssetCardProps {
   currencySymbol: string;
   changePercent: number;
   currentValue: number;
-  ownedTokens: number;
+  ownedBalance: number;
   unclaimedRewards: string;
   enableBuy?: boolean;
   isClaiming?: boolean;
@@ -42,7 +42,7 @@ export const AssetCard = ({
   symbol,
   changePercent,
   currentValue,
-  ownedTokens,
+  ownedBalance,
   footerComponent,
   unclaimedRewards,
   enableBuy,
@@ -70,7 +70,7 @@ export const AssetCard = ({
   const _name = intl.messages[`wallet.${id}.name`]
     ? intl.formatMessage({ id: `wallet.${id}.name` })
     : name;
-  const value = `${isEngine ? ownedTokens.toFixed(6) : ownedTokens} ${isEngine ? '' : symbol}`;
+  const value = `${ownedBalance.toFixed(isEngine? 6 : 3)} ${isEngine ? '' : symbol}`;
 
   const _renderHeader = (
     <View style={styles.cardHeader}>
@@ -89,7 +89,7 @@ export const AssetCard = ({
         <Text style={styles.textTitle}>{value}</Text>
 
         <Text style={styles.textSubtitleRight}>
-          {`${(ownedTokens * currentValue).toFixed(6)}${currencySymbol}`}
+          {`${(ownedBalance * currentValue).toFixed(6)}${currencySymbol}`}
         </Text>
       </View>
     </View>
@@ -113,7 +113,7 @@ export const AssetCard = ({
   };
 
   const _renderBoostAccount = () => {
-    if (id === ASSET_IDS.HP && ownedTokens < 50) {
+    if (id === ASSET_IDS.HP && ownedBalance < 50) {
       return (
         <ClaimButton
           title={intl.formatMessage({ id: 'wallet.get_boost' })}
