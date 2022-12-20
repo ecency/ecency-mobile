@@ -1,8 +1,11 @@
+# $RNFirebaseAsStaticFramework = true
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
+# use_frameworks! :linkage => :static
 platform :ios, '12.4'
 install! 'cocoapods', :deterministic_uuids => false
+
 
 target 'Ecency' do
   config = use_native_modules!
@@ -25,7 +28,7 @@ target 'Ecency' do
     #
     # Note that if you have use_frameworks! enabled, Flipper will not work and
     # you should disable the next line.
-    :flipper_configuration => FlipperConfiguration.disabled,
+    :flipper_configuration => FlipperConfiguration.enabled(["Debug"], { 'Flipper' => '0.164.0' }),
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
@@ -33,6 +36,21 @@ target 'Ecency' do
   target 'EcencyTests' do
     inherit! :complete
     # Pods for testing
+  end
+
+  # Convert all permission pods into static libraries
+  pre_install do |installer|
+    Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
+
+    installer.pod_targets.each do |pod|
+      if pod.name.eql?('RNPermissions') || pod.name.start_with?('Permission-')
+        def pod.build_type;
+          # Uncomment the line corresponding to your CocoaPods version
+          Pod::BuildType.static_library # >= 1.9
+          # Pod::Target::BuildType.static_library # < 1.9
+        end
+      end
+    end
   end
 
 
@@ -44,17 +62,30 @@ target 'Ecency' do
       :mac_catalyst_enabled => false
     )
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
+
     installer.pods_project.targets.each do |target|
+
+      #workarounf for xcode 14 archive signing issue
+      #ref:https://github.com/CocoaPods/CocoaPods/issues/11402#issuecomment-1201464693
+      if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
+        target.build_configurations.each do |config|
+            config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+        end
+      end
+
       target.build_configurations.each do |config|
         config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
       end
+
+      #this workaround resolves duplicate symbolds caused by GCDAsyncSocket inclusion in TcpSockets
       if target.name == 'TcpSockets'
         source_files = target.source_build_phase.files
         gcd_async_socket = source_files[0] #First file in build phases is GCDAsyncSocket.m, chage index if not the case
         puts "Deleting source file #{gcd_async_socket.inspect} from target #{target.inspect}."
         source_files.delete gcd_async_socket
+      end
     end
-    end
+
   end
 
 end

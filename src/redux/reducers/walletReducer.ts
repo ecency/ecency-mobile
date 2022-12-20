@@ -1,4 +1,4 @@
-import DEFAULT_COINS from '../../constants/defaultCoins';
+import DEFAULT_ASSETS, { ASSET_IDS } from '../../constants/defaultAssets';
 import {
   SET_PRICE_HISTORY,
   SET_SELECTED_COINS,
@@ -6,6 +6,7 @@ import {
   SET_COIN_ACTIVITIES,
   SET_COIN_QUOTES,
   RESET_WALLET_DATA,
+  UPDATE_UNCLAIMED_BALANCE,
 } from '../constants/constants';
 
 export interface DataPair {
@@ -18,9 +19,13 @@ export interface CoinBase {
   id: string;
   symbol: string;
   notCrypto: boolean;
+  isEngine: boolean;
 }
 
 export interface CoinData {
+  name: string;
+  symbol: string;
+  iconUrl: string;
   currentPrice: number;
   balance: number;
   savings?: number;
@@ -29,6 +34,8 @@ export interface CoinData {
   vsCurrency: string;
   actions: string[];
   extraDataPairs?: DataPair[];
+  isEngine?: boolean;
+  percentChange?: number;
 }
 
 export interface PriceHistory {
@@ -80,7 +87,7 @@ interface State {
 }
 
 const initialState: State = {
-  selectedCoins: DEFAULT_COINS,
+  selectedCoins: DEFAULT_ASSETS,
   coinsData: {},
   priceHistories: {},
   coinsActivities: {},
@@ -102,7 +109,7 @@ export default function (state = initialState, action) {
     case SET_SELECTED_COINS: {
       return {
         ...state,
-        selectedCoin: payload,
+        selectedCoins: payload,
       };
     }
     case SET_COINS_DATA: {
@@ -115,8 +122,12 @@ export default function (state = initialState, action) {
       };
     }
     case SET_PRICE_HISTORY: {
+      const expiresAt =
+        new Date().getTime() +
+        (payload.id === ASSET_IDS.HBD || payload.id === ASSET_IDS.HIVE ? ONE_HOUR_MS : TEN_MIN_MS);
+
       state.priceHistories[payload.id] = {
-        expiresAt: new Date().getTime() + ONE_HOUR_MS,
+        expiresAt,
         vsCurrency: payload.vsCurrency,
         data: payload.data,
       };
@@ -136,9 +147,16 @@ export default function (state = initialState, action) {
         quotes: payload,
       };
     }
+    case UPDATE_UNCLAIMED_BALANCE: {
+      state.coinsData[payload.id].unclaimedBalance = payload.unclaimedBalance;
+      return {
+        ...state,
+      };
+    }
     default:
       return state;
   }
 }
 
 const ONE_HOUR_MS = 60 * 60 * 1000;
+const TEN_MIN_MS = 60 * 10 * 1000;

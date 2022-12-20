@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useIntl } from 'react-intl';
 
+import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './communitiesListItemStyles';
 
 import { Tag } from '../../../../basicUIElements';
@@ -43,7 +44,7 @@ const CommunitiesListItem = ({
             {isLoggedIn &&
               (loading ? (
                 <View style={styles.indicatorView}>
-                  <ActivityIndicator />
+                  <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />
                 </View>
               ) : (
                 <Tag

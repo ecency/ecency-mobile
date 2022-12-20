@@ -46,6 +46,7 @@ export const SimpleChart = ({
         backgroundGradientTo: _chartBackgroundColor,
         fillShadowGradient: EStyleSheet.value('$chartBlue'),
         fillShadowGradientOpacity: 0.8,
+        fillShadowGradientTo: _chartBackgroundColor,
         labelColor: () => EStyleSheet.value('$primaryDarkText'),
         color: () => (showLine ? EStyleSheet.value('$chartBlue') : 'transparent'),
       }}

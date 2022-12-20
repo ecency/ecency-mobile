@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import { ActivityIndicator, View, Text, TouchableOpacity } from 'react-native';
 import Highlighter from 'react-native-highlight-words';
 
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { UserAvatar } from '../../../userAvatar';
 import styles from './userListItemStyles';
 
@@ -55,7 +56,10 @@ const UserListItem = ({
           {!searchValue && <Text style={styles.name}>{text || username}</Text>}
           {!!searchValue && !!text && (
             <Highlighter
-              highlightStyle={{ backgroundColor: 'yellow' }}
+              highlightStyle={{
+                backgroundColor: EStyleSheet.value('$darkGrayBackground'),
+                color: EStyleSheet.value('$white'),
+              }}
               searchWords={[searchValue]}
               textToHighlight={text || username}
               style={styles.name}
@@ -63,7 +67,10 @@ const UserListItem = ({
           )}
           {!!searchValue && !!description && (
             <Highlighter
-              highlightStyle={{ backgroundColor: 'yellow' }}
+              highlightStyle={{
+                backgroundColor: EStyleSheet.value('$darkGrayBackground'),
+                color: EStyleSheet.value('$white'),
+              }}
               searchWords={[searchValue]}
               textToHighlight={description}
               style={styles.summary}
@@ -93,7 +100,7 @@ const UserListItem = ({
           isLoggedIn &&
           (isLoadingRightAction ? (
             <View style={styles.rightWrapper}>
-              <ActivityIndicator style={{ width: 30 }} />
+              <ActivityIndicator style={{ width: 30 }} color={EStyleSheet.value('$primaryBlue')} />
             </View>
           ) : (
             <PopoverController>

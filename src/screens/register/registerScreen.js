@@ -27,6 +27,7 @@ import ESTEEM_LOGO from '../../assets/like_new.png';
 import ESTEEM_SMALL_LOGO from '../../assets/ecency_logo_transparent.png';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 import { BuyAccountModal } from './children/buyAccountModal';
+import { ECENCY_TERMS_URL } from '../../config/ecencyApi';
 
 const RegisterScreen = ({ navigation, route }) => {
   const intl = useIntl();
@@ -174,7 +175,7 @@ const RegisterScreen = ({ navigation, route }) => {
               <InformationArea
                 description={intl.formatMessage({ id: 'register.form_description' })}
                 iconName="ios-information-circle-outline"
-                link="https://ecency.com/terms-of-service"
+                link={ECENCY_TERMS_URL}
               />
             </View>
             <View style={styles.footerButtons}>

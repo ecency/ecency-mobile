@@ -69,7 +69,7 @@ const PostCardView = ({
   };
 
   const _handleOnReblogsPress = () => {
-    if (reblogs.length > 0) {
+    if (reblogs && reblogs.length > 0) {
       handleOnReblogsPress();
     }
   };

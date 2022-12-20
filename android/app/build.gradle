@@ -151,7 +151,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
-        versionName "3.0.35"
+        versionName "3.0.36"
         resValue "string", "build_config_package", "app.esteem.mobile.android"
         multiDexEnabled true
         // react-native-image-crop-picker
@@ -279,6 +279,19 @@ dependencies {
     implementation 'com.android.support:multidex:2.0.1'
     implementation project(':react-native-pager-view')
     implementation 'com.getkeepsafe.relinker:relinker:1.4.4'
+
+    debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
+        exclude group:'com.facebook.fbjni'
+    }
+
+    debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
+        exclude group:'com.facebook.flipper'
+        exclude group:'com.squareup.okhttp3', module:'okhttp'
+    }
+
+    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
+        exclude group:'com.facebook.flipper'
+    }
 
     if (enableHermes) {
         //noinspection GradleDynamicVersion

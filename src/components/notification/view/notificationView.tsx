@@ -7,6 +7,7 @@ import { injectIntl } from 'react-intl';
 
 // Components
 import { FlatList } from 'react-native-gesture-handler';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { ContainerHeader } from '../../containerHeader';
 import { FilterBar } from '../../filterBar';
 import { NotificationLine } from '../..';
@@ -83,7 +84,7 @@ class NotificationView extends PureComponent {
     if (isLoading) {
       return (
         <View style={styles.flatlistFooter}>
-          <ActivityIndicator animating />
+          <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} animating />
         </View>
       );
     }
@@ -178,7 +179,7 @@ class NotificationView extends PureComponent {
 
   _getActivityIndicator = () => (
     <View style={styles.loading}>
-      <ActivityIndicator animating size="large" />
+      <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} animating size="large" />
     </View>
   );
 

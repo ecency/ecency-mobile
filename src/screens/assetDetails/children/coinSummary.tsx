@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { CoinActions, CoinBasics, CoinChart } from '.';
 import { FormattedCurrency } from '../../../components';
-import { COIN_IDS } from '../../../constants/defaultCoins';
+import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { CoinData, DataPair } from '../../../redux/reducers/walletReducer';
 
 export interface CoinSummaryProps {
@@ -45,17 +45,22 @@ export const CoinSummary = ({
     });
   }
 
+  const _shRrenderChart = id !== ASSET_IDS.ECENCY && id !== ASSET_IDS.HP
+
   return (
     <View>
       <CoinBasics
+        assetId={id}
+        iconUrl={coinData.iconUrl}
         valuePairs={valuePairs}
         extraData={extraDataPairs}
         coinSymbol={coinSymbol}
         percentChange={percentChagne}
+        isEngine={coinData.isEngine}
         onInfoPress={onInfoPress}
       />
       <CoinActions actions={actions} onActionPress={onActionPress} />
-      {id !== COIN_IDS.ECENCY && id !== COIN_IDS.HP && <CoinChart coinId={id} />}
+      {_shRrenderChart && <CoinChart coinId={id} isEngine={coinData.isEngine}/>}
     </View>
   );
 };

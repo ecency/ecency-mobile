@@ -7,6 +7,7 @@ import {
 } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
+import { unionBy } from 'lodash';
 import bugsnapInstance from '../../config/bugsnag';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { updateUnreadActivityCount } from '../../redux/actions/accountAction';
@@ -65,8 +66,10 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
     }
   };
 
+  const _dataArrs = notificationQueries.map((query) => query.data);
+
   return {
-    data: notificationQueries.flatMap((query) => query.data),
+    data: unionBy(..._dataArrs, 'id'),
     isRefreshing,
     isLoading: notificationQueries.lastItem.isLoading || notificationQueries.lastItem.isFetching,
     fetchNextPage: _fetchNextPage,

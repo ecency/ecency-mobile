@@ -55,13 +55,13 @@ export interface UserPoint {
 
 export interface PurchaseRequestData {
   platform: 'play_store' | 'app_store';
-    product: string;
-    receipt: string;
-    user: string;
-    meta?: {
-      username: string, 
-      email: string
-    }
+  product: string;
+  receipt: string;
+  user: string;
+  meta?: {
+    username: string;
+    email: string;
+  };
 }
 
 export interface LatestQuotes {

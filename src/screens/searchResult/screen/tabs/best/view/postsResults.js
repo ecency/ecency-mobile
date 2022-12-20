@@ -5,6 +5,7 @@ import isUndefined from 'lodash/isUndefined';
 import Highlighter from 'react-native-highlight-words';
 
 // Components
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { PostHeaderDescription, FilterBar } from '../../../../../../components';
 import {
   TextWithIcon,
@@ -39,7 +40,10 @@ const PostsResults = ({ navigation, searchValue }) => {
           <Text style={styles.title}>{item.title}</Text>
           {!!body && (
             <Highlighter
-              highlightStyle={{ backgroundColor: 'yellow' }}
+              highlightStyle={{
+                backgroundColor: EStyleSheet.value('$darkGrayBackground'),
+                color: EStyleSheet.value('$white'),
+              }}
               searchWords={[searchValue]}
               textToHighlight={body.replace(/<mark>/g, '').replace(/<\/mark>/g, '')}
               style={styles.summary}

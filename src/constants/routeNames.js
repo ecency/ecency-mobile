@@ -34,7 +34,7 @@ export default {
     WEB_BROWSER: `WebBrowser${SCREEN_SUFFIX}`,
     REFER: `Refer${SCREEN_SUFFIX}`,
     QR: `QR${SCREEN_SUFFIX}`,
-    COIN_DETAILS: `CoinDetails${SCREEN_SUFFIX}`,
+    ASSET_DETAILS: `AssetDetails${SCREEN_SUFFIX}`,
     EDIT_HISTORY: `EditHistory${SCREEN_SUFFIX}`,
     WELCOME: `Welcome${SCREEN_SUFFIX}`,
   },

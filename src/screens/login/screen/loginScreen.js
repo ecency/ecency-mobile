@@ -27,6 +27,7 @@ import styles from './loginStyles';
 import globalStyles from '../../../globalStyles';
 
 import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
+import { ECENCY_TERMS_URL } from '../../../config/ecencyApi';
 
 class LoginScreen extends PureComponent {
   constructor(props) {
@@ -154,7 +155,7 @@ class LoginScreen extends PureComponent {
                 description={intl.formatMessage({
                   id: 'login.description',
                 })}
-                link="https://ecency.com/terms-of-service"
+                link={ECENCY_TERMS_URL}
                 iconName="ios-information-circle-outline"
               />
             </KeyboardAwareScrollView>

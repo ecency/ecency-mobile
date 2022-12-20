@@ -27,7 +27,7 @@ import TagResult from './tagResult';
 import { Community } from './community';
 import Communities from './communities';
 import ReferScreen from './referScreen/referScreen';
-import CoinDetails from './coinDetails';
+import AssetDetails from './assetDetails';
 import EditHistoryScreen from './editHistoryScreen/editHistoryScreen';
 import WelcomeScreen from './welcome';
 
@@ -61,7 +61,7 @@ export {
   Communities,
   WebBrowser,
   ReferScreen,
-  CoinDetails,
+  AssetDetails,
   EditHistoryScreen,
   WelcomeScreen,
 };

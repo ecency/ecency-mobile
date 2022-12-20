@@ -45,9 +45,12 @@ const CommentsContainer = ({
   showAllComments,
   hideManyCommentsButton,
   flatListProps,
+  postContentView,
+  isLoading,
   fetchedAt,
   incrementRepliesCount,
   handleOnReplyPress,
+  handleOnCommentsLoaded,
 }) => {
   const navigation = useNavigation();
 
@@ -184,6 +187,10 @@ const CommentsContainer = ({
         .catch(() => {});
     } else {
       _handleCachedComment();
+    }
+
+    if (handleOnCommentsLoaded) {
+      handleOnCommentsLoaded();
     }
   };
 
@@ -372,6 +379,8 @@ const CommentsContainer = ({
       openReplyThread={_openReplyThread}
       incrementRepliesCount={incrementRepliesCount}
       fetchedAt={fetchedAt}
+      postContentView={postContentView}
+      isLoading={isLoading}
     />
   );
 };

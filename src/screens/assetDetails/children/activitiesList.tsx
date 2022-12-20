@@ -1,6 +1,7 @@
 import React, { ComponentType, JSXElementConstructor, ReactElement } from 'react';
 import { useIntl } from 'react-intl';
 import { SectionList, Text, RefreshControl, ActivityIndicator } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { Transaction } from '../../../components';
 import { useAppSelector } from '../../../hooks';
 import { CoinActivity } from '../../../redux/reducers/walletReducer';
@@ -12,6 +13,7 @@ interface ActivitiesListProps {
   completedActivities: CoinActivity[];
   refreshing: boolean;
   loading: boolean;
+  isEngine: boolean;
   onEndReached: () => void;
   onRefresh: () => void;
 }
@@ -22,6 +24,7 @@ const ActivitiesList = ({
   refreshing,
   completedActivities,
   pendingActivities,
+  isEngine,
   onEndReached,
   onRefresh,
 }: ActivitiesListProps) => {
@@ -42,10 +45,12 @@ const ActivitiesList = ({
     });
   }
 
-  sections.push({
-    title: intl.formatMessage({ id: 'wallet.activities' }),
-    data: completedActivities || [],
-  });
+  if (!isEngine) {
+    sections.push({
+      title: intl.formatMessage({ id: 'wallet.activities' }),
+      data: completedActivities || [],
+    });
+  }
 
   const _refreshControl = (
     <RefreshControl
@@ -69,7 +74,12 @@ const ActivitiesList = ({
         <Text style={styles.textActivities}>{title}</Text>
       )}
       ListFooterComponent={
-        loading && <ActivityIndicator style={styles.activitiesFooterIndicator} />
+        loading && (
+          <ActivityIndicator
+            color={EStyleSheet.value('$primaryBlue')}
+            style={styles.activitiesFooterIndicator}
+          />
+        )
       }
       ListHeaderComponent={header}
       refreshControl={_refreshControl}

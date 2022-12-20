@@ -7,7 +7,9 @@ import { getDigitPinCode } from '../providers/hive/dhive';
 import { decryptKey } from '../utils/crypto';
 import bugsnagInstance from './bugsnag';
 
-const api = axios.create({
+export const ECENCY_TERMS_URL = `${Config.ECENCY_BACKEND_API}/terms-of-service`;
+
+const ecencyApi = axios.create({
   baseURL: Config.ECENCY_BACKEND_API,
   headers: {
     'Content-Type': 'application/json',
@@ -15,7 +17,7 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use((request) => {
+ecencyApi.interceptors.request.use((request) => {
   console.log('Starting ecency Request', request);
 
   // skip code addition is register and token refresh endpoint is triggered
@@ -27,7 +29,8 @@ api.interceptors.request.use((request) => {
     request.url.startsWith('/private-api/received-vesting/') ||
     request.url.startsWith('/private-api/referrals/') ||
     request.url.startsWith('/private-api/market-data') ||
-    request.url.startsWith('/private-api/comment-history')
+    request.url.startsWith('/private-api/comment-history') ||
+    request.url.startsWith('/private-api/engine')
   ) {
     return request;
   }
@@ -60,9 +63,9 @@ api.interceptors.request.use((request) => {
   return request;
 });
 
-api.interceptors.response.use((response) => {
+ecencyApi.interceptors.response.use((response) => {
   console.log('Response:', response);
   return response;
 });
 
-export default api;
+export default ecencyApi;

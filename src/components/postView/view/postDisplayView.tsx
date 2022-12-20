@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState, Fragment } from 'react';
-import { View, Text, ScrollView, RefreshControl } from 'react-native';
+import { View, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -7,6 +7,7 @@ import get from 'lodash/get';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Utils
+import { FlatList, RefreshControl } from 'react-native-gesture-handler';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
@@ -26,6 +27,7 @@ import { showReplyModal } from '../../../redux/actions/uiAction';
 import postTypes from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import { WriteCommentButton } from '../children/writeCommentButton';
 
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
@@ -52,17 +54,14 @@ const PostDisplayView = ({
   const insets = useSafeAreaInsets();
   const userActivityMutation = useUserActivityMutation();
 
-  const commentsRef = useRef<CommentsDisplay>();
-  const scrollRef = useRef<ScrollView>();
-  const commentsReached = useRef<boolean>(false);
+  const writeCommentRef = useRef<WriteCommentButton>();
+  const commentsListRef = useRef<FlatList>(null);
 
-  const [postHeight, setPostHeight] = useState(0);
-  const [scrollHeight, setScrollHeight] = useState(0);
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
   const actionSheet = useRef(null);
   const [refreshing, setRefreshing] = useState(false);
-  const [postBodyLoading, setPostBodyLoading] = useState(false);
+  const [postBodyLoading, setPostBodyLoading] = useState(true);
   const [tags, setTags] = useState([]);
 
   // Component Life Cycles
@@ -91,32 +90,9 @@ const PostDisplayView = ({
     fetchPost().then(() => setRefreshing(false));
   }, [refreshing]);
 
-  const _handleOnScroll = (event) => {
-    const { y } = event.nativeEvent.contentOffset;
-    console.log('scroll height', y);
-    setScrollHeight(HEIGHT + y);
-
-    const _commentButtonBounceOffset = y + HEIGHT / 1.7;
-    if (
-      !commentsReached.current &&
-      commentsRef.current &&
-      _commentButtonBounceOffset > postHeight
-    ) {
-      commentsRef.current.bounceCommentButton();
-      commentsReached.current = true;
-    }
-  };
-
-  const _handleOnPostLayout = (event) => {
-    const { height } = event.nativeEvent.layout;
-    console.log('post height', height);
-    setPostHeight(height);
-  };
-
   const _scrollToComments = () => {
-    if (scrollRef.current) {
-      const pos = postHeight;
-      scrollRef.current.scrollTo({ y: pos });
+    if (commentsListRef.current) {
+      commentsListRef.current.scrollToIndex({ index: 0, viewOffset: 108 });
     }
   };
 
@@ -130,7 +106,7 @@ const PostDisplayView = ({
     setCacheVoteIcrement(1);
   };
 
-  const _getTabBar = (isFixedFooter = false) => {
+  const _renderActionPanel = (isFixedFooter = false) => {
     return (
       <StickyBar isFixedFooter={isFixedFooter} style={styles.stickyBar}>
         <View style={[styles.stickyWrapper, { paddingBottom: insets.bottom ? insets.bottom : 8 }]}>
@@ -170,6 +146,7 @@ const PostDisplayView = ({
               textMarginLeft={20}
               onLongPress={_showQuickReplyModal}
               onPress={() => _scrollToComments()}
+              isLoading={!isLoadedComments}
             />
           )}
           {!isLoggedIn && (
@@ -211,13 +188,7 @@ const PostDisplayView = ({
 
   const { name } = currentAccount;
 
-  // const isPostEnd = scrollHeight > postHeight;
-  const isGetComment = scrollHeight + 300 > postHeight;
   const formatedTime = post && getTimeFromNow(post.created);
-
-  if (isGetComment && !isLoadedComments) {
-    setIsLoadedComments(true);
-  }
 
   if (isPostUnavailable) {
     return (
@@ -243,65 +214,70 @@ const PostDisplayView = ({
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <ScrollView
-        ref={scrollRef}
-        style={styles.scroll}
-        contentContainerStyle={[styles.scrollContent]}
-        onScroll={(event) => _handleOnScroll(event)}
-        scrollEventThrottle={16}
-        overScrollMode="never"
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-      >
-        <View style={{ width: WIDTH }}>
-          {parentPost && <ParentPost post={parentPost} />}
+  const _handleOnCommentsLoaded = () => {
+    setIsLoadedComments(true);
+  };
 
-          <View style={styles.header}>
-            {!post ? (
-              <PostPlaceHolder />
-            ) : (
-              <View onLayout={(event) => _handleOnPostLayout(event)}>
-                {!!post.title && <Text style={styles.title}>{post.title}</Text>}
-                <PostHeaderDescription
-                  date={formatedTime}
-                  name={author || post.author}
-                  currentAccountUsername={name}
-                  reputation={post.author_reputation}
-                  size={40}
-                  inlineTime={true}
-                  customStyle={styles.headerLine}
-                />
-                <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
-                {!postBodyLoading && (
-                  <View style={styles.footer}>
-                    <Tags tags={tags} />
-                    <Text style={styles.footerText}>
-                      Posted by
-                      <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
-                      {formatedTime}
-                    </Text>
-                  </View>
-                )}
+  const _postContentView = (
+    <>
+      {parentPost && <ParentPost post={parentPost} />}
+
+      <View style={styles.header}>
+        {!post ? (
+          <PostPlaceHolder />
+        ) : (
+          <View>
+            {!!post.title && <Text style={styles.title}>{post.title}</Text>}
+            <PostHeaderDescription
+              date={formatedTime}
+              name={author || post.author}
+              currentAccountUsername={name}
+              reputation={post.author_reputation}
+              size={40}
+              inlineTime={true}
+              customStyle={styles.headerLine}
+            />
+            <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
+            {!postBodyLoading && (
+              <View style={styles.footer}>
+                <Tags tags={tags} />
+                <Text style={styles.footerText}>
+                  Posted by
+                  <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
+                  {formatedTime}
+                </Text>
+                <WriteCommentButton ref={writeCommentRef} onPress={_showQuickReplyModal} />
               </View>
             )}
           </View>
-          {post && !postBodyLoading && (isGetComment || isLoadedComments) && (
-            <CommentsDisplay
-              ref={commentsRef}
-              author={author || post.author}
-              mainAuthor={author || post.author}
-              permlink={post.permlink}
-              commentCount={post.children}
-              fetchPost={fetchPost}
-              handleOnVotersPress={handleOnVotersPress}
-              handleOnReplyPress={_showQuickReplyModal}
-              fetchedAt={post.post_fetched_at}
-            />
-          )}
-        </View>
-      </ScrollView>
-      {post && _getTabBar(true)}
+        )}
+      </View>
+    </>
+  );
+
+  return (
+    <View style={styles.container}>
+      <View style={[styles.scroll, styles.scrollContent, { width: WIDTH }]}>
+        <CommentsDisplay
+          author={author || post?.author}
+          mainAuthor={author || post?.author}
+          permlink={post?.permlink}
+          commentCount={post?.children}
+          fetchPost={fetchPost}
+          handleOnVotersPress={handleOnVotersPress}
+          handleOnReplyPress={_showQuickReplyModal}
+          handleOnCommentsLoaded={_handleOnCommentsLoaded}
+          fetchedAt={post?.post_fetched_at}
+          isLoading={postBodyLoading}
+          postContentView={_postContentView}
+          flatListProps={{
+            ref: commentsListRef,
+            refreshControl: <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />,
+          }}
+        />
+      </View>
+      {post && _renderActionPanel(true)}
+
       <OptionsModal
         ref={actionSheet}
         options={[
