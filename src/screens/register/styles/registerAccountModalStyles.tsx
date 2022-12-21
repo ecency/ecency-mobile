@@ -20,7 +20,7 @@ export default EStyleSheet.create({
   },
 
   userInfoWrapper:{
-    backgroundColor:'$primaryBlue',
+    backgroundColor:'$primaryBlack',
     borderTopRightRadius:16,
     borderBottomRightRadius:16,
     paddingHorizontal:16,
@@ -40,20 +40,20 @@ export default EStyleSheet.create({
 
   contentContainer: {
     flex:1,
-    justifyContent: 'space-around',
     backgroundColor: '$primaryBackgroundColor',
 
   },
-  iconContainer: {
-    justifyContent: 'center',
+  headerContainer: {
+    width:'$deviceWidth - 160',
+    flexDirection:'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingBottom: 24,
     backgroundColor: '$primaryBackgroundColor',
   },
 
   logoEstm: {
-    width: '$deviceWidth / 1.4',
-    height: '$deviceHeight / 3',
+    width: 160,
+    height: 160,
   },
   desc: {
     width: '$deviceWidth / 1.5',
@@ -63,8 +63,51 @@ export default EStyleSheet.create({
   },
   productsWrapper: {
     paddingTop: 8,
-    paddingBottom: 52,
+    paddingBottom: 40,
     marginHorizontal: 16,
   },
+  cardContainer: {
+    backgroundColor: '$primaryLightBackground',
+    padding: 20,
+    borderRadius: 12,
+    elevation: 5,
+    marginBottom: 16,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  bulletPointContainer: {
+    marginBottom: 10,
+  },
+  description: {
+    fontSize: 14,
+    marginBottom: 10,
+  },
+  bulletPoint: {
+    fontSize: 14,
+    marginBottom: 5,
+  },
+  button: {
+    backgroundColor: '$primaryBlue',
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: '$pureWhite',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  registeringContainer:{
+    alignItems:'center',
+    flex:1,
+    marginTop:120,
+  },
+  registeringText:{
+    fontWeight:'600',
+    fontSize: 18,
+    marginTop:32
+  }
 
 });
