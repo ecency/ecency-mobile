@@ -146,17 +146,17 @@ class InAppPurchaseContainer extends Component {
               fetchData();
             }
             if (handleOnPurchaseSuccess) {
-              handleOnPurchaseSuccess()
+              handleOnPurchaseSuccess();
             }
           })
           .catch((err) => {
-            if(handleOnPurchaseFailure){
+            if (handleOnPurchaseFailure) {
               handleOnPurchaseFailure();
             }
             bugsnagInstance.notify(err, (report) => {
               report.addMetadata('data', data);
-            })
-        });
+            });
+          });
       }
     });
 
@@ -228,7 +228,6 @@ class InAppPurchaseContainer extends Component {
         bugsnagInstance.notify(err, (report) => {
           report.addMetadata('sku', sku);
         });
-
       }
     } else {
       navigation.navigate({

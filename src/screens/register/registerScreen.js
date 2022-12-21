@@ -190,23 +190,24 @@ const RegisterScreen = ({ navigation, route }) => {
                   id: 'login.cancel',
                 })}
               />
-               <MainButton
-                onPress={()=>registerAccountModalRef.current?.showModal()}
+              <MainButton
+                onPress={() => registerAccountModalRef.current?.showModal()}
                 iconName="arrow-forward"
                 iconColor="white"
-                iconPosition='right'
-                text={'Continue'}
+                iconPosition="right"
+                text="Continue"
                 isDisable={!isUsernameValid || !isRefUsernameValid || !isEmailValid}
                 isLoading={isLoading}
                 style={styles.mainButton}
               />
             </View>
           </KeyboardAvoidingView>
-          <RegisterAccountModal 
-            ref={registerAccountModalRef} 
-            username={username} 
+          <RegisterAccountModal
+            ref={registerAccountModalRef}
+            username={username}
             email={email}
-            refUsername={refUsername} />
+            refUsername={refUsername}
+          />
         </SafeAreaView>
       )}
     </RegisterContainer>

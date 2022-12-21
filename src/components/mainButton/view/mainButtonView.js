@@ -37,8 +37,17 @@ class MainButton extends Component {
   };
 
   _getBody = () => {
-    const { isLoading, text, secondText, iconColor, iconName, source, iconType, textStyle, iconPosition } =
-      this.props;
+    const {
+      isLoading,
+      text,
+      secondText,
+      iconColor,
+      iconName,
+      source,
+      iconType,
+      textStyle,
+      iconPosition,
+    } = this.props;
 
     if (isLoading) {
       this._getIndicator();
@@ -55,17 +64,23 @@ class MainButton extends Component {
           style={styles.icon}
         />
       )
-    )
+    );
 
     if (text) {
       return (
         <Fragment>
-          {(iconPosition !== 'right') && iconComponent}
-          <Text style={[styles.text, iconPosition === 'right' && {paddingLeft:24, paddingRight:0}, textStyle]}>
+          {iconPosition !== 'right' && iconComponent}
+          <Text
+            style={[
+              styles.text,
+              iconPosition === 'right' && { paddingLeft: 24, paddingRight: 0 },
+              textStyle,
+            ]}
+          >
             {text}
             {secondText && <Text style={styles.secondText}>{secondText}</Text>}
           </Text>
-          {iconPosition === 'right' && iconComponent }
+          {iconPosition === 'right' && iconComponent}
         </Fragment>
       );
     }
