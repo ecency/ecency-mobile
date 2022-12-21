@@ -10,6 +10,8 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { delay, extractFilenameFromPath } from '../../../utils/editor';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { useMediaQuery, useMediaUploadMutation } from '../../../providers/queries';
+import { showActionModal } from '../../../redux/actions/uiAction';
+import { openSettings } from 'react-native-permissions';
 
 export interface UploadsGalleryModalRef {
   showModal: () => void;
@@ -277,23 +279,30 @@ export const UploadsGalleryModal = forwardRef(
     };
 
     const _handleMediaOnSelectFailure = (error) => {
-      if (error.code === 'E_PERMISSION_MISSING') {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.permission_denied',
-          }),
-          intl.formatMessage({
-            id: 'alert.permission_text',
-          }),
-        );
-      } else {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
-          error.message || JSON.stringify(error),
-        );
+      let title = intl.formatMessage({id: 'alert.fail'});
+      let body = error.message || JSON.stringify(error);
+      switch(error.code){
+        case 'E_PERMISSION_MISSING':
+        case 'E_NO_LIBRARY_PERMISSION':
+          title = intl.formatMessage({
+              id: 'alert.permission_denied',
+            })
+          body = intl.formatMessage({
+              id: 'alert.permission_text',
+            })
+          break;
       }
+
+      dispatch(showActionModal({
+        title,
+        body,
+        buttons:[{
+          text:intl.formatMessage({id:'alert.open_settings'}),
+          onPress: () => {openSettings()}
+        }]
+      }))
+      // Alert.alert(title, body, [{},{}])
+
     };
 
     const _handleMediaInsertion = (data: MediaInsertData) => {
