@@ -1,30 +1,44 @@
 import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import { View, Text } from 'react-native';
+import { AssetIcon } from '../../../components/atoms';
 import { DataPair } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
 
 interface CoinBasicsProps {
+  assetId: string;
   valuePairs: DataPair[];
   extraData: DataPair[];
   coinSymbol: string;
   percentChange: number;
+  iconUrl?: string;
   onInfoPress: (id: string) => void;
 }
 
 export const CoinBasics = ({
+  assetId,
   valuePairs,
   extraData,
   coinSymbol,
   percentChange,
+  iconUrl,
+  isEngine,
   onInfoPress,
 }: CoinBasicsProps) => {
   const intl = useIntl();
   const _renderCoinHeader = (
     <>
       <View style={styles.coinTitleContainer}>
+        <AssetIcon
+          id={assetId}
+          iconUrl={iconUrl}
+          iconSize={40}
+          containerStyle={styles.iconContainer}
+          isEngine={isEngine}
+        />
         <Text style={styles.textCoinTitle}>{coinSymbol}</Text>
       </View>
+
       <Text style={styles.textHeaderChange}>
         {intl.formatMessage({ id: 'wallet.change' })}
         <Text style={percentChange > 0 ? styles.textPositive : styles.textNegative}>

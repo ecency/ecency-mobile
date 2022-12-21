@@ -4,18 +4,15 @@ import {
   Alert,
   Linking,
   AppState,
-  Appearance,
   NativeEventSubscription,
   EventSubscription,
 } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
-import get from 'lodash/get';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
-import { isEmpty, some } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
@@ -44,11 +41,7 @@ import {
   refreshSCToken,
   switchAccount,
 } from '../../../providers/hive/auth';
-import {
-  setPushToken,
-  markNotifications,
-  getUnreadNotificationCount,
-} from '../../../providers/ecency/ecency';
+import { setPushToken, getUnreadNotificationCount } from '../../../providers/ecency/ecency';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
 import RootNavigation from '../../../navigation/rootNavigation';
 

@@ -9,13 +9,17 @@ export default EStyleSheet.create({
     overflow: 'hidden',
     backgroundColor: '$primaryLightBackground',
   } as ViewStyle,
+  iconContainer:{
+    marginRight:8
+  } as ViewStyle,
   basicsContainer: {
     alignItems: 'center',
     padding: 16,
   } as ViewStyle,
   coinTitleContainer: {
     flexDirection: 'row',
-    marginTop: 8,
+    alignItems:'center',
+    marginTop:8
   } as ViewStyle,
   textCoinTitle: {
     color: '$primaryBlack',

@@ -51,6 +51,8 @@ export const getLatestQuotes = async (currencyRate: number): Promise<LatestMarke
     const data = convertLatestQuotes(res.data, currencyRate);
     console.log('parsed quotes data', data, currencyRate);
 
+    //TODO fetch engine quotes here
+
     return data;
   } catch (error) {
     bugsnagInstance.notify(error);

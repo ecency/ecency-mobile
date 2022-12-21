@@ -16,21 +16,22 @@ import { fetchCoinActivities } from '../../../utils/wallet';
 import { fetchAndSetCoinsData, setCoinActivities } from '../../../redux/actions/walletActions';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
-import { COIN_IDS } from '../../../constants/defaultCoins';
+import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
+import transferTypes from '../../../constants/transferTypes';
 
-export interface CoinDetailsScreenParams {
+export interface AssetDetailsScreenParams {
   coinId: string;
 }
 
-interface CoinDetailsScreenProps {
+interface AssetDetailsScreenProps {
   navigation: any;
   route: any;
 }
 
 const FETCH_ITEMS_LIMIT = 500;
 
-const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
+const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -45,6 +46,7 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
 
   // redux props
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const pin = useAppSelector((state) => state.application.pin);
   const globalProps = useAppSelector((state) => state.account.globalProps);
   const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
   const coinData: CoinData = useAppSelector((state) => state.wallet.coinsData[coinId]);
@@ -58,14 +60,14 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
 
   // state
   const [symbol] = useState(selectedCoins.find((item) => item.id === coinId).symbol);
-  const [refreshing, setRefreshing] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [completedActivities, setCompletedActivities] = useState(coinActivities?.completed || []);
   const [noMoreActivities, setNoMoreActivities] = useState(false);
 
   // side-effects
   useEffect(() => {
-    _fetchDetails(true);
+    _fetchDetails();
     const appStateSub = AppState.addEventListener('change', _handleAppStateChange);
     return _cleanup(appStateSub);
   }, []);
@@ -141,20 +143,38 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
     let navigateTo = ROUTES.SCREENS.TRANSFER;
     let navigateParams = {};
 
-    if (coinId === COIN_IDS.ECENCY && transferType !== 'dropdown_transfer') {
+    if (coinId === ASSET_IDS.ECENCY && transferType !== 'dropdown_transfer') {
       navigateTo = ROUTES.SCREENS.REDEEM;
       navigateParams = {
         balance: coinData.balance,
         redeemType: transferType === 'dropdown_promote' ? 'promote' : 'boost',
       };
     } else {
-      const balance =
-        transferType === 'withdraw_hive' || transferType === 'withdraw_hbd'
-          ? coinData.savings
-          : coinData.balance;
+      let { balance } = coinData;
+
+      switch (transferType) {
+        case transferTypes.UNSTAKE_ENGINE:
+          balance =
+            coinData.extraDataPairs?.reduce(
+              (bal, data) => (data.dataKey === 'staked' ? Number(data.value) : bal),
+              0,
+            ) ?? 0;
+          break;
+        case transferTypes.UNDELEGATE_ENGINE:
+          balance =
+            coinData.extraDataPairs?.reduce(
+              (bal, data) => (data.dataKey === 'delegations_out' ? Number(data.value) : bal),
+              0,
+            ) ?? 0;
+        case transferTypes.WITHDRAW_HIVE:
+        case transferTypes.WITHDRAW_HBD:
+          balance = coinData.savings ?? 0;
+          break;
+      }
+
       navigateParams = {
-        transferType: coinId === COIN_IDS.ECENCY ? 'points' : transferType,
-        fundType: coinId === COIN_IDS.ECENCY ? 'ESTM' : symbol,
+        transferType: coinId === ASSET_IDS.ECENCY ? 'points' : transferType,
+        fundType: coinId === ASSET_IDS.ECENCY ? 'ESTM' : symbol,
         balance,
       };
     }
@@ -184,7 +204,7 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
       id={coinId}
       coinSymbol={symbol}
       coinData={coinData}
-      percentChagne={quote.percentChange || 0}
+      percentChagne={quote ? quote.percentChange : coinData.percentChange || 0}
       onActionPress={_onActionPress}
       onInfoPress={_onInfoPress}
     />
@@ -199,6 +219,7 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
         pendingActivities={coinActivities?.pending || []}
         refreshing={refreshing}
         loading={loading}
+        isEngine={coinData.isEngine}
         onEndReached={_fetchDetails}
         onRefresh={_onRefresh}
       />
@@ -207,4 +228,4 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
   );
 };
 
-export default gestureHandlerRootHOC(CoinDetailsScreen);
+export default gestureHandlerRootHOC(AssetDetailsScreen);

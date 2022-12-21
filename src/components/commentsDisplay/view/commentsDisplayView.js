@@ -21,7 +21,6 @@ const CommentsDisplayView = forwardRef(
       handleOnVotersPress,
       handleOnReplyPress,
       handleOnCommentsLoaded,
-
     },
     ref,
   ) => {
@@ -46,7 +45,6 @@ const CommentsDisplayView = forwardRef(
       setSelectedOptionIndex(index);
     };
 
-
     const _postContentView = (
       <>
         {postContentView && postContentView}
@@ -61,9 +59,8 @@ const CommentsDisplayView = forwardRef(
             selectedOptionIndex={selectedOptionIndex}
           />
         )}
-
       </>
-    )
+    );
 
     return (
       <Comments
@@ -80,7 +77,6 @@ const CommentsDisplayView = forwardRef(
         handleOnVotersPress={handleOnVotersPress}
         handleOnReplyPress={handleOnReplyPress}
         handleOnCommentsLoaded={handleOnCommentsLoaded}
-
       />
     );
   },

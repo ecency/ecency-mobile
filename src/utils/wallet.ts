@@ -27,13 +27,13 @@ import { getEstimatedAmount } from './vote';
 import { getPointsSummary, getPointsHistory } from '../providers/ecency/ePoint';
 // Constant
 import POINTS from '../constants/options/points';
-import { COIN_IDS } from '../constants/defaultCoins';
-import {
-  ConversionRequest,
-  OpenOrderItem,
-  SavingsWithdrawRequest,
-} from '../providers/hive/hive.types';
+import { ASSET_IDS } from '../constants/defaultAssets';
+
 import parseAsset from './parseAsset';
+import {
+  fetchHiveEngineTokenBalances,
+} from '../providers/hive-engine/hiveEngine';
+import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
 
 export const transferTypes = [
   'curation_reward',
@@ -385,7 +385,7 @@ export const fetchCoinActivities = async (
   let history = [];
 
   switch (coinId) {
-    case COIN_IDS.ECENCY: {
+    case ASSET_IDS.ECENCY: {
       //TODO: remove condition when we have a way to fetch paginated points data
       if (startIndex !== -1) {
         return {
@@ -412,7 +412,7 @@ export const fetchCoinActivities = async (
         pending: [] as CoinActivity[],
       };
     }
-    case COIN_IDS.HIVE:
+    case ASSET_IDS.HIVE:
       history = await getAccountHistory(
         username,
         [
@@ -427,7 +427,7 @@ export const fetchCoinActivities = async (
         limit,
       );
       break;
-    case COIN_IDS.HBD:
+    case ASSET_IDS.HBD:
       history = await getAccountHistory(
         username,
         [
@@ -443,7 +443,7 @@ export const fetchCoinActivities = async (
         limit,
       );
       break;
-    case COIN_IDS.HP:
+    case ASSET_IDS.HP:
       history = await getAccountHistory(
         username,
         [
@@ -460,6 +460,10 @@ export const fetchCoinActivities = async (
         limit,
       );
       break;
+    default: return {
+      completed:[],
+      pending:[]
+    };
   }
 
   const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
@@ -483,6 +487,73 @@ export const fetchCoinActivities = async (
   };
 };
 
+
+const fetchEngineTokensData = async (username:string, hivePrice:number, vsCurrency:string) => {
+
+  const engineCoinData:{ [key: string]: CoinData } = {};
+
+  try{
+    const engineData = await fetchHiveEngineTokenBalances(username);
+    if (engineData) {
+      engineData.forEach((item) => {
+        if (item) {
+          const balance = item.balance;
+          const ppToken = hivePrice * (item.tokenPrice || 1); 
+  
+          const actions = [`${EngineActions.TRANSFER}_engine`]
+  
+          if(item.delegationEnabled){
+            actions.push(`${EngineActions.DELEGATE}_engine`);
+          }
+  
+          if(item.delegationEnabled && item.delegationsOut){
+            actions.push(`${EngineActions.UNDELEGATE}_engine`);
+          }
+  
+          if(item.stakingEnabled && item.balance > 0){
+            actions.push(`${EngineActions.STAKE}_engine`)
+          }
+  
+          if(item.stake){
+            actions.push(`${EngineActions.UNSTAKE}_engine`)
+          }
+  
+          engineCoinData[item.symbol] = {
+            name: item.name || '',
+            symbol: item.symbol,
+            iconUrl: item.icon || '',
+            balance: balance,
+            estimateValue: balance * ppToken,
+            vsCurrency: vsCurrency,
+            currentPrice: ppToken,
+            unclaimedBalance: item.unclaimedBalance,
+            isEngine: true,
+            percentChange: item.percentChange,
+            actions,
+            extraDataPairs:[{
+              dataKey: 'staked',
+              value: item.stake !== 0 ? `${item.stake}` : '0.00'
+            },{
+              dataKey: 'delegations_in',
+              value: item.delegationsIn !== 0 ? `${item.delegationsIn}` : '0.00'
+            },{
+              dataKey: 'delegations_out',
+              value: item.delegationsOut !== 0 ? `${item.delegationsOut}` : '0.00'
+            }]
+          };
+        }
+      });
+    }
+  } catch(err){
+    console.warn("failed to get engine tokens data", err);
+  }
+
+  return engineCoinData;
+  
+
+}
+
+
 export const fetchCoinsData = async ({
   coins,
   currentAccount,
@@ -501,7 +572,7 @@ export const fetchCoinsData = async ({
   refresh: boolean;
 }): Promise<{ [key: string]: CoinData }> => {
   const username = currentAccount.username;
-  const coinData = {} as { [key: string]: CoinData };
+  let coinData = {} as { [key: string]: CoinData };
   const walletData = {} ;
 
   if (!username) {
@@ -519,7 +590,7 @@ export const fetchCoinsData = async ({
 
   coins.forEach((coinBase) => {
     switch (coinBase.id) {
-      case COIN_IDS.ECENCY: {
+      case ASSET_IDS.ECENCY: {
         const balance = _pointsSummary.points ? parseFloat(_pointsSummary.points) : 0;
         const unclaimedFloat = parseFloat(_pointsSummary.unclaimed_points || '0');
         const unclaimedBalance = unclaimedFloat ? unclaimedFloat + ' Points' : '';
@@ -535,7 +606,7 @@ export const fetchCoinsData = async ({
         };
         break;
       }
-      case COIN_IDS.HIVE: {
+      case ASSET_IDS.HIVE: {
         const balance = parseToken(userdata.balance);
         const savings = parseToken(userdata.savings_balance);
         const ppHive = _prices[coinBase.id].price;
@@ -552,7 +623,7 @@ export const fetchCoinsData = async ({
         break;
       }
 
-      case COIN_IDS.HBD: {
+      case ASSET_IDS.HBD: {
         const balance = parseToken(userdata.hbd_balance);
         const savings = parseToken(userdata.savings_hbd_balance);
         const ppHbd = _prices[coinBase.id].price;
@@ -568,7 +639,7 @@ export const fetchCoinsData = async ({
         };
         break;
       }
-      case COIN_IDS.HP: {
+      case ASSET_IDS.HP: {
         const _getBalanceStr = (val: number, cur: string) =>
           val ? Math.round(val * 1000) / 1000 + cur : '';
         const balance =
@@ -647,7 +718,7 @@ export const fetchCoinsData = async ({
           },
         ]);
 
-        const ppHive = _prices[COIN_IDS.HIVE].price;
+        const ppHive = _prices[ASSET_IDS.HIVE].price;
         coinData[coinBase.id] = {
           balance: Math.round(balance * 1000) / 1000,
           estimateValue: balance * ppHive,
@@ -679,6 +750,11 @@ export const fetchCoinsData = async ({
         break;
     }
   });
+
+
+  const engineCoinsData = await fetchEngineTokensData(username, _prices.hive.price, vsCurrency);
+  coinData = {...coinData, ...engineCoinsData};
+
 
   //TODO:discard unnessacry data processings towards the end of PR
   walletData.rewardHiveBalance = parseToken(userdata.reward_hive_balance);

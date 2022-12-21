@@ -11,6 +11,9 @@ const POWER_DOWN = 'power_down';
 const ADDRESS_VIEW = 'address_view';
 const DELEGATE_VESTING_SHARES = 'delegate_vesting_shares';
 const WITHDRAW_VESTING = 'withdraw_vesting';
+const TRANSFER_ENGINE = 'transfer_engine';
+const UNSTAKE_ENGINE = 'unstake_engine';
+const UNDELEGATE_ENGINE = 'undelegate_engine';
 
 export default {
   TRANSFER_TOKEN,
@@ -26,4 +29,7 @@ export default {
   ADDRESS_VIEW,
   DELEGATE_VESTING_SHARES,
   WITHDRAW_VESTING,
+  TRANSFER_ENGINE,
+  UNSTAKE_ENGINE,
+  UNDELEGATE_ENGINE,
 };

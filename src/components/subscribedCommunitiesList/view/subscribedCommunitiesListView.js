@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useIntl } from 'react-intl';
 
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { MainButton, Tag, TextButton, UserAvatar } from '../../index';
 import { ListPlaceHolder } from '../../basicUIElements';
 
@@ -16,7 +17,6 @@ import DEFAULT_IMAGE from '../../../assets/no_image.png';
 
 import styles from './subscribedCommunitiesListStyles';
 import globalStyles from '../../../globalStyles';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 const SubscribedCommunitiesListView = ({
   data,

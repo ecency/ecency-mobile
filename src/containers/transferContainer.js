@@ -25,6 +25,13 @@ import { getPointsSummary } from '../providers/ecency/ePoint';
 import { countDecimals } from '../utils/number';
 import bugsnagInstance from '../config/bugsnag';
 import { fetchAndSetCoinsData } from '../redux/actions/walletActions';
+import {
+  delegateHiveEngine,
+  stakeHiveEngine,
+  transferHiveEngine,
+  undelegateHiveEngine,
+  unstakeHiveEngine,
+} from '../providers/hive-engine/hiveEngineActions';
 
 /*
  *            Props Name        Description                                     Value
@@ -144,6 +151,7 @@ class TransferContainer extends Component {
       destination,
       amount,
       memo,
+      fundType,
     };
 
     if (countDecimals(Number(data.amount)) < 3) {
@@ -188,6 +196,21 @@ class TransferContainer extends Component {
         func = delegateVestingShares;
         currentAccount = selectedAccount;
         data.amount = `${amount.toFixed(6)} VESTS`;
+        break;
+      case 'transfer_engine':
+        func = transferHiveEngine;
+        break;
+      case 'stake_engine':
+        func = stakeHiveEngine;
+        break;
+      case 'delegate_engine':
+        func = delegateHiveEngine;
+        break;
+      case 'unstake_engine':
+        func = unstakeHiveEngine;
+        break;
+      case 'undelegate_engine':
+        func = undelegateHiveEngine;
         break;
       default:
         break;

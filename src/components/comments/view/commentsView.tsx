@@ -37,7 +37,7 @@ const CommentsView = ({
   fetchedAt,
   incrementRepliesCount,
   postContentView,
-  isLoading
+  isLoading,
 }) => {
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
@@ -136,7 +136,6 @@ const CommentsView = ({
       </Text>
     );
   };
-  
 
   return (
     <Fragment>

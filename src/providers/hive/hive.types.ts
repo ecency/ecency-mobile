@@ -109,3 +109,10 @@ export interface SavingsWithdrawRequest {
   amount: string;
   complete: string;
 }
+
+export interface TransferDataType {
+  fundType:string,
+  destination:string
+  amount: string
+  memo?:string
+}

@@ -7,6 +7,7 @@ import { injectIntl } from 'react-intl';
 
 // Components
 import { FlatList } from 'react-native-gesture-handler';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { ContainerHeader } from '../../containerHeader';
 import { FilterBar } from '../../filterBar';
 import { NotificationLine } from '../..';
@@ -19,7 +20,6 @@ import { isToday, isYesterday, isThisWeek, isLastWeek, isThisMonth } from '../..
 // Styles
 import styles from './notificationStyles';
 import globalStyles from '../../../globalStyles';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 class NotificationView extends PureComponent {
   /* Props

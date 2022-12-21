@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useIntl } from 'react-intl';
 
+import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './communitiesListItemStyles';
 
 import { Tag } from '../../../../basicUIElements';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 const CommunitiesListItem = ({
   index,

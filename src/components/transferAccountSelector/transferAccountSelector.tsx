@@ -126,20 +126,22 @@ const TransferAccountSelector = ({
         label={intl.formatMessage({ id: 'transfer.from' })}
         rightComponent={() => _renderDropdown(accounts, currentAccountName)}
       />
-      {transferType !== transferTypes.CONVERT && transferType !== transferTypes.PURCHASE_ESTM && (
-        <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.to' })}
-          rightComponent={() =>
-            _renderInput(
-              intl.formatMessage({ id: 'transfer.to_placeholder' }),
-              'destination',
-              'default',
-              false,
-            )
-          }
-          containerStyle={styles.elevate}
-        />
-      )}
+      {transferType !== transferTypes.CONVERT &&
+        transferType !== transferTypes.PURCHASE_ESTM &&
+        transferType !== transferTypes.UNSTAKE_ENGINE && (
+          <TransferFormItem
+            label={intl.formatMessage({ id: 'transfer.to' })}
+            rightComponent={() =>
+              _renderInput(
+                intl.formatMessage({ id: 'transfer.to_placeholder' }),
+                'destination',
+                'default',
+                false,
+              )
+            }
+            containerStyle={styles.elevate}
+          />
+        )}
 
       <View style={styles.toFromAvatarsContainer}>
         <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />

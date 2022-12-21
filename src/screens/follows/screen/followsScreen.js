@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl';
 
 // Constants
 import { useNavigation } from '@react-navigation/native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import ROUTES from '../../../constants/routeNames';
 
 // Components
@@ -12,7 +13,6 @@ import { BasicHeader, UserListItem } from '../../../components';
 
 // Utils
 import styles from './followScreenStyles';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 class FollowsScreen extends PureComponent {
   /* Props

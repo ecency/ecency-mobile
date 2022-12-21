@@ -17,7 +17,7 @@ import { getEstimatedAmount } from '../utils/vote';
 
 // Constants
 import ROUTES from '../constants/routeNames';
-import { COIN_IDS } from '../constants/defaultCoins';
+import { ASSET_IDS } from '../constants/defaultAssets';
 
 const HIVE_DROPDOWN = [
   'purchase_estm',
@@ -278,12 +278,12 @@ const WalletContainer = ({
   let estimateValue = 0;
   let savings = 0;
   switch (coinSymbol) {
-    case COIN_IDS.HIVE:
+    case ASSET_IDS.HIVE:
       balance = hiveBalance;
       estimateValue = estimatedHiveValue;
       savings = hiveSavingBalance;
       break;
-    case COIN_IDS.HBD:
+    case ASSET_IDS.HBD:
       balance = hbdBalance;
       estimateValue = estimatedHbdValue;
       savings = hbdSavingBalance;

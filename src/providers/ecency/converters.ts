@@ -1,4 +1,4 @@
-import { COIN_IDS } from '../../constants/defaultCoins';
+import { ASSET_IDS } from '../../constants/defaultAssets';
 import { Referral } from '../../models';
 import {
   CommentHistoryItem,
@@ -38,10 +38,10 @@ export const convertQuoteItem = (rawData: any, currencyRate: number) => {
 
 export const convertLatestQuotes = (rawData: any, currencyRate: number) => {
   return {
-    [COIN_IDS.HIVE]: convertQuoteItem(rawData.hive.quotes.usd, currencyRate),
-    [COIN_IDS.HP]: convertQuoteItem(rawData.hive.quotes.usd, currencyRate),
-    [COIN_IDS.HBD]: convertQuoteItem(rawData.hbd.quotes.usd, currencyRate),
-    [COIN_IDS.ECENCY]: convertQuoteItem(rawData.estm.quotes.usd, currencyRate),
+    [ASSET_IDS.HIVE]: convertQuoteItem(rawData.hive.quotes.usd, currencyRate),
+    [ASSET_IDS.HP]: convertQuoteItem(rawData.hive.quotes.usd, currencyRate),
+    [ASSET_IDS.HBD]: convertQuoteItem(rawData.hbd.quotes.usd, currencyRate),
+    [ASSET_IDS.ECENCY]: convertQuoteItem(rawData.estm.quotes.usd, currencyRate),
   } as LatestQuotes;
 };
 
