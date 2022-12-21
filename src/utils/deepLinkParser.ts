@@ -100,7 +100,7 @@ export const deepLinkParser = async (url, currentAccount) => {
 
   // process url for purchasing
   if (!routeName) {
-    const { type, username, productId } = parsePurchaseUrl(url) || {};
+    const { type, username, email, referredUser, productId } = parsePurchaseUrl(url) || {};
 
     if (type && type === 'boost') {
       routeName = ROUTES.SCREENS.ACCOUNT_BOOST;
@@ -115,6 +115,16 @@ export const deepLinkParser = async (url, currentAccount) => {
         username,
         productId,
       };
+      keey = `${type}/${username || ''}`;
+    }
+    if(type && type === 'account') {
+      routeName = ROUTES.SCREENS.REGISTER;
+      params = {
+        username,
+        email,
+        referredUser,
+        purchaseOnly:true,
+      },
       keey = `${type}/${username || ''}`;
     }
   }
