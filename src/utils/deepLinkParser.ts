@@ -117,15 +117,15 @@ export const deepLinkParser = async (url, currentAccount) => {
       };
       keey = `${type}/${username || ''}`;
     }
-    if(type && type === 'account') {
+    if (type && type === 'account') {
       routeName = ROUTES.SCREENS.REGISTER;
-      params = {
+      (params = {
         username,
         email,
         referredUser,
-        purchaseOnly:true,
-      },
-      keey = `${type}/${username || ''}`;
+        purchaseOnly: true,
+      }),
+        (keey = `${type}/${username || ''}`);
     }
   }
 

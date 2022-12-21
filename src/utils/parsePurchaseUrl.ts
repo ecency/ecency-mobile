@@ -22,7 +22,7 @@ export default (urlString: string) => {
       username,
       productId,
       email,
-      referredUser
+      referredUser,
     };
   }
 

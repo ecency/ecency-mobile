@@ -17,7 +17,6 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 // Internal Components
 import { FormInput, InformationArea, MainButton, TextButton } from '../../components';
 
-
 // Constants
 import ROUTES from '../../constants/routeNames';
 
@@ -61,25 +60,23 @@ const RegisterScreen = ({ navigation, route }) => {
     };
   }, []);
 
-  useEffect(()=>{
-    if(registerAccountModalRef.current){
-      const {purchaseOnly, email, username, referredUser} = route.params || {}
-      if(email){
+  useEffect(() => {
+    if (registerAccountModalRef.current) {
+      const { purchaseOnly, email, username, referredUser } = route.params || {};
+      if (email) {
         _handleEmailChange(email);
       }
-      if(username){
-        _handleUsernameChange({value:username,})
+      if (username) {
+        _handleUsernameChange({ value: username });
       }
-      if(referredUser){
-        _handleRefUsernameChange({value:referredUser})
+      if (referredUser) {
+        _handleRefUsernameChange({ value: referredUser });
       }
-      if(purchaseOnly && email && username){
-          registerAccountModalRef.current.showModal({purchaseOnly});
+      if (purchaseOnly && email && username) {
+        registerAccountModalRef.current.showModal({ purchaseOnly });
       }
-
     }
-  },[registerAccountModalRef])
-
+  }, [registerAccountModalRef]);
 
   const _getAccountsWithUsername = async (username) => {
     if (!isConnected) {
@@ -91,7 +88,7 @@ const RegisterScreen = ({ navigation, route }) => {
 
       return validUsers;
     } catch (error) {
-       Alert.alert(
+      Alert.alert(
         intl.formatMessage({ id: 'alert.error' }),
         intl.formatMessage({ id: 'alert.unknow_error' }),
       );
@@ -111,7 +108,7 @@ const RegisterScreen = ({ navigation, route }) => {
       setIsUsernameValid(false);
       return;
     }
-  
+
     _getAccountsWithUsername(value).then((res) => {
       const isValid = !res.includes(value);
       setIsUsernameValid(isValid);
@@ -131,122 +128,122 @@ const RegisterScreen = ({ navigation, route }) => {
   };
 
   return (
-        <SafeAreaView style={styles.container}>
-          <StatusBar hidden translucent />
-          <View style={styles.headerRow}>
-            <Image style={styles.logo} source={ESTEEM_SMALL_LOGO} />
-            <View style={styles.headerButton}>
-              <TextButton
-                onPress={() => {
-                  navigation.replace(ROUTES.SCREENS.LOGIN);
-                }}
-                text="LOGIN"
-                textStyle={{ color: '#357ce6' }}
-              />
-            </View>
-          </View>
-          <Animatable.View
-            animation={keyboardIsOpen ? hideAnimation : showAnimation}
-            delay={0}
-            duration={300}
-          >
-            <View style={styles.header}>
-              <View style={styles.titleText}>
-                <Text style={styles.title}>{intl.formatMessage({ id: 'register.title' })}</Text>
-                <Text style={styles.description}>
-                  {intl.formatMessage({ id: 'register.title_description' })}
-                </Text>
-              </View>
-              <Image style={styles.mascot} source={ESTEEM_LOGO} />
-            </View>
-          </Animatable.View>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={styles.formWrapper}
-            keyboardShouldPersistTaps
-          >
-            <View style={styles.body}>
-              <FormInput
-                rightIconName="at"
-                leftIconName="close"
-                iconType="MaterialCommunityIcons"
-                isValid={isUsernameValid}
-                onChange={(value) => _handleUsernameChange({ value })}
-                placeholder={intl.formatMessage({
-                  id: 'register.username',
-                })}
-                isEditable
-                type="username"
-                isFirstImage
-                value={username}
-                inputStyle={styles.input}
-                onFocus={() => setKeyboardIsOpen(true)}
-              />
-              <FormInput
-                rightIconName="mail"
-                leftIconName="close"
-                isValid={isEmailValid}
-                onChange={_handleEmailChange}
-                placeholder={intl.formatMessage({
-                  id: 'register.mail',
-                })}
-                isEditable
-                type="emailAddress"
-                value={email}
-                inputStyle={styles.input}
-                onFocus={() => setKeyboardIsOpen(true)}
-              />
-              <FormInput
-                rightIconName="person"
-                leftIconName="close"
-                isValid={isRefUsernameValid}
-                onChange={(value) => _handleRefUsernameChange({ value })}
-                placeholder={intl.formatMessage({
-                  id: 'register.ref_user',
-                })}
-                isEditable
-                type="username"
-                isFirstImage
-                value={refUsername}
-                inputStyle={styles.input}
-                onFocus={() => setKeyboardIsOpen(true)}
-              />
-              <InformationArea
-                description={intl.formatMessage({ id: 'register.form_description' })}
-                iconName="ios-information-circle-outline"
-                link={ECENCY_TERMS_URL}
-              />
-            </View>
-            <View style={styles.footerButtons}>
-              <TextButton
-                style={styles.cancelButton}
-                onPress={() => {
-                  navigation.navigate({
-                    name: ROUTES.DRAWER.MAIN,
-                  });
-                }}
-                text={intl.formatMessage({
-                  id: 'login.cancel',
-                })}
-              />
-              <MainButton
-                onPress={() => registerAccountModalRef.current?.showModal()}
-                iconName="arrow-forward"
-                iconColor="white"
-                iconPosition="right"
-                text="Continue"
-                isDisable={!isUsernameValid || !isRefUsernameValid || !isEmailValid}
-                style={styles.mainButton}
-              />
-            </View>
-          </KeyboardAvoidingView>
-          <RegisterAccountModal
-            ref={registerAccountModalRef}
-            username={username}
-            email={email}
-            refUsername={refUsername}
+    <SafeAreaView style={styles.container}>
+      <StatusBar hidden translucent />
+      <View style={styles.headerRow}>
+        <Image style={styles.logo} source={ESTEEM_SMALL_LOGO} />
+        <View style={styles.headerButton}>
+          <TextButton
+            onPress={() => {
+              navigation.replace(ROUTES.SCREENS.LOGIN);
+            }}
+            text="LOGIN"
+            textStyle={{ color: '#357ce6' }}
           />
-        </SafeAreaView>
+        </View>
+      </View>
+      <Animatable.View
+        animation={keyboardIsOpen ? hideAnimation : showAnimation}
+        delay={0}
+        duration={300}
+      >
+        <View style={styles.header}>
+          <View style={styles.titleText}>
+            <Text style={styles.title}>{intl.formatMessage({ id: 'register.title' })}</Text>
+            <Text style={styles.description}>
+              {intl.formatMessage({ id: 'register.title_description' })}
+            </Text>
+          </View>
+          <Image style={styles.mascot} source={ESTEEM_LOGO} />
+        </View>
+      </Animatable.View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.formWrapper}
+        keyboardShouldPersistTaps
+      >
+        <View style={styles.body}>
+          <FormInput
+            rightIconName="at"
+            leftIconName="close"
+            iconType="MaterialCommunityIcons"
+            isValid={isUsernameValid}
+            onChange={(value) => _handleUsernameChange({ value })}
+            placeholder={intl.formatMessage({
+              id: 'register.username',
+            })}
+            isEditable
+            type="username"
+            isFirstImage
+            value={username}
+            inputStyle={styles.input}
+            onFocus={() => setKeyboardIsOpen(true)}
+          />
+          <FormInput
+            rightIconName="mail"
+            leftIconName="close"
+            isValid={isEmailValid}
+            onChange={_handleEmailChange}
+            placeholder={intl.formatMessage({
+              id: 'register.mail',
+            })}
+            isEditable
+            type="emailAddress"
+            value={email}
+            inputStyle={styles.input}
+            onFocus={() => setKeyboardIsOpen(true)}
+          />
+          <FormInput
+            rightIconName="person"
+            leftIconName="close"
+            isValid={isRefUsernameValid}
+            onChange={(value) => _handleRefUsernameChange({ value })}
+            placeholder={intl.formatMessage({
+              id: 'register.ref_user',
+            })}
+            isEditable
+            type="username"
+            isFirstImage
+            value={refUsername}
+            inputStyle={styles.input}
+            onFocus={() => setKeyboardIsOpen(true)}
+          />
+          <InformationArea
+            description={intl.formatMessage({ id: 'register.form_description' })}
+            iconName="ios-information-circle-outline"
+            link={ECENCY_TERMS_URL}
+          />
+        </View>
+        <View style={styles.footerButtons}>
+          <TextButton
+            style={styles.cancelButton}
+            onPress={() => {
+              navigation.navigate({
+                name: ROUTES.DRAWER.MAIN,
+              });
+            }}
+            text={intl.formatMessage({
+              id: 'login.cancel',
+            })}
+          />
+          <MainButton
+            onPress={() => registerAccountModalRef.current?.showModal()}
+            iconName="arrow-forward"
+            iconColor="white"
+            iconPosition="right"
+            text="Continue"
+            isDisable={!isUsernameValid || !isRefUsernameValid || !isEmailValid}
+            style={styles.mainButton}
+          />
+        </View>
+      </KeyboardAvoidingView>
+      <RegisterAccountModal
+        ref={registerAccountModalRef}
+        username={username}
+        email={email}
+        refUsername={refUsername}
+      />
+    </SafeAreaView>
   );
 };
 
