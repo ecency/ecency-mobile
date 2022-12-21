@@ -296,6 +296,7 @@
     "deep_login_malformed_url":"Malformed login url, please use private key or password to login" 
   },
   "register": {
+    "modal_title":"Get Hive Account",
     "button": "Sign Up",
     "title": "Sign up",
     "username": "Pick a username",
@@ -303,7 +304,8 @@
     "ref_user": "Referred user (Optional)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
     "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies.",
+    "registering":"Registering Your Account..."
   },
   "home": {
     "feed": "Feed",
@@ -720,9 +722,14 @@
     "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "buy_account":{
-    "title": "Get Ecency Account",
-    "btn_buy": "Buy Account",
-    "desc": "Ecency let's buy account as inAppPurchase that instantly verifies your account legitimacy and grant you access to HIVE for blogging."
+    "title": "Buy Account",
+    "btn_register": "Buy Account - {price}",
+    "desc": "Ecency let's you buy account as inAppPurchase that instantly verifies your account legitimacy and grant you access to HIVE for blogging."
+  },
+  "free_account":{
+    "title": "Free Account",
+    "btn_register": "Register Free",
+    "desc": "Get a free Hive account without spending anything. We try hard to arrange free Hive accounts for our users, usually one per device."
   },
   "free_estm": {
     "title": "Free Points",
