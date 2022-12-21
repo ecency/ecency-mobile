@@ -26,7 +26,7 @@ import styles from './registerStyles';
 import ESTEEM_LOGO from '../../assets/like_new.png';
 import ESTEEM_SMALL_LOGO from '../../assets/ecency_logo_transparent.png';
 import getWindowDimensions from '../../utils/getWindowDimensions';
-import { BuyAccountModal } from './children/buyAccountModal';
+import { RegisterAccountModal } from './children/registerAccountModal';
 import { ECENCY_TERMS_URL } from '../../config/ecencyApi';
 
 const RegisterScreen = ({ navigation, route }) => {
@@ -90,7 +90,7 @@ const RegisterScreen = ({ navigation, route }) => {
         isLoading,
         handleOnPressRegister,
         referredUser,
-        buyAccountModalRef,
+        registerAccountModalRef,
       }) => (
         <SafeAreaView style={styles.container}>
           <StatusBar hidden translucent />
@@ -190,29 +190,23 @@ const RegisterScreen = ({ navigation, route }) => {
                   id: 'login.cancel',
                 })}
               />
-              <MainButton
-                onPress={() => buyAccountModalRef.current.showModal()}
-                iconName="shopping-cart"
+               <MainButton
+                onPress={()=>registerAccountModalRef.current?.showModal()}
+                iconName="arrow-forward"
                 iconColor="white"
-                text="Buy"
-                isDisable={!isUsernameValid || !isRefUsernameValid || !isEmailValid}
-                isLoading={isLoading}
-                style={styles.mainButton}
-              />
-              <MainButton
-                onPress={() => handleOnPressRegister({ username, email, refUsername })}
-                iconName="person"
-                iconColor="white"
-                text={intl.formatMessage({
-                  id: 'register.button',
-                })}
+                iconPosition='right'
+                text={'Continue'}
                 isDisable={!isUsernameValid || !isRefUsernameValid || !isEmailValid}
                 isLoading={isLoading}
                 style={styles.mainButton}
               />
             </View>
           </KeyboardAvoidingView>
-          <BuyAccountModal ref={buyAccountModalRef} username={username} email={email} />
+          <RegisterAccountModal 
+            ref={registerAccountModalRef} 
+            username={username} 
+            email={email}
+            refUsername={refUsername} />
         </SafeAreaView>
       )}
     </RegisterContainer>
