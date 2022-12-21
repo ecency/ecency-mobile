@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   StatusBar,
@@ -8,14 +8,15 @@ import {
   SafeAreaView,
   Keyboard,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import { useIntl } from 'react-intl';
 import * as Animatable from 'react-native-animatable';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import RegisterContainer from './registerContainer';
 
 // Internal Components
 import { FormInput, InformationArea, MainButton, TextButton } from '../../components';
+
 
 // Constants
 import ROUTES from '../../constants/routeNames';
@@ -28,13 +29,20 @@ import ESTEEM_SMALL_LOGO from '../../assets/ecency_logo_transparent.png';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 import { RegisterAccountModal } from './children/registerAccountModal';
 import { ECENCY_TERMS_URL } from '../../config/ecencyApi';
+import { lookupAccounts } from '../../providers/hive/dhive';
+import { useAppSelector } from '../../hooks';
 
 const RegisterScreen = ({ navigation, route }) => {
   const intl = useIntl();
+
+  const registerAccountModalRef = useRef(null);
+
+  const isConnected = useAppSelector((state) => state.application.isConnected);
+
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(route.params?.username ?? '');
   const [isUsernameValid, setIsUsernameValid] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(route.params?.email ?? '');
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [refUsername, setRefUsername] = useState(route.params?.referredUser ?? '');
   const [isRefUsernameValid, setIsRefUsernameValid] = useState(true);
@@ -46,11 +54,49 @@ const RegisterScreen = ({ navigation, route }) => {
     const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
       setKeyboardIsOpen(false);
     });
+
     return () => {
       keyboardDidHideListener.remove();
       keyboardDidShowListener.remove();
     };
   }, []);
+
+  useEffect(()=>{
+    if(registerAccountModalRef.current){
+      const {purchaseOnly, email, username, referredUser} = route.params || {}
+      if(email){
+        _handleEmailChange(email);
+      }
+      if(username){
+        _handleUsernameChange({value:username,})
+      }
+      if(referredUser){
+        _handleRefUsernameChange({value:referredUser})
+      }
+      if(purchaseOnly && email && username){
+          registerAccountModalRef.current.showModal({purchaseOnly});
+      }
+
+    }
+  },[registerAccountModalRef])
+
+
+  const _getAccountsWithUsername = async (username) => {
+    if (!isConnected) {
+      return null;
+    }
+
+    try {
+      const validUsers = await lookupAccounts(username);
+
+      return validUsers;
+    } catch (error) {
+       Alert.alert(
+        intl.formatMessage({ id: 'alert.error' }),
+        intl.formatMessage({ id: 'alert.unknow_error' }),
+      );
+    }
+  };
 
   const _handleEmailChange = (value) => {
     const re =
@@ -59,39 +105,32 @@ const RegisterScreen = ({ navigation, route }) => {
     setEmail(value);
   };
 
-  const _handleUsernameChange = ({ value, getAccountsWithUsername }) => {
+  const _handleUsernameChange = ({ value }) => {
     setUsername(value);
     if (!value || value.length <= 2 || value.length >= 16) {
       setIsUsernameValid(false);
       return;
     }
-    getAccountsWithUsername(value).then((res) => {
+  
+    _getAccountsWithUsername(value).then((res) => {
       const isValid = !res.includes(value);
       setIsUsernameValid(isValid);
     });
   };
 
-  const _handleRefUsernameChange = ({ value, getAccountsWithUsername }) => {
+  const _handleRefUsernameChange = ({ value }) => {
     setRefUsername(value);
     if (!value) {
       setIsRefUsernameValid(true);
       return;
     }
-    getAccountsWithUsername(value).then((res) => {
+    _getAccountsWithUsername(value).then((res) => {
       const isValid = res.includes(value);
       setIsRefUsernameValid(isValid);
     });
   };
 
   return (
-    <RegisterContainer>
-      {({
-        getAccountsWithUsername,
-        isLoading,
-        handleOnPressRegister,
-        referredUser,
-        registerAccountModalRef,
-      }) => (
         <SafeAreaView style={styles.container}>
           <StatusBar hidden translucent />
           <View style={styles.headerRow}>
@@ -132,7 +171,7 @@ const RegisterScreen = ({ navigation, route }) => {
                 leftIconName="close"
                 iconType="MaterialCommunityIcons"
                 isValid={isUsernameValid}
-                onChange={(value) => _handleUsernameChange({ value, getAccountsWithUsername })}
+                onChange={(value) => _handleUsernameChange({ value })}
                 placeholder={intl.formatMessage({
                   id: 'register.username',
                 })}
@@ -161,7 +200,7 @@ const RegisterScreen = ({ navigation, route }) => {
                 rightIconName="person"
                 leftIconName="close"
                 isValid={isRefUsernameValid}
-                onChange={(value) => _handleRefUsernameChange({ value, getAccountsWithUsername })}
+                onChange={(value) => _handleRefUsernameChange({ value })}
                 placeholder={intl.formatMessage({
                   id: 'register.ref_user',
                 })}
@@ -197,7 +236,6 @@ const RegisterScreen = ({ navigation, route }) => {
                 iconPosition="right"
                 text="Continue"
                 isDisable={!isUsernameValid || !isRefUsernameValid || !isEmailValid}
-                isLoading={isLoading}
                 style={styles.mainButton}
               />
             </View>
@@ -209,8 +247,6 @@ const RegisterScreen = ({ navigation, route }) => {
             refUsername={refUsername}
           />
         </SafeAreaView>
-      )}
-    </RegisterContainer>
   );
 };
 

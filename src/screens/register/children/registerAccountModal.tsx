@@ -33,8 +33,9 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
   const [isRegistering, setIsRegistering] = useState(false);
 
   useImperativeHandle(ref, () => ({
-    showModal: () => {
+    showModal: ({purchaseOnly}:{purchaseOnly:boolean} = {purchaseOnly:false}) => {
       setShowModal(true);
+      setDisableFree(purchaseOnly)
     },
   }));
 
