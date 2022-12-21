@@ -103,6 +103,8 @@ class InAppPurchaseContainer extends Component {
       fetchData,
       username,
       email,
+      handleOnPurchaseFailure,
+      handleOnPurchaseSuccess,
     } = this.props;
 
     this.purchaseUpdateSubscription = IAP.purchaseUpdatedListener((purchase) => {
@@ -143,12 +145,18 @@ class InAppPurchaseContainer extends Component {
             if (fetchData) {
               fetchData();
             }
+            if (handleOnPurchaseSuccess) {
+              handleOnPurchaseSuccess()
+            }
           })
-          .catch((err) =>
+          .catch((err) => {
+            if(handleOnPurchaseFailure){
+              handleOnPurchaseFailure();
+            }
             bugsnagInstance.notify(err, (report) => {
               report.addMetadata('data', data);
-            }),
-          );
+            })
+        });
       }
     });
 
@@ -173,6 +181,9 @@ class InAppPurchaseContainer extends Component {
         );
       }
       this.setState({ isProcessing: false });
+      if (handleOnPurchaseFailure) {
+        handleOnPurchaseFailure();
+      }
     });
   };
 
@@ -217,6 +228,7 @@ class InAppPurchaseContainer extends Component {
         bugsnagInstance.notify(err, (report) => {
           report.addMetadata('sku', sku);
         });
+
       }
     } else {
       navigation.navigate({
