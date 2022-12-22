@@ -525,7 +525,8 @@
     "invalid_response": "Nije moguće obraditi zahtjev, pokušajte ponovo kasnije.",
     "wallet_updating": "Wallet update in progress, try again as update finishes",
     "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
-    "connection_issues": "The server is unreachable, please check your connection and try again."
+    "connection_issues": "The server is unreachable, please check your connection and try again.",
+    "open_settings": "Open Settings"
   },
   "post": {
     "reblog_alert": "Da li ste sigurni da želite da podjelite?",
