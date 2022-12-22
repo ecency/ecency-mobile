@@ -525,7 +525,8 @@
     "invalid_response": "Negalėjome įvykdyti užklausos, pabandykite vėliau.",
     "wallet_updating": "Pinigės atnaujinimas atliekamas, pabandykite kai atnaujinimas pasibaigs",
     "claim_failed": "Nepavyko atsiimti apdovanojimų, {message}\nPabandykite vėliau arba rašykite support@ecency.com",
-    "connection_issues": "The server is unreachable, please check your connection and try again."
+    "connection_issues": "The server is unreachable, please check your connection and try again.",
+    "open_settings": "Open Settings"
   },
   "post": {
     "reblog_alert": "Ar tikrai norite dalintis įrašu?",
