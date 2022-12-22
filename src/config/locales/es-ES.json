@@ -96,8 +96,8 @@
     "fill_vesting_withdraw": "PowerDown ejecutado",
     "engine_title": "Motor de Tokens de Hive",
     "engine_claim_btn": "Reclamar recompensas ({count})",
-    "engine_select_tokens": "Select Tokens",
-    "manage_assets": "Add / Remove Assets",
+    "engine_select_tokens": "Seleccionar Tokens",
+    "manage_assets": "Agregar / Quitar Activos",
     "ecency": {
       "title": "Puntos",
       "name": "Puntos Ecency",
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "Hive Power | Staked Hive"
+      "name": "Hive Power | Hive en Estaca"
     },
     "hive_dollar": {
       "name": "Dólares Hive"
@@ -142,11 +142,11 @@
     "pending_requests": "Solicitudes pendientes",
     "boost_account": "Impulsar",
     "get_boost": "Obtener impulso",
-    "transfer_engine": "Transfer",
-    "unstake_engine": "Unstake",
-    "stake_engine": "Stake",
-    "delegate_engine": "Delegate",
-    "undelegate_engine": "Undelegate"
+    "transfer_engine": "Transferir",
+    "unstake_engine": "Retirar de Estaca",
+    "stake_engine": "Estaca",
+    "delegate_engine": "Delegar",
+    "undelegate_engine": "Retirar delegación"
   },
   "notification": {
     "vote": "votado",
@@ -656,7 +656,7 @@
     "convert": "Convertir HBD a HIVE",
     "points": "Regalar puntos a alguien",
     "transfer_to_savings": "Transferir a Ahorros",
-    "transfer_to_vesting": "Power Up | Stake",
+    "transfer_to_vesting": "Encender (Power Up) | Estacar",
     "withdraw_to_saving": "Retirar a Ahorros",
     "steemconnect_title": "Transferencia en Hivesigner",
     "estimated_weekly": "Estimado Semanal",
@@ -665,11 +665,11 @@
     "percent": "Porcentaje",
     "auto_vests": "Auto Vests",
     "vests": "Vests",
-    "transfer_engine": "Transfer Token",
-    "stake_engine": "Stake Token",
-    "unstake_engine": "Unstake Token",
-    "delegate_engine": "Delegate Token",
-    "undelegate_engine": "Undelegate Token",
+    "transfer_engine": "Transferir Token",
+    "stake_engine": "Estacar Token",
+    "unstake_engine": "Retirar Token de Estaca",
+    "delegate_engine": "Delegar Token",
+    "undelegate_engine": "Desdelegar Token",
     "save": "GUARDAR",
     "percent_information": "Información del porcentaje",
     "next": "SIGUIENTE",
@@ -693,7 +693,7 @@
     "confirm_summary_para": "Esto sobrescribirá tu delegación anterior de {prev} HP a este usuario.",
     "username_alert": "¡Error de nombre de usuario!",
     "username_alert_detail": "Por favor, selecciona otro nombre de usuario",
-    "power_down": "Power Down | Unstake",
+    "power_down": "Apagado | Retirar Estacar",
     "power_down_amount_head": "Retirar Cantidad",
     "power_down_amount_subhead": "Introduce la cantidad para apagar HIVE Power",
     "withdraw_accounts": "Cuentas de Retirada",
