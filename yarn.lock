@@ -9232,10 +9232,10 @@ react-native-iap@^12.4.2:
   resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-12.4.2.tgz#98f4a4f653f8beb7324cab5bb333308cc46d63a1"
   integrity sha512-pl4mgkYQOf5uQPt5NX5ySW6+JhOhalvbqw+fGJ5lJ+ZxnDF/UMNEw6SWWjNF7XrU8X7yGkWamOHmco4RDPlFYg==
 
-react-native-image-crop-picker@^0.35.2:
-  version "0.35.3"
-  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.35.3.tgz#cc9ae109ae5ac2d0877a0c5ac51935421a3651d8"
-  integrity sha512-JMBmtfdJvxvPNTjSmiqNaBuEAqwwzyYvgvwiOU8ikIE113RD6hPV+wpxGFCqGJPzJF/JO6uEzpDOcFCfHZbmtQ==
+react-native-image-crop-picker@^0.39.0:
+  version "0.39.0"
+  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.39.0.tgz#9cb8e8ffb0e8ab06f7b3227cadf077169e225eba"
+  integrity sha512-4aANbQMrmU6zN/4b0rVBA7SbaZ3aa5JESm3Xk751sINybZMt1yz/9h95LkO7U0pbslHDo3ofXjG75PmQRP6a/w==
 
 react-native-image-pan-zoom@^2.1.9:
   version "2.1.12"
