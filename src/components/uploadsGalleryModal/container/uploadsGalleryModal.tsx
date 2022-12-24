@@ -120,6 +120,10 @@ export const UploadsGalleryModal = forwardRef(
       }
     }, [isEditing]);
 
+    useEffect(() => {
+      _getMediaUploads(); // get media uploads when there is new update
+    },[mediaQuery.data]);
+
     const _handleOpenImagePicker = (addToUploads?: boolean) => {
       ImagePicker.openPicker({
         includeBase64: true,
