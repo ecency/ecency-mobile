@@ -20,7 +20,7 @@
     "incoming_transfer_title": "Tuleva siirto",
     "outgoing_transfer_title": "Menevä siirto",
     "checkin_extra": "Palkkio",
-    "staked": "Staked",
+    "staked": "Panostettu",
     "delegations_in": "Delegagtions In",
     "delegations_out": "Delegations Out",
     "delegation": "Valtuutukset",
@@ -94,10 +94,10 @@
     "fill_convert_request": "Muunnos Toteutettu",
     "fill_transfer_from_savings": "Säästöt Toteutettu",
     "fill_vesting_withdraw": "PowerDown toteutettu",
-    "engine_title": "Hive Engine Tokens",
-    "engine_claim_btn": "Claim Rewards ({count})",
-    "engine_select_tokens": "Select Tokens",
-    "manage_assets": "Add / Remove Assets",
+    "engine_title": "Hive Engine Merkit",
+    "engine_claim_btn": "Lunasta palkkiot ({count})",
+    "engine_select_tokens": "Valitse merkkejä",
+    "manage_assets": "Lisää / Poista Varoja",
     "ecency": {
       "title": "Pisteet",
       "name": "Ecency pisteet",
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "Hive Power | Staked Hive"
+      "name": "Hive Power | Panostettu Hive"
     },
     "hive_dollar": {
       "name": "Hive Dollarit"
@@ -142,9 +142,9 @@
     "pending_requests": "Odottavat pyynnöt",
     "boost_account": "Tehosta",
     "get_boost": "Hanki Tehostus",
-    "transfer_engine": "Transfer",
+    "transfer_engine": "Siirto",
     "unstake_engine": "Unstake",
-    "stake_engine": "Stake",
+    "stake_engine": "Panosta",
     "delegate_engine": "Delegate",
     "undelegate_engine": "Undelegate"
   },
@@ -242,7 +242,7 @@
       "comment": "Kommentti",
       "mention": "Maininta",
       "favorite": "Suosikit",
-      "bookmark": "Bookmarks",
+      "bookmark": "Kirjanmerkit",
       "reblog": "Jako",
       "transfers": "Siirrot",
       "delegations": "Valtuutukset"
@@ -503,7 +503,7 @@
     "connection_fail": "Yhteys epäonnistui!",
     "connection_success": "Yhdistetty onnistuneesti!",
     "checking": "Tarkistetaan...",
-    "external_link": "Open external link",
+    "external_link": "Avaa ulkoinen linkki",
     "not_existing_post": "Julkaisua ei ole! Tarkista linkki ja julkaisija.",
     "google_play_version": "Käytät vanhaa Google Play-versiota. Päivitä se ja yritä uudelleen!",
     "rc_down": "Ei tarpeeksi resurssipisteitä toimintoon! \nTehosta tiliäsi nauttiaksesi kokemuksesta enemmän. Haluatko tehostaa heti?",
@@ -526,7 +526,7 @@
     "wallet_updating": "Lompakon päivitys käynnissä, yritä uudelleen päivityksen valmistuessa",
     "claim_failed": "Palkintojen lunastaminen epäonnistui, {message}\nYritä uudelleen tai kirjoita osoitteeseen support@ecency.com",
     "connection_issues": "Palvelin ei ole tavoitettavissa, tarkista yhteytesi ja yritä uudelleen.",
-    "open_settings": "Open Settings"
+    "open_settings": "Avaa asetukset"
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
