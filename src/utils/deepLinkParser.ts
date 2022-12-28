@@ -49,7 +49,7 @@ export const deepLinkParser = async (url, currentAccount) => {
       };
       keey = 'WebBrowser';
     } else if (permlink) {
-      content = await getPost(author, permlink, currentAccount.name);
+      content = { author, permlink };
       routeName = ROUTES.SCREENS.POST;
       params = {
         content,
