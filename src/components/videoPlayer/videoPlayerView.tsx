@@ -209,6 +209,7 @@ const VideoPlayer = ({
             onChangeState={_onChangeState}
             onError={_onError}
             onFullScreenChange={(status) => setIsFullScreen(status)}
+            webViewProps={{mediaPlaybackRequiresUserAction: true}}
           />
         </View>
       )}

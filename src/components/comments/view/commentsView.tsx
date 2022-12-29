@@ -147,6 +147,7 @@ const CommentsView = ({
         keyExtractor={(item) => get(item, 'permlink')}
         ListEmptyComponent={_renderEmptyContent()}
         ListHeaderComponent={postContentView}
+        overScrollMode={"never"}
         {...flatListProps}
       />
       <OptionsModal

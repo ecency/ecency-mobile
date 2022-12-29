@@ -63,6 +63,7 @@ const PostDisplayView = ({
   const [refreshing, setRefreshing] = useState(false);
   const [postBodyLoading, setPostBodyLoading] = useState(true);
   const [tags, setTags] = useState([]);
+  const [postBodyHeight, setPostBodyHeight] = useState(0);
 
   // Component Life Cycles
   useEffect(() => {
@@ -91,7 +92,11 @@ const PostDisplayView = ({
   }, [refreshing]);
 
   const _scrollToComments = () => {
-    if (commentsListRef.current) {
+    if (commentsListRef.current && !post?.children) {
+      commentsListRef.current.scrollToOffset({ offset: postBodyHeight }); //fix for bug causing crash when there is no comment
+      return;
+    }
+    if (commentsListRef.current && post?.children) {
       commentsListRef.current.scrollToIndex({ index: 0, viewOffset: 108 });
     }
   };
@@ -226,7 +231,11 @@ const PostDisplayView = ({
         {!post ? (
           <PostPlaceHolder />
         ) : (
-          <View>
+          <View
+            onLayout={(event) => {
+              setPostBodyHeight(event.nativeEvent.layout.height);
+            }}
+          >
             {!!post.title && <Text style={styles.title}>{post.title}</Text>}
             <PostHeaderDescription
               date={formatedTime}
