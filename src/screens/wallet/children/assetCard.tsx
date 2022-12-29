@@ -70,7 +70,7 @@ export const AssetCard = ({
   const _name = intl.messages[`wallet.${id}.name`]
     ? intl.formatMessage({ id: `wallet.${id}.name` })
     : name;
-  const value = `${ownedBalance.toFixed(isEngine? 6 : 3)} ${isEngine ? '' : symbol}`;
+  const value = `${ownedBalance.toFixed(isEngine ? 6 : 3)} ${isEngine ? '' : symbol}`;
 
   const _renderHeader = (
     <View style={styles.cardHeader}>

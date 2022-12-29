@@ -28,29 +28,28 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
     showModal: () => {
       if (sheetModalRef.current) {
         sheetModalRef.current?.show();
-        setQuery('')
+        setQuery('');
       }
     },
   }));
 
-
-  useEffect(()=>{
-    const data:CoinData[] = [];
+  useEffect(() => {
+    const data: CoinData[] = [];
 
     for (const key in coinsData) {
       if (coinsData.hasOwnProperty(key) && coinsData[key].isEngine) {
-        const asset:CoinData = coinsData[key];
+        const asset: CoinData = coinsData[key];
         const _name = asset.name.toLowerCase();
         const _symbol = asset.symbol.toLowerCase();
         const _query = query.toLowerCase();
-        if(query === '' || _symbol.includes(_query) || _name.includes(_query)){
+        if (query === '' || _symbol.includes(_query) || _name.includes(_query)) {
           data.push(asset);
         }
       }
     }
 
     setListData(data);
-  }, [query, coinsData])
+  }, [query, coinsData]);
 
   const _onApply = () => {
     dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...selection]));
@@ -60,8 +59,6 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
   };
 
   const _renderOptions = () => {
-
-
     const _renderItem = ({ item }) => {
       const key = item.symbol;
       const index = selection.findIndex((selected) => selected.symbol === item.symbol);
@@ -83,8 +80,13 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
       return (
         <TouchableOpacity onPress={_onPress}>
           <View style={styles.checkView}>
-            <View style={{flexDirection:'row', alignItems:'center'}}>
-              <AssetIcon containerStyle={styles.assetIconContainer} iconUrl={item.iconUrl} isEngine={item.isEngine} iconSize={24} />
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <AssetIcon
+                containerStyle={styles.assetIconContainer}
+                iconUrl={item.iconUrl}
+                isEngine={item.isEngine}
+                iconSize={24}
+              />
               <Text style={styles.informationText}>{key}</Text>
             </View>
             <CheckBox locked isChecked={isSelected} />
