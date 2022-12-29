@@ -6,7 +6,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { useIntl } from 'react-intl';
 import styles from '../styles/tokensSelectModa.styles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { CheckBox, SearchInput, TextButton } from '../../../components';
+import { CheckBox, Modal, SearchInput, TextButton } from '../../../components';
 import { CoinBase, CoinData } from '../../../redux/reducers/walletReducer';
 import DEFAULT_ASSETS from '../../../constants/defaultAssets';
 import { setSelectedCoins } from '../../../redux/actions/walletActions';
@@ -20,16 +20,15 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
   const coinsData = useAppSelector((state) => state.wallet.coinsData);
   const selectedCoins: CoinBase[] = useAppSelector((state) => state.wallet.selectedCoins);
 
+  const [visible, setVisible] = useState(false);
   const [selection, setSelection] = useState(selectedCoins.filter((item) => item.isEngine));
   const [listData, setListData] = useState([]);
   const [query, setQuery] = useState('');
 
   useImperativeHandle(ref, () => ({
     showModal: () => {
-      if (sheetModalRef.current) {
-        sheetModalRef.current?.show();
+        setVisible(true)
         setQuery('');
-      }
     },
   }));
 
@@ -53,9 +52,7 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
 
   const _onApply = () => {
     dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...selection]));
-    if (sheetModalRef.current) {
-      sheetModalRef.current.hide();
-    }
+    setVisible(false);
   };
 
   const _renderOptions = () => {
@@ -109,9 +106,7 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
   const _renderContent = () => {
     return (
       <View style={styles.modalContainer}>
-        <Text style={styles.title}>
-          {intl.formatMessage({ id: 'wallet.engine_select_assets' })}
-        </Text>
+  
         <SearchInput
           onChangeText={setQuery}
           placeholder={intl.formatMessage({ id: 'header.search' })}
@@ -134,13 +129,17 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
   };
 
   return (
-    <ActionSheet
-      ref={sheetModalRef}
-      gestureEnabled={false}
-      containerStyle={styles.sheetContent}
-      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-    >
-      {_renderContent()}
-    </ActionSheet>
+    <Modal
+    isOpen={visible}
+    handleOnModalClose={() => setVisible(false)}
+    isFullScreen
+    isCloseButton
+    presentationStyle="formSheet"
+    title={intl.formatMessage({ id: 'wallet.engine_select_assets' })}
+    animationType="slide"
+    style={styles.modalStyle}
+      >
+        {_renderContent()}
+    </Modal>
   );
 });
