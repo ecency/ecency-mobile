@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity, Button, Alert } from 'react-native';
 import React, { ComponentType, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from '../styles/children.styles';
 import { IconButton, SimpleChart } from '../../../components';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
@@ -8,7 +9,6 @@ import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { ClaimButton } from './claimButton';
 
 import { AssetIcon } from '../../../components/atoms';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import applyWebLinkFormat from '../../../components/markdownEditor/children/formats/applyWebLinkFormat';
 
 export interface AssetCardProps {
@@ -71,22 +71,20 @@ export const AssetCard = ({
     onClaimPress();
   };
 
-
-  const _inactiveTokenBtn = (
-    !!volume24h && volume24h < 10 &&
-        <IconButton 
-          name='alert-circle-outline'
-          iconType='MaterialCommuntyIcon'
-          size={24}
-          color={EStyleSheet.value('$primaryRed')}
-          onPress={()=>{
-            Alert.alert(
-              intl.formatMessage({id:'alert.warning'}), 
-              intl.formatMessage({id:'wallet.inactive_token'}),
-            )
-          }} 
-        />
-  )
+  const _inactiveTokenBtn = !!volume24h && volume24h < 10 && (
+    <IconButton
+      name="alert-circle-outline"
+      iconType="MaterialCommuntyIcon"
+      size={24}
+      color={EStyleSheet.value('$primaryRed')}
+      onPress={() => {
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.warning' }),
+          intl.formatMessage({ id: 'wallet.inactive_token' }),
+        );
+      }}
+    />
+  );
 
   const _name = intl.messages[`wallet.${id}.name`]
     ? intl.formatMessage({ id: `wallet.${id}.name` })
@@ -107,9 +105,7 @@ export const AssetCard = ({
         <Text style={styles.textSubtitle}>{_name}</Text>
       </View>
 
-      {
-        _inactiveTokenBtn
-      }
+      {_inactiveTokenBtn}
 
       <View style={styles.cardValuesContainer}>
         <Text style={styles.textTitle}>{value}</Text>
@@ -117,7 +113,6 @@ export const AssetCard = ({
           {`${(ownedBalance * currentValue).toFixed(6)}${currencySymbol}`}
         </Text>
       </View>
-
     </View>
   );
 
