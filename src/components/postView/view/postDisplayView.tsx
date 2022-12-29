@@ -93,7 +93,7 @@ const PostDisplayView = ({
 
   const _scrollToComments = () => {
     if (commentsListRef.current && !post?.children) {
-      commentsListRef.current.scrollToOffset({ offset: postBodyHeight }); //fix for bug causing crash when there is no comment
+      commentsListRef.current.scrollToOffset({ offset: postBodyHeight }); // fix for bug causing crash when there is no comment
       return;
     }
     if (commentsListRef.current && post?.children) {
