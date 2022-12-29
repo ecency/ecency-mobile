@@ -96,7 +96,7 @@
     "fill_vesting_withdraw": "PowerDown executed",
     "engine_title":"Hive Engine Tokens",
     "engine_claim_btn":"Claim Rewards ({count})",
-    "engine_select_tokens":"Select Tokens",
+    "engine_select_assets":"Select Assets",
     "manage_assets":"Add / Remove Assets",
     "ecency": {
       "title": "Points",
