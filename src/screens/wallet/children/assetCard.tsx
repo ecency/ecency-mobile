@@ -1,13 +1,15 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Button, Alert } from 'react-native';
 import React, { ComponentType, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import styles from '../styles/children.styles';
-import { SimpleChart } from '../../../components';
+import { IconButton, SimpleChart } from '../../../components';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { ClaimButton } from './claimButton';
 
 import { AssetIcon } from '../../../components/atoms';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import applyWebLinkFormat from '../../../components/markdownEditor/children/formats/applyWebLinkFormat';
 
 export interface AssetCardProps {
   id: string;
@@ -25,6 +27,7 @@ export interface AssetCardProps {
   enableBuy?: boolean;
   isClaiming?: boolean;
   isLoading?: boolean;
+  volume24h?: number;
   footerComponent: ComponentType<any>;
   onCardPress: () => void;
   onClaimPress: () => void;
@@ -48,6 +51,7 @@ export const AssetCard = ({
   enableBuy,
   isClaiming,
   isLoading,
+  volume24h,
   onCardPress,
   onClaimPress,
   onBoostAccountPress,
@@ -67,6 +71,23 @@ export const AssetCard = ({
     onClaimPress();
   };
 
+
+  const _inactiveTokenBtn = (
+    !!volume24h && volume24h < 10 &&
+        <IconButton 
+          name='alert-circle-outline'
+          iconType='MaterialCommuntyIcon'
+          size={24}
+          color={EStyleSheet.value('$primaryRed')}
+          onPress={()=>{
+            Alert.alert(
+              intl.formatMessage({id:'alert.warning'}), 
+              intl.formatMessage({id:'wallet.inactive_token'}),
+            )
+          }} 
+        />
+  )
+
   const _name = intl.messages[`wallet.${id}.name`]
     ? intl.formatMessage({ id: `wallet.${id}.name` })
     : name;
@@ -85,13 +106,18 @@ export const AssetCard = ({
         <Text style={styles.textTitle}>{symbol}</Text>
         <Text style={styles.textSubtitle}>{_name}</Text>
       </View>
+
+      {
+        _inactiveTokenBtn
+      }
+
       <View style={styles.cardValuesContainer}>
         <Text style={styles.textTitle}>{value}</Text>
-
         <Text style={styles.textSubtitleRight}>
           {`${(ownedBalance * currentValue).toFixed(6)}${currencySymbol}`}
         </Text>
       </View>
+
     </View>
   );
 

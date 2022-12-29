@@ -530,6 +530,7 @@ const fetchEngineTokensData = async (username:string, hivePrice:number, vsCurren
             isEngine: true,
             percentChange: item.percentChange,
             actions,
+            volume24h: item.volume24h,
             extraDataPairs:[{
               dataKey: 'staked',
               value: item.stake !== 0 ? `${item.stake}` : '0.00'

@@ -14,6 +14,7 @@ export const convertEngineToken = (balanceObj: TokenBalance, token?: Token, metr
 
   const tokenPrice = metrics ? parseFloat(metrics.lastPrice) : 0;
   const percentChange = metrics ? parseFloat(metrics.priceChangePercent) : 0;
+  const volume24h = metrics ? parseFloat(metrics.volume) : 0;
 
   const unclaimedBalance = tokenStatus ? `${tokenStatus.pendingRewards} ${tokenStatus.symbol}` : '';
 
@@ -32,6 +33,7 @@ export const convertEngineToken = (balanceObj: TokenBalance, token?: Token, metr
     delegationsOut,
     tokenPrice,
     percentChange,
+    volume24h,
   } as HiveEngineToken;
 };
 
