@@ -27,8 +27,8 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
 
   useImperativeHandle(ref, () => ({
     showModal: () => {
-        setVisible(true)
-        setQuery('');
+      setVisible(true);
+      setQuery('');
     },
   }));
 
@@ -106,7 +106,6 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
   const _renderContent = () => {
     return (
       <View style={styles.modalContainer}>
-  
         <SearchInput
           onChangeText={setQuery}
           placeholder={intl.formatMessage({ id: 'header.search' })}
@@ -130,16 +129,16 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
 
   return (
     <Modal
-    isOpen={visible}
-    handleOnModalClose={() => setVisible(false)}
-    isFullScreen
-    isCloseButton
-    presentationStyle="formSheet"
-    title={intl.formatMessage({ id: 'wallet.engine_select_assets' })}
-    animationType="slide"
-    style={styles.modalStyle}
-      >
-        {_renderContent()}
+      isOpen={visible}
+      handleOnModalClose={() => setVisible(false)}
+      isFullScreen
+      isCloseButton
+      presentationStyle="formSheet"
+      title={intl.formatMessage({ id: 'wallet.engine_select_assets' })}
+      animationType="slide"
+      style={styles.modalStyle}
+    >
+      {_renderContent()}
     </Modal>
   );
 });
