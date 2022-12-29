@@ -19,7 +19,7 @@ export default EStyleSheet.create({
   scrollContainer: {
     marginTop: 32,
     marginBottom: 16,
-    maxHeight:300, 
+    height: '$deviceHeight/2'
   } as ViewStyle,
 
   informationText: {
