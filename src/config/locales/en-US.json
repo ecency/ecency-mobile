@@ -725,12 +725,12 @@
   "buy_account":{
     "title": "Buy Account",
     "btn_register": "Buy Account - {price}",
-    "desc": "Ecency let's you buy account as inAppPurchase that instantly verifies your account legitimacy and grant you access to HIVE for blogging."
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts\n- 300 Points to help you get started"
   },
   "free_account":{
     "title": "Free Account",
     "btn_register": "Register Free",
-    "desc": "Get a free Hive account without spending anything. We try hard to arrange free Hive accounts for our users, usually one per device."
+    "desc": "Get a full-fledged Hive account, this method has basic checks to make sure botnet doesn't abuse our signup faucet."
   },
   "free_estm": {
     "title": "Free Points",

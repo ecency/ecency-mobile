@@ -20,7 +20,7 @@ export default EStyleSheet.create({
   },
 
   userInfoWrapper:{
-    backgroundColor:'$primaryBlack',
+    backgroundColor:'$darkGrayBackground',
     borderTopRightRadius:16,
     borderBottomRightRadius:16,
     paddingHorizontal:16,
@@ -77,17 +77,15 @@ export default EStyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 10,
+    color:"$primaryBlack"
   },
-  bulletPointContainer: {
+  descContainer: {
     marginBottom: 10,
   },
   description: {
     fontSize: 14,
     marginBottom: 10,
-  },
-  bulletPoint: {
-    fontSize: 14,
-    marginBottom: 5,
+    color:"$primaryDarkText"
   },
   button: {
     backgroundColor: '$primaryBlue',

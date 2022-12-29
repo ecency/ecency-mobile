@@ -102,7 +102,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
     </View>
   );
 
-  const _renderCard = ({ titleId, descriptionId, bulletPoints, btnTitle, onPress }) => {
+  const _renderCard = ({ titleId, descriptionId, btnTitle, onPress }) => {
     return (
       <View style={styles.cardContainer}>
         <Text style={styles.title}>
@@ -110,17 +110,12 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
             id: titleId,
           })}
         </Text>
-        <View style={styles.bulletPointContainer}>
+        <View style={styles.descContainer}>
           <Text style={styles.description}>
             {intl.formatMessage({
               id: descriptionId,
             })}
           </Text>
-          {bulletPoints.map((point, index) => (
-            <Text key={index} style={styles.bulletPoint}>
-              {point}
-            </Text>
-          ))}
         </View>
         <TouchableOpacity onPress={onPress} style={styles.button} disabled={isRegistering}>
           <Text style={styles.buttonText}>{btnTitle}</Text>
@@ -155,11 +150,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
               _renderCard({
                 titleId: 'free_account.title',
                 descriptionId: 'free_account.desc',
-                bulletPoints: [
-                  '- Get instant account creation without verifications',
-                  '- Get extra ecency points, can be used to boost post',
-                  '- Get threee times extra resource credits',
-                ],
+                
                 btnTitle: intl.formatMessage({ id: 'free_account.btn_register' }),
                 onPress: _handleOnPressRegister,
               })}
@@ -167,11 +158,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
               _renderCard({
                 titleId: 'buy_account.title',
                 descriptionId: 'buy_account.desc',
-                bulletPoints: [
-                  '- Get instant account creation without verifications',
-                  '- Get extra ecency points, can be used to boost post',
-                  '- Get threee times extra resource credits',
-                ],
+                
                 btnTitle: intl.formatMessage(
                   { id: 'buy_account.btn_register' },
                   { price: product.localizedPrice },
