@@ -122,7 +122,7 @@ export default function (state = initialState, action) {
       return { ...state };
 
     case UPDATE_DRAFT_CACHE:
-      if (!state.drafts) {
+      if (!(state.drafts instanceof Map)) {
         state.drafts = new Map<string, Draft>();
       }
 
