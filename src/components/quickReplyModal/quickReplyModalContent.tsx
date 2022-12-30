@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useImperativeHandle, forwardRef } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, Alert, TouchableOpacity, Keyboard, Platform } from 'react-native';
+import { View, Text, Alert, TouchableOpacity, Keyboard, Platform, TextInput as RNTextInput } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
 import { get } from 'lodash';
@@ -35,11 +35,11 @@ export const QuickReplyModalContent = forwardRef(
     const dispatch = useDispatch();
     const userActivityMutation = useUserActivityMutation();
 
-    const inputRef = useRef(null);
+    const inputRef = useRef<RNTextInput|null>(null);
 
     const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
     const pinCode = useSelector((state: RootState) => state.application.pin);
-    const drafts = useSelector((state: RootState) => state.cache.drafts);
+    const draftsCollection = useSelector((state: RootState) => state.cache.draftsCollection);
 
     const [commentValue, setCommentValue] = useState('');
     const [isSending, setIsSending] = useState(false);
@@ -62,9 +62,10 @@ export const QuickReplyModalContent = forwardRef(
     // load quick comment value from cache
     useEffect(() => {
       let _value = '';
-      if (drafts instanceof Map &&  drafts.has(draftId) && currentAccount.name === drafts.get(draftId).author) {
-        const quickComment: Draft = drafts.get(draftId);
-        _value = quickComment?.body || '';
+      if (draftsCollection && !!draftsCollection[draftId] && currentAccount.name === draftsCollection[draftId].author) {
+        const quickComment: Draft = draftsCollection[draftId];
+        _value = currentAccount.name === quickComment.author && !!quickComment.body 
+          ? quickComment.body : '';
       }
 
       if (inputRef.current) {
