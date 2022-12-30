@@ -130,7 +130,7 @@ export default function (state = initialState, action) {
       const curDraft = state.drafts.get(payload.id);
       const payloadDraft = payload.draft;
 
-      payloadDraft.created = curDraft ? curDraft.created : curTime;
+      payloadDraft.created = curDraft?.created || curTime;
       payloadDraft.updated = curTime;
       payloadDraft.expiresAt = curTime + 604800000; // 7 days ms
 

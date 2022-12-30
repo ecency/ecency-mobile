@@ -64,7 +64,7 @@ export const QuickReplyModalContent = forwardRef(
       let _value = '';
       if (drafts && drafts.has(draftId) && currentAccount.name === drafts.get(draftId).author) {
         const quickComment: Draft = drafts.get(draftId);
-        _value = quickComment.body;
+        _value = quickComment?.body || '';
       }
 
       if (inputRef.current) {

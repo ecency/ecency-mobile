@@ -217,7 +217,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const { drafts } = this.props;
     if (isReply) {
       const _draft = drafts && drafts.get(paramDraft._id);
-      if (_draft && _draft.body) {
+      if (_draft && !!_draft.body) {
         this.setState({
           draftPost: {
             body: _draft.body,
@@ -233,7 +233,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       // if no draft, use result anayways
 
       const _remoteDraftModifiedAt = paramDraft ? new Date(paramDraft.modified).getTime() : 0;
-      const _useLocalDraft = _localDraft && _remoteDraftModifiedAt < _localDraft.updated;
+      const _useLocalDraft = _remoteDraftModifiedAt < (_localDraft?.updated || 0);
       if (_useLocalDraft) {
         this.setState({
           draftPost: {
