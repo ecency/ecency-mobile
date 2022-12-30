@@ -145,7 +145,7 @@ export default function (state = initialState, action) {
       };
 
     case DELETE_DRAFT_CACHE_ENTRY:
-      if (state.drafts && state.drafts.has(payload)) {
+      if (state.drafts instanceof Map &&  state.drafts.has(payload)) {
         state.drafts.delete(payload);
       }
       return { ...state };
@@ -206,7 +206,7 @@ export default function (state = initialState, action) {
         });
       }
 
-      if (state.drafts && state.drafts.size) {
+      if (state.drafts instanceof Map &&  state.drafts.size) {
         Array.from(state.drafts).forEach((entry) => {
           if (entry[1].expiresAt < currentTime || !entry[1].body) {
             state.drafts.delete(entry[0]);

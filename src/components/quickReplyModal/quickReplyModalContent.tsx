@@ -62,7 +62,7 @@ export const QuickReplyModalContent = forwardRef(
     // load quick comment value from cache
     useEffect(() => {
       let _value = '';
-      if (drafts && drafts.has(draftId) && currentAccount.name === drafts.get(draftId).author) {
+      if (drafts instanceof Map &&  drafts.has(draftId) && currentAccount.name === drafts.get(draftId).author) {
         const quickComment: Draft = drafts.get(draftId);
         _value = quickComment?.body || '';
       }
@@ -183,7 +183,7 @@ export const QuickReplyModalContent = forwardRef(
             );
 
             // delete quick comment draft cache if it exist
-            if (drafts && drafts.has(draftId)) {
+            if (drafts instanceof Map &&  drafts.has(draftId)) {
               dispatch(deleteDraftCacheEntry(draftId));
             }
 

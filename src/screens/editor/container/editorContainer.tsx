@@ -216,7 +216,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   _getStorageDraft = async (username, isReply, paramDraft) => {
     const { drafts } = this.props;
     if (isReply) {
-      const _draft = drafts && drafts.get(paramDraft._id);
+      const _draft = drafts instanceof Map &&  drafts.get(paramDraft._id);
       if (_draft && !!_draft.body) {
         this.setState({
           draftPost: {
@@ -227,7 +227,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     } else {
       // TOOD: get draft from redux after reply side is complete
       const _draftId = paramDraft ? paramDraft._id : DEFAULT_USER_DRAFT_ID + username;
-      const _localDraft = drafts && drafts.get(_draftId);
+      const _localDraft = drafts instanceof Map &&  drafts.get(_draftId);
 
       // if _draft is returned and param draft is available, compare timestamp, use latest
       // if no draft, use result anayways
@@ -341,7 +341,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       const remoteDrafts = await getDrafts(username);
 
-      const idLessDraft = drafts && drafts.get(DEFAULT_USER_DRAFT_ID + username);
+      const idLessDraft = drafts instanceof Map && drafts.get(DEFAULT_USER_DRAFT_ID + username);
 
       const loadRecentDraft = () => {
         // if no draft available means local draft is recent
