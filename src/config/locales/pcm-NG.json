@@ -96,7 +96,7 @@
     "fill_vesting_withdraw": "To comot money don start",
     "engine_title": "Hive Engine Tokens",
     "engine_claim_btn": "Claim Rewards ({count})",
-    "engine_select_tokens": "Select Tokens",
+    "engine_select_assets": "Select Assets",
     "manage_assets": "Add / Remove Assets",
     "ecency": {
       "title": "Points",
@@ -146,7 +146,8 @@
     "unstake_engine": "Unstake",
     "stake_engine": "Stake",
     "delegate_engine": "Delegate",
-    "undelegate_engine": "Undelegate"
+    "undelegate_engine": "Undelegate",
+    "inactive_token": "Token is relatively inactive, some functionalities might be affected."
   },
   "notification": {
     "vote": "sama am love",
