@@ -48,7 +48,7 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
   const [isShowToastNotification, setIsShowToastNotification] = useState(false);
 
   useEffect(() => {
-    // TODO: display action modal instead
+   
     if (!rcOfferRef.current && rcOffer) {
       setTimeout(() => {
         dispatch(
