@@ -214,9 +214,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _getStorageDraft = async (username, isReply, paramDraft) => {
-    const { drafts } = this.props;
+    const { draftsCollection } = this.props;
     if (isReply) {
-      const _draft = drafts instanceof Map &&  drafts.get(paramDraft._id);
+      const _draft = draftsCollection &&  draftsCollection[paramDraft._id];
       if (_draft && !!_draft.body) {
         this.setState({
           draftPost: {
@@ -227,7 +227,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     } else {
       // TOOD: get draft from redux after reply side is complete
       const _draftId = paramDraft ? paramDraft._id : DEFAULT_USER_DRAFT_ID + username;
-      const _localDraft = drafts instanceof Map &&  drafts.get(_draftId);
+      const _localDraft = draftsCollection && draftsCollection[_draftId];
 
       // if _draft is returned and param draft is available, compare timestamp, use latest
       // if no draft, use result anayways
@@ -315,7 +315,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
    * @param isReply
    * */
   _fetchDraftsForComparison = async (isReply) => {
-    const { currentAccount, isLoggedIn, drafts } = this.props;
+    const { currentAccount, isLoggedIn, draftsCollection } = this.props;
     const username = get(currentAccount, 'name', '');
 
     // initilizes editor with reply or non remote id less draft
@@ -339,9 +339,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         return;
       }
 
-      const remoteDrafts = await getDrafts(username);
+      const remoteDrafts = await getDrafts();
 
-      const idLessDraft = drafts instanceof Map && drafts.get(DEFAULT_USER_DRAFT_ID + username);
+      const idLessDraft = draftsCollection && draftsCollection[DEFAULT_USER_DRAFT_ID + username];
 
       const loadRecentDraft = () => {
         // if no draft available means local draft is recent
@@ -1153,7 +1153,7 @@ const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   pinCode: state.application.pin,
   beneficiariesMap: state.editor.beneficiariesMap,
-  drafts: state.cache.drafts,
+  draftsCollection: state.cache.draftsCollection,
 });
 
 const mapQueriesToProps = () => ({
