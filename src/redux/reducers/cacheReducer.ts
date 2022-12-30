@@ -65,7 +65,7 @@ export interface SubscribedCommunity {
 interface State {
   votes: Map<string, Vote>;
   comments: Map<string, Comment>; // TODO: handle comment array per post, if parent is same
-  drafts: Map<string, Draft>;
+  draftsCollection: {[key:string]: Draft};
   subscribedCommunities: Map<string, SubscribedCommunity>;
   pointActivities: Map<string, PointActivity>;
   lastUpdate: {
@@ -78,7 +78,7 @@ interface State {
 const initialState: State = {
   votes: new Map(),
   comments: new Map(),
-  drafts: new Map(),
+  draftsCollection: {},
   subscribedCommunities: new Map(),
   pointActivities: new Map(),
   lastUpdate: null,
