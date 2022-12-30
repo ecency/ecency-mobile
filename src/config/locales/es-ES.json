@@ -96,7 +96,7 @@
     "fill_vesting_withdraw": "PowerDown ejecutado",
     "engine_title": "Motor de Tokens de Hive",
     "engine_claim_btn": "Reclamar recompensas ({count})",
-    "engine_select_assets": "Select Assets",
+    "engine_select_assets": "Seleccionar Activos",
     "manage_assets": "Agregar / Quitar Activos",
     "ecency": {
       "title": "Puntos",
@@ -147,7 +147,7 @@
     "stake_engine": "Estaca",
     "delegate_engine": "Delegar",
     "undelegate_engine": "Retirar delegación",
-    "inactive_token": "Token is relatively inactive, some functionalities might be affected."
+    "inactive_token": "El token está relativamente inactivo, algunas funcionalidades podrían verse afectadas."
   },
   "notification": {
     "vote": "votado",
