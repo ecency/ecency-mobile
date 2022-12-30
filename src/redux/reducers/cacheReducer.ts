@@ -122,19 +122,24 @@ export default function (state = initialState, action) {
       return { ...state };
 
     case UPDATE_DRAFT_CACHE:
-      if (!(state.drafts instanceof Map)) {
-        state.drafts = new Map<string, Draft>();
+
+      if(!payload.id || !payload.draft){
+        return state;
+      }
+
+      if (!state.draftsCollection) {
+        state.draftsCollection = {}
       }
 
       const curTime = new Date().getTime();
-      const curDraft = state.drafts.get(payload.id);
+      const curDraft = state.draftsCollection[payload.id];
       const payloadDraft = payload.draft;
 
       payloadDraft.created = curDraft?.created || curTime;
       payloadDraft.updated = curTime;
       payloadDraft.expiresAt = curTime + 604800000; // 7 days ms
 
-      state.drafts.set(payload.id, payloadDraft);
+      state.draftsCollection[payload.id] = payloadDraft;
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
         lastUpdate: {
@@ -145,8 +150,8 @@ export default function (state = initialState, action) {
       };
 
     case DELETE_DRAFT_CACHE_ENTRY:
-      if (state.drafts instanceof Map &&  state.drafts.has(payload)) {
-        state.drafts.delete(payload);
+      if (state.draftsCollection && state.draftsCollection[payload]) {
+        delete state.draftsCollection[payload];
       }
       return { ...state };
 
@@ -206,12 +211,15 @@ export default function (state = initialState, action) {
         });
       }
 
-      if (state.drafts instanceof Map &&  state.drafts.size) {
-        Array.from(state.drafts).forEach((entry) => {
-          if (entry[1].expiresAt < currentTime || !entry[1].body) {
-            state.drafts.delete(entry[0]);
+      if (state.draftsCollection) {
+        for(const key in state.draftsCollection){
+          if(state.draftsCollection.hasOwnProperty(key)){
+            const draft = state.draftsCollection[key];
+            if (draft && ((draft?.expiresAt || 0) < currentTime || !draft.body)) {
+              delete state.draftsCollection[key];
+            }
           }
-        });
+        }
       }
 
       if (state.subscribedCommunities && state.subscribedCommunities.size) {
