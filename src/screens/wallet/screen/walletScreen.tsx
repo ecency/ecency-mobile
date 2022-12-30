@@ -291,6 +291,7 @@ const WalletScreen = ({ navigation }) => {
           enableBuy={!coinData.unclaimedBalance && item.id === ASSET_IDS.ECENCY}
           isClaiming={isClaiming}
           isLoading={isLoading}
+          volume24h={coinData.volume24h}
           onCardPress={_onCardPress}
           onClaimPress={_onClaimPress}
           onBoostAccountPress={_onBoostAccountPress}

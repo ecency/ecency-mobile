@@ -499,6 +499,7 @@ const fetchEngineTokensData = async (username:string, hivePrice:number, vsCurren
         if (item) {
           const balance = item.balance;
           const ppToken = hivePrice * (item.tokenPrice || 1); 
+          const volume24h = hivePrice * (item.volume24h || 0);
   
           const actions = [`${EngineActions.TRANSFER}_engine`]
   
@@ -530,6 +531,7 @@ const fetchEngineTokensData = async (username:string, hivePrice:number, vsCurren
             isEngine: true,
             percentChange: item.percentChange,
             actions,
+            volume24h: volume24h,
             extraDataPairs:[{
               dataKey: 'staked',
               value: item.stake !== 0 ? `${item.stake}` : '0.00'
