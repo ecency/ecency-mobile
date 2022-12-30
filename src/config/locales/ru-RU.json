@@ -96,7 +96,7 @@
     "fill_vesting_withdraw": "Понижение Силы выполнено",
     "engine_title": "Токены Hive Engine",
     "engine_claim_btn": "Получить награду ({count})",
-    "engine_select_tokens": "Выбрать токены",
+    "engine_select_assets": "Select Assets",
     "manage_assets": "Добавить / Удалить активы",
     "ecency": {
       "title": "Баллы",
@@ -146,7 +146,8 @@
     "unstake_engine": "Разморозить",
     "stake_engine": "Заморозить",
     "delegate_engine": "Делегировать",
-    "undelegate_engine": "Отозвать делегирование"
+    "undelegate_engine": "Отозвать делегирование",
+    "inactive_token": "Token is relatively inactive, some functionalities might be affected."
   },
   "notification": {
     "vote": "проголосовал",
