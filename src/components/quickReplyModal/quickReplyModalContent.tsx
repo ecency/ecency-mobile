@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef, useImperativeHandle, forwardRef } from 'react';
+import React, { useEffect, useState, useRef, useImperativeHandle, forwardRef, useCallback } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { View, Text, Alert, TouchableOpacity, Keyboard, Platform, TextInput as RNTextInput } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
-import { get } from 'lodash';
+import { get, debounce } from 'lodash';
 import { postBodySummary } from '@ecency/render-helper';
 import styles from './quickReplyModalStyles';
 import { IconButton, MainButton, TextButton, TextInput, UserAvatar } from '..';
@@ -223,13 +223,11 @@ export const QuickReplyModalContent = forwardRef(
       }
     };
 
-    // REMOVED FOR TESTING, CAN BE PUT BACK IF APP STILL CRASHES
-    // const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), [])
+    const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), [])
 
     const _onChangeText = (value) => {
       setCommentValue(value);
-      // REMOVED FOR TESTING, CAN BE PUT BACK IF APP STILL CRASHES
-      // _deboucedCacheUpdate(value)
+      _deboucedCacheUpdate(value)
     };
 
     // VIEW_RENDERERS
