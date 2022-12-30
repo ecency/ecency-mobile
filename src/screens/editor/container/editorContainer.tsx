@@ -533,21 +533,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     const draftField = {
       title: fields.title || '',
-      body: fields.body,
+      body: fields.body || '',
       tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       author: username,
       meta: fields.meta && fields.meta,
     };
 
-    // save reply data
-    if (isReply && draftField.body !== null) {
-      dispatch(updateDraftCache(draftId, draftField));
-
-      // save existing draft data locally
-    } else if (draftId) {
+    // save reply data or save existing draft data locall
+    if (isReply || draftId) {
       dispatch(updateDraftCache(draftId, draftField));
     }
-
     // update editor data locally
     else if (!isReply) {
       dispatch(updateDraftCache(DEFAULT_USER_DRAFT_ID + username, draftField));
