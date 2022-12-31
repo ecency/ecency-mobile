@@ -1,10 +1,9 @@
-import React, { Component, Fragment } from 'react';
-import { StatusBar, Platform, View, Alert } from 'react-native';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
+import { StatusBar, Platform, View } from 'react-native';
+
+import { useIntl } from 'react-intl';
+
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { connect } from 'react-redux';
-
-import { injectIntl } from 'react-intl';
-
 import RootNavigation from '../../../navigation/rootNavigation';
 import { AppNavigator } from '../../../navigation';
 
@@ -12,6 +11,7 @@ import { AppNavigator } from '../../../navigation';
 import {
   toastNotification as toastNotificationAction,
   setRcOffer,
+  showActionModal,
 } from '../../../redux/actions/uiAction';
 
 import ROUTES from '../../../constants/routeNames';
@@ -29,88 +29,89 @@ import {
 } from '../../../components';
 
 // Themes (Styles)
-import darkTheme from '../../../themes/darkTheme';
-import lightTheme from '../../../themes/lightTheme';
 
-class ApplicationScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isShowToastNotification: false,
-    };
-  }
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+// import EStyleSheet from 'react-native-extended-stylesheet';
 
-  componentDidUpdate(prevProps) {
-    const { rcOffer, dispatch, intl } = this.props;
-    const { rcOffer: rcOfferPrev } = prevProps;
+const ApplicationScreen = ({ foregroundNotificationData }) => {
+  const intl = useIntl();
+  const dispatch = useAppDispatch();
 
-    // TODO: display action modal instead
-    if (!rcOfferPrev && rcOffer) {
+  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const isConnected = useAppSelector((state) => state.application.isConnected);
+  const toastNotification = useAppSelector((state) => state.ui.toastNotification);
+  const rcOffer = useAppSelector((state) => state.ui.rcOffer);
+
+  const rcOfferRef = useRef(rcOffer);
+  const toastNotificationRef = useRef(toastNotification);
+
+  const [isShowToastNotification, setIsShowToastNotification] = useState(false);
+
+  useEffect(() => {
+   
+    if (!rcOfferRef.current && rcOffer) {
       setTimeout(() => {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
-          intl.formatMessage({
-            id: 'alert.rc_down',
-          }),
-          [
-            {
-              text: 'Cancel',
-              onPress: () => dispatch(setRcOffer(false)),
-              style: 'cancel',
-            },
-            {
-              text: 'OK',
-              onPress: () => {
-                RootNavigation.navigate({
-                  name: ROUTES.SCREENS.ACCOUNT_BOOST,
-                });
-                dispatch(setRcOffer(false));
+        dispatch(
+          showActionModal({
+            title: intl.formatMessage({
+              id: 'alert.fail',
+            }),
+            body: intl.formatMessage({
+              id: 'alert.rc_down',
+            }),
+            buttons: [
+              {
+                text: 'Cancel',
+                onPress: () => dispatch(setRcOffer(false)),
+                style: 'cancel',
               },
-            },
-          ],
-          { cancelable: false },
+              {
+                text: 'OK',
+                onPress: () => {
+                  RootNavigation.navigate({
+                    name: ROUTES.SCREENS.ACCOUNT_BOOST,
+                  });
+                  dispatch(setRcOffer(false));
+                },
+              },
+            ],
+          }),
         );
       }, 300);
     }
-  }
 
-  _handleOnHideToastNotification = () => {
-    const { dispatch } = this.props;
+    rcOfferRef.current = rcOffer;
+  }, [rcOffer]);
+
+  useEffect(() => {
+    if (toastNotification && toastNotification !== toastNotificationRef.current) {
+      setIsShowToastNotification(true);
+    }
+    toastNotificationRef.current = toastNotification;
+  }, [toastNotification]);
+
+  const _handleOnHideToastNotification = () => {
     dispatch(toastNotificationAction(''));
-    this.setState({ isShowToastNotification: false });
+    setIsShowToastNotification(false);
   };
 
-  UNSAFE_componentWillMount() {
-    const { isDarkTheme } = this.props;
-    EStyleSheet.build(isDarkTheme ? darkTheme : lightTheme);
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { toastNotification } = this.props;
-    if (nextProps.toastNotification && nextProps.toastNotification !== toastNotification) {
-      this.setState({ isShowToastNotification: true });
-    }
-  }
-
-  _renderStatusBar() {
-    const { isDarkTheme } = this.props;
+  const _renderStatusBar = () => {
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
-    const barColor = isDarkTheme ? '#1e2835' : '#fff';
     return (
       <>
         {Platform.OS === 'ios' ? (
           <StatusBar barStyle={barStyle} />
         ) : (
-          <StatusBar barStyle={barStyle} backgroundColor={barColor} />
+          <StatusBar
+            barStyle={barStyle}
+            backgroundColor={EStyleSheet.value('$primaryBackgroundColor')}
+          />
         )}
       </>
     );
-  }
+  };
 
-  _renderAppNavigator() {
-    const { isConnected } = this.props;
+  const _renderAppNavigator = () => {
     return (
       <Fragment>
         {!isConnected && <NoInternetConnection />}
@@ -118,12 +119,9 @@ class ApplicationScreen extends Component {
         <AppNavigator />
       </Fragment>
     );
-  }
+  };
 
-  _renderAppModals() {
-    const { toastNotification, foregroundNotificationData } = this.props;
-    const { isShowToastNotification } = this.state;
-
+  const _renderAppModals = () => {
     return (
       <>
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
@@ -136,22 +134,20 @@ class ApplicationScreen extends Component {
           <ToastNotification
             text={toastNotification}
             duration={4000}
-            onHide={this._handleOnHideToastNotification}
+            onHide={_handleOnHideToastNotification}
           />
         )}
       </>
     );
-  }
+  };
 
-  render() {
-    return (
-      <View style={{ flex: 1 }}>
-        {this._renderStatusBar()}
-        {this._renderAppNavigator()}
-        {this._renderAppModals()}
-      </View>
-    );
-  }
-}
+  return (
+    <View style={{ flex: 1 }}>
+      {_renderStatusBar()}
+      {_renderAppNavigator()}
+      {_renderAppModals()}
+    </View>
+  );
+};
 
-export default injectIntl(connect()(ApplicationScreen));
+export default ApplicationScreen;

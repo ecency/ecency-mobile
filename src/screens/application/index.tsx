@@ -12,26 +12,11 @@ const Application = () => {
 
   return (
     <ApplicationContainer>
-      {({
-        isConnected,
-        isDarkTheme,
-        isRenderRequire,
-        locale,
-        rcOffer,
-        toastNotification,
-        foregroundNotificationData,
-      }) => {
+      {({ isRenderRequire, foregroundNotificationData }) => {
         return (
           <ErrorBoundary>
             {isRenderRequire && (
-              <ApplicationScreen
-                isConnected={isConnected}
-                locale={locale}
-                toastNotification={toastNotification}
-                isDarkTheme={isDarkTheme}
-                rcOffer={rcOffer}
-                foregroundNotificationData={foregroundNotificationData}
-              />
+              <ApplicationScreen foregroundNotificationData={foregroundNotificationData} />
             )}
           </ErrorBoundary>
         );
