@@ -178,7 +178,7 @@ class EditorScreen extends Component {
     }
 
     this.changeTimer = setTimeout(() => {
-      // saveCurrentDraft(fields);
+      saveCurrentDraft(fields);
       updateDraftFields(fields);
     }, 300);
   };
