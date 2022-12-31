@@ -56,12 +56,15 @@ export const QuickReplyModalContent = forwardRef(
       },
     }));
 
+
+
+
     // load quick comment value from cache
     useEffect(() => {
       let _value = '';
-      if (drafts.has(draftId) && currentAccount.name === drafts.get(draftId).author) {
+      if (drafts instanceof Map &&  drafts.has(draftId) && currentAccount.name === drafts.get(draftId).author) {
         const quickComment: Draft = drafts.get(draftId);
-        _value = quickComment.body;
+        _value = quickComment?.body || '';
       }
 
       if (inputRef.current) {
@@ -71,6 +74,9 @@ export const QuickReplyModalContent = forwardRef(
         setCommentValue(_value);
       }
     }, [selectedPost]);
+
+
+
 
     // add quick comment value into cache
     const _addQuickCommentIntoCache = (value = commentValue) => {
@@ -177,7 +183,7 @@ export const QuickReplyModalContent = forwardRef(
             );
 
             // delete quick comment draft cache if it exist
-            if (drafts.has(draftId)) {
+            if (drafts instanceof Map &&  drafts.has(draftId)) {
               dispatch(deleteDraftCacheEntry(draftId));
             }
 

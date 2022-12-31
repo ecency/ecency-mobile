@@ -122,7 +122,7 @@ export default function (state = initialState, action) {
       return { ...state };
 
     case UPDATE_DRAFT_CACHE:
-      if (!state.drafts) {
+      if (!(state.drafts instanceof Map)) {
         state.drafts = new Map<string, Draft>();
       }
 
@@ -130,7 +130,7 @@ export default function (state = initialState, action) {
       const curDraft = state.drafts.get(payload.id);
       const payloadDraft = payload.draft;
 
-      payloadDraft.created = curDraft ? curDraft.created : curTime;
+      payloadDraft.created = curDraft?.created || curTime;
       payloadDraft.updated = curTime;
       payloadDraft.expiresAt = curTime + 604800000; // 7 days ms
 
@@ -145,7 +145,7 @@ export default function (state = initialState, action) {
       };
 
     case DELETE_DRAFT_CACHE_ENTRY:
-      if (state.drafts && state.drafts.has(payload)) {
+      if (state.drafts instanceof Map &&  state.drafts.has(payload)) {
         state.drafts.delete(payload);
       }
       return { ...state };
@@ -206,7 +206,7 @@ export default function (state = initialState, action) {
         });
       }
 
-      if (state.drafts && state.drafts.size) {
+      if (state.drafts instanceof Map &&  state.drafts.size) {
         Array.from(state.drafts).forEach((entry) => {
           if (entry[1].expiresAt < currentTime || !entry[1].body) {
             state.drafts.delete(entry[0]);
