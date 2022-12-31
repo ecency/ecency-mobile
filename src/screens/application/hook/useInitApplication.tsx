@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { isLandscape } from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -14,7 +14,12 @@ import notifee, { EventType } from '@notifee/react-native';
 import { isEmpty, some, get } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
+import {
+  setDeviceOrientation,
+  setLockedOrientation,
+  setRcOffer,
+  toastNotification,
+} from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
 import isAndroidTablet from '../../../utils/isAndroidTablet';
 import darkTheme from '../../../themes/darkTheme';
@@ -41,6 +46,12 @@ export const useInitApplication = () => {
 
   const userActivityMutation = useUserActivityMutation();
 
+  // equivalent of componentWillMount and update on props,
+  // benefit is it does not wait for useEffect callback
+  useMemo(() => {
+    EStyleSheet.build(isDarkTheme ? darkTheme : lightTheme);
+  }, [isDarkTheme]);
+
   useDeviceOrientationChange((o) => {
     // Handle device orientation change
     console.log('device orientation changed : ', o);
@@ -60,7 +71,6 @@ export const useInitApplication = () => {
         dispatch(setLockedOrientation(orientations.PORTRAIT));
       }
     });
-    EStyleSheet.build(isDarkTheme ? darkTheme : lightTheme);
 
     userActivityMutation.lazyMutatePendingActivities();
 

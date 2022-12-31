@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef, useImperativeHandle, forwardRef } from 'react';
+import React, { useEffect, useState, useRef, useImperativeHandle, forwardRef, useCallback } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, Alert, TouchableOpacity, Keyboard, Platform } from 'react-native';
+import { View, Text, Alert, TouchableOpacity, Keyboard, Platform, TextInput as RNTextInput } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
-import { get } from 'lodash';
+import { get, debounce } from 'lodash';
 import { postBodySummary } from '@ecency/render-helper';
 import styles from './quickReplyModalStyles';
 import { IconButton, MainButton, TextButton, TextInput, UserAvatar } from '..';
@@ -35,11 +35,11 @@ export const QuickReplyModalContent = forwardRef(
     const dispatch = useDispatch();
     const userActivityMutation = useUserActivityMutation();
 
-    const inputRef = useRef(null);
+    const inputRef = useRef<RNTextInput|null>(null);
 
     const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
     const pinCode = useSelector((state: RootState) => state.application.pin);
-    const drafts = useSelector((state: RootState) => state.cache.drafts);
+    const draftsCollection = useSelector((state: RootState) => state.cache.draftsCollection);
 
     const [commentValue, setCommentValue] = useState('');
     const [isSending, setIsSending] = useState(false);
@@ -56,12 +56,16 @@ export const QuickReplyModalContent = forwardRef(
       },
     }));
 
+
+
+
     // load quick comment value from cache
     useEffect(() => {
       let _value = '';
-      if (drafts.has(draftId) && currentAccount.name === drafts.get(draftId).author) {
-        const quickComment: Draft = drafts.get(draftId);
-        _value = quickComment.body;
+      if (draftsCollection && !!draftsCollection[draftId] && currentAccount.name === draftsCollection[draftId].author) {
+        const quickComment: Draft = draftsCollection[draftId];
+        _value = currentAccount.name === quickComment.author && !!quickComment.body 
+          ? quickComment.body : '';
       }
 
       if (inputRef.current) {
@@ -71,6 +75,9 @@ export const QuickReplyModalContent = forwardRef(
         setCommentValue(_value);
       }
     }, [selectedPost]);
+
+
+
 
     // add quick comment value into cache
     const _addQuickCommentIntoCache = (value = commentValue) => {
@@ -177,7 +184,7 @@ export const QuickReplyModalContent = forwardRef(
             );
 
             // delete quick comment draft cache if it exist
-            if (drafts.has(draftId)) {
+            if (drafts instanceof Map &&  drafts.has(draftId)) {
               dispatch(deleteDraftCacheEntry(draftId));
             }
 
@@ -216,13 +223,11 @@ export const QuickReplyModalContent = forwardRef(
       }
     };
 
-    // REMOVED FOR TESTING, CAN BE PUT BACK IF APP STILL CRASHES
-    // const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), [])
+    const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), [])
 
     const _onChangeText = (value) => {
       setCommentValue(value);
-      // REMOVED FOR TESTING, CAN BE PUT BACK IF APP STILL CRASHES
-      // _deboucedCacheUpdate(value)
+      _deboucedCacheUpdate(value)
     };
 
     // VIEW_RENDERERS

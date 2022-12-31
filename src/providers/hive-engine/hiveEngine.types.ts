@@ -78,6 +78,7 @@ export interface HiveEngineToken {
   tokenPrice?: number;
   percentChange?: number;
   unclaimedBalance: string;
+  volume24h?:number
 }
 
 export interface TokenMetadata {

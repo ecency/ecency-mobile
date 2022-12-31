@@ -214,10 +214,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _getStorageDraft = async (username, isReply, paramDraft) => {
-    const { drafts } = this.props;
+    const { draftsCollection } = this.props;
     if (isReply) {
-      const _draft = drafts.get(paramDraft._id);
-      if (_draft && _draft.body) {
+      const _draft = draftsCollection &&  draftsCollection[paramDraft._id];
+      if (_draft && !!_draft.body) {
         this.setState({
           draftPost: {
             body: _draft.body,
@@ -227,13 +227,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     } else {
       // TOOD: get draft from redux after reply side is complete
       const _draftId = paramDraft ? paramDraft._id : DEFAULT_USER_DRAFT_ID + username;
-      const _localDraft = drafts.get(_draftId);
+      const _localDraft = draftsCollection && draftsCollection[_draftId];
 
       // if _draft is returned and param draft is available, compare timestamp, use latest
       // if no draft, use result anayways
 
       const _remoteDraftModifiedAt = paramDraft ? new Date(paramDraft.modified).getTime() : 0;
-      const _useLocalDraft = _localDraft && _remoteDraftModifiedAt < _localDraft.updated;
+      const _useLocalDraft = _remoteDraftModifiedAt < (_localDraft?.updated || 0);
       if (_useLocalDraft) {
         this.setState({
           draftPost: {
@@ -315,7 +315,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
    * @param isReply
    * */
   _fetchDraftsForComparison = async (isReply) => {
-    const { currentAccount, isLoggedIn, drafts } = this.props;
+    const { currentAccount, isLoggedIn, draftsCollection } = this.props;
     const username = get(currentAccount, 'name', '');
 
     // initilizes editor with reply or non remote id less draft
@@ -339,9 +339,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         return;
       }
 
-      const remoteDrafts = await getDrafts(username);
+      const remoteDrafts = await getDrafts();
 
-      const idLessDraft = drafts.get(DEFAULT_USER_DRAFT_ID + username);
+      const idLessDraft = draftsCollection && draftsCollection[DEFAULT_USER_DRAFT_ID + username];
 
       const loadRecentDraft = () => {
         // if no draft available means local draft is recent
@@ -533,21 +533,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     const draftField = {
       title: fields.title || '',
-      body: fields.body,
+      body: fields.body || '',
       tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       author: username,
       meta: fields.meta && fields.meta,
     };
 
-    // save reply data
-    if (isReply && draftField.body !== null) {
-      dispatch(updateDraftCache(draftId, draftField));
-
-      // save existing draft data locally
-    } else if (draftId) {
+    // save reply data or save existing draft data locall
+    if (isReply || draftId) {
       dispatch(updateDraftCache(draftId, draftField));
     }
-
     // update editor data locally
     else if (!isReply) {
       dispatch(updateDraftCache(DEFAULT_USER_DRAFT_ID + username, draftField));
@@ -1158,7 +1153,7 @@ const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   pinCode: state.application.pin,
   beneficiariesMap: state.editor.beneficiariesMap,
-  drafts: state.cache.drafts,
+  draftsCollection: state.cache.draftsCollection,
 });
 
 const mapQueriesToProps = () => ({

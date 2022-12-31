@@ -3,7 +3,13 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 export default EStyleSheet.create({
-
+  modalStyle:{
+    flex: 1,
+    backgroundColor: '$primaryBackgroundColor',
+    margin: 0,
+    paddingTop: 16,
+    paddingBottom: 16,
+  },
   sheetContent: {
     backgroundColor: '$primaryBackgroundColor',
   },
@@ -17,9 +23,9 @@ export default EStyleSheet.create({
   } as ViewStyle,
 
   scrollContainer: {
-    marginTop: 32,
+    flex:1,
+    marginTop: 16,
     marginBottom: 16,
-    maxHeight:300, 
   } as ViewStyle,
 
   informationText: {
@@ -29,7 +35,7 @@ export default EStyleSheet.create({
   } as TextStyle,
 
   modalContainer: {
-    marginTop: 16,
+    flex:1,
     marginBottom: 44,
     paddingHorizontal: 24,
     alignItems: 'center',

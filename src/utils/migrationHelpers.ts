@@ -42,6 +42,7 @@ import {
   toastNotification,
 } from '../redux/actions/uiAction';
 import { decryptKey, encryptKey } from './crypto';
+import { Draft } from '../redux/reducers/cacheReducer';
 
 // migrates settings from realm to redux once and do no user realm for settings again;
 export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean) => {
@@ -177,6 +178,20 @@ const reduxMigrations = {
     state.application.notificationDetails.bookmarkNotification = true;
     return state;
   },
+  3:(state) => {
+    const drafts:[string, Draft][] = state.cache.drafts
+    const _draftsCollection = {}
+    if(drafts instanceof Array){
+      drafts.forEach(([key, data]) => {
+        if(key && data.body && data.author && data.updated){
+          _draftsCollection[key] = data;
+        }
+      });
+    }
+    state.cache.draftsCollection = _draftsCollection
+    delete state.cache.drafts
+    return state
+  }
 };
 
 export default {
