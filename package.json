@@ -37,7 +37,7 @@
     "@esteemapp/react-native-autocomplete-input": "^4.2.1",
     "@esteemapp/react-native-multi-slider": "^1.1.0",
     "@esteemapp/react-native-slider": "^0.12.0",
-    "@hiveio/dhive": "^1.0.1",
+    "@hiveio/dhive": "^1.2.5",
     "@native-html/iframe-plugin": "^2.6.1",
     "@native-html/table-plugin": "^5.3.1",
     "@notifee/react-native": "^7.0.4",
