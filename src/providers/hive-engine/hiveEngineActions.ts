@@ -1,4 +1,5 @@
-import { PrivateKey } from '@hiveio/dhive';
+import { Operation } from '@hiveio/dhive';
+import { PrivateKey } from '@esteemapp/dhive';
 import { get } from 'lodash';
 import parseToken from '../../utils/parseToken';
 import {
@@ -24,7 +25,7 @@ const executeEngineAction = (json: EngineActionJSON, currentAccount: any, pinHas
       required_auths: [username],
       required_posting_auths: [],
     };
-    const opArray = [['custom_json', op]];
+    const opArray:Operation[] = [['custom_json', op]];
     return sendHiveOperations(opArray, privateKey);
   }
 
