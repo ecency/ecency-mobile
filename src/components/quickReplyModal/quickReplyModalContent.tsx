@@ -184,7 +184,7 @@ export const QuickReplyModalContent = forwardRef(
             );
 
             // delete quick comment draft cache if it exist
-            if (drafts instanceof Map &&  drafts.has(draftId)) {
+            if (draftsCollection instanceof Map &&  draftsCollection.has(draftId)) {
               dispatch(deleteDraftCacheEntry(draftId));
             }
 
