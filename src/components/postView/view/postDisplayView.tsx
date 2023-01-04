@@ -263,7 +263,6 @@ const PostDisplayView = ({
       </View>
     </>
   );
-console.log('isLoadedComments : ', isLoadedComments);
 
   return (
     <View style={styles.container}>
