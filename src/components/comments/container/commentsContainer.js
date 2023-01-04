@@ -174,7 +174,10 @@ const CommentsContainer = ({
 
   const _getComments = async () => {
     if (isOwnProfile) {
-      fetchPost();
+      await fetchPost();
+      if (handleOnCommentsLoaded) {
+        handleOnCommentsLoaded();
+      }
     } else if (author && permlink && !propComments) {
       await getComments(author, permlink, name)
         .then((__comments) => {
@@ -183,15 +186,14 @@ const CommentsContainer = ({
           __comments = _sortComments(selectedFilter, __comments);
 
           setLComments(__comments);
+          if (handleOnCommentsLoaded) {
+            handleOnCommentsLoaded();
+          }
         })
         .catch(() => {});
     } else {
       _handleCachedComment();
-    }
-
-    if (handleOnCommentsLoaded) {
-      handleOnCommentsLoaded();
-    }
+    }    
   };
 
   const _handleCachedComment = (passedComments = null) => {
