@@ -96,7 +96,7 @@ const PostDisplayView = ({
       commentsListRef.current.scrollToOffset({ offset: postBodyHeight }); // fix for bug causing crash when there is no comment
       return;
     }
-    if (commentsListRef.current && post?.children) {
+    if (commentsListRef.current && post?.children && isLoadedComments) {
       commentsListRef.current.scrollToIndex({ index: 0, viewOffset: 108 });
     }
   };
@@ -263,6 +263,7 @@ const PostDisplayView = ({
       </View>
     </>
   );
+console.log('isLoadedComments : ', isLoadedComments);
 
   return (
     <View style={styles.container}>
