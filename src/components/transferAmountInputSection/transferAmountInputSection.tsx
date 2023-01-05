@@ -23,6 +23,7 @@ export interface TransferAmountInputSectionProps {
   selectedAccount: any;
   fundType: any;
   currentAccountName: string;
+  disableMinimum?: boolean
 }
 
 const TransferAmountInputSection = ({
@@ -37,6 +38,7 @@ const TransferAmountInputSection = ({
   setAmount,
   transferType,
   fundType,
+  disableMinimum
 }) => {
   const intl = useIntl();
 
@@ -88,13 +90,15 @@ const TransferAmountInputSection = ({
   const _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
   const _renderCenterDescription = (text) => <Text style={styles.centerDescription}>{text}</Text>;
 
+  const amountLimitText = disableMinimum ? '' : intl.formatMessage({id:"transfer.amount_select_desc_limit"});
+
   return (
     <View style={styles.stepTwoContainer}>
       <Text style={styles.sectionHeading}>
         {intl.formatMessage({ id: 'transfer.amount_select_title' })}
       </Text>
       <Text style={styles.sectionSubheading}>
-        {intl.formatMessage({ id: 'transfer.amount_select_description' })}
+        {intl.formatMessage({ id: 'transfer.amount_select_description' }, {suffix:amountLimitText})}
       </Text>
       <TransferFormItem
         label={intl.formatMessage({ id: 'transfer.amount' })}

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef } from 'react';
+import React, { Fragment, useState, useRef, useMemo } from 'react';
 import { Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
@@ -65,7 +65,10 @@ const TransferView = ({
   );
   const [hsTransfer, setHsTransfer] = useState(false);
   const [isTransfering, setIsTransfering] = useState(false);
+
   const confirm = useRef(null);
+
+  const isEngineToken = useMemo(()=>transferType.endsWith('_engine'), [transferType]);
 
   const _handleTransferAction = () => {
     setIsTransfering(true);
@@ -123,7 +126,7 @@ const TransferView = ({
       path = `sign/withdraw_vesting?account=${currentAccountName}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
-    } else if (transferType.endsWith('_engine')) {
+    } else if (isEngineToken) {
       const json = getEngineActionJSON(
         transferType.split('_')[0],
         destination,
@@ -143,6 +146,9 @@ const TransferView = ({
       )}&memo=${encodeURIComponent(memo)}`;
     }
   }
+
+  const nextBtnDisabled = !((isEngineToken ? amount > 0 : amount >= 0.001) && isUsernameValid);
+
   return (
     <Fragment>
       <BasicHeader
@@ -187,11 +193,12 @@ const TransferView = ({
             selectedAccount={selectedAccount}
             fundType={fundType}
             currentAccountName={currentAccountName}
+            disableMinimum={isEngineToken}
           />
           <View style={styles.bottomContent}>
             <MainButton
               style={styles.button}
-              isDisable={!(amount >= 0.001 && isUsernameValid)}
+              isDisable={nextBtnDisabled}
               onPress={() => confirm.current.show()}
               isLoading={isTransfering}
             >
