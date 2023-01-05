@@ -20,6 +20,9 @@ import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
 import transferTypes from '../../../constants/transferTypes';
 import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineActions';
+import { useAppDispatch } from '../../../hooks';
+import showLoginAlert from '../../../utils/showLoginAlert';
+import { showActionModal } from '../../../redux/actions/uiAction';
 
 const TransferView = ({
   currentAccountName,
@@ -35,6 +38,9 @@ const TransferView = ({
   selectedAccount,
   fetchBalance,
 }) => {
+
+  const dispatch = useAppDispatch();
+
   const [from, setFrom] = useState(currentAccountName);
   const [destination, setDestination] = useState(
     transferType === 'transfer_to_vesting' ||
@@ -65,8 +71,6 @@ const TransferView = ({
   );
   const [hsTransfer, setHsTransfer] = useState(false);
   const [isTransfering, setIsTransfering] = useState(false);
-
-  const confirm = useRef(null);
 
   const isEngineToken = useMemo(()=>transferType.endsWith('_engine'), [transferType]);
 
@@ -147,17 +151,34 @@ const TransferView = ({
     }
   }
 
+  const _onNextPress = () => {
+    dispatch(showActionModal({
+        title:intl.formatMessage({ id: 'transfer.information' }),
+        buttons:[
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            onPress: ()=>{}
+          },
+          {
+            text: intl.formatMessage({ id: 'alert.confirm' }),
+            onPress:_handleTransferAction
+          }
+        ]
+      }))
+    }
+
+
   const nextBtnDisabled = !((isEngineToken ? amount > 0 : amount >= 0.001) && isUsernameValid);
 
   return (
-    <Fragment>
+    <View style={styles.container}>
       <BasicHeader
         title={intl.formatMessage({ id: `transfer.${transferType}` })}
         backIconName="close"
       />
 
       <KeyboardAwareScrollView
-        keyboardShouldPersistTaps
+        keyboardShouldPersistTaps={'always'}
         contentContainerStyle={[styles.grow, styles.keyboardAwareScrollContainer]}
       >
         <View style={styles.container}>
@@ -199,7 +220,7 @@ const TransferView = ({
             <MainButton
               style={styles.button}
               isDisable={nextBtnDisabled}
-              onPress={() => confirm.current.show()}
+              onPress={_onNextPress}
               isLoading={isTransfering}
             >
               <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
@@ -208,19 +229,6 @@ const TransferView = ({
         </View>
       </KeyboardAwareScrollView>
 
-      <OptionsModal
-        ref={confirm}
-        options={[
-          intl.formatMessage({ id: 'alert.confirm' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
-        ]}
-        title={intl.formatMessage({ id: 'transfer.information' })}
-        cancelButtonIndex={1}
-        destructiveButtonIndex={0}
-        onPress={(index) => {
-          index === 0 ? _handleTransferAction() : null;
-        }}
-      />
       {path && (
         <Modal
           isOpen={hsTransfer}
@@ -232,7 +240,7 @@ const TransferView = ({
           <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
         </Modal>
       )}
-    </Fragment>
+    </View>
   );
 };
 
