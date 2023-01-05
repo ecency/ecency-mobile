@@ -17,11 +17,9 @@ import {
 } from '../../../components';
 
 import styles from './transferStyles';
-import { OptionsModal } from '../../../components/atoms';
 import transferTypes from '../../../constants/transferTypes';
 import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineActions';
 import { useAppDispatch } from '../../../hooks';
-import showLoginAlert from '../../../utils/showLoginAlert';
 import { showActionModal } from '../../../redux/actions/uiAction';
 
 const TransferView = ({

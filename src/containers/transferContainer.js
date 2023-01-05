@@ -32,6 +32,8 @@ import {
   undelegateHiveEngine,
   unstakeHiveEngine,
 } from '../providers/hive-engine/hiveEngineActions';
+import { fetchTokenBalances } from '../providers/hive-engine/hiveEngine';
+import transferTypes from '../constants/transferTypes';
 
 /*
  *            Props Name        Description                                     Value
@@ -82,38 +84,66 @@ class TransferContainer extends Component {
     getAccount(username).then(async (account) => {
       let balance;
 
-      if (
-        (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
-        fundType === 'HIVE'
-      ) {
-        balance = account.balance.replace(fundType, '');
-      }
-      if (
-        (transferType === 'purchase_estm' ||
-          transferType === 'convert' ||
-          transferType === 'transfer_token') &&
-        fundType === 'HBD'
-      ) {
-        balance = account.hbd_balance.replace(fundType, '');
-      }
-      if (transferType === 'points' && fundType === 'ESTM') {
-        this._getUserPointsBalance(username);
-      }
-      if (transferType === 'transfer_to_savings' && fundType === 'HIVE') {
-        balance = account.balance.replace(fundType, '');
-      }
-      if (transferType === 'transfer_to_savings' && fundType === 'HBD') {
-        balance = account.hbd_balance.replace(fundType, '');
-      }
-      if (transferType === 'transfer_to_vesting' && fundType === 'HIVE') {
-        balance = account.balance.replace(fundType, '');
-      }
-      if (transferType === 'address_view' && fundType === 'BTC') {
-        // TODO implement transfer of custom tokens
-        console.log(tokenAddress);
+      if (transferType.endsWith('_engine')) {
+        const tokenBalances = await fetchTokenBalances(username);
+
+        tokenBalances.forEach((tokenBalance) => {
+          if (tokenBalance.symbol === fundType) {
+            switch(transferType){
+              case transferTypes.UNDELEGATE_ENGINE:
+                balance = tokenBalance.delegationsOut;
+                break;
+              case transferTypes.UNSTAKE_ENGINE:
+                balance = tokenBalance.stake;
+                break;
+              default: 
+                balance = tokenBalance.balance;
+                break;
+            }
+          }
+          if(!balance){
+            balance = '0';
+          }
+        })
+
+        console.log("retrieved balance", balance);
+
+      } else {
+
+        if (
+          (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
+          fundType === 'HIVE'
+        ) {
+          balance = account.balance.replace(fundType, '');
+        }
+        if (
+          (transferType === 'purchase_estm' ||
+            transferType === 'convert' ||
+            transferType === 'transfer_token') &&
+          fundType === 'HBD'
+        ) {
+          balance = account.hbd_balance.replace(fundType, '');
+        }
+        if (transferType === 'points' && fundType === 'ESTM') {
+          this._getUserPointsBalance(username);
+        }
+        if (transferType === 'transfer_to_savings' && fundType === 'HIVE') {
+          balance = account.balance.replace(fundType, '');
+        }
+        if (transferType === 'transfer_to_savings' && fundType === 'HBD') {
+          balance = account.hbd_balance.replace(fundType, '');
+        }
+        if (transferType === 'transfer_to_vesting' && fundType === 'HIVE') {
+          balance = account.balance.replace(fundType, '');
+        }
+        if (transferType === 'address_view' && fundType === 'BTC') {
+          // TODO implement transfer of custom tokens
+          console.log(tokenAddress);
+        }
       }
 
       const local = await getUserDataWithUsername(username);
+
 
       if (balance) {
         this.setState({ balance: Number(balance) });
