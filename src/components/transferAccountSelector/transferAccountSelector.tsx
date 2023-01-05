@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { Text, View } from 'react-native';
+import { debounce } from 'lodash';
 import transferTypes from '../../constants/transferTypes';
 import DropdownButton from '../dropdownButton';
 import Icon from '../icon';
 import TextInput from '../textInput';
 import { TransferFormItem } from '../transferFormItem';
 import UserAvatar from '../userAvatar';
+
 // Styles
 import styles from './transferAccountSelectorStyles';
 
@@ -46,12 +48,47 @@ const TransferAccountSelector = ({
   setMemo,
 }) => {
   const intl = useIntl();
+  const destinationRef = useRef('');
 
   const _handleOnDropdownChange = (value) => {
     fetchBalance(value);
     setFrom(value);
     if (transferType === 'convert') {
+      destinationRef.current = value
       setDestination(value);
+    }
+  };
+
+  const _debouncedValidateUsername = useCallback(debounce((username:string)=>{
+    getAccountsWithUsername(username).then((res) => {
+      //often times response for check with no matching user is returned later
+      //compoared to updated input values, this makes sure only matching value/response is processed
+      if(username !== destinationRef.current){
+        return;
+      }
+      const isValid = res.includes(username);
+      setIsUsernameValid(isValid);
+      
+    });
+  }, 300), [])
+
+  const _handleOnChange = (state: string, val: string) => {
+    let _amount = val.toString();
+    if (_amount.includes(',')) {
+      _amount = val.replace(',', '.');
+    }
+    if (state === 'amount') {
+      if (parseFloat(Number(_amount)) <= parseFloat(balance)) {
+        setAmount(_amount);
+      }
+    }
+    if (state === 'destination') {
+      _debouncedValidateUsername(val)
+      destinationRef.current = _amount
+      setDestination(_amount);
+    }
+    if (state === 'memo') {
+      setMemo(_amount);
     }
   };
 
@@ -69,28 +106,7 @@ const TransferAccountSelector = ({
     />
   );
 
-  const _handleOnChange = (state: string, val: string) => {
-    let _amount = val.toString();
-    if (_amount.includes(',')) {
-      _amount = val.replace(',', '.');
-    }
-    if (state === 'amount') {
-      if (parseFloat(Number(_amount)) <= parseFloat(balance)) {
-        setAmount(_amount);
-      }
-    }
-    if (state === 'destination') {
-      getAccountsWithUsername(val).then((res) => {
-        const isValid = res.includes(val);
 
-        setIsUsernameValid(isValid);
-      });
-      setDestination(_amount);
-    }
-    if (state === 'memo') {
-      setMemo(_amount);
-    }
-  };
 
   const _renderInput = (placeholder, state, keyboardType, isTextArea) => (
     <TextInput
