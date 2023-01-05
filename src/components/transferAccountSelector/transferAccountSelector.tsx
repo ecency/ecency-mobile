@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { Text, View } from 'react-native';
 import { debounce } from 'lodash';
@@ -50,25 +50,39 @@ const TransferAccountSelector = ({
   const intl = useIntl();
   const destinationRef = useRef('');
 
+  const destinationLocked = useMemo(() => {
+    switch (transferType) {
+      case transferTypes.CONVERT:
+      case transferTypes.PURCHASE_ESTM:
+      case transferTypes.UNSTAKE_ENGINE:
+        return true;
+      default: return false;
+    }
+
+  }, [transferType]);
+
+
   const _handleOnDropdownChange = (value) => {
     fetchBalance(value);
     setFrom(value);
-    if (transferType === 'convert') {
-      destinationRef.current = value
+
+    if (destinationLocked) {
+      destinationRef.current = value;
       setDestination(value);
     }
+
   };
 
-  const _debouncedValidateUsername = useCallback(debounce((username:string)=>{
+  const _debouncedValidateUsername = useCallback(debounce((username: string) => {
     getAccountsWithUsername(username).then((res) => {
       //often times response for check with no matching user is returned later
       //compoared to updated input values, this makes sure only matching value/response is processed
-      if(username !== destinationRef.current){
+      if (username !== destinationRef.current) {
         return;
       }
       const isValid = res.includes(username);
       setIsUsernameValid(isValid);
-      
+
     });
   }, 300), [])
 
@@ -116,10 +130,10 @@ const TransferAccountSelector = ({
         state === 'destination'
           ? destination
           : state === 'amount'
-          ? amount
-          : state === 'memo'
-          ? memo
-          : ''
+            ? amount
+            : state === 'memo'
+              ? memo
+              : ''
       }
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
@@ -142,9 +156,7 @@ const TransferAccountSelector = ({
         label={intl.formatMessage({ id: 'transfer.from' })}
         rightComponent={() => _renderDropdown(accounts, currentAccountName)}
       />
-      {transferType !== transferTypes.CONVERT &&
-        transferType !== transferTypes.PURCHASE_ESTM &&
-        transferType !== transferTypes.UNSTAKE_ENGINE && (
+      {!destinationLocked && (
           <TransferFormItem
             label={intl.formatMessage({ id: 'transfer.to' })}
             rightComponent={() =>
