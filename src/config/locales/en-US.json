@@ -530,7 +530,7 @@
     "open_settings":"Open Settings"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Content is not available",
     "copy_link": "Copy link",
     "copy_text": "Copy text",
