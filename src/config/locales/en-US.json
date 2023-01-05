@@ -65,7 +65,7 @@
     "amount": "Amount",
     "memo": "Memo",
     "tap_update":"Tap to update",
-    "information": "Are you sure to transfer funds?",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
     "to_placeholder": "Username",
