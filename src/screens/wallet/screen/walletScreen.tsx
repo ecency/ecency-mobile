@@ -17,7 +17,7 @@ import moment from 'moment';
 import { LoggedInContainer } from '../../../containers';
 
 // Components
-import { Header, HorizontalIconList, PostCardPlaceHolder, TextButton } from '../../../components';
+import { Header, HorizontalIconList, PostCardPlaceHolder } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -31,7 +31,6 @@ import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetails
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
 import { CoinBase, CoinData } from '../../../redux/reducers/walletReducer';
 import {
-  fetchAndSetCoinsData,
   fetchCoinQuotes,
   resetWalletData,
   setPriceHistory,
@@ -44,12 +43,15 @@ import { toastNotification } from '../../../redux/actions/uiAction';
 import { ManageAssets } from '../children/manageAssets';
 import { claimRewards } from '../../../providers/hive-engine/hiveEngineActions';
 import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
+import { useGetAssetsQuery } from '../../../providers/queries';
 
 const CHART_DAYS_RANGE = 1;
 
 const WalletScreen = ({ navigation }) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
+
+
 
   //refs
   const appState = useRef(AppState.currentState);
@@ -70,9 +72,10 @@ const WalletScreen = ({ navigation }) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinHash = useAppSelector((state) => state.application.pin);
 
+  //queries
+  const walletQuery = useGetAssetsQuery(currentAccount.username)
+
   //state
-  const [isLoading, setIsLoading] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
 
 
@@ -115,7 +118,7 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _fetchData = (refresh?: boolean) => {
-    if (!isLoading) {
+    if (!walletQuery.isFetching || refresh) {
       _fetchPriceHistory();
       _fetchCoinsData(refresh);
     }
@@ -150,14 +153,10 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _fetchCoinsData = async (refresh?: boolean) => {
-    setIsLoading(true);
     if (refresh || !quotes) {
       dispatch(fetchCoinQuotes());
     }
-    await dispatch(fetchAndSetCoinsData(refresh));
-
-    setRefreshing(false);
-    setIsLoading(false);
+    walletQuery.refresh()
   };
 
   const _claimEcencyPoints = async () => {
@@ -218,8 +217,7 @@ const WalletScreen = ({ navigation }) => {
   }
 
   const _claimRewards = (coinId: string) => {
-    if (isLoading) {
-      setRefreshing(true);
+    if (walletQuery.isFetching) {
       Alert.alert(intl.formatMessage({ id: 'alert.wallet_updating' }));
       return;
     }
@@ -290,7 +288,7 @@ const WalletScreen = ({ navigation }) => {
           unclaimedRewards={coinData.unclaimedBalance}
           enableBuy={!coinData.unclaimedBalance && item.id === ASSET_IDS.ECENCY}
           isClaiming={isClaiming}
-          isLoading={isLoading}
+          isLoading={walletQuery.isFetching}
           volume24h={coinData.volume24h}
           onCardPress={_onCardPress}
           onClaimPress={_onClaimPress}
@@ -307,7 +305,7 @@ const WalletScreen = ({ navigation }) => {
     return (
       <View style={styles.header}>
         <Text style={styles.lastUpdateText}>
-          {isLoading
+          {walletQuery.isFetching
             ? intl.formatMessage({ id: 'wallet.updating' })
             : `${intl.formatMessage({ id: 'wallet.last_updated' })} ${moment(
               updateTimestamp,
@@ -321,10 +319,9 @@ const WalletScreen = ({ navigation }) => {
 
   const _refreshControl = (
     <RefreshControl
-      refreshing={refreshing}
+      refreshing={walletQuery.isRefreshing}
       onRefresh={() => {
         _fetchData(true);
-        setRefreshing(true);
       }}
       progressBackgroundColor="#357CE6"
       tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}

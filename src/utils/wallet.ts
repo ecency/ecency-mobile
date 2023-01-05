@@ -586,7 +586,7 @@ export const fetchCoinsData = async ({
     refresh || !globalProps || !globalProps.hivePerMVests ? await fetchGlobalProps() : globalProps;
   //TODO: Use already available accoutn for frist wallet start
   const userdata = refresh ? await getAccount(username) : currentAccount;
-  const _pointsSummary = refresh ? await getPointsSummary(username) : currentAccount.pointsSummary;
+  const _pointsSummary = refresh || !currentAccount?.pointsSummary ? await getPointsSummary(username) : currentAccount.pointsSummary;
   //TODO: cache data in redux or fetch once on wallet startup
   const _prices = !refresh && quotes ? quotes : await getLatestQuotes(currencyRate); //TODO: figure out a way to handle other currencies
 
