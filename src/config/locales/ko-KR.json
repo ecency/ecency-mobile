@@ -65,7 +65,7 @@
     "amount": "수량",
     "memo": "메모",
     "tap_update": "Tap to update",
-    "information": "자금을 전송하시겠습니까?",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "잔액",
     "memo_desc": "이 메모는 누구나 볼 수 있습니다",
     "to_placeholder": "사용자 이름",
@@ -530,7 +530,7 @@
     "open_settings": "Open Settings"
   },
   "post": {
-    "reblog_alert": "리블로그 하시겠습니까?",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "콘텐츠 이용 불가",
     "copy_link": "링크 복사하기",
     "copy_text": "텍스트 복사",
@@ -705,9 +705,10 @@
     "invalid_amount": "잘못된 금액",
     "invalid_amount_desc": "올바른 금액을 입력하세요",
     "account_select_title": "계정 정보",
-    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "송금 세부 정보",
-    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
+    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "amount_select_title": "Action Details",
+    "amount_select_description": "Enter amount within maximum available balance {suffix}",
+    "amount_select_desc_limit": " and must be greater than 0.001"
   },
   "boost": {
     "title": "포인트 받기",
