@@ -65,7 +65,7 @@
     "amount": "रकम",
     "memo": "ज्ञापन",
     "tap_update": "अपडेट करने के लिए टैप करें",
-    "information": "क्या आप रकम स्थान्तरित करना चाहते हैं?",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "शेष रकम",
     "memo_desc": "यह ज्ञापन सार्वजनिक है",
     "to_placeholder": "प्रयोक्ता नाम",
@@ -530,7 +530,7 @@
     "open_settings": "Open Settings"
   },
   "post": {
-    "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "सामग्री उपलब्ध नहीं है",
     "copy_link": "लिंक कापी करें",
     "copy_text": "टेक्स्ट कॉपी करें",
@@ -705,9 +705,10 @@
     "invalid_amount": "अमान्य राशि",
     "invalid_amount_desc": "कृपया मान्य राशि दर्ज करें",
     "account_select_title": "अकाउंट विवरण",
-    "account_select_description": "धन से संबंधित संचालन अपरिवर्तनीय हैं, सुनिश्चित करें कि प्राप्तकर्ता का उपयोगकर्ता नाम सही है",
-    "amount_select_title": "स्थानांतरण विवरण",
-    "amount_select_description": "अधिकतम उपलब्ध शेष राशि के भीतर स्थानांतरण राशि दर्ज करें और 0.001 से अधिक होनी चाहिए"
+    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "amount_select_title": "Action Details",
+    "amount_select_description": "Enter amount within maximum available balance {suffix}",
+    "amount_select_desc_limit": " and must be greater than 0.001"
   },
   "boost": {
     "title": "अंक प्राप्त करें",
