@@ -65,7 +65,7 @@
     "amount": "數量",
     "memo": "備註（Memo）",
     "tap_update": "Tap to update",
-    "information": "您確定要轉帳資金嗎？",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "餘額",
     "memo_desc": "這個備註是公開的",
     "to_placeholder": "用戶名稱",
@@ -530,7 +530,7 @@
     "open_settings": "Open Settings"
   },
   "post": {
-    "reblog_alert": "您確定想要轉發？",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "內容不存在",
     "copy_link": "複製連結",
     "copy_text": "Copy text",
@@ -705,9 +705,10 @@
     "invalid_amount": "數額錯誤",
     "invalid_amount_desc": "請輸入有效的數額",
     "account_select_title": "賬號資訊",
-    "account_select_description": "与资金相关的操作不可撤销，请确保收款人用户名正确",
-    "amount_select_title": "轉賬資訊",
-    "amount_select_description": "输入的數額大于錢包的餘額，請確保餘額大于 0.001"
+    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "amount_select_title": "Action Details",
+    "amount_select_description": "Enter amount within maximum available balance {suffix}",
+    "amount_select_desc_limit": " and must be greater than 0.001"
   },
   "boost": {
     "title": "獲取積分",
