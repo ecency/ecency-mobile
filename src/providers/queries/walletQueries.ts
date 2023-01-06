@@ -20,7 +20,7 @@ export const useGetAssetsQuery = () => {
         }
     },[isRefreshing])
 
-    const query = useQuery([QUERIES.DRAFTS.GET, currentAccount.username], async () => {
+    const query = useQuery([QUERIES.WALLET.GET, currentAccount.username], async () => {
         await dispatch(fetchAndSetCoinsData(isRefreshing));
         setIsRefreshing(false);
         return true;
