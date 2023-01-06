@@ -65,7 +65,7 @@
     "amount": "Määrä",
     "memo": "Muistio",
     "tap_update": "Napsauta päivittääksesi",
-    "information": "Haluatko varmasti siirtää varoja?",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "Saldo",
     "memo_desc": "Tämä muistio on julkinen",
     "to_placeholder": "Käyttäjänimi",
@@ -530,7 +530,7 @@
     "open_settings": "Avaa asetukset"
   },
   "post": {
-    "reblog_alert": "Haluatko varmasti jakaa?",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Sisältö ei ole käytettävissä",
     "copy_link": "Kopioi linkki",
     "copy_text": "Kopioi teksti",
@@ -705,9 +705,10 @@
     "invalid_amount": "Virheellinen määrä",
     "invalid_amount_desc": "Syötä kelvollinen arvo",
     "account_select_title": "Tilitiedot",
-    "account_select_description": "Varoihin liittyvät toiminnot ovat peruuttamattomia. Varmista, että vastaanottajan käyttäjätunnus on oikea",
-    "amount_select_title": "Siirron Tiedot",
-    "amount_select_description": "Syötä siirtosumma maksimaalisen käytettävissä olevan saldon rajoissa ja määrän tulee olla suurempi kuin 0.001"
+    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "amount_select_title": "Action Details",
+    "amount_select_description": "Enter amount within maximum available balance {suffix}",
+    "amount_select_desc_limit": " and must be greater than 0.001"
   },
   "boost": {
     "title": "Hanki pisteitä",
