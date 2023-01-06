@@ -65,7 +65,7 @@
     "amount": "مقدار",
     "memo": "یادداشت",
     "tap_update": "Tap to update",
-    "information": "آیا مطمئن هستید که وجوه را منتقل می کنید؟",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "موجودی",
     "memo_desc": "این یادداشت عمومی است",
     "to_placeholder": "نام کاربری",
@@ -530,7 +530,7 @@
     "open_settings": "Open Settings"
   },
   "post": {
-    "reblog_alert": "آیا مطمئن هستید که می‌خواهید دوباره به اشتراک بگذارید?",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "محتوا در دسترس نیست",
     "copy_link": "کاپی لنک",
     "copy_text": "Copy text",
@@ -705,9 +705,10 @@
     "invalid_amount": "Invalid Amount",
     "invalid_amount_desc": "Please enter valid amount",
     "account_select_title": "Account Details",
-    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "Transfer Details",
-    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
+    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "amount_select_title": "Action Details",
+    "amount_select_description": "Enter amount within maximum available balance {suffix}",
+    "amount_select_desc_limit": " and must be greater than 0.001"
   },
   "boost": {
     "title": "گرفتن امتیاز",
