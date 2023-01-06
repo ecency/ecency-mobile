@@ -65,7 +65,7 @@
     "amount": "Miqdor",
     "memo": "Eslatma",
     "tap_update": "Tap to update",
-    "information": "Pul o'tkazishga ishonchingiz komilmi?",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "Balans",
     "memo_desc": "Ushbu eslatma ommaviy",
     "to_placeholder": "Foydalanuvchi nomi",
@@ -530,7 +530,7 @@
     "open_settings": "Open Settings"
   },
   "post": {
-    "reblog_alert": "Ishonchingiz komilmi, qayta bloglashni xohlaysizmi?",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Kontent mavjud emas",
     "copy_link": "Linkni nusxalash",
     "copy_text": "Matnni nusxalash",
@@ -705,9 +705,10 @@
     "invalid_amount": "Yaroqsiz miqdor",
     "invalid_amount_desc": "Yaroqli miqdorni kiriting",
     "account_select_title": "Akkaunt tafsilotlari",
-    "account_select_description": "Mablag'lar bilan bog'liq operatsiyalar qaytarib bo'lmaydi, qabul qiluvchining foydalanuvchi nomi to'g'ri ekanligiga ishonch hosil qiling",
-    "amount_select_title": "Transfer tafsilotlari",
-    "amount_select_description": "Mavjud balansingizda o'tkaziladigan miqdorni kiriting. Qiymat 0,001 dan katta bo'lishi kerak"
+    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "amount_select_title": "Action Details",
+    "amount_select_description": "Enter amount within maximum available balance {suffix}",
+    "amount_select_desc_limit": " and must be greater than 0.001"
   },
   "boost": {
     "title": "Ballar oling",
