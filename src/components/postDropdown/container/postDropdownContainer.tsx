@@ -81,11 +81,11 @@ class PostDropdownContainer extends PureComponent {
     const _canUpdateCommunityPin =
       subscribedCommunities.data && !!content && content.community
         ? subscribedCommunities.data.reduce((role, subscription) => {
-            if (content.community === subscription[0]) {
-              return ['owner', 'admin', 'mod'].includes(subscription[2]);
-            }
-            return role;
-          }, false)
+          if (content.community === subscription[0]) {
+            return ['owner', 'admin', 'mod'].includes(subscription[2]);
+          }
+          return role;
+        }, false)
         : false;
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
 
@@ -132,7 +132,18 @@ class PostDropdownContainer extends PureComponent {
 
       case 'reblog':
         this.actionSheetTimer = setTimeout(() => {
-          this.ActionSheet.show();
+          dispatch(showActionModal({
+
+            title: intl.formatMessage({ id: 'post.reblog_alert' }),
+            buttons: [{
+              text: intl.formatMessage({ id: 'alert.cancel' }),
+              onPress: () => { },
+            }, {
+              text: 'Reblog',
+              onPress: () => { this._reblog() },
+            }
+            ]
+          }))
           this.actionSheetTimer = 0;
         }, 100);
         break;
@@ -288,7 +299,7 @@ class PostDropdownContainer extends PureComponent {
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {},
+            onPress: () => { },
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
@@ -490,15 +501,6 @@ class PostDropdownContainer extends PureComponent {
           )}
           handleOnDropdownSelect={this._handleOnDropdownSelect}
           {...this.props}
-        />
-        <OptionsModal
-          ref={(o) => (this.ActionSheet = o)}
-          options={['Reblog', intl.formatMessage({ id: 'alert.cancel' })]}
-          title={intl.formatMessage({ id: 'post.reblog_alert' })}
-          cancelButtonIndex={1}
-          onPress={(index) => {
-            index === 0 ? this._reblog() : null;
-          }}
         />
       </Fragment>
     );

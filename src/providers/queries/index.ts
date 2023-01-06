@@ -27,3 +27,4 @@ export * from './notificationQueries';
 export * from './draftQueries';
 export * from './editorQueries';
 export * from './pointQueries';
+export * from './walletQueries';

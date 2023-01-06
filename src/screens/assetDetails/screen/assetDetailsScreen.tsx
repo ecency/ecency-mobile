@@ -13,12 +13,13 @@ import {
   QuoteItem,
 } from '../../../redux/reducers/walletReducer';
 import { fetchCoinActivities } from '../../../utils/wallet';
-import { fetchAndSetCoinsData, setCoinActivities } from '../../../redux/actions/walletActions';
+import { setCoinActivities } from '../../../redux/actions/walletActions';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import transferTypes from '../../../constants/transferTypes';
+import { useGetAssetsQuery } from '../../../providers/queries';
 
 export interface AssetDetailsScreenParams {
   coinId: string;
@@ -43,6 +44,9 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   // refs
   const appState = useRef(AppState.currentState);
   const delegationsModalRef = useRef(null);
+
+  //queries
+  const walletQuery = useGetAssetsQuery();
 
   // redux props
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
@@ -91,13 +95,13 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
   const _fetchDetails = async (refresh = false) => {
     if (refresh) {
-      setRefreshing(refresh);
-      dispatch(fetchAndSetCoinsData(refresh));
+      walletQuery.refresh();
     } else if (noMoreActivities || loading) {
       console.log('Skipping transaction fetch', completedActivities.lastItem?.trxIndex);
       return;
     }
 
+    setRefreshing(refresh);
     setLoading(true);
 
     const startAt =
@@ -204,7 +208,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       id={coinId}
       coinSymbol={symbol}
       coinData={coinData}
-      percentChagne={quote ? quote.percentChange : coinData.percentChange || 0}
+      percentChagne={(quote ? quote.percentChange : coinData?.percentChange) || 0}
       onActionPress={_onActionPress}
       onInfoPress={_onInfoPress}
     />
@@ -217,9 +221,9 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         header={_renderHeaderComponent}
         completedActivities={completedActivities}
         pendingActivities={coinActivities?.pending || []}
-        refreshing={refreshing}
+        refreshing={refreshing || walletQuery.isRefreshing}
         loading={loading}
-        isEngine={coinData.isEngine}
+        isEngine={coinData?.isEngine}
         onEndReached={_fetchDetails}
         onRefresh={_onRefresh}
       />

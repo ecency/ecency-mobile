@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef } from 'react';
+import React, { Fragment, useState, useRef, useMemo } from 'react';
 import { Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
@@ -17,9 +17,10 @@ import {
 } from '../../../components';
 
 import styles from './transferStyles';
-import { OptionsModal } from '../../../components/atoms';
 import transferTypes from '../../../constants/transferTypes';
 import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineActions';
+import { useAppDispatch } from '../../../hooks';
+import { showActionModal } from '../../../redux/actions/uiAction';
 
 const TransferView = ({
   currentAccountName,
@@ -35,6 +36,9 @@ const TransferView = ({
   selectedAccount,
   fetchBalance,
 }) => {
+
+  const dispatch = useAppDispatch();
+
   const [from, setFrom] = useState(currentAccountName);
   const [destination, setDestination] = useState(
     transferType === 'transfer_to_vesting' ||
@@ -65,7 +69,8 @@ const TransferView = ({
   );
   const [hsTransfer, setHsTransfer] = useState(false);
   const [isTransfering, setIsTransfering] = useState(false);
-  const confirm = useRef(null);
+
+  const isEngineToken = useMemo(()=>transferType.endsWith('_engine'), [transferType]);
 
   const _handleTransferAction = () => {
     setIsTransfering(true);
@@ -123,7 +128,7 @@ const TransferView = ({
       path = `sign/withdraw_vesting?account=${currentAccountName}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
-    } else if (transferType.endsWith('_engine')) {
+    } else if (isEngineToken) {
       const json = getEngineActionJSON(
         transferType.split('_')[0],
         destination,
@@ -143,15 +148,35 @@ const TransferView = ({
       )}&memo=${encodeURIComponent(memo)}`;
     }
   }
+
+  const _onNextPress = () => {
+    dispatch(showActionModal({
+        title:intl.formatMessage({ id: 'transfer.information' }),
+        buttons:[
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            onPress: ()=>{}
+          },
+          {
+            text: intl.formatMessage({ id: 'alert.confirm' }),
+            onPress:_handleTransferAction
+          }
+        ]
+      }))
+    }
+
+
+  const nextBtnDisabled = !((isEngineToken ? amount > 0 : amount >= 0.001) && isUsernameValid);
+
   return (
-    <Fragment>
+    <View style={styles.container}>
       <BasicHeader
         title={intl.formatMessage({ id: `transfer.${transferType}` })}
         backIconName="close"
       />
 
       <KeyboardAwareScrollView
-        keyboardShouldPersistTaps
+        keyboardShouldPersistTaps={'always'}
         contentContainerStyle={[styles.grow, styles.keyboardAwareScrollContainer]}
       >
         <View style={styles.container}>
@@ -187,12 +212,13 @@ const TransferView = ({
             selectedAccount={selectedAccount}
             fundType={fundType}
             currentAccountName={currentAccountName}
+            disableMinimum={isEngineToken}
           />
           <View style={styles.bottomContent}>
             <MainButton
               style={styles.button}
-              isDisable={!(amount >= 0.001 && isUsernameValid)}
-              onPress={() => confirm.current.show()}
+              isDisable={nextBtnDisabled}
+              onPress={_onNextPress}
               isLoading={isTransfering}
             >
               <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
@@ -201,19 +227,6 @@ const TransferView = ({
         </View>
       </KeyboardAwareScrollView>
 
-      <OptionsModal
-        ref={confirm}
-        options={[
-          intl.formatMessage({ id: 'alert.confirm' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
-        ]}
-        title={intl.formatMessage({ id: 'transfer.information' })}
-        cancelButtonIndex={1}
-        destructiveButtonIndex={0}
-        onPress={(index) => {
-          index === 0 ? _handleTransferAction() : null;
-        }}
-      />
       {path && (
         <Modal
           isOpen={hsTransfer}
@@ -225,7 +238,7 @@ const TransferView = ({
           <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
         </Modal>
       )}
-    </Fragment>
+    </View>
   );
 };
 

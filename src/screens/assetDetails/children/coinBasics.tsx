@@ -12,6 +12,7 @@ interface CoinBasicsProps {
   coinSymbol: string;
   percentChange: number;
   iconUrl?: string;
+  isEngine: boolean;
   onInfoPress: (id: string) => void;
 }
 
@@ -42,7 +43,7 @@ export const CoinBasics = ({
       <Text style={styles.textHeaderChange}>
         {intl.formatMessage({ id: 'wallet.change' })}
         <Text style={percentChange > 0 ? styles.textPositive : styles.textNegative}>
-          {` ${percentChange >= 0 ? '+' : ''}${percentChange.toFixed(1)}%`}
+          {percentChange ? ` ${percentChange >= 0 ? '+' : ''}${percentChange.toFixed(1)}%` : ' ---'}
         </Text>
       </Text>
     </>
