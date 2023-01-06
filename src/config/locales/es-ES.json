@@ -65,7 +65,7 @@
     "amount": "Cantidad",
     "memo": "Memo",
     "tap_update": "Toca para actualizar",
-    "information": "¿Está seguro de transferir los fondos?",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "Balance",
     "memo_desc": "Este memo es público",
     "to_placeholder": "Nombre de usuario",
@@ -530,7 +530,7 @@
     "open_settings": "Abrir configuración"
   },
   "post": {
-    "reblog_alert": "¿Estás seguro de querer rebloguear?",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Contenido no disponible",
     "copy_link": "Copiar enlace",
     "copy_text": "Copiar texto",
@@ -705,9 +705,10 @@
     "invalid_amount": "Cantidad no válida",
     "invalid_amount_desc": "Por favor, introduce una cantidad válida",
     "account_select_title": "Detalles de Cuenta",
-    "account_select_description": "Las operaciones relacionadas con los fondos son irreversibles, asegúrate de que el nombre de usuario del receptor es correcto",
-    "amount_select_title": "Detalles de Transferencia",
-    "amount_select_description": "Introduce la cantidad de la transferencia dentro del saldo máximo disponible y debe ser mayor que 0.001"
+    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "amount_select_title": "Action Details",
+    "amount_select_description": "Enter amount within maximum available balance {suffix}",
+    "amount_select_desc_limit": " and must be greater than 0.001"
   },
   "boost": {
     "title": "Obtener Puntos",
