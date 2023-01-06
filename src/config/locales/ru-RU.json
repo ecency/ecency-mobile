@@ -65,7 +65,7 @@
     "amount": "Сумма",
     "memo": "Примечание",
     "tap_update": "Нажмите, чтобы обновить",
-    "information": "Вы уверены, что хотите перевести средства?",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "Баланс",
     "memo_desc": "Эта заметка публична",
     "to_placeholder": "Пользователь",
@@ -530,7 +530,7 @@
     "open_settings": "Открыть настройки"
   },
   "post": {
-    "reblog_alert": "Вы уверены, что хотите сделать репост?",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Контент не доступен",
     "copy_link": "Копировать ссылку",
     "copy_text": "Копировать текст",
@@ -705,9 +705,10 @@
     "invalid_amount": "Неверное значение",
     "invalid_amount_desc": "Пожалуйста, введите правильную сумму",
     "account_select_title": "Детали аккаунта",
-    "account_select_description": "Операции, связанные с фондами необратимы, убедитесь, что имя получателя верно",
-    "amount_select_title": "Детали перевода",
-    "amount_select_description": "Введите сумму перевода в пределах максимально доступного баланса и не меньше 0.001"
+    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "amount_select_title": "Action Details",
+    "amount_select_description": "Enter amount within maximum available balance {suffix}",
+    "amount_select_desc_limit": " and must be greater than 0.001"
   },
   "boost": {
     "title": "Получить Баллы",
