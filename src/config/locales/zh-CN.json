@@ -65,7 +65,7 @@
     "amount": "数量",
     "memo": "备注(Memo)",
     "tap_update": "Tap to update",
-    "information": "您确定要转账资金吗？",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "余额",
     "memo_desc": "这个备注是公开的",
     "to_placeholder": "用户名",
@@ -530,7 +530,7 @@
     "open_settings": "Open Settings"
   },
   "post": {
-    "reblog_alert": "您确定想要转发？",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Content is not available",
     "copy_link": "复制链接",
     "copy_text": "Copy text",
@@ -705,9 +705,10 @@
     "invalid_amount": "Invalid Amount",
     "invalid_amount_desc": "Please enter valid amount",
     "account_select_title": "Account Details",
-    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "Transfer Details",
-    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
+    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "amount_select_title": "Action Details",
+    "amount_select_description": "Enter amount within maximum available balance {suffix}",
+    "amount_select_desc_limit": " and must be greater than 0.001"
   },
   "boost": {
     "title": "Get Points",
