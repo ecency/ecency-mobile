@@ -55,7 +55,7 @@ export const CoinSummary = ({
         valuePairs={valuePairs}
         extraData={extraDataPairs}
         coinSymbol={coinSymbol}
-        // percentChange={percentChagne}
+        percentChange={percentChagne}
         isEngine={coinData.isEngine}
         onInfoPress={onInfoPress}
       />
