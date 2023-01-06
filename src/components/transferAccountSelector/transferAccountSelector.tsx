@@ -56,11 +56,10 @@ const TransferAccountSelector = ({
       case transferTypes.PURCHASE_ESTM:
       case transferTypes.UNSTAKE_ENGINE:
         return true;
-      default: return false;
+      default:
+        return false;
     }
-
   }, [transferType]);
-
 
   const _handleOnDropdownChange = (value) => {
     fetchBalance(value);
@@ -70,21 +69,22 @@ const TransferAccountSelector = ({
       destinationRef.current = value;
       setDestination(value);
     }
-
   };
 
-  const _debouncedValidateUsername = useCallback(debounce((username: string) => {
-    getAccountsWithUsername(username).then((res) => {
-      //often times response for check with no matching user is returned later
-      //compoared to updated input values, this makes sure only matching value/response is processed
-      if (username !== destinationRef.current) {
-        return;
-      }
-      const isValid = res.includes(username);
-      setIsUsernameValid(isValid);
-
-    });
-  }, 300), [])
+  const _debouncedValidateUsername = useCallback(
+    debounce((username: string) => {
+      getAccountsWithUsername(username).then((res) => {
+        // often times response for check with no matching user is returned later
+        // compoared to updated input values, this makes sure only matching value/response is processed
+        if (username !== destinationRef.current) {
+          return;
+        }
+        const isValid = res.includes(username);
+        setIsUsernameValid(isValid);
+      });
+    }, 300),
+    [],
+  );
 
   const _handleOnChange = (state: string, val: string) => {
     let _amount = val.toString();
@@ -97,8 +97,8 @@ const TransferAccountSelector = ({
       }
     }
     if (state === 'destination') {
-      _debouncedValidateUsername(val)
-      destinationRef.current = _amount
+      _debouncedValidateUsername(val);
+      destinationRef.current = _amount;
       setDestination(_amount);
     }
     if (state === 'memo') {
@@ -120,8 +120,6 @@ const TransferAccountSelector = ({
     />
   );
 
-
-
   const _renderInput = (placeholder, state, keyboardType, isTextArea) => (
     <TextInput
       style={[isTextArea ? styles.textarea : styles.input]}
@@ -130,10 +128,10 @@ const TransferAccountSelector = ({
         state === 'destination'
           ? destination
           : state === 'amount'
-            ? amount
-            : state === 'memo'
-              ? memo
-              : ''
+          ? amount
+          : state === 'memo'
+          ? memo
+          : ''
       }
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
@@ -157,19 +155,19 @@ const TransferAccountSelector = ({
         rightComponent={() => _renderDropdown(accounts, currentAccountName)}
       />
       {!destinationLocked && (
-          <TransferFormItem
-            label={intl.formatMessage({ id: 'transfer.to' })}
-            rightComponent={() =>
-              _renderInput(
-                intl.formatMessage({ id: 'transfer.to_placeholder' }),
-                'destination',
-                'default',
-                false,
-              )
-            }
-            containerStyle={styles.elevate}
-          />
-        )}
+        <TransferFormItem
+          label={intl.formatMessage({ id: 'transfer.to' })}
+          rightComponent={() =>
+            _renderInput(
+              intl.formatMessage({ id: 'transfer.to_placeholder' }),
+              'destination',
+              'default',
+              false,
+            )
+          }
+          containerStyle={styles.elevate}
+        />
+      )}
 
       <View style={styles.toFromAvatarsContainer}>
         <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />

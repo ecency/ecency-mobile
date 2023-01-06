@@ -1,6 +1,21 @@
-import React, { useEffect, useState, useRef, useImperativeHandle, forwardRef, useCallback } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useImperativeHandle,
+  forwardRef,
+  useCallback,
+} from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, Alert, TouchableOpacity, Keyboard, Platform, TextInput as RNTextInput } from 'react-native';
+import {
+  View,
+  Text,
+  Alert,
+  TouchableOpacity,
+  Keyboard,
+  Platform,
+  TextInput as RNTextInput,
+} from 'react-native';
 import { useIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
 import { get, debounce } from 'lodash';
@@ -35,7 +50,7 @@ export const QuickReplyModalContent = forwardRef(
     const dispatch = useDispatch();
     const userActivityMutation = useUserActivityMutation();
 
-    const inputRef = useRef<RNTextInput|null>(null);
+    const inputRef = useRef<RNTextInput | null>(null);
 
     const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
     const pinCode = useSelector((state: RootState) => state.application.pin);
@@ -56,16 +71,19 @@ export const QuickReplyModalContent = forwardRef(
       },
     }));
 
-
-
-
     // load quick comment value from cache
     useEffect(() => {
       let _value = '';
-      if (draftsCollection && !!draftsCollection[draftId] && currentAccount.name === draftsCollection[draftId].author) {
+      if (
+        draftsCollection &&
+        !!draftsCollection[draftId] &&
+        currentAccount.name === draftsCollection[draftId].author
+      ) {
         const quickComment: Draft = draftsCollection[draftId];
-        _value = currentAccount.name === quickComment.author && !!quickComment.body 
-          ? quickComment.body : '';
+        _value =
+          currentAccount.name === quickComment.author && !!quickComment.body
+            ? quickComment.body
+            : '';
       }
 
       if (inputRef.current) {
@@ -75,9 +93,6 @@ export const QuickReplyModalContent = forwardRef(
         setCommentValue(_value);
       }
     }, [selectedPost]);
-
-
-
 
     // add quick comment value into cache
     const _addQuickCommentIntoCache = (value = commentValue) => {
@@ -184,7 +199,7 @@ export const QuickReplyModalContent = forwardRef(
             );
 
             // delete quick comment draft cache if it exist
-            if (draftsCollection &&  draftsCollection[draftId]) {
+            if (draftsCollection && draftsCollection[draftId]) {
               dispatch(deleteDraftCacheEntry(draftId));
             }
 
@@ -223,11 +238,11 @@ export const QuickReplyModalContent = forwardRef(
       }
     };
 
-    const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), [])
+    const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), []);
 
     const _onChangeText = (value) => {
       setCommentValue(value);
-      _deboucedCacheUpdate(value)
+      _deboucedCacheUpdate(value);
     };
 
     // VIEW_RENDERERS

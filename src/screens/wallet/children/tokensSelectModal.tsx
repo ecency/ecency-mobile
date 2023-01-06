@@ -1,4 +1,11 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Text, TouchableOpacity, View } from 'react-native';
@@ -25,14 +32,14 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
   const [listData, setListData] = useState<CoinData[]>([]);
   const [query, setQuery] = useState('');
 
-  const sortedList = useMemo(()=>{
-   return listData.sort((a, b) => {
-    const _isSelected = (e) => selection.findIndex((item)=>item.symbol===e.symbol) >= 0;
-    const aSelected = _isSelected(a)
-    const bSelected = _isSelected(b)
-    return aSelected && bSelected ? 0 : aSelected ? -1 : 1 //makes sure items are sorted in order for selection
-   })
-  }, [listData, selection])
+  const sortedList = useMemo(() => {
+    return listData.sort((a, b) => {
+      const _isSelected = (e) => selection.findIndex((item) => item.symbol === e.symbol) >= 0;
+      const aSelected = _isSelected(a);
+      const bSelected = _isSelected(b);
+      return aSelected && bSelected ? 0 : aSelected ? -1 : 1; // makes sure items are sorted in order for selection
+    });
+  }, [listData, selection]);
 
   useImperativeHandle(ref, () => ({
     showModal: () => {
@@ -65,7 +72,6 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
   };
 
   const _renderOptions = () => {
-
     const _renderItem = ({ item }) => {
       const key = item.symbol;
       const index = selection.findIndex((selected) => selected.symbol === item.symbol);

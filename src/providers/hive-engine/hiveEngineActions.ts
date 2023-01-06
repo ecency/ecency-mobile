@@ -25,7 +25,7 @@ const executeEngineAction = (json: EngineActionJSON, currentAccount: any, pinHas
       required_auths: [username],
       required_posting_auths: [],
     };
-    const opArray:Operation[] = [['custom_json', op]];
+    const opArray: Operation[] = [['custom_json', op]];
     return sendHiveOperations(opArray, privateKey);
   }
 

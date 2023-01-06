@@ -193,7 +193,7 @@ const CommentsContainer = ({
         .catch(() => {});
     } else {
       _handleCachedComment();
-    }    
+    }
   };
 
   const _handleCachedComment = (passedComments = null) => {

@@ -178,20 +178,20 @@ const reduxMigrations = {
     state.application.notificationDetails.bookmarkNotification = true;
     return state;
   },
-  3:(state) => {
-    const drafts:[string, Draft][] = state.cache.drafts
-    const _draftsCollection = {}
-    if(drafts instanceof Array){
+  3: (state) => {
+    const { drafts } = state.cache;
+    const _draftsCollection = {};
+    if (drafts instanceof Array) {
       drafts.forEach(([key, data]) => {
-        if(key && data.body && data.author && data.updated){
+        if (key && data.body && data.author && data.updated) {
           _draftsCollection[key] = data;
         }
       });
     }
-    state.cache.draftsCollection = _draftsCollection
-    delete state.cache.drafts
-    return state
-  }
+    state.cache.draftsCollection = _draftsCollection;
+    delete state.cache.drafts;
+    return state;
+  },
 };
 
 export default {

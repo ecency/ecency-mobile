@@ -45,7 +45,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const appState = useRef(AppState.currentState);
   const delegationsModalRef = useRef(null);
 
-  //queries
+  // queries
   const walletQuery = useGetAssetsQuery();
 
   // redux props

@@ -65,7 +65,7 @@ export interface SubscribedCommunity {
 interface State {
   votes: Map<string, Vote>;
   comments: Map<string, Comment>; // TODO: handle comment array per post, if parent is same
-  draftsCollection: {[key:string]: Draft};
+  draftsCollection: { [key: string]: Draft };
   subscribedCommunities: Map<string, SubscribedCommunity>;
   pointActivities: Map<string, PointActivity>;
   lastUpdate: {
@@ -122,13 +122,12 @@ export default function (state = initialState, action) {
       return { ...state };
 
     case UPDATE_DRAFT_CACHE:
-
-      if(!payload.id || !payload.draft){
+      if (!payload.id || !payload.draft) {
         return state;
       }
 
       if (!state.draftsCollection) {
-        state.draftsCollection = {}
+        state.draftsCollection = {};
       }
 
       const curTime = new Date().getTime();
@@ -212,8 +211,8 @@ export default function (state = initialState, action) {
       }
 
       if (state.draftsCollection) {
-        for(const key in state.draftsCollection){
-          if(state.draftsCollection.hasOwnProperty(key)){
+        for (const key in state.draftsCollection) {
+          if (state.draftsCollection.hasOwnProperty(key)) {
             const draft = state.draftsCollection[key];
             if (draft && ((draft?.expiresAt || 0) < currentTime || !draft.body)) {
               delete state.draftsCollection[key];
