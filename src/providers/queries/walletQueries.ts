@@ -3,7 +3,9 @@ import { useRef } from 'react';
 import { ASSET_IDS } from '../../constants/defaultAssets';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchAndSetCoinsData } from '../../redux/actions/walletActions';
+import parseToken from '../../utils/parseToken';
 import { getPointsSummary } from '../ecency/ePoint';
+import { getAccount } from '../hive/dhive';
 import QUERIES from './queryKeys';
 
 /** hook used to return user drafts */
@@ -33,14 +35,41 @@ export const useUnclaimedRewardsQuery = () => {
 
     const unclaimedCollection: { [key: string]: string } = {}
 
+    if (!currentAccount || !currentAccount.username) {
+      return unclaimedCollection;
+    }
+
     //Ecency unclaimed balance
-    const _pointsSummary = await getPointsSummary(currentAccount.username);
-    const unclaimedFloat = parseFloat(_pointsSummary.unclaimed_points || '0');
-    const unclaimedBalance = unclaimedFloat ? unclaimedFloat + ' Points' : '1.23 Points';
-    unclaimedCollection[ASSET_IDS.ECENCY] = unclaimedBalance;
+    try {
+      const _pointsSummary = await getPointsSummary(currentAccount.username);
+      const unclaimedPoints = parseFloat(_pointsSummary.unclaimed_points || '0');
+      const unclaimedEstm = unclaimedPoints ? unclaimedPoints + ' Points' : '';
+      unclaimedCollection[ASSET_IDS.ECENCY] = unclaimedEstm;
+    } catch (err) {
+      console.warn("failed to get unclaimed points", err);
+    }
 
     //HP unclaimed balance
+    //agggregate claim button text
+    try {
+      const userdata = await getAccount(currentAccount.username);
+      const _getBalanceStr = (val: number, cur: string) =>
+        val ? Math.round(val * 1000) / 1000 + cur : '';
+      const unclaimedHp = [
+        _getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE'),
+        _getBalanceStr(parseToken(userdata.reward_hbd_balance), ' HBD'),
+        _getBalanceStr(parseToken(userdata.reward_vesting_hive), ' HP'),
+      ].reduce(
+        (prevVal, bal) => prevVal + (!bal ? '' : `${prevVal !== '' ? '   ' : ''}${bal}`),
+        '',
+      );
+      unclaimedCollection[ASSET_IDS.HP] = unclaimedHp;
+    } catch (err) {
+      console.warn("failed to get unclaimed HIVE", err);
+    }
+
     
+
     return unclaimedCollection;
   })
 }

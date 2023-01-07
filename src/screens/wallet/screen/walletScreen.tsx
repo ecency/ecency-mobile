@@ -176,8 +176,9 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _claimRewardBalance = async () => {
-    setIsClaiming(true);
+    
     try {
+      setIsClaiming(true);
       const account = await getAccount(currentAccount.name);
       await claimRewardBalance(
         currentAccount,
@@ -186,6 +187,8 @@ const WalletScreen = ({ navigation }) => {
         account.reward_hbd_balance,
         account.reward_vesting_balance,
       );
+      await unclaimedRewardsQuery.refetch();
+      setIsClaiming(false);
       await _refetchCoinsData();
       dispatch(
         toastNotification(
@@ -195,15 +198,18 @@ const WalletScreen = ({ navigation }) => {
         ),
       );
     } catch (error) {
+      setIsClaiming(false);
       Alert.alert(intl.formatMessage({ id: 'alert.claim_failed' }, { message: error.message }));
     }
-    setIsClaiming(false);
+    
   };
 
   const _claimEngineBalance = async (symbol: string) => {
-    setIsClaiming(true);
     try {
+      setIsClaiming(true);
       await claimRewards([symbol], currentAccount, pinHash);
+      await unclaimedRewardsQuery.refetch();
+      setIsClaiming(false);
       await _refetchCoinsData();
       dispatch(
         updateUnclaimedBalance(symbol, '')
@@ -216,9 +222,10 @@ const WalletScreen = ({ navigation }) => {
         ),
       );
     } catch (error) {
+      setIsClaiming(false);
       Alert.alert(intl.formatMessage({ id: 'alert.claim_failed' }, { message: error.message }));
     }
-    setIsClaiming(false);
+    
   }
 
   const _claimRewards = (coinId: string) => {
