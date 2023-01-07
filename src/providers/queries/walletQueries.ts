@@ -28,59 +28,61 @@ export const useGetAssetsQuery = () => {
   });
 };
 
-
 export const useUnclaimedRewardsQuery = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
-  return useQuery<{ [key: string]: string }>([QUERIES.WALLET.UNCLAIMED_GET, currentAccount.username], async () => {
+  return useQuery<{ [key: string]: string }>(
+    [QUERIES.WALLET.UNCLAIMED_GET, currentAccount.username],
+    async () => {
+      const unclaimedCollection: { [key: string]: string } = {};
 
-    const unclaimedCollection: { [key: string]: string } = {}
+      const username = currentAccount?.username;
+      if (!username) {
+        return unclaimedCollection;
+      }
 
-    const username = currentAccount?.username;
-    if (!username) {
+      // Ecency unclaimed balance
+      try {
+        const _pointsSummary = await getPointsSummary(username);
+        const unclaimedPoints = parseFloat(_pointsSummary.unclaimed_points || '0');
+        const unclaimedEstm = unclaimedPoints ? `${unclaimedPoints} Points` : '';
+        unclaimedCollection[ASSET_IDS.ECENCY] = unclaimedEstm;
+      } catch (err) {
+        console.warn('failed to get unclaimed points', err);
+      }
+
+      // HP unclaimed balance
+      // agggregate claim button text
+      try {
+        const userdata = await getAccount(username);
+        const _getBalanceStr = (val: number, cur: string) =>
+          val ? Math.round(val * 1000) / 1000 + cur : '';
+        const unclaimedHp = [
+          _getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE'),
+          _getBalanceStr(parseToken(userdata.reward_hbd_balance), ' HBD'),
+          _getBalanceStr(parseToken(userdata.reward_vesting_hive), ' HP'),
+        ].reduce(
+          (prevVal, bal) => prevVal + (!bal ? '' : `${prevVal !== '' ? '   ' : ''}${bal}`),
+          '',
+        );
+        unclaimedCollection[ASSET_IDS.HP] = unclaimedHp;
+      } catch (err) {
+        console.warn('failed to get unclaimed HIVE', err);
+      }
+
+      try {
+        const unclaimedEngine = await fetchUnclaimedRewards(username);
+        unclaimedEngine.forEach((tokenStatus) => {
+          const unclaimedBal = tokenStatus
+            ? `${tokenStatus.pendingRewards} ${tokenStatus.symbol}`
+            : '';
+          unclaimedCollection[tokenStatus.symbol] = unclaimedBal;
+        });
+      } catch (err) {
+        console.warn('failed to get unclaimed engine', err);
+      }
+
       return unclaimedCollection;
-    }
-
-    //Ecency unclaimed balance
-    try {
-      const _pointsSummary = await getPointsSummary(username);
-      const unclaimedPoints = parseFloat(_pointsSummary.unclaimed_points || '0');
-      const unclaimedEstm = unclaimedPoints ? unclaimedPoints + ' Points' : '';
-      unclaimedCollection[ASSET_IDS.ECENCY] = unclaimedEstm;
-    } catch (err) {
-      console.warn("failed to get unclaimed points", err);
-    }
-
-    //HP unclaimed balance
-    //agggregate claim button text
-    try {
-      const userdata = await getAccount(username);
-      const _getBalanceStr = (val: number, cur: string) =>
-        val ? Math.round(val * 1000) / 1000 + cur : '';
-      const unclaimedHp = [
-        _getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE'),
-        _getBalanceStr(parseToken(userdata.reward_hbd_balance), ' HBD'),
-        _getBalanceStr(parseToken(userdata.reward_vesting_hive), ' HP'),
-      ].reduce(
-        (prevVal, bal) => prevVal + (!bal ? '' : `${prevVal !== '' ? '   ' : ''}${bal}`),
-        '',
-      );
-      unclaimedCollection[ASSET_IDS.HP] = unclaimedHp;
-    } catch (err) {
-      console.warn("failed to get unclaimed HIVE", err);
-    }
-
-    try{
-      const unclaimedEngine = await fetchUnclaimedRewards(username)
-      unclaimedEngine.forEach((tokenStatus) => {
-        const unclaimedBal = tokenStatus ? `${tokenStatus.pendingRewards} ${tokenStatus.symbol}` : '';
-        unclaimedCollection[tokenStatus.symbol] = unclaimedBal;
-      })
-    } catch (err) {
-      console.warn("failed to get unclaimed engine", err);
-    }
-   
-
-    return unclaimedCollection;
-  })
-}
+    },
+  );
+};

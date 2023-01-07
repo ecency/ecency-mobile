@@ -57,7 +57,6 @@ export const AssetCard = ({
 }: AssetCardProps) => {
   const intl = useIntl();
 
-
   const _onClaimPress = () => {
     onClaimPress();
   };
