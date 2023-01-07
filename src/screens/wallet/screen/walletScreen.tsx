@@ -43,7 +43,8 @@ import { toastNotification } from '../../../redux/actions/uiAction';
 import { ManageAssets } from '../children/manageAssets';
 import { claimRewards } from '../../../providers/hive-engine/hiveEngineActions';
 import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
-import { useGetAssetsQuery } from '../../../providers/queries';
+import { useGetAssetsQuery, useUnclaimedRewardsQuery } from '../../../providers/queries';
+import { delay } from '../../../utils/editor';
 
 const CHART_DAYS_RANGE = 1;
 
@@ -74,6 +75,7 @@ const WalletScreen = ({ navigation }) => {
 
   //queries
   const walletQuery = useGetAssetsQuery()
+  const unclaimedRewardsQuery = useUnclaimedRewardsQuery();
 
   //state
   const [isClaiming, setIsClaiming] = useState(false);
@@ -159,14 +161,18 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _claimEcencyPoints = async () => {
-    setIsClaiming(true);
+    
     try {
+      setIsClaiming(true);
       await claimPoints();
+      await unclaimedRewardsQuery.refetch();
+      setIsClaiming(false);
       await _refetchCoinsData();
     } catch (error) {
+      setIsClaiming(false);
       Alert.alert(`${error.message}\nTry again or write to support@ecency.com`);
     }
-    setIsClaiming(false);
+    
   };
 
   const _claimRewardBalance = async () => {
@@ -216,7 +222,7 @@ const WalletScreen = ({ navigation }) => {
   }
 
   const _claimRewards = (coinId: string) => {
-    if (walletQuery.isFetching) {
+    if (unclaimedRewardsQuery.isFetching) {
       Alert.alert(intl.formatMessage({ id: 'alert.wallet_updating' }));
       return;
     }
@@ -236,6 +242,7 @@ const WalletScreen = ({ navigation }) => {
 
   const _renderItem = ({ item, index }: { item: CoinBase; index: number }) => {
     const coinData: CoinData = coinsData[item.id];
+    const unclaimedRewards = (unclaimedRewardsQuery.data && unclaimedRewardsQuery.data[item.id]) || '';
 
     if (!coinData) {
       return null;
@@ -255,7 +262,7 @@ const WalletScreen = ({ navigation }) => {
     };
 
     const _onClaimPress = () => {
-      if (coinData.unclaimedBalance) {
+      if (unclaimedRewards) {
         _claimRewards(item.id);
       } else if (item.id === ASSET_IDS.ECENCY) {
         navigation.navigate(ROUTES.SCREENS.BOOST);
@@ -275,6 +282,8 @@ const WalletScreen = ({ navigation }) => {
       return null;
     }
 
+
+
     return (
       <AssetCard
         name={coinData.name}
@@ -284,10 +293,10 @@ const WalletScreen = ({ navigation }) => {
         changePercent={percentChange || 0}
         currencySymbol={currency.currencySymbol}
         ownedBalance={_balance}
-        unclaimedRewards={coinData.unclaimedBalance}
+        unclaimedRewards={unclaimedRewards}
         enableBuy={!coinData.unclaimedBalance && item.id === ASSET_IDS.ECENCY}
         isClaiming={isClaiming}
-        isLoading={walletQuery.isFetching}
+        isLoading={unclaimedRewardsQuery.isFetching}
         volume24h={coinData.volume24h}
         onCardPress={_onCardPress}
         onClaimPress={_onClaimPress}
@@ -341,7 +350,7 @@ const WalletScreen = ({ navigation }) => {
             <View style={styles.listWrapper}>
               <FlatList
                 data={updateTimestamp ? selectedCoins : []}
-                extraData={[coinsData, priceHistories]}
+                extraData={[coinsData, priceHistories, unclaimedRewardsQuery.data]}
                 style={globalStyles.tabBarBottom}
                 ListEmptyComponent={<PostCardPlaceHolder />}
                 ListHeaderComponent={_renderHeader}
