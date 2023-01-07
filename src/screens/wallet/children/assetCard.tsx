@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Button, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import React, { ComponentType, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -9,7 +9,6 @@ import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { ClaimButton } from './claimButton';
 
 import { AssetIcon } from '../../../components/atoms';
-import applyWebLinkFormat from '../../../components/markdownEditor/children/formats/applyWebLinkFormat';
 
 export interface AssetCardProps {
   id: string;
@@ -79,7 +78,7 @@ export const AssetCard = ({
       color={EStyleSheet.value('$primaryRed')}
       onPress={() => {
         Alert.alert(
-          intl.formatMessage({ id: 'alert.warning' }),
+          intl.formatMessage({ id: 'wallet.low_liquidity' }),
           intl.formatMessage({ id: 'wallet.inactive_token' }),
         );
       }}
