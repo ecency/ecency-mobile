@@ -8,32 +8,17 @@ import QUERIES from './queryKeys';
 export const useGetAssetsQuery = () => {
   const dispatch = useAppDispatch();
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const coinsData = useAppSelector((state) => state.wallet.coinsData);
 
-  const refreshRef = useRef(false);
+  const refreshRef = useRef(Object.keys(coinsData).length > 0);
 
-  const query = useQuery([QUERIES.WALLET.GET, currentAccount.username], async () => {
+  return useQuery([QUERIES.WALLET.GET, currentAccount.username], async () => {
     try {
       await dispatch(fetchAndSetCoinsData(refreshRef.current));
-      refreshRef.current = false;
     } catch (err) {
-      refreshRef.current = false;
       console.warn('failed to get query response', err);
     }
 
     return true;
   });
-
-  const _onRefresh = () => {
-    if (!refreshRef.current) {
-      refreshRef.current = true;
-      console.log('refresh initiated');
-      query.refetch();
-    }
-  };
-
-  return {
-    ...query,
-    refresh: _onRefresh,
-    isRefreshing: refreshRef.current,
-  };
 };

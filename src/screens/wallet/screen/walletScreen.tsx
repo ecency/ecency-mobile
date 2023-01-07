@@ -73,18 +73,18 @@ const WalletScreen = ({ navigation }) => {
   const pinHash = useAppSelector((state) => state.application.pin);
 
   //queries
-  const walletQuery = useGetAssetsQuery(currentAccount.username)
+  const walletQuery = useGetAssetsQuery()
 
   //state
   const [isClaiming, setIsClaiming] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
 
   //side-effects
   useEffect(() => {
     const appStateSub = AppState.addEventListener('change', _handleAppStateChange);
 
-    //if coinsData is empty, initilise wallet without a fresh acount fetch
-    _fetchData(Object.keys(coinsData).length ? true : false);
+    _fetchPriceHistory();
 
     return () => {
       if (appStateSub) {
@@ -96,14 +96,13 @@ const WalletScreen = ({ navigation }) => {
   useEffect(() => {
     if (currency.currency !== wallet.vsCurrency || currentAccount.username !== wallet.username) {
       dispatch(resetWalletData());
-      _fetchPriceHistory();
-      _fetchData(true);
+      _refetchData();
     }
   }, [currency, currentAccount]);
 
-  useEffect(()=>{
+  useEffect(() => {
     _fetchPriceHistory();
-  },[selectedCoins])
+  }, [selectedCoins])
 
 
 
@@ -111,19 +110,16 @@ const WalletScreen = ({ navigation }) => {
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
       console.log('updating selected coins data on app resume');
-      _fetchData(true);
+      _refetchData();
 
     }
     appState.current = nextAppState;
   };
 
-  const _fetchData = (refresh?: boolean) => {
-    if (!walletQuery.isFetching || refresh) {
-      _fetchPriceHistory();
-      _fetchCoinsData(refresh);
-    }
+  const _refetchData = () => {
+    _fetchPriceHistory();
+    _refetchCoinsData(); 
   };
-
 
 
   const _fetchPriceHistory = () => {
@@ -132,10 +128,10 @@ const WalletScreen = ({ navigation }) => {
       const curTime = new Date().getTime();
 
       if (!token.notCrypto && curTime > expiresAt) {
-        let priceData:number[] = [];
-        if(token.isEngine){
+        let priceData: number[] = [];
+        if (token.isEngine) {
           const marketData = await fetchEngineMarketData(token.id)
-          priceData = marketData.map(data=>data.close);
+          priceData = marketData.map(data => data.close);
         } else {
           const marketChart = await fetchMarketChart(
             token.id,
@@ -145,25 +141,28 @@ const WalletScreen = ({ navigation }) => {
           );
           priceData = marketChart.prices.map((item) => item.yValue)
         }
-        
+
         dispatch(setPriceHistory(token.id, currency.currency, priceData));
-      
+
       }
     });
   };
 
-  const _fetchCoinsData = async (refresh?: boolean) => {
-    if (refresh || !quotes) {
+  const _refetchCoinsData = async () => {
+
+    if (!quotes) {
       dispatch(fetchCoinQuotes());
     }
-    walletQuery.refresh()
+
+    await walletQuery.refetch()
+    setIsRefreshing(false);
   };
 
   const _claimEcencyPoints = async () => {
     setIsClaiming(true);
     try {
       await claimPoints();
-      await _fetchCoinsData(true);
+      await _refetchCoinsData();
     } catch (error) {
       Alert.alert(`${error.message}\nTry again or write to support@ecency.com`);
     }
@@ -181,7 +180,7 @@ const WalletScreen = ({ navigation }) => {
         account.reward_hbd_balance,
         account.reward_vesting_balance,
       );
-      await _fetchCoinsData(true);
+      await _refetchCoinsData();
       dispatch(
         toastNotification(
           intl.formatMessage({
@@ -195,11 +194,11 @@ const WalletScreen = ({ navigation }) => {
     setIsClaiming(false);
   };
 
-  const _claimEngineBalance = async (symbol:string) => {
+  const _claimEngineBalance = async (symbol: string) => {
     setIsClaiming(true);
     try {
       await claimRewards([symbol], currentAccount, pinHash);
-      await _fetchCoinsData(true);
+      await _refetchCoinsData();
       dispatch(
         updateUnclaimedBalance(symbol, '')
       )
@@ -238,7 +237,7 @@ const WalletScreen = ({ navigation }) => {
   const _renderItem = ({ item, index }: { item: CoinBase; index: number }) => {
     const coinData: CoinData = coinsData[item.id];
 
-    if(!coinData){
+    if (!coinData) {
       return null;
     }
 
@@ -248,7 +247,7 @@ const WalletScreen = ({ navigation }) => {
     const quote = quotes && quotes[item.id];
 
     const percentChange = quote ? quote.percentChange : coinData.percentChange;
- 
+
     const _onCardPress = () => {
       navigation.navigate(ROUTES.SCREENS.ASSET_DETAILS, {
         coinId: item.id,
@@ -272,32 +271,32 @@ const WalletScreen = ({ navigation }) => {
       });
     };
 
-    if(!coinData){
+    if (!coinData) {
       return null;
     }
 
     return (
-        <AssetCard
-          name={coinData.name}
-          iconUrl={coinData.iconUrl}
-          chartData={_tokenMarketData || []}
-          currentValue={quote?.price || coinData?.currentPrice || 0}
-          changePercent={percentChange || 0}
-          currencySymbol={currency.currencySymbol}
-          ownedBalance={_balance}
-          unclaimedRewards={coinData.unclaimedBalance}
-          enableBuy={!coinData.unclaimedBalance && item.id === ASSET_IDS.ECENCY}
-          isClaiming={isClaiming}
-          isLoading={walletQuery.isFetching}
-          volume24h={coinData.volume24h}
-          onCardPress={_onCardPress}
-          onClaimPress={_onClaimPress}
-          onBoostAccountPress={_onBoostAccountPress}
-          footerComponent={
-            index === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />
-          }
-          {...item}
-        />
+      <AssetCard
+        name={coinData.name}
+        iconUrl={coinData.iconUrl}
+        chartData={_tokenMarketData || []}
+        currentValue={quote?.price || coinData?.currentPrice || 0}
+        changePercent={percentChange || 0}
+        currencySymbol={currency.currencySymbol}
+        ownedBalance={_balance}
+        unclaimedRewards={coinData.unclaimedBalance}
+        enableBuy={!coinData.unclaimedBalance && item.id === ASSET_IDS.ECENCY}
+        isClaiming={isClaiming}
+        isLoading={walletQuery.isFetching}
+        volume24h={coinData.volume24h}
+        onCardPress={_onCardPress}
+        onClaimPress={_onClaimPress}
+        onBoostAccountPress={_onBoostAccountPress}
+        footerComponent={
+          index === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />
+        }
+        {...item}
+      />
     );
   };
 
@@ -319,9 +318,12 @@ const WalletScreen = ({ navigation }) => {
 
   const _refreshControl = (
     <RefreshControl
-      refreshing={walletQuery.isRefreshing}
+      refreshing={isRefreshing}
       onRefresh={() => {
-        _fetchData(true);
+        if(!isRefreshing){
+          setIsRefreshing(true)
+          _refetchData();
+        }
       }}
       progressBackgroundColor="#357CE6"
       tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
@@ -343,7 +345,7 @@ const WalletScreen = ({ navigation }) => {
                 style={globalStyles.tabBarBottom}
                 ListEmptyComponent={<PostCardPlaceHolder />}
                 ListHeaderComponent={_renderHeader}
-                ListFooterComponent={<ManageAssets/>}
+                ListFooterComponent={<ManageAssets />}
                 renderItem={_renderItem}
                 keyExtractor={(item, index) => index.toString()}
                 refreshControl={_refreshControl}
