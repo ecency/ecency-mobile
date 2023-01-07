@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchAndSetCoinsData } from '../../redux/actions/walletActions';
 import parseToken from '../../utils/parseToken';
 import { getPointsSummary } from '../ecency/ePoint';
+import { fetchUnclaimedRewards } from '../hive-engine/hiveEngine';
 import { getAccount } from '../hive/dhive';
 import QUERIES from './queryKeys';
 
@@ -35,13 +36,14 @@ export const useUnclaimedRewardsQuery = () => {
 
     const unclaimedCollection: { [key: string]: string } = {}
 
-    if (!currentAccount || !currentAccount.username) {
+    const username = currentAccount?.username;
+    if (!username) {
       return unclaimedCollection;
     }
 
     //Ecency unclaimed balance
     try {
-      const _pointsSummary = await getPointsSummary(currentAccount.username);
+      const _pointsSummary = await getPointsSummary(username);
       const unclaimedPoints = parseFloat(_pointsSummary.unclaimed_points || '0');
       const unclaimedEstm = unclaimedPoints ? unclaimedPoints + ' Points' : '';
       unclaimedCollection[ASSET_IDS.ECENCY] = unclaimedEstm;
@@ -52,7 +54,7 @@ export const useUnclaimedRewardsQuery = () => {
     //HP unclaimed balance
     //agggregate claim button text
     try {
-      const userdata = await getAccount(currentAccount.username);
+      const userdata = await getAccount(username);
       const _getBalanceStr = (val: number, cur: string) =>
         val ? Math.round(val * 1000) / 1000 + cur : '';
       const unclaimedHp = [
@@ -68,7 +70,16 @@ export const useUnclaimedRewardsQuery = () => {
       console.warn("failed to get unclaimed HIVE", err);
     }
 
-    
+    try{
+      const unclaimedEngine = await fetchUnclaimedRewards(username)
+      unclaimedEngine.forEach((tokenStatus) => {
+        const unclaimedBal = tokenStatus ? `${tokenStatus.pendingRewards} ${tokenStatus.symbol}` : '';
+        unclaimedCollection[tokenStatus.symbol] = unclaimedBal;
+      })
+    } catch (err) {
+      console.warn("failed to get unclaimed engine", err);
+    }
+   
 
     return unclaimedCollection;
   })

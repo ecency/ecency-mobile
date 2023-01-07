@@ -229,10 +229,6 @@ const WalletScreen = ({ navigation }) => {
   }
 
   const _claimRewards = (coinId: string) => {
-    if (unclaimedRewardsQuery.isFetching) {
-      Alert.alert(intl.formatMessage({ id: 'alert.wallet_updating' }));
-      return;
-    }
     switch (coinId) {
       case ASSET_IDS.ECENCY:
         _claimEcencyPoints();
