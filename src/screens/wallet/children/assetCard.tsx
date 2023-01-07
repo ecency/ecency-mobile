@@ -57,16 +57,8 @@ export const AssetCard = ({
 }: AssetCardProps) => {
   const intl = useIntl();
 
-  const [claimExpected, setClaimExpected] = useState(false);
-
-  useEffect(() => {
-    if (!isClaiming && claimExpected) {
-      setClaimExpected(false);
-    }
-  }, [isClaiming]);
 
   const _onClaimPress = () => {
-    setClaimExpected(!!unclaimedRewards);
     onClaimPress();
   };
 
@@ -124,7 +116,6 @@ export const AssetCard = ({
           title={btnTitle}
           isLoading={isLoading}
           isClaiming={isClaiming}
-          isClaimExpected={claimExpected}
           containerStyle={id !== ASSET_IDS.ECENCY && styles.claimContainer}
           onPress={_onClaimPress}
         />
