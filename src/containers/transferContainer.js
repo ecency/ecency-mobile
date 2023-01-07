@@ -89,27 +89,25 @@ class TransferContainer extends Component {
 
         tokenBalances.forEach((tokenBalance) => {
           if (tokenBalance.symbol === fundType) {
-            switch(transferType){
+            switch (transferType) {
               case transferTypes.UNDELEGATE_ENGINE:
                 balance = tokenBalance.delegationsOut;
                 break;
               case transferTypes.UNSTAKE_ENGINE:
                 balance = tokenBalance.stake;
                 break;
-              default: 
+              default:
                 balance = tokenBalance.balance;
                 break;
             }
           }
-          if(!balance){
+          if (!balance) {
             balance = '0';
           }
-        })
+        });
 
-        console.log("retrieved balance", balance);
-
+        console.log('retrieved balance', balance);
       } else {
-
         if (
           (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
           fundType === 'HIVE'
@@ -143,7 +141,6 @@ class TransferContainer extends Component {
       }
 
       const local = await getUserDataWithUsername(username);
-
 
       if (balance) {
         this.setState({ balance: Number(balance) });

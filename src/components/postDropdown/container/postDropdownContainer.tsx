@@ -81,11 +81,11 @@ class PostDropdownContainer extends PureComponent {
     const _canUpdateCommunityPin =
       subscribedCommunities.data && !!content && content.community
         ? subscribedCommunities.data.reduce((role, subscription) => {
-          if (content.community === subscription[0]) {
-            return ['owner', 'admin', 'mod'].includes(subscription[2]);
-          }
-          return role;
-        }, false)
+            if (content.community === subscription[0]) {
+              return ['owner', 'admin', 'mod'].includes(subscription[2]);
+            }
+            return role;
+          }, false)
         : false;
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
 
@@ -132,18 +132,23 @@ class PostDropdownContainer extends PureComponent {
 
       case 'reblog':
         this.actionSheetTimer = setTimeout(() => {
-          dispatch(showActionModal({
-
-            title: intl.formatMessage({ id: 'post.reblog_alert' }),
-            buttons: [{
-              text: intl.formatMessage({ id: 'alert.cancel' }),
-              onPress: () => { },
-            }, {
-              text: 'Reblog',
-              onPress: () => { this._reblog() },
-            }
-            ]
-          }))
+          dispatch(
+            showActionModal({
+              title: intl.formatMessage({ id: 'post.reblog_alert' }),
+              buttons: [
+                {
+                  text: intl.formatMessage({ id: 'alert.cancel' }),
+                  onPress: () => {},
+                },
+                {
+                  text: 'Reblog',
+                  onPress: () => {
+                    this._reblog();
+                  },
+                },
+              ],
+            }),
+          );
           this.actionSheetTimer = 0;
         }, 100);
         break;
@@ -299,7 +304,7 @@ class PostDropdownContainer extends PureComponent {
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => { },
+            onPress: () => {},
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),

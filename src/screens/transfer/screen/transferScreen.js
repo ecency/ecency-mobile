@@ -36,7 +36,6 @@ const TransferView = ({
   selectedAccount,
   fetchBalance,
 }) => {
-
   const dispatch = useAppDispatch();
 
   const [from, setFrom] = useState(currentAccountName);
@@ -70,7 +69,7 @@ const TransferView = ({
   const [hsTransfer, setHsTransfer] = useState(false);
   const [isTransfering, setIsTransfering] = useState(false);
 
-  const isEngineToken = useMemo(()=>transferType.endsWith('_engine'), [transferType]);
+  const isEngineToken = useMemo(() => transferType.endsWith('_engine'), [transferType]);
 
   const _handleTransferAction = () => {
     setIsTransfering(true);
@@ -150,21 +149,22 @@ const TransferView = ({
   }
 
   const _onNextPress = () => {
-    dispatch(showActionModal({
-        title:intl.formatMessage({ id: 'transfer.information' }),
-        buttons:[
+    dispatch(
+      showActionModal({
+        title: intl.formatMessage({ id: 'transfer.information' }),
+        buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: ()=>{}
+            onPress: () => {},
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
-            onPress:_handleTransferAction
-          }
-        ]
-      }))
-    }
-
+            onPress: _handleTransferAction,
+          },
+        ],
+      }),
+    );
+  };
 
   const nextBtnDisabled = !((isEngineToken ? amount > 0 : amount >= 0.001) && isUsernameValid);
 
@@ -176,7 +176,7 @@ const TransferView = ({
       />
 
       <KeyboardAwareScrollView
-        keyboardShouldPersistTaps={'always'}
+        keyboardShouldPersistTaps="always"
         contentContainerStyle={[styles.grow, styles.keyboardAwareScrollContainer]}
       >
         <View style={styles.container}>

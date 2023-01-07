@@ -216,7 +216,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   _getStorageDraft = async (username, isReply, paramDraft) => {
     const { draftsCollection } = this.props;
     if (isReply) {
-      const _draft = draftsCollection &&  draftsCollection[paramDraft._id];
+      const _draft = draftsCollection && draftsCollection[paramDraft._id];
       if (_draft && !!_draft.body) {
         this.setState({
           draftPost: {

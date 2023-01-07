@@ -48,7 +48,6 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
   const [isShowToastNotification, setIsShowToastNotification] = useState(false);
 
   useEffect(() => {
-   
     if (!rcOfferRef.current && rcOffer) {
       setTimeout(() => {
         dispatch(

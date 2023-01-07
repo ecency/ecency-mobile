@@ -14,9 +14,9 @@ const QUERIES = {
   MEDIA: {
     GET: 'QUERY_GET_UPLOADS',
   },
-  WALLET:{
-    GET: 'QUERY_GET_ASSETS'
-  }
+  WALLET: {
+    GET: 'QUERY_GET_ASSETS',
+  },
 };
 
 export default QUERIES;

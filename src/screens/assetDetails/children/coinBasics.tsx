@@ -40,12 +40,18 @@ export const CoinBasics = ({
         <Text style={styles.textCoinTitle}>{coinSymbol}</Text>
       </View>
 
-      <Text style={styles.textHeaderChange}>
-        {intl.formatMessage({ id: 'wallet.change' })}
-        <Text style={percentChange > 0 ? styles.textPositive : styles.textNegative}>
-          {percentChange ? ` ${percentChange >= 0 ? '+' : ''}${percentChange.toFixed(1)}%` : ' ---'}
+      {percentChange ? (
+        <Text style={styles.textHeaderChange}>
+          {intl.formatMessage({ id: 'wallet.change' })}
+          <Text style={percentChange > 0 ? styles.textPositive : styles.textNegative}>
+            {percentChange
+              ? ` ${percentChange >= 0 ? '+' : ''}${percentChange.toFixed(1)}%`
+              : ' ---'}
+          </Text>
         </Text>
-      </Text>
+      ) : (
+        <View style={styles.textHeaderChange} />
+      )}
     </>
   );
 

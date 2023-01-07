@@ -1,4 +1,11 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Text, TouchableOpacity, View } from 'react-native';
@@ -22,8 +29,17 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
 
   const [visible, setVisible] = useState(false);
   const [selection, setSelection] = useState(selectedCoins.filter((item) => item.isEngine));
-  const [listData, setListData] = useState([]);
+  const [listData, setListData] = useState<CoinData[]>([]);
   const [query, setQuery] = useState('');
+
+  const sortedList = useMemo(() => {
+    return listData.sort((a, b) => {
+      const _isSelected = (e) => selection.findIndex((item) => item.symbol === e.symbol) >= 0;
+      const aSelected = _isSelected(a);
+      const bSelected = _isSelected(b);
+      return aSelected && bSelected ? 0 : aSelected ? -1 : 1; // makes sure items are sorted in order for selection
+    });
+  }, [listData, selection]);
 
   useImperativeHandle(ref, () => ({
     showModal: () => {
@@ -74,6 +90,7 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
         }
         setSelection([...selection]);
       };
+
       return (
         <TouchableOpacity onPress={_onPress}>
           <View style={styles.checkView}>
@@ -95,7 +112,7 @@ export const TokensSelectModal = forwardRef(({}, ref) => {
     return (
       <FlatList
         style={styles.scrollContainer}
-        data={listData}
+        data={sortedList}
         extraData={query}
         renderItem={_renderItem}
         keyExtractor={(item, index) => `token_${item.symbol + index}`}
