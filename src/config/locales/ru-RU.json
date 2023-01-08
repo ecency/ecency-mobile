@@ -147,6 +147,7 @@
     "stake_engine": "Заморозить",
     "delegate_engine": "Делегировать",
     "undelegate_engine": "Отозвать делегирование",
+    "low_liquidity": "Low Liquidity!",
     "inactive_token": "Token is relatively inactive, some functionalities might be affected."
   },
   "notification": {
