@@ -16,6 +16,7 @@ const QUERIES = {
   },
   WALLET: {
     GET: 'QUERY_GET_ASSETS',
+    UNCLAIMED_GET: 'QUERY_GET_UNCLAIMED',
   },
 };
 

@@ -18,7 +18,6 @@ export const ClaimButton = ({
   title,
   isLoading,
   isClaiming,
-  isClaimExpected,
   isDisabled,
   containerStyle,
   onPress,
@@ -26,8 +25,8 @@ export const ClaimButton = ({
   return (
     <View style={{ ...styles.claimContainer, ...containerStyle }}>
       <MainButton
-        isLoading={isClaiming && isClaimExpected}
-        isDisable={isDisabled || isLoading || (isClaiming && isClaimExpected)}
+        isLoading={isClaiming}
+        isDisable={isDisabled || isLoading || isClaiming}
         style={styles.claimBtn}
         height={40}
         onPress={onPress}
