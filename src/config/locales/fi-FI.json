@@ -147,6 +147,7 @@
     "stake_engine": "Panosta",
     "delegate_engine": "Delegate",
     "undelegate_engine": "Undelegate",
+    "low_liquidity": "Low Liquidity!",
     "inactive_token": "Token is relatively inactive, some functionalities might be affected."
   },
   "notification": {
