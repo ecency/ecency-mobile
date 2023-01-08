@@ -147,7 +147,7 @@
     "stake_engine": "Estaca",
     "delegate_engine": "Delegar",
     "undelegate_engine": "Retirar delegación",
-    "low_liquidity": "Low Liquidity!",
+    "low_liquidity": "¡Baja liquidez!",
     "inactive_token": "El token está relativamente inactivo, algunas funcionalidades podrían verse afectadas."
   },
   "notification": {
