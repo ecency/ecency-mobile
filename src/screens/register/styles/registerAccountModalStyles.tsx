@@ -106,7 +106,12 @@ export default EStyleSheet.create({
     fontWeight:'600',
     fontSize: 18,
     marginTop:16,
-    color: '$primaryBlack'
+    color: '$primaryBlack',
+    textAlign:'center',
+  },
+  actionButton:{
+    marginTop:44,
+    paddingHorizontal:16
   }
 
 });

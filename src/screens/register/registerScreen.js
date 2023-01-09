@@ -236,7 +236,7 @@ const RegisterScreen = ({ navigation, route }) => {
             iconName="arrow-forward"
             iconColor="white"
             iconPosition="right"
-            text="Continue"
+            text={intl.formatMessage({id:'alert.continue'})}
             isDisable={!isUsernameValid || !isRefUsernameValid || !isEmailValid}
             style={styles.mainButton}
           />

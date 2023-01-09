@@ -308,7 +308,8 @@
     "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "One account to manage everything",
     "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies.",
-    "registering":"Registering Your Account..."
+    "registering":"Registering Your Account...",
+    "registered":"Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Feed",
@@ -468,6 +469,7 @@
     "claim_reward_balance_ok": "Reward balance claimed",
     "fail": "Fail!",
     "move": "Move",
+    "continue": "Continue",
     "move_question": "Are you sure to move to drafts?",
     "success_shared": "Success! Content submitted!",
     "success_moved": "Moved to draft",
