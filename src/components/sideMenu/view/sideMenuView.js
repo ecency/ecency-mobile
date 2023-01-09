@@ -83,6 +83,16 @@ const SideMenuView = ({
       return;
     }
 
+    if (item.id === 'favorites') {
+      navigateToRoute({
+        name: ROUTES.SCREENS.BOOKMARKS,
+        params: {
+          showFavorites: true,
+        },
+      });
+      return;
+    }
+
     if (item.id === 'schedules') {
       navigateToRoute({
         name: ROUTES.SCREENS.DRAFTS,
@@ -117,6 +127,7 @@ const SideMenuView = ({
             iconType={item.item.iconType ? item.item.iconType : 'SimpleLineIcons'}
             style={styles.listItemIcon}
             name={item.item.icon}
+            size={20}
           />
         )}
         {item.item.username && (

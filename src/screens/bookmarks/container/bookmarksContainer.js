@@ -20,7 +20,7 @@ import ROUTES from '../../../constants/routeNames';
 // Component
 import BookmarksScreen from '../screen/bookmarksScreen';
 
-const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
+const BookmarksContainer = ({ currentAccount, intl, navigation, route }) => {
   const [favorites, setFavorites] = useState([]);
   const [bookmarks, setBookmarks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -128,6 +128,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
       removeBookmark={_removeBoomark}
       handleOnFavoritePress={_handleOnFavoritePress}
       handleOnBookmarkPress={_handleOnBookmarkPress}
+      initialTabIndex={route.params?.showFavorites ? 1 : 0}
     />
   );
 };

@@ -61,9 +61,7 @@ export default EStyleSheet.create({
   },
   listItemIcon: {
     color: '$iconColor',
-    fontSize: 20,
     marginRight: 5,
-    width: 20,
   },
   listItemText: {
     color: '$primaryDarkGray',
@@ -89,6 +87,7 @@ export default EStyleSheet.create({
   },
   itemWrapper: {
     flexDirection: 'row',
+    alignItems:'center',
     marginLeft: 55,
   },
   versionText: {
