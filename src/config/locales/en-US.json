@@ -305,6 +305,7 @@
     "mail": "Enter your email address",
     "ref_user": "Referred user (Optional)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "One account to manage everything",
     "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies.",
     "registering":"Registering Your Account..."

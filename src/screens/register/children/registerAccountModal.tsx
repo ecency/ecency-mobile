@@ -55,30 +55,23 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
         setIsRegistering(false);
       })
       .catch((err) => {
+
+        let title = intl.formatMessage({ id: 'alert.fail' });
+        let body = intl.formatMessage({ id: 'alert.unknow_error' });
+
         if (get(err, 'response.status') === 500) {
-          Alert.alert(
-            intl.formatMessage({ id: 'alert.fail' }),
-            intl.formatMessage({ id: 'register.500_error' }),
-          );
+
+          title = intl.formatMessage({ id: 'alert.fail' })
+          body = intl.formatMessage({ id: 'register.500_error' })
+
         } else if (get(err, 'response.data.message')) {
-          Alert.alert(
-            intl.formatMessage({ id: 'alert.fail' }),
-            `${err.response.data.message}\nTry buying account instead`,
-            [
-              {
-                text: 'Okay',
-              },
-              {
-                text: 'Cancel',
-              },
-            ],
-          );
-        } else {
-          Alert.alert(
-            intl.formatMessage({ id: 'alert.fail' }),
-            intl.formatMessage({ id: 'alert.unknow_error' }),
-          );
+          title = intl.formatMessage({ id: 'alert.fail' });
+          body = intl.formatMessage({ id: 'register.error_message' }, { message: err.response.data.message });
         }
+        Alert.alert(
+          title,
+          body
+        );
         setIsRegistering(false);
       });
   };
@@ -150,7 +143,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
               _renderCard({
                 titleId: 'free_account.title',
                 descriptionId: 'free_account.desc',
-                
+
                 btnTitle: intl.formatMessage({ id: 'free_account.btn_register' }),
                 onPress: _handleOnPressRegister,
               })}
@@ -158,7 +151,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
               _renderCard({
                 titleId: 'buy_account.title',
                 descriptionId: 'buy_account.desc',
-                
+
                 btnTitle: intl.formatMessage(
                   { id: 'buy_account.btn_register' },
                   { price: product.localizedPrice },
