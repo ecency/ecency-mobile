@@ -6,7 +6,7 @@ import { TransferFormItem } from '../transferFormItem';
 
 // Styles
 import styles from './transferAmountInputSectionStyles';
-import transferTypes from '../../constants/transferTypes';
+import TransferTypes from '../../constants/transferTypes';
 
 export interface TransferAmountInputSectionProps {
   balance: number;
@@ -124,10 +124,10 @@ const TransferAmountInputSection = ({
           </TouchableOpacity>
         )}
       />
-      {(transferType === transferTypes.POINTS ||
-        transferType === transferTypes.TRANSFER_TOKEN ||
-        transferType === transferTypes.TRANSFER_TO_SAVINGS ||
-        transferType === transferTypes.TRANSFER_ENGINE) && (
+      {(transferType === TransferTypes.POINTS ||
+        transferType === TransferTypes.TRANSFER_TOKEN ||
+        transferType === TransferTypes.TRANSFER_TO_SAVINGS ||
+        transferType === TransferTypes.TRANSFER_ENGINE) && (
         <TransferFormItem
           label={intl.formatMessage({ id: 'transfer.memo' })}
           rightComponent={() =>
@@ -141,7 +141,7 @@ const TransferAmountInputSection = ({
           containerStyle={{ height: 80 }}
         />
       )}
-      {(transferType === transferTypes.POINTS || transferType === transferTypes.TRANSFER_TOKEN) && (
+      {(transferType === TransferTypes.POINTS || transferType === TransferTypes.TRANSFER_TOKEN) && (
         <TransferFormItem
           rightComponentStyle={styles.transferItemRightStyle}
           containerStyle={styles.transferItemContainer}
@@ -150,7 +150,7 @@ const TransferAmountInputSection = ({
           }
         />
       )}
-      {transferType === transferTypes.CONVERT && (
+      {transferType === TransferTypes.CONVERT && (
         <TransferFormItem
           rightComponent={() =>
             _renderCenterDescription(intl.formatMessage({ id: 'transfer.convert_desc' }))

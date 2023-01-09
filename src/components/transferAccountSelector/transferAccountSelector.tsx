@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { Text, View } from 'react-native';
 import { debounce } from 'lodash';
-import transferTypes from '../../constants/transferTypes';
+import TransferTypes from '../../constants/transferTypes';
 import DropdownButton from '../dropdownButton';
 import Icon from '../icon';
 import TextInput from '../textInput';
@@ -52,9 +52,9 @@ const TransferAccountSelector = ({
 
   const destinationLocked = useMemo(() => {
     switch (transferType) {
-      case transferTypes.CONVERT:
-      case transferTypes.PURCHASE_ESTM:
-      case transferTypes.UNSTAKE_ENGINE:
+      case TransferTypes.CONVERT:
+      case TransferTypes.PURCHASE_ESTM:
+      case TransferTypes.UNSTAKE_ENGINE:
         return true;
       default:
         return false;

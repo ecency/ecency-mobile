@@ -33,7 +33,7 @@ import {
   unstakeHiveEngine,
 } from '../providers/hive-engine/hiveEngineActions';
 import { fetchTokenBalances } from '../providers/hive-engine/hiveEngine';
-import transferTypes from '../constants/transferTypes';
+import TransferTypes from '../constants/transferTypes';
 
 /*
  *            Props Name        Description                                     Value
@@ -90,10 +90,10 @@ class TransferContainer extends Component {
         tokenBalances.forEach((tokenBalance) => {
           if (tokenBalance.symbol === fundType) {
             switch (transferType) {
-              case transferTypes.UNDELEGATE_ENGINE:
+              case TransferTypes.UNDELEGATE_ENGINE:
                 balance = tokenBalance.delegationsOut;
                 break;
-              case transferTypes.UNSTAKE_ENGINE:
+              case TransferTypes.UNSTAKE_ENGINE:
                 balance = tokenBalance.stake;
                 break;
               default:

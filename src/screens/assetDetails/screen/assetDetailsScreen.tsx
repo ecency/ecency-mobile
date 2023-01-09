@@ -18,7 +18,7 @@ import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
-import transferTypes from '../../../constants/transferTypes';
+import TransferTypes from '../../../constants/transferTypes';
 import { useGetAssetsQuery } from '../../../providers/queries';
 
 export interface AssetDetailsScreenParams {
@@ -157,21 +157,21 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       let { balance } = coinData;
 
       switch (transferType) {
-        case transferTypes.UNSTAKE_ENGINE:
+        case TransferTypes.UNSTAKE_ENGINE:
           balance =
             coinData.extraDataPairs?.reduce(
               (bal, data) => (data.dataKey === 'staked' ? Number(data.value) : bal),
               0,
             ) ?? 0;
           break;
-        case transferTypes.UNDELEGATE_ENGINE:
+        case TransferTypes.UNDELEGATE_ENGINE:
           balance =
             coinData.extraDataPairs?.reduce(
               (bal, data) => (data.dataKey === 'delegations_out' ? Number(data.value) : bal),
               0,
             ) ?? 0;
-        case transferTypes.WITHDRAW_HIVE:
-        case transferTypes.WITHDRAW_HBD:
+        case TransferTypes.WITHDRAW_HIVE:
+        case TransferTypes.WITHDRAW_HBD:
           balance = coinData.savings ?? 0;
           break;
       }

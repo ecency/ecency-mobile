@@ -17,7 +17,7 @@ import {
 } from '../../../components';
 
 import styles from './transferStyles';
-import transferTypes from '../../../constants/transferTypes';
+import TransferTypes from '../../../constants/transferTypes';
 import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineActions';
 import { useAppDispatch } from '../../../hooks';
 import { showActionModal } from '../../../redux/actions/uiAction';
@@ -46,8 +46,8 @@ const TransferView = ({
       transferType === 'withdraw_hive' ||
       transferType === 'withdraw_hbd' ||
       transferType === 'convert' ||
-      transferType === transferTypes.UNSTAKE_ENGINE ||
-      transferType === transferTypes.STAKE_ENGINE 
+      transferType === TransferTypes.UNSTAKE_ENGINE ||
+      transferType === TransferTypes.STAKE_ENGINE 
       ? currentAccountName
       : transferType === 'purchase_estm'
       ? 'esteem.app'
@@ -63,8 +63,8 @@ const TransferView = ({
       transferType === 'withdraw_vesting' ||
       transferType === 'withdraw_hive' ||
       transferType === 'withdraw_hbd' ||
-      transferType === transferTypes.UNSTAKE_ENGINE ||
-      transferType === transferTypes.STAKE_ENGINE ||
+      transferType === TransferTypes.UNSTAKE_ENGINE ||
+      transferType === TransferTypes.STAKE_ENGINE ||
       (transferType === 'convert' && currentAccountName)
     ),
   );
@@ -102,30 +102,30 @@ const TransferView = ({
     //   )}`;
     // } else
 
-    if (transferType === transferTypes.TRANSFER_TO_SAVINGS) {
+    if (transferType === TransferTypes.TRANSFER_TO_SAVINGS) {
       path = `sign/transfer_to_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}`;
-    } else if (transferType === transferTypes.DELEGATE_VESTING_SHARES) {
+    } else if (transferType === TransferTypes.DELEGATE_VESTING_SHARES) {
       path = `sign/delegate_vesting_shares?delegator=${currentAccountName}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
-    } else if (transferType === transferTypes.TRANSFER_TO_VESTING) {
+    } else if (transferType === TransferTypes.TRANSFER_TO_VESTING) {
       path = `sign/transfer_to_vesting?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
     } else if (
-      transferType === transferTypes.WITHDRAW_HIVE ||
-      transferType === transferTypes.WITHDRAW_HBD
+      transferType === TransferTypes.WITHDRAW_HIVE ||
+      transferType === TransferTypes.WITHDRAW_HBD
     ) {
       path = `sign/transfer_from_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&request_id=${new Date().getTime() >>> 0}`;
-    } else if (transferType === transferTypes.CONVERT) {
+    } else if (transferType === TransferTypes.CONVERT) {
       path = `sign/convert?owner=${currentAccountName}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&requestid=${new Date().getTime() >>> 0}`;
-    } else if (transferType === transferTypes.WITHDRAW_VESTING) {
+    } else if (transferType === TransferTypes.WITHDRAW_VESTING) {
       path = `sign/withdraw_vesting?account=${currentAccountName}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;

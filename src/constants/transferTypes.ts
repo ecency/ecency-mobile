@@ -13,9 +13,10 @@ const DELEGATE_VESTING_SHARES = 'delegate_vesting_shares';
 const WITHDRAW_VESTING = 'withdraw_vesting';
 const TRANSFER_ENGINE = 'transfer_engine';
 const UNSTAKE_ENGINE = 'unstake_engine';
+const STAKE_ENGINE = 'stake_engine';
 const UNDELEGATE_ENGINE = 'undelegate_engine';
 
-export default {
+const TransferTypes = {
   TRANSFER_TOKEN,
   PURCHASE_ESTM,
   CONVERT,
@@ -32,4 +33,7 @@ export default {
   TRANSFER_ENGINE,
   UNSTAKE_ENGINE,
   UNDELEGATE_ENGINE,
+  STAKE_ENGINE
 };
+
+export default TransferTypes
