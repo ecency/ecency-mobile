@@ -8,10 +8,11 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from '../styles/registerAccountModalStyles';
 import { InAppPurchaseContainer } from '../../../containers';
-import { BoostPlaceHolder, Modal } from '../../../components';
+import { BoostPlaceHolder, Icon, ListPlaceHolder, MainButton, Modal, PostPlaceHolder, TextButton } from '../../../components';
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
 import { signUp } from '../../../providers/ecency/ecency';
 import ROUTES from '../../../constants/routeNames';
+import { CommentPlaceHolder, ListItemPlaceHolder, PostCardPlaceHolder } from '../../../components/basicUIElements';
 
 type Props = {
   username: string;
@@ -31,6 +32,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
   const [showModal, setShowModal] = useState(false);
   const [disableFree, setDisableFree] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
 
   useImperativeHandle(ref, () => ({
     showModal: ({ purchaseOnly }: { purchaseOnly: boolean } = { purchaseOnly: false }) => {
@@ -39,9 +41,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
     },
   }));
 
-  const _handleOnRegisterSuccess = () => {
-    navigation.navigate(ROUTES.DRAWER.MAIN);
-  };
+
 
   const _handleOnPressRegister = () => {
     setIsRegistering(true);
@@ -49,7 +49,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
     signUp(username, email, refUsername)
       .then((result) => {
         if (result) {
-          _handleOnRegisterSuccess();
+          setIsRegistered(true);
         }
         setIsRegistering(false);
       })
@@ -76,13 +76,52 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
   };
 
   const _handleOnPurchaseSuccess = () => {
-    _handleOnRegisterSuccess();
+    setIsRegistered(true);
     setIsRegistering(false);
   };
 
   const _handleOnPurchaseFailure = () => {
     setIsRegistering(false);
   };
+
+
+
+  const _renderIntermediateComponent = () => {
+    if (!isRegistering && !isRegistered) {
+      return null;
+    }
+
+    const _onActionPress = () => {
+      navigation.navigate(ROUTES.DRAWER.MAIN);
+    };
+
+    const _textId = isRegistered ? 'register.registered' : 'register.registering'
+    const _indicator = isRegistered ?
+      <Icon size={56} color={EStyleSheet.value("$primaryGreen")} name='check-circle' iconType='MaterialIcons' />
+      :
+      <ActivityIndicator size="large" color={EStyleSheet.value('$primaryBlack')} />;
+
+    const _action = isRegistered &&
+      <MainButton
+        onPress={_onActionPress}
+        text={intl.formatMessage({ id: 'alert.continue' })}
+        style={styles.actionButton}
+      />
+
+
+    return (
+      <View style={styles.registeringContainer}>
+        {_indicator}
+        <Text style={styles.registeringText}>
+          {intl.formatMessage({
+            id: _textId,
+          })}
+        </Text>
+        {_action}
+      </View>
+    )
+
+  }
 
   const _renderUserInfo = (text: string, style: TextStyle) => (
     <View style={styles.userInfoContainer}>
@@ -118,6 +157,38 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
 
   const _renderRegisterOptions = ({ productList, buyItem }) => {
     return (
+      isRegistered || isRegistering ? _renderIntermediateComponent() : (
+        <ScrollView style={styles.productsWrapper}>
+          {!disableFree &&
+            _renderCard({
+              titleId: 'free_account.title',
+              descriptionId: 'free_account.desc',
+
+              btnTitle: intl.formatMessage({ id: 'free_account.btn_register' }),
+              onPress: _handleOnPressRegister,
+            })}
+          {productList.map((product) =>
+            _renderCard({
+              titleId: 'buy_account.title',
+              descriptionId: 'buy_account.desc',
+
+              btnTitle: intl.formatMessage(
+                { id: 'buy_account.btn_register' },
+                { price: product.localizedPrice },
+              ),
+              onPress: () => {
+                setIsRegistering(true);
+                buyItem(product.productId);
+              },
+            }),
+          )}
+        </ScrollView>
+      )
+    );
+  };
+
+  const _renderContent = () => {
+    return (
       <View style={styles.contentContainer}>
         <View style={styles.headerContainer}>
           <View>
@@ -126,64 +197,23 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
           </View>
           <Image style={styles.logoEstm} source={LOGO_ESTM} />
         </View>
-
-        {isRegistering ? (
-          <View style={styles.registeringContainer}>
-            <ActivityIndicator size="large" color={EStyleSheet.value('$primaryBlack')} />
-            <Text style={styles.registeringText}>
-              {intl.formatMessage({
-                id: 'register.registering',
-              })}
-            </Text>
-          </View>
-        ) : (
-          <ScrollView style={styles.productsWrapper}>
-            {!disableFree &&
-              _renderCard({
-                titleId: 'free_account.title',
-                descriptionId: 'free_account.desc',
-
-                btnTitle: intl.formatMessage({ id: 'free_account.btn_register' }),
-                onPress: _handleOnPressRegister,
-              })}
-            {productList.map((product) =>
-              _renderCard({
-                titleId: 'buy_account.title',
-                descriptionId: 'buy_account.desc',
-
-                btnTitle: intl.formatMessage(
-                  { id: 'buy_account.btn_register' },
-                  { price: product.localizedPrice },
-                ),
-                onPress: () => {
-                  setIsRegistering(true);
-                  buyItem(product.productId);
-                },
-              }),
+          <InAppPurchaseContainer
+            skus={ITEM_SKUS}
+            username={username}
+            email={email}
+            isNoSpin
+            handleOnPurchaseSuccess={_handleOnPurchaseSuccess}
+            handleOnPurchaseFailure={_handleOnPurchaseFailure}
+          >
+            {({ buyItem, productList, isLoading }) => (
+              <SafeAreaView style={styles.container}>
+                {isLoading ? <PostCardPlaceHolder /> : _renderRegisterOptions({ productList, buyItem })}
+              </SafeAreaView>
             )}
-          </ScrollView>
-        )}
-      </View>
-    );
-  };
-
-  const _renderContent = () => {
-    return (
-      <InAppPurchaseContainer
-        skus={ITEM_SKUS}
-        username={username}
-        email={email}
-        isNoSpin
-        handleOnPurchaseSuccess={_handleOnPurchaseSuccess}
-        handleOnPurchaseFailure={_handleOnPurchaseFailure}
-      >
-        {({ buyItem, productList, isLoading }) => (
-          <SafeAreaView style={styles.container}>
-            {isLoading ? <BoostPlaceHolder /> : _renderRegisterOptions({ productList, buyItem })}
-          </SafeAreaView>
-        )}
-      </InAppPurchaseContainer>
-    );
+          </InAppPurchaseContainer>
+          </View>
+        );
+      
   };
 
   return (
