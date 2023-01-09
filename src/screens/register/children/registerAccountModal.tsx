@@ -41,7 +41,6 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
 
   const _handleOnRegisterSuccess = () => {
     navigation.navigate(ROUTES.DRAWER.MAIN);
-    Alert.alert('Success', 'Hurrah, you did it! Expect email from us with further instructions.');
   };
 
   const _handleOnPressRegister = () => {
