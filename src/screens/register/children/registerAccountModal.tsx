@@ -8,7 +8,7 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from '../styles/registerAccountModalStyles';
 import { InAppPurchaseContainer } from '../../../containers';
-import { BoostPlaceHolder, Modal, ProductItemLine } from '../../../components';
+import { BoostPlaceHolder, Modal } from '../../../components';
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
 import { signUp } from '../../../providers/ecency/ecency';
 import ROUTES from '../../../constants/routeNames';
@@ -137,7 +137,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
 
         {isRegistering ? (
           <View style={styles.registeringContainer}>
-            <ActivityIndicator size="large" color={EStyleSheet.value('$primaryBlue')} />
+            <ActivityIndicator size="large" color={EStyleSheet.value('$primaryBlack')} />
             <Text style={styles.registeringText}>
               {intl.formatMessage({
                 id: 'register.registering',
