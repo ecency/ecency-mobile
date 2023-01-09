@@ -12,6 +12,7 @@ import { Icon, MainButton, Modal, PostCardPlaceHolder } from '../../../component
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
 import { signUp } from '../../../providers/ecency/ecency';
 import ROUTES from '../../../constants/routeNames';
+import {openInbox} from "react-native-email-link";
 
 type Props = {
   username: string;
@@ -40,7 +41,11 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
     },
   }));
 
-
+  const _onContinuePress = () => {
+    navigation.navigate(ROUTES.DRAWER.MAIN);
+    openInbox();
+    
+  };
 
   const _handleOnPressRegister = () => {
     setIsRegistering(true);
@@ -90,10 +95,6 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
       return null;
     }
 
-    const _onActionPress = () => {
-      navigation.navigate(ROUTES.DRAWER.MAIN);
-    };
-
     const _textId = isRegistered ? 'register.registered' : 'register.registering'
     const _indicator = isRegistered ?
       <Icon size={56} color={EStyleSheet.value("$primaryGreen")} name='check-circle' iconType='MaterialIcons' />
@@ -102,7 +103,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
 
     const _action = isRegistered &&
       <MainButton
-        onPress={_onActionPress}
+        onPress={_onContinuePress}
         text={intl.formatMessage({ id: 'alert.continue' })}
         style={styles.actionButton}
       />

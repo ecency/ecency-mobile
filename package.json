@@ -108,6 +108,7 @@
     "react-native-date-picker": "^4.2.0",
     "react-native-device-info": "^10.2.1",
     "react-native-dynamic": "^1.0.0",
+    "react-native-email-link": "^1.14.3",
     "react-native-extended-stylesheet": "^0.10.0",
     "react-native-fast-image": "^8.3.2",
     "react-native-fingerprint-scanner": "hieuvp/react-native-fingerprint-scanner",
