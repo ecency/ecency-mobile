@@ -83,6 +83,16 @@ const SideMenuView = ({
       return;
     }
 
+    if (item.id === 'favorites') {
+      navigateToRoute({
+        name: ROUTES.SCREENS.BOOKMARKS,
+        params: {
+          showFavorites: true,
+        },
+      });
+      return;
+    }
+
     if (item.id === 'schedules') {
       navigateToRoute({
         name: ROUTES.SCREENS.DRAFTS,

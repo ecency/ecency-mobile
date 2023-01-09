@@ -20,6 +20,7 @@ const BookmarksScreen = ({
   bookmarks,
   removeFavorite,
   removeBookmark,
+  initialTabIndex,
 }) => {
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [activeTab, setActiveTab] = useState(0);
@@ -96,6 +97,7 @@ const BookmarksScreen = ({
       />
 
       <ScrollableTabView
+        initialPage={initialTabIndex}
         onChangeTab={(event) => setActiveTab(event.i)}
         style={[globalStyles.tabView, { paddingBottom: 40 }]}
         renderTabBar={() => (
