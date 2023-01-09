@@ -47,7 +47,7 @@ const TransferView = ({
       transferType === 'withdraw_hbd' ||
       transferType === 'convert' ||
       transferType === TransferTypes.UNSTAKE_ENGINE ||
-      transferType === TransferTypes.STAKE_ENGINE 
+      transferType === TransferTypes.STAKE_ENGINE
       ? currentAccountName
       : transferType === 'purchase_estm'
       ? 'esteem.app'

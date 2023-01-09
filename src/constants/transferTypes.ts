@@ -33,7 +33,7 @@ const TransferTypes = {
   TRANSFER_ENGINE,
   UNSTAKE_ENGINE,
   UNDELEGATE_ENGINE,
-  STAKE_ENGINE
+  STAKE_ENGINE,
 };
 
-export default TransferTypes
+export default TransferTypes;
