@@ -1,3 +1,5 @@
+import { QueryClient } from "@tanstack/react-query";
+
 export interface TabbedPostsProps {
   filterOptions: string[];
   filterOptionsValue: string[];
@@ -30,6 +32,7 @@ export interface LoadPostsOptions {
   filterKey: string;
   prevPosts: any[];
   tabMeta: TabMeta;
+  
   setTabMeta: (meta: TabMeta) => void;
   getFor: string;
   isConnected: boolean;
@@ -39,6 +42,7 @@ export interface LoadPostsOptions {
   pageType: string;
   tag: string;
   nsfw: string;
+  queryClient:QueryClient;
   isLatestPostsCheck?: boolean;
   refreshing?: boolean;
 }

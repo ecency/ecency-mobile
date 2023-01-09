@@ -17,6 +17,8 @@ import { getDefaultFilters, getFilterMap } from '../../../constants/options/filt
 import { useAppSelector } from '../../../hooks';
 
 const FeedScreen = () => {
+
+
   const mainTabs = useAppSelector(
     (state) => state.customTabs.mainTabs || getDefaultFilters('main'),
   );

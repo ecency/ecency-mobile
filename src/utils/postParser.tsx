@@ -12,15 +12,15 @@ import { parseReputation } from './user';
 
 const webp = Platform.OS !== 'ios';
 
-export const parsePosts = (posts, currentUserName) => {
+export const parsePosts = (posts, currentUserName, discardBody = false) => {
   if (posts) {
-    const formattedPosts = posts.map((post) => parsePost(post, currentUserName, false, true));
+    const formattedPosts = posts.map((post) => parsePost(post, currentUserName, false, true, discardBody));
     return formattedPosts;
   }
   return null;
 };
 
-export const parsePost = (post, currentUserName, isPromoted, isList = false) => {
+export const parsePost = (post, currentUserName, isPromoted, isList = false, discardBody = false) => {
   if (!post) {
     return null;
   }
@@ -64,7 +64,7 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   post.post_fetched_at = new Date().getTime();
 
   // discard post body if list
-  if (isList) {
+  if (discardBody) {
     post.body = '';
   }
 

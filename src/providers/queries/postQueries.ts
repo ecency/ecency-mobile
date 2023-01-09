@@ -1,5 +1,7 @@
+import { renderPostBody } from "@ecency/render-helper";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { Platform } from "react-native";
 import { useAppSelector } from "../../hooks";
 import { getPost } from "../hive/dhive";
 import QUERIES from "./queryKeys";
@@ -38,3 +40,11 @@ export const useGetPostQuery = (_author?:string, _permlink?:string) => {
         setPermlink,
     }
   };
+
+  export const cachePostsQueryData = async (posts, queryClient) => {
+    posts.forEach((item)=>{
+        console.log("priming data", item.author, item.permlink, item)
+        item.body = renderPostBody({ ...item, last_update: item.updated }, true, Platform.OS !== 'ios');
+        queryClient.setQueryData([QUERIES.POST.GET, item.author, item.permlink], item)
+      })
+  }

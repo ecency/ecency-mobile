@@ -2,6 +2,9 @@ import { getAccountPosts, getPost, getRankedPosts } from '../../../providers/hiv
 import { filterLatestPosts, getUpdatedPosts } from './tabbedPostsHelpers';
 import { LoadPostsOptions } from './tabbedPostsModels';
 import { getPromotedEntries } from '../../../providers/ecency/ecency';
+import QUERIES from '../../../providers/queries/queryKeys';
+import { Alert } from 'react-native';
+import { cachePostsQueryData } from '../../../providers/queries';
 
 const POSTS_FETCH_COUNT = 20;
 
@@ -20,6 +23,7 @@ export const loadPosts = async ({
   pageType,
   tag,
   nsfw,
+  queryClient
 }: LoadPostsOptions) => {
   let filter = filterKey;
 
@@ -118,6 +122,7 @@ export const loadPosts = async ({
           }
         }
       }
+
       if ((pageType === 'profile' || pageType === 'ownProfile') && pinnedPermlink) {
         let pinnedIndex = -1;
         result.forEach((post, index) => {
@@ -127,6 +132,10 @@ export const loadPosts = async ({
         });
         result.splice(pinnedIndex, 1);
       }
+
+      //cache posts in react-query
+      cachePostsQueryData(result, queryClient);
+
     }
 
     // if filter is feed convert back to reducer filter
