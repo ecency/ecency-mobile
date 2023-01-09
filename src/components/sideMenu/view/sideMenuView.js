@@ -127,6 +127,7 @@ const SideMenuView = ({
             iconType={item.item.iconType ? item.item.iconType : 'SimpleLineIcons'}
             style={styles.listItemIcon}
             name={item.item.icon}
+            size={20}
           />
         )}
         {item.item.username && (

@@ -21,9 +21,8 @@ export const ActionPanel = ({
   onFavouritePress,
   onFollowPress,
 }: ActionPanelProps) => {
-  const heartColor = isFavourite ? '$primaryBlue' : '$iconColor';
-
-  const followIcon = isFollowing ? 'user-check' : 'user-plus';
+  const heartColor = isFavourite ? '$primaryRed' : '$iconColor';
+  const followColor = isFollowing ? '$primaryBlue' : '$iconColor';
 
   return (
     <View style={styles.actionPanel}>
@@ -37,10 +36,10 @@ export const ActionPanel = ({
         />
       ) : (
         <IconButton
-          iconType="FontAwesome5"
-          name={followIcon}
-          size={20}
-          color={EStyleSheet.value('$iconColor')}
+          iconType="MaterialCommunityIcons"
+          name={'account-plus'}
+          size={26}
+          color={EStyleSheet.value(followColor)}
           disabled={isFollowing || isLoading}
           onPress={onFollowPress}
         />
@@ -48,9 +47,9 @@ export const ActionPanel = ({
 
       <IconButton
         style={{ marginLeft: 8 }}
-        iconType="AntDesign"
-        name="heart"
-        size={20}
+        iconType="MaterialCommunityIcons"
+        name="account-heart"
+        size={26}
         color={EStyleSheet.value(heartColor)}
         onPress={onFavouritePress}
       />
