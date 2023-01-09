@@ -17,7 +17,7 @@ const authMenuItems = [
   {
     name: 'Favorites',
     route: ROUTES.SCREENS.BOOKMARKS,
-    icon: 'star',
+    icon: 'heart',
     id: 'favorites',
   },
   {
