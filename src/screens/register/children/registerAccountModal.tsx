@@ -8,11 +8,10 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from '../styles/registerAccountModalStyles';
 import { InAppPurchaseContainer } from '../../../containers';
-import { BoostPlaceHolder, Icon, ListPlaceHolder, MainButton, Modal, PostPlaceHolder, TextButton } from '../../../components';
+import { Icon, MainButton, Modal, PostCardPlaceHolder } from '../../../components';
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
 import { signUp } from '../../../providers/ecency/ecency';
 import ROUTES from '../../../constants/routeNames';
-import { CommentPlaceHolder, ListItemPlaceHolder, PostCardPlaceHolder } from '../../../components/basicUIElements';
 
 type Props = {
   username: string;
