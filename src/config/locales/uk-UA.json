@@ -298,6 +298,7 @@
     "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
+    "modal_title": "Get Hive Account",
     "button": "Зареєструватися",
     "title": "Зареєструватися",
     "username": "Оберіть ім'я користувача",
@@ -305,7 +306,8 @@
     "ref_user": "Реферальний користувач (необов'язково)",
     "500_error": "Не вдалося обробити ваш запит, скоріш за все, черга реєстрації переповнена! Спробуйте ще раз через кілька хвилин...",
     "title_description": "Один рахунок для управління всім",
-    "form_description": "Реєструючись, ви погоджуєтеся з Умовами надання послуг та Політикою конфіденційності."
+    "form_description": "Реєструючись, ви погоджуєтеся з Умовами надання послуг та Політикою конфіденційності.",
+    "registering": "Registering Your Account..."
   },
   "home": {
     "feed": "Стрічка",
@@ -722,6 +724,16 @@
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}"
+  },
+  "buy_account": {
+    "title": "Buy Account",
+    "btn_register": "Buy Account - {price}",
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts\n- 300 Points to help you get started"
+  },
+  "free_account": {
+    "title": "Free Account",
+    "btn_register": "Register Free",
+    "desc": "Get a full-fledged Hive account, this method has basic checks to make sure botnet doesn't abuse our signup faucet."
   },
   "free_estm": {
     "title": "Безкоштовні Бали",
