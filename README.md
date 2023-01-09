@@ -30,10 +30,10 @@ PlayStore Android: https://android.ecency.com
 
 - Install: [download here](https://github.com/infinitered/reactotron/blob/master/docs/installing.md)
 - Run: After installation, start the reactotron desktop application
-- Link: For android, run `adb reverse tcp:9090 tcp:9090` and restart app. For iOS, it should connect without futher config.
+- Link: For android, run `adb reverse tcp:9090 tcp:9090` and restart app. For iOS, it should connect without further config.
 - Usage:
   1. use `Timeline` tab to track logs and network call
-  2. use `State` tab to track redux stage changes, to track particular store, add it by it's initilzing name, example: `account`
+  2. use `State` tab to track redux stage changes, to track particular store, add it by its initializing name, example: `account`
 
 ## Starting for IOS
 
@@ -69,11 +69,12 @@ PlayStore Android: https://android.ecency.com
 - [Issues](https://github.com/ecency/ecency-mobile/issues)
 
 2.  If the item already exists and is in progress, please remove the card or the issue you were assigned and leave a note that it is a duplicate.
-    3.If the item is not being worked on, please make sure that you put the card or issue as "In Progress" and assign it to yourself so other developers know that you are working on it.
+
+3.  If the item is not being worked on, please make sure that you put the card or issue as "In Progress" and assign it to yourself so other developers know that you are working on it.
 
 #### Patch a day
 
-It is important to make the work you are doing visible to other team members, especially because there are developers in different location.
+It is important to make the work you are doing visible to other team members, especially because there are developers in different locations.
 Even if you are not done the work on your patch, make sure to put a Pull Request up and leave a note that this is work in progress (WIP) so that others do not try to merge in your patch.
 If you would like to have someone in particular review your work, leave your patch as WIP and assign the developers that need to review or update your patch before it is ready to be reviewed by other team members.
 
@@ -90,7 +91,7 @@ When you create a pull request for your patch, make sure to leave all the inform
 
 Main Branch `master`
 
-If you resolved a issue or something You have to whern you commit your pr commit message include issue number for ex. resolved #10 or closed #10 etc.
+If you resolved an issue or something, you have to include the issue number (for ex. resolved #10 or closed #10) in your pr commit message.
 
 #### Before you start
 
