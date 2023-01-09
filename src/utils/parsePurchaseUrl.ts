@@ -14,11 +14,15 @@ export default (urlString: string) => {
   if (url.pathname === '/purchase') {
     const type = url.searchParams.get('type');
     const username = url.searchParams.get('username');
+    const email = url.searchParams.get('email');
+    const referredUser = url.searchParams.get('referral');
     const productId = url.searchParams.get('product_id');
     return {
       type,
       username,
       productId,
+      email,
+      referredUser,
     };
   }
 

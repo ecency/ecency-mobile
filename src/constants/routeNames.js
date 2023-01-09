@@ -4,7 +4,7 @@ const SCREEN_SUFFIX = 'Screen';
 const TABBAR_SUFFIX = 'Tabbar';
 const STACK_SUFFIX = 'Stack';
 
-export default {
+const ROUTES = {
   SCREENS: {
     BOOKMARKS: `Bookmarks${SCREEN_SUFFIX}`,
     BOOST: `Boost${SCREEN_SUFFIX}`,
@@ -52,3 +52,5 @@ export default {
     MAIN: `Main${STACK_SUFFIX}`,
   },
 };
+
+export default ROUTES;

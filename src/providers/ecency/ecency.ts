@@ -17,6 +17,7 @@ import {
   LatestMarketPrices,
   MediaItem,
   NotificationFilters,
+  PurchaseRequestData,
   ReceivedVestingShare,
   Referral,
   ReferralStat,
@@ -760,12 +761,19 @@ export const getPromotedEntries = async (username: string) => {
   }
 };
 
-export const purchaseOrder = (data) =>
+
+/**
+ * post inapp purchase method to call
+ * @param data PurchaseRequestData
+ * @returns 
+ **/
+export const purchaseOrder = (data:PurchaseRequestData) =>
   api
     .post('/purchase-order', data)
     .then((resp) => resp.data)
     .catch((error) => bugsnagInstance.notify(error));
 
+    
 export const getPostReblogs = (data) =>
   api
     .get(`/post-reblogs/${data.author}/${data.permlink}`)

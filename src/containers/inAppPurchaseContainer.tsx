@@ -15,6 +15,7 @@ import { purchaseOrder } from '../providers/ecency/ecency';
 import { default as ROUTES } from '../constants/routeNames';
 import { showActionModal } from '../redux/actions/uiAction';
 import { UserAvatar } from '../components';
+import { PurchaseRequestData } from '../providers/ecency/ecency.types';
 
 class InAppPurchaseContainer extends Component {
   purchaseUpdateSubscription: EmitterSubscription | null = null;
@@ -101,6 +102,9 @@ class InAppPurchaseContainer extends Component {
       intl,
       fetchData,
       username,
+      email,
+      handleOnPurchaseFailure,
+      handleOnPurchaseSuccess,
     } = this.props;
 
     this.purchaseUpdateSubscription = IAP.purchaseUpdatedListener((purchase) => {
@@ -108,12 +112,21 @@ class InAppPurchaseContainer extends Component {
       const token = get(purchase, 'purchaseToken');
 
       if (receipt) {
-        const data = {
+        const data: PurchaseRequestData = {
           platform: Platform.OS === 'android' ? 'play_store' : 'app_store',
           product: get(purchase, 'productId'),
           receipt: Platform.OS === 'android' ? token : receipt,
           user: username || name, // username from passed in props from nav params i-e got from url qr scan
         };
+
+        if (email && purchase.productId === '999accounts') {
+          console.log('injecting purchase account meta');
+          data.user = name || 'ecency'; // if user logged in user that name else use ecency,
+          data.meta = {
+            username,
+            email,
+          };
+        }
 
         purchaseOrder(data)
           .then(async () => {
@@ -132,12 +145,18 @@ class InAppPurchaseContainer extends Component {
             if (fetchData) {
               fetchData();
             }
+            if (handleOnPurchaseSuccess) {
+              handleOnPurchaseSuccess();
+            }
           })
-          .catch((err) =>
+          .catch((err) => {
+            if (handleOnPurchaseFailure) {
+              handleOnPurchaseFailure();
+            }
             bugsnagInstance.notify(err, (report) => {
               report.addMetadata('data', data);
-            }),
-          );
+            });
+          });
       }
     });
 
@@ -162,6 +181,9 @@ class InAppPurchaseContainer extends Component {
         );
       }
       this.setState({ isProcessing: false });
+      if (handleOnPurchaseFailure) {
+        handleOnPurchaseFailure();
+      }
     });
   };
 
@@ -217,8 +239,8 @@ class InAppPurchaseContainer extends Component {
   _handleQrPurchase = async () => {
     const { skus, dispatch, intl, route } = this.props;
     const products = await IAP.getProducts({ skus });
-    const productId = route.param?.productId ?? '';
-    const username = route.param?.username ?? '';
+    const productId = route?.param?.productId ?? '';
+    const username = route?.param?.username ?? '';
 
     const product: IAP.Product =
       productId && products && products.find((product) => product.productId === productId);
