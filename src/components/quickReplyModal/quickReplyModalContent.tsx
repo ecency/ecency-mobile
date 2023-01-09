@@ -117,7 +117,8 @@ export const QuickReplyModalContent = forwardRef(
       RootNavigation.navigate({
         name: ROUTES.SCREENS.POST,
         params: {
-          content: selectedPost,
+          author: selectedPost.author,
+          permlink: selectedPost.permlink
         },
         key: get(selectedPost, 'permlink'),
       });

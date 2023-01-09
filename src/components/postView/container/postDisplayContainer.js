@@ -131,20 +131,20 @@ const PostDisplayContainer = ({
     <PostDisplayView
       author={author}
       currentAccount={currentAccount}
+      isPostUnavailable={isPostUnavailable}
+      isLoggedIn={isLoggedIn}
+      isNewPost={isNewPost}
+      parentPost={parentPost}
+      post={post}
+      activeVotes={activeVotes}
+      activeVotesCount={activeVotesCount}
+      reblogs={reblogs}
       fetchPost={_fetchPost}
       handleOnEditPress={_handleOnEditPress}
       handleOnRemovePress={_handleDeleteComment}
       handleOnReplyPress={_handleOnReplyPress}
       handleOnVotersPress={_handleOnVotersPress}
       handleOnReblogsPress={_handleOnReblogsPress}
-      isLoggedIn={isLoggedIn}
-      isNewPost={isNewPost}
-      isPostUnavailable={isPostUnavailable}
-      parentPost={parentPost}
-      post={post}
-      activeVotes={activeVotes}
-      activeVotesCount={activeVotesCount}
-      reblogs={reblogs}
     />
   );
 };

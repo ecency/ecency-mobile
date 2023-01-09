@@ -92,7 +92,8 @@ const PostCardContainer = ({
       navigation.navigate({
         name: ROUTES.SCREENS.POST,
         params: {
-          content: value,
+          author: value.author,
+          permlink: value.permlink
         },
         key: get(value, 'permlink'),
       });

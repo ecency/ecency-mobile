@@ -16,7 +16,20 @@ export const useGetPostQuery = (_author?:string, _permlink?:string) => {
         if(!author || !permlink){
             return null;
         }
-       return getPost(author, permlink, currentAccount?.username );
+
+        try {
+            const post = await getPost(author, permlink, currentAccount?.username );
+            if(post?.post_id > 0){
+                return post;
+            }
+
+            new Error("Post unavailable")
+            
+        } catch(err){
+            console.warn("Failed to get post", err);
+            throw err;
+        }
+       
     });
 
     return {
