@@ -305,9 +305,11 @@
     "mail": "তোমার ই - মেইল ​​ঠিকানা লেখো",
     "ref_user": "রেফার্ড ব্যবহারকারী (ঐচ্ছিক)",
     "500_error": "আপনার অনুরোধটি প্রক্রিয়া করা যায়নি, সাইনআপ সারি সম্ভবত পূর্ণ! কয়েক মিনিটের মধ্যে আবার চেষ্টা করুন ...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "সবকিছু পরিচালনা করার জন্য একটি অ্যাকাউন্ট",
     "form_description": "আমাদের সাথে সাইন আপ করে, আপনি আমাদের পরিষেবার শর্তাদি এবং গোপনীয়তা নীতিগুলিতে সম্মত হন।",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "ফিড",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "পুরুষ্কার ব্যালেন্স দাবি করা",
     "fail": "ব্যর্থ!",
     "move": "স্থানান্তর",
+    "continue": "Continue",
     "move_question": "আপনি কি খসড়াতে যাওয়ার বিষয়ে নিশ্চিত?",
     "success_shared": "সাফল্য! কনটেন্ট জমা দেওয়া হয়েছে!",
     "success_moved": "খসড়াতে সরানো হয়েছে",
