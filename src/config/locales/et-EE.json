@@ -305,9 +305,11 @@
     "mail": "Kirjuta oma e-posti aadress",
     "ref_user": "Kutsutud kasutaja (Vabatahtlik)",
     "500_error": "Toiming ebaõnnestus, registreerumise järjekord on täis! Proovi uuesti mõne minuti pärast...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Üks kasutaja kõige haldamiseks",
     "form_description": "Registreerudes nõustute meie kasutustingimuste ja privaatsuseeskirjadega.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Sein",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Tasu jääk nõutud",
     "fail": "Ebaõnnestumine!",
     "move": "Liiguta",
+    "continue": "Continue",
     "move_question": "Oled sa kindel, et soovid mustanditesse teisaldada?",
     "success_shared": "Valmis! Sisu esitatud!",
     "success_moved": "Teisaldatud mustanditesse",
