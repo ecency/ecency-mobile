@@ -12,11 +12,9 @@ import {
 import notifee, { EventType } from '@notifee/react-native';
 import { isEmpty, some, get } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
+import { useQueryClient } from '@tanstack/react-query';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import {
-  setDeviceOrientation,
-  setLockedOrientation,
-} from '../../../redux/actions/uiAction';
+import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
 import isAndroidTablet from '../../../utils/isAndroidTablet';
 import darkTheme from '../../../themes/darkTheme';
@@ -28,7 +26,6 @@ import { markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
-import { useQueryClient } from '@tanstack/react-query';
 import QUERIES from '../../../providers/queries/queryKeys';
 
 export const useInitApplication = () => {
@@ -77,7 +74,7 @@ export const useInitApplication = () => {
 
     _initPushListener();
 
-    queryClient.removeQueries([QUERIES.POST.GET])
+    queryClient.removeQueries([QUERIES.POST.GET]);
 
     return _cleanup;
   }, []);

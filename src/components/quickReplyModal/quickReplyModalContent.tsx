@@ -121,7 +121,7 @@ export const QuickReplyModalContent = forwardRef(
         name: ROUTES.SCREENS.POST,
         params: {
           author: selectedPost.author,
-          permlink: selectedPost.permlink
+          permlink: selectedPost.permlink,
         },
         key: get(selectedPost, 'permlink'),
       });

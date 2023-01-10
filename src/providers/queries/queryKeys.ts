@@ -20,7 +20,7 @@ const QUERIES = {
   },
   POST: {
     GET: 'QUERY_GET_POST',
-  }
+  },
 };
 
 export default QUERIES;

@@ -18,7 +18,7 @@ const ParentPost = ({ post }) => {
                 name: ROUTES.SCREENS.POST,
                 params: {
                   author: post.author,
-                  permlink: post.permlink
+                  permlink: post.permlink,
                 },
                 key: post.permlink,
               })

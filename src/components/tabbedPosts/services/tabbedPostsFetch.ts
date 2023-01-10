@@ -3,7 +3,6 @@ import { filterLatestPosts, getUpdatedPosts } from './tabbedPostsHelpers';
 import { LoadPostsOptions } from './tabbedPostsModels';
 import { getPromotedEntries } from '../../../providers/ecency/ecency';
 
-
 const POSTS_FETCH_COUNT = 20;
 
 export const loadPosts = async ({
@@ -129,7 +128,6 @@ export const loadPosts = async ({
         });
         result.splice(pinnedIndex, 1);
       }
-
     }
 
     // if filter is feed convert back to reducer filter

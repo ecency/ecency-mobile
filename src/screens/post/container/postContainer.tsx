@@ -14,18 +14,16 @@ import { useGetPostQuery } from '../../../providers/queries';
  *
  */
 const PostContainer = ({ currentAccount, isLoggedIn, route }) => {
-
   const params = route.params || {};
 
   const [author, setAuthor] = useState(params.content?.author || params.author);
   const [permlink, setPermlink] = useState(params.content?.permlink || params.permlink);
 
-  //refs
+  // refs
   const isNewPost = useRef(route.params?.isNewPost).current;
 
-  const getPostQuery = useGetPostQuery(author, permlink)
+  const getPostQuery = useGetPostQuery(author, permlink);
   const getParentPostQuery = useGetPostQuery();
-
 
   useEffect(() => {
     const post = getPostQuery.data;
@@ -35,12 +33,10 @@ const PostContainer = ({ currentAccount, isLoggedIn, route }) => {
         getParentPostQuery.setPermlink(post.parent_permlink);
       }
     }
-  }, [getPostQuery.data])
-
+  }, [getPostQuery.data]);
 
   // Component Functions
   const _loadPost = async (_author = null, _permlink = null) => {
-
     if (_author && _permlink && _author !== author && _permlink !== _permlink) {
       setAuthor(_author);
       setPermlink(_permlink);
@@ -55,7 +51,6 @@ const PostContainer = ({ currentAccount, isLoggedIn, route }) => {
       _loadPost(_author, permlink);
     }
   }, [route.params.isFetch]);
-
 
   const _isPostUnavailable = !getPostQuery.isLoading && getPostQuery.error;
 
