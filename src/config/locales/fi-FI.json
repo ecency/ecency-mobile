@@ -305,9 +305,11 @@
     "mail": "Syötä sähköpostiosoitteesi",
     "ref_user": "Suosittelija (valinnainen)",
     "500_error": "Toiminto epäonnistui, rekisteröitymisjono lienee täynnä! Yritä uudelleen parin minuutin päästä...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Yhdellä tilillä hallitset kaikkea",
     "form_description": "Rekisteröitymällä hyväksyt meidän käyttöehdomme ja tietosuojamme periaatteet.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Syöte",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Palkkio lunastettu",
     "fail": "Virhe!",
     "move": "Siirrä",
+    "continue": "Continue",
     "move_question": "Haluatko varmasti siirtää luonnoksiin?",
     "success_shared": "Onnistui! Sisältö lähetetty!",
     "success_moved": "Siirretty luonnoksiin",
