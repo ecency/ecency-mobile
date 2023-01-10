@@ -305,9 +305,11 @@
     "mail": "輸入您的電子郵件地址",
     "ref_user": "邀請者的賬號暱稱 （可選）",
     "500_error": "您的申請暫時未能通過，很可能是滿了。請稍候重試…",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "一個賬號掌管所有權限",
     "form_description": "註冊即表示您同意我們的服務條款和隱私政策",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "朋友圈",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "已領獎勵餘額",
     "fail": "失敗！",
     "move": "移動",
+    "continue": "Continue",
     "move_question": "您確定要存為草稿嗎？",
     "success_shared": "成功遞交！內容已經上載成功。",
     "success_moved": "存為草稿",
