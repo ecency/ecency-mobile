@@ -174,7 +174,12 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
 
             btnTitle: intl.formatMessage(
               { id: 'buy_account.btn_register' },
-              { price: product.localizedPrice },
+              {
+                price: Platform.select({
+                  ios: product.localizedPrice,
+                  android: product.oneTimePurchaseOfferDetails?.formattedPrice
+                })
+              },
             ),
             onPress: () => {
               setIsRegistering(true);
