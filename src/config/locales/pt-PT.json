@@ -305,9 +305,11 @@
     "mail": "Digite o seu endereço de email",
     "ref_user": "Usuário referenciado (Opcional)",
     "500_error": "A sua solicitação não pôde ser processada, a fila de inscrição provavelmente está cheia! Tente novamente em alguns minutos...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Uma conta para gerenciar tudo",
     "form_description": "Ao se cadastrar conosco, você concorda com nossos Termos de Serviço e Políticas de Privacidade.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Conteúdo de notícias",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Balanço de Recompensa reclamado",
     "fail": "Falha!",
     "move": "Mover",
+    "continue": "Continue",
     "move_question": "Tem certeza que deseja mover para rascunhos?",
     "success_shared": "Sucesso! Conteúdo submetido!",
     "success_moved": "Movido para Rascunhos",
