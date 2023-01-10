@@ -42,6 +42,11 @@ export const usePostsCachePrimer = () => {
   const queryClient = useQueryClient();
 
   const cachePost = async (post) => {
+
+    if(!post || !post.author || !post.permlink || !post.body){
+        return;
+    }
+
     console.log('priming data', post.author, post.permlink, post);
     post.body = renderPostBody({ ...post, last_update: post.updated }, true, Platform.OS !== 'ios');
     queryClient.setQueryData([QUERIES.POST.GET, post.author, post.permlink], post);
