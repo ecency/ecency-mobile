@@ -12,7 +12,6 @@ import {
 import notifee, { EventType } from '@notifee/react-native';
 import { isEmpty, some, get } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
-import { useQueryClient } from '@tanstack/react-query';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
@@ -26,7 +25,6 @@ import { markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
-import QUERIES from '../../../providers/queries/queryKeys';
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
@@ -41,8 +39,6 @@ export const useInitApplication = () => {
   const messagingEventRef = useRef<any>(null);
 
   const userActivityMutation = useUserActivityMutation();
-
-  const queryClient = useQueryClient();
 
   // equivalent of componentWillMount and update on props,
   // benefit is it does not wait for useEffect callback
@@ -73,8 +69,6 @@ export const useInitApplication = () => {
     userActivityMutation.lazyMutatePendingActivities();
 
     _initPushListener();
-
-    queryClient.removeQueries([QUERIES.POST.GET]);
 
     return _cleanup;
   }, []);
