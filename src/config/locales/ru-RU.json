@@ -305,9 +305,11 @@
     "mail": "Введите свой email адрес",
     "ref_user": "Реферал (необязательно)",
     "500_error": "Ваш запрос не удалось обработать, скорее всего, очередь регистрации заполнена! Повторите попытку через несколько минут...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Один аккаунт для управления всем",
     "form_description": "Регистрируясь, вы соглашаетесь с Условиями использования и Политикой конфиденциальности.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Лента",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Награда зачислена на баланс",
     "fail": "Не вышло!",
     "move": "Переместить",
+    "continue": "Continue",
     "move_question": "Вы уверены, что хотите переместить в черновики?",
     "success_shared": "Успех! Контент отправлен!",
     "success_moved": "Перемещён в черновики",
