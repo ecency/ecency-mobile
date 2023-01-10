@@ -305,9 +305,11 @@
     "mail": "Ilagay ang iyong email address",
     "ref_user": "Napasaling user (opsyunal)",
     "500_error": "Ang iyong request ay hindi maproseso, ang pila ng pagsali ay maaaring puno na! Subukan ulit nang ilang minuto...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Isang account para asikasuhin ang lahat",
     "form_description": "Sa pag-sign in, pumapayag ka sa mga Tuntunin ng Paggamit at Mga Patakaran sa Privacy.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Feed",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Nakuha ang balanse na gantimpala",
     "fail": "Bigo!",
     "move": "Ilipat",
+    "continue": "Continue",
     "move_question": "Sigurado kang ililipat mo sa drafts?",
     "success_shared": "Tagumpay! Ang nilalaman ay naipasa na!",
     "success_moved": "Nailipat sa draft",
