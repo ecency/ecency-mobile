@@ -305,9 +305,11 @@
     "mail": "E-poçt ünvanını daxil et",
     "ref_user": "Referred user (Optional)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "One account to manage everything",
     "form_description": "Qeydiyyatdan keçərək, Xidmət Şərtləri və Gizlilik Siyasətimiz ilə razılaşırsınız.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Axın",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Mükafat alındı",
     "fail": "Uğursuz!",
     "move": "Köçürt",
+    "continue": "Continue",
     "move_question": "Qaralamalara köçürtmək istədiyinizə əminsiniz?",
     "success_shared": "Uğurlu! Məzmun göndərildi!",
     "success_moved": "Qaralamalara köçürüldü",
