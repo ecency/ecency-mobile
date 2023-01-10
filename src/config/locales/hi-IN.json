@@ -305,9 +305,11 @@
     "mail": "अपना ईमेल पता दर्ज करें",
     "ref_user": "संदर्भित उपयोगकर्ता (वैकल्पिक)",
     "500_error": "आपके अनुरोध को संसाधित नहीं किया जा सका, साइनअप कतार पूर्ण होने की संभावना है! कुछ मिनटों में पुन: प्रयास करें...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "सब कुछ प्रबंधित करने के लिए एक खाता",
     "form_description": "हमारे साथ साइन अप करके, आप हमारी सेवा की शर्तों और गोपनीयता नीतियों से सहमत हैं।",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "संभरण",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "इनाम की राशी ले चुके",
     "fail": "असफल!",
     "move": "हटाना",
+    "continue": "Continue",
     "move_question": "क्या आप ड्राफ्ट में जाना सुनिश्चित करते हैं?",
     "success_shared": "सफलता! प्रस्तुत सामग्री!",
     "success_moved": "ड्राफ्ट में ले जाया गया",
