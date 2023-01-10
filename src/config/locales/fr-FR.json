@@ -305,9 +305,11 @@
     "mail": "Entrez votre adresse mail",
     "ref_user": "Utilisateur parrain (Facultatif)",
     "500_error": "Votre demande n’a pas pu être traitée, la file d’inscription est probablement pleine ! Réessayez dans quelques minutes...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Un seul compte pour tout gérer",
     "form_description": "En vous inscrivant, vous acceptez nos conditions d'utilisation et notre politique de confidentialité.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Fil d'actualités",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Solde de récompense réclamé",
     "fail": "Échec !",
     "move": "Déplacer",
+    "continue": "Continue",
     "move_question": "Êtes-vous sûr de vouloir déplacer vers Broullions ?",
     "success_shared": "Succès ! Contenu soumis !",
     "success_moved": "Déplacé vers Brouillons",
