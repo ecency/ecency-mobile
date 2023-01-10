@@ -323,7 +323,7 @@ const CommentsContainer = ({
   };
 
   const _openReplyThread = (comment) => {
-    postsCachePrimer.cachePost(comment)
+    postsCachePrimer.cachePost(comment);
     navigation.navigate({
       name: ROUTES.SCREENS.POST,
       key: comment.permlink,

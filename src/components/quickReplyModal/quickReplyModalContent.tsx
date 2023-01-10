@@ -37,6 +37,7 @@ import { RootState } from '../../redux/store/store';
 
 import { PointActivityIds } from '../../providers/ecency/ecency.types';
 import { useUserActivityMutation } from '../../providers/queries/pointQueries';
+import { usePostsCachePrimer } from '../../providers/queries';
 
 export interface QuickReplyModalContentProps {
   selectedPost?: any;
@@ -49,6 +50,7 @@ export const QuickReplyModalContent = forwardRef(
     const intl = useIntl();
     const dispatch = useDispatch();
     const userActivityMutation = useUserActivityMutation();
+    const postsCachePrimer = usePostsCachePrimer();
 
     const inputRef = useRef<RNTextInput | null>(null);
 
@@ -114,6 +116,7 @@ export const QuickReplyModalContent = forwardRef(
     const _handleOnSummaryPress = () => {
       Keyboard.dismiss();
       onClose();
+      postsCachePrimer.cachePost(selectedPost);
       RootNavigation.navigate({
         name: ROUTES.SCREENS.POST,
         params: {
