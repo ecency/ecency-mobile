@@ -305,9 +305,11 @@
     "mail": "Unesite svoju e-mail adresu",
     "ref_user": "Preporučeni korisnik (opcionalno)",
     "500_error": "Vaš zahtev nije mogao da se obradi, red za registraciju je verovatno pun! Pokušajte ponovo za nekoliko minuta...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Jedan nalog za upravljanje svim",
     "form_description": "Prijavom kod nas pristajete na naše uslove korišćenja usluge i politike privatnosti.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Novosti",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Potvrđeni bilans nagrade",
     "fail": "Nije uspelo!",
     "move": "Premesti",
+    "continue": "Continue",
     "move_question": "Da li ste sigurni da želite preći na radne verzije?",
     "success_shared": "Uspeh! Sadržaj predat!",
     "success_moved": "Premešteno u radnu verziju",
