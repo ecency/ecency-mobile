@@ -589,7 +589,7 @@ class DelegateScreen extends Component {
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: 'transfer.delegate' })} backIconName="close" />
         <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          behavior={Platform.OS === 'ios' ? 'padding' : null}
           style={styles.fillSpace}
           keyboardShouldPersistTaps="always"
         >
