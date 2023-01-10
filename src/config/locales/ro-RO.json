@@ -305,9 +305,11 @@
     "mail": "Enter your email address",
     "ref_user": "Referred user (Optional)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "One account to manage everything",
     "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Flux",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Sold de recompensă colectat",
     "fail": "Eșuat!",
     "move": "Mută",
+    "continue": "Continue",
     "move_question": "Esti sigur că vrei să muți la schițe?",
     "success_shared": "Success! Content submitted!",
     "success_moved": "Mutat la schițe",
