@@ -305,9 +305,11 @@
     "mail": "Pochta manzilingizni kiriting",
     "ref_user": "Taklif qilgan foydalanuvchi (ixtiyoriy)",
     "500_error": "So‘rovingizni ko‘rib bo‘lmadi, katta ehtimol bilan ro‘yxatdan o‘tish navbati to‘lgan! Bir necha daqiqadan so‘ng qayta urinib ko‘ring...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Hamma narsani boshqarish uchun bitta akkaunt",
     "form_description": "Tizimga kirish orqali siz Xizmat shartlari va Maxfiylik siyosatimizga rozilik bildirasiz.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Lenta",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Mukofot balansga o'tkazildi",
     "fail": "Muvaffaqiyatsiz!",
     "move": "Ko‘chirish",
+    "continue": "Continue",
     "move_question": "Haqiqatan ham qoralamalarga oʻtmoqchimisiz?",
     "success_shared": "Muvaffaqiyat! Kontent yuborildi!",
     "success_moved": "Qoralamalarga qo'shildi",
