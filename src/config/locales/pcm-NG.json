@@ -305,9 +305,11 @@
     "mail": "Put your email for here",
     "ref_user": "Person wey send you come (No be by force)",
     "500_error": "We no fit do wetin u ask now, people plenty wey wan register! Try for some time...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Run everything for one account",
     "form_description": "As you enter so, you don gree for how we dey run tinz for here.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Tori",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "You don collect the reward",
     "fail": "E Fail oo!",
     "move": "Move",
+    "continue": "Continue",
     "move_question": "You sure say you won move am go draft?",
     "success_shared": "Confam! Your thing don enta!",
     "success_moved": "E don move go draft",
