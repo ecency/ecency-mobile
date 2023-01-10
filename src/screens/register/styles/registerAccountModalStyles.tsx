@@ -1,4 +1,3 @@
-import { TextStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
@@ -7,45 +6,39 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     margin: 0,
     paddingTop: 32,
-    paddingBottom: 8
+    paddingBottom: 8,
   },
 
-  container:{
-    flex:1
+  container: {
+    flex: 1,
   },
 
-  userInfoContainer:{
-   marginBottom:8,
-   alignItems: 'baseline'
+  userInfoContainer: {
+    marginBottom: 8,
+    alignItems: 'baseline',
   },
 
-  userInfoWrapper:{
-    backgroundColor:'$darkGrayBackground',
-    borderTopRightRadius:16,
-    borderBottomRightRadius:16,
-    paddingHorizontal:16,
-    paddingVertical:4,
+  userInfoWrapper: {
+    backgroundColor: '$darkGrayBackground',
+    borderTopRightRadius: 16,
+    borderBottomRightRadius: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 4,
   },
 
-  usernameStyle:{
-    fontSize:18,
-    color:'$pureWhite',
-    fontWeight:'bold'
-  } as TextStyle,
-
-  emailStyle:{
-    fontSize:18,
-    color:'$pureWhite'
+  usernameStyle: {
+    fontSize: 18,
+    color: '$pureWhite',
+    fontWeight: 'bold',
   },
 
-  contentContainer: {
-    flex:1,
-    backgroundColor: '$primaryBackgroundColor',
-
+  emailStyle: {
+    fontSize: 18,
+    color: '$pureWhite',
   },
+
   headerContainer: {
-    width:'$deviceWidth - 160',
-    flexDirection:'row',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '$primaryBackgroundColor',
@@ -77,7 +70,7 @@ export default EStyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 10,
-    color:"$primaryBlack"
+    color: '$primaryBlack',
   },
   descContainer: {
     marginBottom: 10,
@@ -85,7 +78,7 @@ export default EStyleSheet.create({
   description: {
     fontSize: 14,
     marginBottom: 10,
-    color:"$primaryDarkText"
+    color: '$primaryDarkText',
   },
   button: {
     backgroundColor: '$primaryBlue',
@@ -97,21 +90,20 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  registeringContainer:{
-    alignItems:'center',
-    flex:1,
-    marginTop:120,
+  registeringContainer: {
+    alignItems: 'center',
+    flex: 1,
+    marginTop: 120,
   },
-  registeringText:{
-    fontWeight:'600',
+  registeringText: {
+    fontWeight: '600',
     fontSize: 18,
-    marginTop:16,
+    marginTop: 16,
     color: '$primaryBlack',
-    textAlign:'center',
+    textAlign: 'center',
   },
-  actionButton:{
-    marginTop:44,
-    paddingHorizontal:16
-  }
-
+  actionButton: {
+    marginTop: 44,
+    paddingHorizontal: 16,
+  },
 });

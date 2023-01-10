@@ -4,12 +4,12 @@ import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { openInbox } from 'react-native-email-link';
 import styles from '../styles/registerAccountModalStyles';
 import { InAppPurchaseContainer } from '../../../containers';
-import { Icon, MainButton, Modal, PostCardPlaceHolder } from '../../../components';
+import { Icon, MainButton, Modal, PostCardPlaceHolder, TextButton } from '../../../components';
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
 import { signUp } from '../../../providers/ecency/ecency';
 import ROUTES from '../../../constants/routeNames';
@@ -147,9 +147,13 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
             })}
           </Text>
         </View>
-        <TouchableOpacity onPress={onPress} style={styles.button} disabled={isRegistering}>
-          <Text style={styles.buttonText}>{btnTitle}</Text>
-        </TouchableOpacity>
+        <TextButton
+          textStyle={styles.buttonText}
+          onPress={onPress}
+          style={styles.button}
+          disabled={isRegistering}
+          text={btnTitle}
+        />
       </View>
     );
   };
@@ -174,7 +178,12 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
 
             btnTitle: intl.formatMessage(
               { id: 'buy_account.btn_register' },
-              { price: product.localizedPrice },
+              {
+                price: Platform.select({
+                  ios: product.localizedPrice,
+                  android: product.oneTimePurchaseOfferDetails?.formattedPrice,
+                }),
+              },
             ),
             onPress: () => {
               setIsRegistering(true);
@@ -188,33 +197,35 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
 
   const _renderContent = () => {
     return (
-      <View style={styles.contentContainer}>
-        <View style={styles.headerContainer}>
-          <View>
-            {_renderUserInfo(username, styles.usernameStyle)}
-            {_renderUserInfo(email, styles.emailStyle)}
+      <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
+          <View style={styles.headerContainer}>
+            <View style={styles.container}>
+              {_renderUserInfo(username, styles.usernameStyle)}
+              {_renderUserInfo(email, styles.emailStyle)}
+            </View>
+            <Image style={styles.logoEstm} source={LOGO_ESTM} />
           </View>
-          <Image style={styles.logoEstm} source={LOGO_ESTM} />
+          <InAppPurchaseContainer
+            skus={ITEM_SKUS}
+            username={username}
+            email={email}
+            isNoSpin
+            handleOnPurchaseSuccess={_handleOnPurchaseSuccess}
+            handleOnPurchaseFailure={_handleOnPurchaseFailure}
+          >
+            {({ buyItem, productList, isLoading }) => (
+              <>
+                {isLoading ? (
+                  <PostCardPlaceHolder />
+                ) : (
+                  _renderRegisterOptions({ productList, buyItem })
+                )}
+              </>
+            )}
+          </InAppPurchaseContainer>
         </View>
-        <InAppPurchaseContainer
-          skus={ITEM_SKUS}
-          username={username}
-          email={email}
-          isNoSpin
-          handleOnPurchaseSuccess={_handleOnPurchaseSuccess}
-          handleOnPurchaseFailure={_handleOnPurchaseFailure}
-        >
-          {({ buyItem, productList, isLoading }) => (
-            <SafeAreaView style={styles.container}>
-              {isLoading ? (
-                <PostCardPlaceHolder />
-              ) : (
-                _renderRegisterOptions({ productList, buyItem })
-              )}
-            </SafeAreaView>
-          )}
-        </InAppPurchaseContainer>
-      </View>
+      </SafeAreaView>
     );
   };
 

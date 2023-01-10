@@ -163,7 +163,7 @@ const RegisterScreen = ({ navigation, route }) => {
         </View>
       </Animatable.View>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
         style={styles.formWrapper}
         keyboardShouldPersistTaps
       >
