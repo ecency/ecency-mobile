@@ -6,13 +6,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import {openInbox} from "react-native-email-link";
 import styles from '../styles/registerAccountModalStyles';
 import { InAppPurchaseContainer } from '../../../containers';
 import { Icon, MainButton, Modal, PostCardPlaceHolder } from '../../../components';
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
 import { signUp } from '../../../providers/ecency/ecency';
 import ROUTES from '../../../constants/routeNames';
-import {openInbox} from "react-native-email-link";
 
 type Props = {
   username: string;
@@ -44,7 +44,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
   const _onContinuePress = () => {
     navigation.navigate(ROUTES.DRAWER.MAIN);
     openInbox();
-    
+
   };
 
   const _handleOnPressRegister = () => {
@@ -58,23 +58,21 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
         setIsRegistering(false);
       })
       .catch((err) => {
-
         let title = intl.formatMessage({ id: 'alert.fail' });
         let body = intl.formatMessage({ id: 'alert.unknow_error' });
 
         if (get(err, 'response.status') === 500) {
-
-          title = intl.formatMessage({ id: 'alert.fail' })
-          body = intl.formatMessage({ id: 'register.500_error' })
+          title = intl.formatMessage({ id: 'alert.fail' });
+          body = intl.formatMessage({ id: 'register.500_error' });
 
         } else if (get(err, 'response.data.message')) {
           title = intl.formatMessage({ id: 'alert.fail' });
-          body = intl.formatMessage({ id: 'register.error_message' }, { message: err.response.data.message });
+          body = intl.formatMessage(
+            { id: 'register.error_message' },
+            { message: err.response.data.message },
+          );
         }
-        Alert.alert(
-          title,
-          body
-        );
+        Alert.alert(title, body);
         setIsRegistering(false);
       });
   };
@@ -88,26 +86,30 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
     setIsRegistering(false);
   };
 
-
-
   const _renderIntermediateComponent = () => {
     if (!isRegistering && !isRegistered) {
       return null;
     }
 
-    const _textId = isRegistered ? 'register.registered' : 'register.registering'
-    const _indicator = isRegistered ?
-      <Icon size={56} color={EStyleSheet.value("$primaryGreen")} name='check-circle' iconType='MaterialIcons' />
-      :
-      <ActivityIndicator size="large" color={EStyleSheet.value('$primaryBlack')} />;
+    const _textId = isRegistered ? 'register.registered' : 'register.registering';
+    const _indicator = isRegistered ? (
+      <Icon
+        size={56}
+        color={EStyleSheet.value('$primaryGreen')}
+        name="check-circle"
+        iconType="MaterialIcons"
+      />
+    ) : (
+      <ActivityIndicator size="large" color={EStyleSheet.value('$primaryBlack')} />
+    );
 
-    const _action = isRegistered &&
+    const _action = isRegistered && (
       <MainButton
         onPress={_onContinuePress}
         text={intl.formatMessage({ id: 'alert.continue' })}
         style={styles.actionButton}
-      />
-
+      />;
+    );
 
     return (
       <View style={styles.registeringContainer}>
@@ -119,9 +121,9 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
         </Text>
         {_action}
       </View>
-    )
+    );
 
-  }
+  };
 
   const _renderUserInfo = (text: string, style: TextStyle) => (
     <View style={styles.userInfoContainer}>
@@ -156,34 +158,34 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
   };
 
   const _renderRegisterOptions = ({ productList, buyItem }) => {
-    return (
-      isRegistered || isRegistering ? _renderIntermediateComponent() : (
-        <ScrollView style={styles.productsWrapper}>
-          {!disableFree &&
-            _renderCard({
-              titleId: 'free_account.title',
-              descriptionId: 'free_account.desc',
+    return isRegistered || isRegistering ? (
+      _renderIntermediateComponent()
+    ) : (
+      <ScrollView style={styles.productsWrapper}>
+        {!disableFree &&
+          _renderCard({
+            titleId: 'free_account.title',
+            descriptionId: 'free_account.desc',
 
-              btnTitle: intl.formatMessage({ id: 'free_account.btn_register' }),
-              onPress: _handleOnPressRegister,
-            })}
-          {productList.map((product) =>
-            _renderCard({
-              titleId: 'buy_account.title',
-              descriptionId: 'buy_account.desc',
+            btnTitle: intl.formatMessage({ id: 'free_account.btn_register' }),
+            onPress: _handleOnPressRegister,
+          })}
+        {productList.map((product) =>
+          _renderCard({
+            titleId: 'buy_account.title',
+            descriptionId: 'buy_account.desc',
 
-              btnTitle: intl.formatMessage(
-                { id: 'buy_account.btn_register' },
-                { price: product.localizedPrice },
-              ),
-              onPress: () => {
-                setIsRegistering(true);
-                buyItem(product.productId);
-              },
-            }),
-          )}
-        </ScrollView>
-      )
+            btnTitle: intl.formatMessage(
+              { id: 'buy_account.btn_register' },
+              { price: product.localizedPrice },
+            ),
+            onPress: () => {
+              setIsRegistering(true);
+              buyItem(product.productId);
+            },
+          }),
+        )}
+      </ScrollView>
     );
   };
 
@@ -193,27 +195,30 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
         <View style={styles.headerContainer}>
           <View>
             {_renderUserInfo(username, styles.usernameStyle)}
-            {_renderUserInfo(email + email, styles.emailStyle)}
+            {_renderUserInfo(email, styles.emailStyle)}
           </View>
           <Image style={styles.logoEstm} source={LOGO_ESTM} />
         </View>
-          <InAppPurchaseContainer
-            skus={ITEM_SKUS}
-            username={username}
-            email={email}
-            isNoSpin
-            handleOnPurchaseSuccess={_handleOnPurchaseSuccess}
-            handleOnPurchaseFailure={_handleOnPurchaseFailure}
-          >
-            {({ buyItem, productList, isLoading }) => (
-              <SafeAreaView style={styles.container}>
-                {isLoading ? <PostCardPlaceHolder /> : _renderRegisterOptions({ productList, buyItem })}
-              </SafeAreaView>
-            )}
-          </InAppPurchaseContainer>
-          </View>
-        );
-      
+        <InAppPurchaseContainer
+          skus={ITEM_SKUS}
+          username={username}
+          email={email}
+          isNoSpin
+          handleOnPurchaseSuccess={_handleOnPurchaseSuccess}
+          handleOnPurchaseFailure={_handleOnPurchaseFailure}
+        >
+          {({ buyItem, productList, isLoading }) => (
+            <SafeAreaView style={styles.container}>
+              {isLoading ? (
+                <PostCardPlaceHolder />
+              ) : (
+                _renderRegisterOptions({ productList, buyItem })
+              )}
+            </SafeAreaView>
+          )}
+        </InAppPurchaseContainer>
+      </View>
+    );
   };
 
   return (
