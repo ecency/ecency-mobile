@@ -305,9 +305,11 @@
     "mail": "Введіть адресу електронної пошти",
     "ref_user": "Реферальний користувач (необов'язково)",
     "500_error": "Не вдалося обробити ваш запит, скоріш за все, черга реєстрації переповнена! Спробуйте ще раз через кілька хвилин...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Один рахунок для управління всім",
     "form_description": "Реєструючись, ви погоджуєтеся з Умовами надання послуг та Політикою конфіденційності.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Стрічка",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Винагорода зарахована на баланс",
     "fail": "Невдало!",
     "move": "Перемістити",
+    "continue": "Continue",
     "move_question": "Ви дійсно хочете перемістити до чернеток?",
     "success_shared": "Success! Content submitted!",
     "success_moved": "Переміщено до чернеток",
