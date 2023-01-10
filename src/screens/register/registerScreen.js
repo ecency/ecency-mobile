@@ -127,6 +127,11 @@ const RegisterScreen = ({ navigation, route }) => {
     });
   };
 
+  const _onContinuePress = () => {
+    Keyboard.dismiss();
+    registerAccountModalRef.current?.showModal();
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden translucent />
@@ -227,11 +232,11 @@ const RegisterScreen = ({ navigation, route }) => {
             })}
           />
           <MainButton
-            onPress={() => registerAccountModalRef.current?.showModal()}
+            onPress={_onContinuePress}
             iconName="arrow-forward"
             iconColor="white"
             iconPosition="right"
-            text="Continue"
+            text={intl.formatMessage({ id: 'alert.continue' })}
             isDisable={!isUsernameValid || !isRefUsernameValid || !isEmailValid}
             style={styles.mainButton}
           />
