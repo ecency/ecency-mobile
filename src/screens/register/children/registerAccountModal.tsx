@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {openInbox} from "react-native-email-link";
+import { openInbox } from 'react-native-email-link';
 import styles from '../styles/registerAccountModalStyles';
 import { InAppPurchaseContainer } from '../../../containers';
 import { Icon, MainButton, Modal, PostCardPlaceHolder } from '../../../components';
@@ -44,7 +44,6 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
   const _onContinuePress = () => {
     navigation.navigate(ROUTES.DRAWER.MAIN);
     openInbox();
-
   };
 
   const _handleOnPressRegister = () => {
@@ -64,7 +63,6 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
         if (get(err, 'response.status') === 500) {
           title = intl.formatMessage({ id: 'alert.fail' });
           body = intl.formatMessage({ id: 'register.500_error' });
-
         } else if (get(err, 'response.data.message')) {
           title = intl.formatMessage({ id: 'alert.fail' });
           body = intl.formatMessage(
@@ -108,7 +106,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
         onPress={_onContinuePress}
         text={intl.formatMessage({ id: 'alert.continue' })}
         style={styles.actionButton}
-      />;
+      />
     );
 
     return (
@@ -122,7 +120,6 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
         {_action}
       </View>
     );
-
   };
 
   const _renderUserInfo = (text: string, style: TextStyle) => (
