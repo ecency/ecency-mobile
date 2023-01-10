@@ -3,7 +3,6 @@ import Orientation, { useDeviceOrientationChange } from 'react-native-orientatio
 import { isLandscape } from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {
-  Alert,
   Appearance,
   AppState,
   NativeEventSubscription,
@@ -17,8 +16,6 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import {
   setDeviceOrientation,
   setLockedOrientation,
-  setRcOffer,
-  toastNotification,
 } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
 import isAndroidTablet from '../../../utils/isAndroidTablet';
@@ -31,6 +28,8 @@ import { markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
+import { useQueryClient } from '@tanstack/react-query';
+import QUERIES from '../../../providers/queries/queryKeys';
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
@@ -45,6 +44,8 @@ export const useInitApplication = () => {
   const messagingEventRef = useRef<any>(null);
 
   const userActivityMutation = useUserActivityMutation();
+
+  const queryClient = useQueryClient();
 
   // equivalent of componentWillMount and update on props,
   // benefit is it does not wait for useEffect callback
@@ -75,6 +76,8 @@ export const useInitApplication = () => {
     userActivityMutation.lazyMutatePendingActivities();
 
     _initPushListener();
+
+    queryClient.removeQueries([QUERIES.POST.GET])
 
     return _cleanup;
   }, []);

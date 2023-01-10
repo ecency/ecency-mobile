@@ -1,5 +1,5 @@
 import { renderPostBody } from "@ecency/render-helper";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Platform } from "react-native";
 import { useAppSelector } from "../../hooks";
@@ -41,8 +41,17 @@ export const useGetPostQuery = (_author?: string, _permlink?: string) => {
     }
 };
 
-export const cachePostQueryData = async (post, queryClient) => {
-    console.log("priming data", post.author, post.permlink, post)
-    post.body = renderPostBody({ ...post, last_update: post.updated }, true, Platform.OS !== 'ios');
-    queryClient.setQueryData([QUERIES.POST.GET, post.author, post.permlink], post)
+export const usePostsCachePrimer = () => {
+
+    const queryClient = useQueryClient();
+
+    const cachePost = async (post) => {
+        console.log("priming data", post.author, post.permlink, post)
+        post.body = renderPostBody({ ...post, last_update: post.updated }, true, Platform.OS !== 'ios');
+        queryClient.setQueryData([QUERIES.POST.GET, post.author, post.permlink], post)
+    }
+
+    return {
+        cachePost
+    }
 }
