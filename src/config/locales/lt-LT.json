@@ -305,9 +305,11 @@
     "mail": "Įveskite savo el. pašto adresą",
     "ref_user": "Rekomendavęs vartotojas (pasirinktinai)",
     "500_error": "Jūsų užklausa negali būti įvykdyta, greičiausiai registracijos eilėje nėra vietos! Pabandykite vėl už kelių minučių...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Viena paskyra tam, kad viską sutvarkyti",
     "form_description": "Prisiregistruodami, jūs sutinkate su mūsų paslaugų tiekimo sąlygomis ir privatumo politika.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Pagrindinis",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Atlygis atsiimtas",
     "fail": "Nepavyko!",
     "move": "Perkelti",
+    "continue": "Continue",
     "move_question": "Ar tikrai norite įrenginius perkelti į juodraščius?",
     "success_shared": "Sėkmė! Turinys išsiųstas!",
     "success_moved": "Perkelta į juodraščius",
