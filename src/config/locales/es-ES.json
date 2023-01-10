@@ -305,11 +305,11 @@
     "mail": "Introduce tu dirección de correo electrónico",
     "ref_user": "Usuario Referido (Opcional)",
     "500_error": "Su solicitud no pudo ser procesada, ¡la cola de registro probablemente está llena! Inténtelo de nuevo en unos minutos...",
-    "error_message": "{message}\nTry again or try purchasing account instead",
+    "error_message": "{message}\nInténtalo de nuevo o intenta comprar una cuenta en su lugar",
     "title_description": "Una cuenta para administrar todo",
     "form_description": "Al registrarte, estás de acuerdo con nuestros Términos de servicio &amp; Política de privacidad",
     "registering": "Registrando tu cuenta...",
-    "registered": "Registration Successful\nCheck your email for instruction"
+    "registered": "Registro exitoso\nComprueba tu correo electrónico para obtener instrucciones"
   },
   "home": {
     "feed": "Inicio",
@@ -469,7 +469,7 @@
     "claim_reward_balance_ok": "Recompensa de balance reclamada",
     "fail": "Falló!",
     "move": "Mover",
-    "continue": "Continue",
+    "continue": "Continuar",
     "move_question": "¿Está seguro de moverlo a borradores?",
     "success_shared": "¡Éxito! ¡Contenido enviado!",
     "success_moved": "Movido a borradores",
