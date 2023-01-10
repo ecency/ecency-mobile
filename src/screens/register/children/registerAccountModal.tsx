@@ -193,33 +193,35 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
 
   const _renderContent = () => {
     return (
-      <View style={styles.contentContainer}>
-        <View style={styles.headerContainer}>
-          <View>
-            {_renderUserInfo(username, styles.usernameStyle)}
-            {_renderUserInfo(email, styles.emailStyle)}
+      <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
+          <View style={styles.headerContainer}>
+            <View style={styles.container}>
+              {_renderUserInfo(username, styles.usernameStyle)}
+              {_renderUserInfo(email, styles.emailStyle)}
+            </View>
+            <Image style={styles.logoEstm} source={LOGO_ESTM} />
           </View>
-          <Image style={styles.logoEstm} source={LOGO_ESTM} />
+          <InAppPurchaseContainer
+            skus={ITEM_SKUS}
+            username={username}
+            email={email}
+            isNoSpin
+            handleOnPurchaseSuccess={_handleOnPurchaseSuccess}
+            handleOnPurchaseFailure={_handleOnPurchaseFailure}
+          >
+            {({ buyItem, productList, isLoading }) => (
+              <>
+                {isLoading ? (
+                  <PostCardPlaceHolder />
+                ) : (
+                  _renderRegisterOptions({ productList, buyItem })
+                )}
+              </>
+            )}
+          </InAppPurchaseContainer>
         </View>
-        <InAppPurchaseContainer
-          skus={ITEM_SKUS}
-          username={username}
-          email={email}
-          isNoSpin
-          handleOnPurchaseSuccess={_handleOnPurchaseSuccess}
-          handleOnPurchaseFailure={_handleOnPurchaseFailure}
-        >
-          {({ buyItem, productList, isLoading }) => (
-            <SafeAreaView style={styles.container}>
-              {isLoading ? (
-                <PostCardPlaceHolder />
-              ) : (
-                _renderRegisterOptions({ productList, buyItem })
-              )}
-            </SafeAreaView>
-          )}
-        </InAppPurchaseContainer>
-      </View>
+      </SafeAreaView>
     );
   };
 

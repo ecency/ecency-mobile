@@ -1,4 +1,3 @@
-import { TextStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
@@ -31,20 +30,14 @@ export default EStyleSheet.create({
     fontSize:18,
     color:'$pureWhite',
     fontWeight:'bold'
-  } as TextStyle,
+  },
 
   emailStyle:{
     fontSize:18,
     color:'$pureWhite'
   },
 
-  contentContainer: {
-    flex:1,
-    backgroundColor: '$primaryBackgroundColor',
-
-  },
   headerContainer: {
-    width:'$deviceWidth - 160',
     flexDirection:'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -56,7 +49,7 @@ export default EStyleSheet.create({
     height: 160,
   },
   desc: {
-    width: '$deviceWidth / 1.5',
+   width: '$deviceWidth / 1.5',
     fontSize: 16,
     textAlign: 'center',
     color: '$primaryDarkGray',
