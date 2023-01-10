@@ -305,9 +305,11 @@
     "mail": "Въведете вашата електронна поща",
     "ref_user": "Кой ви покани в платформата(Опция)",
     "500_error": "Заявката ви не можа да бъде обработена, опашката за регистрация вероятно е пълна! Опитайте отново след няколко минути ...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Един потребител да ръководи всичко",
     "form_description": "Като се регистрирате с нас, вие се съгласявате с нашите Общи условия и Политики за поверителност.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Постове",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Наградите изчистени",
     "fail": "Провал!!",
     "move": "Премести",
+    "continue": "Continue",
     "move_question": "Сигурен ли сте да преместите към чернови?",
     "success_shared": "Успех! Съдържанието е изпратено!",
     "success_moved": "Премено в чернови",
