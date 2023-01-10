@@ -305,9 +305,11 @@
     "mail": "Masukkan alamat email anda",
     "ref_user": "Rujukan pengguna (Opsional)",
     "500_error": "Permintaan Anda tidak dapat diproses, antrian pendaftaran sepertinya penuh! Silakan ulangi kembali dalam beberapa menit...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Satu akun untuk mengelola semuanya",
     "form_description": "Dengan mendaftar bersama kami, anda setuju dengan Ketentuan Layanan dan Kebijakan Privasi kami.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Umpan",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Hadiah di klaim",
     "fail": "Gagal!",
     "move": "Pindahkan",
+    "continue": "Continue",
     "move_question": "Apakah Anda yakin untuk pindah ke konsep?",
     "success_shared": "Sukses! Konten terkirim!",
     "success_moved": "Pindah ke konsep",
