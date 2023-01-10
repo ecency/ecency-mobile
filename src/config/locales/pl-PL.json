@@ -305,9 +305,11 @@
     "mail": "Podaj swój e-mail",
     "ref_user": "Użytkownik rekomendowany (opcjonalnie)",
     "500_error": "Twoje żądanie nie może być przetworzone, kolejka rejestracji jest prawdopodobnie pełna! Spróbuj ponownie za kilka minut...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Jedno konto do zarządzania wszystkim",
     "form_description": "Rejestrując się, zgadzasz się na warunki użytkowania i politykę prywatności.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Strumień",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Saldo nagród otrzymane",
     "fail": "Bląd!",
     "move": "Przenieś",
+    "continue": "Continue",
     "move_question": "Czy na pewno chcesz przenieść do szkiców?",
     "success_shared": "Pomyślnie! Zawartość przesłana!",
     "success_moved": "Przenieś do szkicy",
