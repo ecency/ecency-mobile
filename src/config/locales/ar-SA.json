@@ -305,9 +305,11 @@
     "mail": "أدخل عنوان بريدك الإلكتروني",
     "ref_user": "المستخدم المحال (اختياري)",
     "500_error": "تعذر معالجة طلبك، قائمة انتظار التسجيل ممتلئة! حاول مرة أخرى في بضع دقائق...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "حساب واحد لإدارة كل شيء",
     "form_description": "من خلال تسجيل الدخول، أنت توافق على شروط الخدمات وسياسات الخصوصية لدينا.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "المستجدات",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "تم سحب المكافآت",
     "fail": "فشل!",
     "move": "نقل",
+    "continue": "Continue",
     "move_question": "هل أنت متأكد من نقل إلى المسودات؟",
     "success_shared": "تم إرسال المحتوى!",
     "success_moved": "تم النقل إلى المسودات",
