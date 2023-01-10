@@ -16,6 +16,7 @@ import postUrlParser from '../../../utils/postUrlParser';
 
 // Component
 import SearchModalView from '../view/searchModalView';
+import { usePostsCachePrimer } from '../../../providers/queries';
 
 /*
  *            Props name        Description                                     Value
@@ -25,6 +26,8 @@ import SearchModalView from '../view/searchModalView';
 
 const SearchModalContainer = ({ isConnected, handleOnClose, username, isOpen, placeholder }) => {
   const navigation = useNavigation();
+  const postsCachePrimer = usePostsCachePrimer();
+
   const [searchResults, setSearchResults] = useState({});
 
   const _handleCloseButton = () => {
@@ -176,6 +179,7 @@ const SearchModalContainer = ({ isConnected, handleOnClose, username, isOpen, pl
         key = item.text;
         break;
       case 'content':
+        postsCachePrimer.cachePost(item);
         name = ROUTES.SCREENS.POST;
         params = {
           author: get(item, 'author'),

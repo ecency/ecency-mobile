@@ -3,13 +3,16 @@ import get from 'lodash/get';
 import { useSelector } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
+
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { search } from '../../../../../../providers/ecency/ecency';
 import { getAccountPosts } from '../../../../../../providers/hive/dhive';
+import { usePostsCachePrimer } from '../../../../../../providers/queries';
 
 const PostsResultsContainer = ({ children, searchValue }) => {
   const navigation = useNavigation();
+  const postsCacherPrimer = usePostsCachePrimer();
 
   const [data, setData] = useState([]);
   const [sort, setSort] = useState('newest');
@@ -74,6 +77,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   // Component Functions
 
   const _handleOnPress = (item) => {
+    postsCacherPrimer.cachePost(item);
     navigation.navigate({
       name: ROUTES.SCREENS.POST,
       params: {

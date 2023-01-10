@@ -118,6 +118,7 @@ export const loadPosts = async ({
           }
         }
       }
+
       if ((pageType === 'profile' || pageType === 'ownProfile') && pinnedPermlink) {
         let pinnedIndex = -1;
         result.forEach((post, index) => {

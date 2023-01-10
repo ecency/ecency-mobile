@@ -3,7 +3,6 @@ import Orientation, { useDeviceOrientationChange } from 'react-native-orientatio
 import { isLandscape } from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {
-  Alert,
   Appearance,
   AppState,
   NativeEventSubscription,
@@ -14,12 +13,7 @@ import notifee, { EventType } from '@notifee/react-native';
 import { isEmpty, some, get } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import {
-  setDeviceOrientation,
-  setLockedOrientation,
-  setRcOffer,
-  toastNotification,
-} from '../../../redux/actions/uiAction';
+import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
 import isAndroidTablet from '../../../utils/isAndroidTablet';
 import darkTheme from '../../../themes/darkTheme';

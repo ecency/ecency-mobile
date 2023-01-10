@@ -1,16 +1,15 @@
 import get from 'lodash/get';
-import { getPost, getUser } from '../providers/hive/dhive';
+import { getUser } from '../providers/hive/dhive';
 import postUrlParser from './postUrlParser';
 import parseAuthUrl, { AUTH_MODES } from './parseAuthUrl';
 import ROUTES from '../constants/routeNames';
 import parsePurchaseUrl from './parsePurchaseUrl';
 
-export const deepLinkParser = async (url, currentAccount) => {
+export const deepLinkParser = async (url) => {
   if (!url || url.indexOf('ShareMedia://') >= 0) return;
 
   let routeName;
   let params;
-  let content;
   let profile;
   let keey;
 
@@ -49,11 +48,8 @@ export const deepLinkParser = async (url, currentAccount) => {
       };
       keey = 'WebBrowser';
     } else if (permlink) {
-      content = { author, permlink };
+      params = { author, permlink };
       routeName = ROUTES.SCREENS.POST;
-      params = {
-        content,
-      };
       keey = `${author}/${permlink}`;
     }
   }

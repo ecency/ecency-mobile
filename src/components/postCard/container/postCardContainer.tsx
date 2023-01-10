@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 
@@ -13,6 +13,7 @@ import PostCardView from '../view/postCardView';
 import { default as ROUTES } from '../../../constants/routeNames';
 import { useAppDispatch } from '../../../hooks';
 import { showProfileModal } from '../../../redux/actions/uiAction';
+import { usePostsCachePrimer } from '../../../providers/queries';
 
 /*
  *            Props Name        Description                                     Value
@@ -33,6 +34,7 @@ const PostCardContainer = ({
 }) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
+  const postsCacherPrimer = usePostsCachePrimer();
 
   const [_content, setContent] = useState(content);
   const [reblogs, setReblogs] = useState([]);
@@ -89,10 +91,12 @@ const PostCardContainer = ({
 
   const _handleOnContentPress = (value) => {
     if (value) {
+      postsCacherPrimer.cachePost(value);
       navigation.navigate({
         name: ROUTES.SCREENS.POST,
         params: {
-          content: value,
+          author: value.author,
+          permlink: value.permlink,
         },
         key: get(value, 'permlink'),
       });

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 
 // Components
 import { BasicHeader, PostDisplay, PostDropdown } from '../../../components';

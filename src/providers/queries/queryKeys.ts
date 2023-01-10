@@ -18,6 +18,9 @@ const QUERIES = {
     GET: 'QUERY_GET_ASSETS',
     UNCLAIMED_GET: 'QUERY_GET_UNCLAIMED',
   },
+  POST: {
+    GET: 'QUERY_GET_POST',
+  },
 };
 
 export default QUERIES;

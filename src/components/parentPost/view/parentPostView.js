@@ -17,7 +17,8 @@ const ParentPost = ({ post }) => {
             ? navigation.navigate({
                 name: ROUTES.SCREENS.POST,
                 params: {
-                  content: post,
+                  author: post.author,
+                  permlink: post.permlink,
                 },
                 key: post.permlink,
               })

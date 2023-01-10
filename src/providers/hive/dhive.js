@@ -625,7 +625,7 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
 
     if (posts) {
       const areComments = query.sort === 'comments' || query.sort === 'replies';
-      posts = areComments ? parseComments(posts) : parsePosts(posts, currentUserName);
+      posts = areComments ? parseComments(posts) : parsePosts(posts, currentUserName, false);
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);
@@ -646,7 +646,7 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
 
     if (posts) {
       const areComments = query.sort === 'comments' || query.sort === 'replies';
-      posts = areComments ? parseComments(posts) : parsePosts(posts, currentUserName);
+      posts = areComments ? parseComments(posts) : parsePosts(posts, currentUserName, false);
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);
