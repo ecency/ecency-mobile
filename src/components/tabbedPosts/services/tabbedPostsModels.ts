@@ -42,7 +42,6 @@ export interface LoadPostsOptions {
   pageType: string;
   tag: string;
   nsfw: string;
-  queryClient:QueryClient;
   isLatestPostsCheck?: boolean;
   refreshing?: boolean;
 }

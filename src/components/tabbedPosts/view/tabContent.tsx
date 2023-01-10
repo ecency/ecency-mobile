@@ -11,7 +11,6 @@ import { showReplyModal } from '../../../redux/actions/uiAction';
 import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsHelpers';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
 import ScrollTopPopup from './scrollTopPopup';
-import { useQueryClient } from '@tanstack/react-query';
 
 const DEFAULT_TAB_META = {
   startAuthor: '',
@@ -39,8 +38,6 @@ const TabContent = ({
   ...props
 }: TabContentProps) => {
   let _isMounted = true;
-
-  const queryClient = useQueryClient();
 
   //redux properties
   const dispatch = useDispatch();
@@ -200,7 +197,6 @@ const TabContent = ({
       feedUsername: _feedUsername,
       pinnedPermlink: _pinnedPermlink,
       tag,
-      queryClient,
       ...props,
     } as LoadPostsOptions;
 

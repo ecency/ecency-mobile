@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import { useQueryClient } from '@tanstack/react-query';
 
 // Services
 import { useNavigation } from '@react-navigation/native';
@@ -13,6 +14,8 @@ import PostCardView from '../view/postCardView';
 import { default as ROUTES } from '../../../constants/routeNames';
 import { useAppDispatch } from '../../../hooks';
 import { showProfileModal } from '../../../redux/actions/uiAction';
+import { cachePostQueryData } from '../../../providers/queries';
+
 
 /*
  *            Props Name        Description                                     Value
@@ -33,6 +36,7 @@ const PostCardContainer = ({
 }) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
   const [_content, setContent] = useState(content);
   const [reblogs, setReblogs] = useState([]);
@@ -89,6 +93,7 @@ const PostCardContainer = ({
 
   const _handleOnContentPress = (value) => {
     if (value) {
+      cachePostQueryData(value, queryClient)
       navigation.navigate({
         name: ROUTES.SCREENS.POST,
         params: {
