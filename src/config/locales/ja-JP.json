@@ -305,9 +305,11 @@
     "mail": "メールアドレスを入力してください",
     "ref_user": "紹介ユーザー (任意)",
     "500_error": "リクエストは処理されませんでした、サインアップのキューが一杯です！時間を置いて再度お試しください。。。",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "一つのアカウント全部管理",
     "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "フィード",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "報酬残高を請求しました",
     "fail": "失敗！",
     "move": "移動",
+    "continue": "Continue",
     "move_question": "本当に下書きへ移動しますか？",
     "success_shared": "Success! Content submitted!",
     "success_moved": "下書きへ移動",
