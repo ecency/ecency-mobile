@@ -305,9 +305,11 @@
     "mail": "E-posta adresinizi girin",
     "ref_user": "Yönlendiren kullanıcı (isteğe bağlı)",
     "500_error": "İsteğiniz işlenemedi, kayıt sırası büyük olasılıkla dolu! Birkaç dakika sonra yeniden deneyiniz...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Bir hesapla her şeyi kontrol edin",
     "form_description": "Kayıt olarak Kullanım Şartları ve Gizlilik Politikaları'nı kabul etmiş sayılırsınız.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Akış",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Ödül alındı",
     "fail": "Başarısız!",
     "move": "Taşı",
+    "continue": "Continue",
     "move_question": "Taslaklara taşıyacağınızdan emin misiniz?",
     "success_shared": "Başarılı! İçerik gönderildi!",
     "success_moved": "Taslağa taşındı",
