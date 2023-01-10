@@ -305,9 +305,11 @@
     "mail": "E-Mail Adresse eingeben",
     "ref_user": "Empfohlener Benutzer (optional)",
     "500_error": "Ihre Anfrage konnte nicht verarbeitet werden, die Anmeldewarteschlange ist wahrscheinlich voll! Versuchen Sie es in wenigen Minuten noch einmal...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Ein Konto um alles zu verwalten",
     "form_description": "Wenn du dich registrierst, stimmst du unseren Nutzungsbedingungen & und Datenschutzrichtlinien zu.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Feed",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Belohnung abgeholt",
     "fail": "Fehlgeschlagen!",
     "move": "Verschieben",
+    "continue": "Continue",
     "move_question": "Bist du sicher, dass du zu Entwürfen wechseln möchtest?",
     "success_shared": "Erfolgreich! Beitrag erstellt!",
     "success_moved": "Erfolgreich in Entwürfe verschoben",
