@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { openInbox } from 'react-native-email-link';
 import styles from '../styles/registerAccountModalStyles';
@@ -147,13 +147,13 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
             })}
           </Text>
         </View>
-        <TextButton 
-          textStyle={styles.buttonText} 
-          onPress={onPress} 
-          style={styles.button} 
-          disabled={isRegistering} 
-          text={btnTitle} />
-
+        <TextButton
+          textStyle={styles.buttonText}
+          onPress={onPress}
+          style={styles.button}
+          disabled={isRegistering}
+          text={btnTitle}
+        />
       </View>
     );
   };
@@ -181,8 +181,8 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
               {
                 price: Platform.select({
                   ios: product.localizedPrice,
-                  android: product.oneTimePurchaseOfferDetails?.formattedPrice
-                })
+                  android: product.oneTimePurchaseOfferDetails?.formattedPrice,
+                }),
               },
             ),
             onPress: () => {
