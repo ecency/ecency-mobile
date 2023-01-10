@@ -87,7 +87,7 @@ export default EStyleSheet.create({
   },
   itemWrapper: {
     flexDirection: 'row',
-    alignItems:'center',
+    alignItems: 'center',
     marginLeft: 55,
   },
   versionText: {

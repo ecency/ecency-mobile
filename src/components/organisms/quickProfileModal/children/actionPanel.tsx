@@ -37,7 +37,7 @@ export const ActionPanel = ({
       ) : (
         <IconButton
           iconType="MaterialCommunityIcons"
-          name={'account-plus'}
+          name="account-plus"
           size={26}
           color={EStyleSheet.value(followColor)}
           disabled={isFollowing || isLoading}
