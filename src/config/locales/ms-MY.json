@@ -305,9 +305,11 @@
     "mail": "Masukkan alamat emel anda",
     "ref_user": "Pengguna yang dirujuk (Tidak diwajibkan)",
     "500_error": "Permintaan anda tidak dapat ditunaikan, barisan pendaftaran kemungkinan sudah penuh! Sila cuba lagi dalam masa beberapa minit...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Satu akaun untuk mengurus segalanya",
     "form_description": "Dengan mendaftar dengan kami, anda bersetuju dengan Syarat Perkhidmatan dan Dasar Privasi kami.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Suapan",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Baki ganjaran telah dituntut",
     "fail": "Gagal!",
     "move": "Pindah",
+    "continue": "Continue",
     "move_question": "Adakah anda pasti hendak mengalih ke Draf?",
     "success_shared": "Success! Content submitted!",
     "success_moved": "Pindah kepada Draf",
