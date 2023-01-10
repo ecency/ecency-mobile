@@ -9,7 +9,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { openInbox } from 'react-native-email-link';
 import styles from '../styles/registerAccountModalStyles';
 import { InAppPurchaseContainer } from '../../../containers';
-import { Icon, MainButton, Modal, PostCardPlaceHolder } from '../../../components';
+import { Icon, MainButton, Modal, PostCardPlaceHolder, TextButton } from '../../../components';
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
 import { signUp } from '../../../providers/ecency/ecency';
 import ROUTES from '../../../constants/routeNames';
@@ -147,9 +147,13 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
             })}
           </Text>
         </View>
-        <TouchableOpacity onPress={onPress} style={styles.button} disabled={isRegistering}>
-          <Text style={styles.buttonText}>{btnTitle}</Text>
-        </TouchableOpacity>
+        <TextButton 
+          textStyle={styles.buttonText} 
+          onPress={onPress} 
+          style={styles.button} 
+          disabled={isRegistering} 
+          text={btnTitle} />
+
       </View>
     );
   };
