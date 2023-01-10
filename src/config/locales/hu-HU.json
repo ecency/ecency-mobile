@@ -305,9 +305,11 @@
     "mail": "Add meg az e-mail címed",
     "ref_user": "Ajánló felhasználó (opcionális)",
     "500_error": "Kérésedet nem sikerült feldolgozni, a regisztrációs sor valószínűleg megtelt! Próbálkozzon újra néhány perc múlva...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Egy fiók mindenre",
     "form_description": "Regisztrálással elfogadod a Felhasználói feltételeket és az Adatvédelmi szabályzatot.",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Hírfolyam",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "Jutalom egyenleg átvéve",
     "fail": "Sikertelen!",
     "move": "Áthelyezés",
+    "continue": "Continue",
     "move_question": "Biztos, hogy áthelyezed a piszkozatokhoz?",
     "success_shared": "Siker! Tartalom közzétéve!",
     "success_moved": "Áthelyezve a vázlatokhoz",
