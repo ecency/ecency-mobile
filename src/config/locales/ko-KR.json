@@ -305,9 +305,11 @@
     "mail": "이메일 주소를 입력하세요",
     "ref_user": "추천인(선택사항)",
     "500_error": "귀하의 요청을 처리할 수 없습니다. 등록 대기열이 가득 찼을 수 있습니다! 몇 분 후에 다시 시도하세요...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "모든 것을 관리하는 하나의 계정",
     "form_description": "가입과 동시에 서비스 약관 및 개인 정보 보호 정책에 동의하게 됩니다",
-    "registering": "Registering Your Account..."
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "피드",
@@ -467,6 +469,7 @@
     "claim_reward_balance_ok": "보상을 요청했습니다",
     "fail": "실패!",
     "move": "이동",
+    "continue": "Continue",
     "move_question": "임시 보관함으로 이동하시겠습니까?",
     "success_shared": "성공! 콘텐츠가 제출되었습니다!",
     "success_moved": "임시 보관함으로 이동했습니다",
