@@ -8,7 +8,7 @@
     "power_up": "A invertir",
     "transfer_from_savings": "Desde Ahorros",
     "withdraw_savings": "Retirar ahorros",
-    "withdraw_vesting": "Power down",
+    "withdraw_vesting": "Apagado | Retirar Estacar",
     "open_order": "Órdenes abiertas",
     "fill_order": "Completar orden",
     "post": "Publicar",
@@ -20,6 +20,9 @@
     "incoming_transfer_title": "Transferencia entrante",
     "outgoing_transfer_title": "Transferencia enviada",
     "checkin_extra": "Bono",
+    "staked": "En Estaca",
+    "delegations_in": "Delegaciones recibidas",
+    "delegations_out": "Delegaciones emitidas",
     "delegation": "Delegación",
     "delegations": "Delegaciones",
     "delegation_title": "Recompensa por delegación",
@@ -62,7 +65,7 @@
     "amount": "Cantidad",
     "memo": "Memo",
     "tap_update": "Toca para actualizar",
-    "information": "¿Está seguro de transferir los fondos?",
+    "information": "¿Estás seguro de continuar con la transacción?",
     "amount_desc": "Balance",
     "memo_desc": "Este memo es público",
     "to_placeholder": "Nombre de usuario",
@@ -71,12 +74,12 @@
     "purchase_estm": "OBTENER PUNTOS",
     "points": "Regalar puntos a alguien",
     "transfer_to_saving": "A ahorros",
-    "transfer_to_vesting": "Hacer Power Up",
+    "transfer_to_vesting": "Encender (Power Up) | Estacar",
     "withdraw_to_saving": "Retirar Ahorros",
     "steemconnect_title": "Transferencia en Hivesigner",
     "next": "SIGUIENTE",
     "delegate": "Delegar",
-    "power_down": "Power down",
+    "power_down": "Apagado | Retirar Estacar",
     "withdraw_hive": "Retirar ahorros",
     "withdraw_hbd": "Retirar ahorros",
     "transfer_to_savings": "A ahorros",
@@ -91,6 +94,10 @@
     "fill_convert_request": "Convertir ejecutados",
     "fill_transfer_from_savings": "Ahorros ejecutados",
     "fill_vesting_withdraw": "PowerDown ejecutado",
+    "engine_title": "Motor de Tokens de Hive",
+    "engine_claim_btn": "Reclamar recompensas ({count})",
+    "engine_select_assets": "Seleccionar Activos",
+    "manage_assets": "Agregar / Quitar Activos",
     "ecency": {
       "title": "Puntos",
       "name": "Puntos Ecency",
@@ -113,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "Poder de voto"
+      "name": "Hive Power | Hive en Estaca"
     },
     "hive_dollar": {
       "name": "Dólares Hive"
@@ -134,7 +141,14 @@
     "expires": "caduca el",
     "pending_requests": "Solicitudes pendientes",
     "boost_account": "Impulsar",
-    "get_boost": "Obtener impulso"
+    "get_boost": "Obtener impulso",
+    "transfer_engine": "Transferir",
+    "unstake_engine": "Retirar de Estaca",
+    "stake_engine": "Estaca",
+    "delegate_engine": "Delegar",
+    "undelegate_engine": "Retirar delegación",
+    "low_liquidity": "¡Baja liquidez!",
+    "inactive_token": "El token está relativamente inactivo, algunas funcionalidades podrían verse afectadas."
   },
   "notification": {
     "vote": "votado",
@@ -142,7 +156,7 @@
     "reply": "respondido a",
     "mention": "te mencionó en",
     "favorites": "crear nuevo post",
-    "bookmarks": "replied to bookmarked content",
+    "bookmarks": "respondió a una publicación marcada como favorita",
     "follow": "te siguió",
     "unfollow": "dejó de seguirte",
     "ignore": "te ignoró",
@@ -284,14 +298,18 @@
     "deep_login_malformed_url": "URL de inicio de sesión incorrecta, por favor usa una clave privada o contraseña para iniciar sesión"
   },
   "register": {
+    "modal_title": "Obtener cuenta de Hive",
     "button": "Registrarse",
     "title": "Registrarse",
     "username": "Elige un nombre de usuario",
     "mail": "Introduce tu dirección de correo electrónico",
     "ref_user": "Usuario Referido (Opcional)",
     "500_error": "Su solicitud no pudo ser procesada, ¡la cola de registro probablemente está llena! Inténtelo de nuevo en unos minutos...",
+    "error_message": "{message}\nInténtalo de nuevo o intenta comprar una cuenta en su lugar",
     "title_description": "Una cuenta para administrar todo",
-    "form_description": "Al registrarte, estás de acuerdo con nuestros Términos de servicio &amp; Política de privacidad"
+    "form_description": "Al registrarte, estás de acuerdo con nuestros Términos de servicio &amp; Política de privacidad",
+    "registering": "Registrando tu cuenta...",
+    "registered": "Registro exitoso\nComprueba tu correo electrónico para obtener instrucciones"
   },
   "home": {
     "feed": "Inicio",
@@ -451,6 +469,7 @@
     "claim_reward_balance_ok": "Recompensa de balance reclamada",
     "fail": "Falló!",
     "move": "Mover",
+    "continue": "Continuar",
     "move_question": "¿Está seguro de moverlo a borradores?",
     "success_shared": "¡Éxito! ¡Contenido enviado!",
     "success_moved": "Movido a borradores",
@@ -513,10 +532,11 @@
     "invalid_response": "No se pudo procesar la solicitud, inténtalo de nuevo más tarde.",
     "wallet_updating": "Actualización del monedero en progreso, inténtalo de nuevo cuando finalice la actualización",
     "claim_failed": "Error al reclamar recompensas, {message}\nInténtalo de nuevo o escribe a support@ecency.com",
-    "connection_issues": "El servidor no está disponible, por favor comprueba tu conexión e inténtalo de nuevo."
+    "connection_issues": "El servidor no está disponible, por favor comprueba tu conexión e inténtalo de nuevo.",
+    "open_settings": "Abrir configuración"
   },
   "post": {
-    "reblog_alert": "¿Estás seguro de querer rebloguear?",
+    "reblog_alert": "¿Estás seguro de que quieres rebloguear?",
     "removed_hint": "Contenido no disponible",
     "copy_link": "Copiar enlace",
     "copy_text": "Copiar texto",
@@ -643,7 +663,7 @@
     "convert": "Convertir HBD a HIVE",
     "points": "Regalar puntos a alguien",
     "transfer_to_savings": "Transferir a Ahorros",
-    "transfer_to_vesting": "Hacer Power Up",
+    "transfer_to_vesting": "Encender (Power Up) | Estacar",
     "withdraw_to_saving": "Retirar a Ahorros",
     "steemconnect_title": "Transferencia en Hivesigner",
     "estimated_weekly": "Estimado Semanal",
@@ -652,6 +672,11 @@
     "percent": "Porcentaje",
     "auto_vests": "Auto Vests",
     "vests": "Vests",
+    "transfer_engine": "Transferir Token",
+    "stake_engine": "Estacar Token",
+    "unstake_engine": "Retirar Token de Estaca",
+    "delegate_engine": "Delegar Token",
+    "undelegate_engine": "Desdelegar Token",
     "save": "GUARDAR",
     "percent_information": "Información del porcentaje",
     "next": "SIGUIENTE",
@@ -675,7 +700,7 @@
     "confirm_summary_para": "Esto sobrescribirá tu delegación anterior de {prev} HP a este usuario.",
     "username_alert": "¡Error de nombre de usuario!",
     "username_alert_detail": "Por favor, selecciona otro nombre de usuario",
-    "power_down": "Hacer Power Down",
+    "power_down": "Apagado | Retirar Estacar",
     "power_down_amount_head": "Retirar Cantidad",
     "power_down_amount_subhead": "Introduce la cantidad para apagar HIVE Power",
     "withdraw_accounts": "Cuentas de Retirada",
@@ -686,9 +711,10 @@
     "invalid_amount": "Cantidad no válida",
     "invalid_amount_desc": "Por favor, introduce una cantidad válida",
     "account_select_title": "Detalles de Cuenta",
-    "account_select_description": "Las operaciones relacionadas con los fondos son irreversibles, asegúrate de que el nombre de usuario del receptor es correcto",
-    "amount_select_title": "Detalles de Transferencia",
-    "amount_select_description": "Introduce la cantidad de la transferencia dentro del saldo máximo disponible y debe ser mayor que 0.001"
+    "account_select_description": "Las operaciones relacionadas con los fondos son irreversibles, asegúrate de que el nombre de usuario es correcto",
+    "amount_select_title": "Detalles de la acción",
+    "amount_select_description": "Introduzca la cantidad dentro del saldo máximo disponible {suffix}",
+    "amount_select_desc_limit": " y debe ser mayor que 0.001"
   },
   "boost": {
     "title": "Obtener Puntos",
@@ -701,6 +727,16 @@
     },
     "confirm_purchase": "Confirmar compra @{username}",
     "confirm_purchase_summary": "Comprando {points} por {username} a {price}"
+  },
+  "buy_account": {
+    "title": "Comprar cuenta",
+    "btn_register": "Comprar cuenta - {price}",
+    "desc": "Obtén una Cuenta premium completa de Hive sin chequeos extra y varias ventajas tales como:\n\n- Creación instantánea sin chequeos extra ni esperas\n- 3x RC en comparación con cuentas nuevas normales\n- 300 puntos para ayudarte a comenzar"
+  },
+  "free_account": {
+    "title": "Cuenta Gratuita",
+    "btn_register": "Regístrate Gratis",
+    "desc": "Obtenga una cuenta de Hive completa, este método tiene comprobaciones básicas para asegurarse de que la red de bots no abusa de nuestro grifo de registro."
   },
   "free_estm": {
     "title": "Puntos gratis",

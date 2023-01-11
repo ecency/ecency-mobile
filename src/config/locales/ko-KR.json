@@ -8,7 +8,7 @@
     "power_up": "파워업",
     "transfer_from_savings": "안전 금고에서 출금하기",
     "withdraw_savings": "Withdraw Savings",
-    "withdraw_vesting": "파워 다운",
+    "withdraw_vesting": "Power Down | Unstake",
     "open_order": "Open Order",
     "fill_order": "체결 주문",
     "post": "포스팅",
@@ -20,6 +20,9 @@
     "incoming_transfer_title": "받은 포인트",
     "outgoing_transfer_title": "보낸 포인트",
     "checkin_extra": "체크인 보너스",
+    "staked": "Staked",
+    "delegations_in": "Delegagtions In",
+    "delegations_out": "Delegations Out",
     "delegation": "임대",
     "delegations": "임대",
     "delegation_title": "임대 보상",
@@ -62,7 +65,7 @@
     "amount": "수량",
     "memo": "메모",
     "tap_update": "Tap to update",
-    "information": "자금을 전송하시겠습니까?",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "잔액",
     "memo_desc": "이 메모는 누구나 볼 수 있습니다",
     "to_placeholder": "사용자 이름",
@@ -71,12 +74,12 @@
     "purchase_estm": "포인트 받기",
     "points": "포인트 선물하기",
     "transfer_to_saving": "안전 금고에 보관하기",
-    "transfer_to_vesting": "파워업",
+    "transfer_to_vesting": "Power Up | Stake",
     "withdraw_to_saving": "안전 금고에서 출금하기",
     "steemconnect_title": "HiveSigner 이동",
     "next": "다음",
     "delegate": "임대",
-    "power_down": "파워 다운",
+    "power_down": "Power Down | Unstake",
     "withdraw_hive": "Withdraw Savings",
     "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "안전 금고에 보관하기",
@@ -91,6 +94,10 @@
     "fill_convert_request": "전환을 하였습니다.",
     "fill_transfer_from_savings": "안전 금고에 보관하였습니다.",
     "fill_vesting_withdraw": "스팀 파워 다운을 하였습니다.",
+    "engine_title": "Hive Engine Tokens",
+    "engine_claim_btn": "Claim Rewards ({count})",
+    "engine_select_assets": "Select Assets",
+    "manage_assets": "Add / Remove Assets",
     "ecency": {
       "title": "포인트",
       "name": "Ecency 포인트",
@@ -113,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "하이브 파워"
+      "name": "Hive Power | Staked Hive"
     },
     "hive_dollar": {
       "name": "하이트 달러"
@@ -134,7 +141,14 @@
     "expires": "만료",
     "pending_requests": "진행중인 요청",
     "boost_account": "부스트",
-    "get_boost": "부스트"
+    "get_boost": "부스트",
+    "transfer_engine": "Transfer",
+    "unstake_engine": "Unstake",
+    "stake_engine": "Stake",
+    "delegate_engine": "Delegate",
+    "undelegate_engine": "Undelegate",
+    "low_liquidity": "Low Liquidity!",
+    "inactive_token": "Token is relatively inactive, some functionalities might be affected."
   },
   "notification": {
     "vote": "님이 보팅하였습니다.",
@@ -284,14 +298,18 @@
     "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
+    "modal_title": "Get Hive Account",
     "button": "가입",
     "title": "회원 가입",
     "username": "사용자 ID 선택하세요",
     "mail": "이메일 주소를 입력하세요",
     "ref_user": "추천인(선택사항)",
     "500_error": "귀하의 요청을 처리할 수 없습니다. 등록 대기열이 가득 찼을 수 있습니다! 몇 분 후에 다시 시도하세요...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "모든 것을 관리하는 하나의 계정",
-    "form_description": "가입과 동시에 서비스 약관 및 개인 정보 보호 정책에 동의하게 됩니다"
+    "form_description": "가입과 동시에 서비스 약관 및 개인 정보 보호 정책에 동의하게 됩니다",
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "피드",
@@ -451,6 +469,7 @@
     "claim_reward_balance_ok": "보상을 요청했습니다",
     "fail": "실패!",
     "move": "이동",
+    "continue": "Continue",
     "move_question": "임시 보관함으로 이동하시겠습니까?",
     "success_shared": "성공! 콘텐츠가 제출되었습니다!",
     "success_moved": "임시 보관함으로 이동했습니다",
@@ -513,10 +532,11 @@
     "invalid_response": "Could not process request, Try again later.",
     "wallet_updating": "Wallet update in progress, try again as update finishes",
     "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
-    "connection_issues": "The server is unreachable, please check your connection and try again."
+    "connection_issues": "The server is unreachable, please check your connection and try again.",
+    "open_settings": "Open Settings"
   },
   "post": {
-    "reblog_alert": "리블로그 하시겠습니까?",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "콘텐츠 이용 불가",
     "copy_link": "링크 복사하기",
     "copy_text": "텍스트 복사",
@@ -643,7 +663,7 @@
     "convert": "하이브달러를 하이브로 전환하기",
     "points": "포인트 선물하기",
     "transfer_to_savings": "금고로 전송",
-    "transfer_to_vesting": "파워업",
+    "transfer_to_vesting": "Power Up | Stake",
     "withdraw_to_saving": "안전 금고로 출금",
     "steemconnect_title": "HiveSigner 이동",
     "estimated_weekly": "주간 추정",
@@ -652,6 +672,11 @@
     "percent": "비율",
     "auto_vests": "오토 베스트",
     "vests": "Vests",
+    "transfer_engine": "Transfer Token",
+    "stake_engine": "Stake Token",
+    "unstake_engine": "Unstake Token",
+    "delegate_engine": "Delegate Token",
+    "undelegate_engine": "Undelegate Token",
     "save": "안전 금고에 보관하기",
     "percent_information": "비율 정보",
     "next": "다음",
@@ -675,7 +700,7 @@
     "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
     "username_alert": "사용자 ID 오류!",
     "username_alert_detail": "Please select different username",
-    "power_down": "파워 다운",
+    "power_down": "Power Down | Unstake",
     "power_down_amount_head": "Withdraw Amount",
     "power_down_amount_subhead": "Enter amount for powering down hive power",
     "withdraw_accounts": "Withdraw Accounts",
@@ -686,9 +711,10 @@
     "invalid_amount": "잘못된 금액",
     "invalid_amount_desc": "올바른 금액을 입력하세요",
     "account_select_title": "계정 정보",
-    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "송금 세부 정보",
-    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
+    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "amount_select_title": "Action Details",
+    "amount_select_description": "Enter amount within maximum available balance {suffix}",
+    "amount_select_desc_limit": " and must be greater than 0.001"
   },
   "boost": {
     "title": "포인트 받기",
@@ -701,6 +727,16 @@
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}"
+  },
+  "buy_account": {
+    "title": "Buy Account",
+    "btn_register": "Buy Account - {price}",
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts\n- 300 Points to help you get started"
+  },
+  "free_account": {
+    "title": "Free Account",
+    "btn_register": "Register Free",
+    "desc": "Get a full-fledged Hive account, this method has basic checks to make sure botnet doesn't abuse our signup faucet."
   },
   "free_estm": {
     "title": "무료 포인트",

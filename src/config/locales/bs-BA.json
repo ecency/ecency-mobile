@@ -8,7 +8,7 @@
     "power_up": "Za Dodijeliti",
     "transfer_from_savings": "Od štednje",
     "withdraw_savings": "Withdraw Savings",
-    "withdraw_vesting": "Smanji snagu",
+    "withdraw_vesting": "Power Down | Unstake",
     "open_order": "Open Order",
     "fill_order": "Ispunite nalog",
     "post": "Objava",
@@ -20,6 +20,9 @@
     "incoming_transfer_title": "Dolazni Prijenos",
     "outgoing_transfer_title": "Odlazni Prijenos",
     "checkin_extra": "Premija",
+    "staked": "Staked",
+    "delegations_in": "Delegagtions In",
+    "delegations_out": "Delegations Out",
     "delegation": "Povjeravanje",
     "delegations": "Povjeravanja",
     "delegation_title": "Nagrada za povjeravanje",
@@ -62,7 +65,7 @@
     "amount": "Iznos",
     "memo": "Bilješka",
     "tap_update": "Tap to update",
-    "information": "Jeste li sigurni da prenosite sredstva?",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "Stanje",
     "memo_desc": "Ova bilješka je javna",
     "to_placeholder": "Korisničko ime",
@@ -71,12 +74,12 @@
     "purchase_estm": "DOBIJTE BODOVE",
     "points": "Pokloni bodove nekome",
     "transfer_to_saving": "Za štednju",
-    "transfer_to_vesting": "Pojačaj snagu",
+    "transfer_to_vesting": "Power Up | Stake",
     "withdraw_to_saving": "Povući štednju",
     "steemconnect_title": "Hivesigner Prijenos",
     "next": "SLJEDEĆI",
     "delegate": "Delegiraj",
-    "power_down": "Smanji snagu",
+    "power_down": "Power Down | Unstake",
     "withdraw_hive": "Withdraw Savings",
     "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "U štednju",
@@ -91,6 +94,10 @@
     "fill_convert_request": "Pretvaranje izvršeno",
     "fill_transfer_from_savings": "Ušteda izvšena",
     "fill_vesting_withdraw": "Smanjenje snage izvršeno",
+    "engine_title": "Hive Engine Tokens",
+    "engine_claim_btn": "Claim Rewards ({count})",
+    "engine_select_assets": "Select Assets",
+    "manage_assets": "Add / Remove Assets",
     "ecency": {
       "title": "Points",
       "name": "Ecency Points",
@@ -113,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE SNAGA",
-      "name": "Hive Power"
+      "name": "Hive Power | Staked Hive"
     },
     "hive_dollar": {
       "name": "Hive Dollar"
@@ -134,7 +141,14 @@
     "expires": "expires",
     "pending_requests": "Pending Requests",
     "boost_account": "Boost",
-    "get_boost": "Get Boost"
+    "get_boost": "Get Boost",
+    "transfer_engine": "Transfer",
+    "unstake_engine": "Unstake",
+    "stake_engine": "Stake",
+    "delegate_engine": "Delegate",
+    "undelegate_engine": "Undelegate",
+    "low_liquidity": "Low Liquidity!",
+    "inactive_token": "Token is relatively inactive, some functionalities might be affected."
   },
   "notification": {
     "vote": "glasano",
@@ -284,14 +298,18 @@
     "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
+    "modal_title": "Get Hive Account",
     "button": "Registrujte se",
     "title": "Registrujte se",
     "username": "Izaberite korisničko ime",
     "mail": "Unesite svoju e-mail adresu",
     "ref_user": "Preporučeni korisnik (izborno)",
     "500_error": "Vaš zahtjev nije mogao da se obradi, red za registraciju je vjerovatno pun! Pokušajte ponovo za nekoliko minuta...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Jedan račun za upravljanje svim",
-    "form_description": "Prijavom kod nas pristajete na naše uslove korištenja usluge i politike privatnosti."
+    "form_description": "Prijavom kod nas pristajete na naše uslove korištenja usluge i politike privatnosti.",
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Novosti",
@@ -451,6 +469,7 @@
     "claim_reward_balance_ok": "Nagrada preuzeta",
     "fail": "Neuspješno!",
     "move": "Premjesti",
+    "continue": "Continue",
     "move_question": "Sigurni ste da želite prijeći na nacrte?",
     "success_shared": "Uspjeh! Sadržaj poslat!",
     "success_moved": "Premješteno u nacrt",
@@ -513,10 +532,11 @@
     "invalid_response": "Nije moguće obraditi zahtjev, pokušajte ponovo kasnije.",
     "wallet_updating": "Wallet update in progress, try again as update finishes",
     "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
-    "connection_issues": "The server is unreachable, please check your connection and try again."
+    "connection_issues": "The server is unreachable, please check your connection and try again.",
+    "open_settings": "Open Settings"
   },
   "post": {
-    "reblog_alert": "Da li ste sigurni da želite da podjelite?",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Sadržaj nije dostupan",
     "copy_link": "Kopiraj vezu",
     "copy_text": "Kopiraj tekst",
@@ -643,7 +663,7 @@
     "convert": "Pretvori HBD u HIVE",
     "points": "Poklonite bodove nekome",
     "transfer_to_savings": "Prijenos u štednju",
-    "transfer_to_vesting": "Pojačaj snagu",
+    "transfer_to_vesting": "Power Up | Stake",
     "withdraw_to_saving": "Povući na štednju",
     "steemconnect_title": "Hivesigner prijenos",
     "estimated_weekly": "Procijenjeno na nedeljnom nivou",
@@ -652,6 +672,11 @@
     "percent": "Procenat",
     "auto_vests": "Automatsko odobravanje",
     "vests": "Vests",
+    "transfer_engine": "Transfer Token",
+    "stake_engine": "Stake Token",
+    "unstake_engine": "Unstake Token",
+    "delegate_engine": "Delegate Token",
+    "undelegate_engine": "Undelegate Token",
     "save": "SAČUVAJ",
     "percent_information": "Informacije o procentu",
     "next": "SLJEDEĆI",
@@ -675,7 +700,7 @@
     "confirm_summary_para": "Ovo će zamijeniti vašu prethodnu delegaciju {prev} HP-a za ovaj račun.",
     "username_alert": "Greška korisničkog imena!",
     "username_alert_detail": "Molimo odaberite drugo korisničko ime",
-    "power_down": "Smanji snagu",
+    "power_down": "Power Down | Unstake",
     "power_down_amount_head": "Withdraw Amount",
     "power_down_amount_subhead": "Enter amount for powering down hive power",
     "withdraw_accounts": "Withdraw Accounts",
@@ -686,9 +711,10 @@
     "invalid_amount": "Invalid Amount",
     "invalid_amount_desc": "Please enter valid amount",
     "account_select_title": "Account Details",
-    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "Transfer Details",
-    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
+    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "amount_select_title": "Action Details",
+    "amount_select_description": "Enter amount within maximum available balance {suffix}",
+    "amount_select_desc_limit": " and must be greater than 0.001"
   },
   "boost": {
     "title": "Dobijte bodove",
@@ -701,6 +727,16 @@
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}"
+  },
+  "buy_account": {
+    "title": "Buy Account",
+    "btn_register": "Buy Account - {price}",
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts\n- 300 Points to help you get started"
+  },
+  "free_account": {
+    "title": "Free Account",
+    "btn_register": "Register Free",
+    "desc": "Get a full-fledged Hive account, this method has basic checks to make sure botnet doesn't abuse our signup faucet."
   },
   "free_estm": {
     "title": "Besplatni bodovi",

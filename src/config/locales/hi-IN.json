@@ -8,7 +8,7 @@
     "power_up": "वेस्टिंग को",
     "transfer_from_savings": "बचत से",
     "withdraw_savings": "बचत खाते से निकालें",
-    "withdraw_vesting": "शक्तिक्षय करें",
+    "withdraw_vesting": "Power Down | Unstake",
     "open_order": "खुला ऑर्डर्स",
     "fill_order": "क्रम पूरा करें",
     "post": "लेख",
@@ -20,6 +20,9 @@
     "incoming_transfer_title": "आने वाली फाइल स्थानांतरण",
     "outgoing_transfer_title": "जाने वाली फाइल स्थानांतरण",
     "checkin_extra": "बोनस",
+    "staked": "Staked",
+    "delegations_in": "Delegagtions In",
+    "delegations_out": "Delegations Out",
     "delegation": "प्रतिनिधि मंडल",
     "delegations": "प्रतिनिधि मंडल",
     "delegation_title": "प्रतिनिधि मंडल ईनाम",
@@ -62,7 +65,7 @@
     "amount": "रकम",
     "memo": "ज्ञापन",
     "tap_update": "अपडेट करने के लिए टैप करें",
-    "information": "क्या आप रकम स्थान्तरित करना चाहते हैं?",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "शेष रकम",
     "memo_desc": "यह ज्ञापन सार्वजनिक है",
     "to_placeholder": "प्रयोक्ता नाम",
@@ -71,12 +74,12 @@
     "purchase_estm": "अंक प्राप्त करें",
     "points": "किसी को उपहार दे",
     "transfer_to_saving": "बचत करने के लिए",
-    "transfer_to_vesting": "पावर उप करे",
+    "transfer_to_vesting": "Power Up | Stake",
     "withdraw_to_saving": "बचत खाते से निकालें",
     "steemconnect_title": "हाइवसाईनर स्थानांतरण",
     "next": "अगला",
     "delegate": "कार्यभार सौंपें",
-    "power_down": "शक्तिक्षय करें",
+    "power_down": "Power Down | Unstake",
     "withdraw_hive": "बचत खाते से निकालें",
     "withdraw_hbd": "बचत खाते से निकालें",
     "transfer_to_savings": "बचत करने के लिए",
@@ -91,6 +94,10 @@
     "fill_convert_request": "परिवर्तित परिवर्तित",
     "fill_transfer_from_savings": "बचत की गई",
     "fill_vesting_withdraw": "पॉवरडाउन को अंजाम दिया",
+    "engine_title": "Hive Engine Tokens",
+    "engine_claim_btn": "Claim Rewards ({count})",
+    "engine_select_assets": "Select Assets",
+    "manage_assets": "Add / Remove Assets",
     "ecency": {
       "title": "अंक",
       "name": "इसेंसी अंक",
@@ -113,7 +120,7 @@
     },
     "hive_power": {
       "title": "हाइव पावर",
-      "name": "हाइव पावर"
+      "name": "Hive Power | Staked Hive"
     },
     "hive_dollar": {
       "name": "हाइव डॉलर"
@@ -134,7 +141,14 @@
     "expires": "समय सीमा समाप्त",
     "pending_requests": "अनुरोध लंबित",
     "boost_account": "बूस्ट",
-    "get_boost": "बूस्ट प्राप्त करें"
+    "get_boost": "बूस्ट प्राप्त करें",
+    "transfer_engine": "Transfer",
+    "unstake_engine": "Unstake",
+    "stake_engine": "Stake",
+    "delegate_engine": "Delegate",
+    "undelegate_engine": "Undelegate",
+    "low_liquidity": "Low Liquidity!",
+    "inactive_token": "Token is relatively inactive, some functionalities might be affected."
   },
   "notification": {
     "vote": "मतदान किया",
@@ -284,14 +298,18 @@
     "deep_login_malformed_url": "विकृत लॉगिन यूआरएल, लॉग इन करने के लिए कृपया निजी कुंजी या पासवर्ड का उपयोग करें"
   },
   "register": {
+    "modal_title": "Get Hive Account",
     "button": "साइन अप करें",
     "title": "भाग लें",
     "username": "एक उपयोगकर्ता नाम चुनें",
     "mail": "अपना ईमेल पता दर्ज करें",
     "ref_user": "संदर्भित उपयोगकर्ता (वैकल्पिक)",
     "500_error": "आपके अनुरोध को संसाधित नहीं किया जा सका, साइनअप कतार पूर्ण होने की संभावना है! कुछ मिनटों में पुन: प्रयास करें...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "सब कुछ प्रबंधित करने के लिए एक खाता",
-    "form_description": "हमारे साथ साइन अप करके, आप हमारी सेवा की शर्तों और गोपनीयता नीतियों से सहमत हैं।"
+    "form_description": "हमारे साथ साइन अप करके, आप हमारी सेवा की शर्तों और गोपनीयता नीतियों से सहमत हैं।",
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "संभरण",
@@ -451,6 +469,7 @@
     "claim_reward_balance_ok": "इनाम की राशी ले चुके",
     "fail": "असफल!",
     "move": "हटाना",
+    "continue": "Continue",
     "move_question": "क्या आप ड्राफ्ट में जाना सुनिश्चित करते हैं?",
     "success_shared": "सफलता! प्रस्तुत सामग्री!",
     "success_moved": "ड्राफ्ट में ले जाया गया",
@@ -513,10 +532,11 @@
     "invalid_response": "अनुरोध संसाधित नहीं किया जा सका, बाद में पुन: प्रयास करें।",
     "wallet_updating": "वॉलेट अपडेट जारी है, अपडेट खत्म होते ही फिर से कोशिश करें",
     "claim_failed": "पुरस्कारों का दावा करने में विफल, {message}\nपुन: प्रयास करें या support@ecency.com पर लिखें",
-    "connection_issues": "सर्वर पहुंच योग्य नहीं है, कृपया अपने कनेक्शन की जांच करें और पुन: प्रयास करें।"
+    "connection_issues": "सर्वर पहुंच योग्य नहीं है, कृपया अपने कनेक्शन की जांच करें और पुन: प्रयास करें।",
+    "open_settings": "Open Settings"
   },
   "post": {
-    "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "सामग्री उपलब्ध नहीं है",
     "copy_link": "लिंक कापी करें",
     "copy_text": "टेक्स्ट कॉपी करें",
@@ -643,7 +663,7 @@
     "convert": "एचबीडी को हाइव में बदलें",
     "points": "किसी को अंक उपहार दे",
     "transfer_to_savings": "बचत खाते में स्थान्तरण करें",
-    "transfer_to_vesting": "पावर उप करे",
+    "transfer_to_vesting": "Power Up | Stake",
     "withdraw_to_saving": "बचत खाते से निकालें",
     "steemconnect_title": "हाइवसाईनर स्थानांतरण",
     "estimated_weekly": "साप्ताहिक रूप से अनुमान लगाया गया",
@@ -652,6 +672,11 @@
     "percent": "प्रतिशत",
     "auto_vests": "ऑटो वैस्ट",
     "vests": "वेस्ट्स",
+    "transfer_engine": "Transfer Token",
+    "stake_engine": "Stake Token",
+    "unstake_engine": "Unstake Token",
+    "delegate_engine": "Delegate Token",
+    "undelegate_engine": "Undelegate Token",
     "save": "सहेजें",
     "percent_information": "प्रतिशत जानकारी",
     "next": "अगला",
@@ -675,7 +700,7 @@
     "confirm_summary_para": "यह इस उपयोगकर्ता को आपके {prev} HP के पिछले डेलीगेशन को अधिलेखित कर देगा।",
     "username_alert": "उपयोगकर्ता नाम त्रुटि!",
     "username_alert_detail": "कृपया भिन्न उपयोगकर्ता नाम चुनें",
-    "power_down": "क्षमता कम करें",
+    "power_down": "Power Down | Unstake",
     "power_down_amount_head": "विथ्ड्रॉ राशि",
     "power_down_amount_subhead": "हाइव पावर को कम करने के लिए राशि दर्ज करें",
     "withdraw_accounts": "निकाशी खाते",
@@ -686,9 +711,10 @@
     "invalid_amount": "अमान्य राशि",
     "invalid_amount_desc": "कृपया मान्य राशि दर्ज करें",
     "account_select_title": "अकाउंट विवरण",
-    "account_select_description": "धन से संबंधित संचालन अपरिवर्तनीय हैं, सुनिश्चित करें कि प्राप्तकर्ता का उपयोगकर्ता नाम सही है",
-    "amount_select_title": "स्थानांतरण विवरण",
-    "amount_select_description": "अधिकतम उपलब्ध शेष राशि के भीतर स्थानांतरण राशि दर्ज करें और 0.001 से अधिक होनी चाहिए"
+    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "amount_select_title": "Action Details",
+    "amount_select_description": "Enter amount within maximum available balance {suffix}",
+    "amount_select_desc_limit": " and must be greater than 0.001"
   },
   "boost": {
     "title": "अंक प्राप्त करें",
@@ -701,6 +727,16 @@
     },
     "confirm_purchase": "खरीद की पुष्टि करें @{username}",
     "confirm_purchase_summary": "{username} के लिए {price} पर {points} ख़रीदना"
+  },
+  "buy_account": {
+    "title": "Buy Account",
+    "btn_register": "Buy Account - {price}",
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts\n- 300 Points to help you get started"
+  },
+  "free_account": {
+    "title": "Free Account",
+    "btn_register": "Register Free",
+    "desc": "Get a full-fledged Hive account, this method has basic checks to make sure botnet doesn't abuse our signup faucet."
   },
   "free_estm": {
     "title": "नि: शुल्क अंक",

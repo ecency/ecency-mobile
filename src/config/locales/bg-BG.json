@@ -8,7 +8,7 @@
     "power_up": "Подсилване на гласа",
     "transfer_from_savings": "От спестявания",
     "withdraw_savings": "Withdraw Savings",
-    "withdraw_vesting": "Намаляване на енергията",
+    "withdraw_vesting": "Power Down | Unstake",
     "open_order": "Open Order",
     "fill_order": "Попълнете поръчка",
     "post": "Публикация",
@@ -20,6 +20,9 @@
     "incoming_transfer_title": "Входяща транзакция",
     "outgoing_transfer_title": "Изходяща транзакция",
     "checkin_extra": "Бонус",
+    "staked": "Staked",
+    "delegations_in": "Delegagtions In",
+    "delegations_out": "Delegations Out",
     "delegation": "Делегиране",
     "delegations": "Делегация/отдаване",
     "delegation_title": "Награда за отдаден Hive",
@@ -62,7 +65,7 @@
     "amount": "Сума",
     "memo": "Бележка",
     "tap_update": "Tap to update",
-    "information": "Сигурни ли сте за превода на сумата?",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "Баланс",
     "memo_desc": "Това съобщение е публично",
     "to_placeholder": "Потребителско име",
@@ -71,12 +74,12 @@
     "purchase_estm": "Вземи точки",
     "points": "Дарения на Estm на някого",
     "transfer_to_saving": "Към спестявания",
-    "transfer_to_vesting": "Подсилване на гласа",
+    "transfer_to_vesting": "Power Up | Stake",
     "withdraw_to_saving": "Изтегли спестяванията",
     "steemconnect_title": "Hivesigner транзакция",
     "next": "СЛЕДВАЩ",
     "delegate": "Делегирай",
-    "power_down": "Намаляване на енергията",
+    "power_down": "Power Down | Unstake",
     "withdraw_hive": "Withdraw Savings",
     "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "Към спестявания",
@@ -91,6 +94,10 @@
     "fill_convert_request": "Преобразуване на изпълненото",
     "fill_transfer_from_savings": "Спестяване изпълнено",
     "fill_vesting_withdraw": "Намаляване стойността на гласа изпълнено",
+    "engine_title": "Hive Engine Tokens",
+    "engine_claim_btn": "Claim Rewards ({count})",
+    "engine_select_assets": "Select Assets",
+    "manage_assets": "Add / Remove Assets",
     "ecency": {
       "title": "Points",
       "name": "Ecency Points",
@@ -113,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE сила/стойност на гласа",
-      "name": "Hive Power"
+      "name": "Hive Power | Staked Hive"
     },
     "hive_dollar": {
       "name": "Hive Dollar"
@@ -134,7 +141,14 @@
     "expires": "expires",
     "pending_requests": "Pending Requests",
     "boost_account": "Boost",
-    "get_boost": "Get Boost"
+    "get_boost": "Get Boost",
+    "transfer_engine": "Transfer",
+    "unstake_engine": "Unstake",
+    "stake_engine": "Stake",
+    "delegate_engine": "Delegate",
+    "undelegate_engine": "Undelegate",
+    "low_liquidity": "Low Liquidity!",
+    "inactive_token": "Token is relatively inactive, some functionalities might be affected."
   },
   "notification": {
     "vote": "Гласуван",
@@ -284,14 +298,18 @@
     "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
+    "modal_title": "Get Hive Account",
     "button": "Регистрация",
     "title": "Регистрирай се",
     "username": "Избери потрбителско име",
     "mail": "Въведете вашата електронна поща",
     "ref_user": "Кой ви покани в платформата(Опция)",
     "500_error": "Заявката ви не можа да бъде обработена, опашката за регистрация вероятно е пълна! Опитайте отново след няколко минути ...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Един потребител да ръководи всичко",
-    "form_description": "Като се регистрирате с нас, вие се съгласявате с нашите Общи условия и Политики за поверителност."
+    "form_description": "Като се регистрирате с нас, вие се съгласявате с нашите Общи условия и Политики за поверителност.",
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Постове",
@@ -451,6 +469,7 @@
     "claim_reward_balance_ok": "Наградите изчистени",
     "fail": "Провал!!",
     "move": "Премести",
+    "continue": "Continue",
     "move_question": "Сигурен ли сте да преместите към чернови?",
     "success_shared": "Успех! Съдържанието е изпратено!",
     "success_moved": "Премено в чернови",
@@ -513,10 +532,11 @@
     "invalid_response": "Не можахме да обработим заявката ви. Опитайте пак по-късно.",
     "wallet_updating": "Wallet update in progress, try again as update finishes",
     "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
-    "connection_issues": "The server is unreachable, please check your connection and try again."
+    "connection_issues": "The server is unreachable, please check your connection and try again.",
+    "open_settings": "Open Settings"
   },
   "post": {
-    "reblog_alert": "Сигорни ли сте,че искате да споделите?",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Съдържанието не е достъпно",
     "copy_link": "Копирай връзката/линка",
     "copy_text": "Копирай текста",
@@ -643,7 +663,7 @@
     "convert": "Преобразувай HBD към HIVE",
     "points": "Дарения на Estm на някого",
     "transfer_to_savings": "Прехвърли към Спестявания",
-    "transfer_to_vesting": "Подсилване стойността на гласа",
+    "transfer_to_vesting": "Power Up | Stake",
     "withdraw_to_saving": "Изтегли към Спестявания",
     "steemconnect_title": "Hivesigner транзакция",
     "estimated_weekly": "ориентировочно на седмица",
@@ -652,6 +672,11 @@
     "percent": "Процент",
     "auto_vests": "Автоматични Vests",
     "vests": "Vests",
+    "transfer_engine": "Transfer Token",
+    "stake_engine": "Stake Token",
+    "unstake_engine": "Unstake Token",
+    "delegate_engine": "Delegate Token",
+    "undelegate_engine": "Undelegate Token",
     "save": "Запиши",
     "percent_information": "Процентна информация",
     "next": "следващ",
@@ -675,7 +700,7 @@
     "confirm_summary_para": "Нова делегация над старата делегация от {prev} HP към този потребител.",
     "username_alert": "Потребителско име грешка!",
     "username_alert_detail": "Моля изберете различно потребителско име",
-    "power_down": "Намаляване на енергията",
+    "power_down": "Power Down | Unstake",
     "power_down_amount_head": "Withdraw Amount",
     "power_down_amount_subhead": "Enter amount for powering down hive power",
     "withdraw_accounts": "Withdraw Accounts",
@@ -686,9 +711,10 @@
     "invalid_amount": "Invalid Amount",
     "invalid_amount_desc": "Please enter valid amount",
     "account_select_title": "Account Details",
-    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "Transfer Details",
-    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
+    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "amount_select_title": "Action Details",
+    "amount_select_description": "Enter amount within maximum available balance {suffix}",
+    "amount_select_desc_limit": " and must be greater than 0.001"
   },
   "boost": {
     "title": "Вземи точки",
@@ -701,6 +727,16 @@
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}"
+  },
+  "buy_account": {
+    "title": "Buy Account",
+    "btn_register": "Buy Account - {price}",
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts\n- 300 Points to help you get started"
+  },
+  "free_account": {
+    "title": "Free Account",
+    "btn_register": "Register Free",
+    "desc": "Get a full-fledged Hive account, this method has basic checks to make sure botnet doesn't abuse our signup faucet."
   },
   "free_estm": {
     "title": "Безплатни точки",

@@ -8,7 +8,7 @@
     "power_up": "Untuk Menjamin",
     "transfer_from_savings": "Dari Tabungan",
     "withdraw_savings": "Tarik Tabungan",
-    "withdraw_vesting": "Turunkan Daya Kekuatan",
+    "withdraw_vesting": "Power Down | Unstake",
     "open_order": "Buka Pesanan",
     "fill_order": "Isi pesanan",
     "post": "Kiriman",
@@ -20,6 +20,9 @@
     "incoming_transfer_title": "Transfer masuk",
     "outgoing_transfer_title": "Transfer keluar",
     "checkin_extra": "Bonus",
+    "staked": "Staked",
+    "delegations_in": "Delegagtions In",
+    "delegations_out": "Delegations Out",
     "delegation": "Delegasi",
     "delegations": "Delegasi",
     "delegation_title": "Hadiah delegasi",
@@ -62,7 +65,7 @@
     "amount": "Jumlah",
     "memo": "Memo",
     "tap_update": "Tap to update",
-    "information": "Anda yakin mentransfer dana?",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "Keseimbangan",
     "memo_desc": "Memo ini bersifat publik",
     "to_placeholder": "Nama Pengguna",
@@ -71,12 +74,12 @@
     "purchase_estm": "DAPATKAN POIN",
     "points": "Hadiahkan poin kepada seseorang",
     "transfer_to_saving": "Untuk Menyimpan",
-    "transfer_to_vesting": "Tingkatkan Kekuatan",
+    "transfer_to_vesting": "Power Up | Stake",
     "withdraw_to_saving": "Menarik Tabungan",
     "steemconnect_title": "Transfer Hivesigner",
     "next": "LANJUT",
     "delegate": "Delegasikan",
-    "power_down": "Turunkan Daya Kekuatan",
+    "power_down": "Power Down | Unstake",
     "withdraw_hive": "Tarik Tabungan",
     "withdraw_hbd": "Tarik Tabungan",
     "transfer_to_savings": "Untuk Tabungan",
@@ -91,6 +94,10 @@
     "fill_convert_request": "Konversi Dieksekusi",
     "fill_transfer_from_savings": "Tabungan Dieksekusi",
     "fill_vesting_withdraw": "PowerDown dieksekusi",
+    "engine_title": "Hive Engine Tokens",
+    "engine_claim_btn": "Claim Rewards ({count})",
+    "engine_select_assets": "Select Assets",
+    "manage_assets": "Add / Remove Assets",
     "ecency": {
       "title": "Poin",
       "name": "Poin Ecency",
@@ -113,7 +120,7 @@
     },
     "hive_power": {
       "title": "KEKUATAN HIVE",
-      "name": "Kekuatan Hive"
+      "name": "Hive Power | Staked Hive"
     },
     "hive_dollar": {
       "name": "Hive Dolar"
@@ -134,7 +141,14 @@
     "expires": "kadaluwarsa",
     "pending_requests": "Permintaan Tertunda",
     "boost_account": "Boost",
-    "get_boost": "Get Boost"
+    "get_boost": "Get Boost",
+    "transfer_engine": "Transfer",
+    "unstake_engine": "Unstake",
+    "stake_engine": "Stake",
+    "delegate_engine": "Delegate",
+    "undelegate_engine": "Undelegate",
+    "low_liquidity": "Low Liquidity!",
+    "inactive_token": "Token is relatively inactive, some functionalities might be affected."
   },
   "notification": {
     "vote": "voted",
@@ -284,14 +298,18 @@
     "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
+    "modal_title": "Get Hive Account",
     "button": "Daftar",
     "title": "Daftar",
     "username": "Pilih nama pengguna",
     "mail": "Masukkan alamat email anda",
     "ref_user": "Rujukan pengguna (Opsional)",
     "500_error": "Permintaan Anda tidak dapat diproses, antrian pendaftaran sepertinya penuh! Silakan ulangi kembali dalam beberapa menit...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Satu akun untuk mengelola semuanya",
-    "form_description": "Dengan mendaftar bersama kami, anda setuju dengan Ketentuan Layanan dan Kebijakan Privasi kami."
+    "form_description": "Dengan mendaftar bersama kami, anda setuju dengan Ketentuan Layanan dan Kebijakan Privasi kami.",
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Umpan",
@@ -451,6 +469,7 @@
     "claim_reward_balance_ok": "Hadiah di klaim",
     "fail": "Gagal!",
     "move": "Pindahkan",
+    "continue": "Continue",
     "move_question": "Apakah Anda yakin untuk pindah ke konsep?",
     "success_shared": "Sukses! Konten terkirim!",
     "success_moved": "Pindah ke konsep",
@@ -513,10 +532,11 @@
     "invalid_response": "Tidak dapat memproses permintaan Anda, coba lagi nanti.",
     "wallet_updating": "Pembaruan dompet sedang dalam pengerjaan, coba lagi ketika pembaruan sudah selesai",
     "claim_failed": "Gagal mengklaim hadiah, {message}\nCoba lagi atau tanya ke support@ecency.com",
-    "connection_issues": "Server tidak dapat diakses, silakan periksa koneksi anda dan coba kembali."
+    "connection_issues": "Server tidak dapat diakses, silakan periksa koneksi anda dan coba kembali.",
+    "open_settings": "Open Settings"
   },
   "post": {
-    "reblog_alert": "Anda yakin, anda ingin me-reblog?",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Konten tidak tersedia",
     "copy_link": "Salin tautan",
     "copy_text": "Salin teks",
@@ -643,7 +663,7 @@
     "convert": "Konversi ke HIVE",
     "points": "Hadiahkan Poin kepda seseorang",
     "transfer_to_savings": "Transfer untuk Penyimpanan",
-    "transfer_to_vesting": "Tingkatkan Kekuatan",
+    "transfer_to_vesting": "Power Up | Stake",
     "withdraw_to_saving": "Tarik untuk menyimpan",
     "steemconnect_title": "Transfer Hivesigner",
     "estimated_weekly": "Estimasi Mingguan",
@@ -652,6 +672,11 @@
     "percent": "Persen",
     "auto_vests": "Vests Otomatis",
     "vests": "Rompi",
+    "transfer_engine": "Transfer Token",
+    "stake_engine": "Stake Token",
+    "unstake_engine": "Unstake Token",
+    "delegate_engine": "Delegate Token",
+    "undelegate_engine": "Undelegate Token",
     "save": "Simpan",
     "percent_information": "Informasi persen",
     "next": "LANJUT",
@@ -675,7 +700,7 @@
     "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
     "username_alert": "Kesalahan nama pengguna!",
     "username_alert_detail": "Silakan coba nama pengguna yang berbeda",
-    "power_down": "Menurunkan daya",
+    "power_down": "Power Down | Unstake",
     "power_down_amount_head": "Withdraw Amount",
     "power_down_amount_subhead": "Enter amount for powering down hive power",
     "withdraw_accounts": "Withdraw Accounts",
@@ -686,9 +711,10 @@
     "invalid_amount": "Invalid Amount",
     "invalid_amount_desc": "Please enter valid amount",
     "account_select_title": "Account Details",
-    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "Transfer Details",
-    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
+    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "amount_select_title": "Action Details",
+    "amount_select_description": "Enter amount within maximum available balance {suffix}",
+    "amount_select_desc_limit": " and must be greater than 0.001"
   },
   "boost": {
     "title": "Dapatkan Poin",
@@ -701,6 +727,16 @@
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}"
+  },
+  "buy_account": {
+    "title": "Buy Account",
+    "btn_register": "Buy Account - {price}",
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts\n- 300 Points to help you get started"
+  },
+  "free_account": {
+    "title": "Free Account",
+    "btn_register": "Register Free",
+    "desc": "Get a full-fledged Hive account, this method has basic checks to make sure botnet doesn't abuse our signup faucet."
   },
   "free_estm": {
     "title": "Poin Gratis",

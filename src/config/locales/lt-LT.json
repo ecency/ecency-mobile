@@ -8,7 +8,7 @@
     "power_up": "Į Teisių suteikimą",
     "transfer_from_savings": "Iš santaupų",
     "withdraw_savings": "Išsiimti santaupas",
-    "withdraw_vesting": "Mažinti Galią",
+    "withdraw_vesting": "Power Down | Unstake",
     "open_order": "Atviras Užsakymas",
     "fill_order": "Užpildyti užsakymą",
     "post": "Įrašas",
@@ -20,6 +20,9 @@
     "incoming_transfer_title": "Įeinantis pervedimas",
     "outgoing_transfer_title": "Išeinantis pervedimas",
     "checkin_extra": "Bonusas",
+    "staked": "Staked",
+    "delegations_in": "Delegagtions In",
+    "delegations_out": "Delegations Out",
     "delegation": "Delegacija",
     "delegations": "Delegacijos",
     "delegation_title": "Delegacijų atlygis",
@@ -62,7 +65,7 @@
     "amount": "Kiekis",
     "memo": "Atmintinė",
     "tap_update": "Tap to update",
-    "information": "Ar tikrai norite persiųsti lėšas?",
+    "information": "Are you sure to proceed with transaction?",
     "amount_desc": "Likutis",
     "memo_desc": "Ši atmintinė yra vieša",
     "to_placeholder": "Vartotojo vardas",
@@ -71,12 +74,12 @@
     "purchase_estm": "GAUTI TAŠKŲ",
     "points": "Padovanok kam nors taškų",
     "transfer_to_saving": "Į santaupas",
-    "transfer_to_vesting": "Galios kėlimas",
+    "transfer_to_vesting": "Power Up | Stake",
     "withdraw_to_saving": "Išsiimti santaupas",
     "steemconnect_title": "Hivesigner pervedimas",
     "next": "TOLIAU",
     "delegate": "Deleguoti",
-    "power_down": "Mažinti Galią",
+    "power_down": "Power Down | Unstake",
     "withdraw_hive": "Išsiimti santaupas",
     "withdraw_hbd": "Išsiimti santaupas",
     "transfer_to_savings": "Į santaupas",
@@ -91,6 +94,10 @@
     "fill_convert_request": "Konvertavimas įvykdytas",
     "fill_transfer_from_savings": "Santaupos nuimtos",
     "fill_vesting_withdraw": "Jėgos mažinimas įvykdytas",
+    "engine_title": "Hive Engine Tokens",
+    "engine_claim_btn": "Claim Rewards ({count})",
+    "engine_select_assets": "Select Assets",
+    "manage_assets": "Add / Remove Assets",
     "ecency": {
       "title": "Taškai",
       "name": "Ecency Taškai",
@@ -113,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE GALIA",
-      "name": "Hive Galia"
+      "name": "Hive Power | Staked Hive"
     },
     "hive_dollar": {
       "name": "Hive doleris"
@@ -134,7 +141,14 @@
     "expires": "galioja iki",
     "pending_requests": "Laukiamos Užklausos",
     "boost_account": "Boost",
-    "get_boost": "Get Boost"
+    "get_boost": "Get Boost",
+    "transfer_engine": "Transfer",
+    "unstake_engine": "Unstake",
+    "stake_engine": "Stake",
+    "delegate_engine": "Delegate",
+    "undelegate_engine": "Undelegate",
+    "low_liquidity": "Low Liquidity!",
+    "inactive_token": "Token is relatively inactive, some functionalities might be affected."
   },
   "notification": {
     "vote": "balsavo",
@@ -284,14 +298,18 @@
     "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
+    "modal_title": "Get Hive Account",
     "button": "Užsiregistruoti",
     "title": "Užsiregistruoti",
     "username": "Pasirinkite naudotojo vardą",
     "mail": "Įveskite savo el. pašto adresą",
     "ref_user": "Rekomendavęs vartotojas (pasirinktinai)",
     "500_error": "Jūsų užklausa negali būti įvykdyta, greičiausiai registracijos eilėje nėra vietos! Pabandykite vėl už kelių minučių...",
+    "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Viena paskyra tam, kad viską sutvarkyti",
-    "form_description": "Prisiregistruodami, jūs sutinkate su mūsų paslaugų tiekimo sąlygomis ir privatumo politika."
+    "form_description": "Prisiregistruodami, jūs sutinkate su mūsų paslaugų tiekimo sąlygomis ir privatumo politika.",
+    "registering": "Registering Your Account...",
+    "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
     "feed": "Pagrindinis",
@@ -451,6 +469,7 @@
     "claim_reward_balance_ok": "Atlygis atsiimtas",
     "fail": "Nepavyko!",
     "move": "Perkelti",
+    "continue": "Continue",
     "move_question": "Ar tikrai norite įrenginius perkelti į juodraščius?",
     "success_shared": "Sėkmė! Turinys išsiųstas!",
     "success_moved": "Perkelta į juodraščius",
@@ -513,10 +532,11 @@
     "invalid_response": "Negalėjome įvykdyti užklausos, pabandykite vėliau.",
     "wallet_updating": "Pinigės atnaujinimas atliekamas, pabandykite kai atnaujinimas pasibaigs",
     "claim_failed": "Nepavyko atsiimti apdovanojimų, {message}\nPabandykite vėliau arba rašykite support@ecency.com",
-    "connection_issues": "The server is unreachable, please check your connection and try again."
+    "connection_issues": "The server is unreachable, please check your connection and try again.",
+    "open_settings": "Open Settings"
   },
   "post": {
-    "reblog_alert": "Ar tikrai norite dalintis įrašu?",
+    "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Turinys nepasiekiamas",
     "copy_link": "Kopijuoti nuorodą",
     "copy_text": "Nukopijuoti tekstą",
@@ -643,7 +663,7 @@
     "convert": "Konvertuok HBD į HIVE",
     "points": "Padovanok kam nors taškų",
     "transfer_to_savings": "Pervesti į Santaupas",
-    "transfer_to_vesting": "Galios kėlimas",
+    "transfer_to_vesting": "Power Up | Stake",
     "withdraw_to_saving": "Atsiimti į Santaupas",
     "steemconnect_title": "Hivesigner pervedimas",
     "estimated_weekly": "Tikimasi per savaitę",
@@ -652,6 +672,11 @@
     "percent": "Procentai",
     "auto_vests": "Automatinis teisių suteikimas",
     "vests": "Teisių suteikimas",
+    "transfer_engine": "Transfer Token",
+    "stake_engine": "Stake Token",
+    "unstake_engine": "Unstake Token",
+    "delegate_engine": "Delegate Token",
+    "undelegate_engine": "Undelegate Token",
     "save": "IŠSAUGOTI",
     "percent_information": "Procentų informacija",
     "next": "TOLIAU",
@@ -675,7 +700,7 @@
     "confirm_summary_para": "Tai pakeis jūsų paskutinę delegacijos sumą {prev} HP skirtą šiam naudotojui.",
     "username_alert": "Naudotojo vardo įvedimo klaida!",
     "username_alert_detail": "Prašome pasirinkti kitą naudotojo vardą",
-    "power_down": "Nepakanka galios",
+    "power_down": "Power Down | Unstake",
     "power_down_amount_head": "Išsitraukti sumą",
     "power_down_amount_subhead": "Įveskite norimą kiekį, kad sumažintumėte Hive galią",
     "withdraw_accounts": "Išsitraukti iš paskyrų",
@@ -686,9 +711,10 @@
     "invalid_amount": "Invalid Amount",
     "invalid_amount_desc": "Please enter valid amount",
     "account_select_title": "Account Details",
-    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "Transfer Details",
-    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
+    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "amount_select_title": "Action Details",
+    "amount_select_description": "Enter amount within maximum available balance {suffix}",
+    "amount_select_desc_limit": " and must be greater than 0.001"
   },
   "boost": {
     "title": "Gauk taškų",
@@ -701,6 +727,16 @@
     },
     "confirm_purchase": "Patvirtinkite pirkinį{username}",
     "confirm_purchase_summary": "{points} pirkimas {username} už {price}"
+  },
+  "buy_account": {
+    "title": "Buy Account",
+    "btn_register": "Buy Account - {price}",
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts\n- 300 Points to help you get started"
+  },
+  "free_account": {
+    "title": "Free Account",
+    "btn_register": "Register Free",
+    "desc": "Get a full-fledged Hive account, this method has basic checks to make sure botnet doesn't abuse our signup faucet."
   },
   "free_estm": {
     "title": "Nemokami taškai",
