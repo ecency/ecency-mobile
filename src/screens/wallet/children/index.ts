@@ -1,2 +1,3 @@
 export * from './assetCard';
-export * from './tokensSelectModal';
+export * from './assetsSelectModal';
+export * from './manageAssetsBtn';
