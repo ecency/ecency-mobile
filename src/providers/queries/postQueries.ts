@@ -42,9 +42,8 @@ export const usePostsCachePrimer = () => {
   const queryClient = useQueryClient();
 
   const cachePost = async (post) => {
-
-    if(!post || !post.author || !post.permlink || !post.body){
-        return;
+    if (!post || !post.author || !post.permlink || !post.body) {
+      return;
     }
 
     console.log('priming data', post.author, post.permlink, post);

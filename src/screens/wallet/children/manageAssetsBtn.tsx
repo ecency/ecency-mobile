@@ -5,7 +5,7 @@ import styles from '../styles/manageAssets.styles';
 import { Icon } from '../../../components';
 
 export interface Props {
-  onPress:()=>void;
+  onPress: () => void;
 }
 
 export const ManageAssetsBtn = ({ onPress }: Props) => {
@@ -15,7 +15,12 @@ export const ManageAssetsBtn = ({ onPress }: Props) => {
     <View>
       <TouchableOpacity style={styles.container} onPress={onPress}>
         <View style={styles.headerWrapper}>
-          <Icon style={styles.rightIcon} iconType="MaterialCommunityIcons" size={16} name="pencil" />
+          <Icon
+            style={styles.rightIcon}
+            iconType="MaterialCommunityIcons"
+            size={16}
+            name="pencil"
+          />
           <Text style={styles.title}>{intl.formatMessage({ id: 'wallet.manage_assets' })}</Text>
         </View>
       </TouchableOpacity>
