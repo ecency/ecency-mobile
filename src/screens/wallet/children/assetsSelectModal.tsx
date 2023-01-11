@@ -1,13 +1,4 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import ActionSheet from 'react-native-actions-sheet';
-import EStyleSheet from 'react-native-extended-stylesheet';
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useIntl } from 'react-intl';
@@ -19,8 +10,7 @@ import DEFAULT_ASSETS from '../../../constants/defaultAssets';
 import { setSelectedCoins } from '../../../redux/actions/walletActions';
 import { AssetIcon } from '../../../components/atoms';
 
-export const TokensSelectModal = forwardRef(({}, ref) => {
-  const sheetModalRef = useRef<ActionSheet>();
+export const AssetsSelectModal = forwardRef(({}, ref) => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
 

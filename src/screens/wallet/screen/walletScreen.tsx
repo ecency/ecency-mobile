@@ -24,7 +24,7 @@ import globalStyles from '../../../globalStyles';
 import styles from './walletScreenStyles';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { AssetCard } from '../children';
+import { AssetCard, AssetsSelectModal, ManageAssetsBtn } from '../children';
 import { fetchMarketChart, INTERVAL_HOURLY } from '../../../providers/coingecko/coingecko';
 import ROUTES from '../../../constants/routeNames';
 import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetailsScreen';
@@ -40,7 +40,6 @@ import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { claimPoints } from '../../../providers/ecency/ePoint';
 import { claimRewardBalance, getAccount } from '../../../providers/hive/dhive';
 import { toastNotification } from '../../../redux/actions/uiAction';
-import { ManageAssets } from '../children/manageAssets';
 import { claimRewards } from '../../../providers/hive-engine/hiveEngineActions';
 import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
 import { useGetAssetsQuery, useUnclaimedRewardsQuery } from '../../../providers/queries';
@@ -54,6 +53,7 @@ const WalletScreen = ({ navigation }) => {
 
   //refs
   const appState = useRef(AppState.currentState);
+  const assetsSelectRef = useRef<any>(null);
 
   //redux
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
@@ -246,6 +246,14 @@ const WalletScreen = ({ navigation }) => {
     }
   };
 
+
+  const _showAssetsSelectModal = () => {
+    if (assetsSelectRef.current) {
+      assetsSelectRef.current.showModal();
+    }
+  }
+
+
   const _renderItem = ({ item, index }: { item: CoinBase; index: number }) => {
     const coinData: CoinData = coinsData[item.id];
     const unclaimedRewards = (unclaimedRewardsQuery.data && unclaimedRewardsQuery.data[item.id]) || '';
@@ -291,6 +299,8 @@ const WalletScreen = ({ navigation }) => {
         },
       });
     };
+
+
 
     if (!coinData) {
       return null;
@@ -368,11 +378,12 @@ const WalletScreen = ({ navigation }) => {
                 style={globalStyles.tabBarBottom}
                 ListEmptyComponent={<PostCardPlaceHolder />}
                 ListHeaderComponent={_renderHeader}
-                ListFooterComponent={<ManageAssets />}
+                ListFooterComponent={<ManageAssetsBtn onPress={_showAssetsSelectModal} />}
                 renderItem={_renderItem}
                 keyExtractor={(item, index) => index.toString()}
                 refreshControl={_refreshControl}
               />
+              <AssetsSelectModal ref={assetsSelectRef} />
             </View>
           )}
         </LoggedInContainer>
