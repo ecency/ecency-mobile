@@ -652,7 +652,7 @@
     "amount_information": "슬라이드를 드래그해서 수량을 설정할 수 있습니다",
     "amount": "수량",
     "memo": "메모",
-    "information": "자금을 전송하시겠습니까?",
+    "information": "Continue transaction?",
     "amount_desc": "잔액",
     "memo_desc": "이 메모는 누구나 볼 수 있습니다",
     "convert_desc": "전환은 3.5일이 소요되며, 하이브 달러가 1달러 이상인 경우에 권장하지 않습니다.",
