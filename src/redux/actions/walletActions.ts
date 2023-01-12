@@ -79,6 +79,7 @@ export const fetchAndSetCoinsData =
     const { currentAccount } = getState().account;
     const { currency } = getState().application;
     const { globalProps } = getState().account;
+    const claimsCache = getState().cache.claimsCollection;
 
     const coinsData = await fetchCoinsData({
       coins,
@@ -88,6 +89,7 @@ export const fetchAndSetCoinsData =
       globalProps,
       quotes,
       refresh,
+      claimsCache
     });
 
     return dispatch(setCoinsData(coinsData, currency.currency, currentAccount.username));
