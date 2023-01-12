@@ -652,7 +652,7 @@
     "amount_information": "Prevucite klizač da podesite količinu",
     "amount": "Iznos",
     "memo": "Bilješka",
-    "information": "Jeste li sigurni da prenosite sredstva?",
+    "information": "Continue transaction?",
     "amount_desc": "Stanje",
     "memo_desc": "Ova bilješka je javna",
     "convert_desc": "Pretvaranje traje 3.5 dana i ne preporučuje se ako je cijena HBD veća od $1",
