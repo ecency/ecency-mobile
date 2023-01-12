@@ -652,7 +652,7 @@
     "amount_information": "A csúszka húzásával állítsd be a mennyiséget",
     "amount": "Összeg",
     "memo": "Üzenet",
-    "information": "Bistoz átutalod?",
+    "information": "Continue transaction?",
     "amount_desc": "Egyenleg",
     "memo_desc": "Ez az üzenet nyilvános",
     "convert_desc": "A konvertálás 3,5 napig tart és NEM ajánlott, HA a HDB ára nagyobb ming $1",
