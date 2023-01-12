@@ -652,7 +652,7 @@
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Jumlah",
     "memo": "Memo",
-    "information": "Are you sure to transfer funds?",
+    "information": "Continue transaction?",
     "amount_desc": "Baki",
     "memo_desc": "Memo ini adalah umum",
     "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
