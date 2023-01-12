@@ -5,7 +5,6 @@ import {
   View,
   RefreshControl,
   Text,
-  Alert,
   AppState,
   AppStateStatus,
 } from 'react-native';
@@ -34,15 +33,10 @@ import {
   fetchCoinQuotes,
   resetWalletData,
   setPriceHistory,
-  updateUnclaimedBalance,
 } from '../../../redux/actions/walletActions';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
-import { claimPoints } from '../../../providers/ecency/ePoint';
-import { claimRewardBalance, getAccount } from '../../../providers/hive/dhive';
-import { toastNotification } from '../../../redux/actions/uiAction';
-import { claimRewards } from '../../../providers/hive-engine/hiveEngineActions';
 import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
-import { useGetAssetsQuery, useUnclaimedRewardsQuery } from '../../../providers/queries';
+import { useClaimRewardsMutation, useGetAssetsQuery, useUnclaimedRewardsQuery } from '../../../providers/queries';
 
 
 const CHART_DAYS_RANGE = 1;
@@ -69,20 +63,15 @@ const WalletScreen = ({ navigation }) => {
   } = useAppSelector((state) => state.wallet);
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinHash = useAppSelector((state) => state.application.pin);
 
   //queries
   const walletQuery = useGetAssetsQuery()
   const unclaimedRewardsQuery = useUnclaimedRewardsQuery();
+  const claimRewardsMutation = useClaimRewardsMutation();
 
   //state
-  const [isClaimingColl, setIsClaimingColl] = useState<{[key:string]:boolean}>({});
-  const isClaimingCollRef = useRef(isClaimingColl);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  useEffect(()=>{
-    isClaimingCollRef.current = isClaimingColl;
-  },[isClaimingColl])
 
   //side-effects
   useEffect(() => {
@@ -163,87 +152,9 @@ const WalletScreen = ({ navigation }) => {
     setIsRefreshing(false);
   };
 
-  const _claimEcencyPoints = async (assetId:string) => {
-    
-    try {
-      setIsClaimingColl({...isClaimingCollRef.current, [assetId]:true});
-      await claimPoints();
-      await unclaimedRewardsQuery.refetch();
-      setIsClaimingColl({...isClaimingCollRef.current, [assetId]:false});
-      await _refetchCoinsData();
-    } catch (error) {
-      setIsClaimingColl({...isClaimingCollRef.current, [assetId]:false});
-      Alert.alert(`${error.message}\nTry again or write to support@ecency.com`);
-    }
-    
-  };
-
-  const _claimRewardBalance = async (assetId:string) => {
-    
-    try {
-      setIsClaimingColl({...isClaimingCollRef.current, [assetId]:true});
-      const account = await getAccount(currentAccount.name);
-      await claimRewardBalance(
-        currentAccount,
-        pinHash,
-        account.reward_hive_balance,
-        account.reward_hbd_balance,
-        account.reward_vesting_balance,
-      );
-      await unclaimedRewardsQuery.refetch();
-      setIsClaimingColl({...isClaimingCollRef.current, [assetId]:false});
-      await _refetchCoinsData();
-      dispatch(
-        toastNotification(
-          intl.formatMessage({
-            id: 'alert.claim_reward_balance_ok',
-          }),
-        ),
-      );
-    } catch (error) {
-      setIsClaimingColl({...isClaimingCollRef.current, [assetId]:false});
-      Alert.alert(intl.formatMessage({ id: 'alert.claim_failed' }, { message: error.message }));
-    }
-    
-  };
-
-  const _claimEngineBalance = async (symbol: string) => {
-    try {
-      setIsClaimingColl({...isClaimingCollRef.current, [symbol]:true});
-      await claimRewards([symbol], currentAccount, pinHash);
-      await unclaimedRewardsQuery.refetch();
-      setIsClaimingColl({...isClaimingCollRef.current, [symbol]:false});
-      await _refetchCoinsData();
-      dispatch(
-        updateUnclaimedBalance(symbol, '')
-      )
-      dispatch(
-        toastNotification(
-          intl.formatMessage({
-            id: 'alert.claim_reward_balance_ok',
-          }),
-        ),
-      );
-    } catch (error) {
-      setIsClaimingColl({...isClaimingCollRef.current, [symbol]:false});
-      Alert.alert(intl.formatMessage({ id: 'alert.claim_failed' }, { message: error.message }));
-    }
-    
-  }
-
   const _claimRewards = (assetId: string) => {
-    switch (assetId) {
-      case ASSET_IDS.ECENCY:
-        _claimEcencyPoints(assetId);
-        break;
-
-      case ASSET_IDS.HP:
-        _claimRewardBalance(assetId);
-        break;
-      default:
-        _claimEngineBalance(assetId)
-        break;
-    }
+    //claim using mutation;
+    claimRewardsMutation.mutate({ assetId })
   };
 
 
@@ -262,13 +173,8 @@ const WalletScreen = ({ navigation }) => {
       return null;
     }
 
-    const _isClaimingThis = isClaimingColl[item.id] || false;
-    let _isClaimingAny = false;
-    for(let key in isClaimingColl){
-      if(isClaimingColl[key] === true){
-        _isClaimingAny = true;
-      }
-    }
+    const _isClaimingThis = claimRewardsMutation.checkIsClaiming(item.id);
+    const _isClaimingAny = claimRewardsMutation.checkIsClaiming();
 
     const _tokenMarketData: number[] = priceHistories[item.id] ? priceHistories[item.id].data : [];
 
@@ -374,7 +280,7 @@ const WalletScreen = ({ navigation }) => {
             <View style={styles.listWrapper}>
               <FlatList
                 data={updateTimestamp ? selectedCoins : []}
-                extraData={[coinsData, priceHistories, isClaimingColl, unclaimedRewardsQuery.data]}
+                extraData={[coinsData, priceHistories, unclaimedRewardsQuery.data]}
                 style={globalStyles.tabBarBottom}
                 ListEmptyComponent={<PostCardPlaceHolder />}
                 ListHeaderComponent={_renderHeader}
