@@ -652,7 +652,7 @@
     "amount_information": "Sleep de schuifregelaar om de hoeveelheid aan te passen",
     "amount": "Hoeveelheid",
     "memo": "Memo",
-    "information": "Weet u zeker dat u geld wilt overmaken?",
+    "information": "Continue transaction?",
     "amount_desc": "Balans",
     "memo_desc": "Deze memo is openbaar",
     "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
