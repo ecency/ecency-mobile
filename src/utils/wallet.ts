@@ -488,7 +488,7 @@ export const fetchCoinActivities = async (
 };
 
 
-const fetchEngineTokensData = async (username: string, hivePrice: number, vsCurrency: string, claimsCache:ClaimsCollection) => {
+const fetchEngineTokensData = async (username: string, hivePrice: number, vsCurrency: string, claimsCache: ClaimsCollection) => {
 
   const engineCoinData: { [key: string]: CoinData } = {};
 
@@ -557,24 +557,44 @@ const fetchEngineTokensData = async (username: string, hivePrice: number, vsCurr
 
 
 const _processCachedData = (assetId: string, balance: number = 0, unclaimedBalance: number, claimsCache: ClaimsCollection) => {
+
+  const rewardHpStrToToken = (rewardStr: string) => {
+    let tokenAmount = 0;
+    rewardStr.split('   ').forEach((str => {
+      const asset = parseAsset(str);
+      if (asset.symbol === assetId) {
+        tokenAmount = asset.amount
+      }
+    }))
+    return tokenAmount;
+  }
+
   if (claimsCache) {
     const _curTime = new Date().getTime();
+
+    let rewardClaimed = 0;
+    let _claim = claimsCache[assetId];
     switch (assetId) {
       case ASSET_IDS.HBD:
       case ASSET_IDS.HIVE:
       case ASSET_IDS.HP:
+        _claim = claimsCache[ASSET_IDS.HP];
+        if(_claim){
+          rewardClaimed = rewardHpStrToToken(_claim.rewardValue);
+        }
         break;
       default:
-        const _claim = claimsCache[assetId];
-        if (!_claim) {
-          break;
+        if(_claim){
+          rewardClaimed = parseToken(_claim.rewardValue);
         }
-        const rewardClaimed = parseToken(_claim.rewardValue);
-
-        if ((_claim.expiresAt || 0) > _curTime && rewardClaimed === unclaimedBalance) {
-          balance = balance + rewardClaimed;
-        }
+        
+        break;
     }
+
+    if (_claim && (_claim.expiresAt || 0) > _curTime && rewardClaimed === unclaimedBalance) {
+      balance = balance + rewardClaimed;
+    }
+
   }
 
   return balance
@@ -618,13 +638,14 @@ export const fetchCoinsData = async ({
   const _prices = !refresh && quotes ? quotes : await getLatestQuotes(currencyRate); //TODO: figure out a way to handle other currencies
 
 
+
   coins.forEach((coinBase) => {
     switch (coinBase.id) {
       case ASSET_IDS.ECENCY: {
         const unclaimedFloat = parseFloat(_pointsSummary.unclaimed_points || '0');
         let balance = _pointsSummary.points ? parseFloat(_pointsSummary.points) : 0;
         balance = _processCachedData(coinBase.id, balance, unclaimedFloat, claimsCache);
-        
+
         const unclaimedBalance = unclaimedFloat ? unclaimedFloat + ' Points' : '';
         const ppEstm = _prices[coinBase.id].price;
 
@@ -639,7 +660,7 @@ export const fetchCoinsData = async ({
         break;
       }
       case ASSET_IDS.HIVE: {
-        const balance = parseToken(userdata.balance);
+        const balance = _processCachedData(coinBase.id, parseToken(userdata.balance), parseToken(userdata.reward_hive_balance), claimsCache);
         const savings = parseToken(userdata.savings_balance);
         const ppHive = _prices[coinBase.id].price;
 
@@ -656,7 +677,7 @@ export const fetchCoinsData = async ({
       }
 
       case ASSET_IDS.HBD: {
-        const balance = parseToken(userdata.hbd_balance);
+        const balance = _processCachedData(coinBase.id, parseToken(userdata.hbd_balance), parseToken(userdata.reward_hbd_balance), claimsCache);
         const savings = parseToken(userdata.savings_hbd_balance);
         const ppHbd = _prices[coinBase.id].price;
 
@@ -672,20 +693,22 @@ export const fetchCoinsData = async ({
         break;
       }
       case ASSET_IDS.HP: {
-        const _getBalanceStr = (val: number, cur: string) =>
-          val ? Math.round(val * 1000) / 1000 + cur : '';
-        const balance =
+
+        let balance =
           Math.round(vestsToHp(parseToken(userdata.vesting_shares), hivePerMVests) * 1000) / 1000;
 
-        const receivedHP = vestsToHp(parseToken(userdata.received_vesting_shares), hivePerMVests);
+        balance = _processCachedData(coinBase.id, balance, parseToken(userdata.vesting_shares), claimsCache);
 
+        const receivedHP = vestsToHp(parseToken(userdata.received_vesting_shares), hivePerMVests);
         const delegatedHP = vestsToHp(parseToken(userdata.delegated_vesting_shares), hivePerMVests);
 
         //agggregate claim button text
+        const _getBalanceStr = (val: number, cur: string) =>
+          val ? Math.round(val * 1000) / 1000 + cur : '';
         const unclaimedBalance = [
           _getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE'),
           _getBalanceStr(parseToken(userdata.reward_hbd_balance), ' HBD'),
-          _getBalanceStr(parseToken(userdata.reward_vesting_hive), ' HP'),
+          _getBalanceStr(parseToken(userdata.vesting_shares), ' HP'),
         ].reduce(
           (prevVal, bal) => prevVal + (!bal ? '' : `${prevVal !== '' ? '   ' : ''}${bal}`),
           '',

@@ -1,5 +1,4 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Alert } from 'react-native';
 import { useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { ASSET_IDS } from '../../constants/defaultAssets';
