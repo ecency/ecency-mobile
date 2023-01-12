@@ -652,7 +652,7 @@
     "amount_information": "اسحب شريط التمرير لضبط المبلغ",
     "amount": "كمية",
     "memo": "مذكرة",
-    "information": "هل أنت متأكد من تحويل الأموال؟",
+    "information": "Continue transaction?",
     "amount_desc": "الرصيد",
     "memo_desc": "هذه المذكرة عامة",
     "convert_desc": "يستغرق التحويل 3.5 يومًا ولا يوصى به إذا كان سعر HBD أعلى من 1 دولار",
