@@ -652,7 +652,7 @@
     "amount_information": "Przeciągnij suwak, aby dostosować ilość",
     "amount": "Ilość",
     "memo": "Notatka",
-    "information": "Czy na pewno chcesz przelać środki?",
+    "information": "Continue transaction?",
     "amount_desc": "Saldo",
     "memo_desc": "Ta notatka jest publiczna",
     "convert_desc": "Konwertuj trwa 3,5 dnia i NIE zaleca się, IF cena HBD jest wyższa niż $1",
