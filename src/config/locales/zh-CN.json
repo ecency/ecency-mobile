@@ -652,7 +652,7 @@
     "amount_information": "拖动滑块来调整数量",
     "amount": "数量",
     "memo": "备注(Memo)",
-    "information": "您确定要转账资金吗？",
+    "information": "Continue transaction?",
     "amount_desc": "余额",
     "memo_desc": "这个备注是公开的",
     "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
