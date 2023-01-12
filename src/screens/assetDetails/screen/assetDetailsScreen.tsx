@@ -95,7 +95,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
   const _fetchDetails = async (refresh = false) => {
     if (refresh) {
-      walletQuery.refresh();
+      walletQuery?.refetch();
     } else if (noMoreActivities || loading) {
       console.log('Skipping transaction fetch', completedActivities.lastItem?.trxIndex);
       return;
@@ -221,7 +221,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         header={_renderHeaderComponent}
         completedActivities={completedActivities}
         pendingActivities={coinActivities?.pending || []}
-        refreshing={refreshing || walletQuery.isRefreshing}
+        refreshing={refreshing || walletQuery.isRefetching}
         loading={loading}
         isEngine={coinData?.isEngine}
         onEndReached={_fetchDetails}
