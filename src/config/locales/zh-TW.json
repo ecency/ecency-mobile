@@ -652,7 +652,7 @@
     "amount_information": "拖動滑塊來調整數量",
     "amount": "數量",
     "memo": "備註（Memo）",
-    "information": "您確定要轉帳資金嗎？",
+    "information": "Continue transaction?",
     "amount_desc": "餘額",
     "memo_desc": "這個備註是公開的",
     "convert_desc": "兌換需要3.5天時間。如果HBD市價超過一美元不鼓勵兌換",
