@@ -31,58 +31,89 @@ export const useGetAssetsQuery = () => {
 export const useUnclaimedRewardsQuery = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
-  return useQuery<{ [key: string]: string }>(
+  // Ecency unclaimed balance
+  const _fetchUnclaimedPoints = async (username) => {
+    const _rewardsCollection: RewardsCollection = {};
+    try {
+      const _pointsSummary = await getPointsSummary(username);
+      const unclaimedPoints = parseFloat(_pointsSummary.unclaimed_points || '0');
+      const unclaimedEstm = unclaimedPoints ? `${unclaimedPoints} Points` : '';
+      _rewardsCollection[ASSET_IDS.ECENCY] = unclaimedEstm;
+    } catch (err) {
+      console.warn('failed to get unclaimed points', err);
+    }
+
+    return _rewardsCollection
+  }
+
+
+  // HP unclaimed balance
+  const _fetchUnclaimedHive = async (username: string) => {
+    // agggregate claim button text
+    const _rewardsCollection: RewardsCollection = {};
+    try {
+      const userdata = await getAccount(username);
+      const _getBalanceStr = (val: number, cur: string) =>
+        val ? Math.round(val * 1000) / 1000 + cur : '';
+      const unclaimedHp = [
+        _getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE'),
+        _getBalanceStr(parseToken(userdata.reward_hbd_balance), ' HBD'),
+        _getBalanceStr(parseToken(userdata.reward_vesting_hive), ' HP'),
+      ].reduce(
+        (prevVal, bal) => prevVal + (!bal ? '' : `${prevVal !== '' ? '   ' : ''}${bal}`),
+        '',
+      );
+      _rewardsCollection[ASSET_IDS.HP] = unclaimedHp;
+    } catch (err) {
+      console.warn('failed to get unclaimed HIVE', err);
+    }
+    return _rewardsCollection;
+  }
+
+
+  //Engine unclaimed balance
+  const _fetchUnclaimedEngine = async (username:string) => {
+    const _rewardsCollection:RewardsCollection = {}
+    try {
+      const unclaimedEngine = await fetchUnclaimedRewards(username);
+      unclaimedEngine.forEach((tokenStatus) => {
+        const unclaimedBal = tokenStatus
+          ? `${tokenStatus.pendingRewards} ${tokenStatus.symbol}`
+          : '';
+          _rewardsCollection[tokenStatus.symbol] = unclaimedBal;
+      });
+    } catch (err) {
+      console.warn('failed to get unclaimed engine', err);
+    }
+    return _rewardsCollection;
+  }
+
+
+  const _fetchUnclaimedRewards = async () => {
+    const rewardsCollection: RewardsCollection = {};
+
+    const username = currentAccount?.username;
+    if (!username) {
+      return rewardsCollection;
+    }
+
+    const _unclaimedPoints = await _fetchUnclaimedPoints(username);
+    const _unclaimedHive = await _fetchUnclaimedHive(username);
+    const _unclaimedEngine = await _fetchUnclaimedEngine(username);
+
+
+    return {
+      ..._unclaimedPoints,
+      ..._unclaimedHive,
+      ..._unclaimedEngine
+    };
+  }
+
+  return useQuery<RewardsCollection>(
     [QUERIES.WALLET.UNCLAIMED_GET, currentAccount.username],
-    async () => {
-      const unclaimedCollection: { [key: string]: string } = {};
-
-      const username = currentAccount?.username;
-      if (!username) {
-        return unclaimedCollection;
-      }
-
-      // Ecency unclaimed balance
-      try {
-        const _pointsSummary = await getPointsSummary(username);
-        const unclaimedPoints = parseFloat(_pointsSummary.unclaimed_points || '0');
-        const unclaimedEstm = unclaimedPoints ? `${unclaimedPoints} Points` : '';
-        unclaimedCollection[ASSET_IDS.ECENCY] = unclaimedEstm;
-      } catch (err) {
-        console.warn('failed to get unclaimed points', err);
-      }
-
-      // HP unclaimed balance
-      // agggregate claim button text
-      try {
-        const userdata = await getAccount(username);
-        const _getBalanceStr = (val: number, cur: string) =>
-          val ? Math.round(val * 1000) / 1000 + cur : '';
-        const unclaimedHp = [
-          _getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE'),
-          _getBalanceStr(parseToken(userdata.reward_hbd_balance), ' HBD'),
-          _getBalanceStr(parseToken(userdata.reward_vesting_hive), ' HP'),
-        ].reduce(
-          (prevVal, bal) => prevVal + (!bal ? '' : `${prevVal !== '' ? '   ' : ''}${bal}`),
-          '',
-        );
-        unclaimedCollection[ASSET_IDS.HP] = unclaimedHp;
-      } catch (err) {
-        console.warn('failed to get unclaimed HIVE', err);
-      }
-
-      try {
-        const unclaimedEngine = await fetchUnclaimedRewards(username);
-        unclaimedEngine.forEach((tokenStatus) => {
-          const unclaimedBal = tokenStatus
-            ? `${tokenStatus.pendingRewards} ${tokenStatus.symbol}`
-            : '';
-          unclaimedCollection[tokenStatus.symbol] = unclaimedBal;
-        });
-      } catch (err) {
-        console.warn('failed to get unclaimed engine', err);
-      }
-
-      return unclaimedCollection;
-    },
+    _fetchUnclaimedRewards
   );
 };
+
+
+interface RewardsCollection { [key: string]: string }
