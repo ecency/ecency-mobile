@@ -11,6 +11,8 @@ import {
   CLEAR_SUBSCRIBED_COMMUNITIES_CACHE,
   UPDATE_POINT_ACTIVITY_CACHE,
   DELETE_POINT_ACTIVITY_CACHE_ENTRY,
+  UPDATE_CLAIM_CACHE,
+  DELETE_CLAIM_CACHE_ENTRY,
 } from '../constants/constants';
 
 export enum CommentCacheStatus {
@@ -57,6 +59,14 @@ export interface Draft {
   expiresAt?: number;
 }
 
+export interface ClaimCache {
+  rewardValue:string;
+  claimedAt?: number;
+  expiresAt?: number;
+}
+
+export interface ClaimsCollection { [key: string]: ClaimCache }
+
 export interface SubscribedCommunity {
   data: Array<any>;
   expiresAt?: number;
@@ -66,6 +76,7 @@ interface State {
   votes: Map<string, Vote>;
   comments: Map<string, Comment>; // TODO: handle comment array per post, if parent is same
   draftsCollection: { [key: string]: Draft };
+  claimsCollection: ClaimsCollection;
   subscribedCommunities: Map<string, SubscribedCommunity>;
   pointActivities: Map<string, PointActivity>;
   lastUpdate: {
@@ -79,6 +90,7 @@ const initialState: State = {
   votes: new Map(),
   comments: new Map(),
   draftsCollection: {},
+  claimsCollection: {},
   subscribedCommunities: new Map(),
   pointActivities: new Map(),
   lastUpdate: null,
@@ -154,6 +166,33 @@ export default function (state = initialState, action) {
       }
       return { ...state };
 
+    case UPDATE_CLAIM_CACHE:
+      const {assetId, rewardValue} = payload || {};
+      if (!assetId || !rewardValue) {
+        return state;
+      }
+
+      if(!state.claimsCollection) {
+        state.claimsCollection = {}
+      }
+
+      const timestamp = new Date().getTime();
+
+      const data: ClaimCache = {
+        rewardValue,
+        claimedAt:timestamp,
+        expiresAt:timestamp + 180000 //3 minutes expiry
+      }
+
+      state.claimsCollection[assetId] = data;
+      return { ...state }
+
+    case DELETE_CLAIM_CACHE_ENTRY:
+      if (state.claimsCollection && state.claimsCollection[payload]) {
+        delete state.claimsCollection[payload];
+      }
+      return { ...state }
+
     case UPDATE_SUBSCRIBED_COMMUNITY_CACHE:
       if (!state.subscribedCommunities) {
         state.subscribedCommunities = new Map<string, SubscribedCommunity>();
@@ -216,6 +255,17 @@ export default function (state = initialState, action) {
             const draft = state.draftsCollection[key];
             if (draft && ((draft?.expiresAt || 0) < currentTime || !draft.body)) {
               delete state.draftsCollection[key];
+            }
+          }
+        }
+      }
+
+      if (state.claimsCollection) {
+        for (const key in state.claimsCollection) {
+          if (state.claimsCollection.hasOwnProperty(key)) {
+            const claim = state.claimsCollection[key];
+            if (claim && ((claim?.expiresAt || 0) < currentTime)) {
+              delete state.claimsCollection[key];
             }
           }
         }

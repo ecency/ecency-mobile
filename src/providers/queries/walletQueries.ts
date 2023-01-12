@@ -12,6 +12,8 @@ import { claimRewardBalance, getAccount } from '../hive/dhive';
 import QUERIES from './queryKeys';
 import { claimRewards } from '../hive-engine/hiveEngineActions';
 import { toastNotification } from '../../redux/actions/uiAction';
+import { updateClaimCache } from '../../redux/actions/cacheActions';
+import { ClaimsCollection } from '../../redux/reducers/cacheReducer';
 
 interface RewardsCollection { [key: string]: string }
 
@@ -41,6 +43,28 @@ export const useGetAssetsQuery = () => {
 
 export const useUnclaimedRewardsQuery = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const claimsCollection: ClaimsCollection = useAppSelector((state => state.cache.claimsCollection));
+
+  //process cached claims data
+  const _processCachedData = (rewardsCollection:RewardsCollection) => {
+    if (claimsCollection) {
+      const _curTime = new Date().getTime();
+      for (const key in claimsCollection) {
+        const _claimCache = claimsCollection[key];
+        const _rewardValue = rewardsCollection[key];
+        if (_claimCache &&
+          _claimCache.rewardValue &&
+          _rewardValue &&
+          _claimCache.rewardValue === _rewardValue &&
+          (_claimCache.expiresAt || 0) > _curTime) {
+          delete rewardsCollection[key];
+        }
+      }
+    }
+
+    return rewardsCollection;
+  }
+
 
   // Ecency unclaimed balance
   const _fetchUnclaimedPoints = async (username) => {
@@ -115,14 +139,10 @@ export const useUnclaimedRewardsQuery = () => {
       ..._unclaimedPoints,
       ..._unclaimedHive,
       ..._unclaimedEngine,
-      'CCC': '123 CCC'
     }
 
-    //TODO: process cached claims data
 
-
-
-    return rewardsCollection
+    return _processCachedData(rewardsCollection)
   }
 
   return useQuery<RewardsCollection>(
@@ -133,6 +153,11 @@ export const useUnclaimedRewardsQuery = () => {
 
 
 
+/**
+ * query hook responsible for claiming any kind asset rewards, mutate rewards api.
+ * Also updates claimsCollection in cache store redux and invalidates wallet data.
+ * @returns mutation hook, claiming status checker
+ */
 export const useClaimRewardsMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
@@ -171,13 +196,17 @@ export const useClaimRewardsMutation = () => {
       setIsClaimingColl({ ...isClaimingColl, [assetId]: true })
     },
     onSuccess: (data, { assetId }) => {
-      console.log('successfully logged activity', data, { assetId });
+      console.log('successfully initiated claim action activity', data, { assetId });
       setIsClaimingColl({ ...isClaimingColl, [assetId]: false })
 
-      //mutate claim data
+      //get current rewards data from query
       const rewardsData: RewardsCollection | undefined = queryClient.getQueryData(
         [QUERIES.WALLET.UNCLAIMED_GET, currentAccount.username]);
       if (rewardsData) {
+        // update claim cache value in redux;
+        dispatch(updateClaimCache(assetId, rewardsData[assetId]))
+
+        //mutate claim data
         delete rewardsData[assetId];
         queryClient.setQueryData(
           [QUERIES.WALLET.UNCLAIMED_GET, currentAccount.username],
@@ -185,8 +214,8 @@ export const useClaimRewardsMutation = () => {
         )
       }
 
-      // TODO: update claim cache value in redux;
-      // TODO: invalidate wallet data;
+      // invalidate wallet data;
+      queryClient.invalidateQueries([QUERIES.WALLET.GET, currentAccount.username]);
 
       dispatch(
         toastNotification(
@@ -198,11 +227,9 @@ export const useClaimRewardsMutation = () => {
 
     },
     onError: (error, { assetId }) => {
-
       setIsClaimingColl({ ...isClaimingColl, [assetId]: false })
       toastNotification(
         intl.formatMessage({ id: 'alert.claim_failed' }, { message: error.message }));
-
     },
   });
 

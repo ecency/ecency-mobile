@@ -14,8 +14,11 @@ import {
   CLEAR_SUBSCRIBED_COMMUNITIES_CACHE,
   DELETE_POINT_ACTIVITY_CACHE_ENTRY,
   UPDATE_POINT_ACTIVITY_CACHE,
+  UPDATE_CLAIM_CACHE,
+  DELETE_CLAIM_CACHE_ENTRY,
 } from '../constants/constants';
 import {
+  ClaimCache,
   Comment,
   CommentCacheStatus,
   Draft,
@@ -107,6 +110,16 @@ export const deleteDraftCacheEntry = (id: string) => ({
   type: DELETE_DRAFT_CACHE_ENTRY,
 });
 
+
+export const updateClaimCache = (assetId: string, rewardValue: string) => ({
+  payload: {
+    assetId,
+    rewardValue
+  },
+  type: UPDATE_CLAIM_CACHE
+})
+
+
 export const updateSubscribedCommunitiesCache = (data: any) => {
   const path = data.communityId;
   const created = new Date();
@@ -127,6 +140,11 @@ export const updateSubscribedCommunitiesCache = (data: any) => {
     type: UPDATE_SUBSCRIBED_COMMUNITY_CACHE,
   };
 };
+
+export const deleteClaimCacheEntry = (assetId: string) => ({
+  payload: assetId,
+  type: DELETE_CLAIM_CACHE_ENTRY,
+});
 
 export const deleteSubscribedCommunityCacheEntry = (path: string) => ({
   payload: path,
