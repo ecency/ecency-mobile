@@ -652,7 +652,7 @@
     "amount_information": "スライドして金額を設定",
     "amount": "金額",
     "memo": "メモ",
-    "information": "本当に送金しますか？",
+    "information": "Continue transaction?",
     "amount_desc": "残高",
     "memo_desc": "このメモは公開されます",
     "convert_desc": "変換には3.5にちかかり、HBDの値段が$1以上の場合にはお勧めしません",
