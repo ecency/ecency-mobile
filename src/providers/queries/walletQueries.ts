@@ -14,12 +14,13 @@ import { toastNotification } from '../../redux/actions/uiAction';
 import { updateClaimCache } from '../../redux/actions/cacheActions';
 import { ClaimsCollection } from '../../redux/reducers/cacheReducer';
 
-interface RewardsCollection { [key: string]: string }
+interface RewardsCollection {
+  [key: string]: string;
+}
 
 interface ClaimRewardsMutationVars {
   assetId: ASSET_IDS | string;
 }
-
 
 /** hook used to return user drafts */
 export const useGetAssetsQuery = () => {
@@ -42,28 +43,31 @@ export const useGetAssetsQuery = () => {
 
 export const useUnclaimedRewardsQuery = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const claimsCollection: ClaimsCollection = useAppSelector((state => state.cache.claimsCollection));
+  const claimsCollection: ClaimsCollection = useAppSelector(
+    (state) => state.cache.claimsCollection,
+  );
 
-  //process cached claims data
-  const _processCachedData = (rewardsCollection:RewardsCollection) => {
+  // process cached claims data
+  const _processCachedData = (rewardsCollection: RewardsCollection) => {
     if (claimsCollection) {
       const _curTime = new Date().getTime();
       for (const key in claimsCollection) {
         const _claimCache = claimsCollection[key];
         const _rewardValue = rewardsCollection[key];
-        if (_claimCache &&
+        if (
+          _claimCache &&
           _claimCache.rewardValue &&
           _rewardValue &&
           _claimCache.rewardValue === _rewardValue &&
-          (_claimCache.expiresAt || 0) > _curTime) {
+          (_claimCache.expiresAt || 0) > _curTime
+        ) {
           delete rewardsCollection[key];
         }
       }
     }
 
     return rewardsCollection;
-  }
-
+  };
 
   // Ecency unclaimed balance
   const _fetchUnclaimedPoints = async (username) => {
@@ -77,9 +81,8 @@ export const useUnclaimedRewardsQuery = () => {
       console.warn('failed to get unclaimed points', err);
     }
 
-    return _rewardsCollection
-  }
-
+    return _rewardsCollection;
+  };
 
   // HP unclaimed balance
   const _fetchUnclaimedHive = async (username: string) => {
@@ -102,12 +105,11 @@ export const useUnclaimedRewardsQuery = () => {
       console.warn('failed to get unclaimed HIVE', err);
     }
     return _rewardsCollection;
-  }
+  };
 
-
-  //Engine unclaimed balance
+  // Engine unclaimed balance
   const _fetchUnclaimedEngine = async (username: string) => {
-    const _rewardsCollection: RewardsCollection = {}
+    const _rewardsCollection: RewardsCollection = {};
     try {
       const unclaimedEngine = await fetchUnclaimedRewards(username);
       unclaimedEngine.forEach((tokenStatus) => {
@@ -120,11 +122,9 @@ export const useUnclaimedRewardsQuery = () => {
       console.warn('failed to get unclaimed engine', err);
     }
     return _rewardsCollection;
-  }
-
+  };
 
   const _fetchUnclaimedRewards = async () => {
-
     const username = currentAccount?.username;
     if (!username) {
       return {};
@@ -138,19 +138,16 @@ export const useUnclaimedRewardsQuery = () => {
       ..._unclaimedPoints,
       ..._unclaimedHive,
       ..._unclaimedEngine,
-    }
+    };
 
-
-    return _processCachedData(rewardsCollection)
-  }
+    return _processCachedData(rewardsCollection);
+  };
 
   return useQuery<RewardsCollection>(
     [QUERIES.WALLET.UNCLAIMED_GET, currentAccount.username],
-    _fetchUnclaimedRewards
+    _fetchUnclaimedRewards,
   );
 };
-
-
 
 /**
  * query hook responsible for claiming any kind asset rewards, mutate rewards api.
@@ -165,7 +162,6 @@ export const useClaimRewardsMutation = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinHash = useAppSelector((state) => state.application.pin);
   const [isClaimingColl, setIsClaimingColl] = useState<{ [key: string]: boolean }>({});
-
 
   const _mutationFn = async ({ assetId }: ClaimRewardsMutationVars) => {
     switch (assetId) {
@@ -192,25 +188,27 @@ export const useClaimRewardsMutation = () => {
   const mutation = useMutation<boolean, Error, ClaimRewardsMutationVars>(_mutationFn, {
     retry: 2,
     onMutate({ assetId }) {
-      setIsClaimingColl({ ...isClaimingColl, [assetId]: true })
+      setIsClaimingColl({ ...isClaimingColl, [assetId]: true });
     },
     onSuccess: (data, { assetId }) => {
       console.log('successfully initiated claim action activity', data, { assetId });
-      setIsClaimingColl({ ...isClaimingColl, [assetId]: false })
+      setIsClaimingColl({ ...isClaimingColl, [assetId]: false });
 
-      //get current rewards data from query
-      const rewardsData: RewardsCollection | undefined = queryClient.getQueryData(
-        [QUERIES.WALLET.UNCLAIMED_GET, currentAccount.username]);
+      // get current rewards data from query
+      const rewardsData: RewardsCollection | undefined = queryClient.getQueryData([
+        QUERIES.WALLET.UNCLAIMED_GET,
+        currentAccount.username,
+      ]);
       if (rewardsData) {
         // update claim cache value in redux;
-        dispatch(updateClaimCache(assetId, rewardsData[assetId]))
+        dispatch(updateClaimCache(assetId, rewardsData[assetId]));
 
-        //mutate claim data
+        // mutate claim data
         delete rewardsData[assetId];
         queryClient.setQueryData(
           [QUERIES.WALLET.UNCLAIMED_GET, currentAccount.username],
-          rewardsData
-        )
+          rewardsData,
+        );
       }
 
       // invalidate wallet data;
@@ -223,34 +221,31 @@ export const useClaimRewardsMutation = () => {
           }),
         ),
       );
-
     },
     onError: (error, { assetId }) => {
-      setIsClaimingColl({ ...isClaimingColl, [assetId]: false })
+      setIsClaimingColl({ ...isClaimingColl, [assetId]: false });
       toastNotification(
-        intl.formatMessage({ id: 'alert.claim_failed' }, { message: error.message }));
+        intl.formatMessage({ id: 'alert.claim_failed' }, { message: error.message }),
+      );
     },
   });
-
 
   const checkIsClaiming = (assetId?: string) => {
     if (assetId) {
       return isClaimingColl[assetId] || false;
     }
 
-    for (let key in isClaimingColl) {
+    for (const key in isClaimingColl) {
       if (isClaimingColl[key] === true) {
         return true;
       }
     }
 
     return false;
-  }
+  };
 
   return {
     ...mutation,
     checkIsClaiming,
   };
-}
-
-
+};

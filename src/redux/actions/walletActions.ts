@@ -89,7 +89,7 @@ export const fetchAndSetCoinsData =
       globalProps,
       quotes,
       refresh,
-      claimsCache
+      claimsCache,
     });
 
     return dispatch(setCoinsData(coinsData, currency.currency, currentAccount.username));

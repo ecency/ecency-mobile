@@ -60,12 +60,14 @@ export interface Draft {
 }
 
 export interface ClaimCache {
-  rewardValue:string;
+  rewardValue: string;
   claimedAt?: number;
   expiresAt?: number;
 }
 
-export interface ClaimsCollection { [key: string]: ClaimCache }
+export interface ClaimsCollection {
+  [key: string]: ClaimCache;
+}
 
 export interface SubscribedCommunity {
   data: Array<any>;
@@ -167,31 +169,31 @@ export default function (state = initialState, action) {
       return { ...state };
 
     case UPDATE_CLAIM_CACHE:
-      const {assetId, rewardValue} = payload || {};
+      const { assetId, rewardValue } = payload || {};
       if (!assetId || !rewardValue) {
         return state;
       }
 
-      if(!state.claimsCollection) {
-        state.claimsCollection = {}
+      if (!state.claimsCollection) {
+        state.claimsCollection = {};
       }
 
       const timestamp = new Date().getTime();
 
       const data: ClaimCache = {
         rewardValue,
-        claimedAt:timestamp,
-        expiresAt:timestamp + 180000 //3 minutes expiry
-      }
+        claimedAt: timestamp,
+        expiresAt: timestamp + 180000, // 3 minutes expiry
+      };
 
       state.claimsCollection[assetId] = data;
-      return { ...state }
+      return { ...state };
 
     case DELETE_CLAIM_CACHE_ENTRY:
       if (state.claimsCollection && state.claimsCollection[payload]) {
         delete state.claimsCollection[payload];
       }
-      return { ...state }
+      return { ...state };
 
     case UPDATE_SUBSCRIBED_COMMUNITY_CACHE:
       if (!state.subscribedCommunities) {
@@ -264,7 +266,7 @@ export default function (state = initialState, action) {
         for (const key in state.claimsCollection) {
           if (state.claimsCollection.hasOwnProperty(key)) {
             const claim = state.claimsCollection[key];
-            if (claim && ((claim?.expiresAt || 0) < currentTime)) {
+            if (claim && (claim?.expiresAt || 0) < currentTime) {
               delete state.claimsCollection[key];
             }
           }

@@ -110,15 +110,13 @@ export const deleteDraftCacheEntry = (id: string) => ({
   type: DELETE_DRAFT_CACHE_ENTRY,
 });
 
-
 export const updateClaimCache = (assetId: string, rewardValue: string) => ({
   payload: {
     assetId,
-    rewardValue
+    rewardValue,
   },
-  type: UPDATE_CLAIM_CACHE
-})
-
+  type: UPDATE_CLAIM_CACHE,
+});
 
 export const updateSubscribedCommunitiesCache = (data: any) => {
   const path = data.communityId;
