@@ -652,7 +652,7 @@
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Amount",
     "memo": "Memo",
-    "information": "Are you sure to transfer funds?",
+    "information": "Continue transaction?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
     "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
