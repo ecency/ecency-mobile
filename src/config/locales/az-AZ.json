@@ -652,7 +652,7 @@
     "amount_information": "Miqdarı nizamlamaq üçün diyircəyi sürüşdürün",
     "amount": "Məbləğ",
     "memo": "Qeyd",
-    "information": "Fonda köçürmə edildiyinə əminsiniz?",
+    "information": "Continue transaction?",
     "amount_desc": "Balans",
     "memo_desc": "Bu qeyd ictimaidir",
     "convert_desc": "Çevrilmə 3.5 gün çəkir və HBD qiyməti $1-dən çoxdursa tövsiyə EDİLMİR",
