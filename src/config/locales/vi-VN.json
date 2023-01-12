@@ -652,7 +652,7 @@
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Số lượng",
     "memo": "Bản ghi nhớ",
-    "information": "Are you sure to transfer funds?",
+    "information": "Continue transaction?",
     "amount_desc": "Số dư",
     "memo_desc": "Bản ghi nhớ này được công khai",
     "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
