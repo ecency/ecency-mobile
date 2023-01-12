@@ -652,7 +652,7 @@
     "amount_information": "Miktarı ayarlamak için kaydırıcıyı sürükleyin",
     "amount": "Miktar",
     "memo": "Notlar",
-    "information": "Parayı transfer etmek istediğinize emin misiniz?",
+    "information": "Continue transaction?",
     "amount_desc": "Bakiye",
     "memo_desc": "Bu not herkese açık",
     "convert_desc": "Dönştürme 3.5 gün alır ve eğer HBD fiyatı 1$'dan fazlaysa önerilmez",
