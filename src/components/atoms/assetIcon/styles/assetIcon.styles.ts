@@ -18,6 +18,5 @@ export default EStyleSheet.create({
     logo: {
         height: 30,
         width: 30,
-       
       } as ImageStyle,
 })

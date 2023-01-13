@@ -46,7 +46,7 @@ const UpvoteContainer = (props) => {
   const [isVoted, setIsVoted] = useState(null);
   const [isDownVoted, setIsDownVoted] = useState(null);
   const [totalPayout, setTotalPayout] = useState(get(content, 'total_payout'));
-  const cachedVotes = useAppSelector((state) => state.cache.votes);
+  const cachedVotes = useAppSelector((state) => {});
   const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
 
   useEffect(() => {
@@ -96,6 +96,10 @@ const UpvoteContainer = (props) => {
   };
 
   const _handleCachedVote = () => {
+    if (!cachedVotes || cachedVotes.size === 0) {
+      return;
+    }
+
     const postPath = `${content.author || ''}/${content.permlink || ''}`;
     const postFetchedAt = get(content, 'post_fetched_at', 0);
 
