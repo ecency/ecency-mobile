@@ -86,6 +86,7 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
           <View style={styles.checkView}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <AssetIcon
+                id={item.symbol}
                 containerStyle={styles.assetIconContainer}
                 iconUrl={item.iconUrl}
                 isEngine={item.isEngine}

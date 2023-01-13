@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from '../styles/assetIcon.styles';
 import HIVE_ENGINE_ICON from '../../../../assets/hive_engine.png';
 import HBD_ICON from '../../../../assets/hbd_icon.png';
@@ -17,10 +18,8 @@ interface AssetIconProps {
 }
 
 export const AssetIcon = ({ id, iconUrl, isEngine, containerStyle, iconSize }: AssetIconProps) => {
-  if (iconSize) {
-  }
-
   const _logoStyle = iconSize ? { ...styles.logo, width: iconSize, height: iconSize } : styles.logo;
+  let _tintColor;
 
   let _iconSource = iconUrl && { uri: iconUrl };
   if (!_iconSource) {
@@ -35,16 +34,21 @@ export const AssetIcon = ({ id, iconUrl, isEngine, containerStyle, iconSize }: A
       case ASSET_IDS.ECENCY:
         _iconSource = ECENCY_ICON;
         break;
+      default:
+        _iconSource = ECENCY_ICON;
+        _tintColor = EStyleSheet.value('$darkGrayBackground');
+        break;
     }
-  }
-
-  if (!_iconSource) {
-    return null;
   }
 
   return (
     <View style={containerStyle}>
-      <FastImage style={_logoStyle} resizeMode="contain" source={_iconSource} />
+      <FastImage
+        style={_logoStyle}
+        tintColor={_tintColor}
+        resizeMode="contain"
+        source={_iconSource}
+      />
       {isEngine && (
         <View style={styles.hiveEngineWrapper}>
           <FastImage style={styles.hiveEngineLogo} resizeMode="contain" source={HIVE_ENGINE_ICON} />
