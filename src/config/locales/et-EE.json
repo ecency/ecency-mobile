@@ -652,7 +652,7 @@
     "amount_information": "Koguse muutmiseks liiguta liugurit",
     "amount": "Kogus",
     "memo": "Märge",
-    "information": "Oled kindel, et soovid raha üle kanda?",
+    "information": "Continue transaction?",
     "amount_desc": "Saldo",
     "memo_desc": "See märge on avalik",
     "convert_desc": "Vahetamine võtab 3,5 päeva ja pole soovitatav kui HBD hind on kõrgem kui $1",

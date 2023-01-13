@@ -652,7 +652,7 @@
     "amount_information": "برای تنظیم مقدار ، نوار لغزنده را بکشید",
     "amount": "مقدار",
     "memo": "یادداشت",
-    "information": "آیا مطمئن هستید که وجوه را منتقل می کنید?",
+    "information": "Continue transaction?",
     "amount_desc": "موجودی",
     "memo_desc": "این یادداشت عمومی است",
     "convert_desc": "تبدیل 3.5 روز طول می کشد و توصیه نمی شود اگر قیمت HBD بالاتر از 1 دلار باشد",

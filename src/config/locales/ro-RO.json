@@ -652,7 +652,7 @@
     "amount_information": "Trage glisorul pentru a ajusta cantitatea",
     "amount": "Sumă",
     "memo": "Notă",
-    "information": "Ești sigur că vrei să transferi fonduri?",
+    "information": "Continue transaction?",
     "amount_desc": "Sold",
     "memo_desc": "Această notă este publică",
     "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",

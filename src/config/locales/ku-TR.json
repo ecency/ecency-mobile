@@ -652,7 +652,7 @@
     "amount_information": "Ji bo sazkirina mîqdarê, pêşekerê biherikîne",
     "amount": "Mîqdar",
     "memo": "Bîrname",
-    "information": "Bi rastî jî tu dixwazî pereyan transfer bikî?",
+    "information": "Continue transaction?",
     "amount_desc": "Bermayî:",
     "memo_desc": "Ev bîrname gelemper e",
     "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",

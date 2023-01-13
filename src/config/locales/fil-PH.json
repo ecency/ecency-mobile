@@ -652,7 +652,7 @@
     "amount_information": "I-drag ang slider para ma-adjust ang halaga",
     "amount": "Halaga",
     "memo": "Memo",
-    "information": "Sigurado kang gusto mong ilipat ang pondo?",
+    "information": "Continue transaction?",
     "amount_desc": "Balanse",
     "memo_desc": "Ang memo na ito ay public",
     "convert_desc": "Ang pag-convert ay tumatagal ng tatlo at kalahating(3.5) araw at HINDI ito rekomendado kapag ang halaga ng HBD ay mataas kaysa sa $1",

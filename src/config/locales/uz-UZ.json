@@ -652,7 +652,7 @@
     "amount_information": "Miqdorni belgilash uchun slayderni torting",
     "amount": "Miqdor",
     "memo": "Eslatma",
-    "information": "Pul o'tkazishga ishonchingiz komilmi?",
+    "information": "Continue transaction?",
     "amount_desc": "Balans",
     "memo_desc": "Ushbu eslatma ommaviy",
     "convert_desc": "Konvertatsiya qilish 3,5 kun davom etadi va HBD narxi $1 dan yuqori bo'lsa, TAVSIYA ETILMAYDI",

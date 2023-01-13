@@ -21,8 +21,8 @@
     "outgoing_transfer_title": "Menevä siirto",
     "checkin_extra": "Palkkio",
     "staked": "Panostettu",
-    "delegations_in": "Delegagtions In",
-    "delegations_out": "Delegations Out",
+    "delegations_in": "Saadut Valtuutukset",
+    "delegations_out": "Annetut Valtuutukset",
     "delegation": "Valtuutukset",
     "delegations": "Valtuutukset",
     "delegation_title": "Valtuutuspalkkiot",
@@ -65,7 +65,7 @@
     "amount": "Määrä",
     "memo": "Muistio",
     "tap_update": "Napsauta päivittääksesi",
-    "information": "Are you sure to proceed with transaction?",
+    "information": "Haluatko varmasti jatkaa tapahtumaa?",
     "amount_desc": "Saldo",
     "memo_desc": "Tämä muistio on julkinen",
     "to_placeholder": "Käyttäjänimi",
@@ -96,7 +96,7 @@
     "fill_vesting_withdraw": "PowerDown toteutettu",
     "engine_title": "Hive Engine Merkit",
     "engine_claim_btn": "Lunasta palkkiot ({count})",
-    "engine_select_assets": "Select Assets",
+    "engine_select_assets": "Valitse Varat",
     "manage_assets": "Lisää / Poista Varoja",
     "ecency": {
       "title": "Pisteet",
@@ -145,10 +145,10 @@
     "transfer_engine": "Siirto",
     "unstake_engine": "Unstake",
     "stake_engine": "Panosta",
-    "delegate_engine": "Delegate",
-    "undelegate_engine": "Undelegate",
-    "low_liquidity": "Low Liquidity!",
-    "inactive_token": "Token is relatively inactive, some functionalities might be affected."
+    "delegate_engine": "Valtuuta",
+    "undelegate_engine": "Poista valtuutus",
+    "low_liquidity": "Matala Likviditeetti!",
+    "inactive_token": "Merkki on suhteellisen toimimaton, saattaa vaikuttaa joihinkin toimintoihin."
   },
   "notification": {
     "vote": "äänesti",
@@ -156,7 +156,7 @@
     "reply": "vastasi",
     "mention": "mainittu",
     "favorites": "loi uuden julkaisun",
-    "bookmarks": "replied to bookmarked content",
+    "bookmarks": "vastasi kirjanmerkittyyn sisältöön",
     "follow": "seurasi sinua",
     "unfollow": "lopetti seuraamisesi",
     "ignore": "sivuutti sinut",
@@ -298,18 +298,18 @@
     "deep_login_malformed_url": "Virheellinen sisäänkirjautumisosoite, käytä yksityistä avainta tai salasanaa kirjautumiseen"
   },
   "register": {
-    "modal_title": "Get Hive Account",
+    "modal_title": "Hanki Hive-tili",
     "button": "Luo tili",
     "title": "Rekisteröidy",
     "username": "Valitse käyttäjänimi",
     "mail": "Syötä sähköpostiosoitteesi",
     "ref_user": "Suosittelija (valinnainen)",
     "500_error": "Toiminto epäonnistui, rekisteröitymisjono lienee täynnä! Yritä uudelleen parin minuutin päästä...",
-    "error_message": "{message}\nTry again or try purchasing account instead",
+    "error_message": "{message}\nYritä uudelleen tai kokeile ostotiliä",
     "title_description": "Yhdellä tilillä hallitset kaikkea",
     "form_description": "Rekisteröitymällä hyväksyt meidän käyttöehdomme ja tietosuojamme periaatteet.",
-    "registering": "Registering Your Account...",
-    "registered": "Registration Successful\nCheck your email for instruction"
+    "registering": "Rekisteröidään Tiliäsi...",
+    "registered": "Rekisteröinti Onnistui\nTarkista sähköpostisi saadaksesi lisäohjeita"
   },
   "home": {
     "feed": "Syöte",
@@ -469,7 +469,7 @@
     "claim_reward_balance_ok": "Palkkio lunastettu",
     "fail": "Virhe!",
     "move": "Siirrä",
-    "continue": "Continue",
+    "continue": "Jatka",
     "move_question": "Haluatko varmasti siirtää luonnoksiin?",
     "success_shared": "Onnistui! Sisältö lähetetty!",
     "success_moved": "Siirretty luonnoksiin",
@@ -536,7 +536,7 @@
     "open_settings": "Avaa asetukset"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?",
+    "reblog_alert": "Haluatko varmasti jakaa?",
     "removed_hint": "Sisältö ei ole käytettävissä",
     "copy_link": "Kopioi linkki",
     "copy_text": "Kopioi teksti",
@@ -652,7 +652,7 @@
     "amount_information": "Siirrä kytkintä muuttaaksesi määrää",
     "amount": "Määrä",
     "memo": "Muistio",
-    "information": "Haluatko varmasti siirtää varoja?",
+    "information": "Jatketaanko tapahtumaa?",
     "amount_desc": "Saldo",
     "memo_desc": "Tämä muistio on julkinen",
     "convert_desc": "Muunnoksessa kestää 3.5 päivää, eikä suositella jos HBD on yli $1",
@@ -672,11 +672,11 @@
     "percent": "Prosentti",
     "auto_vests": "Automaattiset Ansainnat",
     "vests": "Annot",
-    "transfer_engine": "Transfer Token",
-    "stake_engine": "Stake Token",
-    "unstake_engine": "Unstake Token",
-    "delegate_engine": "Delegate Token",
-    "undelegate_engine": "Undelegate Token",
+    "transfer_engine": "Siirrä Merkkejä",
+    "stake_engine": "Panosta merkkejä",
+    "unstake_engine": "Poista merkkien panostus",
+    "delegate_engine": "Valtuuta merkkejä",
+    "undelegate_engine": "Poista merkkien valtuutus",
     "save": "TALLENNA",
     "percent_information": "Prosenttitieto",
     "next": "SEURAAVA",
@@ -711,10 +711,10 @@
     "invalid_amount": "Virheellinen määrä",
     "invalid_amount_desc": "Syötä kelvollinen arvo",
     "account_select_title": "Tilitiedot",
-    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
-    "amount_select_title": "Action Details",
-    "amount_select_description": "Enter amount within maximum available balance {suffix}",
-    "amount_select_desc_limit": " and must be greater than 0.001"
+    "account_select_description": "Varoihin liittyvät toiminnot ovat peruuttamattomia. Varmista, että vastaanottajan käyttäjätunnus on oikea",
+    "amount_select_title": "Toiminnon tiedot",
+    "amount_select_description": "Syötä summa maksimaalisen käytettävissä olevan saldon mukaan {suffix}",
+    "amount_select_desc_limit": " ja on oltava suurempi kuin 0,001"
   },
   "boost": {
     "title": "Hanki pisteitä",
@@ -729,14 +729,14 @@
     "confirm_purchase_summary": "Ostetaan {points} {username} hintaan {price}"
   },
   "buy_account": {
-    "title": "Buy Account",
-    "btn_register": "Buy Account - {price}",
-    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts\n- 300 Points to help you get started"
+    "title": "Osta Tili",
+    "btn_register": "Osta tili - {price}",
+    "desc": "Hanki täysimittainen premium Hive tili ilman lisätarkistuksia ja muutamia etuja, kuten:\n\n- Pikaluonti ilman lisätarkistuksia ja odottamista\n- 3x RC verrattuna normaaleihin uusiin tileihin\n- 300 pistettä auttaaksesi sinua aloittamaan"
   },
   "free_account": {
-    "title": "Free Account",
-    "btn_register": "Register Free",
-    "desc": "Get a full-fledged Hive account, this method has basic checks to make sure botnet doesn't abuse our signup faucet."
+    "title": "Ilmainen Tili",
+    "btn_register": "Rekisteröidy Ilmaiseksi",
+    "desc": "Hanki täysimittainen Hive tili, tällä menetelmällä on perustarkastukset varmistaaksesi, että botnet ei väärinkäytä tilaushanaa."
   },
   "free_estm": {
     "title": "Ilmaiset Pisteet",

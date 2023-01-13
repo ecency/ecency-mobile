@@ -652,7 +652,7 @@
     "amount_information": "Ziehe den Slider, um den Wert zu definieren",
     "amount": "Betrag",
     "memo": "Memo",
-    "information": "Bist du sicher, dass du Geld überweisen willst?",
+    "information": "Continue transaction?",
     "amount_desc": "Kontostand",
     "memo_desc": "Dieses Memo ist öffentlich",
     "convert_desc": "Konvertieren dauert 3,5 Tage. NICHT zu empfehlen, wenn HBD-Preis höher als $1 ist.",

@@ -652,7 +652,7 @@
     "amount_information": "Trascina il cursore per regolare la quantità",
     "amount": "Importo",
     "memo": "Memo",
-    "information": "Sei sicuro di voler trasferire i fondi?",
+    "information": "Continue transaction?",
     "amount_desc": "Saldo",
     "memo_desc": "Questo memo è pubblico",
     "convert_desc": "La conversione richiede 3,5 giorni e NON è consigliata se il prezzo di HBD è superiore a $1",

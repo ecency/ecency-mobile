@@ -652,7 +652,7 @@
     "amount_information": "Vilkite slankiklį, kad sureguliuotumėte sumą",
     "amount": "Kiekis",
     "memo": "Atmintinė",
-    "information": "Ar tikrai norite persiųsti lėšas?",
+    "information": "Continue transaction?",
     "amount_desc": "Likutis",
     "memo_desc": "Ši atmintinė yra vieša",
     "convert_desc": "Konvertavimas trunka 3,5 dienos ir NEREKOMENDUOJAMA jeigu HBD kaina yra didesnė nei $1",

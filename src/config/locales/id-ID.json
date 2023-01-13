@@ -652,7 +652,7 @@
     "amount_information": "Seret penggeser untuk menyesuaikan jumlahnya",
     "amount": "Jumlah",
     "memo": "Memo",
-    "information": "Anda yakin mentransfer dana?",
+    "information": "Continue transaction?",
     "amount_desc": "Keseimbangan",
     "memo_desc": "Memo ini bersifat publik",
     "convert_desc": "Konversi membutuhkan waktu 3,5 hari dan TIDAK disarankan JIKA harga HBD lebih tinggi dari $1",

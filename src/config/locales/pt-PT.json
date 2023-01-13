@@ -652,7 +652,7 @@
     "amount_information": "Arraste o controle deslizante para ajustar a quantia",
     "amount": "Quantia",
     "memo": "Memo",
-    "information": "Tem certeza que deseja transferir fundos?",
+    "information": "Continue transaction?",
     "amount_desc": "Balanço",
     "memo_desc": "Este memo é público",
     "convert_desc": "A conversão leva 3.5 dias e NÃO é recomendada SE o preço do HBD estiver acima de $1",
