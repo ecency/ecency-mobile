@@ -652,7 +652,7 @@
     "amount_information": "Arrastra el deslizador para ajustar la cantidad",
     "amount": "Cantidad",
     "memo": "Memo",
-    "information": "Continue transaction?",
+    "information": "¿Continuar transacción?",
     "amount_desc": "Balance",
     "memo_desc": "Este memo es público",
     "convert_desc": "La conversión toma 3.5 días y el precio NO recomendado SI HBD es mayor que $1",
