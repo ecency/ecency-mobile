@@ -731,7 +731,7 @@
   "buy_account": {
     "title": "Comprar cuenta",
     "btn_register": "Comprar cuenta - {price}",
-    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started"
+    "desc": "Obtén una Cuenta premium completa de Hive sin chequeos extra y varias ventajas tales como:\n\n- Creación instantánea sin chequeos extra ni esperas\n- 3x RC en comparación con cuentas nuevas normales durante 90 días\n- 300 Puntos para ayudarte a comenzar"
   },
   "free_account": {
     "title": "Cuenta Gratuita",
