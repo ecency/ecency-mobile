@@ -308,7 +308,7 @@
     "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "Uma conta para gerenciar tudo",
     "form_description": "Ao se cadastrar conosco, você concorda com nossos Termos de Serviço e Políticas de Privacidade.",
-    "registering": "Registering Your Account...",
+    "registering": "Registrando a sua conta...",
     "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
@@ -372,7 +372,7 @@
     "limited_characters": "Usa apenas letras minúsculas, dígitos e um hífen",
     "limited_firstchar": "Tag deve começar com uma letra",
     "limited_lastchar": "Tag deve terminar com letra ou número",
-    "tag_duplicate": "Tag exists already",
+    "tag_duplicate": "Etiqueta já existente",
     "setting_schedule": "Hora do Agendamento",
     "setting_reward": "Recompensa",
     "setting_reblog": "Repostar",
@@ -469,7 +469,7 @@
     "claim_reward_balance_ok": "Balanço de Recompensa reclamado",
     "fail": "Falha!",
     "move": "Mover",
-    "continue": "Continue",
+    "continue": "Continuar",
     "move_question": "Tem certeza que deseja mover para rascunhos?",
     "success_shared": "Sucesso! Conteúdo submetido!",
     "success_moved": "Movido para Rascunhos",
@@ -533,7 +533,7 @@
     "wallet_updating": "Atualização da carteira em andamento. Tente novamente quando terminada",
     "claim_failed": "Falha ao reivindicar recompensas, {message}\nTente novamente ou escreva para support@ecency.com",
     "connection_issues": "O servidor está inacessível. Por favor, verifique sua conexão e tente novamente.",
-    "open_settings": "Open Settings"
+    "open_settings": "Abrir Opções"
   },
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
@@ -675,7 +675,7 @@
     "transfer_engine": "Transfer Token",
     "stake_engine": "Stake Token",
     "unstake_engine": "Unstake Token",
-    "delegate_engine": "Delegate Token",
+    "delegate_engine": "Delegar Token",
     "undelegate_engine": "Undelegate Token",
     "save": "SALVAR",
     "percent_information": "Info de porcentagem",
