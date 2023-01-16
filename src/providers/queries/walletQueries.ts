@@ -265,6 +265,7 @@ export const useAssetActivitiesQuery = (assetId: string) => {
   const symbol = useMemo(()=>selectedCoins.find((item) => item.id === assetId).symbol, []);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [noMoreData, setNoMoreData] = useState(false);
   const [pageParams, setPageParams] = useState([-1]);
 
   const _fetchActivities = async (pageParam: number) => {
@@ -301,6 +302,7 @@ export const useAssetActivitiesQuery = (assetId: string) => {
 
   const _refresh = async () => {
     setIsRefreshing(true);
+    setNoMoreData(false);
     setPageParams([-1]);
     await queries[0].refetch();
     setIsRefreshing(false);
@@ -309,7 +311,12 @@ export const useAssetActivitiesQuery = (assetId: string) => {
   const _fetchNextPage = () => {
     const lastPage = queries.lastItem;
 
-    if (!lastPage || lastPage.isFetching) {
+    if (!lastPage || lastPage.isFetching || lastPage.isLoading || noMoreData) {
+      return;
+    }
+
+    if(!lastPage.data?.length){
+      setNoMoreData(true);
       return;
     }
 
@@ -320,10 +327,13 @@ export const useAssetActivitiesQuery = (assetId: string) => {
     }
   };
 
-  const _dataArrs = queries.map((query) => query.data);
+  const _data = useMemo(()=> {
+    const _dataArrs = queries.map((query) => query.data)
+    return unionBy(..._dataArrs, 'trxIndex')
+  }, [queries.lastItem?.data]);
 
   return {
-    data: unionBy(..._dataArrs, 'id'),
+    data: _data,
     isRefreshing,
     isLoading: queries.lastItem.isLoading || queries.lastItem.isFetching,
     fetchNextPage: _fetchNextPage,

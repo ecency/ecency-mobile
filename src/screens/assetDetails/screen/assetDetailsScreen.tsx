@@ -8,18 +8,15 @@ import styles from './screen.styles';
 import ActivitiesList from '../children/activitiesList';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import {
-  CoinActivitiesCollection,
   CoinData,
   QuoteItem,
 } from '../../../redux/reducers/walletReducer';
-import { fetchCoinActivities } from '../../../utils/wallet';
-import { setCoinActivities } from '../../../redux/actions/walletActions';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
-import { useGetAssetsQuery } from '../../../providers/queries';
+import { useAssetActivitiesQuery, useGetAssetsQuery } from '../../../providers/queries';
 
 export interface AssetDetailsScreenParams {
   coinId: string;
@@ -30,11 +27,8 @@ interface AssetDetailsScreenProps {
   route: any;
 }
 
-const FETCH_ITEMS_LIMIT = 500;
-
 const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const intl = useIntl();
-  const dispatch = useAppDispatch();
 
   const coinId = route.params?.coinId;
   if (!coinId) {
@@ -47,27 +41,18 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
   // queries
   const walletQuery = useGetAssetsQuery();
+  const assetActivitiesQuery = useAssetActivitiesQuery(coinId);
 
   // redux props
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pin = useAppSelector((state) => state.application.pin);
-  const globalProps = useAppSelector((state) => state.account.globalProps);
   const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
   const coinData: CoinData = useAppSelector((state) => state.wallet.coinsData[coinId]);
   const quote: QuoteItem = useAppSelector((state) =>
     state.wallet.quotes ? state.wallet.quotes[coinId] : {},
   );
-  const coinActivities: CoinActivitiesCollection = useAppSelector(
-    (state) => state.wallet.coinsActivities[coinId],
-  );
   const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
 
   // state
   const [symbol] = useState(selectedCoins.find((item) => item.id === coinId).symbol);
-  const [refreshing, setRefreshing] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [completedActivities, setCompletedActivities] = useState(coinActivities?.completed || []);
-  const [noMoreActivities, setNoMoreActivities] = useState(false);
 
   // side-effects
   useEffect(() => {
@@ -94,39 +79,17 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   };
 
   const _fetchDetails = async (refresh = false) => {
-    if (refresh) {
+    if (refresh && !assetActivitiesQuery.isRefreshing) {
       walletQuery?.refetch();
-    } else if (noMoreActivities || loading) {
-      console.log('Skipping transaction fetch', completedActivities.lastItem?.trxIndex);
+      assetActivitiesQuery.refresh();
+      return;
+    } else if (assetActivitiesQuery.isLoading) {
+      console.log('Skipping transaction fetch');
       return;
     }
 
-    setRefreshing(refresh);
-    setLoading(true);
-
-    const startAt =
-      refresh || !completedActivities.length ? -1 : completedActivities.lastItem?.trxIndex - 1;
-    const _activites = await fetchCoinActivities(
-      currentAccount.name,
-      coinId,
-      symbol,
-      globalProps,
-      startAt,
-      FETCH_ITEMS_LIMIT,
-    );
-
-    if (refresh) {
-      dispatch(setCoinActivities(coinId, _activites));
-    }
-
-    setCompletedActivities(
-      refresh ? _activites.completed : [...completedActivities, ..._activites.completed],
-    );
-    setNoMoreActivities(
-      !_activites.completed.length || _activites.completed.lastItem.trxIndex < FETCH_ITEMS_LIMIT,
-    );
-    setRefreshing(false);
-    setLoading(false);
+    assetActivitiesQuery.fetchNextPage();
+  
   };
 
   if (!coinData) {
@@ -219,11 +182,11 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       <BasicHeader title={intl.formatMessage({ id: 'wallet.coin_details' })} />
       <ActivitiesList
         header={_renderHeaderComponent}
-        completedActivities={completedActivities}
-        pendingActivities={coinActivities?.pending || []}
-        refreshing={refreshing || walletQuery.isRefetching}
-        loading={loading}
-        isEngine={coinData?.isEngine}
+        completedActivities={assetActivitiesQuery.data || []}
+        pendingActivities={ []}
+        refreshing={assetActivitiesQuery.isRefreshing}
+        loading={assetActivitiesQuery.isLoading}
+        isEngine={coinData?.isEngine || false}
         onEndReached={_fetchDetails}
         onRefresh={_onRefresh}
       />

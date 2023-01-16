@@ -851,11 +851,11 @@ export const groomingPointsTransactionData = (transaction) => {
     ...transaction,
   };
 
-  result.details = get(transaction, 'sender')
-    ? `from @${get(transaction, 'sender')}`
-    : get(transaction, 'receiver') && `to @${get(transaction, 'receiver')}`;
+  result.details = transaction.sender ? `from @${transaction.sender}`
+    : transaction.receiver && `to @${transaction.receiver}`;
 
-  result.value = `${get(transaction, 'amount')} Points`;
+  result.value = `${transaction.amount} Points`;
+  result.trxIndex = transaction.id;
 
   return result;
 };
