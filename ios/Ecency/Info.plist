@@ -59,7 +59,7 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>To access your photos, Ecency needs your permission to help you share your photos.</string>
+	<string>Ecency requires access to your camera to let you insert pictures to content you are creating.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Ecency requires FaceID access to allow you quick and secure access.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -67,11 +67,11 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To choose and share current location</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>To share recording or video, microphone access is required</string>
+	<string>Ecency requires access to your camera to let you insert recordings and videos to content you are creating.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Photo Library Access for allowing user to download and upload photos</string>
+	<string>Ecency needs to access your camera roll so that you can upload and insert images to your content. Your images will not be shared without your permission</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Photo Usage Access for allowing user to upload photos</string>
+	<string>Ecency needs to access your camera roll so that you can upload and insert images to your content. Your images will not be shared without your permission</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
