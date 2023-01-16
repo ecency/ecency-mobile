@@ -15,7 +15,6 @@ import {
 } from '../providers/hive/dhive';
 import { getCurrencyTokenRate, getLatestQuotes } from '../providers/ecency/ecency';
 import {
-  CoinActivitiesCollection,
   CoinActivity,
   CoinBase,
   CoinData,
@@ -370,7 +369,7 @@ export const fetchPendingRequests = async (
  * @param coinId
  * @param coinSymbol
  * @param globalProps
- * @returns {Promise<CoinActivitiesCollection>}
+ * @returns {Promise<CoinActivity[]>}
  */
 export const fetchCoinActivities = async (
   username: string,

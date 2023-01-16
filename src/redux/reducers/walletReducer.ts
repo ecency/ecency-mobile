@@ -3,7 +3,6 @@ import {
   SET_PRICE_HISTORY,
   SET_SELECTED_COINS,
   SET_COINS_DATA,
-  SET_COIN_ACTIVITIES,
   SET_COIN_QUOTES,
   RESET_WALLET_DATA,
   UPDATE_UNCLAIMED_BALANCE,
@@ -63,10 +62,6 @@ export interface QuoteItem {
   price: number;
 }
 
-export interface CoinActivitiesCollection {
-  completed: CoinActivity[];
-  pending: CoinActivity[];
-}
 
 interface State {
   selectedCoins: CoinBase[];
@@ -75,9 +70,6 @@ interface State {
   };
   priceHistories: {
     [key: string]: PriceHistory;
-  };
-  coinsActivities: {
-    [key: string]: CoinActivitiesCollection;
   };
   quotes: {
     [key: string]: QuoteItem;
@@ -91,7 +83,6 @@ const initialState: State = {
   selectedCoins: DEFAULT_ASSETS,
   coinsData: {},
   priceHistories: {},
-  coinsActivities: {},
   quotes: null,
   vsCurrency: '',
   username: '',
@@ -132,12 +123,6 @@ export default function (state = initialState, action) {
         vsCurrency: payload.vsCurrency,
         data: payload.data,
       };
-      return {
-        ...state,
-      };
-    }
-    case SET_COIN_ACTIVITIES: {
-      state.coinsActivities[payload.id] = payload.data;
       return {
         ...state,
       };

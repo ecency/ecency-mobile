@@ -4,12 +4,11 @@ import {
   SET_SELECTED_COINS,
   SET_PRICE_HISTORY,
   SET_COINS_DATA,
-  SET_COIN_ACTIVITIES,
   SET_COIN_QUOTES,
   RESET_WALLET_DATA,
   UPDATE_UNCLAIMED_BALANCE,
 } from '../constants/constants';
-import { CoinActivitiesCollection, CoinBase, CoinData } from '../reducers/walletReducer';
+import { CoinBase, CoinData } from '../reducers/walletReducer';
 import { AppDispatch, RootState } from '../store/store';
 
 export const setSelectedCoins = (coins: CoinBase[]) => ({
@@ -39,13 +38,6 @@ export const setPriceHistory = (coinId: string, vsCurrency: string, data: number
   type: SET_PRICE_HISTORY,
 });
 
-export const setCoinActivities = (coinId: string, data: CoinActivitiesCollection) => ({
-  payload: {
-    id: coinId,
-    data,
-  },
-  type: SET_COIN_ACTIVITIES,
-});
 
 export const updateUnclaimedBalance = (coinId: string, balanceStr: string) => ({
   payload: {
