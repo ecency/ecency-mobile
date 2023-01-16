@@ -2,19 +2,19 @@ import { useQuery, useQueries, useMutation, useQueryClient } from '@tanstack/rea
 import { useRef, useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { unionBy } from 'lodash';
-import { ASSET_IDS } from '../../constants/defaultAssets';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchAndSetCoinsData } from '../../redux/actions/walletActions';
-import parseToken from '../../utils/parseToken';
-import { claimPoints, getPointsSummary } from '../ecency/ePoint';
-import { fetchUnclaimedRewards } from '../hive-engine/hiveEngine';
-import { claimRewardBalance, getAccount } from '../hive/dhive';
-import QUERIES from './queryKeys';
-import { claimRewards } from '../hive-engine/hiveEngineActions';
-import { toastNotification } from '../../redux/actions/uiAction';
-import { updateClaimCache } from '../../redux/actions/cacheActions';
-import { ClaimsCollection } from '../../redux/reducers/cacheReducer';
-import { fetchCoinActivities } from '../../utils/wallet';
+import { ASSET_IDS } from '../../../constants/defaultAssets';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { fetchAndSetCoinsData } from '../../../redux/actions/walletActions';
+import parseToken from '../../../utils/parseToken';
+import { claimPoints, getPointsSummary } from '../../ecency/ePoint';
+import { fetchUnclaimedRewards } from '../../hive-engine/hiveEngine';
+import { claimRewardBalance, getAccount } from '../../hive/dhive';
+import QUERIES from '../queryKeys';
+import { claimRewards } from '../../hive-engine/hiveEngineActions';
+import { toastNotification } from '../../../redux/actions/uiAction';
+import { updateClaimCache } from '../../../redux/actions/cacheActions';
+import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
+import { fetchCoinActivities } from '../../../utils/wallet';
 
 interface RewardsCollection {
   [key: string]: string;
@@ -27,7 +27,7 @@ interface ClaimRewardsMutationVars {
 const ACTIVITIES_FETCH_LIMIT = 500;
 
 /** hook used to return user drafts */
-export const useGetAssetsQuery = () => {
+export const useAssetsQuery = () => {
   const dispatch = useAppDispatch();
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const coinsData = useAppSelector((state) => state.wallet.coinsData);
@@ -257,7 +257,7 @@ export const useClaimRewardsMutation = () => {
 
 
 
-export const useAssetActivitiesQuery = (assetId: string) => {
+export const useActivitiesQuery = (assetId: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const globalProps = useAppSelector((state) => state.account.globalProps);
   const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
@@ -340,5 +340,18 @@ export const useAssetActivitiesQuery = (assetId: string) => {
     refresh: _refresh,
   };
 };
+
+
+
+
+
+export const usePendingRequestsQuery = (assetId:string) => {
+  const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
+  const symbol = useMemo(()=>selectedCoins.find((item) => item.id === assetId).symbol, []);
+
+  return useQuery([QUERIES.WALLET.GET_PENDING_REQUESTS], async () => {
+ 
+  })
+}
 
 

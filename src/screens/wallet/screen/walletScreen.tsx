@@ -36,7 +36,7 @@ import {
 } from '../../../redux/actions/walletActions';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
-import { useClaimRewardsMutation, useGetAssetsQuery, useUnclaimedRewardsQuery } from '../../../providers/queries';
+import { walletQueries } from '../../../providers/queries';
 
 
 const CHART_DAYS_RANGE = 1;
@@ -65,9 +65,9 @@ const WalletScreen = ({ navigation }) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
   //queries
-  const walletQuery = useGetAssetsQuery()
-  const unclaimedRewardsQuery = useUnclaimedRewardsQuery();
-  const claimRewardsMutation = useClaimRewardsMutation();
+  const walletQuery = walletQueries.useAssetsQuery()
+  const unclaimedRewardsQuery = walletQueries.useUnclaimedRewardsQuery();
+  const claimRewardsMutation = walletQueries.useClaimRewardsMutation();
 
   //state
   const [isRefreshing, setIsRefreshing] = useState(false);

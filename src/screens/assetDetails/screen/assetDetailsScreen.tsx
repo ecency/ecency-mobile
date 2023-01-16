@@ -16,7 +16,7 @@ import ROUTES from '../../../constants/routeNames';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
-import { useAssetActivitiesQuery, useGetAssetsQuery } from '../../../providers/queries';
+import { walletQueries } from '../../../providers/queries';
 
 export interface AssetDetailsScreenParams {
   coinId: string;
@@ -40,8 +40,9 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const delegationsModalRef = useRef(null);
 
   // queries
-  const walletQuery = useGetAssetsQuery();
-  const assetActivitiesQuery = useAssetActivitiesQuery(coinId);
+  const assetsQuery = walletQueries.useAssetsQuery();
+  const activitiesQuery = walletQueries.useActivitiesQuery(coinId);
+  const pendingRequestsQuery = walletQueries.usePendingRequestsQuery(coinId);
 
   // redux props
   const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
@@ -79,16 +80,16 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   };
 
   const _fetchDetails = async (refresh = false) => {
-    if (refresh && !assetActivitiesQuery.isRefreshing) {
-      walletQuery?.refetch();
-      assetActivitiesQuery.refresh();
+    if (refresh && !activitiesQuery.isRefreshing) {
+      assetsQuery?.refetch();
+      activitiesQuery.refresh();
       return;
-    } else if (assetActivitiesQuery.isLoading) {
+    } else if (activitiesQuery.isLoading) {
       console.log('Skipping transaction fetch');
       return;
     }
 
-    assetActivitiesQuery.fetchNextPage();
+    activitiesQuery.fetchNextPage();
   
   };
 
@@ -182,10 +183,10 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       <BasicHeader title={intl.formatMessage({ id: 'wallet.coin_details' })} />
       <ActivitiesList
         header={_renderHeaderComponent}
-        completedActivities={assetActivitiesQuery.data || []}
+        completedActivities={activitiesQuery.data || []}
         pendingActivities={ []}
-        refreshing={assetActivitiesQuery.isRefreshing}
-        loading={assetActivitiesQuery.isLoading}
+        refreshing={activitiesQuery.isRefreshing}
+        loading={activitiesQuery.isLoading}
         isEngine={coinData?.isEngine || false}
         onEndReached={_fetchDetails}
         onRefresh={_onRefresh}
