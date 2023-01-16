@@ -15,7 +15,6 @@ import {
 } from '../providers/hive/dhive';
 import { getCurrencyTokenRate, getLatestQuotes } from '../providers/ecency/ecency';
 import {
-  CoinActivitiesCollection,
   CoinActivity,
   CoinBase,
   CoinData,
@@ -35,7 +34,6 @@ import {
 } from '../providers/hive-engine/hiveEngine';
 import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
 import { ClaimsCollection } from '../redux/reducers/cacheReducer';
-import { indexOf } from 'core-js/core/array';
 
 export const transferTypes = [
   'curation_reward',
@@ -69,12 +67,12 @@ const HIVE_ACTIONS = [
 const HBD_ACTIONS = ['transfer_token', 'transfer_to_savings', 'convert', 'withdraw_hbd'];
 const HIVE_POWER_ACTIONS = ['delegate', 'power_down'];
 
-export const groomingTransactionData = (transaction, hivePerMVests) => {
+export const groomingTransactionData = (transaction, hivePerMVests):CoinActivity|null => {
   if (!transaction || !hivePerMVests) {
-    return [];
+    return null;
   }
 
-  const result = {
+  const result:CoinActivity = {
     iconType: 'MaterialIcons',
     trxIndex: transaction[0],
   };
@@ -207,7 +205,7 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
       result.details = pd_who ? `@${pd_who} to ${pd_to}` : null;
       break;
     default:
-      return [];
+      return null;
   }
   return result;
 };
@@ -303,7 +301,7 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   return walletData;
 };
 
-const fetchPendingRequests = async (
+export const fetchPendingRequests = async (
   username: string,
   coinSymbol: string,
 ): Promise<CoinActivity[]> => {
@@ -371,7 +369,7 @@ const fetchPendingRequests = async (
  * @param coinId
  * @param coinSymbol
  * @param globalProps
- * @returns {Promise<CoinActivitiesCollection>}
+ * @returns {Promise<CoinActivity[]>}
  */
 export const fetchCoinActivities = async (
   username: string,
@@ -380,7 +378,7 @@ export const fetchCoinActivities = async (
   globalProps: GlobalProps,
   startIndex: number,
   limit: number,
-): Promise<CoinActivitiesCollection> => {
+): Promise<CoinActivity[]> => {
   const op = operationOrders;
   let history = [];
 
@@ -388,10 +386,7 @@ export const fetchCoinActivities = async (
     case ASSET_IDS.ECENCY: {
       //TODO: remove condition when we have a way to fetch paginated points data
       if (startIndex !== -1) {
-        return {
-          completed: [],
-          pending: [],
-        };
+        return [];
       }
 
       const pointActivities = await getPointsHistory(username);
@@ -407,10 +402,7 @@ export const fetchCoinActivities = async (
             }),
           )
           : [];
-      return {
-        completed,
-        pending: [] as CoinActivity[],
-      };
+      return completed;
     }
     case ASSET_IDS.HIVE:
       history = await getAccountHistory(
@@ -460,31 +452,21 @@ export const fetchCoinActivities = async (
         limit,
       );
       break;
-    default: return {
-      completed: [],
-      pending: []
-    };
+    default: return [];
   }
 
   const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
   transfers.sort(compare);
 
-  const activities = transfers.map((item) =>
-    groomingTransactionData(item, globalProps.hivePerMVests),
-  );
-  const filterdActivities: CoinActivity[] = activities
-    ? activities.filter((item) => {
+  const activities = transfers.map((item) => groomingTransactionData(item, globalProps.hivePerMVests));
+  const filterdActivities: CoinActivity[] = activities ? activities.filter((item) => {
       return item && item.value && item.value.includes(coinSymbol);
-    })
-    : [];
+    }) : []
 
   console.log('FILTERED comap', activities.length, filterdActivities.length);
 
-  const pendingRequests = await fetchPendingRequests(username, coinSymbol);
-  return {
-    completed: filterdActivities,
-    pending: pendingRequests,
-  };
+  //TODO: process pending requests as separate query //const pendingRequests = await fetchPendingRequests(username, coinSymbol);
+  return filterdActivities 
 };
 
 
@@ -868,11 +850,11 @@ export const groomingPointsTransactionData = (transaction) => {
     ...transaction,
   };
 
-  result.details = get(transaction, 'sender')
-    ? `from @${get(transaction, 'sender')}`
-    : get(transaction, 'receiver') && `to @${get(transaction, 'receiver')}`;
+  result.details = transaction.sender ? `from @${transaction.sender}`
+    : transaction.receiver && `to @${transaction.receiver}`;
 
-  result.value = `${get(transaction, 'amount')} Points`;
+  result.value = `${transaction.amount} Points`;
+  result.trxIndex = transaction.id;
 
   return result;
 };

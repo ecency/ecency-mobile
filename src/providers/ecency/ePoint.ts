@@ -1,4 +1,3 @@
-import { Alert } from 'react-native';
 import ePointApi from '../../config/api';
 import ecencyApi from '../../config/ecencyApi';
 import bugsnagInstance from '../../config/bugsnag';
@@ -44,18 +43,17 @@ export const getPointsSummary = async (username: string): Promise<EcencyUser> =>
   }
 };
 
-export const getPointsHistory = (username: string): Promise<UserPoint[]> =>
-  new Promise((resolve) => {
-    ePointApi
-      .get(`/users/${username}/points`)
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        Alert.alert('Error', error.message);
-        bugsnagInstance.notify(error);
-      });
-  });
+export const getPointsHistory = async (username: string): Promise<UserPoint[]> => {
+  try {
+    const data = { username };
+    const response = await ecencyApi.post('/private-api/point-list', data);
+    return response.data;
+  } catch (error) {
+    console.warn('Failed to get points transactions', error);
+    bugsnagInstance.notify(error);
+    throw new Error(error.response?.data?.message || error.message);
+  }
+};
 
 export const claimPoints = async () => {
   try {

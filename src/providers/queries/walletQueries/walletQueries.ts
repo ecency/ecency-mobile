@@ -1,18 +1,20 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRef, useState } from 'react';
+import { useQuery, useQueries, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRef, useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
-import { ASSET_IDS } from '../../constants/defaultAssets';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchAndSetCoinsData } from '../../redux/actions/walletActions';
-import parseToken from '../../utils/parseToken';
-import { claimPoints, getPointsSummary } from '../ecency/ePoint';
-import { fetchUnclaimedRewards } from '../hive-engine/hiveEngine';
-import { claimRewardBalance, getAccount } from '../hive/dhive';
-import QUERIES from './queryKeys';
-import { claimRewards } from '../hive-engine/hiveEngineActions';
-import { toastNotification } from '../../redux/actions/uiAction';
-import { updateClaimCache } from '../../redux/actions/cacheActions';
-import { ClaimsCollection } from '../../redux/reducers/cacheReducer';
+import { unionBy } from 'lodash';
+import { ASSET_IDS } from '../../../constants/defaultAssets';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { fetchAndSetCoinsData } from '../../../redux/actions/walletActions';
+import parseToken from '../../../utils/parseToken';
+import { claimPoints, getPointsSummary } from '../../ecency/ePoint';
+import { fetchUnclaimedRewards } from '../../hive-engine/hiveEngine';
+import { claimRewardBalance, getAccount } from '../../hive/dhive';
+import QUERIES from '../queryKeys';
+import { claimRewards } from '../../hive-engine/hiveEngineActions';
+import { toastNotification } from '../../../redux/actions/uiAction';
+import { updateClaimCache } from '../../../redux/actions/cacheActions';
+import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
+import { fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
 
 interface RewardsCollection {
   [key: string]: string;
@@ -22,8 +24,10 @@ interface ClaimRewardsMutationVars {
   assetId: ASSET_IDS | string;
 }
 
+const ACTIVITIES_FETCH_LIMIT = 500;
+
 /** hook used to return user drafts */
-export const useGetAssetsQuery = () => {
+export const useAssetsQuery = () => {
   const dispatch = useAppDispatch();
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const coinsData = useAppSelector((state) => state.wallet.coinsData);
@@ -248,4 +252,101 @@ export const useClaimRewardsMutation = () => {
     ...mutation,
     checkIsClaiming,
   };
+};
+
+export const useActivitiesQuery = (assetId: string) => {
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const globalProps = useAppSelector((state) => state.account.globalProps);
+  const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
+
+  const symbol = useMemo(() => selectedCoins.find((item) => item.id === assetId).symbol, []);
+
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [noMoreData, setNoMoreData] = useState(false);
+  const [pageParams, setPageParams] = useState([-1]);
+
+  const _fetchActivities = async (pageParam: number) => {
+    console.log('fetching page since:', pageParam);
+
+    const _activites = await fetchCoinActivities(
+      currentAccount.name,
+      assetId,
+      symbol,
+      globalProps,
+      pageParam,
+      ACTIVITIES_FETCH_LIMIT,
+    );
+
+    console.log('new page fetched', _activites);
+    return _activites || [];
+  };
+
+  const _getNextPageParam = (lastPage: any[]) => {
+    const lastId = lastPage && lastPage.length ? lastPage.lastItem.trxIndex : undefined;
+    console.log('extracting next page parameter', lastId);
+    return lastId;
+  };
+
+  // query initialization
+  const queries = useQueries({
+    queries: pageParams.map((pageParam) => ({
+      queryKey: [QUERIES.WALLET.GET_ACTIVITIES, currentAccount.username, assetId, pageParam],
+      queryFn: () => _fetchActivities(pageParam),
+      initialData: [],
+    })),
+  });
+
+  const _refresh = async () => {
+    setIsRefreshing(true);
+    setNoMoreData(false);
+    setPageParams([-1]);
+    await queries[0].refetch();
+    setIsRefreshing(false);
+  };
+
+  const _fetchNextPage = () => {
+    const lastPage = queries.lastItem;
+
+    if (!lastPage || lastPage.isFetching || lastPage.isLoading || noMoreData) {
+      return;
+    }
+
+    if (!lastPage.data?.length) {
+      setNoMoreData(true);
+      return;
+    }
+
+    const lastId = _getNextPageParam(lastPage.data);
+    if (!pageParams.includes(lastId)) {
+      pageParams.push(lastId);
+      setPageParams([...pageParams]);
+    }
+  };
+
+  const _data = useMemo(() => {
+    const _dataArrs = queries.map((query) => query.data);
+    return unionBy(..._dataArrs, 'trxIndex');
+  }, [queries.lastItem?.data]);
+
+  return {
+    data: _data,
+    isRefreshing,
+    isLoading: queries.lastItem.isLoading || queries.lastItem.isFetching,
+    fetchNextPage: _fetchNextPage,
+    refresh: _refresh,
+  };
+};
+
+export const usePendingRequestsQuery = (assetId: string) => {
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
+  const symbol = useMemo(() => selectedCoins.find((item) => item.id === assetId).symbol, []);
+
+  return useQuery(
+    [QUERIES.WALLET.GET_PENDING_REQUESTS, currentAccount.username, assetId],
+    async () => {
+      const pendingRequests = await fetchPendingRequests(currentAccount.username, symbol);
+      return pendingRequests;
+    },
+  );
 };
