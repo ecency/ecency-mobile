@@ -254,9 +254,6 @@ export const useClaimRewardsMutation = () => {
   };
 };
 
-
-
-
 export const useActivitiesQuery = (assetId: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const globalProps = useAppSelector((state) => state.account.globalProps);
@@ -279,7 +276,6 @@ export const useActivitiesQuery = (assetId: string) => {
       pageParam,
       ACTIVITIES_FETCH_LIMIT,
     );
-
 
     console.log('new page fetched', _activites);
     return _activites || [];
@@ -328,8 +324,8 @@ export const useActivitiesQuery = (assetId: string) => {
   };
 
   const _data = useMemo(() => {
-    const _dataArrs = queries.map((query) => query.data)
-    return unionBy(..._dataArrs, 'trxIndex')
+    const _dataArrs = queries.map((query) => query.data);
+    return unionBy(..._dataArrs, 'trxIndex');
   }, [queries.lastItem?.data]);
 
   return {
@@ -341,8 +337,6 @@ export const useActivitiesQuery = (assetId: string) => {
   };
 };
 
-
-
 export const usePendingRequestsQuery = (assetId: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
@@ -352,8 +346,7 @@ export const usePendingRequestsQuery = (assetId: string) => {
     [QUERIES.WALLET.GET_PENDING_REQUESTS, currentAccount.username, assetId],
     async () => {
       const pendingRequests = await fetchPendingRequests(currentAccount.username, symbol);
-      return pendingRequests
-    })
-}
-
-
+      return pendingRequests;
+    },
+  );
+};

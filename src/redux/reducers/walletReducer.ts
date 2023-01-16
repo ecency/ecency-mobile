@@ -53,7 +53,7 @@ export interface CoinActivity {
   expires: string;
   icon: string;
   value: string;
-  details: string|null;
+  details: string | null;
   memo: string;
 }
 

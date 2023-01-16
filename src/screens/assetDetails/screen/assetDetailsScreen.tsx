@@ -7,10 +7,7 @@ import { CoinSummary } from '../children';
 import styles from './screen.styles';
 import ActivitiesList from '../children/activitiesList';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import {
-  CoinData,
-  QuoteItem,
-} from '../../../redux/reducers/walletReducer';
+import { CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
@@ -91,7 +88,6 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     }
 
     activitiesQuery.fetchNextPage();
-  
   };
 
   if (!coinData) {
@@ -185,7 +181,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       <ActivitiesList
         header={_renderHeaderComponent}
         completedActivities={activitiesQuery.data || []}
-        pendingActivities={ pendingRequestsQuery.data || []}
+        pendingActivities={pendingRequestsQuery.data || []}
         refreshing={activitiesQuery.isRefreshing}
         loading={activitiesQuery.isLoading}
         isEngine={coinData?.isEngine || false}

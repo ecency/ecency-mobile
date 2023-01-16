@@ -1,3 +1,3 @@
 import * as walletQueries from './walletQueries';
 
-export { walletQueries }
+export { walletQueries };
