@@ -62,7 +62,6 @@ export interface QuoteItem {
   price: number;
 }
 
-
 interface State {
   selectedCoins: CoinBase[];
   coinsData: {

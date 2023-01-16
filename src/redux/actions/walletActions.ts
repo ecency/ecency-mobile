@@ -38,7 +38,6 @@ export const setPriceHistory = (coinId: string, vsCurrency: string, data: number
   type: SET_PRICE_HISTORY,
 });
 
-
 export const updateUnclaimedBalance = (coinId: string, balanceStr: string) => ({
   payload: {
     id: coinId,

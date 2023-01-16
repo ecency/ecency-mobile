@@ -53,7 +53,7 @@ export const getPointsHistory = async (username: string): Promise<UserPoint[]> =
     bugsnagInstance.notify(error);
     throw new Error(error.response?.data?.message || error.message);
   }
-}
+};
 
 export const claimPoints = async () => {
   try {
