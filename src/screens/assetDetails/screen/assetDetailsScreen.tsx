@@ -81,8 +81,9 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
   const _fetchDetails = async (refresh = false) => {
     if (refresh && !activitiesQuery.isRefreshing) {
-      assetsQuery?.refetch();
+      assetsQuery.refetch();
       activitiesQuery.refresh();
+      pendingRequestsQuery.refetch();
       return;
     } else if (activitiesQuery.isLoading) {
       console.log('Skipping transaction fetch');
@@ -184,7 +185,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       <ActivitiesList
         header={_renderHeaderComponent}
         completedActivities={activitiesQuery.data || []}
-        pendingActivities={ []}
+        pendingActivities={ pendingRequestsQuery.data || []}
         refreshing={activitiesQuery.isRefreshing}
         loading={activitiesQuery.isLoading}
         isEngine={coinData?.isEngine || false}

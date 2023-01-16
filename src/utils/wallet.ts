@@ -302,7 +302,7 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   return walletData;
 };
 
-const fetchPendingRequests = async (
+export const fetchPendingRequests = async (
   username: string,
   coinSymbol: string,
 ): Promise<CoinActivity[]> => {

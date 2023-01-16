@@ -14,7 +14,7 @@ import { claimRewards } from '../../hive-engine/hiveEngineActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { updateClaimCache } from '../../../redux/actions/cacheActions';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
-import { fetchCoinActivities } from '../../../utils/wallet';
+import { fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
 
 interface RewardsCollection {
   [key: string]: string;
@@ -262,7 +262,7 @@ export const useActivitiesQuery = (assetId: string) => {
   const globalProps = useAppSelector((state) => state.account.globalProps);
   const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
 
-  const symbol = useMemo(()=>selectedCoins.find((item) => item.id === assetId).symbol, []);
+  const symbol = useMemo(() => selectedCoins.find((item) => item.id === assetId).symbol, []);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [noMoreData, setNoMoreData] = useState(false);
@@ -315,7 +315,7 @@ export const useActivitiesQuery = (assetId: string) => {
       return;
     }
 
-    if(!lastPage.data?.length){
+    if (!lastPage.data?.length) {
       setNoMoreData(true);
       return;
     }
@@ -327,7 +327,7 @@ export const useActivitiesQuery = (assetId: string) => {
     }
   };
 
-  const _data = useMemo(()=> {
+  const _data = useMemo(() => {
     const _dataArrs = queries.map((query) => query.data)
     return unionBy(..._dataArrs, 'trxIndex')
   }, [queries.lastItem?.data]);
@@ -343,15 +343,17 @@ export const useActivitiesQuery = (assetId: string) => {
 
 
 
-
-
-export const usePendingRequestsQuery = (assetId:string) => {
+export const usePendingRequestsQuery = (assetId: string) => {
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
-  const symbol = useMemo(()=>selectedCoins.find((item) => item.id === assetId).symbol, []);
+  const symbol = useMemo(() => selectedCoins.find((item) => item.id === assetId).symbol, []);
 
-  return useQuery([QUERIES.WALLET.GET_PENDING_REQUESTS], async () => {
- 
-  })
+  return useQuery(
+    [QUERIES.WALLET.GET_PENDING_REQUESTS, currentAccount.username, assetId],
+    async () => {
+      const pendingRequests = await fetchPendingRequests(currentAccount.username, symbol);
+      return pendingRequests
+    })
 }
 
 
