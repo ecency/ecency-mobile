@@ -13,7 +13,7 @@ import PostCardView from '../view/postCardView';
 import { default as ROUTES } from '../../../constants/routeNames';
 import { useAppDispatch } from '../../../hooks';
 import { showProfileModal } from '../../../redux/actions/uiAction';
-import { postQueries } from '../../../providers/queries';
+import { usePostsCachePrimer } from '../../../providers/queries';
 
 /*
  *            Props Name        Description                                     Value
@@ -34,7 +34,7 @@ const PostCardContainer = ({
 }) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-  const postsCacherPrimer = postQueries.usePostsCachePrimer();
+  const postsCacherPrimer = usePostsCachePrimer();
 
   const [_content, setContent] = useState(content);
   const [reblogs, setReblogs] = useState([]);
