@@ -84,12 +84,10 @@ export const parsePost = (
   return post;
 };
 
-export const parseDiscussionCollection = async (commentsMap: {[key:string] : any} ) => {
-
+export const parseDiscussionCollection = async (commentsMap: { [key: string]: any }) => {
   for (const key in commentsMap) {
     if (commentsMap.hasOwnProperty(key)) {
       const comment = commentsMap[key];
-
 
       // prcoess first level comment
       if (comment) {
@@ -100,7 +98,7 @@ export const parseDiscussionCollection = async (commentsMap: {[key:string] : any
     }
   }
 
-  console.log("parsed discussion collection", commentsMap);
+  console.log('parsed discussion collection', commentsMap);
   return commentsMap;
 };
 
@@ -144,9 +142,6 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
 
   return comments;
 };
-
-
-
 
 export const parseComments = (comments: any[]) => {
   if (!comments) {

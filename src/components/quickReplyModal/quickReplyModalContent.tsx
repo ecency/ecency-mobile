@@ -36,8 +36,7 @@ import { Draft } from '../../redux/reducers/cacheReducer';
 import { RootState } from '../../redux/store/store';
 
 import { PointActivityIds } from '../../providers/ecency/ecency.types';
-import { useUserActivityMutation } from '../../providers/queries';
-import { postQueries } from '../../providers/queries';
+import { useUserActivityMutation, postQueries } from '../../providers/queries';
 
 export interface QuickReplyModalContentProps {
   selectedPost?: any;

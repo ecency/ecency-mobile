@@ -22,7 +22,13 @@ import { getServer, getCache, setCache } from '../../realm/realm';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
-import { parsePosts, parsePost, parseComments, parseCommentThreads, parseDiscussionCollection } from '../../utils/postParser';
+import {
+  parsePosts,
+  parsePost,
+  parseComments,
+  parseCommentThreads,
+  parseDiscussionCollection,
+} from '../../utils/postParser';
 import { getName, getAvatar, parseReputation } from '../../utils/user';
 import parseToken from '../../utils/parseToken';
 import parseAsset from '../../utils/parseAsset';
@@ -760,10 +766,10 @@ export const getDiscussionCollection = async (author, permlink) => {
     const _parsedCollection = await parseDiscussionCollection(commentsMap);
     return _parsedCollection;
   } catch (error) {
-    console.warn("failed to fetch discusssion", error);
+    console.warn('failed to fetch discusssion', error);
     return error;
   }
-}
+};
 
 export const getComments = async (author, permlink) => {
   try {
