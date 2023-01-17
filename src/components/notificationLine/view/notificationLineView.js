@@ -7,7 +7,7 @@ import get from 'lodash/get';
 // Components
 import { UserAvatar } from '../../userAvatar';
 
-import { vestsToHp } from '../../../utils/conversions';
+import { rcFormatter, vestsToHp } from '../../../utils/conversions';
 
 // Styles
 import styles from './notificationLineStyles';
@@ -38,9 +38,14 @@ const NotificationLineView = ({
 
   if (notification.type === 'transfer' || notification.type === 'delegations') {
     if (notification.type === 'delegations') {
-      titleExtra = `${
-        Math.round(vestsToHp(notification.amount, get(globalProps, 'hivePerMVests')) * 1000) / 1000
-      } HP`;
+      if (notification.amount.includes('VESTS')) {
+        titleExtra = `${
+          Math.round(vestsToHp(notification.amount, get(globalProps, 'hivePerMVests')) * 1000) /
+          1000
+        } HP`;
+      } else {
+        titleExtra = `${rcFormatter(notification.amount)} RC`;
+      }
     } else {
       titleExtra = notification.amount;
     }
