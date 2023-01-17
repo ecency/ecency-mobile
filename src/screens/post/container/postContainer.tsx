@@ -6,7 +6,7 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 // Component
 import PostScreen from '../screen/postScreen';
-import { useGetPostQuery } from '../../../providers/queries';
+import { postQueries } from '../../../providers/queries';
 
 /*
  *            Props Name        Description                                     Value
@@ -22,8 +22,9 @@ const PostContainer = ({ currentAccount, isLoggedIn, route }) => {
   // refs
   const isNewPost = useRef(route.params?.isNewPost).current;
 
-  const getPostQuery = useGetPostQuery(author, permlink);
-  const getParentPostQuery = useGetPostQuery();
+  const getPostQuery = postQueries.useGetPostQuery(author, permlink);
+  const getParentPostQuery = postQueries.useGetPostQuery();
+  const discussionQuery = postQueries.useDiscussionQuery(author, permlink);
 
   useEffect(() => {
     const post = getPostQuery.data;
