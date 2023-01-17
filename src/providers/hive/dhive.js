@@ -22,7 +22,7 @@ import { getServer, getCache, setCache } from '../../realm/realm';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
-import { parsePosts, parsePost, parseComments, parseCommentThreads } from '../../utils/postParser';
+import { parsePosts, parsePost, parseComments, parseCommentThreads, parseDiscussionCollection } from '../../utils/postParser';
 import { getName, getAvatar, parseReputation } from '../../utils/user';
 import parseToken from '../../utils/parseToken';
 import parseAsset from '../../utils/parseAsset';
@@ -747,6 +747,23 @@ export const deleteComment = (currentAccount, pin, permlink) => {
     return sendHiveOperations(opArray, privateKey);
   }
 };
+
+export const getDiscussionCollection = async (author, permlink) => {
+  try {
+    const commentsMap = await client.call('bridge', 'get_discussion', { author, permlink });
+
+    // it appear the get_discussion fetches the parent post as an intry in thread
+    // may be later we can make use of this to save post fetch call in post display
+    // for now, deleting to keep the change footprint small for PR
+    delete commentsMap[`${author}/${permlink}`];
+
+    const _parsedCollection = await parseDiscussionCollection(commentsMap);
+    return _parsedCollection;
+  } catch (error) {
+    console.warn("failed to fetch discusssion", error);
+    return error;
+  }
+}
 
 export const getComments = async (author, permlink) => {
   try {
