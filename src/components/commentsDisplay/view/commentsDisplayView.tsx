@@ -70,7 +70,7 @@ const CommentsDisplayView = forwardRef(
 
       if(discussionQuery.sectionedData){
         discussionQuery.sectionedData.forEach(item=>{
-          sectionsToggleMap.set(item.sectionKey, true);
+          sectionsToggleMap.set(item.sectionKey, false);
         })
         setSectionsToggleMap(new Map(sectionsToggleMap));
       }
@@ -185,8 +185,8 @@ const CommentsDisplayView = forwardRef(
 
 
     const _handleOnToggleReplies = (sectionKey, toggleFlag) => {
-      // sectionsToggleMap.set(sectionKey, toggleFlag);
-      // setSectionsToggleMap(new Map(sectionsToggleMap));
+      sectionsToggleMap.set(sectionKey, toggleFlag);
+      setSectionsToggleMap(new Map(sectionsToggleMap));
     }
 
 

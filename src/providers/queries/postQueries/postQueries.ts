@@ -120,10 +120,10 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
     for (const key in commentsMap) {
       if (commentsMap.hasOwnProperty(key)) {
         const comment = commentsMap[key];
-        comment.sectionKey = key;
 
         // prcoess first level comment
         if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
+          comment.sectionKey = key;
           comment.data = parseReplies(commentsMap, comment.replies, key);
           comments.push(comment);
         }
