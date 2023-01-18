@@ -22,7 +22,6 @@ const QUERIES = {
   },
   POST: {
     GET: 'QUERY_GET_POST',
-    GET_DISCUSSION: 'QUERY_GET_DISCUSSION',
   },
 };
 
