@@ -96,19 +96,23 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
     const parseReplies = (
       commentsMap: any,
       replyKeys: any[],
-      level: number,
+      sectionKey: string,
+      level: number = 1,
       replies: any[] = [],
     ) => {
-      if (replyKeys && replyKeys.length > 0 && MAX_THREAD_LEVEL > level) {
+      if (replyKeys?.length > 0 && MAX_THREAD_LEVEL > level) {
         replyKeys.forEach((pathKey) => {
           const comment = commentsMap[pathKey];
           if (comment) {
-            comment.level = level;
+            comment.sectionKey = sectionKey;
             replies.push(comment);
-            replies = parseReplies(commentsMap, comment.replies, level + 1, replies);
+            replies = parseReplies(commentsMap, comment.replies, sectionKey, level + 1, replies);
             return comment;
           }
         });
+      } else if(MAX_THREAD_LEVEL <= level) {
+        //makes sure replies data is empty, used to compare with children to decide to show read more comments buttons
+        replies.lastItem.replies = []; 
       }
       return replies;
     };
@@ -116,10 +120,11 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
     for (const key in commentsMap) {
       if (commentsMap.hasOwnProperty(key)) {
         const comment = commentsMap[key];
+        comment.sectionKey = key;
 
         // prcoess first level comment
         if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
-          comment.data = parseReplies(commentsMap, comment.replies, 1);
+          comment.data = parseReplies(commentsMap, comment.replies, key);
           comments.push(comment);
         }
       }

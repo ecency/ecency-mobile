@@ -10,11 +10,14 @@ import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
 import { Comment } from '../..';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
 import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
 import { writeToClipboard } from '../../../utils/clipboard';
 import { postBodySummary } from '@ecency/render-helper';
+import { deleteComment } from '../../../providers/hive/dhive';
+import { updateCommentCache } from '../../../redux/actions/cacheActions';
+import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
 
 const CommentsDisplayView = forwardRef(
   (
@@ -34,6 +37,9 @@ const CommentsDisplayView = forwardRef(
     const dispatch = useAppDispatch();
     const navigation = useNavigation();
 
+    const currentAccount = useAppSelector(state=>state.account.currentAccount);
+    const pinHash = useAppSelector(state=>state.application.pin);
+
     const discussionQuery = postQueries.useDiscussionQuery(author, permlink);
     const postsCachePrimer = postQueries.usePostsCachePrimer();
 
@@ -42,7 +48,11 @@ const CommentsDisplayView = forwardRef(
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
 
+    const [sectionsToggleMap, setSectionsToggleMap] = useState<Map<string, boolean>>(new Map());
+
     const sortedSections = useMemo(() => _sortComments(selectedFilter, discussionQuery.sectionedData), [discussionQuery.sectionedData, selectedFilter])
+
+
 
     useImperativeHandle(ref, () => ({
       bounceCommentButton: () => {
@@ -57,7 +67,14 @@ const CommentsDisplayView = forwardRef(
       if(!discussionQuery.isLoading){
         handleOnCommentsLoaded()
       }
-    },[discussionQuery.isLoading])
+
+      if(discussionQuery.sectionedData){
+        discussionQuery.sectionedData.forEach(item=>{
+          sectionsToggleMap.set(item.sectionKey, true);
+        })
+        setSectionsToggleMap(new Map(sectionsToggleMap));
+      }
+    },[discussionQuery.isLoading, discussionQuery.sectionedData])
 
     const _handleOnDropdownSelect = (option, index) => {
       setSelectedFilter(option);
@@ -89,9 +106,8 @@ const CommentsDisplayView = forwardRef(
     };
   
     const _handleDeleteComment = (_permlink) => {
-      let filteredComments;
   
-      deleteComment(currentAccount, pinCode, _permlink).then(() => {
+      deleteComment(currentAccount, pinHash, _permlink).then(() => {
         let deletedItem = null;
   
         const _applyFilter = (item) => {
@@ -101,14 +117,7 @@ const CommentsDisplayView = forwardRef(
           }
           return true;
         };
-  
-        if (lcomments.length > 0) {
-          filteredComments = lcomments.filter(_applyFilter);
-          setLComments(filteredComments);
-        } else {
-          filteredComments = propComments.filter(_applyFilter);
-          setPropComments(filteredComments);
-        }
+
   
         // remove cached entry based on parent
         if (deletedItem) {
@@ -175,6 +184,12 @@ const CommentsDisplayView = forwardRef(
     }
 
 
+    const _handleOnToggleReplies = (sectionKey, toggleFlag) => {
+      // sectionsToggleMap.set(sectionKey, toggleFlag);
+      // setSectionsToggleMap(new Map(sectionsToggleMap));
+    }
+
+
     const _postContentView = (
       <>
         {postContentView && postContentView}
@@ -200,16 +215,16 @@ const CommentsDisplayView = forwardRef(
           <Comment
             mainAuthor={mainAuthor}
             comment={item}
-            commentNumber={item.depth}
-
-            showAllComments={false}
-            isShowSubComments={false}
+            
+            //TODO: decided flags to toggle or remove
             hideManyCommentsButton={true}
+
             handleDeleteComment={_handleDeleteComment}
             handleOnEditPress={_handleOnEditPress}
             handleOnVotersPress={_handleOnVotersPress}
             handleOnLongPress={_handleShowOptionsMenu}
             openReplyThread={_openReplyThread}
+            handleOnToggleReplies={_handleOnToggleReplies}
   
           />
         </View>
@@ -223,7 +238,14 @@ const CommentsDisplayView = forwardRef(
     }
 
     const _renderReply = ({ item }) => {
-      return _renderComment(item, EStyleSheet.value('$primaryLightBackground'))
+      const toggle = sectionsToggleMap.get(item.sectionKey);
+      if(toggle){
+   
+        return _renderComment(item, EStyleSheet.value('$primaryLightBackground'))
+      }
+
+      return null;
+ 
     }
 
     return (
@@ -233,7 +255,7 @@ const CommentsDisplayView = forwardRef(
         sections={sortedSections}
         renderSectionHeader={_renderMainComment}
         renderItem={_renderReply}
-        extraData={selectedFilter}
+        extraData={[sectionsToggleMap]}
         keyExtractor={(item, index) => item + index}
         stickySectionHeadersEnabled={false}
         {...flatListProps}

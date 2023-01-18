@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useRef, useEffect, useMemo } from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import { View as AnimatedView } from 'react-native-animatable';
@@ -40,6 +40,7 @@ const CommentView = ({
   openReplyThread,
   fetchedAt,
   incrementRepliesCount,
+  handleOnToggleReplies
 }) => {
 
 
@@ -66,16 +67,17 @@ const CommentView = ({
   const _depth = commentNumber || comment.depth;
   const _currentUsername = currentAccountUsername || currentAccount?.username
 
-  useEffect(() => {
-    if (isShowSubComments) {
-      setTimeout(() => {
-        if (repliesContainerRef.current) {
-          setIsShowSubComments(true);
-          repliesContainerRef.current.slideInRight(300);
-        }
-      }, 150);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (isShowSubComments) {
+  //     setTimeout(() => {
+  //       if (repliesContainerRef.current) {
+  //         setIsShowSubComments(true);
+  //         repliesContainerRef.current.slideInRight(300);
+  //       }
+  //     }, 150);
+  //   }
+  // }, []);
+
 
   useEffect(() => {
     if (comment) {
@@ -83,46 +85,38 @@ const CommentView = ({
     }
   }, [comment]);
 
-  useEffect(() => {
-    const postPath = `${comment.author || ''}/${comment.permlink || ''}`;
-    // this conditional makes sure on targetted already fetched post is updated
-    // with new cache status, this is to avoid duplicate cache merging
-    if (
-      lastCacheUpdate &&
-      lastCacheUpdate.postPath === postPath &&
-      lastCacheUpdate.type === 'comment' &&
-      lastCacheUpdate.updatedAt > fetchedAt
-    ) {
-      // TODO: update comment count and show sub comment if required;
-      const cachedComment = cachedComments.get(postPath);
-      if (cachedComment.updated === cachedComment.created) {
-        if (_depth > 1 && incrementRepliesCount) {
-          incrementRepliesCount();
-        }
-        setChildCount(childCount + 1);
-        setReplies(replies ? [...replies, cachedComment] : [cachedComment]);
-      }
+  // useEffect(() => {
+  //   const postPath = `${comment.author || ''}/${comment.permlink || ''}`;
+  //   // this conditional makes sure on targetted already fetched post is updated
+  //   // with new cache status, this is to avoid duplicate cache merging
+  //   if (
+  //     lastCacheUpdate &&
+  //     lastCacheUpdate.postPath === postPath &&
+  //     lastCacheUpdate.type === 'comment' &&
+  //     lastCacheUpdate.updatedAt > fetchedAt
+  //   ) {
+  //     // TODO: update comment count and show sub comment if required;
+  //     const cachedComment = cachedComments.get(postPath);
+  //     if (cachedComment.updated === cachedComment.created) {
+  //       if (_depth > 1 && incrementRepliesCount) {
+  //         incrementRepliesCount();
+  //       }
+  //       setChildCount(childCount + 1);
+  //       setReplies(replies ? [...replies, cachedComment] : [cachedComment]);
+  //     }
 
-      if (!_isShowSubComments) {
-        _showSubCommentsToggle(true);
-      }
-    }
-  }, [lastCacheUpdate]);
+  //     if (!_isShowSubComments) {
+  //       _showSubCommentsToggle(true);
+  //     }
+  //   }
+  // }, [lastCacheUpdate]);
 
   const _showSubCommentsToggle = (force) => {
     if ((replies && replies.length > 0) || force) {
-      if (repliesContainerRef.current) {
-        if (_isShowSubComments) {
-          repliesContainerRef.current.slideOutRight(300).then(() => {
-            setIsShowSubComments(false);
-          });
-        } else {
-          setIsShowSubComments(true);
-          repliesContainerRef.current.slideInRight(300);
-        }
-      }
 
-      setIsPressedShowButton(true);
+      handleOnToggleReplies(comment.sectionKey, !_isShowSubComments)
+      setIsShowSubComments(!_isShowSubComments);
+      // setIsPressedShowButton(true);
     } else if (openReplyThread) {
       openReplyThread(comment);
     }
@@ -203,7 +197,7 @@ const CommentView = ({
 
         <Fragment>
           <View style={styles.footerWrapper}>{_renderActionPanel()}</View>
-          {_depth > 1 && childCount > 0 && !replies?.length && _renderReadMoreButton()}
+          {_depth > 1 && childCount > 0 && !comment.replies?.length && _renderReadMoreButton()}
         </Fragment>
       </View>
     );
