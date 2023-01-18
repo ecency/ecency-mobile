@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState, useMemo, useEffect } from 'react';
-import { SectionList, View, Text } from 'react-native';
+import { SectionList, View, Text, Alert, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useNavigation } from '@react-navigation/native';
@@ -11,6 +11,10 @@ import { Comment } from '../..';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
 import { useAppDispatch } from '../../../hooks';
+import ROUTES from '../../../constants/routeNames';
+import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
+import { writeToClipboard } from '../../../utils/clipboard';
+import { postBodySummary } from '@ecency/render-helper';
 
 const CommentsDisplayView = forwardRef(
   (
@@ -22,7 +26,6 @@ const CommentsDisplayView = forwardRef(
       flatListProps,
       postContentView,
       isLoading,
-      handleOnVotersPress,
       handleOnCommentsLoaded,
     },
     ref,
@@ -32,6 +35,7 @@ const CommentsDisplayView = forwardRef(
     const navigation = useNavigation();
 
     const discussionQuery = postQueries.useDiscussionQuery(author, permlink);
+    const postsCachePrimer = postQueries.usePostsCachePrimer();
 
     const writeCommentRef = useRef(null);
 
@@ -68,7 +72,7 @@ const CommentsDisplayView = forwardRef(
           activeVotes,
           content,
         },
-        key: get(content, 'permlink'),
+        key: content.permlink,
       });
     };
   
@@ -80,7 +84,6 @@ const CommentsDisplayView = forwardRef(
           isEdit: true,
           isReply: true,
           post: item,
-          fetchPost: _getComments,
         },
       });
     };
@@ -129,6 +132,48 @@ const CommentsDisplayView = forwardRef(
       });
     };
 
+    const _handleShowOptionsMenu = (comment) => {
+
+      const _showCopiedToast = () => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.copied',
+            }),
+          ),
+        );
+      };
+  
+
+      const _copyCommentLink = () =>  writeToClipboard(`https://ecency.com${comment.url}`).then(_showCopiedToast);
+      
+      const _copyCommentBody = () => {
+        const body = postBodySummary(comment.markdownBody, undefined, Platform.OS);
+        writeToClipboard(body).then(_showCopiedToast);
+      } 
+      
+      const _openThread = () => _openReplyThread(comment)
+
+      dispatch(showActionModal({
+        title:"Title",
+        body:"body",
+        buttons:[
+          {
+            text:'option 1',
+            onPress:_copyCommentLink
+          },
+          {
+            text:'option 2',
+            onPress:_copyCommentBody
+          },
+          {
+            text:'option 3',
+            onPress:_openThread
+          }
+        ]
+      }))
+    }
+
 
     const _postContentView = (
       <>
@@ -162,10 +207,10 @@ const CommentsDisplayView = forwardRef(
             hideManyCommentsButton={true}
             handleDeleteComment={_handleDeleteComment}
             handleOnEditPress={_handleOnEditPress}
-            handleOnUserPress={()=>{}}
-            handleOnVotersPress={handleOnVotersPress}
-            handleOnLongPress={() => { }}
-            openReplyThread={() => { }}
+            handleOnVotersPress={_handleOnVotersPress}
+            handleOnLongPress={_handleShowOptionsMenu}
+            openReplyThread={_openReplyThread}
+  
           />
         </View>
 

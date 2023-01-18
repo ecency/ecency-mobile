@@ -124,7 +124,7 @@ const CommentView = ({
 
       setIsPressedShowButton(true);
     } else if (openReplyThread) {
-      openReplyThread();
+      openReplyThread(comment);
     }
   };
 
@@ -156,7 +156,7 @@ const CommentView = ({
       isClickable
       iconStyle={styles.iconStyle}
       iconSize={16}
-      onPress={() => openReplyThread && openReplyThread()}
+      onPress={() => openReplyThread && openReplyThread(comment)}
       text={!isPressedShowButton ? intl.formatMessage({ id: 'comments.read_more' }) : ''}
     />
   );
@@ -194,7 +194,7 @@ const CommentView = ({
           commentDepth={comment.depth}
           reputation={comment.author_reputation}
           handleOnUserPress={handleOnUserPress}
-          handleOnLongPress={handleOnLongPress}
+          handleOnLongPress={()=>handleOnLongPress(comment)}
           body={comment.body}
           created={comment.created}
           key={`key-${comment.permlink}`}
@@ -319,7 +319,7 @@ const CommentView = ({
           inlineTime={true}
           customStyle={{ alignItems: 'flex-start', paddingLeft: 12 }}
           showDotMenuButton={true}
-          handleOnDotPress={handleOnLongPress}
+          handleOnDotPress={()=>handleOnLongPress(comment)}
           secondaryContentComponent={_renderComment()}
         />
 
