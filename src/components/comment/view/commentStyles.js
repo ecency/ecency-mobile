@@ -2,7 +2,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   commentContainer: {
-    marginTop: 10,
+    marginVertical: 10,
+    
   },
   leftIcon: {
     color: '$iconColor',

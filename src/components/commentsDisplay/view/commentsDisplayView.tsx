@@ -1,7 +1,8 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState, useMemo } from 'react';
+import React, { forwardRef, useImperativeHandle, useRef, useState, useMemo, useEffect } from 'react';
 import { SectionList, View, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { useNavigation } from '@react-navigation/native';
 
 
 // Components
@@ -9,26 +10,26 @@ import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
 import { Comment } from '../..';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
+import { useAppDispatch } from '../../../hooks';
 
 const CommentsDisplayView = forwardRef(
   (
     {
       author,
       commentCount,
-      fetchPost,
       permlink,
       mainAuthor,
       flatListProps,
-      fetchedAt,
       postContentView,
       isLoading,
       handleOnVotersPress,
-      handleOnReplyPress,
       handleOnCommentsLoaded,
     },
     ref,
   ) => {
     const intl = useIntl();
+    const dispatch = useAppDispatch();
+    const navigation = useNavigation();
 
     const discussionQuery = postQueries.useDiscussionQuery(author, permlink);
 
@@ -48,10 +49,86 @@ const CommentsDisplayView = forwardRef(
       },
     }));
 
+    useEffect(()=>{
+      if(!discussionQuery.isLoading){
+        handleOnCommentsLoaded()
+      }
+    },[discussionQuery.isLoading])
+
     const _handleOnDropdownSelect = (option, index) => {
       setSelectedFilter(option);
       setSelectedOptionIndex(index);
     };
+
+
+    const _handleOnVotersPress = (activeVotes, content) => {
+      navigation.navigate({
+        name: ROUTES.SCREENS.VOTERS,
+        params: {
+          activeVotes,
+          content,
+        },
+        key: get(content, 'permlink'),
+      });
+    };
+  
+    const _handleOnEditPress = (item) => {
+      navigation.navigate({
+        name: ROUTES.SCREENS.EDITOR,
+        key: `editor_edit_reply_${item.permlink}`,
+        params: {
+          isEdit: true,
+          isReply: true,
+          post: item,
+          fetchPost: _getComments,
+        },
+      });
+    };
+  
+    const _handleDeleteComment = (_permlink) => {
+      let filteredComments;
+  
+      deleteComment(currentAccount, pinCode, _permlink).then(() => {
+        let deletedItem = null;
+  
+        const _applyFilter = (item) => {
+          if (item.permlink === _permlink) {
+            deletedItem = item;
+            return false;
+          }
+          return true;
+        };
+  
+        if (lcomments.length > 0) {
+          filteredComments = lcomments.filter(_applyFilter);
+          setLComments(filteredComments);
+        } else {
+          filteredComments = propComments.filter(_applyFilter);
+          setPropComments(filteredComments);
+        }
+  
+        // remove cached entry based on parent
+        if (deletedItem) {
+          const cachePath = `${deletedItem.parent_author}/${deletedItem.parent_permlink}`;
+          deletedItem.status = CommentCacheStatus.DELETED;
+          delete deletedItem.updated;
+          dispatch(updateCommentCache(cachePath, deletedItem, { isUpdate: true }));
+        }
+      });
+    };
+  
+    const _openReplyThread = (comment) => {
+      postsCachePrimer.cachePost(comment);
+      navigation.navigate({
+        name: ROUTES.SCREENS.POST,
+        key: comment.permlink,
+        params: {
+          author: comment.author,
+          permlink: comment.permlink,
+        },
+      });
+    };
+
 
     const _postContentView = (
       <>
@@ -77,22 +154,16 @@ const CommentsDisplayView = forwardRef(
         <View style={{backgroundColor}}>
           <Comment
             mainAuthor={mainAuthor}
-            hideManyCommentsButton={true}
             comment={item}
-            commentCount={item.children}
-            commentNumber={item.level + 1}
-            handleDeleteComment={() => { }}
-            currentAccountUsername={'demo.com'}
-            fetchPost={fetchPost}
-            handleOnEditPress={() => { }}
-            handleOnReplyPress={() => { }}
-            handleOnUserPress={() => { }}
-            handleOnVotersPress={() => { }}
-            isHideImage={false}
-            isLoggedIn={true}
+            commentNumber={item.depth}
+
             showAllComments={false}
             isShowSubComments={false}
-            key={item.permlink}
+            hideManyCommentsButton={true}
+            handleDeleteComment={_handleDeleteComment}
+            handleOnEditPress={_handleOnEditPress}
+            handleOnUserPress={()=>{}}
+            handleOnVotersPress={handleOnVotersPress}
             handleOnLongPress={() => { }}
             openReplyThread={() => { }}
           />
@@ -120,6 +191,7 @@ const CommentsDisplayView = forwardRef(
         extraData={selectedFilter}
         keyExtractor={(item, index) => item + index}
         stickySectionHeadersEnabled={false}
+        {...flatListProps}
       />
     );
   },

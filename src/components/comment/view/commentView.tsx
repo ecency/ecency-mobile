@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef, useEffect } from 'react';
+import React, { Fragment, useState, useRef, useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -25,35 +25,36 @@ import postTypes from '../../../constants/postTypes';
 const CommentView = ({
   avatarSize,
   comment,
-  commentNumber,
   currentAccountUsername,
+  commentNumber,
   fetchPost,
   handleDeleteComment,
   handleOnEditPress,
   handleOnLongPress,
-  handleOnReplyPress,
   handleOnUserPress,
   handleOnVotersPress,
-  isLoggedIn,
   isShowComments,
   mainAuthor = { mainAuthor },
-  isHideImage,
   isShowSubComments,
   hideManyCommentsButton,
   openReplyThread,
   fetchedAt,
   incrementRepliesCount,
 }) => {
+
+
   const intl = useIntl();
   const dispatch = useDispatch();
   const actionSheet = useRef(null);
   const repliesContainerRef = useRef<AnimatedView>(null);
 
-  const isMuted = useAppSelector(
-    (state) => state.account.currentAccount.mutes?.indexOf(comment.author) > -1,
-  );
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const isLoggedIn = useAppSelector((state)=>state.application.isLoggedIn);
+  const isHideImage = useAppSelector((state)=>state.application.hidePostsThumbnails);
   const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
   const cachedComments = useAppSelector((state) => state.cache.comments);
+
+  const isMuted = useMemo(()=>currentAccount.mutes?.indexOf(comment.author) > -1, [currentAccount]);
 
   const [_isShowSubComments, setIsShowSubComments] = useState(false);
   const [isPressedShowButton, setIsPressedShowButton] = useState(false);
@@ -62,6 +63,8 @@ const CommentView = ({
 
   const [childCount, setChildCount] = useState(comment.children);
   const [replies, setReplies] = useState(comment.replies);
+  const _depth = commentNumber || comment.depth;
+  const _currentUsername = currentAccountUsername || currentAccount?.username
 
   useEffect(() => {
     if (isShowSubComments) {
@@ -93,7 +96,7 @@ const CommentView = ({
       // TODO: update comment count and show sub comment if required;
       const cachedComment = cachedComments.get(postPath);
       if (cachedComment.updated === cachedComment.created) {
-        if (commentNumber > 1 && incrementRepliesCount) {
+        if (_depth > 1 && incrementRepliesCount) {
           incrementRepliesCount();
         }
         setChildCount(childCount + 1);
@@ -131,7 +134,7 @@ const CommentView = ({
   };
 
   const _incrementRepliesCount = () => {
-    if (commentNumber > 1 && incrementRepliesCount) {
+    if (_depth > 1 && incrementRepliesCount) {
       incrementRepliesCount();
     }
     setChildCount(childCount + 1);
@@ -164,15 +167,14 @@ const CommentView = ({
         {_isShowSubComments && (
           <Comments
             isShowComments={isShowComments}
-            commentNumber={commentNumber + 1}
-            marginLeft={20}
+            commentNumber={_depth + 1}
             isShowSubComments={true}
             avatarSize={avatarSize || 24}
             author={comment.author}
             permlink={comment.permlink}
             commentCount={childCount}
             comments={comment.replies}
-            hasManyComments={commentNumber === 5 && get(comment, 'children') > 0}
+            hasManyComments={_depth === 5 && get(comment, 'children') > 0}
             fetchPost={fetchPost}
             hideManyCommentsButton={hideManyCommentsButton}
             mainAuthor={mainAuthor}
@@ -201,7 +203,7 @@ const CommentView = ({
 
         <Fragment>
           <View style={styles.footerWrapper}>{_renderActionPanel()}</View>
-          {commentNumber > 1 && childCount > 0 && !replies?.length && _renderReadMoreButton()}
+          {_depth > 1 && childCount > 0 && !replies?.length && _renderReadMoreButton()}
         </Fragment>
       </View>
     );
@@ -243,7 +245,7 @@ const CommentView = ({
           />
         )}
 
-        {currentAccountUsername === comment.author && (
+        {_currentUsername === comment.author && (
           <Fragment>
             <IconButton
               size={20}
@@ -281,7 +283,7 @@ const CommentView = ({
           </Fragment>
         )}
 
-        {commentNumber === 1 && childCount > 0 && (
+        {_depth === 1 && childCount > 0 && (
           <View style={styles.rightButtonWrapper}>
             <TextWithIcon
               wrapperStyle={styles.rightButton}
@@ -300,7 +302,7 @@ const CommentView = ({
     );
   };
 
-  const customContainerStyle = commentNumber > 2 ? { marginLeft: 44 } : null;
+  const customContainerStyle = _depth > 2 ? { marginLeft: 44 } : null;
 
   return (
     <Fragment>
@@ -311,7 +313,7 @@ const CommentView = ({
           name={comment.author}
           reputation={comment.author_reputation}
           size={avatarSize || 40}
-          currentAccountUsername={currentAccountUsername}
+          currentAccountUsername={_currentUsername}
           isShowOwnerIndicator={mainAuthor === comment.author}
           isHideImage={isHideImage}
           inlineTime={true}
@@ -321,7 +323,7 @@ const CommentView = ({
           secondaryContentComponent={_renderComment()}
         />
 
-        {commentNumber > 0 && _renderReplies()}
+        {/* {commentNumber > 0 && _renderReplies()} */}
       </View>
     </Fragment>
   );

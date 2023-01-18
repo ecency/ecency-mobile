@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState, Fragment } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, SectionList } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -55,7 +55,7 @@ const PostDisplayView = ({
   const userActivityMutation = useUserActivityMutation();
 
   const writeCommentRef = useRef<WriteCommentButton>();
-  const commentsListRef = useRef<FlatList>(null);
+  const commentsListRef = useRef<SectionList>(null);
 
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
@@ -93,11 +93,11 @@ const PostDisplayView = ({
 
   const _scrollToComments = () => {
     if (commentsListRef.current && !post?.children) {
-      commentsListRef.current.scrollToOffset({ offset: postBodyHeight }); // fix for bug causing crash when there is no comment
+      commentsListRef.current.scrollToLocation ({itemIndex:0, sectionIndex:0, viewOffset: postBodyHeight }); // fix for bug causing crash when there is no comment
       return;
     }
     if (commentsListRef.current && post?.children && isLoadedComments) {
-      commentsListRef.current.scrollToIndex({ index: 0, viewOffset: 108 });
+      commentsListRef.current.scrollToLocation({ itemIndex:0, sectionIndex:0, viewOffset: 108 });
     }
   };
 
