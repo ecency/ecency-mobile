@@ -1,7 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState, useMemo, useEffect } from 'react';
-import { SectionList, View, Text, Alert, Platform } from 'react-native';
+import { SectionList, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -18,6 +17,7 @@ import { postBodySummary } from '@ecency/render-helper';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
+import Animated, { SlideInRight } from 'react-native-reanimated';
 
 const CommentsDisplayView = forwardRef(
   (
@@ -37,8 +37,8 @@ const CommentsDisplayView = forwardRef(
     const dispatch = useAppDispatch();
     const navigation = useNavigation();
 
-    const currentAccount = useAppSelector(state=>state.account.currentAccount);
-    const pinHash = useAppSelector(state=>state.application.pin);
+    const currentAccount = useAppSelector(state => state.account.currentAccount);
+    const pinHash = useAppSelector(state => state.application.pin);
 
     const discussionQuery = postQueries.useDiscussionQuery(author, permlink);
     const postsCachePrimer = postQueries.usePostsCachePrimer();
@@ -63,18 +63,18 @@ const CommentsDisplayView = forwardRef(
       },
     }));
 
-    useEffect(()=>{
-      if(!discussionQuery.isLoading){
+    useEffect(() => {
+      if (!discussionQuery.isLoading) {
         handleOnCommentsLoaded()
       }
 
-      if(discussionQuery.sectionedData){
-        discussionQuery.sectionedData.forEach(item=>{
+      if (discussionQuery.sectionedData) {
+        discussionQuery.sectionedData.forEach(item => {
           sectionsToggleMap.set(item.sectionKey, false);
         })
         setSectionsToggleMap(new Map(sectionsToggleMap));
       }
-    },[discussionQuery.isLoading, discussionQuery.sectionedData])
+    }, [discussionQuery.isLoading, discussionQuery.sectionedData])
 
     const _handleOnDropdownSelect = (option, index) => {
       setSelectedFilter(option);
@@ -92,7 +92,7 @@ const CommentsDisplayView = forwardRef(
         key: content.permlink,
       });
     };
-  
+
     const _handleOnEditPress = (item) => {
       navigation.navigate({
         name: ROUTES.SCREENS.EDITOR,
@@ -104,12 +104,12 @@ const CommentsDisplayView = forwardRef(
         },
       });
     };
-  
+
     const _handleDeleteComment = (_permlink) => {
-  
+
       deleteComment(currentAccount, pinHash, _permlink).then(() => {
         let deletedItem = null;
-  
+
         const _applyFilter = (item) => {
           if (item.permlink === _permlink) {
             deletedItem = item;
@@ -118,7 +118,7 @@ const CommentsDisplayView = forwardRef(
           return true;
         };
 
-  
+
         // remove cached entry based on parent
         if (deletedItem) {
           const cachePath = `${deletedItem.parent_author}/${deletedItem.parent_permlink}`;
@@ -128,7 +128,7 @@ const CommentsDisplayView = forwardRef(
         }
       });
     };
-  
+
     const _openReplyThread = (comment) => {
       postsCachePrimer.cachePost(comment);
       navigation.navigate({
@@ -152,32 +152,31 @@ const CommentsDisplayView = forwardRef(
           ),
         );
       };
-  
 
-      const _copyCommentLink = () =>  writeToClipboard(`https://ecency.com${comment.url}`).then(_showCopiedToast);
-      
+
+      const _copyCommentLink = () => writeToClipboard(`https://ecency.com${comment.url}`).then(_showCopiedToast);
+
       const _copyCommentBody = () => {
         const body = postBodySummary(comment.markdownBody, undefined, Platform.OS);
         writeToClipboard(body).then(_showCopiedToast);
-      } 
-      
+      }
+
       const _openThread = () => _openReplyThread(comment)
 
       dispatch(showActionModal({
-        title:"Title",
-        body:"body",
-        buttons:[
+        title: intl.formatMessage({ id: 'post.select_action' }),
+        buttons: [
           {
-            text:'option 1',
-            onPress:_copyCommentLink
+            text: intl.formatMessage({ id: 'post.copy_link' }),
+            onPress: _copyCommentLink
           },
           {
-            text:'option 2',
-            onPress:_copyCommentBody
+            text:intl.formatMessage({ id: 'post.copy_text' }),
+            onPress: _copyCommentBody
           },
           {
-            text:'option 3',
-            onPress:_openThread
+            text:  intl.formatMessage({ id: 'post.open_thread' }),
+            onPress: _openThread
           }
         ]
       }))
@@ -209,26 +208,19 @@ const CommentsDisplayView = forwardRef(
 
 
 
-    const _renderComment = (item, backgroundColor:string = EStyleSheet.value('$primaryBackgroundColor')) => {
+    const _renderComment = (item) => {
       return (
-        <View style={{backgroundColor}}>
-          <Comment
-            mainAuthor={mainAuthor}
-            comment={item}
-            
-            //TODO: decided flags to toggle or remove
-            hideManyCommentsButton={true}
+        <Comment
+          mainAuthor={mainAuthor}
+          comment={item}
+          handleDeleteComment={_handleDeleteComment}
+          handleOnEditPress={_handleOnEditPress}
+          handleOnVotersPress={_handleOnVotersPress}
+          handleOnLongPress={_handleShowOptionsMenu}
+          openReplyThread={_openReplyThread}
+          handleOnToggleReplies={_handleOnToggleReplies}
 
-            handleDeleteComment={_handleDeleteComment}
-            handleOnEditPress={_handleOnEditPress}
-            handleOnVotersPress={_handleOnVotersPress}
-            handleOnLongPress={_handleShowOptionsMenu}
-            openReplyThread={_openReplyThread}
-            handleOnToggleReplies={_handleOnToggleReplies}
-  
-          />
-        </View>
-
+        />
       );
     };
 
@@ -239,13 +231,11 @@ const CommentsDisplayView = forwardRef(
 
     const _renderReply = ({ item }) => {
       const toggle = sectionsToggleMap.get(item.sectionKey);
-      if(toggle){
-   
-        return _renderComment(item, EStyleSheet.value('$primaryLightBackground'))
-      }
-
-      return null;
- 
+      return toggle ? (
+        <Animated.View entering={SlideInRight.duration(200)}>
+          {_renderComment(item)}
+        </Animated.View>
+      ) : null
     }
 
     return (

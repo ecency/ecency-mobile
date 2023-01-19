@@ -21,6 +21,7 @@ import { useAppSelector } from '../../../hooks';
 import { OptionsModal } from '../../atoms';
 import { showReplyModal } from '../../../redux/actions/uiAction';
 import postTypes from '../../../constants/postTypes';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const CommentView = ({
   avatarSize,
@@ -64,7 +65,7 @@ const CommentView = ({
 
   const [childCount, setChildCount] = useState(comment.children);
   const [replies, setReplies] = useState(comment.replies);
-  const _depth = commentNumber || comment.depth;
+  const _depth = commentNumber || comment.level;
   const _currentUsername = currentAccountUsername || currentAccount?.username
 
   // useEffect(() => {
@@ -296,7 +297,7 @@ const CommentView = ({
     );
   };
 
-  const customContainerStyle = _depth > 2 ? { marginLeft: 44 } : null;
+  const customContainerStyle = _depth > 1 ? { paddingLeft: (_depth - 2) * 44, backgroundColor:EStyleSheet.value('$primaryLightBackground') } : null;
 
   return (
     <Fragment>
