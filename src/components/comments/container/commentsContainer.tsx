@@ -21,7 +21,7 @@ import CommentsView from '../view/commentsView';
 import { useAppSelector } from '../../../hooks';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
-import { postQueries } from '../../../providers/queries';
+import { usePostsCachePrimer } from '../../../providers/queries';
 
 const CommentsContainer = ({
   author,
@@ -54,7 +54,7 @@ const CommentsContainer = ({
   handleOnCommentsLoaded,
 }) => {
   const navigation = useNavigation();
-  const postsCachePrimer = postQueries.usePostsCachePrimer();
+  const postsCachePrimer = usePostsCachePrimer();
 
   const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
   const cachedComments = useAppSelector((state) => state.cache.comments);
