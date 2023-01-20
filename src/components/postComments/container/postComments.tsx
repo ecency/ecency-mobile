@@ -50,8 +50,17 @@ const PostComments = forwardRef(
 
     const [sectionsToggleMap, setSectionsToggleMap] = useState<Map<string, boolean>>(new Map());
 
-    const sortedSections = useMemo(() => _sortComments(selectedFilter, discussionQuery.sectionedData), [discussionQuery.sectionedData, selectedFilter])
+    const { sortedSections, repliesMap } = useMemo(() => {
+      const repliesMap = {};
+      discussionQuery.sectionedData.forEach((section)=>{
+        repliesMap[section.sectionKey] = section.data || [];
+        delete section.data;
+      })
+      const sortedSections = _sortComments(selectedFilter, discussionQuery.sectionedData)
+      return {sortedSections, repliesMap}
+    }, [discussionQuery.sectionedData, selectedFilter])
 
+    const _listData = useMemo(()=>[...sortedSections],[sortedSections])
 
 
     useImperativeHandle(ref, () => ({
@@ -183,9 +192,16 @@ const PostComments = forwardRef(
     }
 
 
-    const _handleOnToggleReplies = (sectionKey, toggleFlag) => {
+    const _handleOnToggleReplies = (sectionKey, toggleFlag, index) => {
       sectionsToggleMap.set(sectionKey, toggleFlag);
       setSectionsToggleMap(new Map(sectionsToggleMap));
+
+      const _replies = repliesMap[sectionKey];
+      if(toggleFlag){
+        _listData.splice(index + 1, 0, ..._replies)
+      } else {
+        _listData.splice(index + 1, _replies.length)
+      }
     }
 
 
@@ -208,7 +224,7 @@ const PostComments = forwardRef(
 
 
 
-    const _renderComment = (item) => {
+    const _renderComment = ({item, index}) => {
       return (
         <Comment
           mainAuthor={mainAuthor}
@@ -218,35 +234,20 @@ const PostComments = forwardRef(
           handleOnVotersPress={_handleOnVotersPress}
           handleOnLongPress={_handleShowOptionsMenu}
           openReplyThread={_openReplyThread}
-          handleOnToggleReplies={_handleOnToggleReplies}
+          handleOnToggleReplies={(...args)=>_handleOnToggleReplies(...args, index)}
 
         />
       );
     };
 
-
-    const _renderMainComment = ({ section }) => {
-      return _renderComment(section)
-    }
-
-    const _renderReply = ({ item }) => {
-      const toggle = sectionsToggleMap.get(item.sectionKey);
-      return toggle ? (
-        <Animated.View entering={SlideInRight.duration(200)}>
-          {_renderComment(item)}
-        </Animated.View>
-      ) : null
-    }
-
     return (
-      <SectionList
+      <Animated.FlatList
         style={{ flex: 1 }}
         ListHeaderComponent={_postContentView}
-        sections={sortedSections}
-        renderSectionHeader={_renderMainComment}
-        renderItem={_renderReply}
-        extraData={[sectionsToggleMap]}
-        keyExtractor={(item, index) => item + index}
+        data={_listData}
+        renderItem={_renderComment}
+        extraData={sectionsToggleMap}
+        keyExtractor={(item, index) => 'item_' + index }
         stickySectionHeadersEnabled={false}
         {...flatListProps}
       />
