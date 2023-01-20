@@ -14,7 +14,6 @@ const PostScreen = ({
   isPostUnavailable,
   author,
 }) => {
-
   return (
     <Fragment>
       <BasicHeader
@@ -35,7 +34,6 @@ const PostScreen = ({
         parentPost={parentPost}
         post={post}
       />
-
     </Fragment>
   );
 };

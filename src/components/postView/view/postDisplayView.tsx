@@ -93,11 +93,15 @@ const PostDisplayView = ({
 
   const _scrollToComments = () => {
     if (commentsListRef.current && !post?.children) {
-      commentsListRef.current.scrollToLocation ({itemIndex:0, sectionIndex:0, viewOffset: postBodyHeight }); // fix for bug causing crash when there is no comment
+      commentsListRef.current.scrollToLocation({
+        itemIndex: 0,
+        sectionIndex: 0,
+        viewOffset: postBodyHeight,
+      }); // fix for bug causing crash when there is no comment
       return;
     }
     if (commentsListRef.current && post?.children && isLoadedComments) {
-      commentsListRef.current.scrollToLocation({ itemIndex:0, sectionIndex:0, viewOffset: 108 });
+      commentsListRef.current.scrollToLocation({ itemIndex: 0, sectionIndex: 0, viewOffset: 108 });
     }
   };
 

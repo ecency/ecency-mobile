@@ -1,12 +1,19 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState, useMemo, useEffect } from 'react';
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useState,
+  useMemo,
+  useEffect,
+} from 'react';
 import { Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
-import Animated, {SlideInRight} from 'react-native-reanimated';
-
+import Animated, { SlideInRight } from 'react-native-reanimated';
 
 // Components
+import { postBodySummary } from '@ecency/render-helper';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
 import { Comment, PinAnimatedInput } from '../..';
 import { FilterBar } from '../../filterBar';
@@ -16,7 +23,6 @@ import ROUTES from '../../../constants/routeNames';
 import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
 import { writeToClipboard } from '../../../utils/clipboard';
 import { delay } from '../../../utils/editor';
-import { postBodySummary } from '@ecency/render-helper';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
@@ -38,8 +44,8 @@ const PostComments = forwardRef(
     const dispatch = useAppDispatch();
     const navigation = useNavigation();
 
-    const currentAccount = useAppSelector(state => state.account.currentAccount);
-    const pinHash = useAppSelector(state => state.application.pin);
+    const currentAccount = useAppSelector((state) => state.account.currentAccount);
+    const pinHash = useAppSelector((state) => state.application.pin);
 
     const discussionQuery = postQueries.useDiscussionQuery(author, permlink);
     const postsCachePrimer = postQueries.usePostsCachePrimer();
@@ -52,8 +58,10 @@ const PostComments = forwardRef(
 
     const [sectionsToggleMap, setSectionsToggleMap] = useState<{ [key: string]: boolean }>({});
 
-    const sortedSections = useMemo(() => _sortComments(selectedFilter, discussionQuery.commentsData), [discussionQuery.commentsData, selectedFilter])
-
+    const sortedSections = useMemo(
+      () => _sortComments(selectedFilter, discussionQuery.commentsData),
+      [discussionQuery.commentsData, selectedFilter],
+    );
 
     useImperativeHandle(ref, () => ({
       bounceCommentButton: () => {
@@ -66,34 +74,32 @@ const PostComments = forwardRef(
 
     useEffect(() => {
       if (!discussionQuery.isLoading) {
-        handleOnCommentsLoaded()
+        handleOnCommentsLoaded();
       }
 
       if (discussionQuery.commentsData) {
-        discussionQuery.commentsData.forEach(item => {
+        discussionQuery.commentsData.forEach((item) => {
           sectionsToggleMap[item.commentKey] = false;
-        })
+        });
         setSectionsToggleMap({ ...sectionsToggleMap });
       }
-    }, [discussionQuery.isLoading, discussionQuery.commentsData, sortedSections])
+    }, [discussionQuery.isLoading, discussionQuery.commentsData, sortedSections]);
 
     useEffect(() => {
       if (sortedSections) {
-        const _data = []
-        sortedSections.forEach(section => {
-          _data.push(section)
+        const _data = [];
+        sortedSections.forEach((section) => {
+          _data.push(section);
           // _data.push(...discussionQuery.repliesMap[section.commentKey])
-        })
+        });
         setData(_data);
       }
-
-    }, [sortedSections])
+    }, [sortedSections]);
 
     const _handleOnDropdownSelect = (option, index) => {
       setSelectedFilter(option);
       setSelectedOptionIndex(index);
     };
-
 
     const _handleOnVotersPress = (activeVotes, content) => {
       navigation.navigate({
@@ -119,7 +125,6 @@ const PostComments = forwardRef(
     };
 
     const _handleDeleteComment = (_permlink) => {
-
       deleteComment(currentAccount, pinHash, _permlink).then(() => {
         let deletedItem = null;
 
@@ -130,7 +135,6 @@ const PostComments = forwardRef(
           }
           return true;
         };
-
 
         // remove cached entry based on parent
         if (deletedItem) {
@@ -155,7 +159,6 @@ const PostComments = forwardRef(
     };
 
     const _handleShowOptionsMenu = (comment) => {
-
       const _showCopiedToast = () => {
         dispatch(
           toastNotification(
@@ -166,57 +169,57 @@ const PostComments = forwardRef(
         );
       };
 
-
-      const _copyCommentLink = () => writeToClipboard(`https://ecency.com${comment.url}`).then(_showCopiedToast);
+      const _copyCommentLink = () =>
+        writeToClipboard(`https://ecency.com${comment.url}`).then(_showCopiedToast);
 
       const _copyCommentBody = () => {
         const body = postBodySummary(comment.markdownBody, undefined, Platform.OS);
         writeToClipboard(body).then(_showCopiedToast);
-      }
+      };
 
-      const _openThread = () => _openReplyThread(comment)
+      const _openThread = () => _openReplyThread(comment);
 
-      dispatch(showActionModal({
-        title: intl.formatMessage({ id: 'post.select_action' }),
-        buttons: [
-          {
-            text: intl.formatMessage({ id: 'post.copy_link' }),
-            onPress: _copyCommentLink
-          },
-          {
-            text: intl.formatMessage({ id: 'post.copy_text' }),
-            onPress: _copyCommentBody
-          },
-          {
-            text: intl.formatMessage({ id: 'post.open_thread' }),
-            onPress: _openThread
-          }
-        ]
-      }))
-    }
-
+      dispatch(
+        showActionModal({
+          title: intl.formatMessage({ id: 'post.select_action' }),
+          buttons: [
+            {
+              text: intl.formatMessage({ id: 'post.copy_link' }),
+              onPress: _copyCommentLink,
+            },
+            {
+              text: intl.formatMessage({ id: 'post.copy_text' }),
+              onPress: _copyCommentBody,
+            },
+            {
+              text: intl.formatMessage({ id: 'post.open_thread' }),
+              onPress: _openThread,
+            },
+          ],
+        }),
+      );
+    };
 
     const _handleOnToggleReplies = (commentKey, index) => {
       const toggleFlag = !sectionsToggleMap[commentKey];
 
       setSectionsToggleMap({ ...sectionsToggleMap, [commentKey]: toggleFlag });
 
-      const replies: any[] = discussionQuery.repliesMap[commentKey]
+      const replies: any[] = discussionQuery.repliesMap[commentKey];
 
       if (toggleFlag) {
         replies.forEach(async (reply, i) => {
-          data.splice(index + 1 + i, 0, reply)
+          data.splice(index + 1 + i, 0, reply);
           setData(data);
           await delay(200);
         });
       } else {
-        const updatedData = data.filter((item) => !(item.commentKey === commentKey && item.level > 1))
-        setData(updatedData)
+        const updatedData = data.filter(
+          (item) => !(item.commentKey === commentKey && item.level > 1),
+        );
+        setData(updatedData);
       }
-
-
-    }
-
+    };
 
     const _postContentView = (
       <>
@@ -235,8 +238,6 @@ const PostComments = forwardRef(
       </>
     );
 
-
-
     const _renderComment = ({ item, index }) => {
       return (
         <Animated.View entering={SlideInRight.duration(300)}>
@@ -252,7 +253,6 @@ const PostComments = forwardRef(
             handleOnToggleReplies={(commentKey) => _handleOnToggleReplies(commentKey, index)}
           />
         </Animated.View>
-
       );
     };
 
@@ -263,7 +263,7 @@ const PostComments = forwardRef(
         data={data}
         renderItem={_renderComment}
         extraData={sectionsToggleMap}
-        keyExtractor={(item, index) => 'item_' + index}
+        keyExtractor={(item, index) => `item_${index}`}
         stickySectionHeadersEnabled={false}
         {...flatListProps}
       />
@@ -272,8 +272,6 @@ const PostComments = forwardRef(
 );
 
 export default PostComments;
-
-
 
 const _sortComments = (sortOrder = 'trending', _comments) => {
   const sortedComments = _comments;

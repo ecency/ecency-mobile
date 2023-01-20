@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import { View as AnimatedView } from 'react-native-animatable';
 
 import { useDispatch } from 'react-redux';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { getTimeFromNow } from '../../../utils/time';
 // Constants
 
@@ -21,7 +22,6 @@ import { useAppSelector } from '../../../hooks';
 import { OptionsModal } from '../../atoms';
 import { showReplyModal } from '../../../redux/actions/uiAction';
 import postTypes from '../../../constants/postTypes';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 const CommentView = ({
   avatarSize,
@@ -42,20 +42,20 @@ const CommentView = ({
   fetchedAt,
   repliesToggle,
   incrementRepliesCount,
-  handleOnToggleReplies
+  handleOnToggleReplies,
 }) => {
-
-
   const intl = useIntl();
   const dispatch = useDispatch();
   const actionSheet = useRef(null);
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const isLoggedIn = useAppSelector((state)=>state.application.isLoggedIn);
-  const isHideImage = useAppSelector((state)=>state.application.hidePostsThumbnails);
+  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const isHideImage = useAppSelector((state) => state.application.hidePostsThumbnails);
 
-
-  const isMuted = useMemo(()=>currentAccount.mutes?.indexOf(comment.author) > -1, [currentAccount]);
+  const isMuted = useMemo(
+    () => currentAccount.mutes?.indexOf(comment.author) > -1,
+    [currentAccount],
+  );
 
   const [activeVotes, setActiveVotes] = useState([]);
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
@@ -63,8 +63,7 @@ const CommentView = ({
   const [childCount] = useState(comment.children);
   const [replies] = useState(comment.replies);
   const _depth = commentNumber || comment.level;
-  const _currentUsername = currentAccountUsername || currentAccount?.username
-
+  const _currentUsername = currentAccountUsername || currentAccount?.username;
 
   useEffect(() => {
     if (comment) {
@@ -72,12 +71,9 @@ const CommentView = ({
     }
   }, [comment]);
 
-
   const _showSubCommentsToggle = (force = false) => {
     if ((replies && replies.length > 0) || force) {
-
-      handleOnToggleReplies(comment.commentKey)
-  
+      handleOnToggleReplies(comment.commentKey);
     } else if (openReplyThread) {
       openReplyThread(comment);
     }
@@ -87,7 +83,6 @@ const CommentView = ({
     // fake increment vote using based on local change
     setCacheVoteIcrement(1);
   };
-
 
   const _handleOnReplyPress = () => {
     if (isLoggedIn) {
@@ -106,7 +101,7 @@ const CommentView = ({
       iconStyle={styles.iconStyle}
       iconSize={16}
       onPress={() => openReplyThread && openReplyThread(comment)}
-      text={ intl.formatMessage({ id: 'comments.read_more' }) }
+      text={intl.formatMessage({ id: 'comments.read_more' })}
     />
   );
 
@@ -117,7 +112,7 @@ const CommentView = ({
           commentDepth={comment.depth}
           reputation={comment.author_reputation}
           handleOnUserPress={handleOnUserPress}
-          handleOnLongPress={()=>handleOnLongPress(comment)}
+          handleOnLongPress={() => handleOnLongPress(comment)}
           body={comment.body}
           created={comment.created}
           key={`key-${comment.permlink}`}
@@ -225,7 +220,13 @@ const CommentView = ({
     );
   };
 
-  const customContainerStyle = _depth > 1 ? { paddingLeft: (_depth - 2) * 44, backgroundColor:EStyleSheet.value('$primaryLightBackground') } : null;
+  const customContainerStyle =
+    _depth > 1
+      ? {
+          paddingLeft: (_depth - 2) * 44,
+          backgroundColor: EStyleSheet.value('$primaryLightBackground'),
+        }
+      : null;
 
   return (
     <Fragment>
@@ -242,10 +243,9 @@ const CommentView = ({
           inlineTime={true}
           customStyle={{ alignItems: 'flex-start', paddingLeft: 12 }}
           showDotMenuButton={true}
-          handleOnDotPress={()=>handleOnLongPress(comment)}
+          handleOnDotPress={() => handleOnLongPress(comment)}
           secondaryContentComponent={_renderComment()}
         />
-
       </View>
     </Fragment>
   );

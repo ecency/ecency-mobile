@@ -112,14 +112,14 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
             return comment;
           }
         });
-      } else if(level > MAX_THREAD_LEVEL) {
-        //makes sure replies data is empty, used to compare with children to decide to show read more comments buttons
-        replies.lastItem.replies = []; 
+      } else if (level > MAX_THREAD_LEVEL) {
+        // makes sure replies data is empty, used to compare with children to decide to show read more comments buttons
+        replies.lastItem.replies = [];
       }
       return replies;
     };
 
-    const _repliesMap:any = {} 
+    const _repliesMap: any = {};
     for (const key in commentsMap) {
       if (commentsMap.hasOwnProperty(key)) {
         const comment = commentsMap[key];
@@ -131,7 +131,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
           comments.push(comment);
 
           const _replies = parseReplies(commentsMap, comment.replies, key, 2);
-          _repliesMap[key] = _replies || []
+          _repliesMap[key] = _replies || [];
         }
       }
     }
