@@ -40,6 +40,7 @@ const CommentView = ({
   hideManyCommentsButton,
   openReplyThread,
   fetchedAt,
+  repliesToggle,
   incrementRepliesCount,
   handleOnToggleReplies
 }) => {
@@ -48,36 +49,21 @@ const CommentView = ({
   const intl = useIntl();
   const dispatch = useDispatch();
   const actionSheet = useRef(null);
-  const repliesContainerRef = useRef<AnimatedView>(null);
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const isLoggedIn = useAppSelector((state)=>state.application.isLoggedIn);
   const isHideImage = useAppSelector((state)=>state.application.hidePostsThumbnails);
-  const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
-  const cachedComments = useAppSelector((state) => state.cache.comments);
+
 
   const isMuted = useMemo(()=>currentAccount.mutes?.indexOf(comment.author) > -1, [currentAccount]);
 
-  const [_isShowSubComments, setIsShowSubComments] = useState(false);
-  const [isPressedShowButton, setIsPressedShowButton] = useState(false);
   const [activeVotes, setActiveVotes] = useState([]);
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
 
-  const [childCount, setChildCount] = useState(comment.children);
-  const [replies, setReplies] = useState(comment.replies);
+  const [childCount] = useState(comment.children);
+  const [replies] = useState(comment.replies);
   const _depth = commentNumber || comment.level;
   const _currentUsername = currentAccountUsername || currentAccount?.username
-
-  // useEffect(() => {
-  //   if (isShowSubComments) {
-  //     setTimeout(() => {
-  //       if (repliesContainerRef.current) {
-  //         setIsShowSubComments(true);
-  //         repliesContainerRef.current.slideInRight(300);
-  //       }
-  //     }, 150);
-  //   }
-  // }, []);
 
 
   useEffect(() => {
@@ -86,38 +72,12 @@ const CommentView = ({
     }
   }, [comment]);
 
-  // useEffect(() => {
-  //   const postPath = `${comment.author || ''}/${comment.permlink || ''}`;
-  //   // this conditional makes sure on targetted already fetched post is updated
-  //   // with new cache status, this is to avoid duplicate cache merging
-  //   if (
-  //     lastCacheUpdate &&
-  //     lastCacheUpdate.postPath === postPath &&
-  //     lastCacheUpdate.type === 'comment' &&
-  //     lastCacheUpdate.updatedAt > fetchedAt
-  //   ) {
-  //     // TODO: update comment count and show sub comment if required;
-  //     const cachedComment = cachedComments.get(postPath);
-  //     if (cachedComment.updated === cachedComment.created) {
-  //       if (_depth > 1 && incrementRepliesCount) {
-  //         incrementRepliesCount();
-  //       }
-  //       setChildCount(childCount + 1);
-  //       setReplies(replies ? [...replies, cachedComment] : [cachedComment]);
-  //     }
 
-  //     if (!_isShowSubComments) {
-  //       _showSubCommentsToggle(true);
-  //     }
-  //   }
-  // }, [lastCacheUpdate]);
-
-  const _showSubCommentsToggle = (force) => {
+  const _showSubCommentsToggle = (force = false) => {
     if ((replies && replies.length > 0) || force) {
 
-      handleOnToggleReplies(comment.commentKey, !_isShowSubComments)
-      setIsShowSubComments(!_isShowSubComments);
-      // setIsPressedShowButton(true);
+      handleOnToggleReplies(comment.commentKey)
+  
     } else if (openReplyThread) {
       openReplyThread(comment);
     }
@@ -128,12 +88,6 @@ const CommentView = ({
     setCacheVoteIcrement(1);
   };
 
-  const _incrementRepliesCount = () => {
-    if (_depth > 1 && incrementRepliesCount) {
-      incrementRepliesCount();
-    }
-    setChildCount(childCount + 1);
-  };
 
   const _handleOnReplyPress = () => {
     if (isLoggedIn) {
@@ -146,41 +100,15 @@ const CommentView = ({
   const _renderReadMoreButton = () => (
     <TextWithIcon
       wrapperStyle={styles.rightButton}
-      textStyle={!isPressedShowButton && styles.moreText}
+      textStyle={styles.moreText}
       iconType="MaterialIcons"
       isClickable
       iconStyle={styles.iconStyle}
       iconSize={16}
       onPress={() => openReplyThread && openReplyThread(comment)}
-      text={!isPressedShowButton ? intl.formatMessage({ id: 'comments.read_more' }) : ''}
+      text={ intl.formatMessage({ id: 'comments.read_more' }) }
     />
   );
-
-  const _renderReplies = () => {
-    return (
-      <AnimatedView ref={repliesContainerRef}>
-        {_isShowSubComments && (
-          <Comments
-            isShowComments={isShowComments}
-            commentNumber={_depth + 1}
-            isShowSubComments={true}
-            avatarSize={avatarSize || 24}
-            author={comment.author}
-            permlink={comment.permlink}
-            commentCount={childCount}
-            comments={comment.replies}
-            hasManyComments={_depth === 5 && get(comment, 'children') > 0}
-            fetchPost={fetchPost}
-            hideManyCommentsButton={hideManyCommentsButton}
-            mainAuthor={mainAuthor}
-            fetchedAt={fetchedAt}
-            incrementRepliesCount={_incrementRepliesCount}
-            handleOnReplyPress={_handleOnReplyPress}
-          />
-        )}
-      </AnimatedView>
-    );
-  };
 
   const _renderComment = () => {
     return (
@@ -198,7 +126,7 @@ const CommentView = ({
 
         <Fragment>
           <View style={styles.footerWrapper}>{_renderActionPanel()}</View>
-          {_depth > 1 && childCount > 0 && !comment.replies?.length && _renderReadMoreButton()}
+          {_depth > 2 && childCount > 0 && _renderReadMoreButton()}
         </Fragment>
       </View>
     );
@@ -282,7 +210,7 @@ const CommentView = ({
           <View style={styles.rightButtonWrapper}>
             <TextWithIcon
               wrapperStyle={styles.rightButton}
-              iconName={_isShowSubComments ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
+              iconName={repliesToggle ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
               textStyle={styles.moreText}
               iconType="MaterialIcons"
               isClickable
@@ -318,7 +246,6 @@ const CommentView = ({
           secondaryContentComponent={_renderComment()}
         />
 
-        {/* {commentNumber > 0 && _renderReplies()} */}
       </View>
     </Fragment>
   );

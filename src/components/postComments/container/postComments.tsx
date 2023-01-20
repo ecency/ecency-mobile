@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
 import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
 import { writeToClipboard } from '../../../utils/clipboard';
+import { delay } from '../../../utils/editor';
 import { postBodySummary } from '@ecency/render-helper';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
@@ -23,7 +24,6 @@ const PostComments = forwardRef(
   (
     {
       author,
-      commentCount,
       permlink,
       mainAuthor,
       flatListProps,
@@ -49,7 +49,7 @@ const PostComments = forwardRef(
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
     const [data, setData] = useState([]);
  
-    const [sectionsToggleMap, setSectionsToggleMap] = useState<Map<string, boolean>>(new Map());
+    const [sectionsToggleMap, setSectionsToggleMap] = useState<{[key:string]:boolean}>({});
 
     const sortedSections = useMemo(() =>_sortComments(selectedFilter, discussionQuery.commentsData), [discussionQuery.commentsData, selectedFilter])
 
@@ -70,9 +70,9 @@ const PostComments = forwardRef(
 
       if (discussionQuery.commentsData) {
         discussionQuery.commentsData.forEach(item => {
-          sectionsToggleMap.set(item.commentKey, false);
+          sectionsToggleMap[item.commentKey] = false;
         })
-        setSectionsToggleMap(new Map(sectionsToggleMap));
+        setSectionsToggleMap({...sectionsToggleMap});
       }
     }, [discussionQuery.isLoading, discussionQuery.commentsData, sortedSections])
 
@@ -81,7 +81,7 @@ const PostComments = forwardRef(
         const _data = []
         sortedSections.forEach(section=>{
           _data.push(section)
-          _data.push(...discussionQuery.repliesMap[section.commentKey])
+          // _data.push(...discussionQuery.repliesMap[section.commentKey])
         })
         setData(_data);
       }
@@ -195,9 +195,25 @@ const PostComments = forwardRef(
     }
 
 
-    const _handleOnToggleReplies = (commentKey, toggleFlag, index) => {
-      sectionsToggleMap.set(commentKey, toggleFlag);
-      setSectionsToggleMap(new Map(sectionsToggleMap));
+    const _handleOnToggleReplies = (commentKey, index) => {
+      const toggleFlag = !sectionsToggleMap[commentKey];
+
+      setSectionsToggleMap({...sectionsToggleMap, [commentKey]:toggleFlag});
+
+      const replies:any[] = discussionQuery.repliesMap[commentKey]
+      
+      if(toggleFlag){
+        replies.forEach( async (reply, i) => {
+          data.splice(index + 1 + i, 0, reply )
+          setData(data);
+          await delay(300);
+        });
+      } else {
+        const updatedData = data.filter((item)=>!(item.commentKey === commentKey && item.level > 1))
+        setData(updatedData)
+      }
+      
+    
     }
 
 
@@ -225,12 +241,13 @@ const PostComments = forwardRef(
         <Comment
           mainAuthor={mainAuthor}
           comment={item}
+          repliesToggle={sectionsToggleMap[item.commentKey]}
           handleDeleteComment={_handleDeleteComment}
           handleOnEditPress={_handleOnEditPress}
           handleOnVotersPress={_handleOnVotersPress}
           handleOnLongPress={_handleShowOptionsMenu}
           openReplyThread={_openReplyThread}
-          handleOnToggleReplies={(commentKey, toggleFlag)=>_handleOnToggleReplies(commentKey, toggleFlag, index)}
+          handleOnToggleReplies={(commentKey)=>_handleOnToggleReplies(commentKey, index)}
         />
       );
     };
