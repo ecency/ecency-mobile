@@ -24,7 +24,6 @@ const PostContainer = ({ currentAccount, isLoggedIn, route }) => {
 
   const getPostQuery = postQueries.useGetPostQuery(author, permlink);
   const getParentPostQuery = postQueries.useGetPostQuery();
-  const discussionQuery = postQueries.useDiscussionQuery(author, permlink);
 
   useEffect(() => {
     const post = getPostQuery.data;

@@ -15,7 +15,6 @@ import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
 import { PostPlaceHolder, StickyBar, TextWithIcon, NoPost } from '../../basicUIElements';
 import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
-import { CommentsDisplay } from '../../commentsDisplay';
 import { ParentPost } from '../../parentPost';
 
 // Styles
@@ -28,6 +27,7 @@ import postTypes from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { WriteCommentButton } from '../children/writeCommentButton';
+import { PostComments } from '../../postComments';
 
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
@@ -267,7 +267,7 @@ const PostDisplayView = ({
   return (
     <View style={styles.container}>
       <View style={[styles.scroll, styles.scrollContent, { width: WIDTH }]}>
-        <CommentsDisplay
+        <PostComments
           author={author || post?.author}
           mainAuthor={author || post?.author}
           permlink={post?.permlink}

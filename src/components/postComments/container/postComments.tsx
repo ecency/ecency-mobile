@@ -19,7 +19,7 @@ import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
 import Animated, { SlideInRight } from 'react-native-reanimated';
 
-const CommentsDisplayView = forwardRef(
+const PostComments = forwardRef(
   (
     {
       author,
@@ -254,7 +254,7 @@ const CommentsDisplayView = forwardRef(
   },
 );
 
-export default CommentsDisplayView;
+export default PostComments;
 
 
 
