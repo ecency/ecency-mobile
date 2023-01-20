@@ -16,7 +16,7 @@ import postUrlParser from '../../../utils/postUrlParser';
 
 // Component
 import SearchModalView from '../view/searchModalView';
-import { usePostsCachePrimer } from '../../../providers/queries';
+import { postQueries } from '../../../providers/queries';
 
 /*
  *            Props name        Description                                     Value
@@ -26,7 +26,7 @@ import { usePostsCachePrimer } from '../../../providers/queries';
 
 const SearchModalContainer = ({ isConnected, handleOnClose, username, isOpen, placeholder }) => {
   const navigation = useNavigation();
-  const postsCachePrimer = usePostsCachePrimer();
+  const postsCachePrimer = postQueries.usePostsCachePrimer();
 
   const [searchResults, setSearchResults] = useState({});
 

@@ -6,7 +6,7 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 // Component
 import PostScreen from '../screen/postScreen';
-import { useGetPostQuery } from '../../../providers/queries';
+import { postQueries } from '../../../providers/queries';
 
 /*
  *            Props Name        Description                                     Value

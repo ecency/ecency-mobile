@@ -8,11 +8,11 @@ import ROUTES from '../../../../../../constants/routeNames';
 
 import { search } from '../../../../../../providers/ecency/ecency';
 import { getAccountPosts } from '../../../../../../providers/hive/dhive';
-import { usePostsCachePrimer } from '../../../../../../providers/queries';
+import { postQueries } from '../../../../../../providers/queries';
 
 const PostsResultsContainer = ({ children, searchValue }) => {
   const navigation = useNavigation();
-  const postsCacherPrimer = usePostsCachePrimer();
+  const postsCacherPrimer = postQueries.usePostsCachePrimer();
 
   const [data, setData] = useState([]);
   const [sort, setSort] = useState('newest');
