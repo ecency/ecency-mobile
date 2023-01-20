@@ -3,11 +3,12 @@ import { Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
+import Animated, {SlideInRight} from 'react-native-reanimated';
 
 
 // Components
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
-import { Comment } from '../..';
+import { Comment, PinAnimatedInput } from '../..';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -48,10 +49,10 @@ const PostComments = forwardRef(
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
     const [data, setData] = useState([]);
- 
-    const [sectionsToggleMap, setSectionsToggleMap] = useState<{[key:string]:boolean}>({});
 
-    const sortedSections = useMemo(() =>_sortComments(selectedFilter, discussionQuery.commentsData), [discussionQuery.commentsData, selectedFilter])
+    const [sectionsToggleMap, setSectionsToggleMap] = useState<{ [key: string]: boolean }>({});
+
+    const sortedSections = useMemo(() => _sortComments(selectedFilter, discussionQuery.commentsData), [discussionQuery.commentsData, selectedFilter])
 
 
     useImperativeHandle(ref, () => ({
@@ -72,20 +73,20 @@ const PostComments = forwardRef(
         discussionQuery.commentsData.forEach(item => {
           sectionsToggleMap[item.commentKey] = false;
         })
-        setSectionsToggleMap({...sectionsToggleMap});
+        setSectionsToggleMap({ ...sectionsToggleMap });
       }
     }, [discussionQuery.isLoading, discussionQuery.commentsData, sortedSections])
 
-    useEffect(()=>{
-      if(sortedSections){
+    useEffect(() => {
+      if (sortedSections) {
         const _data = []
-        sortedSections.forEach(section=>{
+        sortedSections.forEach(section => {
           _data.push(section)
           // _data.push(...discussionQuery.repliesMap[section.commentKey])
         })
         setData(_data);
       }
-    
+
     }, [sortedSections])
 
     const _handleOnDropdownSelect = (option, index) => {
@@ -183,11 +184,11 @@ const PostComments = forwardRef(
             onPress: _copyCommentLink
           },
           {
-            text:intl.formatMessage({ id: 'post.copy_text' }),
+            text: intl.formatMessage({ id: 'post.copy_text' }),
             onPress: _copyCommentBody
           },
           {
-            text:  intl.formatMessage({ id: 'post.open_thread' }),
+            text: intl.formatMessage({ id: 'post.open_thread' }),
             onPress: _openThread
           }
         ]
@@ -198,22 +199,22 @@ const PostComments = forwardRef(
     const _handleOnToggleReplies = (commentKey, index) => {
       const toggleFlag = !sectionsToggleMap[commentKey];
 
-      setSectionsToggleMap({...sectionsToggleMap, [commentKey]:toggleFlag});
+      setSectionsToggleMap({ ...sectionsToggleMap, [commentKey]: toggleFlag });
 
-      const replies:any[] = discussionQuery.repliesMap[commentKey]
-      
-      if(toggleFlag){
-        replies.forEach( async (reply, i) => {
-          data.splice(index + 1 + i, 0, reply )
+      const replies: any[] = discussionQuery.repliesMap[commentKey]
+
+      if (toggleFlag) {
+        replies.forEach(async (reply, i) => {
+          data.splice(index + 1 + i, 0, reply)
           setData(data);
-          await delay(300);
+          await delay(200);
         });
       } else {
-        const updatedData = data.filter((item)=>!(item.commentKey === commentKey && item.level > 1))
+        const updatedData = data.filter((item) => !(item.commentKey === commentKey && item.level > 1))
         setData(updatedData)
       }
-      
-    
+
+
     }
 
 
@@ -236,19 +237,22 @@ const PostComments = forwardRef(
 
 
 
-    const _renderComment = ({item, index}) => {
+    const _renderComment = ({ item, index }) => {
       return (
-        <Comment
-          mainAuthor={mainAuthor}
-          comment={item}
-          repliesToggle={sectionsToggleMap[item.commentKey]}
-          handleDeleteComment={_handleDeleteComment}
-          handleOnEditPress={_handleOnEditPress}
-          handleOnVotersPress={_handleOnVotersPress}
-          handleOnLongPress={_handleShowOptionsMenu}
-          openReplyThread={_openReplyThread}
-          handleOnToggleReplies={(commentKey)=>_handleOnToggleReplies(commentKey, index)}
-        />
+        <Animated.View entering={SlideInRight.duration(300)}>
+          <Comment
+            mainAuthor={mainAuthor}
+            comment={item}
+            repliesToggle={sectionsToggleMap[item.commentKey]}
+            handleDeleteComment={_handleDeleteComment}
+            handleOnEditPress={_handleOnEditPress}
+            handleOnVotersPress={_handleOnVotersPress}
+            handleOnLongPress={_handleShowOptionsMenu}
+            openReplyThread={_openReplyThread}
+            handleOnToggleReplies={(commentKey) => _handleOnToggleReplies(commentKey, index)}
+          />
+        </Animated.View>
+
       );
     };
 
@@ -259,7 +263,7 @@ const PostComments = forwardRef(
         data={data}
         renderItem={_renderComment}
         extraData={sectionsToggleMap}
-        keyExtractor={(item, index) => 'item_' + index }
+        keyExtractor={(item, index) => 'item_' + index}
         stickySectionHeadersEnabled={false}
         {...flatListProps}
       />
