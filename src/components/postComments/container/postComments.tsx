@@ -1,7 +1,8 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState, useMemo, useEffect } from 'react';
-import { SectionList, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
+import { FlatList } from 'react-native-gesture-handler';
 
 
 // Components
@@ -17,7 +18,6 @@ import { postBodySummary } from '@ecency/render-helper';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
-import Animated, { SlideInRight } from 'react-native-reanimated';
 
 const PostComments = forwardRef(
   (
@@ -50,15 +50,7 @@ const PostComments = forwardRef(
 
     const [sectionsToggleMap, setSectionsToggleMap] = useState<Map<string, boolean>>(new Map());
 
-    const { sortedSections, repliesMap } = useMemo(() => {
-      const repliesMap = {};
-      discussionQuery.sectionedData.forEach((section)=>{
-        repliesMap[section.sectionKey] = section.data || [];
-        delete section.data;
-      })
-      const sortedSections = _sortComments(selectedFilter, discussionQuery.sectionedData)
-      return {sortedSections, repliesMap}
-    }, [discussionQuery.sectionedData, selectedFilter])
+    const sortedSections = useMemo(() =>_sortComments(selectedFilter, discussionQuery.commentsData), [discussionQuery.commentsData, selectedFilter])
 
     const _listData = useMemo(()=>[...sortedSections],[sortedSections])
 
@@ -77,13 +69,13 @@ const PostComments = forwardRef(
         handleOnCommentsLoaded()
       }
 
-      if (discussionQuery.sectionedData) {
-        discussionQuery.sectionedData.forEach(item => {
-          sectionsToggleMap.set(item.sectionKey, false);
+      if (discussionQuery.commentsData) {
+        discussionQuery.commentsData.forEach(item => {
+          sectionsToggleMap.set(item.commentKey, false);
         })
         setSectionsToggleMap(new Map(sectionsToggleMap));
       }
-    }, [discussionQuery.isLoading, discussionQuery.sectionedData])
+    }, [discussionQuery.isLoading, discussionQuery.commentsData])
 
     const _handleOnDropdownSelect = (option, index) => {
       setSelectedFilter(option);
@@ -192,11 +184,11 @@ const PostComments = forwardRef(
     }
 
 
-    const _handleOnToggleReplies = (sectionKey, toggleFlag, index) => {
-      sectionsToggleMap.set(sectionKey, toggleFlag);
+    const _handleOnToggleReplies = (commentKey, toggleFlag, index) => {
+      sectionsToggleMap.set(commentKey, toggleFlag);
       setSectionsToggleMap(new Map(sectionsToggleMap));
 
-      const _replies = repliesMap[sectionKey];
+      const _replies = discussionQuery.repliesMap[commentKey];
       if(toggleFlag){
         _listData.splice(index + 1, 0, ..._replies)
       } else {
@@ -235,13 +227,12 @@ const PostComments = forwardRef(
           handleOnLongPress={_handleShowOptionsMenu}
           openReplyThread={_openReplyThread}
           handleOnToggleReplies={(...args)=>_handleOnToggleReplies(...args, index)}
-
         />
       );
     };
 
     return (
-      <Animated.FlatList
+      <FlatList
         style={{ flex: 1 }}
         ListHeaderComponent={_postContentView}
         data={_listData}

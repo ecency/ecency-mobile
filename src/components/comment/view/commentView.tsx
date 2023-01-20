@@ -115,7 +115,7 @@ const CommentView = ({
   const _showSubCommentsToggle = (force) => {
     if ((replies && replies.length > 0) || force) {
 
-      handleOnToggleReplies(comment.sectionKey, !_isShowSubComments)
+      handleOnToggleReplies(comment.commentKey, !_isShowSubComments)
       setIsShowSubComments(!_isShowSubComments);
       // setIsPressedShowButton(true);
     } else if (openReplyThread) {

@@ -66,7 +66,7 @@ export const usePostsCachePrimer = () => {
  * also injects local cache to data if any
  * @param _author
  * @param _permlink
- * @returns raw query with sectionedData as extra parameter
+ * @returns raw query with commentsData as extra parameter
  */
 export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
@@ -75,7 +75,8 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const [author, setAuthor] = useState(_author);
   const [permlink, setPermlink] = useState(_permlink);
 
-  const [sectionedData, setSectionedData] = useState([]);
+  const [commentsData, setCommentsData] = useState([]);
+  const [repliesMap, setRepliesMap] = useState([]);
 
   const _injectCachedComments = (_comments) => {
     // TODO: inject cached comments here
@@ -83,12 +84,12 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   };
 
   // traverse discussion collection to curate sections
-  const parseSectionedData = async (commentsMap: any, author: string, permlink: string) => {
+  const parseCommentsData = async (commentsMap: any, author: string, permlink: string) => {
     const MAX_THREAD_LEVEL = 3;
     const comments: any = [];
 
     if (!commentsMap) {
-      setSectionedData([]);
+      setCommentsData([]);
       return;
     }
 
@@ -96,7 +97,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
     const parseReplies = (
       commentsMap: any,
       replyKeys: any[],
-      sectionKey: string,
+      commentKey: string,
       level: number,
       replies: any[] = [],
     ) => {
@@ -104,10 +105,10 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         replyKeys.forEach((pathKey) => {
           const comment = commentsMap[pathKey];
           if (comment) {
-            comment.sectionKey = sectionKey;
+            comment.commentKey = commentKey;
             comment.level = level;
             replies.push(comment);
-            replies = parseReplies(commentsMap, comment.replies, sectionKey, level + 1, replies);
+            replies = parseReplies(commentsMap, comment.replies, commentKey, level + 1, replies);
             return comment;
           }
         });
@@ -124,15 +125,17 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
         // prcoess first level comment
         if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
-          comment.sectionKey = key;
+          comment.commentKey = key;
           comment.level = 1;
-          comment.data = parseReplies(commentsMap, comment.replies, key, 2);
+          const _replies = parseReplies(commentsMap, comment.replies, key, 2);
+          repliesMap[key] = _replies || []
           comments.push(comment);
         }
       }
     }
 
-    setSectionedData(comments);
+    setRepliesMap(repliesMap);
+    setCommentsData(comments);
   };
 
   const _fetchComments = async () => {
@@ -147,13 +150,14 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const data = useMemo(() => _injectCachedComments(query.data), [query.data, cachedComments]);
 
   useEffect(() => {
-    parseSectionedData(data, author, permlink);
+    parseCommentsData(data, author, permlink);
   }, [data]);
 
   return {
     ...query,
     data,
-    sectionedData,
+    commentsData,
+    repliesMap,
     setAuthor,
     setPermlink,
   };
