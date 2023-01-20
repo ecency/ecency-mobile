@@ -47,12 +47,11 @@ const PostComments = forwardRef(
 
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
-
+    const [data, setData] = useState([]);
+ 
     const [sectionsToggleMap, setSectionsToggleMap] = useState<Map<string, boolean>>(new Map());
 
     const sortedSections = useMemo(() =>_sortComments(selectedFilter, discussionQuery.commentsData), [discussionQuery.commentsData, selectedFilter])
-
-    const _listData = useMemo(()=>[...sortedSections],[sortedSections])
 
 
     useImperativeHandle(ref, () => ({
@@ -75,7 +74,19 @@ const PostComments = forwardRef(
         })
         setSectionsToggleMap(new Map(sectionsToggleMap));
       }
-    }, [discussionQuery.isLoading, discussionQuery.commentsData])
+    }, [discussionQuery.isLoading, discussionQuery.commentsData, sortedSections])
+
+    useEffect(()=>{
+      if(sortedSections){
+        const _data = []
+        sortedSections.forEach(section=>{
+          _data.push(section)
+          _data.push(...discussionQuery.repliesMap[section.commentKey])
+        })
+        setData(_data);
+      }
+    
+    }, [sortedSections])
 
     const _handleOnDropdownSelect = (option, index) => {
       setSelectedFilter(option);
@@ -187,13 +198,6 @@ const PostComments = forwardRef(
     const _handleOnToggleReplies = (commentKey, toggleFlag, index) => {
       sectionsToggleMap.set(commentKey, toggleFlag);
       setSectionsToggleMap(new Map(sectionsToggleMap));
-
-      const _replies = discussionQuery.repliesMap[commentKey];
-      if(toggleFlag){
-        _listData.splice(index + 1, 0, ..._replies)
-      } else {
-        _listData.splice(index + 1, _replies.length)
-      }
     }
 
 
@@ -226,7 +230,7 @@ const PostComments = forwardRef(
           handleOnVotersPress={_handleOnVotersPress}
           handleOnLongPress={_handleShowOptionsMenu}
           openReplyThread={_openReplyThread}
-          handleOnToggleReplies={(...args)=>_handleOnToggleReplies(...args, index)}
+          handleOnToggleReplies={(commentKey, toggleFlag)=>_handleOnToggleReplies(commentKey, toggleFlag, index)}
         />
       );
     };
@@ -235,7 +239,7 @@ const PostComments = forwardRef(
       <FlatList
         style={{ flex: 1 }}
         ListHeaderComponent={_postContentView}
-        data={_listData}
+        data={data}
         renderItem={_renderComment}
         extraData={sectionsToggleMap}
         keyExtractor={(item, index) => 'item_' + index }

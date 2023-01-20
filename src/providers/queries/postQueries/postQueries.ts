@@ -119,6 +119,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       return replies;
     };
 
+    const _repliesMap:any = {} 
     for (const key in commentsMap) {
       if (commentsMap.hasOwnProperty(key)) {
         const comment = commentsMap[key];
@@ -127,14 +128,15 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
           comment.commentKey = key;
           comment.level = 1;
-          const _replies = parseReplies(commentsMap, comment.replies, key, 2);
-          repliesMap[key] = _replies || []
           comments.push(comment);
+
+          const _replies = parseReplies(commentsMap, comment.replies, key, 2);
+          _repliesMap[key] = _replies || []
         }
       }
     }
 
-    setRepliesMap(repliesMap);
+    setRepliesMap(_repliesMap);
     setCommentsData(comments);
   };
 
