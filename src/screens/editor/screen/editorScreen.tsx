@@ -36,6 +36,9 @@ class EditorScreen extends Component {
 
   constructor(props) {
     super(props);
+
+    console.log('reading tags', props.draftPost?.tags, props.tags);
+
     this.state = {
       isFormValid: false,
       isPreviewActive: false,
@@ -93,21 +96,23 @@ class EditorScreen extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     // shoudl update state
     const stateUpdate: any = {};
+    console.log('reading tags in derived state', nextProps.draftPost?.tags, nextProps.tags);
 
     if (nextProps.draftPost !== prevState.draftPostProp) {
       stateUpdate.draftPostProp = nextProps.draftPost;
       const newDraftPost = nextProps.draftPost;
 
       if (newDraftPost.tags?.length > 0 && isCommunity(newDraftPost.tags[0])) {
-        stateUpdate.communityProp = [newDraftPost.tags[0]];
+        stateUpdate.communityProp = newDraftPost.tags;
       } else {
         stateUpdate.selectedAccount = nextProps.currentAccout;
       }
 
       if (nextProps.community && nextProps.community.length > 0) {
-        stateUpdate.communityProp = nextProps.community;
-        newDraftPost.tags = [...nextProps.community, ...newDraftPost.tags];
+        stateUpdate.communityProp = [...nextProps.community, ...newDraftPost.tags];
+        newDraftPost.tags = stateUpdate.communityProp;
       }
+
       stateUpdate.fields = {
         ...prevState.fields,
         ...newDraftPost,
@@ -122,6 +127,7 @@ class EditorScreen extends Component {
       stateUpdate.communityProp = nextProps.community;
     }
 
+    console.log('derived state update', stateUpdate);
     return stateUpdate;
   }
 
