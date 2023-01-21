@@ -557,7 +557,9 @@
     "title": "下書き",
     "load_error": "下書きを読み込めませんでした",
     "empty_list": "まだ何もありません",
-    "deleted": "下書きを削除しました"
+    "deleted": "下書きを削除しました",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "スケジュール",
