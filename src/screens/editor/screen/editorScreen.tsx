@@ -52,6 +52,7 @@ class EditorScreen extends Component {
       selectedCommunity: null,
       selectedAccount: null,
       scheduledFor: null,
+      draftPostProp: props.draftPost
     };
   }
 
@@ -77,39 +78,61 @@ class EditorScreen extends Component {
     }
   }
 
-  UNSAFE_componentWillReceiveProps = async (nextProps) => {
-    const { draftPost, isUploading, community, currentAccount } = this.props;
-    if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
-      if (nextProps.draftPost.tags?.length > 0 && isCommunity(nextProps.draftPost.tags[0])) {
-        this._getCommunity(nextProps.draftPost.tags[0]);
-      } else {
-        this.setState({
-          selectedAccount: currentAccount,
-        });
-      }
 
-      await this.setState((prevState) => {
-        if (community && community.length > 0) {
-          nextProps.draftPost.tags = [...community, ...nextProps.draftPost.tags];
-        }
-        return {
-          fields: {
-            ...prevState.fields,
-            ...nextProps.draftPost,
-          },
-        };
-      });
-    }
+  componentDidUpdate(prevProps, prevState) {
 
-    if (isUploading !== nextProps) {
+    const {isUploadingProp, communityProp} = this.state;
+    if (prevState.isUploadingProp !== isUploadingProp) {
       this._handleFormUpdate();
     }
 
-    if (community && community.length > 0) {
-      this._getCommunity(community[0]);
-      this._handleOnTagAdded(community);
+    if (communityProp?.length > 0 && prevState.communityProp !== communityProp) {
+      this._getCommunity(communityProp[0]);
+      this._handleOnTagAdded(communityProp);
     }
-  };
+  }
+
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    //shoudl update state
+    const stateUpdate:any = {};
+
+    if (nextProps.draftPost !== prevState.draftPostProp) {
+
+      stateUpdate.draftPostProp = nextProps.draftPost;
+      const newDraftPost = nextProps.draftPost
+
+      
+      if (newDraftPost.tags?.length > 0 && isCommunity(newDraftPost.tags[0])) {
+        
+        stateUpdate.communityProp = [newDraftPost.tags[0]]
+      } else {
+        stateUpdate.selectedAccount = nextProps.currentAccout;
+      }
+
+      if (nextProps.community && nextProps.community.length > 0) {
+        stateUpdate.communityProp = nextProps.community;
+        newDraftPost.tags = [...nextProps.community, ...newDraftPost.tags];
+        
+      }
+      stateUpdate.fields = {
+        ...prevState.fields,
+        ...newDraftPost,
+      };
+
+    }
+
+    if (nextProps.isUploading !== prevState.isUploadingProp) {
+      stateUpdate.isUploadingProp = nextProps.isUploading;
+    }
+
+    if (nextProps.community !== prevState.communityProp) {
+      stateUpdate.communityProp = nextProps.community;
+    }
+
+    return stateUpdate
+  }
+
 
   // Component Functions
   _initialFields = () => {
@@ -161,7 +184,7 @@ class EditorScreen extends Component {
         },
         {
           text: intl.formatMessage({ id: 'alert.cancel' }),
-          onPress: () => {},
+          onPress: () => { },
           style: 'cancel',
         },
       ]);
@@ -396,10 +419,10 @@ class EditorScreen extends Component {
       id: isEdit
         ? 'basic_header.update'
         : isReply
-        ? 'basic_header.reply'
-        : scheduledFor
-        ? 'basic_header.schedule'
-        : 'basic_header.publish',
+          ? 'basic_header.reply'
+          : scheduledFor
+            ? 'basic_header.schedule'
+            : 'basic_header.publish',
     });
 
     const _renderCommunityModal = () => {
