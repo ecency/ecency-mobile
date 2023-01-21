@@ -557,7 +557,9 @@
     "title": "Taslaklar",
     "load_error": "Taslaklar yüklenemedi",
     "empty_list": "Burada hiçbir şey yok",
-    "deleted": "Taslak silindi"
+    "deleted": "Taslak silindi",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Zamanlananlar",
