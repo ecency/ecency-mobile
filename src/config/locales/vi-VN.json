@@ -557,7 +557,9 @@
     "title": "Bản nháp",
     "load_error": "Không thể tải bản nháp",
     "empty_list": "Không có gì ở đây",
-    "deleted": "Bản nháp đã bị xóa"
+    "deleted": "Bản nháp đã bị xóa",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Những lịch trình",
