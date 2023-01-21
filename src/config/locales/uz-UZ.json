@@ -557,7 +557,9 @@
     "title": "Qoralamalar",
     "load_error": "Qoralamalarni yuklab bo‘lmadi",
     "empty_list": "Hech narsa yo'q",
-    "deleted": "Qoralama o'chirildi"
+    "deleted": "Qoralama o'chirildi",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Rejalar",
