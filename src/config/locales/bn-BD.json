@@ -557,7 +557,9 @@
     "title": "খসড়া",
     "load_error": "খসড়া লোড করা যায়নি",
     "empty_list": "এখানে কিছু নেই",
-    "deleted": "খসড়া মুছে ফেলা হয়েছে"
+    "deleted": "খসড়া মুছে ফেলা হয়েছে",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "সময়সূচীসমূহ",
