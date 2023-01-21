@@ -1,9 +1,10 @@
 import React, { useRef, useState, useEffect, Fragment } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils
 import FastImage from 'react-native-fast-image';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
@@ -34,6 +35,7 @@ const DraftListItemView = ({
   status,
   isSchedules,
   isDeleting,
+  isUnsaved,
 }) => {
   const actionSheet = useRef(null);
   const moveActionSheet = useRef(null);
@@ -103,16 +105,34 @@ const DraftListItemView = ({
                 />
               </PopoverWrapper>
             )}
-            <IconButton
-              backgroundColor="transparent"
-              name="delete"
-              iconType="MaterialIcons"
-              size={20}
-              onPress={() => actionSheet.current.show()}
-              style={[styles.rightItem]}
-              color="#c1c5c7"
-              isLoading={isDeleting && deleteRequested}
-            />
+            {isUnsaved ? (
+              <IconButton
+                backgroundColor="transparent"
+                name="alert-outline"
+                iconType="MaterialCommunityIcons"
+                size={20}
+                onPress={() =>
+                  Alert.alert(
+                    intl.formatMessage({ id: 'drafts.unsynced_title' }),
+                    intl.formatMessage({ id: 'drafts.unsynced_body' }),
+                  )
+                }
+                style={[styles.rightItem]}
+                color={EStyleSheet.value('$primaryBlue')}
+                isLoading={isDeleting && deleteRequested}
+              />
+            ) : (
+              <IconButton
+                backgroundColor="transparent"
+                name="delete"
+                iconType="MaterialIcons"
+                size={20}
+                onPress={() => actionSheet.current.show()}
+                style={[styles.rightItem]}
+                color="#c1c5c7"
+                isLoading={isDeleting && deleteRequested}
+              />
+            )}
           </View>
         </View>
         <View style={styles.body}>

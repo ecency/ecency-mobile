@@ -339,9 +339,18 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         return;
       }
 
-      const remoteDrafts = await getDrafts();
-
+      // if idless unsaved draft exist load that first.
       const idLessDraft = draftsCollection && draftsCollection[DEFAULT_USER_DRAFT_ID + username];
+      if (
+        idLessDraft &&
+        idLessDraft.updated > 0 &&
+        (idLessDraft.title !== '' || idLessDraft.tags !== '' || idLessDraft.body !== '')
+      ) {
+        _getStorageDraftGeneral();
+        return;
+      }
+
+      const remoteDrafts = await getDrafts();
 
       const loadRecentDraft = () => {
         // if no draft available means local draft is recent
@@ -356,17 +365,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         );
         const _draft = remoteDrafts[0];
 
-        // if unsaved local draft is more latest then remote draft, use that instead
-        // if editor was opened from draft screens, this code will be skipped anyways.
-        if (
-          idLessDraft &&
-          (idLessDraft.title !== '' || idLessDraft.tags !== '' || idLessDraft.body !== '') &&
-          new Date(_draft.modified).getTime() < idLessDraft.updated
-        ) {
-          _getStorageDraftGeneral(false);
-          return;
-        }
-
         // initilize editor as draft
         this.setState({
           draftId: _draft._id,
@@ -374,7 +372,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         this._getStorageDraft(username, isReply, _draft);
       };
 
-      if (remoteDrafts.length > 0 || (idLessDraft && idLessDraft.updated > 0)) {
+      if (remoteDrafts.length > 0) {
         this.setState({
           onLoadDraftPress: loadRecentDraft,
         });

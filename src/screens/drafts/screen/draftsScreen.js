@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text, Platform, RefreshControl } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -15,6 +15,7 @@ import { BasicHeader, TabBar, DraftListItem, PostCardPlaceHolder } from '../../.
 import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
 import { useAppSelector } from '../../../hooks';
+import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 
 const DraftsScreen = ({
   currentAccount,
@@ -31,6 +32,21 @@ const DraftsScreen = ({
   initialTabIndex,
 }) => {
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const draftsCollection = useAppSelector((state) => state.cache.draftsCollection);
+
+  const idLessDraft = useMemo(() => {
+    // if idless unsaved draft exist load that first.
+    const _idLessDraft =
+      draftsCollection && draftsCollection[DEFAULT_USER_DRAFT_ID + currentAccount?.username];
+    if (
+      _idLessDraft &&
+      _idLessDraft.updated > 0 &&
+      (_idLessDraft.title !== '' || _idLessDraft.tags !== '' || _idLessDraft.body !== ''))
+    {
+      return _idLessDraft;
+    }
+    return null;
+  }, [draftsCollection]);
 
   // Component Functions
   const _renderItem = (item, type) => {
@@ -46,6 +62,7 @@ const DraftsScreen = ({
         : catchDraftImage(item.body, 'match', true);
     const summary = postBodySummary({ ...item, last_update: item.modified }, 100, Platform.OS);
     const isSchedules = type === 'schedules';
+    const isUnsaved = type === 'unsaved';
 
     const _onItemPress = () => {
       if (!isSchedules) {
@@ -72,6 +89,7 @@ const DraftsScreen = ({
         status={item.status}
         isSchedules={isSchedules}
         isDeleting={isDeleting}
+        isUnsaved={isUnsaved}
       />
     );
   };
@@ -95,6 +113,10 @@ const DraftsScreen = ({
     );
   };
 
+  const _renderHeader = () => {
+    return _renderItem(idLessDraft, 'unsaved');
+  };
+
   const _getTabItem = (data, type) => (
     <View style={globalStyles.lightContainer}>
       <FlatList
@@ -102,6 +124,7 @@ const DraftsScreen = ({
         keyExtractor={(item) => item._id}
         removeClippedSubviews={false}
         renderItem={({ item }) => _renderItem(item, type)}
+        ListHeaderComponent={type === 'drafts' && idLessDraft && _renderHeader}
         ListEmptyComponent={_renderEmptyContent()}
         refreshControl={
           <RefreshControl
