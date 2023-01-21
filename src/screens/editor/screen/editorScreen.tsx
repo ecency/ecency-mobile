@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Alert, View } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { get, isNull, isEqual } from 'lodash';
@@ -264,6 +264,7 @@ class EditorScreen extends Component {
     } else if (componentID === 'title') {
       fields.title = content;
     } else if (componentID === 'tag-area') {
+      console.log("updating tags", content);
       fields.tags = content;
     }
 
@@ -458,13 +459,13 @@ class EditorScreen extends Component {
           rightButtonText={rightButtonText}
           handleSettingsPress={this._handleSettingsPress}
         />
-        <PostForm
-          handleFormUpdate={this._handleFormUpdate}
-          handleBodyChange={this._setWordsCount}
-          handleOnSubmit={this._handleOnSubmit}
+        {/* <PostForm
+            handleFormUpdate={this._handleFormUpdate}
+            handleBodyChange={this._setWordsCount}
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
-        >
+        > */}
+        <Fragment>
           {!isReply && !isEdit && (
             <SelectCommunityAreaView
               selectedAccount={selectedAccount}
@@ -494,13 +495,16 @@ class EditorScreen extends Component {
             onTagChanged={this._handleOnTagAdded}
             onTitleChanged={this._handleChangeTitle}
             getCommunity={this._getCommunity}
+            handleFormUpdate={this._handleFormUpdate}
+            handleBodyChange={this._setWordsCount}
             autoFocusText={autoFocusText}
             sharedSnippetText={sharedSnippetText}
             onLoadDraftPress={onLoadDraftPress}
             uploadProgress={uploadProgress}
             setIsUploading={setIsUploading}
+            isPreviewActive={isPreviewActive}
           />
-        </PostForm>
+        </Fragment>
 
         {_renderCommunityModal()}
 

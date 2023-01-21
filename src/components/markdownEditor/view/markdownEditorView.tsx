@@ -63,7 +63,8 @@ const MarkdownEditorView = ({
   isReply,
   isLoading,
   initialFields,
-  onChange,
+  handleFormUpdate,
+  handleBodyChange,
   isEdit,
   post,
   fields,
@@ -194,6 +195,8 @@ const MarkdownEditorView = ({
     debounce(() => {
       console.log('setting is editing to', false);
       setIsEditing(false);
+      handleBodyChange(bodyText)
+      handleFormUpdate('body', bodyText);
       const urls = extractImageUrls({ body: bodyText });
       if (urls.length !== insertedMediaUrls.length) {
         setInsertedMediaUrls(urls);
@@ -218,10 +221,6 @@ const MarkdownEditorView = ({
 
       _debouncedOnTextChange();
 
-      // NOTE: onChange method is called by direct parent of MarkdownEditor that is PostForm, do not remove
-      if (onChange) {
-        onChange(input);
-      }
     },
     [isEditing],
   );
