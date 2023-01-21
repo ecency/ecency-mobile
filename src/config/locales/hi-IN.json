@@ -557,7 +557,9 @@
     "title": "प्रारूप",
     "load_error": "प्रारूप भर न सका",
     "empty_list": "कुछ नहीं है यहां",
-    "deleted": "प्रारूप मिट गया"
+    "deleted": "प्रारूप मिट गया",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "निर्धारित",
