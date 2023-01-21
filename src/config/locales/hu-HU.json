@@ -557,7 +557,9 @@
     "title": "Piszkozatok",
     "load_error": "Nem sikerült betölteni a piszkozatokat",
     "empty_list": "Itt nincs semmi",
-    "deleted": "Piszkozat törölve"
+    "deleted": "Piszkozat törölve",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Időzítések",
