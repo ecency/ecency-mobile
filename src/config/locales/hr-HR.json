@@ -557,7 +557,9 @@
     "title": "Skice",
     "load_error": "Nije bilo moguće učitati skice",
     "empty_list": "Nema ničeg ovdje",
-    "deleted": "Skica izbrisana"
+    "deleted": "Skica izbrisana",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Schedules",
