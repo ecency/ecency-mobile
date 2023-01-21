@@ -557,7 +557,9 @@
     "title": "Konsep",
     "load_error": "Tidak dapat menampilkan konsep",
     "empty_list": "Disini belum ada apa-apa",
-    "deleted": "Konsep dihapus"
+    "deleted": "Konsep dihapus",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Daftar jadwal",
