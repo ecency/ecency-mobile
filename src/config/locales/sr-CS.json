@@ -557,7 +557,9 @@
     "title": "Radne verzije",
     "load_error": "Nije moguće učitati radne verzije",
     "empty_list": "Ovde nema ništa",
-    "deleted": "Radna verzija je izbrisana"
+    "deleted": "Radna verzija je izbrisana",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Rasporedi",
