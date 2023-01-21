@@ -52,7 +52,7 @@ class EditorScreen extends Component {
       selectedCommunity: null,
       selectedAccount: null,
       scheduledFor: null,
-      draftPostProp: props.draftPost
+      draftPostProp: props.draftPost,
     };
   }
 
@@ -78,10 +78,8 @@ class EditorScreen extends Component {
     }
   }
 
-
   componentDidUpdate(prevProps, prevState) {
-
-    const {isUploadingProp, communityProp} = this.state;
+    const { isUploadingProp, communityProp } = this.state;
     if (prevState.isUploadingProp !== isUploadingProp) {
       this._handleFormUpdate();
     }
@@ -92,20 +90,16 @@ class EditorScreen extends Component {
     }
   }
 
-
   static getDerivedStateFromProps(nextProps, prevState) {
-    //shoudl update state
-    const stateUpdate:any = {};
+    // shoudl update state
+    const stateUpdate: any = {};
 
     if (nextProps.draftPost !== prevState.draftPostProp) {
-
       stateUpdate.draftPostProp = nextProps.draftPost;
-      const newDraftPost = nextProps.draftPost
+      const newDraftPost = nextProps.draftPost;
 
-      
       if (newDraftPost.tags?.length > 0 && isCommunity(newDraftPost.tags[0])) {
-        
-        stateUpdate.communityProp = [newDraftPost.tags[0]]
+        stateUpdate.communityProp = [newDraftPost.tags[0]];
       } else {
         stateUpdate.selectedAccount = nextProps.currentAccout;
       }
@@ -113,13 +107,11 @@ class EditorScreen extends Component {
       if (nextProps.community && nextProps.community.length > 0) {
         stateUpdate.communityProp = nextProps.community;
         newDraftPost.tags = [...nextProps.community, ...newDraftPost.tags];
-        
       }
       stateUpdate.fields = {
         ...prevState.fields,
         ...newDraftPost,
       };
-
     }
 
     if (nextProps.isUploading !== prevState.isUploadingProp) {
@@ -130,9 +122,8 @@ class EditorScreen extends Component {
       stateUpdate.communityProp = nextProps.community;
     }
 
-    return stateUpdate
+    return stateUpdate;
   }
-
 
   // Component Functions
   _initialFields = () => {
@@ -184,7 +175,7 @@ class EditorScreen extends Component {
         },
         {
           text: intl.formatMessage({ id: 'alert.cancel' }),
-          onPress: () => { },
+          onPress: () => {},
           style: 'cancel',
         },
       ]);
@@ -419,10 +410,10 @@ class EditorScreen extends Component {
       id: isEdit
         ? 'basic_header.update'
         : isReply
-          ? 'basic_header.reply'
-          : scheduledFor
-            ? 'basic_header.schedule'
-            : 'basic_header.publish',
+        ? 'basic_header.reply'
+        : scheduledFor
+        ? 'basic_header.schedule'
+        : 'basic_header.publish',
     });
 
     const _renderCommunityModal = () => {
