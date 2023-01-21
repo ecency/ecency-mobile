@@ -557,7 +557,9 @@
     "title": "草稿",
     "load_error": "无法加载草稿",
     "empty_list": "此处无内容",
-    "deleted": "草稿已删除"
+    "deleted": "草稿已删除",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "定时发布",
