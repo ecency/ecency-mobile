@@ -557,7 +557,9 @@
     "title": "Чернетки",
     "load_error": "Не вдалося завантажити чернетки",
     "empty_list": "Тут поки що нічого немає",
-    "deleted": "Чернетку видалено"
+    "deleted": "Чернетку видалено",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Розклад",
