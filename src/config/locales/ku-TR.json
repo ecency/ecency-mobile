@@ -557,7 +557,9 @@
     "title": "Reşnivîs",
     "load_error": "Reşnivîs bar nebûn",
     "empty_list": "Li vir ti tişt tune ye",
-    "deleted": "Reşnivîs hate jêbirin"
+    "deleted": "Reşnivîs hate jêbirin",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Demsazkirinên Te",
