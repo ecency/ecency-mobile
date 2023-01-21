@@ -557,7 +557,9 @@
     "title": "Nacrti",
     "load_error": "Nije moguće učitati nacrte",
     "empty_list": "Ovdje nema ništa",
-    "deleted": "Nacrt je izbrisan"
+    "deleted": "Nacrt je izbrisan",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Rasporedi",
