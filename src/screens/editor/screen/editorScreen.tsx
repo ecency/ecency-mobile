@@ -264,7 +264,7 @@ class EditorScreen extends Component {
     } else if (componentID === 'title') {
       fields.title = content;
     } else if (componentID === 'tag-area') {
-      console.log("updating tags", content);
+      console.log('updating tags', content);
       fields.tags = content;
     }
 

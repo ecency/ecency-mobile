@@ -195,7 +195,7 @@ const MarkdownEditorView = ({
     debounce(() => {
       console.log('setting is editing to', false);
       setIsEditing(false);
-      handleBodyChange(bodyText)
+      handleBodyChange(bodyText);
       handleFormUpdate('body', bodyText);
       const urls = extractImageUrls({ body: bodyText });
       if (urls.length !== insertedMediaUrls.length) {
@@ -220,7 +220,6 @@ const MarkdownEditorView = ({
       }
 
       _debouncedOnTextChange();
-
     },
     [isEditing],
   );
