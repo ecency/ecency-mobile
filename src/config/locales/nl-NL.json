@@ -557,7 +557,9 @@
     "title": "Concepten",
     "load_error": "Kan concepten niet laden",
     "empty_list": "Niets hier",
-    "deleted": "Concept verwijderd"
+    "deleted": "Concept verwijderd",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Schedules",
