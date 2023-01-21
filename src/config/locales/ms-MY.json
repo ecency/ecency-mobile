@@ -557,7 +557,9 @@
     "title": "Draf",
     "load_error": "Tidak dapat memuatkan Draf",
     "empty_list": "Kosong",
-    "deleted": "Draf telah dipadamkan"
+    "deleted": "Draf telah dipadamkan",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Jadual",
