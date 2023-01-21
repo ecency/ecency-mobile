@@ -557,7 +557,9 @@
     "title": "Mga Draft",
     "load_error": "Hindi ma-iload ang mga draft",
     "empty_list": "Walang makita dito",
-    "deleted": "Natanggal na draft"
+    "deleted": "Natanggal na draft",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Mga Iskedyul",
