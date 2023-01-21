@@ -557,7 +557,9 @@
     "title": "Черновики",
     "load_error": "Невозможно загрузить черновики",
     "empty_list": "Ничего нет",
-    "deleted": "Черновик удалён"
+    "deleted": "Черновик удалён",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Отложенные",
