@@ -557,7 +557,9 @@
     "title": "Borradores",
     "load_error": "No se pudieron cargar los borradores",
     "empty_list": "Nada aquí",
-    "deleted": "Borrador eliminado"
+    "deleted": "Borrador eliminado",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Programados",
