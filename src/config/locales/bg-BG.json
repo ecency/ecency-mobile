@@ -557,7 +557,9 @@
     "title": "Чернови",
     "load_error": "Не може да зареди чернови",
     "empty_list": "Няма нищо тук",
-    "deleted": "Изтрий чернови"
+    "deleted": "Изтрий чернови",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Графици",
