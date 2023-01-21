@@ -557,7 +557,9 @@
     "title": "Qaralamalar",
     "load_error": "Qaralamalar yüklənə bilmədi",
     "empty_list": "Burada heç nə yoxdur",
-    "deleted": "Qaralama silindi"
+    "deleted": "Qaralama silindi",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Cədvəllər",
