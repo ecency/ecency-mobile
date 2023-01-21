@@ -557,7 +557,9 @@
     "title": "임시 보관함",
     "load_error": "임시 저장된 글을 불러올 수 없습니다",
     "empty_list": "빈 목록입니다",
-    "deleted": "임시 저장된 글이 삭제되었습니다"
+    "deleted": "임시 저장된 글이 삭제되었습니다",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "일정 관리",
