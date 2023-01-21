@@ -557,7 +557,9 @@
     "title": "Konsep",
     "load_error": "Han leupah peutamoëng ata lam konsep",
     "empty_list": "Hana sapëuna",
-    "deleted": "Konsep kalhëuh meusampöh"
+    "deleted": "Konsep kalhëuh meusampöh",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Schedules",
