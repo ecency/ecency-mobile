@@ -557,7 +557,9 @@
     "title": "Drafts",
     "load_error": "Could not load drafts",
     "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "deleted": "Draft deleted",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Schedules",
