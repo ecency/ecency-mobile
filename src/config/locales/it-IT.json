@@ -557,7 +557,9 @@
     "title": "Bozze",
     "load_error": "Impossibile caricare le bozze",
     "empty_list": "Non c'è niente qui",
-    "deleted": "Bozza eliminata"
+    "deleted": "Bozza eliminata",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Pianificazioni",
