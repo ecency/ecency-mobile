@@ -557,7 +557,9 @@
     "title": "Mustandid",
     "load_error": "Mustandite laadimine ei õnnestunud",
     "empty_list": "Siin pole midagi",
-    "deleted": "Mustand kustutatud"
+    "deleted": "Mustand kustutatud",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Planeeritud",
