@@ -557,7 +557,9 @@
     "title": "Szkice",
     "load_error": "Nie można załadować szkiców",
     "empty_list": "Nic tu nie ma",
-    "deleted": "Szkic został usunięty"
+    "deleted": "Szkic został usunięty",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Harmonogramy",
