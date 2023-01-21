@@ -557,7 +557,9 @@
     "title": "Juodraščiai",
     "load_error": "Nepavyko pakrauti juodraščių",
     "empty_list": "Nieko nėra",
-    "deleted": "Ruošinys panaikintas"
+    "deleted": "Ruošinys panaikintas",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Suplanuota",
