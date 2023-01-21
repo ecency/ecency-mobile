@@ -557,7 +557,9 @@
     "title": "Schițe",
     "load_error": "Schițele nu au putut fi încărcate",
     "empty_list": "Nici un rezultat",
-    "deleted": "Schiță ștearsă"
+    "deleted": "Schiță ștearsă",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Planificări",
