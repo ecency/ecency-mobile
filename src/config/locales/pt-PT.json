@@ -558,8 +558,8 @@
     "load_error": "Não foi possível carregar os rascunhos",
     "empty_list": "Nada aqui",
     "deleted": "Rascunho eliminado",
-    "unsynced_title": "Unsynced Draft",
-    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
+    "unsynced_title": "Rascunho não sincronizado",
+    "unsynced_body": "Rascunho não sincronizado com a nuvem da Ecency. Retome a edição para salvar o rascunho"
   },
   "schedules": {
     "title": "Agendamentos",
