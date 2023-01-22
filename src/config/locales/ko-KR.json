@@ -557,7 +557,9 @@
     "title": "임시 보관함",
     "load_error": "임시 저장된 글을 불러올 수 없습니다",
     "empty_list": "빈 목록입니다",
-    "deleted": "임시 저장된 글이 삭제되었습니다"
+    "deleted": "임시 저장된 글이 삭제되었습니다",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "일정 관리",
@@ -731,7 +733,7 @@
   "buy_account": {
     "title": "Buy Account",
     "btn_register": "Buy Account - {price}",
-    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts\n- 300 Points to help you get started"
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started"
   },
   "free_account": {
     "title": "Free Account",

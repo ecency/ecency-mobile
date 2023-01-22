@@ -557,7 +557,9 @@
     "title": "Radne verzije",
     "load_error": "Nije moguće učitati radne verzije",
     "empty_list": "Ovde nema ništa",
-    "deleted": "Radna verzija je izbrisana"
+    "deleted": "Radna verzija je izbrisana",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Rasporedi",
@@ -731,7 +733,7 @@
   "buy_account": {
     "title": "Buy Account",
     "btn_register": "Buy Account - {price}",
-    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts\n- 300 Points to help you get started"
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started"
   },
   "free_account": {
     "title": "Free Account",
