@@ -111,7 +111,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "하이브 토큰",
+      "name": "Liquid Hive",
       "buy": "HIVE 받기"
     },
     "hbd": {
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "Hive Power | Staked Hive"
+      "name": "Staked Hive"
     },
     "hive_dollar": {
       "name": "하이트 달러"
