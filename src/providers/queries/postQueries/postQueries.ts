@@ -90,12 +90,15 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
     for(const path in cachedComments){
 
+      const currentTime = new Date().getTime();
       const cachedComment = cachedComments[path];
       const _parentPath = `${cachedComment.parent_author}/${cachedComment.parent_permlink}`;
+      const cacheUpdateTimestamp = new Date(cachedComment.updated || 0).getTime();
+      
+
       //check if commentKey already exist in comments map, 
       if(_comments && _comments[path]){
         //check if we should update comments map with cached map based on updat timestamp
-        const cacheUpdateTimestamp = new Date(cachedComment.updated || 0).getTime();
         const remoteUpdateTimestamp = new Date(_comments[path].updated).getTime();
 
         if(cacheUpdateTimestamp > remoteUpdateTimestamp){
@@ -108,6 +111,12 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         _comments[path] = cachedComment
         _comments[_parentPath].replies.push(path);
         _comments[_parentPath].children = _comments[_parentPath].children + 1;
+        
+        //if comment was created very recently enable auto reveal
+        if(currentTime - cacheUpdateTimestamp < 5000){
+          _comments[_parentPath].revealRepliesByDefault = true;
+        }
+   
       }
   
     }
