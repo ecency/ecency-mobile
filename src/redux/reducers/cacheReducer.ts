@@ -76,7 +76,7 @@ export interface SubscribedCommunity {
 
 interface State {
   votes: Map<string, Vote>;
-  comments: Map<string, Comment>; // TODO: handle comment array per post, if parent is same
+  commentsCollection:{ [key: string]: Comment}; // TODO: handle comment array per post, if parent is same
   draftsCollection: { [key: string]: Draft };
   claimsCollection: ClaimsCollection;
   subscribedCommunities: Map<string, SubscribedCommunity>;
@@ -90,7 +90,7 @@ interface State {
 
 const initialState: State = {
   votes: new Map(),
-  comments: new Map(),
+  commentsCollection: {},
   draftsCollection: {},
   claimsCollection: {},
   subscribedCommunities: new Map(),
@@ -116,10 +116,10 @@ export default function (state = initialState, action) {
       };
 
     case UPDATE_COMMENT_CACHE:
-      if (!state.comments) {
-        state.comments = new Map<string, Comment>();
+      if (!state.commentsCollection) {
+        state.commentsCollection = {};
       }
-      state.comments.set(payload.commentPath, payload.comment);
+      state.commentsCollection = {...state.commentsCollection, [payload.commentPath]:payload.comment};
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
         lastUpdate: {
@@ -130,8 +130,8 @@ export default function (state = initialState, action) {
       };
 
     case DELETE_COMMENT_CACHE_ENTRY:
-      if (state.comments && state.comments.has(payload)) {
-        state.comments.delete(payload);
+      if (state.commentsCollection && state.commentsCollection[payload]) {
+        delete state.commentsCollection[payload];
       }
       return { ...state };
 
@@ -243,12 +243,15 @@ export default function (state = initialState, action) {
         });
       }
 
-      if (state.comments && state.comments.size) {
-        Array.from(state.comments).forEach((entry) => {
-          if (entry[1].expiresAt < currentTime) {
-            state.comments.delete(entry[0]);
+      if (state.commentsCollection && state.commentsCollection.size) {
+        for (const key in state.commentsCollection) {
+          if (state.commentsCollection.hasOwnProperty(key)) {
+            const draft = state.commentsCollection[key];
+            if (draft && ((draft?.expiresAt || 0) < currentTime)) {
+              delete state.commentsCollection[key];
+            }
           }
-        });
+        }
       }
 
       if (state.draftsCollection) {
