@@ -111,7 +111,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive代幣",
+      "name": "Liquid Hive",
       "buy": "購買HIVE"
     },
     "hbd": {
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE POWER（已鎖倉）",
-      "name": "Hive Power | Staked Hive"
+      "name": "Staked Hive"
     },
     "hive_dollar": {
       "name": "Hive Dollar(HBD穩定幣)"

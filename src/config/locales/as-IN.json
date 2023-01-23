@@ -111,7 +111,7 @@
     },
     "hive": {
       "title": "হাইভ",
-      "name": "Hive Token",
+      "name": "Liquid Hive",
       "buy": "হাইভ আহৰণ কৰক"
     },
     "hbd": {
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "হাইভ পাৱাৰ",
-      "name": "Hive Power | Staked Hive"
+      "name": "Staked Hive"
     },
     "hive_dollar": {
       "name": "Hive Dollar"
