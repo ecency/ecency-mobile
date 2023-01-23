@@ -111,7 +111,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Liquid Hive",
+      "name": "Hive Líquido",
       "buy": "OBTEN HIVE"
     },
     "hbd": {
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "Staked Hive"
+      "name": "Hive Estacado"
     },
     "hive_dollar": {
       "name": "Dólares Hive"
