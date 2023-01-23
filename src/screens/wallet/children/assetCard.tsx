@@ -99,7 +99,7 @@ export const AssetCard = ({
       {_inactiveTokenBtn}
 
       <View style={styles.cardValuesContainer}>
-        <Text style={styles.textValue} numberOfLines={1} >{value + value + value}</Text>
+        <Text style={styles.textValue} numberOfLines={1} >{value}</Text>
         <Text style={styles.textSubtitleRight}>
           {`${(ownedBalance * currentValue).toFixed(6)}${currencySymbol}`}
         </Text>
