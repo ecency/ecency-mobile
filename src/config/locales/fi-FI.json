@@ -557,7 +557,9 @@
     "title": "Luonnokset",
     "load_error": "Luonnoksia ei voitu ladata",
     "empty_list": "Täällä ei ole mitään",
-    "deleted": "Luonnos poistettu"
+    "deleted": "Luonnos poistettu",
+    "unsynced_title": "Unsynced Draft",
+    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
   },
   "schedules": {
     "title": "Ajastetut",
@@ -731,7 +733,7 @@
   "buy_account": {
     "title": "Osta Tili",
     "btn_register": "Osta tili - {price}",
-    "desc": "Hanki täysimittainen premium Hive tili ilman lisätarkistuksia ja muutamia etuja, kuten:\n\n- Pikaluonti ilman lisätarkistuksia ja odottamista\n- 3x RC verrattuna normaaleihin uusiin tileihin\n- 300 pistettä auttaaksesi sinua aloittamaan"
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started"
   },
   "free_account": {
     "title": "Ilmainen Tili",

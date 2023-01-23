@@ -46,7 +46,7 @@ const UpvoteContainer = (props) => {
   const [isVoted, setIsVoted] = useState(null);
   const [isDownVoted, setIsDownVoted] = useState(null);
   const [totalPayout, setTotalPayout] = useState(get(content, 'total_payout'));
-  const cachedVotes = useAppSelector((state) => {});
+  const cachedVotes = useAppSelector((state) => state.cache.votes);
   const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
 
   useEffect(() => {
