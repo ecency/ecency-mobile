@@ -49,7 +49,7 @@ export default EStyleSheet.create({
   },
 
   claimContainer:{
-    marginBottom:16,
+    marginTop:16,
   },
 
   chartContainer: {
