@@ -111,7 +111,7 @@
     },
     "hive": {
       "title": "हाइव",
-      "name": "हाइव टोकन",
+      "name": "Liquid Hive",
       "buy": "हाइव प्राप्त करें"
     },
     "hbd": {
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "हाइव पावर",
-      "name": "Hive Power | Staked Hive"
+      "name": "Staked Hive"
     },
     "hive_dollar": {
       "name": "हाइव डॉलर"
