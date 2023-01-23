@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Alert, View } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { get, isNull, isEqual } from 'lodash';
@@ -36,6 +36,9 @@ class EditorScreen extends Component {
 
   constructor(props) {
     super(props);
+
+    console.log('reading tags', props.draftPost?.tags, props.tags);
+
     this.state = {
       isFormValid: false,
       isPreviewActive: false,
@@ -52,6 +55,7 @@ class EditorScreen extends Component {
       selectedCommunity: null,
       selectedAccount: null,
       scheduledFor: null,
+      draftPostProp: props.draftPost,
     };
   }
 
@@ -77,39 +81,55 @@ class EditorScreen extends Component {
     }
   }
 
-  UNSAFE_componentWillReceiveProps = async (nextProps) => {
-    const { draftPost, isUploading, community, currentAccount } = this.props;
-    if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
-      if (nextProps.draftPost.tags?.length > 0 && isCommunity(nextProps.draftPost.tags[0])) {
-        this._getCommunity(nextProps.draftPost.tags[0]);
-      } else {
-        this.setState({
-          selectedAccount: currentAccount,
-        });
-      }
-
-      await this.setState((prevState) => {
-        if (community && community.length > 0) {
-          nextProps.draftPost.tags = [...community, ...nextProps.draftPost.tags];
-        }
-        return {
-          fields: {
-            ...prevState.fields,
-            ...nextProps.draftPost,
-          },
-        };
-      });
-    }
-
-    if (isUploading !== nextProps) {
+  componentDidUpdate(prevProps, prevState) {
+    const { isUploadingProp, communityProp } = this.state;
+    if (prevState.isUploadingProp !== isUploadingProp) {
       this._handleFormUpdate();
     }
 
-    if (community && community.length > 0) {
-      this._getCommunity(community[0]);
-      this._handleOnTagAdded(community);
+    if (communityProp?.length > 0 && prevState.communityProp !== communityProp) {
+      this._getCommunity(communityProp[0]);
+      this._handleOnTagAdded(communityProp);
     }
-  };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    // shoudl update state
+    const stateUpdate: any = {};
+    console.log('reading tags in derived state', nextProps.draftPost?.tags, nextProps.tags);
+
+    if (nextProps.draftPost !== prevState.draftPostProp) {
+      stateUpdate.draftPostProp = nextProps.draftPost;
+      const newDraftPost = nextProps.draftPost;
+
+      if (newDraftPost.tags?.length > 0 && isCommunity(newDraftPost.tags[0])) {
+        stateUpdate.communityProp = newDraftPost.tags;
+      } else {
+        stateUpdate.selectedAccount = nextProps.currentAccout;
+      }
+
+      if (nextProps.community && nextProps.community.length > 0) {
+        stateUpdate.communityProp = [...nextProps.community, ...newDraftPost.tags];
+        newDraftPost.tags = stateUpdate.communityProp;
+      }
+
+      stateUpdate.fields = {
+        ...prevState.fields,
+        ...newDraftPost,
+      };
+    }
+
+    if (nextProps.isUploading !== prevState.isUploadingProp) {
+      stateUpdate.isUploadingProp = nextProps.isUploading;
+    }
+
+    if (nextProps.community !== prevState.communityProp) {
+      stateUpdate.communityProp = nextProps.community;
+    }
+
+    console.log('derived state update', stateUpdate);
+    return stateUpdate;
+  }
 
   // Component Functions
   _initialFields = () => {
@@ -250,6 +270,7 @@ class EditorScreen extends Component {
     } else if (componentID === 'title') {
       fields.title = content;
     } else if (componentID === 'tag-area') {
+      console.log('updating tags', content);
       fields.tags = content;
     }
 
@@ -444,13 +465,13 @@ class EditorScreen extends Component {
           rightButtonText={rightButtonText}
           handleSettingsPress={this._handleSettingsPress}
         />
-        <PostForm
-          handleFormUpdate={this._handleFormUpdate}
-          handleBodyChange={this._setWordsCount}
-          handleOnSubmit={this._handleOnSubmit}
+        {/* <PostForm
+            handleFormUpdate={this._handleFormUpdate}
+            handleBodyChange={this._setWordsCount}
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
-        >
+        > */}
+        <Fragment>
           {!isReply && !isEdit && (
             <SelectCommunityAreaView
               selectedAccount={selectedAccount}
@@ -480,13 +501,16 @@ class EditorScreen extends Component {
             onTagChanged={this._handleOnTagAdded}
             onTitleChanged={this._handleChangeTitle}
             getCommunity={this._getCommunity}
+            handleFormUpdate={this._handleFormUpdate}
+            handleBodyChange={this._setWordsCount}
             autoFocusText={autoFocusText}
             sharedSnippetText={sharedSnippetText}
             onLoadDraftPress={onLoadDraftPress}
             uploadProgress={uploadProgress}
             setIsUploading={setIsUploading}
+            isPreviewActive={isPreviewActive}
           />
-        </PostForm>
+        </Fragment>
 
         {_renderCommunityModal()}
 

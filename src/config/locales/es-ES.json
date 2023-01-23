@@ -557,7 +557,9 @@
     "title": "Borradores",
     "load_error": "No se pudieron cargar los borradores",
     "empty_list": "Nada aquí",
-    "deleted": "Borrador eliminado"
+    "deleted": "Borrador eliminado",
+    "unsynced_title": "Borrador no sincronizado",
+    "unsynced_body": "Borrador no sincronizado con nube de Ecency, reanudar la edición y guardar borrador"
   },
   "schedules": {
     "title": "Programados",
@@ -731,7 +733,7 @@
   "buy_account": {
     "title": "Comprar cuenta",
     "btn_register": "Comprar cuenta - {price}",
-    "desc": "Obtén una Cuenta premium completa de Hive sin chequeos extra y varias ventajas tales como:\n\n- Creación instantánea sin chequeos extra ni esperas\n- 3x RC en comparación con cuentas nuevas normales\n- 300 puntos para ayudarte a comenzar"
+    "desc": "Obtén una Cuenta premium completa de Hive sin chequeos extra y varias ventajas tales como:\n\n- Creación instantánea sin chequeos extra ni esperas\n- 3x RC en comparación con cuentas nuevas normales durante 90 días\n- 300 Puntos para ayudarte a comenzar"
   },
   "free_account": {
     "title": "Cuenta Gratuita",
