@@ -138,7 +138,7 @@ const PostComments = forwardRef(
 
         // remove cached entry based on parent
         if (deletedItem) {
-          const cachePath = `${deletedItem.parent_author}/${deletedItem.parent_permlink}`;
+          const cachePath = `${deletedItem.author}/${deletedItem.permlink}`;
           deletedItem.status = CommentCacheStatus.DELETED;
           delete deletedItem.updated;
           dispatch(updateCommentCache(cachePath, deletedItem, { isUpdate: true }));

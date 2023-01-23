@@ -723,11 +723,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           this._handleSubmitSuccess();
 
           // create a cache entry
+          const author = currentAccount.name
           dispatch(
             updateCommentCache(
-              `${parentAuthor}/${parentPermlink}`,
+              `${author}/${permlink}`,
               {
-                author: currentAccount.name,
+                author,
                 permlink,
                 parent_author: parentAuthor,
                 parent_permlink: parentPermlink,
@@ -801,11 +802,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           this._handleSubmitSuccess();
           if (isReply) {
             AsyncStorage.setItem('temp-reply', '');
+            const author = currentAccount.name;
             dispatch(
               updateCommentCache(
-                `${parentAuthor}/${parentPermlink}`,
+                `${author}/${permlink}`,
                 {
-                  author: currentAccount.name,
+                  author,
                   permlink,
                   parent_author: parentAuthor,
                   parent_permlink: parentPermlink,
