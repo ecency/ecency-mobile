@@ -111,7 +111,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive токен",
+      "name": "Liquid Hive",
       "buy": "Купить HIVE"
     },
     "hbd": {
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE СИЛА",
-      "name": "Hive Power | Заморозить Hive"
+      "name": "Staked Hive"
     },
     "hive_dollar": {
       "name": "Hive Доллар"
