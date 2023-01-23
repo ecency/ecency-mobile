@@ -107,12 +107,11 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         //in this case add comment key in childern and inject cachedComment in commentsMap
         _comments[path] = cachedComment
         _comments[_parentPath].replies.push(path);
-        _comments[_parentPath].childern = _comments[_parentPath].childern + 1;
+        _comments[_parentPath].children = _comments[_parentPath].children + 1;
       }
-
+  
     }
     
-
     return {..._comments};
   };
 
