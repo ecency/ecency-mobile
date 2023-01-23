@@ -1,10 +1,12 @@
 import { renderPostBody } from '@ecency/render-helper';
+import { Alert } from 'react-native';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState, useMemo, useEffect } from 'react';
 import { Platform } from 'react-native';
 import { useAppSelector } from '../../../hooks';
 import { getDiscussionCollection, getPost } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
+import { Comment } from '../../../redux/reducers/cacheReducer';
 
 /** hook used to return user drafts */
 export const useGetPostQuery = (_author?: string, _permlink?: string) => {
@@ -70,7 +72,7 @@ export const usePostsCachePrimer = () => {
  */
 export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const cachedComments = useAppSelector((state) => state.cache.comments);
+  const cachedComments:{[key:string]:Comment} = useAppSelector((state) => state.cache.commentsCollection);
 
   const [author, setAuthor] = useState(_author);
   const [permlink, setPermlink] = useState(_permlink);
@@ -78,9 +80,40 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const [commentsData, setCommentsData] = useState([]);
   const [repliesMap, setRepliesMap] = useState([]);
 
+  //inject cached comments here
   const _injectCachedComments = (_comments) => {
-    // TODO: inject cached comments here
-    return _comments;
+
+    console.log("updating with cache", _comments, cachedComments);
+    if(!cachedComments || !_comments){
+      return _comments;
+    }
+
+    for(const path in cachedComments){
+
+      const cachedComment = cachedComments[path];
+      const _parentPath = `${cachedComment.parent_author}/${cachedComment.parent_permlink}`;
+      //check if commentKey already exist in comments map, 
+      if(_comments && _comments[path]){
+        //check if we should update comments map with cached map based on updat timestamp
+        const cacheUpdateTimestamp = new Date(cachedComment.updated || 0).getTime();
+        const remoteUpdateTimestamp = new Date(_comments[path].updated).getTime();
+
+        if(cacheUpdateTimestamp > remoteUpdateTimestamp){
+          _comments[path] = cachedComment;
+        }
+      } 
+      //else if comment key do not exist, possiblky comment is a new comment, in this case, check if parent of comment exist in map
+      else if (_comments[_parentPath]){
+        //in this case add comment key in childern and inject cachedComment in commentsMap
+        _comments[path] = cachedComment
+        _comments[_parentPath].replies.push(path);
+        _comments[_parentPath].childern = _comments[_parentPath].childern + 1;
+      }
+
+    }
+    
+
+    return {..._comments};
   };
 
   // traverse discussion collection to curate sections
@@ -147,7 +180,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
     return response;
   };
 
-  const query = useQuery([QUERIES.POST.GET_DISCUSSION, author, permlink], _fetchComments);
+  const query = useQuery<{[key:string]:Comment}>([QUERIES.POST.GET_DISCUSSION, author, permlink], _fetchComments);
 
   const data = useMemo(() => _injectCachedComments(query.data), [query.data, cachedComments]);
 

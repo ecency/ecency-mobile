@@ -57,7 +57,7 @@ const CommentsContainer = ({
   const postsCachePrimer = postQueries.usePostsCachePrimer();
 
   const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
-  const cachedComments = useAppSelector((state) => state.cache.comments);
+  // const cachedComments = useAppSelector((state) => state.cache.comments);
 
   const [lcomments, setLComments] = useState([]);
   const [propComments, setPropComments] = useState(comments);
@@ -194,65 +194,65 @@ const CommentsContainer = ({
         })
         .catch(() => {});
     } else {
-      _handleCachedComment();
+      // _handleCachedComment();
     }
   };
 
-  const _handleCachedComment = (passedComments = null) => {
-    const _comments = passedComments || propComments || lcomments || [];
-    const postPath = `${author || ''}/${permlink || ''}`;
+  // const _handleCachedComment = (passedComments = null) => {
+  //   const _comments = passedComments || propComments || lcomments || [];
+  //   const postPath = `${author || ''}/${permlink || ''}`;
 
-    if (cachedComments.has(postPath)) {
-      const cachedComment = cachedComments.get(postPath);
+  //   if (cachedComments.has(postPath)) {
+  //     const cachedComment = cachedComments.get(postPath);
 
-      let ignoreCache = false;
-      let replaceAtIndex = -1;
-      let removeAtIndex = -1;
-      _comments.forEach((comment, index) => {
-        if (cachedComment.permlink === comment.permlink) {
-          if (cachedComment.updated < comment.updated) {
-            // comment is present with latest data
-            ignoreCache = true;
-            console.log('Ignore cache as comment is now present');
-          } else if (cachedComment.status === CommentCacheStatus.DELETED) {
-            removeAtIndex = index;
-          } else {
-            // comment is present in list but data is old
-            replaceAtIndex = index;
-          }
-        }
-      });
+  //     let ignoreCache = false;
+  //     let replaceAtIndex = -1;
+  //     let removeAtIndex = -1;
+  //     _comments.forEach((comment, index) => {
+  //       if (cachedComment.permlink === comment.permlink) {
+  //         if (cachedComment.updated < comment.updated) {
+  //           // comment is present with latest data
+  //           ignoreCache = true;
+  //           console.log('Ignore cache as comment is now present');
+  //         } else if (cachedComment.status === CommentCacheStatus.DELETED) {
+  //           removeAtIndex = index;
+  //         } else {
+  //           // comment is present in list but data is old
+  //           replaceAtIndex = index;
+  //         }
+  //       }
+  //     });
 
-      // means deleted comment is not being retuend in fresh data, cache needs to be ignored
-      if (cachedComment.status === CommentCacheStatus.DELETED && removeAtIndex < 0) {
-        ignoreCache = true;
-      }
+  //     // means deleted comment is not being retuend in fresh data, cache needs to be ignored
+  //     if (cachedComment.status === CommentCacheStatus.DELETED && removeAtIndex < 0) {
+  //       ignoreCache = true;
+  //     }
 
-      // manipulate comments with cached data
-      if (!ignoreCache) {
-        let newComments = [];
-        if (removeAtIndex >= 0) {
-          newComments = _comments;
-          newComments.splice(removeAtIndex, 1);
-        } else if (replaceAtIndex >= 0) {
-          _comments[replaceAtIndex] = cachedComment;
-          newComments = [..._comments];
-        } else {
-          newComments = [..._comments, cachedComment];
-        }
+  //     // manipulate comments with cached data
+  //     if (!ignoreCache) {
+  //       let newComments = [];
+  //       if (removeAtIndex >= 0) {
+  //         newComments = _comments;
+  //         newComments.splice(removeAtIndex, 1);
+  //       } else if (replaceAtIndex >= 0) {
+  //         _comments[replaceAtIndex] = cachedComment;
+  //         newComments = [..._comments];
+  //       } else {
+  //         newComments = [..._comments, cachedComment];
+  //       }
 
-        console.log('updated comments with cached comment');
-        if (passedComments) {
-          return newComments;
-        } else if (propComments) {
-          setPropComments(newComments);
-        } else {
-          setLComments(newComments);
-        }
-      }
-    }
-    return _comments;
-  };
+  //       console.log('updated comments with cached comment');
+  //       if (passedComments) {
+  //         return newComments;
+  //       } else if (propComments) {
+  //         setPropComments(newComments);
+  //       } else {
+  //         setLComments(newComments);
+  //       }
+  //     }
+  //   }
+  //   return _comments;
+  // };
 
   const _handleOnReplyPress = (item) => {
     navigation.navigate({

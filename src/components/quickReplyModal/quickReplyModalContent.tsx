@@ -186,11 +186,12 @@ export const QuickReplyModalContent = forwardRef(
             );
 
             // add comment cache entry
+            const author = currentAccount.name;
             dispatch(
               updateCommentCache(
-                `${parentAuthor}/${parentPermlink}`,
+                `${author}/${permlink}`,
                 {
-                  author: currentAccount.name,
+                  author,
                   permlink,
                   parent_author: parentAuthor,
                   parent_permlink: parentPermlink,
