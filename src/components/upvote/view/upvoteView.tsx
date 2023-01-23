@@ -407,6 +407,8 @@ const UpvoteView = ({
                     trackStyle={styles.track}
                     thumbStyle={styles.thumb}
                     thumbTintColor="#007ee5"
+                    minimumValue={0.01}
+                    maximumValue={1}
                     value={sliderValue}
                     onValueChange={(value) => {
                       setSliderValue(value);
