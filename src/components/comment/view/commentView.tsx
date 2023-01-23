@@ -60,8 +60,8 @@ const CommentView = ({
   const [activeVotes, setActiveVotes] = useState([]);
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
 
-  const [childCount] = useState(comment.children);
-  const [replies] = useState(comment.replies);
+  const childCount = comment.children;
+  const replies = comment.replies;
   const _depth = commentNumber || comment.level;
   const _currentUsername = currentAccountUsername || currentAccount?.username;
 
