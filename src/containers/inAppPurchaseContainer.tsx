@@ -74,29 +74,10 @@ class InAppPurchaseContainer extends Component {
     }
   };
 
-  // this snippet consumes all previously bought purchases
-  // that are set to be consumed yet
-  _consumeAvailablePurchases = async () => {
-    try {
-      // get available purchase
-      const purchases = await IAP.getAvailablePurchases();
-      // check consumeable status
-      for (let i = 0; i < purchases.length; i++) {
-        // consume item using finishTransactionx
-        await IAP.finishTransaction({
-          purchase: purchases[i],
-          isConsumable: true,
-        });
-      }
-    } catch (err) {
-      bugsnagInstance.notify(err);
-      console.warn(err.code, err.message);
-    }
-  };
 
-  // Component Functions
+  //attempt to call purchase order and consumes purchased item on success
+  _consumePurchase = async (purchase) => {
 
-  _purchaseUpdatedListener = () => {
     const {
       currentAccount: { name },
       intl,
@@ -106,8 +87,9 @@ class InAppPurchaseContainer extends Component {
       handleOnPurchaseFailure,
       handleOnPurchaseSuccess,
     } = this.props;
+    let data = {};
 
-    this.purchaseUpdateSubscription = IAP.purchaseUpdatedListener((purchase) => {
+    try {
       const receipt = get(purchase, 'transactionReceipt');
       const token = get(purchase, 'purchaseToken');
 
@@ -128,39 +110,80 @@ class InAppPurchaseContainer extends Component {
           };
         }
 
-        purchaseOrder(data)
-          .then(async () => {
-            try {
-              const ackResult = await IAP.finishTransaction({
-                purchase,
-                isConsumable: true,
-              });
-              console.info('ackResult', ackResult);
-            } catch (ackErr) {
-              console.warn('ackErr', ackErr);
-            }
+        //purhcase call to ecency on successful payment, consume iap item on success
+        await purchaseOrder(data)
 
-            this.setState({ isProcessing: false });
-
-            if (fetchData) {
-              fetchData();
-            }
-            if (handleOnPurchaseSuccess) {
-              handleOnPurchaseSuccess();
-            }
-          })
-          .catch((err) => {
-            if (handleOnPurchaseFailure) {
-              handleOnPurchaseFailure();
-            }
-            bugsnagInstance.notify(err, (report) => {
-              report.addMetadata('data', data);
-            });
+        try {
+          const ackResult = await IAP.finishTransaction({
+            purchase,
+            isConsumable: true,
           });
+          console.info('ackResult', ackResult);
+        } catch (ackErr) {
+          console.warn('ackErr', ackErr);
+          throw new Error("consume failed, purchase successfull")
+        }
+
+        this.setState({ isProcessing: false });
+
+        if (fetchData) {
+          fetchData();
+        }
+        if (handleOnPurchaseSuccess) {
+          handleOnPurchaseSuccess();
+        }
+
       }
-    });
+    } catch (err) {
+      if (handleOnPurchaseFailure) {
+        handleOnPurchaseFailure();
+      }
+      bugsnagInstance.notify(err, (report) => {
+        report.addMetadata('data', data);
+      });
+    }
+
+
+  }
+
+  // this snippet consumes all previously bought purchases
+  // that are set to be consumed yet
+  _consumeAvailablePurchases = async () => {
+    try {
+      // get available purchase
+      const purchases = await IAP.getAvailablePurchases();
+      // check consumeable status
+      for (let i = 0; i < purchases.length; i++) {
+
+        const _purchase = purchases[i]
+        
+        if(_purchase.productId !== '999accounts'){
+          // consume item using finishTransactionx
+          await this._consumePurchase(purchases[i])
+        }
+   
+      }
+    } catch (err) {
+      bugsnagInstance.notify(err);
+      console.warn(err.code, err.message);
+    }
+  };
+
+  // Component Functions
+  _purchaseUpdatedListener = () => {
+    this.purchaseUpdateSubscription = IAP.purchaseUpdatedListener(this._consumePurchase)
 
     this.purchaseErrorSubscription = IAP.purchaseErrorListener((error) => {
+      const {
+        currentAccount: { name },
+        intl,
+        fetchData,
+        username,
+        email,
+        handleOnPurchaseFailure,
+        handleOnPurchaseSuccess,
+      } = this.props;
+
       bugsnagInstance.notify(error);
       if (get(error, 'responseCode') === '3' && Platform.OS === 'android') {
         Alert.alert(

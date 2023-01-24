@@ -81,6 +81,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
   };
 
   const _handleOnPurchaseFailure = () => {
+    Alert.alert(intl.formatMessage({id:'alert.fail'}), intl.formatMessage({id:'register.register_fail'}))
     setIsRegistering(false);
   };
 

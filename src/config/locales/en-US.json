@@ -309,6 +309,7 @@
     "title_description": "One account to manage everything",
     "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies.",
     "registering":"Registering Your Account...",
+    "register_fail":"Registeration failed, please try again or contact support.",
     "registered":"Registration Successful\nCheck your email for instruction"
   },
   "home": {
