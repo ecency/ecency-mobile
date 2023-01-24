@@ -75,7 +75,6 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
         ...updatedCurrentAccountData.about.profile,
         tokens: { ...tokensData },
       };
-      console.log('updatedCurrentAccountData : ', updatedCurrentAccountData);
       const params = {
         ...updatedCurrentAccountData.about.profile,
       };
