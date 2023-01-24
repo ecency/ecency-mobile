@@ -309,6 +309,7 @@
     "title_description": "One account to manage everything",
     "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies.",
     "registering": "Registering Your Account...",
+    "register_fail": "Registeration failed, please try again or contact support.",
     "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
@@ -733,7 +734,8 @@
   "buy_account": {
     "title": "Buy Account",
     "btn_register": "Buy Account - {price}",
-    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started"
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started",
+    "claim": "Claim Paid Account"
   },
   "free_account": {
     "title": "Free Account",
