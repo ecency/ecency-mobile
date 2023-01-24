@@ -61,19 +61,19 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
     setListData(data);
   }, [query, coinsData]);
 
-  const filterCoinsBySymbols = (coinsArr: CoinBase[]) => {
-    return coinsArr.map((item) => item.symbol);
+  const filterAssetsBySymbols = (assetsArr: CoinBase[]) => {
+    return assetsArr.map((item) => item.symbol);
   };
 
   const _updateUserProfile = async () => {
     try {
-      const tokensData = {
-        engine: filterCoinsBySymbols(selection),
+      const assetsData = {
+        engine: filterAssetsBySymbols(selection),
       };
       let updatedCurrentAccountData = currentAccount;
       updatedCurrentAccountData.about.profile = {
         ...updatedCurrentAccountData.about.profile,
-        tokens: { ...tokensData },
+        tokens: { ...assetsData },
       };
       const params = {
         ...updatedCurrentAccountData.about.profile,
@@ -92,7 +92,7 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
   const _onApply = () => {
     dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...selection]));
     setVisible(false);
-    _updateUserProfile(); //update the user profile with updated tokens data
+    _updateUserProfile(); //update the user profile with updated assets data
   };
 
   const _renderOptions = () => {

@@ -77,7 +77,7 @@ const WalletScreen = ({ navigation }) => {
       dispatch(resetWalletData());
       _refetchData();
     }
-    _updateSelectedCoinsDataFromProfileJsonMeta();
+    _updateSelectedAssetsDataFromProfileJsonMeta();
   }, [currency, currentAccount]);
 
   useEffect(() => {
@@ -94,9 +94,9 @@ const WalletScreen = ({ navigation }) => {
     }));
   };
 
-  const _updateSelectedCoinsDataFromProfileJsonMeta = () => {
+  const _updateSelectedAssetsDataFromProfileJsonMeta = () => {
     const currSelectedEngineTokens = selectedCoins.filter(
-      (item) => !DEFAULT_ASSETS.some((defaultCoin) => defaultCoin.id === item.id),
+      (item) => !DEFAULT_ASSETS.some((defaultAsset) => defaultAsset.id === item.id),
     );
     if (
       currentAccount.about?.profile?.tokens &&
