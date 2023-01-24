@@ -40,15 +40,16 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
     showModal: () => {
       setVisible(true);
       setQuery('');
+      setSelection(selectedCoins.filter((item) => item.isEngine));
     },
   }));
 
   //migration snippet
-  useEffect(()=>{
-      if(currentAccount && !currentAccount.about.profile?.tokens){
-        _updateUserProfile()
-      }
-  }, [currentAccount])
+  useEffect(() => {
+    if (currentAccount && !currentAccount.about.profile?.tokens) {
+      _updateUserProfile();
+    }
+  }, [currentAccount]);
 
   useEffect(() => {
     const data: CoinData[] = [];
@@ -71,7 +72,6 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
   const filterAssetsBySymbols = (assetsArr: CoinBase[]) => {
     return assetsArr.map((item) => item.symbol);
   };
-
 
   const _updateUserProfile = async () => {
     try {
@@ -97,7 +97,6 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
       );
     }
   };
-
 
   const _onApply = () => {
     dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...selection]));
