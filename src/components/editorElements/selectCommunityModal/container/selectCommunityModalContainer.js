@@ -30,7 +30,7 @@ const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount, onClo
     callSubscribedCommunities();
   }, []);
 
-  const callTopCommunities = () => dispatch(fetchCommunities('', 15, '', 'rank'));
+  const callTopCommunities = () => dispatch(fetchCommunities('', 15, null, 'rank'));
 
   const callSubscribedCommunities = () => {
     if (
