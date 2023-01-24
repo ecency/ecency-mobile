@@ -43,6 +43,13 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
     },
   }));
 
+  //migration snippet
+  useEffect(()=>{
+      if(currentAccount && !currentAccount.about.profile?.tokens){
+        _updateUserProfile()
+      }
+  }, [currentAccount])
+
   useEffect(() => {
     const data: CoinData[] = [];
 
@@ -61,9 +68,11 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
     setListData(data);
   }, [query, coinsData]);
 
+  
   const filterCoinsBySymbols = (coinsArr: CoinBase[]) => {
     return coinsArr.map((item) => item.symbol);
   };
+
 
   const _updateUserProfile = async () => {
     try {
@@ -89,6 +98,8 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
       );
     }
   };
+
+
   const _onApply = () => {
     dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...selection]));
     setVisible(false);
