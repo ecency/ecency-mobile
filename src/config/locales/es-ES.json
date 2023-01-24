@@ -309,6 +309,7 @@
     "title_description": "Una cuenta para administrar todo",
     "form_description": "Al registrarte, estás de acuerdo con nuestros Términos de servicio &amp; Política de privacidad",
     "registering": "Registrando tu cuenta...",
+    "register_fail": "Registeration failed, please try again or contact support.",
     "registered": "Registro exitoso\nComprueba tu correo electrónico para obtener instrucciones"
   },
   "home": {
@@ -733,7 +734,8 @@
   "buy_account": {
     "title": "Comprar cuenta",
     "btn_register": "Comprar cuenta - {price}",
-    "desc": "Obtén una Cuenta premium completa de Hive sin chequeos extra y varias ventajas tales como:\n\n- Creación instantánea sin chequeos extra ni esperas\n- 3x RC en comparación con cuentas nuevas normales durante 90 días\n- 300 Puntos para ayudarte a comenzar"
+    "desc": "Obtén una Cuenta premium completa de Hive sin chequeos extra y varias ventajas tales como:\n\n- Creación instantánea sin chequeos extra ni esperas\n- 3x RC en comparación con cuentas nuevas normales durante 90 días\n- 300 Puntos para ayudarte a comenzar",
+    "claim": "Claim Paid Account"
   },
   "free_account": {
     "title": "Cuenta Gratuita",
