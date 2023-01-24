@@ -40,7 +40,7 @@ import applySnippet from '../children/formats/applySnippet';
 import { MainButton } from '../../mainButton';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
 import { OptionsModal } from '../../atoms';
-import { UsernameAutofillBar } from '../children/usernameAutofillBar';
+// import { UsernameAutofillBar } from '../children/usernameAutofillBar';
 import applyUsername from '../children/formats/applyUsername';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
@@ -83,7 +83,7 @@ const MarkdownEditorView = ({
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [insertedMediaUrls, setInsertedMediaUrls] = useState([]);
-  const [isDraftUpdated, setIsDraftupdated] = useState(false);
+  // const [isDraftUpdated, setIsDraftupdated] = useState(false);
 
   const inputRef = useRef<any>(null);
   const clearRef = useRef<any>(null);
@@ -207,13 +207,14 @@ const MarkdownEditorView = ({
   const _changeText = useCallback(
     (input) => {
       // check if draft is just loaded or is updated. Fix for username bar auto loading when draft ends with a username
-      if (draftBody && !isDraftUpdated && draftBody !== input) {
-        setIsDraftupdated(true);
-      }
-      bodyText = input;
+      // if (draftBody && !isDraftUpdated && draftBody !== input) {
+      //   console.log("Updating draft state")
+      //   setIsDraftupdated(true);
+      // }
+      bodyTextRef.current = input;
 
       if (!isEditing) {
-        console.log('force setting is editing to true', true);
+        console.log('force setting isEditing to true', true);
         setIsEditing(true);
       }
 
@@ -425,13 +426,13 @@ const MarkdownEditorView = ({
     const _innerContent = (
       <>
         {isAndroidOreo() ? _editorWithoutScroll : _editorWithScroll}
-        {isDraftUpdated && (
+        {/* {isDraftUpdated && (
           <UsernameAutofillBar
             text={bodyText}
             selection={bodySelection}
             onApplyUsername={_onApplyUsername}
           />
-        )}
+        )} */}
 
         {_renderFloatingDraftButton()}
 
