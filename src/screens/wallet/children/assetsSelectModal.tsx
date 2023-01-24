@@ -68,7 +68,7 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
   const _updateUserProfile = async () => {
     try {
       const tokensData = {
-        engine: [...filterCoinsBySymbols(DEFAULT_ASSETS), ...filterCoinsBySymbols(selection)],
+        engine: filterCoinsBySymbols(selection),
       };
       let updatedCurrentAccountData = currentAccount;
       updatedCurrentAccountData.about.profile = {
