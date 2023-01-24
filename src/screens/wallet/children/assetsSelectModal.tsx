@@ -40,6 +40,7 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
     showModal: () => {
       setVisible(true);
       setQuery('');
+      setSelection(selectedCoins.filter((item) => item.isEngine));
     },
   }));
 
@@ -74,13 +75,13 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
 
   const _updateUserProfile = async () => {
     try {
-      const tokensData = {
-        engine: filterCoinsBySymbols(selection),
+      const assetsData = {
+        engine: filterAssetsBySymbols(selection),
       };
       const updatedCurrentAccountData = currentAccount;
       updatedCurrentAccountData.about.profile = {
         ...updatedCurrentAccountData.about.profile,
-        tokens: { ...tokensData },
+        tokens: { ...assetsData },
       };
       const params = {
         ...updatedCurrentAccountData.about.profile,
