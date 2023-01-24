@@ -98,14 +98,14 @@ const WalletScreen = ({ navigation }) => {
     const currSelectedEngineTokens = selectedCoins.filter(
       (item) => !DEFAULT_ASSETS.some((defaultAsset) => defaultAsset.id === item.id),
     );
-    if (
-      currentAccount.about?.profile?.tokens &&
-      currentAccount.about?.profile?.tokens?.engine.length !== currSelectedEngineTokens.length // check if current selected engine tokens differ from profile json meta
-    ) {
+    if (currentAccount.about?.profile?.tokens) {
       const engineTokensData = createEngineTokensDataFromProfileJsonMeta(
         currentAccount.about.profile.tokens.engine,
       );
-      dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...engineTokensData]));
+      // check if current selected engine tokens differ from profile json meta
+      if (JSON.stringify(engineTokensData) !== JSON.stringify(currSelectedEngineTokens)) {
+        dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...engineTokensData]));
+      }
     }
   };
 
