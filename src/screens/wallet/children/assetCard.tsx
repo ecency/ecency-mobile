@@ -104,9 +104,7 @@ export const AssetCard = ({
         <Text style={styles.textValue} numberOfLines={1}>
           {value}
         </Text>
-        <Text style={styles.textSubtitleRight}>
-          {_fiatStr}
-        </Text>
+        <Text style={styles.textSubtitleRight}>{_fiatStr}</Text>
       </View>
     </View>
   );
@@ -120,7 +118,10 @@ export const AssetCard = ({
           title={btnTitle}
           isLoading={isLoading}
           isClaiming={isClaiming}
-          containerStyle={{...styles.claimContainer, marginBottom: id === ASSET_IDS.ECENCY ? 0 : 16}}
+          containerStyle={{
+            ...styles.claimContainer,
+            marginBottom: id === ASSET_IDS.ECENCY ? 0 : 16,
+          }}
           onPress={_onClaimPress}
         />
       );

@@ -2,6 +2,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } 
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useIntl } from 'react-intl';
+import get from 'lodash/get';
 import styles from '../styles/tokensSelectModa.styles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { CheckBox, Modal, SearchInput, TextButton } from '../../../components';
@@ -10,7 +11,6 @@ import DEFAULT_ASSETS from '../../../constants/defaultAssets';
 import { setSelectedCoins } from '../../../redux/actions/walletActions';
 import { AssetIcon } from '../../../components/atoms';
 import { profileUpdate } from '../../../providers/hive/dhive';
-import get from 'lodash/get';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
 export const AssetsSelectModal = forwardRef(({}, ref) => {
@@ -43,12 +43,12 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
     },
   }));
 
-  //migration snippet
-  useEffect(()=>{
-      if(currentAccount && !currentAccount.about.profile?.tokens){
-        _updateUserProfile()
-      }
-  }, [currentAccount])
+  // migration snippet
+  useEffect(() => {
+    if (currentAccount && !currentAccount.about.profile?.tokens) {
+      _updateUserProfile();
+    }
+  }, [currentAccount]);
 
   useEffect(() => {
     const data: CoinData[] = [];
@@ -68,18 +68,16 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
     setListData(data);
   }, [query, coinsData]);
 
-  
   const filterCoinsBySymbols = (coinsArr: CoinBase[]) => {
     return coinsArr.map((item) => item.symbol);
   };
-
 
   const _updateUserProfile = async () => {
     try {
       const tokensData = {
         engine: filterCoinsBySymbols(selection),
       };
-      let updatedCurrentAccountData = currentAccount;
+      const updatedCurrentAccountData = currentAccount;
       updatedCurrentAccountData.about.profile = {
         ...updatedCurrentAccountData.about.profile,
         tokens: { ...tokensData },
@@ -99,11 +97,10 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
     }
   };
 
-
   const _onApply = () => {
     dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...selection]));
     setVisible(false);
-    _updateUserProfile(); //update the user profile with updated tokens data
+    _updateUserProfile(); // update the user profile with updated tokens data
   };
 
   const _renderOptions = () => {

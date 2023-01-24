@@ -85,7 +85,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
   const _handleOnPurchaseFailure = (error) => {
     Alert.alert(
       intl.formatMessage({ id: 'alert.fail' }),
-      intl.formatMessage({ id: 'register.register_fail' }) + `\n` + error.message);
+      `${intl.formatMessage({ id: 'register.register_fail' })  }\n${  error.message}`);
     setIsRegistering(false);
   };
 
@@ -177,31 +177,27 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
             onPress: _handleOnPressRegister,
           })}
 
-
         {productList.map((product) =>
           _renderCard({
             titleId: 'buy_account.title',
             descriptionId: 'buy_account.desc',
-            btnTitle: !!unconsumedPurchases.find(p => p.productId === '999accounts') ?
-              intl.formatMessage({ id: 'buy_account.claim' })
+            btnTitle: unconsumedPurchases.find(p => p.productId === '999accounts')
+              ? intl.formatMessage({ id: 'buy_account.claim' })
               : intl.formatMessage(
-                { id: 'buy_account.btn_register' },
-                {
-                  price: Platform.select({
-                    ios: product.localizedPrice,
-                    android: product.oneTimePurchaseOfferDetails?.formattedPrice,
-                  }),
-                },
-              ),
+                  { id: 'buy_account.btn_register' },
+                  {
+                    price: Platform.select({
+                      ios: product.localizedPrice,
+                      android: product.oneTimePurchaseOfferDetails?.formattedPrice,
+                    }),
+                  },
+                ),
             onPress: () => {
               setIsRegistering(true);
               buyItem(product.productId);
             },
           }),
-
-
         )}
-
       </ScrollView>
     );
   };

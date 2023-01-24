@@ -50,7 +50,6 @@ import { useAppSelector } from '../../../hooks';
 
 // const MIN_BODY_INPUT_HEIGHT = 300;
 
-
 const MarkdownEditorView = ({
   paramFiles,
   draftBody,
@@ -90,7 +89,7 @@ const MarkdownEditorView = ({
   const insertLinkModalRef = useRef<any>(null);
   const tooltipRef = useRef<any>(null);
   const bodyTextRef = useRef('');
-  const bodySelectionRef = useRef({ start: 0, end: 0 })
+  const bodySelectionRef = useRef({ start: 0, end: 0 });
 
   const isVisibleAccountsBottomSheet = useSelector(
     (state) => state.ui.isVisibleAccountsBottomSheet,
@@ -290,7 +289,10 @@ const MarkdownEditorView = ({
 
   const _handleOnAddLinkPress = () => {
     insertLinkModalRef.current?.showModal({
-      selectedText: bodyTextRef.current.slice(bodySelectionRef.current.start, bodySelectionRef.current.end),
+      selectedText: bodyTextRef.current.slice(
+        bodySelectionRef.current.start,
+        bodySelectionRef.current.end,
+      ),
       selection: bodySelectionRef.current,
     });
     inputRef?.current?.blur();

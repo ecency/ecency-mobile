@@ -31,8 +31,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   useEffect(() => {
     // read and add tag items
     const _tags = typeof value === 'string' ? value.split(' ') : value;
-    setTags(_tags.filter(t=>!!t));
-    
+    setTags(_tags.filter((t) => !!t));
   }, [value]);
 
   const _verifyTagsUpdate = (tags: string[]) => {

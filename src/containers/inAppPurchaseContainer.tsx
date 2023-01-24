@@ -66,7 +66,7 @@ class InAppPurchaseContainer extends Component {
       this._getItems();
       await this._handleQrPurchase();
 
-      //place rest of unconsumed purhcases in state
+      // place rest of unconsumed purhcases in state
       this._getUnconsumedPurchases();
     } catch (err) {
       bugsnagInstance.notify(err);
@@ -81,10 +81,8 @@ class InAppPurchaseContainer extends Component {
     }
   };
 
-
-  //attempt to call purchase order and consumes purchased item on success
+  // attempt to call purchase order and consumes purchased item on success
   _consumePurchase = async (purchase) => {
-
     const {
       currentAccount: { name },
       intl,
@@ -94,7 +92,7 @@ class InAppPurchaseContainer extends Component {
       handleOnPurchaseFailure,
       handleOnPurchaseSuccess,
     } = this.props;
-    let data = {};
+    const data = {};
 
     try {
       const receipt = get(purchase, 'transactionReceipt');
@@ -108,9 +106,9 @@ class InAppPurchaseContainer extends Component {
           user: username || name, // username from passed in props from nav params i-e got from url qr scan
         };
 
-        //make sure item is not consumed if email and username not preset for 999accounts
-        if (purchase.productId === '999accounts' && !email || !username) {
-          throw new Error("Email and username are required for 999accounts consumption");
+        // make sure item is not consumed if email and username not preset for 999accounts
+        if ((purchase.productId === '999accounts' && !email) || !username) {
+          throw new Error('Email and username are required for 999accounts consumption');
         }
         if (email && purchase.productId === '999accounts') {
           console.log('injecting purchase account meta');
@@ -121,8 +119,8 @@ class InAppPurchaseContainer extends Component {
           };
         }
 
-        //purhcase call to ecency on successful payment, consume iap item on success
-        await purchaseOrder(data)
+        // purhcase call to ecency on successful payment, consume iap item on success
+        await purchaseOrder(data);
 
         try {
           const ackResult = await IAP.finishTransaction({
@@ -132,7 +130,7 @@ class InAppPurchaseContainer extends Component {
           console.info('ackResult', ackResult);
         } catch (ackErr) {
           console.warn('ackErr', ackErr);
-          throw new Error("consume failed, purchase successfull, " + ackErr.message)
+          throw new Error(`consume failed, purchase successfull, ${ackErr.message}`);
         }
 
         this.setState({ isProcessing: false });
@@ -143,7 +141,6 @@ class InAppPurchaseContainer extends Component {
         if (handleOnPurchaseSuccess) {
           handleOnPurchaseSuccess();
         }
-
       }
     } catch (err) {
       this.setState({ isProcessing: false });
@@ -155,9 +152,7 @@ class InAppPurchaseContainer extends Component {
         report.addMetadata('data', data);
       });
     }
-
-
-  }
+  };
 
   // this snippet consumes all previously bought purchases
   // that are set to be consumed yet
@@ -167,14 +162,12 @@ class InAppPurchaseContainer extends Component {
       const purchases = await IAP.getAvailablePurchases();
       // check consumeable status
       for (let i = 0; i < purchases.length; i++) {
-
-        const _purchase = purchases[i]
+        const _purchase = purchases[i];
 
         if (_purchase.productId !== '999accounts') {
           // consume item using finishTransactionx
-          await this._consumePurchase(purchases[i])
+          await this._consumePurchase(purchases[i]);
         }
-
       }
     } catch (err) {
       bugsnagInstance.notify(err);
@@ -184,7 +177,7 @@ class InAppPurchaseContainer extends Component {
 
   // Component Functions
   _purchaseUpdatedListener = () => {
-    this.purchaseUpdateSubscription = IAP.purchaseUpdatedListener(this._consumePurchase)
+    this.purchaseUpdateSubscription = IAP.purchaseUpdatedListener(this._consumePurchase);
 
     this.purchaseErrorSubscription = IAP.purchaseErrorListener((error) => {
       const {
@@ -196,7 +189,6 @@ class InAppPurchaseContainer extends Component {
         handleOnPurchaseFailure,
         handleOnPurchaseSuccess,
       } = this.props;
-
 
       bugsnagInstance.notify(error);
       if (get(error, 'responseCode') === '3' && Platform.OS === 'android') {
@@ -236,9 +228,9 @@ class InAppPurchaseContainer extends Component {
   _getUnconsumedPurchases = async () => {
     const _purchases = await IAP.getAvailablePurchases();
     this.setState({
-      unconsumedPurchases: _purchases
-    })
-  }
+      unconsumedPurchases: _purchases,
+    });
+  };
 
   _getItems = async () => {
     const { skus, intl } = this.props;
@@ -264,20 +256,17 @@ class InAppPurchaseContainer extends Component {
     const { navigation } = this.props;
     const { unconsumedPurchases } = this.state;
 
-
-
     if (sku !== 'freePoints') {
       this.setState({ isProcessing: true });
 
-
-      //check if sku preset in unconsumedItems
-      const _unconsumedPurchase = unconsumedPurchases.find(p => p.productId === sku)
+      // check if sku preset in unconsumedItems
+      const _unconsumedPurchase = unconsumedPurchases.find((p) => p.productId === sku);
       if (_unconsumedPurchase) {
-        this._consumePurchase(_unconsumedPurchase)
+        this._consumePurchase(_unconsumedPurchase);
         return;
       }
 
-      //chech purhcase listener
+      // chech purhcase listener
       if (!this.purchaseUpdateSubscription || !this.purchaseErrorSubscription) {
         this._purchaseUpdatedListener();
       }
