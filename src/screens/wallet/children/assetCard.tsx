@@ -80,6 +80,8 @@ export const AssetCard = ({
     ? intl.formatMessage({ id: `wallet.${id}.name` })
     : name;
   const value = `${ownedBalance.toFixed(isEngine ? 6 : 3)}`;
+  const _fiatValue = ownedBalance * currentValue;
+  const _fiatStr = `${_fiatValue.toFixed(_fiatValue < 1 ? 5 : 2)}${currencySymbol}`;
 
   const _renderHeader = (
     <View style={styles.cardHeader}>
@@ -102,9 +104,7 @@ export const AssetCard = ({
         <Text style={styles.textValue} numberOfLines={1}>
           {value}
         </Text>
-        <Text style={styles.textSubtitleRight}>
-          {`${(ownedBalance * currentValue).toFixed(6)}${currencySymbol}`}
-        </Text>
+        <Text style={styles.textSubtitleRight}>{_fiatStr}</Text>
       </View>
     </View>
   );
@@ -118,7 +118,10 @@ export const AssetCard = ({
           title={btnTitle}
           isLoading={isLoading}
           isClaiming={isClaiming}
-          containerStyle={id !== ASSET_IDS.ECENCY && styles.claimContainer}
+          containerStyle={{
+            ...styles.claimContainer,
+            marginBottom: id === ASSET_IDS.ECENCY ? 0 : 16,
+          }}
           onPress={_onClaimPress}
         />
       );

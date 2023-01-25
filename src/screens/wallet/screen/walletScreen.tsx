@@ -1,13 +1,6 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import {
-  SafeAreaView,
-  View,
-  RefreshControl,
-  Text,
-  AppState,
-  AppStateStatus,
-} from 'react-native';
+import { SafeAreaView, View, RefreshControl, Text, AppState, AppStateStatus } from 'react-native';
 
 // Containers
 import { FlatList, gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -33,11 +26,11 @@ import {
   fetchCoinQuotes,
   resetWalletData,
   setPriceHistory,
+  setSelectedCoins,
 } from '../../../redux/actions/walletActions';
-import { ASSET_IDS } from '../../../constants/defaultAssets';
+import DEFAULT_ASSETS, { ASSET_IDS } from '../../../constants/defaultAssets';
 import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
 import { walletQueries } from '../../../providers/queries';
-
 
 const CHART_DAYS_RANGE = 1;
 
@@ -53,25 +46,18 @@ const WalletScreen = ({ navigation }) => {
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const currency = useAppSelector((state) => state.application.currency);
 
-  const {
-    selectedCoins,
-    priceHistories,
-    coinsData,
-    updateTimestamp,
-    quotes,
-    ...wallet
-  } = useAppSelector((state) => state.wallet);
+  const { selectedCoins, priceHistories, coinsData, updateTimestamp, quotes, ...wallet } =
+    useAppSelector((state) => state.wallet);
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
   //queries
-  const walletQuery = walletQueries.useAssetsQuery()
+  const walletQuery = walletQueries.useAssetsQuery();
   const unclaimedRewardsQuery = walletQueries.useUnclaimedRewardsQuery();
   const claimRewardsMutation = walletQueries.useClaimRewardsMutation();
 
   //state
   const [isRefreshing, setIsRefreshing] = useState(false);
-
 
   //side-effects
   useEffect(() => {
@@ -81,7 +67,7 @@ const WalletScreen = ({ navigation }) => {
 
     return () => {
       if (appStateSub) {
-        appStateSub.remove()
+        appStateSub.remove();
       }
     };
   }, []);
@@ -91,30 +77,51 @@ const WalletScreen = ({ navigation }) => {
       dispatch(resetWalletData());
       _refetchData();
     }
+    _updateSelectedAssetsDataFromProfileJsonMeta();
   }, [currency, currentAccount]);
 
   useEffect(() => {
     _fetchPriceHistory();
-  }, [selectedCoins])
-
-
+  }, [selectedCoins]);
 
   //actions
+  const createEngineTokensDataFromProfileJsonMeta = (engineTokensData) => {
+    return engineTokensData.map((item) => ({
+      id: item,
+      symbol: item,
+      isEngine: true,
+      notCrypto: false,
+    }));
+  };
+
+  const _updateSelectedAssetsDataFromProfileJsonMeta = () => {
+    const currSelectedEngineTokens = selectedCoins.filter(
+      (item) => !DEFAULT_ASSETS.some((defaultAsset) => defaultAsset.id === item.id),
+    );
+    if (currentAccount.about?.profile?.tokens) {
+      const engineTokensData = createEngineTokensDataFromProfileJsonMeta(
+        currentAccount.about.profile.tokens.engine,
+      );
+      // check if current selected engine tokens differ from profile json meta
+      if (JSON.stringify(engineTokensData) !== JSON.stringify(currSelectedEngineTokens)) {
+        dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...engineTokensData]));
+      }
+    }
+  };
+
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
       console.log('updating selected coins data on app resume');
       _refetchData();
-
     }
     appState.current = nextAppState;
   };
 
   const _refetchData = () => {
     _fetchPriceHistory();
-    _refetchCoinsData(); 
+    _refetchCoinsData();
     unclaimedRewardsQuery.refetch();
   };
-
 
   const _fetchPriceHistory = () => {
     selectedCoins.forEach(async (token: CoinBase) => {
@@ -124,8 +131,8 @@ const WalletScreen = ({ navigation }) => {
       if (!token.notCrypto && curTime > expiresAt) {
         let priceData: number[] = [];
         if (token.isEngine) {
-          const marketData = await fetchEngineMarketData(token.id)
-          priceData = marketData.map(data => data.close);
+          const marketData = await fetchEngineMarketData(token.id);
+          priceData = marketData.map((data) => data.close);
         } else {
           const marketChart = await fetchMarketChart(
             token.id,
@@ -133,41 +140,38 @@ const WalletScreen = ({ navigation }) => {
             CHART_DAYS_RANGE,
             INTERVAL_HOURLY,
           );
-          priceData = marketChart.prices.map((item) => item.yValue)
+          priceData = marketChart.prices.map((item) => item.yValue);
         }
 
         dispatch(setPriceHistory(token.id, currency.currency, priceData));
-
       }
     });
   };
 
   const _refetchCoinsData = async () => {
-
     if (!quotes) {
       dispatch(fetchCoinQuotes());
     }
 
-    await walletQuery.refetch()
+    await walletQuery.refetch();
     setIsRefreshing(false);
   };
 
   const _claimRewards = (assetId: string) => {
     //claim using mutation;
-    claimRewardsMutation.mutate({ assetId })
+    claimRewardsMutation.mutate({ assetId });
   };
-
 
   const _showAssetsSelectModal = () => {
     if (assetsSelectRef.current) {
       assetsSelectRef.current.showModal();
     }
-  }
-
+  };
 
   const _renderItem = ({ item, index }: { item: CoinBase; index: number }) => {
     const coinData: CoinData = coinsData[item.id];
-    const unclaimedRewards = (unclaimedRewardsQuery.data && unclaimedRewardsQuery.data[item.id]) || '';
+    const unclaimedRewards =
+      (unclaimedRewardsQuery.data && unclaimedRewardsQuery.data[item.id]) || '';
 
     if (!coinData) {
       return null;
@@ -206,13 +210,9 @@ const WalletScreen = ({ navigation }) => {
       });
     };
 
-
-
     if (!coinData) {
       return null;
     }
-
-
 
     return (
       <AssetCard
@@ -246,21 +246,19 @@ const WalletScreen = ({ navigation }) => {
           {walletQuery.isFetching
             ? intl.formatMessage({ id: 'wallet.updating' })
             : `${intl.formatMessage({ id: 'wallet.last_updated' })} ${moment(
-              updateTimestamp,
-            ).format('HH:mm:ss')}`}
+                updateTimestamp,
+              ).format('HH:mm:ss')}`}
         </Text>
       </View>
     );
   };
 
-
-
   const _refreshControl = (
     <RefreshControl
       refreshing={isRefreshing}
       onRefresh={() => {
-        if(!isRefreshing){
-          setIsRefreshing(true)
+        if (!isRefreshing) {
+          setIsRefreshing(true);
           _refetchData();
         }
       }}
@@ -294,7 +292,6 @@ const WalletScreen = ({ navigation }) => {
           )}
         </LoggedInContainer>
       </SafeAreaView>
-
     </Fragment>
   );
 };

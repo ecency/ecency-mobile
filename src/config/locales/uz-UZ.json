@@ -111,7 +111,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive Token",
+      "name": "Liquid Hive",
       "buy": "HIVE olish"
     },
     "hbd": {
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "Hive Power | Staked Hive"
+      "name": "Staked Hive"
     },
     "hive_dollar": {
       "name": "Hive Dollar"
@@ -309,6 +309,7 @@
     "title_description": "Hamma narsani boshqarish uchun bitta akkaunt",
     "form_description": "Tizimga kirish orqali siz Xizmat shartlari va Maxfiylik siyosatimizga rozilik bildirasiz.",
     "registering": "Registering Your Account...",
+    "register_fail": "Registeration failed, please try again or contact support.",
     "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
@@ -518,6 +519,7 @@
     "qoutaExceeded": "Yuklash kvotasi oshib ketdi",
     "invalidImage": "Rasm mos emas, boshqa faylni sinab ko'ring",
     "something_wrong": "Nimadir noto'g'ri bajarildi",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "Shu bilan birga, brauzeringizdan Ecency.com ni sinab ko'ring",
     "something_wrong_reload": "Yana urinib ko'rish?",
     "can_not_be_empty": "Sarlavha va asosiy matn bo'sh bo'lishi mumkin emas!",
@@ -733,7 +735,8 @@
   "buy_account": {
     "title": "Buy Account",
     "btn_register": "Buy Account - {price}",
-    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started"
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started",
+    "claim": "Claim Paid Account"
   },
   "free_account": {
     "title": "Free Account",

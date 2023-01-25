@@ -1,7 +1,8 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useIntl } from 'react-intl';
+import get from 'lodash/get';
 import styles from '../styles/tokensSelectModa.styles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { CheckBox, Modal, SearchInput, TextButton } from '../../../components';
@@ -9,6 +10,8 @@ import { CoinBase, CoinData } from '../../../redux/reducers/walletReducer';
 import DEFAULT_ASSETS from '../../../constants/defaultAssets';
 import { setSelectedCoins } from '../../../redux/actions/walletActions';
 import { AssetIcon } from '../../../components/atoms';
+import { profileUpdate } from '../../../providers/hive/dhive';
+import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
 export const AssetsSelectModal = forwardRef(({}, ref) => {
   const dispatch = useAppDispatch();
@@ -16,6 +19,8 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
 
   const coinsData = useAppSelector((state) => state.wallet.coinsData);
   const selectedCoins: CoinBase[] = useAppSelector((state) => state.wallet.selectedCoins);
+  const pinCode = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
   const [visible, setVisible] = useState(false);
   const [selection, setSelection] = useState(selectedCoins.filter((item) => item.isEngine));
@@ -35,8 +40,16 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
     showModal: () => {
       setVisible(true);
       setQuery('');
+      setSelection(selectedCoins.filter((item) => item.isEngine));
     },
   }));
+
+  // migration snippet
+  useEffect(() => {
+    if (currentAccount && !currentAccount.about.profile?.tokens) {
+      _updateUserProfile();
+    }
+  }, [currentAccount]);
 
   useEffect(() => {
     const data: CoinData[] = [];
@@ -56,9 +69,39 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
     setListData(data);
   }, [query, coinsData]);
 
+  const filterAssetsBySymbols = (coinsArr: CoinBase[]) => {
+    return coinsArr.map((item) => item.symbol);
+  };
+
+  const _updateUserProfile = async () => {
+    try {
+      const assetsData = {
+        engine: filterAssetsBySymbols(selection),
+      };
+      const updatedCurrentAccountData = currentAccount;
+      updatedCurrentAccountData.about.profile = {
+        ...updatedCurrentAccountData.about.profile,
+        tokens: { ...assetsData },
+      };
+      const params = {
+        ...updatedCurrentAccountData.about.profile,
+      };
+      await profileUpdate(params, pinCode, currentAccount);
+      dispatch(updateCurrentAccount(updatedCurrentAccountData));
+    } catch (err) {
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        get(err, 'message', err.toString()),
+      );
+    }
+  };
+
   const _onApply = () => {
     dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...selection]));
     setVisible(false);
+    _updateUserProfile(); // update the user profile with updated tokens data
   };
 
   const _renderOptions = () => {

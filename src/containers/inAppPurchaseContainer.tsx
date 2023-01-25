@@ -26,6 +26,7 @@ class InAppPurchaseContainer extends Component {
     super(props);
     this.state = {
       productList: [],
+      unconsumedPurchases: [],
       isLoading: true,
       isProcessing: false,
     };
@@ -50,17 +51,23 @@ class InAppPurchaseContainer extends Component {
   }
 
   _initContainer = async () => {
-    const { intl } = this.props;
+    const { intl, disablePurchaseListerOnMount } = this.props;
     try {
       await IAP.initConnection();
       if (Platform.OS === 'android') {
         await IAP.flushFailedPurchasesCachedAsPendingAndroid();
       }
 
-      await this._consumeAvailablePurchases();
+      if (disablePurchaseListerOnMount) {
+        await this._consumeAvailablePurchases();
+        this._purchaseUpdatedListener();
+      }
+
       this._getItems();
-      this._purchaseUpdatedListener();
       await this._handleQrPurchase();
+
+      // place rest of unconsumed purhcases in state
+      this._getUnconsumedPurchases();
     } catch (err) {
       bugsnagInstance.notify(err);
       console.warn(err.code, err.message);
@@ -74,29 +81,8 @@ class InAppPurchaseContainer extends Component {
     }
   };
 
-  // this snippet consumes all previously bought purchases
-  // that are set to be consumed yet
-  _consumeAvailablePurchases = async () => {
-    try {
-      // get available purchase
-      const purchases = await IAP.getAvailablePurchases();
-      // check consumeable status
-      for (let i = 0; i < purchases.length; i++) {
-        // consume item using finishTransactionx
-        await IAP.finishTransaction({
-          purchase: purchases[i],
-          isConsumable: true,
-        });
-      }
-    } catch (err) {
-      bugsnagInstance.notify(err);
-      console.warn(err.code, err.message);
-    }
-  };
-
-  // Component Functions
-
-  _purchaseUpdatedListener = () => {
+  // attempt to call purchase order and consumes purchased item on success
+  _consumePurchase = async (purchase) => {
     const {
       currentAccount: { name },
       intl,
@@ -106,8 +92,9 @@ class InAppPurchaseContainer extends Component {
       handleOnPurchaseFailure,
       handleOnPurchaseSuccess,
     } = this.props;
+    const data = {};
 
-    this.purchaseUpdateSubscription = IAP.purchaseUpdatedListener((purchase) => {
+    try {
       const receipt = get(purchase, 'transactionReceipt');
       const token = get(purchase, 'purchaseToken');
 
@@ -119,6 +106,10 @@ class InAppPurchaseContainer extends Component {
           user: username || name, // username from passed in props from nav params i-e got from url qr scan
         };
 
+        // make sure item is not consumed if email and username not preset for 999accounts
+        if ((purchase.productId === '999accounts' && !email) || !username) {
+          throw new Error('Email and username are required for 999accounts consumption');
+        }
         if (email && purchase.productId === '999accounts') {
           console.log('injecting purchase account meta');
           data.user = name || 'ecency'; // if user logged in user that name else use ecency,
@@ -128,39 +119,77 @@ class InAppPurchaseContainer extends Component {
           };
         }
 
-        purchaseOrder(data)
-          .then(async () => {
-            try {
-              const ackResult = await IAP.finishTransaction({
-                purchase,
-                isConsumable: true,
-              });
-              console.info('ackResult', ackResult);
-            } catch (ackErr) {
-              console.warn('ackErr', ackErr);
-            }
+        // purhcase call to ecency on successful payment, consume iap item on success
+        await purchaseOrder(data);
 
-            this.setState({ isProcessing: false });
-
-            if (fetchData) {
-              fetchData();
-            }
-            if (handleOnPurchaseSuccess) {
-              handleOnPurchaseSuccess();
-            }
-          })
-          .catch((err) => {
-            if (handleOnPurchaseFailure) {
-              handleOnPurchaseFailure();
-            }
-            bugsnagInstance.notify(err, (report) => {
-              report.addMetadata('data', data);
-            });
+        try {
+          const ackResult = await IAP.finishTransaction({
+            purchase,
+            isConsumable: true,
           });
+          console.info('ackResult', ackResult);
+        } catch (ackErr) {
+          console.warn('ackErr', ackErr);
+          throw new Error(`consume failed, purchase successfull, ${ackErr.message}`);
+        }
+
+        this.setState({ isProcessing: false });
+
+        if (fetchData) {
+          fetchData();
+        }
+        if (handleOnPurchaseSuccess) {
+          handleOnPurchaseSuccess();
+        }
       }
-    });
+    } catch (err) {
+      this.setState({ isProcessing: false });
+      if (handleOnPurchaseFailure) {
+        handleOnPurchaseFailure(err);
+      }
+      this._getUnconsumedPurchases();
+      bugsnagInstance.notify(err, (report) => {
+        report.addMetadata('data', data);
+      });
+    }
+  };
+
+  // this snippet consumes all previously bought purchases
+  // that are set to be consumed yet
+  _consumeAvailablePurchases = async () => {
+    try {
+      // get available purchase
+      const purchases = await IAP.getAvailablePurchases();
+      // check consumeable status
+      for (let i = 0; i < purchases.length; i++) {
+        const _purchase = purchases[i];
+
+        if (_purchase.productId !== '999accounts') {
+          // consume item using finishTransactionx
+          await this._consumePurchase(purchases[i]);
+        }
+      }
+    } catch (err) {
+      bugsnagInstance.notify(err);
+      console.warn(err.code, err.message);
+    }
+  };
+
+  // Component Functions
+  _purchaseUpdatedListener = () => {
+    this.purchaseUpdateSubscription = IAP.purchaseUpdatedListener(this._consumePurchase);
 
     this.purchaseErrorSubscription = IAP.purchaseErrorListener((error) => {
+      const {
+        currentAccount: { name },
+        intl,
+        fetchData,
+        username,
+        email,
+        handleOnPurchaseFailure,
+        handleOnPurchaseSuccess,
+      } = this.props;
+
       bugsnagInstance.notify(error);
       if (get(error, 'responseCode') === '3' && Platform.OS === 'android') {
         Alert.alert(
@@ -182,7 +211,7 @@ class InAppPurchaseContainer extends Component {
       }
       this.setState({ isProcessing: false });
       if (handleOnPurchaseFailure) {
-        handleOnPurchaseFailure();
+        handleOnPurchaseFailure(error);
       }
     });
   };
@@ -194,6 +223,13 @@ class InAppPurchaseContainer extends Component {
     }
 
     return _title;
+  };
+
+  _getUnconsumedPurchases = async () => {
+    const _purchases = await IAP.getAvailablePurchases();
+    this.setState({
+      unconsumedPurchases: _purchases,
+    });
   };
 
   _getItems = async () => {
@@ -218,9 +254,22 @@ class InAppPurchaseContainer extends Component {
 
   _buyItem = async (sku) => {
     const { navigation } = this.props;
+    const { unconsumedPurchases } = this.state;
 
     if (sku !== 'freePoints') {
       this.setState({ isProcessing: true });
+
+      // check if sku preset in unconsumedItems
+      const _unconsumedPurchase = unconsumedPurchases.find((p) => p.productId === sku);
+      if (_unconsumedPurchase) {
+        this._consumePurchase(_unconsumedPurchase);
+        return;
+      }
+
+      // chech purhcase listener
+      if (!this.purchaseUpdateSubscription || !this.purchaseErrorSubscription) {
+        this._purchaseUpdatedListener();
+      }
 
       try {
         IAP.requestPurchase(Platform.OS === 'ios' ? { sku } : { skus: [sku] });
@@ -288,7 +337,7 @@ class InAppPurchaseContainer extends Component {
 
   render() {
     const { children, isNoSpin, navigation } = this.props;
-    const { productList, isLoading, isProcessing } = this.state;
+    const { productList, isLoading, isProcessing, unconsumedPurchases } = this.state;
     const FREE_ESTM = { productId: 'freePoints', title: 'free points' };
     const _productList = isNoSpin
       ? productList
@@ -298,6 +347,7 @@ class InAppPurchaseContainer extends Component {
       children &&
       children({
         productList: _productList,
+        unconsumedPurchases,
         buyItem: this._buyItem,
         isLoading,
         isProcessing,

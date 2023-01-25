@@ -40,7 +40,7 @@ import applySnippet from '../children/formats/applySnippet';
 import { MainButton } from '../../mainButton';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
 import { OptionsModal } from '../../atoms';
-import { UsernameAutofillBar } from '../children/usernameAutofillBar';
+// import { UsernameAutofillBar } from '../children/usernameAutofillBar';
 import applyUsername from '../children/formats/applyUsername';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
@@ -49,11 +49,6 @@ import { extractImageUrls } from '../../../utils/editor';
 import { useAppSelector } from '../../../hooks';
 
 // const MIN_BODY_INPUT_HEIGHT = 300;
-
-// These variable keep track of body text input state,
-// this helps keep load on minimal compared to both useState and useRef;
-let bodyText = '';
-let bodySelection = { start: 0, end: 0 };
 
 const MarkdownEditorView = ({
   paramFiles,
@@ -87,12 +82,14 @@ const MarkdownEditorView = ({
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [insertedMediaUrls, setInsertedMediaUrls] = useState([]);
-  const [isDraftUpdated, setIsDraftupdated] = useState(false);
+  // const [isDraftUpdated, setIsDraftupdated] = useState(false);
 
   const inputRef = useRef<any>(null);
   const clearRef = useRef<any>(null);
   const insertLinkModalRef = useRef<any>(null);
   const tooltipRef = useRef<any>(null);
+  const bodyTextRef = useRef('');
+  const bodySelectionRef = useRef({ start: 0, end: 0 });
 
   const isVisibleAccountsBottomSheet = useSelector(
     (state) => state.ui.isVisibleAccountsBottomSheet,
@@ -102,13 +99,13 @@ const MarkdownEditorView = ({
   const headerText = post && (post.summary || postBodySummary(post, 150, Platform.OS));
 
   useEffect(() => {
-    bodyText = '';
-    bodySelection = { start: 0, end: 0 };
+    bodyTextRef.current = '';
+    bodySelectionRef.current = { start: 0, end: 0 };
   }, []);
 
   useEffect(() => {
     if (!isPreviewActive) {
-      _setTextAndSelection({ selection: bodySelection, text: bodyText });
+      _setTextAndSelection({ selection: bodySelectionRef.current, text: bodyTextRef.current });
     }
   }, [isPreviewActive]);
 
@@ -124,7 +121,7 @@ const MarkdownEditorView = ({
   }, [onLoadDraftPress]);
 
   useEffect(() => {
-    if (bodyText === '' && draftBody !== '') {
+    if (bodyTextRef.current === '' && draftBody !== '') {
       const draftBodyLength = draftBody.length;
       _setTextAndSelection({
         selection: { start: draftBodyLength, end: draftBodyLength },
@@ -166,7 +163,7 @@ const MarkdownEditorView = ({
   }, [isLoading]);
 
   useEffect(() => {
-    bodyText = draftBody;
+    bodyTextRef.current = draftBody;
   }, [draftBody]);
 
   useEffect(() => {
@@ -184,8 +181,8 @@ const MarkdownEditorView = ({
 
   const _onApplyUsername = (username) => {
     applyUsername({
-      text: bodyText,
-      selection: bodySelection,
+      text: bodyTextRef.current,
+      selection: bodySelectionRef.current,
       setTextAndSelection: _setTextAndSelection,
       username,
     });
@@ -195,9 +192,9 @@ const MarkdownEditorView = ({
     debounce(() => {
       console.log('setting is editing to', false);
       setIsEditing(false);
-      handleBodyChange(bodyText);
-      handleFormUpdate('body', bodyText);
-      const urls = extractImageUrls({ body: bodyText });
+      handleBodyChange(bodyTextRef.current);
+      handleFormUpdate('body', bodyTextRef.current);
+      const urls = extractImageUrls({ body: bodyTextRef.current });
       if (urls.length !== insertedMediaUrls.length) {
         setInsertedMediaUrls(urls);
       }
@@ -209,13 +206,14 @@ const MarkdownEditorView = ({
   const _changeText = useCallback(
     (input) => {
       // check if draft is just loaded or is updated. Fix for username bar auto loading when draft ends with a username
-      if (draftBody && !isDraftUpdated && draftBody !== input) {
-        setIsDraftupdated(true);
-      }
-      bodyText = input;
+      // if (draftBody && !isDraftUpdated && draftBody !== input) {
+      //   console.log("Updating draft state")
+      //   setIsDraftupdated(true);
+      // }
+      bodyTextRef.current = input;
 
       if (!isEditing) {
-        console.log('force setting is editing to true', true);
+        console.log('force setting isEditing to true', true);
         setIsEditing(true);
       }
 
@@ -225,7 +223,7 @@ const MarkdownEditorView = ({
   );
 
   const _handleOnSelectionChange = async (event) => {
-    bodySelection = event.nativeEvent.selection;
+    bodySelectionRef.current = event.nativeEvent.selection;
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -236,7 +234,7 @@ const MarkdownEditorView = ({
     });
 
     const _updateSelection = () => {
-      bodySelection = _selection;
+      bodySelectionRef.current = _selection;
       inputRef?.current?.setNativeProps({
         selection: _selection,
       });
@@ -260,8 +258,8 @@ const MarkdownEditorView = ({
 
   const _renderPreview = () => (
     <ScrollView style={styles.previewContainer}>
-      {bodyText ? (
-        <PostBody body={renderPostBody(bodyText, true, Platform.OS !== 'ios')} />
+      {bodyTextRef.current ? (
+        <PostBody body={renderPostBody(bodyTextRef.current, true, Platform.OS !== 'ios')} />
       ) : (
         <Text>...</Text>
       )}
@@ -270,8 +268,8 @@ const MarkdownEditorView = ({
 
   const _handleOnSnippetReceived = (snippetText) => {
     applySnippet({
-      text: bodyText,
-      selection: bodySelection,
+      text: bodyTextRef.current,
+      selection: bodySelectionRef.current,
       setTextAndSelection: _setTextAndSelection,
       snippetText: `\n${snippetText}\n`,
     });
@@ -281,8 +279,8 @@ const MarkdownEditorView = ({
   const _handleMediaInsert = (mediaArray: MediaInsertData[]) => {
     if (mediaArray.length) {
       applyMediaLink({
-        text: bodyText,
-        selection: bodySelection,
+        text: bodyTextRef.current,
+        selection: bodySelectionRef.current,
         setTextAndSelection: _setTextAndSelection,
         items: mediaArray,
       });
@@ -291,8 +289,11 @@ const MarkdownEditorView = ({
 
   const _handleOnAddLinkPress = () => {
     insertLinkModalRef.current?.showModal({
-      selectedText: bodyText.slice(bodySelection.start, bodySelection.end),
-      selection: bodySelection,
+      selectedText: bodyTextRef.current.slice(
+        bodySelectionRef.current.start,
+        bodySelectionRef.current.end,
+      ),
+      selection: bodySelectionRef.current,
     });
     inputRef?.current?.blur();
   };
@@ -303,7 +304,7 @@ const MarkdownEditorView = ({
 
   const _handleInsertLink = ({ snippetText, selection }) => {
     applySnippet({
-      text: bodyText,
+      text: bodyTextRef.current,
       selection,
       setTextAndSelection: _setTextAndSelection,
       snippetText,
@@ -427,13 +428,13 @@ const MarkdownEditorView = ({
     const _innerContent = (
       <>
         {isAndroidOreo() ? _editorWithoutScroll : _editorWithScroll}
-        {isDraftUpdated && (
+        {/* {isDraftUpdated && (
           <UsernameAutofillBar
             text={bodyText}
             selection={bodySelection}
             onApplyUsername={_onApplyUsername}
           />
-        )}
+        )} */}
 
         {_renderFloatingDraftButton()}
 
@@ -448,8 +449,8 @@ const MarkdownEditorView = ({
           handleOnClearPress={() => clearRef.current.show()}
           handleOnMarkupButtonPress={(item) => {
             item.onPress({
-              text: bodyText,
-              selection: bodySelection,
+              text: bodyTextRef.current,
+              selection: bodySelectionRef.current,
               setTextAndSelection: _setTextAndSelection,
               item,
             });
