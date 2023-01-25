@@ -111,7 +111,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Liquid Hive",
+      "name": "Hive Líquido",
       "buy": "OBTER HIVE"
     },
     "hbd": {
@@ -310,7 +310,7 @@
     "form_description": "Ao se cadastrar conosco, você concorda com nossos Termos de Serviço e Políticas de Privacidade.",
     "registering": "Registrando a sua conta...",
     "register_fail": "Registeration failed, please try again or contact support.",
-    "registered": "Registration Successful\nCheck your email for instruction"
+    "registered": "Cadastro realizado\nVerifique seu e-mail para obter sua conta"
   },
   "home": {
     "feed": "Conteúdo de notícias",
