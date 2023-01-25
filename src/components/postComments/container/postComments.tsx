@@ -14,7 +14,6 @@ import { FlatList } from 'react-native-gesture-handler';
 // Components
 import { postBodySummary } from '@ecency/render-helper';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
-import { Comment } from '../..';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -24,7 +23,10 @@ import { writeToClipboard } from '../../../utils/clipboard';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
-import Animated, { SlideInRight } from 'react-native-reanimated';
+import { CommentsSection } from '../children/commentsSection';
+
+
+
 
 const PostComments = forwardRef(
   (
@@ -257,21 +259,17 @@ const PostComments = forwardRef(
 
 
 
-
-
-
     const _renderItem = ({ item, index }) => {
-
       return <CommentsSection
         item={item}
         index={index}
+        mainAuthor={mainAuthor}
         handleDeleteComment={_handleDeleteComment}
         handleOnEditPress={_handleOnEditPress}
         handleOnVotersPress={_handleOnVotersPress}
         handleOnLongPress={_handleShowOptionsMenu}
         openReplyThread={_openReplyThread}
       />
-
     }
 
 
@@ -293,37 +291,7 @@ const PostComments = forwardRef(
 
 export default PostComments;
 
-const CommentsSection = ({item, index, revealReplies, ...props}) => {
 
-  const [toggle, setToggle] = useState(revealReplies || false);
-
-
-  const _renderComment = (item, index = 0) => {
-    return (
-      <Animated.View
-        entering={SlideInRight.duration(150).springify().delay(index * 100)}>
-        <Comment
-          key={item.author + item.permlink}
-          mainAuthor={'demo.com'}
-          comment={item}
-          repliesToggle={toggle}
-
-          handleOnToggleReplies={() => setToggle(!toggle)}
-          {...props}
-        />
-      </Animated.View>
-    );
-  };
-
-  return (
-    <>
-      {_renderComment(item, index)}
-      {toggle && (
-        item.replies.map((reply, index) => _renderComment(reply, index))
-      )}
-    </>
-  )
-}
 
 const _sortComments = (sortOrder = 'trending', _comments) => {
   const sortedComments = _comments;
