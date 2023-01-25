@@ -519,6 +519,7 @@
     "qoutaExceeded": "अपलोड कोटा पार हो गया",
     "invalidImage": "अमान्य छवि, भिन्न फ़ाइल आज़माएं",
     "something_wrong": "कुछ गलत हो गया",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "इस बीच, अपने ब्राउज़र से Ecency.com आज़माएं",
     "something_wrong_reload": "पुनः प्रयास करें",
     "can_not_be_empty": "शीर्षक और शरीर खाली नहीं हो सकता!",

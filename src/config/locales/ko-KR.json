@@ -519,6 +519,7 @@
     "qoutaExceeded": "업로드 제한을 초과합니다.",
     "invalidImage": "잘못된 이미지입니다. 다른 파일을 사용해 보세요",
     "something_wrong": "문제가 발생했습니다",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "브라우저에서 Ecency.com을 사용해 보세요",
     "something_wrong_reload": "다시 시도하시겠어요?",
     "can_not_be_empty": "제목과 내용이 비어있을 수 없습니다!",

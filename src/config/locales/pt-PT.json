@@ -519,6 +519,7 @@
     "qoutaExceeded": "Quota de carregamento excedida",
     "invalidImage": "Imagem inválida, tente um arquivo diferente",
     "something_wrong": "Algo deu errado",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "Enquanto isso, tente acessar pelo seu navegador a ecency.com",
     "something_wrong_reload": "Tentar novamente?",
     "can_not_be_empty": "Título e corpo não podem estar vazios!",

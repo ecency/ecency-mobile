@@ -519,6 +519,7 @@
     "qoutaExceeded": "Limite d'envoi dépassée",
     "invalidImage": "Image invalide, essayez un autre fichier",
     "something_wrong": "Un problème est survenu",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "Pendant ce temps, essayez Ecency.com depuis votre navigateur",
     "something_wrong_reload": "Réessayer ?",
     "can_not_be_empty": "Le titre et le corps ne peuvent pas être vides!",
