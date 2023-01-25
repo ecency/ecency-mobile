@@ -75,10 +75,10 @@ const CommentView = ({
   const _showSubCommentsToggle = async (force = false) => {
     if ((replies && replies.length > 0) || force) {
 
-      setIsOpeningReplies(true);
-      await delay(10); //hack to rendering inidcator first before start loading comments
+      // setIsOpeningReplies(true);
+      // await delay(10); //hack to rendering inidcator first before start loading comments
       handleOnToggleReplies(comment.commentKey);
-      setIsOpeningReplies(false);
+      // setIsOpeningReplies(false);
 
 
     } else if (openReplyThread) {

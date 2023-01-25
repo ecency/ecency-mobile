@@ -99,8 +99,8 @@ const PostComments = forwardRef(
       if (sortedSections) {
         const _data = [];
         sortedSections.forEach((section) => {
+          section.replies = discussionQuery.repliesMap[section.commentKey]
           _data.push(section);
-          // _data.push(...discussionQuery.repliesMap[section.commentKey])
         });
         setData(_data);
       }
@@ -257,38 +257,21 @@ const PostComments = forwardRef(
 
 
 
-    const _renderComment = (item, index = 0, repliesToggle = false) => {
-      return (
-        <Animated.View 
-          entering={SlideInRight.duration(150).springify().delay(index * 100)  }>
-          <Comment
-            key={item.author + item.permlink}
-            mainAuthor={mainAuthor}
-            comment={item}
-            repliesToggle={repliesToggle}
-            handleDeleteComment={_handleDeleteComment}
-            handleOnEditPress={_handleOnEditPress}
-            handleOnVotersPress={_handleOnVotersPress}
-            handleOnLongPress={_handleShowOptionsMenu}
-            openReplyThread={_openReplyThread}
-            handleOnToggleReplies={(commentKey) => _handleOnToggleReplies(commentKey, index)}
-          />
-        </Animated.View>
-      );
-    };
 
 
-    const _renderItem = ({item, index}) => {
-      const _repliesToggle = sectionsToggleMap[item.commentKey];
-      const _replies = discussionQuery.repliesMap[item.commentKey]
-      return (
-        <>
-          { _renderComment(item, index, _repliesToggle)}
-          {_repliesToggle && (
-            _replies.map((reply, index)=>_renderComment(reply, index))
-          )}
-        </>
-      )
+
+    const _renderItem = ({ item, index }) => {
+
+      return <CommentsSection
+        item={item}
+        index={index}
+        handleDeleteComment={_handleDeleteComment}
+        handleOnEditPress={_handleOnEditPress}
+        handleOnVotersPress={_handleOnVotersPress}
+        handleOnLongPress={_handleShowOptionsMenu}
+        openReplyThread={_openReplyThread}
+      />
+
     }
 
 
@@ -309,6 +292,38 @@ const PostComments = forwardRef(
 );
 
 export default PostComments;
+
+const CommentsSection = ({item, index, revealReplies, ...props}) => {
+
+  const [toggle, setToggle] = useState(revealReplies || false);
+
+
+  const _renderComment = (item, index = 0) => {
+    return (
+      <Animated.View
+        entering={SlideInRight.duration(150).springify().delay(index * 100)}>
+        <Comment
+          key={item.author + item.permlink}
+          mainAuthor={'demo.com'}
+          comment={item}
+          repliesToggle={toggle}
+
+          handleOnToggleReplies={() => setToggle(!toggle)}
+          {...props}
+        />
+      </Animated.View>
+    );
+  };
+
+  return (
+    <>
+      {_renderComment(item, index)}
+      {toggle && (
+        item.replies.map((reply, index) => _renderComment(reply, index))
+      )}
+    </>
+  )
+}
 
 const _sortComments = (sortOrder = 'trending', _comments) => {
   const sortedComments = _comments;
