@@ -519,6 +519,7 @@
     "qoutaExceeded": "Yükleme kotası aşıldı",
     "invalidImage": "Geçersiz görsel, farklı dosya deneyin",
     "something_wrong": "Bir hata oluştu",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "Bu sırada, tarayıcınızda Ecency.com adresini deneyin",
     "something_wrong_reload": "Tekrar denensin mi?",
     "can_not_be_empty": "Başlık ve konu kısmı boş geçilemez!",
