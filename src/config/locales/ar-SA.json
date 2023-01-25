@@ -519,6 +519,7 @@
     "qoutaExceeded": "تم تجاوز حصة الرفع",
     "invalidImage": "صورة غير صالحة، جرب ملف مختلف",
     "something_wrong": "حدث خطأ ما",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "في هذا الوقت، جرب Ecency.com من متصفحك",
     "something_wrong_reload": "حاول مجددا؟",
     "can_not_be_empty": "العنوان والجسم لا يمكن أن يكونا فارغين!",
