@@ -79,7 +79,11 @@ class RedeemContainer extends Component {
       })
       .catch((error) => {
         if (error) {
-          dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })) + '\n' + error.message);
+          dispatch(
+            `${toastNotification(intl.formatMessage({ id: 'alert.key_warning' }))}\n${
+              error.message
+            }`,
+          );
         }
       });
 
@@ -98,7 +102,10 @@ class RedeemContainer extends Component {
       return;
     }
 
-    const user = selectedUser !== currentAccount.username ? currentAccount : accounts.find(item=>item.username === selectedUser);
+    const user =
+      selectedUser !== currentAccount.username
+        ? currentAccount
+        : accounts.find((item) => item.username === selectedUser);
 
     this._redeemAction(redeemType, actionSpecificParam, _permlink, _author, user);
   };

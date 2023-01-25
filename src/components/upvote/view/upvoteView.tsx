@@ -5,6 +5,7 @@ import { Popover, PopoverController } from 'react-native-modal-popover';
 import Slider from '@esteemapp/react-native-slider';
 
 // Utils
+import { useDispatch } from 'react-redux';
 import { getEstimatedAmount } from '../../../utils/vote';
 
 // Components
@@ -24,7 +25,6 @@ import { useAppSelector } from '../../../hooks';
 import postTypes from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
-import { useDispatch } from 'react-redux';
 
 interface UpvoteViewProps {
   isDeclinedPayout: boolean;
@@ -146,14 +146,18 @@ const UpvoteView = ({
           });
 
           if (!response || !response.id) {
-            dispatch(toastNotification(intl.formatMessage(
-              { id: 'alert.something_wrong_msg' },
-              {
-                message: intl.formatMessage({
-                  id: 'alert.invalid_response',
-                })
-              }
-            )))
+            dispatch(
+              toastNotification(
+                intl.formatMessage(
+                  { id: 'alert.something_wrong_msg' },
+                  {
+                    message: intl.formatMessage({
+                      id: 'alert.invalid_response',
+                    }),
+                  },
+                ),
+              ),
+            );
 
             return;
           }
@@ -179,17 +183,18 @@ const UpvoteView = ({
             dispatch(setRcOffer(true));
           } else {
             // // when voting with same percent or other errors
-            let errMsg = ''
+            let errMsg = '';
             if (err.message && err.message.indexOf(':') > 0) {
               errMsg = err.message.split(': ')[1];
             } else {
               errMsg = err.jse_shortmsg || err.error_description || err.message;
             }
-            
-            dispatch(toastNotification(intl.formatMessage(
-              { id: 'alert.something_wrong_msg' },
-              { message: errMsg }
-            )))
+
+            dispatch(
+              toastNotification(
+                intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: errMsg }),
+              ),
+            );
 
             setIsVoting(false);
           }
@@ -221,10 +226,11 @@ const UpvoteView = ({
           onVote(amount, true);
         })
         .catch((err) => {
-          dispatch(toastNotification(intl.formatMessage(
-            { id: 'alert.something_wrong_msg' },
-            { message: err.message }
-          )))
+          dispatch(
+            toastNotification(
+              intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: err.message }),
+            ),
+          );
           setUpvote(false);
           setIsVoting(false);
         });

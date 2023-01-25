@@ -53,17 +53,14 @@ ecencyApi.interceptors.request.use((request) => {
     } else if (state.application.isLoggedIn) {
       const errMsg = 'Failed to inject accessToken';
       console.warn(errMsg);
-      bugsnagInstance.notify(
-        new Error(errMsg),
-        (event)=>{
-          event.setUser(currentAccount.username);
-          event.context = 'ecency_api_interceptor';
-          event.addMetadata('meta', {
-            url:request.url,
-            accessTokenExist:!!token
-          });
-        }
-      );
+      bugsnagInstance.notify(new Error(errMsg), (event) => {
+        event.setUser(currentAccount.username);
+        event.context = 'ecency_api_interceptor';
+        event.addMetadata('meta', {
+          url: request.url,
+          accessTokenExist: !!token,
+        });
+      });
     }
   }
 

@@ -846,10 +846,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       dispatch(setRcOffer(true));
     } else {
       // when other errors
-      dispatch(toastNotification(intl.formatMessage(
-        { id: 'alert.something_wrong_msg' },
-        { message: error.message }
-      )))
+      dispatch(
+        toastNotification(
+          intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: error.message }),
+        ),
+      );
     }
 
     this.stateTimer = setTimeout(() => {
@@ -953,7 +954,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const timer = setTimeout(() => {
         Alert.alert(
           intl.formatMessage({
-            id: 'alert.something_wrong_msg',
+            id: 'alert.something_wrong',
           }),
           intl.formatMessage({
             id: 'alert.can_not_be_empty',
@@ -979,10 +980,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             this._submitPost({ fields, scheduleDate: datePickerValue });
           })
           .catch((error) => {
-            dispatch(toastNotification(intl.formatMessage(
-              { id: 'alert.something_wrong_msg' },
-              { messsage: error.message }
-            )))
+            dispatch(
+              toastNotification(
+                intl.formatMessage(
+                  { id: 'alert.something_wrong_msg' },
+                  { messsage: error.message },
+                ),
+              ),
+            );
           });
       }
     }
@@ -1106,7 +1111,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={() => { }}
+        handleOnBackPress={() => {}}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
         isDarkTheme={isDarkTheme}
