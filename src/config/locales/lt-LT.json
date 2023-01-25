@@ -519,6 +519,7 @@
     "qoutaExceeded": "Įkėlimo limitas viršytas",
     "invalidImage": "Netinkamas vaizdas, pabandykite kitą bylą",
     "something_wrong": "Įvyko klaida",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "Tuo metu, išbandykite Eceny.com savo naršyklėje",
     "something_wrong_reload": "Bandyti dar kartą?",
     "can_not_be_empty": "Pavadinimas ir pagrindinė dalis negali būti tušti!",
