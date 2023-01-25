@@ -214,7 +214,7 @@ export const QuickReplyModalContent = forwardRef(
             console.log(error);
             Alert.alert(
               intl.formatMessage({
-                id: 'alert.fail',
+                id: 'alert.something_wrong',
               }),
               error.message || JSON.stringify(error),
             );

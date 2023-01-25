@@ -112,14 +112,13 @@ export const sendHiveOperations = async (
     const resultHive = await client.broadcast.call('broadcast_transaction', [transaction]);
     const result = Object.assign({ id: trxId }, resultHive);
     return result;
-  } catch(err){
-    bugsnagInstance.notify(err, (event)=>{
-      event.context = 'send-hive-operations'
-      event.setMetaData('operationsArray', operations)
+  } catch (err) {
+    bugsnagInstance.notify(err, (event) => {
+      event.context = 'send-hive-operations';
+      event.setMetaData('operationsArray', operations);
     });
     throw err;
   }
-
 };
 
 /** reuseable broadcast json method with posting auth */
@@ -1742,12 +1741,12 @@ export const transferPoint = (currentAccount, pinCode, data) => {
     const opArray = [['custom_json', op]];
     return sendHiveOperations(opArray, privateKey);
   } else {
-    const err = new Error('Check private key permission! Required private active key or above.')
+    const err = new Error('Check private key permission! Required private active key or above.');
     bugsnagInstance.notify(err, (event) => {
-      event.setUser(currentAccount.username)
-      event.context('ransfer-points')
-      event.setMetaData('encryptedLocal', currentAccount.local)
-    })
+      event.setUser(currentAccount.username);
+      event.context('ransfer-points');
+      event.setMetaData('encryptedLocal', currentAccount.local);
+    });
     return Promise.reject(err);
   }
 };
@@ -1775,12 +1774,12 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
 
     return sendHiveOperations(opArray, privateKey);
   } else {
-    const err = new Error('Check private key permission! Required private active key or above.')
+    const err = new Error('Check private key permission! Required private active key or above.');
     bugsnagInstance.notify(err, (event) => {
-      event.setUser(currentAccount.username)
-      event.context('promoting-content')
-      event.setMetaData('encryptedLocal', currentAccount.local)
-    })
+      event.setUser(currentAccount.username);
+      event.context('promoting-content');
+      event.setMetaData('encryptedLocal', currentAccount.local);
+    });
     return Promise.reject(err);
   }
 };
@@ -1808,16 +1807,14 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
 
     return sendHiveOperations(opArray, privateKey);
   } else {
-    const err = new Error('Check private key permission! Required private active key or above.')
+    const err = new Error('Check private key permission! Required private active key or above.');
     bugsnagInstance.notify(err, (event) => {
-      event.setUser(currentAccount.username)
-      event.context('boosting-content')
-      event.setMetaData('encryptedLocal', currentAccount.local)
-    })
+      event.setUser(currentAccount.username);
+      event.context('boosting-content');
+      event.setMetaData('encryptedLocal', currentAccount.local);
+    });
     return Promise.reject(err);
   }
-
-
 };
 
 export const grantPostingPermission = async (json, pin, currentAccount) => {

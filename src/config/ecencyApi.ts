@@ -38,7 +38,8 @@ ecencyApi.interceptors.request.use((request) => {
   if (!request.data?.code) {
     // if access code not already set, decrypt access token
     const state = store.getState();
-    const token = get(state, 'account.currentAccount.local.accessToken');
+    const currentAccount = get(state, 'account.currentAccount');
+    const token = get(currentAccount, 'local.accessToken');
     const pin = get(state, 'application.pin');
     const digitPinCode = getDigitPinCode(pin);
     const accessToken = decryptKey(token, digitPinCode);
@@ -49,14 +50,17 @@ ecencyApi.interceptors.request.use((request) => {
       }
       request.data.code = accessToken;
       console.log('Added access token:', accessToken);
-    } else {
-      const { isLoggedIn } = state.application;
-      console.warn('Failed to inject accessToken', `isLoggedIn:${isLoggedIn}`);
-      bugsnagInstance.notify(
-        new Error(
-          `Failed to inject accessToken in ${request.url} call. isLoggedIn:${isLoggedIn}, local.acccessToken:${token}, pin:${pin}`,
-        ),
-      );
+    } else if (state.application.isLoggedIn) {
+      const errMsg = 'Failed to inject accessToken';
+      console.warn(errMsg);
+      bugsnagInstance.notify(new Error(errMsg), (event) => {
+        event.setUser(currentAccount.username);
+        event.context = 'ecency_api_interceptor';
+        event.addMetadata('meta', {
+          url: request.url,
+          accessTokenExist: !!token,
+        });
+      });
     }
   }
 
