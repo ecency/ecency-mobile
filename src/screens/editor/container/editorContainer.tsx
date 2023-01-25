@@ -846,12 +846,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       dispatch(setRcOffer(true));
     } else {
       // when other errors
-      Alert.alert(
-        intl.formatMessage({
-          id: 'alert.fail',
-        }),
-        error.message || JSON.stringify(error),
-      );
+      dispatch(toastNotification(intl.formatMessage(
+        { id: 'alert.something_wrong_msg' },
+        { message: error.message }
+      )))
     }
 
     this.stateTimer = setTimeout(() => {
@@ -949,13 +947,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _handleSchedulePress = async (datePickerValue, fields) => {
-    const { currentAccount, pinCode, intl } = this.props;
+    const { currentAccount, pinCode, intl, dispatch } = this.props;
 
     if (fields.title === '' || fields.body === '') {
       const timer = setTimeout(() => {
         Alert.alert(
           intl.formatMessage({
-            id: 'alert.fail',
+            id: 'alert.something_wrong_msg',
           }),
           intl.formatMessage({
             id: 'alert.can_not_be_empty',
@@ -981,12 +979,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             this._submitPost({ fields, scheduleDate: datePickerValue });
           })
           .catch((error) => {
-            Alert.alert(
-              intl.formatMessage({
-                id: 'alert.fail',
-              }),
-              get(error, 'message', error.toString()),
-            );
+            dispatch(toastNotification(intl.formatMessage(
+              { id: 'alert.something_wrong_msg' },
+              { messsage: error.message }
+            )))
           });
       }
     }
@@ -1110,7 +1106,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={() => {}}
+        handleOnBackPress={() => { }}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
         isDarkTheme={isDarkTheme}
