@@ -519,6 +519,7 @@
     "qoutaExceeded": "Превишена квота за качване",
     "invalidImage": "Невалидна снимка,опитайте различен файл",
     "something_wrong": "Нещо се обърка",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "В същото време може да използваш www.ecency.com",
     "something_wrong_reload": "Опитай пак?",
     "can_not_be_empty": "Заглавитето и основата немогат да бъдат празни!",
