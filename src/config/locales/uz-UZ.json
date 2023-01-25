@@ -519,6 +519,7 @@
     "qoutaExceeded": "Yuklash kvotasi oshib ketdi",
     "invalidImage": "Rasm mos emas, boshqa faylni sinab ko'ring",
     "something_wrong": "Nimadir noto'g'ri bajarildi",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "Shu bilan birga, brauzeringizdan Ecency.com ni sinab ko'ring",
     "something_wrong_reload": "Yana urinib ko'rish?",
     "can_not_be_empty": "Sarlavha va asosiy matn bo'sh bo'lishi mumkin emas!",
