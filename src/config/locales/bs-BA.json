@@ -519,6 +519,7 @@
     "qoutaExceeded": "Premašena je kvota za otpremanje",
     "invalidImage": "Nevažeća slika, pokušajte s drugom datotekom",
     "something_wrong": "Nešto je pošlo pogrešno",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "U međuvremenu, isprobajte Ecency.com iz vašeg pretraživača",
     "something_wrong_reload": "Pokušaj ponovo?",
     "can_not_be_empty": "Naslov i tijelo ne mogu biti prazni!",
