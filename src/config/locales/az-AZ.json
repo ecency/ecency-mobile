@@ -519,6 +519,7 @@
     "qoutaExceeded": "Yükləmə kvotası keçildi",
     "invalidImage": "Etibarsız təsvir, fərqli fayl sınayın",
     "something_wrong": "Something went wrong",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Başlıq və gövdə boş ola bilməz!",
