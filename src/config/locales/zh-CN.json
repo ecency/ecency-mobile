@@ -519,6 +519,7 @@
     "qoutaExceeded": "Upload quota exceeded",
     "invalidImage": "Invalid image, try different file",
     "something_wrong": "Something went wrong",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Title and body can not be empty!",
