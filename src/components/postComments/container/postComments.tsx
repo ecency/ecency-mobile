@@ -10,22 +10,21 @@ import { Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
-import Animated, { SlideInRight } from 'react-native-reanimated';
 
 // Components
 import { postBodySummary } from '@ecency/render-helper';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
-import { Comment, PinAnimatedInput } from '../..';
+import { Comment } from '../..';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
 import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
 import { writeToClipboard } from '../../../utils/clipboard';
-import { delay } from '../../../utils/editor';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
+import Animated, { SlideInRight } from 'react-native-reanimated';
 
 const PostComments = forwardRef(
   (
@@ -58,10 +57,15 @@ const PostComments = forwardRef(
 
     const [sectionsToggleMap, setSectionsToggleMap] = useState<{ [key: string]: boolean }>({});
 
+
+
+
     const sortedSections = useMemo(
       () => _sortComments(selectedFilter, discussionQuery.commentsData),
       [discussionQuery.commentsData, selectedFilter],
     );
+
+
 
     useImperativeHandle(ref, () => ({
       bounceCommentButton: () => {
@@ -71,6 +75,9 @@ const PostComments = forwardRef(
         }
       },
     }));
+
+
+
 
     useEffect(() => {
       if (!discussionQuery.isLoading) {
@@ -85,6 +92,9 @@ const PostComments = forwardRef(
       }
     }, [discussionQuery.isLoading, discussionQuery.commentsData, sortedSections]);
 
+
+
+
     useEffect(() => {
       if (sortedSections) {
         const _data = [];
@@ -96,10 +106,16 @@ const PostComments = forwardRef(
       }
     }, [sortedSections]);
 
+
+
+
     const _handleOnDropdownSelect = (option, index) => {
       setSelectedFilter(option);
       setSelectedOptionIndex(index);
     };
+
+
+
 
     const _handleOnVotersPress = (activeVotes, content) => {
       navigation.navigate({
@@ -112,6 +128,9 @@ const PostComments = forwardRef(
       });
     };
 
+
+
+
     const _handleOnEditPress = (item) => {
       navigation.navigate({
         name: ROUTES.SCREENS.EDITOR,
@@ -123,6 +142,9 @@ const PostComments = forwardRef(
         },
       });
     };
+
+
+
 
     const _handleDeleteComment = (_permlink) => {
       deleteComment(currentAccount, pinHash, _permlink).then(() => {
@@ -146,6 +168,9 @@ const PostComments = forwardRef(
       });
     };
 
+
+
+
     const _openReplyThread = (comment) => {
       postsCachePrimer.cachePost(comment);
       navigation.navigate({
@@ -157,6 +182,9 @@ const PostComments = forwardRef(
         },
       });
     };
+
+
+
 
     const _handleShowOptionsMenu = (comment) => {
       const _showCopiedToast = () => {
@@ -200,26 +228,14 @@ const PostComments = forwardRef(
       );
     };
 
+
+
     const _handleOnToggleReplies = (commentKey, index) => {
       const toggleFlag = !sectionsToggleMap[commentKey];
-
       setSectionsToggleMap({ ...sectionsToggleMap, [commentKey]: toggleFlag });
-
-      const replies: any[] = discussionQuery.repliesMap[commentKey];
-
-      if (toggleFlag) {
-        replies.forEach(async (reply, i) => {
-          data.splice(index + 1 + i, 0, reply);
-          setData(data);
-          await delay(200);
-        });
-      } else {
-        const updatedData = data.filter(
-          (item) => !(item.commentKey === commentKey && item.level > 1),
-        );
-        setData(updatedData);
-      }
     };
+
+
 
     const _postContentView = (
       <>
@@ -238,13 +254,18 @@ const PostComments = forwardRef(
       </>
     );
 
-    const _renderComment = ({ item, index }) => {
+
+
+
+    const _renderComment = (item, index = 0, repliesToggle = false) => {
       return (
-        <Animated.View entering={SlideInRight.duration(300)}>
+        <Animated.View 
+          entering={SlideInRight.duration(150).springify().delay(index * 100)  }>
           <Comment
+            key={item.author + item.permlink}
             mainAuthor={mainAuthor}
             comment={item}
-            repliesToggle={sectionsToggleMap[item.commentKey]}
+            repliesToggle={repliesToggle}
             handleDeleteComment={_handleDeleteComment}
             handleOnEditPress={_handleOnEditPress}
             handleOnVotersPress={_handleOnVotersPress}
@@ -256,12 +277,28 @@ const PostComments = forwardRef(
       );
     };
 
+
+    const _renderItem = ({item, index}) => {
+      const _repliesToggle = sectionsToggleMap[item.commentKey];
+      const _replies = discussionQuery.repliesMap[item.commentKey]
+      return (
+        <>
+          { _renderComment(item, index, _repliesToggle)}
+          {_repliesToggle && (
+            _replies.map((reply, index)=>_renderComment(reply, index))
+          )}
+        </>
+      )
+    }
+
+
+
     return (
       <FlatList
         style={{ flex: 1 }}
         ListHeaderComponent={_postContentView}
         data={data}
-        renderItem={_renderComment}
+        renderItem={_renderItem}
         extraData={sectionsToggleMap}
         keyExtractor={(item, index) => `item_${index}`}
         stickySectionHeadersEnabled={false}

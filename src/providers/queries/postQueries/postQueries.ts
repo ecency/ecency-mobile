@@ -78,7 +78,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const [permlink, setPermlink] = useState(_permlink);
 
   const [commentsData, setCommentsData] = useState([]);
-  const [repliesMap, setRepliesMap] = useState([]);
+  const [repliesMap, setRepliesMap] = useState<{[key:string]:any[]}>({});
 
   //inject cached comments here
   const _injectCachedComments = (_comments) => {

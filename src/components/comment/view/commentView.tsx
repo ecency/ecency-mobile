@@ -1,19 +1,18 @@
 import React, { Fragment, useState, useRef, useEffect, useMemo } from 'react';
-import { Alert, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
-import { View as AnimatedView } from 'react-native-animatable';
 
 import { useDispatch } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { getTimeFromNow } from '../../../utils/time';
+import { delay } from '../../../utils/editor';
 // Constants
 
 // Components
 import { CommentBody, PostHeaderDescription } from '../../postElements';
 import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
-import { Comments } from '../../comments';
 import { TextWithIcon } from '../../basicUIElements';
 
 // Styles
@@ -52,12 +51,14 @@ const CommentView = ({
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const isHideImage = useAppSelector((state) => state.application.hidePostsThumbnails);
 
+
   const isMuted = useMemo(
     () => currentAccount.mutes?.indexOf(comment.author) > -1,
     [currentAccount],
   );
 
   const [activeVotes, setActiveVotes] = useState([]);
+  const [isOpeningReplies, setIsOpeningReplies] = useState(false);
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
 
   const childCount = comment.children;
@@ -71,9 +72,15 @@ const CommentView = ({
     }
   }, [comment]);
 
-  const _showSubCommentsToggle = (force = false) => {
+  const _showSubCommentsToggle = async (force = false) => {
     if ((replies && replies.length > 0) || force) {
+
+      setIsOpeningReplies(true);
+      await delay(10); //hack to rendering inidcator first before start loading comments
       handleOnToggleReplies(comment.commentKey);
+      setIsOpeningReplies(false);
+
+
     } else if (openReplyThread) {
       openReplyThread(comment);
     }
@@ -202,18 +209,23 @@ const CommentView = ({
         )}
 
         {_depth === 1 && childCount > 0 && (
+
           <View style={styles.rightButtonWrapper}>
-            <TextWithIcon
-              wrapperStyle={styles.rightButton}
-              iconName={repliesToggle ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
-              textStyle={styles.moreText}
-              iconType="MaterialIcons"
-              isClickable
-              iconStyle={styles.iconStyle}
-              iconSize={16}
-              onPress={() => _showSubCommentsToggle()}
-              text={`${childCount} ${intl.formatMessage({ id: 'comments.more_replies' })}`}
-            />
+            {isOpeningReplies ? <ActivityIndicator style={{ paddingHorizontal: 24, paddingBottom: 8 }} size={'small'} color={EStyleSheet.value('$iconColor')} /> : (
+              <TextWithIcon
+                wrapperStyle={styles.rightButton}
+                iconName={repliesToggle ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
+                textStyle={styles.moreText}
+                iconType="MaterialIcons"
+                isClickable
+                iconStyle={styles.iconStyle}
+                iconSize={16}
+                onPress={() => _showSubCommentsToggle()}
+                text={`${childCount} ${intl.formatMessage({ id: 'comments.more_replies' })}`}
+              />
+            )
+            }
+
           </View>
         )}
       </>
@@ -223,9 +235,9 @@ const CommentView = ({
   const customContainerStyle =
     _depth > 1
       ? {
-          paddingLeft: (_depth - 2) * 44,
-          backgroundColor: EStyleSheet.value('$primaryLightBackground'),
-        }
+        paddingLeft: (_depth - 2) * 44,
+        backgroundColor: EStyleSheet.value('$primaryLightBackground'),
+      }
       : null;
 
   return (

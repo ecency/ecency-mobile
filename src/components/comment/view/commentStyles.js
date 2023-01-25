@@ -15,7 +15,7 @@ export default EStyleSheet.create({
   },
   rightButton: {
     backgroundColor: '$iconColor',
-    height: 18,
+    height: 22,
     flexDirection: 'row-reverse',
     borderRadius: 20,
     minWidth: 40,
