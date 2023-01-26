@@ -34,7 +34,7 @@ export const CommentsSection = ({item, index, revealReplies, ...props}) => {
       <>
         {_renderComment(item, index)}
         {toggle && (
-          item.replies.map((reply, index) => _renderComment(reply, index))
+          item.repliesThread.map((reply, index) => _renderComment(reply, index))
         )}
       </>
     )

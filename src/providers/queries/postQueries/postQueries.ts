@@ -5,7 +5,7 @@ import { Platform } from 'react-native';
 import { useAppSelector } from '../../../hooks';
 import { getDiscussionCollection, getPost } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
-import { Comment } from '../../../redux/reducers/cacheReducer';
+import { Comment, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
 
 /** hook used to return user drafts */
 export const useGetPostQuery = (_author?: string, _permlink?: string) => {
@@ -75,6 +75,7 @@ export const usePostsCachePrimer = () => {
  */
 export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const cachedComments:{[key:string]:Comment} = useAppSelector((state) => state.cache.commentsCollection);
+  const lastCacheUpdate:LastUpdateMeta = useAppSelector((state) => state.cache.lastUpdate);
 
   const [author, setAuthor] = useState(_author);
   const [permlink, setPermlink] = useState(_permlink);
@@ -130,15 +131,16 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         _comments[_parentPath].children = _comments[_parentPath].children + 1;
         
         //if comment was created very recently enable auto reveal
-        if(currentTime - cacheUpdateTimestamp < 5000){
-          _comments[_parentPath].revealRepliesByDefault = true;
+        if((lastCacheUpdate.postPath === path && (currentTime - lastCacheUpdate.updatedAt) < 5000)){
+          console.log("setting show replies flag")
+          _comments[_parentPath].showRepliesByDefault = true;
         }
    
       }
   
     }
     
-    setData(_comments);
+    setData({ ..._comments });
   };
 
   // traverse discussion collection to curate sections
@@ -187,7 +189,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
           comment.commentKey = key;
           comment.level = 1;
-          comment.replies = parseReplies(commentsMap, comment.replies, key, 2);
+          comment.repliesThread = parseReplies(commentsMap, comment.replies, key, comment.level + 1);
           comments.push(comment);
         }
       }

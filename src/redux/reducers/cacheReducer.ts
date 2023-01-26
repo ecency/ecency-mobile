@@ -74,6 +74,12 @@ export interface SubscribedCommunity {
   expiresAt?: number;
 }
 
+export interface LastUpdateMeta {
+  postPath: string;
+  updatedAt: number;
+  type: 'vote' | 'comment' | 'draft';
+}
+
 interface State {
   votes: Map<string, Vote>;
   commentsCollection:{ [key: string]: Comment}; // TODO: handle comment array per post, if parent is same
@@ -81,11 +87,7 @@ interface State {
   claimsCollection: ClaimsCollection;
   subscribedCommunities: Map<string, SubscribedCommunity>;
   pointActivities: Map<string, PointActivity>;
-  lastUpdate: {
-    postPath: string;
-    updatedAt: number;
-    type: 'vote' | 'comment' | 'draft';
-  };
+  lastUpdate: LastUpdateMeta;
 }
 
 const initialState: State = {
