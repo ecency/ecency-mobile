@@ -1,7 +1,6 @@
 import { renderPostBody } from '@ecency/render-helper';
-import { Alert } from 'react-native';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
 import { useAppSelector } from '../../../hooks';
 import { getDiscussionCollection, getPost } from '../../hive/dhive';
@@ -63,6 +62,10 @@ export const usePostsCachePrimer = () => {
   };
 };
 
+
+
+
+
 /**
  * fetches and sectioned discussion to be used readily with sectioned flat list
  * also injects local cache to data if any
@@ -71,18 +74,32 @@ export const usePostsCachePrimer = () => {
  * @returns raw query with commentsData as extra parameter
  */
 export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const cachedComments:{[key:string]:Comment} = useAppSelector((state) => state.cache.commentsCollection);
 
   const [author, setAuthor] = useState(_author);
   const [permlink, setPermlink] = useState(_permlink);
 
-  const [commentsData, setCommentsData] = useState([]);
-  const [repliesMap, setRepliesMap] = useState<{[key:string]:any[]}>({});
+  const [data, setData] = useState({});
+  const [sectionedData, setSectionedData] = useState([]);
+
+
+  const _fetchComments = async () => await getDiscussionCollection(author, permlink);
+  const query = useQuery<{[key:string]:Comment}>([QUERIES.POST.GET_DISCUSSION, author, permlink], _fetchComments);
+
+
+  useEffect(() => {
+    _injectCachedComments();
+  }, [query.data, cachedComments]);
+
+
+  useEffect(()=>{
+    restructureData()
+  }, [data])
+
 
   //inject cached comments here
-  const _injectCachedComments = (_comments) => {
-
+  const _injectCachedComments = async () => {
+    const _comments = query.data;
     console.log("updating with cache", _comments, cachedComments);
     if(!cachedComments || !_comments){
       return _comments;
@@ -121,16 +138,18 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   
     }
     
-    return {..._comments};
+    setData(_comments);
   };
 
   // traverse discussion collection to curate sections
-  const parseCommentsData = async (commentsMap: any, author: string, permlink: string) => {
+  const restructureData = async () => {
     const MAX_THREAD_LEVEL = 3;
     const comments: any = [];
 
+    const commentsMap = data;
+
     if (!commentsMap) {
-      setCommentsData([]);
+      setSectionedData([]);
       return;
     }
 
@@ -160,7 +179,6 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       return replies;
     };
 
-    const _repliesMap: any = {};
     for (const key in commentsMap) {
       if (commentsMap.hasOwnProperty(key)) {
         const comment = commentsMap[key];
@@ -169,38 +187,21 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
           comment.commentKey = key;
           comment.level = 1;
+          comment.replies = parseReplies(commentsMap, comment.replies, key, 2);
           comments.push(comment);
-
-          const _replies = parseReplies(commentsMap, comment.replies, key, 2);
-          _repliesMap[key] = _replies || [];
         }
       }
     }
 
-    setRepliesMap(_repliesMap);
-    setCommentsData(comments);
+    setSectionedData(comments);
   };
 
-  const _fetchComments = async () => {
-    console.log('fetching discussions');
-    const response = await getDiscussionCollection(author, permlink);
-    console.log('discussion response', response);
-    return response;
-  };
 
-  const query = useQuery<{[key:string]:Comment}>([QUERIES.POST.GET_DISCUSSION, author, permlink], _fetchComments);
-
-  const data = useMemo(() => _injectCachedComments(query.data), [query.data, cachedComments]);
-
-  useEffect(() => {
-    parseCommentsData(data, author, permlink);
-  }, [data]);
 
   return {
     ...query,
     data,
-    commentsData,
-    repliesMap,
+    sectionedData,
     setAuthor,
     setPermlink,
   };

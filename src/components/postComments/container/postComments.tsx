@@ -55,7 +55,6 @@ const PostComments = forwardRef(
 
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
-    const [data, setData] = useState([]);
 
     const [sectionsToggleMap, setSectionsToggleMap] = useState<{ [key: string]: boolean }>({});
 
@@ -63,8 +62,8 @@ const PostComments = forwardRef(
 
 
     const sortedSections = useMemo(
-      () => _sortComments(selectedFilter, discussionQuery.commentsData),
-      [discussionQuery.commentsData, selectedFilter],
+      () => _sortComments(selectedFilter, discussionQuery.sectionedData),
+      [discussionQuery.sectionedData, selectedFilter],
     );
 
 
@@ -86,27 +85,13 @@ const PostComments = forwardRef(
         handleOnCommentsLoaded();
       }
 
-      if (discussionQuery.commentsData) {
-        discussionQuery.commentsData.forEach((item) => {
+      if (discussionQuery.sectionedData) {
+        discussionQuery.sectionedData.forEach((item) => {
           sectionsToggleMap[item.commentKey] = false;
         });
         setSectionsToggleMap({ ...sectionsToggleMap });
       }
-    }, [discussionQuery.isLoading, discussionQuery.commentsData, sortedSections]);
-
-
-
-
-    useEffect(() => {
-      if (sortedSections) {
-        const _data = [];
-        sortedSections.forEach((section) => {
-          section.replies = discussionQuery.repliesMap[section.commentKey]
-          _data.push(section);
-        });
-        setData(_data);
-      }
-    }, [sortedSections]);
+    }, [discussionQuery.isLoading, discussionQuery.sectionedData, sortedSections]);
 
 
 
@@ -278,7 +263,7 @@ const PostComments = forwardRef(
       <FlatList
         style={{ flex: 1 }}
         ListHeaderComponent={_postContentView}
-        data={data}
+        data={sortedSections}
         renderItem={_renderItem}
         extraData={sectionsToggleMap}
         keyExtractor={(item, index) => `item_${index}`}
