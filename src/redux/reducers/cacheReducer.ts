@@ -19,6 +19,7 @@ export enum CommentCacheStatus {
   PENDING = 'PENDING',
   POSTPONED = 'PUBLISHED',
   DELETED = 'DELETED',
+  UPDATED = 'UPDATED'
 }
 
 export interface Vote {
@@ -47,6 +48,7 @@ export interface Comment {
   created?: string; // handle created and updated separatly
   updated?: string;
   expiresAt?: number;
+  expandedReplies?: boolean;
   status: CommentCacheStatus;
 }
 
@@ -247,7 +249,7 @@ export default function (state = initialState, action) {
         });
       }
 
-      if (state.commentsCollection && state.commentsCollection.size) {
+      if (state.commentsCollection) {
         for (const key in state.commentsCollection) {
           if (state.commentsCollection.hasOwnProperty(key)) {
             const draft = state.commentsCollection[key];

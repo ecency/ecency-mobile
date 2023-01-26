@@ -126,23 +126,18 @@ const PostComments = forwardRef(
 
     const _handleDeleteComment = (_permlink) => {
       deleteComment(currentAccount, pinHash, _permlink).then(() => {
-        let deletedItem = null;
-
-        const _applyFilter = (item) => {
-          if (item.permlink === _permlink) {
-            deletedItem = item;
-            return false;
-          }
-          return true;
-        };
 
         // remove cached entry based on parent
-        if (deletedItem) {
-          const cachePath = `${deletedItem.author}/${deletedItem.permlink}`;
-          deletedItem.status = CommentCacheStatus.DELETED;
-          delete deletedItem.updated;
-          dispatch(updateCommentCache(cachePath, deletedItem, { isUpdate: true }));
-        }
+          const _commentPath = `${currentAccount.username}/${_permlink}`
+          console.log("deleted comment", _commentPath);
+
+          const _deletedItem = discussionQuery.data[_commentPath];
+          if(_deletedItem){
+            _deletedItem.status = CommentCacheStatus.DELETED;
+            delete _deletedItem.updated;
+            dispatch(updateCommentCache(_commentPath, _deletedItem, { isUpdate: true }));
+          }
+         
       });
     };
 
@@ -249,7 +244,7 @@ const PostComments = forwardRef(
         ListHeaderComponent={_postContentView}
         data={sortedSections}
         renderItem={_renderItem}
-        keyExtractor={(item, index) => `item_${index}`}
+        keyExtractor={(item) => `${item.author}/${item.permlink}`}
         stickySectionHeadersEnabled={false}
         {...flatListProps}
       />
