@@ -1,4 +1,5 @@
 import React, {
+  useEffect,
     useState,
 
   } from 'react';
@@ -12,7 +13,13 @@ import React, {
 
 export const CommentsSection = ({item, index, revealReplies, ...props}) => {
 
-    const [toggle, setToggle] = useState(revealReplies || false);
+    const [toggle, setToggle] = useState(item.expandedReplies || false);
+
+    useEffect(()=>{
+      if(item.expandedReplies){
+        setToggle(true)
+      }
+    }, [item.expandedReplies])
   
     const _renderComment = (item, index = 0) => {
       return (

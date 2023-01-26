@@ -40,6 +40,8 @@ export interface Comment {
   total_payout?: number;
   net_rshares?: number;
   active_votes?: Array<{ rshares: number; voter: string }>;
+  replies?:string[];
+  children?:number;
   json_metadata?: any;
   isDeletable?: boolean;
   created?: string; // handle created and updated separatly

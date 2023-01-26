@@ -56,8 +56,6 @@ const PostComments = forwardRef(
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
 
-    const [sectionsToggleMap, setSectionsToggleMap] = useState<{ [key: string]: boolean }>({});
-
 
 
 
@@ -84,14 +82,7 @@ const PostComments = forwardRef(
       if (!discussionQuery.isLoading) {
         handleOnCommentsLoaded();
       }
-
-      if (discussionQuery.sectionedData) {
-        discussionQuery.sectionedData.forEach((item) => {
-          sectionsToggleMap[item.commentKey] = false;
-        });
-        setSectionsToggleMap({ ...sectionsToggleMap });
-      }
-    }, [discussionQuery.isLoading, discussionQuery.sectionedData, sortedSections]);
+    }, [discussionQuery.isLoading]);
 
 
 
@@ -217,13 +208,6 @@ const PostComments = forwardRef(
 
 
 
-    const _handleOnToggleReplies = (commentKey, index) => {
-      const toggleFlag = !sectionsToggleMap[commentKey];
-      setSectionsToggleMap({ ...sectionsToggleMap, [commentKey]: toggleFlag });
-    };
-
-
-
     const _postContentView = (
       <>
         {postContentView && postContentView}
@@ -265,7 +249,6 @@ const PostComments = forwardRef(
         ListHeaderComponent={_postContentView}
         data={sortedSections}
         renderItem={_renderItem}
-        extraData={sectionsToggleMap}
         keyExtractor={(item, index) => `item_${index}`}
         stickySectionHeadersEnabled={false}
         {...flatListProps}
