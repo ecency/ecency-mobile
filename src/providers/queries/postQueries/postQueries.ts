@@ -133,7 +133,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         //if comment was created very recently enable auto reveal
         if((lastCacheUpdate.postPath === path && (currentTime - lastCacheUpdate.updatedAt) < 5000)){
           console.log("setting show replies flag")
-          _comments[_parentPath].showRepliesByDefault = true;
+          _comments[_parentPath].expandedReplies = true;
         }
    
       }
