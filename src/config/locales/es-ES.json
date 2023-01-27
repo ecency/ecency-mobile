@@ -519,7 +519,7 @@
     "qoutaExceeded": "Se ha superado la cuota de subida",
     "invalidImage": "Imagen no válida, prueba un archivo diferente",
     "something_wrong": "Algo salió mal",
-    "something_wrong_msg": "Something went wrong\n{message}",
+    "something_wrong_msg": "Algo salió mal\n{message}",
     "something_wrong_alt": "Mientras tanto, prueba Ecency.com desde tu navegador",
     "something_wrong_reload": "¿Intentar de nuevo?",
     "can_not_be_empty": "¡Título y cuerpo no pueden estar vacíos!",
