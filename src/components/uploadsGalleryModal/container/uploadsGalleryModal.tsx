@@ -2,6 +2,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } f
 import { useIntl } from 'react-intl';
 import { Alert } from 'react-native';
 import ImagePicker, { Image } from 'react-native-image-crop-picker';
+import RNHeicConverter from 'react-native-heic-converter';
 import { openSettings } from 'react-native-permissions';
 import bugsnapInstance from '../../../config/bugsnag';
 import { getImages } from '../../../providers/ecency/ecency';
@@ -159,6 +160,20 @@ export const UploadsGalleryModal = forwardRef(
       try {
         if (!media || media.length == 0) {
           throw new Error('New media items returned');
+        }
+
+        //post process heic to jpg media items
+        for (let i = 0; i < media.length; i++) {
+          const element = media[i]
+          if(element.mime ===  'image/heic'){
+              const res = await RNHeicConverter.convert({ path: element.sourceURL }) // default with quality = 1 & jpg extension
+              if(res && res.path){
+                element.mime = 'image/jpeg';
+                element.path = res.path;
+                element.filename = element.filename ? element.filename.replace('.HEIC', '.JPG') : '';
+                media[i] = element;
+              }
+            }
         }
 
         if (shouldInsert) {
