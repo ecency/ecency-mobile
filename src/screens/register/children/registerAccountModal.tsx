@@ -1,5 +1,5 @@
 import { View, Text, Image, Platform, Alert, TextStyle, ActivityIndicator } from 'react-native';
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -29,6 +29,8 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
   const intl = useIntl();
   const navigation = useNavigation();
 
+  const _username = useMemo(()=>username.toLowerCase(), [username])
+
   const [showModal, setShowModal] = useState(false);
   const [disableFree, setDisableFree] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
@@ -51,7 +53,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
   const _handleOnPressRegister = () => {
     setIsRegistering(true);
 
-    signUp(username, email, refUsername)
+    signUp(_username, email, refUsername)
       .then((result) => {
         if (result) {
           setIsRegistered(true);
@@ -208,14 +210,14 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
         <View style={styles.container}>
           <View style={styles.headerContainer}>
             <View style={styles.container}>
-              {_renderUserInfo(username, styles.usernameStyle)}
+              {_renderUserInfo(_username, styles.usernameStyle)}
               {_renderUserInfo(email, styles.emailStyle)}
             </View>
             <Image style={styles.logoEstm} source={LOGO_ESTM} />
           </View>
           <InAppPurchaseContainer
             skus={ITEM_SKUS}
-            username={username}
+            username={_username}
             email={email}
             isNoSpin
             disablePurchaseListenerOnMount={true}
