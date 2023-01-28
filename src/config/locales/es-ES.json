@@ -111,7 +111,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Liquid Hive",
+      "name": "Hive Líquido",
       "buy": "OBTEN HIVE"
     },
     "hbd": {
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "Staked Hive"
+      "name": "Hive Estacado"
     },
     "hive_dollar": {
       "name": "Dólares Hive"
@@ -309,6 +309,7 @@
     "title_description": "Una cuenta para administrar todo",
     "form_description": "Al registrarte, estás de acuerdo con nuestros Términos de servicio &amp; Política de privacidad",
     "registering": "Registrando tu cuenta...",
+    "register_fail": "El registro falló, por favor inténtalo de nuevo o contacta al soporte técnico.",
     "registered": "Registro exitoso\nComprueba tu correo electrónico para obtener instrucciones"
   },
   "home": {
@@ -518,6 +519,7 @@
     "qoutaExceeded": "Se ha superado la cuota de subida",
     "invalidImage": "Imagen no válida, prueba un archivo diferente",
     "something_wrong": "Algo salió mal",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "Mientras tanto, prueba Ecency.com desde tu navegador",
     "something_wrong_reload": "¿Intentar de nuevo?",
     "can_not_be_empty": "¡Título y cuerpo no pueden estar vacíos!",
@@ -733,7 +735,8 @@
   "buy_account": {
     "title": "Comprar cuenta",
     "btn_register": "Comprar cuenta - {price}",
-    "desc": "Obtén una Cuenta premium completa de Hive sin chequeos extra y varias ventajas tales como:\n\n- Creación instantánea sin chequeos extra ni esperas\n- 3x RC en comparación con cuentas nuevas normales durante 90 días\n- 300 Puntos para ayudarte a comenzar"
+    "desc": "Obtén una Cuenta premium completa de Hive sin chequeos extra y varias ventajas tales como:\n\n- Creación instantánea sin chequeos extra ni esperas\n- 3x RC en comparación con cuentas nuevas normales durante 90 días\n- 300 Puntos para ayudarte a comenzar",
+    "claim": "Reclamar Cuenta Pagada"
   },
   "free_account": {
     "title": "Cuenta Gratuita",

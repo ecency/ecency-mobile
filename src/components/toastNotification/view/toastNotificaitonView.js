@@ -66,7 +66,9 @@ class ToastNotification extends Component {
           duration={500}
           ref={this.handleViewRef}
         >
-          <Text style={[styles.text, textStyle]}>{text}</Text>
+          <Text style={[styles.text, textStyle]} numberOfLines={2}>
+            {text}
+          </Text>
         </AnimatedView>
       </TouchableOpacity>
     );

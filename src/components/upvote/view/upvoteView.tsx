@@ -1,10 +1,11 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { View, TouchableOpacity, Text, Alert } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import { Popover, PopoverController } from 'react-native-modal-popover';
 import Slider from '@esteemapp/react-native-slider';
 
 // Utils
+import { useDispatch } from 'react-redux';
 import { getEstimatedAmount } from '../../../utils/vote';
 
 // Components
@@ -13,7 +14,7 @@ import { PulseAnimation } from '../../animations';
 import { TextButton } from '../../buttons';
 import { FormattedCurrency } from '../../formatedElements';
 // Services
-import { setRcOffer } from '../../../redux/actions/uiAction';
+import { setRcOffer, toastNotification } from '../../../redux/actions/uiAction';
 
 // STEEM
 import { vote } from '../../../providers/hive/dhive';
@@ -44,7 +45,6 @@ interface UpvoteViewProps {
   author: string;
   handleSetUpvotePercent: (value: number) => void;
   permlink: string;
-  dispatch: any;
   onVote: (amount: string, downvote: boolean) => void;
   isVoted: boolean;
   postUpvotePercent: number;
@@ -71,7 +71,6 @@ const UpvoteView = ({
   author,
   handleSetUpvotePercent,
   permlink,
-  dispatch,
   onVote,
   isVoted,
   postUpvotePercent,
@@ -80,6 +79,7 @@ const UpvoteView = ({
   boldPayout,
 }: UpvoteViewProps) => {
   const intl = useIntl();
+  const dispatch = useDispatch();
   const userActivityMutation = useUserActivityMutation();
 
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
@@ -146,14 +146,19 @@ const UpvoteView = ({
           });
 
           if (!response || !response.id) {
-            Alert.alert(
-              intl.formatMessage({
-                id: 'alert.fail',
-              }),
-              intl.formatMessage({
-                id: 'alert.invalid_response',
-              }),
+            dispatch(
+              toastNotification(
+                intl.formatMessage(
+                  { id: 'alert.something_wrong_msg' },
+                  {
+                    message: intl.formatMessage({
+                      id: 'alert.invalid_response',
+                    }),
+                  },
+                ),
+              ),
             );
+
             return;
           }
           setUpvote(!!sliderValue);
@@ -177,22 +182,20 @@ const UpvoteView = ({
             setIsVoting(false);
             dispatch(setRcOffer(true));
           } else {
-            // when voting with same percent or other errors
+            // // when voting with same percent or other errors
+            let errMsg = '';
             if (err.message && err.message.indexOf(':') > 0) {
-              Alert.alert(
-                intl.formatMessage({
-                  id: 'alert.fail',
-                }),
-                err.message.split(': ')[1],
-              );
+              errMsg = err.message.split(': ')[1];
             } else {
-              Alert.alert(
-                intl.formatMessage({
-                  id: 'alert.fail',
-                }),
-                err.jse_shortmsg || err.error_description || err.message,
-              );
+              errMsg = err.jse_shortmsg || err.error_description || err.message;
             }
+
+            dispatch(
+              toastNotification(
+                intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: errMsg }),
+              ),
+            );
+
             setIsVoting(false);
           }
         });
@@ -223,7 +226,11 @@ const UpvoteView = ({
           onVote(amount, true);
         })
         .catch((err) => {
-          Alert.alert('Failed!', err.message);
+          dispatch(
+            toastNotification(
+              intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: err.message }),
+            ),
+          );
           setUpvote(false);
           setIsVoting(false);
         });

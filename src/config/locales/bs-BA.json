@@ -309,6 +309,7 @@
     "title_description": "Jedan račun za upravljanje svim",
     "form_description": "Prijavom kod nas pristajete na naše uslove korištenja usluge i politike privatnosti.",
     "registering": "Registering Your Account...",
+    "register_fail": "Registeration failed, please try again or contact support.",
     "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
@@ -518,6 +519,7 @@
     "qoutaExceeded": "Premašena je kvota za otpremanje",
     "invalidImage": "Nevažeća slika, pokušajte s drugom datotekom",
     "something_wrong": "Nešto je pošlo pogrešno",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "U međuvremenu, isprobajte Ecency.com iz vašeg pretraživača",
     "something_wrong_reload": "Pokušaj ponovo?",
     "can_not_be_empty": "Naslov i tijelo ne mogu biti prazni!",
@@ -733,7 +735,8 @@
   "buy_account": {
     "title": "Buy Account",
     "btn_register": "Buy Account - {price}",
-    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started"
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started",
+    "claim": "Claim Paid Account"
   },
   "free_account": {
     "title": "Free Account",

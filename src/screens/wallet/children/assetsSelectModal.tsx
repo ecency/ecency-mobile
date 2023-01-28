@@ -69,7 +69,7 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
     setListData(data);
   }, [query, coinsData]);
 
-  const filterCoinsBySymbols = (coinsArr: CoinBase[]) => {
+  const filterAssetsBySymbols = (coinsArr: CoinBase[]) => {
     return coinsArr.map((item) => item.symbol);
   };
 
