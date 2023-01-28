@@ -52,7 +52,9 @@ const ToastNotification = ({
         entering={SlideInDown.duration(750)}
         exiting={SlideOutDown.duration(500)}
       >
-        <Text style={[styles.text, textStyle]}>{text}</Text>
+        <Text style={[styles.text, textStyle]} numberOfLines={2}>
+          {text}
+        </Text>
       </Animated.View>
     </TouchableOpacity>
   );
