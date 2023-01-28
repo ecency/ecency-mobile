@@ -730,7 +730,9 @@
       "desc": "30 दिनों का प्रतिनिधिमंडल आपके वोटों और सामाजिक गतिविधियों को बढ़ावा देगा और आपको अधिक संसाधन क्रेडिट के साथ अधिक कार्रवाई देगा।"
     },
     "confirm_purchase": "खरीद की पुष्टि करें @{username}",
-    "confirm_purchase_summary": "{username} के लिए {price} पर {points} ख़रीदना"
+    "confirm_purchase_summary": "{username} के लिए {price} पर {points} ख़रीदना",
+    "points_purchase_success": "Points purchase successful",
+    "points_purchase_fail_msg": "Points purchase failed\n{message}"
   },
   "buy_account": {
     "title": "Buy Account",
