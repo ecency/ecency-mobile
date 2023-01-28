@@ -730,7 +730,9 @@
       "desc": "30-дневная делегация увеличит ваши голоса и социальную активность, а также даст вам больше действий с использованием Ресурс Кредитов."
     },
     "confirm_purchase": "Подтвердите покупку @{username}",
-    "confirm_purchase_summary": "Покупка {points} для {username} по {price}"
+    "confirm_purchase_summary": "Покупка {points} для {username} по {price}",
+    "points_purchase_success": "Points purchase successful",
+    "points_purchase_fail_msg": "Points purchase failed\n{message}"
   },
   "buy_account": {
     "title": "Купить аккаунт",
