@@ -51,14 +51,14 @@ class InAppPurchaseContainer extends Component {
   }
 
   _initContainer = async () => {
-    const { intl, disablePurchaseListerOnMount } = this.props;
+    const { intl, disablePurchaseListenerOnMount } = this.props;
     try {
       await IAP.initConnection();
       if (Platform.OS === 'android') {
         await IAP.flushFailedPurchasesCachedAsPendingAndroid();
       }
 
-      if (!!disablePurchaseListerOnMount) {
+      if (!disablePurchaseListenerOnMount) {
         await this._consumeAvailablePurchases();
         this._purchaseUpdatedListener();
       }
