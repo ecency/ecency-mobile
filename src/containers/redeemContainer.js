@@ -7,7 +7,6 @@ import { injectIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { promote, boost, isPostAvailable } from '../providers/hive/dhive';
 import { toastNotification } from '../redux/actions/uiAction';
-import { getUserDataWithUsername } from '../realm/realm';
 
 /*
  *            Props Name        Description                                     Value
@@ -80,7 +79,11 @@ class RedeemContainer extends Component {
       })
       .catch((error) => {
         if (error) {
-          dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
+          dispatch(
+            `${toastNotification(intl.formatMessage({ id: 'alert.key_warning' }))}\n${
+              error.message
+            }`,
+          );
         }
       });
 
@@ -88,7 +91,7 @@ class RedeemContainer extends Component {
   };
 
   _handleOnSubmit = async (redeemType, actionSpecificParam, fullPermlink, selectedUser) => {
-    const { intl, currentAccount } = this.props;
+    const { intl, currentAccount, accounts } = this.props;
     const separatedPermlink = fullPermlink.split('/');
     const _author = get(separatedPermlink, '[0]');
     const _permlink = get(separatedPermlink, '[1]');
@@ -99,18 +102,10 @@ class RedeemContainer extends Component {
       return;
     }
 
-    let userFromRealm;
-
-    if (selectedUser) {
-      userFromRealm = await getUserDataWithUsername(selectedUser);
-    }
-
-    const user = userFromRealm
-      ? {
-          name: selectedUser,
-          local: userFromRealm[0],
-        }
-      : currentAccount;
+    const user =
+      selectedUser !== currentAccount.username
+        ? currentAccount
+        : accounts.find((item) => item.username === selectedUser);
 
     this._redeemAction(redeemType, actionSpecificParam, _permlink, _author, user);
   };

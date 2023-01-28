@@ -27,5 +27,6 @@ export default EStyleSheet.create({
     fontSize: 14,
     paddingLeft: 10,
     paddingRight: 10,
+    textAlign: 'center',
   },
 });

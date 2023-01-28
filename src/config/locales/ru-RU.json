@@ -65,7 +65,7 @@
     "amount": "Сумма",
     "memo": "Примечание",
     "tap_update": "Нажмите, чтобы обновить",
-    "information": "Are you sure to proceed with transaction?",
+    "information": "Вы уверены, что хотите продолжить транзакцию?",
     "amount_desc": "Баланс",
     "memo_desc": "Эта заметка публична",
     "to_placeholder": "Пользователь",
@@ -96,7 +96,7 @@
     "fill_vesting_withdraw": "Понижение Силы выполнено",
     "engine_title": "Токены Hive Engine",
     "engine_claim_btn": "Получить награду ({count})",
-    "engine_select_assets": "Select Assets",
+    "engine_select_assets": "Выбрать актив",
     "manage_assets": "Добавить / Удалить активы",
     "ecency": {
       "title": "Баллы",
@@ -111,7 +111,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive токен",
+      "name": "Liquid Hive",
       "buy": "Купить HIVE"
     },
     "hbd": {
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE СИЛА",
-      "name": "Hive Power | Заморозить Hive"
+      "name": "Staked Hive"
     },
     "hive_dollar": {
       "name": "Hive Доллар"
@@ -147,8 +147,8 @@
     "stake_engine": "Заморозить",
     "delegate_engine": "Делегировать",
     "undelegate_engine": "Отозвать делегирование",
-    "low_liquidity": "Low Liquidity!",
-    "inactive_token": "Token is relatively inactive, some functionalities might be affected."
+    "low_liquidity": "Низкая ликвидность!",
+    "inactive_token": "Токен неактивен, некоторые функции могут быть недоступны."
   },
   "notification": {
     "vote": "проголосовал",
@@ -156,7 +156,7 @@
     "reply": "ответил",
     "mention": "упомянул вас в",
     "favorites": "создать новый пост",
-    "bookmarks": "replied to bookmarked content",
+    "bookmarks": "ответил на содержимое закладок",
     "follow": "подписан",
     "unfollow": "отписан",
     "ignore": "игнорирует",
@@ -298,18 +298,19 @@
     "deep_login_malformed_url": "Неверный URL-адрес для входа, используйте закрытый ключ или пароль для входа."
   },
   "register": {
-    "modal_title": "Get Hive Account",
+    "modal_title": "Получить учетную запись Hive",
     "button": "Зарегистрироваться",
     "title": "Регистрация",
     "username": "Выберите имя пользователя",
     "mail": "Введите свой email адрес",
     "ref_user": "Реферал (необязательно)",
     "500_error": "Ваш запрос не удалось обработать, скорее всего, очередь регистрации заполнена! Повторите попытку через несколько минут...",
-    "error_message": "{message}\nTry again or try purchasing account instead",
+    "error_message": "{message}\nПовторите попытку или попробуйте купить другой аккаунт вместо этого",
     "title_description": "Один аккаунт для управления всем",
     "form_description": "Регистрируясь, вы соглашаетесь с Условиями использования и Политикой конфиденциальности.",
-    "registering": "Registering Your Account...",
-    "registered": "Registration Successful\nCheck your email for instruction"
+    "registering": "Регистрация учетной записи...",
+    "register_fail": "Registeration failed, please try again or contact support.",
+    "registered": "Регистрация завершена успешно\nПроверьте свою электронную почту"
   },
   "home": {
     "feed": "Лента",
@@ -469,7 +470,7 @@
     "claim_reward_balance_ok": "Награда зачислена на баланс",
     "fail": "Не вышло!",
     "move": "Переместить",
-    "continue": "Continue",
+    "continue": "Продолжить",
     "move_question": "Вы уверены, что хотите переместить в черновики?",
     "success_shared": "Успех! Контент отправлен!",
     "success_moved": "Перемещён в черновики",
@@ -518,6 +519,7 @@
     "qoutaExceeded": "Превышен лимит загрузки",
     "invalidImage": "Изображение не подходит, попробуйте другой файл",
     "something_wrong": "Что-то пошло не так",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "Тем временем, попробуйте Ecency.com в вашем браузере",
     "something_wrong_reload": "Повторить попытку?",
     "can_not_be_empty": "Название и основная часть не могут быть пустыми!",
@@ -536,7 +538,7 @@
     "open_settings": "Открыть настройки"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?",
+    "reblog_alert": "Вы уверены, что хотите сделать репост?",
     "removed_hint": "Контент не доступен",
     "copy_link": "Копировать ссылку",
     "copy_text": "Копировать текст",
@@ -558,8 +560,8 @@
     "load_error": "Невозможно загрузить черновики",
     "empty_list": "Ничего нет",
     "deleted": "Черновик удалён",
-    "unsynced_title": "Unsynced Draft",
-    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
+    "unsynced_title": "Несинхронизированный черновик",
+    "unsynced_body": "Черновик не синхронизирован с Ecency cloud, редактирование и сохранение черновика"
   },
   "schedules": {
     "title": "Отложенные",
@@ -654,7 +656,7 @@
     "amount_information": "Потяните ползунок чтобы установить сумму",
     "amount": "Сумма",
     "memo": "Примечание",
-    "information": "Continue transaction?",
+    "information": "Продолжить транзакцию?",
     "amount_desc": "Баланс",
     "memo_desc": "Эта заметка публична",
     "convert_desc": "Конвертация занимает 3,5 дня и НЕ рекомендуется ЕСЛИ цена HBD выше $1",
@@ -665,7 +667,7 @@
     "convert": "Конвертировать HBD в HIVE",
     "points": "Подарить Баллы",
     "transfer_to_savings": "Отправить в сейф",
-    "transfer_to_vesting": "Power Up | Stake",
+    "transfer_to_vesting": "Включить повышение | Заморозить",
     "withdraw_to_saving": "Перевести в сейф",
     "steemconnect_title": "Hivesigner транзакция",
     "estimated_weekly": "Примерно в неделю",
@@ -713,10 +715,10 @@
     "invalid_amount": "Неверное значение",
     "invalid_amount_desc": "Пожалуйста, введите правильную сумму",
     "account_select_title": "Детали аккаунта",
-    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
-    "amount_select_title": "Action Details",
-    "amount_select_description": "Enter amount within maximum available balance {suffix}",
-    "amount_select_desc_limit": " and must be greater than 0.001"
+    "account_select_description": "Операции, связанные с фондами необратимы, убедитесь, что имя пользователя верно",
+    "amount_select_title": "Информация о действии",
+    "amount_select_description": "Введите сумму в пределах максимально доступного баланса {suffix}",
+    "amount_select_desc_limit": " и должно быть больше 0,001"
   },
   "boost": {
     "title": "Получить Баллы",
@@ -731,14 +733,15 @@
     "confirm_purchase_summary": "Покупка {points} для {username} по {price}"
   },
   "buy_account": {
-    "title": "Buy Account",
-    "btn_register": "Buy Account - {price}",
-    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started"
+    "title": "Купить аккаунт",
+    "btn_register": "Купить аккаунт - {price}",
+    "desc": "Получите полноценный, премиум аккаунт Hive без дополнительных проверок, включающий несколько бонусов, таких как:\n\n- Мгновенное создание без дополнительных проверок и ожидания\n- 3x RC по сравнению с обычными новыми аккаунтами в течение 90 дней\n- 300 очков для того, чтобы помочь начать работу",
+    "claim": "Claim Paid Account"
   },
   "free_account": {
-    "title": "Free Account",
-    "btn_register": "Register Free",
-    "desc": "Get a full-fledged Hive account, this method has basic checks to make sure botnet doesn't abuse our signup faucet."
+    "title": "Бесплатный аккаунт",
+    "btn_register": "Зарегистрироваться бесплатно",
+    "desc": "Получите полнофункциональный аккаунт Hive, этот метод содержит основные проверки, чтобы убедиться, что ботнет не нарушает наши регистрационные шлюзы."
   },
   "free_estm": {
     "title": "Бесплатные Баллы",

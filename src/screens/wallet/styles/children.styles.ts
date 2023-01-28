@@ -24,15 +24,13 @@ export default EStyleSheet.create({
 
   cardTitleContainer: {
     marginHorizontal: 8,
-    flex: 1,
   } as ViewStyle,
 
   cardValuesContainer: {
+    flex:1,
     marginHorizontal: 8,
-
     justifyContent: 'flex-end',
   } as ViewStyle,
-
 
   logoContainer: {
     paddingRight: 8
@@ -51,7 +49,7 @@ export default EStyleSheet.create({
   },
 
   claimContainer:{
-    marginBottom:16,
+    marginTop:16,
   },
 
   chartContainer: {
@@ -90,6 +88,12 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
     fontWeight: '500',
     textAlign: 'left',
+  },
+  textValue: {
+    fontSize: 16,
+    color: '$primaryBlack',
+    fontWeight: '500',
+    textAlign: 'right',
   },
   textSubtitle: {
     fontSize: 14,

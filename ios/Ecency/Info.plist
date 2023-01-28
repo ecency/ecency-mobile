@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.0.36</string>
+	<string>3.0.37</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -40,6 +40,21 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>message</string>
+		<string>readdle-spark</string>
+		<string>airmail</string>
+		<string>ms-outlook</string>
+		<string>googlegmail</string>
+		<string>inbox-gmail</string>
+		<string>ymail</string>
+		<string>superhuman</string>
+		<string>yandexmail</string>
+		<string>fastmail</string>
+		<string>protonmail</string>
+		<string>szn-email</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -116,21 +131,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>LSApplicationQueriesSchemes</key>
-<array>
-    <string>message</string>
-    <string>readdle-spark</string>
-    <string>airmail</string>
-    <string>ms-outlook</string>
-    <string>googlegmail</string>
-    <string>inbox-gmail</string>
-    <string>ymail</string>
-    <string>superhuman</string>
-    <string>yandexmail</string>
-    <string>fastmail</string>
-    <string>protonmail</string>
-    <string>szn-email</string>
-</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>bugsnag</key>

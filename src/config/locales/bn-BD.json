@@ -111,7 +111,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive Token",
+      "name": "Liquid Hive",
       "buy": "GET HIVE"
     },
     "hbd": {
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "Hive Power | Staked Hive"
+      "name": "Staked Hive"
     },
     "hive_dollar": {
       "name": "Hive Dollar"
@@ -309,6 +309,7 @@
     "title_description": "সবকিছু পরিচালনা করার জন্য একটি অ্যাকাউন্ট",
     "form_description": "আমাদের সাথে সাইন আপ করে, আপনি আমাদের পরিষেবার শর্তাদি এবং গোপনীয়তা নীতিগুলিতে সম্মত হন।",
     "registering": "Registering Your Account...",
+    "register_fail": "Registeration failed, please try again or contact support.",
     "registered": "Registration Successful\nCheck your email for instruction"
   },
   "home": {
@@ -518,6 +519,7 @@
     "qoutaExceeded": "আপলোড কোটা অতিক্রম করেছে",
     "invalidImage": "ইনভ্যালিড চিত্র, ভিন্ন ফাইল চেষ্টা করুন",
     "something_wrong": "Something went wrong",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Title and body can not be empty!",
@@ -733,7 +735,8 @@
   "buy_account": {
     "title": "Buy Account",
     "btn_register": "Buy Account - {price}",
-    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started"
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started",
+    "claim": "Claim Paid Account"
   },
   "free_account": {
     "title": "Free Account",

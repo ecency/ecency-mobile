@@ -85,32 +85,40 @@ export const sendHiveOperations = async (
   operations: Operation[],
   key: PrivateKey | PrivateKey[],
 ): Promise<TransactionConfirmation> => {
-  const { head_block_number, head_block_id, time } = await getDynamicGlobalProperties();
-  const ref_block_num = head_block_number & 0xffff;
-  const ref_block_prefix = Buffer.from(head_block_id, 'hex').readUInt32LE(4);
-  const expireTime = 60 * 1000;
-  const chainId = Buffer.from(
-    'beeab0de00000000000000000000000000000000000000000000000000000000',
-    'hex',
-  );
-  const expiration = new Date(new Date(`${time}Z`).getTime() + expireTime)
-    .toISOString()
-    .slice(0, -5);
-  const extensions = [];
+  try {
+    const { head_block_number, head_block_id, time } = await getDynamicGlobalProperties();
+    const ref_block_num = head_block_number & 0xffff;
+    const ref_block_prefix = Buffer.from(head_block_id, 'hex').readUInt32LE(4);
+    const expireTime = 60 * 1000;
+    const chainId = Buffer.from(
+      'beeab0de00000000000000000000000000000000000000000000000000000000',
+      'hex',
+    );
+    const expiration = new Date(new Date(`${time}Z`).getTime() + expireTime)
+      .toISOString()
+      .slice(0, -5);
+    const extensions = [];
 
-  const tx: Transaction = {
-    expiration,
-    extensions,
-    operations,
-    ref_block_num,
-    ref_block_prefix,
-  };
+    const tx: Transaction = {
+      expiration,
+      extensions,
+      operations,
+      ref_block_num,
+      ref_block_prefix,
+    };
 
-  const transaction = await cryptoUtils.signTransaction(tx, key, chainId);
-  const trxId = generateTrxId(transaction);
-  const resultHive = await client.broadcast.call('broadcast_transaction', [transaction]);
-  const result = Object.assign({ id: trxId }, resultHive);
-  return result;
+    const transaction = await cryptoUtils.signTransaction(tx, key, chainId);
+    const trxId = generateTrxId(transaction);
+    const resultHive = await client.broadcast.call('broadcast_transaction', [transaction]);
+    const result = Object.assign({ id: trxId }, resultHive);
+    return result;
+  } catch (err) {
+    bugsnagInstance.notify(err, (event) => {
+      event.context = 'send-hive-operations';
+      event.setMetaData('operationsArray', operations);
+    });
+    throw err;
+  }
 };
 
 /** reuseable broadcast json method with posting auth */
@@ -1732,11 +1740,15 @@ export const transferPoint = (currentAccount, pinCode, data) => {
     };
     const opArray = [['custom_json', op]];
     return sendHiveOperations(opArray, privateKey);
+  } else {
+    const err = new Error('Check private key permission! Required private active key or above.');
+    bugsnagInstance.notify(err, (event) => {
+      event.setUser(currentAccount.username);
+      event.context('ransfer-points');
+      event.setMetaData('encryptedLocal', currentAccount.local);
+    });
+    return Promise.reject(err);
   }
-
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
 };
 
 export const promote = (currentAccount, pinCode, duration, permlink, author) => {
@@ -1761,11 +1773,15 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
     const opArray = [['custom_json', json]];
 
     return sendHiveOperations(opArray, privateKey);
+  } else {
+    const err = new Error('Check private key permission! Required private active key or above.');
+    bugsnagInstance.notify(err, (event) => {
+      event.setUser(currentAccount.username);
+      event.context('promoting-content');
+      event.setMetaData('encryptedLocal', currentAccount.local);
+    });
+    return Promise.reject(err);
   }
-
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
 };
 
 export const boost = (currentAccount, pinCode, point, permlink, author) => {
@@ -1790,11 +1806,15 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
     const opArray = [['custom_json', json]];
 
     return sendHiveOperations(opArray, privateKey);
+  } else {
+    const err = new Error('Check private key permission! Required private active key or above.');
+    bugsnagInstance.notify(err, (event) => {
+      event.setUser(currentAccount.username);
+      event.context('boosting-content');
+      event.setMetaData('encryptedLocal', currentAccount.local);
+    });
+    return Promise.reject(err);
   }
-
-  return Promise.reject(
-    new Error('Check private key permission! Required private active key or above.'),
-  );
 };
 
 export const grantPostingPermission = async (json, pin, currentAccount) => {

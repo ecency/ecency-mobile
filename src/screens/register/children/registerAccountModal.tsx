@@ -37,6 +37,8 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
   useImperativeHandle(ref, () => ({
     showModal: ({ purchaseOnly }: { purchaseOnly: boolean } = { purchaseOnly: false }) => {
       setShowModal(true);
+      setIsRegistered(false);
+      setIsRegistering(false);
       setDisableFree(purchaseOnly);
     },
   }));
@@ -80,7 +82,11 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
     setIsRegistering(false);
   };
 
-  const _handleOnPurchaseFailure = () => {
+  const _handleOnPurchaseFailure = (error) => {
+    Alert.alert(
+      intl.formatMessage({ id: 'alert.fail' }),
+      `${intl.formatMessage({ id: 'register.register_fail' })}\n${error.message}`,
+    );
     setIsRegistering(false);
   };
 
@@ -158,7 +164,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
     );
   };
 
-  const _renderRegisterOptions = ({ productList, buyItem }) => {
+  const _renderRegisterOptions = ({ productList, buyItem, unconsumedPurchases }) => {
     return isRegistered || isRegistering ? (
       _renderIntermediateComponent()
     ) : (
@@ -171,20 +177,22 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
             btnTitle: intl.formatMessage({ id: 'free_account.btn_register' }),
             onPress: _handleOnPressRegister,
           })}
+
         {productList.map((product) =>
           _renderCard({
             titleId: 'buy_account.title',
             descriptionId: 'buy_account.desc',
-
-            btnTitle: intl.formatMessage(
-              { id: 'buy_account.btn_register' },
-              {
-                price: Platform.select({
-                  ios: product.localizedPrice,
-                  android: product.oneTimePurchaseOfferDetails?.formattedPrice,
-                }),
-              },
-            ),
+            btnTitle: unconsumedPurchases.find((p) => p.productId === '999accounts')
+              ? intl.formatMessage({ id: 'buy_account.claim' })
+              : intl.formatMessage(
+                  { id: 'buy_account.btn_register' },
+                  {
+                    price: Platform.select({
+                      ios: product.localizedPrice,
+                      android: product.oneTimePurchaseOfferDetails?.formattedPrice,
+                    }),
+                  },
+                ),
             onPress: () => {
               setIsRegistering(true);
               buyItem(product.productId);
@@ -211,15 +219,16 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
             username={username}
             email={email}
             isNoSpin
+            disablePurchaseListenerOnMount={true}
             handleOnPurchaseSuccess={_handleOnPurchaseSuccess}
             handleOnPurchaseFailure={_handleOnPurchaseFailure}
           >
-            {({ buyItem, productList, isLoading }) => (
+            {({ buyItem, productList, isLoading, unconsumedPurchases }) => (
               <>
                 {isLoading ? (
                   <PostCardPlaceHolder />
                 ) : (
-                  _renderRegisterOptions({ productList, buyItem })
+                  _renderRegisterOptions({ productList, buyItem, unconsumedPurchases })
                 )}
               </>
             )}

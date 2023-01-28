@@ -41,8 +41,8 @@ const DraftsScreen = ({
     if (
       _idLessDraft &&
       _idLessDraft.updated > 0 &&
-      (_idLessDraft.title !== '' || _idLessDraft.tags !== '' || _idLessDraft.body !== ''))
-    {
+      (_idLessDraft.title !== '' || _idLessDraft.tags !== '' || _idLessDraft.body !== '')
+    ) {
       return _idLessDraft;
     }
     return null;

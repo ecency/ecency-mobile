@@ -111,7 +111,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive Token",
+      "name": "Liquid Hive",
       "buy": "HANKI HIVE"
     },
     "hbd": {
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "Hive Power | Panostettu Hive"
+      "name": "Staked Hive"
     },
     "hive_dollar": {
       "name": "Hive Dollarit"
@@ -309,6 +309,7 @@
     "title_description": "Yhdellä tilillä hallitset kaikkea",
     "form_description": "Rekisteröitymällä hyväksyt meidän käyttöehdomme ja tietosuojamme periaatteet.",
     "registering": "Rekisteröidään Tiliäsi...",
+    "register_fail": "Registeration failed, please try again or contact support.",
     "registered": "Rekisteröinti Onnistui\nTarkista sähköpostisi saadaksesi lisäohjeita"
   },
   "home": {
@@ -518,6 +519,7 @@
     "qoutaExceeded": "Latausraja ylittyi",
     "invalidImage": "Vääränlainen kuva, yritä toista",
     "something_wrong": "Jokin meni pieleen",
+    "something_wrong_msg": "Something went wrong\n{message}",
     "something_wrong_alt": "Odottaessasi kokeile Ecency.com selaimella",
     "something_wrong_reload": "Yritä uudelleen?",
     "can_not_be_empty": "Otsikko ja sisältö eivät voi olla tyhjiä!",
@@ -733,7 +735,8 @@
   "buy_account": {
     "title": "Osta Tili",
     "btn_register": "Osta tili - {price}",
-    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started"
+    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started",
+    "claim": "Claim Paid Account"
   },
   "free_account": {
     "title": "Ilmainen Tili",
