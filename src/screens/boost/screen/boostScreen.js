@@ -15,6 +15,7 @@ import globalStyles from '../../../globalStyles';
 import UserRibbon from '../../../components/userRibbon/userRibbon';
 import styles from './styles';
 import { useDispatch } from 'react-redux';
+import { toastNotification } from '../../../redux/actions/uiAction';
 
 const ITEM_SKUS = Platform.select({
   ios: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
@@ -28,11 +29,11 @@ const BoostScreen = ({ route }) => {
   const username = route.params?.username ?? '';
 
   const _onPurchaseSuccess = () => {
-    dispatch(intl.formatMessage({id:'boost.points_purchase_success'}))
+    dispatch(toastNotification(intl.formatMessage({id:'boost.points_purchase_success'})))
   }
 
   const _onPurchaseFailure = (error) => {
-    dispatch(intl.formatMessage({id:'boost.points_purchase_fail_msg'}, {message:error.message}))
+    dispatch(toastNotification(intl.formatMessage({id:'boost.points_purchase_fail_msg'}, {message:error.message})))
   }
 
   return (
