@@ -730,7 +730,9 @@
       "desc": "30 päivän valtuutus tehostaa ääniäsi ja sosiaalista toimintaa, antaen lisää toimintoja ja Resurssipisteitä."
     },
     "confirm_purchase": "Vahvista ostos @{username}",
-    "confirm_purchase_summary": "Ostetaan {points} {username} hintaan {price}"
+    "confirm_purchase_summary": "Ostetaan {points} {username} hintaan {price}",
+    "points_purchase_success": "Points purchase successful",
+    "points_purchase_fail_msg": "Points purchase failed\n{message}"
   },
   "buy_account": {
     "title": "Osta Tili",
