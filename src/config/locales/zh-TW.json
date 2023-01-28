@@ -730,7 +730,9 @@
       "desc": "30天的點贊力代理可以使您的點贊更有價值，得以回饋社區甚至造就自身的知名度。與此同時還可以廣大您的信用資源"
     },
     "confirm_purchase": "確認購買推薦給 @{username}",
-    "confirm_purchase_summary": "使用 {points} 積分兌換點贊給 {username} 大約值 {price}"
+    "confirm_purchase_summary": "使用 {points} 積分兌換點贊給 {username} 大約值 {price}",
+    "points_purchase_success": "Points purchase successful",
+    "points_purchase_fail_msg": "Points purchase failed\n{message}"
   },
   "buy_account": {
     "title": "Buy Account",
