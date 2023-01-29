@@ -471,6 +471,7 @@
     "fail": "Провал!!",
     "move": "Премести",
     "continue": "Continue",
+    "okay": "Okay",
     "move_question": "Сигурен ли сте да преместите към чернови?",
     "success_shared": "Успех! Съдържанието е изпратено!",
     "success_moved": "Премено в чернови",
