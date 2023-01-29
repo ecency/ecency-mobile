@@ -471,6 +471,7 @@
     "fail": "실패!",
     "move": "이동",
     "continue": "Continue",
+    "okay": "Okay",
     "move_question": "임시 보관함으로 이동하시겠습니까?",
     "success_shared": "성공! 콘텐츠가 제출되었습니다!",
     "success_moved": "임시 보관함으로 이동했습니다",
