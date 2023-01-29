@@ -471,6 +471,7 @@
     "fail": "Falló!",
     "move": "Mover",
     "continue": "Continuar",
+    "okay": "Okay",
     "move_question": "¿Está seguro de moverlo a borradores?",
     "success_shared": "¡Éxito! ¡Contenido enviado!",
     "success_moved": "Movido a borradores",
@@ -731,8 +732,8 @@
     },
     "confirm_purchase": "Confirmar compra @{username}",
     "confirm_purchase_summary": "Comprando {points} por {username} a {price}",
-    "points_purchase_success": "Points purchase successful",
-    "points_purchase_fail_msg": "Points purchase failed\n{message}"
+    "points_purchase_success": "Compra de puntos exitosa",
+    "points_purchase_fail_msg": "La compra de puntos falló\n{message}"
   },
   "buy_account": {
     "title": "Comprar cuenta",
