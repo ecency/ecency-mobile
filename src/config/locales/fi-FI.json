@@ -471,6 +471,7 @@
     "fail": "Virhe!",
     "move": "Siirrä",
     "continue": "Jatka",
+    "okay": "Okay",
     "move_question": "Haluatko varmasti siirtää luonnoksiin?",
     "success_shared": "Onnistui! Sisältö lähetetty!",
     "success_moved": "Siirretty luonnoksiin",
