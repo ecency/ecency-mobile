@@ -471,7 +471,7 @@
     "fail": "Virhe!",
     "move": "Siirrä",
     "continue": "Jatka",
-    "okay": "Okay",
+    "okay": "Ok",
     "move_question": "Haluatko varmasti siirtää luonnoksiin?",
     "success_shared": "Onnistui! Sisältö lähetetty!",
     "success_moved": "Siirretty luonnoksiin",
@@ -732,8 +732,8 @@
     },
     "confirm_purchase": "Vahvista ostos @{username}",
     "confirm_purchase_summary": "Ostetaan {points} {username} hintaan {price}",
-    "points_purchase_success": "Points purchase successful",
-    "points_purchase_fail_msg": "Points purchase failed\n{message}"
+    "points_purchase_success": "Pisteiden osto onnistui",
+    "points_purchase_fail_msg": "Pisteiden osto epäonnistui\n{message}"
   },
   "buy_account": {
     "title": "Osta Tili",
