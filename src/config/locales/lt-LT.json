@@ -471,6 +471,7 @@
     "fail": "Nepavyko!",
     "move": "Perkelti",
     "continue": "Continue",
+    "okay": "Okay",
     "move_question": "Ar tikrai norite įrenginius perkelti į juodraščius?",
     "success_shared": "Sėkmė! Turinys išsiųstas!",
     "success_moved": "Perkelta į juodraščius",
