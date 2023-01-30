@@ -471,6 +471,7 @@
     "fail": "Muvaffaqiyatsiz!",
     "move": "Ko‘chirish",
     "continue": "Continue",
+    "okay": "Okay",
     "move_question": "Haqiqatan ham qoralamalarga oʻtmoqchimisiz?",
     "success_shared": "Muvaffaqiyat! Kontent yuborildi!",
     "success_moved": "Qoralamalarga qo'shildi",
@@ -730,7 +731,9 @@
       "desc": "30 kunlik delegatsiya sizning ovozlaringiz va ijtimoiy faolligingizni oshiradi va sizga ko'proq Resurs kreditlari bilan ko'proq harakatlar beradi."
     },
     "confirm_purchase": "@{username} xaridini tasdiqlang",
-    "confirm_purchase_summary": "{username} uchun {points} xarid qilish {price}"
+    "confirm_purchase_summary": "{username} uchun {points} xarid qilish {price}",
+    "points_purchase_success": "Points purchase successful",
+    "points_purchase_fail_msg": "Points purchase failed\n{message}"
   },
   "buy_account": {
     "title": "Buy Account",
