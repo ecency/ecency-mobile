@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { View as AnimatedView } from 'react-native-animatable';
+import {default as AnimatedView, SlideInRight, SlideOutRight, ZoomIn} from 'react-native-reanimated';
 import Animated, { EasingNode } from 'react-native-reanimated';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
@@ -121,22 +121,22 @@ const UploadsGalleryContent = ({
 
     const _renderMinus = () =>
       isDeleteMode && (
-        <AnimatedView animation="zoomIn" duration={300} style={styles.minusContainer}>
+        <AnimatedView.View entering={ZoomIn}  style={styles.minusContainer}>
           <Icon
             color={EStyleSheet.value('$pureWhite')}
             iconType="MaterialCommunityIcons"
             name="minus"
             size={20}
           />
-        </AnimatedView>
+        </AnimatedView.View>
       );
 
     const _renderCounter = () =>
       isInsertedTimes > 0 &&
       !isDeleteMode && (
-        <AnimatedView animation="zoomIn" duration={300} style={styles.counterContainer}>
+        <AnimatedView.View entering={ZoomIn} style={styles.counterContainer}>
           <Text style={styles.counterText}>{isInsertedTimes}</Text>
-        </AnimatedView>
+        </AnimatedView.View>
       );
 
     return (
@@ -273,9 +273,8 @@ const UploadsGalleryContent = ({
           isLoading={isDeleting}
         />
       ) : (
-        <AnimatedView
-          animation={deleteIds.length > 0 ? 'slideInRight' : 'slideOutRight'}
-          duration={300}
+        <AnimatedView.View
+          entering={deleteIds.length > 0 ? SlideInRight : SlideOutRight}
           style={styles.deleteButtonContainer}
         >
           <IconButton
@@ -288,7 +287,7 @@ const UploadsGalleryContent = ({
             onPress={_onDeletePress}
             isLoading={isDeleting}
           />
-        </AnimatedView>
+        </AnimatedView.View>
       );
     }
     return null;
