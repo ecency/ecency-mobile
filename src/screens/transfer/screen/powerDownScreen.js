@@ -4,9 +4,7 @@ import { Text, View, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'r
 import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
-
-import { View as AnimatedView } from 'react-native-animatable';
-import moment from 'moment';
+import Animated, { BounceInRight } from 'react-native-reanimated';
 import { getWithdrawRoutes } from '../../../providers/hive/dhive';
 import AUTH_TYPE from '../../../constants/authType';
 
@@ -17,8 +15,6 @@ import {
   DropdownButton,
   Modal,
   SquareButton,
-  InformationBox,
-  Icon,
   IconButton,
   BeneficiarySelectionContent,
   TextInput,
@@ -32,7 +28,6 @@ import { isEmptyDate, daysTillDate } from '../../../utils/time';
 
 import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
-import { Beneficiary } from '../../../redux/reducers/editorReducer';
 
 /* Props
  * ------------------------------------------------
@@ -382,7 +377,7 @@ class PowerDownView extends Component {
     const _renderMiddleContent = () => {
       const { intl } = this.props;
       return (
-        <AnimatedView animation="bounceInRight" delay={500} useNativeDriver>
+        <Animated.View entering={BounceInRight.duration(500)}>
           <View style={styles.stepTwoContainer}>
             <Text style={styles.sectionHeading}>
               {intl.formatMessage({ id: 'transfer.power_down_amount_head' })}
@@ -412,7 +407,7 @@ class PowerDownView extends Component {
               </Text>
             </View>
           </View>
-        </AnimatedView>
+        </Animated.View>
       );
     };
 
@@ -476,10 +471,10 @@ class PowerDownView extends Component {
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.powerDownKeyboadrAvoidingContainer}
-          keyboardShouldPersistTaps
+          keyboardShouldPersistTaps="always"
         >
           <ScrollView
-            keyboardShouldPersistTaps
+            keyboardShouldPersistTaps="always"
             style={styles.scroll}
             contentContainerStyle={styles.scrollContentContainer}
           >
