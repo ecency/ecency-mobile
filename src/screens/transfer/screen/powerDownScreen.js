@@ -377,7 +377,7 @@ class PowerDownView extends Component {
     const _renderMiddleContent = () => {
       const { intl } = this.props;
       return (
-        <Animated.View entering={BounceInRight.duration(500)}>
+        <Animated.View entering={BounceInRight.duration(500).delay(300)}>
           <View style={styles.stepTwoContainer}>
             <Text style={styles.sectionHeading}>
               {intl.formatMessage({ id: 'transfer.power_down_amount_head' })}
