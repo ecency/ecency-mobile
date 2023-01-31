@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { Text, View, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { View as AnimatedView } from 'react-native-animatable';
+import Animated, { ZoomIn } from 'react-native-reanimated';
 import { IconButton } from '../..';
 import styles from './tabbedPostsStyles';
 
@@ -26,7 +26,7 @@ const ScrollTopPopup = ({
   }
 
   return (
-    <AnimatedView style={styles.popupContainer} animation="zoomIn" duration={300}>
+    <Animated.View style={styles.popupContainer} entering={ZoomIn}>
       <View style={styles.popupContentContainer}>
         <TouchableOpacity onPress={onPress}>
           <View style={styles.popupContentContainer}>
@@ -66,7 +66,7 @@ const ScrollTopPopup = ({
           size={14}
         />
       </View>
-    </AnimatedView>
+    </Animated.View>
   );
 };
 
