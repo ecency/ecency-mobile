@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import * as Animated from 'react-native-animatable';
+import Animated, { BounceIn } from 'react-native-reanimated';
 import styles from './quickProfileStyles';
 
 export interface StatsData {
@@ -39,7 +39,7 @@ export const ProfileStats = ({ data, horizontalMargin, intermediate }: Props) =>
 const StatItem = (props: { label: string; value: number | string; intermediate: boolean }) => (
   <View style={{ alignItems: 'center', flex: 1 }}>
     {!props.intermediate ? (
-      <Animated.Text animation="bounceIn" style={styles.statValue}>
+      <Animated.Text entering={BounceIn} style={styles.statValue}>
         {props.value}
       </Animated.Text>
     ) : (
