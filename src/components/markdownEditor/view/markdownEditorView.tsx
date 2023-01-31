@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import { renderPostBody, postBodySummary } from '@ecency/render-helper';
 import { useDispatch, useSelector } from 'react-redux';
-import { View as AnimatedView } from 'react-native-animatable';
 import { get, debounce } from 'lodash';
 import { Icon } from '../../icon';
+import Animated, { BounceInRight } from 'react-native-reanimated';
 
 // Utils
 import applyMediaLink from '../children/formats/applyMediaLink';
@@ -320,10 +320,10 @@ const MarkdownEditorView = ({
         onLoadDraftPress();
       };
 
-      const Wrapper = draftBtnTooltipRegistered ? AnimatedView : View;
+      const Wrapper = draftBtnTooltipRegistered ? Animated.View : View;
       return (
         <>
-          <Wrapper style={styles.floatingContainer} animation="bounceInRight">
+          <Wrapper style={styles.floatingContainer} entering={BounceInRight}>
             <Tooltip
               ref={tooltipRef}
               text={intl.formatMessage({ id: 'walkthrough.load_draft_tooltip' })}
