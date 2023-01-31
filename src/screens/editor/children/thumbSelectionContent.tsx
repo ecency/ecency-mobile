@@ -5,7 +5,7 @@ import FastImage from 'react-native-fast-image';
 import { FlatList } from 'react-native-gesture-handler';
 import ESStyleSheet from 'react-native-extended-stylesheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View as AnimatedView } from 'react-native-animatable';
+import Animated, { ZoomIn } from 'react-native-reanimated';
 import { extractImageUrls } from '../../../utils/editor';
 import styles from './styles';
 import { Icon } from '../../../components';
@@ -64,14 +64,14 @@ const ThumbSelectionContent = ({
       <TouchableOpacity onPress={() => _onPress()}>
         <FastImage source={{ uri: item }} style={styles.thumbStyle} resizeMode="cover" />
         {isSelected && (
-          <AnimatedView duration={300} animation="zoomIn" style={styles.checkContainer}>
+          <Animated.View entering={ZoomIn} style={styles.checkContainer}>
             <Icon
               color={EStyleSheet.value('$primaryBlue')}
               iconType="MaterialCommunityIcons"
               name="checkbox-marked-circle"
               size={20}
             />
-          </AnimatedView>
+          </Animated.View>
         )}
       </TouchableOpacity>
     );
