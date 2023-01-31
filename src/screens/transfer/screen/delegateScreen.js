@@ -4,7 +4,7 @@ import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
-import { View as AnimatedView } from 'react-native-animatable';
+import Animated, { BounceInRight } from 'react-native-reanimated';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 
 // Constants
@@ -535,7 +535,7 @@ class DelegateScreen extends Component {
     );
 
     const _renderStepTwo = () => (
-      <AnimatedView animation="bounceInRight" delay={500} useNativeDriver>
+      <Animated.View entering={BounceInRight.duration(500)}>
         <View style={styles.stepTwoContainer}>
           <Text style={styles.sectionHeading}>
             {intl.formatMessage({ id: 'transfer.delegat_detail_head' })}
@@ -566,7 +566,7 @@ class DelegateScreen extends Component {
           />
           {_renderSlider()}
         </View>
-      </AnimatedView>
+      </Animated.View>
     );
     const _renderMainBtn = () => (
       <View style={styles.stepThreeContainer}>
