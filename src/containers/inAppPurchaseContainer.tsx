@@ -51,14 +51,14 @@ class InAppPurchaseContainer extends Component {
   }
 
   _initContainer = async () => {
-    const { intl, disablePurchaseListerOnMount } = this.props;
+    const { intl, disablePurchaseListenerOnMount } = this.props;
     try {
       await IAP.initConnection();
       if (Platform.OS === 'android') {
         await IAP.flushFailedPurchasesCachedAsPendingAndroid();
       }
 
-      if (disablePurchaseListerOnMount) {
+      if (!disablePurchaseListenerOnMount) {
         await this._consumeAvailablePurchases();
         this._purchaseUpdatedListener();
       }
@@ -107,9 +107,10 @@ class InAppPurchaseContainer extends Component {
         };
 
         // make sure item is not consumed if email and username not preset for 999accounts
-        if ((purchase.productId === '999accounts' && !email) || !username) {
+        if ((purchase.productId === '999accounts') && (!email || !username)) {
           throw new Error('Email and username are required for 999accounts consumption');
         }
+
         if (email && purchase.productId === '999accounts') {
           console.log('injecting purchase account meta');
           data.user = name || 'ecency'; // if user logged in user that name else use ecency,

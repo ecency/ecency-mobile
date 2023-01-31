@@ -471,6 +471,7 @@
     "fail": "Falló!",
     "move": "Mover",
     "continue": "Continuar",
+    "okay": "Ok",
     "move_question": "¿Está seguro de moverlo a borradores?",
     "success_shared": "¡Éxito! ¡Contenido enviado!",
     "success_moved": "Movido a borradores",
@@ -519,7 +520,7 @@
     "qoutaExceeded": "Se ha superado la cuota de subida",
     "invalidImage": "Imagen no válida, prueba un archivo diferente",
     "something_wrong": "Algo salió mal",
-    "something_wrong_msg": "Something went wrong\n{message}",
+    "something_wrong_msg": "Algo salió mal\n{message}",
     "something_wrong_alt": "Mientras tanto, prueba Ecency.com desde tu navegador",
     "something_wrong_reload": "¿Intentar de nuevo?",
     "can_not_be_empty": "¡Título y cuerpo no pueden estar vacíos!",
@@ -730,7 +731,9 @@
       "desc": "La delegación de 30 días impulsará sus votos y actividades sociales y le dará más acciones con más créditos de Recursos."
     },
     "confirm_purchase": "Confirmar compra @{username}",
-    "confirm_purchase_summary": "Comprando {points} por {username} a {price}"
+    "confirm_purchase_summary": "Comprando {points} por {username} a {price}",
+    "points_purchase_success": "Compra de puntos exitosa",
+    "points_purchase_fail_msg": "La compra de puntos falló\n{message}"
   },
   "buy_account": {
     "title": "Comprar cuenta",

@@ -9,7 +9,7 @@
     "transfer_from_savings": "من المدخرات",
     "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "Power Down | Unstake",
-    "open_order": "Open Order",
+    "open_order": "طلب مفتوح",
     "fill_order": "ملئ الطلب",
     "post": "منشور",
     "comment": "تعليق",
@@ -54,17 +54,17 @@
     "to": "إلى",
     "estimated_value_desc": "حسب قيمة الشراء",
     "estimated_value": "القيمه المتوقعه",
-    "vote_value": "Vote value",
+    "vote_value": "قيمة التصويت",
     "delegated_hive_power": "Delegated hive power",
     "powering_down_hive_power": "Powering down",
     "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
+    "total_hive_power": "القوة الإجمالية",
     "savings": "Savings",
     "estimated_amount": "قيمة التصويت",
     "amount_information": "اسحب شريط التمرير لضبط المبلغ",
     "amount": "كمية",
     "memo": "مذكرة",
-    "tap_update": "Tap to update",
+    "tap_update": "انقر للتحديث",
     "information": "Are you sure to proceed with transaction?",
     "amount_desc": "الرصيد",
     "memo_desc": "هذه المذكرة عامة",
@@ -94,14 +94,14 @@
     "fill_convert_request": "تم التحويل بنجاح",
     "fill_transfer_from_savings": "تم الإدخار بنجاح",
     "fill_vesting_withdraw": "تم تنفيذ إنقاص نفوذك",
-    "engine_title": "Hive Engine Tokens",
-    "engine_claim_btn": "Claim Rewards ({count})",
-    "engine_select_assets": "Select Assets",
-    "manage_assets": "Add / Remove Assets",
+    "engine_title": "رموز Hive Engine",
+    "engine_claim_btn": "الحصول على المكافآت ({count})",
+    "engine_select_assets": "حدد الأصول",
+    "manage_assets": "إضافة & حذف الأصول",
     "ecency": {
-      "title": "Points",
-      "name": "Ecency Points",
-      "buy": "GET POINTS"
+      "title": "النقاط",
+      "name": "نقاط Ecency",
+      "buy": "احصل على نقاط"
     },
     "savinghive": {
       "title": "مدخرات HIVE"
@@ -131,23 +131,23 @@
       "address": "إستلام"
     },
     "last_updated": "Last Updated:",
-    "updating": "Updating...",
-    "coin_details": "Details",
+    "updating": "التحديث جارٍ...",
+    "coin_details": "التفاصيل",
     "change": "Change",
-    "activities": "Activities",
+    "activities": "الأنشطة والمستجدّات",
     "savings_withdrawal": "Pending Withdrawals",
     "open_orders": "Open Orders",
     "conversions_requested": "Conversions Requested",
     "expires": "expires",
     "pending_requests": "Pending Requests",
-    "boost_account": "Boost",
+    "boost_account": "تعزيز",
     "get_boost": "Get Boost",
     "transfer_engine": "Transfer",
     "unstake_engine": "Unstake",
     "stake_engine": "Stake",
-    "delegate_engine": "Delegate",
+    "delegate_engine": "تفويض",
     "undelegate_engine": "Undelegate",
-    "low_liquidity": "Low Liquidity!",
+    "low_liquidity": "سيولة منخفضة!",
     "inactive_token": "Token is relatively inactive, some functionalities might be affected."
   },
   "notification": {
@@ -155,7 +155,7 @@
     "unvote": "مصوت سلباً",
     "reply": "الرد على",
     "mention": "أشارك إليك في",
-    "favorites": "made new post",
+    "favorites": "إنشاء مشاركة جديدة",
     "bookmarks": "replied to bookmarked content",
     "follow": "قام بمتابعتك",
     "unfollow": "قام بإلغاء متابعتك",
@@ -298,7 +298,7 @@
     "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
-    "modal_title": "Get Hive Account",
+    "modal_title": "احصل على حساب Hive",
     "button": "إنشاء حساب",
     "title": "إنشاء حساب",
     "username": "اختر اسم المستخدم",
@@ -308,7 +308,7 @@
     "error_message": "{message}\nTry again or try purchasing account instead",
     "title_description": "حساب واحد لإدارة كل شيء",
     "form_description": "من خلال تسجيل الدخول، أنت توافق على شروط الخدمات وسياسات الخصوصية لدينا.",
-    "registering": "Registering Your Account...",
+    "registering": "تسجيل حسابك...",
     "register_fail": "Registeration failed, please try again or contact support.",
     "registered": "Registration Successful\nCheck your email for instruction"
   },
@@ -342,7 +342,7 @@
     "add_an_existing_account": "إضافة حساب آخر",
     "accounts": "الحسابات",
     "refer": "رشح أصدقائك واربح",
-    "qr": "QR Scan"
+    "qr": "مسح ال QR"
   },
   "header": {
     "title": "تسجيل الدخول لتخصيص خلاصتك",
@@ -376,7 +376,7 @@
     "tag_duplicate": "Tag exists already",
     "setting_schedule": "الجدول الزمني",
     "setting_reward": "المكافأة",
-    "setting_reblog": "Reblog",
+    "setting_reblog": "إعادة النشر",
     "setting_beneficiary": "المستفيدون",
     "setting_thumb": "تعيين صورة مصغرة",
     "reward_default": "الافتراضي 50%/50%",
@@ -403,10 +403,10 @@
     "draft_save_success": "تم حفظ المسودة",
     "draft_save_fail": "فشل في حفظ المسودة",
     "select_thumb": "اختيار الصورة المصغرة للمنشور",
-    "add_more_imgs": "Add more images to post",
+    "add_more_imgs": "إضافة المزيد من الصور",
     "two_thumbs_required": "أضف المزيد من الصور في منشورك قبل تعيين الصورة المصغرة",
     "scheduled_for": "Scheduled For",
-    "scheduled_immediate": "Immediate",
+    "scheduled_immediate": "فوراً",
     "scheduled_later": "Later",
     "settings_title": "Post Options",
     "done": "DONE",
@@ -415,12 +415,12 @@
     "draft_save_new": "Save as new draft",
     "label": "Label",
     "enter_label_placeholder": "Enter Label (Optional)",
-    "url": "URL",
-    "enter_url_placeholder": "Enter URL",
-    "link_type_text": "Type of Link",
-    "insert_link": "Insert Link",
-    "preview": "Preview",
-    "invalid_url_error": "Please insert valid url",
+    "url": "رابط الموقع",
+    "enter_url_placeholder": "الرجاء إدخال الرابط",
+    "link_type_text": "نوع الرابط",
+    "insert_link": "إضافة رابط",
+    "preview": "معاينة",
+    "invalid_url_error": "الرجاء إدخال رابط صحيح",
     "plain": "Plain",
     "video": "Video",
     "image": "Image"
@@ -471,6 +471,7 @@
     "fail": "فشل!",
     "move": "نقل",
     "continue": "Continue",
+    "okay": "Okay",
     "move_question": "هل أنت متأكد من نقل إلى المسودات؟",
     "success_shared": "تم إرسال المحتوى!",
     "success_moved": "تم النقل إلى المسودات",
@@ -519,7 +520,7 @@
     "qoutaExceeded": "تم تجاوز حصة الرفع",
     "invalidImage": "صورة غير صالحة، جرب ملف مختلف",
     "something_wrong": "حدث خطأ ما",
-    "something_wrong_msg": "Something went wrong\n{message}",
+    "something_wrong_msg": "حدث خطأ ما\n{message}",
     "something_wrong_alt": "في هذا الوقت، جرب Ecency.com من متصفحك",
     "something_wrong_reload": "حاول مجددا؟",
     "can_not_be_empty": "العنوان والجسم لا يمكن أن يكونا فارغين!",
@@ -534,11 +535,11 @@
     "invalid_response": "Could not process request, Try again later.",
     "wallet_updating": "Wallet update in progress, try again as update finishes",
     "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
-    "connection_issues": "The server is unreachable, please check your connection and try again.",
-    "open_settings": "Open Settings"
+    "connection_issues": "لا يمكن الوصول إلى الخادم، يرجى التحقق من اتصالك وحاول مرة أخرى.",
+    "open_settings": "فتح الإعدادات"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?",
+    "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
     "removed_hint": "المحتوى غير متوفر",
     "copy_link": "نسخ الرابط",
     "copy_text": "نسخ النص",
@@ -569,10 +570,10 @@
     "deleted": "تم مسح المشاركة المجدولة",
     "move": "نقل إلى المسودات",
     "moved": "تم النقل إلى المسودات",
-    "pending": "Pending",
+    "pending": "قيد الانتظار",
     "postponed": "Postponed",
-    "published": "Published",
-    "error": "Error"
+    "published": "تم النشر",
+    "error": "خطأ"
   },
   "bookmarks": {
     "title": "إشارات مرجعية",
@@ -589,7 +590,7 @@
     "confirm_report_body": "هل أنت متأكد من أنك تريد الإبلاغ؟"
   },
   "delete": {
-    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_title": "تأكيد الحذف",
     "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
     "request_sent": "Your request for deletion is sent"
   },
@@ -626,9 +627,9 @@
     "promote": "قم بالترويج لمقالك",
     "boost": "تعزيز منشورك",
     "report": "الإبلاغ",
-    "pin-blog": "Pin to blog",
+    "pin-blog": "تثبيت بأعلى الصفحة",
     "unpin-blog": "Unpin from blog",
-    "pin-community": "Pin to community",
+    "pin-community": "تثبيت للمجتمع",
     "unpin-community": "Unpin from community",
     "edit-history": "Edit History",
     "mute": "Mute / Block"
@@ -693,28 +694,28 @@
     "address_view": "عرض العنواين",
     "already_delegated": "Already delegated to ",
     "remain_hp": "Remaining HP",
-    "account_detail_head": "Account Details",
+    "account_detail_head": "تفاصيل الحساب",
     "account_detail_subhead": "Enter username for HIVE Power delegation",
-    "delegat_detail_head": "Delegation Details",
+    "delegat_detail_head": "تفاصيل التفويض",
     "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
-    "new_amount": "New Amount",
-    "review": "REVIEW",
-    "confirm": "Confirm Delegation",
+    "new_amount": "مبلغ جديد",
+    "review": "استعراض",
+    "confirm": "تأكيد التفويض",
     "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
     "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
-    "username_alert": "Username Error!",
+    "username_alert": "خطأ في اسم المستخدم!",
     "username_alert_detail": "Please select different username",
     "power_down": "Power Down | Unstake",
-    "power_down_amount_head": "Withdraw Amount",
+    "power_down_amount_head": "سحب المبلغ",
     "power_down_amount_subhead": "Enter amount for powering down hive power",
     "withdraw_accounts": "Withdraw Accounts",
-    "amount_hp": "Amount (HP)",
+    "amount_hp": "المبلغ (HP)",
     "powering_down": "Powering Down",
     "powering_down_subheading": "You are currently powering down.",
     "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
     "invalid_amount": "Invalid Amount",
     "invalid_amount_desc": "Please enter valid amount",
-    "account_select_title": "Account Details",
+    "account_select_title": "تفاصيل الحساب",
     "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
     "amount_select_title": "Action Details",
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
@@ -730,17 +731,19 @@
       "desc": "30 يومًا من التفويض سيعزز أصواتك وأنشطتك الاجتماعية ويمنحك المزيد من الإجراءات مع المزيد من رصيد الموارد."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
-    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}",
+    "points_purchase_success": "Points purchase successful",
+    "points_purchase_fail_msg": "Points purchase failed\n{message}"
   },
   "buy_account": {
-    "title": "Buy Account",
-    "btn_register": "Buy Account - {price}",
+    "title": "شراء حساب",
+    "btn_register": "شراء حساب - {price}",
     "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started",
-    "claim": "Claim Paid Account"
+    "claim": "المطالبة بحساب مدفوع"
   },
   "free_account": {
-    "title": "Free Account",
-    "btn_register": "Register Free",
+    "title": "حساب مجاني",
+    "btn_register": "تسجيل (مجاني)",
     "desc": "Get a full-fledged Hive account, this method has basic checks to make sure botnet doesn't abuse our signup faucet."
   },
   "free_estm": {
@@ -849,7 +852,7 @@
     "username": "اسم المستخدم",
     "addAccount": "إضافة حساب",
     "save": "حفظ",
-    "cancel": "Cancel"
+    "cancel": "إلغاء"
   },
   "welcome": {
     "label": "مرحبا بك في",
@@ -862,7 +865,7 @@
     "line3_body": "قم ببناء مجتمع خاص بك، احصل على مكافأت وكافئ الآخرين.",
     "get_started": "ابدأ هنا!",
     "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
-    "terms_text": "Read Here!"
+    "terms_text": "اقرأ هنا!"
   },
   "time": {
     "second": "ثواني",
@@ -874,33 +877,33 @@
     "year": "سنوات"
   },
   "quick_reply": {
-    "placeholder": "Add a comment...",
-    "comment": "Comment",
+    "placeholder": "إضافة تعليق...",
+    "comment": "تعليق",
     "reply": "REPLY",
-    "close": "CLOSE"
+    "close": "إغلاق"
   },
   "walkthrough": {
     "load_draft_tooltip": "Load your lastest draft here"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
-    "refer": "Refer",
+    "refer_earn": "إحالة أصدقائك واربح",
+    "refer": "إحالة",
     "rewarded": "Referral points rewarded",
     "not_rewarded": "Referral reward pending",
     "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
+    "earned": "النقاط المكتسبة",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points"
   },
   "qr": {
-    "qr_scan": "QR Scan",
-    "open": "Open URL",
+    "qr_scan": "مسح ال QR",
+    "open": "فتح الرابط",
     "detected_url": "Detected URL",
-    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_title": "رابط غير مدعوم!",
     "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
     "edit": "Edit History",
-    "version": "Version"
+    "version": "الإصدار"
   }
 }

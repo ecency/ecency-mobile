@@ -471,6 +471,7 @@
     "fail": "Neuspješno!",
     "move": "Premjesti",
     "continue": "Continue",
+    "okay": "Okay",
     "move_question": "Sigurni ste da želite prijeći na nacrte?",
     "success_shared": "Uspjeh! Sadržaj poslat!",
     "success_moved": "Premješteno u nacrt",
@@ -730,7 +731,9 @@
       "desc": "30-dnevna delegacija će povećati vaše glasove i društvene aktivnosti i dati vam više akcija s više resursa."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
-    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}",
+    "points_purchase_success": "Points purchase successful",
+    "points_purchase_fail_msg": "Points purchase failed\n{message}"
   },
   "buy_account": {
     "title": "Buy Account",

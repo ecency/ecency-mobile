@@ -1,7 +1,8 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Alert } from 'react-native';
+import { Alert, AlertButton } from 'react-native';
 import ImagePicker, { Image } from 'react-native-image-crop-picker';
+import RNHeicConverter from 'react-native-heic-converter';
 import { openSettings } from 'react-native-permissions';
 import bugsnapInstance from '../../../config/bugsnag';
 import { getImages } from '../../../providers/ecency/ecency';
@@ -161,6 +162,20 @@ export const UploadsGalleryModal = forwardRef(
           throw new Error('New media items returned');
         }
 
+        //post process heic to jpg media items
+        for (let i = 0; i < media.length; i++) {
+          const element = media[i]
+          if (element.mime === 'image/heic') {
+            const res = await RNHeicConverter.convert({ path: element.sourceURL }) // default with quality = 1 & jpg extension
+            if (res && res.path) {
+              element.mime = 'image/jpeg';
+              element.path = res.path;
+              element.filename = element.filename ? element.filename.replace('.HEIC', '.JPG') : '';
+              media[i] = element;
+            }
+          }
+        }
+
         if (shouldInsert) {
           setShowModal(false);
           hideToolbarExtension();
@@ -283,8 +298,13 @@ export const UploadsGalleryModal = forwardRef(
     };
 
     const _handleMediaOnSelectFailure = (error) => {
-      let title = intl.formatMessage({ id: 'alert.fail' });
+      let title = intl.formatMessage({ id: 'alert.something_wrong' });
       let body = error.message || JSON.stringify(error);
+      let action: AlertButton = {
+        text: intl.formatMessage({ id: 'alert.okay' }),
+        onPress: () => { },
+      }
+
       switch (error.code) {
         case 'E_PERMISSION_MISSING':
         case 'E_NO_LIBRARY_PERMISSION':
@@ -294,6 +314,12 @@ export const UploadsGalleryModal = forwardRef(
           body = intl.formatMessage({
             id: 'alert.permission_text',
           });
+          action = {
+            text: intl.formatMessage({ id: 'alert.open_settings' }),
+            onPress: () => {
+              openSettings();
+            },
+          }
           break;
       }
 
@@ -301,17 +327,10 @@ export const UploadsGalleryModal = forwardRef(
         showActionModal({
           title,
           body,
-          buttons: [
-            {
-              text: intl.formatMessage({ id: 'alert.open_settings' }),
-              onPress: () => {
-                openSettings();
-              },
-            },
-          ],
+          buttons: [action],
         }),
       );
-      // Alert.alert(title, body, [{},{}])
+
     };
 
     const _handleMediaInsertion = (data: MediaInsertData) => {

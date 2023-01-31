@@ -471,6 +471,7 @@
     "fail": "Nepavyko!",
     "move": "Perkelti",
     "continue": "Continue",
+    "okay": "Okay",
     "move_question": "Ar tikrai norite įrenginius perkelti į juodraščius?",
     "success_shared": "Sėkmė! Turinys išsiųstas!",
     "success_moved": "Perkelta į juodraščius",
@@ -730,7 +731,9 @@
       "desc": "30 dienų delegacijos padidins jūsų balsų kiekį ir paspartins socialinę veiklą ir suteiks jums daugiau veiksmų su resursų kreditais."
     },
     "confirm_purchase": "Patvirtinkite pirkinį{username}",
-    "confirm_purchase_summary": "{points} pirkimas {username} už {price}"
+    "confirm_purchase_summary": "{points} pirkimas {username} už {price}",
+    "points_purchase_success": "Points purchase successful",
+    "points_purchase_fail_msg": "Points purchase failed\n{message}"
   },
   "buy_account": {
     "title": "Buy Account",
