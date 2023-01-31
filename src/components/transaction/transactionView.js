@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Utilities
-import { View as AnimatedView } from 'react-native-animatable';
+import Animated, { SlideInLeft } from 'react-native-reanimated';
 import { getTimeFromNow } from '../../utils/time';
 
 // Components
@@ -39,7 +39,7 @@ const TransactionView = ({ item, index }) => {
   );
 
   const _cardBody = (get(item, 'details') || get(item, 'memo')) && !collapsed && (
-    <AnimatedView animation="slideInLeft" duration={200}>
+    <Animated.View entering={SlideInLeft}>
       <WalletLineItem
         key={`keyd-${item.created.toString()}`}
         text={get(item, 'details', '')}
@@ -47,7 +47,7 @@ const TransactionView = ({ item, index }) => {
         isThin
         description={get(item, 'memo')}
       />
-    </AnimatedView>
+    </Animated.View>
   );
 
   return (

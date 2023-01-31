@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
-// import { View as AnimatedView } from 'react-native-animatable';
 
 // Styles
 import styles from './toastNotificationStyles';
