@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useEffect,
 } from 'react';
-import { ActivityIndicator, Platform, RefreshControl } from 'react-native';
+import { ActivityIndicator, Platform, RefreshControl, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
@@ -24,6 +24,7 @@ import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
 import { CommentsSection } from '../children/commentsSection';
+import styles from '../children/postComments.styles';
 
 
 const PostComments = forwardRef(
@@ -36,6 +37,7 @@ const PostComments = forwardRef(
       isLoading,
       onRefresh,
       handleOnCommentsLoaded,
+      handleOnReplyPress
     },
     ref,
   ) => {
@@ -242,10 +244,22 @@ const PostComments = forwardRef(
     );
 
 
-    const _listEmptyComponent = () => {
-      return <ActivityIndicator />
-    }
+    const _renderEmptyContent = () => {
+      if (discussionQuery.isLoading) {
+        return null;
+      }
+      const _onPress = () => {
+        if (handleOnReplyPress) {
+          handleOnReplyPress();
+        }
 
+      };
+      return (
+        <Text onPress={_onPress} style={styles.emptyText}>
+          {intl.formatMessage({ id: 'comments.no_comments' })}
+        </Text>
+      );
+    };
 
     const _renderItem = ({ item, index }) => {
       return <CommentsSection
@@ -265,10 +279,9 @@ const PostComments = forwardRef(
     return (
       <FlatList
         ref={commentsListRef}
-        style={{ flex: 1 }}
-        contentContainerStyle={{ marginBottom: 200 }}
+        style={styles.list}
         ListHeaderComponent={_postContentView}
-        ListEmptyComponent={_listEmptyComponent}
+        ListEmptyComponent={_renderEmptyContent}
         data={shouldRenderComments ? sortedSections : []}
         onContentSizeChange={_onContentSizeChange}
         renderItem={_renderItem}
