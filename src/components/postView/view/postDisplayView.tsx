@@ -7,7 +7,6 @@ import get from 'lodash/get';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Utils
-import { FlatList, RefreshControl } from 'react-native-gesture-handler';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
@@ -55,7 +54,7 @@ const PostDisplayView = ({
   const userActivityMutation = useUserActivityMutation();
 
   const writeCommentRef = useRef<WriteCommentButton>();
-  const commentsListRef = useRef<FlatList>(null);
+  const postCommentsRef = useRef<PostComments>(null);
 
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
@@ -92,12 +91,8 @@ const PostDisplayView = ({
   }, [refreshing]);
 
   const _scrollToComments = () => {
-    if (commentsListRef.current && !post?.children) {
-      commentsListRef.current.scrollToOffset( {offset:postBodyHeight})
-      return;
-    }
-    if (commentsListRef.current && post?.children && isLoadedComments) {
-      commentsListRef.current.scrollToIndex({index:0, viewOffset: 108});
+    if(postCommentsRef.current){
+      postCommentsRef.current.scrollToComments();
     }
   };
 
@@ -268,6 +263,7 @@ const PostDisplayView = ({
     <View style={styles.container}>
       <View style={[styles.scroll, styles.scrollContent, { width: WIDTH }]}>
         <PostComments
+          ref={postCommentsRef}
           author={author || post?.author}
           mainAuthor={author || post?.author}
           permlink={post?.permlink}
@@ -279,10 +275,7 @@ const PostDisplayView = ({
           fetchedAt={post?.post_fetched_at}
           isLoading={postBodyLoading}
           postContentView={_postContentView}
-          flatListProps={{
-            ref: commentsListRef,
-            refreshControl: <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />,
-          }}
+          onRefresh={onRefresh}
         />
       </View>
       {post && _renderActionPanel(true)}

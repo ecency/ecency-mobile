@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useEffect,
 } from 'react';
-import { Platform } from 'react-native';
+import { ActivityIndicator, Platform, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
@@ -26,17 +26,15 @@ import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
 import { CommentsSection } from '../children/commentsSection';
 
 
-
-
 const PostComments = forwardRef(
   (
     {
       author,
       permlink,
       mainAuthor,
-      flatListProps,
       postContentView,
       isLoading,
+      onRefresh,
       handleOnCommentsLoaded,
     },
     ref,
@@ -47,15 +45,18 @@ const PostComments = forwardRef(
 
     const currentAccount = useAppSelector((state) => state.account.currentAccount);
     const pinHash = useAppSelector((state) => state.application.pin);
+    const isDarkTheme = useAppSelector(state => state.application.isDarkTheme);
 
     const discussionQuery = postQueries.useDiscussionQuery(author, permlink);
     const postsCachePrimer = postQueries.usePostsCachePrimer();
 
     const writeCommentRef = useRef(null);
+    const commentsListRef = useRef<FlatList | null>(null)
 
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
-
+    const [shouldRenderComments, setShouldRenderComments] = useState(false);
+    const [headerHeight, setHeaderHeight] = useState(0);
 
 
 
@@ -73,6 +74,13 @@ const PostComments = forwardRef(
           writeCommentRef.current.bounce();
         }
       },
+      scrollToComments: () => {
+        if (commentsListRef.current && (!sortedSections.length || !shouldRenderComments)) {
+          commentsListRef.current.scrollToOffset({ offset: headerHeight + 200 })
+        } else if (commentsListRef.current && sortedSections.length) {
+          commentsListRef.current.scrollToIndex({ index: 0, viewOffset: 108 });
+        }
+      }
     }));
 
 
@@ -85,6 +93,10 @@ const PostComments = forwardRef(
     }, [discussionQuery.isLoading]);
 
 
+    const _onRefresh = () => {
+      discussionQuery.refetch();
+      onRefresh();
+    }
 
 
     const _handleOnDropdownSelect = (option, index) => {
@@ -128,16 +140,16 @@ const PostComments = forwardRef(
       deleteComment(currentAccount, pinHash, _permlink).then(() => {
 
         // remove cached entry based on parent
-          const _commentPath = `${currentAccount.username}/${_permlink}`
-          console.log("deleted comment", _commentPath);
+        const _commentPath = `${currentAccount.username}/${_permlink}`
+        console.log("deleted comment", _commentPath);
 
-          const _deletedItem = discussionQuery.data[_commentPath];
-          if(_deletedItem){
-            _deletedItem.status = CommentCacheStatus.DELETED;
-            delete _deletedItem.updated;
-            dispatch(updateCommentCache(_commentPath, _deletedItem, { isUpdate: true }));
-          }
-         
+        const _deletedItem = discussionQuery.data[_commentPath];
+        if (_deletedItem) {
+          _deletedItem.status = CommentCacheStatus.DELETED;
+          delete _deletedItem.updated;
+          dispatch(updateCommentCache(_commentPath, _deletedItem, { isUpdate: true }));
+        }
+
       });
     };
 
@@ -202,6 +214,15 @@ const PostComments = forwardRef(
     };
 
 
+    const _onContentSizeChange = (x: number, y: number) => {
+      //lazy render comments after post is rendered;
+      if (!shouldRenderComments) {
+        setHeaderHeight(y);
+        setShouldRenderComments(true);
+      }
+    }
+
+
 
     const _postContentView = (
       <>
@@ -221,6 +242,9 @@ const PostComments = forwardRef(
     );
 
 
+    const _listEmptyComponent = () => {
+      return <ActivityIndicator />
+    }
 
 
     const _renderItem = ({ item, index }) => {
@@ -240,13 +264,24 @@ const PostComments = forwardRef(
 
     return (
       <FlatList
+        ref={commentsListRef}
         style={{ flex: 1 }}
+        contentContainerStyle={{ marginBottom: 200 }}
         ListHeaderComponent={_postContentView}
-        data={sortedSections}
+        ListEmptyComponent={_listEmptyComponent}
+        data={shouldRenderComments ? sortedSections : []}
+        onContentSizeChange={_onContentSizeChange}
         renderItem={_renderItem}
         keyExtractor={(item) => `${item.author}/${item.permlink}`}
-        stickySectionHeadersEnabled={false}
-        {...flatListProps}
+        refreshControl={
+          <RefreshControl
+            refreshing={discussionQuery.isFetching}
+            onRefresh={_onRefresh}
+            progressBackgroundColor="#357CE6"
+            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+            titleColor="#fff"
+            colors={['#fff']} />
+        }
       />
     );
   },
