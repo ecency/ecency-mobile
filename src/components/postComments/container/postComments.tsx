@@ -307,12 +307,17 @@ export default PostComments;
 
 
 const _sortComments = (sortOrder = 'trending', _comments) => {
-  const sortedComments = _comments;
+  const sortedComments:any[] = _comments;
 
   const absNegative = (a) => a.net_rshares < 0;
 
   const sortOrders = {
     trending: (a, b) => {
+
+      if(a.renderOnTop){
+        return -1;
+      }
+
       if (absNegative(a)) {
         return 1;
       }
@@ -331,6 +336,11 @@ const _sortComments = (sortOrder = 'trending', _comments) => {
       return 0;
     },
     reputation: (a, b) => {
+
+      if(a.renderOnTop){
+        return -1;
+      }
+
       const keyA = a.author_reputation;
       const keyB = b.author_reputation;
 
@@ -344,6 +354,11 @@ const _sortComments = (sortOrder = 'trending', _comments) => {
       return 0;
     },
     votes: (a, b) => {
+
+      if(a.renderOnTop){
+        return -1;
+      }
+
       const keyA = a.active_votes.length;
       const keyB = b.active_votes.length;
 
@@ -357,6 +372,10 @@ const _sortComments = (sortOrder = 'trending', _comments) => {
       return 0;
     },
     age: (a, b) => {
+      if(a.renderOnTop){
+        return -1;
+      }
+
       if (absNegative(a)) {
         return 1;
       }

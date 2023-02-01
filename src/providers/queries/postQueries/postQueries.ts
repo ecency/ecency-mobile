@@ -144,6 +144,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
             if ((lastCacheUpdate.postPath === path && (currentTime - lastCacheUpdate.updatedAt) < 5000)) {
               console.log("setting show replies flag")
               _comments[_parentPath].expandedReplies = true;
+              _comments[path].renderOnTop = true;
             }
 
           }

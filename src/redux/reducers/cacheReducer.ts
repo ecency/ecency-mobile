@@ -49,6 +49,7 @@ export interface Comment {
   updated?: string;
   expiresAt?: number;
   expandedReplies?: boolean;
+  renderOnTop?:boolean;
   status: CommentCacheStatus;
 }
 
