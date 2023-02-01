@@ -4,6 +4,9 @@ export default EStyleSheet.create({
   list: {
     flex: 1,
   },
+  listContent:{
+    paddingBottom: 200
+  },
   emptyText: {
     color: '$primaryDarkGray',
     fontSize: 16,

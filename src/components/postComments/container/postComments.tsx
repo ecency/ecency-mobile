@@ -25,6 +25,7 @@ import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
 import { CommentsSection } from '../children/commentsSection';
 import styles from '../children/postComments.styles';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 
 const PostComments = forwardRef(
@@ -245,8 +246,8 @@ const PostComments = forwardRef(
 
 
     const _renderEmptyContent = () => {
-      if (discussionQuery.isLoading) {
-        return null;
+      if (discussionQuery.isLoading || !!sortedSections.length) {
+        return <ActivityIndicator style={{marginTop: 16}} color={EStyleSheet.value('$primaryBlack')}  />;
       }
       const _onPress = () => {
         if (handleOnReplyPress) {
@@ -280,6 +281,7 @@ const PostComments = forwardRef(
       <FlatList
         ref={commentsListRef}
         style={styles.list}
+        contentContainerStyle={styles.listContent}
         ListHeaderComponent={_postContentView}
         ListEmptyComponent={_renderEmptyContent}
         data={shouldRenderComments ? sortedSections : []}
