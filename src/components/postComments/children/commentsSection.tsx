@@ -22,15 +22,16 @@ export const CommentsSection = ({item, index, revealReplies, ...props}) => {
     }, [item.expandedReplies])
   
     const _renderComment = (item, index = 0) => {
+      //animation makes sure there is 100 ms gab between each comment item
+      const _enteringAnim = SlideInRight.duration(150).springify().delay(index * 100);
       return (
         <Animated.View
           key={item.author + item.permlink}
-          entering={SlideInRight.duration(150).springify().delay(index * 100)}>
+          entering={_enteringAnim}>
           <Comment
             key={item.author + item.permlink}
             comment={item}
             repliesToggle={toggle}
-  
             handleOnToggleReplies={() => setToggle(!toggle)}
             {...props}
           />
