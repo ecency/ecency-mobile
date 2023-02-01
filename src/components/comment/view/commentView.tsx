@@ -116,7 +116,7 @@ const CommentView = ({
     return (
       <View style={[{ marginLeft: 2, marginTop: -6 }]}>
         <CommentBody
-          commentDepth={comment.depth}
+          commentDepth={_depth}
           reputation={comment.author_reputation}
           handleOnUserPress={handleOnUserPress}
           handleOnLongPress={() => handleOnLongPress(comment)}
