@@ -8,7 +8,7 @@
     "power_up": "Ansaintaan",
     "transfer_from_savings": "Säästöistä",
     "withdraw_savings": "Kotiuta säästöihin",
-    "withdraw_vesting": "Power Down | Unstake",
+    "withdraw_vesting": "Heikennä | Poista panostus",
     "open_order": "Avoimet Tilaukset",
     "fill_order": "Täytä hakemus",
     "post": "Julkaisu",
@@ -74,12 +74,12 @@
     "purchase_estm": "Lunasta pisteet",
     "points": "Lahjoita pisteitä",
     "transfer_to_saving": "Säästöihin",
-    "transfer_to_vesting": "Power Up | Stake",
+    "transfer_to_vesting": "Vahvista | Panosta",
     "withdraw_to_saving": "Kotiuta säästöihin",
     "steemconnect_title": "Hivesigner-siirto",
     "next": "SEURAAVA",
     "delegate": "Valtuuta",
-    "power_down": "Power Down | Unstake",
+    "power_down": "Heikennä | Poista panostus",
     "withdraw_hive": "Kotiuta säästöihin",
     "withdraw_hbd": "Kotiuta säästöt",
     "transfer_to_savings": "Säästöihin",
@@ -111,7 +111,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Liquid Hive",
+      "name": "Likvidi Hive",
       "buy": "HANKI HIVE"
     },
     "hbd": {
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "Staked Hive"
+      "name": "Panostettu Hive"
     },
     "hive_dollar": {
       "name": "Hive Dollarit"
@@ -143,7 +143,7 @@
     "boost_account": "Tehosta",
     "get_boost": "Hanki Tehostus",
     "transfer_engine": "Siirto",
-    "unstake_engine": "Unstake",
+    "unstake_engine": "Poista panostus",
     "stake_engine": "Panosta",
     "delegate_engine": "Valtuuta",
     "undelegate_engine": "Poista valtuutus",
@@ -309,7 +309,7 @@
     "title_description": "Yhdellä tilillä hallitset kaikkea",
     "form_description": "Rekisteröitymällä hyväksyt meidän käyttöehdomme ja tietosuojamme periaatteet.",
     "registering": "Rekisteröidään Tiliäsi...",
-    "register_fail": "Registeration failed, please try again or contact support.",
+    "register_fail": "Rekisteröinti epäonnistui, yritä uudelleen tai ota yhteyttä tukeen.",
     "registered": "Rekisteröinti Onnistui\nTarkista sähköpostisi saadaksesi lisäohjeita"
   },
   "home": {
@@ -471,6 +471,7 @@
     "fail": "Virhe!",
     "move": "Siirrä",
     "continue": "Jatka",
+    "okay": "Ok",
     "move_question": "Haluatko varmasti siirtää luonnoksiin?",
     "success_shared": "Onnistui! Sisältö lähetetty!",
     "success_moved": "Siirretty luonnoksiin",
@@ -519,7 +520,7 @@
     "qoutaExceeded": "Latausraja ylittyi",
     "invalidImage": "Vääränlainen kuva, yritä toista",
     "something_wrong": "Jokin meni pieleen",
-    "something_wrong_msg": "Something went wrong\n{message}",
+    "something_wrong_msg": "Jokin meni pieleen\n{message}",
     "something_wrong_alt": "Odottaessasi kokeile Ecency.com selaimella",
     "something_wrong_reload": "Yritä uudelleen?",
     "can_not_be_empty": "Otsikko ja sisältö eivät voi olla tyhjiä!",
@@ -560,8 +561,8 @@
     "load_error": "Luonnoksia ei voitu ladata",
     "empty_list": "Täällä ei ole mitään",
     "deleted": "Luonnos poistettu",
-    "unsynced_title": "Unsynced Draft",
-    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
+    "unsynced_title": "Synkronoimaton Luonnos",
+    "unsynced_body": "Luonnosta ei ole synkronoitu Ecency cloudin kanssa, jatka muokkaamista ja tallenna luonnos"
   },
   "schedules": {
     "title": "Ajastetut",
@@ -667,7 +668,7 @@
     "convert": "Muunna HBD HIVEksi",
     "points": "Lahjoita pisteitä",
     "transfer_to_savings": "Siirrä säästöihin",
-    "transfer_to_vesting": "Power Up | Stake",
+    "transfer_to_vesting": "Vahvista | Panosta",
     "withdraw_to_saving": "Kotiuta säästöihin",
     "steemconnect_title": "Hivesigner-siirto",
     "estimated_weekly": "Viikottainen arvio",
@@ -704,7 +705,7 @@
     "confirm_summary_para": "Tämä korvaan aiemman {prev} HP valtuutuksen tälle käyttäjälle.",
     "username_alert": "Virhe käyttäjänimessä!",
     "username_alert_detail": "Valitse toinen käyttäjänimi",
-    "power_down": "Power Down | Unstake",
+    "power_down": "Heikennä | Poista panostus",
     "power_down_amount_head": "Nostomäärä",
     "power_down_amount_subhead": "Syötä hive power tehonalennuksen määrä",
     "withdraw_accounts": "Nostotilit",
@@ -730,13 +731,15 @@
       "desc": "30 päivän valtuutus tehostaa ääniäsi ja sosiaalista toimintaa, antaen lisää toimintoja ja Resurssipisteitä."
     },
     "confirm_purchase": "Vahvista ostos @{username}",
-    "confirm_purchase_summary": "Ostetaan {points} {username} hintaan {price}"
+    "confirm_purchase_summary": "Ostetaan {points} {username} hintaan {price}",
+    "points_purchase_success": "Pisteiden osto onnistui",
+    "points_purchase_fail_msg": "Pisteiden osto epäonnistui\n{message}"
   },
   "buy_account": {
     "title": "Osta Tili",
     "btn_register": "Osta tili - {price}",
-    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started",
-    "claim": "Claim Paid Account"
+    "desc": "Hanki täysimittainen premium Hive-tili ilman lisätarkistuksia ja muutamia etuja, kuten:\n\n- Pikaluonti ilman lisätarkistuksia ja odottamista\n- 3x RC verrattuna normaaleihin uusiin tileihin 90 päiväksi\n- 300 pistettä päästäksesi alkuun",
+    "claim": "Lunasta Maksettu Tili"
   },
   "free_account": {
     "title": "Ilmainen Tili",

@@ -103,6 +103,7 @@ const RegisterScreen = ({ navigation, route }) => {
   };
 
   const _handleUsernameChange = ({ value }) => {
+    value = value.toLowerCase();
     setUsername(value);
     if (!value || value.length <= 2 || value.length >= 16) {
       setIsUsernameValid(false);
@@ -116,6 +117,7 @@ const RegisterScreen = ({ navigation, route }) => {
   };
 
   const _handleRefUsernameChange = ({ value }) => {
+    value = value.toLowerCase();
     setRefUsername(value);
     if (!value) {
       setIsRefUsernameValid(true);

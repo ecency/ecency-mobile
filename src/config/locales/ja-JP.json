@@ -471,6 +471,7 @@
     "fail": "失敗！",
     "move": "移動",
     "continue": "Continue",
+    "okay": "Okay",
     "move_question": "本当に下書きへ移動しますか？",
     "success_shared": "Success! Content submitted!",
     "success_moved": "下書きへ移動",
@@ -730,7 +731,9 @@
       "desc": "30日間の投資は投票とソーシャルメディア活動を強化し、リソースクレジットが増えることでより多くのアクションが提供されます。"
     },
     "confirm_purchase": "Confirm Purchase @{username}",
-    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}",
+    "points_purchase_success": "Points purchase successful",
+    "points_purchase_fail_msg": "Points purchase failed\n{message}"
   },
   "buy_account": {
     "title": "Buy Account",

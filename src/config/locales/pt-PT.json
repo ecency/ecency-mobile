@@ -111,7 +111,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Liquid Hive",
+      "name": "Hive Líquido",
       "buy": "OBTER HIVE"
     },
     "hbd": {
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "Staked Hive"
+      "name": "Hive Guardado"
     },
     "hive_dollar": {
       "name": "Hive Dollar"
@@ -148,7 +148,7 @@
     "delegate_engine": "Delegar",
     "undelegate_engine": "Remover delegação",
     "low_liquidity": "Baixa Liquidez!",
-    "inactive_token": "Token is relatively inactive, some functionalities might be affected."
+    "inactive_token": "O token está relativamente inativo. Algumas funcionalidades podem ser afetadas."
   },
   "notification": {
     "vote": "votou",
@@ -156,7 +156,7 @@
     "reply": "respondeu a",
     "mention": "mencionado em",
     "favorites": "criar nova publicação",
-    "bookmarks": "replied to bookmarked content",
+    "bookmarks": "respondeu a conteúdo adicionado aos favoritos",
     "follow": "seguiu você",
     "unfollow": "deixou de seguir você",
     "ignore": "ignorou você",
@@ -293,9 +293,9 @@
     "login_failed": "Falha no login",
     "login_failed_body": "insira a chave correta ou tente mais tarde.",
     "deep_login_alert_title": "Login Fácil @{username}",
-    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_alert_body": "Verificar login direto utilizando código de acesso",
     "deep_login_url_expired": "URL de login expirada, use uma chave privada ou a senha para entrar",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "deep_login_malformed_url": "URL de login inválido. Por favor, use a chave privada ou senha para acessar"
   },
   "register": {
     "modal_title": "Obter uma conta na Hive",
@@ -305,12 +305,12 @@
     "mail": "Digite o seu endereço de email",
     "ref_user": "Usuário referenciado (Opcional)",
     "500_error": "A sua solicitação não pôde ser processada, a fila de inscrição provavelmente está cheia! Tente novamente em alguns minutos...",
-    "error_message": "{message}\nTry again or try purchasing account instead",
+    "error_message": "{message}\nTente novamente ou compre uma conta",
     "title_description": "Uma conta para gerenciar tudo",
     "form_description": "Ao se cadastrar conosco, você concorda com nossos Termos de Serviço e Políticas de Privacidade.",
     "registering": "Registrando a sua conta...",
-    "register_fail": "Registeration failed, please try again or contact support.",
-    "registered": "Registration Successful\nCheck your email for instruction"
+    "register_fail": "Falha no cadastro. Por favor, tente novamente ou contate o suporte.",
+    "registered": "Cadastro realizado\nVerifique seu e-mail para obter sua conta"
   },
   "home": {
     "feed": "Conteúdo de notícias",
@@ -461,7 +461,7 @@
     "pin_not_matched": "PIN incorreto. Por favor, tente novamente.",
     "attempts_postfix": "tentativa(s) errada(s)",
     "message_reset_warning": "Os dados do usuário serão apagados na próxima tentativa mal-sucedida",
-    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
+    "biometric_desc": "Escaneie sua impressão digital para continuar"
   },
   "alert": {
     "success": "Sucesso!",
@@ -471,6 +471,7 @@
     "fail": "Falha!",
     "move": "Mover",
     "continue": "Continuar",
+    "okay": "Okay",
     "move_question": "Tem certeza que deseja mover para rascunhos?",
     "success_shared": "Sucesso! Conteúdo submetido!",
     "success_moved": "Movido para Rascunhos",
@@ -519,7 +520,7 @@
     "qoutaExceeded": "Quota de carregamento excedida",
     "invalidImage": "Imagem inválida, tente um arquivo diferente",
     "something_wrong": "Algo deu errado",
-    "something_wrong_msg": "Something went wrong\n{message}",
+    "something_wrong_msg": "Algo deu errado\n{message}",
     "something_wrong_alt": "Enquanto isso, tente acessar pelo seu navegador a ecency.com",
     "something_wrong_reload": "Tentar novamente?",
     "can_not_be_empty": "Título e corpo não podem estar vazios!",
@@ -538,7 +539,7 @@
     "open_settings": "Abrir Opções"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?",
+    "reblog_alert": "Tem certeza que deseja reblogar?",
     "removed_hint": "Conteúdo não disponível",
     "copy_link": "Copiar link",
     "copy_text": "Copiar texto",
@@ -590,7 +591,7 @@
   },
   "delete": {
     "confirm_delete_title": "Confirmar exclusão",
-    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "confirm_delete_body": "Tem certeza que deseja excluir a conta? Seus dados serão apagados",
     "request_sent": "Seu pedido de exclusão foi enviado"
   },
   "favorites": {
@@ -636,7 +637,7 @@
   "deep_link": {
     "no_existing_user": "Usuário não existe",
     "no_existing_post": "Post não existe",
-    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
+    "invalid_link": "URL inválida. Você pode tentar novamente com uma URL válida, ou tentar abri-la no navegador"
   },
   "search": {
     "posts": "Posts",
@@ -715,7 +716,7 @@
     "invalid_amount": "Quantia Inválida",
     "invalid_amount_desc": "Por favor, insira uma quantia válida",
     "account_select_title": "Detalhes da Conta",
-    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
+    "account_select_description": "Operações com ativos são irreversíveis. Certifique-se que o nome de usuário está correto",
     "amount_select_title": "Detalhes do Procedimento",
     "amount_select_description": "Digite um valor dentro do saldo disponível {suffix}",
     "amount_select_desc_limit": " e deve ser maior que 0,001"
@@ -730,18 +731,20 @@
       "desc": "30 dias de delegação irão impulsionar seus votos e atividades sociais, permitindo mais ações com o aumento dos Créditos de Recursos disponibilizados."
     },
     "confirm_purchase": "Confirmar compra @{username}",
-    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
+    "confirm_purchase_summary": "Comprando {points} para {username} por {price}",
+    "points_purchase_success": "Points purchase successful",
+    "points_purchase_fail_msg": "Points purchase failed\n{message}"
   },
   "buy_account": {
     "title": "Comprar Conta",
     "btn_register": "Comprar Conta - {price}",
-    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started",
-    "claim": "Claim Paid Account"
+    "desc": "Obtenha uma conta da Hive totalmente completa e sem verificações extras. Tenha acesso a:\n\n- Criação da conta instantânea sem espera e verificações adicionais\n- 3x mais em Créditos de Recurso (Resource Credits - RC) em comparação as demais contas, por 90 dias\n- 300 Pontos de brinde para ajudá-lo a começar",
+    "claim": "Reivindicar conta comprada"
   },
   "free_account": {
     "title": "Conta Gratuita",
     "btn_register": "Cadastrar Grátis",
-    "desc": "Get a full-fledged Hive account, this method has basic checks to make sure botnet doesn't abuse our signup faucet."
+    "desc": "Obtenha uma conta completa na Hive. Esse método possui verificações básicas para impedir abuso do nosso sistema de cadastro."
   },
   "free_estm": {
     "title": "Pontos Grátis",
