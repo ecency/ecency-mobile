@@ -129,6 +129,19 @@ const TransferView = ({
       path = `sign/withdraw_vesting?account=${currentAccountName}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
+    } else if (transferType === TransferTypes.POINTS) {
+      const json = JSON.stringify({
+        sender: get(selectedAccount, 'name'),
+        receiver: destination,
+        amount: `${Number(amount).toFixed(3)} ${fundType}`,
+        memo,
+      });
+      path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
+        selectedAccount,
+        'name',
+      )}%22%5D&required_posting_auths=%5B%5D&id=ecency_point_transfer&json=${encodeURIComponent(
+        json,
+      )}`;
     } else if (isEngineToken) {
       const json = getEngineActionJSON(
         transferType.split('_')[0],
