@@ -41,7 +41,11 @@ export const PostHtmlRenderer = memo(
     const postImgUrlsRef = useRef<string[]>([]);
 
     // new renderer functions
-    body = body.replace(/<center>/g, '<div class="text-center">').replace(/<\/center>/g, '</div>');
+    body = body
+      .replace(/<center>/g, '<div class="text-center">')
+      .replace(/<\/center>/g, '</div>')
+      .replace(/<span>/g, '')
+      .replace(/<\/span>/g, '');
 
     console.log('Comment body:', body);
 
