@@ -535,7 +535,7 @@ class DelegateScreen extends Component {
     );
 
     const _renderStepTwo = () => (
-      <Animated.View entering={BounceInRight.duration(500)}>
+      <Animated.View entering={BounceInRight.delay(500)}>
         <View style={styles.stepTwoContainer}>
           <Text style={styles.sectionHeading}>
             {intl.formatMessage({ id: 'transfer.delegat_detail_head' })}

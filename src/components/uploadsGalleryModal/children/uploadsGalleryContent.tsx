@@ -10,7 +10,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {default as AnimatedView, SlideInRight, SlideOutRight, ZoomIn} from 'react-native-reanimated';
+import {
+  default as AnimatedView,
+  SlideInRight,
+  SlideOutRight,
+  ZoomIn,
+} from 'react-native-reanimated';
 import Animated, { EasingNode } from 'react-native-reanimated';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
@@ -121,7 +126,7 @@ const UploadsGalleryContent = ({
 
     const _renderMinus = () =>
       isDeleteMode && (
-        <AnimatedView.View entering={ZoomIn}  style={styles.minusContainer}>
+        <AnimatedView.View entering={ZoomIn} style={styles.minusContainer}>
           <Icon
             color={EStyleSheet.value('$pureWhite')}
             iconType="MaterialCommunityIcons"
@@ -260,21 +265,24 @@ const UploadsGalleryContent = ({
   const _renderDeleteButton = () => {
     if (deleteIds.length > 0) {
       return isExpandedMode ? (
-        <IconButton
-          style={{
-            ...styles.pillBtnContainer,
-            backgroundColor: EStyleSheet.value('$primaryRed'),
-          }}
-          iconType="MaterialCommunityIcons"
-          name="delete-outline"
-          color={EStyleSheet.value(deleteIds.length > 0 ? '$primaryBlack' : '$primaryBlack')}
-          size={32}
-          onPress={_onDeletePress}
-          isLoading={isDeleting}
-        />
+        <AnimatedView.View entering={SlideInRight} exiting={SlideOutRight}>
+          <IconButton
+            style={{
+              ...styles.pillBtnContainer,
+              backgroundColor: EStyleSheet.value('$primaryRed'),
+            }}
+            iconType="MaterialCommunityIcons"
+            name="delete-outline"
+            color={EStyleSheet.value(deleteIds.length > 0 ? '$primaryBlack' : '$primaryBlack')}
+            size={32}
+            onPress={_onDeletePress}
+            isLoading={isDeleting}
+          />
+        </AnimatedView.View>
       ) : (
         <AnimatedView.View
-          entering={deleteIds.length > 0 ? SlideInRight : SlideOutRight}
+          entering={SlideInRight}
+          exiting={SlideOutRight}
           style={styles.deleteButtonContainer}
         >
           <IconButton

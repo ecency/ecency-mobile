@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { Text, View, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import Animated, { ZoomIn } from 'react-native-reanimated';
+import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated';
 import { IconButton } from '../..';
 import styles from './tabbedPostsStyles';
 
@@ -26,7 +26,7 @@ const ScrollTopPopup = ({
   }
 
   return (
-    <Animated.View style={styles.popupContainer} entering={ZoomIn}>
+    <Animated.View style={styles.popupContainer} entering={ZoomIn} exiting={ZoomOut}>
       <View style={styles.popupContentContainer}>
         <TouchableOpacity onPress={onPress}>
           <View style={styles.popupContentContainer}>

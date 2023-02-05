@@ -39,7 +39,7 @@ const TransactionView = ({ item, index }) => {
   );
 
   const _cardBody = (get(item, 'details') || get(item, 'memo')) && !collapsed && (
-    <Animated.View entering={SlideInLeft}>
+    <Animated.View entering={SlideInLeft.duration(200)}>
       <WalletLineItem
         key={`keyd-${item.created.toString()}`}
         text={get(item, 'details', '')}
