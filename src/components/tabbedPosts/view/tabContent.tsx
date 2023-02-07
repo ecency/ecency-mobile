@@ -47,6 +47,7 @@ const TabContent = ({
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const initPosts = useSelector((state) => state.posts.initPosts);
 
+
   const username = currentAccount.username;
   const userPinned = currentAccount.about?.profile?.pinned;
 

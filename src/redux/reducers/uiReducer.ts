@@ -30,6 +30,7 @@ interface UiState {
   lockedOrientation: string;
   replyModalVisible: boolean;
   replyModalPost: any;
+  scrollIndex: number;
 }
 
 const initialState: UiState = {
@@ -46,6 +47,7 @@ const initialState: UiState = {
   lockedOrientation: orientations.PORTRAIT,
   replyModalPost: null,
   replyModalVisible: false,
+  scrollIndex:0
 };
 
 export default function (state = initialState, action): UiState {
@@ -135,6 +137,13 @@ export default function (state = initialState, action): UiState {
         replyModalVisible: false,
         replyModalPost: null,
       };
+
+      //TOOD: remove before PR, only for testing
+    case 'inc-scroll-index':
+      return {
+        ...state,
+        scrollIndex:state.scrollIndex + 1
+      }
     default:
       return state;
   }

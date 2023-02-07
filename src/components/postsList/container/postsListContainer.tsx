@@ -1,6 +1,6 @@
 import React, { forwardRef, memo, useRef, useImperativeHandle, useState, useEffect } from 'react';
 import { get } from 'lodash';
-import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View } from 'react-native';
+import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View, Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import PostCard from '../../postCard';
 import styles from '../view/postsListStyles';
@@ -44,6 +44,7 @@ const postsListContainer = (
     return isFeedScreen ? state.posts.feedPosts : state.posts.otherPosts;
   });
   const mutes = useSelector((state) => state.account.currentAccount.mutes);
+  const scrollIndex:number = useSelector(state => state.ui.scrollIndex);
 
   const scrollPosition = useSelector((state) => {
     return isFeedScreen ? state.posts.feedScrollPosition : state.posts.otherScrollPosition;
@@ -72,6 +73,17 @@ const postsListContainer = (
       animated: false,
     });
   }, [scrollPosition]);
+
+  //TODO: test hook, remove before PR
+  useEffect(()=>{
+    if(scrollIndex && flatListRef.current){
+      console.log("scrollIndex", scrollIndex, "posts length", posts.length);
+      if(scrollIndex > posts.length - 5){
+        onLoadPosts(false);
+      }
+      flatListRef.current.scrollToIndex({index:scrollIndex, animated:false});
+    }
+  },[scrollIndex])
 
   const _setImageHeightInMap = (mapKey: string, height: number) => {
     if (mapKey && height) {
@@ -149,6 +161,8 @@ const postsListContainer = (
           pageType={pageType}
           showQuickReplyModal={showQuickReplyModal}
           mutes={mutes}
+          index={index}
+          scrollIndex={scrollIndex}
         />,
       );
     }
@@ -168,7 +182,7 @@ const postsListContainer = (
       maxToRenderPerBatch={3}
       initialNumToRender={3}
       windowSize={5}
-      extraData={imageHeights}
+      extraData={[imageHeights, scrollIndex]}
       onEndReached={_onEndReached}
       onMomentumScrollBegin={() => {
         _onEndReachedCalledDuringMomentum = false;

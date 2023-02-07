@@ -156,16 +156,21 @@ const PostCardView = ({
                 if (!imageHeight) {
                   const height =
                     (evt.nativeEvent.height / evt.nativeEvent.width) * (dim.width - 18);
-                  setCalcImgHeight(height);
-                  setImageHeight(content.author + content.permlink, height);
+
+                    //TODO: put back imgHeight state sets before PR
+                  // setCalcImgHeight(height);
+                  // setImageHeight(content.author + content.permlink, height);
                 }
               }}
             />
           )}
           {!isMuted ? (
             <View style={[styles.postDescripton]}>
-              <Text style={styles.title}>{content.title}</Text>
-              <Text style={styles.summary}>{content.summary}</Text>
+              <Text style={styles.title} numberOfLines={1}>{content.title}</Text> 
+              {
+                //TODO: remove numberOfLines prop before PR
+              }
+              <Text style={styles.summary} numberOfLines={1}>{content.summary}</Text>
             </View>
           ) : (
             <TextButton

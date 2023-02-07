@@ -31,6 +31,8 @@ const PostCardContainer = ({
   pageType,
   showQuickReplyModal,
   mutes,
+  index,
+  scrollIndex
 }) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
@@ -40,6 +42,16 @@ const PostCardContainer = ({
   const [reblogs, setReblogs] = useState([]);
   const activeVotes = get(_content, 'active_votes', []);
   const [isMuted, setIsMuted] = useState(!!mutes && mutes.indexOf(content.author) > -1);
+
+
+  //TODO: remove before PR, only for testing here
+  useEffect(()=>{
+    if(scrollIndex && scrollIndex === index){
+      setTimeout(()=>{
+        _handleOnContentPress(content)
+      }, 200)
+    }
+  }, [scrollIndex])
 
   useEffect(() => {
     let isCancelled = false;
@@ -91,10 +103,11 @@ const PostCardContainer = ({
 
   const _handleOnContentPress = (value) => {
     if (value) {
-      postsCacherPrimer.cachePost(value);
+      // postsCacherPrimer.cachePost(value);
       navigation.navigate({
         name: ROUTES.SCREENS.POST,
         params: {
+          content: value,
           author: value.author,
           permlink: value.permlink,
         },
