@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "محتوا در دسترس نیست",
+    "select_action": "Select Action",
     "copy_link": "کاپی لنک",
     "copy_text": "Copy text",
     "reblogged": "اشتراک مجدد توسط",
