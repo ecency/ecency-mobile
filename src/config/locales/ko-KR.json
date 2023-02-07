@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "콘텐츠 이용 불가",
+    "select_action": "Select Action",
     "copy_link": "링크 복사하기",
     "copy_text": "텍스트 복사",
     "reblogged": "리블로그됨",
