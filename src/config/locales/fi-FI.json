@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
     "removed_hint": "Sisältö ei ole käytettävissä",
+    "select_action": "Select Action",
     "copy_link": "Kopioi linkki",
     "copy_text": "Kopioi teksti",
     "reblogged": "uudelleenjakanut",
