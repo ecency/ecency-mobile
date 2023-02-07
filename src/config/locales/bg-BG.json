@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Съдържанието не е достъпно",
+    "select_action": "Select Action",
     "copy_link": "Копирай връзката/линка",
     "copy_text": "Копирай текста",
     "reblogged": "споделено от",
