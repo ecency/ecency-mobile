@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Tem certeza que deseja reblogar?",
     "removed_hint": "Conteúdo não disponível",
+    "select_action": "Select Action",
     "copy_link": "Copiar link",
     "copy_text": "Copiar texto",
     "reblogged": "repostado por",
