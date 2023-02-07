@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
     "removed_hint": "المحتوى غير متوفر",
+    "select_action": "Select Action",
     "copy_link": "نسخ الرابط",
     "copy_text": "نسخ النص",
     "reblogged": "تمت إعادة النشر من طرف",
