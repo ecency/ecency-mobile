@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "A tartalom nem elérhető",
+    "select_action": "Select Action",
     "copy_link": "Link másolása",
     "copy_text": "Copy text",
     "reblogged": "megosztva általa",
