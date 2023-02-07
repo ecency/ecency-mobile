@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "İçerik mevcut değil",
+    "select_action": "Select Action",
     "copy_link": "Bağlantıyı kopyala",
     "copy_text": "Metni kopyala",
     "reblogged": "tarafından tekrar yayınlandı",
