@@ -2,7 +2,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   commentContainer: {
-    marginTop: 10,
+    paddingVertical: 10,
+    backgroundColor: '$primaryBackgroundColor',
   },
   leftIcon: {
     color: '$iconColor',
@@ -14,7 +15,7 @@ export default EStyleSheet.create({
   },
   rightButton: {
     backgroundColor: '$iconColor',
-    height: 18,
+    height: 22,
     flexDirection: 'row-reverse',
     borderRadius: 20,
     minWidth: 40,

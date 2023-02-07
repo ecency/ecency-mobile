@@ -20,7 +20,7 @@ export default EStyleSheet.create({
 
     container:{
         marginTop:16,
-        marginBottom:44,
+        marginBottom:36,
         paddingHorizontal:24,
         alignItems:'center',
         justifyContent:'space-between',
@@ -61,8 +61,9 @@ export default EStyleSheet.create({
     button:{
 
         backgroundColor:'$primaryBlue',
-        width:150,
+        minWidth:150,
         paddingVertical:16,
+        marginVertical:8,
         borderRadius:32,
         justifyContent:'center',
         alignItems:'center'
@@ -72,6 +73,7 @@ export default EStyleSheet.create({
     actionPanel:{
         width:'100%',
         flexDirection:'row', 
+        flexWrap:'wrap',
         justifyContent:'space-around', 
         alignItems:'center', 
     } as ViewStyle,

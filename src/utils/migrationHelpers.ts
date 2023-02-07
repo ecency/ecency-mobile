@@ -192,6 +192,20 @@ const reduxMigrations = {
     delete state.cache.drafts;
     return state;
   },
+  4: (state) => {
+    const { comments } = state.cache;
+    const _collection = {};
+    if (comments instanceof Array) {
+      comments.forEach(([key, data]) => {
+        if (key && data.body && data.parent_author && data.parent_permlink) {
+          _collection[key] = data;
+        }
+      });
+    }
+    state.cache.commentsCollection = _collection;
+    delete state.cache.comments;
+    return state;
+  }
 };
 
 export default {

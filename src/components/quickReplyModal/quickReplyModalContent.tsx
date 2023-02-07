@@ -37,7 +37,7 @@ import { RootState } from '../../redux/store/store';
 
 import { PointActivityIds } from '../../providers/ecency/ecency.types';
 import { useUserActivityMutation } from '../../providers/queries/pointQueries';
-import { usePostsCachePrimer } from '../../providers/queries';
+import { postQueries } from '../../providers/queries';
 
 export interface QuickReplyModalContentProps {
   selectedPost?: any;
@@ -50,7 +50,7 @@ export const QuickReplyModalContent = forwardRef(
     const intl = useIntl();
     const dispatch = useDispatch();
     const userActivityMutation = useUserActivityMutation();
-    const postsCachePrimer = usePostsCachePrimer();
+    const postsCachePrimer = postQueries.usePostsCachePrimer();
 
     const inputRef = useRef<RNTextInput | null>(null);
 
@@ -186,11 +186,12 @@ export const QuickReplyModalContent = forwardRef(
             );
 
             // add comment cache entry
+            const author = currentAccount.name;
             dispatch(
               updateCommentCache(
-                `${parentAuthor}/${parentPermlink}`,
+                `${author}/${permlink}`,
                 {
-                  author: currentAccount.name,
+                  author,
                   permlink,
                   parent_author: parentAuthor,
                   parent_permlink: parentPermlink,

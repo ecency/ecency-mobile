@@ -69,6 +69,8 @@ export const updateCommentCache = (
   comment.author_reputation = comment.author_reputation || 25;
   comment.total_payout = comment.total_payout || 0;
   comment.json_metadata = comment.json_metadata || makeJsonMetadataReply(options.parentTags);
+  comment.children = 0;
+  comment.replies = [];
   comment.isDeletable = comment.isDeletable || true;
   comment.status = comment.status || CommentCacheStatus.PENDING;
 
