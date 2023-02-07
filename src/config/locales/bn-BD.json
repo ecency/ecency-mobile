@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "কনটেন্ট এভেইেলএবেল নেই",
+    "select_action": "Select Action",
     "copy_link": "লিংক কপি করুন",
     "copy_text": "Copy text",
     "reblogged": "দ্বারা রিব্লগড",
