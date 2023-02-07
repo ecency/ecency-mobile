@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
     "removed_hint": "Контент не доступен",
+    "select_action": "Select Action",
     "copy_link": "Копировать ссылку",
     "copy_text": "Копировать текст",
     "reblogged": "репостнуто",
