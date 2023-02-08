@@ -154,7 +154,7 @@ const PostOptionsModal = forwardRef(
                 />
 
                 {scheduleLater && (
-                  <Animated.View entering={FlipInEasyX.duration(700)} exiting={FlipOutEasyX}>
+                  <Animated.View entering={FlipInEasyX.duration(700)}>
                     <DateTimePicker
                       type="datetime"
                       onChanged={_handleDatePickerChange}
