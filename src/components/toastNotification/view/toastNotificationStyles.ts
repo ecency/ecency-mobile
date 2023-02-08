@@ -19,6 +19,7 @@ export default EStyleSheet.create({
     shadowColor: '#5f5f5fbf',
     shadowOpacity: 0.3,
     elevation: 3,
+    bottom: 100,
   },
   text: {
     color: 'white',

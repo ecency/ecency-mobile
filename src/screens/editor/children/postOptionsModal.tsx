@@ -1,8 +1,7 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { View } from 'react-native';
-
-import { View as AnimatedView } from 'react-native-animatable';
+import Animated, { FlipInEasyX, FlipOutEasyX } from 'react-native-reanimated';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
   BeneficiarySelectionContent,
@@ -155,13 +154,13 @@ const PostOptionsModal = forwardRef(
                 />
 
                 {scheduleLater && (
-                  <AnimatedView animation="flipInX" duration={700}>
+                  <Animated.View entering={FlipInEasyX.duration(700)}>
                     <DateTimePicker
                       type="datetime"
                       onChanged={_handleDatePickerChange}
                       disabled={true}
                     />
-                  </AnimatedView>
+                  </Animated.View>
                 )}
 
                 <SettingsItem
