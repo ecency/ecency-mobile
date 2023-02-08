@@ -1,11 +1,14 @@
 import React, { forwardRef, memo, useRef, useImperativeHandle, useState, useEffect } from 'react';
 import { get } from 'lodash';
-import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View, Alert } from 'react-native';
+import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View, Alert, Text, findNodeHandle, NativeModules } from 'react-native';
 import { useSelector } from 'react-redux';
 import PostCard from '../../postCard';
 import styles from '../view/postsListStyles';
 import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../constants/routeNames';
+import { useIntl } from 'react-intl';
+import Popover, { usePopover } from 'react-native-modal-popover';
+import Upvote from '../../upvote';
 
 export interface PostsListRef {
   scrollToTop: () => void;
@@ -37,8 +40,24 @@ const postsListContainer = (
   ref,
 ) => {
   const flatListRef = useRef(null);
+  const intl = useIntl();
 
   const navigation = useNavigation();
+
+  const popoverRef = useRef<Popover>(null);
+  
+  // const {
+  //   openPopover,
+  //   closePopover,
+  //   popoverVisible,
+  //   touchableRef,
+  //   popoverAnchorRect,
+  // } = usePopover();
+
+
+  // const [popoverVisible, setPopoverVisible] = useState(false); 
+  const [popoverAnchorRect, setPopoverAnchorRect] = useState({rect:{ x: 0, y: 0, width: 0, height: 0 }, visible:false});
+
 
   const [imageHeights, setImageHeights] = useState(new Map<string, number>());
 
@@ -48,7 +67,7 @@ const postsListContainer = (
     return isFeedScreen ? state.posts.feedPosts : state.posts.otherPosts;
   });
   const mutes = useSelector((state) => state.account.currentAccount.mutes);
-  const scrollIndex:number = useSelector(state => state.ui.scrollIndex);
+  const scrollIndex: number = useSelector(state => state.ui.scrollIndex);
 
   const scrollPosition = useSelector((state) => {
     return isFeedScreen ? state.posts.feedScrollPosition : state.posts.otherScrollPosition;
@@ -80,26 +99,27 @@ const postsListContainer = (
   }, [scrollPosition]);
 
   //TODO: test hook, remove before PR
-  useEffect(()=>{
-    if(scrollIndex && flatListRef.current){
+  useEffect(() => {
+    if (scrollIndex && flatListRef.current) {
       const _posts = props.data || posts
       console.log("scrollIndex", scrollIndex, "posts length", _posts.length);
 
-      if(scrollIndex >= _posts.length){
+      if (scrollIndex >= _posts.length) {
         Alert.alert("Reached an end, scroll score, " + scrollIndex);
         return;
       }
-      
-      if(scrollIndex > _posts.length - 5){
+
+      if (scrollIndex === _posts.length - 15) {
+        console.log("fetching posts");
         onLoadPosts(false);
       }
-      flatListRef.current.scrollToIndex({index:scrollIndex, animated:false});
-      console.log("scrolling to ", JSON.stringify(_posts[scrollIndex]))
-      setTimeout(()=>{
+
+      flatListRef.current.scrollToIndex({ index: scrollIndex });
+      setTimeout(() => {
         _handleOnContentPress(_posts[scrollIndex])
-      }, 200)
+      }, 500)
     }
-  },[scrollIndex])
+  }, [scrollIndex])
 
   const _setImageHeightInMap = (mapKey: string, height: number) => {
     if (mapKey && height) {
@@ -126,6 +146,20 @@ const postsListContainer = (
     }
   };
 
+  const _upvotePress = (buttonRef) => {
+    const handle =  findNodeHandle(buttonRef.current);
+    if (handle) {
+      NativeModules.UIManager.measure(handle, (x0, y0, width, height, x, y) => {
+        setPopoverAnchorRect({rect:{ x, y, width, height }, visible:true })
+      });
+    }
+  }
+
+  const closePopover = ()=>{
+    // setPopoverVisible(false);
+    setPopoverAnchorRect({rect:{ x:0, y:0, width:0, height:0 }, visible:false });
+  }
+
   const _handleOnContentPress = (value) => {
     if (value) {
       // postsCacherPrimer.cachePost(value);
@@ -141,99 +175,116 @@ const postsListContainer = (
   };
 
   const _renderItem = ({ item, index }: { item: any; index: number }) => {
-    const e = [];
+    // const e = [];
 
-    if (index % 3 === 0) {
-      const ix = index / 3 - 1;
-      if (promotedPosts[ix] !== undefined) {
-        const p = promotedPosts[ix];
-        const isMuted = mutes && mutes.indexOf(p.author) > -1;
+    // if (index % 3 === 0) {
+    //   const ix = index / 3 - 1;
+    //   if (promotedPosts[ix] !== undefined) {
+    //     const p = promotedPosts[ix];
+    //     const isMuted = mutes && mutes.indexOf(p.author) > -1;
 
-        if (
-          !isMuted &&
-          get(p, 'author', null) &&
-          posts &&
-          posts.filter((x) => x.permlink === p.permlink).length <= 0
-        ) {
-          // get image height from cache if available
-          const localId = p.author + p.permlink;
-          const imgHeight = imageHeights.get(localId);
+    //     if (
+    //       !isMuted &&
+    //       get(p, 'author', null) &&
+    //       posts &&
+    //       posts.filter((x) => x.permlink === p.permlink).length <= 0
+    //     ) {
+    //       // get image height from cache if available
+    //       const localId = p.author + p.permlink;
+    //       const imgHeight = imageHeights.get(localId);
 
-          e.push(
-            <PostCard
-              key={`${p.author}-${p.permlink}-prom`}
-              content={p}
-              isHideImage={isHideImages}
-              imageHeight={imgHeight}
-              pageType={pageType}
-              setImageHeight={_setImageHeightInMap}
-              showQuickReplyModal={showQuickReplyModal}
-              handleOnContentPress={()=>_handleOnContentPress(item)}
-              mutes={mutes}
-            />,
-          );
-        }
-      }
-    }
+    //       e.push(
+    //         <PostCard
+    //         intl={intl}
+    //           key={`${p.author}-${p.permlink}-prom`}
+    //           content={p}
+    //           isHideImage={isHideImages}
+    //           imageHeight={imgHeight}
+    //           pageType={pageType}
+    //           setImageHeight={_setImageHeightInMap}
+    //           showQuickReplyModal={showQuickReplyModal}
+    //           handleOnContentPress={()=>_handleOnContentPress(item)}
+    //           mutes={mutes}
+    //         />,
+    //       );
+    //     }
+    //   }
+    // }
 
-    const isMuted = mutes && mutes.indexOf(item.author) > -1;
-    if (!isMuted && get(item, 'author', null)) {
-      // get image height from cache if available
-      const localId = item.author + item.permlink;
-      const imgHeight = imageHeights.get(localId);
+    // const isMuted = mutes && mutes.indexOf(item.author) > -1;
+    // if (!isMuted && get(item, 'author', null)) {
+    //   // get image height from cache if available
+    //   const localId = item.author + item.permlink;
+    //   const imgHeight = imageHeights.get(localId);
 
-      e.push(
-        <PostCard
-          key={`${item.author}-${item.permlink}`}
-          content={item}
-          isHideImage={isHideImages}
-          imageHeight={imgHeight}
-          setImageHeight={_setImageHeightInMap}
-          pageType={pageType}
-          showQuickReplyModal={showQuickReplyModal}
-          mutes={mutes}
-          handleOnContentPress={()=>_handleOnContentPress(item)}
-        />,
-      );
-    }
+    //   e.push(
+    return <PostCard
+      intl={intl}
+      key={`${item.author}-${item.permlink}`}
+      content={item}
+      isHideImage={isHideImages}
+      // imageHeight={imgHeight}
+      setImageHeight={_setImageHeightInMap}
+      pageType={pageType}
+      showQuickReplyModal={showQuickReplyModal}
+      mutes={mutes}
+      handleOnContentPress={() => _handleOnContentPress(item)}
+      upvotePress={_upvotePress}
+    />
+    //   );
+    // }
 
-    return e;
+    // return e;
   };
 
   return (
-    <FlatList
-      ref={flatListRef}
-      data={posts}
-      showsVerticalScrollIndicator={false}
-      renderItem={_renderItem}
-      keyExtractor={(content, index) => `${content.author}/${content.permlink}-${index}`}
-      removeClippedSubviews
-      onEndReachedThreshold={1}
-      maxToRenderPerBatch={3}
-      initialNumToRender={3}
-      windowSize={5}
-      extraData={[imageHeights, scrollIndex]}
-      onEndReached={_onEndReached}
-      onMomentumScrollBegin={() => {
-        _onEndReachedCalledDuringMomentum = false;
-      }}
-      ListFooterComponent={_renderFooter}
-      refreshControl={
-        <RefreshControl
-          refreshing={isRefreshing}
-          onRefresh={() => {
-            if (onLoadPosts) {
-              onLoadPosts(true);
-            }
-          }}
-          progressBackgroundColor="#357CE6"
-          tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-          titleColor="#fff"
-          colors={['#fff']}
-        />
-      }
-      {...props}
-    />
+    <>
+      <FlatList
+        ref={flatListRef}
+        data={posts}
+        showsVerticalScrollIndicator={false}
+        renderItem={_renderItem}
+        keyExtractor={(content, index) => `${content.author}/${content.permlink}-${index}`}
+        removeClippedSubviews
+        onEndReachedThreshold={1}
+        maxToRenderPerBatch={3}
+        initialNumToRender={3}
+        windowSize={5}
+        extraData={[imageHeights, scrollIndex]}
+        onEndReached={_onEndReached}
+        onMomentumScrollBegin={() => {
+          _onEndReachedCalledDuringMomentum = false;
+        }}
+        ListFooterComponent={_renderFooter}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={() => {
+              if (onLoadPosts) {
+                onLoadPosts(true);
+              }
+            }}
+            progressBackgroundColor="#357CE6"
+            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+            titleColor="#fff"
+            colors={['#fff']}
+          />
+        }
+        {...props}
+      />
+       <Popover
+         ref={popoverRef}
+         contentStyle={styles.content}
+         arrowStyle={styles.arrow}
+         backgroundStyle={styles.background}
+         visible={popoverAnchorRect.visible}
+         fromRect={popoverAnchorRect.rect}
+         onClose={closePopover}
+         supportedOrientations={['portrait', 'landscape']}>
+         <Text>Hello from inside popover!</Text>
+       </Popover>
+    </>
+
   );
 };
 

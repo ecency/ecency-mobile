@@ -38,7 +38,7 @@ const PostContainer = ({ currentAccount, isLoggedIn, route }) => {
       dispatch({
         type:"inc-scroll-index"
       })
-    }, 100)
+    }, 300)
 
     return ()=> {
       if(timer){

@@ -278,6 +278,8 @@ const UpvoteView = ({
   return (
     <PopoverController>
       {({ openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect }) => (
+        
+        
         <Fragment>
           <TouchableOpacity
             ref={setPopoverAnchor}
@@ -309,6 +311,9 @@ const UpvoteView = ({
               )}
             </Fragment>
           </TouchableOpacity>
+
+
+
           <View style={styles.payoutTextButton}>
             {isShowPayoutValue && (
               <TextButton

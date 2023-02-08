@@ -30,7 +30,9 @@ const PostCardContainer = ({
   pageType,
   showQuickReplyModal,
   mutes,
-  handleOnContentPress
+  handleOnContentPress,
+  upvotePress,
+
 }) => {
   // const navigation = useNavigation();
 
@@ -39,7 +41,7 @@ const PostCardContainer = ({
 
   // const [_content, setContent] = useState(content);
   // const [reblogs, setReblogs] = useState([]);
-  const activeVotes = useMemo(()=>content?.active_votes || [], [content])
+  // const activeVotes = useMemo(()=>content?.active_votes || [], [content])
   // const [isMuted, setIsMuted] = useState(!!mutes && mutes.indexOf(content.author) > -1);
 
 
@@ -138,14 +140,13 @@ const PostCardContainer = ({
 
   return (
     <PostCardView
-
       content={content}
       isHideImage={isHideImage}
       nsfw={nsfw || '1'}
       reblogs={[]}
-      activeVotes={activeVotes}
-      imageHeight={imageHeight}
-      setImageHeight={setImageHeight}
+      activeVotes={content.active_votes || []}
+      // imageHeight={imageHeight}
+      // setImageHeight={setImageHeight}
       isMuted={false}
       pageType={pageType}
 
@@ -156,13 +157,14 @@ const PostCardContainer = ({
       // handleOnVotersPress={_handleOnVotersPress}
       // handleOnReblogsPress={_handleOnReblogsPress}
       // handleOnUnmutePress={_handleOnUnmutePress}
+      upvotePress={upvotePress}
     />
   );
 };
 
-const mapStateToProps = (state) => ({
-  currentAccount: state.account.currentAccount,
-  nsfw: state.application.nsfw,
-});
+// const mapStateToProps = (state) => ({
+//   currentAccount: state.account.currentAccount,
+//   nsfw: state.application.nsfw,
+// });
 
-export default connect(mapStateToProps)(PostCardContainer);
+export default PostCardContainer;
