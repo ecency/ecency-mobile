@@ -12,14 +12,12 @@ const transformCacheVoteMap = createTransform(
   (inboundState: any) => ({
     ...inboundState,
     votes: Array.from(inboundState.votes),
-    comments: Array.from(inboundState.comments),
     subscribedCommunities: Array.from(inboundState.subscribedCommunities),
     pointActivities: Array.from(inboundState.pointActivities),
   }),
   (outboundState) => ({
     ...outboundState,
     votes: new Map(outboundState.votes),
-    comments: new Map(outboundState.comments),
     subscribedCommunities: new Map(outboundState.subscribedCommunities),
     pointActivities: new Map(outboundState.pointActivities),
   }),
@@ -41,7 +39,7 @@ const persistConfig = {
   key: 'root',
   // Storage Method (React Native)
   storage: AsyncStorage,
-  version: 3, // New version 0, default or previous version -1, versions are useful migrations
+  version: 4, // New version 0, default or previous version -1, versions are useful migrations
   // // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   transforms: [transformCacheVoteMap, transformWalkthroughMap],

@@ -47,8 +47,6 @@ export const PostHtmlRenderer = memo(
       .replace(/<span>/g, '')
       .replace(/<\/span>/g, '');
 
-    console.log('Comment body:', body);
-
     const _minTableColWidth = contentWidth / 3 - 12;
 
     const _handleOnLinkPress = (data: LinkData) => {

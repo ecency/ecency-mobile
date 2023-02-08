@@ -75,7 +75,7 @@ import { InsertLinkModal } from './insertLinkModal/insertLinkModal';
 // View
 import { Comment } from './comment';
 import { Comments } from './comments';
-import { CommentsDisplay } from './commentsDisplay';
+import { PostComments } from './postComments';
 import { LeaderBoard } from './leaderboard';
 import { Notification } from './notification';
 import { WalletHeader } from './walletHeader';
@@ -143,7 +143,7 @@ export {
   CollapsibleCard,
   Comment,
   Comments,
-  CommentsDisplay,
+  PostComments,
   ContainerHeader,
   DateTimePicker,
   DropdownButton,

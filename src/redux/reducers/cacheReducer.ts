@@ -19,6 +19,7 @@ export enum CommentCacheStatus {
   PENDING = 'PENDING',
   POSTPONED = 'PUBLISHED',
   DELETED = 'DELETED',
+  UPDATED = 'UPDATED'
 }
 
 export interface Vote {
@@ -40,11 +41,15 @@ export interface Comment {
   total_payout?: number;
   net_rshares?: number;
   active_votes?: Array<{ rshares: number; voter: string }>;
+  replies?:string[];
+  children?:number;
   json_metadata?: any;
   isDeletable?: boolean;
   created?: string; // handle created and updated separatly
   updated?: string;
   expiresAt?: number;
+  expandedReplies?: boolean;
+  renderOnTop?:boolean;
   status: CommentCacheStatus;
 }
 
@@ -74,23 +79,25 @@ export interface SubscribedCommunity {
   expiresAt?: number;
 }
 
+export interface LastUpdateMeta {
+  postPath: string;
+  updatedAt: number;
+  type: 'vote' | 'comment' | 'draft';
+}
+
 interface State {
   votes: Map<string, Vote>;
-  comments: Map<string, Comment>; // TODO: handle comment array per post, if parent is same
+  commentsCollection:{ [key: string]: Comment}; // TODO: handle comment array per post, if parent is same
   draftsCollection: { [key: string]: Draft };
   claimsCollection: ClaimsCollection;
   subscribedCommunities: Map<string, SubscribedCommunity>;
   pointActivities: Map<string, PointActivity>;
-  lastUpdate: {
-    postPath: string;
-    updatedAt: number;
-    type: 'vote' | 'comment' | 'draft';
-  };
+  lastUpdate: LastUpdateMeta;
 }
 
 const initialState: State = {
   votes: new Map(),
-  comments: new Map(),
+  commentsCollection: {},
   draftsCollection: {},
   claimsCollection: {},
   subscribedCommunities: new Map(),
@@ -116,10 +123,10 @@ export default function (state = initialState, action) {
       };
 
     case UPDATE_COMMENT_CACHE:
-      if (!state.comments) {
-        state.comments = new Map<string, Comment>();
+      if (!state.commentsCollection) {
+        state.commentsCollection = {};
       }
-      state.comments.set(payload.commentPath, payload.comment);
+      state.commentsCollection = {...state.commentsCollection, [payload.commentPath]:payload.comment};
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
         lastUpdate: {
@@ -130,8 +137,8 @@ export default function (state = initialState, action) {
       };
 
     case DELETE_COMMENT_CACHE_ENTRY:
-      if (state.comments && state.comments.has(payload)) {
-        state.comments.delete(payload);
+      if (state.commentsCollection && state.commentsCollection[payload]) {
+        delete state.commentsCollection[payload];
       }
       return { ...state };
 
@@ -243,12 +250,15 @@ export default function (state = initialState, action) {
         });
       }
 
-      if (state.comments && state.comments.size) {
-        Array.from(state.comments).forEach((entry) => {
-          if (entry[1].expiresAt < currentTime) {
-            state.comments.delete(entry[0]);
+      if (state.commentsCollection) {
+        for (const key in state.commentsCollection) {
+          if (state.commentsCollection.hasOwnProperty(key)) {
+            const draft = state.commentsCollection[key];
+            if (draft && ((draft?.expiresAt || 0) < currentTime)) {
+              delete state.commentsCollection[key];
+            }
           }
-        });
+        }
       }
 
       if (state.draftsCollection) {

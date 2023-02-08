@@ -84,6 +84,25 @@ export const parsePost = (
   return post;
 };
 
+export const parseDiscussionCollection = async (commentsMap: { [key: string]: any }) => {
+  for (const key in commentsMap) {
+    if (commentsMap.hasOwnProperty(key)) {
+      const comment = commentsMap[key];
+
+      // prcoess first level comment
+      if (comment) {
+        commentsMap[key] = parseComment(comment);
+      } else {
+        delete commentsMap[key];
+      }
+    }
+  }
+
+  console.log('parsed discussion collection', commentsMap);
+  return commentsMap;
+};
+
+
 export const parseCommentThreads = async (commentsMap: any, author: string, permlink: string) => {
   const MAX_THREAD_LEVEL = 3;
   const comments = [];

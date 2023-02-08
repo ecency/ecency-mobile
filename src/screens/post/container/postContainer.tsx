@@ -6,7 +6,7 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 // Component
 import PostScreen from '../screen/postScreen';
-import { useGetPostQuery } from '../../../providers/queries';
+import { postQueries } from '../../../providers/queries';
 
 /*
  *            Props Name        Description                                     Value
@@ -16,14 +16,14 @@ import { useGetPostQuery } from '../../../providers/queries';
 const PostContainer = ({ currentAccount, isLoggedIn, route }) => {
   const params = route.params || {};
 
-  const [author, setAuthor] = useState(params.content?.author || params.author);
-  const [permlink, setPermlink] = useState(params.content?.permlink || params.permlink);
+  const [author, setAuthor] = useState(params.content?.author || params.author || 'demo.com');
+  const [permlink, setPermlink] = useState(params.content?.permlink || params.permlink || 'dev-test-tag-test-going');
 
   // refs
   const isNewPost = useRef(route.params?.isNewPost).current;
 
-  const getPostQuery = useGetPostQuery(author, permlink);
-  const getParentPostQuery = useGetPostQuery();
+  const getPostQuery = postQueries.useGetPostQuery(author, permlink);
+  const getParentPostQuery = postQueries.useGetPostQuery();
 
   useEffect(() => {
     const post = getPostQuery.data;
@@ -44,13 +44,13 @@ const PostContainer = ({ currentAccount, isLoggedIn, route }) => {
     getPostQuery.refetch();
   };
 
-  useEffect(() => {
-    const { isFetch: nextIsFetch } = route.params ?? {};
-    if (nextIsFetch) {
-      const { author: _author, permlink } = route.params;
-      _loadPost(_author, permlink);
-    }
-  }, [route.params.isFetch]);
+  // useEffect(() => {
+  //   const { isFetch: nextIsFetch } = route.params ?? {};
+  //   if (nextIsFetch) {
+  //     const { author: _author, permlink } = route.params;
+  //     _loadPost(_author, permlink);
+  //   }
+  // }, [route.params.isFetch]);
 
   const _isPostUnavailable = !getPostQuery.isLoading && getPostQuery.error;
 
