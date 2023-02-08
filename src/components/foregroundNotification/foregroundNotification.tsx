@@ -1,16 +1,14 @@
 import { get } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { View as AnimatedView } from 'react-native-animatable';
-import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { IconButton } from '..';
-import { toastNotification } from '../../redux/actions/uiAction';
 import UserAvatar from '../userAvatar';
 import ROUTES from '../../constants/routeNames';
+import Animated, { FadeOutUp, SlideInUp } from 'react-native-reanimated';
 
 // Styles
-import styles, { CONTAINER_HEIGHT } from './styles';
+import styles from './styles';
 import RootNavigation from '../../navigation/rootNavigation';
 
 interface RemoteMessage {
@@ -35,9 +33,7 @@ interface Props {
 
 const ForegroundNotification = ({ remoteMessage }: Props) => {
   const intl = useIntl();
-
   const hideTimeoutRef = useRef<any>(null);
-  const containerRef = useRef<AnimatedView>(null);
 
   const [duration] = useState(5000);
   const [activeId, setActiveId] = useState('');
@@ -83,13 +79,9 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
   };
 
   const hide = async () => {
-    if (containerRef.current) {
-      await containerRef.current.fadeOutUp(300);
-
-      setIsVisible(false);
-      if (hideTimeoutRef.current) {
-        clearTimeout(hideTimeoutRef.current);
-      }
+    setIsVisible(false);
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
     }
   };
 
@@ -115,11 +107,10 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
 
   return (
     isVisible && (
-      <AnimatedView
-        ref={containerRef}
+      <Animated.View
         style={styles.container}
-        animation="slideInDown"
-        duration={500}
+        entering={SlideInUp.duration(500)}
+        exiting={FadeOutUp}
       >
         <View style={styles.contentContainer}>
           <TouchableOpacity onPress={_onPress} style={{ flexShrink: 1 }}>
@@ -139,7 +130,7 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
 
           <IconButton name="close" color="white" size={28} onPress={hide} />
         </View>
-      </AnimatedView>
+      </Animated.View>
     )
   );
 };

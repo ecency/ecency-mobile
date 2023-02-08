@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, Platform, ActivityIndicator } from 'react-native';
-import { View as AnimatedView } from 'react-native-animatable';
+import Animated, { BounceInRight } from 'react-native-reanimated';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { injectIntl, useIntl } from 'react-intl';
 
@@ -107,7 +107,7 @@ const ProfileEditFormView = ({
       </KeyboardAwareScrollView>
 
       {saveEnabled && (
-        <AnimatedView style={styles.floatingContainer} animation="bounceInRight">
+        <Animated.View style={styles.floatingContainer} entering={BounceInRight}>
           <MainButton
             style={{ width: isLoading ? null : 120, marginBottom: 24, alignSelf: 'flex-end' }}
             onPress={handleOnSubmit}
@@ -117,7 +117,7 @@ const ProfileEditFormView = ({
             text="SAVE"
             isLoading={isLoading}
           />
-        </AnimatedView>
+        </Animated.View>
       )}
     </View>
   );
