@@ -60,23 +60,23 @@ const PostCardView = ({
   };
 
   const _handleOnContentPress = () => {
-    console.log('content : ', content);
-    handleOnContentPress(content);
+    // console.log('content : ', content);
+    handleOnContentPress();
   };
 
   const _handleOnVotersPress = () => {
-    handleOnVotersPress();
+    // handleOnVotersPress();
   };
 
   const _handleOnReblogsPress = () => {
-    if (reblogs && reblogs.length > 0) {
-      handleOnReblogsPress();
-    }
+    // if (reblogs && reblogs.length > 0) {
+    //   handleOnReblogsPress();
+    // }
   };
 
   const _handleCacheVoteIncrement = () => {
     // fake increment vote using based on local change
-    setCacheVoteIcrement(1);
+    // setCacheVoteIcrement(1);
   };
 
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
@@ -123,12 +123,12 @@ const PostCardView = ({
           <Icon style={styles.pushPinIcon} size={20} name="pin" iconType="MaterialCommunityIcons" />
         )}
         <View style={styles.dropdownWrapper}>
-          <PostDropdown
+          {/* <PostDropdown
             pageType={pageType}
             content={content}
             fetchPost={fetchPost}
             isMuted={isMuted}
-          />
+          /> */}
         </View>
       </View>
       <View style={styles.postBodyWrapper}>

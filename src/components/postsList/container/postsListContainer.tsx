@@ -4,6 +4,8 @@ import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View, Alert
 import { useSelector } from 'react-redux';
 import PostCard from '../../postCard';
 import styles from '../view/postsListStyles';
+import { useNavigation } from '@react-navigation/native';
+import ROUTES from '../../../constants/routeNames';
 
 export interface PostsListRef {
   scrollToTop: () => void;
@@ -36,6 +38,8 @@ const postsListContainer = (
 ) => {
   const flatListRef = useRef(null);
 
+  const navigation = useNavigation();
+
   const [imageHeights, setImageHeights] = useState(new Map<string, number>());
 
   const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
@@ -58,6 +62,7 @@ const postsListContainer = (
 
   useEffect(() => {
     console.log('Scroll Position: ', scrollPosition);
+
     if (posts && posts.length == 0) {
       flatListRef.current?.scrollToOffset({
         offset: 0,
@@ -77,11 +82,22 @@ const postsListContainer = (
   //TODO: test hook, remove before PR
   useEffect(()=>{
     if(scrollIndex && flatListRef.current){
-      console.log("scrollIndex", scrollIndex, "posts length", posts.length);
-      if(scrollIndex > posts.length - 5){
+      const _posts = props.data || posts
+      console.log("scrollIndex", scrollIndex, "posts length", _posts.length);
+
+      if(scrollIndex >= _posts.length){
+        Alert.alert("Reached an end, scroll score, " + scrollIndex);
+        return;
+      }
+      
+      if(scrollIndex > _posts.length - 5){
         onLoadPosts(false);
       }
       flatListRef.current.scrollToIndex({index:scrollIndex, animated:false});
+      console.log("scrolling to ", JSON.stringify(_posts[scrollIndex]))
+      setTimeout(()=>{
+        _handleOnContentPress(_posts[scrollIndex])
+      }, 200)
     }
   },[scrollIndex])
 
@@ -107,6 +123,20 @@ const postsListContainer = (
     if (onLoadPosts && !_onEndReachedCalledDuringMomentum) {
       onLoadPosts(false);
       _onEndReachedCalledDuringMomentum = true;
+    }
+  };
+
+  const _handleOnContentPress = (value) => {
+    if (value) {
+      // postsCacherPrimer.cachePost(value);
+      navigation.navigate({
+        name: ROUTES.SCREENS.POST,
+        params: {
+          content: value,
+          author: value.author,
+          permlink: value.permlink,
+        }
+      });
     }
   };
 
@@ -138,6 +168,7 @@ const postsListContainer = (
               pageType={pageType}
               setImageHeight={_setImageHeightInMap}
               showQuickReplyModal={showQuickReplyModal}
+              handleOnContentPress={()=>_handleOnContentPress(item)}
               mutes={mutes}
             />,
           );
@@ -161,8 +192,7 @@ const postsListContainer = (
           pageType={pageType}
           showQuickReplyModal={showQuickReplyModal}
           mutes={mutes}
-          index={index}
-          scrollIndex={scrollIndex}
+          handleOnContentPress={()=>_handleOnContentPress(item)}
         />,
       );
     }
