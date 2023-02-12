@@ -684,7 +684,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _submitReply = async (fields) => {
-    const { currentAccount, pinCode, dispatch, userActivityMutation } = this.props;
+    const { currentAccount, pinCode, dispatch, userActivityMutation, draftsCollection } = this.props;
     const { isPostSending } = this.state;
 
     if (isPostSending) {
@@ -702,7 +702,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
       const parentTags = post.json_metadata.tags;
-
+      const draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
+      
       await postComment(
         currentAccount,
         pinCode,
@@ -739,6 +740,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
               },
             ),
           );
+
+          // delete quick comment draft cache if it exist
+          if (draftsCollection && draftsCollection[draftId]) {
+            dispatch(deleteDraftCacheEntry(draftId));
+          }
+          
         })
         .catch((error) => {
           this._handleSubmitFailure(error);
