@@ -30,22 +30,22 @@ const PostContainer = ({ currentAccount, isLoggedIn, route }) => {
   // const getPostQuery = postQueries.useGetPostQuery(author, permlink);
   // const getParentPostQuery = postQueries.useGetPostQuery();
 
-  useEffect(()=>{
-    //TODO: remove before PR, only for testing
-    const timer = setTimeout(()=>{
+  // useEffect(()=>{
+  //   //TODO: remove before PR, only for testing
+  //   const timer = setTimeout(()=>{
 
-      navigation.goBack();
-      dispatch({
-        type:"inc-scroll-index"
-      })
-    }, 300)
+  //     navigation.goBack();
+  //     dispatch({
+  //       type:"inc-scroll-index"
+  //     })
+  //   }, 300)
 
-    return ()=> {
-      if(timer){
-        clearTimeout(timer)
-      }
-    }
-  }, [])
+  //   return ()=> {
+  //     if(timer){
+  //       clearTimeout(timer)
+  //     }
+  //   }
+  // }, [])
 
   // useEffect(() => {
     // const post = getPostQuery.data;

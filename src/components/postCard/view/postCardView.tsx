@@ -20,9 +20,7 @@ import { Upvote } from '../../upvote';
 import styles from './postCardStyles';
 import { TextButton } from '../..';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
-import postTypes from '../../../constants/postTypes';
 import { UpvoteButton } from '../children/upvoteButton';
-// import postTypes from '../../../constants/postTypes';
 
 const dim = getWindowDimensions();
 const DEFAULT_IMAGE =

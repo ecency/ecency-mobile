@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import get from 'lodash/get';
 
 // Services and Actions
@@ -16,8 +15,14 @@ import parseAsset from '../../../utils/parseAsset';
 // Component
 import UpvoteView from '../view/upvoteView';
 import { updateVoteCache } from '../../../redux/actions/cacheActions';
-import { useAppSelector } from '../../../hooks';
-import postTypes from '../../../constants/postTypes';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { Rect } from 'react-native-modal-popover/lib/PopoverGeometry';
+import { PostTypes } from '../../../constants/postTypes';
+
+
+interface Props {
+  parentType: PostTypes
+}
 
 /*
  *            Props Name        Description                                     Value
@@ -25,29 +30,36 @@ import postTypes from '../../../constants/postTypes';
  *
  */
 
-const UpvoteContainer = (props) => {
-  const {
-    content,
-    currentAccount,
-    isLoggedIn,
-    isShowPayoutValue,
-    pinCode,
-    postUpvotePercent,
-    commentUpvotePercent,
-    globalProps,
-    dispatch,
-    activeVotes = [],
-    handleCacheVoteIncrement,
-    fetchPost,
-    parentType,
-    boldPayout,
-  } = props;
+const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
+
+
+  const dispatch = useAppDispatch();
+
+  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
+  const postUpvotePercent = useAppSelector(state => state.application.postUpvotePercent);
+  const commentUpvotePercent = useAppSelector(state => state.application.commentUpvotePercent);
+  const pinCode = useAppSelector(state => state.application.pin);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const globalProps = useAppSelector(state => state.account.globalProps);
+
+  const [content, setContent] = useState<any>(null);
+  const [anchorRect, setAcnhorRect] = useState<Rect | null>(null);
+  const [showPayoutDetails, setShowPayoutDetails] = useState(false);
 
   const [isVoted, setIsVoted] = useState(null);
   const [isDownVoted, setIsDownVoted] = useState(null);
-  const [totalPayout, setTotalPayout] = useState(get(content, 'total_payout'));
-  const cachedVotes = useAppSelector((state) => state.cache.votes);
-  const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
+
+  const activeVotes = content?.activeVotes || [];
+
+  useImperativeHandle(
+    ref, () => ({
+      showPopover: (_anchorRect, _content, _showPayoutDetails = false) => {
+        setContent(_content);
+        setShowPayoutDetails(_showPayoutDetails)
+        setAcnhorRect(_anchorRect)
+      }
+    })
+  )
 
   useEffect(() => {
     let _isMounted = true;
@@ -60,66 +72,70 @@ const UpvoteContainer = (props) => {
         setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
         setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
 
-        if (cachedVotes && cachedVotes.size > 0) {
-          _handleCachedVote();
-        }
+        // if (cachedVotes && cachedVotes.size > 0) {
+        //   _handleCachedVote();
+        // }
       }
     };
 
     _calculateVoteStatus();
-    return () => (_isMounted = false);
+    return () => { _isMounted = false };
   }, [activeVotes]);
 
-  useEffect(() => {
-    const postPath = `${content.author || ''}/${content.permlink || ''}`;
-    // this conditional makes sure on targetted already fetched post is updated
-    // with new cache status, this is to avoid duplicate cache merging
-    if (
-      lastCacheUpdate &&
-      lastCacheUpdate.postPath === postPath &&
-      content.post_fetched_at < lastCacheUpdate.updatedAt &&
-      lastCacheUpdate.type === 'vote'
-    ) {
-      _handleCachedVote();
-    }
-  }, [lastCacheUpdate]);
+
+
+  // useEffect(() => {
+  //   const postPath = `${content.author || ''}/${content.permlink || ''}`;
+  //   // this conditional makes sure on targetted already fetched post is updated
+  //   // with new cache status, this is to avoid duplicate cache merging
+  //   if (
+  //     lastCacheUpdate &&
+  //     lastCacheUpdate.postPath === postPath &&
+  //     content.post_fetched_at < lastCacheUpdate.updatedAt &&
+  //     lastCacheUpdate.type === 'vote'
+  //   ) {
+  //     _handleCachedVote();
+  //   }
+  // }, [lastCacheUpdate]);
+
+
 
   const _setUpvotePercent = (value) => {
     if (value) {
-      if (parentType === postTypes.POST) {
+      if (parentType === PostTypes.POST) {
         dispatch(setPostUpvotePercent(value));
       }
-      if (parentType === postTypes.COMMENT) {
+      if (parentType === PostTypes.COMMENT) {
         dispatch(setCommentUpvotePercent(value));
       }
     }
   };
 
-  const _handleCachedVote = () => {
-    if (!cachedVotes || cachedVotes.size === 0) {
-      return;
-    }
+  // const _handleCachedVote = () => {
+  //   if (!cachedVotes || cachedVotes.size === 0) {
+  //     return;
+  //   }
 
-    const postPath = `${content.author || ''}/${content.permlink || ''}`;
-    const postFetchedAt = get(content, 'post_fetched_at', 0);
+  //   const postPath = `${content.author || ''}/${content.permlink || ''}`;
+  //   const postFetchedAt = get(content, 'post_fetched_at', 0);
 
-    if (cachedVotes.has(postPath)) {
-      const cachedVote = cachedVotes.get(postPath);
-      const { expiresAt, amount, isDownvote, incrementStep } = cachedVote;
+  //   if (cachedVotes.has(postPath)) {
+  //     const cachedVote = cachedVotes.get(postPath);
+  //     const { expiresAt, amount, isDownvote, incrementStep } = cachedVote;
 
-      if (postFetchedAt > expiresAt) {
-        return;
-      }
+  //     if (postFetchedAt > expiresAt) {
+  //       return;
+  //     }
 
-      setTotalPayout(get(content, 'total_payout') + amount);
-      if (incrementStep > 0) {
-        handleCacheVoteIncrement();
-      }
+  //     setTotalPayout(get(content, 'total_payout') + amount);
+  //     if (incrementStep > 0) {
+  //       // handleCacheVoteIncrement();
+  //     }
 
-      setIsDownVoted(!!isDownvote);
-      setIsVoted(!isDownvote);
-    }
-  };
+  //     setIsDownVoted(!!isDownvote);
+  //     setIsVoted(!isDownvote);
+  //   }
+  // };
 
   const _onVote = (amount, isDownvote) => {
     // do all relevant processing here to show local upvote
@@ -143,9 +159,19 @@ const UpvoteContainer = (props) => {
     dispatch(updateVoteCache(postPath, vote));
   };
 
+  const _closePopover = () => {
+    setAcnhorRect(null);
+    setShowPayoutDetails(false);
+  }
+
+  if (!content) {
+    return null;
+  }
+
   const author = get(content, 'author');
   const isDeclinedPayout = get(content, 'is_declined_payout');
   const permlink = get(content, 'permlink');
+  const totalPayout = get(content, 'total_payout');
   const pendingPayout = parseAsset(content.pending_payout_value).amount;
   const authorPayout = parseAsset(content.author_payout_value).amount;
   const curationPayout = parseAsset(content.curator_payout_value).amount;
@@ -200,7 +226,6 @@ const UpvoteContainer = (props) => {
       handleSetUpvotePercent={_setUpvotePercent}
       isDeclinedPayout={isDeclinedPayout}
       isLoggedIn={isLoggedIn}
-      isShowPayoutValue={isShowPayoutValue}
       isVoted={isVoted}
       isDownVoted={isDownVoted}
       payoutDate={payoutDate}
@@ -216,24 +241,12 @@ const UpvoteContainer = (props) => {
       beneficiaries={beneficiaries}
       warnZeroPayout={warnZeroPayout}
       breakdownPayout={breakdownPayout}
-      fetchPost={fetchPost}
       onVote={_onVote}
-      boldPayout={boldPayout}
+      anchorRect={anchorRect}
+      showPayoutDetails={showPayoutDetails}
+      closePopover={_closePopover}
     />
   );
-};
-
-// Component Life Cycle Functions
-
-// Component Functions
-
-const mapStateToProps = (state) => ({
-  isLoggedIn: state.application.isLoggedIn,
-  postUpvotePercent: state.application.postUpvotePercent,
-  commentUpvotePercent: state.application.commentUpvotePercent,
-  pinCode: state.application.pin,
-  currentAccount: state.account.currentAccount,
-  globalProps: state.account.globalProps,
 });
 
-export default connect(mapStateToProps)(UpvoteContainer);
+export default UpvoteContainer;

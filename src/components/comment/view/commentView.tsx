@@ -20,7 +20,7 @@ import styles from './commentStyles';
 import { useAppSelector } from '../../../hooks';
 import { OptionsModal } from '../../atoms';
 import { showReplyModal } from '../../../redux/actions/uiAction';
-import postTypes from '../../../constants/postTypes';
+import { PostTypes } from '../../../constants/postTypes';
 
 const CommentView = ({
   avatarSize,
@@ -142,7 +142,7 @@ const CommentView = ({
           isShowPayoutValue
           content={comment}
           handleCacheVoteIncrement={_handleCacheVoteIncrement}
-          parentType={postTypes.COMMENT}
+          parentType={PostTypes.COMMENT}
         />
         <TextWithIcon
           iconName="heart-outline"

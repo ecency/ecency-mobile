@@ -10,6 +10,7 @@ import { useIntl } from 'react-intl';
 import Popover, { usePopover } from 'react-native-modal-popover';
 import Upvote from '../../upvote';
 import { Rect } from 'react-native-modal-popover/lib/PopoverGeometry';
+import { PostTypes } from '../../../constants/postTypes';
 
 export interface PostsListRef {
   scrollToTop: () => void;
@@ -46,6 +47,7 @@ const postsListContainer = (
   const navigation = useNavigation();
 
   const popoverRef = useRef<Popover>(null);
+  const upvotePopoverRef = useRef(null);
 
   // const {
   //   openPopover,
@@ -57,7 +59,6 @@ const postsListContainer = (
 
 
   // const [popoverVisible, setPopoverVisible] = useState(false); 
-  const [popoverAnchorRect, setPopoverAnchorRect] = useState({ rect: { x: 0, y: 0, width: 0, height: 0 }, visible: false });
 
 
   const [imageHeights, setImageHeights] = useState(new Map<string, number>());
@@ -148,18 +149,19 @@ const postsListContainer = (
   };
 
   const _handleOnUpvotePress = (anchorRect, content) => {
-    setPopoverAnchorRect({ rect: anchorRect, visible: true })
+    if(upvotePopoverRef.current && anchorRect && content){
+      upvotePopoverRef.current.showPopover(anchorRect, content);
+    }
+
   }
 
 
   const _handleOnPayoutDetailsPress = (anchorRect, content) => {
-    setPopoverAnchorRect({ rect: anchorRect, visible: true })
-
+    if(upvotePopoverRef.current && anchorRect && content){
+      upvotePopoverRef.current.showPopover(anchorRect, content, true);
+    }
   }
 
-  const closePopover = () => {
-    setPopoverAnchorRect({ rect: { x: 0, y: 0, width: 0, height: 0 }, visible: false });
-  }
 
 
   const _handleOnContentPress = (value) => {
@@ -275,7 +277,11 @@ const postsListContainer = (
         }
         {...props}
       />
-      <Popover
+      <Upvote 
+        ref={upvotePopoverRef}
+        parentType={PostTypes.POST}
+      />
+      {/* <Popover
         ref={popoverRef}
         contentStyle={styles.content}
         arrowStyle={styles.arrow}
@@ -285,7 +291,7 @@ const postsListContainer = (
         onClose={closePopover}
         supportedOrientations={['portrait', 'landscape']}>
         <Text>Hello from inside popover!</Text>
-      </Popover>
+      </Popover> */}
     </>
 
   );

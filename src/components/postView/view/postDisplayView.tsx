@@ -22,7 +22,7 @@ import { OptionsModal } from '../../atoms';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../hooks';
 import { showReplyModal } from '../../../redux/actions/uiAction';
-import postTypes from '../../../constants/postTypes';
+import { PostTypes } from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { WriteCommentButton } from '../children/writeCommentButton';
@@ -115,7 +115,7 @@ const PostDisplayView = ({
             isShowPayoutValue
             content={post}
             handleCacheVoteIncrement={_handleCacheVoteIncrement}
-            parentType={parentPost ? postTypes.COMMENT : postTypes.POST}
+            parentType={parentPost ? PostTypes.COMMENT : PostTypes.POST}
             boldPayout={true}
           />
           <TextWithIcon
