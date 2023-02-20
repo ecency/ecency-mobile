@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useRef, useEffect, useMemo } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, Alert, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -21,6 +21,7 @@ import { useAppSelector } from '../../../hooks';
 import { OptionsModal } from '../../atoms';
 import { showReplyModal } from '../../../redux/actions/uiAction';
 import { PostTypes } from '../../../constants/postTypes';
+import { UpvoteButton } from '../../postCard/children/upvoteButton';
 
 const CommentView = ({
   avatarSize,
@@ -137,12 +138,14 @@ const CommentView = ({
   const _renderActionPanel = () => {
     return (
       <>
-        <Upvote
-          activeVotes={activeVotes}
-          isShowPayoutValue
+        <UpvoteButton
           content={comment}
-          handleCacheVoteIncrement={_handleCacheVoteIncrement}
+          activeVotes={activeVotes}
+          isShowPayoutValue={true}
           parentType={PostTypes.COMMENT}
+          isVoting={false}
+          onUpvotePress={()=>{Alert.alert("Update implementaiton on upvote press")}}
+          onPayoutDetailsPress={()=>{Alert.alert("Update implementaiton on upvote press")}}
         />
         <TextWithIcon
           iconName="heart-outline"

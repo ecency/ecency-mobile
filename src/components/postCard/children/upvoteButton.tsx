@@ -11,6 +11,7 @@ import styles from './children.styles';
 import { TextButton } from "../../buttons";
 import { FormattedCurrency } from "../../formatedElements";
 import { Rect } from "react-native-modal-popover/lib/PopoverGeometry";
+import { PostTypes } from "../../../constants/postTypes";
 
 interface UpvoteButtonProps {
     content: any,
@@ -18,6 +19,7 @@ interface UpvoteButtonProps {
     activeVotes: any[],
     isShowPayoutValue?: boolean,
     boldPayout?: boolean,
+    parentType?: PostTypes;
     onUpvotePress: (anchorRect: Rect) => void,
     onPayoutDetailsPress: (anchorRef: Rect) => void,
 }
@@ -113,7 +115,6 @@ export const UpvoteButton = ({
                 ref={upvoteRef}
                 onPress={_onPress}
                 style={styles.upvoteButton}
-                disabled={!currentAccount}
             >
                 <Fragment>
                     {isVoting ? (

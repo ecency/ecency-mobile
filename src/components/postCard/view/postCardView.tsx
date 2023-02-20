@@ -14,13 +14,12 @@ import { PostHeaderDescription } from '../../postElements';
 import { TextWithIcon } from '../../basicUIElements';
 import { Icon } from '../../icon';
 
-// STEEM
-import { Upvote } from '../../upvote';
 // Styles
 import styles from './postCardStyles';
 import { TextButton } from '../..';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { UpvoteButton } from '../children/upvoteButton';
+import { PostTypes } from '../../../constants/postTypes';
 
 const dim = getWindowDimensions();
 const DEFAULT_IMAGE =
@@ -203,9 +202,11 @@ const PostCardView = ({
     <View style={styles.bodyFooter}>
       <View style={styles.leftFooterWrapper}>
         <UpvoteButton 
+          isVoting={false}
           content={content}
           activeVotes={activeVotes}
           isShowPayoutValue={true}
+          parentType={PostTypes.POST}
           onUpvotePress={handleOnUpvotePress}
           onPayoutDetailsPress={handleOnPayoutDetailsPress}
         />

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState, Fragment } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -12,7 +12,6 @@ import { getTimeFromNow } from '../../../utils/time';
 // Components
 import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
 import { PostPlaceHolder, StickyBar, TextWithIcon, NoPost } from '../../basicUIElements';
-import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
 import { ParentPost } from '../../parentPost';
 
@@ -27,6 +26,7 @@ import { useUserActivityMutation } from '../../../providers/queries/pointQueries
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { WriteCommentButton } from '../children/writeCommentButton';
 import { PostComments } from '../../postComments';
+import { UpvoteButton } from '../../postCard/children/upvoteButton';
 
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
@@ -102,21 +102,20 @@ const PostDisplayView = ({
     }
   };
 
-  const _handleCacheVoteIncrement = () => {
-    setCacheVoteIcrement(1);
-  };
 
   const _renderActionPanel = (isFixedFooter = false) => {
     return (
       <StickyBar isFixedFooter={isFixedFooter} style={styles.stickyBar}>
         <View style={[styles.stickyWrapper, { paddingBottom: insets.bottom ? insets.bottom : 8 }]}>
-          <Upvote
+          <UpvoteButton
+            isVoting={false}
             activeVotes={activeVotes}
-            isShowPayoutValue
+            isShowPayoutValue={true}
             content={post}
-            handleCacheVoteIncrement={_handleCacheVoteIncrement}
             parentType={parentPost ? PostTypes.COMMENT : PostTypes.POST}
             boldPayout={true}
+            onUpvotePress={()=>{Alert.alert("Update implementaiton on upvote press")}}
+            onPayoutDetailsPress={()=>{Alert.alert("Update implementaiton on upvote press")}}
           />
           <TextWithIcon
             iconName="heart-outline"

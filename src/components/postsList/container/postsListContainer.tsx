@@ -1,4 +1,4 @@
-import React, { forwardRef, memo, useRef, useImperativeHandle, useState, useEffect } from 'react';
+import React, { forwardRef, memo, useRef, useImperativeHandle, useState, useEffect, Fragment } from 'react';
 import { get } from 'lodash';
 import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View, Alert, Text, findNodeHandle, NativeModules } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -243,7 +243,7 @@ const postsListContainer = (
   };
 
   return (
-    <>
+    <Fragment>
       <FlatList
         ref={flatListRef}
         data={posts}
@@ -281,18 +281,7 @@ const postsListContainer = (
         ref={upvotePopoverRef}
         parentType={PostTypes.POST}
       />
-      {/* <Popover
-        ref={popoverRef}
-        contentStyle={styles.content}
-        arrowStyle={styles.arrow}
-        backgroundStyle={styles.background}
-        visible={popoverAnchorRect.visible}
-        fromRect={popoverAnchorRect.rect}
-        onClose={closePopover}
-        supportedOrientations={['portrait', 'landscape']}>
-        <Text>Hello from inside popover!</Text>
-      </Popover> */}
-    </>
+    </Fragment>
 
   );
 };

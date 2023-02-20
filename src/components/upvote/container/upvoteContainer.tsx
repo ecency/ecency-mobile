@@ -41,6 +41,7 @@ import { useIntl } from 'react-intl';
 import { useUserActivityMutation } from '../../../providers/queries';
 import { PayoutDetailsContent } from '../children/payoutDetailsContent';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
+import showLoginAlert from '../../../utils/showLoginAlert';
 
 
 interface Props {
@@ -82,6 +83,12 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
   useImperativeHandle(
     ref, () => ({
       showPopover: (_anchorRect, _content, _showPayoutDetails = false) => {
+
+        if(!isLoggedIn && !_showPayoutDetails){
+          showLoginAlert({intl})
+          return;
+        }
+
         setContent(_content);
         setShowPayoutDetails(_showPayoutDetails)
         setAcnhorRect(_anchorRect)
