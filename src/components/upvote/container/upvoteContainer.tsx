@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import React, { Fragment, useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import get from 'lodash/get';
 
 // Services and Actions
@@ -8,16 +8,38 @@ import {
 } from '../../../redux/actions/applicationActions';
 
 // Utils
-import { getTimeFromNow } from '../../../utils/time';
 import { isVoted as isVotedFunc, isDownVoted as isDownVotedFunc } from '../../../utils/postParser';
-import parseAsset from '../../../utils/parseAsset';
 
 // Component
-import UpvoteView from '../view/upvoteView';
 import { updateVoteCache } from '../../../redux/actions/cacheActions';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { Rect } from 'react-native-modal-popover/lib/PopoverGeometry';
 import { PostTypes } from '../../../constants/postTypes';
+
+import { View, TouchableOpacity, Text, Alert } from 'react-native';
+import { Popover } from 'react-native-modal-popover';
+import Slider from '@esteemapp/react-native-slider';
+
+// Utils
+
+import { getEstimatedAmount } from '../../../utils/vote';
+
+// Components
+import { Icon } from '../../icon';
+
+// Services
+import { setRcOffer, toastNotification } from '../../../redux/actions/uiAction';
+
+// STEEM
+import { vote } from '../../../providers/hive/dhive';
+
+// Styles
+import styles from '../children/upvoteStyles';
+
+import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import { useIntl } from 'react-intl';
+import { useUserActivityMutation } from '../../../providers/queries';
+import { PayoutDetailsContent } from '../children/payoutDetailsContent';
 
 
 interface Props {
@@ -32,8 +54,10 @@ interface Props {
 
 const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
 
-
+  const intl = useIntl();
   const dispatch = useAppDispatch();
+
+  const userActivityMutation = useUserActivityMutation();
 
   const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
   const postUpvotePercent = useAppSelector(state => state.application.postUpvotePercent);
@@ -46,10 +70,13 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
   const [anchorRect, setAcnhorRect] = useState<Rect | null>(null);
   const [showPayoutDetails, setShowPayoutDetails] = useState(false);
 
-  const [isVoted, setIsVoted] = useState(null);
-  const [isDownVoted, setIsDownVoted] = useState(null);
+  const [isVoted, setIsVoted] = useState<any>(null);
+  const [isDownVoted, setIsDownVoted] = useState<any>(null);
 
-  const activeVotes = content?.activeVotes || [];
+  const [sliderValue, setSliderValue] = useState(1);
+  const [amount, setAmount] = useState('0.00000');
+  const [isVoting, setIsVoting] = useState(false);
+  const [upvotePercent, setUpvotePercent] = useState(1);
 
   useImperativeHandle(
     ref, () => ({
@@ -63,6 +90,7 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
 
   useEffect(() => {
     let _isMounted = true;
+    const activeVotes = content?.active_votes || [];
 
     const _calculateVoteStatus = async () => {
       const _isVoted = await isVotedFunc(activeVotes, get(currentAccount, 'name'));
@@ -71,32 +99,164 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
       if (_isMounted) {
         setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
         setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
-
-        // if (cachedVotes && cachedVotes.size > 0) {
-        //   _handleCachedVote();
-        // }
       }
     };
 
     _calculateVoteStatus();
     return () => { _isMounted = false };
-  }, [activeVotes]);
+  }, [content]);
+
+
+  useEffect(() => {
+    _calculateEstimatedAmount();
+  }, []);
 
 
 
-  // useEffect(() => {
-  //   const postPath = `${content.author || ''}/${content.permlink || ''}`;
-  //   // this conditional makes sure on targetted already fetched post is updated
-  //   // with new cache status, this is to avoid duplicate cache merging
-  //   if (
-  //     lastCacheUpdate &&
-  //     lastCacheUpdate.postPath === postPath &&
-  //     content.post_fetched_at < lastCacheUpdate.updatedAt &&
-  //     lastCacheUpdate.type === 'vote'
-  //   ) {
-  //     _handleCachedVote();
-  //   }
-  // }, [lastCacheUpdate]);
+  useEffect(() => {
+    if (parentType === PostTypes.POST) {
+      setUpvotePercent(postUpvotePercent);
+    }
+    if (parentType === PostTypes.COMMENT) {
+      setUpvotePercent(commentUpvotePercent);
+    }
+  }, [postUpvotePercent, commentUpvotePercent, parentType]);
+
+
+
+  useEffect(() => {
+    const value = isVoted || isDownVoted ? 1 : upvotePercent <= 1 ? upvotePercent : 1;
+
+    setSliderValue(value);
+    _calculateEstimatedAmount(value);
+  }, [upvotePercent]);
+
+
+
+  // Component Functions
+  const _calculateEstimatedAmount = async (value: number = sliderValue) => {
+    if (currentAccount && Object.entries(currentAccount).length !== 0) {
+      setAmount(getEstimatedAmount(currentAccount, globalProps, value));
+    }
+  };
+
+  const _upvoteContent = () => {
+    if (!isDownVoted) {
+      _closePopover();
+      setIsVoting(true);
+      _setUpvotePercent(sliderValue);
+
+      const weight = sliderValue ? Math.trunc(sliderValue * 100) * 100 : 0;
+      const _author = content?.author;
+      const _permlink = content?.permlink;
+
+      console.log(`casting up vote: ${weight}`);
+      vote(currentAccount, pinCode, _author, _permlink, weight)
+        .then((response) => {
+          console.log('Vote response: ', response);
+          // record user points
+          userActivityMutation.mutate({
+            pointsTy: PointActivityIds.VOTE,
+            transactionId: response.id,
+          });
+
+          if (!response || !response.id) {
+            dispatch(
+              toastNotification(
+                intl.formatMessage(
+                  { id: 'alert.something_wrong_msg' },
+                  {
+                    message: intl.formatMessage({
+                      id: 'alert.invalid_response',
+                    }),
+                  },
+                ),
+              ),
+            );
+
+            return;
+          }
+          setIsVoted(!!sliderValue);
+          setIsVoting(false);
+          _onVoteSuccess(_author, _permlink, amount, false);
+        })
+        .catch((err) => {
+          if (
+            err &&
+            err.response &&
+            err.response.jse_shortmsg &&
+            err.response.jse_shortmsg.includes('wait to transact')
+          ) {
+            // when RC is not enough, offer boosting account
+            setIsVoted(false);
+            setIsVoting(false);
+            dispatch(setRcOffer(true));
+          } else if (err && err.jse_shortmsg && err.jse_shortmsg.includes('wait to transact')) {
+            // when RC is not enough, offer boosting account
+            setIsVoted(false);
+            setIsVoting(false);
+            dispatch(setRcOffer(true));
+          } else {
+            // // when voting with same percent or other errors
+            let errMsg = '';
+            if (err.message && err.message.indexOf(':') > 0) {
+              errMsg = err.message.split(': ')[1];
+            } else {
+              errMsg = err.jse_shortmsg || err.error_description || err.message;
+            }
+
+            dispatch(
+              toastNotification(
+                intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: errMsg }),
+              ),
+            );
+
+            setIsVoting(false);
+          }
+        });
+    } else {
+      setSliderValue(1);
+      setIsDownVoted(false);
+    }
+  };
+
+  const _downvoteContent = () => {
+    if (isDownVoted) {
+      _closePopover();
+      setIsVoting(true);
+      _setUpvotePercent(sliderValue);
+
+      const weight = sliderValue ? Math.trunc(sliderValue * 100) * -100 : 0;
+      const _author = content?.author;
+      const _permlink = content?.permlink;
+
+      console.log(`casting down vote: ${weight}`);
+      vote(currentAccount, pinCode, _author, _permlink, weight)
+        .then((response) => {
+          // record usr points
+          userActivityMutation.mutate({
+            pointsTy: PointActivityIds.VOTE,
+            transactionId: response.id,
+          });
+          setIsVoted(!!sliderValue);
+          setIsVoting(false);
+          _onVoteSuccess(_author, _permlink, amount, true);
+        })
+        .catch((err) => {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: err.message }),
+            ),
+          );
+          setIsVoted(false);
+          setIsVoting(false);
+        });
+    } else {
+      setSliderValue(1);
+      setIsDownVoted(true);
+    }
+  };
+
 
 
 
@@ -111,33 +271,8 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
     }
   };
 
-  // const _handleCachedVote = () => {
-  //   if (!cachedVotes || cachedVotes.size === 0) {
-  //     return;
-  //   }
 
-  //   const postPath = `${content.author || ''}/${content.permlink || ''}`;
-  //   const postFetchedAt = get(content, 'post_fetched_at', 0);
-
-  //   if (cachedVotes.has(postPath)) {
-  //     const cachedVote = cachedVotes.get(postPath);
-  //     const { expiresAt, amount, isDownvote, incrementStep } = cachedVote;
-
-  //     if (postFetchedAt > expiresAt) {
-  //       return;
-  //     }
-
-  //     setTotalPayout(get(content, 'total_payout') + amount);
-  //     if (incrementStep > 0) {
-  //       // handleCacheVoteIncrement();
-  //     }
-
-  //     setIsDownVoted(!!isDownvote);
-  //     setIsVoted(!isDownvote);
-  //   }
-  // };
-
-  const _onVote = (amount, isDownvote) => {
+  const _onVoteSuccess = (author, permlink, amount, isDownvote) => {
     // do all relevant processing here to show local upvote
     const amountNum = parseFloat(amount);
 
@@ -147,7 +282,7 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
     }
 
     // update redux
-    const postPath = `${content.author || ''}/${content.permlink || ''}`;
+    const postPath = `${author || ''}/${permlink || ''}`;
     const curTime = new Date().getTime();
     const vote = {
       votedAt: curTime,
@@ -161,91 +296,103 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
 
   const _closePopover = () => {
     setAcnhorRect(null);
-    setShowPayoutDetails(false);
+    setTimeout(() => {
+      setShowPayoutDetails(false);
+    }, 300)
   }
 
   if (!content) {
     return null;
   }
 
-  const author = get(content, 'author');
-  const isDeclinedPayout = get(content, 'is_declined_payout');
-  const permlink = get(content, 'permlink');
-  const totalPayout = get(content, 'total_payout');
-  const pendingPayout = parseAsset(content.pending_payout_value).amount;
-  const authorPayout = parseAsset(content.author_payout_value).amount;
-  const curationPayout = parseAsset(content.curator_payout_value).amount;
-  const promotedPayout = parseAsset(content.promoted).amount;
-  const maxPayout = content.max_payout;
 
-  const payoutDate = getTimeFromNow(get(content, 'payout_at'));
-  const beneficiaries = [];
-  const beneficiary = get(content, 'beneficiaries');
-  if (beneficiary) {
-    beneficiary.forEach((key, index) => {
-      beneficiaries.push(
-        `${index !== 0 ? '\n' : ''}${get(key, 'account')}: ${(
-          parseFloat(get(key, 'weight')) / 100
-        ).toFixed(2)}%`,
-      );
-    });
-  }
-  const minimumAmountForPayout = 0.02;
-  let warnZeroPayout = false;
-  if (pendingPayout > 0 && pendingPayout < minimumAmountForPayout) {
-    warnZeroPayout = true;
+
+  let iconName = 'upcircleo';
+  let downVoteIconName = 'downcircleo';
+
+  if (isVoted) {
+    iconName = 'upcircle';
   }
 
-  // assemble breakdown
-  const base = get(globalProps, 'base', 0);
-  const quote = get(globalProps, 'quote', 0);
-  const hbdPrintRate = get(globalProps, 'hbdPrintRate', 0);
-  const SBD_PRINT_RATE_MAX = 10000;
-  const percent_steem_dollars = (content.percent_hbd || 10000) / 20000;
+  if (isDownVoted) {
+    downVoteIconName = 'downcircle';
+  }
 
-  const pending_payout_hbd = pendingPayout * percent_steem_dollars;
-  const price_per_steem = base / quote;
+  const _percent = `${isDownVoted ? '-' : ''}${(sliderValue * 100).toFixed(0)}%`;
+  const _amount = `$${amount}`;
 
-  const pending_payout_hp = (pendingPayout - pending_payout_hbd) / price_per_steem;
-  const pending_payout_printed_hbd = pending_payout_hbd * (hbdPrintRate / SBD_PRINT_RATE_MAX);
-  const pending_payout_printed_hive =
-    (pending_payout_hbd - pending_payout_printed_hbd) / price_per_steem;
+  const sliderColor = isDownVoted ? '#ec8b88' : '#357ce6';
 
-  const breakdownPayout =
-    (pending_payout_printed_hbd > 0 ? `${pending_payout_printed_hbd.toFixed(3)} HBD\n` : '') +
-    (pending_payout_printed_hive > 0 ? `${pending_payout_printed_hive.toFixed(3)} HIVE\n` : '') +
-    (pending_payout_hp > 0 ? `${pending_payout_hp.toFixed(3)} HP` : '');
+
 
   return (
-    <UpvoteView
-      author={author}
-      authorPayout={authorPayout}
-      curationPayout={curationPayout}
-      currentAccount={currentAccount}
-      globalProps={globalProps}
-      handleSetUpvotePercent={_setUpvotePercent}
-      isDeclinedPayout={isDeclinedPayout}
-      isLoggedIn={isLoggedIn}
-      isVoted={isVoted}
-      isDownVoted={isDownVoted}
-      payoutDate={payoutDate}
-      pendingPayout={pendingPayout}
-      permlink={permlink}
-      pinCode={pinCode}
-      promotedPayout={promotedPayout}
-      totalPayout={totalPayout}
-      maxPayout={maxPayout}
-      postUpvotePercent={postUpvotePercent}
-      commentUpvotePercent={commentUpvotePercent}
-      parentType={parentType}
-      beneficiaries={beneficiaries}
-      warnZeroPayout={warnZeroPayout}
-      breakdownPayout={breakdownPayout}
-      onVote={_onVote}
-      anchorRect={anchorRect}
-      showPayoutDetails={showPayoutDetails}
-      closePopover={_closePopover}
-    />
+
+    <Fragment>
+
+      <Popover
+        contentStyle={showPayoutDetails ? styles.popoverDetails : styles.popoverSlider}
+        arrowStyle={showPayoutDetails ? styles.arrow : styles.hideArrow}
+        backgroundStyle={styles.overlay}
+        visible={!!anchorRect}
+        onClose={() => {
+          _closePopover();
+        }}
+        fromRect={anchorRect || { x: 0, y: 0, width: 0, height: 0 }}
+        placement="top"
+        supportedOrientations={['portrait', 'landscape']}
+      >
+        <View style={styles.popoverWrapper}>
+          {showPayoutDetails ? (
+            <PayoutDetailsContent content={content}  />
+          ) : (
+            <Fragment>
+              <TouchableOpacity
+                onPress={() => {
+                  _upvoteContent();
+                }}
+                style={styles.upvoteButton}
+              >
+                <Icon
+                  size={20}
+                  style={[styles.upvoteIcon, { color: '#007ee5' }]}
+                  active={!isLoggedIn}
+                  iconType="AntDesign"
+                  name={iconName}
+                />
+              </TouchableOpacity>
+              <Text style={styles.amount}>{_amount}</Text>
+              <Slider
+                style={styles.slider}
+                minimumTrackTintColor={sliderColor}
+                trackStyle={styles.track}
+                thumbStyle={styles.thumb}
+                thumbTintColor="#007ee5"
+                minimumValue={0.01}
+                maximumValue={1}
+                value={sliderValue}
+                onValueChange={(value) => {
+                  setSliderValue(value);
+                  _calculateEstimatedAmount(value);
+                }}
+              />
+              <Text style={styles.percent}>{_percent}</Text>
+              <TouchableOpacity
+                onPress={() => _downvoteContent()}
+                style={styles.upvoteButton}
+              >
+                <Icon
+                  size={20}
+                  style={[styles.upvoteIcon, { color: '#ec8b88' }]}
+                  active={!isLoggedIn}
+                  iconType="AntDesign"
+                  name={downVoteIconName}
+                />
+              </TouchableOpacity>
+            </Fragment>
+          )}
+        </View>
+      </Popover>
+    </Fragment>
   );
 });
 
