@@ -9,6 +9,7 @@ import ROUTES from '../../../constants/routeNames';
 import { useIntl } from 'react-intl';
 import Popover, { usePopover } from 'react-native-modal-popover';
 import Upvote from '../../upvote';
+import { Rect } from 'react-native-modal-popover/lib/PopoverGeometry';
 
 export interface PostsListRef {
   scrollToTop: () => void;
@@ -45,7 +46,7 @@ const postsListContainer = (
   const navigation = useNavigation();
 
   const popoverRef = useRef<Popover>(null);
-  
+
   // const {
   //   openPopover,
   //   closePopover,
@@ -56,7 +57,7 @@ const postsListContainer = (
 
 
   // const [popoverVisible, setPopoverVisible] = useState(false); 
-  const [popoverAnchorRect, setPopoverAnchorRect] = useState({rect:{ x: 0, y: 0, width: 0, height: 0 }, visible:false});
+  const [popoverAnchorRect, setPopoverAnchorRect] = useState({ rect: { x: 0, y: 0, width: 0, height: 0 }, visible: false });
 
 
   const [imageHeights, setImageHeights] = useState(new Map<string, number>());
@@ -146,19 +147,20 @@ const postsListContainer = (
     }
   };
 
-  const _upvotePress = (buttonRef) => {
-    const handle =  findNodeHandle(buttonRef.current);
-    if (handle) {
-      NativeModules.UIManager.measure(handle, (x0, y0, width, height, x, y) => {
-        setPopoverAnchorRect({rect:{ x, y, width, height }, visible:true })
-      });
-    }
+  const _handleOnUpvotePress = (anchorRect, content) => {
+    setPopoverAnchorRect({ rect: anchorRect, visible: true })
   }
 
-  const closePopover = ()=>{
-    // setPopoverVisible(false);
-    setPopoverAnchorRect({rect:{ x:0, y:0, width:0, height:0 }, visible:false });
+
+  const _handleOnPayoutDetailsPress = (anchorRect, content) => {
+    setPopoverAnchorRect({ rect: anchorRect, visible: true })
+
   }
+
+  const closePopover = () => {
+    setPopoverAnchorRect({ rect: { x: 0, y: 0, width: 0, height: 0 }, visible: false });
+  }
+
 
   const _handleOnContentPress = (value) => {
     if (value) {
@@ -229,7 +231,8 @@ const postsListContainer = (
       showQuickReplyModal={showQuickReplyModal}
       mutes={mutes}
       handleOnContentPress={() => _handleOnContentPress(item)}
-      upvotePress={_upvotePress}
+      handleOnUpvotePress={(anchorRect) => _handleOnUpvotePress(anchorRect, item)}
+      handleOnPayoutDetailsPress={(anchorRect) => _handleOnPayoutDetailsPress(anchorRect, item)}
     />
     //   );
     // }
@@ -272,17 +275,17 @@ const postsListContainer = (
         }
         {...props}
       />
-       <Popover
-         ref={popoverRef}
-         contentStyle={styles.content}
-         arrowStyle={styles.arrow}
-         backgroundStyle={styles.background}
-         visible={popoverAnchorRect.visible}
-         fromRect={popoverAnchorRect.rect}
-         onClose={closePopover}
-         supportedOrientations={['portrait', 'landscape']}>
-         <Text>Hello from inside popover!</Text>
-       </Popover>
+      <Popover
+        ref={popoverRef}
+        contentStyle={styles.content}
+        arrowStyle={styles.arrow}
+        backgroundStyle={styles.background}
+        visible={popoverAnchorRect.visible}
+        fromRect={popoverAnchorRect.rect}
+        onClose={closePopover}
+        supportedOrientations={['portrait', 'landscape']}>
+        <Text>Hello from inside popover!</Text>
+      </Popover>
     </>
 
   );

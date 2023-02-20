@@ -36,6 +36,8 @@ const PostCardView = ({
   handleOnVotersPress,
   handleOnReblogsPress,
   handleOnUnmutePress,
+  handleOnUpvotePress,
+  handleOnPayoutDetailsPress,
   showQuickReplyModal,
   content,
   reblogs,
@@ -48,7 +50,6 @@ const PostCardView = ({
   setImageHeight,
   isMuted,
   pageType,
-  upvotePress,
 }) => {
 
   const upvoteTouchableRef = useRef(null);
@@ -85,9 +86,6 @@ const PostCardView = ({
     // setCacheVoteIcrement(1);
   };
 
-  const _upvotePress = () => {
-    upvotePress(upvoteRef);
-  }
 
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
   const dateString = useMemo(() => getTimeFromNow(content?.created), [content])
@@ -210,6 +208,8 @@ const PostCardView = ({
           content={content}
           activeVotes={activeVotes}
           isShowPayoutValue={true}
+          onUpvotePress={handleOnUpvotePress}
+          onPayoutDetailsPress={handleOnPayoutDetailsPress}
         />
 
         <TouchableOpacity style={styles.commentButton} onPress={_handleOnVotersPress}>

@@ -31,8 +31,8 @@ const PostCardContainer = ({
   showQuickReplyModal,
   mutes,
   handleOnContentPress,
-  upvotePress,
-
+  handleOnUpvotePress,
+  handleOnPayoutDetailsPress
 }) => {
   // const navigation = useNavigation();
 
@@ -157,7 +157,8 @@ const PostCardContainer = ({
       // handleOnVotersPress={_handleOnVotersPress}
       // handleOnReblogsPress={_handleOnReblogsPress}
       // handleOnUnmutePress={_handleOnUnmutePress}
-      upvotePress={upvotePress}
+      handleOnUpvotePress={handleOnUpvotePress}
+      handleOnPayoutDetailsPress={handleOnPayoutDetailsPress}
     />
   );
 };

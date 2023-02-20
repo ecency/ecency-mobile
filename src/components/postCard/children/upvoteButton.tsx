@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect, useMemo, useRef, useState } from "react";
-import { Alert, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import React, { Fragment, useEffect, useRef, useState } from "react";
+import { findNodeHandle, NativeModules, View } from "react-native";
+import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useAppSelector } from "../../../hooks";
 import { PulseAnimation } from "../../animations";
 
@@ -10,13 +10,16 @@ import Icon from "../../icon";
 import styles from './children.styles';
 import { TextButton } from "../../buttons";
 import { FormattedCurrency } from "../../formatedElements";
+import { Rect } from "react-native-modal-popover/lib/PopoverGeometry";
 
 interface UpvoteButtonProps {
-    content:any,
-    isVoting:boolean,
-    activeVotes:any[],
-    isShowPayoutValue?:boolean,
-    boldPayout?:boolean
+    content: any,
+    isVoting: boolean,
+    activeVotes: any[],
+    isShowPayoutValue?: boolean,
+    boldPayout?: boolean,
+    onUpvotePress: (anchorRect: Rect) => void,
+    onPayoutDetailsPress: (anchorRef: Rect) => void,
 }
 
 export const UpvoteButton = ({
@@ -24,8 +27,13 @@ export const UpvoteButton = ({
     isVoting,
     activeVotes,
     isShowPayoutValue,
-    boldPayout
-}:UpvoteButtonProps) => {
+    boldPayout,
+    onUpvotePress,
+    onPayoutDetailsPress
+}: UpvoteButtonProps) => {
+
+    const upvoteRef = useRef(null);
+    const detailsRef = useRef(null);
 
     const currentAccount = useAppSelector((state => state.account.currentAccount));
 
@@ -55,9 +63,23 @@ export const UpvoteButton = ({
     }, [activeVotes]);
 
 
+    const _getRectFromRef = (ref: any, callback: (anchorRect: Rect) => void) => {
+        const handle = findNodeHandle(ref.current);
+        if (handle) {
+            NativeModules.UIManager.measure(handle, (x0, y0, width, height, x, y) => {
+                const anchorRect: Rect = { x, y, width, height };
+                callback(anchorRect)
+            });
+        }
+    }
+
 
     const _onPress = () => {
-        Alert.alert("upvote icon press")
+        _getRectFromRef(upvoteRef, onUpvotePress);
+    }
+
+    const _onDetailsPress = () => {
+        _getRectFromRef(detailsRef, onPayoutDetailsPress)
     }
 
 
@@ -68,19 +90,19 @@ export const UpvoteButton = ({
     const payoutLimitHit = totalPayout >= maxPayout;
     const _shownPayout = payoutLimitHit && maxPayout > 0 ? maxPayout : totalPayout;
 
-    const buttonRef = useRef(null);
+
 
 
     let iconName = 'upcircleo';
     const iconType = 'AntDesign';
     let downVoteIconName = 'downcircleo';
-  
+
     if (isVoted) {
-      iconName = 'upcircle';
+        iconName = 'upcircle';
     }
-  
+
     if (isDownVoted) {
-      downVoteIconName = 'downcircle';
+        downVoteIconName = 'downcircle';
     }
 
 
@@ -88,7 +110,7 @@ export const UpvoteButton = ({
     return (
         <View style={styles.container}>
             <TouchableOpacity
-                ref={buttonRef}
+                ref={upvoteRef}
                 onPress={_onPress}
                 style={styles.upvoteButton}
                 disabled={!currentAccount}
@@ -119,18 +141,18 @@ export const UpvoteButton = ({
             </TouchableOpacity>
             <View style={styles.payoutTextButton}>
                 {isShowPayoutValue && (
-                    <TextButton
-                        style={styles.payoutTextButton}
-                        textStyle={[
-                            styles.payoutValue,
-                            isDeclinedPayout && styles.declinedPayout,
-                            boldPayout && styles.boldText,
-                        ]}
-                        text={<FormattedCurrency value={_shownPayout || '0.000'} />}
-                        onPress={() => {
-                           Alert.alert("show payout details")
-                        }}
-                    />
+                    <TouchableWithoutFeedback ref={detailsRef}  onPress={_onDetailsPress} >
+                        <TextButton
+                            style={styles.payoutTextButton}
+                            textStyle={[
+                                styles.payoutValue,
+                                isDeclinedPayout && styles.declinedPayout,
+                                boldPayout && styles.boldText,
+                            ]}
+                            text={<FormattedCurrency value={_shownPayout || '0.000'} />}
+                        />
+                    </TouchableWithoutFeedback>
+
                 )}
             </View>
         </View>
