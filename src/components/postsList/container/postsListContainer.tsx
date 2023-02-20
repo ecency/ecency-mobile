@@ -1,16 +1,15 @@
-import React, { forwardRef, memo, useRef, useImperativeHandle, useState, useEffect, Fragment } from 'react';
-import { get } from 'lodash';
-import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View, Alert, Text, findNodeHandle, NativeModules } from 'react-native';
+import React, { forwardRef, useRef, useImperativeHandle, useState, useEffect, Fragment } from 'react';
+import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View, Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import PostCard from '../../postCard';
 import styles from '../view/postsListStyles';
 import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../constants/routeNames';
 import { useIntl } from 'react-intl';
-import Popover, { usePopover } from 'react-native-modal-popover';
+import Popover from 'react-native-modal-popover';
 import Upvote from '../../upvote';
-import { Rect } from 'react-native-modal-popover/lib/PopoverGeometry';
 import { PostTypes } from '../../../constants/postTypes';
+import { PostDropdown } from '../../postDropdown';
 
 export interface PostsListRef {
   scrollToTop: () => void;
@@ -48,6 +47,7 @@ const postsListContainer = (
 
   const popoverRef = useRef<Popover>(null);
   const upvotePopoverRef = useRef(null);
+  const postDropdownRef = useRef(null);
 
   // const {
   //   openPopover,
@@ -162,6 +162,12 @@ const postsListContainer = (
     }
   }
 
+  const _handlePostDropdownPress = (content) => {
+    if(postDropdownRef.current && content){
+      postDropdownRef.current.show(content);
+    }
+  }
+
 
 
   const _handleOnContentPress = (value) => {
@@ -235,6 +241,7 @@ const postsListContainer = (
       handleOnContentPress={() => _handleOnContentPress(item)}
       handleOnUpvotePress={(anchorRect) => _handleOnUpvotePress(anchorRect, item)}
       handleOnPayoutDetailsPress={(anchorRect) => _handleOnPayoutDetailsPress(anchorRect, item)}
+      handlePostDropdownPRess = {()=>_handlePostDropdownPress(item)}
     />
     //   );
     // }
@@ -281,6 +288,10 @@ const postsListContainer = (
         ref={upvotePopoverRef}
         parentType={PostTypes.POST}
       />
+      {/* <PostDropdown
+        ref={postDropdownRef}
+        pageType={pageType}
+      /> */}
     </Fragment>
 
   );

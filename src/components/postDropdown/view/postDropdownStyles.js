@@ -6,4 +6,7 @@ export default EStyleSheet.create({
     marginRight: 2.7,
     fontSize: 25,
   },
+  sheetContent: {
+    backgroundColor: '$modalBackground',
+  },
 });
