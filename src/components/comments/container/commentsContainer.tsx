@@ -20,7 +20,7 @@ import ROUTES from '../../../constants/routeNames';
 import CommentsView from '../view/commentsView';
 import { useAppSelector } from '../../../hooks';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
-import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
+import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import { postQueries } from '../../../providers/queries';
 
 const CommentsContainer = ({
@@ -214,7 +214,7 @@ const CommentsContainer = ({
   //           // comment is present with latest data
   //           ignoreCache = true;
   //           console.log('Ignore cache as comment is now present');
-  //         } else if (cachedComment.status === CommentCacheStatus.DELETED) {
+  //         } else if (cachedComment.status === CacheStatus.DELETED) {
   //           removeAtIndex = index;
   //         } else {
   //           // comment is present in list but data is old
@@ -224,7 +224,7 @@ const CommentsContainer = ({
   //     });
 
   //     // means deleted comment is not being retuend in fresh data, cache needs to be ignored
-  //     if (cachedComment.status === CommentCacheStatus.DELETED && removeAtIndex < 0) {
+  //     if (cachedComment.status === CacheStatus.DELETED && removeAtIndex < 0) {
   //       ignoreCache = true;
   //     }
 
@@ -315,7 +315,7 @@ const CommentsContainer = ({
       // remove cached entry based on parent
       if (deletedItem) {
         const cachePath = `${deletedItem.author}/${deletedItem.permlink}`;
-        deletedItem.status = CommentCacheStatus.DELETED;
+        deletedItem.status = CacheStatus.DELETED;
         delete deletedItem.updated;
         dispatch(updateCommentCache(cachePath, deletedItem, { isUpdate: true }));
       }

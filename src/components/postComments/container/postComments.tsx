@@ -22,7 +22,7 @@ import { showActionModal, toastNotification } from '../../../redux/actions/uiAct
 import { writeToClipboard } from '../../../utils/clipboard';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
-import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
+import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import { CommentsSection } from '../children/commentsSection';
 import styles from '../children/postComments.styles';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -148,7 +148,7 @@ const PostComments = forwardRef(
 
         const _deletedItem = discussionQuery.data[_commentPath];
         if (_deletedItem) {
-          _deletedItem.status = CommentCacheStatus.DELETED;
+          _deletedItem.status = CacheStatus.DELETED;
           delete _deletedItem.updated;
           dispatch(updateCommentCache(_commentPath, _deletedItem, { isUpdate: true }));
         }

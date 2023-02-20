@@ -15,11 +15,13 @@ import {
   DELETE_CLAIM_CACHE_ENTRY,
 } from '../constants/constants';
 
-export enum CommentCacheStatus {
+export enum CacheStatus {
   PENDING = 'PENDING',
-  POSTPONED = 'PUBLISHED',
+  PUBLISHED = 'PUBLISHED',
+  POSTPONED = 'POSTPONED',
+  FAILED = 'FAILED',
   DELETED = 'DELETED',
-  UPDATED = 'UPDATED'
+  UPDATED = 'UPDATED',
 }
 
 export interface Vote {
@@ -28,6 +30,7 @@ export interface Vote {
   incrementStep: number;
   votedAt: number;
   expiresAt: number;
+  status: CacheStatus;
 }
 
 export interface Comment {
@@ -50,7 +53,7 @@ export interface Comment {
   expiresAt?: number;
   expandedReplies?: boolean;
   renderOnTop?:boolean;
-  status: CommentCacheStatus;
+  status: CacheStatus;
 }
 
 export interface Draft {
@@ -86,7 +89,7 @@ export interface LastUpdateMeta {
 }
 
 interface State {
-  votes: Map<string, Vote>;
+  votesCollection:{[key: string]:Vote};
   commentsCollection:{ [key: string]: Comment}; // TODO: handle comment array per post, if parent is same
   draftsCollection: { [key: string]: Draft };
   claimsCollection: ClaimsCollection;
@@ -96,7 +99,7 @@ interface State {
 }
 
 const initialState: State = {
-  votes: new Map(),
+  votesCollection: {},
   commentsCollection: {},
   draftsCollection: {},
   claimsCollection: {},
@@ -109,10 +112,10 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
     case UPDATE_VOTE_CACHE:
-      if (!state.votes) {
-        state.votes = new Map<string, Vote>();
+      if (!state.votesCollection) {
+        state.votesCollection = {};
       }
-      state.votes.set(payload.postPath, payload.vote);
+      state.votesCollection = {...state.votesCollection, [payload.postPath]:payload.vote};
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
         lastUpdate: {
@@ -242,19 +245,22 @@ export default function (state = initialState, action) {
     case PURGE_EXPIRED_CACHE:
       const currentTime = new Date().getTime();
 
-      if (state.votes && state.votes.size) {
-        Array.from(state.votes).forEach((entry) => {
-          if (entry[1].expiresAt < currentTime) {
-            state.votes.delete(entry[0]);
+      if (state.votesCollection) {
+        for (const key in state.votesCollection) {
+          if (state.votesCollection.hasOwnProperty(key)) {
+            const vote = state.votesCollection[key];
+            if (vote && ((vote?.expiresAt || 0) < currentTime)) {
+              delete state.votesCollection[key];
+            }
           }
-        });
+        }
       }
 
       if (state.commentsCollection) {
         for (const key in state.commentsCollection) {
           if (state.commentsCollection.hasOwnProperty(key)) {
-            const draft = state.commentsCollection[key];
-            if (draft && ((draft?.expiresAt || 0) < currentTime)) {
+            const comment = state.commentsCollection[key];
+            if (comment && ((comment?.expiresAt || 0) < currentTime)) {
               delete state.commentsCollection[key];
             }
           }

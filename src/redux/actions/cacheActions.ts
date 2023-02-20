@@ -20,7 +20,7 @@ import {
 import {
   ClaimCache,
   Comment,
-  CommentCacheStatus,
+  CacheStatus,
   Draft,
   SubscribedCommunity,
   Vote,
@@ -72,7 +72,7 @@ export const updateCommentCache = (
   comment.children = 0;
   comment.replies = [];
   comment.isDeletable = comment.isDeletable || true;
-  comment.status = comment.status || CommentCacheStatus.PENDING;
+  comment.status = comment.status || CacheStatus.PENDING;
 
   comment.body = renderPostBody(
     {

@@ -40,6 +40,7 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { useIntl } from 'react-intl';
 import { useUserActivityMutation } from '../../../providers/queries';
 import { PayoutDetailsContent } from '../children/payoutDetailsContent';
+import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 
 
 interface Props {
@@ -151,6 +152,7 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
       const _permlink = content?.permlink;
 
       console.log(`casting up vote: ${weight}`);
+      _updateVoteCache(_author, _permlink, amount, false, CacheStatus.PENDING);
       vote(currentAccount, pinCode, _author, _permlink, weight)
         .then((response) => {
           console.log('Vote response: ', response);
@@ -178,7 +180,7 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
           }
           setIsVoted(!!sliderValue);
           setIsVoting(false);
-          _onVoteSuccess(_author, _permlink, amount, false);
+          _updateVoteCache(_author, _permlink, amount, false, CacheStatus.PUBLISHED);
         })
         .catch((err) => {
           if (
@@ -210,7 +212,7 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
                 intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: errMsg }),
               ),
             );
-
+            _updateVoteCache(_author, _permlink, amount, false, CacheStatus.FAILED);
             setIsVoting(false);
           }
         });
@@ -231,6 +233,7 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
       const _permlink = content?.permlink;
 
       console.log(`casting down vote: ${weight}`);
+      _updateVoteCache(_author, _permlink, amount, true, CacheStatus.PENDING)
       vote(currentAccount, pinCode, _author, _permlink, weight)
         .then((response) => {
           // record usr points
@@ -240,7 +243,7 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
           });
           setIsVoted(!!sliderValue);
           setIsVoting(false);
-          _onVoteSuccess(_author, _permlink, amount, true);
+          _updateVoteCache(_author, _permlink, amount, true, CacheStatus.PUBLISHED);
         })
         .catch((err) => {
           dispatch(
@@ -248,6 +251,7 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
               intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: err.message }),
             ),
           );
+          _updateVoteCache(_author, _permlink, amount, true, CacheStatus.FAILED);
           setIsVoted(false);
           setIsVoting(false);
         });
@@ -272,7 +276,7 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
   };
 
 
-  const _onVoteSuccess = (author, permlink, amount, isDownvote) => {
+  const _updateVoteCache = (author, permlink, amount, isDownvote, status) => {
     // do all relevant processing here to show local upvote
     const amountNum = parseFloat(amount);
 
@@ -290,9 +294,11 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
       isDownvote,
       incrementStep,
       expiresAt: curTime + 30000,
+      status,
     };
     dispatch(updateVoteCache(postPath, vote));
   };
+
 
   const _closePopover = () => {
     setAcnhorRect(null);

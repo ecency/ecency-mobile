@@ -5,7 +5,7 @@ import { Platform } from 'react-native';
 import { useAppSelector } from '../../../hooks';
 import { getDiscussionCollection, getPost } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
-import { Comment, CommentCacheStatus, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
+import { Comment, CacheStatus, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
 
 /** hook used to return user drafts */
 export const useGetPostQuery = (_author?: string, _permlink?: string) => {
@@ -115,13 +115,13 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
 
       switch (cachedComment.status) {
-        case CommentCacheStatus.DELETED:
+        case CacheStatus.DELETED:
           if (_comments && _comments[path]) {
             delete _comments[path];
           }
           break;
-        case CommentCacheStatus.UPDATED:
-        case CommentCacheStatus.PENDING:
+        case CacheStatus.UPDATED:
+        case CacheStatus.PENDING:
           //check if commentKey already exist in comments map, 
           if (_comments[path]) {
 
