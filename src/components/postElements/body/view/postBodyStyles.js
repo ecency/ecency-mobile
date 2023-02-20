@@ -14,4 +14,12 @@ export default EStyleSheet.create({
     color: '$white',
     fontSize: 14,
   },
+  imageViewerHeaderContainer: {
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  closeIconButton: {
+    position: 'absolute',
+    right: 0,
+  },
 });

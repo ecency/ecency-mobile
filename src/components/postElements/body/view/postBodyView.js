@@ -1,9 +1,8 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
+import { PermissionsAndroid, Platform, View, Text } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
 import { useIntl, injectIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import ImageViewer from 'react-native-image-zoom-viewer';
 import RNFetchBlob from 'rn-fetch-blob';
 import ActionSheetView from 'react-native-actions-sheet';
 import { connect } from 'react-redux';
@@ -20,6 +19,10 @@ import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
 import { PostHtmlRenderer, VideoPlayer } from '../../..';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
+import ImageView from 'react-native-image-viewing';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { IconButton } from '../../../buttons';
+import styles from './postBodyStyles';
 
 const WIDTH = getWindowDimensions().width;
 
@@ -259,17 +262,30 @@ const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
     actionImage.current.show();
   };
 
+  const _renderImageViewerHeader = (imageIndex) => (
+    <SafeAreaView>
+      <View style={styles.imageViewerHeaderContainer}>
+        <Text>{`${imageIndex + 1}/${postImages.length}`}</Text>
+        <IconButton
+          name="close"
+          buttonStyle={styles.closeIconButton}
+          size={20}
+          handleOnPress={() => setIsImageModalOpen(false)}
+        />
+      </View>
+    </SafeAreaView>
+  );
+
   return (
     <Fragment>
-      <Modal visible={isImageModalOpen} transparent={true}>
-        <ImageViewer
-          imageUrls={postImages.map((url) => ({ url }))}
-          enableSwipeDown
-          onCancel={() => setIsImageModalOpen(false)}
-          onClick={() => setIsImageModalOpen(false)}
-        />
-      </Modal>
-
+      <ImageView
+        images={postImages.map((url) => ({ uri: url }))}
+        imageIndex={0}
+        visible={isImageModalOpen}
+        animationType="slide"
+        onRequestClose={() => setIsImageModalOpen(false)}
+        HeaderComponent={(imageIndex) => _renderImageViewerHeader(imageIndex.imageIndex)}
+      />
       <ActionSheetView
         ref={youtubePlayerRef}
         gestureEnabled={true}

@@ -1,9 +1,8 @@
 import React, { Fragment, useState, useRef } from 'react';
-import { Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
+import { PermissionsAndroid, Platform, View, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import CameraRoll from '@react-native-community/cameraroll';
 import RNFetchBlob from 'rn-fetch-blob';
-import ImageViewer from 'react-native-image-zoom-viewer';
 import ActionsSheetView from 'react-native-actions-sheet';
 
 // import AutoHeightWebView from 'react-native-autoheight-webview';
@@ -28,6 +27,9 @@ import { useAppDispatch } from '../../../../hooks';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
+import ImageView from 'react-native-image-viewing';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { IconButton } from '../../../buttons';
 
 const WIDTH = getWindowDimensions().width;
 
@@ -274,16 +276,30 @@ const CommentBody = ({
     }
   };
 
+  const _renderImageViewerHeader = (imageIndex) => (
+    <SafeAreaView>
+      <View style={styles.imageViewerHeaderContainer}>
+        <Text>{`${imageIndex + 1}/${postImages.length}`}</Text>
+        <IconButton
+          name="close"
+          buttonStyle={styles.closeIconButton}
+          size={20}
+          handleOnPress={() => setIsImageModalOpen(false)}
+        />
+      </View>
+    </SafeAreaView>
+  );
+
   return (
     <Fragment>
-      <Modal key={`mkey-${created.toString()}`} visible={isImageModalOpen} transparent={true}>
-        <ImageViewer
-          imageUrls={postImages.map((url) => ({ url }))}
-          enableSwipeDown
-          onCancel={() => setIsImageModalOpen(false)}
-          onClick={() => setIsImageModalOpen(false)}
-        />
-      </Modal>
+      <ImageView
+        images={postImages.map((url) => ({ uri: url }))}
+        imageIndex={0}
+        visible={isImageModalOpen}
+        animationType="slide"
+        onRequestClose={() => setIsImageModalOpen(false)}
+        HeaderComponent={(imageIndex) => _renderImageViewerHeader(imageIndex.imageIndex)}
+      />
       <OptionsModal
         ref={actionImage}
         options={[
