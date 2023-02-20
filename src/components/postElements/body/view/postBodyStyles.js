@@ -22,4 +22,7 @@ export default EStyleSheet.create({
     position: 'absolute',
     right: 0,
   },
+  imageGalleryHeaderText: {
+    color: '$primaryDarkText'
+  }
 });

@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useRef } from 'react';
-import { PermissionsAndroid, Platform, View, Text } from 'react-native';
+import { PermissionsAndroid, Platform, View, Text, SafeAreaView } from 'react-native';
 import { useIntl } from 'react-intl';
 import CameraRoll from '@react-native-community/cameraroll';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -28,7 +28,7 @@ import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
 import ImageView from 'react-native-image-viewing';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView as SafeAreaContextView } from 'react-native-safe-area-context';
 import { IconButton } from '../../../buttons';
 
 const WIDTH = getWindowDimensions().width;
@@ -276,19 +276,25 @@ const CommentBody = ({
     }
   };
 
-  const _renderImageViewerHeader = (imageIndex) => (
-    <SafeAreaView>
-      <View style={styles.imageViewerHeaderContainer}>
-        <Text>{`${imageIndex + 1}/${postImages.length}`}</Text>
-        <IconButton
-          name="close"
-          buttonStyle={styles.closeIconButton}
-          size={20}
-          handleOnPress={() => setIsImageModalOpen(false)}
-        />
-      </View>
-    </SafeAreaView>
-  );
+  const _renderImageViewerHeader = (imageIndex) => {
+    const SafeAreaWrapper = Platform.select({ ios: SafeAreaView, android: SafeAreaContextView });
+    return (
+      <SafeAreaWrapper>
+        <View style={styles.imageViewerHeaderContainer}>
+          <Text style={styles.imageGalleryHeaderText}>{`${imageIndex + 1}/${
+            postImages.length
+          }`}</Text>
+          <IconButton
+            name="close"
+            color={EStyleSheet.value('$primaryDarkText')}
+            buttonStyle={styles.closeIconButton}
+            size={20}
+            handleOnPress={() => setIsImageModalOpen(false)}
+          />
+        </View>
+      </SafeAreaWrapper>
+    );
+  };
 
   return (
     <Fragment>
@@ -297,6 +303,7 @@ const CommentBody = ({
         imageIndex={0}
         visible={isImageModalOpen}
         animationType="slide"
+        swipeToCloseEnabled
         onRequestClose={() => setIsImageModalOpen(false)}
         HeaderComponent={(imageIndex) => _renderImageViewerHeader(imageIndex.imageIndex)}
       />
