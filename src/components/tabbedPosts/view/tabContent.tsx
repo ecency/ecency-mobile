@@ -334,7 +334,7 @@ const TabContent = ({
     <>
       <PostsList
         ref={postsListRef}
-        data={posts}
+        posts={posts}
         isFeedScreen={isFeedScreen}
         promotedPosts={promotedPosts}
         onLoadPosts={(shouldReset) => {

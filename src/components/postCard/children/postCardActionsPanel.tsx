@@ -29,11 +29,9 @@ export const PostCardActionsPanel = ({
     const activeVotes = useMemo(() => content?.active_votes || [], [content])
 
     const _onVotersPress = () => {
-
         handleCardInteraction(PostCardActionIds.NAVIGATE, {
             name: ROUTES.SCREENS.VOTERS,
             params: {
-                activeVotes: content?.active_votes || [],
                 content: content,
             },
             key: content.permlink,
@@ -42,12 +40,14 @@ export const PostCardActionsPanel = ({
 
 
     const _onReblogsPress = () => {
-        handleCardInteraction(PostCardActionIds.NAVIGATE, {
-            name: ROUTES.SCREENS.REBLOGS,
-            params: {
-              reblogs: reblogs,
-            }
-        });
+        if (reblogs?.length) {
+            handleCardInteraction(PostCardActionIds.NAVIGATE, {
+                name: ROUTES.SCREENS.REBLOGS,
+                params: {
+                    reblogs: reblogs,
+                }
+            });
+        }
     }
 
     return (

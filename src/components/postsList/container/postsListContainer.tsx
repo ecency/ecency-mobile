@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useImperativeHandle, useState, useEffect, Fragment } from 'react';
+import React, { forwardRef, useRef, useImperativeHandle, useState, useEffect, Fragment, useMemo } from 'react';
 import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View, Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import PostCard from '../../postCard';
@@ -13,12 +13,14 @@ import { PostOptionsModal } from '../../postOptionsModal';
 import { PostCardActionIds } from '../../postCard/container/postCard';
 import { useAppDispatch } from '../../../hooks';
 import { showProfileModal } from '../../../redux/actions/uiAction';
+import { getPostReblogs } from '../../../providers/ecency/ecency';
 
 export interface PostsListRef {
   scrollToTop: () => void;
 }
 
 interface postsListContainerProps extends FlatListProps<any> {
+  posts: any[];
   promotedPosts: Array<any>;
   isFeedScreen: boolean;
   onLoadPosts?: (shouldReset: boolean) => void;
@@ -32,6 +34,7 @@ let _onEndReachedCalledDuringMomentum = true;
 
 const postsListContainer = (
   {
+    posts,
     promotedPosts,
     isFeedScreen,
     onLoadPosts,
@@ -65,20 +68,37 @@ const postsListContainer = (
   // const [popoverVisible, setPopoverVisible] = useState(false); 
 
 
-  const [imageHeights, setImageHeights] = useState(new Map<string, number>());
-
   const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
   const nsfw = useSelector((state) => state.application.hidePostsThumbnails);
   const isDarkTheme = useSelector((state) => state.application.isDarkThem);
-  const posts = useSelector((state) => {
+
+  const cachedPosts = useSelector((state) => {
     return isFeedScreen ? state.posts.feedPosts : state.posts.otherPosts;
   });
+
   const mutes = useSelector((state) => state.account.currentAccount.mutes);
   const scrollIndex: number = useSelector(state => state.ui.scrollIndex);
 
   const scrollPosition = useSelector((state) => {
     return isFeedScreen ? state.posts.feedScrollPosition : state.posts.otherScrollPosition;
   });
+
+  const [imageHeights, setImageHeights] = useState(new Map<string, number>());
+  const reblogsCollectionRef = useRef({});
+
+  const data = useMemo(() => {
+    const _data = posts || cachedPosts
+    if (!_data || !_data.length) {
+      return []
+    }
+
+    //inject promoted posts in flat list data, 
+    //also skip muted posts
+    return _data;
+
+  }, [posts, promotedPosts, cachedPosts, mutes]);
+
+
 
   useImperativeHandle(ref, () => ({
     scrollToTop() {
@@ -89,26 +109,28 @@ const postsListContainer = (
   useEffect(() => {
     console.log('Scroll Position: ', scrollPosition);
 
-    if (posts && posts.length == 0) {
+    if (cachedPosts && cachedPosts.length == 0) {
       flatListRef.current?.scrollToOffset({
         offset: 0,
         animated: false,
       });
     }
-  }, [posts]);
+  }, [cachedPosts]);
 
   useEffect(() => {
     console.log('Scroll Position: ', scrollPosition);
     flatListRef.current?.scrollToOffset({
-      offset: posts && posts.length == 0 ? 0 : scrollPosition,
+      offset: cachedPosts && cachedPosts.length == 0 ? 0 : scrollPosition,
       animated: false,
     });
   }, [scrollPosition]);
 
+
+
   //TODO: test hook, remove before PR
   useEffect(() => {
     if (scrollIndex && flatListRef.current) {
-      const _posts = props.data || posts
+      const _posts = props.data || cachedPosts
       console.log("scrollIndex", scrollIndex, "posts length", _posts.length);
 
       if (scrollIndex >= _posts.length) {
@@ -127,6 +149,31 @@ const postsListContainer = (
       }, 500)
     }
   }, [scrollIndex])
+
+
+  useEffect(() => {
+    //fetch reblogs here
+    _updateReblogsCollection()
+  }, [data])
+
+
+  const _updateReblogsCollection = async () => {
+    //improve routine using list or promises
+    for (const i in data) {
+      const _item = data[i]
+      const _postPath = _item.author + _item.permlink
+      if (!reblogsCollectionRef.current[_postPath]) {
+        try {
+          const reblogs = await getPostReblogs(_item);
+          reblogsCollectionRef.current = { ...reblogsCollectionRef.current, [_postPath]: reblogs || [] }
+        } catch (err) {
+          console.warn("failed to fetch reblogs for post");
+          reblogsCollectionRef.current = { ...reblogsCollectionRef.current, [_postPath]: [] }
+        }
+      }
+    }
+  }
+
 
   const _setImageHeightInMap = (mapKey: string, height: number) => {
     if (mapKey && height) {
@@ -244,6 +291,7 @@ const postsListContainer = (
       // get image height from cache if available
       const localId = item.author + item.permlink;
       const imgHeight = imageHeights.get(localId);
+      const reblogs = reblogsCollectionRef.current[localId]
 
       //   e.push(
       return <PostCard
@@ -252,7 +300,7 @@ const postsListContainer = (
         content={item}
         isHideImage={isHideImages}
         nsfw={nsfw}
-        pageType={pageType}
+        reblogs={reblogs}
         // imageHeight={imgHeight}
         setImageHeight={_setImageHeightInMap}
         handleCardInteraction={(id: PostCardActionIds, payload: any) => _handleCardInteraction(id, payload, item)}
@@ -270,7 +318,7 @@ const postsListContainer = (
     <Fragment>
       <FlatList
         ref={flatListRef}
-        data={posts}
+        data={data}
         showsVerticalScrollIndicator={false}
         renderItem={_renderItem}
         keyExtractor={(content, index) => `${content.author}/${content.permlink}-${index}`}
@@ -279,7 +327,7 @@ const postsListContainer = (
         maxToRenderPerBatch={3}
         initialNumToRender={3}
         windowSize={5}
-        extraData={[imageHeights, scrollIndex]}
+        extraData={[imageHeights, scrollIndex, reblogsCollectionRef.current]}
         onEndReached={_onEndReached}
         onMomentumScrollBegin={() => {
           _onEndReachedCalledDuringMomentum = false;
@@ -291,6 +339,7 @@ const postsListContainer = (
             onRefresh={() => {
               if (onLoadPosts) {
                 onLoadPosts(true);
+                reblogsCollectionRef.current = {}
               }
             }}
             progressBackgroundColor="#357CE6"
