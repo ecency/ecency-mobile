@@ -20,7 +20,7 @@ const PostScreen = ({
         isHasDropdown
         title="Post"
         content={post}
-        dropdownComponent={<PostDropdown content={post} fetchPost={fetchPost} />}
+        dropdownComponent={<PostDropdown content={post} fetchPost={fetchPost} />} //TODO: handle new dropdown here
         isNewPost={isNewPost}
       />
       <PostDisplay

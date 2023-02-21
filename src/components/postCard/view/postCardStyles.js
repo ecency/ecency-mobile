@@ -12,6 +12,13 @@ export default EStyleSheet.create({
       height: 1,
     },
   },
+  optionsIconContainer:{
+    marginLeft:12,
+  },
+  optionsIcon:{
+   
+    color:'$iconColor'
+  },
   commentButton: {
     padding: 0,
     margin: 0,

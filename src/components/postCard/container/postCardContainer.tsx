@@ -32,7 +32,8 @@ const PostCardContainer = ({
   mutes,
   handleOnContentPress,
   handleOnUpvotePress,
-  handleOnPayoutDetailsPress
+  handleOnPayoutDetailsPress,
+  handlePostDropdownPress
 }) => {
   // const navigation = useNavigation();
 
@@ -159,6 +160,7 @@ const PostCardContainer = ({
       // handleOnUnmutePress={_handleOnUnmutePress}
       handleOnUpvotePress={handleOnUpvotePress}
       handleOnPayoutDetailsPress={handleOnPayoutDetailsPress}
+      handlePostDropdownPress={handlePostDropdownPress}
     />
   );
 };

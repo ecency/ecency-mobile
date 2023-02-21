@@ -9,7 +9,7 @@ import { useIntl } from 'react-intl';
 import Popover from 'react-native-modal-popover';
 import Upvote from '../../upvote';
 import { PostTypes } from '../../../constants/postTypes';
-import { PostDropdown } from '../../postDropdown';
+import { PostOptionsModal } from '../../postOptionsModal';
 
 export interface PostsListRef {
   scrollToTop: () => void;
@@ -241,7 +241,7 @@ const postsListContainer = (
       handleOnContentPress={() => _handleOnContentPress(item)}
       handleOnUpvotePress={(anchorRect) => _handleOnUpvotePress(anchorRect, item)}
       handleOnPayoutDetailsPress={(anchorRect) => _handleOnPayoutDetailsPress(anchorRect, item)}
-      handlePostDropdownPRess = {()=>_handlePostDropdownPress(item)}
+      handlePostDropdownPress = {()=>_handlePostDropdownPress(item)}
     />
     //   );
     // }
@@ -288,10 +288,10 @@ const postsListContainer = (
         ref={upvotePopoverRef}
         parentType={PostTypes.POST}
       />
-      {/* <PostDropdown
+      <PostOptionsModal
         ref={postDropdownRef}
         pageType={pageType}
-      /> */}
+      />
     </Fragment>
 
   );

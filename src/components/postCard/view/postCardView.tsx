@@ -16,7 +16,7 @@ import { Icon } from '../../icon';
 
 // Styles
 import styles from './postCardStyles';
-import { TextButton } from '../..';
+import { IconButton, TextButton } from '../..';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { UpvoteButton } from '../children/upvoteButton';
 import { PostTypes } from '../../../constants/postTypes';
@@ -32,6 +32,7 @@ const PostCardView = ({
   handleOnContentPress,
   handleOnVotersPress,
   handleOnReblogsPress,
+  handlePostDropdownPress,
   handleOnUnmutePress,
   handleOnUpvotePress,
   handleOnPayoutDetailsPress,
@@ -130,12 +131,14 @@ const PostCardView = ({
           <Icon style={styles.pushPinIcon} size={20} name="pin" iconType="MaterialCommunityIcons" />
         )}
         <View style={styles.dropdownWrapper}>
-          {/* TODO: move dropdown out of flatlist <PostDropdown
-          pageType={pageType}
-          content={content}
-          fetchPost={fetchPost}
-          isMuted={isMuted}
-        /> */}
+          <IconButton
+            style={styles.optionsIconContainer}
+            iconStyle={styles.optionsIcon}
+            iconType="MaterialCommunityIcons"
+            name="dots-vertical"
+            onPress={handlePostDropdownPress}
+            size={28}
+          />
         </View>
       </View>
     </>
