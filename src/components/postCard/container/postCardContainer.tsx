@@ -20,6 +20,14 @@ import PostCardView from '../view/postCardView';
  *
  */
 
+
+ export enum PostCardActionIds {
+    POST = 'POST',
+    USER = 'USER',
+    REBLOGS = 'REBLOGS',
+    OPTIONS = 'OPTIONS'
+ }
+
 const PostCardContainer = ({
   currentAccount,
   content,
@@ -33,7 +41,8 @@ const PostCardContainer = ({
   handleOnContentPress,
   handleOnUpvotePress,
   handleOnPayoutDetailsPress,
-  handlePostDropdownPress
+  handlePostDropdownPress,
+  onActionPress,
 }) => {
   // const navigation = useNavigation();
 
@@ -161,6 +170,7 @@ const PostCardContainer = ({
       handleOnUpvotePress={handleOnUpvotePress}
       handleOnPayoutDetailsPress={handleOnPayoutDetailsPress}
       handlePostDropdownPress={handlePostDropdownPress}
+      onActionPress={onActionPress}
     />
   );
 };

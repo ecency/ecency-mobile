@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
 // Components
@@ -176,6 +175,5 @@ class PostHeaderDescription extends PureComponent {
   }
 }
 
-const mapStateToProps = () => ({});
 
-export default connect(mapStateToProps)(injectIntl(PostHeaderDescription));
+export default injectIntl(PostHeaderDescription);

@@ -15,11 +15,12 @@ import { TextWithIcon } from '../../basicUIElements';
 import { Icon } from '../../icon';
 
 // Styles
-import styles from './postCardStyles';
+import styles from '../children/postCardStyles';
 import { IconButton, TextButton } from '../..';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { UpvoteButton } from '../children/upvoteButton';
 import { PostTypes } from '../../../constants/postTypes';
+import { PostCardHeader } from '../children/postCardHeader';
 
 const dim = getWindowDimensions();
 const DEFAULT_IMAGE =
@@ -28,11 +29,9 @@ const NSFW_IMAGE =
   'https://images.ecency.com/DQmZ1jW4p7o5GyoqWyCib1fSLE2ftbewsMCt2GvbmT9kmoY/nsfw_3x.png';
 
 const PostCardView = ({
-  handleOnUserPress,
   handleOnContentPress,
   handleOnVotersPress,
   handleOnReblogsPress,
-  handlePostDropdownPress,
   handleOnUnmutePress,
   handleOnUpvotePress,
   handleOnPayoutDetailsPress,
@@ -40,17 +39,15 @@ const PostCardView = ({
   content,
   reblogs,
   isHideImage,
-  fetchPost,
   nsfw,
   intl,
   activeVotes,
   imageHeight,
   setImageHeight,
   isMuted,
-  pageType,
+  onActionPress
 }) => {
 
-  const upvoteTouchableRef = useRef(null);
   // local state to manage fake upvote if available
   const activeVotesCount = activeVotes ? activeVotes.length : 0;
   // const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
@@ -58,11 +55,6 @@ const PostCardView = ({
   const calcImgHeight = 300;
 
   // Component Functions
-  const _handleOnUserPress = (username) => {
-    if (handleOnUserPress) {
-      handleOnUserPress(username);
-    }
-  };
 
   const _handleOnContentPress = () => {
     // console.log('content : ', content);
@@ -70,23 +62,16 @@ const PostCardView = ({
   };
 
   const _handleOnVotersPress = () => {
-    // handleOnVotersPress();
+    handleOnVotersPress();
   };
 
   const _handleOnReblogsPress = () => {
-    // if (reblogs && reblogs.length > 0) {
-    //   handleOnReblogsPress();
-    // }
-  };
-
-  const _handleCacheVoteIncrement = () => {
-    // fake increment vote using based on local change
-    // setCacheVoteIcrement(1);
+    if (reblogs && reblogs.length > 0) {
+      handleOnReblogsPress();
+    }
   };
 
 
-  const rebloggedBy = get(content, 'reblogged_by[0]', null);
-  const dateString = useMemo(() => getTimeFromNow(content?.created), [content])
 
   let images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
   if (content.thumbnail) {
@@ -99,50 +84,6 @@ const PostCardView = ({
     images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
   }
 
-
-  const _renderCardHeader = (
-    <>
-      {!!rebloggedBy && (
-        <TextWithIcon
-          wrapperStyle={styles.reblogWrapper}
-          text={`${intl.formatMessage({ id: 'post.reblogged' })} ${rebloggedBy}`}
-          iconType="MaterialIcons"
-          iconName="repeat"
-          iconSize={16}
-          textStyle={styles.reblogText}
-          isClickable={true}
-          onPress={() => _handleOnUserPress(rebloggedBy)}
-        />
-      )}
-
-      <View style={styles.bodyHeader}>
-        <PostHeaderDescription
-          date={dateString}
-          isHideImage={isHideImage}
-          name={get(content, 'author')}
-          profileOnPress={_handleOnUserPress}
-          reputation={get(content, 'author_reputation')}
-          size={50}
-          content={content}
-          rebloggedBy={rebloggedBy}
-          isPromoted={get(content, 'is_promoted')}
-        />
-        {(content?.stats?.is_pinned || content?.stats?.is_pinned_blog) && (
-          <Icon style={styles.pushPinIcon} size={20} name="pin" iconType="MaterialCommunityIcons" />
-        )}
-        <View style={styles.dropdownWrapper}>
-          <IconButton
-            style={styles.optionsIconContainer}
-            iconStyle={styles.optionsIcon}
-            iconType="MaterialCommunityIcons"
-            name="dots-vertical"
-            onPress={handlePostDropdownPress}
-            size={28}
-          />
-        </View>
-      </View>
-    </>
-  )
 
 
   const _renderPostContent = (
@@ -248,10 +189,9 @@ const PostCardView = ({
 
 
 
-
   return (
     <View style={styles.post}>
-      {_renderCardHeader}
+      <PostCardHeader content={content} onActionPress={onActionPress}/>
       {_renderPostContent}
       {_renderActionPanel}
     </View>

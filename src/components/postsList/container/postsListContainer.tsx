@@ -10,6 +10,9 @@ import Popover from 'react-native-modal-popover';
 import { UpvotePopover } from '../..';
 import { PostTypes } from '../../../constants/postTypes';
 import { PostOptionsModal } from '../../postOptionsModal';
+import { PostCardActionIds } from '../../postCard/container/postCardContainer';
+import { useAppDispatch } from '../../../hooks';
+import { showProfileModal } from '../../../redux/actions/uiAction';
 
 export interface PostsListRef {
   scrollToTop: () => void;
@@ -42,6 +45,7 @@ const postsListContainer = (
 ) => {
   const flatListRef = useRef(null);
   const intl = useIntl();
+  const dispatch = useAppDispatch();
 
   const navigation = useNavigation();
 
@@ -184,6 +188,20 @@ const postsListContainer = (
     }
   };
 
+
+  const _onActionPress = (id:PostCardActionIds, payload:any) => {
+    switch(id){
+      case PostCardActionIds.USER:
+        dispatch(showProfileModal(payload))
+        break;
+      case PostCardActionIds.OPTIONS:
+        if(postDropdownRef.current && payload){
+          postDropdownRef.current.show(payload);
+        }
+        break;
+    }
+  }
+
   const _renderItem = ({ item, index }: { item: any; index: number }) => {
     // const e = [];
 
@@ -242,6 +260,7 @@ const postsListContainer = (
       handleOnUpvotePress={(anchorRect) => _handleOnUpvotePress(anchorRect, item)}
       handleOnPayoutDetailsPress={(anchorRect) => _handleOnPayoutDetailsPress(anchorRect, item)}
       handlePostDropdownPress = {()=>_handlePostDropdownPress(item)}
+      onActionPress={_onActionPress}
     />
     //   );
     // }

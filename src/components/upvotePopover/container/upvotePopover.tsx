@@ -339,9 +339,7 @@ const UpvotePopover = forwardRef(({ parentType }: Props, ref) => {
 
 
   return (
-
     <Fragment>
-
       <Popover
         contentStyle={showPayoutDetails ? styles.popoverDetails : styles.popoverSlider}
         arrowStyle={showPayoutDetails ? styles.arrow : styles.hideArrow}
