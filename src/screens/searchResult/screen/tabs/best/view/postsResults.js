@@ -35,6 +35,7 @@ const PostsResults = ({ navigation, searchValue }) => {
           reputation={Math.floor(reputation)}
           size={36}
           content={item}
+          profileOnPress={()=> {}} //TODO: handle on user press before PR
         />
         <View style={[styles.postDescription]}>
           <Text style={styles.title}>{item.title}</Text>

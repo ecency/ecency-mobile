@@ -11,7 +11,6 @@ import styles from './postHeaderDescriptionStyles';
 
 import { default as ROUTES } from '../../../../constants/routeNames';
 import { IconButton } from '../../..';
-import { showProfileModal } from '../../../../redux/actions/uiAction';
 import RootNavigation from '../../../../navigation/rootNavigation';
 
 // Constants
@@ -22,12 +21,10 @@ class PostHeaderDescription extends PureComponent {
 
   // Component Functions
   _handleOnUserPress = (username) => {
-    const { profileOnPress, dispatch } = this.props;
+    const { profileOnPress } = this.props;
 
     if (profileOnPress) {
       profileOnPress(username);
-    } else {
-      dispatch(showProfileModal(username));
     }
   };
 

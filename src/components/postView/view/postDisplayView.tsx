@@ -239,6 +239,7 @@ const PostDisplayView = ({
               size={40}
               inlineTime={true}
               customStyle={styles.headerLine}
+              profileOnPress={()=> {}} //TODO: handle on user press before PR
             />
             <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
             {!postBodyLoading && (

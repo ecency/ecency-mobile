@@ -259,6 +259,7 @@ const CommentView = ({
           customStyle={{ alignItems: 'flex-start', paddingLeft: 12 }}
           showDotMenuButton={true}
           handleOnDotPress={() => handleOnLongPress(comment)}
+          profileOnPress={()=> {}} //TODO: handle on user press before PR
           secondaryContentComponent={_renderComment()}
         />
       </View>
