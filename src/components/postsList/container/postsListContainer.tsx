@@ -6,7 +6,6 @@ import styles from '../view/postsListStyles';
 import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../constants/routeNames';
 import { useIntl } from 'react-intl';
-import Popover from 'react-native-modal-popover';
 import { UpvotePopover } from '../..';
 import { PostTypes } from '../../../constants/postTypes';
 import { PostOptionsModal } from '../../postOptionsModal';
@@ -52,20 +51,10 @@ const postsListContainer = (
 
   const navigation = useNavigation();
 
-  const popoverRef = useRef<Popover>(null);
+  
   const upvotePopoverRef = useRef(null);
   const postDropdownRef = useRef(null);
 
-  // const {
-  //   openPopover,
-  //   closePopover,
-  //   popoverVisible,
-  //   touchableRef,
-  //   popoverAnchorRect,
-  // } = usePopover();
-
-
-  // const [popoverVisible, setPopoverVisible] = useState(false); 
 
 
   const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
@@ -87,13 +76,32 @@ const postsListContainer = (
   const reblogsCollectionRef = useRef({});
 
   const data = useMemo(() => {
-    const _data = posts || cachedPosts
+    let _data = posts || cachedPosts
     if (!_data || !_data.length) {
       return []
     }
 
-    //inject promoted posts in flat list data, 
+
     //also skip muted posts
+    _data = _data.filter((item) => {
+      const isMuted = mutes && mutes.indexOf(item.author) > -1;
+      return !isMuted && !!item?.author;
+    })
+
+    const _promotedPosts = promotedPosts.filter((item) => {
+      const isMuted = mutes && mutes.indexOf(item.author) > -1;
+      const notInPosts = _data.filter((x) => x.permlink === item.permlink).length <= 0
+      return !isMuted && !!item?.author && notInPosts
+    })
+
+    //inject promoted posts in flat list data, 
+    _promotedPosts.forEach((pPost, index) => {
+      const pIndex = (index * 4) + 3;
+      if (_data.length > pIndex) {
+        _data.splice(pIndex, 0, pPost)
+      }
+    })
+
     return _data;
 
   }, [posts, promotedPosts, cachedPosts, mutes]);
@@ -130,7 +138,7 @@ const postsListContainer = (
   //TODO: test hook, remove before PR
   useEffect(() => {
     if (scrollIndex && flatListRef.current) {
-      const _posts = props.data || cachedPosts
+      const _posts = data
       console.log("scrollIndex", scrollIndex, "posts length", _posts.length);
 
       if (scrollIndex >= _posts.length) {
@@ -252,66 +260,24 @@ const postsListContainer = (
     }
   }
 
-  const _renderItem = ({ item, index }: { item: any; index: number }) => {
-    // const e = [];
+  const _renderItem = ({ item }: { item: any }) => {
+    // get image height from cache if available
+    const localId = item.author + item.permlink;
+    const imgHeight = imageHeights.get(localId);
+    const reblogs = reblogsCollectionRef.current[localId]
 
-    // if (index % 3 === 0) {
-    //   const ix = index / 3 - 1;
-    //   if (promotedPosts[ix] !== undefined) {
-    //     const p = promotedPosts[ix];
-    //     const isMuted = mutes && mutes.indexOf(p.author) > -1;
-
-    //     if (
-    //       !isMuted &&
-    //       get(p, 'author', null) &&
-    //       posts &&
-    //       posts.filter((x) => x.permlink === p.permlink).length <= 0
-    //     ) {
-    //       // get image height from cache if available
-    //       const localId = p.author + p.permlink;
-    //       const imgHeight = imageHeights.get(localId);
-
-    //       e.push(
-    //         <PostCard
-    //         intl={intl}
-    //           key={`${p.author}-${p.permlink}-prom`}
-    //           content={p}
-    //           isHideImage={isHideImages}
-    //           imageHeight={imgHeight}
-    //           pageType={pageType}
-    //           setImageHeight={_setImageHeightInMap}
-    //         />,
-    //       );
-    //     }
-    //   }
-    // }
-
-    const isMuted = mutes && mutes.indexOf(item.author) > -1;
-    if (!isMuted && item?.author) {
-      // get image height from cache if available
-      const localId = item.author + item.permlink;
-      const imgHeight = imageHeights.get(localId);
-      const reblogs = reblogsCollectionRef.current[localId]
-
-      //   e.push(
-      return <PostCard
-        intl={intl}
-        key={`${item.author}-${item.permlink}`}
-        content={item}
-        isHideImage={isHideImages}
-        nsfw={nsfw}
-        reblogs={reblogs}
-        // imageHeight={imgHeight}
-        setImageHeight={_setImageHeightInMap}
-        handleCardInteraction={(id: PostCardActionIds, payload: any) => _handleCardInteraction(id, payload, item)}
-      />
-
-      //   );
-    }
-
-    return null;
-
-    // return e;
+    //   e.push(
+    return <PostCard
+      intl={intl}
+      key={`${item.author}-${item.permlink}`}
+      content={item}
+      isHideImage={isHideImages}
+      nsfw={nsfw}
+      reblogs={reblogs}
+      // imageHeight={imgHeight}
+      setImageHeight={_setImageHeightInMap}
+      handleCardInteraction={(id: PostCardActionIds, payload: any) => _handleCardInteraction(id, payload, item)}
+    />
   };
 
   return (
