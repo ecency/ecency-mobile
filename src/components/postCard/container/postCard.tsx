@@ -36,7 +36,8 @@ export enum PostCardActionIds {
   NAVIGATE = 'NAVIGATE'
 }
 
-const PostCardContainer = ({
+const PostCard = ({
+  intl,
   content,
   isHideImage,
   nsfw,
@@ -44,12 +45,12 @@ const PostCardContainer = ({
   setImageHeight,
   handleCardInteraction,
 }) => {
-  // const navigation = useNavigation();
 
-  // const dispatch = useAppDispatch();
   // const postsCacherPrimer = postQueries.usePostsCachePrimer();
 
-  // const [_content, setContent] = useState(content);
+
+
+
   // const [reblogs, setReblogs] = useState([]);
 
 
@@ -86,6 +87,7 @@ const PostCardContainer = ({
   return (
     <View style={styles.post}>
       <PostCardHeader
+        intl={intl}
         content={content}
         isHideImage={isHideImage}
         handleCardInteraction={handleCardInteraction} />
@@ -105,4 +107,4 @@ const PostCardContainer = ({
   );
 };
 
-export default PostCardContainer;
+export default PostCard;

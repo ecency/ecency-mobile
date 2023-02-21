@@ -11,18 +11,18 @@ import { Icon } from '../../icon';
 import styles from './postCardStyles';
 import { IconButton } from '../..';
 import { getTimeFromNow } from '../../../utils/time';
-import { useIntl } from 'react-intl';
-import { PostCardActionIds } from '../container/postCardContainer';
+import { IntlShape } from 'react-intl';
+import { PostCardActionIds } from '../container/postCard';
 
 
 interface Props {
+  intl:IntlShape;
   content: any;
   isHideImage: boolean;
   handleCardInteraction: (id: PostCardActionIds, payload?: any) => void
 }
 
-export const PostCardHeader = ({ content, isHideImage, handleCardInteraction }: Props) => {
-  const intl = useIntl();
+export const PostCardHeader = ( {intl, content, isHideImage, handleCardInteraction }: Props) => {
 
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
   const dateString = useMemo(() => getTimeFromNow(content?.created), [content])

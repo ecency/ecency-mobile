@@ -11,7 +11,7 @@ import FastImage from 'react-native-fast-image';
 
 // Styles
 import styles from '../children/postCardStyles';
-import { PostCardActionIds } from '../container/postCardContainer';
+import { PostCardActionIds } from '../container/postCard';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import ROUTES from '../../../constants/routeNames';
 

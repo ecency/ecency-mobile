@@ -10,7 +10,7 @@ import Popover from 'react-native-modal-popover';
 import { UpvotePopover } from '../..';
 import { PostTypes } from '../../../constants/postTypes';
 import { PostOptionsModal } from '../../postOptionsModal';
-import { PostCardActionIds } from '../../postCard/container/postCardContainer';
+import { PostCardActionIds } from '../../postCard/container/postCard';
 import { useAppDispatch } from '../../../hooks';
 import { showProfileModal } from '../../../redux/actions/uiAction';
 

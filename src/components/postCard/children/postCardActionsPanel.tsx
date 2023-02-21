@@ -10,7 +10,7 @@ import { TextWithIcon } from '../../basicUIElements';
 import styles from '../children/postCardStyles';
 import { UpvoteButton } from '../children/upvoteButton';
 import { PostTypes } from '../../../constants/postTypes';
-import { PostCardActionIds } from '../container/postCardContainer';
+import { PostCardActionIds } from '../container/postCard';
 import ROUTES from '../../../constants/routeNames';
 
 interface Props {
