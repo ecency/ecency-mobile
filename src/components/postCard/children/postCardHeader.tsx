@@ -12,19 +12,17 @@ import styles from './postCardStyles';
 import { IconButton } from '../..';
 import { getTimeFromNow } from '../../../utils/time';
 import { useIntl } from 'react-intl';
-import { useAppSelector } from '../../../hooks';
 import { PostCardActionIds } from '../container/postCardContainer';
 
 
 interface Props {
   content: any;
+  isHideImage: boolean;
   onActionPress: (id: PostCardActionIds, payload?: any) => void
 }
 
-export const PostCardHeader = ({ content, onActionPress }: Props) => {
+export const PostCardHeader = ({ content, isHideImage, onActionPress }: Props) => {
   const intl = useIntl();
-
-  const isHideImage = useAppSelector((state) => state.application.hidePostsThumbnails)
 
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
   const dateString = useMemo(() => getTimeFromNow(content?.created), [content])

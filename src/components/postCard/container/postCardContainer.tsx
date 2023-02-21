@@ -25,7 +25,8 @@ import PostCardView from '../view/postCardView';
     POST = 'POST',
     USER = 'USER',
     REBLOGS = 'REBLOGS',
-    OPTIONS = 'OPTIONS'
+    OPTIONS = 'OPTIONS',
+    UNMUTE = 'UNMUTE'
  }
 
 const PostCardContainer = ({
@@ -37,7 +38,6 @@ const PostCardContainer = ({
   setImageHeight,
   pageType,
   showQuickReplyModal,
-  mutes,
   handleOnContentPress,
   handleOnUpvotePress,
   handleOnPayoutDetailsPress,
@@ -52,7 +52,6 @@ const PostCardContainer = ({
   // const [_content, setContent] = useState(content);
   // const [reblogs, setReblogs] = useState([]);
   // const activeVotes = useMemo(()=>content?.active_votes || [], [content])
-  // const [isMuted, setIsMuted] = useState(!!mutes && mutes.indexOf(content.author) > -1);
 
 
   // useEffect(() => {
@@ -139,9 +138,6 @@ const PostCardContainer = ({
   //   });
   // };
 
-  // const _handleOnUnmutePress = () => {
-  //   setIsMuted(false);
-  // };
 
   // const _handleQuickReplyModal = () => {
   //   showQuickReplyModal(content);
@@ -157,7 +153,6 @@ const PostCardContainer = ({
       activeVotes={content.active_votes || []}
       // imageHeight={imageHeight}
       // setImageHeight={setImageHeight}
-      isMuted={false}
       pageType={pageType}
 
       // fetchPost={_fetchPost}
@@ -166,7 +161,6 @@ const PostCardContainer = ({
       handleOnContentPress={handleOnContentPress}
       // handleOnVotersPress={_handleOnVotersPress}
       // handleOnReblogsPress={_handleOnReblogsPress}
-      // handleOnUnmutePress={_handleOnUnmutePress}
       handleOnUpvotePress={handleOnUpvotePress}
       handleOnPayoutDetailsPress={handleOnPayoutDetailsPress}
       handlePostDropdownPress={handlePostDropdownPress}

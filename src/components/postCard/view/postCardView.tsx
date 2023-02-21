@@ -16,23 +16,15 @@ import { Icon } from '../../icon';
 
 // Styles
 import styles from '../children/postCardStyles';
-import { IconButton, TextButton } from '../..';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { UpvoteButton } from '../children/upvoteButton';
 import { PostTypes } from '../../../constants/postTypes';
 import { PostCardHeader } from '../children/postCardHeader';
+import { PostCardContent } from '../children/postCardContent';
 
-const dim = getWindowDimensions();
-const DEFAULT_IMAGE =
-  'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
-const NSFW_IMAGE =
-  'https://images.ecency.com/DQmZ1jW4p7o5GyoqWyCib1fSLE2ftbewsMCt2GvbmT9kmoY/nsfw_3x.png';
 
 const PostCardView = ({
-  handleOnContentPress,
   handleOnVotersPress,
   handleOnReblogsPress,
-  handleOnUnmutePress,
   handleOnUpvotePress,
   handleOnPayoutDetailsPress,
   showQuickReplyModal,
@@ -40,26 +32,17 @@ const PostCardView = ({
   reblogs,
   isHideImage,
   nsfw,
-  intl,
   activeVotes,
   imageHeight,
   setImageHeight,
-  isMuted,
   onActionPress
 }) => {
 
   // local state to manage fake upvote if available
   const activeVotesCount = activeVotes ? activeVotes.length : 0;
-  // const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
-  // const [calcImgHeight, setCalcImgHeight] = useState(imageHeight || 300);
-  const calcImgHeight = 300;
+
 
   // Component Functions
-
-  const _handleOnContentPress = () => {
-    // console.log('content : ', content);
-    handleOnContentPress();
-  };
 
   const _handleOnVotersPress = () => {
     handleOnVotersPress();
@@ -73,79 +56,10 @@ const PostCardView = ({
 
 
 
-  let images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
-  if (content.thumbnail) {
-    if (isMuted || (nsfw !== '0' && content.nsfw)) {
-      images = { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
-    } else {
-      images = { image: content.image, thumbnail: content.thumbnail };
-    }
-  } else {
-    images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
-  }
-
-
-
-  const _renderPostContent = (
-    <View style={styles.postBodyWrapper}>
-      <TouchableOpacity
-        activeOpacity={1}
-        style={styles.hiddenImages}
-        onPress={_handleOnContentPress}
-      >
-        {!isHideImage && (
-          <FastImage
-            source={{ uri: images.image }}
-            style={[
-              styles.thumbnail,
-              {
-                width: dim.width - 18,
-                height: Math.min(calcImgHeight, dim.height),
-              },
-            ]}
-            resizeMode={
-              calcImgHeight < dim.height
-                ? FastImage.resizeMode.contain
-                : FastImage.resizeMode.cover
-            }
-            onLoad={(evt) => {
-              if (!imageHeight) {
-                const height =
-                  (evt.nativeEvent.height / evt.nativeEvent.width) * (dim.width - 18);
-
-                //TODO: put back imgHeight state sets before PR
-                // setCalcImgHeight(height);
-                // setImageHeight(content.author + content.permlink, height);
-              }
-            }}
-          />
-        )}
-        {!isMuted ? (
-          <View style={[styles.postDescripton]}>
-            <Text style={styles.title} numberOfLines={1}>{content.title}</Text>
-            {
-              //TODO: remove numberOfLines prop before PR
-            }
-            <Text style={styles.summary} numberOfLines={1}>{content.summary}</Text>
-          </View>
-        ) : (
-          <TextButton
-            style={styles.revealButton}
-            textStyle={styles.revealText}
-            onPress={() => handleOnUnmutePress()}
-            text={intl.formatMessage({ id: 'post.reveal_muted' })}
-          />
-        )}
-      </TouchableOpacity>
-    </View>
-  )
-
-
-
   const _renderActionPanel = (
     <View style={styles.bodyFooter}>
       <View style={styles.leftFooterWrapper}>
-        <UpvoteButton 
+        <UpvoteButton
           isVoting={false}
           content={content}
           activeVotes={activeVotes}
@@ -191,8 +105,17 @@ const PostCardView = ({
 
   return (
     <View style={styles.post}>
-      <PostCardHeader content={content} onActionPress={onActionPress}/>
-      {_renderPostContent}
+      <PostCardHeader
+        content={content}
+        isHideImage={isHideImage}
+        onActionPress={onActionPress} />
+      <PostCardContent
+        content={content}
+        isHideImage={isHideImage}
+        nsfw={nsfw}
+        thumbHeight={imageHeight}
+        setThumbHeight={setImageHeight}
+        onActionPress={onActionPress} />
       {_renderActionPanel}
     </View>
   );

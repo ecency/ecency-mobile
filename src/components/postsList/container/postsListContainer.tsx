@@ -153,7 +153,7 @@ const postsListContainer = (
   };
 
   const _handleOnUpvotePress = (anchorRect, content) => {
-    if(upvotePopoverRef.current && anchorRect && content){
+    if (upvotePopoverRef.current && anchorRect && content) {
       upvotePopoverRef.current.showPopover(anchorRect, content);
     }
 
@@ -161,14 +161,8 @@ const postsListContainer = (
 
 
   const _handleOnPayoutDetailsPress = (anchorRect, content) => {
-    if(upvotePopoverRef.current && anchorRect && content){
+    if (upvotePopoverRef.current && anchorRect && content) {
       upvotePopoverRef.current.showPopover(anchorRect, content, true);
-    }
-  }
-
-  const _handlePostDropdownPress = (content) => {
-    if(postDropdownRef.current && content){
-      postDropdownRef.current.show(content);
     }
   }
 
@@ -189,13 +183,29 @@ const postsListContainer = (
   };
 
 
-  const _onActionPress = (id:PostCardActionIds, payload:any) => {
-    switch(id){
+  const _onActionPress = (id: PostCardActionIds, payload: any) => {
+    switch (id) {
+      case PostCardActionIds.POST:
+        if (!payload) {
+          return;
+        }
+        // postsCacherPrimer.cachePost(value); //TODO: find an efficient way to prime posts
+        navigation.navigate({
+          name: ROUTES.SCREENS.POST,
+          params: {
+            content: payload,
+            author: payload.author,
+            permlink: payload.permlink,
+          }
+        } as never);
+        break;
+
       case PostCardActionIds.USER:
         dispatch(showProfileModal(payload))
         break;
+
       case PostCardActionIds.OPTIONS:
-        if(postDropdownRef.current && payload){
+        if (postDropdownRef.current && payload) {
           postDropdownRef.current.show(payload);
         }
         break;
@@ -232,38 +242,37 @@ const postsListContainer = (
     //           setImageHeight={_setImageHeightInMap}
     //           showQuickReplyModal={showQuickReplyModal}
     //           handleOnContentPress={()=>_handleOnContentPress(item)}
-    //           mutes={mutes}
     //         />,
     //       );
     //     }
     //   }
     // }
 
-    // const isMuted = mutes && mutes.indexOf(item.author) > -1;
-    // if (!isMuted && get(item, 'author', null)) {
-    //   // get image height from cache if available
-    //   const localId = item.author + item.permlink;
-    //   const imgHeight = imageHeights.get(localId);
+    const isMuted = mutes && mutes.indexOf(item.author) > -1;
+    if (!isMuted && item?.author) {
+      // get image height from cache if available
+      const localId = item.author + item.permlink;
+      const imgHeight = imageHeights.get(localId);
 
-    //   e.push(
-    return <PostCard
-      intl={intl}
-      key={`${item.author}-${item.permlink}`}
-      content={item}
-      isHideImage={isHideImages}
-      // imageHeight={imgHeight}
-      setImageHeight={_setImageHeightInMap}
-      pageType={pageType}
-      showQuickReplyModal={showQuickReplyModal}
-      mutes={mutes}
-      handleOnContentPress={() => _handleOnContentPress(item)}
-      handleOnUpvotePress={(anchorRect) => _handleOnUpvotePress(anchorRect, item)}
-      handleOnPayoutDetailsPress={(anchorRect) => _handleOnPayoutDetailsPress(anchorRect, item)}
-      handlePostDropdownPress = {()=>_handlePostDropdownPress(item)}
-      onActionPress={_onActionPress}
-    />
-    //   );
-    // }
+      //   e.push(
+      return <PostCard
+        intl={intl}
+        key={`${item.author}-${item.permlink}`}
+        content={item}
+        isHideImage={isHideImages}
+        pageType={pageType}
+        // imageHeight={imgHeight}
+        setImageHeight={_setImageHeightInMap}
+        showQuickReplyModal={showQuickReplyModal}
+        handleOnContentPress={() => _handleOnContentPress(item)}
+        handleOnUpvotePress={(anchorRect) => _handleOnUpvotePress(anchorRect, item)}
+        handleOnPayoutDetailsPress={(anchorRect) => _handleOnPayoutDetailsPress(anchorRect, item)}
+        onActionPress={_onActionPress}
+      />
+      //   );
+    }
+
+    return null;
 
     // return e;
   };
@@ -303,7 +312,7 @@ const postsListContainer = (
         }
         {...props}
       />
-      <UpvotePopover 
+      <UpvotePopover
         ref={upvotePopoverRef}
         parentType={PostTypes.POST}
       />
