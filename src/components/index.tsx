@@ -79,7 +79,6 @@ import { PostComments } from './postComments';
 import { LeaderBoard } from './leaderboard';
 import { Notification } from './notification';
 import { WalletHeader } from './walletHeader';
-import { Posts } from './posts';
 import { Transaction } from './transaction';
 import { VotersDisplay } from './votersDisplay';
 import { Wallet } from './wallet';
@@ -185,7 +184,6 @@ export {
   PostHeaderDescription,
   DraftListItem,
   PostPlaceHolder,
-  Posts,
   ProductItemLine,
   Profile,
   ProfileEditForm,
