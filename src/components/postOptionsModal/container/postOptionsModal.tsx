@@ -24,10 +24,10 @@ import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import ActionSheet from 'react-native-actions-sheet';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import styles from '../view/postDropdownStyles';
+import styles from '../children/postDropdownStyles';
 
 /*
  *            Props Name        Description                                     Value
@@ -35,13 +35,13 @@ import styles from '../view/postDropdownStyles';
  *
  */
 
- interface Props {
-  pageType:string
- }
+interface Props {
+  pageType: string
+}
 
-const PostDropDownContainer = forwardRef(({
+const PostOptionsModal = ({
   pageType,
-}:Props, ref) => {
+}: Props, ref) => {
 
   const intl = useIntl();
   const dispatch = useAppDispatch();
@@ -49,10 +49,11 @@ const PostDropDownContainer = forwardRef(({
   const userActivityMutation = useUserActivityMutation();
 
 
-  const bottomSheetModalRef = useRef<ActionSheet|null>(null);
+  const bottomSheetModalRef = useRef<ActionSheet | null>(null);
   const alertTimer = useRef<any>(null);
   const shareTimer = useRef<any>(null);
   const actionSheetTimer = useRef<any>(null);
+  const reportTimer = useRef<any>(null);
 
   const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
   const currentAccount = useAppSelector(state => state.account.currentAccount);
@@ -62,16 +63,24 @@ const PostDropDownContainer = forwardRef(({
 
   const [content, setContent] = useState<any>(null);
   const [options, setOptions] = useState(OPTIONS);
-  
 
 
-  useImperativeHandle(ref, ()=>({
-    show:(_content)=>{
-      if(bottomSheetModalRef.current){
+
+  useImperativeHandle(ref, () => ({
+    show: (_content) => {
+      if (!_content) {
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.something_wrong' }),
+          "Post content not passed for viewing post options"
+        );
+        return;
+      }
+
+      if (bottomSheetModalRef.current) {
         setContent(_content)
         bottomSheetModalRef.current.show();
       }
-      
+
     }
   }))
 
@@ -95,6 +104,10 @@ const PostDropDownContainer = forwardRef(({
       if (actionSheetTimer.current) {
         clearTimeout(actionSheetTimer.current);
         actionSheetTimer.current = null;
+      }
+      if (reportTimer.current) {
+        clearTimeout(reportTimer.current);
+        reportTimer.current = null;
       }
     }
   }, [content])
@@ -176,7 +189,7 @@ const PostDropDownContainer = forwardRef(({
       });
   };
 
-  const _profileActionDone = ({ error = null }:{error:any}) => {
+  const _profileActionDone = ({ error = null }: { error: any }) => {
     if (error) {
       if (error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
         // when RC is not enough, offer boosting account
@@ -200,6 +213,7 @@ const PostDropDownContainer = forwardRef(({
       message: `${get(content, 'title')} ${postUrl}`,
     });
   };
+
 
   const _report = (url) => {
 
@@ -430,26 +444,7 @@ const PostDropDownContainer = forwardRef(({
         break;
 
       case 'reblog':
-        actionSheetTimer.current = setTimeout(() => {
-          dispatch(
-            showActionModal({
-              title: intl.formatMessage({ id: 'post.reblog_alert' }),
-              buttons: [
-                {
-                  text: intl.formatMessage({ id: 'alert.cancel' }),
-                  onPress: () => { },
-                },
-                {
-                  text: 'Reblog',
-                  onPress: () => {
-                    _reblog();
-                  },
-                },
-              ],
-            }),
-          );
-          actionSheetTimer.current = null;
-        }, 100);
+        _reblog();
         break;
 
       case 'reply':
@@ -476,7 +471,10 @@ const PostDropDownContainer = forwardRef(({
         break;
 
       case 'report':
-        _report(get(content, 'url'));
+        reportTimer.current = setTimeout(() => {
+          _report(get(content, 'url'));
+        }, 300)
+
         break;
       case 'pin-blog':
         _updatePinnedPost();
@@ -508,21 +506,18 @@ const PostDropDownContainer = forwardRef(({
   };
 
 
-  const _onClose = () => {
-    throw new Error("handle sheet close")
-  }
-
-
-  const _renderItem = ({ item, index }) => {
+  const _renderItem = ({ item, index }: { item: string, index: number }) => {
     const _onPress = () => {
+      bottomSheetModalRef.current?.hide();
       _handleOnDropdownSelect(index)
     }
 
     return (
-      <TouchableOpacity onPress={_onPress}>
-        <Text>{item}</Text>
-      </TouchableOpacity>
-
+      <TouchableHighlight underlayColor={EStyleSheet.value('$primaryLightBackground')} onPress={_onPress}>
+        <Text style={styles.dropdownItem} >
+          {intl.formatMessage({ id: `post_dropdown.${item}` }).toLocaleUpperCase()}
+        </Text>
+      </TouchableHighlight>
     )
   }
 
@@ -532,17 +527,18 @@ const PostDropDownContainer = forwardRef(({
       gestureEnabled={true}
       hideUnderlay={true}
       containerStyle={styles.sheetContent}
-      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-      onClose={_onClose}>
+      indicatorColor={EStyleSheet.value('$iconColor')}
+    >
       <FlatList
+        contentContainerStyle={styles.listContainer}
         data={options}
         renderItem={_renderItem}
         keyExtractor={(item) => item}
       />
     </ActionSheet>
   );
-})
+}
 
 
 
-export default PostDropDownContainer
+export default forwardRef(PostOptionsModal)

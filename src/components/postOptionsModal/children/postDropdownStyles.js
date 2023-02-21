@@ -9,4 +9,15 @@ export default EStyleSheet.create({
   sheetContent: {
     backgroundColor: '$modalBackground',
   },
+  dropdownItem:{
+    paddingHorizontal:32, 
+    paddingVertical:12, 
+    fontSize:14, 
+    fontWeight:'600',
+    color:'$primaryDarkText'
+  },
+  listContainer:{
+    paddingTop:16,
+    paddingBottom:40
+  }
 });
