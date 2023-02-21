@@ -81,7 +81,7 @@ export default EStyleSheet.create({
     color: '$primaryRed',
     alignSelf: 'center',
     marginLeft: 8,
-    marginRight: -16,
+    marginRight: -8,
     transform: [{ rotate: '45deg' }],
   },
   leftFooterWrapper: {

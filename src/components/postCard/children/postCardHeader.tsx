@@ -18,14 +18,18 @@ import { PostCardActionIds } from '../container/postCardContainer';
 interface Props {
   content: any;
   isHideImage: boolean;
-  onActionPress: (id: PostCardActionIds, payload?: any) => void
+  handleCardInteraction: (id: PostCardActionIds, payload?: any) => void
 }
 
-export const PostCardHeader = ({ content, isHideImage, onActionPress }: Props) => {
+export const PostCardHeader = ({ content, isHideImage, handleCardInteraction }: Props) => {
   const intl = useIntl();
 
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
   const dateString = useMemo(() => getTimeFromNow(content?.created), [content])
+
+  const _handleOnTagPress = (navParams) => {
+    handleCardInteraction(PostCardActionIds.NAVIGATE, navParams)
+  }
 
   return (
     <>
@@ -38,7 +42,7 @@ export const PostCardHeader = ({ content, isHideImage, onActionPress }: Props) =
           iconSize={16}
           textStyle={styles.reblogText}
           isClickable={true}
-          onPress={() => onActionPress(PostCardActionIds.USER, rebloggedBy)}
+          onPress={() => handleCardInteraction(PostCardActionIds.USER, rebloggedBy)}
         />
       )}
 
@@ -47,7 +51,8 @@ export const PostCardHeader = ({ content, isHideImage, onActionPress }: Props) =
           date={dateString}
           isHideImage={isHideImage}
           name={get(content, 'author')}
-          profileOnPress={() => onActionPress(PostCardActionIds.USER, content.author)}
+          profileOnPress={() => handleCardInteraction(PostCardActionIds.USER, content.author)}
+          handleOnTagPress = {_handleOnTagPress}
           reputation={get(content, 'author_reputation')}
           size={50}
           content={content}
@@ -63,7 +68,7 @@ export const PostCardHeader = ({ content, isHideImage, onActionPress }: Props) =
             iconStyle={styles.optionsIcon}
             iconType="MaterialCommunityIcons"
             name="dots-vertical"
-            onPress={() => onActionPress(PostCardActionIds.OPTIONS, content)}
+            onPress={() => handleCardInteraction(PostCardActionIds.OPTIONS)}
             size={28}
           />
         </View>

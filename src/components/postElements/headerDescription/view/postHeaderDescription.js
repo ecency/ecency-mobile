@@ -32,38 +32,45 @@ class PostHeaderDescription extends PureComponent {
   };
 
   _handleOnTagPress = (content) => {
-
+    const { handleTagPress } = this.props;
+    let navParams = {};
     if (content && content.category && /hive-[1-3]\d{4,6}$/.test(content.category)) {
-      RootNavigation.navigate({
+      navParams = {
         name: ROUTES.SCREENS.COMMUNITY,
         params: {
           tag: content.category,
         },
-      });
+      };
     }
     if (content && content.category && !/hive-[1-3]\d{4,6}$/.test(content.category)) {
-      RootNavigation.navigate({
+      navParams = {
         name: ROUTES.SCREENS.TAG_RESULT,
         params: {
           tag: content.category,
         },
-      });
+      };
     }
     if (content && typeof content === 'string' && /hive-[1-3]\d{4,6}$/.test(content)) {
-      RootNavigation.navigate({
+      navParams = {
         name: ROUTES.SCREENS.COMMUNITY,
         params: {
           tag: content,
         },
-      });
+      };
     }
     if (content && typeof content === 'string' && !/hive-[1-3]\d{4,6}$/.test(content)) {
-      RootNavigation.navigate({
+      navParams = {
         name: ROUTES.SCREENS.TAG_RESULT,
         params: {
           tag: content,
         },
-      });
+      };
+    }
+
+    if (handleTagPress) {
+      handleTagPress(navParams)
+    } else {
+      RootNavigation.navigate(navParams)
     }
   };
 

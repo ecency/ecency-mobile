@@ -13,7 +13,7 @@ import FastImage from 'react-native-fast-image';
 import styles from '../children/postCardStyles';
 import { PostCardActionIds } from '../container/postCardContainer';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
-import { useIntl } from 'react-intl';
+import ROUTES from '../../../constants/routeNames';
 
 const dim = getWindowDimensions();
 const DEFAULT_IMAGE =
@@ -28,16 +28,26 @@ interface Props {
   thumbHeight: number,
   nsfw: string;
   setThumbHeight: (postPath: string, height: number) => void;
-  onActionPress: (id: PostCardActionIds, payload?: any) => void;
+  handleCardInteraction: (id: PostCardActionIds, payload?: any) => void;
 }
 
 
-export const PostCardContent = ({ content, isHideImage, thumbHeight, nsfw, setThumbHeight, onActionPress }: Props) => {
-
-  const intl = useIntl();
+export const PostCardContent = ({ content, isHideImage, thumbHeight, nsfw, setThumbHeight, handleCardInteraction }: Props) => {
 
   // const [calcImgHeight, setCalcImgHeight] = useState(thumbHeight || 300);
   const calcImgHeight = 300;
+  
+
+  const _onPress = () => {
+    handleCardInteraction(PostCardActionIds.NAVIGATE, {
+      name: ROUTES.SCREENS.POST,
+      params: {
+        content: content,
+        author: content.author,
+        permlink: content.permlink,
+      }
+    })
+  }
 
 
   let images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
@@ -55,9 +65,9 @@ export const PostCardContent = ({ content, isHideImage, thumbHeight, nsfw, setTh
   return (
     <View style={styles.postBodyWrapper}>
       <TouchableOpacity
-        activeOpacity={1}
+        activeOpacity={0.8}
         style={styles.hiddenImages}
-        onPress={() => onActionPress(PostCardActionIds.POST, content)}
+        onPress={_onPress}
       >
         {!isHideImage && (
           <FastImage

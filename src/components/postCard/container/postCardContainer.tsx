@@ -1,12 +1,16 @@
-import React, { useMemo } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import { View } from 'react-native';
+import { reblog } from '../../../providers/hive/dhive';
+import { PostCardActionsPanel } from '../children/postCardActionsPanel';
+import { PostCardContent } from '../children/postCardContent';
+import { PostCardHeader } from '../children/postCardHeader';
 
 // Services
 // import { useNavigation } from '@react-navigation/native';
 // import { getPost } from '../../../providers/hive/dhive';
 // import { getPostReblogs } from '../../../providers/ecency/ecency';
 
-import PostCardView from '../view/postCardView';
+import styles from '../children/postCardStyles';
 
 // Constants
 // import { default as ROUTES } from '../../../constants/routeNames';
@@ -21,28 +25,24 @@ import PostCardView from '../view/postCardView';
  */
 
 
- export enum PostCardActionIds {
-    POST = 'POST',
-    USER = 'USER',
-    REBLOGS = 'REBLOGS',
-    OPTIONS = 'OPTIONS',
-    UNMUTE = 'UNMUTE'
- }
+export enum PostCardActionIds {
+
+  USER = 'USER',
+  OPTIONS = 'OPTIONS',
+  UNMUTE = 'UNMUTE',
+  REPLY = 'REPLY',
+  UPVOTE = 'UPVOTE',
+  PAYOUT_DETAILS = 'PAYOUT_DETAILS',
+  NAVIGATE = 'NAVIGATE'
+}
 
 const PostCardContainer = ({
-  currentAccount,
   content,
   isHideImage,
   nsfw,
   imageHeight,
   setImageHeight,
-  pageType,
-  showQuickReplyModal,
-  handleOnContentPress,
-  handleOnUpvotePress,
-  handleOnPayoutDetailsPress,
-  handlePostDropdownPress,
-  onActionPress,
+  handleCardInteraction,
 }) => {
   // const navigation = useNavigation();
 
@@ -51,7 +51,7 @@ const PostCardContainer = ({
 
   // const [_content, setContent] = useState(content);
   // const [reblogs, setReblogs] = useState([]);
-  // const activeVotes = useMemo(()=>content?.active_votes || [], [content])
+
 
 
   // useEffect(() => {
@@ -81,97 +81,28 @@ const PostCardContainer = ({
   //   };
   // }, [_content]);
 
-  // const _fetchPost = async () => {
-  //   await getPost(
-  //     get(_content, 'author'),
-  //     get(_content, 'permlink'),
-  //     get(currentAccount, 'username'),
-  //   )
-  //     .then((result) => {
-  //       if (result) {
-  //         setContent(result);
-  //       }
-  //     })
-  //     .catch(() => {});
-  // };
-
-  // const _handleOnUserPress = (username) => {
-  //   if (_content) {
-  //     username = username || get(_content, 'author');
-  //     dispatch(showProfileModal(username));
-  //   }
-  // };
-
-  // const _handleOnContentPress = (value) => {
-  //   if (value) {
-  //     // postsCacherPrimer.cachePost(value);
-  //     navigation.navigate({
-  //       name: ROUTES.SCREENS.POST,
-  //       params: {
-  //         content: value,
-  //         author: value.author,
-  //         permlink: value.permlink,
-  //       },
-  //       key: get(value, 'permlink'),
-  //     });
-  //   }
-  // };
-
-  // const _handleOnVotersPress = () => {
-  //   navigation.navigate({
-  //     name: ROUTES.SCREENS.VOTERS,
-  //     params: {
-  //       activeVotes,
-  //       content: _content,
-  //     },
-  //     key: get(_content, 'permlink'),
-  //   });
-  // };
-
-  // const _handleOnReblogsPress = () => {
-  //   navigation.navigate({
-  //     name: ROUTES.SCREENS.REBLOGS,
-  //     params: {
-  //       reblogs,
-  //     },
-  //     key: get(_content, 'permlink', get(_content, 'author', '')),
-  //   });
-  // };
-
-
-  // const _handleQuickReplyModal = () => {
-  //   showQuickReplyModal(content);
-  // };
 
 
   return (
-    <PostCardView
-      content={content}
-      isHideImage={isHideImage}
-      nsfw={nsfw || '1'}
-      reblogs={[]}
-      activeVotes={content.active_votes || []}
-      // imageHeight={imageHeight}
-      // setImageHeight={setImageHeight}
-      pageType={pageType}
-
-      // fetchPost={_fetchPost}
-      // showQuickReplyModal={_handleQuickReplyModal}
-      // handleOnUserPress={_handleOnUserPress}
-      handleOnContentPress={handleOnContentPress}
-      // handleOnVotersPress={_handleOnVotersPress}
-      // handleOnReblogsPress={_handleOnReblogsPress}
-      handleOnUpvotePress={handleOnUpvotePress}
-      handleOnPayoutDetailsPress={handleOnPayoutDetailsPress}
-      handlePostDropdownPress={handlePostDropdownPress}
-      onActionPress={onActionPress}
-    />
+    <View style={styles.post}>
+      <PostCardHeader
+        content={content}
+        isHideImage={isHideImage}
+        handleCardInteraction={handleCardInteraction} />
+      <PostCardContent
+        content={content}
+        isHideImage={isHideImage}
+        nsfw={nsfw}
+        thumbHeight={imageHeight}
+        setThumbHeight={setImageHeight}
+        handleCardInteraction={handleCardInteraction} />
+      <PostCardActionsPanel
+        content={content}
+        reblogs={[]}
+        handleCardInteraction={handleCardInteraction}
+      />
+    </View>
   );
 };
-
-// const mapStateToProps = (state) => ({
-//   currentAccount: state.account.currentAccount,
-//   nsfw: state.application.nsfw,
-// });
 
 export default PostCardContainer;

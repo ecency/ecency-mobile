@@ -68,6 +68,7 @@ const postsListContainer = (
   const [imageHeights, setImageHeights] = useState(new Map<string, number>());
 
   const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
+  const nsfw = useSelector((state) => state.application.hidePostsThumbnails);
   const isDarkTheme = useSelector((state) => state.application.isDarkThem);
   const posts = useSelector((state) => {
     return isFeedScreen ? state.posts.feedPosts : state.posts.otherPosts;
@@ -152,20 +153,6 @@ const postsListContainer = (
     }
   };
 
-  const _handleOnUpvotePress = (anchorRect, content) => {
-    if (upvotePopoverRef.current && anchorRect && content) {
-      upvotePopoverRef.current.showPopover(anchorRect, content);
-    }
-
-  }
-
-
-  const _handleOnPayoutDetailsPress = (anchorRect, content) => {
-    if (upvotePopoverRef.current && anchorRect && content) {
-      upvotePopoverRef.current.showPopover(anchorRect, content, true);
-    }
-  }
-
 
 
   const _handleOnContentPress = (value) => {
@@ -183,32 +170,38 @@ const postsListContainer = (
   };
 
 
-  const _onActionPress = (id: PostCardActionIds, payload: any) => {
+  const _handleCardInteraction = (id: PostCardActionIds, payload: any, content: any) => {
     switch (id) {
-      case PostCardActionIds.POST:
-        if (!payload) {
-          return;
-        }
-        // postsCacherPrimer.cachePost(value); //TODO: find an efficient way to prime posts
-        navigation.navigate({
-          name: ROUTES.SCREENS.POST,
-          params: {
-            content: payload,
-            author: payload.author,
-            permlink: payload.permlink,
-          }
-        } as never);
-        break;
-
       case PostCardActionIds.USER:
         dispatch(showProfileModal(payload))
         break;
 
       case PostCardActionIds.OPTIONS:
-        if (postDropdownRef.current && payload) {
-          postDropdownRef.current.show(payload);
+        if (postDropdownRef.current && content) {
+          postDropdownRef.current.show(content);
         }
         break;
+
+      case PostCardActionIds.NAVIGATE:
+        navigation.navigate(payload)
+        break;
+
+      case PostCardActionIds.REPLY:
+        showQuickReplyModal(content)
+        break;
+
+      case PostCardActionIds.UPVOTE:
+        if (upvotePopoverRef.current && payload && content) {
+          upvotePopoverRef.current.showPopover(payload, content);
+        }
+        break;
+
+      case PostCardActionIds.PAYOUT_DETAILS:
+        if (upvotePopoverRef.current && payload && content) {
+          upvotePopoverRef.current.showPopover(payload, content, true);
+        }
+        break;
+
     }
   }
 
@@ -240,8 +233,6 @@ const postsListContainer = (
     //           imageHeight={imgHeight}
     //           pageType={pageType}
     //           setImageHeight={_setImageHeightInMap}
-    //           showQuickReplyModal={showQuickReplyModal}
-    //           handleOnContentPress={()=>_handleOnContentPress(item)}
     //         />,
     //       );
     //     }
@@ -260,15 +251,13 @@ const postsListContainer = (
         key={`${item.author}-${item.permlink}`}
         content={item}
         isHideImage={isHideImages}
+        nsfw={nsfw}
         pageType={pageType}
         // imageHeight={imgHeight}
         setImageHeight={_setImageHeightInMap}
-        showQuickReplyModal={showQuickReplyModal}
-        handleOnContentPress={() => _handleOnContentPress(item)}
-        handleOnUpvotePress={(anchorRect) => _handleOnUpvotePress(anchorRect, item)}
-        handleOnPayoutDetailsPress={(anchorRect) => _handleOnPayoutDetailsPress(anchorRect, item)}
-        onActionPress={_onActionPress}
+        handleCardInteraction={(id: PostCardActionIds, payload: any) => _handleCardInteraction(id, payload, item)}
       />
+
       //   );
     }
 
