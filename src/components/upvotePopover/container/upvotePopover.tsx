@@ -54,7 +54,7 @@ interface Props {
  *
  */
 
-const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
+const UpvotePopover = forwardRef(({ parentType }: Props, ref) => {
 
   const intl = useIntl();
   const dispatch = useAppDispatch();
@@ -409,4 +409,4 @@ const UpvoteContainer = forwardRef(({ parentType }: Props, ref) => {
   );
 });
 
-export default UpvoteContainer;
+export default UpvotePopover;

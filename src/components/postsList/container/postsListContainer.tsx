@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../constants/routeNames';
 import { useIntl } from 'react-intl';
 import Popover from 'react-native-modal-popover';
-import Upvote from '../../upvote';
+import { UpvotePopover } from '../..';
 import { PostTypes } from '../../../constants/postTypes';
 import { PostOptionsModal } from '../../postOptionsModal';
 
@@ -284,7 +284,7 @@ const postsListContainer = (
         }
         {...props}
       />
-      <Upvote 
+      <UpvotePopover 
         ref={upvotePopoverRef}
         parentType={PostTypes.POST}
       />

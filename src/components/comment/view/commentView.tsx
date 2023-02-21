@@ -11,7 +11,7 @@ import { delay } from '../../../utils/editor';
 
 // Components
 import { CommentBody, PostHeaderDescription } from '../../postElements';
-import { Upvote } from '../../upvote';
+import { Upvote } from '../../upvotePopover';
 import { IconButton } from '../../iconButton';
 import { TextWithIcon } from '../../basicUIElements';
 

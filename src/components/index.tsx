@@ -57,7 +57,7 @@ import { TextInput } from './textInput';
 import { ToastNotification } from './toastNotification';
 import { ToggleSwitch } from './toggleSwitch';
 import { TransferFormItem } from './transferFormItem';
-import { Upvote } from './upvote';
+import { UpvotePopover } from './upvotePopover';
 import { UserAvatar } from './userAvatar';
 
 import Logo from './logo/logo';
@@ -221,7 +221,7 @@ export {
   ToggleSwitch,
   Transaction,
   TransferFormItem,
-  Upvote,
+  UpvotePopover,
   UserAvatar,
   UserListItem,
   VotersDisplay,

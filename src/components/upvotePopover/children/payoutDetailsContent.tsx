@@ -9,7 +9,7 @@ import { getTimeFromNow } from '../../../utils/time';
 
 import { FormattedCurrency } from '../../formatedElements';
 // Styles
-import styles from '../children/upvoteStyles';
+import styles from './upvoteStyles';
 
 
 interface Props {
