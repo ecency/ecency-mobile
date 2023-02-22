@@ -12,6 +12,7 @@ import {
 import notifee, { EventType } from '@notifee/react-native';
 import { isEmpty, some, get } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
+import BackgroundTimer from 'react-native-background-timer';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
@@ -53,6 +54,8 @@ export const useInitApplication = () => {
   });
 
   useEffect(() => {
+    BackgroundTimer.start() //ref: https://github.com/ocetnik/react-native-background-timer#ios
+
     appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
 
     // check for device landscape status and lcok orientation accordingly. Fix for orientation bug on android tablet devices
@@ -97,6 +100,8 @@ export const useInitApplication = () => {
     if (messagingEventRef.current) {
       messagingEventRef.current();
     }
+
+    BackgroundTimer.stop(); //ref: https://github.com/ocetnik/react-native-background-timer#ios
   };
 
   const _initPushListener = async () => {

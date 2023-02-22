@@ -9074,6 +9074,11 @@ react-native-autoheight-webview@^1.5.8:
     deprecated-react-native-prop-types "^2.3.0"
     prop-types "^15.7.2"
 
+react-native-background-timer@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-background-timer/-/react-native-background-timer-2.4.1.tgz#a3bc1cafa8c1e3aeefd0611de120298b67978a0f"
+  integrity sha512-TE4Kiy7jUyv+hugxDxitzu38sW1NqjCk4uE5IgU2WevLv7sZacaBc6PZKOShNRPGirLl1NWkaG3LDEkdb9Um5g==
+
 react-native-blob-util@^0.16.0:
   version "0.16.3"
   resolved "https://registry.yarnpkg.com/react-native-blob-util/-/react-native-blob-util-0.16.3.tgz#de6b2a78c7dfd09665d033602a6b108a3b85937b"

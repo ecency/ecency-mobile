@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState, NativeEventSubscription, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { debounce } from 'lodash';
+import BackgroundTimer from 'react-native-background-timer';
 import PostsList from '../../postsList';
 import { fetchPromotedEntries, loadPosts } from '../services/tabbedPostsFetch';
 import { LoadPostsOptions, TabContentProps, TabMeta } from '../services/tabbedPostsModels';
@@ -57,7 +58,6 @@ const TabContent = ({
   const [sessionUser, setSessionUser] = useState(username);
   const [tabMeta, setTabMeta] = useState(DEFAULT_TAB_META);
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
-  const [postFetchTimer, setPostFetchTimer] = useState(0);
   const [enableScrollTop, setEnableScrollTop] = useState(false);
   const [curPinned, setCurPinned] = useState(pinnedPermlink);
 
@@ -67,6 +67,7 @@ const TabContent = ({
   const appStateSubRef = useRef<NativeEventSubscription|null>()
   const postsRef = useRef(posts);
   const sessionUserRef = useRef(sessionUser);
+  const postFetchTimerRef = useRef<any>(null);
 
   //init state refs;
   postsRef.current = posts;
@@ -74,6 +75,7 @@ const TabContent = ({
 
   //side effects
   useEffect(() => {
+
     if (isFeedScreen) {
       appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
     }
@@ -85,7 +87,7 @@ const TabContent = ({
 
   useEffect(() => {
     if (isConnected && (username !== sessionUser || forceLoadPosts)) {
-      _initContent(false, username);
+      _initContent(false, username); 
     }
   }, [username, forceLoadPosts]);
 
@@ -109,8 +111,9 @@ const TabContent = ({
 
   const _cleanup = () => {
     _isMounted = false;
-    if (postFetchTimer) {
-      clearTimeout(postFetchTimer);
+    if (postFetchTimerRef.current) {
+      BackgroundTimer.clearTimeout(postFetchTimerRef.current)
+      postFetchTimerRef.current = null;
     }
     if (isFeedScreen && appStateSubRef.current) {
       appStateSubRef.current.remove();
@@ -144,8 +147,9 @@ const TabContent = ({
     setSessionUser(_feedUsername);
     setLatestPosts([]);
 
-    if (postFetchTimer) {
-      clearTimeout(postFetchTimer);
+    if (postFetchTimerRef.current) {
+      BackgroundTimer.clearTimeout(postFetchTimerRef.current);
+      postFetchTimerRef.current = null;
     }
 
     if (username || (filterKey !== 'friends' && filterKey !== 'communities')) {
@@ -223,19 +227,20 @@ const TabContent = ({
   //schedules post fetch
   const _scheduleLatestPostsCheck = (firstPost: any) => {
     if (firstPost) {
-      if (postFetchTimer) {
-        clearTimeout(postFetchTimer);
+      if (postFetchTimerRef.current) {
+        BackgroundTimer.clearTimeout(postFetchTimerRef.current);
+        postFetchTimerRef.current = null;
       }
 
       const timeLeft = calculateTimeLeftForPostCheck(firstPost);
-      const _postFetchTimer = setTimeout(() => {
+      postFetchTimerRef.current = BackgroundTimer.setTimeout(() => {
         const isLatestPostsCheck = true;
         _loadPosts({
           shouldReset: false,
           isLatestPostsCheck,
         });
       }, timeLeft);
-      setPostFetchTimer(_postFetchTimer);
+
     }
   };
 
