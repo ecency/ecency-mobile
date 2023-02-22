@@ -471,7 +471,7 @@
     "fail": "Falha!",
     "move": "Mover",
     "continue": "Continuar",
-    "okay": "Okay",
+    "okay": "Ok",
     "move_question": "Tem certeza que deseja mover para rascunhos?",
     "success_shared": "Sucesso! Conteúdo submetido!",
     "success_moved": "Movido para Rascunhos",
@@ -541,7 +541,7 @@
   "post": {
     "reblog_alert": "Tem certeza que deseja reblogar?",
     "removed_hint": "Conteúdo não disponível",
-    "select_action": "Select Action",
+    "select_action": "Selecionar ação",
     "copy_link": "Copiar link",
     "copy_text": "Copiar texto",
     "reblogged": "repostado por",
@@ -733,8 +733,8 @@
     },
     "confirm_purchase": "Confirmar compra @{username}",
     "confirm_purchase_summary": "Comprando {points} para {username} por {price}",
-    "points_purchase_success": "Points purchase successful",
-    "points_purchase_fail_msg": "Points purchase failed\n{message}"
+    "points_purchase_success": "Pontos adquiridos com sucesso",
+    "points_purchase_fail_msg": "Compra de pontos falhou\n{message}"
   },
   "buy_account": {
     "title": "Comprar Conta",
