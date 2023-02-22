@@ -43,6 +43,7 @@ const CommentView = ({
   repliesToggle,
   incrementRepliesCount,
   handleOnToggleReplies,
+  onUpvotePress
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -144,8 +145,8 @@ const CommentView = ({
           isShowPayoutValue={true}
           parentType={PostTypes.COMMENT}
           isVoting={false}
-          onUpvotePress={()=>{Alert.alert("Update implementaiton on upvote press")}}
-          onPayoutDetailsPress={()=>{Alert.alert("Update implementaiton on upvote press")}}
+          onUpvotePress={(anchorRect)=>{onUpvotePress(anchorRect)}}
+          onPayoutDetailsPress={(anchorRect)=>{onUpvotePress(anchorRect, true)}}
         />
         <TextWithIcon
           iconName="heart-outline"

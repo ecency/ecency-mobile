@@ -27,6 +27,7 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { WriteCommentButton } from '../children/writeCommentButton';
 import { PostComments } from '../../postComments';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
+import UpvotePopover from '../../upvotePopover';
 
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
@@ -55,6 +56,7 @@ const PostDisplayView = ({
 
   const writeCommentRef = useRef<WriteCommentButton>();
   const postCommentsRef = useRef<PostComments>(null);
+  const upvotePopoverRef = useRef<UpvotePopover>(null);
 
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
@@ -91,7 +93,7 @@ const PostDisplayView = ({
   }, [refreshing]);
 
   const _scrollToComments = () => {
-    if(postCommentsRef.current){
+    if (postCommentsRef.current) {
       postCommentsRef.current.scrollToComments();
     }
   };
@@ -101,6 +103,18 @@ const PostDisplayView = ({
       handleOnReblogsPress();
     }
   };
+
+
+  const _onUpvotePress = ({
+    anchorRect,
+    content,
+    showPayoutDetails = false,
+    postType = parentPost ? PostTypes.COMMENT : PostTypes.POST
+  }) => {
+    if (upvotePopoverRef.current) {
+      upvotePopoverRef.current.showPopover({ anchorRect, content, showPayoutDetails, postType })
+    }
+  }
 
 
   const _renderActionPanel = (isFixedFooter = false) => {
@@ -114,8 +128,8 @@ const PostDisplayView = ({
             content={post}
             parentType={parentPost ? PostTypes.COMMENT : PostTypes.POST}
             boldPayout={true}
-            onUpvotePress={()=>{Alert.alert("Update implementaiton on upvote press")}}
-            onPayoutDetailsPress={()=>{Alert.alert("Update implementaiton on upvote press")}}
+            onUpvotePress={(anchorRect) => { _onUpvotePress({ anchorRect, content: post, showPayoutDetails: false }) }}
+            onPayoutDetailsPress={(anchorRect) => { _onUpvotePress({ anchorRect, content: post, showPayoutDetails: true }) }}
           />
           <TextWithIcon
             iconName="heart-outline"
@@ -239,7 +253,7 @@ const PostDisplayView = ({
               size={40}
               inlineTime={true}
               customStyle={styles.headerLine}
-              profileOnPress={()=> {}} //TODO: handle on user press before PR
+              profileOnPress={() => { }} //TODO: handle on user press before PR
             />
             <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
             {!postBodyLoading && (
@@ -276,6 +290,7 @@ const PostDisplayView = ({
           isLoading={postBodyLoading}
           postContentView={_postContentView}
           onRefresh={onRefresh}
+          onUpvotePress={_onUpvotePress}
         />
       </View>
       {post && _renderActionPanel(true)}
@@ -290,6 +305,7 @@ const PostDisplayView = ({
         cancelButtonIndex={1}
         onPress={(index) => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
       />
+      <UpvotePopover ref={upvotePopoverRef}/>
     </View>
   );
 };

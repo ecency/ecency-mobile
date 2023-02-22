@@ -27,7 +27,7 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import ActionSheet from 'react-native-actions-sheet';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import styles from '../children/postDropdownStyles';
+import styles from '../styles/postOptionsModal.styles';
 
 /*
  *            Props Name        Description                                     Value
@@ -36,7 +36,7 @@ import styles from '../children/postDropdownStyles';
  */
 
 interface Props {
-  pageType: string
+  pageType?: string
 }
 
 const PostOptionsModal = ({

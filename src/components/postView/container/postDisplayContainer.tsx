@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import { injectIntl, useIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Action
@@ -16,23 +15,25 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Component
 import PostDisplayView from '../view/postDisplayView';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 
 const PostDisplayContainer = ({
   post,
   fetchPost,
   isFetchPost,
   isFetchComments,
-  currentAccount,
-  pinCode,
-  dispatch,
-  intl,
-  isLoggedIn,
   isNewPost,
   parentPost,
   isPostUnavailable,
   author,
 }) => {
+  const intl = useIntl();
+  const dispatch = useAppDispatch();
   const navigation = useNavigation();
+
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
+  const pinCode = useAppSelector(state => state.application.pin);
 
   const [activeVotes, setActiveVotes] = useState([]);
   const [activeVotesCount, setActiveVotesCount] = useState(0);
@@ -149,10 +150,5 @@ const PostDisplayContainer = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  currentAccount: state.account.currentAccount,
-  pinCode: state.application.pin,
-  isLoggedIn: state.application.isLoggedIn,
-});
 
-export default connect(mapStateToProps)(injectIntl(PostDisplayContainer));
+export default injectIntl(PostDisplayContainer);

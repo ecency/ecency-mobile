@@ -8,7 +8,7 @@ import QUERIES from '../queryKeys';
 import { Comment, CacheStatus, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
 
 /** hook used to return user drafts */
-export const useGetPostQuery = (_author?: string, _permlink?: string) => {
+export const useGetPostQuery = (_author?: string, _permlink?: string, initialData?: any) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
   const [author, setAuthor] = useState(_author);
@@ -30,7 +30,7 @@ export const useGetPostQuery = (_author?: string, _permlink?: string) => {
       console.warn('Failed to get post', err);
       throw err;
     }
-  });
+  }, { initialData });
 
   return {
     ...query,

@@ -26,6 +26,7 @@ import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import { CommentsSection } from '../children/commentsSection';
 import styles from '../children/postComments.styles';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { PostTypes } from '../../../constants/postTypes';
 
 
 const PostComments = forwardRef(
@@ -38,7 +39,8 @@ const PostComments = forwardRef(
       isLoading,
       onRefresh,
       handleOnCommentsLoaded,
-      handleOnReplyPress
+      handleOnReplyPress,
+      onUpvotePress
     },
     ref,
   ) => {
@@ -272,6 +274,7 @@ const PostComments = forwardRef(
         handleOnVotersPress={_handleOnVotersPress}
         handleOnLongPress={_handleShowOptionsMenu}
         openReplyThread={_openReplyThread}
+        onUpvotePress={(anchorRect, showPayoutDetails)=>onUpvotePress({anchorRect, showPayoutDetails, content:item, postType:PostTypes.COMMENT})}
       />
     }
 

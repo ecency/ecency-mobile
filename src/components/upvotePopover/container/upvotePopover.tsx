@@ -44,8 +44,12 @@ import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import showLoginAlert from '../../../utils/showLoginAlert';
 
 
-interface Props {
-  parentType: PostTypes
+interface Props { }
+interface PopoverOptions {
+  anchorRect: Rect,
+  content: any,
+  postType?: PostTypes,
+  showPayoutDetails?: boolean,
 }
 
 /*
@@ -54,7 +58,7 @@ interface Props {
  *
  */
 
-const UpvotePopover = forwardRef(({ parentType }: Props, ref) => {
+const UpvotePopover = forwardRef(({ }: Props, ref) => {
 
   const intl = useIntl();
   const dispatch = useAppDispatch();
@@ -69,6 +73,7 @@ const UpvotePopover = forwardRef(({ parentType }: Props, ref) => {
   const globalProps = useAppSelector(state => state.account.globalProps);
 
   const [content, setContent] = useState<any>(null);
+  const [postType, setPostType] = useState<PostTypes>(PostTypes.POST);
   const [anchorRect, setAcnhorRect] = useState<Rect | null>(null);
   const [showPayoutDetails, setShowPayoutDetails] = useState(false);
 
@@ -82,15 +87,21 @@ const UpvotePopover = forwardRef(({ parentType }: Props, ref) => {
 
   useImperativeHandle(
     ref, () => ({
-      showPopover: (_anchorRect, _content, _showPayoutDetails = false) => {
+      showPopover: ({
+        anchorRect: _anchorRect,
+        content: _content,
+        postType: _postType,
+        showPayoutDetails: _showPayoutDetails
+      }: PopoverOptions) => {
 
-        if(!isLoggedIn && !_showPayoutDetails){
-          showLoginAlert({intl})
+        if (!isLoggedIn && !_showPayoutDetails) {
+          showLoginAlert({ intl })
           return;
         }
 
+        setPostType(_postType || PostTypes.POST)
         setContent(_content);
-        setShowPayoutDetails(_showPayoutDetails)
+        setShowPayoutDetails(_showPayoutDetails || false)
         setAcnhorRect(_anchorRect)
       }
     })
@@ -122,13 +133,13 @@ const UpvotePopover = forwardRef(({ parentType }: Props, ref) => {
 
 
   useEffect(() => {
-    if (parentType === PostTypes.POST) {
+    if (postType === PostTypes.POST) {
       setUpvotePercent(postUpvotePercent);
     }
-    if (parentType === PostTypes.COMMENT) {
+    if (postType === PostTypes.COMMENT) {
       setUpvotePercent(commentUpvotePercent);
     }
-  }, [postUpvotePercent, commentUpvotePercent, parentType]);
+  }, [postUpvotePercent, commentUpvotePercent, postType]);
 
 
 
@@ -273,10 +284,10 @@ const UpvotePopover = forwardRef(({ parentType }: Props, ref) => {
 
   const _setUpvotePercent = (value) => {
     if (value) {
-      if (parentType === PostTypes.POST) {
+      if (postType === PostTypes.POST) {
         dispatch(setPostUpvotePercent(value));
       }
-      if (parentType === PostTypes.COMMENT) {
+      if (postType === PostTypes.COMMENT) {
         dispatch(setCommentUpvotePercent(value));
       }
     }
@@ -354,7 +365,7 @@ const UpvotePopover = forwardRef(({ parentType }: Props, ref) => {
       >
         <View style={styles.popoverWrapper}>
           {showPayoutDetails ? (
-            <PayoutDetailsContent content={content}  />
+            <PayoutDetailsContent content={content} />
           ) : (
             <Fragment>
               <TouchableOpacity

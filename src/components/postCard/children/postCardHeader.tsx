@@ -69,7 +69,7 @@ export const PostCardHeader = ( {intl, content, isHideImage, handleCardInteracti
             iconType="MaterialCommunityIcons"
             name="dots-vertical"
             onPress={() => handleCardInteraction(PostCardActionIds.OPTIONS)}
-            size={28}
+            size={24}
           />
         </View>
       </View>

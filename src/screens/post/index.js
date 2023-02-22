@@ -1,5 +1,4 @@
-import PostScreen from './screen/postScreen';
-import Post from './container/postContainer';
+import Post from './screen/postScreen';
 
-export { PostScreen, Post };
+export { Post };
 export default Post;
