@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
 import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
 
 // Container
@@ -14,7 +15,6 @@ import { InAppPurchaseContainer } from '../../../containers';
 import globalStyles from '../../../globalStyles';
 import UserRibbon from '../../../components/userRibbon/userRibbon';
 import styles from './styles';
-import { useDispatch } from 'react-redux';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
 const ITEM_SKUS = Platform.select({
@@ -24,20 +24,29 @@ const ITEM_SKUS = Platform.select({
 
 const BoostScreen = ({ route }) => {
   const intl = useIntl();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const username = route.params?.username ?? '';
 
   const _onPurchaseSuccess = () => {
-    dispatch(toastNotification(intl.formatMessage({id:'boost.points_purchase_success'})))
-  }
+    dispatch(toastNotification(intl.formatMessage({ id: 'boost.points_purchase_success' })));
+  };
 
   const _onPurchaseFailure = (error) => {
-    dispatch(toastNotification(intl.formatMessage({id:'boost.points_purchase_fail_msg'}, {message:error.message})))
-  }
+    dispatch(
+      toastNotification(
+        intl.formatMessage({ id: 'boost.points_purchase_fail_msg' }, { message: error.message }),
+      ),
+    );
+  };
 
   return (
-    <InAppPurchaseContainer route={route} skus={ITEM_SKUS} handleOnPurchaseSuccess={_onPurchaseSuccess} handleOnPurchaseFailure={_onPurchaseFailure}>
+    <InAppPurchaseContainer
+      route={route}
+      skus={ITEM_SKUS}
+      handleOnPurchaseSuccess={_onPurchaseSuccess}
+      handleOnPurchaseFailure={_onPurchaseFailure}
+    >
       {({ buyItem, productList, isLoading, isProcessing, getTitle }) => (
         <View style={globalStyles.container}>
           <BasicHeader

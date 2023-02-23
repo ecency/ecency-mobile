@@ -26,6 +26,7 @@ const PostDisplayContainer = ({
   parentPost,
   isPostUnavailable,
   author,
+  permlink,
 }) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
@@ -131,6 +132,7 @@ const PostDisplayContainer = ({
   return (
     <PostDisplayView
       author={author}
+      permlink={permlink}
       currentAccount={currentAccount}
       isPostUnavailable={isPostUnavailable}
       isLoggedIn={isLoggedIn}

@@ -53,7 +53,6 @@ const CommentView = ({
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const isHideImage = useAppSelector((state) => state.application.hidePostsThumbnails);
 
-
   const isMuted = useMemo(
     () => currentAccount.mutes?.indexOf(comment.author) > -1,
     [currentAccount],
@@ -64,7 +63,7 @@ const CommentView = ({
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
 
   const childCount = comment.children;
-  const replies = comment.replies;
+  const { replies } = comment;
   const _depth = commentNumber || comment.level;
   const _currentUsername = currentAccountUsername || currentAccount?.username;
 
@@ -76,13 +75,10 @@ const CommentView = ({
 
   const _showSubCommentsToggle = async (force = false) => {
     if ((replies && replies.length > 0) || force) {
-
       // setIsOpeningReplies(true);
       // await delay(10); //hack to rendering inidcator first before start loading comments
       handleOnToggleReplies(comment.commentKey);
       // setIsOpeningReplies(false);
-
-
     } else if (openReplyThread) {
       openReplyThread(comment);
     }
@@ -213,9 +209,14 @@ const CommentView = ({
         )}
 
         {_depth === 1 && childCount > 0 && (
-
           <View style={styles.rightButtonWrapper}>
-            {isOpeningReplies ? <ActivityIndicator style={{ paddingHorizontal: 24, paddingBottom: 8 }} size={'small'} color={EStyleSheet.value('$iconColor')} /> : (
+            {isOpeningReplies ? (
+              <ActivityIndicator
+                style={{ paddingHorizontal: 24, paddingBottom: 8 }}
+                size="small"
+                color={EStyleSheet.value('$iconColor')}
+              />
+            ) : (
               <TextWithIcon
                 wrapperStyle={styles.rightButton}
                 iconName={repliesToggle ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
@@ -227,9 +228,7 @@ const CommentView = ({
                 onPress={() => _showSubCommentsToggle()}
                 text={`${childCount} ${intl.formatMessage({ id: 'comments.more_replies' })}`}
               />
-            )
-            }
-
+            )}
           </View>
         )}
       </>
@@ -239,9 +238,9 @@ const CommentView = ({
   const customContainerStyle =
     _depth > 1
       ? {
-        paddingLeft: (_depth - 2) * 44,
-        backgroundColor: EStyleSheet.value('$primaryLightBackground'),
-      }
+          paddingLeft: (_depth - 2) * 44,
+          backgroundColor: EStyleSheet.value('$primaryLightBackground'),
+        }
       : null;
 
   return (

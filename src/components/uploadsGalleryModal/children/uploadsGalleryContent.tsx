@@ -10,13 +10,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
+import Animated, {
   default as AnimatedView,
   SlideInRight,
   SlideOutRight,
   ZoomIn,
+  EasingNode,
 } from 'react-native-reanimated';
-import Animated, { EasingNode } from 'react-native-reanimated';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
 import { FlatList } from 'react-native-gesture-handler';

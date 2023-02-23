@@ -102,7 +102,6 @@ export const parseDiscussionCollection = async (commentsMap: { [key: string]: an
   return commentsMap;
 };
 
-
 export const parseCommentThreads = async (commentsMap: any, author: string, permlink: string) => {
   const MAX_THREAD_LEVEL = 3;
   const comments = [];

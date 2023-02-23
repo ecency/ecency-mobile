@@ -44,8 +44,8 @@ export interface Comment {
   total_payout?: number;
   net_rshares?: number;
   active_votes?: Array<{ rshares: number; voter: string }>;
-  replies?:string[];
-  children?:number;
+  replies?: string[];
+  children?: number;
   json_metadata?: any;
   isDeletable?: boolean;
   created?: string; // handle created and updated separatly
@@ -129,7 +129,10 @@ export default function (state = initialState, action) {
       if (!state.commentsCollection) {
         state.commentsCollection = {};
       }
-      state.commentsCollection = {...state.commentsCollection, [payload.commentPath]:payload.comment};
+      state.commentsCollection = {
+        ...state.commentsCollection,
+        [payload.commentPath]: payload.comment,
+      };
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
         lastUpdate: {
