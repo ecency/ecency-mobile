@@ -763,7 +763,7 @@ export const getDiscussionCollection = async (author, permlink) => {
     const _parsedCollection = await parseDiscussionCollection(commentsMap);
     return _parsedCollection;
   } catch (error) {
-    console.warn('failed to fetch discusssion', error);
+    console.warn('failed to fetch discusssion', error, author, permlink);
     return error;
   }
 };

@@ -44,6 +44,7 @@ const PostDisplayView = ({
   parentPost,
   isPostUnavailable,
   author,
+  permlink,
   handleOnRemovePress,
   activeVotes,
   reblogs,
@@ -266,7 +267,7 @@ const PostDisplayView = ({
           ref={postCommentsRef}
           author={author || post?.author}
           mainAuthor={author || post?.author}
-          permlink={post?.permlink}
+          permlink={permlink || post?.permlink}
           commentCount={post?.children}
           fetchPost={fetchPost}
           handleOnVotersPress={handleOnVotersPress}

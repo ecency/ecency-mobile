@@ -13,6 +13,7 @@ const PostScreen = ({
   post,
   isPostUnavailable,
   author,
+  permlink,
 }) => {
   return (
     <Fragment>
@@ -25,6 +26,7 @@ const PostScreen = ({
       />
       <PostDisplay
         author={author}
+        permlink={permlink}
         currentAccount={currentAccount}
         isPostUnavailable={isPostUnavailable}
         fetchPost={fetchPost}

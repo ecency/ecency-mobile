@@ -59,6 +59,7 @@ const PostContainer = ({ currentAccount, isLoggedIn, route }) => {
       post={getPostQuery.data}
       currentAccount={currentAccount}
       author={author}
+      permlink={permlink}
       fetchPost={_loadPost}
       isFetchComments
       isLoggedIn={isLoggedIn}
