@@ -19,7 +19,7 @@ import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
-import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
+import { showActionModal, showProfileModal, toastNotification } from '../../../redux/actions/uiAction';
 import { writeToClipboard } from '../../../utils/clipboard';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
@@ -148,8 +148,12 @@ const PostComments = forwardRef(
           author: comment.author,
           permlink: comment.permlink,
         },
-      });
+      } as never);
     };
+
+    const _handleOnUserPress = (username) => {
+      dispatch(showProfileModal(username));
+    }
 
     const _handleShowOptionsMenu = (comment) => {
       const _showCopiedToast = () => {
@@ -247,6 +251,7 @@ const PostComments = forwardRef(
         handleOnEditPress={_handleOnEditPress}
         handleOnVotersPress={_handleOnVotersPress}
         handleOnLongPress={_handleShowOptionsMenu}
+        handleOnUserPress={_handleOnUserPress}
         openReplyThread={_openReplyThread}
         onUpvotePress={(anchorRect, showPayoutDetails)=>onUpvotePress({anchorRect, showPayoutDetails, content:item, postType:PostTypes.COMMENT})}
       />

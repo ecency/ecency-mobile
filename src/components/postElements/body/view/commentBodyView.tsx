@@ -153,7 +153,7 @@ const CommentBody = ({
 
   const _handleOnPostPress = (permlink, author) => {
     if (handleOnPostPress) {
-      handleOnUserPress(permlink, author);
+      handleOnPostPress(permlink, author);
       return;
     }
     if (permlink) {
@@ -276,6 +276,9 @@ const CommentBody = ({
 
   return (
     <Fragment>
+
+
+
       <Modal key={`mkey-${created.toString()}`} visible={isImageModalOpen} transparent={true}>
         <ImageViewer
           imageUrls={postImages.map((url) => ({ url }))}
@@ -311,6 +314,27 @@ const CommentBody = ({
           handleLinkPress(index);
         }}
       />
+
+      <ActionsSheetView
+        ref={youtubePlayerRef}
+        gestureEnabled={true}
+        hideUnderlay
+        containerStyle={{ backgroundColor: 'black' }}
+        indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+        onClose={() => {
+          setYoutubeVideoId(null);
+          setVideoUrl(null);
+        }}
+      >
+        <VideoPlayer
+          mode={youtubeVideoId ? 'youtube' : 'uri'}
+          youtubeVideoId={youtubeVideoId}
+          uri={videoUrl}
+          startTime={videoStartTime}
+        />
+      </ActionsSheetView>
+
+
       {revealComment ? (
         <LongPressGestureHandler onHandlerStateChange={_onLongPressStateChange}>
           <View>
@@ -336,24 +360,8 @@ const CommentBody = ({
           text={intl.formatMessage({ id: 'comments.reveal_comment' })}
         />
       )}
-      <ActionsSheetView
-        ref={youtubePlayerRef}
-        gestureEnabled={true}
-        hideUnderlay
-        containerStyle={{ backgroundColor: 'black' }}
-        indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-        onClose={() => {
-          setYoutubeVideoId(null);
-          setVideoUrl(null);
-        }}
-      >
-        <VideoPlayer
-          mode={youtubeVideoId ? 'youtube' : 'uri'}
-          youtubeVideoId={youtubeVideoId}
-          uri={videoUrl}
-          startTime={videoStartTime}
-        />
-      </ActionsSheetView>
+
+
     </Fragment>
   );
 };
