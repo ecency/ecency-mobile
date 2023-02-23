@@ -105,6 +105,7 @@ const PostScreen = ({
       />
       <PostDisplay
         author={author}
+        permlink={permlink}
         isPostUnavailable={_isPostUnavailable}
         fetchPost={_loadPost}
         isFetchComments={true}

@@ -26,7 +26,6 @@ import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import { CommentsSection } from '../children/commentsSection';
 import styles from '../children/postComments.styles';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { PostTypes } from '../../../constants/postTypes';
 
 
