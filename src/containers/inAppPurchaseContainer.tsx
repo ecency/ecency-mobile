@@ -107,7 +107,7 @@ class InAppPurchaseContainer extends Component {
         };
 
         // make sure item is not consumed if email and username not preset for 999accounts
-        if ((purchase.productId === '999accounts') && (!email || !username)) {
+        if (purchase.productId === '999accounts' && (!email || !username)) {
           throw new Error('Email and username are required for 999accounts consumption');
         }
 

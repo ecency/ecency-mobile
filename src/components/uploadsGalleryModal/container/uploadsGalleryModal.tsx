@@ -162,11 +162,11 @@ export const UploadsGalleryModal = forwardRef(
           throw new Error('New media items returned');
         }
 
-        //post process heic to jpg media items
+        // post process heic to jpg media items
         for (let i = 0; i < media.length; i++) {
-          const element = media[i]
+          const element = media[i];
           if (element.mime === 'image/heic') {
-            const res = await RNHeicConverter.convert({ path: element.sourceURL }) // default with quality = 1 & jpg extension
+            const res = await RNHeicConverter.convert({ path: element.sourceURL }); // default with quality = 1 & jpg extension
             if (res && res.path) {
               element.mime = 'image/jpeg';
               element.path = res.path;
@@ -302,8 +302,8 @@ export const UploadsGalleryModal = forwardRef(
       let body = error.message || JSON.stringify(error);
       let action: AlertButton = {
         text: intl.formatMessage({ id: 'alert.okay' }),
-        onPress: () => { },
-      }
+        onPress: () => {},
+      };
 
       switch (error.code) {
         case 'E_PERMISSION_MISSING':
@@ -319,7 +319,7 @@ export const UploadsGalleryModal = forwardRef(
             onPress: () => {
               openSettings();
             },
-          }
+          };
           break;
       }
 
@@ -330,7 +330,6 @@ export const UploadsGalleryModal = forwardRef(
           buttons: [action],
         }),
       );
-
     };
 
     const _handleMediaInsertion = (data: MediaInsertData) => {

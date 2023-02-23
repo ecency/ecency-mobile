@@ -205,7 +205,7 @@ const reduxMigrations = {
     state.cache.commentsCollection = _collection;
     delete state.cache.comments;
     return state;
-  }
+  },
 };
 
 export default {

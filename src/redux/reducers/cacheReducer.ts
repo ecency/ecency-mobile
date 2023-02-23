@@ -19,7 +19,7 @@ export enum CommentCacheStatus {
   PENDING = 'PENDING',
   POSTPONED = 'PUBLISHED',
   DELETED = 'DELETED',
-  UPDATED = 'UPDATED'
+  UPDATED = 'UPDATED',
 }
 
 export interface Vote {
@@ -41,15 +41,15 @@ export interface Comment {
   total_payout?: number;
   net_rshares?: number;
   active_votes?: Array<{ rshares: number; voter: string }>;
-  replies?:string[];
-  children?:number;
+  replies?: string[];
+  children?: number;
   json_metadata?: any;
   isDeletable?: boolean;
   created?: string; // handle created and updated separatly
   updated?: string;
   expiresAt?: number;
   expandedReplies?: boolean;
-  renderOnTop?:boolean;
+  renderOnTop?: boolean;
   status: CommentCacheStatus;
 }
 
@@ -87,7 +87,7 @@ export interface LastUpdateMeta {
 
 interface State {
   votes: Map<string, Vote>;
-  commentsCollection:{ [key: string]: Comment}; // TODO: handle comment array per post, if parent is same
+  commentsCollection: { [key: string]: Comment }; // TODO: handle comment array per post, if parent is same
   draftsCollection: { [key: string]: Draft };
   claimsCollection: ClaimsCollection;
   subscribedCommunities: Map<string, SubscribedCommunity>;
@@ -126,7 +126,10 @@ export default function (state = initialState, action) {
       if (!state.commentsCollection) {
         state.commentsCollection = {};
       }
-      state.commentsCollection = {...state.commentsCollection, [payload.commentPath]:payload.comment};
+      state.commentsCollection = {
+        ...state.commentsCollection,
+        [payload.commentPath]: payload.comment,
+      };
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
         lastUpdate: {
@@ -254,7 +257,7 @@ export default function (state = initialState, action) {
         for (const key in state.commentsCollection) {
           if (state.commentsCollection.hasOwnProperty(key)) {
             const draft = state.commentsCollection[key];
-            if (draft && ((draft?.expiresAt || 0) < currentTime)) {
+            if (draft && (draft?.expiresAt || 0) < currentTime) {
               delete state.commentsCollection[key];
             }
           }

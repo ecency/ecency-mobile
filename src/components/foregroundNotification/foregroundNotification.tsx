@@ -2,10 +2,10 @@ import { get } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useIntl } from 'react-intl';
+import Animated, { FadeOutUp, SlideInUp } from 'react-native-reanimated';
 import { IconButton } from '..';
 import UserAvatar from '../userAvatar';
 import ROUTES from '../../constants/routeNames';
-import Animated, { FadeOutUp, SlideInUp } from 'react-native-reanimated';
 
 // Styles
 import styles from './styles';

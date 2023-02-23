@@ -4,6 +4,7 @@ import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
 
 // Styles
 import styles from './toastNotificationStyles';
+
 interface ToastNotificationProps {
   duration: number;
   text: string;

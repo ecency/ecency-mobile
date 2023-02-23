@@ -62,10 +62,6 @@ export const usePostsCachePrimer = () => {
   };
 };
 
-
-
-
-
 /**
  * fetches and sectioned discussion to be used readily with sectioned flat list
  * also injects local cache to data if any
@@ -74,7 +70,9 @@ export const usePostsCachePrimer = () => {
  * @returns raw query with commentsData as extra parameter
  */
 export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
-  const cachedComments: { [key: string]: Comment } = useAppSelector((state) => state.cache.commentsCollection);
+  const cachedComments: { [key: string]: Comment } = useAppSelector(
+    (state) => state.cache.commentsCollection,
+  );
   const lastCacheUpdate: LastUpdateMeta = useAppSelector((state) => state.cache.lastUpdate);
 
   const [author, setAuthor] = useState(_author);
@@ -83,36 +81,33 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const [data, setData] = useState({});
   const [sectionedData, setSectionedData] = useState([]);
 
-
   const _fetchComments = async () => await getDiscussionCollection(author, permlink);
-  const query = useQuery<{ [key: string]: Comment }>([QUERIES.POST.GET_DISCUSSION, author, permlink], _fetchComments);
-
+  const query = useQuery<{ [key: string]: Comment }>(
+    [QUERIES.POST.GET_DISCUSSION, author, permlink],
+    _fetchComments,
+  );
 
   useEffect(() => {
     _injectCachedComments();
   }, [query.data, cachedComments]);
 
-
   useEffect(() => {
-    restructureData()
-  }, [data])
+    restructureData();
+  }, [data]);
 
-
-  //inject cached comments here
+  // inject cached comments here
   const _injectCachedComments = async () => {
     const _comments = query.data || {};
-    console.log("updating with cache", _comments, cachedComments);
+    console.log('updating with cache', _comments, cachedComments);
     if (!cachedComments || !_comments) {
       return _comments;
     }
 
     for (const path in cachedComments) {
-
       const currentTime = new Date().getTime();
       const cachedComment = cachedComments[path];
       const _parentPath = `${cachedComment.parent_author}/${cachedComment.parent_permlink}`;
       const cacheUpdateTimestamp = new Date(cachedComment.updated || 0).getTime();
-
 
       switch (cachedComment.status) {
         case CommentCacheStatus.DELETED:
@@ -122,10 +117,9 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
           break;
         case CommentCacheStatus.UPDATED:
         case CommentCacheStatus.PENDING:
-          //check if commentKey already exist in comments map, 
+          // check if commentKey already exist in comments map,
           if (_comments[path]) {
-
-            //check if we should update comments map with cached map based on updat timestamp
+            // check if we should update comments map with cached map based on updat timestamp
             const remoteUpdateTimestamp = new Date(_comments[path].updated).getTime();
 
             if (cacheUpdateTimestamp > remoteUpdateTimestamp) {
@@ -135,26 +129,23 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
           // if comment key do not exist, possiblky comment is a new comment, in this case, check if parent of comment exist in map
           else if (_comments[_parentPath]) {
-            //in this case add comment key in childern and inject cachedComment in commentsMap
-            _comments[path] = cachedComment
+            // in this case add comment key in childern and inject cachedComment in commentsMap
+            _comments[path] = cachedComment;
             _comments[_parentPath].replies.push(path);
             _comments[_parentPath].children = _comments[_parentPath].children + 1;
 
-            //if comment was created very recently enable auto reveal
-            if ((lastCacheUpdate.postPath === path && (currentTime - lastCacheUpdate.updatedAt) < 5000)) {
-              console.log("setting show replies flag")
+            // if comment was created very recently enable auto reveal
+            if (
+              lastCacheUpdate.postPath === path &&
+              currentTime - lastCacheUpdate.updatedAt < 5000
+            ) {
+              console.log('setting show replies flag');
               _comments[_parentPath].expandedReplies = true;
               _comments[path].renderOnTop = true;
             }
-
           }
           break;
       }
-
-
-
-
-
     }
 
     setData({ ..._comments });
@@ -206,7 +197,12 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
           comment.commentKey = key;
           comment.level = 1;
-          comment.repliesThread = parseReplies(commentsMap, comment.replies, key, comment.level + 1);
+          comment.repliesThread = parseReplies(
+            commentsMap,
+            comment.replies,
+            key,
+            comment.level + 1,
+          );
           comments.push(comment);
         }
       }
@@ -214,8 +210,6 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
     setSectionedData(comments);
   };
-
-
 
   return {
     ...query,
