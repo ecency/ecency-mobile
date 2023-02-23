@@ -22,7 +22,13 @@ import { getServer, getCache, setCache } from '../../realm/realm';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
-import { parsePosts, parsePost, parseComments, parseCommentThreads, parseDiscussionCollection } from '../../utils/postParser';
+import {
+  parsePosts,
+  parsePost,
+  parseComments,
+  parseCommentThreads,
+  parseDiscussionCollection,
+} from '../../utils/postParser';
 import { getName, getAvatar, parseReputation } from '../../utils/user';
 import parseToken from '../../utils/parseToken';
 import parseAsset from '../../utils/parseAsset';

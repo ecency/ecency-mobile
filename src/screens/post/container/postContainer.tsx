@@ -17,7 +17,9 @@ const PostContainer = ({ currentAccount, isLoggedIn, route }) => {
   const params = route.params || {};
 
   const [author, setAuthor] = useState(params.content?.author || params.author || 'demo.com');
-  const [permlink, setPermlink] = useState(params.content?.permlink || params.permlink || 'dev-test-tag-test-going');
+  const [permlink, setPermlink] = useState(
+    params.content?.permlink || params.permlink || 'dev-test-tag-test-going',
+  );
 
   // refs
   const isNewPost = useRef(route.params?.isNewPost).current;

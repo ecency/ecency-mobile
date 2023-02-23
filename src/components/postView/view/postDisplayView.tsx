@@ -92,7 +92,7 @@ const PostDisplayView = ({
   }, [refreshing]);
 
   const _scrollToComments = () => {
-    if(postCommentsRef.current){
+    if (postCommentsRef.current) {
       postCommentsRef.current.scrollToComments();
     }
   };

@@ -10,8 +10,8 @@ import {
 import { renderPostBody, postBodySummary } from '@ecency/render-helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { get, debounce } from 'lodash';
-import { Icon } from '../../icon';
 import Animated, { BounceInRight } from 'react-native-reanimated';
+import { Icon } from '../../icon';
 
 // Utils
 import applyMediaLink from '../children/formats/applyMediaLink';

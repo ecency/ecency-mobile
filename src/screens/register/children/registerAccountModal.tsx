@@ -29,7 +29,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
   const intl = useIntl();
   const navigation = useNavigation();
 
-  const _username = useMemo(()=>username.toLowerCase(), [username])
+  const _username = useMemo(() => username.toLowerCase(), [username]);
 
   const [showModal, setShowModal] = useState(false);
   const [disableFree, setDisableFree] = useState(false);

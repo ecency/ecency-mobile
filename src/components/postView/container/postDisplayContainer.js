@@ -31,7 +31,7 @@ const PostDisplayContainer = ({
   parentPost,
   isPostUnavailable,
   author,
-  permlink
+  permlink,
 }) => {
   const navigation = useNavigation();
 
