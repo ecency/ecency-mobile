@@ -18,7 +18,6 @@ import ROUTES from '../../../constants/routeNames';
 
 // Component
 import CommentsView from '../view/commentsView';
-import { useAppSelector } from '../../../hooks';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import { postQueries } from '../../../providers/queries';
@@ -56,8 +55,6 @@ const CommentsContainer = ({
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
 
-  const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
-  // const cachedComments = useAppSelector((state) => state.cache.comments);
 
   const [lcomments, setLComments] = useState([]);
   const [propComments, setPropComments] = useState(comments);
@@ -72,27 +69,12 @@ const CommentsContainer = ({
     setLComments(sortedComments);
   }, [commentCount, selectedFilter]);
 
+
   useEffect(() => {
     let _comments = comments;
-    if (_comments) {
-      _comments = _handleCachedComment(comments);
-    }
     setPropComments(_comments);
   }, [comments]);
 
-  useEffect(() => {
-    const postPath = `${author || ''}/${permlink || ''}`;
-    // this conditional makes sure on targetted already fetched post is updated
-    // with new cache status, this is to avoid duplicate cache merging
-    if (
-      lastCacheUpdate &&
-      lastCacheUpdate.postPath === postPath &&
-      lastCacheUpdate.type === 'comment' &&
-      lastCacheUpdate.updatedAt > fetchedAt
-    ) {
-      _handleCachedComment();
-    }
-  }, [lastCacheUpdate]);
 
   // Component Functions
 
@@ -184,7 +166,6 @@ const CommentsContainer = ({
       await getComments(author, permlink, name)
         .then((__comments) => {
           // favourable place for merging comment cache
-          __comments = _handleCachedComment(__comments);
           __comments = _sortComments(selectedFilter, __comments);
 
           setLComments(__comments);
@@ -193,66 +174,8 @@ const CommentsContainer = ({
           }
         })
         .catch(() => {});
-    } else {
-      // _handleCachedComment();
     }
   };
-
-  // const _handleCachedComment = (passedComments = null) => {
-  //   const _comments = passedComments || propComments || lcomments || [];
-  //   const postPath = `${author || ''}/${permlink || ''}`;
-
-  //   if (cachedComments.has(postPath)) {
-  //     const cachedComment = cachedComments.get(postPath);
-
-  //     let ignoreCache = false;
-  //     let replaceAtIndex = -1;
-  //     let removeAtIndex = -1;
-  //     _comments.forEach((comment, index) => {
-  //       if (cachedComment.permlink === comment.permlink) {
-  //         if (cachedComment.updated < comment.updated) {
-  //           // comment is present with latest data
-  //           ignoreCache = true;
-  //           console.log('Ignore cache as comment is now present');
-  //         } else if (cachedComment.status === CacheStatus.DELETED) {
-  //           removeAtIndex = index;
-  //         } else {
-  //           // comment is present in list but data is old
-  //           replaceAtIndex = index;
-  //         }
-  //       }
-  //     });
-
-  //     // means deleted comment is not being retuend in fresh data, cache needs to be ignored
-  //     if (cachedComment.status === CacheStatus.DELETED && removeAtIndex < 0) {
-  //       ignoreCache = true;
-  //     }
-
-  //     // manipulate comments with cached data
-  //     if (!ignoreCache) {
-  //       let newComments = [];
-  //       if (removeAtIndex >= 0) {
-  //         newComments = _comments;
-  //         newComments.splice(removeAtIndex, 1);
-  //       } else if (replaceAtIndex >= 0) {
-  //         _comments[replaceAtIndex] = cachedComment;
-  //         newComments = [..._comments];
-  //       } else {
-  //         newComments = [..._comments, cachedComment];
-  //       }
-
-  //       console.log('updated comments with cached comment');
-  //       if (passedComments) {
-  //         return newComments;
-  //       } else if (propComments) {
-  //         setPropComments(newComments);
-  //       } else {
-  //         setLComments(newComments);
-  //       }
-  //     }
-  //   }
-  //   return _comments;
-  // };
 
   const _handleOnReplyPress = (item) => {
     navigation.navigate({
