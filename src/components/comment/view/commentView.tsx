@@ -1,7 +1,6 @@
-import React, { Fragment, useState, useRef, useEffect, useMemo } from 'react';
-import { ActivityIndicator, Alert, View } from 'react-native';
+import React, { Fragment, useState, useRef, useMemo } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 import { useIntl } from 'react-intl';
-import get from 'lodash/get';
 
 import { useDispatch } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -11,7 +10,6 @@ import { delay } from '../../../utils/editor';
 
 // Components
 import { CommentBody, PostHeaderDescription } from '../../postElements';
-import { Upvote } from '../../upvotePopover';
 import { IconButton } from '../../iconButton';
 import { TextWithIcon } from '../../basicUIElements';
 
@@ -33,6 +31,10 @@ const CommentView = ({
   handleOnLongPress,
   handleOnUserPress,
   handleOnVotersPress,
+  handleLinkPress,
+  handleImagePress,
+  handleYoutubePress,
+  handleVideoPress,
   mainAuthor = { mainAuthor },
   openReplyThread,
   repliesToggle,
@@ -52,7 +54,7 @@ const CommentView = ({
     [currentAccount],
   );
 
-  const [activeVotes, setActiveVotes] = useState([]);
+  const activeVotes = useMemo(() => comment?.active_votes || [], [comment]);
   const [isOpeningReplies, setIsOpeningReplies] = useState(false);
 
 
@@ -61,11 +63,6 @@ const CommentView = ({
   const _depth = commentNumber || comment.level;
   const _currentUsername = currentAccountUsername || currentAccount?.username;
 
-  useEffect(() => {
-    if (comment) {
-      setActiveVotes(get(comment, 'active_votes', []));
-    }
-  }, [comment]);
 
   const _showSubCommentsToggle = async (force = false) => {
     if ((replies && replies.length > 0) || force) {
@@ -108,8 +105,11 @@ const CommentView = ({
           reputation={comment.author_reputation}
           handleOnUserPress={handleOnUserPress}
           handleOnLongPress={() => handleOnLongPress(comment)}
+          handleLinkPress={handleLinkPress}
+          handleImagePress={handleImagePress}
+          handleVideoPress={handleVideoPress}
+          handleYoutubePress={handleYoutubePress}
           body={comment.body}
-          created={comment.created}
           key={`key-${comment.permlink}`}
           isMuted={isMuted}
         />

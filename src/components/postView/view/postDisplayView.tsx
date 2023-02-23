@@ -67,6 +67,8 @@ const PostDisplayView = ({
   const [tags, setTags] = useState([]);
   const [postBodyHeight, setPostBodyHeight] = useState(0);
 
+
+
   // Component Life Cycles
   useEffect(() => {
     if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
@@ -86,6 +88,9 @@ const PostDisplayView = ({
       setTags(_tags);
     }
   }, [post]);
+
+
+
 
   // Component Functions
   const onRefresh = useCallback(() => {
@@ -232,6 +237,8 @@ const PostDisplayView = ({
     setIsLoadedComments(true);
   };
 
+
+
   const _postContentView = (
     <>
       {parentPost && <ParentPost post={parentPost} />}
@@ -292,6 +299,7 @@ const PostDisplayView = ({
           postContentView={_postContentView}
           onRefresh={onRefresh}
           onUpvotePress={_onUpvotePress}
+
         />
       </View>
       {post && _renderActionPanel(true)}

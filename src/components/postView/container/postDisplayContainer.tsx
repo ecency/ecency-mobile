@@ -66,7 +66,7 @@ const PostDisplayContainer = ({
       },
       // TODO: make unic
       key: post.permlink + activeVotes.length,
-    });
+    } as never);
   };
 
   const _handleOnReblogsPress = () => {
@@ -77,7 +77,7 @@ const PostDisplayContainer = ({
           reblogs,
         },
         key: post.permlink + reblogs.length,
-      });
+      } as never);
     }
   };
 
@@ -90,7 +90,7 @@ const PostDisplayContainer = ({
         post,
         fetchPost: _fetchPost,
       },
-    });
+    } as never);
   };
 
   const _handleOnEditPress = () => {
@@ -106,7 +106,7 @@ const PostDisplayContainer = ({
           post,
           fetchPost: _fetchPost,
         },
-      });
+      } as never);
     }
   };
 
@@ -122,6 +122,8 @@ const PostDisplayContainer = ({
       );
     });
   };
+
+
 
   const _fetchPost = async () => {
     if (post) {
@@ -148,6 +150,7 @@ const PostDisplayContainer = ({
       handleOnReplyPress={_handleOnReplyPress}
       handleOnVotersPress={_handleOnVotersPress}
       handleOnReblogsPress={_handleOnReblogsPress}
+    
     />
   );
 };
