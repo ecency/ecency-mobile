@@ -28,20 +28,14 @@ const CommentView = ({
   comment,
   currentAccountUsername,
   commentNumber,
-  fetchPost,
   handleDeleteComment,
   handleOnEditPress,
   handleOnLongPress,
   handleOnUserPress,
   handleOnVotersPress,
-  isShowComments,
   mainAuthor = { mainAuthor },
-  isShowSubComments,
-  hideManyCommentsButton,
   openReplyThread,
-  fetchedAt,
   repliesToggle,
-  incrementRepliesCount,
   handleOnToggleReplies,
   onUpvotePress
 }) => {
@@ -60,7 +54,7 @@ const CommentView = ({
 
   const [activeVotes, setActiveVotes] = useState([]);
   const [isOpeningReplies, setIsOpeningReplies] = useState(false);
-  const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
+
 
   const childCount = comment.children;
   const { replies } = comment;
@@ -75,19 +69,15 @@ const CommentView = ({
 
   const _showSubCommentsToggle = async (force = false) => {
     if ((replies && replies.length > 0) || force) {
-      // setIsOpeningReplies(true);
-      // await delay(10); //hack to rendering inidcator first before start loading comments
+      setIsOpeningReplies(true);
+      await delay(10); //hack to rendering inidcator first before start loading comments
       handleOnToggleReplies(comment.commentKey);
-      // setIsOpeningReplies(false);
+      setIsOpeningReplies(false);
     } else if (openReplyThread) {
       openReplyThread(comment);
     }
   };
 
-  const _handleCacheVoteIncrement = () => {
-    // fake increment vote using based on local change
-    setCacheVoteIcrement(1);
-  };
 
   const _handleOnReplyPress = () => {
     if (isLoggedIn) {
@@ -155,7 +145,7 @@ const CommentView = ({
             activeVotes.length > 0 &&
             handleOnVotersPress(activeVotes, comment)
           }
-          text={activeVotes.length + cacheVoteIcrement}
+          text={activeVotes.length}
           textStyle={styles.voteCountText}
         />
 
