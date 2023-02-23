@@ -16,7 +16,6 @@ import { TextWithIcon } from '../../basicUIElements';
 // Styles
 import styles from './commentStyles';
 import { useAppSelector } from '../../../hooks';
-import { OptionsModal } from '../../atoms';
 import { showReplyModal } from '../../../redux/actions/uiAction';
 import { PostTypes } from '../../../constants/postTypes';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
@@ -43,7 +42,6 @@ const CommentView = ({
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const actionSheet = useRef(null);
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
@@ -171,29 +169,14 @@ const CommentView = ({
               iconType="MaterialIcons"
             />
             {!childCount && !activeVotes.length && comment.isDeletable && (
-              <Fragment>
                 <IconButton
                   size={20}
                   iconStyle={styles.leftIcon}
                   style={styles.leftButton}
                   name="delete-forever"
-                  onPress={() => actionSheet.current.show()}
+                  onPress={() => handleDeleteComment(comment.permlink)}
                   iconType="MaterialIcons"
                 />
-                <OptionsModal
-                  ref={actionSheet}
-                  options={[
-                    intl.formatMessage({ id: 'alert.delete' }),
-                    intl.formatMessage({ id: 'alert.cancel' }),
-                  ]}
-                  title={intl.formatMessage({ id: 'alert.delete' })}
-                  destructiveButtonIndex={0}
-                  cancelButtonIndex={1}
-                  onPress={(index) => {
-                    index === 0 ? handleDeleteComment(comment.permlink) : null;
-                  }}
-                />
-              </Fragment>
             )}
           </Fragment>
         )}

@@ -224,18 +224,38 @@ const PostComments = forwardRef(
     };
 
     const _handleDeleteComment = (_permlink) => {
-      deleteComment(currentAccount, pinHash, _permlink).then(() => {
-        // remove cached entry based on parent
-        const _commentPath = `${currentAccount.username}/${_permlink}`;
-        console.log('deleted comment', _commentPath);
 
-        const _deletedItem = discussionQuery.data[_commentPath];
-        if (_deletedItem) {
-          _deletedItem.status = CacheStatus.DELETED;
-          delete _deletedItem.updated;
-          dispatch(updateCommentCache(_commentPath, _deletedItem, { isUpdate: true }));
+      const _onConfirmDelete = async () => {
+        try {
+          await deleteComment(currentAccount, pinHash, _permlink);
+             // remove cached entry based on parent
+             const _commentPath = `${currentAccount.username}/${_permlink}`;
+             console.log('deleted comment', _commentPath);
+     
+             const _deletedItem = discussionQuery.data[_commentPath];
+             if (_deletedItem) {
+               _deletedItem.status = CacheStatus.DELETED;
+               delete _deletedItem.updated;
+               dispatch(updateCommentCache(_commentPath, _deletedItem, { isUpdate: true }));
+             }
+        } catch(err){
+          console.warn('Failed to delete comment')
         }
-      });
+        
+      }
+
+      dispatch(showActionModal({
+        title:intl.formatMessage({id:'delete.confirm_delete_title'}),
+        buttons:[{
+          text: intl.formatMessage({ id: 'alert.cancel' }),
+          onPress:()=>{console.log("canceled delete comment")}
+        },{
+          text:intl.formatMessage({ id: 'alert.delete' }),
+          onPress:_onConfirmDelete
+        }]
+      }))
+
+
     };
 
     const _openReplyThread = (comment) => {
