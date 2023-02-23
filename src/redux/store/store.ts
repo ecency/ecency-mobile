@@ -11,13 +11,11 @@ import MigrationHelpers from '../../utils/migrationHelpers';
 const transformCacheVoteMap = createTransform(
   (inboundState: any) => ({
     ...inboundState,
-    votes: Array.from(inboundState.votes),
     subscribedCommunities: Array.from(inboundState.subscribedCommunities),
     pointActivities: Array.from(inboundState.pointActivities),
   }),
   (outboundState) => ({
     ...outboundState,
-    votes: new Map(outboundState.votes),
     subscribedCommunities: new Map(outboundState.subscribedCommunities),
     pointActivities: new Map(outboundState.pointActivities),
   }),
