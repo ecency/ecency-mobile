@@ -1,6 +1,6 @@
 import { renderPostBody } from '@ecency/render-helper';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Platform } from 'react-native';
 import { useAppSelector } from '../../../hooks';
 import { getDiscussionCollection, getPost } from '../../hive/dhive';
@@ -8,11 +8,23 @@ import QUERIES from '../queryKeys';
 import { Comment, CacheStatus, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
 
 /** hook used to return user drafts */
-export const useGetPostQuery = (_author?: string, _permlink?: string, initialData?: any) => {
+export const useGetPostQuery = (_author?: string, _permlink?: string, initialPost?: any) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
   const [author, setAuthor] = useState(_author);
   const [permlink, setPermlink] = useState(_permlink);
+
+  const _initialPost = useMemo(() => { 
+    const _post = initialPost;
+    if(!_post){
+      return _post;
+    }
+    
+    _post.body = renderPostBody({ ..._post, last_update: _post.updated }, true, Platform.OS !== 'ios');
+
+    return _post;
+  }, [initialPost?.body]);
+
 
   const query = useQuery([QUERIES.POST.GET, author, permlink], async () => {
     if (!author || !permlink) {
@@ -30,7 +42,7 @@ export const useGetPostQuery = (_author?: string, _permlink?: string, initialDat
       console.warn('Failed to get post', err);
       throw err;
     }
-  }, { initialData });
+  }, { initialData:_initialPost });
 
   return {
     ...query,
