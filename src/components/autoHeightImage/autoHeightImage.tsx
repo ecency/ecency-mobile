@@ -39,11 +39,12 @@ export const AutoHeightImage = ({
   const imgStyle = {
     width: imgWidth - 10,
     height: imgHeight,
-    backgroundColor: onLoadCalled ? 'transparent' : EStyleSheet.value('$primaryGray'),
+    backgroundColor: onLoadCalled ? 'transparent' : EStyleSheet.value('$primaryLightBackground'),
   };
 
   const _onLoad = () => {
     setOnLoadCalled(true);
+    
   };
 
   return (

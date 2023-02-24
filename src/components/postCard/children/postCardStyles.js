@@ -43,7 +43,7 @@ export default EStyleSheet.create({
     // height: 200,
     // width: '$deviceWidth - 16',
     borderRadius: 8,
-    backgroundColor: '$primaryLightGray',
+    backgroundColor: '$primaryLightBackground',
   },
   hiddenImages: {
     flexDirection: 'column',
