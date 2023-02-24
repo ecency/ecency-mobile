@@ -11,7 +11,6 @@ import { postQueries } from '../../../providers/queries';
 
 
 const PostScreen = ({
-  navigation,
   route
 }) => {
 
@@ -65,14 +64,6 @@ const PostScreen = ({
     getPostQuery.refetch();
   };
 
-  // // useEffect(() => {
-  // //   const { isFetch: nextIsFetch } = route.params ?? {};
-  // //   if (nextIsFetch) {
-  // //     const { author: _author, permlink } = route.params;
-  // //     _loadPost(_author, permlink);
-  // //   }
-  // // }, [route.params.isFetch]);
-
   const _isPostUnavailable = !getPostQuery.isLoading && getPostQuery.error;
 
 
@@ -117,10 +108,6 @@ const PostScreen = ({
         ref={postOptionsModalRef}
       />
     </View>
-
-    // <ScrollView>
-    //   <Text>{params.content.body}</Text>
-    // </ScrollView>
   );
 };
 

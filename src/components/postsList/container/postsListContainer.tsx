@@ -136,27 +136,27 @@ const postsListContainer = (
 
 
   //TODO: test hook, remove before PR
-  useEffect(() => {
-    if (scrollIndex && flatListRef.current) {
-      const _posts = data
-      console.log("scrollIndex", scrollIndex, "posts length", _posts.length);
+  // useEffect(() => {
+  //   if (scrollIndex && flatListRef.current) {
+  //     const _posts = data
+  //     console.log("scrollIndex", scrollIndex, "posts length", _posts.length);
 
-      if (scrollIndex >= _posts.length) {
-        Alert.alert("Reached an end, scroll score, " + scrollIndex);
-        return;
-      }
+  //     if (scrollIndex >= _posts.length) {
+  //       Alert.alert("Reached an end, scroll score, " + scrollIndex);
+  //       return;
+  //     }
 
-      if (scrollIndex === _posts.length - 15) {
-        console.log("fetching posts");
-        onLoadPosts(false);
-      }
+  //     if (scrollIndex === _posts.length - 15) {
+  //       console.log("fetching posts");
+  //       onLoadPosts(false);
+  //     }
 
-      flatListRef.current.scrollToIndex({ index: scrollIndex });
-      setTimeout(() => {
-        _handleOnContentPress(_posts[scrollIndex])
-      }, 500)
-    }
-  }, [scrollIndex])
+  //     flatListRef.current.scrollToIndex({ index: scrollIndex });
+  //     setTimeout(() => {
+  //       _handleOnContentPress(_posts[scrollIndex])
+  //     }, 500)
+  //   }
+  // }, [scrollIndex])
 
 
   useEffect(() => {
