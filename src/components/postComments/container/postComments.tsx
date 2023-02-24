@@ -7,12 +7,10 @@ import React, {
   useEffect,
   Fragment,
 } from 'react';
-import { ActivityIndicator, Alert, Modal, PermissionsAndroid, Platform, RefreshControl, Text } from 'react-native';
+import { ActivityIndicator, Platform, RefreshControl, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
-import ActionsSheet from 'react-native-actions-sheet';
-import ImageViewer from 'react-native-image-zoom-viewer';
 
 // Components
 import { postBodySummary } from '@ecency/render-helper';
@@ -27,13 +25,14 @@ import { writeToClipboard } from '../../../utils/clipboard';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
-import { CommentsSection } from '../children/commentsSection';
-import styles from '../children/postComments.styles';
+
 import { PostTypes } from '../../../constants/postTypes';
-import CameraRoll from '@react-native-community/cameraroll';
-import RNFetchBlob from 'rn-fetch-blob';
-import { OptionsModal } from '../../atoms';
-import VideoPlayer from '../../videoPlayer/videoPlayerView';
+
+import { CommentsSection } from '../children/commentsSection';
+import { sortComments } from '../children/sortComments';
+import styles from '../children/postComments.styles';
+import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
+
 
 
 const PostComments = forwardRef(
@@ -63,25 +62,17 @@ const PostComments = forwardRef(
     const postsCachePrimer = postQueries.usePostsCachePrimer();
 
     const writeCommentRef = useRef(null);
+    const postInteractionRef = useRef<typeof PostHtmlInteractionHandler|null>(null);
     const commentsListRef = useRef<FlatList | null>(null);
-    const actionImage = useRef(null);
-    const actionLink = useRef(null);
-    const youtubePlayerRef = useRef(null);
 
-    const [postImages, setPostImages] = useState<string[]>([]);
-    const [isImageModalOpen, setIsImageModalOpen] = useState(false);
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
     const [shouldRenderComments, setShouldRenderComments] = useState(false);
     const [headerHeight, setHeaderHeight] = useState(0);
-    const [videoUrl, setVideoUrl] = useState(null);
-    const [youtubeVideoId, setYoutubeVideoId] = useState(null);
-    const [videoStartTime, setVideoStartTime] = useState(0);
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [selectedLink, setSelectedLink] = useState(null);
+
 
     const sortedSections = useMemo(
-      () => _sortComments(selectedFilter, discussionQuery.sectionedData),
+      () => sortComments(selectedFilter, discussionQuery.sectionedData),
       [discussionQuery.sectionedData, selectedFilter],
     );
 
@@ -112,87 +103,7 @@ const PostComments = forwardRef(
       onRefresh();
     };
 
-    const checkAndroidPermission = async () => {
-      try {
-        const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
-        await PermissionsAndroid.request(permission);
-        Promise.resolve();
-      } catch (error) {
-        Promise.reject(error);
-      }
-    };
-
-    const _downloadImage = async (uri) => {
-      return RNFetchBlob.config({
-        fileCache: true,
-        appendExt: 'jpg',
-      })
-        .fetch('GET', uri)
-        .then((res) => {
-          const { status } = res.info();
-
-          if (status == 200) {
-            return res.path();
-          } else {
-            Promise.reject();
-          }
-        })
-        .catch((errorMessage) => {
-          Promise.reject(errorMessage);
-        });
-    };
-
-    const _saveImage = async (uri) => {
-      try {
-        if (Platform.OS === 'android') {
-          await checkAndroidPermission();
-          uri = `file://${await _downloadImage(uri)}`;
-        }
-        CameraRoll.saveToCameraRoll(uri)
-          .then(() => {
-            dispatch(
-              toastNotification(
-                intl.formatMessage({
-                  id: 'post.image_saved',
-                }),
-              ),
-            );
-          })
-          .catch(() => {
-            dispatch(
-              toastNotification(
-                intl.formatMessage({
-                  id: 'post.image_saved_error',
-                }),
-              ),
-            );
-          });
-      } catch (error) {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'post.image_saved_error',
-            }),
-          ),
-        );
-      }
-    };
-
-    const _handleYoutubePress = (videoId, startTime) => {
-      if (videoId && youtubePlayerRef.current) {
-        setYoutubeVideoId(videoId);
-        setVideoStartTime(startTime);
-        youtubePlayerRef.current.setModalVisible(true);
-      }
-    };
-
-    const _handleVideoPress = (embedUrl) => {
-      if (embedUrl && youtubePlayerRef.current) {
-        setVideoUrl(embedUrl);
-        setVideoStartTime(0);
-        youtubePlayerRef.current.setModalVisible(true);
-      }
-    };
+ 
 
 
     const _handleOnDropdownSelect = (option, index) => {
@@ -228,30 +139,30 @@ const PostComments = forwardRef(
       const _onConfirmDelete = async () => {
         try {
           await deleteComment(currentAccount, pinHash, _permlink);
-             // remove cached entry based on parent
-             const _commentPath = `${currentAccount.username}/${_permlink}`;
-             console.log('deleted comment', _commentPath);
-     
-             const _deletedItem = discussionQuery.data[_commentPath];
-             if (_deletedItem) {
-               _deletedItem.status = CacheStatus.DELETED;
-               delete _deletedItem.updated;
-               dispatch(updateCommentCache(_commentPath, _deletedItem, { isUpdate: true }));
-             }
-        } catch(err){
+          // remove cached entry based on parent
+          const _commentPath = `${currentAccount.username}/${_permlink}`;
+          console.log('deleted comment', _commentPath);
+
+          const _deletedItem = discussionQuery.data[_commentPath];
+          if (_deletedItem) {
+            _deletedItem.status = CacheStatus.DELETED;
+            delete _deletedItem.updated;
+            dispatch(updateCommentCache(_commentPath, _deletedItem, { isUpdate: true }));
+          }
+        } catch (err) {
           console.warn('Failed to delete comment')
         }
-        
+
       }
 
       dispatch(showActionModal({
-        title:intl.formatMessage({id:'delete.confirm_delete_title'}),
-        buttons:[{
+        title: intl.formatMessage({ id: 'delete.confirm_delete_title' }),
+        buttons: [{
           text: intl.formatMessage({ id: 'alert.cancel' }),
-          onPress:()=>{console.log("canceled delete comment")}
-        },{
-          text:intl.formatMessage({ id: 'alert.delete' }),
-          onPress:_onConfirmDelete
+          onPress: () => { console.log("canceled delete comment") }
+        }, {
+          text: intl.formatMessage({ id: 'alert.delete' }),
+          onPress: _onConfirmDelete
         }]
       }))
 
@@ -318,73 +229,7 @@ const PostComments = forwardRef(
 
 
 
-    const _handleImageOptionPress = (ind) => {
-      if (ind === 1) {
-        // open gallery mode
-        setIsImageModalOpen(true);
-      }
-      if (ind === 0) {
-        // copy to clipboard
-        writeToClipboard(selectedImage).then(() => {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'alert.copied',
-              }),
-            ),
-          );
-        });
-      }
-      if (ind === 2) {
-        // save to local
-        _saveImage(selectedImage);
-      }
-
-      setSelectedImage(null);
-    };
-
-    const _handleLinkOptionPress = (ind) => {
-      if (ind === 1) {
-        // open link
-        if (selectedLink) {
-          navigation.navigate({
-            name: ROUTES.SCREENS.WEB_BROWSER,
-            params: {
-              url: selectedLink,
-            },
-            key: selectedLink,
-          } as never);
-        }
-      }
-      if (ind === 0) {
-        // copy to clipboard
-        writeToClipboard(selectedLink).then(() => {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'alert.copied',
-              }),
-            ),
-          );
-        });
-      }
-
-      setSelectedLink(null);
-    };
-
-
-
-    const _handleLinkPress = (url:string) => {
-     
-      setSelectedLink(url);
-      actionLink.current?.show();
-    }
-
-    const _handleImagePress = (url: string, postImgUrls: string[]) => {
-      setPostImages(postImgUrls);
-      setSelectedImage(url);
-      actionImage.current?.show();
-    }
+   
 
 
     const _onContentSizeChange = (x: number, y: number) => {
@@ -439,14 +284,14 @@ const PostComments = forwardRef(
           index={index}
           mainAuthor={mainAuthor}
           handleDeleteComment={_handleDeleteComment}
-          handleOnEditPress={_handleOnEditPress}
+          handleOnEditPress={_handleOnEditPress}s
           handleOnVotersPress={_handleOnVotersPress}
           handleOnLongPress={_handleShowOptionsMenu}
           handleOnUserPress={_handleOnUserPress}
-          handleImagePress={_handleImagePress}
-          handleLinkPress={_handleLinkPress}
-          handleVideoPress={_handleVideoPress}
-          handleYoutubePress={_handleYoutubePress}
+          handleImagePress={postInteractionRef.current?.handleImagePress}
+          handleLinkPress={postInteractionRef.current?.handleLinkPress}
+          handleVideoPress={postInteractionRef.current?.handleVideoPress}
+          handleYoutubePress={postInteractionRef.current?.handleYoutubePress}
           openReplyThread={_openReplyThread}
           onUpvotePress={(anchorRect, showPayoutDetails) => onUpvotePress({ anchorRect, showPayoutDetails, content: item, postType: PostTypes.COMMENT })}
         />
@@ -478,165 +323,14 @@ const PostComments = forwardRef(
             />
           }
         />
-
-
-        <Modal visible={isImageModalOpen} transparent={true}>
-          <ImageViewer
-            imageUrls={postImages.map((url) => ({ url }))}
-            enableSwipeDown
-            onCancel={() => setIsImageModalOpen(false)}
-            onClick={() => setIsImageModalOpen(false)}
-          />
-        </Modal>
-
-
-        <OptionsModal
-          ref={actionImage}
-          options={[
-            intl.formatMessage({ id: 'post.copy_link' }),
-            intl.formatMessage({ id: 'post.gallery_mode' }),
-            intl.formatMessage({ id: 'post.save_to_local' }),
-            intl.formatMessage({ id: 'alert.cancel' }),
-          ]}
-          title={intl.formatMessage({ id: 'post.image' })}
-          cancelButtonIndex={3}
-          onPress={(index) => {
-            _handleImageOptionPress(index);
-          }}
+        <PostHtmlInteractionHandler 
+          ref={postInteractionRef}
         />
-
-
-        <OptionsModal
-          ref={actionLink}
-          options={[
-            intl.formatMessage({ id: 'post.copy_link' }),
-            intl.formatMessage({ id: 'alert.external_link' }),
-            intl.formatMessage({ id: 'alert.cancel' }),
-          ]}
-          title={intl.formatMessage({ id: 'post.link' })}
-          cancelButtonIndex={2}
-          onPress={(index) => {
-            _handleLinkOptionPress(index);
-          }}
-        />
-
-        <ActionsSheet
-          ref={youtubePlayerRef}
-          gestureEnabled={true}
-          hideUnderlay={true}
-          containerStyle={{ backgroundColor: 'black' }}
-          indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-          onClose={() => {
-            setYoutubeVideoId(null);
-            setVideoUrl(null);
-          }}
-        >
-          <VideoPlayer
-            mode={youtubeVideoId ? 'youtube' : 'uri'}
-            youtubeVideoId={youtubeVideoId}
-            uri={videoUrl}
-            startTime={videoStartTime}
-          />
-        </ActionsSheet>
-
       </Fragment>
-
+        
     );
   },
 );
 
 export default PostComments;
 
-const _sortComments = (sortOrder = 'trending', _comments) => {
-  const sortedComments: any[] = _comments;
-
-  const absNegative = (a) => a.net_rshares < 0;
-
-  const sortOrders = {
-    trending: (a, b) => {
-      if (a.renderOnTop) {
-        return -1;
-      }
-
-      if (absNegative(a)) {
-        return 1;
-      }
-
-      if (absNegative(b)) {
-        return -1;
-      }
-
-      const apayout = a.total_payout;
-      const bpayout = b.total_payout;
-
-      if (apayout !== bpayout) {
-        return bpayout - apayout;
-      }
-
-      return 0;
-    },
-    reputation: (a, b) => {
-      if (a.renderOnTop) {
-        return -1;
-      }
-
-      const keyA = a.author_reputation;
-      const keyB = b.author_reputation;
-
-      if (keyA > keyB) {
-        return -1;
-      }
-      if (keyA < keyB) {
-        return 1;
-      }
-
-      return 0;
-    },
-    votes: (a, b) => {
-      if (a.renderOnTop) {
-        return -1;
-      }
-
-      const keyA = a.active_votes.length;
-      const keyB = b.active_votes.length;
-
-      if (keyA > keyB) {
-        return -1;
-      }
-      if (keyA < keyB) {
-        return 1;
-      }
-
-      return 0;
-    },
-    age: (a, b) => {
-      if (a.renderOnTop) {
-        return -1;
-      }
-
-      if (absNegative(a)) {
-        return 1;
-      }
-
-      if (absNegative(b)) {
-        return -1;
-      }
-
-      const keyA = Date.parse(a.created);
-      const keyB = Date.parse(b.created);
-
-      if (keyA > keyB) {
-        return -1;
-      }
-      if (keyA < keyB) {
-        return 1;
-      }
-
-      return 0;
-    },
-  };
-
-  sortedComments.sort(sortOrders[sortOrder]);
-
-  return sortedComments;
-};

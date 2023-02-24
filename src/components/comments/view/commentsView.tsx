@@ -11,6 +11,7 @@ import { Comment, TextButton, UpvotePopover } from '../..';
 import styles from './commentStyles';
 import { OptionsModal } from '../../atoms';
 import { PostTypes } from '../../../constants/postTypes';
+import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 
 const CommentsView = ({
   avatarSize,
@@ -44,6 +45,7 @@ const CommentsView = ({
   const intl = useIntl();
   const commentMenu = useRef<any>();
   const upvotePopoverRef = useRef();
+  const postInteractionRef = useRef(null);
 
   const _openCommentMenu = (item) => {
     if (commentMenu.current) {
@@ -109,6 +111,10 @@ const CommentsView = ({
         handleOnReplyPress={handleOnReplyPress}
         handleOnUserPress={handleOnUserPress}
         handleOnVotersPress={handleOnVotersPress}
+        handleImagePress={postInteractionRef.current?.handleImagePress}
+        handleLinkPress={postInteractionRef.current?.handleLinkPress}
+        handleVideoPress={postInteractionRef.current?.handleVideoPress}
+        handleYoutubePress={postInteractionRef.current?.handleYoutubePress}
         isHideImage={isHideImage}
         isLoggedIn={isLoggedIn}
         showAllComments={showAllComments}
@@ -168,6 +174,9 @@ const CommentsView = ({
       />
       <UpvotePopover 
         ref={upvotePopoverRef}
+      />
+      <PostHtmlInteractionHandler 
+        ref={postInteractionRef}
       />
     </Fragment>
   );

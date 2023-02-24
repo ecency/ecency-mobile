@@ -1,14 +1,12 @@
 import React, { Fragment, useState } from 'react';
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 import { useIntl } from 'react-intl';
-
 
 import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
 import RootNavigation from '../../../../navigation/rootNavigation';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
-
 import { PostHtmlRenderer, TextButton } from '../../..';
 
 // Styles
