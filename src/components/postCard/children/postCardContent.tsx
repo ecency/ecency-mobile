@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { TouchableOpacity, Text, View } from 'react-native';
 
@@ -34,8 +34,7 @@ interface Props {
 
 export const PostCardContent = ({ content, isHideImage, thumbHeight, nsfw, setThumbHeight, handleCardInteraction }: Props) => {
 
-  // const [calcImgHeight, setCalcImgHeight] = useState(thumbHeight || 300);
-  const calcImgHeight = 300;
+  const [calcImgHeight, setCalcImgHeight] = useState(thumbHeight || 300);
   
 
   const _onPress = () => {
@@ -88,21 +87,16 @@ export const PostCardContent = ({ content, isHideImage, thumbHeight, nsfw, setTh
               if (!thumbHeight) {
                 const height =
                   (evt.nativeEvent.height / evt.nativeEvent.width) * (dim.width - 18);
-
-                //TODO: put back imgHeight state sets before PR
-                // setCalcImgHeight(height);
-                // setThumbHeight(content.author + content.permlink, height);
+                setCalcImgHeight(height);
+                setThumbHeight(content.author + content.permlink, height);
               }
             }}
           />
         )}
 
         <View style={[styles.postDescripton]}>
-          <Text numberOfLines={1} style={styles.title}>{content.title}</Text>
-          {
-            //TODO: remove numberOfLines prop before PR
-          }
-          <Text numberOfLines={1} style={styles.summary}>{content.summary}</Text>
+          <Text style={styles.title}>{content.title}</Text>
+          <Text style={styles.summary}>{content.summary}</Text>
         </View>
 
       </TouchableOpacity>
