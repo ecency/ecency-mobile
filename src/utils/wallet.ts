@@ -512,6 +512,7 @@ const fetchEngineTokensData = async (username: string, hivePrice: number, vsCurr
             unclaimedBalance: item.unclaimedBalance,
             isEngine: true,
             percentChange: item.percentChange,
+            precision: item.precision,
             actions,
             volume24h: volume24h,
             extraDataPairs: [{

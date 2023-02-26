@@ -22,12 +22,12 @@ export const CoinSummary = ({
   onActionPress,
   onInfoPress,
 }: CoinSummaryProps) => {
-  const { balance, estimateValue, savings, extraDataPairs, actions } = coinData;
+  const { balance, estimateValue, savings, extraDataPairs, actions, precision } = coinData;
 
   const valuePairs = [
     {
       dataKey: 'amount_desc',
-      value: balance,
+      value: balance.toFixed(precision),
     },
   ] as DataPair[];
 
