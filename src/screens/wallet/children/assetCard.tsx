@@ -27,6 +27,7 @@ export interface AssetCardProps {
   isClaiming?: boolean;
   isLoading?: boolean;
   volume24h?: number;
+  precision?: number;
   footerComponent: ComponentType<any>;
   onCardPress: () => void;
   onClaimPress: () => void;
@@ -51,6 +52,7 @@ export const AssetCard = ({
   isClaiming,
   isLoading,
   volume24h,
+  precision,
   onCardPress,
   onClaimPress,
   onBoostAccountPress,
@@ -79,7 +81,7 @@ export const AssetCard = ({
   const _name = intl.messages[`wallet.${id}.name`]
     ? intl.formatMessage({ id: `wallet.${id}.name` })
     : name;
-  const value = `${ownedBalance.toFixed(isEngine ? 6 : 3)}`;
+  const value = `${ownedBalance.toFixed(isEngine ? precision : 3)}`;
   const _fiatValue = ownedBalance * currentValue;
   const _fiatStr = `${_fiatValue.toFixed(_fiatValue < 1 ? 5 : 2)}${currencySymbol}`;
 
