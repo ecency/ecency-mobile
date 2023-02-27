@@ -210,20 +210,6 @@ const postsListContainer = (
 
 
 
-  const _handleOnContentPress = (value) => {
-    if (value) {
-      // postsCacherPrimer.cachePost(value);
-      navigation.navigate({
-        name: ROUTES.SCREENS.POST,
-        params: {
-          content: value,
-          author: value.author,
-          permlink: value.permlink,
-        }
-      });
-    }
-  };
-
 
   const _handleCardInteraction = (id: PostCardActionIds, payload: any, content: any) => {
     switch (id) {
@@ -274,7 +260,7 @@ const postsListContainer = (
       isHideImage={isHideImages}
       nsfw={nsfw}
       reblogs={reblogs}
-      // imageHeight={imgHeight}
+      imageHeight={imgHeight}
       setImageHeight={_setImageHeightInMap}
       handleCardInteraction={(id: PostCardActionIds, payload: any) => _handleCardInteraction(id, payload, item)}
     />
