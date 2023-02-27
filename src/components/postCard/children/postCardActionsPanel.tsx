@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import get from 'lodash/get';
 import { TouchableOpacity, View } from 'react-native';
 
@@ -26,7 +26,7 @@ export const PostCardActionsPanel = ({
     handleCardInteraction
 }: Props) => {
 
-    const activeVotes = useMemo(() => content?.active_votes || [], [content])
+    const activeVotes = content?.active_votes || [];
 
     const _onVotersPress = () => {
         handleCardInteraction(PostCardActionIds.NAVIGATE, {

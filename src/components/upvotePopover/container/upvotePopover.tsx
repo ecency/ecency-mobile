@@ -311,6 +311,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
       amount: amountNum,
       isDownvote,
       incrementStep,
+      voter:currentAccount.username,
       expiresAt: curTime + 30000,
       status,
     };

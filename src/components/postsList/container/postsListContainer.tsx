@@ -13,6 +13,7 @@ import { PostCardActionIds } from '../../postCard/container/postCard';
 import { useAppDispatch } from '../../../hooks';
 import { showProfileModal } from '../../../redux/actions/uiAction';
 import { getPostReblogs } from '../../../providers/ecency/ecency';
+import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 
 export interface PostsListRef {
   scrollToTop: () => void;
@@ -51,10 +52,9 @@ const postsListContainer = (
 
   const navigation = useNavigation();
 
-  
+
   const upvotePopoverRef = useRef(null);
   const postDropdownRef = useRef(null);
-
 
 
   const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
@@ -64,6 +64,7 @@ const postsListContainer = (
   const cachedPosts = useSelector((state) => {
     return isFeedScreen ? state.posts.feedPosts : state.posts.otherPosts;
   });
+  const votesCache = useSelector((state) => state.cache.votesCollection);
 
   const mutes = useSelector((state) => state.account.currentAccount.mutes);
   const scrollIndex: number = useSelector(state => state.ui.scrollIndex);
@@ -135,34 +136,10 @@ const postsListContainer = (
 
 
 
-  //TODO: test hook, remove before PR
-  // useEffect(() => {
-  //   if (scrollIndex && flatListRef.current) {
-  //     const _posts = data
-  //     console.log("scrollIndex", scrollIndex, "posts length", _posts.length);
-
-  //     if (scrollIndex >= _posts.length) {
-  //       Alert.alert("Reached an end, scroll score, " + scrollIndex);
-  //       return;
-  //     }
-
-  //     if (scrollIndex === _posts.length - 15) {
-  //       console.log("fetching posts");
-  //       onLoadPosts(false);
-  //     }
-
-  //     flatListRef.current.scrollToIndex({ index: scrollIndex });
-  //     setTimeout(() => {
-  //       _handleOnContentPress(_posts[scrollIndex])
-  //     }, 500)
-  //   }
-  // }, [scrollIndex])
-
-
   useEffect(() => {
     //fetch reblogs here
-    _updateReblogsCollection()
-  }, [data])
+    _updateReblogsCollection();
+  }, [data, votesCache])
 
 
   const _updateReblogsCollection = async () => {
@@ -233,13 +210,13 @@ const postsListContainer = (
 
       case PostCardActionIds.UPVOTE:
         if (upvotePopoverRef.current && payload && content) {
-          upvotePopoverRef.current.showPopover({anchorRect:payload, content});
+          upvotePopoverRef.current.showPopover({ anchorRect: payload, content });
         }
         break;
 
       case PostCardActionIds.PAYOUT_DETAILS:
         if (upvotePopoverRef.current && payload && content) {
-          upvotePopoverRef.current.showPopover({anchorRect:payload, content, showPayoutDetails:true});
+          upvotePopoverRef.current.showPopover({ anchorRect: payload, content, showPayoutDetails: true });
         }
         break;
 
@@ -251,6 +228,16 @@ const postsListContainer = (
     const localId = item.author + item.permlink;
     const imgHeight = imageHeights.get(localId);
     const reblogs = reblogsCollectionRef.current[localId]
+
+    //inject vote cache
+    const voteCache = votesCache[`${item.author}/${item.permlink}`];
+    if (voteCache && voteCache.status !== CacheStatus.FAILED && item.active_votes.findIndex(i => i.voter === voteCache.voter) < 0) {
+      item.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
+      item.active_votes = [...item.active_votes, {
+        voter: voteCache.voter,
+        rshares: voteCache.isDownvote ? -1000 : 1000
+      }]
+    }
 
     //   e.push(
     return <PostCard
@@ -279,7 +266,7 @@ const postsListContainer = (
         maxToRenderPerBatch={3}
         initialNumToRender={3}
         windowSize={5}
-        extraData={[imageHeights, scrollIndex, reblogsCollectionRef.current]}
+        extraData={[imageHeights, scrollIndex, reblogsCollectionRef.current, votesCache]}
         onEndReached={_onEndReached}
         onMomentumScrollBegin={() => {
           _onEndReachedCalledDuringMomentum = false;
