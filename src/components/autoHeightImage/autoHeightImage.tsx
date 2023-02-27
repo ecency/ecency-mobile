@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Image } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
 
 interface AutoHeightImageProps {
   contentWidth: number;

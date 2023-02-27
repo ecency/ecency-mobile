@@ -595,7 +595,7 @@ PODS:
     - Firebase/Messaging (= 8.15.0)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (2.8.0):
+  - RNGestureHandler (2.9.0):
     - React-Core
   - RNIap (12.4.2):
     - React-Core
@@ -1084,7 +1084,7 @@ SPEC CHECKSUMS:
   RNFBApp: e4439717c23252458da2b41b81b4b475c86f90c4
   RNFBDynamicLinks: 538840f6e3f58511f857d15df1bc25ed655dc283
   RNFBMessaging: 40dac204b4197a2661dec5be964780c6ec39bf65
-  RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
+  RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNIap: e17233fe11083a71e0420682b0b09d497861faa1
   RNImageCropPicker: 14fe1c29298fb4018f3186f455c475ab107da332
   RNNotifee: dcb2593127f40945c4ee5fc09f61d71bbd00b9cf

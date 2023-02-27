@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
-import { findNodeHandle, NativeModules, View } from "react-native";
-import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { findNodeHandle, NativeModules, View, TouchableOpacity, Text } from "react-native";
 import { useAppSelector } from "../../../hooks";
 import { PulseAnimation } from "../../animations";
 
@@ -8,7 +7,6 @@ import { isVoted as isVotedFunc, isDownVoted as isDownVotedFunc } from '../../..
 
 import Icon from "../../icon";
 import styles from './children.styles';
-import { TextButton } from "../../buttons";
 import { FormattedCurrency } from "../../formatedElements";
 import { Rect } from "react-native-modal-popover/lib/PopoverGeometry";
 import { PostTypes } from "../../../constants/postTypes";
@@ -142,17 +140,17 @@ export const UpvoteButton = ({
             </TouchableOpacity>
             <View style={styles.payoutTextButton}>
                 {isShowPayoutValue && (
-                    <TouchableWithoutFeedback ref={detailsRef}  onPress={_onDetailsPress} >
-                        <TextButton
-                            style={styles.payoutTextButton}
-                            textStyle={[
+                    <TouchableOpacity ref={detailsRef} onPress={_onDetailsPress} >
+                        <Text
+                            style={[
                                 styles.payoutValue,
                                 isDeclinedPayout && styles.declinedPayout,
                                 boldPayout && styles.boldText,
                             ]}
-                            text={<FormattedCurrency value={_shownPayout || '0.000'} />}
-                        />
-                    </TouchableWithoutFeedback>
+                        >
+                            {<FormattedCurrency value={_shownPayout || '0.000'} />}
+                        </Text>
+                    </TouchableOpacity>
 
                 )}
             </View>

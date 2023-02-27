@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
-import { View, Text } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View, Text, TouchableOpacity } from 'react-native';
 import styles from './children.styles';
 
 interface CoinActionsProps {
@@ -21,7 +20,6 @@ export const CoinActions = ({ actions, onActionPress }: CoinActionsProps) => {
       <TouchableOpacity
         key={`action-${item}-${index}`}
         style={styles.actionContainer}
-        containerStyle={styles.actionBtnContainer}
         onPress={_onPress}
       >
         <Fragment>

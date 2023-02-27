@@ -1,7 +1,6 @@
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import { View as AnimatedView } from 'react-native-animatable';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useIntl } from 'react-intl';
 import UserAvatar from '../../userAvatar';
 import styles from '../styles/writeCommentButton.styles';
