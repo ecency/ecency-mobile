@@ -1,16 +1,15 @@
 import React, { forwardRef, useRef, useImperativeHandle, useState, useEffect, Fragment, useMemo } from 'react';
-import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View, Alert } from 'react-native';
+import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import PostCard from '../../postCard';
 import styles from '../view/postsListStyles';
 import { useNavigation } from '@react-navigation/native';
-import ROUTES from '../../../constants/routeNames';
 import { useIntl } from 'react-intl';
 import { UpvotePopover } from '../..';
 import { PostTypes } from '../../../constants/postTypes';
 import { PostOptionsModal } from '../../postOptionsModal';
 import { PostCardActionIds } from '../../postCard/container/postCard';
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useInjectVotesCache } from '../../../hooks';
 import { showProfileModal } from '../../../redux/actions/uiAction';
 import { getPostReblogs } from '../../../providers/ecency/ecency';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
@@ -106,6 +105,9 @@ const postsListContainer = (
     return _data;
 
   }, [posts, promotedPosts, cachedPosts, mutes]);
+
+
+  const cacheInjectedData = useInjectVotesCache(data);
 
 
 
@@ -229,16 +231,6 @@ const postsListContainer = (
     const imgHeight = imageHeights.get(localId);
     const reblogs = reblogsCollectionRef.current[localId]
 
-    //inject vote cache
-    const voteCache = votesCache[`${item.author}/${item.permlink}`];
-    if (voteCache && voteCache.status !== CacheStatus.FAILED && item.active_votes.findIndex(i => i.voter === voteCache.voter) < 0) {
-      item.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
-      item.active_votes = [...item.active_votes, {
-        voter: voteCache.voter,
-        rshares: voteCache.isDownvote ? -1000 : 1000
-      }]
-    }
-
     //   e.push(
     return <PostCard
       intl={intl}
@@ -257,7 +249,7 @@ const postsListContainer = (
     <Fragment>
       <FlatList
         ref={flatListRef}
-        data={data}
+        data={cacheInjectedData}
         showsVerticalScrollIndicator={false}
         renderItem={_renderItem}
         keyExtractor={(content, index) => `${content.author}/${content.permlink}-${index}`}

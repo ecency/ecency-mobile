@@ -16,7 +16,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { Rect } from 'react-native-modal-popover/lib/PopoverGeometry';
 import { PostTypes } from '../../../constants/postTypes';
 
-import { View, TouchableOpacity, Text, Alert } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { Popover } from 'react-native-modal-popover';
 import Slider from '@esteemapp/react-native-slider';
 
@@ -335,13 +335,6 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
   let iconName = 'upcircleo';
   let downVoteIconName = 'downcircleo';
 
-  if (isVoted) {
-    iconName = 'upcircle';
-  }
-
-  if (isDownVoted) {
-    downVoteIconName = 'downcircle';
-  }
 
   const _percent = `${isDownVoted ? '-' : ''}${(sliderValue * 100).toFixed(0)}%`;
   const _amount = `$${amount}`;
