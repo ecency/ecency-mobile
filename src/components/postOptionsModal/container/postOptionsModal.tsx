@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from 'react';
-import { Alert, Share, Text } from 'react-native';
+import { Alert, Share, Text, TouchableHighlight } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -24,7 +24,7 @@ import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
-import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler';
 import ActionSheet from 'react-native-actions-sheet';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import styles from '../styles/postOptionsModal.styles';

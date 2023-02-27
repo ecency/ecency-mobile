@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState, Fragment } from 'react';
-import { View, Text, Alert } from 'react-native';
+import { View, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
