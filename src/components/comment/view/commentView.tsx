@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef, useMemo } from 'react';
+import React, { Fragment, useState, useMemo } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useIntl } from 'react-intl';
 
@@ -52,7 +52,7 @@ const CommentView = ({
     [currentAccount],
   );
 
-  const activeVotes = useMemo(() => comment?.active_votes || [], [comment]);
+  const activeVotes = comment?.active_votes || [];
   const [isOpeningReplies, setIsOpeningReplies] = useState(false);
 
 
