@@ -6,6 +6,7 @@ import { useAppSelector } from '../../../hooks';
 import { getDiscussionCollection, getPost } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
 import { Comment, CacheStatus, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
+import { isArray } from 'lodash';
 
 /** hook used to return user drafts */
 export const useGetPostQuery = (_author?: string, _permlink?: string, initialPost?: any) => {
@@ -14,16 +15,18 @@ export const useGetPostQuery = (_author?: string, _permlink?: string, initialPos
   const [author, setAuthor] = useState(_author);
   const [permlink, setPermlink] = useState(_permlink);
 
-  const _initialPost = useMemo(() => { 
+  //post process initial post if available
+  const _initialPost = useMemo(() => {
     const _post = initialPost;
-    if(!_post){
+    if (!_post) {
       return _post;
     }
-    
+
     _post.body = renderPostBody({ ..._post, last_update: _post.updated }, true, Platform.OS !== 'ios');
 
     return _post;
   }, [initialPost?.body]);
+
 
 
   const query = useQuery([QUERIES.POST.GET, author, permlink], async () => {
@@ -42,10 +45,14 @@ export const useGetPostQuery = (_author?: string, _permlink?: string, initialPos
       console.warn('Failed to get post', err);
       throw err;
     }
-  }, { initialData:_initialPost });
+  }, { initialData: _initialPost });
+
+
+  const data = useInjectVotesCache(query.data);
 
   return {
     ...query,
+    data,
     setAuthor,
     setPermlink,
   };
@@ -231,3 +238,105 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
     setPermlink,
   };
 };
+
+
+/**
+* 
+* @param _data single post content or array of posts
+* @returns post data or array of data with votes cache injected
+*/
+export const useInjectVotesCache = (_data: any | any[]) => {
+
+  const votesCollection = useAppSelector((state) => state.cache.votesCollection);
+  const lastUpdate = useAppSelector((state) => state.cache.lastUpdate);
+  const [retData, setRetData] = useState<any | any[] | null>(null);
+
+
+  useEffect(() => {
+    if (retData && lastUpdate.type === 'vote') {
+      const _postPath = lastUpdate.postPath;
+      const _voteCache = votesCollection[_postPath];
+      
+
+      let _postData:any = null;
+      let _postIndex = -1;
+
+      //get post data that need updating
+      const _comparePath = (item) => _postPath === `${item.author}/${item.permlink}`
+      if (isArray(retData)) {
+        _postIndex = retData.findIndex(_comparePath);
+        _postData = retData[_postIndex]
+      } else if (retData && _comparePath(retData)) {
+        _postData = retData;
+      }
+
+      //if post available, inject cache and update state
+      if (_postData) {
+        _postData = _injectionFunc(_postData, _voteCache);
+
+        if (_postIndex < 0) {
+          console.log("updating data", _postData)
+          setRetData({ ..._postData });
+        } else {
+          retData[_postIndex] = _postData
+          setRetData([...retData])
+        }
+      }
+    }
+
+  }, [votesCollection])
+
+
+
+  useEffect(() => {
+
+    if (!_data) {
+      setRetData(null);
+      return;
+    }
+
+    const _itemFunc = (item) => {
+      if (item) {
+        const _path = `${item.author}/${item.permlink}`;
+        const voteCache = votesCollection[_path]
+
+        item = _injectionFunc(item, voteCache);
+      }
+      return item;
+    }
+
+    const _cData = isArray(_data) ? _data.map(_itemFunc) : _itemFunc({ ..._data })
+    console.log("data received", _cData.length, _cData);
+    setRetData(_cData)
+
+
+  }, [_data])
+
+
+
+
+  const _injectionFunc = (post, voteCache) => {
+
+    if (voteCache && (voteCache.status !== CacheStatus.FAILED || voteCache.status !== CacheStatus.DELETED)) {
+      const _voteIndex = post.active_votes.findIndex(i => i.voter === voteCache.voter);
+      if (_voteIndex < 0) {
+        post.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
+        post.active_votes = [...post.active_votes, {
+          voter: voteCache.voter,
+          rshares: voteCache.isDownvote ? -1000 : 1000
+        }]
+      } else {
+        post.active_votes[_voteIndex].rshares = voteCache.isDownvote ? -1000 : 1000;
+        post.active_votes = [...post.active_votes];
+      }
+    }
+
+    return post
+  }
+
+
+  return retData || _data;
+
+}
+
+

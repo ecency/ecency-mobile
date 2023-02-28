@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 
 // Components
@@ -28,22 +28,6 @@ const PostScreen = ({
   const getPostQuery = postQueries.useGetPostQuery(author, permlink, params.content);
   const getParentPostQuery = postQueries.useGetPostQuery();
 
-  // useEffect(()=>{
-  //   //TODO: remove before PR, only for testing
-  //   const timer = setTimeout(()=>{
-
-  //     navigation.goBack();
-  //     dispatch({
-  //       type:"inc-scroll-index"
-  //     })
-  //   }, 300)
-
-  //   return ()=> {
-  //     if(timer){
-  //       clearTimeout(timer)
-  //     }
-  //   }
-  // }, [])
 
   useEffect(() => {
     const post = getPostQuery.data;

@@ -9,10 +9,10 @@ import { UpvotePopover } from '../..';
 import { PostTypes } from '../../../constants/postTypes';
 import { PostOptionsModal } from '../../postOptionsModal';
 import { PostCardActionIds } from '../../postCard/container/postCard';
-import { useAppDispatch, useInjectVotesCache } from '../../../hooks';
+import { useAppDispatch } from '../../../hooks';
 import { showProfileModal } from '../../../redux/actions/uiAction';
 import { getPostReblogs } from '../../../providers/ecency/ecency';
-import { CacheStatus } from '../../../redux/reducers/cacheReducer';
+import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
 
 export interface PostsListRef {
   scrollToTop: () => void;
