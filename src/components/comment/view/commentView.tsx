@@ -129,8 +129,8 @@ const CommentView = ({
           isShowPayoutValue={true}
           parentType={PostTypes.COMMENT}
           isVoting={false}
-          onUpvotePress={(anchorRect)=>{onUpvotePress(anchorRect)}}
-          onPayoutDetailsPress={(anchorRect)=>{onUpvotePress(anchorRect, true)}}
+          onUpvotePress={(anchorRect)=>{onUpvotePress(comment, anchorRect)}}
+          onPayoutDetailsPress={(anchorRect)=>{onUpvotePress(comment, anchorRect, true)}}
         />
         <TextWithIcon
           iconName="heart-outline"

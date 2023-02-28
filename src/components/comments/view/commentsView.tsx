@@ -71,7 +71,7 @@ const CommentsView = ({
     setSelectedComment(null);
   };
 
-  const _onUpvotePress = (anchorRect, showPayoutDetails, content) => {
+  const _onUpvotePress = (content, anchorRect, showPayoutDetails) => {
     if(upvotePopoverRef.current){
       upvotePopoverRef.current.showPopover({anchorRect, showPayoutDetails, content, postType:PostTypes.COMMENT})
     }
@@ -123,7 +123,7 @@ const CommentsView = ({
         marginLeft={marginLeft}
         handleOnLongPress={() => _openCommentMenu(item)}
         openReplyThread={() => _openReplyThread(item)}
-        onUpvotePress={(anchorRect, showPayoutDetails) => _onUpvotePress(anchorRect, showPayoutDetails, item)}
+        onUpvotePress={_onUpvotePress}
         fetchedAt={fetchedAt}
         incrementRepliesCount={incrementRepliesCount}
       />
