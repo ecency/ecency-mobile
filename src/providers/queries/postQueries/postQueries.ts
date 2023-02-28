@@ -92,6 +92,9 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const cachedComments: { [key: string]: Comment } = useAppSelector(
     (state) => state.cache.commentsCollection,
   );
+  const cachedVotes: { [key: string]: Comment } = useAppSelector(
+    (state) => state.cache.votesCollection
+  );
   const lastCacheUpdate: LastUpdateMeta = useAppSelector((state) => state.cache.lastUpdate);
 
   const [author, setAuthor] = useState(_author);
@@ -107,21 +110,32 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   );
 
   useEffect(() => {
-    _injectCachedComments();
-  }, [query.data, cachedComments]);
+    _injectCache();
+  }, [query.data, cachedComments, cachedVotes]);
 
   useEffect(() => {
     restructureData();
   }, [data]);
 
   // inject cached comments here
-  const _injectCachedComments = async () => {
+  const _injectCache = async () => {
     const _comments = query.data || {};
     console.log('updating with cache', _comments, cachedComments);
     if (!cachedComments || !_comments) {
+      console.log("Skipping cache injection")
       return _comments;
     }
 
+    //process votes cache
+    for (const path in cachedVotes){
+      const cachedVote = cachedVotes[path];
+      if(_comments[path]){
+        console.log("injection vote cache")
+        _comments[path] = _injectVoteFunc(_comments[path], cachedVote)
+      }
+    }
+
+    //process comments cache
     for (const path in cachedComments) {
       const currentTime = new Date().getTime();
       const cachedComment = cachedComments[path];
@@ -272,7 +286,7 @@ export const useInjectVotesCache = (_data: any | any[]) => {
 
       //if post available, inject cache and update state
       if (_postData) {
-        _postData = _injectionFunc(_postData, _voteCache);
+        _postData = _injectVoteFunc(_postData, _voteCache);
 
         if (_postIndex < 0) {
           console.log("updating data", _postData)
@@ -300,7 +314,7 @@ export const useInjectVotesCache = (_data: any | any[]) => {
         const _path = `${item.author}/${item.permlink}`;
         const voteCache = votesCollection[_path]
 
-        item = _injectionFunc(item, voteCache);
+        item = _injectVoteFunc(item, voteCache);
       }
       return item;
     }
@@ -313,30 +327,26 @@ export const useInjectVotesCache = (_data: any | any[]) => {
   }, [_data])
 
 
-
-
-  const _injectionFunc = (post, voteCache) => {
-
-    if (voteCache && (voteCache.status !== CacheStatus.FAILED || voteCache.status !== CacheStatus.DELETED)) {
-      const _voteIndex = post.active_votes.findIndex(i => i.voter === voteCache.voter);
-      if (_voteIndex < 0) {
-        post.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
-        post.active_votes = [...post.active_votes, {
-          voter: voteCache.voter,
-          rshares: voteCache.isDownvote ? -1000 : 1000
-        }]
-      } else {
-        post.active_votes[_voteIndex].rshares = voteCache.isDownvote ? -1000 : 1000;
-        post.active_votes = [...post.active_votes];
-      }
-    }
-
-    return post
-  }
-
-
   return retData || _data;
 
 }
 
 
+const _injectVoteFunc = (post, voteCache) => {
+
+  if (voteCache && (voteCache.status !== CacheStatus.FAILED || voteCache.status !== CacheStatus.DELETED)) {
+    const _voteIndex = post.active_votes.findIndex(i => i.voter === voteCache.voter);
+    if (_voteIndex < 0) {
+      post.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
+      post.active_votes = [...post.active_votes, {
+        voter: voteCache.voter,
+        rshares: voteCache.isDownvote ? -1000 : 1000
+      }]
+    } else {
+      post.active_votes[_voteIndex].rshares = voteCache.isDownvote ? -1000 : 1000;
+      post.active_votes = [...post.active_votes];
+    }
+  }
+
+  return post
+}
