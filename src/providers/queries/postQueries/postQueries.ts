@@ -119,6 +119,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
   // inject cached comments here
   const _injectCache = async () => {
+    let shouldClone = false;
     const _comments = query.data || {};
     console.log('updating with cache', _comments, cachedComments);
     if (!cachedComments || !_comments) {
@@ -146,6 +147,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         case CacheStatus.DELETED:
           if (_comments && _comments[path]) {
             delete _comments[path];
+            shouldClone = true;
           }
           break;
         case CacheStatus.UPDATED:
@@ -162,6 +164,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
           // if comment key do not exist, possiblky comment is a new comment, in this case, check if parent of comment exist in map
           else if (_comments[_parentPath]) {
+            shouldClone = true;
             // in this case add comment key in childern and inject cachedComment in commentsMap
             _comments[path] = cachedComment;
             _comments[_parentPath].replies.push(path);
@@ -181,7 +184,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       }
     }
 
-    setData({ ..._comments });
+    setData(shouldClone ? { ..._comments } : _comments);
   };
 
   // traverse discussion collection to curate sections
