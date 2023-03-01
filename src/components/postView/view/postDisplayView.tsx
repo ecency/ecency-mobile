@@ -20,7 +20,7 @@ import styles from './postDisplayStyles';
 import { OptionsModal } from '../../atoms';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../hooks';
-import { showReplyModal } from '../../../redux/actions/uiAction';
+import { showProfileModal, showReplyModal } from '../../../redux/actions/uiAction';
 import { PostTypes } from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
@@ -233,6 +233,13 @@ const PostDisplayView = ({
     }
   };
 
+  // show quick reply modal
+  const _showQuickProfileModal = (username) => {
+    if (username) {
+      dispatch(showProfileModal(username));
+    }
+  };
+
   const _handleOnCommentsLoaded = () => {
     setIsLoadedComments(true);
   };
@@ -261,7 +268,7 @@ const PostDisplayView = ({
               size={40}
               inlineTime={true}
               customStyle={styles.headerLine}
-              profileOnPress={() => { }} //TODO: handle on user press before PR
+              profileOnPress={_showQuickProfileModal}
             />
             <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
             {!postBodyLoading && (
@@ -314,7 +321,7 @@ const PostDisplayView = ({
         cancelButtonIndex={1}
         onPress={(index) => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
       />
-      <UpvotePopover ref={upvotePopoverRef}/>
+      <UpvotePopover ref={upvotePopoverRef} />
     </View>
   );
 };
