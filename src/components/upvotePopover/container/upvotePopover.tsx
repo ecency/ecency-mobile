@@ -168,7 +168,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
   const _upvoteContent = async () => {
     if (!isDownVoted) {
       _closePopover();
-      onVotingStartRef.current ? onVotingStartRef.current(true) : null;
+      onVotingStartRef.current ? onVotingStartRef.current(1) : null;
       
       await delay(300)
 
@@ -179,6 +179,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
       const _permlink = content?.permlink;
 
       console.log(`casting up vote: ${weight}`);
+      _updateVoteCache(_author, _permlink, amount, false, CacheStatus.PENDING)
 
       vote(currentAccount, pinCode, _author, _permlink, weight)
         .then((response) => {
@@ -206,7 +207,6 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
             return;
           }
           setIsVoted(!!sliderValue);
-          onVotingStartRef.current ? onVotingStartRef.current(false) : null;
           _updateVoteCache(_author, _permlink, amount, false, CacheStatus.PUBLISHED);
         })
         .catch((err) => {
@@ -218,12 +218,12 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
           ) {
             // when RC is not enough, offer boosting account
             setIsVoted(false);
-            onVotingStartRef.current ? onVotingStartRef.current(false) : null;
+            onVotingStartRef.current ? onVotingStartRef.current(0) : null;
             dispatch(setRcOffer(true));
           } else if (err && err.jse_shortmsg && err.jse_shortmsg.includes('wait to transact')) {
             // when RC is not enough, offer boosting account
             setIsVoted(false);
-            onVotingStartRef.current ? onVotingStartRef.current(false) : null;
+            onVotingStartRef.current ? onVotingStartRef.current(0) : null;
             dispatch(setRcOffer(true));
           } else {
             // // when voting with same percent or other errors
@@ -240,7 +240,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
               ),
             );
             _updateVoteCache(_author, _permlink, amount, false, CacheStatus.FAILED);
-            onVotingStartRef.current ? onVotingStartRef.current(false) : null;
+            onVotingStartRef.current ? onVotingStartRef.current(0) : null;
           }
         });
     } else {
@@ -252,7 +252,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
   const _downvoteContent = async () => {
     if (isDownVoted) {
       _closePopover();
-      onVotingStartRef.current ? onVotingStartRef.current(true) : null;
+      onVotingStartRef.current ? onVotingStartRef.current(-1) : null;
       
       await delay(300)
       
@@ -263,7 +263,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
       const _permlink = content?.permlink;
 
       console.log(`casting down vote: ${weight}`);
-
+      _updateVoteCache(_author, _permlink, amount, true, CacheStatus.PENDING);
 
       vote(currentAccount, pinCode, _author, _permlink, weight)
         .then((response) => {
@@ -273,7 +273,6 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
             transactionId: response.id,
           });
           setIsVoted(!!sliderValue);
-          onVotingStartRef.current ? onVotingStartRef.current(false) : null;
           _updateVoteCache(_author, _permlink, amount, true, CacheStatus.PUBLISHED);
         })
         .catch((err) => {
@@ -284,7 +283,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
           );
           _updateVoteCache(_author, _permlink, amount, true, CacheStatus.FAILED);
           setIsVoted(false);
-          onVotingStartRef.current ? onVotingStartRef.current(false) : null;
+          onVotingStartRef.current ? onVotingStartRef.current(0) : null;
         });
 
 

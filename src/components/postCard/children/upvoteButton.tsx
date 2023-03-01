@@ -1,5 +1,5 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
-import { findNodeHandle, NativeModules, View, TouchableOpacity, Text } from "react-native";
+import React, { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { findNodeHandle, NativeModules, View, TouchableOpacity, Text, Alert } from "react-native";
 import { useAppSelector } from "../../../hooks";
 import { PulseAnimation } from "../../animations";
 import { isVoted as isVotedFunc, isDownVoted as isDownVotedFunc } from '../../../utils/postParser';
@@ -15,7 +15,7 @@ interface UpvoteButtonProps {
     isShowPayoutValue?: boolean,
     boldPayout?: boolean,
     parentType?: PostTypes;
-    onUpvotePress: (anchorRect: Rect, onVotingStart: (isVoting:boolean)=>void) => void,
+    onUpvotePress: (anchorRect: Rect, onVotingStart: (status:number)=>void) => void,
     onPayoutDetailsPress: (anchorRef: Rect) => void,
 }
 
@@ -33,29 +33,25 @@ export const UpvoteButton = ({
 
     const currentAccount = useAppSelector((state => state.account.currentAccount));
 
-    const [isVoted, setIsVoted] = useState(null);
-    const [isDownVoted, setIsDownVoted] = useState(null);
-    const [isVoting, setIsVoting] = useState(false);
+    const [isVoted, setIsVoted] = useState<any>(null);
+    const [isDownVoted, setIsDownVoted] = useState<any>(null);
 
 
     useEffect(() => {
-        let _isMounted = true;
-
-        const _calculateVoteStatus = async () => {
-
-            //TODO: do this heavy lifting during parsing or react-query/cache response
-            const _isVoted = await isVotedFunc(activeVotes, currentAccount?.name);
-            const _isDownVoted = await isDownVotedFunc(activeVotes, currentAccount?.name);
-
-            if (_isMounted) {
-                setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
-                setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
-            }
-        };
-
         _calculateVoteStatus();
-        setIsVoting(false);
-        return () => { _isMounted = false };
+    }, [activeVotes]);
+
+
+    const _calculateVoteStatus = useCallback(async () => {
+
+        //TODO: do this heavy lifting during parsing or react-query/cache response
+        const _isVoted = await isVotedFunc(activeVotes, currentAccount?.name);
+        const _isDownVoted = await isDownVotedFunc(activeVotes, currentAccount?.name);
+
+        
+        setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
+        setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
+        
     }, [activeVotes]);
 
 
@@ -64,16 +60,25 @@ export const UpvoteButton = ({
         if (handle) {
             NativeModules.UIManager.measure(handle, (x0, y0, width, height, x, y) => {
                 const anchorRect: Rect = { x, y, width, height };
-                callback(anchorRect, (_isVoting) => {
-                    setIsVoting(_isVoting);
-                })
+                callback(anchorRect)
             });
         }
     }
 
 
     const _onPress = () => {
-        _getRectFromRef(upvoteRef, onUpvotePress);
+        const _onVotingStart = (status) => {
+            if(status > 0){
+                setIsVoted(true);
+            } else if (status < 0) {
+                setIsDownVoted(true);
+            } else {
+                _calculateVoteStatus();
+            }
+        }
+        _getRectFromRef(upvoteRef, (rect)=>{
+            onUpvotePress(rect, _onVotingStart)
+        });
     }
 
     const _onDetailsPress = () => {
@@ -112,7 +117,7 @@ export const UpvoteButton = ({
                 onPress={_onPress}
                 style={styles.upvoteButton}
             >
-                <Fragment>
+                {/* <Fragment>
                     {isVoting ? (
                         <View style={{ width: 19 }}>
                             <PulseAnimation
@@ -124,7 +129,7 @@ export const UpvoteButton = ({
                                 isShow={!isVoting}
                             />
                         </View>
-                    ) : (
+                    ) : ( */}
                         <View hitSlop={{ top: 10, bottom: 10, left: 10, right: 5 }}>
                             <Icon
                                 style={[styles.upvoteIcon, isDownVoted && { color: '#ec8b88' }]}
@@ -133,8 +138,8 @@ export const UpvoteButton = ({
                                 name={isDownVoted ? downVoteIconName : iconName}
                             />
                         </View>
-                    )}
-                </Fragment>
+                    {/* )}
+                </Fragment> */}
             </TouchableOpacity>
             <View style={styles.payoutTextButton}>
                 {isShowPayoutValue && (
