@@ -166,9 +166,11 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
   };
 
   const _upvoteContent = async () => {
+
     if (!isDownVoted) {
+      const _onVotingStart = onVotingStartRef.current; //keeping a reference of call to avoid mismatch in case back to back voting
       _closePopover();
-      onVotingStartRef.current ? onVotingStartRef.current(1) : null;
+      _onVotingStart ? _onVotingStart(1) : null;
       
       await delay(300)
 
@@ -211,7 +213,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
         })
         .catch((err) => {
           _updateVoteCache(_author, _permlink, amount, false, CacheStatus.FAILED);
-          onVotingStartRef.current ? onVotingStartRef.current(0) : null;
+          _onVotingStart ? _onVotingStart(0) : null;
           if (
             err &&
             err.response &&
@@ -247,9 +249,10 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
   };
 
   const _downvoteContent = async () => {
+    const _onVotingStart = onVotingStartRef.current; //keeping a reference of call to avoid mismatch in case back to back voting
     if (isDownVoted) {
       _closePopover();
-      onVotingStartRef.current ? onVotingStartRef.current(-1) : null;
+      _onVotingStart ? _onVotingStart(-1) : null;
       
       await delay(300)
       
@@ -280,7 +283,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
           );
           _updateVoteCache(_author, _permlink, amount, true, CacheStatus.FAILED);
           setIsVoted(false);
-          onVotingStartRef.current ? onVotingStartRef.current(0) : null;
+          _onVotingStart ? _onVotingStart(0) : null;
         });
 
 
