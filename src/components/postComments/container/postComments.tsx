@@ -293,7 +293,7 @@ const PostComments = forwardRef(
           handleVideoPress={postInteractionRef.current?.handleVideoPress}
           handleYoutubePress={postInteractionRef.current?.handleYoutubePress}
           openReplyThread={_openReplyThread}
-          onUpvotePress={(content, anchorRect, showPayoutDetails) => onUpvotePress({ anchorRect, showPayoutDetails, content, postType: PostTypes.COMMENT })}
+          onUpvotePress={(args) => onUpvotePress({ ...args, postType: PostTypes.COMMENT })}
         />
       )
     }

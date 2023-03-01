@@ -54,7 +54,6 @@ export const PostCardActionsPanel = ({
         <View style={styles.bodyFooter}>
             <View style={styles.leftFooterWrapper}>
                 <UpvoteButton
-                    isVoting={false}
                     content={content}
                     activeVotes={activeVotes}
                     isShowPayoutValue={true}

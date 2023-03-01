@@ -71,9 +71,15 @@ const CommentsView = ({
     setSelectedComment(null);
   };
 
-  const _onUpvotePress = (content, anchorRect, showPayoutDetails) => {
+  const _onUpvotePress = ({content, anchorRect, showPayoutDetails, onVotingStart}) => {
     if(upvotePopoverRef.current){
-      upvotePopoverRef.current.showPopover({anchorRect, showPayoutDetails, content, postType:PostTypes.COMMENT})
+      upvotePopoverRef.current.showPopover({
+        anchorRect, 
+        showPayoutDetails, 
+        content, 
+        postType:PostTypes.COMMENT,
+        onVotingStart
+      })
     }
   }
 

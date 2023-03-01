@@ -114,11 +114,18 @@ const PostDisplayView = ({
   const _onUpvotePress = ({
     anchorRect,
     content,
+    onVotingStart,
     showPayoutDetails = false,
     postType = parentPost ? PostTypes.COMMENT : PostTypes.POST
-  }) => {
+  }:any) => {
     if (upvotePopoverRef.current) {
-      upvotePopoverRef.current.showPopover({ anchorRect, content, showPayoutDetails, postType })
+      upvotePopoverRef.current.showPopover({ 
+        anchorRect, 
+        content, 
+        showPayoutDetails, 
+        postType,
+        onVotingStart
+       })
     }
   }
 
@@ -133,7 +140,7 @@ const PostDisplayView = ({
             content={post}
             parentType={parentPost ? PostTypes.COMMENT : PostTypes.POST}
             boldPayout={true}
-            onUpvotePress={(anchorRect, onVotingStart) => { _onUpvotePress({ anchorRect, content: post, showPayoutDetails: false }) }}
+            onUpvotePress={(anchorRect, onVotingStart) => { _onUpvotePress({ anchorRect, content: post, onVotingStart }) }}
             onPayoutDetailsPress={(anchorRect) => { _onUpvotePress({ anchorRect, content: post, showPayoutDetails: true }) }}
           />
           <TextWithIcon
