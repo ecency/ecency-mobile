@@ -210,6 +210,8 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
           _updateVoteCache(_author, _permlink, amount, false, CacheStatus.PUBLISHED);
         })
         .catch((err) => {
+          _updateVoteCache(_author, _permlink, amount, false, CacheStatus.FAILED);
+          onVotingStartRef.current ? onVotingStartRef.current(0) : null;
           if (
             err &&
             err.response &&
@@ -218,12 +220,10 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
           ) {
             // when RC is not enough, offer boosting account
             setIsVoted(false);
-            onVotingStartRef.current ? onVotingStartRef.current(0) : null;
             dispatch(setRcOffer(true));
           } else if (err && err.jse_shortmsg && err.jse_shortmsg.includes('wait to transact')) {
             // when RC is not enough, offer boosting account
             setIsVoted(false);
-            onVotingStartRef.current ? onVotingStartRef.current(0) : null;
             dispatch(setRcOffer(true));
           } else {
             // // when voting with same percent or other errors
@@ -233,14 +233,11 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
             } else {
               errMsg = err.jse_shortmsg || err.error_description || err.message;
             }
-
             dispatch(
               toastNotification(
                 intl.formatMessage({ id: 'alert.something_wrong_msg' }, { message: errMsg }),
               ),
             );
-            _updateVoteCache(_author, _permlink, amount, false, CacheStatus.FAILED);
-            onVotingStartRef.current ? onVotingStartRef.current(0) : null;
           }
         });
     } else {
