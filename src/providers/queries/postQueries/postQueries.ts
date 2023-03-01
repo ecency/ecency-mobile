@@ -45,7 +45,10 @@ export const useGetPostQuery = (_author?: string, _permlink?: string, initialPos
       console.warn('Failed to get post', err);
       throw err;
     }
-  }, { initialData: _initialPost });
+  }, { 
+    initialData: _initialPost, 
+    cacheTime: 30 * 60 * 1000 //keeps cache for 30 minutes
+  });
 
 
   const data = useInjectVotesCache(query.data);
@@ -107,6 +110,9 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const query = useQuery<{ [key: string]: Comment }>(
     [QUERIES.POST.GET_DISCUSSION, author, permlink],
     _fetchComments,
+    { 
+      cacheTime: 5 * 60 * 1000 //keeps comments cache for 5 minutes
+    }
   );
 
   useEffect(() => {
