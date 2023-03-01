@@ -2,9 +2,7 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import { findNodeHandle, NativeModules, View, TouchableOpacity, Text } from "react-native";
 import { useAppSelector } from "../../../hooks";
 import { PulseAnimation } from "../../animations";
-
 import { isVoted as isVotedFunc, isDownVoted as isDownVotedFunc } from '../../../utils/postParser';
-
 import Icon from "../../icon";
 import styles from './children.styles';
 import { FormattedCurrency } from "../../formatedElements";
@@ -13,18 +11,16 @@ import { PostTypes } from "../../../constants/postTypes";
 
 interface UpvoteButtonProps {
     content: any,
-    isVoting: boolean,
     activeVotes: any[],
     isShowPayoutValue?: boolean,
     boldPayout?: boolean,
     parentType?: PostTypes;
-    onUpvotePress: (anchorRect: Rect) => void,
+    onUpvotePress: (anchorRect: Rect, onVotingStart: (isVoting:boolean)=>void) => void,
     onPayoutDetailsPress: (anchorRef: Rect) => void,
 }
 
 export const UpvoteButton = ({
     content,
-    isVoting,
     activeVotes,
     isShowPayoutValue,
     boldPayout,
@@ -37,10 +33,9 @@ export const UpvoteButton = ({
 
     const currentAccount = useAppSelector((state => state.account.currentAccount));
 
-
     const [isVoted, setIsVoted] = useState(null);
     const [isDownVoted, setIsDownVoted] = useState(null);
-
+    const [isVoting, setIsVoting] = useState(false);
 
 
     useEffect(() => {
@@ -59,16 +54,19 @@ export const UpvoteButton = ({
         };
 
         _calculateVoteStatus();
+        setIsVoting(false);
         return () => { _isMounted = false };
     }, [activeVotes]);
 
 
-    const _getRectFromRef = (ref: any, callback: (anchorRect: Rect) => void) => {
+    const _getRectFromRef = (ref: any, callback: (anchorRect: Rect, onVotingStart?) => void) => {
         const handle = findNodeHandle(ref.current);
         if (handle) {
             NativeModules.UIManager.measure(handle, (x0, y0, width, height, x, y) => {
                 const anchorRect: Rect = { x, y, width, height };
-                callback(anchorRect)
+                callback(anchorRect, (_isVoting) => {
+                    setIsVoting(_isVoting);
+                })
             });
         }
     }

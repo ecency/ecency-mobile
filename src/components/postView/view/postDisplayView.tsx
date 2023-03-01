@@ -128,13 +128,12 @@ const PostDisplayView = ({
       <StickyBar isFixedFooter={isFixedFooter} style={styles.stickyBar}>
         <View style={[styles.stickyWrapper, { paddingBottom: insets.bottom ? insets.bottom : 8 }]}>
           <UpvoteButton
-            isVoting={false}
             activeVotes={activeVotes}
             isShowPayoutValue={true}
             content={post}
             parentType={parentPost ? PostTypes.COMMENT : PostTypes.POST}
             boldPayout={true}
-            onUpvotePress={(anchorRect) => { _onUpvotePress({ anchorRect, content: post, showPayoutDetails: false }) }}
+            onUpvotePress={(anchorRect, onVotingStart) => { _onUpvotePress({ anchorRect, content: post, showPayoutDetails: false }) }}
             onPayoutDetailsPress={(anchorRect) => { _onUpvotePress({ anchorRect, content: post, showPayoutDetails: true }) }}
           />
           <TextWithIcon

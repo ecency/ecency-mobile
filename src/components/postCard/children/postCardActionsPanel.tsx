@@ -16,7 +16,7 @@ import ROUTES from '../../../constants/routeNames';
 interface Props {
     content: any;
     reblogs: any[];
-    handleCardInteraction: (id: PostCardActionIds, payload?: any) => void;
+    handleCardInteraction: (id: PostCardActionIds, payload?: any, onCallback?:(data:any)=>void) => void;
 }
 
 
@@ -59,7 +59,7 @@ export const PostCardActionsPanel = ({
                     activeVotes={activeVotes}
                     isShowPayoutValue={true}
                     parentType={PostTypes.POST}
-                    onUpvotePress={(anchorRect) => handleCardInteraction(PostCardActionIds.UPVOTE, anchorRect)}
+                    onUpvotePress={(anchorRect, onVotingStart) => handleCardInteraction(PostCardActionIds.UPVOTE, anchorRect, onVotingStart)}
                     onPayoutDetailsPress={(anchorRect) => handleCardInteraction(PostCardActionIds.PAYOUT_DETAILS, anchorRect)}
                 />
 

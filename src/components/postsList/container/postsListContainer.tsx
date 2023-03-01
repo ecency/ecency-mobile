@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useImperativeHandle, useState, useEffect, Fragment, useMemo } from 'react';
-import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View } from 'react-native';
+import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View, Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import PostCard from '../../postCard';
 import styles from '../view/postsListStyles';
@@ -190,7 +190,7 @@ const postsListContainer = (
 
 
 
-  const _handleCardInteraction = (id: PostCardActionIds, payload: any, content: any) => {
+  const _handleCardInteraction = (id: PostCardActionIds, payload: any, content: any, onCallback) => {
     switch (id) {
       case PostCardActionIds.USER:
         dispatch(showProfileModal(payload))
@@ -212,7 +212,7 @@ const postsListContainer = (
 
       case PostCardActionIds.UPVOTE:
         if (upvotePopoverRef.current && payload && content) {
-          upvotePopoverRef.current.showPopover({ anchorRect: payload, content });
+          upvotePopoverRef.current.showPopover({ anchorRect: payload, content, onVotingStart:onCallback });
         }
         break;
 
@@ -241,7 +241,7 @@ const postsListContainer = (
       reblogs={reblogs}
       imageHeight={imgHeight}
       setImageHeight={_setImageHeightInMap}
-      handleCardInteraction={(id: PostCardActionIds, payload: any) => _handleCardInteraction(id, payload, item)}
+      handleCardInteraction={(id: PostCardActionIds, payload: any, onCallback) => _handleCardInteraction(id, payload, item, onCallback)}
     />
   };
 

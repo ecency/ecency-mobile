@@ -5,7 +5,7 @@ import React, {
     useState,
     Fragment,
 } from 'react';
-import { Alert, Modal, PermissionsAndroid, Platform } from 'react-native';
+import { Modal, PermissionsAndroid, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionsSheet from 'react-native-actions-sheet';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -57,7 +57,6 @@ export const PostHtmlInteractionHandler = forwardRef(({ }, ref) => {
             actionLink.current?.show();
         },
         handleYoutubePress: (videoId, startTime) => {
-            Alert.alert("I am here")
             if (videoId && youtubePlayerRef.current) {
                 setYoutubeVideoId(videoId);
                 setVideoStartTime(startTime);
