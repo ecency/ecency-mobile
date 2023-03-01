@@ -255,9 +255,9 @@ const postsListContainer = (
         keyExtractor={(content, index) => `${content.author}/${content.permlink}-${index}`}
         removeClippedSubviews
         onEndReachedThreshold={1}
-        maxToRenderPerBatch={3}
+        maxToRenderPerBatch={5}
         initialNumToRender={3}
-        windowSize={5}
+        windowSize={8}
         extraData={[imageHeights, scrollIndex, reblogsCollectionRef.current, votesCache]}
         onEndReached={_onEndReached}
         onMomentumScrollBegin={() => {
