@@ -16,10 +16,22 @@ import PostsResultsContainer from '../container/postsResultsContainer';
 
 import { getTimeFromNow } from '../../../../../../utils/time';
 import styles from './postsResultsStyles';
+import { useAppDispatch } from '../../../../../../hooks';
+import { showProfileModal } from '../../../../../../redux/actions/uiAction';
 
 const filterOptions = ['relevance', 'popularity', 'newest'];
 
 const PostsResults = ({ navigation, searchValue }) => {
+
+  const dispatch = useAppDispatch();
+
+  const _showProfileModal = (username) => {
+    if(username){
+      dispatch(showProfileModal(username))
+    }
+  }
+
+
   const _renderItem = (item, index) => {
     const reputation =
       get(item, 'author_rep', undefined) || get(item, 'author_reputation', undefined);
@@ -35,7 +47,7 @@ const PostsResults = ({ navigation, searchValue }) => {
           reputation={Math.floor(reputation)}
           size={36}
           content={item}
-          profileOnPress={()=> {}} //TODO: handle on user press before PR
+          profileOnPress={_showProfileModal}
         />
         <View style={[styles.postDescription]}>
           <Text style={styles.title}>{item.title}</Text>
