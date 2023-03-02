@@ -66,7 +66,6 @@ const postsListContainer = (
   const votesCache = useSelector((state) => state.cache.votesCollection);
 
   const mutes = useSelector((state) => state.account.currentAccount.mutes);
-  const scrollIndex: number = useSelector(state => state.ui.scrollIndex);
 
   const scrollPosition = useSelector((state) => {
     return isFeedScreen ? state.posts.feedScrollPosition : state.posts.otherScrollPosition;
@@ -258,7 +257,7 @@ const postsListContainer = (
         maxToRenderPerBatch={5}
         initialNumToRender={3}
         windowSize={8}
-        extraData={[imageHeights, scrollIndex, reblogsCollectionRef.current, votesCache]}
+        extraData={[imageHeights, reblogsCollectionRef.current, votesCache]}
         onEndReached={_onEndReached}
         onMomentumScrollBegin={() => {
           _onEndReachedCalledDuringMomentum = false;
