@@ -44,7 +44,8 @@ export const PostCardContent = ({ content, isHideImage, thumbHeight, nsfw, setTh
         content: content,
         author: content.author,
         permlink: content.permlink,
-      }
+      },
+      key: `${content.author}/${content.permlink}`
     })
   }
 

@@ -254,6 +254,7 @@ const CommentsContainer = ({
         author: comment.author,
         permlink: comment.permlink,
       },
+      key: `${comment.author}/${comment.permlink}`
     });
   };
 
