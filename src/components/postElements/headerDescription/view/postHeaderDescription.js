@@ -65,9 +65,9 @@ class PostHeaderDescription extends PureComponent {
     }
 
     if (handleTagPress) {
-      handleTagPress(navParams)
+      handleTagPress(navParams);
     } else {
-      RootNavigation.navigate(navParams)
+      RootNavigation.navigate(navParams);
     }
   };
 
@@ -178,6 +178,5 @@ class PostHeaderDescription extends PureComponent {
     );
   }
 }
-
 
 export default injectIntl(PostHeaderDescription);

@@ -43,7 +43,6 @@ const CommentBody = ({
 
   const intl = useIntl();
 
-
   const _onLongPressStateChange = ({ nativeEvent }) => {
     if (nativeEvent.state === State.ACTIVE) {
       handleOnLongPress();
@@ -53,8 +52,6 @@ const CommentBody = ({
   const _showLowComment = () => {
     setRevealComment(true);
   };
-
-
 
   const _handleTagPress = (tag: string, filter: string = GLOBAL_POST_FILTERS_VALUE[0]) => {
     if (tag) {
@@ -70,8 +67,6 @@ const CommentBody = ({
       });
     }
   };
-
-
 
   const _handleOnPostPress = (permlink, author) => {
     if (handleOnPostPress) {
@@ -113,8 +108,6 @@ const CommentBody = ({
       );
     }
   };
-
-
 
   return (
     <Fragment>

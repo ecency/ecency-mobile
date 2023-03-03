@@ -6,6 +6,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
+import { FlatList } from 'react-native-gesture-handler';
+import ActionSheet from 'react-native-actions-sheet';
 import { ignoreUser, pinCommunityPost, profileUpdate, reblog } from '../../../providers/hive/dhive';
 import { addBookmark, addReport } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
@@ -24,8 +26,6 @@ import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
-import { FlatList } from 'react-native-gesture-handler';
-import ActionSheet from 'react-native-actions-sheet';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import styles from '../styles/postOptionsModal.styles';
 
@@ -36,18 +36,14 @@ import styles from '../styles/postOptionsModal.styles';
  */
 
 interface Props {
-  pageType?: string
+  pageType?: string;
 }
 
-const PostOptionsModal = ({
-  pageType,
-}: Props, ref) => {
-
+const PostOptionsModal = ({ pageType }: Props, ref) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
   const userActivityMutation = useUserActivityMutation();
-
 
   const bottomSheetModalRef = useRef<ActionSheet | null>(null);
   const alertTimer = useRef<any>(null);
@@ -55,35 +51,31 @@ const PostOptionsModal = ({
   const actionSheetTimer = useRef<any>(null);
   const reportTimer = useRef<any>(null);
 
-  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
-  const currentAccount = useAppSelector(state => state.account.currentAccount);
-  const pinCode = useAppSelector(state => state.application.pin);
-  const isPinCodeOpen = useAppSelector(state => state.application.isPinCodeOpen);
-  const subscribedCommunities = useAppSelector(state => state.communities.subscribedCommunities);
+  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const pinCode = useAppSelector((state) => state.application.pin);
+  const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
+  const subscribedCommunities = useAppSelector((state) => state.communities.subscribedCommunities);
 
   const [content, setContent] = useState<any>(null);
   const [options, setOptions] = useState(OPTIONS);
-
-
 
   useImperativeHandle(ref, () => ({
     show: (_content) => {
       if (!_content) {
         Alert.alert(
           intl.formatMessage({ id: 'alert.something_wrong' }),
-          "Post content not passed for viewing post options"
+          'Post content not passed for viewing post options',
         );
         return;
       }
 
       if (bottomSheetModalRef.current) {
-        setContent(_content)
+        setContent(_content);
         bottomSheetModalRef.current.show();
       }
-
-    }
-  }))
-
+    },
+  }));
 
   useEffect(() => {
     if (content) {
@@ -109,11 +101,8 @@ const PostOptionsModal = ({
         clearTimeout(reportTimer.current);
         reportTimer.current = null;
       }
-    }
-  }, [content])
-
-
-
+    };
+  }, [content]);
 
   const _initOptions = () => {
     // check if post is owned by current user or not, if so pinned or not
@@ -125,11 +114,11 @@ const PostOptionsModal = ({
     const _canUpdateCommunityPin =
       subscribedCommunities.data && !!content && content.community
         ? subscribedCommunities.data.reduce((role, subscription) => {
-          if (content.community === subscription[0]) {
-            return ['owner', 'admin', 'mod'].includes(subscription[2]);
-          }
-          return role;
-        }, false)
+            if (content.community === subscription[0]) {
+              return ['owner', 'admin', 'mod'].includes(subscription[2]);
+            }
+            return role;
+          }, false)
         : false;
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
 
@@ -152,11 +141,7 @@ const PostOptionsModal = ({
     setOptions(_options);
   };
 
-
-
-
   const _muteUser = () => {
-
     const username = content.author;
     const follower = currentAccount.name;
     const following = username;
@@ -206,7 +191,6 @@ const PostOptionsModal = ({
   };
 
   const _share = () => {
-
     const postUrl = getPostUrl(get(content, 'url'));
 
     Share.share({
@@ -214,9 +198,7 @@ const PostOptionsModal = ({
     });
   };
 
-
   const _report = (url) => {
-
     const _onConfirm = () => {
       addReport('content', url)
         .then(() => {
@@ -246,7 +228,7 @@ const PostOptionsModal = ({
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => { },
+            onPress: () => {},
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
@@ -258,7 +240,6 @@ const PostOptionsModal = ({
   };
 
   const _addToBookmarks = () => {
-
     if (!isLoggedIn) {
       showLoginAlert({ intl });
       return;
@@ -285,7 +266,6 @@ const PostOptionsModal = ({
   };
 
   const _reblog = () => {
-
     if (!isLoggedIn) {
       showLoginAlert({ intl });
       return;
@@ -329,9 +309,9 @@ const PostOptionsModal = ({
     }
   };
 
-  const _updatePinnedPost = async ({ unpinPost }: { unpinPost: boolean } = { unpinPost: false }) => {
-
-
+  const _updatePinnedPost = async (
+    { unpinPost }: { unpinPost: boolean } = { unpinPost: false },
+  ) => {
     const params = {
       ...currentAccount.about.profile,
       pinned: unpinPost ? null : content.permlink,
@@ -359,8 +339,6 @@ const PostOptionsModal = ({
   const _updatePinnedPostCommunity = async (
     { unpinPost }: { unpinPost: boolean } = { unpinPost: false },
   ) => {
-
-
     try {
       await pinCommunityPost(
         currentAccount,
@@ -383,8 +361,6 @@ const PostOptionsModal = ({
   };
 
   const _redirectToReply = () => {
-
-
     if (isLoggedIn) {
       navigation.navigate({
         name: ROUTES.SCREENS.EDITOR,
@@ -398,7 +374,6 @@ const PostOptionsModal = ({
   };
 
   const _redirectToPromote = (name, from, redeemType) => {
-
     const params = {
       from,
       permlink: `${get(content, 'author')}/${get(content, 'permlink')}`,
@@ -421,10 +396,8 @@ const PostOptionsModal = ({
     }
   };
 
-
   // Component Functions
   const _handleOnDropdownSelect = async (index) => {
-
     const username = content.author;
     const isOwnProfile = !username || currentAccount.username === username;
 
@@ -473,7 +446,7 @@ const PostOptionsModal = ({
       case 'report':
         reportTimer.current = setTimeout(() => {
           _report(get(content, 'url'));
-        }, 300)
+        }, 300);
 
         break;
       case 'pin-blog':
@@ -505,21 +478,23 @@ const PostOptionsModal = ({
     }
   };
 
-
-  const _renderItem = ({ item, index }: { item: string, index: number }) => {
+  const _renderItem = ({ item, index }: { item: string; index: number }) => {
     const _onPress = () => {
       bottomSheetModalRef.current?.hide();
-      _handleOnDropdownSelect(index)
-    }
+      _handleOnDropdownSelect(index);
+    };
 
     return (
-      <TouchableHighlight underlayColor={EStyleSheet.value('$primaryLightBackground')} onPress={_onPress}>
-        <Text style={styles.dropdownItem} >
+      <TouchableHighlight
+        underlayColor={EStyleSheet.value('$primaryLightBackground')}
+        onPress={_onPress}
+      >
+        <Text style={styles.dropdownItem}>
           {intl.formatMessage({ id: `post_dropdown.${item}` }).toLocaleUpperCase()}
         </Text>
       </TouchableHighlight>
-    )
-  }
+    );
+  };
 
   return (
     <ActionSheet
@@ -537,8 +512,6 @@ const PostOptionsModal = ({
       />
     </ActionSheet>
   );
-}
+};
 
-
-
-export default forwardRef(PostOptionsModal)
+export default forwardRef(PostOptionsModal);

@@ -22,15 +22,13 @@ import { showProfileModal } from '../../../../../../redux/actions/uiAction';
 const filterOptions = ['relevance', 'popularity', 'newest'];
 
 const PostsResults = ({ navigation, searchValue }) => {
-
   const dispatch = useAppDispatch();
 
   const _showProfileModal = (username) => {
-    if(username){
-      dispatch(showProfileModal(username))
+    if (username) {
+      dispatch(showProfileModal(username));
     }
-  }
-
+  };
 
   const _renderItem = (item, index) => {
     const reputation =

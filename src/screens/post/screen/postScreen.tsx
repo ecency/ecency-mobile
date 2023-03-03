@@ -5,17 +5,11 @@ import { View } from 'react-native';
 import { BasicHeader, IconButton, PostDisplay, PostOptionsModal } from '../../../components';
 import styles from '../styles/postScreen.styles';
 
-
 // Component
 import { postQueries } from '../../../providers/queries';
 
-
-const PostScreen = ({
-  route
-}) => {
-
+const PostScreen = ({ route }) => {
   const params = route.params || {};
-
 
   // // refs
   const isNewPost = useRef(route.params?.isNewPost).current;
@@ -24,10 +18,8 @@ const PostScreen = ({
   const [author, setAuthor] = useState(params.content?.author || params.author);
   const [permlink, setPermlink] = useState(params.content?.permlink || params.permlink);
 
-
   const getPostQuery = postQueries.useGetPostQuery(author, permlink, params.content);
   const getParentPostQuery = postQueries.useGetPostQuery();
-
 
   useEffect(() => {
     const post = getPostQuery.data;
@@ -50,12 +42,11 @@ const PostScreen = ({
 
   const _isPostUnavailable = !getPostQuery.isLoading && getPostQuery.error;
 
-
   const _onPostOptionsBtnPress = (content = getPostQuery.data) => {
     if (postOptionsModalRef.current) {
       postOptionsModalRef.current.show(content);
     }
-  }
+  };
 
   const _postOptionsBtn = (
     <IconButton
@@ -65,12 +56,10 @@ const PostScreen = ({
       onPress={_onPostOptionsBtnPress}
       size={24}
     />
-
-  )
-
+  );
 
   return (
-    <View style={styles.container} >
+    <View style={styles.container}>
       <BasicHeader
         isHasDropdown={true}
         title="Post"
@@ -88,9 +77,7 @@ const PostScreen = ({
         parentPost={getParentPostQuery.data}
         post={getPostQuery.data}
       />
-      <PostOptionsModal
-        ref={postOptionsModalRef}
-      />
+      <PostOptionsModal ref={postOptionsModalRef} />
     </View>
   );
 };

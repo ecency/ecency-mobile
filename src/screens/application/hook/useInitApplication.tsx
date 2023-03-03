@@ -54,7 +54,7 @@ export const useInitApplication = () => {
   });
 
   useEffect(() => {
-    BackgroundTimer.start() //ref: https://github.com/ocetnik/react-native-background-timer#ios
+    BackgroundTimer.start(); // ref: https://github.com/ocetnik/react-native-background-timer#ios
 
     appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
 
@@ -101,7 +101,7 @@ export const useInitApplication = () => {
       messagingEventRef.current();
     }
 
-    BackgroundTimer.stop(); //ref: https://github.com/ocetnik/react-native-background-timer#ios
+    BackgroundTimer.stop(); // ref: https://github.com/ocetnik/react-native-background-timer#ios
   };
 
   const _initPushListener = async () => {

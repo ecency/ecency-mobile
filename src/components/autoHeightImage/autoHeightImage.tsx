@@ -3,7 +3,6 @@ import { Image, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
 
-
 interface AutoHeightImageProps {
   contentWidth: number;
   imgUrl: string;
@@ -44,7 +43,6 @@ export const AutoHeightImage = ({
 
   const _onLoad = () => {
     setOnLoadCalled(true);
-    
   };
 
   return (

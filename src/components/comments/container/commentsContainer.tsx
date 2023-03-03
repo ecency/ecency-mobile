@@ -55,7 +55,6 @@ const CommentsContainer = ({
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
 
-
   const [lcomments, setLComments] = useState([]);
   const [propComments, setPropComments] = useState(comments);
 
@@ -69,12 +68,10 @@ const CommentsContainer = ({
     setLComments(sortedComments);
   }, [commentCount, selectedFilter]);
 
-
   useEffect(() => {
-    let _comments = comments;
+    const _comments = comments;
     setPropComments(_comments);
   }, [comments]);
-
 
   // Component Functions
 
@@ -254,7 +251,7 @@ const CommentsContainer = ({
         author: comment.author,
         permlink: comment.permlink,
       },
-      key: `${comment.author}/${comment.permlink}`
+      key: `${comment.author}/${comment.permlink}`,
     });
   };
 

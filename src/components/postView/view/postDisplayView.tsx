@@ -67,8 +67,6 @@ const PostDisplayView = ({
   const [tags, setTags] = useState([]);
   const [postBodyHeight, setPostBodyHeight] = useState(0);
 
-
-
   // Component Life Cycles
   useEffect(() => {
     if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
@@ -89,9 +87,6 @@ const PostDisplayView = ({
     }
   }, [post]);
 
-
-
-
   // Component Functions
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -110,25 +105,23 @@ const PostDisplayView = ({
     }
   };
 
-
   const _onUpvotePress = ({
     anchorRect,
     content,
     onVotingStart,
     showPayoutDetails = false,
-    postType = parentPost ? PostTypes.COMMENT : PostTypes.POST
-  }:any) => {
+    postType = parentPost ? PostTypes.COMMENT : PostTypes.POST,
+  }: any) => {
     if (upvotePopoverRef.current) {
-      upvotePopoverRef.current.showPopover({ 
-        anchorRect, 
-        content, 
-        showPayoutDetails, 
+      upvotePopoverRef.current.showPopover({
+        anchorRect,
+        content,
+        showPayoutDetails,
         postType,
-        onVotingStart
-       })
+        onVotingStart,
+      });
     }
-  }
-
+  };
 
   const _renderActionPanel = (isFixedFooter = false) => {
     return (
@@ -140,8 +133,12 @@ const PostDisplayView = ({
             content={post}
             parentType={parentPost ? PostTypes.COMMENT : PostTypes.POST}
             boldPayout={true}
-            onUpvotePress={(anchorRect, onVotingStart) => { _onUpvotePress({ anchorRect, content: post, onVotingStart }) }}
-            onPayoutDetailsPress={(anchorRect) => { _onUpvotePress({ anchorRect, content: post, showPayoutDetails: true }) }}
+            onUpvotePress={(anchorRect, onVotingStart) => {
+              _onUpvotePress({ anchorRect, content: post, onVotingStart });
+            }}
+            onPayoutDetailsPress={(anchorRect) => {
+              _onUpvotePress({ anchorRect, content: post, showPayoutDetails: true });
+            }}
           />
           <TextWithIcon
             iconName="heart-outline"
@@ -250,8 +247,6 @@ const PostDisplayView = ({
     setIsLoadedComments(true);
   };
 
-
-
   const _postContentView = (
     <>
       {parentPost && <ParentPost post={parentPost} />}
@@ -312,7 +307,6 @@ const PostDisplayView = ({
           postContentView={_postContentView}
           onRefresh={onRefresh}
           onUpvotePress={_onUpvotePress}
-
         />
       </View>
       {post && _renderActionPanel(true)}

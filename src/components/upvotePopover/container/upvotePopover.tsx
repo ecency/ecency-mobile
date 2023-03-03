@@ -1,7 +1,19 @@
-import React, { Fragment, useState, useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
+import React, {
+  Fragment,
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import get from 'lodash/get';
 
 // Services and Actions
+import { Rect } from 'react-native-modal-popover/lib/PopoverGeometry';
+import { View, TouchableOpacity, Text, Alert } from 'react-native';
+import { Popover } from 'react-native-modal-popover';
+import Slider from '@esteemapp/react-native-slider';
+import { useIntl } from 'react-intl';
 import {
   setCommentUpvotePercent,
   setPostUpvotePercent,
@@ -13,12 +25,7 @@ import { isVoted as isVotedFunc, isDownVoted as isDownVotedFunc } from '../../..
 // Component
 import { updateVoteCache } from '../../../redux/actions/cacheActions';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { Rect } from 'react-native-modal-popover/lib/PopoverGeometry';
 import { PostTypes } from '../../../constants/postTypes';
-
-import { View, TouchableOpacity, Text, Alert } from 'react-native';
-import { Popover } from 'react-native-modal-popover';
-import Slider from '@esteemapp/react-native-slider';
 
 // Utils
 
@@ -37,21 +44,19 @@ import { vote } from '../../../providers/hive/dhive';
 import styles from '../children/upvoteStyles';
 
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
-import { useIntl } from 'react-intl';
 import { useUserActivityMutation } from '../../../providers/queries';
 import { PayoutDetailsContent } from '../children/payoutDetailsContent';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { delay } from '../../../utils/editor';
 
-
-interface Props { }
+interface Props {}
 interface PopoverOptions {
-  anchorRect: Rect,
-  content: any,
-  postType?: PostTypes,
-  showPayoutDetails?: boolean,
-  onVotingStart?:(isVoting:boolean) => void
+  anchorRect: Rect;
+  content: any;
+  postType?: PostTypes;
+  showPayoutDetails?: boolean;
+  onVotingStart?: (isVoting: boolean) => void;
 }
 
 /*
@@ -60,8 +65,7 @@ interface PopoverOptions {
  *
  */
 
-const UpvotePopover = forwardRef(({ }: Props, ref) => {
-
+const UpvotePopover = forwardRef(({}: Props, ref) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -69,12 +73,12 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
 
   const onVotingStartRef = useRef<any>(null);
 
-  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
-  const postUpvotePercent = useAppSelector(state => state.application.postUpvotePercent);
-  const commentUpvotePercent = useAppSelector(state => state.application.commentUpvotePercent);
-  const pinCode = useAppSelector(state => state.application.pin);
-  const currentAccount = useAppSelector(state => state.account.currentAccount);
-  const globalProps = useAppSelector(state => state.account.globalProps);
+  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const postUpvotePercent = useAppSelector((state) => state.application.postUpvotePercent);
+  const commentUpvotePercent = useAppSelector((state) => state.application.commentUpvotePercent);
+  const pinCode = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const globalProps = useAppSelector((state) => state.account.globalProps);
 
   const [content, setContent] = useState<any>(null);
   const [postType, setPostType] = useState<PostTypes>(PostTypes.POST);
@@ -88,30 +92,26 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
   const [amount, setAmount] = useState('0.00000');
   const [upvotePercent, setUpvotePercent] = useState(1);
 
-  useImperativeHandle(
-    ref, () => ({
-      showPopover: ({
-        anchorRect: _anchorRect,
-        content: _content,
-        postType: _postType,
-        showPayoutDetails: _showPayoutDetails,
-        onVotingStart
-      }: PopoverOptions) => {
-
-        if (!isLoggedIn && !_showPayoutDetails) {
-          showLoginAlert({ intl })
-          return;
-        }
-
-        onVotingStartRef.current = onVotingStart
-        setPostType(_postType || PostTypes.POST)
-        setContent(_content);
-        setShowPayoutDetails(_showPayoutDetails || false)
-        setAcnhorRect(_anchorRect)
-    
+  useImperativeHandle(ref, () => ({
+    showPopover: ({
+      anchorRect: _anchorRect,
+      content: _content,
+      postType: _postType,
+      showPayoutDetails: _showPayoutDetails,
+      onVotingStart,
+    }: PopoverOptions) => {
+      if (!isLoggedIn && !_showPayoutDetails) {
+        showLoginAlert({ intl });
+        return;
       }
-    })
-  )
+
+      onVotingStartRef.current = onVotingStart;
+      setPostType(_postType || PostTypes.POST);
+      setContent(_content);
+      setShowPayoutDetails(_showPayoutDetails || false);
+      setAcnhorRect(_anchorRect);
+    },
+  }));
 
   useEffect(() => {
     let _isMounted = true;
@@ -128,15 +128,14 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
     };
 
     _calculateVoteStatus();
-    return () => { _isMounted = false };
+    return () => {
+      _isMounted = false;
+    };
   }, [content]);
-
 
   useEffect(() => {
     _calculateEstimatedAmount();
   }, []);
-
-
 
   useEffect(() => {
     if (postType === PostTypes.POST) {
@@ -147,16 +146,12 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
     }
   }, [postUpvotePercent, commentUpvotePercent, postType]);
 
-
-
   useEffect(() => {
     const value = isVoted || isDownVoted ? 1 : upvotePercent <= 1 ? upvotePercent : 1;
 
     setSliderValue(value);
     _calculateEstimatedAmount(value);
   }, [upvotePercent]);
-
-
 
   // Component Functions
   const _calculateEstimatedAmount = async (value: number = sliderValue) => {
@@ -166,13 +161,12 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
   };
 
   const _upvoteContent = async () => {
-
     if (!isDownVoted) {
-      const _onVotingStart = onVotingStartRef.current; //keeping a reference of call to avoid mismatch in case back to back voting
+      const _onVotingStart = onVotingStartRef.current; // keeping a reference of call to avoid mismatch in case back to back voting
       _closePopover();
       _onVotingStart ? _onVotingStart(1) : null;
-      
-      await delay(300)
+
+      await delay(300);
 
       _setUpvotePercent(sliderValue);
 
@@ -181,7 +175,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
       const _permlink = content?.permlink;
 
       console.log(`casting up vote: ${weight}`);
-      _updateVoteCache(_author, _permlink, amount, false, CacheStatus.PENDING)
+      _updateVoteCache(_author, _permlink, amount, false, CacheStatus.PENDING);
 
       vote(currentAccount, pinCode, _author, _permlink, weight)
         .then((response) => {
@@ -249,13 +243,13 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
   };
 
   const _downvoteContent = async () => {
-    const _onVotingStart = onVotingStartRef.current; //keeping a reference of call to avoid mismatch in case back to back voting
+    const _onVotingStart = onVotingStartRef.current; // keeping a reference of call to avoid mismatch in case back to back voting
     if (isDownVoted) {
       _closePopover();
       _onVotingStart ? _onVotingStart(-1) : null;
-      
-      await delay(300)
-      
+
+      await delay(300);
+
       _setUpvotePercent(sliderValue);
 
       const weight = sliderValue ? Math.trunc(sliderValue * 100) * -100 : 0;
@@ -285,16 +279,11 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
           setIsVoted(false);
           _onVotingStart ? _onVotingStart(0) : null;
         });
-
-
     } else {
       setSliderValue(1);
       setIsDownVoted(true);
     }
   };
-
-
-
 
   const _setUpvotePercent = (value) => {
     if (value) {
@@ -306,7 +295,6 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
       }
     }
   };
-
 
   const _updateVoteCache = (author, permlink, amount, isDownvote, status) => {
     // do all relevant processing here to show local upvote
@@ -325,37 +313,31 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
       amount: amountNum,
       isDownvote,
       incrementStep,
-      voter:currentAccount.username,
+      voter: currentAccount.username,
       expiresAt: curTime + 30000,
       status,
     };
     dispatch(updateVoteCache(postPath, vote));
   };
 
-
   const _closePopover = () => {
     setAcnhorRect(null);
     setTimeout(() => {
       setShowPayoutDetails(false);
-    }, 300)
-  }
+    }, 300);
+  };
 
   if (!content) {
     return null;
   }
 
-
-
-  let iconName = 'upcircleo';
-  let downVoteIconName = 'downcircleo';
-
+  const iconName = 'upcircleo';
+  const downVoteIconName = 'downcircleo';
 
   const _percent = `${isDownVoted ? '-' : ''}${(sliderValue * 100).toFixed(0)}%`;
   const _amount = `$${amount}`;
 
   const sliderColor = isDownVoted ? '#ec8b88' : '#357ce6';
-
-
 
   return (
     <Fragment>
@@ -376,10 +358,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
             <PayoutDetailsContent content={content} />
           ) : (
             <Fragment>
-              <TouchableOpacity
-                onPress={_upvoteContent}
-                style={styles.upvoteButton}
-              >
+              <TouchableOpacity onPress={_upvoteContent} style={styles.upvoteButton}>
                 <Icon
                   size={20}
                   style={[styles.upvoteIcon, { color: '#007ee5' }]}
@@ -404,10 +383,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
                 }}
               />
               <Text style={styles.percent}>{_percent}</Text>
-              <TouchableOpacity
-                onPress={_downvoteContent}
-                style={styles.upvoteButton}
-              >
+              <TouchableOpacity onPress={_downvoteContent} style={styles.upvoteButton}>
                 <Icon
                   size={20}
                   style={[styles.upvoteIcon, { color: '#ec8b88' }]}

@@ -1,5 +1,13 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, Platform, ScrollView, KeyboardAvoidingView, Alert, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  Platform,
+  ScrollView,
+  KeyboardAvoidingView,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';

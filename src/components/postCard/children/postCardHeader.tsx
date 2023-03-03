@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import { View } from 'react-native';
 
 // Components
+import { IntlShape } from 'react-intl';
 import { PostHeaderDescription } from '../../postElements';
 import { TextWithIcon } from '../../basicUIElements';
 import { Icon } from '../../icon';
@@ -11,25 +12,22 @@ import { Icon } from '../../icon';
 import styles from './postCardStyles';
 import { IconButton } from '../..';
 import { getTimeFromNow } from '../../../utils/time';
-import { IntlShape } from 'react-intl';
 import { PostCardActionIds } from '../container/postCard';
 
-
 interface Props {
-  intl:IntlShape;
+  intl: IntlShape;
   content: any;
   isHideImage: boolean;
-  handleCardInteraction: (id: PostCardActionIds, payload?: any) => void
+  handleCardInteraction: (id: PostCardActionIds, payload?: any) => void;
 }
 
-export const PostCardHeader = ( {intl, content, isHideImage, handleCardInteraction }: Props) => {
-
+export const PostCardHeader = ({ intl, content, isHideImage, handleCardInteraction }: Props) => {
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
-  const dateString = useMemo(() => getTimeFromNow(content?.created), [content])
+  const dateString = useMemo(() => getTimeFromNow(content?.created), [content]);
 
   const _handleOnTagPress = (navParams) => {
-    handleCardInteraction(PostCardActionIds.NAVIGATE, navParams)
-  }
+    handleCardInteraction(PostCardActionIds.NAVIGATE, navParams);
+  };
 
   return (
     <>
@@ -52,7 +50,7 @@ export const PostCardHeader = ( {intl, content, isHideImage, handleCardInteracti
           isHideImage={isHideImage}
           name={get(content, 'author')}
           profileOnPress={() => handleCardInteraction(PostCardActionIds.USER, content.author)}
-          handleOnTagPress = {_handleOnTagPress}
+          handleOnTagPress={_handleOnTagPress}
           reputation={get(content, 'author_reputation')}
           size={50}
           content={content}
@@ -74,5 +72,5 @@ export const PostCardHeader = ( {intl, content, isHideImage, handleCardInteracti
         </View>
       </View>
     </>
-  )
-}
+  );
+};

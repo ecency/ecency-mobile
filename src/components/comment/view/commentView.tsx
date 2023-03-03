@@ -38,7 +38,7 @@ const CommentView = ({
   openReplyThread,
   repliesToggle,
   handleOnToggleReplies,
-  onUpvotePress
+  onUpvotePress,
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -55,24 +55,21 @@ const CommentView = ({
   const activeVotes = comment?.active_votes || [];
   const [isOpeningReplies, setIsOpeningReplies] = useState(false);
 
-
   const childCount = comment.children;
   const { replies } = comment;
   const _depth = commentNumber || comment.level;
   const _currentUsername = currentAccountUsername || currentAccount?.username;
 
-
   const _showSubCommentsToggle = async (force = false) => {
     if ((replies && replies.length > 0) || force) {
       setIsOpeningReplies(true);
-      await delay(10); //hack to rendering inidcator first before start loading comments
+      await delay(10); // hack to rendering inidcator first before start loading comments
       handleOnToggleReplies(comment.commentKey);
       setIsOpeningReplies(false);
     } else if (openReplyThread) {
       openReplyThread(comment);
     }
   };
-
 
   const _handleOnReplyPress = () => {
     if (isLoggedIn) {
@@ -128,8 +125,12 @@ const CommentView = ({
           activeVotes={activeVotes}
           isShowPayoutValue={true}
           parentType={PostTypes.COMMENT}
-          onUpvotePress={(anchorRect, onVotingStart) => {onUpvotePress({content:comment, anchorRect, onVotingStart})}}
-          onPayoutDetailsPress={(anchorRect) => {onUpvotePress({content:comment, anchorRect, showPayoutDetails:true})}}
+          onUpvotePress={(anchorRect, onVotingStart) => {
+            onUpvotePress({ content: comment, anchorRect, onVotingStart });
+          }}
+          onPayoutDetailsPress={(anchorRect) => {
+            onUpvotePress({ content: comment, anchorRect, showPayoutDetails: true });
+          }}
         />
         <TextWithIcon
           iconName="heart-outline"
@@ -168,14 +169,14 @@ const CommentView = ({
               iconType="MaterialIcons"
             />
             {!childCount && !activeVotes.length && comment.isDeletable && (
-                <IconButton
-                  size={20}
-                  iconStyle={styles.leftIcon}
-                  style={styles.leftButton}
-                  name="delete-forever"
-                  onPress={() => handleDeleteComment(comment.permlink)}
-                  iconType="MaterialIcons"
-                />
+              <IconButton
+                size={20}
+                iconStyle={styles.leftIcon}
+                style={styles.leftButton}
+                name="delete-forever"
+                onPress={() => handleDeleteComment(comment.permlink)}
+                iconType="MaterialIcons"
+              />
             )}
           </Fragment>
         )}

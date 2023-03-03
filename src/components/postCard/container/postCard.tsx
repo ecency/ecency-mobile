@@ -4,7 +4,6 @@ import { PostCardActionsPanel } from '../children/postCardActionsPanel';
 import { PostCardContent } from '../children/postCardContent';
 import { PostCardHeader } from '../children/postCardHeader';
 
-
 import styles from '../children/postCardStyles';
 
 /*
@@ -13,16 +12,14 @@ import styles from '../children/postCardStyles';
  *
  */
 
-
 export enum PostCardActionIds {
-
   USER = 'USER',
   OPTIONS = 'OPTIONS',
   UNMUTE = 'UNMUTE',
   REPLY = 'REPLY',
   UPVOTE = 'UPVOTE',
   PAYOUT_DETAILS = 'PAYOUT_DETAILS',
-  NAVIGATE = 'NAVIGATE'
+  NAVIGATE = 'NAVIGATE',
 }
 
 const PostCard = ({
@@ -35,21 +32,22 @@ const PostCard = ({
   setImageHeight,
   handleCardInteraction,
 }) => {
-
   return (
     <View style={styles.post}>
       <PostCardHeader
         intl={intl}
         content={content}
         isHideImage={isHideImage}
-        handleCardInteraction={handleCardInteraction} />
+        handleCardInteraction={handleCardInteraction}
+      />
       <PostCardContent
         content={content}
         isHideImage={isHideImage}
         nsfw={nsfw}
         thumbHeight={imageHeight}
         setThumbHeight={setImageHeight}
-        handleCardInteraction={handleCardInteraction} />
+        handleCardInteraction={handleCardInteraction}
+      />
       <PostCardActionsPanel
         content={content}
         reblogs={reblogs || []}

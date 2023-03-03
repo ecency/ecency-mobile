@@ -52,7 +52,7 @@ export interface Comment {
   updated?: string;
   expiresAt?: number;
   expandedReplies?: boolean;
-  renderOnTop?:boolean;
+  renderOnTop?: boolean;
   status: CacheStatus;
 }
 
@@ -89,8 +89,8 @@ export interface LastUpdateMeta {
 }
 
 interface State {
-  votesCollection:{[key: string]:Vote};
-  commentsCollection:{ [key: string]: Comment}; // TODO: handle comment array per post, if parent is same
+  votesCollection: { [key: string]: Vote };
+  commentsCollection: { [key: string]: Comment }; // TODO: handle comment array per post, if parent is same
   draftsCollection: { [key: string]: Draft };
   claimsCollection: ClaimsCollection;
   subscribedCommunities: Map<string, SubscribedCommunity>;
@@ -115,7 +115,7 @@ export default function (state = initialState, action) {
       if (!state.votesCollection) {
         state.votesCollection = {};
       }
-      state.votesCollection = {...state.votesCollection, [payload.postPath]:payload.vote};
+      state.votesCollection = { ...state.votesCollection, [payload.postPath]: payload.vote };
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
         lastUpdate: {
@@ -252,7 +252,7 @@ export default function (state = initialState, action) {
         for (const key in state.votesCollection) {
           if (state.votesCollection.hasOwnProperty(key)) {
             const vote = state.votesCollection[key];
-            if (vote && ((vote?.expiresAt || 0) < currentTime)) {
+            if (vote && (vote?.expiresAt || 0) < currentTime) {
               delete state.votesCollection[key];
             }
           }
@@ -263,7 +263,7 @@ export default function (state = initialState, action) {
         for (const key in state.commentsCollection) {
           if (state.commentsCollection.hasOwnProperty(key)) {
             const comment = state.commentsCollection[key];
-            if (comment && ((comment?.expiresAt || 0) < currentTime)) {
+            if (comment && (comment?.expiresAt || 0) < currentTime) {
               delete state.commentsCollection[key];
             }
           }

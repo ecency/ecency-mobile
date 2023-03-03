@@ -71,17 +71,17 @@ const CommentsView = ({
     setSelectedComment(null);
   };
 
-  const _onUpvotePress = ({content, anchorRect, showPayoutDetails, onVotingStart}) => {
-    if(upvotePopoverRef.current){
+  const _onUpvotePress = ({ content, anchorRect, showPayoutDetails, onVotingStart }) => {
+    if (upvotePopoverRef.current) {
       upvotePopoverRef.current.showPopover({
-        anchorRect, 
-        showPayoutDetails, 
-        content, 
-        postType:PostTypes.COMMENT,
-        onVotingStart
-      })
+        anchorRect,
+        showPayoutDetails,
+        content,
+        postType: PostTypes.COMMENT,
+        onVotingStart,
+      });
     }
-  }
+  };
 
   const menuItems = [
     intl.formatMessage({ id: 'post.copy_link' }),
@@ -178,12 +178,8 @@ const CommentsView = ({
         cancelButtonIndex={3}
         onPress={_onMenuItemPress}
       />
-      <UpvotePopover 
-        ref={upvotePopoverRef}
-      />
-      <PostHtmlInteractionHandler 
-        ref={postInteractionRef}
-      />
+      <UpvotePopover ref={upvotePopoverRef} />
+      <PostHtmlInteractionHandler ref={postInteractionRef} />
     </Fragment>
   );
 };

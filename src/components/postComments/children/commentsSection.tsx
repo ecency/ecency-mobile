@@ -18,7 +18,7 @@ export const CommentsSection = ({ item, index, revealReplies, ...props }) => {
     const _enteringAnim = SlideInRight.duration(150)
       .springify()
       .delay(index * 100);
-      
+
     return (
       <Animated.View key={item.author + item.permlink} entering={_enteringAnim}>
         <Comment
