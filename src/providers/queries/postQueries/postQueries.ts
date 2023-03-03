@@ -163,13 +163,15 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
           break;
         case CacheStatus.UPDATED:
         case CacheStatus.PENDING:
+          
           // check if commentKey already exist in comments map,
           if (_comments[path]) {
+            shouldClone = true;
             // check if we should update comments map with cached map based on updat timestamp
             const remoteUpdateTimestamp = new Date(_comments[path].updated).getTime();
 
             if (cacheUpdateTimestamp > remoteUpdateTimestamp) {
-              _comments[path] = cachedComment;
+              _comments[path].body = cachedComment.body;
             }
           }
 
