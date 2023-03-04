@@ -443,6 +443,8 @@ PODS:
   - React-jsinspector (0.70.6)
   - React-logger (0.70.6):
     - glog
+  - react-native-background-timer (2.4.1):
+    - React-Core
   - react-native-camera (4.2.1):
     - React-Core
     - react-native-camera/RCT (= 4.2.1)
@@ -593,7 +595,7 @@ PODS:
     - Firebase/Messaging (= 8.15.0)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (2.8.0):
+  - RNGestureHandler (2.9.0):
     - React-Core
   - RNIap (12.4.2):
     - React-Core
@@ -720,6 +722,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-background-timer (from `../node_modules/react-native-background-timer`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-config (from `../node_modules/react-native-config`)
@@ -870,6 +873,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-background-timer:
+    :path: "../node_modules/react-native-background-timer"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
   react-native-cameraroll:
@@ -1037,6 +1042,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: b4a65947391c658450151275aa406f2b8263178f
   React-jsinspector: 60769e5a0a6d4b32294a2456077f59d0266f9a8b
   React-logger: 1623c216abaa88974afce404dc8f479406bbc3a0
+  react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-cameraroll: e2917a5e62da9f10c3d525e157e25e694d2d6dfa
   react-native-config: bcafda5b4c51491ee1b0e1d0c4e3905bc7b56c1b
@@ -1078,7 +1084,7 @@ SPEC CHECKSUMS:
   RNFBApp: e4439717c23252458da2b41b81b4b475c86f90c4
   RNFBDynamicLinks: 538840f6e3f58511f857d15df1bc25ed655dc283
   RNFBMessaging: 40dac204b4197a2661dec5be964780c6ec39bf65
-  RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
+  RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNIap: e17233fe11083a71e0420682b0b09d497861faa1
   RNImageCropPicker: 14fe1c29298fb4018f3186f455c475ab107da332
   RNNotifee: dcb2593127f40945c4ee5fc09f61d71bbd00b9cf

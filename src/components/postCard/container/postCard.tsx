@@ -1,0 +1,60 @@
+import React from 'react';
+import { View } from 'react-native';
+import { PostCardActionsPanel } from '../children/postCardActionsPanel';
+import { PostCardContent } from '../children/postCardContent';
+import { PostCardHeader } from '../children/postCardHeader';
+
+import styles from '../children/postCardStyles';
+
+/*
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
+
+export enum PostCardActionIds {
+  USER = 'USER',
+  OPTIONS = 'OPTIONS',
+  UNMUTE = 'UNMUTE',
+  REPLY = 'REPLY',
+  UPVOTE = 'UPVOTE',
+  PAYOUT_DETAILS = 'PAYOUT_DETAILS',
+  NAVIGATE = 'NAVIGATE',
+}
+
+const PostCard = ({
+  intl,
+  content,
+  isHideImage,
+  nsfw,
+  reblogs,
+  imageHeight,
+  setImageHeight,
+  handleCardInteraction,
+}) => {
+  return (
+    <View style={styles.post}>
+      <PostCardHeader
+        intl={intl}
+        content={content}
+        isHideImage={isHideImage}
+        handleCardInteraction={handleCardInteraction}
+      />
+      <PostCardContent
+        content={content}
+        isHideImage={isHideImage}
+        nsfw={nsfw}
+        thumbHeight={imageHeight}
+        setThumbHeight={setImageHeight}
+        handleCardInteraction={handleCardInteraction}
+      />
+      <PostCardActionsPanel
+        content={content}
+        reblogs={reblogs || []}
+        handleCardInteraction={handleCardInteraction}
+      />
+    </View>
+  );
+};
+
+export default PostCard;

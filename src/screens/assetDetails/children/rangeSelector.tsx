@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from './children.styles';
 
 interface RangeOption {

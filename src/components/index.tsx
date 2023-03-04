@@ -31,7 +31,7 @@ import { PercentBar } from './percentBar';
 import { PinAnimatedInput } from './pinAnimatedInput';
 import { PostCard } from './postCard';
 import { PostDisplay } from './postView';
-import { PostDropdown } from './postDropdown';
+import { PostOptionsModal } from './postOptionsModal';
 import { PostForm } from './postForm';
 import { PostHeaderDescription, PostBody, Tags } from './postElements';
 import { DraftListItem } from './draftListItem';
@@ -57,7 +57,7 @@ import { TextInput } from './textInput';
 import { ToastNotification } from './toastNotification';
 import { ToggleSwitch } from './toggleSwitch';
 import { TransferFormItem } from './transferFormItem';
-import { Upvote } from './upvote';
+import { UpvotePopover } from './upvotePopover';
 import { UserAvatar } from './userAvatar';
 
 import Logo from './logo/logo';
@@ -79,7 +79,6 @@ import { PostComments } from './postComments';
 import { LeaderBoard } from './leaderboard';
 import { Notification } from './notification';
 import { WalletHeader } from './walletHeader';
-import { Posts } from './posts';
 import { Transaction } from './transaction';
 import { VotersDisplay } from './votersDisplay';
 import { Wallet } from './wallet';
@@ -180,12 +179,11 @@ export {
   PostCard,
   PostCardPlaceHolder,
   PostDisplay,
-  PostDropdown,
+  PostOptionsModal,
   PostForm,
   PostHeaderDescription,
   DraftListItem,
   PostPlaceHolder,
-  Posts,
   ProductItemLine,
   Profile,
   ProfileEditForm,
@@ -221,7 +219,7 @@ export {
   ToggleSwitch,
   Transaction,
   TransferFormItem,
-  Upvote,
+  UpvotePopover,
   UserAvatar,
   UserListItem,
   VotersDisplay,

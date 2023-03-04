@@ -206,6 +206,10 @@ const reduxMigrations = {
     delete state.cache.comments;
     return state;
   },
+  5: (state) => {
+    state.cache.votesCollection = {};
+    return state;
+  },
 };
 
 export default {

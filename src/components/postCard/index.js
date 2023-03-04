@@ -1,5 +1,4 @@
-import PostCardView from './view/postCardView';
-import PostCard from './container/postCardContainer';
+import PostCard from './container/postCard';
 
-export { PostCardView, PostCard };
+export { PostCard };
 export default PostCard;

@@ -12,7 +12,7 @@ export const initQueryClient = () => {
     //Query client configurations go here...
     defaultOptions: {
       queries: {
-        cacheTime: 1000 * 60 * 60 * 24, // 24 hours
+        cacheTime: 1000 * 60 * 60 * 24 * 6 , // 7 days cache timer
       },
     },
   });

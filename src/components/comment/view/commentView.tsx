@@ -1,7 +1,6 @@
-import React, { Fragment, useState, useRef, useEffect, useMemo } from 'react';
+import React, { Fragment, useState, useMemo } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useIntl } from 'react-intl';
-import get from 'lodash/get';
 
 import { useDispatch } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -11,41 +10,38 @@ import { delay } from '../../../utils/editor';
 
 // Components
 import { CommentBody, PostHeaderDescription } from '../../postElements';
-import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
 import { TextWithIcon } from '../../basicUIElements';
 
 // Styles
 import styles from './commentStyles';
 import { useAppSelector } from '../../../hooks';
-import { OptionsModal } from '../../atoms';
 import { showReplyModal } from '../../../redux/actions/uiAction';
-import postTypes from '../../../constants/postTypes';
+import { PostTypes } from '../../../constants/postTypes';
+import { UpvoteButton } from '../../postCard/children/upvoteButton';
 
 const CommentView = ({
   avatarSize,
   comment,
   currentAccountUsername,
   commentNumber,
-  fetchPost,
   handleDeleteComment,
   handleOnEditPress,
   handleOnLongPress,
   handleOnUserPress,
   handleOnVotersPress,
-  isShowComments,
+  handleLinkPress,
+  handleImagePress,
+  handleYoutubePress,
+  handleVideoPress,
   mainAuthor = { mainAuthor },
-  isShowSubComments,
-  hideManyCommentsButton,
   openReplyThread,
-  fetchedAt,
   repliesToggle,
-  incrementRepliesCount,
   handleOnToggleReplies,
+  onUpvotePress,
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const actionSheet = useRef(null);
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
@@ -56,35 +52,23 @@ const CommentView = ({
     [currentAccount],
   );
 
-  const [activeVotes, setActiveVotes] = useState([]);
+  const activeVotes = comment?.active_votes || [];
   const [isOpeningReplies, setIsOpeningReplies] = useState(false);
-  const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
 
   const childCount = comment.children;
   const { replies } = comment;
   const _depth = commentNumber || comment.level;
   const _currentUsername = currentAccountUsername || currentAccount?.username;
 
-  useEffect(() => {
-    if (comment) {
-      setActiveVotes(get(comment, 'active_votes', []));
-    }
-  }, [comment]);
-
   const _showSubCommentsToggle = async (force = false) => {
     if ((replies && replies.length > 0) || force) {
-      // setIsOpeningReplies(true);
-      // await delay(10); //hack to rendering inidcator first before start loading comments
+      setIsOpeningReplies(true);
+      await delay(10); // hack to rendering inidcator first before start loading comments
       handleOnToggleReplies(comment.commentKey);
-      // setIsOpeningReplies(false);
+      setIsOpeningReplies(false);
     } else if (openReplyThread) {
       openReplyThread(comment);
     }
-  };
-
-  const _handleCacheVoteIncrement = () => {
-    // fake increment vote using based on local change
-    setCacheVoteIcrement(1);
   };
 
   const _handleOnReplyPress = () => {
@@ -116,8 +100,11 @@ const CommentView = ({
           reputation={comment.author_reputation}
           handleOnUserPress={handleOnUserPress}
           handleOnLongPress={() => handleOnLongPress(comment)}
+          handleLinkPress={handleLinkPress}
+          handleImagePress={handleImagePress}
+          handleVideoPress={handleVideoPress}
+          handleYoutubePress={handleYoutubePress}
           body={comment.body}
-          created={comment.created}
           key={`key-${comment.permlink}`}
           isMuted={isMuted}
         />
@@ -133,12 +120,17 @@ const CommentView = ({
   const _renderActionPanel = () => {
     return (
       <>
-        <Upvote
-          activeVotes={activeVotes}
-          isShowPayoutValue
+        <UpvoteButton
           content={comment}
-          handleCacheVoteIncrement={_handleCacheVoteIncrement}
-          parentType={postTypes.COMMENT}
+          activeVotes={activeVotes}
+          isShowPayoutValue={true}
+          parentType={PostTypes.COMMENT}
+          onUpvotePress={(anchorRect, onVotingStart) => {
+            onUpvotePress({ content: comment, anchorRect, onVotingStart });
+          }}
+          onPayoutDetailsPress={(anchorRect) => {
+            onUpvotePress({ content: comment, anchorRect, showPayoutDetails: true });
+          }}
         />
         <TextWithIcon
           iconName="heart-outline"
@@ -151,7 +143,7 @@ const CommentView = ({
             activeVotes.length > 0 &&
             handleOnVotersPress(activeVotes, comment)
           }
-          text={activeVotes.length + cacheVoteIcrement}
+          text={activeVotes.length}
           textStyle={styles.voteCountText}
         />
 
@@ -177,29 +169,14 @@ const CommentView = ({
               iconType="MaterialIcons"
             />
             {!childCount && !activeVotes.length && comment.isDeletable && (
-              <Fragment>
-                <IconButton
-                  size={20}
-                  iconStyle={styles.leftIcon}
-                  style={styles.leftButton}
-                  name="delete-forever"
-                  onPress={() => actionSheet.current.show()}
-                  iconType="MaterialIcons"
-                />
-                <OptionsModal
-                  ref={actionSheet}
-                  options={[
-                    intl.formatMessage({ id: 'alert.delete' }),
-                    intl.formatMessage({ id: 'alert.cancel' }),
-                  ]}
-                  title={intl.formatMessage({ id: 'alert.delete' })}
-                  destructiveButtonIndex={0}
-                  cancelButtonIndex={1}
-                  onPress={(index) => {
-                    index === 0 ? handleDeleteComment(comment.permlink) : null;
-                  }}
-                />
-              </Fragment>
+              <IconButton
+                size={20}
+                iconStyle={styles.leftIcon}
+                style={styles.leftButton}
+                name="delete-forever"
+                onPress={() => handleDeleteComment(comment.permlink)}
+                iconType="MaterialIcons"
+              />
             )}
           </Fragment>
         )}
@@ -255,6 +232,7 @@ const CommentView = ({
           customStyle={{ alignItems: 'flex-start', paddingLeft: 12 }}
           showDotMenuButton={true}
           handleOnDotPress={() => handleOnLongPress(comment)}
+          profileOnPress={handleOnUserPress}
           secondaryContentComponent={_renderComment()}
         />
       </View>

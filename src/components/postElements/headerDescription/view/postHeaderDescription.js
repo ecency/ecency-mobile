@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
 // Components
-import { useNavigation } from '@react-navigation/native';
 import { Tag } from '../../../basicUIElements';
 import { Icon } from '../../../icon';
 import { UserAvatar } from '../../../userAvatar';
@@ -13,7 +11,7 @@ import styles from './postHeaderDescriptionStyles';
 
 import { default as ROUTES } from '../../../../constants/routeNames';
 import { IconButton } from '../../..';
-import { showProfileModal } from '../../../../redux/actions/uiAction';
+import RootNavigation from '../../../../navigation/rootNavigation';
 
 // Constants
 const DEFAULT_IMAGE = require('../../../../assets/ecency.png');
@@ -23,49 +21,53 @@ class PostHeaderDescription extends PureComponent {
 
   // Component Functions
   _handleOnUserPress = (username) => {
-    const { profileOnPress, dispatch } = this.props;
+    const { profileOnPress } = this.props;
 
     if (profileOnPress) {
       profileOnPress(username);
-    } else {
-      dispatch(showProfileModal(username));
     }
   };
 
   _handleOnTagPress = (content) => {
-    const { navigation } = this.props;
-
+    const { handleTagPress } = this.props;
+    let navParams = {};
     if (content && content.category && /hive-[1-3]\d{4,6}$/.test(content.category)) {
-      navigation.navigate({
+      navParams = {
         name: ROUTES.SCREENS.COMMUNITY,
         params: {
           tag: content.category,
         },
-      });
+      };
     }
     if (content && content.category && !/hive-[1-3]\d{4,6}$/.test(content.category)) {
-      navigation.navigate({
+      navParams = {
         name: ROUTES.SCREENS.TAG_RESULT,
         params: {
           tag: content.category,
         },
-      });
+      };
     }
     if (content && typeof content === 'string' && /hive-[1-3]\d{4,6}$/.test(content)) {
-      navigation.navigate({
+      navParams = {
         name: ROUTES.SCREENS.COMMUNITY,
         params: {
           tag: content,
         },
-      });
+      };
     }
     if (content && typeof content === 'string' && !/hive-[1-3]\d{4,6}$/.test(content)) {
-      navigation.navigate({
+      navParams = {
         name: ROUTES.SCREENS.TAG_RESULT,
         params: {
           tag: content,
         },
-      });
+      };
+    }
+
+    if (handleTagPress) {
+      handleTagPress(navParams);
+    } else {
+      RootNavigation.navigate(navParams);
     }
   };
 
@@ -177,12 +179,4 @@ class PostHeaderDescription extends PureComponent {
   }
 }
 
-const mapStateToProps = () => ({});
-
-const mapHookToProps = () => ({
-  navigation: useNavigation(),
-});
-
-export default connect(mapStateToProps)(
-  injectIntl((props) => <PostHeaderDescription {...props} {...mapHookToProps()} />),
-);
+export default injectIntl(PostHeaderDescription);

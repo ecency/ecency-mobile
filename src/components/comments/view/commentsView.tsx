@@ -5,11 +5,13 @@ import { useIntl } from 'react-intl';
 
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Comment, TextButton } from '../..';
+import { Comment, TextButton, UpvotePopover } from '../..';
 
 // Styles
 import styles from './commentStyles';
 import { OptionsModal } from '../../atoms';
+import { PostTypes } from '../../../constants/postTypes';
+import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 
 const CommentsView = ({
   avatarSize,
@@ -42,6 +44,8 @@ const CommentsView = ({
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
   const commentMenu = useRef<any>();
+  const upvotePopoverRef = useRef();
+  const postInteractionRef = useRef(null);
 
   const _openCommentMenu = (item) => {
     if (commentMenu.current) {
@@ -65,6 +69,18 @@ const CommentsView = ({
   const _onMenuItemPress = (index) => {
     handleOnPressCommentMenu(index, selectedComment);
     setSelectedComment(null);
+  };
+
+  const _onUpvotePress = ({ content, anchorRect, showPayoutDetails, onVotingStart }) => {
+    if (upvotePopoverRef.current) {
+      upvotePopoverRef.current.showPopover({
+        anchorRect,
+        showPayoutDetails,
+        content,
+        postType: PostTypes.COMMENT,
+        onVotingStart,
+      });
+    }
   };
 
   const menuItems = [
@@ -101,6 +117,10 @@ const CommentsView = ({
         handleOnReplyPress={handleOnReplyPress}
         handleOnUserPress={handleOnUserPress}
         handleOnVotersPress={handleOnVotersPress}
+        handleImagePress={postInteractionRef.current?.handleImagePress}
+        handleLinkPress={postInteractionRef.current?.handleLinkPress}
+        handleVideoPress={postInteractionRef.current?.handleVideoPress}
+        handleYoutubePress={postInteractionRef.current?.handleYoutubePress}
         isHideImage={isHideImage}
         isLoggedIn={isLoggedIn}
         showAllComments={showAllComments}
@@ -109,6 +129,7 @@ const CommentsView = ({
         marginLeft={marginLeft}
         handleOnLongPress={() => _openCommentMenu(item)}
         openReplyThread={() => _openReplyThread(item)}
+        onUpvotePress={_onUpvotePress}
         fetchedAt={fetchedAt}
         incrementRepliesCount={incrementRepliesCount}
       />
@@ -157,6 +178,8 @@ const CommentsView = ({
         cancelButtonIndex={3}
         onPress={_onMenuItemPress}
       />
+      <UpvotePopover ref={upvotePopoverRef} />
+      <PostHtmlInteractionHandler ref={postInteractionRef} />
     </Fragment>
   );
 };

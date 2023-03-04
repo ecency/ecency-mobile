@@ -100,7 +100,7 @@ export default EStyleSheet.create({
 
   //COIN ACTIONS STYLES
   actionBtnContainer: {
-    flexGrow: 1,
+    
   } as ViewStyle,
   actionsContainer: {
     flexDirection: 'row',
@@ -115,6 +115,7 @@ export default EStyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    flexGrow: 1,
   } as ViewStyle,
   actionText: {
     color: '$primaryBlack',
