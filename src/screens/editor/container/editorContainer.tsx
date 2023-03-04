@@ -234,7 +234,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       // if no draft, use result anayways
 
       const _remoteDraftModifiedAt = paramDraft ? new Date(paramDraft.modified).getTime() : 0;
-      const _useLocalDraft = _remoteDraftModifiedAt < (_localDraft?.updated || 0);
+      const _useLocalDraft = _remoteDraftModifiedAt < (_localDraft?.updated || 0) && !!_localDraft.body
       if (_useLocalDraft) {
         this.setState({
           draftPost: {
