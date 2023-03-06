@@ -42,7 +42,7 @@ const PostComments = forwardRef(
       permlink,
       mainAuthor,
       postContentView,
-      isLoading,
+      isPostLoading,
       onRefresh,
       handleOnCommentsLoaded,
       handleOnReplyPress,
@@ -67,7 +67,6 @@ const PostComments = forwardRef(
 
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
-    const [shouldRenderComments, setShouldRenderComments] = useState(false);
     const [headerHeight, setHeaderHeight] = useState(0);
 
 
@@ -84,7 +83,7 @@ const PostComments = forwardRef(
         }
       },
       scrollToComments: () => {
-        if (commentsListRef.current && (!sortedSections.length || !shouldRenderComments)) {
+        if (commentsListRef.current && !sortedSections.length) {
           commentsListRef.current.scrollToOffset({ offset: headerHeight + 200 });
         } else if (commentsListRef.current && sortedSections.length) {
           commentsListRef.current.scrollToIndex({ index: 0, viewOffset: 108 });
@@ -233,10 +232,9 @@ const PostComments = forwardRef(
 
 
     const _onContentSizeChange = (x: number, y: number) => {
-      // lazy render comments after post is rendered;
-      if (!shouldRenderComments) {
+      // update header height
+      if (y !== headerHeight) {
         setHeaderHeight(y);
-        setShouldRenderComments(true);
       }
     };
 
@@ -245,7 +243,7 @@ const PostComments = forwardRef(
     const _postContentView = (
       <>
         {postContentView && postContentView}
-        {!isLoading && (
+        {!isPostLoading && (
           <FilterBar
             dropdownIconName="arrow-drop-down"
             options={VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` }))}
@@ -260,6 +258,11 @@ const PostComments = forwardRef(
     );
 
     const _renderEmptyContent = () => {
+
+      if(isPostLoading){
+        return null;
+      }
+
       if (discussionQuery.isLoading || !!sortedSections.length) {
         return (
           <ActivityIndicator style={{ marginTop: 16 }} color={EStyleSheet.value('$primaryBlack')} />
@@ -308,7 +311,7 @@ const PostComments = forwardRef(
           contentContainerStyle={styles.listContent}
           ListHeaderComponent={_postContentView}
           ListEmptyComponent={_renderEmptyContent}
-          data={shouldRenderComments ? sortedSections : []}
+          data={isPostLoading ? [] : sortedSections}
           onContentSizeChange={_onContentSizeChange}
           renderItem={_renderItem}
           keyExtractor={(item) => `${item.author}/${item.permlink}`}
