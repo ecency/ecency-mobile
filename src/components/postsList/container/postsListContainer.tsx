@@ -84,7 +84,7 @@ const postsListContainer = (
     return isFeedScreen ? state.posts.feedScrollPosition : state.posts.otherScrollPosition;
   });
 
-  const [imageHeights, setImageHeights] = useState(new Map<string, number>());
+  const [imageRatios, setImageRatios] = useState(new Map<string, number>());
   const reblogsCollectionRef = useRef({});
 
   const data = useMemo(() => {
@@ -168,9 +168,9 @@ const postsListContainer = (
     }
   };
 
-  const _setImageHeightInMap = (mapKey: string, height: number) => {
+  const _setImageRatioInMap = (mapKey: string, height: number) => {
     if (mapKey && height) {
-      setImageHeights(imageHeights.set(mapKey, height));
+      setImageRatios(imageRatios.set(mapKey, height));
     }
   };
 
@@ -243,7 +243,7 @@ const postsListContainer = (
   const _renderItem = ({ item }: { item: any }) => {
     // get image height from cache if available
     const localId = item.author + item.permlink;
-    const imgHeight = imageHeights.get(localId);
+    const imgRatio = imageRatios.get(localId);
     const reblogs = reblogsCollectionRef.current[localId];
 
     //   e.push(
@@ -255,8 +255,8 @@ const postsListContainer = (
         isHideImage={isHideImages}
         nsfw={nsfw}
         reblogs={reblogs}
-        imageHeight={imgHeight}
-        setImageHeight={_setImageHeightInMap}
+        imageRatio={imgRatio}
+        setImageRatio={_setImageRatioInMap}
         handleCardInteraction={(id: PostCardActionIds, payload: any, onCallback) =>
           _handleCardInteraction(id, payload, item, onCallback)
         }
@@ -277,7 +277,7 @@ const postsListContainer = (
         maxToRenderPerBatch={5}
         initialNumToRender={3}
         windowSize={8}
-        extraData={[imageHeights, reblogsCollectionRef.current, votesCache]}
+        extraData={[imageRatios, reblogsCollectionRef.current, votesCache]}
         onEndReached={_onEndReached}
         onMomentumScrollBegin={() => {
           _onEndReachedCalledDuringMomentum = false;

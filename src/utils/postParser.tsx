@@ -52,6 +52,14 @@ export const parsePost = (
   post.image = catchPostImage(post, 600, 500, webp ? 'webp' : 'match');
   post.thumbnail = catchPostImage(post, 10, 7, webp ? 'webp' : 'match');
 
+  //find and inject thumbnail ratio
+  if(post.json_metadata?.image_ratios){
+    const ratioObj =  post.json_metadata.image_ratios.find(item=>post.image.startsWith(item.url))
+    if(ratioObj){
+      post.thumbRatio = ratioObj.width/ratioObj.height;
+    }
+  }
+
   post.author_reputation = parseReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
   if (!isList) {

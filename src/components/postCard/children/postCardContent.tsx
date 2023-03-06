@@ -22,21 +22,24 @@ const NSFW_IMAGE =
 interface Props {
   content: any;
   isHideImage: boolean;
-  thumbHeight: number;
+  imageRatio: number;
   nsfw: string;
-  setThumbHeight: (postPath: string, height: number) => void;
+  setImageRatio: (postPath: string, height: number) => void;
   handleCardInteraction: (id: PostCardActionIds, payload?: any) => void;
 }
 
 export const PostCardContent = ({
   content,
   isHideImage,
-  thumbHeight,
+  imageRatio,
   nsfw,
-  setThumbHeight,
+  setImageRatio,
   handleCardInteraction,
 }: Props) => {
-  const [calcImgHeight, setCalcImgHeight] = useState(thumbHeight || 300);
+
+  const imgWidth = dim.width - 18;
+  const [calcImgHeight, setCalcImgHeight] = useState(imageRatio ? (imgWidth / imageRatio) : 300);
+
 
   const _onPress = () => {
     handleCardInteraction(PostCardActionIds.NAVIGATE, {
@@ -70,7 +73,7 @@ export const PostCardContent = ({
             style={[
               styles.thumbnail,
               {
-                width: dim.width - 18,
+                width: imgWidth,
                 height: Math.min(calcImgHeight, dim.height),
               },
             ]}
@@ -78,10 +81,11 @@ export const PostCardContent = ({
               calcImgHeight < dim.height ? FastImage.resizeMode.contain : FastImage.resizeMode.cover
             }
             onLoad={(evt) => {
-              if (!thumbHeight) {
-                const height = (evt.nativeEvent.height / evt.nativeEvent.width) * (dim.width - 18);
+              if (!imageRatio) {
+                const _imgRatio = evt.nativeEvent.width / evt.nativeEvent.height;
+                const height = imgWidth / _imgRatio;
                 setCalcImgHeight(height);
-                setThumbHeight(content.author + content.permlink, height);
+                setImageRatio(content.author + content.permlink, _imgRatio);
               }
             }}
           />
