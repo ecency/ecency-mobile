@@ -1,12 +1,11 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
+import { Modal, PermissionsAndroid, Platform, View } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
-import { useIntl, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import RNFetchBlob from 'rn-fetch-blob';
 import ActionSheetView from 'react-native-actions-sheet';
-import { connect } from 'react-redux';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
@@ -20,12 +19,14 @@ import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
 import { PostHtmlRenderer, VideoPlayer } from '../../..';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
+import { useAppDispatch } from '../../../../hooks';
 
 const WIDTH = getWindowDimensions().width;
 
-const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
+const PostBody = ({ body, onLoadEnd, width }) => {
   console.log('body : ', body);
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
 
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
@@ -341,6 +342,5 @@ const areEqual = (prevProps, nextProps) => {
   return false;
 };
 
-const mapStateToProps = (state) => ({});
 
-export default React.memo(injectIntl(connect(mapStateToProps)(PostBody)), areEqual);
+export default React.memo(PostBody, areEqual);
