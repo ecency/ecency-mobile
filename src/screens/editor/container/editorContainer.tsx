@@ -430,7 +430,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           };
         }
 
-        const meta = Object.assign({}, extractMetadata(draftField.body, thumbUrl), {
+        const _extractedMeta = await extractMetadata({ body: draftField.body, thumbUrl, fetchRatios: false })
+        const meta = Object.assign({}, _extractedMeta, {
           tags: draftField.tags,
           beneficiaries,
           rewardType,
@@ -571,7 +572,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         isPostSending: true,
       });
 
-      const meta = extractMetadata(fields.body, thumbUrl);
+
+      const meta = await extractMetadata({ body: fields.body, thumbUrl, fetchRatios: true });
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
@@ -782,7 +784,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         newBody = patch;
       }
 
-      const meta = extractMetadata(fields.body, thumbUrl);
+      const meta = await extractMetadata({ body: fields.body, thumbUrl, fetchRatios: true });
 
       let jsonMeta = {};
 
