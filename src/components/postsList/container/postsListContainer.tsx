@@ -243,7 +243,7 @@ const postsListContainer = (
   const _renderItem = ({ item }: { item: any }) => {
     // get image height from cache if available
     const localId = item.author + item.permlink;
-    const imgRatio = imageRatios.get(localId);
+    const imgRatio = item.thumbRatio || imageRatios.get(localId);
     const reblogs = reblogsCollectionRef.current[localId];
 
     //   e.push(
