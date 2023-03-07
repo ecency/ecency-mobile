@@ -236,7 +236,8 @@ export const extractMetadata = async ({ body, thumbUrl, fetchRatios }: { body: s
 
   if (matchedImages.length) {
     if (thumbUrl) {
-      matchedImages.sort((item) => (item === thumbUrl ? -1 : 1));
+      //only move matching url to first position instead of rearranging whole list
+      matchedImages.sort((item) => (item === thumbUrl ? -1 : 0)); 
     }
 
     out.image = matchedImages.slice(0, 10); // return only first 10 images
