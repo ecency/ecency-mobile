@@ -23,8 +23,8 @@ import { useAppDispatch } from '../../../../hooks';
 
 const WIDTH = getWindowDimensions().width;
 
-const PostBody = ({ body, onLoadEnd, width }) => {
-  console.log('body : ', body);
+const PostBody = ({ body, metadata, onLoadEnd, width }) => {
+  
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
@@ -260,6 +260,7 @@ const PostBody = ({ body, onLoadEnd, width }) => {
     actionImage.current.show();
   };
 
+
   return (
     <Fragment>
       <Modal visible={isImageModalOpen} transparent={true}>
@@ -320,6 +321,7 @@ const PostBody = ({ body, onLoadEnd, width }) => {
       <View>
         <PostHtmlRenderer
           body={html}
+          metadata={metadata}
           contentWidth={width || WIDTH - 32}
           onLoaded={_handleLoadEnd}
           setSelectedImage={_handleSetSelectedImage}

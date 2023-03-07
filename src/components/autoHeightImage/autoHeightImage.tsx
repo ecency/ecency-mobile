@@ -6,6 +6,7 @@ import FastImage from 'react-native-fast-image';
 interface AutoHeightImageProps {
   contentWidth: number;
   imgUrl: string;
+  metadata: any;
   isAnchored: boolean;
   activeOpacity?: number;
   onPress: () => void;
@@ -14,6 +15,7 @@ interface AutoHeightImageProps {
 export const AutoHeightImage = ({
   contentWidth,
   imgUrl,
+  metadata,
   isAnchored,
   activeOpacity,
   onPress,
