@@ -27,7 +27,7 @@ export const CoinSummary = ({
   const valuePairs = [
     {
       dataKey: 'amount_desc',
-      value: balance.toFixed(precision),
+      value: balance.toFixed(precision ? precision : 3),
     },
   ] as DataPair[];
 
@@ -45,7 +45,7 @@ export const CoinSummary = ({
     });
   }
 
-  const _shRrenderChart = id !== ASSET_IDS.ECENCY && id !== ASSET_IDS.HP
+  const _shRrenderChart = id !== ASSET_IDS.ECENCY && id !== ASSET_IDS.HP;
 
   return (
     <View>
@@ -60,7 +60,7 @@ export const CoinSummary = ({
         onInfoPress={onInfoPress}
       />
       <CoinActions actions={actions} onActionPress={onActionPress} />
-      {_shRrenderChart && <CoinChart coinId={id} isEngine={coinData.isEngine}/>}
+      {_shRrenderChart && <CoinChart coinId={id} isEngine={coinData.isEngine} />}
     </View>
   );
 };
