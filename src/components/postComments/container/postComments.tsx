@@ -5,6 +5,7 @@ import React, {
   useState,
   useMemo,
   useEffect,
+  Fragment,
 } from 'react';
 import { ActivityIndicator, Platform, RefreshControl, Text } from 'react-native';
 import { useIntl } from 'react-intl';
@@ -19,13 +20,20 @@ import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
-import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
+import { showActionModal, showProfileModal, toastNotification } from '../../../redux/actions/uiAction';
 import { writeToClipboard } from '../../../utils/clipboard';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
-import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
+import { CacheStatus } from '../../../redux/reducers/cacheReducer';
+
+import { PostTypes } from '../../../constants/postTypes';
+
 import { CommentsSection } from '../children/commentsSection';
+import { sortComments } from '../children/sortComments';
 import styles from '../children/postComments.styles';
+import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
+
+
 
 const PostComments = forwardRef(
   (
@@ -34,10 +42,11 @@ const PostComments = forwardRef(
       permlink,
       mainAuthor,
       postContentView,
-      isLoading,
+      isPostLoading,
       onRefresh,
       handleOnCommentsLoaded,
       handleOnReplyPress,
+      onUpvotePress
     },
     ref,
   ) => {
@@ -53,15 +62,16 @@ const PostComments = forwardRef(
     const postsCachePrimer = postQueries.usePostsCachePrimer();
 
     const writeCommentRef = useRef(null);
+    const postInteractionRef = useRef<typeof PostHtmlInteractionHandler|null>(null);
     const commentsListRef = useRef<FlatList | null>(null);
 
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
-    const [shouldRenderComments, setShouldRenderComments] = useState(false);
     const [headerHeight, setHeaderHeight] = useState(0);
 
+
     const sortedSections = useMemo(
-      () => _sortComments(selectedFilter, discussionQuery.sectionedData),
+      () => sortComments(selectedFilter, discussionQuery.sectionedData),
       [discussionQuery.sectionedData, selectedFilter],
     );
 
@@ -73,7 +83,7 @@ const PostComments = forwardRef(
         }
       },
       scrollToComments: () => {
-        if (commentsListRef.current && (!sortedSections.length || !shouldRenderComments)) {
+        if (commentsListRef.current && !sortedSections.length) {
           commentsListRef.current.scrollToOffset({ offset: headerHeight + 200 });
         } else if (commentsListRef.current && sortedSections.length) {
           commentsListRef.current.scrollToIndex({ index: 0, viewOffset: 108 });
@@ -92,6 +102,8 @@ const PostComments = forwardRef(
       onRefresh();
     };
 
+ 
+
 
     const _handleOnDropdownSelect = (option, index) => {
       setSelectedFilter(option);
@@ -106,7 +118,7 @@ const PostComments = forwardRef(
           content,
         },
         key: content.permlink,
-      });
+      } as never);
     };
 
     const _handleOnEditPress = (item) => {
@@ -118,22 +130,42 @@ const PostComments = forwardRef(
           isReply: true,
           post: item,
         },
-      });
+      } as never);
     };
 
     const _handleDeleteComment = (_permlink) => {
-      deleteComment(currentAccount, pinHash, _permlink).then(() => {
-        // remove cached entry based on parent
-        const _commentPath = `${currentAccount.username}/${_permlink}`;
-        console.log('deleted comment', _commentPath);
 
-        const _deletedItem = discussionQuery.data[_commentPath];
-        if (_deletedItem) {
-          _deletedItem.status = CommentCacheStatus.DELETED;
-          delete _deletedItem.updated;
-          dispatch(updateCommentCache(_commentPath, _deletedItem, { isUpdate: true }));
+      const _onConfirmDelete = async () => {
+        try {
+          await deleteComment(currentAccount, pinHash, _permlink);
+          // remove cached entry based on parent
+          const _commentPath = `${currentAccount.username}/${_permlink}`;
+          console.log('deleted comment', _commentPath);
+
+          const _deletedItem = discussionQuery.data[_commentPath];
+          if (_deletedItem) {
+            _deletedItem.status = CacheStatus.DELETED;
+            delete _deletedItem.updated;
+            dispatch(updateCommentCache(_commentPath, _deletedItem, { isUpdate: true }));
+          }
+        } catch (err) {
+          console.warn('Failed to delete comment')
         }
-      });
+
+      }
+
+      dispatch(showActionModal({
+        title: intl.formatMessage({ id: 'delete.confirm_delete_title' }),
+        buttons: [{
+          text: intl.formatMessage({ id: 'alert.cancel' }),
+          onPress: () => { console.log("canceled delete comment") }
+        }, {
+          text: intl.formatMessage({ id: 'alert.delete' }),
+          onPress: _onConfirmDelete
+        }]
+      }))
+
+
     };
 
     const _openReplyThread = (comment) => {
@@ -145,8 +177,12 @@ const PostComments = forwardRef(
           author: comment.author,
           permlink: comment.permlink,
         },
-      });
+      } as never);
     };
+
+    const _handleOnUserPress = (username) => {
+      dispatch(showProfileModal(username));
+    }
 
     const _handleShowOptionsMenu = (comment) => {
       const _showCopiedToast = () => {
@@ -190,11 +226,15 @@ const PostComments = forwardRef(
       );
     };
 
+
+
+   
+
+
     const _onContentSizeChange = (x: number, y: number) => {
-      // lazy render comments after post is rendered;
-      if (!shouldRenderComments) {
+      // update header height
+      if (y !== headerHeight) {
         setHeaderHeight(y);
-        setShouldRenderComments(true);
       }
     };
 
@@ -203,7 +243,7 @@ const PostComments = forwardRef(
     const _postContentView = (
       <>
         {postContentView && postContentView}
-        {!isLoading && (
+        {!isPostLoading && (
           <FilterBar
             dropdownIconName="arrow-drop-down"
             options={VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` }))}
@@ -218,6 +258,11 @@ const PostComments = forwardRef(
     );
 
     const _renderEmptyContent = () => {
+
+      if(isPostLoading){
+        return null;
+      }
+
       if (discussionQuery.isLoading || !!sortedSections.length) {
         return (
           <ActivityIndicator style={{ marginTop: 16 }} color={EStyleSheet.value('$primaryBlack')} />
@@ -245,129 +290,50 @@ const PostComments = forwardRef(
           handleOnEditPress={_handleOnEditPress}
           handleOnVotersPress={_handleOnVotersPress}
           handleOnLongPress={_handleShowOptionsMenu}
+          handleOnUserPress={_handleOnUserPress}
+          handleImagePress={postInteractionRef.current?.handleImagePress}
+          handleLinkPress={postInteractionRef.current?.handleLinkPress}
+          handleVideoPress={postInteractionRef.current?.handleVideoPress}
+          handleYoutubePress={postInteractionRef.current?.handleYoutubePress}
           openReplyThread={_openReplyThread}
+          onUpvotePress={(args) => onUpvotePress({ ...args, postType: PostTypes.COMMENT })}
         />
-      );
-    };
+      )
+    }
+
+
 
     return (
-      <FlatList
-        ref={commentsListRef}
-        style={styles.list}
-        contentContainerStyle={styles.listContent}
-        ListHeaderComponent={_postContentView}
-        ListEmptyComponent={_renderEmptyContent}
-        data={shouldRenderComments ? sortedSections : []}
-        onContentSizeChange={_onContentSizeChange}
-        renderItem={_renderItem}
-        keyExtractor={(item) => `${item.author}/${item.permlink}`}
-        refreshControl={
-          <RefreshControl
-            refreshing={discussionQuery.isFetching}
-            onRefresh={_onRefresh}
-            progressBackgroundColor="#357CE6"
-            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-            titleColor="#fff"
-            colors={['#fff']}
-          />
-        }
-      />
+      <Fragment>
+        <FlatList
+          ref={commentsListRef}
+          style={styles.list}
+          contentContainerStyle={styles.listContent}
+          ListHeaderComponent={_postContentView}
+          ListEmptyComponent={_renderEmptyContent}
+          data={isPostLoading ? [] : sortedSections}
+          onContentSizeChange={_onContentSizeChange}
+          renderItem={_renderItem}
+          keyExtractor={(item) => `${item.author}/${item.permlink}`}
+          refreshControl={
+            <RefreshControl
+              refreshing={discussionQuery.isFetching}
+              onRefresh={_onRefresh}
+              progressBackgroundColor="#357CE6"
+              tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+              titleColor="#fff"
+              colors={['#fff']}
+            />
+          }
+        />
+        <PostHtmlInteractionHandler 
+          ref={postInteractionRef}
+        />
+      </Fragment>
+        
     );
   },
 );
 
 export default PostComments;
 
-const _sortComments = (sortOrder = 'trending', _comments) => {
-  const sortedComments: any[] = _comments;
-
-  const absNegative = (a) => a.net_rshares < 0;
-
-  const sortOrders = {
-    trending: (a, b) => {
-      if (a.renderOnTop) {
-        return -1;
-      }
-
-      if (absNegative(a)) {
-        return 1;
-      }
-
-      if (absNegative(b)) {
-        return -1;
-      }
-
-      const apayout = a.total_payout;
-      const bpayout = b.total_payout;
-
-      if (apayout !== bpayout) {
-        return bpayout - apayout;
-      }
-
-      return 0;
-    },
-    reputation: (a, b) => {
-      if (a.renderOnTop) {
-        return -1;
-      }
-
-      const keyA = a.author_reputation;
-      const keyB = b.author_reputation;
-
-      if (keyA > keyB) {
-        return -1;
-      }
-      if (keyA < keyB) {
-        return 1;
-      }
-
-      return 0;
-    },
-    votes: (a, b) => {
-      if (a.renderOnTop){
-        return -1;
-      }
-
-      const keyA = a.active_votes.length;
-      const keyB = b.active_votes.length;
-
-      if (keyA > keyB) {
-        return -1;
-      }
-      if (keyA < keyB) {
-        return 1;
-      }
-
-      return 0;
-    },
-    age: (a, b) => {
-      if (a.renderOnTop){
-        return -1;
-      }
-
-      if (absNegative(a)) {
-        return 1;
-      }
-
-      if (absNegative(b)) {
-        return -1;
-      }
-
-      const keyA = Date.parse(a.created);
-      const keyB = Date.parse(b.created);
-
-      if (keyA > keyB) {
-        return -1;
-      }
-      if (keyA < keyB) {
-        return 1;
-      }
-
-      return 0;
-    },
-  };
-
-  sortedComments.sort(sortOrders[sortOrder]);
-
-  return sortedComments;
-};

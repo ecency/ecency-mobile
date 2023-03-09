@@ -1,39 +1,66 @@
 import { renderPostBody } from '@ecency/render-helper';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Platform } from 'react-native';
+import { isArray } from 'lodash';
 import { useAppSelector } from '../../../hooks';
 import { getDiscussionCollection, getPost } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
-import { Comment, CommentCacheStatus, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
+import { Comment, CacheStatus, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
 
 /** hook used to return user drafts */
-export const useGetPostQuery = (_author?: string, _permlink?: string) => {
+export const useGetPostQuery = (_author?: string, _permlink?: string, initialPost?: any) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
   const [author, setAuthor] = useState(_author);
   const [permlink, setPermlink] = useState(_permlink);
 
-  const query = useQuery([QUERIES.POST.GET, author, permlink], async () => {
-    if (!author || !permlink) {
-      return null;
+  // post process initial post if available
+  const _initialPost = useMemo(() => {
+    const _post = initialPost;
+    if (!_post) {
+      return _post;
     }
 
-    try {
-      const post = await getPost(author, permlink, currentAccount?.username);
-      if (post?.post_id > 0) {
-        return post;
+    _post.body = renderPostBody(
+      { ..._post, last_update: _post.updated },
+      true,
+      Platform.OS !== 'ios',
+    );
+
+    return _post;
+  }, [initialPost?.body]);
+
+  const query = useQuery(
+    [QUERIES.POST.GET, author, permlink],
+    async () => {
+      if (!author || !permlink) {
+        return null;
       }
 
-      new Error('Post unavailable');
-    } catch (err) {
-      console.warn('Failed to get post', err);
-      throw err;
-    }
-  });
+      try {
+        const post = await getPost(author, permlink, currentAccount?.username);
+        if (post?.post_id > 0) {
+          return post;
+        }
+
+        new Error('Post unavailable');
+      } catch (err) {
+        console.warn('Failed to get post', err);
+        throw err;
+      }
+    },
+    {
+      initialData: _initialPost,
+      cacheTime: 30 * 60 * 1000, // keeps cache for 30 minutes
+    },
+  );
+
+  const data = useInjectVotesCache(query.data);
 
   return {
     ...query,
+    data,
     setAuthor,
     setPermlink,
   };
@@ -73,6 +100,9 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const cachedComments: { [key: string]: Comment } = useAppSelector(
     (state) => state.cache.commentsCollection,
   );
+  const cachedVotes: { [key: string]: Comment } = useAppSelector(
+    (state) => state.cache.votesCollection,
+  );
   const lastCacheUpdate: LastUpdateMeta = useAppSelector((state) => state.cache.lastUpdate);
 
   const [author, setAuthor] = useState(_author);
@@ -85,24 +115,39 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const query = useQuery<{ [key: string]: Comment }>(
     [QUERIES.POST.GET_DISCUSSION, author, permlink],
     _fetchComments,
+    {
+      cacheTime: 5 * 60 * 1000, // keeps comments cache for 5 minutes
+    },
   );
 
   useEffect(() => {
-    _injectCachedComments();
-  }, [query.data, cachedComments]);
+    _injectCache();
+  }, [query.data, cachedComments, cachedVotes]);
 
   useEffect(() => {
     restructureData();
   }, [data]);
 
   // inject cached comments here
-  const _injectCachedComments = async () => {
+  const _injectCache = async () => {
+    let shouldClone = false;
     const _comments = query.data || {};
     console.log('updating with cache', _comments, cachedComments);
     if (!cachedComments || !_comments) {
+      console.log('Skipping cache injection');
       return _comments;
     }
 
+    // process votes cache
+    for (const path in cachedVotes) {
+      const cachedVote = cachedVotes[path];
+      if (_comments[path]) {
+        console.log('injection vote cache');
+        _comments[path] = _injectVoteFunc(_comments[path], cachedVote);
+      }
+    }
+
+    // process comments cache
     for (const path in cachedComments) {
       const currentTime = new Date().getTime();
       const cachedComment = cachedComments[path];
@@ -110,25 +155,29 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       const cacheUpdateTimestamp = new Date(cachedComment.updated || 0).getTime();
 
       switch (cachedComment.status) {
-        case CommentCacheStatus.DELETED:
+        case CacheStatus.DELETED:
           if (_comments && _comments[path]) {
             delete _comments[path];
+            shouldClone = true;
           }
           break;
-        case CommentCacheStatus.UPDATED:
-        case CommentCacheStatus.PENDING:
+        case CacheStatus.UPDATED:
+        case CacheStatus.PENDING:
+          
           // check if commentKey already exist in comments map,
           if (_comments[path]) {
+            shouldClone = true;
             // check if we should update comments map with cached map based on updat timestamp
             const remoteUpdateTimestamp = new Date(_comments[path].updated).getTime();
 
             if (cacheUpdateTimestamp > remoteUpdateTimestamp) {
-              _comments[path] = cachedComment;
+              _comments[path].body = cachedComment.body;
             }
           }
 
           // if comment key do not exist, possiblky comment is a new comment, in this case, check if parent of comment exist in map
           else if (_comments[_parentPath]) {
+            shouldClone = true;
             // in this case add comment key in childern and inject cachedComment in commentsMap
             _comments[path] = cachedComment;
             _comments[_parentPath].replies.push(path);
@@ -148,7 +197,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       }
     }
 
-    setData({ ..._comments });
+    setData(shouldClone ? { ..._comments } : _comments);
   };
 
   // traverse discussion collection to curate sections
@@ -218,4 +267,94 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
     setAuthor,
     setPermlink,
   };
+};
+
+/**
+ *
+ * @param _data single post content or array of posts
+ * @returns post data or array of data with votes cache injected
+ */
+export const useInjectVotesCache = (_data: any | any[]) => {
+  const votesCollection = useAppSelector((state) => state.cache.votesCollection);
+  const lastUpdate = useAppSelector((state) => state.cache.lastUpdate);
+  const [retData, setRetData] = useState<any | any[] | null>(null);
+
+  useEffect(() => {
+    if (retData && lastUpdate.type === 'vote') {
+      const _postPath = lastUpdate.postPath;
+      const _voteCache = votesCollection[_postPath];
+
+      let _postData: any = null;
+      let _postIndex = -1;
+
+      // get post data that need updating
+      const _comparePath = (item) => _postPath === `${item.author}/${item.permlink}`;
+      if (isArray(retData)) {
+        _postIndex = retData.findIndex(_comparePath);
+        _postData = retData[_postIndex];
+      } else if (retData && _comparePath(retData)) {
+        _postData = retData;
+      }
+
+      // if post available, inject cache and update state
+      if (_postData) {
+        _postData = _injectVoteFunc(_postData, _voteCache);
+
+        if (_postIndex < 0) {
+          console.log('updating data', _postData);
+          setRetData({ ..._postData });
+        } else {
+          retData[_postIndex] = _postData;
+          setRetData([...retData]);
+        }
+      }
+    }
+  }, [votesCollection]);
+
+  useEffect(() => {
+    if (!_data) {
+      setRetData(null);
+      return;
+    }
+
+    const _itemFunc = (item) => {
+      if (item) {
+        const _path = `${item.author}/${item.permlink}`;
+        const voteCache = votesCollection[_path];
+
+        item = _injectVoteFunc(item, voteCache);
+      }
+      return item;
+    };
+
+    const _cData = isArray(_data) ? _data.map(_itemFunc) : _itemFunc({ ..._data });
+    console.log('data received', _cData.length, _cData);
+    setRetData(_cData);
+  }, [_data]);
+
+  return retData || _data;
+};
+
+const _injectVoteFunc = (post, voteCache) => {
+  if (
+    voteCache &&
+    (voteCache.status !== CacheStatus.FAILED || voteCache.status !== CacheStatus.DELETED)
+  ) {
+    const _voteIndex = post.active_votes.findIndex((i) => i.voter === voteCache.voter);
+    if (_voteIndex < 0) {
+      post.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
+      post.active_votes = [
+        ...post.active_votes,
+        {
+          voter: voteCache.voter,
+          rshares: voteCache.isDownvote ? -1000 : 1000,
+        },
+      ];
+    } else {
+      post.active_votes[_voteIndex].rshares = voteCache.isDownvote ? -1000 : 1000;
+      post.active_votes = [...post.active_votes];
+    }
+  }
+
+  return post;
 };

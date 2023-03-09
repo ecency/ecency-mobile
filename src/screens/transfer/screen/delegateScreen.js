@@ -1,11 +1,19 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, Platform, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  Platform,
+  ScrollView,
+  KeyboardAvoidingView,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
 import Animated, { BounceInRight } from 'react-native-reanimated';
-import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler';
 
 // Constants
 import { debounce } from 'lodash';

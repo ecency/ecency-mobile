@@ -12,6 +12,12 @@ export default EStyleSheet.create({
       height: 1,
     },
   },
+  optionsIconContainer: {
+    marginLeft: 12,
+  },
+  optionsIcon: {
+    color: '$iconColor',
+  },
   commentButton: {
     padding: 0,
     margin: 0,
@@ -36,7 +42,7 @@ export default EStyleSheet.create({
     // height: 200,
     // width: '$deviceWidth - 16',
     borderRadius: 8,
-    backgroundColor: '$primaryLightGray',
+    backgroundColor: '$primaryLightBackground',
   },
   hiddenImages: {
     flexDirection: 'column',
@@ -74,7 +80,7 @@ export default EStyleSheet.create({
     color: '$primaryRed',
     alignSelf: 'center',
     marginLeft: 8,
-    marginRight: -16,
+    marginRight: -8,
     transform: [{ rotate: '45deg' }],
   },
   leftFooterWrapper: {

@@ -254,8 +254,17 @@ class InAppPurchaseContainer extends Component {
   };
 
   _buyItem = async (sku) => {
-    const { navigation } = this.props;
+    const { navigation, isLoggedIn, intl } = this.props;
     const { unconsumedPurchases } = this.state;
+    // if user is not loggedIn and purchase is other than account purchase
+    // add more skus here for account purchase
+    if (!isLoggedIn && sku !== '999accounts') {
+      Alert.alert(
+        intl.formatMessage({ id: 'login.not_loggedin_alert' }),
+        intl.formatMessage({ id: 'login.not_loggedin_alert_desc' }),
+      );
+      return;
+    }
 
     if (sku !== 'freePoints') {
       this.setState({ isProcessing: true });
@@ -363,6 +372,7 @@ class InAppPurchaseContainer extends Component {
 
 const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
+  isLoggedIn: state.application.isLoggedIn,
 });
 
 const mapHooksToProps = (props) => {

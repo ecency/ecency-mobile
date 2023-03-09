@@ -1,11 +1,13 @@
-import React, { PureComponent, Fragment } from 'react';
-import { connect } from 'react-redux';
-import { Alert, Share } from 'react-native';
-import { injectIntl } from 'react-intl';
+import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import { Alert, Share, Text, TouchableHighlight } from 'react-native';
+import { useIntl } from 'react-intl';
 import get from 'lodash/get';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
+import { FlatList } from 'react-native-gesture-handler';
+import ActionSheet from 'react-native-actions-sheet';
 import { ignoreUser, pinCommunityPost, profileUpdate, reblog } from '../../../providers/hive/dhive';
 import { addBookmark, addReport } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
@@ -19,12 +21,13 @@ import { writeToClipboard } from '../../../utils/clipboard';
 import { getPostUrl } from '../../../utils/post';
 
 // Component
-import PostDropdownView from '../view/postDropdownView';
-import { OptionsModal } from '../../atoms';
+
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import styles from '../styles/postOptionsModal.styles';
 
 /*
  *            Props Name        Description                                     Value
@@ -32,46 +35,76 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
  *
  */
 
-class PostDropdownContainer extends PureComponent {
-  constructor(props) {
-    super(props);
+interface Props {
+  pageType?: string;
+}
 
-    this.state = {
-      options: OPTIONS,
+const PostOptionsModal = ({ pageType }: Props, ref) => {
+  const intl = useIntl();
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation();
+  const userActivityMutation = useUserActivityMutation();
+
+  const bottomSheetModalRef = useRef<ActionSheet | null>(null);
+  const alertTimer = useRef<any>(null);
+  const shareTimer = useRef<any>(null);
+  const actionSheetTimer = useRef<any>(null);
+  const reportTimer = useRef<any>(null);
+
+  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const pinCode = useAppSelector((state) => state.application.pin);
+  const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
+  const subscribedCommunities = useAppSelector((state) => state.communities.subscribedCommunities);
+
+  const [content, setContent] = useState<any>(null);
+  const [options, setOptions] = useState(OPTIONS);
+
+  useImperativeHandle(ref, () => ({
+    show: (_content) => {
+      if (!_content) {
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.something_wrong' }),
+          'Post content not passed for viewing post options',
+        );
+        return;
+      }
+
+      if (bottomSheetModalRef.current) {
+        setContent(_content);
+        bottomSheetModalRef.current.show();
+      }
+    },
+  }));
+
+  useEffect(() => {
+    if (content) {
+      _initOptions();
+    }
+
+    return () => {
+      if (alertTimer.current) {
+        clearTimeout(alertTimer.current);
+        alertTimer.current = null;
+      }
+
+      if (shareTimer.current) {
+        clearTimeout(shareTimer.current);
+        shareTimer.current = null;
+      }
+
+      if (actionSheetTimer.current) {
+        clearTimeout(actionSheetTimer.current);
+        actionSheetTimer.current = null;
+      }
+      if (reportTimer.current) {
+        clearTimeout(reportTimer.current);
+        reportTimer.current = null;
+      }
     };
-  }
+  }, [content]);
 
-  componentDidMount = () => {
-    this._initOptions();
-  };
-
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
-    if (nextProps.content?.permlink !== this.props.content?.permlink) {
-      this._initOptions(nextProps);
-    }
-  };
-
-  // Component Life Cycle Functions
-  componentWillUnmount = () => {
-    if (this.alertTimer) {
-      clearTimeout(this.alertTimer);
-      this.alertTimer = 0;
-    }
-
-    if (this.shareTimer) {
-      clearTimeout(this.shareTimer);
-      this.shareTimer = 0;
-    }
-
-    if (this.actionSheetTimer) {
-      clearTimeout(this.actionSheetTimer);
-      this.actionSheetTimer = 0;
-    }
-  };
-
-  _initOptions = (
-    { content, currentAccount, pageType, subscribedCommunities, isMuted } = this.props,
-  ) => {
+  const _initOptions = () => {
     // check if post is owned by current user or not, if so pinned or not
     const _canUpdateBlogPin =
       !!pageType && !!content && !!currentAccount && currentAccount.name === content.author;
@@ -90,7 +123,7 @@ class PostDropdownContainer extends PureComponent {
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
 
     // cook options list based on collected flags
-    const options = OPTIONS.filter((option) => {
+    const _options = OPTIONS.filter((option) => {
       switch (option) {
         case 'pin-blog':
           return _canUpdateBlogPin && !_isPinnedInProfile;
@@ -105,117 +138,16 @@ class PostDropdownContainer extends PureComponent {
       }
     });
 
-    this.setState({ options });
+    setOptions(_options);
   };
 
-  // Component Functions
-  _handleOnDropdownSelect = async (index) => {
-    const { currentAccount, content, dispatch, intl, navigation, isMuted } = this.props;
-    const username = content.author;
-    const isOwnProfile = !username || currentAccount.username === username;
-    const { options } = this.state;
-
-    switch (options[index]) {
-      case 'copy':
-        await writeToClipboard(getPostUrl(get(content, 'url')));
-        this.alertTimer = setTimeout(() => {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'alert.copied',
-              }),
-            ),
-          );
-          this.alertTimer = 0;
-        }, 300);
-        break;
-
-      case 'reblog':
-        this.actionSheetTimer = setTimeout(() => {
-          dispatch(
-            showActionModal({
-              title: intl.formatMessage({ id: 'post.reblog_alert' }),
-              buttons: [
-                {
-                  text: intl.formatMessage({ id: 'alert.cancel' }),
-                  onPress: () => {},
-                },
-                {
-                  text: 'Reblog',
-                  onPress: () => {
-                    this._reblog();
-                  },
-                },
-              ],
-            }),
-          );
-          this.actionSheetTimer = 0;
-        }, 100);
-        break;
-
-      case 'reply':
-        this._redirectToReply();
-        break;
-
-      case 'share':
-        this.shareTimer = setTimeout(() => {
-          this._share();
-          this.shareTimer = 0;
-        }, 500);
-        break;
-
-      case 'bookmarks':
-        this._addToBookmarks();
-        break;
-
-      case 'promote':
-        this._redirectToPromote(ROUTES.SCREENS.REDEEM, 1, 'promote');
-        break;
-
-      case 'boost':
-        this._redirectToPromote(ROUTES.SCREENS.REDEEM, 2, 'boost');
-        break;
-
-      case 'report':
-        this._report(get(content, 'url'));
-        break;
-      case 'pin-blog':
-        this._updatePinnedPost();
-        break;
-      case 'unpin-blog':
-        this._updatePinnedPost({ unpinPost: true });
-        break;
-      case 'pin-community':
-        this._updatePinnedPostCommunity();
-        break;
-      case 'unpin-community':
-        this._updatePinnedPostCommunity({ unpinPost: true });
-        break;
-      case 'edit-history':
-        navigation.navigate({
-          name: ROUTES.SCREENS.EDIT_HISTORY,
-          params: {
-            author: content?.author || '',
-            permlink: content?.permlink || '',
-          },
-        });
-        break;
-      case 'mute':
-        !isOwnProfile && this._muteUser();
-        break;
-      default:
-        break;
-    }
-  };
-
-  _muteUser = () => {
-    const { currentAccount, pinCode, dispatch, intl, content, isLoggedIn, navigation } = this.props;
+  const _muteUser = () => {
     const username = content.author;
     const follower = currentAccount.name;
     const following = username;
 
     if (!isLoggedIn) {
-      showLoginAlert({ navigation, intl });
+      showLoginAlert({ intl });
       return;
     }
     ignoreUser(currentAccount, pinCode, {
@@ -238,16 +170,11 @@ class PostDropdownContainer extends PureComponent {
         );
       })
       .catch((err) => {
-        this._profileActionDone({ error: err });
+        _profileActionDone({ error: err });
       });
   };
 
-  _profileActionDone = ({ error = null }) => {
-    const { intl, dispatch, content } = this.props;
-
-    this.setState({
-      isProfileLoading: false,
-    });
+  const _profileActionDone = ({ error = null }: { error: any }) => {
     if (error) {
       if (error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
         // when RC is not enough, offer boosting account
@@ -263,8 +190,7 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
-  _share = () => {
-    const { content } = this.props;
+  const _share = () => {
     const postUrl = getPostUrl(get(content, 'url'));
 
     Share.share({
@@ -272,9 +198,7 @@ class PostDropdownContainer extends PureComponent {
     });
   };
 
-  _report = (url) => {
-    const { dispatch, intl } = this.props;
-
+  const _report = (url) => {
     const _onConfirm = () => {
       addReport('content', url)
         .then(() => {
@@ -315,10 +239,9 @@ class PostDropdownContainer extends PureComponent {
     );
   };
 
-  _addToBookmarks = () => {
-    const { content, dispatch, intl, isLoggedIn, navigation } = this.props;
+  const _addToBookmarks = () => {
     if (!isLoggedIn) {
-      showLoginAlert({ navigation, intl });
+      showLoginAlert({ intl });
       return;
     }
     addBookmark(get(content, 'author'), get(content, 'permlink'))
@@ -342,19 +265,9 @@ class PostDropdownContainer extends PureComponent {
       });
   };
 
-  _reblog = () => {
-    const {
-      content,
-      currentAccount,
-      dispatch,
-      intl,
-      isLoggedIn,
-      pinCode,
-      navigation,
-      userActivityMutation,
-    } = this.props;
+  const _reblog = () => {
     if (!isLoggedIn) {
-      showLoginAlert({ navigation, intl });
+      showLoginAlert({ intl });
       return;
     }
     if (isLoggedIn) {
@@ -396,9 +309,9 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
-  _updatePinnedPost = async ({ unpinPost }: { unpinPost: boolean } = { unpinPost: false }) => {
-    const { content, currentAccount, pinCode, dispatch, intl } = this.props;
-
+  const _updatePinnedPost = async (
+    { unpinPost }: { unpinPost: boolean } = { unpinPost: false },
+  ) => {
     const params = {
       ...currentAccount.about.profile,
       pinned: unpinPost ? null : content.permlink,
@@ -423,11 +336,9 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
-  _updatePinnedPostCommunity = async (
+  const _updatePinnedPostCommunity = async (
     { unpinPost }: { unpinPost: boolean } = { unpinPost: false },
   ) => {
-    const { content, currentAccount, pinCode, dispatch, intl } = this.props;
-
     try {
       await pinCommunityPost(
         currentAccount,
@@ -449,9 +360,7 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
-  _redirectToReply = () => {
-    const { content, fetchPost, isLoggedIn, navigation } = this.props;
-
+  const _redirectToReply = () => {
     if (isLoggedIn) {
       navigation.navigate({
         name: ROUTES.SCREENS.EDITOR,
@@ -459,14 +368,12 @@ class PostDropdownContainer extends PureComponent {
         params: {
           isReply: true,
           post: content,
-          fetchPost,
         },
       });
     }
   };
 
-  _redirectToPromote = (name, from, redeemType) => {
-    const { content, isLoggedIn, navigation, isPinCodeOpen } = this.props;
+  const _redirectToPromote = (name, from, redeemType) => {
     const params = {
       from,
       permlink: `${get(content, 'author')}/${get(content, 'permlink')}`,
@@ -489,47 +396,122 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
-  render() {
-    const {
-      intl,
-      currentAccount: { name },
-      content,
-      isMuted,
-    } = this.props;
-    const { options } = this.state;
+  // Component Functions
+  const _handleOnDropdownSelect = async (index) => {
+    const username = content.author;
+    const isOwnProfile = !username || currentAccount.username === username;
+
+    switch (options[index]) {
+      case 'copy':
+        await writeToClipboard(getPostUrl(get(content, 'url')));
+        alertTimer.current = setTimeout(() => {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'alert.copied',
+              }),
+            ),
+          );
+          alertTimer.current = null;
+        }, 300);
+        break;
+
+      case 'reblog':
+        _reblog();
+        break;
+
+      case 'reply':
+        _redirectToReply();
+        break;
+
+      case 'share':
+        shareTimer.current = setTimeout(() => {
+          _share();
+          shareTimer.current = null;
+        }, 500);
+        break;
+
+      case 'bookmarks':
+        _addToBookmarks();
+        break;
+
+      case 'promote':
+        _redirectToPromote(ROUTES.SCREENS.REDEEM, 1, 'promote');
+        break;
+
+      case 'boost':
+        _redirectToPromote(ROUTES.SCREENS.REDEEM, 2, 'boost');
+        break;
+
+      case 'report':
+        reportTimer.current = setTimeout(() => {
+          _report(get(content, 'url'));
+        }, 300);
+
+        break;
+      case 'pin-blog':
+        _updatePinnedPost();
+        break;
+      case 'unpin-blog':
+        _updatePinnedPost({ unpinPost: true });
+        break;
+      case 'pin-community':
+        _updatePinnedPostCommunity();
+        break;
+      case 'unpin-community':
+        _updatePinnedPostCommunity({ unpinPost: true });
+        break;
+      case 'edit-history':
+        navigation.navigate({
+          name: ROUTES.SCREENS.EDIT_HISTORY,
+          params: {
+            author: content?.author || '',
+            permlink: content?.permlink || '',
+          },
+        });
+        break;
+      case 'mute':
+        !isOwnProfile && _muteUser();
+        break;
+      default:
+        break;
+    }
+  };
+
+  const _renderItem = ({ item, index }: { item: string; index: number }) => {
+    const _onPress = () => {
+      bottomSheetModalRef.current?.hide();
+      _handleOnDropdownSelect(index);
+    };
 
     return (
-      <Fragment>
-        <PostDropdownView
-          options={options.map((item) =>
-            intl.formatMessage({ id: `post_dropdown.${item}` }).toUpperCase(),
-          )}
-          handleOnDropdownSelect={this._handleOnDropdownSelect}
-          {...this.props}
-        />
-      </Fragment>
+      <TouchableHighlight
+        underlayColor={EStyleSheet.value('$primaryLightBackground')}
+        onPress={_onPress}
+      >
+        <Text style={styles.dropdownItem}>
+          {intl.formatMessage({ id: `post_dropdown.${item}` }).toLocaleUpperCase()}
+        </Text>
+      </TouchableHighlight>
     );
-  }
-}
+  };
 
-const mapStateToProps = (state) => ({
-  isLoggedIn: state.application.isLoggedIn,
-  currentAccount: state.account.currentAccount,
-  pinCode: state.application.pin,
-  isPinCodeOpen: state.application.isPinCodeOpen,
-  subscribedCommunities: state.communities.subscribedCommunities,
-});
-
-const mapHooksToProps = (props) => {
-  const navigation = useNavigation();
-  const userActivityMutation = useUserActivityMutation();
   return (
-    <PostDropdownContainer
-      {...props}
-      navigation={navigation}
-      userActivityMutation={userActivityMutation}
-    />
+    <ActionSheet
+      ref={bottomSheetModalRef}
+      gestureEnabled={true}
+      hideUnderlay={true}
+      containerStyle={styles.sheetContent}
+      indicatorColor={EStyleSheet.value('$iconColor')}
+    >
+      <FlatList
+        contentContainerStyle={styles.listContainer}
+        data={options}
+        renderItem={_renderItem}
+        keyExtractor={(item) => item}
+      />
+    </ActionSheet>
   );
 };
 
-export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
+export default forwardRef(PostOptionsModal);

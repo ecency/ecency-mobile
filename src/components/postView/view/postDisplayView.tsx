@@ -12,7 +12,6 @@ import { getTimeFromNow } from '../../../utils/time';
 // Components
 import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
 import { PostPlaceHolder, StickyBar, TextWithIcon, NoPost } from '../../basicUIElements';
-import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
 import { ParentPost } from '../../parentPost';
 
@@ -21,12 +20,14 @@ import styles from './postDisplayStyles';
 import { OptionsModal } from '../../atoms';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../hooks';
-import { showReplyModal } from '../../../redux/actions/uiAction';
-import postTypes from '../../../constants/postTypes';
+import { showProfileModal, showReplyModal } from '../../../redux/actions/uiAction';
+import { PostTypes } from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { WriteCommentButton } from '../children/writeCommentButton';
 import { PostComments } from '../../postComments';
+import { UpvoteButton } from '../../postCard/children/upvoteButton';
+import UpvotePopover from '../../upvotePopover';
 
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
@@ -56,6 +57,7 @@ const PostDisplayView = ({
 
   const writeCommentRef = useRef<WriteCommentButton>();
   const postCommentsRef = useRef<PostComments>(null);
+  const upvotePopoverRef = useRef<UpvotePopover>(null);
 
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
@@ -103,21 +105,40 @@ const PostDisplayView = ({
     }
   };
 
-  const _handleCacheVoteIncrement = () => {
-    setCacheVoteIcrement(1);
+  const _onUpvotePress = ({
+    anchorRect,
+    content,
+    onVotingStart,
+    showPayoutDetails = false,
+    postType = parentPost ? PostTypes.COMMENT : PostTypes.POST,
+  }: any) => {
+    if (upvotePopoverRef.current) {
+      upvotePopoverRef.current.showPopover({
+        anchorRect,
+        content,
+        showPayoutDetails,
+        postType,
+        onVotingStart,
+      });
+    }
   };
 
   const _renderActionPanel = (isFixedFooter = false) => {
     return (
       <StickyBar isFixedFooter={isFixedFooter} style={styles.stickyBar}>
         <View style={[styles.stickyWrapper, { paddingBottom: insets.bottom ? insets.bottom : 8 }]}>
-          <Upvote
+          <UpvoteButton
             activeVotes={activeVotes}
-            isShowPayoutValue
+            isShowPayoutValue={true}
             content={post}
-            handleCacheVoteIncrement={_handleCacheVoteIncrement}
-            parentType={parentPost ? postTypes.COMMENT : postTypes.POST}
+            parentType={parentPost ? PostTypes.COMMENT : PostTypes.POST}
             boldPayout={true}
+            onUpvotePress={(anchorRect, onVotingStart) => {
+              _onUpvotePress({ anchorRect, content: post, onVotingStart });
+            }}
+            onPayoutDetailsPress={(anchorRect) => {
+              _onUpvotePress({ anchorRect, content: post, showPayoutDetails: true });
+            }}
           />
           <TextWithIcon
             iconName="heart-outline"
@@ -215,6 +236,13 @@ const PostDisplayView = ({
     }
   };
 
+  // show quick reply modal
+  const _showQuickProfileModal = (username) => {
+    if (username) {
+      dispatch(showProfileModal(username));
+    }
+  };
+
   const _handleOnCommentsLoaded = () => {
     setIsLoadedComments(true);
   };
@@ -241,6 +269,7 @@ const PostDisplayView = ({
               size={40}
               inlineTime={true}
               customStyle={styles.headerLine}
+              profileOnPress={_showQuickProfileModal}
             />
             <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
             {!postBodyLoading && (
@@ -274,9 +303,10 @@ const PostDisplayView = ({
           handleOnReplyPress={_showQuickReplyModal}
           handleOnCommentsLoaded={_handleOnCommentsLoaded}
           fetchedAt={post?.post_fetched_at}
-          isLoading={postBodyLoading}
+          isPostLoading={postBodyLoading}
           postContentView={_postContentView}
           onRefresh={onRefresh}
+          onUpvotePress={_onUpvotePress}
         />
       </View>
       {post && _renderActionPanel(true)}
@@ -291,6 +321,7 @@ const PostDisplayView = ({
         cancelButtonIndex={1}
         onPress={(index) => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
       />
+      <UpvotePopover ref={upvotePopoverRef} />
     </View>
   );
 };

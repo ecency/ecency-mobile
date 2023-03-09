@@ -48,6 +48,7 @@ import QUERIES from '../../../providers/queries/queryKeys';
 import bugsnapInstance from '../../../config/bugsnag';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
 
 /*
  *            Props Name        Description                                     Value
@@ -233,7 +234,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       // if no draft, use result anayways
 
       const _remoteDraftModifiedAt = paramDraft ? new Date(paramDraft.modified).getTime() : 0;
-      const _useLocalDraft = _remoteDraftModifiedAt < (_localDraft?.updated || 0);
+      const _useLocalDraft = _remoteDraftModifiedAt < (_localDraft?.updated || 0) && !!_localDraft.body
       if (_useLocalDraft) {
         this.setState({
           draftPost: {
@@ -754,7 +755,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _submitEdit = async (fields) => {
-    const { currentAccount, pinCode, dispatch } = this.props;
+    const { currentAccount, pinCode, dispatch, postCachePrimer } = this.props;
     const { post, isEdit, isPostSending, thumbUrl, isReply } = this.state;
 
     if (isPostSending) {
@@ -806,10 +807,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         isEdit,
       )
         .then(() => {
+          const author = currentAccount.name;
           this._handleSubmitSuccess();
           if (isReply) {
             AsyncStorage.setItem('temp-reply', '');
-            const author = currentAccount.name;
             dispatch(
               updateCommentCache(
                 `${author}/${permlink}`,
@@ -831,6 +832,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
                 },
               ),
             );
+          } else {
+            //update post query data
+            postCachePrimer.cachePost({
+              ...post,
+              title,
+              body,
+              json_metadata: jsonMeta,
+              markdownBody: body,
+              updated: new Date().toISOString()
+            })
           }
         })
         .catch((error) => {
@@ -871,20 +882,15 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _handleSubmitSuccess = () => {
-    const { navigation, route } = this.props;
+    const { navigation, } = this.props;
 
-    this.stateTimer = setTimeout(() => {
-      if (navigation) {
-        navigation.goBack();
-      }
-      if (route.params?.fetchPost) {
-        route.params.fetchPost();
-      }
-      this.setState({
-        isPostSending: false,
-      });
-      clearTimeout(this.stateTimer);
-    }, 3000);
+    if (navigation) {
+      navigation.goBack();
+    }
+    this.setState({
+      isPostSending: false,
+    });
+
   };
 
   _handleSubmit = (form: any) => {
@@ -1120,7 +1126,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={() => {}}
+        handleOnBackPress={() => { }}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
         isDarkTheme={isDarkTheme}
@@ -1167,6 +1173,7 @@ const mapStateToProps = (state) => ({
 const mapQueriesToProps = () => ({
   queryClient: useQueryClient(),
   userActivityMutation: useUserActivityMutation(),
+  postCachePrimer: usePostsCachePrimer()
 });
 
 export default gestureHandlerRootHOC(

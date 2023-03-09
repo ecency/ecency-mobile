@@ -1,4 +1,4 @@
-import { Clipboard } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 const readFromClipboard = async () => {
   const clipboardContent = await Clipboard.getString();

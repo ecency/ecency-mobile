@@ -1,9 +1,10 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  icon: {
+  container: {
+    flex: 1,
+  },
+  optionsIcon: {
     color: '$iconColor',
-    marginRight: 2.7,
-    fontSize: 25,
   },
 });
