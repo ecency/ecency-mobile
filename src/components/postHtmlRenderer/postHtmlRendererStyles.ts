@@ -117,4 +117,15 @@ export default EStyleSheet.create({
     borderRadius: 30,
     backgroundColor: '$primaryBlack',
   } as ViewStyle,
+  imageViewerHeaderContainer: {
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  closeIconButton: {
+    position: 'absolute',
+    right: 0,
+  },
+  imageGalleryHeaderText: {
+    color: '$primaryDarkText',
+  },
 });
