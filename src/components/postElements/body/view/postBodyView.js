@@ -24,7 +24,6 @@ import { useAppDispatch } from '../../../../hooks';
 const WIDTH = getWindowDimensions().width;
 
 const PostBody = ({ body, metadata, onLoadEnd, width }) => {
-  
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
@@ -260,7 +259,6 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
     actionImage.current.show();
   };
 
-
   return (
     <Fragment>
       <Modal visible={isImageModalOpen} transparent={true}>
@@ -343,6 +341,5 @@ const areEqual = (prevProps, nextProps) => {
   }
   return false;
 };
-
 
 export default React.memo(PostBody, areEqual);

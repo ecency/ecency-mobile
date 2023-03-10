@@ -52,10 +52,9 @@ export const parsePost = (
   post.image = catchPostImage(post, 600, 500, webp ? 'webp' : 'match');
   post.thumbnail = catchPostImage(post, 10, 7, webp ? 'webp' : 'match');
 
-
-  //find and inject thumbnail ratio
-  if(post.json_metadata.image_ratios){
-    if(!isNaN(post.json_metadata.image_ratios[0])){
+  // find and inject thumbnail ratio
+  if (post.json_metadata.image_ratios) {
+    if (!isNaN(post.json_metadata.image_ratios[0])) {
       post.thumbRatio = post.json_metadata.image_ratios[0];
     }
   }

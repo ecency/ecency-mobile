@@ -42,7 +42,6 @@ export const PostHtmlRenderer = memo(
   }: PostHtmlRendererProps) => {
     const postImgUrlsRef = useRef<string[]>([]);
 
-
     // new renderer functions
     body = body
       .replace(/<center>/g, '<div class="text-center">')

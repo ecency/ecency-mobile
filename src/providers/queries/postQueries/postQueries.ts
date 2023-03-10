@@ -163,7 +163,6 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
           break;
         case CacheStatus.UPDATED:
         case CacheStatus.PENDING:
-          
           // check if commentKey already exist in comments map,
           if (_comments[path]) {
             shouldClone = true;

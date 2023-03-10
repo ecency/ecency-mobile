@@ -90,8 +90,8 @@ export const generateReplyPermlink = (toAuthor) => {
   const timeFormat = `${t.getFullYear().toString()}${(t.getMonth() + 1).toString()}${t
     .getDate()
     .toString()}t${t.getHours().toString()}${t.getMinutes().toString()}${t
-      .getSeconds()
-      .toString()}${t.getMilliseconds().toString()}z`;
+    .getSeconds()
+    .toString()}${t.getMilliseconds().toString()}z`;
 
   return `re-${toAuthor.replace(/\./g, '')}-${timeFormat}`;
 };
@@ -210,8 +210,16 @@ export const extractFilenameFromPath = ({
   }
 };
 
-export const extractMetadata = async ({ body, thumbUrl, fetchRatios }: { body: string, thumbUrl?: string, fetchRatios?: boolean }) => {
-  //NOTE: keepting regex to extract usernames as reference for later usage if any
+export const extractMetadata = async ({
+  body,
+  thumbUrl,
+  fetchRatios,
+}: {
+  body: string;
+  thumbUrl?: string;
+  fetchRatios?: boolean;
+}) => {
+  // NOTE: keepting regex to extract usernames as reference for later usage if any
   // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
 
   const out = {};
@@ -226,18 +234,25 @@ export const extractMetadata = async ({ body, thumbUrl, fetchRatios }: { body: s
     out.image = matchedImages.slice(0, 10); // return only first 10 images
   }
 
-  //fetch imagee ratios if flag is set
+  // fetch imagee ratios if flag is set
   if (out.image && fetchRatios) {
-    out.image_ratios = await Promise.all(out.image.slice(0, 5).map((url) => {
-      return new Promise((resolve) => {
-        Image.getSize(url, (width, height) => {
-          resolve(width / height)
-        }, () => resolve(0))
-      })
-
-    }).slice(0, 5))
+    out.image_ratios = await Promise.all(
+      out.image
+        .slice(0, 5)
+        .map((url) => {
+          return new Promise((resolve) => {
+            Image.getSize(
+              url,
+              (width, height) => {
+                resolve(width / height);
+              },
+              () => resolve(0),
+            );
+          });
+        })
+        .slice(0, 5),
+    );
   }
-
 
   return out;
 };

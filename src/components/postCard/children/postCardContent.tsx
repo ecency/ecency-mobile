@@ -36,10 +36,8 @@ export const PostCardContent = ({
   setImageRatio,
   handleCardInteraction,
 }: Props) => {
-
   const imgWidth = dim.width - 18;
-  const [calcImgHeight, setCalcImgHeight] = useState(imageRatio ? (imgWidth / imageRatio) : 300);
-
+  const [calcImgHeight, setCalcImgHeight] = useState(imageRatio ? imgWidth / imageRatio : 300);
 
   const _onPress = () => {
     handleCardInteraction(PostCardActionIds.NAVIGATE, {

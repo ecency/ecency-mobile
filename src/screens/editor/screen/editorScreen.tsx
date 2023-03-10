@@ -274,8 +274,11 @@ class EditorScreen extends Component {
       fields.tags = content;
     }
 
-
-    const _extractedMeta = await extractMetadata({body:fields.body, thumbUrl, fetchRatios : false})
+    const _extractedMeta = await extractMetadata({
+      body: fields.body,
+      thumbUrl,
+      fetchRatios: false,
+    });
     const meta = Object.assign({}, _extractedMeta, {
       tags: fields.tags,
       beneficiaries: getBeneficiaries(),
