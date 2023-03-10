@@ -228,6 +228,7 @@ const WalletScreen = ({ navigation }) => {
         isClaiming={_isClaimingThis}
         isLoading={unclaimedRewardsQuery.isFetching && !_isClaimingAny}
         volume24h={coinData.volume24h}
+        precision={coinData.precision}
         onCardPress={_onCardPress}
         onClaimPress={_onClaimPress}
         onBoostAccountPress={_onBoostAccountPress}

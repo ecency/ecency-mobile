@@ -36,6 +36,7 @@ export interface CoinData {
   isEngine?: boolean;
   percentChange?: number;
   volume24h?: number;
+  precision?: number;
 }
 
 export interface PriceHistory {
