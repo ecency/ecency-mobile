@@ -1,4 +1,5 @@
 import getSlug from 'speakingurl';
+import { Image } from 'react-native';
 import { diff_match_patch as diffMatchPatch } from 'diff-match-patch';
 import VersionNumber from 'react-native-version-number';
 import MimeTypes from 'mime-types';
@@ -209,29 +210,21 @@ export const extractFilenameFromPath = ({
   }
 };
 
-export const extractMetadata = (body: string, thumbUrl?: string) => {
-  const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
+export const extractMetadata = async ({
+  body,
+  thumbUrl,
+  fetchRatios,
+}: {
+  body: string;
+  thumbUrl?: string;
+  fetchRatios?: boolean;
+}) => {
+  // NOTE: keepting regex to extract usernames as reference for later usage if any
+  // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
 
   const out = {};
-
   const mUrls = extractUrls(body);
-  const mUsers = body && body.match(userReg);
-
   const matchedImages = extractImageUrls({ urls: mUrls });
-  const matchedLinks = [];
-  const matchedUsers = [];
-
-  if (mUrls) {
-    mUrls.forEach((url) => {
-      if (matchedImages.indexOf(url) < 0) {
-        matchedLinks.push(url);
-      }
-    });
-  }
-
-  if (matchedLinks.length) {
-    out.links = matchedLinks.slice(0, 10); // return only first 10 links
-  }
 
   if (matchedImages.length) {
     if (thumbUrl) {
@@ -241,14 +234,24 @@ export const extractMetadata = (body: string, thumbUrl?: string) => {
     out.image = matchedImages.slice(0, 10); // return only first 10 images
   }
 
-  if (mUsers) {
-    for (let i = 0; i < mUsers.length; i++) {
-      matchedUsers.push(mUsers[i].trim().substring(1));
-    }
-  }
-
-  if (matchedUsers.length) {
-    out.users = matchedUsers.slice(0, 10); // return only first 10 users
+  // fetch imagee ratios if flag is set
+  if (out.image && fetchRatios) {
+    out.image_ratios = await Promise.all(
+      out.image
+        .slice(0, 5)
+        .map((url) => {
+          return new Promise((resolve) => {
+            Image.getSize(
+              url,
+              (width, height) => {
+                resolve(width / height);
+              },
+              () => resolve(0),
+            );
+          });
+        })
+        .slice(0, 5),
+    );
   }
 
   return out;

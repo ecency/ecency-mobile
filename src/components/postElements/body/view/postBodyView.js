@@ -23,8 +23,7 @@ import { useAppDispatch } from '../../../../hooks';
 
 const WIDTH = getWindowDimensions().width;
 
-const PostBody = ({ body, onLoadEnd, width }) => {
-  console.log('body : ', body);
+const PostBody = ({ body, metadata, onLoadEnd, width }) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
@@ -320,6 +319,7 @@ const PostBody = ({ body, onLoadEnd, width }) => {
       <View>
         <PostHtmlRenderer
           body={html}
+          metadata={metadata}
           contentWidth={width || WIDTH - 32}
           onLoaded={_handleLoadEnd}
           setSelectedImage={_handleSetSelectedImage}
@@ -341,6 +341,5 @@ const areEqual = (prevProps, nextProps) => {
   }
   return false;
 };
-
 
 export default React.memo(PostBody, areEqual);

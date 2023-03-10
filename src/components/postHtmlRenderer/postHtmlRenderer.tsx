@@ -13,6 +13,7 @@ import { VideoPlayer } from '..';
 interface PostHtmlRendererProps {
   contentWidth: number;
   body: string;
+  metadata: string;
   isComment?: boolean;
   onLoaded?: () => void;
   setSelectedImage: (imgUrl: string, postImageUrls: string[]) => void;
@@ -28,6 +29,7 @@ export const PostHtmlRenderer = memo(
   ({
     contentWidth,
     body,
+    metadata,
     isComment,
     onLoaded,
     setSelectedImage,
@@ -225,6 +227,7 @@ export const PostHtmlRenderer = memo(
           <AutoHeightImage
             contentWidth={maxImgWidth}
             imgUrl={tnode.children[0].attributes.src}
+            metadata={metadata}
             isAnchored={false}
             activeOpacity={0.8}
             onPress={_onPress}
@@ -253,6 +256,7 @@ export const PostHtmlRenderer = memo(
           <AutoHeightImage
             contentWidth={maxImgWidth}
             imgUrl={imgUrl}
+            metadata={metadata}
             isAnchored={isAnchored}
             onPress={_onPress}
           />

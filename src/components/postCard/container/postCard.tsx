@@ -28,8 +28,8 @@ const PostCard = ({
   isHideImage,
   nsfw,
   reblogs,
-  imageHeight,
-  setImageHeight,
+  imageRatio,
+  setImageRatio,
   handleCardInteraction,
 }) => {
   return (
@@ -44,8 +44,8 @@ const PostCard = ({
         content={content}
         isHideImage={isHideImage}
         nsfw={nsfw}
-        thumbHeight={imageHeight}
-        setThumbHeight={setImageHeight}
+        imageRatio={imageRatio}
+        setImageRatio={setImageRatio}
         handleCardInteraction={handleCardInteraction}
       />
       <PostCardActionsPanel

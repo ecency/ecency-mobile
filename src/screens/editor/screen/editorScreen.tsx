@@ -260,7 +260,7 @@ class EditorScreen extends Component {
     this.setState({ isFormValid });
   };
 
-  _handleFormUpdate = (componentID, content) => {
+  _handleFormUpdate = async (componentID, content) => {
     const { handleFormChanged, thumbUrl, rewardType, getBeneficiaries } = this.props;
     const { fields: _fields } = this.state;
     const fields = { ..._fields };
@@ -274,7 +274,12 @@ class EditorScreen extends Component {
       fields.tags = content;
     }
 
-    const meta = Object.assign({}, extractMetadata(fields.body, thumbUrl), {
+    const _extractedMeta = await extractMetadata({
+      body: fields.body,
+      thumbUrl,
+      fetchRatios: false,
+    });
+    const meta = Object.assign({}, _extractedMeta, {
       tags: fields.tags,
       beneficiaries: getBeneficiaries(),
       rewardType,

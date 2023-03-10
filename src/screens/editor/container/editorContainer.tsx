@@ -234,7 +234,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       // if no draft, use result anayways
 
       const _remoteDraftModifiedAt = paramDraft ? new Date(paramDraft.modified).getTime() : 0;
-      const _useLocalDraft = _remoteDraftModifiedAt < (_localDraft?.updated || 0) && !!_localDraft.body
+      const _useLocalDraft =
+        _remoteDraftModifiedAt < (_localDraft?.updated || 0) && !!_localDraft.body;
       if (_useLocalDraft) {
         this.setState({
           draftPost: {
@@ -430,7 +431,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           };
         }
 
-        const meta = Object.assign({}, extractMetadata(draftField.body, thumbUrl), {
+        const _extractedMeta = await extractMetadata({
+          body: draftField.body,
+          thumbUrl,
+          fetchRatios: false,
+        });
+        const meta = Object.assign({}, _extractedMeta, {
           tags: draftField.tags,
           beneficiaries,
           rewardType,
@@ -571,7 +577,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         isPostSending: true,
       });
 
-      const meta = extractMetadata(fields.body, thumbUrl);
+      const meta = await extractMetadata({ body: fields.body, thumbUrl, fetchRatios: true });
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
@@ -782,7 +788,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         newBody = patch;
       }
 
-      const meta = extractMetadata(fields.body, thumbUrl);
+      const meta = await extractMetadata({ body: fields.body, thumbUrl, fetchRatios: true });
 
       let jsonMeta = {};
 
@@ -833,15 +839,15 @@ class EditorContainer extends Component<EditorContainerProps, any> {
               ),
             );
           } else {
-            //update post query data
+            // update post query data
             postCachePrimer.cachePost({
               ...post,
               title,
               body,
               json_metadata: jsonMeta,
               markdownBody: body,
-              updated: new Date().toISOString()
-            })
+              updated: new Date().toISOString(),
+            });
           }
         })
         .catch((error) => {
@@ -882,7 +888,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _handleSubmitSuccess = () => {
-    const { navigation, } = this.props;
+    const { navigation } = this.props;
 
     if (navigation) {
       navigation.goBack();
@@ -890,7 +896,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     this.setState({
       isPostSending: false,
     });
-
   };
 
   _handleSubmit = (form: any) => {
@@ -1126,7 +1131,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={() => { }}
+        handleOnBackPress={() => {}}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
         isDarkTheme={isDarkTheme}
@@ -1173,7 +1178,7 @@ const mapStateToProps = (state) => ({
 const mapQueriesToProps = () => ({
   queryClient: useQueryClient(),
   userActivityMutation: useUserActivityMutation(),
-  postCachePrimer: usePostsCachePrimer()
+  postCachePrimer: usePostsCachePrimer(),
 });
 
 export default gestureHandlerRootHOC(

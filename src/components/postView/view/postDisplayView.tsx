@@ -271,7 +271,11 @@ const PostDisplayView = ({
               customStyle={styles.headerLine}
               profileOnPress={_showQuickProfileModal}
             />
-            <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
+            <PostBody
+              body={post.body}
+              metadata={post.json_metadata}
+              onLoadEnd={_handleOnPostBodyLoad}
+            />
             {!postBodyLoading && (
               <View style={styles.footer}>
                 <Tags tags={tags} />
