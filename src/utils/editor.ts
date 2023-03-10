@@ -211,48 +211,22 @@ export const extractFilenameFromPath = ({
 };
 
 export const extractMetadata = async ({ body, thumbUrl, fetchRatios }: { body: string, thumbUrl?: string, fetchRatios?: boolean }) => {
-  const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
+  //NOTE: keepting regex to extract usernames as reference for later usage if any
+  // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
 
   const out = {};
-
   const mUrls = extractUrls(body);
-  const mUsers = body && body.match(userReg);
-
   const matchedImages = extractImageUrls({ urls: mUrls });
-  const matchedLinks = [];
-  const matchedUsers = [];
-
-  if (mUrls) {
-    mUrls.forEach((url) => {
-      if (matchedImages.indexOf(url) < 0) {
-        matchedLinks.push(url);
-      }
-    });
-  }
-
-  if (matchedLinks.length) {
-    out.links = matchedLinks.slice(0, 10); // return only first 10 links
-  }
 
   if (matchedImages.length) {
     if (thumbUrl) {
-      //only move matching url to first position instead of rearranging whole list
-      matchedImages.sort((item) => (item === thumbUrl ? -1 : 0)); 
+      matchedImages.sort((item) => (item === thumbUrl ? -1 : 1));
     }
 
     out.image = matchedImages.slice(0, 10); // return only first 10 images
   }
 
-  if (mUsers) {
-    for (let i = 0; i < mUsers.length; i++) {
-      matchedUsers.push(mUsers[i].trim().substring(1));
-    }
-  }
-
-  if (matchedUsers.length) {
-    out.users = matchedUsers.slice(0, 10); // return only first 10 users
-  }
-
+  //fetch imagee ratios if flag is set
   if (out.image && fetchRatios) {
     out.image_ratios = await Promise.all(out.image.slice(0, 5).map((url) => {
       return new Promise((resolve) => {
