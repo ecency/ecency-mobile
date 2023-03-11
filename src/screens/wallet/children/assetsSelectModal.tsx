@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } 
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useIntl } from 'react-intl';
-import get from 'lodash/get';
+import { get, isArray } from 'lodash';
 import styles from '../styles/tokensSelectModa.styles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { CheckBox, Modal, SearchInput, TextButton } from '../../../components';
@@ -13,7 +13,7 @@ import { AssetIcon } from '../../../components/atoms';
 import { profileUpdate } from '../../../providers/hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
-export const AssetsSelectModal = forwardRef(({}, ref) => {
+export const AssetsSelectModal = forwardRef(({ }, ref) => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
 
@@ -44,12 +44,16 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
     },
   }));
 
+
+
   // migration snippet
   useEffect(() => {
-    if (currentAccount && !currentAccount.about.profile?.tokens) {
+    if (!isArray(currentAccount?.about?.profile?.tokens)) {
       _updateUserProfile();
     }
   }, [currentAccount]);
+
+
 
   useEffect(() => {
     const data: CoinData[] = [];
@@ -69,19 +73,18 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
     setListData(data);
   }, [query, coinsData]);
 
-  const filterAssetsBySymbols = (coinsArr: CoinBase[]) => {
-    return coinsArr.map((item) => item.symbol);
-  };
 
   const _updateUserProfile = async () => {
     try {
-      const assetsData = {
-        engine: filterAssetsBySymbols(selection),
-      };
+      const assetsData = selection.map((item) => (({ 
+        symbol: item.symbol, 
+        type: 'ENGINE' 
+      }))); //TODO: later handle SPK assets as well
+
       const updatedCurrentAccountData = currentAccount;
       updatedCurrentAccountData.about.profile = {
         ...updatedCurrentAccountData.about.profile,
-        tokens: { ...assetsData },
+        tokens: assetsData,
       };
       const params = {
         ...updatedCurrentAccountData.about.profile,
