@@ -13,7 +13,7 @@ import { AssetIcon } from '../../../components/atoms';
 import { profileUpdate } from '../../../providers/hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
-export const AssetsSelectModal = forwardRef(({ }, ref) => {
+export const AssetsSelectModal = forwardRef(({}, ref) => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
 
@@ -44,16 +44,12 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
     },
   }));
 
-
-
   // migration snippet
   useEffect(() => {
     if (!isArray(currentAccount?.about?.profile?.tokens)) {
       _updateUserProfile();
     }
   }, [currentAccount]);
-
-
 
   useEffect(() => {
     const data: CoinData[] = [];
@@ -73,13 +69,12 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
     setListData(data);
   }, [query, coinsData]);
 
-
   const _updateUserProfile = async () => {
     try {
-      const assetsData = selection.map((item) => (({ 
-        symbol: item.symbol, 
-        type: 'ENGINE' 
-      }))); //TODO: later handle SPK assets as well
+      const assetsData = selection.map((item) => ({
+        symbol: item.symbol,
+        type: 'ENGINE',
+      })); // TODO: later handle SPK assets as well
 
       const updatedCurrentAccountData = currentAccount;
       updatedCurrentAccountData.about.profile = {
