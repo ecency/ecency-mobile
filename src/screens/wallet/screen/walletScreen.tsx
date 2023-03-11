@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { SafeAreaView, View, RefreshControl, Text, AppState, AppStateStatus } from 'react-native';
+import { isArray } from 'lodash';
 
 // Containers
 import { FlatList, gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -85,11 +86,11 @@ const WalletScreen = ({ navigation }) => {
   }, [selectedCoins]);
 
   //actions
-  const createEngineTokensDataFromProfileJsonMeta = (engineTokensData) => {
-    return engineTokensData.map((item) => ({
-      id: item,
-      symbol: item,
-      isEngine: true,
+  const populateSelectedAssets = (tokensArr) => {
+    return tokensArr.map(({symbol, type}) => ({
+      id: symbol,
+      symbol,
+      isEngine: type === 'ENGINE',
       notCrypto: false,
     }));
   };
@@ -98,15 +99,17 @@ const WalletScreen = ({ navigation }) => {
     const currSelectedEngineTokens = selectedCoins.filter(
       (item) => !DEFAULT_ASSETS.some((defaultAsset) => defaultAsset.id === item.id),
     );
-    if (currentAccount.about?.profile?.tokens) {
-      const engineTokensData = createEngineTokensDataFromProfileJsonMeta(
-        currentAccount.about.profile.tokens.engine,
+
+    if (isArray(currentAccount.about?.profile?.tokens)) {
+      const engineTokensData = populateSelectedAssets(
+        currentAccount.about.profile.tokens,
       );
       // check if current selected engine tokens differ from profile json meta
       if (JSON.stringify(engineTokensData) !== JSON.stringify(currSelectedEngineTokens)) {
         dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...engineTokensData]));
       }
     }
+
   };
 
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {
