@@ -52,7 +52,7 @@ export const QuickReplyModalContent = forwardRef(
     const userActivityMutation = useUserActivityMutation();
     const postsCachePrimer = postQueries.usePostsCachePrimer();
 
-    const inputRef = useRef<RNTextInput | null>(null);
+    // const inputRef = useRef<RNTextInput | null>(null);
 
     const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
     const pinCode = useSelector((state: RootState) => state.application.pin);
@@ -88,12 +88,12 @@ export const QuickReplyModalContent = forwardRef(
             : '';
       }
 
-      if (inputRef.current) {
-        inputRef.current.setNativeProps({
-          text: _value,
-        });
-        setCommentValue(_value);
-      }
+      setCommentValue(_value);
+      // if (inputRef.current) {
+      //   inputRef.current.setNativeProps({
+      //     text: _value,
+      //   });
+      // }
     }, [selectedPost]);
 
     // add quick comment value into cache
@@ -171,11 +171,11 @@ export const QuickReplyModalContent = forwardRef(
             setIsSending(false);
             setCommentValue('');
 
-            if (inputRef.current) {
-              inputRef.current.setNativeProps({
-                text: '',
-              });
-            }
+            // if (inputRef.current) {
+            //   inputRef.current.setNativeProps({
+            //     text: '',
+            //   });
+            // }
 
             dispatch(
               toastNotification(
@@ -307,9 +307,10 @@ export const QuickReplyModalContent = forwardRef(
         {_renderAvatar()}
         <View style={styles.inputContainer}>
           <TextInput
-            innerRef={inputRef}
+            // innerRef={inputRef}
+            value={commentValue}
             onChangeText={_onChangeText}
-            autoFocus
+            autoFocus={true}
             placeholder={intl.formatMessage({
               id: 'quick_reply.placeholder',
             })}
