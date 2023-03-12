@@ -7,6 +7,7 @@ import styles from '../styles/postScreen.styles';
 
 // Component
 import { postQueries } from '../../../providers/queries';
+import FastImage from 'react-native-fast-image';
 
 const PostScreen = ({ route }) => {
   const params = route.params || {};
@@ -20,6 +21,13 @@ const PostScreen = ({ route }) => {
 
   const getPostQuery = postQueries.useGetPostQuery(author, permlink, params.content);
   const getParentPostQuery = postQueries.useGetPostQuery();
+
+  useEffect(()=>{
+    return () => {
+      //clears FastImage RAM, not disk usage;
+      FastImage.clearMemoryCache();
+    }
+  },[])
 
   useEffect(() => {
     const post = getPostQuery.data;
