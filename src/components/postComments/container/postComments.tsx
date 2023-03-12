@@ -315,6 +315,10 @@ const PostComments = forwardRef(
           onContentSizeChange={_onContentSizeChange}
           renderItem={_renderItem}
           keyExtractor={(item) => `${item.author}/${item.permlink}`}
+          initialNumToRender={6}
+          maxToRenderPerBatch={6}
+          updateCellsBatchingPeriod={100}
+          windowSize={13}
           refreshControl={
             <RefreshControl
               refreshing={discussionQuery.isFetching}
