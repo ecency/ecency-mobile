@@ -26,6 +26,7 @@ import { markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
+import FastImage from 'react-native-fast-image';
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
@@ -35,6 +36,7 @@ export const useInitApplication = () => {
 
   const appState = useRef(AppState.currentState);
   const appStateSubRef = useRef<NativeEventSubscription | null>(null);
+  const lowMemSubRef = useRef<NativeEventSubscription | null>(null);
 
   const notifeeEventRef = useRef<any>(null);
   const messagingEventRef = useRef<any>(null);
@@ -57,6 +59,7 @@ export const useInitApplication = () => {
     BackgroundTimer.start(); // ref: https://github.com/ocetnik/react-native-background-timer#ios
 
     appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
+    lowMemSubRef.current = AppState.addEventListener('memoryWarning', _handleLowMemoryWarning)
 
     // check for device landscape status and lcok orientation accordingly. Fix for orientation bug on android tablet devices
     isLandscape().then((isLandscape) => {
@@ -91,6 +94,10 @@ export const useInitApplication = () => {
   const _cleanup = () => {
     if (appStateSubRef.current) {
       appStateSubRef.current.remove();
+    }
+
+    if (lowMemSubRef.current){
+      lowMemSubRef.current.remove();
     }
 
     if (notifeeEventRef.current) {
@@ -141,6 +148,11 @@ export const useInitApplication = () => {
 
     appState.current = nextAppState;
   };
+
+
+  const _handleLowMemoryWarning = () => {
+    FastImage.clearMemoryCache();
+  }
 
   const _pushNavigate = (notification) => {
     let params = null;
