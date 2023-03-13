@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Turinys nepasiekiamas",
+    "select_action": "Select Action",
     "copy_link": "Kopijuoti nuorodą",
     "copy_text": "Nukopijuoti tekstą",
     "reblogged": "pasidalinta",

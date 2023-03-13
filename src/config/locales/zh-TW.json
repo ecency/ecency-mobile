@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "內容不存在",
+    "select_action": "Select Action",
     "copy_link": "複製連結",
     "copy_text": "Copy text",
     "reblogged": "已轉發，轉發者是",

@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Sadržaj nije dostupan",
+    "select_action": "Select Action",
     "copy_link": "Kopiraj vezu",
     "copy_text": "Copy text",
     "reblogged": "podeljeno od",

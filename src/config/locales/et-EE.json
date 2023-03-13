@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Sisu pole kättesaadav",
+    "select_action": "Select Action",
     "copy_link": "Kopeeri link",
     "copy_text": "Copy text",
     "reblogged": "jagatud %s poolt",

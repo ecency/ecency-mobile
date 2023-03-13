@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "सामग्री उपलब्ध नहीं है",
+    "select_action": "Select Action",
     "copy_link": "लिंक कापी करें",
     "copy_text": "टेक्स्ट कॉपी करें",
     "reblogged": "द्वारा रीब्लॉग",

@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Konten tidak tersedia",
+    "select_action": "Select Action",
     "copy_link": "Salin tautan",
     "copy_text": "Salin teks",
     "reblogged": "direblog Oleh",

@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Dis tin no dey oo",
+    "select_action": "Select Action",
     "copy_link": "Double d link for use",
     "copy_text": "Copy text",
     "reblogged": "person wey reblog am na",

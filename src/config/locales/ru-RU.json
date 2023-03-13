@@ -111,7 +111,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Liquid Hive",
+      "name": "Ликвидные Hive",
       "buy": "Купить HIVE"
     },
     "hbd": {
@@ -120,7 +120,7 @@
     },
     "hive_power": {
       "title": "HIVE СИЛА",
-      "name": "Staked Hive"
+      "name": "Замороженные Hive"
     },
     "hive_dollar": {
       "name": "Hive Доллар"
@@ -309,7 +309,7 @@
     "title_description": "Один аккаунт для управления всем",
     "form_description": "Регистрируясь, вы соглашаетесь с Условиями использования и Политикой конфиденциальности.",
     "registering": "Регистрация учетной записи...",
-    "register_fail": "Registeration failed, please try again or contact support.",
+    "register_fail": "Регистрация не удалась, попробуйте ещё раз или обратитесь в службу поддержки.",
     "registered": "Регистрация завершена успешно\nПроверьте свою электронную почту"
   },
   "home": {
@@ -471,7 +471,7 @@
     "fail": "Не вышло!",
     "move": "Переместить",
     "continue": "Продолжить",
-    "okay": "Okay",
+    "okay": "Окей",
     "move_question": "Вы уверены, что хотите переместить в черновики?",
     "success_shared": "Успех! Контент отправлен!",
     "success_moved": "Перемещён в черновики",
@@ -520,7 +520,7 @@
     "qoutaExceeded": "Превышен лимит загрузки",
     "invalidImage": "Изображение не подходит, попробуйте другой файл",
     "something_wrong": "Что-то пошло не так",
-    "something_wrong_msg": "Something went wrong\n{message}",
+    "something_wrong_msg": "Что-то пошло не так\n{message}",
     "something_wrong_alt": "Тем временем, попробуйте Ecency.com в вашем браузере",
     "something_wrong_reload": "Повторить попытку?",
     "can_not_be_empty": "Название и основная часть не могут быть пустыми!",
@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
     "removed_hint": "Контент не доступен",
+    "select_action": "Выбрать действие",
     "copy_link": "Копировать ссылку",
     "copy_text": "Копировать текст",
     "reblogged": "репостнуто",
@@ -732,14 +733,14 @@
     },
     "confirm_purchase": "Подтвердите покупку @{username}",
     "confirm_purchase_summary": "Покупка {points} для {username} по {price}",
-    "points_purchase_success": "Points purchase successful",
-    "points_purchase_fail_msg": "Points purchase failed\n{message}"
+    "points_purchase_success": "Баллы успешно куплены",
+    "points_purchase_fail_msg": "Покупка баллов не удалась\n{message}"
   },
   "buy_account": {
     "title": "Купить аккаунт",
     "btn_register": "Купить аккаунт - {price}",
     "desc": "Получите полноценный, премиум аккаунт Hive без дополнительных проверок, включающий несколько бонусов, таких как:\n\n- Мгновенное создание без дополнительных проверок и ожидания\n- 3x RC по сравнению с обычными новыми аккаунтами в течение 90 дней\n- 300 очков для того, чтобы помочь начать работу",
-    "claim": "Claim Paid Account"
+    "claim": "Счет для оплаты"
   },
   "free_account": {
     "title": "Бесплатный аккаунт",

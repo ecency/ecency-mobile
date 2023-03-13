@@ -541,6 +541,7 @@
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Kontent mavjud emas",
+    "select_action": "Select Action",
     "copy_link": "Linkni nusxalash",
     "copy_text": "Matnni nusxalash",
     "reblogged": "tomonidan qayta bloglandi",
