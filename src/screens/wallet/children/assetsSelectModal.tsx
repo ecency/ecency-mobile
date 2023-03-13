@@ -13,7 +13,18 @@ import { AssetIcon } from '../../../components/atoms';
 import { profileUpdate } from '../../../providers/hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
-export const AssetsSelectModal = forwardRef(({}, ref) => {
+
+enum TokenType {
+  ENGINE = 'ENGINE',
+  SPK = 'SPK'
+}
+
+interface ProfileToken {
+  symbol: string,
+  type: TokenType
+}
+
+export const AssetsSelectModal = forwardRef(({ }, ref) => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
 
@@ -44,12 +55,6 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
     },
   }));
 
-  // migration snippet
-  useEffect(() => {
-    if (!isArray(currentAccount?.about?.profile?.tokens)) {
-      _updateUserProfile();
-    }
-  }, [currentAccount]);
 
   useEffect(() => {
     const data: CoinData[] = [];
@@ -69,12 +74,37 @@ export const AssetsSelectModal = forwardRef(({}, ref) => {
     setListData(data);
   }, [query, coinsData]);
 
-  const _updateUserProfile = async () => {
+
+  // migration snippet
+  useEffect(() => {
+    const tokens = currentAccount?.about?.profile?.tokens;
+    if (!tokens) {
+      _updateUserProfile();
+
+    } else if (!isArray(tokens)) {
+      //means tokens is using old object formation, covert to array
+      const _mapSymbolsToProfileToken = (symbols, type) => isArray(symbols) ? symbols.map(symbol => ({
+        symbol, type
+      })) : [];
+
+      _updateUserProfile([
+        ..._mapSymbolsToProfileToken(tokens.engine, TokenType.ENGINE),
+        ..._mapSymbolsToProfileToken(tokens.spk, TokenType.SPK)
+      ]);
+
+    }
+  }, [currentAccount]);
+
+
+
+  const _updateUserProfile = async (assetsData?: ProfileToken[]) => {
     try {
-      const assetsData = selection.map((item) => ({
-        symbol: item.symbol,
-        type: 'ENGINE',
-      })); // TODO: later handle SPK assets as well
+      if (!assetsData?.length) {
+        assetsData = selection.map((item) => ({
+          symbol: item.symbol,
+          type: TokenType.ENGINE
+        })); // TODO: later handle SPK assets as well
+      }
 
       const updatedCurrentAccountData = currentAccount;
       updatedCurrentAccountData.about.profile = {
