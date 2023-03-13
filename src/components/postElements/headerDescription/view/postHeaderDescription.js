@@ -120,7 +120,7 @@ class PostHeaderDescription extends PureComponent {
 
               {inlineTime && (
                 <Text style={styles.date}>
-                  {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
+                  {isPromoted ? intl.formatMessage({ id: 'post.promoted' }) : date}
                 </Text>
               )}
 
@@ -168,7 +168,7 @@ class PostHeaderDescription extends PureComponent {
 
               {!inlineTime && (
                 <Text style={styles.date}>
-                  {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
+                  {isPromoted ? intl.formatMessage({ id: 'post.promoted' }) : date}
                 </Text>
               )}
             </View>
