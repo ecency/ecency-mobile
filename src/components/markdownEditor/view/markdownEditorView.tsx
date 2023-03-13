@@ -396,8 +396,8 @@ const MarkdownEditorView = ({
       )}
       {!isPreviewActive ? (
         <TextInput
-          multiline
-          autoCorrect={true}
+          multiline={true}
+          autoCorrect={false}
           autoFocus={!!draftBtnTooltipRegistered}
           onChangeText={_changeText}
           onSelectionChange={_handleOnSelectionChange}
