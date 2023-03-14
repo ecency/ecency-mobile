@@ -69,6 +69,8 @@ const PostComments = forwardRef(
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
     const [headerHeight, setHeaderHeight] = useState(0);
 
+    const [refreshing, setRefreshing] = useState(false);
+
 
     const sortedSections = useMemo(
       () => sortComments(selectedFilter, discussionQuery.sectionedData),
@@ -94,10 +96,12 @@ const PostComments = forwardRef(
     useEffect(() => {
       if (!discussionQuery.isLoading) {
         handleOnCommentsLoaded();
+        setRefreshing(false);
       }
     }, [discussionQuery.isLoading]);
 
     const _onRefresh = () => {
+      setRefreshing(true);
       discussionQuery.refetch();
       onRefresh();
     };
@@ -321,7 +325,7 @@ const PostComments = forwardRef(
           windowSize={13}
           refreshControl={
             <RefreshControl
-              refreshing={discussionQuery.isFetching}
+              refreshing={refreshing}
               onRefresh={_onRefresh}
               progressBackgroundColor="#357CE6"
               tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
