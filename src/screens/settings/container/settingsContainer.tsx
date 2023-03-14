@@ -73,7 +73,7 @@ class SettingsContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      serverList: [],
+      serverList: SERVER_LIST,
       isNotificationMenuOpen: props.isNotificationSettingsOpen,
       isLoading: false,
     };
@@ -87,11 +87,6 @@ class SettingsContainer extends Component {
           serverList: resp,
         });
       })
-      .catch(() =>
-        this.setState({
-          serverList: SERVER_LIST,
-        }),
-      );
   }
 
   // Component Functions
