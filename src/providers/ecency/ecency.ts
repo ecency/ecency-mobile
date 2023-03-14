@@ -721,7 +721,23 @@ export const uploadImage = async (media, username, sign, uploadProgress = null) 
 
 // New image service
 
-export const getNodes = () => serverList.get().then((resp) => resp.data.hived || SERVER_LIST);
+export const getNodes = async () => {
+  try {
+    const response = await serverList.get('/');
+    console.log("nodes response", response.data);
+
+    if(!response.data?.hived){
+      throw new Error("Invalid data returned, fallback to local copy")
+    }
+
+    return response.data?.hived;
+  } catch (error) {
+    console.warn('failed to get nodes list', error);
+    bugsnagInstance.notify(error);
+    return SERVER_LIST
+  }
+};
+
 
 /**
  * refreshes access token using refresh token
