@@ -38,6 +38,7 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
   const [visible, setVisible] = useState(false);
   const [selection, setSelection] = useState<CoinBase[]>([]);
   const [listData, setListData] = useState<CoinData[]>([]);
+  const [sortedList, setSortedList] = useState([]);
   const [query, setQuery] = useState('');
 
 
@@ -64,7 +65,11 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
       }
     }
 
-    data = data.sort((a, b) => {
+    setListData(data);
+  }, [query, coinsData]);
+
+  useEffect(()=>{
+    const _data = listData.sort((a, b) => {
       const _getSortingIndex = (e) => selection.findIndex((item) => item.symbol === e.symbol);
       const _aIndex = _getSortingIndex(a);
       const _bIndex = _getSortingIndex(b);
@@ -80,8 +85,8 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
       return 0;
     });
 
-    setListData(data);
-  }, [query, coinsData, selection]);
+    setSortedList([..._data]);
+  },[listData, selection])
 
   // migration snippet
   useEffect(() => {
@@ -142,7 +147,7 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
 
   const _onDragEnd = ({data, from, to}) => {
     const totalSel = selection.length;
-    const item = listData[from];
+    const item = sortedList[from];
 
     const _obj = {
       id: item.symbol,
@@ -164,7 +169,8 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
       selection.splice(to, 0, _obj);
     }
 
-    setSelection([...selection])
+    setSortedList(data);
+    setSelection(selection)
   }
 
   const _renderOptions = () => {
@@ -217,7 +223,7 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
     return (
       <DraggableFlatList
         containerStyle={styles.scrollContainer}
-        data={listData}
+        data={sortedList}
         extraData={query}
         renderItem={_renderItem}
         onDragEnd={_onDragEnd}
