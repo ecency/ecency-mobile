@@ -24,6 +24,9 @@ const QUERIES = {
     GET: 'QUERY_GET_POST',
     GET_DISCUSSION: 'QUERY_GET_DISCUSSION',
   },
+  LEADERBOARD: {
+    GET: 'QUERY_GET_LEADERBOARD',
+  }
 };
 
 export default QUERIES;
