@@ -97,6 +97,9 @@
     "engine_title": "رموز Hive Engine",
     "engine_claim_btn": "الحصول على المكافآت ({count})",
     "engine_select_assets": "حدد الأصول",
+    "available_assets": "Available Assets",
+    "selected_assets": "Selected Assets",
+    "no_selected_assets": "Add from available",
     "manage_assets": "إضافة & حذف الأصول",
     "ecency": {
       "title": "النقاط",
