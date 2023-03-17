@@ -65,6 +65,7 @@ export default EStyleSheet.create({
 
   assetIconContainer:{
     width:32,
+    marginLeft:16
   },
 
   button: {

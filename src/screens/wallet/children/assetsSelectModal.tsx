@@ -1,27 +1,29 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
-import { Alert, Text, TouchableOpacity, View } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import { Alert, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import { get, isArray } from 'lodash';
 import styles from '../styles/tokensSelectModa.styles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { CheckBox, Modal, SearchInput, TextButton } from '../../../components';
+import { CheckBox, Icon, Modal, SearchInput, TextButton } from '../../../components';
 import { CoinBase, CoinData } from '../../../redux/reducers/walletReducer';
 import DEFAULT_ASSETS from '../../../constants/defaultAssets';
 import { setSelectedCoins } from '../../../redux/actions/walletActions';
 import { AssetIcon } from '../../../components/atoms';
 import { profileUpdate } from '../../../providers/hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
-
+import EStyleSheet from 'react-native-extended-stylesheet';
+import DraggableFlatList, {
+  ScaleDecorator,
+} from "react-native-draggable-flatlist";
 
 enum TokenType {
   ENGINE = 'ENGINE',
-  SPK = 'SPK'
+  SPK = 'SPK',
 }
 
 interface ProfileToken {
-  symbol: string,
-  type: TokenType
+  symbol: string;
+  type: TokenType;
 }
 
 export const AssetsSelectModal = forwardRef(({ }, ref) => {
@@ -34,30 +36,21 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
   const [visible, setVisible] = useState(false);
-  const [selection, setSelection] = useState(selectedCoins.filter((item) => item.isEngine));
+  const [selection, setSelection] = useState<CoinBase[]>([]);
   const [listData, setListData] = useState<CoinData[]>([]);
   const [query, setQuery] = useState('');
 
-  const sortedList = useMemo(() => {
-    return listData.sort((a, b) => {
-      const _isSelected = (e) => selection.findIndex((item) => item.symbol === e.symbol) >= 0;
-      const aSelected = _isSelected(a);
-      const bSelected = _isSelected(b);
-      return aSelected && bSelected ? 0 : aSelected ? -1 : 1; // makes sure items are sorted in order for selection
-    });
-  }, [listData, selection]);
 
   useImperativeHandle(ref, () => ({
     showModal: () => {
       setVisible(true);
       setQuery('');
-      setSelection(selectedCoins.filter((item) => item.isEngine));
+      setSelection(selectedCoins.filter((item) => (item.isEngine && !!coinsData[item.symbol])));
     },
   }));
 
-
   useEffect(() => {
-    const data: CoinData[] = [];
+    let data: CoinData[] = [];
 
     for (const key in coinsData) {
       if (coinsData.hasOwnProperty(key) && coinsData[key].isEngine) {
@@ -71,38 +64,53 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
       }
     }
 
-    setListData(data);
-  }, [query, coinsData]);
+    data = data.sort((a, b) => {
+      const _getSortingIndex = (e) => selection.findIndex((item) => item.symbol === e.symbol);
+      const _aIndex = _getSortingIndex(a);
+      const _bIndex = _getSortingIndex(b);
 
+      if(_aIndex > -1 && _bIndex > -1){
+        return _aIndex - _bIndex
+      } if(_aIndex > -1 && _bIndex < 0){
+        return -1;
+      } else if(_aIndex < 0 && _bIndex > -1){
+        return 1;
+      } 
+      
+      return 0;
+    });
+
+    setListData(data);
+  }, [query, coinsData, selection]);
 
   // migration snippet
   useEffect(() => {
     const tokens = currentAccount?.about?.profile?.tokens;
     if (!tokens) {
       _updateUserProfile();
-
     } else if (!isArray(tokens)) {
-      //means tokens is using old object formation, covert to array
-      const _mapSymbolsToProfileToken = (symbols, type) => isArray(symbols) ? symbols.map(symbol => ({
-        symbol, type
-      })) : [];
+      // means tokens is using old object formation, covert to array
+      const _mapSymbolsToProfileToken = (symbols, type) =>
+        isArray(symbols)
+          ? symbols.map((symbol) => ({
+            symbol,
+            type,
+          }))
+          : [];
 
       _updateUserProfile([
         ..._mapSymbolsToProfileToken(tokens.engine, TokenType.ENGINE),
-        ..._mapSymbolsToProfileToken(tokens.spk, TokenType.SPK)
+        ..._mapSymbolsToProfileToken(tokens.spk, TokenType.SPK),
       ]);
-
     }
   }, [currentAccount]);
-
-
 
   const _updateUserProfile = async (assetsData?: ProfileToken[]) => {
     try {
       if (!assetsData?.length) {
         assetsData = selection.map((item) => ({
           symbol: item.symbol,
-          type: TokenType.ENGINE
+          type: TokenType.ENGINE,
         })); // TODO: later handle SPK assets as well
       }
 
@@ -132,8 +140,35 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
     _updateUserProfile(); // update the user profile with updated tokens data
   };
 
+  const _onDragEnd = ({data, from, to}) => {
+    const totalSel = selection.length;
+    const item = listData[from];
+
+    const _obj = {
+      id: item.symbol,
+      symbol: item.symbol,
+      isEngine: true,
+      notCrypto: false,
+    }
+    console.log("change order", item.symbol, from, to, 'total:',totalSel)
+
+    if(from >= totalSel && to <= totalSel){
+      //insert in set at to
+      selection.splice(to, 0, _obj)
+    } else if (from < totalSel && to >= totalSel) {
+      //remove from sel
+      selection.splice(from, 1);
+    } else if (from < totalSel && to < totalSel){
+      //order change from to
+      selection.splice(from, 1);
+      selection.splice(to, 0, _obj);
+    }
+
+    setSelection([...selection])
+  }
+
   const _renderOptions = () => {
-    const _renderItem = ({ item }) => {
+    const _renderItem = ({ item, drag }) => {
       const key = item.symbol;
       const index = selection.findIndex((selected) => selected.symbol === item.symbol);
       const isSelected = index >= 0;
@@ -153,9 +188,10 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
       };
 
       return (
-        <TouchableOpacity onPress={_onPress}>
+        <ScaleDecorator>
           <View style={styles.checkView}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <CheckBox clicked={_onPress} isChecked={isSelected} />
               <AssetIcon
                 id={item.symbol}
                 containerStyle={styles.assetIconContainer}
@@ -165,18 +201,26 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
               />
               <Text style={styles.informationText}>{key}</Text>
             </View>
-            <CheckBox locked isChecked={isSelected} />
+            <TouchableWithoutFeedback onPressIn={drag} >
+              <Icon
+                iconType="MaterialCommunityIcons"
+                name='drag-horizontal-variant'
+                color={EStyleSheet.value("$iconColor")}
+                size={24}
+              />
+            </TouchableWithoutFeedback>
           </View>
-        </TouchableOpacity>
+        </ScaleDecorator>
       );
     };
 
     return (
-      <FlatList
-        style={styles.scrollContainer}
-        data={sortedList}
+      <DraggableFlatList
+        containerStyle={styles.scrollContainer}
+        data={listData}
         extraData={query}
         renderItem={_renderItem}
+        onDragEnd={_onDragEnd}
         keyExtractor={(item, index) => `token_${item.symbol + index}`}
       />
     );
