@@ -61,7 +61,11 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
         const _name = asset.name.toLowerCase();
         const _symbol = asset.symbol.toLowerCase();
         const _query = query.toLowerCase();
-        if (query === '' || _symbol.includes(_query) || _name.includes(_query)) {
+
+        const _isSelected = selectionRef.current.findIndex(item => item.symbol === asset.symbol) > -1
+        console.log('set selected', _symbol, _isSelected, selectionRef.current)
+
+        if (query === '' || _isSelected ||  _symbol.includes(_query) || _name.includes(_query)) {
           data.push(asset);
         }
       }
@@ -198,7 +202,7 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
       if(item.isSectionSeparator){
         return _renderSectionSeparator('Available Assets');
       }
-      
+
       const key = item.symbol;
       const index = selectionRef.current.findIndex((selected) => selected.symbol === item.symbol);
       const isSelected = index >= 0;
