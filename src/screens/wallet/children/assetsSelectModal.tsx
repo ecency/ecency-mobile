@@ -73,7 +73,8 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
 
 
   const _updateSortedList = ({ data } = { data: listData }) => {
-    const _data = data.sort((a, b) => {
+    const _data = [...data];
+    _data.sort((a, b) => {
       const _getSortingIndex = (e) => selectionRef.current.findIndex((item) => item.symbol === e.symbol);
       const _aIndex = _getSortingIndex(a);
       const _bIndex = _getSortingIndex(b);
@@ -89,8 +90,9 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
       return 0;
     });
 
+    _data.splice(selectionRef.current.length, 0, { isSectionSeparator:true })
  
-    setSortedList([..._data])
+    setSortedList(_data)
   }
 
 
@@ -178,8 +180,25 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
     setSortedList(data);
   }
 
+  const _renderSectionSeparator = (text:string) => {
+    return (
+      <Text style={styles.sectionSeparatorStyle}>
+        {text}
+      </Text>
+    )
+  }
+
+
+  const _renderHeader = () => _renderSectionSeparator("Selected Assets")
+
+
   const _renderOptions = () => {
     const _renderItem = ({ item, drag }) => {
+
+      if(item.isSectionSeparator){
+        return _renderSectionSeparator('Available Assets');
+      }
+      
       const key = item.symbol;
       const index = selectionRef.current.findIndex((selected) => selected.symbol === item.symbol);
       const isSelected = index >= 0;
@@ -233,6 +252,7 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
         extraData={query}
         renderItem={_renderItem}
         onDragEnd={_onDragEnd}
+        ListHeaderComponent={_renderHeader}
         keyExtractor={(item, index) => `token_${item.symbol + index}`}
       />
     );

@@ -41,6 +41,15 @@ export default EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   } as ViewStyle,
+
+  sectionSeparatorStyle : {
+    color:'$primaryBlack',
+    fontSize: 16,
+    marginHorizontal: 16,
+    marginVertical:4,
+
+  } as TextStyle,
+
   title: {
     color: '$primaryBlack',
     alignSelf: 'center',
