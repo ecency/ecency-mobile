@@ -42,11 +42,20 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
   } as ViewStyle,
 
-  sectionSeparatorStyle : {
+  sectionTextStyle : {
     color:'$primaryBlack',
     fontSize: 16,
     marginHorizontal: 16,
     marginVertical:4,
+
+  } as TextStyle,
+
+  sectionSubTextStyle : {
+    color:'$iconColor',
+    fontSize: 18,
+    marginHorizontal: 16,
+    marginVertical:16,
+    alignSelf:'center'
 
   } as TextStyle,
 

@@ -1,5 +1,6 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { Alert, Text, TouchableWithoutFeedback, View } from 'react-native';
+import Animated, {ZoomIn, ZoomOut} from 'react-native-reanimated';
 import { useIntl } from 'react-intl';
 import { get, isArray } from 'lodash';
 import styles from '../styles/tokensSelectModa.styles';
@@ -63,16 +64,15 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
         const _query = query.toLowerCase();
 
         const _isSelected = selectionRef.current.findIndex(item => item.symbol === asset.symbol) > -1
-        console.log('set selected', _symbol, _isSelected, selectionRef.current)
 
-        if (query === '' || _isSelected ||  _symbol.includes(_query) || _name.includes(_query)) {
+        if (query === '' || _isSelected || _symbol.includes(_query) || _name.includes(_query)) {
           data.push(asset);
         }
       }
     }
 
     setListData(data)
-    _updateSortedList({data})
+    _updateSortedList({ data })
   }, [query, coinsData]);
 
 
@@ -94,8 +94,8 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
       return 0;
     });
 
-    _data.splice(selectionRef.current.length, 0, { isSectionSeparator:true })
- 
+    _data.splice(selectionRef.current.length, 0, { isSectionSeparator: true })
+
     setSortedList(_data)
   }
 
@@ -184,23 +184,33 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
     setSortedList(data);
   }
 
-  const _renderSectionSeparator = (text:string) => {
+  const _renderSectionSeparator = (text: string, subText?: string) => {
     return (
-      <Text style={styles.sectionSeparatorStyle}>
-        {text}
-      </Text>
+      <>
+        <Text style={styles.sectionTextStyle}>
+          {text}
+        </Text>
+        {!!subText && (
+          <Animated.Text entering={ZoomIn} style={styles.sectionSubTextStyle}>
+            {subText}
+          </Animated.Text>
+        )}
+      </>
+
     )
   }
 
 
-  const _renderHeader = () => _renderSectionSeparator("Selected Assets")
+  const _renderHeader = () => _renderSectionSeparator(
+    intl.formatMessage({id:'wallet.selected_assets'}), 
+    selectionRef.current.length ? '' : intl.formatMessage({id:'wallet.no_selected_assets'}))
 
 
   const _renderOptions = () => {
     const _renderItem = ({ item, drag }) => {
 
-      if(item.isSectionSeparator){
-        return _renderSectionSeparator('Available Assets');
+      if (item.isSectionSeparator) {
+        return _renderSectionSeparator(intl.formatMessage({id:'wallet.available_assets'}));
       }
 
       const key = item.symbol;
@@ -218,7 +228,7 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
             notCrypto: false,
           });
         }
-        
+
         _updateSortedList();
       };
 
