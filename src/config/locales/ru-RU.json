@@ -97,6 +97,9 @@
     "engine_title": "Токены Hive Engine",
     "engine_claim_btn": "Получить награду ({count})",
     "engine_select_assets": "Выбрать актив",
+    "available_assets": "Available Assets",
+    "selected_assets": "Selected Assets",
+    "no_selected_assets": "Add from available",
     "manage_assets": "Добавить / Удалить активы",
     "ecency": {
       "title": "Баллы",
