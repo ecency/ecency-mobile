@@ -26,7 +26,7 @@ const QUERIES = {
   },
   LEADERBOARD: {
     GET: 'QUERY_GET_LEADERBOARD',
-  }
+  },
 };
 
 export default QUERIES;
