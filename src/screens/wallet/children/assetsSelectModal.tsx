@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { Alert, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import { get, isArray } from 'lodash';
@@ -35,8 +35,9 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
   const pinCode = useAppSelector((state) => state.application.pin);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
+  const selectionRef = useRef<CoinBase[]>([]);
+
   const [visible, setVisible] = useState(false);
-  const [selection, setSelection] = useState<CoinBase[]>([]);
   const [listData, setListData] = useState<CoinData[]>([]);
   const [sortedList, setSortedList] = useState([]);
   const [query, setQuery] = useState('');
@@ -46,12 +47,13 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
     showModal: () => {
       setVisible(true);
       setQuery('');
-      setSelection(selectedCoins.filter((item) => (item.isEngine && !!coinsData[item.symbol])));
+      selectionRef.current = selectedCoins.filter((item) => (item.isEngine && !!coinsData[item.symbol]));
+      _updateSortedList();
     },
   }));
 
   useEffect(() => {
-    let data: CoinData[] = [];
+    const data: CoinData[] = [];
 
     for (const key in coinsData) {
       if (coinsData.hasOwnProperty(key) && coinsData[key].isEngine) {
@@ -65,28 +67,32 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
       }
     }
 
-    setListData(data);
+    setListData(data)
+    _updateSortedList({data})
   }, [query, coinsData]);
 
-  useEffect(()=>{
-    const _data = listData.sort((a, b) => {
-      const _getSortingIndex = (e) => selection.findIndex((item) => item.symbol === e.symbol);
+
+  const _updateSortedList = ({ data } = { data: listData }) => {
+    const _data = data.sort((a, b) => {
+      const _getSortingIndex = (e) => selectionRef.current.findIndex((item) => item.symbol === e.symbol);
       const _aIndex = _getSortingIndex(a);
       const _bIndex = _getSortingIndex(b);
 
-      if(_aIndex > -1 && _bIndex > -1){
+      if (_aIndex > -1 && _bIndex > -1) {
         return _aIndex - _bIndex
-      } if(_aIndex > -1 && _bIndex < 0){
+      } if (_aIndex > -1 && _bIndex < 0) {
         return -1;
-      } else if(_aIndex < 0 && _bIndex > -1){
+      } else if (_aIndex < 0 && _bIndex > -1) {
         return 1;
-      } 
-      
+      }
+
       return 0;
     });
 
-    setSortedList([..._data]);
-  },[listData, selection])
+ 
+    setSortedList([..._data])
+  }
+
 
   // migration snippet
   useEffect(() => {
@@ -113,7 +119,7 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
   const _updateUserProfile = async (assetsData?: ProfileToken[]) => {
     try {
       if (!assetsData?.length) {
-        assetsData = selection.map((item) => ({
+        assetsData = selectionRef.current.map((item) => ({
           symbol: item.symbol,
           type: TokenType.ENGINE,
         })); // TODO: later handle SPK assets as well
@@ -140,13 +146,13 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
   };
 
   const _onApply = () => {
-    dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...selection]));
+    dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...selectionRef.current]));
     setVisible(false);
     _updateUserProfile(); // update the user profile with updated tokens data
   };
 
-  const _onDragEnd = ({data, from, to}) => {
-    const totalSel = selection.length;
+  const _onDragEnd = ({ data, from, to }) => {
+    const totalSel = selectionRef.current.length;
     const item = sortedList[from];
 
     const _obj = {
@@ -155,42 +161,42 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
       isEngine: true,
       notCrypto: false,
     }
-    console.log("change order", item.symbol, from, to, 'total:',totalSel)
+    console.log("change order", item.symbol, from, to, 'total:', totalSel)
 
-    if(from >= totalSel && to <= totalSel){
+    if (from >= totalSel && to <= totalSel) {
       //insert in set at to
-      selection.splice(to, 0, _obj)
+      selectionRef.current.splice(to, 0, _obj)
     } else if (from < totalSel && to >= totalSel) {
       //remove from sel
-      selection.splice(from, 1);
-    } else if (from < totalSel && to < totalSel){
+      selectionRef.current.splice(from, 1);
+    } else if (from < totalSel && to < totalSel) {
       //order change from to
-      selection.splice(from, 1);
-      selection.splice(to, 0, _obj);
+      selectionRef.current.splice(from, 1);
+      selectionRef.current.splice(to, 0, _obj);
     }
 
     setSortedList(data);
-    setSelection(selection)
   }
 
   const _renderOptions = () => {
     const _renderItem = ({ item, drag }) => {
       const key = item.symbol;
-      const index = selection.findIndex((selected) => selected.symbol === item.symbol);
+      const index = selectionRef.current.findIndex((selected) => selected.symbol === item.symbol);
       const isSelected = index >= 0;
 
       const _onPress = () => {
         if (isSelected) {
-          selection.splice(index, 1);
+          selectionRef.current.splice(index, 1);
         } else {
-          selection.push({
+          selectionRef.current.push({
             id: key,
             symbol: key,
             isEngine: true,
             notCrypto: false,
           });
         }
-        setSelection([...selection]);
+        
+        _updateSortedList();
       };
 
       return (
