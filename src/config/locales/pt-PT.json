@@ -97,6 +97,9 @@
     "engine_title": "Tokens da Hive Engine",
     "engine_claim_btn": "Reivindicar Recompensas ({count})",
     "engine_select_assets": "Selecionar Ativos",
+    "available_assets": "Available Assets",
+    "selected_assets": "Selected Assets",
+    "no_selected_assets": "Add from available",
     "manage_assets": "Adicionar / Remover Ativos",
     "ecency": {
       "title": "Pontos",
