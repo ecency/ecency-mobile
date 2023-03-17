@@ -97,6 +97,9 @@
     "engine_title": "Hive Engine Merkit",
     "engine_claim_btn": "Lunasta palkkiot ({count})",
     "engine_select_assets": "Valitse Varat",
+    "available_assets": "Available Assets",
+    "selected_assets": "Selected Assets",
+    "no_selected_assets": "Add from available",
     "manage_assets": "Lisää / Poista Varoja",
     "ecency": {
       "title": "Pisteet",
