@@ -97,6 +97,9 @@
     "engine_title": "Motor de Tokens de Hive",
     "engine_claim_btn": "Reclamar recompensas ({count})",
     "engine_select_assets": "Seleccionar Activos",
+    "available_assets": "Available Assets",
+    "selected_assets": "Selected Assets",
+    "no_selected_assets": "Add from available",
     "manage_assets": "Agregar / Quitar Activos",
     "ecency": {
       "title": "Puntos",
