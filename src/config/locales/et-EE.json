@@ -97,6 +97,9 @@
     "engine_title": "Hive Engine Tokens",
     "engine_claim_btn": "Claim Rewards ({count})",
     "engine_select_assets": "Select Assets",
+    "available_assets": "Available Assets",
+    "selected_assets": "Selected Assets",
+    "no_selected_assets": "Add from available",
     "manage_assets": "Add / Remove Assets",
     "ecency": {
       "title": "Punktid",
