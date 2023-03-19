@@ -58,6 +58,7 @@ const WebBrowser = ({ navigation, route }: Props) => {
         backIconName="close"
         rightIconName="share"
         iconType="MaterialIcons"
+        rightIconBtnStyle={styles.rightIconContainer}
         handleRightIconPress={_handleRightIconPress}
         handleBrowserIconPress={_handleBrowserIconPress}
         isHasBrowserIcon

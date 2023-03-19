@@ -50,14 +50,6 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
-  webBrowserIconStyle: {
-    marginHorizontal: 4,
-  },
-  browserIcon: {
-    color: '$iconColor',
-    justifyContent: 'center',
-    alignSelf: 'center',
-  },
   iconButton: {
     marginRight: 24,
     marginLeft: NativeModules.I18nManager.isRTL ? 24 : 0,

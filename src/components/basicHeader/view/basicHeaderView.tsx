@@ -144,16 +144,7 @@ const BasicHeaderView = ({
               )}
             </View>
           )}
-          {isHasBrowserIcon && !isHasSearch && (
-            <IconButton
-              size={30}
-              onPress={() => handleBrowserIconPress()}
-              iconStyle={[styles.browserIcon, rightIconStyle]}
-              style={[styles.webBrowserIconStyle, rightIconBtnStyle]}
-              name={'open-in-browser'}
-              iconType={'MaterialIcons'}
-            />
-          )}
+  
           {rightIconName && !isHasSearch && (
             <IconButton
               size={25}
@@ -197,6 +188,17 @@ const BasicHeaderView = ({
               name={isInputVisible ? 'close' : 'search'}
             />
           )}
+
+          {isHasBrowserIcon && !isHasSearch && (
+            <IconButton
+              size={28}
+              onPress={() => handleBrowserIconPress()}
+              iconStyle={styles.rightIcon}
+              name={'open-in-browser'}
+              iconType={'MaterialIcons'}
+            />
+          )}
+
         </View>
 
         {isHasIcons && (
