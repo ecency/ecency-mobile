@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Alert, ActivityIndicator, Share, View } from 'react-native';
+import { Alert, ActivityIndicator, Share, View, Linking } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -43,6 +43,10 @@ const WebBrowser = ({ navigation, route }: Props) => {
     });
   };
 
+  const _handleBrowserIconPress = () => {
+    Linking.openURL(url);
+  };
+
   const _onError = () => {
     Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
   };
@@ -55,6 +59,8 @@ const WebBrowser = ({ navigation, route }: Props) => {
         rightIconName="share"
         iconType="MaterialIcons"
         handleRightIconPress={_handleRightIconPress}
+        handleBrowserIconPress={_handleBrowserIconPress}
+        isHasBrowserIcon
       />
 
       <View style={styles.container}>

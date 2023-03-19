@@ -22,6 +22,7 @@ const BasicHeaderView = ({
   handleOnPressPreviewButton,
   handleOnSaveButtonPress,
   handleRightIconPress,
+  handleBrowserIconPress,
   handleViewModeToggle,
   intl,
   isDraftSaved,
@@ -37,6 +38,7 @@ const BasicHeaderView = ({
   quickTitle,
   rightButtonText,
   rightIconName,
+  isHasBrowserIcon,
   iconType,
   rightIconBtnStyle,
   rightIconStyle,
@@ -142,7 +144,16 @@ const BasicHeaderView = ({
               )}
             </View>
           )}
-
+          {isHasBrowserIcon && !isHasSearch && (
+            <IconButton
+              size={30}
+              onPress={() => handleBrowserIconPress()}
+              iconStyle={[styles.browserIcon, rightIconStyle]}
+              style={[styles.webBrowserIconStyle, rightIconBtnStyle]}
+              name={'open-in-browser'}
+              iconType={'MaterialIcons'}
+            />
+          )}
           {rightIconName && !isHasSearch && (
             <IconButton
               size={25}
