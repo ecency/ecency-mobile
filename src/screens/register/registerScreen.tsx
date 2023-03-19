@@ -102,10 +102,33 @@ const RegisterScreen = ({ navigation, route }) => {
     setEmail(value);
   };
 
+  const _isValidUsername = (value) => {
+    if (!value || value.length <= 2 || value.length >= 16) {
+      return false;
+    } else {
+      return value.split('.').some((item) => {
+        if (item.length < 3) {
+          return false;
+        } else if (!/^[\x00-\x7F]*$/.test(item[0])) {
+          return false;
+        } else if (!/^([a-zA-Z0-9]|-|\.)+$/.test(item)) {
+          return false;
+        } else if (item.includes('--')) {
+          return false;
+        } else if (item.includes('_')) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+    }
+  };
+
   const _handleUsernameChange = ({ value }) => {
     value = value.toLowerCase();
     setUsername(value);
-    if (!value || value.length <= 2 || value.length >= 16) {
+
+    if (!_isValidUsername(value)) {
       setIsUsernameValid(false);
       return;
     }
