@@ -3,6 +3,9 @@ import { Alert, Text, TouchableWithoutFeedback, View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 import { useIntl } from 'react-intl';
 import { get, isArray } from 'lodash';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import DraggableFlatList, { ScaleDecorator } from 'react-native-draggable-flatlist';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import styles from '../styles/tokensSelectModa.styles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { CheckBox, Icon, MainButton, SearchInput } from '../../../components';
@@ -12,11 +15,6 @@ import { setSelectedCoins } from '../../../redux/actions/walletActions';
 import { AssetIcon } from '../../../components/atoms';
 import { profileUpdate } from '../../../providers/hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import DraggableFlatList, {
-  ScaleDecorator,
-} from "react-native-draggable-flatlist";
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 enum TokenType {
   ENGINE = 'ENGINE',
@@ -47,11 +45,12 @@ const AssetsSelect = ({ navigation }) => {
   const [sortedList, setSortedList] = useState([]);
   const [query, setQuery] = useState('');
 
-
   useEffect(() => {
-    selectionRef.current = selectedCoins.filter((item) => (item.isEngine && !!coinsData[item.symbol]));
+    selectionRef.current = selectedCoins.filter(
+      (item) => item.isEngine && !!coinsData[item.symbol],
+    );
     _updateSortedList();
-  }, [])
+  }, []);
 
   useEffect(() => {
     const data: CoinData[] = [];
@@ -63,7 +62,8 @@ const AssetsSelect = ({ navigation }) => {
         const _symbol = asset.symbol.toLowerCase();
         const _query = query.toLowerCase();
 
-        const _isSelected = selectionRef.current.findIndex(item => item.symbol === asset.symbol) > -1
+        const _isSelected =
+          selectionRef.current.findIndex((item) => item.symbol === asset.symbol) > -1;
 
         if (query === '' || _isSelected || _symbol.includes(_query) || _name.includes(_query)) {
           data.push(asset);
@@ -71,21 +71,22 @@ const AssetsSelect = ({ navigation }) => {
       }
     }
 
-    setListData(data)
-    _updateSortedList({ data })
+    setListData(data);
+    _updateSortedList({ data });
   }, [query, coinsData]);
-
 
   const _updateSortedList = ({ data } = { data: listData }) => {
     const _data = [...data];
     _data.sort((a, b) => {
-      const _getSortingIndex = (e) => selectionRef.current.findIndex((item) => item.symbol === e.symbol);
+      const _getSortingIndex = (e) =>
+        selectionRef.current.findIndex((item) => item.symbol === e.symbol);
       const _aIndex = _getSortingIndex(a);
       const _bIndex = _getSortingIndex(b);
 
       if (_aIndex > -1 && _bIndex > -1) {
-        return _aIndex - _bIndex
-      } if (_aIndex > -1 && _bIndex < 0) {
+        return _aIndex - _bIndex;
+      }
+      if (_aIndex > -1 && _bIndex < 0) {
         return -1;
       } else if (_aIndex < 0 && _bIndex > -1) {
         return 1;
@@ -94,11 +95,10 @@ const AssetsSelect = ({ navigation }) => {
       return 0;
     });
 
-    _data.splice(selectionRef.current.length, 0, { isSectionSeparator: true })
+    _data.splice(selectionRef.current.length, 0, { isSectionSeparator: true });
 
-    setSortedList(_data)
-  }
-
+    setSortedList(_data);
+  };
 
   // migration snippet
   useEffect(() => {
@@ -110,9 +110,9 @@ const AssetsSelect = ({ navigation }) => {
       const _mapSymbolsToProfileToken = (symbols, type) =>
         isArray(symbols)
           ? symbols.map((symbol) => ({
-            symbol,
-            type,
-          }))
+              symbol,
+              type,
+            }))
           : [];
 
       _updateUserProfile([
@@ -153,12 +153,12 @@ const AssetsSelect = ({ navigation }) => {
 
   const _navigationGoBack = () => {
     navigation.goBack();
-  }
+  };
 
   const _onApply = () => {
     dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...selectionRef.current]));
     _updateUserProfile(); // update the user profile with updated tokens data
-    _navigationGoBack()
+    _navigationGoBack();
   };
 
   const _onDragEnd = ({ data, from, to }) => {
@@ -170,49 +170,45 @@ const AssetsSelect = ({ navigation }) => {
       symbol: item.symbol,
       isEngine: true,
       notCrypto: false,
-    }
-    console.log("change order", item.symbol, from, to, 'total:', totalSel)
+    };
+    console.log('change order', item.symbol, from, to, 'total:', totalSel);
 
     if (from >= totalSel && to <= totalSel) {
-      //insert in set at to
-      selectionRef.current.splice(to, 0, _obj)
+      // insert in set at to
+      selectionRef.current.splice(to, 0, _obj);
     } else if (from < totalSel && to >= totalSel) {
-      //remove from sel
+      // remove from sel
       selectionRef.current.splice(from, 1);
     } else if (from < totalSel && to < totalSel) {
-      //order change from to
+      // order change from to
       selectionRef.current.splice(from, 1);
       selectionRef.current.splice(to, 0, _obj);
     }
 
     setSortedList(data);
-  }
+  };
 
   const _renderSectionSeparator = (text: string, subText?: string) => {
     return (
       <>
-        <Text style={styles.sectionTextStyle}>
-          {text}
-        </Text>
+        <Text style={styles.sectionTextStyle}>{text}</Text>
         {!!subText && (
           <Animated.Text entering={ZoomIn} style={styles.sectionSubTextStyle}>
             {subText}
           </Animated.Text>
         )}
       </>
+    );
+  };
 
-    )
-  }
-
-
-  const _renderHeader = () => _renderSectionSeparator(
-    intl.formatMessage({ id: 'wallet.selected_assets' }),
-    selectionRef.current.length ? '' : intl.formatMessage({ id: 'wallet.no_selected_assets' }))
-
+  const _renderHeader = () =>
+    _renderSectionSeparator(
+      intl.formatMessage({ id: 'wallet.selected_assets' }),
+      selectionRef.current.length ? '' : intl.formatMessage({ id: 'wallet.no_selected_assets' }),
+    );
 
   const _renderOptions = () => {
     const _renderItem = ({ item, drag }) => {
-
       if (item.isSectionSeparator) {
         return _renderSectionSeparator(intl.formatMessage({ id: 'wallet.available_assets' }));
       }
@@ -250,11 +246,11 @@ const AssetsSelect = ({ navigation }) => {
               />
               <Text style={styles.informationText}>{key}</Text>
             </View>
-            <TouchableWithoutFeedback onPressIn={drag} style={styles.dragBtnContainer} >
+            <TouchableWithoutFeedback onPressIn={drag} style={styles.dragBtnContainer}>
               <Icon
                 iconType="MaterialCommunityIcons"
-                name='drag-horizontal-variant'
-                color={EStyleSheet.value("$iconColor")}
+                name="drag-horizontal-variant"
+                color={EStyleSheet.value('$iconColor')}
                 size={24}
               />
             </TouchableWithoutFeedback>
@@ -279,7 +275,6 @@ const AssetsSelect = ({ navigation }) => {
   const _renderContent = () => {
     return (
       <View style={styles.modalContainer}>
-
         {_renderOptions()}
 
         <View style={styles.actionPanel}>
@@ -294,7 +289,6 @@ const AssetsSelect = ({ navigation }) => {
     );
   };
 
-  
   return (
     <View style={styles.modalStyle}>
       <SearchInput
@@ -312,4 +306,4 @@ const AssetsSelect = ({ navigation }) => {
   );
 };
 
-export default gestureHandlerRootHOC(AssetsSelect)
+export default gestureHandlerRootHOC(AssetsSelect);

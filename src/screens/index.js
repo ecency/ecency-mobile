@@ -65,5 +65,5 @@ export {
   AssetDetails,
   EditHistoryScreen,
   WelcomeScreen,
-  AssetsSelect
+  AssetsSelect,
 };
