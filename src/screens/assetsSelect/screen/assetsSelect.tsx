@@ -1,11 +1,11 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Text, TouchableWithoutFeedback, View } from 'react-native';
-import Animated, {ZoomIn, ZoomOut} from 'react-native-reanimated';
+import Animated, { ZoomIn } from 'react-native-reanimated';
 import { useIntl } from 'react-intl';
 import { get, isArray } from 'lodash';
 import styles from '../styles/tokensSelectModa.styles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { CheckBox, Icon, Modal, SearchInput, TextButton } from '../../../components';
+import { CheckBox, Icon, MainButton, SearchInput } from '../../../components';
 import { CoinBase, CoinData } from '../../../redux/reducers/walletReducer';
 import DEFAULT_ASSETS from '../../../constants/defaultAssets';
 import { setSelectedCoins } from '../../../redux/actions/walletActions';
@@ -16,6 +16,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import DraggableFlatList, {
   ScaleDecorator,
 } from "react-native-draggable-flatlist";
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 enum TokenType {
   ENGINE = 'ENGINE',
@@ -27,7 +28,11 @@ interface ProfileToken {
   type: TokenType;
 }
 
-export const AssetsSelectModal = forwardRef(({ }, ref) => {
+/**
+ *  NOTE: using AssetsSelectModal as part of native-stack with modal presentation is important
+ *  as GestureResponder do not work as expected when used inside regular Modal on android
+ *  */
+const AssetsSelect = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
 
@@ -38,20 +43,15 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
 
   const selectionRef = useRef<CoinBase[]>([]);
 
-  const [visible, setVisible] = useState(false);
   const [listData, setListData] = useState<CoinData[]>([]);
   const [sortedList, setSortedList] = useState([]);
   const [query, setQuery] = useState('');
 
 
-  useImperativeHandle(ref, () => ({
-    showModal: () => {
-      setVisible(true);
-      setQuery('');
-      selectionRef.current = selectedCoins.filter((item) => (item.isEngine && !!coinsData[item.symbol]));
-      _updateSortedList();
-    },
-  }));
+  useEffect(() => {
+    selectionRef.current = selectedCoins.filter((item) => (item.isEngine && !!coinsData[item.symbol]));
+    _updateSortedList();
+  }, [])
 
   useEffect(() => {
     const data: CoinData[] = [];
@@ -151,10 +151,14 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
     }
   };
 
+  const _navigationGoBack = () => {
+    navigation.goBack();
+  }
+
   const _onApply = () => {
     dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...selectionRef.current]));
-    setVisible(false);
     _updateUserProfile(); // update the user profile with updated tokens data
+    _navigationGoBack()
   };
 
   const _onDragEnd = ({ data, from, to }) => {
@@ -202,15 +206,15 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
 
 
   const _renderHeader = () => _renderSectionSeparator(
-    intl.formatMessage({id:'wallet.selected_assets'}), 
-    selectionRef.current.length ? '' : intl.formatMessage({id:'wallet.no_selected_assets'}))
+    intl.formatMessage({ id: 'wallet.selected_assets' }),
+    selectionRef.current.length ? '' : intl.formatMessage({ id: 'wallet.no_selected_assets' }))
 
 
   const _renderOptions = () => {
     const _renderItem = ({ item, drag }) => {
 
       if (item.isSectionSeparator) {
-        return _renderSectionSeparator(intl.formatMessage({id:'wallet.available_assets'}));
+        return _renderSectionSeparator(intl.formatMessage({ id: 'wallet.available_assets' }));
       }
 
       const key = item.symbol;
@@ -246,7 +250,7 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
               />
               <Text style={styles.informationText}>{key}</Text>
             </View>
-            <TouchableWithoutFeedback onPressIn={drag} >
+            <TouchableWithoutFeedback onPressIn={drag} style={styles.dragBtnContainer} >
               <Icon
                 iconType="MaterialCommunityIcons"
                 name='drag-horizontal-variant'
@@ -275,17 +279,11 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
   const _renderContent = () => {
     return (
       <View style={styles.modalContainer}>
-        <SearchInput
-          onChangeText={setQuery}
-          placeholder={intl.formatMessage({ id: 'header.search' })}
-          autoFocus={false}
-          backEnabled={false}
-        />
 
         {_renderOptions()}
 
         <View style={styles.actionPanel}>
-          <TextButton
+          <MainButton
             text={intl.formatMessage({ id: 'alert.confirm' })}
             onPress={_onApply}
             textStyle={styles.btnText}
@@ -296,18 +294,22 @@ export const AssetsSelectModal = forwardRef(({ }, ref) => {
     );
   };
 
+  
   return (
-    <Modal
-      isOpen={visible}
-      handleOnModalClose={() => setVisible(false)}
-      isFullScreen
-      isCloseButton
-      presentationStyle="formSheet"
-      title={intl.formatMessage({ id: 'wallet.engine_select_assets' })}
-      animationType="slide"
-      style={styles.modalStyle}
-    >
+    <View style={styles.modalStyle}>
+      <SearchInput
+        showClearButton={true}
+        placeholder={intl.formatMessage({ id: 'header.search' })}
+        onChangeText={setQuery}
+        value={query}
+        backEnabled={true}
+        backIconName="close"
+        autoFocus={false}
+        onBackPress={_navigationGoBack}
+      />
       {_renderContent()}
-    </Modal>
+    </View>
   );
-});
+};
+
+export default gestureHandlerRootHOC(AssetsSelect)

@@ -30,6 +30,7 @@ import ReferScreen from './referScreen/referScreen';
 import AssetDetails from './assetDetails';
 import EditHistoryScreen from './editHistoryScreen/editHistoryScreen';
 import WelcomeScreen from './welcome';
+import AssetsSelect from './assetsSelect';
 
 export {
   Bookmarks,
@@ -64,4 +65,5 @@ export {
   AssetDetails,
   EditHistoryScreen,
   WelcomeScreen,
+  AssetsSelect
 };

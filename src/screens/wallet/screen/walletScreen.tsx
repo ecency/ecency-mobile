@@ -17,7 +17,7 @@ import globalStyles from '../../../globalStyles';
 import styles from './walletScreenStyles';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { AssetCard, AssetsSelectModal, ManageAssetsBtn } from '../children';
+import { AssetCard, ManageAssetsBtn } from '../children';
 import { fetchMarketChart, INTERVAL_HOURLY } from '../../../providers/coingecko/coingecko';
 import ROUTES from '../../../constants/routeNames';
 import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetailsScreen';
@@ -41,7 +41,6 @@ const WalletScreen = ({ navigation }) => {
 
   //refs
   const appState = useRef(AppState.currentState);
-  const assetsSelectRef = useRef<any>(null);
 
   //redux
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
@@ -166,10 +165,9 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _showAssetsSelectModal = () => {
-    if (assetsSelectRef.current) {
-      assetsSelectRef.current.showModal();
-    }
+    navigation.navigate(ROUTES.MODALS.ASSETS_SELECT)
   };
+
 
   const _renderItem = ({ item, index }: { item: CoinBase; index: number }) => {
     const coinData: CoinData = coinsData[item.id];
@@ -291,7 +289,6 @@ const WalletScreen = ({ navigation }) => {
                 keyExtractor={(item, index) => index.toString()}
                 refreshControl={_refreshControl}
               />
-              <AssetsSelectModal ref={assetsSelectRef} />
             </View>
           )}
         </LoggedInContainer>

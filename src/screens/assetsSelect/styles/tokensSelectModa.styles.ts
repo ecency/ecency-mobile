@@ -40,6 +40,7 @@ export default EStyleSheet.create({
     paddingHorizontal: 24,
     alignItems: 'center',
     justifyContent: 'space-between',
+ 
   } as ViewStyle,
 
   sectionTextStyle : {
@@ -58,6 +59,10 @@ export default EStyleSheet.create({
     alignSelf:'center'
 
   } as TextStyle,
+
+  dragBtnContainer:{
+    padding:8
+  } as ViewStyle,
 
   title: {
     color: '$primaryBlack',

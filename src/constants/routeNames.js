@@ -38,6 +38,9 @@ const ROUTES = {
     EDIT_HISTORY: `EditHistory${SCREEN_SUFFIX}`,
     WELCOME: `Welcome${SCREEN_SUFFIX}`,
   },
+  MODALS: {
+    ASSETS_SELECT: `AssetsSelect${MODAL_SUFFIX}`,
+  },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,
   },
@@ -51,6 +54,7 @@ const ROUTES = {
   STACK: {
     MAIN: `Main${STACK_SUFFIX}`,
   },
+
 };
 
 export default ROUTES;
