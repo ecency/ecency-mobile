@@ -28,6 +28,7 @@ const SearchInputView = ({
   style,
   backEnabled = false,
   onBackPress,
+  backIconName,
 }) => {
   const [inputValue, setInputValue] = useState(value || '');
 
@@ -63,7 +64,7 @@ const SearchInputView = ({
         <View style={styles.backButtonContainer}>
           <IconButton
             iconType="MaterialIcons"
-            name="arrow-back"
+            name={backIconName || 'arrow-back'}
             iconStyle={styles.backIcon}
             onPress={onBackPress}
           />
