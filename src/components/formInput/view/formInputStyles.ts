@@ -28,4 +28,15 @@ export default EStyleSheet.create({
     left: 8,
     color: '$iconColor',
   },
+  infoIconContainer: {
+    right: 0,
+    flex: 0.15,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  infoIcon: {
+    fontSize: 25,
+    color: 'red',
+  },
 });

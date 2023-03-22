@@ -12,6 +12,7 @@ import { getResizedAvatar } from '../../../utils/image';
 
 // Styles
 import styles from './formInputStyles';
+import { PopoverWrapper } from '../..';
 
 interface Props extends TextInputProps {
   type: string;
@@ -24,6 +25,8 @@ interface Props extends TextInputProps {
   height: number;
   inputStyle: TextStyle;
   isValid: boolean;
+  rightInfoIcon?: boolean;
+  errorInfo?: string;
   onChange?: (value: string) => void;
   onFocus?: () => void;
   onBlur?: () => void;
@@ -44,6 +47,8 @@ const FormInputView = ({
   onChange,
   isValid,
   value,
+  rightInfoIcon,
+  errorInfo,
   onBlur,
   onFocus,
   ...props
@@ -105,7 +110,7 @@ const FormInputView = ({
       ]}
     >
       {isFirstImage && value && value.length > 2 ? (
-        <View style={{ flex: 0.2 }}>
+        <View style={{ flex: 0.15 }}>
           <FastImage
             style={styles.firstImage}
             source={{
@@ -143,8 +148,13 @@ const FormInputView = ({
           )}
         </ThemeContainer>
       </View>
-
-      {value && value.length > 0 ? (
+      {rightInfoIcon && !isValid ? (
+        <View style={styles.infoIconContainer}>
+          <PopoverWrapper text={errorInfo}>
+            <Icon iconType={'MaterialIcons'} name={'info'} style={styles.infoIcon} />
+          </PopoverWrapper>
+        </View>
+      ) : value && value.length > 0 ? (
         <Icon
           iconType={iconType || 'MaterialIcons'}
           onPress={() => setValue('')}
