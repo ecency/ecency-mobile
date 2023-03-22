@@ -40,9 +40,9 @@ const RegisterScreen = ({ navigation, route }) => {
 
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
   const [username, setUsername] = useState(route.params?.username ?? '');
-  const [isUsernameValid, setIsUsernameValid] = useState(false);
+  const [isUsernameValid, setIsUsernameValid] = useState(true);
   const [email, setEmail] = useState(route.params?.email ?? '');
-  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(true);
   const [refUsername, setRefUsername] = useState(route.params?.referredUser ?? '');
   const [isRefUsernameValid, setIsRefUsernameValid] = useState(true);
 
@@ -262,7 +262,9 @@ const RegisterScreen = ({ navigation, route }) => {
             iconColor="white"
             iconPosition="right"
             text={intl.formatMessage({ id: 'alert.continue' })}
-            isDisable={!isUsernameValid || !isRefUsernameValid || !isEmailValid}
+            isDisable={
+              !isUsernameValid || !isRefUsernameValid || !isEmailValid || !username || !email
+            }
             style={styles.mainButton}
           />
         </View>
