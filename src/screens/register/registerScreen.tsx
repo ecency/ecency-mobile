@@ -46,6 +46,7 @@ const RegisterScreen = ({ navigation, route }) => {
   const [refUsername, setRefUsername] = useState(route.params?.referredUser ?? '');
   const [isRefUsernameValid, setIsRefUsernameValid] = useState(true);
   const [isUserExist, setIsUserExist] = useState(false);
+  const [usernameError, setUsernameError] = useState('');
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
@@ -105,18 +106,32 @@ const RegisterScreen = ({ navigation, route }) => {
 
   const _isValidUsername = (value) => {
     if (!value || value.length <= 2 || value.length >= 16) {
+      setUsernameError(intl.formatMessage({ id: 'register.validation.username_length_error' }));
       return false;
     } else {
       return value.split('.').some((item) => {
         if (item.length < 3) {
+          setUsernameError(intl.formatMessage({ id: 'register.validation.username_length_error' }));
           return false;
         } else if (!/^[\x00-\x7F]*$/.test(item[0])) {
+          setUsernameError(
+            intl.formatMessage({ id: 'register.validation.username_no_ascii_first_letter_error' }),
+          );
           return false;
         } else if (!/^([a-zA-Z0-9]|-|\.)+$/.test(item)) {
+          setUsernameError(
+            intl.formatMessage({ id: 'register.validation.username_contains_symbols_error' }),
+          );
           return false;
         } else if (item.includes('--')) {
+          setUsernameError(
+            intl.formatMessage({ id: 'register.validation.username_contains_double_hyphens' }),
+          );
           return false;
         } else if (item.includes('_')) {
+          setUsernameError(
+            intl.formatMessage({ id: 'register.validation.username_contains_underscore' }),
+          );
           return false;
         } else {
           return true;
@@ -137,6 +152,9 @@ const RegisterScreen = ({ navigation, route }) => {
     _getAccountsWithUsername(value).then((res) => {
       const isValid = !res.includes(value);
       const userExists = res.includes(value);
+      if (userExists) {
+        setUsernameError(intl.formatMessage({ id: 'register.validation.username_exists' }));
+      }
       setIsUserExist(userExists);
       setIsUsernameValid(isValid);
     });
@@ -206,6 +224,8 @@ const RegisterScreen = ({ navigation, route }) => {
               id: 'register.username',
             })}
             isEditable
+            rightInfoIcon
+            errorInfo={usernameError}
             type="username"
             isFirstImage={isUserExist ? true : false}
             value={username}

@@ -25,6 +25,7 @@ export default EStyleSheet.create({
   },
   input: {
     color: '$primaryDarkText',
+    flex:1,
   },
   header: {
     flexDirection: 'row',
