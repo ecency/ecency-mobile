@@ -34,6 +34,7 @@ import {
 } from '../providers/hive-engine/hiveEngine';
 import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
 import { ClaimsCollection } from '../redux/reducers/cacheReducer';
+import { fetchSpkWallet } from '../providers/hive-spk/hiveSpk';
 
 export const transferTypes = [
   'curation_reward',
@@ -67,12 +68,12 @@ const HIVE_ACTIONS = [
 const HBD_ACTIONS = ['transfer_token', 'transfer_to_savings', 'convert', 'withdraw_hbd'];
 const HIVE_POWER_ACTIONS = ['delegate', 'power_down'];
 
-export const groomingTransactionData = (transaction, hivePerMVests):CoinActivity|null => {
+export const groomingTransactionData = (transaction, hivePerMVests): CoinActivity | null => {
   if (!transaction || !hivePerMVests) {
     return null;
   }
 
-  const result:CoinActivity = {
+  const result: CoinActivity = {
     iconType: 'MaterialIcons',
     trxIndex: transaction[0],
   };
@@ -460,13 +461,13 @@ export const fetchCoinActivities = async (
 
   const activities = transfers.map((item) => groomingTransactionData(item, globalProps.hivePerMVests));
   const filterdActivities: CoinActivity[] = activities ? activities.filter((item) => {
-      return item && item.value && item.value.includes(coinSymbol);
-    }) : []
+    return item && item.value && item.value.includes(coinSymbol);
+  }) : []
 
   console.log('FILTERED comap', activities.length, filterdActivities.length);
 
   //TODO: process pending requests as separate query //const pendingRequests = await fetchPendingRequests(username, coinSymbol);
-  return filterdActivities 
+  return filterdActivities
 };
 
 
@@ -539,6 +540,49 @@ const fetchEngineTokensData = async (username: string, hivePrice: number, vsCurr
 }
 
 
+
+const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurrency: string, claimsCache: ClaimsCollection) => {
+  const spkWalletData: { [key: string]: CoinData } = {};
+
+  try {
+    const spkWallet = await fetchSpkWallet(username);
+
+    if (spkWallet.spk) {
+      const _symbol = 'SPK'
+      spkWalletData[_symbol] = {
+        name: "SPK Network",
+        symbol:_symbol,
+        balance: spkWallet.spk / 1000,
+        estimateValue: 123,//balance * ppEstm, //TODO: calculare real estimate value
+        vsCurrency: vsCurrency,
+        currentPrice: hivePrice, //TODO: add real value
+        isSpk: true
+      }
+    }
+
+    const _available = spkWallet.drop?.availible
+    if (_available) {
+      spkWalletData[_available.token] = {
+        name: _available.token,
+        symbol: _available.token,
+        balance: _available.amount / 1000,
+        precision: _available.precision,
+        estimateValue: 123,//balance * ppEstm, //TODO: calculare real estimate value
+        vsCurrency: vsCurrency,
+        currentPrice: hivePrice,  //TODO: add real value
+        isSpk: true
+      }
+    }
+
+
+  } catch (err) {
+    console.warn("Failed to get spk data", err);
+  }
+
+  return spkWalletData
+}
+
+
 const _processCachedData = (assetId: string, balance: number = 0, unclaimedBalance: number, claimsCache: ClaimsCollection) => {
 
   const rewardHpStrToToken = (rewardStr: string) => {
@@ -562,15 +606,15 @@ const _processCachedData = (assetId: string, balance: number = 0, unclaimedBalan
       case ASSET_IDS.HIVE:
       case ASSET_IDS.HP:
         _claim = claimsCache[ASSET_IDS.HP];
-        if(_claim){
+        if (_claim) {
           rewardClaimed = rewardHpStrToToken(_claim.rewardValue);
         }
         break;
       default:
-        if(_claim){
+        if (_claim) {
           rewardClaimed = parseToken(_claim.rewardValue);
         }
-        
+
         break;
     }
 
@@ -791,7 +835,8 @@ export const fetchCoinsData = async ({
 
 
   const engineCoinsData = await fetchEngineTokensData(username, _prices.hive.price, vsCurrency, claimsCache);
-  coinData = { ...coinData, ...engineCoinsData };
+  const spkWalletData = await _fetchSpkWalletData(username, _prices.hive.price, vsCurrency, claimsCache);
+  coinData = { ...coinData, ...engineCoinsData, ...spkWalletData };
 
 
   //TODO:discard unnessacry data processings towards the end of PR
