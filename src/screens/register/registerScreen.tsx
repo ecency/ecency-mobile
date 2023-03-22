@@ -45,6 +45,7 @@ const RegisterScreen = ({ navigation, route }) => {
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [refUsername, setRefUsername] = useState(route.params?.referredUser ?? '');
   const [isRefUsernameValid, setIsRefUsernameValid] = useState(true);
+  const [isUserExist, setIsUserExist] = useState(false);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
@@ -135,6 +136,8 @@ const RegisterScreen = ({ navigation, route }) => {
 
     _getAccountsWithUsername(value).then((res) => {
       const isValid = !res.includes(value);
+      const userExists = res.includes(value);
+      setIsUserExist(userExists);
       setIsUsernameValid(isValid);
     });
   };
@@ -204,7 +207,7 @@ const RegisterScreen = ({ navigation, route }) => {
             })}
             isEditable
             type="username"
-            isFirstImage
+            isFirstImage={isUserExist ? true : false}
             value={username}
             inputStyle={styles.input}
             onFocus={() => setKeyboardIsOpen(true)}
