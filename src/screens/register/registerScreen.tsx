@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   View,
   StatusBar,
@@ -13,7 +13,7 @@ import {
 import { useIntl } from 'react-intl';
 import * as Animatable from 'react-native-animatable';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-
+import { debounce } from 'lodash';
 // Internal Components
 import { FormInput, InformationArea, MainButton, TextButton } from '../../components';
 
@@ -145,20 +145,21 @@ const RegisterScreen = ({ navigation, route }) => {
     setUsername(value);
 
     if (!_isValidUsername(value)) {
+      setIsUserExist(false);
       setIsUsernameValid(false);
       return;
     }
 
     _getAccountsWithUsername(value).then((res) => {
       const isValid = !res.includes(value);
-      const userExists = res.includes(value);
-      if (userExists) {
+      if (!isValid) {
         setUsernameError(intl.formatMessage({ id: 'register.validation.username_exists' }));
       }
-      setIsUserExist(userExists);
+      setIsUserExist(!isValid);
       setIsUsernameValid(isValid);
     });
   };
+  const changeTextDebouncer = useCallback(debounce(_handleUsernameChange, 500), []);
 
   const _handleRefUsernameChange = ({ value }) => {
     value = value.toLowerCase();
@@ -219,7 +220,7 @@ const RegisterScreen = ({ navigation, route }) => {
             leftIconName="close"
             iconType="MaterialCommunityIcons"
             isValid={isUsernameValid}
-            onChange={(value) => _handleUsernameChange({ value })}
+            onChange={(value) => changeTextDebouncer({ value })}
             placeholder={intl.formatMessage({
               id: 'register.username',
             })}
