@@ -317,10 +317,10 @@
     "validation": {
       "username_length_error": "Length should be between 3 to 16 symbols",
       "username_no_ascii_first_letter_error": "First letter should be in ASCII",
-      "username_contains_symbols_error": "Should contains letters, numbers, hyphen only",
+      "username_contains_symbols_error": "Should contain letters, numbers, hyphen only",
       "username_contains_double_hyphens": "Should not contain double hyphens",
       "username_contains_underscore": "Should not contain underscore",
-      "username_exists": "This usernames already exists. Please, try another one"
+      "username_exists": "Username already exists, try a different one"
     }
   },
   "home": {
