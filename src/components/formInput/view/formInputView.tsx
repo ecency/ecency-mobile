@@ -151,7 +151,7 @@ const FormInputView = ({
       {rightInfoIcon && !isValid ? (
         <View style={styles.infoIconContainer}>
           <PopoverWrapper text={errorInfo}>
-            <Icon iconType={'MaterialIcons'} name={'info'} style={styles.infoIcon} />
+            <Icon iconType={'MaterialIcons'} name='info-outline' style={styles.infoIcon} />
           </PopoverWrapper>
         </View>
       ) : value && value.length > 0 ? (
