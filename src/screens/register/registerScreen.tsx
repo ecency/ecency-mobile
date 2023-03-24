@@ -211,7 +211,7 @@ const RegisterScreen = ({ navigation, route }) => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         style={styles.formWrapper}
-        keyboardShouldPersistTaps
+        // keyboardShouldPersistTaps="always"
       >
         <View style={styles.body}>
           <FormInput
