@@ -313,7 +313,15 @@
     "form_description": "हमारे साथ साइन अप करके, आप हमारी सेवा की शर्तों और गोपनीयता नीतियों से सहमत हैं।",
     "registering": "Registering Your Account...",
     "register_fail": "Registeration failed, please try again or contact support.",
-    "registered": "Registration Successful\nCheck your email for instruction"
+    "registered": "Registration Successful\nCheck your email for instruction",
+    "validation": {
+      "username_length_error": "Length should be between 3 to 16 symbols",
+      "username_no_ascii_first_letter_error": "First letter should be in ASCII",
+      "username_contains_symbols_error": "Should contain letters, numbers, hyphen only",
+      "username_contains_double_hyphens": "Should not contain double hyphens",
+      "username_contains_underscore": "Should not contain underscore",
+      "username_exists": "Username already exists, try a different one"
+    }
   },
   "home": {
     "feed": "संभरण",
