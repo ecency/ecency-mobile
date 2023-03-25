@@ -315,12 +315,12 @@
     "register_fail": "El registro falló, por favor inténtalo de nuevo o contacta al soporte técnico.",
     "registered": "Registro exitoso\nComprueba tu correo electrónico para obtener instrucciones",
     "validation": {
-      "username_length_error": "Length should be between 3 to 16 symbols",
-      "username_no_ascii_first_letter_error": "First letter should be in ASCII",
-      "username_contains_symbols_error": "Should contain letters, numbers, hyphen only",
-      "username_contains_double_hyphens": "Should not contain double hyphens",
-      "username_contains_underscore": "Should not contain underscore",
-      "username_exists": "Username already exists, try a different one"
+      "username_length_error": "La longitud debe estar entre 3 y 16 símbolos",
+      "username_no_ascii_first_letter_error": "La primera letra debe estar en ASCII",
+      "username_contains_symbols_error": "Sólo debe contener letras, números, símbolos",
+      "username_contains_double_hyphens": "No debe contener Signos de Puntuación dobles",
+      "username_contains_underscore": "No debe contener subrayado",
+      "username_exists": "El nombre de usuario ya existe, intenta uno diferente"
     }
   },
   "home": {
