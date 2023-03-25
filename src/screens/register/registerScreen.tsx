@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   View,
   StatusBar,
@@ -13,7 +13,7 @@ import {
 import { useIntl } from 'react-intl';
 import * as Animatable from 'react-native-animatable';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-
+import { debounce } from 'lodash';
 // Internal Components
 import { FormInput, InformationArea, MainButton, TextButton } from '../../components';
 
@@ -40,11 +40,13 @@ const RegisterScreen = ({ navigation, route }) => {
 
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
   const [username, setUsername] = useState(route.params?.username ?? '');
-  const [isUsernameValid, setIsUsernameValid] = useState(false);
+  const [isUsernameValid, setIsUsernameValid] = useState(true);
   const [email, setEmail] = useState(route.params?.email ?? '');
-  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(true);
   const [refUsername, setRefUsername] = useState(route.params?.referredUser ?? '');
   const [isRefUsernameValid, setIsRefUsernameValid] = useState(true);
+  const [isUserExist, setIsUserExist] = useState(false);
+  const [usernameError, setUsernameError] = useState('');
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
@@ -102,19 +104,62 @@ const RegisterScreen = ({ navigation, route }) => {
     setEmail(value);
   };
 
+  const _isValidUsername = (value) => {
+    if (!value || value.length <= 2 || value.length >= 16) {
+      setUsernameError(intl.formatMessage({ id: 'register.validation.username_length_error' }));
+      return false;
+    } else {
+      return value.split('.').some((item) => {
+        if (item.length < 3) {
+          setUsernameError(intl.formatMessage({ id: 'register.validation.username_length_error' }));
+          return false;
+        } else if (!/^[\x00-\x7F]*$/.test(item[0])) {
+          setUsernameError(
+            intl.formatMessage({ id: 'register.validation.username_no_ascii_first_letter_error' }),
+          );
+          return false;
+        } else if (!/^([a-zA-Z0-9]|-|\.)+$/.test(item)) {
+          setUsernameError(
+            intl.formatMessage({ id: 'register.validation.username_contains_symbols_error' }),
+          );
+          return false;
+        } else if (item.includes('--')) {
+          setUsernameError(
+            intl.formatMessage({ id: 'register.validation.username_contains_double_hyphens' }),
+          );
+          return false;
+        } else if (item.includes('_')) {
+          setUsernameError(
+            intl.formatMessage({ id: 'register.validation.username_contains_underscore' }),
+          );
+          return false;
+        } else {
+          return true;
+        }
+      });
+    }
+  };
+
   const _handleUsernameChange = ({ value }) => {
     value = value.toLowerCase();
     setUsername(value);
-    if (!value || value.length <= 2 || value.length >= 16) {
+
+    if (!_isValidUsername(value)) {
+      setIsUserExist(false);
       setIsUsernameValid(false);
       return;
     }
 
     _getAccountsWithUsername(value).then((res) => {
       const isValid = !res.includes(value);
+      if (!isValid) {
+        setUsernameError(intl.formatMessage({ id: 'register.validation.username_exists' }));
+      }
+      setIsUserExist(!isValid);
       setIsUsernameValid(isValid);
     });
   };
+  const changeTextDebouncer = useCallback(debounce(_handleUsernameChange, 500), []);
 
   const _handleRefUsernameChange = ({ value }) => {
     value = value.toLowerCase();
@@ -167,7 +212,7 @@ const RegisterScreen = ({ navigation, route }) => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         style={styles.formWrapper}
-        keyboardShouldPersistTaps
+        // keyboardShouldPersistTaps="always"
       >
         <View style={styles.body}>
           <FormInput
@@ -175,13 +220,15 @@ const RegisterScreen = ({ navigation, route }) => {
             leftIconName="close"
             iconType="MaterialCommunityIcons"
             isValid={isUsernameValid}
-            onChange={(value) => _handleUsernameChange({ value })}
+            onChange={(value) => changeTextDebouncer({ value })}
             placeholder={intl.formatMessage({
               id: 'register.username',
             })}
             isEditable
+            rightInfoIcon
+            errorInfo={usernameError}
             type="username"
-            isFirstImage
+            isFirstImage={isUserExist ? true : false}
             value={username}
             inputStyle={styles.input}
             onFocus={() => setKeyboardIsOpen(true)}
@@ -239,7 +286,9 @@ const RegisterScreen = ({ navigation, route }) => {
             iconColor="white"
             iconPosition="right"
             text={intl.formatMessage({ id: 'alert.continue' })}
-            isDisable={!isUsernameValid || !isRefUsernameValid || !isEmailValid}
+            isDisable={
+              !isUsernameValid || !isRefUsernameValid || !isEmailValid || !username || !email
+            }
             style={styles.mainButton}
           />
         </View>
