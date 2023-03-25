@@ -313,7 +313,15 @@
     "form_description": "Al registrarte, estás de acuerdo con nuestros Términos de servicio &amp; Política de privacidad",
     "registering": "Registrando tu cuenta...",
     "register_fail": "El registro falló, por favor inténtalo de nuevo o contacta al soporte técnico.",
-    "registered": "Registro exitoso\nComprueba tu correo electrónico para obtener instrucciones"
+    "registered": "Registro exitoso\nComprueba tu correo electrónico para obtener instrucciones",
+    "validation": {
+      "username_length_error": "Length should be between 3 to 16 symbols",
+      "username_no_ascii_first_letter_error": "First letter should be in ASCII",
+      "username_contains_symbols_error": "Should contain letters, numbers, hyphen only",
+      "username_contains_double_hyphens": "Should not contain double hyphens",
+      "username_contains_underscore": "Should not contain underscore",
+      "username_exists": "Username already exists, try a different one"
+    }
   },
   "home": {
     "feed": "Inicio",
