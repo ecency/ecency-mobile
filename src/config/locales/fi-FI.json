@@ -315,12 +315,12 @@
     "register_fail": "Rekisteröinti epäonnistui, yritä uudelleen tai ota yhteyttä tukeen.",
     "registered": "Rekisteröinti Onnistui\nTarkista sähköpostisi saadaksesi lisäohjeita",
     "validation": {
-      "username_length_error": "Length should be between 3 to 16 symbols",
-      "username_no_ascii_first_letter_error": "First letter should be in ASCII",
-      "username_contains_symbols_error": "Should contain letters, numbers, hyphen only",
-      "username_contains_double_hyphens": "Should not contain double hyphens",
-      "username_contains_underscore": "Should not contain underscore",
-      "username_exists": "Username already exists, try a different one"
+      "username_length_error": "Pituuden on oltava 3-16 symbolia",
+      "username_no_ascii_first_letter_error": "Ensimmäinen kirjain ASCII-muodossa",
+      "username_contains_symbols_error": "Tulisi sisältää vain kirjaimia, numeroita ja tavuviivoja",
+      "username_contains_double_hyphens": "Ei kaksinkertaisia tavuviivoja",
+      "username_contains_underscore": "Ei alaviivoja",
+      "username_exists": "Käyttäjätunnus on jo olemassa, kokeile toista"
     }
   },
   "home": {
