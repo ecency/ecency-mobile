@@ -4,7 +4,7 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    height: '$deviceHeight / 4',
+    height: '$deviceHeight / 3',
     backgroundColor: '$primaryBackgroundColor',
   },
   safeArea: {
@@ -12,7 +12,7 @@ export default EStyleSheet.create({
   },
   body: {
     flexDirection: 'row',
-    maxHeight: '$deviceHeight / 4',
+    maxHeight: '$deviceHeight / 3',
     overflow: 'hidden',
     backgroundColor: '$primaryBackgroundColor',
     height: '$deviceHeight / 3.9',
@@ -32,16 +32,16 @@ export default EStyleSheet.create({
   },
   mascot: {
     position: 'absolute',
-    width: 160,
-    height: 227,
-    marginTop: 40,
-    right: -20,
+    width: 145,
+    height: 210,
+    marginTop: 4,
+    right: 10,
   },
   titleText: {
     alignSelf: 'center',
     marginTop: 20,
     marginLeft: 32,
-    width: '$deviceWidth / 4',
+    width: '$deviceWidth / 3',
   },
   headerRow: {
     width: '$deviceWidth',
@@ -50,11 +50,15 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     paddingVertical: 8,
   },
+  logoContainer: {
+    paddingLeft: 32,
+    paddingRight: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   logo: {
     width: 32,
     height: 32,
-    marginLeft: 32,
-    alignSelf: 'center',
   },
   headerButton: {
     margin: 10,
