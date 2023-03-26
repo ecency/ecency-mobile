@@ -31,6 +31,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '$primaryBackgroundColor',
     justifyContent: 'space-between',
+
   },
   description: {
     textAlignVertical: 'center',
@@ -53,6 +54,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     marginTop: 20,
     marginLeft: 32,
+    width: '$deviceWidth / 3',
   },
   headerRow: {
     flexDirection: 'row',
