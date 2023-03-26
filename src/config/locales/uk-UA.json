@@ -315,12 +315,12 @@
     "register_fail": "Registeration failed, please try again or contact support.",
     "registered": "Registration Successful\nCheck your email for instruction",
     "validation": {
-      "username_length_error": "Length should be between 3 to 16 symbols",
-      "username_no_ascii_first_letter_error": "First letter should be in ASCII",
-      "username_contains_symbols_error": "Should contain letters, numbers, hyphen only",
-      "username_contains_double_hyphens": "Should not contain double hyphens",
-      "username_contains_underscore": "Should not contain underscore",
-      "username_exists": "Username already exists, try a different one"
+      "username_length_error": "Довжина має бути від 3 до 16 символів",
+      "username_no_ascii_first_letter_error": "Перша літера повинна починатись з ASCII",
+      "username_contains_symbols_error": "Повинен містити тільки літери, цифри або дефіс",
+      "username_contains_double_hyphens": "Не повинно містити подвійних дефісів",
+      "username_contains_underscore": "Не повинно містити підкреслення",
+      "username_exists": "Це ім'я вже існує, спробуйте інше"
     }
   },
   "home": {
