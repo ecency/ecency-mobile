@@ -546,31 +546,38 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
 
   try {
     const spkWallet = await fetchSpkWallet(username);
+    const _price = parseFloat(spkWallet.tick) * hivePrice
 
     if (spkWallet.spk) {
       const _symbol = 'SPK'
+      const _spkBalance = spkWallet.spk / 1000;
+  
       spkWalletData[_symbol] = {
         name: "SPK Network",
         symbol:_symbol,
-        balance: spkWallet.spk / 1000,
-        estimateValue: 123,//balance * ppEstm, //TODO: calculare real estimate value
+        balance: _spkBalance,
+        estimateValue: _spkBalance * _price,
         vsCurrency: vsCurrency,
-        currentPrice: hivePrice, //TODO: add real value
-        isSpk: true
+        currentPrice: _price,
+        isSpk: true,
+        actions: []
       }
     }
 
     const _available = spkWallet.drop?.availible
     if (_available) {
+      const _larBalance = spkWallet.balance / 1000;
+
       spkWalletData[_available.token] = {
         name: _available.token + " Token",
         symbol: _available.token,
-        balance: _available.amount / 1000,
+        balance: _larBalance,
         precision: _available.precision,
-        estimateValue: 123,//balance * ppEstm, //TODO: calculare real estimate value
+        estimateValue:_larBalance * _price,
         vsCurrency: vsCurrency,
-        currentPrice: hivePrice,  //TODO: add real value
-        isSpk: true
+        currentPrice: _price, 
+        isSpk: true,
+        actions: []
       }
     }
 
