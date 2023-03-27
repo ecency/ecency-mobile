@@ -90,6 +90,7 @@ const WalletScreen = ({ navigation }) => {
       id: symbol,
       symbol,
       isEngine: type === 'ENGINE',
+      isSpk: type === 'SPK',
       notCrypto: false,
     }));
   };
@@ -100,12 +101,12 @@ const WalletScreen = ({ navigation }) => {
     );
 
     if (isArray(currentAccount.about?.profile?.tokens)) {
-      const engineTokensData = populateSelectedAssets(
+      const _selectedAssets = populateSelectedAssets(
         currentAccount.about.profile.tokens,
       );
       // check if current selected engine tokens differ from profile json meta
-      if (JSON.stringify(engineTokensData) !== JSON.stringify(currSelectedEngineTokens)) {
-        dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...engineTokensData]));
+      if (JSON.stringify(_selectedAssets) !== JSON.stringify(currSelectedEngineTokens)) {
+        dispatch(setSelectedCoins([...DEFAULT_ASSETS, ..._selectedAssets]));
       }
     }
 

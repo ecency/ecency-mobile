@@ -563,7 +563,7 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
     const _available = spkWallet.drop?.availible
     if (_available) {
       spkWalletData[_available.token] = {
-        name: _available.token,
+        name: _available.token + " Token",
         symbol: _available.token,
         balance: _available.amount / 1000,
         precision: _available.precision,

@@ -17,6 +17,7 @@ export interface AssetCardProps {
   iconUrl?: string;
   notCrypto?: boolean;
   isEngine?: boolean;
+  isSpk?: boolean;
   symbol: string;
   currencySymbol: string;
   changePercent: number;
@@ -40,6 +41,7 @@ export const AssetCard = ({
   iconUrl,
   notCrypto,
   isEngine,
+  isSpk,
   chartData,
   currencySymbol,
   symbol,
@@ -91,6 +93,7 @@ export const AssetCard = ({
         id={id}
         iconUrl={iconUrl}
         isEngine={isEngine}
+        isSpk={isSpk}
         containerStyle={styles.logoContainer}
         iconSize={32}
       />

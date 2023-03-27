@@ -129,8 +129,8 @@ const AssetsSelect = ({ navigation }) => {
       if (!assetsData?.length) {
         assetsData = selectionRef.current.map((item) => ({
           symbol: item.symbol,
-          type: TokenType.ENGINE,
-        })); // TODO: later handle SPK assets as well
+          type: item.isEngine ? TokenType.ENGINE : TokenType.SPK,
+        }));
       }
 
       const updatedCurrentAccountData = currentAccount;
@@ -247,6 +247,7 @@ const AssetsSelect = ({ navigation }) => {
                 containerStyle={styles.assetIconContainer}
                 iconUrl={item.iconUrl}
                 isEngine={item.isEngine}
+                isSpk={item.isSpk}
                 iconSize={24}
               />
               <Text style={styles.informationText}>{key}</Text>
