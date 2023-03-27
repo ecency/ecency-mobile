@@ -179,7 +179,7 @@ export const AssetCard = ({
         {_renderHeader}
         {_renderBoostAccount()}
         {_renderClaimSection()}
-        {!notCrypto && _renderGraph()}
+        {!notCrypto && !isSpk && _renderGraph()}
         {!notCrypto ? _renderFooter : <View style={{ height: 12 }} />}
         {footerComponent && footerComponent}
       </View>
