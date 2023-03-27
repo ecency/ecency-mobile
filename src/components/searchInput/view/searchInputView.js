@@ -72,16 +72,18 @@ const SearchInputView = ({
       )}
 
       <View style={[styles.inputWrapper, inputWrapperFlex, style]}>
-        <TextInput
-          style={styles.input}
-          onChangeText={_onChangeText}
-          placeholder={placeholder}
-          placeholderTextColor="#c1c5c7"
-          autoCapitalize="none"
-          autoFocus={autoFocus}
-          editable={editable}
-          value={`${prefix}${inputValue}`}
-        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            onChangeText={_onChangeText}
+            placeholder={placeholder}
+            placeholderTextColor="#c1c5c7"
+            autoCapitalize="none"
+            autoFocus={autoFocus}
+            editable={editable}
+            value={`${prefix}${inputValue}`}
+          />
+        </View>
         {handleOnModalClose && _renderCrossButton(() => handleOnModalClose())}
         {showClearButton && _renderCrossButton(() => setInputValue(''))}
       </View>
