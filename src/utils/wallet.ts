@@ -32,7 +32,7 @@ import parseAsset from './parseAsset';
 import {
   fetchHiveEngineTokenBalances,
 } from '../providers/hive-engine/hiveEngine';
-import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
+import { EngineActions, SpkActions } from '../providers/hive-engine/hiveEngine.types';
 import { ClaimsCollection } from '../redux/reducers/cacheReducer';
 import { fetchSpkWallet } from '../providers/hive-spk/hiveSpk';
 
@@ -560,7 +560,7 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
         vsCurrency: vsCurrency,
         currentPrice: _price,
         isSpk: true,
-        actions: []
+        actions: [SpkActions.TRANSFER]
       }
     }
 
@@ -577,7 +577,11 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
         vsCurrency: vsCurrency,
         currentPrice: _price, 
         isSpk: true,
-        actions: []
+        actions: [
+          SpkActions.TRANSFER,
+          SpkActions.POWER_UP,
+          SpkActions.LOCK_LIQUIDITY
+        ]
       }
     }
 

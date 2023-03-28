@@ -150,6 +150,11 @@
     "stake_engine":"Stake",
     "delegate_engine":"Delegate",
     "undelegate_engine":"Undelegate",
+    "transfer_spk":"Transfer",
+    "delegate_spk":"Delegate",
+    "lock_liquidity_spk":"Lock Liquidity",
+    "power_up_spk":"Power Up",
+    "power_down_spk":"Power Down",
     "low_liquidity":"Low Liquidity!",
     "inactive_token":"Token is relatively inactive, some functionalities might be affected."
   },
