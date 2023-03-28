@@ -319,8 +319,8 @@
       "username_no_ascii_first_letter_error": "A primeira letra deve estar em ASCII",
       "username_contains_symbols_error": "Pode conter apenas letras, números e hífen",
       "username_contains_double_hyphens": "Não deve conter hífens duplos",
-      "username_contains_underscore": "Should not contain underscore",
-      "username_exists": "Username already exists, try a different one"
+      "username_contains_underscore": "Não pode conter sublinhado",
+      "username_exists": "O nome já existe. Tente outro diferente"
     }
   },
   "home": {
