@@ -1,4 +1,7 @@
+import { PrivateKey } from "@esteemapp/dhive";
+import { Operation } from "@hiveio/dhive";
 import axios from "axios";
+import { getActiveKey, getDigitPinCode, sendHiveOperations } from "../hive/dhive";
 // import { PrivateKey, TransactionConfirmation } from "@hiveio/dhive";
 // import { client as hiveClient } from "./hive";
 // import * as keychain from "../helper/keychain";
@@ -17,8 +20,8 @@ const spkNodes = [
 const spkNode = "https://spk.good-karma.xyz/"; //spkNodes[Math.floor(Math.random()*spkNodes.length)];
 
 const spkApi = axios.create({
-    baseURL: spkNode
-  });
+  baseURL: spkNode
+});
 
 export function rewardSpk(data: SpkApiWallet, sstats: any) {
   let r = 0,
@@ -37,7 +40,7 @@ export function rewardSpk(data: SpkApiWallet, sstats: any) {
     b = data.pow ? simpleInterest(data.pow, t, sstats.spk_rate_lpow) : 0;
     c = simpleInterest(
       (data.granted.t > 0 ? data.granted.t : 0) +
-        (data.granting.t && data.granting.t > 0 ? data.granting.t : 0),
+      (data.granting.t && data.granting.t > 0 ? data.granting.t : 0),
       t,
       sstats.spk_rate_ldel
     );
@@ -69,25 +72,180 @@ export const fetchSpkMarkets = async (): Promise<Markets> => {
         node.lastGood >= resp.data.head_block - 1200
           ? "🟩"
           : node.lastGood > resp.data.head_block - 28800
-          ? "🟨"
-          : "🟥"
+            ? "🟨"
+            : "🟥"
     })),
     raw: resp.data
   };
 };
 
-// export const getHivePrice = async (): Promise<HivePrice> => {
-//   try {
-//     const resp = await axios.get<HivePrice>("https://api.coingecko.com/api/v3/simple/price", {
-//       params: {
-//         ids: "hive",
-//         vs_currencies: "usd"
-//       }
-//     });
-//     return resp.data;
-//   } catch (e) {
-//     return { hive: { usd: 0 } };
-//   }
+
+const executeSpkAction = (id: string, json: any, currentAccount: any, pinHash: string) => {
+  const pin = getDigitPinCode(pinHash);
+  const key = getActiveKey(currentAccount.local, pin);
+  const username = currentAccount.name;
+
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+
+    const op = {
+      id,
+      json: JSON.stringify(json),
+      required_auths: [username],
+      required_posting_auths: [],
+    };
+    const opArray: Operation[] = [['custom_json', op]];
+    return sendHiveOperations(opArray, privateKey);
+  }
+
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
+};
+
+
+/**
+ * SPK operations
+ */
+
+
+export const transferSpk = async (
+  currentAccount: any,
+  pinHash: string,
+  to: string,
+  amount: string,
+  memo?: string
+) => {
+
+  const json = {
+    to,
+    amount: +amount * 1000,
+    ...(typeof memo === "string" ? { memo } : {})
+  }
+
+  return executeSpkAction("spkcc_spk_send", json, currentAccount, pinHash);
+};
+
+
+
+export const transferLarynx = async (
+  currentAccount: any,
+  pinHash: string,
+  to: string,
+  amount: string,
+  memo: string
+) => {
+  const json = {
+    to,
+    amount: +amount * 1000,
+    ...(typeof memo === "string" ? { memo } : {})
+  }
+  return executeSpkAction("spkcc_send", json, currentAccount, pinHash);
+
+};
+
+
+export const delegateLarynx = async (
+  currentAccount: any,
+  pinHash: string,
+  to: string,
+  amount: string,
+) => {
+  const json = {
+    to,
+    amount: +amount * 1000,
+  }
+  return executeSpkAction("spkcc_power_grant", json, currentAccount, pinHash);
+
+};
+
+
+export const powerLarynx = async (
+  currentAccount: any,
+  pinHash: string,
+  mode: "up" | "down",
+  amount: string,
+) => {
+  const json = {
+    amount: +amount * 1000,
+  }
+  return executeSpkAction(`spkcc_power_${mode}`, json, currentAccount, pinHash);
+
+};
+
+export const lockLarynx = async (
+  currentAccount: any,
+  pinHash: string,
+  mode: "lock" | "unlock",
+  amount: string,
+) => {
+  const json = {
+    amount: +amount * 1000,
+  }
+  return executeSpkAction(`spkcc_gov_${mode === 'lock' ? 'up':'down'}`, json, currentAccount, pinHash);
+
+};
+
+
+
+/**
+ * Claim operations
+ */
+
+// export const claimLarynxRewards = async (from: string): Promise<TransactionConfirmation> => {
+//   const json = { gov: false };
+
+//   return broadcastPostingJSON(from, "spkcc_shares_claim", json);
+// };
+
+// export const claimAirdropLarynxRewards = async (from: string): Promise<TransactionConfirmation> => {
+//   const json = { claim: true };
+
+//   return broadcastPostingJSON(from, "spkcc_claim", json);
+// };
+
+
+
+/** Hive signer operations */
+
+
+// export const lockLarynxByKey = async (
+
+
+// export const lockLarynxByHs = async (mode: "lock" | "unlock", from: string, amount: string) => {
+//   const params = {
+//     authority: "active",
+//     required_auths: `["${from}"]`,
+//     required_posting_auths: "[]",
+//     id: mode === "lock" ? "spkcc_gov_up" : "spkcc_gov_down",
+//     json: JSON.stringify({ amount: +amount * 1000 })
+//   };
+//   hotSign("custom-json", params, `@${from}/spk`);
+// };
+
+
+// export const delegateLarynxByHs = async (from: string, to: string, amount: string) => {
+//   return sendSpkGeneralByHs("spkcc_power_grant", from, to, +amount);
+// };
+
+// export const powerLarynxByHs = (mode: "up" | "down", from: string, amount: string) => {
+//   const params = {
+//     authority: "active",
+//     required_auths: `["${from}"]`,
+//     required_posting_auths: "[]",
+//     id: `spkcc_power_${mode}`,
+//     json: JSON.stringify({ amount: +amount * 1000 })
+//   };
+//   hotSign("custom-json", params, `@${from}/spk`);
+// };
+
+// export const sendSpkByHs = (from: string, to: string, amount: string, memo?: string) => {
+//   return sendSpkGeneralByHs("spkcc_spk_send", from, to, amount, memo || "");
+// };
+
+// export const sendLarynxByHs = (from: string, to: string, amount: string, memo?: string) => {
+//   return sendSpkGeneralByHs("spkcc_send", from, to, amount, memo || "");
 // };
 
 // const sendSpkGeneralByHs = (
@@ -109,199 +267,4 @@ export const fetchSpkMarkets = async (): Promise<Markets> => {
 //     })
 //   };
 //   hotSign("custom-json", params, `@${from}/spk`);
-// };
-
-// const transferSpkGeneralByKey = async (
-//   id: string,
-//   from: string,
-//   key: PrivateKey,
-//   to: string,
-//   amount: string | number,
-//   memo?: string
-// ): Promise<TransactionConfirmation> => {
-//   const json = JSON.stringify({
-//     to,
-//     amount: +amount * 1000,
-//     ...(typeof memo === "string" ? { memo } : {})
-//   });
-
-//   const op = {
-//     id,
-//     json,
-//     required_auths: [from],
-//     required_posting_auths: []
-//   };
-
-//   return await hiveClient.broadcast.json(op, key);
-// };
-
-// const transferSpkGeneralByKc = (
-//   id: string,
-//   from: string,
-//   to: string,
-//   amount: string | number,
-//   memo?: string
-// ) => {
-//   const json = JSON.stringify({
-//     to,
-//     amount: +amount * 1000,
-//     ...(typeof memo === "string" ? { memo } : {})
-//   });
-//   return keychain.customJson(
-//     from,
-//     id,
-//     "Active",
-//     json,
-//     `${
-//       id === "spkcc_spk_send"
-//         ? "Transfer SPK"
-//         : id === "spkcc_power_grant"
-//         ? "Delegate LARYNX"
-//         : "Transfer LARYNX"
-//     }`
-//   );
-// };
-
-// export const sendSpkByHs = (from: string, to: string, amount: string, memo?: string) => {
-//   return sendSpkGeneralByHs("spkcc_spk_send", from, to, amount, memo || "");
-// };
-
-// export const sendLarynxByHs = (from: string, to: string, amount: string, memo?: string) => {
-//   return sendSpkGeneralByHs("spkcc_send", from, to, amount, memo || "");
-// };
-
-// export const transferSpkByKey = async (
-//   from: string,
-//   key: PrivateKey,
-//   to: string,
-//   amount: string,
-//   memo: string
-// ): Promise<TransactionConfirmation> => {
-//   return transferSpkGeneralByKey("spkcc_spk_send", from, key, to, amount, memo || "");
-// };
-
-// export const transferLarynxByKey = async (
-//   from: string,
-//   key: PrivateKey,
-//   to: string,
-//   amount: string,
-//   memo: string
-// ): Promise<TransactionConfirmation> => {
-//   return transferSpkGeneralByKey("spkcc_send", from, key, to, amount, memo || "");
-// };
-
-// export const transferSpkByKc = (from: string, to: string, amount: string, memo: string) => {
-//   return transferSpkGeneralByKc("spkcc_spk_send", from, to, amount, memo || "");
-// };
-
-// export const transferLarynxByKc = async (
-//   from: string,
-//   to: string,
-//   amount: string,
-//   memo: string
-// ) => {
-//   return transferSpkGeneralByKc("spkcc_send", from, to, amount, memo || "");
-// };
-
-// export const delegateLarynxByKey = async (
-//   from: string,
-//   key: PrivateKey,
-//   to: string,
-//   amount: string
-// ) => {
-//   return transferSpkGeneralByKey("spkcc_power_grant", from, key, to, +amount);
-// };
-
-// export const delegateLarynxByHs = async (from: string, to: string, amount: string) => {
-//   return sendSpkGeneralByHs("spkcc_power_grant", from, to, +amount);
-// };
-
-// export const delegateLarynxByKc = async (from: string, to: string, amount: string) => {
-//   return transferSpkGeneralByKc("spkcc_power_grant", from, to, +amount);
-// };
-
-// export const claimLarynxRewards = async (from: string): Promise<TransactionConfirmation> => {
-//   const json = { gov: false };
-
-//   return broadcastPostingJSON(from, "spkcc_shares_claim", json);
-// };
-
-// export const claimAirdropLarynxRewards = async (from: string): Promise<TransactionConfirmation> => {
-//   const json = { claim: true };
-
-//   return broadcastPostingJSON(from, "spkcc_claim", json);
-// };
-
-// export const powerLarynxByKey = async (
-//   mode: "up" | "down",
-//   from: string,
-//   key: PrivateKey,
-//   amount: string
-// ) => {
-//   const json = JSON.stringify({ amount: +amount * 1000 });
-
-//   const op = {
-//     id: `spkcc_power_${mode}`,
-//     json,
-//     required_auths: [from],
-//     required_posting_auths: []
-//   };
-
-//   return await hiveClient.broadcast.json(op, key);
-// };
-
-// export const powerLarynxByHs = (mode: "up" | "down", from: string, amount: string) => {
-//   const params = {
-//     authority: "active",
-//     required_auths: `["${from}"]`,
-//     required_posting_auths: "[]",
-//     id: `spkcc_power_${mode}`,
-//     json: JSON.stringify({ amount: +amount * 1000 })
-//   };
-//   hotSign("custom-json", params, `@${from}/spk`);
-// };
-
-// export const powerLarynxByKc = async (mode: "up" | "down", from: string, amount: string) => {
-//   const json = JSON.stringify({ amount: +amount * 1000 });
-//   return keychain.customJson(from, `spkcc_power_${mode}`, "Active", json, `Power ${mode} LARYNX`);
-// };
-
-// export const lockLarynxByKey = async (
-//   mode: "lock" | "unlock",
-//   key: PrivateKey,
-//   from: string,
-//   amount: string
-// ) => {
-//   const json = JSON.stringify({ amount: +amount * 1000 });
-
-//   const op = {
-//     id: mode === "lock" ? "spkcc_gov_up" : "spkcc_gov_down",
-//     json,
-//     required_auths: [from],
-//     required_posting_auths: []
-//   };
-
-//   return await hiveClient.broadcast.json(op, key);
-// };
-
-// export const lockLarynxByHs = async (mode: "lock" | "unlock", from: string, amount: string) => {
-//   const params = {
-//     authority: "active",
-//     required_auths: `["${from}"]`,
-//     required_posting_auths: "[]",
-//     id: mode === "lock" ? "spkcc_gov_up" : "spkcc_gov_down",
-//     json: JSON.stringify({ amount: +amount * 1000 })
-//   };
-//   hotSign("custom-json", params, `@${from}/spk`);
-// };
-
-// export const lockLarynxByKc = async (mode: "lock" | "unlock", from: string, amount: string) => {
-//   const json = JSON.stringify({ amount: +amount * 1000 });
-//   return keychain.customJson(
-//     from,
-//     mode === "lock" ? "spkcc_gov_up" : "spkcc_gov_down",
-//     "Active",
-//     json,
-//     `${mode.toUpperCase()} LARYNX`
-//   );
 // };
