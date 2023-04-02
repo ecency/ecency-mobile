@@ -566,8 +566,9 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
 
     const _available = spkWallet.drop?.availible
     if (_available) {
+
+      //compile larynx token
       const _larBalance = spkWallet.balance / 1000;
-      
 
       spkWalletData[ASSET_IDS.LARYNX] = {
         name: ASSET_IDS.LARYNX + " Token",
@@ -586,22 +587,41 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
       }
 
 
+      //compile larynx power
       const _larPower = spkWallet.poweredUp / 1000;
       const _grantedPwr = spkWallet.granted?.t ? spkWallet.granted.t / 1000 : 0;
       const _grantingPwr = spkWallet.granting?.t ? spkWallet.granting.t / 1000 : 0;
 
-      let _pwrBalance = _larPower + _grantedPwr + _grantingPwr
-      _pwrBalance = _pwrBalance < 0 ? _larBalance : _pwrBalance;
+      let _totalBalance = _larPower + _grantedPwr - _grantingPwr
+
+      const _extraDataPairs:DataPair[] = [];
+      if(spkWallet.power_downs){
+        _extraDataPairs.push({
+          dataKey: 'scheduled_power_downs',
+          value: Object.keys(spkWallet.power_downs).length
+        })
+      }
 
       spkWalletData[ASSET_IDS.LARYNX_POWER] = {
         name: ASSET_IDS.LARYNX + " Power",
         symbol: ASSET_IDS.LARYNX_POWER,
-        balance: _pwrBalance,
+        balance: _larPower,
         precision: _available.precision,
-        estimateValue:_pwrBalance * _price,
+        estimateValue: _larPower * _price,
         vsCurrency: vsCurrency,
         currentPrice: _price, 
         isSpk: true,
+        extraDataPairs:[..._extraDataPairs,
+          {
+          dataKey: 'delegated_larynx_power',
+          value: `${_grantedPwr.toFixed(3)} ${ASSET_IDS.LARYNX_POWER}`
+        },{
+          dataKey: 'delegating_larynx_power',
+          value: `- ${ _grantingPwr.toFixed(3)} ${ASSET_IDS.LARYNX_POWER}`
+        }, {
+          dataKey: 'total_larynx_power',
+          value: `${ _totalBalance.toFixed(3)} ${ASSET_IDS.LARYNX_POWER}`
+        },],
         actions: [
           SpkActions.POWER_DOWN,
           SpkActions.DELEGATE,

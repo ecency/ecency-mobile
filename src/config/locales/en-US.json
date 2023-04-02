@@ -156,7 +156,11 @@
     "power_up_spk":"Power Up",
     "power_down_spk":"Power Down",
     "low_liquidity":"Low Liquidity!",
-    "inactive_token":"Token is relatively inactive, some functionalities might be affected."
+    "inactive_token":"Token is relatively inactive, some functionalities might be affected.",
+    "scheduled_power_downs":"Scheduled Power Downs",
+    "delegated_larynx_power":"Delegated Power",
+    "delegating_larynx_power":"Delegating Power",
+    "total_larynx_power":"Total Power"
   },
   "notification": {
     "vote": "voted",
