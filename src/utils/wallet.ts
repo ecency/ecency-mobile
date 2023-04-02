@@ -549,7 +549,7 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
     const _price = parseFloat(spkWallet.tick) * hivePrice
 
     if (spkWallet.spk) {
-      const _symbol = 'SPK'
+      const _symbol = ASSET_IDS.SPK
       const _spkBalance = spkWallet.spk / 1000;
   
       spkWalletData[_symbol] = {
@@ -567,10 +567,11 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
     const _available = spkWallet.drop?.availible
     if (_available) {
       const _larBalance = spkWallet.balance / 1000;
+      
 
-      spkWalletData[_available.token] = {
-        name: _available.token + " Token",
-        symbol: _available.token,
+      spkWalletData[ASSET_IDS.LARYNX] = {
+        name: ASSET_IDS.LARYNX + " Token",
+        symbol: ASSET_IDS.LARYNX,
         balance: _larBalance,
         precision: _available.precision,
         estimateValue:_larBalance * _price,
@@ -581,6 +582,29 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
           SpkActions.TRANSFER,
           SpkActions.POWER_UP,
           SpkActions.LOCK_LIQUIDITY
+        ]
+      }
+
+
+      const _larPower = spkWallet.poweredUp / 1000;
+      const _grantedPwr = spkWallet.granted?.t ? spkWallet.granted.t / 1000 : 0;
+      const _grantingPwr = spkWallet.granting?.t ? spkWallet.granting.t / 1000 : 0;
+
+      let _pwrBalance = _larPower + _grantedPwr + _grantingPwr
+      _pwrBalance = _pwrBalance < 0 ? _larBalance : _pwrBalance;
+
+      spkWalletData[ASSET_IDS.LARYNX_POWER] = {
+        name: ASSET_IDS.LARYNX + " Power",
+        symbol: ASSET_IDS.LARYNX_POWER,
+        balance: _pwrBalance,
+        precision: _available.precision,
+        estimateValue:_pwrBalance * _price,
+        vsCurrency: vsCurrency,
+        currentPrice: _price, 
+        isSpk: true,
+        actions: [
+          SpkActions.POWER_DOWN,
+          SpkActions.DELEGATE,
         ]
       }
     }

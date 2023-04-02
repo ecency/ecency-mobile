@@ -41,6 +41,7 @@ export const AssetIcon = ({ id, iconUrl, isEngine, isSpk, containerStyle, iconSi
         _tintColor = EStyleSheet.value('$primaryBlue');
         break;
       case ASSET_IDS.LARYNX:
+      case ASSET_IDS.LARYNX_POWER:
         _iconSource = HIVE_SPK_ICON;
         _tintColor = EStyleSheet.value('$darkGrayBackground');
         break;

@@ -136,6 +136,8 @@ const WalletScreen = ({ navigation }) => {
         if (token.isEngine) {
           const marketData = await fetchEngineMarketData(token.id);
           priceData = marketData.map((data) => data.close);
+        } if(token.isSpk){
+          //TODO: add request to fetch chart data if available
         } else {
           const marketChart = await fetchMarketChart(
             token.id,
