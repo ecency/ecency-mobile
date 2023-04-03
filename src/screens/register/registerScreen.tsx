@@ -206,7 +206,9 @@ const RegisterScreen = ({ navigation, route }) => {
               {intl.formatMessage({ id: 'register.title_description' })}
             </Text>
           </View>
-          <Image style={styles.mascot} source={ESTEEM_LOGO} />
+          <View style={styles.mascotContainer}>
+            <Image style={styles.mascot} source={ESTEEM_LOGO} />
+          </View>
         </View>
       </Animatable.View>
       <KeyboardAvoidingView

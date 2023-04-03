@@ -57,11 +57,13 @@ class LoginHeaderView extends PureComponent {
                 <Text style={styles.title}>{title}</Text>
                 <Text style={styles.description}>{description}</Text>
               </View>
-              <Image
-                resizeMode="contain"
-                style={styles.mascot}
-                source={require('../../../assets/love_mascot.png')}
-              />
+              <View style={styles.mascotContainer}>
+                <Image
+                  resizeMode="contain"
+                  style={styles.mascot}
+                  source={require('../../../assets/love_mascot.png')}
+                />
+              </View>
             </View>
           </Animatable.View>
           <LineBreak />

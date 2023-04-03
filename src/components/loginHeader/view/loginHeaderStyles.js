@@ -16,6 +16,8 @@ export default EStyleSheet.create({
     overflow: 'hidden',
     backgroundColor: '$primaryBackgroundColor',
     height: '$deviceHeight / 3.9',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   description: {
     textAlignVertical: 'center',
@@ -30,18 +32,20 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     marginBottom: 16,
   },
+  mascotContainer: {
+    flex: 1,
+  },
   mascot: {
-    position: 'absolute',
-    width: 145,
-    height: 210,
     marginTop: 4,
-    right: 10,
+    width: '80%',
+    height: '80%',
   },
   titleText: {
     alignSelf: 'center',
     marginTop: 20,
     marginLeft: 32,
-    width: '$deviceWidth / 3',
+    marginRight: 12,
+    flex: 1,
   },
   headerRow: {
     width: '$deviceWidth',

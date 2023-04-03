@@ -25,13 +25,15 @@ export default EStyleSheet.create({
   },
   input: {
     color: '$primaryDarkText',
-    flex:1,
+    flex: 1,
   },
   header: {
     flexDirection: 'row',
+    overflow: 'hidden',
     backgroundColor: '$primaryBackgroundColor',
+    height: '$deviceHeight / 5',
     justifyContent: 'space-between',
-
+    alignItems: 'center',
   },
   description: {
     textAlignVertical: 'center',
@@ -46,15 +48,20 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     marginBottom: 16,
   },
+  mascotContainer: {
+    flex: 1,
+  },
   mascot: {
-    width: 160,
-    height: 127,
+    marginTop: 4,
+    width: '90%',
+    height: '90%',
   },
   titleText: {
     alignSelf: 'center',
     marginTop: 20,
     marginLeft: 32,
-    width: '$deviceWidth / 3',
+    marginRight: 12,
+    flex: 1,
   },
   headerRow: {
     flexDirection: 'row',
