@@ -14,24 +14,23 @@ export default EStyleSheet.create({
     height: 44,
     borderRadius: 8,
     padding: 5,
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginHorizontal: 16,
+  },
+  inputContainer: {
+    flex: 0.9,
   },
   input: {
     color: '$primaryDarkGray',
     fontSize: 14,
-    flexGrow: 1,
     padding: 7,
     maxWidth: '$deviceWidth - 100',
     marginLeft: 8,
   },
   closeIconButton: {
-    width: 20,
-    height: 20,
-    borderRadius: 20 / 2,
-    justifyContent: 'center',
-    alignSelf: 'center',
-    marginRight: 16,
+    borderRadius: 0,
+    flex: 0.1,
   },
   closeIcon: {
     color: '$iconColor',
@@ -46,7 +45,6 @@ export default EStyleSheet.create({
   backButtonContainer: {
     flex: 1,
     marginTop: 20,
-    marginLeft: 12,
     marginRight: 4,
   },
 });
