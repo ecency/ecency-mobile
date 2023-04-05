@@ -145,7 +145,7 @@
     "pending_requests": "Pending Requests",
     "boost_account": "Boost",
     "get_boost": "Get Boost",
-    "transfer_engine": "Transfer",
+    "transfer_engine": "Transfert",
     "unstake_engine": "Unstake",
     "stake_engine": "Stake",
     "delegate_engine": "Delegate",
@@ -246,7 +246,7 @@
       "vote": "Vote",
       "comment": "Commentaire",
       "mention": "Mention",
-      "favorite": "Favorites",
+      "favorite": "Favoris",
       "bookmark": "Bookmarks",
       "reblog": "Reblog",
       "transfers": "Transferts",
@@ -292,7 +292,7 @@
     "steemconnect_description": "Si vous ne voulez pas garder votre mot de passe chiffré et enregistré sur votre appareil, vous pouvez utiliser Hivesigner.",
     "steemconnect_fee_description": "info",
     "not_loggedin_alert": "Non connecté",
-    "not_loggedin_alert_desc": "Please login first",
+    "not_loggedin_alert_desc": "Veuillez d'abord vous connecter",
     "login_failed": "Échec de la connexion",
     "login_failed_body": "try a different key or try again later.",
     "deep_login_alert_title": "Easy Login @{username}",
@@ -320,7 +320,7 @@
       "username_contains_symbols_error": "Should contain letters, numbers, hyphen only",
       "username_contains_double_hyphens": "Should not contain double hyphens",
       "username_contains_underscore": "Should not contain underscore",
-      "username_exists": "Username already exists, try a different one"
+      "username_exists": "Ce nom d'utilisateur existe déjà, essayez-en un autre"
     }
   },
   "home": {
@@ -427,11 +427,11 @@
     "label": "Label",
     "enter_label_placeholder": "Enter Label (Optional)",
     "url": "URL",
-    "enter_url_placeholder": "Enter URL",
-    "link_type_text": "Type of Link",
-    "insert_link": "Insert Link",
-    "preview": "Preview",
-    "invalid_url_error": "Please insert valid url",
+    "enter_url_placeholder": "Entrer l’URL",
+    "link_type_text": "Type de lien",
+    "insert_link": "Insérer un lien",
+    "preview": "Aperçu",
+    "invalid_url_error": "Merci d'entrer une url valide",
     "plain": "Plain",
     "video": "Vidéo",
     "image": "Image"
@@ -538,7 +538,7 @@
     "wrong_filter_count": "Veuillez sélectionner 3 filtres",
     "update_available_title": "Mise à jour possible ({version})",
     "update_available_body": "Using latest version of Ecency gives you the best experience",
-    "update": "Update Now",
+    "update": "Mettre à jour maintenant",
     "remind_later": "Remind Later",
     "failed_to_open": "Failed to open a link",
     "restart_ecency": "Redémarrer Ecency ?",
@@ -799,7 +799,7 @@
     "no_comments": "Be the first to respond..."
   },
   "search_result": {
-    "others": "Others",
+    "others": "Autres",
     "best": {
       "title": "Best"
     },
@@ -807,12 +807,12 @@
       "title": "People"
     },
     "topics": {
-      "title": "Topics"
+      "title": "Sujets"
     },
     "communities": {
       "title": "Groups",
       "subscribe": "Join",
-      "unsubscribe": "Leave",
+      "unsubscribe": "Quitter",
       "subscribers": "Membres",
       "posters": "Publieurs",
       "posts": "Post"
@@ -863,7 +863,7 @@
     "percent": "Percent",
     "username": "Nom d'utilisateur",
     "addAccount": "Add Account",
-    "save": "Save",
+    "save": "Sauvegarder",
     "cancel": "Annuler"
   },
   "welcome": {
@@ -880,7 +880,7 @@
     "terms_text": "Read Here!"
   },
   "time": {
-    "second": "seconds",
+    "second": "secondes",
     "minute": "minutes",
     "hour": "heures",
     "week": "semaines",
