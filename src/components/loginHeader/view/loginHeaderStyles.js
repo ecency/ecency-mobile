@@ -34,11 +34,11 @@ export default EStyleSheet.create({
   },
   mascotContainer: {
     flex: 1,
+    alignItems: 'center',
   },
   mascot: {
-    marginTop: 4,
-    width: '80%',
-    height: '80%',
+    width: '70%',
+    height: '70%',
   },
   titleText: {
     alignSelf: 'center',
