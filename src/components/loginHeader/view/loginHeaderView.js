@@ -33,10 +33,13 @@ class LoginHeaderView extends PureComponent {
       <SafeAreaView style={styles.safeArea}>
         <View styles={styles.container}>
           <View style={styles.headerRow}>
-            <Image
-              style={styles.logo}
-              source={require('../../../assets/ecency_logo_transparent.png')}
-            />
+            <View style={styles.logoContainer}>
+              <Image
+                resizeMode="contain"
+                style={styles.logo}
+                source={require('../../../assets/ecency_logo_transparent.png')}
+              />
+            </View>
             <View style={styles.headerButton}>
               <TextButton
                 onPress={onPress}
@@ -54,7 +57,13 @@ class LoginHeaderView extends PureComponent {
                 <Text style={styles.title}>{title}</Text>
                 <Text style={styles.description}>{description}</Text>
               </View>
-              <Image style={styles.mascot} source={require('../../../assets/love_mascot.png')} />
+              <View style={styles.mascotContainer}>
+                <Image
+                  resizeMode="contain"
+                  style={styles.mascot}
+                  source={require('../../../assets/love_mascot.png')}
+                />
+              </View>
             </View>
           </Animatable.View>
           <LineBreak />
