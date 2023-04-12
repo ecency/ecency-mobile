@@ -24,6 +24,8 @@ const CollapsibleCardView = (props) => {
     noContainer,
     handleOnExpanded,
     moreHeight,
+    expanded,
+    isExpanded,
   } = props;
 
   const animation = useSharedValue({ height: contentHeight });
@@ -35,16 +37,21 @@ const CollapsibleCardView = (props) => {
     };
   });
 
-  const [expanded, setExpanded] = useState(props.expanded || false);
+  const [collapsed, setCollapsed] = useState(expanded || isExpanded || false);
   const [contentHeight, setContentHeight] = useState(0);
 
   useEffect(() => {
-    _toggleOnPress();
-  }, [props.expanded, props.isExpanded]);
-
+    if (props.hasOwnProperty('isExpanded') && contentHeight) {
+      animation.value = { height: !isExpanded ? 0 : contentHeight + (moreHeight || 0) };
+      setCollapsed(isExpanded);
+      if (handleOnExpanded) {
+        handleOnExpanded();
+      }
+    }
+  }, [isExpanded, contentHeight]);
   const _toggleOnPress = () => {
-    animation.value = { height: expanded ? 0 : contentHeight + (moreHeight || 0) };
-    setExpanded(!expanded);
+    animation.value = { height: collapsed ? 0 : contentHeight + (moreHeight || 0) };
+    setCollapsed(!collapsed);
     if (handleOnExpanded) {
       handleOnExpanded();
     }
@@ -56,9 +63,9 @@ const CollapsibleCardView = (props) => {
     }
     setContentHeight(event.nativeEvent.layout.height);
     animation.value = {
-      height: !props.expanded ? 0 : event.nativeEvent.layout.height + (moreHeight || 0),
+      height: !expanded ? 0 : event.nativeEvent.layout.height + (moreHeight || 0),
     };
-    setExpanded(props.expanded);
+    setCollapsed(expanded || false);
   };
 
   return (
@@ -72,7 +79,7 @@ const CollapsibleCardView = (props) => {
             title={title}
             defaultTitle={defaultTitle}
             isBoldTitle={isBoldTitle}
-            iconName={expanded ? 'arrow-drop-down' : 'arrow-drop-up'}
+            iconName={collapsed ? 'arrow-drop-down' : 'arrow-drop-up'}
           />
         )}
       </TouchableHighlight>
