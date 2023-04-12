@@ -1,132 +1,88 @@
-import React, { PureComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, TouchableHighlight } from 'react-native';
-import Animated, { EasingNode } from 'react-native-reanimated';
-
-// Constants
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 // Components
 import { ContainerHeader } from '../../containerHeader';
 // Styles
 import styles from './collapsibleCardStyles';
 
-class CollapsibleCardView extends PureComponent {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    expanded                - For is collapsible open or close declaration prop.
-   *   @prop { type }    children                - Render include children
-   *   @prop { type }    title                   - Collapsible title.
-   *
-   */
-  anime = {
-    height: new Animated.Value(-1),
-    expanded: false,
-    contentHeight: 0,
-  };
+const CollapsibleCardView = (props) => {
+  const {
+    title,
+    children,
+    defaultTitle,
+    fontSize,
+    titleColor,
+    isBoldTitle,
+    locked,
+    titleComponent,
+    noBorder,
+    fitContent,
+    isTitleCenter,
+    style,
+    noContainer,
+    handleOnExpanded,
+    moreHeight,
+  } = props;
 
-  constructor(props) {
-    super(props);
-
-    this.anime.expanded = props.expanded;
-
-    this.state = {
-      expanded: props.expanded || false,
+  const animation = useSharedValue({ height: contentHeight });
+  const animationStyle = useAnimatedStyle(() => {
+    return {
+      height: withTiming(animation.value.height, {
+        duration: 500,
+      }),
     };
-  }
+  });
 
-  // Component Functions
-  _initContentHeight = (event) => {
-    if (this.anime.contentHeight > 0) {
-      return;
-    }
-    this.anime.contentHeight = event.nativeEvent.layout.height;
-    this.anime.height.setValue(this.anime.expanded ? this._getMaxValue() : this._getMinValue());
-  };
+  const [expanded, setExpanded] = useState(props.expanded || false);
+  const [contentHeight, setContentHeight] = useState(0);
 
-  _getMaxValue = () => this.anime.contentHeight;
+  useEffect(() => {
+    _toggleOnPress();
+  }, [props.expanded, props.isExpanded]);
 
-  _getMinValue = () => 0;
-
-  _toggleOnPress = () => {
-    const { handleOnExpanded, moreHeight } = this.props;
-    Animated.timing(this.anime.height, {
-      toValue: this.anime.expanded ? this._getMinValue() : this._getMaxValue() + (moreHeight || 0),
-      duration: 200,
-      easing: EasingNode.inOut(EasingNode.ease),
-    }).start();
-    this.anime.expanded = !this.anime.expanded;
-
-    this.setState({
-      expanded: this.anime.expanded,
-    });
-
-    if (handleOnExpanded && this.anime.expanded) {
+  const _toggleOnPress = () => {
+    animation.value = { height: expanded ? 0 : contentHeight + (moreHeight || 0) };
+    setExpanded(!expanded);
+    if (handleOnExpanded) {
       handleOnExpanded();
     }
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isExpanded, moreHeight, locked } = this.props;
-    const { expanded } = this.state;
-
-    if (
-      (locked || !nextProps.isExpanded) &&
-      isExpanded !== nextProps.isExpanded &&
-      expanded !== nextProps.isExpanded
-    ) {
-      this._toggleOnPress();
+  const _initContentHeight = (event) => {
+    if (contentHeight > 0) {
+      return;
     }
+    setContentHeight(event.nativeEvent.layout.height);
+    animation.value = {
+      height: !props.expanded ? 0 : event.nativeEvent.layout.height + (moreHeight || 0),
+    };
+    setExpanded(props.expanded);
+  };
 
-    if (moreHeight !== nextProps.moreHeight) {
-      this.anime.height.setValue(this._getMaxValue() + nextProps.moreHeight);
-    }
-  }
-
-  render() {
-    const {
-      title,
-      children,
-      defaultTitle,
-      fontSize,
-      titleColor,
-      isBoldTitle,
-      locked,
-      titleComponent,
-      noBorder,
-      fitContent,
-      isTitleCenter,
-      style,
-      noContainer,
-    } = this.props;
-    const { expanded } = this.state;
-
-    return (
-      <View style={[styles.container, !noBorder && styles.containerWithBorder, style]}>
-        <TouchableHighlight
-          underlayColor="transparent"
-          onPress={() => !locked && this._toggleOnPress()}
-        >
-          {titleComponent || (
-            <ContainerHeader
-              isCenter={isTitleCenter}
-              color={titleColor || '#788187'}
-              fontSize={fontSize || 12}
-              title={title}
-              defaultTitle={defaultTitle}
-              isBoldTitle={isBoldTitle}
-              iconName={expanded ? 'arrow-drop-down' : 'arrow-drop-up'}
-            />
-          )}
-        </TouchableHighlight>
-
-        <Animated.View
-          style={[styles.content, { height: this.anime.height, opacity: expanded ? 1 : 0 }]}
-          onLayout={(e) => this._initContentHeight(e)}
-        >
-          <View style={[!fitContent && !noContainer && styles.contentBody]}>{children}</View>
-        </Animated.View>
-      </View>
-    );
-  }
-}
-
+  return (
+    <View style={[styles.container, !noBorder && styles.containerWithBorder, style]}>
+      <TouchableHighlight underlayColor="transparent" onPress={() => !locked && _toggleOnPress()}>
+        {titleComponent || (
+          <ContainerHeader
+            isCenter={isTitleCenter}
+            color={titleColor || '#788187'}
+            fontSize={fontSize || 12}
+            title={title}
+            defaultTitle={defaultTitle}
+            isBoldTitle={isBoldTitle}
+            iconName={expanded ? 'arrow-drop-down' : 'arrow-drop-up'}
+          />
+        )}
+      </TouchableHighlight>
+      <Animated.View
+        style={[styles.content, animationStyle]}
+        onLayout={(e) => _initContentHeight(e)}
+      >
+        <View style={[!fitContent && !noContainer && styles.contentBody]}>{children}</View>
+      </Animated.View>
+    </View>
+  );
+};
 export default CollapsibleCardView;
