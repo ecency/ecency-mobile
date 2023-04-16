@@ -44,9 +44,6 @@ const CollapsibleCardView = (props) => {
     if (props.hasOwnProperty('isExpanded') && contentHeight) {
       animation.value = { height: !isExpanded ? 0 : contentHeight + (moreHeight || 0) };
       setCollapsed(isExpanded);
-      if (handleOnExpanded) {
-        handleOnExpanded();
-      }
     }
   }, [isExpanded, contentHeight]);
   const _toggleOnPress = () => {

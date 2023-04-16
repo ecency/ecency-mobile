@@ -125,7 +125,7 @@ class ProfileView extends PureComponent {
         defaultTitle={intl.formatMessage({
           id: 'profile.details',
         })}
-        expanded={!isOwnProfile}
+        // expanded={!isOwnProfile}
         isExpanded={isSummaryOpen}
         handleOnExpanded={this._handleOnSummaryExpanded}
         moreHeight={collapsibleMoreHeight}
