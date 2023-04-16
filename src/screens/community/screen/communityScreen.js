@@ -60,6 +60,7 @@ const CommunityScreen = ({ route }) => {
               })}`}
               isTitleCenter
               defaultTitle=""
+              isExpanded
             >
               <View style={styles.collapsibleCard}>
                 <ScrollView style={styles.descriptionContainer}>
