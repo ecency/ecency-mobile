@@ -274,7 +274,15 @@
     "feedback_fail": "Email client could not open",
     "server_fail": "Server not available",
     "show_imgs": "Show Images",
-    "delete_account": "Delete Account"
+    "delete_account": "Delete Account",
+    "backup_private_keys": "Backup Private Keys",
+    "backup": "Backup",
+    "backup_keys_modal": {
+      "owner_key": "Owner Key",
+      "active_key": "Active Key",
+      "posting_key": "Posting Key",
+      "memo_key": "Memo Key"
+    }
   },
   "voters": {
     "voters_info": "Voters Info",

@@ -76,17 +76,17 @@ class SettingsContainer extends Component {
       serverList: SERVER_LIST,
       isNotificationMenuOpen: props.isNotificationSettingsOpen,
       isLoading: false,
+      isVisibleBackupKeysModal: false,
     };
   }
 
   // Component Life Cycle Functions
   componentDidMount() {
-    getNodes()
-      .then((resp) => {
-        this.setState({
-          serverList: resp,
-        });
-      })
+    getNodes().then((resp) => {
+      this.setState({
+        serverList: resp,
+      });
+    });
   }
 
   // Component Functions
@@ -305,6 +305,10 @@ class SettingsContainer extends Component {
         this._handleSendFeedback();
         break;
 
+      case settingsTypes.BACKUP_PRIVATE_KEYS:
+        this.setState({ isVisibleBackupKeysModal: true });
+        break;
+
       case settingsTypes.DELETE_ACCOUNT:
         this._handleDeleteAccount();
         break;
@@ -487,9 +491,14 @@ class SettingsContainer extends Component {
     }
   };
 
+  _handleBackupKeysModal = (value: boolean) => {
+    this.setState({ isVisibleBackupKeysModal: value });
+  };
+
   render() {
-    const { serverList, isNotificationMenuOpen, isLoading } = this.state;
-    const { colorTheme } = this.props;
+    const { serverList, isNotificationMenuOpen, isLoading, isVisibleBackupKeysModal } = this
+      .state as any;
+    const { colorTheme } = this.props as any;
 
     return (
       <SettingsScreen
@@ -499,6 +508,8 @@ class SettingsContainer extends Component {
         handleOnButtonPress={this._handleButtonPress}
         isLoading={isLoading}
         colorThemeIndex={colorTheme}
+        isVisibleBackupKeysModal={isVisibleBackupKeysModal}
+        handleBackupKeysModalVisibility={this._handleBackupKeysModal}
         {...this.props}
       />
     );

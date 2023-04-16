@@ -101,6 +101,8 @@ import { SimpleChart } from './simpleChart';
 import BeneficiarySelectionContent from './beneficiarySelectionContent/beneficiarySelectionContent';
 import TransferAccountSelector from './transferAccountSelector/transferAccountSelector';
 import TransferAmountInputSection from './transferAmountInputSection/transferAmountInputSection';
+import { BackupPrivateKeysModal } from './backupKeysModal/backupKeysModal';
+import TextInputWithCopy from './textInputWithCopy/textInputWithCopy';
 
 // Basic UI Elements
 import {
@@ -249,4 +251,6 @@ export {
   BeneficiarySelectionContent,
   TransferAccountSelector,
   TransferAmountInputSection,
+  BackupPrivateKeysModal,
+  TextInputWithCopy,
 };
