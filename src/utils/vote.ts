@@ -19,15 +19,13 @@ export const getEstimatedAmount = (account, globalProps: GlobalProps, sliderValu
 
   if (isNaN(estimatedAmount)) {
     return '0.00';
-  }
-  else if (estimatedAmount >= 1) {
-    return estimatedAmount.toFixed(2)
+  } else if (estimatedAmount >= 1) {
+    return estimatedAmount.toFixed(2);
   } else {
     const _fixed = parseFloat(estimatedAmount.toFixed(4));
-    const _precision = _fixed < 0.001 ? 1 : 2
+    const _precision = _fixed < 0.001 ? 1 : 2;
     return _fixed.toPrecision(_precision);
   }
-
 };
 
 /*

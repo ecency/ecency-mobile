@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { openInbox } from 'react-native-email-link';
+import Reactotron from 'reactotron-react-native';
 import styles from '../styles/registerAccountModalStyles';
 import { InAppPurchaseContainer } from '../../../containers';
 import { Icon, MainButton, Modal, PostCardPlaceHolder, TextButton } from '../../../components';
@@ -61,6 +62,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
         setIsRegistering(false);
       })
       .catch((err) => {
+        Reactotron.log(err);
         let title = intl.formatMessage({ id: 'alert.fail' });
         let body = intl.formatMessage({ id: 'alert.unknow_error' });
 

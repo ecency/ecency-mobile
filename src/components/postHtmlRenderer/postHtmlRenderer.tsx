@@ -48,7 +48,7 @@ export const PostHtmlRenderer = memo(
     body = body
       .replace(/<center>/g, '<div class="text-center">')
       .replace(/<\/center>/g, '</div>')
-      .replace(/<span(.*?)>/g, '') //TODO: later handle span with propties lie <span class="ll-key"> and remove on raw <span/>
+      .replace(/<span(.*?)>/g, '') // TODO: later handle span with propties lie <span class="ll-key"> and remove on raw <span/>
       .replace(/<\/span>/g, '');
 
     const _minTableColWidth = contentWidth / 3 - 12;

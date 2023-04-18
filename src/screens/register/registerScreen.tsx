@@ -228,7 +228,7 @@ const RegisterScreen = ({ navigation, route }) => {
             rightInfoIcon
             errorInfo={usernameError}
             type="username"
-            isFirstImage={isUserExist ? true : false}
+            isFirstImage={!!isUserExist}
             value={username}
             inputStyle={styles.input}
             onFocus={() => setKeyboardIsOpen(true)}

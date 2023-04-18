@@ -1,4 +1,6 @@
 import { isArray } from 'lodash';
+import Config from 'react-native-config';
+import Reactotron from 'reactotron-react-native';
 import api from '../../config/api';
 import bugsnagInstance from '../../config/bugsnag';
 import ecencyApi from '../../config/ecencyApi';
@@ -724,20 +726,19 @@ export const uploadImage = async (media, username, sign, uploadProgress = null) 
 export const getNodes = async () => {
   try {
     const response = await serverList.get('/');
-    console.log("nodes response", response.data);
+    console.log('nodes response', response.data);
 
-    if(!response.data?.hived){
-      throw new Error("Invalid data returned, fallback to local copy")
+    if (!response.data?.hived) {
+      throw new Error('Invalid data returned, fallback to local copy');
     }
 
     return response.data?.hived;
   } catch (error) {
     console.warn('failed to get nodes list', error);
     bugsnagInstance.notify(error);
-    return SERVER_LIST
+    return SERVER_LIST;
   }
 };
-
 
 /**
  * refreshes access token using refresh token
@@ -777,19 +778,17 @@ export const getPromotedEntries = async (username: string) => {
   }
 };
 
-
 /**
  * post inapp purchase method to call
  * @param data PurchaseRequestData
- * @returns 
+ * @returns
  **/
-export const purchaseOrder = (data:PurchaseRequestData) =>
+export const purchaseOrder = (data: PurchaseRequestData) =>
   api
     .post('/purchase-order', data)
     .then((resp) => resp.data)
     .catch((error) => bugsnagInstance.notify(error));
 
-    
 export const getPostReblogs = (data) =>
   api
     .get(`/post-reblogs/${data.author}/${data.permlink}`)
@@ -811,9 +810,12 @@ export const signUp = async (username: string, email: string, referral?: string)
       email,
       referral,
     };
+    Reactotron.log(Config);
     const response = await ecencyApi.post('/private-api/account-create', data);
+    Reactotron.log(response);
     return response.status === 202;
   } catch (error) {
+    Reactotron.log(error);
     bugsnagInstance.notify(error);
     throw error;
   }

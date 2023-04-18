@@ -35,6 +35,11 @@
 		92082305364D41A4A673F950 /* RobotoMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5795D1B1C55E46FF96CC4AED /* RobotoMono-Regular.ttf */; };
 		A57EE8B63D4948F0A05218E3 /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 65F56948860941D6BA55779F /* rubicon-icon-font.ttf */; };
 		CBDA067909BA1BBB3C2617D1 /* libPods-Ecency-EcencyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91ED94F4084A63931FDA34CC /* libPods-Ecency-EcencyTests.a */; };
+		E06FF8CE29DC1F1C00F231CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E06FF8CB29DC1F1C00F231CE /* GoogleService-Info.plist */; };
+		E06FF8CF29DC1F1C00F231CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E06FF8CB29DC1F1C00F231CE /* GoogleService-Info.plist */; };
+		E06FF8D029DC1F1C00F231CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E06FF8CB29DC1F1C00F231CE /* GoogleService-Info.plist */; };
+		E06FF8D129DC1F1C00F231CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E06FF8CB29DC1F1C00F231CE /* GoogleService-Info.plist */; };
+		E06FF8D229DC1F1C00F231CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E06FF8CB29DC1F1C00F231CE /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +147,7 @@
 		9E927FD623E90C0E7B2F1256 /* Pods-Ecency.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency.release.xcconfig"; path = "Target Support Files/Pods-Ecency/Pods-Ecency.release.xcconfig"; sourceTree = "<group>"; };
 		A239FC84622A4A9CA7950ED9 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		BB1093ACCD904E2883413214 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		E06FF8CB29DC1F1C00F231CE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F1D77AE9F7B24CF19834052B /* Sansation_Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Sansation_Bold.ttf; path = ../src/assets/fonts/Sansation_Bold.ttf; sourceTree = "<group>"; };
@@ -227,6 +233,7 @@
 				06F72CA2290B2159003392F3 /* AppDelegate.mm */,
 				58C9F50B24CE084600A026DD /* EcencyDebug.entitlements */,
 				58F9BCC224793C61004F0790 /* GoogleService-Info.plist */,
+				E06FF8CB29DC1F1C00F231CE /* GoogleService-Info.plist */,
 				58190B3D23294823000EA0E1 /* Ecency.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -297,8 +304,8 @@
 		588A5065232A497100FC1361 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				588A506A232A497100FC1361 /* libReactNativeConfig.a */,
-				588A506C232A497100FC1361 /* libReactNativeConfig-tvOS.a */,
+				588A506A232A497100FC1361 /* libRNCConfig.a */,
+				588A506C232A497100FC1361 /* libRNCConfig-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -467,19 +474,14 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 75B6RXTKGT;
 						LastSwiftMigration = 1230;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					0516470724D2C513005DE9C5 = {
 						CreatedOnToolsVersion = 11.6;
-						DevelopmentTeam = 75B6RXTKGT;
-						ProvisioningStyle = Manual;
 					};
 					05B6C48C24C306CE00B7FA60 = {
-						DevelopmentTeam = 75B6RXTKGT;
 						LastSwiftMigration = 1160;
-						ProvisioningStyle = Manual;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -522,16 +524,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		588A506A232A497100FC1361 /* libReactNativeConfig.a */ = {
+		588A506A232A497100FC1361 /* libRNCConfig.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
+			name = libRNCConfig.a;
 			path = libReactNativeConfig.a;
 			remoteRef = 588A5069232A497100FC1361 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		588A506C232A497100FC1361 /* libReactNativeConfig-tvOS.a */ = {
+		588A506C232A497100FC1361 /* libRNCConfig-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
+			name = "libRNCConfig-tvOS.a";
 			path = "libReactNativeConfig-tvOS.a";
 			remoteRef = 588A506B232A497100FC1361 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -544,6 +548,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				58F9BCC624793C61004F0790 /* GoogleService-Info.plist in Resources */,
+				E06FF8CF29DC1F1C00F231CE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,6 +557,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0516470E24D2C513005DE9C5 /* MainInterface.storyboard in Resources */,
+				E06FF8D229DC1F1C00F231CE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -567,6 +573,7 @@
 				06844A5529119F05002FCC34 /* BootSplash.storyboard in Resources */,
 				92082305364D41A4A673F950 /* RobotoMono-Regular.ttf in Resources */,
 				A57EE8B63D4948F0A05218E3 /* rubicon-icon-font.ttf in Resources */,
+				E06FF8CE29DC1F1C00F231CE /* GoogleService-Info.plist in Resources */,
 				7C8D083700274C80BADEB3D6 /* Sansation_Bold.ttf in Resources */,
 				2E340255E74B48D8AF5B650C /* Sansation_Regular.ttf in Resources */,
 			);
@@ -578,6 +585,7 @@
 			files = (
 				58F9BCC724793C61004F0790 /* GoogleService-Info.plist in Resources */,
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
+				E06FF8D029DC1F1C00F231CE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,6 +594,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				58F9BCC824793C61004F0790 /* GoogleService-Info.plist in Resources */,
+				E06FF8D129DC1F1C00F231CE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -983,7 +992,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				DEVELOPMENT_TEAM = "";
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1021,7 +1030,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				DEVELOPMENT_TEAM = "";
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = EcencyTests/Info.plist;
@@ -1056,11 +1065,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = eshare/eshare.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = eshare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -1074,7 +1082,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.eshare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "extension-dev";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1093,11 +1101,11 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = eshare/eshare.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = eshare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -1110,7 +1118,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.eshare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "extension-dev";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -1127,12 +1135,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Ecency/EcencyDebug.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2819;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				DEVELOPMENT_TEAM = "";
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				HEADER_SEARCH_PATHS = (
@@ -1193,7 +1200,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = ios_dev_app;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ecency-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1210,11 +1217,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Ecency/Ecency.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2819;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				DEVELOPMENT_TEAM = "";
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				HEADER_SEARCH_PATHS = (
@@ -1275,7 +1282,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = ios_dev_app;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ecency-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

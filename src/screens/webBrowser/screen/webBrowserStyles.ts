@@ -16,7 +16,7 @@ export default EStyleSheet.create({
     right: 0,
     alignItems: 'center',
   },
-  rightIconContainer:{
-    marginHorizontal:8
-  }
+  rightIconContainer: {
+    marginHorizontal: 8,
+  },
 });

@@ -144,7 +144,7 @@ const BasicHeaderView = ({
               )}
             </View>
           )}
-  
+
           {rightIconName && !isHasSearch && (
             <IconButton
               size={25}
@@ -194,11 +194,10 @@ const BasicHeaderView = ({
               size={28}
               onPress={() => handleBrowserIconPress()}
               iconStyle={styles.rightIcon}
-              name={'open-in-browser'}
-              iconType={'MaterialIcons'}
+              name="open-in-browser"
+              iconType="MaterialIcons"
             />
           )}
-
         </View>
 
         {isHasIcons && (

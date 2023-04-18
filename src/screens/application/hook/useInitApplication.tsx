@@ -13,6 +13,7 @@ import notifee, { EventType } from '@notifee/react-native';
 import { isEmpty, some, get } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
 import BackgroundTimer from 'react-native-background-timer';
+import FastImage from 'react-native-fast-image';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
@@ -26,7 +27,6 @@ import { markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
-import FastImage from 'react-native-fast-image';
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
@@ -59,7 +59,7 @@ export const useInitApplication = () => {
     BackgroundTimer.start(); // ref: https://github.com/ocetnik/react-native-background-timer#ios
 
     appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
-    lowMemSubRef.current = AppState.addEventListener('memoryWarning', _handleLowMemoryWarning)
+    lowMemSubRef.current = AppState.addEventListener('memoryWarning', _handleLowMemoryWarning);
 
     // check for device landscape status and lcok orientation accordingly. Fix for orientation bug on android tablet devices
     isLandscape().then((isLandscape) => {
@@ -96,7 +96,7 @@ export const useInitApplication = () => {
       appStateSubRef.current.remove();
     }
 
-    if (lowMemSubRef.current){
+    if (lowMemSubRef.current) {
       lowMemSubRef.current.remove();
     }
 
@@ -149,10 +149,9 @@ export const useInitApplication = () => {
     appState.current = nextAppState;
   };
 
-
   const _handleLowMemoryWarning = () => {
     FastImage.clearMemoryCache();
-  }
+  };
 
   const _pushNavigate = (notification) => {
     let params = null;

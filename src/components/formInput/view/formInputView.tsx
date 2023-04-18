@@ -134,7 +134,7 @@ const FormInputView = ({
   const _renderInfoIconWithPopover = () => (
     <View style={styles.infoIconContainer}>
       <TouchableOpacity ref={touchableRef} onPress={_handleInfoPress}>
-        <Icon iconType={'MaterialIcons'} name="info-outline" style={styles.infoIcon} />
+        <Icon iconType="MaterialIcons" name="info-outline" style={styles.infoIcon} />
       </TouchableOpacity>
       <Popover
         backgroundStyle={styles.overlay}

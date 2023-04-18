@@ -81,12 +81,11 @@ class SettingsContainer extends Component {
 
   // Component Life Cycle Functions
   componentDidMount() {
-    getNodes()
-      .then((resp) => {
-        this.setState({
-          serverList: resp,
-        });
-      })
+    getNodes().then((resp) => {
+      this.setState({
+        serverList: resp,
+      });
+    });
   }
 
   // Component Functions
