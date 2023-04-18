@@ -28,6 +28,7 @@ import { WriteCommentButton } from '../children/writeCommentButton';
 import { PostComments } from '../../postComments';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import UpvotePopover from '../../upvotePopover';
+import Reactotron from 'reactotron-react-native';
 
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
@@ -212,6 +213,8 @@ const PostDisplayView = ({
 
   const formatedTime = post && getTimeFromNow(post.created);
 
+  const capitalize = (appname) => appname && appname[0].toUpperCase() + appname.slice(1);
+
   if (isPostUnavailable) {
     return (
       <NoPost
@@ -283,6 +286,9 @@ const PostDisplayView = ({
                   Posted by
                   <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
                   {formatedTime}
+                </Text>
+                <Text style={styles.publishedAppName}>
+                  Published using{` ${capitalize((post?.json_metadata?.app).split('/')[0])} `}
                 </Text>
                 <WriteCommentButton ref={writeCommentRef} onPress={_showQuickReplyModal} />
               </View>

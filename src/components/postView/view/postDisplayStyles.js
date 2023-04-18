@@ -85,4 +85,9 @@ export default EStyleSheet.create({
     height: 200,
     width: 300,
   },
+  publishedAppName: {
+    fontSize: 12,
+    fontFamily: '$primaryFont',
+    color: '$primaryRed',
+  },
 });
