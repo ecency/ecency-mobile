@@ -1,4 +1,4 @@
-import { ViewStyle } from 'react-native';
+import { TextStyle, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
@@ -49,4 +49,14 @@ export default EStyleSheet.create({
     borderTopRightRadius: 8,
     borderBottomRightRadius: 8,
   } as ViewStyle,
+  noKeysContainer: {
+    paddingHorizontal: 16,
+  } as ViewStyle,
+  noKeysText: {
+    color: '$primaryBlack',
+    fontWeight: '600',
+    fontSize: 15,
+    lineHeight: 20,
+    fontFamily: '$primaryFont',
+  } as TextStyle,
 });

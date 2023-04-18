@@ -1,4 +1,4 @@
-import { ViewStyle } from 'react-native';
+import { TextStyle, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
@@ -14,7 +14,7 @@ export default EStyleSheet.create({
     fontWeight: '600',
     textAlign: 'left',
   },
-  input: {
+  textValueContainer: {
     borderWidth: 1,
     borderRightWidth: 0,
     borderColor: '$borderColor',
@@ -25,7 +25,10 @@ export default EStyleSheet.create({
     backgroundColor: 'white',
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
   } as ViewStyle,
+  textValue: {} as TextStyle,
 
   copyIconStyle: {
     borderRadius: 0,

@@ -102,7 +102,7 @@ import BeneficiarySelectionContent from './beneficiarySelectionContent/beneficia
 import TransferAccountSelector from './transferAccountSelector/transferAccountSelector';
 import TransferAmountInputSection from './transferAmountInputSection/transferAmountInputSection';
 import { BackupPrivateKeysModal } from './backupKeysModal/backupKeysModal';
-import TextInputWithCopy from './textInputWithCopy/textInputWithCopy';
+import TextBoxWithCopy from './textBoxWithCopy/textBoxWithCopy';
 
 // Basic UI Elements
 import {
@@ -252,5 +252,5 @@ export {
   TransferAccountSelector,
   TransferAmountInputSection,
   BackupPrivateKeysModal,
-  TextInputWithCopy,
+  TextBoxWithCopy,
 };
