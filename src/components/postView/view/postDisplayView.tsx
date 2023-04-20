@@ -28,7 +28,6 @@ import { WriteCommentButton } from '../children/writeCommentButton';
 import { PostComments } from '../../postComments';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import UpvotePopover from '../../upvotePopover';
-import Reactotron from 'reactotron-react-native';
 
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
@@ -285,10 +284,8 @@ const PostDisplayView = ({
                 <Text style={styles.footerText}>
                   Posted by
                   <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
+                  via{` ${capitalize((post?.json_metadata?.app).split('/')[0])} `}
                   {formatedTime}
-                </Text>
-                <Text style={styles.publishedAppName}>
-                  Published using{` ${capitalize((post?.json_metadata?.app).split('/')[0])} `}
                 </Text>
                 <WriteCommentButton ref={writeCommentRef} onPress={_showQuickReplyModal} />
               </View>

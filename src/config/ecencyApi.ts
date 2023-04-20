@@ -2,15 +2,12 @@ import axios from 'axios';
 import Config from 'react-native-config';
 import VersionNumber from 'react-native-version-number';
 import { get } from 'lodash';
-import Reactotron from 'reactotron-react-native';
 import { store } from '../redux/store/store';
 import { getDigitPinCode } from '../providers/hive/dhive';
 import { decryptKey } from '../utils/crypto';
 import bugsnagInstance from './bugsnag';
 
 export const ECENCY_TERMS_URL = `${Config.ECENCY_BACKEND_API}/terms-of-service`;
-Reactotron.log(ECENCY_TERMS_URL);
-Reactotron.log(process.env);
 const ecencyApi = axios.create({
   baseURL: Config.ECENCY_BACKEND_API,
   headers: {
@@ -21,7 +18,6 @@ const ecencyApi = axios.create({
 
 ecencyApi.interceptors.request.use((request) => {
   console.log('Starting ecency Request', request);
-  Reactotron.log(request);
   // skip code addition is register and token refresh endpoint is triggered
   if (
     request.url === '/private-api/account-create' ||
@@ -70,7 +66,6 @@ ecencyApi.interceptors.request.use((request) => {
 });
 
 ecencyApi.interceptors.response.use((response) => {
-  Reactotron.log(response);
   return response;
 });
 

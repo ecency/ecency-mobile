@@ -1,6 +1,5 @@
 import { isArray } from 'lodash';
 import Config from 'react-native-config';
-import Reactotron from 'reactotron-react-native';
 import api from '../../config/api';
 import bugsnagInstance from '../../config/bugsnag';
 import ecencyApi from '../../config/ecencyApi';
@@ -810,12 +809,9 @@ export const signUp = async (username: string, email: string, referral?: string)
       email,
       referral,
     };
-    Reactotron.log(Config);
     const response = await ecencyApi.post('/private-api/account-create', data);
-    Reactotron.log(response);
     return response.status === 202;
   } catch (error) {
-    Reactotron.log(error);
     bugsnagInstance.notify(error);
     throw error;
   }
