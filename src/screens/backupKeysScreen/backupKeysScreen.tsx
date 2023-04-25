@@ -37,12 +37,12 @@ const BackupKeysScreen = () => {
   const _renderContent = (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
       {currentAccount?.local?.authType === AUTH_TYPE.STEEM_CONNECT && _renderNoKeys()}
-      {currentAccount?.local?.masterKey
+      {currentAccount?.local?.ownerKey
         ? _renderKey(
             intl.formatMessage({
               id: 'settings.backup_keys_modal.owner_key',
             }),
-            decryptKey(currentAccount?.local?.masterKey, digitPinCode) || '',
+            decryptKey(currentAccount?.local?.ownerKey, digitPinCode) || '',
           )
         : null}
       {currentAccount?.local?.activeKey

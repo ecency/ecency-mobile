@@ -411,6 +411,11 @@ export const getUpdatedUserData = (userData, data) => {
       get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
         ? encryptKey(get(privateKeys, 'memoKey', '').toString(), get(data, 'pinCode'))
         : '',
+    ownerKey:
+      get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
+      get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
+        ? encryptKey(get(privateKeys, 'ownerKey', '').toString(), get(data, 'pinCode'))
+        : '',
   };
 };
 
