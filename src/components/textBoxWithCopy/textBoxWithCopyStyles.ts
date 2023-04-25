@@ -4,6 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   container: {
     marginVertical: 8,
+    flex:1,
   } as ViewStyle,
   copyInputContainer: {
     flexDirection: 'row',

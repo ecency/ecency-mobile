@@ -12,12 +12,28 @@ export default EStyleSheet.create({
   },
   inputsContainer: {
     paddingHorizontal: 16,
-  },
+    flexDirection: 'row',
+  } as ViewStyle,
   inputLabel: {
     color: '$primaryBlack',
     fontWeight: '600',
     textAlign: 'left',
   },
+  revealBtn: {
+    backgroundColor: '$primaryBlue',
+    width: 75,
+    height: 40,
+    marginLeft: 8,
+    borderRadius: 8,
+    marginTop: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+  } as ViewStyle,
+  revealBtnText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 13,
+  } as TextStyle,
   input: {
     borderWidth: 1,
     borderRightWidth: 0,

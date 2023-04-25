@@ -283,7 +283,9 @@
       "posting_key": "Posting Key",
       "memo_key": "Memo Key",
       "key_copied": "Key copied to clipboard",
-      "no_keys": "Your signin method is hivesigner. Application does not have any key stored in device. Kindly login with master password to generate keys"
+      "no_keys": "Your signin method is hivesigner. Application does not have any key stored in device. Kindly login with master password to generate keys",
+      "reveal_private": "Reveal Private Key",
+      "reveal_public": "Reveal Public Key"
     }
   },
   "voters": {
