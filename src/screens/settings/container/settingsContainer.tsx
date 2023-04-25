@@ -76,7 +76,6 @@ class SettingsContainer extends Component {
       serverList: SERVER_LIST,
       isNotificationMenuOpen: props.isNotificationSettingsOpen,
       isLoading: false,
-      isVisibleBackupKeysModal: false,
     };
   }
 
@@ -306,7 +305,7 @@ class SettingsContainer extends Component {
         break;
 
       case settingsTypes.BACKUP_PRIVATE_KEYS:
-        this.setState({ isVisibleBackupKeysModal: true });
+        navigation.navigate(ROUTES.SCREENS.BACKUP_KEYS);
         break;
 
       case settingsTypes.DELETE_ACCOUNT:
@@ -491,10 +490,6 @@ class SettingsContainer extends Component {
     }
   };
 
-  _handleBackupKeysModal = (value: boolean) => {
-    this.setState({ isVisibleBackupKeysModal: value });
-  };
-
   render() {
     const { serverList, isNotificationMenuOpen, isLoading, isVisibleBackupKeysModal } = this
       .state as any;
@@ -508,8 +503,6 @@ class SettingsContainer extends Component {
         handleOnButtonPress={this._handleButtonPress}
         isLoading={isLoading}
         colorThemeIndex={colorTheme}
-        isVisibleBackupKeysModal={isVisibleBackupKeysModal}
-        handleBackupKeysModalVisibility={this._handleBackupKeysModal}
         {...this.props}
       />
     );

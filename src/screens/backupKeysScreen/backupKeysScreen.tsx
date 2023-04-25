@@ -1,32 +1,22 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+
 import { useIntl } from 'react-intl';
-import { ScrollView, View, Text } from 'react-native';
-import styles from './backupKeysModalStyles';
-import Modal from '../modal';
-import { TextBoxWithCopy } from '..';
+import { ScrollView, Text, View } from 'react-native';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { BasicHeader, TextBoxWithCopy } from '../../components';
 import { useAppSelector } from '../../hooks';
-import AUTH_TYPE from '../../constants/authType';
-import { decryptKey } from '../../utils/crypto';
 import { getDigitPinCode } from '../../providers/hive/dhive';
+import AUTH_TYPE from '../../constants/authType';
 
-interface BackupPrivateKeysModalProps {
-  visible: boolean;
-  handleBackupKeysModalVisibility: (value: boolean) => void;
-}
+// styles
+import styles from './backupKeysScreenStyles';
+import { decryptKey } from '../../utils/crypto';
 
-export const BackupPrivateKeysModal = ({
-  visible,
-  handleBackupKeysModalVisibility,
-}: BackupPrivateKeysModalProps) => {
+const BackupKeysScreen = () => {
   const intl = useIntl();
-
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
   const digitPinCode = getDigitPinCode(pinCode);
-
-  const _handleOnCloseSheet = () => {
-    handleBackupKeysModalVisibility(false);
-  };
 
   const _renderKey = (authType: string, key: string) => (
     <View style={styles.inputsContainer}>
@@ -43,6 +33,7 @@ export const BackupPrivateKeysModal = ({
       </Text>
     </View>
   );
+
   const _renderContent = (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
       {currentAccount?.local?.authType === AUTH_TYPE.STEEM_CONNECT && _renderNoKeys()}
@@ -82,15 +73,16 @@ export const BackupPrivateKeysModal = ({
   );
 
   return (
-    <Modal
-      isOpen={visible}
-      handleOnModalClose={_handleOnCloseSheet}
-      presentationStyle="formSheet"
-      animationType="slide"
-      title={intl.formatMessage({ id: 'settings.backup_private_keys' })}
-      style={styles.modalStyle}
-    >
-      {_renderContent}
-    </Modal>
+    <Fragment>
+      <BasicHeader
+        backIconName="close"
+        title={intl.formatMessage({
+          id: 'settings.backup_private_keys',
+        })}
+      />
+      <View style={styles.mainContainer}>{_renderContent}</View>
+    </Fragment>
   );
 };
+
+export default gestureHandlerRootHOC(BackupKeysScreen);

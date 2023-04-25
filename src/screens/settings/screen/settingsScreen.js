@@ -50,8 +50,6 @@ const SettingsScreen = ({
   handleOnButtonPress,
   isLoading,
   isHideImages,
-  isVisibleBackupKeysModal,
-  handleBackupKeysModalVisibility,
 }) => {
   return (
     <Fragment>
@@ -335,10 +333,6 @@ const SettingsScreen = ({
           )}
         </View>
       </ScrollView>
-      <BackupPrivateKeysModal
-        visible={isVisibleBackupKeysModal}
-        handleBackupKeysModalVisibility={handleBackupKeysModalVisibility}
-      />
     </Fragment>
   );
 };
