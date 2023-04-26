@@ -4,7 +4,7 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    height: '$deviceHeight / 4',
+    height: '$deviceHeight / 3',
     backgroundColor: '$primaryBackgroundColor',
   },
   safeArea: {
@@ -12,10 +12,12 @@ export default EStyleSheet.create({
   },
   body: {
     flexDirection: 'row',
-    maxHeight: '$deviceHeight / 4',
+    maxHeight: '$deviceHeight / 3',
     overflow: 'hidden',
     backgroundColor: '$primaryBackgroundColor',
     height: '$deviceHeight / 3.9',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   description: {
     textAlignVertical: 'center',
@@ -30,18 +32,20 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     marginBottom: 16,
   },
+  mascotContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
   mascot: {
-    position: 'absolute',
-    width: 160,
-    height: 227,
-    marginTop: 40,
-    right: -20,
+    width: '70%',
+    height: '70%',
   },
   titleText: {
     alignSelf: 'center',
     marginTop: 20,
     marginLeft: 32,
-    width: '$deviceWidth / 4',
+    marginRight: 12,
+    flex: 1,
   },
   headerRow: {
     width: '$deviceWidth',
@@ -50,11 +54,15 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     paddingVertical: 8,
   },
+  logoContainer: {
+    paddingLeft: 32,
+    paddingRight: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   logo: {
     width: 32,
     height: 32,
-    marginLeft: 32,
-    alignSelf: 'center',
   },
   headerButton: {
     margin: 10,

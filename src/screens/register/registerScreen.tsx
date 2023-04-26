@@ -183,7 +183,7 @@ const RegisterScreen = ({ navigation, route }) => {
     <SafeAreaView style={styles.container}>
       <StatusBar hidden translucent />
       <View style={styles.headerRow}>
-        <Image style={styles.logo} source={ESTEEM_SMALL_LOGO} />
+        <Image resizeMode="contain" style={styles.logo} source={ESTEEM_SMALL_LOGO} />
         <View style={styles.headerButton}>
           <TextButton
             onPress={() => {
@@ -206,7 +206,9 @@ const RegisterScreen = ({ navigation, route }) => {
               {intl.formatMessage({ id: 'register.title_description' })}
             </Text>
           </View>
-          <Image style={styles.mascot} source={ESTEEM_LOGO} />
+          <View style={styles.mascotContainer}>
+            <Image style={styles.mascot} source={ESTEEM_LOGO} />
+          </View>
         </View>
       </Animatable.View>
       <KeyboardAvoidingView
