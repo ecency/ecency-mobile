@@ -65,3 +65,12 @@ export interface SpkApiWallet {
       usd: number;
     };
   }
+
+  export enum SpkActions {
+    TRANSFER = 'transfer_spk',
+    TRANSFER_LARYNX = 'transfer_larynx',
+    POWER_UP = 'power_up_spk',
+    LOCK_LIQUIDITY = 'lock_liquidity_spk',
+    DELEGATE = 'delegate_spk',
+    POWER_DOWN = 'power_down_spk'
+  }

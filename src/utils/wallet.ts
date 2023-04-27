@@ -32,9 +32,10 @@ import parseAsset from './parseAsset';
 import {
   fetchHiveEngineTokenBalances,
 } from '../providers/hive-engine/hiveEngine';
-import { EngineActions, SpkActions } from '../providers/hive-engine/hiveEngine.types';
+import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
 import { ClaimsCollection } from '../redux/reducers/cacheReducer';
 import { fetchSpkWallet } from '../providers/hive-spk/hiveSpk';
+import { SpkActions } from '../providers/hive-spk/hiveSpk.types';
 
 export const transferTypes = [
   'curation_reward',
@@ -580,7 +581,7 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
         currentPrice: _price, 
         isSpk: true,
         actions: [
-          SpkActions.TRANSFER,
+          SpkActions.TRANSFER_LARYNX,
           SpkActions.POWER_UP,
           SpkActions.LOCK_LIQUIDITY
         ]

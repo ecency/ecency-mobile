@@ -20,13 +20,6 @@ export enum EngineActions {
   STAKE = 'stake'
 }
 
-export enum SpkActions {
-  TRANSFER = 'transfer_spk',
-  POWER_UP = 'power_up_spk',
-  LOCK_LIQUIDITY = 'lock_liquidity_spk',
-  DELEGATE = 'delegate_spk',
-  POWER_DOWN = 'power_down_spk'
-}
 
 export enum EngineTables {
   BALANCES = 'balances',
