@@ -1,39 +1,31 @@
-const TRANSFER_TOKEN = 'transfer_token';
-const PURCHASE_ESTM = 'purchase_estm';
-const CONVERT = 'convert';
-const TRANSFER_TO_SAVINGS = 'transfer_to_savings';
-const TRANSFER_TO_VESTING = 'transfer_to_vesting';
-const POINTS = 'points';
-const WITHDRAW_HIVE = 'withdraw_hive';
-const WITHDRAW_HBD = 'withdraw_hbd';
-const DELEGATE = 'delegate';
-const POWER_DOWN = 'power_down';
-const ADDRESS_VIEW = 'address_view';
-const DELEGATE_VESTING_SHARES = 'delegate_vesting_shares';
-const WITHDRAW_VESTING = 'withdraw_vesting';
-const TRANSFER_ENGINE = 'transfer_engine';
-const UNSTAKE_ENGINE = 'unstake_engine';
-const STAKE_ENGINE = 'stake_engine';
-const UNDELEGATE_ENGINE = 'undelegate_engine';
-
 const TransferTypes = {
-  TRANSFER_TOKEN,
-  PURCHASE_ESTM,
-  CONVERT,
-  TRANSFER_TO_SAVINGS,
-  TRANSFER_TO_VESTING,
-  POINTS,
-  WITHDRAW_HIVE,
-  WITHDRAW_HBD,
-  DELEGATE,
-  POWER_DOWN,
-  ADDRESS_VIEW,
-  DELEGATE_VESTING_SHARES,
-  WITHDRAW_VESTING,
-  TRANSFER_ENGINE,
-  UNSTAKE_ENGINE,
-  UNDELEGATE_ENGINE,
-  STAKE_ENGINE,
+  TRANSFER_TOKEN:'transfer_token',
+  PURCHASE_ESTM:'purchase_estm',
+  CONVERT:'convert',
+  TRANSFER_TO_SAVINGS:'transfer_to_savings',
+  TRANSFER_TO_VESTING:'transfer_to_vesting',
+  POINTS:'points',
+  WITHDRAW_HIVE:'withdraw_hive',
+  WITHDRAW_HBD:'withdraw_hbd',
+  DELEGATE:'delegate',
+  POWER_DOWN:'power_down',
+  ADDRESS_VIEW:'address_view',
+  DELEGATE_VESTING_SHARES:'delegate_vesting_shares',
+
+  //Engine Transfer types
+  WITHDRAW_VESTING:'withdraw_vesting',
+  TRANSFER_ENGINE:'transfer_engine',
+  UNSTAKE_ENGINE:'unstake_engine',
+  STAKE_ENGINE:'stake_engine',
+  UNDELEGATE_ENGINE:'undelegate_engine',
+  
+  //SPK Transfer Types
+  TRANSFER_SPK:'transfer_spk',
+  TRANSFER_LARYNX:'transfer_larynx',
+  POWER_UP_SPK:'power_up_spk',
+  LOCK_LIQUIDITY_SPK:'lock_liquidity_spk',
+  DELEGATE_SPK:'delegate_spk',
+  POWER_DOWN_SPK:'power_down_spk'
 };
 
 export default TransferTypes;
