@@ -1,28 +1,28 @@
-import { PrivateKey } from "@esteemapp/dhive";
-import { Operation } from "@hiveio/dhive";
-import axios from "axios";
-import parseAsset from "../../utils/parseAsset";
-import parseToken from "../../utils/parseToken";
-import { getActiveKey, getDigitPinCode, sendHiveOperations } from "../hive/dhive";
+import { PrivateKey } from '@esteemapp/dhive';
+import { Operation } from '@hiveio/dhive';
+import axios from 'axios';
+import parseAsset from '../../utils/parseAsset';
+import parseToken from '../../utils/parseToken';
+import { getActiveKey, getDigitPinCode, sendHiveOperations } from '../hive/dhive';
 // import { PrivateKey, TransactionConfirmation } from "@hiveio/dhive";
 // import { client as hiveClient } from "./hive";
 // import * as keychain from "../helper/keychain";
 // import { broadcastPostingJSON } from "./operations";
 // import { hotSign } from "../helper/hive-signer";
-import { Markets, SpkApiWallet, SpkMarkets, SpkPowerMode } from "./hiveSpk.types";
+import { Markets, SpkApiWallet, SpkMarkets, SpkPowerMode } from './hiveSpk.types';
 
 const spkNodes = [
-  "https://spk.good-karma.xyz",
-  "https://spkinstant.hivehoneycomb.com",
-  "https://spknode.blocktrades.us",
-  "https://spk.tcmd-spkcc.com",
-  "https://spktoken.dlux.io"
+  'https://spk.good-karma.xyz',
+  'https://spkinstant.hivehoneycomb.com',
+  'https://spknode.blocktrades.us',
+  'https://spk.tcmd-spkcc.com',
+  'https://spktoken.dlux.io',
 ];
 
-const spkNode = "https://spk.good-karma.xyz/"; //spkNodes[Math.floor(Math.random()*spkNodes.length)];
+const spkNode = 'https://spk.good-karma.xyz/'; // spkNodes[Math.floor(Math.random()*spkNodes.length)];
 
 const spkApi = axios.create({
-  baseURL: spkNode
+  baseURL: spkNode,
 });
 
 export function rewardSpk(data: SpkApiWallet, sstats: any) {
@@ -42,9 +42,9 @@ export function rewardSpk(data: SpkApiWallet, sstats: any) {
     b = data.pow ? simpleInterest(data.pow, t, sstats.spk_rate_lpow) : 0;
     c = simpleInterest(
       (data.granted.t > 0 ? data.granted.t : 0) +
-      (data.granting.t && data.granting.t > 0 ? data.granting.t : 0),
+        (data.granting.t && data.granting.t > 0 ? data.granting.t : 0),
       t,
-      sstats.spk_rate_ldel
+      sstats.spk_rate_ldel,
     );
     const i = a + b + c;
     if (i) {
@@ -66,27 +66,25 @@ export const fetchSpkWallet = async (username: string): Promise<SpkApiWallet> =>
 };
 
 export const fetchSpkMarkets = async (): Promise<Markets> => {
-  const resp = await spkApi.get<SpkMarkets>(`markets`);
+  const resp = await spkApi.get<SpkMarkets>('markets');
   return {
     list: Object.entries(resp.data.markets.node).map(([name, node]) => ({
       name,
       status:
         node.lastGood >= resp.data.head_block - 1200
-          ? "🟩"
+          ? '🟩'
           : node.lastGood > resp.data.head_block - 28800
-            ? "🟨"
-            : "🟥"
+          ? '🟨'
+          : '🟥',
     })),
-    raw: resp.data
+    raw: resp.data,
   };
 };
-
 
 const executeSpkAction = (id: string, json: any, currentAccount: any, pinHash: string) => {
   const pin = getDigitPinCode(pinHash);
   const key = getActiveKey(currentAccount.local, pin);
   const username = currentAccount.name;
-
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -106,51 +104,44 @@ const executeSpkAction = (id: string, json: any, currentAccount: any, pinHash: s
   );
 };
 
-
 /**
  * SPK operations
  */
-
 
 export const transferSpk = async (
   currentAccount: any,
   pinHash: string,
   data: {
-    destination: string,
-    amount: string,
-    memo?: string
-  }
+    destination: string;
+    amount: string;
+    memo?: string;
+  },
 ) => {
-
   const json = {
-    to:data.destination,
+    to: data.destination,
     amount: parseToken(data.amount) * 1000,
-    ...(!!data.memo ? { memo : data.memo } : {})
-  }
+    ...(data.memo ? { memo: data.memo } : {}),
+  };
 
-  return executeSpkAction("spkcc_spk_send", json, currentAccount, pinHash);
+  return executeSpkAction('spkcc_spk_send', json, currentAccount, pinHash);
 };
-
-
 
 export const transferLarynx = async (
   currentAccount: any,
   pinHash: string,
   data: {
-    destination: string,
-    amount: string,
-    memo?: string
-  }
+    destination: string;
+    amount: string;
+    memo?: string;
+  },
 ) => {
   const json = {
     to: data.destination,
     amount: parseToken(data.amount) * 1000,
-    ...(!!data.memo ? { memo : data.memo } : {})
-  }
-  return executeSpkAction("spkcc_send", json, currentAccount, pinHash);
-
+    ...(data.memo ? { memo: data.memo } : {}),
+  };
+  return executeSpkAction('spkcc_send', json, currentAccount, pinHash);
 };
-
 
 export const delegateLarynx = async (
   currentAccount: any,
@@ -161,42 +152,40 @@ export const delegateLarynx = async (
   const json = {
     to,
     amount: +amount * 1000,
-  }
-  return executeSpkAction("spkcc_power_grant", json, currentAccount, pinHash);
-
+  };
+  return executeSpkAction('spkcc_power_grant', json, currentAccount, pinHash);
 };
-
 
 export const powerLarynx = async (
   currentAccount: any,
   pinHash: string,
-  data : {
-    mode: SpkPowerMode,
-    amount: string,
-  }
- 
+  data: {
+    mode: SpkPowerMode;
+    amount: string;
+  },
 ) => {
   const json = {
     amount: parseToken(data.amount) * 1000,
-  }
+  };
   return executeSpkAction(`spkcc_power_${data.mode}`, json, currentAccount, pinHash);
-
 };
 
 export const lockLarynx = async (
   currentAccount: any,
   pinHash: string,
-  mode: "lock" | "unlock",
+  mode: 'lock' | 'unlock',
   amount: string,
 ) => {
   const json = {
     amount: +amount * 1000,
-  }
-  return executeSpkAction(`spkcc_gov_${mode === 'lock' ? 'up':'down'}`, json, currentAccount, pinHash);
-
+  };
+  return executeSpkAction(
+    `spkcc_gov_${mode === 'lock' ? 'up' : 'down'}`,
+    json,
+    currentAccount,
+    pinHash,
+  );
 };
-
-
 
 /**
  * Claim operations
@@ -214,13 +203,9 @@ export const lockLarynx = async (
 //   return broadcastPostingJSON(from, "spkcc_claim", json);
 // };
 
-
-
 /** Hive signer operations */
 
-
 // export const lockLarynxByKey = async (
-
 
 // export const lockLarynxByHs = async (mode: "lock" | "unlock", from: string, amount: string) => {
 //   const params = {
@@ -232,7 +217,6 @@ export const lockLarynx = async (
 //   };
 //   hotSign("custom-json", params, `@${from}/spk`);
 // };
-
 
 // export const delegateLarynxByHs = async (from: string, to: string, amount: string) => {
 //   return sendSpkGeneralByHs("spkcc_power_grant", from, to, +amount);

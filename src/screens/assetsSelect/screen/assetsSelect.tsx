@@ -56,7 +56,7 @@ const AssetsSelect = ({ navigation }) => {
     const data: CoinData[] = [];
 
     for (const key in coinsData) {
-      if (coinsData.hasOwnProperty(key) && (coinsData[key].isEngine || coinsData[key].isSpk )) {
+      if (coinsData.hasOwnProperty(key) && (coinsData[key].isEngine || coinsData[key].isSpk)) {
         const asset: CoinData = coinsData[key];
         const _name = asset.name.toLowerCase();
         const _symbol = asset.symbol.toLowerCase();
@@ -74,8 +74,6 @@ const AssetsSelect = ({ navigation }) => {
     setListData(data);
     _updateSortedList({ data });
   }, [query, coinsData]);
-
-
 
   const _updateSortedList = ({ data } = { data: listData }) => {
     const _data = [...data];

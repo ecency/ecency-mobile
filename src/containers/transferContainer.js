@@ -37,7 +37,6 @@ import TransferTypes from '../constants/transferTypes';
 import { powerLarynx, transferLarynx, transferSpk } from '../providers/hive-spk/hiveSpk';
 import { SpkPowerMode } from '../providers/hive-spk/hiveSpk.types';
 
-
 /*
  *            Props Name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here
@@ -243,17 +242,17 @@ class TransferContainer extends Component {
         func = undelegateHiveEngine;
         break;
       case TransferTypes.TRANSFER_SPK:
-        func = transferSpk
+        func = transferSpk;
         break;
       case TransferTypes.TRANSFER_LARYNX:
-        func = transferLarynx
+        func = transferLarynx;
       case TransferTypes.POWER_UP_SPK:
-        func = powerLarynx
-        data.mode = SpkPowerMode.UP
+        func = powerLarynx;
+        data.mode = SpkPowerMode.UP;
         break;
       case TransferTypes.POWER_DOWN_SPK:
-        func = powerLarynx
-        data.mode = SpkPowerMode.DOWN
+        func = powerLarynx;
+        data.mode = SpkPowerMode.DOWN;
         break;
       default:
         break;
