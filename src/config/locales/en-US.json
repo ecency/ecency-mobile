@@ -703,6 +703,7 @@
     "unstake_engine":"Unstake Token",
     "delegate_engine":"Delegate Token",
     "undelegate_engine":"Undelegate Token",
+    "transfer_spk":"Transfer SPK",
     "save": "SAVE",
     "percent_information": "Percent info",
     "next": "NEXT",

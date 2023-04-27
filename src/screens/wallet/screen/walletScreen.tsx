@@ -132,11 +132,13 @@ const WalletScreen = ({ navigation }) => {
       const curTime = new Date().getTime();
 
       if (!token.notCrypto && curTime > expiresAt) {
+
+
         let priceData: number[] = [];
         if (token.isEngine) {
           const marketData = await fetchEngineMarketData(token.id);
           priceData = marketData.map((data) => data.close);
-        } if(token.isSpk){
+        } else if(token.isSpk){
           //TODO: add request to fetch chart data if available
         } else {
           const marketChart = await fetchMarketChart(

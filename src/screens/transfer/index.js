@@ -41,6 +41,7 @@ const Transfer = ({ navigation, route }) => (
         case 'stake_engine':
         case 'delegate_engine':
         case 'unstake_engine':
+        case 'transfer_spk':
           return (
             <TransferView
               accounts={accounts}

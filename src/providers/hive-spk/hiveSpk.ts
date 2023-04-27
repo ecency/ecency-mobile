@@ -113,15 +113,17 @@ const executeSpkAction = (id: string, json: any, currentAccount: any, pinHash: s
 export const transferSpk = async (
   currentAccount: any,
   pinHash: string,
-  to: string,
-  amount: string,
-  memo?: string
+  data: {
+    destination: string,
+    amount: string,
+    memo?: string
+  }
 ) => {
 
   const json = {
-    to,
-    amount: +amount * 1000,
-    ...(typeof memo === "string" ? { memo } : {})
+    to:data.destination,
+    amount: +data.amount * 1000,
+    ...(typeof data.memo === "string" ? { memo : data.memo } : {})
   }
 
   return executeSpkAction("spkcc_spk_send", json, currentAccount, pinHash);
