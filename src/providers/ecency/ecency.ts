@@ -724,20 +724,19 @@ export const uploadImage = async (media, username, sign, uploadProgress = null) 
 export const getNodes = async () => {
   try {
     const response = await serverList.get('/');
-    console.log("nodes response", response.data);
+    console.log('nodes response', response.data);
 
-    if(!response.data?.hived){
-      throw new Error("Invalid data returned, fallback to local copy")
+    if (!response.data?.hived) {
+      throw new Error('Invalid data returned, fallback to local copy');
     }
 
     return response.data?.hived;
   } catch (error) {
     console.warn('failed to get nodes list', error);
     bugsnagInstance.notify(error);
-    return SERVER_LIST
+    return SERVER_LIST;
   }
 };
-
 
 /**
  * refreshes access token using refresh token
@@ -777,19 +776,17 @@ export const getPromotedEntries = async (username: string) => {
   }
 };
 
-
 /**
  * post inapp purchase method to call
  * @param data PurchaseRequestData
- * @returns 
+ * @returns
  **/
-export const purchaseOrder = (data:PurchaseRequestData) =>
+export const purchaseOrder = (data: PurchaseRequestData) =>
   api
     .post('/purchase-order', data)
     .then((resp) => resp.data)
     .catch((error) => bugsnagInstance.notify(error));
 
-    
 export const getPostReblogs = (data) =>
   api
     .get(`/post-reblogs/${data.author}/${data.permlink}`)
@@ -885,6 +882,26 @@ export const getCommentHistory = async (
       throw new Error('No history data!');
     }
     return res?.data?.list.map((item) => convertCommentHistory(item));
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    throw error;
+  }
+};
+
+/**
+ * @param draft
+ */
+export const cloneDraft = async (draft: Object) => {
+  draft = {
+    ...draft,
+    title: `Copy of ${draft.title}`,
+  };
+  const { title, body, tags, meta } = draft;
+  let tempTitle = `Copy of ${title}`;
+  try {
+    const data = { title, body, tags, meta };
+    const res = await ecencyApi.post('/private-api/drafts-add', data);
+    return res.data || [];
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;

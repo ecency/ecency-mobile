@@ -36,6 +36,9 @@ const DraftListItemView = ({
   isSchedules,
   isDeleting,
   isUnsaved,
+  handleOnClonePressed,
+  draftItem,
+  isCloning,
 }) => {
   const actionSheet = useRef(null);
   const moveActionSheet = useRef(null);
@@ -104,6 +107,20 @@ const DraftListItemView = ({
                   disabled
                 />
               </PopoverWrapper>
+            )}
+            {!isSchedules && (
+              <IconButton
+                backgroundColor="transparent"
+                name="clone"
+                iconType="FontAwesome"
+                size={16}
+                onPress={() => {
+                  handleOnClonePressed(draftItem);
+                }}
+                style={[styles.rightItem]}
+                color={statusIconColor}
+                isLoading={isCloning}
+              />
             )}
             {isUnsaved ? (
               <IconButton
