@@ -1,6 +1,8 @@
 import { PrivateKey } from "@esteemapp/dhive";
 import { Operation } from "@hiveio/dhive";
 import axios from "axios";
+import parseAsset from "../../utils/parseAsset";
+import parseToken from "../../utils/parseToken";
 import { getActiveKey, getDigitPinCode, sendHiveOperations } from "../hive/dhive";
 // import { PrivateKey, TransactionConfirmation } from "@hiveio/dhive";
 // import { client as hiveClient } from "./hive";
@@ -122,8 +124,8 @@ export const transferSpk = async (
 
   const json = {
     to:data.destination,
-    amount: +data.amount * 1000,
-    ...(typeof data.memo === "string" ? { memo : data.memo } : {})
+    amount: parseToken(data.amount) * 1000,
+    ...(!!data.memo ? { memo : data.memo } : {})
   }
 
   return executeSpkAction("spkcc_spk_send", json, currentAccount, pinHash);
@@ -142,8 +144,8 @@ export const transferLarynx = async (
 ) => {
   const json = {
     to: data.destination,
-    amount: +data.amount * 1000,
-    ...(typeof data.memo === "string" ? { memo : data.memo } : {})
+    amount: parseToken(data.amount) * 1000,
+    ...(!!data.memo ? { memo : data.memo } : {})
   }
   return executeSpkAction("spkcc_send", json, currentAccount, pinHash);
 

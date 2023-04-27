@@ -243,6 +243,7 @@ class TransferContainer extends Component {
         break;
       case TransferTypes.TRANSFER_SPK:
         func = transferSpk
+        break;
       case TransferTypes.TRANSFER_LARYNX:
         func = transferLarynx
       default:
