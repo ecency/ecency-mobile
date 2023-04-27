@@ -134,14 +134,16 @@ export const transferSpk = async (
 export const transferLarynx = async (
   currentAccount: any,
   pinHash: string,
-  to: string,
-  amount: string,
-  memo: string
+  data: {
+    destination: string,
+    amount: string,
+    memo?: string
+  }
 ) => {
   const json = {
-    to,
-    amount: +amount * 1000,
-    ...(typeof memo === "string" ? { memo } : {})
+    to: data.destination,
+    amount: +data.amount * 1000,
+    ...(typeof data.memo === "string" ? { memo : data.memo } : {})
   }
   return executeSpkAction("spkcc_send", json, currentAccount, pinHash);
 

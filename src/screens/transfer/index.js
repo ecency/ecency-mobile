@@ -7,6 +7,7 @@ import TransferView from './screen/transferScreen';
 import AddressView from './screen/addressScreen';
 import PowerDownView from './screen/powerDownScreen';
 import DelegateView from './screen/delegateScreen';
+import TransferTypes from '../../constants/transferTypes';
 
 const Transfer = ({ navigation, route }) => (
   <TransferContainer navigation={navigation} route={route}>
@@ -41,7 +42,8 @@ const Transfer = ({ navigation, route }) => (
         case 'stake_engine':
         case 'delegate_engine':
         case 'unstake_engine':
-        case 'transfer_spk':
+        case TransferTypes.TRANSFER_SPK:
+        case TransferTypes.TRANSFER_LARYNX:
           return (
             <TransferView
               accounts={accounts}

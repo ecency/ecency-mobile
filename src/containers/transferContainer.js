@@ -34,7 +34,8 @@ import {
 } from '../providers/hive-engine/hiveEngineActions';
 import { fetchTokenBalances } from '../providers/hive-engine/hiveEngine';
 import TransferTypes from '../constants/transferTypes';
-import { transferSpk } from '../providers/hive-spk/hiveSpk';
+import { transferLarynx, transferSpk } from '../providers/hive-spk/hiveSpk';
+
 
 /*
  *            Props Name        Description                                     Value
@@ -240,8 +241,10 @@ class TransferContainer extends Component {
       case 'undelegate_engine':
         func = undelegateHiveEngine;
         break;
-      case 'transfer_spk':
+      case TransferTypes.TRANSFER_SPK:
         func = transferSpk
+      case TransferTypes.TRANSFER_LARYNX:
+        func = transferLarynx
       default:
         break;
     }
