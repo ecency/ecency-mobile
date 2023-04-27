@@ -74,3 +74,8 @@ export interface SpkApiWallet {
     DELEGATE = 'delegate_spk',
     POWER_DOWN = 'power_down_spk'
   }
+
+  export enum SpkPowerMode {
+    UP = 'up',
+    DOWN = 'down',
+  }

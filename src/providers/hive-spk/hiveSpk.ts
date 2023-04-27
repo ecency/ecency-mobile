@@ -9,7 +9,7 @@ import { getActiveKey, getDigitPinCode, sendHiveOperations } from "../hive/dhive
 // import * as keychain from "../helper/keychain";
 // import { broadcastPostingJSON } from "./operations";
 // import { hotSign } from "../helper/hive-signer";
-import { HivePrice, Markets, SpkApiWallet, SpkMarkets } from "./hiveSpk.types";
+import { Markets, SpkApiWallet, SpkMarkets, SpkPowerMode } from "./hiveSpk.types";
 
 const spkNodes = [
   "https://spk.good-karma.xyz",
@@ -170,13 +170,16 @@ export const delegateLarynx = async (
 export const powerLarynx = async (
   currentAccount: any,
   pinHash: string,
-  mode: "up" | "down",
-  amount: string,
+  data : {
+    mode: SpkPowerMode,
+    amount: string,
+  }
+ 
 ) => {
   const json = {
-    amount: +amount * 1000,
+    amount: parseToken(data.amount) * 1000,
   }
-  return executeSpkAction(`spkcc_power_${mode}`, json, currentAccount, pinHash);
+  return executeSpkAction(`spkcc_power_${data.mode}`, json, currentAccount, pinHash);
 
 };
 

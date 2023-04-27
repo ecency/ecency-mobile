@@ -44,6 +44,7 @@ const Transfer = ({ navigation, route }) => (
         case 'unstake_engine':
         case TransferTypes.TRANSFER_SPK:
         case TransferTypes.TRANSFER_LARYNX:
+        case TransferTypes.POWER_UP_SPK:
           return (
             <TransferView
               accounts={accounts}
