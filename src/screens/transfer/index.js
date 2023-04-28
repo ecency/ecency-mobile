@@ -45,6 +45,8 @@ const Transfer = ({ navigation, route }) => (
         case TransferTypes.TRANSFER_SPK:
         case TransferTypes.TRANSFER_LARYNX:
         case TransferTypes.POWER_UP_SPK:
+        case TransferTypes.POWER_DOWN_SPK:
+        case TransferTypes.LOCK_LIQUIDITY_SPK:
           return (
             <TransferView
               accounts={accounts}

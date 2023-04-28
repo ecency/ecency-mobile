@@ -34,8 +34,8 @@ import {
 } from '../providers/hive-engine/hiveEngineActions';
 import { fetchTokenBalances } from '../providers/hive-engine/hiveEngine';
 import TransferTypes from '../constants/transferTypes';
-import { powerLarynx, transferLarynx, transferSpk } from '../providers/hive-spk/hiveSpk';
-import { SpkPowerMode } from '../providers/hive-spk/hiveSpk.types';
+import { lockLarynx, powerLarynx, transferLarynx, transferSpk } from '../providers/hive-spk/hiveSpk';
+import { SpkLockMode, SpkPowerMode } from '../providers/hive-spk/hiveSpk.types';
 
 /*
  *            Props Name        Description                                     Value
@@ -254,6 +254,9 @@ class TransferContainer extends Component {
         func = powerLarynx;
         data.mode = SpkPowerMode.DOWN;
         break;
+      case TransferTypes.LOCK_LIQUIDITY_SPK:
+        func = lockLarynx;
+        data.mode = SpkLockMode.LOCK;
       default:
         break;
     }

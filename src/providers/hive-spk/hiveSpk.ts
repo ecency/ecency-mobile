@@ -9,7 +9,7 @@ import { getActiveKey, getDigitPinCode, sendHiveOperations } from '../hive/dhive
 // import * as keychain from "../helper/keychain";
 // import { broadcastPostingJSON } from "./operations";
 // import { hotSign } from "../helper/hive-signer";
-import { Markets, SpkApiWallet, SpkMarkets, SpkPowerMode } from './hiveSpk.types';
+import { Markets, SpkApiWallet, SpkLockMode, SpkMarkets, SpkPowerMode } from './hiveSpk.types';
 
 const spkNodes = [
   'https://spk.good-karma.xyz',
@@ -42,7 +42,7 @@ export function rewardSpk(data: SpkApiWallet, sstats: any) {
     b = data.pow ? simpleInterest(data.pow, t, sstats.spk_rate_lpow) : 0;
     c = simpleInterest(
       (data.granted.t > 0 ? data.granted.t : 0) +
-        (data.granting.t && data.granting.t > 0 ? data.granting.t : 0),
+      (data.granting.t && data.granting.t > 0 ? data.granting.t : 0),
       t,
       sstats.spk_rate_ldel,
     );
@@ -74,8 +74,8 @@ export const fetchSpkMarkets = async (): Promise<Markets> => {
         node.lastGood >= resp.data.head_block - 1200
           ? '🟩'
           : node.lastGood > resp.data.head_block - 28800
-          ? '🟨'
-          : '🟥',
+            ? '🟨'
+            : '🟥',
     })),
     raw: resp.data,
   };
@@ -173,14 +173,16 @@ export const powerLarynx = async (
 export const lockLarynx = async (
   currentAccount: any,
   pinHash: string,
-  mode: 'lock' | 'unlock',
-  amount: string,
+  data: {
+    mode: SpkLockMode,
+    amount: string,
+  }
 ) => {
   const json = {
-    amount: +amount * 1000,
+    amount: parseToken(data.amount) * 1000,
   };
   return executeSpkAction(
-    `spkcc_gov_${mode === 'lock' ? 'up' : 'down'}`,
+    `spkcc_gov_${data.mode === 'lock' ? 'up' : 'down'}`,
     json,
     currentAccount,
     pinHash,

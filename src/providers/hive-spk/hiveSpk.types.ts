@@ -79,3 +79,8 @@ export enum SpkPowerMode {
   UP = 'up',
   DOWN = 'down',
 }
+
+export enum SpkLockMode {
+  LOCK = 'lock',
+  UNLOCK = 'unlock',
+}

@@ -56,6 +56,8 @@ const TransferAccountSelector = ({
       case TransferTypes.PURCHASE_ESTM:
       case TransferTypes.UNSTAKE_ENGINE:
       case TransferTypes.POWER_UP_SPK:
+      case TransferTypes.POWER_DOWN_SPK:
+      case TransferTypes.LOCK_LIQUIDITY_SPK:
         return true;
       default:
         return false;

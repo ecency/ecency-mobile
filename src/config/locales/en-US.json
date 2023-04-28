@@ -707,6 +707,8 @@
     "transfer_spk":"Transfer SPK",
     "transfer_larynx":"Transfer LARYNX",
     "power_up_spk":"Power Up LARYNX",
+    "power_down_spk":"Power Down LARYNX",
+    "lock_liquidity_spk":"Lock Liquidity LARYNX",
     "save": "SAVE",
     "percent_information": "Percent info",
     "next": "NEXT",

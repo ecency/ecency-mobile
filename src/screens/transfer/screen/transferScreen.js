@@ -48,7 +48,9 @@ const TransferView = ({
       transferType === 'convert' ||
       transferType === TransferTypes.UNSTAKE_ENGINE ||
       transferType === TransferTypes.STAKE_ENGINE ||
-      transferType === TransferTypes.POWER_UP_SPK
+      transferType === TransferTypes.POWER_UP_SPK ||
+      transferType === TransferTypes.POWER_DOWN_SPK ||
+      transferType === TransferTypes.LOCK_LIQUIDITY_SPK
       ? currentAccountName
       : transferType === 'purchase_estm'
       ? 'esteem.app'
@@ -67,6 +69,8 @@ const TransferView = ({
       transferType === TransferTypes.UNSTAKE_ENGINE ||
       transferType === TransferTypes.STAKE_ENGINE ||
       transferType === TransferTypes.POWER_UP_SPK ||
+      transferType === TransferTypes.POWER_DOWN_SPK ||
+      transferType === TransferTypes.LOCK_LIQUIDITY_SPK ||
       (transferType === 'convert' && currentAccountName)
     ),
   );
