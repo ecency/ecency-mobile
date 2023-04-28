@@ -282,9 +282,13 @@ const PostDisplayView = ({
               <View style={styles.footer}>
                 <Tags tags={tags} />
                 <Text style={styles.footerText}>
-                  Posted by
-                  <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
-                  via{` ${capitalize((post?.json_metadata?.app).split('/')[0])} `}
+                  {intl.formatMessage(
+                    { id: 'post.posted_by' },
+                    {
+                      username: author || post.author,
+                      appname: capitalize((post?.json_metadata?.app).split('/')[0]),
+                    },
+                  )}
                   {formatedTime}
                 </Text>
                 <WriteCommentButton ref={writeCommentRef} onPress={_showQuickReplyModal} />
