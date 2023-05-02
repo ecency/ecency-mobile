@@ -146,12 +146,15 @@ export const transferLarynx = async (
 export const delegateLarynx = async (
   currentAccount: any,
   pinHash: string,
-  to: string,
-  amount: string,
+  data: {
+    destination: string,
+    amount: string,
+  }
+ 
 ) => {
   const json = {
-    to,
-    amount: +amount * 1000,
+    to:data.destination,
+    amount: parseToken(data.amount) * 1000,
   };
   return executeSpkAction('spkcc_power_grant', json, currentAccount, pinHash);
 };
