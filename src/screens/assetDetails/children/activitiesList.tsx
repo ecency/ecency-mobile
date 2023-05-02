@@ -13,7 +13,7 @@ interface ActivitiesListProps {
   completedActivities: CoinActivity[];
   refreshing: boolean;
   loading: boolean;
-  isEngine: boolean;
+  activitiesEnabled: boolean;
   onEndReached: () => void;
   onRefresh: () => void;
 }
@@ -24,7 +24,7 @@ const ActivitiesList = ({
   refreshing,
   completedActivities,
   pendingActivities,
-  isEngine,
+  activitiesEnabled,
   onEndReached,
   onRefresh,
 }: ActivitiesListProps) => {
@@ -45,7 +45,7 @@ const ActivitiesList = ({
     });
   }
 
-  if (!isEngine) {
+  if (activitiesEnabled) {
     sections.push({
       title: intl.formatMessage({ id: 'wallet.activities' }),
       data: completedActivities || [],
