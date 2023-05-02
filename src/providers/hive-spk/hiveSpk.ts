@@ -11,6 +11,7 @@ import { getActiveKey, getDigitPinCode, sendHiveOperations } from '../hive/dhive
 // import { hotSign } from "../helper/hive-signer";
 import { Markets, SpkApiWallet, SpkLockMode, SpkMarkets, SpkPowerMode } from './hiveSpk.types';
 
+export const SPK_NODE_ECENCY = 'good-karma.spk';
 const spkNodes = [
   'https://spk.good-karma.xyz',
   'https://spkinstant.hivehoneycomb.com',
@@ -20,6 +21,7 @@ const spkNodes = [
 ];
 
 const spkNode = 'https://spk.good-karma.xyz/'; // spkNodes[Math.floor(Math.random()*spkNodes.length)];
+
 
 const spkApi = axios.create({
   baseURL: spkNode,

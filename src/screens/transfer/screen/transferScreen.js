@@ -21,6 +21,7 @@ import TransferTypes from '../../../constants/transferTypes';
 import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineActions';
 import { useAppDispatch } from '../../../hooks';
 import { showActionModal } from '../../../redux/actions/uiAction';
+import { SPK_NODE_ECENCY } from '../../../providers/hive-spk/hiveSpk';
 
 const TransferView = ({
   currentAccountName,
@@ -35,6 +36,7 @@ const TransferView = ({
   fundType,
   selectedAccount,
   fetchBalance,
+  spkMarkets
 }) => {
   const dispatch = useAppDispatch();
 
@@ -54,6 +56,8 @@ const TransferView = ({
       ? currentAccountName
       : transferType === 'purchase_estm'
       ? 'esteem.app'
+      : transferType === TransferTypes.DELEGATE_SPK
+      ? SPK_NODE_ECENCY
       : '',
   );
   const [amount, setAmount] = useState('');
@@ -71,6 +75,7 @@ const TransferView = ({
       transferType === TransferTypes.POWER_UP_SPK ||
       transferType === TransferTypes.POWER_DOWN_SPK ||
       transferType === TransferTypes.LOCK_LIQUIDITY_SPK ||
+      transferType === TransferTypes.DELEGATE_SPK ||
       (transferType === 'convert' && currentAccountName)
     ),
   );
@@ -217,6 +222,7 @@ const TransferView = ({
             setIsUsernameValid={setIsUsernameValid}
             memo={memo}
             setMemo={setMemo}
+            spkMarkets={spkMarkets}
           />
           <TransferAmountInputSection
             balance={balance}
