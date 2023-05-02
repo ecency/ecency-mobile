@@ -159,7 +159,7 @@
     "low_liquidity":"Low Liquidity!",
     "inactive_token":"Token is relatively inactive, some functionalities might be affected.",
     "scheduled_power_downs":"Scheduled Power Downs",
-    "delegated_larynx_power":"Delegated Power",
+    "delegated_larynx_power":"Granted Power",
     "delegating_larynx_power":"Delegating Power",
     "total_larynx_power":"Total Power"
   },

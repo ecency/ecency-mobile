@@ -583,7 +583,7 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
         actions: [
           SpkActions.TRANSFER_LARYNX,
           SpkActions.POWER_UP,
-          SpkActions.LOCK_LIQUIDITY
+          // SpkActions.LOCK_LIQUIDITY
         ]
       }
 
@@ -593,7 +593,7 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
       const _grantedPwr = spkWallet.granted?.t ? spkWallet.granted.t / 1000 : 0;
       const _grantingPwr = spkWallet.granting?.t ? spkWallet.granting.t / 1000 : 0;
 
-      let _totalBalance = _larPower + _grantedPwr - _grantingPwr
+      let _totalBalance = _larPower + _grantedPwr + _grantingPwr
 
       const _extraDataPairs:DataPair[] = [];
       if(spkWallet.power_downs){
