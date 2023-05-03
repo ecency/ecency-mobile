@@ -53,6 +53,9 @@ export default class Modal extends PureComponent {
       hasRightText = false,
       rightText,
       onPressRightText,
+      modalHeaderContainerStyle,
+      modalHeaderTitleStyle,
+      modalCloseBtnStyle,
     } = this.props;
     return (
       <ModalBox
@@ -62,7 +65,7 @@ export default class Modal extends PureComponent {
         ]}
         transparent={isTransparent}
         animationType={animationType}
-        visible={isOpen}
+        isVisible={isOpen}
         onRequestClose={() => this._handleOnClose(this)}
         onShow={() => this._handleOnOpen(this)}
         onModalHide={() => console.log('hide')}
@@ -70,15 +73,19 @@ export default class Modal extends PureComponent {
         {...this.props}
       >
         {title && (
-          <View style={styles.modalHeader}>
+          <View style={[styles.modalHeader, modalHeaderContainerStyle]}>
             <Text
-              style={[styles.headerTitle, (isCloseButton || hasRightText) && { marginLeft: 50 }]}
+              style={[
+                styles.headerTitle,
+                (isCloseButton || hasRightText) && { marginLeft: 50 },
+                modalHeaderTitleStyle,
+              ]}
             >
               {title}
             </Text>
             {isCloseButton && (
               <IconButton
-                style={styles.closeButton}
+                style={[styles.closeButton, modalCloseBtnStyle]}
                 iconType="FontAwesome"
                 iconStyle={styles.closeIcon}
                 name="close"

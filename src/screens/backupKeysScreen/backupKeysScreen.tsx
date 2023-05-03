@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -6,6 +6,7 @@ import { BasicHeader, TextBoxWithCopy } from '../../components';
 import { useAppSelector } from '../../hooks';
 import { getDigitPinCode } from '../../providers/hive/dhive';
 import AUTH_TYPE from '../../constants/authType';
+import { ImportPrivateKeyModalModal } from './importPrivateKeyModal';
 
 // styles
 import styles from './backupKeysScreenStyles';
@@ -16,6 +17,7 @@ import get from 'lodash/get';
 
 const BackupKeysScreen = () => {
   const intl = useIntl();
+  const importKeyModalRef = useRef(null);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
   const digitPinCode = getDigitPinCode(pinCode);
@@ -73,17 +75,30 @@ const BackupKeysScreen = () => {
     }
   };
 
-  const _renderRevealBtn = (revealKey, keyType) => (
-    <TouchableOpacity style={styles.revealBtn} onPress={() => _handleRevealKey(keyType)}>
-      <Text style={styles.revealBtnText}>
-        {intl.formatMessage({
-          id: revealKey
-            ? 'settings.backup_keys_modal.reveal_public'
-            : 'settings.backup_keys_modal.reveal_private',
-        })}
-      </Text>
-    </TouchableOpacity>
-  );
+  const _handleImportPrivate = () => {
+    console.log('import private key');
+    importKeyModalRef?.current?.showModal();
+  };
+
+  const _renderRevealBtn = (revealKey, keyType) => {
+    const privateKey = get(currentAccount?.local, keyType, '');
+    return (
+      <TouchableOpacity
+        style={styles.revealBtn}
+        onPress={() => (!privateKey ? _handleImportPrivate() : _handleRevealKey(keyType))}
+      >
+        <Text style={styles.revealBtnText}>
+          {intl.formatMessage({
+            id: !privateKey
+              ? 'settings.backup_keys_modal.import_key'
+              : revealKey
+              ? 'settings.backup_keys_modal.reveal_public'
+              : 'settings.backup_keys_modal.reveal_private',
+          })}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
   const _renderKey = (authType: string, key: string, keyType: string, revealKey: boolean) => (
     <View style={styles.inputsContainer}>
@@ -115,51 +130,43 @@ const BackupKeysScreen = () => {
 
   const _renderContent = (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
-      {currentAccount?.local?.authType === AUTH_TYPE.STEEM_CONNECT && _renderNoKeys()}
-      {currentAccount?.local?.ownerKey
-        ? _renderKey(
-            intl.formatMessage({
-              id: 'settings.backup_keys_modal.owner_key',
-            }),
-            // decryptKey(currentAccount?.local?.ownerKey, digitPinCode) || '',
-            ownerKey,
-            AUTH_TYPE.OWNER_KEY,
-            revealOwnerKey,
-          )
-        : null}
-      {currentAccount?.local?.activeKey
-        ? _renderKey(
-            intl.formatMessage({
-              id: 'settings.backup_keys_modal.active_key',
-            }),
-            // decryptKey(currentAccount?.local?.activeKey, digitPinCode) || '',
-            activeKey,
-            AUTH_TYPE.ACTIVE_KEY,
-            revealActiveKey,
-          )
-        : null}
-      {currentAccount?.local?.postingKey
-        ? _renderKey(
-            intl.formatMessage({
-              id: 'settings.backup_keys_modal.posting_key',
-            }),
-            // decryptKey(currentAccount?.local?.postingKey, digitPinCode) || '',
-            postingKey,
-            AUTH_TYPE.POSTING_KEY,
-            revealPostingKey,
-          )
-        : null}
-      {currentAccount?.local?.memoKey
-        ? _renderKey(
-            intl.formatMessage({
-              id: 'settings.backup_keys_modal.memo_key',
-            }),
-            // decryptKey(currentAccount?.local?.memoKey, digitPinCode) || '',
-            memoKey,
-            AUTH_TYPE.MEMO_KEY,
-            revealMemoKey,
-          )
-        : null}
+      {/* {currentAccount?.local?.authType === AUTH_TYPE.STEEM_CONNECT && _renderNoKeys()} */}
+      {_renderKey(
+        intl.formatMessage({
+          id: 'settings.backup_keys_modal.owner_key',
+        }),
+        // decryptKey(currentAccount?.local?.ownerKey, digitPinCode) || '',
+        ownerKey,
+        AUTH_TYPE.OWNER_KEY,
+        revealOwnerKey,
+      )}
+      {_renderKey(
+        intl.formatMessage({
+          id: 'settings.backup_keys_modal.active_key',
+        }),
+        // decryptKey(currentAccount?.local?.activeKey, digitPinCode) || '',
+        activeKey,
+        AUTH_TYPE.ACTIVE_KEY,
+        revealActiveKey,
+      )}
+      {_renderKey(
+        intl.formatMessage({
+          id: 'settings.backup_keys_modal.posting_key',
+        }),
+        // decryptKey(currentAccount?.local?.postingKey, digitPinCode) || '',
+        postingKey,
+        AUTH_TYPE.POSTING_KEY,
+        revealPostingKey,
+      )}
+      {_renderKey(
+        intl.formatMessage({
+          id: 'settings.backup_keys_modal.memo_key',
+        }),
+        // decryptKey(currentAccount?.local?.memoKey, digitPinCode) || '',
+        memoKey,
+        AUTH_TYPE.MEMO_KEY,
+        revealMemoKey,
+      )}
     </ScrollView>
   );
 
@@ -172,6 +179,7 @@ const BackupKeysScreen = () => {
         })}
       />
       <View style={styles.mainContainer}>{_renderContent}</View>
+      <ImportPrivateKeyModalModal ref={importKeyModalRef} />
     </Fragment>
   );
 };

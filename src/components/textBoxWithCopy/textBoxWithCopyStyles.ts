@@ -33,8 +33,9 @@ export default EStyleSheet.create({
     borderBottomLeftRadius: 8,
     justifyContent: 'center',
   } as ViewStyle,
-  textValue: {} as TextStyle,
-
+  textValue: {
+    color: 'black',
+  } as TextStyle,
   copyIconStyle: {
     borderRadius: 0,
     height: 40,

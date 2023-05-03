@@ -287,7 +287,12 @@
       "reveal_private": "Reveal Private",
       "reveal_public": "Reveal Public",
       "public": "Public",
-      "private": "Private"
+      "private": "Private",
+      "import_key": "Import Private",
+      "enter_pass": "Enter Password or Private Key",
+      "import_key_modal_desc": "Individual Private key or Master password to import all keys",
+      "sign": "Sign",
+      "sign_input_placeholder": "Master password or Private Key"
     }
   },
   "voters": {
