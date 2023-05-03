@@ -625,8 +625,8 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
           value: `${ _totalBalance.toFixed(3)} ${ASSET_IDS.LARYNX_POWER}`
         },],
         actions: [
-          TransferTypes.POWER_DOWN_SPK,
           TransferTypes.DELEGATE_SPK,
+          TransferTypes.POWER_DOWN_SPK,
         ]
       }
     }
