@@ -1,8 +1,8 @@
-import React, { Fragment, useState, useRef, useMemo } from 'react';
-import { Text, View } from 'react-native';
+import React, { useState, useMemo } from 'react';
+import { Button, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
-import get from 'lodash/get';
+import { get, debounce } from 'lodash';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { hsOptions } from '../../../constants/hsOptions';
@@ -21,7 +21,7 @@ import TransferTypes from '../../../constants/transferTypes';
 import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineActions';
 import { useAppDispatch } from '../../../hooks';
 import { showActionModal } from '../../../redux/actions/uiAction';
-import { SPK_NODE_ECENCY } from '../../../providers/hive-spk/hiveSpk';
+import { getSpkActionJSON, getSpkTransactionId, SPK_NODE_ECENCY } from '../../../providers/hive-spk/hiveSpk';
 
 const TransferView = ({
   currentAccountName,
@@ -55,10 +55,10 @@ const TransferView = ({
       transferType === TransferTypes.LOCK_LIQUIDITY_SPK
       ? currentAccountName
       : transferType === 'purchase_estm'
-      ? 'esteem.app'
-      : transferType === TransferTypes.DELEGATE_SPK
-      ? SPK_NODE_ECENCY
-      : '',
+        ? 'esteem.app'
+        : transferType === TransferTypes.DELEGATE_SPK
+          ? SPK_NODE_ECENCY
+          : '',
   );
   const [amount, setAmount] = useState('');
   const [memo, setMemo] = useState(transferType === 'purchase_estm' ? 'estm-purchase' : '');
@@ -83,17 +83,19 @@ const TransferView = ({
   const [isTransfering, setIsTransfering] = useState(false);
 
   const isEngineToken = useMemo(() => transferType.endsWith('_engine'), [transferType]);
+  const isSpkToken = useMemo(() => transferType.endsWith('_spk'), [transferType])
 
-  const _handleTransferAction = () => {
+  const _handleTransferAction = debounce(() => {
     setIsTransfering(true);
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
       setHsTransfer(true);
     } else {
       transferToAccount(from, destination, amount, memo);
     }
-  };
+  }, 300, { trailing: true });
 
   let path;
+
   if (hsTransfer) {
     // NOTE: Keepping point purchase url here for referemnce in case we have to put it back again,
     // the path formatting seems quite complex so perhaps it's better to just let it live here
@@ -167,7 +169,24 @@ const TransferView = ({
       )}%22%5D&required_posting_auths=%5B%5D&id=ssc-mainnet-hive&json=${encodeURIComponent(
         JSON.stringify(json),
       )}`;
-    } else {
+
+
+    } else if (isSpkToken) {
+      //compose spk json
+      const json = getSpkActionJSON(
+        Number(amount),
+        destination,
+        memo,
+      );
+      path = `sign/custom-json?authority=active&required_auths=%5B%22${selectedAccount.name
+        }%22%5D&required_posting_auths=%5B%5D&id=${getSpkTransactionId(transferType)
+        }&json=${encodeURIComponent(
+          JSON.stringify(json),
+        )}`;
+    }
+
+
+    else {
       path = `sign/transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}`;
@@ -181,13 +200,14 @@ const TransferView = ({
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {},
+            onPress: () => { },
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
             onPress: _handleTransferAction,
           },
         ],
+
       }),
     );
   };
@@ -206,6 +226,7 @@ const TransferView = ({
         contentContainerStyle={[styles.grow, styles.keyboardAwareScrollContainer]}
       >
         <View style={styles.container}>
+
           <TransferAccountSelector
             accounts={accounts}
             currentAccountName={currentAccountName}
@@ -254,7 +275,7 @@ const TransferView = ({
         </View>
       </KeyboardAwareScrollView>
 
-      {path && (
+      {!!path && (
         <Modal
           isOpen={hsTransfer}
           isFullScreen

@@ -3,13 +3,14 @@ import { Operation } from '@hiveio/dhive';
 import axios from 'axios';
 import parseAsset from '../../utils/parseAsset';
 import parseToken from '../../utils/parseToken';
+import TransferTypes from '../../constants/transferTypes';
 import { getActiveKey, getDigitPinCode, sendHiveOperations } from '../hive/dhive';
 // import { PrivateKey, TransactionConfirmation } from "@hiveio/dhive";
 // import { client as hiveClient } from "./hive";
 // import * as keychain from "../helper/keychain";
 // import { broadcastPostingJSON } from "./operations";
 // import { hotSign } from "../helper/hive-signer";
-import { Markets, SpkApiWallet, SpkLockMode, SpkMarkets, SpkPowerMode } from './hiveSpk.types';
+import { Markets, SpkApiWallet, SpkLockMode, SpkMarkets, SpkPowerMode, SpkTransactionIds } from './hiveSpk.types';
 
 export const SPK_NODE_ECENCY = 'good-karma.spk';
 const spkNodes = [
@@ -105,6 +106,36 @@ const executeSpkAction = (id: string, json: any, currentAccount: any, pinHash: s
     new Error('Check private key permission! Required private active key or above.'),
   );
 };
+
+
+export const getSpkActionJSON = (
+  amount: number,
+  to?: string,
+  memo?: string,
+) => {
+  return {
+    amount: amount * 1000,
+    ...(to ? { to } : {}),
+    ...(memo ? { memo } : {}),
+  };
+};
+
+
+/**
+ * map in-app transfer type with spk transaction id understandable by hive
+ * @param transferType one of in-app SPK related TransferTypes
+ * @returns transaction id useable in hive broadcast custom-json
+ */
+export const getSpkTransactionId = (transferType:string) => {
+  switch(transferType){
+    case TransferTypes.TRANSFER_SPK: return SpkTransactionIds.SPKCC_SPK_SEND;
+    case TransferTypes.TRANSFER_LARYNX: return SpkTransactionIds.SPKCC_SEND;
+    case TransferTypes.DELEGATE_SPK: return SpkTransactionIds.SPKCC_POWER_GRANT;
+    case TransferTypes.POWER_UP_SPK: return SpkTransactionIds.SPKCC_POWER_UP;
+    case TransferTypes.POWER_DOWN_SPK: return SpkTransactionIds.SPKCC_POWER_DOWN;
+    default: throw new Error(`TransferType "${transferType}" not mapped or not a valid spk action`)
+  }
+}
 
 /**
  * SPK operations
