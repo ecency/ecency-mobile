@@ -275,8 +275,8 @@
     "server_fail": "Server not available",
     "show_imgs": "Show Images",
     "delete_account": "Delete Account",
-    "backup_private_keys": "Backup Private Keys",
-    "backup": "Backup",
+    "backup_private_keys": "Manage Authorities",
+    "backup": "Manage",
     "backup_keys_modal": {
       "owner_key": "Owner Key",
       "active_key": "Active Key",
@@ -284,8 +284,10 @@
       "memo_key": "Memo Key",
       "key_copied": "Key copied to clipboard",
       "no_keys": "Your signin method is hivesigner. Application does not have any key stored in device. Kindly login with master password to generate keys",
-      "reveal_private": "Reveal Private Key",
-      "reveal_public": "Reveal Public Key"
+      "reveal_private": "Reveal Private",
+      "reveal_public": "Reveal Public",
+      "public": "Public",
+      "private": "Private"
     }
   },
   "voters": {

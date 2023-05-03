@@ -20,19 +20,14 @@ export default EStyleSheet.create({
     textAlign: 'left',
   },
   revealBtn: {
-    backgroundColor: '$primaryBlue',
-    width: 75,
-    height: 40,
-    marginLeft: 8,
-    borderRadius: 8,
-    marginTop: 32,
     justifyContent: 'center',
     alignItems: 'center',
   } as ViewStyle,
   revealBtnText: {
-    color: 'white',
+    color: '$primaryBlue',
     textAlign: 'center',
-    fontSize: 13,
+    fontSize: 14,
+    fontWeight: '600',
   } as TextStyle,
   input: {
     borderWidth: 1,

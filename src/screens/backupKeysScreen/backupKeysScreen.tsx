@@ -1,5 +1,4 @@
-import React, { Fragment, useState } from 'react';
-
+import React, { Fragment, useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -10,9 +9,9 @@ import AUTH_TYPE from '../../constants/authType';
 
 // styles
 import styles from './backupKeysScreenStyles';
+
+// utils
 import { decryptKey } from '../../utils/crypto';
-import authType from '../../constants/authType';
-import { useEffect } from 'react';
 import get from 'lodash/get';
 
 const BackupKeysScreen = () => {
@@ -46,25 +45,25 @@ const BackupKeysScreen = () => {
 
   const _handleRevealKey = (keyType: string) => {
     switch (keyType) {
-      case authType.OWNER_KEY:
+      case AUTH_TYPE.OWNER_KEY:
         !revealOwnerKey
           ? setOwnerKey(decryptKey(currentAccount?.local?.ownerKey, digitPinCode) || '')
           : setOwnerKey(publicKeys.ownerKey);
         setRevealOwnerKey(!revealOwnerKey);
         break;
-      case authType.ACTIVE_KEY:
+      case AUTH_TYPE.ACTIVE_KEY:
         !revealActiveKey
           ? setActiveKey(decryptKey(currentAccount?.local?.activeKey, digitPinCode) || '')
           : setActiveKey(publicKeys.activeKey);
         setRevealActiveKey(!revealActiveKey);
         break;
-      case authType.POSTING_KEY:
+      case AUTH_TYPE.POSTING_KEY:
         !revealPostingKey
           ? setPostingKey(decryptKey(currentAccount?.local?.postingKey, digitPinCode) || '')
           : setPostingKey(publicKeys.postingKey);
         setRevealPostingKey(!revealPostingKey);
         break;
-      case authType.MEMO_KEY:
+      case AUTH_TYPE.MEMO_KEY:
         !revealMemoKey
           ? setMemoKey(decryptKey(currentAccount?.local?.memoKey, digitPinCode) || '')
           : setMemoKey(publicKeys.memoKey);
@@ -74,18 +73,33 @@ const BackupKeysScreen = () => {
     }
   };
 
+  const _renderRevealBtn = (revealKey, keyType) => (
+    <TouchableOpacity style={styles.revealBtn} onPress={() => _handleRevealKey(keyType)}>
+      <Text style={styles.revealBtnText}>
+        {intl.formatMessage({
+          id: revealKey
+            ? 'settings.backup_keys_modal.reveal_public'
+            : 'settings.backup_keys_modal.reveal_private',
+        })}
+      </Text>
+    </TouchableOpacity>
+  );
+
   const _renderKey = (authType: string, key: string, keyType: string, revealKey: boolean) => (
     <View style={styles.inputsContainer}>
-      <TextBoxWithCopy label={authType} value={key} />
-      <TouchableOpacity style={styles.revealBtn} onPress={() => _handleRevealKey(keyType)}>
-        <Text style={styles.revealBtnText}>
-          {intl.formatMessage({
-            id: revealKey
-              ? 'settings.backup_keys_modal.reveal_public'
-              : 'settings.backup_keys_modal.reveal_private',
-          })}
-        </Text>
-      </TouchableOpacity>
+      <TextBoxWithCopy
+        label={
+          revealKey
+            ? `${authType} (${intl.formatMessage({
+                id: 'settings.backup_keys_modal.private',
+              })})`
+            : `${authType} (${intl.formatMessage({
+                id: 'settings.backup_keys_modal.public',
+              })})`
+        }
+        value={key}
+        renderSecondButton={_renderRevealBtn(revealKey, keyType)}
+      />
     </View>
   );
 
@@ -109,7 +123,7 @@ const BackupKeysScreen = () => {
             }),
             // decryptKey(currentAccount?.local?.ownerKey, digitPinCode) || '',
             ownerKey,
-            authType.OWNER_KEY,
+            AUTH_TYPE.OWNER_KEY,
             revealOwnerKey,
           )
         : null}
@@ -120,7 +134,7 @@ const BackupKeysScreen = () => {
             }),
             // decryptKey(currentAccount?.local?.activeKey, digitPinCode) || '',
             activeKey,
-            authType.ACTIVE_KEY,
+            AUTH_TYPE.ACTIVE_KEY,
             revealActiveKey,
           )
         : null}
@@ -131,7 +145,7 @@ const BackupKeysScreen = () => {
             }),
             // decryptKey(currentAccount?.local?.postingKey, digitPinCode) || '',
             postingKey,
-            authType.POSTING_KEY,
+            AUTH_TYPE.POSTING_KEY,
             revealPostingKey,
           )
         : null}
@@ -142,7 +156,7 @@ const BackupKeysScreen = () => {
             }),
             // decryptKey(currentAccount?.local?.memoKey, digitPinCode) || '',
             memoKey,
-            authType.MEMO_KEY,
+            AUTH_TYPE.MEMO_KEY,
             revealMemoKey,
           )
         : null}

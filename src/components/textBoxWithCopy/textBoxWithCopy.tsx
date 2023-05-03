@@ -12,15 +12,19 @@ import { toastNotification } from '../../redux/actions/uiAction';
 interface TextBoxWithCopyProps {
   label: string;
   value: string;
+  renderSecondButton?: any;
 }
 
-const TextBoxWithCopy = ({ label, value }: TextBoxWithCopyProps) => {
+const TextBoxWithCopy = ({ label, value, renderSecondButton }: TextBoxWithCopyProps) => {
   const intl = useIntl();
   const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.inputLabel}>{label}</Text>
+      <View style={styles.labelContainer}>
+        <Text style={styles.inputLabel}>{label}</Text>
+        {renderSecondButton ? renderSecondButton : null}
+      </View>
       <View style={styles.copyInputContainer}>
         <View style={styles.textValueContainer}>
           <Text style={styles.textValue} numberOfLines={1} selectable>

@@ -4,10 +4,15 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   container: {
     marginVertical: 8,
-    flex:1,
+    flex: 1,
   } as ViewStyle,
   copyInputContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
+  } as ViewStyle,
+  labelContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   } as ViewStyle,
   inputLabel: {
