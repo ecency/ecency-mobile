@@ -73,14 +73,14 @@ const TransferAccountSelector = ({
     setFrom(username);
 
     if (destinationLocked) {
-      _handleOnDestinationChange(username)
+      _handleOnDestinationChange(username);
     }
   };
 
   const _handleOnDestinationChange = (username) => {
     destinationRef.current = username;
     setDestination(username);
-  }
+  };
 
   const _debouncedValidateUsername = useCallback(
     debounce((username: string) => {
@@ -139,10 +139,10 @@ const TransferAccountSelector = ({
         state === 'destination'
           ? destination
           : state === 'amount'
-            ? amount
-            : state === 'memo'
-              ? memo
-              : ''
+          ? amount
+          : state === 'memo'
+          ? memo
+          : ''
       }
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
@@ -153,12 +153,17 @@ const TransferAccountSelector = ({
     />
   );
 
-
   const _destinationInput = !destinationLocked ? (
     transferType === TransferTypes.DELEGATE_SPK ? (
       <TransferFormItem
         label={intl.formatMessage({ id: 'transfer.to' })}
-        rightComponent={() => _renderDropdown(spkMarkets.map(market => market.name), SPK_NODE_ECENCY, _handleOnDestinationChange)}
+        rightComponent={() =>
+          _renderDropdown(
+            spkMarkets.map((market) => market.name),
+            SPK_NODE_ECENCY,
+            _handleOnDestinationChange,
+          )
+        }
       />
     ) : (
       <TransferFormItem
@@ -174,8 +179,7 @@ const TransferAccountSelector = ({
         containerStyle={styles.elevate}
       />
     )
-  ) : null
-
+  ) : null;
 
   return (
     <View style={styles.stepOneContainer}>
@@ -188,7 +192,13 @@ const TransferAccountSelector = ({
       <TransferFormItem
         containerStyle={{ marginTop: 32 }}
         label={intl.formatMessage({ id: 'transfer.from' })}
-        rightComponent={() => _renderDropdown(accounts.map(account => account.username), currentAccountName, _handleOnFromUserChange)}
+        rightComponent={() =>
+          _renderDropdown(
+            accounts.map((account) => account.username),
+            currentAccountName,
+            _handleOnFromUserChange,
+          )
+        }
       />
 
       {_destinationInput}

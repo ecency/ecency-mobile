@@ -27,7 +27,7 @@ const Transfer = ({ navigation, route }) => (
       setWithdrawVestingRoute,
       dispatch,
       referredUsername,
-      spkMarkets
+      spkMarkets,
     }) => {
       switch (transferType) {
         case 'delegate':

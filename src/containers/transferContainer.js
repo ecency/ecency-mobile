@@ -34,7 +34,14 @@ import {
 } from '../providers/hive-engine/hiveEngineActions';
 import { fetchTokenBalances } from '../providers/hive-engine/hiveEngine';
 import TransferTypes from '../constants/transferTypes';
-import { lockLarynx, delegateLarynx, powerLarynx, transferLarynx, transferSpk, fetchSpkMarkets } from '../providers/hive-spk/hiveSpk';
+import {
+  lockLarynx,
+  delegateLarynx,
+  powerLarynx,
+  transferLarynx,
+  transferSpk,
+  fetchSpkMarkets,
+} from '../providers/hive-spk/hiveSpk';
 import { SpkLockMode, SpkPowerMode } from '../providers/hive-spk/hiveSpk.types';
 
 /*
@@ -53,7 +60,7 @@ class TransferContainer extends Component {
       transferType: props.route.params?.transferType ?? '',
       referredUsername: props.route.params?.referredUsername,
       selectedAccount: props.currentAccount,
-      spkMarkets:[]
+      spkMarkets: [],
     };
   }
 
@@ -65,8 +72,8 @@ class TransferContainer extends Component {
 
     this.fetchBalance(name);
 
-    if(this.state.transferType === TransferTypes.DELEGATE_SPK){
-      this._fetchSpkMarkets()
+    if (this.state.transferType === TransferTypes.DELEGATE_SPK) {
+      this._fetchSpkMarkets();
     }
   }
 
@@ -161,10 +168,10 @@ class TransferContainer extends Component {
 
   _fetchSpkMarkets = async () => {
     const markets = await fetchSpkMarkets();
-    if(markets?.list){
-      this.setState({spkMarkets:markets.list})
+    if (markets?.list) {
+      this.setState({ spkMarkets: markets.list });
     }
-  }
+  };
 
   _getAccountsWithUsername = async (username) => {
     const validUsers = await lookupAccounts(username);
@@ -272,7 +279,7 @@ class TransferContainer extends Component {
         break;
       case TransferTypes.DELEGATE_SPK:
         func = delegateLarynx;
-        break
+        break;
       default:
         break;
     }
@@ -325,7 +332,8 @@ class TransferContainer extends Component {
       dispatch,
       route,
     } = this.props;
-    const { balance, fundType, selectedAccount, tokenAddress, referredUsername, spkMarkets } = this.state;
+    const { balance, fundType, selectedAccount, tokenAddress, referredUsername, spkMarkets } =
+      this.state;
 
     const transferType = route.params?.transferType ?? '';
 

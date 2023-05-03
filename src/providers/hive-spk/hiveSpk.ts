@@ -10,7 +10,14 @@ import { getActiveKey, getDigitPinCode, sendHiveOperations } from '../hive/dhive
 // import * as keychain from "../helper/keychain";
 // import { broadcastPostingJSON } from "./operations";
 // import { hotSign } from "../helper/hive-signer";
-import { Markets, SpkApiWallet, SpkLockMode, SpkMarkets, SpkPowerMode, SpkTransactionIds } from './hiveSpk.types';
+import {
+  Markets,
+  SpkApiWallet,
+  SpkLockMode,
+  SpkMarkets,
+  SpkPowerMode,
+  SpkTransactionIds,
+} from './hiveSpk.types';
 
 export const SPK_NODE_ECENCY = 'good-karma.spk';
 const spkNodes = [
@@ -22,7 +29,6 @@ const spkNodes = [
 ];
 
 const spkNode = 'https://spk.good-karma.xyz/'; // spkNodes[Math.floor(Math.random()*spkNodes.length)];
-
 
 const spkApi = axios.create({
   baseURL: spkNode,
@@ -45,7 +51,7 @@ export function rewardSpk(data: SpkApiWallet, sstats: any) {
     b = data.pow ? simpleInterest(data.pow, t, sstats.spk_rate_lpow) : 0;
     c = simpleInterest(
       (data.granted.t > 0 ? data.granted.t : 0) +
-      (data.granting.t && data.granting.t > 0 ? data.granting.t : 0),
+        (data.granting.t && data.granting.t > 0 ? data.granting.t : 0),
       t,
       sstats.spk_rate_ldel,
     );
@@ -77,8 +83,8 @@ export const fetchSpkMarkets = async (): Promise<Markets> => {
         node.lastGood >= resp.data.head_block - 1200
           ? '🟩'
           : node.lastGood > resp.data.head_block - 28800
-            ? '🟨'
-            : '🟥',
+          ? '🟨'
+          : '🟥',
     })),
     raw: resp.data,
   };
@@ -107,12 +113,7 @@ const executeSpkAction = (id: string, json: any, currentAccount: any, pinHash: s
   );
 };
 
-
-export const getSpkActionJSON = (
-  amount: number,
-  to?: string,
-  memo?: string,
-) => {
+export const getSpkActionJSON = (amount: number, to?: string, memo?: string) => {
   return {
     amount: amount * 1000,
     ...(to ? { to } : {}),
@@ -120,22 +121,27 @@ export const getSpkActionJSON = (
   };
 };
 
-
 /**
  * map in-app transfer type with spk transaction id understandable by hive
  * @param transferType one of in-app SPK related TransferTypes
  * @returns transaction id useable in hive broadcast custom-json
  */
-export const getSpkTransactionId = (transferType:string) => {
-  switch(transferType){
-    case TransferTypes.TRANSFER_SPK: return SpkTransactionIds.SPKCC_SPK_SEND;
-    case TransferTypes.TRANSFER_LARYNX: return SpkTransactionIds.SPKCC_SEND;
-    case TransferTypes.DELEGATE_SPK: return SpkTransactionIds.SPKCC_POWER_GRANT;
-    case TransferTypes.POWER_UP_SPK: return SpkTransactionIds.SPKCC_POWER_UP;
-    case TransferTypes.POWER_DOWN_SPK: return SpkTransactionIds.SPKCC_POWER_DOWN;
-    default: throw new Error(`TransferType "${transferType}" not mapped or not a valid spk action`)
+export const getSpkTransactionId = (transferType: string) => {
+  switch (transferType) {
+    case TransferTypes.TRANSFER_SPK:
+      return SpkTransactionIds.SPKCC_SPK_SEND;
+    case TransferTypes.TRANSFER_LARYNX:
+      return SpkTransactionIds.SPKCC_SEND;
+    case TransferTypes.DELEGATE_SPK:
+      return SpkTransactionIds.SPKCC_POWER_GRANT;
+    case TransferTypes.POWER_UP_SPK:
+      return SpkTransactionIds.SPKCC_POWER_UP;
+    case TransferTypes.POWER_DOWN_SPK:
+      return SpkTransactionIds.SPKCC_POWER_DOWN;
+    default:
+      throw new Error(`TransferType "${transferType}" not mapped or not a valid spk action`);
   }
-}
+};
 
 /**
  * SPK operations
@@ -180,13 +186,12 @@ export const delegateLarynx = async (
   currentAccount: any,
   pinHash: string,
   data: {
-    destination: string,
-    amount: string,
-  }
- 
+    destination: string;
+    amount: string;
+  },
 ) => {
   const json = {
-    to:data.destination,
+    to: data.destination,
     amount: parseToken(data.amount) * 1000,
   };
   return executeSpkAction('spkcc_power_grant', json, currentAccount, pinHash);
@@ -210,9 +215,9 @@ export const lockLarynx = async (
   currentAccount: any,
   pinHash: string,
   data: {
-    mode: SpkLockMode,
-    amount: string,
-  }
+    mode: SpkLockMode;
+    amount: string;
+  },
 ) => {
   const json = {
     amount: parseToken(data.amount) * 1000,

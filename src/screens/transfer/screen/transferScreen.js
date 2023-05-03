@@ -21,7 +21,11 @@ import TransferTypes from '../../../constants/transferTypes';
 import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineActions';
 import { useAppDispatch } from '../../../hooks';
 import { showActionModal } from '../../../redux/actions/uiAction';
-import { getSpkActionJSON, getSpkTransactionId, SPK_NODE_ECENCY } from '../../../providers/hive-spk/hiveSpk';
+import {
+  getSpkActionJSON,
+  getSpkTransactionId,
+  SPK_NODE_ECENCY,
+} from '../../../providers/hive-spk/hiveSpk';
 
 const TransferView = ({
   currentAccountName,
@@ -36,7 +40,7 @@ const TransferView = ({
   fundType,
   selectedAccount,
   fetchBalance,
-  spkMarkets
+  spkMarkets,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -55,10 +59,10 @@ const TransferView = ({
       transferType === TransferTypes.LOCK_LIQUIDITY_SPK
       ? currentAccountName
       : transferType === 'purchase_estm'
-        ? 'esteem.app'
-        : transferType === TransferTypes.DELEGATE_SPK
-          ? SPK_NODE_ECENCY
-          : '',
+      ? 'esteem.app'
+      : transferType === TransferTypes.DELEGATE_SPK
+      ? SPK_NODE_ECENCY
+      : '',
   );
   const [amount, setAmount] = useState('');
   const [memo, setMemo] = useState(transferType === 'purchase_estm' ? 'estm-purchase' : '');
@@ -83,16 +87,20 @@ const TransferView = ({
   const [isTransfering, setIsTransfering] = useState(false);
 
   const isEngineToken = useMemo(() => transferType.endsWith('_engine'), [transferType]);
-  const isSpkToken = useMemo(() => transferType.endsWith('_spk'), [transferType])
+  const isSpkToken = useMemo(() => transferType.endsWith('_spk'), [transferType]);
 
-  const _handleTransferAction = debounce(() => {
-    setIsTransfering(true);
-    if (accountType === AUTH_TYPE.STEEM_CONNECT) {
-      setHsTransfer(true);
-    } else {
-      transferToAccount(from, destination, amount, memo);
-    }
-  }, 300, { trailing: true });
+  const _handleTransferAction = debounce(
+    () => {
+      setIsTransfering(true);
+      if (accountType === AUTH_TYPE.STEEM_CONNECT) {
+        setHsTransfer(true);
+      } else {
+        transferToAccount(from, destination, amount, memo);
+      }
+    },
+    300,
+    { trailing: true },
+  );
 
   let path;
 
@@ -169,24 +177,15 @@ const TransferView = ({
       )}%22%5D&required_posting_auths=%5B%5D&id=ssc-mainnet-hive&json=${encodeURIComponent(
         JSON.stringify(json),
       )}`;
-
-
     } else if (isSpkToken) {
-      //compose spk json
-      const json = getSpkActionJSON(
-        Number(amount),
-        destination,
-        memo,
-      );
-      path = `sign/custom-json?authority=active&required_auths=%5B%22${selectedAccount.name
-        }%22%5D&required_posting_auths=%5B%5D&id=${getSpkTransactionId(transferType)
-        }&json=${encodeURIComponent(
-          JSON.stringify(json),
-        )}`;
-    }
-
-
-    else {
+      // compose spk json
+      const json = getSpkActionJSON(Number(amount), destination, memo);
+      path = `sign/custom-json?authority=active&required_auths=%5B%22${
+        selectedAccount.name
+      }%22%5D&required_posting_auths=%5B%5D&id=${getSpkTransactionId(
+        transferType,
+      )}&json=${encodeURIComponent(JSON.stringify(json))}`;
+    } else {
       path = `sign/transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}`;
@@ -200,14 +199,13 @@ const TransferView = ({
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => { },
+            onPress: () => {},
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
             onPress: _handleTransferAction,
           },
         ],
-
       }),
     );
   };
@@ -226,7 +224,6 @@ const TransferView = ({
         contentContainerStyle={[styles.grow, styles.keyboardAwareScrollContainer]}
       >
         <View style={styles.container}>
-
           <TransferAccountSelector
             accounts={accounts}
             currentAccountName={currentAccountName}

@@ -19,7 +19,14 @@ interface AssetIconProps {
   containerStyle?: ViewStyle;
 }
 
-export const AssetIcon = ({ id, iconUrl, isEngine, isSpk, containerStyle, iconSize }: AssetIconProps) => {
+export const AssetIcon = ({
+  id,
+  iconUrl,
+  isEngine,
+  isSpk,
+  containerStyle,
+  iconSize,
+}: AssetIconProps) => {
   const _logoStyle = iconSize ? { ...styles.logo, width: iconSize, height: iconSize } : styles.logo;
   let _tintColor;
 

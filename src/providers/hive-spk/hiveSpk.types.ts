@@ -66,7 +66,6 @@ export interface HivePrice {
   };
 }
 
-
 export enum SpkTransactionIds {
   SPKCC_SPK_SEND = 'spkcc_spk_send',
   SPKCC_SEND = 'spkcc_send',
