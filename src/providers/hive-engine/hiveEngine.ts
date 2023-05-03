@@ -32,6 +32,9 @@ const PATH_ENGINE_REWARDS = '/private-api/engine-reward-api';
 //proxied path for 'https://info-api.tribaldex.com/market/ohlcv';
 const PATH_ENGINE_CHART = '/private-api/engine-chart-api';
 
+//sample hive history endpoint call
+//https://history.hive-engine.com/accountHistory?account=demo.com&limit=10&offset=10
+
 
 export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => {
   const data: EngineRequestPayload = {
