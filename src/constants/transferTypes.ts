@@ -21,7 +21,7 @@ const TransferTypes = {
 
   // SPK Transfer Types
   TRANSFER_SPK: 'transfer_spk',
-  TRANSFER_LARYNX: 'transfer_larynx',
+  TRANSFER_LARYNX: 'transfer_larynx_spk',
   POWER_UP_SPK: 'power_up_spk',
   LOCK_LIQUIDITY_SPK: 'lock_liquidity_spk',
   DELEGATE_SPK: 'delegate_spk',
