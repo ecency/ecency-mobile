@@ -34,8 +34,9 @@ const PATH_ENGINE_REWARDS = '/private-api/engine-reward-api';
 const PATH_ENGINE_CHART = '/private-api/engine-chart-api';
 
 //sample hive history endpoint call
-//https://history.hive-engine.com/accountHistory?account=demo.com&limit=10&offset=10
-//implemneation example in hive-engin repository: https://github.com/hive-engine/hive-engine/blob/d2e6a2940f66b4a52dfb692a516f4013a4e663d3/src/plugins/sidechain.js#L34
+//docs: https://github.com/hive-engine/ssc_tokens_history/tree/hive#api-usage
+//example: https://history.hive-engine.com/accountHistory?account=demo.com&limit=10&offset=10
+
 
 
 export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => {
