@@ -30,6 +30,7 @@ import { ASSET_IDS } from '../constants/defaultAssets';
 
 import parseAsset from './parseAsset';
 import {
+  fetchEngineAccountHistory,
   fetchHiveEngineTokenBalances,
 } from '../providers/hive-engine/hiveEngine';
 import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
@@ -67,12 +68,12 @@ const HIVE_ACTIONS = [
 const HBD_ACTIONS = ['transfer_token', 'transfer_to_savings', 'convert', 'withdraw_hbd'];
 const HIVE_POWER_ACTIONS = ['delegate', 'power_down'];
 
-export const groomingTransactionData = (transaction, hivePerMVests):CoinActivity|null => {
+export const groomingTransactionData = (transaction, hivePerMVests): CoinActivity | null => {
   if (!transaction || !hivePerMVests) {
     return null;
   }
 
-  const result:CoinActivity = {
+  const result: CoinActivity = {
     iconType: 'MaterialIcons',
     trxIndex: transaction[0],
   };
@@ -367,106 +368,124 @@ export const fetchPendingRequests = async (
  *
  * @param username
  * @param coinId
- * @param coinSymbol
+ * @param assetSymbol
  * @param globalProps
  * @returns {Promise<CoinActivity[]>}
  */
-export const fetchCoinActivities = async (
+export const fetchCoinActivities = async ({
+  username,
+  assetId,
+  assetSymbol,
+  globalProps,
+  startIndex,
+  limit,
+  isEngine
+}: {
   username: string,
-  coinId: string,
-  coinSymbol: string,
+  assetId: string,
+  assetSymbol: string,
   globalProps: GlobalProps,
   startIndex: number,
   limit: number,
-): Promise<CoinActivity[]> => {
+  isEngine?: boolean,
+}): Promise<CoinActivity[]> => {
   const op = operationOrders;
   let history = [];
 
-  switch (coinId) {
-    case ASSET_IDS.ECENCY: {
-      //TODO: remove condition when we have a way to fetch paginated points data
-      if (startIndex !== -1) {
-        return [];
+  if (!isEngine) {
+    switch (assetId) {
+      case ASSET_IDS.ECENCY: {
+        //TODO: remove condition when we have a way to fetch paginated points data
+        if (startIndex !== -1) {
+          return [];
+        }
+
+        const pointActivities = await getPointsHistory(username);
+        console.log('Points Activities', pointActivities);
+        const completed =
+          pointActivities && pointActivities.length
+            ? pointActivities.map((item) =>
+              groomingPointsTransactionData({
+                ...item,
+                icon: get(POINTS[get(item, 'type')], 'icon'),
+                iconType: get(POINTS[get(item, 'type')], 'iconType'),
+                textKey: get(POINTS[get(item, 'type')], 'textKey'),
+              }),
+            )
+            : [];
+        return completed;
       }
+      case ASSET_IDS.HIVE:
+        history = await getAccountHistory(
+          username,
+          [
+            op.transfer, //HIVE
+            op.transfer_to_vesting, //HIVE, HP
+            op.withdraw_vesting, //HIVE, HP
+            op.transfer_to_savings, //HIVE, HBD
+            op.transfer_from_savings, //HIVE, HBD
+            op.fill_order, //HIVE, HBD
+          ],
+          startIndex,
+          limit,
+        );
+        break;
+      case ASSET_IDS.HBD:
+        history = await getAccountHistory(
+          username,
+          [
+            op.transfer, //HIVE //HBD
+            op.author_reward, //HBD, HP
+            op.transfer_to_savings, //HIVE, HBD
+            op.transfer_from_savings, //HIVE, HBD
+            op.fill_convert_request, //HBD
+            op.fill_order, //HIVE, HBD
+            op.sps_fund, //HBD
+          ],
+          startIndex,
+          limit,
+        );
+        break;
+      case ASSET_IDS.HP:
+        history = await getAccountHistory(
+          username,
+          [
+            op.author_reward, //HBD, HP
+            op.curation_reward, //HP
+            op.transfer_to_vesting, //HIVE, HP
+            op.withdraw_vesting, //HIVE, HP
+            op.interest, //HP
+            op.claim_reward_balance, //HP
+            op.comment_benefactor_reward, //HP
+            op.return_vesting_delegation, //HP
+          ],
+          startIndex,
+          limit,
+        );
+        break;
+      default: return [];
 
-      const pointActivities = await getPointsHistory(username);
-      console.log('Points Activities', pointActivities);
-      const completed =
-        pointActivities && pointActivities.length
-          ? pointActivities.map((item) =>
-            groomingPointsTransactionData({
-              ...item,
-              icon: get(POINTS[get(item, 'type')], 'icon'),
-              iconType: get(POINTS[get(item, 'type')], 'iconType'),
-              textKey: get(POINTS[get(item, 'type')], 'textKey'),
-            }),
-          )
-          : [];
-      return completed;
+
     }
-    case ASSET_IDS.HIVE:
-      history = await getAccountHistory(
-        username,
-        [
-          op.transfer, //HIVE
-          op.transfer_to_vesting, //HIVE, HP
-          op.withdraw_vesting, //HIVE, HP
-          op.transfer_to_savings, //HIVE, HBD
-          op.transfer_from_savings, //HIVE, HBD
-          op.fill_order, //HIVE, HBD
-        ],
-        startIndex,
-        limit,
-      );
-      break;
-    case ASSET_IDS.HBD:
-      history = await getAccountHistory(
-        username,
-        [
-          op.transfer, //HIVE //HBD
-          op.author_reward, //HBD, HP
-          op.transfer_to_savings, //HIVE, HBD
-          op.transfer_from_savings, //HIVE, HBD
-          op.fill_convert_request, //HBD
-          op.fill_order, //HIVE, HBD
-          op.sps_fund, //HBD
-        ],
-        startIndex,
-        limit,
-      );
-      break;
-    case ASSET_IDS.HP:
-      history = await getAccountHistory(
-        username,
-        [
-          op.author_reward, //HBD, HP
-          op.curation_reward, //HP
-          op.transfer_to_vesting, //HIVE, HP
-          op.withdraw_vesting, //HIVE, HP
-          op.interest, //HP
-          op.claim_reward_balance, //HP
-          op.comment_benefactor_reward, //HP
-          op.return_vesting_delegation, //HP
-        ],
-        startIndex,
-        limit,
-      );
-      break;
-    default: return [];
-  }
 
-  const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
-  transfers.sort(compare);
+    const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
+    transfers.sort(compare);
 
-  const activities = transfers.map((item) => groomingTransactionData(item, globalProps.hivePerMVests));
-  const filterdActivities: CoinActivity[] = activities ? activities.filter((item) => {
-      return item && item.value && item.value.includes(coinSymbol);
+    const activities = transfers.map((item) => groomingTransactionData(item, globalProps.hivePerMVests));
+    const filterdActivities: CoinActivity[] = activities ? activities.filter((item) => {
+      return item && item.value && item.value.includes(assetSymbol);
     }) : []
 
-  console.log('FILTERED comap', activities.length, filterdActivities.length);
+    console.log('FILTERED comap', activities.length, filterdActivities.length);
 
-  //TODO: process pending requests as separate query //const pendingRequests = await fetchPendingRequests(username, coinSymbol);
-  return filterdActivities 
+    //TODO: process pending requests as separate query //const pendingRequests = await fetchPendingRequests(username, coinSymbol);
+    return filterdActivities
+  } else {
+    //means asset is engine asset, maps response to 
+
+    const engineAct = await fetchEngineAccountHistory(username, assetSymbol, startIndex, limit);
+    return [];
+  }
 };
 
 
@@ -562,15 +581,15 @@ const _processCachedData = (assetId: string, balance: number = 0, unclaimedBalan
       case ASSET_IDS.HIVE:
       case ASSET_IDS.HP:
         _claim = claimsCache[ASSET_IDS.HP];
-        if(_claim){
+        if (_claim) {
           rewardClaimed = rewardHpStrToToken(_claim.rewardValue);
         }
         break;
       default:
-        if(_claim){
+        if (_claim) {
           rewardClaimed = parseToken(_claim.rewardValue);
         }
-        
+
         break;
     }
 
