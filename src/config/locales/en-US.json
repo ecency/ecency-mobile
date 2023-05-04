@@ -292,7 +292,8 @@
       "enter_pass": "Enter Password or Private Key",
       "import_key_modal_desc": "Individual Private key or Master password to import all keys",
       "sign": "Sign",
-      "sign_input_placeholder": "Master password or Private Key"
+      "sign_input_placeholder": "Master password or Private Key",
+      "import_failed": "Keys Import Failed"
     }
   },
   "voters": {
