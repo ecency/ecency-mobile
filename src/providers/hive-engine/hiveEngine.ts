@@ -17,6 +17,7 @@ import {
 import { convertEngineToken, convertRewardsStatus, convertMarketData } from './converters';
 import bugsnapInstance from '../../config/bugsnag';
 import ecencyApi from '../../config/ecencyApi';
+import axios from 'axios';
 
 
 /**
@@ -34,6 +35,7 @@ const PATH_ENGINE_CHART = '/private-api/engine-chart-api';
 
 //sample hive history endpoint call
 //https://history.hive-engine.com/accountHistory?account=demo.com&limit=10&offset=10
+//implemneation example in hive-engin repository: https://github.com/hive-engine/hive-engine/blob/d2e6a2940f66b4a52dfb692a516f4013a4e663d3/src/plugins/sidechain.js#L34
 
 
 export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => {
@@ -183,3 +185,30 @@ export const fetchEngineMarketData = async (symbol: any, vsCurrency:string = 'us
     return []
   }
 };
+
+
+ export const fetchEngineAccountHistory = async (username:string , symbol:string , startIndex:number = 0, limit:number = 20) => {
+  try {
+    const response = await axios.get('https://history.hive-engine.com/accountHistory', {params:{
+      account:username,
+      symbol:symbol,
+      limit,
+      offset: limit * startIndex
+    }})
+
+    const rawData = response?.data;
+
+    if(!rawData){
+      throw new Error("No data returned");
+    }
+
+    // const data:MarketData[] = rawData.map(convertMarketData);
+
+    // return days > 1 && data.length > days ? data.slice(data.length - days) : data;
+    return rawData;
+  } catch (err) {
+    bugsnapInstance.notify(err);
+    console.warn("failed to get engine account history", err.message);
+    return []
+  }
+ }
