@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { useAppDispatch } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
 import {
-  cloneDraft,
+  addDraft,
   deleteDraft,
   deleteScheduledPost,
   getDrafts,
@@ -22,11 +22,11 @@ export const useGetSchedulesQuery = () => {
   return useQuery([QUERIES.SCHEDULES.GET], _getSchedules);
 };
 
-export const useDraftCloneMutation = () => {
+export const useAddDraftMutation = () => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const intl = useIntl();
-  return useMutation(cloneDraft, {
+  return useMutation(addDraft, {
     retry: 3,
     onSuccess: () => {
       queryClient.invalidateQueries([QUERIES.DRAFTS.GET]);

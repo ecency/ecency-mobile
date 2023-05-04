@@ -111,10 +111,15 @@ const DraftListItemView = ({
             {!isSchedules && (
               <IconButton
                 backgroundColor="transparent"
-                name="clone"
-                iconType="FontAwesome"
+                name="copy"
+                iconType="Ionicons"
                 size={16}
                 onPress={() => {
+                  draftItem = {
+                    ...draftItem,
+                    title: `Copy of ${draftItem.title}`,
+                    action: 'clone',
+                  };
                   handleOnClonePressed(draftItem);
                 }}
                 style={[styles.rightItem]}

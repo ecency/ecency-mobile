@@ -463,12 +463,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
         // create new darft otherwise
         else if (draftField) {
-          const response = await addDraft(
-            draftField.title || '',
-            draftField.body,
-            draftField.tags,
-            jsonMeta,
-          );
+          const { title, body, tags } = draftField;
+          const draft = { action: 'add', title, body, tags, jsonMeta };
+          const response = await addDraft(draft);
 
           if (this._isMounted) {
             this.setState({

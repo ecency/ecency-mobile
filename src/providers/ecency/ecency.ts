@@ -116,20 +116,22 @@ export const deleteDraft = async (draftId: string) => {
 };
 
 /**
- * @params title
- * @params body
- * @params tags
- * @param meta
+ * @param draft
  */
-export const addDraft = async (title: string, body: string, tags: string, meta: Object) => {
+export const addDraft = async (draft: Object) => {
+  const { title, body, tags, meta, action } = draft;
   try {
     const data = { title, body, tags, meta };
     const res = await ecencyApi.post('/private-api/drafts-add', data);
-    const { drafts } = res.data;
-    if (drafts) {
-      return drafts.pop(); //return recently saved last draft in the list
-    } else {
-      throw new Error('No drafts returned in response');
+    if (action === 'add') {
+      const { drafts } = res.data;
+      if (drafts) {
+        return drafts.pop(); //return recently saved last draft in the list
+      } else {
+        throw new Error('No drafts returned in response');
+      }
+    } else if (action === 'clone') {
+      return res.data || [];
     }
   } catch (error) {
     bugsnagInstance.notify(error);
@@ -882,26 +884,6 @@ export const getCommentHistory = async (
       throw new Error('No history data!');
     }
     return res?.data?.list.map((item) => convertCommentHistory(item));
-  } catch (error) {
-    bugsnagInstance.notify(error);
-    throw error;
-  }
-};
-
-/**
- * @param draft
- */
-export const cloneDraft = async (draft: Object) => {
-  draft = {
-    ...draft,
-    title: `Copy of ${draft.title}`,
-  };
-  const { title, body, tags, meta } = draft;
-  let tempTitle = `Copy of ${title}`;
-  try {
-    const data = { title, body, tags, meta };
-    const res = await ecencyApi.post('/private-api/drafts-add', data);
-    return res.data || [];
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;

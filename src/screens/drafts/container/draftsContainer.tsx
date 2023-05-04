@@ -5,7 +5,7 @@ import { injectIntl } from 'react-intl';
 // Services and Actions
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import {
-  useDraftCloneMutation,
+  useAddDraftMutation,
   useDraftDeleteMutation,
   useGetDraftsQuery,
   useGetSchedulesQuery,
@@ -24,7 +24,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 import DraftsScreen from '../screen/draftsScreen';
 
 const DraftsContainer = ({ currentAccount, navigation, route }) => {
-  const { mutate: _cloneDraft, isLoading: isCloningDraft } = useDraftCloneMutation();
+  const { mutate: _cloneDraft, isLoading: isCloningDraft } = useAddDraftMutation();
   const { mutate: deleteDraft, isLoading: isDeletingDraft } = useDraftDeleteMutation();
   const { mutate: deleteSchedule, isLoading: isDeletingSchedule } = useScheduleDeleteMutation();
   const { mutate: moveScheduleToDrafts, isLoading: isMovingToDrafts } =
