@@ -566,7 +566,8 @@
     "image_saved_error": "حدث خطأ أثناء حفظ الصورة",
     "wrong_link": "رابط خاطئ",
     "in": "في",
-    "reveal_muted": "مكتوم\nانقر لإظهار المحتوى"
+    "reveal_muted": "مكتوم\nانقر لإظهار المحتوى",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "المسودات",
