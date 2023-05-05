@@ -566,7 +566,8 @@
     "image_saved_error": "Ошибка при сохранении изображения",
     "wrong_link": "Неверная ссылка",
     "in": "в",
-    "reveal_muted": "ОТКЛЮЧЕНО\nНажмите, чтобы показать контент"
+    "reveal_muted": "ОТКЛЮЧЕНО\nНажмите, чтобы показать контент",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Черновики",
