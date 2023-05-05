@@ -566,7 +566,8 @@
     "image_saved_error": "保存图片出错",
     "wrong_link": "链接错误",
     "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "reveal_muted": "MUTED\nTap to reveal content",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "草稿",
