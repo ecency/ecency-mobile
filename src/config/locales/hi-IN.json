@@ -566,7 +566,8 @@
     "image_saved_error": "छवि सहेजने में त्रुटि",
     "wrong_link": "गलत लिंक",
     "in": "में",
-    "reveal_muted": "मौन कर दिया गया\nसामग्री प्रकट करने के लिए टैप करें"
+    "reveal_muted": "मौन कर दिया गया\nसामग्री प्रकट करने के लिए टैप करें",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "प्रारूप",
