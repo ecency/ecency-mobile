@@ -566,7 +566,8 @@
     "image_saved_error": "Nepavyko išsaugoti vaizdo",
     "wrong_link": "Netinkama nuoroda",
     "in": "į",
-    "reveal_muted": "UŽTILDYTA\nPaspauskite, kad atidarytumėte turinį"
+    "reveal_muted": "UŽTILDYTA\nPaspauskite, kad atidarytumėte turinį",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Juodraščiai",
