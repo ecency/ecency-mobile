@@ -567,7 +567,7 @@
     "wrong_link": "Enlace incorrecto",
     "in": "en",
     "reveal_muted": "SILENCIADO\nToca para revelar el contenido",
-    "posted_by": "Posted by {username} via {appname} "
+    "posted_by": "Publicado por {username} vía {appname} "
   },
   "drafts": {
     "title": "Borradores",
