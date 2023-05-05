@@ -566,7 +566,8 @@
     "image_saved_error": "Hiba a kép mentése közben",
     "wrong_link": "Nem megfelelő link",
     "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "reveal_muted": "MUTED\nTap to reveal content",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Piszkozatok",
