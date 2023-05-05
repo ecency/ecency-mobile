@@ -566,7 +566,8 @@
     "image_saved_error": "画像の保存時にエラー",
     "wrong_link": "間違ったリンク",
     "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "reveal_muted": "MUTED\nTap to reveal content",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "下書き",
