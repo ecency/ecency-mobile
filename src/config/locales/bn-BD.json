@@ -566,7 +566,8 @@
     "image_saved_error": "চিত্র সংরক্ষণে ত্রুটি",
     "wrong_link": "ভুল লিঙ্ক",
     "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "reveal_muted": "MUTED\nTap to reveal content",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "খসড়া",
