@@ -566,7 +566,8 @@
     "image_saved_error": "Error ao Salvar a Imagem",
     "wrong_link": "Link errado",
     "in": "no",
-    "reveal_muted": "SILENCIADO\nClique para revelar conteúdo"
+    "reveal_muted": "SILENCIADO\nClique para revelar conteúdo",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Rascunhos",
