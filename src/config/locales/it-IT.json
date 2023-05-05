@@ -566,7 +566,8 @@
     "image_saved_error": "Errore nel salvataggio dell'immagine",
     "wrong_link": "Collegamento errato",
     "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "reveal_muted": "MUTED\nTap to reveal content",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Bozze",
