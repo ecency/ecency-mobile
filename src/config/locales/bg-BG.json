@@ -566,7 +566,8 @@
     "image_saved_error": "Грешка при запазвана не снимката",
     "wrong_link": "Грешен линк/връзка",
     "in": "в",
-    "reveal_muted": "Заглушен Натисни да вижиш съдържанието"
+    "reveal_muted": "Заглушен Натисни да вижиш съдържанието",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Чернови",
