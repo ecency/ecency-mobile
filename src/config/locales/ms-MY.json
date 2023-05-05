@@ -566,7 +566,8 @@
     "image_saved_error": "Ralat Menyimpan Gambar",
     "wrong_link": "Salah pautan",
     "in": "dalam",
-    "reveal_muted": "DIBISUKAN\nKetuk untuk mendedahkan kandungan"
+    "reveal_muted": "DIBISUKAN\nKetuk untuk mendedahkan kandungan",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Draf",
