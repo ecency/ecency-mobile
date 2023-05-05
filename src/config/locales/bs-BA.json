@@ -566,7 +566,8 @@
     "image_saved_error": "Greška pri čuvanju slike",
     "wrong_link": "Pogrešna veza",
     "in": "u",
-    "reveal_muted": "UTIŠANO\nDodirnite da otkrijete sadržaj"
+    "reveal_muted": "UTIŠANO\nDodirnite da otkrijete sadržaj",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Nacrti",
