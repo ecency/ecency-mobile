@@ -566,7 +566,8 @@
     "image_saved_error": "Görüntü Kaydetme Hatası",
     "wrong_link": "Yanlış bağlantı",
     "in": "içinde",
-    "reveal_muted": "SUSTURULDU\nİçeriği ortaya çıkarmak için dokunun"
+    "reveal_muted": "SUSTURULDU\nİçeriği ortaya çıkarmak için dokunun",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Taslaklar",
