@@ -566,7 +566,8 @@
     "image_saved_error": "Kesalahan menyimpan gambar",
     "wrong_link": "Link salah",
     "in": "di",
-    "reveal_muted": "DIBISUKAN\nKetuk untuk membatalkan konten"
+    "reveal_muted": "DIBISUKAN\nKetuk untuk membatalkan konten",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Konsep",
