@@ -566,7 +566,8 @@
     "image_saved_error": "이미지 저장 오류",
     "wrong_link": "잘못된 링크",
     "in": "에서",
-    "reveal_muted": "뮤트 증\n콘텐츠를 표시하려면 탭하세요"
+    "reveal_muted": "뮤트 증\n콘텐츠를 표시하려면 탭하세요",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "임시 보관함",
