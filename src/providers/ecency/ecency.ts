@@ -123,16 +123,7 @@ export const addDraft = async (draft: Object) => {
   try {
     const data = { title, body, tags, meta };
     const res = await ecencyApi.post('/private-api/drafts-add', data);
-    if (action === 'add') {
-      const { drafts } = res.data;
-      if (drafts) {
-        return drafts.pop(); //return recently saved last draft in the list
-      } else {
-        throw new Error('No drafts returned in response');
-      }
-    } else if (action === 'clone') {
-      return res.data || [];
-    }
+    return res.data || [];
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;
