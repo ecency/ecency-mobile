@@ -566,7 +566,8 @@
     "image_saved_error": "Wystąpił błąd podczas zapisywania obrazu",
     "wrong_link": "Nieprawidłowy link",
     "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "reveal_muted": "MUTED\nTap to reveal content",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Szkice",
