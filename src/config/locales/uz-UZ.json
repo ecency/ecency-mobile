@@ -566,7 +566,8 @@
     "image_saved_error": "Rasmni saqlashda xatolik",
     "wrong_link": "Xato ssilka",
     "in": "ichida",
-    "reveal_muted": "O'CHIRILGAN\nKontentni ochish uchun bosing"
+    "reveal_muted": "O'CHIRILGAN\nKontentni ochish uchun bosing",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Qoralamalar",
