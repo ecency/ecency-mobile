@@ -566,7 +566,8 @@
     "image_saved_error": "Wêne tomar nebû",
     "wrong_link": "Girêdana çewt",
     "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "reveal_muted": "MUTED\nTap to reveal content",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Reşnivîs",
