@@ -566,7 +566,8 @@
     "image_saved_error": "Error guardando imagen",
     "wrong_link": "Enlace incorrecto",
     "in": "en",
-    "reveal_muted": "SILENCIADO\nToca para revelar el contenido"
+    "reveal_muted": "SILENCIADO\nToca para revelar el contenido",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Borradores",
