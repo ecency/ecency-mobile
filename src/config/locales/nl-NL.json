@@ -566,7 +566,8 @@
     "image_saved_error": "Error Saving Image",
     "wrong_link": "Wrong link",
     "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "reveal_muted": "MUTED\nTap to reveal content",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Concepten",
