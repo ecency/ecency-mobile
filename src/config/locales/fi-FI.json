@@ -566,7 +566,8 @@
     "image_saved_error": "Virhe tallentaessa kuvaa",
     "wrong_link": "Väärä linkki",
     "in": "yht",
-    "reveal_muted": "Hiljennetty\nNapauta näyttääksesi sisällön"
+    "reveal_muted": "Hiljennetty\nNapauta näyttääksesi sisällön",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Luonnokset",
