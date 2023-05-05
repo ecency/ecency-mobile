@@ -566,7 +566,8 @@
     "image_saved_error": "خطایی در ذخیره عکس بوجود آمد",
     "wrong_link": "لنک اشتباه",
     "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "reveal_muted": "MUTED\nTap to reveal content",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "پیشنویس ها",
