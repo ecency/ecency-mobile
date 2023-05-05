@@ -566,7 +566,8 @@
     "image_saved_error": "Erreur de sauvegarde de l'image",
     "wrong_link": "Mauvais lien",
     "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "reveal_muted": "MUTED\nTap to reveal content",
+    "posted_by": "Posted by {username} via {appname} "
   },
   "drafts": {
     "title": "Brouillons",
