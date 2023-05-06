@@ -37,7 +37,7 @@ const CommunityScreen = ({ route }) => {
     return 0;
   };
 
-  const _handleOnScroll = () => {
+  const _handleOnScrollBeginDrag = () => {
     if (isExpanded) {
       setIsExpanded(false);
     }
@@ -132,7 +132,7 @@ const CommunityScreen = ({ route }) => {
               selectedOptionIndex={_getSelectedIndex()}
               tag={tag}
               pageType="community"
-              handleOnScroll={isExpanded ? _handleOnScroll : null}
+              handleOnScrollBeginDrag={isExpanded ? _handleOnScrollBeginDrag : null}
             />
           </View>
         </View>
