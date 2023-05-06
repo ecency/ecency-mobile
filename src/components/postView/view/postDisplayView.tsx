@@ -212,6 +212,8 @@ const PostDisplayView = ({
 
   const formatedTime = post && getTimeFromNow(post.created);
 
+  const capitalize = (appname) => appname && appname[0].toUpperCase() + appname.slice(1);
+
   if (isPostUnavailable) {
     return (
       <NoPost
@@ -280,8 +282,13 @@ const PostDisplayView = ({
               <View style={styles.footer}>
                 <Tags tags={tags} />
                 <Text style={styles.footerText}>
-                  Posted by
-                  <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
+                  {intl.formatMessage(
+                    { id: 'post.posted_by' },
+                    {
+                      username: author || post.author,
+                      appname: capitalize((post?.json_metadata?.app).split('/')[0]),
+                    },
+                  )}
                   {formatedTime}
                 </Text>
                 <WriteCommentButton ref={writeCommentRef} onPress={_showQuickReplyModal} />
