@@ -246,7 +246,7 @@ class ProfileView extends PureComponent {
           pageType={pageType}
           getFor="blog"
           feedUsername={username}
-          handleOnScroll={isSummaryOpen ? this._handleOnScroll : null}
+          handleOnScrollBeginDrag={isSummaryOpen ? this._handleOnScroll : null}
           forceLoadPost={forceLoadPost}
           changeForceLoadPostState={changeForceLoadPostState}
           isFeedScreen={false}
