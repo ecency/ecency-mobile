@@ -119,7 +119,7 @@ export const deleteDraft = async (draftId: string) => {
  * @param draft
  */
 export const addDraft = async (draft: Object) => {
-  const { title, body, tags, meta, action } = draft;
+  const { title, body, tags, meta } = draft;
   try {
     const data = { title, body, tags, meta };
     const res = await ecencyApi.post('/private-api/drafts-add', data);

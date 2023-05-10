@@ -468,8 +468,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           const response = await addDraft(draft);
           const _resDraft = response.pop();
 
-          if(!_resDraft){
-            throw new Error("newly saved draft not returned in response")
+          if (!_resDraft) {
+            throw new Error('newly saved draft not returned in response');
           }
 
           if (this._isMounted) {

@@ -43,11 +43,19 @@ const DraftListItemView = ({
   const actionSheet = useRef(null);
   const moveActionSheet = useRef(null);
   const [deleteRequested, setIsDeleteRequested] = useState(false);
+  const [cloneRequested, setIsCloneRequested] = useState(false);
+
   useEffect(() => {
     if (deleteRequested && !isDeleting) {
       setIsDeleteRequested(false);
     }
   }, [isDeleting]);
+
+  useEffect(() => {
+    if (cloneRequested && !isCloning) {
+      setIsCloneRequested(false);
+    }
+  }, [isCloning]);
 
   const _onItemPress = () => {
     if (isSchedules) {
@@ -118,13 +126,13 @@ const DraftListItemView = ({
                   draftItem = {
                     ...draftItem,
                     title: `Copy of ${draftItem.title}`,
-                    action: 'clone',
                   };
                   handleOnClonePressed(draftItem);
+                  setIsCloneRequested(true);
                 }}
                 style={[styles.rightItem]}
                 color={statusIconColor}
-                isLoading={isCloning}
+                isLoading={isCloning && cloneRequested}
               />
             )}
             {isUnsaved ? (
