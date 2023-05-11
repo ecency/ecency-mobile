@@ -1,0 +1,21 @@
+name: Version bump on development
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  version-bump:
+    name: Bump App Version
+    runs-on: ubuntu-latest
+    steps:
+      - name: 
+      - uses: nabeel-shakeel/react-native-version@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag-prefix: 'v'
+          commit-message: 'chore: react native - android & ios versions updated'
+          automatic_release_tag: 'latest'
+
