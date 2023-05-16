@@ -1,8 +1,8 @@
-import React, { Fragment, useState, useRef, useMemo } from 'react';
-import { Text, View } from 'react-native';
+import React, { useState, useMemo } from 'react';
+import { Button, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
-import get from 'lodash/get';
+import { get, debounce } from 'lodash';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { hsOptions } from '../../../constants/hsOptions';
@@ -21,6 +21,11 @@ import TransferTypes from '../../../constants/transferTypes';
 import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineActions';
 import { useAppDispatch } from '../../../hooks';
 import { showActionModal } from '../../../redux/actions/uiAction';
+import {
+  getSpkActionJSON,
+  getSpkTransactionId,
+  SPK_NODE_ECENCY,
+} from '../../../providers/hive-spk/hiveSpk';
 
 const TransferView = ({
   currentAccountName,
@@ -35,6 +40,7 @@ const TransferView = ({
   fundType,
   selectedAccount,
   fetchBalance,
+  spkMarkets,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -54,6 +60,8 @@ const TransferView = ({
       ? currentAccountName
       : transferType === 'purchase_estm'
       ? 'esteem.app'
+      : transferType === TransferTypes.DELEGATE_SPK
+      ? SPK_NODE_ECENCY
       : '',
   );
   const [amount, setAmount] = useState('');
@@ -71,6 +79,7 @@ const TransferView = ({
       transferType === TransferTypes.POWER_UP_SPK ||
       transferType === TransferTypes.POWER_DOWN_SPK ||
       transferType === TransferTypes.LOCK_LIQUIDITY_SPK ||
+      transferType === TransferTypes.DELEGATE_SPK ||
       (transferType === 'convert' && currentAccountName)
     ),
   );
@@ -78,17 +87,23 @@ const TransferView = ({
   const [isTransfering, setIsTransfering] = useState(false);
 
   const isEngineToken = useMemo(() => transferType.endsWith('_engine'), [transferType]);
+  const isSpkToken = useMemo(() => transferType.endsWith('_spk'), [transferType]);
 
-  const _handleTransferAction = () => {
-    setIsTransfering(true);
-    if (accountType === AUTH_TYPE.STEEM_CONNECT) {
-      setHsTransfer(true);
-    } else {
-      transferToAccount(from, destination, amount, memo);
-    }
-  };
+  const _handleTransferAction = debounce(
+    () => {
+      setIsTransfering(true);
+      if (accountType === AUTH_TYPE.STEEM_CONNECT) {
+        setHsTransfer(true);
+      } else {
+        transferToAccount(from, destination, amount, memo);
+      }
+    },
+    300,
+    { trailing: true },
+  );
 
   let path;
+
   if (hsTransfer) {
     // NOTE: Keepping point purchase url here for referemnce in case we have to put it back again,
     // the path formatting seems quite complex so perhaps it's better to just let it live here
@@ -162,6 +177,14 @@ const TransferView = ({
       )}%22%5D&required_posting_auths=%5B%5D&id=ssc-mainnet-hive&json=${encodeURIComponent(
         JSON.stringify(json),
       )}`;
+    } else if (isSpkToken) {
+      // compose spk json
+      const json = getSpkActionJSON(Number(amount), destination, memo);
+      path = `sign/custom-json?authority=active&required_auths=%5B%22${
+        selectedAccount.name
+      }%22%5D&required_posting_auths=%5B%5D&id=${getSpkTransactionId(
+        transferType,
+      )}&json=${encodeURIComponent(JSON.stringify(json))}`;
     } else {
       path = `sign/transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
@@ -217,6 +240,7 @@ const TransferView = ({
             setIsUsernameValid={setIsUsernameValid}
             memo={memo}
             setMemo={setMemo}
+            spkMarkets={spkMarkets}
           />
           <TransferAmountInputSection
             balance={balance}
@@ -248,7 +272,7 @@ const TransferView = ({
         </View>
       </KeyboardAwareScrollView>
 
-      {path && (
+      {!!path && (
         <Modal
           isOpen={hsTransfer}
           isFullScreen

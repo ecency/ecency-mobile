@@ -7,7 +7,6 @@ import TransferView from './screen/transferScreen';
 import AddressView from './screen/addressScreen';
 import PowerDownView from './screen/powerDownScreen';
 import DelegateView from './screen/delegateScreen';
-import TransferTypes from '../../constants/transferTypes';
 
 const Transfer = ({ navigation, route }) => (
   <TransferContainer navigation={navigation} route={route}>
@@ -28,40 +27,9 @@ const Transfer = ({ navigation, route }) => (
       setWithdrawVestingRoute,
       dispatch,
       referredUsername,
+      spkMarkets,
     }) => {
       switch (transferType) {
-        case 'transfer_token':
-        case 'purchase_estm':
-        case 'convert':
-        case 'transfer_to_savings':
-        case 'transfer_to_vesting':
-        case 'points':
-        case 'withdraw_hive':
-        case 'withdraw_hbd':
-        case 'transfer_engine':
-        case 'stake_engine':
-        case 'delegate_engine':
-        case 'unstake_engine':
-        case TransferTypes.TRANSFER_SPK:
-        case TransferTypes.TRANSFER_LARYNX:
-        case TransferTypes.POWER_UP_SPK:
-        case TransferTypes.POWER_DOWN_SPK:
-        case TransferTypes.LOCK_LIQUIDITY_SPK:
-          return (
-            <TransferView
-              accounts={accounts}
-              balance={balance}
-              fundType={fundType}
-              transferType={transferType}
-              fetchBalance={fetchBalance}
-              getAccountsWithUsername={getAccountsWithUsername}
-              transferToAccount={transferToAccount}
-              handleOnModalClose={handleOnModalClose}
-              accountType={accountType}
-              currentAccountName={currentAccountName}
-              selectedAccount={selectedAccount}
-            />
-          );
         case 'delegate':
           return (
             <DelegateView
@@ -111,7 +79,22 @@ const Transfer = ({ navigation, route }) => (
           );
 
         default:
-          return null;
+          return (
+            <TransferView
+              accounts={accounts}
+              balance={balance}
+              fundType={fundType}
+              transferType={transferType}
+              fetchBalance={fetchBalance}
+              getAccountsWithUsername={getAccountsWithUsername}
+              transferToAccount={transferToAccount}
+              handleOnModalClose={handleOnModalClose}
+              accountType={accountType}
+              currentAccountName={currentAccountName}
+              selectedAccount={selectedAccount}
+              spkMarkets={spkMarkets}
+            />
+          );
       }
     }}
   </TransferContainer>

@@ -11,6 +11,8 @@ import UserAvatar from '../userAvatar';
 
 // Styles
 import styles from './transferAccountSelectorStyles';
+import { Market } from '../../providers/hive-spk/hiveSpk.types';
+import { SPK_NODE_ECENCY } from '../../providers/hive-spk/hiveSpk';
 
 export interface TransferAccountSelectorProps {
   accounts: any;
@@ -28,6 +30,7 @@ export interface TransferAccountSelectorProps {
   setIsUsernameValid: (value: boolean) => void;
   memo: string;
   setMemo: (value: string) => void;
+  spkMarkets: Market[];
 }
 
 const TransferAccountSelector = ({
@@ -46,7 +49,8 @@ const TransferAccountSelector = ({
   setIsUsernameValid,
   memo,
   setMemo,
-}) => {
+  spkMarkets,
+}: TransferAccountSelectorProps) => {
   const intl = useIntl();
   const destinationRef = useRef('');
 
@@ -64,14 +68,18 @@ const TransferAccountSelector = ({
     }
   }, [transferType]);
 
-  const _handleOnDropdownChange = (value) => {
-    fetchBalance(value);
-    setFrom(value);
+  const _handleOnFromUserChange = (username) => {
+    fetchBalance(username);
+    setFrom(username);
 
     if (destinationLocked) {
-      destinationRef.current = value;
-      setDestination(value);
+      _handleOnDestinationChange(username);
     }
+  };
+
+  const _handleOnDestinationChange = (username) => {
+    destinationRef.current = username;
+    setDestination(username);
   };
 
   const _debouncedValidateUsername = useCallback(
@@ -109,17 +117,17 @@ const TransferAccountSelector = ({
     }
   };
 
-  const _renderDropdown = (accounts, currentAccountName) => (
+  const _renderDropdown = (usernames, defaultSelection, onSelectionChange) => (
     <DropdownButton
       dropdownButtonStyle={styles.dropdownButtonStyle}
       rowTextStyle={styles.rowTextStyle}
       style={styles.dropdown}
       dropdownStyle={styles.dropdownStyle}
       textStyle={styles.dropdownText}
-      options={accounts.map((item) => item.username)}
-      defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
-      onSelect={(index, value) => _handleOnDropdownChange(value)}
+      options={usernames}
+      defaultText={defaultSelection}
+      selectedOptionIndex={usernames.indexOf(defaultSelection)}
+      onSelect={(index, value) => onSelectionChange(value)}
     />
   );
 
@@ -144,6 +152,35 @@ const TransferAccountSelector = ({
       keyboardType={keyboardType}
     />
   );
+
+  const _destinationInput = !destinationLocked ? (
+    transferType === TransferTypes.DELEGATE_SPK ? (
+      <TransferFormItem
+        label={intl.formatMessage({ id: 'transfer.to' })}
+        rightComponent={() =>
+          _renderDropdown(
+            spkMarkets.map((market) => market.name),
+            SPK_NODE_ECENCY,
+            _handleOnDestinationChange,
+          )
+        }
+      />
+    ) : (
+      <TransferFormItem
+        label={intl.formatMessage({ id: 'transfer.to' })}
+        rightComponent={() =>
+          _renderInput(
+            intl.formatMessage({ id: 'transfer.to_placeholder' }),
+            'destination',
+            'default',
+            false,
+          )
+        }
+        containerStyle={styles.elevate}
+      />
+    )
+  ) : null;
+
   return (
     <View style={styles.stepOneContainer}>
       <Text style={styles.sectionHeading}>
@@ -155,22 +192,16 @@ const TransferAccountSelector = ({
       <TransferFormItem
         containerStyle={{ marginTop: 32 }}
         label={intl.formatMessage({ id: 'transfer.from' })}
-        rightComponent={() => _renderDropdown(accounts, currentAccountName)}
+        rightComponent={() =>
+          _renderDropdown(
+            accounts.map((account) => account.username),
+            currentAccountName,
+            _handleOnFromUserChange,
+          )
+        }
       />
-      {!destinationLocked && (
-        <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.to' })}
-          rightComponent={() =>
-            _renderInput(
-              intl.formatMessage({ id: 'transfer.to_placeholder' }),
-              'destination',
-              'default',
-              false,
-            )
-          }
-          containerStyle={styles.elevate}
-        />
-      )}
+
+      {_destinationInput}
 
       <View style={styles.toFromAvatarsContainer}>
         <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />

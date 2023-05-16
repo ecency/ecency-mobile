@@ -36,6 +36,7 @@ import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
 import { ClaimsCollection } from '../redux/reducers/cacheReducer';
 import { fetchSpkWallet } from '../providers/hive-spk/hiveSpk';
 import { SpkActions } from '../providers/hive-spk/hiveSpk.types';
+import TransferTypes from '../constants/transferTypes';
 
 export const transferTypes = [
   'curation_reward',
@@ -561,7 +562,7 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
         vsCurrency: vsCurrency,
         currentPrice: _price,
         isSpk: true,
-        actions: [SpkActions.TRANSFER]
+        actions: [TransferTypes.TRANSFER_SPK]
       }
     }
 
@@ -581,9 +582,9 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
         currentPrice: _price, 
         isSpk: true,
         actions: [
-          SpkActions.TRANSFER_LARYNX,
-          SpkActions.POWER_UP,
-          SpkActions.LOCK_LIQUIDITY
+          TransferTypes.TRANSFER_LARYNX,
+          TransferTypes.POWER_UP_SPK,
+          // TransferTypes.LOCK_LIQUIDITY
         ]
       }
 
@@ -593,7 +594,7 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
       const _grantedPwr = spkWallet.granted?.t ? spkWallet.granted.t / 1000 : 0;
       const _grantingPwr = spkWallet.granting?.t ? spkWallet.granting.t / 1000 : 0;
 
-      let _totalBalance = _larPower + _grantedPwr - _grantingPwr
+      let _totalBalance = _larPower + _grantedPwr + _grantingPwr
 
       const _extraDataPairs:DataPair[] = [];
       if(spkWallet.power_downs){
@@ -624,8 +625,8 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
           value: `${ _totalBalance.toFixed(3)} ${ASSET_IDS.LARYNX_POWER}`
         },],
         actions: [
-          SpkActions.POWER_DOWN,
-          SpkActions.DELEGATE,
+          TransferTypes.DELEGATE_SPK,
+          TransferTypes.POWER_DOWN_SPK,
         ]
       }
     }
