@@ -36,6 +36,7 @@ const TabContent = ({
   pinnedPermlink,
   onScrollRequestProcessed,
   handleOnScroll,
+  handleOnScrollBeginDrag,
   ...props
 }: TabContentProps) => {
   let _isMounted = true;
@@ -350,6 +351,7 @@ const TabContent = ({
         }}
         onScroll={_onScroll}
         onScrollEndDrag={_handleOnScroll}
+        onScrollBeginDrag={handleOnScrollBeginDrag}
         isRefreshing={tabMeta.isRefreshing}
         isLoading={tabMeta.isLoading}
         ListEmptyComponent={_renderEmptyContent}

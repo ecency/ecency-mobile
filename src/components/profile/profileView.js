@@ -125,7 +125,7 @@ class ProfileView extends PureComponent {
         defaultTitle={intl.formatMessage({
           id: 'profile.details',
         })}
-        expanded={!isOwnProfile}
+        // expanded={!isOwnProfile}
         isExpanded={isSummaryOpen}
         handleOnExpanded={this._handleOnSummaryExpanded}
         moreHeight={collapsibleMoreHeight}
@@ -246,7 +246,7 @@ class ProfileView extends PureComponent {
           pageType={pageType}
           getFor="blog"
           feedUsername={username}
-          handleOnScroll={isSummaryOpen ? this._handleOnScroll : null}
+          handleOnScrollBeginDrag={isSummaryOpen ? this._handleOnScroll : null}
           forceLoadPost={forceLoadPost}
           changeForceLoadPostState={changeForceLoadPostState}
           isFeedScreen={false}
