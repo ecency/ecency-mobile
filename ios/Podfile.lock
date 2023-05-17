@@ -216,7 +216,7 @@ PODS:
   - OpenSSL-Universal (1.1.1100)
   - Permission-Camera (3.7.3):
     - RNPermissions
-  - PromisesObjC (2.1.1)
+  - PromisesObjC (2.2.0)
   - RCT-Folly (2021.07.22.00):
     - boost
     - DoubleConversion
@@ -1026,7 +1026,7 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   Permission-Camera: c0ef0e1f3ff6796f89cdbc3628f405f1b7c381d5
-  PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
+  PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   RCT-Folly: 0080d0a6ebf2577475bda044aa59e2ca1f909cda
   RCTRequired: 837880d26ec119e105317dc28a456f3016bf16d1
   RCTTypeSafety: 5c854c04c3383cab04f404e25d408ed52124b300
