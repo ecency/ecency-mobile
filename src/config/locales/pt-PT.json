@@ -567,7 +567,7 @@
     "wrong_link": "Link errado",
     "in": "no",
     "reveal_muted": "SILENCIADO\nClique para revelar conteúdo",
-    "posted_by": "Posted by {username} via {appname} "
+    "posted_by": "Publicado por {username} via {appname} "
   },
   "drafts": {
     "title": "Rascunhos",
