@@ -463,24 +463,26 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
         // create new darft otherwise
         else if (draftField) {
-          const response = await addDraft(
-            draftField.title || '',
-            draftField.body,
-            draftField.tags,
-            jsonMeta,
-          );
+          const { title, body, tags } = draftField;
+          const draft = { title, body, tags, jsonMeta };
+          const response = await addDraft(draft);
+          const _resDraft = response.pop();
+
+          if (!_resDraft) {
+            throw new Error('newly saved draft not returned in response');
+          }
 
           if (this._isMounted) {
             this.setState({
               isDraftSaved: true,
               isDraftSaving: false,
-              draftId: response._id,
+              draftId: _resDraft._id,
             });
           }
           const filteredBeneficiaries = beneficiaries.filter(
             (item) => item.account !== currentAccount.username,
           ); // remove default beneficiary from array while saving
-          dispatch(setBeneficiaries(response._id, filteredBeneficiaries));
+          dispatch(setBeneficiaries(_resDraft._id, filteredBeneficiaries));
           dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
 
           // clear local copy if darft save is successful
