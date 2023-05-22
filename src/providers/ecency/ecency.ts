@@ -8,6 +8,7 @@ import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
 import {
   convertCommentHistory,
+  convertDraft,
   convertLatestQuotes,
   convertReferral,
   convertReferralStat,
@@ -121,9 +122,17 @@ export const deleteDraft = async (draftId: string) => {
 export const addDraft = async (draft: Object) => {
   const { title, body, tags, meta } = draft;
   try {
-    const data = { title, body, tags, meta };
-    const res = await ecencyApi.post('/private-api/drafts-add', data);
-    return res.data || [];
+    const newDraft = { title, body, tags, meta };
+    const res = await ecencyApi.post('/private-api/drafts-add', newDraft);
+    const rawData = res.data?.drafts;
+
+    if(!rawData){
+      throw new Error("Invalid response, drafts data not returned")
+    }
+
+    const data = rawData.length > 0 ? rawData.map(convertDraft) : [];
+
+    return data;
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;

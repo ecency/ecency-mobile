@@ -43,6 +43,20 @@ export interface ReferralStat {
   rewarded: number;
 }
 
+
+export interface Draft {
+  _id:string;
+  title:string,
+  body:string;
+  tags_arr:string[];
+  tags:string;
+  meta:Object,
+  modified:string;
+  created:string;
+  timestamp:number;
+}
+
+
 export interface UserPoint {
   id: number;
   type: number;

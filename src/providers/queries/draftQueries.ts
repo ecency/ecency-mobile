@@ -28,8 +28,8 @@ export const useAddDraftMutation = () => {
   const intl = useIntl();
   return useMutation(addDraft, {
     retry: 3,
-    onSuccess: () => {
-      queryClient.invalidateQueries([QUERIES.DRAFTS.GET]);
+    onSuccess: (data) => {
+      queryClient.setQueryData([QUERIES.DRAFTS.GET], _sortData(data));
     },
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
