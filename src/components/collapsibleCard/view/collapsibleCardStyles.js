@@ -15,6 +15,7 @@ export default EStyleSheet.create({
   },
   content: {
     backgroundColor: '$primaryBackgroundColor',
+    overflow: 'hidden',
   },
   contentBody: {
     paddingHorizontal: 12,

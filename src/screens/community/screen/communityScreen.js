@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useIntl } from 'react-intl';
 
@@ -19,8 +19,8 @@ import { TagResult } from '../..';
 const CommunityScreen = ({ route }) => {
   const tag = route.params?.tag ?? '';
   const filter = route.params?.filter ?? '';
-
   const intl = useIntl();
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const communityTabs = useAppSelector(
     (state) => state.customTabs.communityTabs || getDefaultFilters('community'),
@@ -35,6 +35,18 @@ const CommunityScreen = ({ route }) => {
       }
     }
     return 0;
+  };
+
+  const _handleOnScrollBeginDrag = () => {
+    if (isExpanded) {
+      setIsExpanded(false);
+    }
+  };
+
+  _handleOnExpanded = () => {
+    if (!isExpanded) {
+      setIsExpanded(true);
+    }
   };
 
   return (
@@ -60,6 +72,8 @@ const CommunityScreen = ({ route }) => {
               })}`}
               isTitleCenter
               defaultTitle=""
+              isExpanded={isExpanded}
+              handleOnExpanded={_handleOnExpanded}
             >
               <View style={styles.collapsibleCard}>
                 <ScrollView style={styles.descriptionContainer}>
@@ -118,6 +132,7 @@ const CommunityScreen = ({ route }) => {
               selectedOptionIndex={_getSelectedIndex()}
               tag={tag}
               pageType="community"
+              handleOnScrollBeginDrag={isExpanded ? _handleOnScrollBeginDrag : null}
             />
           </View>
         </View>
