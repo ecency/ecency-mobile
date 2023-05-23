@@ -362,63 +362,55 @@ class ApplicationContainer extends Component {
   };
 
   _getUserDataFromRealm = async () => {
-    const { dispatch, isPinCodeOpen: _isPinCodeOpen, isConnected } = this.props;
+    const { dispatch, isPinCodeOpen: _isPinCodeOpen, isConnected, otherAccounts, currentAccount } = this.props;
     let realmData = [];
 
-    const res = await getAuthStatus();
-    const { currentUsername } = res;
+    const { username } = currentAccount;
 
-    if (res) {
+    if (currentAccount) {
       dispatch(login(true));
+
+      let reduxAccountNames = otherAccounts.map(account => account.username);
+
       const userData = await getUserData();
 
       if (userData && userData.length > 0) {
         realmData = userData;
         userData.forEach((accountData, index) => {
+          reduxAccountNames = reduxAccountNames.filter(username => username !== accountData.username);
           if (
+            !accountData ||
             !accountData.accessToken &&
             !accountData.masterKey &&
             !accountData.postingKey &&
             !accountData.activeKey &&
             !accountData.memoKey
           ) {
+            
             realmData.splice(index, 1);
-            if (realmData.length === 0) {
-              dispatch(login(false));
-              dispatch(logoutDone());
-              removePinCode();
-              setAuthStatus({
-                isLoggedIn: false,
-              });
-              setExistUser(false);
-              if (accountData.authType === AUTH_TYPE.STEEM_CONNECT) {
-                removeSCAccount(accountData.username);
-              }
-            }
+            removeSCAccount(accountData.username);
             removeUserData(accountData.username);
-          } else {
-            const persistAccountData = persistAccountGenerator(accountData);
-            dispatch(addOtherAccount({ ...persistAccountData }));
-            // TODO: check post v2.2.5+ or remove setexistuser from login
-            setExistUser(true);
+            dispatch(removeOtherAccount(accountData.username))
           }
         });
-      } else {
-        dispatch(login(false));
-        dispatch(logoutDone());
+      } 
+
+      //means there is an account without realm local user data available
+      if(reduxAccountNames.length > 0) {
+        reduxAccountNames.forEach((name)=>{
+          dispatch(removeOtherAccount(name))
+        })
       }
     }
 
     if (realmData.length > 0) {
-      const realmObject = realmData.filter((data) => data.username === currentUsername);
+      const realmObject = realmData.filter((data) => data.username === username);
 
       if (realmObject.length === 0) {
-        realmObject[0] = realmData[realmData.length - 1];
-        // TODO:
+        realmObject[0] = realmData[0];
         await switchAccount(realmObject[0].username);
       }
 
-      realmObject[0].name = currentUsername;
       // If in dev mode pin code does not show
       if (_isPinCodeOpen) {
         RootNavigation.navigate({ name: ROUTES.SCREENS.PINCODE });
@@ -432,6 +424,17 @@ class ApplicationContainer extends Component {
       }
 
       return realmObject[0];
+    } 
+
+    //complete logout from app if not realm data left
+    else {
+      dispatch(login(false));
+      dispatch(logoutDone());
+      removePinCode();
+      setAuthStatus({
+        isLoggedIn: false,
+      });
+      setExistUser(false);
     }
 
     dispatch(updateCurrentAccount({}));
@@ -576,26 +579,33 @@ class ApplicationContainer extends Component {
     };
   };
 
-  _logout = () => {
+  _logout = (username) => {
+
     const {
       otherAccounts,
-      currentAccount: { name, local },
       dispatch,
       intl,
     } = this.props;
 
-
-    removeUserData(name)
+    removeUserData(username)
       .then(async () => {
-        const _otherAccounts = otherAccounts.filter((user) => user.username !== name);
-
-        this._enableNotification(name, false);
-
+        removeSCAccount(username);
+        dispatch(setFeedPosts([]));
+        dispatch(setInitPosts([]));
+        dispatch(removeOtherAccount(username));
+        dispatch(logoutDone());
+        this._enableNotification(username, false);
+        
+        //switch account if other account exist
+        const _otherAccounts = otherAccounts.filter((user) => user.username !== username);
         if (_otherAccounts.length > 0) {
           const targetAccount = _otherAccounts[0];
-
           await this._switchAccount(targetAccount);
-        } else {
+
+        } 
+        
+        //logut from app if no more other accounts
+        else {
           dispatch(updateCurrentAccount({}));
           dispatch(login(false));
           removePinCode();
@@ -605,15 +615,8 @@ class ApplicationContainer extends Component {
           setExistUser(false);
           dispatch(isPinCodeOpen(false));
           dispatch(setEncryptedUnlockPin(encryptKey(Config.DEFAULT_KEU, Config.PIN_KEY)));
-          if (local.authType === AUTH_TYPE.STEEM_CONNECT) {
-            removeSCAccount(name);
-          }
         }
 
-        dispatch(setFeedPosts([]));
-        dispatch(setInitPosts([]));
-        dispatch(removeOtherAccount(name));
-        dispatch(logoutDone());
       })
       .catch((err) => {
         Alert.alert(
@@ -622,7 +625,7 @@ class ApplicationContainer extends Component {
       });
   };
 
-  _enableNotification = async (username, isEnable, settings, accessToken = null) => {
+  _enableNotification = async (username, isEnable, settings = null, accessToken = null) => {
     // compile notify_types
     let notify_types = [];
     if (settings) {
@@ -663,50 +666,63 @@ class ApplicationContainer extends Component {
   };
 
   _switchAccount = async (targetAccount) => {
-    const { dispatch, isConnected } = this.props;
-
-    if (!isConnected) return;
+    const { dispatch, isConnected, pinCode } = this.props;
 
     dispatch(updateCurrentAccount(targetAccount));
 
-    const accountData = await switchAccount(targetAccount.username);
-    const realmData = await getUserDataWithUsername(targetAccount.username);
+    if (!isConnected) return;
 
-    let _currentAccount = accountData;
-    _currentAccount.username = accountData.name;
-    [_currentAccount.local] = realmData;
+    try{
+      const accountData = await switchAccount(targetAccount.username);
+      const realmData = await getUserDataWithUsername(targetAccount.username);
+  
+      let _currentAccount = accountData;
+      _currentAccount.username = accountData.name;
+      [_currentAccount.local] = realmData;
+  
+      if(!realmData[0]){
+        //remove this user from data
+       throw new Error("user data invalid, logging out")
+      }
+  
+      // migreate account to use access token for master key auth type
+      if (realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT && realmData[0].accessToken === '') {
+        _currentAccount = await migrateToMasterKeyWithAccessToken(
+          _currentAccount,
+          realmData[0],
+          pinCode,
+        );
+      }
+  
+      // update refresh token
+      _currentAccount = await this._refreshAccessToken(_currentAccount);
+  
+      try {
+        _currentAccount.unread_activity_count = await getUnreadNotificationCount();
+        _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
+        _currentAccount.mutes = await getMutes(_currentAccount.username);
+      } catch (err) {
+        console.warn('Optional user data fetch failed, account can still function without them', err);
+      }
+  
+      dispatch(updateCurrentAccount(_currentAccount));
+      dispatch(fetchSubscribedCommunities(_currentAccount.username));
 
-    // migreate account to use access token for master key auth type
-    if (realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT && realmData[0].accessToken === '') {
-      _currentAccount = await migrateToMasterKeyWithAccessToken(
-        _currentAccount,
-        realmData[0],
-        pinCode,
-      );
+    } catch(err){
+      this._logout(targetAccount.username)
     }
 
-    // update refresh token
-    _currentAccount = await this._refreshAccessToken(_currentAccount);
-
-    try {
-      _currentAccount.unread_activity_count = await getUnreadNotificationCount();
-      _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
-      _currentAccount.mutes = await getMutes(_currentAccount.username);
-    } catch (err) {
-      console.warn('Optional user data fetch failed, account can still function without them', err);
-    }
-
-    dispatch(updateCurrentAccount(_currentAccount));
-    dispatch(fetchSubscribedCommunities(_currentAccount.username));
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       isDarkTheme: _isDarkTheme,
+      currentAccount: {username},
       selectedLanguage,
       isLogingOut,
       isConnected,
       api,
+      
     } = this.props;
 
     if (
@@ -731,7 +747,7 @@ class ApplicationContainer extends Component {
     }
 
     if (isLogingOut !== nextProps.isLogingOut && nextProps.isLogingOut) {
-      this._logout();
+      this._logout(username);
     }
 
     if (isConnected !== null && isConnected !== nextProps.isConnected && nextProps.isConnected) {
