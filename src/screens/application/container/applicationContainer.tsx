@@ -682,7 +682,7 @@ class ApplicationContainer extends Component {
   
       if(!realmData[0]){
         //remove this user from data
-       throw new Error("user data invalid, logging out")
+       throw new Error("user data invalid")
       }
   
       // migreate account to use access token for master key auth type
@@ -709,6 +709,7 @@ class ApplicationContainer extends Component {
       dispatch(fetchSubscribedCommunities(_currentAccount.username));
 
     } catch(err){
+      dispatch(toastNotification("User's auth data expired, logging out..."))
       this._logout(targetAccount.username)
     }
 
