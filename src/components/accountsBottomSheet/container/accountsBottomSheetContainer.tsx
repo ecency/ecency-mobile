@@ -1,26 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Alert } from 'react-native';
 import { useIntl } from 'react-intl';
 import RootNavigation from '../../../navigation/rootNavigation';
 
-import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
-import {
-  isPinCodeOpen,
-  isRenderRequired,
-  login,
-  logout,
-  logoutDone,
-} from '../../../redux/actions/applicationActions';
+import { updateCurrentAccount } from '../../../redux/actions/accountAction';
+
 
 import {
   getUserDataWithUsername,
-  removeAllUserData,
-  removePinCode,
-  setAuthStatus,
-  setExistUser,
-  setPinCodeOpen,
+
 } from '../../../realm/realm';
 import {
   migrateToMasterKeyWithAccessToken,
@@ -29,12 +19,12 @@ import {
 } from '../../../providers/hive/auth';
 
 import AccountsBottomSheet from '../view/accountsBottomSheetView';
-import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+import { logout, toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
 import { getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
-import { setFeedPosts, setInitPosts } from '../../../redux/actions/postsAction';
+
 import { useAppSelector } from '../../../hooks';
 import { getUnreadNotificationCount } from '../../../providers/ecency/ecency';
 import { decryptKey } from '../../../utils/crypto';
@@ -42,7 +32,7 @@ import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 import { clearSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
 
-const AccountsBottomSheetContainer = ({ navigation }) => {
+const AccountsBottomSheetContainer = ( ) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const accountsBottomSheetViewRef = useRef();

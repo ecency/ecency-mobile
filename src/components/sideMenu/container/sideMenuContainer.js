@@ -2,9 +2,9 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Actions
-import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+import { logout, toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
-import { logout } from '../../../redux/actions/applicationActions';
+
 
 // Component
 import SideMenuView from '../view/sideMenuView';

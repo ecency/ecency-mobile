@@ -132,16 +132,7 @@ export default function (state = initialState, action): State {
         isConnected: action.payload,
       };
 
-    case LOGOUT:
-      return {
-        ...state,
-        isLogingOut: true,
-      };
-    case LOGOUT_DONE:
-      return {
-        ...state,
-        isLogingOut: false,
-      };
+
 
     case SET_API:
       return Object.assign({}, state, {

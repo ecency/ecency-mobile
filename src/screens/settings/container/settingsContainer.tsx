@@ -35,15 +35,13 @@ import {
   setNsfw,
   isPinCodeOpen,
   login,
-  logoutDone,
   setColorTheme,
   setIsBiometricEnabled,
   setEncryptedUnlockPin,
   setHidePostsThumbnails,
-  logout,
   setIsDarkTheme,
 } from '../../../redux/actions/applicationActions';
-import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
+import { logout, logoutDone, showActionModal, toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes, deleteAccount } from '../../../providers/ecency/ecency';
 import { checkClient } from '../../../providers/hive/dhive';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
@@ -81,12 +79,11 @@ class SettingsContainer extends Component {
 
   // Component Life Cycle Functions
   componentDidMount() {
-    getNodes()
-      .then((resp) => {
-        this.setState({
-          serverList: resp,
-        });
-      })
+    getNodes().then((resp) => {
+      this.setState({
+        serverList: resp,
+      });
+    });
   }
 
   // Component Functions

@@ -16,8 +16,6 @@ import {
   IS_LOGIN_DONE,
   IS_NOTIFICATION_OPEN,
   LOGIN,
-  LOGOUT_DONE,
-  LOGOUT,
   SET_API,
   SET_CURRENCY,
   SET_LANGUAGE,
@@ -41,13 +39,7 @@ export const login = (payload) => ({
   type: LOGIN,
 });
 
-export const logout = () => ({
-  type: LOGOUT,
-});
 
-export const logoutDone = () => ({
-  type: LOGOUT_DONE,
-});
 
 export const isLoginDone = () => ({
   type: IS_LOGIN_DONE,

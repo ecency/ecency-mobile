@@ -55,11 +55,9 @@ import {
 } from '../../../redux/actions/accountAction';
 import {
   login,
-  logoutDone,
   setConnectivityStatus,
   setPinCode as savePinCode,
   isRenderRequired,
-  logout,
   isPinCodeOpen,
   setEncryptedUnlockPin,
 } from '../../../redux/actions/applicationActions';
@@ -68,6 +66,8 @@ import {
   showActionModal,
   toastNotification,
   updateActiveBottomTab,
+  logout,
+  logoutDone
 } from '../../../redux/actions/uiAction';
 import { setFeedPosts, setInitPosts } from '../../../redux/actions/postsAction';
 import { fetchCoinQuotes } from '../../../redux/actions/walletActions';
@@ -584,6 +584,7 @@ class ApplicationContainer extends Component {
       intl,
     } = this.props;
 
+
     removeUserData(name)
       .then(async () => {
         const _otherAccounts = otherAccounts.filter((user) => user.username !== name);
@@ -771,7 +772,7 @@ export default connect(
     selectedLanguage: state.application.language,
     isPinCodeOpen: state.application.isPinCodeOpen,
     encUnlockPin: state.application.encUnlockPin,
-    isLogingOut: state.application.isLogingOut,
+
     isLoggedIn: state.application.isLoggedIn, // TODO: remove as is not being used in this class
     isConnected: state.application.isConnected,
     api: state.application.api,
@@ -790,7 +791,9 @@ export default connect(
     // UI
     toastNotification: state.ui.toastNotification,
     activeBottomTab: state.ui.activeBottomTab,
+    isLogingOut: state.ui.isLogingOut,
     rcOffer: state.ui.rcOffer,
+    
   }),
   (dispatch) => ({
     dispatch,
