@@ -8,6 +8,7 @@ import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
 import {
   convertCommentHistory,
+  convertDraft,
   convertLatestQuotes,
   convertReferral,
   convertReferralStat,
@@ -116,21 +117,22 @@ export const deleteDraft = async (draftId: string) => {
 };
 
 /**
- * @params title
- * @params body
- * @params tags
- * @param meta
+ * @param draft
  */
-export const addDraft = async (title: string, body: string, tags: string, meta: Object) => {
+export const addDraft = async (draft: Object) => {
+  const { title, body, tags, meta } = draft;
   try {
-    const data = { title, body, tags, meta };
-    const res = await ecencyApi.post('/private-api/drafts-add', data);
-    const { drafts } = res.data;
-    if (drafts) {
-      return drafts.pop(); //return recently saved last draft in the list
-    } else {
-      throw new Error('No drafts returned in response');
+    const newDraft = { title, body, tags, meta };
+    const res = await ecencyApi.post('/private-api/drafts-add', newDraft);
+    const rawData = res.data?.drafts;
+
+    if(!rawData){
+      throw new Error("Invalid response, drafts data not returned")
     }
+
+    const data = rawData.length > 0 ? rawData.map(convertDraft) : [];
+
+    return data;
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;
@@ -724,20 +726,19 @@ export const uploadImage = async (media, username, sign, uploadProgress = null) 
 export const getNodes = async () => {
   try {
     const response = await serverList.get('/');
-    console.log("nodes response", response.data);
+    console.log('nodes response', response.data);
 
-    if(!response.data?.hived){
-      throw new Error("Invalid data returned, fallback to local copy")
+    if (!response.data?.hived) {
+      throw new Error('Invalid data returned, fallback to local copy');
     }
 
     return response.data?.hived;
   } catch (error) {
     console.warn('failed to get nodes list', error);
     bugsnagInstance.notify(error);
-    return SERVER_LIST
+    return SERVER_LIST;
   }
 };
-
 
 /**
  * refreshes access token using refresh token
@@ -777,19 +778,17 @@ export const getPromotedEntries = async (username: string) => {
   }
 };
 
-
 /**
  * post inapp purchase method to call
  * @param data PurchaseRequestData
- * @returns 
+ * @returns
  **/
-export const purchaseOrder = (data:PurchaseRequestData) =>
+export const purchaseOrder = (data: PurchaseRequestData) =>
   api
     .post('/purchase-order', data)
     .then((resp) => resp.data)
     .catch((error) => bugsnagInstance.notify(error));
 
-    
 export const getPostReblogs = (data) =>
   api
     .get(`/post-reblogs/${data.author}/${data.permlink}`)
