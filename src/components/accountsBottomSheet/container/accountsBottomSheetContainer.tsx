@@ -92,6 +92,10 @@ const AccountsBottomSheetContainer = ( ) => {
       const realmData = await getUserDataWithUsername(accountData.username);
 
       _currentAccount.username = _currentAccount.name;
+
+      if(!realmData[0]){
+        throw new Error("Auth data expired, functionality may be affected, logout suggested");
+      }
       _currentAccount.local = realmData[0];
 
       // migreate account to use access token for master key auth type
