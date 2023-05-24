@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl';
 // Services and Actions
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import {
+  useAddDraftMutation,
   useDraftDeleteMutation,
   useGetDraftsQuery,
   useGetSchedulesQuery,
@@ -23,6 +24,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 import DraftsScreen from '../screen/draftsScreen';
 
 const DraftsContainer = ({ currentAccount, navigation, route }) => {
+  const { mutate: _cloneDraft, isLoading: isCloningDraft } = useAddDraftMutation();
   const { mutate: deleteDraft, isLoading: isDeletingDraft } = useDraftDeleteMutation();
   const { mutate: deleteSchedule, isLoading: isDeletingSchedule } = useScheduleDeleteMutation();
   const { mutate: moveScheduleToDrafts, isLoading: isMovingToDrafts } =
@@ -65,6 +67,8 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
 
   const _isDeleting = isDeletingDraft || isDeletingSchedule || isMovingToDrafts;
 
+  const _isCloning = isCloningDraft;
+
   return (
     <DraftsScreen
       isLoading={_isLoading}
@@ -78,6 +82,8 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
       removeSchedule={deleteSchedule}
       onRefresh={_onRefresh}
       initialTabIndex={initialTabIndex}
+      cloneDraft={_cloneDraft}
+      isCloning={_isCloning}
     />
   );
 };

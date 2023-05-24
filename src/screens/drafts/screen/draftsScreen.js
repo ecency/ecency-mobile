@@ -30,6 +30,8 @@ const DraftsScreen = ({
   schedules,
   moveScheduleToDraft,
   initialTabIndex,
+  cloneDraft,
+  isCloning,
 }) => {
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const draftsCollection = useAppSelector((state) => state.cache.draftsCollection);
@@ -90,6 +92,9 @@ const DraftsScreen = ({
         isSchedules={isSchedules}
         isDeleting={isDeleting}
         isUnsaved={isUnsaved}
+        handleOnClonePressed={cloneDraft}
+        draftItem={item}
+        isCloning={isCloning}
       />
     );
   };
