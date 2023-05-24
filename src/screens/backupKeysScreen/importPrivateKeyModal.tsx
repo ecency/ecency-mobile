@@ -14,8 +14,6 @@ import { getUpdatedUserKeys } from '../../providers/hive/auth';
 import { getDigitPinCode } from '../../providers/hive/dhive';
 import { updateCurrentAccount } from '../../redux/actions/accountAction';
 
-// import reactotron from 'reactotron-react-native';
-
 type Props = {};
 
 export const ImportPrivateKeyModalModal = forwardRef(({}: Props, ref) => {
@@ -46,7 +44,6 @@ export const ImportPrivateKeyModalModal = forwardRef(({}: Props, ref) => {
     getUpdatedUserKeys(currentAccount, data)
       .then((result) => {
         if (result) {
-          //   reactotron.log('result : ', result);
           // Save user data to Realm DB
           // await setUserData(updatedUserData);
           // update user data in redux
