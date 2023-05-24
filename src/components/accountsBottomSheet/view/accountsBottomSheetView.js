@@ -30,6 +30,7 @@ const AccountsBottomSheet = forwardRef(
         bottomSheetModalRef.current?.setModalVisible(false);
       },
     }));
+    
 
     // _handlePressAccountTile(item)
     const _renderAccountTile = ({ item }) => (
@@ -70,7 +71,7 @@ const AccountsBottomSheet = forwardRef(
           />
           <Separator style={styles.separator} />
           <View style={{ paddingBottom: insets.bottom + 16 }}>
-            <TouchableWithoutFeedback
+            <TouchableOpacity
               style={styles.button}
               onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
             >
@@ -79,9 +80,9 @@ const AccountsBottomSheet = forwardRef(
                   {intl.formatMessage({ id: 'side_menu.create_a_new_account' })}
                 </Text>
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
             <Separator style={styles.separator} />
-            <TouchableWithoutFeedback
+            <TouchableOpacity
               style={styles.button}
               onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
             >
@@ -90,7 +91,7 @@ const AccountsBottomSheet = forwardRef(
                   {intl.formatMessage({ id: 'side_menu.add_an_existing_account' })}
                 </Text>
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
             <Separator style={styles.separator} />
           </View>
         </ActionSheet>

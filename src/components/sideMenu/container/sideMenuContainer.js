@@ -33,6 +33,7 @@ const SideMenuContainer = ({ navigation }) => {
   };
 
   const _handlePressOptions = () => {
+    navigation.closeDrawer();
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
   };
 

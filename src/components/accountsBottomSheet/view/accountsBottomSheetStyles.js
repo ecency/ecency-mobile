@@ -24,7 +24,8 @@ export default EStyleSheet.create({
     backgroundColor: 'yellow',
   },
   textButton: {
-    color: '$primaryDarkBlue',
+    color: '$primaryDarkGray',
+    fontWeight:'700',
     fontSize: 16,
     paddingVertical: 16,
     paddingHorizontal: 16,
@@ -43,6 +44,6 @@ export default EStyleSheet.create({
   button: {
     justifyContent: 'center',
     backgroundColor: 'transparent',
-    height: 50,
+    paddingVertical: 4,
   },
 });
