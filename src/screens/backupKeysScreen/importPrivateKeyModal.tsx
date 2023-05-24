@@ -85,6 +85,7 @@ export const ImportPrivateKeyModalModal = forwardRef(({}: Props, ref) => {
           placeholderTextColor={EStyleSheet.value('$borderColor')}
           style={styles.signInput}
           onChangeText={setKey}
+          secureTextEntry
         />
         <TouchableOpacity style={styles.signBtn} onPress={_handleSignKey}>
           <Text style={styles.signBtnText}>
