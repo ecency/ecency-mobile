@@ -362,7 +362,7 @@ class ApplicationContainer extends Component {
   };
 
   _getUserDataFromRealm = async () => {
-    const { dispatch, isPinCodeOpen: _isPinCodeOpen, isConnected, otherAccounts, currentAccount } = this.props;
+    const { intl, dispatch, isPinCodeOpen: _isPinCodeOpen, isConnected, otherAccounts, currentAccount } = this.props;
     let realmData = [];
 
     const { username } = currentAccount;
@@ -406,9 +406,11 @@ class ApplicationContainer extends Component {
     if (realmData.length > 0) {
       const realmObject = realmData.filter((data) => data.username === username);
 
-      if (realmObject.length === 0) {
+      if (!realmObject[0]) {
         realmObject[0] = realmData[0];
         await switchAccount(realmObject[0].username);
+        dispatch(toastNotification(
+          `${intl.formatMessage({id:"alert.logging_out"},{username})}\n${intl.formatMessage({id:"alert.auth_expired"})}`))
       }
 
       // If in dev mode pin code does not show
@@ -666,7 +668,7 @@ class ApplicationContainer extends Component {
   };
 
   _switchAccount = async (targetAccount) => {
-    const { dispatch, isConnected, pinCode } = this.props;
+    const { dispatch, isConnected, pinCode, intl } = this.props;
 
     dispatch(updateCurrentAccount(targetAccount));
 
@@ -682,7 +684,7 @@ class ApplicationContainer extends Component {
   
       if(!realmData[0]){
         //remove this user from data
-       throw new Error("user data invalid")
+       throw new Error(intl.formatMessage({id:'alert.auth_expired'}))
       }
   
       // migreate account to use access token for master key auth type
@@ -709,7 +711,8 @@ class ApplicationContainer extends Component {
       dispatch(fetchSubscribedCommunities(_currentAccount.username));
 
     } catch(err){
-      dispatch(toastNotification("User's auth data expired, logging out..."))
+      dispatch(toastNotification(
+        `${intl.formatMessage({id:'alert.logging_out'},{username:targetAccount.username})}\n${err.message}`))
       this._logout(targetAccount.username)
     }
 

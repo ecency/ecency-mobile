@@ -94,7 +94,7 @@ const AccountsBottomSheetContainer = ( ) => {
       _currentAccount.username = _currentAccount.name;
 
       if(!realmData[0]){
-        throw new Error("Auth data expired, functionality may be affected, logout suggested");
+        throw new Error(intl.formatMessage({ id: 'alert.auth_expired' }));
       }
       _currentAccount.local = realmData[0];
 

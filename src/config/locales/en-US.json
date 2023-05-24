@@ -547,8 +547,10 @@
     "wallet_updating":"Wallet update in progress, try again as update finishes",
     "claim_failed":"Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
     "connection_issues":"The server is unreachable, please check your connection and try again.",
-    "open_settings":"Open Settings"
-  },
+    "open_settings":"Open Settings",
+    "auth_expired":"Authentication data expired.",
+    "logging_out":"Logging out {username}"
+    },
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
     "removed_hint": "Content is not available",
