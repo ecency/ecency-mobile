@@ -25,7 +25,7 @@ export default EStyleSheet.create({
   },
   textButton: {
     color: '$primaryDarkGray',
-    fontWeight:'700',
+    fontWeight: '700',
     fontSize: 16,
     paddingVertical: 16,
     paddingHorizontal: 16,

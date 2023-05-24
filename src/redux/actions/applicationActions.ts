@@ -39,8 +39,6 @@ export const login = (payload) => ({
   type: LOGIN,
 });
 
-
-
 export const isLoginDone = () => ({
   type: IS_LOGIN_DONE,
 });

@@ -41,7 +41,12 @@ import {
   setHidePostsThumbnails,
   setIsDarkTheme,
 } from '../../../redux/actions/applicationActions';
-import { logout, logoutDone, showActionModal, toastNotification } from '../../../redux/actions/uiAction';
+import {
+  logout,
+  logoutDone,
+  showActionModal,
+  toastNotification,
+} from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes, deleteAccount } from '../../../providers/ecency/ecency';
 import { checkClient } from '../../../providers/hive/dhive';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';

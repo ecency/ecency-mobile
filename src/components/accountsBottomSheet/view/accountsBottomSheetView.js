@@ -16,7 +16,6 @@ import styles from './accountsBottomSheetStyles';
 
 const AccountsBottomSheet = forwardRef(
   ({ accounts, currentAccount, navigateToRoute, switchAccount, onClose }, ref) => {
-
     const bottomSheetModalRef = useRef();
     const userList = useRef();
     const insets = useSafeAreaInsets();
@@ -30,7 +29,6 @@ const AccountsBottomSheet = forwardRef(
         bottomSheetModalRef.current?.setModalVisible(false);
       },
     }));
-    
 
     // _handlePressAccountTile(item)
     const _renderAccountTile = ({ item }) => (

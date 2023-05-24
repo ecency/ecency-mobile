@@ -7,11 +7,7 @@ import RootNavigation from '../../../navigation/rootNavigation';
 
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
-
-import {
-  getUserDataWithUsername,
-
-} from '../../../realm/realm';
+import { getUserDataWithUsername } from '../../../realm/realm';
 import {
   migrateToMasterKeyWithAccessToken,
   refreshSCToken,
@@ -32,7 +28,7 @@ import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 import { clearSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
 
-const AccountsBottomSheetContainer = ( ) => {
+const AccountsBottomSheetContainer = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const accountsBottomSheetViewRef = useRef();
@@ -93,7 +89,7 @@ const AccountsBottomSheetContainer = ( ) => {
 
       _currentAccount.username = _currentAccount.name;
 
-      if(!realmData[0]){
+      if (!realmData[0]) {
         throw new Error(intl.formatMessage({ id: 'alert.auth_expired' }));
       }
       _currentAccount.local = realmData[0];

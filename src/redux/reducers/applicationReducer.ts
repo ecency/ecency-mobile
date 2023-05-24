@@ -132,8 +132,6 @@ export default function (state = initialState, action): State {
         isConnected: action.payload,
       };
 
-
-
     case SET_API:
       return Object.assign({}, state, {
         api: action.payload,

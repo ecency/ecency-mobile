@@ -72,17 +72,23 @@ const SideMenuView = ({
   // Component Functions
   const _handleOnMenuItemPress = (item) => {
     if (item.id === 'logout') {
-
-      dispatch(showActionModal({
-        title: intl.formatMessage({ id: 'side_menu.logout_text' }),
-        buttons: [{
-            text:intl.formatMessage({ id: 'side_menu.cancel' }),
-            onPress:()=>{}
-          },{
-            text:intl.formatMessage({ id: 'side_menu.logout' }),
-            onPress:()=>{ handleLogout() }
-          }]
-      }))
+      dispatch(
+        showActionModal({
+          title: intl.formatMessage({ id: 'side_menu.logout_text' }),
+          buttons: [
+            {
+              text: intl.formatMessage({ id: 'side_menu.cancel' }),
+              onPress: () => {},
+            },
+            {
+              text: intl.formatMessage({ id: 'side_menu.logout' }),
+              onPress: () => {
+                handleLogout();
+              },
+            },
+          ],
+        }),
+      );
       return;
     }
 

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout, toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 
-
 // Component
 import SideMenuView from '../view/sideMenuView';
 
