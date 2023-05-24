@@ -76,7 +76,6 @@ const BackupKeysScreen = () => {
   };
 
   const _handleImportPrivate = () => {
-    console.log('import private key');
     importKeyModalRef?.current?.showModal();
   };
 
