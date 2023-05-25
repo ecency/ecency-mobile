@@ -90,6 +90,7 @@ const WalletScreen = ({ navigation }) => {
       id: symbol,
       symbol,
       isEngine: type === 'ENGINE',
+      isSpk: type === 'SPK',
       notCrypto: false,
     }));
   };
@@ -100,12 +101,12 @@ const WalletScreen = ({ navigation }) => {
     );
 
     if (isArray(currentAccount.about?.profile?.tokens)) {
-      const engineTokensData = populateSelectedAssets(
+      const _selectedAssets = populateSelectedAssets(
         currentAccount.about.profile.tokens,
       );
       // check if current selected engine tokens differ from profile json meta
-      if (JSON.stringify(engineTokensData) !== JSON.stringify(currSelectedEngineTokens)) {
-        dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...engineTokensData]));
+      if (JSON.stringify(_selectedAssets) !== JSON.stringify(currSelectedEngineTokens)) {
+        dispatch(setSelectedCoins([...DEFAULT_ASSETS, ..._selectedAssets]));
       }
     }
 
@@ -131,10 +132,14 @@ const WalletScreen = ({ navigation }) => {
       const curTime = new Date().getTime();
 
       if (!token.notCrypto && curTime > expiresAt) {
+
+
         let priceData: number[] = [];
         if (token.isEngine) {
           const marketData = await fetchEngineMarketData(token.id);
           priceData = marketData.map((data) => data.close);
+        } else if(token.isSpk){
+          //TODO: add request to fetch chart data if available
         } else {
           const marketChart = await fetchMarketChart(
             token.id,
