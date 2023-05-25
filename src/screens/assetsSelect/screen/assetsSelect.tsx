@@ -301,7 +301,6 @@ const AssetsSelect = ({ navigation }) => {
         onChangeText={setQuery}
         value={query}
         backEnabled={true}
-        backIconName="close"
         autoFocus={false}
         onBackPress={_navigationGoBack}
       />
