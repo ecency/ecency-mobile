@@ -15,7 +15,7 @@ import {
 } from '../../../providers/hive/auth';
 
 import AccountsBottomSheet from '../view/accountsBottomSheetView';
-import { logout, toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+import { logout, showActionModal, toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -27,6 +27,7 @@ import { decryptKey } from '../../../utils/crypto';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 import { clearSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
+import ROUTES from '../../../constants/routeNames';
 
 const AccountsBottomSheetContainer = () => {
   const intl = useIntl();
@@ -46,11 +47,11 @@ const AccountsBottomSheetContainer = () => {
     }
   }, [isVisibleAccountsBottomSheet]);
 
-  const _navigateToRoute = (name = null) => {
+  const _navigateToRoute = (name:string, params:any) => {
     dispatch(toggleAccountsBottomSheet(false));
     accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
     if (name) {
-      RootNavigation.navigate({ name });
+      RootNavigation.navigate({ name, params });
     }
   };
 
@@ -89,8 +90,19 @@ const AccountsBottomSheetContainer = () => {
 
       _currentAccount.username = _currentAccount.name;
 
-      if (!realmData[0]) {
-        throw new Error(intl.formatMessage({ id: 'alert.auth_expired' }));
+      if (realmData[0]) {
+        // throw new Error(intl.formatMessage({ id: 'alert.auth_expired' }));
+        dispatch(showActionModal({
+          title:intl.formatMessage({ id: 'alert.warning' }),
+          body:intl.formatMessage({ id: 'alert.auth_expired' }),
+          buttons:[{
+            text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' ,
+         },
+         {
+            text: intl.formatMessage({ id: 'alert.verify' }), onPress: () => _navigateToRoute(ROUTES.SCREENS.LOGIN, {username:accountData.username}) ,
+          },]
+        }))
+        return;
       }
       _currentAccount.local = realmData[0];
 
