@@ -372,10 +372,12 @@ class ApplicationContainer extends Component {
     } = this.props;
     let realmData = [];
 
-    const { username } = currentAccount;
+    
 
-    if (currentAccount) {
+    if (currentAccount?.username) {
       dispatch(login(true));
+
+      const { username } = currentAccount;
 
       let reduxAccountNames = otherAccounts.map((account) => account.username);
 
@@ -398,34 +400,20 @@ class ApplicationContainer extends Component {
             realmData.splice(index, 1);
             removeSCAccount(accountData.username);
             removeUserData(accountData.username);
-            dispatch(removeOtherAccount(accountData.username));
           }
         });
       }
 
-      // means there is an account without realm local user data available
-      if (reduxAccountNames.length > 0) {
-        reduxAccountNames.forEach((name) => {
-          dispatch(removeOtherAccount(name));
-        });
-      }
-    }
 
-    if (realmData.length > 0) {
       const realmObject = realmData.filter((data) => data.username === username);
 
       if (!realmObject[0]) {
-        realmObject[0] = realmData[0];
-        await switchAccount(realmObject[0].username);
-        dispatch(
-          toastNotification(
-            `${intl.formatMessage({ id: 'alert.logging_out' }, { username })}\n${intl.formatMessage(
-              { id: 'alert.auth_expired' },
-            )}`,
-          ),
-        );
+        //means current logged in user keys data not present, re-verify required;
+        this._promptAccountVerification(username);
+        return null;
       }
-
+  
+  
       // If in dev mode pin code does not show
       if (_isPinCodeOpen) {
         RootNavigation.navigate({ name: ROUTES.SCREENS.PINCODE });
@@ -433,28 +421,15 @@ class ApplicationContainer extends Component {
         const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
         dispatch(savePinCode(encryptedPin));
       }
-
+  
       if (isConnected) {
         this._fetchUserDataFromDsteem(realmObject[0]);
       }
-
+  
       return realmObject[0];
     }
 
-    // complete logout from app if not realm data left
-    else {
-      dispatch(login(false));
-      dispatch(logoutDone());
-      removePinCode();
-      setAuthStatus({
-        isLoggedIn: false,
-      });
-      setExistUser(false);
-    }
 
-    dispatch(updateCurrentAccount({}));
-
-    return null;
   };
 
   _refreshAccessToken = async (currentAccount) => {
@@ -563,8 +538,7 @@ class ApplicationContainer extends Component {
         console.warn('access token not present, reporting to bugsnag');
         bugsnapInstance.notify(
           new Error(
-            `Reporting missing access token in other accounts section: account:${
-              account.name
+            `Reporting missing access token in other accounts section: account:${account.name
             } with local data ${JSON.stringify(account?.local)}`,
           ),
         );
@@ -595,25 +569,25 @@ class ApplicationContainer extends Component {
   };
 
   _promptAccountVerification = (username) => {
-    const {dispatch, intl} = this.props;
-        // keys data corrupted, ask user to verify login
-        dispatch(showActionModal({
-          title:intl.formatMessage({ id: 'alert.warning' }),
-          body:intl.formatMessage({ id: 'alert.auth_expired' }),
-          buttons:[{
-            text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' ,
-            onPress: ()=>{},
-         },
-         {
-            text: intl.formatMessage({ id: 'alert.verify' }), 
-            onPress: () => {
-              RootNavigation.navigate({
-                name: ROUTES.SCREENS.LOGIN,
-                params: { username:username },
-              });
-            },
-          },]
-        }))
+    const { dispatch, intl } = this.props;
+    // keys data corrupted, ask user to verify login
+    dispatch(showActionModal({
+      title: intl.formatMessage({ id: 'alert.warning' }),
+      body: intl.formatMessage({ id: 'alert.auth_expired' }),
+      buttons: [{
+        text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive',
+        onPress: () => { },
+      },
+      {
+        text: intl.formatMessage({ id: 'alert.verify' }),
+        onPress: () => {
+          RootNavigation.navigate({
+            name: ROUTES.SCREENS.LOGIN,
+            params: { username: username },
+          });
+        },
+      },]
+    }))
   }
 
   _logout = (username) => {
