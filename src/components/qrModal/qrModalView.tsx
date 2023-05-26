@@ -11,6 +11,8 @@ import { toggleQRModal } from '../../redux/actions/uiAction';
 import { deepLinkParser } from '../../utils/deepLinkParser';
 import RootNavigation from '../../navigation/rootNavigation';
 import getWindowDimensions from '../../utils/getWindowDimensions';
+import { isHiveUri } from '../../utils/hive-uri';
+const hiveuri = require('hive-uri');
 
 export interface QRModalProps {}
 
@@ -29,9 +31,9 @@ export const QRModal = ({}: QRModalProps) => {
   useEffect(() => {
     if (isVisibleQRModal) {
       requestCameraPermission();
-      sheetModalRef.current.show();
+      sheetModalRef?.current?.show();
     } else {
-      sheetModalRef.current.hide();
+      sheetModalRef?.current?.hide();
     }
   }, [isVisibleQRModal]);
 
@@ -97,7 +99,22 @@ export const QRModal = ({}: QRModalProps) => {
 
   const onSuccess = (e) => {
     setIsScannerActive(false);
-    _handleDeepLink(e.data);
+    if (isHiveUri(e.data)) {
+      _handleHiveUri(e.data);
+    } else {
+      _handleDeepLink(e.data);
+    }
+  };
+
+  const _handleHiveUri = (uri: string) => {
+    try {
+      const parsed = hiveuri.decode(uri);
+      setIsScannerActive(false);
+      _onClose();
+      Alert.alert('parsed uri ', JSON.stringify(parsed));
+    } catch (err) {
+      _showInvalidAlert();
+    }
   };
 
   const _handleDeepLink = async (url) => {
@@ -110,27 +127,31 @@ export const QRModal = ({}: QRModalProps) => {
       _onClose();
       RootNavigation.navigate(deepLinkData);
     } else {
-      Alert.alert(
-        intl.formatMessage({ id: 'qr.unsupported_alert_title' }),
-        intl.formatMessage({ id: 'qr.unsupported_alert_desc' }),
-        [
-          {
-            text: 'Close',
-            onPress: () => {
-              _onClose();
-            },
-            style: 'cancel',
-          },
-          {
-            text: 'Rescan',
-            onPress: () => {
-              setIsScannerActive(true);
-              scannerRef.current?.reactivate();
-            },
-          },
-        ],
-      );
+      _showInvalidAlert();
     }
+  };
+
+  const _showInvalidAlert = () => {
+    Alert.alert(
+      intl.formatMessage({ id: 'qr.unsupported_alert_title' }),
+      intl.formatMessage({ id: 'qr.unsupported_alert_desc' }),
+      [
+        {
+          text: 'Close',
+          onPress: () => {
+            _onClose();
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'Rescan',
+          onPress: () => {
+            setIsScannerActive(true);
+            scannerRef.current?.reactivate();
+          },
+        },
+      ],
+    );
   };
 
   return (
