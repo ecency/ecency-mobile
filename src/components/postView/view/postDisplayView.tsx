@@ -286,7 +286,9 @@ const PostDisplayView = ({
                     { id: 'post.posted_by' },
                     {
                       username: author || post.author,
-                      appname: capitalize((post?.json_metadata?.app).split('/')[0]),
+                      appname: post?.json_metadata?.app
+                        ? capitalize((post?.json_metadata?.app).split('/')[0])
+                        : 'Ecency',
                     },
                   )}
                   {formatedTime}
