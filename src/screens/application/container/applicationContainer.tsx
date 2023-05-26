@@ -594,6 +594,28 @@ class ApplicationContainer extends Component {
     };
   };
 
+  _promptAccountVerification = (username) => {
+    const {dispatch, intl} = this.props;
+        // keys data corrupted, ask user to verify login
+        dispatch(showActionModal({
+          title:intl.formatMessage({ id: 'alert.warning' }),
+          body:intl.formatMessage({ id: 'alert.auth_expired' }),
+          buttons:[{
+            text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' ,
+            onPress: ()=>{},
+         },
+         {
+            text: intl.formatMessage({ id: 'alert.verify' }), 
+            onPress: () => {
+              RootNavigation.navigate({
+                name: ROUTES.SCREENS.LOGIN,
+                params: { username:username },
+              });
+            },
+          },]
+        }))
+  }
+
   _logout = (username) => {
     const { otherAccounts, dispatch, intl } = this.props;
 
@@ -689,8 +711,8 @@ class ApplicationContainer extends Component {
       [_currentAccount.local] = realmData;
 
       if (!realmData[0]) {
-        // remove this user from data
-        throw new Error(intl.formatMessage({ id: 'alert.auth_expired' }));
+        this._promptAccountVerification(targetAccount.username)
+        return;
       }
 
       // migreate account to use access token for master key auth type

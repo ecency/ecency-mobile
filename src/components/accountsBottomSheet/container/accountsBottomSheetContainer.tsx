@@ -90,16 +90,19 @@ const AccountsBottomSheetContainer = () => {
 
       _currentAccount.username = _currentAccount.name;
 
-      if (realmData[0]) {
-        // throw new Error(intl.formatMessage({ id: 'alert.auth_expired' }));
+      if (!realmData[0]) {
+        // keys data corrupted, ask user to verify login
         dispatch(showActionModal({
           title:intl.formatMessage({ id: 'alert.warning' }),
           body:intl.formatMessage({ id: 'alert.auth_expired' }),
           buttons:[{
-            text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' ,
+            text: intl.formatMessage({ id: 'alert.cancel' }), 
+            style: 'destructive' ,
+            onPress: ()=>{},
          },
          {
-            text: intl.formatMessage({ id: 'alert.verify' }), onPress: () => _navigateToRoute(ROUTES.SCREENS.LOGIN, {username:accountData.username}) ,
+            text: intl.formatMessage({ id: 'alert.verify' }), 
+            onPress: () => _navigateToRoute(ROUTES.SCREENS.LOGIN, {username:accountData.username}) ,
           },]
         }))
         return;
