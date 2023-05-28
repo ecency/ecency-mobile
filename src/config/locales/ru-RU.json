@@ -557,7 +557,10 @@
     "wallet_updating": "Выполняется обновление кошелька, попробуйте еще раз после завершения обновления",
     "claim_failed": "Не удалось получить награды, {message}\nПовторите попытку или напишите нам на support@ecency.com",
     "connection_issues": "Сервер недоступен, проверьте подключение и повторите попытку.",
-    "open_settings": "Открыть настройки"
+    "open_settings": "Открыть настройки",
+    "auth_expired": "We need to verify you still has access to your keys, please verify login.",
+    "verify": "Verify",
+    "logging_out": "Logging out {username}"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
