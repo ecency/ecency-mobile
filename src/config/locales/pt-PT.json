@@ -557,7 +557,10 @@
     "wallet_updating": "Atualização da carteira em andamento. Tente novamente quando terminada",
     "claim_failed": "Falha ao reivindicar recompensas, {message}\nTente novamente ou escreva para support@ecency.com",
     "connection_issues": "O servidor está inacessível. Por favor, verifique sua conexão e tente novamente.",
-    "open_settings": "Abrir Opções"
+    "open_settings": "Abrir Opções",
+    "auth_expired": "We need to verify you still has access to your keys, please verify login.",
+    "verify": "Verify",
+    "logging_out": "Logging out {username}"
   },
   "post": {
     "reblog_alert": "Tem certeza que deseja reblogar?",
