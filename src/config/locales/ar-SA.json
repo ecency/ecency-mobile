@@ -557,7 +557,10 @@
     "wallet_updating": "Wallet update in progress, try again as update finishes",
     "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
     "connection_issues": "لا يمكن الوصول إلى الخادم، يرجى التحقق من اتصالك وحاول مرة أخرى.",
-    "open_settings": "فتح الإعدادات"
+    "open_settings": "فتح الإعدادات",
+    "auth_expired": "We need to verify you still has access to your keys, please verify login.",
+    "verify": "Verify",
+    "logging_out": "Logging out {username}"
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
