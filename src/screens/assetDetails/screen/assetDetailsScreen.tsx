@@ -184,7 +184,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         pendingActivities={pendingRequestsQuery.data || []}
         refreshing={activitiesQuery.isRefreshing}
         loading={activitiesQuery.isLoading}
-        activitiesEnabled={true}
+        activitiesEnabled={!coinData?.isSpk}
         onEndReached={_fetchDetails}
         onRefresh={_onRefresh}
       />

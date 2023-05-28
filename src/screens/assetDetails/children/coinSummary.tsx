@@ -45,7 +45,7 @@ export const CoinSummary = ({
     });
   }
 
-  const _shRrenderChart = id !== ASSET_IDS.ECENCY && id !== ASSET_IDS.HP;
+  const _shRrenderChart = id !== ASSET_IDS.ECENCY && id !== ASSET_IDS.HP && !coinData.isSpk;
 
   return (
     <View>

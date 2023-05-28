@@ -47,7 +47,7 @@ const AssetsSelect = ({ navigation }) => {
 
   useEffect(() => {
     selectionRef.current = selectedCoins.filter(
-      (item) => item.isEngine && !!coinsData[item.symbol],
+      (item) => (item.isEngine || item.isSpk) && !!coinsData[item.symbol],
     );
     _updateSortedList();
   }, []);
@@ -56,7 +56,7 @@ const AssetsSelect = ({ navigation }) => {
     const data: CoinData[] = [];
 
     for (const key in coinsData) {
-      if (coinsData.hasOwnProperty(key) && coinsData[key].isEngine) {
+      if (coinsData.hasOwnProperty(key) && (coinsData[key].isEngine || coinsData[key].isSpk)) {
         const asset: CoinData = coinsData[key];
         const _name = asset.name.toLowerCase();
         const _symbol = asset.symbol.toLowerCase();
@@ -127,8 +127,8 @@ const AssetsSelect = ({ navigation }) => {
       if (!assetsData?.length) {
         assetsData = selectionRef.current.map((item) => ({
           symbol: item.symbol,
-          type: TokenType.ENGINE,
-        })); // TODO: later handle SPK assets as well
+          type: item.isEngine ? TokenType.ENGINE : TokenType.SPK,
+        }));
       }
 
       const updatedCurrentAccountData = currentAccount;
@@ -168,9 +168,11 @@ const AssetsSelect = ({ navigation }) => {
     const _obj = {
       id: item.symbol,
       symbol: item.symbol,
-      isEngine: true,
+      isEngine: item.isEngine || false,
+      isSpk: item.isSpk || false,
       notCrypto: false,
     };
+
     console.log('change order', item.symbol, from, to, 'total:', totalSel);
 
     if (from >= totalSel && to <= totalSel) {
@@ -224,7 +226,8 @@ const AssetsSelect = ({ navigation }) => {
           selectionRef.current.push({
             id: key,
             symbol: key,
-            isEngine: true,
+            isEngine: item.isEngine || false,
+            isSpk: item.isSpk || false,
             notCrypto: false,
           });
         }
@@ -242,6 +245,7 @@ const AssetsSelect = ({ navigation }) => {
                 containerStyle={styles.assetIconContainer}
                 iconUrl={item.iconUrl}
                 isEngine={item.isEngine}
+                isSpk={item.isSpk}
                 iconSize={24}
               />
               <Text style={styles.informationText}>{key}</Text>
@@ -297,7 +301,6 @@ const AssetsSelect = ({ navigation }) => {
         onChangeText={setQuery}
         value={query}
         backEnabled={true}
-        backIconName="close"
         autoFocus={false}
         onBackPress={_navigationGoBack}
       />

@@ -35,6 +35,9 @@ import {
 } from '../providers/hive-engine/hiveEngine';
 import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
 import { ClaimsCollection } from '../redux/reducers/cacheReducer';
+import { fetchSpkWallet } from '../providers/hive-spk/hiveSpk';
+import { SpkActions } from '../providers/hive-spk/hiveSpk.types';
+import TransferTypes from '../constants/transferTypes';
 
 export const transferTypes = [
   'curation_reward',
@@ -558,6 +561,104 @@ const fetchEngineTokensData = async (username: string, hivePrice: number, vsCurr
 }
 
 
+
+const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurrency: string, claimsCache: ClaimsCollection) => {
+  const spkWalletData: { [key: string]: CoinData } = {};
+
+  try {
+    const spkWallet = await fetchSpkWallet(username);
+    const _price = parseFloat(spkWallet.tick) * hivePrice
+
+    if (spkWallet.spk) {
+      const _symbol = ASSET_IDS.SPK
+      const _spkBalance = spkWallet.spk / 1000;
+  
+      spkWalletData[_symbol] = {
+        name: "SPK Network",
+        symbol:_symbol,
+        balance: _spkBalance,
+        estimateValue: _spkBalance * _price,
+        vsCurrency: vsCurrency,
+        currentPrice: _price,
+        isSpk: true,
+        actions: [TransferTypes.TRANSFER_SPK]
+      }
+    }
+
+    const _available = spkWallet.drop?.availible
+    if (_available) {
+
+      //compile larynx token
+      const _larBalance = spkWallet.balance / 1000;
+
+      spkWalletData[ASSET_IDS.LARYNX] = {
+        name: ASSET_IDS.LARYNX + " Token",
+        symbol: ASSET_IDS.LARYNX,
+        balance: _larBalance,
+        precision: _available.precision,
+        estimateValue:_larBalance * _price,
+        vsCurrency: vsCurrency,
+        currentPrice: _price, 
+        isSpk: true,
+        actions: [
+          TransferTypes.TRANSFER_LARYNX,
+          TransferTypes.POWER_UP_SPK,
+          // TransferTypes.LOCK_LIQUIDITY
+        ]
+      }
+
+
+      //compile larynx power
+      const _larPower = spkWallet.poweredUp / 1000;
+      const _grantedPwr = spkWallet.granted?.t ? spkWallet.granted.t / 1000 : 0;
+      const _grantingPwr = spkWallet.granting?.t ? spkWallet.granting.t / 1000 : 0;
+
+      let _totalBalance = _larPower + _grantedPwr + _grantingPwr
+
+      const _extraDataPairs:DataPair[] = [];
+      if(spkWallet.power_downs){
+        _extraDataPairs.push({
+          dataKey: 'scheduled_power_downs',
+          value: Object.keys(spkWallet.power_downs).length
+        })
+      }
+
+      spkWalletData[ASSET_IDS.LARYNX_POWER] = {
+        name: ASSET_IDS.LARYNX + " Power",
+        symbol: ASSET_IDS.LARYNX_POWER,
+        balance: _larPower,
+        precision: _available.precision,
+        estimateValue: _larPower * _price,
+        vsCurrency: vsCurrency,
+        currentPrice: _price, 
+        isSpk: true,
+        extraDataPairs:[..._extraDataPairs,
+          {
+          dataKey: 'delegated_larynx_power',
+          value: `${_grantedPwr.toFixed(3)} ${ASSET_IDS.LARYNX_POWER}`
+        },{
+          dataKey: 'delegating_larynx_power',
+          value: `- ${ _grantingPwr.toFixed(3)} ${ASSET_IDS.LARYNX_POWER}`
+        }, {
+          dataKey: 'total_larynx_power',
+          value: `${ _totalBalance.toFixed(3)} ${ASSET_IDS.LARYNX_POWER}`
+        },],
+        actions: [
+          TransferTypes.DELEGATE_SPK,
+          TransferTypes.POWER_DOWN_SPK,
+        ]
+      }
+    }
+
+
+  } catch (err) {
+    console.warn("Failed to get spk data", err);
+  }
+
+  return spkWalletData
+}
+
+
 const _processCachedData = (assetId: string, balance: number = 0, unclaimedBalance: number, claimsCache: ClaimsCollection) => {
 
   const rewardHpStrToToken = (rewardStr: string) => {
@@ -810,7 +911,8 @@ export const fetchCoinsData = async ({
 
 
   const engineCoinsData = await fetchEngineTokensData(username, _prices.hive.price, vsCurrency, claimsCache);
-  coinData = { ...coinData, ...engineCoinsData };
+  const spkWalletData = await _fetchSpkWalletData(username, _prices.hive.price, vsCurrency, claimsCache);
+  coinData = { ...coinData, ...engineCoinsData, ...spkWalletData };
 
 
   //TODO:discard unnessacry data processings towards the end of PR

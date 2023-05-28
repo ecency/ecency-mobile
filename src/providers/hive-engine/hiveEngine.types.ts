@@ -20,6 +20,7 @@ export enum EngineActions {
   STAKE = 'stake'
 }
 
+
 export enum EngineTables {
   BALANCES = 'balances',
   DELEGATIONS = 'delegations',

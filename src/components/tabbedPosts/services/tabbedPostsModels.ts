@@ -59,4 +59,5 @@ export interface TabContentProps {
   pinnedPermlink?: string;
   onScrollRequestProcessed: () => void;
   handleOnScroll: () => void;
+  handleOnScrollBeginDrag?: () => void;
 }
