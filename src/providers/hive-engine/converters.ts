@@ -73,7 +73,7 @@ export const convertEngineHistory = (rawData: any) => {
     _id:rawData._id,
     blockNumber:rawData.blockNumber,
     transactionId:rawData.transactionId,
-    timestamp:rawData.timestamp,
+    timestamp:rawData.timestamp * 1000,
     operation:rawData.operation,
     from:rawData.from,
     to:rawData.to,
