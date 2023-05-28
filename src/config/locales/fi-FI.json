@@ -557,7 +557,10 @@
     "wallet_updating": "Lompakon päivitys käynnissä, yritä uudelleen päivityksen valmistuessa",
     "claim_failed": "Palkintojen lunastaminen epäonnistui, {message}\nYritä uudelleen tai kirjoita osoitteeseen support@ecency.com",
     "connection_issues": "Palvelin ei ole tavoitettavissa, tarkista yhteytesi ja yritä uudelleen.",
-    "open_settings": "Avaa asetukset"
+    "open_settings": "Avaa asetukset",
+    "auth_expired": "We need to verify you still has access to your keys, please verify login.",
+    "verify": "Verify",
+    "logging_out": "Logging out {username}"
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
