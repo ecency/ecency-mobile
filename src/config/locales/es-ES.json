@@ -558,9 +558,9 @@
     "claim_failed": "Error al reclamar recompensas, {message}\nInténtalo de nuevo o escribe a support@ecency.com",
     "connection_issues": "El servidor no está disponible, por favor comprueba tu conexión e inténtalo de nuevo.",
     "open_settings": "Abrir configuración",
-    "auth_expired": "We need to verify you still has access to your keys, please verify login.",
-    "verify": "Verify",
-    "logging_out": "Logging out {username}"
+    "auth_expired": "Necesitamos verificar que todavía tienes acceso a sus claves, por favor verifica el inicio de sesión.",
+    "verify": "Verificar",
+    "logging_out": "Cerrando sesión {username}"
   },
   "post": {
     "reblog_alert": "¿Estás seguro de que quieres rebloguear?",
