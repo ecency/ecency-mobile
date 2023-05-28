@@ -557,7 +557,10 @@
     "wallet_updating": "Pembaruan dompet sedang dalam pengerjaan, coba lagi ketika pembaruan sudah selesai",
     "claim_failed": "Gagal mengklaim hadiah, {message}\nCoba lagi atau tanya ke support@ecency.com",
     "connection_issues": "Server tidak dapat diakses, silakan periksa koneksi anda dan coba kembali.",
-    "open_settings": "Open Settings"
+    "open_settings": "Open Settings",
+    "auth_expired": "We need to verify you still has access to your keys, please verify login.",
+    "verify": "Verify",
+    "logging_out": "Logging out {username}"
   },
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
