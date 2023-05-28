@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import isArray from 'lodash/isArray';
 import { operationOrders } from '@hiveio/dhive/lib/utils';
 import { utils } from '@hiveio/dhive';
 import parseDate from './parseDate';
@@ -33,11 +34,12 @@ import {
   fetchEngineAccountHistory,
   fetchHiveEngineTokenBalances,
 } from '../providers/hive-engine/hiveEngine';
-import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
+import { EngineActions, EngineOperations, HistoryItem } from '../providers/hive-engine/hiveEngine.types';
 import { ClaimsCollection } from '../redux/reducers/cacheReducer';
 import { fetchSpkWallet } from '../providers/hive-spk/hiveSpk';
 import { SpkActions } from '../providers/hive-spk/hiveSpk.types';
 import TransferTypes from '../constants/transferTypes';
+import { Alert } from 'react-native';
 
 export const transferTypes = [
   'curation_reward',
@@ -213,6 +215,93 @@ export const groomingTransactionData = (transaction, hivePerMVests): CoinActivit
   }
   return result;
 };
+
+
+export const groomingEngineHistory = (transaction:HistoryItem): CoinActivity | null => {
+
+  const {
+    blockNumber,
+    operation,
+    timestamp,
+    symbol,
+    quantity,
+    authorperm,
+    memo,
+    from,
+    to
+  } = transaction;
+
+  const result: CoinActivity = {
+    iconType: 'MaterialIcons',
+    trxIndex: blockNumber,
+    textKey: operation,
+    created: new Date(timestamp).toISOString(),
+    value: `${quantity} ${symbol}`,
+    memo : memo || '',
+    details :authorperm ? authorperm : from && to ? `@${from} to @${to}` : null,
+    icon: 'local-activity',
+    expires: ''
+  };
+  
+
+  switch(result.textKey){
+
+    case EngineOperations.TOKENS_CREATE:
+      result.icon = 'fiber-new';
+      break;
+    
+
+    case EngineOperations.TOKENS_TRANSFER:
+    case EngineOperations.TOKENS_TRANSFER_OWNERSHIP:
+    case EngineOperations.TOKENS_TRANSFER_TO_CONTRACT:
+      result.icon = 'compare-arrows';
+      break;
+
+
+    case EngineOperations.TOKENS_TRANSFER_FROM_CONTRACT:
+    case EngineOperations.TOKENS_TRANSFER_FEE:
+      result.icon = 'attach-money';
+      break;
+
+    case EngineOperations.TOKENS_UPDATE_PRECISION:
+    case EngineOperations.TOKENS_UPDATE_URL:
+    case EngineOperations.TOKENS_UPDATE_METADATA:
+      result.icon = 'reorder';
+      break;
+
+    case EngineOperations.TOKENS_ENABLE_STAKING:
+      case EngineOperations.TOKENS_ENABLE_DELEGATION:
+      case EngineOperations.TOKENS_ISSUE:
+
+      result.icon = 'wb-iridescent';
+      break;
+
+ 
+      case EngineOperations.TOKENS_DELEGATE:
+      case EngineOperations.TOKENS_STAKE:
+      result.icon = 'change-history';
+      break;
+    
+    // Group 7
+    
+    case EngineOperations.TOKENS_CANCEL_UNSTAKE:
+      result.icon = 'cancel';
+      break;
+    
+    // Group 8
+    case EngineOperations.TOKENS_UNDELEGATE_DONE:
+      case EngineOperations.TOKENS_UNSTAKE_DONE:
+      result.icon = 'hourglass-full'
+    case EngineOperations.TOKENS_UNDELEGATE_START:
+      case EngineOperations.TOKENS_UNSTAKE_START:
+      result.icon = 'hourglass-top';
+      break;
+  }
+
+
+  return result;
+};
+
 
 export const groomingWalletData = async (user, globalProps, userCurrency) => {
   const walletData = {};
@@ -486,8 +575,10 @@ export const fetchCoinActivities = async ({
   } else {
     //means asset is engine asset, maps response to 
 
-    const engineAct = await fetchEngineAccountHistory(username, assetSymbol, startIndex, limit);
-    return [];
+    const engineHistory = await fetchEngineAccountHistory(username, assetSymbol, startIndex, limit);
+    const activities = engineHistory.map(groomingEngineHistory);
+
+    return activities;
   }
 };
 
