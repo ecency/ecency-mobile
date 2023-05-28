@@ -24,7 +24,7 @@ interface ClaimRewardsMutationVars {
   assetId: ASSET_IDS | string;
 }
 
-const ACTIVITIES_FETCH_LIMIT = 500;
+const ACTIVITIES_FETCH_LIMIT = 50;
 
 /** hook used to return user drafts */
 export const useAssetsQuery = () => {
