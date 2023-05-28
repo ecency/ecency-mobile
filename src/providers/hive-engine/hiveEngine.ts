@@ -13,8 +13,9 @@ import {
   HiveEngineToken,
   EngineMetric,
   MarketData,
+  HistoryItem,
 } from './hiveEngine.types';
-import { convertEngineToken, convertRewardsStatus, convertMarketData } from './converters';
+import { convertEngineToken, convertRewardsStatus, convertMarketData, convertEngineHistory } from './converters';
 import bugsnapInstance from '../../config/bugsnag';
 import ecencyApi from '../../config/ecencyApi';
 import axios from 'axios';
@@ -203,13 +204,13 @@ export const fetchEngineMarketData = async (symbol: any, vsCurrency:string = 'us
       throw new Error("No data returned");
     }
 
-    // const data:MarketData[] = rawData.map(convertMarketData);
+    const data:HistoryItem[] = rawData.map(convertEngineHistory);
 
-    // return days > 1 && data.length > days ? data.slice(data.length - days) : data;
-    return rawData;
+    return data;
   } catch (err) {
     bugsnapInstance.notify(err);
     console.warn("failed to get engine account history", err.message);
     return []
   }
  }
+

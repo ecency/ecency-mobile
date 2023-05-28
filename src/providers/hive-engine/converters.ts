@@ -1,5 +1,5 @@
 
-import { EngineMetric, HiveEngineToken, MarketData, Token, TokenBalance, TokenMetadata, TokenStatus } from './hiveEngine.types';
+import { EngineMetric, HistoryItem, HiveEngineToken, MarketData, Token, TokenBalance, TokenMetadata, TokenStatus } from './hiveEngine.types';
 
 export const convertEngineToken = (balanceObj: TokenBalance, token?: Token, metrics?: EngineMetric, tokenStatus?:TokenStatus) => {
   if (!balanceObj) {
@@ -51,6 +51,10 @@ export const convertRewardsStatus = (rawData: any) => {
 
 export const convertMarketData = (rawData: any) => {
 
+  if(!rawData){
+    return null;
+  }
+
   return {
     quoteVolume:parseFloat(rawData.quoteVolume),
     baseVolume:parseFloat(rawData.baseVolume),
@@ -60,4 +64,23 @@ export const convertMarketData = (rawData: any) => {
     open:parseFloat(rawData.open),
     timestamp:rawData.timestamp,
   } as MarketData
+}
+
+
+export const convertEngineHistory = (rawData: any) => {
+  return {
+
+    _id:rawData._id,
+    blockNumber:rawData.blockNumber,
+    transactionId:rawData.transactionId,
+    timestamp:rawData.timestamp,
+    operation:rawData.operation,
+    from:rawData.from,
+    to:rawData.to,
+    symbol:rawData.symbol,
+    quantity:parseFloat(rawData.quantity),
+    memo:rawData.memo,
+    account:rawData.account,
+    authorperm:rawData.authorperm,
+  } as HistoryItem
 }
