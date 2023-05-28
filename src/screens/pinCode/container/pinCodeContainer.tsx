@@ -14,8 +14,6 @@ import {
   isPinCodeOpen,
   isRenderRequired,
   login,
-  logout,
-  logoutDone,
   setEncryptedUnlockPin,
 } from '../../../redux/actions/applicationActions';
 import {
@@ -32,6 +30,7 @@ import MigrationHelpers from '../../../utils/migrationHelpers';
 
 // Component
 import PinCodeView from '../children/pinCodeView';
+import { logout, logoutDone } from '../../../redux/actions/uiAction';
 
 class PinCodeContainer extends Component {
   screenRef = null;
