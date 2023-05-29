@@ -1,27 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Alert } from 'react-native';
 import { useIntl } from 'react-intl';
 import RootNavigation from '../../../navigation/rootNavigation';
 
-import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
-import {
-  isPinCodeOpen,
-  isRenderRequired,
-  login,
-  logout,
-  logoutDone,
-} from '../../../redux/actions/applicationActions';
+import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
-import {
-  getUserDataWithUsername,
-  removeAllUserData,
-  removePinCode,
-  setAuthStatus,
-  setExistUser,
-  setPinCodeOpen,
-} from '../../../realm/realm';
+import { getUserDataWithUsername } from '../../../realm/realm';
 import {
   migrateToMasterKeyWithAccessToken,
   refreshSCToken,
@@ -29,20 +15,21 @@ import {
 } from '../../../providers/hive/auth';
 
 import AccountsBottomSheet from '../view/accountsBottomSheetView';
-import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+import { logout, showActionModal, toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
 import { getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
-import { setFeedPosts, setInitPosts } from '../../../redux/actions/postsAction';
+
 import { useAppSelector } from '../../../hooks';
 import { getUnreadNotificationCount } from '../../../providers/ecency/ecency';
 import { decryptKey } from '../../../utils/crypto';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 import { clearSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
+import ROUTES from '../../../constants/routeNames';
 
-const AccountsBottomSheetContainer = ({ navigation }) => {
+const AccountsBottomSheetContainer = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const accountsBottomSheetViewRef = useRef();
@@ -60,11 +47,11 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
     }
   }, [isVisibleAccountsBottomSheet]);
 
-  const _navigateToRoute = (name = null) => {
+  const _navigateToRoute = (name:string, params:any) => {
     dispatch(toggleAccountsBottomSheet(false));
     accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
     if (name) {
-      RootNavigation.navigate({ name });
+      RootNavigation.navigate({ name, params });
     }
   };
 
@@ -102,6 +89,24 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
       const realmData = await getUserDataWithUsername(accountData.username);
 
       _currentAccount.username = _currentAccount.name;
+
+      if (!realmData[0]) {
+        // keys data corrupted, ask user to verify login
+        dispatch(showActionModal({
+          title:intl.formatMessage({ id: 'alert.warning' }),
+          body:intl.formatMessage({ id: 'alert.auth_expired' }),
+          buttons:[{
+            text: intl.formatMessage({ id: 'alert.cancel' }), 
+            style: 'destructive' ,
+            onPress: ()=>{},
+         },
+         {
+            text: intl.formatMessage({ id: 'alert.verify' }), 
+            onPress: () => _navigateToRoute(ROUTES.SCREENS.LOGIN, {username:accountData.username}) ,
+          },]
+        }))
+        return;
+      }
       _currentAccount.local = realmData[0];
 
       // migreate account to use access token for master key auth type

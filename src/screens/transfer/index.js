@@ -27,35 +27,9 @@ const Transfer = ({ navigation, route }) => (
       setWithdrawVestingRoute,
       dispatch,
       referredUsername,
+      spkMarkets,
     }) => {
       switch (transferType) {
-        case 'transfer_token':
-        case 'purchase_estm':
-        case 'convert':
-        case 'transfer_to_savings':
-        case 'transfer_to_vesting':
-        case 'points':
-        case 'withdraw_hive':
-        case 'withdraw_hbd':
-        case 'transfer_engine':
-        case 'stake_engine':
-        case 'delegate_engine':
-        case 'unstake_engine':
-          return (
-            <TransferView
-              accounts={accounts}
-              balance={balance}
-              fundType={fundType}
-              transferType={transferType}
-              fetchBalance={fetchBalance}
-              getAccountsWithUsername={getAccountsWithUsername}
-              transferToAccount={transferToAccount}
-              handleOnModalClose={handleOnModalClose}
-              accountType={accountType}
-              currentAccountName={currentAccountName}
-              selectedAccount={selectedAccount}
-            />
-          );
         case 'delegate':
           return (
             <DelegateView
@@ -105,7 +79,22 @@ const Transfer = ({ navigation, route }) => (
           );
 
         default:
-          return null;
+          return (
+            <TransferView
+              accounts={accounts}
+              balance={balance}
+              fundType={fundType}
+              transferType={transferType}
+              fetchBalance={fetchBalance}
+              getAccountsWithUsername={getAccountsWithUsername}
+              transferToAccount={transferToAccount}
+              handleOnModalClose={handleOnModalClose}
+              accountType={accountType}
+              currentAccountName={currentAccountName}
+              selectedAccount={selectedAccount}
+              spkMarkets={spkMarkets}
+            />
+          );
       }
     }}
   </TransferContainer>

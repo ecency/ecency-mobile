@@ -19,6 +19,7 @@ export interface CoinBase {
   symbol: string;
   notCrypto: boolean;
   isEngine: boolean;
+  isSpk?: boolean;
 }
 
 export interface CoinData {
@@ -34,6 +35,7 @@ export interface CoinData {
   actions: string[];
   extraDataPairs?: DataPair[];
   isEngine?: boolean;
+  isSpk?: boolean;
   percentChange?: number;
   volume24h?: number;
   precision?: number;

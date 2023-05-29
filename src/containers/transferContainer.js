@@ -34,6 +34,15 @@ import {
 } from '../providers/hive-engine/hiveEngineActions';
 import { fetchTokenBalances } from '../providers/hive-engine/hiveEngine';
 import TransferTypes from '../constants/transferTypes';
+import {
+  lockLarynx,
+  delegateLarynx,
+  powerLarynx,
+  transferLarynx,
+  transferSpk,
+  fetchSpkMarkets,
+} from '../providers/hive-spk/hiveSpk';
+import { SpkLockMode, SpkPowerMode } from '../providers/hive-spk/hiveSpk.types';
 
 /*
  *            Props Name        Description                                     Value
@@ -51,6 +60,7 @@ class TransferContainer extends Component {
       transferType: props.route.params?.transferType ?? '',
       referredUsername: props.route.params?.referredUsername,
       selectedAccount: props.currentAccount,
+      spkMarkets: [],
     };
   }
 
@@ -61,6 +71,10 @@ class TransferContainer extends Component {
     } = this.props;
 
     this.fetchBalance(name);
+
+    if (this.state.transferType === TransferTypes.DELEGATE_SPK) {
+      this._fetchSpkMarkets();
+    }
   }
 
   // Component Functions
@@ -152,6 +166,13 @@ class TransferContainer extends Component {
     });
   };
 
+  _fetchSpkMarkets = async () => {
+    const markets = await fetchSpkMarkets();
+    if (markets?.list) {
+      this.setState({ spkMarkets: markets.list });
+    }
+  };
+
   _getAccountsWithUsername = async (username) => {
     const validUsers = await lookupAccounts(username);
     return validUsers;
@@ -239,6 +260,26 @@ class TransferContainer extends Component {
       case 'undelegate_engine':
         func = undelegateHiveEngine;
         break;
+      case TransferTypes.TRANSFER_SPK:
+        func = transferSpk;
+        break;
+      case TransferTypes.TRANSFER_LARYNX:
+        func = transferLarynx;
+      case TransferTypes.POWER_UP_SPK:
+        func = powerLarynx;
+        data.mode = SpkPowerMode.UP;
+        break;
+      case TransferTypes.POWER_DOWN_SPK:
+        func = powerLarynx;
+        data.mode = SpkPowerMode.DOWN;
+        break;
+      case TransferTypes.LOCK_LIQUIDITY_SPK:
+        func = lockLarynx;
+        data.mode = SpkLockMode.LOCK;
+        break;
+      case TransferTypes.DELEGATE_SPK:
+        func = delegateLarynx;
+        break;
       default:
         break;
     }
@@ -291,7 +332,8 @@ class TransferContainer extends Component {
       dispatch,
       route,
     } = this.props;
-    const { balance, fundType, selectedAccount, tokenAddress, referredUsername } = this.state;
+    const { balance, fundType, selectedAccount, tokenAddress, referredUsername, spkMarkets } =
+      this.state;
 
     const transferType = route.params?.transferType ?? '';
 
@@ -308,6 +350,7 @@ class TransferContainer extends Component {
         hivePerMVests,
         actionModalVisible,
         referredUsername,
+        spkMarkets,
         fetchBalance: this.fetchBalance,
         getAccountsWithUsername: this._getAccountsWithUsername,
         transferToAccount: this._transferToAccount,
