@@ -313,13 +313,7 @@ class SettingsContainer extends Component {
             navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
           });
         } else {
-          navigation.navigate(ROUTES.SCREENS.PINCODE, {
-            callback: () => this._enableDefaultUnlockPin(true),
-            isReset: true,
-            isOldPinVerified: true,
-            oldPinCode: Config.DEFAULT_PIN,
-            navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
-          });
+          navigation.navigate(ROUTES.SCREENS.BACKUP_KEYS);
         }
         break;
 
