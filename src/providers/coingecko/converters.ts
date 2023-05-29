@@ -11,9 +11,6 @@ export const convertChartItem = (rawData: any) => {
 };
 
 export const convertMarketData = (rawData: any) => {
-  if (!rawData) {
-    return null;
-  }
 
   return {
     prices: rawData.prices ? rawData.prices.map(convertChartItem) : [],
