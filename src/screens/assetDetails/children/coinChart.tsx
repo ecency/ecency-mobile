@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { RangeSelector } from '.';
 import { SimpleChart } from '../../../components';
 import { useAppSelector } from '../../../hooks';
-import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
+import { ChartInterval, fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import styles, { CHART_NEGATIVE_MARGIN } from './children.styles';
@@ -29,7 +29,9 @@ export const CoinChart = ({ coinId, isEngine }: CoinChartProps) => {
       );
       setChartData(marketData.map((item) => item.close));
     } else {
-      const marketData = await fetchMarketChart(coinId, 'usd', days, 'hourly');
+      const marketData = await fetchMarketChart(
+        coinId, 'usd', days, 
+        days > 30 ? ChartInterval.DAILY : ChartInterval.HOURLY);
       setChartData(marketData.prices.map((item) => item.yValue));
     }
   };
