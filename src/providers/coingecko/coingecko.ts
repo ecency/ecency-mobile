@@ -6,9 +6,6 @@ import { MarketData } from './models';
 const PATH_COINS = 'coins';
 const PATH_MARKET_CHART = 'market_chart';
 
-export const INTERVAL_HOURLY = 'hourly';
-export const INTERVAL_DAILY = 'daily';
-
 export enum ChartInterval {
   HOURLY = 'hourly',
   DAILY = 'daily',
@@ -20,6 +17,7 @@ export const fetchMarketChart = async (
   days: number,
   interval?: ChartInterval,
 ): Promise<MarketData> => {
+
   try {
     const params = {
       vs_currency,
