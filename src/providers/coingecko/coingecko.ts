@@ -17,7 +17,6 @@ export const fetchMarketChart = async (
   days: number,
   interval?: ChartInterval,
 ): Promise<MarketData> => {
-
   try {
     const params = {
       vs_currency,
@@ -25,13 +24,12 @@ export const fetchMarketChart = async (
       interval,
     };
 
-    //failsafe for accidental invalid parameters
-    //ref: https://www.coingecko.com/en/api/documentation  
-    //endpoint: /coins/{id}/market_chart
-    if(days > 90 && interval === ChartInterval.HOURLY){
-      interval = ChartInterval.DAILY
+    // failsafe for accidental invalid parameters
+    // ref: https://www.coingecko.com/en/api/documentation
+    // endpoint: /coins/{id}/market_chart
+    if (days > 90 && interval === ChartInterval.HOURLY) {
+      interval = ChartInterval.DAILY;
     }
-
 
     const res = await coingeckoApi.get(`/${PATH_COINS}/${coingeckoId}/${PATH_MARKET_CHART}`, {
       params,

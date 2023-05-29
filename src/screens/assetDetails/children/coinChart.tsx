@@ -21,7 +21,6 @@ export const CoinChart = ({ coinId, isEngine }: CoinChartProps) => {
   const [chartData, setChartData] = useState(priceHistory?.data);
 
   const _fetchMarketData = async (days: number) => {
-
     if (isEngine) {
       const marketData = await fetchEngineMarketData(
         coinId,
@@ -32,10 +31,11 @@ export const CoinChart = ({ coinId, isEngine }: CoinChartProps) => {
       setChartData(marketData.map((item) => item.close));
     } else {
       const marketData = await fetchMarketChart(
-        coinId, 
-        currency.currency, 
-        days, 
-        days > 30 ? ChartInterval.DAILY : ChartInterval.HOURLY);
+        coinId,
+        currency.currency,
+        days,
+        days > 30 ? ChartInterval.DAILY : ChartInterval.HOURLY,
+      );
       setChartData(marketData.prices.map((item) => item.yValue));
     }
   };
