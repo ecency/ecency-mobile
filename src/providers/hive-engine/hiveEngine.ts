@@ -18,8 +18,6 @@ import {
 import { convertEngineToken, convertRewardsStatus, convertMarketData, convertEngineHistory } from './converters';
 import bugsnapInstance from '../../config/bugsnag';
 import ecencyApi from '../../config/ecencyApi';
-import axios from 'axios';
-
 
 /**
  * hive engine docs reference:
@@ -37,6 +35,7 @@ const PATH_ENGINE_CHART = '/private-api/engine-chart-api';
 //sample hive history endpoint call
 //docs: https://github.com/hive-engine/ssc_tokens_history/tree/hive#api-usage
 //example: https://history.hive-engine.com/accountHistory?account=demo.com&limit=10&offset=10
+const PATH_ENGINE_ACCOUNT_HISTORY = '/private-api/engine-account-history';
 
 
 
@@ -191,7 +190,7 @@ export const fetchEngineMarketData = async (symbol: any, vsCurrency:string = 'us
 
  export const fetchEngineAccountHistory = async (username:string , symbol:string , startIndex:number = 0, limit:number = 20) => {
   try {
-    const response = await axios.get('https://history.hive-engine.com/accountHistory', {params:{
+    const response = await ecencyApi.get(PATH_ENGINE_ACCOUNT_HISTORY, {params:{
       account:username,
       symbol:symbol,
       limit,
