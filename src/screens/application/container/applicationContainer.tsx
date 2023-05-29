@@ -372,7 +372,7 @@ class ApplicationContainer extends Component {
     } = this.props;
     let realmData = [];
 
-    
+
 
     if (currentAccount?.username) {
       dispatch(login(true));
@@ -412,8 +412,8 @@ class ApplicationContainer extends Component {
         this._promptAccountVerification(username);
         return null;
       }
-  
-  
+
+
       // If in dev mode pin code does not show
       if (_isPinCodeOpen) {
         RootNavigation.navigate({ name: ROUTES.SCREENS.PINCODE });
@@ -421,11 +421,11 @@ class ApplicationContainer extends Component {
         const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
         dispatch(savePinCode(encryptedPin));
       }
-  
+
       if (isConnected) {
         this._fetchUserDataFromDsteem(realmObject[0]);
       }
-  
+
       return realmObject[0];
     }
 
@@ -570,24 +570,30 @@ class ApplicationContainer extends Component {
 
   _promptAccountVerification = (username) => {
     const { dispatch, intl } = this.props;
+
+    //TODO: extract key information from otherAccounts if data is available, use key to re-verify account;
+
+    //TODO: if relogin fails, show re-verify modal
+
     // keys data corrupted, ask user to verify login
-    dispatch(showActionModal({
-      title: intl.formatMessage({ id: 'alert.warning' }),
-      body: intl.formatMessage({ id: 'alert.auth_expired' }),
-      buttons: [{
-        text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive',
-        onPress: () => { },
-      },
-      {
-        text: intl.formatMessage({ id: 'alert.verify' }),
-        onPress: () => {
-          RootNavigation.navigate({
-            name: ROUTES.SCREENS.LOGIN,
-            params: { username: username },
-          });
-        },
-      },]
-    }))
+    // dispatch(showActionModal({
+    //   title: intl.formatMessage({ id: 'alert.warning' }),
+    //   body: intl.formatMessage({ id: 'alert.auth_expired' }),
+    //   buttons: [{
+    //     text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive',
+    //     onPress: () => { },
+    //   },
+    //   {
+    //     text: intl.formatMessage({ id: 'alert.verify' }),
+    //     onPress: () => {
+    //       RootNavigation.navigate({
+    //         name: ROUTES.SCREENS.LOGIN,
+    //         params: { username: username },
+    //       });
+    //     },
+    //   },]
+    // }))
+
   }
 
   _logout = (username) => {
@@ -604,6 +610,7 @@ class ApplicationContainer extends Component {
 
         // switch account if other account exist
         const _otherAccounts = otherAccounts.filter((user) => user.username !== username);
+
         if (_otherAccounts.length > 0) {
           const targetAccount = _otherAccounts[0];
           await this._switchAccount(targetAccount);
