@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 import { RangeSelector } from '.';
 import { SimpleChart } from '../../../components';
 import { useAppSelector } from '../../../hooks';
