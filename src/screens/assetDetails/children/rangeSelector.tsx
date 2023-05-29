@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './children.styles';
@@ -17,7 +17,6 @@ export const RangeSelector = ({ range, onRangeChange }: RangeSelectorProps) => {
   const _onSelection = (range: number) => {
     console.log('selection', range);
     onRangeChange(range);
-    //TODO: implement on range change prop
   };
 
   const _renderRangeButtons = FILTERS.map((item: RangeOption) => (
@@ -56,14 +55,14 @@ const FILTERS = [
   },
   {
     label: '1M',
-    value: 20,
+    value: 30,
+  },
+  {
+    label: '3M',
+    value: 90,
   },
   {
     label: '1Y',
     value: 365,
-  },
-  {
-    label: '5Y',
-    value: 365 * 5,
   },
 ] as RangeOption[];
