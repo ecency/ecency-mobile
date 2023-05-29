@@ -58,11 +58,11 @@ const FILTERS = [
     value: 30,
   },
   {
-    label: '3M',
-    value: 90,
-  },
-  {
     label: '1Y',
     value: 365,
+  },
+  {
+    label: '5Y',
+    value: 365 * 5,
   },
 ] as RangeOption[];
