@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import isArray from 'lodash/isArray';
 import { operationOrders } from '@hiveio/dhive/lib/utils';
 import { utils } from '@hiveio/dhive';
 import parseDate from './parseDate';
@@ -30,13 +31,15 @@ import { ASSET_IDS } from '../constants/defaultAssets';
 
 import parseAsset from './parseAsset';
 import {
+  fetchEngineAccountHistory,
   fetchHiveEngineTokenBalances,
 } from '../providers/hive-engine/hiveEngine';
-import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
+import { EngineActions, EngineOperations, HistoryItem } from '../providers/hive-engine/hiveEngine.types';
 import { ClaimsCollection } from '../redux/reducers/cacheReducer';
 import { fetchSpkWallet } from '../providers/hive-spk/hiveSpk';
 import { SpkActions } from '../providers/hive-spk/hiveSpk.types';
 import TransferTypes from '../constants/transferTypes';
+import { Alert } from 'react-native';
 
 export const transferTypes = [
   'curation_reward',
@@ -213,6 +216,93 @@ export const groomingTransactionData = (transaction, hivePerMVests): CoinActivit
   return result;
 };
 
+
+export const groomingEngineHistory = (transaction:HistoryItem): CoinActivity | null => {
+
+  const {
+    blockNumber,
+    operation,
+    timestamp,
+    symbol,
+    quantity,
+    authorperm,
+    memo,
+    from,
+    to
+  } = transaction;
+
+  const result: CoinActivity = {
+    iconType: 'MaterialIcons',
+    trxIndex: blockNumber,
+    textKey: operation,
+    created: new Date(timestamp).toISOString(),
+    value: `${quantity} ${symbol}`,
+    memo : memo || '',
+    details :authorperm ? authorperm : from && to ? `@${from} to @${to}` : null,
+    icon: 'local-activity',
+    expires: ''
+  };
+  
+
+  switch(result.textKey){
+
+    case EngineOperations.TOKENS_CREATE:
+      result.icon = 'fiber-new';
+      break;
+    
+
+    case EngineOperations.TOKENS_TRANSFER:
+    case EngineOperations.TOKENS_TRANSFER_OWNERSHIP:
+    case EngineOperations.TOKENS_TRANSFER_TO_CONTRACT:
+      result.icon = 'compare-arrows';
+      break;
+
+
+    case EngineOperations.TOKENS_TRANSFER_FROM_CONTRACT:
+    case EngineOperations.TOKENS_TRANSFER_FEE:
+      result.icon = 'attach-money';
+      break;
+
+    case EngineOperations.TOKENS_UPDATE_PRECISION:
+    case EngineOperations.TOKENS_UPDATE_URL:
+    case EngineOperations.TOKENS_UPDATE_METADATA:
+      result.icon = 'reorder';
+      break;
+
+    case EngineOperations.TOKENS_ENABLE_STAKING:
+      case EngineOperations.TOKENS_ENABLE_DELEGATION:
+      case EngineOperations.TOKENS_ISSUE:
+
+      result.icon = 'wb-iridescent';
+      break;
+
+ 
+      case EngineOperations.TOKENS_DELEGATE:
+      case EngineOperations.TOKENS_STAKE:
+      result.icon = 'change-history';
+      break;
+    
+    // Group 7
+    
+    case EngineOperations.TOKENS_CANCEL_UNSTAKE:
+      result.icon = 'cancel';
+      break;
+    
+    // Group 8
+    case EngineOperations.TOKENS_UNDELEGATE_DONE:
+      case EngineOperations.TOKENS_UNSTAKE_DONE:
+      result.icon = 'hourglass-full'
+    case EngineOperations.TOKENS_UNDELEGATE_START:
+      case EngineOperations.TOKENS_UNSTAKE_START:
+      result.icon = 'hourglass-top';
+      break;
+  }
+
+
+  return result;
+};
+
+
 export const groomingWalletData = async (user, globalProps, userCurrency) => {
   const walletData = {};
 
@@ -370,106 +460,126 @@ export const fetchPendingRequests = async (
  *
  * @param username
  * @param coinId
- * @param coinSymbol
+ * @param assetSymbol
  * @param globalProps
  * @returns {Promise<CoinActivity[]>}
  */
-export const fetchCoinActivities = async (
+export const fetchCoinActivities = async ({
+  username,
+  assetId,
+  assetSymbol,
+  globalProps,
+  startIndex,
+  limit,
+  isEngine
+}: {
   username: string,
-  coinId: string,
-  coinSymbol: string,
+  assetId: string,
+  assetSymbol: string,
   globalProps: GlobalProps,
   startIndex: number,
   limit: number,
-): Promise<CoinActivity[]> => {
+  isEngine?: boolean,
+}): Promise<CoinActivity[]> => {
   const op = operationOrders;
   let history = [];
 
-  switch (coinId) {
-    case ASSET_IDS.ECENCY: {
-      //TODO: remove condition when we have a way to fetch paginated points data
-      if (startIndex !== -1) {
-        return [];
+  if (!isEngine) {
+    switch (assetId) {
+      case ASSET_IDS.ECENCY: {
+        //TODO: remove condition when we have a way to fetch paginated points data
+        if (startIndex !== -1) {
+          return [];
+        }
+
+        const pointActivities = await getPointsHistory(username);
+        console.log('Points Activities', pointActivities);
+        const completed =
+          pointActivities && pointActivities.length
+            ? pointActivities.map((item) =>
+              groomingPointsTransactionData({
+                ...item,
+                icon: get(POINTS[get(item, 'type')], 'icon'),
+                iconType: get(POINTS[get(item, 'type')], 'iconType'),
+                textKey: get(POINTS[get(item, 'type')], 'textKey'),
+              }),
+            )
+            : [];
+        return completed;
       }
+      case ASSET_IDS.HIVE:
+        history = await getAccountHistory(
+          username,
+          [
+            op.transfer, //HIVE
+            op.transfer_to_vesting, //HIVE, HP
+            op.withdraw_vesting, //HIVE, HP
+            op.transfer_to_savings, //HIVE, HBD
+            op.transfer_from_savings, //HIVE, HBD
+            op.fill_order, //HIVE, HBD
+          ],
+          startIndex,
+          limit,
+        );
+        break;
+      case ASSET_IDS.HBD:
+        history = await getAccountHistory(
+          username,
+          [
+            op.transfer, //HIVE //HBD
+            op.author_reward, //HBD, HP
+            op.transfer_to_savings, //HIVE, HBD
+            op.transfer_from_savings, //HIVE, HBD
+            op.fill_convert_request, //HBD
+            op.fill_order, //HIVE, HBD
+            op.sps_fund, //HBD
+          ],
+          startIndex,
+          limit,
+        );
+        break;
+      case ASSET_IDS.HP:
+        history = await getAccountHistory(
+          username,
+          [
+            op.author_reward, //HBD, HP
+            op.curation_reward, //HP
+            op.transfer_to_vesting, //HIVE, HP
+            op.withdraw_vesting, //HIVE, HP
+            op.interest, //HP
+            op.claim_reward_balance, //HP
+            op.comment_benefactor_reward, //HP
+            op.return_vesting_delegation, //HP
+          ],
+          startIndex,
+          limit,
+        );
+        break;
+      default: return [];
 
-      const pointActivities = await getPointsHistory(username);
-      console.log('Points Activities', pointActivities);
-      const completed =
-        pointActivities && pointActivities.length
-          ? pointActivities.map((item) =>
-            groomingPointsTransactionData({
-              ...item,
-              icon: get(POINTS[get(item, 'type')], 'icon'),
-              iconType: get(POINTS[get(item, 'type')], 'iconType'),
-              textKey: get(POINTS[get(item, 'type')], 'textKey'),
-            }),
-          )
-          : [];
-      return completed;
+
     }
-    case ASSET_IDS.HIVE:
-      history = await getAccountHistory(
-        username,
-        [
-          op.transfer, //HIVE
-          op.transfer_to_vesting, //HIVE, HP
-          op.withdraw_vesting, //HIVE, HP
-          op.transfer_to_savings, //HIVE, HBD
-          op.transfer_from_savings, //HIVE, HBD
-          op.fill_order, //HIVE, HBD
-        ],
-        startIndex,
-        limit,
-      );
-      break;
-    case ASSET_IDS.HBD:
-      history = await getAccountHistory(
-        username,
-        [
-          op.transfer, //HIVE //HBD
-          op.author_reward, //HBD, HP
-          op.transfer_to_savings, //HIVE, HBD
-          op.transfer_from_savings, //HIVE, HBD
-          op.fill_convert_request, //HBD
-          op.fill_order, //HIVE, HBD
-          op.sps_fund, //HBD
-        ],
-        startIndex,
-        limit,
-      );
-      break;
-    case ASSET_IDS.HP:
-      history = await getAccountHistory(
-        username,
-        [
-          op.author_reward, //HBD, HP
-          op.curation_reward, //HP
-          op.transfer_to_vesting, //HIVE, HP
-          op.withdraw_vesting, //HIVE, HP
-          op.interest, //HP
-          op.claim_reward_balance, //HP
-          op.comment_benefactor_reward, //HP
-          op.return_vesting_delegation, //HP
-        ],
-        startIndex,
-        limit,
-      );
-      break;
-    default: return [];
+
+    const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
+    transfers.sort(compare);
+
+    const activities = transfers.map((item) => groomingTransactionData(item, globalProps.hivePerMVests));
+    const filterdActivities: CoinActivity[] = activities ? activities.filter((item) => {
+      return item && item.value && item.value.includes(assetSymbol);
+    }) : []
+
+    console.log('FILTERED comap', activities.length, filterdActivities.length);
+
+    //TODO: process pending requests as separate query //const pendingRequests = await fetchPendingRequests(username, coinSymbol);
+    return filterdActivities
+  } else {
+    //means asset is engine asset, maps response to 
+
+    const engineHistory = await fetchEngineAccountHistory(username, assetSymbol, startIndex, limit);
+    const activities = engineHistory.map(groomingEngineHistory);
+
+    return activities;
   }
-
-  const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
-  transfers.sort(compare);
-
-  const activities = transfers.map((item) => groomingTransactionData(item, globalProps.hivePerMVests));
-  const filterdActivities: CoinActivity[] = activities ? activities.filter((item) => {
-    return item && item.value && item.value.includes(coinSymbol);
-  }) : []
-
-  console.log('FILTERED comap', activities.length, filterdActivities.length);
-
-  //TODO: process pending requests as separate query //const pendingRequests = await fetchPendingRequests(username, coinSymbol);
-  return filterdActivities
 };
 
 

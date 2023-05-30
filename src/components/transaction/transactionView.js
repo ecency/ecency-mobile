@@ -9,18 +9,25 @@ import { getTimeFromNow } from '../../utils/time';
 
 // Components
 import { WalletLineItem } from '../basicUIElements';
+import { getHumanReadableKeyString } from '../../utils/strings';
 
 const TransactionView = ({ item, index }) => {
   const intl = useIntl();
   const [collapsed, setCollapsed] = useState(true);
 
+  const title = !!intl.messages[`wallet.${item.textKey}`] ? 
+    intl.formatMessage({
+      id: `wallet.${item.textKey}`,
+    })
+    :
+    getHumanReadableKeyString(item.textKey)
+
+
   const _cardHeader = (
     <WalletLineItem
       key={`keyt-${item.created.toString()}`}
       index={index + 1}
-      text={intl.formatMessage({
-        id: `wallet.${get(item, 'textKey')}`,
-      })}
+      text={title}
       description={
         (item.expires ? `${intl.formatMessage({ id: 'wallet.expires' })} ` : '') +
         getTimeFromNow(item.expires || item.created)
