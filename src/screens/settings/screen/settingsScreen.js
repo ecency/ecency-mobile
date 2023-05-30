@@ -13,7 +13,12 @@ import NSFW from '../../../constants/options/nsfw';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
 // Components
-import { BasicHeader, SettingsItem, CollapsibleCard } from '../../../components';
+import {
+  BasicHeader,
+  SettingsItem,
+  CollapsibleCard,
+  BackupPrivateKeysModal,
+} from '../../../components';
 
 // Styles
 import styles from './settingsStyles';
@@ -300,6 +305,19 @@ const SettingsScreen = ({
             actionType="feedback"
             handleOnButtonPress={handleOnButtonPress}
           />
+          {!!isLoggedIn && (
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.backup_private_keys',
+              })}
+              text={intl.formatMessage({
+                id: 'settings.backup',
+              })}
+              type="button"
+              actionType={settingsTypes.BACKUP_PRIVATE_KEYS}
+              handleOnButtonPress={handleOnButtonPress}
+            />
+          )}
           {!!isLoggedIn && (
             <SettingsItem
               title={intl.formatMessage({

@@ -34,6 +34,7 @@ import {
   WelcomeScreen,
   PinCode,
   AssetsSelect,
+  BackupKeysScreen,
 } from '../screens';
 import { DrawerNavigator } from './drawerNavigator';
 
@@ -67,6 +68,7 @@ const MainStackNavigator = () => {
         <MainStack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows} />
         <MainStack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} />
         <MainStack.Screen name={ROUTES.SCREENS.EDITOR} component={Editor} />
+        <MainStack.Screen name={ROUTES.SCREENS.BACKUP_KEYS} component={BackupKeysScreen} />
         <MainStack.Screen
           name={ROUTES.MODALS.ASSETS_SELECT}
           component={AssetsSelect}
