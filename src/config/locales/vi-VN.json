@@ -343,7 +343,27 @@
     "feedback_fail": "Email mà khách hàng không thể mở",
     "server_fail": "Server not available",
     "show_imgs": "Show Images",
-    "delete_account": "Delete Account"
+    "delete_account": "Delete Account",
+    "backup_private_keys": "Manage Authorities",
+    "backup": "Manage",
+    "backup_keys_modal": {
+      "owner_key": "Owner Key",
+      "active_key": "Active Key",
+      "posting_key": "Posting Key",
+      "memo_key": "Memo Key",
+      "key_copied": "Key copied to clipboard",
+      "no_keys": "Your signin method is hivesigner. Application does not have any key stored in device. Kindly login with master password to generate keys",
+      "reveal_private": "Reveal Private",
+      "reveal_public": "Reveal Public",
+      "public": "Public",
+      "private": "Private",
+      "import_key": "Import Private",
+      "enter_pass": "Enter Password or Private Key",
+      "import_key_modal_desc": "Individual Private key or Master password to import all keys",
+      "sign": "Sign",
+      "sign_input_placeholder": "Master password or Private Key",
+      "import_failed": "Keys Import Failed"
+    }
   },
   "voters": {
     "voters_info": "Thông tin người bình chọn",
