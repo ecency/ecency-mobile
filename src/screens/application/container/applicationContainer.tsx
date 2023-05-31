@@ -377,8 +377,6 @@ class ApplicationContainer extends Component {
     } = this.props;
     let realmData = [];
 
-
-
     if (currentAccount?.username) {
       dispatch(login(true));
 
@@ -409,15 +407,13 @@ class ApplicationContainer extends Component {
         });
       }
 
-
       const realmObject = realmData.filter((data) => data.username === username);
 
       if (!realmObject[0]) {
-        //means current logged in user keys data not present, re-verify required
+        // means current logged in user keys data not present, re-verify required
         this._repairUserAccountData(username);
         return null;
       }
-
 
       // If in dev mode pin code does not show
       if (_isPinCodeOpen) {
@@ -433,8 +429,6 @@ class ApplicationContainer extends Component {
 
       return realmObject[0];
     }
-
-
   };
 
   _refreshAccessToken = async (currentAccount) => {
@@ -543,7 +537,8 @@ class ApplicationContainer extends Component {
         console.warn('access token not present, reporting to bugsnag');
         bugsnapInstance.notify(
           new Error(
-            `Reporting missing access token in other accounts section: account:${account.name
+            `Reporting missing access token in other accounts section: account:${
+              account.name
             } with local data ${JSON.stringify(account?.local)}`,
           ),
         );
@@ -573,21 +568,16 @@ class ApplicationContainer extends Component {
     };
   };
 
-
-
   _repairUserAccountData = async (username) => {
     const { dispatch, intl, otherAccounts, pinCode } = this.props;
     repairUserAccountData(username, dispatch, intl, otherAccounts, pinCode);
-  }
-
-
+  };
 
   _logout = (username) => {
     const { otherAccounts, dispatch, intl } = this.props;
 
     removeUserData(username)
-      .then(async () => {  
- 
+      .then(async () => {
         this._enableNotification(username, false);
 
         // switch account if other account exist
@@ -610,7 +600,7 @@ class ApplicationContainer extends Component {
           dispatch(isPinCodeOpen(false));
           dispatch(setEncryptedUnlockPin(encryptKey(Config.DEFAULT_KEU, Config.PIN_KEY)));
         }
-        
+
         removeSCAccount(username);
         dispatch(setFeedPosts([]));
         dispatch(setInitPosts([]));
@@ -619,9 +609,7 @@ class ApplicationContainer extends Component {
       })
       .catch((err) => {
         dispatch(logoutDone());
-        Alert.alert(
-          intl.formatMessage({ id: 'alert.fail' }), err.message,
-        );
+        Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err.message);
         this._repairUserAccountData(username);
       });
   };
@@ -682,7 +670,7 @@ class ApplicationContainer extends Component {
       [_currentAccount.local] = realmData;
 
       if (!realmData[0]) {
-        this._repairUserAccountData(targetAccount.username)
+        this._repairUserAccountData(targetAccount.username);
         return;
       }
 

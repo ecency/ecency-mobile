@@ -168,64 +168,62 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
   dispatch(fetchSubscribedCommunities(_currentAccount.username));
 };
 
-
-
 export const repairUserAccountData = async (username, dispatch, intl, accounts, pinHash) => {
   try {
-    //extract key information from otherAccounts if data is available, use key to re-verify account;
+    // extract key information from otherAccounts if data is available, use key to re-verify account;
     let _userAccount = accounts.find((account) => account.username === username);
     const _authType = _userAccount?.local?.authType;
     if (!_authType) {
-      throw new Error("could not recover account data from redux copy");
+      throw new Error('could not recover account data from redux copy');
     }
 
-    //clean realm data just in case, to avoid already logged error
+    // clean realm data just in case, to avoid already logged error
     await removeUserData(username);
     if (_authType === AUTH_TYPE.STEEM_CONNECT) {
-      const _scAccount = await getSCAccount(username)
+      const _scAccount = await getSCAccount(username);
       if (!_scAccount?.refreshToken) {
-        throw new Error("refresh node not present")
+        throw new Error('refresh node not present');
       }
       _userAccount = await loginWithSC2(_scAccount.refreshToken);
-      console.log("successfully repair hive signer based account data", username)
+      console.log('successfully repair hive signer based account data', username);
     } else {
       const _encryptedKey = _userAccount.local[_authType];
-      const _key = decryptKey(_encryptedKey, getDigitPinCode(pinHash))
+      const _key = decryptKey(_encryptedKey, getDigitPinCode(pinHash));
       if (!_key) {
-        throw new Error("Pin decryption failed")
+        throw new Error('Pin decryption failed');
       }
-      _userAccount = await login(username, _key)
-      console.log("successfully repair key based account data", username, _key)
+      _userAccount = await login(username, _key);
+      console.log('successfully repair key based account data', username, _key);
     }
 
-    dispatch(updateCurrentAccount({..._userAccount}))
-  }
-
-  catch (err) {
+    dispatch(updateCurrentAccount({ ..._userAccount }));
+  } catch (err) {
     // keys data corrupted, ask user to verify login
     await delay(500);
-    dispatch(showActionModal({
-      title: intl.formatMessage({ id: 'alert.warning' }),
-      body: intl.formatMessage({ id: 'alert.auth_expired' }),
-      buttons: [{
-        text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive',
-        onPress: () => { },
-      },
-      {
-        text: intl.formatMessage({ id: 'alert.verify' }),
-        onPress: () => {
-          RootNavigation.navigate({
-            name: ROUTES.SCREENS.LOGIN,
-            params: { username: username },
-          });
-        },
-      },]
-    }))
+    dispatch(
+      showActionModal({
+        title: intl.formatMessage({ id: 'alert.warning' }),
+        body: intl.formatMessage({ id: 'alert.auth_expired' }),
+        buttons: [
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            style: 'destructive',
+            onPress: () => {},
+          },
+          {
+            text: intl.formatMessage({ id: 'alert.verify' }),
+            onPress: () => {
+              RootNavigation.navigate({
+                name: ROUTES.SCREENS.LOGIN,
+                params: { username },
+              });
+            },
+          },
+        ],
+      }),
+    );
   }
-}
-
-
-
+};
 
 const reduxMigrations = {
   0: (state) => {

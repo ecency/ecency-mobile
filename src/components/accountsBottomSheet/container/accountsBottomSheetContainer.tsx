@@ -15,7 +15,11 @@ import {
 } from '../../../providers/hive/auth';
 
 import AccountsBottomSheet from '../view/accountsBottomSheetView';
-import { logout, showActionModal, toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+import {
+  logout,
+  showActionModal,
+  toggleAccountsBottomSheet,
+} from '../../../redux/actions/uiAction';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -48,7 +52,7 @@ const AccountsBottomSheetContainer = () => {
     }
   }, [isVisibleAccountsBottomSheet]);
 
-  const _navigateToRoute = (name:string, params:any) => {
+  const _navigateToRoute = (name: string, params: any) => {
     dispatch(toggleAccountsBottomSheet(false));
     accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
     if (name) {
@@ -91,8 +95,8 @@ const AccountsBottomSheetContainer = () => {
 
       _currentAccount.username = _currentAccount.name;
 
-      if (!realmData[0]) {   
-        repairUserAccountData(_currentAccount.username, dispatch, intl, accounts, pinHash);   
+      if (!realmData[0]) {
+        repairUserAccountData(_currentAccount.username, dispatch, intl, accounts, pinHash);
         return;
       }
 
