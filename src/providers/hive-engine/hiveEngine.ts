@@ -13,11 +13,11 @@ import {
   HiveEngineToken,
   EngineMetric,
   MarketData,
+  HistoryItem,
 } from './hiveEngine.types';
-import { convertEngineToken, convertRewardsStatus, convertMarketData } from './converters';
+import { convertEngineToken, convertRewardsStatus, convertMarketData, convertEngineHistory } from './converters';
 import bugsnapInstance from '../../config/bugsnag';
 import ecencyApi from '../../config/ecencyApi';
-
 
 /**
  * hive engine docs reference:
@@ -31,6 +31,12 @@ const PATH_ENGINE_REWARDS = '/private-api/engine-reward-api';
 
 //proxied path for 'https://info-api.tribaldex.com/market/ohlcv';
 const PATH_ENGINE_CHART = '/private-api/engine-chart-api';
+
+//sample hive history endpoint call
+//docs: https://github.com/hive-engine/ssc_tokens_history/tree/hive#api-usage
+//example: https://history.hive-engine.com/accountHistory?account=demo.com&limit=10&offset=10
+const PATH_ENGINE_ACCOUNT_HISTORY = '/private-api/engine-account-history';
+
 
 
 export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => {
@@ -180,3 +186,30 @@ export const fetchEngineMarketData = async (symbol: any, vsCurrency:string = 'us
     return []
   }
 };
+
+
+ export const fetchEngineAccountHistory = async (username:string , symbol:string , startIndex:number = 0, limit:number = 20) => {
+  try {
+    const response = await ecencyApi.get(PATH_ENGINE_ACCOUNT_HISTORY, {params:{
+      account:username,
+      symbol:symbol,
+      limit,
+      offset: limit * startIndex
+    }})
+
+    const rawData = response?.data;
+
+    if(!rawData){
+      throw new Error("No data returned");
+    }
+
+    const data:HistoryItem[] = rawData.map(convertEngineHistory);
+
+    return data;
+  } catch (err) {
+    bugsnapInstance.notify(err);
+    console.warn("failed to get engine account history", err.message);
+    return []
+  }
+ }
+

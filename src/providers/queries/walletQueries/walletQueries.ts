@@ -24,7 +24,7 @@ interface ClaimRewardsMutationVars {
   assetId: ASSET_IDS | string;
 }
 
-const ACTIVITIES_FETCH_LIMIT = 500;
+const ACTIVITIES_FETCH_LIMIT = 50;
 
 /** hook used to return user drafts */
 export const useAssetsQuery = () => {
@@ -254,28 +254,32 @@ export const useClaimRewardsMutation = () => {
   };
 };
 
+
+
+
 export const useActivitiesQuery = (assetId: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const globalProps = useAppSelector((state) => state.account.globalProps);
   const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
 
-  const symbol = useMemo(() => selectedCoins.find((item) => item.id === assetId).symbol, []);
+  const assetData = useMemo(() => selectedCoins.find((item) => item.id === assetId), [assetId]);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [noMoreData, setNoMoreData] = useState(false);
-  const [pageParams, setPageParams] = useState([-1]);
+  const [pageParams, setPageParams] = useState(assetData.isEngine ? [0] : [-1]);
 
   const _fetchActivities = async (pageParam: number) => {
     console.log('fetching page since:', pageParam);
 
-    const _activites = await fetchCoinActivities(
-      currentAccount.name,
+    const _activites = await fetchCoinActivities({
+      username: currentAccount.name,
       assetId,
-      symbol,
+      assetSymbol: assetData.symbol,
       globalProps,
-      pageParam,
-      ACTIVITIES_FETCH_LIMIT,
-    );
+      startIndex: pageParam,
+      limit: ACTIVITIES_FETCH_LIMIT,
+      isEngine: assetData.isEngine
+    });
 
     console.log('new page fetched', _activites);
     return _activites || [];
@@ -299,7 +303,7 @@ export const useActivitiesQuery = (assetId: string) => {
   const _refresh = async () => {
     setIsRefreshing(true);
     setNoMoreData(false);
-    setPageParams([-1]);
+    setPageParams(assetData.isEngine ? [0] : [-1]);
     await queries[0].refetch();
     setIsRefreshing(false);
   };
@@ -316,11 +320,17 @@ export const useActivitiesQuery = (assetId: string) => {
       return;
     }
 
-    const lastId = _getNextPageParam(lastPage.data);
-    if (!pageParams.includes(lastId)) {
-      pageParams.push(lastId);
+    if (assetData.isEngine) { 
+      pageParams.push(pageParams.length);
       setPageParams([...pageParams]);
+    } else {
+      const lastId = _getNextPageParam(lastPage.data);
+      if (!pageParams.includes(lastId)) {
+        pageParams.push(lastId);
+        setPageParams([...pageParams]);
+      }
     }
+
   };
 
   const _data = useMemo(() => {
@@ -336,6 +346,9 @@ export const useActivitiesQuery = (assetId: string) => {
     refresh: _refresh,
   };
 };
+
+
+
 
 export const usePendingRequestsQuery = (assetId: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);

@@ -295,7 +295,7 @@ class SettingsContainer extends Component {
   };
 
   _handleButtonPress = (actionType) => {
-    const { navigation } = this.props;
+    const { navigation, isPinCodeOpen } = this.props as any;
     switch (actionType) {
       case 'reset_pin':
         navigation.navigate(ROUTES.SCREENS.PINCODE, {
@@ -305,6 +305,16 @@ class SettingsContainer extends Component {
 
       case 'feedback':
         this._handleSendFeedback();
+        break;
+
+      case settingsTypes.BACKUP_PRIVATE_KEYS:
+        if (isPinCodeOpen) {
+          navigation.navigate(ROUTES.SCREENS.PINCODE, {
+            navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
+          });
+        } else {
+          navigation.navigate(ROUTES.SCREENS.BACKUP_KEYS);
+        }
         break;
 
       case settingsTypes.DELETE_ACCOUNT:
@@ -490,8 +500,9 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { serverList, isNotificationMenuOpen, isLoading } = this.state;
-    const { colorTheme } = this.props;
+    const { serverList, isNotificationMenuOpen, isLoading, isVisibleBackupKeysModal } = this
+      .state as any;
+    const { colorTheme } = this.props as any;
 
     return (
       <SettingsScreen
