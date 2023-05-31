@@ -82,7 +82,7 @@ import parseVersionNumber from '../../../utils/parseVersionNumber';
 import { setMomentLocale } from '../../../utils/time';
 import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
-import MigrationHelpers from '../../../utils/migrationHelpers';
+import MigrationHelpers, { repairUserAccountData } from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
 import authType from '../../../constants/authType';
@@ -577,65 +577,17 @@ class ApplicationContainer extends Component {
 
   _repairUserAccountData = async (username) => {
     const { dispatch, intl, otherAccounts, pinCode } = this.props;
-
-    try {
-      //extract key information from otherAccounts if data is available, use key to re-verify account;
-      let _userAccount = otherAccounts.find((account) => account.username === username);
-      const _authType = _userAccount?.local?.authType;
-      if (!_authType) {
-        throw new Error("could not recover account data from redux copy");
-      }
-
-      //clean realm data just in case, to avoid already logged error
-      await removeUserData(username);
-      if (_authType === AUTH_TYPE.STEEM_CONNECT) {
-        const _scAccount = await getSCAccount(username)
-        if (!_scAccount?.refreshToken) {
-          throw new Error("refresh node not present")
-        }
-        _userAccount = await loginWithSC2(_scAccount.refreshToken);
-      } else {
-        const _encryptedKey = _userAccount.local[_authType];
-        const _key = decryptKey(_encryptedKey, getDigitPinCode(pinCode))
-        if (!_key) {
-          throw new Error("Pin decryption failed")
-        }
-        _userAccount = await loginWithKey(username, _key)
-      }
-
-      dispatch(updateCurrentAccount({..._userAccount}))
-    }
-
-    catch (err) {
-      // keys data corrupted, ask user to verify login
-      await delay(500);
-      dispatch(showActionModal({
-        title: intl.formatMessage({ id: 'alert.warning' }),
-        body: intl.formatMessage({ id: 'alert.auth_expired' }),
-        buttons: [{
-          text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive',
-          onPress: () => { },
-        },
-        {
-          text: intl.formatMessage({ id: 'alert.verify' }),
-          onPress: () => {
-            RootNavigation.navigate({
-              name: ROUTES.SCREENS.LOGIN,
-              params: { username: username },
-            });
-          },
-        },]
-      }))
-    }
+    repairUserAccountData(username, dispatch, intl, otherAccounts, pinCode);
   }
 
 
-  
+
   _logout = (username) => {
     const { otherAccounts, dispatch, intl } = this.props;
 
     removeUserData(username)
-      .then(async () => {        
+      .then(async () => {  
+ 
         this._enableNotification(username, false);
 
         // switch account if other account exist
