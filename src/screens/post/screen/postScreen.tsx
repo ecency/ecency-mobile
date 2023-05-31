@@ -19,7 +19,7 @@ const PostScreen = ({ route }) => {
   const [author, setAuthor] = useState(params.content?.author || params.author);
   const [permlink, setPermlink] = useState(params.content?.permlink || params.permlink);
 
-  const getPostQuery = postQueries.useGetPostQuery(author, permlink, params.content);
+  const getPostQuery = postQueries.useGetPostQuery(author, permlink);//, params.content);
   const getParentPostQuery = postQueries.useGetPostQuery();
 
   useEffect(()=>{
