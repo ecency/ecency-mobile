@@ -33,10 +33,13 @@ import {
   setExistUser,
   getLastUpdateCheck,
   setLastUpdateCheck,
+  getSCAccount,
 } from '../../../realm/realm';
 import { getUser, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import {
+  login as loginWithKey,
+  loginWithSC2,
   migrateToMasterKeyWithAccessToken,
   refreshSCToken,
   switchAccount,
@@ -82,6 +85,8 @@ import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAc
 import MigrationHelpers from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
+import authType from '../../../constants/authType';
+import { delay } from '../../../utils/editor';
 
 let firebaseOnMessageListener: any = null;
 let appStateSub: NativeEventSubscription | null = null;
@@ -408,8 +413,8 @@ class ApplicationContainer extends Component {
       const realmObject = realmData.filter((data) => data.username === username);
 
       if (!realmObject[0]) {
-        //means current logged in user keys data not present, re-verify required;
-        this._promptAccountVerification(username);
+        //means current logged in user keys data not present, re-verify required
+        this._repairUserAccountData(username);
         return null;
       }
 
@@ -568,44 +573,69 @@ class ApplicationContainer extends Component {
     };
   };
 
-  _promptAccountVerification = (username) => {
-    const { dispatch, intl } = this.props;
 
-    //TODO: extract key information from otherAccounts if data is available, use key to re-verify account;
 
-    //TODO: if relogin fails, show re-verify modal
+  _repairUserAccountData = async (username) => {
+    const { dispatch, intl, otherAccounts, pinCode } = this.props;
 
-    // keys data corrupted, ask user to verify login
-    // dispatch(showActionModal({
-    //   title: intl.formatMessage({ id: 'alert.warning' }),
-    //   body: intl.formatMessage({ id: 'alert.auth_expired' }),
-    //   buttons: [{
-    //     text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive',
-    //     onPress: () => { },
-    //   },
-    //   {
-    //     text: intl.formatMessage({ id: 'alert.verify' }),
-    //     onPress: () => {
-    //       RootNavigation.navigate({
-    //         name: ROUTES.SCREENS.LOGIN,
-    //         params: { username: username },
-    //       });
-    //     },
-    //   },]
-    // }))
+    try {
+      //extract key information from otherAccounts if data is available, use key to re-verify account;
+      let _userAccount = otherAccounts.find((account) => account.username === username);
+      const _authType = _userAccount?.local?.authType;
+      if (!_authType) {
+        throw new Error("could not recover account data from redux copy");
+      }
 
+      //clean realm data just in case, to avoid already logged error
+      await removeUserData(username);
+      if (_authType === AUTH_TYPE.STEEM_CONNECT) {
+        const _scAccount = await getSCAccount(username)
+        if (!_scAccount?.refreshToken) {
+          throw new Error("refresh node not present")
+        }
+        _userAccount = await loginWithSC2(_scAccount.refreshToken);
+      } else {
+        const _encryptedKey = _userAccount.local[_authType];
+        const _key = decryptKey(_encryptedKey, getDigitPinCode(pinCode))
+        if (!_key) {
+          throw new Error("Pin decryption failed")
+        }
+        _userAccount = await loginWithKey(username, _key)
+      }
+
+      dispatch(updateCurrentAccount({..._userAccount}))
+    }
+
+    catch (err) {
+      // keys data corrupted, ask user to verify login
+      await delay(500);
+      dispatch(showActionModal({
+        title: intl.formatMessage({ id: 'alert.warning' }),
+        body: intl.formatMessage({ id: 'alert.auth_expired' }),
+        buttons: [{
+          text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive',
+          onPress: () => { },
+        },
+        {
+          text: intl.formatMessage({ id: 'alert.verify' }),
+          onPress: () => {
+            RootNavigation.navigate({
+              name: ROUTES.SCREENS.LOGIN,
+              params: { username: username },
+            });
+          },
+        },]
+      }))
+    }
   }
 
+
+  
   _logout = (username) => {
     const { otherAccounts, dispatch, intl } = this.props;
 
     removeUserData(username)
-      .then(async () => {
-        removeSCAccount(username);
-        dispatch(setFeedPosts([]));
-        dispatch(setInitPosts([]));
-        dispatch(removeOtherAccount(username));
-        dispatch(logoutDone());
+      .then(async () => {        
         this._enableNotification(username, false);
 
         // switch account if other account exist
@@ -628,11 +658,19 @@ class ApplicationContainer extends Component {
           dispatch(isPinCodeOpen(false));
           dispatch(setEncryptedUnlockPin(encryptKey(Config.DEFAULT_KEU, Config.PIN_KEY)));
         }
+        
+        removeSCAccount(username);
+        dispatch(setFeedPosts([]));
+        dispatch(setInitPosts([]));
+        dispatch(removeOtherAccount(username));
+        dispatch(logoutDone());
       })
       .catch((err) => {
+        dispatch(logoutDone());
         Alert.alert(
-          `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
+          intl.formatMessage({ id: 'alert.fail' }), err.message,
         );
+        this._repairUserAccountData(username);
       });
   };
 
@@ -692,7 +730,7 @@ class ApplicationContainer extends Component {
       [_currentAccount.local] = realmData;
 
       if (!realmData[0]) {
-        this._promptAccountVerification(targetAccount.username)
+        this._repairUserAccountData(targetAccount.username)
         return;
       }
 
