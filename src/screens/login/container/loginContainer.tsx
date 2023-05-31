@@ -275,7 +275,7 @@ class LoginContainer extends PureComponent {
     const { navigation, route } = this.props;
     const { isLoading } = this.state;
 
-    const initialUsername = route.params?.username ?? ''
+    const initialUsername = route.params?.username ?? '';
 
     return (
       <LoginScreen

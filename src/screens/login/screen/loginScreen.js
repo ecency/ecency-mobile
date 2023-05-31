@@ -40,13 +40,11 @@ class LoginScreen extends PureComponent {
       keyboardIsOpen: false,
       isModalOpen: false,
     };
-
-    
   }
 
-  componentDidMount(){
-    if(this.props.initialUsername){
-      this._handleUsernameChange(this.props.initialUsername)
+  componentDidMount() {
+    if (this.props.initialUsername) {
+      this._handleUsernameChange(this.props.initialUsername);
     }
   }
 

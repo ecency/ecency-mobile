@@ -15,7 +15,11 @@ import {
 } from '../../../providers/hive/auth';
 
 import AccountsBottomSheet from '../view/accountsBottomSheetView';
-import { logout, showActionModal, toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+import {
+  logout,
+  showActionModal,
+  toggleAccountsBottomSheet,
+} from '../../../redux/actions/uiAction';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -28,6 +32,7 @@ import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 import { clearSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
 import ROUTES from '../../../constants/routeNames';
+import { repairUserAccountData } from '../../../utils/migrationHelpers';
 
 const AccountsBottomSheetContainer = () => {
   const intl = useIntl();
@@ -47,7 +52,7 @@ const AccountsBottomSheetContainer = () => {
     }
   }, [isVisibleAccountsBottomSheet]);
 
-  const _navigateToRoute = (name:string, params:any) => {
+  const _navigateToRoute = (name: string, params: any) => {
     dispatch(toggleAccountsBottomSheet(false));
     accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
     if (name) {
@@ -91,22 +96,10 @@ const AccountsBottomSheetContainer = () => {
       _currentAccount.username = _currentAccount.name;
 
       if (!realmData[0]) {
-        // keys data corrupted, ask user to verify login
-        dispatch(showActionModal({
-          title:intl.formatMessage({ id: 'alert.warning' }),
-          body:intl.formatMessage({ id: 'alert.auth_expired' }),
-          buttons:[{
-            text: intl.formatMessage({ id: 'alert.cancel' }), 
-            style: 'destructive' ,
-            onPress: ()=>{},
-         },
-         {
-            text: intl.formatMessage({ id: 'alert.verify' }), 
-            onPress: () => _navigateToRoute(ROUTES.SCREENS.LOGIN, {username:accountData.username}) ,
-          },]
-        }))
+        repairUserAccountData(_currentAccount.username, dispatch, intl, accounts, pinHash);
         return;
       }
+
       _currentAccount.local = realmData[0];
 
       // migreate account to use access token for master key auth type

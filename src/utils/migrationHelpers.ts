@@ -6,15 +6,17 @@ import THEME_OPTIONS from '../constants/options/theme';
 import { getUnreadNotificationCount } from '../providers/ecency/ecency';
 import { getPointsSummary } from '../providers/ecency/ePoint';
 import {
+  login,
+  loginWithSC2,
   migrateToMasterKeyWithAccessToken,
   refreshSCToken,
   updatePinCode,
 } from '../providers/hive/auth';
-import { getMutes } from '../providers/hive/dhive';
+import { getDigitPinCode, getMutes } from '../providers/hive/dhive';
 import AUTH_TYPE from '../constants/authType';
 
 // Services
-import { getSettings, getUserDataWithUsername } from '../realm/realm';
+import { getSCAccount, getSettings, getUserDataWithUsername, removeUserData } from '../realm/realm';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 
 import {
@@ -39,10 +41,14 @@ import {
   hideActionModal,
   hideProfileModal,
   setRcOffer,
+  showActionModal,
   toastNotification,
 } from '../redux/actions/uiAction';
 import { decryptKey, encryptKey } from './crypto';
 import { Draft } from '../redux/reducers/cacheReducer';
+import { delay } from './editor';
+import RootNavigation from '../navigation/rootNavigation';
+import ROUTES from '../constants/routeNames';
 
 // migrates settings from realm to redux once and do no user realm for settings again;
 export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean) => {
@@ -160,6 +166,63 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
 
   dispatch(updateCurrentAccount({ ..._currentAccount }));
   dispatch(fetchSubscribedCommunities(_currentAccount.username));
+};
+
+export const repairUserAccountData = async (username, dispatch, intl, accounts, pinHash) => {
+  try {
+    // extract key information from otherAccounts if data is available, use key to re-verify account;
+    let _userAccount = accounts.find((account) => account.username === username);
+    const _authType = _userAccount?.local?.authType;
+    if (!_authType) {
+      throw new Error('could not recover account data from redux copy');
+    }
+
+    // clean realm data just in case, to avoid already logged error
+    await removeUserData(username);
+    if (_authType === AUTH_TYPE.STEEM_CONNECT) {
+      const _scAccount = await getSCAccount(username);
+      if (!_scAccount?.refreshToken) {
+        throw new Error('refresh node not present');
+      }
+      _userAccount = await loginWithSC2(_scAccount.refreshToken);
+      console.log('successfully repair hive signer based account data', username);
+    } else {
+      const _encryptedKey = _userAccount.local[_authType];
+      const _key = decryptKey(_encryptedKey, getDigitPinCode(pinHash));
+      if (!_key) {
+        throw new Error('Pin decryption failed');
+      }
+      _userAccount = await login(username, _key);
+      console.log('successfully repair key based account data', username, _key);
+    }
+
+    dispatch(updateCurrentAccount({ ..._userAccount }));
+  } catch (err) {
+    // keys data corrupted, ask user to verify login
+    await delay(500);
+    dispatch(
+      showActionModal({
+        title: intl.formatMessage({ id: 'alert.warning' }),
+        body: intl.formatMessage({ id: 'alert.auth_expired' }),
+        buttons: [
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            style: 'destructive',
+            onPress: () => {},
+          },
+          {
+            text: intl.formatMessage({ id: 'alert.verify' }),
+            onPress: () => {
+              RootNavigation.navigate({
+                name: ROUTES.SCREENS.LOGIN,
+                params: { username },
+              });
+            },
+          },
+        ],
+      }),
+    );
+  }
 };
 
 const reduxMigrations = {
