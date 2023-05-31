@@ -360,9 +360,9 @@
       "import_key": "Importar clave privada",
       "enter_pass": "Introduce Contraseña o Clave Privada",
       "import_key_modal_desc": "Clave privada individual o Contraseña maestra para importar todas las claves",
-      "sign": "Sign",
-      "sign_input_placeholder": "Master password or Private Key",
-      "import_failed": "Keys Import Failed"
+      "sign": "Firmar",
+      "sign_input_placeholder": "Contraseña maestra o Clave Privada",
+      "import_failed": "Importación de claves fallida"
     }
   },
   "voters": {
