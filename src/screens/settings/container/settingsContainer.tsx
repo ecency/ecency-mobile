@@ -295,7 +295,7 @@ class SettingsContainer extends Component {
   };
 
   _handleButtonPress = (actionType) => {
-    const { navigation, isPinCodeOpen } = this.props as any;
+    const { navigation, isPinCodeOpen, dispatch, intl } = this.props as any;
     switch (actionType) {
       case 'reset_pin':
         navigation.navigate(ROUTES.SCREENS.PINCODE, {
@@ -313,7 +313,29 @@ class SettingsContainer extends Component {
             navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
           });
         } else {
-          navigation.navigate(ROUTES.SCREENS.BACKUP_KEYS);
+          dispatch(showActionModal({
+            title:intl.formatMessage({id:'alert.warning'}),
+            body:intl.formatMessage({id:'settings.keys_warning'}),
+            buttons:[{
+              text:intl.formatMessage({id:'alert.cancel'}),
+              onPress:()=>{},
+              type:'destructive'
+            },{
+              text:intl.formatMessage({id:'settings.set_pin'}),
+              onPress:()=>{
+                navigation.navigate(ROUTES.SCREENS.PINCODE, {
+                  callback: () => {
+                    this._enableDefaultUnlockPin(true)
+                  },
+                  navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
+                  isReset: true,
+                  isOldPinVerified: true,
+                  oldPinCode: Config.DEFAULT_PIN,
+                });
+              }
+            }]
+          }))
+       
         }
         break;
 
