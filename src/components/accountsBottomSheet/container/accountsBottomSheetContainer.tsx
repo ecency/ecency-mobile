@@ -28,6 +28,7 @@ import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 import { clearSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
 import ROUTES from '../../../constants/routeNames';
+import { repairUserAccountData } from '../../../utils/migrationHelpers';
 
 const AccountsBottomSheetContainer = () => {
   const intl = useIntl();
@@ -90,23 +91,11 @@ const AccountsBottomSheetContainer = () => {
 
       _currentAccount.username = _currentAccount.name;
 
-      if (!realmData[0]) {
-        // keys data corrupted, ask user to verify login
-        dispatch(showActionModal({
-          title:intl.formatMessage({ id: 'alert.warning' }),
-          body:intl.formatMessage({ id: 'alert.auth_expired' }),
-          buttons:[{
-            text: intl.formatMessage({ id: 'alert.cancel' }), 
-            style: 'destructive' ,
-            onPress: ()=>{},
-         },
-         {
-            text: intl.formatMessage({ id: 'alert.verify' }), 
-            onPress: () => _navigateToRoute(ROUTES.SCREENS.LOGIN, {username:accountData.username}) ,
-          },]
-        }))
+      if (!realmData[0]) {   
+        repairUserAccountData(_currentAccount.username, dispatch, intl, accounts, pinHash);   
         return;
       }
+
       _currentAccount.local = realmData[0];
 
       // migreate account to use access token for master key auth type
