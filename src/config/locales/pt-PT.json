@@ -346,7 +346,7 @@
     "delete_account": "Deletar conta",
     "backup_private_keys": "Administrar Chaves Privadas",
     "backup": "Administrar",
-    "keys_warning": "Senstive account information!\nEcency app must be secured with pin code before accessing keys",
+    "keys_warning": "Sensitive account information!\nEcency must be secured with PIN code before viewing private keys.",
     "set_pin": "Set PIN",
     "backup_keys_modal": {
       "owner_key": "Chave do Proprietário",
