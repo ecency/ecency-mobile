@@ -346,7 +346,7 @@
     "delete_account": "Poista tili",
     "backup_private_keys": "Hallitse Valtuuksia",
     "backup": "Hallinnoi",
-    "keys_warning": "Senstive account information!\nEcency app must be secured with pin code before accessing keys",
+    "keys_warning": "Sensitive account information!\nEcency must be secured with PIN code before viewing private keys.",
     "set_pin": "Set PIN",
     "backup_keys_modal": {
       "owner_key": "Omistajan Avain",
