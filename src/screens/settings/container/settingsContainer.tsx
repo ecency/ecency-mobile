@@ -35,15 +35,18 @@ import {
   setNsfw,
   isPinCodeOpen,
   login,
-  logoutDone,
   setColorTheme,
   setIsBiometricEnabled,
   setEncryptedUnlockPin,
   setHidePostsThumbnails,
-  logout,
   setIsDarkTheme,
 } from '../../../redux/actions/applicationActions';
-import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
+import {
+  logout,
+  logoutDone,
+  showActionModal,
+  toastNotification,
+} from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes, deleteAccount } from '../../../providers/ecency/ecency';
 import { checkClient } from '../../../providers/hive/dhive';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
@@ -73,7 +76,7 @@ class SettingsContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      serverList: [],
+      serverList: SERVER_LIST,
       isNotificationMenuOpen: props.isNotificationSettingsOpen,
       isLoading: false,
     };
@@ -81,17 +84,11 @@ class SettingsContainer extends Component {
 
   // Component Life Cycle Functions
   componentDidMount() {
-    getNodes()
-      .then((resp) => {
-        this.setState({
-          serverList: resp,
-        });
-      })
-      .catch(() =>
-        this.setState({
-          serverList: SERVER_LIST,
-        }),
-      );
+    getNodes().then((resp) => {
+      this.setState({
+        serverList: resp,
+      });
+    });
   }
 
   // Component Functions
@@ -298,7 +295,7 @@ class SettingsContainer extends Component {
   };
 
   _handleButtonPress = (actionType) => {
-    const { navigation } = this.props;
+    const { navigation, isPinCodeOpen, dispatch, intl } = this.props as any;
     switch (actionType) {
       case 'reset_pin':
         navigation.navigate(ROUTES.SCREENS.PINCODE, {
@@ -308,6 +305,38 @@ class SettingsContainer extends Component {
 
       case 'feedback':
         this._handleSendFeedback();
+        break;
+
+      case settingsTypes.BACKUP_PRIVATE_KEYS:
+        if (isPinCodeOpen) {
+          navigation.navigate(ROUTES.SCREENS.PINCODE, {
+            navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
+          });
+        } else {
+          dispatch(showActionModal({
+            title:intl.formatMessage({id:'alert.warning'}),
+            body:intl.formatMessage({id:'settings.keys_warning'}),
+            buttons:[{
+              text:intl.formatMessage({id:'alert.cancel'}),
+              onPress:()=>{},
+              type:'destructive'
+            },{
+              text:intl.formatMessage({id:'settings.set_pin'}),
+              onPress:()=>{
+                navigation.navigate(ROUTES.SCREENS.PINCODE, {
+                  callback: () => {
+                    this._enableDefaultUnlockPin(true)
+                  },
+                  navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
+                  isReset: true,
+                  isOldPinVerified: true,
+                  oldPinCode: Config.DEFAULT_PIN,
+                });
+              }
+            }]
+          }))
+       
+        }
         break;
 
       case settingsTypes.DELETE_ACCOUNT:
@@ -493,8 +522,9 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { serverList, isNotificationMenuOpen, isLoading } = this.state;
-    const { colorTheme } = this.props;
+    const { serverList, isNotificationMenuOpen, isLoading, isVisibleBackupKeysModal } = this
+      .state as any;
+    const { colorTheme } = this.props as any;
 
     return (
       <SettingsScreen

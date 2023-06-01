@@ -1,6 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { View, Platform, TextInputProps, ViewStyle, TextStyle } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  View,
+  Platform,
+  TextInputProps,
+  ViewStyle,
+  TextStyle,
+  Text,
+  TouchableOpacity,
+  Keyboard,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import Popover, { usePopover } from 'react-native-modal-popover';
 
 // Components
 import { TextInput } from '../../textInput';
@@ -24,6 +34,8 @@ interface Props extends TextInputProps {
   height: number;
   inputStyle: TextStyle;
   isValid: boolean;
+  rightInfoIcon?: boolean;
+  errorInfo?: string;
   onChange?: (value: string) => void;
   onFocus?: () => void;
   onBlur?: () => void;
@@ -44,10 +56,16 @@ const FormInputView = ({
   onChange,
   isValid,
   value,
+  rightInfoIcon,
+  errorInfo,
   onBlur,
   onFocus,
   ...props
 }: Props) => {
+  const { openPopover, closePopover, popoverVisible, touchableRef, popoverAnchorRect } =
+    usePopover();
+  const inputRef = useRef(null);
+
   const [_value, setValue] = useState(value || '');
   const [inputBorderColor, setInputBorderColor] = useState('#e7e7e7');
   const [_isValid, setIsValid] = useState(true);
@@ -96,6 +114,45 @@ const FormInputView = ({
     setIsValid(isValid);
   }, [isValid]);
 
+  const _handleInfoPress = () => {
+    Keyboard.dismiss();
+    // added delay between keyboard closing and popover opening,
+    // immediate opening popover calculates wrong popover position
+    setTimeout(() => {
+      openPopover();
+    }, 800);
+  };
+
+  const _handleClosePopover = () => {
+    closePopover();
+    // delayed keyboard opening to solve immediate keyboard open glitch
+    setTimeout(() => {
+      inputRef?.current?.focus();
+    }, 500);
+  };
+
+  const _renderInfoIconWithPopover = () => (
+    <View style={styles.infoIconContainer}>
+      <TouchableOpacity ref={touchableRef} onPress={_handleInfoPress}>
+        <Icon iconType={'MaterialIcons'} name="info-outline" style={styles.infoIcon} />
+      </TouchableOpacity>
+      <Popover
+        backgroundStyle={styles.overlay}
+        contentStyle={styles.popoverDetails}
+        arrowStyle={styles.arrow}
+        visible={popoverVisible}
+        onClose={_handleClosePopover}
+        fromRect={popoverAnchorRect}
+        supportedOrientations={['portrait', 'landscape']}
+        placement="top"
+      >
+        <View style={styles.popoverWrapper}>
+          <Text style={styles.popoverText}>{errorInfo}</Text>
+        </View>
+      </Popover>
+    </View>
+  );
+
   return (
     <View
       style={[
@@ -105,7 +162,7 @@ const FormInputView = ({
       ]}
     >
       {isFirstImage && value && value.length > 2 ? (
-        <View style={{ flex: 0.2 }}>
+        <View style={{ flex: 0.15 }}>
           <FastImage
             style={styles.firstImage}
             source={{
@@ -124,6 +181,7 @@ const FormInputView = ({
         <ThemeContainer>
           {({ isDarkTheme }) => (
             <TextInput
+              innerRef={inputRef}
               style={inputStyle}
               onFocus={_handleOnFocus}
               onBlur={_handleOnBlur}
@@ -143,8 +201,9 @@ const FormInputView = ({
           )}
         </ThemeContainer>
       </View>
-
-      {value && value.length > 0 ? (
+      {rightInfoIcon && !isValid ? (
+        _renderInfoIconWithPopover()
+      ) : value && value.length > 0 ? (
         <Icon
           iconType={iconType || 'MaterialIcons'}
           onPress={() => setValue('')}

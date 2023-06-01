@@ -40,7 +40,30 @@ export default EStyleSheet.create({
     paddingHorizontal: 24,
     alignItems: 'center',
     justifyContent: 'space-between',
+ 
   } as ViewStyle,
+
+  sectionTextStyle : {
+    color:'$primaryBlack',
+    fontSize: 16,
+    marginHorizontal: 16,
+    marginVertical:4,
+
+  } as TextStyle,
+
+  sectionSubTextStyle : {
+    color:'$iconColor',
+    fontSize: 18,
+    marginHorizontal: 16,
+    marginVertical:16,
+    alignSelf:'center'
+
+  } as TextStyle,
+
+  dragBtnContainer:{
+    padding:8
+  } as ViewStyle,
+
   title: {
     color: '$primaryBlack',
     alignSelf: 'center',
@@ -65,6 +88,7 @@ export default EStyleSheet.create({
 
   assetIconContainer:{
     width:32,
+    marginLeft:16
   },
 
   button: {

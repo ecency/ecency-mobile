@@ -1,6 +1,6 @@
 {
   "name": "ecency",
-  "version": "3.0.39",
+  "version": "3.0.40",
   "displayName": "Ecency",
   "private": true,
   "rnpm": {
@@ -108,6 +108,7 @@
     "react-native-crypto": "^2.2.0",
     "react-native-date-picker": "^4.2.0",
     "react-native-device-info": "^10.2.1",
+    "react-native-draggable-flatlist": "^4.0.1",
     "react-native-dynamic": "^1.0.0",
     "react-native-email-link": "^1.14.3",
     "react-native-extended-stylesheet": "^0.10.0",

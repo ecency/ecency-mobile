@@ -36,15 +36,26 @@ const DraftListItemView = ({
   isSchedules,
   isDeleting,
   isUnsaved,
+  handleOnClonePressed,
+  draftItem,
+  isCloning,
 }) => {
   const actionSheet = useRef(null);
   const moveActionSheet = useRef(null);
   const [deleteRequested, setIsDeleteRequested] = useState(false);
+  const [cloneRequested, setIsCloneRequested] = useState(false);
+
   useEffect(() => {
     if (deleteRequested && !isDeleting) {
       setIsDeleteRequested(false);
     }
   }, [isDeleting]);
+
+  useEffect(() => {
+    if (cloneRequested && !isCloning) {
+      setIsCloneRequested(false);
+    }
+  }, [isCloning]);
 
   const _onItemPress = () => {
     if (isSchedules) {
@@ -104,6 +115,25 @@ const DraftListItemView = ({
                   disabled
                 />
               </PopoverWrapper>
+            )}
+            {!isSchedules && (
+              <IconButton
+                backgroundColor="transparent"
+                name="copy"
+                iconType="Ionicons"
+                size={16}
+                onPress={() => {
+                  draftItem = {
+                    ...draftItem,
+                    title: `Copy of ${draftItem.title}`,
+                  };
+                  handleOnClonePressed(draftItem);
+                  setIsCloneRequested(true);
+                }}
+                style={[styles.rightItem]}
+                color={statusIconColor}
+                isLoading={isCloning && cloneRequested}
+              />
             )}
             {isUnsaved ? (
               <IconButton

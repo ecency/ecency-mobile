@@ -42,11 +42,13 @@ export const PostHtmlRenderer = memo(
   }: PostHtmlRendererProps) => {
     const postImgUrlsRef = useRef<string[]>([]);
 
+    console.log('rendering body', body);
+
     // new renderer functions
     body = body
       .replace(/<center>/g, '<div class="text-center">')
       .replace(/<\/center>/g, '</div>')
-      .replace(/<span>/g, '')
+      .replace(/<span(.*?)>/g, '') //TODO: later handle span with propties lie <span class="ll-key"> and remove on raw <span/>
       .replace(/<\/span>/g, '');
 
     const _minTableColWidth = contentWidth / 3 - 12;
@@ -388,7 +390,7 @@ export const PostHtmlRenderer = memo(
         renderers={renderers}
         onHTMLLoaded={onLoaded && onLoaded}
         defaultTextProps={{
-          selectable: true,
+          selectable: false,
         }}
         customHTMLElementModels={customHTMLElementModels}
         renderersProps={renderersProps}

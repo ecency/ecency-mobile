@@ -34,12 +34,18 @@ class LoginScreen extends PureComponent {
     super(props);
 
     this.state = {
-      username: '',
+      username: props.initialUsername || '',
       password: '',
       isUsernameValid: true,
       keyboardIsOpen: false,
       isModalOpen: false,
     };
+  }
+
+  componentDidMount() {
+    if (this.props.initialUsername) {
+      this._handleUsernameChange(this.props.initialUsername);
+    }
   }
 
   componentWillUnmount() {

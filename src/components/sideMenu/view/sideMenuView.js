@@ -29,8 +29,7 @@ import { getVotingPower } from '../../../utils/manaBar';
 
 // Styles
 import styles from './sideMenuStyles';
-import { OptionsModal } from '../../atoms';
-import { toggleQRModal } from '../../../redux/actions/uiAction';
+import { showActionModal, toggleQRModal } from '../../../redux/actions/uiAction';
 
 // Images
 const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
@@ -44,7 +43,6 @@ const SideMenuView = ({
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const ActionSheetRef = useRef(null);
 
   const [menuItems, setMenuItems] = useState(
     isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
@@ -74,7 +72,23 @@ const SideMenuView = ({
   // Component Functions
   const _handleOnMenuItemPress = (item) => {
     if (item.id === 'logout') {
-      ActionSheetRef.current.show();
+      dispatch(
+        showActionModal({
+          title: intl.formatMessage({ id: 'side_menu.logout_text' }),
+          buttons: [
+            {
+              text: intl.formatMessage({ id: 'side_menu.cancel' }),
+              onPress: () => {},
+            },
+            {
+              text: intl.formatMessage({ id: 'side_menu.logout' }),
+              onPress: () => {
+                handleLogout();
+              },
+            },
+          ],
+        }),
+      );
       return;
     }
 
@@ -198,19 +212,6 @@ const SideMenuView = ({
         <FlatList data={menuItems} keyExtractor={(item) => item.id} renderItem={_renderItem} />
       </View>
       <Text style={styles.versionText}>{`v${appVersion}, ${buildVersion}${storageT}`}</Text>
-      <OptionsModal
-        ref={ActionSheetRef}
-        options={[
-          intl.formatMessage({ id: 'side_menu.logout' }),
-          intl.formatMessage({ id: 'side_menu.cancel' }),
-        ]}
-        title={intl.formatMessage({ id: 'side_menu.logout_text' })}
-        cancelButtonIndex={1}
-        destructiveButtonIndex={0}
-        onPress={(index) => {
-          index === 0 ? handleLogout() : null;
-        }}
-      />
     </View>
   );
 };

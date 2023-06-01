@@ -28,6 +28,7 @@ const SearchInputView = ({
   style,
   backEnabled = false,
   onBackPress,
+  backIconName,
 }) => {
   const [inputValue, setInputValue] = useState(value || '');
 
@@ -63,7 +64,7 @@ const SearchInputView = ({
         <View style={styles.backButtonContainer}>
           <IconButton
             iconType="MaterialIcons"
-            name="arrow-back"
+            name={backIconName || 'arrow-back'}
             iconStyle={styles.backIcon}
             onPress={onBackPress}
           />
@@ -71,16 +72,18 @@ const SearchInputView = ({
       )}
 
       <View style={[styles.inputWrapper, inputWrapperFlex, style]}>
-        <TextInput
-          style={styles.input}
-          onChangeText={_onChangeText}
-          placeholder={placeholder}
-          placeholderTextColor="#c1c5c7"
-          autoCapitalize="none"
-          autoFocus={autoFocus}
-          editable={editable}
-          value={`${prefix}${inputValue}`}
-        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            onChangeText={_onChangeText}
+            placeholder={placeholder}
+            placeholderTextColor="#c1c5c7"
+            autoCapitalize="none"
+            autoFocus={autoFocus}
+            editable={editable}
+            value={`${prefix}${inputValue}`}
+          />
+        </View>
         {handleOnModalClose && _renderCrossButton(() => handleOnModalClose())}
         {showClearButton && _renderCrossButton(() => setInputValue(''))}
       </View>

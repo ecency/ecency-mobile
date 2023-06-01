@@ -127,7 +127,9 @@ const TransferAmountInputSection = ({
       {(transferType === TransferTypes.POINTS ||
         transferType === TransferTypes.TRANSFER_TOKEN ||
         transferType === TransferTypes.TRANSFER_TO_SAVINGS ||
-        transferType === TransferTypes.TRANSFER_ENGINE) && (
+        transferType === TransferTypes.TRANSFER_ENGINE ||
+        transferType === TransferTypes.TRANSFER_SPK ||
+        transferType === TransferTypes.TRANSFER_LARYNX) && (
         <TransferFormItem
           label={intl.formatMessage({ id: 'transfer.memo' })}
           rightComponent={() =>
