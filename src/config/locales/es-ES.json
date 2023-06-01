@@ -346,7 +346,7 @@
     "delete_account": "Eliminar cuenta",
     "backup_private_keys": "Administrar Autorizaciones",
     "backup": "Administrar",
-    "keys_warning": "¡Información senstiva de la cuenta!\nLa aplicación Ecency debe estar asegurada con el código pin antes de acceder a las claves",
+    "keys_warning": "Sensitive account information!\nEcency must be secured with PIN code before viewing private keys.",
     "set_pin": "Establecer PIN",
     "backup_keys_modal": {
       "owner_key": "Clave Propietaria",
