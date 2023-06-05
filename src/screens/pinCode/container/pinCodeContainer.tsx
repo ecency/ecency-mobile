@@ -131,7 +131,7 @@ class PinCodeContainer extends Component {
     new Promise((resolve, reject) => {
       const {
         dispatch,
-        pinCodeParams: { navigateTo, navigateParams, callback },
+        pinCodeParams: { navigateTo, navigateParams, navigateKey, callback },
         encUnlockPin,
         intl,
         navigation,
@@ -151,6 +151,7 @@ class PinCodeContainer extends Component {
             RootNavigation.navigate({
               name: navigateTo,
               params: navigateParams,
+              key: navigateKey || '',
             });
           } else {
             navigation.goBack();
@@ -233,7 +234,7 @@ class PinCodeContainer extends Component {
         dispatch,
         encUnlockPin,
         applicationPinCode,
-        pinCodeParams: { navigateTo, navigateParams, callback },
+        pinCodeParams: { navigateTo, navigateParams, navigateKey, callback },
         navigation,
       } = this.props;
       const { oldPinCode } = this.state;
@@ -270,6 +271,7 @@ class PinCodeContainer extends Component {
         RootNavigation.navigate({
           name: navigateTo,
           params: navigateParams,
+          key: navigateKey || '',
         });
       } else {
         navigation.goBack();
