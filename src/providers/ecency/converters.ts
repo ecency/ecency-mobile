@@ -6,6 +6,7 @@ import {
   LatestQuotes,
   QuoteItem,
   ReferralStat,
+  Draft
 } from './ecency.types';
 
 export const convertReferral = (rawData: any) => {
@@ -35,6 +36,24 @@ export const convertQuoteItem = (rawData: any, currencyRate: number) => {
     lastUpdated: rawData.last_updated,
   } as QuoteItem;
 };
+
+export const convertDraft = (rawData:any) => {
+  if(!rawData){
+    return null
+  }
+
+  return {
+    _id:rawData._id,
+    title:rawData.title,
+    body:rawData.body,
+    tags_arr:rawData.tags_arr,
+    tags:rawData.tags,
+    meta:rawData.meta,
+    modified:rawData.modified,
+    created:rawData.created,
+    timestamp:rawData.timestamp
+  } as Draft
+}
 
 export const convertLatestQuotes = (rawData: any, currencyRate: number) => {
   return {

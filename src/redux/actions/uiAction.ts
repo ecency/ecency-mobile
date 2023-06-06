@@ -13,6 +13,8 @@ import {
   SHOW_REPLY_MODAL,
   HIDE_REPLY_MODAL,
   SET_LOCKED_ORIENTATION,
+  LOGOUT,
+  LOGOUT_DONE,
 } from '../constants/constants';
 
 export const updateActiveBottomTab = (payload: string) => ({
@@ -87,4 +89,12 @@ export const showReplyModal = (selectionPost: any) => ({
 
 export const hideReplyModal = () => ({
   type: HIDE_REPLY_MODAL,
+});
+
+export const logout = () => ({
+  type: LOGOUT,
+});
+
+export const logoutDone = () => ({
+  type: LOGOUT_DONE,
 });

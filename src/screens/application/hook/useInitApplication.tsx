@@ -30,7 +30,7 @@ import FastImage from 'react-native-fast-image';
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
-  const { isDarkTheme, colorTheme } = useAppSelector((state) => state.application);
+  const { isDarkTheme, colorTheme, isPinCodeOpen } = useAppSelector((state) => state.application);
 
   const systemColorScheme = useColorScheme();
 
@@ -59,7 +59,7 @@ export const useInitApplication = () => {
     BackgroundTimer.start(); // ref: https://github.com/ocetnik/react-native-background-timer#ios
 
     appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
-    lowMemSubRef.current = AppState.addEventListener('memoryWarning', _handleLowMemoryWarning)
+    lowMemSubRef.current = AppState.addEventListener('memoryWarning', _handleLowMemoryWarning);
 
     // check for device landscape status and lcok orientation accordingly. Fix for orientation bug on android tablet devices
     isLandscape().then((isLandscape) => {
@@ -96,7 +96,7 @@ export const useInitApplication = () => {
       appStateSubRef.current.remove();
     }
 
-    if (lowMemSubRef.current){
+    if (lowMemSubRef.current) {
       lowMemSubRef.current.remove();
     }
 
@@ -149,10 +149,9 @@ export const useInitApplication = () => {
     appState.current = nextAppState;
   };
 
-
   const _handleLowMemoryWarning = () => {
     FastImage.clearMemoryCache();
-  }
+  };
 
   const _pushNavigate = (notification) => {
     let params = null;
@@ -237,11 +236,23 @@ export const useInitApplication = () => {
       });
 
       if (!some(params, isEmpty)) {
-        RootNavigation.navigate({
-          name: routeName,
-          params,
-          key,
-        });
+        if (isPinCodeOpen) {
+          RootNavigation.navigate({
+            name: ROUTES.SCREENS.PINCODE,
+            params: {
+              navigateTo: routeName,
+              navigateParams: params,
+              navigateKey: key,
+              hideCloseButton: true,
+            },
+          });
+        } else {
+          RootNavigation.navigate({
+            name: routeName,
+            params,
+            key,
+          });
+        }
       }
     }
   };

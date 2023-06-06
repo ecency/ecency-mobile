@@ -1,6 +1,5 @@
-import React, { useCallback, useMemo, useRef, forwardRef, useImperativeHandle } from 'react';
+import React, { useRef, forwardRef, useImperativeHandle } from 'react';
 import { View, Text, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
-import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -8,18 +7,15 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { FlatList } from 'react-native-gesture-handler';
-import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 
-import { UserAvatar, Icon, TextButton, Separator } from '../../index';
+import { UserAvatar, Icon, Separator } from '../../index';
 
 import { default as ROUTES } from '../../../constants/routeNames';
 
 import styles from './accountsBottomSheetStyles';
-import { switchAccount } from '../../../providers/hive/auth';
 
 const AccountsBottomSheet = forwardRef(
   ({ accounts, currentAccount, navigateToRoute, switchAccount, onClose }, ref) => {
-    const dispatch = useDispatch();
     const bottomSheetModalRef = useRef();
     const userList = useRef();
     const insets = useSafeAreaInsets();
@@ -73,7 +69,7 @@ const AccountsBottomSheet = forwardRef(
           />
           <Separator style={styles.separator} />
           <View style={{ paddingBottom: insets.bottom + 16 }}>
-            <TouchableWithoutFeedback
+            <TouchableOpacity
               style={styles.button}
               onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
             >
@@ -82,9 +78,9 @@ const AccountsBottomSheet = forwardRef(
                   {intl.formatMessage({ id: 'side_menu.create_a_new_account' })}
                 </Text>
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
             <Separator style={styles.separator} />
-            <TouchableWithoutFeedback
+            <TouchableOpacity
               style={styles.button}
               onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
             >
@@ -93,7 +89,7 @@ const AccountsBottomSheet = forwardRef(
                   {intl.formatMessage({ id: 'side_menu.add_an_existing_account' })}
                 </Text>
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
             <Separator style={styles.separator} />
           </View>
         </ActionSheet>

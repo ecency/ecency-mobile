@@ -84,6 +84,13 @@ target 'Ecency' do
         puts "Deleting source file #{gcd_async_socket.inspect} from target #{target.inspect}."
         source_files.delete gcd_async_socket
       end
+
+      #workaround for resolving React-Codegen build failure on Xcode 14.3 (iOS 16.4) simulators - 'value' is unavailable
+      if target.name == 'React-Codegen'
+        target.build_configurations.each do |config|
+          config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
+         end
+      end
     end
 
   end

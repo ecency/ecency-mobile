@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { RangeSelector } from '.';
 import { SimpleChart } from '../../../components';
 import { useAppSelector } from '../../../hooks';
-import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
+import { ChartInterval, fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import styles, { CHART_NEGATIVE_MARGIN } from './children.styles';
@@ -15,6 +15,7 @@ interface CoinChartProps {
 
 export const CoinChart = ({ coinId, isEngine }: CoinChartProps) => {
   const priceHistory = useAppSelector((state) => state.wallet.priceHistories[coinId]);
+  const currency = useAppSelector((state) => state.application.currency);
 
   const [range, setRange] = useState(isEngine ? 0 : 1);
   const [chartData, setChartData] = useState(priceHistory?.data);
@@ -23,13 +24,18 @@ export const CoinChart = ({ coinId, isEngine }: CoinChartProps) => {
     if (isEngine) {
       const marketData = await fetchEngineMarketData(
         coinId,
-        'usd',
+        currency.currency,
         days,
         days > 1 ? 'daily' : 'hourly',
       );
       setChartData(marketData.map((item) => item.close));
     } else {
-      const marketData = await fetchMarketChart(coinId, 'usd', days, 'hourly');
+      const marketData = await fetchMarketChart(
+        coinId,
+        currency.currency,
+        days,
+        days > 30 ? ChartInterval.DAILY : ChartInterval.HOURLY,
+      );
       setChartData(marketData.prices.map((item) => item.yValue));
     }
   };

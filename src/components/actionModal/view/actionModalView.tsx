@@ -3,10 +3,10 @@ import { View, Text } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ActionSheet from 'react-native-actions-sheet';
-import { TextButton } from '../../buttons';
 import styles from './actionModalStyles';
 
 import { ActionModalData } from '../container/actionModalContainer';
+import { MainButton } from '../../mainButton';
 
 export interface ActionModalRef {
   showModal: () => void;
@@ -57,7 +57,7 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
       <View style={styles.actionPanel}>
         {buttons ? (
           buttons.map((props) => (
-            <TextButton
+            <MainButton
               key={props.text}
               text={props.text}
               onPress={(evn) => {
@@ -69,7 +69,7 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
             />
           ))
         ) : (
-          <TextButton
+          <MainButton
             key="default"
             text="OK"
             onPress={() => {

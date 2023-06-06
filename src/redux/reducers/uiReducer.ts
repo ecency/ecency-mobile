@@ -13,6 +13,8 @@ import {
   SET_LOCKED_ORIENTATION,
   SHOW_REPLY_MODAL,
   HIDE_REPLY_MODAL,
+  LOGOUT,
+  LOGOUT_DONE,
 } from '../constants/constants';
 import { orientations } from '../constants/orientationsConstants';
 
@@ -30,6 +32,7 @@ interface UiState {
   lockedOrientation: string;
   replyModalVisible: boolean;
   replyModalPost: any;
+  isLogingOut: boolean;
 }
 
 const initialState: UiState = {
@@ -46,6 +49,7 @@ const initialState: UiState = {
   lockedOrientation: orientations.PORTRAIT,
   replyModalPost: null,
   replyModalVisible: false,
+  isLogingOut: false,
 };
 
 export default function (state = initialState, action): UiState {
@@ -134,6 +138,16 @@ export default function (state = initialState, action): UiState {
         ...state,
         replyModalVisible: false,
         replyModalPost: null,
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        isLogingOut: true,
+      };
+    case LOGOUT_DONE:
+      return {
+        ...state,
+        isLogingOut: false,
       };
     default:
       return state;
