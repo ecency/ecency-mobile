@@ -33,6 +33,7 @@ class SettingsItemView extends PureComponent {
       selectedOptionIndex,
       handleOnChange,
       text,
+      iconName,
       isOn,
       toggleLatchBack,
       actionType,
@@ -81,7 +82,8 @@ class SettingsItemView extends PureComponent {
         return (
           <IconButton
             onPress={() => handleOnButtonPress(actionType)}
-            name="trash-bin-outline"
+            name={iconName}
+            iconType="MaterialCommunityIcons"
             size={24}
             color={EStyleSheet.value('$primaryRed')}
             style={styles.iconBtn}

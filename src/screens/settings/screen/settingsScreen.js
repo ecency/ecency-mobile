@@ -327,6 +327,7 @@ const SettingsScreen = ({
                 id: 'settings.delete_account',
               })}
               type="icon"
+              iconName="delete-forever"
               actionType={settingsTypes.DELETE_ACCOUNT}
               handleOnButtonPress={handleOnButtonPress}
             />
