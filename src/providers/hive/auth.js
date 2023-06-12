@@ -457,7 +457,8 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
 
 const isLoggedInUser = async (username) => {
   const result = await getUserDataWithUsername(username);
-  if (result.length > 0) {
+  const scAccount = await getSCAccount(username);
+  if (result.length > 0 && !!scAccount) {
     return true;
   }
   return false;

@@ -361,9 +361,13 @@ class ApplicationContainer extends Component {
   };
 
   _refreshUnreadActivityCount = async () => {
-    const { dispatch } = this.props;
-    const unreadActivityCount = await getUnreadNotificationCount();
-    dispatch(updateUnreadActivityCount(unreadActivityCount));
+    const { dispatch, isLoggedIn } = this.props;
+    if(isLoggedIn){
+      const unreadActivityCount = await getUnreadNotificationCount();
+      dispatch(updateUnreadActivityCount(unreadActivityCount));
+    }
+
+   
   };
 
   _getUserDataFromRealm = async () => {
@@ -573,45 +577,53 @@ class ApplicationContainer extends Component {
     repairUserAccountData(username, dispatch, intl, otherAccounts, pinCode);
   };
 
-  _logout = (username) => {
+  _logout = async (username) => {
     const { otherAccounts, dispatch, intl } = this.props;
 
-    removeUserData(username)
-      .then(async () => {
-        this._enableNotification(username, false);
+    try {
+      const response = await removeUserData(username)
 
-        // switch account if other account exist
-        const _otherAccounts = otherAccounts.filter((user) => user.username !== username);
+      if(response instanceof Error){
+        throw response;
+      }
 
-        if (_otherAccounts.length > 0) {
-          const targetAccount = _otherAccounts[0];
-          await this._switchAccount(targetAccount);
-        }
+      this._enableNotification(username, false);
 
-        // logut from app if no more other accounts
-        else {
-          dispatch(updateCurrentAccount({}));
-          dispatch(login(false));
-          removePinCode();
-          setAuthStatus({
-            isLoggedIn: false,
-          });
-          setExistUser(false);
-          dispatch(isPinCodeOpen(false));
-          dispatch(setEncryptedUnlockPin(encryptKey(Config.DEFAULT_KEU, Config.PIN_KEY)));
-        }
+      // switch account if other account exist
+      const _otherAccounts = otherAccounts.filter((user) => user.username !== username);
 
-        removeSCAccount(username);
-        dispatch(setFeedPosts([]));
-        dispatch(setInitPosts([]));
-        dispatch(removeOtherAccount(username));
-        dispatch(logoutDone());
-      })
-      .catch((err) => {
-        dispatch(logoutDone());
-        Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err.message);
-        this._repairUserAccountData(username);
-      });
+      if (_otherAccounts.length > 0) {
+        const targetAccount = _otherAccounts[0];
+        await this._switchAccount(targetAccount);
+      }
+
+      // logut from app if no more other accounts
+      else {
+        dispatch(updateCurrentAccount({}));
+        dispatch(login(false));
+        removePinCode();
+        setAuthStatus({
+          isLoggedIn: false,
+        });
+        setExistUser(false);
+        dispatch(isPinCodeOpen(false));
+        dispatch(setEncryptedUnlockPin(encryptKey(Config.DEFAULT_KEU, Config.PIN_KEY)));
+      }
+
+      removeSCAccount(username);
+      dispatch(setFeedPosts([]));
+      dispatch(setInitPosts([]));
+      dispatch(removeOtherAccount(username));
+      dispatch(logoutDone());
+
+    } 
+    
+    catch(err) {  
+      dispatch(logoutDone());
+      Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err.message);
+      this._repairUserAccountData(username);
+    }
+    
   };
 
   _enableNotification = async (username, isEnable, settings = null, accessToken = null) => {
