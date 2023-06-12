@@ -67,8 +67,6 @@ const PostDisplayView = ({
   const [tags, setTags] = useState([]);
   const [postBodyHeight, setPostBodyHeight] = useState(0);
 
-  const [animate, setAnimate] = useState(true);  //TODO: remove test code
-
   // Component Life Cycles
   useEffect(() => {
     if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
@@ -77,10 +75,6 @@ const PostDisplayView = ({
         pointsTy: PointActivityIds.VIEW_POST,
       });
     }
-
-    setTimeout(()=>{
-      setAnimate(false);
-    }, 500)
   }, []);
 
   useEffect(() => {
@@ -260,7 +254,7 @@ const PostDisplayView = ({
       {parentPost && <ParentPost post={parentPost} />}
 
       <View style={styles.header}>
-        {!post || animate ? ( //TODO: remove test code
+        {!post ? (
           <PostPlaceHolder />
         ) : (
           <View
