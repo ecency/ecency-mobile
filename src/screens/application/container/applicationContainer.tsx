@@ -361,9 +361,13 @@ class ApplicationContainer extends Component {
   };
 
   _refreshUnreadActivityCount = async () => {
-    const { dispatch } = this.props;
-    const unreadActivityCount = await getUnreadNotificationCount();
-    dispatch(updateUnreadActivityCount(unreadActivityCount));
+    const { dispatch, isLoggedIn } = this.props;
+    if(isLoggedIn){
+      const unreadActivityCount = await getUnreadNotificationCount();
+      dispatch(updateUnreadActivityCount(unreadActivityCount));
+    }
+
+   
   };
 
   _getUserDataFromRealm = async () => {
