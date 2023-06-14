@@ -17,7 +17,7 @@ import AUTH_TYPE from '../constants/authType';
 
 // Services
 import { getSCAccount, getSettings, getUserDataWithUsername, removeUserData } from '../realm/realm';
-import { updateCurrentAccount } from '../redux/actions/accountAction';
+import { updateCurrentAccount, updateOtherAccount } from '../redux/actions/accountAction';
 
 import {
   changeNotificationSettings,
@@ -224,6 +224,18 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
     );
   }
 };
+
+
+export const repairOtherAccountsData = (accounts, realmAuthData, dispatch, ) => {
+  accounts.forEach((account) => {
+    const accRealmData = realmAuthData.find(data => data.username === account.username)
+    if(!account.local?.accessToken && accRealmData){
+      account.local = accRealmData;
+      dispatch(updateOtherAccount({...account}))
+    }
+  })
+}
+
 
 const reduxMigrations = {
   0: (state) => {
