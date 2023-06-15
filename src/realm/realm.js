@@ -55,13 +55,12 @@ export const getUserDataWithUsername = async (username) => {
 
 export const setUserData = async (userData) => {
   try {
-    const account = await getUserDataWithUsername(userData.username);
-    const user = (await getItemFromStorage(USER_SCHEMA)) || [];
+    const users = (await getItemFromStorage(USER_SCHEMA)) || [];
 
-    if (account.length === 0) {
-      user.push(userData);
-      await setItemToStorage(USER_SCHEMA, user);
-    }
+    //replace user data if exist already else add new
+    const filteredUsers = users.filter((account) => { account.username !== userData.username });
+    await setItemToStorage(USER_SCHEMA, [...filteredUsers, userData]);
+
     return userData;
   } catch (error) {
     return error;

@@ -364,7 +364,7 @@ export const switchAccount = (username) =>
       });
   });
 
-const getPrivateKeys = (username, password) => {
+export const getPrivateKeys = (username, password) => {
   try {
     return {
       activeKey: dsteem.PrivateKey.from(password),
@@ -411,12 +411,54 @@ export const getUpdatedUserData = (userData, data) => {
       get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
         ? encryptKey(get(privateKeys, 'memoKey', '').toString(), get(data, 'pinCode'))
         : '',
+    ownerKey:
+      get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
+      get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
+        ? encryptKey(get(privateKeys, 'ownerKey', '').toString(), get(data, 'pinCode'))
+        : '',
   };
+};
+
+export const getUpdatedUserKeys = async (currentAccountData, data) => {
+  let loginFlag = false;
+  // Get user account data from HIVE Blockchain
+  // const account = await getUser(username);
+  // Public keys of user
+  const publicKeys = {
+    activeKey: get(currentAccountData, 'active.key_auths', []).map((x) => x[0])[0],
+    memoKey: get(currentAccountData, 'memo_key', ''),
+    ownerKey: get(currentAccountData, 'owner.key_auths', []).map((x) => x[0])[0],
+    postingKey: get(currentAccountData, 'posting.key_auths', []).map((x) => x[0])[0],
+  };
+
+  // // Set private keys of user
+  const privateKeys = getPrivateKeys(data.username, data.password);
+
+  // Check all keys
+  Object.keys(publicKeys).map((pubKey) => {
+    if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
+      loginFlag = true;
+    }
+  });
+
+  if (loginFlag) {
+    currentAccountData.local = {
+      ...currentAccountData.local,
+      masterKey: encryptKey(data.password, get(data, 'pinCode')),
+      postingKey: encryptKey(get(privateKeys, 'postingKey', '').toString(), get(data, 'pinCode')),
+      activeKey: encryptKey(get(privateKeys, 'activeKey', '').toString(), get(data, 'pinCode')),
+      memoKey: encryptKey(get(privateKeys, 'memoKey', '').toString(), get(data, 'pinCode')),
+      ownerKey: encryptKey(get(privateKeys, 'ownerKey', '').toString(), get(data, 'pinCode')),
+    };
+    return currentAccountData;
+  }
+  return Promise.reject(new Error('auth.invalid_credentials'));
 };
 
 const isLoggedInUser = async (username) => {
   const result = await getUserDataWithUsername(username);
-  if (result.length > 0) {
+  const scAccount = await getSCAccount(username);
+  if (result.length > 0 && !!scAccount) {
     return true;
   }
   return false;

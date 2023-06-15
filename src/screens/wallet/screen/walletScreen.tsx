@@ -18,7 +18,7 @@ import styles from './walletScreenStyles';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { AssetCard, ManageAssetsBtn } from '../children';
-import { fetchMarketChart, INTERVAL_HOURLY } from '../../../providers/coingecko/coingecko';
+import { ChartInterval, fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import ROUTES from '../../../constants/routeNames';
 import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetailsScreen';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
@@ -133,19 +133,21 @@ const WalletScreen = ({ navigation }) => {
 
       if (!token.notCrypto && curTime > expiresAt) {
 
-
         let priceData: number[] = [];
+
         if (token.isEngine) {
           const marketData = await fetchEngineMarketData(token.id);
           priceData = marketData.map((data) => data.close);
+
         } else if(token.isSpk){
           //TODO: add request to fetch chart data if available
+
         } else {
           const marketChart = await fetchMarketChart(
             token.id,
             currency.currency,
             CHART_DAYS_RANGE,
-            INTERVAL_HOURLY,
+            ChartInterval.HOURLY,
           );
           priceData = marketChart.prices.map((item) => item.yValue);
         }
