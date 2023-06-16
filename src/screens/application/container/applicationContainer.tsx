@@ -82,7 +82,7 @@ import parseVersionNumber from '../../../utils/parseVersionNumber';
 import { setMomentLocale } from '../../../utils/time';
 import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
-import MigrationHelpers, { repairUserAccountData } from '../../../utils/migrationHelpers';
+import MigrationHelpers, { repairOtherAccountsData, repairUserAccountData } from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
 import authType from '../../../constants/authType';
@@ -413,6 +413,11 @@ class ApplicationContainer extends Component {
 
       const realmObject = realmData.filter((data) => data.username === username);
 
+
+      //reapir otherAccouts data is needed
+      //this repair must be done because code above makes sure every entry is realmData is a valid one
+      repairOtherAccountsData(otherAccounts, realmData, dispatch)
+
       if (!realmObject[0]) {
         // means current logged in user keys data not present, re-verify required
         this._repairUserAccountData(username);
@@ -573,8 +578,11 @@ class ApplicationContainer extends Component {
   };
 
   _repairUserAccountData = async (username) => {
-    const { dispatch, intl, otherAccounts, pinCode } = this.props;
-    repairUserAccountData(username, dispatch, intl, otherAccounts, pinCode);
+    const { dispatch, intl, otherAccounts, currentAccount, pinCode } = this.props;
+
+    //use current account variant if it exist of target account;
+    const _accounts = currentAccount.username === username ? [currentAccount] : otherAccounts;
+    repairUserAccountData(username, dispatch, intl, _accounts, pinCode);
   };
 
   _logout = async (username) => {

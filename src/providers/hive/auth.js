@@ -1,5 +1,4 @@
 import * as dsteem from '@esteemapp/dhive';
-import sha256 from 'crypto-js/sha256';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
@@ -15,7 +14,6 @@ import {
   setSCAccount,
   getSCAccount,
   setPinCode,
-  getPinCode,
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import hsApi from './hivesignerAPI';
@@ -198,34 +196,6 @@ export const loginWithSC2 = async (code) => {
   });
 };
 
-export const setUserDataWithPinCode = async (data) => {
-  try {
-    const result = await getUserDataWithUsername(data.username);
-    const userData = result[0];
-
-    if (!data.password) {
-      const publicKey =
-        get(userData, 'masterKey') ||
-        get(userData, 'activeKey') ||
-        get(userData, 'memoKey') ||
-        get(userData, 'postingKey');
-
-      if (publicKey) {
-        data.password = decryptKey(publicKey, get(data, 'pinCode'));
-      }
-    }
-
-    const updatedUserData = getUpdatedUserData(userData, data);
-
-    await setPinCode(get(data, 'pinCode'));
-    await updateUserData(updatedUserData);
-
-    return updatedUserData;
-  } catch (error) {
-    console.warn('Failed to set user data with pin: ', data, error);
-    return Promise.reject(new Error('auth.unknow_error'));
-  }
-};
 
 export const updatePinCode = (data) =>
   new Promise((resolve, reject) => {
