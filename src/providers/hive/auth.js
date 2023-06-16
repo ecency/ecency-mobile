@@ -101,7 +101,7 @@ export const login = async (username, password) => {
       password,
       accessToken: get(scTokens, 'access_token', ''),
     };
-    const updatedUserData = await getUpdatedUserData(userData, resData);
+    const updatedUserData = getUpdatedUserData(userData, resData);
 
     account.local = updatedUserData;
     account.local.avatar = avatar;
@@ -166,7 +166,7 @@ export const loginWithSC2 = async (code) => {
       pinCode: Config.DEFAULT_PIN,
       accessToken: get(scTokens, 'access_token', ''),
     };
-    const updatedUserData = await getUpdatedUserData(userData, resData);
+    const updatedUserData = getUpdatedUserData(userData, resData);
 
     account.local = updatedUserData;
     account.local.avatar = avatar;
