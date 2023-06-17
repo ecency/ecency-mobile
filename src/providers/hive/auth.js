@@ -130,7 +130,10 @@ export const loginWithSC2 = async (code) => {
     const scTokens = await getSCAccessToken(code);
     hsApi.setAccessToken(get(scTokens, 'access_token', ''));
     const scAccount = await hsApi.me();
-    const account = await getUser(scAccount.account.name);
+    
+    //NOTE: even though sAccount.account has account data but there are certain properties missing from hsApi variant, for instance account.username
+    //that is why we still have to fetch account data using dhive, thought post processing done in dhive variant can be done in utils in future
+    const account = await getUser(scAccount.account.name); 
     let avatar = '';
     
 
