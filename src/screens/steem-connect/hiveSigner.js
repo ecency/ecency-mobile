@@ -27,7 +27,7 @@ class HiveSigner extends PureComponent {
 
   _onNavigationStateChange = (event) => {
     let code;
-    const { dispatch, handleOnModalClose, isPinCodeOpen, navigation } = this.props;
+    const { intl, dispatch, handleOnModalClose, isPinCodeOpen, navigation } = this.props;
     const { isLoading } = this.state;
     if (event.url.indexOf('?code=') > -1) {
       this.webview.stopLoading();
