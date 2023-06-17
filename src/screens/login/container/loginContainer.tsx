@@ -129,7 +129,7 @@ class LoginContainer extends PureComponent {
 
           if (isPinCodeOpen) {
             dispatch(
-              openPinCodeModal({
+              navigation.navigate({
                 accessToken: result.accessToken,
                 navigateTo: ROUTES.DRAWER.MAIN,
               }),
