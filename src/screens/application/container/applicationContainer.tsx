@@ -381,21 +381,18 @@ class ApplicationContainer extends Component {
     } = this.props;
     let realmData = [];
 
-    if (currentAccount?.username) {
+    if (currentAccount?.name) {
       dispatch(login(true));
 
-      const { username } = currentAccount;
+      const username = currentAccount.name;
 
-      let reduxAccountNames = otherAccounts.map((account) => account.username);
 
       const userData = await getUserData();
 
       if (userData && userData.length > 0) {
         realmData = userData;
         userData.forEach((accountData, index) => {
-          reduxAccountNames = reduxAccountNames.filter(
-            (username) => username !== accountData.username,
-          );
+   
           if (
             !accountData ||
             (!accountData.accessToken &&
