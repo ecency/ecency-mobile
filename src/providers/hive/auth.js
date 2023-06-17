@@ -22,6 +22,7 @@ import { getSCAccessToken, getUnreadNotificationCount } from '../ecency/ecency';
 // Constants
 import AUTH_TYPE from '../../constants/authType';
 import { makeHsCode } from '../../utils/hive-signer-helper';
+import bugsnapInstance from '../../config/bugsnag';
 
 export const login = async (username, password) => {
   let loginFlag = false;
@@ -198,6 +199,7 @@ export const loginWithSC2 = async (code) => {
     };
 
   } catch (err) {
+    bugsnapInstance.notify(err)
     throw err;
   }
 
