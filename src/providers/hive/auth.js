@@ -22,6 +22,7 @@ import { getSCAccessToken, getUnreadNotificationCount } from '../ecency/ecency';
 // Constants
 import AUTH_TYPE from '../../constants/authType';
 import { makeHsCode } from '../../utils/hive-signer-helper';
+import bugsnapInstance from '../../config/bugsnag';
 
 export const login = async (username, password) => {
   let loginFlag = false;
@@ -125,13 +126,18 @@ export const login = async (username, password) => {
 };
 
 export const loginWithSC2 = async (code) => {
-  const scTokens = await getSCAccessToken(code);
-  await hsApi.setAccessToken(get(scTokens, 'access_token', ''));
-  const scAccount = await hsApi.me();
-  const account = await getUser(scAccount.account.name);
-  let avatar = '';
 
-  return new Promise(async (resolve, reject) => {
+  try {
+    const scTokens = await getSCAccessToken(code);
+    hsApi.setAccessToken(get(scTokens, 'access_token', ''));
+    const scAccount = await hsApi.me();
+    
+    //NOTE: even though sAccount.account has account data but there are certain properties missing from hsApi variant, for instance account.username
+    //that is why we still have to fetch account data using dhive, thought post processing done in dhive variant can be done in utils in future
+    const account = await getUser(scAccount.account.name); 
+    let avatar = '';
+    
+
     try {
       const accessToken = scTokens ? scTokens.access_token : '';
       account.unread_activity_count = await getUnreadNotificationCount(accessToken);
@@ -140,6 +146,7 @@ export const loginWithSC2 = async (code) => {
     } catch (err) {
       console.warn('Optional user data fetch failed, account can still function without them', err);
     }
+
 
     let jsonMetadata;
     try {
@@ -150,6 +157,7 @@ export const loginWithSC2 = async (code) => {
     } catch (error) {
       jsonMetadata = '';
     }
+
     const userData = {
       username: account.name,
       avatar,
@@ -172,28 +180,30 @@ export const loginWithSC2 = async (code) => {
     account.local.avatar = avatar;
 
     if (isUserLoggedIn) {
-      reject(new Error('auth.already_logged'));
-      return;
+      throw new Error('auth.already_logged');
     }
 
-    setUserData(account.local)
-      .then(async () => {
-        updateCurrentUsername(account.name);
-        const authData = {
-          isLoggedIn: true,
-          currentUsername: account.name,
-        };
-        await setAuthStatus(authData);
-        await setSCAccount(scTokens);
-        resolve({
-          ...account,
-          accessToken: get(scTokens, 'access_token', ''),
-        });
-      })
-      .catch(() => {
-        reject(new Error('auth.unknow_error'));
-      });
-  });
+    await setUserData(account.local)
+
+    await updateCurrentUsername(account.name);
+    const authData = {
+      isLoggedIn: true,
+      currentUsername: account.name,
+    };
+    await setAuthStatus(authData);
+    await setSCAccount(scTokens);
+
+    return {
+      ...account,
+      accessToken: get(scTokens, 'access_token', ''),
+    };
+
+  } catch (err) {
+    bugsnapInstance.notify(err)
+    throw err;
+  }
+
+
 };
 
 
@@ -368,22 +378,22 @@ export const getUpdatedUserData = (userData, data) => {
         : '',
     postingKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-      get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
+        get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
         ? encryptKey(get(privateKeys, 'postingKey', '').toString(), get(data, 'pinCode'))
         : '',
     activeKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-      get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
+        get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
         ? encryptKey(get(privateKeys, 'activeKey', '').toString(), get(data, 'pinCode'))
         : '',
     memoKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-      get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
+        get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
         ? encryptKey(get(privateKeys, 'memoKey', '').toString(), get(data, 'pinCode'))
         : '',
     ownerKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-      get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
+        get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
         ? encryptKey(get(privateKeys, 'ownerKey', '').toString(), get(data, 'pinCode'))
         : '',
   };

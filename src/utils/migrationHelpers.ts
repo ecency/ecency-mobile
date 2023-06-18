@@ -228,10 +228,11 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
 
 export const repairOtherAccountsData = (accounts, realmAuthData, dispatch, ) => {
   accounts.forEach((account) => {
-    const accRealmData = realmAuthData.find(data => data.username === account.username)
-    if(!account.local?.accessToken && accRealmData){
+    const accRealmData = realmAuthData.find(data => data.username === account.name)
+    if((!account.local?.accessToken || !account.username) && accRealmData){
       account.local = accRealmData;
-      dispatch(updateOtherAccount({...account}))
+      account.username = accRealmData.username;
+      dispatch(updateOtherAccount({...account}));
     }
   })
 }
