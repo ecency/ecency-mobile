@@ -37,6 +37,7 @@ export const login = async (username, password) => {
   }
 
   if (isUserLoggedIn) {
+    //TODO: write routine to overwrite account data if already logged in
     return Promise.reject(new Error('auth.already_logged'));
   }
 
@@ -180,6 +181,7 @@ export const loginWithSC2 = async (code) => {
     account.local.avatar = avatar;
 
     if (isUserLoggedIn) {
+      //TODO: write routine to overwrite account data if already logged in
       throw new Error('auth.already_logged');
     }
 

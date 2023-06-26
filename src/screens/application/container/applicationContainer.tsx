@@ -418,6 +418,7 @@ class ApplicationContainer extends Component {
       if (!realmObject[0]) {
         // means current logged in user keys data not present, re-verify required
         this._repairUserAccountData(username);
+        //TODO: continue login routine after data repair is successful, return null if it fails
         return null;
       }
 
@@ -688,6 +689,7 @@ class ApplicationContainer extends Component {
 
       if (!realmData[0]) {
         this._repairUserAccountData(targetAccount.username);
+        //TODO: continue account data accumulation after repair
         return;
       }
 
