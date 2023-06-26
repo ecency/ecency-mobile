@@ -169,6 +169,7 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
 };
 
 export const repairUserAccountData = async (username, dispatch, intl, accounts, pinHash) => {
+  let authData:any[] = [];
   try {
     // clean realm data just in case, to avoid already logged error
     await removeUserData(username);
@@ -198,6 +199,10 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
     }
 
     dispatch(updateCurrentAccount({ ..._userAccount }));
+
+    //compile authData for return;
+    authData = [_userAccount.local];
+
   } catch (err) {
     // keys data corrupted, ask user to verify login
     await delay(500);
@@ -224,6 +229,8 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
       }),
     );
   }
+
+  return authData
 };
 
 export const repairOtherAccountsData = (accounts, realmAuthData, dispatch) => {

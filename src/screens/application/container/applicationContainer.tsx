@@ -106,6 +106,7 @@ class ApplicationContainer extends Component {
 
     this._setNetworkListener();
 
+
     linkingEventSub = Linking.addEventListener('url', this._handleOpenURL);
     // TOOD: read initial URL
     Linking.getInitialURL().then((url) => {
@@ -400,17 +401,20 @@ class ApplicationContainer extends Component {
         });
       }
 
-      const realmObject = realmData.filter((data) => data.username === username);
+      let realmObject:any[] = realmData.filter((data) => data.username === username);
 
       // reapir otherAccouts data is needed
       // this repair must be done because code above makes sure every entry is realmData is a valid one
       repairOtherAccountsData(otherAccounts, realmData, dispatch);
 
-      if (!realmObject[0]) {
+      if (realmObject[0]) {
         // means current logged in user keys data not present, re-verify required
-        this._repairUserAccountData(username);
-        // TODO: continue login routine after data repair is successful, return null if it fails
-        return null;
+        realmObject = await this._repairUserAccountData(username);
+       
+        //disrupt routine if repair helper fails
+        if(!realmObject[0]){
+          return null;
+        }
       }
 
       // If in dev mode pin code does not show
@@ -571,7 +575,7 @@ class ApplicationContainer extends Component {
 
     // use current account variant if it exist of target account;
     const _accounts = currentAccount.username === username ? [currentAccount] : otherAccounts;
-    repairUserAccountData(username, dispatch, intl, _accounts, pinCode);
+    return repairUserAccountData(username, dispatch, intl, _accounts, pinCode);
   };
 
   _logout = async (username) => {
@@ -668,16 +672,19 @@ class ApplicationContainer extends Component {
 
     try {
       const accountData = await switchAccount(targetAccount.username);
-      const realmData = await getUserDataWithUsername(targetAccount.username);
+      let realmData = await getUserDataWithUsername(targetAccount.username);
 
       let _currentAccount = accountData;
       _currentAccount.username = accountData.name;
       [_currentAccount.local] = realmData;
 
       if (!realmData[0]) {
-        this._repairUserAccountData(targetAccount.username);
-        // TODO: continue account data accumulation after repair
-        return;
+        realmData = await this._repairUserAccountData(targetAccount.username);
+
+        //disrupt routine if repair helper fails
+        if(!realmData[0]) {
+          return;
+        }
       }
 
       // migreate account to use access token for master key auth type
