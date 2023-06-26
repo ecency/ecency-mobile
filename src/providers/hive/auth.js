@@ -30,15 +30,15 @@ export const login = async (username, password) => {
   let authType = '';
   // Get user account data from HIVE Blockchain
   const account = await getUser(username);
-  const isUserLoggedIn = await isLoggedInUser(username);
 
   if (!account) {
     return Promise.reject(new Error('auth.invalid_username'));
   }
 
-  if (isUserLoggedIn) {
-    return Promise.reject(new Error('auth.already_logged'));
-  }
+  // if (isUserLoggedIn) {
+  //   //TODO: write routine to overwrite account data if already logged in
+  //   return Promise.reject(new Error('auth.already_logged'));
+  // }
 
   // Public keys of user
   const publicKeys = {
@@ -126,17 +126,15 @@ export const login = async (username, password) => {
 };
 
 export const loginWithSC2 = async (code) => {
-
   try {
     const scTokens = await getSCAccessToken(code);
     hsApi.setAccessToken(get(scTokens, 'access_token', ''));
     const scAccount = await hsApi.me();
-    
-    //NOTE: even though sAccount.account has account data but there are certain properties missing from hsApi variant, for instance account.username
-    //that is why we still have to fetch account data using dhive, thought post processing done in dhive variant can be done in utils in future
-    const account = await getUser(scAccount.account.name); 
+
+    // NOTE: even though sAccount.account has account data but there are certain properties missing from hsApi variant, for instance account.username
+    // that is why we still have to fetch account data using dhive, thought post processing done in dhive variant can be done in utils in future
+    const account = await getUser(scAccount.account.name);
     let avatar = '';
-    
 
     try {
       const accessToken = scTokens ? scTokens.access_token : '';
@@ -146,7 +144,6 @@ export const loginWithSC2 = async (code) => {
     } catch (err) {
       console.warn('Optional user data fetch failed, account can still function without them', err);
     }
-
 
     let jsonMetadata;
     try {
@@ -168,7 +165,6 @@ export const loginWithSC2 = async (code) => {
       memoKey: '',
       accessToken: '',
     };
-    const isUserLoggedIn = await isLoggedInUser(account.name);
 
     const resData = {
       pinCode: Config.DEFAULT_PIN,
@@ -179,11 +175,7 @@ export const loginWithSC2 = async (code) => {
     account.local = updatedUserData;
     account.local.avatar = avatar;
 
-    if (isUserLoggedIn) {
-      throw new Error('auth.already_logged');
-    }
-
-    await setUserData(account.local)
+    await setUserData(account.local);
 
     await updateCurrentUsername(account.name);
     const authData = {
@@ -197,15 +189,11 @@ export const loginWithSC2 = async (code) => {
       ...account,
       accessToken: get(scTokens, 'access_token', ''),
     };
-
   } catch (err) {
-    bugsnapInstance.notify(err)
+    bugsnapInstance.notify(err);
     throw err;
   }
-
-
 };
-
 
 export const updatePinCode = (data) =>
   new Promise((resolve, reject) => {
@@ -268,39 +256,6 @@ export const updatePinCode = (data) =>
       reject(error.message);
     }
   });
-
-// export const verifyPinCode = async (data) => {
-//   try {
-//     const pinHash = await getPinCode();
-
-//     const result = await getUserDataWithUsername(data.username);
-//     const userData = result[0];
-
-//     // This is migration for new pin structure, it will remove v2.2
-//     if (!pinHash) {
-//       try {
-//         //if decrypt fails, means key is invalid
-//         if (userData.accessToken === AUTH_TYPE.STEEM_CONNECT) {
-//           decryptKey(userData.accessToken, data.pinCode);
-//         } else {
-//           decryptKey(userData.masterKey, data.pinCode);
-//         }
-//         await setPinCode(data.pinCode);
-//       } catch (error) {
-//         return Promise.reject(new Error('Invalid pin code, please check and try again'));
-//       }
-//     }
-
-//     if (sha256(get(data, 'pinCode')).toString() !== pinHash) {
-//       return Promise.reject(new Error('auth.invalid_pin'));
-//     }
-
-//     return true;
-//   } catch (err) {
-//     console.warn('Failed to verify pin in auth: ', data, err);
-//     return Promise.reject(err);
-//   }
-// };
 
 export const refreshSCToken = async (userData, pinCode) => {
   const scAccount = await getSCAccount(userData.username);
@@ -378,22 +333,22 @@ export const getUpdatedUserData = (userData, data) => {
         : '',
     postingKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
         ? encryptKey(get(privateKeys, 'postingKey', '').toString(), get(data, 'pinCode'))
         : '',
     activeKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
         ? encryptKey(get(privateKeys, 'activeKey', '').toString(), get(data, 'pinCode'))
         : '',
     memoKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
         ? encryptKey(get(privateKeys, 'memoKey', '').toString(), get(data, 'pinCode'))
         : '',
     ownerKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
         ? encryptKey(get(privateKeys, 'ownerKey', '').toString(), get(data, 'pinCode'))
         : '',
   };
@@ -433,15 +388,6 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
     return currentAccountData;
   }
   return Promise.reject(new Error('auth.invalid_credentials'));
-};
-
-const isLoggedInUser = async (username) => {
-  const result = await getUserDataWithUsername(username);
-  const scAccount = await getSCAccount(username);
-  if (result.length > 0 && !!scAccount) {
-    return true;
-  }
-  return false;
 };
 
 /**

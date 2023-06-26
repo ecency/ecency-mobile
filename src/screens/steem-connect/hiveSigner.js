@@ -65,18 +65,16 @@ class HiveSigner extends PureComponent {
                 });
               }
             } else {
-              throw new Error('alert.unknow_error')
+              throw new Error('alert.unknow_error');
             }
           })
           .catch((error) => {
             Alert.alert(
               intl.formatMessage({ id: 'alert.fail' }),
               intl.formatMessage({
-                id:
-                  error.message,
+                id: error.message,
               }),
             );
-
           });
       }
     }
@@ -88,10 +86,11 @@ class HiveSigner extends PureComponent {
         <StatusBar hidden translucent />
         <WebView
           source={{
-            uri: `${hsOptions.base_url}oauth2/authorize?client_id=${hsOptions.client_id
-              }&redirect_uri=${encodeURIComponent(
-                hsOptions.redirect_uri,
-              )}&response_type=code&scope=${encodeURIComponent(hsOptions.scope)}`,
+            uri: `${hsOptions.base_url}oauth2/authorize?client_id=${
+              hsOptions.client_id
+            }&redirect_uri=${encodeURIComponent(
+              hsOptions.redirect_uri,
+            )}&response_type=code&scope=${encodeURIComponent(hsOptions.scope)}`,
           }}
           onNavigationStateChange={this._onNavigationStateChange}
           ref={(ref) => {

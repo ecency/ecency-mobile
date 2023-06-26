@@ -23,7 +23,6 @@ import ROUTES from '../../../constants/routeNames';
 
 // Services
 import {
-  getAuthStatus,
   getUserData,
   removeUserData,
   getUserDataWithUsername,
@@ -33,13 +32,10 @@ import {
   setExistUser,
   getLastUpdateCheck,
   setLastUpdateCheck,
-  getSCAccount,
 } from '../../../realm/realm';
 import { getUser, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import {
-  login as loginWithKey,
-  loginWithSC2,
   migrateToMasterKeyWithAccessToken,
   refreshSCToken,
   switchAccount,
@@ -50,7 +46,6 @@ import RootNavigation from '../../../navigation/rootNavigation';
 
 // Actions
 import {
-  addOtherAccount,
   updateCurrentAccount,
   updateUnreadActivityCount,
   removeOtherAccount,
@@ -77,16 +72,16 @@ import { fetchCoinQuotes } from '../../../redux/actions/walletActions';
 
 import { decryptKey, encryptKey } from '../../../utils/crypto';
 
-import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
 import { setMomentLocale } from '../../../utils/time';
 import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
-import MigrationHelpers, { repairOtherAccountsData, repairUserAccountData } from '../../../utils/migrationHelpers';
+import MigrationHelpers, {
+  repairOtherAccountsData,
+  repairUserAccountData,
+} from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
-import authType from '../../../constants/authType';
-import { delay } from '../../../utils/editor';
 
 let firebaseOnMessageListener: any = null;
 let appStateSub: NativeEventSubscription | null = null;
@@ -362,12 +357,10 @@ class ApplicationContainer extends Component {
 
   _refreshUnreadActivityCount = async () => {
     const { dispatch, isLoggedIn } = this.props;
-    if(isLoggedIn){
+    if (isLoggedIn) {
       const unreadActivityCount = await getUnreadNotificationCount();
       dispatch(updateUnreadActivityCount(unreadActivityCount));
     }
-
-   
   };
 
   _getUserDataFromRealm = async () => {
@@ -386,13 +379,11 @@ class ApplicationContainer extends Component {
 
       const username = currentAccount.name;
 
-
       const userData = await getUserData();
 
       if (userData && userData.length > 0) {
         realmData = userData;
         userData.forEach((accountData, index) => {
-   
           if (
             !accountData ||
             (!accountData.accessToken &&
@@ -408,17 +399,20 @@ class ApplicationContainer extends Component {
         });
       }
 
-      const realmObject = realmData.filter((data) => data.username === username);
+      let realmObject: any[] = realmData.filter((data) => data.username === username);
 
-
-      //reapir otherAccouts data is needed
-      //this repair must be done because code above makes sure every entry is realmData is a valid one
-      repairOtherAccountsData(otherAccounts, realmData, dispatch)
+      // reapir otherAccouts data is needed
+      // this repair must be done because code above makes sure every entry is realmData is a valid one
+      repairOtherAccountsData(otherAccounts, realmData, dispatch);
 
       if (!realmObject[0]) {
         // means current logged in user keys data not present, re-verify required
-        this._repairUserAccountData(username);
-        return null;
+        realmObject = await this._repairUserAccountData(username);
+
+        // disrupt routine if repair helper fails
+        if (!realmObject[0]) {
+          return null;
+        }
       }
 
       // If in dev mode pin code does not show
@@ -577,18 +571,18 @@ class ApplicationContainer extends Component {
   _repairUserAccountData = async (username) => {
     const { dispatch, intl, otherAccounts, currentAccount, pinCode } = this.props;
 
-    //use current account variant if it exist of target account;
+    // use current account variant if it exist of target account;
     const _accounts = currentAccount.username === username ? [currentAccount] : otherAccounts;
-    repairUserAccountData(username, dispatch, intl, _accounts, pinCode);
+    return repairUserAccountData(username, dispatch, intl, _accounts, pinCode);
   };
 
   _logout = async (username) => {
     const { otherAccounts, dispatch, intl } = this.props;
 
     try {
-      const response = await removeUserData(username)
+      const response = await removeUserData(username);
 
-      if(response instanceof Error){
+      if (response instanceof Error) {
         throw response;
       }
 
@@ -620,15 +614,11 @@ class ApplicationContainer extends Component {
       dispatch(setInitPosts([]));
       dispatch(removeOtherAccount(username));
       dispatch(logoutDone());
-
-    } 
-    
-    catch(err) {  
+    } catch (err) {
       dispatch(logoutDone());
       Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err.message);
       this._repairUserAccountData(username);
     }
-    
   };
 
   _enableNotification = async (username, isEnable, settings = null, accessToken = null) => {
@@ -680,15 +670,19 @@ class ApplicationContainer extends Component {
 
     try {
       const accountData = await switchAccount(targetAccount.username);
-      const realmData = await getUserDataWithUsername(targetAccount.username);
+      let realmData = await getUserDataWithUsername(targetAccount.username);
 
       let _currentAccount = accountData;
       _currentAccount.username = accountData.name;
       [_currentAccount.local] = realmData;
 
       if (!realmData[0]) {
-        this._repairUserAccountData(targetAccount.username);
-        return;
+        realmData = await this._repairUserAccountData(targetAccount.username);
+
+        // disrupt routine if repair helper fails
+        if (!realmData[0]) {
+          return;
+        }
       }
 
       // migreate account to use access token for master key auth type

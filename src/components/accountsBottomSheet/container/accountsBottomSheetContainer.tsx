@@ -91,13 +91,21 @@ const AccountsBottomSheetContainer = () => {
 
       // fetch upto data account data nd update current account;
       let _currentAccount = await switchAccount(accountData.username);
-      const realmData = await getUserDataWithUsername(accountData.username);
+      let realmData = await getUserDataWithUsername(accountData.username);
 
       _currentAccount.username = _currentAccount.name;
 
       if (!realmData[0]) {
-        repairUserAccountData(_currentAccount.username, dispatch, intl, accounts, pinHash);
-        return;
+        realmData = await repairUserAccountData(
+          _currentAccount.username,
+          dispatch,
+          intl,
+          accounts,
+          pinHash,
+        );
+        if (!realmData[0]) {
+          return;
+        }
       }
 
       _currentAccount.local = realmData[0];

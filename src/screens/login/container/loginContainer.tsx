@@ -148,8 +148,9 @@ class LoginContainer extends PureComponent {
       .catch((error) => {
         this.setState({ isLoading: false });
         Alert.alert(
-          intl.formatMessage({ id: 'alert.fail' }), 
-          intl.formatMessage({ id: error.message }));
+          intl.formatMessage({ id: 'alert.fail' }),
+          intl.formatMessage({ id: error.message }),
+        );
       });
   };
 
@@ -196,8 +197,8 @@ class LoginContainer extends PureComponent {
         const errorDescription = err?.response?.data?.error_description
           ? err?.response?.data?.error_description
           : intl.formatMessage({
-            id: err.message,
-          });
+              id: err.message,
+            });
         Alert.alert(
           intl.formatMessage({
             id: 'login.login_failed',
