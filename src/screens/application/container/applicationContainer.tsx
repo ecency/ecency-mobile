@@ -407,7 +407,7 @@ class ApplicationContainer extends Component {
       // this repair must be done because code above makes sure every entry is realmData is a valid one
       repairOtherAccountsData(otherAccounts, realmData, dispatch);
 
-      if (realmObject[0]) {
+      if (!realmObject[0]) {
         // means current logged in user keys data not present, re-verify required
         realmObject = await this._repairUserAccountData(username);
        

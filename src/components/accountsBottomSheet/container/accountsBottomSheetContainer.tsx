@@ -95,7 +95,7 @@ const AccountsBottomSheetContainer = () => {
 
       _currentAccount.username = _currentAccount.name;
 
-      if (realmData[0]) {
+      if (!realmData[0]) {
         realmData = await repairUserAccountData(_currentAccount.username, dispatch, intl, accounts, pinHash);
         if(!realmData[0]){
           return;
