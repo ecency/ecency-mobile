@@ -72,27 +72,26 @@ export default function (state = initialState, action) {
         otherAccounts: state.otherAccounts.some(
           ({ username }) => username === get(action.payload, 'username'),
         )
-          //replace account data if it already exists
-          ? [...state.otherAccounts.filter(
-            (item) => item.username !== action.payload.username), action.payload]
-            
-          //add new account entry if it does not already exist
-          : [...state.otherAccounts, action.payload],
+          ? // replace account data if it already exists
+            [
+              ...state.otherAccounts.filter((item) => item.username !== action.payload.username),
+              action.payload,
+
+          : // add new account entry if it does not already exist
+            [...state.otherAccounts, action.payload],
         isFetching: false,
         hasError: false,
         errorMessage: null,
       };
 
-
     case UPDATE_OTHER_ACCOUNT:
       return {
         ...state,
         otherAccounts: [
-          ...state.otherAccounts.filter(
-            (item) => item.username !== action.payload.username),
-          action.payload
+          ...state.otherAccounts.filter((item) => item.username !== action.payload.username),
+          action.payload,
         ],
-      }
+      };
 
     case REMOVE_OTHER_ACCOUNT:
       return {

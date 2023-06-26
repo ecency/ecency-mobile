@@ -170,8 +170,6 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
 
 export const repairUserAccountData = async (username, dispatch, intl, accounts, pinHash) => {
   try {
-
-    
     // clean realm data just in case, to avoid already logged error
     await removeUserData(username);
 
@@ -228,18 +226,16 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
   }
 };
 
-
-export const repairOtherAccountsData = (accounts, realmAuthData, dispatch, ) => {
+export const repairOtherAccountsData = (accounts, realmAuthData, dispatch) => {
   accounts.forEach((account) => {
-    const accRealmData = realmAuthData.find(data => data.username === account.name)
-    if((!account.local?.accessToken || !account.username) && accRealmData){
+    const accRealmData = realmAuthData.find((data) => data.username === account.name);
+    if ((!account.local?.accessToken || !account.username) && accRealmData) {
       account.local = accRealmData;
       account.username = accRealmData.username;
-      dispatch(updateOtherAccount({...account}));
+      dispatch(updateOtherAccount({ ...account }));
     }
-  })
-}
-
+  });
+};
 
 const reduxMigrations = {
   0: (state) => {

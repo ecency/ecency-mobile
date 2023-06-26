@@ -126,17 +126,15 @@ export const login = async (username, password) => {
 };
 
 export const loginWithSC2 = async (code) => {
-
   try {
     const scTokens = await getSCAccessToken(code);
     hsApi.setAccessToken(get(scTokens, 'access_token', ''));
     const scAccount = await hsApi.me();
-    
-    //NOTE: even though sAccount.account has account data but there are certain properties missing from hsApi variant, for instance account.username
-    //that is why we still have to fetch account data using dhive, thought post processing done in dhive variant can be done in utils in future
-    const account = await getUser(scAccount.account.name); 
+
+    // NOTE: even though sAccount.account has account data but there are certain properties missing from hsApi variant, for instance account.username
+    // that is why we still have to fetch account data using dhive, thought post processing done in dhive variant can be done in utils in future
+    const account = await getUser(scAccount.account.name);
     let avatar = '';
-    
 
     try {
       const accessToken = scTokens ? scTokens.access_token : '';
@@ -146,7 +144,6 @@ export const loginWithSC2 = async (code) => {
     } catch (err) {
       console.warn('Optional user data fetch failed, account can still function without them', err);
     }
-
 
     let jsonMetadata;
     try {
@@ -169,7 +166,6 @@ export const loginWithSC2 = async (code) => {
       accessToken: '',
     };
 
-
     const resData = {
       pinCode: Config.DEFAULT_PIN,
       accessToken: get(scTokens, 'access_token', ''),
@@ -179,8 +175,7 @@ export const loginWithSC2 = async (code) => {
     account.local = updatedUserData;
     account.local.avatar = avatar;
 
-
-    await setUserData(account.local)
+    await setUserData(account.local);
 
     await updateCurrentUsername(account.name);
     const authData = {
@@ -194,15 +189,11 @@ export const loginWithSC2 = async (code) => {
       ...account,
       accessToken: get(scTokens, 'access_token', ''),
     };
-
   } catch (err) {
-    bugsnapInstance.notify(err)
+    bugsnapInstance.notify(err);
     throw err;
   }
-
-
 };
-
 
 export const updatePinCode = (data) =>
   new Promise((resolve, reject) => {
@@ -265,7 +256,6 @@ export const updatePinCode = (data) =>
       reject(error.message);
     }
   });
-
 
 export const refreshSCToken = async (userData, pinCode) => {
   const scAccount = await getSCAccount(userData.username);
@@ -343,22 +333,22 @@ export const getUpdatedUserData = (userData, data) => {
         : '',
     postingKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
         ? encryptKey(get(privateKeys, 'postingKey', '').toString(), get(data, 'pinCode'))
         : '',
     activeKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
         ? encryptKey(get(privateKeys, 'activeKey', '').toString(), get(data, 'pinCode'))
         : '',
     memoKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
         ? encryptKey(get(privateKeys, 'memoKey', '').toString(), get(data, 'pinCode'))
         : '',
     ownerKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
         ? encryptKey(get(privateKeys, 'ownerKey', '').toString(), get(data, 'pinCode'))
         : '',
   };
@@ -399,7 +389,6 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
   }
   return Promise.reject(new Error('auth.invalid_credentials'));
 };
-
 
 /**
  * This migration snippet is used to update access token for users logged in using masterKey

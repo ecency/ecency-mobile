@@ -30,8 +30,8 @@ export const addOtherAccount = (data) => ({
 
 export const updateOtherAccount = (accountObj) => ({
   type: UPDATE_OTHER_ACCOUNT,
-  payload: accountObj
-})
+  payload: accountObj,
+});
 
 export const failedAccount = (data) => ({
   type: FETCH_ACCOUNT_FAIL,

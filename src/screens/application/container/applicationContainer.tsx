@@ -82,7 +82,10 @@ import parseVersionNumber from '../../../utils/parseVersionNumber';
 import { setMomentLocale } from '../../../utils/time';
 import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
-import MigrationHelpers, { repairOtherAccountsData, repairUserAccountData } from '../../../utils/migrationHelpers';
+import MigrationHelpers, {
+  repairOtherAccountsData,
+  repairUserAccountData,
+} from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
 import authType from '../../../constants/authType';
@@ -362,12 +365,10 @@ class ApplicationContainer extends Component {
 
   _refreshUnreadActivityCount = async () => {
     const { dispatch, isLoggedIn } = this.props;
-    if(isLoggedIn){
+    if (isLoggedIn) {
       const unreadActivityCount = await getUnreadNotificationCount();
       dispatch(updateUnreadActivityCount(unreadActivityCount));
     }
-
-   
   };
 
   _getUserDataFromRealm = async () => {
@@ -386,13 +387,11 @@ class ApplicationContainer extends Component {
 
       const username = currentAccount.name;
 
-
       const userData = await getUserData();
 
       if (userData && userData.length > 0) {
         realmData = userData;
         userData.forEach((accountData, index) => {
-   
           if (
             !accountData ||
             (!accountData.accessToken &&
@@ -410,15 +409,14 @@ class ApplicationContainer extends Component {
 
       const realmObject = realmData.filter((data) => data.username === username);
 
-
-      //reapir otherAccouts data is needed
-      //this repair must be done because code above makes sure every entry is realmData is a valid one
-      repairOtherAccountsData(otherAccounts, realmData, dispatch)
+      // reapir otherAccouts data is needed
+      // this repair must be done because code above makes sure every entry is realmData is a valid one
+      repairOtherAccountsData(otherAccounts, realmData, dispatch);
 
       if (!realmObject[0]) {
         // means current logged in user keys data not present, re-verify required
         this._repairUserAccountData(username);
-        //TODO: continue login routine after data repair is successful, return null if it fails
+        // TODO: continue login routine after data repair is successful, return null if it fails
         return null;
       }
 
@@ -578,7 +576,7 @@ class ApplicationContainer extends Component {
   _repairUserAccountData = async (username) => {
     const { dispatch, intl, otherAccounts, currentAccount, pinCode } = this.props;
 
-    //use current account variant if it exist of target account;
+    // use current account variant if it exist of target account;
     const _accounts = currentAccount.username === username ? [currentAccount] : otherAccounts;
     repairUserAccountData(username, dispatch, intl, _accounts, pinCode);
   };
@@ -587,9 +585,9 @@ class ApplicationContainer extends Component {
     const { otherAccounts, dispatch, intl } = this.props;
 
     try {
-      const response = await removeUserData(username)
+      const response = await removeUserData(username);
 
-      if(response instanceof Error){
+      if (response instanceof Error) {
         throw response;
       }
 
@@ -621,15 +619,11 @@ class ApplicationContainer extends Component {
       dispatch(setInitPosts([]));
       dispatch(removeOtherAccount(username));
       dispatch(logoutDone());
-
-    } 
-    
-    catch(err) {  
+    } catch (err) {
       dispatch(logoutDone());
       Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err.message);
       this._repairUserAccountData(username);
     }
-    
   };
 
   _enableNotification = async (username, isEnable, settings = null, accessToken = null) => {
@@ -689,7 +683,7 @@ class ApplicationContainer extends Component {
 
       if (!realmData[0]) {
         this._repairUserAccountData(targetAccount.username);
-        //TODO: continue account data accumulation after repair
+        // TODO: continue account data accumulation after repair
         return;
       }
 
