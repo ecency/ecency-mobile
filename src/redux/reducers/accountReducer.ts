@@ -77,7 +77,6 @@ export default function (state = initialState, action) {
               ...state.otherAccounts.filter((item) => item.username !== action.payload.username),
               action.payload,
             ]
-
           : // add new account entry if it does not already exist
             [...state.otherAccounts, action.payload],
         isFetching: false,

@@ -83,7 +83,6 @@ import MigrationHelpers, {
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
 
-
 let firebaseOnMessageListener: any = null;
 let appStateSub: NativeEventSubscription | null = null;
 let linkingEventSub: EventSubscription | null = null;
@@ -105,7 +104,6 @@ class ApplicationContainer extends Component {
     const { dispatch } = this.props;
 
     this._setNetworkListener();
-
 
     linkingEventSub = Linking.addEventListener('url', this._handleOpenURL);
     // TOOD: read initial URL
@@ -401,7 +399,7 @@ class ApplicationContainer extends Component {
         });
       }
 
-      let realmObject:any[] = realmData.filter((data) => data.username === username);
+      let realmObject: any[] = realmData.filter((data) => data.username === username);
 
       // reapir otherAccouts data is needed
       // this repair must be done because code above makes sure every entry is realmData is a valid one
@@ -410,9 +408,9 @@ class ApplicationContainer extends Component {
       if (!realmObject[0]) {
         // means current logged in user keys data not present, re-verify required
         realmObject = await this._repairUserAccountData(username);
-       
-        //disrupt routine if repair helper fails
-        if(!realmObject[0]){
+
+        // disrupt routine if repair helper fails
+        if (!realmObject[0]) {
           return null;
         }
       }
@@ -681,8 +679,8 @@ class ApplicationContainer extends Component {
       if (!realmData[0]) {
         realmData = await this._repairUserAccountData(targetAccount.username);
 
-        //disrupt routine if repair helper fails
-        if(!realmData[0]) {
+        // disrupt routine if repair helper fails
+        if (!realmData[0]) {
           return;
         }
       }
