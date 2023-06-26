@@ -30,16 +30,15 @@ export const login = async (username, password) => {
   let authType = '';
   // Get user account data from HIVE Blockchain
   const account = await getUser(username);
-  const isUserLoggedIn = await isLoggedInUser(username);
 
   if (!account) {
     return Promise.reject(new Error('auth.invalid_username'));
   }
 
-  if (isUserLoggedIn) {
-    //TODO: write routine to overwrite account data if already logged in
-    return Promise.reject(new Error('auth.already_logged'));
-  }
+  // if (isUserLoggedIn) {
+  //   //TODO: write routine to overwrite account data if already logged in
+  //   return Promise.reject(new Error('auth.already_logged'));
+  // }
 
   // Public keys of user
   const publicKeys = {
@@ -169,7 +168,7 @@ export const loginWithSC2 = async (code) => {
       memoKey: '',
       accessToken: '',
     };
-    const isUserLoggedIn = await isLoggedInUser(account.name);
+
 
     const resData = {
       pinCode: Config.DEFAULT_PIN,
@@ -180,10 +179,6 @@ export const loginWithSC2 = async (code) => {
     account.local = updatedUserData;
     account.local.avatar = avatar;
 
-    if (isUserLoggedIn) {
-      //TODO: write routine to overwrite account data if already logged in
-      throw new Error('auth.already_logged');
-    }
 
     await setUserData(account.local)
 
@@ -271,38 +266,6 @@ export const updatePinCode = (data) =>
     }
   });
 
-// export const verifyPinCode = async (data) => {
-//   try {
-//     const pinHash = await getPinCode();
-
-//     const result = await getUserDataWithUsername(data.username);
-//     const userData = result[0];
-
-//     // This is migration for new pin structure, it will remove v2.2
-//     if (!pinHash) {
-//       try {
-//         //if decrypt fails, means key is invalid
-//         if (userData.accessToken === AUTH_TYPE.STEEM_CONNECT) {
-//           decryptKey(userData.accessToken, data.pinCode);
-//         } else {
-//           decryptKey(userData.masterKey, data.pinCode);
-//         }
-//         await setPinCode(data.pinCode);
-//       } catch (error) {
-//         return Promise.reject(new Error('Invalid pin code, please check and try again'));
-//       }
-//     }
-
-//     if (sha256(get(data, 'pinCode')).toString() !== pinHash) {
-//       return Promise.reject(new Error('auth.invalid_pin'));
-//     }
-
-//     return true;
-//   } catch (err) {
-//     console.warn('Failed to verify pin in auth: ', data, err);
-//     return Promise.reject(err);
-//   }
-// };
 
 export const refreshSCToken = async (userData, pinCode) => {
   const scAccount = await getSCAccount(userData.username);
@@ -437,14 +400,6 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
   return Promise.reject(new Error('auth.invalid_credentials'));
 };
 
-const isLoggedInUser = async (username) => {
-  const result = await getUserDataWithUsername(username);
-  const scAccount = await getSCAccount(username);
-  if (result.length > 0 && !!scAccount) {
-    return true;
-  }
-  return false;
-};
 
 /**
  * This migration snippet is used to update access token for users logged in using masterKey
