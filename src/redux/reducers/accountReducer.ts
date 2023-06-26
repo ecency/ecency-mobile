@@ -72,7 +72,11 @@ export default function (state = initialState, action) {
         otherAccounts: state.otherAccounts.some(
           ({ username }) => username === get(action.payload, 'username'),
         )
-          ? [...state.otherAccounts]
+          //replace account data if it already exists
+          ? [...state.otherAccounts.filter(
+            (item) => item.username !== action.payload.username), action.payload]
+            
+          //add new account entry if it does not already exist
           : [...state.otherAccounts, action.payload],
         isFetching: false,
         hasError: false,
