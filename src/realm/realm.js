@@ -93,9 +93,9 @@ export const removeUserData = async (username) => {
     if (account.some((e) => e.username === username)) {
       account = account.filter((item) => item.username !== username);
       await setItemToStorage(USER_SCHEMA, account);
-      return true;
     }
-    return new Error('Could not remove selected user');
+
+    return true;
   } catch (error) {
     return error;
   }
