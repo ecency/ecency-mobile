@@ -170,6 +170,11 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
 
 export const repairUserAccountData = async (username, dispatch, intl, accounts, pinHash) => {
   try {
+
+    
+    // clean realm data just in case, to avoid already logged error
+    await removeUserData(username);
+
     // extract key information from otherAccounts if data is available, use key to re-verify account;
     let _userAccount = accounts.find((account) => account.username === username);
     const _authType = _userAccount?.local?.authType;
@@ -177,8 +182,6 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
       throw new Error('could not recover account data from redux copy');
     }
 
-    // clean realm data just in case, to avoid already logged error
-    await removeUserData(username);
     if (_authType === AUTH_TYPE.STEEM_CONNECT) {
       const _scAccount = await getSCAccount(username);
       if (!_scAccount?.refreshToken) {
