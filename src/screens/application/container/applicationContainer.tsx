@@ -23,7 +23,6 @@ import ROUTES from '../../../constants/routeNames';
 
 // Services
 import {
-  getAuthStatus,
   getUserData,
   removeUserData,
   getUserDataWithUsername,
@@ -33,13 +32,10 @@ import {
   setExistUser,
   getLastUpdateCheck,
   setLastUpdateCheck,
-  getSCAccount,
 } from '../../../realm/realm';
 import { getUser, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import {
-  login as loginWithKey,
-  loginWithSC2,
   migrateToMasterKeyWithAccessToken,
   refreshSCToken,
   switchAccount,
@@ -50,7 +46,6 @@ import RootNavigation from '../../../navigation/rootNavigation';
 
 // Actions
 import {
-  addOtherAccount,
   updateCurrentAccount,
   updateUnreadActivityCount,
   removeOtherAccount,
@@ -77,7 +72,6 @@ import { fetchCoinQuotes } from '../../../redux/actions/walletActions';
 
 import { decryptKey, encryptKey } from '../../../utils/crypto';
 
-import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
 import { setMomentLocale } from '../../../utils/time';
 import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
@@ -88,8 +82,7 @@ import MigrationHelpers, {
 } from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
-import authType from '../../../constants/authType';
-import { delay } from '../../../utils/editor';
+
 
 let firebaseOnMessageListener: any = null;
 let appStateSub: NativeEventSubscription | null = null;
