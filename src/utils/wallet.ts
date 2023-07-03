@@ -69,8 +69,15 @@ const HIVE_ACTIONS = [
   'transfer_to_savings',
   'transfer_to_vesting',
   'withdraw_hive',
+  'trade_token'
 ];
-const HBD_ACTIONS = ['transfer_token', 'transfer_to_savings', 'convert', 'withdraw_hbd'];
+const HBD_ACTIONS = [
+  'transfer_token', 
+  'transfer_to_savings', 
+  'convert', 
+  'withdraw_hbd',
+  'trade_token'
+];
 const HIVE_POWER_ACTIONS = ['delegate', 'power_down'];
 
 export const groomingTransactionData = (transaction, hivePerMVests): CoinActivity | null => {

@@ -114,7 +114,10 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         balance: coinData.balance,
         redeemType: transferType === 'dropdown_promote' ? 'promote' : 'boost',
       };
-    } else {
+    } 
+    
+    
+    else {
       let { balance } = coinData;
 
       switch (transferType) {
@@ -135,6 +138,11 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         case TransferTypes.WITHDRAW_HBD:
           balance = coinData.savings ?? 0;
           break;
+
+        case TransferTypes.TRADE_TOKEN:
+          navigateTo = ROUTES.SCREENS.TRADE;
+          break;
+
       }
 
       navigateParams = {
