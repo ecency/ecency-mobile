@@ -22,6 +22,7 @@ import {
   Settings,
   SpinGame,
   Transfer,
+  TradeScreen,
   Voters,
   AccountBoost,
   TagResult,
@@ -67,6 +68,7 @@ const MainStackNavigator = () => {
         <MainStack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters} />
         <MainStack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows} />
         <MainStack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} />
+        <MainStack.Screen name={ROUTES.SCREENS.TRADE} component={TradeScreen} />
         <MainStack.Screen name={ROUTES.SCREENS.EDITOR} component={Editor} />
         <MainStack.Screen name={ROUTES.SCREENS.BACKUP_KEYS} component={BackupKeysScreen} />
         <MainStack.Screen
