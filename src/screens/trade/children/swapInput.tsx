@@ -19,6 +19,7 @@ export const SwapInput = ({ label, onChangeText, value, fiatValue, symbol } : Sw
         <TextInput
           onChangeText={onChangeText}
           value={value}
+          keyboardType='numeric'
           style={{
             borderWidth: 1,
             borderColor: '#ccc',
