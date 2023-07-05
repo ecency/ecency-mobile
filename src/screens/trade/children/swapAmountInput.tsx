@@ -3,20 +3,24 @@ import { View, TextInput, Text } from "react-native";
 
 interface SwapInputProps {
     label: string;
-    onChangeText: (text: string) => void;
+    onChangeText?: (text: string) => void;
     value: string;
     fiatValue: number;
     symbol: string;
+    disabled?: boolean;
   }
 
 
 
 // Reusable component for label, text input, and bottom text
-export const SwapInput = ({ label, onChangeText, value, fiatValue, symbol } : SwapInputProps) => {
+export const SwapAmountInput = ({ label, onChangeText, value, fiatValue, symbol } : SwapInputProps) => {
+
+
     return (
       <View>
-        <Text>{label}</Text>
+        <Text>{label + ' ' + symbol}</Text>
         <TextInput
+          editable={!!onChangeText}
           onChangeText={onChangeText}
           value={value}
           keyboardType='numeric'

@@ -1,1 +1,1 @@
-export * from './swapInput';
+export * from './swapAmountInput';
