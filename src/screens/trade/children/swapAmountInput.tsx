@@ -5,7 +5,7 @@ interface SwapInputProps {
     label: string;
     onChangeText?: (text: string) => void;
     value: string;
-    fiatValue: number;
+    fiatPrice: number;
     symbol: string;
     disabled?: boolean;
   }
@@ -13,8 +13,9 @@ interface SwapInputProps {
 
 
 // Reusable component for label, text input, and bottom text
-export const SwapAmountInput = ({ label, onChangeText, value, fiatValue, symbol } : SwapInputProps) => {
+export const SwapAmountInput = ({ label, onChangeText, value, fiatPrice, symbol } : SwapInputProps) => {
 
+  const _fiatValue = ((Number(value) || 0) * fiatPrice).toFixed(3);
 
     return (
       <View>
@@ -31,7 +32,7 @@ export const SwapAmountInput = ({ label, onChangeText, value, fiatValue, symbol 
             marginBottom: 10,
           }}
         />
-        <Text>{fiatValue}</Text>
+        <Text>{_fiatValue}</Text>
       </View>
     );
   };

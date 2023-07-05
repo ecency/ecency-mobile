@@ -24,7 +24,7 @@ const TradeScreen = () => {
   const assetsData = useAppSelector(state => state.wallet.coinsData);
   const pinHash = useAppSelector(state => state.application.pin);
 
-  const [fromAsset, setFromAsset] = useState(MarketAsset.HIVE); //TODO: initialise using route params
+  const [fromAssetSymbol, setFromAssetSymbol] = useState(MarketAsset.HIVE); //TODO: initialise using route params
   const [marketPrice, setMarketPrice] = useState(0);
   const [isInvalidAmount, setIsInvalidAmount] = useState(false);
 
@@ -32,22 +32,23 @@ const TradeScreen = () => {
   const [toAmount, setToAmount] = useState('0');
   const [fromAmount, setFromAmount] = useState('0');
 
-  const _toAsset = useMemo(() => fromAsset === MarketAsset.HBD ? MarketAsset.HIVE : MarketAsset.HBD, [fromAsset])
-  const _assetData = useMemo(
-    () => assetsData[fromAsset === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE],
-    [assetsData, fromAsset]);
+  const _toAssetSymbol = useMemo(() => fromAssetSymbol === MarketAsset.HBD ? MarketAsset.HIVE : MarketAsset.HBD, [fromAssetSymbol])
 
-    const _balance = _assetData.balance
-    //TODO: use asset data current price for dollar converstion
+  //accumulate asset data properties
+  const _fromAssetData = assetsData[fromAssetSymbol === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE];
+  const _balance = _fromAssetData.balance;
+  const _fromFiatPrice = _fromAssetData.currentPrice;
+  const _toFiatPrice = assetsData[_toAssetSymbol === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE].currentPrice
+  const _marketFiatPrice = marketPrice * _toFiatPrice;
 
 
-   
+
   useEffect(() => {
     _fetchMarketRate();
-  }, [fromAsset])
+  }, [fromAssetSymbol])
 
 
- //post process updated amount value
+  //post process updated amount value
   useEffect(() => {
     const _value = Number(fromAmount);
 
@@ -67,7 +68,7 @@ const TradeScreen = () => {
       setLoading(true)
 
       //TODO: update marketPrice
-      const _marketPrice = await fetchHiveMarketRate(fromAsset)
+      const _marketPrice = await fetchHiveMarketRate(fromAssetSymbol)
       setMarketPrice(_marketPrice);
 
       setLoading(false)
@@ -80,7 +81,7 @@ const TradeScreen = () => {
   //refreshes wallet data and market rate
   const _refresh = async () => {
     setLoading(true);
-    await assetsQuery.refetch();
+    assetsQuery.refetch();
     _fetchMarketRate();
   }
 
@@ -94,7 +95,7 @@ const TradeScreen = () => {
       const _toAmount = Number(toAmount);
 
       const data: SwapOptions = {
-        fromAsset: fromAsset,
+        fromAsset: fromAssetSymbol,
         fromAmount: _fromAmount,
         toAmount: _toAmount
       }
@@ -105,7 +106,7 @@ const TradeScreen = () => {
         data
       )
 
-      await assetsQuery.refetch();
+      assetsQuery.refetch();
 
       dispatch(toastNotification("successful swap"));
       setLoading(false)
@@ -123,7 +124,7 @@ const TradeScreen = () => {
 
     dispatch(showActionModal({
       title: "confirm swap",
-      body: `swaping ${fromAmount} ${fromAsset} for ${_toAsset} ${toAmount}`,
+      body: `swaping ${fromAmount} ${fromAssetSymbol} for ${_toAssetSymbol} ${toAmount}`,
       buttons: [
         {
           text: 'Cancel',
@@ -149,7 +150,7 @@ const TradeScreen = () => {
 
 
   const handleAssetChange = () => {
-    setFromAsset(_toAsset)
+    setFromAssetSymbol(_toAssetSymbol)
     setFromAmount(toAmount);
   }
 
@@ -161,22 +162,22 @@ const TradeScreen = () => {
         label={intl.formatMessage({ id: 'transfer.from' })}
         onChangeText={handleAmountChange}
         value={fromAmount}
-        symbol={fromAsset}
+        symbol={fromAssetSymbol}
+        fiatPrice={_fromFiatPrice}
       />
       {isInvalidAmount && <Text style={{ color: 'red' }} >Please enter valid amount</Text>}
-      <Text>{`Balance: ${_balance} ${fromAsset}`}</Text>
+      <Text>{`Balance: ${_balance} ${fromAssetSymbol}`}</Text>
       <SwapAmountInput
         label={intl.formatMessage({ id: 'transfer.to' })}
         value={toAmount}
-        symbol={_toAsset}
+        symbol={_toAssetSymbol}
+        fiatPrice={_toFiatPrice}
       />
 
-      <Text>{`1 ${fromAsset} = ${marketPrice.toFixed(3)} ${_toAsset}`}</Text>
+      <Text>{`1 ${fromAssetSymbol} = ${marketPrice.toFixed(3)} (${_marketFiatPrice.toFixed(3)})`}</Text>
 
       <Button title="Continue" onPress={handleContinue} disabled={loading || isInvalidAmount || !Number(fromAmount)} />
       <Button title="Change Asset" onPress={handleAssetChange} disabled={loading} />
-
-
       <Button title="refresh" onPress={_refresh} disabled={loading} />
     </View>
   );
