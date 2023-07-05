@@ -13,11 +13,20 @@ export enum OrderIdPrefix {
 export enum MarketAsset {
     HIVE = "HIVE",
     HBD = "HBD"
-  }
+}
 
 
 export interface SwapOptions {
     fromAsset: MarketAsset;
     fromAmount: number;
     toAmount: number;
-  }
+}
+
+export interface MarketStatistics {
+    hbd_volume: string;
+    highest_bid: string;
+    hive_volume: string;
+    latest: string;
+    lowest_ask: string;
+    percent_change: string;
+}

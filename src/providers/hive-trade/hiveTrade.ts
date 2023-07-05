@@ -1,6 +1,6 @@
 import { PrivateKey } from '@esteemapp/dhive';
-import { getAnyPrivateKey, getDigitPinCode, sendHiveOperations } from '../hive/dhive';
-import { MarketAsset, OrderIdPrefix, SwapOptions, TransactionType } from './hiveTrade.types';
+import { getAnyPrivateKey, getDigitPinCode, getMarketStatistics, sendHiveOperations } from '../hive/dhive';
+import { MarketAsset, MarketStatistics, OrderIdPrefix, SwapOptions, TransactionType } from './hiveTrade.types';
 import { formatNumber } from '../../utils/number';
 import bugsnapInstance from '../../config/bugsnag';
 import { Operation } from '@hiveio/dhive';
@@ -111,6 +111,34 @@ export const swapToken = async (
     }
     catch (err) {
         console.warn("Failed to swap token", err)
+        throw err;
+    }
+}
+
+
+
+export const fetchHiveMarketRate = async (asset: MarketAsset): Promise<number> => {
+
+    try {
+        const market: MarketStatistics = await getMarketStatistics();
+        const _lowestAsk = Number(market?.lowest_ask);
+
+        if (!_lowestAsk) {
+            throw new Error("Invalid market lowest ask")
+        }
+
+        switch (asset) {
+            case MarketAsset.HIVE:
+                return _lowestAsk
+            case MarketAsset.HBD:
+                return 1 / _lowestAsk;
+            default:
+                return 0;
+        }
+
+    } catch (err) {
+        console.warn("failed to get hive market rate");
+        bugsnapInstance.notify(err);
         throw err;
     }
 }
