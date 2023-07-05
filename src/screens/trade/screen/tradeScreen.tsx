@@ -33,11 +33,15 @@ const TradeScreen = () => {
   const [fromAmount, setFromAmount] = useState('0');
 
   const _toAsset = useMemo(() => fromAsset === MarketAsset.HBD ? MarketAsset.HIVE : MarketAsset.HBD, [fromAsset])
-  const _balance = useMemo(
-    () => assetsData[fromAsset === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE].balance,
+  const _assetData = useMemo(
+    () => assetsData[fromAsset === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE],
     [assetsData, fromAsset]);
 
+    const _balance = _assetData.balance
+    //TODO: use asset data current price for dollar converstion
 
+
+   
   useEffect(() => {
     _fetchMarketRate();
   }, [fromAsset])
