@@ -17,7 +17,7 @@ import AUTH_TYPE from '../constants/authType';
 
 // Services
 import { getSCAccount, getSettings, getUserDataWithUsername, removeUserData } from '../realm/realm';
-import { updateCurrentAccount } from '../redux/actions/accountAction';
+import { updateCurrentAccount, updateOtherAccount } from '../redux/actions/accountAction';
 
 import {
   changeNotificationSettings,
@@ -169,7 +169,11 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
 };
 
 export const repairUserAccountData = async (username, dispatch, intl, accounts, pinHash) => {
+  let authData: any[] = [];
   try {
+    // clean realm data just in case, to avoid already logged error
+    await removeUserData(username);
+
     // extract key information from otherAccounts if data is available, use key to re-verify account;
     let _userAccount = accounts.find((account) => account.username === username);
     const _authType = _userAccount?.local?.authType;
@@ -177,8 +181,6 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
       throw new Error('could not recover account data from redux copy');
     }
 
-    // clean realm data just in case, to avoid already logged error
-    await removeUserData(username);
     if (_authType === AUTH_TYPE.STEEM_CONNECT) {
       const _scAccount = await getSCAccount(username);
       if (!_scAccount?.refreshToken) {
@@ -197,6 +199,9 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
     }
 
     dispatch(updateCurrentAccount({ ..._userAccount }));
+
+    // compile authData for return;
+    authData = [_userAccount.local];
   } catch (err) {
     // keys data corrupted, ask user to verify login
     await delay(500);
@@ -223,6 +228,19 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
       }),
     );
   }
+
+  return authData;
+};
+
+export const repairOtherAccountsData = (accounts, realmAuthData, dispatch) => {
+  accounts.forEach((account) => {
+    const accRealmData = realmAuthData.find((data) => data.username === account.name);
+    if ((!account.local?.accessToken || !account.username) && accRealmData) {
+      account.local = accRealmData;
+      account.username = accRealmData.username;
+      dispatch(updateOtherAccount({ ...account }));
+    }
+  });
 };
 
 const reduxMigrations = {

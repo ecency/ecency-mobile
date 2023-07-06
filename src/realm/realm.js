@@ -57,9 +57,11 @@ export const setUserData = async (userData) => {
   try {
     const users = (await getItemFromStorage(USER_SCHEMA)) || [];
 
-    //replace user data if exist already else add new
-    const filteredUsers = users.filter((account) => { account.username !== userData.username });
-    await setItemToStorage(USER_SCHEMA, [...filteredUsers, userData]);
+    // replace user data if exist already else add new
+    const filteredUsers = users.filter((account) => account.username !== userData.username);
+    const _newData = [...filteredUsers, userData];
+
+    await setItemToStorage(USER_SCHEMA, _newData);
 
     return userData;
   } catch (error) {
@@ -91,9 +93,9 @@ export const removeUserData = async (username) => {
     if (account.some((e) => e.username === username)) {
       account = account.filter((item) => item.username !== username);
       await setItemToStorage(USER_SCHEMA, account);
-      return true;
     }
-    return new Error('Could not remove selected user');
+
+    return true;
   } catch (error) {
     return error;
   }

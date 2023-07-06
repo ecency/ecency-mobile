@@ -3,7 +3,7 @@
     "javascript",
     "javascriptreact"
   ],
-  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.configuration.updateBuildConfiguration": "automatic",
   "files.exclude": {
     "**/.classpath": true,
     "**/.project": true,

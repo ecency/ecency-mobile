@@ -129,7 +129,7 @@ class LoginContainer extends PureComponent {
 
           if (isPinCodeOpen) {
             dispatch(
-              openPinCodeModal({
+              navigation.navigate({
                 accessToken: result.accessToken,
                 navigateTo: ROUTES.DRAWER.MAIN,
               }),
@@ -147,8 +147,10 @@ class LoginContainer extends PureComponent {
       })
       .catch((error) => {
         this.setState({ isLoading: false });
-        Alert.alert('Error', intl.formatMessage({ id: error.message }));
-        // TODO: return
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.fail' }),
+          intl.formatMessage({ id: error.message }),
+        );
       });
   };
 

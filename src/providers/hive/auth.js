@@ -1,5 +1,4 @@
 import * as dsteem from '@esteemapp/dhive';
-import sha256 from 'crypto-js/sha256';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
@@ -15,7 +14,6 @@ import {
   setSCAccount,
   getSCAccount,
   setPinCode,
-  getPinCode,
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import hsApi from './hivesignerAPI';
@@ -24,6 +22,7 @@ import { getSCAccessToken, getUnreadNotificationCount } from '../ecency/ecency';
 // Constants
 import AUTH_TYPE from '../../constants/authType';
 import { makeHsCode } from '../../utils/hive-signer-helper';
+import bugsnapInstance from '../../config/bugsnag';
 
 export const login = async (username, password) => {
   let loginFlag = false;
@@ -31,15 +30,15 @@ export const login = async (username, password) => {
   let authType = '';
   // Get user account data from HIVE Blockchain
   const account = await getUser(username);
-  const isUserLoggedIn = await isLoggedInUser(username);
 
   if (!account) {
     return Promise.reject(new Error('auth.invalid_username'));
   }
 
-  if (isUserLoggedIn) {
-    return Promise.reject(new Error('auth.already_logged'));
-  }
+  // if (isUserLoggedIn) {
+  //   //TODO: write routine to overwrite account data if already logged in
+  //   return Promise.reject(new Error('auth.already_logged'));
+  // }
 
   // Public keys of user
   const publicKeys = {
@@ -103,7 +102,7 @@ export const login = async (username, password) => {
       password,
       accessToken: get(scTokens, 'access_token', ''),
     };
-    const updatedUserData = await getUpdatedUserData(userData, resData);
+    const updatedUserData = getUpdatedUserData(userData, resData);
 
     account.local = updatedUserData;
     account.local.avatar = avatar;
@@ -127,13 +126,16 @@ export const login = async (username, password) => {
 };
 
 export const loginWithSC2 = async (code) => {
-  const scTokens = await getSCAccessToken(code);
-  await hsApi.setAccessToken(get(scTokens, 'access_token', ''));
-  const scAccount = await hsApi.me();
-  const account = await getUser(scAccount.account.name);
-  let avatar = '';
+  try {
+    const scTokens = await getSCAccessToken(code);
+    hsApi.setAccessToken(get(scTokens, 'access_token', ''));
+    const scAccount = await hsApi.me();
 
-  return new Promise(async (resolve, reject) => {
+    // NOTE: even though sAccount.account has account data but there are certain properties missing from hsApi variant, for instance account.username
+    // that is why we still have to fetch account data using dhive, thought post processing done in dhive variant can be done in utils in future
+    const account = await getUser(scAccount.account.name);
+    let avatar = '';
+
     try {
       const accessToken = scTokens ? scTokens.access_token : '';
       account.unread_activity_count = await getUnreadNotificationCount(accessToken);
@@ -152,6 +154,7 @@ export const loginWithSC2 = async (code) => {
     } catch (error) {
       jsonMetadata = '';
     }
+
     const userData = {
       username: account.name,
       avatar,
@@ -162,68 +165,33 @@ export const loginWithSC2 = async (code) => {
       memoKey: '',
       accessToken: '',
     };
-    const isUserLoggedIn = await isLoggedInUser(account.name);
 
     const resData = {
       pinCode: Config.DEFAULT_PIN,
       accessToken: get(scTokens, 'access_token', ''),
     };
-    const updatedUserData = await getUpdatedUserData(userData, resData);
+    const updatedUserData = getUpdatedUserData(userData, resData);
 
     account.local = updatedUserData;
     account.local.avatar = avatar;
 
-    if (isUserLoggedIn) {
-      reject(new Error('auth.already_logged'));
-      return;
-    }
+    await setUserData(account.local);
 
-    setUserData(account.local)
-      .then(async () => {
-        updateCurrentUsername(account.name);
-        const authData = {
-          isLoggedIn: true,
-          currentUsername: account.name,
-        };
-        await setAuthStatus(authData);
-        await setSCAccount(scTokens);
-        resolve({
-          ...account,
-          accessToken: get(scTokens, 'access_token', ''),
-        });
-      })
-      .catch(() => {
-        reject(new Error('auth.unknow_error'));
-      });
-  });
-};
+    await updateCurrentUsername(account.name);
+    const authData = {
+      isLoggedIn: true,
+      currentUsername: account.name,
+    };
+    await setAuthStatus(authData);
+    await setSCAccount(scTokens);
 
-export const setUserDataWithPinCode = async (data) => {
-  try {
-    const result = await getUserDataWithUsername(data.username);
-    const userData = result[0];
-
-    if (!data.password) {
-      const publicKey =
-        get(userData, 'masterKey') ||
-        get(userData, 'activeKey') ||
-        get(userData, 'memoKey') ||
-        get(userData, 'postingKey');
-
-      if (publicKey) {
-        data.password = decryptKey(publicKey, get(data, 'pinCode'));
-      }
-    }
-
-    const updatedUserData = getUpdatedUserData(userData, data);
-
-    await setPinCode(get(data, 'pinCode'));
-    await updateUserData(updatedUserData);
-
-    return updatedUserData;
-  } catch (error) {
-    console.warn('Failed to set user data with pin: ', data, error);
-    return Promise.reject(new Error('auth.unknow_error'));
+    return {
+      ...account,
+      accessToken: get(scTokens, 'access_token', ''),
+    };
+  } catch (err) {
+    bugsnapInstance.notify(err);
+    throw err;
   }
 };
 
@@ -288,39 +256,6 @@ export const updatePinCode = (data) =>
       reject(error.message);
     }
   });
-
-// export const verifyPinCode = async (data) => {
-//   try {
-//     const pinHash = await getPinCode();
-
-//     const result = await getUserDataWithUsername(data.username);
-//     const userData = result[0];
-
-//     // This is migration for new pin structure, it will remove v2.2
-//     if (!pinHash) {
-//       try {
-//         //if decrypt fails, means key is invalid
-//         if (userData.accessToken === AUTH_TYPE.STEEM_CONNECT) {
-//           decryptKey(userData.accessToken, data.pinCode);
-//         } else {
-//           decryptKey(userData.masterKey, data.pinCode);
-//         }
-//         await setPinCode(data.pinCode);
-//       } catch (error) {
-//         return Promise.reject(new Error('Invalid pin code, please check and try again'));
-//       }
-//     }
-
-//     if (sha256(get(data, 'pinCode')).toString() !== pinHash) {
-//       return Promise.reject(new Error('auth.invalid_pin'));
-//     }
-
-//     return true;
-//   } catch (err) {
-//     console.warn('Failed to verify pin in auth: ', data, err);
-//     return Promise.reject(err);
-//   }
-// };
 
 export const refreshSCToken = async (userData, pinCode) => {
   const scAccount = await getSCAccount(userData.username);
@@ -453,15 +388,6 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
     return currentAccountData;
   }
   return Promise.reject(new Error('auth.invalid_credentials'));
-};
-
-const isLoggedInUser = async (username) => {
-  const result = await getUserDataWithUsername(username);
-  const scAccount = await getSCAccount(username);
-  if (result.length > 0 && !!scAccount) {
-    return true;
-  }
-  return false;
 };
 
 /**

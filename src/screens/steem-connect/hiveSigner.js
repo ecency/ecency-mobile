@@ -27,7 +27,7 @@ class HiveSigner extends PureComponent {
 
   _onNavigationStateChange = (event) => {
     let code;
-    const { dispatch, handleOnModalClose, isPinCodeOpen, navigation } = this.props;
+    const { intl, dispatch, handleOnModalClose, isPinCodeOpen, navigation } = this.props;
     const { isLoading } = this.state;
     if (event.url.indexOf('?code=') > -1) {
       this.webview.stopLoading();
@@ -65,17 +65,16 @@ class HiveSigner extends PureComponent {
                 });
               }
             } else {
-              // TODO: Error alert (Toast Message)
+              throw new Error('alert.unknow_error');
             }
           })
           .catch((error) => {
             Alert.alert(
-              'Error',
-              // intl.formatMessage({ id:
-              error.message || error.toString(),
-              // }),
+              intl.formatMessage({ id: 'alert.fail' }),
+              intl.formatMessage({
+                id: error.message,
+              }),
             );
-            // TODO: return
           });
       }
     }

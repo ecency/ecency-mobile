@@ -7,6 +7,7 @@ import {
   SET_GLOBAL_PROPS,
   UPDATE_CURRENT_ACCOUNT,
   UPDATE_UNREAD_ACTIVITY_COUNT,
+  UPDATE_OTHER_ACCOUNT,
 } from '../constants/constants';
 
 export const fetchGlobalProperties = () => (dispatch) =>
@@ -25,6 +26,11 @@ export const updateCurrentAccount = (data) => ({
 export const addOtherAccount = (data) => ({
   type: ADD_OTHER_ACCOUNT,
   payload: data,
+});
+
+export const updateOtherAccount = (accountObj) => ({
+  type: UPDATE_OTHER_ACCOUNT,
+  payload: accountObj,
 });
 
 export const failedAccount = (data) => ({

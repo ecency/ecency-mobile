@@ -4,6 +4,7 @@ import {
   FETCH_ACCOUNT_FAIL,
   FETCHING_ACCOUNT,
   ADD_OTHER_ACCOUNT,
+  UPDATE_OTHER_ACCOUNT,
   UPDATE_CURRENT_ACCOUNT,
   UPDATE_UNREAD_ACTIVITY_COUNT,
   REMOVE_OTHER_ACCOUNT,
@@ -71,11 +72,25 @@ export default function (state = initialState, action) {
         otherAccounts: state.otherAccounts.some(
           ({ username }) => username === get(action.payload, 'username'),
         )
-          ? [...state.otherAccounts]
-          : [...state.otherAccounts, action.payload],
+          ? // replace account data if it already exists
+            [
+              ...state.otherAccounts.filter((item) => item.username !== action.payload.username),
+              action.payload,
+            ]
+          : // add new account entry if it does not already exist
+            [...state.otherAccounts, action.payload],
         isFetching: false,
         hasError: false,
         errorMessage: null,
+      };
+
+    case UPDATE_OTHER_ACCOUNT:
+      return {
+        ...state,
+        otherAccounts: [
+          ...state.otherAccounts.filter((item) => item.username !== action.payload.username),
+          action.payload,
+        ],
       };
 
     case REMOVE_OTHER_ACCOUNT:
