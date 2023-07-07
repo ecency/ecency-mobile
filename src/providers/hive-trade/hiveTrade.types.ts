@@ -30,3 +30,15 @@ export interface MarketStatistics {
     lowest_ask: string;
     percent_change: string;
 }
+
+
+export interface OrdersDataItem {
+    created: string;
+    hbd: number;
+    hive: number;
+    order_price: {
+      base: string;
+      quote: string;
+    };
+    real_price: string;
+  }

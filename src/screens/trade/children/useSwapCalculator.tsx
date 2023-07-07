@@ -1,13 +1,16 @@
-import { MarketAsset } from "../../market-pair";
-import { getOrderBook, OrdersDataItem } from "../../../../api/hive";
+
 import React, { useEffect, useState } from "react";
-import { error } from "../../../feedback";
+import { MarketAsset, OrdersDataItem } from "../../../providers/hive-trade/hiveTrade.types";
+import bugsnapInstance from "../../../config/bugsnag";
+import { Alert } from "react-native";
+import { getOrderBook } from "../../../providers/hive/dhive";
+
 
 export namespace HiveMarket {
   interface ProcessingResult {
     tooMuchSlippage?: boolean;
     invalidAmount?: boolean;
-    toAmount?: string;
+    toAmount?: number;
     emptyOrderBook?: boolean;
   }
 
@@ -25,7 +28,8 @@ export namespace HiveMarket {
     try {
       return await getOrderBook();
     } catch (e) {
-      error("Order book is empty.");
+      bugsnapInstance.notify(e)
+      Alert.alert("Order book is empty")
     }
     return null;
   }
@@ -33,32 +37,30 @@ export namespace HiveMarket {
   export function processHiveOrderBook(
     buyOrderBook: OrdersDataItem[],
     sellOrderBook: OrdersDataItem[],
-    amount: string,
+    fromAmount: number,
     asset: string
   ): ProcessingResult {
     if (buyOrderBook.length <= 0 || sellOrderBook.length <= 0) return { emptyOrderBook: true };
-
-    const intAmount = +amount.replace(/,/gm, "");
 
     let tooMuchSlippage,
       invalidAmount = false;
     let availableInOrderBook,
       price = 0;
     let firstPrice = Infinity;
-    let toAmount = "";
+    let toAmount = 0;;
     let resultToAmount;
 
     if (asset === MarketAsset.HIVE) {
       availableInOrderBook =
         buyOrderBook.map((item) => item.hive).reduce((acc, item) => acc + item, 0) / 1000;
-      price = calculatePrice(intAmount, buyOrderBook, "hive");
-      toAmount = intAmount * price + "";
+      price = calculatePrice(fromAmount, buyOrderBook, "hive");
+      toAmount = fromAmount * price;
       firstPrice = +buyOrderBook[0].real_price;
     } else if (asset === MarketAsset.HBD) {
       availableInOrderBook =
         sellOrderBook.map((item) => item.hbd).reduce((acc, item) => acc + item, 0) / 1000;
-      price = calculatePrice(intAmount, sellOrderBook, "hbd");
-      toAmount = intAmount / price + "";
+      price = calculatePrice(fromAmount, sellOrderBook, "hbd");
+      toAmount = fromAmount / price;
       firstPrice = +sellOrderBook[0].real_price;
     }
 
@@ -67,7 +69,7 @@ export namespace HiveMarket {
     const slippage = Math.abs(price - firstPrice);
     tooMuchSlippage = slippage > 0.01;
 
-    if (intAmount > availableInOrderBook) {
+    if (fromAmount > availableInOrderBook) {
       invalidAmount = true;
     } else if (toAmount) {
       resultToAmount = toAmount;
@@ -76,7 +78,7 @@ export namespace HiveMarket {
     return { toAmount: resultToAmount, tooMuchSlippage, invalidAmount };
   }
 
-  export async function getNewAmount(toAmount: string, fromAmount: string, asset: MarketAsset) {
+  export async function getNewAmount(toAmount: string, fromAmount: number, asset: MarketAsset) {
     const book = await HiveMarket.fetchHiveOrderBook();
     const { toAmount: newToAmount } = HiveMarket.processHiveOrderBook(
       book?.bids ?? [],
@@ -91,26 +93,19 @@ export namespace HiveMarket {
   }
 }
 
-interface Props {
-  asset: MarketAsset;
-  amount: string;
-  setToAmount: (amount: string) => void;
-  loading: boolean;
-  setLoading: (v: boolean) => void;
-  setInvalidAmount: (v: boolean) => void;
-  setTooMuchSlippage: (v: boolean) => void;
-}
 
-export const HiveMarketRateListener = ({
-  asset,
-  amount,
-  setToAmount,
-  setLoading,
-  setInvalidAmount,
-  setTooMuchSlippage
-}: Props) => {
+export const useSwapCalculator = (
+  asset:MarketAsset,
+  fromAmount:number,
+) => {
   const [buyOrderBook, setBuyOrderBook] = useState<OrdersDataItem[]>([]);
   const [sellOrderBook, setSellOrderBook] = useState<OrdersDataItem[]>([]);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [toAmount, setToAmount] = useState(0);
+  const [tooMuchSlippage, setTooMuchSlippage] = useState(false);
+  const [offerUnavailable, setOfferUnavailable] = useState(false);
+  
 
   let updateInterval: any;
 
@@ -126,26 +121,31 @@ export const HiveMarketRateListener = ({
     fetchOrderBook();
   }, [asset]);
 
+
+
   useEffect(() => {
     processOrderBook();
-  }, [amount]);
+  }, [fromAmount]);
+
+
 
   const processOrderBook = () => {
-    const { tooMuchSlippage, invalidAmount, toAmount } = HiveMarket.processHiveOrderBook(
+    const { tooMuchSlippage: _tooMuchSlippage, invalidAmount: _invalidAmount, toAmount: _toAmount } = HiveMarket.processHiveOrderBook(
       buyOrderBook,
       sellOrderBook,
-      amount,
+      fromAmount,
       asset
     );
-    setTooMuchSlippage(!!tooMuchSlippage);
-    setInvalidAmount(!!invalidAmount);
-    if (toAmount) {
-      setToAmount(toAmount);
+    setTooMuchSlippage(!!_tooMuchSlippage);
+    setOfferUnavailable(!!_invalidAmount);
+    if (_toAmount) {
+      setToAmount(_toAmount);
     }
   };
 
+
   const fetchOrderBook = async () => {
-    setLoading(true);
+    setIsLoading(true);
     try {
       const book = await HiveMarket.fetchHiveOrderBook();
       if (book) {
@@ -154,9 +154,14 @@ export const HiveMarketRateListener = ({
       }
       processOrderBook();
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
-  return <></>;
+  return {
+    toAmount,
+    offerUnavailable,
+    tooMuchSlippage,
+    isLoading,
+  };
 };

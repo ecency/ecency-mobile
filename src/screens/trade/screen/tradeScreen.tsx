@@ -10,6 +10,7 @@ import { MarketAsset, SwapOptions } from '../../../providers/hive-trade/hiveTrad
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
 import { walletQueries } from '../../../providers/queries';
+import { useSwapCalculator } from '../children/useSwapCalculator';
 
 
 const TradeScreen = () => {
@@ -29,10 +30,17 @@ const TradeScreen = () => {
   const [isInvalidAmount, setIsInvalidAmount] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const [toAmount, setToAmount] = useState('0');
   const [fromAmount, setFromAmount] = useState('0');
 
   const _toAssetSymbol = useMemo(() => fromAssetSymbol === MarketAsset.HBD ? MarketAsset.HIVE : MarketAsset.HBD, [fromAssetSymbol])
+
+
+  const {
+    toAmount,
+    offerUnavailable,
+    tooMuchSlippage,
+    isLoading: _isFetchingOrders
+  } = useSwapCalculator(fromAssetSymbol, Number(fromAmount) || 0);
 
   //accumulate asset data properties
   const _fromAssetData = assetsData[fromAssetSymbol === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE];
@@ -40,9 +48,11 @@ const TradeScreen = () => {
   const _fromFiatPrice = _fromAssetData.currentPrice;
   const _toFiatPrice = assetsData[_toAssetSymbol === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE].currentPrice
   const _marketFiatPrice = marketPrice * _toFiatPrice;
+  
+  const _toAmountStr = toAmount.toFixed(3)
 
 
-
+  //initialize market data
   useEffect(() => {
     _fetchMarketRate();
   }, [fromAssetSymbol])
@@ -55,10 +65,6 @@ const TradeScreen = () => {
     //check for amount validity
     setIsInvalidAmount(_value > _balance)
 
-    //update toAmount based on market price
-    if (!!_value) {
-      setToAmount((_value * marketPrice).toFixed(3))
-    }
   }, [fromAmount])
 
 
@@ -92,12 +98,11 @@ const TradeScreen = () => {
 
       setLoading(true)
       const _fromAmount = Number(fromAmount)
-      const _toAmount = Number(toAmount);
 
       const data: SwapOptions = {
         fromAsset: fromAssetSymbol,
         fromAmount: _fromAmount,
-        toAmount: _toAmount
+        toAmount: toAmount
       }
 
       await swapToken(
@@ -124,7 +129,7 @@ const TradeScreen = () => {
 
     dispatch(showActionModal({
       title: "confirm swap",
-      body: `swaping ${fromAmount} ${fromAssetSymbol} for ${_toAssetSymbol} ${toAmount}`,
+      body: `swaping ${fromAmount} ${fromAssetSymbol} for ${_toAssetSymbol} ${_toAmountStr}`,
       buttons: [
         {
           text: 'Cancel',
@@ -151,9 +156,11 @@ const TradeScreen = () => {
 
   const handleAssetChange = () => {
     setFromAssetSymbol(_toAssetSymbol)
-    setFromAmount(toAmount);
+    setFromAmount(_toAmountStr);
   }
 
+
+  const _disabledContinue = _isFetchingOrders || loading || isInvalidAmount || offerUnavailable || !Number(fromAmount)
 
   return (
     <View style={styles.container}>
@@ -166,17 +173,19 @@ const TradeScreen = () => {
         fiatPrice={_fromFiatPrice}
       />
       {isInvalidAmount && <Text style={{ color: 'red' }} >Please enter valid amount</Text>}
+      {tooMuchSlippage && <Text style={{ color: 'red' }} >Too Much Slippage</Text>}
+      {offerUnavailable && <Text style={{ color: 'red' }} >Swap not possible for the price, try lower price</Text>}
       <Text>{`Balance: ${_balance} ${fromAssetSymbol}`}</Text>
       <SwapAmountInput
         label={intl.formatMessage({ id: 'transfer.to' })}
-        value={toAmount}
+        value={_toAmountStr}
         symbol={_toAssetSymbol}
         fiatPrice={_toFiatPrice}
       />
 
       <Text>{`1 ${fromAssetSymbol} = ${marketPrice.toFixed(3)} (${_marketFiatPrice.toFixed(3)})`}</Text>
 
-      <Button title="Continue" onPress={handleContinue} disabled={loading || isInvalidAmount || !Number(fromAmount)} />
+      <Button title="Continue" onPress={handleContinue} disabled={_disabledContinue} />
       <Button title="Change Asset" onPress={handleAssetChange} disabled={loading} />
       <Button title="refresh" onPress={_refresh} disabled={loading} />
     </View>
