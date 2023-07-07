@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { View, Button, Text, Alert } from 'react-native';
 import styles from '../styles/tradeScreen.styles';
-import { SwapAmountInput } from '../children';
+import { SwapAmountInput, SwapFeeSection } from '../children';
 import { BasicHeader } from '../../../components';
 import { useIntl } from 'react-intl';
 import { fetchHiveMarketRate, swapToken } from '../../../providers/hive-trade/hiveTrade';
@@ -24,6 +24,7 @@ const TradeScreen = () => {
   const currentAccount = useAppSelector(state => state.account.currentAccount)
   const assetsData = useAppSelector(state => state.wallet.coinsData);
   const pinHash = useAppSelector(state => state.application.pin);
+
 
   const [fromAssetSymbol, setFromAssetSymbol] = useState(MarketAsset.HIVE); //TODO: initialise using route params
   const [marketPrice, setMarketPrice] = useState(0);
@@ -164,7 +165,8 @@ const TradeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <BasicHeader title={intl.formatMessage({ id: 'transfer.trade_token' })} />
+      <BasicHeader title={intl.formatMessage({ id: 'trade.title' })} />
+      <Text style={styles.balance}>{`Balance: ${_balance} ${fromAssetSymbol}`}</Text>
       <SwapAmountInput
         label={intl.formatMessage({ id: 'transfer.from' })}
         onChangeText={handleAmountChange}
@@ -172,10 +174,11 @@ const TradeScreen = () => {
         symbol={fromAssetSymbol}
         fiatPrice={_fromFiatPrice}
       />
+      
       {isInvalidAmount && <Text style={{ color: 'red' }} >Please enter valid amount</Text>}
       {tooMuchSlippage && <Text style={{ color: 'red' }} >Too Much Slippage</Text>}
       {offerUnavailable && <Text style={{ color: 'red' }} >Swap not possible for the price, try lower price</Text>}
-      <Text>{`Balance: ${_balance} ${fromAssetSymbol}`}</Text>
+      
       <SwapAmountInput
         label={intl.formatMessage({ id: 'transfer.to' })}
         value={_toAmountStr}
@@ -183,7 +186,9 @@ const TradeScreen = () => {
         fiatPrice={_toFiatPrice}
       />
 
-      <Text>{`1 ${fromAssetSymbol} = ${marketPrice.toFixed(3)} (${_marketFiatPrice.toFixed(3)})`}</Text>
+      <Text style={styles.marketRate}>{`1 ${fromAssetSymbol} = ${marketPrice.toFixed(3)} (${_marketFiatPrice.toFixed(3)})`}</Text>
+
+      <SwapFeeSection />
 
       <Button title="Continue" onPress={handleContinue} disabled={_disabledContinue} />
       <Button title="Change Asset" onPress={handleAssetChange} disabled={loading} />

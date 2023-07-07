@@ -1,38 +1,44 @@
 import React from 'react';
 import { View, TextInput, Text } from "react-native";
+import styles from '../styles/swapAmountInput.styles';
+import { useAppSelector } from '../../../hooks';
 
 interface SwapInputProps {
-    label: string;
-    onChangeText?: (text: string) => void;
-    value: string;
-    fiatPrice: number;
-    symbol: string;
-    disabled?: boolean;
-  }
+  label: string;
+  onChangeText?: (text: string) => void;
+  value: string;
+  fiatPrice: number;
+  symbol: string;
+  disabled?: boolean;
+}
 
 
 
 // Reusable component for label, text input, and bottom text
-export const SwapAmountInput = ({ label, onChangeText, value, fiatPrice, symbol } : SwapInputProps) => {
+export const SwapAmountInput = ({ label, onChangeText, value, fiatPrice, symbol }: SwapInputProps) => {
+
+  const currency = useAppSelector((state) => state.application.currency);
 
   const _fiatValue = ((Number(value) || 0) * fiatPrice).toFixed(3);
 
-    return (
-      <View>
-        <Text>{label + ' ' + symbol}</Text>
+
+  return (
+    <View style={styles.container} >
+      <Text style={styles.label}>{label}</Text>
+      <View style={styles.inputContainer}>
         <TextInput
           editable={!!onChangeText}
           onChangeText={onChangeText}
           value={value}
           keyboardType='numeric'
-          style={{
-            borderWidth: 1,
-            borderColor: '#ccc',
-            padding: 10,
-            marginBottom: 10,
-          }}
+          style={styles.input}
+          autoFocus={true}
         />
-        <Text>{_fiatValue}</Text>
+        <View style={styles.symbolContainer}>
+          <Text style={styles.symbol}>{symbol}</Text>
+        </View>
       </View>
-    );
-  };
+      <Text style={styles.fiat}>{currency.currencySymbol + _fiatValue}</Text>
+    </View>
+  );
+};

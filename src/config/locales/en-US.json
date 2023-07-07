@@ -779,7 +779,6 @@
     "transfer_to_savings": "Transfer To Saving",
     "transfer_to_vesting": "Power Up | Stake",
     "withdraw_to_saving": "Withdraw To Saving",
-    "trade_token":"Trade Token",
     "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Estimated Weekly",
     "destination_accounts": "Destination Accounts",
@@ -836,6 +835,9 @@
     "amount_select_title": "Action Details",
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit":" and must be greater than 0.001"
+  },
+  "trade":{
+    "title":"Swap Your Funds"
   },
   "boost": {
     "title": "Get Points",
