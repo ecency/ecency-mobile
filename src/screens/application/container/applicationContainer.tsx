@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import DeviceInfo from 'react-native-device-info';
+
 import {
   Platform,
   Alert,
@@ -102,7 +104,6 @@ class ApplicationContainer extends Component {
 
   componentDidMount = () => {
     const { dispatch } = this.props;
-
     this._setNetworkListener();
 
     linkingEventSub = Linking.addEventListener('url', this._handleOpenURL);
@@ -247,13 +248,29 @@ class ApplicationContainer extends Component {
             {
               text: intl.formatMessage({ id: 'alert.update' }),
               onPress: () => {
-                setLastUpdateCheck(null);
-                Linking.openURL(
-                  Platform.select({
-                    ios: 'itms-apps://itunes.apple.com/us/app/apple-store/id1451896376?mt=8',
-                    android: 'market://details?id=app.esteem.mobile.android',
-                  }),
-                );
+                DeviceInfo.getInstallerPackageName().then((installerPackageName) => {
+                  switch (installerPackageName) {
+                    case 'google-store':
+                      return Linking.openURL('market://details?id=app.esteem.mobile.android');
+
+                    case 'app-store':
+                      return Linking.openURL('market://details?id=app.esteem.mobile.android');
+
+                    case 'apple-store':
+                      return Linking.openURL(
+                        'itms-apps://itunes.apple.com/us/app/apple-store/id1451896376?mt=8',
+                      );
+                    case 'IOS':
+                      return Linking.openURL(
+                        'itms-apps://itunes.apple.com/us/app/apple-store/id1451896376?mt=8',
+                      );
+                    default:
+                      return Linking.openURL({
+                        ios: 'https://github.com/ecency/ecency-mobile/releases',
+                        android: 'https://github.com/ecency/ecency-mobile/releases',
+                      });
+                  }
+                });
               },
             },
           ],
