@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import HeaderView from '../view/headerView';
 
-import { AccountContainer, ThemeContainer } from '../../../containers';
+import { AccountContainer } from '../../../containers';
 import { parseReputation } from '../../../utils/user';
 import { toggleQRModal } from '../../../redux/actions/uiAction';
 

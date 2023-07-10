@@ -15,8 +15,6 @@ import Popover, { usePopover } from 'react-native-modal-popover';
 // Components
 import { TextInput } from '../../textInput';
 import { Icon } from '../../icon';
-import { ThemeContainer } from '../../../containers';
-
 // Utils
 import { getResizedAvatar } from '../../../utils/image';
 
