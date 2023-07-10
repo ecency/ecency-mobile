@@ -3,8 +3,7 @@ import React, { Fragment } from 'react';
 import { View } from 'react-native';
 import Placeholder from 'rn-placeholder';
 import times from 'lodash/times';
-
-import { ThemeContainer } from '../../../../containers';
+import { useSelector } from 'react-redux';
 
 import styles from './walletDetailsPlaceHolderStyles';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
@@ -26,22 +25,24 @@ const listPlaceHolderView = (color) => {
   return <Fragment>{listElements}</Fragment>;
 };
 
-const WalletDetailsPlaceHolder = () => (
-  <ThemeContainer>
-    {({ isDarkTheme }) => {
-      const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
+const WalletDetailsPlaceHolder = () => {
+  const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
+  const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
 
-      return (
-        <View style={styles.container}>
-          <View style={styles.textWrapper}>
-            <Placeholder.Paragraph lineNumber={1} color={color} />
-          </View>
-          {listPlaceHolderView(color)}
-        </View>
-      );
-    }}
-  </ThemeContainer>
-);
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.textWrapper}>
+        <Placeholder.Paragraph lineNumber={1} color={color} />
+      </View>
+      {listPlaceHolderView(color)}
+    </View>
+  )
+
+}
+
+
+
 
 export default WalletDetailsPlaceHolder;
 /* eslint-enable */
