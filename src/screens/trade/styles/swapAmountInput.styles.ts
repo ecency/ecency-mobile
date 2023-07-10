@@ -24,6 +24,7 @@ export default EStyleSheet.create({
         alignItems:'center',
     } as ViewStyle,
     input: {
+        flex: 1,
         borderWidth: 0,
         color: '$primaryDarkText',
         fontSize: 28,
