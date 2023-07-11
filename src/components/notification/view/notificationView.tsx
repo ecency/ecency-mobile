@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { View, ActivityIndicator, RefreshControl, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
-
 // Constants
 
 // Components
@@ -12,7 +12,6 @@ import { ContainerHeader } from '../../containerHeader';
 import { FilterBar } from '../../filterBar';
 import { NotificationLine } from '../..';
 import { ListPlaceHolder } from '../../basicUIElements';
-import { ThemeContainer } from '../../../containers';
 
 // Utils
 import { isToday, isYesterday, isThisWeek, isLastWeek, isThisMonth } from '../../../utils/time';
@@ -204,6 +203,8 @@ class NotificationView extends PureComponent {
   );
 
   render() {
+    const { isDarkTheme } = this.props;
+
     const { readAllNotification, getActivities, isNotificationRefreshing, intl, isLoading } =
       this.props;
     const { filters, selectedFilter, selectedIndex } = this.state;
@@ -223,43 +224,44 @@ class NotificationView extends PureComponent {
           selectedOptionIndex={selectedIndex}
           onRightIconPress={readAllNotification}
         />
-        <ThemeContainer>
-          {({ isDarkTheme }) => (
-            <FlatList
-              ref={this.listRef}
-              data={_notifications}
-              keyExtractor={(item, index) => `${item.id}-${index}`}
-              onEndReached={() => getActivities(true)}
-              onEndReachedThreshold={0.3}
-              ListFooterComponent={this._renderFooterLoading}
-              ListEmptyComponent={
-                isNotificationRefreshing ? (
-                  <ListPlaceHolder />
-                ) : (
-                  <Text style={globalStyles.hintText}>
-                    {intl.formatMessage({ id: 'notification.noactivity' })}
-                  </Text>
-                )
-              }
-              contentContainerStyle={styles.listContentContainer}
-              refreshControl={
-                <RefreshControl
-                  refreshing={isNotificationRefreshing}
-                  onRefresh={() => getActivities()}
-                  progressBackgroundColor="#357CE6"
-                  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-                  titleColor="#fff"
-                  colors={['#fff']}
-                />
-              }
-              renderItem={this._renderItem}
+
+        <FlatList
+          ref={this.listRef}
+          data={_notifications}
+          keyExtractor={(item, index) => `${item.id}-${index}`}
+          onEndReached={() => getActivities(true)}
+          onEndReachedThreshold={0.3}
+          ListFooterComponent={this._renderFooterLoading}
+          ListEmptyComponent={
+            isNotificationRefreshing ? (
+              <ListPlaceHolder />
+            ) : (
+              <Text style={globalStyles.hintText}>
+                {intl.formatMessage({ id: 'notification.noactivity' })}
+              </Text>
+            )
+          }
+          contentContainerStyle={styles.listContentContainer}
+          refreshControl={
+            <RefreshControl
+              refreshing={isNotificationRefreshing}
+              onRefresh={() => getActivities()}
+              progressBackgroundColor="#357CE6"
+              tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+              titleColor="#fff"
+              colors={['#fff']}
             />
-          )}
-        </ThemeContainer>
+          }
+          renderItem={this._renderItem}
+        />
       </View>
     );
   }
 }
+const mapStateToProps = (state: { application: { isDarkTheme: any } }) => ({
+  isDarkTheme: state.application.isDarkTheme,
+});
 
-export default injectIntl(NotificationView);
+export default connect(mapStateToProps)(injectIntl(NotificationView));
+// export default injectIntl(NotificationView);
 /* eslint-enable */
