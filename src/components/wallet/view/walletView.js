@@ -9,7 +9,7 @@ import { MainButton } from '../../mainButton';
 import { CollapsibleCard } from '../../collapsibleCard';
 import { WalletDetails } from '../../walletDetails';
 import { WalletDetailsPlaceHolder } from '../../basicUIElements';
-
+import { WalletContainer } from '../../../containers';
 
 // Styles
 import styles from './walletStyles';
