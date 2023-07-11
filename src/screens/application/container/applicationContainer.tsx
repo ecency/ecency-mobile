@@ -249,20 +249,16 @@ class ApplicationContainer extends Component {
               text: intl.formatMessage({ id: 'alert.update' }),
               onPress: () => {
                 DeviceInfo.getInstallerPackageName().then((installerPackageName) => {
+                  let _url = 'https://github.com/ecency/ecency-mobile/releases';
                   switch (installerPackageName) {
                     case 'com.android.vending':
-                      Linking.openURL('market://details?id=app.esteem.mobile.android');
+                      _url = 'market://details?id=app.esteem.mobile.android';
                       break;
                     case 'AppStore':
-                      Linking.openURL(
-                        'itms-apps://itunes.apple.com/us/app/apple-store/id1451896376?mt=8',
-                      );
-                      break;
-
-                    default:
-                      Linking.openURL('https://github.com/ecency/ecency-mobile/releases');
+                      _url = 'itms-apps://itunes.apple.com/us/app/apple-store/id1451896376?mt=8';
                       break;
                   }
+                  Linking.openURL(_url);
                 });
               },
             },
