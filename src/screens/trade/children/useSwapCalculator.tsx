@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MarketAsset, OrdersDataItem } from "../../../providers/hive-trade/hiveTrade.types";
 import bugsnapInstance from "../../../config/bugsnag";
 import { Alert } from "react-native";
@@ -95,8 +95,9 @@ export namespace HiveMarket {
 
 
 export const useSwapCalculator = (
-  asset:MarketAsset,
-  fromAmount:number,
+  asset: MarketAsset,
+  fromAmount: number,
+  onAssetChangeComplete: () => void,
 ) => {
   const [buyOrderBook, setBuyOrderBook] = useState<OrdersDataItem[]>([]);
   const [sellOrderBook, setSellOrderBook] = useState<OrdersDataItem[]>([]);
@@ -105,7 +106,9 @@ export const useSwapCalculator = (
   const [toAmount, setToAmount] = useState(0);
   const [tooMuchSlippage, setTooMuchSlippage] = useState(false);
   const [offerUnavailable, setOfferUnavailable] = useState(false);
-  
+
+  const assetRef = useRef(asset);
+
 
   let updateInterval: any;
 
@@ -118,7 +121,12 @@ export const useSwapCalculator = (
   }, []);
 
   useEffect(() => {
-    fetchOrderBook();
+    fetchOrderBook().then(() => {
+      if (assetRef.current !== asset) {
+        assetRef.current = asset;
+        onAssetChangeComplete();
+      }
+    });
   }, [asset]);
 
 

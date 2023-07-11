@@ -40,12 +40,18 @@ const TradeScreen = ({ route }) => {
   const _toAssetSymbol = useMemo(() => fromAssetSymbol === MarketAsset.HBD ? MarketAsset.HIVE : MarketAsset.HBD, [fromAssetSymbol])
 
 
+  //this method makes sure amount is only updated when new order book is fetched after asset change
+  //this avoid wrong from and to swap value on changing source asset
+  const _onAssetChangeComplete = () => {
+    setFromAmount(_toAmountStr);
+  }
+
   const {
     toAmount,
     offerUnavailable,
     tooMuchSlippage,
     isLoading: _isFetchingOrders
-  } = useSwapCalculator(fromAssetSymbol, Number(fromAmount) || 0);
+  } = useSwapCalculator(fromAssetSymbol, Number(fromAmount) || 0, _onAssetChangeComplete);
 
 
   const _errorMessage = useMemo(() => {
@@ -83,10 +89,8 @@ const TradeScreen = ({ route }) => {
   //post process updated amount value
   useEffect(() => {
     const _value = Number(fromAmount);
-
     //check for amount validity
     setIsMoreThanBalance(_value > _balance)
-
   }, [fromAmount])
 
 
@@ -104,13 +108,6 @@ const TradeScreen = ({ route }) => {
       Alert.alert("fail", err.message)
     }
 
-  }
-
-  //refreshes wallet data and market rate
-  const _refresh = async () => {
-    setLoading(true);
-    assetsQuery.refetch();
-    _fetchMarketRate();
   }
 
 
@@ -170,16 +167,17 @@ const TradeScreen = ({ route }) => {
   };
 
 
+    //refreshes wallet data and market rate
+    const _refresh = async () => {
+      setLoading(true);
+      assetsQuery.refetch();
+      _fetchMarketRate();
+    }
 
-  const handleAmountChange = (value: string) => {
-    setFromAmount(value);
-  };
 
 
   const handleAssetChange = () => {
     setFromAssetSymbol(_toAssetSymbol)
-    //TOOD: make sure order book is updated before updating from amount
-    setFromAmount(_toAmountStr);
   }
 
   const _disabledContinue = _isFetchingOrders || loading || isMoreThanBalance || offerUnavailable || !Number(fromAmount)
@@ -201,7 +199,7 @@ const TradeScreen = ({ route }) => {
 
       <SwapAmountInput
         label={intl.formatMessage({ id: 'transfer.from' })}
-        onChangeText={handleAmountChange}
+        onChangeText={setFromAmount}
         value={fromAmount}
         symbol={fromAssetSymbol}
         fiatPrice={_fromFiatPrice}
