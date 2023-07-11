@@ -29,7 +29,7 @@ const TradeScreen = ({ route }) => {
   const isDarkTheme = useAppSelector(state => state.application.isDarkTheme);
 
 
-  const [fromAssetSymbol, setFromAssetSymbol] = useState(route?.params?.fundType || MarketAsset.HIVE); //TODO: initialise using route params
+  const [fromAssetSymbol, setFromAssetSymbol] = useState(route?.params?.fundType || MarketAsset.HIVE);
   const [marketPrice, setMarketPrice] = useState(0);
   const [isMoreThanBalance, setIsMoreThanBalance] = useState(false);
 
