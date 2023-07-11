@@ -1,7 +1,6 @@
 import { PrivateKey } from '@esteemapp/dhive';
 import { getAnyPrivateKey, getDigitPinCode, getMarketStatistics, sendHiveOperations } from '../hive/dhive';
 import { MarketAsset, MarketStatistics, OrderIdPrefix, SwapOptions, TransactionType } from './hiveTrade.types';
-import { formatNumber } from '../../utils/number';
 import bugsnapInstance from '../../config/bugsnag';
 import { Operation } from '@hiveio/dhive';
 
@@ -43,12 +42,12 @@ export const limitOrderCreate = (
                             .slice(2)}`
                     ),
                     amount_to_sell: `${orderType === TransactionType.Buy
-                        ? formatNumber(amountToSell, 3)
-                        : formatNumber(minToReceive, 3)
+                        ? amountToSell.toFixed(3)
+                        : minToReceive.toFixed(3)
                         } ${orderType === TransactionType.Buy ? MarketAsset.HBD : MarketAsset.HIVE}`,
                     min_to_receive: `${orderType === TransactionType.Buy
-                        ? formatNumber(minToReceive, 3)
-                        : formatNumber(amountToSell, 3)
+                        ? minToReceive.toFixed(3)
+                        : amountToSell.toFixed(3)
                         } ${orderType === TransactionType.Buy ? MarketAsset.HIVE : MarketAsset.HBD}`,
                     fill_or_kill: false,
                     expiration: expiration
