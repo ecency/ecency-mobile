@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
 // Constants
 
 // Components
@@ -50,9 +49,8 @@ class TitleAreaView extends Component {
   render() {
     const { intl, isPreviewActive, autoFocus } = this.props;
     const { text, height } = this.state;
-    const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
     const maxHeight = isAndroidOreo() ? 24 : 35;
-
+    const { isDarkTheme } = this.props;
     return (
       <View style={[globalStyles.containerHorizontal16, { height: Math.max(maxHeight, height) }]}>
 
@@ -80,7 +78,12 @@ class TitleAreaView extends Component {
 }
 
 
-const mapStateToProps = (state: { application: { isDarkTheme: any } }) => ({
+
+const mapStateToProps = (state) => ({
   isDarkTheme: state.application.isDarkTheme,
 });
-export default connect(mapStateToProps)(injectIntl);
+
+export default connect(mapStateToProps)(TitleAreaView);
+
+
+
