@@ -837,7 +837,10 @@
     "amount_select_desc_limit":" and must be greater than 0.001"
   },
   "trade":{
-    "title":"Swap Your Funds"
+    "title":"Swap Your Funds",
+    "more-than-balance": "Entered amount is more than your available available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please, enter less value",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing!"
   },
   "boost": {
     "title": "Get Points",
