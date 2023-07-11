@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { useSelector } from 'react-redux';
-
+import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
 // Constants
 
 // Components
@@ -12,7 +13,7 @@ import styles from './titleAreaStyles';
 import globalStyles from '../../../../globalStyles';
 import isAndroidOreo from '../../../../utils/isAndroidOreo';
 
-export default class TitleAreaView extends Component {
+class TitleAreaView extends Component {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
@@ -49,7 +50,6 @@ export default class TitleAreaView extends Component {
   render() {
     const { intl, isPreviewActive, autoFocus } = this.props;
     const { text, height } = this.state;
-    const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
     const maxHeight = isAndroidOreo() ? 24 : 35;
 
     return (
@@ -77,3 +77,8 @@ export default class TitleAreaView extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  isDarkTheme: state.customTabs.isDarkTheme,
+});
+export default injectIntl(connect(mapStateToProps));
