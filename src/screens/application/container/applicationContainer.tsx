@@ -15,7 +15,6 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
-// eslint-disable-next-line prettier/prettier
 import messaging from '@react-native-firebase/messaging';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
@@ -847,6 +846,3 @@ export default connect(
     },
   }),
 )(injectIntl(ApplicationContainer));
-function openURL(arg0: string, string: any): any {
-  throw new Error('Function not implemented.');
-}
