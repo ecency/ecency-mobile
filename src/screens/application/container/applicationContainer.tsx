@@ -15,6 +15,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
+// eslint-disable-next-line prettier/prettier
 import messaging from '@react-native-firebase/messaging';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
@@ -250,25 +251,18 @@ class ApplicationContainer extends Component {
               onPress: () => {
                 DeviceInfo.getInstallerPackageName().then((installerPackageName) => {
                   switch (installerPackageName) {
-                    case 'google-store':
-                      return Linking.openURL('market://details?id=app.esteem.mobile.android');
-
-                    case 'app-store':
-                      return Linking.openURL('market://details?id=app.esteem.mobile.android');
-
-                    case 'apple-store':
-                      return Linking.openURL(
+                    case 'com.android.vending':
+                      Linking.openURL('market://details?id=app.esteem.mobile.android');
+                      break;
+                    case 'AppStore':
+                      Linking.openURL(
                         'itms-apps://itunes.apple.com/us/app/apple-store/id1451896376?mt=8',
                       );
-                    case 'IOS':
-                      return Linking.openURL(
-                        'itms-apps://itunes.apple.com/us/app/apple-store/id1451896376?mt=8',
-                      );
+                      break;
+
                     default:
-                      return Linking.openURL({
-                        ios: 'https://github.com/ecency/ecency-mobile/releases',
-                        android: 'https://github.com/ecency/ecency-mobile/releases',
-                      });
+                      Linking.openURL('https://github.com/ecency/ecency-mobile/releases');
+                      break;
                   }
                 });
               },
@@ -478,7 +472,10 @@ class ApplicationContainer extends Component {
             text: intl.formatMessage({ id: 'side_menu.logout' }),
             onPress: () => dispatch(logout()),
           },
-          { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            style: 'destructive',
+          },
         ],
       );
       return currentAccount;
@@ -519,7 +516,9 @@ class ApplicationContainer extends Component {
       // TODO: better update device push token here after access token refresh
     } catch (err) {
       Alert.alert(
-        `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
+        `${intl.formatMessage({
+          id: 'alert.fetch_error',
+        })} \n${err.message.substr(0, 20)}`,
       );
     }
   };
@@ -848,3 +847,6 @@ export default connect(
     },
   }),
 )(injectIntl(ApplicationContainer));
+function openURL(arg0: string, string: any): any {
+  throw new Error('Function not implemented.');
+}
