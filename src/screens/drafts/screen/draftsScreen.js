@@ -32,6 +32,7 @@ const DraftsScreen = ({
   initialTabIndex,
   cloneDraft,
   isCloning,
+  handleItemLongPress,
 }) => {
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const draftsCollection = useAppSelector((state) => state.cache.draftsCollection);
@@ -72,6 +73,10 @@ const DraftsScreen = ({
       }
     };
 
+    const _handleLongPress = () => {
+      handleItemLongPress && handleItemLongPress(item._id, type);
+    };
+
     return (
       <DraftListItem
         created={isSchedules ? getFormatedCreatedDate(item.schedule) : item.created}
@@ -95,6 +100,7 @@ const DraftsScreen = ({
         handleOnClonePressed={cloneDraft}
         draftItem={item}
         isCloning={isCloning}
+        handleLongPress={_handleLongPress}
       />
     );
   };

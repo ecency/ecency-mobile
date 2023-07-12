@@ -45,6 +45,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   } = useGetSchedulesQuery();
 
   const [initialTabIndex] = useState(route.params?.showSchedules ? 1 : 0);
+  const [batchSelectedItems, setBatchSelectedItems] = useState<any>([]);
 
   // Component Functions
   const _onRefresh = () => {
@@ -69,6 +70,21 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
 
   const _isCloning = isCloningDraft;
 
+  const _handleItemLongPress = (id, type) => {
+    console.log('id, type : ', id, type);
+    let _batchSelectedItemsArr = batchSelectedItems.slice();
+    const index = _batchSelectedItemsArr.findIndex((item) => item.id === id);
+
+    if (index !== -1) {
+      // Object exists in array, so remove it
+      _batchSelectedItemsArr.splice(index, 1);
+    } else {
+      // Object doesn't exist in array, so push it
+      _batchSelectedItemsArr.push({ id, type });
+    }
+    setBatchSelectedItems(_batchSelectedItemsArr);
+  };
+
   return (
     <DraftsScreen
       isLoading={_isLoading}
@@ -84,6 +100,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
       initialTabIndex={initialTabIndex}
       cloneDraft={_cloneDraft}
       isCloning={_isCloning}
+      handleItemLongPress={_handleItemLongPress}
     />
   );
 };

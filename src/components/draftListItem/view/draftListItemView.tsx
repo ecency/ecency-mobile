@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, Fragment } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, Pressable } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils
@@ -39,6 +39,7 @@ const DraftListItemView = ({
   handleOnClonePressed,
   draftItem,
   isCloning,
+  handleLongPress,
 }) => {
   const actionSheet = useRef(null);
   const moveActionSheet = useRef(null);
@@ -64,6 +65,10 @@ const DraftListItemView = ({
     }
 
     handleOnPressItem(id);
+  };
+
+  const _onItemLongPress = () => {
+    handleLongPress && handleLongPress(id);
   };
 
   // consts
@@ -92,7 +97,7 @@ const DraftListItemView = ({
 
   return (
     <Fragment>
-      <View style={styles.container}>
+      <Pressable style={styles.container} onLongPress={_onItemLongPress}>
         <View style={styles.header}>
           <PostHeaderDescription
             date={isFormatedDate ? created : getTimeFromNow(created, true)}
@@ -166,7 +171,7 @@ const DraftListItemView = ({
           </View>
         </View>
         <View style={styles.body}>
-          <TouchableOpacity onPress={_onItemPress}>
+          <TouchableOpacity onPress={_onItemPress} onLongPress={_onItemLongPress}>
             {image !== null && (
               <FastImage
                 source={image}
@@ -180,7 +185,7 @@ const DraftListItemView = ({
             </View>
           </TouchableOpacity>
         </View>
-      </View>
+      </Pressable>
 
       <OptionsModal
         ref={actionSheet}
