@@ -7,7 +7,6 @@ import ProfileEditContainer from './profileEditContainer';
 import RedeemContainer from './redeemContainer';
 import SpinGameContainer from './spinGameContainer';
 import WalletContainer from './walletContainer';
-import ThemeContainer from './themeContainer';
 import TransferContainer from './transferContainer';
 
 export {
@@ -20,6 +19,5 @@ export {
   RedeemContainer,
   SpinGameContainer,
   WalletContainer,
-  ThemeContainer,
   TransferContainer,
 };
