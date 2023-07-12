@@ -15,13 +15,12 @@ import Popover, { usePopover } from 'react-native-modal-popover';
 // Components
 import { TextInput } from '../../textInput';
 import { Icon } from '../../icon';
-import { ThemeContainer } from '../../../containers';
-
 // Utils
 import { getResizedAvatar } from '../../../utils/image';
 
 // Styles
 import styles from './formInputStyles';
+import { useSelector } from 'react-redux';
 
 interface Props extends TextInputProps {
   type: string;
@@ -69,7 +68,7 @@ const FormInputView = ({
   const [_value, setValue] = useState(value || '');
   const [inputBorderColor, setInputBorderColor] = useState('#e7e7e7');
   const [_isValid, setIsValid] = useState(true);
-
+  const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
   const isIos = Platform.OS === 'ios';
 
   const _handleOnChange = (text) => {
@@ -178,28 +177,24 @@ const FormInputView = ({
         )
       )}
       <View style={styles.textInput}>
-        <ThemeContainer>
-          {({ isDarkTheme }) => (
-            <TextInput
-              innerRef={inputRef}
-              style={inputStyle}
-              onFocus={_handleOnFocus}
-              onBlur={_handleOnBlur}
-              autoCapitalize="none"
-              secureTextEntry={secureTextEntry}
-              height={height}
-              placeholder={placeholder}
-              editable={isEditable}
-              textContentType={type}
-              onChangeText={_handleOnChange}
-              value={_value}
-              placeholderTextColor={isDarkTheme ? '#526d91' : '#788187'}
-              autoCorrect={false}
-              contextMenuHidden={false}
-              {...props}
-            />
-          )}
-        </ThemeContainer>
+        <TextInput
+          innerRef={inputRef}
+          style={inputStyle}
+          onFocus={_handleOnFocus}
+          onBlur={_handleOnBlur}
+          autoCapitalize="none"
+          secureTextEntry={secureTextEntry}
+          height={height}
+          placeholder={placeholder}
+          editable={isEditable}
+          textContentType={type}
+          onChangeText={_handleOnChange}
+          value={_value}
+          placeholderTextColor={isDarkTheme ? '#526d91' : '#788187'}
+          autoCorrect={false}
+          contextMenuHidden={false}
+          {...props}
+        />
       </View>
       {rightInfoIcon && !isValid ? (
         _renderInfoIconWithPopover()

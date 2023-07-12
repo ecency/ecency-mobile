@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import DeviceInfo from 'react-native-device-info';
+
 import {
   Platform,
   Alert,
@@ -102,7 +104,6 @@ class ApplicationContainer extends Component {
 
   componentDidMount = () => {
     const { dispatch } = this.props;
-
     this._setNetworkListener();
 
     linkingEventSub = Linking.addEventListener('url', this._handleOpenURL);
@@ -247,13 +248,18 @@ class ApplicationContainer extends Component {
             {
               text: intl.formatMessage({ id: 'alert.update' }),
               onPress: () => {
-                setLastUpdateCheck(null);
-                Linking.openURL(
-                  Platform.select({
-                    ios: 'itms-apps://itunes.apple.com/us/app/apple-store/id1451896376?mt=8',
-                    android: 'market://details?id=app.esteem.mobile.android',
-                  }),
-                );
+                DeviceInfo.getInstallerPackageName().then((installerPackageName) => {
+                  let _url = 'https://github.com/ecency/ecency-mobile/releases';
+                  switch (installerPackageName) {
+                    case 'com.android.vending':
+                      _url = 'market://details?id=app.esteem.mobile.android';
+                      break;
+                    case 'AppStore':
+                      _url = 'itms-apps://itunes.apple.com/us/app/apple-store/id1451896376?mt=8';
+                      break;
+                  }
+                  Linking.openURL(_url);
+                });
               },
             },
           ],
@@ -461,7 +467,10 @@ class ApplicationContainer extends Component {
             text: intl.formatMessage({ id: 'side_menu.logout' }),
             onPress: () => dispatch(logout()),
           },
-          { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            style: 'destructive',
+          },
         ],
       );
       return currentAccount;
@@ -502,7 +511,9 @@ class ApplicationContainer extends Component {
       // TODO: better update device push token here after access token refresh
     } catch (err) {
       Alert.alert(
-        `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
+        `${intl.formatMessage({
+          id: 'alert.fetch_error',
+        })} \n${err.message.substr(0, 20)}`,
       );
     }
   };

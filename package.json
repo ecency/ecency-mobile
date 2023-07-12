@@ -108,7 +108,7 @@
     "react-native-config": "luggit/react-native-config#master",
     "react-native-crypto": "^2.2.0",
     "react-native-date-picker": "^4.2.0",
-    "react-native-device-info": "^10.2.1",
+    "react-native-device-info": "^10.7.0",
     "react-native-draggable-flatlist": "^4.0.1",
     "react-native-dynamic": "^1.0.0",
     "react-native-email-link": "^1.14.3",
