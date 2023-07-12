@@ -81,10 +81,4 @@ class FollowsScreen extends PureComponent {
     );
   }
 }
-
-const mapHooksToProps = (props) => {
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
-  return <FollowsScreen {...props} navigation={navigation} dispatch={dispatch} />;
-};
-export default connect(mapHooksToProps)(injectIntl(FollowsScreen));
+export default connect()(injectIntl(FollowsScreen));
