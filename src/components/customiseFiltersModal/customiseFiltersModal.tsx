@@ -6,8 +6,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDispatch } from 'react-redux';
 import { CheckBox } from '..';
 import { getDefaultFilters, getFilterMap } from '../../constants/options/filters';
-
-import { ThemeContainer } from '../../containers';
 import { useAppSelector } from '../../hooks';
 import {
   setCommunityTabs,
@@ -142,28 +140,24 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
   };
 
   const _renderContent = (
-    <ThemeContainer>
-      {({ isDarkTheme }) => (
-        <KeyboardAvoidingView
-          style={styles.container}
-          keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : null}
-          behavior={Platform.OS === 'ios' ? 'padding' : null}
-        >
-          <Text style={styles.title}>Customise Filters</Text>
+    <KeyboardAvoidingView
+      style={styles.container}
+      keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : null}
+      behavior={Platform.OS === 'ios' ? 'padding' : null}
+    >
+      <Text style={styles.title}>Customise Filters</Text>
 
-          {_renderOptions()}
+      {_renderOptions()}
 
-          <View style={styles.actionPanel}>
-            <TextButton
-              text="APPLY"
-              onPress={_onApply}
-              textStyle={styles.btnText}
-              style={styles.button}
-            />
-          </View>
-        </KeyboardAvoidingView>
-      )}
-    </ThemeContainer>
+      <View style={styles.actionPanel}>
+        <TextButton
+          text="APPLY"
+          onPress={_onApply}
+          textStyle={styles.btnText}
+          style={styles.button}
+        />
+      </View>
+    </KeyboardAvoidingView>
   );
 
   return (
