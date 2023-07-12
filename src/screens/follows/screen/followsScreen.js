@@ -2,12 +2,11 @@
 import React, { PureComponent } from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { injectIntl } from 'react-intl';
-
 // Constants
 import { useNavigation } from '@react-navigation/native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import ROUTES from '../../../constants/routeNames';
-
+import { useDispatch, connect } from 'react-redux';
+import { showProfileModal } from '../../../redux/actions/uiAction';
 // Components
 import { BasicHeader, UserListItem } from '../../../components';
 
@@ -29,15 +28,7 @@ class FollowsScreen extends PureComponent {
 
   // Component Functions
   _handleOnUserPress = (username) => {
-    const { navigation } = this.props;
-
-    navigation.navigate({
-      name: ROUTES.SCREENS.PROFILE,
-      params: {
-        username,
-      },
-      key: username,
-    });
+    this.props.dispatch(showProfileModal(username));
   };
 
   _renderItem = ({ item, index }) => {
@@ -93,8 +84,7 @@ class FollowsScreen extends PureComponent {
 
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  return <FollowsScreen {...props} navigation={navigation} />;
+  const dispatch = useDispatch();
+  return <FollowsScreen {...props} navigation={navigation} dispatch={dispatch} />;
 };
-
-export default injectIntl(mapHooksToProps);
-/* eslint-enable */
+export default connect(mapHooksToProps)(injectIntl(FollowsScreen));
