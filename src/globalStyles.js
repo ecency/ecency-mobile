@@ -87,4 +87,10 @@ export default EStyleSheet.create({
   tabBarBottom: {
     paddingBottom: 60,
   },
+  mainbutton: {
+    width: '46%',
+    position: 'relative',
+    left: 180,
+    bottom: 20,
+  },
 });
