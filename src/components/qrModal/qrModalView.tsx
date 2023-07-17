@@ -108,11 +108,8 @@ export const QRModal = ({}: QRModalProps) => {
     }
   };
 
-  const _handleHiveUri = () => {
+  const _handleHiveUri = (uri: string) => {
     try {
-      const uri =
-        'hive://sign/op/WyJ0cmFuc2ZlciIseyJmcm9tIjoiZGVtby5jb20iLCJ0byI6ImFsaXNleWFsdmkiLCJhbW91bnQiOiIwLjAwMiBISVZFIiwibWVtbyI6InRlc3RpbmcgaGl2ZSB1cmkifV0.';
-
       setIsScannerActive(false);
       _onClose();
       handleHiveUriOperation(currentAccount, pinCode, uri)
@@ -123,8 +120,6 @@ export const QRModal = ({}: QRModalProps) => {
           bugsnagInstance.notify(err);
           dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
         });
-      // console.log('parsedHiveUri : ', JSON.stringify(tx, null, 2));
-      // Alert.alert('parsed uri ', JSON.stringify(tx));
     } catch (err) {
       _showInvalidAlert();
     }
