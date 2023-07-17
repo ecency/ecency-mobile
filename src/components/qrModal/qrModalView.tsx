@@ -7,27 +7,18 @@ import { useIntl } from 'react-intl';
 import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
 import styles from './qrModalStyles';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import {
-  setRcOffer,
-  showActionModal,
-  toastNotification,
-  toggleQRModal,
-} from '../../redux/actions/uiAction';
+import { toastNotification, toggleQRModal } from '../../redux/actions/uiAction';
 import { deepLinkParser } from '../../utils/deepLinkParser';
 import RootNavigation from '../../navigation/rootNavigation';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 import { isHiveUri } from '../../utils/hive-uri';
-import { transferToken, vote } from '../../providers/hive/dhive';
-import { useUserActivityMutation } from '../../providers/queries';
-import { PointActivityIds } from '../../providers/ecency/ecency.types';
+import { handleHiveUriOperation } from '../../providers/hive/dhive';
 import bugsnagInstance from '../../config/bugsnag';
 
 interface QRModalProps {}
-const hiveuri = require('hive-uri');
 const screenHeight = getWindowDimensions().height;
 
 export const QRModal = ({}: QRModalProps) => {
-  const userActivityMutation = useUserActivityMutation();
   const dispatch = useAppDispatch();
   const intl = useIntl();
   const isVisibleQRModal = useAppSelector((state) => state.ui.isVisibleQRModal);
@@ -117,178 +108,26 @@ export const QRModal = ({}: QRModalProps) => {
     }
   };
 
-  const _handleHiveUri = (uri: string) => {
+  const _handleHiveUri = () => {
     try {
-      // const uri =
-      //   'hive://sign/op/WyJ0cmFuc2ZlciIseyJmcm9tIjoiZGVtby5jb20iLCJ0byI6ImFsaXNleWFsdmkiLCJhbW91bnQiOiIwLjAwMiBISVZFIiwibWVtbyI6InRlc3RpbmcgaGl2ZSB1cmkifV0.';
-      // const uri =
-      //   'hive://sign/op/WyJ2b3RlIix7InZvdGVyIjoiZGVtby5jb20iLCJhdXRob3IiOiJhbGlzZXlhbHZpIiwicGVybWxpbmsiOiJkZW1vLXBvc3QiLCJ3ZWlnaHQiOiIxMDAifV0.';
-      const { params, tx } = hiveuri.decode(uri);
+      const uri =
+        'hive://sign/op/WyJ0cmFuc2ZlciIseyJmcm9tIjoiZGVtby5jb20iLCJ0byI6ImFsaXNleWFsdmkiLCJhbW91bnQiOiIwLjAwMiBISVZFIiwibWVtbyI6InRlc3RpbmcgaGl2ZSB1cmkifV0.';
+
       setIsScannerActive(false);
       _onClose();
-      // console.log('parsedHiveUri : ', JSON.stringify(tx, null, 2), params);
+      handleHiveUriOperation(currentAccount, pinCode, uri)
+        .then(() => {
+          dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+        })
+        .catch((err) => {
+          bugsnagInstance.notify(err);
+          dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
+        });
+      // console.log('parsedHiveUri : ', JSON.stringify(tx, null, 2));
       // Alert.alert('parsed uri ', JSON.stringify(tx));
-      if (tx.operations && tx.operations.length === 1) {
-        _handleHiveUriOperation(tx.operations[0]);
-      } else {
-        Alert.alert(
-          'Error while parsing operation',
-          'looka like operation object is not encoded properly ',
-        );
-      }
     } catch (err) {
       _showInvalidAlert();
     }
-  };
-
-  const _handleHiveUriOperation = (hiveUriOperation: any) => {
-    if (hiveUriOperation && hiveUriOperation.length > 0) {
-      switch (hiveUriOperation[0]) {
-        case 'vote':
-          _handleVoteOperation(hiveUriOperation[1]);
-          break;
-        case 'transfer':
-          _handleTransferOperation(hiveUriOperation[1]);
-          break;
-        default:
-          Alert.alert('Unsupported Operation!', 'This operation is not currently supported');
-      }
-    }
-  };
-
-  const _handleVoteOperation = (operation: any) => {
-    const { voter, author, permlink, weight } = operation;
-
-    dispatch(
-      showActionModal({
-        title: intl.formatMessage({
-          id: 'qr.confirmTransaction',
-        }),
-        body: JSON.stringify(operation),
-        buttons: [
-          {
-            text: intl.formatMessage({
-              id: 'qr.cancel',
-            }),
-            onPress: () => {},
-            style: 'cancel',
-          },
-          {
-            text: intl.formatMessage({
-              id: 'qr.approve',
-            }),
-            onPress: () => {
-              vote(currentAccount, pinCode, author, permlink, parseInt(weight))
-                .then((response) => {
-                  console.log('Vote response: ', response);
-                  // record user points
-                  userActivityMutation.mutate({
-                    pointsTy: PointActivityIds.VOTE,
-                    transactionId: response.id,
-                  });
-
-                  if (!response || !response.id) {
-                    dispatch(
-                      toastNotification(
-                        intl.formatMessage(
-                          { id: 'alert.something_wrong_msg' },
-                          {
-                            message: intl.formatMessage({
-                              id: 'alert.invalid_response',
-                            }),
-                          },
-                        ),
-                      ),
-                    );
-
-                    return;
-                  }
-                  dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-                })
-                .catch((err) => {
-                  if (
-                    err &&
-                    err.response &&
-                    err.response.jse_shortmsg &&
-                    err.response.jse_shortmsg.includes('wait to transact')
-                  ) {
-                    // when RC is not enough, offer boosting account
-                    // setIsVoted(false);
-                    dispatch(setRcOffer(true));
-                  } else if (
-                    err &&
-                    err.jse_shortmsg &&
-                    err.jse_shortmsg.includes('wait to transact')
-                  ) {
-                    // when RC is not enough, offer boosting account
-                    // setIsVoted(false);
-                    dispatch(setRcOffer(true));
-                  } else {
-                    // // when voting with same percent or other errors
-                    let errMsg = '';
-                    if (err.message && err.message.indexOf(':') > 0) {
-                      errMsg = err.message.split(': ')[1];
-                    } else {
-                      errMsg = err.jse_shortmsg || err.error_description || err.message;
-                    }
-                    dispatch(
-                      toastNotification(
-                        intl.formatMessage(
-                          { id: 'alert.something_wrong_msg' },
-                          { message: errMsg },
-                        ),
-                      ),
-                    );
-                  }
-                });
-            },
-          },
-        ],
-      }),
-    );
-  };
-
-  const _handleTransferOperation = (operation: any) => {
-    const { from, to, amount, memo } = operation;
-    const data = {
-      from,
-      destination: to,
-      amount,
-      memo,
-    };
-
-    dispatch(
-      showActionModal({
-        title: intl.formatMessage({
-          id: 'qr.confirmTransaction',
-        }),
-        body: JSON.stringify(operation),
-        buttons: [
-          {
-            text: intl.formatMessage({
-              id: 'qr.cancel',
-            }),
-            onPress: () => {},
-            style: 'cancel',
-          },
-          {
-            text: intl.formatMessage({
-              id: 'qr.approve',
-            }),
-            onPress: () => {
-              transferToken(currentAccount, pinCode, data)
-                .then(() => {
-                  dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-                })
-                .catch((err) => {
-                  bugsnagInstance.notify(err);
-                  dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
-                });
-            },
-          },
-        ],
-      }),
-    );
   };
 
   const _handleDeepLink = async (url) => {
