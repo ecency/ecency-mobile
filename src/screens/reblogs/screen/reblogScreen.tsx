@@ -3,12 +3,11 @@ import { FlatList, SafeAreaView, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import reactotron from 'reactotron-react-native';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { reblog } from '../../../providers/hive/dhive';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
-import { getPostReblogs } from '../../../providers/ecency/ecency';
+
 // Components
 import { BasicHeader, MainButton, UserListItem } from '../../../components';
 
@@ -34,19 +33,6 @@ const renderUserListItem = (item, index, handleOnUserPress) => {
 };
 
 const ReblogScreen = ({ route }) => {
-  const pReblogs = route.params?.reblogs;
-  const [reblogs, setReblogs] = useState(pReblogs);
-
-  getPostReblogs(reblogs).then((result) => {
-    reactotron.log(result);
-  });
-  const [refreshing, setRefreshing] = React.useState(false);
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
 
 
   const content = route.params?.content;
