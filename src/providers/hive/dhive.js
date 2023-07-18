@@ -2099,13 +2099,12 @@ export const handleHiveUriOperation = async (
       .toISOString()
       .slice(0, -5);
     const extensions = [];
-    const parsed = hiveuri.decode(hiveUri);
-    // console.log('parsed.tx : ', JSON.stringify(parsed.tx, null, 2));
+
+
+    const parsed = hiveuri.decode(hiveUri)
     // resolve the decoded tx and params to a signable tx
     let { tx, signer } = hiveuri.resolveTransaction(parsed.tx, parsed.params, {
-      // e.g. from a get_dynamic_global_properties call
-      ref_block_num,
-      ref_block_prefix,
+     
       expiration,
       // accounts we are able to sign for
       signers: currentAccount.name,
@@ -2113,8 +2112,14 @@ export const handleHiveUriOperation = async (
       preferred_signer: currentAccount.name,
     });
 
-    // console.log('tx : ', JSON.stringify(tx, null, 2));
-    const transaction = await cryptoUtils.signTransaction(tx, privateKey, chainId);
+
+    //inject raw ref_block_num and ref_block_prefex to avoid string converstion by hiveuri.resolveTransaction
+    // e.g. from a get_dynamic_global_properties call
+    tx.ref_block_num = ref_block_num;
+    tx.ref_block_prefix = ref_block_prefix;
+
+
+    const transaction = cryptoUtils.signTransaction(tx, privateKey, chainId);
     const trxId = generateTrxId(transaction);
     const resultHive = await client.broadcast.call('broadcast_transaction', [transaction]);
     const result = Object.assign({ id: trxId }, resultHive);
