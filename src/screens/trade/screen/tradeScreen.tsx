@@ -24,6 +24,8 @@ const TradeScreen = ({ route }) => {
   const assetsQuery = walletQueries.useAssetsQuery();
 
   const currentAccount = useAppSelector(state => state.account.currentAccount)
+  const currency = useAppSelector((state) => state.application.currency);
+
   const assetsData = useAppSelector(state => state.wallet.coinsData);
   const pinHash = useAppSelector(state => state.application.pin);
   const isDarkTheme = useAppSelector(state => state.application.isDarkTheme);
@@ -167,12 +169,12 @@ const TradeScreen = ({ route }) => {
   };
 
 
-    //refreshes wallet data and market rate
-    const _refresh = async () => {
-      setLoading(true);
-      assetsQuery.refetch();
-      _fetchMarketRate();
-    }
+  //refreshes wallet data and market rate
+  const _refresh = async () => {
+    setLoading(true);
+    assetsQuery.refetch();
+    _fetchMarketRate();
+  }
 
 
 
@@ -231,6 +233,16 @@ const TradeScreen = ({ route }) => {
   )
 
 
+  const _renderMarketPrice = () => (
+    <Text style={styles.marketRate}>
+      {
+        `1 ${fromAssetSymbol} = ${marketPrice.toFixed(3)} ` 
+        + `${_toAssetSymbol} (${currency.currencySymbol + _marketFiatPrice.toFixed(3)})`
+      }
+    </Text>
+  )
+
+
 
   const _renderContent = () => {
     return (
@@ -247,8 +259,8 @@ const TradeScreen = ({ route }) => {
 
         {_renderBalance()}
         {_renderInputs()}
+        {_renderMarketPrice()}
 
-        <Text style={styles.marketRate}>{`1 ${fromAssetSymbol} = ${marketPrice.toFixed(3)} (${_marketFiatPrice.toFixed(3)})`}</Text>
         <SwapFeeSection />
         <ErrorSection message={_errorMessage} />
 
