@@ -78,7 +78,7 @@ const TradeScreen = ({ route }) => {
   const _toFiatPrice = assetsData[_toAssetSymbol === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE].currentPrice
   const _marketFiatPrice = marketPrice * _toFiatPrice;
 
-  const _toAmountStr = toAmount.toFixed(3)
+  const _toAmountStr = toAmount.toFixed(3);
 
 
 

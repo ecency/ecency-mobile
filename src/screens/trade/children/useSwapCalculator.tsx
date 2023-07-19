@@ -4,6 +4,7 @@ import { MarketAsset, OrdersDataItem } from "../../../providers/hive-trade/hiveT
 import bugsnapInstance from "../../../config/bugsnag";
 import { Alert } from "react-native";
 import { getOrderBook } from "../../../providers/hive/dhive";
+import { stripDecimalPlaces } from "../../../utils/number";
 
 
 export namespace HiveMarket {
@@ -147,7 +148,7 @@ export const useSwapCalculator = (
     setTooMuchSlippage(!!_tooMuchSlippage);
     setOfferUnavailable(!!_invalidAmount);
     if (_toAmount) {
-      setToAmount(_toAmount);
+      setToAmount(stripDecimalPlaces(_toAmount));
     }
   };
 
