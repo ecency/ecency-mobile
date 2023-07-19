@@ -1,5 +1,5 @@
 import getSymbolFromCurrency from 'currency-symbol-map';
-import { getCurrencyRate } from '../../providers/ecency/ecency';
+import { getFiatHbdRate } from '../../providers/ecency/ecency';
 import {
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
@@ -165,13 +165,21 @@ export const isDefaultFooter = (payload) => ({
  */
 export const setCurrency = (currency) => async (dispatch) => {
   const currencySymbol = getSymbolFromCurrency(currency);
+  
+  let currencyRate = 1;
+  if(currency !== 'usd'){
+    const _usdRate = await getFiatHbdRate('usd')
+    const _fiatRate = await getFiatHbdRate(currency);
+    currencyRate = _fiatRate / _usdRate;
+  }
+  
 
-  const currencyRate = await getCurrencyRate(currency);
   dispatch({
     type: SET_CURRENCY,
     payload: { currency, currencyRate, currencySymbol },
   });
 };
+
 
 export const setPinCode = (data) => ({
   type: SET_PIN_CODE,

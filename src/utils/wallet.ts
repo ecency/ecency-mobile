@@ -1,5 +1,4 @@
 import get from 'lodash/get';
-import isArray from 'lodash/isArray';
 import { operationOrders } from '@hiveio/dhive/lib/utils';
 import { utils } from '@hiveio/dhive';
 import parseDate from './parseDate';
@@ -37,9 +36,8 @@ import {
 import { EngineActions, EngineOperations, HistoryItem } from '../providers/hive-engine/hiveEngine.types';
 import { ClaimsCollection } from '../redux/reducers/cacheReducer';
 import { fetchSpkWallet } from '../providers/hive-spk/hiveSpk';
-import { SpkActions } from '../providers/hive-spk/hiveSpk.types';
 import TransferTypes from '../constants/transferTypes';
-import { Alert } from 'react-native';
+
 
 export const transferTypes = [
   'curation_reward',
