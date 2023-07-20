@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { FlatList, SafeAreaView, RefreshControl } from 'react-native';
+import { FlatList, SafeAreaView, RefreshControl, ScrollView } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import reactotron from 'reactotron-react-native';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { reblog } from '../../../providers/hive/dhive';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
-
+import { getPostReblogs } from '../../../providers/ecency/ecency';
 // Components
 import { BasicHeader, MainButton, UserListItem } from '../../../components';
 
@@ -33,9 +34,11 @@ const renderUserListItem = (item, index, handleOnUserPress) => {
 };
 
 const ReblogScreen = ({ route }) => {
-
-
+  const [refreshing, setRefreshing] = React.useState(false);
   const content = route.params?.content;
+  const pReblogs = route.params?.reblogs;
+
+  const [reblogs, setReblogs] = useState(pReblogs);
   const intl = useIntl();
   const headerTitle = intl.formatMessage({
     id: 'reblog.title',
@@ -45,6 +48,22 @@ const ReblogScreen = ({ route }) => {
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
+  const dummy = {
+    account: 'Ali',
+    timestamp: '2023-07-16T23:30:39+00:00',
+  }
+
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getPostReblogs(content).then((result) => {
+      result = [...reblogs, dummy];
+      setReblogs(result);
+      reactotron.log("Result", result);
+    });
+
+
+  }, []);
 
   const _reblog = () => {
     if (!isLoggedIn) {
@@ -95,26 +114,32 @@ const ReblogScreen = ({ route }) => {
   return (
     <AccountListContainer data={reblogs}>
       {({ data, filterResult, handleSearch, handleOnUserPress }) => (
-        <SafeAreaView style={[globalStyles.container, { paddingBottom: 40 }]}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          <BasicHeader
-            title={`${headerTitle} (${data && data.length})`}
-            backIconName="close"
-            isHasSearch
-            handleOnSearch={(text) => handleSearch(text, 'account')}
-          />
 
-          <FlatList
-            data={filterResult || data}
-            keyExtractor={(item) => item.account}
-            removeClippedSubviews={false}
-            // eslint-disable-next-line max-len, no-undef
-            renderItem={({ item, index }) =>
-              renderUserListItem(item, index, handleOnUserPress)}
-          />
+        <SafeAreaView style={[globalStyles.container, { paddingBottom: 40 }]}>
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
+            {/* Your content goes here */}
+            <BasicHeader
+              title={`${headerTitle} (${data && data.length})`}
+              backIconName="close"
+              isHasSearch
+              handleOnSearch={(text) => handleSearch(text, 'account')}
+            />
+
+            <FlatList
+              data={filterResult || data}
+              keyExtractor={(item) => item.account}
+              removeClippedSubviews={false}
+              renderItem={({ item, index }) =>
+                renderUserListItem(item, index, handleOnUserPress)
+              }
+            />
+
+
+          </ScrollView>
           <MainButton
             style={globalStyles.mainbutton}
             onPress={_reblog}
@@ -123,8 +148,8 @@ const ReblogScreen = ({ route }) => {
             iconColor="white"
             text="Reblog Post"
           />
-
         </SafeAreaView>
+
       )}
     </AccountListContainer>
   );
