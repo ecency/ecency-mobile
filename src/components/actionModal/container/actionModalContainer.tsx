@@ -5,11 +5,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { hideActionModal } from '../../../redux/actions/uiAction';
 import ActionModalView, { ActionModalRef } from '../view/actionModalView';
 
+
+interface ExtendedAlertButton extends AlertButton {
+  textId:string
+}
+
 export interface ActionModalData {
   title: string;
   body: string;
   para?: string;
-  buttons: AlertButton[];
+  buttons: ExtendedAlertButton[];
   headerImage?: Source;
   onClosed: () => void;
   headerContent?: React.ReactNode;

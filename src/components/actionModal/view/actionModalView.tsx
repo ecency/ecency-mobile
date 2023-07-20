@@ -7,6 +7,7 @@ import styles from './actionModalStyles';
 
 import { ActionModalData } from '../container/actionModalContainer';
 import { MainButton } from '../../mainButton';
+import { useIntl } from 'react-intl';
 
 export interface ActionModalRef {
   showModal: () => void;
@@ -20,6 +21,8 @@ interface ActionModalViewProps {
 
 const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
   const sheetModalRef = useRef<ActionSheet>();
+
+  const intl = useIntl();
 
   useImperativeHandle(ref, () => ({
     showModal: () => {
@@ -59,7 +62,7 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
           buttons.map((props) => (
             <MainButton
               key={props.text}
-              text={props.text}
+              text={props.textId ? intl.formatMessage({id:props.textId}) : props.text}
               onPress={(evn) => {
                 sheetModalRef.current?.setModalVisible(false);
                 props.onPress(evn);
