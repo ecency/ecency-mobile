@@ -10,6 +10,7 @@ import { hsOptions } from '../../../constants/hsOptions';
 import WebView from 'react-native-webview';
 import { useDispatch } from 'react-redux';
 import { walletQueries } from '../../../providers/queries';
+import { delay } from '../../../utils/editor';
 
 
 const TradeScreen = ({ route, navigation }) => {
@@ -30,9 +31,11 @@ const TradeScreen = ({ route, navigation }) => {
     }, 3000);
   };
 
-  const _handleOnModalClose = () => {
+  const _handleOnModalClose = async () => {
     setShowHsModal(false);
     setHsSignPath('');
+
+    await delay(300)
     navigation.goBack();
   }
 
