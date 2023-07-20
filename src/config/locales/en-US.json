@@ -838,9 +838,9 @@
   },
   "trade":{
     "swap_token":"Swap Your Funds",
-    "more-than-balance": "Entered amount is more than your available available balance",
-    "offer-unavailable": "Offer not available for entered amount. Please, enter less value",
-    "too-much-slippage": "We highly recommend you to reduce amount for better pricing!",
+    "more-than-balance": "Entered amount is more than your available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
     "fee":"Fee",
     "free":"Free"
   },
