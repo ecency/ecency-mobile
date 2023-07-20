@@ -150,7 +150,7 @@
     "nft_updatePropertyDefinition": "Property Definition Updated for NFT",
     "nft_updateUrl": "NFT URL Updated",
     "nft_updateMetadata": "NFT Metadata Updated",
-    "nft_updateName": "NFT Name Updated",
+    "nft_updateName": "Nome do NFT atualizado",
     "nft_updateOrgName": "NFT Organization Name Updated",
     "nft_updateProductName": "NFT Product Name Updated",
     "nft_transferFee": "NFT Transfer Fee",
@@ -347,7 +347,7 @@
     "backup_private_keys": "Administrar Chaves Privadas",
     "backup": "Administrar",
     "keys_warning": "Sensitive account information!\nEcency must be secured with PIN code before viewing private keys.",
-    "set_pin": "Set PIN",
+    "set_pin": "Definir PIN",
     "backup_keys_modal": {
       "owner_key": "Chave do Proprietário",
       "active_key": "Chave Ativa",
