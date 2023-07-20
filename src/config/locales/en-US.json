@@ -842,7 +842,11 @@
     "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
     "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
     "fee":"Fee",
-    "free":"Free"
+    "free":"Free",
+    "confirm_swap":"Swap Confirmation!",
+    "swap_for" :"{fromAmount} for {toAmount}",
+    "swap_successful":"Successfully Swapped!",
+    "new_swap":"New Swap"
   },
   "boost": {
     "title": "Get Points",
