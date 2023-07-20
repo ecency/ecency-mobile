@@ -10,22 +10,21 @@ export const countDecimals = (value) => {
   return value.toString().split('.')[1].length || 0;
 };
 
-
 export const stripDecimalPlaces = (value: number, precision: number = 3) => {
   if (!Number(value)) {
     return 0;
   }
 
-  const power = Math.pow(10, precision)
+  const power = Math.pow(10, precision);
 
   return Math.floor(value * power) / power;
-}
+};
 
 export const getDecimalPlaces = (value: number) => {
   const regex = /(?<=\.)\d+/;
   const match = value.toString().match(regex);
   return match ? match[0].length : 0;
-}
+};
 
 export const formatNumberInputStr = (text: string, precision: number = 10) => {
   const _num = parseFloat(text);
@@ -33,17 +32,16 @@ export const formatNumberInputStr = (text: string, precision: number = 10) => {
   if (_num) {
     let _retVal = text;
     if ((text.startsWith('0') && _num >= 1) || text.startsWith('.')) {
-      _retVal = '' + _num;
+      _retVal = `${_num}`;
     }
 
     if (getDecimalPlaces(_num) > precision) {
-      _retVal = '' + stripDecimalPlaces(_num, precision)
+      _retVal = `${stripDecimalPlaces(_num, precision)}`;
     }
     return _retVal;
-  } else if(text === ''){
-    return '0'
+  } else if (text === '') {
+    return '0';
   } else {
     return text;
   }
-
-}
+};

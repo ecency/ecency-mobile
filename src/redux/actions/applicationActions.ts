@@ -165,21 +165,19 @@ export const isDefaultFooter = (payload) => ({
  */
 export const setCurrency = (currency) => async (dispatch) => {
   const currencySymbol = getSymbolFromCurrency(currency);
-  
+
   let currencyRate = 1;
-  if(currency !== 'usd'){
-    const _usdRate = await getFiatHbdRate('usd')
+  if (currency !== 'usd') {
+    const _usdRate = await getFiatHbdRate('usd');
     const _fiatRate = await getFiatHbdRate(currency);
     currencyRate = _fiatRate / _usdRate;
   }
-  
 
   dispatch({
     type: SET_CURRENCY,
     payload: { currency, currencyRate, currencySymbol },
   });
 };
-
 
 export const setPinCode = (data) => ({
   type: SET_PIN_CODE,

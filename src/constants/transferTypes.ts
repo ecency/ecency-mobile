@@ -7,12 +7,11 @@ const TransferTypes = {
   POINTS: 'points',
   WITHDRAW_HIVE: 'withdraw_hive',
   WITHDRAW_HBD: 'withdraw_hbd',
-  SWAP_TOKEN : 'swap_token',
+  SWAP_TOKEN: 'swap_token',
   DELEGATE: 'delegate',
   POWER_DOWN: 'power_down',
   ADDRESS_VIEW: 'address_view',
   DELEGATE_VESTING_SHARES: 'delegate_vesting_shares',
-  
 
   // Engine Transfer types
   WITHDRAW_VESTING: 'withdraw_vesting',

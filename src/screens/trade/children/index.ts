@@ -1,4 +1,4 @@
-export * from './swapTokenContent'
+export * from './swapTokenContent';
 export * from './swapAmountInput';
 export * from './swapFeeSection';
 export * from './errorSection';
