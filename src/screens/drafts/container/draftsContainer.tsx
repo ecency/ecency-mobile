@@ -101,6 +101,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
       cloneDraft={_cloneDraft}
       isCloning={_isCloning}
       handleItemLongPress={_handleItemLongPress}
+      batchSelectedItems={batchSelectedItems}
     />
   );
 };

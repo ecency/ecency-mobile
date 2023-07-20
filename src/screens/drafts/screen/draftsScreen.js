@@ -33,6 +33,7 @@ const DraftsScreen = ({
   cloneDraft,
   isCloning,
   handleItemLongPress,
+  batchSelectedItems,
 }) => {
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const draftsCollection = useAppSelector((state) => state.cache.draftsCollection);
@@ -101,6 +102,7 @@ const DraftsScreen = ({
         draftItem={item}
         isCloning={isCloning}
         handleLongPress={_handleLongPress}
+        isSelected={batchSelectedItems.find((batchItem) => batchItem.id === item._id)}
       />
     );
   };

@@ -16,6 +16,7 @@ import { OptionsModal } from '../../atoms';
 import styles from './draftListItemStyles';
 import { ScheduledPostStatus } from '../../../providers/ecency/ecency.types';
 import { PopoverWrapper } from '../../popoverWrapper/popoverWrapperView';
+import ESStyleSheet from 'react-native-extended-stylesheet';
 
 const DraftListItemView = ({
   title,
@@ -40,6 +41,7 @@ const DraftListItemView = ({
   draftItem,
   isCloning,
   handleLongPress,
+  isSelected,
 }) => {
   const actionSheet = useRef(null);
   const moveActionSheet = useRef(null);
@@ -97,8 +99,19 @@ const DraftListItemView = ({
 
   return (
     <Fragment>
-      <Pressable style={styles.container} onLongPress={_onItemLongPress}>
-        <View style={styles.header}>
+      <Pressable
+        style={[
+          styles.container,
+          isSelected && { backgroundColor: ESStyleSheet.value('$primaryBlue') },
+        ]}
+        onLongPress={_onItemLongPress}
+      >
+        <View
+          style={[
+            styles.header,
+            isSelected && { backgroundColor: ESStyleSheet.value('$primaryBlue') },
+          ]}
+        >
           <PostHeaderDescription
             date={isFormatedDate ? created : getTimeFromNow(created, true)}
             name={username}
@@ -179,7 +192,12 @@ const DraftListItemView = ({
                 resizeMode={FastImage.resizeMode.cover}
               />
             )}
-            <View style={[styles.postDescripton]}>
+            <View
+              style={[
+                styles.postDescripton,
+                isSelected && { backgroundColor: ESStyleSheet.value('$primaryBlue') },
+              ]}
+            >
               {title !== '' && <Text style={styles.title}>{title}</Text>}
               {summary !== '' && <Text style={styles.summary}>{summary}</Text>}
             </View>
