@@ -83,7 +83,7 @@
     "withdraw_hive": "Withdraw Savings",
     "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "To Savings",
-    "trade_token":"Trade Token",
+    "swap_token":"Swap Token",
     "convert": "Convert",
     "convert_request":"Convert Request",
     "escrow_transfer": "Escrow Transfer",
@@ -837,7 +837,7 @@
     "amount_select_desc_limit":" and must be greater than 0.001"
   },
   "trade":{
-    "title":"Swap Your Funds",
+    "swap_token":"Swap Your Funds",
     "more-than-balance": "Entered amount is more than your available available balance",
     "offer-unavailable": "Offer not available for entered amount. Please, enter less value",
     "too-much-slippage": "We highly recommend you to reduce amount for better pricing!",

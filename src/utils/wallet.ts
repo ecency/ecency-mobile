@@ -67,14 +67,14 @@ const HIVE_ACTIONS = [
   'transfer_to_savings',
   'transfer_to_vesting',
   'withdraw_hive',
-  'trade_token'
+  'swap_token'
 ];
 const HBD_ACTIONS = [
   'transfer_token', 
   'transfer_to_savings', 
   'convert', 
   'withdraw_hbd',
-  'trade_token'
+  'swap_token'
 ];
 const HIVE_POWER_ACTIONS = ['delegate', 'power_down'];
 

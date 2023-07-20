@@ -139,7 +139,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
           balance = coinData.savings ?? 0;
           break;
 
-        case TransferTypes.TRADE_TOKEN:
+        case TransferTypes.SWAP_TOKEN:
           navigateTo = ROUTES.SCREENS.TRADE;
           break;
 
