@@ -1,4 +1,3 @@
-import ePointApi from '../../config/api';
 import ecencyApi from '../../config/ecencyApi';
 import bugsnagInstance from '../../config/bugsnag';
 import { EcencyUser, UserPoint } from './ecency.types';
@@ -74,22 +73,17 @@ export const claimPoints = async () => {
  * params: 
  * game_type:string
  * 
-**/
-export const gameStatusCheck = (username, type) =>
-  new Promise((resolve, reject) => {
-    ePointApi
-      .get(`/game/${username}`, {
-        params: {
-          type,
-        },
-      })
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+* */
+export const gameStatusCheck = async (game_type: string) => {
+  try {
+    const data = { game_type };
+    const res = await ecencyApi.post('/private-api/get-game', data);
+    return res;
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    throw error;
+  }
+};
 
 /**
  * TOOD:
@@ -100,18 +94,15 @@ export const gameStatusCheck = (username, type) =>
  * 
  * body:
  * key:string
-**/
+* */
 
-export const gameClaim = (username, type, key) =>
-  new Promise((resolve, reject) => {
-    ePointApi
-      .post(`/game/${username}?type=${type}`, {
-        key,
-      })
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+export const gameClaim = async (game_type: string) => {
+  try {
+    const data = { game_type };
+    const res = await ecencyApi.post('/private-api/get-game', data);
+    return res;
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    throw error;
+  }
+}

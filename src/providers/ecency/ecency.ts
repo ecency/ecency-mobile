@@ -24,6 +24,7 @@ import {
   ReferralStat,
   Snippet,
 } from './ecency.types';
+import reactotron from 'reactotron-react-native';
 
 /**
  * ************************************
@@ -234,7 +235,7 @@ export const deleteBookmark = async (bookmarkId: string) => {
 **/
 export const addReport = async (type: 'content' | 'user', data: string) => {
   try {
-    const response = await api.post('/report', {
+    const response = await api.post('/private-api/report', {
       type,
       data,
     });
@@ -256,10 +257,11 @@ export const addReport = async (type: 'content' | 'user', data: string) => {
 * data:string
 * 
 **/
-export const deleteAccount = async (username: string) => {
+export const deleteAccount = async (data: string, username: string) => {
   try {
-    const response = await api.post('/request-delete', {
+    const response = await api.post('/private-api/request-delete', {
       username,
+      data
     });
     return response.data;
   } catch (err) {
@@ -817,27 +819,47 @@ NOTE: data or type PurchaseRequestData should contain body, pass as it is
  * @param data PurchaseRequestData
  * @returns
  **/
-export const purchaseOrder = (data: PurchaseRequestData) =>
-  api
-    .post('/purchase-order', data)
-    .then((resp) => resp.data)
-    .catch((error) => bugsnagInstance.notify(error));
+
+// api
+//   .post('/purchase-order', data)
+//   .then((resp) => resp.data)
+//   .catch((error) => bugsnagInstance.notify(error));
+
+export const purchaseOrder = async (data: PurchaseRequestData, platform: string, product: string, receipt: string, user: string) => {
+  const orderData = {
+    platform,
+    product,
+    receipt,
+    user
+  }
+  try {
+
+    const response = await ecencyApi.post('/private-api/purchase-order', orderData);
+    return response.data;
+  }
+  catch (error) {
+    bugsnagInstance.notify(error);
+    throw error;
+  }
+}
 
 
-/**
-* TOOD:
-* POST /private-api/post-reblogs
-* 
-* params: 
-* author:string
-* permlink:string
-* 
-**/
-export const getPostReblogs = (data) =>
-  api
-    .get(`/post-reblogs/${data.author}/${data.permlink}`)
-    .then((resp) => resp.data)
-    .catch((error) => bugsnagInstance.notify(error));
+export const getPostReblogs = async (author: string, permlink: string) => {
+  const data = {
+    author,
+    permlink
+  }
+  try {
+
+    const response = await ecencyApi.post('/private-api/post-reblogs', data);
+    return response.data;
+    // reactotron.log("response: ", response);
+  }
+  catch (error) {
+    bugsnagInstance.notify(error);
+    throw error;
+  }
+}
 
 /**
  * Registers new user with ecency and hive, on confirmation sends
