@@ -3,6 +3,7 @@ import { getAnyPrivateKey, getDigitPinCode, getMarketStatistics, sendHiveOperati
 import { MarketAsset, MarketStatistics, OrderIdPrefix, SwapOptions, TransactionType } from './hiveTrade.types';
 import bugsnapInstance from '../../config/bugsnag';
 import { Operation } from '@hiveio/dhive';
+import { convertSwapOptionsToLimitOrder } from './converters';
 
 
 //This operation creates a limit order and matches it against existing open orders. 
@@ -31,27 +32,12 @@ export const limitOrderCreate = (
         expiration.setDate(expiration.getDate() + 27);
         expiration = expiration.toISOString().split(".")[0];
 
+        const data = getLimitOrderCreateOpData(currentAccount.username, amountToSell, minToReceive, orderType, idPrefix);
+
         const args: Operation[] = [
             [
                 'limit_order_create',
-                {
-                    owner: currentAccount.username,
-                    orderid: Number(
-                        `${idPrefix}${Math.floor(Date.now() / 1000)
-                            .toString()
-                            .slice(2)}`
-                    ),
-                    amount_to_sell: `${orderType === TransactionType.Buy
-                        ? amountToSell.toFixed(3)
-                        : minToReceive.toFixed(3)
-                        } ${orderType === TransactionType.Buy ? MarketAsset.HBD : MarketAsset.HIVE}`,
-                    min_to_receive: `${orderType === TransactionType.Buy
-                        ? minToReceive.toFixed(3)
-                        : amountToSell.toFixed(3)
-                        } ${orderType === TransactionType.Buy ? MarketAsset.HIVE : MarketAsset.HBD}`,
-                    fill_or_kill: false,
-                    expiration: expiration
-                },
+                data
             ],
         ];
 
@@ -76,28 +62,57 @@ export const limitOrderCreate = (
 
 
 
+export const generateHsLimitOrderCreatePath = (
+    currentAccount: any,
+    amountToSell: number,
+    minToReceive: number,
+    orderType: TransactionType,
+    idPrefix = OrderIdPrefix.EMPTY) => {
+
+    const data = getLimitOrderCreateOpData(currentAccount.username, amountToSell, minToReceive, orderType, idPrefix)
+
+    const query = new URLSearchParams(data).toString()
+
+    return `sign/limitOrderCreate?${query}`
+
+}
+
+
+
+export const generateHsSwapTokenPath = (
+    currentAccount: any,
+    data: SwapOptions) => {
+
+    const {
+        amountToSell,
+        minToRecieve,
+        transactionType
+    } = convertSwapOptionsToLimitOrder(data)
+
+    return generateHsLimitOrderCreatePath(
+        currentAccount,
+        amountToSell,
+        minToRecieve,
+        transactionType,
+        OrderIdPrefix.SWAP
+    )
+}
+
+
+
+
 export const swapToken = async (
     currentAccount: any,
     pinHash: string,
     data: SwapOptions) => {
 
     try {
-        let amountToSell = 0;
-        let minToRecieve = 0;
-        let transactionType = TransactionType.None;
+        const {
+            amountToSell,
+            minToRecieve,
+            transactionType
+        } = convertSwapOptionsToLimitOrder(data)
 
-        switch (data.fromAsset) {
-            case MarketAsset.HIVE:
-                amountToSell = data.toAmount
-                minToRecieve = data.fromAmount
-                transactionType = TransactionType.Sell
-                break;
-            case MarketAsset.HBD:
-                amountToSell = data.fromAmount
-                minToRecieve = data.toAmount
-                transactionType = TransactionType.Buy
-                break;
-        }
 
         await limitOrderCreate(
             currentAccount,
@@ -139,5 +154,31 @@ export const fetchHiveMarketRate = async (asset: MarketAsset): Promise<number> =
         console.warn("failed to get hive market rate");
         bugsnapInstance.notify(err);
         throw err;
+    }
+}
+
+
+const getLimitOrderCreateOpData = (username, amountToSell, minToReceive, orderType, idPrefix) => {
+    let expiration: any = new Date(Date.now());
+    expiration.setDate(expiration.getDate() + 27);
+    expiration = expiration.toISOString().split(".")[0];
+
+    return {
+        owner: username,
+        orderid: Number(
+            `${idPrefix}${Math.floor(Date.now() / 1000)
+                .toString()
+                .slice(2)}`
+        ),
+        amount_to_sell: `${orderType === TransactionType.Buy
+            ? amountToSell.toFixed(3)
+            : minToReceive.toFixed(3)
+            } ${orderType === TransactionType.Buy ? MarketAsset.HBD : MarketAsset.HIVE}`,
+        min_to_receive: `${orderType === TransactionType.Buy
+            ? minToReceive.toFixed(3)
+            : amountToSell.toFixed(3)
+            } ${orderType === TransactionType.Buy ? MarketAsset.HIVE : MarketAsset.HBD}`,
+        fill_or_kill: false,
+        expiration: expiration
     }
 }

@@ -4,7 +4,7 @@ import styles from '../styles/tradeScreen.styles';
 import { AssetChangeBtn, ErrorSection, SwapAmountInput, SwapFeeSection } from '../children';
 import { Icon, MainButton } from '../../../components';
 import { useIntl } from 'react-intl';
-import { fetchHiveMarketRate, swapToken } from '../../../providers/hive-trade/hiveTrade';
+import { fetchHiveMarketRate, generateHsSwapTokenPath, swapToken } from '../../../providers/hive-trade/hiveTrade';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { MarketAsset, SwapOptions } from '../../../providers/hive-trade/hiveTrade.types';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
@@ -14,12 +14,18 @@ import { useSwapCalculator } from '../children/useSwapCalculator';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useNavigation } from '@react-navigation/native';
+import AUTH_TYPE from '../../../constants/authType';
 import { delay } from '../../../utils/editor';
 
 
+interface Props {
+    initialSymbol: MarketAsset,
+    handleHsTransfer: (hsSignPath: string) => void,
+    onSuccess: () => void
+}
 
 
-export const SwapTokenContent = ({ initialSymbol }: { initialSymbol: MarketAsset }) => {
+export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }: Props) => {
 
     const intl = useIntl();
     const dispatch = useAppDispatch();
@@ -149,30 +155,42 @@ export const SwapTokenContent = ({ initialSymbol }: { initialSymbol: MarketAsset
 
     //initiates swaping action on confirmation
     const _confirmSwap = async () => {
-        try {
 
-            setSwapping(true)
-            const _fromAmount = Number(fromAmount)
+        const _fromAmount = Number(fromAmount)
 
-            const data: SwapOptions = {
-                fromAsset: fromAssetSymbol,
-                fromAmount: _fromAmount,
-                toAmount: toAmount
-            }
+        const data: SwapOptions = {
+            fromAsset: fromAssetSymbol,
+            fromAmount: _fromAmount,
+            toAmount: toAmount
+        }
 
-            await swapToken(
+
+        if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+            await delay(500); //NOTE: it's required to avoid modal mis fire
+            handleHsTransfer(generateHsSwapTokenPath(
                 currentAccount,
-                pinHash,
                 data
-            )
+            ))
 
-            assetsQuery.refetch();
-            setSwapping(false)
-            _onSwapSuccess();
+        } else {
+            try {
 
-        } catch (err) {
-            Alert.alert('fail', err.message)
-            setSwapping(false)
+                setSwapping(true)
+
+                await swapToken(
+                    currentAccount,
+                    pinHash,
+                    data
+                )
+
+                onSuccess();
+                setSwapping(false)
+                _onSwapSuccess();
+
+            } catch (err) {
+                Alert.alert('fail', err.message)
+                setSwapping(false)
+            }
         }
 
     }
@@ -191,6 +209,7 @@ export const SwapTokenContent = ({ initialSymbol }: { initialSymbol: MarketAsset
                 { textId: 'alert.continue', onPress: _confirmSwap }
             ]
         }))
+
     };
 
 
