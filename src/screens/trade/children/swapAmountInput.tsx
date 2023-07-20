@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TextInput, Text } from "react-native";
 import styles from '../styles/swapAmountInput.styles';
 import { useAppSelector } from '../../../hooks';
+import { formatNumberInputStr } from '../../../utils/number';
 
 interface SwapInputProps {
   label: string;
@@ -21,6 +22,13 @@ export const SwapAmountInput = ({ label, onChangeText, value, fiatPrice, symbol 
 
   const _fiatValue = ((Number(value) || 0) * fiatPrice).toFixed(3);
 
+  const _onChangeText = (text: string) => {
+    if(onChangeText){
+      onChangeText(formatNumberInputStr(text, 3))
+    }
+    
+  }
+
 
   return (
     <View style={styles.container} >
@@ -28,7 +36,7 @@ export const SwapAmountInput = ({ label, onChangeText, value, fiatPrice, symbol 
       <View style={styles.inputContainer}>
         <TextInput
           editable={!!onChangeText}
-          onChangeText={onChangeText}
+          onChangeText={_onChangeText}
           value={value}
           keyboardType='numeric'
           style={styles.input}

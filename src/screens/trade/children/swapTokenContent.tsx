@@ -184,7 +184,7 @@ export const SwapTokenContent = ({ initialSymbol }: { initialSymbol: MarketAsset
         setFromAssetSymbol(_toAssetSymbol)
     }
 
-    const _disabledContinue = _isFetchingOrders || loading || isMoreThanBalance || offerUnavailable || !Number(fromAmount)
+    const _disabledContinue = _isFetchingOrders || loading || isMoreThanBalance || offerUnavailable || !Number(fromAmount) || !Number(toAmount)
 
 
     const _renderBalance = () => (
