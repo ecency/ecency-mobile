@@ -126,7 +126,7 @@ export const addDraft = async (draft: Object) => {
     const res = await ecencyApi.post('/private-api/drafts-add', newDraft);
     const rawData = res.data?.drafts;
 
-    if(!rawData){
+    if (!rawData) {
       throw new Error("Invalid response, drafts data not returned")
     }
 
@@ -223,6 +223,15 @@ export const deleteBookmark = async (bookmarkId: string) => {
   }
 };
 
+/**
+* TOOD:
+* POST /private-api/report
+* 
+* body: 
+* type:string
+* data:string
+* 
+**/
 export const addReport = async (type: 'content' | 'user', data: string) => {
   try {
     const response = await api.post('/report', {
@@ -237,6 +246,16 @@ export const addReport = async (type: 'content' | 'user', data: string) => {
   }
 };
 
+
+/**
+* TOOD:
+* POST /private-api/request-delete
+* 
+* body: 
+* username:string
+* data:string
+* 
+**/
 export const deleteAccount = async (username: string) => {
   try {
     const response = await api.post('/request-delete', {
@@ -778,6 +797,21 @@ export const getPromotedEntries = async (username: string) => {
   }
 };
 
+
+/**
+* TOOD:
+* POST /private-api/purchase-order
+* 
+* body: 
+* platform:string
+* product:string
+* receipt:string
+* user:string
+
+NOTE: data or type PurchaseRequestData should contain body, pass as it is
+**/
+
+
 /**
  * post inapp purchase method to call
  * @param data PurchaseRequestData
@@ -789,6 +823,16 @@ export const purchaseOrder = (data: PurchaseRequestData) =>
     .then((resp) => resp.data)
     .catch((error) => bugsnagInstance.notify(error));
 
+
+/**
+* TOOD:
+* POST /private-api/post-reblogs
+* 
+* params: 
+* author:string
+* permlink:string
+* 
+**/
 export const getPostReblogs = (data) =>
   api
     .get(`/post-reblogs/${data.author}/${data.permlink}`)

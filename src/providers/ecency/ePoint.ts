@@ -66,6 +66,15 @@ export const claimPoints = async () => {
   }
 };
 
+
+/**
+ * TOOD:
+ * POST /private-api/get-game
+ * 
+ * params: 
+ * game_type:string
+ * 
+**/
 export const gameStatusCheck = (username, type) =>
   new Promise((resolve, reject) => {
     ePointApi
@@ -81,6 +90,17 @@ export const gameStatusCheck = (username, type) =>
         reject(error);
       });
   });
+
+/**
+ * TOOD:
+ * POST /private-api/post-game
+ * 
+ * params: 
+ * game_type:string
+ * 
+ * body:
+ * key:string
+**/
 
 export const gameClaim = (username, type, key) =>
   new Promise((resolve, reject) => {
