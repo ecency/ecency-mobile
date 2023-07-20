@@ -2,17 +2,19 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { View, Text, Alert, RefreshControl } from 'react-native';
 import styles from '../styles/tradeScreen.styles';
 import { AssetChangeBtn, ErrorSection, SwapAmountInput, SwapFeeSection } from '../children';
-import { MainButton } from '../../../components';
+import { Icon, MainButton } from '../../../components';
 import { useIntl } from 'react-intl';
 import { fetchHiveMarketRate, swapToken } from '../../../providers/hive-trade/hiveTrade';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { MarketAsset, SwapOptions } from '../../../providers/hive-trade/hiveTrade.types';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
-import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
+import { showActionModal } from '../../../redux/actions/uiAction';
 import { walletQueries } from '../../../providers/queries';
 import { useSwapCalculator } from '../children/useSwapCalculator';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { useNavigation } from '@react-navigation/native';
+import { delay } from '../../../utils/editor';
 
 
 
@@ -21,6 +23,7 @@ export const SwapTokenContent = ({ initialSymbol }: { initialSymbol: MarketAsset
 
     const intl = useIntl();
     const dispatch = useAppDispatch();
+    const navigation = useNavigation();
 
     //queres
     const assetsQuery = walletQueries.useAssetsQuery();
@@ -115,6 +118,35 @@ export const SwapTokenContent = ({ initialSymbol }: { initialSymbol: MarketAsset
     }
 
 
+    const _reset = () => {
+        setFromAmount('0');
+    }
+
+
+    const _onSwapSuccess = () => {
+
+        const headerContent = (
+            <View style={{ backgroundColor: EStyleSheet.value('$primaryGreen'), borderRadius: 56, padding: 8 }} >
+                <Icon
+                    style={{ borderWidth: 0 }}
+                    size={64}
+                    color={EStyleSheet.value('$pureWhite')}
+                    name="check"
+                    iconType="MaterialIcons"
+                />
+            </View>
+        )
+        dispatch(showActionModal({
+            headerContent,
+            title: intl.formatMessage({ id: 'trade.swap_successful' }),
+            buttons: [
+                { textId: 'trade.new_swap', onPress: _reset },
+                { textId: 'alert.okay', onPress: () => navigation.goBack() }
+            ]
+        }))
+    }
+
+
     //initiates swaping action on confirmation
     const _confirmSwap = async () => {
         try {
@@ -135,9 +167,8 @@ export const SwapTokenContent = ({ initialSymbol }: { initialSymbol: MarketAsset
             )
 
             assetsQuery.refetch();
-
-            dispatch(toastNotification("successful swap"));
             setSwapping(false)
+            _onSwapSuccess();
 
         } catch (err) {
             Alert.alert('fail', err.message)
@@ -151,21 +182,13 @@ export const SwapTokenContent = ({ initialSymbol }: { initialSymbol: MarketAsset
     const handleContinue = () => {
 
         dispatch(showActionModal({
-            title: "confirm swap",
-            body: `swaping ${fromAmount} ${fromAssetSymbol} for ${_toAssetSymbol} ${_toAmountStr}`,
+            title: intl.formatMessage({ id: 'trade.confirm_swap' }),
+            body: intl.formatMessage(
+                { id: 'trade.swap_for' },
+                { fromAmount: `${fromAmount} ${fromAssetSymbol}`, toAmount: `${_toAmountStr} ${_toAssetSymbol}` }),
             buttons: [
-                {
-                    text: 'Cancel',
-                    onPress: () => {
-                        console.log('Swap transaction canceled');
-                    }
-                },
-                {
-                    text: 'Confirm',
-                    onPress: () => {
-                        _confirmSwap()
-                    }
-                }
+                { textId: 'alert.cancel', onPress: () => { } },
+                { textId: 'alert.continue', onPress: _confirmSwap }
             ]
         }))
     };
