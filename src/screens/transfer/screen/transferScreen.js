@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Button, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import { get, debounce } from 'lodash';

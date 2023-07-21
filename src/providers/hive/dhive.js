@@ -175,6 +175,11 @@ export const getDynamicGlobalProperties = () => client.database.getDynamicGlobal
 
 export const getRewardFund = () => client.database.call('get_reward_fund', ['post']);
 
+export const getMarketStatistics = () => client.call('condenser_api', 'get_ticker', []);
+
+export const getOrderBook = (limit = 500) =>
+  client.call('condenser_api', 'get_order_book', [limit]);
+
 export const getFeedHistory = async () => {
   try {
     const feedHistory = await client.database.call('get_feed_history');
