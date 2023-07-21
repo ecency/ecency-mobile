@@ -96,34 +96,14 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
     } else if (type === DraftTypes.SCHEDULES) {
       setBatchSelectedSchedules(_getUpdatedArray(batchSelectedSchedules, id));
     }
-    // console.log('id, type : ', id, type);
-    // let _batchSelectedItemsArr = batchSelectedItems.slice();
-    // const index = _batchSelectedItemsArr.findIndex((item) => item.id === id);
-
-    // if (index !== -1) {
-    //   // Object exists in array, so remove it
-    //   _batchSelectedItemsArr.splice(index, 1);
-    // } else {
-    //   // Object doesn't exist in array, so push it
-    //   _batchSelectedItemsArr.push({ id, type });
-    // }
-    // setBatchSelectedItems(_batchSelectedItemsArr);
   };
 
   const _handleBatchDelete = async () => {
-    // const filteredDraftsIds = batchSelectedItems
-    //   .filter((item) => item.type === DraftTypes.DRAFTS)
-    //   .map((item) => item.id);
-    // const filteredSchedulesIds = batchSelectedItems
-    //   .filter((item) => item.type === DraftTypes.SCHEDULES)
-    //   .map((item) => item.id);
     if (batchSelectedDrafts && batchSelectedDrafts.length > 0) {
       draftsBatchDeleteMutation.mutate(batchSelectedDrafts, {
         onSettled: () => {
           console.log('drafts deleted successfully!');
-          setBatchSelectedDrafts(
-            batchSelectedItems.filter((obj) => !batchSelectedDrafts.includes(obj.id)),
-          );
+          setBatchSelectedDrafts([]);
         },
       });
     }
@@ -131,9 +111,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
       schedulesBatchDeleteMutation.mutate(batchSelectedSchedules, {
         onSettled: () => {
           console.log('schedules deleted successfully!');
-          setBatchSelectedSchedules(
-            batchSelectedItems.filter((obj) => !batchSelectedSchedules.includes(obj.id)),
-          );
+          setBatchSelectedSchedules([]);
         },
       });
     }
@@ -142,8 +120,6 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   // const _onChangeTab = ({ i, ref }) => {
   //   setSelectedTabIndex(i);
   // };
-  console.log('batchSelectedDrafts : ', JSON.stringify(batchSelectedDrafts, null, 2));
-  console.log('batchSelectedSchedules : ', JSON.stringify(batchSelectedSchedules, null, 2));
 
   return (
     <DraftsScreen
