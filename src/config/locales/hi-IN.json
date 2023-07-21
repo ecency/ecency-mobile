@@ -83,6 +83,7 @@
     "withdraw_hive": "बचत खाते से निकालें",
     "withdraw_hbd": "बचत खाते से निकालें",
     "transfer_to_savings": "बचत करने के लिए",
+    "swap_token": "Swap Token",
     "convert": "बदलें",
     "convert_request": "अनुरोध कनवर्ट करें",
     "escrow_transfer": "एस्क्रो ट्रांसफर",
@@ -574,6 +575,7 @@
     "move": "हटाना",
     "continue": "Continue",
     "okay": "Okay",
+    "done": "Done",
     "move_question": "क्या आप ड्राफ्ट में जाना सुनिश्चित करते हैं?",
     "success_shared": "सफलता! प्रस्तुत सामग्री!",
     "success_moved": "ड्राफ्ट में ले जाया गया",
@@ -833,6 +835,18 @@
     "amount_select_title": "Action Details",
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001"
+  },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Entered amount is more than your available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
+    "fee": "Fee",
+    "free": "Free",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped!",
+    "new_swap": "New Swap"
   },
   "boost": {
     "title": "अंक प्राप्त करें",
