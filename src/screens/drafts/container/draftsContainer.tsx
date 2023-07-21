@@ -50,7 +50,8 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   } = useGetSchedulesQuery();
 
   const [initialTabIndex] = useState(route.params?.showSchedules ? 1 : 0);
-  const [batchSelectedItems, setBatchSelectedItems] = useState<any>([]);
+  const [batchSelectedDrafts, setBatchSelectedDrafts] = useState<string[]>([]);
+  const [batchSelectedSchedules, setBatchSelectedSchedules] = useState<string[]>([]);
   // const [selectedTabIndex, setSelectedTabIndex] = useState(route.params?.showSchedules ? 1 : 0);
 
   // Component Functions
@@ -76,44 +77,62 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
 
   const _isCloning = isCloningDraft;
 
-  const _handleItemLongPress = (id, type) => {
-    console.log('id, type : ', id, type);
-    let _batchSelectedItemsArr = batchSelectedItems.slice();
-    const index = _batchSelectedItemsArr.findIndex((item) => item.id === id);
+  const _getUpdatedArray = (arr: string[], id: string) => {
+    let _tempArr = arr.slice();
+    const index = _tempArr.findIndex((item) => item === id);
 
     if (index !== -1) {
       // Object exists in array, so remove it
-      _batchSelectedItemsArr.splice(index, 1);
+      _tempArr.splice(index, 1);
     } else {
       // Object doesn't exist in array, so push it
-      _batchSelectedItemsArr.push({ id, type });
+      _tempArr.push(id);
     }
-    setBatchSelectedItems(_batchSelectedItemsArr);
+    return _tempArr;
+  };
+  const _handleItemLongPress = (id, type) => {
+    if (type === DraftTypes.DRAFTS) {
+      setBatchSelectedDrafts(_getUpdatedArray(batchSelectedDrafts, id));
+    } else if (type === DraftTypes.SCHEDULES) {
+      setBatchSelectedSchedules(_getUpdatedArray(batchSelectedSchedules, id));
+    }
+    // console.log('id, type : ', id, type);
+    // let _batchSelectedItemsArr = batchSelectedItems.slice();
+    // const index = _batchSelectedItemsArr.findIndex((item) => item.id === id);
+
+    // if (index !== -1) {
+    //   // Object exists in array, so remove it
+    //   _batchSelectedItemsArr.splice(index, 1);
+    // } else {
+    //   // Object doesn't exist in array, so push it
+    //   _batchSelectedItemsArr.push({ id, type });
+    // }
+    // setBatchSelectedItems(_batchSelectedItemsArr);
   };
 
   const _handleBatchDelete = async () => {
-    const filteredDraftsIds = batchSelectedItems
-      .filter((item) => item.type === DraftTypes.DRAFTS)
-      .map((item) => item.id);
-    const filteredSchedulesIds = batchSelectedItems
-      .filter((item) => item.type === DraftTypes.SCHEDULES)
-      .map((item) => item.id);
-    if (filteredDraftsIds && filteredDraftsIds.length > 0) {
-      draftsBatchDeleteMutation.mutate(filteredDraftsIds, {
+    // const filteredDraftsIds = batchSelectedItems
+    //   .filter((item) => item.type === DraftTypes.DRAFTS)
+    //   .map((item) => item.id);
+    // const filteredSchedulesIds = batchSelectedItems
+    //   .filter((item) => item.type === DraftTypes.SCHEDULES)
+    //   .map((item) => item.id);
+    if (batchSelectedDrafts && batchSelectedDrafts.length > 0) {
+      draftsBatchDeleteMutation.mutate(batchSelectedDrafts, {
         onSettled: () => {
           console.log('drafts deleted successfully!');
-          setBatchSelectedItems(
-            batchSelectedItems.filter((obj) => !filteredDraftsIds.includes(obj.id)),
+          setBatchSelectedDrafts(
+            batchSelectedItems.filter((obj) => !batchSelectedDrafts.includes(obj.id)),
           );
         },
       });
     }
-    if (filteredSchedulesIds && filteredSchedulesIds.length > 0) {
-      schedulesBatchDeleteMutation.mutate(filteredSchedulesIds, {
+    if (batchSelectedSchedules && batchSelectedSchedules.length > 0) {
+      schedulesBatchDeleteMutation.mutate(batchSelectedSchedules, {
         onSettled: () => {
           console.log('schedules deleted successfully!');
-          setBatchSelectedItems(
-            batchSelectedItems.filter((obj) => !filteredSchedulesIds.includes(obj.id)),
+          setBatchSelectedSchedules(
+            batchSelectedItems.filter((obj) => !batchSelectedSchedules.includes(obj.id)),
           );
         },
       });
@@ -123,6 +142,8 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   // const _onChangeTab = ({ i, ref }) => {
   //   setSelectedTabIndex(i);
   // };
+  console.log('batchSelectedDrafts : ', JSON.stringify(batchSelectedDrafts, null, 2));
+  console.log('batchSelectedSchedules : ', JSON.stringify(batchSelectedSchedules, null, 2));
 
   return (
     <DraftsScreen
@@ -143,7 +164,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
       cloneDraft={_cloneDraft}
       isCloning={_isCloning}
       handleItemLongPress={_handleItemLongPress}
-      batchSelectedItems={batchSelectedItems}
+      batchSelectedItems={[...batchSelectedDrafts, ...batchSelectedSchedules]}
       handleBatchDeletePress={_handleBatchDelete}
       // onChangeTab={_onChangeTab}
     />

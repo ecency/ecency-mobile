@@ -107,7 +107,7 @@ const DraftsScreen = ({
         draftItem={item}
         isCloning={isCloning}
         handleLongPress={_handleLongPress}
-        isSelected={batchSelectedItems.find((batchItem) => batchItem.id === item._id)}
+        isSelected={batchSelectedItems.find((batchItem) => batchItem === item._id)}
         batchSelectionActive={batchSelectedItems && batchSelectedItems.length > 0}
       />
     );
