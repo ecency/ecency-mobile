@@ -19,6 +19,7 @@ import {
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
+import { DraftTypes } from '../../../constants/draftTypes';
 
 // Utilities
 
@@ -92,10 +93,10 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
 
   const _handleBatchDelete = async () => {
     const filteredDraftsIds = batchSelectedItems
-      .filter((item) => item.type === 'drafts')
+      .filter((item) => item.type === DraftTypes.DRAFTS)
       .map((item) => item.id);
     const filteredSchedulesIds = batchSelectedItems
-      .filter((item) => item.type === 'schedules')
+      .filter((item) => item.type === DraftTypes.SCHEDULES)
       .map((item) => item.id);
     if (filteredDraftsIds && filteredDraftsIds.length > 0) {
       draftsBatchDeleteMutation.mutate(filteredDraftsIds, {
