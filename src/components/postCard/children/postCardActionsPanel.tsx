@@ -40,6 +40,7 @@ export const PostCardActionsPanel = ({ content, reblogs, handleCardInteraction }
       handleCardInteraction(PostCardActionIds.NAVIGATE, {
         name: ROUTES.SCREENS.REBLOGS,
         params: {
+          content,
           reblogs,
         },
       });
