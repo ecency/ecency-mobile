@@ -83,6 +83,7 @@
     "withdraw_hive": "Withdraw Savings",
     "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "Hoiusesse",
+    "swap_token": "Swap Token",
     "convert": "Konverteeri",
     "convert_request": "Convert Request",
     "escrow_transfer": "Deposiidi ülekanne",
@@ -574,6 +575,7 @@
     "move": "Liiguta",
     "continue": "Continue",
     "okay": "Okay",
+    "done": "Done",
     "move_question": "Oled sa kindel, et soovid mustanditesse teisaldada?",
     "success_shared": "Valmis! Sisu esitatud!",
     "success_moved": "Teisaldatud mustanditesse",
@@ -833,6 +835,18 @@
     "amount_select_title": "Action Details",
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001"
+  },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Entered amount is more than your available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
+    "fee": "Fee",
+    "free": "Free",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped!",
+    "new_swap": "New Swap"
   },
   "boost": {
     "title": "Osta Punkte",
