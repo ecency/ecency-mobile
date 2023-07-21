@@ -83,6 +83,7 @@
     "withdraw_hive": "Retirar ahorros",
     "withdraw_hbd": "Retirar ahorros",
     "transfer_to_savings": "A ahorros",
+    "swap_token": "Swap Token",
     "convert": "Convertir",
     "convert_request": "Solicitudes de conversión",
     "escrow_transfer": "Transferencia de fideicomiso",
@@ -574,6 +575,7 @@
     "move": "Mover",
     "continue": "Continuar",
     "okay": "Ok",
+    "done": "Done",
     "move_question": "¿Está seguro de moverlo a borradores?",
     "success_shared": "¡Éxito! ¡Contenido enviado!",
     "success_moved": "Movido a borradores",
@@ -833,6 +835,18 @@
     "amount_select_title": "Detalles de la acción",
     "amount_select_description": "Introduzca la cantidad dentro del saldo máximo disponible {suffix}",
     "amount_select_desc_limit": " y debe ser mayor que 0.001"
+  },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Entered amount is more than your available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
+    "fee": "Fee",
+    "free": "Free",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped!",
+    "new_swap": "New Swap"
   },
   "boost": {
     "title": "Obtener Puntos",
