@@ -83,6 +83,7 @@
     "withdraw_hive": "Sacar da Poupança",
     "withdraw_hbd": "Sacar da Poupança",
     "transfer_to_savings": "Depositar nas Poupanças",
+    "swap_token": "Swap Token",
     "convert": "Converter",
     "convert_request": "Requerimento de Conversão",
     "escrow_transfer": "Transferência do Escrow",
@@ -574,6 +575,7 @@
     "move": "Mover",
     "continue": "Continuar",
     "okay": "Ok",
+    "done": "Done",
     "move_question": "Tem certeza que deseja mover para rascunhos?",
     "success_shared": "Sucesso! Conteúdo submetido!",
     "success_moved": "Movido para Rascunhos",
@@ -833,6 +835,18 @@
     "amount_select_title": "Detalhes do Procedimento",
     "amount_select_description": "Digite um valor dentro do saldo disponível {suffix}",
     "amount_select_desc_limit": " e deve ser maior que 0,001"
+  },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Entered amount is more than your available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
+    "fee": "Fee",
+    "free": "Free",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped!",
+    "new_swap": "New Swap"
   },
   "boost": {
     "title": "Obter Pontos",
