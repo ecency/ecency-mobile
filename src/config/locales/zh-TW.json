@@ -83,6 +83,7 @@
     "withdraw_hive": "從儲存提款Hive出來",
     "withdraw_hbd": "從儲存提款HBD出來",
     "transfer_to_savings": "轉為儲蓄",
+    "swap_token": "Swap Token",
     "convert": "兌換",
     "convert_request": "提出兌換要求",
     "escrow_transfer": "託管轉帳",
@@ -574,6 +575,7 @@
     "move": "移動",
     "continue": "Continue",
     "okay": "Okay",
+    "done": "Done",
     "move_question": "您確定要存為草稿嗎？",
     "success_shared": "成功遞交！內容已經上載成功。",
     "success_moved": "存為草稿",
@@ -833,6 +835,18 @@
     "amount_select_title": "Action Details",
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001"
+  },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Entered amount is more than your available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
+    "fee": "Fee",
+    "free": "Free",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped!",
+    "new_swap": "New Swap"
   },
   "boost": {
     "title": "獲取積分",
