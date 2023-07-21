@@ -83,6 +83,7 @@
     "withdraw_hive": "Вывести сбережения",
     "withdraw_hbd": "Вывести сбережения",
     "transfer_to_savings": "В Сейф",
+    "swap_token": "Swap Token",
     "convert": "Конвертировать",
     "convert_request": "Преобразовать запрос",
     "escrow_transfer": "Передача на депозит",
@@ -574,6 +575,7 @@
     "move": "Переместить",
     "continue": "Продолжить",
     "okay": "Окей",
+    "done": "Done",
     "move_question": "Вы уверены, что хотите переместить в черновики?",
     "success_shared": "Успех! Контент отправлен!",
     "success_moved": "Перемещён в черновики",
@@ -833,6 +835,18 @@
     "amount_select_title": "Информация о действии",
     "amount_select_description": "Введите сумму в пределах максимально доступного баланса {suffix}",
     "amount_select_desc_limit": " и должно быть больше 0,001"
+  },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Entered amount is more than your available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
+    "fee": "Fee",
+    "free": "Free",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped!",
+    "new_swap": "New Swap"
   },
   "boost": {
     "title": "Получить Баллы",
