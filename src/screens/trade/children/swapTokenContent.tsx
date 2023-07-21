@@ -148,7 +148,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
         title: intl.formatMessage({ id: 'trade.swap_successful' }),
         buttons: [
           { textId: 'trade.new_swap', onPress: _reset },
-          { textId: 'alert.okay', onPress: () => navigation.goBack() },
+          { textId: 'alert.done', onPress: () => navigation.goBack() },
         ],
       }),
     );
@@ -197,7 +197,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
         ),
         buttons: [
           { textId: 'alert.cancel', onPress: () => {} },
-          { textId: 'alert.continue', onPress: _confirmSwap },
+          { textId: 'alert.confirm', onPress: _confirmSwap },
         ],
       }),
     );
