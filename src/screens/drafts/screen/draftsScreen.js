@@ -25,6 +25,7 @@ const DraftsScreen = ({
   removeSchedule,
   isLoading,
   isDeleting,
+  isBatchDeleting,
   onRefresh,
   intl,
   drafts,
@@ -168,12 +169,13 @@ const DraftsScreen = ({
           rightIconName={batchSelectedItems && batchSelectedItems.length > 0 ? 'delete' : null}
           iconType="MaterialIcons"
           handleRightIconPress={() => actionSheet?.current?.show()}
+          isLoadingRightIcon={isBatchDeleting}
         />
 
         <ScrollableTabView
           style={[globalStyles.tabView, { paddingBottom: 40 }]}
           initialPage={initialTabIndex}
-          onChangeTab={onChangeTab}
+          // onChangeTab={onChangeTab}
           renderTabBar={() => (
             <TabBar
               style={styles.tabbar}

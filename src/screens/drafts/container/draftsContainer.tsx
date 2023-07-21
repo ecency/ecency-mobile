@@ -50,7 +50,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
 
   const [initialTabIndex] = useState(route.params?.showSchedules ? 1 : 0);
   const [batchSelectedItems, setBatchSelectedItems] = useState<any>([]);
-  const [selectedTabIndex, setSelectedTabIndex] = useState(route.params?.showSchedules ? 1 : 0);
+  // const [selectedTabIndex, setSelectedTabIndex] = useState(route.params?.showSchedules ? 1 : 0);
 
   // Component Functions
   const _onRefresh = () => {
@@ -91,18 +91,19 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   };
 
   const _handleBatchDelete = async () => {
-    console.log('batch delete pressed');
     const filteredDraftsIds = batchSelectedItems
       .filter((item) => item.type === 'drafts')
       .map((item) => item.id);
     const filteredSchedulesIds = batchSelectedItems
       .filter((item) => item.type === 'schedules')
       .map((item) => item.id);
-    console.log('filteredDraftsIds : ', JSON.stringify(filteredDraftsIds, null, 2));
     if (filteredDraftsIds && filteredDraftsIds.length > 0) {
       draftsBatchDeleteMutation.mutate(filteredDraftsIds, {
         onSettled: () => {
           console.log('drafts deleted successfully!');
+          setBatchSelectedItems(
+            batchSelectedItems.filter((obj) => !filteredDraftsIds.includes(obj.id)),
+          );
         },
       });
     }
@@ -110,21 +111,25 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
       schedulesBatchDeleteMutation.mutate(filteredSchedulesIds, {
         onSettled: () => {
           console.log('schedules deleted successfully!');
+          setBatchSelectedItems(
+            batchSelectedItems.filter((obj) => !filteredSchedulesIds.includes(obj.id)),
+          );
         },
       });
     }
   };
 
-  const _onChangeTab = ({ i, ref }) => {
-    console.log('index : ', JSON.stringify(i, null, 2));
-    setSelectedTabIndex(i);
-  };
-  console.log('selectedTabIndex : ', selectedTabIndex);
+  // const _onChangeTab = ({ i, ref }) => {
+  //   setSelectedTabIndex(i);
+  // };
 
   return (
     <DraftsScreen
       isLoading={_isLoading}
       isDeleting={_isDeleting}
+      isBatchDeleting={
+        draftsBatchDeleteMutation.isLoading || schedulesBatchDeleteMutation.isLoading
+      }
       editDraft={_editDraft}
       currentAccount={currentAccount}
       drafts={drafts}
@@ -139,7 +144,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
       handleItemLongPress={_handleItemLongPress}
       batchSelectedItems={batchSelectedItems}
       handleBatchDeletePress={_handleBatchDelete}
-      onChangeTab={_onChangeTab}
+      // onChangeTab={_onChangeTab}
     />
   );
 };
