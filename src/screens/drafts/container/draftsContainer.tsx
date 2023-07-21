@@ -7,6 +7,7 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import {
   useAddDraftMutation,
   useDraftDeleteMutation,
+  useDraftsBatchDeleteMutation,
   useGetDraftsQuery,
   useGetSchedulesQuery,
   useMoveScheduleToDraftsMutation,
@@ -29,6 +30,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   const { mutate: deleteSchedule, isLoading: isDeletingSchedule } = useScheduleDeleteMutation();
   const { mutate: moveScheduleToDrafts, isLoading: isMovingToDrafts } =
     useMoveScheduleToDraftsMutation();
+  const draftsBatchDeleteMutation = useDraftsBatchDeleteMutation();
 
   const {
     isLoading: isLoadingDrafts,
@@ -46,6 +48,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
 
   const [initialTabIndex] = useState(route.params?.showSchedules ? 1 : 0);
   const [batchSelectedItems, setBatchSelectedItems] = useState<any>([]);
+  const [selectedTabIndex, setSelectedTabIndex] = useState(route.params?.showSchedules ? 1 : 0);
 
   // Component Functions
   const _onRefresh = () => {
@@ -85,6 +88,29 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
     setBatchSelectedItems(_batchSelectedItemsArr);
   };
 
+  const _handleBatchDelete = async () => {
+    console.log('batch delete pressed');
+    const filteredDraftsIds = batchSelectedItems
+      .filter((item) => item.type === 'drafts')
+      .map((item) => item.id);
+    // const filteredSchedulesIds = batchSelectedItems
+    //   .filter((item) => item.type === 'schedules')
+    //   .map((item) => item.id);
+    console.log('filteredDraftsIds : ', JSON.stringify(filteredDraftsIds, null, 2));
+
+    draftsBatchDeleteMutation.mutate(filteredDraftsIds, {
+      onSettled: () => {
+        console.log('drafts deleted successfully!');
+      },
+    });
+  };
+
+  const _onChangeTab = ({ i, ref }) => {
+    console.log('index : ', JSON.stringify(i, null, 2));
+    setSelectedTabIndex(i);
+  };
+  console.log('selectedTabIndex : ', selectedTabIndex);
+
   return (
     <DraftsScreen
       isLoading={_isLoading}
@@ -102,6 +128,8 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
       isCloning={_isCloning}
       handleItemLongPress={_handleItemLongPress}
       batchSelectedItems={batchSelectedItems}
+      handleBatchDeletePress={_handleBatchDelete}
+      onChangeTab={_onChangeTab}
     />
   );
 };

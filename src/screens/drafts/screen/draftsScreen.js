@@ -34,6 +34,8 @@ const DraftsScreen = ({
   isCloning,
   handleItemLongPress,
   batchSelectedItems,
+  handleBatchDeletePress,
+  onChangeTab,
 }) => {
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const draftsCollection = useAppSelector((state) => state.cache.draftsCollection);
@@ -103,6 +105,7 @@ const DraftsScreen = ({
         isCloning={isCloning}
         handleLongPress={_handleLongPress}
         isSelected={batchSelectedItems.find((batchItem) => batchItem.id === item._id)}
+        batchSelectionActive={batchSelectedItems && batchSelectedItems.length > 0}
       />
     );
   };
@@ -159,11 +162,15 @@ const DraftsScreen = ({
         title={intl.formatMessage({
           id: 'drafts.title',
         })}
+        rightIconName={batchSelectedItems && batchSelectedItems.length > 0 ? 'delete' : null}
+        iconType="MaterialIcons"
+        handleRightIconPress={handleBatchDeletePress}
       />
 
       <ScrollableTabView
         style={[globalStyles.tabView, { paddingBottom: 40 }]}
         initialPage={initialTabIndex}
+        onChangeTab={onChangeTab}
         renderTabBar={() => (
           <TabBar
             style={styles.tabbar}

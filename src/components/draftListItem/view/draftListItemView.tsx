@@ -42,6 +42,7 @@ const DraftListItemView = ({
   isCloning,
   handleLongPress,
   isSelected,
+  batchSelectionActive,
 }) => {
   const actionSheet = useRef(null);
   const moveActionSheet = useRef(null);
@@ -61,6 +62,11 @@ const DraftListItemView = ({
   }, [isCloning]);
 
   const _onItemPress = () => {
+    if (isSelected || batchSelectionActive) {
+      handleLongPress && handleLongPress(id);
+      return;
+    }
+
     if (isSchedules) {
       moveActionSheet.current.show();
       return;
@@ -105,6 +111,7 @@ const DraftListItemView = ({
           isSelected && { backgroundColor: ESStyleSheet.value('$primaryBlue') },
         ]}
         onLongPress={_onItemLongPress}
+        onPress={_onItemPress}
       >
         <View
           style={[
