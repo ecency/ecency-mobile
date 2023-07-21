@@ -235,7 +235,7 @@ export const deleteBookmark = async (bookmarkId: string) => {
 **/
 export const addReport = async (type: 'content' | 'user', data: string) => {
   try {
-    const response = await api.post('/private-api/report', {
+    const response = await ecencyApi.post('/private-api/report', {
       type,
       data,
     });
@@ -257,9 +257,9 @@ export const addReport = async (type: 'content' | 'user', data: string) => {
 * data:string
 * 
 **/
-export const deleteAccount = async (data: string, username: string) => {
+export const deleteAccount = async (username: string, data: string) => {
   try {
-    const response = await api.post('/private-api/request-delete', {
+    const response = await ecencyApi.post('/private-api/request-delete', {
       username,
       data
     });
@@ -825,16 +825,9 @@ NOTE: data or type PurchaseRequestData should contain body, pass as it is
 //   .then((resp) => resp.data)
 //   .catch((error) => bugsnagInstance.notify(error));
 
-export const purchaseOrder = async (data: PurchaseRequestData, platform: string, product: string, receipt: string, user: string) => {
-  const orderData = {
-    platform,
-    product,
-    receipt,
-    user
-  }
+export const purchaseOrder = async (data: PurchaseRequestData) => {
   try {
-
-    const response = await ecencyApi.post('/private-api/purchase-order', orderData);
+    const response = await ecencyApi.post('/private-api/purchase-order', data);
     return response.data;
   }
   catch (error) {
