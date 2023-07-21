@@ -83,6 +83,7 @@
     "withdraw_hive": "Withdraw Savings",
     "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "안전 금고에 보관하기",
+    "swap_token": "Swap Token",
     "convert": "전환하기",
     "convert_request": "Convert Request",
     "escrow_transfer": "에스크로 송금",
@@ -574,6 +575,7 @@
     "move": "이동",
     "continue": "Continue",
     "okay": "Okay",
+    "done": "Done",
     "move_question": "임시 보관함으로 이동하시겠습니까?",
     "success_shared": "성공! 콘텐츠가 제출되었습니다!",
     "success_moved": "임시 보관함으로 이동했습니다",
@@ -833,6 +835,18 @@
     "amount_select_title": "Action Details",
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001"
+  },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Entered amount is more than your available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
+    "fee": "Fee",
+    "free": "Free",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped!",
+    "new_swap": "New Swap"
   },
   "boost": {
     "title": "포인트 받기",
