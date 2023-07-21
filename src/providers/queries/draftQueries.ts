@@ -95,6 +95,32 @@ export const useScheduleDeleteMutation = () => {
   });
 };
 
+export const useSchedulesBatchDeleteMutation = () => {
+  const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
+  const intl = useIntl();
+  return useMutation<any, any, any>(
+    async (deleteIds) => {
+      console.log('deleteIds : ', JSON.stringify(deleteIds, null, 2));
+
+      for (const i in deleteIds) {
+        await deleteScheduledPost(deleteIds[i]);
+      }
+      return deleteIds;
+    },
+    {
+      retry: 3,
+      onSuccess: (deleteIds) => {
+        console.log('Success schedules delete', deleteIds);
+        queryClient.invalidateQueries([QUERIES.SCHEDULES.GET]);
+      },
+      onError: () => {
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      },
+    },
+  );
+};
+
 export const useMoveScheduleToDraftsMutation = () => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();

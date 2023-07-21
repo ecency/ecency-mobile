@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text, Platform, RefreshControl } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -10,6 +10,7 @@ import { getFormatedCreatedDate } from '../../../utils/time';
 
 // Components
 import { BasicHeader, TabBar, DraftListItem, PostCardPlaceHolder } from '../../../components';
+import { OptionsModal } from '../../../components/atoms';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -37,6 +38,7 @@ const DraftsScreen = ({
   handleBatchDeletePress,
   onChangeTab,
 }) => {
+  const actionSheet = useRef(null);
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const draftsCollection = useAppSelector((state) => state.cache.draftsCollection);
 
@@ -157,47 +159,64 @@ const DraftsScreen = ({
   );
 
   return (
-    <View style={globalStyles.container}>
-      <BasicHeader
-        title={intl.formatMessage({
-          id: 'drafts.title',
-        })}
-        rightIconName={batchSelectedItems && batchSelectedItems.length > 0 ? 'delete' : null}
-        iconType="MaterialIcons"
-        handleRightIconPress={handleBatchDeletePress}
-      />
-
-      <ScrollableTabView
-        style={[globalStyles.tabView, { paddingBottom: 40 }]}
-        initialPage={initialTabIndex}
-        onChangeTab={onChangeTab}
-        renderTabBar={() => (
-          <TabBar
-            style={styles.tabbar}
-            tabUnderlineDefaultWidth={80}
-            tabUnderlineScaleX={2}
-            tabBarPosition="overlayTop"
-          />
-        )}
-      >
-        <View
-          tabLabel={intl.formatMessage({
+    <>
+      <View style={globalStyles.container}>
+        <BasicHeader
+          title={intl.formatMessage({
             id: 'drafts.title',
           })}
-          style={styles.tabbarItem}
+          rightIconName={batchSelectedItems && batchSelectedItems.length > 0 ? 'delete' : null}
+          iconType="MaterialIcons"
+          handleRightIconPress={() => actionSheet?.current?.show()}
+        />
+
+        <ScrollableTabView
+          style={[globalStyles.tabView, { paddingBottom: 40 }]}
+          initialPage={initialTabIndex}
+          onChangeTab={onChangeTab}
+          renderTabBar={() => (
+            <TabBar
+              style={styles.tabbar}
+              tabUnderlineDefaultWidth={80}
+              tabUnderlineScaleX={2}
+              tabBarPosition="overlayTop"
+            />
+          )}
         >
-          {_getTabItem(drafts, 'drafts')}
-        </View>
-        <View
-          tabLabel={intl.formatMessage({
-            id: 'schedules.title',
-          })}
-          style={styles.tabbarItem}
-        >
-          {_getTabItem(schedules, 'schedules')}
-        </View>
-      </ScrollableTabView>
-    </View>
+          <View
+            tabLabel={intl.formatMessage({
+              id: 'drafts.title',
+            })}
+            style={styles.tabbarItem}
+          >
+            {_getTabItem(drafts, 'drafts')}
+          </View>
+          <View
+            tabLabel={intl.formatMessage({
+              id: 'schedules.title',
+            })}
+            style={styles.tabbarItem}
+          >
+            {_getTabItem(schedules, 'schedules')}
+          </View>
+        </ScrollableTabView>
+      </View>
+      <OptionsModal
+        ref={actionSheet}
+        options={[
+          intl.formatMessage({ id: 'alert.delete' }),
+          intl.formatMessage({ id: 'alert.cancel' }),
+        ]}
+        title={intl.formatMessage({ id: 'alert.remove_alert' })}
+        cancelButtonIndex={1}
+        destructiveButtonIndex={0}
+        onPress={(index) => {
+          if (index === 0) {
+            handleBatchDeletePress && handleBatchDeletePress();
+          }
+        }}
+      />
+    </>
   );
 };
 

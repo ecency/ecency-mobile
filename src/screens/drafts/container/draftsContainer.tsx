@@ -12,6 +12,7 @@ import {
   useGetSchedulesQuery,
   useMoveScheduleToDraftsMutation,
   useScheduleDeleteMutation,
+  useSchedulesBatchDeleteMutation,
 } from '../../../providers/queries';
 
 // Middleware
@@ -31,6 +32,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   const { mutate: moveScheduleToDrafts, isLoading: isMovingToDrafts } =
     useMoveScheduleToDraftsMutation();
   const draftsBatchDeleteMutation = useDraftsBatchDeleteMutation();
+  const schedulesBatchDeleteMutation = useSchedulesBatchDeleteMutation();
 
   const {
     isLoading: isLoadingDrafts,
@@ -93,16 +95,24 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
     const filteredDraftsIds = batchSelectedItems
       .filter((item) => item.type === 'drafts')
       .map((item) => item.id);
-    // const filteredSchedulesIds = batchSelectedItems
-    //   .filter((item) => item.type === 'schedules')
-    //   .map((item) => item.id);
+    const filteredSchedulesIds = batchSelectedItems
+      .filter((item) => item.type === 'schedules')
+      .map((item) => item.id);
     console.log('filteredDraftsIds : ', JSON.stringify(filteredDraftsIds, null, 2));
-
-    draftsBatchDeleteMutation.mutate(filteredDraftsIds, {
-      onSettled: () => {
-        console.log('drafts deleted successfully!');
-      },
-    });
+    if (filteredDraftsIds && filteredDraftsIds.length > 0) {
+      draftsBatchDeleteMutation.mutate(filteredDraftsIds, {
+        onSettled: () => {
+          console.log('drafts deleted successfully!');
+        },
+      });
+    }
+    if (filteredSchedulesIds && filteredSchedulesIds.length > 0) {
+      schedulesBatchDeleteMutation.mutate(filteredSchedulesIds, {
+        onSettled: () => {
+          console.log('schedules deleted successfully!');
+        },
+      });
+    }
   };
 
   const _onChangeTab = ({ i, ref }) => {
