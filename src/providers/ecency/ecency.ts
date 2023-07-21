@@ -33,7 +33,7 @@ import {
 
 export const getFiatHbdRate = (fiatCode:string) =>
   ecencyApi
-    .get(`/private-api/market-data/${fiatCode}/hbd?fixed=1`)
+    .get(`/private-api/market-data/${fiatCode}/hbd`)
     .then((resp) => resp.data)
     .catch((err) => {
       bugsnagInstance.notify(err);

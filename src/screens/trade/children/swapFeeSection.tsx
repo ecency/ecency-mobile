@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { useIntl } from 'react-intl';
-import styles from '../styles/sawpFeeSection.styles';
+import styles from '../styles/swapFeeSection.styles';
 
 // Reusable component for label, text input, and bottom text
 export const SwapFeeSection = () => {
