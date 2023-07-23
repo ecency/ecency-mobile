@@ -83,7 +83,7 @@
     "withdraw_hive": "Вывести сбережения",
     "withdraw_hbd": "Вывести сбережения",
     "transfer_to_savings": "В Сейф",
-    "swap_token": "Swap Token",
+    "swap_token": "Обмен токенов",
     "convert": "Конвертировать",
     "convert_request": "Преобразовать запрос",
     "escrow_transfer": "Передача на депозит",
@@ -846,7 +846,7 @@
     "confirm_swap": "Confirm Swap",
     "swap_for": "Swapping {fromAmount} for {toAmount}",
     "swap_successful": "Successfully Swapped!",
-    "new_swap": "New Swap"
+    "new_swap": "Новый обмен"
   },
   "boost": {
     "title": "Получить Баллы",
