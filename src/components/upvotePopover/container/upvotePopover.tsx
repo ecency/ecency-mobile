@@ -50,7 +50,7 @@ import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { delay } from '../../../utils/editor';
 
-interface Props {}
+interface Props { }
 interface PopoverOptions {
   anchorRect: Rect;
   content: any;
@@ -65,7 +65,7 @@ interface PopoverOptions {
  *
  */
 
-const UpvotePopover = forwardRef(({}: Props, ref) => {
+const UpvotePopover = forwardRef(({ }: Props, ref) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -237,7 +237,7 @@ const UpvotePopover = forwardRef(({}: Props, ref) => {
           }
         });
     } else {
-      setSliderValue(1);
+
       setIsDownVoted(false);
     }
   };
@@ -280,7 +280,7 @@ const UpvotePopover = forwardRef(({}: Props, ref) => {
           _onVotingStart ? _onVotingStart(0) : null;
         });
     } else {
-      setSliderValue(1);
+
       setIsDownVoted(true);
     }
   };
