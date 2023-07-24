@@ -27,6 +27,7 @@ const PostDisplayContainer = ({
   isPostUnavailable,
   author,
   permlink,
+  content,
 }) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
@@ -75,6 +76,7 @@ const PostDisplayContainer = ({
         name: ROUTES.SCREENS.REBLOGS,
         params: {
           reblogs,
+          content,
         },
         key: post.permlink + reblogs.length,
       } as never);
@@ -151,7 +153,7 @@ const PostDisplayContainer = ({
       handleOnReplyPress={_handleOnReplyPress}
       handleOnVotersPress={_handleOnVotersPress}
       handleOnReblogsPress={_handleOnReblogsPress}
-    
+
     />
   );
 };
