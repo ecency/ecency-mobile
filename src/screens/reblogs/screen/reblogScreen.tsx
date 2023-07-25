@@ -37,6 +37,7 @@ const ReblogScreen = ({ route }) => {
   const [refreshing, setRefreshing] = React.useState(false);
   // const content = route.params?.content;
   const author = route.params?.author;
+  const content = route.params?.author;
   const permlink = route.params?.permlink;
   const pReblogs = route.params?.reblogs;
 
