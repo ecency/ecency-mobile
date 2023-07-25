@@ -2,6 +2,8 @@ import React, { useMemo, useRef } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text, Platform, RefreshControl } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+import { default as AnimatedView, SlideInRight, SlideOutRight } from 'react-native-reanimated';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Utils
 import { postBodySummary } from '@ecency/render-helper';
@@ -9,7 +11,13 @@ import { catchImageFromMetadata, catchDraftImage } from '../../../utils/image';
 import { getFormatedCreatedDate } from '../../../utils/time';
 
 // Components
-import { BasicHeader, TabBar, DraftListItem, PostCardPlaceHolder } from '../../../components';
+import {
+  BasicHeader,
+  TabBar,
+  DraftListItem,
+  PostCardPlaceHolder,
+  IconButton,
+} from '../../../components';
 import { OptionsModal } from '../../../components/atoms';
 
 // Styles
@@ -159,6 +167,29 @@ const DraftsScreen = ({
     </View>
   );
 
+  const _renderDeleteButton = () => {
+    return (
+      <>
+        <AnimatedView.View
+          entering={SlideInRight}
+          exiting={SlideOutRight}
+          style={styles.deleteButtonContainer}
+        >
+          <IconButton
+            style={styles.deleteButton}
+            color={EStyleSheet.value('$primaryBlack')}
+            iconType="MaterialCommunityIcons"
+            name="delete-outline"
+            disabled={isBatchDeleting}
+            size={28}
+            onPress={() => actionSheet?.current?.show()}
+            isLoading={isBatchDeleting}
+          />
+        </AnimatedView.View>
+      </>
+    );
+  };
+
   return (
     <>
       <View style={globalStyles.container}>
@@ -166,10 +197,6 @@ const DraftsScreen = ({
           title={intl.formatMessage({
             id: 'drafts.title',
           })}
-          rightIconName={batchSelectedItems && batchSelectedItems.length > 0 ? 'delete' : null}
-          iconType="MaterialIcons"
-          handleRightIconPress={() => actionSheet?.current?.show()}
-          isLoadingRightIcon={isBatchDeleting}
         />
 
         <ScrollableTabView
@@ -202,6 +229,7 @@ const DraftsScreen = ({
             {_getTabItem(schedules, 'schedules')}
           </View>
         </ScrollableTabView>
+        {batchSelectedItems && batchSelectedItems.length > 0 ? _renderDeleteButton() : null}
       </View>
       <OptionsModal
         ref={actionSheet}
