@@ -35,7 +35,9 @@ const renderUserListItem = (item, index, handleOnUserPress) => {
 
 const ReblogScreen = ({ route }) => {
   const [refreshing, setRefreshing] = React.useState(false);
-  const content = route.params?.content;
+  // const content = route.params?.content;
+  const author = route.params?.author;
+  const permlink = route.params?.permlink;
   const pReblogs = route.params?.reblogs;
 
   const [reblogs, setReblogs] = useState(pReblogs);
@@ -72,7 +74,7 @@ const ReblogScreen = ({ route }) => {
     }
 
     if (isLoggedIn) {
-      reblog(currentAccount, pinCode, content.author, content.permlink)
+      reblog(currentAccount, pinCode, author, permlink)
         .then((response) => {
           // track user activity points ty=130
           userActivityMutation.mutate({

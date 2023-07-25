@@ -76,7 +76,8 @@ const PostDisplayContainer = ({
         name: ROUTES.SCREENS.REBLOGS,
         params: {
           reblogs,
-          content,
+          author: content.author,
+          permlink: content.permlink,
         },
         key: post.permlink + reblogs.length,
       } as never);
