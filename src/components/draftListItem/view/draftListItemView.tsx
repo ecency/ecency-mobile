@@ -106,19 +106,11 @@ const DraftListItemView = ({
   return (
     <Fragment>
       <Pressable
-        style={[
-          styles.container,
-          isSelected && { backgroundColor: ESStyleSheet.value('$primaryBlue') },
-        ]}
+        style={[styles.container, isSelected && styles.selectedStyle]}
         onLongPress={_onItemLongPress}
         onPress={_onItemPress}
       >
-        <View
-          style={[
-            styles.header,
-            isSelected && { backgroundColor: ESStyleSheet.value('$primaryBlue') },
-          ]}
-        >
+        <View style={styles.header}>
           <PostHeaderDescription
             date={isFormatedDate ? created : getTimeFromNow(created, true)}
             name={username}
@@ -199,12 +191,7 @@ const DraftListItemView = ({
                 resizeMode={FastImage.resizeMode.cover}
               />
             )}
-            <View
-              style={[
-                styles.postDescripton,
-                isSelected && { backgroundColor: ESStyleSheet.value('$primaryBlue') },
-              ]}
-            >
+            <View style={styles.postDescripton}>
               {title !== '' && <Text style={styles.title}>{title}</Text>}
               {summary !== '' && <Text style={styles.summary}>{summary}</Text>}
             </View>
