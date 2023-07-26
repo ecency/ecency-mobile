@@ -35,12 +35,14 @@ const renderUserListItem = (item, index, handleOnUserPress) => {
 
 const ReblogScreen = ({ route }) => {
   const [refreshing, setRefreshing] = React.useState(false);
-  // const content = route.params?.content;
   const author = route.params?.author;
-  const content = route.params?.author;
   const permlink = route.params?.permlink;
   const pReblogs = route.params?.reblogs;
-
+  const content = {
+    author,
+    permlink,
+  };
+  reactotron.log(content);
   const [reblogs, setReblogs] = useState(pReblogs);
   const intl = useIntl();
   const headerTitle = intl.formatMessage({
@@ -51,22 +53,17 @@ const ReblogScreen = ({ route }) => {
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
-  const dummy = {
-    account: 'Ali',
-    timestamp: '2023-07-16T23:30:39+00:00',
-  }
 
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     getPostReblogs(content).then((result) => {
-      result = [...reblogs, dummy];
+      result = [...reblogs];
       setReblogs(result);
-      reactotron.log("Result", result);
     });
-
-
   }, []);
+
+
 
   const _reblog = () => {
     if (!isLoggedIn) {
@@ -91,6 +88,7 @@ const ReblogScreen = ({ route }) => {
               }),
             ),
           );
+          onRefresh();
         })
         .catch((error) => {
           if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged') > -1) {

@@ -27,7 +27,6 @@ const PostDisplayContainer = ({
   isPostUnavailable,
   author,
   permlink,
-  content,
 }) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
@@ -76,8 +75,8 @@ const PostDisplayContainer = ({
         name: ROUTES.SCREENS.REBLOGS,
         params: {
           reblogs,
-          author: content.author,
-          permlink: content.permlink,
+          author,
+          permlink,
         },
         key: post.permlink + reblogs.length,
       } as never);
