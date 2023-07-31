@@ -42,7 +42,6 @@ const ReblogScreen = ({ route }) => {
     author,
     permlink,
   };
-  reactotron.log(content);
   const [reblogs, setReblogs] = useState(pReblogs);
   const intl = useIntl();
   const headerTitle = intl.formatMessage({
@@ -58,7 +57,6 @@ const ReblogScreen = ({ route }) => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     getPostReblogs(content).then((result) => {
-      result = [...reblogs];
       setReblogs(result);
     });
   }, []);
