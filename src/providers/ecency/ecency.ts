@@ -95,6 +95,9 @@ export const getReceivedVestingShares = async (
 export const getDrafts = async () => {
   try {
     const res = await ecencyApi.post('/private-api/drafts');
+    if (!res.data || !res.data.list) {
+      throw new Error('Error Getting draft');
+    }
     return res.data || [];
   } catch (error) {
     bugsnagInstance.notify(error);
@@ -109,6 +112,9 @@ export const deleteDraft = async (draftId: string) => {
   try {
     const data = { id: draftId };
     const res = await ecencyApi.post('/private-api/drafts-delete', data);
+    if (!res.data || !res.data.list) {
+      throw new Error('Error deleting draft');
+    }
     return res.data || [];
   } catch (error) {
     bugsnagInstance.notify(error);
@@ -183,6 +189,9 @@ export const addBookmark = async (author: string, permlink: string) => {
   try {
     const data = { author, permlink };
     const response = await ecencyApi.post('/private-api/bookmarks-add', data);
+    if (!response.data) {
+      throw new Error("Invalid response, drafts data not returned")
+    }
     return response.data;
   } catch (error) {
     console.warn('Failed to add bookmark', error);
@@ -600,6 +609,9 @@ export const addSchedule = async (
       reblog: 0,
     };
     const response = await ecencyApi.post('/private-api/schedules-add', data);
+    if (!response.data) {
+      throw new Error('Failed to add post to schedule Response');
+    }
     return response.data;
   } catch (error) {
     console.warn('Failed to add post to schedule', error);
@@ -615,6 +627,9 @@ export const addSchedule = async (
 export const getSchedules = async () => {
   try {
     const response = await ecencyApi.post('/private-api/schedules');
+    if (!response.data) {
+      throw new Error('Failed to get schedules response');
+    }
     return response.data || [];
   } catch (error) {
     console.warn('Failed to get schedules');
@@ -632,6 +647,9 @@ export const deleteScheduledPost = async (id: string) => {
   try {
     const data = { id };
     const response = await ecencyApi.post('/private-api/schedules-delete', data);
+    if (!response.data) {
+      throw new Error('Failed to delete scheduled post! response: ');
+    }
     return response.data || [];
   } catch (error) {
     console.warn('Failed to delete scheduled post');
@@ -649,6 +667,9 @@ export const moveScheduledToDraft = async (id: string) => {
   try {
     const data = { id };
     const response = await ecencyApi.post('/private-api/schedules-move', data);
+    if (!response.data) {
+      throw new Error('Error! Data Not Found');
+    }
     return response.data;
   } catch (error) {
     console.warn('Failed to move scheduled post to drafts');
@@ -667,6 +688,9 @@ export const moveScheduledToDraft = async (id: string) => {
 export const getImages = async () => {
   try {
     const response = await ecencyApi.post('/private-api/images');
+    if (!response.data) {
+      throw new Error('Error! Images Not Found');
+    }
     return response.data;
   } catch (error) {
     console.warn('Failed to get images', error);
@@ -678,6 +702,9 @@ export const addImage = async (url: string) => {
   try {
     const data = { url };
     const response = await ecencyApi.post('/private-api/images-add', data);
+    if (!response.data) {
+      throw new Error('Error Data Not Found!');
+    }
     return response.data as MediaItem[];
   } catch (error) {
     console.warn('Failed to add image', error);
@@ -690,6 +717,9 @@ export const deleteImage = async (id: string) => {
   try {
     const data = { id };
     const response = await ecencyApi.post('/private-api/images-delete', data);
+    if (!response.data) {
+      throw new Error('Error Image is not deleted!');
+    }
     return response.data;
   } catch (error) {
     console.warn('Failed to delete image', error);
@@ -750,6 +780,9 @@ export const getSCAccessToken = async (code: string) => {
     const response = await ecencyApi.post('/auth-api/hs-token-refresh', {
       code,
     });
+    if (!response.data) {
+      throw new Error('No Refresh Token');
+    }
     return response.data;
   } catch (error) {
     console.warn('failed to refresh token');
@@ -811,6 +844,9 @@ export const signUp = async (username: string, email: string, referral?: string)
       referral,
     };
     const response = await ecencyApi.post('/private-api/account-create', data);
+    if (!response.data) {
+      throw new Error('Error in Account Creating!');
+    }
     return response.status === 202;
   } catch (error) {
     bugsnagInstance.notify(error);
@@ -882,6 +918,8 @@ export const getCommentHistory = async (
     console.log('comment history', res.data);
     if (!res.data) {
       throw new Error('No history data!');
+    } else {
+      alert("hello");
     }
     return res?.data?.list.map((item) => convertCommentHistory(item));
   } catch (error) {
