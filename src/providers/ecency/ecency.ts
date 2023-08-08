@@ -31,7 +31,7 @@ import {
  * ************************************
  */
 
-export const getFiatHbdRate = (fiatCode:string) =>
+export const getFiatHbdRate = (fiatCode: string) =>
   ecencyApi
     .get(`/private-api/market-data/${fiatCode}/hbd`)
     .then((resp) => resp.data)
@@ -112,7 +112,7 @@ export const deleteDraft = async (draftId: string) => {
   try {
     const data = { id: draftId };
     const res = await ecencyApi.post('/private-api/drafts-delete', data);
-    if (!res.data || !res.data.list) {
+    if (!res.data || !res.data) {
       throw new Error('Error deleting draft');
     }
     return res.data || [];
@@ -132,7 +132,7 @@ export const addDraft = async (draft: Object) => {
     const res = await ecencyApi.post('/private-api/drafts-add', newDraft);
     const rawData = res.data?.drafts;
 
-    if(!rawData){
+    if (!rawData) {
       throw new Error("Invalid response, drafts data not returned")
     }
 
