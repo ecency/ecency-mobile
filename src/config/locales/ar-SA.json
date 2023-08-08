@@ -221,7 +221,7 @@
     "scheduled_power_downs": "إضعاف قوة مجدول",
     "delegated_larynx_power": "القوة الممنوحة",
     "delegating_larynx_power": "تفويض قوة",
-    "total_larynx_power": "Total Power"
+    "total_larynx_power": "القوة الإجمالية"
   },
   "notification": {
     "vote": "تم التصويت",
@@ -229,13 +229,13 @@
     "reply": "الرد على",
     "mention": "أشارك إليك في",
     "favorites": "إنشاء مشاركة جديدة",
-    "bookmarks": "replied to bookmarked content",
+    "bookmarks": "الرد على المحتوى الذي تم وضع إشارة مرجعية عليه",
     "follow": "قام بمتابعتك",
     "unfollow": "قام بإلغاء متابعتك",
     "ignore": "قام بتجاهلك",
     "reblog": "تمت إعادة النشر",
     "transfer": "تم التحويل",
-    "delegations": "delegated",
+    "delegations": "مفوّض",
     "spin": "حان وقت كسب المزيد من النقاط",
     "inactive": "كن نشطًا! اكتب منشور، واصل الكسب",
     "referral": "انضمو برابط إحالتك ، رحب بهم",
@@ -309,21 +309,21 @@
     "currency": "عملة",
     "language": "لغة",
     "server": "الخادم",
-    "color_theme": "Appearance",
+    "color_theme": "مظهر",
     "push_notification": "دفع الإشعارات",
     "notification": {
       "follow": "تابع",
       "vote": "تصويت",
       "comment": "تعليق",
       "mention": "إشارة",
-      "favorite": "Favorites",
-      "bookmark": "Bookmarks",
+      "favorite": "المفضلات",
+      "bookmark": "إشارات مرجعية",
       "reblog": "إعادة النشر",
       "transfers": "التحويلات",
-      "delegations": "Delegations"
+      "delegations": "تفويضات"
     },
     "pincode": "رمز PIN",
-    "biometric": "Finger Print / Face Unlock",
+    "biometric": "بصمة الإصبع /فتح القُفْل بالوجه",
     "reset_pin": "إعادة تعيين رمز Pin",
     "reset": "إعادة",
     "nsfw_content": "ليس آمنًا للمشاهدة",
@@ -336,9 +336,9 @@
       "always_warn": "التحذير دوماً"
     },
     "theme": {
-      "system": "Device settings",
-      "light": "Light",
-      "dark": "Dark"
+      "system": "إعدادات الجهاز",
+      "light": "مضيئ",
+      "dark": "مظلم"
     },
     "feedback_success": "تم فتح البريد الإلكتروني بنجاح",
     "feedback_fail": "لا يمكن فتح عميل البريد الإلكتروني",
