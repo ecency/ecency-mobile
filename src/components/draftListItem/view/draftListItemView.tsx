@@ -105,11 +105,7 @@ const DraftListItemView = ({
 
   return (
     <Fragment>
-      <Pressable
-        style={[styles.container, isSelected && styles.selectedStyle]}
-        onLongPress={_onItemLongPress}
-        onPress={_onItemPress}
-      >
+      <Pressable style={[styles.container]} onLongPress={_onItemLongPress} onPress={_onItemPress}>
         <View style={styles.header}>
           <PostHeaderDescription
             date={isFormatedDate ? created : getTimeFromNow(created, true)}
@@ -174,9 +170,14 @@ const DraftListItemView = ({
                 name="delete"
                 iconType="MaterialIcons"
                 size={20}
-                onPress={() => actionSheet.current.show()}
+                onPress={
+                  isSelected || batchSelectionActive
+                    ? _onItemLongPress
+                    : () => actionSheet.current.show()
+                }
+                onLongPress={_onItemLongPress}
                 style={[styles.rightItem]}
-                color="#c1c5c7"
+                color={isSelected ? ESStyleSheet.value('$primaryRed') : '#c1c5c7'}
                 isLoading={isDeleting && deleteRequested}
               />
             )}

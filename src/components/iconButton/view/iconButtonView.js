@@ -21,6 +21,7 @@ const IconButton = ({
   iconType,
   name,
   onPress,
+  onLongPress,
   size,
   style,
   isLoading,
@@ -31,6 +32,7 @@ const IconButton = ({
       onPress={() => !isLoading && onPress && onPress()}
       underlayColor={backgroundColor || 'white'}
       disabled={disabled}
+      onLongPress={() => !isLoading && onLongPress && onLongPress()}
     >
       {!isLoading ? (
         <Icon
