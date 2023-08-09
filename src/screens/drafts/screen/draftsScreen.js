@@ -237,7 +237,7 @@ const DraftsScreen = ({
           intl.formatMessage({ id: 'alert.delete' }),
           intl.formatMessage({ id: 'alert.cancel' }),
         ]}
-        title={intl.formatMessage({ id: 'alert.remove_alert' })}
+        title={intl.formatMessage({ id: 'alert.remove_all_alert' })}
         cancelButtonIndex={1}
         destructiveButtonIndex={0}
         onPress={(index) => {
