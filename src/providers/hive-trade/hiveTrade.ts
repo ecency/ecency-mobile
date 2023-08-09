@@ -70,6 +70,51 @@ export const limitOrderCreate = (
   );
 };
 
+
+export const limitOrderCancel = (
+  currentAccount: any,
+  pinHash:string,
+  orderid: number
+) => {
+
+  const digitPinCode = getDigitPinCode(pinHash);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: currentAccount?.local?.activeKey,
+    },
+    digitPinCode,
+  );
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const ops:Operation[] = [
+      [
+        "limit_order_cancel",
+        {
+          owner: currentAccount.username,
+          orderid: orderid
+        }
+      ],
+    ];
+
+    return new Promise((resolve, reject) => {
+      sendHiveOperations(ops, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
+};
+
+
+
 export const generateHsLimitOrderCreatePath = (
   currentAccount: any,
   amountToSell: number,
