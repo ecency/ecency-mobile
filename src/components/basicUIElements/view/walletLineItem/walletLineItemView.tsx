@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Components
-import { DropdownButton, PopoverWrapper, Icon, GrayWrapper } from '../../..';
+import { DropdownButton, PopoverWrapper, Icon, GrayWrapper, IconButton } from '../../..';
 
 // Styles
 import styles from './walletLineItemStyles';
@@ -29,6 +29,9 @@ const WalletLineItem = ({
   hintIconName,
   hintDescription,
   onPress,
+  cancelable,
+  cancelling,
+  onCancelPress,
 }) => (
   <TouchableOpacity onPress={onPress} disabled={!onPress} activeOpacity={0.8}>
     <GrayWrapper isGray={index && index % 2 !== 0}>
@@ -40,11 +43,10 @@ const WalletLineItem = ({
                 styles.iconWrapper,
                 isCircleIcon && styles.circleIcon,
                 index && {
-                  backgroundColor: `${
-                    index && index % 2 !== 0
-                      ? EStyleSheet.value('$white')
-                      : EStyleSheet.value('$primaryLightBackground')
-                  }`,
+                  backgroundColor: `${index && index % 2 !== 0
+                    ? EStyleSheet.value('$white')
+                    : EStyleSheet.value('$primaryLightBackground')
+                    }`,
                 },
               ]}
             >
@@ -76,6 +78,9 @@ const WalletLineItem = ({
                     />
                   </PopoverWrapper>
                 )}
+
+
+
               </View>
             )}
             {!!description && (
@@ -83,6 +88,7 @@ const WalletLineItem = ({
             )}
           </View>
         </View>
+
         {!!rightText && (
           <View style={styles.rightTextWrapper}>
             <Text
@@ -95,6 +101,20 @@ const WalletLineItem = ({
             </Text>
           </View>
         )}
+
+        {!!cancelable && (<IconButton
+          backgroundColor="transparent"
+          name="cancel"
+          iconType="MaterialIcons"
+          size={20}
+          style={styles.cancelIcon}
+          onPress={() => {onCancelPress && onCancelPress()}}
+          color="#c1c5c7"
+          isLoading={cancelling}
+        />
+        )}
+
+
         {isHasdropdown && (
           <View style={styles.dropdownWrapper}>
             <DropdownButton
