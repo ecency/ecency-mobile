@@ -31,9 +31,9 @@ import {
  * ************************************
  */
 
-export const getCurrencyRate = (currency) =>
+export const getFiatHbdRate = (fiatCode:string) =>
   ecencyApi
-    .get(`/private-api/market-data/${currency}/hbd?fixed=1`)
+    .get(`/private-api/market-data/${fiatCode}/hbd`)
     .then((resp) => resp.data)
     .catch((err) => {
       bugsnagInstance.notify(err);

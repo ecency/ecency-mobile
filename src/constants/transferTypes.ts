@@ -7,6 +7,7 @@ const TransferTypes = {
   POINTS: 'points',
   WITHDRAW_HIVE: 'withdraw_hive',
   WITHDRAW_HBD: 'withdraw_hbd',
+  SWAP_TOKEN: 'swap_token',
   DELEGATE: 'delegate',
   POWER_DOWN: 'power_down',
   ADDRESS_VIEW: 'address_view',

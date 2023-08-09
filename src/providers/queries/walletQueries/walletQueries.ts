@@ -254,9 +254,6 @@ export const useClaimRewardsMutation = () => {
   };
 };
 
-
-
-
 export const useActivitiesQuery = (assetId: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const globalProps = useAppSelector((state) => state.account.globalProps);
@@ -278,7 +275,7 @@ export const useActivitiesQuery = (assetId: string) => {
       globalProps,
       startIndex: pageParam,
       limit: ACTIVITIES_FETCH_LIMIT,
-      isEngine: assetData.isEngine
+      isEngine: assetData.isEngine,
     });
 
     console.log('new page fetched', _activites);
@@ -320,7 +317,7 @@ export const useActivitiesQuery = (assetId: string) => {
       return;
     }
 
-    if (assetData.isEngine) { 
+    if (assetData.isEngine) {
       pageParams.push(pageParams.length);
       setPageParams([...pageParams]);
     } else {
@@ -330,7 +327,6 @@ export const useActivitiesQuery = (assetId: string) => {
         setPageParams([...pageParams]);
       }
     }
-
   };
 
   const _data = useMemo(() => {
@@ -346,9 +342,6 @@ export const useActivitiesQuery = (assetId: string) => {
     refresh: _refresh,
   };
 };
-
-
-
 
 export const usePendingRequestsQuery = (assetId: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
