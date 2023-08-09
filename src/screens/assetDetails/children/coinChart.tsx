@@ -33,8 +33,7 @@ export const CoinChart = ({ coinId, isEngine }: CoinChartProps) => {
       const marketData = await fetchMarketChart(
         coinId,
         currency.currency,
-        days,
-        days > 30 ? ChartInterval.DAILY : ChartInterval.HOURLY,
+        days
       );
       setChartData(marketData.prices.map((item) => item.yValue));
     }
