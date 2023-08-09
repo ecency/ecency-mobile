@@ -11,10 +11,13 @@ import TransferTypes from '../../../constants/transferTypes';
 import { hsOptions } from '../../../constants/hsOptions';
 import { walletQueries } from '../../../providers/queries';
 import { delay } from '../../../utils/editor';
+import { useQueryClient } from '@tanstack/react-query';
+import QUERIES from '../../../providers/queries/queryKeys';
 
 const TradeScreen = ({ route, navigation }) => {
   const intl = useIntl();
 
+  const queryClient = useQueryClient();
   const assetsQuery = walletQueries.useAssetsQuery();
 
   const transferType = route?.params?.transferType;
@@ -39,6 +42,7 @@ const TradeScreen = ({ route, navigation }) => {
 
   const _onSuccess = () => {
     _delayedRefreshCoinsData();
+    queryClient.invalidateQueries([QUERIES.WALLET.GET_PENDING_REQUESTS]);
   };
 
   const _handleHsTransfer = (_hsSignPath: string) => {
