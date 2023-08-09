@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FlatList, SafeAreaView, RefreshControl, ScrollView } from 'react-native';
+import { FlatList, SafeAreaView, RefreshControl, ScrollView, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -19,7 +19,9 @@ import AccountListContainer from '../../../containers/accountListContainer';
 import globalStyles from '../../../globalStyles';
 import { getTimeFromNow } from '../../../utils/time';
 import { setRcOffer, toastNotification } from '../../../redux/actions/uiAction';
-import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import { PointActivityIds } from '../../../providers/ecency/ecency.types'; import { jsonStringify } from '../../../utils/jsonUtils';
+import { acc } from 'react-native-reanimated';
+;
 
 const renderUserListItem = (item, index, handleOnUserPress) => {
   return (
@@ -28,8 +30,7 @@ const renderUserListItem = (item, index, handleOnUserPress) => {
       username={item.account}
       description={getTimeFromNow(item.timestamp)}
       handleOnPress={() => handleOnUserPress(item.account)}
-      // eslint-disable-next-line max-len
-      isClickable rightText={undefined} descriptionStyle={undefined} subRightText={undefined} isRightColor={undefined} isHasRightItem={undefined} isBlackRightColor={undefined} itemIndex={undefined} handleOnLongPress={undefined} text={undefined} middleText={undefined} rightTextStyle={undefined} onPressRightText={undefined} isLoggedIn={undefined} searchValue={undefined} rightTooltipText={undefined} leftItemRenderer={undefined} rightItemRenderer={undefined} />
+    />
   );
 };
 
@@ -47,21 +48,12 @@ const ReblogScreen = ({ route }) => {
   const headerTitle = intl.formatMessage({
     id: 'reblog.title',
   });
+
   const dispatch = useAppDispatch();
   const userActivityMutation = useUserActivityMutation();
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
-
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    getPostReblogs(content).then((result) => {
-      setReblogs(result);
-    });
-  }, []);
-
-
 
   const _reblog = () => {
     if (!isLoggedIn) {
@@ -108,18 +100,34 @@ const ReblogScreen = ({ route }) => {
           }
         });
     }
-  };
+    if (currentAccount.name) {
+      [
+        ...reblogs,
+        {
+          account: currentAccount.name,
+          timestamp: new Date().toString(),
+        }
+      ]
+    } else {
+      setReblogs([
+        ...reblogs,
+        {
+          account: currentAccount.name,
+          timestamp: new Date().toString(),
+        }
+      ])
+    }
+
+
+  }
+
 
   return (
     <AccountListContainer data={reblogs}>
       {({ data, filterResult, handleSearch, handleOnUserPress }) => (
 
         <SafeAreaView style={[globalStyles.container, { paddingBottom: 40 }]}>
-          <ScrollView
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-          >
+          <ScrollView>
             {/* Your content goes here */}
             <BasicHeader
               title={`${headerTitle} (${data && data.length})`}
@@ -127,7 +135,6 @@ const ReblogScreen = ({ route }) => {
               isHasSearch
               handleOnSearch={(text) => handleSearch(text, 'account')}
             />
-
             <FlatList
               data={filterResult || data}
               keyExtractor={(item) => item.account}
@@ -149,8 +156,9 @@ const ReblogScreen = ({ route }) => {
           />
         </SafeAreaView>
 
-      )}
-    </AccountListContainer>
+      )
+      }
+    </AccountListContainer >
   );
 };
 
