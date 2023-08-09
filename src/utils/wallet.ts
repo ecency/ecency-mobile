@@ -1,5 +1,4 @@
 import get from 'lodash/get';
-import isArray from 'lodash/isArray';
 import { operationOrders } from '@hiveio/dhive/lib/utils';
 import { utils } from '@hiveio/dhive';
 import parseDate from './parseDate';
@@ -37,9 +36,8 @@ import {
 import { EngineActions, EngineOperations, HistoryItem } from '../providers/hive-engine/hiveEngine.types';
 import { ClaimsCollection } from '../redux/reducers/cacheReducer';
 import { fetchSpkWallet } from '../providers/hive-spk/hiveSpk';
-import { SpkActions } from '../providers/hive-spk/hiveSpk.types';
 import TransferTypes from '../constants/transferTypes';
-import { Alert } from 'react-native';
+
 
 export const transferTypes = [
   'curation_reward',
@@ -69,8 +67,15 @@ const HIVE_ACTIONS = [
   'transfer_to_savings',
   'transfer_to_vesting',
   'withdraw_hive',
+  'swap_token'
 ];
-const HBD_ACTIONS = ['transfer_token', 'transfer_to_savings', 'convert', 'withdraw_hbd'];
+const HBD_ACTIONS = [
+  'transfer_token', 
+  'transfer_to_savings', 
+  'convert', 
+  'withdraw_hbd',
+  'swap_token'
+];
 const HIVE_POWER_ACTIONS = ['delegate', 'power_down'];
 
 export const groomingTransactionData = (transaction, hivePerMVests): CoinActivity | null => {

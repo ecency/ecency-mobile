@@ -135,6 +135,10 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         case TransferTypes.WITHDRAW_HBD:
           balance = coinData.savings ?? 0;
           break;
+
+        case TransferTypes.SWAP_TOKEN:
+          navigateTo = ROUTES.SCREENS.TRADE;
+          break;
       }
 
       navigateParams = {

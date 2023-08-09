@@ -105,7 +105,7 @@
     "react-native-bootsplash": "^4.3.2",
     "react-native-camera": "^4.2.1",
     "react-native-chart-kit": "^6.11.0",
-    "react-native-config": "luggit/react-native-config#master",
+    "react-native-config": "^1.5.1",
     "react-native-crypto": "^2.2.0",
     "react-native-date-picker": "^4.2.0",
     "react-native-device-info": "^10.7.0",

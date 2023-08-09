@@ -13,6 +13,7 @@ import notifee, { EventType } from '@notifee/react-native';
 import { isEmpty, some, get } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
 import BackgroundTimer from 'react-native-background-timer';
+import FastImage from 'react-native-fast-image';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
@@ -21,16 +22,17 @@ import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
 import { useUserActivityMutation } from '../../../providers/queries';
 import THEME_OPTIONS from '../../../constants/options/theme';
-import { setIsDarkTheme } from '../../../redux/actions/applicationActions';
+import { setCurrency, setIsDarkTheme } from '../../../redux/actions/applicationActions';
 import { markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
-import FastImage from 'react-native-fast-image';
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
-  const { isDarkTheme, colorTheme, isPinCodeOpen } = useAppSelector((state) => state.application);
+  const { isDarkTheme, colorTheme, isPinCodeOpen, currency } = useAppSelector(
+    (state) => state.application,
+  );
 
   const systemColorScheme = useColorScheme();
 
@@ -73,6 +75,9 @@ export const useInitApplication = () => {
     });
 
     userActivityMutation.lazyMutatePendingActivities();
+
+    // update fiat currency rate usd:fiat
+    dispatch(setCurrency(currency.currency));
 
     _initPushListener();
 
