@@ -33,7 +33,7 @@ import DEFAULT_ASSETS, { ASSET_IDS } from '../../../constants/defaultAssets';
 import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
 import { walletQueries } from '../../../providers/queries';
 
-const CHART_DAYS_RANGE = 1;
+const CHART_DAYS_RANGE = 7;
 
 const WalletScreen = ({ navigation }) => {
   const intl = useIntl();
@@ -147,7 +147,6 @@ const WalletScreen = ({ navigation }) => {
             token.id,
             currency.currency,
             CHART_DAYS_RANGE,
-            ChartInterval.HOURLY,
           );
           priceData = marketChart.prices.map((item) => item.yValue);
         }
