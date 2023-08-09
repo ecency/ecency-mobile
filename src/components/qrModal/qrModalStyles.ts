@@ -1,3 +1,4 @@
+import { TextStyle, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
@@ -36,4 +37,29 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   activityIndicator: {},
+  transactionBodyContainer: {
+    borderWidth: 1,
+    borderColor: '$borderColor',
+    borderRadius: 8,
+    padding: 8,
+    marginVertical: 10,
+  } as ViewStyle,
+  transactionRow: {
+    borderColor: 'red',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 4,
+  } as ViewStyle,
+  transactionItem1: {
+    color: '$primaryBlack',
+    fontSize: 16,
+    fontWeight: '700',
+    flex: 1,
+  } as TextStyle,
+  transactionItem2: {
+    color: '$primaryBlack',
+    fontSize: 16,
+    fontWeight: '400',
+    flex: 1,
+  } as TextStyle,
 });

@@ -2123,7 +2123,7 @@ export const handleHiveUriOperation = async (
     tx.ref_block_num = ref_block_num;
     tx.ref_block_prefix = ref_block_prefix;
 
-
+    // console.log('tx : ', JSON.stringify(tx, null, 2));
     const transaction = cryptoUtils.signTransaction(tx, privateKey, chainId);
     const trxId = generateTrxId(transaction);
     const resultHive = await client.broadcast.call('broadcast_transaction', [transaction]);
