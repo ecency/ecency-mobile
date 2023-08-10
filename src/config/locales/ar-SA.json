@@ -343,7 +343,7 @@
     "feedback_success": "تم فتح البريد الإلكتروني بنجاح",
     "feedback_fail": "لا يمكن فتح عميل البريد الإلكتروني",
     "server_fail": "الخادم غير متوفر",
-    "show_imgs": "Show Images",
+    "show_imgs": "عرض الصور",
     "delete_account": "Delete Account",
     "backup_private_keys": "Manage Authorities",
     "backup": "Manage",
