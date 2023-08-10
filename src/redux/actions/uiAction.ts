@@ -15,6 +15,8 @@ import {
   SET_LOCKED_ORIENTATION,
   LOGOUT,
   LOGOUT_DONE,
+  SHOW_WEBVIEW_MODAL,
+  HIDE_WEBVIEW_MODAL,
 } from '../constants/constants';
 
 export const updateActiveBottomTab = (payload: string) => ({
@@ -70,6 +72,20 @@ export const setAvatarCacheStamp = (payload: number) => ({
 export const toggleQRModal = (payload: boolean) => ({
   payload,
   type: TOGGLE_QR_MODAL,
+});
+
+export const showWebViewModal = (payload: any) => ({
+  payload: {
+    isVisibleWebViewModal: new Date().getTime(),
+    webViewModalData: {
+      ...payload,
+    },
+  },
+  type: SHOW_WEBVIEW_MODAL,
+});
+
+export const hideWebViewModal = () => ({
+  type: HIDE_WEBVIEW_MODAL,
 });
 
 export const setDeviceOrientation = (payload: string) => ({

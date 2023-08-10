@@ -7,7 +7,12 @@ import { useIntl } from 'react-intl';
 import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
 import styles from './qrModalStyles';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { showActionModal, toastNotification, toggleQRModal } from '../../redux/actions/uiAction';
+import {
+  showActionModal,
+  showWebViewModal,
+  toastNotification,
+  toggleQRModal,
+} from '../../redux/actions/uiAction';
 import { deepLinkParser } from '../../utils/deepLinkParser';
 import RootNavigation from '../../navigation/rootNavigation';
 import getWindowDimensions from '../../utils/getWindowDimensions';
@@ -16,6 +21,8 @@ import { handleHiveUriOperation } from '../../providers/hive/dhive';
 import bugsnagInstance from '../../config/bugsnag';
 import { get, isArray } from 'lodash';
 import showLoginAlert from '../../utils/showLoginAlert';
+import authType from '../../constants/authType';
+import { delay } from '../../utils/editor';
 
 const hiveuri = require('hive-uri');
 const screenHeight = getWindowDimensions().height;
@@ -112,12 +119,22 @@ export const QRModal = ({}: QRModalProps) => {
     }
   };
 
-  const _handleHiveUri = (uri: string) => {
+  const _handleHiveUri = async (uri: string) => {
     try {
       setIsScannerActive(false);
       _onClose();
       if (!isLoggedIn) {
         showLoginAlert({ intl });
+        return;
+      }
+      if (get(currentAccount, 'local.authType') === authType.STEEM_CONNECT) {
+        await delay(500); // NOTE: it's required to avoid modal mis fire
+        dispatch(
+          showWebViewModal({
+            uri: uri,
+          }),
+        );
+
         return;
       }
       const parsed = hiveuri.decode(uri);
