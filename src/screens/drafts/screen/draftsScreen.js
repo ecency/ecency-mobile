@@ -177,7 +177,7 @@ const DraftsScreen = ({
         >
           <IconButton
             style={styles.deleteButton}
-            color={EStyleSheet.value('$white')}
+            color={EStyleSheet.value('$primaryBlack')}
             iconType="MaterialCommunityIcons"
             name="delete-outline"
             disabled={isBatchDeleting}
