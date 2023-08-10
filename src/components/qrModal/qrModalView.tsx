@@ -15,6 +15,7 @@ import { isHiveUri } from '../../utils/hive-uri';
 import { handleHiveUriOperation } from '../../providers/hive/dhive';
 import bugsnagInstance from '../../config/bugsnag';
 import { get, isArray } from 'lodash';
+import showLoginAlert from '../../utils/showLoginAlert';
 
 const hiveuri = require('hive-uri');
 const screenHeight = getWindowDimensions().height;
@@ -26,6 +27,7 @@ export const QRModal = ({}: QRModalProps) => {
   const isVisibleQRModal = useAppSelector((state) => state.ui.isVisibleQRModal);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
+  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
   const [isScannerActive, setIsScannerActive] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -114,6 +116,10 @@ export const QRModal = ({}: QRModalProps) => {
     try {
       setIsScannerActive(false);
       _onClose();
+      if (!isLoggedIn) {
+        showLoginAlert({ intl });
+        return;
+      }
       const parsed = hiveuri.decode(uri);
       // resolve the decoded tx and params to a signable tx
       let { tx, signer } = hiveuri.resolveTransaction(parsed.tx, parsed.params, {
