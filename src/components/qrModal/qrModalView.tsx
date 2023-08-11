@@ -23,6 +23,7 @@ import { get, isArray } from 'lodash';
 import showLoginAlert from '../../utils/showLoginAlert';
 import authType from '../../constants/authType';
 import { delay } from '../../utils/editor';
+import ROUTES from '../../../src/constants/routeNames';
 
 const hiveuri = require('hive-uri');
 const screenHeight = getWindowDimensions().height;
@@ -34,6 +35,7 @@ export const QRModal = ({}: QRModalProps) => {
   const isVisibleQRModal = useAppSelector((state) => state.ui.isVisibleQRModal);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
+  const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
   const [isScannerActive, setIsScannerActive] = useState(true);
@@ -127,58 +129,71 @@ export const QRModal = ({}: QRModalProps) => {
         showLoginAlert({ intl });
         return;
       }
-      if (get(currentAccount, 'local.authType') === authType.STEEM_CONNECT) {
-        await delay(500); // NOTE: it's required to avoid modal mis fire
-        dispatch(
-          showWebViewModal({
-            uri: uri,
-          }),
-        );
-
-        return;
+      if (isPinCodeOpen) {
+        RootNavigation.navigate({
+          name: ROUTES.SCREENS.PINCODE,
+          params: {
+            callback: () => _handleHiveUriTransaction(uri),
+          },
+        });
+      } else {
+        _handleHiveUriTransaction(uri);
       }
-      const parsed = hiveuri.decode(uri);
-      // resolve the decoded tx and params to a signable tx
-      let { tx, signer } = hiveuri.resolveTransaction(parsed.tx, parsed.params, {
-        signers: currentAccount.name,
-        preferred_signer: currentAccount.name,
-      });
-      const operations = get(tx, 'operations', []);
-      dispatch(
-        showActionModal({
-          title: intl.formatMessage({
-            id: 'qr.confirmTransaction',
-          }),
-          bodyContent: _checkOpsArray(operations) ? _renderActionModalBody(operations[0]) : null,
-          buttons: [
-            {
-              text: intl.formatMessage({
-                id: 'qr.cancel',
-              }),
-              onPress: () => {},
-              style: 'cancel',
-            },
-            {
-              text: intl.formatMessage({
-                id: 'qr.approve',
-              }),
-              onPress: () => {
-                handleHiveUriOperation(currentAccount, pinCode, uri)
-                  .then(() => {
-                    dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-                  })
-                  .catch((err) => {
-                    bugsnagInstance.notify(err);
-                    dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
-                  });
-              },
-            },
-          ],
-        }),
-      );
     } catch (err) {
       _showInvalidAlert();
     }
+  };
+
+  const _handleHiveUriTransaction = async (uri: string) => {
+    if (get(currentAccount, 'local.authType') === authType.STEEM_CONNECT) {
+      await delay(500); // NOTE: it's required to avoid modal mis fire
+      dispatch(
+        showWebViewModal({
+          uri: uri,
+        }),
+      );
+      return;
+    }
+
+    const parsed = hiveuri.decode(uri);
+    // resolve the decoded tx and params to a signable tx
+    let { tx, signer } = hiveuri.resolveTransaction(parsed.tx, parsed.params, {
+      signers: currentAccount.name,
+      preferred_signer: currentAccount.name,
+    });
+    const operations = get(tx, 'operations', []);
+    dispatch(
+      showActionModal({
+        title: intl.formatMessage({
+          id: 'qr.confirmTransaction',
+        }),
+        bodyContent: _checkOpsArray(operations) ? _renderActionModalBody(operations[0]) : null,
+        buttons: [
+          {
+            text: intl.formatMessage({
+              id: 'qr.cancel',
+            }),
+            onPress: () => {},
+            style: 'cancel',
+          },
+          {
+            text: intl.formatMessage({
+              id: 'qr.approve',
+            }),
+            onPress: () => {
+              handleHiveUriOperation(currentAccount, pinCode, uri)
+                .then(() => {
+                  dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+                })
+                .catch((err) => {
+                  bugsnagInstance.notify(err);
+                  dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
+                });
+            },
+          },
+        ],
+      }),
+    );
   };
 
   const _handleDeepLink = async (url) => {
