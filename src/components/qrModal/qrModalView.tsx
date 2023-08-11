@@ -217,8 +217,12 @@ export const QRModal = ({}: QRModalProps) => {
 
   const _renderTransactionInfoRow = (item: any) => (
     <View style={styles.transactionRow}>
-      <Text style={styles.transactionItem1}>{item[0]}</Text>
-      <Text style={styles.transactionItem2}>{item[1]}</Text>
+      <Text numberOfLines={1} style={styles.transactionItem1}>
+        {item[0]}
+      </Text>
+      <Text numberOfLines={1} style={styles.transactionItem2}>
+        {item[1]}
+      </Text>
     </View>
   );
   const _renderActionModalBody = (operations: any) => (

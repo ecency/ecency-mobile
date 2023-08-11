@@ -1,5 +1,7 @@
 import { TextStyle, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import getWindowDimensions from '../../utils/getWindowDimensions';
+const { width: SCREEN_WIDTH } = getWindowDimensions();
 
 export default EStyleSheet.create({
   sheetContent: {
@@ -43,9 +45,9 @@ export default EStyleSheet.create({
     borderRadius: 8,
     padding: 8,
     marginVertical: 10,
+    width: SCREEN_WIDTH - 64,
   } as ViewStyle,
   transactionRow: {
-    borderColor: 'red',
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 4,
