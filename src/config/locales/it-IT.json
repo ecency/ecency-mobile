@@ -599,6 +599,7 @@
     "warning": "Attenzione",
     "invalid_pincode": "Codice PIN non valido, si prega di verificare e riprovare.",
     "remove_alert": "Sei sicuro di volerlo rimuovere?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Sei sicuro di volerlo cancellare?",
     "clear_user_alert": "Sei sicuro di voler cancellare tutti i dati utente?",
     "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
