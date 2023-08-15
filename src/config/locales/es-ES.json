@@ -599,6 +599,7 @@
     "warning": "Advertencia",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Está seguro que quiere borrar?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "¿Está seguro de que desea eliminar?",
     "clear_user_alert": "¿Estás seguro de querer borrar toda la información del usuario?",
     "decrypt_fail_alert": "Estado de la aplicación incorrecto, por favor vuelva a iniciar sesión para restablecer el estado.",
