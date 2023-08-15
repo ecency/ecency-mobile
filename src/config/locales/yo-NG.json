@@ -599,6 +599,7 @@
     "warning": "Ìkìlọ",
     "invalid_pincode": "PIN yi o se tewogba, jowo sematuyewo, ki o tun te.",
     "remove_alert": "Se o da o loju pe ofe yo kuro?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Are you sure you want to clear?",
     "clear_user_alert": "Are you sure you want to clear all user data?",
     "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
