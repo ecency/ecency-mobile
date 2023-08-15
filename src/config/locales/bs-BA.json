@@ -599,6 +599,7 @@
     "warning": "Upozorenje",
     "invalid_pincode": "Nevažeći PIN kod, molimo provjerite i pokušajte ponovo.",
     "remove_alert": "Jeste li sigurni da želite ukloniti?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Jeste li sigurni da želite izbrisati?",
     "clear_user_alert": "Jeste li sigurni da želite izbrisati sve korisničke podatke?",
     "decrypt_fail_alert": "Oštećeno stanje aplikacije, molimo ponovo se prijavite da resetujete stanje.",
