@@ -599,6 +599,7 @@
     "warning": "Warning",
     "invalid_pincode": "Invalid PIN code, please check and try again.",
     "remove_alert": "Are you sure you want to remove?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Are you sure you want to clear?",
     "clear_user_alert": "Are you sure you want to clear all user data?",
     "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
