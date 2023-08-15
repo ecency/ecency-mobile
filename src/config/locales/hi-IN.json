@@ -599,6 +599,7 @@
     "warning": "चेतावनी",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "क्या आप इसे सच में हटाना चाहते हैं?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "क्या आप सचमुच में मिटाना चाहते हैं?",
     "clear_user_alert": "क्या आप वाकई सभी उपयोगकर्ता डेटा को साफ़ करना चाहते हैं?",
     "decrypt_fail_alert": "भ्रष्ट एप्लिकेशन स्थिति, राज्य को रीसेट करने के लिए कृपया पुनः लोड करें।",
