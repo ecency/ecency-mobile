@@ -599,6 +599,7 @@
     "warning": "Figyelmeztetés",
     "invalid_pincode": "Érvénytelen PIN kód, kérjük ellenőrizd és próbáld újra.",
     "remove_alert": "Biztos, hogy törölni akarod?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Biztos törölni akarod?",
     "clear_user_alert": "Biztos, hogy törölsz minden adatot?",
     "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
