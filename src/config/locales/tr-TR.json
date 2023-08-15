@@ -599,6 +599,7 @@
     "warning": "Uyarı",
     "invalid_pincode": "Geçersiz pin gözden geçirip yeniden deneyin.",
     "remove_alert": "Kaldırmak istediğine emin misin ?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Silmek istediğinizden emin misiniz?",
     "clear_user_alert": "Tüm kullanıcı verilerini silmek istediğinize emin misiniz?",
     "decrypt_fail_alert": "Bozuk uyguluma durumu, durumu sıfırlama için lütfen tekrar giriş yapın.",
