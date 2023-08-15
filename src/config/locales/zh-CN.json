@@ -599,6 +599,7 @@
     "warning": "警告",
     "invalid_pincode": "无效的 PIN 码，请检查并重试。",
     "remove_alert": "您确定想要移除？",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "您确定要清除吗？",
     "clear_user_alert": "您确定要清除所有用户数据吗？",
     "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
