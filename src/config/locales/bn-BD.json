@@ -599,6 +599,7 @@
     "warning": "সতর্কতা",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "আপনি কি পরিষ্কার করতে চান?",
     "clear_user_alert": "আপনি কি নিশ্চিত যে আপনি সমস্ত ব্যবহারকারীর ডেটা সাফ করতে চান?",
     "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
