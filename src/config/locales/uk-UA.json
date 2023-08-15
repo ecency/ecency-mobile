@@ -599,6 +599,7 @@
     "warning": "Увага",
     "invalid_pincode": "Невірний пін-код. Будь ласка, перевірте і повторіть спробу.",
     "remove_alert": "Ви дійсно бажаєте видалити?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Ви дійсно бажаєте очистити?",
     "clear_user_alert": "Ви впевнені, що хочете видалили всі ваші дані?",
     "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
