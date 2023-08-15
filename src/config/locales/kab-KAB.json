@@ -599,6 +599,7 @@
     "warning": "Ɣur-k",
     "invalid_pincode": "Tangalt PIN mačči d tameɣtut, sefqed tɛerḍeḍ tikelt-nniḍen.",
     "remove_alert": "Tebɣiḍ s tidet tukksa?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Tebɣiḍ s tidet ad t-tsefḍeḍ?",
     "clear_user_alert": "Tebɣiḍ s tidet ad tsefḍeḍ akk isefka n umseqdac?",
     "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
