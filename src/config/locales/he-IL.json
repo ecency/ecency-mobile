@@ -599,6 +599,7 @@
     "warning": "אזהרה",
     "invalid_pincode": "קוד PIN לא תקין, אנא בדוק ונסה שנית.",
     "remove_alert": "האם בוודאות ברצונך להסיר?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "האם את\\ה בטוח\\ה שברצונך למחוק?",
     "clear_user_alert": "האם את/ה בטוח/ה שברצונך למחוק את כל נתוני המשתמש?",
     "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
