@@ -599,6 +599,7 @@
     "warning": "Įspėjimas",
     "invalid_pincode": "Neteisingas PIN kodas, prašome patikrinti ir bandyti dar kartą.",
     "remove_alert": "Ar tikrai norite perkelti?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Ar tikrai norite panaikinti?",
     "clear_user_alert": "Ar tikrai norite panaikinti visą naudotojo informaciją?",
     "decrypt_fail_alert": "Programėlė šiuo metu nepatikima, prašome bandyti prisijungti iš naujo.",
