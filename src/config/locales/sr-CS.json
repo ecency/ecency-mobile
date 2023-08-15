@@ -599,6 +599,7 @@
     "warning": "Upozorenje",
     "invalid_pincode": "Nevažeći PIN kod, molimo proverite i pokušajte ponovo.",
     "remove_alert": "Da li ste sigurni da želite da uklonite?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Da li ste sigurni da želite da izbrišete?",
     "clear_user_alert": "Da li stе sigurni da žеlitе da izbrišеtе svе korisničke podatkе?",
     "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
