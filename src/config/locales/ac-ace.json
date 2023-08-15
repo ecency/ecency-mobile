@@ -599,6 +599,7 @@
     "warning": "Pëuingat",
     "invalid_pincode": "Salah pin, cie neu test loëm.",
     "remove_alert": "Peu yakin neuk sampóh?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Peu yakin neuk sampöh?",
     "clear_user_alert": "Pëu yakin nëuk sampöh mandum data pöe?",
     "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
