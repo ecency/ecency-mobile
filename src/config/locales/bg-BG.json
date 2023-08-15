@@ -599,6 +599,7 @@
     "warning": "Внимание",
     "invalid_pincode": "Невалиден Пин-код,провери и опитай отново.",
     "remove_alert": "Сигорни ли сте за премахването?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Сигурни ли сте, че искате да изтриете?",
     "clear_user_alert": "Сигурни ли сте, че искате да изтриете всички ваши данни?",
     "decrypt_fail_alert": "Грешенка в приложението, влез на ново.",
