@@ -599,6 +599,7 @@
     "warning": "Warning",
     "invalid_pincode": "Ungaraihts pin kodus, bidjam þuk sai jah sokei aftra.",
     "remove_alert": "Bi sunjai wileis þata usniman?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Are you sure you want to clear?",
     "clear_user_alert": "Are you sure you want to clear all user data?",
     "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
