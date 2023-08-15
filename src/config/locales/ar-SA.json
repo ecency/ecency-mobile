@@ -599,7 +599,7 @@
     "warning": "تحذير",
     "invalid_pincode": "الرقم السري غير صالح، يرجى التحقق والمحاولة مرة أخرى.",
     "remove_alert": "هل أنت متأكد تريد الإزالة؟",
-    "remove_all_alert": "Are you sure you want to remove all selected items?",
+    "remove_all_alert": "هل أنت متأكد أنك تريد إزالة كافة العناصر المحددة؟",
     "clear_alert": "هل أنت متأكد من أنك تريد المسح؟",
     "clear_user_alert": "هل أنت متأكد أنك تريد مسح جميع بيانات المستخدم؟",
     "decrypt_fail_alert": "حالة التطبيق متضعضعة، يرجى إعادة تسجيل الدخول لإعادة تعيين الحالة.",
