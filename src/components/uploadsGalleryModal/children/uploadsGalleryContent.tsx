@@ -273,7 +273,7 @@ const UploadsGalleryContent = ({
             }}
             iconType="MaterialCommunityIcons"
             name="delete-outline"
-            color={EStyleSheet.value(deleteIds.length > 0 ? '$primaryBlack' : '$primaryBlack')}
+            color={EStyleSheet.value(deleteIds.length > 0 ? '$pureWhite' : '$pureWhite')}
             size={32}
             onPress={_onDeletePress}
             isLoading={isDeleting}
@@ -287,7 +287,7 @@ const UploadsGalleryContent = ({
         >
           <IconButton
             style={styles.deleteButton}
-            color={EStyleSheet.value('$primaryBlack')}
+            color={EStyleSheet.value('$pureWhite')}
             iconType="MaterialCommunityIcons"
             name="delete-outline"
             disabled={isDeleting}
