@@ -599,6 +599,7 @@
     "warning": "Xəbərdarlıq",
     "invalid_pincode": "Etibarsız PIN kod, zəhmət olmasa yoxlayıb yenidən sınayın.",
     "remove_alert": "Çıxarmaq istədiyinizə əminsiniz?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Təmizləmək istədiyinizə əminsiniz?",
     "clear_user_alert": "Bütün istifadəçi verilənlərini təmizləmək istədiyinizə əminsiniz?",
     "decrypt_fail_alert": "Zədəli tətbiq vəziyyəti, vəziyyəti sıfırlamaq üçün təkrar giriş edin.",
