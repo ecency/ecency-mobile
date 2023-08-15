@@ -599,6 +599,7 @@
     "warning": "Varoitus",
     "invalid_pincode": "Virheellinen PIN-koodi, tarkista koodi ja yritä uudelleen.",
     "remove_alert": "Haluatko varmasti poistaa?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Haluatko varmasti poistaa?",
     "clear_user_alert": "Haluatko varmasti tyhjentää kaikki historiatiedot?",
     "decrypt_fail_alert": "Sovelluksen tila on virheellinen, ole hyvä ja kirjaudu uudelleen nollataksesi tilan.",
