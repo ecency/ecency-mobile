@@ -49,6 +49,7 @@ const BasicHeaderView = ({
   enableViewModeToggle,
   handleSettingsPress,
   backIconName,
+  isLoadingRightIcon,
 }) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const rewardMenuRef = useRef(null);
@@ -144,7 +145,7 @@ const BasicHeaderView = ({
               )}
             </View>
           )}
-  
+
           {rightIconName && !isHasSearch && (
             <IconButton
               size={25}
@@ -153,6 +154,7 @@ const BasicHeaderView = ({
               style={rightIconBtnStyle}
               name={rightIconName}
               iconType={iconType}
+              isLoading={isLoadingRightIcon}
             />
           )}
 
@@ -198,7 +200,6 @@ const BasicHeaderView = ({
               iconType={'MaterialIcons'}
             />
           )}
-
         </View>
 
         {isHasIcons && (

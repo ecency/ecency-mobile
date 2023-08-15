@@ -44,13 +44,39 @@ export const useDraftDeleteMutation = () => {
   return useMutation(deleteDraft, {
     retry: 3,
     onSuccess: (data) => {
-      console.log('Success draft delete', data);
+      console.log('Success draft delete', JSON.stringify(data, null, 2));
       queryClient.setQueryData([QUERIES.DRAFTS.GET], _sortData(data));
     },
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     },
   });
+};
+
+export const useDraftsBatchDeleteMutation = () => {
+  const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
+  const intl = useIntl();
+  return useMutation<any, any, any>(
+    async (deleteIds) => {
+      console.log('deleteIds : ', JSON.stringify(deleteIds, null, 2));
+
+      for (const i in deleteIds) {
+        await deleteDraft(deleteIds[i]);
+      }
+      return deleteIds;
+    },
+    {
+      retry: 3,
+      onSuccess: (deleteIds) => {
+        console.log('Success draft delete', deleteIds);
+        queryClient.invalidateQueries([QUERIES.DRAFTS.GET]);
+      },
+      onError: () => {
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      },
+    },
+  );
 };
 
 export const useScheduleDeleteMutation = () => {
@@ -67,6 +93,32 @@ export const useScheduleDeleteMutation = () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     },
   });
+};
+
+export const useSchedulesBatchDeleteMutation = () => {
+  const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
+  const intl = useIntl();
+  return useMutation<any, any, any>(
+    async (deleteIds) => {
+      console.log('deleteIds : ', JSON.stringify(deleteIds, null, 2));
+
+      for (const i in deleteIds) {
+        await deleteScheduledPost(deleteIds[i]);
+      }
+      return deleteIds;
+    },
+    {
+      retry: 3,
+      onSuccess: (deleteIds) => {
+        console.log('Success schedules delete', deleteIds);
+        queryClient.invalidateQueries([QUERIES.SCHEDULES.GET]);
+      },
+      onError: () => {
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      },
+    },
+  );
 };
 
 export const useMoveScheduleToDraftsMutation = () => {
