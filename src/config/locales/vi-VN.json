@@ -599,6 +599,7 @@
     "warning": "Cảnh báo",
     "invalid_pincode": "Mã PIN không hợp lệ, vui lòng kiểm tra và thử lại.",
     "remove_alert": "Are you sure want to remove?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Bạn có chắc chắn muốn xóa không?",
     "clear_user_alert": "Bạn có chắc chắn muốn xóa tất cả dữ liệu của bạn?",
     "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
