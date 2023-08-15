@@ -599,6 +599,7 @@
     "warning": "Attention",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Êtes-vous sûr de vouloir retirer ?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Êtes-vous sûr de vouloir effacer ?",
     "clear_user_alert": "Êtes-vous sûr de vouloir effacer toutes les données utilisateur ?",
     "decrypt_fail_alert": "État de l'application corrompu, veuillez vous reconnecter pour réinitialiser l'état.",
