@@ -599,6 +599,7 @@
     "warning": "경고",
     "invalid_pincode": "올바르지 않은 PIN 코드입니다. 확인 후 다시 시도해주세요.",
     "remove_alert": "정말 삭제하시겠습니까?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "정말 삭제하시겠습니까?",
     "clear_user_alert": "정말 모든 사용자 데이터를 삭제하시겠습니까?",
     "decrypt_fail_alert": "앱 상태가 손상되었습니다. 상태를 재설정하려면 다시 로그인하세요.",
