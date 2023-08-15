@@ -599,6 +599,7 @@
     "warning": "警告",
     "invalid_pincode": "無效的PIN碼，請核對後再試一次。",
     "remove_alert": "確定要刪除嗎？",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "您確定要清除嗎？",
     "clear_user_alert": "您確定要清除所有用戶數據嗎？",
     "decrypt_fail_alert": "應用程序錯亂，請重新登錄",
