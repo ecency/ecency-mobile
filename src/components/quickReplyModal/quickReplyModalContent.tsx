@@ -140,10 +140,13 @@ export const QuickReplyModalContent = forwardRef(
         setIsSending(true);
 
         const permlink = generateReplyPermlink(selectedPost.author);
-
+        const author = currentAccount.name;
         const parentAuthor = selectedPost.author;
         const parentPermlink = selectedPost.permlink;
         const parentTags = selectedPost.json_metadata.tags;
+        const category = get(selectedPost, 'category', '');
+        const url = `/${category}/@${parentAuthor}/${parentPermlink}#@${author}/${permlink}`;
+
         console.log(
           currentAccount,
           pinCode,
@@ -186,13 +189,14 @@ export const QuickReplyModalContent = forwardRef(
             );
 
             // add comment cache entry
-            const author = currentAccount.name;
+
             dispatch(
               updateCommentCache(
                 `${author}/${permlink}`,
                 {
                   author,
                   permlink,
+                  url,
                   parent_author: parentAuthor,
                   parent_permlink: parentPermlink,
                   markdownBody: commentValue,

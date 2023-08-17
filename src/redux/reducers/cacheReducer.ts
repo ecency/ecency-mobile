@@ -54,6 +54,7 @@ export interface Comment {
   expandedReplies?: boolean;
   renderOnTop?: boolean;
   status: CacheStatus;
+  url?: string;
 }
 
 export interface Draft {
