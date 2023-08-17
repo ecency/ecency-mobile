@@ -365,7 +365,7 @@
       "import_key_modal_desc": "مفتاح خاص فردي أو كلمة مرور رئيسية لاستيراد جميع المفاتيح",
       "sign": "توقيع",
       "sign_input_placeholder": "كلمة مرور رئيسية أو مفتاح خاص",
-      "import_failed": "Keys Import Failed"
+      "import_failed": "فشل استيراد المفاتيح"
     }
   },
   "voters": {
@@ -383,14 +383,14 @@
     "login": "تسجيل الدخول",
     "steemconnect_description": "إذا كنت لا ترغب في إبقاء كلمة المرور مشفرة وحفظها على جهازك، يمكنك استخدام Hivesigner.",
     "steemconnect_fee_description": "معلومات",
-    "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first",
-    "login_failed": "Login Failed",
-    "login_failed_body": "try a different key or try again later.",
-    "deep_login_alert_title": "Easy Login @{username}",
-    "deep_login_alert_body": "Verify direct login using access code",
-    "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "not_loggedin_alert": "لم تقم بتسجيل الدخول",
+    "not_loggedin_alert_desc": "الرجاء تسجيل الدخول أولاً",
+    "login_failed": "فشل تسجيل الدخول",
+    "login_failed_body": "حاول مفتاح آخر أو حاول مرة أخرى لاحقاً.",
+    "deep_login_alert_title": "تسجيل دخول سهل @{username}",
+    "deep_login_alert_body": "تحقق من تسجيل الدخول المباشر باستخدام رمز الوصول",
+    "deep_login_url_expired": "انتهت صلاحية رابط تسجيل الدخول، الرجاء استخدام المفتاح الخاص أو كلمة المرور لتسجيل الدخول",
+    "deep_login_malformed_url": "رابط تسجيل الدخول غير صحيح، يرجى استخدام المفتاح الخاص أو كلمة المرور لتسجيل الدخول"
   },
   "register": {
     "modal_title": "احصل على حساب Hive",
@@ -400,19 +400,19 @@
     "mail": "أدخل عنوان بريدك الإلكتروني",
     "ref_user": "المستخدم المحال (اختياري)",
     "500_error": "تعذر معالجة طلبك، قائمة انتظار التسجيل ممتلئة! حاول مرة أخرى في بضع دقائق...",
-    "error_message": "{message}\nTry again or try purchasing account instead",
+    "error_message": "{message}\nحاول مرة أخرى أو حاول شراء حساب بدلا من ذلك",
     "title_description": "حساب واحد لإدارة كل شيء",
     "form_description": "من خلال تسجيل الدخول، أنت توافق على شروط الخدمات وسياسات الخصوصية لدينا.",
     "registering": "تسجيل حسابك...",
-    "register_fail": "Registeration failed, please try again or contact support.",
-    "registered": "Registration Successful\nCheck your email for instruction",
+    "register_fail": "فشل التسجيل، يرجى المحاولة مرة أخرى أو الاتصال بالدعم.",
+    "registered": "نجاح التسجيل\nتحقق من بريدك الإلكتروني للحصول على التعليمات",
     "validation": {
-      "username_length_error": "Length should be between 3 to 16 symbols",
-      "username_no_ascii_first_letter_error": "First letter should be in ASCII",
-      "username_contains_symbols_error": "Should contain letters, numbers, hyphen only",
-      "username_contains_double_hyphens": "Should not contain double hyphens",
-      "username_contains_underscore": "Should not contain underscore",
-      "username_exists": "Username already exists, try a different one"
+      "username_length_error": "يجب أن يكون الطول بين 3 و 16 رمزاً",
+      "username_no_ascii_first_letter_error": "يجب أن يكون الحرف الأول بتنسيق ASCII",
+      "username_contains_symbols_error": "يجب أن تحتوي على أحرف وأرقام وواصلة فقط",
+      "username_contains_double_hyphens": "يجب ألا تحتوي على واصلات مزدوجة",
+      "username_contains_underscore": "يجب ألا تحتوي على شرطة سفلية",
+      "username_exists": "اسم المستخدم موجود بالفعل، جرب اسمًا مختلفًا"
     }
   },
   "home": {
@@ -426,7 +426,7 @@
     "friends": "الأصدقاء",
     "communities": "المجتمعات",
     "popup_postfix": "تم النشر",
-    "scroll_top": "Scroll To Top"
+    "scroll_top": "انتقل إلى أعلى"
   },
   "side_menu": {
     "profile": "الملف الشّخصي",
@@ -456,7 +456,7 @@
     "search": "بحث",
     "update": "تحديث",
     "reply": "الرد",
-    "schedule": "Schedule"
+    "schedule": "جدول زمني"
   },
   "editor": {
     "title": "عنوان",
@@ -476,7 +476,7 @@
     "limited_characters": "استخدم فقط الأحرف الصغيرة والأرقام ووصلة واحدة",
     "limited_firstchar": "يجب أن تبدأ العلامة بحرف",
     "limited_lastchar": "يجب أن تنتهي العلامة بحرف أو رقم",
-    "tag_duplicate": "Tag exists already",
+    "tag_duplicate": "العلامة موجودة بالفعل",
     "setting_schedule": "الجدول الزمني",
     "setting_reward": "المكافأة",
     "setting_reblog": "إعادة النشر",
@@ -489,7 +489,7 @@
     "options": "الخيارات",
     "my_blog": "مدونتي",
     "select_community": "اختيار مُجتمع",
-    "community_selected": "Community Selected",
+    "community_selected": "تم اختيار المجتمع",
     "my_communities": "مجتمعاتي",
     "top_communities": "أفضل المجتمعات",
     "schedule_modal_title": "المنشورات المجدولة",
@@ -508,25 +508,25 @@
     "select_thumb": "اختيار الصورة المصغرة للمنشور",
     "add_more_imgs": "إضافة المزيد من الصور",
     "two_thumbs_required": "أضف المزيد من الصور في منشورك قبل تعيين الصورة المصغرة",
-    "scheduled_for": "Scheduled For",
+    "scheduled_for": "تم جدولته من أجل",
     "scheduled_immediate": "فوراً",
-    "scheduled_later": "Later",
-    "settings_title": "Post Options",
-    "done": "DONE",
-    "draft_save_title": "Saving Draft",
-    "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft",
-    "label": "Label",
-    "enter_label_placeholder": "Enter Label (Optional)",
+    "scheduled_later": "لاحقاً",
+    "settings_title": "خياراتُ المَنشور",
+    "done": "تم",
+    "draft_save_title": "حفظ المسودة",
+    "draft_update": "تحديث المسودة الحالية",
+    "draft_save_new": "حفظ كمسودة جديدة",
+    "label": "تسمية",
+    "enter_label_placeholder": "أدخل تسمية (اختياري)",
     "url": "رابط الموقع",
     "enter_url_placeholder": "الرجاء إدخال الرابط",
     "link_type_text": "نوع الرابط",
     "insert_link": "إضافة رابط",
     "preview": "معاينة",
     "invalid_url_error": "الرجاء إدخال رابط صحيح",
-    "plain": "Plain",
-    "video": "Video",
-    "image": "Image"
+    "plain": "فارغ",
+    "video": "فيديو",
+    "image": "صورة"
   },
   "snippets": {
     "label_no_snippets": "لم يتم العثور على مقتطفات",
@@ -545,16 +545,16 @@
     "btn_cancel": "إلغاء"
   },
   "uploads_modal": {
-    "label_no_images": "No Existing Uploads...",
+    "label_no_images": "لا توجد تحميلات موجودة...",
     "title": "الصور المرفوعة",
     "title_remove_confirmation": "حذف الصورة",
     "btn_add": "الصورة",
-    "btn_insert": "INSERT",
-    "btn_delete": "DELETE",
-    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "btn_insert": "أَدخِل",
+    "btn_delete": "حذف",
+    "confirm_delete": "هل أنت متأكد أنك تريد حذف الصور من التحميلات الخاصة بك",
     "message_failed": "فشل في تحميل الصورة",
-    "delete_failed": "Failed to delete image",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "delete_failed": "فشل حذف الصورة",
+    "failed_count": "فشل تحميل {failedCount} من إجمالي {totalCount} صورة (صور) محددة"
   },
   "pincode": {
     "enter_text": "أدخل الرقم السري للفتح",
@@ -564,7 +564,7 @@
     "pin_not_matched": "كلمة المرور ليست متطابقة. الرجاء المحاولة مرة أخرى.",
     "attempts_postfix": "المحاولات الفاشلة",
     "message_reset_warning": "سيتم مسح بيانات المستخدم في المحاولة الفاشلة التالية",
-    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
+    "biometric_desc": "امسح بصمة إصبعك على الماسح الضوئي للجهاز للمتابعة"
   },
   "alert": {
     "success": "تم بنجاح!",
@@ -573,9 +573,9 @@
     "claim_reward_balance_ok": "تم سحب المكافآت",
     "fail": "فشل!",
     "move": "نقل",
-    "continue": "Continue",
-    "okay": "Okay",
-    "done": "Done",
+    "continue": "متابعة",
+    "okay": "حسناً",
+    "done": "تم",
     "move_question": "هل أنت متأكد من نقل إلى المسودات؟",
     "success_shared": "تم إرسال المحتوى!",
     "success_moved": "تم النقل إلى المسودات",
@@ -617,7 +617,7 @@
     "connection_fail": "فشل في الاتصال!",
     "connection_success": "تم الاتصال بنجاح!",
     "checking": "جارٍ التحقق...",
-    "external_link": "Open external link",
+    "external_link": "افتح الرابط الخارجي",
     "not_existing_post": "المشاركة غير موجودة! الرجاء التحقق من رابط التصريح والمؤلف.",
     "google_play_version": "لاحظنا أن جهازك لديه إصدار قديم من Google Play. الرجاء تحديث خدمات Google Play وحاول مرة أخرى!",
     "rc_down": "لا توجد أرصدة كافية من الموارد للقيام بإجراءات! \n\nقم بتعزيز حسابك للاستمرار في الاستمتاع بالتجربة. هل تريد تعزيز حسابك، الآن؟",
@@ -635,11 +635,11 @@
     "update": "حدث الآن",
     "remind_later": "تذكير لاحقاً",
     "failed_to_open": "فشل في فتح رابط",
-    "restart_ecency": "Restart Ecency?",
-    "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later.",
-    "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
+    "restart_ecency": "إعادة تشغيل Ecency؟",
+    "restart_ecency_desc": "سيتطلب تطبيق التغييرات إعادة التشغيل.",
+    "invalid_response": "تعذرت معالجة الطلب، حاول مرة أخرى لاحقًا.",
+    "wallet_updating": "تحديث المحفظة قيد التقدم، حاول مرة أخرى عند انتهاء التحديث",
+    "claim_failed": "فشلت المطالبة بالمكافآت ، {message}\nحاول مرة أخرى أو اكتب إلى support@ecency.com",
     "connection_issues": "لا يمكن الوصول إلى الخادم، يرجى التحقق من اتصالك وحاول مرة أخرى.",
     "open_settings": "فتح الإعدادات",
     "auth_expired": "We need to verify you still has access to your keys, please verify login.",
