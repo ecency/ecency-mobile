@@ -846,7 +846,9 @@
     "free": "Gratis",
     "confirm_swap": "Confirmar intercambio",
     "swap_for": "Intercambiando {fromAmount} por {toAmount}",
-    "swap_successful": "¡Intercambiado con éxito!",
+    "swap_successful": "Successfully Swapped",
+    "swap_pending": "Swap Pending!",
+    "swap_pending_body": "Swap requests may be pending, please check pending open orders in selected token details",
     "new_swap": "Nuevo intercambio"
   },
   "boost": {
