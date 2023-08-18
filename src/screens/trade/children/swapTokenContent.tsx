@@ -174,7 +174,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
     const data: SwapOptions = {
       fromAsset: fromAssetSymbol,
       fromAmount: _fromAmount,
-      toAmount: 1,
+      toAmount,
     };
 
     if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
