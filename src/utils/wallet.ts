@@ -413,7 +413,9 @@ export const fetchPendingRequests = async (
     .filter((request) => request.sell_price.base.includes(coinSymbol))
     .map((request) => {
       const { base, quote } = request?.sell_price || {};
+      const orderid = request.orderid
       return {
+        trxIndex: orderid,
         iconType: 'MaterialIcons',
         textKey: 'open_order',
         expires: request.expiration,
@@ -421,6 +423,7 @@ export const fetchPendingRequests = async (
         icon: 'reorder',
         value: base || '-- --',
         details: base && quote ? `@ ${base} = ${quote}` : '',
+        cancelable: true,
       } as CoinActivity;
     });
 
