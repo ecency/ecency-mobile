@@ -10,16 +10,18 @@ interface RangeOption {
 
 interface RangeSelectorProps {
   range: number;
+  minRange: number;
   onRangeChange: (range: number) => void;
 }
 
-export const RangeSelector = ({ range, onRangeChange }: RangeSelectorProps) => {
+export const RangeSelector = ({ range, minRange, onRangeChange }: RangeSelectorProps) => {
+
   const _onSelection = (range: number) => {
     console.log('selection', range);
     onRangeChange(range);
   };
 
-  const _renderRangeButtons = FILTERS.map((item: RangeOption) => (
+  const _renderRangeButtons = FILTERS.filter((item) => item.value >= minRange).map((item: RangeOption) => (
     <TouchableOpacity key={`range option-${item.value}`} onPress={() => _onSelection(item.value)}>
       <View
         style={{
