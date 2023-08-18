@@ -642,18 +642,18 @@
     "claim_failed": "فشلت المطالبة بالمكافآت ، {message}\nحاول مرة أخرى أو اكتب إلى support@ecency.com",
     "connection_issues": "لا يمكن الوصول إلى الخادم، يرجى التحقق من اتصالك وحاول مرة أخرى.",
     "open_settings": "فتح الإعدادات",
-    "auth_expired": "We need to verify you still has access to your keys, please verify login.",
-    "verify": "Verify",
-    "logging_out": "Logging out {username}"
+    "auth_expired": "نحن بحاجة إلى التحقق من أنه لا يزال لديك حق الوصول إلى مفاتيحك، يرجى التحقق من تسجيل الدخول.",
+    "verify": "التحقق",
+    "logging_out": "تسجيل الخروج {username}"
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
     "removed_hint": "المحتوى غير متوفر",
-    "select_action": "Select Action",
+    "select_action": "حدد الإجراء",
     "copy_link": "نسخ الرابط",
     "copy_text": "نسخ النص",
     "reblogged": "تمت إعادة النشر من طرف",
-    "promoted": "PROMOTED",
+    "promoted": "مروّجة",
     "open_thread": "فتح الموضوع",
     "image": "الصورة",
     "link": "الرابط",
@@ -664,15 +664,15 @@
     "wrong_link": "رابط خاطئ",
     "in": "في",
     "reveal_muted": "مكتوم\nانقر لإظهار المحتوى",
-    "posted_by": "Posted by {username} via {appname} "
+    "posted_by": "تم نشره بواسطة {username} عبر {appname} "
   },
   "drafts": {
     "title": "المسودات",
     "load_error": "لا يمكن تحميل المسودات",
     "empty_list": "لا شيء هنا",
     "deleted": "مسودة محذوفة",
-    "unsynced_title": "Unsynced Draft",
-    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
+    "unsynced_title": "مسودة غير متزامنة",
+    "unsynced_body": "لم تتم مزامنة المسودة مع سحابة Ecency، استأنف التحرير واحفظ المسودة"
   },
   "schedules": {
     "title": "جداول زمنية",
@@ -681,7 +681,7 @@
     "move": "نقل إلى المسودات",
     "moved": "تم النقل إلى المسودات",
     "pending": "قيد الانتظار",
-    "postponed": "Postponed",
+    "postponed": "مؤجل",
     "published": "تم النشر",
     "error": "خطأ"
   },
@@ -846,9 +846,9 @@
     "free": "Free",
     "confirm_swap": "Confirm Swap",
     "swap_for": "Swapping {fromAmount} for {toAmount}",
-    "swap_successful": "Successfully Swapped",
-    "swap_pending": "Swap Pending!",
-    "swap_pending_body": "Swap requests may be pending, please check pending open orders in selected token details",
+    "swap_successful": "تم التبديل بنجاح",
+    "swap_pending": "تبديل معلق!",
+    "swap_pending_body": "قد تكون طلبات المقايضة معلقة، يرجى التحقق من الطلبات المفتوحة المعلقة في تفاصيل الرموز المحددة",
     "new_swap": "New Swap"
   },
   "boost": {
