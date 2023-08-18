@@ -131,10 +131,16 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
   };
 
   const _onSwapSuccess = async (hasPending:boolean) => {
+
+    const _badgeColor = hasPending ? EStyleSheet.value('$primaryBlue') : EStyleSheet.value('$primaryGreen');
+    const _badgeIcon = hasPending ? "error-outline" : "check";
+    const _titleId = hasPending ? 'trade.swap_pending' : 'trade.swap_successful'
+    const _body = hasPending ? intl.formatMessage({ id: 'trade.swap_pending_body' }) : undefined;
+
     const headerContent = (
       <View
         style={{
-          backgroundColor: EStyleSheet.value('$primaryGreen'),
+          backgroundColor: _badgeColor,
           borderRadius: 56,
           padding: 8,
         }}
@@ -143,7 +149,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
           style={{ borderWidth: 0 }}
           size={64}
           color={EStyleSheet.value('$pureWhite')}
-          name="check"
+          name={_badgeIcon}
           iconType="MaterialIcons"
         />
       </View>
@@ -151,8 +157,8 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
     dispatch(
       showActionModal({
         headerContent,
-        title: intl.formatMessage({ id: 'trade.swap_successful' }),
-        body: hasPending ? "Some swap requests may be pending, checking pending reqeest for sleected token" : undefined,
+        title: intl.formatMessage({ id: _titleId }),
+        body: _body,
         buttons: [
           { textId: 'trade.new_swap', onPress: _reset },
           { textId: 'alert.done', onPress: () => navigation.goBack() },
@@ -168,7 +174,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
     const data: SwapOptions = {
       fromAsset: fromAssetSymbol,
       fromAmount: _fromAmount,
-      toAmount,
+      toAmount: 1,
     };
 
     if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
