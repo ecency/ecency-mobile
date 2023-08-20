@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ROUTES from '../constants/routeNames';
 import { BottomTabBar } from '../components';
 import { Feed, Notification, Profile, Wallet } from '../screens';
+import Waves from '../screens/waves';
 
 const Tab = createBottomTabNavigator();
 
@@ -12,6 +13,7 @@ export const BottomTabNavigator = () => {
     <Tab.Navigator
       tabBar={(props) => <BottomTabBar {...props} />}
       backBehavior="initialRoute"
+      initialRouteName={ROUTES.TABBAR.WAVES}
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -28,10 +30,10 @@ export const BottomTabNavigator = () => {
       />
 
       <Tab.Screen
-        name={ROUTES.TABBAR.NOTIFICATION}
-        component={Notification}
+        name={ROUTES.TABBAR.WAVES}
+        component={Waves}
         initialParams={{
-          iconName: 'notifications', // read in bottomTabBarView
+          iconName: 'waves', // read in bottomTabBarView
         }}
       />
 
@@ -48,6 +50,14 @@ export const BottomTabNavigator = () => {
         component={Wallet}
         initialParams={{
           iconName: 'account-balance-wallet', // read in bottomTabBarView
+        }}
+      />
+
+      <Tab.Screen
+        name={ROUTES.TABBAR.NOTIFICATION}
+        component={Notification}
+        initialParams={{
+          iconName: 'notifications', // read in bottomTabBarView
         }}
       />
 
