@@ -1,31 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import React from 'react';
+import { RefreshControl, View } from 'react-native';
 import { Comments, Header } from '../../../components';
-import { getComments } from '../../../providers/hive/dhive';
 import styles from '../styles/wavesScreen.styles';
+import { useWavesQuery } from '../../../providers/queries/wavesQueries/wavesQueries';
 
 
 const WavesScreen = () => {
 
+    const wavesQuery = useWavesQuery('ecency.waves');
 
-    const [waves, setWaves] = useState([]);
+    const _fetchData = ({refresh}:{refresh?:boolean}) => {
 
-    useEffect(() => {
-        _fetchWaves()
-    }, [])
-
-    const _fetchWaves = async () => {
-        const data = await getComments('ecency.waves', 'waves-2023-08-19');
-        setWaves(data)
+        if(refresh){
+            wavesQuery.refresh();
+        } else {
+            wavesQuery.fetchNextPage();
+        }
+        
     }
 
+
+    const _data = wavesQuery.data.slice();
     return (
         <View style={styles.container}>
             <Header />
 
             <View style={{ flex: 1 }}>
                 <Comments
-                    comments={waves}
+                    comments={_data}
+                    flatListProps={{
+                        onEndReached: _fetchData,
+                        onScroll: () => {},
+                        // ListEmptyComponent: _renderListEmpty,
+                        // ListFooterComponent: _renderListFooter,
+                        onEndReachedThreshold: 1,
+                        refreshControl: (
+                          <RefreshControl
+                            refreshing={wavesQuery.isRefreshing}
+                            onRefresh={() => _fetchData({ refresh: true })}
+                          />
+                        ),
+                    }}  
                 />
             </View>
 

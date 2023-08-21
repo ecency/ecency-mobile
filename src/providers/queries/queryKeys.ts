@@ -27,6 +27,9 @@ const QUERIES = {
   LEADERBOARD: {
     GET: 'QUERY_GET_LEADERBOARD',
   },
+  WAVES: {
+    GET: 'QUERY_GET_WAVES',
+  }
 };
 
 export default QUERIES;
