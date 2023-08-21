@@ -701,8 +701,8 @@
   },
   "delete": {
     "confirm_delete_title": "تأكيد الحذف",
-    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
-    "request_sent": "Your request for deletion is sent"
+    "confirm_delete_body": "هل أنت متأكد أنك تريد حذف الحساب؟ سوف يمحو جميع البيانات الخاصة بك",
+    "request_sent": "تم إرسال طلب الحذف الخاص بك"
   },
   "favorites": {
     "title": "المفضلات",
@@ -738,16 +738,16 @@
     "boost": "تعزيز منشورك",
     "report": "الإبلاغ",
     "pin-blog": "تثبيت بأعلى الصفحة",
-    "unpin-blog": "Unpin from blog",
+    "unpin-blog": "قم بإلغاء التثبيت من المدونة",
     "pin-community": "تثبيت للمجتمع",
-    "unpin-community": "Unpin from community",
-    "edit-history": "Edit History",
-    "mute": "Mute / Block"
+    "unpin-community": "إزالة التثبيت من المجتمع",
+    "edit-history": "تعديل التاريخ",
+    "mute": "كتم / حظر"
   },
   "deep_link": {
     "no_existing_user": "لا يوجد أي مستخدم حاليا",
     "no_existing_post": "لا يوجد أي منشور حالياً",
-    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
+    "invalid_link": "عنوان الرابط غير صالح ، يمكنك المحاولة مرة أخرى باستخدام عنوان رابط صالح أو محاولة فتحه في متصفح ويب"
   },
   "search": {
     "posts": "منشورات",
