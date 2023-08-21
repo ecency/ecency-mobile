@@ -32,7 +32,11 @@ const PostScreen = ({ route }) => {
   useEffect(() => {
     const post = getPostQuery.data;
     if (post) {
-      if (post && post.depth > 0 && post.parent_author && post.parent_permlink) {
+      const _fetchParent = post && post.depth > 0 
+      && post.parent_author && post.parent_permlink
+      && post.parent_author !== 'ecency.waves'; //TODO: implement a better generic way to avoid parent fetching for waves
+
+      if (_fetchParent) {
         getParentPostQuery.setAuthor(post.parent_author);
         getParentPostQuery.setPermlink(post.parent_permlink);
       }

@@ -249,6 +249,8 @@ const PostDisplayView = ({
     setIsLoadedComments(true);
   };
 
+  const _renderTitle = !!post.title && post.parent_author !== 'ecency.waves' //TODO: implemnent a better way to avoid rendering title for waves
+
   const _postContentView = (
     <>
       {parentPost && <ParentPost post={parentPost} />}
@@ -262,7 +264,7 @@ const PostDisplayView = ({
               setPostBodyHeight(event.nativeEvent.layout.height);
             }}
           >
-            {!!post.title && <Text style={styles.title}>{post.title}</Text>}
+            {_renderTitle && <Text style={styles.title}>{post.title}</Text>}
             <PostHeaderDescription
               date={formatedTime}
               name={author || post.author}
