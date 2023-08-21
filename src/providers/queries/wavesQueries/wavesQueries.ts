@@ -15,6 +15,7 @@ import { delay } from '../../../utils/editor';
   
   export const useWavesQuery = (host: string) => {
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [activePermlinks, setActivePermlinks] = useState<string[]>([]);
     const [permlinksBucket, setPermlinksBucket] = useState<string[]>([]);
 
@@ -33,28 +34,35 @@ import { delay } from '../../../utils/editor';
 
 
     const _fetchPermlinks = async (startPermlink = '', refresh = false) => {
-        const query: any = {
-            account: host,
-            start_author: !!startPermlink ? host : '',
-            start_permlink: startPermlink,
-            limit: 2,
-            observer: '',
-            sort: 'posts',
-          };
-      
-          const result = await getAccountPosts(query);
+        setIsLoading(true);
+        try{
+            const query: any = {
+                account: host,
+                start_author: !!startPermlink ? host : '',
+                start_permlink: startPermlink,
+                limit: 10,
+                observer: '',
+                sort: 'posts',
+              };
+          
+              const result = await getAccountPosts(query);
+    
+              const _fetchedPermlinks =  result.map(post => post.permlink);
+              console.log('permlinks fetched', _fetchedPermlinks);
+    
+              const _permlinksBucket = refresh ? _fetchedPermlinks : [...permlinksBucket, ..._fetchedPermlinks];
+              setPermlinksBucket(_permlinksBucket);
+              
+              if(refresh){
+                //precautionary delay of 200ms to let state update before concluding promise,
+                //it is effective for waves refresh routine.
+                await delay(200)
+              } 
+        } catch(err){
+            console.warn("failed to fetch waves permlinks");
+        }
 
-          const _fetchedPermlinks =  result.map(post => post.permlink);
-          console.log('permlinks fetched', _fetchedPermlinks);
-
-          const _permlinksBucket = refresh ? _fetchedPermlinks : [...permlinksBucket, ..._fetchedPermlinks];
-          setPermlinksBucket(_permlinksBucket);
-
-          //precautionary delay of 200ms to let state update before concluding promise,
-          //it is effective for waves refresh routine.
-          if(refresh){
-            await delay(200)
-          } 
+        setIsLoading(false)
     }
   
     const _fetchWaves = async (pagePermlink: string) => {
@@ -108,7 +116,7 @@ import { delay } from '../../../utils/editor';
     return {
       data: unionBy(..._dataArrs, 'url'),
       isRefreshing,
-      isLoading: wavesQueries.lastItem?.isLoading || wavesQueries.lastItem?.isFetching,
+      isLoading: isLoading || wavesQueries.lastItem?.isLoading || wavesQueries.lastItem?.isFetching,
       fetchNextPage: _fetchNextPage,
       refresh: _refresh,
     };
