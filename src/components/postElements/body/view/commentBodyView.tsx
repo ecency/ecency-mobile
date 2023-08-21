@@ -24,6 +24,7 @@ const WIDTH = getWindowDimensions().width;
 
 const CommentBody = ({
   body,
+  handleOnContentPress,
   handleOnUserPress,
   handleOnPostPress,
   handleOnLongPress,
@@ -85,6 +86,7 @@ const CommentBody = ({
     }
   };
 
+
   const _handleOnUserPress = (username) => {
     if (handleOnUserPress) {
       handleOnUserPress(username);
@@ -125,6 +127,7 @@ const CommentBody = ({
               handleTagPress={_handleTagPress}
               handleVideoPress={handleVideoPress}
               handleYoutubePress={handleYoutubePress}
+              handleOnContentPress={handleOnContentPress}
             />
           </View>
         </LongPressGestureHandler>

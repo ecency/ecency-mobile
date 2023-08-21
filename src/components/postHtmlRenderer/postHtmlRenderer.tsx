@@ -23,6 +23,7 @@ interface PostHtmlRendererProps {
   handleTagPress: (tag: string, filter?: string) => void;
   handleVideoPress: (videoUrl: string) => void;
   handleYoutubePress: (videoId: string, startTime: number) => void;
+  handleOnContentPress?: () => void;
 }
 
 export const PostHtmlRenderer = memo(
@@ -34,6 +35,7 @@ export const PostHtmlRenderer = memo(
     onLoaded,
     setSelectedImage,
     setSelectedLink,
+    handleOnContentPress,
     handleOnPostPress,
     handleOnUserPress,
     handleTagPress,
@@ -274,6 +276,7 @@ export const PostHtmlRenderer = memo(
      */
     const _paraRenderer = ({ TDefaultRenderer, ...props }: CustomRendererProps<TNode>) => {
       props.style = props.tnode.parent.tagName === 'li' ? styles.pLi : styles.p;
+      props.onPress = !props.onPress && handleOnContentPress ? handleOnContentPress : props.onPress;
 
       return <TDefaultRenderer {...props} />;
     };

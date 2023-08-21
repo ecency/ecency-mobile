@@ -71,6 +71,10 @@ const CommentView = ({
     }
   };
 
+  const _handleOnContentPress = () => {
+    openReplyThread(comment);
+  }
+
   const _handleOnReplyPress = () => {
     if (isLoggedIn) {
       dispatch(showReplyModal(comment));
@@ -98,6 +102,7 @@ const CommentView = ({
         <CommentBody
           commentDepth={_depth}
           reputation={comment.author_reputation}
+          handleOnContentPress={_handleOnContentPress}
           handleOnUserPress={handleOnUserPress}
           handleOnLongPress={() => handleOnLongPress(comment)}
           handleLinkPress={handleLinkPress}
