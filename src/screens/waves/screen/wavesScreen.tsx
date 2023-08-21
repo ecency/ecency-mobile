@@ -1,5 +1,5 @@
 import React from 'react';
-import { RefreshControl, View } from 'react-native';
+import { ActivityIndicator, RefreshControl, View } from 'react-native';
 import { Comments, Header } from '../../../components';
 import styles from '../styles/wavesScreen.styles';
 import { useWavesQuery } from '../../../providers/queries/wavesQueries/wavesQueries';
@@ -21,6 +21,9 @@ const WavesScreen = () => {
 
 
     const _data = wavesQuery.data.slice();
+
+    const _renderListFooter = () => wavesQuery.isLoading ? <ActivityIndicator style={{padding:32}} /> : <View style={{padding:32}}/>;
+
     return (
         <View style={styles.container}>
             <Header />
@@ -32,7 +35,7 @@ const WavesScreen = () => {
                         onEndReached: _fetchData,
                         onScroll: () => {},
                         // ListEmptyComponent: _renderListEmpty,
-                        // ListFooterComponent: _renderListFooter,
+                        ListFooterComponent: _renderListFooter,
                         onEndReachedThreshold: 1,
                         refreshControl: (
                           <RefreshControl

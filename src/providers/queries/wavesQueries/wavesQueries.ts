@@ -9,6 +9,7 @@
 
 import { getAccountPosts } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
+import { delay } from '../../../utils/editor';
   
   
   
@@ -31,22 +32,29 @@ import QUERIES from '../queryKeys';
     },[permlinksBucket])
 
 
-    const _fetchPermlinks = async (startPermlink?:string) => {
+    const _fetchPermlinks = async (startPermlink = '', refresh = false) => {
         const query: any = {
             account: host,
-            start_author: '',//,'',//refresh ? '' : lastAuthor,
-            start_permlink: startPermlink || '',//refresh ? '' : lastPermlink,
-            limit: 10,
+            start_author: !!startPermlink ? host : '',
+            start_permlink: startPermlink,
+            limit: 2,
             observer: '',
             sort: 'posts',
           };
       
           const result = await getAccountPosts(query);
 
-          const _permlinksBucket =  result.map(post => post.permlink);
-          console.log('permlinks bucket filled', _permlinksBucket);
+          const _fetchedPermlinks =  result.map(post => post.permlink);
+          console.log('permlinks fetched', _fetchedPermlinks);
+
+          const _permlinksBucket = refresh ? _fetchedPermlinks : [...permlinksBucket, ..._fetchedPermlinks];
           setPermlinksBucket(_permlinksBucket);
-          
+
+          //precautionary delay of 200ms to let state update before concluding promise,
+          //it is effective for waves refresh routine.
+          if(refresh){
+            await delay(200)
+          } 
     }
   
     const _fetchWaves = async (pagePermlink: string) => {
@@ -57,11 +65,6 @@ import QUERIES from '../queryKeys';
       return response || [];
     };
   
-    // const _getNextPagePermlink = (lastPage: any[]) => {
-    //   const lastId = lastPage && lastPage.length ? lastPage.lastItem.id : undefined;
-    //   console.log('extracting next page parameter', lastId);
-    //   return lastId;
-    // };
   
     // query initialization
     const wavesQueries = useQueries({
@@ -74,7 +77,9 @@ import QUERIES from '../queryKeys';
   
     const _refresh = async () => {
       setIsRefreshing(true);
-      setActivePermlinks([permlinksBucket[0]]);
+      setPermlinksBucket([]);
+      setActivePermlinks([]);
+      await _fetchPermlinks('', true);
       await wavesQueries[0].refetch();
       setIsRefreshing(false);
     };
@@ -93,6 +98,8 @@ import QUERIES from '../queryKeys';
       if (_nextPagePermlink && !activePermlinks.includes(_nextPagePermlink)) {
         activePermlinks.push(_nextPagePermlink);
         setActivePermlinks([...activePermlinks]);
+      } else {
+        _fetchPermlinks(permlinksBucket.lastItem)
       }
     };
   
