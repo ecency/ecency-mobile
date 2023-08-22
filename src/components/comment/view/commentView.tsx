@@ -61,7 +61,7 @@ const CommentView = ({
   const _currentUsername = currentAccountUsername || currentAccount?.username;
 
   const _showSubCommentsToggle = async (force = false) => {
-    if ((replies && replies.length > 0) || force) {
+    if (!!comment.commentKey && ((replies && replies.length > 0) || force)) {
       setIsOpeningReplies(true);
       await delay(10); // hack to rendering inidcator first before start loading comments
       handleOnToggleReplies(comment.commentKey);
