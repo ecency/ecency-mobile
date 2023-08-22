@@ -118,7 +118,7 @@
     "tokens_unstakeDone": "الرموز التي تم فك رهنها",
     "tokens_cancelUnstake": "تم إلغاء فك الرهن",
     "tokens_delegate": "الرموز المفوّضة",
-    "tokens_undelegateStart": "بَدْء إلغاء التقويض",
+    "tokens_undelegateStart": "بَدْء إلغاء التفويض",
     "tokens_undelegateDone": "اكتملت عملية فك التفويض",
     "tokens_transferFee": "رسم تحويل الرمز",
     "market_cancel": "تم إلغاء الطلب",
@@ -787,17 +787,17 @@
     "percent": "النسبة المئوية",
     "auto_vests": "استحقاقات تلقائية",
     "vests": "سترات",
-    "transfer_engine": "Transfer Token",
-    "stake_engine": "Stake Token",
-    "unstake_engine": "Unstake Token",
-    "delegate_engine": "Delegate Token",
-    "undelegate_engine": "Undelegate Token",
-    "transfer_spk": "Transfer SPK",
-    "transfer_larynx_spk": "Transfer LARYNX",
-    "power_up_spk": "Power Up LARYNX",
-    "power_down_spk": "Power Down LARYNX",
-    "lock_liquidity_spk": "Lock Liquidity LARYNX",
-    "delegate_spk": "Delegate LARYNX POWER",
+    "transfer_engine": "تحويل الرمز",
+    "stake_engine": "رهن الرمز",
+    "unstake_engine": "فك رهن الرمز",
+    "delegate_engine": "تفويض الرمز",
+    "undelegate_engine": "إلغاء تفويض الرمز",
+    "transfer_spk": "تحويل SPK",
+    "transfer_larynx_spk": "تحويل LARYNX",
+    "power_up_spk": "زيادة قوة LARYNX",
+    "power_down_spk": "إضعاف قوة LARYNX",
+    "lock_liquidity_spk": "قُفْل سيولة LARYNX",
+    "delegate_spk": "تفويض قوة LARYNX",
     "save": "حفظ",
     "percent_information": "معلومات النسبة المئوية",
     "next": "التالي",
@@ -808,73 +808,73 @@
     "stop": "إيقاف",
     "sc_power_down_error": "لم يتم تنفيذ هذه الميزة لتسجيل دخول Hivesigner، حتى الآن",
     "address_view": "عرض العنواين",
-    "already_delegated": "Already delegated to ",
-    "remain_hp": "Remaining HP",
+    "already_delegated": "تفويض قوة LARYNX ",
+    "remain_hp": "HP المتبقية",
     "account_detail_head": "تفاصيل الحساب",
-    "account_detail_subhead": "Enter username for HIVE Power delegation",
+    "account_detail_subhead": "أدخل اسم المستخدم لتفويض قوة HIVE",
     "delegat_detail_head": "تفاصيل التفويض",
-    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
+    "delegat_detail_subhead": "يحل المبلغ الجديد محل قوة HIVE المفوضة بالفعل ",
     "new_amount": "مبلغ جديد",
     "review": "استعراض",
     "confirm": "تأكيد التفويض",
-    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
-    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
+    "confirm_summary": "تفويض {hp} HP ({vests} سترات) إلى @{delegator} من @{delegatee} ",
+    "confirm_summary_para": "سيؤدي هذا إلى استبدال التفويض السابق لـ {prev} HP لهذا المستخدم.",
     "username_alert": "خطأ في اسم المستخدم!",
-    "username_alert_detail": "Please select different username",
+    "username_alert_detail": "الرجاء تحديد اسم مستخدم مختلف",
     "power_down": "Power Down | Unstake",
     "power_down_amount_head": "سحب المبلغ",
-    "power_down_amount_subhead": "Enter amount for powering down hive power",
-    "withdraw_accounts": "Withdraw Accounts",
+    "power_down_amount_subhead": "أدخل المبلغ اللازم لإضعاف قوة hive",
+    "withdraw_accounts": "سحب الحسابات",
     "amount_hp": "المبلغ (HP)",
-    "powering_down": "Powering Down",
-    "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
-    "invalid_amount": "Invalid Amount",
-    "invalid_amount_desc": "Please enter valid amount",
+    "powering_down": "إضعاف القوة",
+    "powering_down_subheading": "أنت تقوم حاليًا بإضعاف القوة.",
+    "powering_down_info": "سيتم إضعاف القوة التالي خلال {days} من الأيام، {hp} HIVE",
+    "invalid_amount": "المبلغ غير صالح",
+    "invalid_amount_desc": "الرجاء إدخال مبلغ صالح",
     "account_select_title": "تفاصيل الحساب",
-    "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
-    "amount_select_title": "Action Details",
-    "amount_select_description": "Enter amount within maximum available balance {suffix}",
-    "amount_select_desc_limit": " and must be greater than 0.001"
+    "account_select_description": "العمليات المتعلقة بالأموال لا رجعة فيها، تأكد من صحة اسم المستخدم",
+    "amount_select_title": "تفاصيل الإجراء",
+    "amount_select_description": "أدخل المبلغ ضمن الحد الأقصى للرصيد المتاح {suffix}",
+    "amount_select_desc_limit": " ويجب أن يكون أكبر من 0.001"
   },
   "trade": {
-    "swap_token": "Swap Your Funds",
-    "more-than-balance": "Entered amount is more than your available balance",
-    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
-    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
-    "fee": "Fee",
-    "free": "Free",
-    "confirm_swap": "Confirm Swap",
-    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_token": "مبادلة أموالك",
+    "more-than-balance": "المبلغ الذي تم إدخاله أكبر من الرصيد المتاح لديك",
+    "offer-unavailable": "العرض غير متاح للمبلغ الذي تم إدخاله. يرجى تقليل المبلغ",
+    "too-much-slippage": "ننصحك بشدة بتقليل المبلغ لتسعير أفضل",
+    "fee": "رسم",
+    "free": "مجاني",
+    "confirm_swap": "تأكيد المبادلة",
+    "swap_for": "مبادلة {fromAmount} ل {toAmount}",
     "swap_successful": "تم التبديل بنجاح",
     "swap_pending": "تبديل معلق!",
     "swap_pending_body": "قد تكون طلبات المقايضة معلقة، يرجى التحقق من الطلبات المفتوحة المعلقة في تفاصيل الرموز المحددة",
-    "new_swap": "New Swap"
+    "new_swap": "مبادلة جديدة"
   },
   "boost": {
     "title": "احصل على نقاط",
     "buy": "احصل على نقاط",
     "next": "التالي",
-    "info": "Actual value of vote you receive may vary",
+    "info": "قد تختلف القيمة الفعلية للتصويت الذي تتلقاه",
     "account": {
       "title": "الحصول على تعزيز الحساب",
       "desc": "30 يومًا من التفويض سيعزز أصواتك وأنشطتك الاجتماعية ويمنحك المزيد من الإجراءات مع المزيد من رصيد الموارد."
     },
-    "confirm_purchase": "Confirm Purchase @{username}",
-    "confirm_purchase_summary": "Buying {points} for {username} at {price}",
-    "points_purchase_success": "Points purchase successful",
-    "points_purchase_fail_msg": "Points purchase failed\n{message}"
+    "confirm_purchase": "تأكيد الشراء @{username}",
+    "confirm_purchase_summary": "شراء {points} لـ {username} في {price}",
+    "points_purchase_success": "تم شراء النقاط بنجاح",
+    "points_purchase_fail_msg": "فشل شراء النقاط\n{message}"
   },
   "buy_account": {
     "title": "شراء حساب",
     "btn_register": "شراء حساب - {price}",
-    "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started",
+    "desc": "احصل على حساب Hive متميز وكامل دون أي فحوص إضافية وبعض الامتيازات مثل:\n\n- الإنشاء الفوري دون عمليات فحص إضافية وانتظار\n- 3 أضعاف رصيد المورد RC مقارنة بالحسابات الجديدة العادية لغاية 90 يوماً\n- 300 نقطة لمساعدتك على البدء",
     "claim": "المطالبة بحساب مدفوع"
   },
   "free_account": {
     "title": "حساب مجاني",
     "btn_register": "تسجيل (مجاني)",
-    "desc": "Get a full-fledged Hive account, this method has basic checks to make sure botnet doesn't abuse our signup faucet."
+    "desc": "احصل على حساب Hive كامل، تحتوي هذه الطريقة على فحوص أساسية للتأكد من أن شبكة الروبوتات لا تسئ استخدام صنبور التسجيل الخاص بنا."
   },
   "free_estm": {
     "title": "النقاط المجانية",
@@ -914,7 +914,7 @@
     "reveal_comment": "كشف التعليق",
     "read_more": "المزيد من التعليقات",
     "more_replies": "ردود",
-    "no_comments": "Be the first to respond..."
+    "no_comments": "كن اول من يرد..."
   },
   "search_result": {
     "others": "أخرى",
@@ -966,7 +966,7 @@
     "mute": "كتم / صد",
     "unmute": "إلغاء الكتم / إلغاء الصد",
     "report": "تبليغ عن المستخدم",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "تفويض قوة HIVE"
   },
   "communities": {
     "joined": "العضوية",
@@ -994,7 +994,7 @@
     "line3_heading": "انضم إلى مجتمع Ecency!",
     "line3_body": "قم ببناء مجتمع خاص بك، احصل على مكافأت وكافئ الآخرين.",
     "get_started": "ابدأ هنا!",
-    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_description": "بقبولك، فإنك توافق على شروط الخدمة وسياسات الخصوصية الخاصة بنا.",
     "terms_text": "اقرأ هنا!"
   },
   "time": {
@@ -1009,31 +1009,31 @@
   "quick_reply": {
     "placeholder": "إضافة تعليق...",
     "comment": "تعليق",
-    "reply": "REPLY",
+    "reply": "رد",
     "close": "إغلاق"
   },
   "walkthrough": {
-    "load_draft_tooltip": "Load your lastest draft here"
+    "load_draft_tooltip": "قم بتحميل آخر مسودة لك هنا"
   },
   "refer": {
     "refer_earn": "إحالة أصدقائك واربح",
     "refer": "إحالة",
-    "rewarded": "Referral points rewarded",
-    "not_rewarded": "Referral reward pending",
-    "delegate_hp": "Delegate HP",
+    "rewarded": "تمت مكافأة نقاط الإحالة",
+    "not_rewarded": "مكافئات الإحالة معلقة",
+    "delegate_hp": "تفويض HP",
     "earned": "النقاط المكتسبة",
-    "pending": "Pending Points",
-    "empty_text": "Refer your loved ones today and earn free points"
+    "pending": "نِقَاط معلقة",
+    "empty_text": "قم بإحالة أحبائك اليوم واكسب نقاطًا مجانية"
   },
   "qr": {
     "qr_scan": "مسح ال QR",
     "open": "فتح الرابط",
-    "detected_url": "Detected URL",
+    "detected_url": "الرابط الذي تم اكتشافه",
     "unsupported_alert_title": "رابط غير مدعوم!",
-    "unsupported_alert_desc": "Please scan a valid ecency url."
+    "unsupported_alert_desc": "يرجى مسح رابط ecency صالح."
   },
   "history": {
-    "edit": "Edit History",
+    "edit": "تعديل التاريخ",
     "version": "الإصدار"
   }
 }
