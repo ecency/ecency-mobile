@@ -26,10 +26,10 @@ export const usePostSubmitter = () => {
     // handle submit reply
     const _submitReply = async (commentBody: string, parentPost: any) => {
         if (!commentBody) {
-            return;
+            return false ;
         }
         if (isSending) {
-            return;
+            return false;
         }
 
         if (currentAccount) {
@@ -117,6 +117,8 @@ export const usePostSubmitter = () => {
 
 
         }
+
+        return false;
     };
 
 

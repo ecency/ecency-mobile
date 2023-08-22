@@ -1009,8 +1009,10 @@
   },
   "quick_reply":{
     "placeholder":"Add a comment...",
+    "placeholder_wave": "What's happening?",
     "comment": "Comment",
     "reply": "REPLY",
+    "publish": "PUBLISH",
     "close":"CLOSE"
   },
   "walkthrough":{
