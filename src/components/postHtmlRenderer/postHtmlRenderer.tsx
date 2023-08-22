@@ -277,6 +277,7 @@ export const PostHtmlRenderer = memo(
     const _paraRenderer = ({ TDefaultRenderer, ...props }: CustomRendererProps<TNode>) => {
       props.style = props.tnode.parent.tagName === 'li' ? styles.pLi : styles.p;
       props.onPress = !props.onPress && handleOnContentPress ? handleOnContentPress : props.onPress;
+  
 
       return <TDefaultRenderer {...props} />;
     };
@@ -398,6 +399,7 @@ export const PostHtmlRenderer = memo(
         customHTMLElementModels={customHTMLElementModels}
         renderersProps={renderersProps}
         WebView={WebView}
+        pressableHightlightColor={'transparent'}
       />
     );
   },
