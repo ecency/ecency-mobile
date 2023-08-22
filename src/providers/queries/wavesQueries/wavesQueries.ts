@@ -121,6 +121,29 @@ import { delay } from '../../../utils/editor';
       refresh: _refresh,
     };
   };
+
+
+  export const fetchLatestWavesContainer = async (host) => {
+    const query: any = {
+        account: host,
+        start_author:  '',
+        start_permlink: '',
+        limit: 1,
+        observer: '',
+        sort: 'posts',
+      };
+  
+      const result = await getAccountPosts(query);
+
+      const _latestPost =  result[0];
+      console.log('lates waves post', host, _latestPost);
+
+      if(!_latestPost){
+        throw new Error("Lates waves container could be not fetched");
+      }
+
+      return _latestPost;
+  }
   
   
   
