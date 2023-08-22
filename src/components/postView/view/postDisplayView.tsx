@@ -250,9 +250,7 @@ const PostDisplayView = ({
     setIsLoadedComments(true);
   };
 
-  const _renderTitle = !!post.title && !isWavePost
-    ? <Text style={styles.title}>{post.title}</Text> : <View style={styles.titlePlaceholder} />
-    
+
   const _postContentView = (
     <>
       {parentPost && <ParentPost post={parentPost} />}
@@ -266,7 +264,13 @@ const PostDisplayView = ({
               setPostBodyHeight(event.nativeEvent.layout.height);
             }}
           >
-            {_renderTitle}
+            
+            {
+              !!post.title && !isWavePost
+                ? <Text style={styles.title}>{post.title}</Text>
+                : <View style={styles.titlePlaceholder} />
+            }
+
             <PostHeaderDescription
               date={formatedTime}
               name={author || post.author}
