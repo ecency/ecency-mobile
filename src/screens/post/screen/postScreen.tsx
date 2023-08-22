@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 
 // Components
@@ -22,19 +22,21 @@ const PostScreen = ({ route }) => {
   const getPostQuery = postQueries.useGetPostQuery(author, permlink, params.content);
   const getParentPostQuery = postQueries.useGetPostQuery();
 
-  useEffect(()=>{
+  const isWavePost = useMemo(() => getPostQuery.data?.parent_author === 'ecency.waves', [getPostQuery.data]) //TODO: implement a better generic way to avoid parent fetching for waves
+
+  useEffect(() => {
     return () => {
       //clears FastImage RAM, not disk usage;
       FastImage.clearMemoryCache();
     }
-  },[])
+  }, [])
 
   useEffect(() => {
     const post = getPostQuery.data;
     if (post) {
-      const _fetchParent = post && post.depth > 0 
-      && post.parent_author && post.parent_permlink
-      && post.parent_author !== 'ecency.waves'; //TODO: implement a better generic way to avoid parent fetching for waves
+      const _fetchParent = post && post.depth > 0
+        && post.parent_author && post.parent_permlink
+        && !isWavePost; 
 
       if (_fetchParent) {
         getParentPostQuery.setAuthor(post.parent_author);
@@ -88,6 +90,7 @@ const PostScreen = ({ route }) => {
         isNewPost={isNewPost}
         parentPost={getParentPostQuery.data}
         post={getPostQuery.data}
+        isWavePost={isWavePost}
       />
       <PostOptionsModal ref={postOptionsModalRef} />
     </View>

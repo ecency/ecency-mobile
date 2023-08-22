@@ -49,6 +49,7 @@ const PostDisplayView = ({
   handleOnRemovePress,
   activeVotes,
   reblogs,
+  isWavePost,
   activeVotesCount,
 }) => {
   const dispatch = useAppDispatch();
@@ -249,8 +250,9 @@ const PostDisplayView = ({
     setIsLoadedComments(true);
   };
 
-  const _renderTitle = !!post.title && post.parent_author !== 'ecency.waves' //TODO: implemnent a better way to avoid rendering title for waves
-
+  const _renderTitle = !!post.title && !isWavePost
+    ? <Text style={styles.title}>{post.title}</Text> : <View style={styles.titlePlaceholder} />
+    
   const _postContentView = (
     <>
       {parentPost && <ParentPost post={parentPost} />}
@@ -264,7 +266,7 @@ const PostDisplayView = ({
               setPostBodyHeight(event.nativeEvent.layout.height);
             }}
           >
-            {_renderTitle && <Text style={styles.title}>{post.title}</Text>}
+            {_renderTitle}
             <PostHeaderDescription
               date={formatedTime}
               name={author || post.author}
