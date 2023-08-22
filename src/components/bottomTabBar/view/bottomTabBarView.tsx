@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { SafeAreaView, View, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, TouchableOpacity, Alert } from 'react-native';
 
 // Components
 // import TabBar from './tabbar';
@@ -13,7 +13,7 @@ import ROUTES from '../../../constants/routeNames';
 import styles from './bottomTabBarStyles';
 import Icon, { IconContainer } from '../../icon';
 import scalePx from '../../../utils/scalePx';
-import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
+import { showReplyModal, updateActiveBottomTab } from '../../../redux/actions/uiAction';
 
 const BottomTabBarView = ({
   state: { routes, index },
@@ -26,9 +26,18 @@ const BottomTabBarView = ({
     dispatch(updateActiveBottomTab(routes[index].name));
   }, [index]);
 
+
+
   const _jumpTo = (route, isFocused) => {
+
     if (route.name === ROUTES.TABBAR.POST_BUTTON) {
-      navigation.navigate(ROUTES.SCREENS.EDITOR, { key: 'editor_post' });
+
+      if (routes[index].name === ROUTES.TABBAR.WAVES) {
+        dispatch(showReplyModal({mode:'wave'}));
+      } else {
+        navigation.navigate(ROUTES.SCREENS.EDITOR, { key: 'editor_post' });
+      }
+
       return;
     }
 
@@ -43,6 +52,8 @@ const BottomTabBarView = ({
       navigation.navigate(route.name);
     }
   };
+
+
 
   const _tabButtons = routes.map((route, idx) => {
     const { tabBarActiveTintColor, tabBarInactiveTintColor } = descriptors[route.key].options;
@@ -76,6 +87,8 @@ const BottomTabBarView = ({
       </View>
     );
   });
+
+
 
   return <SafeAreaView style={styles.wrapper}>{_tabButtons}</SafeAreaView>;
 };

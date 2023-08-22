@@ -16,6 +16,7 @@ import {
   LOGOUT,
   LOGOUT_DONE,
 } from '../constants/constants';
+import { PostEditorModalData } from '../reducers/uiReducer';
 
 export const updateActiveBottomTab = (payload: string) => ({
   payload,
@@ -82,8 +83,11 @@ export const setLockedOrientation = (payload: string) => ({
   type: SET_LOCKED_ORIENTATION,
 });
 
-export const showReplyModal = (selectionPost: any) => ({
-  payload: selectionPost,
+export const showReplyModal = ({mode, parentPost}:PostEditorModalData) => ({
+  payload: {
+    mode: mode || 'comment',
+    parentPost
+  } as PostEditorModalData,
   type: SHOW_REPLY_MODAL,
 });
 

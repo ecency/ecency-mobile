@@ -18,6 +18,12 @@ import {
 } from '../constants/constants';
 import { orientations } from '../constants/orientationsConstants';
 
+
+export interface PostEditorModalData {
+  mode:'wave'|'comment'|'post',
+  parentPost?:any
+}
+
 interface UiState {
   activeBottomTab: string;
   toastNotification: string;
@@ -31,7 +37,7 @@ interface UiState {
   deviceOrientation: string;
   lockedOrientation: string;
   replyModalVisible: boolean;
-  replyModalPost: any;
+  replyModalData?: PostEditorModalData | null;
   isLogingOut: boolean;
 }
 
@@ -47,7 +53,7 @@ const initialState: UiState = {
   isVisibleQRModal: false,
   deviceOrientation: orientations.PORTRAIT,
   lockedOrientation: orientations.PORTRAIT,
-  replyModalPost: null,
+  replyModalData: null,
   replyModalVisible: false,
   isLogingOut: false,
 };
@@ -128,16 +134,20 @@ export default function (state = initialState, action): UiState {
         lockedOrientation: action.payload,
       };
     case SHOW_REPLY_MODAL:
+      const _payload = action.payload as PostEditorModalData;
+      if(_payload.mode === 'comment' && !_payload.parentPost){
+        throw new Error("parent post missing for showing post editor modal with comment mode")
+      }
       return {
         ...state,
         replyModalVisible: true,
-        replyModalPost: action.payload,
+        replyModalData: action.payload,
       };
     case HIDE_REPLY_MODAL:
       return {
         ...state,
         replyModalVisible: false,
-        replyModalPost: null,
+        replyModalData: null,
       };
     case LOGOUT:
       return {

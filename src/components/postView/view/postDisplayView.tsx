@@ -233,7 +233,7 @@ const PostDisplayView = ({
   // show quick reply modal
   const _showQuickReplyModal = (_post = post) => {
     if (isLoggedIn) {
-      dispatch(showReplyModal(_post));
+      dispatch(showReplyModal({mode:'comment', parentPost:_post}));
     } else {
       console.log('Not LoggedIn');
     }

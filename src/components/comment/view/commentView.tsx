@@ -77,7 +77,7 @@ const CommentView = ({
 
   const _handleOnReplyPress = () => {
     if (isLoggedIn) {
-      dispatch(showReplyModal(comment));
+      dispatch(showReplyModal({mode:'comment', parentPost:comment}));
     } else {
       console.log('Not LoggedIn');
     }
