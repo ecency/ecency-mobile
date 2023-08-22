@@ -38,6 +38,7 @@ import { RootState } from '../../redux/store/store';
 import { PointActivityIds } from '../../providers/ecency/ecency.types';
 import { useUserActivityMutation } from '../../providers/queries/pointQueries';
 import { postQueries } from '../../providers/queries';
+import { usePostSubmitter } from './usePostSubmitter';
 
 export interface QuickReplyModalContentProps {
   selectedPost?: any;
@@ -51,6 +52,8 @@ export const QuickReplyModalContent = forwardRef(
     const dispatch = useDispatch();
     const userActivityMutation = useUserActivityMutation();
     const postsCachePrimer = postQueries.usePostsCachePrimer();
+
+    const postSubmitter = usePostSubmitter();
 
     // const inputRef = useRef<RNTextInput | null>(null);
 
@@ -89,11 +92,7 @@ export const QuickReplyModalContent = forwardRef(
       }
 
       setCommentValue(_value);
-      // if (inputRef.current) {
-      //   inputRef.current.setNativeProps({
-      //     text: _value,
-      //   });
-      // }
+
     }, [selectedPost]);
 
     // add quick comment value into cache
@@ -127,109 +126,30 @@ export const QuickReplyModalContent = forwardRef(
       });
     };
 
+
+
+
     // handle submit reply
     const _submitReply = async () => {
-      if (!commentValue) {
-        return;
+
+      const isSuccess = await postSubmitter.submitReply(commentValue, selectedPost)
+
+      if(isSuccess){     
+        
+        // delete quick comment draft cache if it exist
+        if (draftsCollection && draftsCollection[draftId]) {
+          dispatch(deleteDraftCacheEntry(draftId));
+        }
+        setCommentValue('');
+        onClose();
+      } else {
+        _addQuickCommentIntoCache(); // add comment value into cache if there is error while posting comment
       }
-      if (isSending) {
-        return;
-      }
 
-      if (currentAccount) {
-        setIsSending(true);
-
-        const permlink = generateReplyPermlink(selectedPost.author);
-        const author = currentAccount.name;
-        const parentAuthor = selectedPost.author;
-        const parentPermlink = selectedPost.permlink;
-        const parentTags = selectedPost.json_metadata.tags;
-        const category = get(selectedPost, 'category', '');
-        const url = `/${category}/@${parentAuthor}/${parentPermlink}#@${author}/${permlink}`;
-
-        console.log(
-          currentAccount,
-          pinCode,
-          parentAuthor,
-          parentPermlink,
-          permlink,
-          commentValue,
-          parentTags,
-        );
-
-        const status = await postComment(
-          currentAccount,
-          pinCode,
-          parentAuthor,
-          parentPermlink,
-          permlink,
-          commentValue,
-          parentTags,
-        )
-          .then((response) => {
-            userActivityMutation.mutate({
-              pointsTy: PointActivityIds.COMMENT,
-              transactionId: response.id,
-            });
-            setIsSending(false);
-            setCommentValue('');
-
-            // if (inputRef.current) {
-            //   inputRef.current.setNativeProps({
-            //     text: '',
-            //   });
-            // }
-
-            dispatch(
-              toastNotification(
-                intl.formatMessage({
-                  id: 'alert.success',
-                }),
-              ),
-            );
-
-            // add comment cache entry
-
-            dispatch(
-              updateCommentCache(
-                `${author}/${permlink}`,
-                {
-                  author,
-                  permlink,
-                  url,
-                  parent_author: parentAuthor,
-                  parent_permlink: parentPermlink,
-                  markdownBody: commentValue,
-                },
-                {
-                  parentTags: parentTags || ['ecency'],
-                },
-              ),
-            );
-
-            // delete quick comment draft cache if it exist
-            if (draftsCollection && draftsCollection[draftId]) {
-              dispatch(deleteDraftCacheEntry(draftId));
-            }
-
-            // close should alwasy be called at method end
-            onClose();
-          })
-          .catch((error) => {
-            console.log(error);
-            Alert.alert(
-              intl.formatMessage({
-                id: 'alert.something_wrong',
-              }),
-              error.message || JSON.stringify(error),
-            );
-
-            setIsSending(false);
-            _addQuickCommentIntoCache(); // add comment value into cache if there is error while posting comment
-          });
-        console.log('status : ', status);
-      }
     };
+
+
+
 
     const _handleExpandBtn = async () => {
       if (selectedPost) {
@@ -254,6 +174,9 @@ export const QuickReplyModalContent = forwardRef(
       _deboucedCacheUpdate(value);
     };
 
+
+
+
     // VIEW_RENDERERS
 
     const _renderSummary = () => (
@@ -264,6 +187,8 @@ export const QuickReplyModalContent = forwardRef(
       </TouchableOpacity>
     );
 
+
+
     const _renderAvatar = () => (
       <View style={styles.avatarAndNameContainer}>
         <UserAvatar noAction username={currentAccount.username} />
@@ -272,6 +197,8 @@ export const QuickReplyModalContent = forwardRef(
         </View>
       </View>
     );
+
+
 
     const _renderExpandBtn = () => (
       <View style={styles.expandBtnContainer}>
@@ -285,6 +212,9 @@ export const QuickReplyModalContent = forwardRef(
         />
       </View>
     );
+
+
+
     const _renderReplyBtn = () => (
       <View style={styles.replyBtnContainer}>
         <TextButton
@@ -300,10 +230,12 @@ export const QuickReplyModalContent = forwardRef(
           text={intl.formatMessage({
             id: 'quick_reply.reply',
           })}
-          isLoading={isSending}
+          isLoading={postSubmitter.isSending}
         />
       </View>
     );
+
+
 
     const _renderContent = (
       <View style={styles.modalContainer}>

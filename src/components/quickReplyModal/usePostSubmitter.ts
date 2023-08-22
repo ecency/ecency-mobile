@@ -1,0 +1,146 @@
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../hooks";
+import { postComment } from "../../providers/hive/dhive";
+import { generateReplyPermlink } from "../../utils/editor";
+import { Alert } from "react-native";
+import { updateCommentCache } from "../../redux/actions/cacheActions";
+import { toastNotification } from "../../redux/actions/uiAction";
+import { useIntl } from "react-intl";
+import { useState } from "react";
+import { useUserActivityMutation, wavesQueries } from "../../providers/queries";
+import { PointActivityIds } from "../../providers/ecency/ecency.types";
+
+
+export const usePostSubmitter = () => {
+
+    const dispatch = useDispatch();
+    const intl = useIntl();
+
+
+    const currentAccount = useAppSelector((state) => state.account.currentAccount);
+    const pinCode = useAppSelector(state => state.application.pin);
+    const userActivityMutation = useUserActivityMutation();
+    const [isSending, setIsSending] = useState(false);
+
+
+    // handle submit reply
+    const _submitReply = async (commentBody: string, parentPost: any) => {
+        if (!commentBody) {
+            return;
+        }
+        if (isSending) {
+            return;
+        }
+
+        if (currentAccount) {
+            setIsSending(true);
+
+            const permlink = generateReplyPermlink(parentPost.author);
+            const author = currentAccount.name;
+            const parentAuthor = parentPost.author;
+            const parentPermlink = parentPost.permlink;
+            const parentTags = parentPost.json_metadata.tags;
+            const category = parentPost.category || '';
+            const url = `/${category}/@${parentAuthor}/${parentPermlink}#@${author}/${permlink}`;
+
+            console.log(
+                currentAccount,
+                pinCode,
+                parentAuthor,
+                parentPermlink,
+                permlink,
+                commentBody,
+                parentTags,
+            );
+
+
+            try {
+                const response = await postComment(
+                    currentAccount,
+                    pinCode,
+                    parentAuthor,
+                    parentPermlink,
+                    permlink,
+                    commentBody,
+                    parentTags,
+                )
+
+                userActivityMutation.mutate({
+                    pointsTy: PointActivityIds.COMMENT,
+                    transactionId: response.id,
+                });
+                setIsSending(false);
+
+                dispatch(
+                    toastNotification(
+                        intl.formatMessage({
+                            id: 'alert.success',
+                        }),
+                    ),
+                );
+
+                // add comment cache entry
+
+                dispatch(
+                    updateCommentCache(
+                        `${author}/${permlink}`,
+                        {
+                            author,
+                            permlink,
+                            url,
+                            parent_author: parentAuthor,
+                            parent_permlink: parentPermlink,
+                            markdownBody: commentBody,
+                        },
+                        {
+                            parentTags: parentTags || ['ecency'],
+                        },
+                    ),
+                );
+
+                return true;
+
+
+            } catch (error) {
+                console.log(error);
+                Alert.alert(
+                    intl.formatMessage({
+                        id: 'alert.something_wrong',
+                    }),
+                    error.message || JSON.stringify(error),
+                );
+
+                setIsSending(false);
+                return false;
+
+            }
+
+
+        }
+    };
+
+
+
+    //feteced lates wafves container and post wave to that container
+    const _submitWave = async (body:string) => {
+
+        try {
+            const _wavesHost = 'ecency.waves' //TODO: make waves host selection dynamic
+            const latestWavesPost = await wavesQueries.fetchLatestWavesContainer(_wavesHost);
+
+            return _submitReply(body, latestWavesPost)
+        } catch (err) {
+            Alert.alert("Fail", err.message)
+            return false;
+        }
+    }
+
+
+
+    return {
+        submitReply: _submitReply,
+        submitWave: _submitWave,
+        isSending
+    }
+
+}
