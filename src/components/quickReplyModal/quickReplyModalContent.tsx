@@ -66,7 +66,7 @@ export const QuickReplyModalContent = forwardRef(
 
 
     const draftId = mode === 'wave'
-      ? `${currentAccount.name}/ecency.waves` //TODO: update author based on selected host
+      ? `${currentAccount.name}/demo.com` //TODO: update author based on selected host
       : `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
 
     useImperativeHandle(ref, () => ({

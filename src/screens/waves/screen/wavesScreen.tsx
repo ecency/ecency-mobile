@@ -2,12 +2,12 @@ import React from 'react';
 import { ActivityIndicator, RefreshControl, View } from 'react-native';
 import { Comments, EmptyScreen, Header } from '../../../components';
 import styles from '../styles/wavesScreen.styles';
-import { useWavesQuery } from '../../../providers/queries/wavesQueries/wavesQueries';
+import { wavesQueries } from '../../../providers/queries';
 
 
 const WavesScreen = () => {
 
-    const wavesQuery = useWavesQuery('ecency.waves');
+    const wavesQuery = wavesQueries.useWavesQuery('demo.com');
 
     const _fetchData = ({refresh}:{refresh?:boolean}) => {
         if(refresh){

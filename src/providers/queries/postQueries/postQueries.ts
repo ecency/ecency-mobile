@@ -6,7 +6,7 @@ import { isArray } from 'lodash';
 import { useAppSelector } from '../../../hooks';
 import { getDiscussionCollection, getPost } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
-import { Comment, CacheStatus, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
+import { Comment, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
 import { injectPostCache, injectVoteCache } from '../../../utils/postParser';
 
 /** hook used to return user drafts */

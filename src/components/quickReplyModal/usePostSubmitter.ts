@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../hooks";
 import { postComment } from "../../providers/hive/dhive";
-import { generateReplyPermlink } from "../../utils/editor";
+import { generateReplyPermlink, makeJsonMetadataReply } from "../../utils/editor";
 import { Alert } from "react-native";
 import { updateCommentCache } from "../../redux/actions/cacheActions";
 import { toastNotification } from "../../redux/actions/uiAction";
@@ -9,12 +9,15 @@ import { useIntl } from "react-intl";
 import { useState } from "react";
 import { useUserActivityMutation, wavesQueries } from "../../providers/queries";
 import { PointActivityIds } from "../../providers/ecency/ecency.types";
+import { usePublishWaveMutation } from "../../providers/queries/postQueries/wavesQueries";
 
 
 export const usePostSubmitter = () => {
 
     const dispatch = useDispatch();
     const intl = useIntl();
+
+    const pusblishWaveMutation = usePublishWaveMutation();
 
 
     const currentAccount = useAppSelector((state) => state.account.currentAccount);
@@ -80,25 +83,27 @@ export const usePostSubmitter = () => {
                 );
 
                 // add comment cache entry
-
+                const _cacheCommentData =  {
+                    author,
+                    permlink,
+                    url,
+                    parent_author: parentAuthor,
+                    parent_permlink: parentPermlink,
+                    markdownBody: commentBody,
+                    json_metadata: makeJsonMetadataReply(parentTags || ['ecency'])
+                }
+                
                 dispatch(
                     updateCommentCache(
                         `${author}/${permlink}`,
-                        {
-                            author,
-                            permlink,
-                            url,
-                            parent_author: parentAuthor,
-                            parent_permlink: parentPermlink,
-                            markdownBody: commentBody,
-                        },
+                        _cacheCommentData,
                         {
                             parentTags: parentTags || ['ecency'],
                         },
                     ),
                 );
 
-                return true;
+                return _cacheCommentData;
 
 
             } catch (error) {
@@ -127,10 +132,16 @@ export const usePostSubmitter = () => {
     const _submitWave = async (body:string) => {
 
         try {
-            const _wavesHost = 'ecency.waves' //TODO: make waves host selection dynamic
+            const _wavesHost = 'demo.com' //TODO: make waves host selection dynamic
             const latestWavesPost = await wavesQueries.fetchLatestWavesContainer(_wavesHost);
 
-            return _submitReply(body, latestWavesPost)
+            const _cacheCommentData = await _submitReply(body, latestWavesPost)
+
+            if(_cacheCommentData){
+                pusblishWaveMutation.mutate(_cacheCommentData)
+            }
+
+            return _cacheCommentData
         } catch (err) {
             Alert.alert("Fail", err.message)
             return false;
