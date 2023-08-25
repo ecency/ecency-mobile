@@ -7,16 +7,22 @@ import {
 import { useEffect, useState } from 'react';
 
 import { unionBy } from 'lodash';
-import { getComments } from '../../hive/dhive';
+import { getDiscussionCollection } from '../../hive/dhive';
 
 import { getAccountPosts } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
 import { delay } from '../../../utils/editor';
+import { injectPostCache, mapDiscussionToThreads } from '../../../utils/postParser';
 import { useAppSelector } from '../../../hooks';
 
 
 
 export const useWavesQuery = (host: string) => {
+
+
+  const cachedComments = useAppSelector(state=>state.cache.commentsCollection);
+  const cachedVotes = useAppSelector(state=>state.cache.votesCollection);
+  const lastCacheUpdate = useAppSelector(state=>state.cache.lastUpdate);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -49,6 +55,7 @@ export const useWavesQuery = (host: string) => {
       setActivePermlinks([...activePermlinks]);
     }
   }, [permlinksBucket])
+
 
 
 
@@ -86,10 +93,19 @@ export const useWavesQuery = (host: string) => {
 
   const _fetchWaves = async (pagePermlink: string) => {
     console.log('fetching waves from:', host, pagePermlink);
-    const response = await getComments(host, pagePermlink);
-    response.sort((a, b) => new Date(a.created) > new Date(b.created) ? -1 : 1);
-    console.log('new waves fetched', response);
-    return response || [];
+    const response = await getDiscussionCollection(host, pagePermlink);
+
+    //TODO: inject comment cache here...
+    const _cResponse = injectPostCache(response, cachedComments, cachedVotes, lastCacheUpdate);
+    // const _threadedComments = await mapDiscussionToThreads(_cResponse, host, pagePermlink, 1);
+
+    if(!_cResponse){
+      throw new Error("Failed to parse waves");
+    }
+
+    // _threadedComments.sort((a, b) => new Date(a.created) > new Date(b.created) ? -1 : 1);
+    console.log('new waves fetched', _cResponse);
+    return _cResponse || {};
   };
 
 

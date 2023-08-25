@@ -110,6 +110,8 @@ export const parseDiscussionCollection = async (commentsMap: { [key: string]: an
   return commentsMap;
 };
 
+
+//TODO: discard/deprecate method after porting getComments in commentsContainer to getDiscussionCollection
 export const parseCommentThreads = async (commentsMap: any, author: string, permlink: string) => {
   const MAX_THREAD_LEVEL = 3;
   const comments = [];
@@ -150,6 +152,47 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
 
   return comments;
 };
+
+
+export const mapDiscussionToThreads = async (commentsMap: any, author: string, permlink: string, maxLevel:number = 3) => {
+  const comments = [];
+
+  if (!commentsMap) {
+    return null;
+  }
+
+  // traverse map to curate threads
+  const parseReplies = (commentsMap: any, replies: any[], level: number) => {
+    if (replies && replies.length > 0 && maxLevel > level) {
+      return replies.map((pathKey) => {
+        const comment = commentsMap[pathKey];
+        if (comment) {
+          comment.replies = parseReplies(commentsMap, comment.replies, level + 1);
+          return comment;
+        } else {
+          return null;
+        }
+      });
+    }
+    return [];
+  };
+
+  for (const key in commentsMap) {
+    if (commentsMap.hasOwnProperty(key)) {
+      const comment = commentsMap[key];
+
+      // prcoess first level comment
+      if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
+
+        comment.replies = parseReplies(commentsMap, comment.replies, 1);
+        comments.push(comment);
+      }
+    }
+  }
+
+  return comments;
+};
+
 
 export const parseComments = (comments: any[]) => {
   if (!comments) {

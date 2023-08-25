@@ -132,7 +132,7 @@ export const usePostSubmitter = () => {
     const _submitWave = async (body:string) => {
 
         try {
-            const _wavesHost = 'demo.com' //TODO: make waves host selection dynamic
+            const _wavesHost = 'ecency.waves' //TODO: make waves host selection dynamic
             const latestWavesPost = await wavesQueries.fetchLatestWavesContainer(_wavesHost);
 
             const _cacheCommentData = await _submitReply(body, latestWavesPost)

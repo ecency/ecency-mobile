@@ -22,7 +22,7 @@ const PostScreen = ({ route }) => {
   const getPostQuery = postQueries.useGetPostQuery(author, permlink, params.content);
   const getParentPostQuery = postQueries.useGetPostQuery();
 
-  const isWavePost = useMemo(() => getPostQuery.data?.parent_author === 'demo.com', [getPostQuery.data]) //TODO: implement a better generic way to avoid parent fetching for waves
+  const isWavePost = useMemo(() => getPostQuery.data?.parent_author === 'ecency.waves', [getPostQuery.data]) //TODO: implement a better generic way to avoid parent fetching for waves
 
   useEffect(() => {
     return () => {

@@ -3,11 +3,12 @@ import { ActivityIndicator, RefreshControl, View } from 'react-native';
 import { Comments, EmptyScreen, Header } from '../../../components';
 import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
+import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
 
 
 const WavesScreen = () => {
 
-    const wavesQuery = wavesQueries.useWavesQuery('demo.com');
+    const wavesQuery = wavesQueries.useWavesQuery('ecency.waves');
 
     const _fetchData = ({refresh}:{refresh?:boolean}) => {
         if(refresh){
@@ -18,7 +19,8 @@ const WavesScreen = () => {
     }
 
 
-    const _data = wavesQuery.data.slice();
+    // const _data = useInjectVotesCache(wavesQuery.data.slice());
+    const _data = wavesQuery.data;
 
     const _renderListFooter = () => wavesQuery.isLoading && !wavesQuery.isRefreshing 
         ? <ActivityIndicator style={{padding:32}} /> : <View style={{padding:32}}/>;
