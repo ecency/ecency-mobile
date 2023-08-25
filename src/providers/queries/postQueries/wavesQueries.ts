@@ -4,7 +4,7 @@ import {
   useMutation,
   useQueries, useQueryClient,
 } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { unionBy } from 'lodash';
 import { getDiscussionCollection } from '../../hive/dhive';
@@ -12,7 +12,7 @@ import { getDiscussionCollection } from '../../hive/dhive';
 import { getAccountPosts } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
 import { delay } from '../../../utils/editor';
-import { injectPostCache, mapDiscussionToThreads } from '../../../utils/postParser';
+import { injectPostCache, injectVoteCache, mapDiscussionToThreads } from '../../../utils/postParser';
 import { useAppSelector } from '../../../hooks';
 
 
@@ -57,6 +57,21 @@ export const useWavesQuery = (host: string) => {
   }, [permlinksBucket])
 
 
+  useEffect(()=>{
+    //TODO: checkd cache is recently updated and take post patch 
+
+    //using post path get index of query key where that post exists
+
+    //get query data, update query data by finding post and injecting cache
+
+    //set query data
+
+    //inject cache in that particular post
+    // const post = injectVoteCache(post, cachedVotes)
+
+    //update state and data
+  }, [cachedComments, cachedVotes])
+
 
 
   const _fetchPermlinks = async (startPermlink = '', refresh = false) => {
@@ -97,15 +112,15 @@ export const useWavesQuery = (host: string) => {
 
     //TODO: inject comment cache here...
     const _cResponse = injectPostCache(response, cachedComments, cachedVotes, lastCacheUpdate);
-    // const _threadedComments = await mapDiscussionToThreads(_cResponse, host, pagePermlink, 1);
+    const _threadedComments = await mapDiscussionToThreads(_cResponse, host, pagePermlink, 1);
 
-    if(!_cResponse){
+    if(!_threadedComments){
       throw new Error("Failed to parse waves");
     }
 
-    // _threadedComments.sort((a, b) => new Date(a.created) > new Date(b.created) ? -1 : 1);
-    console.log('new waves fetched', _cResponse);
-    return _cResponse || {};
+    _threadedComments.sort((a, b) => new Date(a.created) > new Date(b.created) ? -1 : 1);
+    console.log('new waves fetched', _threadedComments);
+    return _threadedComments || {};
   };
 
 
