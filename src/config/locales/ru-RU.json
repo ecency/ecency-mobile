@@ -160,7 +160,7 @@
     "nftmarket_sell": "Ордер размещён",
     "nftmarket_cancel": "Ордер отменён",
     "nftmarket_changePrice": "Цена ордера изменена",
-    "nftmarket_enableMarket": "Market Enabled for NFT Symbol",
+    "nftmarket_enableMarket": "Рынок включен для символа NFT",
     "ecency": {
       "title": "Баллы",
       "name": "Баллы Ecency",
@@ -219,7 +219,7 @@
     "low_liquidity": "Низкая ликвидность!",
     "inactive_token": "Токен неактивен, некоторые функции могут быть недоступны.",
     "scheduled_power_downs": "Запланированные понижения силы",
-    "delegated_larynx_power": "Granted Power",
+    "delegated_larynx_power": "Предоставленная мощность",
     "delegating_larynx_power": "Делегированная сила",
     "total_larynx_power": "Общая сила"
   },
@@ -599,7 +599,7 @@
     "warning": "Внимание",
     "invalid_pincode": "Неверный пин-код. Пожалуйста, проверьте и попробуйте еще раз.",
     "remove_alert": "Вы уверены, что хотите удалить?",
-    "remove_all_alert": "Are you sure you want to remove all selected items?",
+    "remove_all_alert": "Вы уверены, что хотите удалить все выбранные элементы?",
     "clear_alert": "Вы уверены, что хотите очистить?",
     "clear_user_alert": "Вы уверены, что хотите удалить все данные своей учётной записи?",
     "decrypt_fail_alert": "Повреждено состояние приложения, пожалуйста, перезайдите для сброса.",
@@ -846,9 +846,9 @@
     "free": "Бесплатно",
     "confirm_swap": "Подтвердить обмен",
     "swap_for": "Обмен {fromAmount} для {toAmount}",
-    "swap_successful": "Successfully Swapped",
-    "swap_pending": "Swap Pending!",
-    "swap_pending_body": "Swap requests may be pending, please check pending open orders in selected token details",
+    "swap_successful": "Успешный обмен",
+    "swap_pending": "Ожидается обмен!",
+    "swap_pending_body": "Заявки на обмен могут находиться на рассмотрении, пожалуйста, проверьте наличие открытых ордеров в деталях выбранного токена",
     "new_swap": "Новый обмен"
   },
   "boost": {
