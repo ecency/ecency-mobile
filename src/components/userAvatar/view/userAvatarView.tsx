@@ -45,7 +45,7 @@ const UserAvatarView = ({
 
   // Component Functions
   const _handleOnAvatarPress = (username: string) => {
-    const name = curUsername === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
+    const name = ROUTES.SCREENS.PROFILE;
     RootNavigation.navigate(name, { username });
   };
 

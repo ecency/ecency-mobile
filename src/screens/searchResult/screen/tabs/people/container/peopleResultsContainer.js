@@ -33,7 +33,7 @@ const PeopleResultsContainer = ({ children, searchValue, username }) => {
 
   const _handleOnPress = (item) => {
     navigation.navigate({
-      name: item.name === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE,
+      name: ROUTES.SCREENS.PROFILE,
       params: {
         username: item.name,
       },

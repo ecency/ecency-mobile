@@ -61,13 +61,6 @@ export const BottomTabNavigator = () => {
         }}
       />
 
-      <Tab.Screen
-        name={ROUTES.TABBAR.PROFILE}
-        component={Profile}
-        initialParams={{
-          iconName: 'person', // read in bottomTabBarView
-        }}
-      />
     </Tab.Navigator>
   );
 };

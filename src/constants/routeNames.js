@@ -52,7 +52,6 @@ const ROUTES = {
     NOTIFICATION: `Notification${TABBAR_SUFFIX}`,
     WALLET: `Wallet${TABBAR_SUFFIX}`,
     POST_BUTTON: `PostButton${TABBAR_SUFFIX}`,
-    PROFILE: `Profile${TABBAR_SUFFIX}`,
     WAVES: `Waves${TABBAR_SUFFIX}`,
   },
   STACK: {
