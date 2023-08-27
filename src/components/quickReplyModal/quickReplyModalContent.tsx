@@ -15,6 +15,7 @@ import {
   Keyboard,
   Platform,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
@@ -175,15 +176,26 @@ export const QuickReplyModalContent = forwardRef(
 
     const _handleMediaInsert = (data: MediaInsertData[]) => {
       const _insertUrls: string[] = []
-      data.forEach((item) => {
-        if (item.url && item.status === MediaInsertStatus.READY) {
-          _insertUrls.push(item.url)
-        }
-      })
 
-      setMediaUrls(_insertUrls);
+      const _item = data[0];
+
+      if(_item){
+        switch(_item.status){
+          case MediaInsertStatus.READY:
+            if(_item.url){
+              _insertUrls.push(_item.url)
+            }
+            break;
+          case MediaInsertStatus.FAILED:
+            setIsUploading(false);
+            break;
+        }
+      }
+
+
       setMediaModalVisible(false);
       uploadsGalleryModalRef.current?.toggleModal(false);
+      setMediaUrls(_insertUrls);
 
     }
 
@@ -274,17 +286,24 @@ export const QuickReplyModalContent = forwardRef(
         )
       )
 
+      const _uploadingPlaceholder = (
+        isUploading && <View style={styles.mediaItem}>
+          <ActivityIndicator />
+        </View>
+      )
+
       return <Fragment>
         {_mediaThumb}
+        {_uploadingPlaceholder}
 
         <UploadsGalleryModal
           ref={uploadsGalleryModalRef}
-          insertedMediaUrls={mediaUrls}
           isPreviewActive={false}
-          paramFiles={null}
-          isEditing={false}
           username={currentAccount.username}
-          hideToolbarExtension={() => { }}
+          allowMultiple={false}
+          hideToolbarExtension={() => { 
+            setMediaModalVisible(false);
+          }}
           handleMediaInsert={_handleMediaInsert}
           setIsUploading={setIsUploading}
         />
@@ -293,9 +312,8 @@ export const QuickReplyModalContent = forwardRef(
 
 
     const _renderExpandBtn = () => (
-      <View style={styles.expandBtnContainer}>
+      <View style={styles.toolbarContainer}>
         <IconButton
-          iconStyle={styles.backIcon}
           iconType="MaterialsIcons"
           name="image-outline"
           onPress={_handleMediaBtn}
@@ -304,11 +322,11 @@ export const QuickReplyModalContent = forwardRef(
         />
         {mode !== 'wave' && (
           <IconButton
-            iconStyle={styles.backIcon}
+            iconStyle={styles.expandIcon}
             iconType="MaterialCommunityIcons"
             name="arrow-expand"
             onPress={_handleExpandBtn}
-            size={28}
+            size={24}
             color={EStyleSheet.value('$primaryBlack')}
           />
         )}

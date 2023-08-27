@@ -37,6 +37,7 @@ interface UploadsGalleryModalProps {
   username: string;
   isEditing: boolean;
   isPreviewActive: boolean;
+  allowMultiple?: boolean;
   hideToolbarExtension: () => void;
   handleMediaInsert: (data: Array<MediaInsertData>) => void;
   setIsUploading: (status: boolean) => void;
@@ -50,6 +51,7 @@ export const UploadsGalleryModal = forwardRef(
       username,
       isEditing,
       isPreviewActive,
+      allowMultiple,
       hideToolbarExtension,
       handleMediaInsert,
       setIsUploading,
@@ -128,7 +130,7 @@ export const UploadsGalleryModal = forwardRef(
     const _handleOpenImagePicker = (addToUploads?: boolean) => {
       ImagePicker.openPicker({
         includeBase64: true,
-        multiple: true,
+        multiple: allowMultiple || true,
         mediaType: 'photo',
         smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
       })
