@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { ActivityIndicator, RefreshControl, View } from 'react-native';
-import { Comments, EmptyScreen, Header } from '../../../components';
+import { Comments, EmptyScreen, Header, PostOptionsModal } from '../../../components';
 import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
-import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
 
 
 const WavesScreen = () => {
+
+    const postOptionsModalRef = useRef<any>(null);
 
     const wavesQuery = wavesQueries.useWavesQuery('ecency.waves');
 
@@ -15,6 +16,13 @@ const WavesScreen = () => {
             wavesQuery.refresh();
         } else {
             wavesQuery.fetchNextPage();
+        }
+    }
+
+
+    const _handleOnOptionsPress = (content:any) => {
+        if(postOptionsModalRef.current){
+            postOptionsModalRef.current.show(content);
         }
     }
 
@@ -34,6 +42,7 @@ const WavesScreen = () => {
             <View style={{ flex: 1 }}>
                 <Comments
                     comments={_data}
+                    handleOnOptionsPress={_handleOnOptionsPress}
                     flatListProps={{
                         onEndReached: _fetchData,
                         onScroll: () => {},
@@ -49,6 +58,8 @@ const WavesScreen = () => {
                     }}  
                 />
             </View>
+
+            <PostOptionsModal ref={postOptionsModalRef} />
 
         </View>
     );
