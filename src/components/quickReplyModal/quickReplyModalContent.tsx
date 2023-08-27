@@ -13,13 +13,14 @@ import {
   TouchableOpacity,
   Keyboard,
   Platform,
+  Alert,
 } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
 import { get, debounce } from 'lodash';
 import { postBodySummary } from '@ecency/render-helper';
 import styles from './quickReplyModalStyles';
-import { IconButton, MainButton, TextButton, TextInput, UserAvatar } from '..';
+import { IconButton, MainButton, TextButton, TextInput, UploadsGalleryModal, UserAvatar } from '..';
 import { delay } from '../../utils/editor';
 import {
   deleteDraftCacheEntry,
@@ -58,6 +59,7 @@ export const QuickReplyModalContent = forwardRef(
     const draftsCollection = useSelector((state: RootState) => state.cache.draftsCollection);
 
     const [commentValue, setCommentValue] = useState('');
+    const [mediaUrl, setMediaUrl] = useState('');
 
     const headerText =
       selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
@@ -133,6 +135,8 @@ export const QuickReplyModalContent = forwardRef(
 
       let _isSuccess = false;
 
+      //TODO: insert image url at the of comment wiht markdown format
+
       switch (mode) {
         case 'comment':
           _isSuccess = await postSubmitter.submitReply(commentValue, selectedPost);
@@ -178,6 +182,10 @@ export const QuickReplyModalContent = forwardRef(
       }
     };
 
+    const _handleMediaBtn = () => {
+      Alert.alert("show media selection modal");
+    }
+
     const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), []);
 
     const _onChangeText = (value) => {
@@ -213,6 +221,14 @@ export const QuickReplyModalContent = forwardRef(
 
     const _renderExpandBtn = () => (
       <View style={styles.expandBtnContainer}>
+        <IconButton
+            iconStyle={styles.backIcon}
+            iconType="MaterialsIcons"
+            name="image-outline"
+            onPress={_handleMediaBtn}
+            size={24}
+            color={EStyleSheet.value('$primaryBlack')}
+          />
         {mode !== 'wave' && (
           <IconButton
             iconStyle={styles.backIcon}
@@ -277,6 +293,22 @@ export const QuickReplyModalContent = forwardRef(
             textAlignVertical="top"
           />
         </View>
+
+            {
+              //TODO: link galley
+      //   <UploadsGalleryModal
+      //   ref={uploadsGalleryModalRef}
+      //   insertedMediaUrls={insertedMediaUrls}
+      //   isPreviewActive={isPreviewActive}
+      //   paramFiles={paramFiles}
+      //   isEditing={isEditing}
+      //   username={currentAccount.username}
+      //   hideToolbarExtension={_hideExtension}
+      //   handleMediaInsert={handleMediaInsert}
+      //   setIsUploading={setIsUploading}
+      // />
+            }
+
         <View style={styles.footer}>
           {_renderExpandBtn()}
           {_renderReplyBtn()}
