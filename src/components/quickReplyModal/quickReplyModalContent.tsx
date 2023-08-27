@@ -33,6 +33,7 @@ import { RootState } from '../../redux/store/store';
 
 import { postQueries } from '../../providers/queries';
 import { usePostSubmitter } from './usePostSubmitter';
+import { MediaInsertData, MediaInsertStatus } from '../uploadsGalleryModal/container/uploadsGalleryModal';
 
 export interface QuickReplyModalContentProps {
   mode: 'comment' | 'wave' | 'post',
@@ -49,6 +50,10 @@ export const QuickReplyModalContent = forwardRef(
   }: QuickReplyModalContentProps, ref) => {
     const intl = useIntl();
     const dispatch = useDispatch();
+
+    const uploadsGalleryModalRef = useRef(null);
+
+
     const postsCachePrimer = postQueries.usePostsCachePrimer();
 
     const postSubmitter = usePostSubmitter();
@@ -59,7 +64,8 @@ export const QuickReplyModalContent = forwardRef(
     const draftsCollection = useSelector((state: RootState) => state.cache.draftsCollection);
 
     const [commentValue, setCommentValue] = useState('');
-    const [mediaUrl, setMediaUrl] = useState('');
+    const [mediaUrls, setMediaUrls] = useState<string[]>([]);
+    const [isUploading, setIsUploading] = useState(false);
 
     const headerText =
       selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
@@ -134,15 +140,14 @@ export const QuickReplyModalContent = forwardRef(
     const _submitPost = async () => {
 
       let _isSuccess = false;
-
-      //TODO: insert image url at the of comment wiht markdown format
+      let _body = mediaUrls.length > 0 ? commentValue + `\n\n ![Wave Media](${mediaUrls[0]})` : commentValue;
 
       switch (mode) {
         case 'comment':
-          _isSuccess = await postSubmitter.submitReply(commentValue, selectedPost);
+          _isSuccess = await postSubmitter.submitReply(_body, selectedPost);
           break;;
         case 'wave':
-          _isSuccess = await postSubmitter.submitWave(commentValue);
+          _isSuccess = await postSubmitter.submitWave(_body);
           break;
         default:
           throw new Error("mode needs implementing")
@@ -165,6 +170,20 @@ export const QuickReplyModalContent = forwardRef(
 
 
 
+    const _handleMediaInsert = (data:MediaInsertData[]) => {
+      const _insertUrls:string[] = []  
+      data.forEach((item)=>{
+        if(item.url && item.status === MediaInsertStatus.READY){
+          _insertUrls.push(item.url)
+        }
+      })
+
+      setMediaUrls(_insertUrls);
+      uploadsGalleryModalRef.current?.toggleModal(false);
+     
+    }
+
+
 
     const _handleExpandBtn = async () => {
       if (selectedPost) {
@@ -183,7 +202,9 @@ export const QuickReplyModalContent = forwardRef(
     };
 
     const _handleMediaBtn = () => {
-      Alert.alert("show media selection modal");
+      if(uploadsGalleryModalRef.current){
+        uploadsGalleryModalRef.current.toggleModal(true)
+      }
     }
 
     const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), []);
@@ -262,6 +283,7 @@ export const QuickReplyModalContent = forwardRef(
             text={intl.formatMessage({
               id: _titleId,
             })}
+            isDisable={isUploading}
             isLoading={postSubmitter.isSending}
           />
         </View>
@@ -294,20 +316,19 @@ export const QuickReplyModalContent = forwardRef(
           />
         </View>
 
-            {
-              //TODO: link galley
-      //   <UploadsGalleryModal
-      //   ref={uploadsGalleryModalRef}
-      //   insertedMediaUrls={insertedMediaUrls}
-      //   isPreviewActive={isPreviewActive}
-      //   paramFiles={paramFiles}
-      //   isEditing={isEditing}
-      //   username={currentAccount.username}
-      //   hideToolbarExtension={_hideExtension}
-      //   handleMediaInsert={handleMediaInsert}
-      //   setIsUploading={setIsUploading}
-      // />
-            }
+          
+        <UploadsGalleryModal
+          ref={uploadsGalleryModalRef}
+          insertedMediaUrls={mediaUrls}
+          isPreviewActive={false}
+          paramFiles={null}
+          isEditing={false}
+          username={currentAccount.username}
+          hideToolbarExtension={()=>{}}
+          handleMediaInsert={_handleMediaInsert}
+          setIsUploading={setIsUploading}
+        />
+            
 
         <View style={styles.footer}>
           {_renderExpandBtn()}
