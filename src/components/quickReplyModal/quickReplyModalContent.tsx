@@ -5,6 +5,7 @@ import React, {
   useImperativeHandle,
   forwardRef,
   useCallback,
+  Fragment,
 } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {
@@ -20,7 +21,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { get, debounce } from 'lodash';
 import { postBodySummary } from '@ecency/render-helper';
 import styles from './quickReplyModalStyles';
-import { IconButton, MainButton, TextButton, TextInput, UploadsGalleryModal, UserAvatar } from '..';
+import { Icon, IconButton, MainButton, TextButton, TextInput, UploadsGalleryModal, UserAvatar } from '..';
 import { delay } from '../../utils/editor';
 import {
   deleteDraftCacheEntry,
@@ -34,6 +35,7 @@ import { RootState } from '../../redux/store/store';
 import { postQueries } from '../../providers/queries';
 import { usePostSubmitter } from './usePostSubmitter';
 import { MediaInsertData, MediaInsertStatus } from '../uploadsGalleryModal/container/uploadsGalleryModal';
+import FastImage from 'react-native-fast-image';
 
 export interface QuickReplyModalContentProps {
   mode: 'comment' | 'wave' | 'post',
@@ -66,6 +68,7 @@ export const QuickReplyModalContent = forwardRef(
     const [commentValue, setCommentValue] = useState('');
     const [mediaUrls, setMediaUrls] = useState<string[]>([]);
     const [isUploading, setIsUploading] = useState(false);
+    const [mediaModalVisible, setMediaModalVisible] = useState(true);
 
     const headerText =
       selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
@@ -170,17 +173,18 @@ export const QuickReplyModalContent = forwardRef(
 
 
 
-    const _handleMediaInsert = (data:MediaInsertData[]) => {
-      const _insertUrls:string[] = []  
-      data.forEach((item)=>{
-        if(item.url && item.status === MediaInsertStatus.READY){
+    const _handleMediaInsert = (data: MediaInsertData[]) => {
+      const _insertUrls: string[] = []
+      data.forEach((item) => {
+        if (item.url && item.status === MediaInsertStatus.READY) {
           _insertUrls.push(item.url)
         }
       })
 
       setMediaUrls(_insertUrls);
+      setMediaModalVisible(false);
       uploadsGalleryModalRef.current?.toggleModal(false);
-     
+
     }
 
 
@@ -202,8 +206,9 @@ export const QuickReplyModalContent = forwardRef(
     };
 
     const _handleMediaBtn = () => {
-      if(uploadsGalleryModalRef.current){
-        uploadsGalleryModalRef.current.toggleModal(true)
+      if (uploadsGalleryModalRef.current) {
+        uploadsGalleryModalRef.current.toggleModal(!mediaModalVisible)
+        setMediaModalVisible(!mediaModalVisible)
       }
     }
 
@@ -239,17 +244,64 @@ export const QuickReplyModalContent = forwardRef(
     );
 
 
+    const _renderMediaPanel = () => {
+      const _onPress = () => {
+        setMediaUrls([])
+      }
+
+      const _minusIcon = (
+        !isUploading &&
+        <View style={styles.minusContainer}>
+          <Icon
+            color={EStyleSheet.value('$pureWhite')}
+            iconType="MaterialCommunityIcons"
+            name="minus"
+            size={16}
+          />
+        </View>
+      )
+
+
+      const _mediaThumb = (
+        !mediaModalVisible && mediaUrls.length > 0 && (
+          <TouchableOpacity onPress={_onPress} disabled={isUploading}>
+            <FastImage
+              source={{ uri: mediaUrls[0] }}
+              style={styles.mediaItem}
+            />
+            {_minusIcon}
+          </TouchableOpacity>
+        )
+      )
+
+      return <Fragment>
+        {_mediaThumb}
+
+        <UploadsGalleryModal
+          ref={uploadsGalleryModalRef}
+          insertedMediaUrls={mediaUrls}
+          isPreviewActive={false}
+          paramFiles={null}
+          isEditing={false}
+          username={currentAccount.username}
+          hideToolbarExtension={() => { }}
+          handleMediaInsert={_handleMediaInsert}
+          setIsUploading={setIsUploading}
+        />
+      </Fragment>
+    }
+
 
     const _renderExpandBtn = () => (
       <View style={styles.expandBtnContainer}>
         <IconButton
-            iconStyle={styles.backIcon}
-            iconType="MaterialsIcons"
-            name="image-outline"
-            onPress={_handleMediaBtn}
-            size={24}
-            color={EStyleSheet.value('$primaryBlack')}
-          />
+          iconStyle={styles.backIcon}
+          iconType="MaterialsIcons"
+          name="image-outline"
+          onPress={_handleMediaBtn}
+          size={24}
+          color={EStyleSheet.value('$primaryBlack')}
+        />
         {mode !== 'wave' && (
           <IconButton
             iconStyle={styles.backIcon}
@@ -316,19 +368,10 @@ export const QuickReplyModalContent = forwardRef(
           />
         </View>
 
-          
-        <UploadsGalleryModal
-          ref={uploadsGalleryModalRef}
-          insertedMediaUrls={mediaUrls}
-          isPreviewActive={false}
-          paramFiles={null}
-          isEditing={false}
-          username={currentAccount.username}
-          hideToolbarExtension={()=>{}}
-          handleMediaInsert={_handleMediaInsert}
-          setIsUploading={setIsUploading}
-        />
-            
+        {_renderMediaPanel()}
+
+
+
 
         <View style={styles.footer}>
           {_renderExpandBtn()}
