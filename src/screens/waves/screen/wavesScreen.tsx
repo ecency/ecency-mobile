@@ -4,6 +4,8 @@ import { Comments, EmptyScreen, Header, PostOptionsModal } from '../../../compon
 import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
+import { WritePostButton } from '../../../components/atoms';
+import WavesHeader from '../children/wavesHeader';
 
 
 const WavesScreen = () => {
@@ -34,6 +36,9 @@ const WavesScreen = () => {
     // const _data = useInjectVotesCache(wavesQuery.data.slice());
     const _data = wavesQuery.data;
 
+    const _renderListHeader = (
+        <WavesHeader />
+    )
     const _renderListFooter = () => wavesQuery.isLoading && !wavesQuery.isRefreshing 
         ? <ActivityIndicator style={{padding:32}} /> : <View style={{padding:32}}/>;
     const _renderListEmpty = () => wavesQuery.isRefreshing || wavesQuery.isLoading 
@@ -52,6 +57,7 @@ const WavesScreen = () => {
                         onScroll: () => {},
                         ListEmptyComponent: _renderListEmpty,
                         ListFooterComponent: _renderListFooter,
+                        ListHeaderComponent: _renderListHeader,
                         refreshControl: (
                           <RefreshControl
                             refreshing={wavesQuery.isRefreshing}
