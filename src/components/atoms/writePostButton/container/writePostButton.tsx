@@ -2,16 +2,18 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import { View as AnimatedView } from 'react-native-animatable';
 import { useIntl } from 'react-intl';
-import UserAvatar from '../../userAvatar';
-import styles from '../styles/writeCommentButton.styles';
-import { useAppSelector } from '../../../hooks';
-import showLoginAlert from '../../../utils/showLoginAlert';
+import UserAvatar from '../../../userAvatar';
+import styles from '../styles/writePostButton.styles';
+import { useAppSelector } from '../../../../hooks';
+import showLoginAlert from '../../../../utils/showLoginAlert';
 
-interface WriteCommentButtonProps {
+interface WritePostButtonProps {
+    title?: string;
+    placeholderId:string;
   onPress: () => void;
 }
 
-export const WriteCommentButton = forwardRef(({ onPress }: WriteCommentButtonProps, ref) => {
+export const WritePostButton = forwardRef(({title, placeholderId: placeholder, onPress }: WritePostButtonProps, ref) => {
   const intl = useIntl();
 
   const animatedContainer = useRef<AnimatedView>();
@@ -45,7 +47,7 @@ export const WriteCommentButton = forwardRef(({ onPress }: WriteCommentButtonPro
           <UserAvatar username={currentAccount.username} />
           <View style={styles.inputContainer}>
             <Text style={styles.inputPlaceholder}>
-              {intl.formatMessage({ id: 'quick_reply.placeholder' })}
+              {intl.formatMessage({ id: placeholder })}
             </Text>
           </View>
         </View>

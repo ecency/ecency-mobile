@@ -17,7 +17,7 @@ import { ParentPost } from '../../parentPost';
 
 // Styles
 import styles from './postDisplayStyles';
-import { OptionsModal } from '../../atoms';
+import { OptionsModal, WritePostButton } from '../../atoms';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../hooks';
 import { showProfileModal, showReplyModal } from '../../../redux/actions/uiAction';
@@ -56,7 +56,6 @@ const PostDisplayView = ({
   const insets = useSafeAreaInsets();
   const userActivityMutation = useUserActivityMutation();
 
-  const writeCommentRef = useRef<WriteCommentButton>();
   const postCommentsRef = useRef<PostComments>(null);
   const upvotePopoverRef = useRef<UpvotePopover>(null);
 
@@ -301,7 +300,7 @@ const PostDisplayView = ({
                   )}
                   {formatedTime}
                 </Text>
-                <WriteCommentButton ref={writeCommentRef} onPress={_showQuickReplyModal} />
+                <WritePostButton placeholderId={'quick_reply.placeholder'} onPress={_showQuickReplyModal} />
               </View>
             )}
           </View>
