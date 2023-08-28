@@ -69,7 +69,7 @@ export const QuickReplyModalContent = forwardRef(
     const [commentValue, setCommentValue] = useState('');
     const [mediaUrls, setMediaUrls] = useState<string[]>([]);
     const [isUploading, setIsUploading] = useState(false);
-    const [mediaModalVisible, setMediaModalVisible] = useState(true);
+    const [mediaModalVisible, setMediaModalVisible] = useState(false);
 
     const headerText =
       selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
