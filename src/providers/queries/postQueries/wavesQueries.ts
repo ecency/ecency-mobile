@@ -4,7 +4,7 @@ import {
   useMutation,
   useQueries, useQueryClient,
 } from '@tanstack/react-query';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { unionBy } from 'lodash';
 import { getDiscussionCollection } from '../../hive/dhive';
@@ -19,15 +19,18 @@ import { useAppSelector } from '../../../hooks';
 
 export const useWavesQuery = (host: string) => {
 
+  const queryClient = useQueryClient();
 
-  const cachedComments = useAppSelector(state=>state.cache.commentsCollection);
-  const cachedVotes = useAppSelector(state=>state.cache.votesCollection);
-  const lastCacheUpdate = useAppSelector(state=>state.cache.lastUpdate);
+  const cachedComments = useAppSelector(state => state.cache.commentsCollection);
+  const cachedVotes = useAppSelector(state => state.cache.votesCollection);
+  const lastCacheUpdate = useAppSelector(state => state.cache.lastUpdate);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [activePermlinks, setActivePermlinks] = useState<string[]>([]);
   const [permlinksBucket, setPermlinksBucket] = useState<string[]>([]);
+
+  const wavesIndexCollection = useRef<{ [key: string]: string }>({});
 
 
 
@@ -57,20 +60,34 @@ export const useWavesQuery = (host: string) => {
   }, [permlinksBucket])
 
 
-  useEffect(()=>{
-    //TODO: checkd cache is recently updated and take post patch 
+  useEffect(() => {
+    //check cache is recently updated and take post path 
+    if (lastCacheUpdate) {
+      const _timeElapsed = new Date().getTime() - lastCacheUpdate.updateAt
+      if (lastCacheUpdate.type === 'vote' && _timeElapsed < 5000) {
+        //using post path get index of query key where that post exists
+        const _path = lastCacheUpdate.postPath;
+        const _containerPermlink = wavesIndexCollection.current[_path];
+        const _containerIndex = activePermlinks.indexOf[_containerPermlink]
+        if (_containerIndex >= 0) {
+          //mean data exist, get query data, update query data by finding post and injecting cache
+          const _qData: any[] | undefined = wavesQueries[_containerIndex].data;
+          if (_qData) {
+            const _postIndex = _qData.findIndex((item) => lastCacheUpdate.postPath === `${item.author}/${item.permlink}`);
+            const _post = _qData[_postIndex];
+            if (_post) {
+              const _cPost = injectVoteCache(_post, cachedVotes);
 
-    //using post path get index of query key where that post exists
+              //set query data
+              _qData.splice(_postIndex, 1, _cPost);
+              queryClient.setQueryData([QUERIES.WAVES.GET, host, _containerIndex], [..._qData]);
+            }
+          }
+        }
+      }
+    }
 
-    //get query data, update query data by finding post and injecting cache
-
-    //set query data
-
-    //inject cache in that particular post
-    // const post = injectVoteCache(post, cachedVotes)
-
-    //update state and data
-  }, [cachedComments, cachedVotes])
+  }, [lastCacheUpdate])
 
 
 
@@ -114,11 +131,14 @@ export const useWavesQuery = (host: string) => {
     const _cResponse = injectPostCache(response, cachedComments, cachedVotes, lastCacheUpdate);
     const _threadedComments = await mapDiscussionToThreads(_cResponse, host, pagePermlink, 1);
 
-    if(!_threadedComments){
+    if (!_threadedComments) {
       throw new Error("Failed to parse waves");
     }
 
     _threadedComments.sort((a, b) => new Date(a.created) > new Date(b.created) ? -1 : 1);
+    _threadedComments.forEach((item) => {
+      wavesIndexCollection.current[`${item.author}/${item.permlink}`] = pagePermlink
+    })
     console.log('new waves fetched', _threadedComments);
     return _threadedComments || {};
   };
@@ -198,26 +218,26 @@ export const usePublishWaveMutation = () => {
   // id is options, if no id is provided program marks all notifications as read;
   const _mutationFn = async (cachePostData: any) => {
     //TODO: lates port wave publishing here or introduce post publishing mutation;
-    if(cachePostData){ //TODO: expand to check multiple wave hosts;{
+    if (cachePostData) { //TODO: expand to check multiple wave hosts;{
       const _host = cachePostData.parent_author;
- 
+
       console.log('returning waves host', _host);
       return _host;
     }
 
     throw new Error("invalid mutations data")
-    
+
   };
 
   const _options: UseMutationOptions<string, unknown, any, void> = {
-    onMutate: async (cacheCommentData:any) => {
+    onMutate: async (cacheCommentData: any) => {
       // TODO: find a way to optimise mutations by avoiding too many loops
       console.log('on mutate data', cacheCommentData);
 
       const _host = cacheCommentData.parent_author;
 
       // update query data
-      const _queryKey = [ QUERIES.WAVES.GET, _host, 0];
+      const _queryKey = [QUERIES.WAVES.GET, _host, 0];
       const queryData: any[] | undefined = queryClient.getQueryData(_queryKey);
 
       console.log('query data', queryData);
