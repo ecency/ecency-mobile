@@ -173,6 +173,10 @@ const CommentsView = ({
         ListEmptyComponent={_renderEmptyContent()}
         ListHeaderComponent={postContentView}
         overScrollMode="never"
+        onEndReachedThreshold={1}
+        maxToRenderPerBatch={7}
+        initialNumToRender={5}
+        windowSize={10}
         {...flatListProps}
       />
       {!handleOnOptionsPress && (

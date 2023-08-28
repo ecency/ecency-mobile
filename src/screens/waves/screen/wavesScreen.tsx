@@ -3,6 +3,7 @@ import { ActivityIndicator, RefreshControl, View } from 'react-native';
 import { Comments, EmptyScreen, Header, PostOptionsModal } from '../../../components';
 import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
+import { useAppSelector } from '../../../hooks';
 
 
 const WavesScreen = () => {
@@ -10,6 +11,9 @@ const WavesScreen = () => {
     const postOptionsModalRef = useRef<any>(null);
 
     const wavesQuery = wavesQueries.useWavesQuery('ecency.waves');
+
+
+    const isDarkTheme = useAppSelector(state=>state.application.isDarkTheme)
 
     const _fetchData = ({refresh}:{refresh?:boolean}) => {
         if(refresh){
@@ -48,11 +52,14 @@ const WavesScreen = () => {
                         onScroll: () => {},
                         ListEmptyComponent: _renderListEmpty,
                         ListFooterComponent: _renderListFooter,
-                        onEndReachedThreshold: 1,
                         refreshControl: (
                           <RefreshControl
                             refreshing={wavesQuery.isRefreshing}
                             onRefresh={() => _fetchData({ refresh: true })}
+                            progressBackgroundColor="#357CE6"
+                            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                            titleColor="#fff"
+                            colors={['#fff']}
                           />
                         ),
                     }}  
