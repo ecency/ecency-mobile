@@ -1034,7 +1034,9 @@
     "unsupported_alert_desc": "Please scan a valid ecency url.",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "multi_array_ops_alert": "Multiple operations array detected!",
+    "multi_array_ops_aler_desct": "Ecency currently do not multiple operations array"
   },
   "history": {
     "edit": "Edit History",

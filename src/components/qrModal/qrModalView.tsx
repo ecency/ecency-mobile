@@ -162,6 +162,17 @@ export const QRModal = ({}: QRModalProps) => {
       preferred_signer: currentAccount.name,
     });
     const operations = get(tx, 'operations', []);
+    if (!_checkOpsArray(operations)) {
+      Alert.alert(
+        intl.formatMessage({
+          id: 'qr.multi_array_ops_alert',
+        }),
+        intl.formatMessage({
+          id: 'qr.multi_array_ops_aler_desct',
+        }),
+      );
+      return;
+    }
     dispatch(
       showActionModal({
         title: intl.formatMessage({
