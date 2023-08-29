@@ -238,7 +238,12 @@ export const QRModal = ({}: QRModalProps) => {
   );
   const _renderActionModalBody = (operations: any) => (
     <View style={styles.transactionBodyContainer}>
-      {Object.entries(operations[1]).map((item) => _renderTransactionInfoRow(item))}
+      <View style={styles.transactionHeadingContainer}>
+        <Text style={styles.transactionHeading}>{operations[0]}</Text>
+      </View>
+      <View style={styles.transactionItemsContainer}>
+        {Object.entries(operations[1]).map((item) => _renderTransactionInfoRow(item))}
+      </View>
     </View>
   );
   const _showInvalidAlert = () => {

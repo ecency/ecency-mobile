@@ -43,7 +43,7 @@ export default EStyleSheet.create({
     borderWidth: 1,
     borderColor: '$borderColor',
     borderRadius: 8,
-    padding: 8,
+    // padding: 8,
     marginVertical: 10,
     width: SCREEN_WIDTH - 64,
   } as ViewStyle,
@@ -51,6 +51,22 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 4,
+  } as ViewStyle,
+  transactionHeadingContainer: {
+    borderBottomWidth: 1,
+    borderColor: '$borderColor',
+    height: 36,
+    paddingHorizontal: 8,
+    justifyContent: 'center',
+  } as ViewStyle,
+  transactionHeading: {
+    color: '$primaryBlack',
+    fontSize: 18,
+    fontWeight: '700',
+    textTransform: 'capitalize',
+  } as TextStyle,
+  transactionItemsContainer: {
+    padding: 8,
   } as ViewStyle,
   transactionItem1: {
     color: '$primaryBlack',
