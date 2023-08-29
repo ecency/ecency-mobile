@@ -13,7 +13,7 @@ export const BottomTabNavigator = () => {
     <Tab.Navigator
       tabBar={(props) => <BottomTabBar {...props} />}
       backBehavior="initialRoute"
-      initialRouteName={ROUTES.TABBAR.WAVES}
+      initialRouteName={ROUTES.TABBAR.FEED}
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,

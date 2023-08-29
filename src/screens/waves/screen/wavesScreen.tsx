@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ActivityIndicator, RefreshControl, View } from 'react-native';
 import { Comments, EmptyScreen, Header, PostOptionsModal } from '../../../components';
 import styles from '../styles/wavesScreen.styles';
@@ -13,11 +13,11 @@ const WavesScreen = () => {
 
     const wavesQuery = wavesQueries.useWavesQuery('ecency.waves');
 
+    const isDarkTheme = useAppSelector(state => state.application.isDarkTheme)
 
-    const isDarkTheme = useAppSelector(state=>state.application.isDarkTheme)
 
-    const _fetchData = ({refresh}:{refresh?:boolean}) => {
-        if(refresh){
+    const _fetchData = ({ refresh }: { refresh?: boolean }) => {
+        if (refresh) {
             wavesQuery.refresh();
         } else {
             wavesQuery.fetchNextPage();
@@ -25,8 +25,8 @@ const WavesScreen = () => {
     }
 
 
-    const _handleOnOptionsPress = (content:any) => {
-        if(postOptionsModalRef.current){
+    const _handleOnOptionsPress = (content: any) => {
+        if (postOptionsModalRef.current) {
             postOptionsModalRef.current.show(content);
         }
     }
@@ -36,10 +36,10 @@ const WavesScreen = () => {
     const _renderListHeader = (
         <WavesHeader />
     )
-    const _renderListFooter = () => wavesQuery.isLoading && !wavesQuery.isRefreshing 
-        ? <ActivityIndicator style={{padding:32}} /> : <View style={{padding:32}}/>;
-    const _renderListEmpty = () => wavesQuery.isRefreshing || wavesQuery.isLoading 
-        ? <View/> : <EmptyScreen />;
+    const _renderListFooter = () => wavesQuery.isLoading && !wavesQuery.isRefreshing
+        ? <ActivityIndicator style={{ padding: 32 }} /> : <View style={{ padding: 32 }} />;
+    const _renderListEmpty = () => wavesQuery.isRefreshing || wavesQuery.isLoading
+        ? <View /> : <EmptyScreen />;
 
     return (
         <View style={styles.container}>
@@ -51,21 +51,21 @@ const WavesScreen = () => {
                     handleOnOptionsPress={_handleOnOptionsPress}
                     flatListProps={{
                         onEndReached: _fetchData,
-                        onScroll: () => {},
+                        onScroll: () => { },
                         ListEmptyComponent: _renderListEmpty,
                         ListFooterComponent: _renderListFooter,
                         ListHeaderComponent: _renderListHeader,
                         refreshControl: (
-                          <RefreshControl
-                            refreshing={wavesQuery.isRefreshing}
-                            onRefresh={() => _fetchData({ refresh: true })}
-                            progressBackgroundColor="#357CE6"
-                            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-                            titleColor="#fff"
-                            colors={['#fff']}
-                          />
+                            <RefreshControl
+                                refreshing={wavesQuery.isRefreshing}
+                                onRefresh={() => _fetchData({ refresh: true })}
+                                progressBackgroundColor="#357CE6"
+                                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                                titleColor="#fff"
+                                colors={['#fff']}
+                            />
                         ),
-                    }}  
+                    }}
                 />
             </View>
 

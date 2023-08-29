@@ -4,7 +4,7 @@ import {
   useMutation,
   useQueries, useQueryClient,
 } from '@tanstack/react-query';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { unionBy } from 'lodash';
 import { getDiscussionCollection } from '../../hive/dhive';
@@ -28,11 +28,12 @@ export const useWavesQuery = (host: string) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [activePermlinks, setActivePermlinks] = useState<string[]>([]);
-  const [permlinksBucket, setPermlinksBucket] = useState<string[]>([]);
 
   const wavesIndexCollection = useRef<{ [key: string]: string }>({});
 
-
+  const _initialContainerPermlinks = useMemo(() =>
+    queryClient.getQueryData<string[]>([QUERIES.WAVES.INITIAL_CONTAINERS, host]) || [], []);
+  const [permlinksBucket, setPermlinksBucket] = useState<string[]>(_initialContainerPermlinks);
 
 
   // query initialization
@@ -45,24 +46,24 @@ export const useWavesQuery = (host: string) => {
   });
 
 
-
-
   useEffect(() => {
-    _fetchPermlinks()
+    _fetchPermlinks('', true);
   }, [])
 
 
   useEffect(() => {
     if (!!permlinksBucket.length) {
+      console.log("incrementing active permlinks bucket", permlinksBucket[activePermlinks.length]);
       activePermlinks.push(permlinksBucket[activePermlinks.length]);
       setActivePermlinks([...activePermlinks]);
     }
   }, [permlinksBucket])
 
 
-  useEffect(()=>{
+
+  useEffect(() => {
     const _latestData = wavesQueries.lastItem?.data;
-    if(_latestData?.length === 0){
+    if (!_latestData || _latestData.length < 10) {
       _fetchNextPage();
     }
   }, [wavesQueries.lastItem?.data])
@@ -80,7 +81,7 @@ export const useWavesQuery = (host: string) => {
   }, [lastCacheUpdate])
 
 
-  const _injectPostCache = async (postPath:string) => {
+  const _injectPostCache = async (postPath: string) => {
     //using post path get index of query key where that post exists
     const _containerPermlink = wavesIndexCollection.current[postPath];
     const _containerIndex = activePermlinks.indexOf(_containerPermlink)
@@ -113,7 +114,7 @@ export const useWavesQuery = (host: string) => {
         account: host,
         start_author: !!startPermlink ? host : '',
         start_permlink: startPermlink,
-        limit: 10,
+        limit: 3,
         observer: '',
         sort: 'posts',
       };
@@ -127,15 +128,19 @@ export const useWavesQuery = (host: string) => {
       setPermlinksBucket(_permlinksBucket);
 
       if (refresh) {
+        queryClient.setQueryData([QUERIES.WAVES.INITIAL_CONTAINERS, host], _permlinksBucket);
         //precautionary delay of 200ms to let state update before concluding promise,
         //it is effective for waves refresh routine.
         await delay(200)
       }
+
+
     } catch (err) {
       console.warn("failed to fetch waves permlinks");
     }
 
     setIsLoading(false)
+
   }
 
   const _fetchWaves = async (pagePermlink: string) => {
@@ -155,9 +160,8 @@ export const useWavesQuery = (host: string) => {
       wavesIndexCollection.current[`${item.author}/${item.permlink}`] = pagePermlink
     })
 
-
     console.log('new waves fetched', _threadedComments);
-    
+
     return _threadedComments || [];
   };
 
@@ -180,12 +184,12 @@ export const useWavesQuery = (host: string) => {
 
     const _nextPagePermlink = permlinksBucket[activePermlinks.length];
 
-    //TODO: find a way to proactively refill active permlinks here.
-
     if (_nextPagePermlink && !activePermlinks.includes(_nextPagePermlink)) {
+      console.log("updating next page permlink", _nextPagePermlink)
       activePermlinks.push(_nextPagePermlink);
       setActivePermlinks([...activePermlinks]);
     } else {
+      console.log("fetching new containers", permlinksBucket.lastItem)
       _fetchPermlinks(permlinksBucket.lastItem)
     }
   };

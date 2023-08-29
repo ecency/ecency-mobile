@@ -14,7 +14,6 @@ import {
   TouchableOpacity,
   Keyboard,
   Platform,
-  Alert,
   ActivityIndicator,
 } from 'react-native';
 import { useIntl } from 'react-intl';

@@ -1,5 +1,5 @@
 /**
- * extracts purchase information from deep link url i-e https://ecency.com/purchase?type=boost&username=ecency.waves
+ * extracts purchase information from deep link url i-e https://ecency.com/purchase?type=boost&username=demo.com
  *
  */
 
