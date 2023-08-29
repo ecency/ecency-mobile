@@ -63,31 +63,38 @@ export const useWavesQuery = (host: string) => {
   useEffect(() => {
     //check cache is recently updated and take post path 
     if (lastCacheUpdate) {
-      const _timeElapsed = new Date().getTime() - lastCacheUpdate.updateAt
+      const _timeElapsed = new Date().getTime() - lastCacheUpdate.updatedAt
       if (lastCacheUpdate.type === 'vote' && _timeElapsed < 5000) {
-        //using post path get index of query key where that post exists
-        const _path = lastCacheUpdate.postPath;
-        const _containerPermlink = wavesIndexCollection.current[_path];
-        const _containerIndex = activePermlinks.indexOf[_containerPermlink]
-        if (_containerIndex >= 0) {
-          //mean data exist, get query data, update query data by finding post and injecting cache
-          const _qData: any[] | undefined = wavesQueries[_containerIndex].data;
-          if (_qData) {
-            const _postIndex = _qData.findIndex((item) => lastCacheUpdate.postPath === `${item.author}/${item.permlink}`);
-            const _post = _qData[_postIndex];
-            if (_post) {
-              const _cPost = injectVoteCache(_post, cachedVotes);
-
-              //set query data
-              _qData.splice(_postIndex, 1, _cPost);
-              queryClient.setQueryData([QUERIES.WAVES.GET, host, _containerIndex], [..._qData]);
-            }
-          }
-        }
+        _injectPostCache(lastCacheUpdate.postPath)
       }
     }
 
   }, [lastCacheUpdate])
+
+
+  const _injectPostCache = async (postPath:string) => {
+    //using post path get index of query key where that post exists
+    const _containerPermlink = wavesIndexCollection.current[postPath];
+    const _containerIndex = activePermlinks.indexOf(_containerPermlink)
+    const _voteCache = cachedVotes[postPath];
+
+    if (_containerIndex >= 0 && _voteCache) {
+      //mean data exist, get query data, update query data by finding post and injecting cache
+      const _qData: any[] | undefined = wavesQueries[_containerIndex].data;
+
+      if (_qData) {
+        const _postIndex = _qData.findIndex((item) => lastCacheUpdate.postPath === `${item.author}/${item.permlink}`);
+        const _post = _qData[_postIndex];
+
+        if (_post) {
+          //inject cache and set query data
+          const _cPost = injectVoteCache(_post, _voteCache);
+          _qData.splice(_postIndex, 1, _cPost);
+          queryClient.setQueryData([QUERIES.WAVES.GET, host, _containerIndex], [..._qData]);
+        }
+      }
+    }
+  }
 
 
 
