@@ -114,7 +114,7 @@ export const useWavesQuery = (host: string) => {
         account: host,
         start_author: !!startPermlink ? host : '',
         start_permlink: startPermlink,
-        limit: 3,
+        limit: 5,
         observer: '',
         sort: 'posts',
       };
