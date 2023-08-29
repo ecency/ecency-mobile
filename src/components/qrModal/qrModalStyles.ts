@@ -57,6 +57,7 @@ export default EStyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     flex: 1,
+    textTransform: 'capitalize',
   } as TextStyle,
   transactionItem2: {
     color: '$primaryBlack',
