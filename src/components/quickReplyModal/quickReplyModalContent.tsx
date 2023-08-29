@@ -71,11 +71,13 @@ export const QuickReplyModalContent = forwardRef(
     const [isUploading, setIsUploading] = useState(false);
     const [mediaModalVisible, setMediaModalVisible] = useState(false);
 
-    const headerText =
-      selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
     const parentAuthor = selectedPost ? selectedPost.author : '';
     const parentPermlink = selectedPost ? selectedPost.permlink : '';
 
+
+    const headerText = mode === 'wave'
+      ? intl.formatMessage({ id: 'quick_reply.summary_wave' }, { host: 'ecency.waves' }) //TODO: update based on selected host
+      : selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
 
     const draftId = mode === 'wave'
       ? `${currentAccount.name}/ecency.waves` //TODO: update author based on selected host
@@ -179,10 +181,10 @@ export const QuickReplyModalContent = forwardRef(
 
       const _item = data[0];
 
-      if(_item){
-        switch(_item.status){
+      if (_item) {
+        switch (_item.status) {
           case MediaInsertStatus.READY:
-            if(_item.url){
+            if (_item.url) {
               _insertUrls.push(_item.url)
             }
             break;
@@ -236,7 +238,7 @@ export const QuickReplyModalContent = forwardRef(
 
     // VIEW_RENDERERS
 
-    const _renderSummary = () => mode !== 'wave' && (
+    const _renderSummary = () => (
       <TouchableOpacity onPress={() => _handleOnSummaryPress()}>
         <Text numberOfLines={2} style={styles.summaryStyle}>
           {headerText}
@@ -301,7 +303,7 @@ export const QuickReplyModalContent = forwardRef(
           isPreviewActive={false}
           username={currentAccount.username}
           allowMultiple={false}
-          hideToolbarExtension={() => { 
+          hideToolbarExtension={() => {
             setMediaModalVisible(false);
           }}
           handleMediaInsert={_handleMediaInsert}
