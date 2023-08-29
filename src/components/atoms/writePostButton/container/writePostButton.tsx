@@ -8,12 +8,11 @@ import { useAppSelector } from '../../../../hooks';
 import showLoginAlert from '../../../../utils/showLoginAlert';
 
 interface WritePostButtonProps {
-    title?: string;
-    placeholderId:string;
+  placeholderId: string;
   onPress: () => void;
 }
 
-export const WritePostButton = forwardRef(({title, placeholderId: placeholder, onPress }: WritePostButtonProps, ref) => {
+export const WritePostButton = forwardRef(({ placeholderId: placeholder, onPress }: WritePostButtonProps, ref) => {
   const intl = useIntl();
 
   const animatedContainer = useRef<AnimatedView>();

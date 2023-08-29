@@ -14,13 +14,18 @@ import styles from './bottomTabBarStyles';
 import Icon, { IconContainer } from '../../icon';
 import scalePx from '../../../utils/scalePx';
 import { showReplyModal, updateActiveBottomTab } from '../../../redux/actions/uiAction';
+import { useAppSelector } from '../../../hooks';
+import showLoginAlert from '../../../utils/showLoginAlert';
+import { useIntl } from 'react-intl';
 
 const BottomTabBarView = ({
   state: { routes, index },
   navigation,
   descriptors,
 }: BottomTabBarProps) => {
+  const intl = useIntl();
   const dispatch = useDispatch();
+  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
   useEffect(() => {
     dispatch(updateActiveBottomTab(routes[index].name));
@@ -32,6 +37,11 @@ const BottomTabBarView = ({
 
     if (route.name === ROUTES.TABBAR.POST_BUTTON) {
 
+      if(!isLoggedIn){
+        showLoginAlert({intl})
+        return;
+      }
+      
       if (routes[index].name === ROUTES.TABBAR.WAVES) {
         dispatch(showReplyModal({mode:'wave'}));
       } else {
