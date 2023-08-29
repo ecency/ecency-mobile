@@ -1011,6 +1011,7 @@
   "quick_reply":{
     "placeholder":"Add a comment...",
     "placeholder_wave": "What's happening?",
+    "summary_wave":"Will be published in: {host}",
     "comment": "Comment",
     "reply": "REPLY",
     "publish": "PUBLISH",
