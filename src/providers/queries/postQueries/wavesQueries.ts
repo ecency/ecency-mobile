@@ -4,7 +4,7 @@ import {
   useMutation,
   useQueries, useQueryClient,
 } from '@tanstack/react-query';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { unionBy } from 'lodash';
 import { getDiscussionCollection } from '../../hive/dhive';
@@ -58,6 +58,14 @@ export const useWavesQuery = (host: string) => {
       setActivePermlinks([...activePermlinks]);
     }
   }, [permlinksBucket])
+
+
+  useEffect(()=>{
+    const _latestData = wavesQueries.lastItem?.data;
+    if(_latestData?.length === 0){
+      _fetchNextPage();
+    }
+  }, [wavesQueries.lastItem?.data])
 
 
   useEffect(() => {
@@ -146,8 +154,11 @@ export const useWavesQuery = (host: string) => {
     _threadedComments.forEach((item) => {
       wavesIndexCollection.current[`${item.author}/${item.permlink}`] = pagePermlink
     })
+
+
     console.log('new waves fetched', _threadedComments);
-    return _threadedComments || {};
+    
+    return _threadedComments || [];
   };
 
 
@@ -191,36 +202,12 @@ export const useWavesQuery = (host: string) => {
 };
 
 
-export const fetchLatestWavesContainer = async (host) => {
-  const query: any = {
-    account: host,
-    start_author: '',
-    start_permlink: '',
-    limit: 1,
-    observer: '',
-    sort: 'posts',
-  };
-
-  const result = await getAccountPosts(query);
-
-  const _latestPost = result[0];
-  console.log('lates waves post', host, _latestPost);
-
-  if (!_latestPost) {
-    throw new Error("Lates waves container could be not fetched");
-  }
-
-  return _latestPost;
-}
-
 
 
 
 export const usePublishWaveMutation = () => {
 
   const queryClient = useQueryClient();
-
-  // const cachedComments = useAppSelector(state => state.cache.commentsCollection);
 
   // id is options, if no id is provided program marks all notifications as read;
   const _mutationFn = async (cachePostData: any) => {
@@ -264,3 +251,27 @@ export const usePublishWaveMutation = () => {
 
   return useMutation(_mutationFn, _options);
 };
+
+
+
+export const fetchLatestWavesContainer = async (host) => {
+  const query: any = {
+    account: host,
+    start_author: '',
+    start_permlink: '',
+    limit: 1,
+    observer: '',
+    sort: 'posts',
+  };
+
+  const result = await getAccountPosts(query);
+
+  const _latestPost = result[0];
+  console.log('lates waves post', host, _latestPost);
+
+  if (!_latestPost) {
+    throw new Error("Lates waves container could be not fetched");
+  }
+
+  return _latestPost;
+}
