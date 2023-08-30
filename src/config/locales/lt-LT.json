@@ -664,7 +664,8 @@
     "wrong_link": "Netinkama nuoroda",
     "in": "į",
     "reveal_muted": "UŽTILDYTA\nPaspauskite, kad atidarytumėte turinį",
-    "posted_by": "{username} paskelbė per {appname} "
+    "posted_by": "{username} paskelbė per {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "Juodraščiai",
@@ -1008,8 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "Add a comment...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "Komentuoti",
     "reply": "ATSAKYTI",
+    "publish": "PUBLISH",
     "close": "UŽDARYTI"
   },
   "walkthrough": {
