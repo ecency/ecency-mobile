@@ -664,7 +664,8 @@
     "wrong_link": "Xato ssilka",
     "in": "ichida",
     "reveal_muted": "O'CHIRILGAN\nKontentni ochish uchun bosing",
-    "posted_by": "Posted by {username} via {appname} "
+    "posted_by": "Posted by {username} via {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "Qoralamalar",
@@ -1008,8 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "Add a comment...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "Izoh",
     "reply": "JAVOB BERISH",
+    "publish": "PUBLISH",
     "close": "YOPISH"
   },
   "walkthrough": {
