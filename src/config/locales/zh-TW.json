@@ -664,7 +664,8 @@
     "wrong_link": "連結錯誤",
     "in": "in",
     "reveal_muted": "MUTED\nTap to reveal content",
-    "posted_by": "Posted by {username} via {appname} "
+    "posted_by": "Posted by {username} via {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "草稿",
@@ -1008,8 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "Add a comment...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "Comment",
     "reply": "REPLY",
+    "publish": "PUBLISH",
     "close": "CLOSE"
   },
   "walkthrough": {
