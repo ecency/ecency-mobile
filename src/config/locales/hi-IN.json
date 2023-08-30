@@ -664,7 +664,8 @@
     "wrong_link": "गलत लिंक",
     "in": "में",
     "reveal_muted": "मौन कर दिया गया\nसामग्री प्रकट करने के लिए टैप करें",
-    "posted_by": "Posted by {username} via {appname} "
+    "posted_by": "Posted by {username} via {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "प्रारूप",
@@ -1008,8 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "एक टिप्पणी जोड़ने...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "टिप्पणी",
     "reply": "जवाब",
+    "publish": "PUBLISH",
     "close": "बंद करे"
   },
   "walkthrough": {
