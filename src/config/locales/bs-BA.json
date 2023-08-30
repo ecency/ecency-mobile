@@ -664,7 +664,8 @@
     "wrong_link": "Pogrešna veza",
     "in": "u",
     "reveal_muted": "UTIŠANO\nDodirnite da otkrijete sadržaj",
-    "posted_by": "Posted by {username} via {appname} "
+    "posted_by": "Posted by {username} via {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "Nacrti",
@@ -1008,8 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "Add a comment...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "Komentar",
     "reply": "ODGOVOR",
+    "publish": "PUBLISH",
     "close": "ZATVORI"
   },
   "walkthrough": {
