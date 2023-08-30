@@ -664,7 +664,8 @@
     "wrong_link": "رابط خاطئ",
     "in": "في",
     "reveal_muted": "مكتوم\nانقر لإظهار المحتوى",
-    "posted_by": "تم نشره بواسطة {username} عبر {appname} "
+    "posted_by": "تم نشره بواسطة {username} عبر {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "المسودات",
@@ -1008,8 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "إضافة تعليق...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "تعليق",
     "reply": "رد",
+    "publish": "PUBLISH",
     "close": "إغلاق"
   },
   "walkthrough": {
