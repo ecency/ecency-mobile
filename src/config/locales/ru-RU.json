@@ -664,7 +664,8 @@
     "wrong_link": "Неверная ссылка",
     "in": "в",
     "reveal_muted": "ОТКЛЮЧЕНО\nНажмите, чтобы показать контент",
-    "posted_by": "Опубликовано {username} с помощью {appname} "
+    "posted_by": "Опубликовано {username} с помощью {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "Черновики",
@@ -1008,8 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "Добавить комментарий...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "Комментарий",
     "reply": "ОТВЕТИТЬ",
+    "publish": "PUBLISH",
     "close": "ЗАКРЫТЬ"
   },
   "walkthrough": {
