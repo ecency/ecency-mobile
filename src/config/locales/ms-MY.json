@@ -664,7 +664,8 @@
     "wrong_link": "Salah pautan",
     "in": "dalam",
     "reveal_muted": "DIBISUKAN\nKetuk untuk mendedahkan kandungan",
-    "posted_by": "Posted by {username} via {appname} "
+    "posted_by": "Posted by {username} via {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "Draf",
@@ -1008,8 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "Add a comment...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "Comment",
     "reply": "REPLY",
+    "publish": "PUBLISH",
     "close": "CLOSE"
   },
   "walkthrough": {
