@@ -2,7 +2,7 @@
 import {
   UseMutationOptions,
   useMutation,
-  useQueries, useQuery, useQueryClient,
+  useQueries, useQueryClient,
 } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
@@ -25,7 +25,7 @@ export const useWavesQuery = (host: string) => {
   const cacheRef = useRef(cache);
 
   const cachedVotes = cache.votesCollection
-  const lastCacheUpdate = cache.lastCacheUpdate
+  const lastCacheUpdate = cache.lastUpdate
 
 
   const [isRefreshing, setIsRefreshing] = useState(false);
