@@ -664,7 +664,8 @@
     "wrong_link": "Väärä linkki",
     "in": "yht",
     "reveal_muted": "Hiljennetty\nNapauta näyttääksesi sisällön",
-    "posted_by": "Julkaisija {username} {appname} kautta "
+    "posted_by": "Julkaisija {username} {appname} kautta ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "Luonnokset",
@@ -1008,8 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "Lisää kommentti...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "Kommentti",
     "reply": "VASTAA",
+    "publish": "PUBLISH",
     "close": "SULJE"
   },
   "walkthrough": {
