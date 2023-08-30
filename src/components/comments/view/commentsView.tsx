@@ -31,6 +31,7 @@ const CommentsView = ({
   isLoggedIn,
   isShowSubComments,
   mainAuthor,
+  handleOnOptionsPress,
   marginLeft,
   showAllComments,
   hideManyCommentsButton,
@@ -48,7 +49,10 @@ const CommentsView = ({
   const postInteractionRef = useRef(null);
 
   const _openCommentMenu = (item) => {
-    if (commentMenu.current) {
+
+    if (handleOnOptionsPress) {
+      handleOnOptionsPress(item);
+    } else if (commentMenu.current) {
       setSelectedComment(item);
       commentMenu.current.show();
     }
@@ -139,9 +143,9 @@ const CommentsView = ({
   const styleOerride =
     commentNumber > 1
       ? {
-          backgroundColor: EStyleSheet.value('$primaryLightBackground'),
-          marginTop: 8,
-        }
+        backgroundColor: EStyleSheet.value('$primaryLightBackground'),
+        marginTop: 8,
+      }
       : null;
 
   const _renderEmptyContent = () => {
@@ -169,15 +173,21 @@ const CommentsView = ({
         ListEmptyComponent={_renderEmptyContent()}
         ListHeaderComponent={postContentView}
         overScrollMode="never"
+        onEndReachedThreshold={1}
+        maxToRenderPerBatch={7}
+        initialNumToRender={5}
+        windowSize={10}
         {...flatListProps}
       />
-      <OptionsModal
-        ref={commentMenu}
-        options={menuItems}
-        title={get(selectedComment, 'summary')}
-        cancelButtonIndex={3}
-        onPress={_onMenuItemPress}
-      />
+      {!handleOnOptionsPress && (
+        <OptionsModal
+          ref={commentMenu}
+          options={menuItems}
+          title={get(selectedComment, 'summary')}
+          cancelButtonIndex={3}
+          onPress={_onMenuItemPress}
+        />
+      )}
       <UpvotePopover ref={upvotePopoverRef} />
       <PostHtmlInteractionHandler ref={postInteractionRef} />
     </Fragment>

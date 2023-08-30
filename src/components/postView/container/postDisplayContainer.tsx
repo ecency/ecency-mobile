@@ -25,6 +25,7 @@ const PostDisplayContainer = ({
   isNewPost,
   parentPost,
   isPostUnavailable,
+  isWavePost,
   author,
   permlink,
 }) => {
@@ -145,6 +146,7 @@ const PostDisplayContainer = ({
       activeVotes={activeVotes}
       activeVotesCount={activeVotesCount}
       reblogs={reblogs}
+      isWavePost={isWavePost}
       fetchPost={_fetchPost}
       handleOnEditPress={_handleOnEditPress}
       handleOnRemovePress={_handleDeleteComment}
@@ -157,4 +159,4 @@ const PostDisplayContainer = ({
 };
 
 
-export default injectIntl(PostDisplayContainer);
+export default PostDisplayContainer;

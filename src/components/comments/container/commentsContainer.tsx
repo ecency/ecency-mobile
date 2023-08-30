@@ -38,6 +38,7 @@ const CommentsContainer = ({
   isLoggedIn,
   commentNumber,
   mainAuthor,
+  handleOnOptionsPress,
   selectedPermlink,
   isHideImage,
   isShowSubComments,
@@ -296,6 +297,7 @@ const CommentsContainer = ({
       fetchPost={fetchPost}
       handleDeleteComment={_handleDeleteComment}
       handleOnPressCommentMenu={_handleOnPressCommentMenu}
+      handleOnOptionsPress={handleOnOptionsPress}
       isOwnProfile={isOwnProfile}
       isHideImage={isHideImage}
       handleOnVotersPress={_handleOnVotersPress}

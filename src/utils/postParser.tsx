@@ -9,6 +9,7 @@ import FastImage from 'react-native-fast-image';
 import parseAsset from './parseAsset';
 import { getResizedAvatar } from './image';
 import { parseReputation } from './user';
+import { CacheStatus } from '../redux/reducers/cacheReducer';
 
 const webp = Platform.OS !== 'ios';
 
@@ -109,6 +110,8 @@ export const parseDiscussionCollection = async (commentsMap: { [key: string]: an
   return commentsMap;
 };
 
+
+//TODO: discard/deprecate method after porting getComments in commentsContainer to getDiscussionCollection
 export const parseCommentThreads = async (commentsMap: any, author: string, permlink: string) => {
   const MAX_THREAD_LEVEL = 3;
   const comments = [];
@@ -149,6 +152,47 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
 
   return comments;
 };
+
+
+export const mapDiscussionToThreads = async (commentsMap: any, author: string, permlink: string, maxLevel:number = 3) => {
+  const comments = [];
+
+  if (!commentsMap) {
+    return null;
+  }
+
+  // traverse map to curate threads
+  const parseReplies = (commentsMap: any, replies: any[], level: number) => {
+    if (replies && replies.length > 0 && maxLevel > level) {
+      return replies.map((pathKey) => {
+        const comment = commentsMap[pathKey];
+        if (comment) {
+          comment.replies = parseReplies(commentsMap, comment.replies, level + 1);
+          return comment;
+        } else {
+          return null;
+        }
+      });
+    }
+    return [];
+  };
+
+  for (const key in commentsMap) {
+    if (commentsMap.hasOwnProperty(key)) {
+      const comment = commentsMap[key];
+
+      // prcoess first level comment
+      if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
+
+        comment.replies = parseReplies(commentsMap, comment.replies, 1);
+        comments.push(comment);
+      }
+    }
+  }
+
+  return comments;
+};
+
 
 export const parseComments = (comments: any[]) => {
   if (!comments) {
@@ -200,6 +244,103 @@ export const parseComment = (comment: any) => {
 
   return comment;
 };
+
+
+export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCacheUpdate) => {
+  let shouldClone = false;
+  const _comments = commentsMap || {};
+  console.log('updating with cache', _comments, cachedComments);
+  if (!cachedComments || !_comments) {
+    console.log('Skipping cache injection');
+    return _comments;
+  }
+
+  // process votes cache
+  for (const path in cachedVotes) {
+    const cachedVote = cachedVotes[path];
+    if (_comments[path]) {
+      console.log('injection vote cache');
+      _comments[path] = injectVoteCache(_comments[path], cachedVote);
+    }
+  }
+
+  // process comments cache
+  for (const path in cachedComments) {
+    const currentTime = new Date().getTime();
+    const cachedComment = cachedComments[path];
+    const _parentPath = `${cachedComment.parent_author}/${cachedComment.parent_permlink}`;
+    const cacheUpdateTimestamp = new Date(cachedComment.updated || 0).getTime();
+
+    switch (cachedComment.status) {
+      case CacheStatus.DELETED:
+        if (_comments && _comments[path]) {
+          delete _comments[path];
+          shouldClone = true;
+        }
+        break;
+      case CacheStatus.UPDATED:
+      case CacheStatus.PENDING:
+        // check if commentKey already exist in comments map,
+        if (_comments[path]) {
+          shouldClone = true;
+          // check if we should update comments map with cached map based on updat timestamp
+          const remoteUpdateTimestamp = new Date(_comments[path].updated).getTime();
+
+          if (cacheUpdateTimestamp > remoteUpdateTimestamp) {
+            _comments[path].body = cachedComment.body;
+          }
+        }
+
+        // if comment key do not exist, possiblky comment is a new comment, in this case, check if parent of comment exist in map
+        else if (_comments[_parentPath]) {
+          shouldClone = true;
+          // in this case add comment key in childern and inject cachedComment in commentsMap
+          _comments[path] = cachedComment;
+          _comments[_parentPath].replies.push(path);
+          _comments[_parentPath].children = _comments[_parentPath].children + 1;
+
+          // if comment was created very recently enable auto reveal
+          if (
+            lastCacheUpdate.postPath === path &&
+            currentTime - lastCacheUpdate.updatedAt < 5000
+          ) {
+            console.log('setting show replies flag');
+            _comments[_parentPath].expandedReplies = true;
+            _comments[path].renderOnTop = true;
+          }
+        }
+        break;
+    }
+  }
+
+  return shouldClone ? { ..._comments } : _comments;
+}
+
+
+export const injectVoteCache = (post, voteCache) => {
+  if (
+    voteCache &&
+    (voteCache.status !== CacheStatus.FAILED || voteCache.status !== CacheStatus.DELETED)
+  ) {
+    const _voteIndex = post.active_votes.findIndex((i) => i.voter === voteCache.voter);
+    if (_voteIndex < 0) {
+      post.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
+      post.active_votes = [
+        ...post.active_votes,
+        {
+          voter: voteCache.voter,
+          rshares: voteCache.isDownvote ? -1000 : 1000,
+        },
+      ];
+    } else {
+      post.active_votes[_voteIndex].rshares = voteCache.isDownvote ? -1000 : 1000;
+      post.active_votes = [...post.active_votes];
+    }
+  }
+
+  return post;
+};
+
 
 export const isVoted = async (activeVotes, currentUserName) => {
   if (!currentUserName) {

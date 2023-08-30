@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { SafeAreaView, View, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, TouchableOpacity, Alert } from 'react-native';
 
 // Components
 // import TabBar from './tabbar';
@@ -13,22 +13,41 @@ import ROUTES from '../../../constants/routeNames';
 import styles from './bottomTabBarStyles';
 import Icon, { IconContainer } from '../../icon';
 import scalePx from '../../../utils/scalePx';
-import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
+import { showReplyModal, updateActiveBottomTab } from '../../../redux/actions/uiAction';
+import { useAppSelector } from '../../../hooks';
+import showLoginAlert from '../../../utils/showLoginAlert';
+import { useIntl } from 'react-intl';
 
 const BottomTabBarView = ({
   state: { routes, index },
   navigation,
   descriptors,
 }: BottomTabBarProps) => {
+  const intl = useIntl();
   const dispatch = useDispatch();
+  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
   useEffect(() => {
     dispatch(updateActiveBottomTab(routes[index].name));
   }, [index]);
 
+
+
   const _jumpTo = (route, isFocused) => {
+
     if (route.name === ROUTES.TABBAR.POST_BUTTON) {
-      navigation.navigate(ROUTES.SCREENS.EDITOR, { key: 'editor_post' });
+
+      if(!isLoggedIn){
+        showLoginAlert({intl})
+        return;
+      }
+      
+      if (routes[index].name === ROUTES.TABBAR.WAVES) {
+        dispatch(showReplyModal({mode:'wave'}));
+      } else {
+        navigation.navigate(ROUTES.SCREENS.EDITOR, { key: 'editor_post' });
+      }
+
       return;
     }
 
@@ -43,6 +62,8 @@ const BottomTabBarView = ({
       navigation.navigate(route.name);
     }
   };
+
+
 
   const _tabButtons = routes.map((route, idx) => {
     const { tabBarActiveTintColor, tabBarInactiveTintColor } = descriptors[route.key].options;
@@ -63,9 +84,11 @@ const BottomTabBarView = ({
         _tabBarIcon = <IconContainer isBadge badgeType="notification" {..._iconProps} />;
         break;
       case ROUTES.TABBAR.POST_BUTTON:
+      case ROUTES.TABBAR.WAVES:
         _iconProps.iconType = 'MaterialCommunityIcons';
         _tabBarIcon = <Icon {..._iconProps} />;
         break;
+
     }
 
     return (
@@ -74,6 +97,8 @@ const BottomTabBarView = ({
       </View>
     );
   });
+
+
 
   return <SafeAreaView style={styles.wrapper}>{_tabButtons}</SafeAreaView>;
 };

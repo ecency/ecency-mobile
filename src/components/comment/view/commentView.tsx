@@ -61,7 +61,7 @@ const CommentView = ({
   const _currentUsername = currentAccountUsername || currentAccount?.username;
 
   const _showSubCommentsToggle = async (force = false) => {
-    if ((replies && replies.length > 0) || force) {
+    if (!!comment.commentKey && ((replies && replies.length > 0) || force)) {
       setIsOpeningReplies(true);
       await delay(10); // hack to rendering inidcator first before start loading comments
       handleOnToggleReplies(comment.commentKey);
@@ -71,9 +71,13 @@ const CommentView = ({
     }
   };
 
+  const _handleOnContentPress = () => {
+    openReplyThread(comment);
+  }
+
   const _handleOnReplyPress = () => {
     if (isLoggedIn) {
-      dispatch(showReplyModal(comment));
+      dispatch(showReplyModal({mode:'comment', parentPost:comment}));
     } else {
       console.log('Not LoggedIn');
     }
@@ -98,6 +102,7 @@ const CommentView = ({
         <CommentBody
           commentDepth={_depth}
           reputation={comment.author_reputation}
+          handleOnContentPress={_handleOnContentPress}
           handleOnUserPress={handleOnUserPress}
           handleOnLongPress={() => handleOnLongPress(comment)}
           handleLinkPress={handleLinkPress}

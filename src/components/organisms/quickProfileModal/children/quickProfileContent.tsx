@@ -18,20 +18,20 @@ import bugsnapInstance from '../../../../config/bugsnag'
 import RootNavigation from '../../../../navigation/rootNavigation'
 
 interface QuickProfileContentProps {
-    username:string,
-    onClose:()=>void;
+    username: string,
+    onClose: () => void;
 }
 
 export const QuickProfileContent = ({
     username,
     onClose
-}:QuickProfileContentProps) => {
+}: QuickProfileContentProps) => {
     const intl = useIntl();
     const dispatch = useAppDispatch();
 
-    const currentAccount = useAppSelector((state)=>state.account.currentAccount);
-    const pinCode = useAppSelector((state)=>state.application.pin);
-    const isLoggedIn = useAppSelector((state)=>state.application.isLoggedIn);
+    const currentAccount = useAppSelector((state) => state.account.currentAccount);
+    const pinCode = useAppSelector((state) => state.application.pin);
+    const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState(null);
@@ -45,7 +45,7 @@ export const QuickProfileContent = ({
     const isProfileLoaded = (user && follows) ? true : false;
 
     useEffect(() => {
-        if(username) {
+        if (username) {
             _fetchUser();
             _fetchExtraUserData();
         } else {
@@ -58,8 +58,8 @@ export const QuickProfileContent = ({
     const _fetchUser = async () => {
         setIsLoading(true);
         try {
-          const _user = await getUser(username, isOwnProfile);
-          setUser(_user)
+            const _user = await getUser(username, isOwnProfile);
+            setUser(_user)
         } catch (error) {
             setIsLoading(false);
         }
@@ -73,35 +73,35 @@ export const QuickProfileContent = ({
                 let _isMuted;
                 let _isFavourite;
                 let follows;
-        
+
                 if (!isOwnProfile) {
                     const res = await getRelationship(currentAccountName, username);
                     _isFollowing = res && res.follows;
                     _isMuted = res && res.ignores;
                     _isFavourite = await checkFavorite(username);
                 }
-        
+
                 try {
                     follows = await getFollows(username);
                 } catch (err) {
                     follows = null;
                 }
-        
-            
+
+
                 setFollows(follows);
                 setIsFollowing(_isFollowing);
                 setIsMuted(_isMuted)
                 setIsFavourite(_isFavourite)
                 setIsLoading(false);
-            
+
             }
         } catch (error) {
             console.warn('Failed to fetch complete profile data', error);
             Alert.alert(
-            intl.formatMessage({
-                id: 'alert.fail',
-            }),
-            error.message || error.toString(),
+                intl.formatMessage({
+                    id: 'alert.fail',
+                }),
+                error.message || error.toString(),
             );
             setIsLoading(false);
         }
@@ -109,90 +109,88 @@ export const QuickProfileContent = ({
 
 
     const _onFollowPress = async () => {
-        try{
+        try {
             const follower = currentAccountName
             const following = username;
-        
+
             setIsLoading(true);
             await followUser(currentAccount, pinCode, {
-              follower,
-              following,
+                follower,
+                following,
             })
-        
+
             setIsLoading(false);
             setIsFollowing(true)
             dispatch(
                 toastNotification(
-                intl.formatMessage({
-                    id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
-                }),
+                    intl.formatMessage({
+                        id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
+                    }),
                 ),
             );
         }
-        catch(err){
+        catch (err) {
             setIsLoading(false);
             console.warn("Failed to follow user", err)
             bugsnapInstance.notify(err);
-            Alert.alert(intl.formatMessage({id:'alert.fail'}), err.message)
+            Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err.message)
         }
     }
 
     const _onFavouritePress = async () => {
-        try{
+        try {
             setIsLoading(true);
             let favoriteAction;
-        
+
             if (isFavourite) {
-            favoriteAction = deleteFavorite;
+                favoriteAction = deleteFavorite;
             } else {
-            favoriteAction = addFavorite;
+                favoriteAction = addFavorite;
             }
-        
+
             await favoriteAction(username)
-            
+
             dispatch(
                 toastNotification(
-                intl.formatMessage({
-                    id: isFavourite ? 'alert.success_unfavorite' : 'alert.success_favorite',
-                }),
+                    intl.formatMessage({
+                        id: isFavourite ? 'alert.success_unfavorite' : 'alert.success_favorite',
+                    }),
                 ),
             );
             setIsFavourite(!isFavourite);
             setIsLoading(false);
         }
 
-        catch(error){
+        catch (error) {
             console.warn('Failed to perform favorite action');
             setIsLoading(false);
             Alert.alert(
-              intl.formatMessage({
-                id: 'alert.fail',
-              }),
-              error.message || error.toString(),
+                intl.formatMessage({
+                    id: 'alert.fail',
+                }),
+                error.message || error.toString(),
             );
         }
     }
-       
+
 
 
     //UI CALLBACKS
 
     const _openFullProfile = () => {
         let params = {
-          username,
-          reputation: user ? user.reputation : null
+            username,
+            reputation: user ? user.reputation : null
         };
-  
-        if (isOwnProfile) {
-          RootNavigation.navigate(ROUTES.TABBAR.PROFILE);
-        } else {
-            RootNavigation.navigate({
+
+
+        RootNavigation.navigate({
             name: ROUTES.SCREENS.PROFILE,
             params,
             key: username,
-          });
-        }
-        if(onClose){
+        });
+
+        if (onClose) {
             onClose();
         }
     }
@@ -208,58 +206,58 @@ export const QuickProfileContent = ({
     let _createdData = null;
 
     if (isProfileLoaded) {
-      _votingPower = getVotingPower(user).toFixed(1);
-      _resourceCredits = getRcPower(user).toFixed(0);
-      _postCount = user.post_count || 0;
-      _about = user.about?.profile?.about || '';
-      _reputation = parseReputation(user.reputation);
-      _createdData = getTimeFromNowNative(user.created)
-  
-      if(follows){
-        _followerCount = follows.follower_count || 0;
-        _followingCount = follows.following_count || 0
-       }
+        _votingPower = getVotingPower(user).toFixed(1);
+        _resourceCredits = getRcPower(user).toFixed(0);
+        _postCount = user.post_count || 0;
+        _about = user.about?.profile?.about || '';
+        _reputation = parseReputation(user.reputation);
+        _createdData = getTimeFromNowNative(user.created)
+
+        if (follows) {
+            _followerCount = follows.follower_count || 0;
+            _followingCount = follows.following_count || 0
+        }
     }
 
-    
+
 
     const statsData1 = [
-        {label:intl.formatMessage({id:'profile.follower'}), value:_followerCount},
-        {label:intl.formatMessage({id:'profile.following'}), value:_followingCount},
-        {label:intl.formatMessage({id:'profile.post'}), value:_postCount},
+        { label: intl.formatMessage({ id: 'profile.follower' }), value: _followerCount },
+        { label: intl.formatMessage({ id: 'profile.following' }), value: _followingCount },
+        { label: intl.formatMessage({ id: 'profile.post' }), value: _postCount },
     ] as StatsData[]
 
     const statsData2 = [
-        {label:intl.formatMessage({id:'profile.resource_credits'}), value:_resourceCredits, suffix:'%'},
-        {label:intl.formatMessage({id:'profile.reputation'}), value:_reputation},
+        { label: intl.formatMessage({ id: 'profile.resource_credits' }), value: _resourceCredits, suffix: '%' },
+        { label: intl.formatMessage({ id: 'profile.reputation' }), value: _reputation },
     ] as StatsData[]
 
     return (
         <View style={styles.modalStyle}>
-            <ProfileBasic 
-                username={username} 
-                about={_about} 
+            <ProfileBasic
+                username={username}
+                about={_about}
                 created={_createdData}
                 votingPower={_votingPower}
                 isLoading={isLoading}
                 onPress={_openFullProfile}
             />
-            <ProfileStats 
+            <ProfileStats
                 data={statsData1}
                 intermediate={!isProfileLoaded}
             />
-             <ProfileStats 
+            <ProfileStats
                 horizontalMargin={16}
                 data={statsData2}
                 intermediate={!isProfileLoaded}
             />
             <MainButton
                 style={styles.button}
-                text={intl.formatMessage({id:'profile.view_full'})}
+                text={intl.formatMessage({ id: 'profile.view_full' })}
                 onPress={_openFullProfile}
             />
             {isLoggedIn && (
-                <ActionPanel 
+                <ActionPanel
                     isFollowing={isFollowing}
                     isFavourite={isFavourite}
                     isMuted={isMuted}
@@ -268,7 +266,7 @@ export const QuickProfileContent = ({
                     onFollowPress={_onFollowPress}
                 />
             )}
-           
+
         </View>
     )
 };
