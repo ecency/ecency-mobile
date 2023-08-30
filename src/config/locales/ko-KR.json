@@ -664,7 +664,8 @@
     "wrong_link": "잘못된 링크",
     "in": "에서",
     "reveal_muted": "뮤트 증\n콘텐츠를 표시하려면 탭하세요",
-    "posted_by": "Posted by {username} via {appname} "
+    "posted_by": "Posted by {username} via {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "임시 보관함",
@@ -1008,8 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "Add a comment...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "댓글",
     "reply": "답변",
+    "publish": "PUBLISH",
     "close": "닫기"
   },
   "walkthrough": {
