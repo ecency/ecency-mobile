@@ -665,7 +665,7 @@
     "in": "en",
     "reveal_muted": "SILENCIADO\nToca para revelar el contenido",
     "posted_by": "Publicado por {username} vía {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ondas de Ecency"
   },
   "drafts": {
     "title": "Borradores",
@@ -1009,11 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "Añade un comentario...",
-    "placeholder_wave": "What's happening?",
-    "summary_wave": "Will be published in: {host}",
+    "placeholder_wave": "¿Qué está pasando?",
+    "summary_wave": "Se publicará en: {host}",
     "comment": "Comentario",
     "reply": "RESPONDER",
-    "publish": "PUBLISH",
+    "publish": "PUBLICAR",
     "close": "CERRADO"
   },
   "walkthrough": {
