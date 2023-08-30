@@ -664,7 +664,8 @@
     "wrong_link": "Link errado",
     "in": "no",
     "reveal_muted": "SILENCIADO\nClique para revelar conteúdo",
-    "posted_by": "Publicado por {username} via {appname} "
+    "posted_by": "Publicado por {username} via {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "Rascunhos",
@@ -1008,8 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "Adicionar um comentário...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "Comentário",
     "reply": "RESPONDER",
+    "publish": "PUBLISH",
     "close": "FECHAR"
   },
   "walkthrough": {
