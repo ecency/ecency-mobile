@@ -2,7 +2,7 @@
 import {
   UseMutationOptions,
   useMutation,
-  useQueries, useQueryClient,
+  useQueries, useQuery, useQueryClient,
 } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
@@ -21,9 +21,12 @@ export const useWavesQuery = (host: string) => {
 
   const queryClient = useQueryClient();
 
-  const cachedComments = useAppSelector(state => state.cache.commentsCollection);
-  const cachedVotes = useAppSelector(state => state.cache.votesCollection);
-  const lastCacheUpdate = useAppSelector(state => state.cache.lastUpdate);
+  const cache = useAppSelector(state => state.cache);
+  const cacheRef = useRef(cache);
+
+  const cachedVotes = cache.votesCollection
+  const lastCacheUpdate = cache.lastCacheUpdate
+
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,12 +42,20 @@ export const useWavesQuery = (host: string) => {
   // query initialization
   const wavesQueries = useQueries({
     queries: activePermlinks.map((pagePermlink, index) => ({
-      queryKey: [QUERIES.WAVES.GET, host, index],
-      queryFn: () => _fetchWaves(pagePermlink),
-      initialData: [],
+        queryKey: [QUERIES.WAVES.GET, host, index],
+        queryFn: () => _fetchWaves(pagePermlink),
+        initialData: [],
     })),
   });
 
+
+  //hook to update cache reference, 
+  //workaround required since query fucntion do get passed an 
+  //updated copy for states that are not part of query key and contexet while conext is not
+  //supported by useQueries
+  useEffect(() => {
+    cacheRef.current = cache;
+  }, [cache])
 
   useEffect(() => {
     _fetchPermlinks('', true);
@@ -53,8 +64,14 @@ export const useWavesQuery = (host: string) => {
 
   useEffect(() => {
     if (!!permlinksBucket.length) {
-      console.log("incrementing active permlinks bucket", permlinksBucket[activePermlinks.length]);
-      activePermlinks.push(permlinksBucket[activePermlinks.length]);
+      //if first elements permlinks do not match, means there is a new container, push at first
+      if (permlinksBucket[0] !== activePermlinks[0]) {
+        activePermlinks.splice(0, 0, permlinksBucket[0]);
+      }
+      //permlinks bucket is updated, it needs to be connect with active one to start chain again
+      else {
+        activePermlinks.push(permlinksBucket[activePermlinks.length]);
+      }
       setActivePermlinks([...activePermlinks]);
     }
   }, [permlinksBucket])
@@ -147,8 +164,12 @@ export const useWavesQuery = (host: string) => {
     console.log('fetching waves from:', host, pagePermlink);
     const response = await getDiscussionCollection(host, pagePermlink);
 
-    //TODO: inject comment cache here...
-    const _cResponse = injectPostCache(response, cachedComments, cachedVotes, lastCacheUpdate);
+    //inject cache here...
+    const _cachedComments = cacheRef.current.commentsCollection;
+    const _cachedVotes = cacheRef.current.votesCollection;
+    const _lastCacheUpdate = cacheRef.current.lastCacheUpdate
+    const _cResponse = injectPostCache(response, _cachedComments, _cachedVotes, _lastCacheUpdate);
+
     const _threadedComments = await mapDiscussionToThreads(_cResponse, host, pagePermlink, 1);
 
     if (!_threadedComments) {
@@ -166,14 +187,6 @@ export const useWavesQuery = (host: string) => {
   };
 
 
-  const _refresh = async () => {
-    setIsRefreshing(true);
-    setPermlinksBucket([]);
-    setActivePermlinks([]);
-    await _fetchPermlinks('', true);
-    await wavesQueries[0].refetch();
-    setIsRefreshing(false);
-  };
 
   const _fetchNextPage = () => {
     const lastPage = wavesQueries.lastItem;
@@ -193,6 +206,19 @@ export const useWavesQuery = (host: string) => {
       _fetchPermlinks(permlinksBucket.lastItem)
     }
   };
+
+
+
+  const _refresh = async () => {
+    setIsRefreshing(true);
+    setPermlinksBucket([]);
+    setActivePermlinks([]);
+    await _fetchPermlinks('', true);
+    await wavesQueries[0].refetch();
+    setIsRefreshing(false);
+  };
+
+
 
   const _dataArrs = wavesQueries.map((query) => query.data);
 
@@ -248,7 +274,6 @@ export const usePublishWaveMutation = () => {
     },
 
     onSuccess: async (host) => {
-      await delay(5000);
       queryClient.invalidateQueries([QUERIES.WAVES.GET, host, 0]);
     },
   };
