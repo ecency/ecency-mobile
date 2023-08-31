@@ -121,8 +121,10 @@ export default EStyleSheet.create({
   } as ViewStyle,
   toolbarContainer:{
     flexDirection:'row',
+    alignItems:'center'
   } as ViewStyle,
-  expandIcon:{
+  toolbarSpacer:{
     marginLeft:8
-  } as ViewStyle
+  } as ViewStyle,
+
 });
