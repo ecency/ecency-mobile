@@ -1034,7 +1034,12 @@
     "open": "यूआरएल खोलें",
     "detected_url": "यूआरएल का पता चला",
     "unsupported_alert_title": "असमर्थित यूआरएल!",
-    "unsupported_alert_desc": "कृपया एक मान्य ईसेंसी यूआरएल स्कैन करें।"
+    "unsupported_alert_desc": "कृपया एक मान्य ईसेंसी यूआरएल स्कैन करें।",
+    "confirmTransaction": "Confirm transaction",
+    "approve": "Approve",
+    "cancel": "Cancel",
+    "multi_array_ops_alert": "Multiple operations array detected!",
+    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
   },
   "history": {
     "edit": "इतिहास संपादित करें",
