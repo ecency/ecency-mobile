@@ -1034,7 +1034,12 @@
     "open": "Abrir URL",
     "detected_url": "URL detectada",
     "unsupported_alert_title": "¡URL no soportada!",
-    "unsupported_alert_desc": "Por favor, escanee una url de ecency válida."
+    "unsupported_alert_desc": "Por favor, escanee una url de ecency válida.",
+    "confirmTransaction": "Confirm transaction",
+    "approve": "Approve",
+    "cancel": "Cancel",
+    "multi_array_ops_alert": "Multiple operations array detected!",
+    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
   },
   "history": {
     "edit": "Editar historial",
