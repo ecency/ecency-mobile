@@ -1036,7 +1036,7 @@
     "approve": "Approve",
     "cancel": "Cancel",
     "multi_array_ops_alert": "Multiple operations array detected!",
-    "multi_array_ops_aler_desct": "Ecency currently do not multiple operations array"
+    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
   },
   "history": {
     "edit": "Edit History",
