@@ -83,6 +83,7 @@
     "withdraw_hive": "Kotiuta säästöihin",
     "withdraw_hbd": "Kotiuta säästöt",
     "transfer_to_savings": "Säästöihin",
+    "swap_token": "Swap Token",
     "convert": "Muunna",
     "convert_request": "Muunnospyyntö",
     "escrow_transfer": "Escrow-siirto",
@@ -347,7 +348,7 @@
     "backup_private_keys": "Hallitse Valtuuksia",
     "backup": "Hallinnoi",
     "keys_warning": "Herkkä tilitieto!\nEcency on suojattava PIN-koodilla ennen yksityisavainten katselua.",
-    "set_pin": "Set PIN",
+    "set_pin": "Aseta PIN-koodi",
     "backup_keys_modal": {
       "owner_key": "Omistajan Avain",
       "active_key": "Aktiivinen Avain",
@@ -574,6 +575,7 @@
     "move": "Siirrä",
     "continue": "Jatka",
     "okay": "Ok",
+    "done": "Valmis",
     "move_question": "Haluatko varmasti siirtää luonnoksiin?",
     "success_shared": "Onnistui! Sisältö lähetetty!",
     "success_moved": "Siirretty luonnoksiin",
@@ -597,6 +599,7 @@
     "warning": "Varoitus",
     "invalid_pincode": "Virheellinen PIN-koodi, tarkista koodi ja yritä uudelleen.",
     "remove_alert": "Haluatko varmasti poistaa?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Haluatko varmasti poistaa?",
     "clear_user_alert": "Haluatko varmasti tyhjentää kaikki historiatiedot?",
     "decrypt_fail_alert": "Sovelluksen tila on virheellinen, ole hyvä ja kirjaudu uudelleen nollataksesi tilan.",
@@ -661,7 +664,8 @@
     "wrong_link": "Väärä linkki",
     "in": "yht",
     "reveal_muted": "Hiljennetty\nNapauta näyttääksesi sisällön",
-    "posted_by": "Julkaisija {username} {appname} kautta "
+    "posted_by": "Julkaisija {username} {appname} kautta ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "Luonnokset",
@@ -834,6 +838,20 @@
     "amount_select_description": "Syötä summa maksimaalisen käytettävissä olevan saldon mukaan {suffix}",
     "amount_select_desc_limit": " ja on oltava suurempi kuin 0,001"
   },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Syötetty summa on enemmän, kuin käytettävissä oleva saldo",
+    "offer-unavailable": "Tarjous ei ole saatavilla syötetylle summalle. Vähennä summaa",
+    "too-much-slippage": "Suosittelemme sinua vähentämään määrää paremman hinnoittelun vuoksi",
+    "fee": "Kulut",
+    "free": "Ilmainen",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped",
+    "swap_pending": "Swap Pending!",
+    "swap_pending_body": "Swap requests may be pending, please check pending open orders in selected token details",
+    "new_swap": "New Swap"
+  },
   "boost": {
     "title": "Hanki pisteitä",
     "buy": "Hanki Pisteitä",
@@ -991,8 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "Lisää kommentti...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "Kommentti",
     "reply": "VASTAA",
+    "publish": "PUBLISH",
     "close": "SULJE"
   },
   "walkthrough": {
@@ -1013,7 +1034,12 @@
     "open": "Avaa URL",
     "detected_url": "Havaittu URL",
     "unsupported_alert_title": "URL-osoitetta ei tuettu!",
-    "unsupported_alert_desc": "Ole hyvä ja skannaa kelvollinen ecency url."
+    "unsupported_alert_desc": "Ole hyvä ja skannaa kelvollinen ecency url.",
+    "confirmTransaction": "Confirm transaction",
+    "approve": "Approve",
+    "cancel": "Cancel",
+    "multi_array_ops_alert": "Multiple operations array detected!",
+    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
   },
   "history": {
     "edit": "Muokkaushistoria",

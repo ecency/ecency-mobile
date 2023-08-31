@@ -83,6 +83,7 @@
     "withdraw_hive": "Retirar ahorros",
     "withdraw_hbd": "Retirar ahorros",
     "transfer_to_savings": "A ahorros",
+    "swap_token": "Intercambio de Token",
     "convert": "Convertir",
     "convert_request": "Solicitudes de conversión",
     "escrow_transfer": "Transferencia de fideicomiso",
@@ -574,6 +575,7 @@
     "move": "Mover",
     "continue": "Continuar",
     "okay": "Ok",
+    "done": "Hecho",
     "move_question": "¿Está seguro de moverlo a borradores?",
     "success_shared": "¡Éxito! ¡Contenido enviado!",
     "success_moved": "Movido a borradores",
@@ -597,6 +599,7 @@
     "warning": "Advertencia",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Está seguro que quiere borrar?",
+    "remove_all_alert": "¿Está seguro que desea eliminar todos los elementos seleccionados?",
     "clear_alert": "¿Está seguro de que desea eliminar?",
     "clear_user_alert": "¿Estás seguro de querer borrar toda la información del usuario?",
     "decrypt_fail_alert": "Estado de la aplicación incorrecto, por favor vuelva a iniciar sesión para restablecer el estado.",
@@ -661,7 +664,8 @@
     "wrong_link": "Enlace incorrecto",
     "in": "en",
     "reveal_muted": "SILENCIADO\nToca para revelar el contenido",
-    "posted_by": "Publicado por {username} vía {appname} "
+    "posted_by": "Publicado por {username} vía {appname} ",
+    "ecency_waves": "Ondas de Ecency"
   },
   "drafts": {
     "title": "Borradores",
@@ -834,6 +838,20 @@
     "amount_select_description": "Introduzca la cantidad dentro del saldo máximo disponible {suffix}",
     "amount_select_desc_limit": " y debe ser mayor que 0.001"
   },
+  "trade": {
+    "swap_token": "Intercambiar tus fondos",
+    "more-than-balance": "La cantidad introducida es mayor que el saldo disponible",
+    "offer-unavailable": "Oferta no disponible para la cantidad introducida. Por favor, reduce el monto",
+    "too-much-slippage": "Te recomendamos que reduzcas la cantidad para un mejor precio",
+    "fee": "Comisión",
+    "free": "Gratis",
+    "confirm_swap": "Confirmar intercambio",
+    "swap_for": "Intercambiando {fromAmount} por {toAmount}",
+    "swap_successful": "Intercambiado con éxito",
+    "swap_pending": "¡Intercambio pendiente!",
+    "swap_pending_body": "Las solicitudes de intercambio pueden estar pendientes, por favor comprueba las órdenes abiertas pendientes en los detalles del token seleccionado",
+    "new_swap": "Nuevo intercambio"
+  },
   "boost": {
     "title": "Obtener Puntos",
     "buy": "Obtener Puntos",
@@ -991,8 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "Añade un comentario...",
+    "placeholder_wave": "¿Qué está pasando?",
+    "summary_wave": "Se publicará en: {host}",
     "comment": "Comentario",
     "reply": "RESPONDER",
+    "publish": "PUBLICAR",
     "close": "CERRADO"
   },
   "walkthrough": {
@@ -1013,7 +1034,12 @@
     "open": "Abrir URL",
     "detected_url": "URL detectada",
     "unsupported_alert_title": "¡URL no soportada!",
-    "unsupported_alert_desc": "Por favor, escanee una url de ecency válida."
+    "unsupported_alert_desc": "Por favor, escanee una url de ecency válida.",
+    "confirmTransaction": "Confirmar transacción",
+    "approve": "Aprobar",
+    "cancel": "Cancelar",
+    "multi_array_ops_alert": "¡Matriz de múltiples operaciones detectada!",
+    "multi_array_ops_aler_desct": "Ecency no soporta la firma de múltiples operaciones, aún"
   },
   "history": {
     "edit": "Editar historial",

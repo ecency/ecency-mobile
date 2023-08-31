@@ -83,6 +83,7 @@
     "withdraw_hive": "Withdraw Savings",
     "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "Vers les économies",
+    "swap_token": "Swap Token",
     "convert": "Convertir",
     "convert_request": "Convert Request",
     "escrow_transfer": "Escrow Transfer",
@@ -574,6 +575,7 @@
     "move": "Déplacer",
     "continue": "Continuer",
     "okay": "D'accord",
+    "done": "Done",
     "move_question": "Êtes-vous sûr de vouloir déplacer vers Broullions ?",
     "success_shared": "Succès ! Contenu soumis !",
     "success_moved": "Déplacé vers Brouillons",
@@ -597,6 +599,7 @@
     "warning": "Attention",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Êtes-vous sûr de vouloir retirer ?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Êtes-vous sûr de vouloir effacer ?",
     "clear_user_alert": "Êtes-vous sûr de vouloir effacer toutes les données utilisateur ?",
     "decrypt_fail_alert": "État de l'application corrompu, veuillez vous reconnecter pour réinitialiser l'état.",
@@ -661,7 +664,8 @@
     "wrong_link": "Mauvais lien",
     "in": "in",
     "reveal_muted": "MUTED\nTap to reveal content",
-    "posted_by": "Posted by {username} via {appname} "
+    "posted_by": "Posted by {username} via {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "Brouillons",
@@ -834,6 +838,20 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001"
   },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Entered amount is more than your available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
+    "fee": "Fee",
+    "free": "Free",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped",
+    "swap_pending": "Swap Pending!",
+    "swap_pending_body": "Swap requests may be pending, please check pending open orders in selected token details",
+    "new_swap": "New Swap"
+  },
   "boost": {
     "title": "Obtenir des points",
     "buy": "Obtenir des points",
@@ -991,8 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "Ajouter un commentaire...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "Commentaire",
     "reply": "RÉPONDRE",
+    "publish": "PUBLISH",
     "close": "FERMER"
   },
   "walkthrough": {
@@ -1013,7 +1034,12 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url."
+    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "confirmTransaction": "Confirm transaction",
+    "approve": "Approve",
+    "cancel": "Cancel",
+    "multi_array_ops_alert": "Multiple operations array detected!",
+    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
   },
   "history": {
     "edit": "Edit History",

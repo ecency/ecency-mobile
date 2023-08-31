@@ -83,6 +83,7 @@
     "withdraw_hive": "बचत खाते से निकालें",
     "withdraw_hbd": "बचत खाते से निकालें",
     "transfer_to_savings": "बचत करने के लिए",
+    "swap_token": "Swap Token",
     "convert": "बदलें",
     "convert_request": "अनुरोध कनवर्ट करें",
     "escrow_transfer": "एस्क्रो ट्रांसफर",
@@ -574,6 +575,7 @@
     "move": "हटाना",
     "continue": "Continue",
     "okay": "Okay",
+    "done": "Done",
     "move_question": "क्या आप ड्राफ्ट में जाना सुनिश्चित करते हैं?",
     "success_shared": "सफलता! प्रस्तुत सामग्री!",
     "success_moved": "ड्राफ्ट में ले जाया गया",
@@ -597,6 +599,7 @@
     "warning": "चेतावनी",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "क्या आप इसे सच में हटाना चाहते हैं?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "क्या आप सचमुच में मिटाना चाहते हैं?",
     "clear_user_alert": "क्या आप वाकई सभी उपयोगकर्ता डेटा को साफ़ करना चाहते हैं?",
     "decrypt_fail_alert": "भ्रष्ट एप्लिकेशन स्थिति, राज्य को रीसेट करने के लिए कृपया पुनः लोड करें।",
@@ -661,7 +664,8 @@
     "wrong_link": "गलत लिंक",
     "in": "में",
     "reveal_muted": "मौन कर दिया गया\nसामग्री प्रकट करने के लिए टैप करें",
-    "posted_by": "Posted by {username} via {appname} "
+    "posted_by": "Posted by {username} via {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "प्रारूप",
@@ -834,6 +838,20 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001"
   },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Entered amount is more than your available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
+    "fee": "Fee",
+    "free": "Free",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped",
+    "swap_pending": "Swap Pending!",
+    "swap_pending_body": "Swap requests may be pending, please check pending open orders in selected token details",
+    "new_swap": "New Swap"
+  },
   "boost": {
     "title": "अंक प्राप्त करें",
     "buy": "अंक प्राप्त करें",
@@ -991,8 +1009,11 @@
   },
   "quick_reply": {
     "placeholder": "एक टिप्पणी जोड़ने...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "टिप्पणी",
     "reply": "जवाब",
+    "publish": "PUBLISH",
     "close": "बंद करे"
   },
   "walkthrough": {
@@ -1013,7 +1034,12 @@
     "open": "यूआरएल खोलें",
     "detected_url": "यूआरएल का पता चला",
     "unsupported_alert_title": "असमर्थित यूआरएल!",
-    "unsupported_alert_desc": "कृपया एक मान्य ईसेंसी यूआरएल स्कैन करें।"
+    "unsupported_alert_desc": "कृपया एक मान्य ईसेंसी यूआरएल स्कैन करें।",
+    "confirmTransaction": "Confirm transaction",
+    "approve": "Approve",
+    "cancel": "Cancel",
+    "multi_array_ops_alert": "Multiple operations array detected!",
+    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
   },
   "history": {
     "edit": "इतिहास संपादित करें",
