@@ -1034,7 +1034,12 @@
     "open": "URL‘ni ochish",
     "detected_url": "Aniqlangan URL",
     "unsupported_alert_title": "Noto'g'ri URL!",
-    "unsupported_alert_desc": "Iltimos, haqiqiy ecency urlni skanerlang."
+    "unsupported_alert_desc": "Iltimos, haqiqiy ecency urlni skanerlang.",
+    "confirmTransaction": "Confirm transaction",
+    "approve": "Approve",
+    "cancel": "Cancel",
+    "multi_array_ops_alert": "Multiple operations array detected!",
+    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
   },
   "history": {
     "edit": "Tarixni Tahrirlash",
