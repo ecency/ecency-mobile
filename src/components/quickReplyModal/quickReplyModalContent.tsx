@@ -6,6 +6,7 @@ import React, {
   forwardRef,
   useCallback,
   Fragment,
+  useMemo,
 } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {
@@ -44,6 +45,8 @@ export interface QuickReplyModalContentProps {
   onClose: () => void;
 }
 
+const MAX_BODY_LENGTH = 250;
+
 export const QuickReplyModalContent = forwardRef(
   ({
     mode,
@@ -81,6 +84,11 @@ export const QuickReplyModalContent = forwardRef(
     const draftId = mode === 'wave'
       ? `${currentAccount.name}/ecency.waves` //TODO: update author based on selected host
       : `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
+
+
+    const bodyLengthExceeded = useMemo(
+      () => commentValue.length > MAX_BODY_LENGTH && mode === 'wave', 
+      [commentValue, mode]);
 
     useImperativeHandle(ref, () => ({
       handleSheetClose() {
@@ -312,28 +320,40 @@ export const QuickReplyModalContent = forwardRef(
     }
 
 
-    const _renderExpandBtn = () => (
-      <View style={styles.toolbarContainer}>
-        <IconButton
-          iconType="MaterialsIcons"
-          name="image-outline"
-          onPress={_handleMediaBtn}
-          size={24}
-          color={EStyleSheet.value('$primaryBlack')}
-        />
-        {mode !== 'wave' && (
+    const _renderExpandBtn = () => {
+
+      const _lengthTextStyle = {
+        ...styles.toolbarSpacer,
+        color: EStyleSheet.value(bodyLengthExceeded ? '$primaryRed' : '$iconColor')
+      }
+
+      return (
+        <View style={styles.toolbarContainer}>
           <IconButton
-            iconStyle={styles.expandIcon}
-            iconType="MaterialCommunityIcons"
-            name="arrow-expand"
-            onPress={_handleExpandBtn}
+            iconType="MaterialsIcons"
+            name="image-outline"
+            onPress={_handleMediaBtn}
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
           />
-        )}
+          {mode !== 'wave' ? (
+            <IconButton
+              iconStyle={styles.toolbarSpacer}
+              iconType="MaterialCommunityIcons"
+              name="arrow-expand"
+              onPress={_handleExpandBtn}
+              size={24}
+              color={EStyleSheet.value('$primaryBlack')}
+            />
+          ) : (
+            <Text style={_lengthTextStyle}>
+              {`${commentValue.length}/${MAX_BODY_LENGTH}`}
+            </Text>
+          )}
 
-      </View>
-    );
+        </View>
+      );
+    }
 
 
 
@@ -354,7 +374,7 @@ export const QuickReplyModalContent = forwardRef(
             text={intl.formatMessage({
               id: _titleId,
             })}
-            isDisable={isUploading}
+            isDisable={isUploading || bodyLengthExceeded}
             isLoading={postSubmitter.isSending}
           />
         </View>
