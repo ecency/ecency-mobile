@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getComments, deleteComment } from '../../../providers/hive/dhive';
 // Services and Actions
 import { writeToClipboard } from '../../../utils/clipboard';
-import { toastNotification } from '../../../redux/actions/uiAction';
+import { showProfileModal, toastNotification } from '../../../redux/actions/uiAction';
 
 // Middleware
 
@@ -171,7 +171,7 @@ const CommentsContainer = ({
             handleOnCommentsLoaded();
           }
         })
-        .catch(() => {});
+        .catch(() => { });
     }
   };
 
@@ -243,6 +243,14 @@ const CommentsContainer = ({
     });
   };
 
+
+  const _handleOnUserPress = (username) => {
+    if (username) {
+      dispatch(showProfileModal(username))
+    }
+
+  }
+
   const _openReplyThread = (comment) => {
     postsCachePrimer.cachePost(comment);
     navigation.navigate({
@@ -298,6 +306,7 @@ const CommentsContainer = ({
       handleDeleteComment={_handleDeleteComment}
       handleOnPressCommentMenu={_handleOnPressCommentMenu}
       handleOnOptionsPress={handleOnOptionsPress}
+      handleOnUserPress={_handleOnUserPress}
       isOwnProfile={isOwnProfile}
       isHideImage={isHideImage}
       handleOnVotersPress={_handleOnVotersPress}
