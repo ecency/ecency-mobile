@@ -1034,7 +1034,12 @@
     "open": "Открыть Ссылку",
     "detected_url": "Обнаружена Ссылка",
     "unsupported_alert_title": "Неподдерживаемый URL!",
-    "unsupported_alert_desc": "Пожалуйста, отсканируйте корректный адрес ecency."
+    "unsupported_alert_desc": "Пожалуйста, отсканируйте корректный адрес ecency.",
+    "confirmTransaction": "Confirm transaction",
+    "approve": "Approve",
+    "cancel": "Cancel",
+    "multi_array_ops_alert": "Multiple operations array detected!",
+    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
   },
   "history": {
     "edit": "История изменений",
