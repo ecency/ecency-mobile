@@ -1034,7 +1034,12 @@
     "open": "Avaa URL",
     "detected_url": "Havaittu URL",
     "unsupported_alert_title": "URL-osoitetta ei tuettu!",
-    "unsupported_alert_desc": "Ole hyvä ja skannaa kelvollinen ecency url."
+    "unsupported_alert_desc": "Ole hyvä ja skannaa kelvollinen ecency url.",
+    "confirmTransaction": "Confirm transaction",
+    "approve": "Approve",
+    "cancel": "Cancel",
+    "multi_array_ops_alert": "Multiple operations array detected!",
+    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
   },
   "history": {
     "edit": "Muokkaushistoria",
