@@ -44,6 +44,7 @@ import bugsnagInstance from '../../config/bugsnag';
 import bugsnapInstance from '../../config/bugsnag';
 import { makeJsonMetadataReply } from '../../utils/editor';
 
+const hiveuri = require('hive-uri');
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
 const DEFAULT_SERVER = SERVER_LIST;
@@ -2080,3 +2081,60 @@ export const votingPower = (account) => {
   return percentage / 100;
 };
 /* eslint-enable */
+
+export const handleHiveUriOperation = async (
+  currentAccount: any,
+  pin: any,
+  hiveUri: string,
+): Promise<TransactionConfirmation> => {
+  try {
+    const digitPinCode = getDigitPinCode(pin);
+    const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+    const privateKey = PrivateKey.fromString(key);
+
+    const { head_block_number, head_block_id, time } = await getDynamicGlobalProperties();
+    const ref_block_num = head_block_number & 0xffff;
+    const ref_block_prefix = Buffer.from(head_block_id, 'hex').readUInt32LE(4);
+    const expireTime = 60 * 1000;
+    const chainId = Buffer.from(
+      'beeab0de00000000000000000000000000000000000000000000000000000000',
+      'hex',
+    );
+    const expiration = new Date(new Date(`${time}Z`).getTime() + expireTime)
+      .toISOString()
+      .slice(0, -5);
+    const extensions = [];
+
+
+    const parsed = hiveuri.decode(hiveUri)
+    // resolve the decoded tx and params to a signable tx
+    let { tx, signer } = hiveuri.resolveTransaction(parsed.tx, parsed.params, {
+     
+      expiration,
+      // accounts we are able to sign for
+      signers: currentAccount.name,
+      // selected signer if none is asked for by the params
+      preferred_signer: currentAccount.name,
+    });
+
+
+    //inject raw ref_block_num and ref_block_prefex to avoid string converstion by hiveuri.resolveTransaction
+    // e.g. from a get_dynamic_global_properties call
+    tx.ref_block_num = ref_block_num;
+    tx.ref_block_prefix = ref_block_prefix;
+
+    // console.log('tx : ', JSON.stringify(tx, null, 2));
+    const transaction = cryptoUtils.signTransaction(tx, privateKey, chainId);
+    const trxId = generateTrxId(transaction);
+    const resultHive = await client.broadcast.call('broadcast_transaction', [transaction]);
+    const result = Object.assign({ id: trxId }, resultHive);
+    // console.log('result : ', JSON.stringify(result, null, 2));
+    return result;
+  } catch (err) {
+    bugsnagInstance.notify(err, (event) => {
+      event.context = 'handle-hive-uri-operations';
+      event.setMetaData('hiveUri', hiveUri);
+    });
+    throw err;
+  }
+};

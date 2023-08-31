@@ -15,6 +15,8 @@ import {
   HIDE_REPLY_MODAL,
   LOGOUT,
   LOGOUT_DONE,
+  SHOW_WEBVIEW_MODAL,
+  HIDE_WEBVIEW_MODAL,
 } from '../constants/constants';
 import { orientations } from '../constants/orientationsConstants';
 
@@ -34,6 +36,8 @@ interface UiState {
   avatarCacheStamp: number;
   profileModalUsername: string;
   isVisibleQRModal: boolean;
+  webViewModalData: any;
+  isVisibleWebViewModal: boolean;
   deviceOrientation: string;
   lockedOrientation: string;
   replyModalVisible: boolean;
@@ -51,6 +55,8 @@ const initialState: UiState = {
   avatarCacheStamp: 0,
   profileModalUsername: '',
   isVisibleQRModal: false,
+  isVisibleWebViewModal: false,
+  webViewModalData: null,
   deviceOrientation: orientations.PORTRAIT,
   lockedOrientation: orientations.PORTRAIT,
   replyModalData: null,
@@ -122,6 +128,18 @@ export default function (state = initialState, action): UiState {
       return {
         ...state,
         isVisibleQRModal: action.payload,
+      };
+    case SHOW_WEBVIEW_MODAL:
+      return {
+        ...state,
+        isVisibleWebViewModal: action.payload.isVisibleWebViewModal,
+        webViewModalData: action.payload.webViewModalData,
+      };
+    case HIDE_WEBVIEW_MODAL:
+      return {
+        ...state,
+        isVisibleWebViewModal: false,
+        webViewModalData: null,
       };
     case SET_DEVICE_ORIENTATION:
       return {

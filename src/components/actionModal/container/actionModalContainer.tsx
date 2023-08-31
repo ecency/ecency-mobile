@@ -17,6 +17,7 @@ export interface ActionModalData {
   headerImage?: Source;
   onClosed: () => void;
   headerContent?: React.ReactNode;
+  bodyContent?: React.ReactNode;
 }
 
 const ActionModalContainer = ({ navigation }) => {
