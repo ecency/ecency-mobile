@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "কিউরেটর পুরস্কার",
     "author_reward": "লেখক পুরস্কার",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "উপকারকারীর পুরষ্কার",
     "claim_reward_balance": "পুরস্কার দাবি",
+    "points_activity": "Activity",
     "transfer": "স্থানান্তর",
     "power_up": "To Vesting",
     "transfer_from_savings": "সঞ্চয় থেকে",
