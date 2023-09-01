@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Kuráció Jutalom",
     "author_reward": "Szerzői Jutalom",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Jótevői jutalom",
     "claim_reward_balance": "Jutalom átvétele ",
+    "points_activity": "Activity",
     "transfer": "Átutalás",
     "power_up": "To Vesting",
     "transfer_from_savings": "A megtakarításoktól",
