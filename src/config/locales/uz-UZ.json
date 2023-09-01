@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Kuratorlik mukofoti",
     "author_reward": "Avtorlik mukofoti",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Benefitsiar mukofoti",
     "claim_reward_balance": "Mukofotlarni olish ",
+    "points_activity": "Activity",
     "transfer": "O'tkazma",
     "power_up": "Sarmoya kiritish",
     "transfer_from_savings": "Jamg'armadan",
