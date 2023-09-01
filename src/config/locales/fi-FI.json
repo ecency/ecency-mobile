@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Tarkastuspalkinto",
     "author_reward": "Julkaisupalkinto",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Hyötyjäpalkkio",
     "claim_reward_balance": "Lunasta palkkio ",
+    "points_activity": "Activity",
     "transfer": "Siirto",
     "power_up": "Ansaintaan",
     "transfer_from_savings": "Säästöistä",
