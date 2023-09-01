@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "अध्यक्षता इनाम",
     "author_reward": "लेखक इनाम",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "लाभार्थी पुरस्कार",
     "claim_reward_balance": "इनाम दावा ",
+    "points_activity": "Activity",
     "transfer": "स्थानांतरण",
     "power_up": "वेस्टिंग को",
     "transfer_from_savings": "बचत से",
