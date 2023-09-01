@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Curation gantimpala",
     "author_reward": "Gantimpala ng may-akda",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Makaka-benepisyo sa Gantimpala",
     "claim_reward_balance": "Kunin ang Gantimpala ",
+    "points_activity": "Activity",
     "transfer": "Paglipat",
     "power_up": "Patungong Vesting",
     "transfer_from_savings": "Galing sa Inipon",
