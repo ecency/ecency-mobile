@@ -15,6 +15,12 @@ export default {
     iconType: 'MaterialIcons',
     point: 0.1,
   },
+  170: {
+    icon: 'trophy-outline',
+    textKey: 'community_reward',
+    iconType: 'MaterialCommunityIcons',
+    point: 0.1
+  },
   160: {
     icon: 'target',
     textKey: 'referral_title',
@@ -86,6 +92,12 @@ export default {
     descriptionKey: 'wallet.checkin_extra_desc',
     iconType: 'MaterialCommunityIcons',
     point: 10,
+  },
+  'default': {
+    icon: 'local-activity',
+    textKey: 'points_activity',
+    iconType: 'MaterialIcons',
+    point: 0.1,
   },
 };
 
