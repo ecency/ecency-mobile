@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Phần thưởng curation",
     "author_reward": "Phần thưởng cho tác giả",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Benefactor Reward",
     "claim_reward_balance": "Claim Reward ",
+    "points_activity": "Activity",
     "transfer": "Chuyển cho",
     "power_up": "To Vesting",
     "transfer_from_savings": "From Savings",
