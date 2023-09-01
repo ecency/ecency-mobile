@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Curatie-beloning",
     "author_reward": "Auteurs-beloning",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Benefactor Reward",
     "claim_reward_balance": "Claim Reward ",
+    "points_activity": "Activity",
     "transfer": "Overschrijven",
     "power_up": "To Vesting",
     "transfer_from_savings": "From Savings",
