@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Kurator Mükafatı",
     "author_reward": "Müəllif Mükafatı",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Benefactor Reward",
     "claim_reward_balance": "Mükafatı Götür ",
+    "points_activity": "Activity",
     "transfer": "Köçürmə",
     "power_up": "To Vesting",
     "transfer_from_savings": "Yığımlardan",
