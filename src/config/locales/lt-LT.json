@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Kuracijos Atlygis",
     "author_reward": "Autorius Atlygis",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Labdarystės atlygis",
     "claim_reward_balance": "Atsiimti atlygį ",
+    "points_activity": "Activity",
     "transfer": "Pervesti",
     "power_up": "Į Teisių suteikimą",
     "transfer_from_savings": "Iš santaupų",
