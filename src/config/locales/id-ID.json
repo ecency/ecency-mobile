@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Imbalan kurasi",
     "author_reward": "Imbalan Penulis",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Hadiah Benefactor",
     "claim_reward_balance": "Klaim Hadiah ",
+    "points_activity": "Activity",
     "transfer": "Transfer",
     "power_up": "Untuk Menjamin",
     "transfer_from_savings": "Dari Tabungan",
