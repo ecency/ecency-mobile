@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "مكافأة التصويت",
     "author_reward": "مكافأة المؤلف",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "مكافأة المستفيد",
     "claim_reward_balance": "الحصول على المكافأة ",
+    "points_activity": "Activity",
     "transfer": "تحويل",
     "power_up": "إلى استحقاق",
     "transfer_from_savings": "من المدخرات",
