@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "审查奖励",
     "author_reward": "作者奖励",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "受益者奖励",
     "claim_reward_balance": "领取奖励 ",
+    "points_activity": "Activity",
     "transfer": "转账",
     "power_up": "To Vesting",
     "transfer_from_savings": "储蓄转出",
