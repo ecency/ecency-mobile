@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Curation Reward",
     "author_reward": "লিখকৰ পাৰিতোষিক",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Benefactor Reward",
     "claim_reward_balance": "পাৰিতোষিক গ্ৰহণ ",
+    "points_activity": "Activity",
     "transfer": "বদলি কৰক",
     "power_up": "ভেষ্‌টিঙৰ বাবে",
     "transfer_from_savings": "জমাপুণ্জীৰ পৰা",
