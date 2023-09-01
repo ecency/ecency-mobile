@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Kuratoren-Belohnung",
     "author_reward": "Autoren-Belohnung",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Belohnung für den Gönner",
     "claim_reward_balance": "Belohnung abholen ",
+    "points_activity": "Activity",
     "transfer": "Überweisen",
     "power_up": "To Vesting",
     "transfer_from_savings": "aus den Ersparnissen",
