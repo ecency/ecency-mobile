@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "審查獎勵",
     "author_reward": "作者獎勵",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "受益者獎勵分配",
     "claim_reward_balance": "領取獎勵",
+    "points_activity": "Activity",
     "transfer": "轉賬",
     "power_up": "轉為 Hive Power",
     "transfer_from_savings": "從儲蓄轉出",
