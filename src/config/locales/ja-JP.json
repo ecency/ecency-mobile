@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "キュレーション報酬",
     "author_reward": "投稿者報酬",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Benefactor 報酬",
     "claim_reward_balance": "報酬を請求 ",
+    "points_activity": "Activity",
     "transfer": "送金",
     "power_up": "To Vesting",
     "transfer_from_savings": "貯蓄口座からの送金",
