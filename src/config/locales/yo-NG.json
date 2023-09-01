@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Ere lati ara asayan ibo",
     "author_reward": "Ere Ako oro",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Èrè onínúure",
     "claim_reward_balance": "Ko ere ",
+    "points_activity": "Activity",
     "transfer": "Fi ranse",
     "power_up": "Si iyasọtọ eda",
     "transfer_from_savings": "Láti inú àpamọ",
