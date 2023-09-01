@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Ricompensa Curatore",
     "author_reward": "Ricompensa Autore",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Ricompensa dei Benefattori",
     "claim_reward_balance": "Richiedi ricompensa ",
+    "points_activity": "Activity",
     "transfer": "Trasferimento",
     "power_up": "To Vesting",
     "transfer_from_savings": "Dal salvadanaio",
