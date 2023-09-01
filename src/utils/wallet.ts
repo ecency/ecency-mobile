@@ -70,9 +70,9 @@ const HIVE_ACTIONS = [
   'swap_token'
 ];
 const HBD_ACTIONS = [
-  'transfer_token', 
-  'transfer_to_savings', 
-  'convert', 
+  'transfer_token',
+  'transfer_to_savings',
+  'convert',
   'withdraw_hbd',
   'swap_token'
 ];
@@ -222,7 +222,7 @@ export const groomingTransactionData = (transaction, hivePerMVests): CoinActivit
 };
 
 
-export const groomingEngineHistory = (transaction:HistoryItem): CoinActivity | null => {
+export const groomingEngineHistory = (transaction: HistoryItem): CoinActivity | null => {
 
   const {
     blockNumber,
@@ -242,19 +242,19 @@ export const groomingEngineHistory = (transaction:HistoryItem): CoinActivity | n
     textKey: operation,
     created: new Date(timestamp).toISOString(),
     value: `${quantity} ${symbol}`,
-    memo : memo || '',
-    details :authorperm ? authorperm : from && to ? `@${from} to @${to}` : null,
+    memo: memo || '',
+    details: authorperm ? authorperm : from && to ? `@${from} to @${to}` : null,
     icon: 'local-activity',
     expires: ''
   };
-  
 
-  switch(result.textKey){
+
+  switch (result.textKey) {
 
     case EngineOperations.TOKENS_CREATE:
       result.icon = 'fiber-new';
       break;
-    
+
 
     case EngineOperations.TOKENS_TRANSFER:
     case EngineOperations.TOKENS_TRANSFER_OWNERSHIP:
@@ -275,30 +275,30 @@ export const groomingEngineHistory = (transaction:HistoryItem): CoinActivity | n
       break;
 
     case EngineOperations.TOKENS_ENABLE_STAKING:
-      case EngineOperations.TOKENS_ENABLE_DELEGATION:
-      case EngineOperations.TOKENS_ISSUE:
+    case EngineOperations.TOKENS_ENABLE_DELEGATION:
+    case EngineOperations.TOKENS_ISSUE:
 
       result.icon = 'wb-iridescent';
       break;
 
- 
-      case EngineOperations.TOKENS_DELEGATE:
-      case EngineOperations.TOKENS_STAKE:
+
+    case EngineOperations.TOKENS_DELEGATE:
+    case EngineOperations.TOKENS_STAKE:
       result.icon = 'change-history';
       break;
-    
+
     // Group 7
-    
+
     case EngineOperations.TOKENS_CANCEL_UNSTAKE:
       result.icon = 'cancel';
       break;
-    
+
     // Group 8
     case EngineOperations.TOKENS_UNDELEGATE_DONE:
-      case EngineOperations.TOKENS_UNSTAKE_DONE:
+    case EngineOperations.TOKENS_UNSTAKE_DONE:
       result.icon = 'hourglass-full'
     case EngineOperations.TOKENS_UNDELEGATE_START:
-      case EngineOperations.TOKENS_UNSTAKE_START:
+    case EngineOperations.TOKENS_UNSTAKE_START:
       result.icon = 'hourglass-top';
       break;
   }
@@ -504,15 +504,19 @@ export const fetchCoinActivities = async ({
         console.log('Points Activities', pointActivities);
         const completed =
           pointActivities && pointActivities.length
-            ? pointActivities.map((item) =>
-              groomingPointsTransactionData({
+            ? pointActivities.map((item) => {
+              const { icon, iconType, textKey } = !!POINTS[item.type]
+                ? POINTS[item.type] : POINTS['default'];
+              return groomingPointsTransactionData({
                 ...item,
-                icon: get(POINTS[get(item, 'type')], 'icon'),
-                iconType: get(POINTS[get(item, 'type')], 'iconType'),
-                textKey: get(POINTS[get(item, 'type')], 'textKey'),
-              }),
+                icon,
+                iconType,
+                textKey
+              })
+            },
             )
             : [];
+
         return completed;
       }
       case ASSET_IDS.HIVE:
@@ -671,10 +675,10 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
     if (spkWallet.spk) {
       const _symbol = ASSET_IDS.SPK
       const _spkBalance = spkWallet.spk / 1000;
-  
+
       spkWalletData[_symbol] = {
         name: "SPK Network",
-        symbol:_symbol,
+        symbol: _symbol,
         balance: _spkBalance,
         estimateValue: _spkBalance * _price,
         vsCurrency: vsCurrency,
@@ -695,9 +699,9 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
         symbol: ASSET_IDS.LARYNX,
         balance: _larBalance,
         precision: _available.precision,
-        estimateValue:_larBalance * _price,
+        estimateValue: _larBalance * _price,
         vsCurrency: vsCurrency,
-        currentPrice: _price, 
+        currentPrice: _price,
         isSpk: true,
         actions: [
           TransferTypes.TRANSFER_LARYNX,
@@ -714,8 +718,8 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
 
       let _totalBalance = _larPower + _grantedPwr + _grantingPwr
 
-      const _extraDataPairs:DataPair[] = [];
-      if(spkWallet.power_downs){
+      const _extraDataPairs: DataPair[] = [];
+      if (spkWallet.power_downs) {
         _extraDataPairs.push({
           dataKey: 'scheduled_power_downs',
           value: Object.keys(spkWallet.power_downs).length
@@ -729,18 +733,18 @@ const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurren
         precision: _available.precision,
         estimateValue: _larPower * _price,
         vsCurrency: vsCurrency,
-        currentPrice: _price, 
+        currentPrice: _price,
         isSpk: true,
-        extraDataPairs:[..._extraDataPairs,
-          {
+        extraDataPairs: [..._extraDataPairs,
+        {
           dataKey: 'delegated_larynx_power',
           value: `${_grantedPwr.toFixed(3)} ${ASSET_IDS.LARYNX_POWER}`
-        },{
+        }, {
           dataKey: 'delegating_larynx_power',
-          value: `- ${ _grantingPwr.toFixed(3)} ${ASSET_IDS.LARYNX_POWER}`
+          value: `- ${_grantingPwr.toFixed(3)} ${ASSET_IDS.LARYNX_POWER}`
         }, {
           dataKey: 'total_larynx_power',
-          value: `${ _totalBalance.toFixed(3)} ${ASSET_IDS.LARYNX_POWER}`
+          value: `${_totalBalance.toFixed(3)} ${ASSET_IDS.LARYNX_POWER}`
         },],
         actions: [
           TransferTypes.DELEGATE_SPK,
