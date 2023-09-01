@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Reward For Post Wey You Upvote",
     "author_reward": "Person Wey Write Reward",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Ur helper property",
     "claim_reward_balance": "Collect your property ",
+    "points_activity": "Activity",
     "transfer": "Transfer",
     "power_up": "To Vesting",
     "transfer_from_savings": "From wia you keep am",
