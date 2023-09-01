@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Recompensă de curare",
     "author_reward": "Recompensă Autor",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Recompensa Binefăcătorului",
     "claim_reward_balance": "Colectează recompensa ",
+    "points_activity": "Activity",
     "transfer": "Transfer",
     "power_up": "To Vesting",
     "transfer_from_savings": "De la economii",
