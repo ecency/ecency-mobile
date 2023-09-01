@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Nagrada za Glasanje",
     "author_reward": "Autorska Nagrada",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Dobrotvorna Nagrada",
     "claim_reward_balance": "Zatražite Nagradu ",
+    "points_activity": "Activity",
     "transfer": "Prijenos",
     "power_up": "Za Dodijeliti",
     "transfer_from_savings": "Od štednje",
