@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Кураторская награда",
     "author_reward": "Авторская награда",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Награда бенефициару",
     "claim_reward_balance": "Получить награду ",
+    "points_activity": "Activity",
     "transfer": "Перевод",
     "power_up": "В Силу",
     "transfer_from_savings": "Из сейфа",
