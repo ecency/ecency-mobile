@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "پاداش مشارکت",
     "author_reward": "پاداش نویسنده",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "پاداش حامی",
     "claim_reward_balance": "دریافت پاداش",
+    "points_activity": "Activity",
     "transfer": "انتقال",
     "power_up": "To Vesting",
     "transfer_from_savings": "از پس انداز",
