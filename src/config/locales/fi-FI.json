@@ -2,10 +2,10 @@
   "wallet": {
     "curation_reward": "Tarkastuspalkinto",
     "author_reward": "Julkaisupalkinto",
-    "community_reward": "Community Reward",
+    "community_reward": "Yhteisöpalkkiot",
     "comment_benefactor_reward": "Hyötyjäpalkkio",
     "claim_reward_balance": "Lunasta palkkio ",
-    "points_activity": "Activity",
+    "points_activity": "Aktiivisuus",
     "transfer": "Siirto",
     "power_up": "Ansaintaan",
     "transfer_from_savings": "Säästöistä",
@@ -601,7 +601,7 @@
     "warning": "Varoitus",
     "invalid_pincode": "Virheellinen PIN-koodi, tarkista koodi ja yritä uudelleen.",
     "remove_alert": "Haluatko varmasti poistaa?",
-    "remove_all_alert": "Are you sure you want to remove all selected items?",
+    "remove_all_alert": "Haluatko varmasti poistaa kaikki valitut?",
     "clear_alert": "Haluatko varmasti poistaa?",
     "clear_user_alert": "Haluatko varmasti tyhjentää kaikki historiatiedot?",
     "decrypt_fail_alert": "Sovelluksen tila on virheellinen, ole hyvä ja kirjaudu uudelleen nollataksesi tilan.",
@@ -1011,11 +1011,11 @@
   },
   "quick_reply": {
     "placeholder": "Lisää kommentti...",
-    "placeholder_wave": "What's happening?",
-    "summary_wave": "Will be published in: {host}",
+    "placeholder_wave": "Mitä tapahtuu?",
+    "summary_wave": "Julkaistaan: {host}",
     "comment": "Kommentti",
     "reply": "VASTAA",
-    "publish": "PUBLISH",
+    "publish": "Julkaise",
     "close": "SULJE"
   },
   "walkthrough": {
@@ -1037,11 +1037,11 @@
     "detected_url": "Havaittu URL",
     "unsupported_alert_title": "URL-osoitetta ei tuettu!",
     "unsupported_alert_desc": "Ole hyvä ja skannaa kelvollinen ecency url.",
-    "confirmTransaction": "Confirm transaction",
-    "approve": "Approve",
-    "cancel": "Cancel",
+    "confirmTransaction": "Vahvista tapahtuma",
+    "approve": "Hyväksy",
+    "cancel": "Peruuta",
     "multi_array_ops_alert": "Multiple operations array detected!",
-    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
+    "multi_array_ops_aler_desct": "Ecency ei tue vielä useiden toimintojen vahvistamista"
   },
   "history": {
     "edit": "Muokkaushistoria",
