@@ -1040,7 +1040,7 @@
     "confirmTransaction": "تأكيد المعاملة",
     "approve": "إعتماد",
     "cancel": "إلغاء",
-    "multi_array_ops_alert": "Multiple operations array detected!",
+    "multi_array_ops_alert": "تم اكتشاف عمليات متعددة!",
     "multi_array_ops_aler_desct": "Ecency لا تدعم عمليات متعددة، حتى الآن"
   },
   "history": {
