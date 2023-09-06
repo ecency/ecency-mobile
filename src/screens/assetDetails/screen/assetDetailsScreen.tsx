@@ -104,7 +104,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     }
   };
 
-  const _onActionPress = (transferType: string) => {
+  const _onActionPress = (transferType: string, extraParams: any = null) => {
     let navigateTo = ROUTES.SCREENS.TRANSFER;
     let navigateParams = {};
 
@@ -145,6 +145,16 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         transferType: coinId === ASSET_IDS.ECENCY ? 'points' : transferType,
         fundType: coinId === ASSET_IDS.ECENCY ? 'ESTM' : symbol,
         balance,
+      };
+    }
+
+    if (extraParams) {
+      navigateParams = {
+        ...navigateParams,
+        itemData: {
+          ...extraParams,
+          toUsername: extraParams?.details?.split(' ')[2]?.slice(1),
+        },
       };
     }
 
@@ -191,6 +201,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         activitiesEnabled={!coinData?.isSpk}
         onEndReached={_fetchDetails}
         onRefresh={_onRefresh}
+        onActionPress={_onActionPress}
       />
       <DelegationsModal ref={delegationsModalRef} />
     </View>

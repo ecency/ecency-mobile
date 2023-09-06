@@ -98,4 +98,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  repeatContainer: {
+    marginLeft: 5,
+  },
 });

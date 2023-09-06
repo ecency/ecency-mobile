@@ -94,6 +94,7 @@ const Transfer = ({ navigation, route }) => (
               currentAccountName={currentAccountName}
               selectedAccount={selectedAccount}
               spkMarkets={spkMarkets}
+              transactionData={route.params?.itemData}
             />
           );
       }

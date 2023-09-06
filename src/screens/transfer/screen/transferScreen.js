@@ -41,6 +41,7 @@ const TransferView = ({
   selectedAccount,
   fetchBalance,
   spkMarkets,
+  transactionData,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -62,10 +63,18 @@ const TransferView = ({
       ? 'esteem.app'
       : transferType === TransferTypes.DELEGATE_SPK
       ? SPK_NODE_ECENCY
+      : transferType === TransferTypes.TRANSFER_TOKEN && transactionData
+      ? transactionData.toUsername
       : '',
   );
-  const [amount, setAmount] = useState('');
-  const [memo, setMemo] = useState(transferType === 'purchase_estm' ? 'estm-purchase' : '');
+  const [amount, setAmount] = useState(transactionData ? transactionData.value?.split(' ')[0] : '');
+  const [memo, setMemo] = useState(
+    transferType === 'purchase_estm'
+      ? 'estm-purchase'
+      : transactionData
+      ? transactionData.memo
+      : '',
+  );
   const [isUsernameValid, setIsUsernameValid] = useState(
     !!(
       transferType === 'purchase_estm' ||
@@ -80,7 +89,8 @@ const TransferView = ({
       transferType === TransferTypes.POWER_DOWN_SPK ||
       transferType === TransferTypes.LOCK_LIQUIDITY_SPK ||
       transferType === TransferTypes.DELEGATE_SPK ||
-      (transferType === 'convert' && currentAccountName)
+      (transferType === 'convert' && currentAccountName) ||
+      !!transactionData?.toUsername
     ),
   );
   const [hsTransfer, setHsTransfer] = useState(false);

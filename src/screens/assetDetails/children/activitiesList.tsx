@@ -20,6 +20,7 @@ interface ActivitiesListProps {
   activitiesEnabled: boolean;
   onEndReached: () => void;
   onRefresh: () => void;
+  onActionPress: (transferType: string, extraParams?: any) => void;
 }
 
 const ActivitiesList = ({
@@ -31,35 +32,48 @@ const ActivitiesList = ({
   activitiesEnabled,
   onEndReached,
   onRefresh,
+  onActionPress,
 }: ActivitiesListProps) => {
   const intl = useIntl();
 
   const queryClient = useQueryClient();
   const isDarkTheme = useAppSelector((state) => state.ui.isDarkTheme);
-  const currentAccount = useAppSelector((state) => state.account.currentAccount );
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinHash = useAppSelector((state) => state.application.pin);
 
-  const [cancellingTrxIndex, setCancellingTrxIndex]  = useState(-1);
+  const [cancellingTrxIndex, setCancellingTrxIndex] = useState(-1);
 
-
-  const _onCancelPress = async (trxId:number) => {
-    try{
-      if(trxId){
+  const _onCancelPress = async (trxId: number) => {
+    try {
+      if (trxId) {
         setCancellingTrxIndex(trxId);
         await limitOrderCancel(currentAccount, pinHash, trxId);
         queryClient.invalidateQueries([QUERIES.WALLET.GET_PENDING_REQUESTS]);
         setCancellingTrxIndex(-1);
       }
-    } catch(err){
+    } catch (err) {
       setCancellingTrxIndex(-1);
     }
-   
-    
-  }
+  };
+
+  const _onRepeatPress = async (item: CoinActivity) => {
+    if (onActionPress) {
+      onActionPress('transfer_token', item);
+    }
+  };
 
   const _renderActivityItem = ({ item, index }) => {
-
-    return <Transaction item={item} index={index} cancelling={cancellingTrxIndex === item.trxIndex} onCancelPress={()=>{_onCancelPress(item.trxIndex)}}/>;
+    return (
+      <Transaction
+        item={item}
+        index={index}
+        cancelling={cancellingTrxIndex === item.trxIndex}
+        onCancelPress={() => {
+          _onCancelPress(item.trxIndex);
+        }}
+        onRepeatPress={() => _onRepeatPress(item)}
+      />
+    );
   };
 
   const sections = [];
