@@ -3,7 +3,7 @@
     "curation_reward": "Gains de curation",
     "author_reward": "Gain de l'Auteur",
     "community_reward": "Récompenses de la communauté",
-    "comment_benefactor_reward": "Benefactor Reward",
+    "comment_benefactor_reward": "Les bénéficiaires des récompenses",
     "claim_reward_balance": "Réclamer la récompense ",
     "points_activity": "Activité",
     "transfer": "Transférer",
@@ -85,7 +85,7 @@
     "withdraw_hive": "Withdraw Savings",
     "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "Vers les économies",
-    "swap_token": "Swap Token",
+    "swap_token": "Échanger des jetons",
     "convert": "Convertir",
     "convert_request": "Convert Request",
     "escrow_transfer": "Escrow Transfer",
@@ -98,13 +98,13 @@
     "fill_transfer_from_savings": "Épargne effectuée",
     "fill_vesting_withdraw": "PowerDown executed",
     "engine_title": "Hive Engine Tokens",
-    "engine_claim_btn": "Claim Rewards ({count})",
-    "engine_select_assets": "Select Assets",
-    "available_assets": "Available Assets",
-    "selected_assets": "Selected Assets",
-    "no_selected_assets": "Add from available",
-    "manage_assets": "Add / Remove Assets",
-    "tokens_create": "Token Created",
+    "engine_claim_btn": "Réclamer les récompenses ({count})",
+    "engine_select_assets": "Sélectionner l'actif",
+    "available_assets": "Actifs disponibles",
+    "selected_assets": "Actifs sélectionnés",
+    "no_selected_assets": "Ajouter à partir du disponible",
+    "manage_assets": "Ajout/Suppressions des actifs",
+    "tokens_create": "Jeton créé",
     "tokens_issue": "Tokens Issued",
     "tokens_transfer": "Tokens Transferred",
     "tokens_transferToContract": "Tokens Transferred to Contract",
@@ -447,7 +447,7 @@
     "add_an_existing_account": "Ajouter à un compte existant",
     "accounts": "Comptes",
     "refer": "Recommandez Et Gagnez",
-    "qr": "QR Scan"
+    "qr": "Scanner le QR code"
   },
   "header": {
     "title": "Connectez-vous pour personnaliser votre flux",
@@ -499,7 +499,7 @@
     "alert_init_title": "New Content",
     "alert_init_body": "Open recent draft or Create new post",
     "alert_btn_draft": "Recent Draft",
-    "alert_btn_new": "New Post",
+    "alert_btn_new": "Nouvelle Publication",
     "alert_pub_edit_title": "Publishing edits",
     "alert_pub_new_title": "Publishing new post",
     "alert_pub_body": "Êtes-vous sûr ?",
@@ -514,7 +514,7 @@
     "scheduled_immediate": "Immediate",
     "scheduled_later": "Later",
     "settings_title": "Post Options",
-    "done": "DONE",
+    "done": "TERMINÉ",
     "draft_save_title": "Saving Draft",
     "draft_update": "Update current draft",
     "draft_save_new": "Save as new draft",
@@ -577,7 +577,7 @@
     "move": "Déplacer",
     "continue": "Continuer",
     "okay": "D'accord",
-    "done": "Done",
+    "done": "Terminé",
     "move_question": "Êtes-vous sûr de vouloir déplacer vers Broullions ?",
     "success_shared": "Succès ! Contenu soumis !",
     "success_moved": "Déplacé vers Brouillons",
@@ -635,8 +635,8 @@
     "update_available_title": "Mise à jour possible ({version})",
     "update_available_body": "Using latest version of Ecency gives you the best experience",
     "update": "Mettre à jour maintenant",
-    "remind_later": "Remind Later",
-    "failed_to_open": "Failed to open a link",
+    "remind_later": "Me le rappeler ultérieurement",
+    "failed_to_open": "Impossible d'ouvrir un lien",
     "restart_ecency": "Redémarrer Ecency ?",
     "restart_ecency_desc": "Applying changes will require a restart.",
     "invalid_response": "Could not process request, Try again later.",
@@ -645,11 +645,11 @@
     "connection_issues": "The server is unreachable, please check your connection and try again.",
     "open_settings": "Open Settings",
     "auth_expired": "We need to verify you still has access to your keys, please verify login.",
-    "verify": "Verify",
+    "verify": "Vérifier",
     "logging_out": "Logging out {username}"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?",
+    "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?",
     "removed_hint": "Le contenu est indisponible",
     "select_action": "Select Action",
     "copy_link": "Copier le lien",
@@ -664,7 +664,7 @@
     "image_saved": "Image sauvegardée dans la Galerie Photo",
     "image_saved_error": "Erreur de sauvegarde de l'image",
     "wrong_link": "Mauvais lien",
-    "in": "in",
+    "in": "dans",
     "reveal_muted": "MUTED\nTap to reveal content",
     "posted_by": "Posted by {username} via {appname} ",
     "ecency_waves": "Ecency Waves"
@@ -685,7 +685,7 @@
     "moved": "Déplacé vers brouillons",
     "pending": "Pending",
     "postponed": "Postponed",
-    "published": "Published",
+    "published": "Publié",
     "error": "Erreur"
   },
   "bookmarks": {
@@ -699,11 +699,11 @@
   },
   "report": {
     "added": "Contenu indésirable signalé",
-    "confirm_report_title": "Confirm Report!",
+    "confirm_report_title": "Confirmer le Signalement !",
     "confirm_report_body": "Are you sure you want report?"
   },
   "delete": {
-    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_title": "Confirmer la suppression",
     "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
     "request_sent": "Your request for deletion is sent"
   },
@@ -729,7 +729,7 @@
     "beneficiaries": "Bénéficiaires",
     "warn_zero_payout": "Le montant doit atteindre 0,02 $ pour le retrait",
     "breakdown": "Répartition",
-    "max_accepted": "Max Accepted"
+    "max_accepted": "Maximum accepté"
   },
   "post_dropdown": {
     "copy": "copier le lien",
@@ -740,11 +740,11 @@
     "promote": "promouvoir",
     "boost": "accélérer",
     "report": "signaler",
-    "pin-blog": "Pin to blog",
-    "unpin-blog": "Unpin from blog",
-    "pin-community": "Pin to community",
-    "unpin-community": "Unpin from community",
-    "edit-history": "Edit History",
+    "pin-blog": "Épingler sur le blog",
+    "unpin-blog": "Désépingler du blog",
+    "pin-community": "Épingler à la communauté",
+    "unpin-community": "Dépingler de la communauté",
+    "edit-history": "Modifier l'historique",
     "mute": "Mute / Block"
   },
   "deep_link": {
@@ -817,7 +817,7 @@
     "account_detail_subhead": "Enter username for HIVE Power delegation",
     "delegat_detail_head": "Delegation Details",
     "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
-    "new_amount": "New Amount",
+    "new_amount": "Nouveau montant ",
     "review": "REVIEW",
     "confirm": "Confirmer la délégation",
     "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
@@ -845,14 +845,14 @@
     "more-than-balance": "Entered amount is more than your available balance",
     "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
     "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
-    "fee": "Fee",
-    "free": "Free",
-    "confirm_swap": "Confirm Swap",
+    "fee": "Frais",
+    "free": "Gratuit",
+    "confirm_swap": "Confirmer l'échange",
     "swap_for": "Swapping {fromAmount} for {toAmount}",
     "swap_successful": "Successfully Swapped",
     "swap_pending": "Swap Pending!",
     "swap_pending_body": "Swap requests may be pending, please check pending open orders in selected token details",
-    "new_swap": "New Swap"
+    "new_swap": "Nouvel échange"
   },
   "boost": {
     "title": "Obtenir des points",
@@ -869,14 +869,14 @@
     "points_purchase_fail_msg": "Points purchase failed\n{message}"
   },
   "buy_account": {
-    "title": "Buy Account",
-    "btn_register": "Buy Account - {price}",
+    "title": "Acheter un compte",
+    "btn_register": "Acheter un compte - {price}",
     "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started",
     "claim": "Claim Paid Account"
   },
   "free_account": {
     "title": "Compte gratuit",
-    "btn_register": "Register Free",
+    "btn_register": "Inscription gratuite",
     "desc": "Get a full-fledged Hive account, this method has basic checks to make sure botnet doesn't abuse our signup faucet."
   },
   "free_estm": {
@@ -916,23 +916,23 @@
     "title": "Commentaires",
     "reveal_comment": "Révéler le commentaire",
     "read_more": "Lire plus de commentaires",
-    "more_replies": "replies",
-    "no_comments": "Be the first to respond..."
+    "more_replies": "réponses",
+    "no_comments": "Soyez le premier à répondre..."
   },
   "search_result": {
     "others": "Autres",
     "best": {
-      "title": "Best"
+      "title": "À la une"
     },
     "people": {
-      "title": "People"
+      "title": "Personnes"
     },
     "topics": {
       "title": "Sujets"
     },
     "communities": {
-      "title": "Groups",
-      "subscribe": "Join",
+      "title": "Groupes",
+      "subscribe": "Rejoindre",
       "unsubscribe": "Quitter",
       "subscribers": "Membres",
       "posters": "Publieurs",
@@ -958,47 +958,47 @@
     "new_post": "Nouvelle Publication",
     "community": "communauté",
     "details": "Détails",
-    "muted": "Muted",
-    "payout": "Payout"
+    "muted": "En sourdine",
+    "payout": "Paiement"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow",
+    "follow": "Suivre",
+    "unfollow": "Ne plus suivre",
     "add_to_favourites": "AJOUTER AUX FAVORIS",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE / BLOCK",
-    "unmute": "UNMUTE / UNBLOCK",
+    "remove_from_favourites": "SUPPRIMER DE FAVORIS",
+    "mute": "MUTE / BLOC",
+    "unmute": "DÉSACTIVER / DÉBLOQUER",
     "report": "REPORT USER",
     "delegate": "DELEGATE HIVE POWER"
   },
   "communities": {
-    "joined": "Membership",
+    "joined": "Adhésion",
     "discover": "Découvrir",
-    "discover_communities": "Discover Communities",
+    "discover_communities": "Découvrir les communautés",
     "no_communities": "Connect with people who share your interests by joining Communities."
   },
   "empty_screen": {
-    "nothing_here": "Nothing here"
+    "nothing_here": "Il n'y a rien ici"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
+    "percent": "Pourcentage",
     "username": "Nom d'utilisateur",
-    "addAccount": "Add Account",
+    "addAccount": "Ajouter un compte",
     "save": "Sauvegarder",
     "cancel": "Annuler"
   },
   "welcome": {
-    "label": "Welcome to",
+    "label": "Bienvenue à",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
-    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
+    "line1_heading": "Vous recherchez une communauté ?",
+    "line1_body": "Uncensuré, immuable, gratifiant, décentralisé, que vous possédez.",
     "line2_heading": "Nous avons une solution !",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Rejoignez les communautés Ecency !",
-    "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!",
-    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
-    "terms_text": "Read Here!"
+    "line3_body": "Construisez la communauté que vous possédez, gagnez des récompenses et récompensez les autres.",
+    "get_started": "C'est parti !",
+    "terms_description": "En vous inscrivant, vous acceptez nos conditions d'utilisation et notre politique de confidentialité.",
+    "terms_text": "Lisez ça !"
   },
   "time": {
     "second": "secondes",
@@ -1011,7 +1011,7 @@
   },
   "quick_reply": {
     "placeholder": "Ajouter un commentaire...",
-    "placeholder_wave": "What's happening?",
+    "placeholder_wave": "Quoi de neuf ?",
     "summary_wave": "Will be published in: {host}",
     "comment": "Commentaire",
     "reply": "RÉPONDRE",
@@ -1023,28 +1023,28 @@
   },
   "refer": {
     "refer_earn": "Refer & Earn",
-    "refer": "Refer",
-    "rewarded": "Referral points rewarded",
-    "not_rewarded": "Referral reward pending",
-    "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
-    "pending": "Pending Points",
+    "refer": "Parrainé",
+    "rewarded": "Points de parrainage récompensés",
+    "not_rewarded": "Récompense de parrainage en attente",
+    "delegate_hp": "Déléguer HP",
+    "earned": "Points gagnés",
+    "pending": "Points en attente",
     "empty_text": "Refer your loved ones today and earn free points"
   },
   "qr": {
-    "qr_scan": "QR Scan",
-    "open": "Open URL",
-    "detected_url": "Detected URL",
-    "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
-    "confirmTransaction": "Confirm transaction",
-    "approve": "Approve",
-    "cancel": "Cancel",
+    "qr_scan": "Scanner le QR code",
+    "open": "Ouvrir l'URL",
+    "detected_url": "URL détectée",
+    "unsupported_alert_title": "URL non supportée !",
+    "unsupported_alert_desc": "Veuillez scanner une Url Ecency valide.",
+    "confirmTransaction": "Confirmer la transaction",
+    "approve": "Approuver",
+    "cancel": "Annuler",
     "multi_array_ops_alert": "Multiple operations array detected!",
     "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
   },
   "history": {
-    "edit": "Edit History",
+    "edit": "Modifier l'historique",
     "version": "Version"
   }
 }
