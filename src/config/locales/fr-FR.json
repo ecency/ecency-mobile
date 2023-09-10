@@ -11,7 +11,7 @@
     "transfer_from_savings": "De l'économie",
     "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "Power Down | Unstake",
-    "open_order": "Open Order",
+    "open_order": "Ouvrir la commande",
     "fill_order": "Remplir l’ordre",
     "post": "Publier",
     "comment": "Commentaire",
@@ -59,7 +59,7 @@
     "vote_value": "Valeur du vote",
     "delegated_hive_power": "Hive power déléguée",
     "powering_down_hive_power": "Powering down",
-    "received_hive_power": "Received hive power",
+    "received_hive_power": "Hive Power reçu",
     "total_hive_power": "Total hive power",
     "savings": "Savings",
     "estimated_amount": "Valeur de vote",
@@ -136,9 +136,9 @@
     "hivepegged_buy": "HIVE Deposited",
     "hivepegged_withdraw": "HIVE Withdrawn",
     "inflation_issueNewTokens": "New BEE Tokens Issued",
-    "nft_transfer": "NFTs Transferred",
-    "nft_issue": "NFT Issued",
-    "nft_issueMultiple": "Multiple NFTs Issued",
+    "nft_transfer": "NFTs transférés",
+    "nft_issue": "NFT émise",
+    "nft_issueMultiple": "Plusieurs NFT émises",
     "nft_burn": "NFT Burned",
     "nft_delegate": "NFT Delegated",
     "nft_undelegate": "Undelegation Started for NFT",
@@ -156,16 +156,16 @@
     "nft_updateName": "NFT Name Updated",
     "nft_updateOrgName": "NFT Organization Name Updated",
     "nft_updateProductName": "NFT Product Name Updated",
-    "nft_transferFee": "NFT Transfer Fee",
-    "nftmarket_buy": "Order Bought",
-    "nftmarket_transferFee": "Buy Order Fee",
-    "nftmarket_sell": "Order Listed",
-    "nftmarket_cancel": "Order Canceled",
-    "nftmarket_changePrice": "Order Price Changed",
-    "nftmarket_enableMarket": "Market Enabled for NFT Symbol",
+    "nft_transferFee": "Frais de transfert de NFT",
+    "nftmarket_buy": "Commande achetée",
+    "nftmarket_transferFee": "Frais de commande d'achat",
+    "nftmarket_sell": "Liste des commandes",
+    "nftmarket_cancel": "Commande annulée",
+    "nftmarket_changePrice": "Prix de la commande modifié",
+    "nftmarket_enableMarket": "Marché activé pour symbole NFT",
     "ecency": {
       "title": "Points",
-      "name": "Ecency Points",
+      "name": "Points d'Ecency",
       "buy": "GET POINTS"
     },
     "savinghive": {
@@ -197,7 +197,7 @@
     },
     "last_updated": "Last Updated:",
     "updating": "Updating...",
-    "coin_details": "Details",
+    "coin_details": "Afficher les détails",
     "change": "Change",
     "activities": "Activités",
     "savings_withdrawal": "Pending Withdrawals",
@@ -675,7 +675,7 @@
     "empty_list": "Rien ici",
     "deleted": "Brouillon supprimé",
     "unsynced_title": "Unsynced Draft",
-    "unsynced_body": "Draft not synced with Ecency cloud, resume editing and save draft"
+    "unsynced_body": "Le brouillon n'est pas synchronisé avec le nuage Ecency, reprise de l'édition et l'enregistrement du brouillon"
   },
   "schedules": {
     "title": "Plannings",
@@ -700,12 +700,12 @@
   "report": {
     "added": "Contenu indésirable signalé",
     "confirm_report_title": "Confirmer le Signalement !",
-    "confirm_report_body": "Are you sure you want report?"
+    "confirm_report_body": "Êtes-vous sûr de vouloir signaler ?"
   },
   "delete": {
     "confirm_delete_title": "Confirmer la suppression",
-    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
-    "request_sent": "Your request for deletion is sent"
+    "confirm_delete_body": "Êtes-vous sûr de vouloir supprimer le compte ? Toutes vos données seront effacées",
+    "request_sent": "Votre demande de suppression a été envoyée"
   },
   "favorites": {
     "title": "Favoris",
@@ -795,8 +795,8 @@
     "unstake_engine": "Unstake Token",
     "delegate_engine": "Delegate Token",
     "undelegate_engine": "Undelegate Token",
-    "transfer_spk": "Transfer SPK",
-    "transfer_larynx_spk": "Transfer LARYNX",
+    "transfer_spk": "Transférer SPK",
+    "transfer_larynx_spk": "Transférer LARYNX",
     "power_up_spk": "Power Up LARYNX",
     "power_down_spk": "Power Down LARYNX",
     "lock_liquidity_spk": "Lock Liquidity LARYNX",
@@ -836,9 +836,9 @@
     "invalid_amount_desc": "Veuillez saisir un montant valide",
     "account_select_title": "Détails du Compte",
     "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
-    "amount_select_title": "Action Details",
+    "amount_select_title": "Détails de l'action",
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
-    "amount_select_desc_limit": " and must be greater than 0.001"
+    "amount_select_desc_limit": " et doit être supérieur à 0.001"
   },
   "trade": {
     "swap_token": "Swap Your Funds",
@@ -872,7 +872,7 @@
     "title": "Acheter un compte",
     "btn_register": "Acheter un compte - {price}",
     "desc": "Get a full-fledged, premium Hive account with no extra checks and few perks such as:\n\n- Instant creation without extra checks and waiting\n- 3x RC compared to normal new accounts for 90 days\n- 300 Points to help you get started",
-    "claim": "Claim Paid Account"
+    "claim": "Revendiquer le compte payant"
   },
   "free_account": {
     "title": "Compte gratuit",
@@ -1019,17 +1019,17 @@
     "close": "FERMER"
   },
   "walkthrough": {
-    "load_draft_tooltip": "Load your lastest draft here"
+    "load_draft_tooltip": "Chargez votre dernier brouillon ici"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
+    "refer_earn": "Recommandez Et Gagnez",
     "refer": "Parrainé",
     "rewarded": "Points de parrainage récompensés",
     "not_rewarded": "Récompense de parrainage en attente",
     "delegate_hp": "Déléguer HP",
     "earned": "Points gagnés",
     "pending": "Points en attente",
-    "empty_text": "Refer your loved ones today and earn free points"
+    "empty_text": "Parrainez vos proches aujourd'hui et gagnez des points gratuits"
   },
   "qr": {
     "qr_scan": "Scanner le QR code",
@@ -1041,7 +1041,7 @@
     "approve": "Approuver",
     "cancel": "Annuler",
     "multi_array_ops_alert": "Multiple operations array detected!",
-    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
+    "multi_array_ops_aler_desct": "Ecency ne prend pas en charge la signature de multiples opérations pour le moment"
   },
   "history": {
     "edit": "Modifier l'historique",
