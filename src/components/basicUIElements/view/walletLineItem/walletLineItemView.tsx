@@ -106,7 +106,7 @@ const WalletLineItem = ({
             backgroundColor="transparent"
             name="cancel"
             iconType="MaterialIcons"
-            size={18}
+            size={20}
             style={styles.cancelIcon}
             onPress={() => {
               onCancelPress && onCancelPress();
@@ -121,7 +121,7 @@ const WalletLineItem = ({
             backgroundColor="transparent"
             name="repeat"
             iconType="FontAwesome"
-            size={20}
+            size={18}
             onPress={() => {
               onRepeatPress();
             }}
