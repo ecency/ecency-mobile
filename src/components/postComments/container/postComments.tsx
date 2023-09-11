@@ -7,10 +7,10 @@ import React, {
   useEffect,
   Fragment,
 } from 'react';
-import { ActivityIndicator, Platform, RefreshControl, Text } from 'react-native';
+import { ActivityIndicator, Platform, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, RefreshControl } from 'react-native-gesture-handler';
 
 // Components
 import { postBodySummary } from '@ecency/render-helper';
