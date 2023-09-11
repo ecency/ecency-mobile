@@ -17,6 +17,7 @@ import { useIntl } from 'react-intl';
 import {
   setCommentUpvotePercent,
   setPostUpvotePercent,
+  setWaveUpvotePercent,
 } from '../../../redux/actions/applicationActions';
 
 // Utils
@@ -76,7 +77,9 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const postUpvotePercent = useAppSelector((state) => state.application.postUpvotePercent);
   const commentUpvotePercent = useAppSelector((state) => state.application.commentUpvotePercent);
+  const waveUpvotePercent = useAppSelector((state) => state.application.commentUpvotePercent);
   const pinCode = useAppSelector((state) => state.application.pin);
+
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const globalProps = useAppSelector((state) => state.account.globalProps);
 
@@ -138,13 +141,16 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
   }, []);
 
   useEffect(() => {
-    if (postType === PostTypes.POST) {
-      setUpvotePercent(postUpvotePercent);
+
+    let _upvotePercent = 1;
+    switch(postType){
+      case PostTypes.POST: _upvotePercent = postUpvotePercent; break;
+      case PostTypes.COMMENT: _upvotePercent = commentUpvotePercent; break;
+      case PostTypes.WAVE: _upvotePercent = waveUpvotePercent; break;
     }
-    if (postType === PostTypes.COMMENT) {
-      setUpvotePercent(commentUpvotePercent);
-    }
-  }, [postUpvotePercent, commentUpvotePercent, postType]);
+    setUpvotePercent(_upvotePercent)
+    
+  }, [postUpvotePercent, commentUpvotePercent, waveUpvotePercent, postType]);
 
   useEffect(() => {
     const value = isVoted || isDownVoted ? 1 : upvotePercent <= 1 ? upvotePercent : 1;
@@ -285,11 +291,10 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
 
   const _setUpvotePercent = (value) => {
     if (value) {
-      if (postType === PostTypes.POST) {
-        dispatch(setPostUpvotePercent(value));
-      }
-      if (postType === PostTypes.COMMENT) {
-        dispatch(setCommentUpvotePercent(value));
+      switch(postType){
+        case PostTypes.POST: setPostUpvotePercent(value); break;
+        case PostTypes.COMMENT: setCommentUpvotePercent(value); break;
+        case PostTypes.WAVE: setWaveUpvotePercent(value); break;
       }
     }
   };
