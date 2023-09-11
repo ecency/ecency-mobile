@@ -142,6 +142,8 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
 
   useEffect(() => {
 
+    
+
     let _upvotePercent = 1;
     switch(postType){
       case PostTypes.POST: _upvotePercent = postUpvotePercent; break;
@@ -291,11 +293,17 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
 
   const _setUpvotePercent = (value) => {
     if (value) {
+      
+      let _dispatchAction:any = null 
       switch(postType){
-        case PostTypes.POST: setPostUpvotePercent(value); break;
-        case PostTypes.COMMENT: setCommentUpvotePercent(value); break;
-        case PostTypes.WAVE: setWaveUpvotePercent(value); break;
+        case PostTypes.POST: _dispatchAction = setPostUpvotePercent; break;
+        case PostTypes.COMMENT: _dispatchAction = setCommentUpvotePercent; break;
+        case PostTypes.WAVE: _dispatchAction = setWaveUpvotePercent; break;
       }
+      if(_dispatchAction){
+        dispatch(_dispatchAction(value))
+      }
+     
     }
   };
 
