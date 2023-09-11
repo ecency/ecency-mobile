@@ -106,7 +106,7 @@ const WalletLineItem = ({
             backgroundColor="transparent"
             name="cancel"
             iconType="MaterialIcons"
-            size={20}
+            size={18}
             style={styles.cancelIcon}
             onPress={() => {
               onCancelPress && onCancelPress();

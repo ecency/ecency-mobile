@@ -7,7 +7,7 @@ import { CoinSummary } from '../children';
 import styles from './screen.styles';
 import ActivitiesList from '../children/activitiesList';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
+import { CoinActivity, CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
@@ -104,7 +104,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     }
   };
 
-  const _onActionPress = (transferType: string, extraParams: any = null) => {
+  const _onActionPress = (transferType: string, extraParams: CoinActivity | null = null) => {
     let navigateTo = ROUTES.SCREENS.TRANSFER;
     let navigateParams = {};
 
@@ -153,7 +153,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         ...navigateParams,
         itemData: {
           ...extraParams,
-          toUsername: extraParams?.details?.split(' ')[2]?.slice(1),
+          toUsername: extraParams?.details?.split(' ')[2]?.slice(1), // from @user1 to @user2
         },
       };
     }

@@ -26,6 +26,7 @@ import {
   getSpkTransactionId,
   SPK_NODE_ECENCY,
 } from '../../../providers/hive-spk/hiveSpk';
+import parseToken from '../../../utils/parseToken';
 
 const TransferView = ({
   currentAccountName,
@@ -67,7 +68,10 @@ const TransferView = ({
       ? transactionData.toUsername
       : '',
   );
-  const [amount, setAmount] = useState(transactionData ? transactionData.value?.split(' ')[0] : '');
+
+  const [amount, setAmount] = useState(
+    transactionData ? `${parseToken(transactionData.value)}` : '',
+  );
   const [memo, setMemo] = useState(
     transferType === 'purchase_estm'
       ? 'estm-purchase'

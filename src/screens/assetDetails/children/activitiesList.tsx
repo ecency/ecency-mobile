@@ -10,6 +10,7 @@ import { limitOrderCancel } from '../../../providers/hive-trade/hiveTrade';
 import { walletQueries } from '../../../providers/queries';
 import { useQueryClient } from '@tanstack/react-query';
 import QUERIES from '../../../providers/queries/queryKeys';
+import TransferTypes from '../../../constants/transferTypes';
 
 interface ActivitiesListProps {
   header: ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>>;
@@ -58,7 +59,7 @@ const ActivitiesList = ({
 
   const _onRepeatPress = async (item: CoinActivity) => {
     if (onActionPress) {
-      onActionPress('transfer_token', item);
+      onActionPress(TransferTypes.TRANSFER_TOKEN, item);
     }
   };
 
