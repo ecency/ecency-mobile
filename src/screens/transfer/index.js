@@ -7,7 +7,6 @@ import TransferView from './screen/transferScreen';
 import AddressView from './screen/addressScreen';
 import PowerDownView from './screen/powerDownScreen';
 import DelegateView from './screen/delegateScreen';
-import TransferTypes from '../../constants/transferTypes';
 
 const Transfer = ({ navigation, route }) => (
   <TransferContainer navigation={navigation} route={route}>
@@ -29,6 +28,8 @@ const Transfer = ({ navigation, route }) => (
       dispatch,
       referredUsername,
       spkMarkets,
+      initialAmount,
+      initialMemo,
     }) => {
       switch (transferType) {
         case 'delegate':
@@ -94,7 +95,9 @@ const Transfer = ({ navigation, route }) => (
               currentAccountName={currentAccountName}
               selectedAccount={selectedAccount}
               spkMarkets={spkMarkets}
-              transactionData={route.params?.itemData}
+              referredUsername={referredUsername || ''}
+              initialAmount={initialAmount || ''}
+              initialMemo={initialMemo || ''}
             />
           );
       }

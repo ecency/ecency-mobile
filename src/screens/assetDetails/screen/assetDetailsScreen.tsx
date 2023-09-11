@@ -14,6 +14,7 @@ import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
+import parseToken from '../../../utils/parseToken';
 
 export interface AssetDetailsScreenParams {
   coinId: string;
@@ -104,7 +105,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     }
   };
 
-  const _onActionPress = (transferType: string, extraParams: CoinActivity | null = null) => {
+  const _onActionPress = (transferType: string, baseActivity: CoinActivity | null = null) => {
     let navigateTo = ROUTES.SCREENS.TRANSFER;
     let navigateParams = {};
 
@@ -148,13 +149,12 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       };
     }
 
-    if (extraParams) {
+    if (baseActivity) {
       navigateParams = {
         ...navigateParams,
-        itemData: {
-          ...extraParams,
-          toUsername: extraParams?.details?.split(' ')[2]?.slice(1), // from @user1 to @user2
-        },
+        referredUsername: baseActivity.details?.split(' ')[2]?.slice(1), // from @user1 to @user2
+        initialAmount: `${parseToken(baseActivity.value)}`,
+        initialMemo: baseActivity.memo,
       };
     }
 

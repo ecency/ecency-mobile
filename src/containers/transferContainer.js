@@ -61,6 +61,8 @@ class TransferContainer extends Component {
       referredUsername: props.route.params?.referredUsername,
       selectedAccount: props.currentAccount,
       spkMarkets: [],
+      initialAmount: props.route.params?.initialAmount,
+      initialMemo: props.route.params?.initialMemo,
     };
   }
 
@@ -332,8 +334,16 @@ class TransferContainer extends Component {
       dispatch,
       route,
     } = this.props;
-    const { balance, fundType, selectedAccount, tokenAddress, referredUsername, spkMarkets } =
-      this.state;
+    const {
+      balance,
+      fundType,
+      selectedAccount,
+      tokenAddress,
+      referredUsername,
+      spkMarkets,
+      initialAmount,
+      initialMemo,
+    } = this.state;
 
     const transferType = route.params?.transferType ?? '';
 
@@ -358,6 +368,8 @@ class TransferContainer extends Component {
         accountType: get(selectedAccount || currentAccount, 'local.authType'),
         currentAccountName: get(currentAccount, 'name'),
         setWithdrawVestingRoute: this._setWithdrawVestingRoute,
+        initialAmount,
+        initialMemo,
       })
     );
   }
