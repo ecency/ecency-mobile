@@ -27,6 +27,7 @@ export enum CacheStatus {
 export interface VoteCache {
   amount: number;
   isDownvote: boolean;
+  sliderValue: number;
   incrementStep: number;
   votedAt: number;
   expiresAt: number;
