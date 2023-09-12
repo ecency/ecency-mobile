@@ -77,7 +77,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const postUpvotePercent = useAppSelector((state) => state.application.postUpvotePercent);
   const commentUpvotePercent = useAppSelector((state) => state.application.commentUpvotePercent);
-  const waveUpvotePercent = useAppSelector((state) => state.application.commentUpvotePercent);
+  const waveUpvotePercent = useAppSelector((state) => state.application.waveUpvotePercent);
   const pinCode = useAppSelector((state) => state.application.pin);
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
