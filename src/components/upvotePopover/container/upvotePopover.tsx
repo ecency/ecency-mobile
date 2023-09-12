@@ -93,7 +93,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
 
   const [sliderValue, setSliderValue] = useState(1);
   const [amount, setAmount] = useState('0.00000');
-  const [upvotePercent, setUpvotePercent] = useState(1);
+
 
   useImperativeHandle(ref, () => ({
     showPopover: ({
@@ -142,24 +142,17 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
 
   useEffect(() => {
 
-    
-
     let _upvotePercent = 1;
     switch(postType){
       case PostTypes.POST: _upvotePercent = postUpvotePercent; break;
       case PostTypes.COMMENT: _upvotePercent = commentUpvotePercent; break;
       case PostTypes.WAVE: _upvotePercent = waveUpvotePercent; break;
     }
-    setUpvotePercent(_upvotePercent)
+    setSliderValue(_upvotePercent)
+    _calculateEstimatedAmount(_upvotePercent)
     
-  }, [postUpvotePercent, commentUpvotePercent, waveUpvotePercent, postType]);
+  }, [content, postType]);
 
-  useEffect(() => {
-    const value = isVoted || isDownVoted ? 1 : upvotePercent <= 1 ? upvotePercent : 1;
-
-    setSliderValue(value);
-    _calculateEstimatedAmount(value);
-  }, [upvotePercent]);
 
   // Component Functions
   const _calculateEstimatedAmount = async (value: number = sliderValue) => {
@@ -211,7 +204,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
             return;
           }
           setIsVoted(!!sliderValue);
-          _updateVoteCache(_author, _permlink, amount, false, CacheStatus.PUBLISHED);
+          _updateVoteCache(_author, _permlink, amount, false, !!sliderValue ? CacheStatus.DELETED : CacheStatus.PUBLISHED);
         })
         .catch((err) => {
           _updateVoteCache(_author, _permlink, amount, false, CacheStatus.FAILED);
@@ -274,7 +267,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
             transactionId: response.id,
           });
           setIsVoted(!!sliderValue);
-          _updateVoteCache(_author, _permlink, amount, true, CacheStatus.PUBLISHED);
+          _updateVoteCache(_author, _permlink, amount, true, !!sliderValue ? CacheStatus.DELETED : CacheStatus.PUBLISHED);
         })
         .catch((err) => {
           dispatch(
@@ -350,6 +343,8 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
 
   const sliderColor = isDownVoted ? '#ec8b88' : '#357ce6';
 
+  const _minSliderVal = isVoted || isDownVoted ? 0 : 0.01
+
   return (
     <Fragment>
       <Popover
@@ -385,7 +380,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
                 trackStyle={styles.track}
                 thumbStyle={styles.thumb}
                 thumbTintColor="#007ee5"
-                minimumValue={0.01}
+                minimumValue={_minSliderVal}
                 maximumValue={1}
                 value={sliderValue}
                 onValueChange={(value) => {

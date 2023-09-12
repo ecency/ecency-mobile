@@ -24,7 +24,7 @@ export enum CacheStatus {
   UPDATED = 'UPDATED',
 }
 
-export interface Vote {
+export interface VoteCache {
   amount: number;
   isDownvote: boolean;
   incrementStep: number;
@@ -90,7 +90,7 @@ export interface LastUpdateMeta {
 }
 
 interface State {
-  votesCollection: { [key: string]: Vote };
+  votesCollection: { [key: string]: VoteCache };
   commentsCollection: { [key: string]: Comment }; // TODO: handle comment array per post, if parent is same
   draftsCollection: { [key: string]: Draft };
   claimsCollection: ClaimsCollection;

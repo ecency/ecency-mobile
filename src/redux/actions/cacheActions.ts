@@ -23,10 +23,10 @@ import {
   CacheStatus,
   Draft,
   SubscribedCommunity,
-  Vote,
+  VoteCache,
 } from '../reducers/cacheReducer';
 
-export const updateVoteCache = (postPath: string, vote: Vote) => ({
+export const updateVoteCache = (postPath: string, vote: VoteCache) => ({
   payload: {
     postPath,
     vote,
