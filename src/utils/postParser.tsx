@@ -318,12 +318,12 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
 
 
 export const injectVoteCache = (post, voteCache) => {
-  if (
-    voteCache &&
-    (voteCache.status !== CacheStatus.FAILED || voteCache.status !== CacheStatus.DELETED)
-  ) {
+  if (voteCache && voteCache.status !== CacheStatus.FAILED) {
+
     const _voteIndex = post.active_votes.findIndex((i) => i.voter === voteCache.voter);
-    if (_voteIndex < 0) {
+    
+    //if vote do not already exist
+    if (_voteIndex < 0 && voteCache.status !== CacheStatus.DELETED ) {
       post.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
       post.active_votes = [
         ...post.active_votes,
@@ -332,8 +332,14 @@ export const injectVoteCache = (post, voteCache) => {
           rshares: voteCache.isDownvote ? -1000 : 1000,
         },
       ];
-    } else {
-      post.active_votes[_voteIndex].rshares = voteCache.isDownvote ? -1000 : 1000;
+    } 
+    
+    //if vote already exist
+    else {
+      post.active_votes[_voteIndex].rshares = voteCache.status === CacheStatus.DELETED 
+        ? 0 
+        : voteCache.isDownvote 
+          ? -1000 : 1000;
       post.active_votes = [...post.active_votes];
     }
   }

@@ -204,7 +204,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
             return;
           }
           setIsVoted(!!sliderValue);
-          _updateVoteCache(_author, _permlink, amount, false, !!sliderValue ? CacheStatus.DELETED : CacheStatus.PUBLISHED);
+          _updateVoteCache(_author, _permlink, amount, false, !!sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED);
         })
         .catch((err) => {
           _updateVoteCache(_author, _permlink, amount, false, CacheStatus.FAILED);
@@ -267,7 +267,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
             transactionId: response.id,
           });
           setIsVoted(!!sliderValue);
-          _updateVoteCache(_author, _permlink, amount, true, !!sliderValue ? CacheStatus.DELETED : CacheStatus.PUBLISHED);
+          _updateVoteCache(_author, _permlink, amount, true, !!sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED);
         })
         .catch((err) => {
           dispatch(
