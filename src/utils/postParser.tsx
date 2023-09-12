@@ -154,7 +154,7 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
 };
 
 
-export const mapDiscussionToThreads = async (commentsMap: any, author: string, permlink: string, maxLevel:number = 3) => {
+export const mapDiscussionToThreads = async (commentsMap: any, author: string, permlink: string, maxLevel: number = 3) => {
   const comments = [];
 
   if (!commentsMap) {
@@ -318,12 +318,12 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
 
 
 export const injectVoteCache = (post, voteCache) => {
-  if (
-    voteCache &&
-    (voteCache.status !== CacheStatus.FAILED || voteCache.status !== CacheStatus.DELETED)
-  ) {
+  if (voteCache && voteCache.status !== CacheStatus.FAILED) {
+
     const _voteIndex = post.active_votes.findIndex((i) => i.voter === voteCache.voter);
-    if (_voteIndex < 0) {
+
+    //if vote do not already exist
+    if (_voteIndex < 0 && voteCache.status !== CacheStatus.DELETED) {
       post.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
       post.active_votes = [
         ...post.active_votes,
@@ -332,8 +332,16 @@ export const injectVoteCache = (post, voteCache) => {
           rshares: voteCache.isDownvote ? -1000 : 1000,
         },
       ];
-    } else {
-      post.active_votes[_voteIndex].rshares = voteCache.isDownvote ? -1000 : 1000;
+    }
+
+    //if vote already exist
+    else {
+
+      //TODO: caluclate estimate amount from existing rshares and subtract from total_payout
+      //TOOD: calcualte real rshares
+      post.active_votes[_voteIndex].rshares = !voteCache.sliderValue
+        ? 0 : voteCache.isDownvote
+          ? -1000 : 1000;
       post.active_votes = [...post.active_votes];
     }
   }
@@ -372,8 +380,8 @@ export const parseActiveVotes = (post) => {
   const totalPayout =
     post.total_payout ||
     parseFloat(post.pending_payout_value) +
-      parseFloat(post.total_payout_value) +
-      parseFloat(post.curator_payout_value);
+    parseFloat(post.total_payout_value) +
+    parseFloat(post.curator_payout_value);
 
   const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
   const ratio = totalPayout / voteRshares || 0;

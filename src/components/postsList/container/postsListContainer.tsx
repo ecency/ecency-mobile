@@ -223,6 +223,7 @@ const postsListContainer = (
           upvotePopoverRef.current.showPopover({
             anchorRect: payload,
             content,
+            postType: PostTypes.POST,
             onVotingStart: onCallback,
           });
         }
@@ -299,7 +300,7 @@ const postsListContainer = (
         }
         {...props}
       />
-      <UpvotePopover ref={upvotePopoverRef} parentType={PostTypes.POST} />
+      <UpvotePopover ref={upvotePopoverRef} />
       <PostOptionsModal ref={postDropdownRef} pageType={pageType} />
     </Fragment>
   );

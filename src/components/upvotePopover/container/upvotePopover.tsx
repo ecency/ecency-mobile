@@ -17,6 +17,7 @@ import { useIntl } from 'react-intl';
 import {
   setCommentUpvotePercent,
   setPostUpvotePercent,
+  setWaveUpvotePercent,
 } from '../../../redux/actions/applicationActions';
 
 // Utils
@@ -76,7 +77,9 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const postUpvotePercent = useAppSelector((state) => state.application.postUpvotePercent);
   const commentUpvotePercent = useAppSelector((state) => state.application.commentUpvotePercent);
+  const waveUpvotePercent = useAppSelector((state) => state.application.waveUpvotePercent);
   const pinCode = useAppSelector((state) => state.application.pin);
+
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const globalProps = useAppSelector((state) => state.account.globalProps);
 
@@ -90,7 +93,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
 
   const [sliderValue, setSliderValue] = useState(1);
   const [amount, setAmount] = useState('0.00000');
-  const [upvotePercent, setUpvotePercent] = useState(1);
+
 
   useImperativeHandle(ref, () => ({
     showPopover: ({
@@ -138,20 +141,18 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
   }, []);
 
   useEffect(() => {
-    if (postType === PostTypes.POST) {
-      setUpvotePercent(postUpvotePercent);
-    }
-    if (postType === PostTypes.COMMENT) {
-      setUpvotePercent(commentUpvotePercent);
-    }
-  }, [postUpvotePercent, commentUpvotePercent, postType]);
 
-  useEffect(() => {
-    const value = isVoted || isDownVoted ? 1 : upvotePercent <= 1 ? upvotePercent : 1;
+    let _upvotePercent = 1;
+    switch(postType){
+      case PostTypes.POST: _upvotePercent = postUpvotePercent; break;
+      case PostTypes.COMMENT: _upvotePercent = commentUpvotePercent; break;
+      case PostTypes.WAVE: _upvotePercent = waveUpvotePercent; break;
+    }
+    setSliderValue(_upvotePercent)
+    _calculateEstimatedAmount(_upvotePercent)
+    
+  }, [content, postType]);
 
-    setSliderValue(value);
-    _calculateEstimatedAmount(value);
-  }, [upvotePercent]);
 
   // Component Functions
   const _calculateEstimatedAmount = async (value: number = sliderValue) => {
@@ -203,7 +204,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
             return;
           }
           setIsVoted(!!sliderValue);
-          _updateVoteCache(_author, _permlink, amount, false, CacheStatus.PUBLISHED);
+          _updateVoteCache(_author, _permlink, amount, false, !!sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED);
         })
         .catch((err) => {
           _updateVoteCache(_author, _permlink, amount, false, CacheStatus.FAILED);
@@ -266,7 +267,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
             transactionId: response.id,
           });
           setIsVoted(!!sliderValue);
-          _updateVoteCache(_author, _permlink, amount, true, CacheStatus.PUBLISHED);
+          _updateVoteCache(_author, _permlink, amount, true, !!sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED);
         })
         .catch((err) => {
           dispatch(
@@ -285,12 +286,17 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
 
   const _setUpvotePercent = (value) => {
     if (value) {
-      if (postType === PostTypes.POST) {
-        dispatch(setPostUpvotePercent(value));
+      
+      let _dispatchAction:any = null 
+      switch(postType){
+        case PostTypes.POST: _dispatchAction = setPostUpvotePercent; break;
+        case PostTypes.COMMENT: _dispatchAction = setCommentUpvotePercent; break;
+        case PostTypes.WAVE: _dispatchAction = setWaveUpvotePercent; break;
       }
-      if (postType === PostTypes.COMMENT) {
-        dispatch(setCommentUpvotePercent(value));
+      if(_dispatchAction){
+        dispatch(_dispatchAction(value))
       }
+     
     }
   };
 
@@ -310,6 +316,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
       votedAt: curTime,
       amount: amountNum,
       isDownvote,
+      sliderValue,
       incrementStep,
       voter: currentAccount.username,
       expiresAt: curTime + 30000,
@@ -336,6 +343,8 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
   const _amount = `$${amount}`;
 
   const sliderColor = isDownVoted ? '#ec8b88' : '#357ce6';
+
+  const _minSliderVal = isVoted || isDownVoted ? 0 : 0.01
 
   return (
     <Fragment>
@@ -372,7 +381,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
                 trackStyle={styles.track}
                 thumbStyle={styles.thumb}
                 thumbTintColor="#007ee5"
-                minimumValue={0.01}
+                minimumValue={_minSliderVal}
                 maximumValue={1}
                 value={sliderValue}
                 onValueChange={(value) => {

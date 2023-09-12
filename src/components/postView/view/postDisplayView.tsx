@@ -110,7 +110,11 @@ const PostDisplayView = ({
     content,
     onVotingStart,
     showPayoutDetails = false,
-    postType = parentPost ? PostTypes.COMMENT : PostTypes.POST,
+    postType = isWavePost 
+      ? PostTypes.WAVE 
+      : parentPost 
+        ? PostTypes.COMMENT
+        : PostTypes.POST
   }: any) => {
     if (upvotePopoverRef.current) {
       upvotePopoverRef.current.showPopover({
