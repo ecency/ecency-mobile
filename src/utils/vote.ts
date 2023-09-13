@@ -9,7 +9,7 @@ export const getEstimatedAmount = (account, globalProps: GlobalProps, sliderValu
   const hbdMedian = base / quote;
   const weight = sliderValue * 10000;
 
-  const voteEffectiveShares = calculateEstimatedRShares(account, sliderValue)
+  const voteEffectiveShares = calculateEstimatedRShares(account, weight)
   const voteValue = (voteEffectiveShares / fundRecentClaims) * fundRewardBalance * hbdMedian;
   const estimatedAmount = weight < 0 ? Math.min(voteValue * -1, 0) : Math.max(voteValue, 0);
 

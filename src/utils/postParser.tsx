@@ -325,12 +325,13 @@ export const injectVoteCache = (post, voteCache) => {
 
     //if vote do not already exist
     if (_voteIndex < 0 && voteCache.status !== CacheStatus.DELETED) {
+
       post.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
       post.active_votes = [
         ...post.active_votes,
         {
           voter: voteCache.voter,
-          rshares: voteCache.isDownvote ? -1000 : 1000,
+          rshares: voteCache.rshares * (voteCache.isDownvote ? -1 : 1)
         },
       ];
     }
@@ -339,10 +340,7 @@ export const injectVoteCache = (post, voteCache) => {
     else {
 
       //TODO: caluclate estimate amount from existing rshares and subtract from total_payout
-      //TOOD: calcualte real rshares
-      post.active_votes[_voteIndex].rshares = !voteCache.sliderValue
-        ? 0 : voteCache.isDownvote
-          ? -1000 : 1000;
+      post.active_votes[_voteIndex].rshares = voteCache.rshares * (voteCache.isDownvote ? -1 : 1)
       post.active_votes = [...post.active_votes];
     }
   }
@@ -383,7 +381,7 @@ export const parseActiveVotes = (post) => {
 
   if (!isEmpty(post.active_votes)) {
     forEach(post.active_votes, (value) => {
-      value.reward = calculateVoteReward(post, _totalRShares, value.rshares);
+      value.reward = calculateVoteReward(value.rshares, post, _totalRShares);
       value.percent /= 100;
       value.is_down_vote = Math.sign(value.percent) < 0;
       value.avatar = getResizedAvatar(get(value, 'voter'));

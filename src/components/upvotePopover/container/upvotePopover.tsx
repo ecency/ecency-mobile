@@ -30,7 +30,7 @@ import { PostTypes } from '../../../constants/postTypes';
 
 // Utils
 
-import { getEstimatedAmount } from '../../../utils/vote';
+import { calculateEstimatedRShares, getEstimatedAmount } from '../../../utils/vote';
 
 // Components
 import { Icon } from '../../icon';
@@ -309,6 +309,8 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
       incrementStep = 1;
     }
 
+    const rshares = calculateEstimatedRShares(currentAccount, sliderValue * 10000);
+ 
     // update redux
     const postPath = `${author || ''}/${permlink || ''}`;
     const curTime = new Date().getTime();
@@ -316,7 +318,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
       votedAt: curTime,
       amount: amountNum,
       isDownvote,
-      sliderValue,
+      rshares,
       incrementStep,
       voter: currentAccount.username,
       expiresAt: curTime + 30000,
