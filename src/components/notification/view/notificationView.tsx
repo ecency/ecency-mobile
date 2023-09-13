@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { View, ActivityIndicator, RefreshControl, Text } from 'react-native';
+import { View, ActivityIndicator, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 // Constants
 
 // Components
-import { FlatList } from 'react-native-gesture-handler';
+import { RefreshControl, FlatList } from 'react-native-gesture-handler';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ContainerHeader } from '../../containerHeader';
 import { FilterBar } from '../../filterBar';

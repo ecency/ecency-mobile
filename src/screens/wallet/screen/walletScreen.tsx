@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { SafeAreaView, View, RefreshControl, Text, AppState, AppStateStatus } from 'react-native';
+import { SafeAreaView, View, Text, AppState, AppStateStatus } from 'react-native';
 import { isArray } from 'lodash';
 
 // Containers
-import { FlatList, gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import {RefreshControl, FlatList, gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { useIntl } from 'react-intl';
 import moment from 'moment';
 import { LoggedInContainer } from '../../../containers';

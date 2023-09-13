@@ -7,7 +7,6 @@ import { useAppSelector } from '../../../hooks';
 import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
 import { limitOrderCancel } from '../../../providers/hive-trade/hiveTrade';
-import { walletQueries } from '../../../providers/queries';
 import { useQueryClient } from '@tanstack/react-query';
 import QUERIES from '../../../providers/queries/queryKeys';
 import TransferTypes from '../../../constants/transferTypes';

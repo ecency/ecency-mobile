@@ -32,6 +32,7 @@ import {
   SET_ENC_UNLOCK_PIN,
   SET_POST_UPVOTE_PERCENT,
   SET_COMMENT_UPVOTE_PERCENT,
+  SET_WAVE_UPVOTE_PERCENT,
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -62,6 +63,10 @@ export const setPostUpvotePercent = (payload) => ({
 export const setCommentUpvotePercent = (payload) => ({
   payload,
   type: SET_COMMENT_UPVOTE_PERCENT,
+});
+export const setWaveUpvotePercent = (payload) => ({
+  payload,
+  type: SET_WAVE_UPVOTE_PERCENT,
 });
 
 export const changeAllNotificationSettings = (payload) => ({

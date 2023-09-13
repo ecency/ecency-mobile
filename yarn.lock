@@ -898,10 +898,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@ecency/render-helper@^2.2.18":
-  version "2.2.22"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.2.22.tgz#133bfe27fff022191274b1e755613144c91da1a3"
-  integrity sha512-MbfV/AO3IfcBvFs+H3GDFRV/JROfu9PGAT974YhGCxdfPsqD1NS9l2jreanVCZnD7VC2bi+Vd3SnzvkVEFAySQ==
+"@ecency/render-helper@^2.2.26":
+  version "2.2.26"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.2.26.tgz#9bc98d09e5dd35e70c3e0699eb40883fae4ab296"
+  integrity sha512-ahrJ5u2J0HMEJy0wYWDNixvpV70CHnj/uGcUvmipaJ22y6WJ7qUkLZI8aj0CK9DzY9DcP8Lzx1NWT/DLdCuZJw==
   dependencies:
     he "^1.2.0"
     lolight "^1.4.0"
@@ -5537,6 +5537,11 @@ hive-uri@^0.2.4:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/hive-uri/-/hive-uri-0.2.4.tgz#6975cfa50790571084d31249e6e061ed3d4f7fde"
   integrity sha512-c61F16oVARU+eLvGy20JN7M9YK+DUexHPFGBlG39VHI9Ahxos8YNCY6Btmw9AL7Jlq5b4HtY0LvsOIqHQoOWhw==
+
+hive-uri@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/hive-uri/-/hive-uri-0.2.5.tgz#11f94d43b87d22c2a9c018e6ed41d303d3e0c770"
+  integrity sha512-oSFqa39/Frs8XaA6oAT1W/5KtkInfp8u0Yv58YGok1klu7M8rPYMg3v9m/0rdvrRLSheAYwip88l60at2kPtYA==
 
 hivesigner@^3.2.7:
   version "3.2.9"
