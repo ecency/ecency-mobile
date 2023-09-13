@@ -6,14 +6,15 @@ import { BasicHeader } from '../../../components';
 import { CoinSummary } from '../children';
 import styles from './screen.styles';
 import ActivitiesList from '../children/activitiesList';
+import { CoinActivity, CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
 import { useAppSelector } from '../../../hooks';
-import { CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
+import parseToken from '../../../utils/parseToken';
 
 export interface AssetDetailsScreenParams {
   coinId: string;
@@ -104,7 +105,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     }
   };
 
-  const _onActionPress = (transferType: string) => {
+  const _onActionPress = (transferType: string, baseActivity: CoinActivity | null = null) => {
     let navigateTo = ROUTES.SCREENS.TRANSFER;
     let navigateParams = {};
 
@@ -145,6 +146,15 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         transferType: coinId === ASSET_IDS.ECENCY ? 'points' : transferType,
         fundType: coinId === ASSET_IDS.ECENCY ? 'ESTM' : symbol,
         balance,
+      };
+    }
+
+    if (baseActivity) {
+      navigateParams = {
+        ...navigateParams,
+        referredUsername: baseActivity.details?.split(' ')[2]?.slice(1), // from @user1 to @user2
+        initialAmount: `${parseToken(baseActivity.value)}`,
+        initialMemo: baseActivity.memo,
       };
     }
 
@@ -191,6 +201,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         activitiesEnabled={!coinData?.isSpk}
         onEndReached={_fetchDetails}
         onRefresh={_onRefresh}
+        onActionPress={_onActionPress}
       />
       <DelegationsModal ref={delegationsModalRef} />
     </View>
