@@ -10,6 +10,7 @@ import parseAsset from './parseAsset';
 import { getResizedAvatar } from './image';
 import { parseReputation } from './user';
 import { CacheStatus } from '../redux/reducers/cacheReducer';
+import { calculateVoteReward } from './vote';
 
 const webp = Platform.OS !== 'ios';
 
@@ -377,18 +378,12 @@ export const isDownVoted = async (activeVotes, currentUserName) => {
 };
 
 export const parseActiveVotes = (post) => {
-  const totalPayout =
-    post.total_payout ||
-    parseFloat(post.pending_payout_value) +
-    parseFloat(post.total_payout_value) +
-    parseFloat(post.curator_payout_value);
 
-  const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
-  const ratio = totalPayout / voteRshares || 0;
+  const _totalRShares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
 
   if (!isEmpty(post.active_votes)) {
     forEach(post.active_votes, (value) => {
-      value.reward = (value.rshares * ratio).toFixed(3);
+      value.reward = calculateVoteReward(post, _totalRShares, value.rshares);
       value.percent /= 100;
       value.is_down_vote = Math.sign(value.percent) < 0;
       value.avatar = getResizedAvatar(get(value, 'voter'));
