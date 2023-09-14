@@ -17,16 +17,6 @@ import styles from './votersDisplayStyles';
 
 const VotersDisplayView = ({ votes, createdAt = '2010-01-01T00:00:00' }) => {
   const navigation = useNavigation();
-  const intl = useIntl();
-
-  /* getActiveVotes(get(content, 'author'), get(content, 'permlink'))
-    .then((result) => {
-      result.sort((a, b) => b.rshares - a.rshares);
-
-      const _votes = parseActiveVotes({ ...content, active_votes: result });
-      setActiveVotes(_votes);
-    })
-    .catch(() => {}); */
 
   const _handleOnUserPress = (username) => {
     navigation.navigate({

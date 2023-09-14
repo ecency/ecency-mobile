@@ -335,9 +335,21 @@ export const injectVoteCache = (post, voteCache) => {
     //if vote already exist
     else {
 
-      //TODO: caluclate estimate amount from existing rshares and subtract from total_payout
-      post.active_votes[_voteIndex].rshares = voteCache.rshares
-      post.active_votes[_voteIndex].percent = voteCache.percent / 100
+      const _vote = post.active_votes[_voteIndex];
+
+
+      //get older and new reward for the vote
+      const _oldReward = calculateVoteReward(_vote.rshares, post);
+      const _newReward = calculateVoteReward(voteCache.rshares, post);
+
+      //update total payout
+      post.total_payout += Number(_newReward) - Number(_oldReward);
+
+      //update vote entry
+      _vote.rshares = voteCache.rshares
+      _vote.percent = _vote.percent && voteCache.percent / 100
+
+      post.active_votes[_voteIndex] = _vote;
       post.active_votes = [...post.active_votes];
     }
   }
