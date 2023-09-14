@@ -66,7 +66,10 @@ export const calculateVoteReward = (voteRShares:number, post:any, totalRshares?:
     parseFloat(post.curator_payout_value);
 
   if(totalRshares === undefined){
-    totalRshares = post.active_votes.reduce((accumulator:number, item:any) => accumulator + parseFloat(item.rshares), 0);
+    totalRshares = post.active_votes.length 
+     ? post.active_votes.reduce((accumulator:number, item:any) => accumulator + parseFloat(item.rshares), 0)
+     : voteRShares;
+
   }
 
   const ratio = totalPayout / totalRshares || 0;

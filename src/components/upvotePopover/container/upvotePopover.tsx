@@ -309,7 +309,8 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
       incrementStep = 1;
     }
 
-    const rshares = calculateEstimatedRShares(currentAccount, sliderValue * 10000);
+    const percent = Math.floor(sliderValue * 10000 * (isDownvote ? -1 : 1));
+    const rshares = calculateEstimatedRShares(currentAccount, percent) * (isDownvote ? -1 : 1);
  
     // update redux
     const postPath = `${author || ''}/${permlink || ''}`;
@@ -319,6 +320,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
       amount: amountNum,
       isDownvote,
       rshares,
+      percent: Math.round(sliderValue * 100) * 100,
       incrementStep,
       voter: currentAccount.username,
       expiresAt: curTime + 30000,

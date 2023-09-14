@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
 import forEach from 'lodash/forEach';
-import { get } from 'lodash';
+import { get, isArray } from 'lodash';
 import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
 import FastImage from 'react-native-fast-image';
@@ -327,20 +327,17 @@ export const injectVoteCache = (post, voteCache) => {
     if (_voteIndex < 0 && voteCache.status !== CacheStatus.DELETED) {
 
       post.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
-      post.active_votes = [
-        ...post.active_votes,
-        {
-          voter: voteCache.voter,
-          rshares: voteCache.rshares * (voteCache.isDownvote ? -1 : 1)
-        },
-      ];
+
+      const _newVote = parseVote(voteCache, post);
+      post.active_votes = [...post.active_votes, _newVote];
     }
 
     //if vote already exist
     else {
 
       //TODO: caluclate estimate amount from existing rshares and subtract from total_payout
-      post.active_votes[_voteIndex].rshares = voteCache.rshares * (voteCache.isDownvote ? -1 : 1)
+      post.active_votes[_voteIndex].rshares = voteCache.rshares
+      post.active_votes[_voteIndex].percent = voteCache.percent / 100
       post.active_votes = [...post.active_votes];
     }
   }
@@ -362,6 +359,8 @@ export const isVoted = async (activeVotes, currentUserName) => {
   return false;
 };
 
+
+
 export const isDownVoted = async (activeVotes, currentUserName) => {
   if (!currentUserName) {
     return false;
@@ -375,21 +374,28 @@ export const isDownVoted = async (activeVotes, currentUserName) => {
   return false;
 };
 
+
+
 export const parseActiveVotes = (post) => {
 
   const _totalRShares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
 
-  if (!isEmpty(post.active_votes)) {
-    forEach(post.active_votes, (value) => {
-      value.reward = calculateVoteReward(value.rshares, post, _totalRShares);
-      value.percent /= 100;
-      value.is_down_vote = Math.sign(value.percent) < 0;
-      value.avatar = getResizedAvatar(get(value, 'voter'));
-    });
+  if (isArray(post.active_votes)) {
+    post.active_votes = post.active_votes.map((vote) => parseVote(vote, post, _totalRShares))
   }
 
   return post.active_votes;
 };
+
+
+export const parseVote = (activeVote: any, post: any, _totalRShares?: number) => {
+  activeVote.reward = calculateVoteReward(activeVote.rshares, post, _totalRShares);
+  activeVote.percent /= 100;
+  activeVote.is_down_vote = Math.sign(activeVote.rshares) < 0;
+  activeVote.avatar = getResizedAvatar(activeVote.voter);
+
+  return activeVote;
+}
 
 const parseTags = (post: any) => {
   if (post.json_metadata) {
