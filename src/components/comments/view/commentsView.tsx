@@ -172,7 +172,7 @@ const CommentsView = ({
         contentContainerStyle={{ padding: 0 }}
         data={comments}
         renderItem={_renderItem}
-        keyExtractor={(item) => get(item, 'permlink')}
+        keyExtractor={(item) => item.author + item.permlink}
         ListEmptyComponent={_renderEmptyContent()}
         ListHeaderComponent={postContentView}
         overScrollMode="never"
