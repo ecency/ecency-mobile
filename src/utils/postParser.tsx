@@ -328,7 +328,11 @@ export const injectVoteCache = (post, voteCache) => {
 
       post.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
 
-      const _newVote = parseVote(voteCache, post);
+      //calculate updated totalRShares and send to post
+      const _totalRShares = post.active_votes.reduce(
+        (accumulator: number, item: any) => accumulator + parseFloat(item.rshares),
+        voteCache.rshares);
+      const _newVote = parseVote(voteCache, post, _totalRShares);
       post.active_votes = [...post.active_votes, _newVote];
     }
 
