@@ -10,7 +10,7 @@ import parseAsset from './parseAsset';
 import { getResizedAvatar } from './image';
 import { parseReputation } from './user';
 import { CacheStatus } from '../redux/reducers/cacheReducer';
-import { calculateVoteReward } from './vote';
+import { calculateVoteReward, getEstimatedAmount } from './vote';
 
 const webp = Platform.OS !== 'ios';
 
@@ -337,17 +337,15 @@ export const injectVoteCache = (post, voteCache) => {
 
       const _vote = post.active_votes[_voteIndex];
 
-
       //get older and new reward for the vote
       const _oldReward = calculateVoteReward(_vote.rshares, post);
-      const _newReward = calculateVoteReward(voteCache.rshares, post);
 
       //update total payout
-      post.total_payout += Number(_newReward) - Number(_oldReward);
+      post.total_payout += voteCache.amount - _oldReward;
 
       //update vote entry
       _vote.rshares = voteCache.rshares
-      _vote.percent = _vote.percent && voteCache.percent / 100
+      _vote.percent100 = _vote.percent && voteCache.percent / 100
 
       post.active_votes[_voteIndex] = _vote;
       post.active_votes = [...post.active_votes];
@@ -401,8 +399,8 @@ export const parseActiveVotes = (post) => {
 
 
 export const parseVote = (activeVote: any, post: any, _totalRShares?: number) => {
-  activeVote.reward = calculateVoteReward(activeVote.rshares, post, _totalRShares);
-  activeVote.percent /= 100;
+  activeVote.reward = calculateVoteReward(activeVote.rshares, post, _totalRShares).toFixed(3);
+  activeVote.percent100 = activeVote.percent / 100;
   activeVote.is_down_vote = Math.sign(activeVote.rshares) < 0;
   activeVote.avatar = getResizedAvatar(activeVote.voter);
 

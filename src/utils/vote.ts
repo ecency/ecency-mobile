@@ -59,11 +59,16 @@ export const calculateVoteRshares = (userEffectiveVests: number, vp = 10000, wei
 
 
 export const calculateVoteReward = (voteRShares:number, post:any, totalRshares?:number) => {
+
+  if(!voteRShares){
+    return 0
+  }
+
   const totalPayout =
     post.total_payout ||
-    parseFloat(post.pending_payout_value) +
-    parseFloat(post.total_payout_value) +
-    parseFloat(post.curator_payout_value);
+    parseFloat(post.pending_payout_value) || 0+
+    parseFloat(post.total_payout_value) || 0 +
+    parseFloat(post.curator_payout_value) || 0;
 
   if(totalRshares === undefined){
     totalRshares = post.active_votes.length 
@@ -74,5 +79,5 @@ export const calculateVoteReward = (voteRShares:number, post:any, totalRshares?:
 
   const ratio = totalPayout / totalRshares || 0;
 
-  return (voteRShares * ratio).toFixed(3);
+  return voteRShares * ratio;
 }

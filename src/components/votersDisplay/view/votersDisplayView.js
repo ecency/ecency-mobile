@@ -1,6 +1,6 @@
 import React from 'react';
-import { SafeAreaView, FlatList, Text } from 'react-native';
-import { useIntl } from 'react-intl';
+import { SafeAreaView, FlatList } from 'react-native';
+
 
 // Utils
 import { useNavigation } from '@react-navigation/native';
@@ -30,7 +30,7 @@ const VotersDisplayView = ({ votes, createdAt = '2010-01-01T00:00:00' }) => {
 
   const _renderItem = ({ item, index }) => {
     const value = `$ ${item.reward}`;
-    const percent = `${item.percent}%`;
+    const percent = `${item.percent100}%`;
 
     // snippet to avoid rendering time form long past
     const minTimestamp = new Date(createdAt).getTime();
