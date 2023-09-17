@@ -1041,11 +1041,28 @@
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",
-    "multi_array_ops_alert": "Multiple operations array detected!",
-    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
+    "multi_array_ops_alert": "Operation not supported by Ecency",
+    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations yet",
+    "invalid_op": "Invalid operation data",
+    "invalid_op_desc": "try contacting QR/link author",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Enter valid amount in proper format",
+    "transaction_failed": "Transaction Failed!"
   },
   "history": {
     "edit": "Edit History",
     "version": "Version"
+  },
+  "chain-error": {
+    "min-root-comment": "You may only post once every five minutes.",
+    "identical-vote": "Your current vote on this content is identical to this vote.",
+    "insufficient-resource": "Insufficient Resource Credits.",
+    "delete-comment-with-vote": "Cannot delete a content with positive pending rewards.",
+    "comment-cashout": "Content after their payout cannot be deleted.",
+    "comment-children": "Cannot delete a content with replies.",
+    "paid-out-post-forbidden": "Voting for paid out content is not available.",
+    "missing-authority": "This operation requires Active private key or authority.",
+    "missing-owner-authority": "This operation requires Owner private key or authority.",
+    "insufficient_fund": "Insufficient Funds"
   }
 }
