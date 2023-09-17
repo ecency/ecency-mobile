@@ -156,16 +156,26 @@ export const QRModal = ({}: QRModalProps) => {
     }
 
     const parsed = hiveuri.decode(uri);
-    const parsedHiveUriValidation = validateParsedHiveUri(parsed);
+    const authoritiesMap = new Map();
+    authoritiesMap.set('active', currentAccount?.local?.activeKey ? true : false);
+    authoritiesMap.set('posting', currentAccount?.local?.postingKey ? true : false);
+    authoritiesMap.set('owner', currentAccount?.local?.ownerKey ? true : false);
+    authoritiesMap.set('memo', currentAccount?.local?.memoKey ? true : false);
+
+    const parsedHiveUriValidation = validateParsedHiveUri(parsed, authoritiesMap);
     if (parsedHiveUriValidation.error) {
       // show alert to user if parsed uri contains invalid operation data
       Alert.alert(
-        intl.formatMessage({
-          id: parsedHiveUriValidation.key1,
-        }),
-        intl.formatMessage({
-          id: parsedHiveUriValidation.key2,
-        }),
+        intl.formatMessage(
+          { id: parsedHiveUriValidation.key1 },
+          { key: parsedHiveUriValidation.keyType },
+        ),
+        intl.formatMessage(
+          {
+            id: parsedHiveUriValidation.key2,
+          },
+          { key: parsedHiveUriValidation.keyType },
+        ),
       );
       return;
     }

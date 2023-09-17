@@ -38,6 +38,7 @@ const getOperationProps = (opName: string) => {
     const signerField = findParentKey(op, '__signer');
     return {
       opName: op.name,
+      opAuthority: op.authority || '',
       signerField,
     };
   } else {
@@ -65,12 +66,13 @@ const _formatAmount = (amount: string) => {
  * Returns an object with error status, keys for showing errors, and operation name parsed from operations.json
  *
  * */
-export const validateParsedHiveUri = (parsedUri: any) => {
+export const validateParsedHiveUri = (parsedUri: any, authoritiesMap: Map<string, boolean>) => {
   let validateObj = {
     error: false,
     key1: '',
     key2: '',
     opName: '',
+    keyType: '',
     tx: parsedUri.tx,
   };
 
@@ -93,10 +95,18 @@ export const validateParsedHiveUri = (parsedUri: any) => {
     return validateObj;
   }
   const opProps = getOperationProps(operationName); // get operation props from operations.json file i-e signer field and operation name
+  validateObj.keyType = opProps?.opAuthority || ''; // set key type to validate object
+
   if (!opProps) {
     validateObj.error = true;
     validateObj.key1 = 'qr.invalid_op';
     validateObj.key2 = 'qr.invalid_op_desc';
+    return validateObj;
+  }
+  if (authoritiesMap && !authoritiesMap.get(opProps.opAuthority)) {
+    validateObj.error = true;
+    validateObj.key1 = 'qr.invalid_key';
+    validateObj.key2 = 'qr.invalid_key_desc';
     return validateObj;
   }
   // if amount field present in operation, validate and check for proper formatting and format to 3 decimal places

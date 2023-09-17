@@ -1047,7 +1047,9 @@
     "invalid_op_desc": "try contacting QR/link author",
     "invalid_amount": "Invalid Amount",
     "invalid_amount_desc": "Enter valid amount in proper format",
-    "transaction_failed": "Transaction Failed!"
+    "transaction_failed": "Transaction Failed!",
+    "invalid_key": "{key} key is required to perform this transaction",
+    "invalid_key_desc": "kindly login with {key} key or master key to perform this transaction"
   },
   "history": {
     "edit": "Edit History",
