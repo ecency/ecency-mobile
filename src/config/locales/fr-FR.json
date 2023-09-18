@@ -131,7 +131,7 @@
     "market_sell": "Jetons vendus",
     "market_sellRemaining": "Remaining Tokens Transferred (Sell)",
     "market_close": "Commande fermée",
-    "mining_lottery": "Lottery Won",
+    "mining_lottery": "Loterie gagnée",
     "witnesses_proposeRound": "Witnesses Propose Round",
     "hivepegged_buy": "HIVE Deposited",
     "hivepegged_withdraw": "HIVE Withdrawn",
@@ -144,7 +144,7 @@
     "nft_undelegate": "Undelegation Started for NFT",
     "nft_undelegateDone": "Undelegation Completed for NFT",
     "nft_enableDelegation": "Delegation Enabled for NFT",
-    "nft_create": "NFT Symbol Created",
+    "nft_create": "Symbole NFT créé",
     "nft_addAuthorizedIssuingAccounts": "Authorized Issuing Accounts Added to NFT",
     "nft_setGroupBy": "Group By Set for NFT Symbol",
     "nft_setProperties": "Properties Set for NFT Symbol",
@@ -176,7 +176,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Liquid Hive",
+      "name": "Hive Liquide",
       "buy": "OBTENIR HIVE"
     },
     "hbd": {
@@ -188,7 +188,7 @@
       "name": "Staked Hive"
     },
     "hive_dollar": {
-      "name": "Hive Dollar"
+      "name": "Hive Dollars"
     },
     "btc": {
       "title": "BTC",
@@ -198,7 +198,7 @@
     "last_updated": "Last Updated:",
     "updating": "Updating...",
     "coin_details": "Afficher les détails",
-    "change": "Change",
+    "change": "Changement",
     "activities": "Activités",
     "savings_withdrawal": "Pending Withdrawals",
     "open_orders": "Ordres ouverts",
@@ -218,7 +218,7 @@
     "lock_liquidity_spk": "Lock Liquidity",
     "power_up_spk": "Power Up | Stake",
     "power_down_spk": "Power Down | Unstake",
-    "low_liquidity": "Low Liquidity!",
+    "low_liquidity": "Faible liquidité !",
     "inactive_token": "Token is relatively inactive, some functionalities might be affected.",
     "scheduled_power_downs": "Scheduled Power Downs",
     "delegated_larynx_power": "Granted Power",
