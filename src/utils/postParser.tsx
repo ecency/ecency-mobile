@@ -345,7 +345,8 @@ export const injectVoteCache = (post, voteCache) => {
       const _oldReward = calculateVoteReward(_vote.rshares, post);
 
       //update total payout
-      post.total_payout += voteCache.amount - _oldReward;
+      const _voteAmount = voteCache.amount * (voteCache.isDownvote ? -1 : 1);
+      post.total_payout += _voteAmount - _oldReward
 
       //update vote entry
       _vote.rshares = voteCache.rshares
