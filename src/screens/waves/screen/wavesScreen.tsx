@@ -5,6 +5,7 @@ import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
 import WavesHeader from '../children/wavesHeader';
+import { PostTypes } from '../../../constants/postTypes';
 
 
 const WavesScreen = () => {
@@ -47,6 +48,7 @@ const WavesScreen = () => {
 
             <View style={{ flex: 1 }}>
                 <Comments
+                    postType={PostTypes.WAVE}
                     comments={_data}
                     handleOnOptionsPress={_handleOnOptionsPress}
                     flatListProps={{

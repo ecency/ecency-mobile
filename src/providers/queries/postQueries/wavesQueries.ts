@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { unionBy } from 'lodash';
+import { unionBy, isArray } from 'lodash';
 import { getDiscussionCollection } from '../../hive/dhive';
 
 import { getAccountPosts } from '../../hive/dhive';
@@ -222,7 +222,10 @@ export const useWavesQuery = (host: string) => {
 
 
   const _data = unionBy(...wavesQueries.map((query) => query.data), 'url');
-  const _filteredData = useMemo(() =>{ console.log('filtering waves'); return _data.filter(post => mutes.indexOf(post?.author) < 0)}, [mutes, _data])
+
+  const _filteredData = useMemo(() =>
+     _data.filter(post =>  isArray(mutes) ? mutes.indexOf(post?.author) < 0 : true),
+      [mutes, _data])
 
   return {
     data: _filteredData,
