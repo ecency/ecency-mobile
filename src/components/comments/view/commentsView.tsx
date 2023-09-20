@@ -41,6 +41,7 @@ const CommentsView = ({
   incrementRepliesCount,
   postContentView,
   isLoading,
+  postType
 }) => {
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
@@ -192,7 +193,7 @@ const CommentsView = ({
         />
       )}
       <UpvotePopover ref={upvotePopoverRef} />
-      <PostHtmlInteractionHandler ref={postInteractionRef} />
+      <PostHtmlInteractionHandler ref={postInteractionRef} postType={postType} />
     </Fragment>
   );
 };

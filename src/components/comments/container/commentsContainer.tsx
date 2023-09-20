@@ -52,6 +52,7 @@ const CommentsContainer = ({
   incrementRepliesCount,
   handleOnReplyPress,
   handleOnCommentsLoaded,
+  postType
 }) => {
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
@@ -318,6 +319,7 @@ const CommentsContainer = ({
       fetchedAt={fetchedAt}
       postContentView={postContentView}
       isLoading={isLoading}
+      postType={postType}
     />
   );
 };
