@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../hooks";
 import { postComment } from "../../providers/hive/dhive";
-import { generateReplyPermlink, makeJsonMetadataReply } from "../../utils/editor";
+import { extractMetadata, generateReplyPermlink, makeJsonMetadata } from "../../utils/editor";
 import { Alert } from "react-native";
 import { updateCommentCache } from "../../redux/actions/cacheActions";
 import { toastNotification } from "../../redux/actions/uiAction";
@@ -46,6 +46,13 @@ export const usePostSubmitter = () => {
             const category = parentPost.category || '';
             const url = `/${category}/@${parentAuthor}/${parentPermlink}#@${author}/${permlink}`;
 
+            //adding jsonmeta with image ratios here....
+            const meta = await extractMetadata({
+                body:commentBody,
+                fetchRatios:true
+            })
+            const jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency'])
+
             console.log(
                 currentAccount,
                 pinCode,
@@ -53,7 +60,7 @@ export const usePostSubmitter = () => {
                 parentPermlink,
                 permlink,
                 commentBody,
-                parentTags,
+                jsonMetadata
             );
 
 
@@ -65,7 +72,8 @@ export const usePostSubmitter = () => {
                     parentPermlink,
                     permlink,
                     commentBody,
-                    parentTags,
+                    [],
+                    jsonMetadata
                 )
 
                 userActivityMutation.mutate({
@@ -90,7 +98,7 @@ export const usePostSubmitter = () => {
                     parent_author: parentAuthor,
                     parent_permlink: parentPermlink,
                     markdownBody: commentBody,
-                    json_metadata: makeJsonMetadataReply(parentTags || ['ecency'])
+                    json_metadata: jsonMetadata
                 }
                 
                 dispatch(

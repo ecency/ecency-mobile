@@ -18,7 +18,6 @@ import {
   DELETE_CLAIM_CACHE_ENTRY,
 } from '../constants/constants';
 import {
-  ClaimCache,
   Comment,
   CacheStatus,
   Draft,

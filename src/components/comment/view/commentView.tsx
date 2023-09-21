@@ -104,6 +104,7 @@ const CommentView = ({
       <View style={[{ marginLeft: 2, marginTop: -6 }]}>
         <CommentBody
           body={comment.body}
+          metadata={comment.json_metadata}
           key={`key-${comment.permlink}`}
           hideContent={_hideContent}
           commentDepth={_depth}
