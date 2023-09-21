@@ -24,6 +24,7 @@ const WIDTH = getWindowDimensions().width;
 
 interface CommentBodyProps {
   body: string;
+  metadata?: any;
   commentDepth: number;
   hideContent: boolean;
   handleOnContentPress: () => void;
@@ -38,6 +39,7 @@ interface CommentBodyProps {
 
 const CommentBody = ({
   body,
+  metadata,
   commentDepth,
   hideContent,
   handleOnContentPress,
@@ -132,6 +134,7 @@ const CommentBody = ({
             <PostHtmlRenderer
               contentWidth={_contentWidth}
               body={body}
+              metadata={metadata}
               isComment={true}
               setSelectedImage={handleImagePress}
               setSelectedLink={handleLinkPress}
