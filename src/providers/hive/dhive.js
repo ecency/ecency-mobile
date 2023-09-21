@@ -1510,7 +1510,7 @@ export const postComment = (
   permlink,
   body,
   parentTags,
-  isEdit = false,
+  jsonMetadata = null,
 ) =>
   _postContent(
     account,
@@ -1520,7 +1520,7 @@ export const postComment = (
     permlink,
     '',
     body,
-    makeJsonMetadataReply(parentTags || ['ecency']),
+    jsonMetadata ? jsonMetadata : makeJsonMetadataReply(parentTags || ['ecency']),
     null,
     null,
   )
