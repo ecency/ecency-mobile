@@ -1,20 +1,30 @@
-import React, { useEffect, useRef } from 'react';
-import { ActivityIndicator, RefreshControl, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, RefreshControl, View, FlatList } from 'react-native';
 import { Comments, EmptyScreen, Header, PostOptionsModal } from '../../../components';
 import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
 import WavesHeader from '../children/wavesHeader';
 import { PostTypes } from '../../../constants/postTypes';
+import ScrollTopPopup from '../../../components/tabbedPosts/view/scrollTopPopup';
+import { debounce } from 'lodash';
+
+
+const SCROLL_POPUP_THRESHOLD = 5000;
 
 
 const WavesScreen = () => {
-
+    //refs
     const postOptionsModalRef = useRef<any>(null);
+    const postsListRef = useRef<FlatList>();
+    const blockPopupRef = useRef(false);
+    const scrollOffsetRef = useRef(0);
 
     const wavesQuery = wavesQueries.useWavesQuery('ecency.waves');
 
     const isDarkTheme = useAppSelector(state => state.application.isDarkTheme)
+
+    const [enableScrollTop, setEnableScrollTop] = useState(false);
 
 
     const _fetchData = ({ refresh }: { refresh?: boolean }) => {
@@ -24,6 +34,40 @@ const WavesScreen = () => {
             wavesQuery.fetchNextPage();
         }
     }
+
+    //scrolls to top, blocks scroll popup for 2 seconds to reappear after scroll
+    const _scrollTop = () => {
+        if (postsListRef.current) {
+            postsListRef.current.scrollToOffset({offset:0});
+            setEnableScrollTop(false);
+            scrollPopupDebouce.cancel();
+            blockPopupRef.current = true;
+            setTimeout(() => {
+                blockPopupRef.current = false;
+            }, 2000);
+        }
+    }
+
+    //makes sure pop do not reappear while scrolling up
+    const scrollPopupDebouce = debounce(
+        (value) => {
+            setEnableScrollTop(value);
+        },
+        500,
+        { leading: true },
+    );
+
+    //calback to calculate with to display scroll to popup
+    const _onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        let currentOffset = event.nativeEvent.contentOffset.y;
+        let scrollUp = currentOffset < scrollOffsetRef.current;
+        scrollOffsetRef.current = currentOffset;
+
+        if (scrollUp && !blockPopupRef.current && currentOffset > SCROLL_POPUP_THRESHOLD) {
+            scrollPopupDebouce(true);
+        }
+    };
+
 
 
     const _handleOnOptionsPress = (content: any) => {
@@ -52,8 +96,9 @@ const WavesScreen = () => {
                     comments={_data}
                     handleOnOptionsPress={_handleOnOptionsPress}
                     flatListProps={{
+                        ref: postsListRef,
                         onEndReached: _fetchData,
-                        onScroll: () => { },
+                        onScroll: _onScroll,
                         ListEmptyComponent: _renderListEmpty,
                         ListFooterComponent: _renderListFooter,
                         ListHeaderComponent: _renderListHeader,
@@ -69,7 +114,17 @@ const WavesScreen = () => {
                         ),
                     }}
                 />
+                <ScrollTopPopup
+                    popupAvatars={[]}
+                    enableScrollTop={enableScrollTop}
+                    onPress={_scrollTop}
+                    onClose={() => {
+                        setEnableScrollTop(false);
+                    }}
+                />
             </View>
+
+
 
             <PostOptionsModal ref={postOptionsModalRef} />
 
