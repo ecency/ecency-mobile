@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { ActivityIndicator, Alert, NativeScrollEvent, NativeSyntheticEvent, RefreshControl, View } from 'react-native';
+import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, RefreshControl, View, FlatList } from 'react-native';
 import { Comments, EmptyScreen, Header, PostOptionsModal } from '../../../components';
 import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
@@ -7,7 +7,6 @@ import { useAppSelector } from '../../../hooks';
 import WavesHeader from '../children/wavesHeader';
 import { PostTypes } from '../../../constants/postTypes';
 import ScrollTopPopup from '../../../components/tabbedPosts/view/scrollTopPopup';
-import { FlatList } from 'react-native-gesture-handler';
 import { debounce } from 'lodash';
 
 
@@ -39,7 +38,7 @@ const WavesScreen = () => {
     //scrolls to top, blocks scroll popup for 2 seconds to reappear after scroll
     const _scrollTop = () => {
         if (postsListRef.current) {
-            postsListRef.current.scrollToIndex({ index: 0 });
+            postsListRef.current.scrollToOffset({offset:0});
             setEnableScrollTop(false);
             scrollPopupDebouce.cancel();
             blockPopupRef.current = true;
