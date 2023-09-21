@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Recompensă de curare",
     "author_reward": "Recompensă Autor",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Recompensa Binefăcătorului",
     "claim_reward_balance": "Colectează recompensa ",
+    "points_activity": "Activity",
     "transfer": "Transfer",
     "power_up": "To Vesting",
     "transfer_from_savings": "De la economii",
@@ -912,7 +914,7 @@
   },
   "comments": {
     "title": "Comentarii",
-    "reveal_comment": "Arată comentariul",
+    "reveal_comment": "Reveal Content",
     "read_more": "Vizualizați mai multe comentarii",
     "more_replies": "replies",
     "no_comments": "Be the first to respond..."

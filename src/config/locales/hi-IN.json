@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "अध्यक्षता इनाम",
     "author_reward": "लेखक इनाम",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "लाभार्थी पुरस्कार",
     "claim_reward_balance": "इनाम दावा ",
+    "points_activity": "Activity",
     "transfer": "स्थानांतरण",
     "power_up": "वेस्टिंग को",
     "transfer_from_savings": "बचत से",
@@ -912,7 +914,7 @@
   },
   "comments": {
     "title": "विवेचनाऐं",
-    "reveal_comment": "टिप्पणी का खुलासा",
+    "reveal_comment": "Reveal Content",
     "read_more": "अधिक टिप्पणियाँ पढ़ें",
     "more_replies": "जवाब",
     "no_comments": "जवाब देने वाले पहले बनें..."

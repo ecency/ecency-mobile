@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Ganjaran Kurasi",
     "author_reward": "Ganjaran penulis",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Ganjaran Penyumbang",
     "claim_reward_balance": "Tuntut Ganjaran ",
+    "points_activity": "Activity",
     "transfer": "Pindah",
     "power_up": "Tingkatkan Kuasa",
     "transfer_from_savings": "Dari Simpanan",
@@ -912,7 +914,7 @@
   },
   "comments": {
     "title": "Komen-komen",
-    "reveal_comment": "Reveal comment",
+    "reveal_comment": "Reveal Content",
     "read_more": "Read more comments",
     "more_replies": "replies",
     "no_comments": "Be the first to respond..."

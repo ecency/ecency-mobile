@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "审查奖励",
     "author_reward": "作者奖励",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "受益者奖励",
     "claim_reward_balance": "领取奖励 ",
+    "points_activity": "Activity",
     "transfer": "转账",
     "power_up": "To Vesting",
     "transfer_from_savings": "储蓄转出",
@@ -912,7 +914,7 @@
   },
   "comments": {
     "title": "评论",
-    "reveal_comment": "显示评论",
+    "reveal_comment": "Reveal Content",
     "read_more": "查看更多评论",
     "more_replies": "replies",
     "no_comments": "Be the first to respond..."
