@@ -27,7 +27,7 @@ export const usePostSubmitter = () => {
 
 
     // handle submit reply
-    const _submitReply = async (commentBody: string, parentPost: any, postType: PostTypes) => {
+    const _submitReply = async (commentBody: string, parentPost: any) => {
         if (!commentBody) {
             return false ;
         }
@@ -49,8 +49,7 @@ export const usePostSubmitter = () => {
             //adding jsonmeta with image ratios here....
             const meta = await extractMetadata({
                 body:commentBody,
-                fetchRatios:true,
-                postType
+                fetchRatios:true
             })
             const jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency'])
 
@@ -144,7 +143,7 @@ export const usePostSubmitter = () => {
             const _wavesHost = 'ecency.waves' //TODO: make waves host selection dynamic
             const latestWavesPost = await wavesQueries.fetchLatestWavesContainer(_wavesHost);
 
-            const _cacheCommentData = await _submitReply(body, latestWavesPost, PostTypes.WAVE)
+            const _cacheCommentData = await _submitReply(body, latestWavesPost)
 
             if(_cacheCommentData){
                 pusblishWaveMutation.mutate(_cacheCommentData)
