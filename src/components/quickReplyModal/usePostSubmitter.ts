@@ -28,7 +28,7 @@ export const usePostSubmitter = () => {
 
 
     // handle submit reply
-    const _submitReply = async (commentBody: string, parentPost: any, postType: PostTypes) => {
+    const _submitReply = async (commentBody: string, parentPost: any, postType: PostTypes = PostTypes.COMMENT) => {
         if (!commentBody) {
             return false ;
         }
