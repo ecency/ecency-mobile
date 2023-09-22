@@ -81,8 +81,8 @@ export const extractWordAtIndex = (text: string, index: number) => {
   return word;
 };
 
-export const generateReplyPermlink = (toAuthor) => {
-  if (!toAuthor) {
+export const generateUniquePermlink = (prefix) => {
+  if (!prefix) {
     return '';
   }
 
@@ -94,7 +94,7 @@ export const generateReplyPermlink = (toAuthor) => {
     .getSeconds()
     .toString()}${t.getMilliseconds().toString()}z`;
 
-  return `re-${toAuthor.replace(/\./g, '')}-${timeFormat}`;
+  return `${prefix}-${timeFormat}`;
 };
 
 export const makeOptions = (postObj) => {
