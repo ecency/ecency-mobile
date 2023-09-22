@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../hooks";
 import { postComment } from "../../providers/hive/dhive";
-import { extractMetadata, generateReplyPermlink, makeJsonMetadata } from "../../utils/editor";
+import { extractMetadata, generateUniquePermlink, makeJsonMetadata } from "../../utils/editor";
 import { Alert } from "react-native";
 import { updateCommentCache } from "../../redux/actions/cacheActions";
 import { toastNotification } from "../../redux/actions/uiAction";
@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useUserActivityMutation, wavesQueries } from "../../providers/queries";
 import { PointActivityIds } from "../../providers/ecency/ecency.types";
 import { usePublishWaveMutation } from "../../providers/queries/postQueries/wavesQueries";
+import { PostTypes } from "../../constants/postTypes";
 
 
 export const usePostSubmitter = () => {
@@ -38,7 +39,10 @@ export const usePostSubmitter = () => {
         if (currentAccount) {
             setIsSending(true);
 
-            const permlink = generateReplyPermlink(parentPost.author);
+            const _prefix = postType === PostTypes.WAVE 
+                ? postType
+                : `re-${parentPost.author.replace(/\./g, '')}`
+            const permlink = generateUniquePermlink(_prefix);
             const author = currentAccount.name;
             const parentAuthor = parentPost.author;
             const parentPermlink = parentPost.permlink;

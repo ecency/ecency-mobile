@@ -26,12 +26,12 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Utilities
 import {
   generatePermlink,
-  generateReplyPermlink,
   makeJsonMetadata,
   makeOptions,
   extractMetadata,
   makeJsonMetadataForUpdate,
   createPatch,
+  generateUniquePermlink,
 } from '../../../utils/editor';
 // import { generateSignature } from '../../../utils/image';
 
@@ -707,7 +707,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
 
       const { post } = this.state;
-      const permlink = generateReplyPermlink(post.author);
+
+      const _prefix = `re-${post.author.replace(/\./g, '')}`
+      const permlink = generateUniquePermlink(_prefix);
 
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
