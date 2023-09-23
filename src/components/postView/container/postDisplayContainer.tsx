@@ -76,6 +76,8 @@ const PostDisplayContainer = ({
         name: ROUTES.SCREENS.REBLOGS,
         params: {
           reblogs,
+          author,
+          permlink,
         },
         key: post.permlink + reblogs.length,
       } as never);
@@ -153,7 +155,7 @@ const PostDisplayContainer = ({
       handleOnReplyPress={_handleOnReplyPress}
       handleOnVotersPress={_handleOnVotersPress}
       handleOnReblogsPress={_handleOnReblogsPress}
-    
+
     />
   );
 };

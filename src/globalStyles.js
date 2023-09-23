@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { FlipInEasyX } from 'react-native-reanimated';
 
 export default EStyleSheet.create({
   containerHorizontal16: {
@@ -86,5 +87,12 @@ export default EStyleSheet.create({
   },
   tabBarBottom: {
     paddingBottom: 60,
+  },
+  mainbutton: {
+    width: '40%',
+    justifyContent: 'center',
+    position: 'relative',
+    left: 180,
+    bottom: 20,
   },
 });
