@@ -2,10 +2,10 @@
   "wallet": {
     "curation_reward": "Кураторская награда",
     "author_reward": "Авторская награда",
-    "community_reward": "Community Reward",
+    "community_reward": "Награды сообщества",
     "comment_benefactor_reward": "Награда бенефициару",
     "claim_reward_balance": "Получить награду ",
-    "points_activity": "Activity",
+    "points_activity": "Активность",
     "transfer": "Перевод",
     "power_up": "В Силу",
     "transfer_from_savings": "Из сейфа",
@@ -667,7 +667,7 @@
     "in": "в",
     "reveal_muted": "ОТКЛЮЧЕНО\nНажмите, чтобы показать контент",
     "posted_by": "Опубликовано {username} с помощью {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ecency Волны"
   },
   "drafts": {
     "title": "Черновики",
@@ -914,7 +914,7 @@
   },
   "comments": {
     "title": "Комментарии",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Отобразить содержимое",
     "read_more": "Читать больше комментариев",
     "more_replies": "ответы",
     "no_comments": "Прокомментируйте первым..."
@@ -1011,11 +1011,11 @@
   },
   "quick_reply": {
     "placeholder": "Добавить комментарий...",
-    "placeholder_wave": "What's happening?",
-    "summary_wave": "Will be published in: {host}",
+    "placeholder_wave": "Что интересного вокруг?",
+    "summary_wave": "Будет опубликовано в: {host}",
     "comment": "Комментарий",
     "reply": "ОТВЕТИТЬ",
-    "publish": "PUBLISH",
+    "publish": "ОПУБЛИКОВАТЬ",
     "close": "ЗАКРЫТЬ"
   },
   "walkthrough": {
@@ -1037,11 +1037,11 @@
     "detected_url": "Обнаружена Ссылка",
     "unsupported_alert_title": "Неподдерживаемый URL!",
     "unsupported_alert_desc": "Пожалуйста, отсканируйте корректный адрес ecency.",
-    "confirmTransaction": "Confirm transaction",
-    "approve": "Approve",
-    "cancel": "Cancel",
+    "confirmTransaction": "Подтвердить транзакцию",
+    "approve": "Утвердить",
+    "cancel": "Отменить",
     "multi_array_ops_alert": "Multiple operations array detected!",
-    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
+    "multi_array_ops_aler_desct": "Ecency не поддерживает подписание нескольких операций, однако"
   },
   "history": {
     "edit": "История изменений",
