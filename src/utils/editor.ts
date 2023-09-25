@@ -3,7 +3,6 @@ import { Image } from 'react-native';
 import { diff_match_patch as diffMatchPatch } from 'diff-match-patch';
 import VersionNumber from 'react-native-version-number';
 import MimeTypes from 'mime-types';
-import { PostTypes } from '../constants/postTypes';
 
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
@@ -215,12 +214,10 @@ export const extractMetadata = async ({
   body,
   thumbUrl,
   fetchRatios,
-  postType
 }: {
   body: string;
   thumbUrl?: string;
   fetchRatios?: boolean;
-  postType?: PostTypes;
 }) => {
   // NOTE: keepting regex to extract usernames as reference for later usage if any
   // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
