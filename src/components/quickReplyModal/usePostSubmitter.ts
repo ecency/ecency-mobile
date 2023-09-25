@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../hooks";
 import { postComment } from "../../providers/hive/dhive";
-import { extractMetadata, generateReplyPermlink, makeJsonMetadata } from "../../utils/editor";
+import { extractMetadata, generateUniquePermlink, makeJsonMetadata } from "../../utils/editor";
 import { Alert } from "react-native";
 import { updateCommentCache } from "../../redux/actions/cacheActions";
 import { toastNotification } from "../../redux/actions/uiAction";
@@ -30,7 +30,7 @@ export const usePostSubmitter = () => {
     // handle submit reply
     const _submitReply = async (commentBody: string, parentPost: any, postType: PostTypes = PostTypes.COMMENT) => {
         if (!commentBody) {
-            return false ;
+            return false;
         }
         if (isSending) {
             return false;
@@ -39,7 +39,11 @@ export const usePostSubmitter = () => {
         if (currentAccount) {
             setIsSending(true);
 
-            const permlink = generateReplyPermlink(parentPost.author);
+            const _prefix = postType === PostTypes.WAVE
+                ? postType
+                : `re-${parentPost.author.replace(/\./g, '')}`
+            const permlink = generateUniquePermlink(_prefix);
+
             const author = currentAccount.name;
             const parentAuthor = parentPost.author;
             const parentPermlink = parentPost.permlink;
@@ -49,8 +53,9 @@ export const usePostSubmitter = () => {
 
             //adding jsonmeta with image ratios here....
             const meta = await extractMetadata({
-                body:commentBody,
-                fetchRatios:true
+                body: commentBody,
+                fetchRatios: true,
+                postType
             })
             const jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency'])
 
@@ -92,7 +97,7 @@ export const usePostSubmitter = () => {
                 );
 
                 // add comment cache entry
-                const _cacheCommentData =  {
+                const _cacheCommentData = {
                     author,
                     permlink,
                     url,
@@ -101,7 +106,7 @@ export const usePostSubmitter = () => {
                     markdownBody: commentBody,
                     json_metadata: jsonMetadata
                 }
-                
+
                 dispatch(
                     updateCommentCache(
                         `${author}/${permlink}`,
@@ -138,15 +143,15 @@ export const usePostSubmitter = () => {
 
 
     //feteced lates wafves container and post wave to that container
-    const _submitWave = async (body:string) => {
+    const _submitWave = async (body: string) => {
 
         try {
             const _wavesHost = 'ecency.waves' //TODO: make waves host selection dynamic
             const latestWavesPost = await wavesQueries.fetchLatestWavesContainer(_wavesHost);
 
-            const _cacheCommentData = await _submitReply(body, latestWavesPost)
+            const _cacheCommentData = await _submitReply(body, latestWavesPost, PostTypes.WAVE)
 
-            if(_cacheCommentData){
+            if (_cacheCommentData) {
                 pusblishWaveMutation.mutate(_cacheCommentData)
             }
 

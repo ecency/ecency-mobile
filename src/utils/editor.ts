@@ -215,10 +215,12 @@ export const extractMetadata = async ({
   body,
   thumbUrl,
   fetchRatios,
+  postType,
 }: {
   body: string;
   thumbUrl?: string;
   fetchRatios?: boolean;
+  postType?: PostTypes;
 }) => {
   // NOTE: keepting regex to extract usernames as reference for later usage if any
   // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
