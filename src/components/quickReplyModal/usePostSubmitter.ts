@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useUserActivityMutation, wavesQueries } from "../../providers/queries";
 import { PointActivityIds } from "../../providers/ecency/ecency.types";
 import { usePublishWaveMutation } from "../../providers/queries/postQueries/wavesQueries";
+import { PostTypes } from "../../constants/postTypes";
 
 
 export const usePostSubmitter = () => {

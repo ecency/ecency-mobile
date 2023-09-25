@@ -3,6 +3,7 @@ import { Image } from 'react-native';
 import { diff_match_patch as diffMatchPatch } from 'diff-match-patch';
 import VersionNumber from 'react-native-version-number';
 import MimeTypes from 'mime-types';
+import { PostTypes } from '../constants/postTypes';
 
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
