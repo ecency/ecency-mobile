@@ -3,6 +3,7 @@ import { Image } from 'react-native';
 import { diff_match_patch as diffMatchPatch } from 'diff-match-patch';
 import VersionNumber from 'react-native-version-number';
 import MimeTypes from 'mime-types';
+import { PostTypes } from '../constants/postTypes';
 
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
@@ -80,8 +81,8 @@ export const extractWordAtIndex = (text: string, index: number) => {
   return word;
 };
 
-export const generateReplyPermlink = (toAuthor) => {
-  if (!toAuthor) {
+export const generateUniquePermlink = (prefix) => {
+  if (!prefix) {
     return '';
   }
 
@@ -93,7 +94,7 @@ export const generateReplyPermlink = (toAuthor) => {
     .getSeconds()
     .toString()}${t.getMilliseconds().toString()}z`;
 
-  return `re-${toAuthor.replace(/\./g, '')}-${timeFormat}`;
+  return `${prefix}-${timeFormat}`;
 };
 
 export const makeOptions = (postObj) => {
@@ -214,10 +215,12 @@ export const extractMetadata = async ({
   body,
   thumbUrl,
   fetchRatios,
+  postType,
 }: {
   body: string;
   thumbUrl?: string;
   fetchRatios?: boolean;
+  postType?: PostTypes;
 }) => {
   // NOTE: keepting regex to extract usernames as reference for later usage if any
   // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
@@ -253,6 +256,10 @@ export const extractMetadata = async ({
         .slice(0, 5),
     );
   }
+
+  //setting post type, primary usecase for separating waves from other posts
+  out.type = postType || PostTypes.POST
+  
 
   return out;
 };

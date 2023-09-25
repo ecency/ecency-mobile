@@ -26,7 +26,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Utilities
 import {
   generatePermlink,
-  generateReplyPermlink,
+  generateUniquePermlink,
   makeJsonMetadata,
   makeOptions,
   extractMetadata,
@@ -707,7 +707,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
 
       const { post } = this.state;
-      const permlink = generateReplyPermlink(post.author);
+      
+      const _prefix = `re-${post.author.replace(/\./g, '')}`
+      const permlink = generateUniquePermlink(_prefix);
 
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
