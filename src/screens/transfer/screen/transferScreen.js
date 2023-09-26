@@ -44,7 +44,7 @@ const TransferView = ({
   referredUsername,
   initialAmount,
   initialMemo,
-  transactionData,
+  initialRecurrence,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -75,6 +75,8 @@ const TransferView = ({
   const [memo, setMemo] = useState(
     transferType === 'purchase_estm' ? 'estm-purchase' : initialMemo,
   );
+  const [recurrence, setRecurrence] = useState(`${initialRecurrence}`);
+
   const [isUsernameValid, setIsUsernameValid] = useState(
     !!(
       transferType === 'purchase_estm' ||
@@ -105,7 +107,13 @@ const TransferView = ({
       if (accountType === AUTH_TYPE.STEEM_CONNECT) {
         setHsTransfer(true);
       } else {
-        transferToAccount(from, destination, amount, memo);
+        transferToAccount(
+          from,
+          destination,
+          amount,
+          memo,
+          transferType === TransferTypes.RECURRENT_TRANSFER ? recurrence : null,
+        );
       }
     },
     300,
@@ -133,7 +141,11 @@ const TransferView = ({
     //   )}`;
     // } else
 
-    if (transferType === TransferTypes.TRANSFER_TO_SAVINGS) {
+    if (transferType === TransferTypes.RECURRENT_TRANSFER) {
+      path = `sign/recurrent_transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
+        `${amount} ${fundType}`,
+      )}&memo=${encodeURIComponent(memo)}&recurrence=${recurrence}`;
+    } else if (transferType === TransferTypes.TRANSFER_TO_SAVINGS) {
       path = `sign/transfer_to_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}`;
@@ -200,6 +212,7 @@ const TransferView = ({
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}`;
     }
+    console.log('path is: ', path);
   }
 
   const _onNextPress = () => {
@@ -268,6 +281,8 @@ const TransferView = ({
             setMemo={setMemo}
             amount={amount}
             setAmount={setAmount}
+            recurrence={recurrence}
+            setRecurrence={setRecurrence}
             hsTransfer={hsTransfer}
             transferType={transferType}
             selectedAccount={selectedAccount}

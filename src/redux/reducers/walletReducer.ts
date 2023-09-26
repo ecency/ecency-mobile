@@ -59,6 +59,7 @@ export interface CoinActivity {
   details: string | null;
   memo: string;
   cancelable: boolean;
+  recurrence: string;
 }
 
 export interface QuoteItem {

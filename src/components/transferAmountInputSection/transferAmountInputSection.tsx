@@ -18,6 +18,8 @@ export interface TransferAmountInputSectionProps {
   setMemo: (value: string) => void;
   amount: string;
   setAmount: (value: string) => void;
+  recurrence: string;
+  setRecurrence: (value: string) => void;
   hsTransfer: boolean;
   transferType: string;
   selectedAccount: any;
@@ -36,6 +38,8 @@ const TransferAmountInputSection = ({
   setMemo,
   amount,
   setAmount,
+  recurrence,
+  setRecurrence,
   transferType,
   fundType,
   disableMinimum,
@@ -63,6 +67,9 @@ const TransferAmountInputSection = ({
     if (state === 'memo') {
       setMemo(_amount);
     }
+    if (state === 'recurrence') {
+      setRecurrence(val);
+    }
   };
 
   const _renderInput = (placeholder, state, keyboardType, isTextArea) => (
@@ -76,6 +83,8 @@ const TransferAmountInputSection = ({
           ? amount
           : state === 'memo'
           ? memo
+          : state === 'recurrence'
+          ? recurrence
           : ''
       }
       placeholder={placeholder}
@@ -124,8 +133,22 @@ const TransferAmountInputSection = ({
           </TouchableOpacity>
         )}
       />
+      {transferType === TransferTypes.RECURRENT_TRANSFER && (
+        <TransferFormItem
+          label={intl.formatMessage({ id: 'transfer.recurrence' })}
+          rightComponent={() =>
+            _renderInput(
+              intl.formatMessage({ id: 'transfer.recurrence_placeholder' }),
+              'recurrence',
+              'numeric',
+              false,
+            )
+          }
+        />
+      )}
       {(transferType === TransferTypes.POINTS ||
         transferType === TransferTypes.TRANSFER_TOKEN ||
+        transferType === TransferTypes.RECURRENT_TRANSFER ||
         transferType === TransferTypes.TRANSFER_TO_SAVINGS ||
         transferType === TransferTypes.TRANSFER_ENGINE ||
         transferType === TransferTypes.TRANSFER_SPK ||

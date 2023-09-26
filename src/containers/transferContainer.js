@@ -16,6 +16,7 @@ import {
   withdrawVesting,
   delegateVestingShares,
   setWithdrawVestingRoute,
+  recurrentTransferToken,
 } from '../providers/hive/dhive';
 import { toastNotification } from '../redux/actions/uiAction';
 import { getUserDataWithUsername } from '../realm/realm';
@@ -63,6 +64,7 @@ class TransferContainer extends Component {
       spkMarkets: [],
       initialAmount: props.route.params?.initialAmount,
       initialMemo: props.route.params?.initialMemo,
+      initialRecurrence: props.route.params?.initialRecurrence,
     };
   }
 
@@ -188,7 +190,7 @@ class TransferContainer extends Component {
     }, 3000);
   };
 
-  _transferToAccount = async (from, destination, amount, memo) => {
+  _transferToAccount = async (from, destination, amount, memo, recurrence = null) => {
     const { pinCode, navigation, dispatch, intl, route } = this.props;
     let { currentAccount } = this.props;
     const { selectedAccount } = this.state;
@@ -205,6 +207,10 @@ class TransferContainer extends Component {
       fundType,
     };
 
+    if (recurrence) {
+      data.recurrence = +recurrence;
+    }
+
     if (countDecimals(Number(data.amount)) < 3) {
       data.amount = Number(data.amount).toFixed(3);
     }
@@ -213,6 +219,9 @@ class TransferContainer extends Component {
     switch (transferType) {
       case 'transfer_token':
         func = transferToken;
+        break;
+      case TransferTypes.RECURRENT_TRANSFER:
+        func = recurrentTransferToken;
         break;
       case 'purchase_estm':
         func = transferToken;
@@ -344,6 +353,7 @@ class TransferContainer extends Component {
       spkMarkets,
       initialAmount,
       initialMemo,
+      initialRecurrence,
     } = this.state;
 
     const transferType = route.params?.transferType ?? '';
@@ -371,6 +381,7 @@ class TransferContainer extends Component {
         setWithdrawVestingRoute: this._setWithdrawVestingRoute,
         initialAmount,
         initialMemo,
+        initialRecurrence,
       })
     );
   }
