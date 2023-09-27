@@ -221,48 +221,17 @@ export const useWavesQuery = (host: string) => {
 
 
 
-
   const _data = unionBy(...wavesQueries.map((query) => query.data), 'url');
 
   const _filteredData = useMemo(() =>
-    _data.filter(post => isArray(mutes) ? mutes.indexOf(post?.author) < 0 : true),
-    [mutes, _data])
-
-
-
-
-  const _lastestWavesFetch = async () => {
-  
-    const _prevLatestWave = _filteredData[0]
-
-    await _fetchPermlinks('', true);
-    const queryResponse = await wavesQueries[0].refetch();
-
-    const _newData:any[] = queryResponse.data || [];
-
-    //check if new waves are available
-    const _lastIndex = _newData?.findIndex(item =>
-      ( item.author + item.permlink === _prevLatestWave.author + _prevLatestWave.permlink));
-
-    let _newWaves:any[] = []
-    if (_lastIndex && _lastIndex !== 0) {
-      if (_lastIndex < 0) {
-        _newWaves = _newData?.splice(0, 5) || [];
-      } else {
-        _newWaves = _newData?.splice(0, _lastIndex) || [];
-      }
-    }
-
-    return _newWaves
-  }
-
+     _data.filter(post =>  isArray(mutes) ? mutes.indexOf(post?.author) < 0 : true),
+      [mutes, _data])
 
   return {
     data: _filteredData,
     isRefreshing,
     isLoading: isLoading || wavesQueries.lastItem?.isLoading || wavesQueries.lastItem?.isFetching,
     fetchNextPage: _fetchNextPage,
-    latestWavesFetch: _lastestWavesFetch,
     refresh: _refresh,
   };
 };
