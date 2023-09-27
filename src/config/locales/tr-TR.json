@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Küratör Ödülü",
     "author_reward": "Yazar Ödülü",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Bağış Ödülü",
     "claim_reward_balance": "Ödül Talep Et ",
+    "points_activity": "Activity",
     "transfer": "Transfer",
     "power_up": "Hakediş",
     "transfer_from_savings": "Tasarruflardan",
@@ -912,7 +914,7 @@
   },
   "comments": {
     "title": "Yorumlar",
-    "reveal_comment": "Yorumu göster",
+    "reveal_comment": "Reveal Content",
     "read_more": "Daha fazla yorum oku",
     "more_replies": "yanıtlar",
     "no_comments": "Be the first to respond..."

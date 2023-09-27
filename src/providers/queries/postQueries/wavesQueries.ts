@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { unionBy } from 'lodash';
+import { unionBy, isArray } from 'lodash';
 import { getDiscussionCollection } from '../../hive/dhive';
 
 import { getAccountPosts } from '../../hive/dhive';
@@ -22,6 +22,7 @@ export const useWavesQuery = (host: string) => {
   const queryClient = useQueryClient();
 
   const cache = useAppSelector(state => state.cache);
+  const mutes = useAppSelector(state => state.account.currentAccount.mutes);
   const cacheRef = useRef(cache);
 
   const cachedVotes = cache.votesCollection
@@ -42,9 +43,9 @@ export const useWavesQuery = (host: string) => {
   // query initialization
   const wavesQueries = useQueries({
     queries: activePermlinks.map((pagePermlink, index) => ({
-        queryKey: [QUERIES.WAVES.GET, host, index],
-        queryFn: () => _fetchWaves(pagePermlink),
-        initialData: [],
+      queryKey: [QUERIES.WAVES.GET, host, index],
+      queryFn: () => _fetchWaves(pagePermlink),
+      initialData: [],
     })),
   });
 
@@ -220,10 +221,14 @@ export const useWavesQuery = (host: string) => {
 
 
 
-  const _dataArrs = wavesQueries.map((query) => query.data);
+  const _data = unionBy(...wavesQueries.map((query) => query.data), 'url');
+
+  const _filteredData = useMemo(() =>
+     _data.filter(post =>  isArray(mutes) ? mutes.indexOf(post?.author) < 0 : true),
+      [mutes, _data])
 
   return {
-    data: unionBy(..._dataArrs, 'url'),
+    data: _filteredData,
     isRefreshing,
     isLoading: isLoading || wavesQueries.lastItem?.isLoading || wavesQueries.lastItem?.isFetching,
     fetchNextPage: _fetchNextPage,

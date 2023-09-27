@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "কিউরেটর পুরস্কার",
     "author_reward": "লেখক পুরস্কার",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "উপকারকারীর পুরষ্কার",
     "claim_reward_balance": "পুরস্কার দাবি",
+    "points_activity": "Activity",
     "transfer": "স্থানান্তর",
     "power_up": "To Vesting",
     "transfer_from_savings": "সঞ্চয় থেকে",
@@ -912,7 +914,7 @@
   },
   "comments": {
     "title": "মন্তব্য",
-    "reveal_comment": "মন্তব্য প্রকাশ করুন",
+    "reveal_comment": "Reveal Content",
     "read_more": "আরও মন্তব্য পড়ুন",
     "more_replies": "replies",
     "no_comments": "Be the first to respond..."

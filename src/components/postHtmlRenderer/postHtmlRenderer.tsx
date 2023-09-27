@@ -13,7 +13,7 @@ import { VideoPlayer } from '..';
 interface PostHtmlRendererProps {
   contentWidth: number;
   body: string;
-  metadata: string;
+  metadata: any;
   isComment?: boolean;
   onLoaded?: () => void;
   setSelectedImage: (imgUrl: string, postImageUrls: string[]) => void;

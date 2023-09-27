@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Награда за участие",
     "author_reward": "Авторска награда",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Награда за благодетели",
     "claim_reward_balance": "Получи награда",
+    "points_activity": "Activity",
     "transfer": "Прехвърляне",
     "power_up": "Подсилване на гласа",
     "transfer_from_savings": "От спестявания",
@@ -912,7 +914,7 @@
   },
   "comments": {
     "title": "Коментари",
-    "reveal_comment": "Покажи коментара",
+    "reveal_comment": "Reveal Content",
     "read_more": "Прочети още коментари",
     "more_replies": "отговори",
     "no_comments": "Be the first to respond..."

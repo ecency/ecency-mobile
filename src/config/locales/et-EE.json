@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Kuraatori tasu",
     "author_reward": "Autoritasu",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Kasusaaja tasu",
     "claim_reward_balance": "Tasu lunastatud ",
+    "points_activity": "Activity",
     "transfer": "Ülekanne",
     "power_up": "To Vesting",
     "transfer_from_savings": "Hoiusest",
@@ -912,7 +914,7 @@
   },
   "comments": {
     "title": "Kommentaarid",
-    "reveal_comment": "Näita kommentaari",
+    "reveal_comment": "Reveal Content",
     "read_more": "Näita veel kommentaare",
     "more_replies": "replies",
     "no_comments": "Be the first to respond..."

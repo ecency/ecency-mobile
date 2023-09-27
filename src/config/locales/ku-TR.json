@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Xelata Kuratorê",
     "author_reward": "Xelata Nivîskêr",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Xelata Xêrxwaz",
     "claim_reward_balance": "Xelata Daxwazê ",
+    "points_activity": "Activity",
     "transfer": "Transfer",
     "power_up": "To Vesting",
     "transfer_from_savings": "Ji Berhevkirinan",
@@ -912,7 +914,7 @@
   },
   "comments": {
     "title": "Şîrove",
-    "reveal_comment": "Şîroveyê eşkere bike",
+    "reveal_comment": "Reveal Content",
     "read_more": "Zêdetir şîroveyan bixwîne",
     "more_replies": "replies",
     "no_comments": "Be the first to respond..."

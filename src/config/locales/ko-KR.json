@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "큐레이션 보상",
     "author_reward": "저자 보상",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "베네피셔리 보상",
     "claim_reward_balance": "보상 청구하기",
+    "points_activity": "Activity",
     "transfer": "전송",
     "power_up": "파워업",
     "transfer_from_savings": "안전 금고에서 출금하기",
@@ -912,7 +914,7 @@
   },
   "comments": {
     "title": "작성한 댓글",
-    "reveal_comment": "명성도가 낮은 사용자의 댓글 보기",
+    "reveal_comment": "Reveal Content",
     "read_more": "댓글 더 보기",
     "more_replies": "댓글",
     "no_comments": "Be the first to respond..."

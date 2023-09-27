@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Кураторська Винагорода",
     "author_reward": "Авторська Винагорода",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Винагорода бенефіціару",
     "claim_reward_balance": "Отримати винагороду ",
+    "points_activity": "Activity",
     "transfer": "Переказ",
     "power_up": "To Vesting",
     "transfer_from_savings": "Із заощаджень",
@@ -912,7 +914,7 @@
   },
   "comments": {
     "title": "Коментарі",
-    "reveal_comment": "Показати коментар",
+    "reveal_comment": "Reveal Content",
     "read_more": "Читати більше коментарів",
     "more_replies": "replies",
     "no_comments": "Be the first to respond..."

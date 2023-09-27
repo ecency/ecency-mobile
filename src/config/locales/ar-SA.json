@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "مكافأة التصويت",
     "author_reward": "مكافأة المؤلف",
+    "community_reward": "مكافآت المجتمع",
     "comment_benefactor_reward": "مكافأة المستفيد",
     "claim_reward_balance": "الحصول على المكافأة ",
+    "points_activity": "الأنشطة والمستجدّات",
     "transfer": "تحويل",
     "power_up": "إلى استحقاق",
     "transfer_from_savings": "من المدخرات",
@@ -665,7 +667,7 @@
     "in": "في",
     "reveal_muted": "مكتوم\nانقر لإظهار المحتوى",
     "posted_by": "تم نشره بواسطة {username} عبر {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "موجات Ecency"
   },
   "drafts": {
     "title": "المسودات",
@@ -912,7 +914,7 @@
   },
   "comments": {
     "title": "التعليقات",
-    "reveal_comment": "كشف التعليق",
+    "reveal_comment": "Reveal Content",
     "read_more": "المزيد من التعليقات",
     "more_replies": "ردود",
     "no_comments": "كن اول من يرد..."
@@ -1009,11 +1011,11 @@
   },
   "quick_reply": {
     "placeholder": "إضافة تعليق...",
-    "placeholder_wave": "What's happening?",
-    "summary_wave": "Will be published in: {host}",
+    "placeholder_wave": "ماذا يحدث؟",
+    "summary_wave": "سيتم نشره في: {host}",
     "comment": "تعليق",
     "reply": "رد",
-    "publish": "PUBLISH",
+    "publish": "نشر",
     "close": "إغلاق"
   },
   "walkthrough": {
@@ -1035,11 +1037,11 @@
     "detected_url": "الرابط الذي تم اكتشافه",
     "unsupported_alert_title": "رابط غير مدعوم!",
     "unsupported_alert_desc": "يرجى مسح رابط ecency صالح.",
-    "confirmTransaction": "Confirm transaction",
-    "approve": "Approve",
-    "cancel": "Cancel",
-    "multi_array_ops_alert": "Multiple operations array detected!",
-    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
+    "confirmTransaction": "تأكيد المعاملة",
+    "approve": "إعتماد",
+    "cancel": "إلغاء",
+    "multi_array_ops_alert": "تم اكتشاف عمليات متعددة!",
+    "multi_array_ops_aler_desct": "Ecency لا تدعم عمليات متعددة، حتى الآن"
   },
   "history": {
     "edit": "تعديل التاريخ",

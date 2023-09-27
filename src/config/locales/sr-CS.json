@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Nagrade za glasanje",
     "author_reward": "Nagrada za autora",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Nagrada dobrotvora",
     "claim_reward_balance": "Potvrdi nagradu ",
+    "points_activity": "Activity",
     "transfer": "Prenos",
     "power_up": "To Vesting",
     "transfer_from_savings": "Od štednje",
@@ -912,7 +914,7 @@
   },
   "comments": {
     "title": "Komentari",
-    "reveal_comment": "Prikaži komentar",
+    "reveal_comment": "Reveal Content",
     "read_more": "Pročitajte još komentara",
     "more_replies": "replies",
     "no_comments": "Be the first to respond..."

@@ -41,6 +41,7 @@ const CommentsView = ({
   incrementRepliesCount,
   postContentView,
   isLoading,
+  postType
 }) => {
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
@@ -172,7 +173,7 @@ const CommentsView = ({
         contentContainerStyle={{ padding: 0 }}
         data={comments}
         renderItem={_renderItem}
-        keyExtractor={(item) => get(item, 'permlink')}
+        keyExtractor={(item) => item.author + item.permlink}
         ListEmptyComponent={_renderEmptyContent()}
         ListHeaderComponent={postContentView}
         overScrollMode="never"
@@ -192,7 +193,7 @@ const CommentsView = ({
         />
       )}
       <UpvotePopover ref={upvotePopoverRef} />
-      <PostHtmlInteractionHandler ref={postInteractionRef} />
+      <PostHtmlInteractionHandler ref={postInteractionRef} postType={postType} />
     </Fragment>
   );
 };

@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
 import forEach from 'lodash/forEach';
-import { get } from 'lodash';
+import { get, isArray } from 'lodash';
 import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
 import FastImage from 'react-native-fast-image';
@@ -10,6 +10,7 @@ import parseAsset from './parseAsset';
 import { getResizedAvatar } from './image';
 import { parseReputation } from './user';
 import { CacheStatus } from '../redux/reducers/cacheReducer';
+import { calculateVoteReward, getEstimatedAmount } from './vote';
 
 const webp = Platform.OS !== 'ios';
 
@@ -324,24 +325,34 @@ export const injectVoteCache = (post, voteCache) => {
 
     //if vote do not already exist
     if (_voteIndex < 0 && voteCache.status !== CacheStatus.DELETED) {
+
       post.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
-      post.active_votes = [
-        ...post.active_votes,
-        {
-          voter: voteCache.voter,
-          rshares: voteCache.isDownvote ? -1000 : 1000,
-        },
-      ];
+
+      //calculate updated totalRShares and send to post
+      const _totalRShares = post.active_votes.reduce(
+        (accumulator: number, item: any) => accumulator + parseFloat(item.rshares),
+        voteCache.rshares);
+      const _newVote = parseVote(voteCache, post, _totalRShares);
+      post.active_votes = [...post.active_votes, _newVote];
     }
 
     //if vote already exist
     else {
 
-      //TODO: caluclate estimate amount from existing rshares and subtract from total_payout
-      //TOOD: calcualte real rshares
-      post.active_votes[_voteIndex].rshares = !voteCache.sliderValue
-        ? 0 : voteCache.isDownvote
-          ? -1000 : 1000;
+      const _vote = post.active_votes[_voteIndex];
+
+      //get older and new reward for the vote
+      const _oldReward = calculateVoteReward(_vote.rshares, post);
+
+      //update total payout
+      const _voteAmount = voteCache.amount * (voteCache.isDownvote ? -1 : 1);
+      post.total_payout += _voteAmount - _oldReward
+
+      //update vote entry
+      _vote.rshares = voteCache.rshares
+      _vote.percent100 = _vote.percent && voteCache.percent / 100
+
+      post.active_votes[_voteIndex] = _vote;
       post.active_votes = [...post.active_votes];
     }
   }
@@ -363,6 +374,8 @@ export const isVoted = async (activeVotes, currentUserName) => {
   return false;
 };
 
+
+
 export const isDownVoted = async (activeVotes, currentUserName) => {
   if (!currentUserName) {
     return false;
@@ -376,27 +389,28 @@ export const isDownVoted = async (activeVotes, currentUserName) => {
   return false;
 };
 
+
+
 export const parseActiveVotes = (post) => {
-  const totalPayout =
-    post.total_payout ||
-    parseFloat(post.pending_payout_value) +
-    parseFloat(post.total_payout_value) +
-    parseFloat(post.curator_payout_value);
 
-  const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
-  const ratio = totalPayout / voteRshares || 0;
+  const _totalRShares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
 
-  if (!isEmpty(post.active_votes)) {
-    forEach(post.active_votes, (value) => {
-      value.reward = (value.rshares * ratio).toFixed(3);
-      value.percent /= 100;
-      value.is_down_vote = Math.sign(value.percent) < 0;
-      value.avatar = getResizedAvatar(get(value, 'voter'));
-    });
+  if (isArray(post.active_votes)) {
+    post.active_votes = post.active_votes.map((vote) => parseVote(vote, post, _totalRShares))
   }
 
   return post.active_votes;
 };
+
+
+export const parseVote = (activeVote: any, post: any, _totalRShares?: number) => {
+  activeVote.reward = calculateVoteReward(activeVote.rshares, post, _totalRShares).toFixed(3);
+  activeVote.percent100 = activeVote.percent / 100;
+  activeVote.is_down_vote = Math.sign(activeVote.rshares) < 0;
+  activeVote.avatar = getResizedAvatar(activeVote.voter);
+
+  return activeVote;
+}
 
 const parseTags = (post: any) => {
   if (post.json_metadata) {

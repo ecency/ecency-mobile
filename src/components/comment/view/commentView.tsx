@@ -77,7 +77,7 @@ const CommentView = ({
 
   const _handleOnReplyPress = () => {
     if (isLoggedIn) {
-      dispatch(showReplyModal({mode:'comment', parentPost:comment}));
+      dispatch(showReplyModal({ mode: 'comment', parentPost: comment }));
     } else {
       console.log('Not LoggedIn');
     }
@@ -97,11 +97,17 @@ const CommentView = ({
   );
 
   const _renderComment = () => {
+
+    const _hideContent = isMuted || comment.author_reputation < 25 || comment.net_rshares < 0;
+
     return (
       <View style={[{ marginLeft: 2, marginTop: -6 }]}>
         <CommentBody
+          body={comment.body}
+          metadata={comment.json_metadata}
+          key={`key-${comment.permlink}`}
+          hideContent={_hideContent}
           commentDepth={_depth}
-          reputation={comment.author_reputation}
           handleOnContentPress={_handleOnContentPress}
           handleOnUserPress={handleOnUserPress}
           handleOnLongPress={() => handleOnLongPress(comment)}
@@ -109,9 +115,6 @@ const CommentView = ({
           handleImagePress={handleImagePress}
           handleVideoPress={handleVideoPress}
           handleYoutubePress={handleYoutubePress}
-          body={comment.body}
-          key={`key-${comment.permlink}`}
-          isMuted={isMuted}
         />
 
         <Fragment>
@@ -216,9 +219,9 @@ const CommentView = ({
   const customContainerStyle =
     _depth > 1
       ? {
-          paddingLeft: (_depth - 2) * 44,
-          backgroundColor: EStyleSheet.value('$primaryLightBackground'),
-        }
+        paddingLeft: (_depth - 2) * 44,
+        backgroundColor: EStyleSheet.value('$primaryLightBackground'),
+      }
       : null;
 
   return (
