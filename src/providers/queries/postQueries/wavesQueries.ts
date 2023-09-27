@@ -234,11 +234,15 @@ export const useWavesQuery = (host: string) => {
 
   const _lastestWavesFetch = async () => {
   
-    const _prevLatestWave = _filteredData[0]
-
     await _fetchPermlinks('', true);
+    const _prevLatestWave = _filteredData[0]
+    const _firstQuery = wavesQueries[0];
 
-    const queryResponse = await wavesQueries[0].refetch();
+    if(!_firstQuery){
+      return [];
+    }
+
+    const queryResponse = await _firstQuery.refetch();
 
     const _newData:any[] = queryResponse.data || [];
 
