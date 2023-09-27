@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
 
 // Actions
@@ -18,7 +17,6 @@ const SideMenuContainer = ({ navigation }) => {
   const drawerStatus = useDrawerStatus();
 
   
-
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const isVisibleAccountsBottomSheet = useSelector(

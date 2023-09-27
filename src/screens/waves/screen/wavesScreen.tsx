@@ -8,6 +8,7 @@ import WavesHeader from '../children/wavesHeader';
 import { PostTypes } from '../../../constants/postTypes';
 import ScrollTopPopup from '../../../components/tabbedPosts/view/scrollTopPopup';
 import { debounce } from 'lodash';
+import reactotron from 'reactotron-react-native';
 
 
 const SCROLL_POPUP_THRESHOLD = 5000;
@@ -39,14 +40,13 @@ const WavesScreen = () => {
 
     //actions
     const _handleAppStateChange = async (nextAppState) => {
+
         if (
             appState.current.match(/inactive|background/) &&
-            nextAppState === 'active' &&
-            wavesQuery.data.length > 0
+            nextAppState === 'active'
         ) {
             const latestWaves = await wavesQuery.latestWavesFetch()
             if (latestWaves.length > 0) {
-                Alert.alert("latest waves: " + latestWaves.length);
                 setPopupAvatars(latestWaves.map((item) => item.avatar))
                 setEnableScrollTop(true)
             }
@@ -68,6 +68,7 @@ const WavesScreen = () => {
         if (postsListRef.current) {
             postsListRef.current.scrollToOffset({ offset: 0 });
             setEnableScrollTop(false);
+            setPopupAvatars([])
             scrollPopupDebouce.cancel();
             blockPopupRef.current = true;
             setTimeout(() => {
