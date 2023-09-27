@@ -222,7 +222,6 @@ export const useWavesQuery = (host: string) => {
 
 
 
-
   const _data = unionBy(...wavesQueries.map((query) => query.data), 'url');
 
   const _filteredData = useMemo(() =>
@@ -237,7 +236,6 @@ export const useWavesQuery = (host: string) => {
     const _prevLatestWave = _filteredData[0]
 
     await _fetchPermlinks('', true);
-
     const queryResponse = await wavesQueries[0].refetch();
 
     const _newData:any[] = queryResponse.data || [];
@@ -249,12 +247,11 @@ export const useWavesQuery = (host: string) => {
     let _newWaves:any[] = []
     if (_lastIndex && _lastIndex !== 0) {
       if (_lastIndex < 0) {
-        _newWaves = _newData?.slice(0, 5) || [];
+        _newWaves = _newData?.splice(0, 5) || [];
       } else {
-        _newWaves = _newData?.slice(0, _lastIndex) || [];
+        _newWaves = _newData?.splice(0, _lastIndex) || [];
       }
     }
-
 
     return _newWaves
   }
