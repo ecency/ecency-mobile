@@ -16,10 +16,10 @@ import {
 import { deepLinkParser } from '../../utils/deepLinkParser';
 import RootNavigation from '../../navigation/rootNavigation';
 import getWindowDimensions from '../../utils/getWindowDimensions';
-import { isHiveUri, validateParsedHiveUri } from '../../utils/hive-uri';
+import { isHiveUri, getFormattedTx } from '../../utils/hive-uri';
 import { handleHiveUriOperation, resolveTransaction } from '../../providers/hive/dhive';
 import bugsnagInstance from '../../config/bugsnag';
-import { get, isArray } from 'lodash';
+import { get } from 'lodash';
 import showLoginAlert from '../../utils/showLoginAlert';
 import authType from '../../constants/authType';
 import { delay } from '../../utils/editor';
@@ -162,66 +162,64 @@ export const QRModal = ({}: QRModalProps) => {
     authoritiesMap.set('owner', currentAccount?.local?.ownerKey ? true : false);
     authoritiesMap.set('memo', currentAccount?.local?.memoKey ? true : false);
 
-    const parsedHiveUriValidation = validateParsedHiveUri(parsed, authoritiesMap);
-    if (parsedHiveUriValidation.error) {
-      // show alert to user if parsed uri contains invalid operation data
-      Alert.alert(
-        intl.formatMessage(
-          { id: parsedHiveUriValidation.key1 },
-          { key: parsedHiveUriValidation.keyType },
-        ),
-        intl.formatMessage(
-          {
-            id: parsedHiveUriValidation.key2,
-          },
-          { key: parsedHiveUriValidation.keyType },
-        ),
-      );
-      return;
-    }
-    // resolve the decoded tx and params to a signable tx
-    const tx = await resolveTransaction(parsed.tx, parsed.params, currentAccount.name);
-    const ops = get(tx, 'operations', []);
-    const op = ops[0];
+    getFormattedTx(parsed.tx, authoritiesMap)
+      .then(async (formattedTx) => {
+        // resolve the decoded tx and params to a signable tx
+        const tx = await resolveTransaction(formattedTx.tx, parsed.params, currentAccount.name);
+        const ops = get(tx, 'operations', []);
+        const op = ops[0];
 
-    dispatch(
-      showActionModal({
-        title: intl.formatMessage({
-          id: 'qr.confirmTransaction',
-        }),
-        bodyContent: _renderActionModalBody(op, parsedHiveUriValidation.opName),
-        buttons: [
-          {
-            text: intl.formatMessage({
-              id: 'qr.cancel',
+        dispatch(
+          showActionModal({
+            title: intl.formatMessage({
+              id: 'qr.confirmTransaction',
             }),
-            onPress: () => {},
-            style: 'cancel',
-          },
-          {
-            text: intl.formatMessage({
-              id: 'qr.approve',
-            }),
-            onPress: () => {
-              handleHiveUriOperation(currentAccount, pinCode, tx)
-                .then(() => {
-                  dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-                })
-                .catch((err) => {
-                  bugsnagInstance.notify(err);
-                  if (err) {
-                    dispatch(toastNotification(intl.formatMessage({ id: err })));
-                  } else {
-                    dispatch(
-                      toastNotification(intl.formatMessage({ id: 'qr.transaction_failed' })),
-                    );
-                  }
-                });
+            bodyContent: _renderActionModalBody(op, formattedTx.opName),
+            buttons: [
+              {
+                text: intl.formatMessage({
+                  id: 'qr.cancel',
+                }),
+                onPress: () => {},
+                style: 'cancel',
+              },
+              {
+                text: intl.formatMessage({
+                  id: 'qr.approve',
+                }),
+                onPress: () => {
+                  handleHiveUriOperation(currentAccount, pinCode, tx)
+                    .then(() => {
+                      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+                    })
+                    .catch((err) => {
+                      bugsnagInstance.notify(err);
+                      if (err) {
+                        dispatch(toastNotification(intl.formatMessage({ id: err })));
+                      } else {
+                        dispatch(
+                          toastNotification(intl.formatMessage({ id: 'qr.transaction_failed' })),
+                        );
+                      }
+                    });
+                },
+              },
+            ],
+          }),
+        );
+      })
+      .catch((errObj) => {
+        Alert.alert(
+          intl.formatMessage({ id: errObj.errorKey1 }, { key: errObj.authorityKeyType }),
+          intl.formatMessage(
+            {
+              id: errObj.errorKey2,
             },
-          },
-        ],
-      }),
-    );
+            { key: errObj.authorityKeyType },
+          ),
+        );
+        return;
+      });
   };
 
   const _handleDeepLink = async (url) => {

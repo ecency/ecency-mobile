@@ -61,86 +61,69 @@ const _formatAmount = (amount: string) => {
 };
 
 /**
- * Validates parsed data from hive-uri, checks if operation length is not greater than one and __signer is present in operation
- * Accepts parsed uri from decode method of hive-uri
- * Returns an object with error status, keys for showing errors, and operation name parsed from operations.json
+ * Validates tx from parsed data from hive-uri, checks if operation length is not greater than one and __signer is present in operation
+ * Accepts tx object of parsed uri from decode method of hive-uri
+ * Returns promise with keys for showing errors, and operation name parsed from operations.json and in case of success returns formatted tx
  *
  * */
-export const validateParsedHiveUri = (parsedUri: any, authoritiesMap: Map<string, boolean>) => {
-  let validateObj = {
-    error: false,
-    key1: '',
-    key2: '',
-    opName: '',
-    keyType: '',
-    tx: parsedUri.tx,
+export const getFormattedTx = (tx: any, authoritiesMap: Map<string, boolean>) => {
+  let opName;
+  let errorObj = {
+    errorKey1: '',
+    errorKey2: '',
+    authorityKeyType: '',
   };
 
-  const ops = get(parsedUri.tx, 'operations', []);
+  const ops = get(tx, 'operations', []);
   const isValidOp = _checkOpsArray(ops);
   if (!isValidOp) {
-    validateObj.error = true;
-    validateObj.key1 = 'qr.multi_array_ops_alert';
-    validateObj.key2 = 'qr.multi_array_ops_aler_desct';
-    return validateObj;
+    errorObj.errorKey1 = 'qr.multi_array_ops_alert';
+    errorObj.errorKey2 = 'qr.multi_array_ops_aler_desct';
+    return Promise.reject(errorObj);
   }
   const op = ops[0]; // single operation
   const operationName = op[0]; // operation name
   let operationObj = op[1]; // operation object
 
   if (!operationName) {
-    validateObj.error = true;
-    validateObj.key1 = 'qr.invalid_op';
-    validateObj.key2 = 'qr.invalid_op_desc';
-    return validateObj;
+    errorObj.errorKey1 = 'qr.invalid_op';
+    errorObj.errorKey2 = 'qr.invalid_op_desc';
+    return Promise.reject(errorObj);
   }
   const opProps = getOperationProps(operationName); // get operation props from operations.json file i-e signer field and operation name
-  validateObj.keyType = opProps?.opAuthority || ''; // set key type to validate object
+  errorObj.authorityKeyType = opProps?.opAuthority || ''; // set key type to validate object
 
   if (!opProps) {
-    validateObj.error = true;
-    validateObj.key1 = 'qr.invalid_op';
-    validateObj.key2 = 'qr.invalid_op_desc';
-    return validateObj;
+    errorObj.errorKey1 = 'qr.invalid_op';
+    errorObj.errorKey2 = 'qr.invalid_op_desc';
+    return Promise.reject(errorObj);
   }
   if (authoritiesMap && !authoritiesMap.get(opProps.opAuthority)) {
-    validateObj.error = true;
-    validateObj.key1 = 'qr.invalid_key';
-    validateObj.key2 = 'qr.invalid_key_desc';
-    return validateObj;
+    errorObj.errorKey1 = 'qr.invalid_key';
+    errorObj.errorKey2 = 'qr.invalid_key_desc';
+    return Promise.reject(errorObj);
   }
   // if amount field present in operation, validate and check for proper formatting and format to 3 decimal places
   if (operationObj.hasOwnProperty('amount')) {
     const amount = _formatAmount(operationObj.amount);
     operationObj.amount = amount;
     if (!amount) {
-      validateObj.error = true;
-      validateObj.key1 = 'qr.invalid_amount';
-      validateObj.key2 = 'qr.invalid_amount_desc';
-      return validateObj;
+      errorObj.errorKey1 = 'qr.invalid_amount';
+      errorObj.errorKey2 = 'qr.invalid_amount_desc';
+      return Promise.reject(errorObj);
     }
   }
   const opSignerValue = get(op[1], opProps.signerField, '');
   // if signer field contains empty value, fill it with __signer
   if (!opSignerValue) {
     operationObj[opProps.signerField] = '__signer';
-    validateObj.error = false;
-    validateObj.key1 = '';
-    validateObj.key2 = '';
-    validateObj.opName = opProps.opName;
-    validateObj.tx = {
-      ...validateObj.tx,
-      operations: [[operationName, operationObj]],
-    };
-    return validateObj;
   }
-  validateObj.error = false;
-  validateObj.key1 = '';
-  validateObj.key2 = '';
-  validateObj.opName = opProps.opName;
-  validateObj.tx = {
-    ...validateObj.tx,
+
+  opName = opProps.opName;
+  tx = {
+    ...tx,
     operations: [[operationName, operationObj]],
   };
-  return validateObj;
+  // resolve with formatted tx and opName
+  return Promise.resolve({ tx: tx, opName: opName });
 };
