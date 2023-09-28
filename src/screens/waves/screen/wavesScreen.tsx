@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, RefreshControl, View, FlatList } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, RefreshControl, View, FlatList, AppState, Alert } from 'react-native';
 import { Comments, EmptyScreen, Header, PostOptionsModal } from '../../../components';
 import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
@@ -8,6 +8,7 @@ import WavesHeader from '../children/wavesHeader';
 import { PostTypes } from '../../../constants/postTypes';
 import ScrollTopPopup from '../../../components/tabbedPosts/view/scrollTopPopup';
 import { debounce } from 'lodash';
+import reactotron from 'reactotron-react-native';
 
 
 const SCROLL_POPUP_THRESHOLD = 5000;
@@ -19,13 +20,40 @@ const WavesScreen = () => {
     const postsListRef = useRef<FlatList>();
     const blockPopupRef = useRef(false);
     const scrollOffsetRef = useRef(0);
+    const appState = useRef(AppState.currentState);
 
     const wavesQuery = wavesQueries.useWavesQuery('ecency.waves');
 
     const isDarkTheme = useAppSelector(state => state.application.isDarkTheme)
 
     const [enableScrollTop, setEnableScrollTop] = useState(false);
+    const [popupAvatars, setPopupAvatars] = useState<any[]>([])
 
+
+    useEffect(() => {
+        const _stateSub = AppState.addEventListener('change', _handleAppStateChange);
+        return () => {
+            _stateSub.remove();
+        }
+    }, [])
+
+
+    //actions
+    const _handleAppStateChange = async (nextAppState) => {
+
+        if (
+            appState.current.match(/inactive|background/) &&
+            nextAppState === 'active'
+        ) {
+            const latestWaves = await wavesQuery.latestWavesFetch()
+            if (latestWaves.length > 0) {
+                setPopupAvatars(latestWaves.map((item) => item.avatar))
+                setEnableScrollTop(true)
+            }
+        }
+
+        appState.current = nextAppState;
+    };
 
     const _fetchData = ({ refresh }: { refresh?: boolean }) => {
         if (refresh) {
@@ -38,8 +66,9 @@ const WavesScreen = () => {
     //scrolls to top, blocks scroll popup for 2 seconds to reappear after scroll
     const _scrollTop = () => {
         if (postsListRef.current) {
-            postsListRef.current.scrollToOffset({offset:0});
+            postsListRef.current.scrollToOffset({ offset: 0 });
             setEnableScrollTop(false);
+            setPopupAvatars([])
             scrollPopupDebouce.cancel();
             blockPopupRef.current = true;
             setTimeout(() => {
@@ -115,11 +144,12 @@ const WavesScreen = () => {
                     }}
                 />
                 <ScrollTopPopup
-                    popupAvatars={[]}
+                    popupAvatars={popupAvatars}
                     enableScrollTop={enableScrollTop}
                     onPress={_scrollTop}
                     onClose={() => {
                         setEnableScrollTop(false);
+                        setPopupAvatars([])
                     }}
                 />
             </View>
