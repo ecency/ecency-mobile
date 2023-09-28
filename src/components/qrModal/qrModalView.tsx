@@ -16,10 +16,10 @@ import {
 import { deepLinkParser } from '../../utils/deepLinkParser';
 import RootNavigation from '../../navigation/rootNavigation';
 import getWindowDimensions from '../../utils/getWindowDimensions';
-import { isHiveUri } from '../../utils/hive-uri';
-import { handleHiveUriOperation } from '../../providers/hive/dhive';
+import { isHiveUri, getFormattedTx } from '../../utils/hive-uri';
+import { handleHiveUriOperation, resolveTransaction } from '../../providers/hive/dhive';
 import bugsnagInstance from '../../config/bugsnag';
-import { get, isArray } from 'lodash';
+import { get } from 'lodash';
 import showLoginAlert from '../../utils/showLoginAlert';
 import authType from '../../constants/authType';
 import { delay } from '../../utils/editor';
@@ -156,55 +156,70 @@ export const QRModal = ({}: QRModalProps) => {
     }
 
     const parsed = hiveuri.decode(uri);
-    // resolve the decoded tx and params to a signable tx
-    let { tx, signer } = hiveuri.resolveTransaction(parsed.tx, parsed.params, {
-      signers: currentAccount.name,
-      preferred_signer: currentAccount.name,
-    });
-    const operations = get(tx, 'operations', []);
-    if (!_checkOpsArray(operations)) {
-      Alert.alert(
-        intl.formatMessage({
-          id: 'qr.multi_array_ops_alert',
-        }),
-        intl.formatMessage({
-          id: 'qr.multi_array_ops_aler_desct',
-        }),
-      );
-      return;
-    }
-    dispatch(
-      showActionModal({
-        title: intl.formatMessage({
-          id: 'qr.confirmTransaction',
-        }),
-        bodyContent: _checkOpsArray(operations) ? _renderActionModalBody(operations[0]) : null,
-        buttons: [
-          {
-            text: intl.formatMessage({
-              id: 'qr.cancel',
+    const authoritiesMap = new Map();
+    authoritiesMap.set('active', currentAccount?.local?.activeKey ? true : false);
+    authoritiesMap.set('posting', currentAccount?.local?.postingKey ? true : false);
+    authoritiesMap.set('owner', currentAccount?.local?.ownerKey ? true : false);
+    authoritiesMap.set('memo', currentAccount?.local?.memoKey ? true : false);
+
+    getFormattedTx(parsed.tx, authoritiesMap)
+      .then(async (formattedTx) => {
+        // resolve the decoded tx and params to a signable tx
+        const tx = await resolveTransaction(formattedTx.tx, parsed.params, currentAccount.name);
+        const ops = get(tx, 'operations', []);
+        const op = ops[0];
+
+        dispatch(
+          showActionModal({
+            title: intl.formatMessage({
+              id: 'qr.confirmTransaction',
             }),
-            onPress: () => {},
-            style: 'cancel',
-          },
-          {
-            text: intl.formatMessage({
-              id: 'qr.approve',
-            }),
-            onPress: () => {
-              handleHiveUriOperation(currentAccount, pinCode, uri)
-                .then(() => {
-                  dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-                })
-                .catch((err) => {
-                  bugsnagInstance.notify(err);
-                  dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
-                });
+            bodyContent: _renderActionModalBody(op, formattedTx.opName),
+            buttons: [
+              {
+                text: intl.formatMessage({
+                  id: 'qr.cancel',
+                }),
+                onPress: () => {},
+                style: 'cancel',
+              },
+              {
+                text: intl.formatMessage({
+                  id: 'qr.approve',
+                }),
+                onPress: () => {
+                  handleHiveUriOperation(currentAccount, pinCode, tx)
+                    .then(() => {
+                      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+                    })
+                    .catch((err) => {
+                      bugsnagInstance.notify(err);
+                      if (err) {
+                        dispatch(toastNotification(intl.formatMessage({ id: err })));
+                      } else {
+                        dispatch(
+                          toastNotification(intl.formatMessage({ id: 'qr.transaction_failed' })),
+                        );
+                      }
+                    });
+                },
+              },
+            ],
+          }),
+        );
+      })
+      .catch((errObj) => {
+        Alert.alert(
+          intl.formatMessage({ id: errObj.errorKey1 }, { key: errObj.authorityKeyType }),
+          intl.formatMessage(
+            {
+              id: errObj.errorKey2,
             },
-          },
-        ],
-      }),
-    );
+            { key: errObj.authorityKeyType },
+          ),
+        );
+        return;
+      });
   };
 
   const _handleDeepLink = async (url) => {
@@ -221,11 +236,6 @@ export const QRModal = ({}: QRModalProps) => {
     }
   };
 
-  // check operation array is valid and is a single operation array
-  const _checkOpsArray = (ops) => {
-    return ops && isArray(ops) && ops.length === 1 && isArray(ops[0]) && ops[0].length === 2;
-  };
-
   const _renderTransactionInfoRow = (item: any) => (
     <View style={styles.transactionRow}>
       <Text numberOfLines={1} style={styles.transactionItem1}>
@@ -236,10 +246,10 @@ export const QRModal = ({}: QRModalProps) => {
       </Text>
     </View>
   );
-  const _renderActionModalBody = (operations: any) => (
+  const _renderActionModalBody = (operations: any, opName: string) => (
     <View style={styles.transactionBodyContainer}>
       <View style={styles.transactionHeadingContainer}>
-        <Text style={styles.transactionHeading}>{operations[0]}</Text>
+        <Text style={styles.transactionHeading}>{opName}</Text>
       </View>
       <View style={styles.transactionItemsContainer}>
         {Object.entries(operations[1]).map((item) => _renderTransactionInfoRow(item))}
