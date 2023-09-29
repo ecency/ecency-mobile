@@ -12,6 +12,7 @@ import {
 } from '../../../components';
 import styles from './postOptionsModalStyles';
 import ThumbSelectionContent from './thumbSelectionContent';
+import PostDescription from './postDescription';
 
 const REWARD_TYPES = [
   {
@@ -73,6 +74,7 @@ const PostOptionsModal = forwardRef(
     const [shouldReblog, setShouldReblog] = useState(false);
     const [scheduledFor, setScheduledFor] = useState('');
     const [disableDone, setDisableDone] = useState(false);
+    const [postDescription, setPostDescription] = useState('');
 
     // removed the useeffect causing index reset bug
 
@@ -193,6 +195,10 @@ const PostOptionsModal = forwardRef(
               thumbUrl={thumbUrl}
               isUploading={isUploading}
               onThumbSelection={_handleThumbIndexSelection}
+            />
+            <PostDescription
+              postDescription={postDescription}
+              handlePostDescriptionChange={setPostDescription}
             />
 
             {!isEdit && (

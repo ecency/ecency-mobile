@@ -57,4 +57,13 @@ export default EStyleSheet.create({
   thumbSelectContainer: {
     marginTop: 12,
   },
+  input: {
+    borderWidth: 1,
+    borderColor: '$borderColor',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    color: '$primaryBlack',
+    marginVertical: 8,
+    height: 60,
+  },
 });
