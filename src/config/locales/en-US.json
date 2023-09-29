@@ -530,7 +530,8 @@
     "invalid_url_error":"Please insert valid url",
     "plain":"Plain",
     "video":"Video",
-    "image":"Image"
+    "image":"Image",
+    "short_desc": "Short description"
   },
   "snippets":{
     "label_no_snippets":"No Snippets Found",
