@@ -40,8 +40,10 @@ interface PostOptionsModalProps {
   isEdit: boolean;
   isCommunityPost: boolean;
   rewardType: string;
+  postDescription: string;
   isUploading: boolean;
   handleRewardChange: (rewardType: string) => void;
+  handlePostDescriptionChange: (value: string) => void;
   handleThumbSelection: (url: string) => void;
   handleScheduleChange: (datetime: string | null) => void;
   handleShouldReblogChange: (shouldReblog: boolean) => void;
@@ -57,12 +59,14 @@ const PostOptionsModal = forwardRef(
       isEdit,
       isCommunityPost,
       rewardType,
+      postDescription,
       isUploading,
       handleRewardChange,
       handleThumbSelection,
       handleScheduleChange,
       handleShouldReblogChange,
       handleFormUpdate,
+      handlePostDescriptionChange,
     }: PostOptionsModalProps,
     ref,
   ) => {
@@ -74,7 +78,6 @@ const PostOptionsModal = forwardRef(
     const [shouldReblog, setShouldReblog] = useState(false);
     const [scheduledFor, setScheduledFor] = useState('');
     const [disableDone, setDisableDone] = useState(false);
-    const [postDescription, setPostDescription] = useState('');
 
     // removed the useeffect causing index reset bug
 
@@ -198,7 +201,7 @@ const PostOptionsModal = forwardRef(
             />
             <PostDescription
               postDescription={postDescription}
-              handlePostDescriptionChange={setPostDescription}
+              handlePostDescriptionChange={handlePostDescriptionChange}
             />
 
             {!isEdit && (

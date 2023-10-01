@@ -24,6 +24,7 @@ const PostDescription = ({
         value={postDescription}
         onChangeText={handlePostDescriptionChange}
         autoCapitalize="none"
+        maxLength={255}
         editable
         multiline
       />
