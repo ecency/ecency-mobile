@@ -7,7 +7,7 @@
     "claim_reward_balance": "Получить награду ",
     "points_activity": "Активность",
     "transfer": "Перевод",
-    "power_up": "В Силу",
+    "power_up": "В силу",
     "transfer_from_savings": "Из сейфа",
     "withdraw_savings": "Вывести сбережения",
     "withdraw_vesting": "Включить понижение | Разморозить",
@@ -392,7 +392,7 @@
     "deep_login_alert_title": "Простой вход @{username}",
     "deep_login_alert_body": "Подтвердите авторизацию с помощью кода доступа",
     "deep_login_url_expired": "Срок действия URL-адреса для авторизации истёк, пожалуйста, используйте закрытый ключ или пароль для входа",
-    "deep_login_malformed_url": "Неверный URL-адрес для входа, используйте закрытый ключ или пароль для входа."
+    "deep_login_malformed_url": "Неверный URL-адрес для входа, используйте закрытый ключ или пароль для входа"
   },
   "register": {
     "modal_title": "Получить учетную запись Hive",
@@ -553,7 +553,7 @@
     "btn_add": "Изображение",
     "btn_insert": "ВСТАВИТЬ",
     "btn_delete": "УДАЛИТЬ",
-    "confirm_delete": "Вы уверены, что хотите удалить изображения из своих загрузок?",
+    "confirm_delete": "Вы уверены, что хотите удалить изображения из своих загрузок",
     "message_failed": "Не удалось загрузить изображение",
     "delete_failed": "Не удалось удалить изображение",
     "failed_count": "Не удалось загрузить {failedCount} из {totalCount} выбранного изображения(ов)"
@@ -1040,30 +1040,30 @@
     "confirmTransaction": "Подтвердить транзакцию",
     "approve": "Утвердить",
     "cancel": "Отменить",
-    "multi_array_ops_alert": "Operation not supported by Ecency",
-    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations yet",
-    "invalid_op": "Invalid operation data",
-    "invalid_op_desc": "try contacting QR/link author",
-    "invalid_amount": "Invalid Amount",
-    "invalid_amount_desc": "Enter valid amount in proper format",
-    "transaction_failed": "Transaction Failed!",
-    "invalid_key": "{key} key is required to perform this transaction",
-    "invalid_key_desc": "kindly login with {key} key or master key to perform this transaction"
+    "multi_array_ops_alert": "Операция не поддерживается Ecency",
+    "multi_array_ops_aler_desct": "Ecency пока не поддерживает подписание нескольких операций",
+    "invalid_op": "Недопустимые данные операции",
+    "invalid_op_desc": "попробуйте связаться с автором QR/ссылки",
+    "invalid_amount": "Неверная сумма",
+    "invalid_amount_desc": "Введите действительную сумму в правильном формате",
+    "transaction_failed": "Транзакция не прошла!",
+    "invalid_key": "для выполнения этой операции требуется ключ {key}",
+    "invalid_key_desc": "пожалуйста, войдите в систему с ключом {key} или мастер-ключом для выполнения этой операции"
   },
   "history": {
     "edit": "История изменений",
     "version": "Версия"
   },
   "chain-error": {
-    "min-root-comment": "You may only post once every five minutes.",
-    "identical-vote": "Your current vote on this content is identical to this vote.",
-    "insufficient-resource": "Insufficient Resource Credits.",
-    "delete-comment-with-vote": "Cannot delete a content with positive pending rewards.",
-    "comment-cashout": "Content after their payout cannot be deleted.",
-    "comment-children": "Cannot delete a content with replies.",
-    "paid-out-post-forbidden": "Voting for paid out content is not available.",
-    "missing-authority": "This operation requires Active private key or authority.",
-    "missing-owner-authority": "This operation requires Owner private key or authority.",
-    "insufficient_fund": "Insufficient Funds"
+    "min-root-comment": "Вы можете размещать сообщения только один раз в пять минут.",
+    "identical-vote": "Ваше текущее голосование по данному содержанию идентично этому голосованию.",
+    "insufficient-resource": "Недостаточность ресурсных кредитов.",
+    "delete-comment-with-vote": "Невозможно удалить контент с положительными отложенными наградами.",
+    "comment-cashout": "Контент после их выплаты не может быть удален.",
+    "comment-children": "Невозможно удалить содержимое с ответами.",
+    "paid-out-post-forbidden": "Голосование за платный контент недоступно.",
+    "missing-authority": "Для выполнения этой операции требуется приватный ключ или ключ владельца.",
+    "missing-owner-authority": "Для выполнения этой операции требуется приватный ключ или ключ владельца.",
+    "insufficient_fund": "Недостаточность средств"
   }
 }
