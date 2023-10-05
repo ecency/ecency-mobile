@@ -1,5 +1,6 @@
 import React, { useState, Fragment, useRef } from 'react';
-import { FlatList, Text } from 'react-native';
+import { Text } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
@@ -168,7 +169,7 @@ const CommentsView = ({
 
   return (
     <Fragment>
-      <FlatList
+      <FlashList
         style={{ ...styles.list, ...styleOerride }}
         contentContainerStyle={{ padding: 0 }}
         data={comments}
