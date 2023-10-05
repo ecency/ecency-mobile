@@ -318,9 +318,8 @@ const PostComments = forwardRef(
           ListEmptyComponent={_renderEmptyContent}
           data={isPostLoading ? [] : sortedSections}
           onContentSizeChange={_onContentSizeChange}
-          estimatedItemSize={120}
+          estimatedItemSize={104}
           renderItem={_renderItem}
-          keyExtractor={(item) => `${item.author}/${item.permlink}`}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
