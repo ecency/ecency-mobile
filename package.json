@@ -126,7 +126,7 @@
     "react-native-iphone-x-helper": "Norcy/react-native-iphone-x-helper",
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
     "react-native-level-fs": "^3.0.0",
-    "react-native-linear-gradient": "^2.4.2",
+    "react-native-linear-gradient": "^2.8.3",
     "react-native-media-controls": "^2.3.0",
     "react-native-modal": "13.0.1",
     "react-native-modal-dropdown": "^1.0.2",
@@ -219,11 +219,6 @@
       "yarn run lint:fix",
       "git add"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "jest": {
     "preset": "react-native"

@@ -82,6 +82,7 @@ const TransferAccountSelector = ({
     setDestination(username);
   };
 
+  //todo: fetch existing recurrent transfer
   const _debouncedValidateUsername = useCallback(
     debounce((username: string) => {
       getAccountsWithUsername(username).then((res) => {
