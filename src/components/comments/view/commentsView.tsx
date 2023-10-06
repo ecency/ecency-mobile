@@ -1,5 +1,6 @@
 import React, { useState, Fragment, useRef } from 'react';
-import { FlatList, Text } from 'react-native';
+import { Text } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
@@ -133,7 +134,6 @@ const CommentsView = ({
         isLoggedIn={isLoggedIn}
         showAllComments={showAllComments}
         isShowSubComments={isShowSubComments}
-        key={get(item, 'permlink')}
         marginLeft={marginLeft}
         handleOnLongPress={() => _openCommentMenu(item)}
         openReplyThread={() => _openReplyThread(item)}
@@ -168,18 +168,17 @@ const CommentsView = ({
 
   return (
     <Fragment>
-      <FlatList
-        style={{ ...styles.list, ...styleOerride }}
-        contentContainerStyle={{ padding: 0 }}
+      <FlashList
+        contentContainerStyle={{ padding: 0, ...styles.list, ...styleOerride,  }}
         data={comments}
         renderItem={_renderItem}
-        keyExtractor={(item) => item.author + item.permlink}
         ListEmptyComponent={_renderEmptyContent()}
         ListHeaderComponent={postContentView}
         overScrollMode="never"
         onEndReachedThreshold={1}
         maxToRenderPerBatch={7}
         initialNumToRender={5}
+        estimatedItemSize={100}
         windowSize={10}
         {...flatListProps}
       />
