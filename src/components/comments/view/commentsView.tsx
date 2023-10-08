@@ -171,6 +171,7 @@ const CommentsView = ({
       <FlashList
         contentContainerStyle={{ padding: 0, ...styles.list, ...styleOerride,  }}
         data={comments}
+        keyExtractor={(item) => item.author + item.permlink}
         renderItem={_renderItem}
         ListEmptyComponent={_renderEmptyContent()}
         ListHeaderComponent={postContentView}

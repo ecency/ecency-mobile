@@ -313,6 +313,7 @@ const PostComments = forwardRef(
         <FlashList
           ref={commentsListRef}
           style={styles.list}
+          keyExtractor={(item) => `${item.author}/${item.permlink}`}
           contentContainerStyle={styles.listContent}
           ListHeaderComponent={_postContentView}
           ListEmptyComponent={_renderEmptyContent}

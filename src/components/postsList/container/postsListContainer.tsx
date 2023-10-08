@@ -272,6 +272,7 @@ const postsListContainer = (
         data={cacheInjectedData}
         showsVerticalScrollIndicator={false}
         renderItem={_renderItem}
+        keyExtractor={(content, index) => `${content.author}/${content.permlink}-${index}`}
         onEndReachedThreshold={1}
         maxToRenderPerBatch={5}
         initialNumToRender={3}
