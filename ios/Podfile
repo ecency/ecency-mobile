@@ -38,6 +38,10 @@ target 'Ecency' do
     # Pods for testing
   end
 
+  target 'ImageNotifi' do
+    inherit! :complete
+  end
+
   # Convert all permission pods into static libraries
   pre_install do |installer|
     Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
