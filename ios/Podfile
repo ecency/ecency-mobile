@@ -76,7 +76,7 @@ target 'Ecency' do
 
       target.build_configurations.each do |config|
         config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
-        config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'No'
+      
       end
 
       #this workaround resolves duplicate symbolds caused by GCDAsyncSocket inclusion in TcpSockets
@@ -98,6 +98,8 @@ target 'Ecency' do
   end
 
 end
+
+
 target 'ImageNotifi' do
-  pod 'Firebase/Messaging', '~> 8.15.0' # eg 8.15.0
+  pod 'Firebase/Messaging'
 end
