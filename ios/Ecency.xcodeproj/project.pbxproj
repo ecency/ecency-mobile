@@ -112,6 +112,7 @@
 		057A51A22AD4962300E9A768 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
 		057A51A32AD4962300E9A768 /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
 		057A51A52AD4962300E9A768 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		057A51B02AD537C400E9A768 /* ImageNotifi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ImageNotifi.entitlements; sourceTree = "<group>"; };
 		05A14D162518B03000EB7509 /* Ecency-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ecency-Bridging-Header.h"; sourceTree = "<group>"; };
 		05B6C4B724C306CE00B7FA60 /* Ecency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ecency.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06844A5429119F05002FCC34 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = Ecency/BootSplash.storyboard; sourceTree = "<group>"; };
@@ -249,6 +250,7 @@
 		057A51A12AD4962300E9A768 /* ImageNotifi */ = {
 			isa = PBXGroup;
 			children = (
+				057A51B02AD537C400E9A768 /* ImageNotifi.entitlements */,
 				057A51A22AD4962300E9A768 /* NotificationService.h */,
 				057A51A32AD4962300E9A768 /* NotificationService.m */,
 				057A51A52AD4962300E9A768 /* Info.plist */,
@@ -1220,10 +1222,11 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = eshare/eshare.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 75B6RXTKGT;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = eshare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -1238,6 +1241,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.eshare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "extension-dev";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "extension-dist";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1257,10 +1261,12 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = eshare/eshare.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 75B6RXTKGT;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = eshare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -1274,6 +1280,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.eshare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "extension-dev";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "extension-dist";
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -1292,12 +1299,14 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = ImageNotifi/ImageNotifi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 75B6RXTKGT;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ImageNotifi/Info.plist;
@@ -1314,6 +1323,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.ImageNotifi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "notifi-dist";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1331,12 +1342,15 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = ImageNotifi/ImageNotifi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 75B6RXTKGT;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ImageNotifi/Info.plist;
@@ -1352,6 +1366,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.ImageNotifi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "notifi-dist";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1368,11 +1384,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Ecency/EcencyDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2823;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 75B6RXTKGT;
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				HEADER_SEARCH_PATHS = (
@@ -1434,6 +1451,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = ios_dev_app;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ecency-dist";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ecency-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1451,10 +1469,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Ecency/Ecency.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2823;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 75B6RXTKGT;
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				HEADER_SEARCH_PATHS = (
@@ -1516,6 +1536,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = ios_dev_app;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ecency-dist";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ecency-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
