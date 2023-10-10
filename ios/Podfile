@@ -38,9 +38,6 @@ target 'Ecency' do
     # Pods for testing
   end
 
-  target 'ImageNotifi' do
-    inherit! :complete
-  end
 
   # Convert all permission pods into static libraries
   pre_install do |installer|
@@ -99,4 +96,7 @@ target 'Ecency' do
 
   end
 
+end
+target 'ImageNotifi' do
+  pod 'Firebase/Messaging', '~> 8.15.0' # eg 8.15.0
 end

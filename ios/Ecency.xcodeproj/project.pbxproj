@@ -32,12 +32,12 @@
 		58F9BCC624793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
 		58F9BCC724793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
 		58F9BCC824793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
-		5F7A94E248006221381F7D50 /* libPods-Ecency-ImageNotifi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F37CDCAC8340FCA11DB6F4 /* libPods-Ecency-ImageNotifi.a */; };
 		7C8D083700274C80BADEB3D6 /* Sansation_Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1D77AE9F7B24CF19834052B /* Sansation_Bold.ttf */; };
 		872EB06D13C728B5C4C733E4 /* libPods-Ecency.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A897E6535C5B45DDED43406D /* libPods-Ecency.a */; };
 		89D99F65314A416290F8D921 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64F2A611E6EF486C8D3FB82C /* Roboto.ttf */; };
 		92082305364D41A4A673F950 /* RobotoMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5795D1B1C55E46FF96CC4AED /* RobotoMono-Regular.ttf */; };
 		A57EE8B63D4948F0A05218E3 /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 65F56948860941D6BA55779F /* rubicon-icon-font.ttf */; };
+		D59F45944E53C4F674EF4556 /* libPods-ImageNotifi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A55BCE8805535F1786738BD /* libPods-ImageNotifi.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,7 +99,6 @@
 		00E356EE1AD99517003FC87E /* EcencyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EcencyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* EcencyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EcencyTests.m; sourceTree = "<group>"; };
-		00F37CDCAC8340FCA11DB6F4 /* libPods-Ecency-ImageNotifi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ecency-ImageNotifi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0516470824D2C513005DE9C5 /* eshare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eshare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0516470A24D2C513005DE9C5 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		0516470D24D2C513005DE9C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -134,7 +133,9 @@
 		2D02E4901E0B4A5D006451C7 /* Ecency-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ecency-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34E88D888DD444F8B285363C /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		420ABF9795564845A0963C27 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		498D20DD8452BE4914FF168C /* Pods-ImageNotifi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageNotifi.debug.xcconfig"; path = "Target Support Files/Pods-ImageNotifi/Pods-ImageNotifi.debug.xcconfig"; sourceTree = "<group>"; };
 		4EB466C53BAE4EDC904357B3 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		52B45846E7696881D299788C /* Pods-ImageNotifi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageNotifi.release.xcconfig"; path = "Target Support Files/Pods-ImageNotifi/Pods-ImageNotifi.release.xcconfig"; sourceTree = "<group>"; };
 		557F629CF9A41CBDA5C9B081 /* Pods-Ecency-ImageNotifi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-ImageNotifi.release.xcconfig"; path = "Target Support Files/Pods-Ecency-ImageNotifi/Pods-Ecency-ImageNotifi.release.xcconfig"; sourceTree = "<group>"; };
 		5795D1B1C55E46FF96CC4AED /* RobotoMono-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoMono-Regular.ttf"; path = "../src/assets/fonts/RobotoMono-Regular.ttf"; sourceTree = "<group>"; };
 		58190B3B23294814000EA0E1 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -152,6 +153,7 @@
 		6D935B44FB5A4CF3BF4D01DF /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		7246575DADCA4488EC9D462A /* Pods-Ecency-EcencyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-EcencyTests.debug.xcconfig"; path = "Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7900A87FFF214846B5FE0430 /* Roboto-medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-medium.ttf"; path = "../src/assets/fonts/Roboto-medium.ttf"; sourceTree = "<group>"; };
+		8A55BCE8805535F1786738BD /* libPods-ImageNotifi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ImageNotifi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93B182C6FFA44610AB188D7C /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		9464AFB033664B4F8E9F0BED /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		980BC9BC0D3B4AC69645C842 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -186,7 +188,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F7A94E248006221381F7D50 /* libPods-Ecency-ImageNotifi.a in Frameworks */,
+				D59F45944E53C4F674EF4556 /* libPods-ImageNotifi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +288,8 @@
 				17B14A55DE011F4183CA4FA1 /* Pods-Ecency-EcencyTests.release.xcconfig */,
 				637FA180975081FC81437804 /* Pods-Ecency-ImageNotifi.debug.xcconfig */,
 				557F629CF9A41CBDA5C9B081 /* Pods-Ecency-ImageNotifi.release.xcconfig */,
+				498D20DD8452BE4914FF168C /* Pods-ImageNotifi.debug.xcconfig */,
+				52B45846E7696881D299788C /* Pods-ImageNotifi.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -301,7 +305,7 @@
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				A897E6535C5B45DDED43406D /* libPods-Ecency.a */,
 				2AEEE72F26D37DC0AC8A99C2 /* libPods-Ecency-EcencyTests.a */,
-				00F37CDCAC8340FCA11DB6F4 /* libPods-Ecency-ImageNotifi.a */,
+				8A55BCE8805535F1786738BD /* libPods-ImageNotifi.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -441,7 +445,6 @@
 				057A519C2AD4962300E9A768 /* Sources */,
 				057A519D2AD4962300E9A768 /* Frameworks */,
 				057A519E2AD4962300E9A768 /* Resources */,
-				8ED85028D513D87F748AB30C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -787,7 +790,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Ecency-ImageNotifi-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-ImageNotifi-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -866,60 +869,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8ED85028D513D87F748AB30C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Ecency-ImageNotifi/Pods-Ecency-ImageNotifi-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ecency-ImageNotifi/Pods-Ecency-ImageNotifi-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		971975A45C595703A4946EE4 /* [CP] Embed Pods Frameworks */ = {
@@ -1291,7 +1240,7 @@
 		};
 		057A51AA2AD4962400E9A768 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 637FA180975081FC81437804 /* Pods-Ecency-ImageNotifi.debug.xcconfig */;
+			baseConfigurationReference = 498D20DD8452BE4914FF168C /* Pods-ImageNotifi.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1334,7 +1283,7 @@
 		};
 		057A51AB2AD4962400E9A768 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 557F629CF9A41CBDA5C9B081 /* Pods-Ecency-ImageNotifi.release.xcconfig */;
+			baseConfigurationReference = 52B45846E7696881D299788C /* Pods-ImageNotifi.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
