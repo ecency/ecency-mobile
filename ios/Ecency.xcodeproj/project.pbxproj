@@ -14,6 +14,8 @@
 		0516471224D2C513005DE9C5 /* eshare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0516470824D2C513005DE9C5 /* eshare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		053EA30026B2B9920082FEB9 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053EA2FF26B2B9920082FEB9 /* File.swift */; };
 		053EA30326B2BA150082FEB9 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053EA30226B2BA150082FEB9 /* File.swift */; };
+		057A51A42AD4962300E9A768 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 057A51A32AD4962300E9A768 /* NotificationService.m */; };
+		057A51A82AD4962300E9A768 /* ImageNotifi.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 057A51A02AD4962300E9A768 /* ImageNotifi.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		05B6C49224C306CE00B7FA60 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		05B6C49424C306CE00B7FA60 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58190B3B23294814000EA0E1 /* StoreKit.framework */; };
 		05B6C49724C306CE00B7FA60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -30,6 +32,7 @@
 		58F9BCC624793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
 		58F9BCC724793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
 		58F9BCC824793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
+		5F7A94E248006221381F7D50 /* libPods-Ecency-ImageNotifi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F37CDCAC8340FCA11DB6F4 /* libPods-Ecency-ImageNotifi.a */; };
 		7C8D083700274C80BADEB3D6 /* Sansation_Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1D77AE9F7B24CF19834052B /* Sansation_Bold.ttf */; };
 		872EB06D13C728B5C4C733E4 /* libPods-Ecency.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A897E6535C5B45DDED43406D /* libPods-Ecency.a */; };
 		89D99F65314A416290F8D921 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64F2A611E6EF486C8D3FB82C /* Roboto.ttf */; };
@@ -44,6 +47,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 0516470724D2C513005DE9C5;
 			remoteInfo = eshare;
+		};
+		057A51A62AD4962300E9A768 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 057A519F2AD4962300E9A768;
+			remoteInfo = ImageNotifi;
 		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -76,6 +86,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				0516471224D2C513005DE9C5 /* eshare.appex in Embed App Extensions */,
+				057A51A82AD4962300E9A768 /* ImageNotifi.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -88,6 +99,7 @@
 		00E356EE1AD99517003FC87E /* EcencyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EcencyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* EcencyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EcencyTests.m; sourceTree = "<group>"; };
+		00F37CDCAC8340FCA11DB6F4 /* libPods-Ecency-ImageNotifi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ecency-ImageNotifi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0516470824D2C513005DE9C5 /* eshare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eshare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0516470A24D2C513005DE9C5 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		0516470D24D2C513005DE9C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -96,6 +108,10 @@
 		053EA2FF26B2B9920082FEB9 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		053EA30126B2BA140082FEB9 /* EcencyTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EcencyTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		053EA30226B2BA150082FEB9 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		057A51A02AD4962300E9A768 /* ImageNotifi.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ImageNotifi.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		057A51A22AD4962300E9A768 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
+		057A51A32AD4962300E9A768 /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
+		057A51A52AD4962300E9A768 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		05A14D162518B03000EB7509 /* Ecency-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ecency-Bridging-Header.h"; sourceTree = "<group>"; };
 		05B6C4B724C306CE00B7FA60 /* Ecency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ecency.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06844A5429119F05002FCC34 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = Ecency/BootSplash.storyboard; sourceTree = "<group>"; };
@@ -118,6 +134,7 @@
 		34E88D888DD444F8B285363C /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		420ABF9795564845A0963C27 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		4EB466C53BAE4EDC904357B3 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		557F629CF9A41CBDA5C9B081 /* Pods-Ecency-ImageNotifi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-ImageNotifi.release.xcconfig"; path = "Target Support Files/Pods-Ecency-ImageNotifi/Pods-Ecency-ImageNotifi.release.xcconfig"; sourceTree = "<group>"; };
 		5795D1B1C55E46FF96CC4AED /* RobotoMono-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoMono-Regular.ttf"; path = "../src/assets/fonts/RobotoMono-Regular.ttf"; sourceTree = "<group>"; };
 		58190B3B23294814000EA0E1 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		58190B3D23294823000EA0E1 /* Ecency.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Ecency.entitlements; path = Ecency/Ecency.entitlements; sourceTree = "<group>"; };
@@ -128,6 +145,7 @@
 		58F6300F2350580B0017C953 /* libRealmJS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRealmJS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F9BCC224793C61004F0790 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5ADE4B4B75DF437495E202D4 /* Sansation_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Sansation_Regular.ttf; path = ../src/assets/fonts/Sansation_Regular.ttf; sourceTree = "<group>"; };
+		637FA180975081FC81437804 /* Pods-Ecency-ImageNotifi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-ImageNotifi.debug.xcconfig"; path = "Target Support Files/Pods-Ecency-ImageNotifi/Pods-Ecency-ImageNotifi.debug.xcconfig"; sourceTree = "<group>"; };
 		64F2A611E6EF486C8D3FB82C /* Roboto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto.ttf; path = ../src/assets/fonts/Roboto.ttf; sourceTree = "<group>"; };
 		65F56948860941D6BA55779F /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../src/assets/fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
 		6D935B44FB5A4CF3BF4D01DF /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -160,6 +178,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		057A519D2AD4962300E9A768 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F7A94E248006221381F7D50 /* libPods-Ecency-ImageNotifi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +246,16 @@
 			path = eshare;
 			sourceTree = "<group>";
 		};
+		057A51A12AD4962300E9A768 /* ImageNotifi */ = {
+			isa = PBXGroup;
+			children = (
+				057A51A22AD4962300E9A768 /* NotificationService.h */,
+				057A51A32AD4962300E9A768 /* NotificationService.m */,
+				057A51A52AD4962300E9A768 /* Info.plist */,
+			);
+			path = ImageNotifi;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* Ecency */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,6 +282,8 @@
 				25630E9BE79833145F3E34B9 /* Pods-Ecency.release.xcconfig */,
 				7246575DADCA4488EC9D462A /* Pods-Ecency-EcencyTests.debug.xcconfig */,
 				17B14A55DE011F4183CA4FA1 /* Pods-Ecency-EcencyTests.release.xcconfig */,
+				637FA180975081FC81437804 /* Pods-Ecency-ImageNotifi.debug.xcconfig */,
+				557F629CF9A41CBDA5C9B081 /* Pods-Ecency-ImageNotifi.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -261,6 +299,7 @@
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				A897E6535C5B45DDED43406D /* libPods-Ecency.a */,
 				2AEEE72F26D37DC0AC8A99C2 /* libPods-Ecency-EcencyTests.a */,
+				00F37CDCAC8340FCA11DB6F4 /* libPods-Ecency-ImageNotifi.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -297,8 +336,8 @@
 		588A5065232A497100FC1361 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				588A506A232A497100FC1361 /* libReactNativeConfig.a */,
-				588A506C232A497100FC1361 /* libReactNativeConfig-tvOS.a */,
+				588A506A232A497100FC1361 /* libRNCConfig.a */,
+				588A506C232A497100FC1361 /* libRNCConfig-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -327,6 +366,7 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* EcencyTests */,
 				0516470924D2C513005DE9C5 /* eshare */,
+				057A51A12AD4962300E9A768 /* ImageNotifi */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				258E34A3BDFFFBF80D598187 /* Pods */,
@@ -346,6 +386,7 @@
 				2D02E4901E0B4A5D006451C7 /* Ecency-tvOSTests.xctest */,
 				05B6C4B724C306CE00B7FA60 /* Ecency.app */,
 				0516470824D2C513005DE9C5 /* eshare.appex */,
+				057A51A02AD4962300E9A768 /* ImageNotifi.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -390,6 +431,25 @@
 			productReference = 0516470824D2C513005DE9C5 /* eshare.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		057A519F2AD4962300E9A768 /* ImageNotifi */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 057A51A92AD4962400E9A768 /* Build configuration list for PBXNativeTarget "ImageNotifi" */;
+			buildPhases = (
+				1C81C8F285F08986579878AD /* [CP] Check Pods Manifest.lock */,
+				057A519C2AD4962300E9A768 /* Sources */,
+				057A519D2AD4962300E9A768 /* Frameworks */,
+				057A519E2AD4962300E9A768 /* Resources */,
+				8ED85028D513D87F748AB30C /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ImageNotifi;
+			productName = ImageNotifi;
+			productReference = 057A51A02AD4962300E9A768 /* ImageNotifi.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		05B6C48C24C306CE00B7FA60 /* Ecency */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 05B6C4B424C306CE00B7FA60 /* Build configuration list for PBXNativeTarget "Ecency" */;
@@ -411,6 +471,7 @@
 			);
 			dependencies = (
 				0516471124D2C513005DE9C5 /* PBXTargetDependency */,
+				057A51A72AD4962300E9A768 /* PBXTargetDependency */,
 			);
 			name = Ecency;
 			productName = Ecency;
@@ -460,8 +521,8 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				DefaultBuildSystemTypeForWorkspace = Original;
-				LastSwiftUpdateCheck = 1160;
+				DefaultBuildSystemTypeForWorkspace = Latest;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
@@ -475,6 +536,9 @@
 						CreatedOnToolsVersion = 11.6;
 						DevelopmentTeam = 75B6RXTKGT;
 						ProvisioningStyle = Manual;
+					};
+					057A519F2AD4962300E9A768 = {
+						CreatedOnToolsVersion = 14.3.1;
 					};
 					05B6C48C24C306CE00B7FA60 = {
 						DevelopmentTeam = 75B6RXTKGT;
@@ -517,21 +581,24 @@
 				2D02E47A1E0B4A5D006451C7 /* Ecency-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* Ecency-tvOSTests */,
 				0516470724D2C513005DE9C5 /* eshare */,
+				057A519F2AD4962300E9A768 /* ImageNotifi */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		588A506A232A497100FC1361 /* libReactNativeConfig.a */ = {
+		588A506A232A497100FC1361 /* libRNCConfig.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
+			name = libRNCConfig.a;
 			path = libReactNativeConfig.a;
 			remoteRef = 588A5069232A497100FC1361 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		588A506C232A497100FC1361 /* libReactNativeConfig-tvOS.a */ = {
+		588A506C232A497100FC1361 /* libRNCConfig-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
+			name = "libRNCConfig-tvOS.a";
 			path = "libReactNativeConfig-tvOS.a";
 			remoteRef = 588A506B232A497100FC1361 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -552,6 +619,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0516470E24D2C513005DE9C5 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		057A519E2AD4962300E9A768 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -696,6 +770,28 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ecency/Pods-Ecency-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		1C81C8F285F08986579878AD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Ecency-ImageNotifi-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		2C87F1D159FEC7C0B7E3D88E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -768,6 +864,60 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8ED85028D513D87F748AB30C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Ecency-ImageNotifi/Pods-Ecency-ImageNotifi-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ecency-ImageNotifi/Pods-Ecency-ImageNotifi-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		971975A45C595703A4946EE4 /* [CP] Embed Pods Frameworks */ = {
@@ -922,6 +1072,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		057A519C2AD4962300E9A768 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				057A51A42AD4962300E9A768 /* NotificationService.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		05B6C48F24C306CE00B7FA60 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -955,6 +1113,11 @@
 			isa = PBXTargetDependency;
 			target = 0516470724D2C513005DE9C5 /* eshare */;
 			targetProxy = 0516471024D2C513005DE9C5 /* PBXContainerItemProxy */;
+		};
+		057A51A72AD4962300E9A768 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 057A519F2AD4962300E9A768 /* ImageNotifi */;
+			targetProxy = 057A51A62AD4962300E9A768 /* PBXContainerItemProxy */;
 		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1114,6 +1277,83 @@
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		057A51AA2AD4962400E9A768 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 637FA180975081FC81437804 /* Pods-Ecency-ImageNotifi.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ImageNotifi/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ImageNotifi;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.ImageNotifi;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		057A51AB2AD4962400E9A768 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 557F629CF9A41CBDA5C9B081 /* Pods-Ecency-ImageNotifi.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ImageNotifi/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ImageNotifi;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.ImageNotifi;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1532,6 +1772,15 @@
 			buildConfigurations = (
 				0516471424D2C513005DE9C5 /* Debug */,
 				0516471524D2C513005DE9C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		057A51A92AD4962400E9A768 /* Build configuration list for PBXNativeTarget "ImageNotifi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				057A51AA2AD4962400E9A768 /* Debug */,
+				057A51AB2AD4962400E9A768 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

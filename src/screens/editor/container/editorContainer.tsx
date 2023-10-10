@@ -464,7 +464,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         // create new darft otherwise
         else if (draftField) {
           const { title, body, tags } = draftField;
-          const draft = { title, body, tags, jsonMeta };
+          const draft = { title, body, tags, meta: jsonMeta };
           const response = await addDraft(draft);
           const _resDraft = response.pop();
 
@@ -707,8 +707,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
 
       const { post } = this.state;
-      
-      const _prefix = `re-${post.author.replace(/\./g, '')}`
+
+      const _prefix = `re-${post.author.replace(/\./g, '')}`;
       const permlink = generateUniquePermlink(_prefix);
 
       const parentAuthor = post.author;
