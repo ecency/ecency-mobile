@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { TouchableOpacity, Text, View } from 'react-native';
 
@@ -39,6 +39,10 @@ export const PostCardContent = ({
   const imgWidth = dim.width - 18;
   const [calcImgHeight, setCalcImgHeight] = useState(imageRatio ? imgWidth / imageRatio : 300);
 
+  const resizeMode = useMemo(() => {
+    return calcImgHeight < dim.height ? FastImage.resizeMode.contain : FastImage.resizeMode.cover;
+  }, [dim.height]);
+
   const _onPress = () => {
     handleCardInteraction(PostCardActionIds.NAVIGATE, {
       name: ROUTES.SCREENS.POST,
@@ -75,9 +79,7 @@ export const PostCardContent = ({
                 height: Math.min(calcImgHeight, dim.height),
               },
             ]}
-            resizeMode={
-              calcImgHeight < dim.height ? FastImage.resizeMode.contain : FastImage.resizeMode.cover
-            }
+            resizeMode={resizeMode}
             onLoad={(evt) => {
               if (!imageRatio) {
                 const _imgRatio = evt.nativeEvent.width / evt.nativeEvent.height;
