@@ -22,7 +22,6 @@ export const CommentsSection = ({ item, index, revealReplies, ...props }) => {
     return (
       <Animated.View key={item.author + item.permlink} entering={_enteringAnim}>
         <Comment
-          key={item.author + item.permlink}
           comment={item}
           repliesToggle={toggle}
           handleOnToggleReplies={() => setToggle(!toggle)}

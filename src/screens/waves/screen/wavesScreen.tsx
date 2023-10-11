@@ -55,8 +55,8 @@ const WavesScreen = () => {
         appState.current = nextAppState;
     };
 
-    const _fetchData = ({ refresh }: { refresh?: boolean }) => {
-        if (refresh) {
+    const _fetchData = (fetchProps: any) => {
+        if (fetchProps?.refresh) {
             wavesQuery.refresh();
         } else {
             wavesQuery.fetchNextPage();
