@@ -225,13 +225,17 @@ export const UploadsGalleryModal = forwardRef(
           setIsAddingToUploads(true);
         }
 
+
+
         let sign = await signImage(media, currentAccount, pinCode);
-        const _options:UploadOptions = {
+
+
+        const _options: UploadOptions = {
           url: `${Config.NEW_IMAGE_API}/hs/${sign}`,
           path: Platform.select({
             ios: 'file://' + media.path,
             android: media.path.replace('file://', '')
-            }),
+          }),
           method: 'POST',
           type: 'multipart',
           maxRetries: 2, // set retry count (Android only). Default 2
@@ -248,22 +252,42 @@ export const UploadsGalleryModal = forwardRef(
         }
 
         Upload.startUpload(_options).then((uploadId) => {
+
           reactotron.log('Upload started')
+
+          //TODO: manage insertions here
+
           Upload.addListener('progress', uploadId, (data) => {
             reactotron.log(`Progress: ${data.progress}%`, data)
           })
           Upload.addListener('error', uploadId, (data) => {
             reactotron.log(`Error`, data)
+            throw data.error;
           })
           Upload.addListener('cancelled', uploadId, (data) => {
             reactotron.log(`Cancelled!`, data)
+            throw new Error("Upload Cancelled")
           })
           Upload.addListener('completed', uploadId, (data) => {
             // data includes responseCode: number and responseBody: Object
             reactotron.log('Completed!', data)
+            console.log('upload successfully', data, media, shouldInsert);
+            const _respData = JSON.parse(data.responseBody);
+            if (_respData && _respData.url && shouldInsert) {
+              _handleMediaInsertion({
+                filename: media.filename,
+                url: _respData.url,
+                text: '',
+                status: MediaInsertStatus.READY,
+              });
+            }
+
+            setIsUploading(false);
+            setIsAddingToUploads(false);
           })
-        }).catch((err)=>{
+        }).catch((err) => {
           reactotron.log('error', err)
+          throw err;
         })
 
         // await mediaUploadMutation.mutateAsync(
@@ -351,7 +375,7 @@ export const UploadsGalleryModal = forwardRef(
       let body = error.message || JSON.stringify(error);
       let action: AlertButton = {
         text: intl.formatMessage({ id: 'alert.okay' }),
-        onPress: () => {},
+        onPress: () => { },
       };
 
       switch (error.code) {
