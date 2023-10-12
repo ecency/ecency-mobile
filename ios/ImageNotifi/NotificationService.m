@@ -22,8 +22,6 @@
     self.bestAttemptContent = [request.content mutableCopy];
     
     // Modify the notification content here...
-    self.bestAttemptContent.title = [NSString stringWithFormat:@"%@ [modified]",   self.bestAttemptContent.title];
-
     [[FIRMessaging extensionHelper] populateNotificationContent:self.bestAttemptContent withContentHandler:contentHandler];
 }
 
