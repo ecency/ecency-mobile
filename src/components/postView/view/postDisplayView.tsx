@@ -269,7 +269,7 @@ const PostDisplayView = ({
           >
             
             {
-              !!post.title && !isWavePost && !parentPost
+              !!post.title && !post.depth && !isWavePost
                 ? <Text style={styles.title}>{post.title}</Text>
                 : <View style={styles.titlePlaceholder} />
             }
