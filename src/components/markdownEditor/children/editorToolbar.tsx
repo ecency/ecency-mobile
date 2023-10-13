@@ -45,8 +45,8 @@ export const EditorToolbar = ({
   const shouldHideExtension = useRef(false);
   const extensionHeight = useRef(0);
 
-  const [isExtensionVisible, setIsExtensionVisible] = useState(false);
-
+  const [isExtensionVisible, setIsExtensionVisible] = useState(false); 
+ 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
@@ -56,6 +56,9 @@ export const EditorToolbar = ({
     const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
       setKeyboardVisible(false); // or some other action
     });
+
+    //TODO: set to false before PR
+    _showUploadsExtension();
 
     return () => {
       keyboardDidHideListener.remove();
