@@ -16,6 +16,9 @@ import {
 import { MediaItem, Snippet } from '../ecency/ecency.types';
 import { signImage } from '../hive/dhive';
 import QUERIES from './queryKeys';
+import Upload, { UploadOptions } from 'react-native-background-upload'
+import Config from 'react-native-config';
+import { Platform } from 'react-native';
 
 interface SnippetMutationVars {
   id: string | null;
@@ -84,14 +87,69 @@ export const useMediaUploadMutation = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
 
+  const _uploadMedia = ({ media }: MediaUploadVars) => {
+
+    return new Promise(async (resolve, reject) => {
+
+      try {
+        let sign = await signImage(media, currentAccount, pinCode);
+
+        const _options: UploadOptions = {
+          url: `${Config.NEW_IMAGE_API}/hs/${sign}`,
+          path: Platform.select({
+            ios: 'file://' + media.path,
+            android: media.path.replace('file://', '')
+          }),
+          method: 'POST',
+          type: 'multipart',
+          maxRetries: 2, // set retry count (Android only). Default 2
+          headers: {
+            'Authorization': Config.NEW_IMAGE_API, // Config.NEW_IMAGE_API
+            'Content-Type': 'multipart/form-data',
+          },
+          field: 'uploaded_media',
+          // Below are options only supported on Android
+          notification: {
+            enabled: true
+          },
+          useUtf8Charset: true
+        }
+
+        const uploadId = await Upload.startUpload(_options)
+
+        console.log('Upload started', uploadId)
+
+        Upload.addListener('progress', uploadId, (data) => {
+          console.log(`Progress: ${data.progress}%`, data)
+        })
+        Upload.addListener('error', uploadId, (data) => {
+          console.log(`Error`, data)
+          throw data.error;
+        })
+        Upload.addListener('cancelled', uploadId, (data) => {
+          console.log(`Cancelled!`, data)
+          throw new Error("Upload Cancelled")
+        })
+        Upload.addListener('completed', uploadId, (data) => {
+          // data includes responseCode: number and responseBody: Object
+          console.log('Completed!', data)
+          const _respData = JSON.parse(data.responseBody);
+          resolve(_respData)
+        })
+      } catch (err) {
+        console.warn("Meida Upload Failed", err);
+        reject(err)
+      }
+    })
+  }
+
+
   return useMutation<Image, undefined, MediaUploadVars>(
-    async ({ media }) => {
-      console.log('uploading media', media);
-      let sign = await signImage(media, currentAccount, pinCode);
-      return await uploadImage(media, currentAccount.name, sign);
+    (vars) => {
+
+      return _uploadMedia(vars);
     },
     {
-      retry: 3,
       onSuccess: (response, { addToUploads }) => {
         if (addToUploads && response && response.url) {
           console.log('adding image to gallery', response.url);

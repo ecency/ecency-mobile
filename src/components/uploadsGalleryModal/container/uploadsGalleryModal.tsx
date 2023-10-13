@@ -1,6 +1,6 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Alert, AlertButton, Platform } from 'react-native';
+import { Alert, AlertButton } from 'react-native';
 import ImagePicker, { Image } from 'react-native-image-crop-picker';
 import RNHeicConverter from 'react-native-heic-converter';
 import { openSettings } from 'react-native-permissions';
@@ -13,10 +13,6 @@ import { delay, extractFilenameFromPath } from '../../../utils/editor';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { useMediaQuery, useMediaUploadMutation } from '../../../providers/queries';
 import { showActionModal } from '../../../redux/actions/uiAction';
-import Upload, { UploadOptions } from 'react-native-background-upload'
-import Config from 'react-native-config';
-import { signImage } from '../../../providers/hive/dhive';
-import reactotron from 'reactotron-react-native';
 
 export interface UploadsGalleryModalRef {
   showModal: () => void;
@@ -66,7 +62,7 @@ export const UploadsGalleryModal = forwardRef(
     const dispatch = useAppDispatch();
 
     const mediaQuery = useMediaQuery();
-    // const mediaUploadMutation = useMediaUploadMutation();
+    const mediaUploadMutation = useMediaUploadMutation();
 
     const pendingInserts = useRef<MediaInsertData[]>([]);
 
@@ -227,97 +223,34 @@ export const UploadsGalleryModal = forwardRef(
 
 
 
-        let sign = await signImage(media, currentAccount, pinCode);
-
-
-        const _options: UploadOptions = {
-          url: `${Config.NEW_IMAGE_API}/hs/${sign}`,
-          path: Platform.select({
-            ios: 'file://' + media.path,
-            android: media.path.replace('file://', '')
-          }),
-          method: 'POST',
-          type: 'multipart',
-          maxRetries: 2, // set retry count (Android only). Default 2
-          headers: {
-            'Authorization': Config.NEW_IMAGE_API, // Config.NEW_IMAGE_API
-            'Content-Type': 'multipart/form-data',
+        await mediaUploadMutation.mutateAsync(
+          {
+            media,
+            addToUploads: !shouldInsert,
           },
-          field: 'uploaded_media',
-          // Below are options only supported on Android
-          notification: {
-            enabled: true
+          {
+            onSuccess: (data) => {
+              console.log('upload successfully', data, media, shouldInsert);
+              if (data && data.url && shouldInsert) {
+                _handleMediaInsertion({
+                  filename: media.filename,
+                  url: data.url,
+                  text: '',
+                  status: MediaInsertStatus.READY,
+                });
+              }
+            },
+            onSettled: () => {
+              if (setIsUploading) {
+                setIsUploading(false);
+              }
+              setIsAddingToUploads(false);
+            },
+            onError: (err) => {
+              throw err;
+            },
           },
-          useUtf8Charset: true
-        }
-
-        Upload.startUpload(_options).then((uploadId) => {
-
-          reactotron.log('Upload started')
-
-          //TODO: manage insertions here
-
-          Upload.addListener('progress', uploadId, (data) => {
-            reactotron.log(`Progress: ${data.progress}%`, data)
-          })
-          Upload.addListener('error', uploadId, (data) => {
-            reactotron.log(`Error`, data)
-            throw data.error;
-          })
-          Upload.addListener('cancelled', uploadId, (data) => {
-            reactotron.log(`Cancelled!`, data)
-            throw new Error("Upload Cancelled")
-          })
-          Upload.addListener('completed', uploadId, (data) => {
-            // data includes responseCode: number and responseBody: Object
-            reactotron.log('Completed!', data)
-            console.log('upload successfully', data, media, shouldInsert);
-            const _respData = JSON.parse(data.responseBody);
-            if (_respData && _respData.url && shouldInsert) {
-              _handleMediaInsertion({
-                filename: media.filename,
-                url: _respData.url,
-                text: '',
-                status: MediaInsertStatus.READY,
-              });
-            }
-
-            setIsUploading(false);
-            setIsAddingToUploads(false);
-          })
-        }).catch((err) => {
-          reactotron.log('error', err)
-          throw err;
-        })
-
-        // await mediaUploadMutation.mutateAsync(
-        //   {
-        //     media,
-        //     addToUploads: !shouldInsert,
-        //   },
-        //   {
-        //     onSuccess: (data) => {
-        //       console.log('upload successfully', data, media, shouldInsert);
-        //       if (data && data.url && shouldInsert) {
-        //         _handleMediaInsertion({
-        //           filename: media.filename,
-        //           url: data.url,
-        //           text: '',
-        //           status: MediaInsertStatus.READY,
-        //         });
-        //       }
-        //     },
-        //     onSettled: () => {
-        //       if (setIsUploading) {
-        //         setIsUploading(false);
-        //       }
-        //       setIsAddingToUploads(false);
-        //     },
-        //     onError: (err) => {
-        //       throw err;
-        //     },
-        //   },
-        // );
+        );
 
 
       } catch (error) {
