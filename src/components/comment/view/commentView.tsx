@@ -225,10 +225,9 @@ const CommentView = ({
       : null;
 
   return (
-    <Fragment>
+    <Fragment key={comment.permlink}>
       <View style={{ ...styles.commentContainer, ...customContainerStyle }}>
         <PostHeaderDescription
-          key={comment.permlink}
           date={getTimeFromNow(comment.created)}
           name={comment.author}
           reputation={comment.author_reputation}
