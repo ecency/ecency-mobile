@@ -58,7 +58,7 @@
     "estimated_value": "估計價值",
     "vote_value": "估計點贊價值",
     "delegated_hive_power": "代理Hive Power",
-    "powering_down_hive_power": "斷電中",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "已接收的 Hive Power(HP)",
     "total_hive_power": "Hive Power點贊力總額",
     "savings": "存款",
