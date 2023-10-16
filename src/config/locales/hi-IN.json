@@ -58,7 +58,7 @@
     "estimated_value": "अनुमानित मूल्य",
     "vote_value": "वोट का मूल्य",
     "delegated_hive_power": "प्रत्यायोजित हाइव पावर",
-    "powering_down_hive_power": "ऊर्जा / क्षमता कम करना",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "हाइव पावर प्राप्त किया",
     "total_hive_power": "कुल हाइव पावर",
     "savings": "बचत",
