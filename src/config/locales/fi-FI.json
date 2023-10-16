@@ -58,7 +58,7 @@
     "estimated_value": "Arvioutu arvo",
     "vote_value": "Ääniarvo",
     "delegated_hive_power": "Valtuutettu Hive Power",
-    "powering_down_hive_power": "Tehon alentaminen",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "Vastaanotettu Hive Power",
     "total_hive_power": "Hive Power yhteensä",
     "savings": "Säästöt",
