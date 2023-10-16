@@ -58,7 +58,7 @@
     "estimated_value": "Предполагаема стойност",
     "vote_value": "Стойност на гласа",
     "delegated_hive_power": "Делегиран Hive Power",
-    "powering_down_hive_power": "Теглене на HP",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "Получен Hive Power",
     "total_hive_power": "Общо Hive Power",
     "savings": "Спестявания",
