@@ -58,7 +58,7 @@
     "estimated_value": "القيمه المتوقعه",
     "vote_value": "قيمة التصويت",
     "delegated_hive_power": "قوة Hive التي تم تفويضها",
-    "powering_down_hive_power": "إضعاف القوة",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "قوة Hive المستلمة",
     "total_hive_power": "القوة الإجمالية",
     "savings": "المدخرات",
