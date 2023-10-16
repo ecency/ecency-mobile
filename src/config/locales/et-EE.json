@@ -58,7 +58,7 @@
     "estimated_value": "Hinnanguline väärtus",
     "vote_value": "Vote value",
     "delegated_hive_power": "Delegated hive power",
-    "powering_down_hive_power": "Powering down",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "Received hive power",
     "total_hive_power": "Total hive power",
     "savings": "Savings",
