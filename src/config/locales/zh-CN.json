@@ -58,7 +58,7 @@
     "estimated_value": "预估值",
     "vote_value": "点赞价值",
     "delegated_hive_power": "Delegated hive power",
-    "powering_down_hive_power": "Powering down",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "已接收的 Hive Power",
     "total_hive_power": "Hive Power 总量",
     "savings": "储蓄",
