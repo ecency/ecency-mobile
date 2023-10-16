@@ -58,7 +58,7 @@
     "estimated_value": "Valor estimado",
     "vote_value": "Valor del voto",
     "delegated_hive_power": "Hive Power delegado",
-    "powering_down_hive_power": "Powering down ({subValue})",
+    "powering_down_hive_power": "Apagando ({subValue})",
     "received_hive_power": "Hive power recibido",
     "total_hive_power": "Total de Hive Power",
     "savings": "Ahorros",
