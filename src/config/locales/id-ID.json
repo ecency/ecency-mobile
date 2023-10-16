@@ -58,7 +58,7 @@
     "estimated_value": "Nilai perkiraan",
     "vote_value": "Nilai Voting",
     "delegated_hive_power": "Kekuatan Hive yang Didelegasikan",
-    "powering_down_hive_power": "Menurunkan kekuatan",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "Kekuatan Hive yang diterima",
     "total_hive_power": "Jumlah kekuatan Hive",
     "savings": "Tabungan",
