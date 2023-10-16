@@ -58,7 +58,7 @@
     "estimated_value": "Taxminiy qiymat",
     "vote_value": "Ovoz kuchi",
     "delegated_hive_power": "Delegasiyalangan Hive Power",
-    "powering_down_hive_power": "Kuchni pasaytirish",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "Olingan Hive Power",
     "total_hive_power": "Umumiy Hive Power",
     "savings": "Jamg'arma",
