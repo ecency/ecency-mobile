@@ -58,7 +58,7 @@
     "estimated_value": "Apytikslė vertė",
     "vote_value": "Balso vertė",
     "delegated_hive_power": "Deleguota Hive galia",
-    "powering_down_hive_power": "Mažėjanti galia",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "Gauta Hive galios",
     "total_hive_power": "Iš viso Hive galios",
     "savings": "Santaupos",
