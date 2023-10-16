@@ -58,7 +58,7 @@
     "estimated_value": "추정 자산 가치",
     "vote_value": "보팅 가치",
     "delegated_hive_power": "Delegated hive power",
-    "powering_down_hive_power": "파워 다운 중",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "임대받은 하이브 파워",
     "total_hive_power": "총 하이브 파워",
     "savings": "Savings",
