@@ -58,7 +58,7 @@
     "estimated_value": "Valor estimado",
     "vote_value": "Valor del voto",
     "delegated_hive_power": "Hive Power delegado",
-    "powering_down_hive_power": "Apagando",
+    "powering_down_hive_power": "Apagando ({subValue})",
     "received_hive_power": "Hive power recibido",
     "total_hive_power": "Total de Hive Power",
     "savings": "Ahorros",
@@ -1040,11 +1040,30 @@
     "confirmTransaction": "Confirmar transacción",
     "approve": "Aprobar",
     "cancel": "Cancelar",
-    "multi_array_ops_alert": "¡Matriz de múltiples operaciones detectada!",
-    "multi_array_ops_aler_desct": "Ecency no soporta la firma de múltiples operaciones, aún"
+    "multi_array_ops_alert": "Operación no soportada por Ecency",
+    "multi_array_ops_aler_desct": "Ecency no soporta la firma de múltiples operaciones, aún",
+    "invalid_op": "Datos de operación inválidos",
+    "invalid_op_desc": "intentar contactar con el autor de QR/link",
+    "invalid_amount": "Cantidad inválida",
+    "invalid_amount_desc": "Introduzca una cantidad válida en el formato adecuado",
+    "transaction_failed": "¡Transacción fallida!",
+    "invalid_key": "La clave {key} es necesaria para realizar esta transacción",
+    "invalid_key_desc": "iniciar sesión con la clave {key} o clave maestra para realizar esta transacción"
   },
   "history": {
     "edit": "Editar historial",
     "version": "Versión"
+  },
+  "chain-error": {
+    "min-root-comment": "Sólo puedes publicar una vez cada cinco minutos.",
+    "identical-vote": "Tu voto actual sobre este contenido es idéntico a esta votación.",
+    "insufficient-resource": "Créditos de Recursos insuficientes.",
+    "delete-comment-with-vote": "No se puede eliminar un contenido con recompensas positivas pendientes.",
+    "comment-cashout": "El contenido después de su pago no puede ser eliminado.",
+    "comment-children": "No se puede eliminar un contenido con respuestas.",
+    "paid-out-post-forbidden": "La votación por el contenido pagado no está disponible.",
+    "missing-authority": "Esta operación requiere una Clave Activa Privada o autoridad.",
+    "missing-owner-authority": "Esta operación requiere una Clave Propietaria Privada o su autoridad.",
+    "insufficient_fund": "Fondos insuficientes"
   }
 }
