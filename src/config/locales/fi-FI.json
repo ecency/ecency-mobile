@@ -914,7 +914,7 @@
   },
   "comments": {
     "title": "Kommentit",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Näytä sisältö",
     "read_more": "Lue lisää kommentteja",
     "more_replies": "vastaukset",
     "no_comments": "Ole ensimmäinen kommentoija..."
@@ -1040,30 +1040,30 @@
     "confirmTransaction": "Vahvista tapahtuma",
     "approve": "Hyväksy",
     "cancel": "Peruuta",
-    "multi_array_ops_alert": "Operation not supported by Ecency",
-    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations yet",
-    "invalid_op": "Invalid operation data",
-    "invalid_op_desc": "try contacting QR/link author",
-    "invalid_amount": "Invalid Amount",
-    "invalid_amount_desc": "Enter valid amount in proper format",
-    "transaction_failed": "Transaction Failed!",
-    "invalid_key": "{key} key is required to perform this transaction",
-    "invalid_key_desc": "kindly login with {key} key or master key to perform this transaction"
+    "multi_array_ops_alert": "Ecency ei tue toimintoa",
+    "multi_array_ops_aler_desct": "Ecency ei tue vielä useiden toimintojen vahvistamista",
+    "invalid_op": "Virheelliset toiminnon tiedot",
+    "invalid_op_desc": "ota yhteyttä QR/linkin tekijään",
+    "invalid_amount": "Virheellinen määrä",
+    "invalid_amount_desc": "Syötä kelvollinen summa oikeassa muodossa",
+    "transaction_failed": "Tapahtuma Epäonnistui!",
+    "invalid_key": "{key} vaaditaan siirron toteuttamiseksi",
+    "invalid_key_desc": "kirjaudu käyttämällä {key} avainta tai päänavainta tämän tapahtuman suorittamiseksi"
   },
   "history": {
     "edit": "Muokkaushistoria",
     "version": "Versio"
   },
   "chain-error": {
-    "min-root-comment": "You may only post once every five minutes.",
-    "identical-vote": "Your current vote on this content is identical to this vote.",
-    "insufficient-resource": "Insufficient Resource Credits.",
-    "delete-comment-with-vote": "Cannot delete a content with positive pending rewards.",
-    "comment-cashout": "Content after their payout cannot be deleted.",
-    "comment-children": "Cannot delete a content with replies.",
-    "paid-out-post-forbidden": "Voting for paid out content is not available.",
-    "missing-authority": "This operation requires Active private key or authority.",
-    "missing-owner-authority": "This operation requires Owner private key or authority.",
-    "insufficient_fund": "Insufficient Funds"
+    "min-root-comment": "Voit julkaista vain kerran viidessä minuutissa.",
+    "identical-vote": "Tämänhetkinen äänestyksenne tästä sisällöstä on sama kuin tässä äänestyksessä.",
+    "insufficient-resource": "Liian vähän Resurssihyvityksiä.",
+    "delete-comment-with-vote": "Sisältöä ei voi poistaa positiivisesta odottavasta palkkiosta johtuen.",
+    "comment-cashout": "Maksun jälkeen sisältöä ei voi poistaa.",
+    "comment-children": "Keskustelua, jossa on vastauksia, ei voi poistaa.",
+    "paid-out-post-forbidden": "Äänestäminen maksetusta sisällöstä ei ole saatavilla.",
+    "missing-authority": "Tämä operaatio vaatii aktiivisen yksityisen avaimen tai valtuuden.",
+    "missing-owner-authority": "Tämä toiminto vaatii omistajan yksityisen avaimen tai valtuuden.",
+    "insufficient_fund": "Riittämättömät varat"
   }
 }
