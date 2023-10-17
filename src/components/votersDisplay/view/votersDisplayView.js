@@ -29,8 +29,8 @@ const VotersDisplayView = ({ votes, createdAt = '2010-01-01T00:00:00' }) => {
   };
 
   const _renderItem = ({ item, index }) => {
-    const value = `$ ${item.reward}`;
-    const percent = `${item.percent100}%`;
+    const value = item.reward && `$ ${item.reward}`;
+    const percent = item.percent100 && `${item.percent100}%`;
 
     // snippet to avoid rendering time form long past
     const minTimestamp = new Date(createdAt).getTime();
