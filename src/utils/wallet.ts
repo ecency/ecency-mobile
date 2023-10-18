@@ -37,6 +37,7 @@ import { EngineActions, EngineOperations, HistoryItem } from '../providers/hive-
 import { ClaimsCollection } from '../redux/reducers/cacheReducer';
 import { fetchSpkWallet } from '../providers/hive-spk/hiveSpk';
 import TransferTypes from '../constants/transferTypes';
+import { getHoursDifferntial } from './time';
 
 
 export const transferTypes = [
@@ -921,9 +922,10 @@ export const fetchCoinsData = async ({
         );
 
         //calculate power down
-        const isPoweringDown = userdata.next_vesting_withdrawal
-          ? parseDate(userdata.next_vesting_withdrawal) > new Date()
-          : false;
+        const pwrDwnHoursLeft = getHoursDifferntial(
+          parseDate(userdata.next_vesting_withdrawal), new Date())
+        const isPoweringDown = pwrDwnHoursLeft > 0;
+  
 
         const nextVestingSharesWithdrawal = isPoweringDown
           ? Math.min(
@@ -960,6 +962,7 @@ export const fetchCoinsData = async ({
           extraDataPairs.push({
             dataKey: 'powering_down_hive_power',
             value: `- ${nextVestingSharesWithdrawalHive.toFixed(3)} HP`,
+            subValue: Math.round(pwrDwnHoursLeft) + 'h'
           });
         }
 

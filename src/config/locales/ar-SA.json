@@ -58,7 +58,7 @@
     "estimated_value": "القيمه المتوقعه",
     "vote_value": "قيمة التصويت",
     "delegated_hive_power": "قوة Hive التي تم تفويضها",
-    "powering_down_hive_power": "إضعاف القوة",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "قوة Hive المستلمة",
     "total_hive_power": "القوة الإجمالية",
     "savings": "المدخرات",
@@ -622,7 +622,7 @@
     "external_link": "افتح الرابط الخارجي",
     "not_existing_post": "المشاركة غير موجودة! الرجاء التحقق من رابط التصريح والمؤلف.",
     "google_play_version": "لاحظنا أن جهازك لديه إصدار قديم من Google Play. الرجاء تحديث خدمات Google Play وحاول مرة أخرى!",
-    "rc_down": "لا توجد أرصدة كافية من الموارد للقيام بإجراءات! \n\nقم بتعزيز حسابك للاستمرار في الاستمتاع بالتجربة. هل تريد تعزيز حسابك، الآن؟",
+    "rc_down": "لا توجد أرصدة كافية من الموارد لإنجاز إجراء! \n\nقم بتعزيز حسابك للاستمرار في الاستمتاع بالتجربة. هل تريد تعزيز حسابك، الآن؟",
     "payloadTooLarge": "حجم الملف كبير جداً، يرجى تغيير الحجم أو تحميل صورة أصغر",
     "qoutaExceeded": "تم تجاوز حصة الرفع",
     "invalidImage": "صورة غير صالحة، جرب ملف مختلف",
@@ -861,7 +861,7 @@
     "info": "قد تختلف القيمة الفعلية للتصويت الذي تتلقاه",
     "account": {
       "title": "الحصول على تعزيز الحساب",
-      "desc": "30 يومًا من التفويض سيعزز أصواتك وأنشطتك الاجتماعية ويمنحك المزيد من الإجراءات مع المزيد من رصيد الموارد."
+      "desc": "٣٠ يومًا من التفويض سيعزز أصواتك وأنشطتك الاجتماعية ويمنحك المزيد من الإجراءات مع المزيد من رصيد الموارد."
     },
     "confirm_purchase": "تأكيد الشراء @{username}",
     "confirm_purchase_summary": "شراء {points} لـ {username} في {price}",
@@ -914,7 +914,7 @@
   },
   "comments": {
     "title": "التعليقات",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "كشف المحتوى",
     "read_more": "المزيد من التعليقات",
     "more_replies": "ردود",
     "no_comments": "كن اول من يرد..."
@@ -1040,11 +1040,30 @@
     "confirmTransaction": "تأكيد المعاملة",
     "approve": "إعتماد",
     "cancel": "إلغاء",
-    "multi_array_ops_alert": "تم اكتشاف عمليات متعددة!",
-    "multi_array_ops_aler_desct": "Ecency لا تدعم عمليات متعددة، حتى الآن"
+    "multi_array_ops_alert": "العملية غير مدعومة من قبل Ecency",
+    "multi_array_ops_aler_desct": "لا تدعم Ecency عمليات متعددة حتى الآن",
+    "invalid_op": "بيانات العملية غير صالحة",
+    "invalid_op_desc": "حاول الاتصال بمؤلف QR/الرابط",
+    "invalid_amount": "المبلغ غير صالح",
+    "invalid_amount_desc": "أدخل مبلغ صحيح بتنسيق صحيح",
+    "transaction_failed": "فشلت المعاملة!",
+    "invalid_key": "{key} مطلوب مفتاح لتنفيذ هذه المعاملة",
+    "invalid_key_desc": "يرجى تسجيل الدخول باستخدام مفتاح {key} أو مفتاح رئيس لتنفيذ هذه المعاملة"
   },
   "history": {
     "edit": "تعديل التاريخ",
     "version": "الإصدار"
+  },
+  "chain-error": {
+    "min-root-comment": "يمكنك النشر مرة واحدة فقط كل خمس دقائق.",
+    "identical-vote": "تصويتك الحالي على هذا المحتوى مطابق لهذا التصويت.",
+    "insufficient-resource": "رصيد الموارد غير كاف.",
+    "delete-comment-with-vote": "Cannot delete a content with positive pending rewards.",
+    "comment-cashout": "Content after their payout cannot be deleted.",
+    "comment-children": "Cannot delete a content with replies.",
+    "paid-out-post-forbidden": "Voting for paid out content is not available.",
+    "missing-authority": "This operation requires Active private key or authority.",
+    "missing-owner-authority": "This operation requires Owner private key or authority.",
+    "insufficient_fund": "Insufficient Funds"
   }
 }

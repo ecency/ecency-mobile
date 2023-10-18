@@ -78,7 +78,6 @@ export const usePostSubmitter = () => {
                     parentPermlink,
                     permlink,
                     commentBody,
-                    [],
                     jsonMetadata
                 )
 

@@ -10,6 +10,7 @@ import {
 
 export interface DataPair {
   value: string | number;
+  subValue?: string | number;
   dataKey: string;
   isClickable?: boolean;
 }
