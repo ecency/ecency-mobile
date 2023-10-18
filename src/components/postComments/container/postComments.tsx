@@ -331,6 +331,7 @@ const PostComments = forwardRef(
               colors={['#fff']}
             />
           }
+          overScrollMode="never"
         />
         <PostHtmlInteractionHandler 
           ref={postInteractionRef}
