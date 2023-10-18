@@ -219,7 +219,7 @@ const TabContent = ({
     if (pageType === 'profile' || pageType === 'ownProfile' || pageType === 'community') {
       return;
     }
-    const pPosts = await fetchPromotedEntries(username);
+    const pPosts = await fetchPromotedEntries(username, nsfw);
     if (pPosts) {
       setPromotedPosts(pPosts);
     }
