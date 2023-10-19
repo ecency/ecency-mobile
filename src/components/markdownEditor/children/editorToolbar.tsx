@@ -83,12 +83,21 @@ export const EditorToolbar = ({
 
 
   const _showUploadsExtension = (mode:Modes) => {
-    if (isExtensionVisible && uploadsGalleryModalRef.current) {
-      _hideExtension();
-    } else if (uploadsGalleryModalRef.current) {
+
+    if(!uploadsGalleryModalRef.current){
+      return;
+    }
+    
+    const _curMode = uploadsGalleryModalRef.current.getMode();
+
+    if (!isExtensionVisible || _curMode !== mode){
       uploadsGalleryModalRef.current.toggleModal(true, mode);
       _revealExtension();
+      return;
     }
+
+    _hideExtension()
+
   };
 
   const _showImageUploads = () => {

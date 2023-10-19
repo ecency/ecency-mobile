@@ -92,13 +92,13 @@ export const UploadsGalleryModal = forwardRef(
     const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
     useImperativeHandle(ref, () => ({
-      toggleModal: (value: boolean, _mode: Modes) => {
+      toggleModal: (value: boolean, _mode: Modes = mode) => {
         if (!isLoggedIn) {
           showLoginAlert({ intl });
           return;
         }
 
-        if (value === showModal) {
+        if (value === showModal && _mode === mode) {
           return;
         }
 
@@ -110,6 +110,7 @@ export const UploadsGalleryModal = forwardRef(
         setShowModal(value);
 
       },
+      getMode: () => mode,
     }));
 
     useEffect(() => {
