@@ -389,6 +389,7 @@ export const UploadsGalleryModal = forwardRef(
           url: item.url,
           text: mode === Modes.MODE_VIDEO ? '3speak' : '',
           status: MediaInsertStatus.READY,
+          mode
         });
       }
       handleMediaInsert(data);
