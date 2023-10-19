@@ -2,6 +2,7 @@ import { getAccountPosts, getPost, getRankedPosts } from '../../../providers/hiv
 import { filterLatestPosts, getUpdatedPosts } from './tabbedPostsHelpers';
 import { LoadPostsOptions } from './tabbedPostsModels';
 import { getPromotedEntries } from '../../../providers/ecency/ecency';
+import filterNsfwPost from '../../../utils/filterNsfwPost';
 
 const POSTS_FETCH_COUNT = 20;
 
@@ -183,10 +184,12 @@ export const loadPosts = async ({
   }
 };
 
-export const fetchPromotedEntries = async (username: string) => {
+export const fetchPromotedEntries = async (username: string, nsfwFilter:string) => {
   try {
     const posts = await getPromotedEntries(username);
-    return Array.isArray(posts) ? posts : [];
+
+    return  Array.isArray(posts) ? filterNsfwPost(posts, nsfwFilter) : [];
+
   } catch (err) {
     console.warn('Failed to get promoted posts, ', err);
   }
