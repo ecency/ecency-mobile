@@ -82,7 +82,7 @@
     "domain-browser": "^1.1.1",
     "events": "^1.0.0",
     "hive-uri": "^0.2.5",
-    "hivesigner": "^3.2.7",
+    "hivesigner": "^3.3.4",
     "https-browserify": "~0.0.0",
     "intl": "^1.2.5",
     "jsc-android": "^241213.1.0",

@@ -1,181 +1,171 @@
-import * as tus from "tus-js-client";
 import axios from "axios";
-import { getDecodedMemo } from "../../helper/hive-signer";
-import { ThreeSpeakVideo } from "./types";
+import { getDigitPinCode } from "../hive/dhive";
+import { ThreeSpeakVideo } from "./speak.types";
+import { decryptKey } from "../../utils/crypto";
+import hs from 'hivesigner';
 
 const studioEndPoint = "https://studio.3speak.tv";
 const tusEndPoint = "https://uploads.3speak.tv/files/";
 const client = axios.create({});
 
-export const threespeakAuth = async (username: string) => {
+
+
+export const threespeakAuth = async (currentAccount: any, pinHash: string) => {
     try {
-      let response = await client.get(
-        `${studioEndPoint}/mobile/login?username=${username}&hivesigner=true`,
-        {
-          withCredentials: false,
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
-      );
-      const memo_string = response.data.memo;
-      let { memoDecoded } = await getDecodedMemo(username, memo_string);
-  
-      memoDecoded = memoDecoded.replace("#", "");
-      return memoDecoded;
+        let response = await client.get(
+            `${studioEndPoint}/mobile/login?username=${currentAccount.username}&hivesigner=true`,
+            {
+                withCredentials: false,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+        const memo_string = response.data.memo;
+        const memoDecoded = await getDecodedMemo(currentAccount.local, pinHash, memo_string);
+
+        return memoDecoded.replace("#", "");
+
     } catch (err) {
-      console.error(new Error("[3Speak auth] Failed to login"));
-      throw err;
+        console.error(new Error("[3Speak auth] Failed to login"));
+        throw err;
     }
-  };
-  
-  export const getTokenValidated = async (jwt: string, username: string) => {
-    try {
-      let response = await client.get(
-        `${studioEndPoint}/mobile/login?username=${username}&access_token=${jwt}`,
-        {
-          withCredentials: false,
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
-      );
-      return response.data;
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  };
-  
-  export const uploadVideoInfo = async (
+};
+
+
+
+export const uploadVideoInfo = async (
+    currentAccount: any,
+    pinHash: string,
     oFilename: string,
     fileSize: number,
     videoUrl: string,
     thumbnailUrl: string,
     username: string,
     duration: string
-  ) => {
-    const token = await threespeakAuth(username);
+) => {
+    const token = await threespeakAuth(currentAccount, pinHash);
     try {
-      const { data } = await axios.post<ThreeSpeakVideo>(
-        `${studioEndPoint}/mobile/api/upload_info?app=ecency`,
-        {
-          filename: videoUrl,
-          oFilename: oFilename,
-          size: fileSize,
-          duration,
-          thumbnail: thumbnailUrl,
-          isReel: false,
-          owner: username
-        },
-        {
-          withCredentials: false,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
-      return data;
+        const { data } = await axios.post<ThreeSpeakVideo>(
+            `${studioEndPoint}/mobile/api/upload_info?app=ecency`,
+            {
+                filename: videoUrl,
+                oFilename: oFilename,
+                size: fileSize,
+                duration,
+                thumbnail: thumbnailUrl,
+                isReel: false,
+                owner: username
+            },
+            {
+                withCredentials: false,
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+        return data;
     } catch (e) {
-      console.error(e);
-      throw e;
+        console.error(e);
+        throw e;
     }
-  };
-  
-  export const getAllVideoStatuses = async (username: string) => {
-    const token = await threespeakAuth(username);
+};
+
+export const getAllVideoStatuses = async (currentAccount: any, pinHash: string) => {
+    const token = await threespeakAuth(currentAccount, pinHash);
     try {
-      let response = await client.get<ThreeSpeakVideo[]>(`${studioEndPoint}/mobile/api/my-videos`, {
-        withCredentials: false,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
-      });
-      return response.data;
+        let response = await client.get<ThreeSpeakVideo[]>(`${studioEndPoint}/mobile/api/my-videos`, {
+            withCredentials: false,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response.data;
     } catch (err) {
-      console.error(new Error("[3Speak video] Failed to get videos"));
-  
-      throw err;
+        console.error(new Error("[3Speak video] Failed to get videos"));
+
+        throw err;
     }
-  };
-  
-  export const updateSpeakVideoInfo = async (
-    username: string,
+};
+
+export const updateSpeakVideoInfo = async (
+    currentAccount: any,
+    pinHash: string,
     postBody: string,
     videoId: string,
     title: string,
     tags: string[],
     isNsfwC: boolean
-  ) => {
-    const token = await threespeakAuth(username);
-  
+) => {
+    const token = await threespeakAuth(currentAccount, pinHash);
+
     const data = {
-      videoId: videoId,
-      title: title,
-      description: postBody,
-      isNsfwContent: isNsfwC,
-      tags_v2: tags
+        videoId: videoId,
+        title: title,
+        description: postBody,
+        isNsfwContent: isNsfwC,
+        tags_v2: tags
     };
-  
+
     const headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
     };
-  
+
     try {
-      await axios.post(`${studioEndPoint}/mobile/api/update_info`, data, { headers });
+        await axios.post(`${studioEndPoint}/mobile/api/update_info`, data, { headers });
     } catch (e) {
-      console.error(e);
+        console.error(e);
     }
-  };
-  
-  export const markAsPublished = async (username: string, videoId: string) => {
-    const token = await threespeakAuth(username);
+};
+
+export const markAsPublished = async (currentAccount: any, pinHash: string, videoId: string) => {
+    const token = await threespeakAuth(currentAccount, pinHash);
     const data = {
-      videoId
+        videoId
     };
-  
+
     const headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
     };
-  
+
     axios
-      .post(`${studioEndPoint}/mobile/api/my-videos/iPublished`, data, { headers })
-      .then((response) => {})
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
+        .post(`${studioEndPoint}/mobile/api/my-videos/iPublished`, data, { headers })
+        .then((response) => { })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+};
 
 
-  export const uploadVideo = async (media, onUploadProgress) => {
+export const uploadVideo = async (media, onUploadProgress) => {
     try {
-      const file = {
-        uri: media.path,
-        type: media.mime,
-        name: media.filename || `img_${Math.random()}.mp4`,
-        size: media.size,
-      };
-  
-      const fData = new FormData();
-      fData.append('file', file);
-  
-      const res = await axios.post(tusEndPoint, fData, {
-        onUploadProgress
-      });
-      if (!res || !res.data) {
-        throw new Error('Returning response missing media data');
-      }
-      return res.data;
+        const file = {
+            uri: media.path,
+            type: media.mime,
+            name: media.filename || `img_${Math.random()}.mp4`,
+            size: media.size,
+        };
+
+        const fData = new FormData();
+        fData.append('file', file);
+
+        const res = await axios.post(tusEndPoint, fData, {
+            onUploadProgress
+        });
+        if (!res || !res.data) {
+            throw new Error('Returning response missing media data');
+        }
+        return res.data;
     } catch (error) {
-      console.warn('Image upload failed', error);
-      throw error;
+        console.warn('Image upload failed', error);
+        throw error;
     }
-  };
-  
+};
+
 //   export const uploadFile = async (
 //     file: File,
 //     type: string,
@@ -188,7 +178,7 @@ export const threespeakAuth = async (username: string) => {
 //     }>((resolve, reject) => {
 //       let vPercentage = 0;
 //       let tPercentage = 0;
-  
+
 //       const upload: any = new tus.Upload(file, {
 //         endpoint: tusEndPoint,
 //         retryDelays: [0, 3000, 5000, 10000, 20000],
@@ -221,4 +211,27 @@ export const threespeakAuth = async (username: string) => {
 //       upload.start();
 //     });
 //   };
-  
+
+
+const getDecodedMemo = async (local, pinHash, encryptedMemo) => {
+    try {
+        const digitPinCode = getDigitPinCode(pinHash)
+        const token = decryptKey(local.accessToken, digitPinCode);
+
+        const client = new hs.Client({
+            accessToken: token,
+        })
+
+        const { memoDecoded } = await client.decode(encryptedMemo);
+
+        if (!memoDecoded) {
+            throw new Error("Decode failed")
+        }
+
+        return memoDecoded;
+
+    } catch (err) {
+        console.warn("Failed to decode memo key", err)
+    }
+
+}
