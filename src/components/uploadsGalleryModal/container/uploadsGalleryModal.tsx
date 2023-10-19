@@ -1,11 +1,10 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Alert, AlertButton } from 'react-native';
 import ImagePicker, { Image } from 'react-native-image-crop-picker';
 import RNHeicConverter from 'react-native-heic-converter';
 import { openSettings } from 'react-native-permissions';
 import bugsnapInstance from '../../../config/bugsnag';
-import { getImages } from '../../../providers/ecency/ecency';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -16,6 +15,12 @@ import { showActionModal } from '../../../redux/actions/uiAction';
 
 export interface UploadsGalleryModalRef {
   showModal: () => void;
+}
+
+
+export enum Modes {
+  MODE_IMAGE = 0,
+  MODE_VIDEO = 1
 }
 
 export enum MediaInsertStatus {
@@ -29,12 +34,10 @@ export interface MediaInsertData {
   filename?: string;
   text: string;
   status: MediaInsertStatus;
+  mode: Modes;
 }
 
-export enum Modes {
-  MODE_IMAGE = 0,
-  MODE_VIDEO = 1
-}
+
 
 interface UploadsGalleryModalProps {
   insertedMediaUrls: string[];
@@ -66,18 +69,23 @@ export const UploadsGalleryModal = forwardRef(
     const intl = useIntl();
     const dispatch = useAppDispatch();
 
-    const mediaQuery = useMediaQuery();
-    const videoUploads = useVideoUploadsQuery();
+    const imageUploadsQuery = useMediaQuery();
+    const videoUploadsQuery = useVideoUploadsQuery();
+
+
+  
     const mediaUploadMutation = useMediaUploadMutation();
 
     const pendingInserts = useRef<MediaInsertData[]>([]);
 
-    const [mediaUploads, setMediaUploads] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [isAddingToUploads, setIsAddingToUploads] = useState(false);
     const [mode, setMode] = useState<Modes>(Modes.MODE_IMAGE)
 
     const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+
+    const mediaUploadsQuery = useMemo(
+      ()=> mode === Modes.MODE_VIDEO ? videoUploadsQuery : imageUploadsQuery , [mode])
 
 
     const pinCode = useAppSelector((state) => state.application.pin);
@@ -139,7 +147,7 @@ export const UploadsGalleryModal = forwardRef(
 
     useEffect(() => {
       _getMediaUploads(mode); // get media uploads when there is new update
-    }, [mediaQuery.data, videoUploads.data, mode]);
+    }, [mediaUploadsQuery.data, mode]);
 
     const _handleOpenImagePicker = (addToUploads?: boolean) => {
       ImagePicker.openPicker({
@@ -363,19 +371,7 @@ export const UploadsGalleryModal = forwardRef(
     // fetch images from server
     const _getMediaUploads = async (_mode: Modes = mode) => {
       try {
-
-        if (_mode === Modes.MODE_VIDEO) {
-          videoUploads.refetch();
-        } else {
-          if (_mode === Modes.MODE_IMAGE) {
-            if (username) {
-              console.log(`getting images for: ${username}`);
-              const images = await getImages();
-              console.log('images received', images);
-              setMediaUploads(images || []);
-            } 
-          }
-        }
+        mediaUploadsQuery.refetch();
 
       } catch (err) {
         console.warn('Failed to get images');
@@ -388,17 +384,17 @@ export const UploadsGalleryModal = forwardRef(
       const data: MediaInsertData[] = [];
       for (const index of map.keys()) {
         console.log(index);
-        const item = mediaUploads[index];
+        const item = mediaUploadsQuery.data[index];
         data.push({
           url: item.url,
-          text: '',
+          text: mode === Modes.MODE_VIDEO ? '3speak' : '',
           status: MediaInsertStatus.READY,
         });
       }
       handleMediaInsert(data);
     };
 
-    const data = mode === Modes.MODE_VIDEO ? videoUploads.data.slice() : mediaQuery.data.slice()
+    const data = mediaUploadsQuery.data.slice();
 
     return (
       !isPreviewActive &&
