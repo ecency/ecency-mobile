@@ -10,6 +10,7 @@ export interface ReceivedVestingShare {
 export interface MediaItem {
   _id: string;
   url: string;
+  thumbUrl: string;
   created: string;
   timestamp: number;
 }
