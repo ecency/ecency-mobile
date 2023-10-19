@@ -45,8 +45,8 @@ export const EditorToolbar = ({
   const shouldHideExtension = useRef(false);
   const extensionHeight = useRef(0);
 
-  const [isExtensionVisible, setIsExtensionVisible] = useState(false); 
- 
+  const [isExtensionVisible, setIsExtensionVisible] = useState(false);
+
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
@@ -246,6 +246,7 @@ export const EditorToolbar = ({
               iconType="MaterialCommunityIcons"
               name="text-short"
             />
+
             <IconButton
               onPress={_showUploadsExtension}
               style={styles.rightIcons}
@@ -253,6 +254,14 @@ export const EditorToolbar = ({
               iconStyle={styles.icon}
               iconType="FontAwesome"
               name="image"
+            />
+            <IconButton
+              onPress={_showUploadsExtension}
+              style={styles.rightIcons}
+              size={20}
+              iconStyle={styles.icon}
+              iconType="MaterialCommunityIcons"
+              name="movie-open"
             />
             <View style={styles.clearButtonWrapper}>
               <IconButton
