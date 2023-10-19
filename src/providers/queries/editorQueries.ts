@@ -19,6 +19,8 @@ import QUERIES from './queryKeys';
 import Upload, { UploadOptions } from 'react-native-background-upload'
 import Config from 'react-native-config';
 import { Platform } from 'react-native';
+import { getAllVideoStatuses } from '../speak/speak';
+import { ThreeSpeakVideo } from '../speak/speak.types';
 
 interface SnippetMutationVars {
   id: string | null;
@@ -77,6 +79,24 @@ export const useAddToUploadsMutation = () => {
     },
   });
 };
+
+
+export const useVideoUploadsQuery = () => {
+  const intl = useIntl();
+  const dispatch = useAppDispatch();
+
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const pinHash = useAppSelector(state => state.application.pin);
+
+  const _fetchVideoUploads = async () => await getAllVideoStatuses(currentAccount, pinHash);
+
+  return useQuery<ThreeSpeakVideo[]>([QUERIES.MEDIA.GET_VIDEOS], _fetchVideoUploads, {
+    initialData: [],
+    onError: () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  });
+}
 
 export const useMediaUploadMutation = () => {
   const intl = useIntl();
