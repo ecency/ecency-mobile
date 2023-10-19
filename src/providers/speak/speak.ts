@@ -3,6 +3,7 @@ import { getDigitPinCode } from "../hive/dhive";
 import { ThreeSpeakVideo } from "./speak.types";
 import { decryptKey } from "../../utils/crypto";
 import hs from 'hivesigner';
+import { convertVideoUpload } from "./converters";
 
 const studioEndPoint = "https://studio.3speak.tv";
 const tusEndPoint = "https://uploads.3speak.tv/files/";
@@ -82,7 +83,10 @@ export const getAllVideoStatuses = async (currentAccount: any, pinHash: string) 
                 Authorization: `Bearer ${token}`
             }
         });
-        return response.data;
+
+        const mediaItems = response.data.map(convertVideoUpload);
+
+        return mediaItems;
     } catch (err) {
         console.error(new Error("[3Speak video] Failed to get videos"));
 
