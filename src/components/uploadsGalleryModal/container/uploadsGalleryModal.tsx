@@ -11,7 +11,7 @@ import UploadsGalleryContent from '../children/uploadsGalleryContent';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { delay, extractFilenameFromPath } from '../../../utils/editor';
 import showLoginAlert from '../../../utils/showLoginAlert';
-import { useMediaQuery, useMediaUploadMutation } from '../../../providers/queries';
+import { useMediaQuery, useMediaUploadMutation, useVideoUploadsQuery } from '../../../providers/queries';
 import { showActionModal } from '../../../redux/actions/uiAction';
 
 export interface UploadsGalleryModalRef {
@@ -29,6 +29,11 @@ export interface MediaInsertData {
   filename?: string;
   text: string;
   status: MediaInsertStatus;
+}
+
+export enum Modes {
+  MODE_IMAGE = 0,
+  MODE_VIDEO = 1
 }
 
 interface UploadsGalleryModalProps {
@@ -62,6 +67,7 @@ export const UploadsGalleryModal = forwardRef(
     const dispatch = useAppDispatch();
 
     const mediaQuery = useMediaQuery();
+    const videoUploads = useVideoUploadsQuery();
     const mediaUploadMutation = useMediaUploadMutation();
 
     const pendingInserts = useRef<MediaInsertData[]>([]);
@@ -69,13 +75,16 @@ export const UploadsGalleryModal = forwardRef(
     const [mediaUploads, setMediaUploads] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [isAddingToUploads, setIsAddingToUploads] = useState(false);
+    const [mode, setMode] = useState<Modes>(Modes.MODE_IMAGE)
 
     const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+
+
     const pinCode = useAppSelector((state) => state.application.pin);
     const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
     useImperativeHandle(ref, () => ({
-      toggleModal: (value: boolean) => {
+      toggleModal: (value: boolean, _mode: Modes) => {
         if (!isLoggedIn) {
           showLoginAlert({ intl });
           return;
@@ -86,9 +95,12 @@ export const UploadsGalleryModal = forwardRef(
         }
 
         if (value) {
-          _getMediaUploads();
+          _getMediaUploads(_mode);
         }
+
+        setMode(_mode)
         setShowModal(value);
+
       },
     }));
 
@@ -116,6 +128,8 @@ export const UploadsGalleryModal = forwardRef(
       }
     }, [paramFiles]);
 
+
+
     useEffect(() => {
       if (!isEditing && pendingInserts.current.length) {
         handleMediaInsert(pendingInserts.current);
@@ -124,8 +138,8 @@ export const UploadsGalleryModal = forwardRef(
     }, [isEditing]);
 
     useEffect(() => {
-      _getMediaUploads(); // get media uploads when there is new update
-    }, [mediaQuery.data]);
+      _getMediaUploads(mode); // get media uploads when there is new update
+    }, [mediaQuery.data, videoUploads.data, mode]);
 
     const _handleOpenImagePicker = (addToUploads?: boolean) => {
       ImagePicker.openPicker({
@@ -347,14 +361,22 @@ export const UploadsGalleryModal = forwardRef(
     };
 
     // fetch images from server
-    const _getMediaUploads = async () => {
+    const _getMediaUploads = async (_mode: Modes = mode) => {
       try {
-        if (username) {
-          console.log(`getting images for: ${username}`);
-          const images = await getImages();
-          console.log('images received', images);
-          setMediaUploads(images || []);
+
+        if (_mode === Modes.MODE_VIDEO) {
+          videoUploads.refetch();
+        } else {
+          if (_mode === Modes.MODE_IMAGE) {
+            if (username) {
+              console.log(`getting images for: ${username}`);
+              const images = await getImages();
+              console.log('images received', images);
+              setMediaUploads(images || []);
+            } 
+          }
         }
+
       } catch (err) {
         console.warn('Failed to get images');
       }
@@ -376,12 +398,14 @@ export const UploadsGalleryModal = forwardRef(
       handleMediaInsert(data);
     };
 
+    const data = mode === Modes.MODE_VIDEO ? videoUploads.data.slice() : mediaQuery.data.slice()
+
     return (
       !isPreviewActive &&
       showModal && (
         <UploadsGalleryContent
           insertedMediaUrls={insertedMediaUrls}
-          mediaUploads={mediaQuery.data.slice()}
+          mediaUploads={data}
           isAddingToUploads={isAddingToUploads}
           getMediaUploads={_getMediaUploads}
           insertMedia={_insertMedia}

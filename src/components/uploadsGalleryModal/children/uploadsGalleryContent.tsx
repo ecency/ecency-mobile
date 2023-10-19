@@ -21,17 +21,17 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
 import { FlatList } from 'react-native-gesture-handler';
 import { Icon, IconButton } from '../..';
-import { UploadedMedia } from '../../../models';
 import styles, {
   COMPACT_HEIGHT,
   EXPANDED_HEIGHT,
   MAX_HORIZONTAL_THUMBS,
 } from './uploadsGalleryModalStyles';
 import { useMediaDeleteMutation } from '../../../providers/queries';
+import { MediaItem } from '../../../providers/ecency/ecency.types';
 
 type Props = {
   insertedMediaUrls: string[];
-  mediaUploads: any[];
+  mediaUploads: MediaItem[];
   isAddingToUploads: boolean;
   insertMedia: (map: Map<number, boolean>) => void;
   handleOpenGallery: (addToUploads?: boolean) => void;
@@ -101,7 +101,7 @@ const UploadsGalleryContent = ({
   };
 
   // render list item for snippet and handle actions;
-  const _renderItem = ({ item, index }: { item: UploadedMedia; index: number }) => {
+  const _renderItem = ({ item, index }: { item: MediaItem; index: number }) => {
     const _onPress = () => {
       if (isDeleteMode) {
         const idIndex = deleteIds.indexOf(item._id);
@@ -116,7 +116,7 @@ const UploadsGalleryContent = ({
       }
     };
 
-    const thumbUrl = proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
+    const thumbUrl = item.thumbUrl || proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
     let isInsertedTimes = 0;
     insertedMediaUrls?.forEach((url) => (isInsertedTimes += url === item.url ? 1 : 0));
     const isToBeDeleted = deleteIds.indexOf(item._id) >= 0;

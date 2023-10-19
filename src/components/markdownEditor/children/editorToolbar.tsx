@@ -11,7 +11,7 @@ import Animated, { EasingNode, Extrapolate } from 'react-native-reanimated';
 import { IconButton, UploadsGalleryModal } from '../..';
 import styles from '../styles/editorToolbarStyles';
 import { useAppSelector } from '../../../hooks';
-import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
+import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import Formats from './formats/formats';
 
 type Props = {
@@ -81,14 +81,23 @@ export const EditorToolbar = ({
     </View>
   );
 
-  const _showUploadsExtension = () => {
+
+  const _showUploadsExtension = (mode:Modes) => {
     if (isExtensionVisible && uploadsGalleryModalRef.current) {
       _hideExtension();
     } else if (uploadsGalleryModalRef.current) {
-      uploadsGalleryModalRef.current.toggleModal(true);
+      uploadsGalleryModalRef.current.toggleModal(true, mode);
       _revealExtension();
     }
   };
+
+  const _showImageUploads = () => {
+    _showUploadsExtension(Modes.MODE_IMAGE)
+  }
+
+  const _showVideoUploads = () => {
+    _showUploadsExtension(Modes.MODE_VIDEO)
+  }
 
   // handles extension closing
   const _onGestureEvent = Animated.event(
@@ -248,7 +257,7 @@ export const EditorToolbar = ({
             />
 
             <IconButton
-              onPress={_showUploadsExtension}
+              onPress={_showImageUploads}
               style={styles.rightIcons}
               size={20}
               iconStyle={styles.icon}
@@ -256,7 +265,7 @@ export const EditorToolbar = ({
               name="image"
             />
             <IconButton
-              onPress={_showUploadsExtension}
+              onPress={_showVideoUploads}
               style={styles.rightIcons}
               size={20}
               iconStyle={styles.icon}
