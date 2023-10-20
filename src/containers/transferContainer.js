@@ -110,6 +110,7 @@ class TransferContainer extends Component {
                 balance = tokenBalance.delegationsOut;
                 break;
               case TransferTypes.UNSTAKE_ENGINE:
+              case TransferTypes.DELEGATE_ENGINE:
                 balance = tokenBalance.stake;
                 break;
               default:
