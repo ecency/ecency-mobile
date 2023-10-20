@@ -64,13 +64,11 @@ PlayStore Android: https://android.ecency.com
 
 #### Before you start
 
-1.  When you address an issue or a feature, make sure that there doesn't already exist a ISSUES ticket for this work item.
+1. When you address an issue or a feature, make sure that there doesn't already exist a ISSUES ticket for this work item.
+   - [Issues](https://github.com/ecency/ecency-mobile/issues)
+2. If the item already exists and is in progress, please remove the card or the issue you were assigned and leave a note that it is a duplicate.
 
-- [Issues](https://github.com/ecency/ecency-mobile/issues)
-
-2.  If the item already exists and is in progress, please remove the card or the issue you were assigned and leave a note that it is a duplicate.
-
-3.  If the item is not being worked on, please make sure that you put the card or issue as "In Progress" and assign it to yourself so other developers know that you are working on it.
+3. If the item is not being worked on, please make sure that you put the card or issue as "In Progress" and assign it to yourself so other developers know that you are working on it.
 
 #### Patch a day
 
