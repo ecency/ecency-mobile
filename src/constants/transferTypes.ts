@@ -19,6 +19,7 @@ const TransferTypes = {
   UNSTAKE_ENGINE: 'unstake_engine',
   STAKE_ENGINE: 'stake_engine',
   UNDELEGATE_ENGINE: 'undelegate_engine',
+  DELEGATE_ENGINE: 'delegate_engine',
 
   // SPK Transfer Types
   TRANSFER_SPK: 'transfer_spk',
