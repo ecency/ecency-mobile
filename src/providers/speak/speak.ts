@@ -4,17 +4,21 @@ import { ThreeSpeakVideo } from "./speak.types";
 import { decryptKey } from "../../utils/crypto";
 import hs from 'hivesigner';
 import { convertVideoUpload } from "./converters";
+import { BASE_URL_SPEAK_STUDIO, PATH_API, PATH_LOGIN, PATH_MOBILE } from "./constants";
 
-const studioEndPoint = "https://studio.3speak.tv";
 const tusEndPoint = "https://uploads.3speak.tv/files/";
-const client = axios.create({});
+
+
+const speakApi = axios.create({
+    baseURL:`${BASE_URL_SPEAK_STUDIO}/${PATH_MOBILE}`
+});
 
 
 
 export const threespeakAuth = async (currentAccount: any, pinHash: string) => {
     try {
-        let response = await client.get(
-            `${studioEndPoint}/mobile/login?username=${currentAccount.username}&hivesigner=true`,
+        let response = await speakApi.get(
+            `${PATH_LOGIN}?username=${currentAccount.username}&hivesigner=true`,
             {
                 withCredentials: false,
                 headers: {
@@ -48,7 +52,7 @@ export const uploadVideoInfo = async (
     const token = await threespeakAuth(currentAccount, pinHash);
     try {
         const { data } = await axios.post<ThreeSpeakVideo>(
-            `${studioEndPoint}/mobile/api/upload_info?app=ecency`,
+            `${PATH_API}/upload_info?app=ecency`,
             {
                 filename: videoUrl,
                 oFilename: oFilename,
@@ -76,7 +80,7 @@ export const uploadVideoInfo = async (
 export const getAllVideoStatuses = async (currentAccount: any, pinHash: string) => {
     const token = await threespeakAuth(currentAccount, pinHash);
     try {
-        let response = await client.get<ThreeSpeakVideo[]>(`${studioEndPoint}/mobile/api/my-videos`, {
+        let response = await speakApi.get<ThreeSpeakVideo[]>(`${PATH_API}/my-videos`, {
             withCredentials: false,
             headers: {
                 "Content-Type": "application/json",
@@ -119,7 +123,7 @@ export const updateSpeakVideoInfo = async (
     };
 
     try {
-        await axios.post(`${studioEndPoint}/mobile/api/update_info`, data, { headers });
+        await axios.post(`${PATH_API}/update_info`, data, { headers });
     } catch (e) {
         console.error(e);
     }
@@ -137,7 +141,7 @@ export const markAsPublished = async (currentAccount: any, pinHash: string, vide
     };
 
     axios
-        .post(`${studioEndPoint}/mobile/api/my-videos/iPublished`, data, { headers })
+        .post(`${PATH_API}/my-videos/iPublished`, data, { headers })
         .then((response) => { })
         .catch((error) => {
             console.error("Error:", error);
