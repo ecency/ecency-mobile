@@ -120,6 +120,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
       switch (transferType) {
         case TransferTypes.UNSTAKE_ENGINE:
+        case TransferTypes.DELEGATE_ENGINE:
           balance =
             coinData.extraDataPairs?.reduce(
               (bal, data) => (data.dataKey === 'staked' ? Number(data.value) : bal),
