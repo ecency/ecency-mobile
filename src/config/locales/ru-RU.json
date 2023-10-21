@@ -58,7 +58,7 @@
     "estimated_value": "Расчетная стоимость",
     "vote_value": "Величина голоса",
     "delegated_hive_power": "Делегированная сила голоса",
-    "powering_down_hive_power": "Powering down ({subValue})",
+    "powering_down_hive_power": "Понижение силы ({subValue})",
     "received_hive_power": "Полученная сила голоса",
     "total_hive_power": "Всего силы голоса",
     "savings": "Сбережения",
