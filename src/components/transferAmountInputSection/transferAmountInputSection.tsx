@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Text, TouchableOpacity, View } from 'react-native';
 import TextInput from '../textInput';
@@ -7,6 +7,7 @@ import { TransferFormItem } from '../transferFormItem';
 // Styles
 import styles from './transferAmountInputSectionStyles';
 import TransferTypes from '../../constants/transferTypes';
+import DropdownButton from '../dropdownButton';
 
 export interface TransferAmountInputSectionProps {
   balance: number;
@@ -20,6 +21,8 @@ export interface TransferAmountInputSectionProps {
   setAmount: (value: string) => void;
   recurrence: string;
   setRecurrence: (value: string) => void;
+  executions: string;
+  setExecutions: (value: string) => void;
   hsTransfer: boolean;
   transferType: string;
   selectedAccount: any;
@@ -27,6 +30,24 @@ export interface TransferAmountInputSectionProps {
   currentAccountName: string;
   disableMinimum?: boolean;
 }
+
+export const RECURRENCE_TYPES = [
+  {
+    key: 'daily',
+    hours: 24,
+    intlId: 'leaderboard.daily',
+  },
+  {
+    key: 'weekly',
+    hours: 168,
+    intlId: 'leaderboard.weekly',
+  },
+  {
+    key: 'monthly',
+    hours: 731,
+    intlId: 'leaderboard.monthly',
+  },
+];
 
 const TransferAmountInputSection = ({
   balance,
@@ -40,35 +61,55 @@ const TransferAmountInputSection = ({
   setAmount,
   recurrence,
   setRecurrence,
+  executions,
+  setExecutions,
   transferType,
   fundType,
   disableMinimum,
+  recurrentTransfers
 }) => {
   const intl = useIntl();
 
+  console.log('====================================');
+  console.log('destination is: ', destination);
+  console.log('====================================');
+
+
+  useEffect(() => {
+    //todo: find recurrent transfer of selected user
+  }, [recurrentTransfers])
+
   const _handleOnChange = (state, val) => {
-    let _amount = val.toString();
-    if (_amount.includes(',')) {
-      _amount = val.replace(',', '.');
+    let newValue = val.toString();
+
+    console.log('====================================');
+    console.log('state is: ', state);
+    console.log('====================================');
+
+    if (newValue.includes(',')) {
+      newValue = val.replace(',', '.');
     }
     if (state === 'amount') {
-      if (parseFloat(Number(_amount)) <= parseFloat(balance)) {
-        setAmount(_amount);
+      if (parseFloat(Number(newValue)) <= parseFloat(balance)) {
+        setAmount(newValue);
       }
-    }
-    if (state === 'destination') {
+    } else if (state === 'destination') {
       getAccountsWithUsername(val).then((res) => {
+
+        console.log('====================================');
+        console.log('res is');
+        console.log('====================================');
+        console.log(res);
+
         const isValid = res.includes(val);
 
         setIsUsernameValid(isValid);
       });
-      setDestination(_amount);
-    }
-    if (state === 'memo') {
-      setMemo(_amount);
-    }
-    if (state === 'recurrence') {
-      setRecurrence(val);
+      setDestination(newValue);
+    } else if (state === 'memo') {
+      setMemo(newValue);
+    } else if (state === 'executions') {
+      setExecutions(val);
     }
   };
 
@@ -85,6 +126,8 @@ const TransferAmountInputSection = ({
           ? memo
           : state === 'recurrence'
           ? recurrence
+          : state === 'executions'
+          ? executions
           : ''
       }
       placeholder={placeholder}
@@ -95,6 +138,16 @@ const TransferAmountInputSection = ({
       keyboardType={keyboardType}
     />
   );
+
+  const [recurrenceIndex, setRecurrenceIndex] = useState(
+    RECURRENCE_TYPES.findIndex((r) => r.hours === recurrence) || 0,
+  );
+
+  const _handleRecurrenceChange = (index: number) => {
+    setRecurrenceIndex(index);
+
+    setRecurrence(RECURRENCE_TYPES[index].hours);
+  };
 
   const _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
   const _renderCenterDescription = (text) => <Text style={styles.centerDescription}>{text}</Text>;
@@ -134,17 +187,35 @@ const TransferAmountInputSection = ({
         )}
       />
       {transferType === TransferTypes.RECURRENT_TRANSFER && (
-        <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.recurrence' })}
-          rightComponent={() =>
-            _renderInput(
-              intl.formatMessage({ id: 'transfer.recurrence_placeholder' }),
-              'recurrence',
-              'numeric',
-              false,
-            )
-          }
-        />
+        <>
+          <TransferFormItem
+            label={intl.formatMessage({ id: 'transfer.recurrence' })}
+            rightComponent={() => (
+              <DropdownButton
+                dropdownButtonStyle={styles.dropdownButtonStyle}
+                rowTextStyle={styles.rowTextStyle}
+                style={styles.dropdown}
+                dropdownStyle={styles.dropdownStyle}
+                textStyle={styles.dropdownText}
+                options={RECURRENCE_TYPES.map((k) => intl.formatMessage({ id: k.intlId }))}
+                defaultText={intl.formatMessage({ id: 'transfer.recurrence_placeholder' })}
+                selectedOptionIndex={recurrenceIndex}
+                onSelect={index => _handleRecurrenceChange(index)}
+              />
+            )}
+          />
+          <TransferFormItem
+            label={intl.formatMessage({ id: 'transfer.executions' })}
+            rightComponent={() =>
+              _renderInput(
+                intl.formatMessage({ id: 'transfer.executions_placeholder' }),
+                'executions',
+                'numeric',
+                false,
+              )
+            }
+          />
+        </>
       )}
       {(transferType === TransferTypes.POINTS ||
         transferType === TransferTypes.TRANSFER_TOKEN ||

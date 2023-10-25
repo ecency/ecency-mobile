@@ -42,7 +42,6 @@ import { SERVER_LIST } from '../../constants/options/api';
 import { b64uEnc } from '../../utils/b64';
 import bugsnagInstance from '../../config/bugsnag';
 import bugsnapInstance from '../../config/bugsnag';
-import { makeJsonMetadataReply } from '../../utils/editor';
 import TransferTypes from '../../constants/transferTypes';
 
 const hiveuri = require('hive-uri');
@@ -1005,7 +1004,10 @@ export const recurrentTransferToken = (currentAccount, pin, data) => {
       amount: get(data, 'amount'),
       memo: get(data, 'memo'),
       recurrence: get(data, 'recurrence'),
+      executions: get(data, 'executions'),
+      extensions: [],
     };
+
     const opArray = [[TransferTypes.RECURRENT_TRANSFER, args]];
 
     return new Promise((resolve, reject) => {
@@ -1492,6 +1494,19 @@ export const getTrendingTags = async (tag, number = 20) => {
   } catch (error) {
     return [];
     // throw error;
+  }
+};
+
+export const getRecurrentTransfers = async (username) => {
+  try {
+    const rawData = await client.call('condenser_api', 'find_recurrent_transfers', [username]);
+    if (!rawData || !rawData.length) {
+      return [];
+    }
+    return rawData;
+  } catch (err) {
+    console.warn('Failed to get recurrent transfers', err);
+    return [];
   }
 };
 

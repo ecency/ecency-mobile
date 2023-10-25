@@ -15,6 +15,7 @@ import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
 import parseToken from '../../../utils/parseToken';
+import { log } from '../../../../reactotron-config';
 
 export interface AssetDetailsScreenParams {
   coinId: string;
@@ -157,6 +158,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         initialAmount: `${parseToken(baseActivity.value)}`,
         initialMemo: baseActivity.memo,
         initialRecurrence: `${parseToken(baseActivity.recurrence)}`,
+        initialExecutions: `${parseToken(baseActivity.executions)}`,
       };
     }
 

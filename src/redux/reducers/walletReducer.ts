@@ -60,6 +60,7 @@ export interface CoinActivity {
   memo: string;
   cancelable: boolean;
   recurrence: string;
+  executions: string;
 }
 
 export interface QuoteItem {

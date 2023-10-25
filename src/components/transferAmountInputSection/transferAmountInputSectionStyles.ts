@@ -82,4 +82,28 @@ export default EStyleSheet.create({
     fontWeight: '600',
     textAlign: 'left',
   },
+  dropdownText: {
+    fontSize: 14,
+    paddingLeft: 12,
+    paddingHorizontal: 14,
+    // color: '$primaryDarkGray',
+    color: '$primaryBlack',
+  },
+  dropdownStyle: {
+    marginTop: 15,
+    minWidth: 192,
+    width: 192,
+    maxHeight: 300,
+  },
+  dropdownButtonStyle: {
+    borderColor: '$borderColor',
+    borderWidth: 1,
+    height: 44,
+    width: '100%',
+    borderRadius: 8,
+  },
+  dropdown: {
+    flexGrow: 1,
+    width: 150,
+  },
 });

@@ -17,6 +17,7 @@ import {
   delegateVestingShares,
   setWithdrawVestingRoute,
   recurrentTransferToken,
+  getRecurrentTransfers,
 } from '../providers/hive/dhive';
 import { toastNotification } from '../redux/actions/uiAction';
 import { getUserDataWithUsername } from '../realm/realm';
@@ -44,6 +45,7 @@ import {
   fetchSpkMarkets,
 } from '../providers/hive-spk/hiveSpk';
 import { SpkLockMode, SpkPowerMode } from '../providers/hive-spk/hiveSpk.types';
+import { log } from '../../reactotron-config';
 
 /*
  *            Props Name        Description                                     Value
@@ -65,6 +67,8 @@ class TransferContainer extends Component {
       initialAmount: props.route.params?.initialAmount,
       initialMemo: props.route.params?.initialMemo,
       initialRecurrence: props.route.params?.initialRecurrence,
+      initialExecutions: props.route.params?.initialExecutions,
+      recurrentTransfers: [],
     };
   }
 
@@ -75,6 +79,8 @@ class TransferContainer extends Component {
     } = this.props;
 
     this.fetchBalance(name);
+
+    this._fetchRecurrentTransfers(name);
 
     if (this.state.transferType === TransferTypes.DELEGATE_SPK) {
       this._fetchSpkMarkets();
@@ -101,6 +107,8 @@ class TransferContainer extends Component {
 
     getAccount(username).then(async (account) => {
       let balance;
+
+      log('account is', account);
 
       if (transferType.endsWith('_engine')) {
         const tokenBalances = await fetchTokenBalances(username);
@@ -183,6 +191,21 @@ class TransferContainer extends Component {
     return validUsers;
   };
 
+  _fetchRecurrentTransfers = async (username) => {
+    const recTransfers = await getRecurrentTransfers(username);
+
+    log('====================================');
+    log('recurrent transfers');
+    log('====================================');
+    log(recTransfers);
+
+    this.setState({
+      recurrentTransfers: recTransfers,
+    });
+
+    return recTransfers;
+  };
+
   _delayedRefreshCoinsData = () => {
     const { dispatch } = this.props;
     setTimeout(() => {
@@ -190,7 +213,14 @@ class TransferContainer extends Component {
     }, 3000);
   };
 
-  _transferToAccount = async (from, destination, amount, memo, recurrence = null) => {
+  _transferToAccount = async (
+    from,
+    destination,
+    amount,
+    memo,
+    recurrence = null,
+    executions = 0,
+  ) => {
     const { pinCode, navigation, dispatch, intl, route } = this.props;
     let { currentAccount } = this.props;
     const { selectedAccount } = this.state;
@@ -207,8 +237,9 @@ class TransferContainer extends Component {
       fundType,
     };
 
-    if (recurrence) {
+    if (recurrence && executions) {
       data.recurrence = +recurrence;
+      data.executions = +executions;
     }
 
     if (countDecimals(Number(data.amount)) < 3) {
@@ -307,6 +338,10 @@ class TransferContainer extends Component {
         navigation.goBack();
       })
       .catch((err) => {
+        log('====================================');
+        log('error got');
+        log('====================================');
+        log(err);
         navigation.goBack();
         bugsnagInstance.notify(err);
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
@@ -354,6 +389,8 @@ class TransferContainer extends Component {
       initialAmount,
       initialMemo,
       initialRecurrence,
+      initialExecutions,
+      recurrentTransfers,
     } = this.state;
 
     const transferType = route.params?.transferType ?? '';
@@ -382,6 +419,9 @@ class TransferContainer extends Component {
         initialAmount,
         initialMemo,
         initialRecurrence,
+        initialExecutions,
+        fetchRecurrentTransfers: this._fetchRecurrentTransfers,
+        recurrentTransfers,
       })
     );
   }

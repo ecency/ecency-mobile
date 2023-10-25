@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
@@ -26,6 +26,7 @@ import {
   getSpkTransactionId,
   SPK_NODE_ECENCY,
 } from '../../../providers/hive-spk/hiveSpk';
+import { RECURRENCE_TYPES } from '../../../components/transferAmountInputSection/transferAmountInputSection';
 
 const TransferView = ({
   currentAccountName,
@@ -45,6 +46,9 @@ const TransferView = ({
   initialAmount,
   initialMemo,
   initialRecurrence,
+  initialExecutions,
+  fetchRecurrentTransfers,
+  recurrentTransfers,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -75,7 +79,8 @@ const TransferView = ({
   const [memo, setMemo] = useState(
     transferType === 'purchase_estm' ? 'estm-purchase' : initialMemo,
   );
-  const [recurrence, setRecurrence] = useState(`${initialRecurrence}`);
+  const [recurrence, setRecurrence] = useState(RECURRENCE_TYPES[2].hours);
+  const [executions, setExecutions] = useState('');
 
   const [isUsernameValid, setIsUsernameValid] = useState(
     !!(
@@ -98,6 +103,8 @@ const TransferView = ({
   const [hsTransfer, setHsTransfer] = useState(false);
   const [isTransfering, setIsTransfering] = useState(false);
 
+  const isRecurrentTransfer = transferType === TransferTypes.RECURRENT_TRANSFER;
+
   const isEngineToken = useMemo(() => transferType.endsWith('_engine'), [transferType]);
   const isSpkToken = useMemo(() => transferType.endsWith('_spk'), [transferType]);
 
@@ -112,7 +119,8 @@ const TransferView = ({
           destination,
           amount,
           memo,
-          transferType === TransferTypes.RECURRENT_TRANSFER ? recurrence : null,
+          isRecurrentTransfer ? recurrence : null,
+          isRecurrentTransfer ? executions : null,
         );
       }
     },
@@ -144,7 +152,7 @@ const TransferView = ({
     if (transferType === TransferTypes.RECURRENT_TRANSFER) {
       path = `sign/recurrent_transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
-      )}&memo=${encodeURIComponent(memo)}&recurrence=${recurrence}`;
+      )}&memo=${encodeURIComponent(memo)}&recurrence=${recurrence}&executions=${executions}`;
     } else if (transferType === TransferTypes.TRANSFER_TO_SAVINGS) {
       path = `sign/transfer_to_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
@@ -241,6 +249,39 @@ const TransferView = ({
 
   const nextBtnDisabled = !((isEngineToken ? amount > 0 : amount >= 0.001) && isUsernameValid);
 
+  useEffect(() => {
+    if (isRecurrentTransfer) {
+      fetchRecurrentTransfers(currentAccountName);
+    }
+  }, [isRecurrentTransfer]);
+
+
+  useEffect(() => {
+    console.log('====================================');
+    console.log('recurrentTransfers in transferScreen');
+    console.log('====================================');
+    console.log(recurrentTransfers);
+  }, [recurrentTransfers])
+
+  const _findRecurrentTransferOfUser = (userToFind) => {
+    if (!isRecurrentTransfer) {
+      return false;
+    }
+
+    console.log('====================================');
+    console.log('try to find recurrent transfer of user: ', userToFind);
+    console.log('====================================');
+
+    //todo:gu fix issue with recurrentTransfers here
+    const recurrentTransferOfUser = recurrentTransfers.find((rt) => rt.to === userToFind);
+
+    console.log('====================================');
+    console.log(recurrentTransferOfUser || recurrentTransfers);
+    console.log('====================================');
+
+    return recurrentTransferOfUser;
+  };
+
   return (
     <View style={styles.container}>
       <BasicHeader
@@ -270,6 +311,7 @@ const TransferView = ({
             memo={memo}
             setMemo={setMemo}
             spkMarkets={spkMarkets}
+            getRecurrentTransferOfUser={_findRecurrentTransferOfUser}
           />
           <TransferAmountInputSection
             balance={balance}
@@ -281,14 +323,17 @@ const TransferView = ({
             setMemo={setMemo}
             amount={amount}
             setAmount={setAmount}
-            recurrence={recurrence}
-            setRecurrence={setRecurrence}
             hsTransfer={hsTransfer}
             transferType={transferType}
             selectedAccount={selectedAccount}
             fundType={fundType}
             currentAccountName={currentAccountName}
             disableMinimum={isEngineToken}
+            recurrence={recurrence}
+            setRecurrence={setRecurrence}
+            executions={executions}
+            setExecutions={setExecutions}
+            recurrentTransfer={recurrentTransfers}
           />
           <View style={styles.bottomContent}>
             <MainButton

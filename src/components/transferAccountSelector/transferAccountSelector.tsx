@@ -31,6 +31,7 @@ export interface TransferAccountSelectorProps {
   memo: string;
   setMemo: (value: string) => void;
   spkMarkets: Market[];
+  getRecurrentTransferOfUser: (username: string) => string;
 }
 
 const TransferAccountSelector = ({
@@ -50,6 +51,7 @@ const TransferAccountSelector = ({
   memo,
   setMemo,
   spkMarkets,
+  getRecurrentTransferOfUser,
 }: TransferAccountSelectorProps) => {
   const intl = useIntl();
   const destinationRef = useRef('');
@@ -92,6 +94,20 @@ const TransferAccountSelector = ({
           return;
         }
         const isValid = res.includes(username);
+
+        
+        if (isValid) {
+          console.log('====================================');
+          console.log('debounce getRecurrentTransferOfUser');
+          console.log('====================================');
+
+          const recurrentTransferOfUser = getRecurrentTransferOfUser(username);
+
+          console.log('====================================');
+          console.log('recurrentTransferOfUser', recurrentTransferOfUser);
+          console.log('====================================');
+        }
+
         setIsUsernameValid(isValid);
       });
     }, 300),

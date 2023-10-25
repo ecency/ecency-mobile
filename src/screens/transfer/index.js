@@ -31,6 +31,9 @@ const Transfer = ({ navigation, route }) => (
       initialAmount,
       initialMemo,
       initialRecurrence,
+      initialExecutions,
+      recurrentTransfers,
+      fetchRecurrentTransfers,
     }) => {
       switch (transferType) {
         case 'delegate':
@@ -100,6 +103,9 @@ const Transfer = ({ navigation, route }) => (
               initialAmount={initialAmount || ''}
               initialMemo={initialMemo || ''}
               initialRecurrence={initialRecurrence || ''}
+              initialExecutions={initialExecutions || ''}
+              recurrentTransfers={recurrentTransfers || []}
+              fetchRecurrentTransfers={fetchRecurrentTransfers}
             />
           );
       }
