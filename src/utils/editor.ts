@@ -4,6 +4,7 @@ import { diff_match_patch as diffMatchPatch } from 'diff-match-patch';
 import VersionNumber from 'react-native-version-number';
 import MimeTypes from 'mime-types';
 import { PostTypes } from '../constants/postTypes';
+import { ThreeSpeakVideo } from '../providers/speak/speak.types';
 
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
@@ -216,16 +217,22 @@ export const extractMetadata = async ({
   thumbUrl,
   fetchRatios,
   postType,
+  threeSpeakMeta
 }: {
   body: string;
   thumbUrl?: string;
   fetchRatios?: boolean;
   postType?: PostTypes;
+  threeSpeakMeta?: {
+    title:string,
+    description:string,
+    rawData:ThreeSpeakVideo
+  }
 }) => {
   // NOTE: keepting regex to extract usernames as reference for later usage if any
   // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
 
-  const out = {};
+  const out:any = {};
   const mUrls = extractUrls(body);
   const matchedImages = extractImageUrls({ urls: mUrls });
 
@@ -256,6 +263,43 @@ export const extractMetadata = async ({
         .slice(0, 5),
     );
   }
+
+  if (threeSpeakMeta) {
+    const videoMetadata = threeSpeakMeta.rawData;
+    out.video = {
+      info: {
+        platform: "3speak",
+        title: threeSpeakMeta.title || videoMetadata.title,
+        author: videoMetadata.owner,
+        permlink: videoMetadata.permlink,
+        duration: videoMetadata.duration,
+        filesize: videoMetadata.size,
+        file: videoMetadata.filename,
+        lang: videoMetadata.language,
+        firstUpload: videoMetadata.firstUpload,
+        ipfs: null,
+        ipfsThumbnail: null,
+        video_v2: videoMetadata.video_v2,
+        sourceMap: [
+          {
+            type: "video",
+            url: videoMetadata.video_v2,
+            format: "m3u8"
+          },
+          {
+            type: "thumbnail",
+            url: videoMetadata.thumbUrl
+          }
+        ]
+      },
+      content: {
+        description: threeSpeakMeta.description || videoMetadata.description,
+        tags: videoMetadata.tags_v2
+      }
+    };
+  }
+
+
 
   //setting post type, primary usecase for separating waves from other posts
   out.type = postType || PostTypes.POST
