@@ -28,7 +28,7 @@ export const initQueryClient = () => {
       //Cherry pick whihc queries to dehydrate for persistance
       switch(query.queryKey[0]){
         case QUERIES.WAVES.GET:
-          return query.queryKey[2] === 0 //only dehydrate first page of waves
+          return query.queryKey[3] === 0 //only dehydrate first page of waves
         case QUERIES.NOTIFICATIONS.GET:
           return query.queryKey[2] === '' //only dehydrate first page of notifications
         default:
