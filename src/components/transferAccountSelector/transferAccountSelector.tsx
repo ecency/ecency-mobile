@@ -97,10 +97,6 @@ const TransferAccountSelector = ({
 
         
         if (isValid) {
-          console.log('====================================');
-          console.log('debounce getRecurrentTransferOfUser');
-          console.log('====================================');
-
           const recurrentTransferOfUser = getRecurrentTransferOfUser(username);
 
           console.log('====================================');
@@ -111,7 +107,7 @@ const TransferAccountSelector = ({
         setIsUsernameValid(isValid);
       });
     }, 300),
-    [],
+    [getRecurrentTransferOfUser],
   );
 
   const _handleOnChange = (state: string, val: string) => {

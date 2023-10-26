@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
@@ -27,6 +27,7 @@ import {
   SPK_NODE_ECENCY,
 } from '../../../providers/hive-spk/hiveSpk';
 import { RECURRENCE_TYPES } from '../../../components/transferAmountInputSection/transferAmountInputSection';
+import parseToken from '../../../utils/parseToken';
 
 const TransferView = ({
   currentAccountName,
@@ -79,7 +80,7 @@ const TransferView = ({
   const [memo, setMemo] = useState(
     transferType === 'purchase_estm' ? 'estm-purchase' : initialMemo,
   );
-  const [recurrence, setRecurrence] = useState(RECURRENCE_TYPES[2].hours);
+  const [recurrence, setRecurrence] = useState('');
   const [executions, setExecutions] = useState('');
 
   const [isUsernameValid, setIsUsernameValid] = useState(
@@ -255,32 +256,60 @@ const TransferView = ({
     }
   }, [isRecurrentTransfer]);
 
-
   useEffect(() => {
     console.log('====================================');
     console.log('recurrentTransfers in transferScreen');
     console.log('====================================');
     console.log(recurrentTransfers);
-  }, [recurrentTransfers])
+  }, [recurrentTransfers]);
 
-  const _findRecurrentTransferOfUser = (userToFind) => {
-    if (!isRecurrentTransfer) {
-      return false;
-    }
+  const _findRecurrentTransferOfUser = useCallback(
+    (userToFind) => {
+      console.log('====================================');
+      console.log('try to find recurrent transfer of user: ', userToFind);
+      console.log('====================================');
+      console.log('recurrentTransfers', recurrentTransfers);
 
-    console.log('====================================');
-    console.log('try to find recurrent transfer of user: ', userToFind);
-    console.log('====================================');
+      if (!isRecurrentTransfer) {
+        return false;
+      }
 
-    //todo:gu fix issue with recurrentTransfers here
-    const recurrentTransferOfUser = recurrentTransfers.find((rt) => rt.to === userToFind);
+      const existingRecurrentTransfer = recurrentTransfers.find((rt) => rt.to === userToFind);
 
-    console.log('====================================');
-    console.log(recurrentTransferOfUser || recurrentTransfers);
-    console.log('====================================');
+      console.log('====================================');
+      console.log(existingRecurrentTransfer || recurrentTransfers);
+      console.log('====================================');
 
-    return recurrentTransferOfUser;
-  };
+      let newMemo,
+        newAmount,
+        newRecurrence,
+        newExecutions = '';
+
+      if (existingRecurrentTransfer) {
+        newMemo = existingRecurrentTransfer.memo;
+        newAmount = parseToken(existingRecurrentTransfer.amount).toString();
+        newRecurrence = existingRecurrentTransfer.recurrence;
+        newExecutions = `${existingRecurrentTransfer.remaining_executions}`;
+
+        console.log('====================================');
+        console.log('setting new data', {
+          newAmount,
+          newMemo,
+          newRecurrence,
+          newExecutions,
+        });
+        console.log('====================================');
+      }
+
+      setMemo(newMemo);
+      setAmount(newAmount);
+      setRecurrence(newRecurrence);
+      setExecutions(newExecutions);
+
+      return existingRecurrentTransfer;
+    },
+    [recurrentTransfers],
+  );
 
   return (
     <View style={styles.container}>
@@ -333,7 +362,6 @@ const TransferView = ({
             setRecurrence={setRecurrence}
             executions={executions}
             setExecutions={setExecutions}
-            recurrentTransfer={recurrentTransfers}
           />
           <View style={styles.bottomContent}>
             <MainButton
