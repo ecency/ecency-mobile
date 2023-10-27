@@ -194,11 +194,6 @@ class TransferContainer extends Component {
   _fetchRecurrentTransfers = async (username) => {
     const recTransfers = await getRecurrentTransfers(username);
 
-    log('====================================');
-    log('recurrent transfers');
-    log('====================================');
-    log(recTransfers);
-
     this.setState({
       recurrentTransfers: recTransfers,
     });
@@ -338,10 +333,6 @@ class TransferContainer extends Component {
         navigation.goBack();
       })
       .catch((err) => {
-        log('====================================');
-        log('error got');
-        log('====================================');
-        log(err);
         navigation.goBack();
         bugsnagInstance.notify(err);
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));

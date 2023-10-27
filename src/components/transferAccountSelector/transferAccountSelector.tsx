@@ -84,7 +84,6 @@ const TransferAccountSelector = ({
     setDestination(username);
   };
 
-  //todo: fetch existing recurrent transfer
   const _debouncedValidateUsername = useCallback(
     debounce((username: string) => {
       getAccountsWithUsername(username).then((res) => {
@@ -97,11 +96,7 @@ const TransferAccountSelector = ({
 
         
         if (isValid) {
-          const recurrentTransferOfUser = getRecurrentTransferOfUser(username);
-
-          console.log('====================================');
-          console.log('recurrentTransferOfUser', recurrentTransferOfUser);
-          console.log('====================================');
+          getRecurrentTransferOfUser(username);
         }
 
         setIsUsernameValid(isValid);

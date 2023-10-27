@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Text, TouchableOpacity, View } from 'react-native';
 import TextInput from '../textInput';
@@ -69,16 +69,10 @@ const TransferAmountInputSection = ({
 }) => {
   const intl = useIntl();
 
-  console.log('====================================');
-  console.log('destination is: ', destination);
-  console.log('====================================');
+  const dpRef = useRef();
 
   const _handleOnChange = (state, val) => {
     let newValue = val.toString();
-
-    console.log('====================================');
-    console.log('state is: ', state);
-    console.log('====================================');
 
     if (newValue.includes(',')) {
       newValue = val.replace(',', '.');
@@ -89,9 +83,6 @@ const TransferAmountInputSection = ({
       }
     } else if (state === 'destination') {
       getAccountsWithUsername(val).then((res) => {
-        console.log('====================================');
-        console.log('res is');
-        console.log('====================================');
         console.log(res);
 
         const isValid = res.includes(val);
@@ -117,9 +108,7 @@ const TransferAmountInputSection = ({
           ? amount
           : state === 'memo'
           ? memo
-          : // : state === 'recurrence'
-          // ? recurrence
-          state === 'executions'
+          : state === 'executions'
           ? executions
           : ''
       }
@@ -137,16 +126,14 @@ const TransferAmountInputSection = ({
   );
 
   useEffect(() => {
-    console.log('====================================');
-    console.log(
-      'updating recurrence index',
-      recurrence !== '' && recurrenceIndex > -1,
-      recurrence,
-      recurrenceIndex,
-    );
-    console.log('====================================');
-    setRecurrenceIndex(RECURRENCE_TYPES.findIndex((r) => r.hours === recurrence));
-  }, [recurrence]);//todo: fix why this is not updating...
+    const newSelectedIndex = RECURRENCE_TYPES.findIndex((r) => r.hours === +recurrence);
+
+    setRecurrenceIndex(newSelectedIndex);
+
+    if (dpRef?.current) {
+      dpRef.current.select(newSelectedIndex);
+    }
+  }, [recurrence, dpRef]);
 
   const _handleRecurrenceChange = (index: number) => {
     setRecurrenceIndex(index);
@@ -203,14 +190,10 @@ const TransferAmountInputSection = ({
                 dropdownStyle={styles.dropdownStyle}
                 textStyle={styles.dropdownText}
                 options={RECURRENCE_TYPES.map((k) => intl.formatMessage({ id: k.intlId }))}
-                defaultText={intl.formatMessage({
-                  id:
-                    recurrence !== '' && recurrenceIndex > -1
-                      ? RECURRENCE_TYPES[recurrenceIndex].intlId
-                      : 'transfer.recurrence_placeholder',
-                })}
+                defaultText={intl.formatMessage({ id: 'transfer.recurrence_placeholder' })}
                 selectedOptionIndex={recurrenceIndex}
                 onSelect={(index) => _handleRecurrenceChange(index)}
+                dropdownRef={dpRef}
               />
             )}
           />

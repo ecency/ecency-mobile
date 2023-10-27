@@ -256,29 +256,13 @@ const TransferView = ({
     }
   }, [isRecurrentTransfer]);
 
-  useEffect(() => {
-    console.log('====================================');
-    console.log('recurrentTransfers in transferScreen');
-    console.log('====================================');
-    console.log(recurrentTransfers);
-  }, [recurrentTransfers]);
-
   const _findRecurrentTransferOfUser = useCallback(
     (userToFind) => {
-      console.log('====================================');
-      console.log('try to find recurrent transfer of user: ', userToFind);
-      console.log('====================================');
-      console.log('recurrentTransfers', recurrentTransfers);
-
       if (!isRecurrentTransfer) {
         return false;
       }
 
       const existingRecurrentTransfer = recurrentTransfers.find((rt) => rt.to === userToFind);
-
-      console.log('====================================');
-      console.log(existingRecurrentTransfer || recurrentTransfers);
-      console.log('====================================');
 
       let newMemo,
         newAmount,
@@ -288,25 +272,17 @@ const TransferView = ({
       if (existingRecurrentTransfer) {
         newMemo = existingRecurrentTransfer.memo;
         newAmount = parseToken(existingRecurrentTransfer.amount).toString();
-        newRecurrence = existingRecurrentTransfer.recurrence;
+        newRecurrence = existingRecurrentTransfer.recurrence.toString();
         newExecutions = `${existingRecurrentTransfer.remaining_executions}`;
 
-        console.log('====================================');
-        console.log('setting new data', {
-          newAmount,
-          newMemo,
-          newRecurrence,
-          newExecutions,
-        });
-        console.log('====================================');
+        setMemo(newMemo);
+        setAmount(newAmount);
+        setRecurrence(newRecurrence);
+        setExecutions(newExecutions);
+
+        return existingRecurrentTransfer;
       }
-
-      setMemo(newMemo);
-      setAmount(newAmount);
-      setRecurrence(newRecurrence);
-      setExecutions(newExecutions);
-
-      return existingRecurrentTransfer;
+      return null;
     },
     [recurrentTransfers],
   );
