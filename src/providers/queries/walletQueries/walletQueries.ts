@@ -278,7 +278,7 @@ export const useActivitiesQuery = (assetId: string) => {
       isEngine: assetData.isEngine,
     });
 
-    console.log('new page fetched', _activites);
+    // console.log('new page fetched', _activites);
     return _activites || [];
   };
 

@@ -26,7 +26,6 @@ import {
   getSpkTransactionId,
   SPK_NODE_ECENCY,
 } from '../../../providers/hive-spk/hiveSpk';
-import { RECURRENCE_TYPES } from '../../../components/transferAmountInputSection/transferAmountInputSection';
 import parseToken from '../../../utils/parseToken';
 
 const TransferView = ({
@@ -46,8 +45,6 @@ const TransferView = ({
   referredUsername,
   initialAmount,
   initialMemo,
-  initialRecurrence,
-  initialExecutions,
   fetchRecurrentTransfers,
   recurrentTransfers,
 }) => {
@@ -82,6 +79,7 @@ const TransferView = ({
   );
   const [recurrence, setRecurrence] = useState('');
   const [executions, setExecutions] = useState('');
+  const [startDate, setStartDate] = useState('');
 
   const [isUsernameValid, setIsUsernameValid] = useState(
     !!(
@@ -123,6 +121,19 @@ const TransferView = ({
           isRecurrentTransfer ? recurrence : null,
           isRecurrentTransfer ? executions : null,
         );
+      }
+    },
+    300,
+    { trailing: true },
+  );
+
+  const _handleDeleteRecurrentTransfer = debounce(
+    () => {
+      setIsTransfering(true);
+      if (accountType === AUTH_TYPE.STEEM_CONNECT) {
+        setHsTransfer(true);
+      } else {
+        transferToAccount(from, destination, '0', memo, 24, 2);
       }
     },
     300,
@@ -224,7 +235,7 @@ const TransferView = ({
     console.log('path is: ', path);
   }
 
-  const _onNextPress = () => {
+  const _onNextPress = (deleteTransfer = false) => {
     if (balance < amount) {
       Alert.alert(intl.formatMessage({ id: 'wallet.low_liquidity' }));
 
@@ -240,7 +251,7 @@ const TransferView = ({
             },
             {
               text: intl.formatMessage({ id: 'alert.confirm' }),
-              onPress: _handleTransferAction,
+              onPress: deleteTransfer ? _handleDeleteRecurrentTransfer : _handleTransferAction,
             },
           ],
         }),
@@ -267,6 +278,7 @@ const TransferView = ({
       let newMemo,
         newAmount,
         newRecurrence,
+        newStartDate,
         newExecutions = '';
 
       if (existingRecurrentTransfer) {
@@ -274,15 +286,20 @@ const TransferView = ({
         newAmount = parseToken(existingRecurrentTransfer.amount).toString();
         newRecurrence = existingRecurrentTransfer.recurrence.toString();
         newExecutions = `${existingRecurrentTransfer.remaining_executions}`;
+        newStartDate = existingRecurrentTransfer.trigger_date;
 
-        setMemo(newMemo);
-        setAmount(newAmount);
-        setRecurrence(newRecurrence);
-        setExecutions(newExecutions);
-
-        return existingRecurrentTransfer;
+        console.log('====================================');
+        console.log('existingRecurrentTransfer');
+        console.log('====================================');
+        console.log(existingRecurrentTransfer);
       }
-      return null;
+      setMemo(newMemo);
+      setAmount(newAmount);
+      setRecurrence(newRecurrence);
+      setExecutions(newExecutions);
+      setStartDate(newStartDate);
+
+      return existingRecurrentTransfer;
     },
     [recurrentTransfers],
   );
@@ -338,6 +355,8 @@ const TransferView = ({
             setRecurrence={setRecurrence}
             executions={executions}
             setExecutions={setExecutions}
+            startDate={startDate}
+            onNext={_onNextPress}
           />
           <View style={styles.bottomContent}>
             <MainButton

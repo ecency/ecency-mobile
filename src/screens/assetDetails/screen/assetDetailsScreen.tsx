@@ -157,8 +157,6 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         referredUsername: baseActivity.details?.split(' ')[2]?.slice(1), // from @user1 to @user2
         initialAmount: `${parseToken(baseActivity.value)}`,
         initialMemo: baseActivity.memo,
-        initialRecurrence: `${parseToken(baseActivity.recurrence)}`,
-        initialExecutions: `${parseToken(baseActivity.executions)}`,
       };
     }
 

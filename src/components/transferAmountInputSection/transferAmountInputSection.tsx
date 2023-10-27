@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Text, TouchableOpacity, View } from 'react-native';
 import TextInput from '../textInput';
@@ -8,6 +8,7 @@ import { TransferFormItem } from '../transferFormItem';
 import styles from './transferAmountInputSectionStyles';
 import TransferTypes from '../../constants/transferTypes';
 import DropdownButton from '../dropdownButton';
+import { dateToFormatted } from '../../utils/time';
 
 export interface TransferAmountInputSectionProps {
   balance: number;
@@ -59,13 +60,15 @@ const TransferAmountInputSection = ({
   setMemo,
   amount,
   setAmount,
+  fundType,
+  disableMinimum,
+  transferType,
   recurrence,
   setRecurrence,
   executions,
   setExecutions,
-  transferType,
-  fundType,
-  disableMinimum,
+  startDate,
+  onNext,
 }) => {
   const intl = useIntl();
 
@@ -130,19 +133,29 @@ const TransferAmountInputSection = ({
 
     setRecurrenceIndex(newSelectedIndex);
 
+    if (newSelectedIndex > -1) {
+      setRecurrence(RECURRENCE_TYPES[newSelectedIndex].hours);
+    }
+
     if (dpRef?.current) {
       dpRef.current.select(newSelectedIndex);
     }
   }, [recurrence, dpRef]);
 
-  const _handleRecurrenceChange = (index: number) => {
+  const _handleRecurrenceChange = useCallback((index: number) => {
     setRecurrenceIndex(index);
 
     setRecurrence(RECURRENCE_TYPES[index].hours);
-  };
+  }, []);
+
+  const _onDelete = () => {
+    onNext(true);
+  }
 
   const _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
-  const _renderCenterDescription = (text) => <Text style={styles.centerDescription}>{text}</Text>;
+  const _renderCenterDescription = (text, extraStyles = {}) => (
+    <Text style={[styles.centerDescription, extraStyles]}>{text}</Text>
+  );
 
   const amountLimitText = disableMinimum
     ? ''
@@ -159,6 +172,16 @@ const TransferAmountInputSection = ({
           { suffix: amountLimitText },
         )}
       </Text>
+
+      {startDate && startDate !== '' && (
+        <TouchableOpacity onPress={_onDelete}>
+          <Text style={[styles.sectionSubheading, styles.dangerDescription]}>
+            {intl.formatMessage({ id: 'transfer.delete_recurrent_transfer' }) +
+              dateToFormatted(startDate, 'LL')}
+          </Text>
+        </TouchableOpacity>
+      )}
+
       <TransferFormItem
         label={intl.formatMessage({ id: 'transfer.amount' })}
         rightComponent={() =>
@@ -230,6 +253,7 @@ const TransferAmountInputSection = ({
           containerStyle={{ height: 80 }}
         />
       )}
+
       {(transferType === TransferTypes.POINTS || transferType === TransferTypes.TRANSFER_TOKEN) && (
         <TransferFormItem
           rightComponentStyle={styles.transferItemRightStyle}

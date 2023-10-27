@@ -59,6 +59,10 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
     fontWeight: '600',
   },
+  dangerDescription: {
+    color: 'red',
+    fontWeight: '700',
+  },
   transferItemContainer: {
     height: 20,
   },

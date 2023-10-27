@@ -775,6 +775,7 @@
     "recurrence": "Recurrence",
     "memo": "Memo",
     "recurrent_transfer": "Recurrent Transfer",
+    "delete_recurrent_transfer": "Delete Recurrent Transfer ",
     "information": "Continue transaction?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",

@@ -45,7 +45,6 @@ import {
   fetchSpkMarkets,
 } from '../providers/hive-spk/hiveSpk';
 import { SpkLockMode, SpkPowerMode } from '../providers/hive-spk/hiveSpk.types';
-import { log } from '../../reactotron-config';
 
 /*
  *            Props Name        Description                                     Value
@@ -66,8 +65,6 @@ class TransferContainer extends Component {
       spkMarkets: [],
       initialAmount: props.route.params?.initialAmount,
       initialMemo: props.route.params?.initialMemo,
-      initialRecurrence: props.route.params?.initialRecurrence,
-      initialExecutions: props.route.params?.initialExecutions,
       recurrentTransfers: [],
     };
   }
@@ -107,8 +104,6 @@ class TransferContainer extends Component {
 
     getAccount(username).then(async (account) => {
       let balance;
-
-      log('account is', account);
 
       if (transferType.endsWith('_engine')) {
         const tokenBalances = await fetchTokenBalances(username);
@@ -379,8 +374,6 @@ class TransferContainer extends Component {
       spkMarkets,
       initialAmount,
       initialMemo,
-      initialRecurrence,
-      initialExecutions,
       recurrentTransfers,
     } = this.state;
 
@@ -409,8 +402,6 @@ class TransferContainer extends Component {
         setWithdrawVestingRoute: this._setWithdrawVestingRoute,
         initialAmount,
         initialMemo,
-        initialRecurrence,
-        initialExecutions,
         fetchRecurrentTransfers: this._fetchRecurrentTransfers,
         recurrentTransfers,
       })

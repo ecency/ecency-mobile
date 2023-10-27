@@ -19,7 +19,7 @@ export const calculateTimeLeftForPostCheck = (firstPost: any) => {
 
 // filter posts that are not present in top 5 posts currently in list.
 export const filterLatestPosts = (fetchedPosts: any[], cachedPosts: any[]) => {
-  console.log('Comparing: ', fetchedPosts, cachedPosts);
+  // console.log('Comparing: ', fetchedPosts, cachedPosts);
 
   const latestPosts = [];
   fetchedPosts.forEach((post) => {

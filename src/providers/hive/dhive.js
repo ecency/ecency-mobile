@@ -1018,6 +1018,10 @@ export const recurrentTransferToken = (currentAccount, pin, data) => {
           }
         })
         .catch((err) => {
+          console.log('====================================');
+          console.log('error on recurrent transfer token');
+          console.log('====================================');
+          console.log(err);
           reject(err);
         });
     });

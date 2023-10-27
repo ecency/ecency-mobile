@@ -30,8 +30,6 @@ const Transfer = ({ navigation, route }) => (
       spkMarkets,
       initialAmount,
       initialMemo,
-      initialRecurrence,
-      initialExecutions,
       recurrentTransfers,
       fetchRecurrentTransfers,
     }) => {
@@ -102,8 +100,6 @@ const Transfer = ({ navigation, route }) => (
               referredUsername={referredUsername || ''}
               initialAmount={initialAmount || ''}
               initialMemo={initialMemo || ''}
-              initialRecurrence={initialRecurrence || ''}
-              initialExecutions={initialExecutions || ''}
               recurrentTransfers={recurrentTransfers || []}
               fetchRecurrentTransfers={fetchRecurrentTransfers}
             />
