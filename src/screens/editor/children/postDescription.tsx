@@ -25,6 +25,7 @@ const PostDescription = ({
         onChangeText={handlePostDescriptionChange}
         autoCapitalize="none"
         maxLength={255}
+        placeholder={intl.formatMessage({ id: 'editor.short_desc_placeholder' })}
         editable
         multiline
       />
