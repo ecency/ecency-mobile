@@ -1155,7 +1155,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     const tags = route.params?.tags;
     const paramFiles = route.params?.files;
-    console.log('post : ', post);
 
     return (
       <EditorScreen
