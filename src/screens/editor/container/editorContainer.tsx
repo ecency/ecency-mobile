@@ -423,7 +423,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
 
     const beneficiaries = this._extractBeneficiaries();
-
+    const postBodySummaryContent = postBodySummary(
+      get(fields, 'body', ''),
+      200,
+      Platform.OS as any,
+    );
+    this._handlePostDescriptionChange(postBodySummaryContent);
     try {
       if (!isDraftSaved) {
         let draftField;
@@ -450,10 +455,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           tags: draftField.tags,
           beneficiaries,
           rewardType,
-          description: postDescription
-            ? postDescription
-            : postBodySummary(get(draftField, 'body', ''), 200, Platform.OS as any),
+          description: postDescription ? postDescription : postBodySummaryContent,
         });
+
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
 
         // update draft is draftId is present
