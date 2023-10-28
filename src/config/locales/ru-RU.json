@@ -2,12 +2,12 @@
   "wallet": {
     "curation_reward": "Кураторская награда",
     "author_reward": "Авторская награда",
-    "community_reward": "Community Reward",
+    "community_reward": "Награды сообщества",
     "comment_benefactor_reward": "Награда бенефициару",
     "claim_reward_balance": "Получить награду ",
-    "points_activity": "Activity",
+    "points_activity": "Активность",
     "transfer": "Перевод",
-    "power_up": "В Силу",
+    "power_up": "В силу",
     "transfer_from_savings": "Из сейфа",
     "withdraw_savings": "Вывести сбережения",
     "withdraw_vesting": "Включить понижение | Разморозить",
@@ -58,7 +58,7 @@
     "estimated_value": "Расчетная стоимость",
     "vote_value": "Величина голоса",
     "delegated_hive_power": "Делегированная сила голоса",
-    "powering_down_hive_power": "Понижение силы голоса",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "Полученная сила голоса",
     "total_hive_power": "Всего силы голоса",
     "savings": "Сбережения",
@@ -392,7 +392,7 @@
     "deep_login_alert_title": "Простой вход @{username}",
     "deep_login_alert_body": "Подтвердите авторизацию с помощью кода доступа",
     "deep_login_url_expired": "Срок действия URL-адреса для авторизации истёк, пожалуйста, используйте закрытый ключ или пароль для входа",
-    "deep_login_malformed_url": "Неверный URL-адрес для входа, используйте закрытый ключ или пароль для входа."
+    "deep_login_malformed_url": "Неверный URL-адрес для входа, используйте закрытый ключ или пароль для входа"
   },
   "register": {
     "modal_title": "Получить учетную запись Hive",
@@ -553,7 +553,7 @@
     "btn_add": "Изображение",
     "btn_insert": "ВСТАВИТЬ",
     "btn_delete": "УДАЛИТЬ",
-    "confirm_delete": "Вы уверены, что хотите удалить изображения из своих загрузок?",
+    "confirm_delete": "Вы уверены, что хотите удалить изображения из своих загрузок",
     "message_failed": "Не удалось загрузить изображение",
     "delete_failed": "Не удалось удалить изображение",
     "failed_count": "Не удалось загрузить {failedCount} из {totalCount} выбранного изображения(ов)"
@@ -667,7 +667,7 @@
     "in": "в",
     "reveal_muted": "ОТКЛЮЧЕНО\nНажмите, чтобы показать контент",
     "posted_by": "Опубликовано {username} с помощью {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ecency Волны"
   },
   "drafts": {
     "title": "Черновики",
@@ -914,7 +914,7 @@
   },
   "comments": {
     "title": "Комментарии",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Отобразить содержимое",
     "read_more": "Читать больше комментариев",
     "more_replies": "ответы",
     "no_comments": "Прокомментируйте первым..."
@@ -1011,11 +1011,11 @@
   },
   "quick_reply": {
     "placeholder": "Добавить комментарий...",
-    "placeholder_wave": "What's happening?",
-    "summary_wave": "Will be published in: {host}",
+    "placeholder_wave": "Что интересного вокруг?",
+    "summary_wave": "Будет опубликовано в: {host}",
     "comment": "Комментарий",
     "reply": "ОТВЕТИТЬ",
-    "publish": "PUBLISH",
+    "publish": "ОПУБЛИКОВАТЬ",
     "close": "ЗАКРЫТЬ"
   },
   "walkthrough": {
@@ -1037,14 +1037,33 @@
     "detected_url": "Обнаружена Ссылка",
     "unsupported_alert_title": "Неподдерживаемый URL!",
     "unsupported_alert_desc": "Пожалуйста, отсканируйте корректный адрес ecency.",
-    "confirmTransaction": "Confirm transaction",
-    "approve": "Approve",
-    "cancel": "Cancel",
-    "multi_array_ops_alert": "Multiple operations array detected!",
-    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations, yet"
+    "confirmTransaction": "Подтвердить транзакцию",
+    "approve": "Утвердить",
+    "cancel": "Отменить",
+    "multi_array_ops_alert": "Операция не поддерживается Ecency",
+    "multi_array_ops_aler_desct": "Ecency пока не поддерживает подписание нескольких операций",
+    "invalid_op": "Недопустимые данные операции",
+    "invalid_op_desc": "попробуйте связаться с автором QR/ссылки",
+    "invalid_amount": "Неверная сумма",
+    "invalid_amount_desc": "Введите действительную сумму в правильном формате",
+    "transaction_failed": "Транзакция не прошла!",
+    "invalid_key": "для выполнения этой операции требуется ключ {key}",
+    "invalid_key_desc": "пожалуйста, войдите в систему с ключом {key} или мастер-ключом для выполнения этой операции"
   },
   "history": {
     "edit": "История изменений",
     "version": "Версия"
+  },
+  "chain-error": {
+    "min-root-comment": "Вы можете размещать сообщения только один раз в пять минут.",
+    "identical-vote": "Ваше текущее голосование по данному содержанию идентично этому голосованию.",
+    "insufficient-resource": "Недостаточность ресурсных кредитов.",
+    "delete-comment-with-vote": "Невозможно удалить контент с положительными отложенными наградами.",
+    "comment-cashout": "Контент после их выплаты не может быть удален.",
+    "comment-children": "Невозможно удалить содержимое с ответами.",
+    "paid-out-post-forbidden": "Голосование за платный контент недоступно.",
+    "missing-authority": "Для выполнения этой операции требуется приватный ключ или ключ владельца.",
+    "missing-owner-authority": "Для выполнения этой операции требуется приватный ключ или ключ владельца.",
+    "insufficient_fund": "Недостаточность средств"
   }
 }

@@ -33,9 +33,9 @@ const PostDisplayContainer = ({
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
 
-  const currentAccount = useAppSelector(state => state.account.currentAccount);
-  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
-  const pinCode = useAppSelector(state => state.application.pin);
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const pinCode = useAppSelector((state) => state.application.pin);
 
   const [activeVotes, setActiveVotes] = useState([]);
   const [activeVotesCount, setActiveVotesCount] = useState(0);
@@ -45,8 +45,9 @@ const PostDisplayContainer = ({
     if (post) {
       console.log('Gettting reblogs inside postDisplayContainer');
       const votes = get(post, 'active_votes', []);
+      const activeVotesCount = get(post, 'stats.total_votes', 0);
       setActiveVotes(votes);
-      setActiveVotesCount(votes.length);
+      setActiveVotesCount(activeVotesCount);
       getPostReblogs(post).then((result) => {
         setReblogs(result || []);
       });
@@ -124,14 +125,11 @@ const PostDisplayContainer = ({
     });
   };
 
-
-
   const _fetchPost = async () => {
     if (post) {
       fetchPost(post.author, post.permlink);
     }
   };
-
 
   return (
     <PostDisplayView
@@ -153,10 +151,8 @@ const PostDisplayContainer = ({
       handleOnReplyPress={_handleOnReplyPress}
       handleOnVotersPress={_handleOnVotersPress}
       handleOnReblogsPress={_handleOnReblogsPress}
-    
     />
   );
 };
-
 
 export default PostDisplayContainer;

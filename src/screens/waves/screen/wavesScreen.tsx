@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, RefreshControl, View, FlatList, AppState, Alert } from 'react-native';
+import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, RefreshControl, View, FlatList, AppState } from 'react-native';
 import { Comments, EmptyScreen, Header, PostOptionsModal } from '../../../components';
 import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
@@ -8,34 +8,48 @@ import WavesHeader from '../children/wavesHeader';
 import { PostTypes } from '../../../constants/postTypes';
 import ScrollTopPopup from '../../../components/tabbedPosts/view/scrollTopPopup';
 import { debounce } from 'lodash';
-import reactotron from 'reactotron-react-native';
+import { useNavigationState } from '@react-navigation/native';
 
 
 const SCROLL_POPUP_THRESHOLD = 5000;
 
 
-const WavesScreen = () => {
+const WavesScreen = ({ route }) => {
     //refs
     const postOptionsModalRef = useRef<any>(null);
     const postsListRef = useRef<FlatList>();
     const blockPopupRef = useRef(false);
     const scrollOffsetRef = useRef(0);
     const appState = useRef(AppState.currentState);
+    const isFirstRender = useRef(true);
 
     const wavesQuery = wavesQueries.useWavesQuery('ecency.waves');
 
     const isDarkTheme = useAppSelector(state => state.application.isDarkTheme)
 
+    const navState = useNavigationState(state => state);
+
     const [enableScrollTop, setEnableScrollTop] = useState(false);
     const [popupAvatars, setPopupAvatars] = useState<any[]>([])
 
 
+
     useEffect(() => {
+
         const _stateSub = AppState.addEventListener('change', _handleAppStateChange);
         return () => {
             _stateSub.remove();
         }
     }, [])
+
+
+    useEffect(() => {
+        if (navState.routeNames[navState.index] === route.name && !isFirstRender.current) {
+            _latestWavesCheck();
+        }
+        isFirstRender.current = false;
+    }, [navState.index])
+
 
 
     //actions
@@ -45,18 +59,23 @@ const WavesScreen = () => {
             appState.current.match(/inactive|background/) &&
             nextAppState === 'active'
         ) {
-            const latestWaves = await wavesQuery.latestWavesFetch()
-            if (latestWaves.length > 0) {
-                setPopupAvatars(latestWaves.map((item) => item.avatar))
-                setEnableScrollTop(true)
-            }
+            _latestWavesCheck()
         }
 
         appState.current = nextAppState;
     };
 
-    const _fetchData = ({ refresh }: { refresh?: boolean }) => {
-        if (refresh) {
+
+    const _latestWavesCheck = async () => {
+        const latestWaves = await wavesQuery.latestWavesFetch()
+        if (latestWaves.length > 0) {
+            setPopupAvatars(latestWaves.map((item) => item.avatar))
+            setEnableScrollTop(true)
+        }
+    }
+
+    const _fetchData = (fetchProps: any) => {
+        if (fetchProps?.refresh) {
             wavesQuery.refresh();
         } else {
             wavesQuery.fetchNextPage();

@@ -595,6 +595,8 @@ PODS:
     - Firebase/Messaging (= 8.15.0)
     - React-Core
     - RNFBApp
+  - RNFlashList (1.6.1):
+    - React-Core
   - RNGestureHandler (2.9.0):
     - React-Core
   - RNIap (12.8.2):
@@ -677,6 +679,7 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
+  - Firebase/Messaging
   - Flipper (= 0.164.0)
   - Flipper-Boost-iOSX (= 1.76.0.1.11)
   - Flipper-DoubleConversion (= 3.2.0.1)
@@ -764,6 +767,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBDynamicLinks (from `../node_modules/@react-native-firebase/dynamic-links`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
+  - "RNFlashList (from `../node_modules/@shopify/flash-list`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNIap (from `../node_modules/react-native-iap`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
@@ -957,6 +961,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/dynamic-links"
   RNFBMessaging:
     :path: "../node_modules/@react-native-firebase/messaging"
+  RNFlashList:
+    :path: "../node_modules/@shopify/flash-list"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNIap:
@@ -1084,6 +1090,7 @@ SPEC CHECKSUMS:
   RNFBApp: e4439717c23252458da2b41b81b4b475c86f90c4
   RNFBDynamicLinks: 538840f6e3f58511f857d15df1bc25ed655dc283
   RNFBMessaging: 40dac204b4197a2661dec5be964780c6ec39bf65
+  RNFlashList: 236646d48f224a034f35baa0242e1b77db063b1e
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNIap: 90997da52f9ab2f42bf80e2bcec11e96c9fba2e3
   RNImageCropPicker: 14fe1c29298fb4018f3186f455c475ab107da332
@@ -1103,6 +1110,6 @@ SPEC CHECKSUMS:
   Yoga: 92d086bb705a41cc588599b51db726ba7b1d341c
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 88d8c7dd2ade9033785999cb2cc59fe10485fc64
+PODFILE CHECKSUM: 6b212d63236c21489948e9b73b59fcff2feeeb08
 
 COCOAPODS: 1.11.3

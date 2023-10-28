@@ -43,7 +43,7 @@ export const useWavesQuery = (host: string) => {
   // query initialization
   const wavesQueries = useQueries({
     queries: activePermlinks.map((pagePermlink, index) => ({
-      queryKey: [QUERIES.WAVES.GET, host, index],
+      queryKey: [QUERIES.WAVES.GET, host, pagePermlink, index], //index at end is used to track query hydration
       queryFn: () => _fetchWaves(pagePermlink),
       initialData: [],
     })),
@@ -117,7 +117,7 @@ export const useWavesQuery = (host: string) => {
           //inject cache and set query data
           const _cPost = injectVoteCache(_post, _voteCache);
           _qData.splice(_postIndex, 1, _cPost);
-          queryClient.setQueryData([QUERIES.WAVES.GET, host, _containerIndex], [..._qData]);
+          queryClient.setQueryData([QUERIES.WAVES.GET, host, _containerPermlink, _containerIndex], [..._qData]); //TODO: use container permlink as well
         }
       }
     }
@@ -304,7 +304,8 @@ export const usePublishWaveMutation = () => {
       const _host = cacheCommentData.parent_author;
 
       // update query data
-      const _queryKey = [QUERIES.WAVES.GET, _host, 0];
+      const queriesData = queryClient.getQueriesData([QUERIES.WAVES.INITIAL_CONTAINERS, _host]);
+      const _queryKey = queriesData[0][0];
       const queryData: any[] | undefined = queryClient.getQueryData(_queryKey);
 
       console.log('query data', queryData);
@@ -317,7 +318,10 @@ export const usePublishWaveMutation = () => {
     },
 
     onSuccess: async (host) => {
-      queryClient.invalidateQueries([QUERIES.WAVES.GET, host, 0]);
+      //TODO: get first container permlink here from initial containers
+      const queriesData = queryClient.getQueriesData([QUERIES.WAVES.INITIAL_CONTAINERS, host]);
+      const _queryKey = queriesData[0][0];
+      queryClient.invalidateQueries(_queryKey);
     },
   };
 

@@ -49,6 +49,7 @@ import bugsnapInstance from '../../../config/bugsnag';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
+import { PostTypes } from '../../../constants/postTypes';
 
 /*
  *            Props Name        Description                                     Value
@@ -725,6 +726,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const parentTags = post.json_metadata.tags;
       const draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
 
+      const meta = await extractMetadata({
+        body: fields.body,
+        fetchRatios: true,
+        postType: PostTypes.COMMENT
+      })
+      const jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency'])
+
       await postComment(
         currentAccount,
         pinCode,
@@ -732,7 +740,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         parentPermlink,
         permlink,
         fields.body,
-        parentTags,
+        jsonMetadata
       )
         .then((response) => {
           // record user activity for points
@@ -1149,7 +1157,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={() => {}}
+        handleOnBackPress={() => { }}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
         isDarkTheme={isDarkTheme}
