@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert, AppState, AppStateStatus, NativeEventSubscription } from 'react-native';
+import { Alert, AppState, AppStateStatus, NativeEventSubscription, Platform } from 'react-native';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isArray } from 'lodash';
@@ -50,6 +50,7 @@ import { useUserActivityMutation } from '../../../providers/queries/pointQueries
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
 import { PostTypes } from '../../../constants/postTypes';
+import { postBodySummary } from '@ecency/render-helper';
 
 /*
  *            Props Name        Description                                     Value
@@ -449,7 +450,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           tags: draftField.tags,
           beneficiaries,
           rewardType,
-          description: postDescription,
+          description: postDescription
+            ? postDescription
+            : postBodySummary(get(draftField, 'body', ''), 200, Platform.OS as any),
         });
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
 
@@ -729,9 +732,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const meta = await extractMetadata({
         body: fields.body,
         fetchRatios: true,
-        postType: PostTypes.COMMENT
-      })
-      const jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency'])
+        postType: PostTypes.COMMENT,
+      });
+      const jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency']);
 
       await postComment(
         currentAccount,
@@ -740,7 +743,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         parentPermlink,
         permlink,
         fields.body,
-        jsonMetadata
+        jsonMetadata,
       )
         .then((response) => {
           // record user activity for points
@@ -1148,6 +1151,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     const tags = route.params?.tags;
     const paramFiles = route.params?.files;
+    console.log('post : ', post);
+
     return (
       <EditorScreen
         paramFiles={paramFiles}
@@ -1157,7 +1162,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={() => { }}
+        handleOnBackPress={() => {}}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
         isDarkTheme={isDarkTheme}
