@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import { get, debounce } from 'lodash';
@@ -41,6 +41,10 @@ const TransferView = ({
   selectedAccount,
   fetchBalance,
   spkMarkets,
+  referredUsername,
+  initialAmount,
+  initialMemo,
+  transactionData,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -62,10 +66,15 @@ const TransferView = ({
       ? 'esteem.app'
       : transferType === TransferTypes.DELEGATE_SPK
       ? SPK_NODE_ECENCY
+      : transferType === TransferTypes.TRANSFER_TOKEN && referredUsername
+      ? referredUsername
       : '',
   );
-  const [amount, setAmount] = useState('');
-  const [memo, setMemo] = useState(transferType === 'purchase_estm' ? 'estm-purchase' : '');
+
+  const [amount, setAmount] = useState(`${initialAmount}`);
+  const [memo, setMemo] = useState(
+    transferType === 'purchase_estm' ? 'estm-purchase' : initialMemo,
+  );
   const [isUsernameValid, setIsUsernameValid] = useState(
     !!(
       transferType === 'purchase_estm' ||
@@ -80,7 +89,8 @@ const TransferView = ({
       transferType === TransferTypes.POWER_DOWN_SPK ||
       transferType === TransferTypes.LOCK_LIQUIDITY_SPK ||
       transferType === TransferTypes.DELEGATE_SPK ||
-      (transferType === 'convert' && currentAccountName)
+      (transferType === 'convert' && currentAccountName) ||
+      !!referredUsername
     ),
   );
   const [hsTransfer, setHsTransfer] = useState(false);
@@ -193,21 +203,27 @@ const TransferView = ({
   }
 
   const _onNextPress = () => {
-    dispatch(
-      showActionModal({
-        title: intl.formatMessage({ id: 'transfer.information' }),
-        buttons: [
-          {
-            text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {},
-          },
-          {
-            text: intl.formatMessage({ id: 'alert.confirm' }),
-            onPress: _handleTransferAction,
-          },
-        ],
-      }),
-    );
+    if (balance < amount) {
+      Alert.alert(intl.formatMessage({ id: 'wallet.low_liquidity' }));
+
+      return false;
+    } else {
+      dispatch(
+        showActionModal({
+          title: intl.formatMessage({ id: 'transfer.information' }),
+          buttons: [
+            {
+              text: intl.formatMessage({ id: 'alert.cancel' }),
+              onPress: () => {},
+            },
+            {
+              text: intl.formatMessage({ id: 'alert.confirm' }),
+              onPress: _handleTransferAction,
+            },
+          ],
+        }),
+      );
+    }
   };
 
   const nextBtnDisabled = !((isEngineToken ? amount > 0 : amount >= 0.001) && isUsernameValid);

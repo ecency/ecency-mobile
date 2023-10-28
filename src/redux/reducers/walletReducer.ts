@@ -10,6 +10,7 @@ import {
 
 export interface DataPair {
   value: string | number;
+  subValue?: string | number;
   dataKey: string;
   isClickable?: boolean;
 }
@@ -57,6 +58,7 @@ export interface CoinActivity {
   value: string;
   details: string | null;
   memo: string;
+  cancelable: boolean;
 }
 
 export interface QuoteItem {

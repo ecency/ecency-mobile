@@ -3,12 +3,13 @@ import { QuickReplyModalContent } from './quickReplyModalContent';
 import { InputSupportModal } from '../organisms';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { hideReplyModal } from '../../redux/actions/uiAction';
+import { PostEditorModalData } from '../../redux/reducers/uiReducer';
 
 const QuickReplyModal = () => {
   const dispatch = useAppDispatch();
 
   const replyModalVisible = useAppSelector((state) => state.ui.replyModalVisible);
-  const replyModalPost = useAppSelector((state) => state.ui.replyModalPost);
+  const replyModalData:PostEditorModalData = useAppSelector((state) => state.ui.replyModalData);
   const modalContentRef = useRef(null);
 
   const _onClose = () => {
@@ -19,10 +20,11 @@ const QuickReplyModal = () => {
   };
 
   return (
-    <InputSupportModal visible={replyModalVisible && !!replyModalPost} onClose={_onClose}>
+    <InputSupportModal visible={replyModalVisible && !!replyModalData} onClose={_onClose}>
       <QuickReplyModalContent
         ref={modalContentRef}
-        selectedPost={replyModalPost}
+        mode={replyModalData?.mode || 'comment'}
+        selectedPost={replyModalData?.parentPost}
         onClose={_onClose}
       />
     </InputSupportModal>

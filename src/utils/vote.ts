@@ -2,18 +2,14 @@ import parseToken from './parseToken';
 import { GlobalProps } from '../redux/reducers/accountReducer';
 import { votingPower } from '../providers/hive/dhive';
 
+
 export const getEstimatedAmount = (account, globalProps: GlobalProps, sliderValue: number = 1) => {
   const { fundRecentClaims, fundRewardBalance, base, quote } = globalProps;
-  const _votingPower: number = votingPower(account) * 100;
-  const vestingShares = parseToken(account.vesting_shares);
-  const receievedVestingShares = parseToken(account.received_vesting_shares);
-  const delegatedVestingShared = parseToken(account.delegated_vesting_shares);
-  const totalVests = vestingShares + receievedVestingShares - delegatedVestingShared;
-  // const totalVests = parseToken(account.post_voting_power);
 
-  const weight = sliderValue * 10000;
   const hbdMedian = base / quote;
-  const voteEffectiveShares = calculateVoteRshares(totalVests, _votingPower, weight);
+  const weight = sliderValue * 10000;
+
+  const voteEffectiveShares = calculateEstimatedRShares(account, weight)
   const voteValue = (voteEffectiveShares / fundRecentClaims) * fundRewardBalance * hbdMedian;
   const estimatedAmount = weight < 0 ? Math.min(voteValue * -1, 0) : Math.max(voteValue, 0);
 
@@ -30,6 +26,20 @@ export const getEstimatedAmount = (account, globalProps: GlobalProps, sliderValu
 
 };
 
+
+export const calculateEstimatedRShares = (account:any, weight: number = 10000) => {
+ 
+  const _votingPower: number = votingPower(account) * 100;
+  const vestingShares = parseToken(account.vesting_shares);
+  const receievedVestingShares = parseToken(account.received_vesting_shares);
+  const delegatedVestingShared = parseToken(account.delegated_vesting_shares);
+  const totalVests = vestingShares + receievedVestingShares - delegatedVestingShared;
+
+  return calculateVoteRshares(totalVests, _votingPower, weight);
+}
+
+
+
 /*
  * Changes in HF25
  * Full 'rshares' always added to the post.
@@ -44,3 +54,30 @@ export const calculateVoteRshares = (userEffectiveVests: number, vp = 10000, wei
   const voteRshares = userVestingShares * (userVotingPower / 10000) * 0.02;
   return voteRshares;
 };
+
+
+
+
+export const calculateVoteReward = (voteRShares:number, post:any, totalRshares?:number) => {
+
+  if(!voteRShares){
+    return 0
+  }
+
+  const totalPayout =
+    post.total_payout ||
+    parseFloat(post.pending_payout_value) || 0+
+    parseFloat(post.total_payout_value) || 0 +
+    parseFloat(post.curator_payout_value) || 0;
+
+  if(totalRshares === undefined){
+    totalRshares = post.active_votes.length 
+     ? post.active_votes.reduce((accumulator:number, item:any) => accumulator + parseFloat(item.rshares), 0)
+     : voteRShares;
+
+  }
+
+  const ratio = totalPayout / totalRshares || 0;
+
+  return voteRShares * ratio;
+}

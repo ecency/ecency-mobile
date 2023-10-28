@@ -1,9 +1,9 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, RefreshControl } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RefreshControl } from 'react-native';
+
 import unionBy from 'lodash/unionBy';
 import AccountListContainer from '../../../containers/accountListContainer';
 import ROUTES from '../../../constants/routeNames';

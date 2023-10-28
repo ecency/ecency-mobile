@@ -38,6 +38,7 @@ target 'Ecency' do
     # Pods for testing
   end
 
+
   # Convert all permission pods into static libraries
   pre_install do |installer|
     Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
@@ -75,6 +76,7 @@ target 'Ecency' do
 
       target.build_configurations.each do |config|
         config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
+      
       end
 
       #this workaround resolves duplicate symbolds caused by GCDAsyncSocket inclusion in TcpSockets
@@ -95,4 +97,9 @@ target 'Ecency' do
 
   end
 
+end
+
+
+target 'ImageNotifi' do
+  pod 'Firebase/Messaging'
 end

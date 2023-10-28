@@ -44,6 +44,7 @@ import bugsnagInstance from '../../config/bugsnag';
 import bugsnapInstance from '../../config/bugsnag';
 import { makeJsonMetadataReply } from '../../utils/editor';
 
+const hiveuri = require('hive-uri');
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
 const DEFAULT_SERVER = SERVER_LIST;
@@ -1508,8 +1509,7 @@ export const postComment = (
   parentPermlink,
   permlink,
   body,
-  parentTags,
-  isEdit = false,
+  jsonMetadata,
 ) =>
   _postContent(
     account,
@@ -1519,7 +1519,7 @@ export const postComment = (
     permlink,
     '',
     body,
-    makeJsonMetadataReply(parentTags || ['ecency']),
+    jsonMetadata,
     null,
     null,
   )
@@ -2080,3 +2080,78 @@ export const votingPower = (account) => {
   return percentage / 100;
 };
 /* eslint-enable */
+
+export const resolveTransaction = async (parsedTx, parsedParams, signer) => {
+  const EXPIRE_TIME = 60 * 1000;
+  const props = await client.database.getDynamicGlobalProperties();
+
+  // resolve the decoded tx and params to a signable tx
+  const { tx } = hiveuri.resolveTransaction(parsedTx, parsedParams, {
+    /* eslint-disable no-bitwise */
+    ref_block_num: props.head_block_number & 0xffff,
+    ref_block_prefix: Buffer.from(props.head_block_id, 'hex').readUInt32LE(4),
+    expiration: new Date(Date.now() + client.broadcast.expireTime + EXPIRE_TIME)
+      .toISOString()
+      .slice(0, -5),
+    signers: [signer],
+    preferred_signer: signer,
+  });
+  tx.ref_block_num = parseInt(tx.ref_block_num + '', 10);
+  tx.ref_block_prefix = parseInt(tx.ref_block_prefix + '', 10);
+
+  return tx;
+};
+
+const handleChainError = (strErr: string) => {
+  if (/You may only post once every/.test(strErr)) {
+    return 'chain-error.min-root-comment';
+  } else if (/Your current vote on this comment is identical/.test(strErr)) {
+    return 'chain-error.identical-vote';
+  } else if (/Please wait to transact, or power up/.test(strErr)) {
+    return 'chain-error.insufficient-resource';
+  } else if (/Cannot delete a comment with net positive/.test(strErr)) {
+    return 'chain-error.delete-comment-with-vote';
+  } else if (/children == 0/.test(strErr)) {
+    return 'chain-error.comment-children';
+  } else if (/comment_cashout/.test(strErr)) {
+    return 'chain-error.comment-cashout';
+  } else if (/Votes evaluating for comment that is paid out is forbidden/.test(strErr)) {
+    return 'chain-error.paid-out-post-forbidden';
+  } else if (/Missing Active Authority/.test(strErr)) {
+    return 'chain-error.missing-authority';
+  } else if (/Missing Owner Authority/.test(strErr)) {
+    return 'chain-error.missing-owner-authority';
+  } else if (/does not have sufficient funds/.test(strErr)) {
+    return 'chain-error.insufficient_fund';
+  }
+  return null;
+};
+
+export const handleHiveUriOperation = async (
+  currentAccount: any,
+  pin: any,
+  tx: any,
+): Promise<TransactionConfirmation> => {
+  try {
+    const digitPinCode = getDigitPinCode(pin);
+    const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+    const privateKey = PrivateKey.fromString(key);
+    const chainId = Buffer.from(
+      'beeab0de00000000000000000000000000000000000000000000000000000000',
+      'hex',
+    );
+    // console.log('tx : ', tx);
+    const transaction = cryptoUtils.signTransaction(tx, privateKey, chainId);
+    const trxId = generateTrxId(transaction);
+    const resultHive = await client.broadcast.call('broadcast_transaction', [transaction]);
+    const result = Object.assign({ id: trxId }, resultHive);
+    return result;
+  } catch (err) {
+    const errString = handleChainError(err.toString());
+    bugsnagInstance.notify(err, (event) => {
+      event.context = 'handle-hive-uri-operation';
+      event.setMetaData('tx', tx);
+    });
+    return Promise.reject(errString);
+  }
+};

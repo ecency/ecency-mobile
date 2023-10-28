@@ -172,7 +172,7 @@ const SearchModalContainer = ({ isConnected, handleOnClose, username, isOpen, pl
 
     switch (type) {
       case 'user':
-        name = get(item, 'text') === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
+        name = ROUTES.SCREENS.PROFILE;
         params = {
           username: get(item, 'text'),
         };

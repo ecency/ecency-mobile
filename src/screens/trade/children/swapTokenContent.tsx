@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, Alert, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -32,8 +32,6 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
 
-  // queres
-  const assetsQuery = walletQueries.useAssetsQuery();
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const currency = useAppSelector((state) => state.application.currency);
@@ -54,6 +52,15 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
     () => (fromAssetSymbol === MarketAsset.HBD ? MarketAsset.HIVE : MarketAsset.HBD),
     [fromAssetSymbol],
   );
+
+  const _fromAssetId = fromAssetSymbol === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE;
+  const _toAssetId = _toAssetSymbol === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE;
+
+
+  // queres
+  const assetsQuery = walletQueries.useAssetsQuery();
+  const pendingRequestsQuery = walletQueries.usePendingRequestsQuery(_fromAssetId);
+
 
   // this method makes sure amount is only updated when new order book is fetched after asset change
   // this avoid wrong from and to swap value on changing source asset
@@ -83,12 +90,11 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
   }, [tooMuchSlippage, offerUnavailable, isMoreThanBalance]);
 
   // accumulate asset data properties
-  const _fromAssetData =
-    assetsData[fromAssetSymbol === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE];
+  const _fromAssetData = assetsData[_fromAssetId];
   const _balance = _fromAssetData.balance;
   const _fromFiatPrice = _fromAssetData.currentPrice;
   const _toFiatPrice =
-    assetsData[_toAssetSymbol === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE].currentPrice;
+    assetsData[_toAssetId].currentPrice;
   const _marketFiatPrice = marketPrice * _toFiatPrice;
 
   const _toAmountStr = toAmount.toFixed(3);
@@ -124,11 +130,17 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
     setFromAmount('0');
   };
 
-  const _onSwapSuccess = () => {
+  const _onSwapSuccess = async (hasPending:boolean) => {
+
+    const _badgeColor = hasPending ? EStyleSheet.value('$primaryBlue') : EStyleSheet.value('$primaryGreen');
+    const _badgeIcon = hasPending ? "error-outline" : "check";
+    const _titleId = hasPending ? 'trade.swap_pending' : 'trade.swap_successful'
+    const _body = hasPending ? intl.formatMessage({ id: 'trade.swap_pending_body' }) : undefined;
+
     const headerContent = (
       <View
         style={{
-          backgroundColor: EStyleSheet.value('$primaryGreen'),
+          backgroundColor: _badgeColor,
           borderRadius: 56,
           padding: 8,
         }}
@@ -137,7 +149,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
           style={{ borderWidth: 0 }}
           size={64}
           color={EStyleSheet.value('$pureWhite')}
-          name="check"
+          name={_badgeIcon}
           iconType="MaterialIcons"
         />
       </View>
@@ -145,7 +157,8 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
     dispatch(
       showActionModal({
         headerContent,
-        title: intl.formatMessage({ id: 'trade.swap_successful' }),
+        title: intl.formatMessage({ id: _titleId }),
+        body: _body,
         buttons: [
           { textId: 'trade.new_swap', onPress: _reset },
           { textId: 'alert.done', onPress: () => navigation.goBack() },
@@ -173,9 +186,14 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
 
         await swapToken(currentAccount, pinHash, data);
 
+        await delay(1000);
+        const _existingPedingCount = pendingRequestsQuery.data?.length || 0;
+        const pendingRequests = await pendingRequestsQuery.refetch();
+        const _hasPending = pendingRequests.data?.length !== _existingPedingCount;
+        
         onSuccess();
         setSwapping(false);
-        _onSwapSuccess();
+        _onSwapSuccess(_hasPending);
       } catch (err) {
         Alert.alert('fail', err.message);
         setSwapping(false);

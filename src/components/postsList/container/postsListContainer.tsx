@@ -13,8 +13,8 @@ import {
   RefreshControl,
   ActivityIndicator,
   View,
-  Alert,
 } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
@@ -223,6 +223,7 @@ const postsListContainer = (
           upvotePopoverRef.current.showPopover({
             anchorRect: payload,
             content,
+            postType: PostTypes.POST,
             onVotingStart: onCallback,
           });
         }
@@ -266,7 +267,7 @@ const postsListContainer = (
 
   return (
     <Fragment>
-      <FlatList
+      <FlashList
         ref={flatListRef}
         data={cacheInjectedData}
         showsVerticalScrollIndicator={false}
@@ -275,6 +276,7 @@ const postsListContainer = (
         onEndReachedThreshold={1}
         maxToRenderPerBatch={5}
         initialNumToRender={3}
+        estimatedItemSize={609}
         windowSize={8}
         extraData={[imageRatios, reblogsCollectionRef.current, votesCache]}
         onEndReached={_onEndReached}
@@ -299,7 +301,7 @@ const postsListContainer = (
         }
         {...props}
       />
-      <UpvotePopover ref={upvotePopoverRef} parentType={PostTypes.POST} />
+      <UpvotePopover ref={upvotePopoverRef} />
       <PostOptionsModal ref={postDropdownRef} pageType={pageType} />
     </Fragment>
   );

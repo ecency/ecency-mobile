@@ -26,6 +26,7 @@ import {
   QuickProfileModal,
   QRModal,
   QuickReplyModal,
+  WebViewModal,
 } from '../../../components';
 
 // Themes (Styles)
@@ -129,6 +130,7 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
         <ActionModal />
         <QuickReplyModal />
         <QRModal />
+        <WebViewModal />
         {isShowToastNotification && (
           <ToastNotification
             text={toastNotification}

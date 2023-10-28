@@ -219,7 +219,7 @@ const TabContent = ({
     if (pageType === 'profile' || pageType === 'ownProfile' || pageType === 'community') {
       return;
     }
-    const pPosts = await fetchPromotedEntries(username);
+    const pPosts = await fetchPromotedEntries(username, nsfw);
     if (pPosts) {
       setPromotedPosts(pPosts);
     }
@@ -329,7 +329,7 @@ const TabContent = ({
   // show quick reply modal
   const _showQuickReplyModal = (post: any) => {
     if (isLoggedIn) {
-      dispatch(showReplyModal(post));
+      dispatch(showReplyModal({mode:'comment', parentPost:post}));
     } else {
       //TODO: show proper alert message
       console.log('Not LoggedIn');

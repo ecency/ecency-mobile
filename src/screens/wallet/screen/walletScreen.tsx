@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { SafeAreaView, View, RefreshControl, Text, AppState, AppStateStatus } from 'react-native';
+import { SafeAreaView, View, Text, AppState, AppStateStatus } from 'react-native';
 import { isArray } from 'lodash';
 
 // Containers
-import { FlatList, gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import {RefreshControl, FlatList, gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { useIntl } from 'react-intl';
 import moment from 'moment';
 import { LoggedInContainer } from '../../../containers';
@@ -33,7 +33,7 @@ import DEFAULT_ASSETS, { ASSET_IDS } from '../../../constants/defaultAssets';
 import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
 import { walletQueries } from '../../../providers/queries';
 
-const CHART_DAYS_RANGE = 1;
+const CHART_DAYS_RANGE = 7;
 
 const WalletScreen = ({ navigation }) => {
   const intl = useIntl();
@@ -147,7 +147,6 @@ const WalletScreen = ({ navigation }) => {
             token.id,
             currency.currency,
             CHART_DAYS_RANGE,
-            ChartInterval.HOURLY,
           );
           priceData = marketChart.prices.map((item) => item.yValue);
         }

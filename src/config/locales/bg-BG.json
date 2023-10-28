@@ -2,8 +2,10 @@
   "wallet": {
     "curation_reward": "Награда за участие",
     "author_reward": "Авторска награда",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Награда за благодетели",
     "claim_reward_balance": "Получи награда",
+    "points_activity": "Activity",
     "transfer": "Прехвърляне",
     "power_up": "Подсилване на гласа",
     "transfer_from_savings": "От спестявания",
@@ -56,7 +58,7 @@
     "estimated_value": "Предполагаема стойност",
     "vote_value": "Стойност на гласа",
     "delegated_hive_power": "Делегиран Hive Power",
-    "powering_down_hive_power": "Теглене на HP",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "Получен Hive Power",
     "total_hive_power": "Общо Hive Power",
     "savings": "Спестявания",
@@ -83,6 +85,7 @@
     "withdraw_hive": "Изтегли спестяванията",
     "withdraw_hbd": "Изтегли спестяванията",
     "transfer_to_savings": "Към спестявания",
+    "swap_token": "Swap Token",
     "convert": "Конвертиране",
     "convert_request": "Заявка за конвертиране",
     "escrow_transfer": "Escrow прехвърляне",
@@ -574,6 +577,7 @@
     "move": "Премести",
     "continue": "Continue",
     "okay": "Okay",
+    "done": "Done",
     "move_question": "Сигурен ли сте да преместите към чернови?",
     "success_shared": "Успех! Съдържанието е изпратено!",
     "success_moved": "Премено в чернови",
@@ -597,6 +601,7 @@
     "warning": "Внимание",
     "invalid_pincode": "Невалиден Пин-код,провери и опитай отново.",
     "remove_alert": "Сигорни ли сте за премахването?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Сигурни ли сте, че искате да изтриете?",
     "clear_user_alert": "Сигурни ли сте, че искате да изтриете всички ваши данни?",
     "decrypt_fail_alert": "Грешенка в приложението, влез на ново.",
@@ -661,7 +666,8 @@
     "wrong_link": "Грешен линк/връзка",
     "in": "в",
     "reveal_muted": "Заглушен Натисни да вижиш съдържанието",
-    "posted_by": "Posted by {username} via {appname} "
+    "posted_by": "Posted by {username} via {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "Чернови",
@@ -834,6 +840,20 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001"
   },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Entered amount is more than your available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
+    "fee": "Fee",
+    "free": "Free",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped",
+    "swap_pending": "Swap Pending!",
+    "swap_pending_body": "Swap requests may be pending, please check pending open orders in selected token details",
+    "new_swap": "New Swap"
+  },
   "boost": {
     "title": "Вземи точки",
     "buy": "Вземи точки",
@@ -894,7 +914,7 @@
   },
   "comments": {
     "title": "Коментари",
-    "reveal_comment": "Покажи коментара",
+    "reveal_comment": "Reveal Content",
     "read_more": "Прочети още коментари",
     "more_replies": "отговори",
     "no_comments": "Be the first to respond..."
@@ -991,8 +1011,11 @@
   },
   "quick_reply": {
     "placeholder": "Add a comment...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "Коментар",
     "reply": "Отговор",
+    "publish": "PUBLISH",
     "close": "Затвори"
   },
   "walkthrough": {
@@ -1013,10 +1036,34 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url."
+    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "confirmTransaction": "Confirm transaction",
+    "approve": "Approve",
+    "cancel": "Cancel",
+    "multi_array_ops_alert": "Operation not supported by Ecency",
+    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations yet",
+    "invalid_op": "Invalid operation data",
+    "invalid_op_desc": "try contacting QR/link author",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Enter valid amount in proper format",
+    "transaction_failed": "Transaction Failed!",
+    "invalid_key": "{key} key is required to perform this transaction",
+    "invalid_key_desc": "kindly login with {key} key or master key to perform this transaction"
   },
   "history": {
     "edit": "Edit History",
     "version": "Version"
+  },
+  "chain-error": {
+    "min-root-comment": "You may only post once every five minutes.",
+    "identical-vote": "Your current vote on this content is identical to this vote.",
+    "insufficient-resource": "Insufficient Resource Credits.",
+    "delete-comment-with-vote": "Cannot delete a content with positive pending rewards.",
+    "comment-cashout": "Content after their payout cannot be deleted.",
+    "comment-children": "Cannot delete a content with replies.",
+    "paid-out-post-forbidden": "Voting for paid out content is not available.",
+    "missing-authority": "This operation requires Active private key or authority.",
+    "missing-owner-authority": "This operation requires Owner private key or authority.",
+    "insufficient_fund": "Insufficient Funds"
   }
 }

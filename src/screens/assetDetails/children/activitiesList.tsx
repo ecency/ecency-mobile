@@ -1,4 +1,4 @@
-import React, { ComponentType, JSXElementConstructor, ReactElement } from 'react';
+import React, { ComponentType, JSXElementConstructor, ReactElement, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { SectionList, Text, RefreshControl, ActivityIndicator } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -6,6 +6,10 @@ import { Transaction } from '../../../components';
 import { useAppSelector } from '../../../hooks';
 import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
+import { limitOrderCancel } from '../../../providers/hive-trade/hiveTrade';
+import { useQueryClient } from '@tanstack/react-query';
+import QUERIES from '../../../providers/queries/queryKeys';
+import TransferTypes from '../../../constants/transferTypes';
 
 interface ActivitiesListProps {
   header: ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>>;
@@ -16,6 +20,7 @@ interface ActivitiesListProps {
   activitiesEnabled: boolean;
   onEndReached: () => void;
   onRefresh: () => void;
+  onActionPress: (transferType: string, extraParams?: any) => void;
 }
 
 const ActivitiesList = ({
@@ -27,13 +32,48 @@ const ActivitiesList = ({
   activitiesEnabled,
   onEndReached,
   onRefresh,
+  onActionPress,
 }: ActivitiesListProps) => {
   const intl = useIntl();
 
+  const queryClient = useQueryClient();
   const isDarkTheme = useAppSelector((state) => state.ui.isDarkTheme);
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const pinHash = useAppSelector((state) => state.application.pin);
+
+  const [cancellingTrxIndex, setCancellingTrxIndex] = useState(-1);
+
+  const _onCancelPress = async (trxId: number) => {
+    try {
+      if (trxId) {
+        setCancellingTrxIndex(trxId);
+        await limitOrderCancel(currentAccount, pinHash, trxId);
+        queryClient.invalidateQueries([QUERIES.WALLET.GET_PENDING_REQUESTS]);
+        setCancellingTrxIndex(-1);
+      }
+    } catch (err) {
+      setCancellingTrxIndex(-1);
+    }
+  };
+
+  const _onRepeatPress = async (item: CoinActivity) => {
+    if (onActionPress) {
+      onActionPress(TransferTypes.TRANSFER_TOKEN, item);
+    }
+  };
 
   const _renderActivityItem = ({ item, index }) => {
-    return <Transaction item={item} index={index} />;
+    return (
+      <Transaction
+        item={item}
+        index={index}
+        cancelling={cancellingTrxIndex === item.trxIndex}
+        onCancelPress={() => {
+          _onCancelPress(item.trxIndex);
+        }}
+        onRepeatPress={() => _onRepeatPress(item)}
+      />
+    );
   };
 
   const sections = [];

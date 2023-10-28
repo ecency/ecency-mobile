@@ -26,7 +26,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Utilities
 import {
   generatePermlink,
-  generateReplyPermlink,
+  generateUniquePermlink,
   makeJsonMetadata,
   makeOptions,
   extractMetadata,
@@ -49,6 +49,7 @@ import bugsnapInstance from '../../../config/bugsnag';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
+import { PostTypes } from '../../../constants/postTypes';
 
 /*
  *            Props Name        Description                                     Value
@@ -464,7 +465,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         // create new darft otherwise
         else if (draftField) {
           const { title, body, tags } = draftField;
-          const draft = { title, body, tags, jsonMeta };
+          const draft = { title, body, tags, meta: jsonMeta };
           const response = await addDraft(draft);
           const _resDraft = response.pop();
 
@@ -707,12 +708,21 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
 
       const { post } = this.state;
-      const permlink = generateReplyPermlink(post.author);
+
+      const _prefix = `re-${post.author.replace(/\./g, '')}`;
+      const permlink = generateUniquePermlink(_prefix);
 
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
       const parentTags = post.json_metadata.tags;
       const draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
+
+      const meta = await extractMetadata({
+        body: fields.body,
+        fetchRatios: true,
+        postType: PostTypes.COMMENT
+      })
+      const jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency'])
 
       await postComment(
         currentAccount,
@@ -721,7 +731,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         parentPermlink,
         permlink,
         fields.body,
-        parentTags,
+        jsonMetadata
       )
         .then((response) => {
           // record user activity for points
@@ -1133,7 +1143,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={() => {}}
+        handleOnBackPress={() => { }}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
         isDarkTheme={isDarkTheme}

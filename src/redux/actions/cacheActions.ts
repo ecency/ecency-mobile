@@ -18,15 +18,14 @@ import {
   DELETE_CLAIM_CACHE_ENTRY,
 } from '../constants/constants';
 import {
-  ClaimCache,
   Comment,
   CacheStatus,
   Draft,
   SubscribedCommunity,
-  Vote,
+  VoteCache,
 } from '../reducers/cacheReducer';
 
-export const updateVoteCache = (postPath: string, vote: Vote) => ({
+export const updateVoteCache = (postPath: string, vote: VoteCache) => ({
   payload: {
     postPath,
     vote,

@@ -22,8 +22,27 @@ import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const WIDTH = getWindowDimensions().width;
 
+interface CommentBodyProps {
+  body: string;
+  metadata?: any;
+  commentDepth: number;
+  hideContent: boolean;
+  handleOnContentPress: () => void;
+  handleOnUserPress: () => void;
+  handleOnPostPress: () => void;
+  handleOnLongPress: () => void;
+  handleVideoPress: () => void;
+  handleYoutubePress: () => void;
+  handleImagePress: () => void;
+  handleLinkPress: () => void;
+}
+
 const CommentBody = ({
   body,
+  metadata,
+  commentDepth,
+  hideContent,
+  handleOnContentPress,
   handleOnUserPress,
   handleOnPostPress,
   handleOnLongPress,
@@ -31,15 +50,12 @@ const CommentBody = ({
   handleYoutubePress,
   handleImagePress,
   handleLinkPress,
-  commentDepth,
-  reputation = 25,
-  isMuted,
-}) => {
+}: CommentBodyProps) => {
   const _contentWidth = WIDTH - (40 + 28 + (commentDepth > 2 ? 44 : 0));
 
   const dispatch = useAppDispatch();
 
-  const [revealComment, setRevealComment] = useState(reputation > 0 && !isMuted);
+  const [revealComment, setRevealComment] = useState(!hideContent);
 
   const intl = useIntl();
 
@@ -85,6 +101,7 @@ const CommentBody = ({
     }
   };
 
+
   const _handleOnUserPress = (username) => {
     if (handleOnUserPress) {
       handleOnUserPress(username);
@@ -117,6 +134,7 @@ const CommentBody = ({
             <PostHtmlRenderer
               contentWidth={_contentWidth}
               body={body}
+              metadata={metadata}
               isComment={true}
               setSelectedImage={handleImagePress}
               setSelectedLink={handleLinkPress}
@@ -125,6 +143,7 @@ const CommentBody = ({
               handleTagPress={_handleTagPress}
               handleVideoPress={handleVideoPress}
               handleYoutubePress={handleYoutubePress}
+              handleOnContentPress={handleOnContentPress}
             />
           </View>
         </LongPressGestureHandler>

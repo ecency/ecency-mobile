@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
 import forEach from 'lodash/forEach';
-import { get } from 'lodash';
+import { get, isArray } from 'lodash';
 import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
 import FastImage from 'react-native-fast-image';
@@ -9,6 +9,8 @@ import FastImage from 'react-native-fast-image';
 import parseAsset from './parseAsset';
 import { getResizedAvatar } from './image';
 import { parseReputation } from './user';
+import { CacheStatus } from '../redux/reducers/cacheReducer';
+import { calculateVoteReward, getEstimatedAmount } from './vote';
 
 const webp = Platform.OS !== 'ios';
 
@@ -109,6 +111,8 @@ export const parseDiscussionCollection = async (commentsMap: { [key: string]: an
   return commentsMap;
 };
 
+
+//TODO: discard/deprecate method after porting getComments in commentsContainer to getDiscussionCollection
 export const parseCommentThreads = async (commentsMap: any, author: string, permlink: string) => {
   const MAX_THREAD_LEVEL = 3;
   const comments = [];
@@ -149,6 +153,47 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
 
   return comments;
 };
+
+
+export const mapDiscussionToThreads = async (commentsMap: any, author: string, permlink: string, maxLevel: number = 3) => {
+  const comments = [];
+
+  if (!commentsMap) {
+    return null;
+  }
+
+  // traverse map to curate threads
+  const parseReplies = (commentsMap: any, replies: any[], level: number) => {
+    if (replies && replies.length > 0 && maxLevel > level) {
+      return replies.map((pathKey) => {
+        const comment = commentsMap[pathKey];
+        if (comment) {
+          comment.replies = parseReplies(commentsMap, comment.replies, level + 1);
+          return comment;
+        } else {
+          return null;
+        }
+      });
+    }
+    return [];
+  };
+
+  for (const key in commentsMap) {
+    if (commentsMap.hasOwnProperty(key)) {
+      const comment = commentsMap[key];
+
+      // prcoess first level comment
+      if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
+
+        comment.replies = parseReplies(commentsMap, comment.replies, 1);
+        comments.push(comment);
+      }
+    }
+  }
+
+  return comments;
+};
+
 
 export const parseComments = (comments: any[]) => {
   if (!comments) {
@@ -201,6 +246,121 @@ export const parseComment = (comment: any) => {
   return comment;
 };
 
+
+export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCacheUpdate) => {
+  let shouldClone = false;
+  const _comments = commentsMap || {};
+  console.log('updating with cache', _comments, cachedComments);
+  if (!cachedComments || !_comments) {
+    console.log('Skipping cache injection');
+    return _comments;
+  }
+
+  // process votes cache
+  for (const path in cachedVotes) {
+    const cachedVote = cachedVotes[path];
+    if (_comments[path]) {
+      console.log('injection vote cache');
+      _comments[path] = injectVoteCache(_comments[path], cachedVote);
+    }
+  }
+
+  // process comments cache
+  for (const path in cachedComments) {
+    const currentTime = new Date().getTime();
+    const cachedComment = cachedComments[path];
+    const _parentPath = `${cachedComment.parent_author}/${cachedComment.parent_permlink}`;
+    const cacheUpdateTimestamp = new Date(cachedComment.updated || 0).getTime();
+
+    switch (cachedComment.status) {
+      case CacheStatus.DELETED:
+        if (_comments && _comments[path]) {
+          delete _comments[path];
+          shouldClone = true;
+        }
+        break;
+      case CacheStatus.UPDATED:
+      case CacheStatus.PENDING:
+        // check if commentKey already exist in comments map,
+        if (_comments[path]) {
+          shouldClone = true;
+          // check if we should update comments map with cached map based on updat timestamp
+          const remoteUpdateTimestamp = new Date(_comments[path].updated).getTime();
+
+          if (cacheUpdateTimestamp > remoteUpdateTimestamp) {
+            _comments[path].body = cachedComment.body;
+          }
+        }
+
+        // if comment key do not exist, possiblky comment is a new comment, in this case, check if parent of comment exist in map
+        else if (_comments[_parentPath]) {
+          shouldClone = true;
+          // in this case add comment key in childern and inject cachedComment in commentsMap
+          _comments[path] = cachedComment;
+          _comments[_parentPath].replies.push(path);
+          _comments[_parentPath].children = _comments[_parentPath].children + 1;
+
+          // if comment was created very recently enable auto reveal
+          if (
+            lastCacheUpdate.postPath === path &&
+            currentTime - lastCacheUpdate.updatedAt < 5000
+          ) {
+            console.log('setting show replies flag');
+            _comments[_parentPath].expandedReplies = true;
+            _comments[path].renderOnTop = true;
+          }
+        }
+        break;
+    }
+  }
+
+  return shouldClone ? { ..._comments } : _comments;
+}
+
+
+export const injectVoteCache = (post, voteCache) => {
+  if (voteCache && voteCache.status !== CacheStatus.FAILED) {
+
+    const _voteIndex = post.active_votes.findIndex((i) => i.voter === voteCache.voter);
+
+    //if vote do not already exist
+    if (_voteIndex < 0 && voteCache.status !== CacheStatus.DELETED) {
+
+      post.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
+
+      //calculate updated totalRShares and send to post
+      const _totalRShares = post.active_votes.reduce(
+        (accumulator: number, item: any) => accumulator + parseFloat(item.rshares),
+        voteCache.rshares);
+      const _newVote = parseVote(voteCache, post, _totalRShares);
+      post.active_votes = [...post.active_votes, _newVote];
+    }
+
+    //if vote already exist
+    else {
+
+      const _vote = post.active_votes[_voteIndex];
+
+      //get older and new reward for the vote
+      const _oldReward = calculateVoteReward(_vote.rshares, post);
+
+      //update total payout
+      const _voteAmount = voteCache.amount * (voteCache.isDownvote ? -1 : 1);
+      post.total_payout += _voteAmount - _oldReward
+
+      //update vote entry
+      _vote.rshares = voteCache.rshares
+      _vote.percent100 = _vote.percent && voteCache.percent / 100
+
+      post.active_votes[_voteIndex] = _vote;
+      post.active_votes = [...post.active_votes];
+    }
+  }
+
+  return post;
+};
+
+
 export const isVoted = async (activeVotes, currentUserName) => {
   if (!currentUserName) {
     return false;
@@ -213,6 +373,8 @@ export const isVoted = async (activeVotes, currentUserName) => {
   }
   return false;
 };
+
+
 
 export const isDownVoted = async (activeVotes, currentUserName) => {
   if (!currentUserName) {
@@ -227,27 +389,28 @@ export const isDownVoted = async (activeVotes, currentUserName) => {
   return false;
 };
 
+
+
 export const parseActiveVotes = (post) => {
-  const totalPayout =
-    post.total_payout ||
-    parseFloat(post.pending_payout_value) +
-      parseFloat(post.total_payout_value) +
-      parseFloat(post.curator_payout_value);
 
-  const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
-  const ratio = totalPayout / voteRshares || 0;
+  const _totalRShares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
 
-  if (!isEmpty(post.active_votes)) {
-    forEach(post.active_votes, (value) => {
-      value.reward = (value.rshares * ratio).toFixed(3);
-      value.percent /= 100;
-      value.is_down_vote = Math.sign(value.percent) < 0;
-      value.avatar = getResizedAvatar(get(value, 'voter'));
-    });
+  if (isArray(post.active_votes)) {
+    post.active_votes = post.active_votes.map((vote) => parseVote(vote, post, _totalRShares))
   }
 
   return post.active_votes;
 };
+
+
+export const parseVote = (activeVote: any, post: any, _totalRShares?: number) => {
+  activeVote.reward = calculateVoteReward(activeVote.rshares, post, _totalRShares).toFixed(3);
+  activeVote.percent100 = activeVote.percent / 100;
+  activeVote.is_down_vote = Math.sign(activeVote.rshares) < 0;
+  activeVote.avatar = getResizedAvatar(activeVote.voter);
+
+  return activeVote;
+}
 
 const parseTags = (post: any) => {
   if (post.json_metadata) {

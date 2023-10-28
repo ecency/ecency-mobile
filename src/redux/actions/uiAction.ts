@@ -15,7 +15,10 @@ import {
   SET_LOCKED_ORIENTATION,
   LOGOUT,
   LOGOUT_DONE,
+  SHOW_WEBVIEW_MODAL,
+  HIDE_WEBVIEW_MODAL,
 } from '../constants/constants';
+import { PostEditorModalData } from '../reducers/uiReducer';
 
 export const updateActiveBottomTab = (payload: string) => ({
   payload,
@@ -72,6 +75,20 @@ export const toggleQRModal = (payload: boolean) => ({
   type: TOGGLE_QR_MODAL,
 });
 
+export const showWebViewModal = (payload: any) => ({
+  payload: {
+    isVisibleWebViewModal: new Date().getTime(),
+    webViewModalData: {
+      ...payload,
+    },
+  },
+  type: SHOW_WEBVIEW_MODAL,
+});
+
+export const hideWebViewModal = () => ({
+  type: HIDE_WEBVIEW_MODAL,
+});
+
 export const setDeviceOrientation = (payload: string) => ({
   payload,
   type: SET_DEVICE_ORIENTATION,
@@ -82,8 +99,11 @@ export const setLockedOrientation = (payload: string) => ({
   type: SET_LOCKED_ORIENTATION,
 });
 
-export const showReplyModal = (selectionPost: any) => ({
-  payload: selectionPost,
+export const showReplyModal = ({mode, parentPost}:PostEditorModalData) => ({
+  payload: {
+    mode: mode || 'comment',
+    parentPost
+  } as PostEditorModalData,
   type: SHOW_REPLY_MODAL,
 });
 

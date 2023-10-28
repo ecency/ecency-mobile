@@ -17,7 +17,7 @@ import { ParentPost } from '../../parentPost';
 
 // Styles
 import styles from './postDisplayStyles';
-import { OptionsModal } from '../../atoms';
+import { OptionsModal, WritePostButton } from '../../atoms';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../hooks';
 import { showProfileModal, showReplyModal } from '../../../redux/actions/uiAction';
@@ -49,13 +49,13 @@ const PostDisplayView = ({
   handleOnRemovePress,
   activeVotes,
   reblogs,
+  isWavePost,
   activeVotesCount,
 }) => {
   const dispatch = useAppDispatch();
   const insets = useSafeAreaInsets();
   const userActivityMutation = useUserActivityMutation();
 
-  const writeCommentRef = useRef<WriteCommentButton>();
   const postCommentsRef = useRef<PostComments>(null);
   const upvotePopoverRef = useRef<UpvotePopover>(null);
 
@@ -110,7 +110,11 @@ const PostDisplayView = ({
     content,
     onVotingStart,
     showPayoutDetails = false,
-    postType = parentPost ? PostTypes.COMMENT : PostTypes.POST,
+    postType = isWavePost 
+      ? PostTypes.WAVE 
+      : parentPost 
+        ? PostTypes.COMMENT
+        : PostTypes.POST
   }: any) => {
     if (upvotePopoverRef.current) {
       upvotePopoverRef.current.showPopover({
@@ -232,7 +236,7 @@ const PostDisplayView = ({
   // show quick reply modal
   const _showQuickReplyModal = (_post = post) => {
     if (isLoggedIn) {
-      dispatch(showReplyModal(_post));
+      dispatch(showReplyModal({mode:'comment', parentPost:_post}));
     } else {
       console.log('Not LoggedIn');
     }
@@ -249,6 +253,7 @@ const PostDisplayView = ({
     setIsLoadedComments(true);
   };
 
+
   const _postContentView = (
     <>
       {parentPost && <ParentPost post={parentPost} />}
@@ -262,7 +267,13 @@ const PostDisplayView = ({
               setPostBodyHeight(event.nativeEvent.layout.height);
             }}
           >
-            {!!post.title && <Text style={styles.title}>{post.title}</Text>}
+            
+            {
+              !!post.title && !post.depth
+                ? <Text style={styles.title}>{post.title}</Text>
+                : <View style={styles.titlePlaceholder} />
+            }
+
             <PostHeaderDescription
               date={formatedTime}
               name={author || post.author}
@@ -293,7 +304,7 @@ const PostDisplayView = ({
                   )}
                   {formatedTime}
                 </Text>
-                <WriteCommentButton ref={writeCommentRef} onPress={_showQuickReplyModal} />
+                <WritePostButton placeholderId={'quick_reply.placeholder'} onPress={_showQuickReplyModal} />
               </View>
             )}
           </View>

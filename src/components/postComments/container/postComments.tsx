@@ -7,10 +7,11 @@ import React, {
   useEffect,
   Fragment,
 } from 'react';
-import { ActivityIndicator, Platform, RefreshControl, Text } from 'react-native';
+import { ActivityIndicator, Platform, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
-import { FlatList } from 'react-native-gesture-handler';
+import { RefreshControl } from 'react-native-gesture-handler';
+import { FlashList } from '@shopify/flash-list';
 
 // Components
 import { postBodySummary } from '@ecency/render-helper';
@@ -63,7 +64,7 @@ const PostComments = forwardRef(
 
     const writeCommentRef = useRef(null);
     const postInteractionRef = useRef<typeof PostHtmlInteractionHandler|null>(null);
-    const commentsListRef = useRef<FlatList | null>(null);
+    const commentsListRef = useRef<FlashList<any> | null>(null);
 
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
@@ -309,20 +310,17 @@ const PostComments = forwardRef(
 
     return (
       <Fragment>
-        <FlatList
+        <FlashList
           ref={commentsListRef}
           style={styles.list}
+          keyExtractor={(item) => `${item.author}/${item.permlink}`}
           contentContainerStyle={styles.listContent}
           ListHeaderComponent={_postContentView}
           ListEmptyComponent={_renderEmptyContent}
-          data={isPostLoading ? [] : sortedSections}
+          data={isPostLoading ? [] : sortedSections.slice()}
           onContentSizeChange={_onContentSizeChange}
+          estimatedItemSize={104}
           renderItem={_renderItem}
-          keyExtractor={(item) => `${item.author}/${item.permlink}`}
-          initialNumToRender={6}
-          maxToRenderPerBatch={6}
-          updateCellsBatchingPeriod={100}
-          windowSize={13}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -333,6 +331,7 @@ const PostComments = forwardRef(
               colors={['#fff']}
             />
           }
+          overScrollMode="never"
         />
         <PostHtmlInteractionHandler 
           ref={postInteractionRef}

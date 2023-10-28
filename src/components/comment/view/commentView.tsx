@@ -61,7 +61,7 @@ const CommentView = ({
   const _currentUsername = currentAccountUsername || currentAccount?.username;
 
   const _showSubCommentsToggle = async (force = false) => {
-    if ((replies && replies.length > 0) || force) {
+    if (!!comment.commentKey && ((replies && replies.length > 0) || force)) {
       setIsOpeningReplies(true);
       await delay(10); // hack to rendering inidcator first before start loading comments
       handleOnToggleReplies(comment.commentKey);
@@ -71,9 +71,13 @@ const CommentView = ({
     }
   };
 
+  const _handleOnContentPress = () => {
+    openReplyThread(comment);
+  }
+
   const _handleOnReplyPress = () => {
     if (isLoggedIn) {
-      dispatch(showReplyModal(comment));
+      dispatch(showReplyModal({ mode: 'comment', parentPost: comment }));
     } else {
       console.log('Not LoggedIn');
     }
@@ -93,20 +97,24 @@ const CommentView = ({
   );
 
   const _renderComment = () => {
+
+    const _hideContent = isMuted || comment.author_reputation < 25 || comment.net_rshares < 0;
+
     return (
       <View style={[{ marginLeft: 2, marginTop: -6 }]}>
         <CommentBody
+          body={comment.body}
+          metadata={comment.json_metadata}
+          key={`key-${comment.permlink}`}
+          hideContent={_hideContent}
           commentDepth={_depth}
-          reputation={comment.author_reputation}
+          handleOnContentPress={_handleOnContentPress}
           handleOnUserPress={handleOnUserPress}
           handleOnLongPress={() => handleOnLongPress(comment)}
           handleLinkPress={handleLinkPress}
           handleImagePress={handleImagePress}
           handleVideoPress={handleVideoPress}
           handleYoutubePress={handleYoutubePress}
-          body={comment.body}
-          key={`key-${comment.permlink}`}
-          isMuted={isMuted}
         />
 
         <Fragment>
@@ -211,16 +219,15 @@ const CommentView = ({
   const customContainerStyle =
     _depth > 1
       ? {
-          paddingLeft: (_depth - 2) * 44,
-          backgroundColor: EStyleSheet.value('$primaryLightBackground'),
-        }
+        paddingLeft: (_depth - 2) * 44,
+        backgroundColor: EStyleSheet.value('$primaryLightBackground'),
+      }
       : null;
 
   return (
-    <Fragment>
+    <Fragment key={comment.permlink}>
       <View style={{ ...styles.commentContainer, ...customContainerStyle }}>
         <PostHeaderDescription
-          key={comment.permlink}
           date={getTimeFromNow(comment.created)}
           name={comment.author}
           reputation={comment.author_reputation}

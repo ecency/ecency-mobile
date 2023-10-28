@@ -221,7 +221,7 @@ export const useInitApplication = () => {
           break;
 
         case 'transfer':
-          routeName = ROUTES.TABBAR.PROFILE;
+          routeName = ROUTES.TABBAR.WALLET;
           params = {
             activePage: 2,
           };

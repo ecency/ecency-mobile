@@ -25,8 +25,15 @@ import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { IconButton } from '../buttons';
 import styles from './postHtmlRendererStyles'
+import { PostTypes } from '../../constants/postTypes';
 
-export const PostHtmlInteractionHandler = forwardRef(({ }, ref) => {
+interface PostHtmlInteractionHandlerProps {
+    postType?:PostTypes
+}
+
+export const PostHtmlInteractionHandler = forwardRef(({
+    postType
+}:PostHtmlInteractionHandlerProps, ref) => {
 
     const navigation = useNavigation();
     const dispatch = useDispatch();
@@ -51,7 +58,12 @@ export const PostHtmlInteractionHandler = forwardRef(({ }, ref) => {
         handleImagePress: (url: string, postImgUrls: string[]) => {
             setPostImages(postImgUrls);
             setSelectedImage(url);
-            actionImage.current?.show();
+            if(postType === PostTypes.WAVE){
+                setIsImageModalOpen(true);
+            } else {
+                actionImage.current?.show();
+            }
+            
         },
         handleLinkPress: (url: string) => {
             setSelectedLink(url);

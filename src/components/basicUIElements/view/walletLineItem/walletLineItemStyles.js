@@ -80,6 +80,9 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
+  cancelIcon:{
+    marginLeft:8,
+  },
   dropdownWrapper: {
     flex: 1,
   },
@@ -94,5 +97,8 @@ export default EStyleSheet.create({
     marginLeft: 10,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  repeatContainer: {
+    marginLeft: 5,
   },
 });

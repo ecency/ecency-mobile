@@ -1,3 +1,4 @@
+import { ImageStyle, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
@@ -101,4 +102,29 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
     fontSize: 10,
   },
+  mediaItem: {
+    marginLeft: 8,
+    height: 96,
+    width: 96,
+    borderRadius: 16,
+    backgroundColor: '$primaryLightBackground',
+    justifyContent:'center',
+    alignItems:'center'
+  } as ImageStyle,
+  minusContainer: {
+    position: 'absolute',
+    top: 8,
+    left: 14,
+    backgroundColor: '$primaryRed',
+    borderRadius: 16,
+    padding: 2,
+  } as ViewStyle,
+  toolbarContainer:{
+    flexDirection:'row',
+    alignItems:'center'
+  } as ViewStyle,
+  toolbarSpacer:{
+    marginLeft:8
+  } as ViewStyle,
+
 });

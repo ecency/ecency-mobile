@@ -118,7 +118,7 @@ const UploadsGalleryContent = ({
 
     const thumbUrl = proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
     let isInsertedTimes = 0;
-    insertedMediaUrls.forEach((url) => (isInsertedTimes += url === item.url ? 1 : 0));
+    insertedMediaUrls?.forEach((url) => (isInsertedTimes += url === item.url ? 1 : 0));
     const isToBeDeleted = deleteIds.indexOf(item._id) >= 0;
     const transformStyle = {
       transform: isToBeDeleted ? [{ scaleX: 0.7 }, { scaleY: 0.7 }] : [],
@@ -273,7 +273,7 @@ const UploadsGalleryContent = ({
             }}
             iconType="MaterialCommunityIcons"
             name="delete-outline"
-            color={EStyleSheet.value(deleteIds.length > 0 ? '$primaryBlack' : '$primaryBlack')}
+            color={EStyleSheet.value(deleteIds.length > 0 ? '$pureWhite' : '$pureWhite')}
             size={32}
             onPress={_onDeletePress}
             isLoading={isDeleting}
@@ -287,7 +287,7 @@ const UploadsGalleryContent = ({
         >
           <IconButton
             style={styles.deleteButton}
-            color={EStyleSheet.value('$primaryBlack')}
+            color={EStyleSheet.value('$pureWhite')}
             iconType="MaterialCommunityIcons"
             name="delete-outline"
             disabled={isDeleting}

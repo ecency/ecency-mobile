@@ -17,8 +17,9 @@ export const CoinChart = ({ coinId, isEngine }: CoinChartProps) => {
   const priceHistory = useAppSelector((state) => state.wallet.priceHistories[coinId]);
   const currency = useAppSelector((state) => state.application.currency);
 
-  const [range, setRange] = useState(isEngine ? 0 : 1);
+  const [range, setRange] = useState(isEngine ? 0 : 7);
   const [chartData, setChartData] = useState(priceHistory?.data);
+  const _minRange = isEngine ? 1 : 7;
 
   const _fetchMarketData = async (days: number) => {
     if (isEngine) {
@@ -33,8 +34,7 @@ export const CoinChart = ({ coinId, isEngine }: CoinChartProps) => {
       const marketData = await fetchMarketChart(
         coinId,
         currency.currency,
-        days,
-        days > 30 ? ChartInterval.DAILY : ChartInterval.HOURLY,
+        days
       );
       setChartData(marketData.prices.map((item) => item.yValue));
     }
@@ -62,7 +62,7 @@ export const CoinChart = ({ coinId, isEngine }: CoinChartProps) => {
   return (
     <>
       <View style={styles.card}>{_renderGraph()}</View>
-      <RangeSelector range={range} onRangeChange={_onRangeChange} />
+      <RangeSelector minRange={_minRange} range={range} onRangeChange={_onRangeChange} />
     </>
   );
 };

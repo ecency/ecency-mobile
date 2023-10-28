@@ -38,7 +38,7 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
     return null;
   }
 
-  const { title, body, buttons, headerImage, para, headerContent } = data;
+  const { title, body, buttons, headerImage, para, headerContent, bodyContent } = data;
 
   const _renderContent = (
     <View style={styles.container}>
@@ -49,6 +49,7 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
 
       <View style={styles.textContainer}>
         <Text style={styles.title}>{title}</Text>
+        {bodyContent && bodyContent}
         {!!body && (
           <>
             <Text style={styles.bodyText}>{body}</Text>
