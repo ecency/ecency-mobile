@@ -33,7 +33,7 @@ export default EStyleSheet.create({
     textAlign: 'left',
   },
   listContainer: {
-    paddingBottom: getBottomSpace() + 16,
+    paddingBottom: 12,
   },
   container: {
     paddingVertical: 16,
