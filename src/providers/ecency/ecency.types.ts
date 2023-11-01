@@ -1,4 +1,5 @@
 import { QuoteItem } from '../../redux/reducers/walletReducer';
+import { ThreeSpeakVideo } from '../speak/speak.types';
 
 export interface ReceivedVestingShare {
   delegator: string;
@@ -13,6 +14,7 @@ export interface MediaItem {
   thumbUrl: string;
   created: string;
   timestamp: number;
+  speakData?:ThreeSpeakVideo
 }
 
 export interface Snippet {

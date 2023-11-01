@@ -8,6 +8,7 @@ export const convertVideoUpload = (data) => {
         url:`${BASE_URL_SPEAK_WATCH}?v=${data.owner}/${data.permlink}`,
         thumbUrl:data.thumbUrl,
         created:data.created,
-        timestamp:0
+        timestamp:0,
+        speakData:data
     } as MediaItem
 }
