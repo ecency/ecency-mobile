@@ -12,6 +12,7 @@ import { delay, extractFilenameFromPath } from '../../../utils/editor';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { useMediaQuery, useMediaUploadMutation, useVideoUploadsQuery } from '../../../providers/queries';
 import { showActionModal } from '../../../redux/actions/uiAction';
+import { MediaItem } from '../../../providers/ecency/ecency.types';
 
 export interface UploadsGalleryModalRef {
   showModal: () => void;
@@ -385,10 +386,10 @@ export const UploadsGalleryModal = forwardRef(
       const data: MediaInsertData[] = [];
       for (const index of map.keys()) {
         console.log(index);
-        const item = mediaUploadsQuery.data[index];
+        const item:MediaItem = mediaUploadsQuery.data[index];
         data.push({
-          url: item.url,
-          text: mode === Modes.MODE_VIDEO ? `![](${item.thumbUrl})` : '',
+          url: mode === Modes.MODE_VIDEO ? (item.speakData?._id || '') : item.url,
+          text: mode === Modes.MODE_VIDEO ? `3speak` : '',
           status: MediaInsertStatus.READY,
           mode
         });
