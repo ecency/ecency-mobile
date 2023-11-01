@@ -783,7 +783,7 @@
     "to_placeholder": "Username",
     "memo_placeholder": "Enter your notes here",
     "recurrence_placeholder": "Choose Recurrence",
-    "executions_placeholder": "Number of Executions",
+    "executions_placeholder": "Number of Repeats",
     "transfer_token": "Transfer",
     "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
