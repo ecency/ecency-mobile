@@ -11,12 +11,12 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((request) => {
-  console.log('Starting api Request', request);
+  // console.log('Starting api Request', request);
   return request;
 });
 
 api.interceptors.response.use((response) => {
-  console.log('Response:', response);
+  // console.log('Response:', response);
   return response;
 });
 

@@ -12,7 +12,7 @@ const initialState: State = {
   walkthroughMap: new Map(),
 };
 export default function (state = initialState, action) {
-  console.log('action : ', action);
+  // console.log('action : ', action);
 
   const { type, payload } = action;
   switch (type) {

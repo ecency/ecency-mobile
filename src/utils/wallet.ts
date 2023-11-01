@@ -68,7 +68,8 @@ const HIVE_ACTIONS = [
   'transfer_to_savings',
   'transfer_to_vesting',
   'withdraw_hive',
-  'swap_token'
+  'swap_token',
+  TransferTypes.RECURRENT_TRANSFER
 ];
 const HBD_ACTIONS = [
   'transfer_token',

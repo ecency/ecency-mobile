@@ -259,7 +259,7 @@ export const useInjectVotesCache = (_data: any | any[]) => {
     };
 
     const _cData = isArray(_data) ? _data.map(_itemFunc) : _itemFunc({ ..._data });
-    console.log('data received', _cData.length, _cData);
+    // console.log('data received', _cData.length, _cData);
     setRetData(_cData);
   }, [_data]);
 

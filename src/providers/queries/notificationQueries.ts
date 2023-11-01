@@ -26,7 +26,7 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
   const _fetchNotifications = async (pageParam: string) => {
     console.log('fetching page since:', pageParam);
     const response = await getNotifications({ filter, since: pageParam, limit: FETCH_LIMIT });
-    console.log('new page fetched', response);
+    // console.log('new page fetched', response);
     return response || [];
   };
 

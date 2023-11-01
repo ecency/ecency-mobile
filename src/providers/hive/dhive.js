@@ -42,7 +42,7 @@ import { SERVER_LIST } from '../../constants/options/api';
 import { b64uEnc } from '../../utils/b64';
 import bugsnagInstance from '../../config/bugsnag';
 import bugsnapInstance from '../../config/bugsnag';
-import { makeJsonMetadataReply } from '../../utils/editor';
+import TransferTypes from '../../constants/transferTypes';
 
 const hiveuri = require('hive-uri');
 global.Buffer = global.Buffer || require('buffer').Buffer;
@@ -987,6 +987,51 @@ export const transferToken = (currentAccount, pin, data) => {
   );
 };
 
+export const recurrentTransferToken = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const args = {
+      from: get(data, 'from'),
+      to: get(data, 'destination'),
+      amount: get(data, 'amount'),
+      memo: get(data, 'memo'),
+      recurrence: get(data, 'recurrence'),
+      executions: get(data, 'executions'),
+      extensions: [],
+    };
+
+    const opArray = [[TransferTypes.RECURRENT_TRANSFER, args]];
+
+    return new Promise((resolve, reject) => {
+      sendHiveOperations(opArray, privateKey)
+        .then((result) => {
+          if (result) {
+            resolve(result);
+          }
+        })
+        .catch((err) => {
+          console.log('====================================');
+          console.log('error on recurrent transfer token');
+          console.log('====================================');
+          console.log(err);
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
+};
+
 export const convert = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(
@@ -1453,6 +1498,19 @@ export const getTrendingTags = async (tag, number = 20) => {
   } catch (error) {
     return [];
     // throw error;
+  }
+};
+
+export const getRecurrentTransfers = async (username) => {
+  try {
+    const rawData = await client.call('condenser_api', 'find_recurrent_transfers', [username]);
+    if (!rawData || !rawData.length) {
+      return [];
+    }
+    return rawData;
+  } catch (err) {
+    console.warn('Failed to get recurrent transfers', err);
+    return [];
   }
 };
 
