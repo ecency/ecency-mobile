@@ -89,6 +89,7 @@
     "lodash": "^4.17.13",
     "lottie-ios": "3.4.0",
     "lottie-react-native": "^5.1.3",
+    "mime-types": "^2.1.35",
     "moment": "^2.29.2",
     "path-browserify": "0.0.0",
     "process": "^0.11.0",
