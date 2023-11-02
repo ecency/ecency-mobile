@@ -78,7 +78,7 @@ const SideMenuView = ({
           buttons: [
             {
               text: intl.formatMessage({ id: 'side_menu.cancel' }),
-              onPress: () => {},
+              onPress: () => {console.log("cancel pressed")},
             },
             {
               text: intl.formatMessage({ id: 'side_menu.logout' }),

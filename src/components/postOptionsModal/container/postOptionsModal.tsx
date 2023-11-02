@@ -228,7 +228,7 @@ const PostOptionsModal = ({ pageType }: Props, ref) => {
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {},
+            onPress: () => {console.log("cancel pressed")},
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
