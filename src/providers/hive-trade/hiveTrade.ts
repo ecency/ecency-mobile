@@ -39,7 +39,7 @@ export const limitOrderCreate = (
 
     let expiration: any = new Date(Date.now());
     expiration.setDate(expiration.getDate() + 27);
-    expiration = expiration.toISOString().split('.')[0];
+    [expiration] = expiration.toISOString().split('.');
 
     const data = getLimitOrderCreateOpData(
       currentAccount.username,
@@ -184,7 +184,7 @@ export const fetchHiveMarketRate = async (asset: MarketAsset): Promise<number> =
 const getLimitOrderCreateOpData = (username, amountToSell, minToReceive, orderType, idPrefix) => {
   let expiration: any = new Date(Date.now());
   expiration.setDate(expiration.getDate() + 27);
-  expiration = expiration.toISOString().split('.')[0];
+  [expiration] = expiration.toISOString().split('.');
 
   return {
     owner: username,

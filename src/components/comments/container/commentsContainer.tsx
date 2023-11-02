@@ -178,18 +178,6 @@ const CommentsContainer = ({
     }
   };
 
-  const _handleOnReplyPress = (item) => {
-    navigation.navigate({
-      name: ROUTES.SCREENS.EDITOR,
-      key: 'editor_reply',
-      params: {
-        isReply: true,
-        post: item,
-        fetchPost,
-      },
-    });
-  };
-
   const _handleOnVotersPress = (activeVotes, content) => {
     navigation.navigate({
       name: ROUTES.SCREENS.VOTERS,
@@ -256,7 +244,6 @@ const CommentsContainer = ({
     postsCachePrimer.cachePost(comment);
     navigation.navigate({
       name: ROUTES.SCREENS.POST,
-      key: comment.permlink,
       params: {
         author: comment.author,
         permlink: comment.permlink,

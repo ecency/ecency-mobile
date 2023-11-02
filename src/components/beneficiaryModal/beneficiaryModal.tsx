@@ -82,7 +82,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
   const _onWeightInputChange = (value) => {
     const _value = (parseInt(value, 10) || 0) * 100;
     const _diff = _value - newWeight;
-    beneficiaries[0].weight = beneficiaries[0].weight - _diff;
+    beneficiaries[0].weight -= _diff;
     setNewWeight(_value);
     setIsWeightValid(_value > 0 && _value <= 10000);
     setBeneficiaries([...beneficiaries]);
@@ -128,7 +128,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
   const _renderInput = () => {
     const _onCancelPress = () => {
       if (newWeight) {
-        beneficiaries[0].weight = beneficiaries[0].weight + newWeight;
+        beneficiaries[0].weight += newWeight;
         setBeneficiaries([...beneficiaries]);
         setNewWeight(0);
       }
@@ -206,7 +206,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
     const _isCurrentUser = item.account === username;
 
     const _onRemovePress = () => {
-      beneficiaries[0].weight = beneficiaries[0].weight + item.weight;
+      beneficiaries[0].weight += item.weight;
       beneficiaries.splice(index, 1);
       setBeneficiaries([...beneficiaries]);
     };

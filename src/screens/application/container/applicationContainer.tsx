@@ -371,7 +371,6 @@ class ApplicationContainer extends Component {
 
   _getUserDataFromRealm = async () => {
     const {
-      intl,
       dispatch,
       isPinCodeOpen: _isPinCodeOpen,
       isConnected,
@@ -647,7 +646,7 @@ class ApplicationContainer extends Component {
         bookmarkNotification: 15,
       };
 
-      Object.keys(settings).map((item) => {
+      Object.keys(settings).forEach((item) => {
         if (notifyTypesConst[item] && settings[item]) {
           notify_types.push(notifyTypesConst[item]);
         }

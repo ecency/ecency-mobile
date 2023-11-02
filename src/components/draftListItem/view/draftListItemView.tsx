@@ -26,7 +26,6 @@ const DraftListItemView = ({
   reputation,
   created,
   image,
-  thumbnail,
   handleOnPressItem,
   handleOnRemoveItem,
   handleOnMovePress,

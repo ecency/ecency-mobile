@@ -117,16 +117,6 @@ const BackupKeysScreen = () => {
     </View>
   );
 
-  const _renderNoKeys = () => (
-    <View style={styles.noKeysContainer}>
-      <Text style={styles.noKeysText}>
-        {intl.formatMessage({
-          id: 'settings.backup_keys_modal.no_keys',
-        })}
-      </Text>
-    </View>
-  );
-
   const _renderContent = (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
       {/* {currentAccount?.local?.authType === AUTH_TYPE.STEEM_CONNECT && _renderNoKeys()} */}

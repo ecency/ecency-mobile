@@ -14,9 +14,7 @@ import { getUpdatedUserKeys } from '../../providers/hive/auth';
 import { getDigitPinCode } from '../../providers/hive/dhive';
 import { updateCurrentAccount } from '../../redux/actions/accountAction';
 
-type Props = {};
-
-export const ImportPrivateKeyModalModal = forwardRef(({}: Props, ref) => {
+export const ImportPrivateKeyModalModal = forwardRef(({}, ref) => {
   const intl = useIntl();
   const dispatch = useDispatch();
 

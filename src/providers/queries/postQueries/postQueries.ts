@@ -112,7 +112,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const [data, setData] = useState({});
   const [sectionedData, setSectionedData] = useState([]);
 
-  const _fetchComments = async () => await getDiscussionCollection(author, permlink);
+  const _fetchComments = async () => getDiscussionCollection(author, permlink);
   const query = useQuery<{ [key: string]: Comment }>(
     [QUERIES.POST.GET_DISCUSSION, author, permlink],
     _fetchComments,

@@ -176,6 +176,7 @@ export const fetchEngineMarketData = async (
     }
 
     const data: MarketData[] = rawData.map(convertMarketData);
+    console.log('TODO: later use vsCurrency as well', vsCurrency);
 
     return days > 1 && data.length > days ? data.slice(data.length - days) : data;
   } catch (err) {
