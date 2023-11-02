@@ -1,8 +1,8 @@
-import getSlug from 'speakingurl';
-import { Image } from 'react-native';
 import { diff_match_patch as diffMatchPatch } from 'diff-match-patch';
-import VersionNumber from 'react-native-version-number';
 import MimeTypes from 'mime-types';
+import { Image } from 'react-native';
+import VersionNumber from 'react-native-version-number';
+import getSlug from 'speakingurl';
 import { PostTypes } from '../constants/postTypes';
 import { ThreeSpeakVideo } from '../providers/speak/speak.types';
 
@@ -36,7 +36,7 @@ export const generatePermlink = (title, random = false) => {
     if (perm.length > 255) {
       perm = perm.substring(perm.length - 255, perm.length);
     }
-
+ 
     // only letters numbers and dashes
     perm = perm.toLowerCase().replace(/[^a-z0-9-]+/g, '');
 
