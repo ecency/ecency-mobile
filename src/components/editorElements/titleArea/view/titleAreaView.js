@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { useSelector } from 'react-redux';
-import { connect } from 'react-redux';
+import { useSelector, connect } from 'react-redux';
 // Constants
 
 // Components
@@ -53,7 +52,6 @@ class TitleAreaView extends Component {
     const { isDarkTheme } = this.props;
     return (
       <View style={[globalStyles.containerHorizontal16, { height: Math.max(maxHeight, height) }]}>
-
         <TextInput
           style={[styles.textInput, { height: Math.max(maxHeight, height) }]}
           placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
@@ -71,19 +69,13 @@ class TitleAreaView extends Component {
           onChangeText={(textT) => this._handleOnChange(textT)}
           value={text}
         />
-
       </View>
     );
   }
 }
-
-
 
 const mapStateToProps = (state) => ({
   isDarkTheme: state.application.isDarkTheme,
 });
 
 export default connect(mapStateToProps)(TitleAreaView);
-
-
-

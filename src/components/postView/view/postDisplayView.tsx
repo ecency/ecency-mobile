@@ -110,11 +110,7 @@ const PostDisplayView = ({
     content,
     onVotingStart,
     showPayoutDetails = false,
-    postType = isWavePost 
-      ? PostTypes.WAVE 
-      : parentPost 
-        ? PostTypes.COMMENT
-        : PostTypes.POST
+    postType = isWavePost ? PostTypes.WAVE : parentPost ? PostTypes.COMMENT : PostTypes.POST,
   }: any) => {
     if (upvotePopoverRef.current) {
       upvotePopoverRef.current.showPopover({
@@ -236,7 +232,7 @@ const PostDisplayView = ({
   // show quick reply modal
   const _showQuickReplyModal = (_post = post) => {
     if (isLoggedIn) {
-      dispatch(showReplyModal({mode:'comment', parentPost:_post}));
+      dispatch(showReplyModal({ mode: 'comment', parentPost: _post }));
     } else {
       console.log('Not LoggedIn');
     }
@@ -253,7 +249,6 @@ const PostDisplayView = ({
     setIsLoadedComments(true);
   };
 
-
   const _postContentView = (
     <>
       {parentPost && <ParentPost post={parentPost} />}
@@ -267,12 +262,11 @@ const PostDisplayView = ({
               setPostBodyHeight(event.nativeEvent.layout.height);
             }}
           >
-            
-            {
-              !!post.title && !post.depth
-                ? <Text style={styles.title}>{post.title}</Text>
-                : <View style={styles.titlePlaceholder} />
-            }
+            {!!post.title && !post.depth ? (
+              <Text style={styles.title}>{post.title}</Text>
+            ) : (
+              <View style={styles.titlePlaceholder} />
+            )}
 
             <PostHeaderDescription
               date={formatedTime}
@@ -304,7 +298,10 @@ const PostDisplayView = ({
                   )}
                   {formatedTime}
                 </Text>
-                <WritePostButton placeholderId={'quick_reply.placeholder'} onPress={_showQuickReplyModal} />
+                <WritePostButton
+                  placeholderId="quick_reply.placeholder"
+                  onPress={_showQuickReplyModal}
+                />
               </View>
             )}
           </View>

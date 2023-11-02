@@ -7,6 +7,7 @@ import { SafeAreaView, View, TouchableOpacity, Alert } from 'react-native';
 // Constants
 import { useDispatch } from 'react-redux';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import { useIntl } from 'react-intl';
 import ROUTES from '../../../constants/routeNames';
 
 // Styles
@@ -16,7 +17,6 @@ import scalePx from '../../../utils/scalePx';
 import { showReplyModal, updateActiveBottomTab } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import showLoginAlert from '../../../utils/showLoginAlert';
-import { useIntl } from 'react-intl';
 
 const BottomTabBarView = ({
   state: { routes, index },
@@ -31,19 +31,15 @@ const BottomTabBarView = ({
     dispatch(updateActiveBottomTab(routes[index].name));
   }, [index]);
 
-
-
   const _jumpTo = (route, isFocused) => {
-
     if (route.name === ROUTES.TABBAR.POST_BUTTON) {
-
-      if(!isLoggedIn){
-        showLoginAlert({intl})
+      if (!isLoggedIn) {
+        showLoginAlert({ intl });
         return;
       }
-      
+
       if (routes[index].name === ROUTES.TABBAR.WAVES) {
-        dispatch(showReplyModal({mode:'wave'}));
+        dispatch(showReplyModal({ mode: 'wave' }));
       } else {
         navigation.navigate(ROUTES.SCREENS.EDITOR, { key: 'editor_post' });
       }
@@ -62,8 +58,6 @@ const BottomTabBarView = ({
       navigation.navigate(route.name);
     }
   };
-
-
 
   const _tabButtons = routes.map((route, idx) => {
     const { tabBarActiveTintColor, tabBarInactiveTintColor } = descriptors[route.key].options;
@@ -88,7 +82,6 @@ const BottomTabBarView = ({
         _iconProps.iconType = 'MaterialCommunityIcons';
         _tabBarIcon = <Icon {..._iconProps} />;
         break;
-
     }
 
     return (
@@ -97,8 +90,6 @@ const BottomTabBarView = ({
       </View>
     );
   });
-
-
 
   return <SafeAreaView style={styles.wrapper}>{_tabButtons}</SafeAreaView>;
 };

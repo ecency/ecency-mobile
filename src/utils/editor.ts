@@ -257,9 +257,8 @@ export const extractMetadata = async ({
     );
   }
 
-  //setting post type, primary usecase for separating waves from other posts
-  out.type = postType || PostTypes.POST
-  
+  // setting post type, primary usecase for separating waves from other posts
+  out.type = postType || PostTypes.POST;
 
   return out;
 };

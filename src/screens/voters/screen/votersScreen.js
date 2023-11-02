@@ -25,19 +25,17 @@ const VotersScreen = ({ route }) => {
     id: 'voters.voters_info',
   });
 
-
   useEffect(() => {
     if (route.params?.content) {
       getActiveVotes(get(post, 'author'), get(post, 'permlink'))
         .then((result) => {
           result.sort((a, b) => b.rshares - a.rshares);
-          post.active_votes = parseActiveVotes({ ...post, active_votes: result });;
-          setPost({...post});
+          post.active_votes = parseActiveVotes({ ...post, active_votes: result });
+          setPost({ ...post });
         })
         .catch(() => {});
     }
   }, [route.params?.content]);
-
 
   const _activeVotes = _cPost.active_votes.slice();
 

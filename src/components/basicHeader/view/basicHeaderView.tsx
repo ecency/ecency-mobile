@@ -196,8 +196,8 @@ const BasicHeaderView = ({
               size={28}
               onPress={() => handleBrowserIconPress()}
               iconStyle={styles.rightIcon}
-              name={'open-in-browser'}
-              iconType={'MaterialIcons'}
+              name="open-in-browser"
+              iconType="MaterialIcons"
             />
           )}
         </View>

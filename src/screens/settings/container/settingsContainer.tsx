@@ -313,29 +313,33 @@ class SettingsContainer extends Component {
             navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
           });
         } else {
-          dispatch(showActionModal({
-            title:intl.formatMessage({id:'alert.warning'}),
-            body:intl.formatMessage({id:'settings.keys_warning'}),
-            buttons:[{
-              text:intl.formatMessage({id:'alert.cancel'}),
-              onPress:()=>{},
-              type:'destructive'
-            },{
-              text:intl.formatMessage({id:'settings.set_pin'}),
-              onPress:()=>{
-                navigation.navigate(ROUTES.SCREENS.PINCODE, {
-                  callback: () => {
-                    this._enableDefaultUnlockPin(true)
+          dispatch(
+            showActionModal({
+              title: intl.formatMessage({ id: 'alert.warning' }),
+              body: intl.formatMessage({ id: 'settings.keys_warning' }),
+              buttons: [
+                {
+                  text: intl.formatMessage({ id: 'alert.cancel' }),
+                  onPress: () => {},
+                  type: 'destructive',
+                },
+                {
+                  text: intl.formatMessage({ id: 'settings.set_pin' }),
+                  onPress: () => {
+                    navigation.navigate(ROUTES.SCREENS.PINCODE, {
+                      callback: () => {
+                        this._enableDefaultUnlockPin(true);
+                      },
+                      navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
+                      isReset: true,
+                      isOldPinVerified: true,
+                      oldPinCode: Config.DEFAULT_PIN,
+                    });
                   },
-                  navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
-                  isReset: true,
-                  isOldPinVerified: true,
-                  oldPinCode: Config.DEFAULT_PIN,
-                });
-              }
-            }]
-          }))
-       
+                },
+              ],
+            }),
+          );
         }
         break;
 

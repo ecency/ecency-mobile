@@ -1,4 +1,5 @@
 import { get, isArray } from 'lodash';
+
 const operationsData = require('./operations.json');
 
 /**
@@ -8,7 +9,7 @@ const operationsData = require('./operations.json');
  * */
 
 export const isHiveUri = (uri: string) => {
-  let trimUri = uri.trim();
+  const trimUri = uri.trim();
   return trimUri.startsWith('hive://');
 };
 
@@ -18,7 +19,7 @@ const _checkOpsArray = (ops: any) => {
 };
 
 const findParentKey = (obj, value, parentKey = null) => {
-  for (let key in obj) {
+  for (const key in obj) {
     if (obj[key] === value) {
       return parentKey;
     } else if (typeof obj[key] === 'object') {
@@ -68,7 +69,7 @@ const _formatAmount = (amount: string) => {
  * */
 export const getFormattedTx = (tx: any, authoritiesMap: Map<string, boolean>) => {
   let opName;
-  let errorObj = {
+  const errorObj = {
     errorKey1: '',
     errorKey2: '',
     authorityKeyType: '',
@@ -83,7 +84,7 @@ export const getFormattedTx = (tx: any, authoritiesMap: Map<string, boolean>) =>
   }
   const op = ops[0]; // single operation
   const operationName = op[0]; // operation name
-  let operationObj = op[1]; // operation object
+  const operationObj = op[1]; // operation object
 
   if (!operationName) {
     errorObj.errorKey1 = 'qr.invalid_op';
@@ -125,5 +126,5 @@ export const getFormattedTx = (tx: any, authoritiesMap: Map<string, boolean>) =>
     operations: [[operationName, operationObj]],
   };
   // resolve with formatted tx and opName
-  return Promise.resolve({ tx: tx, opName: opName });
+  return Promise.resolve({ tx, opName });
 };

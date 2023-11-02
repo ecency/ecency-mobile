@@ -94,7 +94,6 @@ const TransferAccountSelector = ({
         }
         const isValid = res.includes(username);
 
-        
         if (isValid) {
           getRecurrentTransferOfUser(username);
         }

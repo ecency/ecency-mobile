@@ -111,8 +111,8 @@ export interface SavingsWithdrawRequest {
 }
 
 export interface TransferDataType {
-  fundType:string,
-  destination:string
-  amount: string
-  memo?:string
+  fundType: string;
+  destination: string;
+  amount: string;
+  memo?: string;
 }

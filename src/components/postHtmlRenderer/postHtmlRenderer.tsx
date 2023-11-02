@@ -50,7 +50,7 @@ export const PostHtmlRenderer = memo(
     body = body
       .replace(/<center>/g, '<div class="text-center">')
       .replace(/<\/center>/g, '</div>')
-      .replace(/<span(.*?)>/g, '') //TODO: later handle span with propties lie <span class="ll-key"> and remove on raw <span/>
+      .replace(/<span(.*?)>/g, '') // TODO: later handle span with propties lie <span class="ll-key"> and remove on raw <span/>
       .replace(/<\/span>/g, '');
 
     const _minTableColWidth = contentWidth / 3 - 12;
@@ -277,7 +277,6 @@ export const PostHtmlRenderer = memo(
     const _paraRenderer = ({ TDefaultRenderer, ...props }: CustomRendererProps<TNode>) => {
       props.style = props.tnode.parent.tagName === 'li' ? styles.pLi : styles.p;
       props.onPress = !props.onPress && handleOnContentPress ? handleOnContentPress : props.onPress;
-  
 
       return <TDefaultRenderer {...props} />;
     };
@@ -399,7 +398,7 @@ export const PostHtmlRenderer = memo(
         customHTMLElementModels={customHTMLElementModels}
         renderersProps={renderersProps}
         WebView={WebView}
-        pressableHightlightColor={'transparent'}
+        pressableHightlightColor="transparent"
       />
     );
   },

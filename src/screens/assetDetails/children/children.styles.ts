@@ -9,8 +9,8 @@ export default EStyleSheet.create({
     overflow: 'hidden',
     backgroundColor: '$primaryLightBackground',
   } as ViewStyle,
-  iconContainer:{
-    marginRight:8
+  iconContainer: {
+    marginRight: 8,
   } as ViewStyle,
   basicsContainer: {
     alignItems: 'center',
@@ -18,8 +18,8 @@ export default EStyleSheet.create({
   } as ViewStyle,
   coinTitleContainer: {
     flexDirection: 'row',
-    alignItems:'center',
-    marginTop:8
+    alignItems: 'center',
+    marginTop: 8,
   } as ViewStyle,
   textCoinTitle: {
     color: '$primaryBlack',
@@ -98,10 +98,8 @@ export default EStyleSheet.create({
     paddingHorizontal: 16,
   } as ViewStyle,
 
-  //COIN ACTIONS STYLES
-  actionBtnContainer: {
-    
-  } as ViewStyle,
+  // COIN ACTIONS STYLES
+  actionBtnContainer: {} as ViewStyle,
   actionsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',

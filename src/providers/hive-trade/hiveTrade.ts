@@ -70,13 +70,7 @@ export const limitOrderCreate = (
   );
 };
 
-
-export const limitOrderCancel = (
-  currentAccount: any,
-  pinHash:string,
-  orderid: number
-) => {
-
+export const limitOrderCancel = (currentAccount: any, pinHash: string, orderid: number) => {
   const digitPinCode = getDigitPinCode(pinHash);
   const key = getAnyPrivateKey(
     {
@@ -87,13 +81,13 @@ export const limitOrderCancel = (
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
-    const ops:Operation[] = [
+    const ops: Operation[] = [
       [
-        "limit_order_cancel",
+        'limit_order_cancel',
         {
           owner: currentAccount.username,
-          orderid: orderid
-        }
+          orderid,
+        },
       ],
     ];
 
@@ -112,8 +106,6 @@ export const limitOrderCancel = (
     new Error('Check private key permission! Required private active key or above.'),
   );
 };
-
-
 
 export const generateHsLimitOrderCreatePath = (
   currentAccount: any,

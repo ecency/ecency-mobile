@@ -52,9 +52,9 @@ export const DelegationsModal = forwardRef(({}, ref) => {
     }
   }, [mode, showModal]);
 
-  const _getVestingDelegations = async (startUsername: string = '') => {
+  const _getVestingDelegations = async (startUsername = '') => {
     let resData: any = [];
-    let limit = 1000;
+    const limit = 1000;
 
     const response = await getVestingDelegations(currentAccount.username, startUsername, limit);
     resData = response.map(
@@ -132,7 +132,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
   const title = intl.formatMessage({ id: `wallet.${mode}` });
 
   const _renderItem = ({ item, index }: { item: DelegationItem; index: number }) => {
-    const value = vestsToHp(item.vestingShares, globalProps.hivePerMVests).toFixed(3) + ' HP';
+    const value = `${vestsToHp(item.vestingShares, globalProps.hivePerMVests).toFixed(3)} HP`;
     const timeString = new Date(item.timestamp).toDateString();
     const subRightText =
       mode === MODES.DELEGATEED && intl.formatMessage({ id: 'wallet.tap_update' });

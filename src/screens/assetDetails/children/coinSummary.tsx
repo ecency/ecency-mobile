@@ -27,7 +27,7 @@ export const CoinSummary = ({
   const valuePairs = [
     {
       dataKey: 'amount_desc',
-      value: balance.toFixed(precision ? precision : 3),
+      value: balance.toFixed(precision || 3),
     },
   ] as DataPair[];
 

@@ -294,7 +294,7 @@ const reduxMigrations = {
   6: (state) => {
     state.application.waveUpvotePercent = state.application.commentUpvotePercent;
     return state;
-  }
+  },
 };
 
 export default {

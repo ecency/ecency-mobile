@@ -7,13 +7,7 @@ import React, {
   Fragment,
   useMemo,
 } from 'react';
-import {
-  FlatListProps,
-  FlatList,
-  RefreshControl,
-  ActivityIndicator,
-  View,
-} from 'react-native';
+import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';

@@ -150,7 +150,7 @@ const TransferAmountInputSection = ({
 
   const _onDelete = () => {
     onNext(true);
-  }
+  };
 
   const _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
   const _renderCenterDescription = (text, extraStyles = {}) => (

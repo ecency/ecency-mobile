@@ -78,7 +78,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   const _isCloning = isCloningDraft;
 
   const _getUpdatedArray = (arr: string[], id: string) => {
-    let _tempArr = arr.slice();
+    const _tempArr = arr.slice();
     const index = _tempArr.findIndex((item) => item === id);
 
     if (index !== -1) {

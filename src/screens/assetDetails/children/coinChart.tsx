@@ -31,11 +31,7 @@ export const CoinChart = ({ coinId, isEngine }: CoinChartProps) => {
       );
       setChartData(marketData.map((item) => item.close));
     } else {
-      const marketData = await fetchMarketChart(
-        coinId,
-        currency.currency,
-        days
-      );
+      const marketData = await fetchMarketChart(coinId, currency.currency, days);
       setChartData(marketData.prices.map((item) => item.yValue));
     }
   };

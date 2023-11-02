@@ -10,7 +10,7 @@ export const countDecimals = (value) => {
   return value.toString().split('.')[1].length || 0;
 };
 
-export const stripDecimalPlaces = (value: number, precision: number = 3) => {
+export const stripDecimalPlaces = (value: number, precision = 3) => {
   if (!Number(value)) {
     return 0;
   }
@@ -26,11 +26,11 @@ export const getDecimalPlaces = (value: number) => {
   return match ? match[0].length : 0;
 };
 
-export const formatNumberInputStr = (text: string, precision: number = 10) => {
+export const formatNumberInputStr = (text: string, precision = 10) => {
   if (text.includes(',')) {
     text = text.replace(',', '.');
   }
-  
+
   const _num = parseFloat(text);
 
   if (_num) {
