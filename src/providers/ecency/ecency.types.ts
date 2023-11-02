@@ -52,7 +52,7 @@ export interface Draft {
   body: string;
   tags_arr: string[];
   tags: string;
-  meta: Object;
+  meta: any;
   modified: string;
   created: string;
   timestamp: number;

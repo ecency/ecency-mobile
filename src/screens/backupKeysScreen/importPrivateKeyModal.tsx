@@ -14,6 +14,7 @@ import { getUpdatedUserKeys } from '../../providers/hive/auth';
 import { getDigitPinCode } from '../../providers/hive/dhive';
 import { updateCurrentAccount } from '../../redux/actions/accountAction';
 
+// eslint-disable-next-line no-empty-pattern
 export const ImportPrivateKeyModalModal = forwardRef(({}, ref) => {
   const intl = useIntl();
   const dispatch = useDispatch();

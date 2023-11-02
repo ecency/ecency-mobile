@@ -25,6 +25,7 @@ interface DelegationItem {
   timestamp: string;
 }
 
+// eslint-disable-next-line no-empty-pattern
 export const DelegationsModal = forwardRef(({}, ref) => {
   const intl = useIntl();
   const navigation = useNavigation<StackNavigationProp<any>>();

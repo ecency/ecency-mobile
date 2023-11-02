@@ -119,7 +119,8 @@ class TransferContainer extends Component {
                 balance = tokenBalance.stake;
                 break;
               default:
-                balance = tokenBalance.balance;
+                const { balance: _balance } = tokenBalance;
+                balance = _balance;
                 break;
             }
           }
@@ -318,7 +319,7 @@ class TransferContainer extends Component {
     }
     if (!currentAccount.local) {
       const realmData = await getUserDataWithUsername(currentAccount.name);
-      currentAccount.local = realmData[0];
+      [currentAccount.local] = realmData;
     }
 
     return func(currentAccount, pinCode, data)

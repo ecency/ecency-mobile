@@ -115,7 +115,7 @@ const initialState: State = {
   isBiometricEnabled: false,
 };
 
-export default function (state = initialState, action): State {
+const applicationReducer = (state = initialState, action): State => {
   switch (action.type) {
     case LOGIN:
       return {
@@ -302,4 +302,6 @@ export default function (state = initialState, action): State {
     default:
       return state;
   }
-}
+};
+
+export default applicationReducer;

@@ -63,7 +63,7 @@ const initialState: UiState = {
   isLogingOut: false,
 };
 
-export default function (state = initialState, action): UiState {
+const uiReducer = (state = initialState, action): UiState => {
   switch (action.type) {
     case UPDATE_ACTIVE_BOTTOM_TAB:
       return {
@@ -179,4 +179,6 @@ export default function (state = initialState, action): UiState {
     default:
       return state;
   }
-}
+};
+
+export default uiReducer;
