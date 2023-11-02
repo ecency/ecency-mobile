@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
@@ -26,6 +26,7 @@ import {
   getSpkTransactionId,
   SPK_NODE_ECENCY,
 } from '../../../providers/hive-spk/hiveSpk';
+import parseToken from '../../../utils/parseToken';
 
 const TransferView = ({
   currentAccountName,
@@ -44,7 +45,8 @@ const TransferView = ({
   referredUsername,
   initialAmount,
   initialMemo,
-  transactionData,
+  fetchRecurrentTransfers,
+  recurrentTransfers,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -75,6 +77,10 @@ const TransferView = ({
   const [memo, setMemo] = useState(
     transferType === 'purchase_estm' ? 'estm-purchase' : initialMemo,
   );
+  const [recurrence, setRecurrence] = useState('');
+  const [executions, setExecutions] = useState('');
+  const [startDate, setStartDate] = useState('');
+
   const [isUsernameValid, setIsUsernameValid] = useState(
     !!(
       transferType === 'purchase_estm' ||
@@ -96,6 +102,8 @@ const TransferView = ({
   const [hsTransfer, setHsTransfer] = useState(false);
   const [isTransfering, setIsTransfering] = useState(false);
 
+  const isRecurrentTransfer = transferType === TransferTypes.RECURRENT_TRANSFER;
+
   const isEngineToken = useMemo(() => transferType.endsWith('_engine'), [transferType]);
   const isSpkToken = useMemo(() => transferType.endsWith('_spk'), [transferType]);
 
@@ -105,7 +113,27 @@ const TransferView = ({
       if (accountType === AUTH_TYPE.STEEM_CONNECT) {
         setHsTransfer(true);
       } else {
-        transferToAccount(from, destination, amount, memo);
+        transferToAccount(
+          from,
+          destination,
+          amount,
+          memo,
+          isRecurrentTransfer ? recurrence : null,
+          isRecurrentTransfer ? executions : null,
+        );
+      }
+    },
+    300,
+    { trailing: true },
+  );
+
+  const _handleDeleteRecurrentTransfer = debounce(
+    () => {
+      setIsTransfering(true);
+      if (accountType === AUTH_TYPE.STEEM_CONNECT) {
+        setHsTransfer(true);
+      } else {
+        transferToAccount(from, destination, '0', memo, 24, 2);
       }
     },
     300,
@@ -133,7 +161,11 @@ const TransferView = ({
     //   )}`;
     // } else
 
-    if (transferType === TransferTypes.TRANSFER_TO_SAVINGS) {
+    if (transferType === TransferTypes.RECURRENT_TRANSFER) {
+      path = `sign/recurrent_transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
+        `${amount} ${fundType}`,
+      )}&memo=${encodeURIComponent(memo)}&recurrence=${recurrence}&executions=${executions}`;
+    } else if (transferType === TransferTypes.TRANSFER_TO_SAVINGS) {
       path = `sign/transfer_to_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}`;
@@ -200,9 +232,10 @@ const TransferView = ({
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}`;
     }
+    console.log('path is: ', path);
   }
 
-  const _onNextPress = () => {
+  const _onNextPress = (deleteTransfer = false) => {
     if (balance < amount) {
       Alert.alert(intl.formatMessage({ id: 'wallet.low_liquidity' }));
 
@@ -218,7 +251,7 @@ const TransferView = ({
             },
             {
               text: intl.formatMessage({ id: 'alert.confirm' }),
-              onPress: _handleTransferAction,
+              onPress: deleteTransfer ? _handleDeleteRecurrentTransfer : _handleTransferAction,
             },
           ],
         }),
@@ -227,6 +260,49 @@ const TransferView = ({
   };
 
   const nextBtnDisabled = !((isEngineToken ? amount > 0 : amount >= 0.001) && isUsernameValid);
+
+  useEffect(() => {
+    if (isRecurrentTransfer) {
+      fetchRecurrentTransfers(currentAccountName);
+    }
+  }, [isRecurrentTransfer]);
+
+  const _findRecurrentTransferOfUser = useCallback(
+    (userToFind) => {
+      if (!isRecurrentTransfer) {
+        return false;
+      }
+
+      const existingRecurrentTransfer = recurrentTransfers.find((rt) => rt.to === userToFind);
+
+      let newMemo,
+        newAmount,
+        newRecurrence,
+        newStartDate,
+        newExecutions = '';
+
+      if (existingRecurrentTransfer) {
+        newMemo = existingRecurrentTransfer.memo;
+        newAmount = parseToken(existingRecurrentTransfer.amount).toString();
+        newRecurrence = existingRecurrentTransfer.recurrence.toString();
+        newExecutions = `${existingRecurrentTransfer.remaining_executions}`;
+        newStartDate = existingRecurrentTransfer.trigger_date;
+
+        console.log('====================================');
+        console.log('existingRecurrentTransfer');
+        console.log('====================================');
+        console.log(existingRecurrentTransfer);
+      }
+      setMemo(newMemo);
+      setAmount(newAmount);
+      setRecurrence(newRecurrence);
+      setExecutions(newExecutions);
+      setStartDate(newStartDate);
+
+      return existingRecurrentTransfer;
+    },
+    [recurrentTransfers],
+  );
 
   return (
     <View style={styles.container}>
@@ -257,6 +333,7 @@ const TransferView = ({
             memo={memo}
             setMemo={setMemo}
             spkMarkets={spkMarkets}
+            getRecurrentTransferOfUser={_findRecurrentTransferOfUser}
           />
           <TransferAmountInputSection
             balance={balance}
@@ -274,6 +351,12 @@ const TransferView = ({
             fundType={fundType}
             currentAccountName={currentAccountName}
             disableMinimum={isEngineToken}
+            recurrence={recurrence}
+            setRecurrence={setRecurrence}
+            executions={executions}
+            setExecutions={setExecutions}
+            startDate={startDate}
+            onNext={_onNextPress}
           />
           <View style={styles.bottomContent}>
             <MainButton

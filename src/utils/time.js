@@ -151,7 +151,7 @@ export const daysTillDate = (dateObj) => {
  *
  * */
 export const dateToFormatted = (d, format = 'LLLL') => {
-  const isTimeZoned = d.indexOf('.') !== -1 || d.indexOf('+') !== -1 ? d : `${d}.000Z`;
+  const isTimeZoned = d?.indexOf('.') !== -1 || d?.indexOf('+') !== -1 ? d : `${d}.000Z`;
   const dm = moment(new Date(isTimeZoned));
   return dm.format(format);
 };

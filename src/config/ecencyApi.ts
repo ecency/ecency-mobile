@@ -18,7 +18,7 @@ const ecencyApi = axios.create({
 });
 
 ecencyApi.interceptors.request.use((request) => {
-  console.log('Starting ecency Request', request);
+  // console.log(`Starting ecency Request`, request);
 
   // skip code addition is register and token refresh endpoint is triggered
   if (
@@ -68,7 +68,7 @@ ecencyApi.interceptors.request.use((request) => {
 });
 
 ecencyApi.interceptors.response.use((response) => {
-  console.log('Response:', response);
+  // console.log('Response:', response);
   return response;
 });
 
