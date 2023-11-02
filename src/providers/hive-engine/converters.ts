@@ -55,7 +55,7 @@ export const convertRewardsStatus = (rawData: any) => {
     symbol: rawData.symbol,
     pendingToken: rawData.pending_token,
     precision: rawData.precision,
-    pendingRewards: rawData.pending_token / Math.pow(10, rawData.precision),
+    pendingRewards: rawData.pending_token / (10 ** rawData.precision),
   } as TokenStatus;
 };
 

@@ -56,7 +56,7 @@ export const parsePost = (
 
   // find and inject thumbnail ratio
   if (post.json_metadata.image_ratios) {
-    if (!isNaN(post.json_metadata.image_ratios[0])) {
+    if (!Number.isNaN(post.json_metadata.image_ratios[0])) {
       post.thumbRatio = post.json_metadata.image_ratios[0];
     }
   }

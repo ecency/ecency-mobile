@@ -15,7 +15,7 @@ export const stripDecimalPlaces = (value: number, precision = 3) => {
     return 0;
   }
 
-  const power = Math.pow(10, precision);
+  const power = 10 ** precision;
 
   return Math.floor(value * power) / power;
 };
