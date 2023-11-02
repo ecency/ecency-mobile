@@ -41,7 +41,7 @@ const CollapsibleCardView = (props) => {
   const [contentHeight, setContentHeight] = useState(0);
 
   useEffect(() => {
-    if (props.hasOwnProperty('isExpanded') && contentHeight) {
+    if (props?.isExpanded && contentHeight) {
       animation.value = { height: !isExpanded ? 0 : contentHeight + (moreHeight || 0) };
       setCollapsed(isExpanded);
     }

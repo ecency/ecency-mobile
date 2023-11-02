@@ -20,7 +20,7 @@ export interface ActionModalData {
   bodyContent?: React.ReactNode;
 }
 
-const ActionModalContainer = ({ navigation }) => {
+const ActionModalContainer = () => {
   const dispatch = useDispatch();
   const actionModalRef = useRef<ActionModalRef>();
 

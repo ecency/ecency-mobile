@@ -1,37 +1,32 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Alert } from 'react-native';
 import { useIntl } from 'react-intl';
+import { Alert } from 'react-native';
 import RootNavigation from '../../../navigation/rootNavigation';
 
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
-import { getUserDataWithUsername } from '../../../realm/realm';
 import {
   migrateToMasterKeyWithAccessToken,
   refreshSCToken,
   switchAccount,
 } from '../../../providers/hive/auth';
+import { getUserDataWithUsername } from '../../../realm/realm';
 
+import { logout, toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 import AccountsBottomSheet from '../view/accountsBottomSheetView';
-import {
-  logout,
-  showActionModal,
-  toggleAccountsBottomSheet,
-} from '../../../redux/actions/uiAction';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
 import { getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
 
 import { useAppSelector } from '../../../hooks';
-import { getUnreadNotificationCount } from '../../../providers/ecency/ecency';
-import { decryptKey } from '../../../utils/crypto';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
-import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
+import { getUnreadNotificationCount } from '../../../providers/ecency/ecency';
 import { clearSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
-import ROUTES from '../../../constants/routeNames';
+import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
+import { decryptKey } from '../../../utils/crypto';
 import { repairUserAccountData } from '../../../utils/migrationHelpers';
 
 const AccountsBottomSheetContainer = () => {
@@ -108,7 +103,7 @@ const AccountsBottomSheetContainer = () => {
         }
       }
 
-      _currentAccount.local = realmData[0];
+      [_currentAccount.local] = realmData;
 
       // migreate account to use access token for master key auth type
       if (realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT && realmData[0].accessToken === '') {

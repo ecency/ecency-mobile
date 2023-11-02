@@ -1,4 +1,4 @@
-import { TextStyle, StyleSheet, ViewStyle, ImageStyle } from 'react-native';
+import { TextStyle, ViewStyle, ImageStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({

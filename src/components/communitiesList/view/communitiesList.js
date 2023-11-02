@@ -36,7 +36,8 @@ const CommunitiesList = ({
         isSubscribed={item.isSubscribed}
         isLoggedIn={isLoggedIn}
         loading={
-          subscribingCommunities.hasOwnProperty(item.name) &&
+          subscribingCommunities &&
+          subscribingCommunities[item.name] &&
           subscribingCommunities[item.name].loading
         }
         screen={screen}

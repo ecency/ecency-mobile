@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, TouchableOpacity } from 'react-native';
+import { debounce, isArray } from 'lodash';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { isArray, debounce } from 'lodash';
+import { FlatList, Text, View } from 'react-native';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './styles';
 
+import { CheckBox, FormInput, IconButton, TextButton } from '..';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { BeneficiaryModal, CheckBox, FormInput, IconButton, TextButton } from '..';
-import { Beneficiary } from '../../redux/reducers/editorReducer';
 import { lookupAccounts } from '../../providers/hive/dhive';
+import { setBeneficiaries as setBeneficiariesAction } from '../../redux/actions/editorActions';
 import { TEMP_BENEFICIARIES_ID } from '../../redux/constants/constants';
-import {
-  removeBeneficiaries,
-  setBeneficiaries as setBeneficiariesAction,
-} from '../../redux/actions/editorActions';
+import { Beneficiary } from '../../redux/reducers/editorReducer';
 
 interface BeneficiarySelectionContentProps {
   draftId: string;
@@ -178,7 +175,7 @@ const BeneficiarySelectionContent = ({
 
   const _resetInputs = (adjustWeight = true) => {
     if (newWeight && adjustWeight) {
-      beneficiaries[0].weight = beneficiaries[0].weight + newWeight;
+      beneficiaries[0].weight += newWeight;
       setBeneficiaries([...beneficiaries]);
     }
 
@@ -313,7 +310,7 @@ const BeneficiarySelectionContent = ({
     const _isCurrentUser = item.account === username;
 
     const _onRemovePress = () => {
-      beneficiaries[0].weight = beneficiaries[0].weight + item.weight;
+      beneficiaries[0].weight += item.weight;
       const removedBeneficiary = beneficiaries.splice(index, 1);
       setBeneficiaries([...beneficiaries]);
       if (handleRemoveBeneficiary) {

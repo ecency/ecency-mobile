@@ -1,6 +1,6 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Image, Platform, TouchableOpacity } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { Platform, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
 

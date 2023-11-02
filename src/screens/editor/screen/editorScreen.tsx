@@ -9,7 +9,6 @@ import { extractMetadata, getWordsCount, makeJsonMetadata } from '../../../utils
 // Components
 import {
   BasicHeader,
-  PostForm,
   MarkdownEditor,
   SelectCommunityAreaView,
   SelectCommunityModalContainer,
@@ -43,7 +42,6 @@ class EditorScreen extends Component {
       isFormValid: false,
       isPreviewActive: false,
       wordsCount: null,
-      isRemoveTag: false,
       fields: {
         title: (props.draftPost && props.draftPost.title) || '',
         body: (props.draftPost && props.draftPost.body) || '',
@@ -142,7 +140,6 @@ class EditorScreen extends Component {
         tags: [],
         isValid: false,
       },
-      isRemoveTag: true,
     });
 
     if (initialEditor) {
@@ -321,7 +318,7 @@ class EditorScreen extends Component {
     const { fields: _fields } = this.state;
     const __tags = tags; // .map((t) => t.replace(/([^a-z0-9-]+)/gi, '').toLowerCase());
     const __fields = { ..._fields, tags: __tags };
-    this.setState({ fields: __fields, isRemoveTag: false }, () => {
+    this.setState({ fields: __fields }, () => {
       this._handleFormUpdate('tag-area', __fields.tags);
     });
   };

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { SafeAreaView, View, TouchableOpacity, Alert } from 'react-native';
+import { SafeAreaView, View, TouchableOpacity } from 'react-native';
 
 // Components
 // import TabBar from './tabbar';
