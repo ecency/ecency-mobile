@@ -668,7 +668,6 @@ const _fetchSpkWalletData = async (
   username: string,
   hivePrice: number,
   vsCurrency: string,
-  claimsCache: ClaimsCollection,
 ) => {
   const spkWalletData: { [key: string]: CoinData } = {};
 

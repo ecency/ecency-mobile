@@ -1,6 +1,6 @@
 import { get, isArray } from 'lodash';
 
-const operationsData = require('./operations.json');
+import * as operationsData from './operations.json';
 
 /**
  * checks if uri entered is valid hive uri
@@ -19,16 +19,17 @@ const _checkOpsArray = (ops: any) => {
 };
 
 const findParentKey = (obj, value, parentKey = null) => {
-  for (const key in obj) {
-    if (obj[key] === value) {
-      return parentKey;
-    } else if (typeof obj[key] === 'object') {
-      const foundKey = findParentKey(obj[key], value, key);
-      if (foundKey) {
-        return foundKey;
+
+    Object.keys(obj).forEach((key) => {
+      if (obj[key] === value) {
+        return parentKey;
+      } else if (typeof obj[key] === 'object') {
+        const foundKey = findParentKey(obj[key], value, key);
+        if (foundKey) {
+          return foundKey;
+        }
       }
-    }
-  }
+    })
   return null;
 };
 
@@ -68,7 +69,6 @@ const _formatAmount = (amount: string) => {
  *
  * */
 export const getFormattedTx = (tx: any, authoritiesMap: Map<string, boolean>) => {
-  let opName;
   const errorObj = {
     errorKey1: '',
     errorKey2: '',
@@ -105,7 +105,7 @@ export const getFormattedTx = (tx: any, authoritiesMap: Map<string, boolean>) =>
     return Promise.reject(errorObj);
   }
   // if amount field present in operation, validate and check for proper formatting and format to 3 decimal places
-  if (operationObj.hasOwnProperty('amount')) {
+  if (!!operationObj?.amount) {
     const amount = _formatAmount(operationObj.amount);
     operationObj.amount = amount;
     if (!amount) {
@@ -120,7 +120,7 @@ export const getFormattedTx = (tx: any, authoritiesMap: Map<string, boolean>) =>
     operationObj[opProps.signerField] = '__signer';
   }
 
-  opName = opProps.opName;
+  const { opName } = opProps;
   tx = {
     ...tx,
     operations: [[operationName, operationObj]],
