@@ -1,5 +1,4 @@
-import isEmpty from 'lodash/isEmpty';
-import forEach from 'lodash/forEach';
+
 import { get, isArray } from 'lodash';
 import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
@@ -10,7 +9,7 @@ import parseAsset from './parseAsset';
 import { getResizedAvatar } from './image';
 import { parseReputation } from './user';
 import { CacheStatus } from '../redux/reducers/cacheReducer';
-import { calculateVoteReward, getEstimatedAmount } from './vote';
+import { calculateVoteReward } from './vote';
 
 const webp = Platform.OS !== 'ios';
 
@@ -57,7 +56,7 @@ export const parsePost = (
   // find and inject thumbnail ratio
   if (post.json_metadata.image_ratios) {
     if (!Number.isNaN(post.json_metadata.image_ratios[0])) {
-      post.thumbRatio = post.json_metadata.image_ratios[0];
+      [post.thumbRatio] = post.json_metadata.image_ratios;
     }
   }
 
@@ -94,18 +93,18 @@ export const parsePost = (
 };
 
 export const parseDiscussionCollection = async (commentsMap: { [key: string]: any }) => {
-  for (const key in commentsMap) {
-    if (commentsMap.hasOwnProperty(key)) {
-      const comment = commentsMap[key];
+  Object.keys(commentsMap).forEach((key) => {
 
-      // prcoess first level comment
-      if (comment) {
-        commentsMap[key] = parseComment(comment);
-      } else {
-        delete commentsMap[key];
-      }
+    const comment = commentsMap[key];
+
+    // prcoess first level comment
+    if (comment) {
+      commentsMap[key] = parseComment(comment);
+    } else {
+      delete commentsMap[key];
     }
-  }
+
+  })
 
   console.log('parsed discussion collection', commentsMap);
   return commentsMap;
@@ -137,18 +136,18 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
     return [];
   };
 
-  for (const key in commentsMap) {
-    if (commentsMap.hasOwnProperty(key)) {
-      const comment = commentsMap[key];
+  Object.keys(commentsMap).forEach((key) => {
 
-      // prcoess first level comment
-      if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
-        const _parsedComment = parseComment(comment);
-        _parsedComment.replies = parseReplies(commentsMap, _parsedComment.replies, 1);
-        comments.push(_parsedComment);
-      }
+    const comment = commentsMap[key];
+
+    // prcoess first level comment
+    if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
+      const _parsedComment = parseComment(comment);
+      _parsedComment.replies = parseReplies(commentsMap, _parsedComment.replies, 1);
+      comments.push(_parsedComment);
     }
-  }
+
+  })
 
   return comments;
 };
@@ -181,17 +180,15 @@ export const mapDiscussionToThreads = async (
     return [];
   };
 
-  for (const key in commentsMap) {
-    if (commentsMap.hasOwnProperty(key)) {
-      const comment = commentsMap[key];
+  Object.keys(commentsMap).forEach((key) => {
+    const comment = commentsMap[key];
 
-      // prcoess first level comment
-      if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
-        comment.replies = parseReplies(commentsMap, comment.replies, 1);
-        comments.push(comment);
-      }
+    // prcoess first level comment
+    if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
+      comment.replies = parseReplies(commentsMap, comment.replies, 1);
+      comments.push(comment);
     }
-  }
+  })
 
   return comments;
 };
@@ -257,16 +254,17 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
   }
 
   // process votes cache
-  for (const path in cachedVotes) {
+  Object.keys(cachedVotes).forEach((path) => {
     const cachedVote = cachedVotes[path];
     if (_comments[path]) {
       console.log('injection vote cache');
       _comments[path] = injectVoteCache(_comments[path], cachedVote);
     }
-  }
+  })
 
   // process comments cache
-  for (const path in cachedComments) {
+
+  Object.keys(cachedComments).forEach((path) => {
     const currentTime = new Date().getTime();
     const cachedComment = cachedComments[path];
     const _parentPath = `${cachedComment.parent_author}/${cachedComment.parent_permlink}`;
@@ -298,7 +296,7 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
           // in this case add comment key in childern and inject cachedComment in commentsMap
           _comments[path] = cachedComment;
           _comments[_parentPath].replies.push(path);
-          _comments[_parentPath].children = _comments[_parentPath].children + 1;
+          _comments[_parentPath].children += 1;
 
           // if comment was created very recently enable auto reveal
           if (lastCacheUpdate.postPath === path && currentTime - lastCacheUpdate.updatedAt < 5000) {
@@ -309,7 +307,7 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
         }
         break;
     }
-  }
+  })
 
   return shouldClone ? { ..._comments } : _comments;
 };
