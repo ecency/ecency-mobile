@@ -1143,7 +1143,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={() => {}}
+        handleOnBackPress={() => {console.log("cancel pressed")}}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
         isDarkTheme={isDarkTheme}

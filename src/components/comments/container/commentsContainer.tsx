@@ -172,7 +172,7 @@ const CommentsContainer = ({
             handleOnCommentsLoaded();
           }
         })
-        .catch(() => {});
+        .catch(() => {console.log("cancel pressed")});
     }
   };
 

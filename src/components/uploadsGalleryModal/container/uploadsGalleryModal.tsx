@@ -304,7 +304,7 @@ export const UploadsGalleryModal = forwardRef(
       let body = error.message || JSON.stringify(error);
       let action: AlertButton = {
         text: intl.formatMessage({ id: 'alert.okay' }),
-        onPress: () => {},
+        onPress: () => {console.log("cancel pressed")},
       };
 
       switch (error.code) {

@@ -33,7 +33,7 @@ const VotersScreen = ({ route }) => {
           post.active_votes = parseActiveVotes({ ...post, active_votes: result });
           setPost({ ...post });
         })
-        .catch(() => {});
+        .catch(() => {console.log("cancel pressed")});
     }
   }, [route.params?.content]);
 
