@@ -66,7 +66,9 @@ const BasicHeaderView = ({
     }
   };
 
-  const _handleOnDropdownSelect = () => {console.log("pressed")};
+  const _handleOnDropdownSelect = () => {
+    console.log('pressed');
+  };
 
   const _handleSearchButtonPress = () => {
     setIsInputVisible(!isInputVisible);

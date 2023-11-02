@@ -19,17 +19,16 @@ const _checkOpsArray = (ops: any) => {
 };
 
 const findParentKey = (obj, value, parentKey = null) => {
-
-    Object.keys(obj).forEach((key) => {
-      if (obj[key] === value) {
-        return parentKey;
-      } else if (typeof obj[key] === 'object') {
-        const foundKey = findParentKey(obj[key], value, key);
-        if (foundKey) {
-          return foundKey;
-        }
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] === value) {
+      return parentKey;
+    } else if (typeof obj[key] === 'object') {
+      const foundKey = findParentKey(obj[key], value, key);
+      if (foundKey) {
+        return foundKey;
       }
-    })
+    }
+  });
   return null;
 };
 
@@ -105,7 +104,7 @@ export const getFormattedTx = (tx: any, authoritiesMap: Map<string, boolean>) =>
     return Promise.reject(errorObj);
   }
   // if amount field present in operation, validate and check for proper formatting and format to 3 decimal places
-  if (!!operationObj?.amount) {
+  if (operationObj?.amount) {
     const amount = _formatAmount(operationObj.amount);
     operationObj.amount = amount;
     if (!amount) {

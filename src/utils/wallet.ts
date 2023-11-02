@@ -664,11 +664,7 @@ const fetchEngineTokensData = async (
   return engineCoinData;
 };
 
-const _fetchSpkWalletData = async (
-  username: string,
-  hivePrice: number,
-  vsCurrency: string,
-) => {
+const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurrency: string) => {
   const spkWalletData: { [key: string]: CoinData } = {};
 
   try {

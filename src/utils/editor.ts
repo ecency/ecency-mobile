@@ -35,7 +35,7 @@ export const generatePermlink = (title, random = false) => {
     if (perm.length > 255) {
       perm = perm.substring(perm.length - 255, perm.length);
     }
- 
+
     // only letters numbers and dashes
     perm = perm.toLowerCase().replace(/[^a-z0-9-]+/g, '');
 

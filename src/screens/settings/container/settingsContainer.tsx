@@ -320,7 +320,9 @@ class SettingsContainer extends Component {
               buttons: [
                 {
                   text: intl.formatMessage({ id: 'alert.cancel' }),
-                  onPress: () => {console.log("cancel pressed")},
+                  onPress: () => {
+                    console.log('cancel pressed');
+                  },
                   type: 'destructive',
                 },
                 {
@@ -458,7 +460,9 @@ class SettingsContainer extends Component {
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {console.log("cancel pressed")},
+            onPress: () => {
+              console.log('cancel pressed');
+            },
           },
           {
             text: intl.formatMessage({ id: 'alert.delete' }),

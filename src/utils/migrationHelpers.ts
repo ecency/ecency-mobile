@@ -212,7 +212,9 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
             style: 'destructive',
-            onPress: () => {console.log("cancel pressed")},
+            onPress: () => {
+              console.log('cancel pressed');
+            },
           },
           {
             text: intl.formatMessage({ id: 'alert.verify' }),
