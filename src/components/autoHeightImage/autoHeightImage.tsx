@@ -28,7 +28,7 @@ export const AutoHeightImage = ({
       metadata.image_ratios.forEach((_ratio, index) => {
         const url = metadata.image[index];
 
-        if (url && !isNaN(_ratio)) {
+        if (url && !Number.isNaN(_ratio)) {
           const poxifiedUrl = proxifyImageSrc(
             url,
             undefined,

@@ -12,7 +12,7 @@ export const getEstimatedAmount = (account, globalProps: GlobalProps, sliderValu
   const voteValue = (voteEffectiveShares / fundRecentClaims) * fundRewardBalance * hbdMedian;
   const estimatedAmount = weight < 0 ? Math.min(voteValue * -1, 0) : Math.max(voteValue, 0);
 
-  if (isNaN(estimatedAmount)) {
+  if (Number.isNaN(estimatedAmount)) {
     return '0.00';
   } else if (estimatedAmount >= 1) {
     return estimatedAmount.toFixed(2);
