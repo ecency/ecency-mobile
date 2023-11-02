@@ -159,14 +159,14 @@ export const dateToFormatted = (d, format = 'LLLL') => {
 /**
  * calculates hours difference between two dates, negative value will mean first date
  * is from past time
- * @param {Base date from whcich date2 will be subtracted} date1 
- * @param {Date to be subtracted} date2 
+ * @param {Base date from whcich date2 will be subtracted} date1
+ * @param {Date to be subtracted} date2
  * @returns number of hours difference between two dates
  */
 export const getHoursDifferntial = (date1, date2) => {
   if (date1 instanceof Date && date2 instanceof Date) {
-    return (date1 - date2) / (60 * 60 * 1000)
+    return (date1 - date2) / (60 * 60 * 1000);
   }
 
   return 0;
-}
+};

@@ -9,7 +9,10 @@ export default (posts, option) => {
 
     case '1':
       posts.map((post) => {
-        if (post.parent_permlink === 'nsfw' || get(post, 'json_metadata.tags', []).includes('nsfw')) {
+        if (
+          post.parent_permlink === 'nsfw' ||
+          get(post, 'json_metadata.tags', []).includes('nsfw')
+        ) {
           post.nsfw = true;
         }
       });
@@ -25,7 +28,6 @@ export default (posts, option) => {
         }
       });
       return updatedPosts;
-
   }
 };
 /* eslint-enable */

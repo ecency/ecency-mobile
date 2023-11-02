@@ -15,33 +15,34 @@ interface RangeSelectorProps {
 }
 
 export const RangeSelector = ({ range, minRange, onRangeChange }: RangeSelectorProps) => {
-
   const _onSelection = (range: number) => {
     console.log('selection', range);
     onRangeChange(range);
   };
 
-  const _renderRangeButtons = FILTERS.filter((item) => item.value >= minRange).map((item: RangeOption) => (
-    <TouchableOpacity key={`range option-${item.value}`} onPress={() => _onSelection(item.value)}>
-      <View
-        style={{
-          ...styles.rangeOptionWrapper,
-          backgroundColor: EStyleSheet.value(
-            item.value === range ? '$darkGrayBackground' : '$primaryLightBackground',
-          ),
-        }}
-      >
-        <Text
+  const _renderRangeButtons = FILTERS.filter((item) => item.value >= minRange).map(
+    (item: RangeOption) => (
+      <TouchableOpacity key={`range option-${item.value}`} onPress={() => _onSelection(item.value)}>
+        <View
           style={{
-            ...styles.textRange,
-            color: EStyleSheet.value(item.value === range ? '$white' : '$primaryDarkText'),
+            ...styles.rangeOptionWrapper,
+            backgroundColor: EStyleSheet.value(
+              item.value === range ? '$darkGrayBackground' : '$primaryLightBackground',
+            ),
           }}
         >
-          {item.label}
-        </Text>
-      </View>
-    </TouchableOpacity>
-  ));
+          <Text
+            style={{
+              ...styles.textRange,
+              color: EStyleSheet.value(item.value === range ? '$white' : '$primaryDarkText'),
+            }}
+          >
+            {item.label}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    ),
+  );
 
   return <View style={[styles.card, styles.rangeContainer]}>{_renderRangeButtons}</View>;
 };

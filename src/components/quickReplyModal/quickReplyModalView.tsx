@@ -9,7 +9,7 @@ const QuickReplyModal = () => {
   const dispatch = useAppDispatch();
 
   const replyModalVisible = useAppSelector((state) => state.ui.replyModalVisible);
-  const replyModalData:PostEditorModalData = useAppSelector((state) => state.ui.replyModalData);
+  const replyModalData: PostEditorModalData = useAppSelector((state) => state.ui.replyModalData);
   const modalContentRef = useRef(null);
 
   const _onClose = () => {

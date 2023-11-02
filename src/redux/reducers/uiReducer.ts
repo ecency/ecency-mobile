@@ -20,10 +20,9 @@ import {
 } from '../constants/constants';
 import { orientations } from '../constants/orientationsConstants';
 
-
 export interface PostEditorModalData {
-  mode:'wave'|'comment'|'post',
-  parentPost?:any
+  mode: 'wave' | 'comment' | 'post';
+  parentPost?: any;
 }
 
 interface UiState {
@@ -153,8 +152,8 @@ export default function (state = initialState, action): UiState {
       };
     case SHOW_REPLY_MODAL:
       const _payload = action.payload as PostEditorModalData;
-      if(_payload.mode === 'comment' && !_payload.parentPost){
-        throw new Error("parent post missing for showing post editor modal with comment mode")
+      if (_payload.mode === 'comment' && !_payload.parentPost) {
+        throw new Error('parent post missing for showing post editor modal with comment mode');
       }
       return {
         ...state,

@@ -122,14 +122,13 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   );
 
   useEffect(() => {
-    const _data =  injectPostCache(query.data, cachedComments, cachedVotes, lastCacheUpdate);
+    const _data = injectPostCache(query.data, cachedComments, cachedVotes, lastCacheUpdate);
     setData(_data);
   }, [query.data, cachedComments, cachedVotes]);
 
   useEffect(() => {
     restructureData();
   }, [data]);
-
 
   // traverse discussion collection to curate sections
   const restructureData = async () => {

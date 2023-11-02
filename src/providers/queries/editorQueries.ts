@@ -33,7 +33,7 @@ interface MediaUploadVars {
   addToUploads: boolean;
 }
 
-/** GET QUERIES **/
+/** GET QUERIES * */
 
 export const useMediaQuery = () => {
   const intl = useIntl();
@@ -57,7 +57,7 @@ export const useSnippetsQuery = () => {
   });
 };
 
-/** ADD UPDATE MUTATIONS **/
+/** ADD UPDATE MUTATIONS * */
 
 export const useAddToUploadsMutation = () => {
   const intl = useIntl();
@@ -71,7 +71,7 @@ export const useAddToUploadsMutation = () => {
     },
     onError: (error) => {
       if (error.toString().includes('code 409')) {
-        //means image ware already preset, refresh to get updated order
+        // means image ware already preset, refresh to get updated order
         queryClient.invalidateQueries([QUERIES.MEDIA.GET]);
       } else {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
@@ -234,7 +234,7 @@ export const useSnippetsMutation = () => {
   );
 };
 
-/** DELETE MUTATIONS **/
+/** DELETE MUTATIONS * */
 
 export const useMediaDeleteMutation = () => {
   const queryClient = useQueryClient();

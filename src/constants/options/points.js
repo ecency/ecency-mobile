@@ -19,7 +19,7 @@ export default {
     icon: 'trophy-outline',
     textKey: 'community_reward',
     iconType: 'MaterialCommunityIcons',
-    point: 0.1
+    point: 0.1,
   },
   160: {
     icon: 'target',
@@ -93,7 +93,7 @@ export default {
     iconType: 'MaterialCommunityIcons',
     point: 10,
   },
-  'default': {
+  default: {
     icon: 'local-activity',
     textKey: 'points_activity',
     iconType: 'MaterialIcons',

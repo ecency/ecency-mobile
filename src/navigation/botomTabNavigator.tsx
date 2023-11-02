@@ -60,7 +60,6 @@ export const BottomTabNavigator = () => {
           iconName: 'notifications', // read in bottomTabBarView
         }}
       />
-
     </Tab.Navigator>
   );
 };

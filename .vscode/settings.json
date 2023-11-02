@@ -12,5 +12,6 @@
   },
   "workbench.colorCustomizations": {
     "editorUnnecessaryCode.border": "#dd7aab"
-  }
+  },
+  "java.compile.nullAnalysis.mode": "automatic"
 }

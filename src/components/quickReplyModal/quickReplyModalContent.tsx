@@ -9,25 +9,24 @@ import React, {
   useMemo,
 } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Keyboard,
-  Platform,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Text, TouchableOpacity, Keyboard, Platform, ActivityIndicator } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
 import { get, debounce } from 'lodash';
 import { postBodySummary } from '@ecency/render-helper';
+import FastImage from 'react-native-fast-image';
 import styles from './quickReplyModalStyles';
-import { Icon, IconButton, MainButton, TextButton, TextInput, UploadsGalleryModal, UserAvatar } from '..';
-import { delay } from '../../utils/editor';
 import {
-  deleteDraftCacheEntry,
-  updateDraftCache,
-} from '../../redux/actions/cacheActions';
+  Icon,
+  IconButton,
+  MainButton,
+  TextButton,
+  TextInput,
+  UploadsGalleryModal,
+  UserAvatar,
+} from '..';
+import { delay } from '../../utils/editor';
+import { deleteDraftCacheEntry, updateDraftCache } from '../../redux/actions/cacheActions';
 import { default as ROUTES } from '../../constants/routeNames';
 import RootNavigation from '../../navigation/rootNavigation';
 import { Draft } from '../../redux/reducers/cacheReducer';
@@ -35,11 +34,13 @@ import { RootState } from '../../redux/store/store';
 
 import { postQueries } from '../../providers/queries';
 import { usePostSubmitter } from './usePostSubmitter';
-import { MediaInsertData, MediaInsertStatus } from '../uploadsGalleryModal/container/uploadsGalleryModal';
-import FastImage from 'react-native-fast-image';
+import {
+  MediaInsertData,
+  MediaInsertStatus,
+} from '../uploadsGalleryModal/container/uploadsGalleryModal';
 
 export interface QuickReplyModalContentProps {
-  mode: 'comment' | 'wave' | 'post',
+  mode: 'comment' | 'wave' | 'post';
   selectedPost?: any;
   handleCloseRef?: any;
   onClose: () => void;
@@ -48,16 +49,11 @@ export interface QuickReplyModalContentProps {
 const MAX_BODY_LENGTH = 250;
 
 export const QuickReplyModalContent = forwardRef(
-  ({
-    mode,
-    selectedPost,
-    onClose
-  }: QuickReplyModalContentProps, ref) => {
+  ({ mode, selectedPost, onClose }: QuickReplyModalContentProps, ref) => {
     const intl = useIntl();
     const dispatch = useDispatch();
 
     const uploadsGalleryModalRef = useRef(null);
-
 
     const postsCachePrimer = postQueries.usePostsCachePrimer();
 
@@ -76,19 +72,20 @@ export const QuickReplyModalContent = forwardRef(
     const parentAuthor = selectedPost ? selectedPost.author : '';
     const parentPermlink = selectedPost ? selectedPost.permlink : '';
 
+    const headerText =
+      mode === 'wave'
+        ? intl.formatMessage({ id: 'quick_reply.summary_wave' }, { host: 'ecency.waves' }) // TODO: update based on selected host
+        : selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
 
-    const headerText = mode === 'wave'
-      ? intl.formatMessage({ id: 'quick_reply.summary_wave' }, { host: 'ecency.waves' }) //TODO: update based on selected host
-      : selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
-
-    const draftId = mode === 'wave'
-      ? `${currentAccount.name}/ecency.waves` //TODO: update author based on selected host
-      : `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
-
+    const draftId =
+      mode === 'wave'
+        ? `${currentAccount.name}/ecency.waves` // TODO: update author based on selected host
+        : `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
 
     const bodyLengthExceeded = useMemo(
-      () => commentValue.length > MAX_BODY_LENGTH && mode === 'wave', 
-      [commentValue, mode]);
+      () => commentValue.length > MAX_BODY_LENGTH && mode === 'wave',
+      [commentValue, mode],
+    );
 
     useImperativeHandle(ref, () => ({
       handleSheetClose() {
@@ -112,7 +109,6 @@ export const QuickReplyModalContent = forwardRef(
       }
 
       setCommentValue(_value);
-
     }, [selectedPost]);
 
     // add quick comment value into cache
@@ -146,29 +142,24 @@ export const QuickReplyModalContent = forwardRef(
       });
     };
 
-
-
-
     // handle submit reply
     const _submitPost = async () => {
-
       let _isSuccess = false;
-      let _body = mediaUrls.length > 0 ? commentValue + `\n\n ![Wave Media](${mediaUrls[0]})` : commentValue;
+      const _body =
+        mediaUrls.length > 0 ? `${commentValue}\n\n ![Wave Media](${mediaUrls[0]})` : commentValue;
 
       switch (mode) {
         case 'comment':
           _isSuccess = await postSubmitter.submitReply(_body, selectedPost);
-          break;;
+          break;
         case 'wave':
           _isSuccess = await postSubmitter.submitWave(_body);
           break;
         default:
-          throw new Error("mode needs implementing")
+          throw new Error('mode needs implementing');
       }
 
-
       if (_isSuccess) {
-
         // delete quick comment draft cache if it exist
         if (draftsCollection && draftsCollection[draftId]) {
           dispatch(deleteDraftCacheEntry(draftId));
@@ -178,13 +169,10 @@ export const QuickReplyModalContent = forwardRef(
       } else {
         _addQuickCommentIntoCache(); // add comment value into cache if there is error while posting comment
       }
-
     };
 
-
-
     const _handleMediaInsert = (data: MediaInsertData[]) => {
-      const _insertUrls: string[] = []
+      const _insertUrls: string[] = [];
 
       const _item = data[0];
 
@@ -192,7 +180,7 @@ export const QuickReplyModalContent = forwardRef(
         switch (_item.status) {
           case MediaInsertStatus.READY:
             if (_item.url) {
-              _insertUrls.push(_item.url)
+              _insertUrls.push(_item.url);
             }
             break;
           case MediaInsertStatus.FAILED:
@@ -201,14 +189,10 @@ export const QuickReplyModalContent = forwardRef(
         }
       }
 
-
       setMediaModalVisible(false);
       uploadsGalleryModalRef.current?.toggleModal(false);
       setMediaUrls(_insertUrls);
-
-    }
-
-
+    };
 
     const _handleExpandBtn = async () => {
       if (selectedPost) {
@@ -228,10 +212,10 @@ export const QuickReplyModalContent = forwardRef(
 
     const _handleMediaBtn = () => {
       if (uploadsGalleryModalRef.current) {
-        uploadsGalleryModalRef.current.toggleModal(!mediaModalVisible)
-        setMediaModalVisible(!mediaModalVisible)
+        uploadsGalleryModalRef.current.toggleModal(!mediaModalVisible);
+        setMediaModalVisible(!mediaModalVisible);
       }
-    }
+    };
 
     const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), []);
 
@@ -239,9 +223,6 @@ export const QuickReplyModalContent = forwardRef(
       setCommentValue(value);
       _deboucedCacheUpdate(value);
     };
-
-
-
 
     // VIEW_RENDERERS
 
@@ -253,8 +234,6 @@ export const QuickReplyModalContent = forwardRef(
       </TouchableOpacity>
     );
 
-
-
     const _renderAvatar = () => (
       <View style={styles.avatarAndNameContainer}>
         <UserAvatar noAction username={currentAccount.username} />
@@ -264,14 +243,12 @@ export const QuickReplyModalContent = forwardRef(
       </View>
     );
 
-
     const _renderMediaPanel = () => {
       const _onPress = () => {
-        setMediaUrls([])
-      }
+        setMediaUrls([]);
+      };
 
-      const _minusIcon = (
-        !isUploading &&
+      const _minusIcon = !isUploading && (
         <View style={styles.minusContainer}>
           <Icon
             color={EStyleSheet.value('$pureWhite')}
@@ -280,52 +257,46 @@ export const QuickReplyModalContent = forwardRef(
             size={16}
           />
         </View>
-      )
+      );
 
+      const _mediaThumb = !mediaModalVisible && mediaUrls.length > 0 && (
+        <TouchableOpacity onPress={_onPress} disabled={isUploading}>
+          <FastImage source={{ uri: mediaUrls[0] }} style={styles.mediaItem} />
+          {_minusIcon}
+        </TouchableOpacity>
+      );
 
-      const _mediaThumb = (
-        !mediaModalVisible && mediaUrls.length > 0 && (
-          <TouchableOpacity onPress={_onPress} disabled={isUploading}>
-            <FastImage
-              source={{ uri: mediaUrls[0] }}
-              style={styles.mediaItem}
-            />
-            {_minusIcon}
-          </TouchableOpacity>
-        )
-      )
-
-      const _uploadingPlaceholder = (
-        isUploading && <View style={styles.mediaItem}>
+      const _uploadingPlaceholder = isUploading && (
+        <View style={styles.mediaItem}>
           <ActivityIndicator />
         </View>
-      )
+      );
 
-      return <Fragment>
-        {_mediaThumb}
-        {_uploadingPlaceholder}
+      return (
+        <Fragment>
+          {_mediaThumb}
+          {_uploadingPlaceholder}
 
-        <UploadsGalleryModal
-          ref={uploadsGalleryModalRef}
-          isPreviewActive={false}
-          username={currentAccount.username}
-          allowMultiple={false}
-          hideToolbarExtension={() => {
-            setMediaModalVisible(false);
-          }}
-          handleMediaInsert={_handleMediaInsert}
-          setIsUploading={setIsUploading}
-        />
-      </Fragment>
-    }
-
+          <UploadsGalleryModal
+            ref={uploadsGalleryModalRef}
+            isPreviewActive={false}
+            username={currentAccount.username}
+            allowMultiple={false}
+            hideToolbarExtension={() => {
+              setMediaModalVisible(false);
+            }}
+            handleMediaInsert={_handleMediaInsert}
+            setIsUploading={setIsUploading}
+          />
+        </Fragment>
+      );
+    };
 
     const _renderExpandBtn = () => {
-
       const _lengthTextStyle = {
         ...styles.toolbarSpacer,
-        color: EStyleSheet.value(bodyLengthExceeded ? '$primaryRed' : '$iconColor')
-      }
+        color: EStyleSheet.value(bodyLengthExceeded ? '$primaryRed' : '$iconColor'),
+      };
 
       return (
         <View style={styles.toolbarContainer}>
@@ -346,16 +317,11 @@ export const QuickReplyModalContent = forwardRef(
               color={EStyleSheet.value('$primaryBlack')}
             />
           ) : (
-            <Text style={_lengthTextStyle}>
-              {`${commentValue.length}/${MAX_BODY_LENGTH}`}
-            </Text>
+            <Text style={_lengthTextStyle}>{`${commentValue.length}/${MAX_BODY_LENGTH}`}</Text>
           )}
-
         </View>
       );
-    }
-
-
+    };
 
     const _renderReplyBtn = () => {
       const _titleId = mode !== 'comment' ? 'quick_reply.publish' : 'quick_reply.reply';
@@ -378,13 +344,11 @@ export const QuickReplyModalContent = forwardRef(
             isLoading={postSubmitter.isSending}
           />
         </View>
-      )
-
+      );
     };
 
-
-
-    const _placeholderId = mode === 'comment' ? 'quick_reply.placeholder' : 'quick_reply.placeholder_wave'
+    const _placeholderId =
+      mode === 'comment' ? 'quick_reply.placeholder' : 'quick_reply.placeholder_wave';
 
     return (
       <View style={styles.modalContainer}>
@@ -409,14 +373,11 @@ export const QuickReplyModalContent = forwardRef(
 
         {_renderMediaPanel()}
 
-
-
-
         <View style={styles.footer}>
           {_renderExpandBtn()}
           {_renderReplyBtn()}
         </View>
       </View>
-    )
+    );
   },
 );

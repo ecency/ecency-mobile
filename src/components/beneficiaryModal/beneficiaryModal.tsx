@@ -3,31 +3,31 @@ import { View, FlatList, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import { isArray, debounce } from 'lodash';
 
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { lookupAccounts } from '../../providers/hive/dhive';
 
 import { FormInput, MainButton, TextButton } from '..';
 
 import styles from './beneficiaryModalStyles';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import IconButton from '../iconButton';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useAppSelector } from '../../hooks';
 import { Beneficiary } from '../../redux/reducers/editorReducer';
 import { TEMP_BENEFICIARIES_ID } from '../../redux/constants/constants';
 
 interface BeneficiaryModal {
-  username:string,
-  draftId:string,
-  handleOnSaveBeneficiaries:()=>void
+  username: string;
+  draftId: string;
+  handleOnSaveBeneficiaries: () => void;
 }
 
 const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
   const intl = useIntl();
 
-  const beneficiariesMap = useAppSelector(state => state.editor.beneficiariesMap)
+  const beneficiariesMap = useAppSelector((state) => state.editor.beneficiariesMap);
 
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([
-    { account: username, weight: 10000, isValid: true},
+    { account: username, weight: 10000, isValid: true },
   ]);
 
   const [newUsername, setNewUsername] = useState('');
@@ -37,14 +37,13 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
   const [newEditable, setNewEditable] = useState(false);
 
   useEffect(() => {
-      readTempBeneficiaries();
+    readTempBeneficiaries();
   }, [draftId]);
 
-
   const readTempBeneficiaries = async () => {
-    if(beneficiariesMap){
+    if (beneficiariesMap) {
       const tempBeneficiaries = beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID];
-      
+
       if (isArray(tempBeneficiaries)) {
         tempBeneficiaries.forEach((item) => {
           item.isValid = true;
@@ -52,28 +51,24 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
         setBeneficiaries(tempBeneficiaries);
       }
     }
-
   };
 
-
   const _onSavePress = () => {
-    if(newEditable){
+    if (newEditable) {
       beneficiaries.push({
-        account:newUsername,
-        weight:newWeight
-      })
+        account: newUsername,
+        weight: newWeight,
+      });
     }
     handleOnSaveBeneficiaries(beneficiaries);
-  }
-
+  };
 
   const _addAccount = () => {
-
-    if(isUsernameValid && isWeightValid){
+    if (isUsernameValid && isWeightValid) {
       beneficiaries.push({
-        account:newUsername,
-        weight:newWeight,
-      })
+        account: newUsername,
+        weight: newWeight,
+      });
       setBeneficiaries([...beneficiaries]);
     }
 
@@ -84,42 +79,32 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
     setNewEditable(true);
   };
 
-
-
   const _onWeightInputChange = (value) => {
-    let _value = (parseInt(value, 10) || 0) * 100;
+    const _value = (parseInt(value, 10) || 0) * 100;
     const _diff = _value - newWeight;
     beneficiaries[0].weight = beneficiaries[0].weight - _diff;
-    setNewWeight(_value)
-    setIsWeightValid(_value > 0 && _value <= 10000)
+    setNewWeight(_value);
+    setIsWeightValid(_value > 0 && _value <= 10000);
     setBeneficiaries([...beneficiaries]);
   };
 
-
   const _lookupAccounts = debounce((username) => {
-   
     lookupAccounts(username).then((res) => {
-      const isValid = res.includes(username)
-       //check if username duplicates else lookup contacts, done here to avoid debounce and post call mismatch
-      const notExistAlready = !beneficiaries.find((item)=>item.account === username);
-      setIsUsernameValid(isValid && notExistAlready)
+      const isValid = res.includes(username);
+      // check if username duplicates else lookup contacts, done here to avoid debounce and post call mismatch
+      const notExistAlready = !beneficiaries.find((item) => item.account === username);
+      setIsUsernameValid(isValid && notExistAlready);
     });
-  }, 1000) 
-
-
+  }, 1000);
 
   const _onUsernameInputChange = (value) => {
     setNewUsername(value);
     _lookupAccounts(value);
   };
 
-
-
   const _isValid = () => {
     return !newEditable || (isUsernameValid && isWeightValid);
   };
-
-
 
   const _renderHeader = () => (
     <View style={styles.inputWrapper}>
@@ -138,23 +123,20 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
         </Text>
       </View>
     </View>
-  )
-
+  );
 
   const _renderInput = () => {
-
     const _onCancelPress = () => {
-      if(newWeight){
+      if (newWeight) {
         beneficiaries[0].weight = beneficiaries[0].weight + newWeight;
-        setBeneficiaries([...beneficiaries])
+        setBeneficiaries([...beneficiaries]);
         setNewWeight(0);
       }
       setNewEditable(false);
       setIsWeightValid(false);
       setIsUsernameValid(false);
       setNewUsername('');
-   
-    }
+    };
 
     return (
       <View style={styles.inputWrapper}>
@@ -165,8 +147,8 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
             inputStyle={styles.weightFormInput}
             wrapperStyle={styles.weightFormInputWrapper}
             onChange={(value) => _onWeightInputChange(value)}
-            onBlur={() => {}}//_onBlur(item)}
-            keyboardType='numeric'
+            onBlur={() => {}} // _onBlur(item)}
+            keyboardType="numeric"
           />
         </View>
 
@@ -187,40 +169,36 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
           />
         </View>
 
-        <IconButton 
-            name="close"
-            iconType="MaterialCommunityIcons"
-            color={EStyleSheet.value('$primaryBlack')}
-            size={24}
-            iconStyle={{paddingLeft:8}}
-            onPress={_onCancelPress}
-          />
-
+        <IconButton
+          name="close"
+          iconType="MaterialCommunityIcons"
+          color={EStyleSheet.value('$primaryBlack')}
+          size={24}
+          iconStyle={{ paddingLeft: 8 }}
+          onPress={_onCancelPress}
+        />
       </View>
     );
   };
 
-  
   const _renderFooter = () => (
     <>
       {newEditable && _renderInput()}
-      <View style={{marginTop: 20, marginBottom:32 }}>
-        <TextButton 
+      <View style={{ marginTop: 20, marginBottom: 32 }}>
+        <TextButton
           text={intl.formatMessage({
             id: 'beneficiary_modal.addAccount',
           })}
           disabled={!isAllValid}
           onPress={_addAccount}
           textStyle={{
-            color:EStyleSheet.value(isAllValid?'$primaryBlue':"$iconColor"),
-            fontWeight:'bold'
+            color: EStyleSheet.value(isAllValid ? '$primaryBlue' : '$iconColor'),
+            fontWeight: 'bold',
           }}
         />
       </View>
     </>
-
-  )
-
+  );
 
   const _renderItem = ({ item, index }) => {
     const _isCurrentUser = item.account === username;
@@ -229,8 +207,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
       beneficiaries[0].weight = beneficiaries[0].weight + item.weight;
       beneficiaries.splice(index, 1);
       setBeneficiaries([...beneficiaries]);
-    }
-
+    };
 
     return (
       <View style={styles.inputWrapper}>
@@ -241,7 +218,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
             value={`${item.weight / 100}`}
             inputStyle={styles.weightFormInput}
             wrapperStyle={styles.weightFormInputWrapper}
-           />
+          />
         </View>
 
         <View style={styles.usernameInput}>
@@ -256,28 +233,25 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
           />
         </View>
         {!_isCurrentUser ? (
-          <IconButton 
+          <IconButton
             name="close"
             iconType="MaterialCommunityIcons"
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
-            iconStyle={{paddingLeft:8}}
+            iconStyle={{ paddingLeft: 8 }}
             onPress={_onRemovePress}
           />
-        ):(
-          <View style={{width:30}} />
+        ) : (
+          <View style={{ width: 30 }} />
         )}
-        
       </View>
     );
   };
-
 
   const isAllValid = _isValid();
 
   return (
     <View style={styles.container}>
-      
       <KeyboardAwareScrollView style={styles.bodyWrapper}>
         <FlatList
           data={beneficiaries}

@@ -2154,8 +2154,8 @@ export const resolveTransaction = async (parsedTx, parsedParams, signer) => {
     signers: [signer],
     preferred_signer: signer,
   });
-  tx.ref_block_num = parseInt(tx.ref_block_num + '', 10);
-  tx.ref_block_prefix = parseInt(tx.ref_block_prefix + '', 10);
+  tx.ref_block_num = parseInt(`${tx.ref_block_num}`, 10);
+  tx.ref_block_prefix = parseInt(`${tx.ref_block_prefix}`, 10);
 
   return tx;
 };

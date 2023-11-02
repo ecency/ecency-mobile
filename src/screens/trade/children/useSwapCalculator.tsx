@@ -1,11 +1,9 @@
-
-import React, { useEffect, useRef, useState } from "react";
-import { MarketAsset, OrdersDataItem } from "../../../providers/hive-trade/hiveTrade.types";
-import bugsnapInstance from "../../../config/bugsnag";
-import { Alert } from "react-native";
-import { getOrderBook } from "../../../providers/hive/dhive";
-import { stripDecimalPlaces } from "../../../utils/number";
-
+import React, { useEffect, useRef, useState } from 'react';
+import { Alert } from 'react-native';
+import { MarketAsset, OrdersDataItem } from '../../../providers/hive-trade/hiveTrade.types';
+import bugsnapInstance from '../../../config/bugsnag';
+import { getOrderBook } from '../../../providers/hive/dhive';
+import { stripDecimalPlaces } from '../../../utils/number';
 
 export namespace HiveMarket {
   interface ProcessingResult {
@@ -15,7 +13,7 @@ export namespace HiveMarket {
     emptyOrderBook?: boolean;
   }
 
-  function calculatePrice(intAmount: number, book: OrdersDataItem[], asset: "hive" | "hbd") {
+  function calculatePrice(intAmount: number, book: OrdersDataItem[], asset: 'hive' | 'hbd') {
     let available = book[0][asset] / 1000;
     let index = 0;
     while (available < intAmount && book.length > index + 1) {
@@ -29,8 +27,8 @@ export namespace HiveMarket {
     try {
       return await getOrderBook();
     } catch (e) {
-      bugsnapInstance.notify(e)
-      Alert.alert("Order book is empty")
+      bugsnapInstance.notify(e);
+      Alert.alert('Order book is empty');
     }
     return null;
   }
@@ -39,7 +37,7 @@ export namespace HiveMarket {
     buyOrderBook: OrdersDataItem[],
     sellOrderBook: OrdersDataItem[],
     fromAmount: number,
-    asset: string
+    asset: string,
   ): ProcessingResult {
     if (buyOrderBook.length <= 0 || sellOrderBook.length <= 0) return { emptyOrderBook: true };
 
@@ -48,19 +46,19 @@ export namespace HiveMarket {
     let availableInOrderBook,
       price = 0;
     let firstPrice = Infinity;
-    let toAmount = 0;;
+    let toAmount = 0;
     let resultToAmount;
 
     if (asset === MarketAsset.HIVE) {
       availableInOrderBook =
         buyOrderBook.map((item) => item.hive).reduce((acc, item) => acc + item, 0) / 1000;
-      price = calculatePrice(fromAmount, buyOrderBook, "hive");
+      price = calculatePrice(fromAmount, buyOrderBook, 'hive');
       toAmount = fromAmount * price;
       firstPrice = +buyOrderBook[0].real_price;
     } else if (asset === MarketAsset.HBD) {
       availableInOrderBook =
         sellOrderBook.map((item) => item.hbd).reduce((acc, item) => acc + item, 0) / 1000;
-      price = calculatePrice(fromAmount, sellOrderBook, "hbd");
+      price = calculatePrice(fromAmount, sellOrderBook, 'hbd');
       toAmount = fromAmount / price;
       firstPrice = +sellOrderBook[0].real_price;
     }
@@ -85,7 +83,7 @@ export namespace HiveMarket {
       book?.bids ?? [],
       book?.asks ?? [],
       fromAmount,
-      asset
+      asset,
     );
     if (newToAmount) {
       return newToAmount;
@@ -93,7 +91,6 @@ export namespace HiveMarket {
     return toAmount;
   }
 }
-
 
 export const useSwapCalculator = (
   asset: MarketAsset,
@@ -109,7 +106,6 @@ export const useSwapCalculator = (
   const [offerUnavailable, setOfferUnavailable] = useState(false);
 
   const assetRef = useRef(asset);
-
 
   let updateInterval: any;
 
@@ -130,28 +126,22 @@ export const useSwapCalculator = (
     });
   }, [asset]);
 
-
-
   useEffect(() => {
     processOrderBook();
   }, [fromAmount]);
 
-
-
   const processOrderBook = () => {
-    const { tooMuchSlippage: _tooMuchSlippage, invalidAmount: _invalidAmount, toAmount: _toAmount } = HiveMarket.processHiveOrderBook(
-      buyOrderBook,
-      sellOrderBook,
-      fromAmount,
-      asset
-    );
+    const {
+      tooMuchSlippage: _tooMuchSlippage,
+      invalidAmount: _invalidAmount,
+      toAmount: _toAmount,
+    } = HiveMarket.processHiveOrderBook(buyOrderBook, sellOrderBook, fromAmount, asset);
     setTooMuchSlippage(!!_tooMuchSlippage);
     setOfferUnavailable(!!_invalidAmount);
     if (_toAmount) {
       setToAmount(stripDecimalPlaces(_toAmount));
     }
   };
-
 
   const fetchOrderBook = async () => {
     setIsLoading(true);

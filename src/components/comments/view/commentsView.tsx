@@ -42,7 +42,7 @@ const CommentsView = ({
   incrementRepliesCount,
   postContentView,
   isLoading,
-  postType
+  postType,
 }) => {
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
@@ -51,7 +51,6 @@ const CommentsView = ({
   const postInteractionRef = useRef(null);
 
   const _openCommentMenu = (item) => {
-
     if (handleOnOptionsPress) {
       handleOnOptionsPress(item);
     } else if (commentMenu.current) {
@@ -79,8 +78,8 @@ const CommentsView = ({
 
   const _onUpvotePress = ({ content, anchorRect, showPayoutDetails, onVotingStart }) => {
     if (upvotePopoverRef.current) {
-
-      const postType = content.parent_author === 'ecency.waves' ? PostTypes.WAVE : PostTypes.COMMENT;
+      const postType =
+        content.parent_author === 'ecency.waves' ? PostTypes.WAVE : PostTypes.COMMENT;
 
       upvotePopoverRef.current.showPopover({
         anchorRect,
@@ -147,9 +146,9 @@ const CommentsView = ({
   const styleOerride =
     commentNumber > 1
       ? {
-        backgroundColor: EStyleSheet.value('$primaryLightBackground'),
-        marginTop: 8,
-      }
+          backgroundColor: EStyleSheet.value('$primaryLightBackground'),
+          marginTop: 8,
+        }
       : null;
 
   const _renderEmptyContent = () => {
@@ -169,7 +168,7 @@ const CommentsView = ({
   return (
     <Fragment>
       <FlashList
-        contentContainerStyle={{ padding: 0, ...styles.list, ...styleOerride,  }}
+        contentContainerStyle={{ padding: 0, ...styles.list, ...styleOerride }}
         data={comments}
         keyExtractor={(item) => item.author + item.permlink}
         renderItem={_renderItem}

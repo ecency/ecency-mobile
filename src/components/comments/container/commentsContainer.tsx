@@ -52,7 +52,7 @@ const CommentsContainer = ({
   incrementRepliesCount,
   handleOnReplyPress,
   handleOnCommentsLoaded,
-  postType
+  postType,
 }) => {
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
@@ -172,7 +172,7 @@ const CommentsContainer = ({
             handleOnCommentsLoaded();
           }
         })
-        .catch(() => { });
+        .catch(() => {});
     }
   };
 
@@ -244,13 +244,11 @@ const CommentsContainer = ({
     });
   };
 
-
   const _handleOnUserPress = (username) => {
     if (username) {
-      dispatch(showProfileModal(username))
+      dispatch(showProfileModal(username));
     }
-
-  }
+  };
 
   const _openReplyThread = (comment) => {
     postsCachePrimer.cachePost(comment);

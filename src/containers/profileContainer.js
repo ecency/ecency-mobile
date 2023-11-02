@@ -484,7 +484,6 @@ class ProfileContainer extends Component {
 
     if (isLoggedIn && !nextProps.isLoggedIn) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
-      return;
     }
   }
 

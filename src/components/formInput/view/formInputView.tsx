@@ -13,6 +13,7 @@ import FastImage from 'react-native-fast-image';
 import Popover, { usePopover } from 'react-native-modal-popover';
 
 // Components
+import { useSelector } from 'react-redux';
 import { TextInput } from '../../textInput';
 import { Icon } from '../../icon';
 // Utils
@@ -20,7 +21,6 @@ import { getResizedAvatar } from '../../../utils/image';
 
 // Styles
 import styles from './formInputStyles';
-import { useSelector } from 'react-redux';
 
 interface Props extends TextInputProps {
   type: string;
@@ -133,7 +133,7 @@ const FormInputView = ({
   const _renderInfoIconWithPopover = () => (
     <View style={styles.infoIconContainer}>
       <TouchableOpacity ref={touchableRef} onPress={_handleInfoPress}>
-        <Icon iconType={'MaterialIcons'} name="info-outline" style={styles.infoIcon} />
+        <Icon iconType="MaterialIcons" name="info-outline" style={styles.infoIcon} />
       </TouchableOpacity>
       <Popover
         backgroundStyle={styles.overlay}

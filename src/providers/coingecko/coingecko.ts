@@ -24,7 +24,7 @@ export const fetchMarketChart = async (
       interval,
     };
 
-    /** 
+    /**
      * NOTE: skipping this failsafe since for now we can only use 'daily' interval
     // failsafe for accidental invalid parameters
     // ref: https://www.coingecko.com/en/api/documentation

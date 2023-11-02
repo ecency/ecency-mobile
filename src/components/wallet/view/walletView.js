@@ -112,7 +112,6 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
             </Fragment>
           )}
         </ScrollView>
-
       )}
     </WalletContainer>
   );

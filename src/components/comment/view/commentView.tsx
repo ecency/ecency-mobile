@@ -73,7 +73,7 @@ const CommentView = ({
 
   const _handleOnContentPress = () => {
     openReplyThread(comment);
-  }
+  };
 
   const _handleOnReplyPress = () => {
     if (isLoggedIn) {
@@ -97,7 +97,6 @@ const CommentView = ({
   );
 
   const _renderComment = () => {
-
     const _hideContent = isMuted || comment.author_reputation < 25 || comment.net_rshares < 0;
 
     return (
@@ -219,9 +218,9 @@ const CommentView = ({
   const customContainerStyle =
     _depth > 1
       ? {
-        paddingLeft: (_depth - 2) * 44,
-        backgroundColor: EStyleSheet.value('$primaryLightBackground'),
-      }
+          paddingLeft: (_depth - 2) * 44,
+          backgroundColor: EStyleSheet.value('$primaryLightBackground'),
+        }
       : null;
 
   return (

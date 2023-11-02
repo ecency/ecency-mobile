@@ -15,7 +15,7 @@ const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress
   const intl = useIntl();
   const [collapsed, setCollapsed] = useState(true);
 
-  const title = !!intl.messages[`wallet.${item.textKey}`]
+  const title = intl.messages[`wallet.${item.textKey}`]
     ? intl.formatMessage({
         id: `wallet.${item.textKey}`,
       })

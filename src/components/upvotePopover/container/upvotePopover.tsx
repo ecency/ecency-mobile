@@ -51,7 +51,7 @@ import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { delay } from '../../../utils/editor';
 
-interface Props { }
+interface Props {}
 interface PopoverOptions {
   anchorRect: Rect;
   content: any;
@@ -66,7 +66,7 @@ interface PopoverOptions {
  *
  */
 
-const UpvotePopover = forwardRef(({ }: Props, ref) => {
+const UpvotePopover = forwardRef(({}: Props, ref) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -93,7 +93,6 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
 
   const [sliderValue, setSliderValue] = useState(1);
   const [amount, setAmount] = useState('0.00000');
-
 
   useImperativeHandle(ref, () => ({
     showPopover: ({
@@ -141,18 +140,21 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
   }, []);
 
   useEffect(() => {
-
     let _upvotePercent = 1;
-    switch(postType){
-      case PostTypes.POST: _upvotePercent = postUpvotePercent; break;
-      case PostTypes.COMMENT: _upvotePercent = commentUpvotePercent; break;
-      case PostTypes.WAVE: _upvotePercent = waveUpvotePercent; break;
+    switch (postType) {
+      case PostTypes.POST:
+        _upvotePercent = postUpvotePercent;
+        break;
+      case PostTypes.COMMENT:
+        _upvotePercent = commentUpvotePercent;
+        break;
+      case PostTypes.WAVE:
+        _upvotePercent = waveUpvotePercent;
+        break;
     }
-    setSliderValue(_upvotePercent)
-    _calculateEstimatedAmount(_upvotePercent)
-    
+    setSliderValue(_upvotePercent);
+    _calculateEstimatedAmount(_upvotePercent);
   }, [content, postType]);
-
 
   // Component Functions
   const _calculateEstimatedAmount = async (value: number = sliderValue) => {
@@ -204,7 +206,13 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
             return;
           }
           setIsVoted(!!sliderValue);
-          _updateVoteCache(_author, _permlink, amount, false, !!sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED);
+          _updateVoteCache(
+            _author,
+            _permlink,
+            amount,
+            false,
+            sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED,
+          );
         })
         .catch((err) => {
           _updateVoteCache(_author, _permlink, amount, false, CacheStatus.FAILED);
@@ -267,7 +275,13 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
             transactionId: response.id,
           });
           setIsVoted(!!sliderValue);
-          _updateVoteCache(_author, _permlink, amount, true, !!sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED);
+          _updateVoteCache(
+            _author,
+            _permlink,
+            amount,
+            true,
+            sliderValue ? CacheStatus.PUBLISHED : CacheStatus.DELETED,
+          );
         })
         .catch((err) => {
           dispatch(
@@ -286,17 +300,21 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
 
   const _setUpvotePercent = (value) => {
     if (value) {
-      
-      let _dispatchAction:any = null 
-      switch(postType){
-        case PostTypes.POST: _dispatchAction = setPostUpvotePercent; break;
-        case PostTypes.COMMENT: _dispatchAction = setCommentUpvotePercent; break;
-        case PostTypes.WAVE: _dispatchAction = setWaveUpvotePercent; break;
+      let _dispatchAction: any = null;
+      switch (postType) {
+        case PostTypes.POST:
+          _dispatchAction = setPostUpvotePercent;
+          break;
+        case PostTypes.COMMENT:
+          _dispatchAction = setCommentUpvotePercent;
+          break;
+        case PostTypes.WAVE:
+          _dispatchAction = setWaveUpvotePercent;
+          break;
       }
-      if(_dispatchAction){
-        dispatch(_dispatchAction(value))
+      if (_dispatchAction) {
+        dispatch(_dispatchAction(value));
       }
-     
     }
   };
 
@@ -311,7 +329,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
 
     const percent = Math.floor(sliderValue * 10000 * (isDownvote ? -1 : 1));
     const rshares = calculateEstimatedRShares(currentAccount, percent) * (isDownvote ? -1 : 1);
- 
+
     // update redux
     const postPath = `${author || ''}/${permlink || ''}`;
     const curTime = new Date().getTime();
@@ -348,7 +366,7 @@ const UpvotePopover = forwardRef(({ }: Props, ref) => {
 
   const sliderColor = isDownVoted ? '#ec8b88' : '#357ce6';
 
-  const _minSliderVal = isVoted || isDownVoted ? 0 : 0.01
+  const _minSliderVal = isVoted || isDownVoted ? 0 : 0.01;
 
   return (
     <Fragment>
