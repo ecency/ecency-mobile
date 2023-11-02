@@ -211,7 +211,12 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
           },
         ),
         buttons: [
-          { textId: 'alert.cancel', onPress: () => {console.log("cancel pressed")} },
+          {
+            textId: 'alert.cancel',
+            onPress: () => {
+              console.log('cancel pressed');
+            },
+          },
           { textId: 'alert.confirm', onPress: _confirmSwap },
         ],
       }),

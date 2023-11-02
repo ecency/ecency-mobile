@@ -181,7 +181,9 @@ export const QRModal = ({}: QRModalProps) => {
                 text: intl.formatMessage({
                   id: 'qr.cancel',
                 }),
-                onPress: () => {console.log("cancel pressed")},
+                onPress: () => {
+                  console.log('cancel pressed');
+                },
                 style: 'cancel',
               },
               {

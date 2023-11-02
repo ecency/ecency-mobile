@@ -181,7 +181,9 @@ class EditorScreen extends Component {
         },
         {
           text: intl.formatMessage({ id: 'alert.cancel' }),
-          onPress: () => {console.log("cancel pressed")},
+          onPress: () => {
+            console.log('cancel pressed');
+          },
           style: 'cancel',
         },
       ]);

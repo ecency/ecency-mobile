@@ -1,4 +1,3 @@
-
 import { get, isArray } from 'lodash';
 import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
@@ -94,7 +93,6 @@ export const parsePost = (
 
 export const parseDiscussionCollection = async (commentsMap: { [key: string]: any }) => {
   Object.keys(commentsMap).forEach((key) => {
-
     const comment = commentsMap[key];
 
     // prcoess first level comment
@@ -103,8 +101,7 @@ export const parseDiscussionCollection = async (commentsMap: { [key: string]: an
     } else {
       delete commentsMap[key];
     }
-
-  })
+  });
 
   console.log('parsed discussion collection', commentsMap);
   return commentsMap;
@@ -137,7 +134,6 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
   };
 
   Object.keys(commentsMap).forEach((key) => {
-
     const comment = commentsMap[key];
 
     // prcoess first level comment
@@ -146,8 +142,7 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
       _parsedComment.replies = parseReplies(commentsMap, _parsedComment.replies, 1);
       comments.push(_parsedComment);
     }
-
-  })
+  });
 
   return comments;
 };
@@ -188,7 +183,7 @@ export const mapDiscussionToThreads = async (
       comment.replies = parseReplies(commentsMap, comment.replies, 1);
       comments.push(comment);
     }
-  })
+  });
 
   return comments;
 };
@@ -260,7 +255,7 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
       console.log('injection vote cache');
       _comments[path] = injectVoteCache(_comments[path], cachedVote);
     }
-  })
+  });
 
   // process comments cache
 
@@ -307,7 +302,7 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
         }
         break;
     }
-  })
+  });
 
   return shouldClone ? { ..._comments } : _comments;
 };
