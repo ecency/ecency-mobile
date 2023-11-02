@@ -18,7 +18,7 @@ import styles from './walletScreenStyles';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { AssetCard, ManageAssetsBtn } from '../children';
-import { ChartInterval, fetchMarketChart } from '../../../providers/coingecko/coingecko';
+import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import ROUTES from '../../../constants/routeNames';
 import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetailsScreen';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';

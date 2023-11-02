@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View, Text, Alert, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';

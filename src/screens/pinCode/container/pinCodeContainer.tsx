@@ -130,7 +130,6 @@ class PinCodeContainer extends Component {
   _resetPinCode = (pin) =>
     new Promise((resolve, reject) => {
       const {
-        dispatch,
         pinCodeParams: { navigateTo, navigateParams, navigateKey, callback },
         encUnlockPin,
         intl,
@@ -227,60 +226,56 @@ class PinCodeContainer extends Component {
 
   // verifies is the pin entered is right or wrong, also migrates to newer locking method
   _verifyPinCode = async (pin) => {
-    try {
-      const {
-        intl,
-        currentAccount,
-        dispatch,
-        encUnlockPin,
-        applicationPinCode,
-        pinCodeParams: { navigateTo, navigateParams, navigateKey, callback },
-        navigation,
-      } = this.props;
-      const { oldPinCode } = this.state;
+    const {
+      intl,
+      currentAccount,
+      dispatch,
+      encUnlockPin,
+      applicationPinCode,
+      pinCodeParams: { navigateTo, navigateParams, navigateKey, callback },
+      navigation,
+    } = this.props;
+    const { oldPinCode } = this.state;
 
-      const unlockPin = encUnlockPin
-        ? decryptKey(encUnlockPin, Config.PIN_KEY)
-        : decryptKey(applicationPinCode, Config.PIN_KEY);
+    const unlockPin = encUnlockPin
+      ? decryptKey(encUnlockPin, Config.PIN_KEY)
+      : decryptKey(applicationPinCode, Config.PIN_KEY);
 
-      // check if pins match
-      if (unlockPin !== pin) {
-        throw new Error(
-          intl.formatMessage({
-            id: 'alert.invalid_pincode',
-          }),
-        );
-      }
-
-      // migrate data to default pin if encUnlockPin is not set.
-      if (!encUnlockPin) {
-        await MigrationHelpers.migrateUserEncryption(
-          dispatch,
-          currentAccount,
-          applicationPinCode,
-          this._onRefreshTokenFailed,
-        );
-      }
-
-      // on successful code verification run requested operation passed as props
-      if (callback) {
-        callback(pin, oldPinCode);
-      }
-
-      if (navigateTo) {
-        RootNavigation.navigate({
-          name: navigateTo,
-          params: navigateParams,
-          key: navigateKey || '',
-        });
-      } else {
-        navigation.goBack();
-      }
-
-      return true;
-    } catch (err) {
-      throw err;
+    // check if pins match
+    if (unlockPin !== pin) {
+      throw new Error(
+        intl.formatMessage({
+          id: 'alert.invalid_pincode',
+        }),
+      );
     }
+
+    // migrate data to default pin if encUnlockPin is not set.
+    if (!encUnlockPin) {
+      await MigrationHelpers.migrateUserEncryption(
+        dispatch,
+        currentAccount,
+        applicationPinCode,
+        this._onRefreshTokenFailed,
+      );
+    }
+
+    // on successful code verification run requested operation passed as props
+    if (callback) {
+      callback(pin, oldPinCode);
+    }
+
+    if (navigateTo) {
+      RootNavigation.navigate({
+        name: navigateTo,
+        params: navigateParams,
+        key: navigateKey || '',
+      });
+    } else {
+      navigation.goBack();
+    }
+
+    return true;
   };
 
   // encryptes and saved unlockPin
@@ -291,7 +286,7 @@ class PinCodeContainer extends Component {
   };
 
   _forgotPinCode = async () => {
-    const { otherAccounts, dispatch, navigation } = this.props;
+    const { otherAccounts, dispatch } = this.props;
 
     await removeAllUserData()
       .then(async () => {
