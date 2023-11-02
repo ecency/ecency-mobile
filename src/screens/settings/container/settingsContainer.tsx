@@ -274,7 +274,7 @@ class SettingsContainer extends Component {
       type: actionType,
     });
 
-    Object.keys(notificationDetails).map((item) => {
+    Object.keys(notificationDetails).forEach((item) => {
       const notificationType = item.replace('Notification', '');
 
       if (notificationType === actionType.replace('notification.', '')) {
@@ -530,8 +530,7 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { serverList, isNotificationMenuOpen, isLoading, isVisibleBackupKeysModal } = this
-      .state as any;
+    const { serverList, isNotificationMenuOpen, isLoading } = this.state as any;
     const { colorTheme } = this.props as any;
 
     return (

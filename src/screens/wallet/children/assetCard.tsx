@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
-import React, { ComponentType, useEffect, useState } from 'react';
+import React, { ComponentType } from 'react';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from '../styles/children.styles';

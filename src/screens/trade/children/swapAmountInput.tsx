@@ -10,7 +10,6 @@ interface SwapInputProps {
   value: string;
   fiatPrice: number;
   symbol: string;
-  disabled?: boolean;
 }
 
 // Reusable component for label, text input, and bottom text

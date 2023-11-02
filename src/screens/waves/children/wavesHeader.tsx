@@ -6,9 +6,7 @@ import { WritePostButton } from '../../../components/atoms';
 import { showReplyModal } from '../../../redux/actions/uiAction';
 import styles from '../styles/children.styles';
 
-interface WavesHeaderProps {}
-
-export const WavesHeader: React.FC<WavesHeaderProps> = ({}) => {
+export const WavesHeader = () => {
   const dispatch = useDispatch();
   const intl = useIntl();
 
