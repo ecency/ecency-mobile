@@ -88,7 +88,7 @@ export const useMediaUploadMutation = () => {
     async ({ media }) => {
       console.log('uploading media', media);
       const sign = await signImage(media, currentAccount, pinCode);
-      return await uploadImage(media, currentAccount.name, sign);
+      return uploadImage(media, currentAccount.name, sign);
     },
     {
       retry: 3,

@@ -10,7 +10,7 @@ import get from 'lodash/get';
 
 // Services and Actions
 import { Rect } from 'react-native-modal-popover/lib/PopoverGeometry';
-import { View, TouchableOpacity, Text, Alert } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { Popover } from 'react-native-modal-popover';
 import Slider from '@esteemapp/react-native-slider';
 import { useIntl } from 'react-intl';
@@ -51,7 +51,6 @@ import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { delay } from '../../../utils/editor';
 
-interface Props {}
 interface PopoverOptions {
   anchorRect: Rect;
   content: any;
@@ -66,7 +65,8 @@ interface PopoverOptions {
  *
  */
 
-const UpvotePopover = forwardRef(({}: Props, ref) => {
+// eslint-disable-next-line no-empty-pattern
+const UpvotePopover = forwardRef(({}, ref) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -234,7 +234,7 @@ const UpvotePopover = forwardRef(({}: Props, ref) => {
             // // when voting with same percent or other errors
             let errMsg = '';
             if (err.message && err.message.indexOf(':') > 0) {
-              errMsg = err.message.split(': ')[1];
+              [, errMsg] = err.message.split(': ');
             } else {
               errMsg = err.jse_shortmsg || err.error_description || err.message;
             }

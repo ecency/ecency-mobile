@@ -168,24 +168,17 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       return replies;
     };
 
-    for (const key in commentsMap) {
-      if (commentsMap.hasOwnProperty(key)) {
-        const comment = commentsMap[key];
+    Object.keys(commentsMap).forEach((key) => {
+      const comment = commentsMap[key];
 
-        // prcoess first level comment
-        if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
-          comment.commentKey = key;
-          comment.level = 1;
-          comment.repliesThread = parseReplies(
-            commentsMap,
-            comment.replies,
-            key,
-            comment.level + 1,
-          );
-          comments.push(comment);
-        }
+      // prcoess first level comment
+      if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
+        comment.commentKey = key;
+        comment.level = 1;
+        comment.repliesThread = parseReplies(commentsMap, comment.replies, key, comment.level + 1);
+        comments.push(comment);
       }
-    }
+    });
 
     setSectionedData(comments);
   };

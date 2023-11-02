@@ -72,13 +72,6 @@ class EditorScreen extends Component {
     }
   }
 
-  componentWillUnmount() {
-    const { isEdit } = this.props;
-    if (!isEdit) {
-      this._saveDraftToDB();
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const { isUploadingProp, communityProp } = this.state;
     if (prevState.isUploadingProp !== isUploadingProp) {
@@ -88,6 +81,13 @@ class EditorScreen extends Component {
     if (communityProp?.length > 0 && prevState.communityProp !== communityProp) {
       this._getCommunity(communityProp[0]);
       this._handleOnTagAdded(communityProp);
+    }
+  }
+
+  componentWillUnmount() {
+    const { isEdit } = this.props;
+    if (!isEdit) {
+      this._saveDraftToDB();
     }
   }
 

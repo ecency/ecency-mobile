@@ -15,7 +15,6 @@ import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
 import parseToken from '../../../utils/parseToken';
-import { log } from '../../../../reactotron-config';
 
 export interface AssetDetailsScreenParams {
   coinId: string;

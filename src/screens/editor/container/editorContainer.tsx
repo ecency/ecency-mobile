@@ -105,10 +105,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     if (route.params) {
       const navigationParams = route.params;
-      hasSharedIntent = navigationParams.hasSharedIntent;
+      const { hasSharedIntent: _hasShared, draftId: _draftId } = navigationParams;
+      hasSharedIntent = _hasShared;
 
-      if (navigationParams.draftId) {
-        draftId = navigationParams.draftId;
+      if (_draftId) {
+        draftId = _draftId;
         const cachedDrafts: any = queryClient.getQueryData([QUERIES.DRAFTS.GET]);
 
         if (cachedDrafts && cachedDrafts.length) {

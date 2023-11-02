@@ -1,13 +1,6 @@
 import { ASSET_IDS } from '../../constants/defaultAssets';
 import { Referral } from '../../models';
-import {
-  CommentHistoryItem,
-  LatestMarketPrices,
-  LatestQuotes,
-  QuoteItem,
-  ReferralStat,
-  Draft,
-} from './ecency.types';
+import { CommentHistoryItem, LatestQuotes, QuoteItem, ReferralStat, Draft } from './ecency.types';
 
 export const convertReferral = (rawData: any) => {
   return {

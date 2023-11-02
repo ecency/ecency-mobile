@@ -17,7 +17,7 @@ const initialState: State = {
   beneficiariesMap: {},
 };
 
-export default function (state = initialState, action) {
+const editorReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case SET_BENEFICIARIES:
@@ -33,4 +33,6 @@ export default function (state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+export default editorReducer;

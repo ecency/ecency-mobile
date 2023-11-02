@@ -57,7 +57,7 @@ export const fetchTokenBalances = (account: string): Promise<TokenBalance[]> => 
   return ecencyApi
     .post(PATH_ENGINE_CONTRACTS, data)
     .then((r) => r.data.result)
-    .catch((e) => {
+    .catch(() => {
       return [];
     });
 };
@@ -79,7 +79,7 @@ export const fetchTokens = (tokens: string[]): Promise<Token[]> => {
   return ecencyApi
     .post(PATH_ENGINE_CONTRACTS, data)
     .then((r) => r.data.result)
-    .catch((e) => {
+    .catch(() => {
       return [];
     });
 };

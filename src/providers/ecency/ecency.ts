@@ -119,7 +119,7 @@ export const deleteDraft = async (draftId: string) => {
 /**
  * @param draft
  */
-export const addDraft = async (draft: Object) => {
+export const addDraft = async (draft: any) => {
   const { title, body, tags, meta } = draft;
   try {
     const newDraft = { title, body, tags, meta };
@@ -151,7 +151,7 @@ export const updateDraft = async (
   title: string,
   body: string,
   tags: string,
-  meta: Object,
+  meta: any,
 ) => {
   try {
     const data = { id: draftId, title, body, tags, meta };

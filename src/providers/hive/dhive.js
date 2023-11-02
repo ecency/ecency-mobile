@@ -140,7 +140,9 @@ export const broadcastPostingJSON = async (id, json, currentAccount, pinHash) =>
       accessToken: token,
     });
 
-    return api.customJson([], [username], id, JSON.stringify(json)).then((r) => r.result);
+    return api
+      .customJson([], [currentAccount.username], id, JSON.stringify(json))
+      .then((r) => r.result);
   }
 
   if (key) {

@@ -71,8 +71,6 @@ export const UploadsGalleryModal = forwardRef(
     const [isAddingToUploads, setIsAddingToUploads] = useState(false);
 
     const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
-    const pinCode = useAppSelector((state) => state.application.pin);
-    const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
     useImperativeHandle(ref, () => ({
       toggleModal: (value: boolean) => {
