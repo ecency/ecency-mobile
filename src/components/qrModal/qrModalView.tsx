@@ -6,6 +6,7 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import { useIntl } from 'react-intl';
 import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
 import { get } from 'lodash';
+import * as hiveuri from 'hive-uri';
 import styles from './qrModalStyles';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
@@ -24,8 +25,6 @@ import showLoginAlert from '../../utils/showLoginAlert';
 import authType from '../../constants/authType';
 import { delay } from '../../utils/editor';
 import ROUTES from '../../constants/routeNames';
-
-const hiveuri = require('hive-uri');
 
 const screenHeight = getWindowDimensions().height;
 

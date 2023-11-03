@@ -14,7 +14,7 @@ import { IconButton } from '../../..';
 import RootNavigation from '../../../../navigation/rootNavigation';
 
 // Constants
-const DEFAULT_IMAGE = require('../../../../assets/ecency.png');
+import DEFAULT_IMAGE from '../../../../assets/ecency.png';
 
 class PostHeaderDescription extends PureComponent {
   // Component Life Cycles
@@ -88,7 +88,6 @@ class PostHeaderDescription extends PureComponent {
       secondaryContentComponent,
       showDotMenuButton,
       handleOnDotPress,
-      isPinned,
     } = this.props;
 
     return (
