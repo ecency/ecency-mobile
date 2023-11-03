@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { View } from 'react-native';
-import Animated, { FlipInEasyX, FlipOutEasyX } from 'react-native-reanimated';
+import Animated, { FlipInEasyX } from 'react-native-reanimated';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
   BeneficiarySelectionContent,

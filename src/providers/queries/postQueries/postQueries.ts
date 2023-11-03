@@ -112,7 +112,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const [data, setData] = useState({});
   const [sectionedData, setSectionedData] = useState([]);
 
-  const _fetchComments = async () => await getDiscussionCollection(author, permlink);
+  const _fetchComments = async () => getDiscussionCollection(author, permlink);
   const query = useQuery<{ [key: string]: Comment }>(
     [QUERIES.POST.GET_DISCUSSION, author, permlink],
     _fetchComments,
@@ -122,14 +122,13 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   );
 
   useEffect(() => {
-    const _data =  injectPostCache(query.data, cachedComments, cachedVotes, lastCacheUpdate);
+    const _data = injectPostCache(query.data, cachedComments, cachedVotes, lastCacheUpdate);
     setData(_data);
   }, [query.data, cachedComments, cachedVotes]);
 
   useEffect(() => {
     restructureData();
   }, [data]);
-
 
   // traverse discussion collection to curate sections
   const restructureData = async () => {
@@ -169,24 +168,17 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       return replies;
     };
 
-    for (const key in commentsMap) {
-      if (commentsMap.hasOwnProperty(key)) {
-        const comment = commentsMap[key];
+    Object.keys(commentsMap).forEach((key) => {
+      const comment = commentsMap[key];
 
-        // prcoess first level comment
-        if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
-          comment.commentKey = key;
-          comment.level = 1;
-          comment.repliesThread = parseReplies(
-            commentsMap,
-            comment.replies,
-            key,
-            comment.level + 1,
-          );
-          comments.push(comment);
-        }
+      // prcoess first level comment
+      if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
+        comment.commentKey = key;
+        comment.level = 1;
+        comment.repliesThread = parseReplies(commentsMap, comment.replies, key, comment.level + 1);
+        comments.push(comment);
       }
-    }
+    });
 
     setSectionedData(comments);
   };

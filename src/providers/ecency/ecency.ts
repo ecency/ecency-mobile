@@ -31,13 +31,13 @@ import {
  * ************************************
  */
 
-export const getFiatHbdRate = (fiatCode:string) =>
+export const getFiatHbdRate = (fiatCode: string) =>
   ecencyApi
     .get(`/private-api/market-data/${fiatCode}/hbd`)
     .then((resp) => resp.data)
     .catch((err) => {
       bugsnagInstance.notify(err);
-      //TODO: save currency rate of offline values
+      // TODO: save currency rate of offline values
       return 1;
     });
 
@@ -53,7 +53,7 @@ export const getLatestQuotes = async (currencyRate: number): Promise<LatestMarke
     const data = convertLatestQuotes(res.data, currencyRate);
     console.log('parsed quotes data', data, currencyRate);
 
-    //TODO fetch engine quotes here
+    // TODO fetch engine quotes here
 
     return data;
   } catch (error) {
@@ -119,15 +119,15 @@ export const deleteDraft = async (draftId: string) => {
 /**
  * @param draft
  */
-export const addDraft = async (draft: Object) => {
+export const addDraft = async (draft: any) => {
   const { title, body, tags, meta } = draft;
   try {
     const newDraft = { title, body, tags, meta };
     const res = await ecencyApi.post('/private-api/drafts-add', newDraft);
     const rawData = res.data?.drafts;
 
-    if(!rawData){
-      throw new Error("Invalid response, drafts data not returned")
+    if (!rawData) {
+      throw new Error('Invalid response, drafts data not returned');
     }
 
     const data = rawData.length > 0 ? rawData.map(convertDraft) : [];
@@ -151,7 +151,7 @@ export const updateDraft = async (
   title: string,
   body: string,
   tags: string,
-  meta: Object,
+  meta: any,
 ) => {
   try {
     const data = { id: draftId, title, body, tags, meta };
@@ -526,7 +526,7 @@ export const searchPath = async (q: string) => {
  * @param random random
  * @returns array of accounts
  */
-export const searchAccount = async (q: string = '', limit: number = 20, random: number = 0) => {
+export const searchAccount = async (q = '', limit = 20, random = 0) => {
   try {
     const data = {
       q,
@@ -549,7 +549,7 @@ export const searchAccount = async (q: string = '', limit: number = 20, random: 
  * @param random random
  * @returns array of accounts
  */
-export const searchTag = async (q: string = '', limit: number = 20, random: number = 0) => {
+export const searchTag = async (q = '', limit = 20, random = 0) => {
   try {
     const data = {
       q,
@@ -782,7 +782,7 @@ export const getPromotedEntries = async (username: string) => {
  * post inapp purchase method to call
  * @param data PurchaseRequestData
  * @returns
- **/
+ * */
 export const purchaseOrder = (data: PurchaseRequestData) =>
   api
     .post('/purchase-order', data)

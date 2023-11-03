@@ -66,7 +66,9 @@ const BasicHeaderView = ({
     }
   };
 
-  const _handleOnDropdownSelect = () => {};
+  const _handleOnDropdownSelect = () => {
+    console.log('pressed');
+  };
 
   const _handleSearchButtonPress = () => {
     setIsInputVisible(!isInputVisible);
@@ -196,8 +198,8 @@ const BasicHeaderView = ({
               size={28}
               onPress={() => handleBrowserIconPress()}
               iconStyle={styles.rightIcon}
-              name={'open-in-browser'}
-              iconType={'MaterialIcons'}
+              name="open-in-browser"
+              iconType="MaterialIcons"
             />
           )}
         </View>

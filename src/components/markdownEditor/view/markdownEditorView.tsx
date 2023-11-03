@@ -40,8 +40,6 @@ import applySnippet from '../children/formats/applySnippet';
 import { MainButton } from '../../mainButton';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
 import { OptionsModal } from '../../atoms';
-// import { UsernameAutofillBar } from '../children/usernameAutofillBar';
-import applyUsername from '../children/formats/applyUsername';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import { EditorToolbar } from '../children/editorToolbar';
@@ -179,14 +177,14 @@ const MarkdownEditorView = ({
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
   };
 
-  const _onApplyUsername = (username) => {
-    applyUsername({
-      text: bodyTextRef.current,
-      selection: bodySelectionRef.current,
-      setTextAndSelection: _setTextAndSelection,
-      username,
-    });
-  };
+  // const _onApplyUsername = (username) => {
+  //   applyUsername({
+  //     text: bodyTextRef.current,
+  //     selection: bodySelectionRef.current,
+  //     setTextAndSelection: _setTextAndSelection,x
+  //     username,
+  //   });
+  // };
 
   const _debouncedOnTextChange = useCallback(
     debounce(() => {

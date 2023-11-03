@@ -55,7 +55,7 @@ export const useUnclaimedRewardsQuery = () => {
   const _processCachedData = (rewardsCollection: RewardsCollection) => {
     if (claimsCollection) {
       const _curTime = new Date().getTime();
-      for (const key in claimsCollection) {
+      Object.keys(claimsCollection).forEach((key) => {
         const _claimCache = claimsCollection[key];
         const _rewardValue = rewardsCollection[key];
         if (
@@ -67,7 +67,7 @@ export const useUnclaimedRewardsQuery = () => {
         ) {
           delete rewardsCollection[key];
         }
-      }
+      });
     }
 
     return rewardsCollection;
@@ -239,11 +239,11 @@ export const useClaimRewardsMutation = () => {
       return isClaimingColl[assetId] || false;
     }
 
-    for (const key in isClaimingColl) {
+    Object.keys(isClaimingColl).forEach((key) => {
       if (isClaimingColl[key] === true) {
         return true;
       }
-    }
+    });
 
     return false;
   };

@@ -52,7 +52,7 @@ const CommentsContainer = ({
   incrementRepliesCount,
   handleOnReplyPress,
   handleOnCommentsLoaded,
-  postType
+  postType,
 }) => {
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
@@ -172,20 +172,10 @@ const CommentsContainer = ({
             handleOnCommentsLoaded();
           }
         })
-        .catch(() => { });
+        .catch(() => {
+          console.log('cancel pressed');
+        });
     }
-  };
-
-  const _handleOnReplyPress = (item) => {
-    navigation.navigate({
-      name: ROUTES.SCREENS.EDITOR,
-      key: 'editor_reply',
-      params: {
-        isReply: true,
-        post: item,
-        fetchPost,
-      },
-    });
   };
 
   const _handleOnVotersPress = (activeVotes, content) => {
@@ -244,19 +234,16 @@ const CommentsContainer = ({
     });
   };
 
-
   const _handleOnUserPress = (username) => {
     if (username) {
-      dispatch(showProfileModal(username))
+      dispatch(showProfileModal(username));
     }
-
-  }
+  };
 
   const _openReplyThread = (comment) => {
     postsCachePrimer.cachePost(comment);
     navigation.navigate({
       name: ROUTES.SCREENS.POST,
-      key: comment.permlink,
       params: {
         author: comment.author,
         permlink: comment.permlink,

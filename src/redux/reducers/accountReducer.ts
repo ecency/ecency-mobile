@@ -42,7 +42,7 @@ const initialState: AccountState = {
   globalProps: null,
 };
 
-export default function (state = initialState, action) {
+const accountReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCHING_ACCOUNT:
       return {
@@ -134,4 +134,6 @@ export default function (state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+export default accountReducer;

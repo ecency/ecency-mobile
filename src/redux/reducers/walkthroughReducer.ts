@@ -11,7 +11,7 @@ interface State {
 const initialState: State = {
   walkthroughMap: new Map(),
 };
-export default function (state = initialState, action) {
+const walkthroughReducer = (state = initialState, action) => {
   // console.log('action : ', action);
 
   const { type, payload } = action;
@@ -28,4 +28,6 @@ export default function (state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+export default walkthroughReducer;

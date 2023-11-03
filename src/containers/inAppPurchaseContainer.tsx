@@ -85,7 +85,6 @@ class InAppPurchaseContainer extends Component {
   _consumePurchase = async (purchase) => {
     const {
       currentAccount: { name },
-      intl,
       fetchData,
       username,
       email,
@@ -167,6 +166,7 @@ class InAppPurchaseContainer extends Component {
 
         if (_purchase.productId !== '999accounts') {
           // consume item using finishTransactionx
+          // eslint-disable-next-line no-await-in-loop
           await this._consumePurchase(purchases[i]);
         }
       }
@@ -181,15 +181,7 @@ class InAppPurchaseContainer extends Component {
     this.purchaseUpdateSubscription = IAP.purchaseUpdatedListener(this._consumePurchase);
 
     this.purchaseErrorSubscription = IAP.purchaseErrorListener((error) => {
-      const {
-        currentAccount: { name },
-        intl,
-        fetchData,
-        username,
-        email,
-        handleOnPurchaseFailure,
-        handleOnPurchaseSuccess,
-      } = this.props;
+      const { intl, handleOnPurchaseFailure } = this.props;
 
       bugsnagInstance.notify(error);
       if (get(error, 'responseCode') === '3' && Platform.OS === 'android') {
@@ -336,7 +328,7 @@ class InAppPurchaseContainer extends Component {
             },
             {
               text: intl.formatMessage({ id: 'alert.confirm' }),
-              onPress: async () => await this._buyItem(productId),
+              onPress: async () => this._buyItem(productId),
             },
           ],
           headerContent: <UserAvatar username={username} size="xl" />,

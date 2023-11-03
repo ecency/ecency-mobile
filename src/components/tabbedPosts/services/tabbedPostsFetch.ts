@@ -184,12 +184,11 @@ export const loadPosts = async ({
   }
 };
 
-export const fetchPromotedEntries = async (username: string, nsfwFilter:string) => {
+export const fetchPromotedEntries = async (username: string, nsfwFilter: string) => {
   try {
     const posts = await getPromotedEntries(username);
 
-    return  Array.isArray(posts) ? filterNsfwPost(posts, nsfwFilter) : [];
-
+    return Array.isArray(posts) ? filterNsfwPost(posts, nsfwFilter) : [];
   } catch (err) {
     console.warn('Failed to get promoted posts, ', err);
   }

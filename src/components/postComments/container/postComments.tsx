@@ -21,7 +21,11 @@ import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
-import { showActionModal, showProfileModal, toastNotification } from '../../../redux/actions/uiAction';
+import {
+  showActionModal,
+  showProfileModal,
+  toastNotification,
+} from '../../../redux/actions/uiAction';
 import { writeToClipboard } from '../../../utils/clipboard';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
@@ -34,8 +38,6 @@ import { sortComments } from '../children/sortComments';
 import styles from '../children/postComments.styles';
 import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 
-
-
 const PostComments = forwardRef(
   (
     {
@@ -47,7 +49,7 @@ const PostComments = forwardRef(
       onRefresh,
       handleOnCommentsLoaded,
       handleOnReplyPress,
-      onUpvotePress
+      onUpvotePress,
     },
     ref,
   ) => {
@@ -63,7 +65,7 @@ const PostComments = forwardRef(
     const postsCachePrimer = postQueries.usePostsCachePrimer();
 
     const writeCommentRef = useRef(null);
-    const postInteractionRef = useRef<typeof PostHtmlInteractionHandler|null>(null);
+    const postInteractionRef = useRef<typeof PostHtmlInteractionHandler | null>(null);
     const commentsListRef = useRef<FlashList<any> | null>(null);
 
     const [selectedFilter, setSelectedFilter] = useState('trending');
@@ -71,7 +73,6 @@ const PostComments = forwardRef(
     const [headerHeight, setHeaderHeight] = useState(0);
 
     const [refreshing, setRefreshing] = useState(false);
-
 
     const sortedSections = useMemo(
       () => sortComments(selectedFilter, discussionQuery.sectionedData),
@@ -107,9 +108,6 @@ const PostComments = forwardRef(
       onRefresh();
     };
 
- 
-
-
     const _handleOnDropdownSelect = (option, index) => {
       setSelectedFilter(option);
       setSelectedOptionIndex(index);
@@ -139,7 +137,6 @@ const PostComments = forwardRef(
     };
 
     const _handleDeleteComment = (_permlink) => {
-
       const _onConfirmDelete = async () => {
         try {
           await deleteComment(currentAccount, pinHash, _permlink);
@@ -154,23 +151,27 @@ const PostComments = forwardRef(
             dispatch(updateCommentCache(_commentPath, _deletedItem, { isUpdate: true }));
           }
         } catch (err) {
-          console.warn('Failed to delete comment')
+          console.warn('Failed to delete comment');
         }
+      };
 
-      }
-
-      dispatch(showActionModal({
-        title: intl.formatMessage({ id: 'delete.confirm_delete_title' }),
-        buttons: [{
-          text: intl.formatMessage({ id: 'alert.cancel' }),
-          onPress: () => { console.log("canceled delete comment") }
-        }, {
-          text: intl.formatMessage({ id: 'alert.delete' }),
-          onPress: _onConfirmDelete
-        }]
-      }))
-
-
+      dispatch(
+        showActionModal({
+          title: intl.formatMessage({ id: 'delete.confirm_delete_title' }),
+          buttons: [
+            {
+              text: intl.formatMessage({ id: 'alert.cancel' }),
+              onPress: () => {
+                console.log('canceled delete comment');
+              },
+            },
+            {
+              text: intl.formatMessage({ id: 'alert.delete' }),
+              onPress: _onConfirmDelete,
+            },
+          ],
+        }),
+      );
     };
 
     const _openReplyThread = (comment) => {
@@ -187,7 +188,7 @@ const PostComments = forwardRef(
 
     const _handleOnUserPress = (username) => {
       dispatch(showProfileModal(username));
-    }
+    };
 
     const _handleShowOptionsMenu = (comment) => {
       const _showCopiedToast = () => {
@@ -231,19 +232,12 @@ const PostComments = forwardRef(
       );
     };
 
-
-
-   
-
-
     const _onContentSizeChange = (x: number, y: number) => {
       // update header height
       if (y !== headerHeight) {
         setHeaderHeight(y);
       }
     };
-
-
 
     const _postContentView = (
       <>
@@ -263,8 +257,7 @@ const PostComments = forwardRef(
     );
 
     const _renderEmptyContent = () => {
-
-      if(isPostLoading){
+      if (isPostLoading) {
         return null;
       }
 
@@ -303,10 +296,8 @@ const PostComments = forwardRef(
           openReplyThread={_openReplyThread}
           onUpvotePress={(args) => onUpvotePress({ ...args, postType: PostTypes.COMMENT })}
         />
-      )
-    }
-
-
+      );
+    };
 
     return (
       <Fragment>
@@ -333,14 +324,10 @@ const PostComments = forwardRef(
           }
           overScrollMode="never"
         />
-        <PostHtmlInteractionHandler 
-          ref={postInteractionRef}
-        />
+        <PostHtmlInteractionHandler ref={postInteractionRef} />
       </Fragment>
-        
     );
   },
 );
 
 export default PostComments;
-

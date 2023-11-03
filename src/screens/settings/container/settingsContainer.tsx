@@ -274,7 +274,7 @@ class SettingsContainer extends Component {
       type: actionType,
     });
 
-    Object.keys(notificationDetails).map((item) => {
+    Object.keys(notificationDetails).forEach((item) => {
       const notificationType = item.replace('Notification', '');
 
       if (notificationType === actionType.replace('notification.', '')) {
@@ -313,29 +313,35 @@ class SettingsContainer extends Component {
             navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
           });
         } else {
-          dispatch(showActionModal({
-            title:intl.formatMessage({id:'alert.warning'}),
-            body:intl.formatMessage({id:'settings.keys_warning'}),
-            buttons:[{
-              text:intl.formatMessage({id:'alert.cancel'}),
-              onPress:()=>{},
-              type:'destructive'
-            },{
-              text:intl.formatMessage({id:'settings.set_pin'}),
-              onPress:()=>{
-                navigation.navigate(ROUTES.SCREENS.PINCODE, {
-                  callback: () => {
-                    this._enableDefaultUnlockPin(true)
+          dispatch(
+            showActionModal({
+              title: intl.formatMessage({ id: 'alert.warning' }),
+              body: intl.formatMessage({ id: 'settings.keys_warning' }),
+              buttons: [
+                {
+                  text: intl.formatMessage({ id: 'alert.cancel' }),
+                  onPress: () => {
+                    console.log('cancel pressed');
                   },
-                  navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
-                  isReset: true,
-                  isOldPinVerified: true,
-                  oldPinCode: Config.DEFAULT_PIN,
-                });
-              }
-            }]
-          }))
-       
+                  type: 'destructive',
+                },
+                {
+                  text: intl.formatMessage({ id: 'settings.set_pin' }),
+                  onPress: () => {
+                    navigation.navigate(ROUTES.SCREENS.PINCODE, {
+                      callback: () => {
+                        this._enableDefaultUnlockPin(true);
+                      },
+                      navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
+                      isReset: true,
+                      isOldPinVerified: true,
+                      oldPinCode: Config.DEFAULT_PIN,
+                    });
+                  },
+                },
+              ],
+            }),
+          );
         }
         break;
 
@@ -454,7 +460,9 @@ class SettingsContainer extends Component {
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {},
+            onPress: () => {
+              console.log('cancel pressed');
+            },
           },
           {
             text: intl.formatMessage({ id: 'alert.delete' }),
@@ -522,8 +530,7 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { serverList, isNotificationMenuOpen, isLoading, isVisibleBackupKeysModal } = this
-      .state as any;
+    const { serverList, isNotificationMenuOpen, isLoading } = this.state as any;
     const { colorTheme } = this.props as any;
 
     return (

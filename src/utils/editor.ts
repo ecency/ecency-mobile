@@ -1,8 +1,8 @@
-import getSlug from 'speakingurl';
-import { Image } from 'react-native';
 import { diff_match_patch as diffMatchPatch } from 'diff-match-patch';
-import VersionNumber from 'react-native-version-number';
 import MimeTypes from 'mime-types';
+import { Image } from 'react-native';
+import VersionNumber from 'react-native-version-number';
+import getSlug from 'speakingurl';
 import { PostTypes } from '../constants/postTypes';
 
 export const getWordsCount = (text) =>
@@ -257,9 +257,8 @@ export const extractMetadata = async ({
     );
   }
 
-  //setting post type, primary usecase for separating waves from other posts
-  out.type = postType || PostTypes.POST
-  
+  // setting post type, primary usecase for separating waves from other posts
+  out.type = postType || PostTypes.POST;
 
   return out;
 };

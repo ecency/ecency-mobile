@@ -1,5 +1,3 @@
-import isEmpty from 'lodash/isEmpty';
-import forEach from 'lodash/forEach';
 import { get, isArray } from 'lodash';
 import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
@@ -10,7 +8,7 @@ import parseAsset from './parseAsset';
 import { getResizedAvatar } from './image';
 import { parseReputation } from './user';
 import { CacheStatus } from '../redux/reducers/cacheReducer';
-import { calculateVoteReward, getEstimatedAmount } from './vote';
+import { calculateVoteReward } from './vote';
 
 const webp = Platform.OS !== 'ios';
 
@@ -56,8 +54,8 @@ export const parsePost = (
 
   // find and inject thumbnail ratio
   if (post.json_metadata.image_ratios) {
-    if (!isNaN(post.json_metadata.image_ratios[0])) {
-      post.thumbRatio = post.json_metadata.image_ratios[0];
+    if (!Number.isNaN(post.json_metadata.image_ratios[0])) {
+      [post.thumbRatio] = post.json_metadata.image_ratios;
     }
   }
 
@@ -94,25 +92,22 @@ export const parsePost = (
 };
 
 export const parseDiscussionCollection = async (commentsMap: { [key: string]: any }) => {
-  for (const key in commentsMap) {
-    if (commentsMap.hasOwnProperty(key)) {
-      const comment = commentsMap[key];
+  Object.keys(commentsMap).forEach((key) => {
+    const comment = commentsMap[key];
 
-      // prcoess first level comment
-      if (comment) {
-        commentsMap[key] = parseComment(comment);
-      } else {
-        delete commentsMap[key];
-      }
+    // prcoess first level comment
+    if (comment) {
+      commentsMap[key] = parseComment(comment);
+    } else {
+      delete commentsMap[key];
     }
-  }
+  });
 
   console.log('parsed discussion collection', commentsMap);
   return commentsMap;
 };
 
-
-//TODO: discard/deprecate method after porting getComments in commentsContainer to getDiscussionCollection
+// TODO: discard/deprecate method after porting getComments in commentsContainer to getDiscussionCollection
 export const parseCommentThreads = async (commentsMap: any, author: string, permlink: string) => {
   const MAX_THREAD_LEVEL = 3;
   const comments = [];
@@ -138,24 +133,26 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
     return [];
   };
 
-  for (const key in commentsMap) {
-    if (commentsMap.hasOwnProperty(key)) {
-      const comment = commentsMap[key];
+  Object.keys(commentsMap).forEach((key) => {
+    const comment = commentsMap[key];
 
-      // prcoess first level comment
-      if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
-        const _parsedComment = parseComment(comment);
-        _parsedComment.replies = parseReplies(commentsMap, _parsedComment.replies, 1);
-        comments.push(_parsedComment);
-      }
+    // prcoess first level comment
+    if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
+      const _parsedComment = parseComment(comment);
+      _parsedComment.replies = parseReplies(commentsMap, _parsedComment.replies, 1);
+      comments.push(_parsedComment);
     }
-  }
+  });
 
   return comments;
 };
 
-
-export const mapDiscussionToThreads = async (commentsMap: any, author: string, permlink: string, maxLevel: number = 3) => {
+export const mapDiscussionToThreads = async (
+  commentsMap: any,
+  author: string,
+  permlink: string,
+  maxLevel = 3,
+) => {
   const comments = [];
 
   if (!commentsMap) {
@@ -178,22 +175,18 @@ export const mapDiscussionToThreads = async (commentsMap: any, author: string, p
     return [];
   };
 
-  for (const key in commentsMap) {
-    if (commentsMap.hasOwnProperty(key)) {
-      const comment = commentsMap[key];
+  Object.keys(commentsMap).forEach((key) => {
+    const comment = commentsMap[key];
 
-      // prcoess first level comment
-      if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
-
-        comment.replies = parseReplies(commentsMap, comment.replies, 1);
-        comments.push(comment);
-      }
+    // prcoess first level comment
+    if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
+      comment.replies = parseReplies(commentsMap, comment.replies, 1);
+      comments.push(comment);
     }
-  }
+  });
 
   return comments;
 };
-
 
 export const parseComments = (comments: any[]) => {
   if (!comments) {
@@ -246,7 +239,6 @@ export const parseComment = (comment: any) => {
   return comment;
 };
 
-
 export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCacheUpdate) => {
   let shouldClone = false;
   const _comments = commentsMap || {};
@@ -257,16 +249,17 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
   }
 
   // process votes cache
-  for (const path in cachedVotes) {
+  Object.keys(cachedVotes).forEach((path) => {
     const cachedVote = cachedVotes[path];
     if (_comments[path]) {
       console.log('injection vote cache');
       _comments[path] = injectVoteCache(_comments[path], cachedVote);
     }
-  }
+  });
 
   // process comments cache
-  for (const path in cachedComments) {
+
+  Object.keys(cachedComments).forEach((path) => {
     const currentTime = new Date().getTime();
     const cachedComment = cachedComments[path];
     const _parentPath = `${cachedComment.parent_author}/${cachedComment.parent_permlink}`;
@@ -298,13 +291,10 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
           // in this case add comment key in childern and inject cachedComment in commentsMap
           _comments[path] = cachedComment;
           _comments[_parentPath].replies.push(path);
-          _comments[_parentPath].children = _comments[_parentPath].children + 1;
+          _comments[_parentPath].children += 1;
 
           // if comment was created very recently enable auto reveal
-          if (
-            lastCacheUpdate.postPath === path &&
-            currentTime - lastCacheUpdate.updatedAt < 5000
-          ) {
+          if (lastCacheUpdate.postPath === path && currentTime - lastCacheUpdate.updatedAt < 5000) {
             console.log('setting show replies flag');
             _comments[_parentPath].expandedReplies = true;
             _comments[path].renderOnTop = true;
@@ -312,45 +302,42 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
         }
         break;
     }
-  }
+  });
 
   return shouldClone ? { ..._comments } : _comments;
-}
-
+};
 
 export const injectVoteCache = (post, voteCache) => {
   if (voteCache && voteCache.status !== CacheStatus.FAILED) {
-
     const _voteIndex = post.active_votes.findIndex((i) => i.voter === voteCache.voter);
 
-    //if vote do not already exist
+    // if vote do not already exist
     if (_voteIndex < 0 && voteCache.status !== CacheStatus.DELETED) {
-
       post.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
 
-      //calculate updated totalRShares and send to post
+      // calculate updated totalRShares and send to post
       const _totalRShares = post.active_votes.reduce(
         (accumulator: number, item: any) => accumulator + parseFloat(item.rshares),
-        voteCache.rshares);
+        voteCache.rshares,
+      );
       const _newVote = parseVote(voteCache, post, _totalRShares);
       post.active_votes = [...post.active_votes, _newVote];
     }
 
-    //if vote already exist
+    // if vote already exist
     else {
-
       const _vote = post.active_votes[_voteIndex];
 
-      //get older and new reward for the vote
+      // get older and new reward for the vote
       const _oldReward = calculateVoteReward(_vote.rshares, post);
 
-      //update total payout
+      // update total payout
       const _voteAmount = voteCache.amount * (voteCache.isDownvote ? -1 : 1);
-      post.total_payout += _voteAmount - _oldReward
+      post.total_payout += _voteAmount - _oldReward;
 
-      //update vote entry
-      _vote.rshares = voteCache.rshares
-      _vote.percent100 = _vote.percent && voteCache.percent / 100
+      // update vote entry
+      _vote.rshares = voteCache.rshares;
+      _vote.percent100 = _vote.percent && voteCache.percent / 100;
 
       post.active_votes[_voteIndex] = _vote;
       post.active_votes = [...post.active_votes];
@@ -359,7 +346,6 @@ export const injectVoteCache = (post, voteCache) => {
 
   return post;
 };
-
 
 export const isVoted = async (activeVotes, currentUserName) => {
   if (!currentUserName) {
@@ -374,8 +360,6 @@ export const isVoted = async (activeVotes, currentUserName) => {
   return false;
 };
 
-
-
 export const isDownVoted = async (activeVotes, currentUserName) => {
   if (!currentUserName) {
     return false;
@@ -389,19 +373,15 @@ export const isDownVoted = async (activeVotes, currentUserName) => {
   return false;
 };
 
-
-
 export const parseActiveVotes = (post) => {
-
   const _totalRShares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
 
   if (isArray(post.active_votes)) {
-    post.active_votes = post.active_votes.map((vote) => parseVote(vote, post, _totalRShares))
+    post.active_votes = post.active_votes.map((vote) => parseVote(vote, post, _totalRShares));
   }
 
   return post.active_votes;
 };
-
 
 export const parseVote = (activeVote: any, post: any, _totalRShares?: number) => {
   activeVote.reward = calculateVoteReward(activeVote.rshares, post, _totalRShares).toFixed(3);
@@ -410,7 +390,7 @@ export const parseVote = (activeVote: any, post: any, _totalRShares?: number) =>
   activeVote.avatar = getResizedAvatar(activeVote.voter);
 
   return activeVote;
-}
+};
 
 const parseTags = (post: any) => {
   if (post.json_metadata) {

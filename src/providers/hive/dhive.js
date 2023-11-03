@@ -18,6 +18,7 @@ import { createHash } from 'react-native-crypto';
 import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
+import * as hiveuri from 'hive-uri';
 import { getServer, getCache, setCache } from '../../realm/realm';
 
 // Utils
@@ -44,7 +45,7 @@ import bugsnagInstance from '../../config/bugsnag';
 import bugsnapInstance from '../../config/bugsnag';
 import TransferTypes from '../../constants/transferTypes';
 
-const hiveuri = require('hive-uri');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
 const DEFAULT_SERVER = SERVER_LIST;
@@ -140,7 +141,9 @@ export const broadcastPostingJSON = async (id, json, currentAccount, pinHash) =>
       accessToken: token,
     });
 
-    return api.customJson([], [username], id, JSON.stringify(json)).then((r) => r.result);
+    return api
+      .customJson([], [currentAccount.username], id, JSON.stringify(json))
+      .then((r) => r.result);
   }
 
   if (key) {
@@ -408,50 +411,49 @@ export const getUser = async (user, loggedIn = true) => {
 
 const cache = {};
 const patt = /hive-\d\w+/g;
-export const getCommunity = async (tag, observer = '') =>
-  new Promise(async (resolve, reject) => {
+export const getCommunity = async (tag, observer = '') => {
+  try {
+    const community = await client.call('bridge', 'get_community', {
+      name: tag,
+      observer,
+    });
+    if (community) {
+      return community;
+    } else {
+      return {};
+    }
+  } catch (err) {
+    bugsnagInstance.notify('failed to get community', err);
+    throw err;
+  }
+};
+
+export const getCommunityTitle = async (tag) => {
+  if (cache[tag] !== undefined) {
+    return cache[tag];
+  }
+  const mm = tag.match(patt);
+  if (mm && mm.length > 0) {
     try {
       const community = await client.call('bridge', 'get_community', {
         name: tag,
-        observer,
+        observer: '',
       });
       if (community) {
-        resolve(community);
+        const { title } = community;
+        cache[tag] = title;
+        return title;
       } else {
-        resolve({});
+        return tag;
       }
-    } catch (error) {
-      reject(error);
+    } catch (err) {
+      bugsnagInstance.notify('failed to get community title');
+      throw err;
     }
-  });
-
-export const getCommunityTitle = async (tag) =>
-  new Promise(async (resolve, reject) => {
-    if (cache[tag] !== undefined) {
-      resolve(cache[tag]);
-      return;
-    }
-    const mm = tag.match(patt);
-    if (mm && mm.length > 0) {
-      try {
-        const community = await client.call('bridge', 'get_community', {
-          name: tag,
-          observer: '',
-        });
-        if (community) {
-          const { title } = community;
-          cache[tag] = title;
-          resolve(title);
-        } else {
-          resolve(tag);
-        }
-      } catch (error) {
-        reject(error);
-      }
-    }
-
-    resolve(tag);
-  });
+  } else {
+    return tag;
+  }
+};
 
 export const getCommunities = async (
   last = '',
@@ -459,43 +461,43 @@ export const getCommunities = async (
   query = null,
   sort = 'rank',
   observer = '',
-) =>
-  new Promise(async (resolve, reject) => {
-    try {
-      console.log('Getting communities', query);
-      const data = await client.call('bridge', 'list_communities', {
-        last,
-        limit,
-        query,
-        sort,
-        observer,
-      });
-      if (data) {
-        resolve(data);
-      } else {
-        resolve({});
-      }
-    } catch (error) {
-      console.log(error);
-      resolve({});
+) => {
+  try {
+    console.log('Getting communities', query);
+    const data = await client.call('bridge', 'list_communities', {
+      last,
+      limit,
+      query,
+      sort,
+      observer,
+    });
+    if (data) {
+      return data;
+    } else {
+      return {};
     }
-  });
+  } catch (error) {
+    console.warn('failed to get communities', error);
+    bugsnagInstance.notify('failed to get communities', error);
+    return {};
+  }
+};
 
-export const getSubscriptions = (account = '') =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const data = await client.call('bridge', 'list_all_subscriptions', {
-        account,
-      });
-      if (data) {
-        resolve(data);
-      } else {
-        resolve({});
-      }
-    } catch (error) {
-      reject(error);
+export const getSubscriptions = async (account = '') => {
+  try {
+    const data = await client.call('bridge', 'list_all_subscriptions', {
+      account,
+    });
+    if (data) {
+      return data;
+    } else {
+      return {};
     }
-  });
+  } catch (error) {
+    bugsnagInstance.notify('failed to get subscriptions', error);
+    throw error;
+  }
+};
 
 // TODO: Move to utils folder
 export const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) =>
@@ -2131,7 +2133,6 @@ export const getActiveKey = (local, pin) => {
 };
 
 export const votingPower = (account) => {
-  // @ts-ignore "Account" is compatible with dhive's "ExtendedAccount"
   const calc = client.rc.calculateVPMana(account);
   const { percentage } = calc;
 
@@ -2145,7 +2146,6 @@ export const resolveTransaction = async (parsedTx, parsedParams, signer) => {
 
   // resolve the decoded tx and params to a signable tx
   const { tx } = hiveuri.resolveTransaction(parsedTx, parsedParams, {
-    /* eslint-disable no-bitwise */
     ref_block_num: props.head_block_number & 0xffff,
     ref_block_prefix: Buffer.from(props.head_block_id, 'hex').readUInt32LE(4),
     expiration: new Date(Date.now() + client.broadcast.expireTime + EXPIRE_TIME)
@@ -2154,8 +2154,8 @@ export const resolveTransaction = async (parsedTx, parsedParams, signer) => {
     signers: [signer],
     preferred_signer: signer,
   });
-  tx.ref_block_num = parseInt(tx.ref_block_num + '', 10);
-  tx.ref_block_prefix = parseInt(tx.ref_block_prefix + '', 10);
+  tx.ref_block_num = parseInt(`${tx.ref_block_num}`, 10);
+  tx.ref_block_prefix = parseInt(`${tx.ref_block_prefix}`, 10);
 
   return tx;
 };

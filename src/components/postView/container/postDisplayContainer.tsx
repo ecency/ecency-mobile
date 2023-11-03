@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { injectIntl, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Action

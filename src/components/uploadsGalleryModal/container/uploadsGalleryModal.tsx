@@ -71,8 +71,6 @@ export const UploadsGalleryModal = forwardRef(
     const [isAddingToUploads, setIsAddingToUploads] = useState(false);
 
     const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
-    const pinCode = useAppSelector((state) => state.application.pin);
-    const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
     useImperativeHandle(ref, () => ({
       toggleModal: (value: boolean) => {
@@ -168,6 +166,7 @@ export const UploadsGalleryModal = forwardRef(
         for (let i = 0; i < media.length; i++) {
           const element = media[i];
           if (element.mime === 'image/heic') {
+            // eslint-disable-next-line no-await-in-loop
             const res = await RNHeicConverter.convert({ path: element.sourceURL }); // default with quality = 1 & jpg extension
             if (res && res.path) {
               element.mime = 'image/jpeg';
@@ -201,6 +200,7 @@ export const UploadsGalleryModal = forwardRef(
         for (let index = 0; index < media.length; index++) {
           const element = media[index];
           if (element) {
+            // eslint-disable-next-line no-await-in-loop
             await _uploadImage(element, { shouldInsert });
           }
         }
@@ -304,7 +304,9 @@ export const UploadsGalleryModal = forwardRef(
       let body = error.message || JSON.stringify(error);
       let action: AlertButton = {
         text: intl.formatMessage({ id: 'alert.okay' }),
-        onPress: () => {},
+        onPress: () => {
+          console.log('cancel pressed');
+        },
       };
 
       switch (error.code) {
@@ -360,7 +362,8 @@ export const UploadsGalleryModal = forwardRef(
     // inserts media items in post body
     const _insertMedia = async (map: Map<number, boolean>) => {
       const data: MediaInsertData[] = [];
-      for (const index of map.keys()) {
+
+      map.forEach((value, index) => {
         console.log(index);
         const item = mediaUploads[index];
         data.push({
@@ -368,7 +371,8 @@ export const UploadsGalleryModal = forwardRef(
           text: '',
           status: MediaInsertStatus.READY,
         });
-      }
+      });
+
       handleMediaInsert(data);
     };
 

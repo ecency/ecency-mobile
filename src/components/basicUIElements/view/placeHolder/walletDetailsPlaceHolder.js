@@ -29,7 +29,6 @@ const WalletDetailsPlaceHolder = () => {
   const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
   const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
 
-
   return (
     <View style={styles.container}>
       <View style={styles.textWrapper}>
@@ -37,12 +36,8 @@ const WalletDetailsPlaceHolder = () => {
       </View>
       {listPlaceHolderView(color)}
     </View>
-  )
-
-}
-
-
-
+  );
+};
 
 export default WalletDetailsPlaceHolder;
 /* eslint-enable */

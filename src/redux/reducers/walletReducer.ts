@@ -95,7 +95,7 @@ const initialState: State = {
   updateTimestamp: 0,
 };
 
-export default function (state = initialState, action) {
+const walletReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case RESET_WALLET_DATA: {
@@ -148,7 +148,9 @@ export default function (state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+export default walletReducer;
 
 const ONE_HOUR_MS = 60 * 60 * 1000;
 const TEN_MIN_MS = 60 * 10 * 1000;

@@ -25,7 +25,7 @@ const initialState: State = {
   ownProfileTabs: DEFAULT_OWN_PROFILE_FILTERS,
 };
 
-export default function (state: State = initialState, action): State {
+const customTabsReducer = (state: State = initialState, action): State => {
   switch (action.type) {
     case SET_MAIN_TABS:
       return {
@@ -54,4 +54,6 @@ export default function (state: State = initialState, action): State {
     default:
       return state;
   }
-}
+};
+
+export default customTabsReducer;

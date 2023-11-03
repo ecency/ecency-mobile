@@ -105,10 +105,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     if (route.params) {
       const navigationParams = route.params;
-      hasSharedIntent = navigationParams.hasSharedIntent;
+      const { hasSharedIntent: _hasShared, draftId: _draftId } = navigationParams;
+      hasSharedIntent = _hasShared;
 
-      if (navigationParams.draftId) {
-        draftId = navigationParams.draftId;
+      if (_draftId) {
+        draftId = _draftId;
         const cachedDrafts: any = queryClient.getQueryData([QUERIES.DRAFTS.GET]);
 
         if (cachedDrafts && cachedDrafts.length) {
@@ -720,9 +721,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const meta = await extractMetadata({
         body: fields.body,
         fetchRatios: true,
-        postType: PostTypes.COMMENT
-      })
-      const jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency'])
+        postType: PostTypes.COMMENT,
+      });
+      const jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency']);
 
       await postComment(
         currentAccount,
@@ -731,7 +732,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         parentPermlink,
         permlink,
         fields.body,
-        jsonMetadata
+        jsonMetadata,
       )
         .then((response) => {
           // record user activity for points
@@ -1143,7 +1144,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={() => { }}
+        handleOnBackPress={() => {
+          console.log('cancel pressed');
+        }}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
         isDarkTheme={isDarkTheme}
