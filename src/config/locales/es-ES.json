@@ -529,7 +529,9 @@
     "invalid_url_error": "Por favor, introduzca una url válida",
     "plain": "Sin formato",
     "video": "Vídeo",
-    "image": "Imagen"
+    "image": "Imagen",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "No se encontraron Fragmentos",
