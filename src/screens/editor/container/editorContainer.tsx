@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert, AppState, AppStateStatus, NativeEventSubscription } from 'react-native';
+import { Alert, AppState, AppStateStatus, NativeEventSubscription, Platform } from 'react-native';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isArray } from 'lodash';
@@ -50,6 +50,7 @@ import { useUserActivityMutation } from '../../../providers/queries/pointQueries
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
 import { PostTypes } from '../../../constants/postTypes';
+import { postBodySummary } from '@ecency/render-helper';
 
 /*
  *            Props Name        Description                                     Value
@@ -88,6 +89,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       onLoadDraftPress: false,
       thumbUrl: '',
       shouldReblog: false,
+      postDescription: '',
     };
   }
 
@@ -195,7 +197,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>): void {
     if (
       prevState.rewardType !== this.state.rewardType ||
-      prevProps.beneficiariesMap !== this.props.beneficiariesMap
+      prevProps.beneficiariesMap !== this.props.beneficiariesMap ||
+      prevState.postDescription !== this.state.postDescription
     ) {
       // update isDraftSaved when reward type or beneficiaries are changed in post options
       this._handleFormChanged();
@@ -288,6 +291,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     if (draft.meta && draft.meta.rewardType) {
       this.setState({
         rewardType: draft.meta.rewardType,
+      });
+    }
+
+    if (draft.meta && draft.meta.description) {
+      this.setState({
+        postDescription: draft.meta.description,
       });
     }
 
@@ -399,7 +408,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
-    const { isDraftSaved, draftId, thumbUrl, isReply, rewardType } = this.state;
+    const { isDraftSaved, draftId, thumbUrl, isReply, rewardType, postDescription } = this.state;
     const { currentAccount, dispatch, intl, queryClient } = this.props;
 
     try {
@@ -415,7 +424,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
 
     const beneficiaries = this._extractBeneficiaries();
-
+    const postBodySummaryContent = postBodySummary(
+      get(fields, 'body', ''),
+      200,
+      Platform.OS as any,
+    );
+    this._handlePostDescriptionChange(postBodySummaryContent);
     try {
       if (!isDraftSaved) {
         let draftField;
@@ -442,7 +456,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           tags: draftField.tags,
           beneficiaries,
           rewardType,
+          description: postDescription ? postDescription : postBodySummaryContent,
         });
+
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
 
         // update draft is draftId is present
@@ -1091,6 +1107,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     this.setState({ rewardType: value });
   };
 
+  _handlePostDescriptionChange = (value: string) => {
+    this.setState({ postDescription: value });
+  };
+
   _handleShouldReblogChange = (value: boolean) => {
     this.setState({
       shouldReblog: value,
@@ -1131,10 +1151,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       thumbUrl,
       uploadProgress,
       rewardType,
+      postDescription,
     } = this.state;
 
     const tags = route.params?.tags;
     const paramFiles = route.params?.files;
+
     return (
       <EditorScreen
         paramFiles={paramFiles}
@@ -1174,6 +1196,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         setThumbUrl={this._handleSetThumbUrl}
         uploadProgress={uploadProgress}
         rewardType={rewardType}
+        postDescription={postDescription}
+        handlePostDescriptionChange={this._handlePostDescriptionChange}
         getBeneficiaries={this._extractBeneficiaries}
         setIsUploading={this._setIsUploading}
       />

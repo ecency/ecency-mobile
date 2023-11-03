@@ -12,6 +12,7 @@ import {
 } from '../../../components';
 import styles from './postOptionsModalStyles';
 import ThumbSelectionContent from './thumbSelectionContent';
+import PostDescription from './postDescription';
 
 const REWARD_TYPES = [
   {
@@ -39,8 +40,10 @@ interface PostOptionsModalProps {
   isEdit: boolean;
   isCommunityPost: boolean;
   rewardType: string;
+  postDescription: string;
   isUploading: boolean;
   handleRewardChange: (rewardType: string) => void;
+  handlePostDescriptionChange: (value: string) => void;
   handleThumbSelection: (url: string) => void;
   handleScheduleChange: (datetime: string | null) => void;
   handleShouldReblogChange: (shouldReblog: boolean) => void;
@@ -56,12 +59,14 @@ const PostOptionsModal = forwardRef(
       isEdit,
       isCommunityPost,
       rewardType,
+      postDescription,
       isUploading,
       handleRewardChange,
       handleThumbSelection,
       handleScheduleChange,
       handleShouldReblogChange,
       handleFormUpdate,
+      handlePostDescriptionChange,
     }: PostOptionsModalProps,
     ref,
   ) => {
@@ -193,6 +198,10 @@ const PostOptionsModal = forwardRef(
               thumbUrl={thumbUrl}
               isUploading={isUploading}
               onThumbSelection={_handleThumbIndexSelection}
+            />
+            <PostDescription
+              postDescription={postDescription}
+              handlePostDescriptionChange={handlePostDescriptionChange}
             />
 
             {!isEdit && (

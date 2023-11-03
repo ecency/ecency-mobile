@@ -234,6 +234,11 @@ class EditorScreen extends Component {
     handleRewardChange(value);
   };
 
+  _handlePostDescriptionChange = (value: string) => {
+    const { handlePostDescriptionChange } = this.props as any;
+    handlePostDescriptionChange(value);
+  };
+
   _handleSettingsPress = () => {
     if (this.postOptionsModalRef) {
       this.postOptionsModalRef.show();
@@ -260,7 +265,8 @@ class EditorScreen extends Component {
   };
 
   _handleFormUpdate = async (componentID, content) => {
-    const { handleFormChanged, thumbUrl, rewardType, getBeneficiaries } = this.props;
+    const { handleFormChanged, thumbUrl, rewardType, getBeneficiaries, postDescription } =
+      this.props;
     const { fields: _fields } = this.state;
     const fields = { ..._fields };
 
@@ -282,6 +288,7 @@ class EditorScreen extends Component {
       tags: fields.tags,
       beneficiaries: getBeneficiaries(),
       rewardType,
+      description: postDescription,
     });
     const jsonMeta = makeJsonMetadata(meta, fields.tags);
     fields.meta = jsonMeta;
@@ -414,6 +421,7 @@ class EditorScreen extends Component {
       thumbUrl,
       uploadProgress,
       rewardType,
+      postDescription,
       setIsUploading,
     } = this.props;
 
@@ -526,6 +534,8 @@ class EditorScreen extends Component {
           isEdit={isEdit}
           isCommunityPost={selectedCommunity !== null}
           rewardType={rewardType}
+          postDescription={postDescription}
+          handlePostDescriptionChange={this._handlePostDescriptionChange}
           isUploading={isUploading}
           handleThumbSelection={this._handleOnThumbSelection}
           handleRewardChange={this._handleRewardChange}
