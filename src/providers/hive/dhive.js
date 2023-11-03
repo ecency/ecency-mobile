@@ -18,6 +18,7 @@ import { createHash } from 'react-native-crypto';
 import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
+import * as hiveuri from 'hive-uri';
 import { getServer, getCache, setCache } from '../../realm/realm';
 
 // Utils
@@ -44,7 +45,7 @@ import bugsnagInstance from '../../config/bugsnag';
 import bugsnapInstance from '../../config/bugsnag';
 import TransferTypes from '../../constants/transferTypes';
 
-const hiveuri = require('hive-uri');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
 const DEFAULT_SERVER = SERVER_LIST;
@@ -2145,7 +2146,6 @@ export const resolveTransaction = async (parsedTx, parsedParams, signer) => {
 
   // resolve the decoded tx and params to a signable tx
   const { tx } = hiveuri.resolveTransaction(parsedTx, parsedParams, {
-    /* eslint-disable no-bitwise */
     ref_block_num: props.head_block_number & 0xffff,
     ref_block_prefix: Buffer.from(props.head_block_id, 'hex').readUInt32LE(4),
     expiration: new Date(Date.now() + client.broadcast.expireTime + EXPIRE_TIME)

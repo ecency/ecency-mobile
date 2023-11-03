@@ -37,7 +37,6 @@ class NotificationView extends PureComponent {
         { key: 'mentions', value: 'MENTIONS' },
         // { key: 'reblogs', value: 'REBLOGS' },
       ],
-      selectedFilter: 'activities',
       selectedIndex: 0,
     };
     this.listRef = React.createRef();
@@ -53,7 +52,7 @@ class NotificationView extends PureComponent {
 
     const _selectedFilter = filters[index].key;
 
-    this.setState({ selectedFilter: _selectedFilter, selectedIndex: index, contentOffset });
+    this.setState({ selectedIndex: index, contentOffset });
     await changeSelectedFilter(_selectedFilter, index);
     this.listRef.current?.scrollToOffset({ x: 0, y: 0, animated: false });
   };
