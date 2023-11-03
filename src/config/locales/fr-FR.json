@@ -529,7 +529,9 @@
     "invalid_url_error": "Merci d'entrer une url valide",
     "plain": "Plain",
     "video": "Vidéo",
-    "image": "Image"
+    "image": "Image",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
