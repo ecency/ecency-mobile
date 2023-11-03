@@ -78,7 +78,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   useEffect(() => {
     const recommendeds = [...recommendedCommunities];
 
-    Object.keys(subscribingCommunities).map((communityId) => {
+    Object.keys(subscribingCommunities).forEach((communityId) => {
       if (!subscribingCommunities[communityId].loading) {
         if (!subscribingCommunities[communityId].error) {
           if (subscribingCommunities[communityId].isSubscribed) {
@@ -104,7 +104,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   useEffect(() => {
     const recommendeds = [...recommendedUsers];
 
-    Object.keys(followingUsers).map((following) => {
+    Object.keys(followingUsers).forEach((following) => {
       if (!followingUsers[following].loading) {
         if (!followingUsers[following].error) {
           if (followingUsers[following].isFollowing) {
@@ -262,9 +262,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
                 rightTextStyle={[styles.followText, item.isFollowing && styles.unfollowText]}
                 isLoggedIn={isLoggedIn}
                 isFollowing={item.isFollowing}
-                isLoadingRightAction={
-                  followingUsers.hasOwnProperty(item._id) && followingUsers[item._id].loading
-                }
+                isLoadingRightAction={followingUsers[item._id]?.loading}
                 onPressRightText={_handleFollowUserButtonPress}
                 handleOnPress={(username) =>
                   navigation.navigate({
@@ -311,10 +309,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
                 }
                 handleSubscribeButtonPress={_handleSubscribeCommunityButtonPress}
                 isSubscribed={item.isSubscribed}
-                isLoadingRightAction={
-                  subscribingCommunities.hasOwnProperty(item.name) &&
-                  subscribingCommunities[item.name].loading
-                }
+                isLoadingRightAction={subscribingCommunities[item.name]?.loading}
                 isLoggedIn={isLoggedIn}
               />
             )}

@@ -35,7 +35,6 @@ export const InsertLinkModal = forwardRef(
     const [label, setLabel] = useState('');
     const [url, setUrl] = useState('');
     const [isUrlValid, setIsUrlValid] = useState(true);
-    const [selectedText, setSelectedText] = useState('');
     const [formattedText, setFormattedText] = useState('');
     const [selection, setSelection] = useState({ start: 0, end: 0 });
     const [selectedUrlType, setSelectedUrlType] = useState(0);
@@ -47,7 +46,6 @@ export const InsertLinkModal = forwardRef(
     useImperativeHandle(ref, () => ({
       showModal: async ({ selectedText, selection }) => {
         if (selectedText) {
-          setSelectedText(selectedText);
           setSelection(selection);
           if (selection && selection.start !== selection.end) {
             if (isStringWebLink(selectedText)) {
@@ -97,7 +95,7 @@ export const InsertLinkModal = forwardRef(
       }
     };
 
-    const _setFormattedTextAndSelection = ({ selection, text }) => {
+    const _setFormattedTextAndSelection = ({ text }) => {
       setPreviewBody(renderPostBody(text, true, Platform.OS !== 'ios'));
       setFormattedText(text);
     };
@@ -117,7 +115,6 @@ export const InsertLinkModal = forwardRef(
       setSelectedUrlType(0);
       setPreviewBody('');
       setIsUrlValid(true);
-      setSelectedText('');
       setFormattedText('');
       handleOnSheetClose();
     };

@@ -28,9 +28,8 @@ import ROUTES from '../../constants/routeNames';
 const hiveuri = require('hive-uri');
 
 const screenHeight = getWindowDimensions().height;
-interface QRModalProps {}
 
-export const QRModal = ({}: QRModalProps) => {
+export const QRModal = () => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
   const isVisibleQRModal = useAppSelector((state) => state.ui.isVisibleQRModal);

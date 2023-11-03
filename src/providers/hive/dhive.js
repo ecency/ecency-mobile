@@ -410,50 +410,49 @@ export const getUser = async (user, loggedIn = true) => {
 
 const cache = {};
 const patt = /hive-\d\w+/g;
-export const getCommunity = async (tag, observer = '') =>
-  new Promise(async (resolve, reject) => {
+export const getCommunity = async (tag, observer = '') => {
+  try {
+    const community = await client.call('bridge', 'get_community', {
+      name: tag,
+      observer,
+    });
+    if (community) {
+      return community;
+    } else {
+      return {};
+    }
+  } catch (err) {
+    bugsnagInstance.notify('failed to get community', err);
+    throw err;
+  }
+};
+
+export const getCommunityTitle = async (tag) => {
+  if (cache[tag] !== undefined) {
+    return cache[tag];
+  }
+  const mm = tag.match(patt);
+  if (mm && mm.length > 0) {
     try {
       const community = await client.call('bridge', 'get_community', {
         name: tag,
-        observer,
+        observer: '',
       });
       if (community) {
-        resolve(community);
+        const { title } = community;
+        cache[tag] = title;
+        return title;
       } else {
-        resolve({});
+        return tag;
       }
-    } catch (error) {
-      reject(error);
+    } catch (err) {
+      bugsnagInstance.notify('failed to get community title');
+      throw err;
     }
-  });
-
-export const getCommunityTitle = async (tag) =>
-  new Promise(async (resolve, reject) => {
-    if (cache[tag] !== undefined) {
-      resolve(cache[tag]);
-      return;
-    }
-    const mm = tag.match(patt);
-    if (mm && mm.length > 0) {
-      try {
-        const community = await client.call('bridge', 'get_community', {
-          name: tag,
-          observer: '',
-        });
-        if (community) {
-          const { title } = community;
-          cache[tag] = title;
-          resolve(title);
-        } else {
-          resolve(tag);
-        }
-      } catch (error) {
-        reject(error);
-      }
-    }
-
-    resolve(tag);
-  });
+  } else {
+    return tag;
+  }
+};
 
 export const getCommunities = async (
   last = '',
@@ -461,43 +460,43 @@ export const getCommunities = async (
   query = null,
   sort = 'rank',
   observer = '',
-) =>
-  new Promise(async (resolve, reject) => {
-    try {
-      console.log('Getting communities', query);
-      const data = await client.call('bridge', 'list_communities', {
-        last,
-        limit,
-        query,
-        sort,
-        observer,
-      });
-      if (data) {
-        resolve(data);
-      } else {
-        resolve({});
-      }
-    } catch (error) {
-      console.log(error);
-      resolve({});
+) => {
+  try {
+    console.log('Getting communities', query);
+    const data = await client.call('bridge', 'list_communities', {
+      last,
+      limit,
+      query,
+      sort,
+      observer,
+    });
+    if (data) {
+      return data;
+    } else {
+      return {};
     }
-  });
+  } catch (error) {
+    console.warn('failed to get communities', error);
+    bugsnagInstance.notify('failed to get communities', error);
+    return {};
+  }
+};
 
-export const getSubscriptions = (account = '') =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const data = await client.call('bridge', 'list_all_subscriptions', {
-        account,
-      });
-      if (data) {
-        resolve(data);
-      } else {
-        resolve({});
-      }
-    } catch (error) {
-      reject(error);
+export const getSubscriptions = async (account = '') => {
+  try {
+    const data = await client.call('bridge', 'list_all_subscriptions', {
+      account,
+    });
+    if (data) {
+      return data;
+    } else {
+      return {};
     }
-  });
+  } catch (error) {
+    bugsnagInstance.notify('failed to get subscriptions', error);
+    throw error;
+  }
+};
 
 // TODO: Move to utils folder
 export const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) =>
@@ -2133,7 +2132,6 @@ export const getActiveKey = (local, pin) => {
 };
 
 export const votingPower = (account) => {
-  // @ts-ignore "Account" is compatible with dhive's "ExtendedAccount"
   const calc = client.rc.calculateVPMana(account);
   const { percentage } = calc;
 

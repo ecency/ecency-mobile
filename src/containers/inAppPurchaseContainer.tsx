@@ -166,6 +166,7 @@ class InAppPurchaseContainer extends Component {
 
         if (_purchase.productId !== '999accounts') {
           // consume item using finishTransactionx
+          // eslint-disable-next-line no-await-in-loop
           await this._consumePurchase(purchases[i]);
         }
       }

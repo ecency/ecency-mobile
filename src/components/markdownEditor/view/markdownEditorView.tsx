@@ -179,14 +179,14 @@ const MarkdownEditorView = ({
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
   };
 
-  const _onApplyUsername = (username) => {
-    applyUsername({
-      text: bodyTextRef.current,
-      selection: bodySelectionRef.current,
-      setTextAndSelection: _setTextAndSelection,
-      username,
-    });
-  };
+  // const _onApplyUsername = (username) => {
+  //   applyUsername({
+  //     text: bodyTextRef.current,
+  //     selection: bodySelectionRef.current,
+  //     setTextAndSelection: _setTextAndSelection,
+  //     username,
+  //   });
+  // };
 
   const _debouncedOnTextChange = useCallback(
     debounce(() => {

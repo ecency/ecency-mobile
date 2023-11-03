@@ -23,7 +23,7 @@ interface ActivitiesListProps {
   onActionPress: (transferType: string, extraParams?: any) => void;
 }
 
-const ActivitiesList = ({
+export const ActivitiesList = ({
   header,
   loading,
   refreshing,
@@ -129,5 +129,3 @@ const ActivitiesList = ({
     />
   );
 };
-
-export default ActivitiesList;

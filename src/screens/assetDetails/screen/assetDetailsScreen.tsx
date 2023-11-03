@@ -5,7 +5,7 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { BasicHeader } from '../../../components';
 import { CoinSummary } from '../children';
 import styles from './screen.styles';
-import ActivitiesList from '../children/activitiesList';
+import { ActivitiesList } from '../children';
 import { CoinActivity, CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
 import { useAppSelector } from '../../../hooks';
 import RootNavigation from '../../../navigation/rootNavigation';
