@@ -101,7 +101,6 @@ const CommentBody = ({
     }
   };
 
-
   const _handleOnUserPress = (username) => {
     if (handleOnUserPress) {
       handleOnUserPress(username);

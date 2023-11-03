@@ -16,6 +16,8 @@ import {
   withdrawVesting,
   delegateVestingShares,
   setWithdrawVestingRoute,
+  recurrentTransferToken,
+  getRecurrentTransfers,
 } from '../providers/hive/dhive';
 import { toastNotification } from '../redux/actions/uiAction';
 import { getUserDataWithUsername } from '../realm/realm';
@@ -63,6 +65,7 @@ class TransferContainer extends Component {
       spkMarkets: [],
       initialAmount: props.route.params?.initialAmount,
       initialMemo: props.route.params?.initialMemo,
+      recurrentTransfers: [],
     };
   }
 
@@ -73,6 +76,8 @@ class TransferContainer extends Component {
     } = this.props;
 
     this.fetchBalance(name);
+
+    this._fetchRecurrentTransfers(name);
 
     if (this.state.transferType === TransferTypes.DELEGATE_SPK) {
       this._fetchSpkMarkets();
@@ -114,7 +119,8 @@ class TransferContainer extends Component {
                 balance = tokenBalance.stake;
                 break;
               default:
-                balance = tokenBalance.balance;
+                const { balance: _balance } = tokenBalance;
+                balance = _balance;
                 break;
             }
           }
@@ -181,6 +187,16 @@ class TransferContainer extends Component {
     return validUsers;
   };
 
+  _fetchRecurrentTransfers = async (username) => {
+    const recTransfers = await getRecurrentTransfers(username);
+
+    this.setState({
+      recurrentTransfers: recTransfers,
+    });
+
+    return recTransfers;
+  };
+
   _delayedRefreshCoinsData = () => {
     const { dispatch } = this.props;
     setTimeout(() => {
@@ -188,7 +204,14 @@ class TransferContainer extends Component {
     }, 3000);
   };
 
-  _transferToAccount = async (from, destination, amount, memo) => {
+  _transferToAccount = async (
+    from,
+    destination,
+    amount,
+    memo,
+    recurrence = null,
+    executions = 0,
+  ) => {
     const { pinCode, navigation, dispatch, intl, route } = this.props;
     let { currentAccount } = this.props;
     const { selectedAccount } = this.state;
@@ -205,6 +228,11 @@ class TransferContainer extends Component {
       fundType,
     };
 
+    if (recurrence && executions) {
+      data.recurrence = +recurrence;
+      data.executions = +executions;
+    }
+
     if (countDecimals(Number(data.amount)) < 3) {
       data.amount = Number(data.amount).toFixed(3);
     }
@@ -213,6 +241,9 @@ class TransferContainer extends Component {
     switch (transferType) {
       case 'transfer_token':
         func = transferToken;
+        break;
+      case TransferTypes.RECURRENT_TRANSFER:
+        func = recurrentTransferToken;
         break;
       case 'purchase_estm':
         func = transferToken;
@@ -288,7 +319,7 @@ class TransferContainer extends Component {
     }
     if (!currentAccount.local) {
       const realmData = await getUserDataWithUsername(currentAccount.name);
-      currentAccount.local = realmData[0];
+      [currentAccount.local] = realmData;
     }
 
     return func(currentAccount, pinCode, data)
@@ -344,6 +375,7 @@ class TransferContainer extends Component {
       spkMarkets,
       initialAmount,
       initialMemo,
+      recurrentTransfers,
     } = this.state;
 
     const transferType = route.params?.transferType ?? '';
@@ -371,6 +403,8 @@ class TransferContainer extends Component {
         setWithdrawVestingRoute: this._setWithdrawVestingRoute,
         initialAmount,
         initialMemo,
+        fetchRecurrentTransfers: this._fetchRecurrentTransfers,
+        recurrentTransfers,
       })
     );
   }

@@ -24,7 +24,7 @@ class PinAnimatedInput extends Component {
   }
 
   _startLoadingAnimation = () => {
-    [...Array(4)].map((item, index) => {
+    [...Array(4)].forEach((item, index) => {
       this.dots[index].setValue(0);
     });
     Animated.sequence([
@@ -44,7 +44,7 @@ class PinAnimatedInput extends Component {
   };
 
   _stopLoadingAnimation = () => {
-    [...Array(4)].map((item, index) => {
+    [...Array(4)].forEach((item, index) => {
       this.dots[index].stopAnimation();
     });
   };
@@ -64,7 +64,7 @@ class PinAnimatedInput extends Component {
     const { pin } = this.props;
     const marginBottom = [];
 
-    [...Array(4)].map((item, index) => {
+    [...Array(4)].forEach((item, index) => {
       marginBottom[index] = this.dots[index].interpolate({
         inputRange: [0, 0.5, 1],
         outputRange: [0, 20, 0],

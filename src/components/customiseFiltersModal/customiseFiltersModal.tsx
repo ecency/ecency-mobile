@@ -107,34 +107,32 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
 
   const _renderOptions = () => {
     const options = [];
-    for (const key in filterMap) {
-      if (filterMap.hasOwnProperty(key)) {
-        const isSelected = selectedFilters.has(key);
+    Object.keys(filterMap).forEach((key) => {
+      const isSelected = selectedFilters.has(key);
 
-        const _onPress = () => {
-          if (isSelected) {
-            selectedFilters.delete(key);
-          } else {
-            const index = getFilterIndex(filterMap, key);
-            selectedFilters.set(key, index);
-          }
-          setSelectedFilters(new Map([...selectedFilters]));
-        };
+      const _onPress = () => {
+        if (isSelected) {
+          selectedFilters.delete(key);
+        } else {
+          const index = getFilterIndex(filterMap, key);
+          selectedFilters.set(key, index);
+        }
+        setSelectedFilters(new Map([...selectedFilters]));
+      };
 
-        options.push(
-          <TouchableOpacity key={key} onPress={_onPress}>
-            <View style={styles.checkView}>
-              <Text style={styles.informationText}>
-                {intl.formatMessage({
-                  id: filterMap[key],
-                })}
-              </Text>
-              <CheckBox locked isChecked={isSelected} />
-            </View>
-          </TouchableOpacity>,
-        );
-      }
-    }
+      options.push(
+        <TouchableOpacity key={key} onPress={_onPress}>
+          <View style={styles.checkView}>
+            <Text style={styles.informationText}>
+              {intl.formatMessage({
+                id: filterMap[key],
+              })}
+            </Text>
+            <CheckBox locked isChecked={isSelected} />
+          </View>
+        </TouchableOpacity>,
+      );
+    });
 
     return <View style={styles.textContainer}>{options}</View>;
   };

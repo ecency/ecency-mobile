@@ -30,6 +30,8 @@ const Transfer = ({ navigation, route }) => (
       spkMarkets,
       initialAmount,
       initialMemo,
+      recurrentTransfers,
+      fetchRecurrentTransfers,
     }) => {
       switch (transferType) {
         case 'delegate':
@@ -98,6 +100,8 @@ const Transfer = ({ navigation, route }) => (
               referredUsername={referredUsername || ''}
               initialAmount={initialAmount || ''}
               initialMemo={initialMemo || ''}
+              recurrentTransfers={recurrentTransfers || []}
+              fetchRecurrentTransfers={fetchRecurrentTransfers}
             />
           );
       }

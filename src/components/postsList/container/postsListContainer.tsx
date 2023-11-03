@@ -7,13 +7,7 @@ import React, {
   Fragment,
   useMemo,
 } from 'react';
-import {
-  FlatListProps,
-  FlatList,
-  RefreshControl,
-  ActivityIndicator,
-  View,
-} from 'react-native';
+import { FlatListProps, RefreshControl, ActivityIndicator, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -150,8 +144,7 @@ const postsListContainer = (
 
   const _updateReblogsCollection = async () => {
     // improve routine using list or promises
-    for (const i in data) {
-      const _item = data[i];
+    data.forEach(async (_item) => {
       const _postPath = _item.author + _item.permlink;
       if (!reblogsCollectionRef.current[_postPath]) {
         try {
@@ -165,7 +158,7 @@ const postsListContainer = (
           reblogsCollectionRef.current = { ...reblogsCollectionRef.current, [_postPath]: [] };
         }
       }
-    }
+    });
   };
 
   const _setImageRatioInMap = (mapKey: string, height: number) => {

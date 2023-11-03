@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import styles from './postCardPlaceHolderStyles';
 // TODO: make container for place holder wrapper after alpha
 const PostCardPlaceHolder = () => {
-  const isDarkTheme = useSelector((state) => state.application.isDarkTheme)
+  const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
   const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
   return (
     <View style={styles.container}>
@@ -25,6 +25,5 @@ const PostCardPlaceHolder = () => {
       </View>
     </View>
   );
-
 };
 export default PostCardPlaceHolder;

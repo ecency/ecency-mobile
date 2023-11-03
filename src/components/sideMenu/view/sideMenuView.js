@@ -32,7 +32,7 @@ import styles from './sideMenuStyles';
 import { showActionModal, toggleQRModal } from '../../../redux/actions/uiAction';
 
 // Images
-const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
+import SIDE_MENU_BACKGROUND from '../../../assets/side_menu_background.png';
 
 const SideMenuView = ({
   currentAccount,
@@ -78,7 +78,9 @@ const SideMenuView = ({
           buttons: [
             {
               text: intl.formatMessage({ id: 'side_menu.cancel' }),
-              onPress: () => {},
+              onPress: () => {
+                console.log('cancel pressed');
+              },
             },
             {
               text: intl.formatMessage({ id: 'side_menu.logout' }),

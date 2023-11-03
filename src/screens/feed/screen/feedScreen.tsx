@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import get from 'lodash/get';
 
 // Components

@@ -10,7 +10,7 @@ import { EcencyUser, UserPoint } from './ecency.types';
  * @param tx transaction id
  * @returns
  */
-export const userActivity = async (ty: number, tx: string = '', bl: string | number = '') => {
+export const userActivity = async (ty: number, tx = '', bl: string | number = '') => {
   try {
     const data: {
       ty: number;

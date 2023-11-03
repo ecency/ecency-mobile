@@ -151,7 +151,7 @@ export const daysTillDate = (dateObj) => {
  *
  * */
 export const dateToFormatted = (d, format = 'LLLL') => {
-  const isTimeZoned = d.indexOf('.') !== -1 || d.indexOf('+') !== -1 ? d : `${d}.000Z`;
+  const isTimeZoned = d?.indexOf('.') !== -1 || d?.indexOf('+') !== -1 ? d : `${d}.000Z`;
   const dm = moment(new Date(isTimeZoned));
   return dm.format(format);
 };
@@ -159,14 +159,14 @@ export const dateToFormatted = (d, format = 'LLLL') => {
 /**
  * calculates hours difference between two dates, negative value will mean first date
  * is from past time
- * @param {Base date from whcich date2 will be subtracted} date1 
- * @param {Date to be subtracted} date2 
+ * @param {Base date from whcich date2 will be subtracted} date1
+ * @param {Date to be subtracted} date2
  * @returns number of hours difference between two dates
  */
 export const getHoursDifferntial = (date1, date2) => {
   if (date1 instanceof Date && date2 instanceof Date) {
-    return (date1 - date2) / (60 * 60 * 1000)
+    return (date1 - date2) / (60 * 60 * 1000);
   }
 
   return 0;
-}
+};

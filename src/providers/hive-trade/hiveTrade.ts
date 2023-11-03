@@ -39,7 +39,7 @@ export const limitOrderCreate = (
 
     let expiration: any = new Date(Date.now());
     expiration.setDate(expiration.getDate() + 27);
-    expiration = expiration.toISOString().split('.')[0];
+    [expiration] = expiration.toISOString().split('.');
 
     const data = getLimitOrderCreateOpData(
       currentAccount.username,
@@ -70,13 +70,7 @@ export const limitOrderCreate = (
   );
 };
 
-
-export const limitOrderCancel = (
-  currentAccount: any,
-  pinHash:string,
-  orderid: number
-) => {
-
+export const limitOrderCancel = (currentAccount: any, pinHash: string, orderid: number) => {
   const digitPinCode = getDigitPinCode(pinHash);
   const key = getAnyPrivateKey(
     {
@@ -87,13 +81,13 @@ export const limitOrderCancel = (
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
-    const ops:Operation[] = [
+    const ops: Operation[] = [
       [
-        "limit_order_cancel",
+        'limit_order_cancel',
         {
           owner: currentAccount.username,
-          orderid: orderid
-        }
+          orderid,
+        },
       ],
     ];
 
@@ -112,8 +106,6 @@ export const limitOrderCancel = (
     new Error('Check private key permission! Required private active key or above.'),
   );
 };
-
-
 
 export const generateHsLimitOrderCreatePath = (
   currentAccount: any,
@@ -192,7 +184,7 @@ export const fetchHiveMarketRate = async (asset: MarketAsset): Promise<number> =
 const getLimitOrderCreateOpData = (username, amountToSell, minToReceive, orderType, idPrefix) => {
   let expiration: any = new Date(Date.now());
   expiration.setDate(expiration.getDate() + 27);
-  expiration = expiration.toISOString().split('.')[0];
+  [expiration] = expiration.toISOString().split('.');
 
   return {
     owner: username,

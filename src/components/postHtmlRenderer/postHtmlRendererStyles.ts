@@ -87,7 +87,7 @@ export default EStyleSheet.create({
     color: '$primaryRed',
   } as TextStyle,
   textJustify: {
-    textAlign: Platform.select({ ios: 'justify', android: 'auto' }), //justify with selectable on android causes ends of text getting clipped,
+    textAlign: Platform.select({ ios: 'justify', android: 'auto' }), // justify with selectable on android causes ends of text getting clipped,
     letterSpacing: 0,
   } as TextStyle,
   revealButton: {

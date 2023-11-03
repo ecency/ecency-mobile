@@ -428,7 +428,9 @@ class ProfileContainer extends Component {
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {},
+            onPress: () => {
+              console.log('cancel pressed');
+            },
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
@@ -484,7 +486,6 @@ class ProfileContainer extends Component {
 
     if (isLoggedIn && !nextProps.isLoggedIn) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
-      return;
     }
   }
 

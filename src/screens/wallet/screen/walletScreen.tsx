@@ -4,7 +4,7 @@ import { SafeAreaView, View, Text, AppState, AppStateStatus } from 'react-native
 import { isArray } from 'lodash';
 
 // Containers
-import {RefreshControl, FlatList, gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { RefreshControl, FlatList, gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { useIntl } from 'react-intl';
 import moment from 'moment';
 import { LoggedInContainer } from '../../../containers';
@@ -18,7 +18,7 @@ import styles from './walletScreenStyles';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { AssetCard, ManageAssetsBtn } from '../children';
-import { ChartInterval, fetchMarketChart } from '../../../providers/coingecko/coingecko';
+import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import ROUTES from '../../../constants/routeNames';
 import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetailsScreen';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
@@ -39,10 +39,10 @@ const WalletScreen = ({ navigation }) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
-  //refs
+  // refs
   const appState = useRef(AppState.currentState);
 
-  //redux
+  // redux
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const currency = useAppSelector((state) => state.application.currency);
 
@@ -51,15 +51,15 @@ const WalletScreen = ({ navigation }) => {
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
-  //queries
+  // queries
   const walletQuery = walletQueries.useAssetsQuery();
   const unclaimedRewardsQuery = walletQueries.useUnclaimedRewardsQuery();
   const claimRewardsMutation = walletQueries.useClaimRewardsMutation();
 
-  //state
+  // state
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  //side-effects
+  // side-effects
   useEffect(() => {
     const appStateSub = AppState.addEventListener('change', _handleAppStateChange);
 
@@ -84,9 +84,9 @@ const WalletScreen = ({ navigation }) => {
     _fetchPriceHistory();
   }, [selectedCoins]);
 
-  //actions
+  // actions
   const populateSelectedAssets = (tokensArr) => {
-    return tokensArr.map(({symbol, type}) => ({
+    return tokensArr.map(({ symbol, type }) => ({
       id: symbol,
       symbol,
       isEngine: type === 'ENGINE',
@@ -101,15 +101,12 @@ const WalletScreen = ({ navigation }) => {
     );
 
     if (isArray(currentAccount.about?.profile?.tokens)) {
-      const _selectedAssets = populateSelectedAssets(
-        currentAccount.about.profile.tokens,
-      );
+      const _selectedAssets = populateSelectedAssets(currentAccount.about.profile.tokens);
       // check if current selected engine tokens differ from profile json meta
       if (JSON.stringify(_selectedAssets) !== JSON.stringify(currSelectedEngineTokens)) {
         dispatch(setSelectedCoins([...DEFAULT_ASSETS, ..._selectedAssets]));
       }
     }
-
   };
 
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {
@@ -132,22 +129,15 @@ const WalletScreen = ({ navigation }) => {
       const curTime = new Date().getTime();
 
       if (!token.notCrypto && curTime > expiresAt) {
-
         let priceData: number[] = [];
 
         if (token.isEngine) {
           const marketData = await fetchEngineMarketData(token.id);
           priceData = marketData.map((data) => data.close);
-
-        } else if(token.isSpk){
-          //TODO: add request to fetch chart data if available
-
+        } else if (token.isSpk) {
+          // TODO: add request to fetch chart data if available
         } else {
-          const marketChart = await fetchMarketChart(
-            token.id,
-            currency.currency,
-            CHART_DAYS_RANGE,
-          );
+          const marketChart = await fetchMarketChart(token.id, currency.currency, CHART_DAYS_RANGE);
           priceData = marketChart.prices.map((item) => item.yValue);
         }
 
@@ -166,14 +156,13 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _claimRewards = (assetId: string) => {
-    //claim using mutation;
+    // claim using mutation;
     claimRewardsMutation.mutate({ assetId });
   };
 
   const _showAssetsSelectModal = () => {
-    navigation.navigate(ROUTES.MODALS.ASSETS_SELECT)
+    navigation.navigate(ROUTES.MODALS.ASSETS_SELECT);
   };
-
 
   const _renderItem = ({ item, index }: { item: CoinBase; index: number }) => {
     const coinData: CoinData = coinsData[item.id];

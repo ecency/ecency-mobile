@@ -34,7 +34,6 @@ const HeaderContainer = ({ selectedUser, isReverse, handleOnBackPress, hideUser,
   };
 
   return (
-
     <AccountContainer>
       {({ currentAccount, isLoggedIn, isLoginDone }) => {
         const _user = isReverse && selectedUser ? selectedUser : currentAccount;
@@ -58,7 +57,6 @@ const HeaderContainer = ({ selectedUser, isReverse, handleOnBackPress, hideUser,
         );
       }}
     </AccountContainer>
-
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { View, Text, ActivityIndicator, ViewStyle } from 'react-native';
+import { View, Text, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { MainButton, Icon } from '../../../components';
 import styles from '../styles/claimButton.styles';
@@ -8,7 +8,6 @@ interface ClaimButtonProps {
   title: string;
   isLoading?: boolean;
   isClaiming?: boolean;
-  isClaimExpected?: boolean;
   isDisabled?: boolean;
   containerStyle: ViewStyle;
   onPress: () => void;

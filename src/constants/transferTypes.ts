@@ -12,6 +12,7 @@ const TransferTypes = {
   POWER_DOWN: 'power_down',
   ADDRESS_VIEW: 'address_view',
   DELEGATE_VESTING_SHARES: 'delegate_vesting_shares',
+  RECURRENT_TRANSFER: 'recurrent_transfer',
 
   // Engine Transfer types
   WITHDRAW_VESTING: 'withdraw_vesting',

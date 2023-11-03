@@ -12,45 +12,45 @@ interface WritePostButtonProps {
   onPress: () => void;
 }
 
-export const WritePostButton = forwardRef(({ placeholderId: placeholder, onPress }: WritePostButtonProps, ref) => {
-  const intl = useIntl();
+export const WritePostButton = forwardRef(
+  ({ placeholderId: placeholder, onPress }: WritePostButtonProps, ref) => {
+    const intl = useIntl();
 
-  const animatedContainer = useRef<AnimatedView>();
+    const animatedContainer = useRef<AnimatedView>();
 
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+    const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+    const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
-  useImperativeHandle(ref, () => ({
-    bounce: () => {
-      console.log('bouncing');
-      if (animatedContainer.current) {
-        animatedContainer.current.swing(1000);
+    useImperativeHandle(ref, () => ({
+      bounce: () => {
+        console.log('bouncing');
+        if (animatedContainer.current) {
+          animatedContainer.current.swing(1000);
+        }
+      },
+    }));
+
+    const _onPress = () => {
+      if (!isLoggedIn) {
+        showLoginAlert({ intl });
+        return;
       }
-    },
-  }));
+      if (onPress) {
+        onPress();
+      }
+    };
 
-  const _onPress = () => {
-    if (!isLoggedIn) {
-      showLoginAlert({ intl });
-      return;
-    }
-    if (onPress) {
-      onPress();
-    }
-  };
-
-  return (
-    <AnimatedView ref={animatedContainer}>
-      <TouchableOpacity onPress={_onPress}>
-        <View style={styles.container}>
-          <UserAvatar username={currentAccount.username} />
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputPlaceholder}>
-              {intl.formatMessage({ id: placeholder })}
-            </Text>
+    return (
+      <AnimatedView ref={animatedContainer}>
+        <TouchableOpacity onPress={_onPress}>
+          <View style={styles.container}>
+            <UserAvatar username={currentAccount.username} />
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputPlaceholder}>{intl.formatMessage({ id: placeholder })}</Text>
+            </View>
           </View>
-        </View>
-      </TouchableOpacity>
-    </AnimatedView>
-  );
-});
+        </TouchableOpacity>
+      </AnimatedView>
+    );
+  },
+);

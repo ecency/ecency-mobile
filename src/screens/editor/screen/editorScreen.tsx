@@ -9,7 +9,6 @@ import { extractMetadata, getWordsCount, makeJsonMetadata } from '../../../utils
 // Components
 import {
   BasicHeader,
-  PostForm,
   MarkdownEditor,
   SelectCommunityAreaView,
   SelectCommunityModalContainer,
@@ -43,7 +42,6 @@ class EditorScreen extends Component {
       isFormValid: false,
       isPreviewActive: false,
       wordsCount: null,
-      isRemoveTag: false,
       fields: {
         title: (props.draftPost && props.draftPost.title) || '',
         body: (props.draftPost && props.draftPost.body) || '',
@@ -74,13 +72,6 @@ class EditorScreen extends Component {
     }
   }
 
-  componentWillUnmount() {
-    const { isEdit } = this.props;
-    if (!isEdit) {
-      this._saveDraftToDB();
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const { isUploadingProp, communityProp } = this.state;
     if (prevState.isUploadingProp !== isUploadingProp) {
@@ -90,6 +81,13 @@ class EditorScreen extends Component {
     if (communityProp?.length > 0 && prevState.communityProp !== communityProp) {
       this._getCommunity(communityProp[0]);
       this._handleOnTagAdded(communityProp);
+    }
+  }
+
+  componentWillUnmount() {
+    const { isEdit } = this.props;
+    if (!isEdit) {
+      this._saveDraftToDB();
     }
   }
 
@@ -142,7 +140,6 @@ class EditorScreen extends Component {
         tags: [],
         isValid: false,
       },
-      isRemoveTag: true,
     });
 
     if (initialEditor) {
@@ -181,7 +178,9 @@ class EditorScreen extends Component {
         },
         {
           text: intl.formatMessage({ id: 'alert.cancel' }),
-          onPress: () => {},
+          onPress: () => {
+            console.log('cancel pressed');
+          },
           style: 'cancel',
         },
       ]);
@@ -326,7 +325,7 @@ class EditorScreen extends Component {
     const { fields: _fields } = this.state;
     const __tags = tags; // .map((t) => t.replace(/([^a-z0-9-]+)/gi, '').toLowerCase());
     const __fields = { ..._fields, tags: __tags };
-    this.setState({ fields: __fields, isRemoveTag: false }, () => {
+    this.setState({ fields: __fields }, () => {
       this._handleFormUpdate('tag-area', __fields.tags);
     });
   };

@@ -20,7 +20,6 @@ const NotificationLineView = ({
 }) => {
   const [isRead, setIsRead] = useState(notification.read);
   const intl = useIntl();
-  let _title;
   let titleExtra = '';
   let _moreinfo = '';
   useEffect(() => {
@@ -54,7 +53,7 @@ const NotificationLineView = ({
     titleExtra = _percent;
   }
 
-  _title = `${titleExtra} ${intl.formatMessage({
+  const _title = `${titleExtra} ${intl.formatMessage({
     id: `notification.${notification.type}`,
   })}`;
 

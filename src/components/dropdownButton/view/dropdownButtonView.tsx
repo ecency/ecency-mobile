@@ -78,7 +78,7 @@ const DropdownButtonView = ({
       }}
       style={[!style ? styles.button : style]}
       textStyle={[textStyle || styles.buttonText]}
-      dropdownStyle={[styles.dropdown, dropdownStyle, { height: 32 * (options.length + 1.5) }]}
+      dropdownStyle={[styles.dropdown, dropdownStyle, { height: 32 * (options.length + 0.8) }]}
       dropdownTextStyle={[dropdownTextStyle || styles.dropdownText]}
       dropdownTextHighlightStyle={styles.dropdownTextHighlight}
       options={options}

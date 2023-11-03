@@ -24,18 +24,17 @@ const DEFAULT_ASSETS = [
     symbol: 'HBD',
     notCrypto: false,
     isEngine: false,
-  }
+  },
 ] as CoinBase[];
 
-
 export enum ASSET_IDS {
-  ECENCY= 'ecency',
+  ECENCY = 'ecency',
   HIVE = 'hive',
   HBD = 'hive_dollar',
   HP = 'hive_power',
   SPK = 'SPK',
   LARYNX = 'LARYNX',
-  LARYNX_POWER = 'LP'
-};
+  LARYNX_POWER = 'LP',
+}
 
 export default DEFAULT_ASSETS;
