@@ -529,7 +529,9 @@
     "invalid_url_error": "Iltimos yaroqli ssilkani kiriting",
     "plain": "Oddiy",
     "video": "Video",
-    "image": "Rasm"
+    "image": "Rasm",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "Snippetlar topilmadi",
