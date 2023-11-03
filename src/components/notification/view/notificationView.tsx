@@ -205,9 +205,8 @@ class NotificationView extends PureComponent {
   render() {
     const { isDarkTheme } = this.props;
 
-    const { readAllNotification, getActivities, isNotificationRefreshing, intl, isLoading } =
-      this.props;
-    const { filters, selectedFilter, selectedIndex } = this.state;
+    const { readAllNotification, getActivities, isNotificationRefreshing, intl } = this.props;
+    const { filters, selectedIndex } = this.state;
     const _notifications = this._getNotificationsArrays();
 
     return (

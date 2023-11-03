@@ -1,5 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Platform, NativeModules } from 'react-native';
+import { Platform } from 'react-native';
 
 export default EStyleSheet.create({
   container: {

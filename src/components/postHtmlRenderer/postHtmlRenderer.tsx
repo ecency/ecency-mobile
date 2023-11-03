@@ -182,8 +182,8 @@ export const PostHtmlRenderer = memo(
             // remove first child and place it as first separate row in table
             if (headerIndex !== -1 && colIndex !== -1 && headerIndex < colIndex) {
               console.log('time to do some switching', headerIndex, colIndex);
-              const header = child.children[headerIndex];
-              const headerRow = new Element('tr', {}, [header]);
+              // const header = child.children[headerIndex];
+              // const headerRow = new Element('tr', {}, [header]);
 
               // TODO: put back repalcement for domutils
               // removeElement(header);

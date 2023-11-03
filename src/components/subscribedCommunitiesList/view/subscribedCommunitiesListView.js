@@ -57,8 +57,7 @@ const SubscribedCommunitiesListView = ({
         </TouchableOpacity>
       </View>
       <View>
-        {subscribingCommunities.hasOwnProperty(item[0]) &&
-        subscribingCommunities[item[0]].loading ? (
+        {subscribingCommunities[item[0]]?.loading ? (
           <View style={{ width: 65, alignItems: 'center', justifyContent: 'center' }}>
             <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />
           </View>

@@ -13,7 +13,7 @@ export interface SnippetEditorModalRef {
   showNewModal: () => void;
   showEditModal: (snippet: Snippet) => void;
 }
-
+// eslint-disable-next-line no-empty-pattern
 const SnippetEditorModal = ({}, ref) => {
   const intl = useIntl();
   const titleInputRef = useRef(null);

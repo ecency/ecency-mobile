@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { View, Alert } from 'react-native';
 import { ProfileStats, StatsData } from './profileStats';

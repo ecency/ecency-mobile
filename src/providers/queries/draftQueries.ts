@@ -60,8 +60,9 @@ export const useDraftsBatchDeleteMutation = () => {
   return useMutation<any, any, any>(
     async (deleteIds) => {
       console.log('deleteIds : ', JSON.stringify(deleteIds, null, 2));
-
+      // eslint-disable-next-line
       for (const i in deleteIds) {
+        // eslint-disable-next-line
         await deleteDraft(deleteIds[i]);
       }
       return deleteIds;
@@ -103,7 +104,9 @@ export const useSchedulesBatchDeleteMutation = () => {
     async (deleteIds) => {
       console.log('deleteIds : ', JSON.stringify(deleteIds, null, 2));
 
+      // eslint-disable-next-line
       for (const i in deleteIds) {
+        // eslint-disable-next-line
         await deleteScheduledPost(deleteIds[i]);
       }
       return deleteIds;

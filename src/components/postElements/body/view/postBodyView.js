@@ -141,8 +141,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
       const anchoredPostRegex = /(.*?\#\@)(.*)\/(.*)/;
       const matchedLink = permlink.match(anchoredPostRegex);
       if (matchedLink) {
-        author = matchedLink[2];
-        permlink = matchedLink[3];
+        [, , author, permlink] = matchedLink;
       }
 
       // check if permlink has trailing query param, remove that if is the case

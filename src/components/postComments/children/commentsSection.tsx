@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Animated, { SlideInRight } from 'react-native-reanimated';
 import { Comment } from '../..';
 
-export const CommentsSection = ({ item, index, revealReplies, ...props }) => {
+export const CommentsSection = ({ item, ...props }) => {
   const [toggle, setToggle] = useState(item.expandedReplies || false);
 
   useEffect(() => {

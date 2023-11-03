@@ -1,20 +1,17 @@
-import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
-import { findNodeHandle, NativeModules, View, TouchableOpacity, Text, Alert } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { NativeModules, Text, TouchableOpacity, View, findNodeHandle } from 'react-native';
 import { Rect } from 'react-native-modal-popover/lib/PopoverGeometry';
 import { useAppSelector } from '../../../hooks';
-import { PulseAnimation } from '../../animations';
-import { isVoted as isVotedFunc, isDownVoted as isDownVotedFunc } from '../../../utils/postParser';
+import { isDownVoted as isDownVotedFunc, isVoted as isVotedFunc } from '../../../utils/postParser';
+import { FormattedCurrency } from '../../formatedElements';
 import Icon from '../../icon';
 import styles from './children.styles';
-import { FormattedCurrency } from '../../formatedElements';
-import { PostTypes } from '../../../constants/postTypes';
 
 interface UpvoteButtonProps {
   content: any;
   activeVotes: any[];
   isShowPayoutValue?: boolean;
   boldPayout?: boolean;
-  parentType?: PostTypes;
   onUpvotePress: (anchorRect: Rect, onVotingStart: (status: number) => void) => void;
   onPayoutDetailsPress: (anchorRef: Rect) => void;
 }

@@ -164,7 +164,9 @@ export const useMediaDeleteMutation = () => {
   const intl = useIntl();
   return useMutation<string[], undefined, string[]>(
     async (deleteIds) => {
+      // eslint-disable-next-line no-restricted-syntax
       for (const i in deleteIds) {
+        // eslint-disable-next-line no-await-in-loop
         await deleteImage(deleteIds[i]);
       }
       return deleteIds;

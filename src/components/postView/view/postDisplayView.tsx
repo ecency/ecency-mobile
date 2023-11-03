@@ -24,12 +24,10 @@ import { showProfileModal, showReplyModal } from '../../../redux/actions/uiActio
 import { PostTypes } from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
-import { WriteCommentButton } from '../children/writeCommentButton';
 import { PostComments } from '../../postComments';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import UpvotePopover from '../../upvotePopover';
 
-const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
 
 const PostDisplayView = ({
@@ -59,13 +57,12 @@ const PostDisplayView = ({
   const postCommentsRef = useRef<PostComments>(null);
   const upvotePopoverRef = useRef<UpvotePopover>(null);
 
-  const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
+  const [cacheVoteIcrement] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
   const actionSheet = useRef(null);
   const [refreshing, setRefreshing] = useState(false);
   const [postBodyLoading, setPostBodyLoading] = useState(true);
   const [tags, setTags] = useState([]);
-  const [postBodyHeight, setPostBodyHeight] = useState(0);
 
   // Component Life Cycles
   useEffect(() => {
@@ -259,7 +256,7 @@ const PostDisplayView = ({
         ) : (
           <View
             onLayout={(event) => {
-              setPostBodyHeight(event.nativeEvent.layout.height);
+              console.log('content view height', event.nativeEvent.layout.height);
             }}
           >
             {!!post.title && !post.depth ? (

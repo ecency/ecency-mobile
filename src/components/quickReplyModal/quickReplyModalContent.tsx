@@ -42,7 +42,6 @@ import {
 export interface QuickReplyModalContentProps {
   mode: 'comment' | 'wave' | 'post';
   selectedPost?: any;
-  handleCloseRef?: any;
   onClose: () => void;
 }
 
