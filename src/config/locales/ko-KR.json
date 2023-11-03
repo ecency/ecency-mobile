@@ -529,7 +529,9 @@
     "invalid_url_error": "유효한 URL을 입력하세요",
     "plain": "일반",
     "video": "영상",
-    "image": "이미지"
+    "image": "이미지",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "스니펫 없음",
