@@ -529,7 +529,9 @@
     "invalid_url_error": "Prašome įvesti tinkamą tinklalapio adresą",
     "plain": "Paprastas",
     "video": "Vaizdo įrašai",
-    "image": "Vaizdai"
+    "image": "Vaizdai",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "Iškarpa nerasta",
