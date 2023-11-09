@@ -2,12 +2,12 @@
   "wallet": {
     "curation_reward": "Recompensa de Curadoria",
     "author_reward": "Recompensa do Autor",
-    "community_reward": "Community Reward",
+    "community_reward": "Recompensa da Comunidade",
     "comment_benefactor_reward": "Recompensa de Beneficiário",
     "claim_reward_balance": "Solicitar recompensa ",
-    "points_activity": "Activity",
+    "points_activity": "Atividade",
     "transfer": "Transferir",
-    "recurrent_transfer": "Recurrent Transfer",
+    "recurrent_transfer": "Transferência Recorrente",
     "power_up": "Power Up",
     "transfer_from_savings": "Das poupanças",
     "withdraw_savings": "Levantar da Poupança",
@@ -530,7 +530,7 @@
     "plain": "Simples",
     "video": "Vídeo",
     "image": "Imagem",
-    "short_desc": "Short description",
+    "short_desc": "Breve descrição",
     "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
@@ -923,7 +923,7 @@
   },
   "comments": {
     "title": "Comentários",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Mostrar Conteúdo",
     "read_more": "Ler mais comentários",
     "more_replies": "respostas",
     "no_comments": "Seja o primeiro a comentar..."
@@ -1020,11 +1020,11 @@
   },
   "quick_reply": {
     "placeholder": "Adicionar um comentário...",
-    "placeholder_wave": "What's happening?",
+    "placeholder_wave": "O que está acontecendo?",
     "summary_wave": "Will be published in: {host}",
     "comment": "Comentário",
     "reply": "RESPONDER",
-    "publish": "PUBLISH",
+    "publish": "PUBLICAR",
     "close": "FECHAR"
   },
   "walkthrough": {
@@ -1046,16 +1046,16 @@
     "detected_url": "URL detectada",
     "unsupported_alert_title": "URL não suportada!",
     "unsupported_alert_desc": "Por favor, forneça um endereço URL válido da Ecency.",
-    "confirmTransaction": "Confirm transaction",
-    "approve": "Approve",
-    "cancel": "Cancel",
+    "confirmTransaction": "Confirmar transação",
+    "approve": "Aprovar",
+    "cancel": "Cancelar",
     "multi_array_ops_alert": "Operation not supported by Ecency",
     "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations yet",
-    "invalid_op": "Invalid operation data",
+    "invalid_op": "Dados de operação inválidos",
     "invalid_op_desc": "try contacting QR/link author",
-    "invalid_amount": "Invalid Amount",
+    "invalid_amount": "Quantia Inválida",
     "invalid_amount_desc": "Enter valid amount in proper format",
-    "transaction_failed": "Transaction Failed!",
+    "transaction_failed": "Transação Falhou!",
     "invalid_key": "{key} key is required to perform this transaction",
     "invalid_key_desc": "kindly login with {key} key or master key to perform this transaction"
   },
@@ -1064,7 +1064,7 @@
     "version": "Versão"
   },
   "chain-error": {
-    "min-root-comment": "You may only post once every five minutes.",
+    "min-root-comment": "Você só pode postar uma vez a cada cinco minutos.",
     "identical-vote": "Your current vote on this content is identical to this vote.",
     "insufficient-resource": "Insufficient Resource Credits.",
     "delete-comment-with-vote": "Cannot delete a content with positive pending rewards.",
