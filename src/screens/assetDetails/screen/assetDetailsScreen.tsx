@@ -13,7 +13,7 @@ import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
-import parseToken from '../../../utils/parseToken';
+import parseAsset from '../../../utils/parseAsset';
 
 export interface AssetDetailsScreenParams {
   coinId: string;
@@ -118,7 +118,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
     return {
       referredUsername: parsedUsername,
-      initialAmount: `${parseToken(coinActivity.value.trim())}`,
+      initialAmount: `${parseAsset(coinActivity.value.trim()).amount}`,
       initialMemo: coinActivity.memo,
     };
   };
