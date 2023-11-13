@@ -104,6 +104,25 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     }
   };
 
+  const _handleCoinRepeat = (coinActivity: CoinActivity) => {
+    let parsedUsername = '';
+
+    // from @user1 to @user2
+    parsedUsername = coinActivity.details?.split(' ').pop() || '';
+
+    // split with / to support HBD
+    // if HBD token remove, handle format like @demo.com/re-mypathtofire-202381t13594523z
+    parsedUsername = parsedUsername?.split('/')[0];
+
+    parsedUsername = parsedUsername?.slice(1); // remove @ from username
+
+    return {
+      referredUsername: parsedUsername,
+      initialAmount: `${parseToken(coinActivity.value.trim())}`,
+      initialMemo: coinActivity.memo,
+    };
+  };
+
   const _onActionPress = (transferType: string, baseActivity: CoinActivity | null = null) => {
     let navigateTo = ROUTES.SCREENS.TRANSFER;
     let navigateParams = {};
@@ -150,11 +169,11 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     }
 
     if (baseActivity) {
+      const parsedData = _handleCoinRepeat(baseActivity);
+
       navigateParams = {
         ...navigateParams,
-        referredUsername: baseActivity.details?.split(' ')[2]?.slice(1), // from @user1 to @user2
-        initialAmount: `${parseToken(baseActivity.value)}`,
-        initialMemo: baseActivity.memo,
+        ...parsedData,
       };
     }
 
