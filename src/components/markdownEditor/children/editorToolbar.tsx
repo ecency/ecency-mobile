@@ -57,7 +57,7 @@ export const EditorToolbar = ({
       setKeyboardVisible(false); // or some other action
     });
 
-    //TODO: set to false before PR
+    // TODO: set to false before PR
     _showUploadsExtension();
 
     return () => {
@@ -81,32 +81,29 @@ export const EditorToolbar = ({
     </View>
   );
 
-
-  const _showUploadsExtension = (mode:Modes) => {
-
-    if(!uploadsGalleryModalRef.current){
+  const _showUploadsExtension = (mode: Modes) => {
+    if (!uploadsGalleryModalRef.current) {
       return;
     }
-    
+
     const _curMode = uploadsGalleryModalRef.current.getMode();
 
-    if (!isExtensionVisible || _curMode !== mode){
+    if (!isExtensionVisible || _curMode !== mode) {
       uploadsGalleryModalRef.current.toggleModal(true, mode);
       _revealExtension();
       return;
     }
 
-    _hideExtension()
-
+    _hideExtension();
   };
 
   const _showImageUploads = () => {
-    _showUploadsExtension(Modes.MODE_IMAGE)
-  }
+    _showUploadsExtension(Modes.MODE_IMAGE);
+  };
 
   const _showVideoUploads = () => {
-    _showUploadsExtension(Modes.MODE_VIDEO)
-  }
+    _showUploadsExtension(Modes.MODE_VIDEO);
+  };
 
   // handles extension closing
   const _onGestureEvent = Animated.event(

@@ -116,7 +116,9 @@ const UploadsGalleryContent = ({
       }
     };
 
-    const thumbUrl = item.thumbUrl || proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
+    const thumbUrl =
+      item.thumbUrl ||
+      proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
     let isInsertedTimes = 0;
     insertedMediaUrls?.forEach((url) => (isInsertedTimes += url === item.url ? 1 : 0));
     const isToBeDeleted = deleteIds.indexOf(item._id) >= 0;

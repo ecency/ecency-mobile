@@ -1,4 +1,11 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useIntl } from 'react-intl';
 import { Alert, AlertButton } from 'react-native';
 import ImagePicker, { Image } from 'react-native-image-crop-picker';
@@ -10,7 +17,11 @@ import UploadsGalleryContent from '../children/uploadsGalleryContent';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { delay, extractFilenameFromPath } from '../../../utils/editor';
 import showLoginAlert from '../../../utils/showLoginAlert';
-import { useMediaQuery, useMediaUploadMutation, useVideoUploadsQuery } from '../../../providers/queries';
+import {
+  useMediaQuery,
+  useMediaUploadMutation,
+  useVideoUploadsQuery,
+} from '../../../providers/queries';
 import { showActionModal } from '../../../redux/actions/uiAction';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 
@@ -18,10 +29,9 @@ export interface UploadsGalleryModalRef {
   showModal: () => void;
 }
 
-
 export enum Modes {
   MODE_IMAGE = 0,
-  MODE_VIDEO = 1
+  MODE_VIDEO = 1,
 }
 
 export enum MediaInsertStatus {
@@ -38,12 +48,9 @@ export interface MediaInsertData {
   mode: Modes;
 }
 
-
-
 interface UploadsGalleryModalProps {
   insertedMediaUrls: string[];
   paramFiles: any[];
-  username: string;
   isEditing: boolean;
   isPreviewActive: boolean;
   allowMultiple?: boolean;
@@ -57,7 +64,6 @@ export const UploadsGalleryModal = forwardRef(
     {
       insertedMediaUrls,
       paramFiles,
-      username,
       isEditing,
       isPreviewActive,
       allowMultiple,
@@ -73,24 +79,20 @@ export const UploadsGalleryModal = forwardRef(
     const imageUploadsQuery = useMediaQuery();
     const videoUploadsQuery = useVideoUploadsQuery();
 
-
-  
     const mediaUploadMutation = useMediaUploadMutation();
 
     const pendingInserts = useRef<MediaInsertData[]>([]);
 
     const [showModal, setShowModal] = useState(false);
     const [isAddingToUploads, setIsAddingToUploads] = useState(false);
-    const [mode, setMode] = useState<Modes>(Modes.MODE_IMAGE)
+    const [mode, setMode] = useState<Modes>(Modes.MODE_IMAGE);
 
     const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
     const mediaUploadsQuery = useMemo(
-      ()=> mode === Modes.MODE_VIDEO ? videoUploadsQuery : imageUploadsQuery , [mode])
-
-
-    const pinCode = useAppSelector((state) => state.application.pin);
-    const currentAccount = useAppSelector((state) => state.account.currentAccount);
+      () => (mode === Modes.MODE_VIDEO ? videoUploadsQuery : imageUploadsQuery),
+      [mode],
+    );
 
     useImperativeHandle(ref, () => ({
       toggleModal: (value: boolean, _mode: Modes = mode) => {
@@ -107,9 +109,8 @@ export const UploadsGalleryModal = forwardRef(
           _getMediaUploads(_mode);
         }
 
-        setMode(_mode)
+        setMode(_mode);
         setShowModal(value);
-
       },
       getMode: () => mode,
     }));
@@ -137,8 +138,6 @@ export const UploadsGalleryModal = forwardRef(
         });
       }
     }, [paramFiles]);
-
-
 
     useEffect(() => {
       if (!isEditing && pendingInserts.current.length) {
@@ -247,8 +246,6 @@ export const UploadsGalleryModal = forwardRef(
           setIsAddingToUploads(true);
         }
 
-
-
         await mediaUploadMutation.mutateAsync(
           {
             media,
@@ -277,8 +274,6 @@ export const UploadsGalleryModal = forwardRef(
             },
           },
         );
-
-
       } catch (error) {
         console.log('error while uploading image : ', error);
 
@@ -378,7 +373,6 @@ export const UploadsGalleryModal = forwardRef(
     const _getMediaUploads = async (_mode: Modes = mode) => {
       try {
         mediaUploadsQuery.refetch();
-
       } catch (err) {
         console.warn('Failed to get images');
       }
@@ -396,7 +390,7 @@ export const UploadsGalleryModal = forwardRef(
           url: mode === Modes.MODE_VIDEO ? (item.speakData?._id || '') : item.url,
           text: mode === Modes.MODE_VIDEO ? `3speak` : '',
           status: MediaInsertStatus.READY,
-          mode
+          mode,
         });
       });
 
