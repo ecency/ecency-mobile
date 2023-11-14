@@ -186,6 +186,20 @@ export const extractImageUrls = ({ body, urls }: { body?: string; urls?: string[
   return imgUrls;
 };
 
+export const extract3SpeakIds = ({ body }) => {
+  if (!body) {
+    return [];
+  }
+
+  const regex = /\[3speak]\((.*?)\)/g;
+  const matches = [...body.matchAll(regex)];
+
+  const ids = matches.map((match) => match[1]);
+  console.log(ids);
+
+  return ids;
+};
+
 export const extractFilenameFromPath = ({
   path,
   mimeType,
@@ -217,22 +231,22 @@ export const extractMetadata = async ({
   thumbUrl,
   fetchRatios,
   postType,
-  threeSpeakMeta
+  threeSpeakMeta,
 }: {
   body: string;
   thumbUrl?: string;
   fetchRatios?: boolean;
   postType?: PostTypes;
   threeSpeakMeta?: {
-    title:string,
-    description:string,
-    rawData:ThreeSpeakVideo
-  }
+    title: string;
+    description: string;
+    rawData: ThreeSpeakVideo;
+  };
 }) => {
   // NOTE: keepting regex to extract usernames as reference for later usage if any
   // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
 
-  const out:any = {};
+  const out: any = {};
   const mUrls = extractUrls(body);
   const matchedImages = extractImageUrls({ urls: mUrls });
 
@@ -268,7 +282,7 @@ export const extractMetadata = async ({
     const videoMetadata = threeSpeakMeta.rawData;
     out.video = {
       info: {
-        platform: "3speak",
+        platform: '3speak',
         title: threeSpeakMeta.title || videoMetadata.title,
         author: videoMetadata.owner,
         permlink: videoMetadata.permlink,
@@ -282,28 +296,25 @@ export const extractMetadata = async ({
         video_v2: videoMetadata.video_v2,
         sourceMap: [
           {
-            type: "video",
+            type: 'video',
             url: videoMetadata.video_v2,
-            format: "m3u8"
+            format: 'm3u8',
           },
           {
-            type: "thumbnail",
-            url: videoMetadata.thumbUrl
-          }
-        ]
+            type: 'thumbnail',
+            url: videoMetadata.thumbUrl,
+          },
+        ],
       },
       content: {
         description: threeSpeakMeta.description || videoMetadata.description,
-        tags: videoMetadata.tags_v2
-      }
+        tags: videoMetadata.tags_v2,
+      },
     };
   }
 
-
-
-  //setting post type, primary usecase for separating waves from other posts
-  out.type = postType || PostTypes.POST
-  
+  // setting post type, primary usecase for separating waves from other posts
+  out.type = postType || PostTypes.POST;
 
   return out;
 };

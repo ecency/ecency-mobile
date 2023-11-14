@@ -33,6 +33,7 @@ import {
   extractMetadata,
   makeJsonMetadataForUpdate,
   createPatch,
+  extract3SpeakIds,
 } from '../../../utils/editor';
 // import { generateSignature } from '../../../utils/image';
 
@@ -452,11 +453,25 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           thumbUrl,
           fetchRatios: false,
         });
+
+        // inject video meta for draft
+        const speakIds = extract3SpeakIds({ body: draftField.body });
+        const videos: any = {};
+        const videosCache: any = queryClient.getQueryData([QUERIES.MEDIA.GET_VIDEOS]);
+
+        speakIds.forEach((_id) => {
+          const videoItem = videosCache.find((item) => item._id === _id);
+          if (videoItem?.speakData) {
+            videos[_id] = videoItem.speakData;
+          }
+        });
+
         const meta = Object.assign({}, _extractedMeta, {
           tags: draftField.tags,
           beneficiaries,
           rewardType,
           description: postDescription || postBodySummaryContent,
+          videos: Object.keys(videos).length > 0 && videos,
         });
 
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
