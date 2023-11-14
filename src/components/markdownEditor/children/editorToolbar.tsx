@@ -270,6 +270,7 @@ export const EditorToolbar = ({
               iconType="FontAwesome"
               name="image"
             />
+            {/* TODO: do not show video insert for replies and waves for now */}
             <IconButton
               onPress={_showVideoUploads}
               style={styles.rightIcons}

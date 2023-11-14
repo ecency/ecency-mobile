@@ -612,10 +612,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         isPostSending: true,
       });
 
+      // TOOD: build speak body
+
+      // only require video meta for unpublished video, it will always be one
       const meta = await extractMetadata({ body: fields.body, thumbUrl, fetchRatios: true });
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
+
+      // TODO: build speak video body
+
       // TODO: check if permlink is available github: #314 https://github.com/ecency/ecency-mobile/pull/314
       let permlink = generatePermlink(fields.title || '');
 
@@ -842,6 +848,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       } catch (e) {
         jsonMeta = makeJsonMetadata(meta, tags);
       }
+
+      // TODO: build speak video body
 
       await postContent(
         currentAccount,

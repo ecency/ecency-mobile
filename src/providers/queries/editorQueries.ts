@@ -89,6 +89,8 @@ export const useVideoUploadsQuery = () => {
 
   const _fetchVideoUploads = async () => getAllVideoStatuses(currentAccount, pinHash);
 
+  // TOOD: filter cache data for post edits to only show already published videos
+
   return useQuery<ThreeSpeakVideo[]>([QUERIES.MEDIA.GET_VIDEOS], _fetchVideoUploads, {
     initialData: [],
     onError: () => {
