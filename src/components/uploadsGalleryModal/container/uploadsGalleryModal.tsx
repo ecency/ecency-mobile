@@ -385,9 +385,9 @@ export const UploadsGalleryModal = forwardRef(
 
       map.forEach((value, index) => {
         console.log(index);
-        const item:MediaItem = mediaUploadsQuery.data[index];
+        const item: MediaItem = mediaUploadsQuery.data[index];
         data.push({
-          url: mode === Modes.MODE_VIDEO ? (item.speakData?._id || '') : item.url,
+          url: mode === Modes.MODE_VIDEO ? item.speakData?._id || '' : item.url,
           text: mode === Modes.MODE_VIDEO ? `3speak` : '',
           status: MediaInsertStatus.READY,
           mode,

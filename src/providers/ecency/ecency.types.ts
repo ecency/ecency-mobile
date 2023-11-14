@@ -14,7 +14,7 @@ export interface MediaItem {
   thumbUrl: string;
   created: string;
   timestamp: number;
-  speakData?:ThreeSpeakVideo
+  speakData?: ThreeSpeakVideo;
 }
 
 export interface Snippet {

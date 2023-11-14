@@ -17,7 +17,7 @@ const queryClientProviderProps = initQueryClient();
 
 if (__DEV__) {
   import('react-query-native-devtools').then(({ addPlugin }) => {
-    addPlugin({ queryClient:queryClientProviderProps.client });
+    addPlugin({ queryClient: queryClientProviderProps.client });
   });
 }
 

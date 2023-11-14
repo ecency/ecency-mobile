@@ -672,6 +672,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         )
           .then((response) => {
             console.log(response);
+
             // track user activity for points
             userActivityMutation.mutate({
               pointsTy: PointActivityIds.POST,
@@ -693,6 +694,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
                   console.warn('Failed to reblog post', err);
                 });
             }
+
+
+            //TODO: mark unpublished video as published on 3speak if that is the case
 
             // post publish updates
             dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));

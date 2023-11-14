@@ -25,7 +25,6 @@ export default async ({ text, selection, setTextAndSelection, items }: Args) => 
 
   const imagePrefix = '!';
 
-
   const placeholderPrefix = 'Uploading... ';
 
   let newText = text;
