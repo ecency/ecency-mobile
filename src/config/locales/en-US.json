@@ -560,7 +560,11 @@
     "confirm_delete":"Are you sure you want to delete images from your uploads",
     "message_failed":"Failed to upload image",
     "delete_failed":"Failed to delete image",
-    "failed_count":"Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "failed_count":"Failed to upload {failedCount} of {totalCount} selected image(s)",
+    "publish_manual":"Ready",
+    "published":"Published",
+    "encoding_ipfs":"Encoding",
+    "deleted":"Deleted"
   },
   "pincode": {
     "enter_text": "Enter PIN to unlock",

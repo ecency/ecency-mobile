@@ -599,7 +599,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       pinCode,
       userActivityMutation,
       speakContentBuilder,
-      // isDefaultFooter,
+      speakMutations,
     } = this.props;
     const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
 
@@ -703,7 +703,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             }
 
 
-            //TODO: mark unpublished video as published on 3speak if that is the case
+            //mark unpublished video as published on 3speak if that is the case
+            speakMutations.markAsPublishedMutation.mutate(speakContentBuilder.videoPublishMeta._id)
 
             // post publish updates
             dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
@@ -1259,6 +1260,7 @@ const mapStateToProps = (state) => ({
 const mapQueriesToProps = () => ({
   queryClient: useQueryClient(),
   speakContentBuilder: speakQueries.useSpeakContentBuilder(),
+  speakMutations: speakQueries.useSpeakMutations(),
   userActivityMutation: useUserActivityMutation(),
   postCachePrimer: usePostsCachePrimer(),
 });

@@ -28,6 +28,7 @@ import styles, {
 } from './uploadsGalleryModalStyles';
 import { editorQueries } from '../../../providers/queries';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
+import { MediaPreviewItem } from './mediaPreviewItem';
 
 type Props = {
   insertedMediaUrls: string[];
@@ -102,6 +103,7 @@ const UploadsGalleryContent = ({
 
   // render list item for snippet and handle actions;
   const _renderItem = ({ item, index }: { item: MediaItem; index: number }) => {
+
     const _onPress = () => {
       if (isDeleteMode) {
         const idIndex = deleteIds.indexOf(item._id);
@@ -116,48 +118,14 @@ const UploadsGalleryContent = ({
       }
     };
 
-    const thumbUrl =
-      item.thumbUrl ||
-      proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
-    let isInsertedTimes = 0;
-    insertedMediaUrls?.forEach((url) => (isInsertedTimes += url === item.url ? 1 : 0));
-    const isToBeDeleted = deleteIds.indexOf(item._id) >= 0;
-    const transformStyle = {
-      transform: isToBeDeleted ? [{ scaleX: 0.7 }, { scaleY: 0.7 }] : [],
-    };
-
-    const _renderMinus = () =>
-      isDeleteMode && (
-        <AnimatedView.View entering={ZoomIn} style={styles.minusContainer}>
-          <Icon
-            color={EStyleSheet.value('$pureWhite')}
-            iconType="MaterialCommunityIcons"
-            name="minus"
-            size={20}
-          />
-        </AnimatedView.View>
-      );
-
-    const _renderCounter = () =>
-      isInsertedTimes > 0 &&
-      !isDeleteMode && (
-        <AnimatedView.View entering={ZoomIn} style={styles.counterContainer}>
-          <Text style={styles.counterText}>{isInsertedTimes}</Text>
-        </AnimatedView.View>
-      );
-
-    return (
-      <TouchableOpacity onPress={_onPress} disabled={isDeleting}>
-        <View style={transformStyle}>
-          <FastImage
-            source={{ uri: thumbUrl }}
-            style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
-          />
-          {_renderCounter()}
-          {_renderMinus()}
-        </View>
-      </TouchableOpacity>
-    );
+    return <MediaPreviewItem 
+      item={item}
+      insertedMediaUrls={insertedMediaUrls}
+      deleteIds={deleteIds}
+      isDeleteMode={isDeleteMode}
+      isDeleting={isDeleting}
+      isExpandedMode={isExpandedMode} 
+      onPress={_onPress} />
   };
 
   const _renderSelectButton = (iconName: string, text: string, onPress: () => void) => {

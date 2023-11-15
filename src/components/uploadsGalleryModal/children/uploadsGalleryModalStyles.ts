@@ -205,6 +205,25 @@ export default EStyleSheet.create({
     fontSize: 16,
   } as TextStyle,
 
+  statusContainer: {
+    backgroundColor: '$primaryBlue',
+    position: 'absolute',
+    bottom: 0,
+    left: 8,
+    right: 0,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    padding: 2,
+    height: 20,
+    justifyContent: 'center',
+    alignItems:'center'
+  } as ViewStyle,
+
+  statusText: {
+    color: '$pureWhite',
+    fontSize: 14,
+  } as TextStyle,
+
   checkStyle: {
     backgroundColor: '$white',
   } as ViewStyle,
