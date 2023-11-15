@@ -7,7 +7,7 @@ import { getAllVideoStatuses } from "../../speak/speak";
 import QUERIES from "../queryKeys";
 import { extract3SpeakIds } from "../../../utils/editor";
 import { useRef } from "react";
-import { ThreeSpeakVideo } from "../../speak/speak.types";
+import { ThreeSpeakStatus, ThreeSpeakVideo } from "../../speak/speak.types";
 
 /**
  * fetches and caches speak video uploads
@@ -46,8 +46,10 @@ export const useSpeakContentBuilder = () => {
             const mediaItem:MediaItem|undefined = videoUploads.data.find((item) => item._id === id);
             if(mediaItem){
 
-                //TODO: check if video is unpublished, set unpublish video meta
-                
+                //check if video is unpublished, set unpublish video meta
+                if(!videoPublishMetaRef.current && mediaItem.speakData?.status === ThreeSpeakStatus.READY){
+                    videoPublishMetaRef.current = mediaItem.speakData;
+                }
 
                 //replace 3speak with actual data
                 const _toReplaceStr = `[3speak](${id})`;

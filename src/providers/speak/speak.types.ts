@@ -1,3 +1,11 @@
+export enum ThreeSpeakStatus {
+  PUBLISHED = 'published',
+  READY = 'publish_manual',
+  DELETED = 'deleted',
+  ENCODING = 'encoding_ipfs'
+}
+
+
 export interface ThreeSpeakVideo {
   app: string;
   beneficiaries: string; // e.g. "[{\"account\":\"actifit-he\",\"weight\":100,\"src\":\"ENCODER_PAY\"}]"
@@ -35,7 +43,7 @@ export interface ThreeSpeakVideo {
   reducedUpvote: boolean;
   rewardPowerup: boolean;
   size: number;
-  status: string;
+  status: ThreeSpeakStatus;
   tags_v2: unknown[];
   thumbUrl: string;
   thumbnail: string;
