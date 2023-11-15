@@ -18,9 +18,8 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { delay, extractFilenameFromPath } from '../../../utils/editor';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import {
-  useMediaQuery,
-  useMediaUploadMutation,
-  useVideoUploadsQuery,
+  editorQueries,
+  speakQueries,
 } from '../../../providers/queries';
 import { showActionModal } from '../../../redux/actions/uiAction';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
@@ -76,10 +75,10 @@ export const UploadsGalleryModal = forwardRef(
     const intl = useIntl();
     const dispatch = useAppDispatch();
 
-    const imageUploadsQuery = useMediaQuery();
-    const videoUploadsQuery = useVideoUploadsQuery();
+    const imageUploadsQuery = editorQueries.useMediaQuery();
+    const videoUploadsQuery = speakQueries.useVideoUploadsQuery();
 
-    const mediaUploadMutation = useMediaUploadMutation();
+    const mediaUploadMutation = editorQueries.useMediaUploadMutation();
 
     const pendingInserts = useRef<MediaInsertData[]>([]);
 

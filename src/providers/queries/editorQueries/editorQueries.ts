@@ -4,8 +4,8 @@ import { Image } from 'react-native-image-crop-picker';
 import Upload, { UploadOptions } from 'react-native-background-upload';
 import Config from 'react-native-config';
 import { Platform } from 'react-native';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { toastNotification } from '../../redux/actions/uiAction';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { toastNotification } from '../../../redux/actions/uiAction';
 import {
   addFragment,
   addImage,
@@ -14,13 +14,11 @@ import {
   getFragments,
   getImages,
   updateFragment,
-} from '../ecency/ecency';
-import { MediaItem, Snippet } from '../ecency/ecency.types';
-import { signImage } from '../hive/dhive';
-import QUERIES from './queryKeys';
-import { getAllVideoStatuses } from '../speak/speak';
-import { ThreeSpeakVideo } from '../speak/speak.types';
-import bugsnapInstance from '../../config/bugsnag';
+} from '../../ecency/ecency';
+import { MediaItem, Snippet } from '../../ecency/ecency.types';
+import { signImage } from '../../hive/dhive';
+import QUERIES from '../queryKeys';
+import bugsnapInstance from '../../../config/bugsnag';
 
 interface SnippetMutationVars {
   id: string | null;
@@ -80,24 +78,9 @@ export const useAddToUploadsMutation = () => {
   });
 };
 
-export const useVideoUploadsQuery = () => {
-  const intl = useIntl();
-  const dispatch = useAppDispatch();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinHash = useAppSelector((state) => state.application.pin);
 
-  const _fetchVideoUploads = async () => getAllVideoStatuses(currentAccount, pinHash);
 
-  // TOOD: filter cache data for post edits to only show already published videos
-
-  return useQuery<ThreeSpeakVideo[]>([QUERIES.MEDIA.GET_VIDEOS], _fetchVideoUploads, {
-    initialData: [],
-    onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-    },
-  });
-};
 
 export const useMediaUploadMutation = () => {
   const intl = useIntl();

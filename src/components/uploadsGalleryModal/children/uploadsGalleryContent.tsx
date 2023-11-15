@@ -26,7 +26,7 @@ import styles, {
   EXPANDED_HEIGHT,
   MAX_HORIZONTAL_THUMBS,
 } from './uploadsGalleryModalStyles';
-import { useMediaDeleteMutation } from '../../../providers/queries';
+import { editorQueries } from '../../../providers/queries';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 
 type Props = {
@@ -48,7 +48,7 @@ const UploadsGalleryContent = ({
 }: Props) => {
   const intl = useIntl();
 
-  const deleteMediaMutation = useMediaDeleteMutation();
+  const deleteMediaMutation = editorQueries.useMediaDeleteMutation();
 
   const [deleteIds, setDeleteIds] = useState<string[]>([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);

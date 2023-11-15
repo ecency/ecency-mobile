@@ -231,17 +231,13 @@ export const extractMetadata = async ({
   thumbUrl,
   fetchRatios,
   postType,
-  threeSpeakMeta,
+  videoPublishMeta,
 }: {
   body: string;
   thumbUrl?: string;
   fetchRatios?: boolean;
   postType?: PostTypes;
-  threeSpeakMeta?: {
-    title: string;
-    description: string;
-    rawData: ThreeSpeakVideo;
-  };
+  videoPublishMeta?: ThreeSpeakVideo;
 }) => {
   // NOTE: keepting regex to extract usernames as reference for later usage if any
   // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
@@ -278,12 +274,13 @@ export const extractMetadata = async ({
     );
   }
 
-  if (threeSpeakMeta) {
-    const videoMetadata = threeSpeakMeta.rawData;
+  //insert three speak meta
+  if (videoPublishMeta) {
+    const videoMetadata = videoPublishMeta.rawData;
     out.video = {
       info: {
         platform: '3speak',
-        title: threeSpeakMeta.title || videoMetadata.title,
+        title: videoMetadata.title,
         author: videoMetadata.owner,
         permlink: videoMetadata.permlink,
         duration: videoMetadata.duration,
@@ -307,7 +304,7 @@ export const extractMetadata = async ({
         ],
       },
       content: {
-        description: threeSpeakMeta.description || videoMetadata.description,
+        description: videoMetadata.description,
         tags: videoMetadata.tags_v2,
       },
     };
