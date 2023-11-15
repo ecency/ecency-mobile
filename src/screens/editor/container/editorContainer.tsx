@@ -602,6 +602,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     } = this.props;
     const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
 
+    //TODO: handle appropriate speak beneficiaries if needed
+    //ref: https://swimlanes.io/u/7xPWxOvpH
     const beneficiaries = this._extractBeneficiaries();
 
     if (isPostSending) {
