@@ -52,6 +52,7 @@ import { useUserActivityMutation } from '../../../providers/queries/pointQueries
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
 import { PostTypes } from '../../../constants/postTypes';
+import { speakQueries } from '../../../providers/queries';
 
 /*
  *            Props Name        Description                                     Value
@@ -597,6 +598,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       navigation,
       pinCode,
       userActivityMutation,
+      speakContentBuilder,
       // isDefaultFooter,
     } = this.props;
     const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
@@ -612,15 +614,20 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         isPostSending: true,
       });
 
-      // TOOD: build speak body
+
+      // build speak video body
+      fields.body = speakContentBuilder.build(fields.body);
 
       // only require video meta for unpublished video, it will always be one
-      const meta = await extractMetadata({ body: fields.body, thumbUrl, fetchRatios: true });
+      const meta = await extractMetadata({
+        body: fields.body,
+        thumbUrl,
+        fetchRatios: true,
+        videoPublishMeta: speakContentBuilder.videoPublishMeta
+      });
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
-
-      // TODO: build speak video body
 
       // TODO: check if permlink is available github: #314 https://github.com/ecency/ecency-mobile/pull/314
       let permlink = generatePermlink(fields.title || '');
@@ -736,7 +743,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _submitReply = async (fields) => {
-    const { currentAccount, pinCode, dispatch, userActivityMutation, draftsCollection } =
+    const { currentAccount, pinCode, dispatch, userActivityMutation, draftsCollection, speakContentBuilder } =
       this.props;
     const { isPostSending } = this.state;
 
@@ -751,6 +758,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       const { post } = this.state;
 
+      fields.body = speakContentBuilder.build(fields.body);
+
       const _prefix = `re-${post.author.replace(/\./g, '')}`;
       const permlink = generateUniquePermlink(_prefix);
 
@@ -758,6 +767,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const parentPermlink = post.permlink;
       const parentTags = post.json_metadata.tags;
       const draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
+
+
 
       const meta = await extractMetadata({
         body: fields.body,
@@ -815,7 +826,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _submitEdit = async (fields) => {
-    const { currentAccount, pinCode, dispatch, postCachePrimer } = this.props;
+    const { currentAccount, pinCode, dispatch, postCachePrimer, speakContentBuilder } = this.props;
     const { post, isEdit, isPostSending, thumbUrl, isReply } = this.state;
 
     if (isPostSending) {
@@ -826,6 +837,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       this.setState({
         isPostSending: true,
       });
+
+      //build speak video body
+      fields.body = speakContentBuilder.build(fields.body);
+
+
       const { tags, body, title } = fields;
       const {
         markdownBody: oldBody,
@@ -853,7 +869,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         jsonMeta = makeJsonMetadata(meta, tags);
       }
 
-      // TODO: build speak video body
 
       await postContent(
         currentAccount,
@@ -1243,6 +1258,7 @@ const mapStateToProps = (state) => ({
 
 const mapQueriesToProps = () => ({
   queryClient: useQueryClient(),
+  speakContentBuilder: speakQueries.useSpeakContentBuilder(),
   userActivityMutation: useUserActivityMutation(),
   postCachePrimer: usePostsCachePrimer(),
 });
