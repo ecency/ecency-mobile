@@ -163,7 +163,6 @@ export const UploadsGalleryModal = forwardRef(
           _urls = extractImageUrls({ body: postBody })
         }
         setMediaUrls(_urls)
-        Alert.alert('asdf', _urls.length + '')
 
       }
     }, [postBody, showModal, mode])
