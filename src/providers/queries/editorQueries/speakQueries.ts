@@ -1,7 +1,7 @@
 import { QueryKey, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useIntl } from "react-intl";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
-import { toastNotification } from "../../../redux/actions/uiAction";
+import { showActionModal, toastNotification } from "../../../redux/actions/uiAction";
 import { MediaItem } from "../../ecency/ecency.types";
 import { getAllVideoStatuses, markAsPublished } from "../../speak/speak";
 import QUERIES from "../queryKeys";
@@ -9,6 +9,7 @@ import { extract3SpeakIds } from "../../../utils/editor";
 import { useRef } from "react";
 import { ThreeSpeakStatus, ThreeSpeakVideo } from "../../speak/speak.types";
 import bugsnapInstance from "../../../config/bugsnag";
+import { useDispatch } from "react-redux";
 
 /**
  * fetches and caches speak video uploads
@@ -36,11 +37,13 @@ export const useVideoUploadsQuery = () => {
 
 export const useSpeakContentBuilder = () => {
 
+    const dispatch = useDispatch();
     const videoUploads = useVideoUploadsQuery();
     const videoPublishMetaRef = useRef<ThreeSpeakVideo | null>(null);
 
     const build = (body: string) => {
         let _newBody = body;
+        videoPublishMetaRef.current = null;
         const _ids = extract3SpeakIds({ body });
 
         _ids.forEach((id) => {
@@ -48,8 +51,18 @@ export const useSpeakContentBuilder = () => {
             if (mediaItem) {
 
                 //check if video is unpublished, set unpublish video meta
-                if (!videoPublishMetaRef.current && mediaItem.speakData?.status === ThreeSpeakStatus.READY) {
-                    videoPublishMetaRef.current = mediaItem.speakData;
+                if (mediaItem.speakData?.status === ThreeSpeakStatus.READY) {
+                    if(!videoPublishMetaRef.current){
+                        videoPublishMetaRef.current = mediaItem.speakData;
+                    } else {
+                        dispatch(showActionModal({
+                            title:"Fail",
+                            body:"Can have only one unpublished video per post",
+
+                        }))
+                        throw new Error("Fail")
+                    }
+            
                 }
 
                 //replace 3speak with actual data

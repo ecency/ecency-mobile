@@ -35,7 +35,6 @@ import {
   createPatch,
   extract3SpeakIds,
 } from '../../../utils/editor';
-// import { generateSignature } from '../../../utils/image';
 
 // Component
 import EditorScreen from '../screen/editorScreen';
@@ -610,13 +609,20 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
 
     if (currentAccount) {
+
+      // build speak video body
+      try{
+        fields.body = speakContentBuilder.build(fields.body);
+      } catch(err){
+        console.warn("fail", err);
+        return;
+      }
+      
+
       this.setState({
         isPostSending: true,
       });
 
-
-      // build speak video body
-      fields.body = speakContentBuilder.build(fields.body);
 
       // only require video meta for unpublished video, it will always be one
       const meta = await extractMetadata({
