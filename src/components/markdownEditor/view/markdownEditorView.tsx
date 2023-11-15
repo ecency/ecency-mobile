@@ -79,8 +79,6 @@ const MarkdownEditorView = ({
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [insertedMediaUrls, setInsertedMediaUrls] = useState([]);
-  // const [isDraftUpdated, setIsDraftupdated] = useState(false);
 
   const inputRef = useRef<any>(null);
   const clearRef = useRef<any>(null);
@@ -192,10 +190,7 @@ const MarkdownEditorView = ({
       setIsEditing(false);
       handleBodyChange(bodyTextRef.current);
       handleFormUpdate('body', bodyTextRef.current);
-      const urls = extractImageUrls({ body: bodyTextRef.current });
-      if (urls.length !== insertedMediaUrls.length) {
-        setInsertedMediaUrls(urls);
-      }
+
     }, 500),
     [],
   );
@@ -437,7 +432,7 @@ const MarkdownEditorView = ({
         {_renderFloatingDraftButton()}
 
         <EditorToolbar
-          insertedMediaUrls={insertedMediaUrls}
+          postBody={bodyTextRef.current}
           isPreviewActive={isPreviewActive}
           paramFiles={paramFiles}
           setIsUploading={setIsUploading}

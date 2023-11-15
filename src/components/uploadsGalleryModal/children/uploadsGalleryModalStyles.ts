@@ -189,7 +189,7 @@ export default EStyleSheet.create({
 
   counterContainer: {
     position: 'absolute',
-    top: 16,
+    top: 8,
     left: 16,
     backgroundColor: '$primaryLightBackground',
     borderRadius: 16,

@@ -15,7 +15,7 @@ import bugsnapInstance from '../../../config/bugsnag';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { delay, extractFilenameFromPath } from '../../../utils/editor';
+import { delay, extract3SpeakIds, extractFilenameFromPath, extractImageUrls } from '../../../utils/editor';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import {
   editorQueries,
@@ -48,7 +48,7 @@ export interface MediaInsertData {
 }
 
 interface UploadsGalleryModalProps {
-  insertedMediaUrls: string[];
+  postBody: string;
   paramFiles: any[];
   isEditing: boolean;
   isPreviewActive: boolean;
@@ -61,7 +61,7 @@ interface UploadsGalleryModalProps {
 export const UploadsGalleryModal = forwardRef(
   (
     {
-      insertedMediaUrls,
+      postBody,
       paramFiles,
       isEditing,
       isPreviewActive,
@@ -85,6 +85,7 @@ export const UploadsGalleryModal = forwardRef(
     const [showModal, setShowModal] = useState(false);
     const [isAddingToUploads, setIsAddingToUploads] = useState(false);
     const [mode, setMode] = useState<Modes>(Modes.MODE_IMAGE);
+    const [mediaUrls, setMediaUrls] = useState<string[]>([]);
 
     const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
@@ -148,6 +149,24 @@ export const UploadsGalleryModal = forwardRef(
     useEffect(() => {
       _getMediaUploads(mode); // get media uploads when there is new update
     }, [mediaUploadsQuery.data, mode]);
+
+    useEffect(() => {
+      if (showModal) {
+        let _urls: string[] = []
+        if (mode === Modes.MODE_VIDEO) {
+          const _vidIds = extract3SpeakIds({ body: postBody })
+          _urls = _vidIds.map((id) => {
+            const mediaItem = mediaUploadsQuery.data.find(item => item._id === id)
+            return mediaItem?.url;
+          })
+        } else {
+          _urls = extractImageUrls({ body: postBody })
+        }
+        setMediaUrls(_urls)
+        Alert.alert('asdf', _urls.length + '')
+
+      }
+    }, [postBody, showModal, mode])
 
     const _handleOpenImagePicker = (addToUploads?: boolean) => {
       ImagePicker.openPicker({
@@ -402,7 +421,7 @@ export const UploadsGalleryModal = forwardRef(
       !isPreviewActive &&
       showModal && (
         <UploadsGalleryContent
-          insertedMediaUrls={insertedMediaUrls}
+          insertedMediaUrls={mediaUrls}
           mediaUploads={data}
           isAddingToUploads={isAddingToUploads}
           getMediaUploads={_getMediaUploads}

@@ -15,7 +15,7 @@ import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uplo
 import Formats from './formats/formats';
 
 type Props = {
-  insertedMediaUrls: string[];
+  postBody: string;
   paramFiles: any[];
   isEditing: boolean;
   isPreviewActive: boolean;
@@ -28,7 +28,7 @@ type Props = {
 };
 
 export const EditorToolbar = ({
-  insertedMediaUrls,
+  postBody,
   paramFiles,
   isEditing,
   isPreviewActive,
@@ -58,7 +58,7 @@ export const EditorToolbar = ({
     });
 
     // TODO: set to false before PR
-    _showUploadsExtension();
+    _showUploadsExtension(Modes.MODE_VIDEO);
 
     return () => {
       keyboardDidHideListener.remove();
@@ -202,7 +202,7 @@ export const EditorToolbar = ({
             {isExtensionVisible && <View style={styles.indicator} />}
             <UploadsGalleryModal
               ref={uploadsGalleryModalRef}
-              insertedMediaUrls={insertedMediaUrls}
+              postBody={postBody}
               isPreviewActive={isPreviewActive}
               paramFiles={paramFiles}
               isEditing={isEditing}
