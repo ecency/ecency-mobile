@@ -12,7 +12,6 @@ const speakApi = axios.create({
   baseURL: `${BASE_URL_SPEAK_STUDIO}/${PATH_MOBILE}`,
 });
 
-
 export const threespeakAuth = async (currentAccount: any, pinHash: string) => {
   try {
     const response = await speakApi.get(

@@ -2,9 +2,8 @@ export enum ThreeSpeakStatus {
   PUBLISHED = 'published',
   READY = 'publish_manual',
   DELETED = 'deleted',
-  ENCODING = 'encoding_ipfs'
+  ENCODING = 'encoding_ipfs',
 }
-
 
 export interface ThreeSpeakVideo {
   app: string;

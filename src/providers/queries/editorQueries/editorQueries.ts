@@ -78,10 +78,6 @@ export const useAddToUploadsMutation = () => {
   });
 };
 
-
-
-
-
 export const useMediaUploadMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();

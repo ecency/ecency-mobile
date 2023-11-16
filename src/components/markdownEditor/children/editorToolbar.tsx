@@ -15,7 +15,7 @@ import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uplo
 import Formats from './formats/formats';
 
 type Props = {
-  draftId?:string;
+  draftId?: string;
   postBody: string;
   paramFiles: any[];
   isEditing: boolean;

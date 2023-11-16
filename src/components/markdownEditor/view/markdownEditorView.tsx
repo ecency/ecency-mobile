@@ -190,7 +190,6 @@ const MarkdownEditorView = ({
       setIsEditing(false);
       handleBodyChange(bodyTextRef.current);
       handleFormUpdate('body', bodyTextRef.current);
-
     }, 500),
     [],
   );

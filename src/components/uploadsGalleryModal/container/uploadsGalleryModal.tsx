@@ -15,12 +15,14 @@ import bugsnapInstance from '../../../config/bugsnag';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { delay, extract3SpeakIds, extractFilenameFromPath, extractImageUrls } from '../../../utils/editor';
-import showLoginAlert from '../../../utils/showLoginAlert';
 import {
-  editorQueries,
-  speakQueries,
-} from '../../../providers/queries';
+  delay,
+  extract3SpeakIds,
+  extractFilenameFromPath,
+  extractImageUrls,
+} from '../../../utils/editor';
+import showLoginAlert from '../../../utils/showLoginAlert';
+import { editorQueries, speakQueries } from '../../../providers/queries';
 import { showActionModal } from '../../../redux/actions/uiAction';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 
@@ -154,20 +156,19 @@ export const UploadsGalleryModal = forwardRef(
 
     useEffect(() => {
       if (showModal) {
-        let _urls: string[] = []
+        let _urls: string[] = [];
         if (mode === Modes.MODE_VIDEO) {
-          const _vidIds = extract3SpeakIds({ body: postBody })
+          const _vidIds = extract3SpeakIds({ body: postBody });
           _urls = _vidIds.map((id) => {
-            const mediaItem = mediaUploadsQuery.data.find(item => item._id === id)
+            const mediaItem = mediaUploadsQuery.data.find((item) => item._id === id);
             return mediaItem?.url;
-          })
+          });
         } else {
-          _urls = extractImageUrls({ body: postBody })
+          _urls = extractImageUrls({ body: postBody });
         }
-        setMediaUrls(_urls)
-
+        setMediaUrls(_urls);
       }
-    }, [postBody, showModal, mode])
+    }, [postBody, showModal, mode]);
 
     const _handleOpenImagePicker = (addToUploads?: boolean) => {
       ImagePicker.openPicker({

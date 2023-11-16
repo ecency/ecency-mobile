@@ -60,7 +60,7 @@ const BeneficiarySelectionContent = ({
   }, [powerDownBeneficiaries]);
 
   useEffect(() => {
-      readTempBeneficiaries();
+    readTempBeneficiaries();
   }, [draftId]);
 
   useEffect(() => {

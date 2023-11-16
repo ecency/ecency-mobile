@@ -1,13 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import {
-  ActivityIndicator,
-  Alert,
-  Keyboard,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { ActivityIndicator, Alert, Keyboard, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { FlatList } from 'react-native-gesture-handler';
 import Animated, {
@@ -16,6 +9,7 @@ import Animated, {
   SlideInRight,
   SlideOutRight,
 } from 'react-native-reanimated';
+import { useDispatch } from 'react-redux';
 import { Icon, IconButton } from '../..';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 import { editorQueries } from '../../../providers/queries';
@@ -26,7 +20,6 @@ import styles, {
   MAX_HORIZONTAL_THUMBS,
 } from './uploadsGalleryModalStyles';
 import { ThreeSpeakStatus } from '../../../providers/speak/speak.types';
-import { useDispatch } from 'react-redux';
 import { setBeneficiaries } from '../../../redux/actions/editorActions';
 import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import { DEFAULT_SPEAK_BENEFICIARIES } from '../../../providers/speak/constants';
@@ -108,7 +101,6 @@ const UploadsGalleryContent = ({
 
   // render list item for snippet and handle actions;
   const _renderItem = ({ item, index }: { item: MediaItem; index: number }) => {
-
     const _onPress = () => {
       if (isDeleteMode) {
         const idIndex = deleteIds.indexOf(item._id);
@@ -119,49 +111,54 @@ const UploadsGalleryContent = ({
         }
         setDeleteIds([...deleteIds]);
       } else {
-
-        let isUnpublishedInserted = false
+        let isUnpublishedInserted = false;
         if (item.speakData && item.speakData.status !== ThreeSpeakStatus.PUBLISHED) {
-          //make sure this is not the second ubpublished video being inserted
-          
+          // make sure this is not the second ubpublished video being inserted
+
           insertedMediaUrls.forEach((url) => {
-            const _mediaItem = mediaUploads.find((item) => (item.url === url && item.speakData?.status !== ThreeSpeakStatus.PUBLISHED));
+            const _mediaItem = mediaUploads.find(
+              (item) => item.url === url && item.speakData?.status !== ThreeSpeakStatus.PUBLISHED,
+            );
             if (_mediaItem) {
               isUnpublishedInserted = true;
             }
-          })
+          });
 
           if (!isUnpublishedInserted) {
-            //update beneficiaries
-            const vidBeneficiaries = JSON.parse(item.speakData.beneficiaries || '[]')
-            const beneficiaries = [...DEFAULT_SPEAK_BENEFICIARIES, ...vidBeneficiaries]
+            // update beneficiaries
+            const vidBeneficiaries = JSON.parse(item.speakData.beneficiaries || '[]');
+            const beneficiaries = [...DEFAULT_SPEAK_BENEFICIARIES, ...vidBeneficiaries];
             const _draftId = draftId || TEMP_BENEFICIARIES_ID;
-            Alert.alert(_draftId, JSON.stringify(beneficiaries))
-            dispatch(setBeneficiaries(_draftId, beneficiaries))
+            Alert.alert(_draftId, JSON.stringify(beneficiaries));
+            dispatch(setBeneficiaries(_draftId, beneficiaries));
           }
         }
 
-        //TOOD: later handle beneficiaries removal on item deletion from body
-        if(!isUnpublishedInserted){
+        // TOOD: later handle beneficiaries removal on item deletion from body
+        if (!isUnpublishedInserted) {
           insertMedia(new Map([[index, true]]));
         } else {
-          dispatch(showActionModal({
-            title:"Fail",
-            body:"Can only have one unpublished video per post"
-          }))
+          dispatch(
+            showActionModal({
+              title: 'Fail',
+              body: 'Can only have one unpublished video per post',
+            }),
+          );
         }
-        
       }
     };
 
-    return <MediaPreviewItem
-      item={item}
-      insertedMediaUrls={insertedMediaUrls}
-      deleteIds={deleteIds}
-      isDeleteMode={isDeleteMode}
-      isDeleting={isDeleting}
-      isExpandedMode={isExpandedMode}
-      onPress={_onPress} />
+    return (
+      <MediaPreviewItem
+        item={item}
+        insertedMediaUrls={insertedMediaUrls}
+        deleteIds={deleteIds}
+        isDeleteMode={isDeleteMode}
+        isDeleting={isDeleting}
+        isExpandedMode={isExpandedMode}
+        onPress={_onPress}
+      />
+    );
   };
 
   const _renderSelectButton = (iconName: string, text: string, onPress: () => void) => {

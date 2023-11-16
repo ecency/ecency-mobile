@@ -216,7 +216,7 @@ export default EStyleSheet.create({
     padding: 2,
     height: 20,
     justifyContent: 'center',
-    alignItems:'center'
+    alignItems: 'center',
   } as ViewStyle,
 
   statusText: {

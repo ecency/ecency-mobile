@@ -274,7 +274,7 @@ export const extractMetadata = async ({
     );
   }
 
-  //insert three speak meta
+  // insert three speak meta
   if (videoPublishMeta) {
     const videoMetadata = videoPublishMeta.rawData;
     out.video = {
