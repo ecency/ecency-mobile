@@ -39,7 +39,7 @@ import {
 
 // Component
 import EditorScreen from '../screen/editorScreen';
-import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
+import { removeBeneficiaries, setAllowSpkPublishing, setBeneficiaries } from '../../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID, TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import {
   deleteDraftCacheEntry,
@@ -102,7 +102,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   // Component Life Cycle Functions
   componentDidMount() {
     this._isMounted = true;
-    const { currentAccount, route, queryClient } = this.props;
+    const { currentAccount, route, queryClient, dispatch } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     let isReply;
     let draftId;
@@ -198,6 +198,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     this._requestKeyboardFocus();
 
     this._appStateSub = AppState.addEventListener('change', this._handleAppStateChange);
+
+    //dispatch spk publishing status
+    dispatch(setAllowSpkPublishing(!isReply && !isEdit))
   }
 
   componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>): void {

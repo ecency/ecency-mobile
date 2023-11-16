@@ -24,6 +24,7 @@ import { setBeneficiaries } from '../../../redux/actions/editorActions';
 import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import { DEFAULT_SPEAK_BENEFICIARIES } from '../../../providers/speak/constants';
 import { showActionModal } from '../../../redux/actions/uiAction';
+import { useAppSelector } from '../../../hooks';
 
 type Props = {
   draftId?: string;
@@ -48,6 +49,8 @@ const UploadsGalleryContent = ({
   const dispatch = useDispatch();
 
   const deleteMediaMutation = editorQueries.useMediaDeleteMutation();
+
+  const allowSpkPublishing = useAppSelector(state => state.editor.allowSpkPublishing);
 
   const [deleteIds, setDeleteIds] = useState<string[]>([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
@@ -101,6 +104,15 @@ const UploadsGalleryContent = ({
 
   // render list item for snippet and handle actions;
   const _renderItem = ({ item, index }: { item: MediaItem; index: number }) => {
+
+    //avoid rendering unpublihsed videos in allow publishing state is false
+    if(
+      !allowSpkPublishing &&
+      item.speakData && 
+      item.speakData.status !== ThreeSpeakStatus.PUBLISHED ){
+      return null;
+    }
+
     const _onPress = () => {
       if (isDeleteMode) {
         const idIndex = deleteIds.indexOf(item._id);
