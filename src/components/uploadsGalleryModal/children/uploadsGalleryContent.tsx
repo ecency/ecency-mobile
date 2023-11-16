@@ -1,36 +1,39 @@
-import { proxifyImageSrc } from '@ecency/render-helper';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import {
   ActivityIndicator,
   Alert,
   Keyboard,
-  Platform,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { FlatList } from 'react-native-gesture-handler';
 import Animated, {
   default as AnimatedView,
+  EasingNode,
   SlideInRight,
   SlideOutRight,
-  ZoomIn,
-  EasingNode,
 } from 'react-native-reanimated';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import FastImage from 'react-native-fast-image';
-import { FlatList } from 'react-native-gesture-handler';
 import { Icon, IconButton } from '../..';
+import { MediaItem } from '../../../providers/ecency/ecency.types';
+import { editorQueries } from '../../../providers/queries';
+import { MediaPreviewItem } from './mediaPreviewItem';
 import styles, {
   COMPACT_HEIGHT,
   EXPANDED_HEIGHT,
   MAX_HORIZONTAL_THUMBS,
 } from './uploadsGalleryModalStyles';
-import { editorQueries } from '../../../providers/queries';
-import { MediaItem } from '../../../providers/ecency/ecency.types';
-import { MediaPreviewItem } from './mediaPreviewItem';
+import { ThreeSpeakStatus } from '../../../providers/speak/speak.types';
+import { useDispatch } from 'react-redux';
+import { setBeneficiaries } from '../../../redux/actions/editorActions';
+import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
+import { DEFAULT_SPEAK_BENEFICIARIES } from '../../../providers/speak/constants';
+import { showActionModal } from '../../../redux/actions/uiAction';
 
 type Props = {
+  draftId?: string;
   insertedMediaUrls: string[];
   mediaUploads: MediaItem[];
   isAddingToUploads: boolean;
@@ -40,6 +43,7 @@ type Props = {
 };
 
 const UploadsGalleryContent = ({
+  draftId,
   insertedMediaUrls,
   mediaUploads,
   isAddingToUploads,
@@ -48,6 +52,7 @@ const UploadsGalleryContent = ({
   handleOpenCamera,
 }: Props) => {
   const intl = useIntl();
+  const dispatch = useDispatch();
 
   const deleteMediaMutation = editorQueries.useMediaDeleteMutation();
 
@@ -114,17 +119,48 @@ const UploadsGalleryContent = ({
         }
         setDeleteIds([...deleteIds]);
       } else {
-        insertMedia(new Map([[index, true]]));
+
+        let isUnpublishedInserted = false
+        if (item.speakData && item.speakData.status !== ThreeSpeakStatus.PUBLISHED) {
+          //make sure this is not the second ubpublished video being inserted
+          
+          insertedMediaUrls.forEach((url) => {
+            const _mediaItem = mediaUploads.find((item) => (item.url === url && item.speakData?.status !== ThreeSpeakStatus.PUBLISHED));
+            if (_mediaItem) {
+              isUnpublishedInserted = true;
+            }
+          })
+
+          if (!isUnpublishedInserted) {
+            //update beneficiaries
+            const vidBeneficiaries = JSON.parse(item.speakData.beneficiaries || '[]')
+            const beneficiaries = [...DEFAULT_SPEAK_BENEFICIARIES, ...vidBeneficiaries]
+            const _draftId = draftId || TEMP_BENEFICIARIES_ID;
+            Alert.alert(_draftId, JSON.stringify(beneficiaries))
+            dispatch(setBeneficiaries(_draftId, beneficiaries))
+          }
+        }
+
+        //TOOD: later handle beneficiaries removal on item deletion from body
+        if(!isUnpublishedInserted){
+          insertMedia(new Map([[index, true]]));
+        } else {
+          dispatch(showActionModal({
+            title:"Fail",
+            body:"Can only have one unpublished video per post"
+          }))
+        }
+        
       }
     };
 
-    return <MediaPreviewItem 
+    return <MediaPreviewItem
       item={item}
       insertedMediaUrls={insertedMediaUrls}
       deleteIds={deleteIds}
       isDeleteMode={isDeleteMode}
       isDeleting={isDeleting}
-      isExpandedMode={isExpandedMode} 
+      isExpandedMode={isExpandedMode}
       onPress={_onPress} />
   };
 

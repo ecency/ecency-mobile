@@ -15,6 +15,7 @@ import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uplo
 import Formats from './formats/formats';
 
 type Props = {
+  draftId?:string;
   postBody: string;
   paramFiles: any[];
   isEditing: boolean;
@@ -28,6 +29,7 @@ type Props = {
 };
 
 export const EditorToolbar = ({
+  draftId,
   postBody,
   paramFiles,
   isEditing,
@@ -201,6 +203,7 @@ export const EditorToolbar = ({
           >
             {isExtensionVisible && <View style={styles.indicator} />}
             <UploadsGalleryModal
+              draftId={draftId}
               ref={uploadsGalleryModalRef}
               postBody={postBody}
               isPreviewActive={isPreviewActive}

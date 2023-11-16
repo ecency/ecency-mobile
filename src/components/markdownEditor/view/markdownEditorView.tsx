@@ -1,16 +1,16 @@
-import React, { useState, useRef, useEffect, useCallback, Fragment } from 'react';
+import { postBodySummary, renderPostBody } from '@ecency/render-helper';
+import { debounce, get } from 'lodash';
+import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import {
-  View,
   KeyboardAvoidingView,
-  Text,
   Platform,
   ScrollView,
+  Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import { renderPostBody, postBodySummary } from '@ecency/render-helper';
-import { useDispatch, useSelector } from 'react-redux';
-import { get, debounce } from 'lodash';
 import Animated, { BounceInRight } from 'react-native-reanimated';
+import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from '../../icon';
 
 // Utils
@@ -21,34 +21,34 @@ import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 
 // Components
 import {
+  InsertLinkModal,
+  Modal,
   PostBody,
-  TextInput,
-  UserAvatar,
-  TitleArea,
+  SnippetsModal,
+  SummaryArea,
   TagArea,
   TagInput,
-  SummaryArea,
-  Modal,
-  SnippetsModal,
+  TextInput,
+  TitleArea,
   Tooltip,
-  InsertLinkModal,
+  UserAvatar,
 } from '../../index';
 
 // Styles
-import styles from '../styles/markdownEditorStyles';
-import applySnippet from '../children/formats/applySnippet';
-import { MainButton } from '../../mainButton';
+import { useAppSelector } from '../../../hooks';
+import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
 import { OptionsModal } from '../../atoms';
-import { walkthrough } from '../../../redux/constants/walkthroughConstants';
+import { MainButton } from '../../mainButton';
 import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import { EditorToolbar } from '../children/editorToolbar';
-import { extractImageUrls } from '../../../utils/editor';
-import { useAppSelector } from '../../../hooks';
+import applySnippet from '../children/formats/applySnippet';
+import styles from '../styles/markdownEditorStyles';
 
 // const MIN_BODY_INPUT_HEIGHT = 300;
 
 const MarkdownEditorView = ({
+  draftId,
   paramFiles,
   draftBody,
   intl,
@@ -432,6 +432,7 @@ const MarkdownEditorView = ({
         {_renderFloatingDraftButton()}
 
         <EditorToolbar
+          draftId={draftId}
           postBody={bodyTextRef.current}
           isPreviewActive={isPreviewActive}
           paramFiles={paramFiles}

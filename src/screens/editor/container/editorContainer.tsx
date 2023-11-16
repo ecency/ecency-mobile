@@ -20,6 +20,7 @@ import {
   reblog,
   postComment,
 } from '../../../providers/hive/dhive';
+import unionBy from 'lodash/unionBy';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -52,6 +53,7 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
 import { PostTypes } from '../../../constants/postTypes';
 import { speakQueries } from '../../../providers/queries';
+import { BENEFICIARY_SRC_ENCODER, DEFAULT_SPEAK_BENEFICIARIES } from '../../../providers/speak/constants';
 
 /*
  *            Props Name        Description                                     Value
@@ -602,9 +604,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     } = this.props;
     const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
 
-    //TODO: handle appropriate speak beneficiaries if needed
+
     //ref: https://swimlanes.io/u/7xPWxOvpH
-    const beneficiaries = this._extractBeneficiaries();
+    let beneficiaries = this._extractBeneficiaries();
 
     if (isPostSending) {
       return;
@@ -613,13 +615,23 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     if (currentAccount) {
 
       // build speak video body
-      try{
+      try {
         fields.body = speakContentBuilder.build(fields.body);
-      } catch(err){
+
+        //verify and video beneficiaries redundent
+        if (!speakContentBuilder.videoPublishMeta) {
+          beneficiaries = beneficiaries.filter(item => item.src !== BENEFICIARY_SRC_ENCODER);
+        } else {
+          const encoderBene = [
+            ...JSON.parse(speakContentBuilder.videoPublishMeta.beneficiaries || []), 
+            ...DEFAULT_SPEAK_BENEFICIARIES];
+          beneficiaries = unionBy(encoderBene, beneficiaries, 'account');
+        }
+      } catch (err) {
         console.warn("fail", err);
         return;
       }
-      
+
 
       this.setState({
         isPostSending: true,

@@ -48,6 +48,7 @@ export interface MediaInsertData {
 }
 
 interface UploadsGalleryModalProps {
+  draftId?: string;
   postBody: string;
   paramFiles: any[];
   isEditing: boolean;
@@ -61,6 +62,7 @@ interface UploadsGalleryModalProps {
 export const UploadsGalleryModal = forwardRef(
   (
     {
+      draftId,
       postBody,
       paramFiles,
       isEditing,
@@ -420,6 +422,7 @@ export const UploadsGalleryModal = forwardRef(
       !isPreviewActive &&
       showModal && (
         <UploadsGalleryContent
+          draftId={draftId}
           insertedMediaUrls={mediaUrls}
           mediaUploads={data}
           isAddingToUploads={isAddingToUploads}

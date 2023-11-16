@@ -12,6 +12,7 @@ import { lookupAccounts } from '../../providers/hive/dhive';
 import { setBeneficiaries as setBeneficiariesAction } from '../../redux/actions/editorActions';
 import { TEMP_BENEFICIARIES_ID } from '../../redux/constants/constants';
 import { Beneficiary } from '../../redux/reducers/editorReducer';
+import { BENEFICIARY_SRC_ENCODER } from '../../providers/speak/constants';
 
 interface BeneficiarySelectionContentProps {
   draftId: string;
@@ -59,9 +60,7 @@ const BeneficiarySelectionContent = ({
   }, [powerDownBeneficiaries]);
 
   useEffect(() => {
-    if (draftId) {
       readTempBeneficiaries();
-    }
   }, [draftId]);
 
   useEffect(() => {
@@ -344,7 +343,7 @@ const BeneficiarySelectionContent = ({
             wrapperStyle={styles.usernameFormInputWrapper}
           />
         </View>
-        {!_isCurrentUser ? (
+        {!_isCurrentUser && item.src !== BENEFICIARY_SRC_ENCODER ? (
           <IconButton
             name="close"
             iconType="MaterialCommunityIcons"
