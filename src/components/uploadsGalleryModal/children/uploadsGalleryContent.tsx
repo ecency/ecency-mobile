@@ -129,7 +129,7 @@ const UploadsGalleryContent = ({
             const vidBeneficiaries = JSON.parse(item.speakData.beneficiaries || '[]');
             const beneficiaries = [...DEFAULT_SPEAK_BENEFICIARIES, ...vidBeneficiaries];
             const _draftId = draftId || TEMP_BENEFICIARIES_ID;
-            Alert.alert(_draftId, JSON.stringify(beneficiaries));
+           
             dispatch(setBeneficiaries(_draftId, beneficiaries));
           }
         }
