@@ -173,18 +173,18 @@ export const UploadsGalleryModal = forwardRef(
     }, [postBody, showModal, mode]);
 
     const _handleOpenImagePicker = (addToUploads?: boolean) => {
-      const _vidMode = mode === Modes.MODE_VIDEO
-      const _options: Options = _vidMode ?
-        {
-          mediaType: 'video',
-          smartAlbums: ['UserLibrary', 'Favorites', 'Videos'],
-        } : {
-          includeBase64: true,
-          multiple: allowMultiple || true,
-          mediaType: 'photo',
-          smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
-        }
-
+      const _vidMode = mode === Modes.MODE_VIDEO;
+      const _options: Options = _vidMode
+        ? {
+            mediaType: 'video',
+            smartAlbums: ['UserLibrary', 'Favorites', 'Videos'],
+          }
+        : {
+            includeBase64: true,
+            multiple: allowMultiple || true,
+            mediaType: 'photo',
+            smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
+          };
 
       ImagePicker.openPicker(_options)
         .then((items) => {
@@ -196,7 +196,6 @@ export const UploadsGalleryModal = forwardRef(
           } else {
             _handleMediaOnSelected(items, !addToUploads);
           }
-
         })
         .catch((e) => {
           _handleMediaOnSelectFailure(e);
@@ -204,24 +203,23 @@ export const UploadsGalleryModal = forwardRef(
     };
 
     const _handleOpenCamera = () => {
-
-      const _vidMode = mode === Modes.MODE_VIDEO
-      const _options: Options = _vidMode ?
-        {
-          mediaType: 'video',
-        } : {
-          includeBase64: true,
-          mediaType: 'photo',
-        };
+      const _vidMode = mode === Modes.MODE_VIDEO;
+      const _options: Options = _vidMode
+        ? {
+            mediaType: 'video',
+          }
+        : {
+            includeBase64: true,
+            mediaType: 'photo',
+          };
 
       ImagePicker.openCamera(_options)
         .then((media) => {
-          if(_vidMode){
+          if (_vidMode) {
             _handleVideoSelection(media);
-          }else {
+          } else {
             _handleMediaOnSelected([media], true);
           }
-          
         })
         .catch((e) => {
           _handleMediaOnSelectFailure(e);

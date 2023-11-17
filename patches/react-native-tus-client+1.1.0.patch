@@ -1,0 +1,11 @@
+diff --git a/node_modules/react-native-tus-client/RNTusClient.podspec b/node_modules/react-native-tus-client/RNTusClient.podspec
+index b855287..3f49b50 100644
+--- a/node_modules/react-native-tus-client/RNTusClient.podspec
++++ b/node_modules/react-native-tus-client/RNTusClient.podspec
+@@ -15,5 +15,5 @@ Pod::Spec.new do |s|
+   s.ios.deployment_target = '8.0'
+ 
+   s.dependency 'React-Core'
+-  s.dependency 'TUSKit'
++  s.dependency 'TUSKit', '~> 1.4.2'
+ end

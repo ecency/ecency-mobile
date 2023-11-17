@@ -3,23 +3,28 @@ import { useRef } from 'react';
 import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { Video } from 'react-native-image-crop-picker';
 import styles from '../styles/speakUploaderModal.styles';
 import { MainButton } from '../../mainButton';
-import { Video } from 'react-native-image-crop-picker';
-import { uploadVideo } from '../../../providers/speak/speak';
+import { uploadFile, uploadVideoInfo } from '../../../providers/speak/speak';
+import { useAppSelector } from '../../../hooks';
 
-export const SpeakUploaderModal = forwardRef(({}, ref) => {
+export const SpeakUploaderModal = forwardRef(({ }, ref) => {
   const sheetModalRef = useRef();
 
-  const [image1, setImage1] = useState(null);
-  const [image2, setImage2] = useState(null);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const pinHash = useAppSelector(state => state.application.pin);
+
+  const [selectedThumb, setSelectedThumb] = useState(null);
   const [title, setTitle] = useState('');
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
-  const [selectedVido, setSelectedVideo] = useState<Video|null>(null);
+  const [selectedVido, setSelectedVideo] = useState<Video | null>(null);
+
 
   useImperativeHandle(ref, () => ({
-    showUploader: (_video:Video) => {
+    showUploader: (_video: Video) => {
       if (sheetModalRef.current) {
         setSelectedVideo(_video);
         sheetModalRef.current.setModalVisible(true);
@@ -27,38 +32,54 @@ export const SpeakUploaderModal = forwardRef(({}, ref) => {
     },
   }));
 
+
+
   const _startUpload = async () => {
-
-    if(!selectedVido){
-      return
+    if (!selectedVido || isUploading) {
+      return;
     }
 
-    try{
-      const response = await uploadVideo(selectedVido, (progress) => {
-        console.log("Upload progress", progress)
-      })
+    setIsUploading(true);
 
-      console.log("uploda video response", response);
-    } catch(err){
-      console.warn("Video upload failed", err)
+    try {
+
+      const {
+        filename,
+        size,
+        duration
+      } = selectedVido;
+
+      const _onProgress = (progress) => {
+        console.log('Upload progress', progress);
+        setUploadProgress(progress)
+      }
+
+      const videoId = await uploadFile(selectedVido, _onProgress);
+
+      let thumbId: any = ''
+      if (selectedThumb) {
+        thumbId = await uploadFile(selectedThumb, _onProgress)
+      }
+
+      console.log("updating video information", videoId, thumbId);
+
+      const response = await uploadVideoInfo(currentAccount, pinHash, filename, size, videoId, thumbId, duration)
+
+      console.log("response after updating video information", response);
+
+    } catch (err) {
+      console.warn('Video upload failed', err);
     }
-    
-  }
+
+    setIsUploading(false);
+  };
 
 
-  const _onClose = () => {};
+  const _onClose = () => { };
 
-
-  const _renderProgressContent = () => {};
+  const _renderProgressContent = () => { };
 
   const _renderFormContent = () => {
-    // Function to handle image upload
-    const handleImageUpload = (imageNumber) => {
-      // You can implement your logic for image upload here
-      // For example, using ImagePicker or any other method
-      // This example simply sets a placeholder image
-      // Upload video and thumbnail if selected
-    };
 
     return (
       <View style={styles.contentContainer}>

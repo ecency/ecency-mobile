@@ -653,6 +653,9 @@ PODS:
     - React-RCTImage
   - RNSVG (12.5.1):
     - React-Core
+  - RNTusClient (1.1.0):
+    - React-Core
+    - TUSKit (~> 1.4.2)
   - RNVectorIcons (6.7.0):
     - React
   - SDWebImage (5.11.1):
@@ -667,6 +670,7 @@ PODS:
   - TOCropViewController (2.6.1)
   - toolbar-android (0.2.1):
     - React
+  - TUSKit (1.4.2)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -780,6 +784,7 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - RNTusClient (from `../node_modules/react-native-tus-client`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - TcpSockets (from `../node_modules/react-native-tcp`)
   - "toolbar-android (from `../node_modules/@react-native-community/toolbar-android`)"
@@ -819,6 +824,7 @@ SPEC REPOS:
     - SDWebImageWebPCoder
     - SocketRocket
     - TOCropViewController
+    - TUSKit
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -986,6 +992,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  RNTusClient:
+    :path: "../node_modules/react-native-tus-client"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   TcpSockets:
@@ -1106,6 +1114,7 @@ SPEC CHECKSUMS:
   RNReanimated: 6668b0587bebd4b15dd849b99e5a9c70fc12ed95
   RNScreens: 4830eb40e0793b38849965cd27f4f3a7d7bc65c1
   RNSVG: d7d7bc8229af3842c9cfc3a723c815a52cdd1105
+  RNTusClient: b90393226531c118c4716a2b71128e3b9d9c77ee
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
@@ -1113,6 +1122,7 @@ SPEC CHECKSUMS:
   TcpSockets: 4ef55305239923b343ed0a378b1fac188b1373b0
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   toolbar-android: 2a73856e98b750d7e71ce4644d3f41cc98211719
+  TUSKit: 4bcc2fe13e1b4d6c3bfbaca57d64e64c1be31201
   Yoga: 92d086bb705a41cc588599b51db726ba7b1d341c
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

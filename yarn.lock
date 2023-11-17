@@ -9358,6 +9358,11 @@ react-native-tcp@^4.0.0:
     process "^0.11.9"
     util "^0.10.3"
 
+react-native-tus-client@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-tus-client/-/react-native-tus-client-1.1.0.tgz#5d1ba7e79a1b0e131426cb9ae0a502fb695730c4"
+  integrity sha512-rs5/JNbCWLoQZE3x/faa6+mSXAz21q75lLGC5yyJe6L4jylhBHNbJUsapvnpo7mbcOMvuai0aoTcSzGyqQ9kVQ==
+
 react-native-udp@^4.1.4:
   version "4.1.7"
   resolved "https://registry.yarnpkg.com/react-native-udp/-/react-native-udp-4.1.7.tgz#9fa90b772b44c991605e8191444dd2ca3259cb58"

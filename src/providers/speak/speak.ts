@@ -1,11 +1,12 @@
 import axios from 'axios';
 import hs from 'hivesigner';
+import { Image, Video } from 'react-native-image-crop-picker';
 import { getDigitPinCode } from '../hive/dhive';
 import { ThreeSpeakVideo } from './speak.types';
 import { decryptKey } from '../../utils/crypto';
 import { convertVideoUpload } from './converters';
 import { BASE_URL_SPEAK_STUDIO, PATH_API, PATH_LOGIN, PATH_MOBILE } from './constants';
-import { Video } from 'react-native-image-crop-picker';
+import { Upload } from 'react-native-tus-client';
 
 const tusEndPoint = 'https://uploads.3speak.tv/files/';
 
@@ -39,9 +40,8 @@ export const uploadVideoInfo = async (
   pinHash: string,
   oFilename: string,
   fileSize: number,
-  videoUrl: string,
-  thumbnailUrl: string,
-  username: string,
+  videoId: string,
+  thumbnailId: string,
   duration: string,
 ) => {
   const token = await threespeakAuth(currentAccount, pinHash);
@@ -49,13 +49,13 @@ export const uploadVideoInfo = async (
     const { data } = await axios.post<ThreeSpeakVideo>(
       `${PATH_API}/upload_info?app=ecency`,
       {
-        filename: videoUrl,
+        filename: videoId,
         oFilename,
         size: fileSize,
         duration,
-        thumbnail: thumbnailUrl,
+        thumbnail: thumbnailId,
         isReel: false,
-        owner: username,
+        owner: currentAccount.username,
       },
       {
         withCredentials: false,
@@ -93,6 +93,7 @@ export const getAllVideoStatuses = async (currentAccount: any, pinHash: string) 
   }
 };
 
+//TOOD: use api during post publishing
 export const updateSpeakVideoInfo = async (
   currentAccount: any,
   pinHash: string,
@@ -145,76 +146,38 @@ export const markAsPublished = async (currentAccount: any, pinHash: string, vide
     });
 };
 
-export const uploadVideo = async (media:Video, onUploadProgress) => {
-  try {
-    const file = {
-      uri: media.path,
-      type: media.mime,
-      name: media.filename || `vid_${Math.random()}.mp4`,
-      size: media.size,
-    };
-
-    const fData = new FormData();
-    fData.append('file', file);
-
-    const res = await axios.post(tusEndPoint, fData, {
-      onUploadProgress,
-    });
-    if (!res || !res.data) {
-      throw new Error('Returning response missing media data');
+export const uploadFile = (media: Video | Image, onProgress) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const upload = new Upload(media.path, {
+        endpoint: tusEndPoint, // use your tus server endpoint instead
+        metadata: {
+          filename: media.filename,
+          filetype: media.mime
+        },
+        onError: error => console.log('error', error),
+        onSuccess: () => {
+          console.log('Upload completed. File url:', upload.url);
+          const _videoId = upload.url.replace(tusEndPoint, '');
+          resolve(_videoId);
+        },
+  
+        onProgress: (uploaded, total) => {
+          onProgress(uploaded / total * 100)
+        }
+  
+      });
+  
+      upload.start();
+  
+    } catch (error) {
+      console.warn('Image upload failed', error);
+      reject (error);
     }
-    return res.data;
-  } catch (error) {
-    console.warn('Image upload failed', error);
-    throw error;
-  }
+  })
+ 
 };
 
-//   export const uploadFile = async (
-//     file: File,
-//     type: string,
-//     progressCallback: (percentage: number) => void
-//   ) => {
-//     return new Promise<{
-//       fileUrl: string;
-//       fileName: string;
-//       fileSize: number;
-//     }>((resolve, reject) => {
-//       let vPercentage = 0;
-//       let tPercentage = 0;
-
-//       const upload: any = new tus.Upload(file, {
-//         endpoint: tusEndPoint,
-//         retryDelays: [0, 3000, 5000, 10000, 20000],
-//         metadata: {
-//           filename: file.name,
-//           filetype: file.type
-//         },
-//         onError: function (error: Error) {
-//           reject(error);
-//         },
-//         onProgress: function (bytesUploaded: number, bytesTotal: number) {
-//           if (type === "video") {
-//             vPercentage = Number(((bytesUploaded / bytesTotal) * 100).toFixed(2));
-//             progressCallback(vPercentage);
-//           } else {
-//             tPercentage = Number(((bytesUploaded / bytesTotal) * 100).toFixed(2));
-//             progressCallback(tPercentage);
-//           }
-//         },
-//         onSuccess: function () {
-//           let fileUrl = upload?.url.replace(tusEndPoint, "");
-//           const result = {
-//             fileUrl,
-//             fileName: upload.file?.name || "",
-//             fileSize: upload.file?.size || 0
-//           };
-//           resolve(result);
-//         }
-//       });
-//       upload.start();
-//     });
-//   };
 
 const getDecodedMemo = async (local, pinHash, encryptedMemo) => {
   try {
