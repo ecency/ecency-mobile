@@ -5,6 +5,8 @@ import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from '../styles/speakUploaderModal.styles';
 import { MainButton } from '../../mainButton';
+import { Video } from 'react-native-image-crop-picker';
+import { uploadVideo } from '../../../providers/speak/speak';
 
 export const SpeakUploaderModal = forwardRef(({}, ref) => {
   const sheetModalRef = useRef();
@@ -14,15 +16,38 @@ export const SpeakUploaderModal = forwardRef(({}, ref) => {
   const [title, setTitle] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
+  const [selectedVido, setSelectedVideo] = useState<Video|null>(null);
+
   useImperativeHandle(ref, () => ({
-    showUploader: () => {
+    showUploader: (_video:Video) => {
       if (sheetModalRef.current) {
+        setSelectedVideo(_video);
         sheetModalRef.current.setModalVisible(true);
       }
     },
   }));
 
+  const _startUpload = async () => {
+
+    if(!selectedVido){
+      return
+    }
+
+    try{
+      const response = await uploadVideo(selectedVido, (progress) => {
+        console.log("Upload progress", progress)
+      })
+
+      console.log("uploda video response", response);
+    } catch(err){
+      console.warn("Video upload failed", err)
+    }
+    
+  }
+
+
   const _onClose = () => {};
+
 
   const _renderProgressContent = () => {};
 
@@ -39,7 +64,7 @@ export const SpeakUploaderModal = forwardRef(({}, ref) => {
       <View style={styles.contentContainer}>
         <View style={styles.titleBox}>
           <Text style={styles.label}>Selection</Text>
-          <TextInput style={styles.titleInput} editable={false} value="Revoling World .mp4" />
+          <TextInput style={styles.titleInput} editable={false} value={selectedVido?.filename} />
         </View>
 
         <View style={styles.titleBox}>
@@ -62,9 +87,7 @@ export const SpeakUploaderModal = forwardRef(({}, ref) => {
 
         <MainButton
           style={styles.uploadButton}
-          onPress={() => {
-            /* Handle upload */
-          }}
+          onPress={_startUpload}
           text="START UPLOAD"
           isLoading={isUploading}
         />

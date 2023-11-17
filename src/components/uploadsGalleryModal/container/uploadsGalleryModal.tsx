@@ -173,30 +173,30 @@ export const UploadsGalleryModal = forwardRef(
     }, [postBody, showModal, mode]);
 
     const _handleOpenImagePicker = (addToUploads?: boolean) => {
-      const _options: Options =
-        mode === Modes.MODE_IMAGE
-          ? {
-              includeBase64: true,
-              multiple: allowMultiple || true,
-              mediaType: 'photo',
-              smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
-            }
-          : {
-              mediaType: 'video',
-              smartAlbums: ['UserLibrary', 'Favorites', 'Videos'],
-            };
+      const _vidMode = mode === Modes.MODE_VIDEO
+      const _options: Options = _vidMode ?
+        {
+          mediaType: 'video',
+          smartAlbums: ['UserLibrary', 'Favorites', 'Videos'],
+        } : {
+          includeBase64: true,
+          multiple: allowMultiple || true,
+          mediaType: 'photo',
+          smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
+        }
 
-      if (Modes.MODE_VIDEO) {
-        _handleVideoSelection();
-        return;
-      }
 
       ImagePicker.openPicker(_options)
         .then((items) => {
           if (items && !Array.isArray(items)) {
             items = [items];
           }
-          _handleMediaOnSelected(items, !addToUploads);
+          if (_vidMode) {
+            _handleVideoSelection(items[0]);
+          } else {
+            _handleMediaOnSelected(items, !addToUploads);
+          }
+
         })
         .catch((e) => {
           _handleMediaOnSelectFailure(e);
@@ -204,12 +204,24 @@ export const UploadsGalleryModal = forwardRef(
     };
 
     const _handleOpenCamera = () => {
-      ImagePicker.openCamera({
-        includeBase64: true,
-        mediaType: 'photo',
-      })
-        .then((image) => {
-          _handleMediaOnSelected([image], true);
+
+      const _vidMode = mode === Modes.MODE_VIDEO
+      const _options: Options = _vidMode ?
+        {
+          mediaType: 'video',
+        } : {
+          includeBase64: true,
+          mediaType: 'photo',
+        };
+
+      ImagePicker.openCamera(_options)
+        .then((media) => {
+          if(_vidMode){
+            _handleVideoSelection(media);
+          }else {
+            _handleMediaOnSelected([media], true);
+          }
+          
         })
         .catch((e) => {
           _handleMediaOnSelectFailure(e);
@@ -362,7 +374,7 @@ export const UploadsGalleryModal = forwardRef(
     const _handleVideoSelection = (video: Video) => {
       // show video upload modal,
       // allow thumbnail selection and uplaods
-      speakUploaderRef.current.showUploader();
+      speakUploaderRef.current.showUploader(video);
     };
 
     const _handleMediaOnSelectFailure = (error) => {

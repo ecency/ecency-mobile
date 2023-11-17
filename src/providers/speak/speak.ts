@@ -5,6 +5,7 @@ import { ThreeSpeakVideo } from './speak.types';
 import { decryptKey } from '../../utils/crypto';
 import { convertVideoUpload } from './converters';
 import { BASE_URL_SPEAK_STUDIO, PATH_API, PATH_LOGIN, PATH_MOBILE } from './constants';
+import { Video } from 'react-native-image-crop-picker';
 
 const tusEndPoint = 'https://uploads.3speak.tv/files/';
 
@@ -144,12 +145,12 @@ export const markAsPublished = async (currentAccount: any, pinHash: string, vide
     });
 };
 
-export const uploadVideo = async (media, onUploadProgress) => {
+export const uploadVideo = async (media:Video, onUploadProgress) => {
   try {
     const file = {
       uri: media.path,
       type: media.mime,
-      name: media.filename || `img_${Math.random()}.mp4`,
+      name: media.filename || `vid_${Math.random()}.mp4`,
       size: media.size,
     };
 
