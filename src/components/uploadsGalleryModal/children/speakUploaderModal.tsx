@@ -3,11 +3,13 @@ import { useRef } from 'react';
 import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Video } from 'react-native-image-crop-picker';
+import { Video as VideoType } from 'react-native-image-crop-picker';
 import styles from '../styles/speakUploaderModal.styles';
 import { MainButton } from '../../mainButton';
 import { uploadFile, uploadVideoInfo } from '../../../providers/speak/speak';
 import { useAppSelector } from '../../../hooks';
+import Video from 'react-native-video';
+import { createThumbnail } from "react-native-create-thumbnail";
 
 export const SpeakUploaderModal = forwardRef(({}, ref) => {
   const sheetModalRef = useRef();
@@ -16,17 +18,24 @@ export const SpeakUploaderModal = forwardRef(({}, ref) => {
   const pinHash = useAppSelector((state) => state.application.pin);
 
   const [selectedThumb, setSelectedThumb] = useState(null);
-  const [title, setTitle] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  const [selectedVido, setSelectedVideo] = useState<Video | null>(null);
+  const [selectedVido, setSelectedVideo] = useState<VideoType | null>(null);
 
   useImperativeHandle(ref, () => ({
-    showUploader: (_video: Video) => {
+    showUploader: (_video: VideoType) => {
       if (sheetModalRef.current) {
         setSelectedVideo(_video);
         sheetModalRef.current.setModalVisible(true);
+
+        console.log("creating thumb");
+        createThumbnail({
+          url:_video.sourceURL,
+        }).then(response => {
+          console.log("thumb response", response);
+          setSelectedThumb(response);
+        })
       }
     },
   }));
@@ -80,12 +89,20 @@ export const SpeakUploaderModal = forwardRef(({}, ref) => {
   const _renderFormContent = () => {
     return (
       <View style={styles.contentContainer}>
-        <View style={styles.titleBox}>
-          <Text style={styles.label}>Selection</Text>
-          <TextInput style={styles.titleInput} editable={false} value={selectedVido?.filename} />
-        </View>
+        <Video
+          source={{
+            uri:selectedVido?.sourceURL,
+          }}
+          repeat={true}
+          onLoad={()=>{}}
+          onError={()=>{}}
+          resizeMode="container"
+          fullscreen={false}
+          style={styles.mediaPlayer}
+          volume={0}
+        />
 
-        <View style={styles.titleBox}>
+        {/* <View style={styles.titleBox}>
           <Text style={styles.label}>Title</Text>
           <TextInput
             style={styles.titleInput}
@@ -94,12 +111,12 @@ export const SpeakUploaderModal = forwardRef(({}, ref) => {
             onChangeText={(text) => setTitle(text)}
             value={title}
           />
-        </View>
+        </View> */}
 
         <View style={styles.imageContainer}>
           <Text style={styles.label}>Select Thumbnail</Text>
           <TouchableOpacity onPress={() => handleImageUpload(2)}>
-            <Image source={{}} style={styles.thumbnail} />
+            <Image source={selectedThumb && {uri:selectedThumb.path}} style={styles.thumbnail} />
           </TouchableOpacity>
         </View>
 

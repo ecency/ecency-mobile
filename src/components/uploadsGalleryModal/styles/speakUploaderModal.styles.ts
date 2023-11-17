@@ -1,4 +1,7 @@
+import { Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+
+const SCREEN_WIDTH = Dimensions.get('screen').width;
 
 export default EStyleSheet.create({
   modalStyle: {
@@ -17,11 +20,10 @@ export default EStyleSheet.create({
     zIndex: 999,
   },
   contentContainer: {
-    padding: 16,
     paddingBottom: 40,
   },
   imageContainer: {
-    marginBottom: 20,
+    marginVertical: 20,
   },
   thumbnail: {
     marginTop: 10,
@@ -60,5 +62,11 @@ export default EStyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  mediaPlayer: {
+    width:SCREEN_WIDTH,
+    height:SCREEN_WIDTH / 1.77,
+    backgroundColor: 'black',
+    justifyContent: 'center',
   },
 });
