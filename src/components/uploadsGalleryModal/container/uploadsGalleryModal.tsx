@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import { useIntl } from 'react-intl';
 import { Alert, AlertButton } from 'react-native';
-import ImagePicker, { Image } from 'react-native-image-crop-picker';
+import ImagePicker, { Image, Options, Video } from 'react-native-image-crop-picker';
 import RNHeicConverter from 'react-native-heic-converter';
 import { openSettings } from 'react-native-permissions';
 import bugsnapInstance from '../../../config/bugsnag';
@@ -25,6 +25,7 @@ import showLoginAlert from '../../../utils/showLoginAlert';
 import { editorQueries, speakQueries } from '../../../providers/queries';
 import { showActionModal } from '../../../redux/actions/uiAction';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
+import { SpeakUploaderModal } from '../children/speakUploaderModal';
 
 export interface UploadsGalleryModalRef {
   showModal: () => void;
@@ -85,6 +86,7 @@ export const UploadsGalleryModal = forwardRef(
     const mediaUploadMutation = editorQueries.useMediaUploadMutation();
 
     const pendingInserts = useRef<MediaInsertData[]>([]);
+    const speakUploaderRef = useRef<SpeakUploaderModal>();
 
     const [showModal, setShowModal] = useState(false);
     const [isAddingToUploads, setIsAddingToUploads] = useState(false);
@@ -171,17 +173,28 @@ export const UploadsGalleryModal = forwardRef(
     }, [postBody, showModal, mode]);
 
     const _handleOpenImagePicker = (addToUploads?: boolean) => {
-      ImagePicker.openPicker({
+
+      const _options: Options = mode === Modes.MODE_IMAGE ? {
         includeBase64: true,
         multiple: allowMultiple || true,
         mediaType: 'photo',
         smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
-      })
-        .then((images) => {
-          if (images && !Array.isArray(images)) {
-            images = [images];
+      } : {
+        mediaType: 'video',
+        smartAlbums: ['UserLibrary', 'Favorites', 'Videos'],
+      }
+
+      if(Modes.MODE_VIDEO){
+        _handleVideoSelection();
+        return;
+      }
+
+      ImagePicker.openPicker(_options)
+        .then((items) => {
+          if (items && !Array.isArray(items)) {
+            items = [items];
           }
-          _handleMediaOnSelected(images, !addToUploads);
+          _handleMediaOnSelected(items, !addToUploads);
         })
         .catch((e) => {
           _handleMediaOnSelectFailure(e);
@@ -344,6 +357,13 @@ export const UploadsGalleryModal = forwardRef(
       }
     };
 
+
+    const _handleVideoSelection = (video: Video) => {
+      //show video upload modal,
+      //allow thumbnail selection and uplaods
+      speakUploaderRef.current.showUploader();
+    }
+
     const _handleMediaOnSelectFailure = (error) => {
       let title = intl.formatMessage({ id: 'alert.something_wrong' });
       let body = error.message || JSON.stringify(error);
@@ -419,20 +439,28 @@ export const UploadsGalleryModal = forwardRef(
 
     const data = mediaUploadsQuery.data.slice();
 
+    if (isPreviewActive) {
+      return null;
+    }
+
     return (
-      !isPreviewActive &&
-      showModal && (
-        <UploadsGalleryContent
-          draftId={draftId}
-          insertedMediaUrls={mediaUrls}
-          mediaUploads={data}
-          isAddingToUploads={isAddingToUploads}
-          getMediaUploads={_getMediaUploads}
-          insertMedia={_insertMedia}
-          handleOpenCamera={_handleOpenCamera}
-          handleOpenGallery={_handleOpenImagePicker}
+      <>
+        {showModal && (
+          <UploadsGalleryContent
+            draftId={draftId}
+            insertedMediaUrls={mediaUrls}
+            mediaUploads={data}
+            isAddingToUploads={isAddingToUploads}
+            getMediaUploads={_getMediaUploads}
+            insertMedia={_insertMedia}
+            handleOpenCamera={_handleOpenCamera}
+            handleOpenGallery={_handleOpenImagePicker}
+          />
+        )}
+        <SpeakUploaderModal 
+          ref={speakUploaderRef}
         />
-      )
-    );
+      </>
+    )
   },
 );
