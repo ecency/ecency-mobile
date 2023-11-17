@@ -29,6 +29,7 @@ class RedeemContainer extends Component {
   // Component Functions
 
   _redeemAction = async (redeemType = 'promote', actionSpecificParam, permlink, author, user) => {
+
     this.setState({ isLoading: true });
 
     const { currentAccount, pinCode, dispatch, intl, navigation } = this.props;
@@ -79,10 +80,9 @@ class RedeemContainer extends Component {
       })
       .catch((error) => {
         if (error) {
-          dispatch(
-            `${toastNotification(intl.formatMessage({ id: 'alert.key_warning' }))}\n${
-              error.message
-            }`,
+          dispatch(toastNotification(
+            `${intl.formatMessage({ id: 'alert.key_warning' })}\n${error.message}`
+          ),
           );
         }
       });
