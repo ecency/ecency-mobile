@@ -1,12 +1,12 @@
 import axios from 'axios';
 import hs from 'hivesigner';
 import { Image, Video } from 'react-native-image-crop-picker';
+import { Upload } from 'react-native-tus-client';
 import { getDigitPinCode } from '../hive/dhive';
 import { ThreeSpeakVideo } from './speak.types';
 import { decryptKey } from '../../utils/crypto';
 import { convertVideoUpload } from './converters';
 import { BASE_URL_SPEAK_STUDIO, PATH_API, PATH_LOGIN, PATH_MOBILE } from './constants';
-import { Upload } from 'react-native-tus-client';
 
 const tusEndPoint = 'https://uploads.3speak.tv/files/';
 
@@ -93,7 +93,7 @@ export const getAllVideoStatuses = async (currentAccount: any, pinHash: string) 
   }
 };
 
-//TOOD: use api during post publishing
+// TOOD: use api during post publishing
 export const updateSpeakVideoInfo = async (
   currentAccount: any,
   pinHash: string,
@@ -153,31 +153,27 @@ export const uploadFile = (media: Video | Image, onProgress) => {
         endpoint: tusEndPoint, // use your tus server endpoint instead
         metadata: {
           filename: media.filename,
-          filetype: media.mime
+          filetype: media.mime,
         },
-        onError: error => console.log('error', error),
+        onError: (error) => console.log('error', error),
         onSuccess: () => {
           console.log('Upload completed. File url:', upload.url);
           const _videoId = upload.url.replace(tusEndPoint, '');
           resolve(_videoId);
         },
-  
+
         onProgress: (uploaded, total) => {
-          onProgress(uploaded / total * 100)
-        }
-  
+          onProgress((uploaded / total) * 100);
+        },
       });
-  
+
       upload.start();
-  
     } catch (error) {
       console.warn('Image upload failed', error);
-      reject (error);
+      reject(error);
     }
-  })
- 
+  });
 };
-
 
 const getDecodedMemo = async (local, pinHash, encryptedMemo) => {
   try {
