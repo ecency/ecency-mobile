@@ -108,17 +108,20 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     let parsedUsername = '';
 
     // from @user1 to @user2
-    parsedUsername = coinActivity.details?.split(' ').pop() || '';
+    if (coinActivity.receiver) {
+      parsedUsername = coinActivity.receiver;
+    } else if (coinActivity.details) {
+      parsedUsername = coinActivity.details?.split(' ').pop() || '';
+      // split with / to support HBD
+      // if HBD token remove, handle format like @demo.com/re-mypathtofire-202381t13594523z
+      parsedUsername = parsedUsername?.split('/')[0];
 
-    // split with / to support HBD
-    // if HBD token remove, handle format like @demo.com/re-mypathtofire-202381t13594523z
-    parsedUsername = parsedUsername?.split('/')[0];
-
-    parsedUsername = parsedUsername?.slice(1); // remove @ from username
+      parsedUsername = parsedUsername?.slice(1); // remove @ from username
+    }
 
     return {
       referredUsername: parsedUsername,
-      initialAmount: `${parseAsset(coinActivity.value.trim()).amount}`,
+      initialAmount: `${Math.abs(parseAsset(coinActivity.value.trim()).amount)}`,
       initialMemo: coinActivity.memo,
     };
   };
@@ -127,7 +130,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     let navigateTo = ROUTES.SCREENS.TRANSFER;
     let navigateParams = {};
 
-    if (coinId === ASSET_IDS.ECENCY && transferType !== 'dropdown_transfer') {
+    if (coinId === ASSET_IDS.ECENCY && !transferType.includes('transfer')) {
       navigateTo = ROUTES.SCREENS.REDEEM;
       navigateParams = {
         balance: coinData.balance,
