@@ -1,4 +1,8 @@
-import { REMOVE_BENEFICIARIES, SET_BENEFICIARIES, SET_ALLOW_SPK_PUBLISHING } from '../constants/constants';
+import {
+  REMOVE_BENEFICIARIES,
+  SET_BENEFICIARIES,
+  SET_ALLOW_SPK_PUBLISHING,
+} from '../constants/constants';
 
 export interface Beneficiary {
   account: string;
@@ -16,7 +20,7 @@ interface State {
 
 const initialState: State = {
   beneficiariesMap: {},
-  allowSpkPublishing: false
+  allowSpkPublishing: false,
 };
 
 const editorReducer = (state = initialState, action) => {
@@ -35,8 +39,8 @@ const editorReducer = (state = initialState, action) => {
     case SET_ALLOW_SPK_PUBLISHING:
       return {
         ...state,
-        allowSpkPublishing:payload
-      }
+        allowSpkPublishing: payload,
+      };
     default:
       return state;
   }

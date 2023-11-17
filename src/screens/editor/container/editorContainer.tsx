@@ -39,7 +39,11 @@ import {
 
 // Component
 import EditorScreen from '../screen/editorScreen';
-import { removeBeneficiaries, setAllowSpkPublishing, setBeneficiaries } from '../../../redux/actions/editorActions';
+import {
+  removeBeneficiaries,
+  setAllowSpkPublishing,
+  setBeneficiaries,
+} from '../../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID, TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import {
   deleteDraftCacheEntry,
@@ -199,8 +203,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     this._appStateSub = AppState.addEventListener('change', this._handleAppStateChange);
 
-    //dispatch spk publishing status
-    dispatch(setAllowSpkPublishing(!isReply && !isEdit))
+    // dispatch spk publishing status
+    dispatch(setAllowSpkPublishing(!isReply && !isEdit));
   }
 
   componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>): void {

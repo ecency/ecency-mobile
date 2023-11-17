@@ -173,18 +173,20 @@ export const UploadsGalleryModal = forwardRef(
     }, [postBody, showModal, mode]);
 
     const _handleOpenImagePicker = (addToUploads?: boolean) => {
+      const _options: Options =
+        mode === Modes.MODE_IMAGE
+          ? {
+              includeBase64: true,
+              multiple: allowMultiple || true,
+              mediaType: 'photo',
+              smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
+            }
+          : {
+              mediaType: 'video',
+              smartAlbums: ['UserLibrary', 'Favorites', 'Videos'],
+            };
 
-      const _options: Options = mode === Modes.MODE_IMAGE ? {
-        includeBase64: true,
-        multiple: allowMultiple || true,
-        mediaType: 'photo',
-        smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
-      } : {
-        mediaType: 'video',
-        smartAlbums: ['UserLibrary', 'Favorites', 'Videos'],
-      }
-
-      if(Modes.MODE_VIDEO){
+      if (Modes.MODE_VIDEO) {
         _handleVideoSelection();
         return;
       }
@@ -357,12 +359,11 @@ export const UploadsGalleryModal = forwardRef(
       }
     };
 
-
     const _handleVideoSelection = (video: Video) => {
-      //show video upload modal,
-      //allow thumbnail selection and uplaods
+      // show video upload modal,
+      // allow thumbnail selection and uplaods
       speakUploaderRef.current.showUploader();
-    }
+    };
 
     const _handleMediaOnSelectFailure = (error) => {
       let title = intl.formatMessage({ id: 'alert.something_wrong' });
@@ -457,10 +458,8 @@ export const UploadsGalleryModal = forwardRef(
             handleOpenGallery={_handleOpenImagePicker}
           />
         )}
-        <SpeakUploaderModal 
-          ref={speakUploaderRef}
-        />
+        <SpeakUploaderModal ref={speakUploaderRef} />
       </>
-    )
+    );
   },
 );

@@ -50,7 +50,7 @@ const UploadsGalleryContent = ({
 
   const deleteMediaMutation = editorQueries.useMediaDeleteMutation();
 
-  const allowSpkPublishing = useAppSelector(state => state.editor.allowSpkPublishing);
+  const allowSpkPublishing = useAppSelector((state) => state.editor.allowSpkPublishing);
 
   const [deleteIds, setDeleteIds] = useState<string[]>([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
@@ -104,12 +104,12 @@ const UploadsGalleryContent = ({
 
   // render list item for snippet and handle actions;
   const _renderItem = ({ item, index }: { item: MediaItem; index: number }) => {
-
-    //avoid rendering unpublihsed videos in allow publishing state is false
-    if(
+    // avoid rendering unpublihsed videos in allow publishing state is false
+    if (
       !allowSpkPublishing &&
-      item.speakData && 
-      item.speakData.status !== ThreeSpeakStatus.PUBLISHED ){
+      item.speakData &&
+      item.speakData.status !== ThreeSpeakStatus.PUBLISHED
+    ) {
       return null;
     }
 
@@ -141,7 +141,7 @@ const UploadsGalleryContent = ({
             const vidBeneficiaries = JSON.parse(item.speakData.beneficiaries || '[]');
             const beneficiaries = [...DEFAULT_SPEAK_BENEFICIARIES, ...vidBeneficiaries];
             const _draftId = draftId || TEMP_BENEFICIARIES_ID;
-           
+
             dispatch(setBeneficiaries(_draftId, beneficiaries));
           }
         }

@@ -1,14 +1,12 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { useRef } from "react";
-import { View, Text, TouchableOpacity, Image, TextInput } from "react-native";
-import ActionSheet from "react-native-actions-sheet";
-import EStyleSheet from "react-native-extended-stylesheet";
-import styles from "../styles/speakUploaderModal.styles";
-import { MainButton } from "../../mainButton";
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import { useRef } from 'react';
+import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native';
+import ActionSheet from 'react-native-actions-sheet';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import styles from '../styles/speakUploaderModal.styles';
+import { MainButton } from '../../mainButton';
 
-
-export const SpeakUploaderModal = forwardRef(({ }, ref) => {
-
+export const SpeakUploaderModal = forwardRef(({}, ref) => {
   const sheetModalRef = useRef();
 
   const [image1, setImage1] = useState(null);
@@ -21,39 +19,27 @@ export const SpeakUploaderModal = forwardRef(({ }, ref) => {
       if (sheetModalRef.current) {
         sheetModalRef.current.setModalVisible(true);
       }
-    }
-  }))
+    },
+  }));
 
-  const _onClose = () => {
+  const _onClose = () => {};
 
-  }
-
-  const _renderProgressContent = () => {
-
-  }
+  const _renderProgressContent = () => {};
 
   const _renderFormContent = () => {
-
-
     // Function to handle image upload
     const handleImageUpload = (imageNumber) => {
       // You can implement your logic for image upload here
       // For example, using ImagePicker or any other method
       // This example simply sets a placeholder image
-
-      //Upload video and thumbnail if selected
+      // Upload video and thumbnail if selected
     };
 
     return (
       <View style={styles.contentContainer}>
-
         <View style={styles.titleBox}>
           <Text style={styles.label}>Selection</Text>
-          <TextInput
-            style={styles.titleInput}
-            editable={false}
-            value={"Revoling World .mp4"}
-          />
+          <TextInput style={styles.titleInput} editable={false} value="Revoling World .mp4" />
         </View>
 
         <View style={styles.titleBox}>
@@ -68,28 +54,23 @@ export const SpeakUploaderModal = forwardRef(({ }, ref) => {
         </View>
 
         <View style={styles.imageContainer}>
-          <Text style={styles.label} >Select Thumbnail</Text>
+          <Text style={styles.label}>Select Thumbnail</Text>
           <TouchableOpacity onPress={() => handleImageUpload(2)}>
-            <Image
-              source={{}}
-              style={styles.thumbnail}
-            />
+            <Image source={{}} style={styles.thumbnail} />
           </TouchableOpacity>
         </View>
 
         <MainButton
           style={styles.uploadButton}
-          onPress={() => {/* Handle upload */ }}
-
+          onPress={() => {
+            /* Handle upload */
+          }}
           text="START UPLOAD"
-        isLoading={isUploading}
+          isLoading={isUploading}
         />
-
       </View>
     );
   };
-
-
 
   return (
     <ActionSheet
@@ -103,4 +84,4 @@ export const SpeakUploaderModal = forwardRef(({ }, ref) => {
       {_renderFormContent()}
     </ActionSheet>
   );
-})
+});
