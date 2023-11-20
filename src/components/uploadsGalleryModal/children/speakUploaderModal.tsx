@@ -10,9 +10,13 @@ import styles from '../styles/speakUploaderModal.styles';
 import { MainButton } from '../../mainButton';
 import { uploadFile, uploadVideoInfo } from '../../../providers/speak/speak';
 import { useAppSelector } from '../../../hooks';
+import { useQueryClient } from '@tanstack/react-query';
+import QUERIES from '../../../providers/queries/queryKeys';
 
 export const SpeakUploaderModal = forwardRef(({}, ref) => {
   const sheetModalRef = useRef();
+
+  const queryClient = useQueryClient();
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinHash = useAppSelector((state) => state.application.pin);
@@ -20,6 +24,7 @@ export const SpeakUploaderModal = forwardRef(({}, ref) => {
   const [selectedThumb, setSelectedThumb] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+
 
   const [selectedVido, setSelectedVideo] = useState<VideoType | null>(null);
 
@@ -73,6 +78,12 @@ export const SpeakUploaderModal = forwardRef(({}, ref) => {
         thumbId,
         duration,
       );
+
+      queryClient.invalidateQueries([QUERIES.MEDIA.GET_VIDEOS]);
+
+      if(sheetModalRef.current){
+        sheetModalRef.current.setModalVisible(false);
+      }
 
       console.log('response after updating video information', response);
     } catch (err) {

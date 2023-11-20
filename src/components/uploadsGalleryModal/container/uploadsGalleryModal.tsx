@@ -95,10 +95,9 @@ export const UploadsGalleryModal = forwardRef(
 
     const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
-    const mediaUploadsQuery = useMemo(
-      () => (mode === Modes.MODE_VIDEO ? videoUploadsQuery : imageUploadsQuery),
-      [mode],
-    );
+    const mediaUploadsQuery =
+      mode === Modes.MODE_VIDEO ? videoUploadsQuery : imageUploadsQuery
+
 
     useImperativeHandle(ref, () => ({
       toggleModal: (value: boolean, _mode: Modes = mode) => {
@@ -176,15 +175,15 @@ export const UploadsGalleryModal = forwardRef(
       const _vidMode = mode === Modes.MODE_VIDEO;
       const _options: Options = _vidMode
         ? {
-            mediaType: 'video',
-            smartAlbums: ['UserLibrary', 'Favorites', 'Videos'],
-          }
+          mediaType: 'video',
+          smartAlbums: ['UserLibrary', 'Favorites', 'Videos'],
+        }
         : {
-            includeBase64: true,
-            multiple: allowMultiple || true,
-            mediaType: 'photo',
-            smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
-          };
+          includeBase64: true,
+          multiple: allowMultiple || true,
+          mediaType: 'photo',
+          smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
+        };
 
       ImagePicker.openPicker(_options)
         .then((items) => {
@@ -206,12 +205,12 @@ export const UploadsGalleryModal = forwardRef(
       const _vidMode = mode === Modes.MODE_VIDEO;
       const _options: Options = _vidMode
         ? {
-            mediaType: 'video',
-          }
+          mediaType: 'video',
+        }
         : {
-            includeBase64: true,
-            mediaType: 'photo',
-          };
+          includeBase64: true,
+          mediaType: 'photo',
+        };
 
       ImagePicker.openCamera(_options)
         .then((media) => {
