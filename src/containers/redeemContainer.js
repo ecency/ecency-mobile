@@ -80,9 +80,9 @@ class RedeemContainer extends Component {
       .catch((error) => {
         if (error) {
           dispatch(
-            `${toastNotification(intl.formatMessage({ id: 'alert.key_warning' }))}\n${
-              error.message
-            }`,
+            toastNotification(
+              `${intl.formatMessage({ id: 'alert.key_warning' })}\n${error.message}`,
+            ),
           );
         }
       });
