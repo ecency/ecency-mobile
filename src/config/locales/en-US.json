@@ -563,8 +563,8 @@
     "failed_count":"Failed to upload {failedCount} of {totalCount} selected image(s)",
     "publish_manual":"Ready",
     "published":"Published",
-    "encoding_ipfs":"Encoding",
-    "encoding_preparing":"Preparing",
+    "encoding_ipfs":"Encoding...",
+    "encoding_preparing":"Preparing...",
     "deleted":"Deleted"
   },
   "pincode": {

@@ -24,10 +24,25 @@ export const useVideoUploadsQuery = () => {
 
   const _fetchVideoUploads = async () => getAllVideoStatuses(currentAccount, pinHash);
 
-  // TOOD: filter cache data for post edits to only show already published videos
+  
+  const _setRefetchInterval = (data:MediaItem[]|undefined) => {
+    if (data) {
+      const hasPendingItem = data.find((item) =>
+        item.speakData?.status === ThreeSpeakStatus.PREPARING ||
+        item.speakData?.status === ThreeSpeakStatus.ENCODING);
+      
+      if(hasPendingItem){
+        return 1000;
+      }
+    }
+
+    return false;
+  }
+
 
   return useQuery<MediaItem[]>([QUERIES.MEDIA.GET_VIDEOS], _fetchVideoUploads, {
     initialData: [],
+    refetchInterval: _setRefetchInterval,
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     },
