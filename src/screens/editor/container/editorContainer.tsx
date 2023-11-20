@@ -10,6 +10,7 @@ import { isArray } from 'lodash';
 import { Buffer } from 'buffer';
 import { useQueryClient } from '@tanstack/react-query';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { postBodySummary } from '@ecency/render-helper';
 import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
@@ -50,7 +51,6 @@ import { useUserActivityMutation } from '../../../providers/queries/pointQueries
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
 import { PostTypes } from '../../../constants/postTypes';
-import { postBodySummary } from '@ecency/render-helper';
 
 /*
  *            Props Name        Description                                     Value
@@ -456,7 +456,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           tags: draftField.tags,
           beneficiaries,
           rewardType,
-          description: postDescription ? postDescription : postBodySummaryContent,
+          description: postDescription || postBodySummaryContent,
         });
 
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);

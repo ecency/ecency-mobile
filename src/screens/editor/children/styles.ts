@@ -1,5 +1,4 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export default EStyleSheet.create({
   sheetContent: {

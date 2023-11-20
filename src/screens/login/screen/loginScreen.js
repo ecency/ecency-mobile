@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Platform, Keyboard } from 'react-native';
+import { View, Platform, Keyboard, Text } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
@@ -15,6 +15,7 @@ import {
   LoginHeader,
   MainButton,
   Modal,
+  OrDivider,
   TabBar,
   TextButton,
 } from '../../../components';
@@ -25,9 +26,8 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Styles
 import styles from './loginStyles';
 import globalStyles from '../../../globalStyles';
-
-import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
 import { ECENCY_TERMS_URL } from '../../../config/ecencyApi';
+import { HiveSignerIcon } from '../../../assets/svgs';
 
 class LoginScreen extends PureComponent {
   constructor(props) {
@@ -87,7 +87,12 @@ class LoginScreen extends PureComponent {
     const { navigation, intl, handleOnPressLogin, handleSignUp, isLoading } = this.props;
     const { username, isUsernameValid, keyboardIsOpen, password, isModalOpen } = this.state;
 
-    console.log('keyboardIsOpen : ', keyboardIsOpen);
+    const _renderHiveicon = () => (
+      <View style={styles.hsLoginBtnIconStyle}>
+        <HiveSignerIcon />
+      </View>
+    );
+
     return (
       <View style={styles.container}>
         <LoginHeader
@@ -103,71 +108,71 @@ class LoginScreen extends PureComponent {
             id: 'login.signup',
           })}
         />
-        <ScrollableTabView
-          locked={isLoading}
-          style={globalStyles.tabView}
-          renderTabBar={() => (
-            <TabBar
-              style={styles.tabbar}
-              tabUnderlineDefaultWidth={100}
-              tabUnderlineScaleX={2} // default 3
-              activeColor="#357ce6"
-              inactiveColor="#222"
-            />
-          )}
-        >
-          <View
-            tabLabel={intl.formatMessage({
-              id: 'login.signin',
-            })}
-            style={styles.tabbarItem}
-          >
-            <KeyboardAwareScrollView
-              enableAutoAutomaticScroll={Platform.OS === 'ios'}
-              contentContainerStyle={styles.formWrapper}
-              enableOnAndroid={true}
-            >
-              <FormInput
-                rightIconName="at"
-                leftIconName="close"
-                iconType="MaterialCommunityIcons"
-                isValid={isUsernameValid}
-                onChange={debounce(this._handleUsernameChange, 1000)}
-                placeholder={intl.formatMessage({
-                  id: 'login.username',
-                })}
-                isEditable
-                type="username"
-                isFirstImage
-                value={username}
-                inputStyle={styles.input}
-              />
-              <FormInput
-                rightIconName="lock"
-                leftIconName="close"
-                isValid={isUsernameValid}
-                onChange={(value) => this._handleOnPasswordChange(value)}
-                placeholder={intl.formatMessage({
-                  id: 'login.password',
-                })}
-                isEditable
-                secureTextEntry
-                type="password"
-                numberOfLines={1}
-                value={password}
-                inputStyle={styles.input}
-              />
-              <InformationArea
-                description={intl.formatMessage({
-                  id: 'login.description',
-                })}
-                link={ECENCY_TERMS_URL}
-                iconName="ios-information-circle-outline"
-              />
-            </KeyboardAwareScrollView>
 
-            <View style={styles.footerButtons}>
-              <TextButton
+        <View
+          tabLabel={intl.formatMessage({
+            id: 'login.signin',
+          })}
+          style={styles.tabbarItem}
+        >
+          <KeyboardAwareScrollView
+            enableAutoAutomaticScroll={Platform.OS === 'ios'}
+            contentContainerStyle={styles.formWrapper}
+            enableOnAndroid={true}
+          >
+            <FormInput
+              rightIconName="at"
+              leftIconName="close"
+              iconType="MaterialCommunityIcons"
+              isValid={isUsernameValid}
+              onChange={debounce(this._handleUsernameChange, 1000)}
+              placeholder={intl.formatMessage({
+                id: 'login.username',
+              })}
+              isEditable
+              type="username"
+              isFirstImage
+              value={username}
+              inputStyle={styles.input}
+            />
+            <FormInput
+              rightIconName="lock"
+              leftIconName="close"
+              isValid={isUsernameValid}
+              onChange={(value) => this._handleOnPasswordChange(value)}
+              placeholder={intl.formatMessage({
+                id: 'login.password',
+              })}
+              isEditable
+              secureTextEntry
+              type="password"
+              numberOfLines={1}
+              value={password}
+              inputStyle={styles.input}
+            />
+            <InformationArea
+              description={intl.formatMessage({
+                id: 'login.description',
+              })}
+              link={ECENCY_TERMS_URL}
+              iconName="ios-information-circle-outline"
+            />
+            <MainButton
+              onPress={() => handleOnPressLogin(username, password)}
+              iconName="person"
+              iconColor="white"
+              text={intl.formatMessage({
+                id: 'login.login',
+              })}
+              textStyle={styles.mainBtnText}
+              isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
+              isLoading={isLoading}
+              wrapperStyle={styles.loginBtnWrapper}
+              bodyWrapperStyle={styles.loginBtnBodyWrapper}
+              height={50}
+              iconStyle={styles.loginBtnIconStyle}
+            />
+            {/* <TextButton
                 style={styles.cancelButton}
                 onPress={() =>
                   navigation.navigate({
@@ -177,21 +182,41 @@ class LoginScreen extends PureComponent {
                 text={intl.formatMessage({
                   id: 'login.cancel',
                 })}
-              />
-              <MainButton
-                onPress={() => handleOnPressLogin(username, password)}
-                iconName="person"
-                iconColor="white"
-                text={intl.formatMessage({
-                  id: 'login.login',
-                })}
-                textStyle={styles.mainBtnText}
-                isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
-                isLoading={isLoading}
-              />
-            </View>
+              /> */}
+            <OrDivider />
+            <MainButton
+              onPress={() => this._handleOnModalToggle()}
+              renderIcon={_renderHiveicon()}
+              text={intl.formatMessage({
+                id: 'login.login_with_hs',
+              })}
+              textStyle={styles.hsLoginBtnText}
+              wrapperStyle={styles.loginBtnWrapper}
+              bodyWrapperStyle={styles.loginBtnBodyWrapper}
+              height={48}
+              style={styles.hsLoginBtnStyle}
+            />
+          </KeyboardAwareScrollView>
+
+          <View style={styles.footerButtons}>
+            <Text style={styles.noAccountText}>
+              {intl.formatMessage({
+                id: 'login.no_account_text',
+              })}
+            </Text>
+            <Text style={styles.signUpNowText} onPress={() => handleSignUp()}>
+              {intl.formatMessage({
+                id: 'login.signup_now',
+              })}
+            </Text>
           </View>
-          <View tabLabel="Hivesigner" style={styles.tabbarItem}>
+        </View>
+        {/* <View
+            tabLabel={intl.formatMessage({
+              id: 'login.login_with_hs',
+            })}
+            style={styles.tabbarItem}
+          >
             <InformationArea
               description={intl.formatMessage({
                 id: 'login.steemconnect_description',
@@ -206,8 +231,7 @@ class LoginScreen extends PureComponent {
               text="hive"
               secondText="signer"
             />
-          </View>
-        </ScrollableTabView>
+          </View> */}
         <Modal
           isOpen={isModalOpen}
           isFullScreen
