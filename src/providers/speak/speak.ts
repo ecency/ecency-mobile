@@ -46,7 +46,7 @@ export const uploadVideoInfo = async (
 ) => {
   const token = await threespeakAuth(currentAccount, pinHash);
   try {
-    const { data } = await axios.post<ThreeSpeakVideo>(
+    const { data } = await speakApi.post<ThreeSpeakVideo>(
       `${PATH_API}/upload_info?app=ecency`,
       {
         filename: videoId,
@@ -119,7 +119,7 @@ export const updateSpeakVideoInfo = async (
   };
 
   try {
-    await axios.post(`${PATH_API}/update_info`, data, { headers });
+    await speakApi.post(`${PATH_API}/update_info`, data, { headers });
   } catch (e) {
     console.error(e);
   }
@@ -136,7 +136,7 @@ export const markAsPublished = async (currentAccount: any, pinHash: string, vide
     Authorization: `Bearer ${token}`,
   };
 
-  axios
+  speakApi
     .post(`${PATH_API}/my-videos/iPublished`, data, { headers })
     .then((response) => {
       console.log(response);
