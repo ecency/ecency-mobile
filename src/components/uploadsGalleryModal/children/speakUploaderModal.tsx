@@ -4,12 +4,12 @@ import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Video as VideoType } from 'react-native-image-crop-picker';
+import Video from 'react-native-video';
+import { createThumbnail } from 'react-native-create-thumbnail';
 import styles from '../styles/speakUploaderModal.styles';
 import { MainButton } from '../../mainButton';
 import { uploadFile, uploadVideoInfo } from '../../../providers/speak/speak';
 import { useAppSelector } from '../../../hooks';
-import Video from 'react-native-video';
-import { createThumbnail } from "react-native-create-thumbnail";
 
 export const SpeakUploaderModal = forwardRef(({}, ref) => {
   const sheetModalRef = useRef();
@@ -29,13 +29,13 @@ export const SpeakUploaderModal = forwardRef(({}, ref) => {
         setSelectedVideo(_video);
         sheetModalRef.current.setModalVisible(true);
 
-        console.log("creating thumb");
+        console.log('creating thumb');
         createThumbnail({
-          url:_video.sourceURL,
-        }).then(response => {
-          console.log("thumb response", response);
+          url: _video.sourceURL,
+        }).then((response) => {
+          console.log('thumb response', response);
           setSelectedThumb(response);
-        })
+        });
       }
     },
   }));
@@ -91,11 +91,11 @@ export const SpeakUploaderModal = forwardRef(({}, ref) => {
       <View style={styles.contentContainer}>
         <Video
           source={{
-            uri:selectedVido?.sourceURL,
+            uri: selectedVido?.sourceURL,
           }}
           repeat={true}
-          onLoad={()=>{}}
-          onError={()=>{}}
+          onLoad={() => {}}
+          onError={() => {}}
           resizeMode="container"
           fullscreen={false}
           style={styles.mediaPlayer}
@@ -116,7 +116,7 @@ export const SpeakUploaderModal = forwardRef(({}, ref) => {
         <View style={styles.imageContainer}>
           <Text style={styles.label}>Select Thumbnail</Text>
           <TouchableOpacity onPress={() => handleImageUpload(2)}>
-            <Image source={selectedThumb && {uri:selectedThumb.path}} style={styles.thumbnail} />
+            <Image source={selectedThumb && { uri: selectedThumb.path }} style={styles.thumbnail} />
           </TouchableOpacity>
         </View>
 

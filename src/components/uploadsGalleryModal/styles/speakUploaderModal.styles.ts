@@ -64,8 +64,8 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
   },
   mediaPlayer: {
-    width:SCREEN_WIDTH,
-    height:SCREEN_WIDTH / 1.77,
+    width: SCREEN_WIDTH,
+    height: SCREEN_WIDTH / 1.77,
     backgroundColor: 'black',
     justifyContent: 'center',
   },
