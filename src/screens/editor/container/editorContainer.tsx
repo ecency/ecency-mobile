@@ -61,6 +61,7 @@ import {
   BENEFICIARY_SRC_ENCODER,
   DEFAULT_SPEAK_BENEFICIARIES,
 } from '../../../providers/speak/constants';
+import { ThreeSpeakVideo } from '../../../providers/speak/speak.types';
 
 /*
  *            Props Name        Description                                     Value
@@ -601,7 +602,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
   };
 
-  _submitPost = async ({ fields, scheduleDate }: { fields: any; scheduleDate?: string }) => {
+  _submitPost = async ({ fields:_fieldsBase, scheduleDate }: { fields: any; scheduleDate?: string }) => {
     const {
       currentAccount,
       dispatch,
@@ -614,8 +615,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     } = this.props;
     const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
 
-    // ref: https://swimlanes.io/u/7xPWxOvpH
+  
+    let fields = Object.assign({}, _fieldsBase);
     let beneficiaries = this._extractBeneficiaries();
+    let videoPublishMeta:ThreeSpeakVideo|undefined = undefined;
 
     if (isPostSending) {
       return;
@@ -625,13 +628,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       // build speak video body
       try {
         fields.body = speakContentBuilder.build(fields.body);
+        videoPublishMeta = speakContentBuilder.videoPublishMetaRef.current;
 
         // verify and video beneficiaries redundent
-        if (!speakContentBuilder.videoPublishMeta) {
+        if (!videoPublishMeta) {
           beneficiaries = beneficiaries.filter((item) => item.src !== BENEFICIARY_SRC_ENCODER);
         } else {
           const encoderBene = [
-            ...JSON.parse(speakContentBuilder.videoPublishMeta.beneficiaries || []),
+            ...JSON.parse(videoPublishMeta.beneficiaries || '[]'),
             ...DEFAULT_SPEAK_BENEFICIARIES,
           ];
           beneficiaries = unionBy(encoderBene, beneficiaries, 'account');
@@ -650,14 +654,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         body: fields.body,
         thumbUrl,
         fetchRatios: true,
-        videoPublishMeta: speakContentBuilder.videoPublishMeta,
+        videoPublishMeta,
       });
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
 
       // TODO: check if permlink is available github: #314 https://github.com/ecency/ecency-mobile/pull/314
-      let permlink = generatePermlink(fields.title || '');
+      let permlink = videoPublishMeta ? videoPublishMeta.permlink : generatePermlink(fields.title || '');
 
       let dublicatePost;
       try {
@@ -730,7 +734,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             }
 
             // mark unpublished video as published on 3speak if that is the case
-            speakMutations.markAsPublishedMutation.mutate(speakContentBuilder.videoPublishMeta._id);
+            if(videoPublishMeta){
+              console.log("marking inserted video as published")
+              speakMutations.markAsPublishedMutation.mutate(videoPublishMeta._id);
+            }
 
             // post publish updates
             dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
@@ -1201,7 +1208,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   render() {
-    const { isLoggedIn, isDarkTheme, currentAccount, route } = this.props;
+    const { isLoggedIn, isDarkTheme, currentAccount, route, speakMutations } = this.props;
     const {
       autoFocusText,
       draftPost,
