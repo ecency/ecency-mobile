@@ -298,13 +298,13 @@ export const extractMetadata = async ({
           },
           {
             type: 'thumbnail',
-            url: videoMetadata.thumbUrl,
+            url: videoPublishMeta.thumbUrl,
           },
         ],
       },
       content: {
-        description: videoMetadata.description,
-        tags: videoMetadata.tags_v2,
+        description: videoPublishMeta.description,
+        tags: videoPublishMeta.tags_v2,
       },
     };
   }
