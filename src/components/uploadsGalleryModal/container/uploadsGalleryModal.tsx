@@ -428,8 +428,8 @@ export const UploadsGalleryModal = forwardRef(
     }
 
     const _setIsSpeakUploading = (flag:boolean) => {
-      setIsUploading(true);
-      setIsAddingToUploads(true);
+      setIsUploading(flag);
+      setIsAddingToUploads(flag);
     }
 
     const _handleMediaInsertion = (data: MediaInsertData) => {
