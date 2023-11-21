@@ -89,7 +89,7 @@ export const useMediaUploadMutation = () => {
 
   const _uploadMedia = async ({ media }: MediaUploadVars) => {
     return new Promise((resolve, reject) => {
-        signImage(media, currentAccount, pinCode)
+      signImage(media, currentAccount, pinCode)
         .then((sign) => {
           const _options: UploadOptions = {
             url: `${Config.NEW_IMAGE_API}/hs/${sign}`,
@@ -134,13 +134,12 @@ export const useMediaUploadMutation = () => {
             resolve(_respData);
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.warn('Meida Upload Failed', err);
           bugsnapInstance.notify('Media upload failed', err);
           reject(err);
-        })
-    })
-    
+        });
+    });
   };
 
   return useMutation<Image, undefined, MediaUploadVars>(

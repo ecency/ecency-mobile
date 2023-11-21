@@ -48,7 +48,7 @@ const UploadsGalleryContent = ({
   insertMedia,
   handleOpenGallery,
   handleOpenCamera,
-  handleOpenSpeakUploader
+  handleOpenSpeakUploader,
 }: Props) => {
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -213,21 +213,16 @@ const UploadsGalleryContent = ({
       {_renderSelectButton('image', 'Gallery', handleOpenGallery)}
       {_renderSelectButton('camera', 'Camera', handleOpenCamera)}
     </>
-  )
+  );
 
   const _renderHeaderContent = () => (
     <View style={{ ...styles.buttonsContainer, paddingVertical: isExpandedMode ? 8 : 0 }}>
       <View style={styles.selectButtonsContainer}>
-        {
-          mode === Modes.MODE_IMAGE ? (
-            _renderSelectButtons
-          ) : (
-            isAddingToUploads
-              ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
-              : _renderSelectButtons
-          )
-        }
-
+        {mode === Modes.MODE_IMAGE
+          ? _renderSelectButtons
+          : isAddingToUploads
+          ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
+          : _renderSelectButtons}
       </View>
       <View style={styles.pillBtnContainer}>
         <IconButton

@@ -2,7 +2,6 @@ import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
-  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -95,9 +94,7 @@ export const UploadsGalleryModal = forwardRef(
 
     const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
-    const mediaUploadsQuery =
-      mode === Modes.MODE_VIDEO ? videoUploadsQuery : imageUploadsQuery
-
+    const mediaUploadsQuery = mode === Modes.MODE_VIDEO ? videoUploadsQuery : imageUploadsQuery;
 
     useImperativeHandle(ref, () => ({
       toggleModal: (value: boolean, _mode: Modes = mode) => {
@@ -174,22 +171,22 @@ export const UploadsGalleryModal = forwardRef(
     const _handleOpenImagePicker = (addToUploads?: boolean) => {
       const _vidMode = mode === Modes.MODE_VIDEO;
 
-      if(_vidMode && isAddingToUploads){
+      if (_vidMode && isAddingToUploads) {
         speakUploaderRef.current.showUploader();
         return;
       }
 
       const _options: Options = _vidMode
         ? {
-          mediaType: 'video',
-          smartAlbums: ['UserLibrary', 'Favorites', 'Videos'],
-        }
+            mediaType: 'video',
+            smartAlbums: ['UserLibrary', 'Favorites', 'Videos'],
+          }
         : {
-          includeBase64: true,
-          multiple: allowMultiple || true,
-          mediaType: 'photo',
-          smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
-        };
+            includeBase64: true,
+            multiple: allowMultiple || true,
+            mediaType: 'photo',
+            smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
+          };
 
       ImagePicker.openPicker(_options)
         .then((items) => {
@@ -210,19 +207,19 @@ export const UploadsGalleryModal = forwardRef(
     const _handleOpenCamera = () => {
       const _vidMode = mode === Modes.MODE_VIDEO;
 
-      if(_vidMode && isAddingToUploads){
+      if (_vidMode && isAddingToUploads) {
         speakUploaderRef.current.showUploader();
         return;
       }
 
       const _options: Options = _vidMode
         ? {
-          mediaType: 'video',
-        }
+            mediaType: 'video',
+          }
         : {
-          includeBase64: true,
-          mediaType: 'photo',
-        };
+            includeBase64: true,
+            mediaType: 'photo',
+          };
 
       ImagePicker.openCamera(_options)
         .then((media) => {
@@ -424,13 +421,13 @@ export const UploadsGalleryModal = forwardRef(
     };
 
     const _handleOpenSpeakUploader = () => {
-      speakUploaderRef.current.showUploader()
-    }
+      speakUploaderRef.current.showUploader();
+    };
 
-    const _setIsSpeakUploading = (flag:boolean) => {
+    const _setIsSpeakUploading = (flag: boolean) => {
       setIsUploading(flag);
       setIsAddingToUploads(flag);
-    }
+    };
 
     const _handleMediaInsertion = (data: MediaInsertData) => {
       if (isEditing) {
@@ -490,7 +487,11 @@ export const UploadsGalleryModal = forwardRef(
             handleOpenSpeakUploader={_handleOpenSpeakUploader}
           />
         )}
-        <SpeakUploaderModal ref={speakUploaderRef} isUploading={isAddingToUploads} setIsUploading={_setIsSpeakUploading} />
+        <SpeakUploaderModal
+          ref={speakUploaderRef}
+          isUploading={isAddingToUploads}
+          setIsUploading={_setIsSpeakUploading}
+        />
       </>
     );
   },

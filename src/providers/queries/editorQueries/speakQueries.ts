@@ -24,21 +24,21 @@ export const useVideoUploadsQuery = () => {
 
   const _fetchVideoUploads = async () => getAllVideoStatuses(currentAccount, pinHash);
 
-
-  const _setRefetchInterval = (data:MediaItem[]|undefined) => {
+  const _setRefetchInterval = (data: MediaItem[] | undefined) => {
     if (data) {
-      const hasPendingItem = data.find((item) =>
-        item.speakData?.status === ThreeSpeakStatus.PREPARING ||
-        item.speakData?.status === ThreeSpeakStatus.ENCODING);
-      
-      if(hasPendingItem){
+      const hasPendingItem = data.find(
+        (item) =>
+          item.speakData?.status === ThreeSpeakStatus.PREPARING ||
+          item.speakData?.status === ThreeSpeakStatus.ENCODING,
+      );
+
+      if (hasPendingItem) {
         return 1000;
       }
     }
 
     return false;
-  }
-
+  };
 
   return useQuery<MediaItem[]>([QUERIES.MEDIA.GET_VIDEOS], _fetchVideoUploads, {
     initialData: [],
@@ -116,7 +116,6 @@ export const useSpeakMutations = () => {
   const _options: UseMutationOptions<number, unknown, string | undefined, void> = {
     retry: 3,
     onMutate: async (videoId) => {
-      
       // TODO: find a way to optimise mutations by avoiding too many loops
       console.log('on mutate data', videoId);
 

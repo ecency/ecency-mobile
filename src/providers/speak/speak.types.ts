@@ -3,7 +3,7 @@ export enum ThreeSpeakStatus {
   READY = 'publish_manual',
   DELETED = 'deleted',
   ENCODING = 'encoding_ipfs',
-  PREPARING = 'encoding_preparing'
+  PREPARING = 'encoding_preparing',
 }
 
 export interface ThreeSpeakVideo {

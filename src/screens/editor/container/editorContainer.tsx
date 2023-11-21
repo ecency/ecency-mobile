@@ -602,7 +602,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
   };
 
-  _submitPost = async ({ fields:_fieldsBase, scheduleDate }: { fields: any; scheduleDate?: string }) => {
+  _submitPost = async ({
+    fields: _fieldsBase,
+    scheduleDate,
+  }: {
+    fields: any;
+    scheduleDate?: string;
+  }) => {
     const {
       currentAccount,
       dispatch,
@@ -615,10 +621,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     } = this.props;
     const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
 
-  
-    let fields = Object.assign({}, _fieldsBase);
+    const fields = Object.assign({}, _fieldsBase);
     let beneficiaries = this._extractBeneficiaries();
-    let videoPublishMeta:ThreeSpeakVideo|undefined = undefined;
+    let videoPublishMeta: ThreeSpeakVideo | undefined = undefined;
 
     if (isPostSending) {
       return;
@@ -661,7 +666,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const jsonMeta = makeJsonMetadata(meta, _tags);
 
       // TODO: check if permlink is available github: #314 https://github.com/ecency/ecency-mobile/pull/314
-      let permlink = videoPublishMeta ? videoPublishMeta.permlink : generatePermlink(fields.title || '');
+      let permlink = videoPublishMeta
+        ? videoPublishMeta.permlink
+        : generatePermlink(fields.title || '');
 
       let dublicatePost;
       try {
@@ -734,8 +741,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             }
 
             // mark unpublished video as published on 3speak if that is the case
-            if(videoPublishMeta){
-              console.log("marking inserted video as published")
+            if (videoPublishMeta) {
+              console.log('marking inserted video as published');
               speakMutations.markAsPublishedMutation.mutate(videoPublishMeta._id);
             }
 
@@ -1208,7 +1215,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   render() {
-    const { isLoggedIn, isDarkTheme, currentAccount, route, speakMutations } = this.props;
+    const { isLoggedIn, isDarkTheme, currentAccount, route } = this.props;
     const {
       autoFocusText,
       draftPost,

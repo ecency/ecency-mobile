@@ -6,26 +6,22 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Video as VideoType } from 'react-native-image-crop-picker';
 import Video from 'react-native-video';
 import { createThumbnail } from 'react-native-create-thumbnail';
+import { useQueryClient } from '@tanstack/react-query';
+import ImagePicker, { Options } from 'react-native-image-crop-picker';
+import { FlashList } from '@shopify/flash-list';
 import styles from '../styles/speakUploaderModal.styles';
 import { MainButton } from '../../mainButton';
 import { uploadFile, uploadVideoInfo } from '../../../providers/speak/speak';
 import { useAppSelector } from '../../../hooks';
-import { useQueryClient } from '@tanstack/react-query';
 import QUERIES from '../../../providers/queries/queryKeys';
-import ImagePicker, { Options } from 'react-native-image-crop-picker';
-import { FlashList } from '@shopify/flash-list';
 import Icon from '../../icon';
-
 
 interface Props {
   setIsUploading: (flag: boolean) => void;
-  isUploading: boolean
+  isUploading: boolean;
 }
 
-export const SpeakUploaderModal = forwardRef(({
-  setIsUploading,
-  isUploading
-}: Props, ref) => {
+export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: Props, ref) => {
   const sheetModalRef = useRef();
 
   const queryClient = useQueryClient();
@@ -37,7 +33,6 @@ export const SpeakUploaderModal = forwardRef(({
   const [availableThumbs, setAvailableThumbs] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-
   const [selectedVido, setSelectedVideo] = useState<VideoType | null>(null);
 
   useImperativeHandle(ref, () => ({
@@ -45,23 +40,19 @@ export const SpeakUploaderModal = forwardRef(({
       if (sheetModalRef.current) {
         sheetModalRef.current.setModalVisible(true);
 
-
         if (_video) {
-
           setSelectedVideo(_video);
           setSelectedThumb(null);
 
-          let thumbs = [];
+          const thumbs = [];
           const _diff = _video.duration / 5;
-          for (var i = 0; i < 5; i++) {
-            const _thumb = await createThumbnail({ url: _video.sourceURL, timeStamp: i * _diff })
+          for (let i = 0; i < 5; i++) {
+            const _thumb = await createThumbnail({ url: _video.sourceURL, timeStamp: i * _diff });
             thumbs.push(_thumb);
           }
 
           setAvailableThumbs(thumbs);
         }
-
-
       }
     },
   }));
@@ -114,9 +105,7 @@ export const SpeakUploaderModal = forwardRef(({
     setIsUploading(false);
   };
 
-
   const _handleOpenImagePicker = () => {
-
     const _options: Options = {
       includeBase64: true,
       mediaType: 'photo',
@@ -131,29 +120,28 @@ export const SpeakUploaderModal = forwardRef(({
         setSelectedThumb(items[0]);
       })
       .catch((e) => {
-        Alert.alert("Fail", "Thumb selection failed")
+        Alert.alert('Fail', 'Thumb selection failed');
       });
   };
 
-  const _onClose = () => { };
+  const _onClose = () => {};
 
-  const _renderProgressContent = () => { };
+  const _renderProgressContent = () => {};
 
   const _renderThumbSelection = () => {
-
     const _renderThumb = (uri, onPress) => (
       <TouchableOpacity onPress={onPress}>
         <Image source={uri && { uri }} style={styles.thumbnail} />
       </TouchableOpacity>
-    )
+    );
 
     const _renderThumbItem = ({ item, index }) => {
       const _onPress = () => {
         setSelectedThumb(item);
-      }
-      console.log('rendering thumb', item)
-      return _renderThumb(item.path || '', _onPress)
-    }
+      };
+      console.log('rendering thumb', item);
+      return _renderThumb(item.path || '', _onPress);
+    };
 
     const _renderHeader = () => (
       <View style={styles.selectedThumbContainer}>
@@ -161,7 +149,7 @@ export const SpeakUploaderModal = forwardRef(({
           {_renderThumb(selectedThumb?.path || '', _handleOpenImagePicker)}
           <Icon
             iconType="MaterialCommunityIcons"
-            style={{ position:'absolute', top:16, left:8 }}
+            style={{ position: 'absolute', top: 16, left: 8 }}
             name="pencil"
             color={EStyleSheet.value('$iconColor')}
             size={20}
@@ -170,7 +158,7 @@ export const SpeakUploaderModal = forwardRef(({
 
         <View style={styles.thumbSeparator} />
       </View>
-    )
+    );
 
     return (
       <View style={styles.imageContainer}>
@@ -184,9 +172,8 @@ export const SpeakUploaderModal = forwardRef(({
           estimatedItemSize={128}
         />
       </View>
-    )
-
-  }
+    );
+  };
 
   const _renderFormContent = () => {
     return (
@@ -196,8 +183,8 @@ export const SpeakUploaderModal = forwardRef(({
             uri: selectedVido?.sourceURL,
           }}
           repeat={true}
-          onLoad={() => { }}
-          onError={() => { }}
+          onLoad={() => {}}
+          onError={() => {}}
           resizeMode="container"
           fullscreen={false}
           style={styles.mediaPlayer}
@@ -216,8 +203,6 @@ export const SpeakUploaderModal = forwardRef(({
         </View> */}
 
         {_renderThumbSelection()}
-
-
 
         <MainButton
           style={styles.uploadButton}

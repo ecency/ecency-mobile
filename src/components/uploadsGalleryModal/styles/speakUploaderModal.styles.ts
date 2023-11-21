@@ -23,13 +23,20 @@ export default EStyleSheet.create({
     paddingBottom: 40,
   },
   imageContainer: {
-    paddingHorizontal:16,
+    paddingHorizontal: 16,
     marginVertical: 20,
   },
   selectedThumbContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
-  thumbSeparator: { width: 6, marginTop: 12, marginRight: 12, flex: 1, borderRadius: 8, backgroundColor: '$iconColor' },
+  thumbSeparator: {
+    width: 6,
+    marginTop: 12,
+    marginRight: 12,
+    flex: 1,
+    borderRadius: 8,
+    backgroundColor: '$iconColor',
+  },
   thumbnail: {
     marginTop: 10,
     width: 128,
