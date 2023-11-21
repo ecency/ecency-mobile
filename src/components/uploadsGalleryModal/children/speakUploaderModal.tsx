@@ -41,6 +41,9 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
         sheetModalRef.current.setModalVisible(true);
 
         if (_video) {
+          if(!_video.filename){
+            _video.filename = _video.path.split('/').pop();
+          }
           setSelectedVideo(_video);
           setSelectedThumb(null);
 
@@ -139,7 +142,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
       const _onPress = () => {
         setSelectedThumb(item);
       };
-      console.log('rendering thumb', item);
+    
       return _renderThumb(item.path || '', _onPress);
     };
 

@@ -163,7 +163,7 @@ export const uploadFile = (media: Video | Image, onProgress) => {
       const upload = new Upload(_path, {
         endpoint: tusEndPoint, // use your tus server endpoint instead
         metadata: {
-          filename: media.filename,
+          filename: media.filename || media.path.split('/').pop(),
           filetype: media.mime,
         },
         onError: (error) => console.log('error', error),
