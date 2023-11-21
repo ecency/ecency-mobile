@@ -276,25 +276,24 @@ export const extractMetadata = async ({
 
   // insert three speak meta
   if (videoPublishMeta) {
-    const videoMetadata = videoPublishMeta.rawData;
     out.video = {
       info: {
         platform: '3speak',
-        title: videoMetadata.title,
-        author: videoMetadata.owner,
-        permlink: videoMetadata.permlink,
-        duration: videoMetadata.duration,
-        filesize: videoMetadata.size,
-        file: videoMetadata.filename,
-        lang: videoMetadata.language,
-        firstUpload: videoMetadata.firstUpload,
+        title: videoPublishMeta.title,
+        author: videoPublishMeta.owner,
+        permlink: videoPublishMeta.permlink,
+        duration: videoPublishMeta.duration,
+        filesize: videoPublishMeta.size,
+        file: videoPublishMeta.filename,
+        lang: videoPublishMeta.language,
+        firstUpload: videoPublishMeta.firstUpload,
         ipfs: null,
         ipfsThumbnail: null,
-        video_v2: videoMetadata.video_v2,
+        video_v2: videoPublishMeta.video_v2,
         sourceMap: [
           {
             type: 'video',
-            url: videoMetadata.video_v2,
+            url: videoPublishMeta.video_v2,
             format: 'm3u8',
           },
           {
