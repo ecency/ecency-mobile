@@ -25,18 +25,22 @@ import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import { DEFAULT_SPEAK_BENEFICIARIES } from '../../../providers/speak/constants';
 import { showActionModal } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
+import { Modes } from '../container/uploadsGalleryModal';
 
 type Props = {
+  mode: Modes;
   draftId?: string;
   insertedMediaUrls: string[];
   mediaUploads: MediaItem[];
   isAddingToUploads: boolean;
   insertMedia: (map: Map<number, boolean>) => void;
   handleOpenGallery: (addToUploads?: boolean) => void;
+  handleOpenSpeakUploader: () => void;
   handleOpenCamera: () => void;
 };
 
 const UploadsGalleryContent = ({
+  mode,
   draftId,
   insertedMediaUrls,
   mediaUploads,
@@ -44,6 +48,7 @@ const UploadsGalleryContent = ({
   insertMedia,
   handleOpenGallery,
   handleOpenCamera,
+  handleOpenSpeakUploader
 }: Props) => {
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -203,11 +208,26 @@ const UploadsGalleryContent = ({
     );
   };
 
+  const _renderSelectButtons = (
+    <>
+      {_renderSelectButton('image', 'Gallery', handleOpenGallery)}
+      {_renderSelectButton('camera', 'Camera', handleOpenCamera)}
+    </>
+  )
+
   const _renderHeaderContent = () => (
     <View style={{ ...styles.buttonsContainer, paddingVertical: isExpandedMode ? 8 : 0 }}>
       <View style={styles.selectButtonsContainer}>
-        {_renderSelectButton('image', 'Gallery', handleOpenGallery)}
-        {_renderSelectButton('camera', 'Camera', handleOpenCamera)}
+        {
+          mode === Modes.MODE_IMAGE ? (
+            _renderSelectButtons
+          ) : (
+            isAddingToUploads
+              ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
+              : _renderSelectButtons
+          )
+        }
+
       </View>
       <View style={styles.pillBtnContainer}>
         <IconButton

@@ -13,7 +13,16 @@ import { useAppSelector } from '../../../hooks';
 import { useQueryClient } from '@tanstack/react-query';
 import QUERIES from '../../../providers/queries/queryKeys';
 
-export const SpeakUploaderModal = forwardRef(({}, ref) => {
+
+interface Props {
+  setIsUploading:(flag:boolean)=>void;
+  isUploading:boolean
+}
+
+export const SpeakUploaderModal = forwardRef(({
+  setIsUploading,
+  isUploading
+} : Props, ref) => {
   const sheetModalRef = useRef();
 
   const queryClient = useQueryClient();
@@ -22,25 +31,22 @@ export const SpeakUploaderModal = forwardRef(({}, ref) => {
   const pinHash = useAppSelector((state) => state.application.pin);
 
   const [selectedThumb, setSelectedThumb] = useState(null);
-  const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
 
   const [selectedVido, setSelectedVideo] = useState<VideoType | null>(null);
 
   useImperativeHandle(ref, () => ({
-    showUploader: (_video: VideoType) => {
+    showUploader:async (_video: VideoType) => {
       if (sheetModalRef.current) {
-        setSelectedVideo(_video);
-        sheetModalRef.current.setModalVisible(true);
 
-        console.log('creating thumb');
-        createThumbnail({
-          url: _video.sourceURL,
-        }).then((response) => {
-          console.log('thumb response', response);
-          setSelectedThumb(response);
-        });
+        if(_video){
+          const _thumb = await createThumbnail({url: _video.sourceURL})
+          setSelectedVideo(_video);
+          setSelectedThumb(_thumb);
+        }
+        
+        sheetModalRef.current.setModalVisible(true);
       }
     },
   }));

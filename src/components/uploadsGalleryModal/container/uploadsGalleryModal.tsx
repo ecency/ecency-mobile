@@ -173,6 +173,12 @@ export const UploadsGalleryModal = forwardRef(
 
     const _handleOpenImagePicker = (addToUploads?: boolean) => {
       const _vidMode = mode === Modes.MODE_VIDEO;
+
+      if(_vidMode && isAddingToUploads){
+        speakUploaderRef.current.showUploader();
+        return;
+      }
+
       const _options: Options = _vidMode
         ? {
           mediaType: 'video',
@@ -203,6 +209,12 @@ export const UploadsGalleryModal = forwardRef(
 
     const _handleOpenCamera = () => {
       const _vidMode = mode === Modes.MODE_VIDEO;
+
+      if(_vidMode && isAddingToUploads){
+        speakUploaderRef.current.showUploader();
+        return;
+      }
+
       const _options: Options = _vidMode
         ? {
           mediaType: 'video',
@@ -411,6 +423,15 @@ export const UploadsGalleryModal = forwardRef(
       );
     };
 
+    const _handleOpenSpeakUploader = () => {
+      speakUploaderRef.current.showUploader()
+    }
+
+    const _setIsSpeakUploading = (flag:boolean) => {
+      setIsUploading(true);
+      setIsAddingToUploads(true);
+    }
+
     const _handleMediaInsertion = (data: MediaInsertData) => {
       if (isEditing) {
         pendingInserts.current.push(data);
@@ -457,6 +478,7 @@ export const UploadsGalleryModal = forwardRef(
       <>
         {showModal && (
           <UploadsGalleryContent
+            mode={mode}
             draftId={draftId}
             insertedMediaUrls={mediaUrls}
             mediaUploads={data}
@@ -465,9 +487,10 @@ export const UploadsGalleryModal = forwardRef(
             insertMedia={_insertMedia}
             handleOpenCamera={_handleOpenCamera}
             handleOpenGallery={_handleOpenImagePicker}
+            handleOpenSpeakUploader={_handleOpenSpeakUploader}
           />
         )}
-        <SpeakUploaderModal ref={speakUploaderRef} />
+        <SpeakUploaderModal ref={speakUploaderRef} isUploading={isAddingToUploads} setIsUploading={_setIsSpeakUploading} />
       </>
     );
   },
