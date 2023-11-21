@@ -47,7 +47,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
           const thumbs = [];
           const _diff = _video.duration / 5;
           for (let i = 0; i < 5; i++) {
-            const _thumb = await createThumbnail({ url: _video.sourceURL, timeStamp: i * _diff });
+            const _thumb = await createThumbnail({ url: _video.sourceURL || _video.path, timeStamp: i * _diff });
             thumbs.push(_thumb);
           }
 
@@ -124,9 +124,9 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
       });
   };
 
-  const _onClose = () => {};
+  const _onClose = () => { };
 
-  const _renderProgressContent = () => {};
+  const _renderProgressContent = () => { };
 
   const _renderThumbSelection = () => {
     const _renderThumb = (uri, onPress) => (
@@ -178,18 +178,21 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
   const _renderFormContent = () => {
     return (
       <View style={styles.contentContainer}>
-        <Video
-          source={{
-            uri: selectedVido?.sourceURL,
-          }}
-          repeat={true}
-          onLoad={() => {}}
-          onError={() => {}}
-          resizeMode="container"
-          fullscreen={false}
-          style={styles.mediaPlayer}
-          volume={0}
-        />
+
+        {!!selectedVido && (
+          <Video
+            source={{
+              uri: selectedVido?.sourceURL || selectedVido?.path,
+            }}
+            repeat={true}
+            onLoad={() => { }}
+            onError={() => { }}
+            resizeMode="container"
+            fullscreen={false}
+            style={styles.mediaPlayer}
+            volume={0}
+          />
+        )}
 
         {/* <View style={styles.titleBox}>
           <Text style={styles.label}>Title</Text>
