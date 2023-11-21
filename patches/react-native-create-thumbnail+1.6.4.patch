@@ -1,79 +1,54 @@
-diff --git a/node_modules/react-native-tus-client/RNTusClient.podspec b/node_modules/react-native-tus-client/RNTusClient.podspec
-index b855287..3f49b50 100644
---- a/node_modules/react-native-tus-client/RNTusClient.podspec
-+++ b/node_modules/react-native-tus-client/RNTusClient.podspec
-@@ -15,5 +15,5 @@ Pod::Spec.new do |s|
-   s.ios.deployment_target = '8.0'
- 
-   s.dependency 'React-Core'
--  s.dependency 'TUSKit'
-+  s.dependency 'TUSKit', '~> 1.4.2'
- end
-diff --git a/node_modules/react-native-tus-client/android/build.gradle b/node_modules/react-native-tus-client/android/build.gradle
-index 509d7c6..332c0e8 100644
---- a/node_modules/react-native-tus-client/android/build.gradle
-+++ b/node_modules/react-native-tus-client/android/build.gradle
-@@ -34,8 +34,8 @@ repositories {
- }
- 
- dependencies {
--    compile 'com.facebook.react:react-native:+'
--    compile group: 'org.jetbrains', name: 'annotations', version: '13.0'
--    implementation 'io.tus.java.client:tus-java-client:0.4.2'
--    implementation 'io.tus.android.client:tus-android-client:0.1.9'
-+    implementation 'com.facebook.react:react-native:+'
-+    implementation 'org.jetbrains:annotations:13.0'
-+    implementation 'io.tus.java.client:tus-java-client:0.5.0'
-+    implementation 'io.tus.android.client:tus-android-client:0.1.11'
- }
-diff --git a/node_modules/react-native-tus-client/android/build/.transforms/ae7df590ea2beb5634be3bf6b0279991/results.bin b/node_modules/react-native-tus-client/android/build/.transforms/ae7df590ea2beb5634be3bf6b0279991/results.bin
+diff --git a/node_modules/react-native-create-thumbnail/android/build/.transforms/02e01a56b76ca1a8448010ad7aa44a4e/results.bin b/node_modules/react-native-create-thumbnail/android/build/.transforms/02e01a56b76ca1a8448010ad7aa44a4e/results.bin
 new file mode 100644
 index 0000000..0d259dd
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/.transforms/ae7df590ea2beb5634be3bf6b0279991/results.bin
++++ b/node_modules/react-native-create-thumbnail/android/build/.transforms/02e01a56b76ca1a8448010ad7aa44a4e/results.bin
 @@ -0,0 +1 @@
 +o/classes
-diff --git a/node_modules/react-native-tus-client/android/build/.transforms/ae7df590ea2beb5634be3bf6b0279991/transformed/classes/classes.dex b/node_modules/react-native-tus-client/android/build/.transforms/ae7df590ea2beb5634be3bf6b0279991/transformed/classes/classes.dex
+diff --git a/node_modules/react-native-create-thumbnail/android/build/.transforms/02e01a56b76ca1a8448010ad7aa44a4e/transformed/classes/classes.dex b/node_modules/react-native-create-thumbnail/android/build/.transforms/02e01a56b76ca1a8448010ad7aa44a4e/transformed/classes/classes.dex
 new file mode 100644
-index 0000000..7274286
-Binary files /dev/null and b/node_modules/react-native-tus-client/android/build/.transforms/ae7df590ea2beb5634be3bf6b0279991/transformed/classes/classes.dex differ
-diff --git a/node_modules/react-native-tus-client/android/build/generated/source/buildConfig/debug/com/vinzscam/rntusclient/BuildConfig.java b/node_modules/react-native-tus-client/android/build/generated/source/buildConfig/debug/com/vinzscam/rntusclient/BuildConfig.java
+index 0000000..268f098
+Binary files /dev/null and b/node_modules/react-native-create-thumbnail/android/build/.transforms/02e01a56b76ca1a8448010ad7aa44a4e/transformed/classes/classes.dex differ
+diff --git a/node_modules/react-native-create-thumbnail/android/build/generated/source/buildConfig/debug/com/reactlibrary/createthumbnail/BuildConfig.java b/node_modules/react-native-create-thumbnail/android/build/generated/source/buildConfig/debug/com/reactlibrary/createthumbnail/BuildConfig.java
 new file mode 100644
-index 0000000..032a3b0
+index 0000000..c689236
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/generated/source/buildConfig/debug/com/vinzscam/rntusclient/BuildConfig.java
++++ b/node_modules/react-native-create-thumbnail/android/build/generated/source/buildConfig/debug/com/reactlibrary/createthumbnail/BuildConfig.java
 @@ -0,0 +1,10 @@
 +/**
 + * Automatically generated file. DO NOT MODIFY
 + */
-+package com.vinzscam.rntusclient;
++package com.reactlibrary.createthumbnail;
 +
 +public final class BuildConfig {
 +  public static final boolean DEBUG = Boolean.parseBoolean("true");
-+  public static final String LIBRARY_PACKAGE_NAME = "com.vinzscam.rntusclient";
++  public static final String LIBRARY_PACKAGE_NAME = "com.reactlibrary.createthumbnail";
 +  public static final String BUILD_TYPE = "debug";
 +}
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml b/node_modules/react-native-tus-client/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml b/node_modules/react-native-create-thumbnail/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml
 new file mode 100644
-index 0000000..a7b24f2
+index 0000000..9a3755a
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml
-@@ -0,0 +1,9 @@
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml
+@@ -0,0 +1,12 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-+    package="com.vinzscam.rntusclient" >
++    package="com.reactlibrary.createthumbnail" >
 +
 +    <uses-sdk
 +        android:minSdkVersion="23"
 +        android:targetSdkVersion="33" />
 +
++    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
++    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
++
 +</manifest>
 \ No newline at end of file
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json b/node_modules/react-native-tus-client/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json b/node_modules/react-native-create-thumbnail/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json
 new file mode 100644
-index 0000000..34cf99f
+index 0000000..cc0067c
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json
 @@ -0,0 +1,18 @@
 +{
 +  "version": 3,
@@ -81,7 +56,7 @@ index 0000000..34cf99f
 +    "type": "AAPT_FRIENDLY_MERGED_MANIFESTS",
 +    "kind": "Directory"
 +  },
-+  "applicationId": "com.vinzscam.rntusclient",
++  "applicationId": "com.reactlibrary.createthumbnail",
 +  "variantName": "debug",
 +  "elements": [
 +    {
@@ -94,37 +69,37 @@ index 0000000..34cf99f
 +  "elementType": "File"
 +}
 \ No newline at end of file
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/aar_metadata/debug/aar-metadata.properties b/node_modules/react-native-tus-client/android/build/intermediates/aar_metadata/debug/aar-metadata.properties
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/aar_metadata/debug/aar-metadata.properties b/node_modules/react-native-create-thumbnail/android/build/intermediates/aar_metadata/debug/aar-metadata.properties
 new file mode 100644
 index 0000000..8c9c699
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/aar_metadata/debug/aar-metadata.properties
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/aar_metadata/debug/aar-metadata.properties
 @@ -0,0 +1,4 @@
 +aarFormatVersion=1.0
 +aarMetadataVersion=1.0
 +minCompileSdk=1
 +minAndroidGradlePluginVersion=1.0.0
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json b/node_modules/react-native-tus-client/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json b/node_modules/react-native-create-thumbnail/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json
 new file mode 100644
 index 0000000..9e26dfe
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json
 @@ -0,0 +1 @@
 +{}
 \ No newline at end of file
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/compile_library_classes_jar/debug/classes.jar b/node_modules/react-native-tus-client/android/build/intermediates/compile_library_classes_jar/debug/classes.jar
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/compile_library_classes_jar/debug/classes.jar b/node_modules/react-native-create-thumbnail/android/build/intermediates/compile_library_classes_jar/debug/classes.jar
 new file mode 100644
-index 0000000..bf746f0
-Binary files /dev/null and b/node_modules/react-native-tus-client/android/build/intermediates/compile_library_classes_jar/debug/classes.jar differ
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/compile_r_class_jar/debug/R.jar b/node_modules/react-native-tus-client/android/build/intermediates/compile_r_class_jar/debug/R.jar
+index 0000000..cbce755
+Binary files /dev/null and b/node_modules/react-native-create-thumbnail/android/build/intermediates/compile_library_classes_jar/debug/classes.jar differ
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/compile_r_class_jar/debug/R.jar b/node_modules/react-native-create-thumbnail/android/build/intermediates/compile_r_class_jar/debug/R.jar
 new file mode 100644
-index 0000000..7a22f44
-Binary files /dev/null and b/node_modules/react-native-tus-client/android/build/intermediates/compile_r_class_jar/debug/R.jar differ
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/compile_symbol_list/debug/R.txt b/node_modules/react-native-tus-client/android/build/intermediates/compile_symbol_list/debug/R.txt
+index 0000000..3f68ee8
+Binary files /dev/null and b/node_modules/react-native-create-thumbnail/android/build/intermediates/compile_r_class_jar/debug/R.jar differ
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/compile_symbol_list/debug/R.txt b/node_modules/react-native-create-thumbnail/android/build/intermediates/compile_symbol_list/debug/R.txt
 new file mode 100644
 index 0000000..611979d
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/compile_symbol_list/debug/R.txt
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/compile_symbol_list/debug/R.txt
 @@ -0,0 +1,1958 @@
 +int anim abc_fade_in 0x0
 +int anim abc_fade_out 0x0
@@ -2084,119 +2059,129 @@ index 0000000..611979d
 +int styleable ViewStubCompat_android_inflatedId 1
 +int styleable ViewStubCompat_android_layout 2
 +int xml rn_dev_preferences 0x0
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties b/node_modules/react-native-tus-client/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties b/node_modules/react-native-create-thumbnail/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
 new file mode 100644
-index 0000000..0229df2
+index 0000000..5179385
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
 @@ -0,0 +1 @@
-+#Tue Nov 21 22:56:17 PKT 2023
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml b/node_modules/react-native-tus-client/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
++#Tue Nov 21 22:56:16 PKT 2023
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml b/node_modules/react-native-create-thumbnail/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
 new file mode 100644
-index 0000000..d4d8593
+index 0000000..b347793
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
 @@ -0,0 +1,2 @@
 +<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/res"/><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/build/generated/res/rs/debug"/><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/res"/><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/build/generated/res/rs/debug"/><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/debug/res"/></dataSet><mergedItems/></merger>
++<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/res"/><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/build/generated/res/rs/debug"/><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/res"/><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/build/generated/res/rs/debug"/><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/debug/res"/></dataSet><mergedItems/></merger>
 \ No newline at end of file
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml b/node_modules/react-native-tus-client/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml b/node_modules/react-native-create-thumbnail/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml
 new file mode 100644
-index 0000000..2b4d094
+index 0000000..489879c
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml
 @@ -0,0 +1,2 @@
 +<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/jniLibs"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/debug/jniLibs"/></dataSet></merger>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/jniLibs"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/debug/jniLibs"/></dataSet></merger>
 \ No newline at end of file
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/incremental/mergeDebugShaders/merger.xml b/node_modules/react-native-tus-client/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/incremental/mergeDebugShaders/merger.xml b/node_modules/react-native-create-thumbnail/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
 new file mode 100644
-index 0000000..4a80f8b
+index 0000000..80eaba8
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
 @@ -0,0 +1,2 @@
 +<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/shaders"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/debug/shaders"/></dataSet></merger>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/shaders"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/debug/shaders"/></dataSet></merger>
 \ No newline at end of file
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/incremental/packageDebugAssets/merger.xml b/node_modules/react-native-tus-client/android/build/intermediates/incremental/packageDebugAssets/merger.xml
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/incremental/packageDebugAssets/merger.xml b/node_modules/react-native-create-thumbnail/android/build/intermediates/incremental/packageDebugAssets/merger.xml
 new file mode 100644
-index 0000000..35b4bc6
+index 0000000..15f74e0
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/incremental/packageDebugAssets/merger.xml
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/incremental/packageDebugAssets/merger.xml
 @@ -0,0 +1,2 @@
 +<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/assets"/><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/build/intermediates/shader_assets/debug/out"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/debug/assets"/></dataSet></merger>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/assets"/><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/build/intermediates/shader_assets/debug/out"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/debug/assets"/></dataSet></merger>
 \ No newline at end of file
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/javac/debug/classes/com/vinzscam/rntusclient/BuildConfig.class b/node_modules/react-native-tus-client/android/build/intermediates/javac/debug/classes/com/vinzscam/rntusclient/BuildConfig.class
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/javac/debug/classes/com/reactlibrary/createthumbnail/BuildConfig.class b/node_modules/react-native-create-thumbnail/android/build/intermediates/javac/debug/classes/com/reactlibrary/createthumbnail/BuildConfig.class
 new file mode 100644
-index 0000000..487c03d
-Binary files /dev/null and b/node_modules/react-native-tus-client/android/build/intermediates/javac/debug/classes/com/vinzscam/rntusclient/BuildConfig.class differ
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/javac/debug/classes/com/vinzscam/rntusclient/RNTusClientModule$TusRunnable.class b/node_modules/react-native-tus-client/android/build/intermediates/javac/debug/classes/com/vinzscam/rntusclient/RNTusClientModule$TusRunnable.class
+index 0000000..6f41d11
+Binary files /dev/null and b/node_modules/react-native-create-thumbnail/android/build/intermediates/javac/debug/classes/com/reactlibrary/createthumbnail/BuildConfig.class differ
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/javac/debug/classes/com/reactlibrary/createthumbnail/CreateThumbnailModule$ProcessDataTask.class b/node_modules/react-native-create-thumbnail/android/build/intermediates/javac/debug/classes/com/reactlibrary/createthumbnail/CreateThumbnailModule$ProcessDataTask.class
 new file mode 100644
-index 0000000..7bfe925
-Binary files /dev/null and b/node_modules/react-native-tus-client/android/build/intermediates/javac/debug/classes/com/vinzscam/rntusclient/RNTusClientModule$TusRunnable.class differ
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/javac/debug/classes/com/vinzscam/rntusclient/RNTusClientModule.class b/node_modules/react-native-tus-client/android/build/intermediates/javac/debug/classes/com/vinzscam/rntusclient/RNTusClientModule.class
+index 0000000..3164c67
+Binary files /dev/null and b/node_modules/react-native-create-thumbnail/android/build/intermediates/javac/debug/classes/com/reactlibrary/createthumbnail/CreateThumbnailModule$ProcessDataTask.class differ
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/javac/debug/classes/com/reactlibrary/createthumbnail/CreateThumbnailModule.class b/node_modules/react-native-create-thumbnail/android/build/intermediates/javac/debug/classes/com/reactlibrary/createthumbnail/CreateThumbnailModule.class
 new file mode 100644
-index 0000000..a1797ff
-Binary files /dev/null and b/node_modules/react-native-tus-client/android/build/intermediates/javac/debug/classes/com/vinzscam/rntusclient/RNTusClientModule.class differ
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/javac/debug/classes/com/vinzscam/rntusclient/RNTusClientPackage.class b/node_modules/react-native-tus-client/android/build/intermediates/javac/debug/classes/com/vinzscam/rntusclient/RNTusClientPackage.class
+index 0000000..540479b
+Binary files /dev/null and b/node_modules/react-native-create-thumbnail/android/build/intermediates/javac/debug/classes/com/reactlibrary/createthumbnail/CreateThumbnailModule.class differ
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/javac/debug/classes/com/reactlibrary/createthumbnail/CreateThumbnailPackage.class b/node_modules/react-native-create-thumbnail/android/build/intermediates/javac/debug/classes/com/reactlibrary/createthumbnail/CreateThumbnailPackage.class
 new file mode 100644
-index 0000000..72f59b0
-Binary files /dev/null and b/node_modules/react-native-tus-client/android/build/intermediates/javac/debug/classes/com/vinzscam/rntusclient/RNTusClientPackage.class differ
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/local_only_symbol_list/debug/R-def.txt b/node_modules/react-native-tus-client/android/build/intermediates/local_only_symbol_list/debug/R-def.txt
+index 0000000..6cd8c46
+Binary files /dev/null and b/node_modules/react-native-create-thumbnail/android/build/intermediates/javac/debug/classes/com/reactlibrary/createthumbnail/CreateThumbnailPackage.class differ
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/local_only_symbol_list/debug/R-def.txt b/node_modules/react-native-create-thumbnail/android/build/intermediates/local_only_symbol_list/debug/R-def.txt
 new file mode 100644
 index 0000000..78ac5b8
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/local_only_symbol_list/debug/R-def.txt
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/local_only_symbol_list/debug/R-def.txt
 @@ -0,0 +1,2 @@
 +R_DEF: Internal format may change without notice
 +local
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt b/node_modules/react-native-tus-client/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt b/node_modules/react-native-create-thumbnail/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt
 new file mode 100644
-index 0000000..7db239f
+index 0000000..f95685b
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt
-@@ -0,0 +1,11 @@
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt
+@@ -0,0 +1,18 @@
 +1<?xml version="1.0" encoding="utf-8"?>
 +2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-+3    package="com.vinzscam.rntusclient" >
++3    package="com.reactlibrary.createthumbnail" >
 +4
 +5    <uses-sdk
 +6        android:minSdkVersion="23"
-+6-->/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml
++6-->/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml
 +7        android:targetSdkVersion="33" />
-+7-->/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml
++7-->/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml
 +8
-+9</manifest>
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml b/node_modules/react-native-tus-client/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml
++9    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
++9-->/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml:3:5-80
++9-->/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml:3:22-78
++10    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
++10-->/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml:4:5-79
++10-->/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml:4:22-77
++11
++12</manifest>
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml b/node_modules/react-native-create-thumbnail/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml
 new file mode 100644
-index 0000000..a7b24f2
+index 0000000..9a3755a
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml
-@@ -0,0 +1,9 @@
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml
+@@ -0,0 +1,12 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-+    package="com.vinzscam.rntusclient" >
++    package="com.reactlibrary.createthumbnail" >
 +
 +    <uses-sdk
 +        android:minSdkVersion="23"
 +        android:targetSdkVersion="33" />
 +
++    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
++    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
++
 +</manifest>
 \ No newline at end of file
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/navigation_json/debug/navigation.json b/node_modules/react-native-tus-client/android/build/intermediates/navigation_json/debug/navigation.json
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/navigation_json/debug/navigation.json b/node_modules/react-native-create-thumbnail/android/build/intermediates/navigation_json/debug/navigation.json
 new file mode 100644
 index 0000000..0637a08
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/navigation_json/debug/navigation.json
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/navigation_json/debug/navigation.json
 @@ -0,0 +1 @@
 +[]
 \ No newline at end of file
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/packaged_manifests/debug/output-metadata.json b/node_modules/react-native-tus-client/android/build/intermediates/packaged_manifests/debug/output-metadata.json
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/packaged_manifests/debug/output-metadata.json b/node_modules/react-native-create-thumbnail/android/build/intermediates/packaged_manifests/debug/output-metadata.json
 new file mode 100644
-index 0000000..da07977
+index 0000000..948cb4b
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/packaged_manifests/debug/output-metadata.json
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/packaged_manifests/debug/output-metadata.json
 @@ -0,0 +1,18 @@
 +{
 +  "version": 3,
@@ -2204,7 +2189,7 @@ index 0000000..da07977
 +    "type": "PACKAGED_MANIFESTS",
 +    "kind": "Directory"
 +  },
-+  "applicationId": "com.vinzscam.rntusclient",
++  "applicationId": "com.reactlibrary.createthumbnail",
 +  "variantName": "debug",
 +  "elements": [
 +    {
@@ -2217,17 +2202,17 @@ index 0000000..da07977
 +  "elementType": "File"
 +}
 \ No newline at end of file
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar b/node_modules/react-native-tus-client/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar b/node_modules/react-native-create-thumbnail/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar
 new file mode 100644
-index 0000000..2deb00d
-Binary files /dev/null and b/node_modules/react-native-tus-client/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar differ
-diff --git a/node_modules/react-native-tus-client/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt b/node_modules/react-native-tus-client/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
+index 0000000..7f8f54d
+Binary files /dev/null and b/node_modules/react-native-create-thumbnail/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar differ
+diff --git a/node_modules/react-native-create-thumbnail/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt b/node_modules/react-native-create-thumbnail/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
 new file mode 100644
-index 0000000..d4c4546
+index 0000000..7bb718d
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
++++ b/node_modules/react-native-create-thumbnail/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
 @@ -0,0 +1,1451 @@
-+com.vinzscam.rntusclient
++com.reactlibrary.createthumbnail
 +anim abc_fade_in
 +anim abc_fade_out
 +anim abc_grow_fade_in_from_bottom
@@ -3678,38 +3663,64 @@ index 0000000..d4c4546
 +styleable ViewBackgroundHelper android_background backgroundTint backgroundTintMode
 +styleable ViewStubCompat android_id android_inflatedId android_layout
 +xml rn_dev_preferences
-diff --git a/node_modules/react-native-tus-client/android/build/outputs/logs/manifest-merger-debug-report.txt b/node_modules/react-native-tus-client/android/build/outputs/logs/manifest-merger-debug-report.txt
+diff --git a/node_modules/react-native-create-thumbnail/android/build/outputs/logs/manifest-merger-debug-report.txt b/node_modules/react-native-create-thumbnail/android/build/outputs/logs/manifest-merger-debug-report.txt
 new file mode 100644
-index 0000000..2345af0
+index 0000000..9780556
 --- /dev/null
-+++ b/node_modules/react-native-tus-client/android/build/outputs/logs/manifest-merger-debug-report.txt
-@@ -0,0 +1,25 @@
++++ b/node_modules/react-native-create-thumbnail/android/build/outputs/logs/manifest-merger-debug-report.txt
+@@ -0,0 +1,33 @@
 +-- Merging decision tree log ---
 +manifest
-+ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml:2:1-5:12
-+INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml:2:1-5:12
-+INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml:2:1-5:12
++ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml:1:1-5:12
++INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml:1:1-5:12
++INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml:1:1-5:12
 +	package
-+		ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml:3:11-45
-+		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml
-+		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml
++		ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml:2:11-53
++		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml
 +	xmlns:android
-+		ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml:2:11-69
++		ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml:1:11-69
++uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
++ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml:3:5-80
++	android:name
++		ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml:3:22-78
++uses-permission#android.permission.READ_EXTERNAL_STORAGE
++ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml:4:5-79
++	android:name
++		ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml:4:22-77
 +uses-sdk
-+INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml reason: use-sdk injection requested
-+INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml
-+INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml
-+INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml
-+INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml
++INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml reason: use-sdk injection requested
++INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml
++INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml
++INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml
++INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml
 +	android:targetSdkVersion
-+		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml
-+		ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml
-+		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml
++		ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml
 +	android:minSdkVersion
-+		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml
-+		ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml
-+		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-tus-client/android/src/main/AndroidManifest.xml
-diff --git a/node_modules/react-native-tus-client/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin b/node_modules/react-native-tus-client/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin
++		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml
++		ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-create-thumbnail/android/src/main/AndroidManifest.xml
+diff --git a/node_modules/react-native-create-thumbnail/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin b/node_modules/react-native-create-thumbnail/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin
 new file mode 100644
-index 0000000..32674bc
-Binary files /dev/null and b/node_modules/react-native-tus-client/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin differ
+index 0000000..1cc8d79
+Binary files /dev/null and b/node_modules/react-native-create-thumbnail/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin differ
+diff --git a/node_modules/react-native-create-thumbnail/android/src/main/java/com/createthumbnail/CreateThumbnailModule.java b/node_modules/react-native-create-thumbnail/android/src/main/java/com/createthumbnail/CreateThumbnailModule.java
+index 9bd67d8..d3914b8 100644
+--- a/node_modules/react-native-create-thumbnail/android/src/main/java/com/createthumbnail/CreateThumbnailModule.java
++++ b/node_modules/react-native-create-thumbnail/android/src/main/java/com/createthumbnail/CreateThumbnailModule.java
+@@ -189,7 +189,12 @@ public class CreateThumbnailModule extends ReactContextBaseJavaModule {
+         }
+   
+         Bitmap image = retriever.getFrameAtTime(time * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+-        retriever.release();
++        try {
++         retriever.release();
++        } catch (Exception e) { // Catching Exception class as it's unclear what specific exception you're facing
++        // Handle or log the exception here
++            e.printStackTrace();
++        }
+         if (image == null) {
+             throw new IllegalStateException("File doesn't exist or not supported");
+         }
