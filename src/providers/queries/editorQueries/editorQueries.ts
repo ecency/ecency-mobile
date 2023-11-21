@@ -88,56 +88,59 @@ export const useMediaUploadMutation = () => {
   const pinCode = useAppSelector((state) => state.application.pin);
 
   const _uploadMedia = async ({ media }: MediaUploadVars) => {
-    try {
-      const sign = await signImage(media, currentAccount, pinCode);
+    return new Promise((resolve, reject) => {
+        signImage(media, currentAccount, pinCode)
+        .then((sign) => {
+          const _options: UploadOptions = {
+            url: `${Config.NEW_IMAGE_API}/hs/${sign}`,
+            path: Platform.select({
+              ios: `file://${media.path}`,
+              android: media.path.replace('file://', ''),
+            }),
+            method: 'POST',
+            type: 'multipart',
+            maxRetries: 2, // set retry count (Android only). Default 2
+            headers: {
+              Authorization: Config.NEW_IMAGE_API, // Config.NEW_IMAGE_API
+              'Content-Type': 'multipart/form-data',
+            },
+            field: 'uploaded_media',
+            // Below are options only supported on Android
+            notification: {
+              enabled: true,
+            },
+            useUtf8Charset: true,
+          };
 
-      const _options: UploadOptions = {
-        url: `${Config.NEW_IMAGE_API}/hs/${sign}`,
-        path: Platform.select({
-          ios: `file://${media.path}`,
-          android: media.path.replace('file://', ''),
-        }),
-        method: 'POST',
-        type: 'multipart',
-        maxRetries: 2, // set retry count (Android only). Default 2
-        headers: {
-          Authorization: Config.NEW_IMAGE_API, // Config.NEW_IMAGE_API
-          'Content-Type': 'multipart/form-data',
-        },
-        field: 'uploaded_media',
-        // Below are options only supported on Android
-        notification: {
-          enabled: true,
-        },
-        useUtf8Charset: true,
-      };
-
-      const uploadId = await Upload.startUpload(_options);
-
-      console.log('Upload started', uploadId);
-
-      Upload.addListener('progress', uploadId, (data) => {
-        console.log(`Progress: ${data.progress}%`, data);
-      });
-      Upload.addListener('error', uploadId, (data) => {
-        console.log(`Error`, data);
-        throw data.error;
-      });
-      Upload.addListener('cancelled', uploadId, (data) => {
-        console.log(`Cancelled!`, data);
-        throw new Error('Upload Cancelled');
-      });
-      Upload.addListener('completed', uploadId, (data) => {
-        // data includes responseCode: number and responseBody: Object
-        console.log('Completed!', data);
-        const _respData = JSON.parse(data.responseBody);
-        return _respData;
-      });
-    } catch (err) {
-      console.warn('Meida Upload Failed', err);
-      bugsnapInstance.notify('Media upload failed', err);
-      throw err;
-    }
+          console.log('Upload starting');
+          return Upload.startUpload(_options);
+        })
+        .then((uploadId) => {
+          Upload.addListener('progress', uploadId, (data) => {
+            console.log(`Progress: ${data.progress}%`, data);
+          });
+          Upload.addListener('error', uploadId, (data) => {
+            console.log(`Error`, data);
+            throw data.error;
+          });
+          Upload.addListener('cancelled', uploadId, (data) => {
+            console.log(`Cancelled!`, data);
+            throw new Error('Upload Cancelled');
+          });
+          Upload.addListener('completed', uploadId, (data) => {
+            // data includes responseCode: number and responseBody: Object
+            console.log('Completed!', data);
+            const _respData = JSON.parse(data.responseBody);
+            resolve(_respData);
+          });
+        })
+        .catch(err => {
+          console.warn('Meida Upload Failed', err);
+          bugsnapInstance.notify('Media upload failed', err);
+          reject(err);
+        })
+    })
+    
   };
 
   return useMutation<Image, undefined, MediaUploadVars>(
