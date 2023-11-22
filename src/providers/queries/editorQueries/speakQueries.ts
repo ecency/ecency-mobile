@@ -53,11 +53,14 @@ export const useSpeakContentBuilder = () => {
   const dispatch = useDispatch();
   const videoUploads = useVideoUploadsQuery();
   const videoPublishMetaRef = useRef<ThreeSpeakVideo | null>(null);
+  const thumbUrlsRef = useRef<string[]>([]);
 
   const build = (body: string) => {
     let _newBody = body;
     videoPublishMetaRef.current = null;
+    thumbUrlsRef.current = [];
     const _ids = extract3SpeakIds({ body });
+    const thumbUrls:string[] = [];
 
     _ids.forEach((id) => {
       const mediaItem: MediaItem | undefined = videoUploads.data.find((item) => item._id === id);
@@ -81,8 +84,12 @@ export const useSpeakContentBuilder = () => {
         const _toReplaceStr = `[3speak](${id})`;
         const _replacement = `<center>[![](${mediaItem.thumbUrl})](${mediaItem.url})</center>`;
         _newBody = _newBody.replace(_toReplaceStr, _replacement);
+
+        thumbUrls.push(mediaItem.thumbUrl);
       }
     });
+
+    thumbUrlsRef.current = thumbUrls;
 
     return _newBody;
   };
@@ -90,6 +97,7 @@ export const useSpeakContentBuilder = () => {
   return {
     build,
     videoPublishMetaRef,
+    thumbUrlsRef
   };
 };
 

@@ -15,6 +15,7 @@ import ThumbSelectionContent from './thumbSelectionContent';
 import PostDescription from './postDescription';
 import { useSpeakContentBuilder } from '../../../providers/queries/editorQueries/speakQueries';
 import { DEFAULT_SPEAK_BENEFICIARIES } from '../../../providers/speak/constants';
+import { Beneficiary } from '../../../redux/reducers/editorReducer';
 
 const REWARD_TYPES = [
   {
@@ -83,20 +84,29 @@ const PostOptionsModal = forwardRef(
     const [disableDone, setDisableDone] = useState(false);
 
 
-    const _encodingBeneficiaries = useMemo(() => {
+    const { encodingBeneficiaries, videoThumbUrls } = useMemo(() => {
+      let benefs: Beneficiary[] = []
       if (body && showModal) {
         speakContentBuilder.build(body);
         const unpublishedMeta = speakContentBuilder.videoPublishMetaRef.current
         if (unpublishedMeta) {
           const vidBeneficiaries = JSON.parse(unpublishedMeta.beneficiaries || '[]');
-          return [...DEFAULT_SPEAK_BENEFICIARIES, ...vidBeneficiaries];
+          benefs = [...DEFAULT_SPEAK_BENEFICIARIES, ...vidBeneficiaries];
+        }
+
+        return {
+          videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
+          encodingBeneficiaries: benefs
         }
       }
-      return []
+      return {
+        videoThumbUrls: [],
+        encodingBeneficiaries: benefs
+      }
     }, [showModal, body])
 
-    // removed the useeffect causing index reset bug
 
+    // removed the useeffect causing index reset bug
     useEffect(() => {
       if (!scheduleLater) {
         handleScheduleChange(null);
@@ -122,17 +132,6 @@ const PostOptionsModal = forwardRef(
         setRewardTypeIndex(rewardTypeKey);
       }
     }, [rewardType]);
-
-    //TODO: update thumb urls and beneficiaries here...
-    // useEffect(() => {
-    //   if (body && showModal) {
-    //     speakContentBuilder.build(body);
-
-    //     //process beneficiaries and update that if needed
-
-    //     //add video thumbails to thumb selection, make sure it is handled all they way.
-    //   }
-    // }, [body, showModal])
 
     useImperativeHandle(ref, () => ({
       show: () => {
@@ -223,6 +222,7 @@ const PostOptionsModal = forwardRef(
             <ThumbSelectionContent
               body={body}
               thumbUrl={thumbUrl}
+              videoThumbUrls={videoThumbUrls}
               isUploading={isUploading}
               onThumbSelection={_handleThumbIndexSelection}
             />
@@ -232,10 +232,10 @@ const PostOptionsModal = forwardRef(
             />
 
             {!isEdit && (
-              <BeneficiarySelectionContent 
-              draftId={draftId} 
-              setDisableDone={setDisableDone}
-              encodingBeneficiaries={_encodingBeneficiaries}
+              <BeneficiarySelectionContent
+                draftId={draftId}
+                setDisableDone={setDisableDone}
+                encodingBeneficiaries={encodingBeneficiaries}
               />
             )}
           </View>
