@@ -268,19 +268,18 @@ export const EditorToolbar = ({
             <IconButton
               onPress={_showImageUploads}
               style={styles.rightIcons}
-              size={20}
+              size={18}
               iconStyle={styles.icon}
               iconType="FontAwesome"
               name="image"
             />
-            {/* TODO: do not show video insert for replies and waves for now */}
             <IconButton
               onPress={_showVideoUploads}
               style={styles.rightIcons}
-              size={20}
+              size={26}
               iconStyle={styles.icon}
               iconType="MaterialCommunityIcons"
-              name="movie-open"
+              name="video-outline"
             />
             <View style={styles.clearButtonWrapper}>
               <IconButton
