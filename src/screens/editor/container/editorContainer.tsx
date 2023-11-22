@@ -425,7 +425,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
     const { isDraftSaved, draftId, thumbUrl, isReply, rewardType, postDescription } = this.state;
-    const { currentAccount, dispatch, intl, queryClient } = this.props;
+    const { currentAccount, dispatch, intl, queryClient, speakContentBuilder } = this.props;
 
     try {
       // saves draft locallly
@@ -438,6 +438,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     if (isReply) {
       return;
     }
+
+    speakContentBuilder.build(fields.body);
 
     const beneficiaries = this._extractBeneficiaries();
     const postBodySummaryContent = postBodySummary(
@@ -466,6 +468,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         const _extractedMeta = await extractMetadata({
           body: draftField.body,
           thumbUrl,
+          videoThumbUrls:speakContentBuilder.thumbUrlsRef.current,
           fetchRatios: false,
         });
 
@@ -660,6 +663,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const meta = await extractMetadata({
         body: fields.body,
         thumbUrl,
+        videoThumbUrls:speakContentBuilder.thumbUrlsRef.current,
         fetchRatios: true,
         videoPublishMeta,
       });
@@ -904,7 +908,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         newBody = patch;
       }
 
-      const meta = await extractMetadata({ body: fields.body, thumbUrl, fetchRatios: true });
+      const meta = await extractMetadata({ 
+        body: 
+        fields.body, 
+        videoThumbUrls:speakContentBuilder.thumbUrlsRef.current,
+        thumbUrl, 
+        fetchRatios: true 
+      });
 
       let jsonMeta = {};
 

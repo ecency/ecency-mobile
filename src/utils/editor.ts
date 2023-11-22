@@ -229,12 +229,14 @@ export const extractFilenameFromPath = ({
 export const extractMetadata = async ({
   body,
   thumbUrl,
+  videoThumbUrls,
   fetchRatios,
   postType,
   videoPublishMeta,
 }: {
   body: string;
   thumbUrl?: string;
+  videoThumbUrls: string[]
   fetchRatios?: boolean;
   postType?: PostTypes;
   videoPublishMeta?: ThreeSpeakVideo;
@@ -244,7 +246,10 @@ export const extractMetadata = async ({
 
   const out: any = {};
   const mUrls = extractUrls(body);
-  const matchedImages = extractImageUrls({ urls: mUrls });
+  const matchedImages = [
+    ...extractImageUrls({ urls: mUrls }),
+    ...videoThumbUrls || []
+  ]
 
   if (matchedImages.length) {
     if (thumbUrl) {
