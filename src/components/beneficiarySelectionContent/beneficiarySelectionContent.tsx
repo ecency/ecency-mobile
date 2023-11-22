@@ -107,8 +107,6 @@ const BeneficiarySelectionContent = ({
       ];
     }
 
-    console.warn("benef saved", savedBeneficiareis)
-
     if (savedBeneficiareis?.length > 1) {
       // weight correction algorithm.
       let othersWeight = 0;

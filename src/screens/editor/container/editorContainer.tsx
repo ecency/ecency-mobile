@@ -320,7 +320,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           (item) => item.account !== currentAccount.username,
         ); // remove default beneficiary from array while saving
 
-       
+
         dispatch(setBeneficiaries(draft._id || TEMP_BENEFICIARIES_ID, filteredBeneficiaries));
       }
     }
@@ -637,16 +637,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         fields.body = speakContentBuilder.build(fields.body);
         videoPublishMeta = speakContentBuilder.videoPublishMetaRef.current;
 
-        // verify and video beneficiaries redundent
-        if (!videoPublishMeta) {
-          beneficiaries = beneficiaries.filter((item) => item.src !== BENEFICIARY_SRC_ENCODER);
-        } else {
+        // verify and make video beneficiaries redundent
+        beneficiaries = beneficiaries.filter((item) => item.src !== BENEFICIARY_SRC_ENCODER);
+        if (videoPublishMeta) {
           const encoderBene = [
             ...JSON.parse(videoPublishMeta.beneficiaries || '[]'),
             ...DEFAULT_SPEAK_BENEFICIARIES,
           ];
-          beneficiaries = unionBy(encoderBene, beneficiaries, 'account');
+          beneficiaries = [...encoderBene, ...beneficiaries];
         }
+
       } catch (err) {
         console.warn('fail', err);
         return;
