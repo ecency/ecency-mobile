@@ -140,18 +140,8 @@ const UploadsGalleryContent = ({
               isUnpublishedInserted = true;
             }
           });
-
-          if (!isUnpublishedInserted) {
-            // update beneficiaries
-            const vidBeneficiaries = JSON.parse(item.speakData.beneficiaries || '[]');
-            const beneficiaries = [...DEFAULT_SPEAK_BENEFICIARIES, ...vidBeneficiaries];
-            const _draftId = draftId || TEMP_BENEFICIARIES_ID;
-
-            dispatch(setBeneficiaries(_draftId, beneficiaries));
-          }
         }
 
-        // TOOD: later handle beneficiaries removal on item deletion from body
         if (!isUnpublishedInserted) {
           insertMedia(new Map([[index, true]]));
         } else {

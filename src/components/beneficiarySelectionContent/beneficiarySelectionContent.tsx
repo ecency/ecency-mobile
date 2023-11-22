@@ -1,8 +1,7 @@
-import { debounce, isArray } from 'lodash';
+import { debounce, isArray, unionBy } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { FlatList, Text, View } from 'react-native';
-
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './styles';
 
@@ -21,6 +20,7 @@ interface BeneficiarySelectionContentProps {
   label?: string;
   labelStyle?: string;
   powerDownBeneficiaries?: Beneficiary[];
+  encodingBeneficiaries?: Beneficiary[];
   handleSaveBeneficiary?: (beneficiaries: Beneficiary[]) => void;
   handleRemoveBeneficiary?: (beneficiary: Beneficiary) => void;
 }
@@ -32,6 +32,7 @@ const BeneficiarySelectionContent = ({
   setDisableDone,
   powerDown,
   powerDownBeneficiaries,
+  encodingBeneficiaries,
   handleSaveBeneficiary,
   handleRemoveBeneficiary,
 }: BeneficiarySelectionContentProps) => {
@@ -60,8 +61,8 @@ const BeneficiarySelectionContent = ({
   }, [powerDownBeneficiaries]);
 
   useEffect(() => {
-    readTempBeneficiaries();
-  }, [draftId]);
+    initBeneficiaries();
+  }, [draftId, encodingBeneficiaries]);
 
   useEffect(() => {
     setDisableDone(newEditable);
@@ -87,26 +88,39 @@ const BeneficiarySelectionContent = ({
     }
   };
 
-  const readTempBeneficiaries = async () => {
-    if (beneficiariesMap) {
-      const savedBeneficiareis = beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID];
-      const tempBeneficiaries =
-        savedBeneficiareis && savedBeneficiareis.length
-          ? [DEFAULT_BENEFICIARY, ...beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID]]
-          : [DEFAULT_BENEFICIARY];
+  const initBeneficiaries = async () => {
 
-      if (isArray(tempBeneficiaries) && tempBeneficiaries.length > 0) {
-        // weight correction algorithm.
-        let othersWeight = 0;
-        tempBeneficiaries.forEach((item, index) => {
-          if (index > 0) {
-            othersWeight += item.weight;
-          }
-        });
-        tempBeneficiaries[0].weight = 10000 - othersWeight;
-        setBeneficiaries(tempBeneficiaries);
-      }
+    const _draftId = draftId || TEMP_BENEFICIARIES_ID
+
+    let savedBeneficiareis: Beneficiary[] = [
+      DEFAULT_BENEFICIARY,
+      ...encodingBeneficiaries || []
+    ];
+
+
+    if (beneficiariesMap && beneficiariesMap[_draftId]) {
+      const _cachedBenef = beneficiariesMap[_draftId]
+      const _filteredBenef = _cachedBenef.filter((bene) => bene.src !== BENEFICIARY_SRC_ENCODER);
+      savedBeneficiareis = [
+        ...savedBeneficiareis, 
+        ..._filteredBenef
+      ];
     }
+
+    console.warn("benef saved", savedBeneficiareis)
+
+    if (savedBeneficiareis?.length > 1) {
+      // weight correction algorithm.
+      let othersWeight = 0;
+      savedBeneficiareis.forEach((item, index) => {
+        if (index > 0) {
+          othersWeight += item.weight;
+        }
+      });
+      savedBeneficiareis[0].weight = 10000 - othersWeight;
+      setBeneficiaries(savedBeneficiareis);
+    }
+
   };
 
   const _saveBeneficiaries = (value: Beneficiary[]) => {
@@ -288,11 +302,11 @@ const BeneficiarySelectionContent = ({
           text={
             newEditable
               ? intl.formatMessage({
-                  id: 'beneficiary_modal.cancel',
-                })
+                id: 'beneficiary_modal.cancel',
+              })
               : intl.formatMessage({
-                  id: 'beneficiary_modal.addAccount',
-                })
+                id: 'beneficiary_modal.addAccount',
+              })
           }
           onPress={newEditable ? _resetInputs : _addAccount}
           textStyle={{

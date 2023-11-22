@@ -319,6 +319,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         const filteredBeneficiaries = draft.meta.beneficiaries.filter(
           (item) => item.account !== currentAccount.username,
         ); // remove default beneficiary from array while saving
+
+       
         dispatch(setBeneficiaries(draft._id || TEMP_BENEFICIARIES_ID, filteredBeneficiaries));
       }
     }

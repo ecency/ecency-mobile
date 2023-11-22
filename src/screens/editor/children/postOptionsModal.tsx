@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { View } from 'react-native';
 import Animated, { FlipInEasyX } from 'react-native-reanimated';
@@ -13,6 +13,8 @@ import {
 import styles from './postOptionsModalStyles';
 import ThumbSelectionContent from './thumbSelectionContent';
 import PostDescription from './postDescription';
+import { useSpeakContentBuilder } from '../../../providers/queries/editorQueries/speakQueries';
+import { DEFAULT_SPEAK_BENEFICIARIES } from '../../../providers/speak/constants';
 
 const REWARD_TYPES = [
   {
@@ -71,6 +73,7 @@ const PostOptionsModal = forwardRef(
     ref,
   ) => {
     const intl = useIntl();
+    const speakContentBuilder = useSpeakContentBuilder();
 
     const [showModal, setShowModal] = useState(false);
     const [rewardTypeIndex, setRewardTypeIndex] = useState(0);
@@ -78,6 +81,19 @@ const PostOptionsModal = forwardRef(
     const [shouldReblog, setShouldReblog] = useState(false);
     const [scheduledFor, setScheduledFor] = useState('');
     const [disableDone, setDisableDone] = useState(false);
+
+
+    const _encodingBeneficiaries = useMemo(() => {
+      if (body && showModal) {
+        speakContentBuilder.build(body);
+        const unpublishedMeta = speakContentBuilder.videoPublishMetaRef.current
+        if (unpublishedMeta) {
+          const vidBeneficiaries = JSON.parse(unpublishedMeta.beneficiaries || '[]');
+          return [...DEFAULT_SPEAK_BENEFICIARIES, ...vidBeneficiaries];
+        }
+      }
+      return []
+    }, [showModal, body])
 
     // removed the useeffect causing index reset bug
 
@@ -106,6 +122,17 @@ const PostOptionsModal = forwardRef(
         setRewardTypeIndex(rewardTypeKey);
       }
     }, [rewardType]);
+
+    //TODO: update thumb urls and beneficiaries here...
+    // useEffect(() => {
+    //   if (body && showModal) {
+    //     speakContentBuilder.build(body);
+
+    //     //process beneficiaries and update that if needed
+
+    //     //add video thumbails to thumb selection, make sure it is handled all they way.
+    //   }
+    // }, [body, showModal])
 
     useImperativeHandle(ref, () => ({
       show: () => {
@@ -205,7 +232,11 @@ const PostOptionsModal = forwardRef(
             />
 
             {!isEdit && (
-              <BeneficiarySelectionContent draftId={draftId} setDisableDone={setDisableDone} />
+              <BeneficiarySelectionContent 
+              draftId={draftId} 
+              setDisableDone={setDisableDone}
+              encodingBeneficiaries={_encodingBeneficiaries}
+              />
             )}
           </View>
         </KeyboardAwareScrollView>
