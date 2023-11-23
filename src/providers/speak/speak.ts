@@ -2,12 +2,12 @@ import axios from 'axios';
 import hs from 'hivesigner';
 import { Image, Video } from 'react-native-image-crop-picker';
 import { Upload } from 'react-native-tus-client';
+import { Platform } from 'react-native';
 import { getDigitPinCode } from '../hive/dhive';
 import { ThreeSpeakVideo } from './speak.types';
 import { decryptKey } from '../../utils/crypto';
 import { convertVideoUpload } from './converters';
 import { BASE_URL_SPEAK_STUDIO, PATH_API, PATH_LOGIN, PATH_MOBILE } from './constants';
-import { Platform } from 'react-native';
 
 const tusEndPoint = 'https://uploads.3speak.tv/files/';
 
@@ -150,14 +150,13 @@ export const markAsPublished = async (currentAccount: any, pinHash: string, vide
 export const uploadFile = (media: Video | Image, onProgress) => {
   return new Promise((resolve, reject) => {
     try {
-
       const _path = Platform.select({
         ios: media.path,
         android: media.path.replace('file://', ''),
-      })
+      });
 
-      if(!_path){
-        throw new Error("failed to create apporpriate path")
+      if (!_path) {
+        throw new Error('failed to create apporpriate path');
       }
 
       const upload = new Upload(_path, {

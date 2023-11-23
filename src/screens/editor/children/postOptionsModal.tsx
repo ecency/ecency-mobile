@@ -83,12 +83,11 @@ const PostOptionsModal = forwardRef(
     const [scheduledFor, setScheduledFor] = useState('');
     const [disableDone, setDisableDone] = useState(false);
 
-
     const { encodingBeneficiaries, videoThumbUrls } = useMemo(() => {
-      let benefs: Beneficiary[] = []
+      let benefs: Beneficiary[] = [];
       if (body && showModal) {
         speakContentBuilder.build(body);
-        const unpublishedMeta = speakContentBuilder.videoPublishMetaRef.current
+        const unpublishedMeta = speakContentBuilder.videoPublishMetaRef.current;
         if (unpublishedMeta) {
           const vidBeneficiaries = JSON.parse(unpublishedMeta.beneficiaries || '[]');
           benefs = [...DEFAULT_SPEAK_BENEFICIARIES, ...vidBeneficiaries];
@@ -96,15 +95,14 @@ const PostOptionsModal = forwardRef(
 
         return {
           videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
-          encodingBeneficiaries: benefs
-        }
+          encodingBeneficiaries: benefs,
+        };
       }
       return {
         videoThumbUrls: [],
-        encodingBeneficiaries: benefs
-      }
-    }, [showModal, body])
-
+        encodingBeneficiaries: benefs,
+      };
+    }, [showModal, body]);
 
     // removed the useeffect causing index reset bug
     useEffect(() => {

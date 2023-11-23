@@ -89,22 +89,14 @@ const BeneficiarySelectionContent = ({
   };
 
   const initBeneficiaries = async () => {
+    const _draftId = draftId || TEMP_BENEFICIARIES_ID;
 
-    const _draftId = draftId || TEMP_BENEFICIARIES_ID
-
-    let savedBeneficiareis: Beneficiary[] = [
-      DEFAULT_BENEFICIARY,
-      ...encodingBeneficiaries || []
-    ];
-
+    let savedBeneficiareis: Beneficiary[] = [DEFAULT_BENEFICIARY, ...(encodingBeneficiaries || [])];
 
     if (beneficiariesMap && beneficiariesMap[_draftId]) {
-      const _cachedBenef = beneficiariesMap[_draftId]
+      const _cachedBenef = beneficiariesMap[_draftId];
       const _filteredBenef = _cachedBenef.filter((bene) => bene.src !== BENEFICIARY_SRC_ENCODER);
-      savedBeneficiareis = [
-        ...savedBeneficiareis, 
-        ..._filteredBenef
-      ];
+      savedBeneficiareis = [...savedBeneficiareis, ..._filteredBenef];
     }
 
     if (savedBeneficiareis?.length > 1) {
@@ -118,7 +110,6 @@ const BeneficiarySelectionContent = ({
       savedBeneficiareis[0].weight = 10000 - othersWeight;
       setBeneficiaries(savedBeneficiareis);
     }
-
   };
 
   const _saveBeneficiaries = (value: Beneficiary[]) => {
@@ -300,11 +291,11 @@ const BeneficiarySelectionContent = ({
           text={
             newEditable
               ? intl.formatMessage({
-                id: 'beneficiary_modal.cancel',
-              })
+                  id: 'beneficiary_modal.cancel',
+                })
               : intl.formatMessage({
-                id: 'beneficiary_modal.addAccount',
-              })
+                  id: 'beneficiary_modal.addAccount',
+                })
           }
           onPress={newEditable ? _resetInputs : _addAccount}
           textStyle={{

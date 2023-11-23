@@ -1,10 +1,4 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Alert, AlertButton } from 'react-native';
 import ImagePicker, { Image, Options, Video } from 'react-native-image-crop-picker';

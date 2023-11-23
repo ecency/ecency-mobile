@@ -200,7 +200,11 @@ const UploadsGalleryContent = ({
 
   const _renderSelectButtons = (
     <>
-      {_renderSelectButton(mode === Modes.MODE_VIDEO ? 'video-box' : 'image', 'Gallery', handleOpenGallery)}
+      {_renderSelectButton(
+        mode === Modes.MODE_VIDEO ? 'video-box' : 'image',
+        'Gallery',
+        handleOpenGallery,
+      )}
       {_renderSelectButton('camera', 'Camera', handleOpenCamera)}
     </>
   );

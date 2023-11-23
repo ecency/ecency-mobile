@@ -60,7 +60,7 @@ export const useSpeakContentBuilder = () => {
     videoPublishMetaRef.current = null;
     thumbUrlsRef.current = [];
     const _ids = extract3SpeakIds({ body });
-    const thumbUrls:string[] = [];
+    const thumbUrls: string[] = [];
 
     _ids.forEach((id) => {
       const mediaItem: MediaItem | undefined = videoUploads.data.find((item) => item._id === id);
@@ -97,7 +97,7 @@ export const useSpeakContentBuilder = () => {
   return {
     build,
     videoPublishMetaRef,
-    thumbUrlsRef
+    thumbUrlsRef,
   };
 };
 

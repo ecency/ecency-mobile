@@ -320,7 +320,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           (item) => item.account !== currentAccount.username,
         ); // remove default beneficiary from array while saving
 
-
         dispatch(setBeneficiaries(draft._id || TEMP_BENEFICIARIES_ID, filteredBeneficiaries));
       }
     }
@@ -468,7 +467,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         const _extractedMeta = await extractMetadata({
           body: draftField.body,
           thumbUrl,
-          videoThumbUrls:speakContentBuilder.thumbUrlsRef.current,
+          videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
           fetchRatios: false,
         });
 
@@ -649,7 +648,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           ];
           beneficiaries = [...encoderBene, ...beneficiaries];
         }
-
       } catch (err) {
         console.warn('fail', err);
         return;
@@ -663,7 +661,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       const meta = await extractMetadata({
         body: fields.body,
         thumbUrl,
-        videoThumbUrls:speakContentBuilder.thumbUrlsRef.current,
+        videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
         fetchRatios: true,
         videoPublishMeta,
       });
@@ -908,12 +906,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         newBody = patch;
       }
 
-      const meta = await extractMetadata({ 
-        body: 
-        fields.body, 
-        videoThumbUrls:speakContentBuilder.thumbUrlsRef.current,
-        thumbUrl, 
-        fetchRatios: true 
+      const meta = await extractMetadata({
+        body: fields.body,
+        videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
+        thumbUrl,
+        fetchRatios: true,
       });
 
       let jsonMeta = {};

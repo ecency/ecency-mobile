@@ -32,10 +32,7 @@ const ThumbSelectionContent = ({
   const [thumbIndex, setThumbIndex] = useState(0);
 
   useEffect(() => {
-    const urls = [
-      ...extractImageUrls({ body }), 
-      ...videoThumbUrls
-    ];
+    const urls = [...extractImageUrls({ body }), ...videoThumbUrls];
 
     if (urls.length < 2) {
       setNeedMore(true);
