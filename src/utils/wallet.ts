@@ -157,6 +157,8 @@ export const groomingTransactionData = (transaction, hivePerMVests): CoinActivit
       result.value = `${amount}`;
       result.icon = 'compare-arrows';
       result.details = from && to ? `@${from} to @${to}` : null;
+      result.sender = from;
+      result.receiver = to;
       result.memo = memo || null;
       break;
     case 'withdraw_vesting':
