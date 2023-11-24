@@ -68,9 +68,7 @@ const TransferView = ({
       ? 'esteem.app'
       : transferType === TransferTypes.DELEGATE_SPK
       ? SPK_NODE_ECENCY
-      : transferType === TransferTypes.TRANSFER_TOKEN && referredUsername
-      ? referredUsername
-      : '',
+      : referredUsername || '',
   );
 
   const [amount, setAmount] = useState(`${initialAmount}`);
