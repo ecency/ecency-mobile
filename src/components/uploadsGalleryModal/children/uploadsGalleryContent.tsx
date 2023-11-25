@@ -23,7 +23,7 @@ import { ThreeSpeakStatus } from '../../../providers/speak/speak.types';
 import { setBeneficiaries } from '../../../redux/actions/editorActions';
 import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import { DEFAULT_SPEAK_BENEFICIARIES } from '../../../providers/speak/constants';
-import { showActionModal } from '../../../redux/actions/uiAction';
+import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import { Modes } from '../container/uploadsGalleryModal';
 
@@ -128,28 +128,38 @@ const UploadsGalleryContent = ({
         }
         setDeleteIds([...deleteIds]);
       } else {
-        let isUnpublishedInserted = false;
-        if (item.speakData && item.speakData.status !== ThreeSpeakStatus.PUBLISHED) {
-          // make sure this is not the second ubpublished video being inserted
+        
+        let insertError: Error | null = null;
+        if (item.speakData) {
+          switch (item.speakData.status) {
+            case ThreeSpeakStatus.READY:
+              //check if a ready video is already inserted
+              insertedMediaUrls.forEach((url) => {
+                const _mediaItem = mediaUploads.find(
+                  (item) => item.url === url && item.speakData?.status === ThreeSpeakStatus.READY,
+                );
+                if (_mediaItem) {
+                  insertError = new Error("Can only have on unpublised speak speak per post");
+                }
+              });
+              break;
+            case ThreeSpeakStatus.PREPARING:
+            case ThreeSpeakStatus.ENCODING:
+              //interupt video insertion is it's still under processing
+              insertError = new Error("Please wait while video is being processed")
+              break;
 
-          insertedMediaUrls.forEach((url) => {
-            const _mediaItem = mediaUploads.find(
-              (item) => item.url === url && item.speakData?.status !== ThreeSpeakStatus.PUBLISHED,
-            );
-            if (_mediaItem) {
-              isUnpublishedInserted = true;
-            }
-          });
+            default:
+              console.log("Skipping corner check for published video")
+              break;
+          }
         }
 
-        if (!isUnpublishedInserted) {
+        if (!insertError) {
           insertMedia(new Map([[index, true]]));
         } else {
           dispatch(
-            showActionModal({
-              title: 'Fail',
-              body: 'Can only have one unpublished video per post',
-            }),
+            toastNotification(insertError.message),
           );
         }
       }
@@ -215,8 +225,8 @@ const UploadsGalleryContent = ({
         {mode === Modes.MODE_IMAGE
           ? _renderSelectButtons
           : isAddingToUploads
-          ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
-          : _renderSelectButtons}
+            ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
+            : _renderSelectButtons}
       </View>
       <View style={styles.pillBtnContainer}>
         <IconButton

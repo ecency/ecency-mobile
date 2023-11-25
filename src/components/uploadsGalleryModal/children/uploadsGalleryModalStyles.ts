@@ -180,7 +180,7 @@ export default EStyleSheet.create({
 
   minusContainer: {
     position: 'absolute',
-    top: 16,
+    top: 12,
     left: 16,
     backgroundColor: '$primaryRed',
     borderRadius: 16,
@@ -189,7 +189,7 @@ export default EStyleSheet.create({
 
   counterContainer: {
     position: 'absolute',
-    top: 8,
+    top: 12,
     left: 16,
     backgroundColor: '$primaryLightBackground',
     borderRadius: 16,
@@ -241,4 +241,14 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   } as ViewStyle,
+
+  loadingContainer: {
+    position:'absolute',
+    top:0,
+    left:0,
+    right:0,
+    bottom:0,
+    justifyContent:'center',
+    alignItems:'center',
+  } as ViewStyle
 });

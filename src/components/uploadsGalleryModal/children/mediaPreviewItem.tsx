@@ -1,6 +1,6 @@
 import React from 'react';
 import { proxifyImageSrc } from '@ecency/render-helper';
-import { Platform, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Platform, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
 import { default as AnimatedView, ZoomIn } from 'react-native-reanimated';
@@ -8,6 +8,7 @@ import { useIntl } from 'react-intl';
 import { Icon } from '../..';
 import styles from './uploadsGalleryModalStyles';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
+import { ThreeSpeakStatus } from '../../../providers/speak/speak.types';
 
 interface Props {
   item: MediaItem;
@@ -41,7 +42,7 @@ export const MediaPreviewItem = ({
 
   const _renderStatus = () =>
     item.speakData && (
-      <View style={styles.statusContainer}>
+      <View style={{...styles.statusContainer, right: isExpandedMode && 8}}>
         <Text style={styles.statusText}>
           {intl.formatMessage({ id: `uploads_modal.${item.speakData?.status}` })}
         </Text>
@@ -68,6 +69,16 @@ export const MediaPreviewItem = ({
       </AnimatedView.View>
     );
 
+  const _renderLoading = () =>
+    (item.speakData?.status === ThreeSpeakStatus.PREPARING ||
+      item.speakData?.status === ThreeSpeakStatus.ENCODING) &&
+    (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator />
+      </View>
+    )
+
+
   return (
     <TouchableOpacity onPress={onPress} disabled={isDeleting}>
       <View style={transformStyle}>
@@ -76,8 +87,9 @@ export const MediaPreviewItem = ({
           style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
         />
         {_renderCounter()}
-        {_renderMinus()}
         {_renderStatus()}
+        {_renderMinus()}
+        {_renderLoading()}
       </View>
     </TouchableOpacity>
   );
