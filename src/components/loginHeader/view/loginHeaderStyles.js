@@ -54,9 +54,15 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     paddingVertical: 8,
   },
+  backIconContainer: {
+    marginLeft: 20,
+  },
+  backIcon: {
+    fontSize: 24,
+    color: '$iconColor',
+  },
   logoContainer: {
-    paddingLeft: 32,
-    paddingRight: 8,
+    paddingRight: 32,
     alignItems: 'center',
     justifyContent: 'center',
   },

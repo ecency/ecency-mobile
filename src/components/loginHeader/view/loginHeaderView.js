@@ -4,11 +4,11 @@ import * as Animatable from 'react-native-animatable';
 // Constants
 
 // Components
-import { TextButton } from '../../buttons';
 import { LineBreak } from '../../basicUIElements';
 // Styles
 import styles from './loginHeaderStyles';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
+import { IconButton } from '../..';
 
 class LoginHeaderView extends PureComponent {
   /* Props
@@ -27,26 +27,27 @@ class LoginHeaderView extends PureComponent {
   // Component Functions
 
   render() {
-    const { description, isKeyboardOpen, onPress, rightButtonText, title } = this.props;
+    const { description, isKeyboardOpen, title, onBackPress } = this.props;
 
     return (
       <SafeAreaView style={styles.safeArea}>
         <View styles={styles.container}>
           <View style={styles.headerRow}>
-            <View style={styles.logoContainer}>
+            <View style={styles.backIconContainer}>
+              <IconButton
+                iconStyle={styles.backIcon}
+                iconType="MaterialIcons"
+                name="close"
+                onPress={onBackPress}
+              />
+            </View>
+            {/* <View style={styles.logoContainer}>
               <Image
                 resizeMode="contain"
                 style={styles.logo}
                 source={require('../../../assets/ecency_logo_transparent.png')}
               />
-            </View>
-            <View style={styles.headerButton}>
-              <TextButton
-                onPress={onPress}
-                text={rightButtonText}
-                textStyle={{ color: '#357ce6' }}
-              />
-            </View>
+            </View> */}
           </View>
           <Animatable.View
             animation={isKeyboardOpen ? hideAnimation : showAnimation}

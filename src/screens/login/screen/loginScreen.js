@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, Platform, Keyboard, Text } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 import { debounce } from 'lodash';
 
@@ -16,8 +15,6 @@ import {
   MainButton,
   Modal,
   OrDivider,
-  TabBar,
-  TextButton,
 } from '../../../components';
 
 // Constants
@@ -25,7 +22,6 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Styles
 import styles from './loginStyles';
-import globalStyles from '../../../globalStyles';
 import { ECENCY_TERMS_URL } from '../../../config/ecencyApi';
 import { HiveSignerIcon } from '../../../assets/svgs';
 
@@ -107,6 +103,11 @@ class LoginScreen extends PureComponent {
           rightButtonText={intl.formatMessage({
             id: 'login.signup',
           })}
+          onBackPress={() => {
+            navigation.navigate({
+              name: ROUTES.DRAWER.MAIN,
+            });
+          }}
         />
 
         <View
@@ -172,17 +173,6 @@ class LoginScreen extends PureComponent {
               height={50}
               iconStyle={styles.loginBtnIconStyle}
             />
-            {/* <TextButton
-                style={styles.cancelButton}
-                onPress={() =>
-                  navigation.navigate({
-                    name: ROUTES.DRAWER.MAIN,
-                  })
-                }
-                text={intl.formatMessage({
-                  id: 'login.cancel',
-                })}
-              /> */}
             <OrDivider />
             <MainButton
               onPress={() => this._handleOnModalToggle()}
@@ -197,7 +187,6 @@ class LoginScreen extends PureComponent {
               style={styles.hsLoginBtnStyle}
             />
           </KeyboardAwareScrollView>
-
           <View style={styles.footerButtons}>
             <Text style={styles.noAccountText}>
               {intl.formatMessage({
@@ -211,27 +200,6 @@ class LoginScreen extends PureComponent {
             </Text>
           </View>
         </View>
-        {/* <View
-            tabLabel={intl.formatMessage({
-              id: 'login.login_with_hs',
-            })}
-            style={styles.tabbarItem}
-          >
-            <InformationArea
-              description={intl.formatMessage({
-                id: 'login.steemconnect_description',
-              })}
-              iconName="ios-information-circle-outline"
-              link="https://hivesigner.com"
-            />
-            <MainButton
-              wrapperStyle={styles.mainButtonWrapper}
-              onPress={() => this._handleOnModalToggle()}
-              source={STEEM_CONNECT_LOGO}
-              text="hive"
-              secondText="signer"
-            />
-          </View> */}
         <Modal
           isOpen={isModalOpen}
           isFullScreen
