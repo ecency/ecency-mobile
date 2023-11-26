@@ -37,12 +37,10 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   mascot: {
-    width: '70%',
-    height: '70%',
+    width: '60%',
   },
   titleText: {
     alignSelf: 'center',
-    marginTop: 20,
     marginLeft: 32,
     marginRight: 12,
     flex: 1,

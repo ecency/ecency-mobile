@@ -41,13 +41,6 @@ class LoginHeaderView extends PureComponent {
                 onPress={onBackPress}
               />
             </View>
-            {/* <View style={styles.logoContainer}>
-              <Image
-                resizeMode="contain"
-                style={styles.logo}
-                source={require('../../../assets/ecency_logo_transparent.png')}
-              />
-            </View> */}
           </View>
           <Animatable.View
             animation={isKeyboardOpen ? hideAnimation : showAnimation}
@@ -62,7 +55,7 @@ class LoginHeaderView extends PureComponent {
                 <Image
                   resizeMode="contain"
                   style={styles.mascot}
-                  source={require('../../../assets/love_mascot.png')}
+                  source={require('../../../assets/ecency_logo_transparent.png')}
                 />
               </View>
             </View>
