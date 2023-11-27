@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, Alert, _View, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert, _View } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Video as VideoType } from 'react-native-image-crop-picker';
@@ -17,13 +17,7 @@ import QUERIES from '../../../providers/queries/queryKeys';
 import Icon from '../../icon';
 import * as Progress from 'react-native-progress';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
-
-import Animated, {
-  EasingNode,
-  SlideInRight,
-  SlideOutRight,
-  ZoomIn,
-} from 'react-native-reanimated';
+import { useIntl } from 'react-intl';
 
 
 interface Props {
@@ -33,6 +27,7 @@ interface Props {
 
 
 export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: Props, ref) => {
+  const intl = useIntl();
   const sheetModalRef = useRef();
 
   const queryClient = useQueryClient();
@@ -144,8 +139,6 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
 
   const _onClose = () => { };
 
-  const _renderProgressContent = () => { };
-
   const _renderThumbSelection = () => {
     const _renderThumb = (uri, onPress) => (
       <TouchableOpacity onPress={onPress}>
@@ -180,7 +173,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
 
     return (
       <View style={styles.imageContainer}>
-        <Text style={styles.label}>Select Thumbnail</Text>
+        <Text style={styles.label}>{intl.formatMessage({id:'uploads_modal.select_thumb'})}</Text>
         <FlashList
           horizontal={true}
           ListHeaderComponent={_renderHeader}
@@ -196,13 +189,13 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
 
   const _renderUploadProgress = () => {
     return (
-        <Progress.Bar
-          style={{ alignSelf: 'center', marginBottom: 12, borderWidth:0 }}
-          progress={uploadProgress}
-          color={EStyleSheet.value('$primaryBlue')}
-          unfilledColor={EStyleSheet.value('$primaryLightBackground')}
-          width={getWindowDimensions().width - 40}
-          indeterminate={uploadProgress === 1 && isUploading} />
+      <Progress.Bar
+        style={{ alignSelf: 'center', marginBottom: 12, borderWidth: 0 }}
+        progress={uploadProgress}
+        color={EStyleSheet.value('$primaryBlue')}
+        unfilledColor={EStyleSheet.value('$primaryLightBackground')}
+        width={getWindowDimensions().width - 40}
+        indeterminate={uploadProgress === 1 && isUploading} />
     )
   }
 
@@ -241,8 +234,11 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
         <MainButton
           style={styles.uploadButton}
           onPress={_startUpload}
-          text="START UPLOAD"
-          isLoading={isUploading}
+          text={intl.formatMessage({
+            id: `uploads_modal.${isUploading ? 'uploading' : 'start_upload'}`
+          })}
+          isDisable={isUploading}
+
         />
       </View>
     );

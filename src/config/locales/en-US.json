@@ -565,7 +565,12 @@
     "published":"Published",
     "encoding_ipfs":"Encoding",
     "encoding_preparing":"Preparing",
-    "deleted":"Deleted"
+    "deleted":"Deleted",
+    "start_upload":"START UPLOAD",
+    "uploading":"UPLOADING",
+    "select_thumb":"Select Thumbnail",
+    "warn_vid_already_added":"",
+    "warn_vid_in_process":""
   },
   "pincode": {
     "enter_text": "Enter PIN to unlock",
