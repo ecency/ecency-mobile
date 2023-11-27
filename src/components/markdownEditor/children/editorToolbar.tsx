@@ -48,7 +48,6 @@ export const EditorToolbar = ({
   const extensionHeight = useRef(0);
 
   const [isExtensionVisible, setIsExtensionVisible] = useState(false);
-
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {

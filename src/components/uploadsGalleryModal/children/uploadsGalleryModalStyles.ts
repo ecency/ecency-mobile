@@ -214,7 +214,6 @@ export default EStyleSheet.create({
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
     padding: 2,
-    height: 20,
     justifyContent: 'center',
     alignItems: 'center',
   } as ViewStyle,

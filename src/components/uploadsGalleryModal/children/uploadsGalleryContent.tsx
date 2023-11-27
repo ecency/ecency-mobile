@@ -109,6 +109,7 @@ const UploadsGalleryContent = ({
 
   // render list item for snippet and handle actions;
   const _renderItem = ({ item, index }: { item: MediaItem; index: number }) => {
+
     // avoid rendering unpublihsed videos in allow publishing state is false
     if (
       !allowSpkPublishing &&

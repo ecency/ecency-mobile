@@ -42,7 +42,7 @@ export const MediaPreviewItem = ({
 
   const _renderStatus = () =>
     item.speakData && (
-      <View style={{...styles.statusContainer, right: isExpandedMode && 8}}>
+      <View style={{...styles.statusContainer, right: isExpandedMode ? 8 : 0}}>
         <Text style={styles.statusText}>
           {intl.formatMessage({ id: `uploads_modal.${item.speakData?.status}` })}
         </Text>
