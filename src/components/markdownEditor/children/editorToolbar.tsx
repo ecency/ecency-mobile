@@ -58,9 +58,6 @@ export const EditorToolbar = ({
       setKeyboardVisible(false); // or some other action
     });
 
-    // TODO: set to false before PR
-    _showUploadsExtension(Modes.MODE_VIDEO);
-
     return () => {
       keyboardDidHideListener.remove();
       keyboardDidShowListener.remove();
