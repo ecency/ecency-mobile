@@ -147,7 +147,7 @@ export const markAsPublished = async (currentAccount: any, pinHash: string, vide
     });
 };
 
-export const uploadFile = (media: Video | Image, onProgress) => {
+export const uploadFile = (media: Video | Image, onProgress?:(progress:number)=>void) => {
   return new Promise((resolve, reject) => {
     try {
       const _path = Platform.select({
@@ -173,7 +173,9 @@ export const uploadFile = (media: Video | Image, onProgress) => {
         },
 
         onProgress: (uploaded, total) => {
-          onProgress((uploaded / total) * 100);
+          if(onProgress){
+            onProgress((uploaded / total));
+          }
         },
       });
 

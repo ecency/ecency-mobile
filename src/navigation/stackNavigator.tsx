@@ -46,7 +46,7 @@ const MainStackNavigator = () => {
   // TODO: remove initialRoute before PR
   return (
     <MainStack.Navigator
-      // initialRouteName={ROUTES.SCREENS.EDITOR}
+      initialRouteName={ROUTES.SCREENS.EDITOR}
       screenOptions={{ headerShown: false, animation: 'slide_from_right' }}
     >
       <MainStack.Screen name={ROUTES.DRAWER.MAIN} component={DrawerNavigator} />

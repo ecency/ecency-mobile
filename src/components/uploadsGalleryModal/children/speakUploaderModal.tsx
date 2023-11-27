@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, Alert, _View } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert, _View, Dimensions } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Video as VideoType } from 'react-native-image-crop-picker';
@@ -15,11 +15,22 @@ import { uploadFile, uploadVideoInfo } from '../../../providers/speak/speak';
 import { useAppSelector } from '../../../hooks';
 import QUERIES from '../../../providers/queries/queryKeys';
 import Icon from '../../icon';
+import * as Progress from 'react-native-progress';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
+
+import Animated, {
+  EasingNode,
+  SlideInRight,
+  SlideOutRight,
+  ZoomIn,
+} from 'react-native-reanimated';
+
 
 interface Props {
   setIsUploading: (flag: boolean) => void;
   isUploading: boolean;
 }
+
 
 export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: Props, ref) => {
   const sheetModalRef = useRef();
@@ -46,6 +57,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
           }
           setSelectedVideo(_video);
           setSelectedThumb(null);
+          setUploadProgress(0);
 
           const thumbs = [];
           const _diff = _video.duration / 5;
@@ -82,7 +94,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
 
       let thumbId: any = '';
       if (selectedThumb) {
-        thumbId = await uploadFile(selectedThumb, _onProgress);
+        thumbId = await uploadFile(selectedThumb);
       }
 
       console.log('updating video information', videoId, thumbId);
@@ -130,9 +142,9 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
       });
   };
 
-  const _onClose = () => {};
+  const _onClose = () => { };
 
-  const _renderProgressContent = () => {};
+  const _renderProgressContent = () => { };
 
   const _renderThumbSelection = () => {
     const _renderThumb = (uri, onPress) => (
@@ -181,6 +193,19 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
     );
   };
 
+
+  const _renderUploadProgress = () => {
+    return (
+        <Progress.Bar
+          style={{ alignSelf: 'center', marginBottom: 12, borderWidth:0 }}
+          progress={uploadProgress}
+          color={EStyleSheet.value('$primaryBlue')}
+          unfilledColor={EStyleSheet.value('$primaryLightBackground')}
+          width={getWindowDimensions().width - 40}
+          indeterminate={uploadProgress === 1 && isUploading} />
+    )
+  }
+
   const _renderFormContent = () => {
     return (
       <View style={styles.contentContainer}>
@@ -190,8 +215,8 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
               uri: selectedVido?.sourceURL || selectedVido?.path,
             }}
             repeat={true}
-            onLoad={() => {}}
-            onError={() => {}}
+            onLoad={() => { }}
+            onError={() => { }}
             resizeMode="container"
             fullscreen={false}
             style={styles.mediaPlayer}
@@ -211,6 +236,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
         </View> */}
 
         {_renderThumbSelection()}
+        {_renderUploadProgress()}
 
         <MainButton
           style={styles.uploadButton}
