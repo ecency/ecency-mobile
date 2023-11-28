@@ -592,6 +592,7 @@
     "continue": "Continue",
     "okay":"Okay",
     "done":"Done",
+    "close":"CLOSE",
     "move_question": "Are you sure to move to drafts?",
     "success_shared": "Success! Content submitted!",
     "success_moved": "Moved to draft",

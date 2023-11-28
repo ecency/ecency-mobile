@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, TextStyle, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
@@ -65,6 +65,19 @@ export default EStyleSheet.create({
     marginTop: 10,
     color: '$primaryDarkGray',
   },
+  actionPanel:{
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent: 'flex-end',
+    paddingHorizontal: 16,
+  } as ViewStyle,
+  btnTxtClose:{
+    color:'$iconColor',
+    fontSize:16,
+  } as TextStyle,
+  btnClose:{
+    marginRight:12
+  } as ViewStyle,
   uploadButton: {
     marginBottom: 24,
     paddingHorizontal: 16,
