@@ -55,11 +55,11 @@ class LoginScreen extends PureComponent {
 
   _handleUsernameChange = (username) => {
     const { getAccountsWithUsername } = this.props;
+    const formattedUsername = username.trim().toLowerCase();
+    this.setState({ username: formattedUsername });
 
-    this.setState({ username });
-
-    getAccountsWithUsername(username).then((res) => {
-      const isValid = res.includes(username);
+    getAccountsWithUsername(formattedUsername).then((res) => {
+      const isValid = res.includes(formattedUsername);
 
       this.setState({ isUsernameValid: isValid });
     });
