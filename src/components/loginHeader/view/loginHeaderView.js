@@ -70,7 +70,7 @@ class LoginHeaderView extends PureComponent {
 export default LoginHeaderView;
 
 const { height } = getWindowDimensions();
-const bodyHeight = height / 3.9;
+const bodyHeight = 120;
 const showAnimation = {
   from: {
     opacity: 0,

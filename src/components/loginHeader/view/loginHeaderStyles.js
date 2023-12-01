@@ -4,7 +4,6 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    height: '$deviceHeight / 3',
     backgroundColor: '$primaryBackgroundColor',
   },
   safeArea: {
@@ -15,7 +14,7 @@ export default EStyleSheet.create({
     maxHeight: '$deviceHeight / 3',
     overflow: 'hidden',
     backgroundColor: '$primaryBackgroundColor',
-    height: '$deviceHeight / 3.9',
+    height: 120,
     justifyContent: 'space-between',
     alignItems: 'center',
   },
