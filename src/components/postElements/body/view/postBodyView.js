@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { SafeAreaView, PermissionsAndroid, Platform, View, Text } from 'react-native';
-import CameraRoll from '@react-native-community/cameraroll';
+// import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImageView from 'react-native-image-viewing';
@@ -211,25 +211,25 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
         await checkAndroidPermission();
         uri = `file://${await _downloadImage(uri)}`;
       }
-      CameraRoll.saveToCameraRoll(uri)
-        .then((res) => {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'post.image_saved',
-              }),
-            ),
-          );
-        })
-        .catch((error) => {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'post.image_saved_error',
-              }),
-            ),
-          );
-        });
+      // CameraRoll.saveToCameraRoll(uri)
+      //   .then((res) => {
+      //     dispatch(
+      //       toastNotification(
+      //         intl.formatMessage({
+      //           id: 'post.image_saved',
+      //         }),
+      //       ),
+      //     );
+      //   })
+      //   .catch((error) => {
+      //     dispatch(
+      //       toastNotification(
+      //         intl.formatMessage({
+      //           id: 'post.image_saved_error',
+      //         }),
+      //       ),
+      //     );
+      //   });
     } catch (error) {
       dispatch(
         toastNotification(

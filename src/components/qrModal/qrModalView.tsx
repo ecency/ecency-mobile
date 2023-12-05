@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, PermissionsAndroid, Platform, View, Text } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import QRCodeScanner from 'react-native-qrcode-scanner';
+// import QRCodeScanner from 'react-native-qrcode-scanner';
 import { useIntl } from 'react-intl';
 import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
 import { get } from 'lodash';
@@ -288,7 +288,7 @@ export const QRModal = () => {
       indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
     >
       <View style={styles.mainContainer}>
-        <QRCodeScanner
+        {/* <QRCodeScanner
           reactivate={isScannerActive}
           showMarker={true}
           ref={scannerRef}
@@ -298,7 +298,7 @@ export const QRModal = () => {
           containerStyle={styles.scannerContainer}
           cameraContainerStyle={styles.cameraContainer}
           cameraStyle={styles.cameraStyle}
-        />
+        /> */}
         {isProcessing && (
           <View style={styles.activityIndicatorContainer}>
             <ActivityIndicator color="white" style={styles.activityIndicator} />
