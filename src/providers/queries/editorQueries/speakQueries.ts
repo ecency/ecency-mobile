@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
 import { MediaItem } from '../../ecency/ecency.types';
-import { getAllVideoStatuses, markAsPublished } from '../../speak/speak';
+import { getAllVideoStatuses, markAsPublished, updateSpeakVideoInfo } from '../../speak/speak';
 import QUERIES from '../queryKeys';
 import { extract3SpeakIds } from '../../../utils/editor';
 import { ThreeSpeakStatus, ThreeSpeakVideo } from '../../speak/speak.types';
@@ -158,10 +158,50 @@ export const useSpeakMutations = () => {
     },
   };
 
+    //update info mutation
+    const _updateInfoMutationFn = async ({
+      id, 
+      title,
+      body,
+      tags
+    }) => {
+      try {
+        //TODO: update information
+        const response = await updateSpeakVideoInfo(
+          currentAccount, 
+          pinCode,
+          body,
+          id,
+          title,
+          tags
+          )
+        console.log('Speak video marked as published', response);
+  
+        return true;
+      } catch (err) {
+        bugsnapInstance.notify(err);
+      }
+    };
+
+    const _updateInfoOptions = {
+      retry: 3,
+      onSuccess: async (status, _data) => {
+        console.log('on success data', status);
+        queryClient.invalidateQueries([QUERIES.MEDIA.GET_VIDEOS]);
+      },
+      onError: () => {
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      },
+    }
+
+
+    //init mutations
   const markAsPublishedMutation = useMutation(_mutationFn, _options);
+  const updateInfoMutation = useMutation(_updateInfoMutationFn, _updateInfoOptions)
 
 
   return {
-    markAsPublishedMutation
+    markAsPublishedMutation,
+    updateInfoMutation
   };
 };

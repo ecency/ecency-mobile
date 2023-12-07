@@ -102,7 +102,7 @@ export const updateSpeakVideoInfo = async (
   videoId: string,
   title: string,
   tags: string[],
-  isNsfwC: boolean,
+  isNsfwC?: boolean,
 ) => {
   const token = await threespeakAuth(currentAccount, pinHash);
 
@@ -110,7 +110,7 @@ export const updateSpeakVideoInfo = async (
     videoId,
     title,
     description: postBody,
-    isNsfwContent: isNsfwC,
+    isNsfwContent: isNsfwC || false,
     tags_v2: tags,
   };
 

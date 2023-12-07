@@ -11,7 +11,6 @@ import { Buffer } from 'buffer';
 import { useQueryClient } from '@tanstack/react-query';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { postBodySummary } from '@ecency/render-helper';
-import unionBy from 'lodash/unionBy';
 import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
 import {
@@ -413,12 +412,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
   _extractBeneficiaries = () => {
     const { draftId } = this.state;
-    const { beneficiariesMap, currentAccount } = this.props;
+    const { beneficiariesMap } = this.props;
 
     return (
-      beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID] || [
-        { account: currentAccount.name, weight: 10000 },
-      ]
+      beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID] || []
     );
   };
 
@@ -757,6 +754,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             // mark unpublished video as published on 3speak if that is the case
             if (videoPublishMeta) {
               console.log('marking inserted video as published');
+              speakMutations.updateInfoMutation.mutate({
+                id:videoPublishMeta._id,
+                title:fields.title,
+                body:fields.body,
+                tags:fields.tags
+              })
               speakMutations.markAsPublishedMutation.mutate(videoPublishMeta._id);
             }
 
