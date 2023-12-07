@@ -109,7 +109,7 @@ export const useSpeakMutations = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
 
-  // id is options, if no id is provided program marks all notifications as read;
+  // mark as published mutations id is options, if no id is provided program marks all notifications as read;
   const _mutationFn = async (id: string) => {
     try {
       const response = await markAsPublished(currentAccount, pinCode, id);
@@ -160,7 +160,8 @@ export const useSpeakMutations = () => {
 
   const markAsPublishedMutation = useMutation(_mutationFn, _options);
 
+
   return {
-    markAsPublishedMutation,
+    markAsPublishedMutation
   };
 };

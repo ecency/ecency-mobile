@@ -656,7 +656,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       if (scheduleDate && videoPublishMeta) {
         dispatch(showActionModal({
-          title: intl.formatMessage({id:'alert.fail'}),
+          title: intl.formatMessage({id:'alert.notice'}),
           body: intl.formatMessage({id:'editor.schedule_video_unsupported'})
         }))
         return;
