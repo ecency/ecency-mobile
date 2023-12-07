@@ -13,7 +13,7 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { postBodySummary } from '@ecency/render-helper';
 import unionBy from 'lodash/unionBy';
 import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
-import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
+import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
 import {
   postContent,
   getPurePost,
@@ -653,6 +653,15 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         return;
       }
 
+
+      if (scheduleDate && videoPublishMeta) {
+        dispatch(showActionModal({
+          title: intl.formatMessage({id:'alert.fail'}),
+          body: intl.formatMessage({id:'editor.schedule_video_unsupported'})
+        }))
+        return;
+      }
+
       this.setState({
         isPostSending: true,
       });
@@ -699,6 +708,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         if (fields.tags.length === 0) {
           fields.tags = ['hive-125125'];
         }
+
         this._setScheduledPost({
           author,
           permlink,
