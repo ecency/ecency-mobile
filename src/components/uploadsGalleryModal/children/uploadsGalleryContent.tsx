@@ -128,7 +128,7 @@ const UploadsGalleryContent = ({
         }
         setDeleteIds([...deleteIds]);
       } else {
-        
+
         let insertError: Error | null = null;
         if (item.speakData) {
           switch (item.speakData.status) {
@@ -195,6 +195,7 @@ const UploadsGalleryContent = ({
             />
           </View>
 
+
           <Icon
             color={EStyleSheet.value('$primaryBlack')}
             iconType="MaterialCommunityIcons"
@@ -239,20 +240,22 @@ const UploadsGalleryContent = ({
             handleOpenGallery(true);
           }}
         />
-        <IconButton
-          style={{
-            ...styles.uploadsActionBtn,
-            backgroundColor: isDeleteMode ? EStyleSheet.value('$iconColor') : 'transparent',
-          }}
-          color={EStyleSheet.value('$primaryBlack')}
-          iconType="MaterialCommunityIcons"
-          name="minus"
-          size={28}
-          onPress={() => {
-            setIsDeleteMode(!isDeleteMode);
-            setDeleteIds([]);
-          }}
-        />
+        {mode === Modes.MODE_IMAGE && (
+          <IconButton
+            style={{
+              ...styles.uploadsActionBtn,
+              backgroundColor: isDeleteMode ? EStyleSheet.value('$iconColor') : 'transparent',
+            }}
+            color={EStyleSheet.value('$primaryBlack')}
+            iconType="MaterialCommunityIcons"
+            name="minus"
+            size={28}
+            onPress={() => {
+              setIsDeleteMode(!isDeleteMode);
+              setDeleteIds([]);
+            }}
+          />
+        )}
       </View>
 
       {isAddingToUploads && (
