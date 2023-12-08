@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
 import { MediaItem } from '../../ecency/ecency.types';
-import { getAllVideoStatuses, markAsPublished, updateSpeakVideoInfo } from '../../speak/speak';
+import { deleteVideo, getAllVideoStatuses, markAsPublished, updateSpeakVideoInfo } from '../../speak/speak';
 import QUERIES from '../queryKeys';
 import { extract3SpeakIds } from '../../../utils/editor';
 import { ThreeSpeakStatus, ThreeSpeakVideo } from '../../speak/speak.types';
@@ -123,6 +123,7 @@ export const useSpeakMutations = () => {
 
   const _options: UseMutationOptions<number, unknown, string | undefined, void> = {
     retry: 3,
+    delay: 5000,
     onMutate: async (videoId) => {
       // TODO: find a way to optimise mutations by avoiding too many loops
       console.log('on mutate data', videoId);
@@ -158,50 +159,82 @@ export const useSpeakMutations = () => {
     },
   };
 
-    //update info mutation
-    const _updateInfoMutationFn = async ({
-      id, 
-      title,
-      body,
-      tags
-    }) => {
-      try {
-        //TODO: update information
-        const response = await updateSpeakVideoInfo(
-          currentAccount, 
-          pinCode,
-          body,
-          id,
-          title,
-          tags
-          )
-        console.log('Speak video marked as published', response);
-  
-        return true;
-      } catch (err) {
-        bugsnapInstance.notify(err);
-      }
-    };
+  //update info mutation
+  const _updateInfoMutationFn = async ({
+    id,
+    title,
+    body,
+    tags
+  }) => {
+    try {
+      //TODO: update information
+      const response = await updateSpeakVideoInfo(
+        currentAccount,
+        pinCode,
+        body,
+        id,
+        title,
+        tags
+      )
+      console.log('Speak video marked as published', response);
 
-    const _updateInfoOptions = {
-      retry: 3,
-      onSuccess: async (status, _data) => {
-        console.log('on success data', status);
-        queryClient.invalidateQueries([QUERIES.MEDIA.GET_VIDEOS]);
-      },
-      onError: () => {
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-      },
+      return true;
+    } catch (err) {
+      bugsnapInstance.notify(err);
     }
+  };
+
+  const _updateInfoOptions = {
+    retry: 3,
+    onSuccess: async (status, _data) => {
+      console.log('on success data', status);
+      queryClient.invalidateQueries([QUERIES.MEDIA.GET_VIDEOS]);
+    },
+    onError: () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  }
 
 
-    //init mutations
+
+  //delete mutation 
+  const _deleteMutationFn = async (permlinks: string[]) => {
+    try {
+
+       // eslint-disable-next-line no-restricted-syntax
+       for (const i in permlinks) {
+        // eslint-disable-next-line no-await-in-loop
+        await deleteVideo(currentAccount, pinCode, permlinks[i]);
+      }
+      console.log('deleted speak videos', permlinks);
+      return true;
+     
+    } catch (err) {
+      bugsnapInstance.notify(err);
+    }
+  };
+
+  const _deleteVideoOptions = {
+    retry: 3,
+    onSuccess: async (status, _data) => {
+      console.log('on success data', status);
+      queryClient.invalidateQueries([QUERIES.MEDIA.GET_VIDEOS]);
+    },
+    onError: () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  }
+
+
+  //init mutations
   const markAsPublishedMutation = useMutation(_mutationFn, _options);
   const updateInfoMutation = useMutation(_updateInfoMutationFn, _updateInfoOptions)
+  const deleteVideoMutation = useMutation(_deleteMutationFn, _deleteVideoOptions)
 
 
   return {
     markAsPublishedMutation,
-    updateInfoMutation
+    updateInfoMutation,
+    deleteVideoMutation
   };
 };

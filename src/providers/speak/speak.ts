@@ -147,6 +147,27 @@ export const markAsPublished = async (currentAccount: any, pinHash: string, vide
     });
 };
 
+// 'https://studio.3speak.tv/mobile/api/video/${permlink}/delete
+
+export const deleteVideo = async (currentAccount: any, pinHash: string, permlink: string) => {
+  const token = await threespeakAuth(currentAccount, pinHash);
+
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  };
+
+  speakApi
+    .get(`${PATH_API}/video/${permlink}/delete`, {headers})
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+};
+
+
 export const uploadFile = (media: Video | Image, onProgress?:(progress:number)=>void) => {
   return new Promise((resolve, reject) => {
     try {
