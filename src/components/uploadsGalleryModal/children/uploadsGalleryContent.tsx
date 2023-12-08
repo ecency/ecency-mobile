@@ -12,7 +12,7 @@ import Animated, {
 import { useDispatch } from 'react-redux';
 import { Icon, IconButton } from '../..';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
-import { editorQueries } from '../../../providers/queries';
+import { editorQueries, speakQueries } from '../../../providers/queries';
 import { MediaPreviewItem } from './mediaPreviewItem';
 import styles, {
   COMPACT_HEIGHT,
@@ -20,10 +20,7 @@ import styles, {
   MAX_HORIZONTAL_THUMBS,
 } from './uploadsGalleryModalStyles';
 import { ThreeSpeakStatus } from '../../../providers/speak/speak.types';
-import { setBeneficiaries } from '../../../redux/actions/editorActions';
-import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
-import { DEFAULT_SPEAK_BENEFICIARIES } from '../../../providers/speak/constants';
-import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
+import { toastNotification } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import { Modes } from '../container/uploadsGalleryModal';
 
@@ -54,6 +51,7 @@ const UploadsGalleryContent = ({
   const dispatch = useDispatch();
 
   const deleteMediaMutation = editorQueries.useMediaDeleteMutation();
+  const speakMutations = speakQueries.useSpeakMutations();
 
   const allowSpkPublishing = useAppSelector((state) => state.editor.allowSpkPublishing);
 
@@ -72,12 +70,30 @@ const UploadsGalleryContent = ({
   }, [isExpandedMode]);
 
   const _deleteMedia = async () => {
-    deleteMediaMutation.mutate(deleteIds, {
+
+    const _options = {
       onSettled: () => {
         setIsDeleteMode(false);
         setDeleteIds([]);
       },
-    });
+    }
+
+    switch (mode) {
+      case Modes.MODE_VIDEO:
+        const _permlinks: string[] = [];
+        deleteIds.forEach((_id) => {
+          const mediaItem = mediaUploads.find((item) => item._id === _id);
+          if (mediaItem?.speakData) {
+            _permlinks.push(mediaItem.speakData.permlink)
+          }
+        })
+        speakMutations.deleteVideoMutation.mutate(_permlinks, _options)
+        break;
+      default:
+        deleteMediaMutation.mutate(deleteIds, _options);
+        break;
+    }
+
   };
 
   const _onDeletePress = async () => {
@@ -120,11 +136,14 @@ const UploadsGalleryContent = ({
 
     const _onPress = () => {
       if (isDeleteMode) {
-        const idIndex = deleteIds.indexOf(item._id);
+
+        const deleteId = item._id;
+
+        const idIndex = deleteIds.indexOf(deleteId);
         if (idIndex >= 0) {
           deleteIds.splice(idIndex, 1);
         } else {
-          deleteIds.push(item._id);
+          deleteIds.push(deleteId);
         }
         setDeleteIds([...deleteIds]);
       } else {
@@ -240,22 +259,22 @@ const UploadsGalleryContent = ({
             handleOpenGallery(true);
           }}
         />
-        {mode === Modes.MODE_IMAGE && (
-          <IconButton
-            style={{
-              ...styles.uploadsActionBtn,
-              backgroundColor: isDeleteMode ? EStyleSheet.value('$iconColor') : 'transparent',
-            }}
-            color={EStyleSheet.value('$primaryBlack')}
-            iconType="MaterialCommunityIcons"
-            name="minus"
-            size={28}
-            onPress={() => {
-              setIsDeleteMode(!isDeleteMode);
-              setDeleteIds([]);
-            }}
-          />
-        )}
+
+        <IconButton
+          style={{
+            ...styles.uploadsActionBtn,
+            backgroundColor: isDeleteMode ? EStyleSheet.value('$iconColor') : 'transparent',
+          }}
+          color={EStyleSheet.value('$primaryBlack')}
+          iconType="MaterialCommunityIcons"
+          name="minus"
+          size={28}
+          onPress={() => {
+            setIsDeleteMode(!isDeleteMode);
+            setDeleteIds([]);
+          }}
+        />
+
       </View>
 
       {isAddingToUploads && (
