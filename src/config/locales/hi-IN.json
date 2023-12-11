@@ -376,12 +376,13 @@
     "no_user": "उपयोगकर्ता नहीं मिला।"
   },
   "login": {
-    "signin": "अंदर आएं",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "अब सम्मिलित हों",
     "signin_title": "इसेंसी का उपयोग करने के सभी लाभ प्राप्त करने के लिए",
-    "username": "प्रयोक्ता नाम",
-    "password": "पासवर्ड या डब्लूएआईएफ",
-    "description": "साइन इन करके, आप हमारी सेवा की शर्तों और गोपनीयता नीतियों से सहमत हैं।",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "रद्द करें",
     "login": "लॉगिन करें",
     "steemconnect_description": "यदि आप अपने पासवर्ड को अपने डिवाइस पर एन्क्रिप्ट और सहेज कर नहीं रखना चाहते हैं, तो आप हाइवसाईनरका उपयोग कर सकते हैं।",
@@ -393,7 +394,10 @@
     "deep_login_alert_title": "आसान लॉगिन @{username}",
     "deep_login_alert_body": "एक्सेस कोड का उपयोग करके सीधे लॉगिन सत्यापित करें",
     "deep_login_url_expired": "लॉगिन यूआरएल समाप्त हो गया है, कृपया लॉगिन करने के लिए निजी कुंजी या पासवर्ड का उपयोग करें",
-    "deep_login_malformed_url": "विकृत लॉगिन यूआरएल, लॉग इन करने के लिए कृपया निजी कुंजी या पासवर्ड का उपयोग करें"
+    "deep_login_malformed_url": "विकृत लॉगिन यूआरएल, लॉग इन करने के लिए कृपया निजी कुंजी या पासवर्ड का उपयोग करें",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "हाइव खाता प्राप्त करें",
