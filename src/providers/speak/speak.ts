@@ -158,7 +158,7 @@ export const deleteVideo = async (currentAccount: any, pinHash: string, permlink
   };
 
   speakApi
-    .get(`${PATH_API}/video/${permlink}/delete`, {headers})
+    .get(`${PATH_API}/video/${permlink}/delete`, { headers })
     .then((response) => {
       console.log(response);
     })
@@ -167,8 +167,7 @@ export const deleteVideo = async (currentAccount: any, pinHash: string, permlink
     });
 };
 
-
-export const uploadFile = (media: Video | Image, onProgress?:(progress:number)=>void) => {
+export const uploadFile = (media: Video | Image, onProgress?: (progress: number) => void) => {
   return new Promise((resolve, reject) => {
     try {
       const _path = Platform.select({
@@ -194,8 +193,8 @@ export const uploadFile = (media: Video | Image, onProgress?:(progress:number)=>
         },
 
         onProgress: (uploaded, total) => {
-          if(onProgress){
-            onProgress((uploaded / total));
+          if (onProgress) {
+            onProgress(uploaded / total);
           }
         },
       });

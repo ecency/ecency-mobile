@@ -45,9 +45,7 @@ const MainStack = createNativeStackNavigator();
 const MainStackNavigator = () => {
   // TODO: remove initialRoute before PR
   return (
-    <MainStack.Navigator
-      screenOptions={{ headerShown: false, animation: 'slide_from_right' }}
-    >
+    <MainStack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
       <MainStack.Screen name={ROUTES.DRAWER.MAIN} component={DrawerNavigator} />
       <MainStack.Screen name={ROUTES.SCREENS.PROFILE} component={Profile} />
       <MainStack.Screen name={ROUTES.SCREENS.PROFILE_EDIT} component={ProfileEdit} />

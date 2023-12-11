@@ -26,7 +26,6 @@ import { Modes } from '../container/uploadsGalleryModal';
 
 type Props = {
   mode: Modes;
-  draftId?: string;
   insertedMediaUrls: string[];
   mediaUploads: MediaItem[];
   isAddingToUploads: boolean;
@@ -38,7 +37,6 @@ type Props = {
 
 const UploadsGalleryContent = ({
   mode,
-  draftId,
   insertedMediaUrls,
   mediaUploads,
   isAddingToUploads,
@@ -61,8 +59,10 @@ const UploadsGalleryContent = ({
 
   const animatedHeightRef = useRef(new Animated.Value(COMPACT_HEIGHT));
 
-  const isDeleting = mode === Modes.MODE_IMAGE ?
-   deleteMediaMutation.isLoading : speakMutations.deleteVideoMutation.isLoading
+  const isDeleting =
+    mode === Modes.MODE_IMAGE
+      ? deleteMediaMutation.isLoading
+      : speakMutations.deleteVideoMutation.isLoading;
 
   useEffect(() => {
     if (isExpandedMode) {
@@ -71,13 +71,12 @@ const UploadsGalleryContent = ({
   }, [isExpandedMode]);
 
   const _deleteMedia = async () => {
-
     const _options = {
       onSettled: () => {
         setIsDeleteMode(false);
         setDeleteIds([]);
       },
-    }
+    };
 
     switch (mode) {
       case Modes.MODE_VIDEO:
@@ -85,16 +84,15 @@ const UploadsGalleryContent = ({
         deleteIds.forEach((_id) => {
           const mediaItem = mediaUploads.find((item) => item._id === _id);
           if (mediaItem?.speakData) {
-            _permlinks.push(mediaItem.speakData.permlink)
+            _permlinks.push(mediaItem.speakData.permlink);
           }
-        })
-        speakMutations.deleteVideoMutation.mutate(_permlinks, _options)
+        });
+        speakMutations.deleteVideoMutation.mutate(_permlinks, _options);
         break;
       default:
         deleteMediaMutation.mutate(deleteIds, _options);
         break;
     }
-
   };
 
   const _onDeletePress = async () => {
@@ -137,7 +135,6 @@ const UploadsGalleryContent = ({
 
     const _onPress = () => {
       if (isDeleteMode) {
-
         const deleteId = item._id;
 
         const idIndex = deleteIds.indexOf(deleteId);
@@ -148,29 +145,28 @@ const UploadsGalleryContent = ({
         }
         setDeleteIds([...deleteIds]);
       } else {
-
         let insertError: Error | null = null;
         if (item.speakData) {
           switch (item.speakData.status) {
             case ThreeSpeakStatus.READY:
-              //check if a ready video is already inserted
+              // check if a ready video is already inserted
               insertedMediaUrls.forEach((url) => {
                 const _mediaItem = mediaUploads.find(
                   (item) => item.url === url && item.speakData?.status === ThreeSpeakStatus.READY,
                 );
                 if (_mediaItem) {
-                  insertError = new Error("Can only have on unpublised speak speak per post");
+                  insertError = new Error('Can only have on unpublised speak speak per post');
                 }
               });
               break;
             case ThreeSpeakStatus.PREPARING:
             case ThreeSpeakStatus.ENCODING:
-              //interupt video insertion is it's still under processing
-              insertError = new Error("Please wait while video is being processed")
+              // interupt video insertion is it's still under processing
+              insertError = new Error('Please wait while video is being processed');
               break;
 
             default:
-              console.log("Skipping corner check for published video")
+              console.log('Skipping corner check for published video');
               break;
           }
         }
@@ -178,9 +174,7 @@ const UploadsGalleryContent = ({
         if (!insertError) {
           insertMedia(new Map([[index, true]]));
         } else {
-          dispatch(
-            toastNotification(insertError.message),
-          );
+          dispatch(toastNotification(insertError.message));
         }
       }
     };
@@ -215,7 +209,6 @@ const UploadsGalleryContent = ({
             />
           </View>
 
-
           <Icon
             color={EStyleSheet.value('$primaryBlack')}
             iconType="MaterialCommunityIcons"
@@ -246,8 +239,8 @@ const UploadsGalleryContent = ({
         {mode === Modes.MODE_IMAGE
           ? _renderSelectButtons
           : isAddingToUploads
-            ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
-            : _renderSelectButtons}
+          ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
+          : _renderSelectButtons}
       </View>
       <View style={styles.pillBtnContainer}>
         <IconButton
@@ -275,7 +268,6 @@ const UploadsGalleryContent = ({
             setDeleteIds([]);
           }}
         />
-
       </View>
 
       {isAddingToUploads && (

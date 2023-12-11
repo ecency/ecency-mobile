@@ -65,18 +65,18 @@ export default EStyleSheet.create({
     marginTop: 10,
     color: '$primaryDarkGray',
   },
-  actionPanel:{
-    flexDirection:'row',
-    alignItems:'center',
+  actionPanel: {
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'flex-end',
     paddingHorizontal: 16,
   } as ViewStyle,
-  btnTxtClose:{
-    color:'$iconColor',
-    fontSize:16,
+  btnTxtClose: {
+    color: '$iconColor',
+    fontSize: 16,
   } as TextStyle,
-  btnClose:{
-    marginRight:12
+  btnClose: {
+    marginRight: 12,
   } as ViewStyle,
   uploadButton: {
     marginBottom: 24,

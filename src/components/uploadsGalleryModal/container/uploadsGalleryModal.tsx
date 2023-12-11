@@ -140,9 +140,6 @@ export const UploadsGalleryModal = forwardRef(
         handleMediaInsert(pendingInserts.current);
         pendingInserts.current = [];
       }
-
- 
- 
     }, [isEditing]);
 
     useEffect(() => {

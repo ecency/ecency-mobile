@@ -414,9 +414,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const { draftId } = this.state;
     const { beneficiariesMap } = this.props;
 
-    return (
-      beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID] || []
-    );
+    return beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID] || [];
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
@@ -650,12 +648,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         return;
       }
 
-
       if (scheduleDate && videoPublishMeta) {
-        dispatch(showActionModal({
-          title: intl.formatMessage({id:'alert.notice'}),
-          body: intl.formatMessage({id:'editor.schedule_video_unsupported'})
-        }))
+        dispatch(
+          showActionModal({
+            title: intl.formatMessage({ id: 'alert.notice' }),
+            body: intl.formatMessage({ id: 'editor.schedule_video_unsupported' }),
+          }),
+        );
         return;
       }
 
@@ -755,11 +754,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             if (videoPublishMeta) {
               console.log('marking inserted video as published');
               speakMutations.updateInfoMutation.mutate({
-                id:videoPublishMeta._id,
-                title:fields.title,
-                body:fields.body,
-                tags:fields.tags
-              })
+                id: videoPublishMeta._id,
+                title: fields.title,
+                body: fields.body,
+                tags: fields.tags,
+              });
               speakMutations.markAsPublishedMutation.mutate(videoPublishMeta._id);
             }
 

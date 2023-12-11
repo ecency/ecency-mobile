@@ -42,7 +42,7 @@ export const MediaPreviewItem = ({
 
   const _renderStatus = () =>
     item.speakData && (
-      <View style={{...styles.statusContainer, right: isExpandedMode ? 8 : 0}}>
+      <View style={{ ...styles.statusContainer, right: isExpandedMode ? 8 : 0 }}>
         <Text style={styles.statusText}>
           {intl.formatMessage({ id: `uploads_modal.${item.speakData?.status}` })}
         </Text>
@@ -71,13 +71,11 @@ export const MediaPreviewItem = ({
 
   const _renderLoading = () =>
     (item.speakData?.status === ThreeSpeakStatus.PREPARING ||
-      item.speakData?.status === ThreeSpeakStatus.ENCODING) &&
-    (
+      item.speakData?.status === ThreeSpeakStatus.ENCODING) && (
       <View style={styles.loadingContainer}>
         <ActivityIndicator />
       </View>
-    )
-
+    );
 
   return (
     <TouchableOpacity onPress={onPress} disabled={isDeleting}>

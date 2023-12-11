@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, Alert, _View } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Video as VideoType } from 'react-native-image-crop-picker';
@@ -9,23 +9,21 @@ import { createThumbnail } from 'react-native-create-thumbnail';
 import { useQueryClient } from '@tanstack/react-query';
 import ImagePicker, { Options } from 'react-native-image-crop-picker';
 import { FlashList } from '@shopify/flash-list';
+import * as Progress from 'react-native-progress';
+import { useIntl } from 'react-intl';
 import styles from '../styles/speakUploaderModal.styles';
 import { MainButton } from '../../mainButton';
 import { uploadFile, uploadVideoInfo } from '../../../providers/speak/speak';
 import { useAppSelector } from '../../../hooks';
 import QUERIES from '../../../providers/queries/queryKeys';
 import Icon from '../../icon';
-import * as Progress from 'react-native-progress';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
-import { useIntl } from 'react-intl';
 import { TextButton } from '../../buttons';
-
 
 interface Props {
   setIsUploading: (flag: boolean) => void;
   isUploading: boolean;
 }
-
 
 export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: Props, ref) => {
   const intl = useIntl();
@@ -58,6 +56,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
           const thumbs = [];
           const _diff = _video.duration / 5;
           for (let i = 0; i < 5; i++) {
+            // eslint-disable-next-line no-await-in-loop
             const _thumb = await createThumbnail({
               url: _video.sourceURL || _video.path,
               timeStamp: i * _diff,
@@ -119,10 +118,9 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
     setIsUploading(false);
   };
 
-
   const _onClosePress = () => {
     sheetModalRef.current?.setModalVisible(false);
-  }
+  };
 
   const _handleOpenImagePicker = () => {
     const _options: Options = {
@@ -139,11 +137,9 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
         setSelectedThumb(items[0]);
       })
       .catch((e) => {
-        Alert.alert('Fail', 'Thumb selection failed');
+        Alert.alert('Fail', `Thumb selection failed, ${e.message}`);
       });
   };
-
-  const _onClose = () => { };
 
   const _renderThumbSelection = () => {
     const _renderThumb = (uri, onPress) => (
@@ -152,7 +148,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
       </TouchableOpacity>
     );
 
-    const _renderThumbItem = ({ item, index }) => {
+    const _renderThumbItem = ({ item }) => {
       const _onPress = () => {
         setSelectedThumb(item);
       };
@@ -192,7 +188,6 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
     );
   };
 
-
   const _renderUploadProgress = () => {
     return (
       <Progress.Bar
@@ -201,15 +196,16 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
         color={EStyleSheet.value('$primaryBlue')}
         unfilledColor={EStyleSheet.value('$primaryLightBackground')}
         width={getWindowDimensions().width - 40}
-        indeterminate={uploadProgress === 1 && isUploading} />
-    )
-  }
+        indeterminate={uploadProgress === 1 && isUploading}
+      />
+    );
+  };
 
   const _renderActionPanel = () => {
     return (
       <View style={styles.actionPanel}>
         <TextButton
-          text={intl.formatMessage({id:'alert.close'})}
+          text={intl.formatMessage({ id: 'alert.close' })}
           onPress={_onClosePress}
           textStyle={styles.btnTxtClose}
           style={styles.btnClose}
@@ -218,14 +214,13 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
           style={{}}
           onPress={_startUpload}
           text={intl.formatMessage({
-            id: `uploads_modal.${isUploading ? 'uploading' : 'start_upload'}`
+            id: `uploads_modal.${isUploading ? 'uploading' : 'start_upload'}`,
           })}
           isDisable={isUploading}
         />
       </View>
-
-    )
-  }
+    );
+  };
 
   const _renderFormContent = () => {
     return (
@@ -247,7 +242,6 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
         {_renderThumbSelection()}
         {_renderUploadProgress()}
         {_renderActionPanel()}
-
       </View>
     );
   };
@@ -260,7 +254,6 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
       hideUnderlay
       containerStyle={styles.sheetContent}
       indicatorColor={EStyleSheet.value('$iconColor')}
-      onClose={_onClose}
     >
       {_renderFormContent()}
     </ActionSheet>

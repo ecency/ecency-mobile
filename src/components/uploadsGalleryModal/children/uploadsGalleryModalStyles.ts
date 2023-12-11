@@ -242,12 +242,12 @@ export default EStyleSheet.create({
   } as ViewStyle,
 
   loadingContainer: {
-    position:'absolute',
-    top:0,
-    left:0,
-    right:0,
-    bottom:0,
-    justifyContent:'center',
-    alignItems:'center',
-  } as ViewStyle
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  } as ViewStyle,
 });

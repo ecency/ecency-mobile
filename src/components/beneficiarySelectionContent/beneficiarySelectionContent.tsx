@@ -1,4 +1,4 @@
-import { debounce, isArray, unionBy } from 'lodash';
+import { debounce, isArray } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { FlatList, Text, View } from 'react-native';
