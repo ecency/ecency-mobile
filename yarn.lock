@@ -8897,10 +8897,10 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-native-actions-sheet@^0.6.1:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.6.2.tgz#82b2e67ee6b2b086f7ed5ed8bce7d48bf2200cea"
-  integrity sha512-MKrI3fxjxenAMwcSyI8fHwcG41ed3Jk5QUiH6/CYvuYRCJSdsxyNfC7Hc6TeM2TYz2bwfsaFBPTMdsR8mN0MRA==
+react-native-actions-sheet@^0.8.0:
+  version "0.8.29"
+  resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.8.29.tgz#a2913b04a23ff1d1a1b4a38e5f66c6738dabeaf2"
+  integrity sha512-5ybScHjE1abdJD+w3rHaxCD4ldKouagl6NdoE/oyxLtDzoVP6dSnO/VlMjWqn52xbfQXyElwpPA8Ur2ujWEGdQ==
 
 react-native-actionsheet@ecency/react-native-actionsheet:
   version "2.4.2"
