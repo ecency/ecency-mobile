@@ -109,8 +109,8 @@ export const QuickReplyModalContent = forwardRef(
 
       setCommentValue(_value);
       inputRef.current?.setNativeProps({
-        text:_value
-      })
+        text: _value,
+      });
     }, [selectedPost]);
 
     // add quick comment value into cache
@@ -168,8 +168,8 @@ export const QuickReplyModalContent = forwardRef(
         }
         setCommentValue('');
         inputRef.current?.setNativeProps({
-          text:''
-        })
+          text: '',
+        });
         onClose();
       } else {
         _addQuickCommentIntoCache(); // add comment value into cache if there is error while posting comment

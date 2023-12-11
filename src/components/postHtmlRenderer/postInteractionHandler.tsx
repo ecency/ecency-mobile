@@ -263,7 +263,7 @@ export const PostHtmlInteractionHandler = forwardRef(
           ref={youtubePlayerRef}
           gestureEnabled={true}
           containerStyle={{ backgroundColor: 'black' }}
-          indicatorStyle={{backgroundColor:EStyleSheet.value('$primaryWhiteLightBackground')}}
+          indicatorStyle={{ backgroundColor: EStyleSheet.value('$primaryWhiteLightBackground') }}
           onClose={() => {
             setYoutubeVideoId(null);
             setVideoUrl(null);

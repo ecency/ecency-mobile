@@ -16,8 +16,8 @@ export default EStyleSheet.create({
     fontWeight: '600',
     color: '$primaryDarkText',
   },
-  indicator:{
-    backgroundColor:'$iconColor'
+  indicator: {
+    backgroundColor: '$iconColor',
   },
   listContainer: {
     paddingTop: 16,

@@ -1,7 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import { View, Text } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import ActionSheet from 'react-native-actions-sheet';
 import { useIntl } from 'react-intl';
 import styles from './actionModalStyles';

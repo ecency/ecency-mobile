@@ -11,12 +11,12 @@ export default EStyleSheet.create({
 
   sheetContent: {
     backgroundColor: '$primaryBackgroundColor',
-    justifyContent:'flex-end',
+    justifyContent: 'flex-end',
     zIndex: 999,
-  } as ViewStyle ,
+  } as ViewStyle,
 
   sheetIndicator: {
-    backgroundColor:EStyleSheet.value('$primaryWhiteLightBackground')
+    backgroundColor: EStyleSheet.value('$primaryWhiteLightBackground'),
   },
 
   container: {

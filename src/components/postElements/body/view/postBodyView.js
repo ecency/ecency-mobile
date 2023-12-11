@@ -300,7 +300,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
         gestureEnabled={true}
         hideUnderlay
         containerStyle={{ backgroundColor: 'black' }}
-        indicatorStyle={{backgroundColor:EStyleSheet.value('$primaryWhiteLightBackground')}}
+        indicatorStyle={{ backgroundColor: EStyleSheet.value('$primaryWhiteLightBackground') }}
         onClose={() => {
           setYoutubeVideoId(null);
           setVideoUrl(null);

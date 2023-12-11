@@ -84,7 +84,7 @@ const ThumbSelectionModal = ({ onThumbSelection, thumbUrl }: ThumbSelectionModal
       ref={sheetModalRef}
       gestureEnabled={false}
       containerStyle={styles.sheetContent}
-      indicatorStyle={{backgroundColor:EStyleSheet.value('$primaryWhiteLightBackground')}}
+      indicatorStyle={{ backgroundColor: EStyleSheet.value('$primaryWhiteLightBackground') }}
     >
       {_renderContent()}
     </ActionSheet>

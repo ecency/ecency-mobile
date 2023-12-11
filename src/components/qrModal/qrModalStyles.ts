@@ -12,8 +12,8 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
   },
-  indicator:{
-    backgroundColor:'$primaryWhiteLightBackground'
+  indicator: {
+    backgroundColor: '$primaryWhiteLightBackground',
   },
   mainContainer: {
     backgroundColor: '$black',
