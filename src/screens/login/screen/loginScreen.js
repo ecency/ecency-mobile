@@ -88,7 +88,6 @@ const LoginScreen = ({
   const _checkUsernameIsValid = (uname) => {
     getAccountsWithUsername(uname).then((res) => {
       const isValid = res.includes(uname);
-      console.log('isValid : ', isValid);
       setIsUsernameValid(isValid);
     });
   };
