@@ -47,24 +47,28 @@ class MainButton extends Component {
       iconType,
       textStyle,
       iconPosition,
+      iconStyle,
+      renderIcon,
     } = this.props;
 
     if (isLoading) {
       this._getIndicator();
     }
 
-    const iconComponent = source ? (
-      <Image source={source} style={styles.image} resizeMode="contain" />
-    ) : (
-      iconName && (
-        <Icon
-          iconType={iconType || 'MaterialIcons'}
-          color={iconColor}
-          name={iconName}
-          style={styles.icon}
-        />
-      )
-    );
+    const iconComponent =
+      renderIcon ||
+      (source ? (
+        <Image source={source} style={styles.image} resizeMode="contain" />
+      ) : (
+        iconName && (
+          <Icon
+            iconType={iconType || 'MaterialIcons'}
+            color={iconColor}
+            name={iconName}
+            style={[styles.icon, iconStyle]}
+          />
+        )
+      ));
 
     if (text) {
       return (
@@ -108,7 +112,7 @@ class MainButton extends Component {
   }
 
   render() {
-    const { wrapperStyle, children, height, style, isLoading } = this.props;
+    const { wrapperStyle, children, height, style, isLoading, bodyWrapperStyle } = this.props;
     const { isDisable } = this.state;
 
     return (
@@ -123,7 +127,7 @@ class MainButton extends Component {
             style && style,
           ]}
         >
-          <View style={styles.body}>
+          <View style={[styles.body, bodyWrapperStyle]}>
             {isLoading ? this._getIndicator() : children || this._getBody()}
           </View>
         </TouchableOpacity>

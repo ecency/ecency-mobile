@@ -55,6 +55,7 @@ import { useUserActivityMutation } from '../../../providers/queries/pointQueries
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
 import { PostTypes } from '../../../constants/postTypes';
+
 import { speakQueries } from '../../../providers/queries';
 import {
   BENEFICIARY_SRC_ENCODER,
