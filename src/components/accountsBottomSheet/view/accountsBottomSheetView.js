@@ -1,5 +1,5 @@
 import React, { useRef, forwardRef, useImperativeHandle } from 'react';
-import { View, Text, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -23,10 +23,10 @@ const AccountsBottomSheet = forwardRef(
 
     useImperativeHandle(ref, () => ({
       showAccountsBottomSheet() {
-        bottomSheetModalRef.current?.setModalVisible(true);
+        bottomSheetModalRef.current?.show();
       },
       closeAccountsBottomSheet() {
-        bottomSheetModalRef.current?.setModalVisible(false);
+        bottomSheetModalRef.current?.hide();
       },
     }));
 

@@ -132,7 +132,7 @@ export const InsertLinkModal = forwardRef(
         <View style={styles.floatingContainer}>
           <TextButton
             style={styles.cancelButton}
-            onPress={() => setVisible(false)} // sheetModalRef.current?.setModalVisible(false)}
+            onPress={() => setVisible(false)} // sheetModalRef.current?.hide()}
             text="Cancel"
           />
           <MainButton

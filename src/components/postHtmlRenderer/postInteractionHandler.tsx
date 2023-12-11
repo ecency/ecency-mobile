@@ -62,7 +62,7 @@ export const PostHtmlInteractionHandler = forwardRef(
         if (videoId && youtubePlayerRef.current) {
           setYoutubeVideoId(videoId);
           setVideoStartTime(startTime);
-          youtubePlayerRef.current.setModalVisible(true);
+          youtubePlayerRef.current.show();
         }
       },
 
@@ -70,7 +70,7 @@ export const PostHtmlInteractionHandler = forwardRef(
         if (embedUrl && youtubePlayerRef.current) {
           setVideoUrl(embedUrl);
           setVideoStartTime(0);
-          youtubePlayerRef.current.setModalVisible(true);
+          youtubePlayerRef.current.show();
         }
       },
     }));
@@ -262,9 +262,8 @@ export const PostHtmlInteractionHandler = forwardRef(
         <ActionsSheet
           ref={youtubePlayerRef}
           gestureEnabled={true}
-          hideUnderlay={true}
           containerStyle={{ backgroundColor: 'black' }}
-          indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+          indicatorStyle={{backgroundColor:EStyleSheet.value('$primaryWhiteLightBackground')}}
           onClose={() => {
             setYoutubeVideoId(null);
             setVideoUrl(null);

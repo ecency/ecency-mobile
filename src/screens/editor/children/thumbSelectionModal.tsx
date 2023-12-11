@@ -35,13 +35,13 @@ const ThumbSelectionModal = ({ onThumbSelection, thumbUrl }: ThumbSelectionModal
       }
 
       setImageUrls(urls);
-      sheetModalRef.current?.setModalVisible(true);
+      sheetModalRef.current?.show();
     },
   }));
 
   const _onSelection = (index: number) => {
     onThumbSelection(index);
-    sheetModalRef.current?.setModalVisible(false);
+    sheetModalRef.current?.hide();
   };
 
   // VIEW_RENDERERS
@@ -83,9 +83,8 @@ const ThumbSelectionModal = ({ onThumbSelection, thumbUrl }: ThumbSelectionModal
     <ActionSheet
       ref={sheetModalRef}
       gestureEnabled={false}
-      hideUnderlay
       containerStyle={styles.sheetContent}
-      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+      indicatorStyle={{backgroundColor:EStyleSheet.value('$primaryWhiteLightBackground')}}
     >
       {_renderContent()}
     </ActionSheet>

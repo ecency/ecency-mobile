@@ -504,7 +504,7 @@ const PostOptionsModal = ({ pageType }: Props, ref) => {
       gestureEnabled={true}
       hideUnderlay={true}
       containerStyle={styles.sheetContent}
-      indicatorColor={EStyleSheet.value('$iconColor')}
+      indicatorStyle={styles.indicator}
     >
       <FlatList
         contentContainerStyle={styles.listContainer}

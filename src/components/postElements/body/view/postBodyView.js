@@ -54,7 +54,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
     if (videoId && youtubePlayerRef.current) {
       setYoutubeVideoId(videoId);
       setVideoStartTime(startTime);
-      youtubePlayerRef.current.setModalVisible(true);
+      youtubePlayerRef.current.show();
     }
   };
 
@@ -62,7 +62,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
     if (embedUrl && youtubePlayerRef.current) {
       setVideoUrl(embedUrl);
       setVideoStartTime(0);
-      youtubePlayerRef.current.setModalVisible(true);
+      youtubePlayerRef.current.show();
     }
   };
 
@@ -300,7 +300,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
         gestureEnabled={true}
         hideUnderlay
         containerStyle={{ backgroundColor: 'black' }}
-        indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+        indicatorStyle={{backgroundColor:EStyleSheet.value('$primaryWhiteLightBackground')}}
         onClose={() => {
           setYoutubeVideoId(null);
           setVideoUrl(null);

@@ -2,7 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   contentContainer: {
-    paddingVertical: 10,
+    paddingTop: 10,
   },
   sheetContent: {
     backgroundColor: '$modalBackground',
