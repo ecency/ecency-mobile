@@ -376,12 +376,13 @@
     "no_user": "找不到用戶。"
   },
   "login": {
-    "signin": "登入",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "立即加入",
     "signin_title": "登錄以獲得更多Ecency的好處",
-    "username": "使用者名稱",
-    "password": "密碼或WIF",
-    "description": "登錄並同意服務條款和隱私政策",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "取消",
     "login": "登錄",
     "steemconnect_description": "假如您不想將您的密碼保存在手機，您可以使用Hivesigner。",
@@ -393,7 +394,10 @@
     "deep_login_alert_title": "Easy Login @{username}",
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Get Hive Account",
