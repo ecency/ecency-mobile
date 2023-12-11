@@ -4,6 +4,7 @@ import { Image } from 'react-native';
 import VersionNumber from 'react-native-version-number';
 import getSlug from 'speakingurl';
 import { PostTypes } from '../constants/postTypes';
+import { ThreeSpeakVideo } from '../providers/speak/speak.types';
 
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
@@ -185,6 +186,20 @@ export const extractImageUrls = ({ body, urls }: { body?: string; urls?: string[
   return imgUrls;
 };
 
+export const extract3SpeakIds = ({ body }) => {
+  if (!body) {
+    return [];
+  }
+
+  const regex = /\[3speak]\((.*?)\)/g;
+  const matches = [...body.matchAll(regex)];
+
+  const ids = matches.map((match) => match[1]);
+  console.log(ids);
+
+  return ids;
+};
+
 export const extractFilenameFromPath = ({
   path,
   mimeType,
@@ -214,20 +229,24 @@ export const extractFilenameFromPath = ({
 export const extractMetadata = async ({
   body,
   thumbUrl,
+  videoThumbUrls,
   fetchRatios,
   postType,
+  videoPublishMeta,
 }: {
   body: string;
   thumbUrl?: string;
+  videoThumbUrls: string[];
   fetchRatios?: boolean;
   postType?: PostTypes;
+  videoPublishMeta?: ThreeSpeakVideo;
 }) => {
   // NOTE: keepting regex to extract usernames as reference for later usage if any
   // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
 
-  const out = {};
+  const out: any = {};
   const mUrls = extractUrls(body);
-  const matchedImages = extractImageUrls({ urls: mUrls });
+  const matchedImages = [...extractImageUrls({ urls: mUrls }), ...(videoThumbUrls || [])];
 
   if (matchedImages.length) {
     if (thumbUrl) {
@@ -255,6 +274,41 @@ export const extractMetadata = async ({
         })
         .slice(0, 5),
     );
+  }
+
+  // insert three speak meta
+  if (videoPublishMeta) {
+    out.video = {
+      info: {
+        platform: '3speak',
+        title: videoPublishMeta.title,
+        author: videoPublishMeta.owner,
+        permlink: videoPublishMeta.permlink,
+        duration: videoPublishMeta.duration,
+        filesize: videoPublishMeta.size,
+        file: videoPublishMeta.filename,
+        lang: videoPublishMeta.language,
+        firstUpload: videoPublishMeta.firstUpload,
+        ipfs: null,
+        ipfsThumbnail: null,
+        video_v2: videoPublishMeta.video_v2,
+        sourceMap: [
+          {
+            type: 'video',
+            url: videoPublishMeta.video_v2,
+            format: 'm3u8',
+          },
+          {
+            type: 'thumbnail',
+            url: videoPublishMeta.thumbUrl,
+          },
+        ],
+      },
+      content: {
+        description: videoPublishMeta.description,
+        tags: videoPublishMeta.tags_v2,
+      },
+    };
   }
 
   // setting post type, primary usecase for separating waves from other posts

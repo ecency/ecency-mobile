@@ -1,6 +1,7 @@
 import {
   MediaInsertData,
   MediaInsertStatus,
+  Modes,
 } from '../../../uploadsGalleryModal/container/uploadsGalleryModal';
 import { replaceBetween } from './utils';
 
@@ -23,13 +24,14 @@ export default async ({ text, selection, setTextAndSelection, items }: Args) => 
   // calclulate change of cursor position
 
   const imagePrefix = '!';
+
   const placeholderPrefix = 'Uploading... ';
 
   let newText = text;
   let newSelection = selection;
 
-  const _insertFormatedString = (text, value) => {
-    const formatedText = `\n${imagePrefix}[${text}](${value})\n`;
+  const _insertFormatedString = (text, value, mode) => {
+    const formatedText = `\n${mode === Modes.MODE_VIDEO ? '' : imagePrefix}[${text}](${value})\n`;
     newText = replaceBetween(newText, newSelection, formatedText);
     const newIndex = newText && newText.indexOf(value, newSelection.start) + value.length + 2;
     newSelection = {
@@ -80,7 +82,7 @@ export default async ({ text, selection, setTextAndSelection, items }: Args) => 
           // means placeholder is preset is needs replacing
           _replaceFormatedString(_placeholder, item.url);
         } else if (item.url) {
-          _insertFormatedString(item.text, item.url);
+          _insertFormatedString(item.text, item.url, item.mode);
         }
         break;
 

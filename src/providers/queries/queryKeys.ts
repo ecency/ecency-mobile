@@ -13,6 +13,7 @@ const QUERIES = {
   },
   MEDIA: {
     GET: 'QUERY_GET_UPLOADS',
+    GET_VIDEOS: 'QUERY_GET_VIDEO_UPLOADS',
   },
   WALLET: {
     GET: 'QUERY_GET_ASSETS',
