@@ -27,10 +27,10 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
   useImperativeHandle(ref, () => ({
     showModal: () => {
       console.log('Showing action modal');
-      sheetModalRef.current?.setModalVisible(true);
+      sheetModalRef.current?.show();
     },
     closeModal() {
-      sheetModalRef.current?.setModalVisible(false);
+      sheetModalRef.current?.hide();
     },
   }));
 
@@ -65,7 +65,7 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
               key={props.text}
               text={props.textId ? intl.formatMessage({ id: props.textId }) : props.text}
               onPress={(evn) => {
-                sheetModalRef.current?.setModalVisible(false);
+                sheetModalRef.current?.hide();
                 props.onPress(evn);
               }}
               style={styles.button}
@@ -77,7 +77,7 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
             key="default"
             text="OK"
             onPress={() => {
-              sheetModalRef.current?.setModalVisible(false);
+              sheetModalRef.current?.hide();
             }}
             style={styles.button}
             textStyle={styles.btnText}
@@ -91,9 +91,8 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
     <ActionSheet
       ref={sheetModalRef}
       gestureEnabled={false}
-      hideUnderlay
       containerStyle={styles.sheetContent}
-      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+      indicatorStyle={styles.sheetIndicator}
       onClose={onClose}
     >
       {_renderContent}
