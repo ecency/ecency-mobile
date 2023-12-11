@@ -376,12 +376,13 @@
     "no_user": "Käyttäjää ei löydy."
   },
   "login": {
-    "signin": "Kirjaudu sisään",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "LIITY NYT",
     "signin_title": "Hyötyäksesi Ecencyn käytöstä",
-    "username": "Käyttäjänimi",
-    "password": "Salasana tai WIF",
-    "description": "Kirjautumalla sisään hyväksyt käyttöehdomme ja tietosuojamme periaatteet.",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "peruuta",
     "login": "KIRJAUDU SISÄÄN",
     "steemconnect_description": "Jos et halua säilyttää kryptattua salasanaa laitteessasi, voit käyttää Hivesigneriä.",
@@ -393,7 +394,10 @@
     "deep_login_alert_title": "Helppo kirjautuminen @{username}",
     "deep_login_alert_body": "Vahvista suora kirjautuminen pääsykoodilla",
     "deep_login_url_expired": "Kirjautumisosoite vanhentunut, käytä yksityistä avainta tai salasanaa kirjautuaksesi",
-    "deep_login_malformed_url": "Virheellinen sisäänkirjautumisosoite, käytä yksityistä avainta tai salasanaa kirjautumiseen"
+    "deep_login_malformed_url": "Virheellinen sisäänkirjautumisosoite, käytä yksityistä avainta tai salasanaa kirjautumiseen",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Hanki Hive-tili",
