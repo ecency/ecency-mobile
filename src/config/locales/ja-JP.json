@@ -376,12 +376,13 @@
     "no_user": "ユーザーが見つかりません。"
   },
   "login": {
-    "signin": "ログイン",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "今すぐ参加",
     "signin_title": "To get all the benefits of using Ecency",
-    "username": "ユーザー名",
-    "password": "パスワードまたは WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "キャンセル",
     "login": "ログイン",
     "steemconnect_description": "端末に暗号化したパスワードを保存したくない場合、Hivesignerを利用できます。",
@@ -393,7 +394,10 @@
     "deep_login_alert_title": "Easy Login @{username}",
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Get Hive Account",
