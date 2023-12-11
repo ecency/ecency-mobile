@@ -216,12 +216,21 @@ export const useSpeakMutations = () => {
 
   const _deleteVideoOptions = {
     retry: 3,
-    onSuccess: async (status, _data) => {
-      console.log('on success data', status);
+    onSuccess: async (status, permlinks) => {
+
+      console.log('Success media deletion',status, permlinks);
+      const data: MediaItem[] | undefined = queryClient.getQueryData([QUERIES.MEDIA.GET_VIDEOS]);
+      if (data) {
+        const _newData = data.filter((item) => !permlinks.includes(item.speakData?.permlink));
+        queryClient.setQueryData([QUERIES.MEDIA.GET_VIDEOS], _newData);
+      }
+
       queryClient.invalidateQueries([QUERIES.MEDIA.GET_VIDEOS]);
     },
-    onError: () => {
+    onError: (err) => {
+      console.warn("delete failing", err);
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      
     },
   }
 

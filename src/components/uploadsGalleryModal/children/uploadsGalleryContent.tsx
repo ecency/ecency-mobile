@@ -61,7 +61,8 @@ const UploadsGalleryContent = ({
 
   const animatedHeightRef = useRef(new Animated.Value(COMPACT_HEIGHT));
 
-  const isDeleting = deleteMediaMutation.isLoading;
+  const isDeleting = mode === Modes.MODE_IMAGE ?
+   deleteMediaMutation.isLoading : speakMutations.deleteVideoMutation.isLoading
 
   useEffect(() => {
     if (isExpandedMode) {
