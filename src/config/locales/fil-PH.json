@@ -376,12 +376,13 @@
     "no_user": "Hindi makita ang user."
   },
   "login": {
-    "signin": "Mag sign in",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "SUMALI NGAYON",
     "signin_title": "Para makuha ang lahat ng benepisyo ng paggamit ng Ecency",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "Sa pag-sign in, pumapayag ka sa mga Tuntunin ng Paggamit at Mga Patakaran sa Privacy.",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "kansel",
     "login": "LOGIN",
     "steemconnect_description": "Kung ayaw mong itago ang encrypted password mo sa device mo, gamitin ang Hivesigner.",
@@ -393,7 +394,10 @@
     "deep_login_alert_title": "Easy Login @{username}",
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Get Hive Account",
