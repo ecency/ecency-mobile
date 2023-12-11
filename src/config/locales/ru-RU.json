@@ -376,12 +376,13 @@
     "no_user": "Пользователь не найден."
   },
   "login": {
-    "signin": "Войти",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "ПРИСОЕДИНЯЙТЕСЬ СЕЙЧАС",
     "signin_title": "Чтобы получить все преимущества от использования Ecency",
-    "username": "Пользователь",
-    "password": "Пароль или ключ",
-    "description": "Регистрируясь, вы соглашаетесь с Условиями использования и Политикой конфиденциальности.",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "отмена",
     "login": "Войти",
     "steemconnect_description": "Если вы не хотите хранить зашифрованные ключи на своем устройстве, используйте Hivesigner.",
@@ -393,7 +394,10 @@
     "deep_login_alert_title": "Простой вход @{username}",
     "deep_login_alert_body": "Подтвердите авторизацию с помощью кода доступа",
     "deep_login_url_expired": "Срок действия URL-адреса для авторизации истёк, пожалуйста, используйте закрытый ключ или пароль для входа",
-    "deep_login_malformed_url": "Неверный URL-адрес для входа, используйте закрытый ключ или пароль для входа"
+    "deep_login_malformed_url": "Неверный URL-адрес для входа, используйте закрытый ключ или пароль для входа",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Получить учетную запись Hive",
