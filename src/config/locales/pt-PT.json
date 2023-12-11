@@ -376,12 +376,13 @@
     "no_user": "Usuário não encontrado."
   },
   "login": {
-    "signin": "Iniciar sessão",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "JUNTE-SE AGORA",
     "signin_title": "Para obter todos os benefícios de usar Ecency",
-    "username": "Nome de Usuário",
-    "password": "Senha ou WIF",
-    "description": "Ao fazer o login, você concorda com nossos Termos de Serviço e Políticas de Privacidade.",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "cancelar",
     "login": "ENTRAR",
     "steemconnect_description": "Se você não quiser manter sua senha criptográfica salva no dispositivo, você pode usar o Hivesigner.",
@@ -393,7 +394,10 @@
     "deep_login_alert_title": "Login Fácil @{username}",
     "deep_login_alert_body": "Verificar login direto utilizando código de acesso",
     "deep_login_url_expired": "URL de login expirada, use uma chave privada ou a senha para entrar",
-    "deep_login_malformed_url": "URL de login inválido. Por favor, use a chave privada ou senha para acessar"
+    "deep_login_malformed_url": "URL de login inválido. Por favor, use a chave privada ou senha para acessar",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Obter uma conta na Hive",
