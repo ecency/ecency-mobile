@@ -376,12 +376,13 @@
     "no_user": "لم يتم العثور على المستخدم."
   },
   "login": {
-    "signin": "تسجيل الدخول",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "انضم الآن",
     "signin_title": "للحصول على جميع فوائد إستخدم Ecency",
-    "username": "إسم المستخدم",
-    "password": "أدخل دكلمة المرور أو WIF",
-    "description": "من خلال تسجيل الدخول، أنت توافق على شروط الخدمات وسياسات الخصوصية لدينا.",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "إلغاء",
     "login": "تسجيل الدخول",
     "steemconnect_description": "إذا كنت لا ترغب في إبقاء كلمة المرور مشفرة وحفظها على جهازك، يمكنك استخدام Hivesigner.",
@@ -393,7 +394,10 @@
     "deep_login_alert_title": "تسجيل دخول سهل @{username}",
     "deep_login_alert_body": "تحقق من تسجيل الدخول المباشر باستخدام رمز الوصول",
     "deep_login_url_expired": "انتهت صلاحية رابط تسجيل الدخول، الرجاء استخدام المفتاح الخاص أو كلمة المرور لتسجيل الدخول",
-    "deep_login_malformed_url": "رابط تسجيل الدخول غير صحيح، يرجى استخدام المفتاح الخاص أو كلمة المرور لتسجيل الدخول"
+    "deep_login_malformed_url": "رابط تسجيل الدخول غير صحيح، يرجى استخدام المفتاح الخاص أو كلمة المرور لتسجيل الدخول",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "احصل على حساب Hive",
