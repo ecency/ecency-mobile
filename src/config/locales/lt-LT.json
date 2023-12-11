@@ -376,12 +376,13 @@
     "no_user": "Naudotojas nerastas."
   },
   "login": {
-    "signin": "Prisijungti",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "PRISIJUNKITE DABAR",
     "signin_title": "Kad gautumėte visus privalumus naudojant Ecency",
-    "username": "Naudotojo vardas",
-    "password": "Slaptažodis arba WIF",
-    "description": "Prisiregistruodami, jūs sutinkate su mūsų paslaugų tiekimo sąlygomis ir privatumo politika.",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "atšaukti",
     "login": "PRISIJUNGTI",
     "steemconnect_description": "Jei nenorite, kad jūsų slaptažodis būtų įrašomas į jūsų įrenginį, galite naudoti Hivesighner.",
@@ -393,7 +394,10 @@
     "deep_login_alert_title": "Easy Login @{username}",
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Get Hive Account",
