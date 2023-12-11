@@ -58,7 +58,7 @@ export const QuickReplyModalContent = forwardRef(
 
     const postSubmitter = usePostSubmitter();
 
-    // const inputRef = useRef<RNTextInput | null>(null);
+    const inputRef = useRef<RNTextInput | null>(null);
 
     const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
     const draftsCollection = useSelector((state: RootState) => state.cache.draftsCollection);
@@ -108,6 +108,9 @@ export const QuickReplyModalContent = forwardRef(
       }
 
       setCommentValue(_value);
+      inputRef.current?.setNativeProps({
+        text:_value
+      })
     }, [selectedPost]);
 
     // add quick comment value into cache
@@ -164,6 +167,9 @@ export const QuickReplyModalContent = forwardRef(
           dispatch(deleteDraftCacheEntry(draftId));
         }
         setCommentValue('');
+        inputRef.current?.setNativeProps({
+          text:''
+        })
         onClose();
       } else {
         _addQuickCommentIntoCache(); // add comment value into cache if there is error while posting comment
@@ -355,8 +361,7 @@ export const QuickReplyModalContent = forwardRef(
         {_renderAvatar()}
         <View style={styles.inputContainer}>
           <TextInput
-            // innerRef={inputRef}
-            value={commentValue}
+            innerRef={inputRef}
             onChangeText={_onChangeText}
             autoFocus={true}
             placeholder={intl.formatMessage({
