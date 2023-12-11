@@ -10,7 +10,7 @@ import SnippetEditorModal, {
 import SnippetItem from './snippetItem';
 import { Snippet } from '../../models';
 import { useAppSelector } from '../../hooks';
-import { useSnippetsQuery } from '../../providers/queries';
+import { editorQueries } from '../../providers/queries';
 
 interface SnippetsModalProps {
   handleOnSelect: (snippetText: string) => void;
@@ -22,7 +22,7 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
 
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
-  const snippetsQuery = useSnippetsQuery();
+  const snippetsQuery = editorQueries.useSnippetsQuery();
 
   // render list item for snippet and handle actions;
   const _renderItem = ({ item, index }: { item: Snippet; index: number }) => {

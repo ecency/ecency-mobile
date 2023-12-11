@@ -11,11 +11,12 @@ import Animated, { EasingNode, Extrapolate } from 'react-native-reanimated';
 import { IconButton, UploadsGalleryModal } from '../..';
 import styles from '../styles/editorToolbarStyles';
 import { useAppSelector } from '../../../hooks';
-import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
+import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import Formats from './formats/formats';
 
 type Props = {
-  insertedMediaUrls: string[];
+  draftId?: string;
+  postBody: string;
   paramFiles: any[];
   isEditing: boolean;
   isPreviewActive: boolean;
@@ -28,7 +29,8 @@ type Props = {
 };
 
 export const EditorToolbar = ({
-  insertedMediaUrls,
+  draftId,
+  postBody,
   paramFiles,
   isEditing,
   isPreviewActive,
@@ -46,7 +48,6 @@ export const EditorToolbar = ({
   const extensionHeight = useRef(0);
 
   const [isExtensionVisible, setIsExtensionVisible] = useState(false);
-
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
@@ -78,13 +79,28 @@ export const EditorToolbar = ({
     </View>
   );
 
-  const _showUploadsExtension = () => {
-    if (isExtensionVisible && uploadsGalleryModalRef.current) {
-      _hideExtension();
-    } else if (uploadsGalleryModalRef.current) {
-      uploadsGalleryModalRef.current.toggleModal(true);
-      _revealExtension();
+  const _showUploadsExtension = (mode: Modes) => {
+    if (!uploadsGalleryModalRef.current) {
+      return;
     }
+
+    const _curMode = uploadsGalleryModalRef.current.getMode();
+
+    if (!isExtensionVisible || _curMode !== mode) {
+      uploadsGalleryModalRef.current.toggleModal(true, mode);
+      _revealExtension();
+      return;
+    }
+
+    _hideExtension();
+  };
+
+  const _showImageUploads = () => {
+    _showUploadsExtension(Modes.MODE_IMAGE);
+  };
+
+  const _showVideoUploads = () => {
+    _showUploadsExtension(Modes.MODE_VIDEO);
   };
 
   // handles extension closing
@@ -183,8 +199,9 @@ export const EditorToolbar = ({
           >
             {isExtensionVisible && <View style={styles.indicator} />}
             <UploadsGalleryModal
+              draftId={draftId}
               ref={uploadsGalleryModalRef}
-              insertedMediaUrls={insertedMediaUrls}
+              postBody={postBody}
               isPreviewActive={isPreviewActive}
               paramFiles={paramFiles}
               isEditing={isEditing}
@@ -243,13 +260,22 @@ export const EditorToolbar = ({
               iconType="MaterialCommunityIcons"
               name="text-short"
             />
+
             <IconButton
-              onPress={_showUploadsExtension}
+              onPress={_showImageUploads}
               style={styles.rightIcons}
-              size={20}
+              size={18}
               iconStyle={styles.icon}
               iconType="FontAwesome"
               name="image"
+            />
+            <IconButton
+              onPress={_showVideoUploads}
+              style={styles.rightIcons}
+              size={26}
+              iconStyle={styles.icon}
+              iconType="MaterialCommunityIcons"
+              name="video-outline"
             />
             <View style={styles.clearButtonWrapper}>
               <IconButton

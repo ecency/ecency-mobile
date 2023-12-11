@@ -14,3 +14,6 @@
 
 # -keep class com.swmansion.reanimated.** { *; }
 # -keep class com.facebook.react.turbomodule.** { *; }
+
+# config for rn background upload
+-keep class net.gotev.uploadservice.** { *; }
