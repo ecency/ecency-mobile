@@ -65,13 +65,13 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
 
   useImperativeHandle(ref, () => ({
     show: () => {
-      sheetModalRef.current?.setModalVisible(true);
+      sheetModalRef.current?.show();
     },
   }));
 
   // actions
   const _onClose = () => {
-    sheetModalRef.current?.setModalVisible(false);
+    sheetModalRef.current?.hide();
   };
 
   // save snippet based on editor pageType

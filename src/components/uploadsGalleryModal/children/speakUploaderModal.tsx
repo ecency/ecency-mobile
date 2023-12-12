@@ -43,7 +43,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
   useImperativeHandle(ref, () => ({
     showUploader: async (_video: VideoType) => {
       if (sheetModalRef.current) {
-        sheetModalRef.current.setModalVisible(true);
+        sheetModalRef.current.show();
 
         if (_video) {
           if (!_video.filename) {
@@ -107,7 +107,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
       queryClient.invalidateQueries([QUERIES.MEDIA.GET_VIDEOS]);
 
       if (sheetModalRef.current) {
-        sheetModalRef.current.setModalVisible(false);
+        sheetModalRef.current.hide();
       }
 
       console.log('response after updating video information', response);
@@ -119,7 +119,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
   };
 
   const _onClosePress = () => {
-    sheetModalRef.current?.setModalVisible(false);
+    sheetModalRef.current?.hide();
   };
 
   const _handleOpenImagePicker = () => {
@@ -251,9 +251,8 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
       ref={sheetModalRef}
       gestureEnabled={true}
       closeOnTouchBackdrop={true}
-      hideUnderlay
       containerStyle={styles.sheetContent}
-      indicatorColor={EStyleSheet.value('$iconColor')}
+      indicatorStyle={styles.sheetIndicator}
     >
       {_renderFormContent()}
     </ActionSheet>
