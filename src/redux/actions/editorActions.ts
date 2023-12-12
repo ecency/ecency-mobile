@@ -1,4 +1,8 @@
-import { SET_BENEFICIARIES, REMOVE_BENEFICIARIES } from '../constants/constants';
+import {
+  SET_BENEFICIARIES,
+  REMOVE_BENEFICIARIES,
+  SET_ALLOW_SPK_PUBLISHING,
+} from '../constants/constants';
 import { Beneficiary } from '../reducers/editorReducer';
 
 export const setBeneficiaries = (draftId: string, benficiaries: Beneficiary[]) => ({
@@ -14,4 +18,9 @@ export const removeBeneficiaries = (draftId: string) => ({
     draftId,
   },
   type: REMOVE_BENEFICIARIES,
+});
+
+export const setAllowSpkPublishing = (allowSpkPublishing: boolean) => ({
+  payload: allowSpkPublishing,
+  type: SET_ALLOW_SPK_PUBLISHING,
 });

@@ -201,7 +201,7 @@ const FormInputView = ({
       ) : value && value.length > 0 ? (
         <Icon
           iconType={iconType || 'MaterialIcons'}
-          onPress={() => setValue('')}
+          onPress={() => _handleOnChange('')}
           name={leftIconName}
           style={styles.icon}
         />
