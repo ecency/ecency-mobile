@@ -16,7 +16,7 @@ export default EStyleSheet.create({
   } as ViewStyle,
 
   sheetIndicator: {
-    backgroundColor: EStyleSheet.value('$primaryWhiteLightBackground'),
+    backgroundColor: '$primaryWhiteLightBackground',
   },
 
   container: {
