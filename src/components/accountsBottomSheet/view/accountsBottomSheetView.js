@@ -2,7 +2,6 @@ import React, { useRef, forwardRef, useImperativeHandle } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionSheet from 'react-native-actions-sheet';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 

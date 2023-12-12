@@ -252,7 +252,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
       gestureEnabled={true}
       closeOnTouchBackdrop={true}
       containerStyle={styles.sheetContent}
-      indicatorStyle={styles.sheetIndicator} 
+      indicatorStyle={styles.sheetIndicator}
     >
       {_renderFormContent()}
     </ActionSheet>

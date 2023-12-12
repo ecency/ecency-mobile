@@ -4,11 +4,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   sheetContent: {
     backgroundColor: 'transparent',
-    paddingBottom:12,
-    zIndez:999
+    paddingBottom: 12,
+    zIndez: 999,
   },
-  sheetIndicator:{
-    backgroundColor: 'transparent'
+  sheetIndicator: {
+    backgroundColor: 'transparent',
   },
 
   container: {
@@ -18,12 +18,12 @@ export default EStyleSheet.create({
   },
 
   modalContainer: {
-    marginHorizontal:16,
+    marginHorizontal: 16,
     borderRadius: 16,
     backgroundColor: '$primaryBackgroundColor',
-    borderWidth:EStyleSheet.hairlineWidth,
-    borderColor:'$iconColor',
-    paddingVertical:16,
+    borderWidth: EStyleSheet.hairlineWidth,
+    borderColor: '$iconColor',
+    paddingVertical: 16,
   },
 
   cancelButton: {
@@ -48,7 +48,7 @@ export default EStyleSheet.create({
   inputContainer: {
     paddingVertical: 6,
     minHeight: 120,
-    maxHeight: 200
+    maxHeight: 200,
   },
   textInput: {
     color: '$primaryBlack',

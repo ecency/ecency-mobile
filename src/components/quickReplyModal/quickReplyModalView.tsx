@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { Text, View } from 'react-native'
+import ActionSheet from 'react-native-actions-sheet';
 import { QuickReplyModalContent } from './quickReplyModalContent';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { hideReplyModal } from '../../redux/actions/uiAction';
 import { PostEditorModalData } from '../../redux/reducers/uiReducer';
-import ActionSheet from 'react-native-actions-sheet';
 import styles from './quickReplyModalStyles';
 
 const QuickReplyModal = () => {
@@ -19,8 +18,7 @@ const QuickReplyModal = () => {
     if (replyModalVisible) {
       bottomSheetModalRef.current?.show();
     }
-  }, [replyModalVisible])
-
+  }, [replyModalVisible]);
 
   const _onClose = () => {
     bottomSheetModalRef.current?.hide();
@@ -31,23 +29,22 @@ const QuickReplyModal = () => {
   };
 
   return (
-      <ActionSheet
-        ref={bottomSheetModalRef}
-        gestureEnabled={true}
-        containerStyle={styles.sheetContent}
-        indicatorStyle={styles.sheetIndicator}
-        defaultOverlayOpacity={0}
-        elevation={50}
+    <ActionSheet
+      ref={bottomSheetModalRef}
+      gestureEnabled={true}
+      containerStyle={styles.sheetContent}
+      indicatorStyle={styles.sheetIndicator}
+      defaultOverlayOpacity={0}
+      elevation={50}
+      onClose={_onClose}
+    >
+      <QuickReplyModalContent
+        ref={modalContentRef}
+        mode={replyModalData?.mode || 'comment'}
+        selectedPost={replyModalData?.parentPost}
         onClose={_onClose}
-      >
-
-        <QuickReplyModalContent
-          ref={modalContentRef}
-          mode={replyModalData?.mode || 'comment'}
-          selectedPost={replyModalData?.parentPost}
-          onClose={_onClose}
-        />
-      </ActionSheet>
+      />
+    </ActionSheet>
   );
 };
 

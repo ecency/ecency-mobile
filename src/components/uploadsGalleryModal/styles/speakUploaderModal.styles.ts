@@ -16,8 +16,8 @@ export default EStyleSheet.create({
     zIndex: 999,
   },
 
-  sheetIndicator:{
-   backgroundColor:'$iconColor'
+  sheetIndicator: {
+    backgroundColor: '$iconColor',
   },
 
   contentContainer: {

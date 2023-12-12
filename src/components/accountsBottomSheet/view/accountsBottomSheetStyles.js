@@ -7,8 +7,8 @@ export default EStyleSheet.create({
   sheetContent: {
     backgroundColor: '$modalBackground',
   },
-  sheetIndicator:{
-    backgroundColor:'$primaryWhiteLightBackground'
+  sheetIndicator: {
+    backgroundColor: '$primaryWhiteLightBackground',
   },
   accountTile: {
     height: 60,
