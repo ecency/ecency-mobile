@@ -52,7 +52,7 @@ const AccountsBottomSheet = forwardRef(
           gestureEnabled={true}
           hideUnderlay
           containerStyle={styles.sheetContent}
-          indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+          indicatorStyle={styles.sheetIndicator}
           onClose={onClose}
         >
           <FlatList

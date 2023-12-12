@@ -3,8 +3,12 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   sheetContent: {
-    backgroundColor: '$primaryBackgroundColor',
-    marginTop: 132,
+    backgroundColor: 'transparent',
+    paddingBottom:12,
+    zIndez:999
+  },
+  sheetIndicator:{
+    backgroundColor: 'transparent'
   },
 
   container: {
@@ -14,11 +18,12 @@ export default EStyleSheet.create({
   },
 
   modalContainer: {
-    margin: 16,
+    marginHorizontal:16,
     borderRadius: 16,
     backgroundColor: '$primaryBackgroundColor',
-    paddingTop: 16,
-    paddingBottom: 16,
+    borderWidth:EStyleSheet.hairlineWidth,
+    borderColor:'$iconColor',
+    paddingVertical:16,
   },
 
   cancelButton: {
@@ -30,6 +35,7 @@ export default EStyleSheet.create({
   },
   titleBtnTxt: {
     fontSize: 18,
+
     fontWeight: 'bold',
     color: '$primaryBlack',
   },
@@ -41,7 +47,8 @@ export default EStyleSheet.create({
   },
   inputContainer: {
     paddingVertical: 6,
-    height: 120,
+    minHeight: 120,
+    maxHeight: 200
   },
   textInput: {
     color: '$primaryBlack',
