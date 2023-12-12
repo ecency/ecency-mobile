@@ -88,9 +88,8 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
       const videoId = await uploadFile(selectedVido, _onProgress);
 
       let thumbId: any = '';
-      if (selectedThumb) {
-        thumbId = await uploadFile(selectedThumb);
-      }
+
+      thumbId = await uploadFile(selectedThumb || availableThumbs[0]);
 
       console.log('updating video information', videoId, thumbId);
 
