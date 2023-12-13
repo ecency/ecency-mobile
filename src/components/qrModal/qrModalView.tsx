@@ -285,7 +285,7 @@ export const QRModal = () => {
       gestureEnabled={true}
       containerStyle={{ ...styles.sheetContent, height: screenHeight }}
       onClose={_onClose}
-      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+      indicatorStyle={styles.indicator}
     >
       <View style={styles.mainContainer}>
         {/* <QRCodeScanner

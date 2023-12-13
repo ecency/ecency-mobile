@@ -11,16 +11,16 @@ export default EStyleSheet.create({
 
   sheetContent: {
     backgroundColor: '$primaryBackgroundColor',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
+    justifyContent: 'flex-end',
     zIndex: 999,
+  } as ViewStyle,
+
+  sheetIndicator: {
+    backgroundColor: '$primaryWhiteLightBackground',
   },
 
   container: {
     marginTop: 16,
-    marginBottom: 36,
     paddingHorizontal: 24,
     alignItems: 'center',
     justifyContent: 'space-between',

@@ -495,6 +495,7 @@ class EditorScreen extends Component {
             />
           )}
           <MarkdownEditor
+            draftId={draftId}
             paramFiles={paramFiles}
             componentID="body"
             draftBody={fields && fields.body}

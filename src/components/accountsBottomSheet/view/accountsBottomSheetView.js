@@ -1,8 +1,7 @@
 import React, { useRef, forwardRef, useImperativeHandle } from 'react';
-import { View, Text, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionSheet from 'react-native-actions-sheet';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -23,10 +22,10 @@ const AccountsBottomSheet = forwardRef(
 
     useImperativeHandle(ref, () => ({
       showAccountsBottomSheet() {
-        bottomSheetModalRef.current?.setModalVisible(true);
+        bottomSheetModalRef.current?.show();
       },
       closeAccountsBottomSheet() {
-        bottomSheetModalRef.current?.setModalVisible(false);
+        bottomSheetModalRef.current?.hide();
       },
     }));
 
@@ -52,7 +51,7 @@ const AccountsBottomSheet = forwardRef(
           gestureEnabled={true}
           hideUnderlay
           containerStyle={styles.sheetContent}
-          indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+          indicatorStyle={styles.sheetIndicator}
           onClose={onClose}
         >
           <FlatList
