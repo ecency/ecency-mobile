@@ -94,7 +94,7 @@ const PostScreen = ({ route }) => {
         post={getPostQuery.data}
         isWavePost={isWavePost}
       />
-      <PostOptionsModal ref={postOptionsModalRef} />
+      <PostOptionsModal ref={postOptionsModalRef} isWave={isWavePost} />
     </View>
   );
 };

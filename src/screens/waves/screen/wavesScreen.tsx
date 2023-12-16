@@ -168,7 +168,7 @@ const WavesScreen = ({ route }) => {
         />
       </View>
 
-      <PostOptionsModal ref={postOptionsModalRef} />
+      <PostOptionsModal ref={postOptionsModalRef} isWave={true} />
     </View>
   );
 };
