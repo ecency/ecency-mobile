@@ -37,9 +37,10 @@ import styles from '../styles/postOptionsModal.styles';
 
 interface Props {
   pageType?: string;
+  isWave?: boolean;
 }
 
-const PostOptionsModal = ({ pageType }: Props, ref) => {
+const PostOptionsModal = ({ pageType, isWave }: Props, ref) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
@@ -191,7 +192,8 @@ const PostOptionsModal = ({ pageType }: Props, ref) => {
   };
 
   const _share = () => {
-    const postUrl = getPostUrl(get(content, 'url'));
+    const _url = isWave ? `/@${content.author}/${content.permlink}` : content.url;
+    const postUrl = getPostUrl(_url);
 
     Share.share({
       message: `${get(content, 'title')} ${postUrl}`,
@@ -405,7 +407,8 @@ const PostOptionsModal = ({ pageType }: Props, ref) => {
 
     switch (options[index]) {
       case 'copy':
-        await writeToClipboard(getPostUrl(get(content, 'url')));
+        const _url = isWave ? `/@${content.author}/${content.permlink}` : content.url;
+        await writeToClipboard(getPostUrl(_url));
         alertTimer.current = setTimeout(() => {
           dispatch(
             toastNotification(
