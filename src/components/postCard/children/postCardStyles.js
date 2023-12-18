@@ -123,5 +123,6 @@ export default EStyleSheet.create({
     fontWeight: '300',
     color: '$primaryDarkGray',
     marginTop: 6,
+    marginBottom: -8,
   },
 });
