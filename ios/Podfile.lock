@@ -581,7 +581,7 @@ PODS:
     - React-Core
   - RNFastImage (8.6.3):
     - React-Core
-    - SDWebImage (~> 5.11.1)
+    - SDWebImage (~> 5.15.5)
     - SDWebImageWebPCoder (~> 0.8.4)
   - RNFBAnalytics (14.12.0):
     - Firebase/Analytics (= 8.15.0)
@@ -660,9 +660,9 @@ PODS:
     - TUSKit (~> 1.4.2)
   - RNVectorIcons (6.7.0):
     - React
-  - SDWebImage (5.11.1):
-    - SDWebImage/Core (= 5.11.1)
-  - SDWebImage/Core (5.11.1)
+  - SDWebImage (5.15.8):
+    - SDWebImage/Core (= 5.15.8)
+  - SDWebImage/Core (5.15.8)
   - SDWebImageWebPCoder (0.8.5):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.10)
@@ -1105,7 +1105,7 @@ SPEC CHECKSUMS:
   RNCClipboard: 3f0451a8100393908bea5c5c5b16f96d45f30bfc
   RNCPushNotificationIOS: 87b8d16d3ede4532745e05b03c42cff33a36cc45
   RNDeviceInfo: 5795b418ed3451ebcaf39384e6cf51f60cb931c9
-  RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
+  RNFastImage: 246de6b52d7642992cfd01e2005dda36d00a6660
   RNFBAnalytics: ea1421b49a0bf5e5bb7274df4a330713d0e85d2e
   RNFBApp: e4439717c23252458da2b41b81b4b475c86f90c4
   RNFBDynamicLinks: 538840f6e3f58511f857d15df1bc25ed655dc283
@@ -1122,7 +1122,7 @@ SPEC CHECKSUMS:
   RNSVG: d7d7bc8229af3842c9cfc3a723c815a52cdd1105
   RNTusClient: b90393226531c118c4716a2b71128e3b9d9c77ee
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
-  SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
+  SDWebImage: cb032eba469c54e0000e78bcb0a13cdde0a52798
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   TcpSockets: 4ef55305239923b343ed0a378b1fac188b1373b0
@@ -1134,4 +1134,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 6b212d63236c21489948e9b73b59fcff2feeeb08
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.14.3
