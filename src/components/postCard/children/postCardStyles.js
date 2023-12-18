@@ -118,4 +118,11 @@ export default EStyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
   },
+  promotedText: {
+    fontSize: 14,
+    fontWeight: '300',
+    color: '$primaryDarkGray',
+    marginTop: 6,
+    marginBottom: -8,
+  },
 });
