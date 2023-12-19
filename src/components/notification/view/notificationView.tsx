@@ -49,7 +49,7 @@ const NotificationView = ({
 }: Props) => {
   const intl = useIntl();
 
-  const listRef = useRef(null);
+  const listRef = useRef<SectionList>(null);
 
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -61,10 +61,9 @@ const NotificationView = ({
 
   const _handleOnDropdownSelect = async (index) => {
     const _selectedFilter = FILTERS[index].key;
-
     setSelectedIndex(index);
-    await changeSelectedFilter(_selectedFilter, index);
-    listRef.current?.scrollToOffset({ x: 0, y: 0, animated: false });
+    changeSelectedFilter(_selectedFilter, index);
+    listRef.current?.scrollToLocation({ itemIndex: 0, sectionIndex: 0, animated: false });
   };
 
   const _renderFooterLoading = () => {
@@ -83,19 +82,14 @@ const NotificationView = ({
   );
 
   const _renderItem = ({ item }) => (
-    <>
-      {/* {item.sectionTitle && (
-        <ContainerHeader hasSeperator={!item.firstSection} isBoldTitle title={item.sectionTitle} />
-      )} */}
-      <NotificationLine
-        notification={item}
-        handleOnPressNotification={navigateToNotificationRoute}
-        handleOnUserPress={() => {
-          handleOnUserPress(item.source);
-        }}
-        globalProps={globalProps}
-      />
-    </>
+    <NotificationLine
+      notification={item}
+      handleOnPressNotification={navigateToNotificationRoute}
+      handleOnUserPress={() => {
+        handleOnUserPress(item.source);
+      }}
+      globalProps={globalProps}
+    />
   );
 
   return (
@@ -198,16 +192,6 @@ const _getSectionedNotifications = (notifications: any[], intl: any) => {
   notifications.forEach((item) => {
     const timeIndex = _getTimeListIndex(item.gk);
     notificationArray[timeIndex].data.push(item);
-
-    // if (timeIndex !== sectionIndex && timeIndex > sectionIndex) {
-    //   if (sectionIndex === -1) {
-    //     item.firstSection = true;
-    //   }
-    //   // item.sectionTitle = notificationArray[timeIndex].title;
-    //   notificationArray[timeIndex].data.push(item);
-    //   sectionIndex = timeIndex;
-    // }
-    // return item;
   });
 
   return notificationArray
