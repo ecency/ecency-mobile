@@ -1,33 +1,28 @@
-/* eslint-disable react/jsx-wrap-multilines */
-import React, { PureComponent, useMemo, useRef, useState } from 'react';
-import { connect } from 'react-redux';
-import { View, ActivityIndicator, Text } from 'react-native';
-import { injectIntl, useIntl } from 'react-intl';
+import React, { useMemo, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { ActivityIndicator, SectionList, Text, View, RefreshControl } from 'react-native';
 // Constants
 
 // Components
-import { RefreshControl, FlatList } from 'react-native-gesture-handler';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { ContainerHeader } from '../../containerHeader';
-import { FilterBar } from '../../filterBar';
 import { NotificationLine } from '../..';
 import { ListPlaceHolder } from '../../basicUIElements';
+import { ContainerHeader } from '../../containerHeader';
+import { FilterBar } from '../../filterBar';
 
 // Utils
-import { isToday, isYesterday, isThisWeek, isLastWeek, isThisMonth } from '../../../utils/time';
+import { isLastWeek, isThisMonth, isThisWeek } from '../../../utils/time';
 
 // Styles
-import styles from './notificationStyles';
 import globalStyles from '../../../globalStyles';
 import { useAppSelector } from '../../../hooks';
-
+import styles from './notificationStyles';
 
 const FILTERS = [
   { key: 'activities', value: 'ALL' },
   { key: 'replies', value: 'REPLIES' },
   { key: 'mentions', value: 'MENTIONS' },
-]
-
+];
 
 interface Props {
   notifications: any[];
@@ -50,22 +45,21 @@ const NotificationView = ({
   readAllNotification,
   getActivities,
   changeSelectedFilter,
-  navigateToNotificationRoute
-
+  navigateToNotificationRoute,
 }: Props) => {
   const intl = useIntl();
 
   const listRef = useRef(null);
 
-  const isDarkTheme = useAppSelector(state => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-
-  const _notifications = useMemo(() => _getSectionedNotifications(notifications, intl), [notifications])
-
+  const _notifications = useMemo(
+    () => _getSectionedNotifications(notifications, intl),
+    [notifications],
+  );
 
   const _handleOnDropdownSelect = async (index) => {
-
     const _selectedFilter = FILTERS[index].key;
 
     setSelectedIndex(index);
@@ -90,9 +84,9 @@ const NotificationView = ({
 
   const _renderItem = ({ item }) => (
     <>
-      {item.sectionTitle && (
+      {/* {item.sectionTitle && (
         <ContainerHeader hasSeperator={!item.firstSection} isBoldTitle title={item.sectionTitle} />
-      )}
+      )} */}
       <NotificationLine
         notification={item}
         handleOnPressNotification={navigateToNotificationRoute}
@@ -103,7 +97,6 @@ const NotificationView = ({
       />
     </>
   );
-
 
   return (
     <View style={styles.container}>
@@ -120,9 +113,10 @@ const NotificationView = ({
         onRightIconPress={readAllNotification}
       />
 
-      <FlatList
+      <SectionList
         ref={listRef}
-        data={_notifications}
+        sections={_notifications}
+        // data={_notifications}
         keyExtractor={(item, index) => `${item.id}-${index}`}
         onEndReached={() => getActivities(true)}
         onEndReachedThreshold={0.3}
@@ -148,18 +142,15 @@ const NotificationView = ({
           />
         }
         renderItem={_renderItem}
+        renderSectionHeader={_renderSectionHeader}
       />
     </View>
   );
-
-}
-
+};
 
 export default NotificationView;
 
-
 const _getSectionedNotifications = (notifications: any[], intl: any) => {
-
   if (!notifications && notifications.length < 1) {
     return null;
   }
@@ -203,30 +194,36 @@ const _getSectionedNotifications = (notifications: any[], intl: any) => {
     },
   ];
 
-  let sectionIndex = -1;
-  return notifications.map((item) => {
-
+  // let sectionIndex = -1;
+  notifications.forEach((item) => {
     const timeIndex = _getTimeListIndex(item.gk);
-    if (timeIndex !== sectionIndex && timeIndex > sectionIndex) {
-      if (sectionIndex === -1) {
-        item.firstSection = true;
-      }
-      item.sectionTitle = notificationArray[timeIndex].title;
-      sectionIndex = timeIndex;
-    }
-    return item;
+    notificationArray[timeIndex].data.push(item);
+
+    // if (timeIndex !== sectionIndex && timeIndex > sectionIndex) {
+    //   if (sectionIndex === -1) {
+    //     item.firstSection = true;
+    //   }
+    //   // item.sectionTitle = notificationArray[timeIndex].title;
+    //   notificationArray[timeIndex].data.push(item);
+    //   sectionIndex = timeIndex;
+    // }
+    // return item;
   });
 
-  // return notificationArray.filter((item) => item.data.length > 0).map((item, index)=>{item.index = index; return item});
+  return notificationArray
+    .filter((item) => item.data.length > 0)
+    .map((item, index) => {
+      item.index = index;
+      return item;
+    });
 };
 
-
 const _getTimeListIndex = (gk: string) => {
-  if (gk === "Recent" || gk.match(/\d+\s*hours?/)) {
+  if (gk === 'Recent' || gk.match(/\d+\s*hours?/)) {
     return 0;
   }
 
-  if (gk === "Yesterday") {
+  if (gk === 'Yesterday') {
     return 1;
   }
 
