@@ -50,6 +50,8 @@ const PostComments = forwardRef(
       handleOnCommentsLoaded,
       handleOnReplyPress,
       onUpvotePress,
+      refreshing,
+      setRefreshing,
     },
     ref,
   ) => {
@@ -71,8 +73,6 @@ const PostComments = forwardRef(
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
     const [headerHeight, setHeaderHeight] = useState(0);
-
-    const [refreshing, setRefreshing] = useState(false);
 
     const sortedSections = useMemo(
       () => sortComments(selectedFilter, discussionQuery.sectionedData),
