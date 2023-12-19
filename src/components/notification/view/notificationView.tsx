@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useMemo, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { View, ActivityIndicator, Text } from 'react-native';
-import { injectIntl } from 'react-intl';
+import { injectIntl, useIntl } from 'react-intl';
 // Constants
 
 // Components
@@ -19,66 +19,61 @@ import { isToday, isYesterday, isThisWeek, isLastWeek, isThisMonth } from '../..
 // Styles
 import styles from './notificationStyles';
 import globalStyles from '../../../globalStyles';
+import { useAppSelector } from '../../../hooks';
 
-class NotificationView extends PureComponent {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
-  listRef = null;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      // TODO: Remove filters from local state.
-      filters: [
-        { key: 'activities', value: 'ALL' },
-        { key: 'replies', value: 'REPLIES' },
-        { key: 'mentions', value: 'MENTIONS' },
-        // { key: 'reblogs', value: 'REBLOGS' },
-      ],
-      selectedIndex: 0,
-    };
-    this.listRef = React.createRef();
-  }
+const FILTERS = [
+  { key: 'activities', value: 'ALL' },
+  { key: 'replies', value: 'REPLIES' },
+  { key: 'mentions', value: 'MENTIONS' },
+]
 
-  // Component Life Cycles
 
-  // Component Functions
+interface Props {
+  notifications: any[];
+  isLoading: boolean;
+  isNotificationRefreshing: boolean;
+  globalProps: any;
+  handleOnUserPress: () => void;
+  readAllNotification: () => void;
+  getActivities: () => void;
+  changeSelectedFilter: () => void;
+  navigateToNotificationRoute: () => void;
+}
 
-  _handleOnDropdownSelect = async (index) => {
-    const { changeSelectedFilter } = this.props;
-    const { filters, contentOffset } = this.state;
+const NotificationView = ({
+  notifications,
+  isLoading,
+  isNotificationRefreshing,
+  globalProps,
+  handleOnUserPress,
+  readAllNotification,
+  getActivities,
+  changeSelectedFilter,
+  navigateToNotificationRoute
 
-    const _selectedFilter = filters[index].key;
+}: Props) => {
+  const intl = useIntl();
 
-    this.setState({ selectedIndex: index, contentOffset });
+  const listRef = useRef(null);
+
+  const isDarkTheme = useAppSelector(state => state.application.isDarkTheme);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+
+  const _notifications = useMemo(() => _getSectionedNotifications(notifications, intl), [notifications])
+
+
+  const _handleOnDropdownSelect = async (index) => {
+
+    const _selectedFilter = FILTERS[index].key;
+
+    setSelectedIndex(index);
     await changeSelectedFilter(_selectedFilter, index);
-    this.listRef.current?.scrollToOffset({ x: 0, y: 0, animated: false });
+    listRef.current?.scrollToOffset({ x: 0, y: 0, animated: false });
   };
 
-  _renderList = (data) => {
-    const { navigateToNotificationRoute, globalProps } = this.props;
-
-    return (
-      <FlatList
-        data={data}
-        initialNumToRender={data && data.length}
-        maxToRenderPerBatch={data && data.length}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <NotificationLine
-            notification={item}
-            handleOnPressNotification={navigateToNotificationRoute}
-            globalProps={globalProps}
-          />
-        )}
-      />
-    );
-  };
-
-  _renderFooterLoading = () => {
-    const { isLoading } = this.props;
+  const _renderFooterLoading = () => {
     if (isLoading) {
       return (
         <View style={styles.flatlistFooter}>
@@ -89,177 +84,163 @@ class NotificationView extends PureComponent {
     return null;
   };
 
-  _getNotificationsArrays = () => {
-    const { notifications, intl } = this.props;
-
-    if (!notifications && notifications.length < 1) {
-      return null;
-    }
-
-    const notificationArray = [
-      {
-        title: intl.formatMessage({
-          id: 'notification.recent',
-        }),
-        data: [],
-      },
-      {
-        title: intl.formatMessage({
-          id: 'notification.yesterday',
-        }),
-        data: [],
-      },
-      {
-        title: intl.formatMessage({
-          id: 'notification.this_week',
-        }),
-        data: [],
-      },
-      {
-        title: intl.formatMessage({
-          id: 'notification.last_week',
-        }),
-        data: [],
-      },
-      {
-        title: intl.formatMessage({
-          id: 'notification.this_month',
-        }),
-        data: [],
-      },
-      {
-        title: intl.formatMessage({
-          id: 'notification.older_then',
-        }),
-        data: [],
-      },
-    ];
-
-    let sectionIndex = -1;
-    return notifications.map((item) => {
-      const timeIndex = this._getTimeListIndex(item.timestamp);
-      if (timeIndex !== sectionIndex && timeIndex > sectionIndex) {
-        if (sectionIndex === -1) {
-          item.firstSection = true;
-        }
-        item.sectionTitle = notificationArray[timeIndex].title;
-        sectionIndex = timeIndex;
-      }
-      return item;
-    });
-
-    // return notificationArray.filter((item) => item.data.length > 0).map((item, index)=>{item.index = index; return item});
-  };
-
-  _getTimeListIndex = (timestamp) => {
-    if (isToday(timestamp)) {
-      return 0;
-    }
-
-    if (isYesterday(timestamp)) {
-      return 1;
-    }
-
-    if (isThisWeek(timestamp)) {
-      return 2;
-    }
-
-    if (isLastWeek(timestamp)) {
-      return 3;
-    }
-
-    if (isThisMonth(timestamp)) {
-      return 4;
-    }
-
-    return 5;
-  };
-
-  _getActivityIndicator = () => (
-    <View style={styles.loading}>
-      <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} animating size="large" />
-    </View>
-  );
-
-  _renderSectionHeader = ({ section: { title, index } }) => (
+  const _renderSectionHeader = ({ section: { title, index } }) => (
     <ContainerHeader hasSeperator={index !== 0} isBoldTitle title={title} key={title} />
   );
 
-  _renderItem = ({ item }) => (
+  const _renderItem = ({ item }) => (
     <>
       {item.sectionTitle && (
         <ContainerHeader hasSeperator={!item.firstSection} isBoldTitle title={item.sectionTitle} />
       )}
       <NotificationLine
         notification={item}
-        handleOnPressNotification={this.props.navigateToNotificationRoute}
+        handleOnPressNotification={navigateToNotificationRoute}
         handleOnUserPress={() => {
-          this.props.handleOnUserPress(item.source);
+          handleOnUserPress(item.source);
         }}
-        globalProps={this.props.globalProps}
+        globalProps={globalProps}
       />
     </>
   );
 
-  render() {
-    const { isDarkTheme } = this.props;
 
-    const { readAllNotification, getActivities, isNotificationRefreshing, intl } = this.props;
-    const { filters, selectedIndex } = this.state;
-    const _notifications = this._getNotificationsArrays();
+  return (
+    <View style={styles.container}>
+      <FilterBar
+        dropdownIconName="arrow-drop-down"
+        options={FILTERS.map((item) =>
+          intl.formatMessage({ id: `notification.${item.key}` }).toUpperCase(),
+        )}
+        defaultText="ALL"
+        onDropdownSelect={_handleOnDropdownSelect}
+        rightIconName="playlist-add-check"
+        rightIconType="MaterialIcons"
+        selectedOptionIndex={selectedIndex}
+        onRightIconPress={readAllNotification}
+      />
 
-    return (
-      <View style={styles.container}>
-        <FilterBar
-          dropdownIconName="arrow-drop-down"
-          options={filters.map((item) =>
-            intl.formatMessage({ id: `notification.${item.key}` }).toUpperCase(),
-          )}
-          defaultText="ALL"
-          onDropdownSelect={this._handleOnDropdownSelect}
-          rightIconName="playlist-add-check"
-          rightIconType="MaterialIcons"
-          selectedOptionIndex={selectedIndex}
-          onRightIconPress={readAllNotification}
-        />
+      <FlatList
+        ref={listRef}
+        data={_notifications}
+        keyExtractor={(item, index) => `${item.id}-${index}`}
+        onEndReached={() => getActivities(true)}
+        onEndReachedThreshold={0.3}
+        ListFooterComponent={_renderFooterLoading}
+        ListEmptyComponent={
+          isNotificationRefreshing ? (
+            <ListPlaceHolder />
+          ) : (
+            <Text style={globalStyles.hintText}>
+              {intl.formatMessage({ id: 'notification.noactivity' })}
+            </Text>
+          )
+        }
+        contentContainerStyle={styles.listContentContainer}
+        refreshControl={
+          <RefreshControl
+            refreshing={isNotificationRefreshing}
+            onRefresh={() => getActivities()}
+            progressBackgroundColor="#357CE6"
+            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+            titleColor="#fff"
+            colors={['#fff']}
+          />
+        }
+        renderItem={_renderItem}
+      />
+    </View>
+  );
 
-        <FlatList
-          ref={this.listRef}
-          data={_notifications}
-          keyExtractor={(item, index) => `${item.id}-${index}`}
-          onEndReached={() => getActivities(true)}
-          onEndReachedThreshold={0.3}
-          ListFooterComponent={this._renderFooterLoading}
-          ListEmptyComponent={
-            isNotificationRefreshing ? (
-              <ListPlaceHolder />
-            ) : (
-              <Text style={globalStyles.hintText}>
-                {intl.formatMessage({ id: 'notification.noactivity' })}
-              </Text>
-            )
-          }
-          contentContainerStyle={styles.listContentContainer}
-          refreshControl={
-            <RefreshControl
-              refreshing={isNotificationRefreshing}
-              onRefresh={() => getActivities()}
-              progressBackgroundColor="#357CE6"
-              tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-              titleColor="#fff"
-              colors={['#fff']}
-            />
-          }
-          renderItem={this._renderItem}
-        />
-      </View>
-    );
-  }
 }
-const mapStateToProps = (state: { application: { isDarkTheme: any } }) => ({
-  isDarkTheme: state.application.isDarkTheme,
-});
 
-export default connect(mapStateToProps)(injectIntl(NotificationView));
-// export default injectIntl(NotificationView);
-/* eslint-enable */
+
+export default NotificationView;
+
+
+const _getSectionedNotifications = (notifications: any[], intl: any) => {
+
+  if (!notifications && notifications.length < 1) {
+    return null;
+  }
+
+  const notificationArray = [
+    {
+      title: intl.formatMessage({
+        id: 'notification.recent',
+      }),
+      data: [],
+    },
+    {
+      title: intl.formatMessage({
+        id: 'notification.yesterday',
+      }),
+      data: [],
+    },
+    {
+      title: intl.formatMessage({
+        id: 'notification.this_week',
+      }),
+      data: [],
+    },
+    {
+      title: intl.formatMessage({
+        id: 'notification.last_week',
+      }),
+      data: [],
+    },
+    {
+      title: intl.formatMessage({
+        id: 'notification.this_month',
+      }),
+      data: [],
+    },
+    {
+      title: intl.formatMessage({
+        id: 'notification.older_then',
+      }),
+      data: [],
+    },
+  ];
+
+  let sectionIndex = -1;
+  return notifications.map((item) => {
+
+    const timeIndex = _getTimeListIndex(item.gk);
+    if (timeIndex !== sectionIndex && timeIndex > sectionIndex) {
+      if (sectionIndex === -1) {
+        item.firstSection = true;
+      }
+      item.sectionTitle = notificationArray[timeIndex].title;
+      sectionIndex = timeIndex;
+    }
+    return item;
+  });
+
+  // return notificationArray.filter((item) => item.data.length > 0).map((item, index)=>{item.index = index; return item});
+};
+
+
+const _getTimeListIndex = (gk: string) => {
+  if (gk === "Recent" || gk.match(/\d+\s*hours?/)) {
+    return 0;
+  }
+
+  if (gk === "Yesterday") {
+    return 1;
+  }
+
+  if (isThisWeek(gk)) {
+    return 2;
+  }
+
+  if (isLastWeek(gk)) {
+    return 3;
+  }
+
+  if (isThisMonth(gk)) {
+    return 4;
+  }
+
+  return 5;
+};
