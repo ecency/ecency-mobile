@@ -1,4 +1,4 @@
-import { Keyboard, View, ViewStyle } from 'react-native';
+import { Alert, Keyboard, View, ViewStyle } from 'react-native';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   FlatList,
@@ -7,7 +7,7 @@ import {
   PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
-import Animated, { EasingNode, Extrapolate } from 'react-native-reanimated';
+import Animated, { Easing, Extrapolation, interpolate, runOnJS, useAnimatedGestureHandler, useSharedValue, withTiming } from 'react-native-reanimated';
 import { IconButton, UploadsGalleryModal } from '../..';
 import styles from '../styles/editorToolbarStyles';
 import { useAppSelector } from '../../../hooks';
@@ -43,9 +43,10 @@ export const EditorToolbar = ({
 }: Props) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
-  const translateY = useRef(new Animated.Value(200));
   const shouldHideExtension = useRef(false);
   const extensionHeight = useRef(0);
+
+  const translateY = useSharedValue(200);
 
   const [isExtensionVisible, setIsExtensionVisible] = useState(false);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -104,33 +105,45 @@ export const EditorToolbar = ({
   };
 
   // handles extension closing
-  const _onGestureEvent = Animated.event(
-    [
-      {
-        nativeEvent: {
-          translationY: translateY.current,
-        },
-      },
-    ],
-    {
-      useNativeDriver: false,
-    },
-  );
+  // const _onGestureEvent = Animated.event(
+  //   [
+  //     {
+  //       nativeEvent: {
+  //         translationY: translateY,
+  //       },
+  //     },
+  //   ],
+  //   {
+  //     useNativeDriver: false,
+  //   },
+  // );
 
-  const consY = useMemo(
-    () =>
-      translateY.current.interpolate({
-        inputRange: [0, 500],
-        outputRange: [0, 500],
-        extrapolate: Extrapolate.CLAMP,
-      }),
-    [translateY.current],
-  );
+  // const _onGestureEvent = useAnimatedGestureHandler({
+  //   onStart: (_, ctx) => {
+  //     ctx.startX = x.value;
+  //   },
+  //   onActive: (event, ctx) => {
+  //     x.value = ctx.startX + event.translationX;
+  //   },
+  //   onEnd: (_) => {
+  //     x.value = withSpring(0);
+  //   },
+  // });
+
+  // const consY = useMemo(
+  //   () =>
+  //     interpolate(translateY.value,
+  //       [0, 500],
+  //        [0, 500],
+  //       Extrapolation.CLAMP,
+  //     ),
+  //   [translateY],
+  // );
 
   const _animatedStyle = {
     transform: [
       {
-        translateY: consY,
+        translateY: translateY,
       },
     ],
   };
@@ -148,71 +161,77 @@ export const EditorToolbar = ({
 
   const _revealExtension = () => {
     if (!isExtensionVisible) {
-      translateY.current.setValue(200);
+      translateY.value = 200
     }
 
     setIsExtensionVisible(true);
 
-    Animated.timing(translateY.current, {
+    translateY.value = withTiming(0, {
       duration: 200,
-      toValue: 0,
-      easing: EasingNode.inOut(EasingNode.ease),
-    }).start();
+      easing: Easing.inOut(Easing.ease)
+    })
   };
 
+
   const _hideExtension = () => {
-    Animated.timing(translateY.current, {
-      toValue: extensionHeight.current,
-      duration: 200,
-      easing: EasingNode.inOut(EasingNode.ease),
-    }).start(() => {
-      shouldHideExtension.current = false;
-      setIsExtensionVisible(false);
+
+    const _onComplete = () => {
+      setIsExtensionVisible(false)
       if (uploadsGalleryModalRef.current) {
         uploadsGalleryModalRef.current.toggleModal(false);
       }
-    });
-  };
-
-  const _onPanEnded = () => {
-    if (shouldHideExtension.current) {
-      _hideExtension();
-    } else {
-      _revealExtension();
     }
+
+    translateY.value = withTiming(extensionHeight.current, {
+      duration: 200,
+      easing: Easing.inOut(Easing.ease),
+    }, (success) => {
+      if (success) {
+        runOnJS(_onComplete)();
+      }
+    })
   };
+  
+
+  // const _onPanEnded = () => {
+  //   if (shouldHideExtension.current) {
+  //     _hideExtension();
+  //   } else {
+  //     _revealExtension();
+  //   }
+  // };
 
   const _renderExtension = () => {
     return (
-      <PanGestureHandler
-        onGestureEvent={_onGestureEvent}
-        onHandlerStateChange={_onPanHandlerStateChange}
-        onEnded={_onPanEnded}
-      >
-        <Animated.View style={_animatedStyle}>
-          <View
-            onLayout={(e) => {
-              extensionHeight.current = e.nativeEvent.layout.height;
-              console.log('extension height', extensionHeight.current);
-            }}
-            style={styles.dropShadow}
-          >
-            {isExtensionVisible && <View style={styles.indicator} />}
-            <UploadsGalleryModal
-              draftId={draftId}
-              ref={uploadsGalleryModalRef}
-              postBody={postBody}
-              isPreviewActive={isPreviewActive}
-              paramFiles={paramFiles}
-              isEditing={isEditing}
-              username={currentAccount.username}
-              hideToolbarExtension={_hideExtension}
-              handleMediaInsert={handleMediaInsert}
-              setIsUploading={setIsUploading}
-            />
-          </View>
-        </Animated.View>
-      </PanGestureHandler>
+      // <PanGestureHandler
+      //   onGestureEvent={_onGestureEvent}
+      //   onHandlerStateChange={_onPanHandlerStateChange}
+      //   onEnded={_onPanEnded}
+      // >
+      <Animated.View style={_animatedStyle}>
+        <View
+          onLayout={(e) => {
+            extensionHeight.current = e.nativeEvent.layout.height;
+            console.log('extension height', extensionHeight.current);
+          }}
+          style={styles.dropShadow}
+        >
+          {isExtensionVisible && <View style={styles.indicator} />}
+          <UploadsGalleryModal
+            draftId={draftId}
+            ref={uploadsGalleryModalRef}
+            postBody={postBody}
+            isPreviewActive={isPreviewActive}
+            paramFiles={paramFiles}
+            isEditing={isEditing}
+            username={currentAccount.username}
+            hideToolbarExtension={_hideExtension}
+            handleMediaInsert={handleMediaInsert}
+            setIsUploading={setIsUploading}
+          />
+        </View>
+      </Animated.View>
+      // </PanGestureHandler>
     );
   };
 
