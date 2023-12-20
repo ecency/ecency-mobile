@@ -70,6 +70,19 @@ index 0000000..361f5fb
 +++ b/node_modules/react-native/scripts/.packager.env
 @@ -0,0 +1 @@
 +export RCT_METRO_PORT=8081
+diff --git a/node_modules/react-native/scripts/cocoapods/codegen_utils.rb b/node_modules/react-native/scripts/cocoapods/codegen_utils.rb
+index 406e993..2c64fa5 100644
+--- a/node_modules/react-native/scripts/cocoapods/codegen_utils.rb
++++ b/node_modules/react-native/scripts/cocoapods/codegen_utils.rb
+@@ -84,7 +84,7 @@ class CodegenUtils
+           'source' => { :git => '' },
+           'header_mappings_dir' => './',
+           'platforms' => {
+-            'ios' => '11.0',
++            'ios' => '12.0',
+           },
+           'source_files' => "**/*.{h,mm,cpp}",
+           'pod_target_xcconfig' => { "HEADER_SEARCH_PATHS" =>
 diff --git a/node_modules/react-native/sdks/hermes/hermes-engine.podspec b/node_modules/react-native/sdks/hermes/hermes-engine.podspec
 new file mode 100644
 index 0000000..8d331e0
