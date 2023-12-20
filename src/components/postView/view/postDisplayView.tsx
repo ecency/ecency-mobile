@@ -324,6 +324,8 @@ const PostDisplayView = ({
           isPostLoading={postBodyLoading}
           postContentView={_postContentView}
           onRefresh={onRefresh}
+          refreshing={refreshing}
+          setRefreshing={setRefreshing}
           onUpvotePress={_onUpvotePress}
         />
       </View>
