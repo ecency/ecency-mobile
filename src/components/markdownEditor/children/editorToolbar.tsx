@@ -1,17 +1,18 @@
-import { Alert, Keyboard, View, ViewStyle } from 'react-native';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Keyboard, View, ViewStyle } from 'react-native';
 import {
   FlatList,
-  HandlerStateChangeEvent,
-  PanGestureHandler,
+  Gesture,
+  GestureDetector,
+  GestureStateChangeEvent,
   PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
-import Animated, { Easing, Extrapolation, interpolate, runOnJS, useAnimatedGestureHandler, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, { Easing, clamp, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { IconButton, UploadsGalleryModal } from '../..';
-import styles from '../styles/editorToolbarStyles';
 import { useAppSelector } from '../../../hooks';
 import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
+import styles from '../styles/editorToolbarStyles';
 import Formats from './formats/formats';
 
 type Props = {
@@ -43,7 +44,6 @@ export const EditorToolbar = ({
 }: Props) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
-  const shouldHideExtension = useRef(false);
   const extensionHeight = useRef(0);
 
   const translateY = useSharedValue(200);
@@ -104,60 +104,33 @@ export const EditorToolbar = ({
     _showUploadsExtension(Modes.MODE_VIDEO);
   };
 
-  // handles extension closing
-  // const _onGestureEvent = Animated.event(
-  //   [
-  //     {
-  //       nativeEvent: {
-  //         translationY: translateY,
-  //       },
-  //     },
-  //   ],
-  //   {
-  //     useNativeDriver: false,
-  //   },
-  // );
 
-  // const _onGestureEvent = useAnimatedGestureHandler({
-  //   onStart: (_, ctx) => {
-  //     ctx.startX = x.value;
-  //   },
-  //   onActive: (event, ctx) => {
-  //     x.value = ctx.startX + event.translationX;
-  //   },
-  //   onEnd: (_) => {
-  //     x.value = withSpring(0);
-  //   },
-  // });
+  const _onPanEnd = (e: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
+    console.log('finalize', e.velocityY, e.translationY)
+    const _shouldHide = e.velocityY > 300 || e.translationY > extensionHeight.current / 2
+    if (_shouldHide) {
+      _hideExtension();
+    } else {
+      _revealExtension();
+    }
+  }
 
-  // const consY = useMemo(
-  //   () =>
-  //     interpolate(translateY.value,
-  //       [0, 500],
-  //        [0, 500],
-  //       Extrapolation.CLAMP,
-  //     ),
-  //   [translateY],
-  // );
+  const _gestureHandler = Gesture.Pan()
+    .onChange((e) => {
+      translateY.value = e.translationY;
+    })
+    .onFinalize((e) => {
+      runOnJS(_onPanEnd)(e)
+    });
 
-  const _animatedStyle = {
-    transform: [
-      {
-        translateY: translateY,
-      },
-    ],
-  };
 
-  const _onPanHandlerStateChange = (e: HandlerStateChangeEvent<PanGestureHandlerEventPayload>) => {
-    console.log(
-      'handler state change',
-      e.nativeEvent.velocityY,
-      e.nativeEvent.velocityY > 300,
-      e.nativeEvent.translationY,
-    );
-    shouldHideExtension.current =
-      e.nativeEvent.velocityY > 300 || e.nativeEvent.translationY > extensionHeight.current / 2;
-  };
+  const _animatedStyle = useAnimatedStyle(() => {
+    // Clamp the interpolated value to a specific range
+    return {
+      transform: [{ translateY: clamp(translateY.value, 0, 500) }],
+    };
+  });
+
 
   const _revealExtension = () => {
     if (!isExtensionVisible) {
@@ -191,47 +164,35 @@ export const EditorToolbar = ({
       }
     })
   };
-  
 
-  // const _onPanEnded = () => {
-  //   if (shouldHideExtension.current) {
-  //     _hideExtension();
-  //   } else {
-  //     _revealExtension();
-  //   }
-  // };
 
   const _renderExtension = () => {
     return (
-      // <PanGestureHandler
-      //   onGestureEvent={_onGestureEvent}
-      //   onHandlerStateChange={_onPanHandlerStateChange}
-      //   onEnded={_onPanEnded}
-      // >
-      <Animated.View style={_animatedStyle}>
-        <View
-          onLayout={(e) => {
-            extensionHeight.current = e.nativeEvent.layout.height;
-            console.log('extension height', extensionHeight.current);
-          }}
-          style={styles.dropShadow}
-        >
-          {isExtensionVisible && <View style={styles.indicator} />}
-          <UploadsGalleryModal
-            draftId={draftId}
-            ref={uploadsGalleryModalRef}
-            postBody={postBody}
-            isPreviewActive={isPreviewActive}
-            paramFiles={paramFiles}
-            isEditing={isEditing}
-            username={currentAccount.username}
-            hideToolbarExtension={_hideExtension}
-            handleMediaInsert={handleMediaInsert}
-            setIsUploading={setIsUploading}
-          />
-        </View>
-      </Animated.View>
-      // </PanGestureHandler>
+      <GestureDetector gesture={_gestureHandler}>
+        <Animated.View style={_animatedStyle}>
+          <View
+            onLayout={(e) => {
+              extensionHeight.current = e.nativeEvent.layout.height;
+              console.log('extension height', extensionHeight.current);
+            }}
+            style={styles.dropShadow}
+          >
+            {isExtensionVisible && <View style={styles.indicator} />}
+            <UploadsGalleryModal
+              draftId={draftId}
+              ref={uploadsGalleryModalRef}
+              postBody={postBody}
+              isPreviewActive={isPreviewActive}
+              paramFiles={paramFiles}
+              isEditing={isEditing}
+              username={currentAccount.username}
+              hideToolbarExtension={_hideExtension}
+              handleMediaInsert={handleMediaInsert}
+              setIsUploading={setIsUploading}
+            />
+          </View>
+        </Animated.View>
+      </GestureDetector>
     );
   };
 
