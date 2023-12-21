@@ -8,7 +8,14 @@ import {
   PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
-import Animated, { Easing, clamp, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, {
+  Easing,
+  clamp,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { IconButton, UploadsGalleryModal } from '../..';
 import { useAppSelector } from '../../../hooks';
 import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
@@ -104,25 +111,23 @@ export const EditorToolbar = ({
     _showUploadsExtension(Modes.MODE_VIDEO);
   };
 
-
   const _onPanEnd = (e: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
-    console.log('finalize', e.velocityY, e.translationY)
-    const _shouldHide = e.velocityY > 300 || e.translationY > extensionHeight.current / 2
+    console.log('finalize', e.velocityY, e.translationY);
+    const _shouldHide = e.velocityY > 300 || e.translationY > extensionHeight.current / 2;
     if (_shouldHide) {
       _hideExtension();
     } else {
       _revealExtension();
     }
-  }
+  };
 
   const _gestureHandler = Gesture.Pan()
     .onChange((e) => {
       translateY.value = e.translationY;
     })
     .onFinalize((e) => {
-      runOnJS(_onPanEnd)(e)
+      runOnJS(_onPanEnd)(e);
     });
-
 
   const _animatedStyle = useAnimatedStyle(() => {
     // Clamp the interpolated value to a specific range
@@ -131,40 +136,40 @@ export const EditorToolbar = ({
     };
   });
 
-
   const _revealExtension = () => {
     if (!isExtensionVisible) {
-      translateY.value = 200
+      translateY.value = 200;
     }
 
     setIsExtensionVisible(true);
 
     translateY.value = withTiming(0, {
       duration: 200,
-      easing: Easing.inOut(Easing.ease)
-    })
+      easing: Easing.inOut(Easing.ease),
+    });
   };
 
-
   const _hideExtension = () => {
-
     const _onComplete = () => {
-      setIsExtensionVisible(false)
+      setIsExtensionVisible(false);
       if (uploadsGalleryModalRef.current) {
         uploadsGalleryModalRef.current.toggleModal(false);
       }
-    }
+    };
 
-    translateY.value = withTiming(extensionHeight.current, {
-      duration: 200,
-      easing: Easing.inOut(Easing.ease),
-    }, (success) => {
-      if (success) {
-        runOnJS(_onComplete)();
-      }
-    })
+    translateY.value = withTiming(
+      extensionHeight.current,
+      {
+        duration: 200,
+        easing: Easing.inOut(Easing.ease),
+      },
+      (success) => {
+        if (success) {
+          runOnJS(_onComplete)();
+        }
+      },
+    );
   };
-
 
   const _renderExtension = () => {
     return (
