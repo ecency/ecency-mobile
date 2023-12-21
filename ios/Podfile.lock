@@ -483,12 +483,8 @@ PODS:
     - React-Core
   - react-native-restart (0.0.24):
     - React-Core
-  - react-native-safe-area-context (4.5.0):
-    - RCT-Folly
-    - RCTRequired
-    - RCTTypeSafety
+  - react-native-safe-area-context (4.8.1):
     - React-Core
-    - ReactCommon/turbomodule/core
   - react-native-udp (4.1.7):
     - CocoaAsyncSocket
     - React-Core
@@ -623,11 +619,12 @@ PODS:
     - React
   - RNPermissions (3.7.3):
     - React-Core
-  - RNReanimated (2.14.4):
+  - RNReanimated (3.6.1):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
     - glog
+    - hermes-engine
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
@@ -637,6 +634,7 @@ PODS:
     - React-Core/RCTWebSocket
     - React-CoreModules
     - React-cxxreact
+    - React-hermes
     - React-jsi
     - React-jsiexecutor
     - React-jsinspector
@@ -650,7 +648,7 @@ PODS:
     - React-RCTText
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.14.0):
+  - RNScreens (3.29.0):
     - React-Core
     - React-RCTImage
   - RNSVG (12.5.1):
@@ -1057,7 +1055,7 @@ SPEC CHECKSUMS:
   React: ec6efc54c0fbb7c2e7147624c78065be80753082
   React-bridging: 7dd96a58f896a1a7422a491d17ec644e87277953
   React-callinvoker: f348d204f7bbe6020d4fd0dd57303f5b48a28003
-  React-Codegen: 73350192a09163a640c23baf795464474be0d793
+  React-Codegen: 4d4cbbc69c4c934243dd61147f65b987259a1358
   React-Core: c57b11fd672421049038ef36881372da2605a0cd
   React-CoreModules: 2d91acffc3924adac6b508e3fc44121aa719ec40
   React-cxxreact: ee2ab13a1db086dc152421aa42dc94cc68f412a1
@@ -1082,7 +1080,7 @@ SPEC CHECKSUMS:
   react-native-receive-sharing-intent: 62ab28c50e6ae56d32b9e841d7452091312a0bc7
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
   react-native-restart: 45c8dca02491980f2958595333cbccd6877cb57e
-  react-native-safe-area-context: 39c2d8be3328df5d437ac1700f4f3a4f75716acc
+  react-native-safe-area-context: cd1169d797a2ef722a00bfc5af10748d5b6c94f9
   react-native-udp: df79c3cb72c4e71240cd3ce4687bfb8a137140d5
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
   react-native-video: c26780b224543c62d5e1b2a7244a5cd1b50e8253
@@ -1117,8 +1115,8 @@ SPEC CHECKSUMS:
   RNNotifee: 053c0ace9c73634709a0214fd9c436a5777a562f
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNPermissions: 314155ed6ce65237e7bd9fb6239219cce83228d3
-  RNReanimated: 6668b0587bebd4b15dd849b99e5a9c70fc12ed95
-  RNScreens: 4830eb40e0793b38849965cd27f4f3a7d7bc65c1
+  RNReanimated: c5a0074efffd21f4af324e86b19468758fe39fa2
+  RNScreens: fa9b582d85ae5d62c91c66003b5278458fed7aaa
   RNSVG: d7d7bc8229af3842c9cfc3a723c815a52cdd1105
   RNTusClient: b90393226531c118c4716a2b71128e3b9d9c77ee
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
