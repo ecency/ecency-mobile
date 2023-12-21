@@ -484,7 +484,9 @@ const PostOptionsModal = ({ pageType, isWave, postTranslationModalRef }: Props, 
         break;
       case 'translate':
         if (postTranslationModalRef && postTranslationModalRef?.current) {
-          await delay(1500);
+          // added delay here to let first sheet close it completly before showing translation sheet.
+          // can be improved by handling sheets with Sheet Manager
+          await delay(500);
           postTranslationModalRef?.current?.show(content);
         }
         break;
