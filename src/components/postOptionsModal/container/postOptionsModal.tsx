@@ -28,6 +28,7 @@ import { useUserActivityMutation } from '../../../providers/queries/pointQueries
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import styles from '../styles/postOptionsModal.styles';
+import { delay } from '../../../utils/editor';
 
 /*
  *            Props Name        Description                                     Value
@@ -38,9 +39,10 @@ import styles from '../styles/postOptionsModal.styles';
 interface Props {
   pageType?: string;
   isWave?: boolean;
+  postTranslationModalRef?: any;
 }
 
-const PostOptionsModal = ({ pageType, isWave }: Props, ref) => {
+const PostOptionsModal = ({ pageType, isWave, postTranslationModalRef }: Props, ref) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
@@ -134,6 +136,8 @@ const PostOptionsModal = ({ pageType, isWave }: Props, ref) => {
           return _canUpdateCommunityPin && !_isPinnedInCommunity;
         case 'unpin-community':
           return _canUpdateCommunityPin && _isPinnedInCommunity;
+        case 'translate':
+          return isWave;
         default:
           return true;
       }
@@ -477,6 +481,12 @@ const PostOptionsModal = ({ pageType, isWave }: Props, ref) => {
         break;
       case 'mute':
         !isOwnProfile && _muteUser();
+        break;
+      case 'translate':
+        if (postTranslationModalRef && postTranslationModalRef?.current) {
+          await delay(1500);
+          postTranslationModalRef?.current?.show(content);
+        }
         break;
       default:
         break;

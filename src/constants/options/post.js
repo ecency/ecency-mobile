@@ -13,4 +13,5 @@ export default [
   'bookmarks',
   'mute',
   'report',
+  'translate',
 ];
