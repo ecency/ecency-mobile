@@ -23,6 +23,7 @@ const PostTranslationModal = (props, ref) => {
   const [selectedTargetLang, setSelectedTargetLang] = useState(targetLang);
   const [isLoadingTranslation, setIsLoadingTranslation] = useState(false);
   const [isLoadingLangsList, setisLoadingLangsList] = useState(false);
+  const [translationError, setTranslationError] = useState('');
 
   useImperativeHandle(ref, () => ({
     show: (_content) => {
@@ -52,6 +53,7 @@ const PostTranslationModal = (props, ref) => {
   const translateText = async (text: string) => {
     try {
       setIsLoadingTranslation(true);
+      setTranslationError('');
       const res = await getTranslation(
         text,
         selectedSourceLang.code || srcLang.code,
@@ -64,6 +66,12 @@ const PostTranslationModal = (props, ref) => {
       setIsLoadingTranslation(false);
     } catch (error) {
       setIsLoadingTranslation(false);
+      setTranslationError(
+        error?.message ||
+          intl.formatMessage({
+            id: 'alert.error',
+          }),
+      );
       console.log('error : ', error);
     }
   };
@@ -92,6 +100,7 @@ const PostTranslationModal = (props, ref) => {
   const _handleOnSheetClose = () => {
     setContent('');
     setTranslatedPost('');
+    setTranslationError('');
     setSelectedSourceLang(srcLang);
     setSelectedTargetLang(targetLang);
   };
@@ -169,7 +178,7 @@ const PostTranslationModal = (props, ref) => {
               color={EStyleSheet.value('$iconColor')}
             />
           ) : (
-            <Text style={styles.translatedText}>{translatedPost}</Text>
+            <Text style={styles.translatedText}>{translationError || translatedPost}</Text>
           )}
         </View>
       </View>
