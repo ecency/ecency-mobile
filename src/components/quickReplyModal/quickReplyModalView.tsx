@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ActionSheet from 'react-native-actions-sheet';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import { View } from 'react-native';
 import { QuickReplyModalContent } from './quickReplyModalContent';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { hideReplyModal } from '../../redux/actions/uiAction';
@@ -50,9 +50,7 @@ const QuickReplyModal = () => {
           onClose={_onClose}
         />
       </ActionSheet>
-      {backdropVisible && (
-        <Animated.View exiting={FadeOut} entering={FadeIn} style={styles.backdrop} />
-      )}
+      {backdropVisible && <View style={styles.backdrop} />}
     </>
   );
 };
