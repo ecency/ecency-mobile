@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { ActivityIndicator, Alert, Keyboard, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { FlatList } from 'react-native-gesture-handler';
 import Animated, {
   default as AnimatedView,
-  Easing,
+  EasingNode,
   SlideInRight,
   SlideOutRight,
-  useSharedValue,
-  withTiming,
 } from 'react-native-reanimated';
 import { useDispatch } from 'react-redux';
 import { Icon, IconButton } from '../..';
@@ -59,7 +57,7 @@ const UploadsGalleryContent = ({
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [isExpandedMode, setIsExpandedMode] = useState(false);
 
-  const animatedHeight = useSharedValue(COMPACT_HEIGHT);
+  const animatedHeightRef = useRef(new Animated.Value(COMPACT_HEIGHT));
 
   const isDeleting =
     mode === Modes.MODE_IMAGE
@@ -302,12 +300,13 @@ const UploadsGalleryContent = ({
       color={EStyleSheet.value('$primaryBlack')}
       size={32}
       onPress={() => {
-        const _toValue = isExpandedMode ? COMPACT_HEIGHT : EXPANDED_HEIGHT;
-        animatedHeight.value = withTiming(_toValue, {
-          easing: Easing.inOut(Easing.cubic),
+        Animated.timing(animatedHeightRef.current, {
+          toValue: isExpandedMode ? COMPACT_HEIGHT : EXPANDED_HEIGHT,
+          duration: 300,
+          easing: EasingNode.inOut(EasingNode.cubic),
+        }).start(() => {
+          setIsExpandedMode(!isExpandedMode);
         });
-
-        setIsExpandedMode(!isExpandedMode);
       }}
     />
   );
@@ -352,7 +351,7 @@ const UploadsGalleryContent = ({
   };
 
   return (
-    <Animated.View style={{ ...styles.container, height: animatedHeight }}>
+    <Animated.View style={{ ...styles.container, height: animatedHeightRef.current }}>
       <FlatList
         key={isExpandedMode ? 'vertical_grid' : 'horizontal_list'}
         data={mediaUploads.slice(0, !isExpandedMode ? MAX_HORIZONTAL_THUMBS : undefined)}
