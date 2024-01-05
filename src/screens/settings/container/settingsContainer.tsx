@@ -63,7 +63,7 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 
 // Component
 import SettingsScreen from '../screen/settingsScreen';
-import { SERVER_LIST } from '../../../constants/options/api';
+// import { SERVER_LIST } from '../../../constants/options/api';
 import ROUTES from '../../../constants/routeNames';
 
 /*
@@ -71,6 +71,17 @@ import ROUTES from '../../../constants/routeNames';
  *@props -->  props name here   description here                                Value Type Here
  *
  */
+
+const SERVER_LIST = [
+  'https://rpc.ecency.com',
+  'https://api.hive.blog',
+  'https://api.deathwing.me',
+  'https://api.pharesim.me',
+  'https://anyx.io',
+  'https://rpc.ausbit.dev',
+  'https://api.openhive.network',
+  'https://api.hivekings.com',
+];
 
 class SettingsContainer extends Component {
   constructor(props) {
@@ -532,6 +543,7 @@ class SettingsContainer extends Component {
   render() {
     const { serverList, isNotificationMenuOpen, isLoading } = this.state as any;
     const { colorTheme } = this.props as any;
+    console.log('serverList, SERVER_LIST : ', serverList, SERVER_LIST);
 
     return (
       <SettingsScreen
