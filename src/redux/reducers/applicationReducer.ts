@@ -75,7 +75,7 @@ interface State {
 }
 
 const initialState: State = {
-  api: 'rpc.ecency.com',
+  api: 'https://rpc.ecency.com',
   currency: {
     currency: 'usd',
     currencyRate: 1,
