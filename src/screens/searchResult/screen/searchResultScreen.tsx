@@ -61,6 +61,7 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
     searchValue.startsWith('#') || searchValue.startsWith('@')
       ? searchValue.substring(1)
       : searchValue;
+  const isUsername = !!(searchValue.startsWith('#') || searchValue.startsWith('@'));
 
   const _renderTabbar = () => (
     <TabBar
@@ -88,7 +89,7 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
         tabLabel={intl.formatMessage({ id: 'search_result.people.title' })}
         style={styles.tabbarItem}
       >
-        <PeopleResults searchValue={searchValue} />
+        <PeopleResults searchValue={clippedSearchValue} isUsername={isUsername} />
       </View>
       <View
         tabLabel={intl.formatMessage({ id: 'search_result.topics.title' })}

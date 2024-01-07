@@ -11,7 +11,7 @@ import PeopleResultsContainer from '../container/peopleResultsContainer';
 
 import styles from './peopleResultsStyles';
 
-const PeopleResults = ({ searchValue }) => {
+const PeopleResults = ({ searchValue, isUsername }) => {
   const _renderEmptyContent = () => {
     return (
       <>
@@ -20,11 +20,38 @@ const PeopleResults = ({ searchValue }) => {
     );
   };
 
+  const _renderUsernames = (userNames, handleOnPress) => {
+    return searchValue && isUsername && userNames && userNames.length ? (
+      <FlatList
+        data={userNames}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item, index }) => (
+          <UserListItem
+            handleOnPress={() =>
+              handleOnPress({
+                name: item,
+                text: item,
+              })
+            }
+            index={index}
+            username={item}
+            text={`@${item}`}
+            isHasRightItem
+            isLoggedIn
+            searchValue={searchValue}
+            isLoadingRightAction={false}
+          />
+        )}
+        ListEmptyComponent={_renderEmptyContent}
+      />
+    ) : null;
+  };
+
   return (
-    <PeopleResultsContainer searchValue={searchValue}>
-      {({ users, handleOnPress, noResult }) => (
+    <PeopleResultsContainer searchValue={searchValue} isUsername={isUsername}>
+      {({ users, userNames, handleOnPress, noResult }) => (
         <SafeAreaView style={styles.container}>
-          {noResult ? (
+          {noResult && !userNames ? (
             <EmptyScreen />
           ) : (
             <FlatList
@@ -45,6 +72,7 @@ const PeopleResults = ({ searchValue }) => {
                 />
               )}
               ListEmptyComponent={_renderEmptyContent}
+              ListHeaderComponent={_renderUsernames(userNames, handleOnPress)}
             />
           )}
         </SafeAreaView>
