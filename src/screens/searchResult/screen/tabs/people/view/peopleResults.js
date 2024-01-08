@@ -51,7 +51,7 @@ const PeopleResults = ({ searchValue, isUsername }) => {
     <PeopleResultsContainer searchValue={searchValue} isUsername={isUsername}>
       {({ users, userNames, handleOnPress, noResult }) => (
         <SafeAreaView style={styles.container}>
-          {noResult && !userNames ? (
+          {noResult && !userNames.length ? (
             <EmptyScreen />
           ) : (
             <FlatList
