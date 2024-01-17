@@ -3,6 +3,7 @@ export default [
   'boost',
   'copy',
   'reply',
+  'translate',
   'reblog',
   'pin-blog',
   'unpin-blog',
@@ -13,5 +14,4 @@ export default [
   'bookmarks',
   'mute',
   'report',
-  'translate',
 ];
