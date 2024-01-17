@@ -3,9 +3,9 @@ import { useIntl } from 'react-intl';
 import { Text, View, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { IconButton } from '../..';
 import styles from './tabbedPostsStyles';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 interface ScrollTopPopupProps {
   onPress: () => void;
@@ -39,26 +39,27 @@ const ScrollTopPopup = ({
               size={14}
             />
 
-            {popupAvatars.slice(0, 4).map((url, index) => (
-              index < 3 ? (
-                <FastImage
-                  key={`image_bubble_${url}${index}`}
-                  source={{ uri: url }}
-                  style={[styles.popupImage, { zIndex: 10 - index }]}
-                />
-              ) : (
-                <IconButton
-                  key={`image_bubble_${url}${index}`}
-                  style={styles.moreIcon}
-                  color={EStyleSheet.value('$primaryBlack')}
-                  iconType="MaterialIcons"
-                  name="more-horiz"
-                  onPress={onPress}
-                  size={14}
-                />
-              )
-
-            ))}
+            {popupAvatars
+              .slice(0, 4)
+              .map((url, index) =>
+                index < 3 ? (
+                  <FastImage
+                    key={`image_bubble_${url}`}
+                    source={{ uri: url }}
+                    style={[styles.popupImage, { zIndex: 10 - index }]}
+                  />
+                ) : (
+                  <IconButton
+                    key={`image_bubble_${url}`}
+                    style={styles.moreIcon}
+                    color={EStyleSheet.value('$primaryBlack')}
+                    iconType="MaterialIcons"
+                    name="more-horiz"
+                    onPress={onPress}
+                    size={14}
+                  />
+                ),
+              )}
 
             {popupAvatars.length > 0 ? (
               <Text style={styles.postedText}>
