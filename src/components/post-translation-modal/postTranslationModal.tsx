@@ -23,7 +23,7 @@ const PostTranslationModal = (props, ref) => {
   // const [supportedLangs, setSupportedLangs] = useState([]);
   const [supportedLangsList, setSupportedLangsList] = useState([]);
   const [selectedSourceLang, setSelectedSourceLang] = useState(srcLang);
-  const [selectedTargetLang, setSelectedTargetLang] = useState(targetLang);
+  const [selectedTargetLang, setSelectedTargetLang] = useState(null);
   const [isLoadingTranslation, setIsLoadingTranslation] = useState(false);
   const [isLoadingLangsList, setisLoadingLangsList] = useState(false);
   const [translationError, setTranslationError] = useState('');
@@ -55,18 +55,20 @@ const PostTranslationModal = (props, ref) => {
 
   const translateText = async (text: string) => {
     try {
-      setIsLoadingTranslation(true);
-      setTranslationError('');
-      const res = await getTranslation(
-        text,
-        selectedSourceLang.code || srcLang.code,
-        selectedTargetLang.code || targetLang.code,
-      );
-      if (res && res.translatedText) {
-        setTranslatedPost(res.translatedText);
-      }
+      if (selectedTargetLang) {
+        setIsLoadingTranslation(true);
+        setTranslationError('');
+        const res = await getTranslation(
+          text,
+          selectedSourceLang.code || srcLang.code,
+          selectedTargetLang.code || targetLang.code,
+        );
+        if (res && res.translatedText) {
+          setTranslatedPost(res.translatedText);
+        }
 
-      setIsLoadingTranslation(false);
+        setIsLoadingTranslation(false);
+      }
     } catch (error) {
       setIsLoadingTranslation(false);
       setTranslationError(
@@ -91,8 +93,8 @@ const PostTranslationModal = (props, ref) => {
             name: item.name,
           };
         });
+        _checkApplang([srcLang, ...langs]); // check app lang from list of available langs and update target lang according to app lang
         setSupportedLangsList([srcLang, ...langs] as any);
-        _checkApplang([srcLang, ...langs]);
       }
       setisLoadingLangsList(false);
     } catch (error) {
@@ -113,8 +115,11 @@ const PostTranslationModal = (props, ref) => {
     const appLangCode = appLang.split('-');
     if (appLangCode.length && langsList.length && appLangCode[0]) {
       const selectedAppLang = langsList.find((item) => item?.code === appLangCode[0]);
-
-      if (selectedAppLang) setSelectedTargetLang(selectedAppLang);
+      if (selectedAppLang) {
+        setSelectedTargetLang(selectedAppLang);
+      } else {
+        setSelectedTargetLang(targetLang);
+      }
     }
   };
 
