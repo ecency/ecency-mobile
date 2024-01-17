@@ -7,6 +7,7 @@ import { postBodySummary } from '@ecency/render-helper';
 import SelectDropdown from 'react-native-select-dropdown';
 import { getTranslation, fetchSupportedLangs } from '../../providers/translation/translation';
 import styles from './postTranslationModalStyle';
+import { useAppSelector } from '../../hooks';
 
 const srcLang = { name: 'Auto', code: 'auto' };
 const targetLang = { name: 'English', code: 'en' };
@@ -15,6 +16,8 @@ const PostTranslationModal = (props, ref) => {
   const intl = useIntl();
   const bottomSheetModalRef = useRef<ActionSheet | null>(null);
   const scrollHandlers = useScrollHandlers<FlatList>('scrollview-1', bottomSheetModalRef);
+  const appLang = useAppSelector((state) => state.application.language);
+
   const [content, setContent] = useState<any>(null);
   const [translatedPost, setTranslatedPost] = useState('');
   // const [supportedLangs, setSupportedLangs] = useState([]);
@@ -89,6 +92,7 @@ const PostTranslationModal = (props, ref) => {
           };
         });
         setSupportedLangsList([srcLang, ...langs] as any);
+        _checkApplang([srcLang, ...langs]);
       }
       setisLoadingLangsList(false);
     } catch (error) {
@@ -105,10 +109,19 @@ const PostTranslationModal = (props, ref) => {
     setSelectedTargetLang(targetLang);
   };
 
+  const _checkApplang = (langsList: any[]) => {
+    const appLangCode = appLang.split('-');
+    if (appLangCode.length && langsList.length && appLangCode[0]) {
+      const selectedAppLang = langsList.find((item) => item?.code === appLangCode[0]);
+
+      if (selectedAppLang) setSelectedTargetLang(selectedAppLang);
+    }
+  };
+
   const _renderLanguageSelector = () => (
     <View style={styles.languageSelectorRow}>
       <View style={styles.row}>
-        <Text style={styles.labelText}>From</Text>
+        <Text style={styles.labelText}>{intl.formatMessage({ id: 'wallet.from' })}</Text>
         <SelectDropdown
           data={supportedLangsList}
           onSelect={(selectedItem) => {
@@ -131,7 +144,9 @@ const PostTranslationModal = (props, ref) => {
         />
       </View>
       <View style={styles.row}>
-        <Text style={[styles.labelText, styles.toText]}>To</Text>
+        <Text style={[styles.labelText, styles.toText]}>
+          {intl.formatMessage({ id: 'wallet.to' })}
+        </Text>
         <SelectDropdown
           data={supportedLangsList.filter(
             (item) => item.code !== srcLang.code || item.code !== selectedSourceLang.code,
@@ -146,7 +161,7 @@ const PostTranslationModal = (props, ref) => {
             return item.name || '';
           }}
           dropdownStyle={styles.languageDropdownStyle}
-          defaultValue={targetLang}
+          defaultValue={selectedTargetLang}
           buttonStyle={styles.dropdownBtnStyle}
           buttonTextStyle={styles.dropdownBtnTextStyle}
           rowTextStyle={styles.dropdownRowTextStyle}
