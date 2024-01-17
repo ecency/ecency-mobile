@@ -8,7 +8,7 @@ export default EStyleSheet.create({
   },
   sheetContent: {
     backgroundColor: '$primaryBackgroundColor',
-    height: '$deviceHeight - 100',
+    height: '90%',
   },
   dropdownItem: {
     paddingHorizontal: 32,
