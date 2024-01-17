@@ -145,6 +145,7 @@ export const PostHtmlInteractionHandler = forwardRef(
       if (ind === 1) {
         // open gallery mode
         setIsImageModalOpen(true);
+        return;
       }
       if (ind === 0) {
         // copy to clipboard
@@ -195,6 +196,11 @@ export const PostHtmlInteractionHandler = forwardRef(
       setSelectedLink(null);
     };
 
+    const _onCloseImageViewer = () => {
+      setIsImageModalOpen(false);
+      setSelectedImage(null);
+    };
+
     const _renderImageViewerHeader = (imageIndex) => {
       return (
         <SafeAreaView
@@ -211,7 +217,7 @@ export const PostHtmlInteractionHandler = forwardRef(
               color={EStyleSheet.value('$primaryDarkText')}
               buttonStyle={styles.closeIconButton}
               size={20}
-              handleOnPress={() => setIsImageModalOpen(false)}
+              handleOnPress={_onCloseImageViewer}
             />
           </View>
         </SafeAreaView>
@@ -222,11 +228,11 @@ export const PostHtmlInteractionHandler = forwardRef(
       <Fragment>
         <ImageView
           images={postImages.map((url) => ({ uri: url }))}
-          imageIndex={0}
+          imageIndex={postImages.indexOf(selectedImage)}
           visible={isImageModalOpen}
           animationType="slide"
           swipeToCloseEnabled
-          onRequestClose={() => setIsImageModalOpen(false)}
+          onRequestClose={_onCloseImageViewer}
           HeaderComponent={(imageIndex) => _renderImageViewerHeader(imageIndex.imageIndex)}
         />
 
