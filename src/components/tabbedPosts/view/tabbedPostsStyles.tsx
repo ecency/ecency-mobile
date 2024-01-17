@@ -84,6 +84,13 @@ export default EStyleSheet.create({
     marginLeft: -8,
     borderColor: '$primaryBlue',
   },
+  moreIcon: {
+    marginLeft: -4,
+    borderWidth: EStyleSheet.hairlineWidth,
+    borderColor: '$primaryBlack',
+    height: 20,
+    width: 20
+  },
   emptyAnimationContainer: {
     marginTop: 56,
   },
