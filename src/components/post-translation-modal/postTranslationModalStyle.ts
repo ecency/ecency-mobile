@@ -56,7 +56,7 @@ export default EStyleSheet.create({
     // width: 300,
     maxHeight: '$deviceHeight/2',
     borderRadius: 8,
-    // backgroundColor: 'red',
+    backgroundColor: '$primaryBackgroundColor',
   },
   dropdownButtonStyle: {
     borderColor: '$borderColor',
@@ -115,7 +115,7 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBlue',
   },
   dropdownSelectedRowTextStyle: {
-    color: '$white',
+    color: 'white',
     fontWeight: 'bold',
   },
 });
