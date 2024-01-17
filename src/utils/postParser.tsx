@@ -54,8 +54,15 @@ export const parsePost = (
 
   // find and inject thumbnail ratio
   if (post.json_metadata.image_ratios) {
-    if (!Number.isNaN(post.json_metadata.image_ratios[0])) {
+    const imgRatios = post.json_metadata.image_ratios;
+    if (typeof imgRatios[0] === 'number' && !Number.isNaN(imgRatios[0])) {
       [post.thumbRatio] = post.json_metadata.image_ratios;
+    } else if (imgRatios.length && imgRatios[0].height && imgRatios[0].width) {
+      // convert to image ratio if old meta data found
+      post.json_metadata.image_ratios = imgRatios.map((item) => {
+        const ratio = item.width / item.height;
+        return item.width && item.height ? parseFloat(ratio.toFixed(4)) : item;
+      });
     }
   }
 
