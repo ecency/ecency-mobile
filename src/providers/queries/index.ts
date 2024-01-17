@@ -55,3 +55,4 @@ export * from './pointQueries';
 export * from './postQueries';
 export * from './walletQueries';
 export * from './leaderboardQueries';
+export * from './settingsQueries';

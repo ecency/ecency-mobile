@@ -47,9 +47,10 @@ import {
   showActionModal,
   toastNotification,
 } from '../../../redux/actions/uiAction';
-import { setPushToken, getNodes, deleteAccount } from '../../../providers/ecency/ecency';
+import { setPushToken, deleteAccount } from '../../../providers/ecency/ecency';
 import { checkClient } from '../../../providers/hive/dhive';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { useGetServersQuery } from '../../../providers/queries';
 // Middleware
 
 // Constants
@@ -63,7 +64,6 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 
 // Component
 import SettingsScreen from '../screen/settingsScreen';
-// import { SERVER_LIST } from '../../../constants/options/api';
 import ROUTES from '../../../constants/routeNames';
 
 /*
@@ -72,34 +72,13 @@ import ROUTES from '../../../constants/routeNames';
  *
  */
 
-const SERVER_LIST = [
-  'https://rpc.ecency.com',
-  'https://api.hive.blog',
-  'https://api.deathwing.me',
-  'https://api.pharesim.me',
-  'https://anyx.io',
-  'https://rpc.ausbit.dev',
-  'https://api.openhive.network',
-  'https://api.hivekings.com',
-];
-
 class SettingsContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      serverList: SERVER_LIST,
       isNotificationMenuOpen: props.isNotificationSettingsOpen,
       isLoading: false,
     };
-  }
-
-  // Component Life Cycle Functions
-  componentDidMount() {
-    getNodes().then((resp) => {
-      this.setState({
-        serverList: resp,
-      });
-    });
   }
 
   // Component Functions
@@ -140,8 +119,8 @@ class SettingsContainer extends Component {
   };
 
   _changeApi = async (action) => {
-    const { dispatch, selectedApi, intl } = this.props;
-    const { serverList } = this.state;
+    const { dispatch, selectedApi, intl, getServersQuery } = this.props as any;
+    const serverList = getServersQuery.data;
     const server = serverList[action];
     let serverResp;
     let isError = false;
@@ -541,9 +520,9 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { serverList, isNotificationMenuOpen, isLoading } = this.state as any;
-    const { colorTheme } = this.props as any;
-    console.log('serverList, SERVER_LIST : ', serverList, SERVER_LIST);
+    const { isNotificationMenuOpen, isLoading } = this.state as any;
+    const { colorTheme, getServersQuery } = this.props as any;
+    const serverList = getServersQuery.data;
 
     return (
       <SettingsScreen
@@ -589,6 +568,7 @@ const mapStateToProps = (state) => ({
 
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  return <SettingsContainer {...props} navigation={navigation} />;
+  const getServersQuery = useGetServersQuery();
+  return <SettingsContainer {...props} navigation={navigation} getServersQuery={getServersQuery} />;
 };
 export default gestureHandlerRootHOC(connect(mapStateToProps)(injectIntl(mapHooksToProps)));
