@@ -765,7 +765,8 @@
     "pin-community": "Semat untuk komunitas",
     "unpin-community": "Lepaskan sematan dari komunitas",
     "edit-history": "Riwayat Penyuntingan",
-    "mute": "Mute / Block"
+    "mute": "Mute / Block",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "Tidak ada pengguna yang ada",
