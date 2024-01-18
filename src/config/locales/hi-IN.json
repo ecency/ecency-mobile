@@ -765,7 +765,8 @@
     "pin-community": "समुदाय को पिन करें",
     "unpin-community": "समुदाय से अनपिन करें",
     "edit-history": "इतिहास संपादित करें",
-    "mute": "म्यूट / ब्लॉक"
+    "mute": "म्यूट / ब्लॉक",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",
