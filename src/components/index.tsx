@@ -104,6 +104,7 @@ import TransferAmountInputSection from './transferAmountInputSection/transferAmo
 import TextBoxWithCopy from './textBoxWithCopy/textBoxWithCopy';
 import WebViewModal from './webViewModal/webViewModal';
 import OrDivider from './orDivider/orDividerView';
+import PostTranslationModal from './post-translation-modal/postTranslationModal';
 
 // Basic UI Elements
 import {
@@ -255,4 +256,5 @@ export {
   TextBoxWithCopy,
   WebViewModal,
   OrDivider,
+  PostTranslationModal,
 };
