@@ -765,7 +765,8 @@
     "pin-community": "置頂于社群",
     "unpin-community": "取消社區置頂",
     "edit-history": "更改副本",
-    "mute": "Mute / Block"
+    "mute": "Mute / Block",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "用户不存在",
