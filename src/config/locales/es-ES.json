@@ -765,7 +765,8 @@
     "pin-community": "Anclar a la comunidad",
     "unpin-community": "Desanclar de la comunidad",
     "edit-history": "Editar historial",
-    "mute": "Silenciar / Bloquear"
+    "mute": "Silenciar / Bloquear",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "Usuario no existe",
