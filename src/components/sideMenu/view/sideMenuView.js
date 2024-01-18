@@ -13,6 +13,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import VersionNumber from 'react-native-version-number';
 import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getStorageType } from '../../../realm/realm';
 
 // Components
@@ -43,6 +44,7 @@ const SideMenuView = ({
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const insets = useSafeAreaInsets();
 
   const [menuItems, setMenuItems] = useState(
     isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
@@ -166,7 +168,7 @@ const SideMenuView = ({
       >
         <ImageBackground source={SIDE_MENU_BACKGROUND} style={styles.imageBackground}>
           {isLoggedIn && (
-            <View style={styles.headerContentWrapper}>
+            <View style={{ ...styles.headerContentWrapper, marginTop: insets.top }}>
               <UserAvatar username={currentAccount.name} size="xl" style={styles.userAvatar} />
               <View
                 style={[

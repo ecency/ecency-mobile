@@ -2,10 +2,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
-    backgroundColor: '$primaryLightBackground',
+    backgroundColor: '$primaryBackgroundColor',
+    paddingTop: 8,
   },
   buttonContainer: {
     width: '50%',
