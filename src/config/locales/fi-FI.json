@@ -765,7 +765,8 @@
     "pin-community": "Kiinnitä yhteisölle",
     "unpin-community": "Poista kiinnitys yhteisöstä",
     "edit-history": "Muokkaushistoria",
-    "mute": "Mykistä / Estä"
+    "mute": "Mykistä / Estä",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",
