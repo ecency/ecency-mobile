@@ -765,7 +765,8 @@
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
     "edit-history": "Edit History",
-    "mute": "Mute / Block"
+    "mute": "Mute / Block",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "Bikarhêner tune ye",
