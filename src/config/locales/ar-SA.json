@@ -765,7 +765,8 @@
     "pin-community": "تثبيت للمجتمع",
     "unpin-community": "إزالة التثبيت من المجتمع",
     "edit-history": "تعديل التاريخ",
-    "mute": "كتم / حظر"
+    "mute": "كتم / حظر",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "لا يوجد أي مستخدم حاليا",
