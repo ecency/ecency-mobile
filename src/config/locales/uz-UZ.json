@@ -765,7 +765,8 @@
     "pin-community": "Guruhga qadash",
     "unpin-community": "Guruhdan olish",
     "edit-history": "Tarixni Tahrirlash",
-    "mute": "Mute / Block"
+    "mute": "Mute / Block",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "Mavjud bo'lmagan foydalanuvchi",
