@@ -125,7 +125,7 @@ class SettingsContainer extends Component {
     let serverResp;
     let isError = false;
     let alertMessage;
-    const client = new Client([server, 'https://rpc.ecency.com'], {
+    const client = new Client([server, 'https://api.hive.blog'], {
       timeout: 4000,
       failoverThreshold: 10,
       consoleOnFailover: true,
