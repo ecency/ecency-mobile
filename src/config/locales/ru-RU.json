@@ -765,7 +765,8 @@
     "pin-community": "Закрепить в сообществе",
     "unpin-community": "Открепить от сообщества",
     "edit-history": "История изменений",
-    "mute": "Отключить / Блокировать"
+    "mute": "Отключить / Блокировать",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
