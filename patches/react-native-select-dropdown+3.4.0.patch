@@ -1,0 +1,35 @@
+diff --git a/node_modules/react-native-select-dropdown/index.d.ts b/node_modules/react-native-select-dropdown/index.d.ts
+index 2f7ab48..cb712ff 100644
+--- a/node_modules/react-native-select-dropdown/index.d.ts
++++ b/node_modules/react-native-select-dropdown/index.d.ts
+@@ -119,6 +119,10 @@ declare module 'react-native-select-dropdown' {
+      * text color for search input placeholder
+      */
+     searchPlaceHolderColor?: string;
++    /**
++     * dropdown Flatlist component props
++     */
++    dropdownFlatlistProps?: any;
+     /**
+      * function callback when the search input text changes, this will automatically disable the dropdown's internal search to be implemented manually outside the component
+      */
+diff --git a/node_modules/react-native-select-dropdown/src/SelectDropdown.js b/node_modules/react-native-select-dropdown/src/SelectDropdown.js
+index 18f66b0..9f45caa 100644
+--- a/node_modules/react-native-select-dropdown/src/SelectDropdown.js
++++ b/node_modules/react-native-select-dropdown/src/SelectDropdown.js
+@@ -54,6 +54,7 @@ const SelectDropdown = (
+     renderSearchInputLeftIcon /* function returns React component for search input icon */,
+     renderSearchInputRightIcon /* function returns React component for search input icon */,
+     onChangeSearchInputText /* function callback when the search input text changes, this will automatically disable the dropdown's interna search to be implemented manually outside the component  */,
++    dropdownFlatlistProps /* Flatlist props can be passed here to control dropdown flatlist  */,
+   },
+   ref,
+ ) => {
+@@ -187,6 +188,7 @@ const SelectDropdown = (
+               onEndReached={() => onScrollEndReached && onScrollEndReached()}
+               onEndReachedThreshold={0.5}
+               showsVerticalScrollIndicator={showsVerticalScrollIndicator}
++              {...dropdownFlatlistProps}
+             />
+           </DropdownWindow>
+         </DropdownModal>
