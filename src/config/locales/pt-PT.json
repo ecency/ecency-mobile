@@ -765,7 +765,8 @@
     "pin-community": "Fixar na comunidade",
     "unpin-community": "Desafixar da comunidade",
     "edit-history": "Histórico de Edição",
-    "mute": "Silenciar / Bloquear"
+    "mute": "Silenciar / Bloquear",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
