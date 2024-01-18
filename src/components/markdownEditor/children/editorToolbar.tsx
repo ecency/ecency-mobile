@@ -1,25 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
 import { Keyboard, View, ViewStyle } from 'react-native';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   FlatList,
-  Gesture,
-  GestureDetector,
-  GestureStateChangeEvent,
+  HandlerStateChangeEvent,
+  PanGestureHandler,
   PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
-import Animated, {
-  Easing,
-  clamp,
-  runOnJS,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, { EasingNode, Extrapolate } from 'react-native-reanimated';
 import { IconButton, UploadsGalleryModal } from '../..';
+import styles from '../styles/editorToolbarStyles';
 import { useAppSelector } from '../../../hooks';
 import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
-import styles from '../styles/editorToolbarStyles';
 import Formats from './formats/formats';
 
 type Props = {
@@ -51,9 +43,9 @@ export const EditorToolbar = ({
 }: Props) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
+  const translateY = useRef(new Animated.Value(200));
+  const shouldHideExtension = useRef(false);
   const extensionHeight = useRef(0);
-
-  const translateY = useSharedValue(200);
 
   const [isExtensionVisible, setIsExtensionVisible] = useState(false);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -111,69 +103,92 @@ export const EditorToolbar = ({
     _showUploadsExtension(Modes.MODE_VIDEO);
   };
 
-  const _onPanEnd = (e: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
-    console.log('finalize', e.velocityY, e.translationY);
-    const _shouldHide = e.velocityY > 300 || e.translationY > extensionHeight.current / 2;
-    if (_shouldHide) {
+  // handles extension closing
+  const _onGestureEvent = Animated.event(
+    [
+      {
+        nativeEvent: {
+          translationY: translateY.current,
+        },
+      },
+    ],
+    {
+      useNativeDriver: false,
+    },
+  );
+
+  const consY = useMemo(
+    () =>
+      translateY.current.interpolate({
+        inputRange: [0, 500],
+        outputRange: [0, 500],
+        extrapolate: Extrapolate.CLAMP,
+      }),
+    [translateY.current],
+  );
+
+  const _animatedStyle = {
+    transform: [
+      {
+        translateY: consY,
+      },
+    ],
+  };
+
+  const _onPanHandlerStateChange = (e: HandlerStateChangeEvent<PanGestureHandlerEventPayload>) => {
+    console.log(
+      'handler state change',
+      e.nativeEvent.velocityY,
+      e.nativeEvent.velocityY > 300,
+      e.nativeEvent.translationY,
+    );
+    shouldHideExtension.current =
+      e.nativeEvent.velocityY > 300 || e.nativeEvent.translationY > extensionHeight.current / 2;
+  };
+
+  const _revealExtension = () => {
+    if (!isExtensionVisible) {
+      translateY.current.setValue(200);
+    }
+
+    setIsExtensionVisible(true);
+
+    Animated.timing(translateY.current, {
+      duration: 200,
+      toValue: 0,
+      easing: EasingNode.inOut(EasingNode.ease),
+    }).start();
+  };
+
+  const _hideExtension = () => {
+    Animated.timing(translateY.current, {
+      toValue: extensionHeight.current,
+      duration: 200,
+      easing: EasingNode.inOut(EasingNode.ease),
+    }).start(() => {
+      shouldHideExtension.current = false;
+      setIsExtensionVisible(false);
+      if (uploadsGalleryModalRef.current) {
+        uploadsGalleryModalRef.current.toggleModal(false);
+      }
+    });
+  };
+
+  const _onPanEnded = () => {
+    if (shouldHideExtension.current) {
       _hideExtension();
     } else {
       _revealExtension();
     }
   };
 
-  const _gestureHandler = Gesture.Pan()
-    .onChange((e) => {
-      translateY.value = e.translationY;
-    })
-    .onFinalize((e) => {
-      runOnJS(_onPanEnd)(e);
-    });
-
-  const _animatedStyle = useAnimatedStyle(() => {
-    // Clamp the interpolated value to a specific range
-    return {
-      transform: [{ translateY: clamp(translateY.value, 0, 500) }],
-    };
-  });
-
-  const _revealExtension = () => {
-    if (!isExtensionVisible) {
-      translateY.value = 200;
-    }
-
-    setIsExtensionVisible(true);
-
-    translateY.value = withTiming(0, {
-      duration: 200,
-      easing: Easing.inOut(Easing.ease),
-    });
-  };
-
-  const _hideExtension = () => {
-    const _onComplete = () => {
-      setIsExtensionVisible(false);
-      if (uploadsGalleryModalRef.current) {
-        uploadsGalleryModalRef.current.toggleModal(false);
-      }
-    };
-
-    translateY.value = withTiming(
-      extensionHeight.current,
-      {
-        duration: 200,
-        easing: Easing.inOut(Easing.ease),
-      },
-      (success) => {
-        if (success) {
-          runOnJS(_onComplete)();
-        }
-      },
-    );
-  };
-
   const _renderExtension = () => {
     return (
-      <GestureDetector gesture={_gestureHandler}>
+      <PanGestureHandler
+        onGestureEvent={_onGestureEvent}
+        onHandlerStateChange={_onPanHandlerStateChange}
+        onEnded={_onPanEnded}
+      >
         <Animated.View style={_animatedStyle}>
           <View
             onLayout={(e) => {
@@ -197,7 +212,7 @@ export const EditorToolbar = ({
             />
           </View>
         </Animated.View>
-      </GestureDetector>
+      </PanGestureHandler>
     );
   };
 
