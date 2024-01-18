@@ -725,7 +725,7 @@ export const uploadImage = async (media, username, sign, uploadProgress = null) 
 
 export const getNodes = async () => {
   try {
-    const response = await serverList.get('/');
+    const response = await serverList.get('');
     console.log('nodes response', response.data);
 
     if (!response.data?.hived) {
