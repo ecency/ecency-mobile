@@ -1,10 +1,11 @@
 import React, { useRef, useState, useEffect, Fragment } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, Pressable } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils
 import FastImage from 'react-native-fast-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import ESStyleSheet from 'react-native-extended-stylesheet';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
@@ -25,7 +26,6 @@ const DraftListItemView = ({
   reputation,
   created,
   image,
-  thumbnail,
   handleOnPressItem,
   handleOnRemoveItem,
   handleOnMovePress,
@@ -39,6 +39,9 @@ const DraftListItemView = ({
   handleOnClonePressed,
   draftItem,
   isCloning,
+  handleLongPress,
+  isSelected,
+  batchSelectionActive,
 }) => {
   const actionSheet = useRef(null);
   const moveActionSheet = useRef(null);
@@ -58,12 +61,21 @@ const DraftListItemView = ({
   }, [isCloning]);
 
   const _onItemPress = () => {
+    if (isSelected || batchSelectionActive) {
+      handleLongPress && handleLongPress(id);
+      return;
+    }
+
     if (isSchedules) {
       moveActionSheet.current.show();
       return;
     }
 
     handleOnPressItem(id);
+  };
+
+  const _onItemLongPress = () => {
+    handleLongPress && handleLongPress(id);
   };
 
   // consts
@@ -92,7 +104,7 @@ const DraftListItemView = ({
 
   return (
     <Fragment>
-      <View style={styles.container}>
+      <Pressable style={[styles.container]} onLongPress={_onItemLongPress} onPress={_onItemPress}>
         <View style={styles.header}>
           <PostHeaderDescription
             date={isFormatedDate ? created : getTimeFromNow(created, true)}
@@ -157,16 +169,21 @@ const DraftListItemView = ({
                 name="delete"
                 iconType="MaterialIcons"
                 size={20}
-                onPress={() => actionSheet.current.show()}
+                onPress={
+                  isSelected || batchSelectionActive
+                    ? _onItemLongPress
+                    : () => actionSheet.current.show()
+                }
+                onLongPress={_onItemLongPress}
                 style={[styles.rightItem]}
-                color="#c1c5c7"
+                color={isSelected ? ESStyleSheet.value('$primaryRed') : '#c1c5c7'}
                 isLoading={isDeleting && deleteRequested}
               />
             )}
           </View>
         </View>
         <View style={styles.body}>
-          <TouchableOpacity onPress={_onItemPress}>
+          <TouchableOpacity onPress={_onItemPress} onLongPress={_onItemLongPress}>
             {image !== null && (
               <FastImage
                 source={image}
@@ -174,13 +191,13 @@ const DraftListItemView = ({
                 resizeMode={FastImage.resizeMode.cover}
               />
             )}
-            <View style={[styles.postDescripton]}>
+            <View style={styles.postDescripton}>
               {title !== '' && <Text style={styles.title}>{title}</Text>}
               {summary !== '' && <Text style={styles.summary}>{summary}</Text>}
             </View>
           </TouchableOpacity>
         </View>
-      </View>
+      </Pressable>
 
       <OptionsModal
         ref={actionSheet}

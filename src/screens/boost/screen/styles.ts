@@ -5,7 +5,7 @@ export default EStyleSheet.create({
   userRibbonContainer: {
     borderBottomWidth: EStyleSheet.hairlineWidth,
     borderColor: '$darkGrayBackground',
-    marginBottom: 0, //without 0 margin, view will start overlapping UserRibbon
+    marginBottom: 0, // without 0 margin, view will start overlapping UserRibbon
     paddingBottom: 32,
   } as ViewStyle,
 

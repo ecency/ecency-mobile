@@ -1,8 +1,9 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "airbnb",
     "prettier",
+    "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
     "plugin:eslint-comments/recommended",
     "eslint:recommended",
@@ -28,19 +29,44 @@
     "jest",
     "eslint-comments"
   ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    ":react-native/style-sheet-object-names": ["EStyleSheet"]
+  },
   "rules": {
     "react/jsx-filename-extension": [
       2,
       {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
       }
     ],
-    "max-len": ["warn", 100],
-    "react/forbid-prop-types": [0],
+    "max-len": [
+      "warn",
+      100
+    ],
+    "react/forbid-prop-types": [
+      0
+    ],
     "no-underscore-dangle": 0,
-    "react/require-default-props": [0],
-    "global-require": [0],
-    "func-names": ["error", "as-needed"],
+    "react/require-default-props": [
+      0
+    ],
+    "global-require": [
+      0
+    ],
+    "func-names": [
+      "error",
+      "as-needed"
+    ],
     "linebreak-style": 0,
     "no-use-before-define": "off",
     "import/prefer-default-export": "off",
@@ -51,7 +77,10 @@
     "import/no-cycle": "off",
     "react-hooks/rules-of-hooks": "warn",
     "react-hooks/exhaustive-deps": "off",
-    "react/destructuring-assignment": [1, "always"],
+    "react/destructuring-assignment": [
+      1,
+      "always"
+    ],
     "import/no-extraneous-dependencies": [
       "error",
       {
@@ -68,6 +97,6 @@
         "ts": "never",
         "tsx": "never"
       }
-   ]
+    ]
   }
 }

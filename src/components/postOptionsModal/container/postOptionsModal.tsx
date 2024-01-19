@@ -28,6 +28,7 @@ import { useUserActivityMutation } from '../../../providers/queries/pointQueries
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import styles from '../styles/postOptionsModal.styles';
+import { delay } from '../../../utils/editor';
 
 /*
  *            Props Name        Description                                     Value
@@ -37,9 +38,11 @@ import styles from '../styles/postOptionsModal.styles';
 
 interface Props {
   pageType?: string;
+  isWave?: boolean;
+  postTranslationModalRef?: any;
 }
 
-const PostOptionsModal = ({ pageType }: Props, ref) => {
+const PostOptionsModal = ({ pageType, isWave, postTranslationModalRef }: Props, ref) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
@@ -133,6 +136,8 @@ const PostOptionsModal = ({ pageType }: Props, ref) => {
           return _canUpdateCommunityPin && !_isPinnedInCommunity;
         case 'unpin-community':
           return _canUpdateCommunityPin && _isPinnedInCommunity;
+        case 'translate':
+          return isWave;
         default:
           return true;
       }
@@ -191,7 +196,8 @@ const PostOptionsModal = ({ pageType }: Props, ref) => {
   };
 
   const _share = () => {
-    const postUrl = getPostUrl(get(content, 'url'));
+    const _url = isWave ? `/@${content.author}/${content.permlink}` : content.url;
+    const postUrl = getPostUrl(_url);
 
     Share.share({
       message: `${get(content, 'title')} ${postUrl}`,
@@ -228,7 +234,9 @@ const PostOptionsModal = ({ pageType }: Props, ref) => {
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {},
+            onPress: () => {
+              console.log('cancel pressed');
+            },
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
@@ -403,7 +411,8 @@ const PostOptionsModal = ({ pageType }: Props, ref) => {
 
     switch (options[index]) {
       case 'copy':
-        await writeToClipboard(getPostUrl(get(content, 'url')));
+        const _url = isWave ? `/@${content.author}/${content.permlink}` : content.url;
+        await writeToClipboard(getPostUrl(_url));
         alertTimer.current = setTimeout(() => {
           dispatch(
             toastNotification(
@@ -473,6 +482,14 @@ const PostOptionsModal = ({ pageType }: Props, ref) => {
       case 'mute':
         !isOwnProfile && _muteUser();
         break;
+      case 'translate':
+        if (postTranslationModalRef && postTranslationModalRef?.current) {
+          // added delay here to let first sheet close it completly before showing translation sheet.
+          // can be improved by handling sheets with Sheet Manager
+          await delay(700);
+          postTranslationModalRef?.current?.show(content);
+        }
+        break;
       default:
         break;
     }
@@ -502,7 +519,7 @@ const PostOptionsModal = ({ pageType }: Props, ref) => {
       gestureEnabled={true}
       hideUnderlay={true}
       containerStyle={styles.sheetContent}
-      indicatorColor={EStyleSheet.value('$iconColor')}
+      indicatorStyle={styles.indicator}
     >
       <FlatList
         contentContainerStyle={styles.listContainer}

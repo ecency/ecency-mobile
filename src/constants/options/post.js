@@ -3,6 +3,7 @@ export default [
   'boost',
   'copy',
   'reply',
+  'translate',
   'reblog',
   'pin-blog',
   'unpin-blog',

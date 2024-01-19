@@ -13,8 +13,8 @@ export const mergeSubCommunitiesCacheInSubList = (
   if (!cacheMap || !cacheMap.size) {
     return subList.sort((a, b) => a[1].localeCompare(b[1]));
   }
-  const cacheList = Array.from(cacheMap, ([path, item]) => item.data);
-  cacheList.map((cacheListItem) => {
+  const cacheList = Array.from(cacheMap, ([, item]) => item.data);
+  cacheList.forEach((cacheListItem) => {
     const index = subList.findIndex((subListItem) => subListItem[0] === cacheListItem[0]);
     if (index !== -1) {
       subList[index] = [...cacheListItem];
@@ -40,7 +40,7 @@ export const mergeSubCommunitiesCacheInDiscoverList = (
   discoverList.forEach((discoverListItem) => {
     const itemExist = cacheMap.get(discoverListItem.name);
     if (itemExist) {
-      discoverListItem.isSubscribed = itemExist.data[4];
+      [, , , , discoverListItem.isSubscribed] = itemExist.data;
     }
   });
   return discoverList;

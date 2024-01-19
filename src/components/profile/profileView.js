@@ -272,10 +272,6 @@ class ProfileView extends PureComponent {
     );
   };
 
-  _isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
-    return layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
-  }
-
   render() {
     const { handleOnBackPress, quickProfile, reverseHeader, isMuted } = this.props;
 

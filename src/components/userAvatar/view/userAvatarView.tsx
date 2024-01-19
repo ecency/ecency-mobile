@@ -14,7 +14,7 @@ import ROUTES from '../../../constants/routeNames';
 import { useAppSelector } from '../../../hooks';
 import { getResizedAvatar } from '../../../utils/image';
 
-const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
+import DEFAULT_IMAGE from '../../../assets/avatar_default.png';
 
 /* Props
  * ------------------------------------------------f
@@ -45,7 +45,7 @@ const UserAvatarView = ({
 
   // Component Functions
   const _handleOnAvatarPress = (username: string) => {
-    const name = curUsername === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
+    const name = ROUTES.SCREENS.PROFILE;
     RootNavigation.navigate(name, { username });
   };
 

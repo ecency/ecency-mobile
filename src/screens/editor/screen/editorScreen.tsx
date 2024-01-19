@@ -9,7 +9,6 @@ import { extractMetadata, getWordsCount, makeJsonMetadata } from '../../../utils
 // Components
 import {
   BasicHeader,
-  PostForm,
   MarkdownEditor,
   SelectCommunityAreaView,
   SelectCommunityModalContainer,
@@ -43,7 +42,6 @@ class EditorScreen extends Component {
       isFormValid: false,
       isPreviewActive: false,
       wordsCount: null,
-      isRemoveTag: false,
       fields: {
         title: (props.draftPost && props.draftPost.title) || '',
         body: (props.draftPost && props.draftPost.body) || '',
@@ -74,13 +72,6 @@ class EditorScreen extends Component {
     }
   }
 
-  componentWillUnmount() {
-    const { isEdit } = this.props;
-    if (!isEdit) {
-      this._saveDraftToDB();
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const { isUploadingProp, communityProp } = this.state;
     if (prevState.isUploadingProp !== isUploadingProp) {
@@ -90,6 +81,13 @@ class EditorScreen extends Component {
     if (communityProp?.length > 0 && prevState.communityProp !== communityProp) {
       this._getCommunity(communityProp[0]);
       this._handleOnTagAdded(communityProp);
+    }
+  }
+
+  componentWillUnmount() {
+    const { isEdit } = this.props;
+    if (!isEdit) {
+      this._saveDraftToDB();
     }
   }
 
@@ -142,7 +140,6 @@ class EditorScreen extends Component {
         tags: [],
         isValid: false,
       },
-      isRemoveTag: true,
     });
 
     if (initialEditor) {
@@ -181,7 +178,9 @@ class EditorScreen extends Component {
         },
         {
           text: intl.formatMessage({ id: 'alert.cancel' }),
-          onPress: () => {},
+          onPress: () => {
+            console.log('cancel pressed');
+          },
           style: 'cancel',
         },
       ]);
@@ -235,6 +234,11 @@ class EditorScreen extends Component {
     handleRewardChange(value);
   };
 
+  _handlePostDescriptionChange = (value: string) => {
+    const { handlePostDescriptionChange } = this.props as any;
+    handlePostDescriptionChange(value);
+  };
+
   _handleSettingsPress = () => {
     if (this.postOptionsModalRef) {
       this.postOptionsModalRef.show();
@@ -261,7 +265,8 @@ class EditorScreen extends Component {
   };
 
   _handleFormUpdate = async (componentID, content) => {
-    const { handleFormChanged, thumbUrl, rewardType, getBeneficiaries } = this.props;
+    const { handleFormChanged, thumbUrl, rewardType, getBeneficiaries, postDescription } =
+      this.props;
     const { fields: _fields } = this.state;
     const fields = { ..._fields };
 
@@ -283,6 +288,7 @@ class EditorScreen extends Component {
       tags: fields.tags,
       beneficiaries: getBeneficiaries(),
       rewardType,
+      description: postDescription,
     });
     const jsonMeta = makeJsonMetadata(meta, fields.tags);
     fields.meta = jsonMeta;
@@ -319,7 +325,7 @@ class EditorScreen extends Component {
     const { fields: _fields } = this.state;
     const __tags = tags; // .map((t) => t.replace(/([^a-z0-9-]+)/gi, '').toLowerCase());
     const __fields = { ..._fields, tags: __tags };
-    this.setState({ fields: __fields, isRemoveTag: false }, () => {
+    this.setState({ fields: __fields }, () => {
       this._handleFormUpdate('tag-area', __fields.tags);
     });
   };
@@ -415,6 +421,7 @@ class EditorScreen extends Component {
       thumbUrl,
       uploadProgress,
       rewardType,
+      postDescription,
       setIsUploading,
     } = this.props;
 
@@ -488,6 +495,7 @@ class EditorScreen extends Component {
             />
           )}
           <MarkdownEditor
+            draftId={draftId}
             paramFiles={paramFiles}
             componentID="body"
             draftBody={fields && fields.body}
@@ -527,6 +535,8 @@ class EditorScreen extends Component {
           isEdit={isEdit}
           isCommunityPost={selectedCommunity !== null}
           rewardType={rewardType}
+          postDescription={postDescription}
+          handlePostDescriptionChange={this._handlePostDescriptionChange}
           isUploading={isUploading}
           handleThumbSelection={this._handleOnThumbSelection}
           handleRewardChange={this._handleRewardChange}

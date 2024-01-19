@@ -1,12 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { View, Text } from 'react-native';
-import IconButton from '../iconButton';
 import Clipboard from '@react-native-clipboard/clipboard';
+import { useDispatch } from 'react-redux';
+import IconButton from '../iconButton';
 
 // Styles
 import styles from './textBoxWithCopyStyles';
-import { useDispatch } from 'react-redux';
 import { toastNotification } from '../../redux/actions/uiAction';
 
 interface TextBoxWithCopyProps {
@@ -23,7 +23,7 @@ const TextBoxWithCopy = ({ label, value, renderSecondButton }: TextBoxWithCopyPr
     <View style={styles.container}>
       <View style={styles.labelContainer}>
         <Text style={styles.inputLabel}>{label}</Text>
-        {renderSecondButton ? renderSecondButton : null}
+        {renderSecondButton || null}
       </View>
       <View style={styles.copyInputContainer}>
         <View style={styles.textValueContainer}>
@@ -33,7 +33,7 @@ const TextBoxWithCopy = ({ label, value, renderSecondButton }: TextBoxWithCopyPr
         </View>
         <IconButton
           size={20}
-          color={'white'}
+          color="white"
           style={styles.copyIconStyle}
           name="content-copy"
           iconType="MaterialIcons"

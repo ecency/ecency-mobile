@@ -2,7 +2,7 @@ import { TextStyle, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-    engineBtnContainer: {
+  engineBtnContainer: {
     alignItems: 'flex-end',
     marginHorizontal: 32,
     marginVertical: 8,
@@ -10,10 +10,10 @@ export default EStyleSheet.create({
   engineBtnText: {
     color: '$primaryBlue',
   } as TextStyle,
-  engineHeaderContainer:{
-    flexDirection:'row-reverse',
-    justifyContent:'space-between',
-    alignItems:'center'
+  engineHeaderContainer: {
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   } as ViewStyle,
   claimActivityIndicator: {
     marginLeft: 16,
@@ -47,4 +47,4 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     textTransform: 'uppercase',
   } as TextStyle,
-})
+});

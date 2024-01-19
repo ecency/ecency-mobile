@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { get, has, unionBy, update } from 'lodash';
+import { get, unionBy } from 'lodash';
 import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 
@@ -12,7 +12,6 @@ import {
   unfollowUser,
   ignoreUser,
   getFollows,
-  getRepliesByLastUpdate,
   getUser,
   getRelationship,
   getAccountPosts,
@@ -53,9 +52,9 @@ class ProfileContainer extends Component {
       user: null,
       quickProfile: {
         reputation: get(props, 'route.params.reputation', ''),
-        name: get(props, 'route.params.username', ''),
+        name: isOwnProfile ? currentAccountUsername : username,
       },
-      reverseHeader: !!username,
+      reverseHeader: true,
       deepLinkFilter: get(props, 'route.params.deepLinkFilter'),
     };
   }
@@ -167,6 +166,9 @@ class ProfileContainer extends Component {
             mutes.splice(mutedIndex, 1);
             currentAccount.mutes = mutes;
             dispatch(updateCurrentAccount(currentAccount));
+            this.setState({
+              isMuted: false,
+            });
           }
         }
 
@@ -426,7 +428,9 @@ class ProfileContainer extends Component {
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {},
+            onPress: () => {
+              console.log('cancel pressed');
+            },
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
@@ -479,27 +483,9 @@ class ProfileContainer extends Component {
     }
 
     const { isLoggedIn, navigation } = this.props;
-    const { isOwnProfile } = this.state;
 
     if (isLoggedIn && !nextProps.isLoggedIn) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
-      return;
-    }
-
-    if (isOwnProfile) {
-      const { user } = this.state;
-      const { activeBottomTab, currentAccount } = this.props;
-
-      const currentUsername =
-        get(currentAccount, 'name') !== get(nextProps, 'currentAccount.name') &&
-        get(nextProps, 'currentAccount.name');
-      const isActiveTabChanged =
-        activeBottomTab !== get(nextProps, 'activeBottomTab') &&
-        get(nextProps, 'activeBottomTab') === ROUTES.TABBAR.PROFILE;
-
-      if ((isActiveTabChanged && user) || currentUsername) {
-        this._loadProfile(get(nextProps, 'currentAccount.name'));
-      }
     }
   }
 

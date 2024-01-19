@@ -17,19 +17,17 @@ import { ParentPost } from '../../parentPost';
 
 // Styles
 import styles from './postDisplayStyles';
-import { OptionsModal } from '../../atoms';
+import { OptionsModal, WritePostButton } from '../../atoms';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../hooks';
 import { showProfileModal, showReplyModal } from '../../../redux/actions/uiAction';
 import { PostTypes } from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
-import { WriteCommentButton } from '../children/writeCommentButton';
 import { PostComments } from '../../postComments';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import UpvotePopover from '../../upvotePopover';
 
-const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
 
 const PostDisplayView = ({
@@ -49,23 +47,22 @@ const PostDisplayView = ({
   handleOnRemovePress,
   activeVotes,
   reblogs,
+  isWavePost,
   activeVotesCount,
 }) => {
   const dispatch = useAppDispatch();
   const insets = useSafeAreaInsets();
   const userActivityMutation = useUserActivityMutation();
 
-  const writeCommentRef = useRef<WriteCommentButton>();
   const postCommentsRef = useRef<PostComments>(null);
   const upvotePopoverRef = useRef<UpvotePopover>(null);
 
-  const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
+  const [cacheVoteIcrement] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
   const actionSheet = useRef(null);
   const [refreshing, setRefreshing] = useState(false);
   const [postBodyLoading, setPostBodyLoading] = useState(true);
   const [tags, setTags] = useState([]);
-  const [postBodyHeight, setPostBodyHeight] = useState(0);
 
   // Component Life Cycles
   useEffect(() => {
@@ -110,7 +107,7 @@ const PostDisplayView = ({
     content,
     onVotingStart,
     showPayoutDetails = false,
-    postType = parentPost ? PostTypes.COMMENT : PostTypes.POST,
+    postType = isWavePost ? PostTypes.WAVE : parentPost ? PostTypes.COMMENT : PostTypes.POST,
   }: any) => {
     if (upvotePopoverRef.current) {
       upvotePopoverRef.current.showPopover({
@@ -232,7 +229,7 @@ const PostDisplayView = ({
   // show quick reply modal
   const _showQuickReplyModal = (_post = post) => {
     if (isLoggedIn) {
-      dispatch(showReplyModal(_post));
+      dispatch(showReplyModal({ mode: 'comment', parentPost: _post }));
     } else {
       console.log('Not LoggedIn');
     }
@@ -259,10 +256,15 @@ const PostDisplayView = ({
         ) : (
           <View
             onLayout={(event) => {
-              setPostBodyHeight(event.nativeEvent.layout.height);
+              console.log('content view height', event.nativeEvent.layout.height);
             }}
           >
-            {!!post.title && <Text style={styles.title}>{post.title}</Text>}
+            {!!post.title && !post.depth ? (
+              <Text style={styles.title}>{post.title}</Text>
+            ) : (
+              <View style={styles.titlePlaceholder} />
+            )}
+
             <PostHeaderDescription
               date={formatedTime}
               name={author || post.author}
@@ -293,7 +295,10 @@ const PostDisplayView = ({
                   )}
                   {formatedTime}
                 </Text>
-                <WriteCommentButton ref={writeCommentRef} onPress={_showQuickReplyModal} />
+                <WritePostButton
+                  placeholderId="quick_reply.placeholder"
+                  onPress={_showQuickReplyModal}
+                />
               </View>
             )}
           </View>
@@ -319,6 +324,8 @@ const PostDisplayView = ({
           isPostLoading={postBodyLoading}
           postContentView={_postContentView}
           onRefresh={onRefresh}
+          refreshing={refreshing}
+          setRefreshing={setRefreshing}
           onUpvotePress={_onUpvotePress}
         />
       </View>

@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 
 import thunk from 'redux-thunk';
 import { createMigrate, createTransform, persistReducer, persistStore } from 'redux-persist';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Reactotron from '../../../reactotron-config';
 
 import reducers from '../reducers';
@@ -37,7 +37,7 @@ const persistConfig = {
   key: 'root',
   // Storage Method (React Native)
   storage: AsyncStorage,
-  version: 5, // New version 0, default or previous version -1, versions are useful migrations
+  version: 6, // New version 0, default or previous version -1, versions are useful migrations
   // // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   transforms: [transformCacheVoteMap, transformWalkthroughMap],
@@ -51,6 +51,7 @@ const middleware = [thunk];
 
 let enhancers;
 if (__DEV__) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const createDebugger = require('redux-flipper').default;
   middleware.push(createDebugger());
   enhancers = compose(applyMiddleware(...middleware), Reactotron.createEnhancer());

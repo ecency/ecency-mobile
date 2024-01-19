@@ -101,6 +101,4 @@ export default EStyleSheet.create({
   tooltipText: {
     color: '$primaryDarkText',
   },
-
-
 });

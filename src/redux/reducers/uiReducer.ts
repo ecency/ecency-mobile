@@ -15,8 +15,15 @@ import {
   HIDE_REPLY_MODAL,
   LOGOUT,
   LOGOUT_DONE,
+  SHOW_WEBVIEW_MODAL,
+  HIDE_WEBVIEW_MODAL,
 } from '../constants/constants';
 import { orientations } from '../constants/orientationsConstants';
+
+export interface PostEditorModalData {
+  mode: 'wave' | 'comment' | 'post';
+  parentPost?: any;
+}
 
 interface UiState {
   activeBottomTab: string;
@@ -28,10 +35,12 @@ interface UiState {
   avatarCacheStamp: number;
   profileModalUsername: string;
   isVisibleQRModal: boolean;
+  webViewModalData: any;
+  isVisibleWebViewModal: boolean;
   deviceOrientation: string;
   lockedOrientation: string;
   replyModalVisible: boolean;
-  replyModalPost: any;
+  replyModalData?: PostEditorModalData | null;
   isLogingOut: boolean;
 }
 
@@ -45,14 +54,16 @@ const initialState: UiState = {
   avatarCacheStamp: 0,
   profileModalUsername: '',
   isVisibleQRModal: false,
+  isVisibleWebViewModal: false,
+  webViewModalData: null,
   deviceOrientation: orientations.PORTRAIT,
   lockedOrientation: orientations.PORTRAIT,
-  replyModalPost: null,
+  replyModalData: null,
   replyModalVisible: false,
   isLogingOut: false,
 };
 
-export default function (state = initialState, action): UiState {
+const uiReducer = (state = initialState, action): UiState => {
   switch (action.type) {
     case UPDATE_ACTIVE_BOTTOM_TAB:
       return {
@@ -117,6 +128,18 @@ export default function (state = initialState, action): UiState {
         ...state,
         isVisibleQRModal: action.payload,
       };
+    case SHOW_WEBVIEW_MODAL:
+      return {
+        ...state,
+        isVisibleWebViewModal: action.payload.isVisibleWebViewModal,
+        webViewModalData: action.payload.webViewModalData,
+      };
+    case HIDE_WEBVIEW_MODAL:
+      return {
+        ...state,
+        isVisibleWebViewModal: false,
+        webViewModalData: null,
+      };
     case SET_DEVICE_ORIENTATION:
       return {
         ...state,
@@ -128,16 +151,20 @@ export default function (state = initialState, action): UiState {
         lockedOrientation: action.payload,
       };
     case SHOW_REPLY_MODAL:
+      const _payload = action.payload as PostEditorModalData;
+      if (_payload.mode === 'comment' && !_payload.parentPost) {
+        throw new Error('parent post missing for showing post editor modal with comment mode');
+      }
       return {
         ...state,
         replyModalVisible: true,
-        replyModalPost: action.payload,
+        replyModalData: action.payload,
       };
     case HIDE_REPLY_MODAL:
       return {
         ...state,
         replyModalVisible: false,
-        replyModalPost: null,
+        replyModalData: null,
       };
     case LOGOUT:
       return {
@@ -152,4 +179,6 @@ export default function (state = initialState, action): UiState {
     default:
       return state;
   }
-}
+};
+
+export default uiReducer;

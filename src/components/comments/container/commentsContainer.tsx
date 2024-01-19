@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getComments, deleteComment } from '../../../providers/hive/dhive';
 // Services and Actions
 import { writeToClipboard } from '../../../utils/clipboard';
-import { toastNotification } from '../../../redux/actions/uiAction';
+import { showProfileModal, toastNotification } from '../../../redux/actions/uiAction';
 
 // Middleware
 
@@ -38,6 +38,7 @@ const CommentsContainer = ({
   isLoggedIn,
   commentNumber,
   mainAuthor,
+  handleOnOptionsPress,
   selectedPermlink,
   isHideImage,
   isShowSubComments,
@@ -51,6 +52,7 @@ const CommentsContainer = ({
   incrementRepliesCount,
   handleOnReplyPress,
   handleOnCommentsLoaded,
+  postType,
 }) => {
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
@@ -170,20 +172,10 @@ const CommentsContainer = ({
             handleOnCommentsLoaded();
           }
         })
-        .catch(() => {});
+        .catch(() => {
+          console.log('cancel pressed');
+        });
     }
-  };
-
-  const _handleOnReplyPress = (item) => {
-    navigation.navigate({
-      name: ROUTES.SCREENS.EDITOR,
-      key: 'editor_reply',
-      params: {
-        isReply: true,
-        post: item,
-        fetchPost,
-      },
-    });
   };
 
   const _handleOnVotersPress = (activeVotes, content) => {
@@ -242,11 +234,16 @@ const CommentsContainer = ({
     });
   };
 
+  const _handleOnUserPress = (username) => {
+    if (username) {
+      dispatch(showProfileModal(username));
+    }
+  };
+
   const _openReplyThread = (comment) => {
     postsCachePrimer.cachePost(comment);
     navigation.navigate({
       name: ROUTES.SCREENS.POST,
-      key: comment.permlink,
       params: {
         author: comment.author,
         permlink: comment.permlink,
@@ -296,6 +293,8 @@ const CommentsContainer = ({
       fetchPost={fetchPost}
       handleDeleteComment={_handleDeleteComment}
       handleOnPressCommentMenu={_handleOnPressCommentMenu}
+      handleOnOptionsPress={handleOnOptionsPress}
+      handleOnUserPress={_handleOnUserPress}
       isOwnProfile={isOwnProfile}
       isHideImage={isHideImage}
       handleOnVotersPress={_handleOnVotersPress}
@@ -307,6 +306,7 @@ const CommentsContainer = ({
       fetchedAt={fetchedAt}
       postContentView={postContentView}
       isLoading={isLoading}
+      postType={postType}
     />
   );
 };

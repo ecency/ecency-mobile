@@ -43,7 +43,7 @@ const CommunityScreen = ({ route }) => {
     }
   };
 
-  _handleOnExpanded = () => {
+  const _handleOnExpanded = () => {
     if (!isExpanded) {
       setIsExpanded(true);
     }

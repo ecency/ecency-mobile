@@ -1,26 +1,14 @@
-export default [
-  'rpc.ecency.com',
-  'api.hive.blog',
-  'api.deathwing.me',
-  'anyx.io',
-  'api.pharesim.me',
-];
+export default ['api.hive.blog', 'api.deathwing.me', 'anyx.io', 'api.openhive.network'];
 
-export const VALUE = [
-  'rpc.ecency.com',
-  'api.hive.blog',
-  'api.deathwing.me',
-  'anyx.io',
-  'api.pharesim.me',
-];
+export const VALUE = ['api.hive.blog', 'api.deathwing.me', 'anyx.io', 'api.openhive.network'];
 
 export const SERVER_LIST = [
-  "https://rpc.ecency.com",
-  "https://api.hive.blog",
-  "https://api.deathwing.me",
-  "https://api.pharesim.me",
-  "https://anyx.io",
-  "https://rpc.ausbit.dev",
-  "https://api.openhive.network",
-  "https://api.hivekings.com"
+  'https://api.hive.blog',
+  'https://api.deathwing.me',
+  'https://anyx.io',
+  'https://rpc.ausbit.dev',
+  'https://api.openhive.network',
+  'https://techcoderx.com',
+  'https://hived.emre.sh',
+  'https://hive-api.arcange.eu',
 ];

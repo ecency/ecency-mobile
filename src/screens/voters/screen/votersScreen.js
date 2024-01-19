@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
-import forEach from 'lodash/forEach';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -12,45 +11,38 @@ import AccountListContainer from '../../../containers/accountListContainer';
 // Utils
 import { getActiveVotes } from '../../../providers/hive/dhive';
 import { parseActiveVotes } from '../../../utils/postParser';
-import { getResizedAvatar } from '../../../utils/image';
+import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
 
 const filterOptions = ['rewards', 'percent', 'time'];
 
 const VotersScreen = ({ route }) => {
   const intl = useIntl();
 
-  const [content] = useState(route.params?.content ?? null);
-  const [activeVotes, setActiveVotes] = useState(get(content, 'active_votes') || []);
+  const [post, setPost] = useState(route.params?.content ?? null);
+  const _cPost = useInjectVotesCache(post);
 
   const headerTitle = intl.formatMessage({
     id: 'voters.voters_info',
   });
 
   useEffect(() => {
-    const av = get(content, 'active_votes', []);
-    forEach(av, (value) => {
-      value.reward = 0;
-      value.percent = 0;
-      value.is_down_vote = Math.sign(value.rshares) < 0;
-      value.avatar = getResizedAvatar(get(value, 'voter'));
-    });
-    setActiveVotes(av);
-  }, []);
-
-  useEffect(() => {
-    if (content) {
-      getActiveVotes(get(content, 'author'), get(content, 'permlink'))
+    if (route.params?.content) {
+      getActiveVotes(get(post, 'author'), get(post, 'permlink'))
         .then((result) => {
           result.sort((a, b) => b.rshares - a.rshares);
-          const _votes = parseActiveVotes({ ...content, active_votes: result });
-          setActiveVotes(_votes);
+          post.active_votes = parseActiveVotes({ ...post, active_votes: result });
+          setPost({ ...post });
         })
-        .catch(() => {});
+        .catch(() => {
+          console.log('cancel pressed');
+        });
     }
-  }, [content]);
+  }, [route.params?.content]);
+
+  const _activeVotes = _cPost.active_votes.slice();
 
   return (
-    <AccountListContainer data={activeVotes}>
+    <AccountListContainer data={_activeVotes}>
       {({ data, filterResult, filterIndex, handleOnVotersDropdownSelect, handleSearch }) => (
         <>
           <BasicHeader
@@ -72,7 +64,7 @@ const VotersScreen = ({ route }) => {
             selectedOptionIndex={filterIndex}
             onDropdownSelect={handleOnVotersDropdownSelect}
           />
-          <VotersDisplay votes={filterResult || data} createdAt={content.created} />
+          <VotersDisplay votes={filterResult || data} createdAt={post.created} />
         </>
       )}
     </AccountListContainer>

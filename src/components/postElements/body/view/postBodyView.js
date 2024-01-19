@@ -54,7 +54,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
     if (videoId && youtubePlayerRef.current) {
       setYoutubeVideoId(videoId);
       setVideoStartTime(startTime);
-      youtubePlayerRef.current.setModalVisible(true);
+      youtubePlayerRef.current.show();
     }
   };
 
@@ -62,7 +62,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
     if (embedUrl && youtubePlayerRef.current) {
       setVideoUrl(embedUrl);
       setVideoStartTime(0);
-      youtubePlayerRef.current.setModalVisible(true);
+      youtubePlayerRef.current.show();
     }
   };
 
@@ -70,6 +70,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
     if (ind === 1) {
       // open gallery mode
       setIsImageModalOpen(true);
+      return;
     }
     if (ind === 0) {
       // copy to clipboard
@@ -141,8 +142,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
       const anchoredPostRegex = /(.*?\#\@)(.*)\/(.*)/;
       const matchedLink = permlink.match(anchoredPostRegex);
       if (matchedLink) {
-        author = matchedLink[2];
-        permlink = matchedLink[3];
+        [, , author, permlink] = matchedLink;
       }
 
       // check if permlink has trailing query param, remove that if is the case
@@ -261,6 +261,11 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
     actionImage.current.show();
   };
 
+  const _onCloseImageViewer = () => {
+    setIsImageModalOpen(false);
+    setSelectedImage(null);
+  };
+
   const _renderImageViewerHeader = (imageIndex) => {
     return (
       <SafeAreaView
@@ -277,7 +282,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
             color={EStyleSheet.value('$primaryDarkText')}
             buttonStyle={styles.closeIconButton}
             size={20}
-            handleOnPress={() => setIsImageModalOpen(false)}
+            handleOnPress={_onCloseImageViewer}
           />
         </View>
       </SafeAreaView>
@@ -288,11 +293,11 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
     <Fragment>
       <ImageView
         images={postImages.map((url) => ({ uri: url }))}
-        imageIndex={0}
+        imageIndex={postImages.indexOf(selectedImage)}
         visible={isImageModalOpen}
         animationType="slide"
         swipeToCloseEnabled
-        onRequestClose={() => setIsImageModalOpen(false)}
+        onRequestClose={_onCloseImageViewer}
         HeaderComponent={(imageIndex) => _renderImageViewerHeader(imageIndex.imageIndex)}
       />
 
@@ -301,7 +306,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
         gestureEnabled={true}
         hideUnderlay
         containerStyle={{ backgroundColor: 'black' }}
-        indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+        indicatorStyle={{ backgroundColor: EStyleSheet.value('$primaryWhiteLightBackground') }}
         onClose={() => {
           setYoutubeVideoId(null);
           setVideoUrl(null);

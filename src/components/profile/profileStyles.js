@@ -64,6 +64,7 @@ export default EStyleSheet.create({
   commentsTabBar: {
     backgroundColor: '$primaryBackgroundColor',
     paddingTop: 5,
+    flex: 1,
   },
   scrollContentContainer: {
     paddingBottom: 60,

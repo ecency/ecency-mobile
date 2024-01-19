@@ -55,8 +55,8 @@ const AssetsSelect = ({ navigation }) => {
   useEffect(() => {
     const data: CoinData[] = [];
 
-    for (const key in coinsData) {
-      if (coinsData.hasOwnProperty(key) && (coinsData[key].isEngine || coinsData[key].isSpk)) {
+    Object.keys(coinsData).forEach((key) => {
+      if (coinsData[key].isEngine || coinsData[key].isSpk) {
         const asset: CoinData = coinsData[key];
         const _name = asset.name.toLowerCase();
         const _symbol = asset.symbol.toLowerCase();
@@ -69,7 +69,7 @@ const AssetsSelect = ({ navigation }) => {
           data.push(asset);
         }
       }
-    }
+    });
 
     setListData(data);
     _updateSortedList({ data });

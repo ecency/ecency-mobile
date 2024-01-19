@@ -1,5 +1,6 @@
 import React, { useState, Fragment, useRef } from 'react';
-import { FlatList, Text } from 'react-native';
+import { Text } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
@@ -31,6 +32,7 @@ const CommentsView = ({
   isLoggedIn,
   isShowSubComments,
   mainAuthor,
+  handleOnOptionsPress,
   marginLeft,
   showAllComments,
   hideManyCommentsButton,
@@ -40,6 +42,7 @@ const CommentsView = ({
   incrementRepliesCount,
   postContentView,
   isLoading,
+  postType,
 }) => {
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
@@ -48,7 +51,9 @@ const CommentsView = ({
   const postInteractionRef = useRef(null);
 
   const _openCommentMenu = (item) => {
-    if (commentMenu.current) {
+    if (handleOnOptionsPress) {
+      handleOnOptionsPress(item);
+    } else if (commentMenu.current) {
       setSelectedComment(item);
       commentMenu.current.show();
     }
@@ -73,11 +78,14 @@ const CommentsView = ({
 
   const _onUpvotePress = ({ content, anchorRect, showPayoutDetails, onVotingStart }) => {
     if (upvotePopoverRef.current) {
+      const postType =
+        content.parent_author === 'ecency.waves' ? PostTypes.WAVE : PostTypes.COMMENT;
+
       upvotePopoverRef.current.showPopover({
         anchorRect,
         showPayoutDetails,
         content,
-        postType: PostTypes.COMMENT,
+        postType,
         onVotingStart,
       });
     }
@@ -125,7 +133,6 @@ const CommentsView = ({
         isLoggedIn={isLoggedIn}
         showAllComments={showAllComments}
         isShowSubComments={isShowSubComments}
-        key={get(item, 'permlink')}
         marginLeft={marginLeft}
         handleOnLongPress={() => _openCommentMenu(item)}
         openReplyThread={() => _openReplyThread(item)}
@@ -160,26 +167,32 @@ const CommentsView = ({
 
   return (
     <Fragment>
-      <FlatList
-        style={{ ...styles.list, ...styleOerride }}
-        contentContainerStyle={{ padding: 0 }}
+      <FlashList
+        contentContainerStyle={{ padding: 0, ...styles.list, ...styleOerride }}
         data={comments}
+        keyExtractor={(item) => item.author + item.permlink}
         renderItem={_renderItem}
-        keyExtractor={(item) => get(item, 'permlink')}
         ListEmptyComponent={_renderEmptyContent()}
         ListHeaderComponent={postContentView}
         overScrollMode="never"
+        onEndReachedThreshold={1}
+        maxToRenderPerBatch={7}
+        initialNumToRender={5}
+        estimatedItemSize={100}
+        windowSize={10}
         {...flatListProps}
       />
-      <OptionsModal
-        ref={commentMenu}
-        options={menuItems}
-        title={get(selectedComment, 'summary')}
-        cancelButtonIndex={3}
-        onPress={_onMenuItemPress}
-      />
+      {!handleOnOptionsPress && (
+        <OptionsModal
+          ref={commentMenu}
+          options={menuItems}
+          title={get(selectedComment, 'summary')}
+          cancelButtonIndex={3}
+          onPress={_onMenuItemPress}
+        />
+      )}
       <UpvotePopover ref={upvotePopoverRef} />
-      <PostHtmlInteractionHandler ref={postInteractionRef} />
+      <PostHtmlInteractionHandler ref={postInteractionRef} postType={postType} />
     </Fragment>
   );
 };

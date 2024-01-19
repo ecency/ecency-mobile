@@ -15,7 +15,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   const postsCacherPrimer = postQueries.usePostsCachePrimer();
 
   const [data, setData] = useState([]);
-  const [sort, setSort] = useState('newest');
+  const [sort] = useState('newest');
   const [scrollId, setScrollId] = useState('');
   const [noResult, setNoResult] = useState(false);
 
@@ -39,7 +39,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
             setData([]);
           }
         })
-        .catch((err) => {
+        .catch(() => {
           setNoResult(true);
           setData([]);
         });
@@ -56,7 +56,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
             setData([]);
           }
         })
-        .catch((err) => {
+        .catch(() => {
           setNoResult(true);
           setData([]);
         });
@@ -71,7 +71,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
       sort: 'blog',
     };
 
-    return await getAccountPosts(options);
+    return getAccountPosts(options);
   };
 
   // Component Functions
@@ -88,7 +88,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     });
   };
 
-  const _loadMore = (index, value) => {
+  const _loadMore = () => {
     if (scrollId && searchValue) {
       search({ q: `${searchValue} type:post`, sort, scroll_id: scrollId })
         .then((res) => {

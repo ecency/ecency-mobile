@@ -22,6 +22,7 @@ import {
   Settings,
   SpinGame,
   Transfer,
+  TradeScreen,
   Voters,
   AccountBoost,
   TagResult,
@@ -42,6 +43,7 @@ const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
 
 const MainStackNavigator = () => {
+  // TODO: remove initialRoute before PR
   return (
     <MainStack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
       <MainStack.Screen name={ROUTES.DRAWER.MAIN} component={DrawerNavigator} />
@@ -67,6 +69,7 @@ const MainStackNavigator = () => {
         <MainStack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters} />
         <MainStack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows} />
         <MainStack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} />
+        <MainStack.Screen name={ROUTES.SCREENS.TRADE} component={TradeScreen} />
         <MainStack.Screen name={ROUTES.SCREENS.EDITOR} component={Editor} />
         <MainStack.Screen name={ROUTES.SCREENS.BACKUP_KEYS} component={BackupKeysScreen} />
         <MainStack.Screen
@@ -86,7 +89,6 @@ export const StackNavigator = ({ initRoute }) => {
       screenOptions={{ headerShown: false, animation: 'slide_from_bottom' }}
     >
       <RootStack.Screen name={ROUTES.STACK.MAIN} component={MainStackNavigator} />
-
       <RootStack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} />
       <RootStack.Screen name={ROUTES.SCREENS.LOGIN} component={Login} />
       <RootStack.Screen name={ROUTES.SCREENS.WELCOME} component={WelcomeScreen} />

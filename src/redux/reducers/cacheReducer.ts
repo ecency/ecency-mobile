@@ -24,9 +24,11 @@ export enum CacheStatus {
   UPDATED = 'UPDATED',
 }
 
-export interface Vote {
+export interface VoteCache {
   amount: number;
   isDownvote: boolean;
+  rshares: number;
+  percent: number;
   incrementStep: number;
   votedAt: number;
   expiresAt: number;
@@ -54,6 +56,7 @@ export interface Comment {
   expandedReplies?: boolean;
   renderOnTop?: boolean;
   status: CacheStatus;
+  url?: string;
 }
 
 export interface Draft {
@@ -89,7 +92,7 @@ export interface LastUpdateMeta {
 }
 
 interface State {
-  votesCollection: { [key: string]: Vote };
+  votesCollection: { [key: string]: VoteCache };
   commentsCollection: { [key: string]: Comment }; // TODO: handle comment array per post, if parent is same
   draftsCollection: { [key: string]: Draft };
   claimsCollection: ClaimsCollection;
@@ -108,7 +111,7 @@ const initialState: State = {
   lastUpdate: null,
 };
 
-export default function (state = initialState, action) {
+const cacheReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case UPDATE_VOTE_CACHE:
@@ -249,47 +252,39 @@ export default function (state = initialState, action) {
       const currentTime = new Date().getTime();
 
       if (state.votesCollection) {
-        for (const key in state.votesCollection) {
-          if (state.votesCollection.hasOwnProperty(key)) {
-            const vote = state.votesCollection[key];
-            if (vote && (vote?.expiresAt || 0) < currentTime) {
-              delete state.votesCollection[key];
-            }
+        Object.keys(state.votesCollection).forEach((key) => {
+          const vote = state.votesCollection[key];
+          if (vote && (vote?.expiresAt || 0) < currentTime) {
+            delete state.votesCollection[key];
           }
-        }
+        });
       }
 
       if (state.commentsCollection) {
-        for (const key in state.commentsCollection) {
-          if (state.commentsCollection.hasOwnProperty(key)) {
-            const comment = state.commentsCollection[key];
-            if (comment && (comment?.expiresAt || 0) < currentTime) {
-              delete state.commentsCollection[key];
-            }
+        Object.keys(state.commentsCollection).forEach((key) => {
+          const comment = state.commentsCollection[key];
+          if (comment && (comment?.expiresAt || 0) < currentTime) {
+            delete state.commentsCollection[key];
           }
-        }
+        });
       }
 
       if (state.draftsCollection) {
-        for (const key in state.draftsCollection) {
-          if (state.draftsCollection.hasOwnProperty(key)) {
-            const draft = state.draftsCollection[key];
-            if (draft && ((draft?.expiresAt || 0) < currentTime || !draft.body)) {
-              delete state.draftsCollection[key];
-            }
+        Object.keys(state.draftsCollection).forEach((key) => {
+          const draft = state.draftsCollection[key];
+          if (draft && ((draft?.expiresAt || 0) < currentTime || !draft.body)) {
+            delete state.draftsCollection[key];
           }
-        }
+        });
       }
 
       if (state.claimsCollection) {
-        for (const key in state.claimsCollection) {
-          if (state.claimsCollection.hasOwnProperty(key)) {
-            const claim = state.claimsCollection[key];
-            if (claim && (claim?.expiresAt || 0) < currentTime) {
-              delete state.claimsCollection[key];
-            }
+        Object.keys(state.claimsCollection).forEach((key) => {
+          const claim = state.claimsCollection[key];
+          if (claim && (claim?.expiresAt || 0) < currentTime) {
+            delete state.claimsCollection[key];
           }
-        }
+        });
       }
 
       if (state.subscribedCommunities && state.subscribedCommunities.size) {
@@ -306,4 +301,6 @@ export default function (state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+export default cacheReducer;

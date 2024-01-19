@@ -3,17 +3,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { BasicHeader } from '../../../components';
-import { CoinSummary } from '../children';
+import { CoinSummary, ActivitiesList } from '../children';
 import styles from './screen.styles';
-import ActivitiesList from '../children/activitiesList';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
+import { CoinActivity, CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
+import { useAppSelector } from '../../../hooks';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
+import parseToken from '../../../utils/parseToken';
 
 export interface AssetDetailsScreenParams {
   coinId: string;
@@ -104,7 +104,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     }
   };
 
-  const _onActionPress = (transferType: string) => {
+  const _onActionPress = (transferType: string, baseActivity: CoinActivity | null = null) => {
     let navigateTo = ROUTES.SCREENS.TRANSFER;
     let navigateParams = {};
 
@@ -119,6 +119,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
       switch (transferType) {
         case TransferTypes.UNSTAKE_ENGINE:
+        case TransferTypes.DELEGATE_ENGINE:
           balance =
             coinData.extraDataPairs?.reduce(
               (bal, data) => (data.dataKey === 'staked' ? Number(data.value) : bal),
@@ -135,12 +136,25 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         case TransferTypes.WITHDRAW_HBD:
           balance = coinData.savings ?? 0;
           break;
+
+        case TransferTypes.SWAP_TOKEN:
+          navigateTo = ROUTES.SCREENS.TRADE;
+          break;
       }
 
       navigateParams = {
         transferType: coinId === ASSET_IDS.ECENCY ? 'points' : transferType,
         fundType: coinId === ASSET_IDS.ECENCY ? 'ESTM' : symbol,
         balance,
+      };
+    }
+
+    if (baseActivity) {
+      navigateParams = {
+        ...navigateParams,
+        referredUsername: baseActivity.details?.split(' ')[2]?.slice(1), // from @user1 to @user2
+        initialAmount: `${parseToken(baseActivity.value)}`,
+        initialMemo: baseActivity.memo,
       };
     }
 
@@ -187,6 +201,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         activitiesEnabled={!coinData?.isSpk}
         onEndReached={_fetchDetails}
         onRefresh={_onRefresh}
+        onActionPress={_onActionPress}
       />
       <DelegationsModal ref={delegationsModalRef} />
     </View>

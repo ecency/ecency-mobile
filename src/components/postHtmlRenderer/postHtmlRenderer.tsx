@@ -13,7 +13,7 @@ import { VideoPlayer } from '..';
 interface PostHtmlRendererProps {
   contentWidth: number;
   body: string;
-  metadata: string;
+  metadata: any;
   isComment?: boolean;
   onLoaded?: () => void;
   setSelectedImage: (imgUrl: string, postImageUrls: string[]) => void;
@@ -23,6 +23,7 @@ interface PostHtmlRendererProps {
   handleTagPress: (tag: string, filter?: string) => void;
   handleVideoPress: (videoUrl: string) => void;
   handleYoutubePress: (videoId: string, startTime: number) => void;
+  handleOnContentPress?: () => void;
 }
 
 export const PostHtmlRenderer = memo(
@@ -34,6 +35,7 @@ export const PostHtmlRenderer = memo(
     onLoaded,
     setSelectedImage,
     setSelectedLink,
+    handleOnContentPress,
     handleOnPostPress,
     handleOnUserPress,
     handleTagPress,
@@ -48,7 +50,7 @@ export const PostHtmlRenderer = memo(
     body = body
       .replace(/<center>/g, '<div class="text-center">')
       .replace(/<\/center>/g, '</div>')
-      .replace(/<span(.*?)>/g, '') //TODO: later handle span with propties lie <span class="ll-key"> and remove on raw <span/>
+      .replace(/<span(.*?)>/g, '') // TODO: later handle span with propties lie <span class="ll-key"> and remove on raw <span/>
       .replace(/<\/span>/g, '');
 
     const _minTableColWidth = contentWidth / 3 - 12;
@@ -180,8 +182,8 @@ export const PostHtmlRenderer = memo(
             // remove first child and place it as first separate row in table
             if (headerIndex !== -1 && colIndex !== -1 && headerIndex < colIndex) {
               console.log('time to do some switching', headerIndex, colIndex);
-              const header = child.children[headerIndex];
-              const headerRow = new Element('tr', {}, [header]);
+              // const header = child.children[headerIndex];
+              // const headerRow = new Element('tr', {}, [header]);
 
               // TODO: put back repalcement for domutils
               // removeElement(header);
@@ -274,6 +276,7 @@ export const PostHtmlRenderer = memo(
      */
     const _paraRenderer = ({ TDefaultRenderer, ...props }: CustomRendererProps<TNode>) => {
       props.style = props.tnode.parent.tagName === 'li' ? styles.pLi : styles.p;
+      props.onPress = !props.onPress && handleOnContentPress ? handleOnContentPress : props.onPress;
 
       return <TDefaultRenderer {...props} />;
     };
@@ -395,6 +398,7 @@ export const PostHtmlRenderer = memo(
         customHTMLElementModels={customHTMLElementModels}
         renderersProps={renderersProps}
         WebView={WebView}
+        pressableHightlightColor="transparent"
       />
     );
   },

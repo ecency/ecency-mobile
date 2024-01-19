@@ -20,6 +20,7 @@ import Redeem from './redeem/screen/redeemScreen';
 import HiveSigner from './steem-connect/hiveSigner';
 import { WebBrowser } from './webBrowser';
 import Transfer from './transfer';
+import TradeScreen from './trade';
 import Voters from './voters';
 import AccountBoost from './accountBoost/screen/accountBoostScreen';
 import Register from './register/registerScreen';
@@ -56,6 +57,7 @@ export {
   SpinGame,
   HiveSigner,
   Transfer,
+  TradeScreen,
   Voters,
   Wallet,
   TagResult,

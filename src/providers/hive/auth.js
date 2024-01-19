@@ -52,7 +52,7 @@ export const login = async (username, password) => {
   const privateKeys = getPrivateKeys(username, password);
 
   // Check all keys
-  Object.keys(publicKeys).map((pubKey) => {
+  Object.keys(publicKeys).forEach((pubKey) => {
     if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
       loginFlag = true;
       if (privateKeys.isMasterKey) {
@@ -370,7 +370,7 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
   const privateKeys = getPrivateKeys(data.username, data.password);
 
   // Check all keys
-  Object.keys(publicKeys).map((pubKey) => {
+  Object.keys(publicKeys).forEach((pubKey) => {
     if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
       loginFlag = true;
     }

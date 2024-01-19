@@ -51,4 +51,8 @@ export default EStyleSheet.create({
   iconsContainer: {
     flexDirection: 'row',
   },
+  selectedStyle: {
+    borderColor: '$primaryRed',
+    borderWidth: 3,
+  },
 });

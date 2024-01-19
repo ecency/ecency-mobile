@@ -4,8 +4,8 @@ import LottieView from 'lottie-react-native';
 import { useSelector } from 'react-redux';
 
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
-const PostPlaceHolder = () => {
 
+const PostPlaceHolder = () => {
   const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
   const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
 
@@ -27,7 +27,6 @@ const PostPlaceHolder = () => {
       />
     </View>
   );
-
 };
 
 export default PostPlaceHolder;

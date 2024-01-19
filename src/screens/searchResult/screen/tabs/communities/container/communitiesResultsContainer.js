@@ -97,7 +97,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   useEffect(() => {
     const communitiesData = [...data];
 
-    Object.keys(subscribingCommunities).map((communityId) => {
+    Object.keys(subscribingCommunities).forEach((communityId) => {
       if (!subscribingCommunities[communityId].loading) {
         if (!subscribingCommunities[communityId].error) {
           if (subscribingCommunities[communityId].isSubscribed) {

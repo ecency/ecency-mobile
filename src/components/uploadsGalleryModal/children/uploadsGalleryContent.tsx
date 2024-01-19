@@ -1,54 +1,57 @@
-import { proxifyImageSrc } from '@ecency/render-helper';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import {
-  ActivityIndicator,
-  Alert,
-  Keyboard,
-  Platform,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ActivityIndicator, Alert, Keyboard, Text, TouchableOpacity, View } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { FlatList } from 'react-native-gesture-handler';
 import Animated, {
   default as AnimatedView,
+  EasingNode,
   SlideInRight,
   SlideOutRight,
-  ZoomIn,
-  EasingNode,
 } from 'react-native-reanimated';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import FastImage from 'react-native-fast-image';
-import { FlatList } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
 import { Icon, IconButton } from '../..';
-import { UploadedMedia } from '../../../models';
+import { MediaItem } from '../../../providers/ecency/ecency.types';
+import { editorQueries, speakQueries } from '../../../providers/queries';
+import { MediaPreviewItem } from './mediaPreviewItem';
 import styles, {
   COMPACT_HEIGHT,
   EXPANDED_HEIGHT,
   MAX_HORIZONTAL_THUMBS,
 } from './uploadsGalleryModalStyles';
-import { useMediaDeleteMutation } from '../../../providers/queries';
+import { ThreeSpeakStatus } from '../../../providers/speak/speak.types';
+import { toastNotification } from '../../../redux/actions/uiAction';
+import { useAppSelector } from '../../../hooks';
+import { Modes } from '../container/uploadsGalleryModal';
 
 type Props = {
+  mode: Modes;
   insertedMediaUrls: string[];
-  mediaUploads: any[];
+  mediaUploads: MediaItem[];
   isAddingToUploads: boolean;
   insertMedia: (map: Map<number, boolean>) => void;
   handleOpenGallery: (addToUploads?: boolean) => void;
+  handleOpenSpeakUploader: () => void;
   handleOpenCamera: () => void;
 };
 
 const UploadsGalleryContent = ({
+  mode,
   insertedMediaUrls,
   mediaUploads,
   isAddingToUploads,
   insertMedia,
   handleOpenGallery,
   handleOpenCamera,
+  handleOpenSpeakUploader,
 }: Props) => {
   const intl = useIntl();
+  const dispatch = useDispatch();
 
-  const deleteMediaMutation = useMediaDeleteMutation();
+  const deleteMediaMutation = editorQueries.useMediaDeleteMutation();
+  const speakMutations = speakQueries.useSpeakMutations();
+
+  const allowSpkPublishing = useAppSelector((state) => state.editor.allowSpkPublishing);
 
   const [deleteIds, setDeleteIds] = useState<string[]>([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
@@ -56,7 +59,10 @@ const UploadsGalleryContent = ({
 
   const animatedHeightRef = useRef(new Animated.Value(COMPACT_HEIGHT));
 
-  const isDeleting = deleteMediaMutation.isLoading;
+  const isDeleting =
+    mode === Modes.MODE_IMAGE
+      ? deleteMediaMutation.isLoading
+      : speakMutations.deleteVideoMutation.isLoading;
 
   useEffect(() => {
     if (isExpandedMode) {
@@ -65,12 +71,28 @@ const UploadsGalleryContent = ({
   }, [isExpandedMode]);
 
   const _deleteMedia = async () => {
-    deleteMediaMutation.mutate(deleteIds, {
+    const _options = {
       onSettled: () => {
         setIsDeleteMode(false);
         setDeleteIds([]);
       },
-    });
+    };
+
+    switch (mode) {
+      case Modes.MODE_VIDEO:
+        const _permlinks: string[] = [];
+        deleteIds.forEach((_id) => {
+          const mediaItem = mediaUploads.find((item) => item._id === _id);
+          if (mediaItem?.speakData) {
+            _permlinks.push(mediaItem.speakData.permlink);
+          }
+        });
+        speakMutations.deleteVideoMutation.mutate(_permlinks, _options);
+        break;
+      default:
+        deleteMediaMutation.mutate(deleteIds, _options);
+        break;
+    }
   };
 
   const _onDeletePress = async () => {
@@ -101,60 +123,72 @@ const UploadsGalleryContent = ({
   };
 
   // render list item for snippet and handle actions;
-  const _renderItem = ({ item, index }: { item: UploadedMedia; index: number }) => {
+  const _renderItem = ({ item, index }: { item: MediaItem; index: number }) => {
+    // avoid rendering unpublihsed videos in allow publishing state is false
+    if (
+      !allowSpkPublishing &&
+      item.speakData &&
+      item.speakData.status !== ThreeSpeakStatus.PUBLISHED
+    ) {
+      return null;
+    }
+
     const _onPress = () => {
       if (isDeleteMode) {
-        const idIndex = deleteIds.indexOf(item._id);
+        const deleteId = item._id;
+
+        const idIndex = deleteIds.indexOf(deleteId);
         if (idIndex >= 0) {
           deleteIds.splice(idIndex, 1);
         } else {
-          deleteIds.push(item._id);
+          deleteIds.push(deleteId);
         }
         setDeleteIds([...deleteIds]);
       } else {
-        insertMedia(new Map([[index, true]]));
+        let insertError: Error | null = null;
+        if (item.speakData) {
+          switch (item.speakData.status) {
+            case ThreeSpeakStatus.READY:
+              // check if a ready video is already inserted
+              insertedMediaUrls.forEach((url) => {
+                const _mediaItem = mediaUploads.find(
+                  (item) => item.url === url && item.speakData?.status === ThreeSpeakStatus.READY,
+                );
+                if (_mediaItem) {
+                  insertError = new Error('Can only have on unpublised speak speak per post');
+                }
+              });
+              break;
+            case ThreeSpeakStatus.PREPARING:
+            case ThreeSpeakStatus.ENCODING:
+              // interupt video insertion is it's still under processing
+              insertError = new Error('Please wait while video is being processed');
+              break;
+
+            default:
+              console.log('Skipping corner check for published video');
+              break;
+          }
+        }
+
+        if (!insertError) {
+          insertMedia(new Map([[index, true]]));
+        } else {
+          dispatch(toastNotification(insertError.message));
+        }
       }
     };
 
-    const thumbUrl = proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
-    let isInsertedTimes = 0;
-    insertedMediaUrls.forEach((url) => (isInsertedTimes += url === item.url ? 1 : 0));
-    const isToBeDeleted = deleteIds.indexOf(item._id) >= 0;
-    const transformStyle = {
-      transform: isToBeDeleted ? [{ scaleX: 0.7 }, { scaleY: 0.7 }] : [],
-    };
-
-    const _renderMinus = () =>
-      isDeleteMode && (
-        <AnimatedView.View entering={ZoomIn} style={styles.minusContainer}>
-          <Icon
-            color={EStyleSheet.value('$pureWhite')}
-            iconType="MaterialCommunityIcons"
-            name="minus"
-            size={20}
-          />
-        </AnimatedView.View>
-      );
-
-    const _renderCounter = () =>
-      isInsertedTimes > 0 &&
-      !isDeleteMode && (
-        <AnimatedView.View entering={ZoomIn} style={styles.counterContainer}>
-          <Text style={styles.counterText}>{isInsertedTimes}</Text>
-        </AnimatedView.View>
-      );
-
     return (
-      <TouchableOpacity onPress={_onPress} disabled={isDeleting}>
-        <View style={transformStyle}>
-          <FastImage
-            source={{ uri: thumbUrl }}
-            style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
-          />
-          {_renderCounter()}
-          {_renderMinus()}
-        </View>
-      </TouchableOpacity>
+      <MediaPreviewItem
+        item={item}
+        insertedMediaUrls={insertedMediaUrls}
+        deleteIds={deleteIds}
+        isDeleteMode={isDeleteMode}
+        isDeleting={isDeleting}
+        isExpandedMode={isExpandedMode}
+        onPress={_onPress}
+      />
     );
   };
 
@@ -188,11 +222,25 @@ const UploadsGalleryContent = ({
     );
   };
 
+  const _renderSelectButtons = (
+    <>
+      {_renderSelectButton(
+        mode === Modes.MODE_VIDEO ? 'video-box' : 'image',
+        'Gallery',
+        handleOpenGallery,
+      )}
+      {_renderSelectButton('camera', 'Camera', handleOpenCamera)}
+    </>
+  );
+
   const _renderHeaderContent = () => (
     <View style={{ ...styles.buttonsContainer, paddingVertical: isExpandedMode ? 8 : 0 }}>
       <View style={styles.selectButtonsContainer}>
-        {_renderSelectButton('image', 'Gallery', handleOpenGallery)}
-        {_renderSelectButton('camera', 'Camera', handleOpenCamera)}
+        {mode === Modes.MODE_IMAGE
+          ? _renderSelectButtons
+          : isAddingToUploads
+          ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
+          : _renderSelectButtons}
       </View>
       <View style={styles.pillBtnContainer}>
         <IconButton
@@ -205,6 +253,7 @@ const UploadsGalleryContent = ({
             handleOpenGallery(true);
           }}
         />
+
         <IconButton
           style={{
             ...styles.uploadsActionBtn,
@@ -273,7 +322,7 @@ const UploadsGalleryContent = ({
             }}
             iconType="MaterialCommunityIcons"
             name="delete-outline"
-            color={EStyleSheet.value(deleteIds.length > 0 ? '$primaryBlack' : '$primaryBlack')}
+            color={EStyleSheet.value(deleteIds.length > 0 ? '$pureWhite' : '$pureWhite')}
             size={32}
             onPress={_onDeletePress}
             isLoading={isDeleting}
@@ -287,7 +336,7 @@ const UploadsGalleryContent = ({
         >
           <IconButton
             style={styles.deleteButton}
-            color={EStyleSheet.value('$primaryBlack')}
+            color={EStyleSheet.value('$pureWhite')}
             iconType="MaterialCommunityIcons"
             name="delete-outline"
             disabled={isDeleting}

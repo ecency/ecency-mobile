@@ -1,7 +1,20 @@
+import {
+  EngineMetric,
+  HistoryItem,
+  HiveEngineToken,
+  MarketData,
+  Token,
+  TokenBalance,
+  TokenMetadata,
+  TokenStatus,
+} from './hiveEngine.types';
 
-import { EngineMetric, HistoryItem, HiveEngineToken, MarketData, Token, TokenBalance, TokenMetadata, TokenStatus } from './hiveEngine.types';
-
-export const convertEngineToken = (balanceObj: TokenBalance, token?: Token, metrics?: EngineMetric, tokenStatus?:TokenStatus) => {
+export const convertEngineToken = (
+  balanceObj: TokenBalance,
+  token?: Token,
+  metrics?: EngineMetric,
+  tokenStatus?: TokenStatus,
+) => {
   if (!balanceObj) {
     return null;
   }
@@ -37,50 +50,44 @@ export const convertEngineToken = (balanceObj: TokenBalance, token?: Token, metr
   } as HiveEngineToken;
 };
 
-
 export const convertRewardsStatus = (rawData: any) => {
-
   return {
-    symbol:rawData.symbol,
-    pendingToken:rawData.pending_token,
-    precision:rawData.precision,
-    pendingRewards: rawData.pending_token / Math.pow(10, rawData.precision)
-  } as TokenStatus
-}
-
+    symbol: rawData.symbol,
+    pendingToken: rawData.pending_token,
+    precision: rawData.precision,
+    pendingRewards: rawData.pending_token / 10 ** rawData.precision,
+  } as TokenStatus;
+};
 
 export const convertMarketData = (rawData: any) => {
-
-  if(!rawData){
+  if (!rawData) {
     return null;
   }
 
   return {
-    quoteVolume:parseFloat(rawData.quoteVolume),
-    baseVolume:parseFloat(rawData.baseVolume),
-    low:parseFloat(rawData.low),
-    close:parseFloat(rawData.close),
-    high:parseFloat(rawData.high),
-    open:parseFloat(rawData.open),
-    timestamp:rawData.timestamp,
-  } as MarketData
-}
-
+    quoteVolume: parseFloat(rawData.quoteVolume),
+    baseVolume: parseFloat(rawData.baseVolume),
+    low: parseFloat(rawData.low),
+    close: parseFloat(rawData.close),
+    high: parseFloat(rawData.high),
+    open: parseFloat(rawData.open),
+    timestamp: rawData.timestamp,
+  } as MarketData;
+};
 
 export const convertEngineHistory = (rawData: any) => {
   return {
-
-    _id:rawData._id,
-    blockNumber:rawData.blockNumber,
-    transactionId:rawData.transactionId,
-    timestamp:rawData.timestamp * 1000,
-    operation:rawData.operation,
-    from:rawData.from,
-    to:rawData.to,
-    symbol:rawData.symbol,
-    quantity:parseFloat(rawData.quantity),
-    memo:rawData.memo,
-    account:rawData.account,
-    authorperm:rawData.authorperm,
-  } as HistoryItem
-}
+    _id: rawData._id,
+    blockNumber: rawData.blockNumber,
+    transactionId: rawData.transactionId,
+    timestamp: rawData.timestamp * 1000,
+    operation: rawData.operation,
+    from: rawData.from,
+    to: rawData.to,
+    symbol: rawData.symbol,
+    quantity: parseFloat(rawData.quantity),
+    memo: rawData.memo,
+    account: rawData.account,
+    authorperm: rawData.authorperm,
+  } as HistoryItem;
+};

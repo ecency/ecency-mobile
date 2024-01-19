@@ -1,7 +1,7 @@
+import reactotron from 'reactotron-react-native';
 import ecencyApi from '../../config/ecencyApi';
 import bugsnagInstance from '../../config/bugsnag';
 import { EcencyUser, UserPoint } from './ecency.types';
-import reactotron from 'reactotron-react-native';
 
 /**
  * Records user activty and reward poinsts
@@ -10,7 +10,7 @@ import reactotron from 'reactotron-react-native';
  * @param tx transaction id
  * @returns
  */
-export const userActivity = async (ty: number, tx: string = '', bl: string | number = '') => {
+export const userActivity = async (ty: number, tx = '', bl: string | number = '') => {
   try {
     const data: {
       ty: number;
@@ -66,15 +66,14 @@ export const claimPoints = async () => {
   }
 };
 
-
 /**
  * TOOD:
  * POST /private-api/get-game
- * 
- * params: 
+ *
+ * params:
  * game_type:string
- * 
-* */
+ *
+ * */
 export const gameStatusCheck = async (game_type: string) => {
   try {
     const res = await ecencyApi.post('/private-api/get-game', { game_type });
@@ -89,13 +88,13 @@ export const gameStatusCheck = async (game_type: string) => {
 /**
  * TOOD:
  * POST /private-api/post-game
- * 
- * params: 
+ *
+ * params:
  * game_type:string
- * 
+ *
  * body:
  * key:string
-* */
+ * */
 
 export const gameClaim = async (game_type: string, key: string) => {
   try {
