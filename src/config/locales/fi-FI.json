@@ -567,7 +567,7 @@
     "failed_count": "Ei voitu ladata {failedCount} valituista kuvista {totalCount}",
     "publish_manual": "Valmis",
     "published": "Julkaistu",
-    "encoding_ipfs": "Encoding",
+    "encoding_ipfs": "Koodaus",
     "encoding_preparing": "Valmistellaan",
     "deleted": "Poistettu",
     "start_upload": "ALOITA LATAUS",
@@ -687,7 +687,7 @@
     "in": "yht",
     "reveal_muted": "Hiljennetty\nNapauta näyttääksesi sisällön",
     "posted_by": "Julkaisija {username} {appname} kautta ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ecency Aallot"
   },
   "drafts": {
     "title": "Luonnokset",
@@ -790,7 +790,7 @@
     "to": "Vastaanottaja",
     "amount_information": "Siirrä kytkintä muuttaaksesi määrää",
     "amount": "Määrä",
-    "executions": "Executions",
+    "executions": "Suoritukset",
     "recurrence": "Toistuvuus",
     "memo": "Muistio",
     "recurrent_transfer": "Toistuva Siirto",
