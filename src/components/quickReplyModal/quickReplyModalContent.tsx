@@ -53,9 +53,7 @@ export const QuickReplyModalContent = forwardRef(
     const dispatch = useDispatch();
 
     const uploadsGalleryModalRef = useRef(null);
-
     const postsCachePrimer = postQueries.usePostsCachePrimer();
-
     const postSubmitter = usePostSubmitter();
 
     const inputRef = useRef<RNTextInput | null>(null);
@@ -148,7 +146,7 @@ export const QuickReplyModalContent = forwardRef(
     const _submitPost = async () => {
       let _isSuccess = false;
       const _body =
-        mediaUrls.length > 0 ? `${commentValue}\n\n ![Wave Media](${mediaUrls[0]})` : commentValue;
+        mediaUrls.length > 0 ? `${commentValue}\n\n ![](${mediaUrls[0]})` : commentValue;
 
       switch (mode) {
         case 'comment':
@@ -210,6 +208,7 @@ export const QuickReplyModalContent = forwardRef(
           params: {
             isReply: true,
             post: selectedPost,
+            replyMediaUrls: mediaUrls,
           },
         });
       }

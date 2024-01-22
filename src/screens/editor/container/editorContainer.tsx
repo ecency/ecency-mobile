@@ -107,7 +107,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   // Component Life Cycle Functions
   componentDidMount() {
     this._isMounted = true;
-    const { currentAccount, route, queryClient, dispatch } = this.props;
+    const { currentAccount, route, draftsCollection, queryClient, dispatch } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     let isReply;
     let draftId;
@@ -154,15 +154,22 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         ({ isReply } = navigationParams);
         if (post) {
           draftId = `${currentAccount.name}/${post.author}/${post.permlink}`;
-        }
 
-        this.setState({
-          isReply,
-          draftId,
-          autoFocusText: true,
-        });
-        if (draftId) {
-          this._getStorageDraft(username, isReply, { _id: draftId });
+          const _draft = draftsCollection && draftsCollection[draftId];
+          if (_draft && !!_draft.body) {
+            const _mediaUrls = navigationParams.replyMediaUrls;
+            const _dBody =
+              _mediaUrls.length > 0 ? `${_draft.body}\n\n ![](${_mediaUrls[0]})` : _draft.body;
+
+            this.setState({
+              draftPost: {
+                body: _dBody,
+              },
+              isReply,
+              draftId,
+              autoFocusText: true,
+            });
+          }
         }
       }
 
