@@ -1,31 +1,16 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import {
-  View,
-  StatusBar,
-  Platform,
-  Image,
-  Text,
-  SafeAreaView,
-  Keyboard,
-  KeyboardAvoidingView,
-  Alert,
-} from 'react-native';
+import { View, Platform, Text, Keyboard, KeyboardAvoidingView, Alert } from 'react-native';
 import { useIntl } from 'react-intl';
-import * as Animatable from 'react-native-animatable';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { debounce } from 'lodash';
 // Internal Components
-import { FormInput, InformationArea, MainButton, TextButton } from '../../components';
+import { FormInput, InformationArea, LoginHeader, MainButton } from '../../components';
 
 // Constants
 import ROUTES from '../../constants/routeNames';
 
 // Styles
 import styles from './registerStyles';
-
-import ESTEEM_LOGO from '../../assets/like_new.png';
-import ESTEEM_SMALL_LOGO from '../../assets/ecency_logo_transparent.png';
-import getWindowDimensions from '../../utils/getWindowDimensions';
 import { RegisterAccountModal } from './children/registerAccountModal';
 import { ECENCY_TERMS_URL } from '../../config/ecencyApi';
 import { lookupAccounts } from '../../providers/hive/dhive';
@@ -180,37 +165,24 @@ const RegisterScreen = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar hidden translucent />
-      <View style={styles.headerRow}>
-        <Image resizeMode="contain" style={styles.logo} source={ESTEEM_SMALL_LOGO} />
-        <View style={styles.headerButton}>
-          <TextButton
-            onPress={() => {
-              navigation.replace(ROUTES.SCREENS.LOGIN);
-            }}
-            text="LOGIN"
-            textStyle={{ color: '#357ce6' }}
-          />
-        </View>
-      </View>
-      <Animatable.View
-        animation={keyboardIsOpen ? hideAnimation : showAnimation}
-        delay={0}
-        duration={300}
-      >
-        <View style={styles.header}>
-          <View style={styles.titleText}>
-            <Text style={styles.title}>{intl.formatMessage({ id: 'register.title' })}</Text>
-            <Text style={styles.description}>
-              {intl.formatMessage({ id: 'register.title_description' })}
-            </Text>
-          </View>
-          <View style={styles.mascotContainer}>
-            <Image style={styles.mascot} source={ESTEEM_LOGO} />
-          </View>
-        </View>
-      </Animatable.View>
+    <View style={styles.container}>
+      {/* <StatusBar hidden translucent /> */}
+      <LoginHeader
+        isKeyboardOpen={keyboardIsOpen}
+        title={intl.formatMessage({ id: 'register.title' })}
+        description={intl.formatMessage({
+          id: 'register.title_description',
+        })}
+        onPress={() => null}
+        rightButtonText={intl.formatMessage({
+          id: 'login.login',
+        })}
+        onBackPress={() => {
+          navigation.navigate({
+            name: ROUTES.DRAWER.MAIN,
+          });
+        }}
+      />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         style={styles.formWrapper}
@@ -271,17 +243,6 @@ const RegisterScreen = ({ navigation, route }) => {
           />
         </View>
         <View style={styles.footerButtons}>
-          <TextButton
-            style={styles.cancelButton}
-            onPress={() => {
-              navigation.navigate({
-                name: ROUTES.DRAWER.MAIN,
-              });
-            }}
-            text={intl.formatMessage({
-              id: 'login.cancel',
-            })}
-          />
           <MainButton
             onPress={_onContinuePress}
             iconName="arrow-forward"
@@ -292,7 +253,27 @@ const RegisterScreen = ({ navigation, route }) => {
               !isUsernameValid || !isRefUsernameValid || !isEmailValid || !username || !email
             }
             style={styles.mainButton}
+            height={50}
+            wrapperStyle={styles.mainBtnWrapper}
+            bodyWrapperStyle={styles.mainBtnBodyWrapper}
           />
+          <View style={styles.loginBtnRow}>
+            <Text style={styles.doYouHaveTxt}>
+              {intl.formatMessage({
+                id: 'register.have_account_text',
+              })}
+            </Text>
+            <Text
+              style={styles.loginBtnTxt}
+              onPress={() => {
+                navigation.replace(ROUTES.SCREENS.LOGIN);
+              }}
+            >
+              {intl.formatMessage({
+                id: 'login.signin',
+              })}
+            </Text>
+          </View>
         </View>
       </KeyboardAvoidingView>
       <RegisterAccountModal
@@ -301,31 +282,8 @@ const RegisterScreen = ({ navigation, route }) => {
         email={email}
         refUsername={refUsername}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
-const { height } = getWindowDimensions();
-const bodyHeight = height / 5;
-const showAnimation = {
-  from: {
-    opacity: 0,
-    height: 0,
-  },
-  to: {
-    opacity: 1,
-    height: bodyHeight,
-  },
-};
-
-const hideAnimation = {
-  from: {
-    opacity: 1,
-    height: bodyHeight,
-  },
-  to: {
-    opacity: 0,
-    height: 0,
-  },
-};
 export default gestureHandlerRootHOC(RegisterScreen);
