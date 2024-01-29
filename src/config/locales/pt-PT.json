@@ -421,8 +421,8 @@
       "username_contains_underscore": "Não pode conter sublinhado",
       "username_exists": "O nome já existe. Tente outro diferente"
     },
-    "have_account_text": "Already have an account?",
-    "login_here": "Login Here"
+    "have_account_text": "Já tem uma conta?",
+    "login_here": "Entre aqui"
   },
   "home": {
     "feed": "Conteúdo de notícias",
@@ -768,7 +768,7 @@
     "unpin-community": "Desafixar da comunidade",
     "edit-history": "Histórico de Edição",
     "mute": "Silenciar / Bloquear",
-    "translate": "Translate"
+    "translate": "Traduzir"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
