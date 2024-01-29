@@ -420,7 +420,9 @@
       "username_contains_double_hyphens": "Не повинно містити подвійних дефісів",
       "username_contains_underscore": "Не повинно містити підкреслення",
       "username_exists": "Це ім'я вже існує, спробуйте інше"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "Стрічка",
