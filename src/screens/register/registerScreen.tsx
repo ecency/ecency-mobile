@@ -270,7 +270,7 @@ const RegisterScreen = ({ navigation, route }) => {
               }}
             >
               {intl.formatMessage({
-                id: 'login.signin',
+                id: 'register.login_here',
               })}
             </Text>
           </View>
