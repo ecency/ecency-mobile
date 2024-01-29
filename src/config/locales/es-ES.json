@@ -420,7 +420,9 @@
       "username_contains_double_hyphens": "No debe contener Signos de Puntuación dobles",
       "username_contains_underscore": "No debe contener subrayado",
       "username_exists": "El nombre de usuario ya existe, intenta uno diferente"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "Inicio",
