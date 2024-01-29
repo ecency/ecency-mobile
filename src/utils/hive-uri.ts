@@ -19,7 +19,8 @@ const _checkOpsArray = (ops: any) => {
 };
 
 const findParentKey = (obj, value, parentKey = null) => {
-  Object.keys(obj).forEach((key) => {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const key in obj) {
     if (obj[key] === value) {
       return parentKey;
     } else if (typeof obj[key] === 'object') {
@@ -28,7 +29,7 @@ const findParentKey = (obj, value, parentKey = null) => {
         return foundKey;
       }
     }
-  });
+  }
   return null;
 };
 
