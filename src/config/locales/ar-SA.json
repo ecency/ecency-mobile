@@ -420,7 +420,9 @@
       "username_contains_double_hyphens": "يجب ألا تحتوي على واصلات مزدوجة",
       "username_contains_underscore": "يجب ألا تحتوي على شرطة سفلية",
       "username_exists": "اسم المستخدم موجود بالفعل، جرب اسمًا مختلفًا"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "المستجدات",
