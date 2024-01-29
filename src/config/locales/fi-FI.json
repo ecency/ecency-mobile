@@ -420,7 +420,9 @@
       "username_contains_double_hyphens": "Ei kaksinkertaisia tavuviivoja",
       "username_contains_underscore": "Ei alaviivoja",
       "username_exists": "Käyttäjätunnus on jo olemassa, kokeile toista"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "Syöte",
