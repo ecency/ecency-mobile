@@ -420,7 +420,9 @@
       "username_contains_double_hyphens": "डबल हाइफ़न नहीं होना चाहिए",
       "username_contains_underscore": "अंडरस्कोर नहीं होना चाहिए",
       "username_exists": "उपयोगकर्ता नाम पहले से मौजूद है, कोई दूसरा नाम आज़माएं"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "संभरण",
