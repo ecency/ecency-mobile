@@ -1,4 +1,4 @@
-import reactotron from 'reactotron-react-native';
+import ePointApi from '../../config/api';
 import ecencyApi from '../../config/ecencyApi';
 import bugsnagInstance from '../../config/bugsnag';
 import { EcencyUser, UserPoint } from './ecency.types';
@@ -74,17 +74,21 @@ export const claimPoints = async () => {
  * game_type:string
  *
  * */
-export const gameStatusCheck = async (game_type: string) => {
-  try {
-    const res = await ecencyApi.post('/private-api/get-game', { game_type });
-    reactotron.log(res);
-    return res;
-  } catch (error) {
-    bugsnagInstance.notify(error);
-    throw error;
-  }
-};
-
+export const gameStatusCheck = (username, type) =>
+  new Promise((resolve, reject) => {
+    ePointApi
+      .get(`/game/${username}`, {
+        params: {
+          type,
+        },
+      })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 /**
  * TOOD:
  * POST /private-api/post-game
@@ -96,15 +100,16 @@ export const gameStatusCheck = async (game_type: string) => {
  * key:string
  * */
 
-export const gameClaim = async (game_type: string, key: string) => {
-  try {
-    const res = await ecencyApi.post('/private-api/post-game', {
-      game_type,
-      key,
-    });
-    return res;
-  } catch (error) {
-    bugsnagInstance.notify(error);
-    throw error;
-  }
-};
+export const gameClaim = (username, type, key) =>
+  new Promise((resolve, reject) => {
+    ePointApi
+      .post(`/game/${username}?type=${type}`, {
+        key,
+      })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
