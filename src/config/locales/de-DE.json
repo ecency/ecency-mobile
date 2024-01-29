@@ -420,7 +420,9 @@
       "username_contains_double_hyphens": "Should not contain double hyphens",
       "username_contains_underscore": "Should not contain underscore",
       "username_exists": "Username already exists, try a different one"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "Feed",
