@@ -420,7 +420,9 @@
       "username_contains_double_hyphens": "Не должно содержать двойные дефисы",
       "username_contains_underscore": "Не должно содержать подчеркивания",
       "username_exists": "Имя пользователя уже существует, попробуйте другое"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "Лента",
