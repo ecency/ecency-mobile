@@ -420,7 +420,9 @@
       "username_contains_double_hyphens": "Não deve conter hífens duplos",
       "username_contains_underscore": "Não pode conter sublinhado",
       "username_exists": "O nome já existe. Tente outro diferente"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "Conteúdo de notícias",
