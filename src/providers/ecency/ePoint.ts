@@ -1,4 +1,3 @@
-import reactotron from 'reactotron-react-native';
 import ecencyApi from '../../config/ecencyApi';
 import bugsnagInstance from '../../config/bugsnag';
 import { EcencyUser, UserPoint } from './ecency.types';
@@ -60,49 +59,27 @@ export const claimPoints = async () => {
     const response = await ecencyApi.post('/private-api/points-claim');
     return response.data;
   } catch (error) {
-    console.warn('Failed to calim points', error);
+    console.warn('Failed to claim points', error);
     bugsnagInstance.notify(error);
     throw new Error(error.response?.data?.message || error.message);
   }
 };
 
-/**
- * TOOD:
- * POST /private-api/get-game
- *
- * params:
- * game_type:string
- *
- * */
 export const gameStatusCheck = async (game_type: string) => {
   try {
-    const res = await ecencyApi.post('/private-api/get-game', { game_type });
-    reactotron.log(res);
-    return res;
+    return await ecencyApi.post('/private-api/get-game', { game_type });
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;
   }
 };
 
-/**
- * TOOD:
- * POST /private-api/post-game
- *
- * params:
- * game_type:string
- *
- * body:
- * key:string
- * */
-
 export const gameClaim = async (game_type: string, key: string) => {
   try {
-    const res = await ecencyApi.post('/private-api/post-game', {
+    return await ecencyApi.post('/private-api/post-game', {
       game_type,
       key,
     });
-    return res;
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;
