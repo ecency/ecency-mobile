@@ -26,9 +26,8 @@ class RedeemContainer extends Component {
 
   // Component Functions
   _statusCheck = async () => {
-    const { username } = this.props;
 
-    await gameStatusCheck(username, 'spin')
+    await gameStatusCheck('spin')
       .then((res) => {
         this.setState({
           gameRight: get(res, 'remaining', 0),
@@ -41,13 +40,14 @@ class RedeemContainer extends Component {
           Alert.alert(get(err, 'message') || err.toString());
         }
       });
+
+
   };
 
   _startGame = async (type) => {
-    const { username } = this.props;
     let gameStatus;
 
-    await gameStatusCheck(username, type)
+    await gameStatusCheck(type)
       .then((res) => {
         gameStatus = res;
       })
@@ -58,7 +58,7 @@ class RedeemContainer extends Component {
       });
 
     if (get(gameStatus, 'status') !== 18) {
-      await gameClaim(username, type, get(gameStatus, 'key'))
+      await gameClaim(type, get(gameStatus, 'key'))
         .then((res) => {
           this.setState(
             {

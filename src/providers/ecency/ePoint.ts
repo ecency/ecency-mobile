@@ -67,7 +67,12 @@ export const claimPoints = async () => {
 
 export const gameStatusCheck = async (game_type: string) => {
   try {
-    return await ecencyApi.post('/private-api/get-game', { game_type });
+    const response = await ecencyApi.post('/private-api/get-game', { game_type });
+    const _data = response.data;
+    if (!_data) {
+      throw new Error('Invalid Response Data');
+    }
+    return _data;
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;
@@ -76,10 +81,15 @@ export const gameStatusCheck = async (game_type: string) => {
 
 export const gameClaim = async (game_type: string, key: string) => {
   try {
-    return await ecencyApi.post('/private-api/post-game', {
+    const response = await ecencyApi.post('/private-api/post-game', {
       game_type,
       key,
     });
+    const _data = response.data;
+    if (!_data) {
+      throw new Error('Invalid Response Data');
+    }
+    return _data;
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;
