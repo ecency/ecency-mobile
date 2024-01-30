@@ -421,8 +421,8 @@
       "username_contains_underscore": "No debe contener subrayado",
       "username_exists": "El nombre de usuario ya existe, intenta uno diferente"
     },
-    "have_account_text": "Already have an account?",
-    "login_here": "Login Here"
+    "have_account_text": "¿Ya tienes una cuenta?",
+    "login_here": "Inicie sesión aquí"
   },
   "home": {
     "feed": "Inicio",
