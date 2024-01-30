@@ -1,5 +1,4 @@
 import { isArray } from 'lodash';
-import api from '../../config/api';
 import bugsnagInstance from '../../config/bugsnag';
 import ecencyApi from '../../config/ecencyApi';
 import { upload } from '../../config/imageApi';
@@ -223,9 +222,18 @@ export const deleteBookmark = async (bookmarkId: string) => {
   }
 };
 
+/**
+ * TOOD:
+ * POST /private-api/report
+ *
+ * body:
+ * type:string
+ * data:string
+ *
+ * */
 export const addReport = async (type: 'content' | 'user', data: string) => {
   try {
-    const response = await api.post('/report', {
+    const response = await ecencyApi.post('/private-api/report', {
       type,
       data,
     });
@@ -237,10 +245,20 @@ export const addReport = async (type: 'content' | 'user', data: string) => {
   }
 };
 
-export const deleteAccount = async (username: string) => {
+/**
+ * TOOD:
+ * POST /private-api/request-delete
+ *
+ * body:
+ * username:string
+ * data:string
+ *
+ * */
+export const deleteAccount = async (username: string, data: string) => {
   try {
-    const response = await api.post('/request-delete', {
+    const response = await ecencyApi.post('/private-api/request-delete', {
       username,
+      data,
     });
     return response.data;
   } catch (err) {
@@ -779,21 +797,53 @@ export const getPromotedEntries = async (username: string) => {
 };
 
 /**
+* TOOD:
+* POST /private-api/purchase-order
+* 
+* body: 
+* platform:string
+* product:string
+* receipt:string
+* user:string
+
+NOTE: data or type PurchaseRequestData should contain body, pass as it is
+* */
+
+/**
  * post inapp purchase method to call
  * @param data PurchaseRequestData
  * @returns
  * */
-export const purchaseOrder = (data: PurchaseRequestData) =>
-  api
-    .post('/purchase-order', data)
-    .then((resp) => resp.data)
-    .catch((error) => bugsnagInstance.notify(error));
 
-export const getPostReblogs = (data) =>
-  api
-    .get(`/post-reblogs/${data.author}/${data.permlink}`)
-    .then((resp) => resp.data)
-    .catch((error) => bugsnagInstance.notify(error));
+// api
+//   .post('/purchase-order', data)
+//   .then((resp) => resp.data)
+//   .catch((error) => bugsnagInstance.notify(error));
+
+export const purchaseOrder = async (data: PurchaseRequestData) => {
+  try {
+    const response = await ecencyApi.post('/private-api/purchase-order', data);
+    return response.data;
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    throw error;
+  }
+};
+
+export const getPostReblogs = async (author: string, permlink: string) => {
+  const data = {
+    author,
+    permlink,
+  };
+  try {
+    const response = await ecencyApi.post('/private-api/post-reblogs', data);
+    return response.data;
+    // reactotron.log("response: ", response);
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    throw error;
+  }
+};
 
 /**
  * Registers new user with ecency and hive, on confirmation sends
