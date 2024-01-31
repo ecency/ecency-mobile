@@ -20,10 +20,9 @@ import {
 } from '../constants/constants';
 import { orientations } from '../constants/orientationsConstants';
 
-
 export interface PostEditorModalData {
-  mode:'wave'|'comment'|'post',
-  parentPost?:any
+  mode: 'wave' | 'comment' | 'post';
+  parentPost?: any;
 }
 
 interface UiState {
@@ -64,7 +63,7 @@ const initialState: UiState = {
   isLogingOut: false,
 };
 
-export default function (state = initialState, action): UiState {
+const uiReducer = (state = initialState, action): UiState => {
   switch (action.type) {
     case UPDATE_ACTIVE_BOTTOM_TAB:
       return {
@@ -153,8 +152,8 @@ export default function (state = initialState, action): UiState {
       };
     case SHOW_REPLY_MODAL:
       const _payload = action.payload as PostEditorModalData;
-      if(_payload.mode === 'comment' && !_payload.parentPost){
-        throw new Error("parent post missing for showing post editor modal with comment mode")
+      if (_payload.mode === 'comment' && !_payload.parentPost) {
+        throw new Error('parent post missing for showing post editor modal with comment mode');
       }
       return {
         ...state,
@@ -180,4 +179,6 @@ export default function (state = initialState, action): UiState {
     default:
       return state;
   }
-}
+};
+
+export default uiReducer;

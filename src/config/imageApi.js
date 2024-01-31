@@ -12,12 +12,12 @@ function upload(fd, username, signature, uploadProgress) {
   });
 
   image.interceptors.request.use((request) => {
-    console.log('Starting image Request', request);
+    // console.log('Starting image Request', request);
     return request;
   });
 
   image.interceptors.response.use((response) => {
-    console.log('Response:', response);
+    // console.log('Response:', response);
     return response;
   });
 

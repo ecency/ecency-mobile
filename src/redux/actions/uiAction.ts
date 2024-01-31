@@ -99,10 +99,10 @@ export const setLockedOrientation = (payload: string) => ({
   type: SET_LOCKED_ORIENTATION,
 });
 
-export const showReplyModal = ({mode, parentPost}:PostEditorModalData) => ({
+export const showReplyModal = ({ mode, parentPost }: PostEditorModalData) => ({
   payload: {
     mode: mode || 'comment',
-    parentPost
+    parentPost,
   } as PostEditorModalData,
   type: SHOW_REPLY_MODAL,
 });

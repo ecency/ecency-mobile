@@ -20,7 +20,8 @@ const SelectCommunityAreaView = ({
 
   if (selectedCommunity) {
     username = selectedCommunity.name;
-    title = selectedCommunity.title;
+    const { title: _title } = selectedCommunity;
+    title = _title;
   } else if (selectedAccount) {
     username = selectedAccount.name;
     title = intl.formatMessage({ id: 'editor.my_blog' });

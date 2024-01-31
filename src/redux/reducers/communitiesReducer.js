@@ -56,7 +56,7 @@ const initialState = {
   },
 };
 
-export default function (state = initialState, action) {
+const communitiesReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_COMMUNITIES:
       return {
@@ -460,4 +460,6 @@ export default function (state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+export default communitiesReducer;

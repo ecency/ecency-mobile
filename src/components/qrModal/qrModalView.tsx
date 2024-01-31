@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, PermissionsAndroid, Platform, View, Text } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { useIntl } from 'react-intl';
 import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
+import { get } from 'lodash';
+import * as hiveuri from 'hive-uri';
 import styles from './qrModalStyles';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
@@ -19,17 +20,14 @@ import getWindowDimensions from '../../utils/getWindowDimensions';
 import { isHiveUri, getFormattedTx } from '../../utils/hive-uri';
 import { handleHiveUriOperation, resolveTransaction } from '../../providers/hive/dhive';
 import bugsnagInstance from '../../config/bugsnag';
-import { get } from 'lodash';
 import showLoginAlert from '../../utils/showLoginAlert';
 import authType from '../../constants/authType';
 import { delay } from '../../utils/editor';
-import ROUTES from '../../../src/constants/routeNames';
+import ROUTES from '../../constants/routeNames';
 
-const hiveuri = require('hive-uri');
 const screenHeight = getWindowDimensions().height;
-interface QRModalProps {}
 
-export const QRModal = ({}: QRModalProps) => {
+export const QRModal = () => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
   const isVisibleQRModal = useAppSelector((state) => state.ui.isVisibleQRModal);
@@ -149,7 +147,7 @@ export const QRModal = ({}: QRModalProps) => {
       await delay(500); // NOTE: it's required to avoid modal mis fire
       dispatch(
         showWebViewModal({
-          uri: uri,
+          uri,
         }),
       );
       return;
@@ -157,10 +155,10 @@ export const QRModal = ({}: QRModalProps) => {
 
     const parsed = hiveuri.decode(uri);
     const authoritiesMap = new Map();
-    authoritiesMap.set('active', currentAccount?.local?.activeKey ? true : false);
-    authoritiesMap.set('posting', currentAccount?.local?.postingKey ? true : false);
-    authoritiesMap.set('owner', currentAccount?.local?.ownerKey ? true : false);
-    authoritiesMap.set('memo', currentAccount?.local?.memoKey ? true : false);
+    authoritiesMap.set('active', !!currentAccount?.local?.activeKey);
+    authoritiesMap.set('posting', !!currentAccount?.local?.postingKey);
+    authoritiesMap.set('owner', !!currentAccount?.local?.ownerKey);
+    authoritiesMap.set('memo', !!currentAccount?.local?.memoKey);
 
     getFormattedTx(parsed.tx, authoritiesMap)
       .then(async (formattedTx) => {
@@ -180,7 +178,9 @@ export const QRModal = ({}: QRModalProps) => {
                 text: intl.formatMessage({
                   id: 'qr.cancel',
                 }),
-                onPress: () => {},
+                onPress: () => {
+                  console.log('cancel pressed');
+                },
                 style: 'cancel',
               },
               {
@@ -218,7 +218,6 @@ export const QRModal = ({}: QRModalProps) => {
             { key: errObj.authorityKeyType },
           ),
         );
-        return;
       });
   };
 
@@ -285,7 +284,7 @@ export const QRModal = ({}: QRModalProps) => {
       gestureEnabled={true}
       containerStyle={{ ...styles.sheetContent, height: screenHeight }}
       onClose={_onClose}
-      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+      indicatorStyle={styles.indicator}
     >
       <View style={styles.mainContainer}>
         <QRCodeScanner

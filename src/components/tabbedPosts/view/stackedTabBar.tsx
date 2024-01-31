@@ -11,7 +11,6 @@ export interface TabItem {
 }
 
 interface StackedTabBarProps {
-  activeTab: boolean;
   goToPage: (pageIndex) => void;
   tabs: string[];
   pageType?: 'main' | 'community' | 'profile' | 'ownProfile';

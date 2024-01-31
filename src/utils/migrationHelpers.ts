@@ -45,7 +45,6 @@ import {
   toastNotification,
 } from '../redux/actions/uiAction';
 import { decryptKey, encryptKey } from './crypto';
-import { Draft } from '../redux/reducers/cacheReducer';
 import { delay } from './editor';
 import RootNavigation from '../navigation/rootNavigation';
 import ROUTES from '../constants/routeNames';
@@ -135,7 +134,7 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
 
   let _currentAccount = currentAccount;
   _currentAccount.username = _currentAccount.name;
-  _currentAccount.local = realmData[0];
+  [_currentAccount.local] = realmData;
 
   try {
     const pinHash = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
@@ -213,7 +212,9 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
             style: 'destructive',
-            onPress: () => {},
+            onPress: () => {
+              console.log('cancel pressed');
+            },
           },
           {
             text: intl.formatMessage({ id: 'alert.verify' }),
@@ -294,7 +295,7 @@ const reduxMigrations = {
   6: (state) => {
     state.application.waveUpvotePercent = state.application.commentUpvotePercent;
     return state;
-  }
+  },
 };
 
 export default {

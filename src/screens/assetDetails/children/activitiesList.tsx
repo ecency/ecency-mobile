@@ -2,12 +2,12 @@ import React, { ComponentType, JSXElementConstructor, ReactElement, useState } f
 import { useIntl } from 'react-intl';
 import { SectionList, Text, RefreshControl, ActivityIndicator } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { useQueryClient } from '@tanstack/react-query';
 import { Transaction } from '../../../components';
 import { useAppSelector } from '../../../hooks';
 import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
 import { limitOrderCancel } from '../../../providers/hive-trade/hiveTrade';
-import { useQueryClient } from '@tanstack/react-query';
 import QUERIES from '../../../providers/queries/queryKeys';
 import TransferTypes from '../../../constants/transferTypes';
 
@@ -23,7 +23,7 @@ interface ActivitiesListProps {
   onActionPress: (transferType: string, extraParams?: any) => void;
 }
 
-const ActivitiesList = ({
+export const ActivitiesList = ({
   header,
   loading,
   refreshing,
@@ -129,5 +129,3 @@ const ActivitiesList = ({
     />
   );
 };
-
-export default ActivitiesList;

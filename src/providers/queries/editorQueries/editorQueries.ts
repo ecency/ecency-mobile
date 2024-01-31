@@ -1,8 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
 import { Image } from 'react-native-image-crop-picker';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { toastNotification } from '../../redux/actions/uiAction';
+import Upload, { UploadOptions } from 'react-native-background-upload';
+import Config from 'react-native-config';
+import { Platform } from 'react-native';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { toastNotification } from '../../../redux/actions/uiAction';
 import {
   addFragment,
   addImage,
@@ -11,11 +14,11 @@ import {
   getFragments,
   getImages,
   updateFragment,
-  uploadImage,
-} from '../ecency/ecency';
-import { MediaItem, Snippet } from '../ecency/ecency.types';
-import { signImage } from '../hive/dhive';
-import QUERIES from './queryKeys';
+} from '../../ecency/ecency';
+import { MediaItem, Snippet } from '../../ecency/ecency.types';
+import { signImage } from '../../hive/dhive';
+import QUERIES from '../queryKeys';
+import bugsnapInstance from '../../../config/bugsnag';
 
 interface SnippetMutationVars {
   id: string | null;
@@ -28,7 +31,7 @@ interface MediaUploadVars {
   addToUploads: boolean;
 }
 
-/** GET QUERIES **/
+/** GET QUERIES * */
 
 export const useMediaQuery = () => {
   const intl = useIntl();
@@ -52,7 +55,7 @@ export const useSnippetsQuery = () => {
   });
 };
 
-/** ADD UPDATE MUTATIONS **/
+/** ADD UPDATE MUTATIONS * */
 
 export const useAddToUploadsMutation = () => {
   const intl = useIntl();
@@ -66,7 +69,7 @@ export const useAddToUploadsMutation = () => {
     },
     onError: (error) => {
       if (error.toString().includes('code 409')) {
-        //means image ware already preset, refresh to get updated order
+        // means image ware already preset, refresh to get updated order
         queryClient.invalidateQueries([QUERIES.MEDIA.GET]);
       } else {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
@@ -84,14 +87,66 @@ export const useMediaUploadMutation = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
 
+  const _uploadMedia = async ({ media }: MediaUploadVars) => {
+    return new Promise((resolve, reject) => {
+      signImage(media, currentAccount, pinCode)
+        .then((sign) => {
+          const _options: UploadOptions = {
+            url: `${Config.NEW_IMAGE_API}/hs/${sign}`,
+            path: Platform.select({
+              ios: `file://${media.path}`,
+              android: media.path.replace('file://', ''),
+            }),
+            method: 'POST',
+            type: 'multipart',
+            maxRetries: 2, // set retry count (Android only). Default 2
+            headers: {
+              Authorization: Config.NEW_IMAGE_API, // Config.NEW_IMAGE_API
+              'Content-Type': 'multipart/form-data',
+            },
+            field: 'uploaded_media',
+            // Below are options only supported on Android
+            notification: {
+              enabled: true,
+            },
+            useUtf8Charset: true,
+          };
+
+          console.log('Upload starting');
+          return Upload.startUpload(_options);
+        })
+        .then((uploadId) => {
+          Upload.addListener('progress', uploadId, (data) => {
+            console.log(`Progress: ${data.progress}%`, data);
+          });
+          Upload.addListener('error', uploadId, (data) => {
+            console.log(`Error`, data);
+            throw data.error;
+          });
+          Upload.addListener('cancelled', uploadId, (data) => {
+            console.log(`Cancelled!`, data);
+            throw new Error('Upload Cancelled');
+          });
+          Upload.addListener('completed', uploadId, (data) => {
+            // data includes responseCode: number and responseBody: Object
+            console.log('Completed!', data);
+            const _respData = JSON.parse(data.responseBody);
+            resolve(_respData);
+          });
+        })
+        .catch((err) => {
+          console.warn('Meida Upload Failed', err);
+          bugsnapInstance.notify('Media upload failed', err);
+          reject(err);
+        });
+    });
+  };
+
   return useMutation<Image, undefined, MediaUploadVars>(
-    async ({ media }) => {
-      console.log('uploading media', media);
-      let sign = await signImage(media, currentAccount, pinCode);
-      return await uploadImage(media, currentAccount.name, sign);
+    (vars) => {
+      return _uploadMedia(vars);
     },
     {
-      retry: 3,
       onSuccess: (response, { addToUploads }) => {
         if (addToUploads && response && response.url) {
           console.log('adding image to gallery', response.url);
@@ -156,7 +211,7 @@ export const useSnippetsMutation = () => {
   );
 };
 
-/** DELETE MUTATIONS **/
+/** DELETE MUTATIONS * */
 
 export const useMediaDeleteMutation = () => {
   const queryClient = useQueryClient();
@@ -164,7 +219,9 @@ export const useMediaDeleteMutation = () => {
   const intl = useIntl();
   return useMutation<string[], undefined, string[]>(
     async (deleteIds) => {
+      // eslint-disable-next-line no-restricted-syntax
       for (const i in deleteIds) {
+        // eslint-disable-next-line no-await-in-loop
         await deleteImage(deleteIds[i]);
       }
       return deleteIds;

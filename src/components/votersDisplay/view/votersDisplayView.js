@@ -1,7 +1,6 @@
 import React from 'react';
 import { SafeAreaView, FlatList } from 'react-native';
 
-
 // Utils
 import { useNavigation } from '@react-navigation/native';
 import { getTimeFromNow } from '../../../utils/time';

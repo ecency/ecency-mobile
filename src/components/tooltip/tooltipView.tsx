@@ -38,7 +38,7 @@ const Tooltip = ({ children, text, walkthroughIndex }: TooltipProps, ref) => {
     },
   }));
 
-  const _findAnchor = (e) => {
+  const _findAnchor = () => {
     if (touchableRef.current) {
       NativeModules.UIManager.measure(touchableRef.current, (x0, y0, width, height, x, y) => {
         setPopoverAnchor({ x, y, width, height });

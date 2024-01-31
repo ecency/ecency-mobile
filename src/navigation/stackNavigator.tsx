@@ -43,6 +43,7 @@ const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
 
 const MainStackNavigator = () => {
+  // TODO: remove initialRoute before PR
   return (
     <MainStack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
       <MainStack.Screen name={ROUTES.DRAWER.MAIN} component={DrawerNavigator} />
@@ -88,7 +89,6 @@ export const StackNavigator = ({ initRoute }) => {
       screenOptions={{ headerShown: false, animation: 'slide_from_bottom' }}
     >
       <RootStack.Screen name={ROUTES.STACK.MAIN} component={MainStackNavigator} />
-
       <RootStack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} />
       <RootStack.Screen name={ROUTES.SCREENS.LOGIN} component={Login} />
       <RootStack.Screen name={ROUTES.SCREENS.WELCOME} component={WelcomeScreen} />

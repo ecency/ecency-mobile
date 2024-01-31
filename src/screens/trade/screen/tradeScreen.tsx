@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
 import { useIntl } from 'react-intl';
+import { View } from 'react-native';
 import WebView from 'react-native-webview';
-import { useDispatch } from 'react-redux';
-import styles from '../styles/tradeScreen.styles';
-import { SwapTokenContent } from '../children';
 import { BasicHeader, Modal } from '../../../components';
+import { SwapTokenContent } from '../children';
+import styles from '../styles/tradeScreen.styles';
 
-import TransferTypes from '../../../constants/transferTypes';
 import { hsOptions } from '../../../constants/hsOptions';
+import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
 import { delay } from '../../../utils/editor';
 

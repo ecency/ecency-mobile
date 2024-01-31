@@ -3,9 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { BasicHeader } from '../../../components';
-import { CoinSummary } from '../children';
+import { CoinSummary, ActivitiesList } from '../children';
 import styles from './screen.styles';
-import ActivitiesList from '../children/activitiesList';
 import { CoinActivity, CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
 import { useAppSelector } from '../../../hooks';
 import RootNavigation from '../../../navigation/rootNavigation';
@@ -120,6 +119,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
       switch (transferType) {
         case TransferTypes.UNSTAKE_ENGINE:
+        case TransferTypes.DELEGATE_ENGINE:
           balance =
             coinData.extraDataPairs?.reduce(
               (bal, data) => (data.dataKey === 'staked' ? Number(data.value) : bal),

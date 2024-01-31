@@ -3,6 +3,7 @@ import moment from 'moment';
 const TODAY = new Date();
 const ONE_DAY = new Date(TODAY.getTime() - 24 * 60 * 60 * 1000);
 const SEVEN_DAY = new Date(TODAY.getTime() - 7 * 24 * 60 * 60 * 1000);
+const FOURTEEN_DAY = new Date(TODAY.getTime() - 14 * 24 * 60 * 60 * 1000);
 
 const MINUTE = 60;
 const HOUR = 60 * 60;
@@ -112,17 +113,17 @@ export const isYesterday = (value) => {
 
 export const isThisWeek = (value) => {
   const day = new Date(value).getTime();
-  return day < TODAY.getTime() && day > SEVEN_DAY.getTime();
+  return day < TODAY.getTime() && day >= SEVEN_DAY.getTime();
 };
 
 export const isLastWeek = (value) => {
   const day = new Date(value).getTime();
-  return day < SEVEN_DAY.getTime() && day > 2 * SEVEN_DAY.getTime();
+  return day < SEVEN_DAY.getTime() && day >= FOURTEEN_DAY.getTime();
 };
 
 export const isThisMonth = (value) => {
   const day = new Date(value);
-  return TODAY.getMonth() === day.getMonth() && TODAY.getFullYear() === day.getFullYear() ? 1 : 0;
+  return TODAY.getMonth() === day.getMonth() && TODAY.getFullYear() === day.getFullYear();
 };
 
 export const isEmptyContentDate = (value) => {
@@ -151,7 +152,7 @@ export const daysTillDate = (dateObj) => {
  *
  * */
 export const dateToFormatted = (d, format = 'LLLL') => {
-  const isTimeZoned = d.indexOf('.') !== -1 || d.indexOf('+') !== -1 ? d : `${d}.000Z`;
+  const isTimeZoned = d?.indexOf('.') !== -1 || d?.indexOf('+') !== -1 ? d : `${d}.000Z`;
   const dm = moment(new Date(isTimeZoned));
   return dm.format(format);
 };
@@ -159,14 +160,14 @@ export const dateToFormatted = (d, format = 'LLLL') => {
 /**
  * calculates hours difference between two dates, negative value will mean first date
  * is from past time
- * @param {Base date from whcich date2 will be subtracted} date1 
- * @param {Date to be subtracted} date2 
+ * @param {Base date from whcich date2 will be subtracted} date1
+ * @param {Date to be subtracted} date2
  * @returns number of hours difference between two dates
  */
 export const getHoursDifferntial = (date1, date2) => {
   if (date1 instanceof Date && date2 instanceof Date) {
-    return (date1 - date2) / (60 * 60 * 1000)
+    return (date1 - date2) / (60 * 60 * 1000);
   }
 
   return 0;
-}
+};

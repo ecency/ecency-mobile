@@ -14,7 +14,7 @@ import ROUTES from '../../../constants/routeNames';
 import { useAppSelector } from '../../../hooks';
 import { getResizedAvatar } from '../../../utils/image';
 
-const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
+import DEFAULT_IMAGE from '../../../assets/avatar_default.png';
 
 /* Props
  * ------------------------------------------------f

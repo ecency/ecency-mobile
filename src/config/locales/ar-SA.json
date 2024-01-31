@@ -7,6 +7,7 @@
     "claim_reward_balance": "الحصول على المكافأة ",
     "points_activity": "الأنشطة والمستجدّات",
     "transfer": "تحويل",
+    "recurrent_transfer": "Recurrent Transfer",
     "power_up": "إلى استحقاق",
     "transfer_from_savings": "من المدخرات",
     "withdraw_savings": "سحب المدخرات",
@@ -250,7 +251,7 @@
     "this_week": "هذا الأسبوع",
     "last_week": "الأسبوع الماضي",
     "this_month": "هذا الشهر",
-    "older_then": "أقدم من شهر",
+    "older_then": "Last Month & Older",
     "activities": "الكل",
     "replies": "الردود",
     "mentions": "الإشارات",
@@ -375,12 +376,13 @@
     "no_user": "لم يتم العثور على المستخدم."
   },
   "login": {
-    "signin": "تسجيل الدخول",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "انضم الآن",
     "signin_title": "للحصول على جميع فوائد إستخدم Ecency",
-    "username": "إسم المستخدم",
-    "password": "أدخل دكلمة المرور أو WIF",
-    "description": "من خلال تسجيل الدخول، أنت توافق على شروط الخدمات وسياسات الخصوصية لدينا.",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "إلغاء",
     "login": "تسجيل الدخول",
     "steemconnect_description": "إذا كنت لا ترغب في إبقاء كلمة المرور مشفرة وحفظها على جهازك، يمكنك استخدام Hivesigner.",
@@ -392,7 +394,10 @@
     "deep_login_alert_title": "تسجيل دخول سهل @{username}",
     "deep_login_alert_body": "تحقق من تسجيل الدخول المباشر باستخدام رمز الوصول",
     "deep_login_url_expired": "انتهت صلاحية رابط تسجيل الدخول، الرجاء استخدام المفتاح الخاص أو كلمة المرور لتسجيل الدخول",
-    "deep_login_malformed_url": "رابط تسجيل الدخول غير صحيح، يرجى استخدام المفتاح الخاص أو كلمة المرور لتسجيل الدخول"
+    "deep_login_malformed_url": "رابط تسجيل الدخول غير صحيح، يرجى استخدام المفتاح الخاص أو كلمة المرور لتسجيل الدخول",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "احصل على حساب Hive",
@@ -415,7 +420,9 @@
       "username_contains_double_hyphens": "يجب ألا تحتوي على واصلات مزدوجة",
       "username_contains_underscore": "يجب ألا تحتوي على شرطة سفلية",
       "username_exists": "اسم المستخدم موجود بالفعل، جرب اسمًا مختلفًا"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "المستجدات",
@@ -513,6 +520,7 @@
     "scheduled_for": "تم جدولته من أجل",
     "scheduled_immediate": "فوراً",
     "scheduled_later": "لاحقاً",
+    "schedule_video_unsupported": "Scheduling video posts not available",
     "settings_title": "خياراتُ المَنشور",
     "done": "تم",
     "draft_save_title": "حفظ المسودة",
@@ -528,7 +536,9 @@
     "invalid_url_error": "الرجاء إدخال رابط صحيح",
     "plain": "فارغ",
     "video": "فيديو",
-    "image": "صورة"
+    "image": "صورة",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "لم يتم العثور على مقتطفات",
@@ -553,10 +563,20 @@
     "btn_add": "الصورة",
     "btn_insert": "أَدخِل",
     "btn_delete": "حذف",
-    "confirm_delete": "هل أنت متأكد أنك تريد حذف الصور من التحميلات الخاصة بك",
+    "confirm_delete": "Are you sure you want to delete selected items from your uploads",
     "message_failed": "فشل في تحميل الصورة",
     "delete_failed": "فشل حذف الصورة",
-    "failed_count": "فشل تحميل {failedCount} من إجمالي {totalCount} صورة (صور) محددة"
+    "failed_count": "فشل تحميل {failedCount} من إجمالي {totalCount} صورة (صور) محددة",
+    "publish_manual": "Ready",
+    "published": "Published",
+    "encoding_ipfs": "Encoding",
+    "encoding_preparing": "Preparing",
+    "deleted": "Deleted",
+    "start_upload": "START UPLOAD",
+    "uploading": "UPLOADING",
+    "select_thumb": "Select Thumbnail",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "أدخل الرقم السري للفتح",
@@ -578,6 +598,8 @@
     "continue": "متابعة",
     "okay": "حسناً",
     "done": "تم",
+    "notice": "Notice!",
+    "close": "CLOSE",
     "move_question": "هل أنت متأكد من نقل إلى المسودات؟",
     "success_shared": "تم إرسال المحتوى!",
     "success_moved": "تم النقل إلى المسودات",
@@ -745,7 +767,8 @@
     "pin-community": "تثبيت للمجتمع",
     "unpin-community": "إزالة التثبيت من المجتمع",
     "edit-history": "تعديل التاريخ",
-    "mute": "كتم / حظر"
+    "mute": "كتم / حظر",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "لا يوجد أي مستخدم حاليا",
@@ -769,13 +792,19 @@
     "to": "إلى",
     "amount_information": "اسحب شريط التمرير لضبط المبلغ",
     "amount": "كمية",
+    "executions": "Executions",
+    "recurrence": "Recurrence",
     "memo": "مذكرة",
+    "recurrent_transfer": "Recurrent Transfer",
+    "delete_recurrent_transfer": "Delete Recurrent Transfer ",
     "information": "هل تريد متابعة العملية؟",
     "amount_desc": "الرصيد",
     "memo_desc": "هذه المذكرة عامة",
     "convert_desc": "يستغرق التحويل 3.5 يومًا ولا يوصى به إذا كان سعر HBD أعلى من 1 دولار",
     "to_placeholder": "إسم المستخدم",
     "memo_placeholder": "أدخل ملاحظاتك هنا",
+    "recurrence_placeholder": "Choose Recurrence",
+    "executions_placeholder": "Number of Repeats",
     "transfer_token": "تحويل",
     "purchase_estm": "شراء النقاط",
     "convert": "تحويل HBD إلى HIVE",

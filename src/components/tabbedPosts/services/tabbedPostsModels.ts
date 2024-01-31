@@ -1,5 +1,3 @@
-import { QueryClient } from '@tanstack/react-query';
-
 export interface TabbedPostsProps {
   filterOptions: string[];
   filterOptionsValue: string[];
