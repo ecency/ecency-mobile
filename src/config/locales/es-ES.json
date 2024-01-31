@@ -7,6 +7,7 @@
     "claim_reward_balance": "Reclamar recompensa ",
     "points_activity": "Actividad",
     "transfer": "Transferir",
+    "recurrent_transfer": "Transferencia recurrente",
     "power_up": "A invertir",
     "transfer_from_savings": "Desde Ahorros",
     "withdraw_savings": "Retirar ahorros",
@@ -250,7 +251,7 @@
     "this_week": "Esta semana",
     "last_week": "Última semana",
     "this_month": "Este mes",
-    "older_then": "Más de un mes",
+    "older_then": "Último Mes & Anteriores",
     "activities": "Todo",
     "replies": "Respuestas",
     "mentions": "Menciones",
@@ -375,12 +376,13 @@
     "no_user": "No se ha encontrado al usuario."
   },
   "login": {
-    "signin": "Iniciar sesión",
+    "signin": "Iniciar Sesión",
+    "login_with_hs": "Iniciar Sesión con hivesigner",
     "signup": "ÚNETE AHORA",
     "signin_title": "Para obtener todos los beneficios de utilizar Ecency",
-    "username": "Nombre de usuario",
-    "password": "Contraseña o WIF",
-    "description": "Al iniciar sesión, estás de acuerdo con nuestros Términos de Servicio y Políticas de privacidad.",
+    "username": "nombre de usuario",
+    "password": "contraseña / clave privada",
+    "description": "Al iniciar sesión, usted acepta nuestros Términos de Servicios y Políticas de Privacidad.",
     "cancel": "cancelar",
     "login": "ACCEDER",
     "steemconnect_description": "Si no desea mantener su contraseña encriptada y guardada en su dispositivo, puede usar Hivesigner.",
@@ -392,7 +394,10 @@
     "deep_login_alert_title": "Inicio de sesión fácil @{username}",
     "deep_login_alert_body": "Verificar inicio de sesión directo usando el código de acceso",
     "deep_login_url_expired": "Inicio de sesión expirado, por favor usa una clave privada o una contraseña para iniciar sesión",
-    "deep_login_malformed_url": "URL de inicio de sesión incorrecta, por favor usa una clave privada o contraseña para iniciar sesión"
+    "deep_login_malformed_url": "URL de inicio de sesión incorrecta, por favor usa una clave privada o contraseña para iniciar sesión",
+    "no_account_text": "¿No tienes una cuenta?",
+    "signup_now": "¡Regístrate ahora!",
+    "or": "O"
   },
   "register": {
     "modal_title": "Obtener cuenta de Hive",
@@ -415,7 +420,9 @@
       "username_contains_double_hyphens": "No debe contener Signos de Puntuación dobles",
       "username_contains_underscore": "No debe contener subrayado",
       "username_exists": "El nombre de usuario ya existe, intenta uno diferente"
-    }
+    },
+    "have_account_text": "¿Ya tienes una cuenta?",
+    "login_here": "Inicie sesión aquí"
   },
   "home": {
     "feed": "Inicio",
@@ -513,6 +520,7 @@
     "scheduled_for": "Programada para",
     "scheduled_immediate": "Inmediato",
     "scheduled_later": "Más tarde",
+    "schedule_video_unsupported": "Programación de publicaciones de vídeo no disponible",
     "settings_title": "Opciones de Publicación",
     "done": "HECHO",
     "draft_save_title": "Guardar Borrador",
@@ -528,7 +536,9 @@
     "invalid_url_error": "Por favor, introduzca una url válida",
     "plain": "Sin formato",
     "video": "Vídeo",
-    "image": "Imagen"
+    "image": "Imagen",
+    "short_desc": "Descripción corta",
+    "short_desc_placeholder": "Resumen breve del contenido"
   },
   "snippets": {
     "label_no_snippets": "No se encontraron Fragmentos",
@@ -553,10 +563,20 @@
     "btn_add": "Imágen",
     "btn_insert": "INSERTAR",
     "btn_delete": "BORRAR",
-    "confirm_delete": "¿Está seguro que desea eliminar las imágenes de sus subidas?",
+    "confirm_delete": "¿Está seguro que desea eliminar los elementos seleccionados de sus subidas",
     "message_failed": "Error al subir la imagen",
     "delete_failed": "Error al eliminar la imagen",
-    "failed_count": "Error al subir {failedCount} de {totalCount} imagen(es) seleccionada(s)"
+    "failed_count": "Error al subir {failedCount} de {totalCount} imagen(es) seleccionada(s)",
+    "publish_manual": "Listo",
+    "published": "Publicado",
+    "encoding_ipfs": "Codificación",
+    "encoding_preparing": "Preparando",
+    "deleted": "Eliminado",
+    "start_upload": "INICIAR SUBIDA",
+    "uploading": "SUBIENDO",
+    "select_thumb": "Seleccionar miniatura",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "Ingresa un pin para desbloquear",
@@ -578,6 +598,8 @@
     "continue": "Continuar",
     "okay": "Ok",
     "done": "Hecho",
+    "notice": "¡Aviso!",
+    "close": "CERRAR",
     "move_question": "¿Está seguro de moverlo a borradores?",
     "success_shared": "¡Éxito! ¡Contenido enviado!",
     "success_moved": "Movido a borradores",
@@ -745,7 +767,8 @@
     "pin-community": "Anclar a la comunidad",
     "unpin-community": "Desanclar de la comunidad",
     "edit-history": "Editar historial",
-    "mute": "Silenciar / Bloquear"
+    "mute": "Silenciar / Bloquear",
+    "translate": "Traducir"
   },
   "deep_link": {
     "no_existing_user": "Usuario no existe",
@@ -769,13 +792,19 @@
     "to": "Para",
     "amount_information": "Arrastra el deslizador para ajustar la cantidad",
     "amount": "Cantidad",
+    "executions": "Ejecuciones",
+    "recurrence": "Recurrencia",
     "memo": "Memo",
+    "recurrent_transfer": "Transferencia recurrente",
+    "delete_recurrent_transfer": "Eliminar transferencia recurrente ",
     "information": "¿Continuar transacción?",
     "amount_desc": "Balance",
     "memo_desc": "Este memo es público",
     "convert_desc": "La conversión toma 3.5 días y el precio NO recomendado SI HBD es mayor que $1",
     "to_placeholder": "Nombre de usuario",
     "memo_placeholder": "Escribe tus notas aquí",
+    "recurrence_placeholder": "Elegir recurrencia",
+    "executions_placeholder": "Número de repeticiones",
     "transfer_token": "Transferir",
     "purchase_estm": "Puntos de compra",
     "convert": "Convertir HBD a HIVE",
