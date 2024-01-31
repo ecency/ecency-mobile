@@ -7,6 +7,7 @@
     "claim_reward_balance": "Получить награду ",
     "points_activity": "Активность",
     "transfer": "Перевод",
+    "recurrent_transfer": "Повторяющийся перевод",
     "power_up": "В силу",
     "transfer_from_savings": "Из сейфа",
     "withdraw_savings": "Вывести сбережения",
@@ -58,7 +59,7 @@
     "estimated_value": "Расчетная стоимость",
     "vote_value": "Величина голоса",
     "delegated_hive_power": "Делегированная сила голоса",
-    "powering_down_hive_power": "Powering down ({subValue})",
+    "powering_down_hive_power": "Понижение силы ({subValue})",
     "received_hive_power": "Полученная сила голоса",
     "total_hive_power": "Всего силы голоса",
     "savings": "Сбережения",
@@ -250,7 +251,7 @@
     "this_week": "На неделе",
     "last_week": "На прошлой неделе",
     "this_month": "В этом месяце",
-    "older_then": "Давно",
+    "older_then": "Последний месяц и старше",
     "activities": "Все",
     "replies": "Ответы",
     "mentions": "Упоминания",
@@ -376,11 +377,12 @@
   },
   "login": {
     "signin": "Войти",
+    "login_with_hs": "Войти с помощью hivesigner",
     "signup": "ПРИСОЕДИНЯЙТЕСЬ СЕЙЧАС",
     "signin_title": "Чтобы получить все преимущества от использования Ecency",
-    "username": "Пользователь",
-    "password": "Пароль или ключ",
-    "description": "Регистрируясь, вы соглашаетесь с Условиями использования и Политикой конфиденциальности.",
+    "username": "имя пользователя",
+    "password": "пароль / приватный ключ",
+    "description": "Авторизуясь, вы соглашаетесь с нашими Условиями обслуживания и Политикой конфиденциальности.",
     "cancel": "отмена",
     "login": "Войти",
     "steemconnect_description": "Если вы не хотите хранить зашифрованные ключи на своем устройстве, используйте Hivesigner.",
@@ -392,7 +394,10 @@
     "deep_login_alert_title": "Простой вход @{username}",
     "deep_login_alert_body": "Подтвердите авторизацию с помощью кода доступа",
     "deep_login_url_expired": "Срок действия URL-адреса для авторизации истёк, пожалуйста, используйте закрытый ключ или пароль для входа",
-    "deep_login_malformed_url": "Неверный URL-адрес для входа, используйте закрытый ключ или пароль для входа"
+    "deep_login_malformed_url": "Неверный URL-адрес для входа, используйте закрытый ключ или пароль для входа",
+    "no_account_text": "Не зарегистрированы?",
+    "signup_now": "Зарегистрируйтесь сейчас!",
+    "or": "ИЛИ"
   },
   "register": {
     "modal_title": "Получить учетную запись Hive",
@@ -415,7 +420,9 @@
       "username_contains_double_hyphens": "Не должно содержать двойные дефисы",
       "username_contains_underscore": "Не должно содержать подчеркивания",
       "username_exists": "Имя пользователя уже существует, попробуйте другое"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "Лента",
@@ -513,6 +520,7 @@
     "scheduled_for": "Запланировано на",
     "scheduled_immediate": "Немедленно",
     "scheduled_later": "Позже",
+    "schedule_video_unsupported": "Планирование публикации видео недоступно",
     "settings_title": "Параметры статьи",
     "done": "ГОТОВО",
     "draft_save_title": "Сохранение черновика",
@@ -528,7 +536,9 @@
     "invalid_url_error": "Пожалуйста, введите действительную ссылку",
     "plain": "Обычный",
     "video": "Видео",
-    "image": "Изображение"
+    "image": "Изображение",
+    "short_desc": "Краткое описание",
+    "short_desc_placeholder": "Краткое содержание"
   },
   "snippets": {
     "label_no_snippets": "Сниппеты не найдены",
@@ -553,10 +563,20 @@
     "btn_add": "Изображение",
     "btn_insert": "ВСТАВИТЬ",
     "btn_delete": "УДАЛИТЬ",
-    "confirm_delete": "Вы уверены, что хотите удалить изображения из своих загрузок",
+    "confirm_delete": "Вы уверены, что хотите удалить выбранные элементы из ваших загрузок",
     "message_failed": "Не удалось загрузить изображение",
     "delete_failed": "Не удалось удалить изображение",
-    "failed_count": "Не удалось загрузить {failedCount} из {totalCount} выбранного изображения(ов)"
+    "failed_count": "Не удалось загрузить {failedCount} из {totalCount} выбранного изображения(ов)",
+    "publish_manual": "Готово",
+    "published": "Опубликовано",
+    "encoding_ipfs": "Кодирование",
+    "encoding_preparing": "Подготовка",
+    "deleted": "Удалено",
+    "start_upload": "НАЧАТЬ ЗАГРУЗКУ",
+    "uploading": "ЗАГРУЗКА",
+    "select_thumb": "Выбрать миниатюру",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "Чтобы разблокировать введите пин-код",
@@ -578,6 +598,8 @@
     "continue": "Продолжить",
     "okay": "Окей",
     "done": "Готово",
+    "notice": "Примечание!",
+    "close": "ЗАКРЫТЬ",
     "move_question": "Вы уверены, что хотите переместить в черновики?",
     "success_shared": "Успех! Контент отправлен!",
     "success_moved": "Перемещён в черновики",
@@ -745,7 +767,8 @@
     "pin-community": "Закрепить в сообществе",
     "unpin-community": "Открепить от сообщества",
     "edit-history": "История изменений",
-    "mute": "Отключить / Блокировать"
+    "mute": "Отключить / Блокировать",
+    "translate": "Перевод"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
@@ -769,13 +792,19 @@
     "to": "Кому",
     "amount_information": "Потяните ползунок чтобы установить сумму",
     "amount": "Сумма",
+    "executions": "Выполнение",
+    "recurrence": "Периодичность",
     "memo": "Примечание",
+    "recurrent_transfer": "Повторяющийся перевод",
+    "delete_recurrent_transfer": "Удалить повторяющийся перевод ",
     "information": "Продолжить транзакцию?",
     "amount_desc": "Баланс",
     "memo_desc": "Эта заметка публична",
     "convert_desc": "Конвертация занимает 3,5 дня и НЕ рекомендуется ЕСЛИ цена HBD выше $1",
     "to_placeholder": "Пользователь",
     "memo_placeholder": "Введите свою заметку",
+    "recurrence_placeholder": "Выбрать повторение",
+    "executions_placeholder": "Количество повторов",
     "transfer_token": "Перевод",
     "purchase_estm": "Купить Баллы",
     "convert": "Конвертировать HBD в HIVE",
