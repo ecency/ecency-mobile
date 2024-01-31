@@ -26,7 +26,6 @@ class RedeemContainer extends Component {
 
   // Component Functions
   _statusCheck = async () => {
-
     await gameStatusCheck('spin')
       .then((res) => {
         this.setState({
@@ -40,8 +39,6 @@ class RedeemContainer extends Component {
           Alert.alert(get(err, 'message') || err.toString());
         }
       });
-
-
   };
 
   _startGame = async (type) => {
