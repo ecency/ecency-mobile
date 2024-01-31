@@ -62,7 +62,7 @@ export default EStyleSheet.create({
   },
   scrollTopText: {
     fontWeight: '500',
-    color: '$primaryBlack',
+    color: '$primaryGray',
     marginHorizontal: 4,
     marginBottom: 2,
   },
