@@ -1867,6 +1867,38 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
   }
 };
 
+export const boostPlus = (currentAccount, pinCode, duration, account) => {
+  const pin = getDigitPinCode(pinCode);
+  const key = getActiveKey(get(currentAccount, 'local'), pin);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const user = get(currentAccount, 'name');
+
+    const json = {
+      id: 'ecency_boost_plus',
+      json: JSON.stringify({
+        user,
+        account,
+        duration,
+      }),
+      required_auths: [user],
+      required_posting_auths: [],
+    };
+    const opArray = [['custom_json', json]];
+
+    return sendHiveOperations(opArray, privateKey);
+  } else {
+    const err = new Error('Check private key permission! Required private active key or above.');
+    bugsnagInstance.notify(err, (event) => {
+      event.setUser(currentAccount.username);
+      event.context('boost-plus-content');
+      event.setMetaData('encryptedLocal', currentAccount.local);
+    });
+    return Promise.reject(err);
+  }
+};
+
 export const boost = (currentAccount, pinCode, point, permlink, author) => {
   const pin = getDigitPinCode(pinCode);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
