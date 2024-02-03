@@ -152,25 +152,27 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       if (navigationParams.isReply) {
         ({ isReply } = navigationParams);
+        let _draftBody = '';
+
         if (post) {
           draftId = `${currentAccount.name}/${post.author}/${post.permlink}`;
-
           const _draft = draftsCollection && draftsCollection[draftId];
+
           if (_draft && !!_draft.body) {
             const _mediaUrls = navigationParams.replyMediaUrls;
-            const _dBody =
+            _draftBody =
               _mediaUrls.length > 0 ? `${_draft.body}\n\n ![](${_mediaUrls[0]})` : _draft.body;
-
-            this.setState({
-              draftPost: {
-                body: _dBody,
-              },
-              isReply,
-              draftId,
-              autoFocusText: true,
-            });
           }
         }
+
+        this.setState({
+          draftPost: {
+            body: _draftBody,
+          },
+          isReply,
+          draftId,
+          autoFocusText: true,
+        });
       }
 
       if (navigationParams.isEdit) {
