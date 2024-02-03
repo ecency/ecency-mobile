@@ -52,7 +52,7 @@ const ScrollTopPopup = ({
                   <IconButton
                     key={`image_bubble_${url}`}
                     style={styles.moreIcon}
-                    color={EStyleSheet.value('$primaryBlack')}
+                    color={EStyleSheet.value('$primaryGray')}
                     iconType="MaterialIcons"
                     name="more-horiz"
                     onPress={onPress}
