@@ -17,6 +17,7 @@ import {
   LOGOUT_DONE,
   SHOW_WEBVIEW_MODAL,
   HIDE_WEBVIEW_MODAL,
+  HIVE_URI_TO_HANDLE,
 } from '../constants/constants';
 import { orientations } from '../constants/orientationsConstants';
 
@@ -42,6 +43,7 @@ interface UiState {
   replyModalVisible: boolean;
   replyModalData?: PostEditorModalData | null;
   isLogingOut: boolean;
+  hiveUriToHandle:string;
 }
 
 const initialState: UiState = {
@@ -61,6 +63,7 @@ const initialState: UiState = {
   replyModalData: null,
   replyModalVisible: false,
   isLogingOut: false,
+  hiveUriToHandle: '',
 };
 
 const uiReducer = (state = initialState, action): UiState => {
@@ -176,6 +179,11 @@ const uiReducer = (state = initialState, action): UiState => {
         ...state,
         isLogingOut: false,
       };
+    case HIVE_URI_TO_HANDLE:
+      return {
+        ...state,
+        hiveUriToHandle: action.payload
+      }
     default:
       return state;
   }

@@ -15,7 +15,7 @@ import messaging from '@react-native-firebase/messaging';
 import BackgroundTimer from 'react-native-background-timer';
 import FastImage from 'react-native-fast-image';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
+import { handleHiveUri, setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
 import isAndroidTablet from '../../../utils/isAndroidTablet';
 import darkTheme from '../../../themes/darkTheme';
@@ -27,6 +27,8 @@ import { markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
+import { isPoundElement } from 'intl-messageformat-parser';
+import * as hiveuri from 'hive-uri';
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
@@ -232,6 +234,12 @@ export const useInitApplication = () => {
           key = push.source || 'inactive';
           break;
 
+        case 'hiveuri':
+          if(push.hiveUri){
+            dispatch(handleHiveUri(push.hiveUri))
+          }
+          break;
+
         default:
           break;
       }
@@ -259,6 +267,7 @@ export const useInitApplication = () => {
           });
         }
       }
+
     }
   };
 };

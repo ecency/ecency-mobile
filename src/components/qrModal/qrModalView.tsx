@@ -36,10 +36,20 @@ export const QRModal = () => {
   const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
+
   const [isScannerActive, setIsScannerActive] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
   const sheetModalRef = useRef<ActionSheet>();
   const scannerRef = useRef(null);
+
+  //TODO: make sure to properly clean uri processing code to process uri from deep links and notifications
+  const hiveUriToHandle = useAppSelector((state) => state.ui.hiveUriToHandle);
+  useEffect(() => {
+    if(hiveUriToHandle){
+      _handleHiveUri(hiveUriToHandle);
+    }
+  }, [hiveUriToHandle])
+
 
   useEffect(() => {
     if (isVisibleQRModal) {
@@ -48,7 +58,10 @@ export const QRModal = () => {
     } else {
       sheetModalRef?.current?.hide();
     }
+
   }, [isVisibleQRModal]);
+
+
 
   const requestCameraPermission = async () => {
     if (Platform.OS === 'ios') {
