@@ -80,11 +80,6 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
 
 
 
-export const useAnnouncementsQuery = () => {
-  return useQuery([QUERIES.NOTIFICATIONS.GET_ANNOUNCEMENTS], getAnnouncements);
-}
-
-
 export const useNotificationReadMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();

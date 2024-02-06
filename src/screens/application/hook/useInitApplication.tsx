@@ -19,7 +19,6 @@ import {
   handleDeepLink,
   setDeviceOrientation,
   setLockedOrientation,
-  showActionModal,
 } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
 import isAndroidTablet from '../../../utils/isAndroidTablet';
@@ -32,18 +31,14 @@ import { markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
-import { useIntl } from 'react-intl';
-import { jSXAttribute } from '@babel/types';
-import { getPostUrl } from '../../../utils/post';
+
 
 export const useInitApplication = () => {
-  const intl = useIntl();
+
   const dispatch = useAppDispatch();
   const { isDarkTheme, colorTheme, isPinCodeOpen, currency } = useAppSelector(
     (state) => state.application,
   );
-  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
-
   const systemColorScheme = useColorScheme();
 
   const appState = useRef(AppState.currentState);
@@ -54,7 +49,7 @@ export const useInitApplication = () => {
   const messagingEventRef = useRef<any>(null);
 
   const userActivityMutation = useUserActivityMutation();
-  const announcmentsQuery = useAnnouncementsQuery();
+  useAnnouncementsQuery();
 
   // equivalent of componentWillMount and update on props,
   // benefit is it does not wait for useEffect callback
@@ -114,48 +109,7 @@ export const useInitApplication = () => {
 
 
 
-  useEffect(() => {
-    if(announcmentsQuery.data?.length > 0){
-      const firstAnnounce = announcmentsQuery.data[0];
-
-      if(firstAnnounce.auth && !isLoggedIn){
-         return;
-      }
-
-      const _silentAnnoucement = () => {
-         
-      }
-
-      const _onActionPress = () => {
-        if(firstAnnounce.ops){
-          dispatch(handleDeepLink(firstAnnounce.ops));
-        } else if (firstAnnounce.button_link){
-          let _url = firstAnnounce.button_link.startsWith("https://") 
-             ? firstAnnounce.button_link : getPostUrl(firstAnnounce.button_link);
-          dispatch(handleDeepLink(_url))
-        }
-      }
-
-      const _buttons = [
-          {
-            text: intl.formatMessage({ id: 'alert.later' }),
-            onPress: _silentAnnoucement,
-          },
-          {
-            text: firstAnnounce.button_text,
-            onPress: _onActionPress,
-          },
-        ]
-      
-
-      dispatch(showActionModal({
-        title:firstAnnounce.title,
-        body:firstAnnounce.description,
-        buttons:_buttons,
-        onClosed:_silentAnnoucement
-      }))
-    }
-  }, [announcmentsQuery.data])
+  
 
 
 
