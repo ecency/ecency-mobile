@@ -9,7 +9,7 @@ import * as hiveuri from 'hive-uri';
 import styles from './qrModalStyles';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
-  handleHiveUri,
+  handleDeepLink,
   showActionModal,
   showWebViewModal,
   toastNotification,
@@ -43,12 +43,12 @@ export const QRModal = () => {
   const scannerRef = useRef(null);
 
   // TODO: make sure to properly clean uri processing code to process uri from deep links and notifications
-  const hiveUriToHandle = useAppSelector((state) => state.ui.hiveUriToHandle);
+  const deepLinkToHandle = useAppSelector((state) => state.ui.deepLinkToHandle);
   useEffect(() => {
-    if (hiveUriToHandle) {
-      handleLink({data:hiveUriToHandle});
+    if (deepLinkToHandle) {
+      handleLink({data:deepLinkToHandle});
     }
-  }, [hiveUriToHandle]);
+  }, [deepLinkToHandle]);
 
   useEffect(() => {
     if (isVisibleQRModal) {
@@ -214,7 +214,7 @@ export const QRModal = () => {
                 },
               },
             ],
-            onClosed: () => dispatch(handleHiveUri('')),
+            onClosed: () => dispatch(handleDeepLink('')),
           }),
         );
       })

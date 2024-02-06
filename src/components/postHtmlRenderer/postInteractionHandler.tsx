@@ -11,7 +11,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../constants/routeNames';
-import { handleHiveUri, toastNotification } from '../../redux/actions/uiAction';
+import { handleDeepLink, toastNotification } from '../../redux/actions/uiAction';
 import { writeToClipboard } from '../../utils/clipboard';
 
 import { OptionsModal } from '../atoms';
@@ -57,7 +57,7 @@ export const PostHtmlInteractionHandler = forwardRef(
       },
       handleLinkPress: (url: string) => {
         if (isHiveUri(url)) {
-          dispatch(handleHiveUri(url));
+          dispatch(handleDeepLink(url));
         } else {
           setSelectedLink(url);
           actionLink.current?.show();

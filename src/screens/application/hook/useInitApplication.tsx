@@ -16,7 +16,7 @@ import BackgroundTimer from 'react-native-background-timer';
 import FastImage from 'react-native-fast-image';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import {
-  handleHiveUri,
+  handleDeepLink,
   setDeviceOrientation,
   setLockedOrientation,
   showActionModal,
@@ -128,11 +128,11 @@ export const useInitApplication = () => {
 
       const _onActionPress = () => {
         if(firstAnnounce.ops){
-          dispatch(handleHiveUri(firstAnnounce.ops));
+          dispatch(handleDeepLink(firstAnnounce.ops));
         } else if (firstAnnounce.button_link){
           let _url = firstAnnounce.button_link.startsWith("https://") 
              ? firstAnnounce.button_link : getPostUrl(firstAnnounce.button_link);
-          dispatch(handleHiveUri(_url))
+          dispatch(handleDeepLink(_url))
         }
       }
 
@@ -297,7 +297,7 @@ export const useInitApplication = () => {
 
         case 'hiveuri':
           if (push.hiveUri) {
-            dispatch(handleHiveUri(push.hiveUri));
+            dispatch(handleDeepLink(push.hiveUri));
           }
           break;
 

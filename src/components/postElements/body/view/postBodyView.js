@@ -11,7 +11,7 @@ import ActionSheetView from 'react-native-actions-sheet';
 import { useNavigation } from '@react-navigation/native';
 import { writeToClipboard } from '../../../../utils/clipboard';
 import {
-  handleHiveUri,
+  handleDeepLink,
   showProfileModal,
   toastNotification,
 } from '../../../../redux/actions/uiAction';
@@ -255,7 +255,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
 
   const _handleSetSelectedLink = (link) => {
     if (isHiveUri(link)) {
-      dispatch(handleHiveUri(link));
+      dispatch(handleDeepLink(link));
     } else {
       setSelectedLink(link);
       actionLink.current.show();
