@@ -13,6 +13,7 @@ import {
   DELETE_POINT_ACTIVITY_CACHE_ENTRY,
   UPDATE_CLAIM_CACHE,
   DELETE_CLAIM_CACHE_ENTRY,
+  UPDATE_ANNOUNCEMENTS_META
 } from '../constants/constants';
 
 export enum CacheStatus {
@@ -85,6 +86,11 @@ export interface SubscribedCommunity {
   expiresAt?: number;
 }
 
+export interface AnnouncementMeta {
+  lastSeen:number,
+  processed:boolean,
+}
+
 export interface LastUpdateMeta {
   postPath: string;
   updatedAt: number;
@@ -98,6 +104,7 @@ interface State {
   claimsCollection: ClaimsCollection;
   subscribedCommunities: Map<string, SubscribedCommunity>;
   pointActivities: Map<string, PointActivity>;
+  announcementsMeta: { [key: number]: AnnouncementMeta }
   lastUpdate: LastUpdateMeta;
 }
 
@@ -106,6 +113,7 @@ const initialState: State = {
   commentsCollection: {},
   draftsCollection: {},
   claimsCollection: {},
+  announcementsMeta:{},
   subscribedCommunities: new Map(),
   pointActivities: new Map(),
   lastUpdate: null,
@@ -247,6 +255,23 @@ const cacheReducer = (state = initialState, action) => {
         state.pointActivities.delete(payload);
       }
       return { ...state };
+
+      case UPDATE_ANNOUNCEMENTS_META:
+        if (!state.announcementsMeta) {
+          state.announcementsMeta = {};
+        }
+
+        const _alreadyProcessed = state.announcementsMeta[payload.id]?.processed || false
+
+        state.announcementsMeta = { 
+          ...state.announcementsMeta, 
+          [payload.id]: {
+            processed: _alreadyProcessed || payload.processed,
+            lastSeen:new Date().getTime(),
+          } as AnnouncementMeta };
+        return {
+          ...state, // spread operator in requried here, otherwise persist do not register change
+        };
 
     case PURGE_EXPIRED_CACHE:
       const currentTime = new Date().getTime();

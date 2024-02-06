@@ -37,7 +37,7 @@ const persistConfig = {
   key: 'root',
   // Storage Method (React Native)
   storage: AsyncStorage,
-  version: 6, // New version 0, default or previous version -1, versions are useful migrations
+  version:7, // New version 0, default or previous version -1, versions are useful migrations
   // // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   transforms: [transformCacheVoteMap, transformWalkthroughMap],
