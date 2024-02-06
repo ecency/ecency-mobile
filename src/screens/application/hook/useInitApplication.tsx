@@ -19,24 +19,30 @@ import {
   handleHiveUri,
   setDeviceOrientation,
   setLockedOrientation,
+  showActionModal,
 } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
 import isAndroidTablet from '../../../utils/isAndroidTablet';
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
-import { useUserActivityMutation } from '../../../providers/queries';
+import { useAnnouncementsQuery, useUserActivityMutation } from '../../../providers/queries';
 import THEME_OPTIONS from '../../../constants/options/theme';
 import { setCurrency, setIsDarkTheme } from '../../../redux/actions/applicationActions';
 import { markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
+import { useIntl } from 'react-intl';
+import { jSXAttribute } from '@babel/types';
+import { getPostUrl } from '../../../utils/post';
 
 export const useInitApplication = () => {
+  const intl = useIntl();
   const dispatch = useAppDispatch();
   const { isDarkTheme, colorTheme, isPinCodeOpen, currency } = useAppSelector(
     (state) => state.application,
   );
+  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
 
   const systemColorScheme = useColorScheme();
 
@@ -48,6 +54,7 @@ export const useInitApplication = () => {
   const messagingEventRef = useRef<any>(null);
 
   const userActivityMutation = useUserActivityMutation();
+  const announcmentsQuery = useAnnouncementsQuery();
 
   // equivalent of componentWillMount and update on props,
   // benefit is it does not wait for useEffect callback
@@ -60,6 +67,9 @@ export const useInitApplication = () => {
     console.log('device orientation changed : ', o);
     dispatch(setDeviceOrientation(o));
   });
+
+
+
 
   useEffect(() => {
     BackgroundTimer.start(); // ref: https://github.com/ocetnik/react-native-background-timer#ios
@@ -88,6 +98,8 @@ export const useInitApplication = () => {
     return _cleanup;
   }, []);
 
+
+
   useEffect(() => {
     if (THEME_OPTIONS[colorTheme].value === null) {
       // workaround to avoid hook callback glitch on iOS causing momentary theme flash
@@ -99,6 +111,53 @@ export const useInitApplication = () => {
       }, 200);
     }
   }, [systemColorScheme]);
+
+
+
+  useEffect(() => {
+    if(announcmentsQuery.data?.length > 0){
+      const firstAnnounce = announcmentsQuery.data[0];
+
+      if(firstAnnounce.auth && !isLoggedIn){
+         return;
+      }
+
+      const _silentAnnoucement = () => {
+         
+      }
+
+      const _onActionPress = () => {
+        if(firstAnnounce.ops){
+          dispatch(handleHiveUri(firstAnnounce.ops));
+        } else if (firstAnnounce.button_link){
+          let _url = firstAnnounce.button_link.startsWith("https://") 
+             ? firstAnnounce.button_link : getPostUrl(firstAnnounce.button_link);
+          dispatch(handleHiveUri(_url))
+        }
+      }
+
+      const _buttons = [
+          {
+            text: intl.formatMessage({ id: 'alert.later' }),
+            onPress: _silentAnnoucement,
+          },
+          {
+            text: firstAnnounce.button_text,
+            onPress: _onActionPress,
+          },
+        ]
+      
+
+      dispatch(showActionModal({
+        title:firstAnnounce.title,
+        body:firstAnnounce.description,
+        buttons:_buttons,
+        onClosed:_silentAnnoucement
+      }))
+    }
+  }, [announcmentsQuery.data])
+
+
 
   const _cleanup = () => {
     if (appStateSubRef.current) {

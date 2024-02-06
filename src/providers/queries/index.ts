@@ -28,6 +28,8 @@ export const initQueryClient = () => {
           return query.queryKey[3] === 0; // only dehydrate first page of waves
         case QUERIES.NOTIFICATIONS.GET:
           return query.queryKey[2] === ''; // only dehydrate first page of notifications
+        case QUERIES.NOTIFICATIONS.GET_ANNOUNCEMENTS:
+          return false;
         default:
           return true;
       }

@@ -46,7 +46,7 @@ export const QRModal = () => {
   const hiveUriToHandle = useAppSelector((state) => state.ui.hiveUriToHandle);
   useEffect(() => {
     if (hiveUriToHandle) {
-      _handleHiveUri(hiveUriToHandle);
+      handleLink({data:hiveUriToHandle});
     }
   }, [hiveUriToHandle]);
 
@@ -119,7 +119,7 @@ export const QRModal = () => {
     dispatch(toggleQRModal(false));
   };
 
-  const onSuccess = (e) => {
+  const handleLink = (e) => {
     setIsScannerActive(false);
     if (isHiveUri(e.data)) {
       _handleHiveUri(e.data);
@@ -276,14 +276,7 @@ export const QRModal = () => {
             _onClose();
           },
           style: 'cancel',
-        },
-        {
-          text: 'Rescan',
-          onPress: () => {
-            setIsScannerActive(true);
-            scannerRef.current?.reactivate();
-          },
-        },
+        }
       ],
     );
   };
@@ -301,7 +294,7 @@ export const QRModal = () => {
           reactivate={isScannerActive}
           showMarker={true}
           ref={scannerRef}
-          onRead={onSuccess}
+          onRead={handleLink}
           topViewStyle={{ display: 'none' }}
           bottomViewStyle={{ display: 'none' }}
           containerStyle={styles.scannerContainer}

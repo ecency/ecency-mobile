@@ -3,6 +3,7 @@ import {
   useMutation,
   UseMutationOptions,
   useQueries,
+  useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -12,7 +13,7 @@ import bugsnapInstance from '../../config/bugsnag';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { updateUnreadActivityCount } from '../../redux/actions/accountAction';
 import { toastNotification } from '../../redux/actions/uiAction';
-import { getNotifications, markNotifications } from '../ecency/ecency';
+import { getAnnouncements, getNotifications, markNotifications } from '../ecency/ecency';
 import { NotificationFilters } from '../ecency/ecency.types';
 import { markHiveNotifications } from '../hive/dhive';
 import QUERIES from './queryKeys';
@@ -76,6 +77,13 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
     refresh: _refresh,
   };
 };
+
+
+
+export const useAnnouncementsQuery = () => {
+  return useQuery([QUERIES.NOTIFICATIONS.GET_ANNOUNCEMENTS], getAnnouncements);
+}
+
 
 export const useNotificationReadMutation = () => {
   const intl = useIntl();
