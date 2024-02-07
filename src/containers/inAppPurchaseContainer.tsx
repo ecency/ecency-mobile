@@ -88,6 +88,7 @@ class InAppPurchaseContainer extends Component {
       fetchData,
       username,
       email,
+      referral,
       handleOnPurchaseFailure,
       handleOnPurchaseSuccess,
     } = this.props;
@@ -116,6 +117,7 @@ class InAppPurchaseContainer extends Component {
           data.meta = {
             username,
             email,
+            referral,
           };
         }
 
