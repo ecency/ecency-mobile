@@ -24,7 +24,7 @@ export const useAnnouncementsQuery = () => {
     if (announcmentsQuery.data?.length > 0) {
       const firstAnnounce = announcmentsQuery.data[0];
 
-      const _meta = announcementsMeta[firstAnnounce.id];
+      const _meta = announcementsMeta && announcementsMeta[firstAnnounce.id];
       const curTime = new Date().getTime();
 
       if (
