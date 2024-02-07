@@ -15,7 +15,7 @@ export const useAnnouncementsQuery = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
 
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const announcementsMeta = useAppSelector((state) => state.cache.announcementsMeta);
 
   const announcmentsQuery = useQuery([QUERIES.ANNOUNCEMENTS.GET], getAnnouncements);
@@ -24,11 +24,13 @@ export const useAnnouncementsQuery = () => {
     if (announcmentsQuery.data?.length > 0) {
       const firstAnnounce = announcmentsQuery.data[0];
 
-      const _meta = announcementsMeta[firstAnnounce.id];
+      const _metaId = `${firstAnnounce.id}_${currentAccount?.username || 'guest'}`;
+
+      const _meta = announcementsMeta && announcementsMeta[_metaId];
       const curTime = new Date().getTime();
 
       if (
-        (firstAnnounce.auth && !isLoggedIn) ||
+        (firstAnnounce.auth && !currentAccount?.username) ||
         _meta?.processed ||
         _meta?.lastSeen + PROMPT_AGAIN_INTERVAL > curTime
       ) {
@@ -36,7 +38,7 @@ export const useAnnouncementsQuery = () => {
       }
 
       const _markAsSeen = () => {
-        dispatch(updateAnnoucementsMeta(firstAnnounce.id, false));
+        dispatch(updateAnnoucementsMeta(_metaId, false));
       };
 
       const _onActionPress = () => {
@@ -50,7 +52,7 @@ export const useAnnouncementsQuery = () => {
         }
 
         // mark as processed
-        dispatch(updateAnnoucementsMeta(firstAnnounce.id, true));
+        dispatch(updateAnnoucementsMeta(_metaId, true));
       };
 
       const _buttons = [
