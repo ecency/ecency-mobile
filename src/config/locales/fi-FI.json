@@ -421,8 +421,8 @@
       "username_contains_underscore": "Ei alaviivoja",
       "username_exists": "Käyttäjätunnus on jo olemassa, kokeile toista"
     },
-    "have_account_text": "Already have an account?",
-    "login_here": "Login Here"
+    "have_account_text": "Onko sinulla jo tili?",
+    "login_here": "Kirjaudu sisään tästä"
   },
   "home": {
     "feed": "Syöte",
@@ -600,7 +600,7 @@
     "done": "Valmis",
     "notice": "Huom!",
     "close": "SULJE",
-    "later": "Later",
+    "later": "Myöhemmin",
     "move_question": "Haluatko varmasti siirtää luonnoksiin?",
     "success_shared": "Onnistui! Sisältö lähetetty!",
     "success_moved": "Siirretty luonnoksiin",
@@ -1066,7 +1066,7 @@
     "open": "Avaa URL",
     "detected_url": "Havaittu URL",
     "unsupported_alert_title": "URL-osoitetta ei tuettu!",
-    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
+    "unsupported_alert_desc": "Ecency-mobiilisovellus ei tue linkkiä",
     "confirmTransaction": "Vahvista tapahtuma",
     "approve": "Hyväksy",
     "cancel": "Peruuta",
