@@ -6,6 +6,7 @@ import serverList from '../../config/serverListApi';
 import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
 import {
+  convertAnnouncement,
   convertCommentHistory,
   convertDraft,
   convertLatestQuotes,
@@ -939,3 +940,18 @@ export const getCommentHistory = async (
     throw error;
   }
 };
+
+
+export const getAnnouncements = async () => {
+  try{
+    const res = await ecencyApi.get('/private-api/announcements')
+    console.log('announcements fetcehd', res.data);
+    if (!res.data) {
+      throw new Error('No announcements found!');
+    }
+    return res?.data.map(convertAnnouncement);
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    throw error;
+  }
+}

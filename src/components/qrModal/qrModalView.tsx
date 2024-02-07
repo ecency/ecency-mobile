@@ -9,7 +9,7 @@ import * as hiveuri from 'hive-uri';
 import styles from './qrModalStyles';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
-  handleHiveUri,
+  handleDeepLink,
   showActionModal,
   showWebViewModal,
   toastNotification,
@@ -43,12 +43,12 @@ export const QRModal = () => {
   const scannerRef = useRef(null);
 
   // TODO: make sure to properly clean uri processing code to process uri from deep links and notifications
-  const hiveUriToHandle = useAppSelector((state) => state.ui.hiveUriToHandle);
+  const deepLinkToHandle = useAppSelector((state) => state.ui.deepLinkToHandle);
   useEffect(() => {
-    if (hiveUriToHandle) {
-      _handleHiveUri(hiveUriToHandle);
+    if (deepLinkToHandle) {
+      handleLink({data:deepLinkToHandle});
     }
-  }, [hiveUriToHandle]);
+  }, [deepLinkToHandle]);
 
   useEffect(() => {
     if (isVisibleQRModal) {
@@ -119,7 +119,7 @@ export const QRModal = () => {
     dispatch(toggleQRModal(false));
   };
 
-  const onSuccess = (e) => {
+  const handleLink = (e) => {
     setIsScannerActive(false);
     if (isHiveUri(e.data)) {
       _handleHiveUri(e.data);
@@ -214,7 +214,7 @@ export const QRModal = () => {
                 },
               },
             ],
-            onClosed: () => dispatch(handleHiveUri('')),
+            onClosed: () => dispatch(handleDeepLink('')),
           }),
         );
       })
@@ -276,14 +276,7 @@ export const QRModal = () => {
             _onClose();
           },
           style: 'cancel',
-        },
-        {
-          text: 'Rescan',
-          onPress: () => {
-            setIsScannerActive(true);
-            scannerRef.current?.reactivate();
-          },
-        },
+        }
       ],
     );
   };
@@ -301,7 +294,7 @@ export const QRModal = () => {
           reactivate={isScannerActive}
           showMarker={true}
           ref={scannerRef}
-          onRead={onSuccess}
+          onRead={handleLink}
           topViewStyle={{ display: 'none' }}
           bottomViewStyle={{ display: 'none' }}
           containerStyle={styles.scannerContainer}
