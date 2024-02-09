@@ -380,7 +380,7 @@
     "login_with_hs": "Login with hivesigner",
     "signup": "JOIN NOW",
     "signin_title": "To get all the benefits of using Ecency",
-    "username": "username",
+    "username": "användarnamn",
     "password": "password / private key",
     "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "cancel",
@@ -397,7 +397,7 @@
     "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
     "no_account_text": "Don't have an account?",
     "signup_now": "Sign up now!",
-    "or": "OR"
+    "or": "ELLER"
   },
   "register": {
     "modal_title": "Get Hive Account",
@@ -599,7 +599,7 @@
     "okay": "Okay",
     "done": "Done",
     "notice": "Notice!",
-    "close": "CLOSE",
+    "close": "STÄNG",
     "later": "Later",
     "move_question": "Are you sure to move to drafts?",
     "success_shared": "Success! Content submitted!",
