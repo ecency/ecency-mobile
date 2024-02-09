@@ -421,8 +421,8 @@
       "username_contains_underscore": "Не должно содержать подчеркивания",
       "username_exists": "Имя пользователя уже существует, попробуйте другое"
     },
-    "have_account_text": "Already have an account?",
-    "login_here": "Login Here"
+    "have_account_text": "У вас уже есть аккаунт?",
+    "login_here": "Войти здесь"
   },
   "home": {
     "feed": "Лента",
@@ -600,7 +600,7 @@
     "done": "Готово",
     "notice": "Примечание!",
     "close": "ЗАКРЫТЬ",
-    "later": "Later",
+    "later": "Позже",
     "move_question": "Вы уверены, что хотите переместить в черновики?",
     "success_shared": "Успех! Контент отправлен!",
     "success_moved": "Перемещён в черновики",
@@ -1066,7 +1066,7 @@
     "open": "Открыть Ссылку",
     "detected_url": "Обнаружена Ссылка",
     "unsupported_alert_title": "Неподдерживаемый URL!",
-    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
+    "unsupported_alert_desc": "Ссылка не поддерживается мобильным приложением Ecency",
     "confirmTransaction": "Подтвердить транзакцию",
     "approve": "Утвердить",
     "cancel": "Отменить",
