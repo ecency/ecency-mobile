@@ -639,6 +639,28 @@ export const getActiveVotes = (author, permlink) =>
     }
   });
 
+export const getPostReblogs = async (author, permlink) => {
+  try {
+    if (!author || !permlink) {
+      throw new Error('invalid parameters');
+    }
+
+    console.log('Getting post reblogs:', author, permlink);
+
+    const reblogs = await client.call('condenser_api', 'get_reblogged_by', [author, permlink]);
+
+    if (!reblogs) {
+      throw new Error('invalid data');
+    }
+
+    console.log(`Returning reblogs`, reblogs);
+    return reblogs;
+  } catch (error) {
+    bugsnapInstance.notify(error);
+    return [];
+  }
+};
+
 export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   try {
     console.log('Getting ranked posts:', query);
