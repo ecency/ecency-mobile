@@ -14,7 +14,6 @@ import ROUTES from '../../../constants/routeNames';
 
 interface Props {
   content: any;
-  reblogs: any[];
   handleCardInteraction: (
     id: PostCardActionIds,
     payload?: any,
@@ -22,7 +21,7 @@ interface Props {
   ) => void;
 }
 
-export const PostCardActionsPanel = ({ content, reblogs, handleCardInteraction }: Props) => {
+export const PostCardActionsPanel = ({ content, handleCardInteraction }: Props) => {
   const activeVotes = content?.active_votes || [];
 
   const _onVotersPress = () => {
@@ -36,11 +35,12 @@ export const PostCardActionsPanel = ({ content, reblogs, handleCardInteraction }
   };
 
   const _onReblogsPress = () => {
-    if (reblogs?.length) {
+    if (content.reblogs > 0) {
       handleCardInteraction(PostCardActionIds.NAVIGATE, {
         name: ROUTES.SCREENS.REBLOGS,
         params: {
-          reblogs,
+          author:content.author,
+          permlink:content.permlink
         },
       });
     }
@@ -78,7 +78,7 @@ export const PostCardActionsPanel = ({ content, reblogs, handleCardInteraction }
           iconStyle={styles.commentIcon}
           iconType="MaterialIcons"
           isClickable
-          text={get(reblogs, 'length', 0)}
+          text={content.reblogs || ''}
           onPress={_onReblogsPress}
         />
         <TextWithIcon

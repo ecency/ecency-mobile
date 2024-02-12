@@ -46,7 +46,6 @@ const PostDisplayView = ({
   permlink,
   handleOnRemovePress,
   activeVotes,
-  reblogs,
   isWavePost,
   activeVotesCount,
 }) => {
@@ -97,7 +96,7 @@ const PostDisplayView = ({
   };
 
   const _handleOnReblogsPress = () => {
-    if (reblogs.length > 0 && handleOnReblogsPress) {
+    if (post.reblogs > 0 && handleOnReblogsPress) {
       handleOnReblogsPress();
     }
   };
@@ -152,7 +151,7 @@ const PostDisplayView = ({
             iconType="MaterialIcons"
             isClickable
             onPress={_handleOnReblogsPress}
-            text={reblogs.length}
+            text={post.reblogs || ''}
             textMarginLeft={20}
           />
           {isLoggedIn && (
