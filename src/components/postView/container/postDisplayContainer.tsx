@@ -8,7 +8,6 @@ import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Dsteem
 import { deleteComment } from '../../../providers/hive/dhive';
-import { getPostReblogs } from '../../../providers/ecency/ecency';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -39,7 +38,6 @@ const PostDisplayContainer = ({
 
   const [activeVotes, setActiveVotes] = useState([]);
   const [activeVotesCount, setActiveVotesCount] = useState(0);
-  const [reblogs, setReblogs] = useState([]);
 
   useEffect(() => {
     if (post) {
@@ -48,9 +46,6 @@ const PostDisplayContainer = ({
       const activeVotesCount = get(post, 'stats.total_votes', 0);
       setActiveVotes(votes);
       setActiveVotesCount(activeVotesCount);
-      getPostReblogs(post).then((result) => {
-        setReblogs(result || []);
-      });
     }
   }, [post]);
 
@@ -79,7 +74,7 @@ const PostDisplayContainer = ({
           author:post.author,
           permlink:post.permlink
         },
-        key: post.permlink + reblogs.length,
+        key: post.permlink + post.reblogs.length,
       } as never);
     }
   };
@@ -144,7 +139,6 @@ const PostDisplayContainer = ({
       post={post}
       activeVotes={activeVotes}
       activeVotesCount={activeVotesCount}
-      reblogs={reblogs}
       isWavePost={isWavePost}
       fetchPost={_fetchPost}
       handleOnEditPress={_handleOnEditPress}

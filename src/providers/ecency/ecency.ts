@@ -831,20 +831,6 @@ export const purchaseOrder = async (data: PurchaseRequestData) => {
   }
 };
 
-export const getPostReblogs = async (author: string, permlink: string) => {
-  const data = {
-    author,
-    permlink,
-  };
-  try {
-    const response = await ecencyApi.post('/private-api/post-reblogs', data);
-    return response.data;
-    // reactotron.log("response: ", response);
-  } catch (error) {
-    bugsnagInstance.notify(error);
-    throw error;
-  }
-};
 
 /**
  * Registers new user with ecency and hive, on confirmation sends
