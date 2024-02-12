@@ -8,6 +8,7 @@ import { useAppSelector } from '../../hooks';
 import { updateAnnoucementsMeta } from '../../redux/actions/cacheActions';
 import { handleDeepLink, showActionModal } from '../../redux/actions/uiAction';
 import { getPostUrl } from '../../utils/post';
+import { delay } from '../../utils/editor';
 
 const PROMPT_AGAIN_INTERVAL = 48 * 3600 * 1000; // 2 days
 
@@ -37,43 +38,49 @@ export const useAnnouncementsQuery = () => {
         return;
       }
 
-      const _markAsSeen = () => {
-        dispatch(updateAnnoucementsMeta(_metaId, false));
-      };
-
-      const _onActionPress = () => {
-        if (firstAnnounce.ops) {
-          dispatch(handleDeepLink(firstAnnounce.ops));
-        } else if (firstAnnounce.button_link) {
-          const _url = firstAnnounce.button_link.startsWith('https://')
-            ? firstAnnounce.button_link
-            : getPostUrl(firstAnnounce.button_link);
-          dispatch(handleDeepLink(_url));
-        }
-
-        // mark as processed
-        dispatch(updateAnnoucementsMeta(_metaId, true));
-      };
-
-      const _buttons = [
-        {
-          text: intl.formatMessage({ id: 'alert.later' }),
-          onPress: _markAsSeen,
-        },
-        {
-          text: firstAnnounce.button_text,
-          onPress: _onActionPress,
-        },
-      ];
-
-      dispatch(
-        showActionModal({
-          title: firstAnnounce.title,
-          body: firstAnnounce.description,
-          buttons: _buttons,
-          onClosed: _markAsSeen,
-        }),
-      );
+      _showAnnouncement(firstAnnounce, _metaId);
     }
-  }, [announcmentsQuery.data]);
+  }, [announcmentsQuery.data, currentAccount.username]);
+
+  const _showAnnouncement = async (data, metaId) => {
+    const _markAsSeen = () => {
+      dispatch(updateAnnoucementsMeta(metaId, false));
+    };
+
+    const _onActionPress = () => {
+      if (data.ops) {
+        dispatch(handleDeepLink(data.ops));
+      } else if (data.button_link) {
+        const _url = data.button_link.startsWith('https://')
+          ? data.button_link
+          : getPostUrl(data.button_link);
+        dispatch(handleDeepLink(_url));
+      }
+
+      // mark as processed
+      dispatch(updateAnnoucementsMeta(metaId, true));
+    };
+
+    const _buttons = [
+      {
+        text: intl.formatMessage({ id: 'alert.later' }),
+        onPress: _markAsSeen,
+      },
+      {
+        text: data.button_text,
+        onPress: _onActionPress,
+      },
+    ];
+
+    await delay(3000);
+
+    dispatch(
+      showActionModal({
+        title: data.title,
+        body: data.description,
+        buttons: _buttons,
+        onClosed: _markAsSeen,
+      }),
+    );
+  };
 };
