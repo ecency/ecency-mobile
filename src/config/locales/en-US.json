@@ -929,6 +929,10 @@
   "boostPost": {
     "title": "Boost"
   },
+  "boost_plus":{
+    "title":"Boost+",
+    "confirm_boost":"Are you sure to boost?"
+  },
   "voters_dropdown": {
     "rewards": "REWARDS",
     "percent": "PERCENT",

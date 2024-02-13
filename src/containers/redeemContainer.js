@@ -28,7 +28,7 @@ class RedeemContainer extends Component {
 
   // Component Functions
 
-  _redeemAction = async (redeemType = 'promote', actionSpecificParam, permlink, author, user) => {
+  _redeemAction = async (user, redeemType = 'promote', actionSpecificParam, author, permlink) => {
     this.setState({ isLoading: true });
 
     const { currentAccount, pinCode, dispatch, intl, navigation } = this.props;
@@ -80,6 +80,7 @@ class RedeemContainer extends Component {
       return;
     }
 
+
     await action(user || currentAccount, pinCode, actionSpecificParam, author, permlink)
       .then(() => {
         navigation.goBack();
@@ -98,24 +99,31 @@ class RedeemContainer extends Component {
     this.setState({ isLoading: false });
   };
 
-  _handleOnSubmit = async (redeemType, actionSpecificParam, fullPermlink, selectedUser) => {
+  _handleOnSubmit = async (redeemType, actionSpecificParam, fullPermlinkOrUsername, selectedUser) => {
     const { intl, currentAccount, accounts } = this.props;
-    const separatedPermlink = fullPermlink.split('/');
-    const _author = get(separatedPermlink, '[0]');
-    const _permlink = get(separatedPermlink, '[1]');
-    const _isPostAvailable = await isPostAvailable(_author, _permlink);
+    let _author;
+    let _permlink;
 
-    if (!_isPostAvailable) {
-      Alert.alert(intl.formatMessage({ id: 'alert.not_existing_post' }));
-      return;
-    }
+    if(redeemType !== 'boost_plus'){
+      const separatedPermlink = fullPermlinkOrUsername.split('/');
+      _author = get(separatedPermlink, '[0]');
+      _permlink = get(separatedPermlink, '[1]');
+      const _isPostAvailable = await isPostAvailable(_author, _permlink);
+
+      if (!_isPostAvailable) {
+        Alert.alert(intl.formatMessage({ id: 'alert.not_existing_post' }));
+        return;
+      }
+    } else {
+      _author = fullPermlinkOrUsername;
+    } 
 
     const user =
       selectedUser !== currentAccount.username
         ? currentAccount
         : accounts.find((item) => item.username === selectedUser);
 
-    this._redeemAction(redeemType, actionSpecificParam, _permlink, _author, user);
+    this._redeemAction(user, redeemType, actionSpecificParam, _author, _permlink);
   };
 
   _handleOnSCModalClose = () => {
@@ -130,7 +138,6 @@ class RedeemContainer extends Component {
       children &&
       children({
         isLoading,
-        redeemAction: this._redeemAction,
         isSCModalOpen,
         SCPath,
         handleOnSubmit: this._handleOnSubmit,
