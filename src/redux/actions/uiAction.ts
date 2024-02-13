@@ -17,6 +17,7 @@ import {
   LOGOUT_DONE,
   SHOW_WEBVIEW_MODAL,
   HIDE_WEBVIEW_MODAL,
+  HIVE_URI_TO_HANDLE,
 } from '../constants/constants';
 import { PostEditorModalData } from '../reducers/uiReducer';
 
@@ -118,3 +119,8 @@ export const logout = () => ({
 export const logoutDone = () => ({
   type: LOGOUT_DONE,
 });
+
+export const handleDeepLink = (hiveUri:string) => ({
+  payload:hiveUri,
+  type: HIVE_URI_TO_HANDLE
+})

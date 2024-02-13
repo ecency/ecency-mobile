@@ -15,12 +15,16 @@ import messaging from '@react-native-firebase/messaging';
 import BackgroundTimer from 'react-native-background-timer';
 import FastImage from 'react-native-fast-image';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
+import {
+  handleDeepLink,
+  setDeviceOrientation,
+  setLockedOrientation,
+} from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
 import isAndroidTablet from '../../../utils/isAndroidTablet';
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
-import { useUserActivityMutation } from '../../../providers/queries';
+import { useAnnouncementsQuery, useUserActivityMutation } from '../../../providers/queries';
 import THEME_OPTIONS from '../../../constants/options/theme';
 import { setCurrency, setIsDarkTheme } from '../../../redux/actions/applicationActions';
 import { markNotifications } from '../../../providers/ecency/ecency';
@@ -28,12 +32,13 @@ import { updateUnreadActivityCount } from '../../../redux/actions/accountAction'
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 
+
 export const useInitApplication = () => {
+
   const dispatch = useAppDispatch();
   const { isDarkTheme, colorTheme, isPinCodeOpen, currency } = useAppSelector(
     (state) => state.application,
   );
-
   const systemColorScheme = useColorScheme();
 
   const appState = useRef(AppState.currentState);
@@ -44,6 +49,7 @@ export const useInitApplication = () => {
   const messagingEventRef = useRef<any>(null);
 
   const userActivityMutation = useUserActivityMutation();
+  useAnnouncementsQuery();
 
   // equivalent of componentWillMount and update on props,
   // benefit is it does not wait for useEffect callback
@@ -56,6 +62,9 @@ export const useInitApplication = () => {
     console.log('device orientation changed : ', o);
     dispatch(setDeviceOrientation(o));
   });
+
+
+
 
   useEffect(() => {
     BackgroundTimer.start(); // ref: https://github.com/ocetnik/react-native-background-timer#ios
@@ -84,6 +93,8 @@ export const useInitApplication = () => {
     return _cleanup;
   }, []);
 
+
+
   useEffect(() => {
     if (THEME_OPTIONS[colorTheme].value === null) {
       // workaround to avoid hook callback glitch on iOS causing momentary theme flash
@@ -95,6 +106,12 @@ export const useInitApplication = () => {
       }, 200);
     }
   }, [systemColorScheme]);
+
+
+
+  
+
+
 
   const _cleanup = () => {
     if (appStateSubRef.current) {
@@ -230,6 +247,12 @@ export const useInitApplication = () => {
         case 'inactive':
           routeName = ROUTES.SCREENS.EDITOR;
           key = push.source || 'inactive';
+          break;
+
+        case 'hiveuri':
+          if (push.hiveUri) {
+            dispatch(handleDeepLink(push.hiveUri));
+          }
           break;
 
         default:

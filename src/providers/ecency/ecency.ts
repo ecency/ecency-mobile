@@ -6,6 +6,7 @@ import serverList from '../../config/serverListApi';
 import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
 import {
+  convertAnnouncement,
   convertCommentHistory,
   convertDraft,
   convertLatestQuotes,
@@ -868,20 +869,6 @@ export const purchaseOrder = async (data: PurchaseRequestData) => {
   }
 };
 
-export const getPostReblogs = async (author: string, permlink: string) => {
-  const data = {
-    author,
-    permlink,
-  };
-  try {
-    const response = await ecencyApi.post('/private-api/post-reblogs', data);
-    return response.data;
-    // reactotron.log("response: ", response);
-  } catch (error) {
-    bugsnagInstance.notify(error);
-    throw error;
-  }
-};
 
 /**
  * Registers new user with ecency and hive, on confirmation sends
@@ -977,3 +964,18 @@ export const getCommentHistory = async (
     throw error;
   }
 };
+
+
+export const getAnnouncements = async () => {
+  try{
+    const res = await ecencyApi.get('/private-api/announcements')
+    console.log('announcements fetcehd', res.data);
+    if (!res.data) {
+      throw new Error('No announcements found!');
+    }
+    return res?.data.map(convertAnnouncement);
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    throw error;
+  }
+}
