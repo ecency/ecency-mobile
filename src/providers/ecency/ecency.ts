@@ -798,10 +798,48 @@ export const getPromotedEntries = async (username: string) => {
 };
 
 /**
+ * fetches boost plus prices
+ * @returns array of prices
+ */
+export const getBoostPlusPrice = async () => {
+  try {
+    console.log('Fetching boost plus prices');
+    return ecencyApi.post('/private-api/boost-plus-price').then((resp) => {
+      return resp.data;
+    });
+  } catch (error) {
+    console.warn('Failed to get boost plus prices');
+    bugsnagInstance.notify(error);
+    return error;
+  }
+};
+
+/**
+ * fetches boost plus account
+ * @param account for knowing if already boosted
+ * @returns array
+ */
+export const getBoostPlusAccount = async (account: string) => {
+  const data = {
+    account,
+  };
+  try {
+    console.log('Fetching boosted plus account');
+    return ecencyApi.post('/private-api/boosted-plus-account', data).then((resp) => {
+      return resp.data;
+    });
+  } catch (error) {
+    console.warn('Failed to get boost plus prices');
+    bugsnagInstance.notify(error);
+    return error;
+  }
+};
+
+/**
 * TOOD:
 * POST /private-api/purchase-order
-* 
-* body: 
+*
+* body:
 * platform:string
 * product:string
 * receipt:string

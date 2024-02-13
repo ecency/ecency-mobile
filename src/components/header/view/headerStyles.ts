@@ -1,5 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Platform } from 'react-native';
+import { Platform, ViewStyle } from 'react-native';
 
 export default EStyleSheet.create({
   container: {
@@ -73,6 +73,21 @@ export default EStyleSheet.create({
   viewIcon: {
     fontSize: 24,
     color: '$iconColor',
+    justifyContent: 'center',
+  },
+  boostContainer:{
+    flexDirection:'row',
+    marginRight:10,
+  },
+  plusIcon: {
+    fontSize: 12,
+    color: '$primaryBlue',
+    justifyContent: 'center',
+
+  } as ViewStyle,
+  boostPlusIcon: {
+    fontSize: 22,
+    color: '$primaryBlue',
     justifyContent: 'center',
   },
   backButton: {

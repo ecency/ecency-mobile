@@ -76,6 +76,7 @@ export interface PurchaseRequestData {
   meta?: {
     username: string;
     email: string;
+    referral?: string;
   };
 }
 
