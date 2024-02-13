@@ -36,7 +36,7 @@ const FeedScreen = () => {
     <AccountContainer>
       {({ currentAccount }) => (
         <Fragment>
-          <Header showQR={true} />
+          <Header showQR={true} showBoost={true} />
           <View style={styles.container} onLayout={_lazyLoadContent}>
             {lazyLoad && (
               <TabbedPosts

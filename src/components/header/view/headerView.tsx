@@ -14,12 +14,14 @@ import ROUTES from '../../../constants/routeNames';
 
 // Styles
 import styles from './headerStyles';
+import Icon from '../../icon';
 
 const HeaderView = ({
   displayName,
   handleOnPressBackButton,
   handleOnQRPress,
   handleOpenDrawer,
+  handleOnBoostPress,
   isDarkTheme,
   isLoggedIn,
   isLoginDone,
@@ -28,6 +30,7 @@ const HeaderView = ({
   username,
   hideUser,
   showQR,
+  showBoost
 }) => {
   const navigation = useNavigation();
 
@@ -106,6 +109,23 @@ const HeaderView = ({
         </View>
       ) : (
         <View style={styles.backButtonWrapper}>
+          {showBoost && (
+            <TouchableOpacity onPress={handleOnBoostPress} >
+              <View style={styles.boostContainer}>
+                <Icon
+                  style={styles.boostPlusIcon}
+                  name="fire"
+                  iconType="FontAwesome5"
+                  />
+                <Icon
+                  style={styles.plusIcon}
+                  name="plus"
+                  iconType="FontAwesome5"
+                  />
+              </View>
+              
+           </TouchableOpacity>
+          )}
           {showQR && (
             <IconButton
               style={styles.viewIconContainer}
