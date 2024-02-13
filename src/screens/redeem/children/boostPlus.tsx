@@ -116,7 +116,7 @@ const BoostPlus = ({
 
   const _handleOnSubmit = async () => {
     //TODO: later add support to boost other accounts
-    handleOnSubmit(redeemType, day, selectedUser, selectedUser);
+    handleOnSubmit(redeemType, day, selectedUser || currentAccountName, selectedUser);
   };
 
   return (
