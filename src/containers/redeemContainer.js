@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';
-import { promote, boost, isPostAvailable } from '../providers/hive/dhive';
+import { promote, boost, isPostAvailable, boostPlus } from '../providers/hive/dhive';
 import { toastNotification } from '../redux/actions/uiAction';
 
 /*
@@ -33,19 +33,27 @@ class RedeemContainer extends Component {
 
     const { currentAccount, pinCode, dispatch, intl, navigation } = this.props;
     let action;
-    let specificParam;
+    let specificParams;
+    let hiveActionId;
 
     switch (redeemType) {
       case 'promote':
         action = promote;
-        specificParam = { duration: actionSpecificParam };
+        specificParams = {author, permlink, duration: actionSpecificParam };
+        hiveActionId = 'ecency_promote';
         break;
 
       case 'boost':
         action = boost;
-        specificParam = { amount: `${actionSpecificParam.toFixed(3)} POINT` };
+        specificParams = {author, permlink, amount: `${actionSpecificParam.toFixed(3)} POINT` };
+        hiveActionId = 'ecency_boost'
         break;
 
+      case 'boost_plus':
+        action = boostPlus;
+        specificParams = {account:author, duration: actionSpecificParam }
+        hiveActionId = 'ecency_boost_plus'
+        break;
       default:
         break;
     }
@@ -53,11 +61,11 @@ class RedeemContainer extends Component {
     if (get(user, 'local.authType') === 'steemConnect') {
       const json = JSON.stringify({
         user: get(user, 'name'),
-        author,
-        permlink,
-        ...specificParam,
+        ...specificParams,
       });
-      const uriType = redeemType === 'promote' ? 'ecency_promote' : 'ecency_boost';
+
+
+
 
       const uri = `sign/custom-json?authority=active&required_auths=%5B%22${get(
         user,
@@ -72,7 +80,7 @@ class RedeemContainer extends Component {
       return;
     }
 
-    await action(user || currentAccount, pinCode, actionSpecificParam, permlink, author)
+    await action(user || currentAccount, pinCode, actionSpecificParam, author, permlink)
       .then(() => {
         navigation.goBack();
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));

@@ -1856,7 +1856,7 @@ export const transferPoint = (currentAccount, pinCode, data) => {
   }
 };
 
-export const promote = (currentAccount, pinCode, duration, permlink, author) => {
+export const promote = (currentAccount, pinCode, duration, author, permlink) => {
   const pin = getDigitPinCode(pinCode);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 
@@ -1921,7 +1921,7 @@ export const boostPlus = (currentAccount, pinCode, duration, account) => {
   }
 };
 
-export const boost = (currentAccount, pinCode, point, permlink, author) => {
+export const boost = (currentAccount, pinCode, point, author, permlink) => {
   const pin = getDigitPinCode(pinCode);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 
