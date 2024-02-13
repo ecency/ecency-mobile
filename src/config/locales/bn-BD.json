@@ -927,6 +927,11 @@
   "boostPost": {
     "title": "বুস্ট"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to boost?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "পুরস্কার",
     "percent": "শতাংশ\n",
