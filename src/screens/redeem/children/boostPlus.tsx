@@ -8,7 +8,7 @@ import { hsOptions } from '../../../constants/hsOptions';
 
 // Services and Actions
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
-import { getBoostPlusPrice, } from '../../../providers/ecency/ecency';
+import { getBoostPlusAccount, getBoostPlusPrice, } from '../../../providers/ecency/ecency';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -70,11 +70,19 @@ const BoostPlus = ({
     if (selectedUser) {
       _getUserBalance(selectedUser);
     }
+
+    _checkBoostStatus()
+
   }, [selectedUser]);
 
 
 
   // Component Functions
+
+
+  const _checkBoostStatus = async () => {
+    await getBoostPlusAccount( selectedUser || currentAccountName)
+  }
 
 
   const _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
