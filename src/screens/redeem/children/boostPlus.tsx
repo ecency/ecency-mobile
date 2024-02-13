@@ -3,12 +3,14 @@ import { injectIntl } from 'react-intl';
 import { Text, View, ScrollView, Alert } from 'react-native';
 import { WebView } from 'react-native-webview';
 import get from 'lodash/get';
-import { ScaleSlider } from '../../../components/';
+import { useQuery } from '@tanstack/react-query';
+import Animated, { BounceIn } from 'react-native-reanimated';
+import { ScaleSlider } from '../../../components';
 import { hsOptions } from '../../../constants/hsOptions';
 
 // Services and Actions
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
-import { getBoostPlusAccount, getBoostPlusPrice, } from '../../../providers/ecency/ecency';
+import { getBoostPlusAccount, getBoostPlusPrice } from '../../../providers/ecency/ecency';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -20,7 +22,6 @@ import { Modal } from '../../../components/modal';
 // Styles
 import styles from './boostPlus.styles';
 import { OptionsModal } from '../../../components/atoms';
-import { useQuery } from '@tanstack/react-query';
 import QUERIES from '../../../providers/queries/queryKeys';
 
 const BoostPlus = ({
@@ -35,57 +36,75 @@ const BoostPlus = ({
   isSCModalOpen,
   handleOnSCModalClose,
 }) => {
-
   const [selectedUser, setSelectedUser] = useState('');
   const [balance, setBalance] = useState(_balance);
   const [day, setDay] = useState(7);
   const [price, setPrice] = useState(0);
+  const [expiryDate, setExpiryDate] = useState<Date | null>(null);
   const [isValid, setIsValid] = useState(false);
 
   const startActionSheet = useRef(null);
-  let timer = null;
 
+  const boostPricesQuery = useQuery([QUERIES.REDEEM.GET_BOOST_PLUS_PRICES], getBoostPlusPrice, {
+    initialData: [],
+  });
 
-  const boostPricesQuery = useQuery([QUERIES.REDEEM.GET_BOOST_PLUS_PRICES], getBoostPlusPrice, {initialData:[]})
+  const _boostDays = useMemo(
+    () => boostPricesQuery.data.map((item) => item.duration),
+    [boostPricesQuery.data],
+  );
+  const _boostPrices = useMemo(
+    () => boostPricesQuery.data.map((item) => item.price),
+    [boostPricesQuery.data],
+  );
 
-  const _boostDays = useMemo(()=>boostPricesQuery.data.map(item=>item.duration),[boostPricesQuery.data])
-  const _boostPrices = useMemo(()=>boostPricesQuery.data.map(item=>item.price),[boostPricesQuery.data])
-
-
-  useEffect(()=>{
+  useEffect(() => {
     setBalance(_balance);
-  },[_balance])
+  }, [_balance]);
 
   useEffect(() => {
     const pr = _boostPrices[_boostDays.indexOf(day)];
- 
+
     setIsValid(pr <= balance);
     setPrice(pr);
-
   }, [day, balance, boostPricesQuery.data]);
-
-
 
   useEffect(() => {
     if (selectedUser) {
       _getUserBalance(selectedUser);
     }
 
-    _checkBoostStatus()
-
+    _checkBoostStatus();
   }, [selectedUser]);
 
-
+  const _selectedUser = selectedUser || currentAccountName;
 
   // Component Functions
 
-
   const _checkBoostStatus = async () => {
-    await getBoostPlusAccount( selectedUser || currentAccountName)
-  }
+    const response = await getBoostPlusAccount(_selectedUser);
+    if (response?.account === _selectedUser) {
+      const expiryDate = new Date(response.expires);
+      if (expiryDate > new Date()) {
+        setExpiryDate(expiryDate);
+        return;
+      }
+    }
 
+    setExpiryDate(null);
+  };
 
-  const _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
+  const _renderExpiryDetails = () =>
+    expiryDate && (
+      <Animated.View entering={BounceIn}>
+        <Text style={styles.expiryDate}>
+          {intl.formatMessage(
+            { id: 'boost_plus.already_boosted' },
+            { date: expiryDate.toDateString() },
+          )}
+        </Text>
+      </Animated.View>
+    );
 
   const _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton
@@ -115,8 +134,8 @@ const BoostPlus = ({
   };
 
   const _handleOnSubmit = async () => {
-    //TODO: later add support to boost other accounts
-    handleOnSubmit(redeemType, day, selectedUser || currentAccountName, selectedUser);
+    // TODO: later add support to boost other accounts
+    handleOnSubmit(redeemType, day, _selectedUser, selectedUser);
   };
 
   return (
@@ -127,7 +146,7 @@ const BoostPlus = ({
           <View style={styles.middleContent}>
             <TransferFormItem
               label={intl.formatMessage({ id: 'promote.user' })}
-              rightComponent={() => _renderDropdown(accounts, selectedUser || currentAccountName)}
+              rightComponent={() => _renderDropdown(accounts, _selectedUser)}
             />
             <Text style={styles.balanceText}>{`${balance} Points`}</Text>
 
@@ -137,9 +156,7 @@ const BoostPlus = ({
                   id: 'promote.days',
                 })} `}
               </Text>
-              <Text style={styles.price}>
-                {`${price} Points  `}
-              </Text>
+              <Text style={styles.price}>{`${price} Points  `}</Text>
             </View>
 
             <ScaleSlider
@@ -150,18 +167,18 @@ const BoostPlus = ({
               single
             />
           </View>
+
           <View style={styles.bottomContent}>
             <MainButton
               style={styles.button}
-              isDisable={
-                (isLoading || !isValid)
-              }
+              isDisable={isLoading || !isValid || !!expiryDate}
               onPress={() => startActionSheet.current.show()}
               isLoading={isLoading}
             >
               <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
             </MainButton>
           </View>
+          {_renderExpiryDetails()}
         </ScrollView>
       </View>
       <OptionsModal

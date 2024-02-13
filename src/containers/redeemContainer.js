@@ -39,20 +39,20 @@ class RedeemContainer extends Component {
     switch (redeemType) {
       case 'promote':
         action = promote;
-        specificParams = {author, permlink, duration: actionSpecificParam };
+        specificParams = { author, permlink, duration: actionSpecificParam };
         hiveActionId = 'ecency_promote';
         break;
 
       case 'boost':
         action = boost;
-        specificParams = {author, permlink, amount: `${actionSpecificParam.toFixed(3)} POINT` };
-        hiveActionId = 'ecency_boost'
+        specificParams = { author, permlink, amount: `${actionSpecificParam.toFixed(3)} POINT` };
+        hiveActionId = 'ecency_boost';
         break;
 
       case 'boost_plus':
         action = boostPlus;
-        specificParams = {account:author, duration: actionSpecificParam }
-        hiveActionId = 'ecency_boost_plus'
+        specificParams = { account: author, duration: actionSpecificParam };
+        hiveActionId = 'ecency_boost_plus';
         break;
       default:
         break;
@@ -64,13 +64,10 @@ class RedeemContainer extends Component {
         ...specificParams,
       });
 
-
-
-
       const uri = `sign/custom-json?authority=active&required_auths=%5B%22${get(
         user,
         'name',
-      )}%22%5D&required_posting_auths=%5B%5D&id=${uriType}&json=${encodeURIComponent(json)}`;
+      )}%22%5D&required_posting_auths=%5B%5D&id=${hiveActionId}&json=${encodeURIComponent(json)}`;
 
       this.setState({
         isSCModalOpen: true,
@@ -79,7 +76,6 @@ class RedeemContainer extends Component {
 
       return;
     }
-
 
     await action(user || currentAccount, pinCode, actionSpecificParam, author, permlink)
       .then(() => {
@@ -99,12 +95,17 @@ class RedeemContainer extends Component {
     this.setState({ isLoading: false });
   };
 
-  _handleOnSubmit = async (redeemType, actionSpecificParam, fullPermlinkOrUsername, selectedUser) => {
+  _handleOnSubmit = async (
+    redeemType,
+    actionSpecificParam,
+    fullPermlinkOrUsername,
+    selectedUser,
+  ) => {
     const { intl, currentAccount, accounts } = this.props;
     let _author;
     let _permlink;
 
-    if(redeemType !== 'boost_plus'){
+    if (redeemType !== 'boost_plus') {
       const separatedPermlink = fullPermlinkOrUsername.split('/');
       _author = get(separatedPermlink, '[0]');
       _permlink = get(separatedPermlink, '[1]');
@@ -116,7 +117,7 @@ class RedeemContainer extends Component {
       }
     } else {
       _author = fullPermlinkOrUsername;
-    } 
+    }
 
     const user =
       selectedUser !== currentAccount.username

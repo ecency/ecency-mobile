@@ -85,8 +85,11 @@ export default EStyleSheet.create({
     width: 172,
     height: 75,
   },
-  description: {
+  expiryDate: {
     color: '$iconColor',
+    alignSelf: 'center',
+    fontSize: 16,
+    marginTop: 16,
   },
   button: {
     width: '$deviceWidth / 3',
