@@ -928,9 +928,9 @@
     "title": "Impulsar"
   },
   "boost_plus": {
-    "title": "Boost+",
-    "confirm_boost": "Are you sure to boost?",
-    "already_boosted": "Account already boosted till {date}"
+    "title": "Impulsar+",
+    "confirm_boost": "¿Estás seguro de impulsar?",
+    "already_boosted": "Cuenta ya impulsada hasta {date}"
   },
   "voters_dropdown": {
     "rewards": "RECOMPENSAS",
