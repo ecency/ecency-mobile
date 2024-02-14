@@ -121,7 +121,7 @@ const HeaderView = ({
           )}
           <IconButton iconStyle={styles.backIcon} name="md-search" onPress={_onPressSearchButton} />
           
-          {showBoost && (
+          {showBoost && isLoggedIn && (
             <IconButton
               style={styles.boostIconContainer}
               iconStyle={styles.boostPlusIcon}
