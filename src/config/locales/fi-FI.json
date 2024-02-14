@@ -928,9 +928,9 @@
     "title": "Tehosta"
   },
   "boost_plus": {
-    "title": "Boost+",
-    "confirm_boost": "Are you sure to boost?",
-    "already_boosted": "Account already boosted till {date}"
+    "title": "Tehosta+",
+    "confirm_boost": "Haluatko varmasti tehostaa?",
+    "already_boosted": "Tili on jo tehostettu {date} asti"
   },
   "voters_dropdown": {
     "rewards": "PALKKIOT",
