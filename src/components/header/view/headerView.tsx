@@ -109,23 +109,7 @@ const HeaderView = ({
         </View>
       ) : (
         <View style={styles.backButtonWrapper}>
-          {showBoost && (
-            <TouchableOpacity onPress={handleOnBoostPress} >
-              <View style={styles.boostContainer}>
-                <Icon
-                  style={styles.boostPlusIcon}
-                  name="fire"
-                  iconType="FontAwesome5"
-                  />
-                <Icon
-                  style={styles.plusIcon}
-                  name="plus"
-                  iconType="FontAwesome5"
-                  />
-              </View>
-              
-           </TouchableOpacity>
-          )}
+
           {showQR && (
             <IconButton
               style={styles.viewIconContainer}
@@ -136,6 +120,16 @@ const HeaderView = ({
             />
           )}
           <IconButton iconStyle={styles.backIcon} name="md-search" onPress={_onPressSearchButton} />
+          
+          {showBoost && (
+            <IconButton
+              style={styles.boostIconContainer}
+              iconStyle={styles.boostPlusIcon}
+              name="fire"
+              iconType="FontAwesome5"
+              onPress={handleOnBoostPress}
+            />
+          )}
         </View>
       )}
     </>
