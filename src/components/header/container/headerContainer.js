@@ -35,7 +35,7 @@ const HeaderContainer = ({ selectedUser, isReverse, handleOnBackPress, hideUser,
   };
 
   const _handleOnBoostPress = () => {
-    //TODO: navigate to boost plus screen;
+    //navigate to boost plus screen;
     navigation.navigate(ROUTES.SCREENS.REDEEM, {
       redeemType:'boost_plus'
     })
