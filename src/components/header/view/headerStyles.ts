@@ -79,14 +79,11 @@ export default EStyleSheet.create({
     flexDirection:'row',
     marginRight:10,
   },
-  plusIcon: {
-    fontSize: 12,
-    color: '$primaryBlue',
-    justifyContent: 'center',
-
-  } as ViewStyle,
+  boostIconContainer:{
+    marginLeft:6,
+  },
   boostPlusIcon: {
-    fontSize: 22,
+    fontSize: 24,
     color: '$primaryBlue',
     justifyContent: 'center',
   },
