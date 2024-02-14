@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Reguliarus programos naudojimas duoda jums papildomų galimybių užsidirbti taškų, būkite labiau aktyvus ir uždirbkite daugiau.",
     "dropdown_transfer": "Dovana",
     "dropdown_promote": "Reklamuok",
-    "dropdown_boost": "Sustiprink",
+    "dropdown_boost": "Boost+",
     "from": "Nuo",
     "to": "Į",
     "estimated_value_desc": "Atsižvelgiant į pirkinio vertę",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "Ar tikrai norite įrenginius perkelti į juodraščius?",
     "success_shared": "Sėkmė! Turinys išsiųstas!",
     "success_moved": "Perkelta į juodraščius",
@@ -926,6 +927,11 @@
   "boostPost": {
     "title": "Sustiprink"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to boost?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "ATLYGIAI",
     "percent": "PROCENTAI",
@@ -1065,7 +1071,7 @@
     "open": "Atidaryti URL",
     "detected_url": "Aptiktas URL",
     "unsupported_alert_title": "Nepalaikomas URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost",
+    "dropdown_boost": "Boost+",
     "from": "From",
     "to": "To",
     "estimated_value_desc": "According to purchase value",
@@ -71,7 +71,7 @@
     "information": "Are you sure to proceed with transaction?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
+    "to_placeholder": "Användarnamn",
     "memo_placeholder": "Enter your notes here",
     "transfer_token": "Transfer",
     "purchase_estm": "GET POINTS",
@@ -282,7 +282,7 @@
     "wallet_details": "Wallet Details",
     "unclaimed_rewards": "Unclaimed Rewards",
     "full_in": "Full in",
-    "hours": "hours",
+    "hours": "timmar",
     "voting_power": "Voting power",
     "login_to_see": "Login to see",
     "follow_people": "When you follow people, you'll see their post here.",
@@ -291,8 +291,8 @@
     "havent_posted": "haven't posted anything yet",
     "hive_power": "Hive Power",
     "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
+    "days": "dagar",
+    "day": "dag",
     "hive_dollars": "Hive Dollars",
     "savings": "Savings",
     "joined": "Joined {time} ago",
@@ -300,7 +300,7 @@
     "resource_credits": "Resource Credits",
     "reputation": "Reputation",
     "edit": {
-      "display_name": "Display Name",
+      "display_name": "Visningsnamn",
       "about": "About",
       "location": "Location",
       "website": "Website"
@@ -380,7 +380,7 @@
     "login_with_hs": "Login with hivesigner",
     "signup": "JOIN NOW",
     "signin_title": "To get all the benefits of using Ecency",
-    "username": "username",
+    "username": "användarnamn",
     "password": "password / private key",
     "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "cancel",
@@ -397,14 +397,14 @@
     "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
     "no_account_text": "Don't have an account?",
     "signup_now": "Sign up now!",
-    "or": "OR"
+    "or": "ELLER"
   },
   "register": {
     "modal_title": "Get Hive Account",
     "button": "Sign Up",
     "title": "Sign up",
     "username": "Pick a username",
-    "mail": "Enter your email address",
+    "mail": "Ange din e-postadress",
     "ref_user": "Referred user (Optional)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
     "error_message": "{message}\nTry again or try purchasing account instead",
@@ -599,7 +599,8 @@
     "okay": "Okay",
     "done": "Done",
     "notice": "Notice!",
-    "close": "CLOSE",
+    "close": "STÄNG",
+    "later": "Later",
     "move_question": "Are you sure to move to drafts?",
     "success_shared": "Success! Content submitted!",
     "success_moved": "Moved to draft",
@@ -801,7 +802,7 @@
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
     "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
-    "to_placeholder": "Username",
+    "to_placeholder": "Användarnamn",
     "memo_placeholder": "Enter your notes here",
     "recurrence_placeholder": "Choose Recurrence",
     "executions_placeholder": "Number of Repeats",
@@ -917,7 +918,7 @@
   },
   "promote": {
     "title": "Promote",
-    "days": "days",
+    "days": "dagar",
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "username/permlink",
@@ -925,6 +926,11 @@
   },
   "boostPost": {
     "title": "Boost"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to boost?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "REWARDS",
@@ -1011,7 +1017,7 @@
   },
   "beneficiary_modal": {
     "percent": "Percent",
-    "username": "Username",
+    "username": "Användarnamn",
     "addAccount": "Add Account",
     "save": "Save",
     "cancel": "Cancel"
@@ -1025,18 +1031,18 @@
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
     "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!",
+    "get_started": "Kom igång!",
     "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
     "terms_text": "Read Here!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "sekunder",
+    "minute": "minuter",
+    "hour": "timmar",
+    "week": "veckor",
+    "day": "dagar",
+    "month": "månader",
+    "year": "år"
   },
   "quick_reply": {
     "placeholder": "Add a comment...",
@@ -1065,7 +1071,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

@@ -52,7 +52,7 @@
     "checkin_extra_desc": "L'uso costante dell'app ti dà la possibilità di guadagnare più di punti, più sei attivo e più guadagni.",
     "dropdown_transfer": "Dona",
     "dropdown_promote": "Promuovi",
-    "dropdown_boost": "Potenzia",
+    "dropdown_boost": "Boost+",
     "from": "Da",
     "to": "A",
     "estimated_value_desc": "In base al valore di acquisto",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "Sei sicuro di voler salvare il post nelle bozze?",
     "success_shared": "Success! Content submitted!",
     "success_moved": "Salvato in bozza",
@@ -926,6 +927,11 @@
   "boostPost": {
     "title": "Potenzia"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to boost?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "Compensi",
     "percent": "PERCENTUALE",
@@ -1065,7 +1071,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

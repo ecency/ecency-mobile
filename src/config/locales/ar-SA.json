@@ -52,7 +52,7 @@
     "checkin_extra_desc": "الاستخدام المستمر للتطبيق يمنحك فرصا إضافية لكسب المزيد من النقاط، كن أكثر نشاطا و إكسب المزيد.",
     "dropdown_transfer": "هدية",
     "dropdown_promote": "حملة اعلانية لمنشورك",
-    "dropdown_boost": "تعزيز منشورك",
+    "dropdown_boost": "Boost+",
     "from": "من",
     "to": "إلى",
     "estimated_value_desc": "حسب قيمة الشراء",
@@ -600,6 +600,7 @@
     "done": "تم",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "هل أنت متأكد من نقل إلى المسودات؟",
     "success_shared": "تم إرسال المحتوى!",
     "success_moved": "تم النقل إلى المسودات",
@@ -926,6 +927,11 @@
   "boostPost": {
     "title": "تعزيز منشورك"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to boost?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "المكافآت",
     "percent": "نسبه مئويه",
@@ -1065,7 +1071,7 @@
     "open": "فتح الرابط",
     "detected_url": "الرابط الذي تم اكتشافه",
     "unsupported_alert_title": "رابط غير مدعوم!",
-    "unsupported_alert_desc": "يرجى مسح رابط ecency صالح.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "تأكيد المعاملة",
     "approve": "إعتماد",
     "cancel": "إلغاء",

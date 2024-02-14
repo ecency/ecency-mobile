@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Az alkalmazás következetes használata extra esélyt kínál arra, hogy több pontot nyerj, légy aktívabb és nyerj többet.",
     "dropdown_transfer": "Ajándék",
     "dropdown_promote": "Hirdetés",
-    "dropdown_boost": "Felpörgetés",
+    "dropdown_boost": "Boost+",
     "from": "Feladó",
     "to": "Címzett",
     "estimated_value_desc": "A vételár szerint",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "Biztos, hogy áthelyezed a piszkozatokhoz?",
     "success_shared": "Siker! Tartalom közzétéve!",
     "success_moved": "Áthelyezve a vázlatokhoz",
@@ -926,6 +927,11 @@
   "boostPost": {
     "title": "Felpörgetés"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to boost?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "JUTALMAK",
     "percent": "SZÁZALÉK",
@@ -1065,7 +1071,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

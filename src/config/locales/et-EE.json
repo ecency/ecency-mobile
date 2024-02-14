@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Regulaarne rakenduse kasutamine annab lisavõimaluse teenida rohkem punkte, ole aktiivne ning teeni rohkem.",
     "dropdown_transfer": "Kingi",
     "dropdown_promote": "Reklaami",
-    "dropdown_boost": "Võimenda",
+    "dropdown_boost": "Boost+",
     "from": "Kellelt",
     "to": "Kellele",
     "estimated_value_desc": "Vastavalt ostu väärtusele",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "Oled sa kindel, et soovid mustanditesse teisaldada?",
     "success_shared": "Valmis! Sisu esitatud!",
     "success_moved": "Teisaldatud mustanditesse",
@@ -926,6 +927,11 @@
   "boostPost": {
     "title": "Võimenda"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to boost?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "TASUD",
     "percent": "PROTSENT",
@@ -1065,7 +1071,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

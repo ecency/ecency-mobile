@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Честата употреба на приложението ви дава допълнителни шансове да спечелите повече точки, да бъдете по-активни и да печелите повече.",
     "dropdown_transfer": "Подарък",
     "dropdown_promote": "Промотирай",
-    "dropdown_boost": "Подсилване",
+    "dropdown_boost": "Boost+",
     "from": "От",
     "to": "До",
     "estimated_value_desc": "Според стойността при покупка",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "Сигурен ли сте да преместите към чернови?",
     "success_shared": "Успех! Съдържанието е изпратено!",
     "success_moved": "Премено в чернови",
@@ -926,6 +927,11 @@
   "boostPost": {
     "title": "Подсилване"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to boost?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "НАГРАДИ",
     "percent": "Процент",
@@ -1065,7 +1071,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Регулярне використання додатку дає вам шанс отримати ще бонусних балів. Більше активності - більше винагород.",
     "dropdown_transfer": "Подарувати",
     "dropdown_promote": "Просувати",
-    "dropdown_boost": "Підсилити",
+    "dropdown_boost": "Boost+",
     "from": "Від",
     "to": "Кому",
     "estimated_value_desc": "Відповідно до вартості покупки",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "Ви дійсно хочете перемістити до чернеток?",
     "success_shared": "Success! Content submitted!",
     "success_moved": "Переміщено до чернеток",
@@ -926,6 +927,11 @@
   "boostPost": {
     "title": "Підсилити"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to boost?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "ВИНАГОРОДИ",
     "percent": "ВІДСОТОК",
@@ -1065,7 +1071,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

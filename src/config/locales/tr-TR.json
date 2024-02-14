@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Uygulamanın sürekli kullanılması size daha fazla puan kazanma şansı verir, daha fazla aktif ol ve daha fazla kazan.",
     "dropdown_transfer": "Hediye",
     "dropdown_promote": "Tanıtım Yap",
-    "dropdown_boost": "Güçlendir",
+    "dropdown_boost": "Boost+",
     "from": "Gönderen",
     "to": "Kime",
     "estimated_value_desc": "Satınalma değerine göre",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "Taslaklara taşıyacağınızdan emin misiniz?",
     "success_shared": "Başarılı! İçerik gönderildi!",
     "success_moved": "Taslağa taşındı",
@@ -926,6 +927,11 @@
   "boostPost": {
     "title": "Yükselt"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to boost?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "ÖDÜLLER",
     "percent": "YÜZDE",
@@ -1065,7 +1071,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Ilovadan doimiy foydalanish sizga ko'proq ball to'plash, faolroq bo'lish va ko'proq pul ishlash uchun qo'shimcha imkoniyatlar beradi.",
     "dropdown_transfer": "Sovg‘a",
     "dropdown_promote": "Targ'ib qilish",
-    "dropdown_boost": "Kuchaytirish",
+    "dropdown_boost": "Boost+",
     "from": "Dan",
     "to": "Ga",
     "estimated_value_desc": "Sotib olish qiymatiga ko'ra",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "Haqiqatan ham qoralamalarga oʻtmoqchimisiz?",
     "success_shared": "Muvaffaqiyat! Kontent yuborildi!",
     "success_moved": "Qoralamalarga qo'shildi",
@@ -926,6 +927,11 @@
   "boostPost": {
     "title": "Kuchaytirish"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to boost?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "MUKOFOTLAR",
     "percent": "FOIZ",
@@ -1065,7 +1071,7 @@
     "open": "URL‘ni ochish",
     "detected_url": "Aniqlangan URL",
     "unsupported_alert_title": "Noto'g'ri URL!",
-    "unsupported_alert_desc": "Iltimos, haqiqiy ecency urlni skanerlang.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

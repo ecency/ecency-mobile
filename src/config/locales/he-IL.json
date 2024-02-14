@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost",
+    "dropdown_boost": "Boost+",
     "from": "From",
     "to": "To",
     "estimated_value_desc": "According to purchase value",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "את/ה בטוח/ה להעביר לטיוטות?",
     "success_shared": "Success! Content submitted!",
     "success_moved": "הועבר לטיוטות",
@@ -926,6 +927,11 @@
   "boostPost": {
     "title": "Boost"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to boost?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "REWARDS",
     "percent": "PERCENT",
@@ -1065,7 +1071,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",
