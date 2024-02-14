@@ -43,7 +43,7 @@ interface UiState {
   replyModalVisible: boolean;
   replyModalData?: PostEditorModalData | null;
   isLogingOut: boolean;
-  deepLinkToHandle:string;
+  deepLinkToHandle: string;
 }
 
 const initialState: UiState = {
@@ -182,8 +182,8 @@ const uiReducer = (state = initialState, action): UiState => {
     case HIVE_URI_TO_HANDLE:
       return {
         ...state,
-        deepLinkToHandle: action.payload
-      }
+        deepLinkToHandle: action.payload,
+      };
     default:
       return state;
   }

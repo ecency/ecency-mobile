@@ -32,9 +32,7 @@ import { updateUnreadActivityCount } from '../../../redux/actions/accountAction'
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 
-
 export const useInitApplication = () => {
-
   const dispatch = useAppDispatch();
   const { isDarkTheme, colorTheme, isPinCodeOpen, currency } = useAppSelector(
     (state) => state.application,
@@ -63,9 +61,6 @@ export const useInitApplication = () => {
     dispatch(setDeviceOrientation(o));
   });
 
-
-
-
   useEffect(() => {
     BackgroundTimer.start(); // ref: https://github.com/ocetnik/react-native-background-timer#ios
 
@@ -93,8 +88,6 @@ export const useInitApplication = () => {
     return _cleanup;
   }, []);
 
-
-
   useEffect(() => {
     if (THEME_OPTIONS[colorTheme].value === null) {
       // workaround to avoid hook callback glitch on iOS causing momentary theme flash
@@ -106,12 +99,6 @@ export const useInitApplication = () => {
       }, 200);
     }
   }, [systemColorScheme]);
-
-
-
-  
-
-
 
   const _cleanup = () => {
     if (appStateSubRef.current) {

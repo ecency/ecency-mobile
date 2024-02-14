@@ -12,7 +12,14 @@ import { parseReputation } from '../../../utils/user';
 import { toggleQRModal } from '../../../redux/actions/uiAction';
 import ROUTES from '../../../constants/routeNames';
 
-const HeaderContainer = ({ selectedUser, isReverse, handleOnBackPress, hideUser, showQR, showBoost }) => {
+const HeaderContainer = ({
+  selectedUser,
+  isReverse,
+  handleOnBackPress,
+  hideUser,
+  showQR,
+  showBoost,
+}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
@@ -35,11 +42,11 @@ const HeaderContainer = ({ selectedUser, isReverse, handleOnBackPress, hideUser,
   };
 
   const _handleOnBoostPress = () => {
-    //navigate to boost plus screen;
+    // navigate to boost plus screen;
     navigation.navigate(ROUTES.SCREENS.REDEEM, {
-      redeemType:'boost_plus'
-    })
-  }
+      redeemType: 'boost_plus',
+    });
+  };
 
   return (
     <AccountContainer>
@@ -63,7 +70,6 @@ const HeaderContainer = ({ selectedUser, isReverse, handleOnBackPress, hideUser,
             hideUser={hideUser}
             showQR={showQR}
             showBoost={showBoost}
-            
           />
         );
       }}

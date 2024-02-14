@@ -75,12 +75,12 @@ export default EStyleSheet.create({
     color: '$iconColor',
     justifyContent: 'center',
   },
-  boostContainer:{
-    flexDirection:'row',
-    marginRight:10,
+  boostContainer: {
+    flexDirection: 'row',
+    marginRight: 10,
   },
-  boostIconContainer:{
-    marginLeft:6,
+  boostIconContainer: {
+    marginLeft: 6,
   },
   boostPlusIcon: {
     fontSize: 24,

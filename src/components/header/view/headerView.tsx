@@ -14,7 +14,6 @@ import ROUTES from '../../../constants/routeNames';
 
 // Styles
 import styles from './headerStyles';
-import Icon from '../../icon';
 
 const HeaderView = ({
   displayName,
@@ -30,7 +29,7 @@ const HeaderView = ({
   username,
   hideUser,
   showQR,
-  showBoost
+  showBoost,
 }) => {
   const navigation = useNavigation();
 
@@ -109,7 +108,6 @@ const HeaderView = ({
         </View>
       ) : (
         <View style={styles.backButtonWrapper}>
-
           {showQR && (
             <IconButton
               style={styles.viewIconContainer}
@@ -120,7 +118,7 @@ const HeaderView = ({
             />
           )}
           <IconButton iconStyle={styles.backIcon} name="md-search" onPress={_onPressSearchButton} />
-          
+
           {showBoost && isLoggedIn && (
             <IconButton
               style={styles.boostIconContainer}
