@@ -46,7 +46,7 @@ export const QRModal = () => {
   const deepLinkToHandle = useAppSelector((state) => state.ui.deepLinkToHandle);
   useEffect(() => {
     if (deepLinkToHandle) {
-      handleLink({data:deepLinkToHandle});
+      handleLink({ data: deepLinkToHandle });
     }
   }, [deepLinkToHandle]);
 
@@ -276,7 +276,7 @@ export const QRModal = () => {
             _onClose();
           },
           style: 'cancel',
-        }
+        },
       ],
     );
   };

@@ -299,7 +299,7 @@ const reduxMigrations = {
   7: (state) => {
     state.cache.announcementsMeta = {};
     return state;
-  }
+  },
 };
 
 export default {

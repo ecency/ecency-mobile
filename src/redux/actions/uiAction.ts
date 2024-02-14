@@ -120,7 +120,7 @@ export const logoutDone = () => ({
   type: LOGOUT_DONE,
 });
 
-export const handleDeepLink = (hiveUri:string) => ({
-  payload:hiveUri,
-  type: HIVE_URI_TO_HANDLE
-})
+export const handleDeepLink = (hiveUri: string) => ({
+  payload: hiveUri,
+  type: HIVE_URI_TO_HANDLE,
+});

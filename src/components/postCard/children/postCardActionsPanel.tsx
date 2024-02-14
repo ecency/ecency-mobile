@@ -39,8 +39,8 @@ export const PostCardActionsPanel = ({ content, handleCardInteraction }: Props) 
       handleCardInteraction(PostCardActionIds.NAVIGATE, {
         name: ROUTES.SCREENS.REBLOGS,
         params: {
-          author:content.author,
-          permlink:content.permlink
+          author: content.author,
+          permlink: content.permlink,
         },
       });
     }

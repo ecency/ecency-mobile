@@ -869,7 +869,6 @@ export const purchaseOrder = async (data: PurchaseRequestData) => {
   }
 };
 
-
 /**
  * Registers new user with ecency and hive, on confirmation sends
  * details to user email
@@ -965,10 +964,9 @@ export const getCommentHistory = async (
   }
 };
 
-
 export const getAnnouncements = async () => {
-  try{
-    const res = await ecencyApi.get('/private-api/announcements')
+  try {
+    const res = await ecencyApi.get('/private-api/announcements');
     console.log('announcements fetcehd', res.data);
     if (!res.data) {
       throw new Error('No announcements found!');
@@ -978,4 +976,4 @@ export const getAnnouncements = async () => {
     bugsnagInstance.notify(error);
     throw error;
   }
-}
+};
