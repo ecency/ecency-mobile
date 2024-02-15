@@ -890,7 +890,7 @@
     "next": "SIGUIENTE",
     "info": "El valor real del voto que recibes puede variar",
     "account": {
-      "title": "Obtener impulso de cuenta",
+      "title": "Boost+",
       "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirmar compra @{username}",
@@ -929,7 +929,8 @@
   },
   "boost_plus": {
     "title": "Impulsar+",
-    "confirm_boost": "¿Estás seguro de impulsar?",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boostp": "Are you sure to Boost with In-App Purchase?",
     "already_boosted": "Cuenta ya impulsada hasta {date}"
   },
   "voters_dropdown": {
