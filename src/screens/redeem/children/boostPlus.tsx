@@ -189,7 +189,7 @@ const BoostPlus = ({
               isLoading={isLoading}
             >
               <Text style={styles.buttonText}>
-                {intl.formatMessage({ id: 'boost.account.title' })}
+                {intl.formatMessage({ id: 'boost_plus.title' })}
               </Text>
             </MainButton>
           </View>
