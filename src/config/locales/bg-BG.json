@@ -891,7 +891,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Промоция на акаунт",
-      "desc": "30 дни делегацията ще увеличи вашите гласове и социални дейности и ще ви даде повече действия с повече ресурсни кредити."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
