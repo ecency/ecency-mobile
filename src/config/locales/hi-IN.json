@@ -891,7 +891,7 @@
     "info": "आपको प्राप्त होने वाले वोट का वास्तविक मूल्य भिन्न हो सकता है",
     "account": {
       "title": "खाता बूस्ट प्राप्त करें",
-      "desc": "30 दिनों का प्रतिनिधिमंडल आपके वोटों और सामाजिक गतिविधियों को बढ़ावा देगा और आपको अधिक संसाधन क्रेडिट के साथ अधिक कार्रवाई देगा।"
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "खरीद की पुष्टि करें @{username}",
     "confirm_purchase_summary": "{username} के लिए {price} पर {points} ख़रीदना",
