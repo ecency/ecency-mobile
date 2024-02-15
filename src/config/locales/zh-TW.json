@@ -890,7 +890,7 @@
     "next": "下一個",
     "info": "收到的點贊金額可能會有差異",
     "account": {
-      "title": "增加點贊力",
+      "title": "Boost+",
       "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "確認購買推薦給 @{username}",
@@ -929,7 +929,8 @@
   },
   "boost_plus": {
     "title": "Boost+",
-    "confirm_boost": "Are you sure to boost?",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boostp": "Are you sure to Boost with In-App Purchase?",
     "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {

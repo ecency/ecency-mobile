@@ -892,7 +892,7 @@
     "next": "NEXT",
     "info": "Actual value of vote you receive may vary",
     "account": {
-      "title": "Boost+",
+      "title": "Get Account Boost",
       "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",

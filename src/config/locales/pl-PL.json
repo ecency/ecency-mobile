@@ -890,7 +890,7 @@
     "next": "NASTĘPNY",
     "info": "Actual value of vote you receive may vary",
     "account": {
-      "title": "Uzyskaj zwiększenie konta",
+      "title": "Boost+",
       "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
@@ -929,7 +929,8 @@
   },
   "boost_plus": {
     "title": "Boost+",
-    "confirm_boost": "Are you sure to boost?",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boostp": "Are you sure to Boost with In-App Purchase?",
     "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
