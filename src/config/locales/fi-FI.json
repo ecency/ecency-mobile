@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Toistuva appin käyttö voi johtaa lisäpisteisiin, ole aktiivinen ja saat enemmän.",
     "dropdown_transfer": "Lahjoita",
     "dropdown_promote": "Korosta",
-    "dropdown_boost": "Tehosta",
+    "dropdown_boost": "Boost+",
     "from": "Lähettäjä",
     "to": "Vastaanottaja",
     "estimated_value_desc": "Ostohinnan mukaan",
@@ -421,8 +421,8 @@
       "username_contains_underscore": "Ei alaviivoja",
       "username_exists": "Käyttäjätunnus on jo olemassa, kokeile toista"
     },
-    "have_account_text": "Already have an account?",
-    "login_here": "Login Here"
+    "have_account_text": "Onko sinulla jo tili?",
+    "login_here": "Kirjaudu sisään tästä"
   },
   "home": {
     "feed": "Syöte",
@@ -600,6 +600,7 @@
     "done": "Valmis",
     "notice": "Huom!",
     "close": "SULJE",
+    "later": "Myöhemmin",
     "move_question": "Haluatko varmasti siirtää luonnoksiin?",
     "success_shared": "Onnistui! Sisältö lähetetty!",
     "success_moved": "Siirretty luonnoksiin",
@@ -926,6 +927,11 @@
   "boostPost": {
     "title": "Tehosta"
   },
+  "boost_plus": {
+    "title": "Tehosta+",
+    "confirm_boost": "Haluatko varmasti tehostaa?",
+    "already_boosted": "Tili on jo tehostettu {date} asti"
+  },
   "voters_dropdown": {
     "rewards": "PALKKIOT",
     "percent": "PROS",
@@ -1065,7 +1071,7 @@
     "open": "Avaa URL",
     "detected_url": "Havaittu URL",
     "unsupported_alert_title": "URL-osoitetta ei tuettu!",
-    "unsupported_alert_desc": "Ole hyvä ja skannaa kelvollinen ecency url.",
+    "unsupported_alert_desc": "Ecency-mobiilisovellus ei tue linkkiä",
     "confirmTransaction": "Vahvista tapahtuma",
     "approve": "Hyväksy",
     "cancel": "Peruuta",

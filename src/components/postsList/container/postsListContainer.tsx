@@ -135,7 +135,6 @@ const postsListContainer = (
     });
   }, [scrollPosition]);
 
-
   const _setImageRatioInMap = (mapKey: string, height: number) => {
     if (mapKey && height) {
       setImageRatios(imageRatios.set(mapKey, height));

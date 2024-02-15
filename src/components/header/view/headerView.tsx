@@ -20,6 +20,7 @@ const HeaderView = ({
   handleOnPressBackButton,
   handleOnQRPress,
   handleOpenDrawer,
+  handleOnBoostPress,
   isDarkTheme,
   isLoggedIn,
   isLoginDone,
@@ -28,6 +29,7 @@ const HeaderView = ({
   username,
   hideUser,
   showQR,
+  showBoost,
 }) => {
   const navigation = useNavigation();
 
@@ -116,6 +118,16 @@ const HeaderView = ({
             />
           )}
           <IconButton iconStyle={styles.backIcon} name="md-search" onPress={_onPressSearchButton} />
+
+          {showBoost && isLoggedIn && (
+            <IconButton
+              style={styles.boostIconContainer}
+              iconStyle={styles.boostPlusIcon}
+              name="fire"
+              iconType="FontAwesome5"
+              onPress={handleOnBoostPress}
+            />
+          )}
         </View>
       )}
     </>

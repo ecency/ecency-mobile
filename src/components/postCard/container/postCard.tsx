@@ -47,10 +47,7 @@ const PostCard = ({
         setImageRatio={setImageRatio}
         handleCardInteraction={handleCardInteraction}
       />
-      <PostCardActionsPanel
-        content={content}
-        handleCardInteraction={handleCardInteraction}
-      />
+      <PostCardActionsPanel content={content} handleCardInteraction={handleCardInteraction} />
     </View>
   );
 };

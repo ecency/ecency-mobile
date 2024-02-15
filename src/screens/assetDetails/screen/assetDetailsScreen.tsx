@@ -112,7 +112,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       navigateTo = ROUTES.SCREENS.REDEEM;
       navigateParams = {
         balance: coinData.balance,
-        redeemType: transferType === 'dropdown_promote' ? 'promote' : 'boost',
+        redeemType: transferType === 'dropdown_promote' ? 'promote' : 'boost_plus',
       };
     } else {
       let { balance } = coinData;

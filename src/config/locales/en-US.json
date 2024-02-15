@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost",
+    "dropdown_boost": "Boost+",
     "from": "From",
     "to": "To",
     "estimated_value_desc": "According to purchase value",
@@ -928,6 +928,11 @@
   },
   "boostPost": {
     "title": "Boost"
+  },
+  "boost_plus":{
+    "title":"Boost+",
+    "confirm_boost":"Are you sure to boost?",
+    "already_boosted":"Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "REWARDS",

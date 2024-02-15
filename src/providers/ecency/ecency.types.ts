@@ -76,6 +76,7 @@ export interface PurchaseRequestData {
   meta?: {
     username: string;
     email: string;
+    referral?: string;
   };
 }
 
@@ -92,13 +93,13 @@ export interface CommentHistoryItem {
 }
 
 export interface Accouncement {
-  id:number,
-  title:string,
-  description:string,
-  button_text?:string,
-  button_link?:string,
-  ops?:string,
-  auth:boolean
+  id: number;
+  title: string;
+  description: string;
+  button_text?: string;
+  button_link?: string;
+  ops?: string;
+  auth: boolean;
 }
 
 export interface PointActivity {

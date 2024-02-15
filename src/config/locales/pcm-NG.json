@@ -52,7 +52,7 @@
     "checkin_extra_desc": "You go get chance collect beta some things if you dey use the application wella, and say you dey sha prapra.",
     "dropdown_transfer": "Dash",
     "dropdown_promote": "Loud am",
-    "dropdown_boost": "Give am push",
+    "dropdown_boost": "Boost+",
     "from": "From",
     "to": "To",
     "estimated_value_desc": "Based on the money wey u take buy am",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "You sure say you won move am go draft?",
     "success_shared": "Confam! Your thing don enta!",
     "success_moved": "E don move go draft",
@@ -926,6 +927,11 @@
   "boostPost": {
     "title": "Give am push"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to boost?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "DEM GAINS",
     "percent": "PERCENT",
@@ -1065,7 +1071,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

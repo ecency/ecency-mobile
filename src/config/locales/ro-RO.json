@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Utilizarea constantă a aplicației îți oferă șanse în plus pentru câștigarea de puncte. Fii cât mai activ și câștigă mai mult.",
     "dropdown_transfer": "Cadou",
     "dropdown_promote": "Promovează",
-    "dropdown_boost": "Boost",
+    "dropdown_boost": "Boost+",
     "from": "De la",
     "to": "Către",
     "estimated_value_desc": "Valoare estimată",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "Esti sigur că vrei să muți la schițe?",
     "success_shared": "Success! Content submitted!",
     "success_moved": "Mutat la schițe",
@@ -926,6 +927,11 @@
   "boostPost": {
     "title": "Boost"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to boost?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "RECOMPENSE",
     "percent": "PROCENT",
@@ -1065,7 +1071,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

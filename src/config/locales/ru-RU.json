@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Постоянное использование приложения дает шанс заработать дополнительные баллы. Больше активности - больше вознаграждений.",
     "dropdown_transfer": "Подарить",
     "dropdown_promote": "Продвинуть",
-    "dropdown_boost": "Усилить",
+    "dropdown_boost": "Boost+",
     "from": "От",
     "to": "Кому",
     "estimated_value_desc": "По стоимости покупки",
@@ -421,8 +421,8 @@
       "username_contains_underscore": "Не должно содержать подчеркивания",
       "username_exists": "Имя пользователя уже существует, попробуйте другое"
     },
-    "have_account_text": "Already have an account?",
-    "login_here": "Login Here"
+    "have_account_text": "У вас уже есть аккаунт?",
+    "login_here": "Войти здесь"
   },
   "home": {
     "feed": "Лента",
@@ -600,6 +600,7 @@
     "done": "Готово",
     "notice": "Примечание!",
     "close": "ЗАКРЫТЬ",
+    "later": "Позже",
     "move_question": "Вы уверены, что хотите переместить в черновики?",
     "success_shared": "Успех! Контент отправлен!",
     "success_moved": "Перемещён в черновики",
@@ -926,6 +927,11 @@
   "boostPost": {
     "title": "Усилить"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to boost?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "НАГРАДЫ",
     "percent": "ПРОЦЕНТ",
@@ -1065,7 +1071,7 @@
     "open": "Открыть Ссылку",
     "detected_url": "Обнаружена Ссылка",
     "unsupported_alert_title": "Неподдерживаемый URL!",
-    "unsupported_alert_desc": "Пожалуйста, отсканируйте корректный адрес ecency.",
+    "unsupported_alert_desc": "Ссылка не поддерживается мобильным приложением Ecency",
     "confirmTransaction": "Подтвердить транзакцию",
     "approve": "Утвердить",
     "cancel": "Отменить",
