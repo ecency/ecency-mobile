@@ -891,7 +891,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Dobijte pojačanje računa",
-      "desc": "30-dnevna delegacija će povećati vaše glasove i društvene aktivnosti i dati vam više akcija s više resursa."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
