@@ -891,7 +891,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Võimenda kasutajat",
-      "desc": "30-päevane volitus suurendab teie häält ja sotsiaalset tegevusi ning annab teile rohkem tegevusi koos rohkemate ressursipunktidega."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
