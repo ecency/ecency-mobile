@@ -891,7 +891,7 @@
     "info": "Antamasi äänen todellinen arvo voi vaihdella",
     "account": {
       "title": "Vastaanota Tilitehostus",
-      "desc": "30 päivän valtuutus tehostaa ääniäsi ja sosiaalista toimintaa, antaen lisää toimintoja ja Resurssipisteitä."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Vahvista ostos @{username}",
     "confirm_purchase_summary": "Ostetaan {points} {username} hintaan {price}",
