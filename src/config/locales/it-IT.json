@@ -891,7 +891,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Ottieni un Boost per il tuo Account",
-      "desc": "La delegazione per 30 giorni accrescerà il peso dei tuoi voti e delle tue attività sociali e ti darà più azioni con più crediti di risorse."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
