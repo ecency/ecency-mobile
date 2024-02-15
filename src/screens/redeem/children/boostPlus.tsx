@@ -217,7 +217,7 @@ const BoostPlus = ({
           intl.formatMessage({ id: 'alert.confirm' }),
           intl.formatMessage({ id: 'alert.cancel' }),
         ]}
-        title={intl.formatMessage({ id: 'boost_plus.confirm_boostp' })}
+        title={intl.formatMessage({ id: 'boost_plus.confirm_boost_plus' })}
         cancelButtonIndex={1}
         destructiveButtonIndex={0}
         onPress={(index) => {

@@ -932,7 +932,7 @@
   "boost_plus":{
     "title":"Boost+",
     "confirm_boost":"Are you sure to Boost with Points?",
-    "confirm_boostp":"Are you sure to Boost with In-App Purchase?",
+    "confirm_boost_plus":"Are you sure to Boost with In-App Purchase?",
     "already_boosted":"Account already boosted till {date}"
   },
   "voters_dropdown": {
