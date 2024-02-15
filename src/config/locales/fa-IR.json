@@ -891,7 +891,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "حساب را تقویت دهید",
-      "desc": "تفویض 30 روزه آرا و فعالیتهای اجتماعی شما را افزایش داده و اقدامات بیشتری را با اعتبارات بیشتر به شما می دهد."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
