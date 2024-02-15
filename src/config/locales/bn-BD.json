@@ -891,7 +891,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "অ্যাকাউন্ট বুস্ট করুন",
-      "desc": "৩০ দিনের ডেলিগেশন আপনার ভোট এবং সামাজিক ক্রিয়াকলাপকে উত্সাহ দেবে এবং আরও সংস্থান ক্রেডিট দিয়ে আপনাকে আরও ক্রিয়া দেবে।"
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",

@@ -52,7 +52,7 @@
     "checkin_extra_desc": "El uso consistente de la aplicación te otorga más posibilidades de generar puntos, se más activo y gana mucho más.",
     "dropdown_transfer": "Regalar",
     "dropdown_promote": "Promocionar",
-    "dropdown_boost": "Boost+",
+    "dropdown_boost": "Impulsar+",
     "from": "Desde",
     "to": "Para",
     "estimated_value_desc": "De acuerdo al valor de compra",
@@ -891,7 +891,7 @@
     "info": "El valor real del voto que recibes puede variar",
     "account": {
       "title": "Obtener impulso de cuenta",
-      "desc": "La delegación de 30 días impulsará sus votos y actividades sociales y le dará más acciones con más créditos de Recursos."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirmar compra @{username}",
     "confirm_purchase_summary": "Comprando {points} por {username} a {price}",

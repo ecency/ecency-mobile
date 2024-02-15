@@ -891,7 +891,7 @@
     "info": "收到的點贊金額可能會有差異",
     "account": {
       "title": "增加點贊力",
-      "desc": "30天的點贊力代理可以使您的點贊更有價值，得以回饋社區甚至造就自身的知名度。與此同時還可以廣大您的信用資源"
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "確認購買推薦給 @{username}",
     "confirm_purchase_summary": "使用 {points} 積分兌換點贊給 {username} 大約值 {price}",

@@ -891,7 +891,7 @@
     "info": "Фактическое значение голоса, которое вы получите, может варьироваться",
     "account": {
       "title": "Получить усиление аккаунта",
-      "desc": "30-дневная делегация увеличит ваши голоса и социальную активность, а также даст вам больше действий с использованием Ресурс Кредитов."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Подтвердите покупку @{username}",
     "confirm_purchase_summary": "Покупка {points} для {username} по {price}",

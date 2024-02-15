@@ -891,7 +891,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Uzyskaj zwiększenie konta",
-      "desc": "30-dniowa delegacja zwiększy twoje głosy i aktywności społeczne i da Ci więcej działań z większą ilością zasobów kredytowych."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",

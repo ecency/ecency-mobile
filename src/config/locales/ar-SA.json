@@ -891,7 +891,7 @@
     "info": "قد تختلف القيمة الفعلية للتصويت الذي تتلقاه",
     "account": {
       "title": "الحصول على تعزيز الحساب",
-      "desc": "٣٠ يومًا من التفويض سيعزز أصواتك وأنشطتك الاجتماعية ويمنحك المزيد من الإجراءات مع المزيد من رصيد الموارد."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "تأكيد الشراء @{username}",
     "confirm_purchase_summary": "شراء {points} لـ {username} في {price}",
