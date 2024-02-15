@@ -891,7 +891,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Kumuha ng Account Boost",
-      "desc": "Papalakasin ng 30 na araw na delegasyon ang iyong mga boto at sosyal na aktibidad at mabibigyan ka ng mas maraming aksyon gamit ang Resource Credits."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",

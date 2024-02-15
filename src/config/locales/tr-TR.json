@@ -891,7 +891,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Hesap Yükseltme Al",
-      "desc": "30 günlük delegasyon oylarınızı ve sosyal etkişeminizi yükseltecek ve daha fazla Kaynak Kredisi ile size daha fazla aksiyon verecek."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",

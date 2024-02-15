@@ -891,7 +891,7 @@
     "info": "O valor real de voto que você recebe pode variar",
     "account": {
       "title": "Obter Impulso na Conta",
-      "desc": "30 dias de delegação irão impulsionar seus votos e atividades sociais, permitindo mais ações com o aumento dos Créditos de Recursos disponibilizados."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirmar compra @{username}",
     "confirm_purchase_summary": "Comprando {points} para {username} por {price}",

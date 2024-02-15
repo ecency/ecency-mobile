@@ -891,7 +891,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "계정 부스트 받기",
-      "desc": "30일 임대는 투표와 사회 활동을 강화하고 더 많은 리소스 크레딧으로 더 많은 활동을 제공합니다."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",

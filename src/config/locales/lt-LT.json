@@ -891,7 +891,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Sustiprink paskyrą",
-      "desc": "30 dienų delegacijos padidins jūsų balsų kiekį ir paspartins socialinę veiklą ir suteiks jums daugiau veiksmų su resursų kreditais."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Patvirtinkite pirkinį{username}",
     "confirm_purchase_summary": "{points} pirkimas {username} už {price}",
