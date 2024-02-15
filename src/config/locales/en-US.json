@@ -833,7 +833,7 @@
     "power_down_spk":"Power Down LARYNX",
     "lock_liquidity_spk":"Lock Liquidity LARYNX",
     "delegate_spk":"Delegate LARYNX POWER",
-    "save": "SAVE", 
+    "save": "SAVE",
     "percent_information": "Percent info",
     "next": "NEXT",
     "delegate": "Delegate",
@@ -893,7 +893,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",

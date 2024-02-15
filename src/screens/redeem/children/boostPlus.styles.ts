@@ -13,6 +13,15 @@ export default EStyleSheet.create({
     marginLeft: 20,
     marginBottom: 10,
   },
+  descText: {
+    fontSize: 14,
+    color: '$primaryDarkGray',
+    alignSelf: 'center',
+    marginLeft: 10,
+    marginBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
   topContent: {
     flexDirection: 'row',
     flex: 1,
@@ -163,5 +172,11 @@ export default EStyleSheet.create({
   price: {
     fontSize: 15,
     color: '$primaryBlue',
+  },
+  separator: {
+    margin: 15,
+    height: 1,
+    width: '$deviceWidth/1.1',
+    backgroundColor: '$primaryDarkGray',
   },
 });

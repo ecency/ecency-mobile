@@ -23,6 +23,8 @@ import { Modal } from '../../../components/modal';
 import styles from './boostPlus.styles';
 import { OptionsModal } from '../../../components/atoms';
 import QUERIES from '../../../providers/queries/queryKeys';
+import RootNavigation from '../../../navigation/rootNavigation';
+import ROUTES from '../../../constants/routeNames';
 
 const BoostPlus = ({
   intl,
@@ -176,6 +178,18 @@ const BoostPlus = ({
               isLoading={isLoading}
             >
               <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
+            </MainButton>
+            <View style={styles.separator} />
+            <Text style={styles.descText}>{intl.formatMessage({ id: 'boost.account.desc' })}</Text>
+            <MainButton
+              style={styles.button}
+              isDisable={isLoading || !!expiryDate}
+              onPress={() => RootNavigation.navigate({ name: ROUTES.SCREENS.ACCOUNT_BOOST })}
+              isLoading={isLoading}
+            >
+              <Text style={styles.buttonText}>
+                {intl.formatMessage({ id: 'boost.account.title' })}
+              </Text>
             </MainButton>
           </View>
           {_renderExpiryDetails()}
