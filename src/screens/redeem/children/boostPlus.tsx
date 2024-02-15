@@ -46,6 +46,7 @@ const BoostPlus = ({
   const [isValid, setIsValid] = useState(false);
 
   const startActionSheet = useRef(null);
+  const startActionSheetP = useRef(null);
 
   const boostPricesQuery = useQuery([QUERIES.REDEEM.GET_BOOST_PLUS_PRICES], getBoostPlusPrice, {
     initialData: [],
@@ -184,7 +185,7 @@ const BoostPlus = ({
             <MainButton
               style={styles.button}
               isDisable={isLoading || !!expiryDate}
-              onPress={() => RootNavigation.navigate({ name: ROUTES.SCREENS.ACCOUNT_BOOST })}
+              onPress={() => startActionSheetP.current.show()}
               isLoading={isLoading}
             >
               <Text style={styles.buttonText}>
@@ -207,6 +208,21 @@ const BoostPlus = ({
         onPress={(index) => {
           if (index === 0) {
             _handleOnSubmit();
+          }
+        }}
+      />
+      <OptionsModal
+        ref={startActionSheetP}
+        options={[
+          intl.formatMessage({ id: 'alert.confirm' }),
+          intl.formatMessage({ id: 'alert.cancel' }),
+        ]}
+        title={intl.formatMessage({ id: 'boost_plus.confirm_boostp' })}
+        cancelButtonIndex={1}
+        destructiveButtonIndex={0}
+        onPress={(index) => {
+          if (index === 0) {
+            RootNavigation.navigate({ name: ROUTES.SCREENS.ACCOUNT_BOOST });
           }
         }}
       />
