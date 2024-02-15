@@ -891,7 +891,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Lakukan Peningkatan Akun",
-      "desc": "Delegasi 30 hari akan meningkatkan suara dan aktivitas sosial Anda dan memberi Anda lebih banyak tindakan dengan lebih banyak Kredit Sumber Daya."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
