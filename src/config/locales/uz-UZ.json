@@ -891,7 +891,7 @@
     "info": "Siz olgan ovozlarning haqiqiy qiymati farq qilishi mumkin",
     "account": {
       "title": "Akkauntni kuchaytirish",
-      "desc": "30 kunlik delegatsiya sizning ovozlaringiz va ijtimoiy faolligingizni oshiradi va sizga ko'proq Resurs kreditlari bilan ko'proq harakatlar beradi."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "@{username} xaridini tasdiqlang",
     "confirm_purchase_summary": "{username} uchun {points} xarid qilish {price}",
