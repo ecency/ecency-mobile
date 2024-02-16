@@ -16,6 +16,7 @@ import {
   UPDATE_POINT_ACTIVITY_CACHE,
   UPDATE_CLAIM_CACHE,
   DELETE_CLAIM_CACHE_ENTRY,
+  UPDATE_ANNOUNCEMENTS_META,
 } from '../constants/constants';
 import {
   Comment,
@@ -165,6 +166,14 @@ export const updatePointActivityCache = (id: string, pointActivity: PointActivit
 export const deletePointActivityCache = (id: string) => ({
   payload: id,
   type: DELETE_POINT_ACTIVITY_CACHE_ENTRY,
+});
+
+export const updateAnnoucementsMeta = (id: string, processed: boolean) => ({
+  payload: {
+    id,
+    processed,
+  },
+  type: UPDATE_ANNOUNCEMENTS_META,
 });
 
 export const purgeExpiredCache = () => ({

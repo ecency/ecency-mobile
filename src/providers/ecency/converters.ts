@@ -1,6 +1,13 @@
 import { ASSET_IDS } from '../../constants/defaultAssets';
 import { Referral } from '../../models';
-import { CommentHistoryItem, LatestQuotes, QuoteItem, ReferralStat, Draft } from './ecency.types';
+import {
+  CommentHistoryItem,
+  LatestQuotes,
+  QuoteItem,
+  ReferralStat,
+  Draft,
+  Accouncement,
+} from './ecency.types';
 
 export const convertReferral = (rawData: any) => {
   return {
@@ -65,4 +72,16 @@ export const convertCommentHistory = (rawData: any) => {
     title: rawData.title || '',
     v: rawData.v || 1,
   } as CommentHistoryItem;
+};
+
+export const convertAnnouncement = (rawData: any) => {
+  return {
+    id: rawData.id,
+    title: rawData.title,
+    description: rawData.description,
+    button_text: rawData.button_text,
+    button_link: rawData.button_link,
+    ops: rawData.ops,
+    auth: rawData.auth,
+  } as Accouncement;
 };

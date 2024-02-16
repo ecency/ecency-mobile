@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
     "dropdown_transfer": "Hədiyyə",
     "dropdown_promote": "Tanıt",
-    "dropdown_boost": "Gücləndir",
+    "dropdown_boost": "Boost+",
     "from": "Buradan",
     "to": "Buraya",
     "estimated_value_desc": "Satın alma dəyərinə görə",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "Qaralamalara köçürtmək istədiyinizə əminsiniz?",
     "success_shared": "Uğurlu! Məzmun göndərildi!",
     "success_moved": "Qaralamalara köçürüldü",
@@ -889,8 +890,8 @@
     "next": "NÖVBƏTİ",
     "info": "Actual value of vote you receive may vary",
     "account": {
-      "title": "Hesabı gücləndir",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -925,6 +926,12 @@
   },
   "boostPost": {
     "title": "Gücləndir"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "MÜKAFATLAR",
@@ -1065,7 +1072,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

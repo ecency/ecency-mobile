@@ -96,7 +96,7 @@ const PointsContainer = ({
       navigateTo = ROUTES.SCREENS.REDEEM;
       navigateParams = {
         balance,
-        redeemType: 'boost',
+        redeemType: 'boost_plus',
       };
     }
 

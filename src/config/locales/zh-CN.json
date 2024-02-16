@@ -52,7 +52,7 @@
     "checkin_extra_desc": "持续使用 eSteem 应用，您就有额外机会获得更多的 esteem 点数(ESTM)，越活跃，赚得越多。",
     "dropdown_transfer": "赠品",
     "dropdown_promote": "推广",
-    "dropdown_boost": "推荐",
+    "dropdown_boost": "Boost+",
     "from": "从",
     "to": "至",
     "estimated_value_desc": "取决于购买的价值",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "您确定要存为草稿吗？",
     "success_shared": "Success! Content submitted!",
     "success_moved": "存为草稿",
@@ -890,7 +891,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -925,6 +926,12 @@
   },
   "boostPost": {
     "title": "推荐"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "奖励",
@@ -1065,7 +1072,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

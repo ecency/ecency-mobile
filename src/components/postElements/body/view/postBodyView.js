@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { SafeAreaView, PermissionsAndroid, Platform, View, Text } from 'react-native';
+import { SafeAreaView, PermissionsAndroid, Platform, View, Text, Alert } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -10,7 +10,11 @@ import ActionSheetView from 'react-native-actions-sheet';
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
 import { writeToClipboard } from '../../../../utils/clipboard';
-import { showProfileModal, toastNotification } from '../../../../redux/actions/uiAction';
+import {
+  handleDeepLink,
+  showProfileModal,
+  toastNotification,
+} from '../../../../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
@@ -22,6 +26,7 @@ import getWindowDimensions from '../../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../../hooks';
 import { IconButton } from '../../../buttons';
 import styles from './postBodyStyles';
+import { isHiveUri } from '../../../../utils/hive-uri';
 
 const WIDTH = getWindowDimensions().width;
 
@@ -249,8 +254,12 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
   };
 
   const _handleSetSelectedLink = (link) => {
-    setSelectedLink(link);
-    actionLink.current.show();
+    if (isHiveUri(link)) {
+      dispatch(handleDeepLink(link));
+    } else {
+      setSelectedLink(link);
+      actionLink.current.show();
+    }
   };
 
   const _handleSetSelectedImage = (imageLink, postImgUrls) => {

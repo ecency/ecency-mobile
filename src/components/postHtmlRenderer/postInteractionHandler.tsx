@@ -11,7 +11,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../constants/routeNames';
-import { toastNotification } from '../../redux/actions/uiAction';
+import { handleDeepLink, toastNotification } from '../../redux/actions/uiAction';
 import { writeToClipboard } from '../../utils/clipboard';
 
 import { OptionsModal } from '../atoms';
@@ -20,6 +20,7 @@ import VideoPlayer from '../videoPlayer/videoPlayerView';
 import { IconButton } from '../buttons';
 import styles from './postHtmlRendererStyles';
 import { PostTypes } from '../../constants/postTypes';
+import { isHiveUri } from '../../utils/hive-uri';
 
 interface PostHtmlInteractionHandlerProps {
   postType?: PostTypes;
@@ -55,8 +56,12 @@ export const PostHtmlInteractionHandler = forwardRef(
         }
       },
       handleLinkPress: (url: string) => {
-        setSelectedLink(url);
-        actionLink.current?.show();
+        if (isHiveUri(url)) {
+          dispatch(handleDeepLink(url));
+        } else {
+          setSelectedLink(url);
+          actionLink.current?.show();
+        }
       },
       handleYoutubePress: (videoId, startTime) => {
         if (videoId && youtubePlayerRef.current) {

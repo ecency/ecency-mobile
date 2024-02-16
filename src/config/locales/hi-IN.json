@@ -52,7 +52,7 @@
     "checkin_extra_desc": "एप्लिकेशन का लगातार उपयोग आपको अधिक अंक अर्जित करने, अधिक सक्रिय होने और अधिक कमाने के लिए अतिरिक्त मौके देता है।",
     "dropdown_transfer": "उपहार",
     "dropdown_promote": "प्रचार करना",
-    "dropdown_boost": "बूस्ट",
+    "dropdown_boost": "Boost+",
     "from": "से",
     "to": "को",
     "estimated_value_desc": "खरीद मूल्य के अनुसार",
@@ -600,6 +600,7 @@
     "done": "हो गया",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "क्या आप ड्राफ्ट में जाना सुनिश्चित करते हैं?",
     "success_shared": "सफलता! प्रस्तुत सामग्री!",
     "success_moved": "ड्राफ्ट में ले जाया गया",
@@ -889,8 +890,8 @@
     "next": "अगला",
     "info": "आपको प्राप्त होने वाले वोट का वास्तविक मूल्य भिन्न हो सकता है",
     "account": {
-      "title": "खाता बूस्ट प्राप्त करें",
-      "desc": "30 दिनों का प्रतिनिधिमंडल आपके वोटों और सामाजिक गतिविधियों को बढ़ावा देगा और आपको अधिक संसाधन क्रेडिट के साथ अधिक कार्रवाई देगा।"
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "खरीद की पुष्टि करें @{username}",
     "confirm_purchase_summary": "{username} के लिए {price} पर {points} ख़रीदना",
@@ -925,6 +926,12 @@
   },
   "boostPost": {
     "title": "प्रोत्साहन"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "इनाम",
@@ -1065,7 +1072,7 @@
     "open": "यूआरएल खोलें",
     "detected_url": "यूआरएल का पता चला",
     "unsupported_alert_title": "असमर्थित यूआरएल!",
-    "unsupported_alert_desc": "कृपया एक मान्य ईसेंसी यूआरएल स्कैन करें।",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

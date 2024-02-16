@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Penggunaan aplikasi yang konsisten memberi Anda peluang ekstra untuk mendapatkan lebih banyak poin, lebih aktif dan menghasilkan lebih banyak.",
     "dropdown_transfer": "Hadiah",
     "dropdown_promote": "Promosikan",
-    "dropdown_boost": "Meningkatkan",
+    "dropdown_boost": "Boost+",
     "from": "Dari",
     "to": "Kepada",
     "estimated_value_desc": "Menurut nilai pembelian",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "Apakah Anda yakin untuk pindah ke konsep?",
     "success_shared": "Sukses! Konten terkirim!",
     "success_moved": "Pindah ke konsep",
@@ -889,8 +890,8 @@
     "next": "LANJUT",
     "info": "Actual value of vote you receive may vary",
     "account": {
-      "title": "Lakukan Peningkatan Akun",
-      "desc": "Delegasi 30 hari akan meningkatkan suara dan aktivitas sosial Anda dan memberi Anda lebih banyak tindakan dengan lebih banyak Kredit Sumber Daya."
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -925,6 +926,12 @@
   },
   "boostPost": {
     "title": "Meningkatkan"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "PENGHARGAAN",
@@ -1065,7 +1072,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

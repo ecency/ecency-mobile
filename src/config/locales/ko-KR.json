@@ -52,7 +52,7 @@
     "checkin_extra_desc": "꾸준한 앱 사용을 통해 더 많은 포인트 얻을 수 있는 기회가 제공됩니다. ",
     "dropdown_transfer": "선물하기",
     "dropdown_promote": "홍보",
-    "dropdown_boost": "후원",
+    "dropdown_boost": "Boost+",
     "from": "보낸 사람",
     "to": "받는 사람",
     "estimated_value_desc": "구매 가치에 따라",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "임시 보관함으로 이동하시겠습니까?",
     "success_shared": "성공! 콘텐츠가 제출되었습니다!",
     "success_moved": "임시 보관함으로 이동했습니다",
@@ -889,8 +890,8 @@
     "next": "다음",
     "info": "Actual value of vote you receive may vary",
     "account": {
-      "title": "계정 부스트 받기",
-      "desc": "30일 임대는 투표와 사회 활동을 강화하고 더 많은 리소스 크레딧으로 더 많은 활동을 제공합니다."
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -925,6 +926,12 @@
   },
   "boostPost": {
     "title": "후원"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "보상",
@@ -1065,7 +1072,7 @@
     "open": "URL 열기",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "지원하지 않는 URL입니다!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

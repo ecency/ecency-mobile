@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView } from 'react-native';
 import { useIntl } from 'react-intl';
-import get from 'lodash/get';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -13,6 +12,7 @@ import AccountListContainer from '../../../containers/accountListContainer';
 // Utils
 import globalStyles from '../../../globalStyles';
 import { getTimeFromNow } from '../../../utils/time';
+import { getPostReblogs } from '../../../providers/hive/dhive';
 
 const renderUserListItem = (item, index, handleOnUserPress) => {
   return (
@@ -26,13 +26,28 @@ const renderUserListItem = (item, index, handleOnUserPress) => {
   );
 };
 
-const ReblogScreen = ({ navigation, route }) => {
+const ReblogScreen = ({ route }) => {
   const intl = useIntl();
   const headerTitle = intl.formatMessage({
     id: 'reblog.title',
   });
 
-  const reblogs = route.params?.reblogs;
+  const [reblogs, setReblogs] = useState([]);
+
+  useEffect(() => {
+    _fetchReblogs();
+  }, []);
+
+  const _fetchReblogs = async () => {
+    const author = route.params?.author;
+    const permlink = route.params?.permlink;
+
+    if (author && permlink) {
+      const _reblogs = await getPostReblogs(author, permlink);
+
+      setReblogs(_reblogs.map((account) => ({ account })));
+    }
+  };
 
   return (
     <AccountListContainer data={reblogs}>

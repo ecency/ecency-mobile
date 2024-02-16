@@ -4,13 +4,13 @@
     "author_reward": "Auteurs-beloning",
     "community_reward": "Community Reward",
     "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
-    "points_activity": "Activity",
+    "claim_reward_balance": "Beloning claimen ",
+    "points_activity": "Activiteit",
     "transfer": "Overschrijven",
-    "recurrent_transfer": "Recurrent Transfer",
+    "recurrent_transfer": "Terugkerende overschrijving",
     "power_up": "To Vesting",
-    "transfer_from_savings": "From Savings",
-    "withdraw_savings": "Withdraw Savings",
+    "transfer_from_savings": "Uit Spaargeld",
+    "withdraw_savings": "Spaargeld Opnemen",
     "withdraw_vesting": "Power Down | Unstake",
     "open_order": "Open Order",
     "fill_order": "Vul bestelling",
@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
     "dropdown_transfer": "Cadeau",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boosten",
+    "dropdown_boost": "Boost+",
     "from": "From",
     "to": "Naar",
     "estimated_value_desc": "According to purchase value",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "Are you sure to move to drafts?",
     "success_shared": "Success! Content submitted!",
     "success_moved": "Moved to draft",
@@ -890,7 +891,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -925,6 +926,12 @@
   },
   "boostPost": {
     "title": "Boost"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "REWARDS",
@@ -1065,7 +1072,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

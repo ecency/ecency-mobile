@@ -6,6 +6,7 @@ import serverList from '../../config/serverListApi';
 import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
 import {
+  convertAnnouncement,
   convertCommentHistory,
   convertDraft,
   convertLatestQuotes,
@@ -797,10 +798,48 @@ export const getPromotedEntries = async (username: string) => {
 };
 
 /**
+ * fetches boost plus prices
+ * @returns array of prices
+ */
+export const getBoostPlusPrice = async () => {
+  try {
+    console.log('Fetching boost plus prices');
+    return ecencyApi.post('/private-api/boost-plus-price').then((resp) => {
+      return resp.data;
+    });
+  } catch (error) {
+    console.warn('Failed to get boost plus prices');
+    bugsnagInstance.notify(error);
+    return error;
+  }
+};
+
+/**
+ * fetches boost plus account
+ * @param account for knowing if already boosted
+ * @returns array
+ */
+export const getBoostPlusAccount = async (account: string) => {
+  const data = {
+    account,
+  };
+  try {
+    console.log('Fetching boosted plus account');
+    return ecencyApi.post('/private-api/boosted-plus-account', data).then((resp) => {
+      return resp.data;
+    });
+  } catch (error) {
+    console.warn('Failed to get boost plus prices');
+    bugsnagInstance.notify(error);
+    return error;
+  }
+};
+
+/**
 * TOOD:
 * POST /private-api/purchase-order
-* 
-* body: 
+*
+* body:
 * platform:string
 * product:string
 * receipt:string
@@ -824,21 +863,6 @@ export const purchaseOrder = async (data: PurchaseRequestData) => {
   try {
     const response = await ecencyApi.post('/private-api/purchase-order', data);
     return response.data;
-  } catch (error) {
-    bugsnagInstance.notify(error);
-    throw error;
-  }
-};
-
-export const getPostReblogs = async (author: string, permlink: string) => {
-  const data = {
-    author,
-    permlink,
-  };
-  try {
-    const response = await ecencyApi.post('/private-api/post-reblogs', data);
-    return response.data;
-    // reactotron.log("response: ", response);
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;
@@ -934,6 +958,20 @@ export const getCommentHistory = async (
       throw new Error('No history data!');
     }
     return res?.data?.list.map((item) => convertCommentHistory(item));
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    throw error;
+  }
+};
+
+export const getAnnouncements = async () => {
+  try {
+    const res = await ecencyApi.get('/private-api/announcements');
+    console.log('announcements fetcehd', res.data);
+    if (!res.data) {
+      throw new Error('No announcements found!');
+    }
+    return res?.data.map(convertAnnouncement);
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;

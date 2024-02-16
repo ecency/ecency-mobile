@@ -52,7 +52,7 @@
     "checkin_extra_desc": "持續使用Ecency應用，您就有額外機會獲得更多的ecency點數，越活躍，賺得越多。",
     "dropdown_transfer": "贈送",
     "dropdown_promote": "推廣",
-    "dropdown_boost": "增加收益",
+    "dropdown_boost": "Boost+",
     "from": "來自",
     "to": "至",
     "estimated_value_desc": "取決於購買積分的價值",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "您確定要存為草稿嗎？",
     "success_shared": "成功遞交！內容已經上載成功。",
     "success_moved": "存為草稿",
@@ -889,8 +890,8 @@
     "next": "下一個",
     "info": "收到的點贊金額可能會有差異",
     "account": {
-      "title": "增加點贊力",
-      "desc": "30天的點贊力代理可以使您的點贊更有價值，得以回饋社區甚至造就自身的知名度。與此同時還可以廣大您的信用資源"
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "確認購買推薦給 @{username}",
     "confirm_purchase_summary": "使用 {points} 積分兌換點贊給 {username} 大約值 {price}",
@@ -925,6 +926,12 @@
   },
   "boostPost": {
     "title": "推薦"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "獎勵",
@@ -1065,7 +1072,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

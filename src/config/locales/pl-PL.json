@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Spójne korzystanie z aplikacji daje dodatkowe szanse na zdobycie więcej punktów, bądź bardziej aktywny i zyskaj więcej.",
     "dropdown_transfer": "Prezent",
     "dropdown_promote": "Promować",
-    "dropdown_boost": "Podbij",
+    "dropdown_boost": "Boost+",
     "from": "Od",
     "to": "Do",
     "estimated_value_desc": "Zgodnie z wartością zakupu",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "Czy na pewno chcesz przenieść do szkiców?",
     "success_shared": "Pomyślnie! Zawartość przesłana!",
     "success_moved": "Przenieś do szkicy",
@@ -889,8 +890,8 @@
     "next": "NASTĘPNY",
     "info": "Actual value of vote you receive may vary",
     "account": {
-      "title": "Uzyskaj zwiększenie konta",
-      "desc": "30-dniowa delegacja zwiększy twoje głosy i aktywności społeczne i da Ci więcej działań z większą ilością zasobów kredytowych."
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -925,6 +926,12 @@
   },
   "boostPost": {
     "title": "Wzmocnienie"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "NAGRODY",
@@ -1065,7 +1072,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

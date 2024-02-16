@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Bikaranîna bi rêkûpêk ya sepanê, şensa bidestxistina zêdetir puanan dide te, pir çalak be pir qezenc bike.",
     "dropdown_transfer": "Diyarî bike",
     "dropdown_promote": "Reklam",
-    "dropdown_boost": "Zêde bike",
+    "dropdown_boost": "Boost+",
     "from": "Ji",
     "to": "Bo",
     "estimated_value_desc": "Li gorî nirxê/qedrê kirînê",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "Bi rastî jî tu dixwazî veguhezînî nav reşnivîsan?",
     "success_shared": "Success! Content submitted!",
     "success_moved": "Veguhezî reşnivîsê bû",
@@ -890,7 +891,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -925,6 +926,12 @@
   },
   "boostPost": {
     "title": "Zêde bike"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "XELAT",
@@ -1065,7 +1072,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

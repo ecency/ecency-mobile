@@ -898,10 +898,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@ecency/render-helper@^2.2.26":
-  version "2.2.26"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.2.26.tgz#9bc98d09e5dd35e70c3e0699eb40883fae4ab296"
-  integrity sha512-ahrJ5u2J0HMEJy0wYWDNixvpV70CHnj/uGcUvmipaJ22y6WJ7qUkLZI8aj0CK9DzY9DcP8Lzx1NWT/DLdCuZJw==
+"@ecency/render-helper@^2.2.31":
+  version "2.2.31"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.2.31.tgz#c7f7e0bf91b9f34f3f796cc5e5966d242061cdc9"
+  integrity sha512-4ZF8ZtJVQ0Z58uygit5IBaTn88kt2+oHItNvGoSDHBNgfho6hoPYaLTSFQ2nEXEKAOgoYzam0SQc0V8oS37mpw==
   dependencies:
     he "^1.2.0"
     lolight "^1.4.0"

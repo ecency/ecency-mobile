@@ -1,6 +1,6 @@
 {
   "name": "ecency",
-  "version": "3.0.45",
+  "version": "3.0.46",
   "displayName": "Ecency",
   "private": true,
   "rnpm": {
@@ -32,7 +32,7 @@
     "@babel/preset-typescript": "^7.16.7",
     "@babel/runtime": "^7.5.5",
     "@bugsnag/react-native": "^7.11.0",
-    "@ecency/render-helper": "^2.2.26",
+    "@ecency/render-helper": "^2.2.31",
     "@esteemapp/dhive": "0.15.0",
     "@esteemapp/react-native-autocomplete-input": "^4.2.1",
     "@esteemapp/react-native-multi-slider": "^1.1.0",

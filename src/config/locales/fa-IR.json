@@ -52,7 +52,7 @@
     "checkin_extra_desc": "استفاده مداوم از برنامه به شما شانس کسب امتیاز بیشتر را میدهد، بیشتر فعال باشید و بیشتر امتیاز کسب کنید.",
     "dropdown_transfer": "هدیه",
     "dropdown_promote": "تبلیغ",
-    "dropdown_boost": "ارتقاء",
+    "dropdown_boost": "Boost+",
     "from": "از",
     "to": "به",
     "estimated_value_desc": "با توجه به ارزش خرید",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "آیا مطمئن هستید که می خواهید به پیشنویس ها منتقل کنید؟",
     "success_shared": "موفق باشید! محتوا ارسال شد!",
     "success_moved": "به پیشنویس ها منتقل شد",
@@ -889,8 +890,8 @@
     "next": "بعدی",
     "info": "Actual value of vote you receive may vary",
     "account": {
-      "title": "حساب را تقویت دهید",
-      "desc": "تفویض 30 روزه آرا و فعالیتهای اجتماعی شما را افزایش داده و اقدامات بیشتری را با اعتبارات بیشتر به شما می دهد."
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -925,6 +926,12 @@
   },
   "boostPost": {
     "title": "ارتقاء"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "امتیازات",
@@ -1065,7 +1072,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

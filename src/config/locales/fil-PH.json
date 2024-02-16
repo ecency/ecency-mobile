@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Ang regular na pag-gamit ng app ay nagbibigay sa iyo ng dagdag na pagkakataon na kumita ng mas maraming pang puntos, maging mas aktibo at kumita ng marami.",
     "dropdown_transfer": "Regalo",
     "dropdown_promote": "I-promote",
-    "dropdown_boost": "I-boost",
+    "dropdown_boost": "Boost+",
     "from": "Galing",
     "to": "Sa",
     "estimated_value_desc": "Batay sa halaga ng pagbili",
@@ -600,6 +600,7 @@
     "done": "Done",
     "notice": "Notice!",
     "close": "CLOSE",
+    "later": "Later",
     "move_question": "Sigurado kang ililipat mo sa drafts?",
     "success_shared": "Tagumpay! Ang nilalaman ay naipasa na!",
     "success_moved": "Nailipat sa draft",
@@ -889,8 +890,8 @@
     "next": "SUNOD",
     "info": "Actual value of vote you receive may vary",
     "account": {
-      "title": "Kumuha ng Account Boost",
-      "desc": "Papalakasin ng 30 na araw na delegasyon ang iyong mga boto at sosyal na aktibidad at mabibigyan ka ng mas maraming aksyon gamit ang Resource Credits."
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -925,6 +926,12 @@
   },
   "boostPost": {
     "title": "I-boost"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "GANTIMPALA",
@@ -1065,7 +1072,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",
