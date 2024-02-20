@@ -10019,6 +10019,11 @@ react-native-scrollable-tab-view@ecency/react-native-scrollable-tab-view:
     react-native-pager-view "^5.4.22"
     react-timer-mixin "^0.13.3"
 
+react-native-select-dropdown@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-select-dropdown/-/react-native-select-dropdown-3.4.0.tgz#3ce31dc2e5ffa1abf4c47e3297bf0da7144f1ea3"
+  integrity sha512-9xK1z4tYpwMxp3hsM0y1+xfqq/JoMh+l7sBsJ81b2eikFwT6ZbndFBqupQXrsQ1akce9hgC/10Nkzj0LjVjeXQ==
+
 react-native-slider@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/react-native-slider/-/react-native-slider-0.11.0.tgz#b68a0bc43c8422b24cd57947cc5ac2bcdb58fadc"

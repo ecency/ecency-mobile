@@ -290,7 +290,7 @@ const TabContent = ({
   };
 
   const _scrollToTop = () => {
-    postsListRef.current.scrollToTop();
+    postsListRef?.current?.scrollToTop();
     setEnableScrollTop(false);
     scrollPopupDebouce.cancel();
     blockPopup = true;

@@ -11,7 +11,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../constants/routeNames';
-import { toastNotification } from '../../redux/actions/uiAction';
+import { handleDeepLink, toastNotification } from '../../redux/actions/uiAction';
 import { writeToClipboard } from '../../utils/clipboard';
 
 import { OptionsModal } from '../atoms';
@@ -20,6 +20,7 @@ import VideoPlayer from '../videoPlayer/videoPlayerView';
 import { IconButton } from '../buttons';
 import styles from './postHtmlRendererStyles';
 import { PostTypes } from '../../constants/postTypes';
+import { isHiveUri } from '../../utils/hive-uri';
 
 interface PostHtmlInteractionHandlerProps {
   postType?: PostTypes;
@@ -55,8 +56,12 @@ export const PostHtmlInteractionHandler = forwardRef(
         }
       },
       handleLinkPress: (url: string) => {
-        setSelectedLink(url);
-        actionLink.current?.show();
+        if (isHiveUri(url)) {
+          dispatch(handleDeepLink(url));
+        } else {
+          setSelectedLink(url);
+          actionLink.current?.show();
+        }
       },
       handleYoutubePress: (videoId, startTime) => {
         if (videoId && youtubePlayerRef.current) {
@@ -145,6 +150,7 @@ export const PostHtmlInteractionHandler = forwardRef(
       if (ind === 1) {
         // open gallery mode
         setIsImageModalOpen(true);
+        return;
       }
       if (ind === 0) {
         // copy to clipboard
@@ -195,6 +201,11 @@ export const PostHtmlInteractionHandler = forwardRef(
       setSelectedLink(null);
     };
 
+    const _onCloseImageViewer = () => {
+      setIsImageModalOpen(false);
+      setSelectedImage(null);
+    };
+
     const _renderImageViewerHeader = (imageIndex) => {
       return (
         <SafeAreaView
@@ -211,7 +222,7 @@ export const PostHtmlInteractionHandler = forwardRef(
               color={EStyleSheet.value('$primaryDarkText')}
               buttonStyle={styles.closeIconButton}
               size={20}
-              handleOnPress={() => setIsImageModalOpen(false)}
+              handleOnPress={_onCloseImageViewer}
             />
           </View>
         </SafeAreaView>
@@ -222,11 +233,11 @@ export const PostHtmlInteractionHandler = forwardRef(
       <Fragment>
         <ImageView
           images={postImages.map((url) => ({ uri: url }))}
-          imageIndex={0}
+          imageIndex={postImages.indexOf(selectedImage)}
           visible={isImageModalOpen}
           animationType="slide"
           swipeToCloseEnabled
-          onRequestClose={() => setIsImageModalOpen(false)}
+          onRequestClose={_onCloseImageViewer}
           HeaderComponent={(imageIndex) => _renderImageViewerHeader(imageIndex.imageIndex)}
         />
 

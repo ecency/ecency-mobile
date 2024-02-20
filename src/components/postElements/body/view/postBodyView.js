@@ -10,7 +10,11 @@ import ActionSheetView from 'react-native-actions-sheet';
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
 import { writeToClipboard } from '../../../../utils/clipboard';
-import { showProfileModal, toastNotification } from '../../../../redux/actions/uiAction';
+import {
+  handleDeepLink,
+  showProfileModal,
+  toastNotification,
+} from '../../../../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
@@ -22,6 +26,7 @@ import getWindowDimensions from '../../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../../hooks';
 import { IconButton } from '../../../buttons';
 import styles from './postBodyStyles';
+import { isHiveUri } from '../../../../utils/hive-uri';
 
 const WIDTH = getWindowDimensions().width;
 
@@ -70,6 +75,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
     if (ind === 1) {
       // open gallery mode
       setIsImageModalOpen(true);
+      return;
     }
     if (ind === 0) {
       // copy to clipboard
@@ -248,8 +254,12 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
   };
 
   const _handleSetSelectedLink = (link) => {
-    setSelectedLink(link);
-    actionLink.current.show();
+    if (isHiveUri(link)) {
+      dispatch(handleDeepLink(link));
+    } else {
+      setSelectedLink(link);
+      actionLink.current.show();
+    }
   };
 
   const _handleSetSelectedImage = (imageLink, postImgUrls) => {
@@ -258,6 +268,11 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
     }
     setSelectedImage(imageLink);
     actionImage.current.show();
+  };
+
+  const _onCloseImageViewer = () => {
+    setIsImageModalOpen(false);
+    setSelectedImage(null);
   };
 
   const _renderImageViewerHeader = (imageIndex) => {
@@ -276,7 +291,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
             color={EStyleSheet.value('$primaryDarkText')}
             buttonStyle={styles.closeIconButton}
             size={20}
-            handleOnPress={() => setIsImageModalOpen(false)}
+            handleOnPress={_onCloseImageViewer}
           />
         </View>
       </SafeAreaView>
@@ -287,11 +302,11 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
     <Fragment>
       <ImageView
         images={postImages.map((url) => ({ uri: url }))}
-        imageIndex={0}
+        imageIndex={postImages.indexOf(selectedImage)}
         visible={isImageModalOpen}
         animationType="slide"
         swipeToCloseEnabled
-        onRequestClose={() => setIsImageModalOpen(false)}
+        onRequestClose={_onCloseImageViewer}
         HeaderComponent={(imageIndex) => _renderImageViewerHeader(imageIndex.imageIndex)}
       />
 

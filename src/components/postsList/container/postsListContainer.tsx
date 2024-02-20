@@ -20,7 +20,6 @@ import { PostOptionsModal } from '../../postOptionsModal';
 import { PostCardActionIds } from '../../postCard/container/postCard';
 import { useAppDispatch } from '../../../hooks';
 import { showProfileModal } from '../../../redux/actions/uiAction';
-import { getPostReblogs } from '../../../providers/ecency/ecency';
 import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
 
 export interface PostsListRef {
@@ -79,7 +78,6 @@ const postsListContainer = (
   });
 
   const [imageRatios, setImageRatios] = useState(new Map<string, number>());
-  const reblogsCollectionRef = useRef({});
 
   const data = useMemo(() => {
     let _data = posts || cachedPosts;
@@ -136,30 +134,6 @@ const postsListContainer = (
       animated: false,
     });
   }, [scrollPosition]);
-
-  useEffect(() => {
-    // fetch reblogs here
-    _updateReblogsCollection();
-  }, [data, votesCache]);
-
-  const _updateReblogsCollection = async () => {
-    // improve routine using list or promises
-    data.forEach(async (_item) => {
-      const _postPath = _item.author + _item.permlink;
-      if (!reblogsCollectionRef.current[_postPath]) {
-        try {
-          const reblogs = await getPostReblogs(_item);
-          reblogsCollectionRef.current = {
-            ...reblogsCollectionRef.current,
-            [_postPath]: reblogs || [],
-          };
-        } catch (err) {
-          console.warn('failed to fetch reblogs for post');
-          reblogsCollectionRef.current = { ...reblogsCollectionRef.current, [_postPath]: [] };
-        }
-      }
-    });
-  };
 
   const _setImageRatioInMap = (mapKey: string, height: number) => {
     if (mapKey && height) {
@@ -238,7 +212,6 @@ const postsListContainer = (
     // get image height from cache if available
     const localId = item.author + item.permlink;
     const imgRatio = item.thumbRatio || imageRatios.get(localId);
-    const reblogs = reblogsCollectionRef.current[localId];
 
     //   e.push(
     return (
@@ -248,7 +221,6 @@ const postsListContainer = (
         content={item}
         isHideImage={isHideImages}
         nsfw={nsfw}
-        reblogs={reblogs}
         imageRatio={imgRatio}
         setImageRatio={_setImageRatioInMap}
         handleCardInteraction={(id: PostCardActionIds, payload: any, onCallback) =>
@@ -271,7 +243,7 @@ const postsListContainer = (
         initialNumToRender={3}
         estimatedItemSize={609}
         windowSize={8}
-        extraData={[imageRatios, reblogsCollectionRef.current, votesCache]}
+        extraData={[imageRatios, votesCache]}
         onEndReached={_onEndReached}
         onMomentumScrollBegin={() => {
           _onEndReachedCalledDuringMomentum = false;
@@ -283,7 +255,6 @@ const postsListContainer = (
             onRefresh={() => {
               if (onLoadPosts) {
                 onLoadPosts(true);
-                reblogsCollectionRef.current = {};
               }
             }}
             progressBackgroundColor="#357CE6"

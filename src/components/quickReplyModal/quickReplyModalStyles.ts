@@ -6,11 +6,20 @@ export default EStyleSheet.create({
     backgroundColor: 'transparent',
     paddingBottom: 12,
     zIndez: 999,
-  },
+    shadowColor: 'transparent',
+  } as ViewStyle,
   sheetIndicator: {
     backgroundColor: 'transparent',
   },
 
+  backdrop: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  } as ViewStyle,
   container: {
     flex: 1,
     justifyContent: 'flex-end',

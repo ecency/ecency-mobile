@@ -639,6 +639,28 @@ export const getActiveVotes = (author, permlink) =>
     }
   });
 
+export const getPostReblogs = async (author, permlink) => {
+  try {
+    if (!author || !permlink) {
+      throw new Error('invalid parameters');
+    }
+
+    console.log('Getting post reblogs:', author, permlink);
+
+    const reblogs = await client.call('condenser_api', 'get_reblogged_by', [author, permlink]);
+
+    if (!reblogs) {
+      throw new Error('invalid data');
+    }
+
+    console.log(`Returning reblogs`, reblogs);
+    return reblogs;
+  } catch (error) {
+    bugsnapInstance.notify(error);
+    return [];
+  }
+};
+
 export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   try {
     console.log('Getting ranked posts:', query);
@@ -1834,7 +1856,7 @@ export const transferPoint = (currentAccount, pinCode, data) => {
   }
 };
 
-export const promote = (currentAccount, pinCode, duration, permlink, author) => {
+export const promote = (currentAccount, pinCode, duration, author, permlink) => {
   const pin = getDigitPinCode(pinCode);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 
@@ -1867,7 +1889,39 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
   }
 };
 
-export const boost = (currentAccount, pinCode, point, permlink, author) => {
+export const boostPlus = (currentAccount, pinCode, duration, account) => {
+  const pin = getDigitPinCode(pinCode);
+  const key = getActiveKey(get(currentAccount, 'local'), pin);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const user = get(currentAccount, 'name');
+
+    const json = {
+      id: 'ecency_boost_plus',
+      json: JSON.stringify({
+        user,
+        account,
+        duration,
+      }),
+      required_auths: [user],
+      required_posting_auths: [],
+    };
+    const opArray = [['custom_json', json]];
+
+    return sendHiveOperations(opArray, privateKey);
+  } else {
+    const err = new Error('Check private key permission! Required private active key or above.');
+    bugsnagInstance.notify(err, (event) => {
+      event.setUser(currentAccount.username);
+      event.context('boost-plus-content');
+      event.setMetaData('encryptedLocal', currentAccount.local);
+    });
+    return Promise.reject(err);
+  }
+};
+
+export const boost = (currentAccount, pinCode, point, author, permlink) => {
   const pin = getDigitPinCode(pinCode);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 

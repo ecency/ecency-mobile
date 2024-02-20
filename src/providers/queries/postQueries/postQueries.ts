@@ -203,7 +203,7 @@ export const useInjectVotesCache = (_data: any | any[]) => {
   const [retData, setRetData] = useState<any | any[] | null>(null);
 
   useEffect(() => {
-    if (retData && lastUpdate.type === 'vote') {
+    if (retData && lastUpdate && lastUpdate.type === 'vote') {
       const _postPath = lastUpdate.postPath;
       const _voteCache = votesCollection[_postPath];
 

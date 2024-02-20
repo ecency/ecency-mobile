@@ -2,11 +2,12 @@
   "wallet": {
     "curation_reward": "Recompensa de Curadoria",
     "author_reward": "Recompensa do Autor",
-    "community_reward": "Community Reward",
+    "community_reward": "Recompensa da Comunidade",
     "comment_benefactor_reward": "Recompensa de Beneficiário",
     "claim_reward_balance": "Solicitar recompensa ",
-    "points_activity": "Activity",
+    "points_activity": "Atividade",
     "transfer": "Transferir",
+    "recurrent_transfer": "Transferência Recorrente",
     "power_up": "Power Up",
     "transfer_from_savings": "Das poupanças",
     "withdraw_savings": "Levantar da Poupança",
@@ -51,14 +52,14 @@
     "checkin_extra_desc": "O uso consistente do aplicativo dá mais chances para ganhar mais pontos, seja mais ativo e ganhar mais.",
     "dropdown_transfer": "Presente",
     "dropdown_promote": "Promover",
-    "dropdown_boost": "Reforçar",
+    "dropdown_boost": "Boost+",
     "from": "De",
     "to": "Para",
     "estimated_value_desc": "De acordo com o valor da compra",
     "estimated_value": "Valor estimado",
     "vote_value": "Valor do voto",
     "delegated_hive_power": "Hive Power delegado",
-    "powering_down_hive_power": "Powering down ({subValue})",
+    "powering_down_hive_power": "Poder Diminuindo ({subValue})",
     "received_hive_power": "Hive Power recebido",
     "total_hive_power": "Poder hive total",
     "savings": "Poupança",
@@ -127,9 +128,9 @@
     "market_placeOrder": "Ordem Feita",
     "market_expire": "Ordem Expirada",
     "market_buy": "Tokens Comprados",
-    "market_buyRemaining": "Remaining Tokens Transferred (Buy)",
+    "market_buyRemaining": "Tokens Restantes Transferidos (Comprar)",
     "market_sell": "Tokens Vendidos",
-    "market_sellRemaining": "Remaining Tokens Transferred (Sell)",
+    "market_sellRemaining": "Tokens restantes transferidos (Vender)",
     "market_close": "Ordem Fechada",
     "mining_lottery": "Ganho da Loteria",
     "witnesses_proposeRound": "Rodada de Propostas de Testemunhas",
@@ -141,21 +142,21 @@
     "nft_issueMultiple": "Múltiplos NFTs Emitidos",
     "nft_burn": "NFT Queimado",
     "nft_delegate": "NFT Delegado",
-    "nft_undelegate": "Undelegation Started for NFT",
-    "nft_undelegateDone": "Undelegation Completed for NFT",
-    "nft_enableDelegation": "Delegation Enabled for NFT",
+    "nft_undelegate": "Cancelamento de Delegação iniciado para NFT",
+    "nft_undelegateDone": "Cancelamento da Delegação concluído para NFT",
+    "nft_enableDelegation": "Delegação Habilitada para NFT",
     "nft_create": "Símbolo NFT criado",
-    "nft_addAuthorizedIssuingAccounts": "Authorized Issuing Accounts Added to NFT",
-    "nft_setGroupBy": "Group By Set for NFT Symbol",
-    "nft_setProperties": "Properties Set for NFT Symbol",
+    "nft_addAuthorizedIssuingAccounts": "Contas Autorizadas Adicionadas ao NFT",
+    "nft_setGroupBy": "Definir Agrupamento para Símbolo NFT",
+    "nft_setProperties": "Propriedades definidas para o símbolo NFT",
     "nft_addProperty": "Propriedade Adicionada ao NFT",
-    "nft_setPropertyPermissions": "Property Permissions Set for NFT Symbol",
-    "nft_updatePropertyDefinition": "Property Definition Updated for NFT",
+    "nft_setPropertyPermissions": "Permissões de propriedade configuradas para o símbolo NFT",
+    "nft_updatePropertyDefinition": "Definição de Propriedade Atualizada para o NFT",
     "nft_updateUrl": "URL do NFT Atualizado",
     "nft_updateMetadata": "Metadados do NFT Atualizados",
     "nft_updateName": "Nome do NFT atualizado",
-    "nft_updateOrgName": "NFT Organization Name Updated",
-    "nft_updateProductName": "NFT Product Name Updated",
+    "nft_updateOrgName": "Nome da Organização NFT atualizado",
+    "nft_updateProductName": "Nome do produto NFT atualizado",
     "nft_transferFee": "Taxa de Transferência do NFT",
     "nftmarket_buy": "Ordem de Compra",
     "nftmarket_transferFee": "Taxa de Compra",
@@ -185,7 +186,7 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "Hive Guardado"
+      "name": "Poder Hive"
     },
     "hive_dollar": {
       "name": "Hive Dollar"
@@ -250,7 +251,7 @@
     "this_week": "Esta Semana",
     "last_week": "Última Semana",
     "this_month": "Este Mês",
-    "older_then": "Com mais de um mês",
+    "older_then": "Mês passado e anteriores",
     "activities": "Todos",
     "replies": "Respostas",
     "mentions": "Menções",
@@ -375,12 +376,13 @@
     "no_user": "Usuário não encontrado."
   },
   "login": {
-    "signin": "Iniciar sessão",
+    "signin": "Iniciar Sessão",
+    "login_with_hs": "Entrar com o hivesigner",
     "signup": "JUNTE-SE AGORA",
     "signin_title": "Para obter todos os benefícios de usar Ecency",
-    "username": "Nome de Usuário",
-    "password": "Senha ou WIF",
-    "description": "Ao fazer o login, você concorda com nossos Termos de Serviço e Políticas de Privacidade.",
+    "username": "nome de usuário",
+    "password": "senha / chave privada",
+    "description": "Ao fazer o login, você concorda com nossos termos de serviço e políticas de privacidade.",
     "cancel": "cancelar",
     "login": "ENTRAR",
     "steemconnect_description": "Se você não quiser manter sua senha criptográfica salva no dispositivo, você pode usar o Hivesigner.",
@@ -392,7 +394,10 @@
     "deep_login_alert_title": "Login Fácil @{username}",
     "deep_login_alert_body": "Verificar login direto utilizando código de acesso",
     "deep_login_url_expired": "URL de login expirada, use uma chave privada ou a senha para entrar",
-    "deep_login_malformed_url": "URL de login inválido. Por favor, use a chave privada ou senha para acessar"
+    "deep_login_malformed_url": "URL de login inválido. Por favor, use a chave privada ou senha para acessar",
+    "no_account_text": "Não tem uma conta?",
+    "signup_now": "Registre-se agora!",
+    "or": "OU"
   },
   "register": {
     "modal_title": "Obter uma conta na Hive",
@@ -415,7 +420,9 @@
       "username_contains_double_hyphens": "Não deve conter hífens duplos",
       "username_contains_underscore": "Não pode conter sublinhado",
       "username_exists": "O nome já existe. Tente outro diferente"
-    }
+    },
+    "have_account_text": "Já tem uma conta?",
+    "login_here": "Entre aqui"
   },
   "home": {
     "feed": "Conteúdo de notícias",
@@ -513,6 +520,7 @@
     "scheduled_for": "Agendado para",
     "scheduled_immediate": "Imediato",
     "scheduled_later": "Mais tarde",
+    "schedule_video_unsupported": "Agendamento para publicar vídeos não está disponível",
     "settings_title": "Opções da publicação",
     "done": "FEITO",
     "draft_save_title": "Salvando o rascunho",
@@ -528,7 +536,9 @@
     "invalid_url_error": "Por favor, insira um URL válido",
     "plain": "Simples",
     "video": "Vídeo",
-    "image": "Imagem"
+    "image": "Imagem",
+    "short_desc": "Breve descrição",
+    "short_desc_placeholder": "Breve resumo do conteúdo"
   },
   "snippets": {
     "label_no_snippets": "Nenhum Snippet Encontrado",
@@ -553,10 +563,20 @@
     "btn_add": "Imagem",
     "btn_insert": "INSERIR",
     "btn_delete": "EXCLUIR",
-    "confirm_delete": "Tem certeza de que deseja excluir as imagens dos seus envios",
+    "confirm_delete": "Tem certeza que deseja excluir os itens selecionados dos seus envios",
     "message_failed": "Falha ao carregar imagem",
     "delete_failed": "Falha ao apagar imagem",
-    "failed_count": "Falha ao enviar {failedCount} de {totalCount} foto(s) selecionada(s)"
+    "failed_count": "Falha ao enviar {failedCount} de {totalCount} foto(s) selecionada(s)",
+    "publish_manual": "Pronto",
+    "published": "Publicado",
+    "encoding_ipfs": "Codificando",
+    "encoding_preparing": "Preparando",
+    "deleted": "Excluído",
+    "start_upload": "INICIAR CARREGAMENTO",
+    "uploading": "CARREGANDO",
+    "select_thumb": "Selecionar Miniatura",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "Insira PIN para desbloquear",
@@ -578,6 +598,9 @@
     "continue": "Continuar",
     "okay": "Ok",
     "done": "Concluído",
+    "notice": "Aviso!",
+    "close": "FECHAR",
+    "later": "Later",
     "move_question": "Tem certeza que deseja mover para rascunhos?",
     "success_shared": "Sucesso! Conteúdo submetido!",
     "success_moved": "Movido para Rascunhos",
@@ -601,7 +624,7 @@
     "warning": "Aviso",
     "invalid_pincode": "Código PIN inválido, por favor verifique e tente novamente.",
     "remove_alert": "Tem a certeza de que pretende remover?",
-    "remove_all_alert": "Are you sure you want to remove all selected items?",
+    "remove_all_alert": "Tem certeza que deseja remover todos os itens selecionados?",
     "clear_alert": "Tem certeza que deseja limpar?",
     "clear_user_alert": "Tem certeza de que deseja limpar todos os dados de usuário?",
     "decrypt_fail_alert": "Estado do app corrompido. Faça login novamente para redefinir o estado.",
@@ -667,7 +690,7 @@
     "in": "no",
     "reveal_muted": "SILENCIADO\nClique para revelar conteúdo",
     "posted_by": "Publicado por {username} via {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ondas da Ecency"
   },
   "drafts": {
     "title": "Rascunhos",
@@ -745,7 +768,8 @@
     "pin-community": "Fixar na comunidade",
     "unpin-community": "Desafixar da comunidade",
     "edit-history": "Histórico de Edição",
-    "mute": "Silenciar / Bloquear"
+    "mute": "Silenciar / Bloquear",
+    "translate": "Traduzir"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
@@ -769,13 +793,19 @@
     "to": "Para",
     "amount_information": "Arraste o controle deslizante para ajustar a quantia",
     "amount": "Quantia",
+    "executions": "Execuções",
+    "recurrence": "Recorrência",
     "memo": "Memo",
+    "recurrent_transfer": "Transferência Recorrente",
+    "delete_recurrent_transfer": "Cancelar Transferência Recorrente ",
     "information": "Continuar a transação?",
     "amount_desc": "Balanço",
     "memo_desc": "Este memo é público",
     "convert_desc": "A conversão leva 3.5 dias e NÃO é recomendada SE o preço do HBD estiver acima de $1",
     "to_placeholder": "Utilizador",
     "memo_placeholder": "Insira aqui as suas notas",
+    "recurrence_placeholder": "Escolher recorrência",
+    "executions_placeholder": "Número de Repetições",
     "transfer_token": "Transferir",
     "purchase_estm": "Comprar Pontos",
     "convert": "Converter HBD em HIVE",
@@ -849,9 +879,9 @@
     "free": "Grátis",
     "confirm_swap": "Confirmar troca",
     "swap_for": "A trocar {fromAmount} for {toAmount}",
-    "swap_successful": "Successfully Swapped",
-    "swap_pending": "Swap Pending!",
-    "swap_pending_body": "Swap requests may be pending, please check pending open orders in selected token details",
+    "swap_successful": "Troca Realizada Com Sucesso",
+    "swap_pending": "Troca Pendente!",
+    "swap_pending_body": "Os pedidos de troca podem estar pendentes. Por favor, verifique as ordens em aberto nos detalhes do token selecionado",
     "new_swap": "Nova Troca"
   },
   "boost": {
@@ -860,8 +890,8 @@
     "next": "SEGUINTE",
     "info": "O valor real de voto que você recebe pode variar",
     "account": {
-      "title": "Obter Impulso na Conta",
-      "desc": "30 dias de delegação irão impulsionar seus votos e atividades sociais, permitindo mais ações com o aumento dos Créditos de Recursos disponibilizados."
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirmar compra @{username}",
     "confirm_purchase_summary": "Comprando {points} para {username} por {price}",
@@ -897,6 +927,12 @@
   "boostPost": {
     "title": "Reforçar"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "RECOMPENSAS",
     "percent": "PERCENTAGEM",
@@ -914,7 +950,7 @@
   },
   "comments": {
     "title": "Comentários",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Mostrar Conteúdo",
     "read_more": "Ler mais comentários",
     "more_replies": "respostas",
     "no_comments": "Seja o primeiro a comentar..."
@@ -1011,11 +1047,11 @@
   },
   "quick_reply": {
     "placeholder": "Adicionar um comentário...",
-    "placeholder_wave": "What's happening?",
-    "summary_wave": "Will be published in: {host}",
+    "placeholder_wave": "O que está acontecendo?",
+    "summary_wave": "Será publicado em: {host}",
     "comment": "Comentário",
     "reply": "RESPONDER",
-    "publish": "PUBLISH",
+    "publish": "PUBLICAR",
     "close": "FECHAR"
   },
   "walkthrough": {
@@ -1036,34 +1072,34 @@
     "open": "Abrir URL",
     "detected_url": "URL detectada",
     "unsupported_alert_title": "URL não suportada!",
-    "unsupported_alert_desc": "Por favor, forneça um endereço URL válido da Ecency.",
-    "confirmTransaction": "Confirm transaction",
-    "approve": "Approve",
-    "cancel": "Cancel",
-    "multi_array_ops_alert": "Operation not supported by Ecency",
-    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations yet",
-    "invalid_op": "Invalid operation data",
-    "invalid_op_desc": "try contacting QR/link author",
-    "invalid_amount": "Invalid Amount",
-    "invalid_amount_desc": "Enter valid amount in proper format",
-    "transaction_failed": "Transaction Failed!",
-    "invalid_key": "{key} key is required to perform this transaction",
-    "invalid_key_desc": "kindly login with {key} key or master key to perform this transaction"
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
+    "confirmTransaction": "Confirmar transação",
+    "approve": "Aprovar",
+    "cancel": "Cancelar",
+    "multi_array_ops_alert": "Operação não suportada pela Ecency",
+    "multi_array_ops_aler_desct": "A Ecency ainda não suporta a múltipla assinatura de operações",
+    "invalid_op": "Dados de operação inválidos",
+    "invalid_op_desc": "tente contatar o autor do link/QR",
+    "invalid_amount": "Quantia Inválida",
+    "invalid_amount_desc": "Insira uma quantidade válida no formato adequado",
+    "transaction_failed": "Transação Falhou!",
+    "invalid_key": "A chave {key} é necessária para realizar essa transação",
+    "invalid_key_desc": "faça login com a chave {key} ou chave mestra para executar esta transação"
   },
   "history": {
     "edit": "Editar Histórico",
     "version": "Versão"
   },
   "chain-error": {
-    "min-root-comment": "You may only post once every five minutes.",
-    "identical-vote": "Your current vote on this content is identical to this vote.",
-    "insufficient-resource": "Insufficient Resource Credits.",
-    "delete-comment-with-vote": "Cannot delete a content with positive pending rewards.",
-    "comment-cashout": "Content after their payout cannot be deleted.",
-    "comment-children": "Cannot delete a content with replies.",
-    "paid-out-post-forbidden": "Voting for paid out content is not available.",
-    "missing-authority": "This operation requires Active private key or authority.",
-    "missing-owner-authority": "This operation requires Owner private key or authority.",
-    "insufficient_fund": "Insufficient Funds"
+    "min-root-comment": "Você só pode postar uma vez a cada cinco minutos.",
+    "identical-vote": "Seu voto atual sobre este conteúdo é idêntico a este voto.",
+    "insufficient-resource": "Créditos de Recursos insuficientes.",
+    "delete-comment-with-vote": "Não é possível excluir um conteúdo com recompensas pendentes.",
+    "comment-cashout": "O conteúdo não pode ser excluído após o pagamento.",
+    "comment-children": "Não é possível excluir um conteúdo com respostas.",
+    "paid-out-post-forbidden": "Votação de conteúdo já pago não está disponível.",
+    "missing-authority": "Esta operação requer a chave Ativa privada ou de autoridade.",
+    "missing-owner-authority": "Essa operação requer a chave privada do Proprietário ou de autoridade.",
+    "insufficient_fund": "Fundos Insuficientes"
   }
 }

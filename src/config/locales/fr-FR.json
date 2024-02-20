@@ -7,6 +7,7 @@
     "claim_reward_balance": "Réclamer la récompense ",
     "points_activity": "Activité",
     "transfer": "Transférer",
+    "recurrent_transfer": "Recurrent Transfer",
     "power_up": "To Vesting",
     "transfer_from_savings": "De l'économie",
     "withdraw_savings": "Withdraw Savings",
@@ -51,7 +52,7 @@
     "checkin_extra_desc": "Une utilisation regulière de l'application vous donne des chances supplémentaires de gagner plus de points, soyez plus actif et gagnez plus.",
     "dropdown_transfer": "Cadeau",
     "dropdown_promote": "Promouvoir",
-    "dropdown_boost": "Accélérer",
+    "dropdown_boost": "Boost+",
     "from": "De",
     "to": "À",
     "estimated_value_desc": "Selon la valeur d'achat",
@@ -250,7 +251,7 @@
     "this_week": "Cette semaine",
     "last_week": "La semaine dernière",
     "this_month": "Ce mois",
-    "older_then": "Vieux de plus de 1 mois",
+    "older_then": "Last Month & Older",
     "activities": "Toutes",
     "replies": "Réponses",
     "mentions": "Mentions",
@@ -375,12 +376,13 @@
     "no_user": "L'utilisateur n'a pas été trouvé."
   },
   "login": {
-    "signin": "Se connecter",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "REJOINDRE",
     "signin_title": "Pour obtenir tous les avantages à utiliser Ecency",
-    "username": "Nom d'utilisateur",
-    "password": "Mot de passe ou WIF",
-    "description": "En vous inscrivant, vous acceptez nos conditions d'utilisation et notre politique de confidentialité.",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "annuler",
     "login": "CONNEXION",
     "steemconnect_description": "Si vous ne voulez pas garder votre mot de passe chiffré et enregistré sur votre appareil, vous pouvez utiliser Hivesigner.",
@@ -392,7 +394,10 @@
     "deep_login_alert_title": "Easy Login @{username}",
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Get Hive Account",
@@ -415,7 +420,9 @@
       "username_contains_double_hyphens": "Should not contain double hyphens",
       "username_contains_underscore": "Should not contain underscore",
       "username_exists": "Ce nom d'utilisateur existe déjà, essayez-en un autre"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "Fil d'actualités",
@@ -513,6 +520,7 @@
     "scheduled_for": "Scheduled For",
     "scheduled_immediate": "Immediate",
     "scheduled_later": "Plus tard",
+    "schedule_video_unsupported": "Scheduling video posts not available",
     "settings_title": "Options de publication",
     "done": "TERMINÉ",
     "draft_save_title": "Enregistrement du brouillon",
@@ -528,7 +536,9 @@
     "invalid_url_error": "Merci d'entrer une url valide",
     "plain": "Plain",
     "video": "Vidéo",
-    "image": "Image"
+    "image": "Image",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -553,10 +563,20 @@
     "btn_add": "Image",
     "btn_insert": "Insérer",
     "btn_delete": "SUPPRIMER",
-    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "confirm_delete": "Are you sure you want to delete selected items from your uploads",
     "message_failed": "Échec du chargement de l’image",
     "delete_failed": "Échec de la suppression de l'image",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)",
+    "publish_manual": "Ready",
+    "published": "Published",
+    "encoding_ipfs": "Encoding",
+    "encoding_preparing": "Preparing",
+    "deleted": "Deleted",
+    "start_upload": "START UPLOAD",
+    "uploading": "UPLOADING",
+    "select_thumb": "Select Thumbnail",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -578,6 +598,9 @@
     "continue": "Continuer",
     "okay": "D'accord",
     "done": "Terminé",
+    "notice": "Notice!",
+    "close": "CLOSE",
+    "later": "Later",
     "move_question": "Êtes-vous sûr de vouloir déplacer vers Broullions ?",
     "success_shared": "Succès ! Contenu soumis !",
     "success_moved": "Déplacé vers Brouillons",
@@ -745,7 +768,8 @@
     "pin-community": "Épingler à la communauté",
     "unpin-community": "Dépingler de la communauté",
     "edit-history": "Modifier l'historique",
-    "mute": "Mute / Block"
+    "mute": "Mute / Block",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "Utilisateur inexistant",
@@ -769,13 +793,19 @@
     "to": "À",
     "amount_information": "Faites glisser le curseur pour ajuster le montant",
     "amount": "Montant",
+    "executions": "Executions",
+    "recurrence": "Recurrence",
     "memo": "Mémo",
+    "recurrent_transfer": "Recurrent Transfer",
+    "delete_recurrent_transfer": "Delete Recurrent Transfer ",
     "information": "Confirmer la transaction?",
     "amount_desc": "Solde",
     "memo_desc": "Ce mémo est public",
     "convert_desc": "Convertir prend 3,5 jours et n'est PAS recommandé SI le prix HBD est supérieur à $1",
     "to_placeholder": "Nom d'utilisateur",
     "memo_placeholder": "Entrez vos notes ici",
+    "recurrence_placeholder": "Choose Recurrence",
+    "executions_placeholder": "Number of Repeats",
     "transfer_token": "Transférer",
     "purchase_estm": "Achat de Points",
     "convert": "Convertir HBD en HIVE",
@@ -860,8 +890,8 @@
     "next": "SUIVANT",
     "info": "Actual value of vote you receive may vary",
     "account": {
-      "title": "Obtenir le Boost de Compte",
-      "desc": "La délégation de 30 jours va booster vos votes et vos activités sociales et vous donnera plus d'actions avec plus de crédits ressources."
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -896,6 +926,12 @@
   },
   "boostPost": {
     "title": "Booster"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "RÉCOMPENSES",
@@ -1036,7 +1072,7 @@
     "open": "Ouvrir l'URL",
     "detected_url": "URL détectée",
     "unsupported_alert_title": "URL non supportée !",
-    "unsupported_alert_desc": "Veuillez scanner une Url Ecency valide.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirmer la transaction",
     "approve": "Approuver",
     "cancel": "Annuler",

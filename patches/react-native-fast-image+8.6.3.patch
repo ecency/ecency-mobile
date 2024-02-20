@@ -1,8 +1,20 @@
+diff --git a/node_modules/react-native-fast-image/RNFastImage.podspec b/node_modules/react-native-fast-image/RNFastImage.podspec
+index db0fada..286fa81 100644
+--- a/node_modules/react-native-fast-image/RNFastImage.podspec
++++ b/node_modules/react-native-fast-image/RNFastImage.podspec
+@@ -16,6 +16,6 @@ Pod::Spec.new do |s|
+   s.source_files  = "ios/**/*.{h,m}"
+ 
+   s.dependency 'React-Core'
+-  s.dependency 'SDWebImage', '~> 5.11.1'
++  s.dependency 'SDWebImage', '~> 5.15.5'
+   s.dependency 'SDWebImageWebPCoder', '~> 0.8.4'
+ end
 diff --git a/node_modules/react-native-fast-image/ios/FastImage/FFFastImageView.m b/node_modules/react-native-fast-image/ios/FastImage/FFFastImageView.m
 index f710081..fe20770 100644
 --- a/node_modules/react-native-fast-image/ios/FastImage/FFFastImageView.m
 +++ b/node_modules/react-native-fast-image/ios/FastImage/FFFastImageView.m
-@@ -73,12 +73,17 @@ - (void) setImageColor: (UIColor*)imageColor {
+@@ -73,12 +73,17 @@
  
  - (UIImage*) makeImage: (UIImage*)image withTint: (UIColor*)color {
      UIImage* newImage = [image imageWithRenderingMode: UIImageRenderingModeAlwaysTemplate];

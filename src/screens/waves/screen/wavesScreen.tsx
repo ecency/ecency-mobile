@@ -10,7 +10,13 @@ import {
 } from 'react-native';
 import { debounce } from 'lodash';
 import { useNavigationState } from '@react-navigation/native';
-import { Comments, EmptyScreen, Header, PostOptionsModal } from '../../../components';
+import {
+  Comments,
+  EmptyScreen,
+  Header,
+  PostOptionsModal,
+  PostTranslationModal,
+} from '../../../components';
 import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
@@ -23,6 +29,7 @@ const SCROLL_POPUP_THRESHOLD = 5000;
 const WavesScreen = ({ route }) => {
   // refs
   const postOptionsModalRef = useRef<any>(null);
+  const postTranslationModalRef = useRef<any>(null);
   const postsListRef = useRef<FlatList>();
   const blockPopupRef = useRef(false);
   const scrollOffsetRef = useRef(0);
@@ -168,7 +175,12 @@ const WavesScreen = ({ route }) => {
         />
       </View>
 
-      <PostOptionsModal ref={postOptionsModalRef} />
+      <PostOptionsModal
+        ref={postOptionsModalRef}
+        postTranslationModalRef={postTranslationModalRef}
+        isWave={true}
+      />
+      <PostTranslationModal ref={postTranslationModalRef} />
     </View>
   );
 };

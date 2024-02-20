@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';
-import { promote, boost, isPostAvailable } from '../providers/hive/dhive';
+import { promote, boost, isPostAvailable, boostPlus } from '../providers/hive/dhive';
 import { toastNotification } from '../redux/actions/uiAction';
 
 /*
@@ -28,24 +28,32 @@ class RedeemContainer extends Component {
 
   // Component Functions
 
-  _redeemAction = async (redeemType = 'promote', actionSpecificParam, permlink, author, user) => {
+  _redeemAction = async (user, redeemType = 'promote', actionSpecificParam, author, permlink) => {
     this.setState({ isLoading: true });
 
     const { currentAccount, pinCode, dispatch, intl, navigation } = this.props;
     let action;
-    let specificParam;
+    let specificParams;
+    let hiveActionId;
 
     switch (redeemType) {
       case 'promote':
         action = promote;
-        specificParam = { duration: actionSpecificParam };
+        specificParams = { author, permlink, duration: actionSpecificParam };
+        hiveActionId = 'ecency_promote';
         break;
 
       case 'boost':
         action = boost;
-        specificParam = { amount: `${actionSpecificParam.toFixed(3)} POINT` };
+        specificParams = { author, permlink, amount: `${actionSpecificParam.toFixed(3)} POINT` };
+        hiveActionId = 'ecency_boost';
         break;
 
+      case 'boost_plus':
+        action = boostPlus;
+        specificParams = { account: author, duration: actionSpecificParam };
+        hiveActionId = 'ecency_boost_plus';
+        break;
       default:
         break;
     }
@@ -53,16 +61,13 @@ class RedeemContainer extends Component {
     if (get(user, 'local.authType') === 'steemConnect') {
       const json = JSON.stringify({
         user: get(user, 'name'),
-        author,
-        permlink,
-        ...specificParam,
+        ...specificParams,
       });
-      const uriType = redeemType === 'promote' ? 'ecency_promote' : 'ecency_boost';
 
       const uri = `sign/custom-json?authority=active&required_auths=%5B%22${get(
         user,
         'name',
-      )}%22%5D&required_posting_auths=%5B%5D&id=${uriType}&json=${encodeURIComponent(json)}`;
+      )}%22%5D&required_posting_auths=%5B%5D&id=${hiveActionId}&json=${encodeURIComponent(json)}`;
 
       this.setState({
         isSCModalOpen: true,
@@ -72,7 +77,7 @@ class RedeemContainer extends Component {
       return;
     }
 
-    await action(user || currentAccount, pinCode, actionSpecificParam, permlink, author)
+    await action(user || currentAccount, pinCode, actionSpecificParam, author, permlink)
       .then(() => {
         navigation.goBack();
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
@@ -90,16 +95,28 @@ class RedeemContainer extends Component {
     this.setState({ isLoading: false });
   };
 
-  _handleOnSubmit = async (redeemType, actionSpecificParam, fullPermlink, selectedUser) => {
+  _handleOnSubmit = async (
+    redeemType,
+    actionSpecificParam,
+    fullPermlinkOrUsername,
+    selectedUser,
+  ) => {
     const { intl, currentAccount, accounts } = this.props;
-    const separatedPermlink = fullPermlink.split('/');
-    const _author = get(separatedPermlink, '[0]');
-    const _permlink = get(separatedPermlink, '[1]');
-    const _isPostAvailable = await isPostAvailable(_author, _permlink);
+    let _author;
+    let _permlink;
 
-    if (!_isPostAvailable) {
-      Alert.alert(intl.formatMessage({ id: 'alert.not_existing_post' }));
-      return;
+    if (redeemType !== 'boost_plus') {
+      const separatedPermlink = fullPermlinkOrUsername.split('/');
+      _author = get(separatedPermlink, '[0]');
+      _permlink = get(separatedPermlink, '[1]');
+      const _isPostAvailable = await isPostAvailable(_author, _permlink);
+
+      if (!_isPostAvailable) {
+        Alert.alert(intl.formatMessage({ id: 'alert.not_existing_post' }));
+        return;
+      }
+    } else {
+      _author = fullPermlinkOrUsername;
     }
 
     const user =
@@ -107,7 +124,7 @@ class RedeemContainer extends Component {
         ? currentAccount
         : accounts.find((item) => item.username === selectedUser);
 
-    this._redeemAction(redeemType, actionSpecificParam, _permlink, _author, user);
+    this._redeemAction(user, redeemType, actionSpecificParam, _author, _permlink);
   };
 
   _handleOnSCModalClose = () => {
@@ -122,7 +139,6 @@ class RedeemContainer extends Component {
       children &&
       children({
         isLoading,
-        redeemAction: this._redeemAction,
         isSCModalOpen,
         SCPath,
         handleOnSubmit: this._handleOnSubmit,

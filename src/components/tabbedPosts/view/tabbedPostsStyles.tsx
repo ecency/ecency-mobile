@@ -57,22 +57,22 @@ export default EStyleSheet.create({
   },
   postedText: {
     fontWeight: '500',
-    color: '$white',
+    color: '$primaryGray',
     marginLeft: 6,
   },
   scrollTopText: {
     fontWeight: '500',
-    color: '$white',
+    color: '$primaryGray',
     marginHorizontal: 4,
     marginBottom: 2,
   },
   closeIcon: {
-    color: '$white',
+    color: '$primaryGray',
     margin: 0,
     padding: 6,
   },
   arrowUpIcon: {
-    color: '$white',
+    color: '$primaryGray',
     margin: 0,
     marginHorizontal: 4,
   },
@@ -83,6 +83,13 @@ export default EStyleSheet.create({
     borderWidth: 2,
     marginLeft: -8,
     borderColor: '$primaryBlue',
+  },
+  moreIcon: {
+    marginLeft: -4,
+    borderWidth: EStyleSheet.hairlineWidth,
+    borderColor: '$primaryGray',
+    height: 20,
+    width: 20,
   },
   emptyAnimationContainer: {
     marginTop: 56,
