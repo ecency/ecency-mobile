@@ -12,7 +12,7 @@ const PostPlaceHolder = () => {
   return (
     <View>
       <LottieView
-        style={{ width: getWindowDimensions().nativeWidth - 24 }}
+        style={{ width: getWindowDimensions().nativeWidth - 24, flex:1 }}
         source={require('../../../../assets/animations/postBody.json')}
         autoPlay
         loop={true}

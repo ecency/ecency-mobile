@@ -8,6 +8,7 @@ import getWindowDimensions from '../../../../utils/getWindowDimensions';
 const PostCardPlaceHolder = () => {
   const animationStyle = {
     width: getWindowDimensions().nativeWidth - 32,
+    flex:1
   };
 
   const isDarkTheme = useSelector((state) => state.application.isDarkTheme);

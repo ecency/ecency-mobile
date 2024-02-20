@@ -4,7 +4,7 @@ import get from 'lodash/get';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { Header, TabbedPosts } from '../../../components';
+import { EmptyScreen, Header, PostCard, PostCardPlaceHolder, PostPlaceHolder, TabbedPosts } from '../../../components';
 
 // Container
 import { AccountContainer } from '../../../containers';
@@ -15,6 +15,8 @@ import styles from './feedStyles';
 import { getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
 
 import { useAppSelector } from '../../../hooks';
+import LaunchScreen from '../../launch/screen/launchScreen';
+import { CommentPlaceHolder } from '../../../components/basicUIElements';
 
 const FeedScreen = () => {
   const mainTabs = useAppSelector(
@@ -38,7 +40,8 @@ const FeedScreen = () => {
         <Fragment>
           <Header showQR={true} showBoost={true} />
           <View style={styles.container} onLayout={_lazyLoadContent}>
-            {lazyLoad && (
+            <EmptyScreen/>
+            {/* {lazyLoad && (
               <TabbedPosts
                 key={JSON.stringify(filterOptions)} // this hack of key change resets tabbedposts whenever filters chanage, effective to remove filter change android bug
                 filterOptions={filterOptions}
@@ -49,7 +52,7 @@ const FeedScreen = () => {
                 isFeedScreen={true}
                 pageType="main"
               />
-            )}
+            )} */}
           </View>
         </Fragment>
       )}
