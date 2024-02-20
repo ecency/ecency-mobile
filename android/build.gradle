@@ -1,4 +1,4 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
 import groovy.json.JsonSlurper
 
 def getNpmVersion() {
@@ -14,17 +14,15 @@ def getNpmVersionArray() { // major [0], minor [1], patch [2]
 
 buildscript {
     ext {
-        buildToolsVersion = "33.0.0"
+        buildToolsVersion = "34.0.0"
         minSdkVersion = 23
-        compileSdkVersion = 33
-        targetSdkVersion = 33
+        compileSdkVersion = 34
+        targetSdkVersion = 34
+        ndkVersion = "25.1.8937393"
+        kotlinVersion = "1.8.0"
         googlePlayServicesVisionVersion = "17.0.2"
         googlePlayServicesVersion = "16.+"
         firebaseVersion = "17.3.4"
-        kotlinVersion = "1.7.20"
-        
-        // We use NDK 23 which has both M1 support and is the side-by-side NDK version from AGP.
-        ndkVersion = "23.1.7779620"
         
     }
     repositories {
@@ -35,6 +33,7 @@ buildscript {
         classpath("com.android.tools.build:gradle")
         classpath 'com.google.gms:google-services:4.4.0'
         classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
         classpath 'com.bugsnag:bugsnag-android-gradle-plugin:7.+'
     }
 }
@@ -47,3 +46,6 @@ subprojects {project ->
         versionPatch = npmVersion[2]
     }
 }
+
+
+apply plugin: "com.facebook.react.rootproject"

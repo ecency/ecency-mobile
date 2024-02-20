@@ -66,13 +66,13 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-			<key>localhost</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
 		</dict>
 	</dict>
+	<!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
+	<key>NSAllowsArbitraryLoads</key>
+	<false/>
+	<key>NSAllowsLocalNetworking</key>
+	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Ecency requires access to your camera to let you insert pictures to content you are creating.</string>
 	<key>NSFaceIDUsageDescription</key>
