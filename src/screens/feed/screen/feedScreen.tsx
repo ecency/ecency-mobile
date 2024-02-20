@@ -40,8 +40,7 @@ const FeedScreen = () => {
         <Fragment>
           <Header showQR={true} showBoost={true} />
           <View style={styles.container} onLayout={_lazyLoadContent}>
-            <EmptyScreen/>
-            {/* {lazyLoad && (
+            {lazyLoad && (
               <TabbedPosts
                 key={JSON.stringify(filterOptions)} // this hack of key change resets tabbedposts whenever filters chanage, effective to remove filter change android bug
                 filterOptions={filterOptions}
@@ -52,7 +51,7 @@ const FeedScreen = () => {
                 isFeedScreen={true}
                 pageType="main"
               />
-            )} */}
+            )}
           </View>
         </Fragment>
       )}
