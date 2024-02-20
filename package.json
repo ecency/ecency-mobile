@@ -86,7 +86,6 @@
     "intl": "^1.2.5",
     "jsc-android": "^241213.1.0",
     "lodash": "^4.17.13",
-    "lottie-ios": "4.3.3",
     "lottie-react-native": "^6.4.1",
     "mime-types": "^2.1.35",
     "moment": "^2.29.2",
