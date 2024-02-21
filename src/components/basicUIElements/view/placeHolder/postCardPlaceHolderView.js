@@ -6,9 +6,11 @@ import styles from './postCardPlaceHolderStyles';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const PostCardPlaceHolder = () => {
+  const _width = getWindowDimensions().width - 32;
+
   const animationStyle = {
-    width: getWindowDimensions().nativeWidth - 32,
-    flex:1
+    width: _width,
+    height: _width * 2
   };
 
   const isDarkTheme = useSelector((state) => state.application.isDarkTheme);

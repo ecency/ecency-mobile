@@ -18,7 +18,7 @@ const EmptyScreenView = ({ style, textStyle, text }: Props) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', ...style }}>
       <LottieView
-        style={{ width: 280, height: 150 }}
+        style={{ width: 280, height: 140, marginBottom: 12 }}
         source={require('../../../../assets/animations/empty_screen.json')}
         autoPlay
         loop={true}
