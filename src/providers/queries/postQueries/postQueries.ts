@@ -163,7 +163,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         });
       } else if (level > MAX_THREAD_LEVEL) {
         // makes sure replies data is empty, used to compare with children to decide to show read more comments buttons
-        replies.lastItem.replies = [];
+        replies.slice(-1)[0].replies = [];
       }
       return replies;
     };
