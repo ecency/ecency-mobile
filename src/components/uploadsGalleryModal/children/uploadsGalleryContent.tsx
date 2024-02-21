@@ -1,13 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { ActivityIndicator, Alert, Keyboard, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { FlatList } from 'react-native-gesture-handler';
 import Animated, {
   default as AnimatedView,
-  EasingNode,
+  Easing,
   SlideInRight,
   SlideOutRight,
+  useSharedValue,
+  withTiming,
 } from 'react-native-reanimated';
 import { useDispatch } from 'react-redux';
 import { Icon, IconButton } from '../..';
@@ -57,7 +59,13 @@ const UploadsGalleryContent = ({
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [isExpandedMode, setIsExpandedMode] = useState(false);
 
-  const animatedHeightRef = useRef(new Animated.Value(COMPACT_HEIGHT));
+  const animatedHeight = useSharedValue(0);
+
+  useEffect(() => {
+    animatedHeight.value = withTiming(COMPACT_HEIGHT, {
+      easing: Easing.inOut(Easing.cubic),
+    });
+  }, [])
 
   const isDeleting =
     mode === Modes.MODE_IMAGE
@@ -239,8 +247,8 @@ const UploadsGalleryContent = ({
         {mode === Modes.MODE_IMAGE
           ? _renderSelectButtons
           : isAddingToUploads
-          ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
-          : _renderSelectButtons}
+            ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
+            : _renderSelectButtons}
       </View>
       <View style={styles.pillBtnContainer}>
         <IconButton
@@ -300,13 +308,12 @@ const UploadsGalleryContent = ({
       color={EStyleSheet.value('$primaryBlack')}
       size={32}
       onPress={() => {
-        Animated.timing(animatedHeightRef.current, {
-          toValue: isExpandedMode ? COMPACT_HEIGHT : EXPANDED_HEIGHT,
-          duration: 300,
-          easing: EasingNode.inOut(EasingNode.cubic),
-        }).start(() => {
-          setIsExpandedMode(!isExpandedMode);
+        const _toValue = isExpandedMode ? COMPACT_HEIGHT : EXPANDED_HEIGHT;
+        animatedHeight.value = withTiming(_toValue, {
+          easing: Easing.inOut(Easing.cubic),
         });
+
+        setIsExpandedMode(!isExpandedMode);
       }}
     />
   );
@@ -351,7 +358,7 @@ const UploadsGalleryContent = ({
   };
 
   return (
-    <Animated.View style={{ ...styles.container, height: animatedHeightRef.current }}>
+    <Animated.View style={{ ...styles.container, height: animatedHeight }}>
       <FlatList
         key={isExpandedMode ? 'vertical_grid' : 'horizontal_list'}
         data={mediaUploads.slice(0, !isExpandedMode ? MAX_HORIZONTAL_THUMBS : undefined)}
