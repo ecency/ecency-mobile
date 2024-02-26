@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, PermissionsAndroid, Platform, View, Text } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-// import QRCodeScanner from 'react-native-qrcode-scanner';
 import { useIntl } from 'react-intl';
 import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
 import { get } from 'lodash';
@@ -26,6 +25,7 @@ import showLoginAlert from '../../utils/showLoginAlert';
 import authType from '../../constants/authType';
 import { delay } from '../../utils/editor';
 import ROUTES from '../../constants/routeNames';
+import {useCameraDevice, Camera, useCodeScanner} from 'react-native-vision-camera';
 
 const screenHeight = getWindowDimensions().height;
 
@@ -37,11 +37,19 @@ export const QRModal = () => {
   const pinCode = useAppSelector((state) => state.application.pin);
   const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const device = useCameraDevice('back');
 
   const [isScannerActive, setIsScannerActive] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
   const sheetModalRef = useRef<ActionSheet>();
-  const scannerRef = useRef(null);
+
+  const codeScanner = useCodeScanner({
+    codeTypes: ['qr'],
+    onCodeScanned: (codes) => {
+      console.log(`Scanned ${codes.length} codes!`, codes)
+      handleLink({data:codes[0].value});
+    }
+  })
 
   // TODO: make sure to properly clean uri processing code to process uri from deep links and notifications
   const deepLinkToHandle = useAppSelector((state) => state.ui.deepLinkToHandle);
@@ -54,6 +62,7 @@ export const QRModal = () => {
   useEffect(() => {
     if (isVisibleQRModal) {
       requestCameraPermission();
+      setIsScannerActive(true);
       sheetModalRef?.current?.show();
     } else {
       sheetModalRef?.current?.hide();
@@ -282,6 +291,7 @@ export const QRModal = () => {
     );
   };
 
+
   return (
     <ActionSheet
       ref={sheetModalRef}
@@ -291,17 +301,13 @@ export const QRModal = () => {
       indicatorStyle={styles.indicator}
     >
       <View style={styles.mainContainer}>
-        {/* <QRCodeScanner
-          reactivate={isScannerActive}
-          showMarker={true}
-          ref={scannerRef}
-          onRead={handleLink}
-          topViewStyle={{ display: 'none' }}
-          bottomViewStyle={{ display: 'none' }}
-          containerStyle={styles.scannerContainer}
-          cameraContainerStyle={styles.cameraContainer}
-          cameraStyle={styles.cameraStyle}
-        /> */}
+        <Camera 
+          style={EStyleSheet.absoluteFill}
+          device={device}
+          isActive={isScannerActive}
+          codeScanner={codeScanner}
+        />
+
         {isProcessing && (
           <View style={styles.activityIndicatorContainer}>
             <ActivityIndicator color="white" style={styles.activityIndicator} />
