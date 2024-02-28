@@ -238,7 +238,7 @@ const RegisterScreen = ({ navigation, route }) => {
           />
           <InformationArea
             description={intl.formatMessage({ id: 'register.form_description' })}
-            iconName="ios-information-circle-outline"
+            iconName="information-circle-outline"
             link={ECENCY_TERMS_URL}
           />
         </View>

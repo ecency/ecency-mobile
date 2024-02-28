@@ -6,7 +6,7 @@ import ImageView from 'react-native-image-viewing';
 
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
-import CameraRoll from '@react-native-community/cameraroll';
+// import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import RNFetchBlob from 'rn-fetch-blob';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -116,25 +116,25 @@ export const PostHtmlInteractionHandler = forwardRef(
           await checkAndroidPermission();
           uri = `file://${await _downloadImage(uri)}`;
         }
-        CameraRoll.saveToCameraRoll(uri)
-          .then(() => {
-            dispatch(
-              toastNotification(
-                intl.formatMessage({
-                  id: 'post.image_saved',
-                }),
-              ),
-            );
-          })
-          .catch(() => {
-            dispatch(
-              toastNotification(
-                intl.formatMessage({
-                  id: 'post.image_saved_error',
-                }),
-              ),
-            );
-          });
+        // CameraRoll.saveToCameraRoll(uri)
+        //   .then(() => {
+        //     dispatch(
+        //       toastNotification(
+        //         intl.formatMessage({
+        //           id: 'post.image_saved',
+        //         }),
+        //       ),
+        //     );
+        //   })
+        //   .catch(() => {
+        //     dispatch(
+        //       toastNotification(
+        //         intl.formatMessage({
+        //           id: 'post.image_saved_error',
+        //         }),
+        //       ),
+        //     );
+        //   });
       } catch (error) {
         dispatch(
           toastNotification(

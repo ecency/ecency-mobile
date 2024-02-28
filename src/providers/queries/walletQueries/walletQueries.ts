@@ -283,7 +283,7 @@ export const useActivitiesQuery = (assetId: string) => {
   };
 
   const _getNextPageParam = (lastPage: any[]) => {
-    const lastId = lastPage && lastPage.length ? lastPage.lastItem.trxIndex : undefined;
+    const lastId = lastPage && lastPage.length ? lastPage.slice(-1)[0].trxIndex : undefined;
     console.log('extracting next page parameter', lastId);
     return lastId;
   };
@@ -297,6 +297,8 @@ export const useActivitiesQuery = (assetId: string) => {
     })),
   });
 
+  const _lastItem = queries[queries.length - 1]
+
   const _refresh = async () => {
     setIsRefreshing(true);
     setNoMoreData(false);
@@ -306,7 +308,7 @@ export const useActivitiesQuery = (assetId: string) => {
   };
 
   const _fetchNextPage = () => {
-    const lastPage = queries.lastItem;
+    const lastPage = queries.slice(-1)[0];
 
     if (!lastPage || lastPage.isFetching || lastPage.isLoading || noMoreData) {
       return;
@@ -332,12 +334,13 @@ export const useActivitiesQuery = (assetId: string) => {
   const _data = useMemo(() => {
     const _dataArrs = queries.map((query) => query.data);
     return unionBy(..._dataArrs, 'trxIndex');
-  }, [queries.lastItem?.data]);
+  }, [_lastItem?.data]);
 
+ 
   return {
     data: _data,
     isRefreshing,
-    isLoading: queries.lastItem.isLoading || queries.lastItem.isFetching,
+    isLoading: _lastItem?.isLoading || _lastItem?.isFetching,
     fetchNextPage: _fetchNextPage,
     refresh: _refresh,
   };

@@ -44,6 +44,8 @@ export const useWavesQuery = (host: string) => {
     })),
   });
 
+  const _lastItem = wavesQueries[wavesQueries.length - 1];
+
   // hook to update cache reference,
   // workaround required since query fucntion do get passed an
   // updated copy for states that are not part of query key and contexet while conext is not
@@ -71,11 +73,11 @@ export const useWavesQuery = (host: string) => {
   }, [permlinksBucket]);
 
   useEffect(() => {
-    const _latestData = wavesQueries.lastItem?.data;
+    const _latestData = _lastItem?.data;
     if (!_latestData || _latestData.length < 10) {
       _fetchNextPage();
     }
-  }, [wavesQueries.lastItem?.data]);
+  }, [_lastItem?.data]);
 
   useEffect(() => {
     // check cache is recently updated and take post path
@@ -178,21 +180,21 @@ export const useWavesQuery = (host: string) => {
   };
 
   const _fetchNextPage = () => {
-    const lastPage = wavesQueries.lastItem;
 
-    if (!lastPage || lastPage.isFetching) {
+    if (!_lastItem || _lastItem.isFetching) {
       return;
     }
 
     const _nextPagePermlink = permlinksBucket[activePermlinks.length];
+
 
     if (_nextPagePermlink && !activePermlinks.includes(_nextPagePermlink)) {
       console.log('updating next page permlink', _nextPagePermlink);
       activePermlinks.push(_nextPagePermlink);
       setActivePermlinks([...activePermlinks]);
     } else {
-      console.log('fetching new containers', permlinksBucket.lastItem);
-      _fetchPermlinks(permlinksBucket.lastItem);
+      console.log('fetching new containers');
+      _fetchPermlinks(permlinksBucket.slice(-1)[0]);
     }
   };
 
@@ -245,7 +247,7 @@ export const useWavesQuery = (host: string) => {
   return {
     data: _filteredData,
     isRefreshing,
-    isLoading: isLoading || wavesQueries.lastItem?.isLoading || wavesQueries.lastItem?.isFetching,
+    isLoading: isLoading || _lastItem?.isLoading || _lastItem?.isFetching,
     fetchNextPage: _fetchNextPage,
     latestWavesFetch: _lastestWavesFetch,
     refresh: _refresh,

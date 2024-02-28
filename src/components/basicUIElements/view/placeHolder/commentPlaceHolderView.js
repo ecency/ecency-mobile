@@ -6,9 +6,12 @@ import { useSelector } from 'react-redux';
 import styles from './listItemPlaceHolderStyles';
 
 const CommentPlaceHolderView = () => {
+
+  const _width = 300;
+
   const animationStyle = {
-    width: 300,
-    height: 72,
+    width: _width,
+    height: _width / 2.8,
   };
 
   const isDarkTheme = useSelector((state) => state.application.isDarkTheme);

@@ -170,7 +170,7 @@ const LoginScreen = ({
               id: 'login.description',
             })}
             link={ECENCY_TERMS_URL}
-            iconName="ios-information-circle-outline"
+            iconName="information-circle-outline"
           />
           <MainButton
             onPress={() => handleOnPressLogin(username, password)}

@@ -27,7 +27,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
       <WalletLineItem
         text="Hive"
         isBlackText
-        iconName="ios-information-circle-outline"
+        iconName="information-circle-outline"
         rightText={`${Math.round(walletData.balance * 1000) / 1000} HIVE`}
         isBoldText
         isHasdropdown={isShowDropdowns}
@@ -40,7 +40,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
             id: 'profile.hive_power',
           })}
           isBlackText
-          iconName="ios-information-circle-outline"
+          iconName="information-circle-outline"
           rightText={`${
             Math.round(vestsToHp(walletData.vestingShares, walletData.hivePerMVests) * 1000) / 1000
           } HP`}
@@ -90,7 +90,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
           id: 'profile.hive_dollars',
         })}
         isBlackText
-        iconName="ios-information-circle-outline"
+        iconName="information-circle-outline"
         rightText={`$${Math.round(walletData.hbdBalance * 1000) / 1000}`}
         isBoldText
         isHasdropdown={isShowDropdowns}
@@ -103,7 +103,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
             id: 'profile.savings',
           })}
           isBlackText
-          iconName="ios-information-circle-outline"
+          iconName="information-circle-outline"
           rightText={`${Math.round(walletData.savingBalance * 1000) / 1000} HIVE`}
           isBoldText
           isHasdropdown={isShowDropdowns}
@@ -130,7 +130,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
             id: 'profile.hours',
           })}`}
           textColor="#788187"
-          iconName="ios-information-circle-outline"
+          iconName="information-circle-outline"
         />
       )}
     </View>

@@ -102,7 +102,7 @@ const HeaderView = ({
           <IconButton
             style={styles.backButton}
             iconStyle={styles.backIcon}
-            name="md-arrow-back"
+            name="arrow-back"
             onPress={handleOnPressBackButton}
           />
         </View>
@@ -117,7 +117,7 @@ const HeaderView = ({
               onPress={handleOnQRPress}
             />
           )}
-          <IconButton iconStyle={styles.backIcon} name="md-search" onPress={_onPressSearchButton} />
+          <IconButton iconStyle={styles.backIcon} name="search" onPress={_onPressSearchButton} />
 
           {showBoost && isLoggedIn && (
             <IconButton

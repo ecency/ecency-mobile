@@ -41,9 +41,9 @@ class IconButtonView extends Component {
       let iconName;
 
       if (isIos) {
-        iconName = `ios-${name}`;
+        iconName = name;
       } else {
-        iconName = androidName || `md-${name}`;
+        iconName = androidName || name;
       }
       return iconName;
     }

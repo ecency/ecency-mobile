@@ -66,13 +66,12 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-			<key>localhost</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
 		</dict>
 	</dict>
+	<key>NSAllowsArbitraryLoads</key>
+	<false/>
+	<key>NSAllowsLocalNetworking</key>
+	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Ecency requires access to your camera to let you insert pictures to content you are creating.</string>
 	<key>NSFaceIDUsageDescription</key>
@@ -118,7 +117,7 @@
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>BootSplash</string>
+	<string>BootSplash.storyboard</string>
 	<key>UIMainStoryboardFile</key>
 	<string>BootSplash</string>
 	<key>UIRequiredDeviceCapabilities</key>

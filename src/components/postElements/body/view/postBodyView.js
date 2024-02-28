@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { SafeAreaView, PermissionsAndroid, Platform, View, Text, Alert } from 'react-native';
-import CameraRoll from '@react-native-community/cameraroll';
+import { SafeAreaView, PermissionsAndroid, Platform, View, Text } from 'react-native';
+import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImageView from 'react-native-image-viewing';
