@@ -1093,6 +1093,10 @@ PODS:
     - React-Core
   - react-native-background-upload (6.6.0):
     - React
+  - react-native-cameraroll (7.4.2):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React-Core
   - react-native-config (1.5.1):
     - react-native-config/App (= 1.5.1)
   - react-native-config/App (1.5.1):
@@ -1456,6 +1460,7 @@ DEPENDENCIES:
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - react-native-background-timer (from `../node_modules/react-native-background-timer`)
   - react-native-background-upload (from `../node_modules/react-native-background-upload`)
+  - "react-native-cameraroll (from `../node_modules/@react-native-camera-roll/camera-roll`)"
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-create-thumbnail (from `../node_modules/react-native-create-thumbnail`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
@@ -1630,6 +1635,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-background-timer"
   react-native-background-upload:
     :path: "../node_modules/react-native-background-upload"
+  react-native-cameraroll:
+    :path: "../node_modules/@react-native-camera-roll/camera-roll"
   react-native-config:
     :path: "../node_modules/react-native-config"
   react-native-create-thumbnail:
@@ -1822,6 +1829,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 63913773ed7f96b814a2521e13e6d010282096ad
   react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-background-upload: 7c608537f87106c93530a3a19a853afd55466823
+  react-native-cameraroll: 17e0fd2d851dc27bd7c57d71ab5fcfd3e6e55e52
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
   react-native-create-thumbnail: e022bcdcba8a0b4529a50d3fa1a832ec921be39d
   react-native-date-picker: db26a4dc48fe4e7c3c3afd5008519fad1091c524
