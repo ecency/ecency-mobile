@@ -164,10 +164,10 @@ export const PostHtmlInteractionHandler = forwardRef(
           );
         });
       }
-      if (ind === 2) {
-        // save to local
-        _saveImage(selectedImage);
-      }
+      // if (ind === 2) {
+      //   // save to local
+      //   _saveImage(selectedImage);
+      // }
 
       setSelectedImage(null);
     };
@@ -246,11 +246,11 @@ export const PostHtmlInteractionHandler = forwardRef(
           options={[
             intl.formatMessage({ id: 'post.copy_link' }),
             intl.formatMessage({ id: 'post.gallery_mode' }),
-            intl.formatMessage({ id: 'post.save_to_local' }),
+            // intl.formatMessage({ id: 'post.save_to_local' }),
             intl.formatMessage({ id: 'alert.cancel' }),
           ]}
           title={intl.formatMessage({ id: 'post.image' })}
-          cancelButtonIndex={3}
+          cancelButtonIndex={2}
           onPress={(index) => {
             _handleImageOptionPress(index);
           }}
