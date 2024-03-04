@@ -1,3 +1,21 @@
+diff --git a/node_modules/react-native-fingerprint-scanner/README.md b/node_modules/react-native-fingerprint-scanner/README.md
+index 6d04693..de9d646 100644
+--- a/node_modules/react-native-fingerprint-scanner/README.md
++++ b/node_modules/react-native-fingerprint-scanner/README.md
+@@ -73,12 +73,7 @@ $ react-native link react-native-fingerprint-scanner
+ 
+ 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
+ 2. Go to `node_modules` ➜ `react-native-fingerprint-scanner` and add `ReactNativeFingerprintScanner.xcodeproj`
+-3. To add the library "libReactNativeFingerprintScanner.a" to your project in XCode:
+-    - In the project navigator, select your project.
+-    - Click on the "Build Phases" tab.
+-    - Under "Link Binary With Libraries", click the "+" button to add a new library.
+-    - Search for "libReactNativeFingerprintScanner.a" and select it.
+-    - Click "Add" to add the library to your project.
++3. In XCode, in the project navigator, select your project. Add `libReactNativeFingerprintScanner.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
+ 4. Run your project (`Cmd+R`)
+ 
+ #### Android
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/.transforms/0dfb7722d725ac2c66a2a738a6ccb5d1/results.bin b/node_modules/react-native-fingerprint-scanner/android/build/.transforms/0dfb7722d725ac2c66a2a738a6ccb5d1/results.bin
 new file mode 100644
 index 0000000..0d259dd
@@ -7,8 +25,7 @@ index 0000000..0d259dd
 +o/classes
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/.transforms/0dfb7722d725ac2c66a2a738a6ccb5d1/transformed/classes/classes.dex b/node_modules/react-native-fingerprint-scanner/android/build/.transforms/0dfb7722d725ac2c66a2a738a6ccb5d1/transformed/classes/classes.dex
 new file mode 100644
-index 0000000..fe19743
-Binary files /dev/null and b/node_modules/react-native-fingerprint-scanner/android/build/.transforms/0dfb7722d725ac2c66a2a738a6ccb5d1/transformed/classes/classes.dex differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/generated/source/buildConfig/debug/com/hieuvp/fingerprint/BuildConfig.java b/node_modules/react-native-fingerprint-scanner/android/build/generated/source/buildConfig/debug/com/hieuvp/fingerprint/BuildConfig.java
 new file mode 100644
 index 0000000..95d8361
@@ -91,12 +108,10 @@ index 0000000..9e26dfe
 \ No newline at end of file
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/intermediates/compile_library_classes_jar/debug/classes.jar b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/compile_library_classes_jar/debug/classes.jar
 new file mode 100644
-index 0000000..c457a64
-Binary files /dev/null and b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/compile_library_classes_jar/debug/classes.jar differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/intermediates/compile_r_class_jar/debug/R.jar b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/compile_r_class_jar/debug/R.jar
 new file mode 100644
-index 0000000..b7c5c7f
-Binary files /dev/null and b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/compile_r_class_jar/debug/R.jar differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/intermediates/compile_symbol_list/debug/R.txt b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/compile_symbol_list/debug/R.txt
 new file mode 100644
 index 0000000..e54204b
@@ -2191,32 +2206,25 @@ index 0000000..a9e8e2e
 \ No newline at end of file
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/BuildConfig.class b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/BuildConfig.class
 new file mode 100644
-index 0000000..6997ffc
-Binary files /dev/null and b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/BuildConfig.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerModule$1.class b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerModule$1.class
 new file mode 100644
-index 0000000..150c99d
-Binary files /dev/null and b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerModule$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerModule$2.class b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerModule$2.class
 new file mode 100644
-index 0000000..663f4b0
-Binary files /dev/null and b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerModule$2.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerModule$3.class b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerModule$3.class
 new file mode 100644
-index 0000000..aa57b03
-Binary files /dev/null and b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerModule$3.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerModule$AuthCallback.class b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerModule$AuthCallback.class
 new file mode 100644
-index 0000000..94530f4
-Binary files /dev/null and b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerModule$AuthCallback.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerModule.class b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerModule.class
 new file mode 100644
-index 0000000..0eec67e
-Binary files /dev/null and b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerModule.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerPackage.class b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerPackage.class
 new file mode 100644
-index 0000000..20b1b03
-Binary files /dev/null and b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/javac/debug/classes/com/hieuvp/fingerprint/ReactNativeFingerprintScannerPackage.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/intermediates/local_only_symbol_list/debug/R-def.txt b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/local_only_symbol_list/debug/R-def.txt
 new file mode 100644
 index 0000000..78ac5b8
@@ -2311,8 +2319,7 @@ index 0000000..6046760
 \ No newline at end of file
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar
 new file mode 100644
-index 0000000..528336a
-Binary files /dev/null and b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
 new file mode 100644
 index 0000000..b04a647
@@ -3895,8 +3902,289 @@ index 0000000..5834e7f
 +		INJECTED from /Users/noumantahir/ReactNativeProjects/ecency-mobile/node_modules/react-native-fingerprint-scanner/android/src/main/AndroidManifest.xml
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin b/node_modules/react-native-fingerprint-scanner/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin
 new file mode 100644
-index 0000000..e34b4f1
-Binary files /dev/null and b/node_modules/react-native-fingerprint-scanner/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin differ
+index 0000000..e69de29
+diff --git a/node_modules/react-native-fingerprint-scanner/examples/package-lock.json b/node_modules/react-native-fingerprint-scanner/examples/package-lock.json
+index e0546e9..330f42e 100644
+--- a/node_modules/react-native-fingerprint-scanner/examples/package-lock.json
++++ b/node_modules/react-native-fingerprint-scanner/examples/package-lock.json
+@@ -1557,9 +1557,9 @@
+       }
+     },
+     "node_modules/ansi-regex": {
+-      "version": "4.1.1",
+-      "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-4.1.1.tgz",
+-      "integrity": "sha512-ILlv4k/3f6vfQ4OoP2AGvirOktlQ98ZEL1k9FaQjxa3L1abBgbuTDAdPOpvbGncC0BTVQrl+OM8xZGK6tWXt7g==",
++      "version": "4.1.0",
++      "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-4.1.0.tgz",
++      "integrity": "sha512-1apePfXM1UOSqw0o9IiFAovVz9M5S1Dg+4TrDwfMewQ6p/rmMueb7tWZjQ1rx4Loy1ArBggoqGpfqqdI4rondg==",
+       "engines": {
+         "node": ">=6"
+       }
+@@ -2433,9 +2433,9 @@
+       }
+     },
+     "node_modules/decode-uri-component": {
+-      "version": "0.2.2",
+-      "resolved": "https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.2.2.tgz",
+-      "integrity": "sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==",
++      "version": "0.2.0",
++      "resolved": "https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.2.0.tgz",
++      "integrity": "sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=",
+       "engines": {
+         "node": ">=0.10"
+       }
+@@ -3761,9 +3761,12 @@
+       }
+     },
+     "node_modules/json5": {
+-      "version": "2.2.3",
+-      "resolved": "https://registry.npmjs.org/json5/-/json5-2.2.3.tgz",
+-      "integrity": "sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==",
++      "version": "2.2.0",
++      "resolved": "https://registry.npmjs.org/json5/-/json5-2.2.0.tgz",
++      "integrity": "sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==",
++      "dependencies": {
++        "minimist": "^1.2.5"
++      },
+       "bin": {
+         "json5": "lib/cli.js"
+       },
+@@ -4158,7 +4161,7 @@
+     "node_modules/metro-inspector-proxy/node_modules/ansi-regex": {
+       "version": "2.1.1",
+       "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-2.1.1.tgz",
+-      "integrity": "sha512-TIGnTpdo+E3+pCyAluZvtED5p5wCqLdezCyhPZzKPcxvFplEt4i+W7OONCKgeZFT3+y5NZZfOOS/Bdcanm1MYA==",
++      "integrity": "sha1-w7M6te42DYbg5ijwRorn7yfWVN8=",
+       "engines": {
+         "node": ">=0.10.0"
+       }
+@@ -4416,7 +4419,7 @@
+     "node_modules/metro/node_modules/ansi-regex": {
+       "version": "2.1.1",
+       "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-2.1.1.tgz",
+-      "integrity": "sha512-TIGnTpdo+E3+pCyAluZvtED5p5wCqLdezCyhPZzKPcxvFplEt4i+W7OONCKgeZFT3+y5NZZfOOS/Bdcanm1MYA==",
++      "integrity": "sha1-w7M6te42DYbg5ijwRorn7yfWVN8=",
+       "engines": {
+         "node": ">=0.10.0"
+       }
+@@ -4725,9 +4728,9 @@
+       }
+     },
+     "node_modules/minimatch": {
+-      "version": "3.1.2",
+-      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz",
+-      "integrity": "sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==",
++      "version": "3.0.4",
++      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.0.4.tgz",
++      "integrity": "sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==",
+       "dependencies": {
+         "brace-expansion": "^1.1.7"
+       },
+@@ -6601,9 +6604,9 @@
+       }
+     },
+     "node_modules/strip-ansi/node_modules/ansi-regex": {
+-      "version": "3.0.1",
+-      "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-3.0.1.tgz",
+-      "integrity": "sha512-+O9Jct8wf++lXxxFc4hc8LsjaSq0HFzzL7cVsw8pRDIPdjKD2mT4ytDZlLuSBZ4cLKZFXIrMGO7DbQCtMJJMKw==",
++      "version": "3.0.0",
++      "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-3.0.0.tgz",
++      "integrity": "sha1-7QMXwyIGT3lGbAKWa922Bas32Zg=",
+       "engines": {
+         "node": ">=4"
+       }
+@@ -6800,9 +6803,9 @@
+       "integrity": "sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c="
+     },
+     "node_modules/ua-parser-js": {
+-      "version": "0.7.33",
+-      "resolved": "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.33.tgz",
+-      "integrity": "sha512-s8ax/CeZdK9R/56Sui0WM6y9OFREJarMRHqLB2EwkovemBxNQ+Bqu8GAsUnVcXKgphb++ghr/B2BZx4mahujPw==",
++      "version": "0.7.31",
++      "resolved": "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.31.tgz",
++      "integrity": "sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ==",
+       "funding": [
+         {
+           "type": "opencollective",
+@@ -7101,7 +7104,7 @@
+     "node_modules/wrap-ansi/node_modules/ansi-regex": {
+       "version": "2.1.1",
+       "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-2.1.1.tgz",
+-      "integrity": "sha512-TIGnTpdo+E3+pCyAluZvtED5p5wCqLdezCyhPZzKPcxvFplEt4i+W7OONCKgeZFT3+y5NZZfOOS/Bdcanm1MYA==",
++      "integrity": "sha1-w7M6te42DYbg5ijwRorn7yfWVN8=",
+       "engines": {
+         "node": ">=0.10.0"
+       }
+@@ -8356,9 +8359,9 @@
+       }
+     },
+     "ansi-regex": {
+-      "version": "4.1.1",
+-      "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-4.1.1.tgz",
+-      "integrity": "sha512-ILlv4k/3f6vfQ4OoP2AGvirOktlQ98ZEL1k9FaQjxa3L1abBgbuTDAdPOpvbGncC0BTVQrl+OM8xZGK6tWXt7g=="
++      "version": "4.1.0",
++      "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-4.1.0.tgz",
++      "integrity": "sha512-1apePfXM1UOSqw0o9IiFAovVz9M5S1Dg+4TrDwfMewQ6p/rmMueb7tWZjQ1rx4Loy1ArBggoqGpfqqdI4rondg=="
+     },
+     "ansi-styles": {
+       "version": "3.2.1",
+@@ -9042,9 +9045,9 @@
+       "integrity": "sha1-9lNNFRSCabIDUue+4m9QH5oZEpA="
+     },
+     "decode-uri-component": {
+-      "version": "0.2.2",
+-      "resolved": "https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.2.2.tgz",
+-      "integrity": "sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ=="
++      "version": "0.2.0",
++      "resolved": "https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.2.0.tgz",
++      "integrity": "sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU="
+     },
+     "deepmerge": {
+       "version": "3.3.0",
+@@ -10081,9 +10084,12 @@
+       }
+     },
+     "json5": {
+-      "version": "2.2.3",
+-      "resolved": "https://registry.npmjs.org/json5/-/json5-2.2.3.tgz",
+-      "integrity": "sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg=="
++      "version": "2.2.0",
++      "resolved": "https://registry.npmjs.org/json5/-/json5-2.2.0.tgz",
++      "integrity": "sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==",
++      "requires": {
++        "minimist": "^1.2.5"
++      }
+     },
+     "jsonfile": {
+       "version": "4.0.0",
+@@ -10330,7 +10336,7 @@
+         "ansi-regex": {
+           "version": "2.1.1",
+           "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-2.1.1.tgz",
+-          "integrity": "sha512-TIGnTpdo+E3+pCyAluZvtED5p5wCqLdezCyhPZzKPcxvFplEt4i+W7OONCKgeZFT3+y5NZZfOOS/Bdcanm1MYA=="
++          "integrity": "sha1-w7M6te42DYbg5ijwRorn7yfWVN8="
+         },
+         "camelcase": {
+           "version": "4.1.0",
+@@ -10621,7 +10627,7 @@
+         "ansi-regex": {
+           "version": "2.1.1",
+           "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-2.1.1.tgz",
+-          "integrity": "sha512-TIGnTpdo+E3+pCyAluZvtED5p5wCqLdezCyhPZzKPcxvFplEt4i+W7OONCKgeZFT3+y5NZZfOOS/Bdcanm1MYA=="
++          "integrity": "sha1-w7M6te42DYbg5ijwRorn7yfWVN8="
+         },
+         "camelcase": {
+           "version": "4.1.0",
+@@ -10893,9 +10899,9 @@
+       }
+     },
+     "minimatch": {
+-      "version": "3.1.2",
+-      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz",
+-      "integrity": "sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==",
++      "version": "3.0.4",
++      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.0.4.tgz",
++      "integrity": "sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==",
+       "requires": {
+         "brace-expansion": "^1.1.7"
+       }
+@@ -12398,9 +12404,9 @@
+       },
+       "dependencies": {
+         "ansi-regex": {
+-          "version": "3.0.1",
+-          "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-3.0.1.tgz",
+-          "integrity": "sha512-+O9Jct8wf++lXxxFc4hc8LsjaSq0HFzzL7cVsw8pRDIPdjKD2mT4ytDZlLuSBZ4cLKZFXIrMGO7DbQCtMJJMKw=="
++          "version": "3.0.0",
++          "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-3.0.0.tgz",
++          "integrity": "sha1-7QMXwyIGT3lGbAKWa922Bas32Zg="
+         }
+       }
+     },
+@@ -12549,9 +12555,9 @@
+       "integrity": "sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c="
+     },
+     "ua-parser-js": {
+-      "version": "0.7.33",
+-      "resolved": "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.33.tgz",
+-      "integrity": "sha512-s8ax/CeZdK9R/56Sui0WM6y9OFREJarMRHqLB2EwkovemBxNQ+Bqu8GAsUnVcXKgphb++ghr/B2BZx4mahujPw=="
++      "version": "0.7.31",
++      "resolved": "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.31.tgz",
++      "integrity": "sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ=="
+     },
+     "uglify-es": {
+       "version": "3.3.9",
+@@ -12776,7 +12782,7 @@
+         "ansi-regex": {
+           "version": "2.1.1",
+           "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-2.1.1.tgz",
+-          "integrity": "sha512-TIGnTpdo+E3+pCyAluZvtED5p5wCqLdezCyhPZzKPcxvFplEt4i+W7OONCKgeZFT3+y5NZZfOOS/Bdcanm1MYA=="
++          "integrity": "sha1-w7M6te42DYbg5ijwRorn7yfWVN8="
+         },
+         "is-fullwidth-code-point": {
+           "version": "1.0.0",
+diff --git a/node_modules/react-native-fingerprint-scanner/examples/package.json b/node_modules/react-native-fingerprint-scanner/examples/package.json
+index de8a92f..55ac5fd 100644
+--- a/node_modules/react-native-fingerprint-scanner/examples/package.json
++++ b/node_modules/react-native-fingerprint-scanner/examples/package.json
+@@ -14,5 +14,57 @@
+   },
+   "devDependencies": {
+     "metro-react-native-babel-preset": "^0.54.1"
++  },
++  "react-native": {
++    "zlib": "browserify-zlib",
++    "console": "console-browserify",
++    "constants": "constants-browserify",
++    "crypto": "react-native-crypto",
++    "dns": "dns.js",
++    "net": "react-native-tcp",
++    "domain": "domain-browser",
++    "http": "@tradle/react-native-http",
++    "https": "https-browserify",
++    "os": "react-native-os",
++    "path": "path-browserify",
++    "querystring": "querystring-es3",
++    "fs": "react-native-level-fs",
++    "_stream_transform": "readable-stream/transform",
++    "_stream_readable": "readable-stream/readable",
++    "_stream_writable": "readable-stream/writable",
++    "_stream_duplex": "readable-stream/duplex",
++    "_stream_passthrough": "readable-stream/passthrough",
++    "dgram": "react-native-udp",
++    "stream": "stream-browserify",
++    "timers": "timers-browserify",
++    "tty": "tty-browserify",
++    "vm": "vm-browserify",
++    "tls": false
++  },
++  "browser": {
++    "zlib": "browserify-zlib",
++    "console": "console-browserify",
++    "constants": "constants-browserify",
++    "crypto": "react-native-crypto",
++    "dns": "dns.js",
++    "net": "react-native-tcp",
++    "domain": "domain-browser",
++    "http": "@tradle/react-native-http",
++    "https": "https-browserify",
++    "os": "react-native-os",
++    "path": "path-browserify",
++    "querystring": "querystring-es3",
++    "fs": "react-native-level-fs",
++    "_stream_transform": "readable-stream/transform",
++    "_stream_readable": "readable-stream/readable",
++    "_stream_writable": "readable-stream/writable",
++    "_stream_duplex": "readable-stream/duplex",
++    "_stream_passthrough": "readable-stream/passthrough",
++    "dgram": "react-native-udp",
++    "stream": "stream-browserify",
++    "timers": "timers-browserify",
++    "tty": "tty-browserify",
++    "vm": "vm-browserify",
++    "tls": false
+   }
+ }
 diff --git a/node_modules/react-native-fingerprint-scanner/examples/src/Application.container.js b/node_modules/react-native-fingerprint-scanner/examples/src/Application.container.js
 index 181f1d2..74b00ea 100644
 --- a/node_modules/react-native-fingerprint-scanner/examples/src/Application.container.js
@@ -3919,6 +4207,22 @@ index 181f1d2..74b00ea 100644
    }
  
    detectFingerprintAvailable = () => {
+diff --git a/node_modules/react-native-fingerprint-scanner/examples/src/FingerprintPopup.component.android.js b/node_modules/react-native-fingerprint-scanner/examples/src/FingerprintPopup.component.android.js
+index 6e8ff0a..ecef80a 100644
+--- a/node_modules/react-native-fingerprint-scanner/examples/src/FingerprintPopup.component.android.js
++++ b/node_modules/react-native-fingerprint-scanner/examples/src/FingerprintPopup.component.android.js
+@@ -6,10 +6,10 @@ import {
+   Text,
+   TouchableOpacity,
+   View,
+-  ViewPropTypes,
+   Platform,
+ } from 'react-native';
+ 
++import { ViewPropTypes } from 'deprecated-react-native-prop-types';
+ import FingerprintScanner from 'react-native-fingerprint-scanner';
+ import styles from './FingerprintPopup.component.styles';
+ import ShakingText from './ShakingText.component';
 diff --git a/node_modules/react-native-fingerprint-scanner/examples/src/ShakingText.component.js b/node_modules/react-native-fingerprint-scanner/examples/src/ShakingText.component.js
 index 19cb20f..1403e65 100644
 --- a/node_modules/react-native-fingerprint-scanner/examples/src/ShakingText.component.js
@@ -3941,3 +4245,302 @@ index 19cb20f..1403e65 100644
  };
  
  export default ShakingText;
+diff --git a/node_modules/react-native-fingerprint-scanner/package-lock.json b/node_modules/react-native-fingerprint-scanner/package-lock.json
+index 896a788..0b2c001 100644
+--- a/node_modules/react-native-fingerprint-scanner/package-lock.json
++++ b/node_modules/react-native-fingerprint-scanner/package-lock.json
+@@ -2187,9 +2187,9 @@
+       }
+     },
+     "node_modules/@react-native-community/cli-tools": {
+-      "version": "6.2.1",
+-      "resolved": "https://registry.npmjs.org/@react-native-community/cli-tools/-/cli-tools-6.2.1.tgz",
+-      "integrity": "sha512-7RbOkZLT/3YG8CAYYM70ajRKIOgVxK/b4t9KNsPq+2uen99MGezfeglC8s1cs3vBNVVxCo0a2JbXg18bUd8eqA==",
++      "version": "6.2.0",
++      "resolved": "https://registry.npmjs.org/@react-native-community/cli-tools/-/cli-tools-6.2.0.tgz",
++      "integrity": "sha512-08ssz4GMEnRxC/1FgTTN/Ud7mExQi5xMphItPjfHiTxpZPhrFn+IMx6mya0ncFEhhxQ207wYlJMRLPRRdBZ8oA==",
+       "peer": true,
+       "dependencies": {
+         "appdirsjs": "^1.2.4",
+@@ -2199,7 +2199,7 @@
+         "node-fetch": "^2.6.0",
+         "open": "^6.2.0",
+         "semver": "^6.3.0",
+-        "shell-quote": "^1.7.3"
++        "shell-quote": "1.6.1"
+       }
+     },
+     "node_modules/@react-native-community/cli-types": {
+@@ -2239,9 +2239,9 @@
+       }
+     },
+     "node_modules/@sideway/formula": {
+-      "version": "3.0.1",
+-      "resolved": "https://registry.npmjs.org/@sideway/formula/-/formula-3.0.1.tgz",
+-      "integrity": "sha512-/poHZJJVjx3L+zVD6g9KgHfYnb443oi7wLu/XKojDviHy6HOEOA6z1Trk5aR1dGcmPenJEgb2sK2I80LeS3MIg==",
++      "version": "3.0.0",
++      "resolved": "https://registry.npmjs.org/@sideway/formula/-/formula-3.0.0.tgz",
++      "integrity": "sha512-vHe7wZ4NOXVfkoRb8T5otiENVlT7a3IAiw7H5M2+GO+9CDgcVUUsX1zalAztCmwyOr2RUTGJdgB+ZvSVqmdHmg==",
+       "peer": true
+     },
+     "node_modules/@sideway/pinpoint": {
+@@ -2431,6 +2431,24 @@
+         "node": ">=0.10.0"
+       }
+     },
++    "node_modules/array-filter": {
++      "version": "0.0.1",
++      "resolved": "https://registry.npmjs.org/array-filter/-/array-filter-0.0.1.tgz",
++      "integrity": "sha1-fajPLiZijtcygDWB/SH2fKzS7uw=",
++      "peer": true
++    },
++    "node_modules/array-map": {
++      "version": "0.0.0",
++      "resolved": "https://registry.npmjs.org/array-map/-/array-map-0.0.0.tgz",
++      "integrity": "sha1-iKK6tz0c97zVwbEYoAP2b2ZfpmI=",
++      "peer": true
++    },
++    "node_modules/array-reduce": {
++      "version": "0.0.0",
++      "resolved": "https://registry.npmjs.org/array-reduce/-/array-reduce-0.0.0.tgz",
++      "integrity": "sha1-FziZ0//Rx9k4PkR5Ul2+J4yrXys=",
++      "peer": true
++    },
+     "node_modules/array-unique": {
+       "version": "0.3.2",
+       "resolved": "https://registry.npmjs.org/array-unique/-/array-unique-0.3.2.tgz",
+@@ -3282,9 +3300,9 @@
+       }
+     },
+     "node_modules/decode-uri-component": {
+-      "version": "0.2.2",
+-      "resolved": "https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.2.2.tgz",
+-      "integrity": "sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==",
++      "version": "0.2.0",
++      "resolved": "https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.2.0.tgz",
++      "integrity": "sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=",
+       "peer": true,
+       "engines": {
+         "node": ">=0.10"
+@@ -4727,10 +4745,13 @@
+       "peer": true
+     },
+     "node_modules/json5": {
+-      "version": "2.2.3",
+-      "resolved": "https://registry.npmjs.org/json5/-/json5-2.2.3.tgz",
+-      "integrity": "sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==",
++      "version": "2.2.0",
++      "resolved": "https://registry.npmjs.org/json5/-/json5-2.2.0.tgz",
++      "integrity": "sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==",
+       "peer": true,
++      "dependencies": {
++        "minimist": "^1.2.5"
++      },
+       "bin": {
+         "json5": "lib/cli.js"
+       },
+@@ -4747,6 +4768,15 @@
+         "graceful-fs": "^4.1.6"
+       }
+     },
++    "node_modules/jsonify": {
++      "version": "0.0.0",
++      "resolved": "https://registry.npmjs.org/jsonify/-/jsonify-0.0.0.tgz",
++      "integrity": "sha1-LHS27kHZPKUbe1qu6PUDYx0lKnM=",
++      "peer": true,
++      "engines": {
++        "node": "*"
++      }
++    },
+     "node_modules/kind-of": {
+       "version": "6.0.3",
+       "resolved": "https://registry.npmjs.org/kind-of/-/kind-of-6.0.3.tgz",
+@@ -5423,9 +5453,9 @@
+       }
+     },
+     "node_modules/minimatch": {
+-      "version": "3.1.2",
+-      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz",
+-      "integrity": "sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==",
++      "version": "3.0.4",
++      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.0.4.tgz",
++      "integrity": "sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==",
+       "peer": true,
+       "dependencies": {
+         "brace-expansion": "^1.1.7"
+@@ -6970,12 +7000,15 @@
+       }
+     },
+     "node_modules/shell-quote": {
+-      "version": "1.7.4",
+-      "resolved": "https://registry.npmjs.org/shell-quote/-/shell-quote-1.7.4.tgz",
+-      "integrity": "sha512-8o/QEhSSRb1a5i7TFR0iM4G16Z0vYB2OQVs4G3aAFXjn3T6yEx8AZxy1PgDF7I00LZHYA3WxaSYIf5e5sAX8Rw==",
++      "version": "1.6.1",
++      "resolved": "https://registry.npmjs.org/shell-quote/-/shell-quote-1.6.1.tgz",
++      "integrity": "sha1-9HgZSczkAmlxJ0MOo7PFR29IF2c=",
+       "peer": true,
+-      "funding": {
+-        "url": "https://github.com/sponsors/ljharb"
++      "dependencies": {
++        "array-filter": "~0.0.0",
++        "array-map": "~0.0.0",
++        "array-reduce": "~0.0.0",
++        "jsonify": "~0.0.0"
+       }
+     },
+     "node_modules/signal-exit": {
+@@ -9659,9 +9692,9 @@
+       }
+     },
+     "@react-native-community/cli-tools": {
+-      "version": "6.2.1",
+-      "resolved": "https://registry.npmjs.org/@react-native-community/cli-tools/-/cli-tools-6.2.1.tgz",
+-      "integrity": "sha512-7RbOkZLT/3YG8CAYYM70ajRKIOgVxK/b4t9KNsPq+2uen99MGezfeglC8s1cs3vBNVVxCo0a2JbXg18bUd8eqA==",
++      "version": "6.2.0",
++      "resolved": "https://registry.npmjs.org/@react-native-community/cli-tools/-/cli-tools-6.2.0.tgz",
++      "integrity": "sha512-08ssz4GMEnRxC/1FgTTN/Ud7mExQi5xMphItPjfHiTxpZPhrFn+IMx6mya0ncFEhhxQ207wYlJMRLPRRdBZ8oA==",
+       "peer": true,
+       "requires": {
+         "appdirsjs": "^1.2.4",
+@@ -9671,7 +9704,7 @@
+         "node-fetch": "^2.6.0",
+         "open": "^6.2.0",
+         "semver": "^6.3.0",
+-        "shell-quote": "^1.7.3"
++        "shell-quote": "1.6.1"
+       }
+     },
+     "@react-native-community/cli-types": {
+@@ -9711,9 +9744,9 @@
+       }
+     },
+     "@sideway/formula": {
+-      "version": "3.0.1",
+-      "resolved": "https://registry.npmjs.org/@sideway/formula/-/formula-3.0.1.tgz",
+-      "integrity": "sha512-/poHZJJVjx3L+zVD6g9KgHfYnb443oi7wLu/XKojDviHy6HOEOA6z1Trk5aR1dGcmPenJEgb2sK2I80LeS3MIg==",
++      "version": "3.0.0",
++      "resolved": "https://registry.npmjs.org/@sideway/formula/-/formula-3.0.0.tgz",
++      "integrity": "sha512-vHe7wZ4NOXVfkoRb8T5otiENVlT7a3IAiw7H5M2+GO+9CDgcVUUsX1zalAztCmwyOr2RUTGJdgB+ZvSVqmdHmg==",
+       "peer": true
+     },
+     "@sideway/pinpoint": {
+@@ -9876,6 +9909,24 @@
+       "integrity": "sha1-45sJrqne+Gao8gbiiK9jkZuuOcQ=",
+       "peer": true
+     },
++    "array-filter": {
++      "version": "0.0.1",
++      "resolved": "https://registry.npmjs.org/array-filter/-/array-filter-0.0.1.tgz",
++      "integrity": "sha1-fajPLiZijtcygDWB/SH2fKzS7uw=",
++      "peer": true
++    },
++    "array-map": {
++      "version": "0.0.0",
++      "resolved": "https://registry.npmjs.org/array-map/-/array-map-0.0.0.tgz",
++      "integrity": "sha1-iKK6tz0c97zVwbEYoAP2b2ZfpmI=",
++      "peer": true
++    },
++    "array-reduce": {
++      "version": "0.0.0",
++      "resolved": "https://registry.npmjs.org/array-reduce/-/array-reduce-0.0.0.tgz",
++      "integrity": "sha1-FziZ0//Rx9k4PkR5Ul2+J4yrXys=",
++      "peer": true
++    },
+     "array-unique": {
+       "version": "0.3.2",
+       "resolved": "https://registry.npmjs.org/array-unique/-/array-unique-0.3.2.tgz",
+@@ -10551,9 +10602,9 @@
+       "peer": true
+     },
+     "decode-uri-component": {
+-      "version": "0.2.2",
+-      "resolved": "https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.2.2.tgz",
+-      "integrity": "sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==",
++      "version": "0.2.0",
++      "resolved": "https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.2.0.tgz",
++      "integrity": "sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=",
+       "peer": true
+     },
+     "deepmerge": {
+@@ -11701,10 +11752,13 @@
+       "peer": true
+     },
+     "json5": {
+-      "version": "2.2.3",
+-      "resolved": "https://registry.npmjs.org/json5/-/json5-2.2.3.tgz",
+-      "integrity": "sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==",
+-      "peer": true
++      "version": "2.2.0",
++      "resolved": "https://registry.npmjs.org/json5/-/json5-2.2.0.tgz",
++      "integrity": "sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==",
++      "peer": true,
++      "requires": {
++        "minimist": "^1.2.5"
++      }
+     },
+     "jsonfile": {
+       "version": "4.0.0",
+@@ -11715,6 +11769,12 @@
+         "graceful-fs": "^4.1.6"
+       }
+     },
++    "jsonify": {
++      "version": "0.0.0",
++      "resolved": "https://registry.npmjs.org/jsonify/-/jsonify-0.0.0.tgz",
++      "integrity": "sha1-LHS27kHZPKUbe1qu6PUDYx0lKnM=",
++      "peer": true
++    },
+     "kind-of": {
+       "version": "6.0.3",
+       "resolved": "https://registry.npmjs.org/kind-of/-/kind-of-6.0.3.tgz",
+@@ -12310,9 +12370,9 @@
+       "peer": true
+     },
+     "minimatch": {
+-      "version": "3.1.2",
+-      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz",
+-      "integrity": "sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==",
++      "version": "3.0.4",
++      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.0.4.tgz",
++      "integrity": "sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==",
+       "peer": true,
+       "requires": {
+         "brace-expansion": "^1.1.7"
+@@ -13538,10 +13598,16 @@
+       "peer": true
+     },
+     "shell-quote": {
+-      "version": "1.7.4",
+-      "resolved": "https://registry.npmjs.org/shell-quote/-/shell-quote-1.7.4.tgz",
+-      "integrity": "sha512-8o/QEhSSRb1a5i7TFR0iM4G16Z0vYB2OQVs4G3aAFXjn3T6yEx8AZxy1PgDF7I00LZHYA3WxaSYIf5e5sAX8Rw==",
+-      "peer": true
++      "version": "1.6.1",
++      "resolved": "https://registry.npmjs.org/shell-quote/-/shell-quote-1.6.1.tgz",
++      "integrity": "sha1-9HgZSczkAmlxJ0MOo7PFR29IF2c=",
++      "peer": true,
++      "requires": {
++        "array-filter": "~0.0.0",
++        "array-map": "~0.0.0",
++        "array-reduce": "~0.0.0",
++        "jsonify": "~0.0.0"
++      }
+     },
+     "signal-exit": {
+       "version": "3.0.6",
+diff --git a/node_modules/react-native-fingerprint-scanner/react-native.config.js b/node_modules/react-native-fingerprint-scanner/react-native.config.js
+new file mode 100644
+index 0000000..5f794ab
+--- /dev/null
++++ b/node_modules/react-native-fingerprint-scanner/react-native.config.js
+@@ -0,0 +1,11 @@
++module.exports = {
++  dependency: {
++    platforms: {
++      ios: {},
++      android: {},
++    },
++    assets: [],
++    // hooks are considered anti-pattern, please avoid them
++    hooks: {},
++  },
++};

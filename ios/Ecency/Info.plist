@@ -57,8 +57,16 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAllowsArbitraryLoads</key>
+	<false/>
+	<key>NSAllowsLocalNetworking</key>
+	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>hivesigner.com</key>
@@ -68,10 +76,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSAllowsArbitraryLoads</key>
-	<false/>
-	<key>NSAllowsLocalNetworking</key>
-	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Ecency requires access to your camera to let you insert pictures to content you are creating.</string>
 	<key>NSFaceIDUsageDescription</key>
