@@ -23,7 +23,7 @@ buildscript {
         googlePlayServicesVisionVersion = "17.0.2"
         googlePlayServicesVersion = "16.+"
         firebaseVersion = "17.3.4"
-        
+        FLIPPER_VERSION="0.212.0"
     }
     repositories {
         google()
