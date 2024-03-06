@@ -3,7 +3,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { createMigrate, createTransform, persistReducer, persistStore } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Reactotron from '../../../reactotron-config';
 
 import reducers from '../reducers';
 import MigrationHelpers from '../../utils/migrationHelpers';
@@ -53,8 +52,11 @@ let enhancers;
 if (__DEV__) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const createDebugger = require('redux-flipper').default;
+  const Reactotron = require('../../../reactotron-config').default;
   middleware.push(createDebugger());
-  enhancers = compose(applyMiddleware(...middleware), Reactotron.createEnhancer());
+  enhancers = compose(
+    applyMiddleware(...middleware), 
+    Reactotron.createEnhancer());
 } else {
   enhancers = applyMiddleware(...middleware);
 }
