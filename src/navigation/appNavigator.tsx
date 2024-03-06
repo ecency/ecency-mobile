@@ -19,11 +19,10 @@ export const AppNavigator = () => {
     RNBootSplash.hide({ fade: true });
   };
 
-  //TODO: removed feed for testing
-  const _initRoute = ROUTES.SCREENS.FEED;
-    // !lastAppVersion || parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion)
-    //   ? ROUTES.SCREENS.WELCOME
-    //   : ROUTES.SCREENS.FEED;
+  const _initRoute =
+    !lastAppVersion || parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion)
+      ? ROUTES.SCREENS.WELCOME
+      : ROUTES.SCREENS.FEED;
 
   return (
     <NavigationContainer ref={navigationRef} onReady={_onReady}>
