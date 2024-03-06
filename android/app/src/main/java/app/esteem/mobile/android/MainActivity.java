@@ -3,7 +3,8 @@ package app.esteem.mobile.android;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
-import com.facebook.react.defaults.DefaultReactActivityDelegate;;
+import com.facebook.react.defaults.DefaultReactActivityDelegate;
+import expo.modules.ReactActivityDelegateWrapper;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -22,11 +23,19 @@ public class MainActivity extends ReactActivity {
 
   @Override
   protected ReactActivityDelegate createReactActivityDelegate() {
-    return new DefaultReactActivityDelegate(
-        this,
-        getMainComponentName(),
-        // If you opted-in for the New Architecture, we enable the Fabric Renderer.
-        DefaultNewArchitectureEntryPoint.getFabricEnabled());
+
+    DefaultReactActivityDelegate defDelegate = new DefaultReactActivityDelegate(
+            this,
+            getMainComponentName(),
+            // If you opted-in for the New Architecture, we enable the Fabric Renderer.
+            DefaultNewArchitectureEntryPoint.getFabricEnabled());
+
+    ReactActivityDelegateWrapper delegate = new ReactActivityDelegateWrapper(
+            this,
+            BuildConfig.IS_NEW_ARCHITECTURE_ENABLED,
+            defDelegate);
+
+    return delegate;
   }
   
 
