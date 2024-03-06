@@ -11,6 +11,10 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
 
+import android.content.res.Configuration;
+import expo.modules.ApplicationLifecycleDispatcher;
+import expo.modules.ReactNativeHostWrapper;
+
 import androidx.multidex.MultiDexApplication;
 import com.getkeepsafe.relinker.ReLinker;
 import com.bugsnag.android.Bugsnag;
@@ -29,7 +33,8 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
 
   
 
-  private final ReactNativeHost mReactNativeHost = new DefaultReactNativeHost(this) {
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHostWrapper(this, new DefaultReactNativeHost(this) {
+
     @Override
     public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
@@ -59,7 +64,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     protected Boolean isHermesEnabled() {
       return BuildConfig.IS_HERMES_ENABLED;
     }
-  };
+  });
 
   @Override
   public ReactNativeHost getReactNativeHost() {
@@ -85,5 +90,14 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
       DefaultNewArchitectureEntryPoint.load();
     }
     // ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    ApplicationLifecycleDispatcher.onApplicationCreate(this);
+
   }
+
+  @Override
+  public void onConfigurationChanged(Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
+    ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig);
+  }
+
 }
