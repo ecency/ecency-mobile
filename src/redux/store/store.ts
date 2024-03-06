@@ -52,10 +52,11 @@ let enhancers;
 if (__DEV__) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const createDebugger = require('redux-flipper').default;
+  const Reactotron = require('../../../reactotron-config').default;
   middleware.push(createDebugger());
   enhancers = compose(
     applyMiddleware(...middleware), 
-    require('../../../reactotron-config').createEnhancer());
+    Reactotron.createEnhancer());
 } else {
   enhancers = applyMiddleware(...middleware);
 }
