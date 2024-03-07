@@ -17,12 +17,22 @@ node -v
 
 printf "end of post-clone.sh\n"
 
+echo "Selected Platform to buit"
+echo "$PLATFORM"
 
-# Read package.json into a variable
-package_json=$(<package.json)
+#check if platform to be built for is android
+if [ "$PLATFORM" == "Android" ]; then
 
-# Remove 'pod install' from the current postinstall script
-updated_package_json=$(echo "$package_json" | sed 's/ && cd ios && pod install//g')
+    echo "Android platform detected"
+    # Read package.json into a variable
+    package_json=$(<package.json)
 
-# Update package.json with the modified postinstall script
-echo "$updated_package_json" > package.json
+    # Remove 'pod install' from the current postinstall script
+    updated_package_json=$(echo "$package_json" | sed 's/ && cd ios && pod install//g')
+
+    # Update package.json with the modified postinstall script
+    echo "$updated_package_json" > package.json
+    
+elif [ "$PLATFORM" == "iOS" ]; then
+    echo "Building for iOS"
+fi
