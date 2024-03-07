@@ -5,7 +5,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { injectIntl, useIntl } from 'react-intl';
 
 // Images
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import LIGHT_COVER_IMAGE from '../../assets/default_cover_image.png';
 import DARK_COVER_IMAGE from '../../assets/dark_cover_image.png';
@@ -56,7 +56,7 @@ const ProfileEditFormView = ({
         enableOnAndroid={true}
       >
         <TouchableOpacity style={styles.coverImgWrapper} onPress={showImageUploadActions}>
-          <FastImage
+          <ExpoImage
             style={styles.coverImg}
             source={
               coverUrl

@@ -1,7 +1,7 @@
 import { get, isArray } from 'lodash';
 import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 
 // Utils
 import parseAsset from './parseAsset';
@@ -92,7 +92,7 @@ export const parsePost = (
 
   // cache image
   if (post.image) {
-    FastImage.preload([{ uri: post.image }]);
+    ExpoImage.prefetch([post.image]);
   }
 
   return post;

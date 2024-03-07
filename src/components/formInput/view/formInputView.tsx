@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   Keyboard,
 } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import Popover, { usePopover } from 'react-native-modal-popover';
 
 // Components
@@ -162,13 +162,12 @@ const FormInputView = ({
     >
       {isFirstImage && value && value.length > 2 ? (
         <View style={{ flex: 0.15 }}>
-          <FastImage
+          <ExpoImage
             style={styles.firstImage}
             source={{
               uri: getResizedAvatar(value),
-              priority: FastImage.priority.high,
             }}
-            resizeMode={FastImage.resizeMode.cover}
+            contentFit="cover"
           />
         </View>
       ) : (

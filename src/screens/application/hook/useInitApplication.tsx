@@ -13,7 +13,7 @@ import notifee, { EventType } from '@notifee/react-native';
 import { isEmpty, some, get } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
 import BackgroundTimer from 'react-native-background-timer';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import {
   handleDeepLink,
@@ -159,7 +159,7 @@ export const useInitApplication = () => {
   };
 
   const _handleLowMemoryWarning = () => {
-    FastImage.clearMemoryCache();
+    ExpoImage.clearMemoryCache();
   };
 
   const _pushNavigate = (notification) => {

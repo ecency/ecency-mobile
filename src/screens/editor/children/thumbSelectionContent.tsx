@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import { FlatList } from 'react-native-gesture-handler';
 import ESStyleSheet from 'react-native-extended-stylesheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -64,7 +64,7 @@ const ThumbSelectionContent = ({
 
     return (
       <TouchableOpacity onPress={() => _onPress()}>
-        <FastImage source={{ uri: item }} style={styles.thumbStyle} resizeMode="cover" />
+        <ExpoImage source={{ uri: item }} style={styles.thumbStyle} contentFit="cover" />
         {isSelected && (
           <Animated.View entering={ZoomIn} style={styles.checkContainer}>
             <Icon

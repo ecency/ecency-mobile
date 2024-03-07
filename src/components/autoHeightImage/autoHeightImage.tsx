@@ -2,7 +2,7 @@ import { proxifyImageSrc } from '@ecency/render-helper';
 import React, { useMemo, useState } from 'react';
 import { Platform, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 
 interface AutoHeightImageProps {
   contentWidth: number;
@@ -70,15 +70,15 @@ export const AutoHeightImage = ({
 
   const _onLoad = (evt) => {
     setOnLoadCalled(true);
-    _setImageBounds(evt.nativeEvent.width, evt.nativeEvent.height);
+    _setImageBounds(evt.source.width, evt.source.height);
   };
 
   return (
     <TouchableOpacity onPress={onPress} disabled={isAnchored} activeOpacity={activeOpacity || 1}>
-      <FastImage
+      <ExpoImage
         style={imgStyle}
         source={{ uri: imgUrl }}
-        resizeMode={FastImage.resizeMode.contain}
+        contentFit={"contain"}
         onLoad={_onLoad}
       />
     </TouchableOpacity>
