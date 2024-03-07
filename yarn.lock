@@ -6871,6 +6871,13 @@ expo-font@~11.10.3:
   dependencies:
     fontfaceobserver "^2.1.0"
 
+expo-image@~1.10.6:
+  version "1.10.6"
+  resolved "https://registry.yarnpkg.com/expo-image/-/expo-image-1.10.6.tgz#b0e54d31d97742505296c076a5f18d094ba9a8cc"
+  integrity sha512-vcnAIym1eU8vQgV1re1E7rVQZStJimBa4aPDhjFfzMzbddAF7heJuagyewiUkTzbZUwYzPaZAie6VJPyWx9Ueg==
+  dependencies:
+    "@react-native/assets-registry" "~0.73.1"
+
 expo-keep-awake@~12.8.2:
   version "12.8.2"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-12.8.2.tgz#6cfdf8ad02b5fa130f99d4a1eb98e459d5b4332e"
