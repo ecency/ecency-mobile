@@ -2,7 +2,7 @@ import React, { useImperativeHandle, useRef, useState, forwardRef } from 'react'
 import { FlatList } from 'react-native-gesture-handler';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 
 import { View, Text, Alert, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
@@ -54,10 +54,10 @@ const ThumbSelectionModal = ({ onThumbSelection, thumbUrl }: ThumbSelectionModal
 
     return (
       <TouchableOpacity onPress={() => _onPress()}>
-        <FastImage
+        <ExpoImage
           source={{ uri: item }}
           style={{ ...styles.thumbStyle, ...selectedStyle }}
-          resizeMode="cover"
+          contentFit="cover"
         />
       </TouchableOpacity>
     );

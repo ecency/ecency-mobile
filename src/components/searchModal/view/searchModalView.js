@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, Text, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import { get, has } from 'lodash';
 
 // Components
@@ -32,7 +32,7 @@ class SearchModalView extends PureComponent {
         <View style={styles.searchItems}>
           <View style={styles.searchItemImageWrapper}>
             {item.image && (
-              <FastImage
+              <ExpoImage
                 source={{
                   uri: item.image,
                 }}

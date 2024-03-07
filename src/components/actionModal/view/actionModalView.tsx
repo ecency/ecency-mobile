@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import { View, Text } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import ActionSheet from 'react-native-actions-sheet';
 import { useIntl } from 'react-intl';
 import styles from './actionModalStyles';
@@ -43,7 +43,7 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
     <View style={styles.container}>
       {headerContent && headerContent}
       {headerImage && (
-        <FastImage source={headerImage} style={styles.imageStyle} resizeMode="contain" />
+        <ExpoImage source={headerImage} style={styles.imageStyle} contentFit="contain" />
       )}
 
       <View style={styles.textContainer}>

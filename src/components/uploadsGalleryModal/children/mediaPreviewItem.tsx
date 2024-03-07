@@ -2,7 +2,7 @@ import React from 'react';
 import { proxifyImageSrc } from '@ecency/render-helper';
 import { ActivityIndicator, Platform, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import { default as AnimatedView, ZoomIn } from 'react-native-reanimated';
 import { useIntl } from 'react-intl';
 import { Icon } from '../..';
@@ -80,7 +80,7 @@ export const MediaPreviewItem = ({
   return (
     <TouchableOpacity onPress={onPress} disabled={isDeleting}>
       <View style={transformStyle}>
-        <FastImage
+        <ExpoImage
           source={{ uri: thumbUrl }}
           style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
         />

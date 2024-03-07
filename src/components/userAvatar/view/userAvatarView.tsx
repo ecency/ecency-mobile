@@ -1,7 +1,7 @@
 import React from 'react';
 import { ActivityIndicator, TouchableOpacity, ViewStyle } from 'react-native';
 
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './userAvatarStyles';
 import RootNavigation from '../../../navigation/rootNavigation';
@@ -56,7 +56,6 @@ const UserAvatarView = ({
         uri: `${uri}${
           username === curUsername && avatarCacheStamp ? `?stamp=${avatarCacheStamp}` : ''
         }`,
-        cache: FastImage.cacheControl.web,
       }
     : DEFAULT_IMAGE;
 
@@ -70,7 +69,7 @@ const UserAvatarView = ({
 
   return (
     <TouchableOpacity disabled={noAction} onPress={() => _handleOnAvatarPress(username)}>
-      <FastImage
+      <ExpoImage
         style={[
           styles.avatar,
           style,

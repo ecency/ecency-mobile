@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { Text, View, TouchableOpacity } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { IconButton } from '../..';
@@ -43,7 +43,7 @@ const ScrollTopPopup = ({
               .slice(0, 4)
               .map((url, index) =>
                 index < 3 ? (
-                  <FastImage
+                  <ExpoImage
                     key={`image_bubble_${url}`}
                     source={{ uri: url }}
                     style={[styles.popupImage, { zIndex: 10 - index }]}

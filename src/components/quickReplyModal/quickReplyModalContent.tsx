@@ -14,7 +14,7 @@ import { useIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
 import { get, debounce } from 'lodash';
 import { postBodySummary } from '@ecency/render-helper';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import styles from './quickReplyModalStyles';
 import {
   Icon,
@@ -265,7 +265,7 @@ export const QuickReplyModalContent = forwardRef(
 
       const _mediaThumb = !mediaModalVisible && mediaUrls.length > 0 && (
         <TouchableOpacity onPress={_onPress} disabled={isUploading}>
-          <FastImage source={{ uri: mediaUrls[0] }} style={styles.mediaItem} />
+          <ExpoImage source={{ uri: mediaUrls[0] }} style={styles.mediaItem} />
           {_minusIcon}
         </TouchableOpacity>
       );
