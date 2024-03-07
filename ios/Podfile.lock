@@ -28,13 +28,13 @@ PODS:
     - ExpoModulesCore
   - EXFont (11.10.3):
     - ExpoModulesCore
-  - Expo (50.0.8):
+  - Expo (50.0.11):
     - ExpoModulesCore
-  - ExpoFileSystem (16.0.7):
+  - ExpoFileSystem (16.0.8):
     - ExpoModulesCore
   - ExpoKeepAwake (12.8.2):
     - ExpoModulesCore
-  - ExpoModulesCore (1.11.9):
+  - ExpoModulesCore (1.11.10):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1828,10 +1828,10 @@ SPEC CHECKSUMS:
   DoubleConversion: fea03f2699887d960129cc54bba7e52542b6f953
   EXConstants: 988aa430ca0f76b43cd46b66e7fae3287f9cc2fc
   EXFont: f20669cb266ef48b004f1eb1f2b20db96cd1df9f
-  Expo: c2d3edc1b1e833e26d837b03aa46d9137ca63302
-  ExpoFileSystem: c7488590959bf85ebc114909eb8186cbd62e3a25
+  Expo: bbffa600c41f904151a925e5a214d1f4c5a79794
+  ExpoFileSystem: eecaf6796aed0f4dd20042dc2ca2cac6c4bc1185
   ExpoKeepAwake: 0f5cad99603a3268e50af9a6eb8b76d0d9ac956c
-  ExpoModulesCore: 1391529545de72f7f64ecabc7adb912306ab4d34
+  ExpoModulesCore: b2ae7a3fc6193556273c5db90065fbe7e11c7a60
   FBLazyVector: fbc4957d9aa695250b55d879c1d86f79d7e69ab4
   FBReactNativeSpec: 86de768f89901ef6ed3207cd686362189d64ac88
   Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
