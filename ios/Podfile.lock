@@ -18,7 +18,7 @@ PODS:
   - AppCenterReactNativeShared (5.0.1):
     - AppCenter/Core (= 5.0.4)
   - boost (1.83.0)
-  - BugsnagReactNative (7.22.6):
+  - BugsnagReactNative (7.22.2):
     - React-Core
   - BVLinearGradient (2.8.3):
     - React-Core
@@ -32,12 +32,6 @@ PODS:
     - ExpoModulesCore
   - ExpoFileSystem (16.0.8):
     - ExpoModulesCore
-  - ExpoImage (1.10.6):
-    - ExpoModulesCore
-    - SDWebImage (~> 5.17.0)
-    - SDWebImageAVIFCoder (~> 0.10.1)
-    - SDWebImageSVGCoder (~> 1.7.0)
-    - SDWebImageWebPCoder (~> 0.13.0)
   - ExpoKeepAwake (12.8.2):
     - ExpoModulesCore
   - ExpoModulesCore (1.11.10):
@@ -189,51 +183,33 @@ PODS:
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (~> 2.30908.0)
-  - GoogleDataTransport (9.4.1):
+  - GoogleDataTransport (9.3.0):
     - GoogleUtilities/Environment (~> 7.7)
-    - nanopb (< 2.30911.0, >= 2.30908.0)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/AppDelegateSwizzler (7.13.0):
+  - GoogleUtilities/AppDelegateSwizzler (7.12.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-    - GoogleUtilities/Privacy
-  - GoogleUtilities/Environment (7.13.0):
-    - GoogleUtilities/Privacy
+  - GoogleUtilities/Environment (7.12.0):
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.13.0):
+  - GoogleUtilities/Logger (7.12.0):
     - GoogleUtilities/Environment
-    - GoogleUtilities/Privacy
-  - GoogleUtilities/MethodSwizzler (7.13.0):
+  - GoogleUtilities/MethodSwizzler (7.12.0):
     - GoogleUtilities/Logger
-    - GoogleUtilities/Privacy
-  - GoogleUtilities/Network (7.13.0):
+  - GoogleUtilities/Network (7.12.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
-    - GoogleUtilities/Privacy
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.13.0)":
-    - GoogleUtilities/Privacy
-  - GoogleUtilities/Privacy (7.13.0)
-  - GoogleUtilities/Reachability (7.13.0):
+  - "GoogleUtilities/NSData+zlib (7.12.0)"
+  - GoogleUtilities/Reachability (7.12.0):
     - GoogleUtilities/Logger
-    - GoogleUtilities/Privacy
-  - GoogleUtilities/UserDefaults (7.13.0):
+  - GoogleUtilities/UserDefaults (7.12.0):
     - GoogleUtilities/Logger
-    - GoogleUtilities/Privacy
   - hermes-engine (0.73.2):
     - hermes-engine/Pre-built (= 0.73.2)
   - hermes-engine/Pre-built (0.73.2)
-  - libaom (3.0.0):
-    - libvmaf (>= 2.2.0)
-  - libavif (0.11.1):
-    - libavif/libaom (= 0.11.1)
-  - libavif/core (0.11.1)
-  - libavif/libaom (0.11.1):
-    - libaom (>= 2.0.0)
-    - libavif/core
   - libevent (2.1.12)
-  - libvmaf (2.3.1)
   - libwebp (1.3.2):
     - libwebp/demux (= 1.3.2)
     - libwebp/mux (= 1.3.2)
@@ -246,11 +222,9 @@ PODS:
   - libwebp/sharpyuv (1.3.2)
   - libwebp/webp (1.3.2):
     - libwebp/sharpyuv
-  - lottie-ios (4.4.1)
-  - lottie-react-native (6.7.0):
-    - glog
-    - lottie-ios (~> 4.4.1)
-    - RCT-Folly (= 2022.05.16.00)
+  - lottie-ios (4.3.4)
+  - lottie-react-native (6.4.1):
+    - lottie-ios (~> 4.3.3)
     - React-Core
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
@@ -260,7 +234,7 @@ PODS:
   - OpenSSL-Universal (1.1.1100)
   - Permission-Camera (3.10.1):
     - RNPermissions
-  - PromisesObjC (2.4.0)
+  - PromisesObjC (2.3.1)
   - RCT-Folly (2022.05.16.00):
     - boost
     - DoubleConversion
@@ -1146,7 +1120,7 @@ PODS:
     - React-Core
   - react-native-create-thumbnail (1.6.4):
     - React-Core
-  - react-native-date-picker (4.4.0):
+  - react-native-date-picker (4.3.4):
     - React-Core
   - react-native-fingerprint-scanner (6.0.0):
     - React
@@ -1154,7 +1128,7 @@ PODS:
     - React-Core
   - react-native-heic-converter (1.3.2):
     - React
-  - react-native-netinfo (11.3.1):
+  - react-native-netinfo (11.2.1):
     - React-Core
   - react-native-orientation-locker (1.6.0):
     - React-Core
@@ -1166,7 +1140,7 @@ PODS:
     - React-Core
   - react-native-restart (0.0.24):
     - React-Core
-  - react-native-safe-area-context (4.9.0):
+  - react-native-safe-area-context (4.8.0):
     - React-Core
   - react-native-udp (4.1.7):
     - CocoaAsyncSocket
@@ -1349,20 +1323,20 @@ PODS:
     - React-perflogger (= 0.73.2)
   - rn-fetch-blob (0.12.0):
     - React-Core
-  - RNBootSplash (5.4.1):
+  - RNBootSplash (5.1.4):
     - React-Core
-  - RNCAsyncStorage (1.22.3):
+  - RNCAsyncStorage (1.21.0):
     - React-Core
-  - RNCClipboard (1.13.2):
+  - RNCClipboard (1.13.0):
     - React-Core
   - RNCPushNotificationIOS (1.11.0):
     - React-Core
-  - RNDeviceInfo (10.13.1):
+  - RNDeviceInfo (10.12.0):
     - React-Core
   - RNFastImage (8.6.3):
     - React-Core
-    - SDWebImage (~> 5.17.0)
-    - SDWebImageWebPCoder (~> 0.13.0)
+    - SDWebImage (~> 5.19.0)
+    - SDWebImageWebPCoder (~> 0.8.4)
   - RNFBAnalytics (14.12.0):
     - Firebase/Analytics (= 8.15.0)
     - React-Core
@@ -1381,11 +1355,11 @@ PODS:
     - RNFBApp
   - RNFlashList (1.6.3):
     - React-Core
-  - RNGestureHandler (2.15.0):
+  - RNGestureHandler (2.14.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - RNIap (12.13.0):
+  - RNIap (12.12.0):
     - React-Core
   - RNImageCropPicker (0.40.3):
     - React-Core
@@ -1396,16 +1370,16 @@ PODS:
     - React-Core
     - React-RCTImage
     - TOCropViewController
-  - RNNotifee (7.8.2):
+  - RNNotifee (7.8.0):
     - React-Core
-    - RNNotifee/NotifeeCore (= 7.8.2)
-  - RNNotifee/NotifeeCore (7.8.2):
+    - RNNotifee/NotifeeCore (= 7.8.0)
+  - RNNotifee/NotifeeCore (7.8.0):
     - React-Core
   - RNOS (1.2.6):
     - React
   - RNPermissions (3.10.1):
     - React-Core
-  - RNReanimated (3.7.2):
+  - RNReanimated (3.6.1):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1419,21 +1393,16 @@ PODS:
   - RNTusClient (1.1.0):
     - React-Core
     - TUSKit (~> 1.4.2)
-  - RNVectorIcons (10.0.3):
+  - RNVectorIcons (10.0.2):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - SDWebImage (5.17.0):
-    - SDWebImage/Core (= 5.17.0)
-  - SDWebImage/Core (5.17.0)
-  - SDWebImageAVIFCoder (0.10.1):
-    - libavif (>= 0.11.0)
-    - SDWebImage (~> 5.10)
-  - SDWebImageSVGCoder (1.7.0):
-    - SDWebImage/Core (~> 5.6)
-  - SDWebImageWebPCoder (0.13.0):
+  - SDWebImage (5.19.0):
+    - SDWebImage/Core (= 5.19.0)
+  - SDWebImage/Core (5.19.0)
+  - SDWebImageWebPCoder (0.8.5):
     - libwebp (~> 1.0)
-    - SDWebImage/Core (~> 5.17)
+    - SDWebImage/Core (~> 5.10)
   - SocketRocket (0.6.1)
   - TcpSockets (4.0.0):
     - React
@@ -1441,7 +1410,7 @@ PODS:
   - toolbar-android (0.2.1):
     - React
   - TUSKit (1.4.2)
-  - VisionCamera (3.9.1):
+  - VisionCamera (3.9.0):
     - React
     - React-callinvoker
     - React-Core
@@ -1459,7 +1428,6 @@ DEPENDENCIES:
   - EXFont (from `../node_modules/expo-font/ios`)
   - Expo (from `../node_modules/expo`)
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
-  - ExpoImage (from `../node_modules/expo-image/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
@@ -1607,18 +1575,13 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
-    - libaom
-    - libavif
     - libevent
-    - libvmaf
     - libwebp
     - lottie-ios
     - nanopb
     - OpenSSL-Universal
     - PromisesObjC
     - SDWebImage
-    - SDWebImageAVIFCoder
-    - SDWebImageSVGCoder
     - SDWebImageWebPCoder
     - SocketRocket
     - TOCropViewController
@@ -1647,8 +1610,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo"
   ExpoFileSystem:
     :path: "../node_modules/expo-file-system/ios"
-  ExpoImage:
-    :path: "../node_modules/expo-image/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
   ExpoModulesCore:
@@ -1850,7 +1811,7 @@ SPEC CHECKSUMS:
   appcenter-crashes: 266063788bcebd553e621344a54286395a8e2010
   AppCenterReactNativeShared: 22aea9046e80c449137f4e574ae1f229616e2358
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
-  BugsnagReactNative: 366a7e11c0bcf34842e54f40b15dd937cb267aa7
+  BugsnagReactNative: ca14503071d534fcfdcb5f2da08eca140963e5d0
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: fea03f2699887d960129cc54bba7e52542b6f953
@@ -1858,7 +1819,6 @@ SPEC CHECKSUMS:
   EXFont: f20669cb266ef48b004f1eb1f2b20db96cd1df9f
   Expo: bbffa600c41f904151a925e5a214d1f4c5a79794
   ExpoFileSystem: eecaf6796aed0f4dd20042dc2ca2cac6c4bc1185
-  ExpoImage: 8cf2d51de3d03b7e984e9b0ba8f19c0c22057001
   ExpoKeepAwake: 0f5cad99603a3268e50af9a6eb8b76d0d9ac956c
   ExpoModulesCore: b2ae7a3fc6193556273c5db90065fbe7e11c7a60
   FBLazyVector: fbc4957d9aa695250b55d879c1d86f79d7e69ab4
@@ -1881,20 +1841,17 @@ SPEC CHECKSUMS:
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
   GoogleAppMeasurement: 4c19f031220c72464d460c9daa1fb5d1acce958e
-  GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
-  GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
+  GoogleDataTransport: 57c22343ab29bc686febbf7cbb13bad167c2d8fe
+  GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
   hermes-engine: b361c9ef5ef3cda53f66e195599b47e1f84ffa35
-  libaom: 144606b1da4b5915a1054383c3a4459ccdb3c661
-  libavif: 84bbb62fb232c3018d6f1bab79beea87e35de7b7
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  libvmaf: 27f523f1e63c694d14d534cd0fddd2fab0ae8711
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
-  lottie-ios: e047b1d2e6239b787cc5e9755b988869cf190494
-  lottie-react-native: 36b4c75807716e499317b5c62f53e4d85c5e5c8a
+  lottie-ios: 3d98679b41fa6fd6aff2352b3953dbd3df8a397e
+  lottie-react-native: a2ae9c27c273b060b2affff2957bc0ff7fdca353
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   Permission-Camera: 9b70902f34a83c10e198d2d01f0e453e58842776
-  PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
+  PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   RCT-Folly: 7169b2b1c44399c76a47b5deaaba715eeeb476c0
   RCTRequired: 9b1e7e262745fb671e33c51c1078d093bd30e322
   RCTTypeSafety: a759e3b086eccf3e2cbf2493d22f28e082f958e6
@@ -1921,17 +1878,17 @@ SPEC CHECKSUMS:
   react-native-cameraroll: 17e0fd2d851dc27bd7c57d71ab5fcfd3e6e55e52
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
   react-native-create-thumbnail: e022bcdcba8a0b4529a50d3fa1a832ec921be39d
-  react-native-date-picker: ebcb936d72fc3bbde0dea47c6641e913523231ca
+  react-native-date-picker: db26a4dc48fe4e7c3c3afd5008519fad1091c524
   react-native-fingerprint-scanner: ac6656f18c8e45a7459302b84da41a44ad96dbbe
   react-native-flipper: c33a4995958ef12a2b2f8290d63bed7adeed7634
   react-native-heic-converter: 8f7cd7a143ef013a54540ef7ebbc232cecb4fa87
-  react-native-netinfo: bdb108d340cdb41875c9ced535977cac6d2ff321
+  react-native-netinfo: 8a7fd3f7130ef4ad2fb4276d5c9f8d3f28d2df3d
   react-native-orientation-locker: 4409c5b12b65f942e75449872b4f078b6f27af81
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-receive-sharing-intent: 62ab28c50e6ae56d32b9e841d7452091312a0bc7
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
   react-native-restart: 45c8dca02491980f2958595333cbccd6877cb57e
-  react-native-safe-area-context: b97eb6f9e3b7f437806c2ce5983f479f8eb5de4b
+  react-native-safe-area-context: d1c8161a1e9560f7066e8926a7d825eb57c5dab5
   react-native-udp: df79c3cb72c4e71240cd3ce4687bfb8a137140d5
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
   react-native-video: c26780b224543c62d5e1b2a7244a5cd1b50e8253
@@ -1957,38 +1914,36 @@ SPEC CHECKSUMS:
   React-utils: f5bc61e7ea3325c0732ae2d755f4441940163b85
   ReactCommon: 45b5d4f784e869c44a6f5a8fad5b114ca8f78c53
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
-  RNBootSplash: eff8239c4f795ce42a0604873aef3733aac0dedd
-  RNCAsyncStorage: 10591b9e0a91eaffee14e69b3721009759235125
-  RNCClipboard: 60fed4b71560d7bfe40e9d35dea9762b024da86d
+  RNBootSplash: 578bffadc64719c710d30780ec6ace905b0daf07
+  RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
+  RNCClipboard: 204b94473a99932e314b730a81363e0bf795a60d
   RNCPushNotificationIOS: 64218f3c776c03d7408284a819b2abfda1834bc8
-  RNDeviceInfo: 4f9c7cfd6b9db1b05eb919620a001cf35b536423
-  RNFastImage: 990fea28766c6b1093bed590b76d2cd3bdf370a7
+  RNDeviceInfo: db5c64a060e66e5db3102d041ebe3ef307a85120
+  RNFastImage: f3bbf7af65ccf6c3be1b28eb937dd41fb06da948
   RNFBAnalytics: ea1421b49a0bf5e5bb7274df4a330713d0e85d2e
   RNFBApp: e4439717c23252458da2b41b81b4b475c86f90c4
   RNFBDynamicLinks: 538840f6e3f58511f857d15df1bc25ed655dc283
   RNFBMessaging: 40dac204b4197a2661dec5be964780c6ec39bf65
   RNFlashList: 4b4b6b093afc0df60ae08f9cbf6ccd4c836c667a
-  RNGestureHandler: deda62b8339496ba721a45e0f3e2d7a319932cee
-  RNIap: ce1af5f33e92af3aa6c5c3d8fb601c624748ac03
+  RNGestureHandler: 61bfdfc05db9b79dd61f894dcd29d3dcc6db3c02
+  RNIap: 313ab52dde2bc1a25abb76cba70388e9b5f6a8c1
   RNImageCropPicker: e7ab6fb43d2fc3e84651e786ef4a080d63b0ed3d
-  RNNotifee: 8e2d3df3f0e9ce8f5d1fe4c967431138190b6175
+  RNNotifee: f3c01b391dd8e98e67f539f9a35a9cbcd3bae744
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNPermissions: 4e3714e18afe7141d000beae3755e5b5fb2f5e05
-  RNReanimated: 3850671fd0c67051ea8e1e648e8c3e86bf3a28eb
+  RNReanimated: 57f436e7aa3d277fbfed05e003230b43428157c0
   RNScreens: 5f4df9babb21d30723580377b5f52d9f9baf0005
   RNSVG: d7d7bc8229af3842c9cfc3a723c815a52cdd1105
   RNTusClient: b90393226531c118c4716a2b71128e3b9d9c77ee
-  RNVectorIcons: 210f910e834e3485af40693ad4615c1ec22fc02b
-  SDWebImage: 750adf017a315a280c60fde706ab1e552a3ae4e9
-  SDWebImageAVIFCoder: 8348fef6d0ec69e129c66c9fe4d74fbfbf366112
-  SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
-  SDWebImageWebPCoder: af09429398d99d524cae2fe00f6f0f6e491ed102
+  RNVectorIcons: 8cabd5809519015ed2c1cdb4ec83d563296bd5cc
+  SDWebImage: 981fd7e860af070920f249fd092420006014c3eb
+  SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   TcpSockets: 4ef55305239923b343ed0a378b1fac188b1373b0
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   toolbar-android: 2a73856e98b750d7e71ce4644d3f41cc98211719
   TUSKit: 4bcc2fe13e1b4d6c3bfbaca57d64e64c1be31201
-  VisionCamera: 52f98e7628f9deea3e311c3b6d4870bb44445e05
+  VisionCamera: 7a5c87805b13adaaa557132b44879ed1e1e39786
   Yoga: 13c8ef87792450193e117976337b8527b49e8c03
 
 PODFILE CHECKSUM: 6d3e6586d42468a95935db6d58480cb8ba9b2218
