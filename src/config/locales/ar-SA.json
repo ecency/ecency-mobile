@@ -381,7 +381,7 @@
     "signup": "انضم الآن",
     "signin_title": "للحصول على جميع فوائد إستخدم Ecency",
     "username": "إسم المستخدم",
-    "password": "password / private key",
+    "password": "كلمة المرور / المفتاح الخاص",
     "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "إلغاء",
     "login": "تسجيل الدخول",
@@ -395,9 +395,9 @@
     "deep_login_alert_body": "تحقق من تسجيل الدخول المباشر باستخدام رمز الوصول",
     "deep_login_url_expired": "انتهت صلاحية رابط تسجيل الدخول، الرجاء استخدام المفتاح الخاص أو كلمة المرور لتسجيل الدخول",
     "deep_login_malformed_url": "رابط تسجيل الدخول غير صحيح، يرجى استخدام المفتاح الخاص أو كلمة المرور لتسجيل الدخول",
-    "no_account_text": "Don't have an account?",
-    "signup_now": "Sign up now!",
-    "or": "OR"
+    "no_account_text": "ليس لديك حساب؟",
+    "signup_now": "اشترك الآن!",
+    "or": "أو"
   },
   "register": {
     "modal_title": "احصل على حساب Hive",
@@ -421,8 +421,8 @@
       "username_contains_underscore": "يجب ألا تحتوي على شرطة سفلية",
       "username_exists": "اسم المستخدم موجود بالفعل، جرب اسمًا مختلفًا"
     },
-    "have_account_text": "Already have an account?",
-    "login_here": "Login Here"
+    "have_account_text": "لديك حساب مسبقا؟",
+    "login_here": "تسجيل الدخول من هنا"
   },
   "home": {
     "feed": "المستجدات",
@@ -520,7 +520,7 @@
     "scheduled_for": "تم جدولته من أجل",
     "scheduled_immediate": "فوراً",
     "scheduled_later": "لاحقاً",
-    "schedule_video_unsupported": "Scheduling video posts not available",
+    "schedule_video_unsupported": "جدولة المشاركات بالفيديو غير متوفرة",
     "settings_title": "خياراتُ المَنشور",
     "done": "تم",
     "draft_save_title": "حفظ المسودة",
@@ -537,8 +537,8 @@
     "plain": "فارغ",
     "video": "فيديو",
     "image": "صورة",
-    "short_desc": "Short description",
-    "short_desc_placeholder": "Brief summary of content"
+    "short_desc": "وصف مختصر",
+    "short_desc_placeholder": "ملخص موجز للمحتوى"
   },
   "snippets": {
     "label_no_snippets": "لم يتم العثور على مقتطفات",
@@ -567,14 +567,14 @@
     "message_failed": "فشل في تحميل الصورة",
     "delete_failed": "فشل حذف الصورة",
     "failed_count": "فشل تحميل {failedCount} من إجمالي {totalCount} صورة (صور) محددة",
-    "publish_manual": "Ready",
-    "published": "Published",
-    "encoding_ipfs": "Encoding",
-    "encoding_preparing": "Preparing",
-    "deleted": "Deleted",
-    "start_upload": "START UPLOAD",
-    "uploading": "UPLOADING",
-    "select_thumb": "Select Thumbnail",
+    "publish_manual": "مستعد",
+    "published": "تم نشره",
+    "encoding_ipfs": "التشفير",
+    "encoding_preparing": "جاري الإعداد",
+    "deleted": "المحذوف",
+    "start_upload": "ابدأ التحميل",
+    "uploading": "تحميل",
+    "select_thumb": "اختيار الصورة المصغرة",
     "warn_vid_already_added": "",
     "warn_vid_in_process": ""
   },
@@ -598,9 +598,9 @@
     "continue": "متابعة",
     "okay": "حسناً",
     "done": "تم",
-    "notice": "Notice!",
-    "close": "CLOSE",
-    "later": "Later",
+    "notice": "إشعار!",
+    "close": "إغلاق",
+    "later": "لاحقاً",
     "move_question": "هل أنت متأكد من نقل إلى المسودات؟",
     "success_shared": "تم إرسال المحتوى!",
     "success_moved": "تم النقل إلى المسودات",
@@ -769,7 +769,7 @@
     "unpin-community": "إزالة التثبيت من المجتمع",
     "edit-history": "تعديل التاريخ",
     "mute": "كتم / حظر",
-    "translate": "Translate"
+    "translate": "ترجم"
   },
   "deep_link": {
     "no_existing_user": "لا يوجد أي مستخدم حاليا",
@@ -793,18 +793,18 @@
     "to": "إلى",
     "amount_information": "اسحب شريط التمرير لضبط المبلغ",
     "amount": "كمية",
-    "executions": "Executions",
-    "recurrence": "Recurrence",
+    "executions": "تنفيذ",
+    "recurrence": "التكرار",
     "memo": "مذكرة",
-    "recurrent_transfer": "Recurrent Transfer",
-    "delete_recurrent_transfer": "Delete Recurrent Transfer ",
+    "recurrent_transfer": "تحويل متكرر",
+    "delete_recurrent_transfer": "حذف التحويل المتكرر ",
     "information": "هل تريد متابعة العملية؟",
     "amount_desc": "الرصيد",
     "memo_desc": "هذه المذكرة عامة",
     "convert_desc": "يستغرق التحويل 3.5 يومًا ولا يوصى به إذا كان سعر HBD أعلى من 1 دولار",
     "to_placeholder": "إسم المستخدم",
     "memo_placeholder": "أدخل ملاحظاتك هنا",
-    "recurrence_placeholder": "Choose Recurrence",
+    "recurrence_placeholder": "اختر التكرار",
     "executions_placeholder": "Number of Repeats",
     "transfer_token": "تحويل",
     "purchase_estm": "شراء النقاط",
@@ -890,7 +890,7 @@
     "next": "التالي",
     "info": "قد تختلف القيمة الفعلية للتصويت الذي تتلقاه",
     "account": {
-      "title": "Get Account Boost",
+      "title": "احصل على تعزيز الحساب",
       "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "تأكيد الشراء @{username}",
@@ -1072,7 +1072,7 @@
     "open": "فتح الرابط",
     "detected_url": "الرابط الذي تم اكتشافه",
     "unsupported_alert_title": "رابط غير مدعوم!",
-    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
+    "unsupported_alert_desc": "الرابط غير مدعوم من قبل تطبيق Ecency للهاتف النقال",
     "confirmTransaction": "تأكيد المعاملة",
     "approve": "إعتماد",
     "cancel": "إلغاء",
@@ -1095,11 +1095,11 @@
     "identical-vote": "تصويتك الحالي على هذا المحتوى مطابق لهذا التصويت.",
     "insufficient-resource": "رصيد الموارد غير كاف.",
     "delete-comment-with-vote": "Cannot delete a content with positive pending rewards.",
-    "comment-cashout": "Content after their payout cannot be deleted.",
-    "comment-children": "Cannot delete a content with replies.",
-    "paid-out-post-forbidden": "Voting for paid out content is not available.",
-    "missing-authority": "This operation requires Active private key or authority.",
-    "missing-owner-authority": "This operation requires Owner private key or authority.",
-    "insufficient_fund": "Insufficient Funds"
+    "comment-cashout": "لا يمكن حذف المحتوى بعد دفع مستحقاته.",
+    "comment-children": "لا يمكن حذف محتوى به ردود.",
+    "paid-out-post-forbidden": "التصويت على المحتوى المدفوع الأجر غير متوفر.",
+    "missing-authority": "هذه العملية تتطلب المفتاح الخاص النشط أو الرئيسي.",
+    "missing-owner-authority": "هذه العملية تتطلب المفتاح الخاص للمالك أو الرئيسي.",
+    "insufficient_fund": "الرصيد غير كافي"
   }
 }
