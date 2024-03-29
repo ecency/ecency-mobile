@@ -167,7 +167,7 @@
     "ecency": {
       "title": "Points",
       "name": "Points d'Ecency",
-      "buy": "GET POINTS"
+      "buy": "OBTENIR DES POINTS"
     },
     "savinghive": {
       "title": "Economiser HIVE"
@@ -196,8 +196,8 @@
       "buy": "OBTENIR BTC",
       "address": "RECEVOIR"
     },
-    "last_updated": "Last Updated:",
-    "updating": "Updating...",
+    "last_updated": "Dernière mise à jour:",
+    "updating": "Mise à jour en cours...",
     "coin_details": "Afficher les détails",
     "change": "Changement",
     "activities": "Activités",
@@ -211,9 +211,9 @@
     "transfer_engine": "Transfert",
     "unstake_engine": "Annuler l'épargne",
     "stake_engine": "Épargne",
-    "delegate_engine": "Delegate",
-    "undelegate_engine": "Undelegate",
-    "transfer_spk": "Transfer",
+    "delegate_engine": "Déléguer",
+    "undelegate_engine": "Annulation de délégation",
+    "transfer_spk": "Transférer",
     "transfer_larynx_spk": "Transfer",
     "delegate_spk": "Delegate",
     "lock_liquidity_spk": "Lock Liquidity",
@@ -251,7 +251,7 @@
     "this_week": "Cette semaine",
     "last_week": "La semaine dernière",
     "this_month": "Ce mois",
-    "older_then": "Last Month & Older",
+    "older_then": "Le mois dernier & plus ancien",
     "activities": "Toutes",
     "replies": "Réponses",
     "mentions": "Mentions",
@@ -376,11 +376,11 @@
     "no_user": "L'utilisateur n'a pas été trouvé."
   },
   "login": {
-    "signin": "Login",
-    "login_with_hs": "Login with hivesigner",
+    "signin": "Se connecter",
+    "login_with_hs": "Connexion avec hivesigner",
     "signup": "REJOINDRE",
     "signin_title": "Pour obtenir tous les avantages à utiliser Ecency",
-    "username": "username",
+    "username": "nom d'utilisateur",
     "password": "password / private key",
     "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "annuler",
@@ -391,7 +391,7 @@
     "not_loggedin_alert_desc": "Veuillez d'abord vous connecter",
     "login_failed": "Échec de la connexion",
     "login_failed_body": "try a different key or try again later.",
-    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_title": "Connexion Facile @{username}",
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
     "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
@@ -422,7 +422,7 @@
       "username_exists": "Ce nom d'utilisateur existe déjà, essayez-en un autre"
     },
     "have_account_text": "Already have an account?",
-    "login_here": "Login Here"
+    "login_here": "Connectez-vous ici"
   },
   "home": {
     "feed": "Fil d'actualités",
@@ -537,7 +537,7 @@
     "plain": "Plain",
     "video": "Vidéo",
     "image": "Image",
-    "short_desc": "Short description",
+    "short_desc": "Courte description",
     "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
@@ -569,12 +569,12 @@
     "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)",
     "publish_manual": "Ready",
     "published": "Published",
-    "encoding_ipfs": "Encoding",
-    "encoding_preparing": "Preparing",
-    "deleted": "Deleted",
-    "start_upload": "START UPLOAD",
-    "uploading": "UPLOADING",
-    "select_thumb": "Select Thumbnail",
+    "encoding_ipfs": "Encodage en cours",
+    "encoding_preparing": "Préparation",
+    "deleted": "Supprimé",
+    "start_upload": "COMMENCER LE TÉLÉCHARGEMENT",
+    "uploading": "TÉLÉCHARGEMENT",
+    "select_thumb": "Sélectionnez une miniature",
     "warn_vid_already_added": "",
     "warn_vid_in_process": ""
   },
@@ -586,7 +586,7 @@
     "pin_not_matched": "Les codes PIN ne correspondent pas. Veuillez réessayer.",
     "attempts_postfix": "Tentatives échouées",
     "message_reset_warning": "Les données de l'utilisateur seront effacées lors de la prochaine tentative échouée",
-    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
+    "biometric_desc": "Scannez votre empreinte digitale sur le scanner de l'appareil pour continuer"
   },
   "alert": {
     "success": "Succés!",
@@ -598,9 +598,9 @@
     "continue": "Continuer",
     "okay": "D'accord",
     "done": "Terminé",
-    "notice": "Notice!",
-    "close": "CLOSE",
-    "later": "Later",
+    "notice": "Notification!",
+    "close": "FERMER",
+    "later": "Plus tard",
     "move_question": "Êtes-vous sûr de vouloir déplacer vers Broullions ?",
     "success_shared": "Succès ! Contenu soumis !",
     "success_moved": "Déplacé vers Brouillons",
@@ -624,7 +624,7 @@
     "warning": "Attention",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Êtes-vous sûr de vouloir retirer ?",
-    "remove_all_alert": "Are you sure you want to remove all selected items?",
+    "remove_all_alert": "Êtes vous sûr de vouloir supprimer toutes les entrées sélectionnées ?",
     "clear_alert": "Êtes-vous sûr de vouloir effacer ?",
     "clear_user_alert": "Êtes-vous sûr de vouloir effacer toutes les données utilisateur ?",
     "decrypt_fail_alert": "État de l'application corrompu, veuillez vous reconnecter pour réinitialiser l'état.",
@@ -656,7 +656,7 @@
     "can_not_be_empty": "Le titre et le corps ne peuvent pas être vides!",
     "wrong_filter_count": "Veuillez sélectionner 3 filtres",
     "update_available_title": "Mise à jour possible ({version})",
-    "update_available_body": "Using latest version of Ecency gives you the best experience",
+    "update_available_body": "Utiliser la dernière version d'Ecency vous donne une meilleure expérience",
     "update": "Mettre à jour maintenant",
     "remind_later": "Me le rappeler ultérieurement",
     "failed_to_open": "Impossible d'ouvrir un lien",
@@ -669,7 +669,7 @@
     "open_settings": "Ouvrir les paramètres",
     "auth_expired": "We need to verify you still has access to your keys, please verify login.",
     "verify": "Vérifier",
-    "logging_out": "Logging out {username}"
+    "logging_out": "Déconnexion de {username}"
   },
   "post": {
     "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?",
