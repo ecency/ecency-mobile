@@ -23,8 +23,8 @@ export default EStyleSheet.create({
   listContainer: {
     paddingTop: 16,
     paddingBottom: 40,
+    height: '100%',
     paddingHorizontal: 16,
-    flex: 1,
   },
   translatedTextContainer: {
     marginTop: 12,
