@@ -1,7 +1,7 @@
 import { get, isArray } from 'lodash';
 import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 
 // Utils
 import parseAsset from './parseAsset';
@@ -50,7 +50,7 @@ export const parsePost = (
 
   // extract cover image and thumbnail from post body
   post.image = catchPostImage(post, 600, 500, webp ? 'webp' : 'match');
-  post.thumbnail = catchPostImage(post, 10, 7, webp ? 'webp' : 'match');
+  post.thumbnail =  catchPostImage(post, 10, 7, webp ? 'webp' : 'match');
 
   // find and inject thumbnail ratio
   if (post.json_metadata.image_ratios) {
@@ -92,7 +92,7 @@ export const parsePost = (
 
   // cache image
   if (post.image) {
-    FastImage.preload([{ uri: post.image }]);
+    ExpoImage.prefetch([post.image]);
   }
 
   return post;

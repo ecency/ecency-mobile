@@ -11,7 +11,7 @@ import {
 import get from 'lodash/get';
 
 // Constants
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import LIGHT_COVER_IMAGE from '../../../assets/default_cover_image.png';
 import DARK_COVER_IMAGE from '../../../assets/dark_cover_image.png';
@@ -184,10 +184,10 @@ class ProfileSummaryView extends PureComponent {
             ) : null,
           )}
         </View>
-        <FastImage
+        <ExpoImage
           style={styles.longImage}
           source={coverImageUrl}
-          resizeMode="cover"
+          contentFit="cover"
           defaultSource={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
         />
         <TouchableOpacity
