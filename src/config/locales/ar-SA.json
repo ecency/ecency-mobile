@@ -52,7 +52,7 @@
     "checkin_extra_desc": "الاستخدام المستمر للتطبيق يمنحك فرصا إضافية لكسب المزيد من النقاط، كن أكثر نشاطا و إكسب المزيد.",
     "dropdown_transfer": "هدية",
     "dropdown_promote": "حملة اعلانية لمنشورك",
-    "dropdown_boost": "Boost+",
+    "dropdown_boost": "دعاية+",
     "from": "من",
     "to": "إلى",
     "estimated_value_desc": "حسب قيمة الشراء",
@@ -928,7 +928,7 @@
     "title": "تعزيز منشورك"
   },
   "boost_plus": {
-    "title": "Boost+",
+    "title": "دعاية+",
     "confirm_boost": "Are you sure to Boost with Points?",
     "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
     "already_boosted": "Account already boosted till {date}"
