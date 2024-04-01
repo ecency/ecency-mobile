@@ -929,7 +929,7 @@
   },
   "boost_plus": {
     "title": "دعاية+",
-    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost": "هل أنت متأكد من الإشهار بالنقاط؟",
     "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
     "already_boosted": "Account already boosted till {date}"
   },
