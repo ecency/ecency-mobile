@@ -1,0 +1,18 @@
+{
+  "filter": "hot",
+  "theme": "day",
+  "listStyle": "row",
+  "currency": {
+    "currency": "hbd",
+    "rate": 1,
+    "symbol": "$"
+  },
+  "locale": "en-US",
+  "base": "https://ecency.com",
+  "imageServer": "https://images.ecency.com",
+  "nwsServer": "wss://enotify.esteem.app",
+  "name": "Ecency",
+  "title": "Ecency - smart, decentralized, rewarding social network without limits",
+  "description": "Discover and build a community, niche and be rewarded for blogs, votes, contributions and reward esteemed friends and followers.",
+  "twitterHandle": "@ecency_official"
+}

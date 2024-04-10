@@ -5,6 +5,8 @@ import ROUTES from '../constants/routeNames';
 import { BottomTabBar } from '../components';
 import { Feed, Notification, Wallet } from '../screens';
 import Waves from '../screens/waves';
+import ChatScreen from '../screens/chat/screen/channelsScreen';
+import ChannelsScreen from '../screens/chat/screen/channelsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -58,6 +60,14 @@ export const BottomTabNavigator = () => {
         component={Notification}
         initialParams={{
           iconName: 'notifications', // read in bottomTabBarView
+        }}
+      />
+
+      <Tab.Screen
+        name={ROUTES.TABBAR.CHAT}
+        component={ChannelsScreen}
+        initialParams={{
+          iconName: 'chat-bubble', // read in bottomTabBarView
         }}
       />
     </Tab.Navigator>

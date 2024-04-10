@@ -52,6 +52,7 @@ const ROUTES = {
     WALLET: `Wallet${TABBAR_SUFFIX}`,
     POST_BUTTON: `PostButton${TABBAR_SUFFIX}`,
     WAVES: `Waves${TABBAR_SUFFIX}`,
+    CHAT: `Chat${TABBAR_SUFFIX}`,
   },
   STACK: {
     MAIN: `Main${STACK_SUFFIX}`,
