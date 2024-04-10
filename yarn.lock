@@ -1398,7 +1398,7 @@
   dependencies:
     "@dotlottie/common" "0.7.10"
 
-"@ecency/ns-query@^1.2.2-rc0":
+"@ecency/ns-query@1.2.2-rc0":
   version "1.2.2-rc0"
   resolved "https://registry.yarnpkg.com/@ecency/ns-query/-/ns-query-1.2.2-rc0.tgz#c860c09413725720e1b1e4c92bdc27b3c3f2cc62"
   integrity sha512-aKJZvy65iwM+wGMBU47ELbv5o1mj9PoZE7Nt5zZUs75M0btuBUHZYzVNB1P9h1dKvbU9FQZKd/dqXgzNcmk+Cw==
@@ -11502,7 +11502,7 @@ react-native-animatable@1.3.3:
   dependencies:
     prop-types "^15.7.2"
 
-react-native-animatable@^1.3.3:
+react-native-animatable@^1.3.0, react-native-animatable@^1.3.3:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.4.0.tgz#05a259e1566081ce7d3f6fba1e92edc65f5c6160"
   integrity sha512-DZwaDVWm2NBvBxf7I0wXKXLKb/TxDnkV53sWhCvei1pRyTX3MVFpkvdYBknNBqPrxYuAIlPxEp7gJOidIauUkw==
@@ -11872,6 +11872,14 @@ react-native-slider@^0.11.0:
   integrity sha512-jV9K87eu9uWr0uJIyrSpBLnCKvVlOySC2wynq9TFCdV9oGgjt7Niq8Q1A8R8v+5GHsuBw/s8vEj1AAkkUi+u+w==
   dependencies:
     prop-types "^15.5.6"
+
+react-native-smooth-pincode-input@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/react-native-smooth-pincode-input/-/react-native-smooth-pincode-input-1.0.9.tgz#4c068ae30aa0cd03bb5bd19c8191c0b4e9b0f8d1"
+  integrity sha512-4V4tyUGJaze55FHuJW/gYVOD3fc4Pd7cTIrv7liTRIXR49y09C2O3XqJUdgNR+UwTgLrTt/8L2lvEuEVUk3kig==
+  dependencies:
+    prop-types "^15.5.10"
+    react-native-animatable "^1.3.0"
 
 react-native-snap-carousel@^3.8.0:
   version "3.9.1"
@@ -13737,6 +13745,11 @@ test-exclude@^6.0.0:
     "@istanbuljs/schema" "^0.1.2"
     glob "^7.1.4"
     minimatch "^3.0.4"
+
+text-encoding@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/text-encoding/-/text-encoding-0.7.0.tgz#f895e836e45990624086601798ea98e8f36ee643"
+  integrity sha512-oJQ3f1hrOnbRLOcwKz0Liq2IcrvDeZRHXhd9RgLrsT+DjWY/nty1Hi7v3dtkaEYbPYe0mUoOfzRrMwfXXwgPUA==
 
 text-table@^0.2.0:
   version "0.2.0"

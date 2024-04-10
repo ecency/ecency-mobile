@@ -38,6 +38,7 @@ import {
   BackupKeysScreen,
 } from '../screens';
 import { DrawerNavigator } from './drawerNavigator';
+import ChatScreen from '../screens/chat/screen/chatScreen';
 
 const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
@@ -64,6 +65,7 @@ const MainStackNavigator = () => {
       <MainStack.Screen name={ROUTES.SCREENS.ASSET_DETAILS} component={AssetDetails} />
       <MainStack.Screen name={ROUTES.SCREENS.EDIT_HISTORY} component={EditHistoryScreen} />
       <MainStack.Screen name={ROUTES.SCREENS.POST} component={Post} />
+      <MainStack.Screen name={ROUTES.SCREENS.CHAT} component={ChatScreen} />
       <MainStack.Group screenOptions={{ animation: 'slide_from_bottom' }}>
         <MainStack.Screen name={ROUTES.SCREENS.REBLOGS} component={Reblogs} />
         <MainStack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters} />

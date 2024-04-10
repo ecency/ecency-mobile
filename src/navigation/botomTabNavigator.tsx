@@ -64,7 +64,7 @@ export const BottomTabNavigator = () => {
       />
 
       <Tab.Screen
-        name={ROUTES.TABBAR.CHAT}
+        name={ROUTES.TABBAR.CHANNELS}
         component={ChannelsScreen}
         initialParams={{
           iconName: 'chat-bubble', // read in bottomTabBarView

@@ -11,8 +11,12 @@ import styles from './squareButtonStyles';
  *   @prop { array }     textStyle        - It is addionatly syle for text of button.
  *   @prop { any }       value            - When button clicked, this value will push with on press func.
  */
-const SquareButtonView = ({ text, onPress, style, value, textStyle }) => (
-  <TouchableOpacity style={[styles.button, style]} onPress={() => onPress && onPress(value)}>
+const SquareButtonView = ({ text, onPress, style, value, textStyle, ...rest }) => (
+  <TouchableOpacity
+    {...rest}
+    style={[styles.button, style]}
+    onPress={() => onPress && onPress(value)}
+  >
     <Text style={[styles.buttonText, textStyle]}>{text}</Text>
   </TouchableOpacity>
 );

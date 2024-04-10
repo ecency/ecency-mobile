@@ -39,6 +39,7 @@ const ROUTES = {
     WELCOME: `Welcome${SCREEN_SUFFIX}`,
     BACKUP_KEYS: `BackupKeys${SCREEN_SUFFIX}`,
     TRADE: `Trade${SCREEN_SUFFIX}`,
+    CHAT: `CHAT${SCREEN_SUFFIX}`,
   },
   MODALS: {
     ASSETS_SELECT: `AssetsSelect${MODAL_SUFFIX}`,
@@ -52,7 +53,7 @@ const ROUTES = {
     WALLET: `Wallet${TABBAR_SUFFIX}`,
     POST_BUTTON: `PostButton${TABBAR_SUFFIX}`,
     WAVES: `Waves${TABBAR_SUFFIX}`,
-    CHAT: `Chat${TABBAR_SUFFIX}`,
+    CHANNELS: `CHANNELS${TABBAR_SUFFIX}`,
   },
   STACK: {
     MAIN: `Main${STACK_SUFFIX}`,

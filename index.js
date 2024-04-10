@@ -6,6 +6,8 @@ import 'react-native-url-polyfill/auto';
 import 'intl';
 import 'intl/locale-data/jsonp/en-US';
 
+import './globals.js';
+
 // set check frequency options
 const EcencyApp = require('./App').default;
 
