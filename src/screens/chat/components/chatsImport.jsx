@@ -4,7 +4,7 @@ import { injectIntl } from 'react-intl';
 import { useImportChatByKeys, useRestoreChatByPin } from '@ecency/ns-query';
 import ActionSheet from 'react-native-actions-sheet';
 import { SquareButton } from '../../../components';
-import styles from './chatsImport.style.tsx';
+import styles from '../style/chatsImport.style.tsx';
 import { TextInputV2 } from '../../../components/textInput/V2/textInputV2.tsx';
 import { ChatPinCode } from './chatPinCode';
 

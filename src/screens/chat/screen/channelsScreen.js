@@ -1,62 +1,39 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { SafeAreaView, View, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
-import get from 'lodash/get';
-import {
-  useChannelsQuery,
-  useCommunityChannelQuery,
-  useDirectContactsQuery,
-  useKeysQuery,
-} from '@ecency/ns-query';
+import { ChatContext, useKeysQuery } from '@ecency/ns-query';
 import { DropdownButton, Header, TextInput } from '../../../components';
 
-import styles from './channelsScreen.style';
-import globalStyles from '../../../globalStyles';
+import styles from '../style/channelsScreen.style';
 import { LoggedInContainer } from '../../../containers';
 import { setFeedPosts, setInitPosts } from '../../../redux/actions/postsAction';
 import { logout } from '../../../redux/actions/uiAction';
-import { useAppDispatch } from '../../../hooks';
-import { ChatChannelsList } from '../components/chatChannelsList';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import ChatWelcome from '../components/ChatWelcome';
+import ChatDropdown from '../components/chatDropdown';
+import ChatCredentialInfo from '../components/chatCredentialInfo';
+import { ChatChannelsList } from '../components/chatChannelsList';
 
 const ChannelsScreen = ({ intl }) => {
-  const dispatch = useAppDispatch();
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const { publicKey, privateKey } = useKeysQuery();
+  const { receiverPubKey, revealPrivateKey, setReceiverPubKey, setRevealPrivateKey } =
+    useContext(ChatContext);
 
   // const { data: directContacts } = useDirectContactsQuery();
   // const { data: channels } = useChannelsQuery();
-  const { publicKey, privateKey } = useKeysQuery();
 
   // console.log({ directContacts });
   // console.log({ channels });
 
   const [search, setSearch] = useState('');
 
-  const logoutHandler = useCallback(() => {
-    dispatch(setFeedPosts([]));
-    dispatch(setInitPosts([]));
-    dispatch(logout());
-  }, []);
+  const isReady = useMemo(
+    () => !!(publicKey && privateKey && currentAccount),
+    [currentAccount, publicKey, privateKey],
+  );
 
-  const dropdownOption = [
-    {
-      title: intl.formatMessage({ id: 'chat.manage-chat-key' }),
-      onPress: (title) => console.log({ title }),
-    },
-    {
-      title: intl.formatMessage({ id: 'chat.logout' }),
-      onPress: logoutHandler,
-    },
-  ];
-
-  const onPressDropdownHandler = useCallback((index) => {
-    const find = dropdownOption.find((value, i) => i === index);
-
-    if (find) {
-      find.onPress(find.title);
-    }
-  }, []);
-
-  const isReady = useMemo(() => !!(publicKey && privateKey), [publicKey, privateKey]);
+  const isShowManageKey = useMemo(() => isReady && revealPrivateKey, [isReady, revealPrivateKey]);
 
   return (
     <>
@@ -65,7 +42,7 @@ const ChannelsScreen = ({ intl }) => {
         <LoggedInContainer>
           {() => (
             <View style={styles.view}>
-              {isReady ? (
+              {isReady && !isShowManageKey && (
                 <>
                   <View style={styles.channelsTopView}>
                     <Text style={styles.title}>
@@ -73,12 +50,7 @@ const ChannelsScreen = ({ intl }) => {
                         id: 'chat.title',
                       })}
                     </Text>
-                    <DropdownButton
-                      isHasChildIcon
-                      iconName="more-vert"
-                      options={dropdownOption.map(({ title }) => title)}
-                      onSelect={onPressDropdownHandler}
-                    />
+                    <ChatDropdown onManageChatKey={() => setRevealPrivateKey(!revealPrivateKey)} />
                   </View>
                   <View style={styles.inputView}>
                     <TextInput
@@ -92,11 +64,13 @@ const ChannelsScreen = ({ intl }) => {
                     />
                   </View>
 
-                  {/* <ChatChannelsList /> */}
+                  <ChatChannelsList />
                 </>
-              ) : (
-                <ChatWelcome />
               )}
+
+              {isShowManageKey && <ChatCredentialInfo onClose={() => setRevealPrivateKey(false)} />}
+
+              {!isReady && <ChatWelcome />}
             </View>
           )}
         </LoggedInContainer>

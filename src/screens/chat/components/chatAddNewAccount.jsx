@@ -4,8 +4,9 @@ import { injectIntl } from 'react-intl';
 import ActionSheet from 'react-native-actions-sheet';
 import { useJoinChat } from '@ecency/ns-query';
 import { SquareButton } from '../../../components';
-import styles from './chatAddNewAccount.style.ts';
+import styles from '../style/chatAddNewAccount.style.ts';
 import { ChatPinCode } from './chatPinCode';
+import modalStyles from '../style/chatModal.style';
 
 const ChatAddNewAccount = ({ intl }) => {
   const bottomSheetModalRef = useRef();
@@ -27,17 +28,19 @@ const ChatAddNewAccount = ({ intl }) => {
         ref={bottomSheetModalRef}
         gestureEnabled={true}
         hideUnderlay
-        containerStyle={styles.sheetContent}
-        indicatorStyle={styles.sheetIndicator}
+        containerStyle={modalStyles.sheetContent}
+        indicatorStyle={modalStyles.sheetIndicator}
         onClose={() => bottomSheetModalRef.current?.hide()}
       >
-        <View style={styles.modal}>
-          <Text style={styles.title}>{intl.formatMessage({ id: 'chat.create-new-account' })}</Text>
-          <Text style={styles.subTitle}>
+        <View style={modalStyles.modal}>
+          <Text style={modalStyles.title}>
+            {intl.formatMessage({ id: 'chat.create-new-account' })}
+          </Text>
+          <Text style={modalStyles.subTitle}>
             {intl.formatMessage({ id: 'chat.create-description' })}
           </Text>
-          <View style={styles.alertView}>
-            <Text style={styles.alertText}>
+          <View style={modalStyles.alertView}>
+            <Text style={modalStyles.alertText}>
               {intl.formatMessage({ id: 'chat.create-pin-description' })}
             </Text>
           </View>

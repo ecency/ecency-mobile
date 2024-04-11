@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TextInput, TextInputProps, ViewStyle } from 'react-native';
-import styles from '../../../screens/chat/components/chatsImport.style.tsx';
+import styles from '../../../screens/chat/style/chatsImport.style.tsx';
 
 type ITextInputV2Value = string;
 

@@ -5,6 +5,8 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '$primaryLightBackground',
+    borderTopWidth: 1,
+    borderColor: '$borderTopColor',
   } as ViewStyle,
   title: {
     fontSize: 14,
@@ -23,7 +25,6 @@ export default EStyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderBottomWidth: 1,
-    borderTopWidth: 1,
     borderColor: '$borderTopColor',
   } as ViewStyle,
   inputView: {

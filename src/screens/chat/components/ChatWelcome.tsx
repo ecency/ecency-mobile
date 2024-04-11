@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { useRestoreChatByPin } from '@ecency/ns-query';
-import styles from './chatWelcome.style.ts';
+import { useKeysQuery, useRestoreChatByPin } from '@ecency/ns-query';
+import styles from '../style/chatWelcome.style.ts';
 import { ChatPinCode } from './chatPinCode.jsx';
 import { OrDivider } from '../../../components';
 import ChatsImport from './chatsImport.jsx';
 import ChatAddNewAccount from './chatAddNewAccount.jsx';
 
 const ChatWelcome = () => {
+  const { publicKey } = useKeysQuery();
+
   const [pin, setPin] = useState('');
+
+  const isAlreadyRegisteredInChats = useMemo(() => !!publicKey, [publicKey]);
 
   const {
     mutateAsync: restoreByPin,

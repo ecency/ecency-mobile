@@ -2,7 +2,7 @@ import React from 'react';
 import { Keyboard, TextInput, TouchableWithoutFeedback, View, Text } from 'react-native';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
 import { FormattedMessage } from 'react-intl';
-import styles from './chatPinCode.style.ts';
+import styles from '../style/chatPinCode.style.ts';
 
 export const ChatPinCode = ({
   pin,

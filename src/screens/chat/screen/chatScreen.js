@@ -5,7 +5,7 @@ import { injectIntl } from 'react-intl';
 import { LoggedInContainer } from '../../../containers';
 import { DropdownButton, Header, Notification, TabBar } from '../../../components';
 
-import styles from './chatScreen.style';
+import styles from '../style/chatScreen.style';
 import globalStyles from '../../../globalStyles';
 
 const ChatScreen = ({ intl }) => {
