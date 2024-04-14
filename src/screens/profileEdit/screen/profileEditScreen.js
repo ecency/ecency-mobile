@@ -1,5 +1,5 @@
-import React, { PureComponent, Fragment } from 'react';
-import { StatusBar } from 'react-native';
+import React, { PureComponent } from 'react';
+import { View } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -8,6 +8,8 @@ import { ProfileEditContainer } from '../../../containers';
 
 import { AvatarHeader, ProfileEditForm } from '../../../components';
 import { OptionsModal } from '../../../components/atoms';
+import styles from './profileEditScreenStyles';
+import { SimpleHeader } from '../../../components/index';
 
 class ProfileEditScreen extends PureComponent {
   /* Props
@@ -55,9 +57,10 @@ class ProfileEditScreen extends PureComponent {
           isUploading,
           saveEnabled,
           handleOnSubmit,
+          navigation,
         }) => (
-          <Fragment>
-            <StatusBar barStyle="light-content" />
+          <View style={styles.container}>
+            <SimpleHeader onBackPress={() => navigation.goBack()} />
             <AvatarHeader
               username={get(currentAccount, 'name')}
               name={name}
@@ -103,7 +106,7 @@ class ProfileEditScreen extends PureComponent {
                 );
               }}
             />
-          </Fragment>
+          </View>
         )}
       </ProfileEditContainer>
     );

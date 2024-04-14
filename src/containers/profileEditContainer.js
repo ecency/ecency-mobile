@@ -185,7 +185,7 @@ class ProfileEditContainer extends Component {
   };
 
   render() {
-    const { children, currentAccount, isDarkTheme } = this.props;
+    const { children, currentAccount, isDarkTheme, navigation } = this.props;
     const {
       isLoading,
       isUploading,
@@ -216,6 +216,7 @@ class ProfileEditContainer extends Component {
         name,
         website,
         saveEnabled,
+        navigation,
       })
     );
   }
