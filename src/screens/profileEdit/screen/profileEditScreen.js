@@ -9,7 +9,7 @@ import { ProfileEditContainer } from '../../../containers';
 import { AvatarHeader, ProfileEditForm } from '../../../components';
 import { OptionsModal } from '../../../components/atoms';
 import styles from './profileEditScreenStyles';
-import { SimpleHeader } from '../../../components/index';
+import { BasicHeader } from '../../../components/index';
 
 class ProfileEditScreen extends PureComponent {
   /* Props
@@ -57,10 +57,9 @@ class ProfileEditScreen extends PureComponent {
           isUploading,
           saveEnabled,
           handleOnSubmit,
-          navigation,
         }) => (
           <View style={styles.container}>
-            <SimpleHeader onBackPress={() => navigation.goBack()} />
+            <BasicHeader title={intl.formatMessage({ id: 'profile.edit.edit_profile' })} />
             <AvatarHeader
               username={get(currentAccount, 'name')}
               name={name}
