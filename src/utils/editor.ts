@@ -268,7 +268,7 @@ export const extractMetadata = async ({
               (width, height) => {
                 resolve(width / height);
               },
-              () => resolve(0),
+              () => resolve(NaN),
             );
           });
         })
