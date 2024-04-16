@@ -55,35 +55,42 @@ const ProfileEditFormView = ({
         contentContainerStyle={styles.contentContainer}
         enableOnAndroid={true}
       >
-        <TouchableOpacity style={styles.coverImgWrapper} onPress={showImageUploadActions}>
-          <ExpoImage
-            style={styles.coverImg}
-            source={
-              coverUrl
-                ? { uri: getResizedImage(coverUrl, 600) }
-                : isDarkTheme
-                ? DARK_COVER_IMAGE
-                : LIGHT_COVER_IMAGE
-            }
-          />
-          {isUploading && (
-            <ActivityIndicator
-              style={styles.activityIndicator}
-              color={EStyleSheet.value('$white')}
-              size="large"
+        
+        <View style={styles.formItem}>
+          <Text style={styles.imgLabel}>
+            {intl.formatMessage({
+              id: 'profile.edit.cover_img',
+            })}
+          </Text>
+          <TouchableOpacity style={styles.coverImgWrapper} onPress={showImageUploadActions}>
+            <ExpoImage
+              style={styles.coverImg}
+              source={
+                coverUrl
+                  ? { uri: getResizedImage(coverUrl, 600) }
+                  : isDarkTheme
+                  ? DARK_COVER_IMAGE
+                  : LIGHT_COVER_IMAGE
+              }
             />
-          )}
+            {isUploading && (
+              <ActivityIndicator
+                style={styles.activityIndicator}
+                color={EStyleSheet.value('$white')}
+                size="large"
+              />
+            )}
 
-          <IconButton
-            iconStyle={styles.addIcon}
-            style={styles.addButton}
-            iconType="MaterialCommunityIcons"
-            name="plus"
-            onPress={showImageUploadActions}
-            size={15}
-          />
-        </TouchableOpacity>
-
+            <IconButton
+              iconStyle={styles.addIcon}
+              style={styles.addButton}
+              iconType="MaterialCommunityIcons"
+              name="plus"
+              onPress={showImageUploadActions}
+              size={15}
+            />
+          </TouchableOpacity>
+        </View>
         {formData.map((item) => (
           <View style={styles.formItem} key={item.valueKey}>
             <Text style={styles.label}>

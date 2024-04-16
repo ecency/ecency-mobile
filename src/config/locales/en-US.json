@@ -305,7 +305,9 @@
       "about": "About",
       "location": "Location",
       "website": "Website",
-      "edit_profile": "Edit Profile"
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {

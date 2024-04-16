@@ -12,6 +12,13 @@ export default EStyleSheet.create({
     height: 30,
     marginTop: 8,
   },
+  imgLabel: {
+    marginTop: 8,
+    marginBottom: 8,
+    fontSize: 14,
+    color: '$primaryDarkText',
+    fontWeight: '500',
+  },
   label: {
     marginTop: 8,
     fontSize: 14,
@@ -19,7 +26,7 @@ export default EStyleSheet.create({
     fontWeight: '500',
   },
   formItem: {
-    marginBottom: 20,
+    marginBottom: 12,
   },
   coverImg: {
     borderRadius: 5,

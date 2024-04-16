@@ -82,6 +82,14 @@ class ProfileEditContainer extends Component {
       .then((res) => {
         if (res.data && res.data.url) {
           this.setState({ [action]: res.data.url, isUploading: false, saveEnabled: true });
+        } else if (res && res.url) {
+          this.setState({ [action]: res.url, isUploading: false, saveEnabled: true });
+        } else {
+          throw Error(
+            intl.formatMessage({
+              id: 'alert.unknow_error',
+            }),
+          );
         }
       })
       .catch((error) => {

@@ -1,21 +1,25 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
+  headerView: {
+    backgroundColor: '$primaryBackgroundColor',
+  },
   headerContainer: {
     flexDirection: 'row',
     paddingTop: 8,
+    paddingBottom: 8,
     paddingHorizontal: 24,
-    paddingBottom: 24,
     alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '$primaryBackgroundColor',
   },
   backIcon: {
     color: '$white',
   },
   wrapper: {
-    marginLeft: 16,
-    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '$primaryBackgroundColor',
   },
   textWrapper: {
     marginLeft: 24,
@@ -26,9 +30,10 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
   },
   username: {
-    color: '$white',
-    fontSize: 12,
     marginTop: 4,
+    fontSize: 16,
+    color: '$primaryDarkText',
+    fontWeight: '600',
   },
   addIcon: {
     color: '$white',
