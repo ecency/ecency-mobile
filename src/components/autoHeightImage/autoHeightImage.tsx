@@ -25,10 +25,11 @@ export const AutoHeightImage = ({
   const _initialHeight = useMemo(() => {
     let _height = contentWidth / (16 / 9);
     if (metadata && metadata.image && metadata.image_ratios) {
+
       metadata.image_ratios.forEach((_ratio, index) => {
         const url = metadata.image[index];
 
-        if (url && !Number.isNaN(_ratio)) {
+        if (url && Number.isFinite(_ratio) && _ratio !== 0) {
           const poxifiedUrl = proxifyImageSrc(
             url,
             undefined,
@@ -40,7 +41,6 @@ export const AutoHeightImage = ({
           );
 
           if (imgUrl === poxifiedUrl) {
-            const _ratio = metadata.image_ratios[index];
             _height = contentWidth / _ratio;
           }
         }
