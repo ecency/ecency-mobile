@@ -20,7 +20,7 @@ import { DropdownButton } from '../../../components/dropdownButton';
 import { Modal } from '../../../components/modal';
 
 // Styles
-import styles from './boostPlus.styles';
+import styles from '../styles/boostPlus.styles';
 import { OptionsModal } from '../../../components/atoms';
 import QUERIES from '../../../providers/queries/queryKeys';
 import RootNavigation from '../../../navigation/rootNavigation';
