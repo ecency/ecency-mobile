@@ -148,7 +148,7 @@ class ProfileSummaryView extends PureComponent {
         ? require('../../../assets/dark_cover_image.png')
         : require('../../../assets/default_cover_image.png');
     } else {
-      coverImageUrl = { uri: coverImageUrl };
+      coverImageUrl = { uri: coverImageUrl, cacheKey: coverImageUrl + new Date() };
     }
 
     // compile dropdown options
@@ -185,6 +185,7 @@ class ProfileSummaryView extends PureComponent {
           )}
         </View>
         <ExpoImage
+          key={`${coverImageUrl}${new Date()}`}
           style={styles.longImage}
           source={coverImageUrl}
           contentFit="cover"
