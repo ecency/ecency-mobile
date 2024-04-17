@@ -1,20 +1,11 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-
+import { View, TouchableOpacity } from 'react-native';
 import { UserAvatar } from '../userAvatar';
 import { IconButton } from '../iconButton';
-
 // Styles
 import styles from './editAvatarStyles';
 
-const EditAvatar = ({
-  username,
-  name,
-  reputation,
-  avatarUrl,
-  showImageUploadActions,
-  isUploading,
-}) => {
+const EditAvatar = ({ username, avatarUrl, showImageUploadActions, isUploading }) => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.wrapper}>
@@ -36,11 +27,6 @@ const EditAvatar = ({
             size={18}
           />
         </TouchableOpacity>
-
-        <View style={styles.textWrapper}>
-          {!!name && <Text style={styles.name}>{name}</Text>}
-          <Text style={styles.username}>{`@${username} (${reputation})`}</Text>
-        </View>
       </View>
     </View>
   );
