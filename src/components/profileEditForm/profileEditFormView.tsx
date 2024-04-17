@@ -55,7 +55,6 @@ const ProfileEditFormView = ({
         contentContainerStyle={styles.contentContainer}
         enableOnAndroid={true}
       >
-        
         <View style={styles.formItem}>
           <Text style={styles.imgLabel}>
             {intl.formatMessage({
@@ -84,10 +83,10 @@ const ProfileEditFormView = ({
             <IconButton
               iconStyle={styles.addIcon}
               style={styles.addButton}
-              iconType="MaterialCommunityIcons"
-              name="plus"
               onPress={showImageUploadActions}
-              size={15}
+              iconType="MaterialIcons"
+              name="edit"
+              size={18}
             />
           </TouchableOpacity>
         </View>

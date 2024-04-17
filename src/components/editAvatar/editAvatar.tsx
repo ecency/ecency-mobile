@@ -22,7 +22,7 @@ const EditAvatar = ({
           <UserAvatar
             key={`${avatarUrl}-${username}`}
             noAction
-            size="xl"
+            size="xxl"
             username={username}
             avatarUrl={avatarUrl}
             isLoading={isUploading}
@@ -30,10 +30,10 @@ const EditAvatar = ({
           <IconButton
             iconStyle={styles.addIcon}
             style={styles.addButton}
-            iconType="MaterialCommunityIcons"
-            name="plus"
+            iconType="MaterialIcons"
+            name="edit"
             onPress={showImageUploadActions}
-            size={15}
+            size={18}
           />
         </TouchableOpacity>
 
