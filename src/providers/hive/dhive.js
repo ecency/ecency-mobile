@@ -371,7 +371,7 @@ export const getUser = async (user, loggedIn = true) => {
       getCache('rcPower');
     await setCache('rcPower', rcPower);
 
-    _account.reputation = parseReputation(_account.reputation);
+    _account.reputation = await getUserReputation(user)
     _account.username = _account.name;
     _account.unread_activity_count = unreadActivityCount;
     _account.vp_manabar = client.rc.calculateVPMana(_account);
@@ -408,6 +408,27 @@ export const getUser = async (user, loggedIn = true) => {
     return Promise.reject(error);
   }
 };
+
+export const getUserReputation = async (author) => {
+  try {
+    const response = await client.call('condenser_api', 'get_account_reputations', [author, 1]);
+  
+    if (response && response.length < 1) {
+      return 0;
+    }
+
+    const _account = {
+      ...response[0],
+    };
+
+    return parseReputation(_account.reputation);
+
+  } catch (error) {
+    bugsnagInstance.notify(error)
+    return 0;
+  }
+}
+
 
 const cache = {};
 const patt = /hive-\d\w+/g;
