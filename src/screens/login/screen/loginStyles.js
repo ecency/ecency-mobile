@@ -5,16 +5,6 @@ export default EStyleSheet.create({
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
   },
-  tabbar: {
-    alignSelf: 'center',
-    height: 40,
-    backgroundColor: '$primaryBackgroundColor',
-  },
-  tabbarItem: {
-    // flex: 1,
-    backgroundColor: '$primaryBackgroundColor',
-    minWidth: '$deviceWidth',
-  },
   mainButtonWrapper: {
     position: 'absolute',
     right: 24,
@@ -28,8 +18,8 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   formWrapper: {
-    marginHorizontal: 30,
-    marginVertical: 10,
+    paddingHorizontal: 30,
+    paddingVertical: 10,
   },
   input: {
     color: '$primaryDarkText',
@@ -64,6 +54,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginVertical:8,
     paddingHorizontal: 24,
     backgroundColor: '$primaryBackgroundColor',
   },
