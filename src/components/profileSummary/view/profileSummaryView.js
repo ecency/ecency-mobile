@@ -188,7 +188,7 @@ class ProfileSummaryView extends PureComponent {
           style={styles.longImage}
           source={coverImageUrl}
           contentFit="cover"
-          defaultSource={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
+          placeholder={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
         />
         <TouchableOpacity
           onPress={() =>
