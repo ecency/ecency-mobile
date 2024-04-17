@@ -5,9 +5,9 @@ import { UserAvatar } from '../userAvatar';
 import { IconButton } from '../iconButton';
 
 // Styles
-import styles from './avatarHeaderStyles';
+import styles from './editAvatarStyles';
 
-const AvatarHeader = ({
+const EditAvatar = ({
   username,
   name,
   reputation,
@@ -45,4 +45,4 @@ const AvatarHeader = ({
     </View>
   );
 };
-export default AvatarHeader;
+export default EditAvatar;

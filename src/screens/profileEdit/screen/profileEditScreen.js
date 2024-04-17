@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { ProfileEditContainer } from '../../../containers';
 
-import { AvatarHeader, ProfileEditForm } from '../../../components/index';
+import { EditAvatar, ProfileEditForm } from '../../../components/index';
 import { OptionsModal } from '../../../components/atoms';
 import styles from './profileEditScreenStyles';
 import { BasicHeader } from '../../../components/index';
@@ -60,7 +60,7 @@ class ProfileEditScreen extends PureComponent {
         }) => (
           <View style={styles.container}>
             <BasicHeader title={intl.formatMessage({ id: 'profile.edit.edit_profile' })} />
-            <AvatarHeader
+            <EditAvatar
               username={get(currentAccount, 'name')}
               name={name}
               reputation={get(currentAccount, 'reputation')}

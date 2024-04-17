@@ -1,4 +1,4 @@
-import { AvatarHeader } from './avatarHeader';
+import EditAvatar from './editAvatar/editAvatar';
 import { AccountsBottomSheet } from './accountsBottomSheet';
 import { BasicHeader } from './basicHeader';
 import { BoostIndicatorAnimation, PulseAnimation, SpinIndicator } from './animations';
@@ -132,7 +132,7 @@ import {
 } from './basicUIElements';
 
 export {
-  AvatarHeader,
+  EditAvatar,
   AccountsBottomSheet,
   BasicHeader,
   BeneficiaryModal,
