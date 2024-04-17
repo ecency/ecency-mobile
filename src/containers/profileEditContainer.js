@@ -81,9 +81,15 @@ class ProfileEditContainer extends Component {
     uploadImage(media, currentAccount.name, sign)
       .then((res) => {
         if (res.data && res.data.url) {
-          this.setState({ [action]: res.data.url, isUploading: false, saveEnabled: true });
+          this.setState({ [action]: res.data.url, isUploading: false }, () => {
+            // submit after img upload
+            this._handleOnSubmit();
+          });
         } else if (res && res.url) {
-          this.setState({ [action]: res.url, isUploading: false, saveEnabled: true });
+          this.setState({ [action]: res.url, isUploading: false }, () => {
+            // submit after img upload
+            this._handleOnSubmit();
+          });
         } else {
           throw Error(
             intl.formatMessage({
