@@ -369,22 +369,38 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
   // // Set private keys of user
   const privateKeys = getPrivateKeys(data.username, data.password);
 
-  // Check all keys
+  // Check all keys and set authType
+  let authType = '';
   Object.keys(publicKeys).forEach((pubKey) => {
     if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
       loginFlag = true;
+      if (privateKeys.isMasterKey) {
+        authType = AUTH_TYPE.MASTER_KEY;
+      } else {
+        authType = pubKey;
+      }
     }
   });
 
+
+
   if (loginFlag) {
-    currentAccountData.local = {
+    const _prevAuthType = currentAccountData.authType
+
+    const _localData = {
       ...currentAccountData.local,
-      masterKey: encryptKey(data.password, get(data, 'pinCode')),
-      postingKey: encryptKey(get(privateKeys, 'postingKey', '').toString(), get(data, 'pinCode')),
-      activeKey: encryptKey(get(privateKeys, 'activeKey', '').toString(), get(data, 'pinCode')),
-      memoKey: encryptKey(get(privateKeys, 'memoKey', '').toString(), get(data, 'pinCode')),
-      ownerKey: encryptKey(get(privateKeys, 'ownerKey', '').toString(), get(data, 'pinCode')),
-    };
+      authType
+    }
+    const _userData = getUpdatedUserData(_localData, data)
+
+    //sustain appropriate authType;
+    if(_prevAuthType === AUTH_TYPE.STEEM_CONNECT){
+      _userData.authType = _prevAuthType;
+    }
+    
+    await setUserData(_userData);
+    currentAccountData.local = _userData
+    
     return currentAccountData;
   }
   return Promise.reject(new Error('auth.invalid_credentials'));
