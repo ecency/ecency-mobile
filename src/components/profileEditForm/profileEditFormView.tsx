@@ -25,7 +25,7 @@ interface ProfileEditFormProps {
   coverUrl: string;
   formData: any;
   handleOnItemChange: () => void;
-  handleOnSubmit: () => void;
+  handleOnSubmit: ({ goBack }: { goBack: boolean }) => void;
   intl: any;
   isDarkTheme: boolean;
   isLoading: boolean;
@@ -116,7 +116,7 @@ const ProfileEditFormView = ({
         <Animated.View style={styles.floatingContainer} entering={BounceInRight}>
           <MainButton
             style={{ width: isLoading ? null : 120, marginBottom: 24, alignSelf: 'flex-end' }}
-            onPress={handleOnSubmit}
+            onPress={() => handleOnSubmit({ goBack: true })}
             iconName="save"
             iconType="MaterialIcons"
             iconColor="white"

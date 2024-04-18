@@ -83,12 +83,12 @@ class ProfileEditContainer extends Component {
         if (res.data && res.data.url) {
           this.setState({ [action]: res.data.url, isUploading: false }, () => {
             // submit after img upload
-            this._handleOnSubmit();
+            this._handleOnSubmit({ goBack: false });
           });
         } else if (res && res.url) {
           this.setState({ [action]: res.url, isUploading: false }, () => {
             // submit after img upload
-            this._handleOnSubmit();
+            this._handleOnSubmit({ goBack: false });
           });
         } else {
           throw Error(
@@ -158,7 +158,7 @@ class ProfileEditContainer extends Component {
     }
   };
 
-  _handleOnSubmit = async () => {
+  _handleOnSubmit = async ({ goBack }) => {
     const { currentAccount, pinCode, dispatch, navigation, intl, route } = this.props;
     const { name, location, website, about, coverUrl, avatarUrl, pinned } = this.state;
 
@@ -186,7 +186,9 @@ class ProfileEditContainer extends Component {
       dispatch(setAvatarCacheStamp(new Date().getTime()));
       this.setState({ isLoading: false });
       route.params.fetchUser();
-      navigation.goBack();
+      if (!!goBack) {
+        navigation.goBack();
+      }
     } catch (err) {
       Alert.alert(
         intl.formatMessage({
