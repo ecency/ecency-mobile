@@ -37,14 +37,14 @@ export default EStyleSheet.create({
   },
   coverImageWrapper: {},
   addIcon: {
-    color: '$white',
+    color: 'white',
     textAlign: 'center',
   },
   addButton: {
     backgroundColor: '$primaryBlue',
-    width: 25,
-    height: 25,
-    borderRadius: 25 / 2,
+    width: 30,
+    height: 30,
+    borderRadius: 30 / 2,
     borderColor: '$white',
     borderWidth: 1,
     position: 'absolute',

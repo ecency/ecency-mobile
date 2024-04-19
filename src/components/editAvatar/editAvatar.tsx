@@ -9,16 +9,17 @@ const EditAvatar = ({ username, avatarUrl, showImageUploadActions, isUploading }
   return (
     <View style={styles.headerContainer}>
       <View style={styles.wrapper}>
-        <TouchableOpacity onPress={showImageUploadActions}>
+        <TouchableOpacity disabled={isUploading} onPress={showImageUploadActions}>
           <UserAvatar
             key={`${avatarUrl}-${username}`}
             noAction
             size="xxl"
             username={username}
             avatarUrl={avatarUrl}
-            isLoading={isUploading}
           />
           <IconButton
+            isLoading={isUploading}
+            color={'white'}
             iconStyle={styles.addIcon}
             style={styles.addButton}
             iconType="MaterialIcons"

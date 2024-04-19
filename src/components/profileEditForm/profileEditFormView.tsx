@@ -61,7 +61,11 @@ const ProfileEditFormView = ({
               id: 'profile.edit.cover_img',
             })}
           </Text>
-          <TouchableOpacity style={styles.coverImgWrapper} onPress={showImageUploadActions}>
+          <TouchableOpacity
+            disabled={isUploading}
+            style={styles.coverImgWrapper}
+            onPress={showImageUploadActions}
+          >
             <ExpoImage
               style={styles.coverImg}
               source={
@@ -72,15 +76,9 @@ const ProfileEditFormView = ({
                   : LIGHT_COVER_IMAGE
               }
             />
-            {isUploading && (
-              <ActivityIndicator
-                style={styles.activityIndicator}
-                color={EStyleSheet.value('$white')}
-                size="large"
-              />
-            )}
-
             <IconButton
+              color={'white'}
+              isLoading={isUploading}
               iconStyle={styles.addIcon}
               style={styles.addButton}
               onPress={showImageUploadActions}
