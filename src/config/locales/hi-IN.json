@@ -303,7 +303,10 @@
       "display_name": "प्रदर्शित होने वाला नाम",
       "about": "के बारे में",
       "location": "स्थान",
-      "website": "वेबसाइट"
+      "website": "वेबसाइट",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
