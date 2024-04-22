@@ -303,7 +303,10 @@
       "display_name": "Megjelenítendő név",
       "about": "Rólunk",
       "location": "Tartózkodási hely",
-      "website": "Weboldal"
+      "website": "Weboldal",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
