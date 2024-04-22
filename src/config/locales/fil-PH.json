@@ -303,7 +303,10 @@
       "display_name": "Ngalan na Ipapakita",
       "about": "Tungkol",
       "location": "Lokasyon",
-      "website": "Website"
+      "website": "Website",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
