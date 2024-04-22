@@ -303,7 +303,10 @@
       "display_name": "Prikazano ime",
       "about": "O tome",
       "location": "Lokacija",
-      "website": "Web stranica"
+      "website": "Web stranica",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
