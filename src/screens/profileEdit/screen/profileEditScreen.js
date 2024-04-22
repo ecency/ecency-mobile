@@ -6,10 +6,10 @@ import get from 'lodash/get';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { ProfileEditContainer } from '../../../containers';
 
-import { AvatarHeader, ProfileEditForm } from '../../../components';
+import { EditAvatar, Header, ProfileEditForm } from '../../../components/index';
 import { OptionsModal } from '../../../components/atoms';
 import styles from './profileEditScreenStyles';
-import { SimpleHeader } from '../../../components/index';
+import { BasicHeader } from '../../../components/index';
 
 class ProfileEditScreen extends PureComponent {
   /* Props
@@ -57,11 +57,10 @@ class ProfileEditScreen extends PureComponent {
           isUploading,
           saveEnabled,
           handleOnSubmit,
-          navigation,
         }) => (
           <View style={styles.container}>
-            <SimpleHeader onBackPress={() => navigation.goBack()} />
-            <AvatarHeader
+            <Header isReverse={true} />
+            <EditAvatar
               username={get(currentAccount, 'name')}
               name={name}
               reputation={get(currentAccount, 'reputation')}

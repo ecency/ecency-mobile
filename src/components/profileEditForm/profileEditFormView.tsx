@@ -25,7 +25,7 @@ interface ProfileEditFormProps {
   coverUrl: string;
   formData: any;
   handleOnItemChange: () => void;
-  handleOnSubmit: () => void;
+  handleOnSubmit: ({ goBack }: { goBack: boolean }) => void;
   intl: any;
   isDarkTheme: boolean;
   isLoading: boolean;
@@ -55,35 +55,39 @@ const ProfileEditFormView = ({
         contentContainerStyle={styles.contentContainer}
         enableOnAndroid={true}
       >
-        <TouchableOpacity style={styles.coverImgWrapper} onPress={showImageUploadActions}>
-          <ExpoImage
-            style={styles.coverImg}
-            source={
-              coverUrl
-                ? { uri: getResizedImage(coverUrl, 600) }
-                : isDarkTheme
-                ? DARK_COVER_IMAGE
-                : LIGHT_COVER_IMAGE
-            }
-          />
-          {isUploading && (
-            <ActivityIndicator
-              style={styles.activityIndicator}
-              color={EStyleSheet.value('$white')}
-              size="large"
-            />
-          )}
-
-          <IconButton
-            iconStyle={styles.addIcon}
-            style={styles.addButton}
-            iconType="MaterialCommunityIcons"
-            name="plus"
+        <View style={styles.formItem}>
+          <Text style={styles.imgLabel}>
+            {intl.formatMessage({
+              id: 'profile.edit.cover_img',
+            })}
+          </Text>
+          <TouchableOpacity
+            disabled={isUploading}
+            style={styles.coverImgWrapper}
             onPress={showImageUploadActions}
-            size={15}
-          />
-        </TouchableOpacity>
-
+          >
+            <ExpoImage
+              style={styles.coverImg}
+              source={
+                coverUrl
+                  ? { uri: getResizedImage(coverUrl, 600) }
+                  : isDarkTheme
+                  ? DARK_COVER_IMAGE
+                  : LIGHT_COVER_IMAGE
+              }
+            />
+            <IconButton
+              color={'white'}
+              isLoading={isUploading}
+              iconStyle={styles.addIcon}
+              style={styles.addButton}
+              onPress={showImageUploadActions}
+              iconType="MaterialIcons"
+              name="edit"
+              size={18}
+            />
+          </TouchableOpacity>
+        </View>
         {formData.map((item) => (
           <View style={styles.formItem} key={item.valueKey}>
             <Text style={styles.label}>
@@ -110,7 +114,7 @@ const ProfileEditFormView = ({
         <Animated.View style={styles.floatingContainer} entering={BounceInRight}>
           <MainButton
             style={{ width: isLoading ? null : 120, marginBottom: 24, alignSelf: 'flex-end' }}
-            onPress={handleOnSubmit}
+            onPress={() => handleOnSubmit({ goBack: true })}
             iconName="save"
             iconType="MaterialIcons"
             iconColor="white"

@@ -1,4 +1,4 @@
-import { AvatarHeader } from './avatarHeader';
+import EditAvatar from './editAvatar/editAvatar';
 import { AccountsBottomSheet } from './accountsBottomSheet';
 import { BasicHeader } from './basicHeader';
 import { BoostIndicatorAnimation, PulseAnimation, SpinIndicator } from './animations';
@@ -105,7 +105,6 @@ import TextBoxWithCopy from './textBoxWithCopy/textBoxWithCopy';
 import WebViewModal from './webViewModal/webViewModal';
 import OrDivider from './orDivider/orDividerView';
 import PostTranslationModal from './post-translation-modal/postTranslationModal';
-import SimpleHeader from './simpleHeader/simpleHeader';
 
 // Basic UI Elements
 import {
@@ -133,7 +132,7 @@ import {
 } from './basicUIElements';
 
 export {
-  AvatarHeader,
+  EditAvatar,
   AccountsBottomSheet,
   BasicHeader,
   BeneficiaryModal,
@@ -258,5 +257,4 @@ export {
   WebViewModal,
   OrDivider,
   PostTranslationModal,
-  SimpleHeader,
 };
