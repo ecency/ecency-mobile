@@ -303,7 +303,10 @@
       "display_name": "Име за показване",
       "about": "Относно",
       "location": "Местоположение",
-      "website": "Уебсайт"
+      "website": "Уебсайт",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
