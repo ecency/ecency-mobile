@@ -303,7 +303,10 @@
       "display_name": "表示名",
       "about": "このアプリについて",
       "location": "場所",
-      "website": "ウェブサイト"
+      "website": "ウェブサイト",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
