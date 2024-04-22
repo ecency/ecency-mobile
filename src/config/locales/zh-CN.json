@@ -303,7 +303,10 @@
       "display_name": "显示名",
       "about": "关于",
       "location": "位置",
-      "website": "网站"
+      "website": "网站",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
