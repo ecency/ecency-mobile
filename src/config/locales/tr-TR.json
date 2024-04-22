@@ -303,7 +303,10 @@
       "display_name": "Ekran adı",
       "about": "Hakkında",
       "location": "Konum",
-      "website": "Web sitesi"
+      "website": "Web sitesi",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
