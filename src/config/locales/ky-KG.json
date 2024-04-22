@@ -303,7 +303,10 @@
       "display_name": "Аты",
       "about": "Биз тууралуу",
       "location": "Дареги",
-      "website": "Веб-сайт"
+      "website": "Веб-сайт",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
