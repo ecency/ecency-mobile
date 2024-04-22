@@ -303,7 +303,10 @@
       "display_name": "Näyttönimi",
       "about": "Tietoa",
       "location": "Sijainti",
-      "website": "Nettisivu"
+      "website": "Nettisivu",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
