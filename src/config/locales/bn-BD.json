@@ -303,7 +303,10 @@
       "display_name": "প্রদর্শন নাম",
       "about": "সম্বন্ধে",
       "location": "অবস্থান",
-      "website": "ওয়েবসাইট"
+      "website": "ওয়েবসাইট",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
