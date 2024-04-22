@@ -303,7 +303,10 @@
       "display_name": "顯示名",
       "about": "關於",
       "location": "位置",
-      "website": "網站"
+      "website": "網站",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
