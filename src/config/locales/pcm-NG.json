@@ -303,7 +303,10 @@
       "display_name": "Your name wey everyone fit see",
       "about": "Your informate",
       "location": "Wia you dey",
-      "website": "Your place online"
+      "website": "Your place online",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
