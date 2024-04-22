@@ -303,7 +303,10 @@
       "display_name": "Taxallus",
       "about": "Haqida",
       "location": "Manzil",
-      "website": "Vebsayt"
+      "website": "Vebsayt",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
