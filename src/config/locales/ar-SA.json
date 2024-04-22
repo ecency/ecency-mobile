@@ -303,7 +303,10 @@
       "display_name": "عرض الاسم",
       "about": "حول التطبيق",
       "location": "الموقع الجغرافي",
-      "website": "الموقع الإلكتروني"
+      "website": "الموقع الإلكتروني",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
