@@ -303,7 +303,10 @@
       "display_name": "প্ৰদৰ্শীত নাম",
       "about": "পৰিচয়",
       "location": "অবস্থান",
-      "website": "ৱেবছাইট"
+      "website": "ৱেবছাইট",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
