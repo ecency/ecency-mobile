@@ -303,7 +303,10 @@
       "display_name": "Nome che sarà visualizzato",
       "about": "Info",
       "location": "Luogo",
-      "website": "Sito Web"
+      "website": "Sito Web",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
