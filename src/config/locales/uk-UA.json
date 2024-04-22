@@ -303,7 +303,10 @@
       "display_name": "Відображуване ім'я",
       "about": "Про додаток",
       "location": "Місцеперебування",
-      "website": "Веб-сторінка"
+      "website": "Веб-сторінка",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
