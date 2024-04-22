@@ -303,7 +303,10 @@
       "display_name": "نام نمایشی",
       "about": "درباره",
       "location": "موقیعت",
-      "website": "وب سایت"
+      "website": "وب سایت",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
