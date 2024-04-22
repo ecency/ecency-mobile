@@ -303,7 +303,10 @@
       "display_name": "Rodomas vardas",
       "about": "Apie",
       "location": "Vietovė",
-      "website": "Svetainė"
+      "website": "Svetainė",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
