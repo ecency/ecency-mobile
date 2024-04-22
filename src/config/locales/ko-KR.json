@@ -303,7 +303,10 @@
       "display_name": "이름",
       "about": "소개",
       "location": "위치",
-      "website": "웹사이트"
+      "website": "웹사이트",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
