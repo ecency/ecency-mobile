@@ -21,6 +21,7 @@ import { IconButton } from '../buttons';
 import styles from './postHtmlRendererStyles';
 import { PostTypes } from '../../constants/postTypes';
 import { isHiveUri } from '../../utils/hive-uri';
+import { ImageViewer } from '../imageViewer';
 
 interface PostHtmlInteractionHandlerProps {
   postType?: PostTypes;
@@ -35,6 +36,7 @@ export const PostHtmlInteractionHandler = forwardRef(
     const actionImage = useRef(null);
     const actionLink = useRef(null);
     const youtubePlayerRef = useRef(null);
+    const imageViewerRef = useRef(null);
 
     const [postImages, setPostImages] = useState<string[]>([]);
     const [isImageModalOpen, setIsImageModalOpen] = useState(false);
@@ -49,10 +51,8 @@ export const PostHtmlInteractionHandler = forwardRef(
       handleImagePress: (url: string, postImgUrls: string[]) => {
         setPostImages(postImgUrls);
         setSelectedImage(url);
-        if (postType === PostTypes.WAVE) {
-          setIsImageModalOpen(true);
-        } else {
-          actionImage.current?.show();
+        if(imageViewerRef.current){
+          imageViewerRef.current.show(url, postImgUrls);
         }
       },
       handleLinkPress: (url: string) => {
@@ -231,7 +231,11 @@ export const PostHtmlInteractionHandler = forwardRef(
 
     return (
       <Fragment>
-        <ImageView
+
+        <ImageViewer 
+          ref={imageViewerRef}
+        />
+        {/* <ImageView
           images={postImages.map((url) => ({ uri: url }))}
           imageIndex={postImages.indexOf(selectedImage)}
           visible={isImageModalOpen}
@@ -239,8 +243,9 @@ export const PostHtmlInteractionHandler = forwardRef(
           swipeToCloseEnabled
           onRequestClose={_onCloseImageViewer}
           HeaderComponent={(imageIndex) => _renderImageViewerHeader(imageIndex.imageIndex)}
-        />
+        /> */}
 
+        {/* Get rid of actions modal here */}
         <OptionsModal
           ref={actionImage}
           options={[

@@ -3,7 +3,6 @@ import { SafeAreaView, PermissionsAndroid, Platform, View, Text } from 'react-na
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import ImageView from 'react-native-image-viewing';
 import RNFetchBlob from 'rn-fetch-blob';
 import ActionSheetView from 'react-native-actions-sheet';
 
@@ -21,7 +20,7 @@ import { default as ROUTES } from '../../../../constants/routeNames';
 import { OptionsModal } from '../../../atoms';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
-import { PostHtmlRenderer, VideoPlayer } from '../../..';
+import { ImageViewer, PostHtmlRenderer, VideoPlayer } from '../../..';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../../hooks';
 import { IconButton } from '../../../buttons';
@@ -47,6 +46,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
   const intl = useIntl();
   const actionImage = useRef(null);
   const actionLink = useRef(null);
+  const imageViewerRef = useRef(null);
   const youtubePlayerRef = useRef(null);
 
   useEffect(() => {
@@ -267,7 +267,12 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
       setPostImages(postImgUrls);
     }
     setSelectedImage(imageLink);
-    actionImage.current.show();
+    setIsImageModalOpen(true);
+
+    if(imageViewerRef.current){
+      imageViewerRef.current.show(imageLink, postImgUrls);
+    }
+
   };
 
   const _onCloseImageViewer = () => {
@@ -300,14 +305,9 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
 
   return (
     <Fragment>
-      <ImageView
-        images={postImages.map((url) => ({ uri: url }))}
-        imageIndex={postImages.indexOf(selectedImage)}
-        visible={isImageModalOpen}
-        animationType="slide"
-        swipeToCloseEnabled
-        onRequestClose={_onCloseImageViewer}
-        HeaderComponent={(imageIndex) => _renderImageViewerHeader(imageIndex.imageIndex)}
+      {/* TOOD: update header component */}
+      <ImageViewer 
+        ref={imageViewerRef}
       />
 
       <ActionSheetView
@@ -329,6 +329,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
         />
       </ActionSheetView>
 
+      {/*TODO: Get rid of options modal here */}
       <OptionsModal
         ref={actionImage}
         options={[
