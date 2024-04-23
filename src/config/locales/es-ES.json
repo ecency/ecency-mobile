@@ -304,9 +304,9 @@
       "about": "Acerca de",
       "location": "Localización",
       "website": "Página web",
-      "edit_profile": "Edit Profile",
-      "cover_img": "Cover Image",
-      "profile_img": "Profile Image"
+      "edit_profile": "Editar perfil",
+      "cover_img": "Imagen de portada",
+      "profile_img": "Imagen de perfil"
     }
   },
   "settings": {
