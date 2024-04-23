@@ -1,4 +1,4 @@
-import { UseMutationOptions, useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
+import { QueryKey, UseMutationOptions, useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { unionBy, isArray } from 'lodash';
@@ -279,9 +279,16 @@ export const usePublishWaveMutation = () => {
       const _host = cacheCommentData.parent_author;
 
       // update query data
-      const queriesData = queryClient.getQueriesData([QUERIES.WAVES.INITIAL_CONTAINERS, _host]);
-      const _queryKey = queriesData[0][0];
-      const queryData: any[] | undefined = queryClient.getQueryData(_queryKey);
+      const containerQueriesData: [QueryKey, string[] | undefined][] = queryClient.getQueriesData([QUERIES.WAVES.INITIAL_CONTAINERS, _host]);
+
+      if (!containerQueriesData[0][1]) {
+        return;
+      }
+
+      //get query data of first waves container
+      const _containerKey: string = containerQueriesData[0][1][0];
+      const _queryKey = [QUERIES.WAVES.GET, _host, _containerKey, 0]
+      const queryData: any[] | undefined = queryClient.getQueryData(_queryKey)
 
       console.log('query data', queryData);
 
