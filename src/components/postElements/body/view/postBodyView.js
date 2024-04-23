@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { SafeAreaView, PermissionsAndroid, Platform, View, Text } from 'react-native';
+import { PermissionsAndroid, Platform, View } from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -23,28 +23,21 @@ import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters
 import { ImageViewer, PostHtmlRenderer, VideoPlayer } from '../../..';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../../hooks';
-import { IconButton } from '../../../buttons';
-import styles from './postBodyStyles';
 import { isHiveUri } from '../../../../utils/hive-uri';
 
 const WIDTH = getWindowDimensions().width;
 
 const PostBody = ({ body, metadata, onLoadEnd, width }) => {
+  const intl = useIntl();
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
-  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-
-  const [postImages, setPostImages] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null);
   const [selectedLink, setSelectedLink] = useState(null);
   const [html, setHtml] = useState('');
   const [youtubeVideoId, setYoutubeVideoId] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
   const [videoStartTime, setVideoStartTime] = useState(0);
 
-  const intl = useIntl();
-  const actionImage = useRef(null);
   const actionLink = useRef(null);
   const imageViewerRef = useRef(null);
   const youtubePlayerRef = useRef(null);
@@ -71,31 +64,6 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
     }
   };
 
-  const handleImagePress = (ind) => {
-    if (ind === 1) {
-      // open gallery mode
-      setIsImageModalOpen(true);
-      return;
-    }
-    if (ind === 0) {
-      // copy to clipboard
-      writeToClipboard(selectedImage).then(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.copied',
-            }),
-          ),
-        );
-      });
-    }
-    // if (ind === 2) {
-    //   // save to local
-    //   _saveImage(selectedImage);
-    // }
-
-    setSelectedImage(null);
-  };
 
   const handleLinkPress = (ind) => {
     if (ind === 1) {
@@ -263,49 +231,15 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
   };
 
   const _handleSetSelectedImage = (imageLink, postImgUrls) => {
-    if (postImages.length !== postImgUrls.length) {
-      setPostImages(postImgUrls);
-    }
-    setSelectedImage(imageLink);
-    setIsImageModalOpen(true);
-
     if(imageViewerRef.current){
       imageViewerRef.current.show(imageLink, postImgUrls);
     }
-
   };
 
-  const _onCloseImageViewer = () => {
-    setIsImageModalOpen(false);
-    setSelectedImage(null);
-  };
-
-  const _renderImageViewerHeader = (imageIndex) => {
-    return (
-      <SafeAreaView
-        style={{
-          marginTop: Platform.select({ ios: 0, android: 25 }),
-        }}
-      >
-        <View style={styles.imageViewerHeaderContainer}>
-          <Text style={styles.imageGalleryHeaderText}>{`${imageIndex + 1}/${
-            postImages.length
-          }`}</Text>
-          <IconButton
-            name="close"
-            color={EStyleSheet.value('$primaryDarkText')}
-            buttonStyle={styles.closeIconButton}
-            size={20}
-            handleOnPress={_onCloseImageViewer}
-          />
-        </View>
-      </SafeAreaView>
-    );
-  };
 
   return (
     <Fragment>
-      {/* TOOD: update header component */}
+
       <ImageViewer 
         ref={imageViewerRef}
       />
@@ -329,21 +263,6 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
         />
       </ActionSheetView>
 
-      {/*TODO: Get rid of options modal here */}
-      <OptionsModal
-        ref={actionImage}
-        options={[
-          intl.formatMessage({ id: 'post.copy_link' }),
-          intl.formatMessage({ id: 'post.gallery_mode' }),
-          // intl.formatMessage({ id: 'post.save_to_local' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
-        ]}
-        title={intl.formatMessage({ id: 'post.image' })}
-        cancelButtonIndex={2}
-        onPress={(index) => {
-          handleImagePress(index);
-        }}
-      />
       <OptionsModal
         ref={actionLink}
         options={[
