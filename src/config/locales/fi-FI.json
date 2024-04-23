@@ -304,9 +304,9 @@
       "about": "Tietoa",
       "location": "Sijainti",
       "website": "Nettisivu",
-      "edit_profile": "Edit Profile",
-      "cover_img": "Cover Image",
-      "profile_img": "Profile Image"
+      "edit_profile": "Muokkaa profiilia",
+      "cover_img": "Kansikuva",
+      "profile_img": "Profiilikuva"
     }
   },
   "settings": {
