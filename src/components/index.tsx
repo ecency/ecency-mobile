@@ -105,6 +105,7 @@ import TextBoxWithCopy from './textBoxWithCopy/textBoxWithCopy';
 import WebViewModal from './webViewModal/webViewModal';
 import OrDivider from './orDivider/orDividerView';
 import PostTranslationModal from './post-translation-modal/postTranslationModal';
+import { ImageViewer } from './imageViewer';
 
 // Basic UI Elements
 import {
@@ -257,4 +258,5 @@ export {
   WebViewModal,
   OrDivider,
   PostTranslationModal,
+  ImageViewer
 };
