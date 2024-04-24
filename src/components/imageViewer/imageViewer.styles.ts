@@ -5,11 +5,19 @@ export default EStyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
   },
-  closeIconButton: {
+  leftContainer: {
     position: 'absolute',
-    right: 0,
+    flexDirection:'row',
+    alignItems:'center',
+    left: 8,
+  },
+  rightContainer: {
+    position: 'absolute',
+    flexDirection:'row',
+    right: 8,
   },
   imageGalleryHeaderText: {
-    color: '$primaryDarkText',
+    color: '$iconColor',
+    fontSize: 16
   },
 });
