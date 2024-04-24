@@ -1,13 +1,14 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { View, Text, Platform, SafeAreaView, Alert, Share, ShareContent } from 'react-native';
+import { View, Text, Platform, SafeAreaView, Share, Alert } from 'react-native';
 import styles from './imageViewer.styles';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImageViewing from 'react-native-image-viewing';
 import { useIntl } from 'react-intl';
 import IconButton from '../iconButton';
-import { writeToClipboard } from '../../utils/clipboard';
 import { useDispatch } from 'react-redux';
-import { toastNotification } from '../../redux/actions/uiAction';
+import { PermissionsAndroid } from 'react-native';
+import { CameraRoll } from '@react-native-camera-roll/camera-roll';
+import { Image as ExpoImage } from 'expo-image';
 
 
 export const ImageViewer = forwardRef(({ }, ref) => {
@@ -27,19 +28,64 @@ export const ImageViewer = forwardRef(({ }, ref) => {
             setImageUrls(_imageUrls)
             setSelectedIndex(_imageUrls.indexOf(selectedUrl))
             setVisible(true);
+
+            ExpoImage.prefetch(_imageUrls, "memory").then((status) => {
+                if (status) {
+                    Alert.alert('ready');
+                }
+            });
         },
     }));
+
+    const checkAndroidPermission = async () => {
+        try {
+            const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+            await PermissionsAndroid.request(permission);
+            Promise.resolve();
+        } catch (error) {
+            Promise.reject(error);
+        }
+    };
+
+
+
+    const _onSavePress = async (index: number) => {
+
+        try {
+            if (Platform.OS === 'android') {
+                await checkAndroidPermission();
+            }
+
+            const url = imageUrls[index];
+
+            const imagePath = await ExpoImage.getCachePathAsync(url);
+
+            if (!imagePath) {
+                return;
+            }
+
+            const uri = Platform.select({
+                ios: `file://${imagePath}`,
+                android: imagePath.replace('file://', ''),
+                default: ''
+            })
+
+            await CameraRoll.saveAsset(uri, { album: 'Ecency' })
+
+            Alert.alert("Saved to Gallery");
+
+
+        } catch (err) {
+            console.warn("fail to save image", err.message)
+        }
+    };
+
 
 
     const _onCopyPress = (index: number) => {
         const url = imageUrls[index]
         Share.share(Platform.OS === 'ios' ?
             { url } : { message: url })
-    }
-
-
-    const _onSavePress = (index: number) => {
-
     }
 
 
@@ -182,12 +228,3 @@ export const ImageViewer = forwardRef(({ }, ref) => {
 //   };
 
 
-// const checkAndroidPermission = async () => {
-//     try {
-//       const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
-//       await PermissionsAndroid.request(permission);
-//       Promise.resolve();
-//     } catch (error) {
-//       Promise.reject(error);
-//     }
-//   };
