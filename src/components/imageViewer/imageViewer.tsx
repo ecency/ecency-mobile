@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { PermissionsAndroid } from 'react-native';
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import { Image as ExpoImage } from 'expo-image';
+import RNFetchBlob from 'rn-fetch-blob';
 
 
 export const ImageViewer = forwardRef(({ }, ref) => {
@@ -29,11 +30,10 @@ export const ImageViewer = forwardRef(({ }, ref) => {
             setSelectedIndex(_imageUrls.indexOf(selectedUrl))
             setVisible(true);
 
-            ExpoImage.prefetch(_imageUrls, "memory").then((status) => {
-                if (status) {
-                    Alert.alert('ready');
-                }
-            });
+            if (Platform.OS === 'ios') {
+                ExpoImage.prefetch(_imageUrls, "memory");
+            }
+
         },
     }));
 
@@ -48,6 +48,26 @@ export const ImageViewer = forwardRef(({ }, ref) => {
     };
 
 
+    const _downloadImage = async (uri: string) => {
+        return RNFetchBlob.config({
+            fileCache: true,
+            appendExt: 'jpg',
+        })
+            .fetch('GET', uri)
+            .then((res) => {
+                const { status } = res.info();
+
+                if (status == 200) {
+                    return res.path();
+                } else {
+                    Promise.reject();
+                }
+            })
+            .catch((errorMessage) => {
+                Promise.reject(errorMessage);
+            });
+    };
+
 
     const _onSavePress = async (index: number) => {
 
@@ -58,21 +78,19 @@ export const ImageViewer = forwardRef(({ }, ref) => {
 
             const url = imageUrls[index];
 
-            const imagePath = await ExpoImage.getCachePathAsync(url);
+            const imagePath = Platform.select({
+                ios: await ExpoImage.getCachePathAsync(url),
+                android: await _downloadImage(url)
+            })
 
             if (!imagePath) {
                 return;
             }
 
-            const uri = Platform.select({
-                ios: `file://${imagePath}`,
-                android: imagePath.replace('file://', ''),
-                default: ''
-            })
-
+            const uri = `file://${imagePath}`
             await CameraRoll.saveAsset(uri, { album: 'Ecency' })
 
-            Alert.alert("Saved to Gallery");
+            Alert.alert(intl.formatMessage({ id: "post.image_saved" }));
 
 
         } catch (err) {
@@ -143,88 +161,5 @@ export const ImageViewer = forwardRef(({ }, ref) => {
         />
     );
 });
-
-// const _handleImageOptionPress = (ind) => {
-//     if (ind === 1) {
-//       // open gallery mode
-//       // setIsImageModalOpen(true);
-//       return;
-//     }
-//     if (ind === 0) {
-//       // copy to clipboard
-//       writeToClipboard(selectedImage).then(() => {
-//         dispatch(
-//           toastNotification(
-//             intl.formatMessage({
-//               id: 'alert.copied',
-//             }),
-//           ),
-//         );
-//       });
-//     }
-//     // if (ind === 2) {
-//     //   // save to local
-//     //   _saveImage(selectedImage);
-//     // }
-
-//     setSelectedImage(null);
-//   };
-
-
-// const _saveImage = async (uri) => {
-//     try {
-//       if (Platform.OS === 'android') {
-//         await checkAndroidPermission();
-//         uri = `file://${await _downloadImage(uri)}`;
-//       }
-//       // CameraRoll.saveToCameraRoll(uri)
-//       //   .then(() => {
-//       //     dispatch(
-//       //       toastNotification(
-//       //         intl.formatMessage({
-//       //           id: 'post.image_saved',
-//       //         }),
-//       //       ),
-//       //     );
-//       //   })
-//       //   .catch(() => {
-//       //     dispatch(
-//       //       toastNotification(
-//       //         intl.formatMessage({
-//       //           id: 'post.image_saved_error',
-//       //         }),
-//       //       ),
-//       //     );
-//       //   });
-//     } catch (error) {
-//       dispatch(
-//         toastNotification(
-//           intl.formatMessage({
-//             id: 'post.image_saved_error',
-//           }),
-//         ),
-//       );
-//     }
-//   };
-
-// const _downloadImage = async (uri) => {
-//     return RNFetchBlob.config({
-//       fileCache: true,
-//       appendExt: 'jpg',
-//     })
-//       .fetch('GET', uri)
-//       .then((res) => {
-//         const { status } = res.info();
-
-//         if (status == 200) {
-//           return res.path();
-//         } else {
-//           Promise.reject();
-//         }
-//       })
-//       .catch((errorMessage) => {
-//         Promise.reject(errorMessage);
-//       });
-//   };
 
 
