@@ -11,12 +11,11 @@ export default EStyleSheet.create({
   },
   longImage: {
     borderRadius: 5,
-    height: 60,
+    height: 65,
     marginTop: 16,
     marginBottom: 12,
     alignSelf: 'stretch',
     maxWidth: '$deviceWidth - 24',
-    backgroundColor: '#296CC0',
   },
   footer: {
     width: '$deviceWidth - 14',

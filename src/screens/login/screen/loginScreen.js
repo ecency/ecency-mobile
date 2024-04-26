@@ -123,12 +123,6 @@ const LoginScreen = ({
         }}
       />
 
-      <View
-        tabLabel={intl.formatMessage({
-          id: 'login.signin',
-        })}
-        style={styles.tabbarItem}
-      >
         <KeyboardAwareScrollView
           enableAutoAutomaticScroll={Platform.OS === 'ios'}
           contentContainerStyle={styles.formWrapper}
@@ -200,7 +194,7 @@ const LoginScreen = ({
             height={48}
             style={styles.hsLoginBtnStyle}
           />
-        </KeyboardAwareScrollView>
+        
         <View style={styles.footerButtons}>
           <Text style={styles.noAccountText}>
             {intl.formatMessage({
@@ -213,7 +207,8 @@ const LoginScreen = ({
             })}
           </Text>
         </View>
-      </View>
+        </KeyboardAwareScrollView>
+  
       <Modal
         isOpen={isModalOpen}
         isFullScreen

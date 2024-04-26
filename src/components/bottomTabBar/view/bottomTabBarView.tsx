@@ -66,7 +66,7 @@ const BottomTabBarView = ({
 
     const _iconProps = {
       iconType: 'MaterialIcons',
-      style: { padding: 15 },
+      style: { paddingTop: 15 },
       name: route.params.iconName,
       color: iconColor,
       size: scalePx(26),

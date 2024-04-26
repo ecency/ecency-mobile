@@ -1,9 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { RedeemContainer, PointsContainer } from '../../../containers';
 
 import { Promote, PostBoost } from '../../../components';
 import BoostPlus from '../children/boostPlus';
+import styles from '../styles/redeemScreen.styles';
+import Animated, { Easing, SlideInDown, SlideInRight, SlideInUp } from 'react-native-reanimated';
 
 class RedeemScreen extends PureComponent {
   constructor(props) {
@@ -18,7 +21,7 @@ class RedeemScreen extends PureComponent {
   render() {
     const { route } = this.props;
     return (
-      <Fragment>
+      <View style={styles.container}>
         <PointsContainer route={route}>
           {({
             accounts,
@@ -30,10 +33,12 @@ class RedeemScreen extends PureComponent {
             user,
           }) => (
             <RedeemContainer>
-              {({ handleOnSubmit, SCPath, isSCModalOpen, handleOnSCModalClose, isLoading }) => (
-                <Fragment>
-                  {redeemType === 'promote' && (
-                    <Promote
+              {({ handleOnSubmit, SCPath, isSCModalOpen, handleOnSCModalClose, isLoading }) => {
+
+                let _retView = null;
+                switch (redeemType) {
+                  case 'promote':
+                    _retView = <Promote
                       isLoading={isLoading}
                       accounts={accounts}
                       currentAccountName={currentAccountName}
@@ -46,10 +51,9 @@ class RedeemScreen extends PureComponent {
                       SCPath={SCPath}
                       getESTMPrice={getESTMPrice}
                     />
-                  )}
-
-                  {redeemType === 'boost' && (
-                    <PostBoost
+                    break;
+                  case 'boost':
+                    _retView = <PostBoost
                       isLoading={isLoading}
                       accounts={accounts}
                       currentAccountName={currentAccountName}
@@ -63,10 +67,9 @@ class RedeemScreen extends PureComponent {
                       getESTMPrice={getESTMPrice}
                       user={user}
                     />
-                  )}
-
-                  {redeemType === 'boost_plus' && (
-                    <BoostPlus
+                    break;
+                  case 'boost_plus':
+                    _retView = <BoostPlus
                       isLoading={isLoading}
                       accounts={accounts}
                       currentAccountName={currentAccountName}
@@ -79,13 +82,19 @@ class RedeemScreen extends PureComponent {
                       SCPath={SCPath}
                       getESTMPrice={getESTMPrice}
                     />
-                  )}
-                </Fragment>
-              )}
+                    break;
+                }
+
+                return (
+                  <Animated.View style={StyleSheet.absoluteFill} entering={SlideInRight}>
+                    {_retView}
+                  </Animated.View>
+                )
+              }}
             </RedeemContainer>
           )}
         </PointsContainer>
-      </Fragment>
+      </View>
     );
   }
 }

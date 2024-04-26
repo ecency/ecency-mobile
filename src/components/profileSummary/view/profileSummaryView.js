@@ -19,17 +19,14 @@ import DARK_COVER_IMAGE from '../../../assets/dark_cover_image.png';
 // Components
 import { TextWithIcon } from '../../basicUIElements';
 import { PercentBar } from '../../percentBar';
-import { IconButton } from '../../iconButton';
 import { DropdownButton } from '../../dropdownButton';
 
 // Utils
 import { makeCountFriendly } from '../../../utils/formatter';
-import { getCoverImageUrl } from '../../../utils/image';
+import { proxifyImageSrc } from '@ecency/render-helper';
 
 // Styles
 import styles from './profileSummaryStyles';
-import { TextButton } from '../../buttons';
-import { Icon } from '../..';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 const DEVICE_WIDTH = getWindowDimensions().width;
@@ -127,6 +124,7 @@ class ProfileSummaryView extends PureComponent {
     const rcPowerText = `Resource Credits: ${percentRC}% ${rcPowerHoursText || ''}`;
     const link = get(about, 'website', '');
     const location = get(about, 'location', '');
+    const coverImage = get(about, 'cover_image', '');
 
     const ABOUT_DATA = [
       { id: 1, text: date, icon: 'calendar' },
@@ -141,7 +139,12 @@ class ProfileSummaryView extends PureComponent {
     const followButtonText = intl.formatMessage({
       id: !isFollowing ? 'user.follow' : 'user.unfollow',
     });
-    let coverImageUrl = getCoverImageUrl(username);
+    let coverImageUrl = proxifyImageSrc(
+      coverImage,
+      360,
+      240,
+      Platform.OS !== 'ios' ? 'webp' : 'match',
+    );
 
     if (!coverImageUrl) {
       coverImageUrl = isDarkTheme
@@ -185,10 +188,11 @@ class ProfileSummaryView extends PureComponent {
           )}
         </View>
         <ExpoImage
+          key={`${new Date()}`}
           style={styles.longImage}
           source={coverImageUrl}
           contentFit="cover"
-          defaultSource={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
+          placeholder={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
         />
         <TouchableOpacity
           onPress={() =>

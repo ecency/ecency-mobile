@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native-background-upload/android/build.gradle b/node_modules/react-native-background-upload/android/build.gradle
-index fa6963f..e47acb7 100755
+index fa6963f..38a212f 100755
 --- a/node_modules/react-native-background-upload/android/build.gradle
 +++ b/node_modules/react-native-background-upload/android/build.gradle
 @@ -1,10 +1,10 @@
@@ -36,31 +36,93 @@ index fa6963f..e47acb7 100755
  }
  
  repositories {
-diff --git a/node_modules/react-native-background-upload/android/build/.transforms/456a0936e4b71044508725ce398a7f8d/results.bin b/node_modules/react-native-background-upload/android/build/.transforms/456a0936e4b71044508725ce398a7f8d/results.bin
+@@ -64,7 +66,7 @@ dependencies {
+ 
+     implementation "org.jetbrains.kotlin:$_kotlinStdlib:$_kotlinVersion"
+ 
+-    implementation 'net.gotev:uploadservice-okhttp:4.7.0'
++    implementation 'net.gotev:uploadservice-okhttp:4.9.2'
+ 
+     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+ }
+diff --git a/node_modules/react-native-background-upload/android/build/.transforms/4c9baf4482d88ab1817fb4eedaf2773f/results.bin b/node_modules/react-native-background-upload/android/build/.transforms/4c9baf4482d88ab1817fb4eedaf2773f/results.bin
 new file mode 100644
 index 0000000..0d259dd
 --- /dev/null
-+++ b/node_modules/react-native-background-upload/android/build/.transforms/456a0936e4b71044508725ce398a7f8d/results.bin
++++ b/node_modules/react-native-background-upload/android/build/.transforms/4c9baf4482d88ab1817fb4eedaf2773f/results.bin
 @@ -0,0 +1 @@
 +o/classes
-diff --git a/node_modules/react-native-background-upload/android/build/.transforms/456a0936e4b71044508725ce398a7f8d/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-background-upload/android/build/.transforms/456a0936e4b71044508725ce398a7f8d/transformed/classes/classes_dex/classes.dex
+diff --git a/node_modules/react-native-background-upload/android/build/.transforms/4c9baf4482d88ab1817fb4eedaf2773f/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-background-upload/android/build/.transforms/4c9baf4482d88ab1817fb4eedaf2773f/transformed/classes/classes_dex/classes.dex
 new file mode 100644
-index 0000000..992a246
-Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/.transforms/456a0936e4b71044508725ce398a7f8d/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-background-upload/android/build/.transforms/723f97ece72ad3ee886490d9a9ce5bdd/results.bin b/node_modules/react-native-background-upload/android/build/.transforms/723f97ece72ad3ee886490d9a9ce5bdd/results.bin
-new file mode 100644
-index 0000000..61a58fa
---- /dev/null
-+++ b/node_modules/react-native-background-upload/android/build/.transforms/723f97ece72ad3ee886490d9a9ce5bdd/results.bin
-@@ -0,0 +1 @@
-+i/classes_dex
-diff --git a/node_modules/react-native-background-upload/android/build/.transforms/cefafc29ad0f3182d6945b409e0b71e9/results.bin b/node_modules/react-native-background-upload/android/build/.transforms/cefafc29ad0f3182d6945b409e0b71e9/results.bin
+index 0000000..9911047
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/.transforms/4c9baf4482d88ab1817fb4eedaf2773f/transformed/classes/classes_dex/classes.dex differ
+diff --git a/node_modules/react-native-background-upload/android/build/.transforms/6e67554c4aee2e777f0ed1606b6ec7f6/results.bin b/node_modules/react-native-background-upload/android/build/.transforms/6e67554c4aee2e777f0ed1606b6ec7f6/results.bin
 new file mode 100644
 index 0000000..e3f0ff0
 --- /dev/null
-+++ b/node_modules/react-native-background-upload/android/build/.transforms/cefafc29ad0f3182d6945b409e0b71e9/results.bin
++++ b/node_modules/react-native-background-upload/android/build/.transforms/6e67554c4aee2e777f0ed1606b6ec7f6/results.bin
 @@ -0,0 +1 @@
 +i/classes_global-synthetics
+diff --git a/node_modules/react-native-background-upload/android/build/.transforms/9e625cef08a5419af49230aec5ba651b/results.bin b/node_modules/react-native-background-upload/android/build/.transforms/9e625cef08a5419af49230aec5ba651b/results.bin
+new file mode 100644
+index 0000000..1ed65e0
+--- /dev/null
++++ b/node_modules/react-native-background-upload/android/build/.transforms/9e625cef08a5419af49230aec5ba651b/results.bin
+@@ -0,0 +1 @@
++i/
+diff --git a/node_modules/react-native-background-upload/android/build/.transforms/bcc660ac0e95fa1df10a9d9c72e3710d/results.bin b/node_modules/react-native-background-upload/android/build/.transforms/bcc660ac0e95fa1df10a9d9c72e3710d/results.bin
+new file mode 100644
+index 0000000..1ed65e0
+--- /dev/null
++++ b/node_modules/react-native-background-upload/android/build/.transforms/bcc660ac0e95fa1df10a9d9c72e3710d/results.bin
+@@ -0,0 +1 @@
++i/
+diff --git a/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/results.bin b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/results.bin
+new file mode 100644
+index 0000000..5ff383e
+--- /dev/null
++++ b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/results.bin
+@@ -0,0 +1 @@
++o/debug
+diff --git a/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/BuildConfig.dex b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/BuildConfig.dex
+new file mode 100644
+index 0000000..17ee1c5
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/BuildConfig.dex differ
+diff --git a/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/GlobalRequestObserverDelegate.dex b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/GlobalRequestObserverDelegate.dex
+new file mode 100644
+index 0000000..1c249d7
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/GlobalRequestObserverDelegate.dex differ
+diff --git a/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/NotificationActions.dex b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/NotificationActions.dex
+new file mode 100644
+index 0000000..f75e858
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/NotificationActions.dex differ
+diff --git a/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/NotificationActionsReceiver.dex b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/NotificationActionsReceiver.dex
+new file mode 100644
+index 0000000..ab1a7fe
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/NotificationActionsReceiver.dex differ
+diff --git a/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/UploaderModule$startUpload$1.dex b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/UploaderModule$startUpload$1.dex
+new file mode 100644
+index 0000000..3cec759
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/UploaderModule$startUpload$1.dex differ
+diff --git a/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/UploaderModule.dex b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/UploaderModule.dex
+new file mode 100644
+index 0000000..80e6ff3
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/UploaderModule.dex differ
+diff --git a/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/UploaderReactPackage.dex b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/UploaderReactPackage.dex
+new file mode 100644
+index 0000000..7c1c4ce
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/debug_dex/com/vydia/RNUploader/UploaderReactPackage.dex differ
+diff --git a/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/desugar_graph.bin b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/desugar_graph.bin
+new file mode 100644
+index 0000000..601f245
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/.transforms/c1f7bf40428cce76081fcf5d4ad30c7f/transformed/debug/desugar_graph.bin differ
+diff --git a/node_modules/react-native-background-upload/android/build/.transforms/c97fa88746cce4da2d943394370f6f68/results.bin b/node_modules/react-native-background-upload/android/build/.transforms/c97fa88746cce4da2d943394370f6f68/results.bin
+new file mode 100644
+index 0000000..4c288ce
+--- /dev/null
++++ b/node_modules/react-native-background-upload/android/build/.transforms/c97fa88746cce4da2d943394370f6f68/results.bin
+@@ -0,0 +1 @@
++i/debug_dex
 diff --git a/node_modules/react-native-background-upload/android/build/generated/source/buildConfig/debug/com/vydia/RNUploader/BuildConfig.java b/node_modules/react-native-background-upload/android/build/generated/source/buildConfig/debug/com/vydia/RNUploader/BuildConfig.java
 new file mode 100644
 index 0000000..c3fab9b
@@ -156,11 +218,11 @@ index 0000000..dca24b2
 Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/intermediates/incremental/dataBindingGenBaseClassesDebug/base_builder_log.json differ
 diff --git a/node_modules/react-native-background-upload/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties b/node_modules/react-native-background-upload/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
 new file mode 100644
-index 0000000..e8acb81
+index 0000000..8c56914
 --- /dev/null
 +++ b/node_modules/react-native-background-upload/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
 @@ -0,0 +1 @@
-+#Thu Feb 22 23:42:46 PKT 2024
++#Mon Apr 15 12:03:35 PKT 2024
 diff --git a/node_modules/react-native-background-upload/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml b/node_modules/react-native-background-upload/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
 new file mode 100644
 index 0000000..2034167
@@ -252,6 +314,38 @@ index 0000000..0637a08
 @@ -0,0 +1 @@
 +[]
 \ No newline at end of file
+diff --git a/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/META-INF/react-native-background-upload_debug.kotlin_module b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/META-INF/react-native-background-upload_debug.kotlin_module
+new file mode 100644
+index 0000000..3aa6361
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/META-INF/react-native-background-upload_debug.kotlin_module differ
+diff --git a/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/BuildConfig.class b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/BuildConfig.class
+new file mode 100644
+index 0000000..cd529e1
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/BuildConfig.class differ
+diff --git a/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/GlobalRequestObserverDelegate.class b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/GlobalRequestObserverDelegate.class
+new file mode 100644
+index 0000000..96e23aa
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/GlobalRequestObserverDelegate.class differ
+diff --git a/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/NotificationActions.class b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/NotificationActions.class
+new file mode 100644
+index 0000000..7c962a2
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/NotificationActions.class differ
+diff --git a/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/NotificationActionsReceiver.class b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/NotificationActionsReceiver.class
+new file mode 100644
+index 0000000..9f52485
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/NotificationActionsReceiver.class differ
+diff --git a/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/UploaderModule$startUpload$1.class b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/UploaderModule$startUpload$1.class
+new file mode 100644
+index 0000000..a444158
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/UploaderModule$startUpload$1.class differ
+diff --git a/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/UploaderModule.class b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/UploaderModule.class
+new file mode 100644
+index 0000000..e9057ef
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/UploaderModule.class differ
+diff --git a/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/UploaderReactPackage.class b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/UploaderReactPackage.class
+new file mode 100644
+index 0000000..421d91c
+Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_dir/debug/com/vydia/RNUploader/UploaderReactPackage.class differ
 diff --git a/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar b/node_modules/react-native-background-upload/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar
 new file mode 100644
 index 0000000..d17d410
@@ -582,11 +676,11 @@ index 0000000..131e265
 Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab_i.len differ
 diff --git a/node_modules/react-native-background-upload/android/build/kotlin/compileDebugKotlin/cacheable/last-build.bin b/node_modules/react-native-background-upload/android/build/kotlin/compileDebugKotlin/cacheable/last-build.bin
 new file mode 100644
-index 0000000..5c8f72d
+index 0000000..6379290
 Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/kotlin/compileDebugKotlin/cacheable/last-build.bin differ
 diff --git a/node_modules/react-native-background-upload/android/build/kotlin/compileDebugKotlin/local-state/build-history.bin b/node_modules/react-native-background-upload/android/build/kotlin/compileDebugKotlin/local-state/build-history.bin
 new file mode 100644
-index 0000000..2b50665
+index 0000000..3b90c5d
 Binary files /dev/null and b/node_modules/react-native-background-upload/android/build/kotlin/compileDebugKotlin/local-state/build-history.bin differ
 diff --git a/node_modules/react-native-background-upload/android/build/outputs/logs/manifest-merger-debug-report.txt b/node_modules/react-native-background-upload/android/build/outputs/logs/manifest-merger-debug-report.txt
 new file mode 100644
