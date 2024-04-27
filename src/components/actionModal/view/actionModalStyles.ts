@@ -71,8 +71,20 @@ export default EStyleSheet.create({
   actionPanel: {
     width: '100%',
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap-reverse',
     justifyContent: 'space-around',
     alignItems: 'center',
   } as ViewStyle,
+  cancel: {
+    backgroundColor: 'transparent',
+    minWidth: 150,
+    paddingVertical: 16,
+    marginVertical: 8,
+    borderRadius: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+  } as ViewStyle,
+  cancelBtnText: {
+    color: '$primaryDarkGray',
+  } as TextStyle,
 });

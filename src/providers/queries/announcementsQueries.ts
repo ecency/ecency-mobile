@@ -9,6 +9,7 @@ import { updateAnnoucementsMeta } from '../../redux/actions/cacheActions';
 import { handleDeepLink, showActionModal } from '../../redux/actions/uiAction';
 import { getPostUrl } from '../../utils/post';
 import { delay } from '../../utils/editor';
+import { ButtonTypes } from '../../components/actionModal/container/actionModalContainer';
 
 const PROMPT_AGAIN_INTERVAL = 48 * 3600 * 1000; // 2 days
 
@@ -65,6 +66,7 @@ export const useAnnouncementsQuery = () => {
       {
         text: intl.formatMessage({ id: 'alert.later' }),
         onPress: _markAsSeen,
+        type: ButtonTypes.CANCEL,
       },
       {
         text: data.button_text,
