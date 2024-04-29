@@ -11,6 +11,8 @@ import { handleDeepLink, showActionModal } from '../../redux/actions/uiAction';
 import { getPostUrl } from '../../utils/post';
 import { delay } from '../../utils/editor';
 import parseVersionNumber from '../../utils/parseVersionNumber';
+import { decryptKey } from '../../utils/crypto';
+import { getDigitPinCode } from '../hive/dhive';
 
 const PROMPT_AGAIN_INTERVAL = 48 * 3600 * 1000; // 2 days
 
@@ -18,6 +20,7 @@ export const useAnnouncementsQuery = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
 
+  const pinHash = useAppSelector((state) => state.application.pin);
 
   const lastAppVersion = useAppSelector((state) => state.application.lastAppVersion);
   const appVersion = useMemo(() => VersionNumber.appVersion, [])
@@ -25,7 +28,12 @@ export const useAnnouncementsQuery = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const announcementsMeta = useAppSelector((state) => state.cache.announcementsMeta);
 
-  const announcmentsQuery = useQuery([QUERIES.ANNOUNCEMENTS.GET], getAnnouncements);
+
+  const announcmentsQuery = useQuery([QUERIES.ANNOUNCEMENTS.GET], () => {
+    const encToken = currentAccount?.local?.accessToken;
+    const token = !!encToken && decryptKey(encToken, getDigitPinCode(pinHash));
+    return getAnnouncements(token)
+  });
 
 
   useEffect(() => {
@@ -38,8 +46,8 @@ export const useAnnouncementsQuery = () => {
     }
 
     //bypass if logged in user is required for announcement, skip otherwise
-    const firstAnnounce = announcmentsQuery.data[0];
-    if (firstAnnounce.auth && !currentAccount?.username) {
+    const firstAnnounce = announcementsMeta.data && announcmentsQuery.data[0];
+    if (!firstAnnounce || (firstAnnounce?.auth && !currentAccount?.username)) {
       return;
     }
 
@@ -101,3 +109,4 @@ export const useAnnouncementsQuery = () => {
     );
   };
 };
+
