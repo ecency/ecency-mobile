@@ -92,6 +92,7 @@ import { ActionModal } from './actionModal';
 import { CustomiseFiltersModal } from './customiseFiltersModal';
 import { ForegroundNotification } from './foregroundNotification';
 import { PostHtmlRenderer } from './postHtmlRenderer';
+import { PostPoll } from './postPoll';
 import { QuickProfileModal } from './organisms';
 import QuickReplyModal from './quickReplyModal/quickReplyModalView';
 import Tooltip from './tooltip/tooltipView';
@@ -244,6 +245,7 @@ export {
   CustomiseFiltersModal,
   ForegroundNotification,
   PostHtmlRenderer,
+  PostPoll,
   QuickProfileModal,
   QuickReplyModal,
   Tooltip,
