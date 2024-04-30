@@ -9,19 +9,20 @@ interface PollChoicesProps {
   choices: string[];
 }
 
-enum Mode {
-  SELECT = 0,
-  RESULT = 1,
+enum Modes {
+  LOADING = 0,
+  SELECT = 1,
+  RESULT = 2,
 }
 
 const PollChoices = ({ choices }: PollChoicesProps) => {
 
-  const [mode, setMode] = useState(Mode.RESULT)
+  const [mode, setMode] = useState(Modes.LOADING)
 
 
   const _renderProgressBar = (option: string) => {
     // Dummy data for now, replace with real data
-    const votes = 10; // Fetch the votes for this option from your data
+    const votes = 0; // Fetch the votes for this option from your data
     const totalVotes = 30; // Fetch the total votes from your data
     const percentage = (votes / totalVotes) * 100;
     const _barWidth = getWindowDimensions().width - 64;
@@ -31,10 +32,11 @@ const PollChoices = ({ choices }: PollChoicesProps) => {
         
         <View>
           <ProgressBar
-            progress={0.3} width={_barWidth} height={44}
+            progress={0.7} width={_barWidth} height={44}
             style={styles.progressBar}
             unfilledColor={EStyleSheet.value("$primaryLightBackground")}
             color={EStyleSheet.value("$iconColor")}
+            indeterminate={mode === Modes.LOADING}
           />
           <View style={styles.optionsTextWrapper}>
             <Text style={styles.label}>{option}</Text>
