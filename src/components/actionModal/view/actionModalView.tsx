@@ -5,7 +5,7 @@ import ActionSheet from 'react-native-actions-sheet';
 import { useIntl } from 'react-intl';
 import styles from './actionModalStyles';
 
-import { ActionModalData } from '../container/actionModalContainer';
+import { ActionModalData, ButtonTypes } from '../container/actionModalContainer';
 import { MainButton } from '../../mainButton';
 
 export interface ActionModalRef {
@@ -67,8 +67,8 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
                 sheetModalRef.current?.hide();
                 props.onPress(evn);
               }}
-              style={styles.button}
-              textStyle={styles.btnText}
+              style={props?.type === ButtonTypes.CANCEL ? styles.cancel : styles.button}
+              textStyle={props?.type === ButtonTypes.CANCEL ? styles.cancelBtnText : styles.btnText}
             />
           ))
         ) : (

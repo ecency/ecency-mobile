@@ -5,8 +5,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { hideActionModal } from '../../../redux/actions/uiAction';
 import ActionModalView, { ActionModalRef } from '../view/actionModalView';
 
+export enum ButtonTypes {
+  CANCEL = 'cancel',
+  OK = 'ok',
+  SKIP = 'skip',
+}
 interface ExtendedAlertButton extends AlertButton {
   textId: string;
+  type?: ButtonTypes;
 }
 
 export interface ActionModalData {

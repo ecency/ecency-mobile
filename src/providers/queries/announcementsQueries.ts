@@ -10,6 +10,7 @@ import { updateAnnoucementsMeta } from '../../redux/actions/cacheActions';
 import { handleDeepLink, showActionModal } from '../../redux/actions/uiAction';
 import { getPostUrl } from '../../utils/post';
 import { delay } from '../../utils/editor';
+import { ButtonTypes } from '../../components/actionModal/container/actionModalContainer';
 import parseVersionNumber from '../../utils/parseVersionNumber';
 import { decryptKey } from '../../utils/crypto';
 import { getDigitPinCode } from '../hive/dhive';
@@ -90,6 +91,7 @@ export const useAnnouncementsQuery = () => {
       {
         text: intl.formatMessage({ id: 'alert.later' }),
         onPress: _markAsSeen,
+        type: ButtonTypes.CANCEL,
       },
       {
         text: data.button_text,
