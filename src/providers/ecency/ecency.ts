@@ -964,9 +964,12 @@ export const getCommentHistory = async (
   }
 };
 
-export const getAnnouncements = async () => {
+export const getAnnouncements = async (accessToken: string) => {
   try {
-    const res = await ecencyApi.get('/private-api/announcements');
+  
+    const params = accessToken ? { code:accessToken } : null
+
+    const res = await ecencyApi.get('/private-api/announcements', { params });
     console.log('announcements fetcehd', res.data);
     if (!res.data) {
       throw new Error('No announcements found!');
