@@ -15,9 +15,9 @@ export default EStyleSheet.create({
         top: 0, bottom: 0,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
     } as ViewStyle,
     label:{
+        marginLeft: 6,
         fontSize:12,
     } as TextStyle,
     count:{

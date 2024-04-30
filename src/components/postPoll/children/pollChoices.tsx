@@ -6,11 +6,13 @@ import getWindowDimensions from '../../../utils/getWindowDimensions';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { PollChoice } from '../../../providers/polls/polls.types';
 import { mapMetaChoicesToPollChoices } from '../../../providers/polls/converters';
+import { CheckBox } from '../../checkbox';
 
 interface PollChoicesProps {
   loading: boolean;
   metaChoices: string[]
   choices?: PollChoice[];
+  handleCastVote: (optionNum:number) => void;
 }
 
 enum Modes {
@@ -19,7 +21,7 @@ enum Modes {
   RESULT = 2,
 }
 
-const PollChoices = ({ choices, metaChoices, loading }: PollChoicesProps) => {
+const PollChoices = ({ choices, metaChoices, loading, handleCastVote }: PollChoicesProps) => {
 
   const [mode, setMode] = useState(Modes.LOADING)
   const [_choices, setChoices] = useState(choices || mapMetaChoicesToPollChoices(metaChoices));
@@ -43,7 +45,7 @@ const PollChoices = ({ choices, metaChoices, loading }: PollChoicesProps) => {
   };
 
 
-  const _renderProgressBar = (option: PollChoice) => {
+  const _renderProgressBar = (option: PollChoice, isSelected:boolean) => {
     // Dummy data for now, replace with real dat
     const votes = option.votes?.total_votes || 0;
     const percentage = totalVotes ? (votes / totalVotes) * 100 : 0;
@@ -56,7 +58,7 @@ const PollChoices = ({ choices, metaChoices, loading }: PollChoicesProps) => {
 
         <View>
           <ProgressBar
-            progress={percentage / 100} width={_barWidth} height={44}
+            progress={percentage / 100} width={_barWidth} height={36}
             style={styles.progressBar}
             unfilledColor={EStyleSheet.value("$primaryLightBackground")}
             color={EStyleSheet.value("$iconColor")}
@@ -64,6 +66,7 @@ const PollChoices = ({ choices, metaChoices, loading }: PollChoicesProps) => {
             useNativeDriver={true}
           />
           <View style={styles.optionsTextWrapper}>
+            <CheckBox locked isChecked={isSelected} />
             <Text style={styles.label}>{option.choice_text}</Text>
           </View>
         </View>
@@ -76,9 +79,9 @@ const PollChoices = ({ choices, metaChoices, loading }: PollChoicesProps) => {
   const renderOptions = () => {
     return _choices.map((option, index) => {
       return (
-        <TouchableOpacity key={index} onPress={() => castVote(option.choice_num)}>
+        <TouchableOpacity key={index} disabled={loading} onPress={() => handleCastVote(option.choice_num)}>
           <View style={{ marginVertical: 5 }}>
-            {_renderProgressBar(option)}
+            {_renderProgressBar(option, index === 0)}
           </View>
         </TouchableOpacity>
       );

@@ -4,9 +4,7 @@ import { ContentType, PostMetadata } from '../../../providers/hive/hive.types';
 import PollChoices from '../children/pollChoices';
 import styles from '../styles/postPoll.styles';
 import { getTimeFromNow } from '../../../utils/time';
-import { useQuery } from '@tanstack/react-query';
-import { getPollData } from '../../../providers/polls/polls';
-import { Poll } from '../../../providers/polls/polls.types';
+import { pollQueries } from '../../../providers/queries';
 
 
 interface PostPoll {
@@ -21,11 +19,18 @@ export const PostPoll = ({
     metadata
 }: PostPoll) => {
 
-    const pollsQuery = useQuery<Poll>(['5678hretg.kjklj', 'raalsdf'], () => getPollData(author, permlink))
 
     if (metadata.content_type !== ContentType.POLL) {
         return null;
     }
+
+    const pollsQuery = pollQueries.useGetPollQuery(author, permlink, metadata)
+    const votePollMutation = pollQueries.useVotePollMutation(pollsQuery.data);
+
+    const _handleCastVote = (choiceNum:number) => {
+        //TODO: make sure poll data is loaded before casting vote
+        votePollMutation.mutate({choiceNum})
+    } 
 
     const { end_time, question, choices: metaChoices } = metadata;
     const formattedEndTime = 'Expires ' + getTimeFromNow(new Date(end_time * 1000))
@@ -39,7 +44,8 @@ export const PostPoll = ({
             <PollChoices
                 metaChoices={metaChoices}
                 choices={pollsQuery.data?.poll_choices}
-                loading={pollsQuery.isLoading} />
+                loading={pollsQuery.isLoading} 
+                handleCastVote={_handleCastVote}/>
 
         </View>
     )
