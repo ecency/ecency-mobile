@@ -89,3 +89,21 @@ export const convertPoll = (rawData: any): Poll | null => {
 
     return parsedResponse;
 }
+
+
+export const mapMetaChoicesToPollChoices = (metaChoices:string[]) => {
+    if(!metaChoices){
+        return [] as PollChoice[]
+    }
+
+    return metaChoices.map(((choice, index) => ({ 
+        choice_num:index + 1,
+        choice_text:choice,
+        votes:{
+            total_votes:0,
+            hive_hp: 0,
+            hive_proxied_hp: 0,
+            hive_hp_incl_proxied: 0,
+        }
+    } as PollChoice)))
+}

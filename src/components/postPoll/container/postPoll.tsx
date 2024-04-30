@@ -1,9 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import React from 'react'
 import { ContentType, PostMetadata } from '../../../providers/hive/hive.types';
 import PollChoices from '../children/pollChoices';
 import styles from '../styles/postPoll.styles';
 import { getTimeFromNow } from '../../../utils/time';
+import { useQuery } from '@tanstack/react-query';
+import { getPollData } from '../../../providers/polls/polls';
+import { Poll } from '../../../providers/polls/polls.types';
+
 
 interface PostPoll {
     author: string;
@@ -17,12 +21,14 @@ export const PostPoll = ({
     metadata
 }: PostPoll) => {
 
+    const pollsQuery = useQuery<Poll>(['5678hretg.kjklj', 'raalsdf'], () => getPollData(author, permlink))
+
     if (metadata.content_type !== ContentType.POLL) {
         return null;
     }
 
-    const { end_time, question, choices } = metadata;
-    const formattedEndTime = 'Expires ' +  getTimeFromNow(new Date(end_time * 1000))
+    const { end_time, question, choices: metaChoices } = metadata;
+    const formattedEndTime = 'Expires ' + getTimeFromNow(new Date(end_time * 1000))
     return (
         <View style={styles.container}>
             <View style={styles.headerWrapper}>
@@ -30,7 +36,11 @@ export const PostPoll = ({
                 <Text>{formattedEndTime}</Text>
             </View>
 
-            <PollChoices choices={choices} />
+            <PollChoices
+                metaChoices={metaChoices}
+                choices={pollsQuery.data?.poll_choices}
+                loading={pollsQuery.isLoading} />
+
         </View>
     )
 }

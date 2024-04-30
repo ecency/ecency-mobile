@@ -6,7 +6,7 @@ import { convertPoll } from "./converters";
 const POLLS_BASE_URL = 'https://polls.ecency.com';
 
 const PATH_RPC = 'rpc'
-const PATH_POLL = 'rpc'
+const PATH_POLL = 'poll'
 
 const pollsApi = axios.create({
     baseURL: POLLS_BASE_URL,
