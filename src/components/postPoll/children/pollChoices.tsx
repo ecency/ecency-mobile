@@ -4,7 +4,7 @@ import { Bar as ProgressBar } from 'react-native-progress';
 import styles from '../styles/pollChoices.styles';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { PollChoice } from '../../../providers/polls/polls.types';
+import { PollChoice, PollVoter } from '../../../providers/polls/polls.types';
 import { mapMetaChoicesToPollChoices } from '../../../providers/polls/converters';
 import { CheckBox } from '../../checkbox';
 
@@ -12,6 +12,7 @@ interface PollChoicesProps {
   loading: boolean;
   metaChoices: string[]
   choices?: PollChoice[];
+  userVote?: PollVoter;
   handleCastVote: (optionNum:number) => void;
 }
 
@@ -21,7 +22,7 @@ enum Modes {
   RESULT = 2,
 }
 
-const PollChoices = ({ choices, metaChoices, loading, handleCastVote }: PollChoicesProps) => {
+const PollChoices = ({ choices, metaChoices, userVote, loading, handleCastVote }: PollChoicesProps) => {
 
   const [mode, setMode] = useState(Modes.LOADING)
   const [_choices, setChoices] = useState(choices || mapMetaChoicesToPollChoices(metaChoices));
@@ -38,11 +39,6 @@ const PollChoices = ({ choices, metaChoices, loading, handleCastVote }: PollChoi
     }
   }, [loading, choices])
 
-
-  const castVote = (id: number) => {
-    // Logic to handle voting
-    console.log("Voted for:", id);
-  };
 
 
   const _renderProgressBar = (option: PollChoice, isSelected:boolean) => {
@@ -81,7 +77,7 @@ const PollChoices = ({ choices, metaChoices, loading, handleCastVote }: PollChoi
       return (
         <TouchableOpacity key={index} disabled={loading} onPress={() => handleCastVote(option.choice_num)}>
           <View style={{ marginVertical: 5 }}>
-            {_renderProgressBar(option, index === 0)}
+            {_renderProgressBar(option, userVote?.choice_num === option.choice_num)}
           </View>
         </TouchableOpacity>
       );

@@ -29,7 +29,7 @@ export const convertPoll = (rawData: any): Poll | null => {
     } = rawData;
 
     // Ensure required properties are present
-    if (!post_title || !question || !end_time || !poll_choices || !poll_voters || !poll_stats) {
+    if (!post_title || !question || !end_time || !poll_choices || !poll_stats) {
         return null;
     }
 
@@ -38,21 +38,22 @@ export const convertPoll = (rawData: any): Poll | null => {
         choice_num: choice.choice_num,
         choice_text: choice.choice_text,
         votes: {
-            total_votes: choice.votes.total_votes || 0,
-            hive_hp: choice.votes.hive_hp || 0,
-            hive_proxied_hp: choice.votes.hive_proxied_hp || 0,
-            hive_hp_incl_proxied: choice.votes.hive_hp_incl_proxied || 0
+            total_votes: choice.votes?.total_votes || 0,
+            hive_hp: choice.votes?.hive_hp || 0,
+            hive_proxied_hp: choice.votes?.hive_proxied_hp || 0,
+            hive_hp_incl_proxied: choice.votes?.hive_hp_incl_proxied || 0
         }
     }));
 
     // Parsing poll voters
-    const parsedPollVoters: PollVoter[] = poll_voters.map((voter: any) => ({
+    const parsedPollVoters: PollVoter[] = poll_voters ? poll_voters.map((voter: any) => ({
         name: voter.name,
         choice_num: voter.choice_num,
         hive_hp: voter.hive_hp || 0,
         hive_proxied_hp: voter.hive_proxied_hp || 0,
         hive_hp_incl_proxied: voter.hive_hp_incl_proxied || 0
-    }));
+    })) : [];
+
 
     // Parsing poll stats
     const parsedPollStats: PollStats = {
@@ -61,6 +62,8 @@ export const convertPoll = (rawData: any): Poll | null => {
         total_hive_proxied_hp: poll_stats.total_hive_proxied_hp || 0,
         total_hive_hp_incl_proxied: poll_stats.total_hive_hp_incl_proxied || 0
     };
+
+
 
     // Constructing the parsed poll response
     const parsedResponse: Poll = {
@@ -91,16 +94,16 @@ export const convertPoll = (rawData: any): Poll | null => {
 }
 
 
-export const mapMetaChoicesToPollChoices = (metaChoices:string[]) => {
-    if(!metaChoices){
+export const mapMetaChoicesToPollChoices = (metaChoices: string[]) => {
+    if (!metaChoices) {
         return [] as PollChoice[]
     }
 
-    return metaChoices.map(((choice, index) => ({ 
-        choice_num:index + 1,
-        choice_text:choice,
-        votes:{
-            total_votes:0,
+    return metaChoices.map(((choice, index) => ({
+        choice_num: index + 1,
+        choice_text: choice,
+        votes: {
+            total_votes: 0,
             hive_hp: 0,
             hive_proxied_hp: 0,
             hive_hp_incl_proxied: 0,

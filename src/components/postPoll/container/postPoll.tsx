@@ -1,10 +1,11 @@
 import { Text, View } from 'react-native'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { ContentType, PostMetadata } from '../../../providers/hive/hive.types';
 import PollChoices from '../children/pollChoices';
 import styles from '../styles/postPoll.styles';
 import { getTimeFromNow } from '../../../utils/time';
 import { pollQueries } from '../../../providers/queries';
+import { useAppSelector } from '../../../hooks';
 
 
 interface PostPoll {
@@ -24,8 +25,16 @@ export const PostPoll = ({
         return null;
     }
 
+    const currentAccount = useAppSelector(state => state.account.currentAccount)
+
     const pollsQuery = pollQueries.useGetPollQuery(author, permlink, metadata)
     const votePollMutation = pollQueries.useVotePollMutation(pollsQuery.data);
+
+    const userVote = useMemo(()=>{
+        if(pollsQuery.data){
+            return pollsQuery.data.poll_voters.find(voter => voter.name === currentAccount.username)
+        }
+    }, [pollsQuery.data, currentAccount])
 
     const _handleCastVote = (choiceNum:number) => {
         //TODO: make sure poll data is loaded before casting vote
@@ -44,6 +53,7 @@ export const PostPoll = ({
             <PollChoices
                 metaChoices={metaChoices}
                 choices={pollsQuery.data?.poll_choices}
+                userVote={userVote}
                 loading={pollsQuery.isLoading} 
                 handleCastVote={_handleCastVote}/>
 
