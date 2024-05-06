@@ -34,4 +34,21 @@ export default EStyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between'
     } as ViewStyle,
+    actionPanel:{
+        flexDirection:'row-reverse',
+        alignItems:'center',
+        
+    } as ViewStyle,
+    voteButton:{
+        width: 140,
+        height: 44,
+        alignItems:'center',
+        justifyContent:'center'
+    } as ViewStyle,
+    viewVotesBtn:{
+        color: '$primaryDarkGray',
+        fontSize: 14,
+        marginHorizontal:8,
+        fontWeight: '500',
+    } as ViewStyle
 });
