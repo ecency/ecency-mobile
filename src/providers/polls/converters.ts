@@ -29,7 +29,7 @@ export const convertPoll = (rawData: any): Poll | null => {
     } = rawData;
 
     // Ensure required properties are present
-    if (!post_title || !question || !end_time || !poll_choices || !poll_stats) {
+    if (!question || !end_time || !poll_choices || !poll_stats) {
         return null;
     }
 
@@ -67,8 +67,8 @@ export const convertPoll = (rawData: any): Poll | null => {
 
     // Constructing the parsed poll response
     const parsedResponse: Poll = {
-        post_title,
-        post_body,
+        post_title: post_title || "",
+        post_body: post_body || "",
         author,
         created,
         permlink,
