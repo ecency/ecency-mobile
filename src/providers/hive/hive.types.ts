@@ -29,7 +29,10 @@ export interface PostMetadata {
   filters: {
     account_age: number
   }
-  end_time: number
+  end_time: number;
+  //ECENCY SPECIFIC POLL OPTIONS
+  vote_change: boolean;
+  hide_votes: boolean;
 
 }
 
