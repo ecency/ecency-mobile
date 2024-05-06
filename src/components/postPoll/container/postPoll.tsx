@@ -34,7 +34,9 @@ export const PostPoll = ({
         if(pollsQuery.data){
             return pollsQuery.data.poll_voters.find(voter => voter.name === currentAccount.username)
         }
-    }, [pollsQuery.data, currentAccount])
+    }, [pollsQuery.data?.poll_voters, currentAccount.username])
+
+
 
     const _handleCastVote = (choiceNum:number) => {
         //TODO: make sure poll data is loaded before casting vote
