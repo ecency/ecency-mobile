@@ -100,7 +100,7 @@ export function useVotePollMutation(poll: Poll | null) {
         mutationFn: async ({ choiceNum }: { choiceNum: number }) => {
 
             if (!poll || !currentAccount) {
-              throw new Error("Failed to register vote")
+                throw new Error("Failed to register vote")
             }
 
             if (typeof choiceNum !== "number") {
@@ -116,15 +116,7 @@ export function useVotePollMutation(poll: Poll | null) {
             return { choiceNum };
         },
         onMutate: ({ choiceNum }) => {
-            // queryClient.getQueryData([QUERIES.POST.GET_POLL, poll?.author, poll?.permlink ])
-            // if (!poll) {
-            //     return;
-            // }
 
-            // const userVoteIndex = poll.poll_voters.findIndex(voter => voter.name === currentAccount.username);
-            // if (userVoteIndex >= 0) {
-
-            // }
 
             queryClient.setQueryData<ReturnType<typeof useGetPollQuery>["data"]>(
                 [QUERIES.POST.GET_POLL, poll?.author, poll?.permlink],
@@ -139,15 +131,17 @@ export function useVotePollMutation(poll: Poll | null) {
                     );
                     const choice = data.poll_choices?.find((pc) => pc.choice_num === choiceNum)!!;
 
+
                     const notTouchedChoices = data.poll_choices?.filter(
                         (pc) => ![previousUserChoice?.choice_num, choice?.choice_num].includes(pc.choice_num)
                     );
                     const otherVoters =
                         data.poll_voters?.filter((pv) => pv.name !== currentAccount!!.username) ?? [];
 
-                    return {
-                        ...data,
-                        poll_choices: [
+                   
+                    let poll_choices = data.poll_choices;
+                    if(previousUserChoice?.choice_num !== choice.choice_num){
+                        poll_choices = [
                             ...notTouchedChoices,
                             previousUserChoice
                                 ? {
@@ -163,7 +157,14 @@ export function useVotePollMutation(poll: Poll | null) {
                                     total_votes: (choice?.votes?.total_votes ?? 0) + 1
                                 }
                             }
-                        ].filter((el) => !!el).sort(((a,b)=> a?.choice_num < b?.choice_num ? -1 : 1)),
+                        ].filter((el) => !!el).sort(((a, b) => a?.choice_num < b?.choice_num ? -1 : 1))
+                    }
+
+
+
+                    return {
+                        ...data,
+                        poll_choices,
                         poll_voters: [
                             ...otherVoters,
                             { name: currentAccount?.username, choice_num: choiceNum }
