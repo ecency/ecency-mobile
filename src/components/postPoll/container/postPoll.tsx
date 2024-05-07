@@ -1,11 +1,15 @@
 import { View } from 'react-native'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { ContentType, PostMetadata } from '../../../providers/hive/hive.types';
-import { PollChoices, PollHeader } from '../children';
+import { PollChoices, PollHeader, PollVotersModal } from '../children';
 import styles from '../styles/postPoll.styles';
 import { pollQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
 import { MainButton, TextButton } from '../..';
+import { useNavigation } from '@react-navigation/native';
+import ROUTES from '../../../constants/routeNames';
+import { useIntl } from 'react-intl';
+import { title } from 'process';
 
 
 export enum PollModes {
@@ -30,6 +34,10 @@ export const PostPoll = ({
     if (metadata.content_type !== ContentType.POLL) {
         return null;
     }
+
+    const intl = useIntl();
+    const navigation = useNavigation();
+
 
     const currentAccount = useAppSelector(state => state.account.currentAccount)
 
@@ -76,6 +84,24 @@ export const PostPoll = ({
         setMode(_isModeSelect ? PollModes.RESULT : PollModes.SELECT);
     }
 
+    const _handleVotersPress = (choiceNum: number) => {
+        const _voters = pollsQuery.data?.poll_voters;
+        if(!_voters){
+            return;
+        }
+
+        const _filteredVoters = _voters
+            .filter(item => item.choice_num === choiceNum)
+            .map(voter => ({account:voter.name}))
+
+        navigation.navigate(ROUTES.MODALS.ACCOUNT_LIST, {
+            title: intl.formatMessage({id:'post_poll.voters'}),
+            users: _filteredVoters,
+        });
+       
+    }
+
+
 
     const _actionPanel = !_voteDisabled && (
         <View style={styles.actionPanel}>
@@ -115,9 +141,11 @@ export const PostPoll = ({
                 loading={pollsQuery.isLoading}
                 mode={mode}
                 selection={selection}
-                handleChoiceSelect={_handleChoiceSelect} />
+                handleChoiceSelect={_handleChoiceSelect}
+                handleVotersPress={_handleVotersPress} />
 
             {_actionPanel}
+
         </View>
     )
 }

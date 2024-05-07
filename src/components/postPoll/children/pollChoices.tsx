@@ -9,6 +9,7 @@ import { mapMetaChoicesToPollChoices } from '../../../providers/polls/converters
 import { CheckBox } from '../../checkbox';
 import { PostMetadata } from '../../../providers/hive/hive.types';
 import { PollModes } from '../container/postPoll';
+import { TextButton } from '../../buttons';
 
 interface PollChoicesProps {
   loading: boolean;
@@ -19,19 +20,22 @@ interface PollChoicesProps {
   selection: number;
   voteDisabled: boolean;
   handleChoiceSelect: (optionNum: number) => void;
+  handleVotersPress: (optionNum: number) => void;
 }
 
 
 
-export const PollChoices = ({ 
-  choices, 
-  metadata, 
-  userVote, 
-  mode, 
-  loading, 
+export const PollChoices = ({
+  choices,
+  metadata,
+  userVote,
+  mode,
+  loading,
   selection,
   voteDisabled,
-  handleChoiceSelect }: PollChoicesProps) => {
+  handleChoiceSelect,
+  handleVotersPress,
+}: PollChoicesProps) => {
 
   const [_choices, setChoices] = useState(
     choices || mapMetaChoicesToPollChoices(metadata.choices));
@@ -53,8 +57,8 @@ export const PollChoices = ({
   const _isModeSelect = mode === PollModes.SELECT
 
 
-  const _handleChoiceSelect = (choiceNum:number) => {
-      handleChoiceSelect(choiceNum === selection ? 0 : choiceNum);
+  const _handleChoiceSelect = (choiceNum: number) => {
+    handleChoiceSelect(choiceNum === selection ? 0 : choiceNum);
   }
 
 
@@ -67,8 +71,14 @@ export const PollChoices = ({
     const _barWidth = getWindowDimensions().width - 64;
 
     const _barStyle = {
-        ...styles.progressBar, 
-        borderColor: EStyleSheet.value(_isSelected ? '$primaryBlue' : 'transparent')}
+      ...styles.progressBar,
+      borderColor: EStyleSheet.value(_isSelected ? '$primaryBlue' : 'transparent')
+    }
+
+
+    const _onVotersPress = () => {
+      handleVotersPress(option.choice_num)
+    }
 
     return (
       <View style={styles.choiceWrapper}>
@@ -83,11 +93,11 @@ export const PollChoices = ({
           />
           <View style={styles.progressContentWrapper}>
             <View style={styles.choiceLabelWrapper}>
-              <CheckBox locked isChecked={_isVoted} isRound={true} style={styles.checkContainerStyle}/>
+              <CheckBox locked isChecked={_isVoted} isRound={true} style={styles.checkContainerStyle} />
               <Text style={styles.label}>{option.choice_text}</Text>
             </View>
             {!_isModeSelect &&
-              <Text style={styles.count}>{`${votes} voted`}</Text>
+              <TextButton textStyle={styles.count} text={`${votes} voted`} onPress={_onVotersPress} />
             }
 
           </View>

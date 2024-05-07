@@ -472,6 +472,12 @@
     "reply": "Reply",
     "schedule":"Schedule"
   },
+  "account_list":{
+    "title":"Users"
+  },
+  "post_poll":{
+    "voters":"Voters"
+  },
   "editor": {
     "title": "Title",
     "tags": "Tags (separate with space)",
