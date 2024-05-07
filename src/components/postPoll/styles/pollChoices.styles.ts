@@ -33,5 +33,9 @@ export default EStyleSheet.create({
         fontSize:12,
         marginLeft:8,
         color: '$primaryDarkGray'
-    } as TextStyle
+    } as TextStyle,
+    checkContainerStyle:{
+        backgroundColor:'$white',
+        borderWidth:0,
+    } as ViewStyle
 });
