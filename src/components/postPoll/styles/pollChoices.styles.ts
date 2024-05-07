@@ -7,9 +7,10 @@ export default EStyleSheet.create({
     },
     progressBar: {
         borderRadius: 12,
-        borderWidth: 0,
+        borderWidth: 1,
         alignSelf: 'stretch',
         marginHorizontal: 8,
+      
     
     } as ViewStyle,
     progressContentWrapper: {

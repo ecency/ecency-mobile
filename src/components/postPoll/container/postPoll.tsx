@@ -1,13 +1,19 @@
 import { View } from 'react-native'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { ContentType, PostMetadata } from '../../../providers/hive/hive.types';
 import { PollChoices, PollHeader } from '../children';
 import styles from '../styles/postPoll.styles';
-import { getTimeFromNow } from '../../../utils/time';
 import { pollQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
-import { MainButton, PopoverWrapper, TextButton, Tooltip } from '../..';
+import { MainButton, TextButton } from '../..';
+import { Modes } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 
+
+export enum PollModes {
+    LOADING = 0,
+    SELECT = 1,
+    RESULT = 2,
+}
 
 interface PostPoll {
     author: string;
@@ -30,7 +36,6 @@ export const PostPoll = ({
 
     const [selection, setSelection] = useState(0);
 
-
     const pollsQuery = pollQueries.useGetPollQuery(author, permlink, metadata)
     const votePollMutation = pollQueries.useVotePollMutation(pollsQuery.data);
 
@@ -40,17 +45,32 @@ export const PostPoll = ({
         }
     }, [pollsQuery.data?.poll_voters, currentAccount.username])
 
+    const _hideVotes = useMemo(() => metadata.hide_votes && !!userVote, [metadata, userVote]);
+
+    const [mode, setMode] = useState(PollModes.LOADING)
+
+    const _isModeSelect = mode === PollModes.SELECT;
+
+    useEffect(() => {
+        if (pollsQuery.isSuccess) {
+            setMode(!!userVote ? PollModes.RESULT : PollModes.SELECT);
+        }
+    }, [pollsQuery.isLoading, userVote])
 
 
     const _handleCastVote = () => {
         //TODO: make sure poll data is loaded before casting vote
-        votePollMutation.mutate({ choiceNum:selection })
+        votePollMutation.mutate({ choiceNum: selection })
         setSelection(0);
     }
 
 
-    const _handleChoiceSelect = (choiceNum:number) => {
+    const _handleChoiceSelect = (choiceNum: number) => {
         setSelection(choiceNum)
+    }
+
+    const _handleModeToggle = () => {
+        setMode(_isModeSelect ? PollModes.RESULT : PollModes.SELECT);
     }
 
 
@@ -65,12 +85,14 @@ export const PostPoll = ({
                 onPress={_handleCastVote}
                 text={"Vote"}
                 isDisable={!selection}
-                
             />
-            <TextButton
-                text={"View Votes"}
-                onPress={()=>{throw new Error("Implement view votes")}}
-                textStyle={styles.viewVotesBtn} />
+            {!_hideVotes && (
+                <TextButton
+                    text={_isModeSelect ? "View Stats" : "Hide Stats" }
+                    onPress={_handleModeToggle}
+                    textStyle={styles.viewVotesBtn} />
+            )}
+
         </View>
 
     )
@@ -87,10 +109,11 @@ export const PostPoll = ({
                 choices={pollsQuery.data?.poll_choices}
                 userVote={userVote}
                 loading={pollsQuery.isLoading}
-                handleCastVote={_handleChoiceSelect} />
+                mode={mode}
+                selection={selection}
+                handleChoiceSelect={_handleChoiceSelect} />
 
             {_actionPanel}
-
         </View>
     )
 }

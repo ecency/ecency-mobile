@@ -8,24 +8,29 @@ import { PollChoice, PollVoter } from '../../../providers/polls/polls.types';
 import { mapMetaChoicesToPollChoices } from '../../../providers/polls/converters';
 import { CheckBox } from '../../checkbox';
 import { PostMetadata } from '../../../providers/hive/hive.types';
+import { PollModes } from '../container/postPoll';
 
 interface PollChoicesProps {
   loading: boolean;
   metadata: PostMetadata;
   choices?: PollChoice[];
   userVote?: PollVoter;
-  handleCastVote: (optionNum: number) => void;
+  mode: PollModes;
+  selection: number;
+  handleChoiceSelect: (optionNum: number) => void;
 }
 
-enum Modes {
-  LOADING = 0,
-  SELECT = 1,
-  RESULT = 2,
-}
 
-export const PollChoices = ({ choices, metadata, userVote, loading, handleCastVote }: PollChoicesProps) => {
 
-  const [mode, setMode] = useState(Modes.LOADING)
+export const PollChoices = ({ 
+  choices, 
+  metadata, 
+  userVote, 
+  mode, 
+  loading, 
+  selection,
+  handleChoiceSelect }: PollChoicesProps) => {
+
   const [_choices, setChoices] = useState(
     choices || mapMetaChoicesToPollChoices(metadata.choices));
 
@@ -34,7 +39,7 @@ export const PollChoices = ({ choices, metadata, userVote, loading, handleCastVo
       (prevVal, option) => prevVal + (option?.votes?.total_votes) || 0, 0)
     , [_choices]);
 
-  const _hideVotes = useMemo(() => metadata.hide_votes && !userVote, [metadata, userVote]);
+
   const _voteDisabled = useMemo(() => metadata.vote_change !== undefined
     ? !metadata.vote_change && !!userVote
     : false, [metadata, userVote]);
@@ -42,37 +47,47 @@ export const PollChoices = ({ choices, metadata, userVote, loading, handleCastVo
   useEffect(() => {
     if (!loading && !!choices) {
       setChoices(choices)
-      setMode(Modes.RESULT)
     }
   }, [loading, choices])
 
 
+  const _isModeSelect = mode === PollModes.SELECT
 
-  const _renderProgressBar = (option: PollChoice, isSelected: boolean) => {
-    // Dummy data for now, replace with real dat
+
+  const _handleChoiceSelect = (choiceNum:number) => {
+      handleChoiceSelect(choiceNum === selection ? 0 : choiceNum);
+  }
+
+
+  const _renderProgressBar = (option: PollChoice) => {
+    const _isVoted = !_isModeSelect && (userVote?.choice_num === option.choice_num)
+    const _isSelected = selection === option.choice_num
+
     const votes = option.votes?.total_votes || 0;
-    const percentage = (!_hideVotes && !!totalVotes) ? (votes / totalVotes) * 100 : 0; //TODO: adjust logic here
+    const percentage = (!_isModeSelect && !!totalVotes) ? (votes / totalVotes) * 100 : 0; //TODO: adjust logic here
     const _barWidth = getWindowDimensions().width - 64;
 
-    console.log('percentage to render', percentage, votes, totalVotes);
+    const _barStyle = {
+        ...styles.progressBar, 
+        borderColor: EStyleSheet.value(_isSelected ? '$primaryBlue' : 'transparent')}
 
     return (
       <View style={styles.choiceWrapper}>
         <View>
           <ProgressBar
-            progress={_hideVotes ? 0 : percentage / 100} width={_barWidth} height={40}
-            style={styles.progressBar}
+            progress={_isModeSelect ? 0 : percentage / 100} width={_barWidth} height={40}
+            style={_barStyle}
             unfilledColor={EStyleSheet.value("$primaryLightBackground")}
             color={EStyleSheet.value("$iconColor")}
-            indeterminate={mode === Modes.LOADING}
+            indeterminate={mode === PollModes.LOADING}
             useNativeDriver={true}
           />
           <View style={styles.progressContentWrapper}>
             <View style={styles.choiceLabelWrapper}>
-              <CheckBox locked isChecked={isSelected} />
+              <CheckBox locked isChecked={_isVoted} />
               <Text style={styles.label}>{option.choice_text}</Text>
             </View>
-            {!_hideVotes &&
+            {!_isModeSelect &&
               <Text style={styles.count}>{`${votes} voted`}</Text>
             }
 
@@ -85,12 +100,11 @@ export const PollChoices = ({ choices, metadata, userVote, loading, handleCastVo
 
   const renderOptions = () => {
     return _choices.map((option, index) => {
-      const _isSelected = userVote?.choice_num === option.choice_num
-      const _disabled = loading || _voteDisabled || _isSelected
+
       return (
-        <TouchableOpacity key={index} disabled={_disabled} onPress={() => handleCastVote(option.choice_num)}>
+        <TouchableOpacity key={index} onPress={() => _handleChoiceSelect(option.choice_num)}>
           <View style={{ marginVertical: 5 }}>
-            {_renderProgressBar(option, _isSelected)}
+            {_renderProgressBar(option)}
           </View>
         </TouchableOpacity>
       );
