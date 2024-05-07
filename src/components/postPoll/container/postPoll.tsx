@@ -32,6 +32,8 @@ export const PostPoll = ({
         return null;
     }
 
+    metadata.vote_change = false;
+
     const currentAccount = useAppSelector(state => state.account.currentAccount)
 
     const [selection, setSelection] = useState(0);
@@ -46,10 +48,14 @@ export const PostPoll = ({
     }, [pollsQuery.data?.poll_voters, currentAccount.username])
 
     const _hideVotes = useMemo(() => metadata.hide_votes && !!userVote, [metadata, userVote]);
+    const _voteDisabled = useMemo(() => metadata.vote_change !== undefined
+        ? !metadata.vote_change && !!userVote
+        : false, [metadata, userVote]);
 
     const [mode, setMode] = useState(PollModes.LOADING)
 
     const _isModeSelect = mode === PollModes.SELECT;
+    
 
     useEffect(() => {
         if (pollsQuery.isSuccess) {
@@ -74,7 +80,7 @@ export const PostPoll = ({
     }
 
 
-    const _actionPanel = (
+    const _actionPanel = !_voteDisabled && (
         <View style={styles.actionPanel}>
             <MainButton
                 style={styles.voteButton}
@@ -88,7 +94,7 @@ export const PostPoll = ({
             />
             {!_hideVotes && (
                 <TextButton
-                    text={_isModeSelect ? "View Stats" : "Hide Stats" }
+                    text={_isModeSelect ? "View Stats" : "Hide Stats"}
                     onPress={_handleModeToggle}
                     textStyle={styles.viewVotesBtn} />
             )}
@@ -108,6 +114,7 @@ export const PostPoll = ({
                 metadata={metadata}
                 choices={pollsQuery.data?.poll_choices}
                 userVote={userVote}
+                voteDisabled={_voteDisabled}
                 loading={pollsQuery.isLoading}
                 mode={mode}
                 selection={selection}

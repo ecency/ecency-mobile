@@ -17,6 +17,7 @@ interface PollChoicesProps {
   userVote?: PollVoter;
   mode: PollModes;
   selection: number;
+  voteDisabled: boolean;
   handleChoiceSelect: (optionNum: number) => void;
 }
 
@@ -29,20 +30,18 @@ export const PollChoices = ({
   mode, 
   loading, 
   selection,
+  voteDisabled,
   handleChoiceSelect }: PollChoicesProps) => {
 
   const [_choices, setChoices] = useState(
     choices || mapMetaChoicesToPollChoices(metadata.choices));
+
 
   const totalVotes = useMemo(
     () => _choices.reduce(
       (prevVal, option) => prevVal + (option?.votes?.total_votes) || 0, 0)
     , [_choices]);
 
-
-  const _voteDisabled = useMemo(() => metadata.vote_change !== undefined
-    ? !metadata.vote_change && !!userVote
-    : false, [metadata, userVote]);
 
   useEffect(() => {
     if (!loading && !!choices) {
@@ -102,7 +101,7 @@ export const PollChoices = ({
     return _choices.map((option, index) => {
 
       return (
-        <TouchableOpacity key={index} onPress={() => _handleChoiceSelect(option.choice_num)}>
+        <TouchableOpacity key={index} disabled={voteDisabled} onPress={() => _handleChoiceSelect(option.choice_num)}>
           <View style={{ marginVertical: 5 }}>
             {_renderProgressBar(option)}
           </View>
