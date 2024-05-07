@@ -10,8 +10,7 @@ export default EStyleSheet.create({
         borderWidth: 1,
         alignSelf: 'stretch',
         marginHorizontal: 8,
-      
-    
+
     } as ViewStyle,
     progressContentWrapper: {
         position: 'absolute',
@@ -26,8 +25,9 @@ export default EStyleSheet.create({
         alignItems: 'center',
     },
     label:{
-        marginLeft: 6,
+        marginLeft: 8,
         fontSize:12,
+        color: '$primaryBlack'
     } as TextStyle,
     count:{
         fontSize:12,
@@ -36,6 +36,6 @@ export default EStyleSheet.create({
     } as TextStyle,
     checkContainerStyle:{
         backgroundColor:'$white',
-        borderWidth:0,
+
     } as ViewStyle
 });

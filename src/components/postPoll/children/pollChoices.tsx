@@ -77,7 +77,7 @@ export const PollChoices = ({
             progress={_isModeSelect ? 0 : percentage / 100} width={_barWidth} height={40}
             style={_barStyle}
             unfilledColor={EStyleSheet.value("$primaryLightBackground")}
-            color={EStyleSheet.value("$iconColor")}
+            color={EStyleSheet.value(_isVoted ? "$primaryLightBlue2" : "$darkIconColor")}
             indeterminate={mode === PollModes.LOADING}
             useNativeDriver={true}
           />

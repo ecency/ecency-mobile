@@ -6,7 +6,6 @@ import styles from '../styles/postPoll.styles';
 import { pollQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
 import { MainButton, TextButton } from '../..';
-import { Modes } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 
 
 export enum PollModes {
