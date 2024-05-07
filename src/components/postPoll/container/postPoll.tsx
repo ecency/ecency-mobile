@@ -32,8 +32,6 @@ export const PostPoll = ({
         return null;
     }
 
-    metadata.vote_change = false;
-
     const currentAccount = useAppSelector(state => state.account.currentAccount)
 
     const [selection, setSelection] = useState(0);
@@ -55,7 +53,7 @@ export const PostPoll = ({
     const [mode, setMode] = useState(PollModes.LOADING)
 
     const _isModeSelect = mode === PollModes.SELECT;
-    
+
 
     useEffect(() => {
         if (pollsQuery.isSuccess) {
