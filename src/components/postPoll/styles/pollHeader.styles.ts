@@ -24,7 +24,11 @@ export default EStyleSheet.create({
         marginLeft:4
     },
     timeText:{
-        color:'$primaryDarkText'
+        color:'$primaryDarkText',
+    } as TextStyle,
+    subText:{
+        color:'$primaryDarkText',
+        marginBottom:8,
     } as TextStyle
 
 });
