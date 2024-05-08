@@ -10,6 +10,7 @@ import { CheckBox } from '../../checkbox';
 import { PostMetadata } from '../../../providers/hive/hive.types';
 import { PollModes } from '../container/postPoll';
 import { TextButton } from '../../buttons';
+import { useIntl } from 'react-intl';
 
 interface PollChoicesProps {
   loading: boolean;
@@ -36,10 +37,13 @@ export const PollChoices = ({
   handleChoiceSelect,
   handleVotersPress,
 }: PollChoicesProps) => {
+  const intl = useIntl()
 
   const [_choices, setChoices] = useState(
     choices || mapMetaChoicesToPollChoices(metadata.choices));
 
+
+  const _hideVoters = metadata.hide_votes;
 
   const totalVotes = useMemo(
     () => _choices.reduce(
@@ -97,7 +101,10 @@ export const PollChoices = ({
               <Text style={styles.label}>{option.choice_text}</Text>
             </View>
             {!_isModeSelect &&
-              <TextButton textStyle={styles.count} text={`${votes} voted`} onPress={_onVotersPress} />
+              <TextButton
+                disabled={_hideVoters}
+                textStyle={styles.count}
+                text={`${votes} ${intl.formatMessage({ id: 'post_poll.voted' })}`} onPress={_onVotersPress} />
             }
 
           </View>
