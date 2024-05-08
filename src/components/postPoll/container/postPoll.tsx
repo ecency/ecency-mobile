@@ -1,7 +1,7 @@
+import React, { useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
-import React, { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { ContentType, PostMetadata } from '../../../providers/hive/hive.types';
-import { PollChoices, PollHeader, PollVotersModal } from '../children';
+import { PollChoices, PollHeader } from '../children';
 import styles from '../styles/postPoll.styles';
 import { pollQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
@@ -9,7 +9,7 @@ import { MainButton, TextButton } from '../..';
 import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../constants/routeNames';
 import { useIntl } from 'react-intl';
-import { title } from 'process';
+import { getDaysPassedSince } from '../../../utils/time';
 
 
 export enum PollModes {
@@ -40,11 +40,14 @@ export const PostPoll = ({
 
 
     const currentAccount = useAppSelector(state => state.account.currentAccount)
+    const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
 
     const [selection, setSelection] = useState(0);
 
     const pollsQuery = pollQueries.useGetPollQuery(author, permlink, metadata)
     const votePollMutation = pollQueries.useVotePollMutation(pollsQuery.data);
+    const _accAgeLimit = pollsQuery.data?.filter_account_age_days || metadata.filters?.account_age || 0;
+
 
     const userVote = useMemo(() => {
         if (pollsQuery.data) {
@@ -52,10 +55,25 @@ export const PostPoll = ({
         }
     }, [pollsQuery.data?.poll_voters, currentAccount.username])
 
+    const _expired =  useMemo(
+        () => new Date(metadata.end_time * 1000).getTime() < new Date().getTime(),
+        [metadata]);
+
+    
+
     const _hideVotes = useMemo(() => metadata.hide_votes && !!userVote, [metadata, userVote]);
-    const _voteDisabled = useMemo(() => metadata.vote_change !== undefined
-        ? !metadata.vote_change && !!userVote
-        : false, [metadata, userVote]);
+    const _voteDisabled = useMemo(() => {
+
+        const _ageLimitApllies = currentAccount && _accAgeLimit 
+            ? getDaysPassedSince(currentAccount.created) < _accAgeLimit : false;
+
+        const _noVoteChange = metadata.vote_change !== undefined
+            ? !metadata.vote_change && !!userVote
+            : false;
+
+        return _expired || !isLoggedIn || _noVoteChange || _ageLimitApllies
+    }, [metadata, userVote]);
+
 
     const [mode, setMode] = useState(PollModes.LOADING)
 
@@ -64,13 +82,12 @@ export const PostPoll = ({
 
     useEffect(() => {
         if (pollsQuery.isSuccess) {
-            setMode(!!userVote ? PollModes.RESULT : PollModes.SELECT);
+            setMode(!!userVote || _expired ? PollModes.RESULT : PollModes.SELECT);
         }
     }, [pollsQuery.isLoading, userVote])
 
 
     const _handleCastVote = () => {
-        //TODO: make sure poll data is loaded before casting vote
         votePollMutation.mutate({ choiceNum: selection })
         setSelection(0);
     }
@@ -86,19 +103,19 @@ export const PostPoll = ({
 
     const _handleVotersPress = (choiceNum: number) => {
         const _voters = pollsQuery.data?.poll_voters;
-        if(!_voters){
+        if (!_voters) {
             return;
         }
 
         const _filteredVoters = _voters
             .filter(item => item.choice_num === choiceNum)
-            .map(voter => ({account:voter.name}))
+            .map(voter => ({ account: voter.name }))
 
         navigation.navigate(ROUTES.MODALS.ACCOUNT_LIST, {
-            title: intl.formatMessage({id:'post_poll.voters'}),
+            title: intl.formatMessage({ id: 'post_poll.voters' }),
             users: _filteredVoters,
         });
-       
+
     }
 
 
@@ -117,7 +134,9 @@ export const PostPoll = ({
             />
             {!_hideVotes && (
                 <TextButton
-                    text={_isModeSelect ? "View Stats" : "Hide Stats"}
+                    text={intl.formatMessage({
+                        id: _isModeSelect ? "post_poll.view_stats" : "post_poll.hide_stats"
+                    })}
                     onPress={_handleModeToggle}
                     textStyle={styles.viewVotesBtn} />
             )}
@@ -130,8 +149,8 @@ export const PostPoll = ({
     return (
         <View style={styles.container}>
             <PollHeader
-                endTime={metadata.end_time}
-                question={metadata.question} />
+                metadata={metadata}
+                expired={_expired} />
 
             <PollChoices
                 metadata={metadata}
