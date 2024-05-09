@@ -66,7 +66,7 @@ export const PostPoll = ({
 
     
 
-    const _hideVotes = useMemo(() => !userVote && !_isPollAuthor, [metadata, userVote]);
+    const _hideStats = useMemo(() => !userVote && !_isPollAuthor, [metadata, userVote]);
     const _hideVoters = useMemo(() => metadata.hide_votes && !_isPollAuthor, [metadata, _isPollAuthor]);
     const _voteDisabled = useMemo(() => {
 
@@ -85,7 +85,7 @@ export const PostPoll = ({
 
     useEffect(() => {
         if (pollsQuery.isSuccess) {
-            setMode(_isPollAuthor || !!userVote || _expired ? PollModes.RESULT : PollModes.SELECT);
+            setMode(!!userVote || _expired ? PollModes.RESULT : PollModes.SELECT);
         }
     }, [pollsQuery.isLoading, userVote])
 
@@ -135,7 +135,7 @@ export const PostPoll = ({
                 text={"Vote"}
                 isDisable={!selection}
             />
-            {!_hideVotes && !_isPollAuthor && (
+            {_isPollAuthor && (
                 <TextButton
                     text={intl.formatMessage({
                         id: _isModeSelect ? "post_poll.view_stats" : "post_poll.hide_stats"
