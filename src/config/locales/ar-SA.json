@@ -470,6 +470,18 @@
     "reply": "الرد",
     "schedule": "جدول زمني"
   },
+  "account_list": {
+    "title": "Users"
+  },
+  "post_poll": {
+    "voters": "Voters",
+    "voted": "voted",
+    "view_stats": "View Stats",
+    "hide_stats": "Hide Stats",
+    "ended": "Ended",
+    "ends": "Ends {inTime}",
+    "age_limit": "• Only accounts older than {days} days allowed"
+  },
   "editor": {
     "title": "عنوان",
     "tags": "علامات (منفصلة مع الفضاء)",
