@@ -2,6 +2,8 @@ import axios from "axios";
 import bugsnagInstance from '../../config/bugsnag';
 import { Poll } from "./polls.types";
 import { convertPoll } from "./converters";
+import { getActiveKey, getDigitPinCode, sendHiveOperations } from "../hive/dhive";
+import { Operation, PrivateKey } from "@esteemapp/dhive";
 
 const POLLS_BASE_URL = 'https://polls.ecency.com';
 
@@ -11,6 +13,30 @@ const PATH_POLL = 'poll'
 const pollsApi = axios.create({
     baseURL: POLLS_BASE_URL,
 });
+
+
+const executePollAction = (id: string, json: any, currentAccount: any, pinHash: string) => {
+    const pin = getDigitPinCode(pinHash);
+    const key = getActiveKey(currentAccount.local, pin);
+    const username = currentAccount.name;
+
+    if (key) {
+        const privateKey = PrivateKey.fromString(key);
+
+        const op = {
+            id,
+            json: JSON.stringify(json),
+            required_auths: [username],
+            required_posting_auths: [],
+        };
+        const opArray: Operation[] = [['custom_json', op]];
+        return sendHiveOperations(opArray, privateKey);
+    }
+
+    return Promise.reject(
+        new Error('Check private key permission! Required private active key or above.'),
+    );
+};
 
 
 export const getPollData = async (author: string, permlink: string): Promise<Poll> => {
@@ -45,3 +71,28 @@ export const getPollData = async (author: string, permlink: string): Promise<Pol
         throw error;
     }
 };
+
+
+export const castPollVote = async (postId: string, choiceNum: number, currentAccount: any, pinHash: string) => {
+    try {
+        if (!postId || !currentAccount) {
+            throw new Error("Failed to register vote")
+        }
+
+        if (typeof choiceNum !== "number") {
+            throw new Error("Invalid vote")
+        }
+
+        await executePollAction("polls", {
+            poll: postId,
+            action: "vote",
+            choice: choiceNum
+        }, currentAccount, pinHash);
+
+        return true;
+
+    } catch (error) {
+        bugsnagInstance.notify(error);
+        throw error;
+    }
+}
