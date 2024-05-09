@@ -36,6 +36,7 @@ import {
   PinCode,
   AssetsSelect,
   BackupKeysScreen,
+  AccountList,
 } from '../screens';
 import { DrawerNavigator } from './drawerNavigator';
 
@@ -77,6 +78,10 @@ const MainStackNavigator = () => {
           component={AssetsSelect}
           options={{ presentation: 'modal' }}
         />
+        <MainStack.Screen 
+          name={ROUTES.MODALS.ACCOUNT_LIST} 
+          component={AccountList}  
+          options={{ presentation: 'modal' }}/>
       </MainStack.Group>
     </MainStack.Navigator>
   );
@@ -92,7 +97,8 @@ export const StackNavigator = ({ initRoute }) => {
       <RootStack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} />
       <RootStack.Screen name={ROUTES.SCREENS.LOGIN} component={Login} />
       <RootStack.Screen name={ROUTES.SCREENS.WELCOME} component={WelcomeScreen} />
-      <MainStack.Screen name={ROUTES.SCREENS.WEB_BROWSER} component={WebBrowser} />
+      <RootStack.Screen name={ROUTES.SCREENS.ACCOUNT_LIST} component={AccountList} />
+      <RootStack.Screen name={ROUTES.SCREENS.WEB_BROWSER} component={WebBrowser} />
       <RootStack.Screen
         name={ROUTES.SCREENS.PINCODE}
         options={{ gestureEnabled: false }}

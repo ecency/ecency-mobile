@@ -27,6 +27,7 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { PostComments } from '../../postComments';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import UpvotePopover from '../../upvotePopover';
+import { PostPoll } from '../../postPoll';
 
 const WIDTH = getWindowDimensions().width;
 
@@ -279,6 +280,12 @@ const PostDisplayView = ({
               metadata={post.json_metadata}
               onLoadEnd={_handleOnPostBodyLoad}
             />
+            
+            <PostPoll 
+              author={author} 
+              permlink={permlink} 
+              metadata={post.json_metadata}  />
+
             {!postBodyLoading && (
               <View style={styles.footer}>
                 <Tags tags={tags} />
