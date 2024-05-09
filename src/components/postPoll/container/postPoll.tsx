@@ -43,13 +43,18 @@ export const PostPoll = ({
     const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
 
     const [selection, setSelection] = useState(0);
+    const [mode, setMode] = useState(PollModes.LOADING)
+
+    
+    const _isModeSelect = mode === PollModes.SELECT;
+    const _isPollAuthor = author === currentAccount?.username;
 
     const pollsQuery = pollQueries.useGetPollQuery(author, permlink, metadata)
     const votePollMutation = pollQueries.useVotePollMutation(pollsQuery.data);
     const _accAgeLimit = pollsQuery.data?.filter_account_age_days || metadata.filters?.account_age || 0;
 
 
-    const userVote = useMemo(() => {
+    const userVote =   useMemo(() => {
         if (pollsQuery.data) {
             return pollsQuery.data.poll_voters.find(voter => voter.name === currentAccount.username)
         }
@@ -61,7 +66,8 @@ export const PostPoll = ({
 
     
 
-    const _hideVotes = useMemo(() => metadata.hide_votes && !!userVote, [metadata, userVote]);
+    const _hideVotes = useMemo(() => metadata.hide_votes && !userVote && !_isPollAuthor, [metadata, userVote]);
+    const _hideVoters = useMemo(() => metadata.hide_votes && !_isPollAuthor, [metadata, _isPollAuthor]);
     const _voteDisabled = useMemo(() => {
 
         const _ageLimitApllies = currentAccount && _accAgeLimit 
@@ -75,14 +81,11 @@ export const PostPoll = ({
     }, [metadata, userVote]);
 
 
-    const [mode, setMode] = useState(PollModes.LOADING)
-
-    const _isModeSelect = mode === PollModes.SELECT;
 
 
     useEffect(() => {
         if (pollsQuery.isSuccess) {
-            setMode(!!userVote || _expired ? PollModes.RESULT : PollModes.SELECT);
+            setMode(_isPollAuthor || !!userVote || _expired ? PollModes.RESULT : PollModes.SELECT);
         }
     }, [pollsQuery.isLoading, userVote])
 
@@ -132,7 +135,7 @@ export const PostPoll = ({
                 text={"Vote"}
                 isDisable={!selection}
             />
-            {!_hideVotes && (
+            {!_hideVotes && !_isPollAuthor && (
                 <TextButton
                     text={intl.formatMessage({
                         id: _isModeSelect ? "post_poll.view_stats" : "post_poll.hide_stats"
@@ -142,7 +145,6 @@ export const PostPoll = ({
             )}
 
         </View>
-
     )
 
 
@@ -160,6 +162,7 @@ export const PostPoll = ({
                 loading={pollsQuery.isLoading}
                 mode={mode}
                 selection={selection}
+                hideVoters={_hideVoters}
                 handleChoiceSelect={_handleChoiceSelect}
                 handleVotersPress={_handleVotersPress} />
 

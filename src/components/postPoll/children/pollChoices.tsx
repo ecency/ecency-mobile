@@ -20,6 +20,7 @@ interface PollChoicesProps {
   mode: PollModes;
   selection: number;
   voteDisabled: boolean;
+  hideVoters: boolean;
   handleChoiceSelect: (optionNum: number) => void;
   handleVotersPress: (optionNum: number) => void;
 }
@@ -34,6 +35,7 @@ export const PollChoices = ({
   loading,
   selection,
   voteDisabled,
+  hideVoters,
   handleChoiceSelect,
   handleVotersPress,
 }: PollChoicesProps) => {
@@ -41,9 +43,6 @@ export const PollChoices = ({
 
   const [_choices, setChoices] = useState(
     choices || mapMetaChoicesToPollChoices(metadata.choices));
-
-
-  const _hideVoters = metadata.hide_votes;
 
   const totalVotes = useMemo(
     () => _choices.reduce(
@@ -102,7 +101,7 @@ export const PollChoices = ({
             </View>
             {!_isModeSelect &&
               <TextButton
-                disabled={_hideVoters}
+                disabled={hideVoters}
                 textStyle={styles.count}
                 text={`${votes} ${intl.formatMessage({ id: 'post_poll.voted' })}`} onPress={_onVotersPress} />
             }
