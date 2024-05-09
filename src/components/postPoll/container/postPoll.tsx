@@ -66,7 +66,7 @@ export const PostPoll = ({
 
     
 
-    const _hideVotes = useMemo(() => metadata.hide_votes && !userVote && !_isPollAuthor, [metadata, userVote]);
+    const _hideVotes = useMemo(() => !userVote && !_isPollAuthor, [metadata, userVote]);
     const _hideVoters = useMemo(() => metadata.hide_votes && !_isPollAuthor, [metadata, _isPollAuthor]);
     const _voteDisabled = useMemo(() => {
 
