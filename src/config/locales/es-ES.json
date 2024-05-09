@@ -471,16 +471,16 @@
     "schedule": "Programar"
   },
   "account_list": {
-    "title": "Users"
+    "title": "Usuarios"
   },
   "post_poll": {
-    "voters": "Voters",
-    "voted": "voted",
-    "view_stats": "View Stats",
-    "hide_stats": "Hide Stats",
-    "ended": "Ended",
-    "ends": "Ends {inTime}",
-    "age_limit": "• Only accounts older than {days} days allowed"
+    "voters": "Votantes",
+    "voted": "votado",
+    "view_stats": "Ver estadísticas",
+    "hide_stats": "Ocultar estadísticas",
+    "ended": "Terminado",
+    "ends": "Termina {inTime}",
+    "age_limit": "• Solo se permiten cuentas de más de {days} días"
   },
   "editor": {
     "title": "Título",
