@@ -59,7 +59,7 @@
     "estimated_value": "القيمه المتوقعه",
     "vote_value": "قيمة التصويت",
     "delegated_hive_power": "قوة Hive التي تم تفويضها",
-    "powering_down_hive_power": "Powering down ({subValue})",
+    "powering_down_hive_power": "خفض الطاقة ({subValue})",
     "received_hive_power": "قوة Hive المستلمة",
     "total_hive_power": "القوة الإجمالية",
     "savings": "المدخرات",
@@ -304,9 +304,9 @@
       "about": "حول التطبيق",
       "location": "الموقع الجغرافي",
       "website": "الموقع الإلكتروني",
-      "edit_profile": "Edit Profile",
-      "cover_img": "Cover Image",
-      "profile_img": "Profile Image"
+      "edit_profile": "تعديل الملف الشخصي",
+      "cover_img": "صورة الغلاف",
+      "profile_img": "الصورة الشخصية"
     }
   },
   "settings": {
@@ -385,7 +385,7 @@
     "signin_title": "للحصول على جميع فوائد إستخدم Ecency",
     "username": "إسم المستخدم",
     "password": "كلمة المرور / المفتاح الخاص",
-    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "من خلال تسجيل الدخول، أنت توافق على شروط الخدمات وسياسات الخصوصية لدينا.",
     "cancel": "إلغاء",
     "login": "تسجيل الدخول",
     "steemconnect_description": "إذا كنت لا ترغب في إبقاء كلمة المرور مشفرة وحفظها على جهازك، يمكنك استخدام Hivesigner.",
@@ -471,16 +471,16 @@
     "schedule": "جدول زمني"
   },
   "account_list": {
-    "title": "Users"
+    "title": "المستخدمون"
   },
   "post_poll": {
-    "voters": "Voters",
-    "voted": "voted",
-    "view_stats": "View Stats",
-    "hide_stats": "Hide Stats",
-    "ended": "Ended",
+    "voters": "المصوّتون",
+    "voted": "تم التصويت",
+    "view_stats": "عرض الإحصائيات",
+    "hide_stats": "إخفاء الإحصائيات",
+    "ended": "انتهى",
     "ends": "Ends {inTime}",
-    "age_limit": "• Only accounts older than {days} days allowed"
+    "age_limit": "فقط الحسابات الأقدم من {days} أيام المسموح بها"
   },
   "editor": {
     "title": "عنوان",
@@ -820,7 +820,7 @@
     "to_placeholder": "إسم المستخدم",
     "memo_placeholder": "أدخل ملاحظاتك هنا",
     "recurrence_placeholder": "اختر التكرار",
-    "executions_placeholder": "Number of Repeats",
+    "executions_placeholder": "عدد التكرارات",
     "transfer_token": "تحويل",
     "purchase_estm": "شراء النقاط",
     "convert": "تحويل HBD إلى HIVE",
