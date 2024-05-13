@@ -478,6 +478,7 @@
   "post_poll":{
     "voters":"Voters",
     "voted":"voted",
+    "hp":"HP",
     "view_stats":"View Stats",
     "hide_stats":"Hide Stats",
     "ended":"Ended",

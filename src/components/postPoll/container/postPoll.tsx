@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
-import { ContentType, PostMetadata } from '../../../providers/hive/hive.types';
+import { ContentType, PollPreferredInterpretation, PostMetadata } from '../../../providers/hive/hive.types';
 import { PollChoices, PollHeader } from '../children';
 import styles from '../styles/postPoll.styles';
 import { pollQueries } from '../../../providers/queries';
@@ -44,6 +44,7 @@ export const PostPoll = ({
 
     const [selection, setSelection] = useState(0);
     const [mode, setMode] = useState(PollModes.LOADING)
+    const [interpretation, setInterpretation]= useState(PollPreferredInterpretation.NUMBER_OF_VOTES);
 
     
     const _isModeSelect = mode === PollModes.SELECT;
@@ -86,6 +87,8 @@ export const PostPoll = ({
     useEffect(() => {
         if (pollsQuery.isSuccess) {
             setMode(!!userVote || _expired ? PollModes.RESULT : PollModes.SELECT);
+            setInterpretation(
+                pollsQuery.data?.preferred_interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES);
         }
     }, [pollsQuery.isLoading, userVote])
 
@@ -163,6 +166,7 @@ export const PostPoll = ({
                 mode={mode}
                 selection={selection}
                 hideVoters={_hideVoters}
+                interpretationToken={interpretation === PollPreferredInterpretation.TOKENS}
                 handleChoiceSelect={_handleChoiceSelect}
                 handleVotersPress={_handleVotersPress} />
 
