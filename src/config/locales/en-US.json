@@ -483,7 +483,8 @@
     "hide_stats":"Hide Stats",
     "ended":"Ended",
     "ends":"Ends {inTime}",
-    "age_limit":"\u2022 Only accounts older than {days} days allowed"
+    "age_limit":"\u2022 Only accounts older than {days} days allowed",
+    "interpretation_token":"\u2022 User HP based vote interpretation"
   },
   "editor": {
     "title": "Title",
