@@ -73,7 +73,7 @@ export const PollChoices = ({
     const _isVoted = !_isModeSelect && (userVote?.choice_num === option.choice_num)
     const _isSelected = selection === option.choice_num
 
-    const votes = get(option.votes, _interpretationToken ? 'hive_hp_incl_proxied':'total_votes', 0);
+    const votes = Math.round(get(option.votes, _interpretationToken ? 'hive_hp_incl_proxied':'total_votes', 0) * 1000 ) / 1000;
 
     const percentage = (!_isModeSelect && !!totalVotes) ? (votes / totalVotes) * 100 : 0; //TODO: adjust logic here
     const _barWidth = getWindowDimensions().width - 64;

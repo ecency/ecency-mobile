@@ -24,7 +24,7 @@ export const PollHeader = ({ metadata, expired }: PollHeaderProps) => {
 
 
     const _ageLimit = metadata?.filters?.account_age || 0;
-    const _interpretationToken = metadata?.preferred_interpretation || PollPreferredInterpretation.TOKENS;
+    const _interpretationToken = metadata?.preferred_interpretation === PollPreferredInterpretation.TOKENS || false;
 
 
     const _renderSubText = (text) => (
@@ -52,7 +52,7 @@ export const PollHeader = ({ metadata, expired }: PollHeaderProps) => {
                 </PopoverWrapper>
             </View>
             {!!_ageLimit && _renderSubText(intl.formatMessage({ id: "post_poll.age_limit" }, { days: _ageLimit }))}
-            {!!_interpretationToken  && _renderSubText(intl.formatMessage({ id: "post_poll.interpretation_token" }))}
+            {_interpretationToken  && _renderSubText(intl.formatMessage({ id: "post_poll.interpretation_token" }))}
         </View>
 
     );
