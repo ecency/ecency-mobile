@@ -482,9 +482,9 @@
     "ended": "Terminado",
     "ends": "Termina {inTime}",
     "age_limit": "• Solo se permiten cuentas de más de {days} días",
-    "interpretation_token": "• User HP based vote interpretation",
-    "interpret_token": "Interpret by Tokens",
-    "interpret_vote": "Interpret by Votes"
+    "interpretation_token": "• Interpretación de voto basada en HP del usuario",
+    "interpret_token": "Interpretar por Tokens",
+    "interpret_vote": "Interpretar por votos"
   },
   "editor": {
     "title": "Título",
