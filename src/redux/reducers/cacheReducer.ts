@@ -39,6 +39,7 @@ export interface VoteCache {
 
 export interface PollVoteCache {
   choiceNum: number;
+  userHp:number;
   username: string;
   votedAt: number;
   expiresAt: number;
