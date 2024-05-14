@@ -476,11 +476,15 @@
   "post_poll": {
     "voters": "Äänestäjät",
     "voted": "äänesti",
+    "hp": "HP",
     "view_stats": "Näytä tilastot",
     "hide_stats": "Piilota tilastot",
     "ended": "Päättyi",
     "ends": "Päättyy {inTime}",
-    "age_limit": "• {days} päivää vanhemmat tilit"
+    "age_limit": "• {days} päivää vanhemmat tilit",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "Otsikko",
