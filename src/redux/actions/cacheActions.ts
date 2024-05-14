@@ -17,6 +17,7 @@ import {
   UPDATE_CLAIM_CACHE,
   DELETE_CLAIM_CACHE_ENTRY,
   UPDATE_ANNOUNCEMENTS_META,
+  UPDATE_POLL_VOTE_CACHE,
 } from '../constants/constants';
 import {
   Comment,
@@ -24,6 +25,7 @@ import {
   Draft,
   SubscribedCommunity,
   VoteCache,
+  PollVoteCache,
 } from '../reducers/cacheReducer';
 
 export const updateVoteCache = (postPath: string, vote: VoteCache) => ({
@@ -93,6 +95,14 @@ export const updateCommentCache = (
     type: UPDATE_COMMENT_CACHE,
   };
 };
+
+export const updatePollVoteCache = (postPath: string, pollVote: PollVoteCache) => ({
+  payload: {
+    postPath,
+    pollVote,
+  },
+  type: UPDATE_POLL_VOTE_CACHE,
+});
 
 export const deleteCommentCacheEntry = (commentPath: string) => ({
   payload: commentPath,
