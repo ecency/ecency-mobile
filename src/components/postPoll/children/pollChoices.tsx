@@ -38,6 +38,7 @@ export const PollChoices = ({
   selection,
   voteDisabled,
   hideVoters,
+  interpretationToken,
   handleChoiceSelect,
   handleVotersPress,
 }: PollChoicesProps) => {
@@ -45,13 +46,12 @@ export const PollChoices = ({
 
   const [_choices, setChoices] = useState(
     choices || mapMetaChoicesToPollChoices(metadata.choices));
-
-  const _interpretationToken = metadata?.preferred_interpretation === PollPreferredInterpretation.TOKENS || false;
+    
 
   const totalVotes = useMemo(
     () => _choices.reduce(
-      (prevVal, option) => prevVal + get(option.votes, _interpretationToken ? 'hive_hp_incl_proxied':'total_votes', 0), 0)
-    , [_choices, _interpretationToken]);
+      (prevVal, option) => prevVal + get(option.votes, interpretationToken ? 'hive_hp_incl_proxied':'total_votes', 0), 0)
+    , [_choices, interpretationToken]);
 
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export const PollChoices = ({
     const _isVoted = !_isModeSelect && (userVote?.choice_num === option.choice_num)
     const _isSelected = selection === option.choice_num
 
-    const votes = Math.round(get(option.votes, _interpretationToken ? 'hive_hp_incl_proxied':'total_votes', 0) * 1000 ) / 1000;
+    const votes = Math.round(get(option.votes, interpretationToken ? 'hive_hp_incl_proxied':'total_votes', 0) * 1000 ) / 1000;
 
     const percentage = (!_isModeSelect && !!totalVotes) ? (votes / totalVotes) * 100 : 0; //TODO: adjust logic here
     const _barWidth = getWindowDimensions().width - 64;
@@ -108,7 +108,7 @@ export const PollChoices = ({
               <TextButton
                 disabled={hideVoters}
                 textStyle={styles.count}
-                text={`${votes} ${intl.formatMessage({ id: _interpretationToken ? 'post_poll.hp':'post_poll.voted'})}`} onPress={_onVotersPress} />
+                text={`${votes} ${intl.formatMessage({ id: interpretationToken ? 'post_poll.hp':'post_poll.voted'})}`} onPress={_onVotersPress} />
             }
 
           </View>

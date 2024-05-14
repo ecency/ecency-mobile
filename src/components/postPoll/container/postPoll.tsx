@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
-import { ContentType, PostMetadata } from '../../../providers/hive/hive.types';
+import { ContentType, PollPreferredInterpretation, PostMetadata } from '../../../providers/hive/hive.types';
 import { PollChoices, PollHeader } from '../children';
 import styles from '../styles/postPoll.styles';
 import { pollQueries } from '../../../providers/queries';
@@ -44,7 +44,8 @@ export const PostPoll = ({
 
     const [selection, setSelection] = useState(0);
     const [mode, setMode] = useState(PollModes.LOADING)
-    
+    const [interpretation, setInterpretation] = useState(metadata.preferred_interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES);
+
     const _isModeSelect = mode === PollModes.SELECT;
     const _isPollAuthor = author === currentAccount?.username;
 
@@ -53,21 +54,21 @@ export const PostPoll = ({
     const _accAgeLimit = pollsQuery.data?.filter_account_age_days || metadata.filters?.account_age || 0;
 
 
-    const userVote =   useMemo(() => {
+    const userVote = useMemo(() => {
         if (pollsQuery.data) {
             return pollsQuery.data.poll_voters.find(voter => voter.name === currentAccount.username)
         }
     }, [pollsQuery.data?.poll_voters, currentAccount.username])
 
-    const _expired =  useMemo(
+    const _expired = useMemo(
         () => new Date(metadata.end_time * 1000).getTime() < new Date().getTime(),
         [metadata]);
 
-    
+
     const _hideVoters = useMemo(() => metadata.hide_votes && !_isPollAuthor, [metadata, _isPollAuthor]);
     const _voteDisabled = useMemo(() => {
 
-        const _ageLimitApllies = currentAccount && _accAgeLimit 
+        const _ageLimitApllies = currentAccount && _accAgeLimit
             ? getDaysPassedSince(currentAccount.created) < _accAgeLimit : false;
 
         const _noVoteChange = metadata.vote_change !== undefined
@@ -83,6 +84,7 @@ export const PostPoll = ({
     useEffect(() => {
         if (pollsQuery.isSuccess) {
             setMode(!!userVote || _expired ? PollModes.RESULT : PollModes.SELECT);
+            setInterpretation(pollsQuery.data?.preferred_interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES)
         }
     }, [pollsQuery.isLoading, userVote])
 
@@ -119,6 +121,28 @@ export const PostPoll = ({
     }
 
 
+    const _switchInterpretation = () => {
+        setInterpretation(interpretation === PollPreferredInterpretation.NUMBER_OF_VOTES
+            ? PollPreferredInterpretation.TOKENS : PollPreferredInterpretation.NUMBER_OF_VOTES)
+    }
+
+    const _authorPanel = _isPollAuthor && (
+        <View style={styles.authorPanel}>
+            <TextButton
+                text={intl.formatMessage({
+                    id: _isModeSelect ? "post_poll.view_stats" : "post_poll.hide_stats"
+                })}
+                onPress={_handleModeToggle}
+                textStyle={styles.viewVotesBtn} />
+
+            {!_isModeSelect && (<TextButton
+                text={interpretation === PollPreferredInterpretation.NUMBER_OF_VOTES ? "Interpret By Tokens" : "Interpret By Votes"}
+                textStyle={styles.viewVotesBtn}
+                onPress={_switchInterpretation} />
+            )}
+
+        </View>
+    )
 
     const _actionPanel = !_voteDisabled && (
         <View style={styles.actionPanel}>
@@ -132,14 +156,6 @@ export const PostPoll = ({
                 text={"Vote"}
                 isDisable={!selection}
             />
-            {_isPollAuthor && (
-                <TextButton
-                    text={intl.formatMessage({
-                        id: _isModeSelect ? "post_poll.view_stats" : "post_poll.hide_stats"
-                    })}
-                    onPress={_handleModeToggle}
-                    textStyle={styles.viewVotesBtn} />
-            )}
 
         </View>
     )
@@ -160,9 +176,11 @@ export const PostPoll = ({
                 mode={mode}
                 selection={selection}
                 hideVoters={_hideVoters}
+                interpretationToken={interpretation === PollPreferredInterpretation.TOKENS}
                 handleChoiceSelect={_handleChoiceSelect}
                 handleVotersPress={_handleVotersPress} />
 
+            {_authorPanel}
             {_actionPanel}
 
         </View>
