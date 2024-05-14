@@ -34,10 +34,15 @@ export default EStyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between'
     } as ViewStyle,
+    authorPanel:{
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-between',
+        marginBottom:8
+    } as ViewStyle,
     actionPanel:{
         flexDirection:'row-reverse',
         alignItems:'center',
-        
     } as ViewStyle,
     voteButton:{
         width: 140,

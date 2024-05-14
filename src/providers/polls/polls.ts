@@ -5,6 +5,13 @@ import { convertPoll } from "./converters";
 import { getActiveKey, getDigitPinCode, sendHiveOperations } from "../hive/dhive";
 import { Operation, PrivateKey } from "@esteemapp/dhive";
 
+
+/**
+ * hive polls docs reference:
+ * https://gitlab.com/peakd/hive-open-polls
+ * 
+ */
+
 const POLLS_BASE_URL = 'https://polls.ecency.com';
 
 const PATH_RPC = 'rpc'

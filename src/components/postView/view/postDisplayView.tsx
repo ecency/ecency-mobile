@@ -28,6 +28,8 @@ import { PostComments } from '../../postComments';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import UpvotePopover from '../../upvotePopover';
 import { PostPoll } from '../../postPoll';
+import { useQueryClient } from '@tanstack/react-query';
+import QUERIES from '../../../providers/queries/queryKeys';
 
 const WIDTH = getWindowDimensions().width;
 
@@ -52,6 +54,7 @@ const PostDisplayView = ({
 }) => {
   const dispatch = useAppDispatch();
   const insets = useSafeAreaInsets();
+  const queryClient = useQueryClient();
   const userActivityMutation = useUserActivityMutation();
 
   const postCommentsRef = useRef<PostComments>(null);
@@ -88,6 +91,7 @@ const PostDisplayView = ({
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     fetchPost().then(() => setRefreshing(false));
+    queryClient.resetQueries([QUERIES.POST.GET_POLL, author, permlink]);
   }, [refreshing]);
 
   const _scrollToComments = () => {

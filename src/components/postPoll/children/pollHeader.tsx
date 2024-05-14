@@ -7,7 +7,7 @@ import { Icon, PopoverWrapper } from '../../';
 import { getTimeFromNow } from '../../../utils/time';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
-import { PostMetadata } from '../../../providers/hive/hive.types';
+import { PollPreferredInterpretation, PostMetadata } from '../../../providers/hive/hive.types';
 
 interface PollHeaderProps {
     metadata: PostMetadata
@@ -24,6 +24,14 @@ export const PollHeader = ({ metadata, expired }: PollHeaderProps) => {
 
 
     const _ageLimit = metadata?.filters?.account_age || 0;
+    const _interpretationToken = metadata?.preferred_interpretation === PollPreferredInterpretation.TOKENS || false;
+
+
+    const _renderSubText = (text) => (
+        <Text style={styles.subText}>
+            {text}
+        </Text>
+    )
 
     return (
         <View>
@@ -43,11 +51,8 @@ export const PollHeader = ({ metadata, expired }: PollHeaderProps) => {
 
                 </PopoverWrapper>
             </View>
-            {!!_ageLimit && (
-                <Text style={styles.subText}>
-                    {intl.formatMessage({ id: "post_poll.age_limit" }, { days: _ageLimit })}
-                </Text>
-            )}
+            {!!_ageLimit && _renderSubText(intl.formatMessage({ id: "post_poll.age_limit" }, { days: _ageLimit }))}
+            {_interpretationToken  && _renderSubText(intl.formatMessage({ id: "post_poll.interpretation_token" }))}
         </View>
 
     );

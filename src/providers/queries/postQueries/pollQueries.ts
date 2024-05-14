@@ -2,9 +2,16 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import QUERIES from "../queryKeys";
 import { castPollVote, getPollData } from "../../polls/polls";
 import { PostMetadata } from "../../hive/hive.types";
-import { useMemo, useState } from "react";
-import { Poll } from "../../polls/polls.types";
+import { useEffect, useMemo, useState } from "react";
+import { Poll, PollChoice } from "../../polls/polls.types";
 import { useAppSelector } from "../../../hooks";
+import parseToken from "../../../utils/parseToken";
+import { vestsToHp } from "../../../utils/conversions";
+import { updatePollVoteCache } from "../../../redux/actions/cacheActions";
+import { useDispatch } from "react-redux";
+import { CacheStatus, PollVoteCache } from "../../../redux/reducers/cacheReducer";
+import { toastNotification } from "../../../redux/actions/uiAction";
+import { useIntl } from "react-intl";
 
 
 
@@ -48,11 +55,11 @@ export const useGetPollQuery = (_author?: string, _permlink?: string, metadata?:
     );
 
     //TODO: use injectPollVoteCache here for simplifity and code reuseability
-    // const data = useInjectVotesCache(query.data);
+    const data = useInjectPollVoteCache(query.data);
 
     return {
         ...query,
-        //   data, //TODO: return cache inserted poll data
+        data,
         setAuthor,
         setPermlink,
     };
@@ -63,14 +70,17 @@ export const useGetPollQuery = (_author?: string, _permlink?: string, metadata?:
 
 export function useVotePollMutation(poll: Poll | null) {
     // const { activeUser } = useMappedStore();
+    const intl = useIntl();
+    const dispatch = useDispatch();
     const queryClient = useQueryClient()
     const currentAccount = useAppSelector(state => state.account.currentAccount);
+    const pollVotesCollection = useAppSelector(state => state.cache.pollVotesCollection);
     const pinHash = useAppSelector(state => state.application.pin);
+    const globalProps = useAppSelector(state => state.account.globalProps)
 
-    // const queryClient = useQueryClient();
 
     return useMutation({
-        mutationKey: ["sign-poll-vote", poll?.author, poll?.permlink],
+        mutationKey: [ QUERIES.POST.SIGN_POLL_VOTE , poll?.author, poll?.permlink],
         mutationFn: async ({ choiceNum }: { choiceNum: number }) => {
 
             if (!poll || !currentAccount) {
@@ -81,123 +91,158 @@ export function useVotePollMutation(poll: Poll | null) {
                 throw new Error("Invalid vote")
             }
 
-            await castPollVote(poll.poll_trx_id, choiceNum, currentAccount, pinHash)
-
-            return { choiceNum };
+            return await castPollVote(poll.poll_trx_id, choiceNum, currentAccount, pinHash)
         },
+        retry:3,
         onMutate: ({ choiceNum }) => {
-            queryClient.setQueryData<ReturnType<typeof useGetPollQuery>["data"]>(
-                [QUERIES.POST.GET_POLL, poll?.author, poll?.permlink],
-                (data) => {
-                    if (!data || !choiceNum) {
-                        return data;
-                    }
 
-                    //TOOD: use injectPollVoteCache here for simplifity and code reuseability
-                    const existingVote = data.poll_voters?.find((pv) => pv.name === currentAccount!!.username);
-                    const previousUserChoice = data.poll_choices?.find(
-                        (pc) => existingVote?.choice_num === pc.choice_num
-                    );
-                    const choice = data.poll_choices?.find((pc) => pc.choice_num === choiceNum)!!;
-
-
-                    const notTouchedChoices = data.poll_choices?.filter(
-                        (pc) => ![previousUserChoice?.choice_num, choice?.choice_num].includes(pc.choice_num)
-                    );
-                    const otherVoters =
-                        data.poll_voters?.filter((pv) => pv.name !== currentAccount!!.username) ?? [];
-
-
-                    let poll_choices = data.poll_choices;
-                    if (previousUserChoice?.choice_num !== choice.choice_num) {
-                        poll_choices = [
-                            ...notTouchedChoices,
-                            previousUserChoice
-                                ? {
-                                    ...previousUserChoice,
-                                    votes: {
-                                        total_votes: (previousUserChoice?.votes?.total_votes ?? 0) - 1
-                                    }
-                                }
-                                : undefined,
-                            {
-                                ...choice,
-                                votes: {
-                                    total_votes: (choice?.votes?.total_votes ?? 0) + 1
-                                }
-                            }
-                        ].filter((el) => !!el).sort(((a, b) => a?.choice_num < b?.choice_num ? -1 : 1))
-                    }
-
-
-                    return {
-                        ...data,
-                        poll_choices,
-                        poll_voters: [
-                            ...otherVoters,
-                            { name: currentAccount?.username, choice_num: choiceNum }
-                        ]
-                    } as ReturnType<typeof useGetPollQuery>["data"];
-                }
-            )
+            // update redux
+            const userHp = Math.round(vestsToHp(parseToken(currentAccount.vesting_shares), globalProps.hivePerMVests) * 1000) / 1000;
+            const postPath = `${poll?.author || ''}/${poll?.permlink || ''}`;
+            const curTime = new Date().getTime();
+            const vote = {
+                choiceNum,
+                userHp,
+                username: currentAccount.username,
+                votedAt: curTime,
+                expiresAt: curTime + 120000,
+                status: CacheStatus.PENDING,
+            } as PollVoteCache;
+            dispatch(updatePollVoteCache(postPath, vote));
         },
 
-        onSuccess: (resp) => {
-            //TODO: update cache here
+        onSuccess: (status) => {
+            console.log("vote response", status);
+            //update poll cache here
+            const postPath = `${poll?.author || ''}/${poll?.permlink || ''}`;
+            const voteCache:PollVoteCache = pollVotesCollection[postPath];
+            if(voteCache){
+                voteCache.status = status ? CacheStatus.PUBLISHED : CacheStatus.FAILED;
+                dispatch(updatePollVoteCache(postPath, voteCache))
+            }
         },
         onError: (err) => {
-            //TOOD: reverse mutation here
+            //reverse mutation here
+            const postPath = `${poll?.author || ''}/${poll?.permlink || ''}`;
+            const voteCache:PollVoteCache = pollVotesCollection[postPath];
+            if(voteCache){
+                voteCache.status = CacheStatus.FAILED
+                dispatch(updatePollVoteCache(postPath, voteCache))
+            }
+
+            dispatch(toastNotification(`${intl.formateMessage({id:'alert.fail'})}. ${err.message}`))
+
+            queryClient.invalidateQueries([QUERIES.POST.GET_POLL, poll?.author, poll?.permlink])
         }
 
 
     });
 }
 
-//TODO: use to create, update and remove poll vote entry from votes data
-const injectPollVoteCache = () => {
-        // queryClient.setQueryData<ReturnType<typeof useGetPollDetailsQuery>["data"]>(
-        //   [QueryIdentifiers.POLL_DETAILS, poll?.author, poll?.permlink],
-        //   (data) => {
-        //     if (!data || !resp) {
-        //       return data;
-        //     }
 
-        //     const existingVote = data.poll_voters?.find((pv) => pv.name === activeUser!!.username);
-        //     const previousUserChoice = data.poll_choices?.find(
-        //       (pc) => existingVote?.choice_num === pc.choice_num
-        //     );
-        //     const choice = data.poll_choices?.find((pc) => pc.choice_num === resp.choiceNum)!!;
+//used to create, update and remove poll vote entry from votes data
+const useInjectPollVoteCache = (pollData: Poll) => {
 
-        //     const notTouchedChoices = data.poll_choices?.filter(
-        //       (pc) => ![previousUserChoice?.choice_num, choice?.choice_num].includes(pc.choice_num)
-        //     );
-        //     const otherVoters =
-        //       data.poll_voters?.filter((pv) => pv.name !== activeUser!!.username) ?? [];
+    const pollVotesCollection = useAppSelector((state) => state.cache.pollVotesCollection);
+    const lastUpdate = useAppSelector((state) => state.cache.lastUpdate);
+    const [retData, setRetData] = useState<any | any[] | null>(null);
 
-        //     return {
-        //       ...data,
-        //       poll_choices: [
-        //         ...notTouchedChoices,
-        //         previousUserChoice
-        //           ? {
-        //               ...previousUserChoice,
-        //               votes: {
-        //                 total_votes: (previousUserChoice?.votes?.total_votes ?? 0) - 1
-        //               }
-        //             }
-        //           : undefined,
-        //         {
-        //           ...choice,
-        //           votes: {
-        //             total_votes: (choice?.votes?.total_votes ?? 0) + 1
-        //           }
-        //         }
-        //       ].filter((el) => !!el),
-        //       poll_voters: [
-        //         ...otherVoters,
-        //         { name: activeUser?.username, choice_num: resp.choiceNum }
-        //       ]
-        //     } as ReturnType<typeof useGetPollDetailsQuery>["data"];
-        //   }
-        // )
+    useEffect(() => {
+        if (pollData && lastUpdate && lastUpdate.type === 'poll-vote') {
+            const _postPath = lastUpdate.postPath;
+            const _voteCache = pollVotesCollection[_postPath];
+
+            const _comparePath = (item) => _postPath === `${item.author}/${item.permlink}`;
+            let _pathMatched = pollData && _comparePath(pollData)
+
+            // if poll available, inject cache and update state
+            if (_pathMatched) {
+                console.log("Injection: on cache change: ", _voteCache)
+                const data = injectPollVoteCache(pollData, _voteCache);
+
+                console.log('updating data', data);
+                setRetData({ ...data });
+            }
+        }
+    }, [pollVotesCollection]);
+
+    useEffect(() => {
+        if (!pollData) {
+            setRetData(null);
+            return;
+        }
+
+        const _path = `${pollData.author}/${pollData.permlink}`;
+        const voteCache = pollVotesCollection[_path];
+
+        const _cData = injectPollVoteCache(pollData, voteCache);
+
+        setRetData(_cData);
+    }, [pollData]);
+
+    return retData || pollData;
+}
+
+
+const injectPollVoteCache = (data:Poll, voteCache:PollVoteCache) => {
+    if (!data || !voteCache) {
+        return data;
+    }
+
+    const { userHp, choiceNum, username, status } = voteCache;
+
+    if(status === CacheStatus.FAILED){
+        return data;
+    }
+
+
+    const existingVote = data.poll_voters?.find((pv) => pv.name === username);
+    const previousUserChoice = data.poll_choices?.find(
+        (pc) => existingVote?.choice_num === pc.choice_num
+    );
+    const choice = data.poll_choices?.find((pc) => pc.choice_num === choiceNum)!!;
+
+
+    const notTouchedChoices = data.poll_choices?.filter(
+        (pc) => ![previousUserChoice?.choice_num, choice?.choice_num].includes(pc.choice_num)
+    );
+    const otherVoters =
+        data.poll_voters?.filter((pv) => pv.name !== username) ?? [];
+
+
+    let poll_choices = data.poll_choices;
+    if (previousUserChoice?.choice_num !== choice.choice_num) {
+
+        poll_choices = [
+            ...notTouchedChoices,
+            previousUserChoice
+                ? {
+                    ...previousUserChoice,
+                    votes: {
+                        total_votes: (previousUserChoice?.votes?.total_votes ?? 0) - 1,
+                        hive_hp: (previousUserChoice?.votes?.hive_hp ?? 0) - userHp,
+                        hive_hp_incl_proxied: (previousUserChoice?.votes?.hive_hp ?? 0) - userHp
+                    }
+                }
+                : undefined,
+            {
+                ...choice,
+                votes: {
+                    total_votes: (choice?.votes?.total_votes ?? 0) + 1,
+                    hive_hp: (choice?.votes?.hive_hp ?? 0) + userHp,
+                    hive_hp_incl_proxied: (choice?.votes?.hive_hp ?? 0) + userHp
+                }
+            }
+        ].filter((el) => !!el).sort(((a, b) => a?.choice_num < b?.choice_num ? -1 : 1)) as PollChoice[]
+    }
+
+
+    return {
+        ...data,
+        poll_choices,
+        poll_voters: [
+            ...otherVoters,
+            { name: username, choice_num: choiceNum }
+        ]
+    } as Poll;
 }

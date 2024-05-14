@@ -3,7 +3,7 @@ export enum ContentType {
   POLL = 'poll',
 }
 
-export enum PostPreferredInterpretation {
+export enum PollPreferredInterpretation {
   NUMBER_OF_VOTES = 'number_of_votes',
   TOKENS = 'tokens'
 }
@@ -24,7 +24,7 @@ export interface PostMetadata {
 
   //POLL
   question: string;
-  preferred_interpretation: PostPreferredInterpretation;
+  preferred_interpretation: PollPreferredInterpretation;
   choices: string[];
   filters: {
     account_age: number

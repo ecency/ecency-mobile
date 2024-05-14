@@ -7,10 +7,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { PollChoice, PollVoter } from '../../../providers/polls/polls.types';
 import { mapMetaChoicesToPollChoices } from '../../../providers/polls/converters';
 import { CheckBox } from '../../checkbox';
-import { PostMetadata } from '../../../providers/hive/hive.types';
+import { PostMetadata, PollPreferredInterpretation } from '../../../providers/hive/hive.types';
 import { PollModes } from '../container/postPoll';
 import { TextButton } from '../../buttons';
 import { useIntl } from 'react-intl';
+import { get } from 'lodash';
 
 interface PollChoicesProps {
   loading: boolean;
@@ -21,6 +22,7 @@ interface PollChoicesProps {
   selection: number;
   voteDisabled: boolean;
   hideVoters: boolean;
+  interpretationToken?: boolean
   handleChoiceSelect: (optionNum: number) => void;
   handleVotersPress: (optionNum: number) => void;
 }
@@ -36,6 +38,7 @@ export const PollChoices = ({
   selection,
   voteDisabled,
   hideVoters,
+  interpretationToken,
   handleChoiceSelect,
   handleVotersPress,
 }: PollChoicesProps) => {
@@ -43,11 +46,12 @@ export const PollChoices = ({
 
   const [_choices, setChoices] = useState(
     choices || mapMetaChoicesToPollChoices(metadata.choices));
+    
 
   const totalVotes = useMemo(
     () => _choices.reduce(
-      (prevVal, option) => prevVal + (option?.votes?.total_votes) || 0, 0)
-    , [_choices]);
+      (prevVal, option) => prevVal + get(option.votes, interpretationToken ? 'hive_hp_incl_proxied':'total_votes', 0), 0)
+    , [_choices, interpretationToken]);
 
 
   useEffect(() => {
@@ -69,7 +73,8 @@ export const PollChoices = ({
     const _isVoted = !_isModeSelect && (userVote?.choice_num === option.choice_num)
     const _isSelected = selection === option.choice_num
 
-    const votes = option.votes?.total_votes || 0;
+    const votes = Math.round(get(option.votes, interpretationToken ? 'hive_hp_incl_proxied':'total_votes', 0) * 1000 ) / 1000;
+
     const percentage = (!_isModeSelect && !!totalVotes) ? (votes / totalVotes) * 100 : 0; //TODO: adjust logic here
     const _barWidth = getWindowDimensions().width - 64;
 
@@ -103,7 +108,7 @@ export const PollChoices = ({
               <TextButton
                 disabled={hideVoters}
                 textStyle={styles.count}
-                text={`${votes} ${intl.formatMessage({ id: 'post_poll.voted' })}`} onPress={_onVotersPress} />
+                text={`${votes} ${intl.formatMessage({ id: interpretationToken ? 'post_poll.hp':'post_poll.voted'})}`} onPress={_onVotersPress} />
             }
 
           </View>
