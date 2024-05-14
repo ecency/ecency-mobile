@@ -476,11 +476,15 @@
   "post_poll": {
     "voters": "المصوّتون",
     "voted": "تم التصويت",
+    "hp": "HP",
     "view_stats": "عرض الإحصائيات",
     "hide_stats": "إخفاء الإحصائيات",
     "ended": "انتهى",
     "ends": "Ends {inTime}",
-    "age_limit": "فقط الحسابات الأقدم من {days} أيام المسموح بها"
+    "age_limit": "فقط الحسابات الأقدم من {days} أيام المسموح بها",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "عنوان",
