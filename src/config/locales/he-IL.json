@@ -476,11 +476,15 @@
   "post_poll": {
     "voters": "Voters",
     "voted": "voted",
+    "hp": "HP",
     "view_stats": "View Stats",
     "hide_stats": "Hide Stats",
     "ended": "Ended",
     "ends": "Ends {inTime}",
-    "age_limit": "• Only accounts older than {days} days allowed"
+    "age_limit": "• Only accounts older than {days} days allowed",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "כותרת",
