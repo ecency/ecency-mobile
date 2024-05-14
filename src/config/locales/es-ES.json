@@ -476,11 +476,15 @@
   "post_poll": {
     "voters": "Votantes",
     "voted": "votado",
+    "hp": "HP",
     "view_stats": "Ver estadísticas",
     "hide_stats": "Ocultar estadísticas",
     "ended": "Terminado",
     "ends": "Termina {inTime}",
-    "age_limit": "• Solo se permiten cuentas de más de {days} días"
+    "age_limit": "• Solo se permiten cuentas de más de {days} días",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "Título",
