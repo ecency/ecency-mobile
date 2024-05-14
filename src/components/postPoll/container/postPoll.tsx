@@ -47,6 +47,7 @@ export const PostPoll = ({
     const [interpretation, setInterpretation] = useState(metadata.preferred_interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES);
 
     const _isModeSelect = mode === PollModes.SELECT;
+    const _isInterpretationToken = interpretation === PollPreferredInterpretation.TOKENS;
     const _isPollAuthor = author === currentAccount?.username;
 
     const pollsQuery = pollQueries.useGetPollQuery(author, permlink, metadata)
@@ -122,8 +123,10 @@ export const PostPoll = ({
 
 
     const _switchInterpretation = () => {
-        setInterpretation(interpretation === PollPreferredInterpretation.NUMBER_OF_VOTES
-            ? PollPreferredInterpretation.TOKENS : PollPreferredInterpretation.NUMBER_OF_VOTES)
+        setInterpretation(_isInterpretationToken
+            ? PollPreferredInterpretation.NUMBER_OF_VOTES
+            : PollPreferredInterpretation.TOKENS
+        )
     }
 
     const _authorPanel = _isPollAuthor && (
@@ -135,10 +138,13 @@ export const PostPoll = ({
                 onPress={_handleModeToggle}
                 textStyle={styles.viewVotesBtn} />
 
-            {!_isModeSelect && (<TextButton
-                text={interpretation === PollPreferredInterpretation.NUMBER_OF_VOTES ? "Interpret By Tokens" : "Interpret By Votes"}
-                textStyle={styles.viewVotesBtn}
-                onPress={_switchInterpretation} />
+            {!_isModeSelect && (
+                <TextButton
+                    text={intl.formatMessage({
+                        id: _isInterpretationToken ? "post_poll.interpret_vote" : "post_poll.interpret_token"
+                    })}
+                    textStyle={styles.viewVotesBtn}
+                    onPress={_switchInterpretation} />
             )}
 
         </View>
