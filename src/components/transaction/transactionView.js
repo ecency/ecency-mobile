@@ -49,7 +49,7 @@ const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress
       cancelable={item.cancelable}
       cancelling={cancelling}
       onCancelPress={onCancelPress}
-      onRepeatPress={item?.textKey?.includes('transfer') ? _onRepeatPress : null}
+      onRepeatPress={item?.repeatable ? _onRepeatPress : null}
     />
   );
 

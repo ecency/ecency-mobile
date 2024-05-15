@@ -47,6 +47,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const quote: QuoteItem = useAppSelector((state) =>
     state.wallet.quotes ? state.wallet.quotes[coinId] : {},
   );
+  const username = useAppSelector(state => state.wallet.username);
   const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
 
   // state
@@ -153,7 +154,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     if (baseActivity) {
       navigateParams = {
         ...navigateParams,
-        referredUsername: baseActivity.receiver,
+        referredUsername: baseActivity.receiver !== username ? baseActivity.receiver : baseActivity.sender,
         initialAmount: `${Math.abs(parseAsset(baseActivity.value.trim()).amount)}`,
         initialMemo: baseActivity.memo,
       };

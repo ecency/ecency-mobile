@@ -61,6 +61,7 @@ export interface CoinActivity {
   cancelable: boolean;
   recurrence: string;
   executions: string;
+  repeatable: boolean;
   sender?: string;
   receiver?: string;
 }
