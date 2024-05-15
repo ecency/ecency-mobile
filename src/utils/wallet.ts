@@ -42,6 +42,7 @@ import { ClaimsCollection } from '../redux/reducers/cacheReducer';
 import { fetchSpkWallet } from '../providers/hive-spk/hiveSpk';
 import TransferTypes from '../constants/transferTypes';
 import { getHoursDifferntial } from './time';
+import { RepeatableTransfers } from '../constants/repeatableTransfers';
 
 export const transferTypes = [
   'curation_reward',
@@ -100,7 +101,8 @@ export const groomingTransactionData = (transaction, hivePerMVests): CoinActivit
   result.created = timestamp;
   result.icon = 'local-activity';
 
-  // TODO: Format other wallet related operations
+  // Format other wallet related operations
+  result.repeatable = RepeatableTransfers[result.textKey] || false;
 
   switch (result.textKey) {
     case 'curation_reward':
@@ -157,6 +159,8 @@ export const groomingTransactionData = (transaction, hivePerMVests): CoinActivit
       result.value = `${amount}`;
       result.icon = 'compare-arrows';
       result.details = from && to ? `@${from} to @${to}` : null;
+      result.sender = from;
+      result.receiver = to;
       result.memo = memo || null;
       break;
     case 'withdraw_vesting':
@@ -240,8 +244,11 @@ export const groomingEngineHistory = (transaction: HistoryItem): CoinActivity | 
     value: `${quantity} ${symbol}`,
     memo: memo || '',
     details: authorperm || (from && to ? `@${from} to @${to}` : null),
+    sender: from,
+    receiver: to,
     icon: 'local-activity',
     expires: '',
+    repeatable : RepeatableTransfers[operation] || false
   };
 
   switch (result.textKey) {
@@ -1096,7 +1103,7 @@ export const groomingPointsTransactionData = (transaction) => {
   }
   const result = {
     ...transaction,
-  };
+  } as CoinActivity;
 
   result.details = transaction.sender
     ? `from @${transaction.sender}`
@@ -1104,6 +1111,9 @@ export const groomingPointsTransactionData = (transaction) => {
 
   result.value = `${transaction.amount} Points`;
   result.trxIndex = transaction.id;
+  result.repeatable = RepeatableTransfers[transaction.textKey] || false;
+  result.sender = transaction.sender;
+  result.receiver  = transaction.receiver;
 
   return result;
 };

@@ -13,7 +13,7 @@ import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
-import parseToken from '../../../utils/parseToken';
+import parseAsset from '../../../utils/parseAsset';
 
 export interface AssetDetailsScreenParams {
   coinId: string;
@@ -47,6 +47,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const quote: QuoteItem = useAppSelector((state) =>
     state.wallet.quotes ? state.wallet.quotes[coinId] : {},
   );
+  const username = useAppSelector(state => state.wallet.username);
   const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
 
   // state
@@ -108,7 +109,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     let navigateTo = ROUTES.SCREENS.TRANSFER;
     let navigateParams = {};
 
-    if (coinId === ASSET_IDS.ECENCY && transferType !== 'dropdown_transfer') {
+    if (coinId === ASSET_IDS.ECENCY && !transferType.includes('transfer')) {
       navigateTo = ROUTES.SCREENS.REDEEM;
       navigateParams = {
         balance: coinData.balance,
@@ -132,6 +133,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
               (bal, data) => (data.dataKey === 'delegations_out' ? Number(data.value) : bal),
               0,
             ) ?? 0;
+          break;
         case TransferTypes.WITHDRAW_HIVE:
         case TransferTypes.WITHDRAW_HBD:
           balance = coinData.savings ?? 0;
@@ -152,8 +154,8 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     if (baseActivity) {
       navigateParams = {
         ...navigateParams,
-        referredUsername: baseActivity.details?.split(' ')[2]?.slice(1), // from @user1 to @user2
-        initialAmount: `${parseToken(baseActivity.value)}`,
+        referredUsername: baseActivity.receiver !== username ? baseActivity.receiver : baseActivity.sender,
+        initialAmount: `${Math.abs(parseAsset(baseActivity.value.trim()).amount)}`,
         initialMemo: baseActivity.memo,
       };
     }
