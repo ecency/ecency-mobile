@@ -1,12 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AlertButton } from 'react-native';
-import { Source } from 'react-native-fast-image';
+import { ImageSource } from 'expo-image';
 import { useSelector, useDispatch } from 'react-redux';
 import { hideActionModal } from '../../../redux/actions/uiAction';
 import ActionModalView, { ActionModalRef } from '../view/actionModalView';
 
+export enum ButtonTypes {
+  CANCEL = 'cancel',
+  OK = 'ok',
+  SKIP = 'skip',
+}
 interface ExtendedAlertButton extends AlertButton {
   textId: string;
+  type?: ButtonTypes;
 }
 
 export interface ActionModalData {
@@ -14,7 +20,7 @@ export interface ActionModalData {
   body: string;
   para?: string;
   buttons: ExtendedAlertButton[];
-  headerImage?: Source;
+  headerImage?: ImageSource;
   onClosed: () => void;
   headerContent?: React.ReactNode;
   bodyContent?: React.ReactNode;

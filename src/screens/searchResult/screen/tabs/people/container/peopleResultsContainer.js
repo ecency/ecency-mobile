@@ -5,16 +5,24 @@ import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { searchAccount } from '../../../../../../providers/ecency/ecency';
+import { lookupAccounts } from '../../../../../../providers/hive/dhive';
 
-const PeopleResultsContainer = ({ children, searchValue, username }) => {
+const PeopleResultsContainer = ({ children, searchValue, username, isUsername }) => {
   const navigation = useNavigation();
 
   const [users, setUsers] = useState([]);
+  const [userNames, setUsernames] = useState([]);
   const [noResult, setNoResult] = useState(false);
 
   useEffect(() => {
     setNoResult(false);
     setUsers([]);
+    if (!searchValue) {
+      setUsernames([]);
+    }
+    if (searchValue && isUsername) {
+      _fetchUsernames(searchValue);
+    }
 
     searchAccount(searchValue, 20, searchValue ? 0 : 1)
       .then((res) => {
@@ -28,6 +36,11 @@ const PeopleResultsContainer = ({ children, searchValue, username }) => {
         setUsers([]);
       });
   }, [searchValue]);
+
+  const _fetchUsernames = async (username) => {
+    const users = await lookupAccounts(username);
+    setUsernames(users);
+  };
 
   // Component Functions
 
@@ -45,6 +58,7 @@ const PeopleResultsContainer = ({ children, searchValue, username }) => {
     children &&
     children({
       users,
+      userNames,
       handleOnPress: _handleOnPress,
       noResult,
     })

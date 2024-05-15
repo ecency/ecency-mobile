@@ -31,7 +31,7 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
   };
 
   const _getNextPageParam = (lastPage: any[]) => {
-    const lastId = lastPage && lastPage.length ? lastPage.lastItem.id : undefined;
+    const lastId = lastPage && lastPage.length ? lastPage.slice(-1)[0].id : undefined;
     console.log('extracting next page parameter', lastId);
     return lastId;
   };
@@ -45,6 +45,8 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
     })),
   });
 
+  const _lastPage = notificationQueries[notificationQueries.length - 1];
+
   const _refresh = async () => {
     setIsRefreshing(true);
     setPageParams(['']);
@@ -53,13 +55,12 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
   };
 
   const _fetchNextPage = () => {
-    const lastPage = notificationQueries.lastItem;
 
-    if (!lastPage || lastPage.isFetching) {
+    if (!_lastPage || _lastPage.isFetching) {
       return;
     }
 
-    const lastId = _getNextPageParam(lastPage.data);
+    const lastId = _getNextPageParam(_lastPage.data);
     if (!pageParams.includes(lastId)) {
       pageParams.push(lastId);
       setPageParams([...pageParams]);
@@ -68,10 +69,11 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
 
   const _dataArrs = notificationQueries.map((query) => query.data);
 
+
   return {
     data: unionBy(..._dataArrs, 'id'),
     isRefreshing,
-    isLoading: notificationQueries.lastItem.isLoading || notificationQueries.lastItem.isFetching,
+    isLoading: _lastPage.isLoading || _lastPage.isFetching,
     fetchNextPage: _fetchNextPage,
     refresh: _refresh,
   };

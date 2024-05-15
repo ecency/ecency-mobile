@@ -6,15 +6,9 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
   },
   body: {
-    flex: 1,
     backgroundColor: '$primaryBackgroundColor',
   },
-  footerButtons: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    height: 80,
-  },
+
   cancelButton: {
     marginRight: 10,
   },
@@ -78,7 +72,26 @@ export default EStyleSheet.create({
     marginLeft: 32,
     alignSelf: 'center',
   },
-  mainButton: {
-    paddingRight: 20,
+  footerButtons: {},
+  mainButton: {},
+  mainBtnWrapper: {
+    marginVertical: 12,
+  },
+  mainBtnBodyWrapper: {
+    flex: 1,
+  },
+  loginBtnRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  doYouHaveTxt: {
+    color: '$primaryDarkGray',
+    fontSize: 16,
+  },
+  loginBtnTxt: {
+    color: '$primaryBlue',
+    marginLeft: 4,
+    fontSize: 16,
   },
 });

@@ -27,6 +27,9 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { PostComments } from '../../postComments';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import UpvotePopover from '../../upvotePopover';
+import { PostPoll } from '../../postPoll';
+import { useQueryClient } from '@tanstack/react-query';
+import QUERIES from '../../../providers/queries/queryKeys';
 
 const WIDTH = getWindowDimensions().width;
 
@@ -46,12 +49,12 @@ const PostDisplayView = ({
   permlink,
   handleOnRemovePress,
   activeVotes,
-  reblogs,
   isWavePost,
   activeVotesCount,
 }) => {
   const dispatch = useAppDispatch();
   const insets = useSafeAreaInsets();
+  const queryClient = useQueryClient();
   const userActivityMutation = useUserActivityMutation();
 
   const postCommentsRef = useRef<PostComments>(null);
@@ -88,6 +91,7 @@ const PostDisplayView = ({
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     fetchPost().then(() => setRefreshing(false));
+    queryClient.resetQueries([QUERIES.POST.GET_POLL, author, permlink]);
   }, [refreshing]);
 
   const _scrollToComments = () => {
@@ -97,7 +101,7 @@ const PostDisplayView = ({
   };
 
   const _handleOnReblogsPress = () => {
-    if (reblogs.length > 0 && handleOnReblogsPress) {
+    if (post.reblogs > 0 && handleOnReblogsPress) {
       handleOnReblogsPress();
     }
   };
@@ -152,7 +156,7 @@ const PostDisplayView = ({
             iconType="MaterialIcons"
             isClickable
             onPress={_handleOnReblogsPress}
-            text={reblogs.length}
+            text={post.reblogs || ''}
             textMarginLeft={20}
           />
           {isLoggedIn && (
@@ -280,6 +284,12 @@ const PostDisplayView = ({
               metadata={post.json_metadata}
               onLoadEnd={_handleOnPostBodyLoad}
             />
+            
+            <PostPoll 
+              author={author} 
+              permlink={permlink} 
+              metadata={post.json_metadata}  />
+
             {!postBodyLoading && (
               <View style={styles.footer}>
                 <Tags tags={tags} />
@@ -324,6 +334,8 @@ const PostDisplayView = ({
           isPostLoading={postBodyLoading}
           postContentView={_postContentView}
           onRefresh={onRefresh}
+          refreshing={refreshing}
+          setRefreshing={setRefreshing}
           onUpvotePress={_onUpvotePress}
         />
       </View>

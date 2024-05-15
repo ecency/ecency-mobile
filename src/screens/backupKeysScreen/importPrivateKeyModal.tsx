@@ -43,8 +43,6 @@ export const ImportPrivateKeyModalModal = forwardRef(({}, ref) => {
     getUpdatedUserKeys(currentAccount, data)
       .then((result) => {
         if (result) {
-          // Save user data to Realm DB
-          // await setUserData(updatedUserData);
           // update user data in redux
           dispatch(updateCurrentAccount({ ...result }));
           setShowModal(false);

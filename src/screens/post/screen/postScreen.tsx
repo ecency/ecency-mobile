@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 
 // Components
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import { BasicHeader, IconButton, PostDisplay, PostOptionsModal } from '../../../components';
 import styles from '../styles/postScreen.styles';
 
@@ -29,8 +29,8 @@ const PostScreen = ({ route }) => {
 
   useEffect(() => {
     return () => {
-      // clears FastImage RAM, not disk usage;
-      FastImage.clearMemoryCache();
+      // clears ExpoImage RAM, not disk usage;
+      ExpoImage.clearMemoryCache();
     };
   }, []);
 
@@ -94,7 +94,7 @@ const PostScreen = ({ route }) => {
         post={getPostQuery.data}
         isWavePost={isWavePost}
       />
-      <PostOptionsModal ref={postOptionsModalRef} />
+      <PostOptionsModal ref={postOptionsModalRef} isWave={isWavePost} />
     </View>
   );
 };

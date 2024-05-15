@@ -1,6 +1,5 @@
-import { ViewStyle } from 'react-native';
+import { ViewStyle, ImageStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { ImageStyle } from 'react-native-fast-image';
 
 export default EStyleSheet.create({
   hiveEngineWrapper: {

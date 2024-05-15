@@ -137,7 +137,7 @@ const WalletHeaderView = ({
                 intl.formatMessage({ id: `wallet.${get(item, 'subTextKey')}` })
               }
               rightText={get(item, 'value')}
-              hintIconName={get(item, 'subTextKey') && 'ios-information-circle-outline'}
+              hintIconName={get(item, 'subTextKey') && 'information-circle-outline'}
               isBlackText
               isThin
             />

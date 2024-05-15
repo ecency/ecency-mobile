@@ -14,7 +14,7 @@ import { useIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
 import { get, debounce } from 'lodash';
 import { postBodySummary } from '@ecency/render-helper';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import styles from './quickReplyModalStyles';
 import {
   Icon,
@@ -53,12 +53,10 @@ export const QuickReplyModalContent = forwardRef(
     const dispatch = useDispatch();
 
     const uploadsGalleryModalRef = useRef(null);
-
     const postsCachePrimer = postQueries.usePostsCachePrimer();
-
     const postSubmitter = usePostSubmitter();
 
-    // const inputRef = useRef<RNTextInput | null>(null);
+    const inputRef = useRef<RNTextInput | null>(null);
 
     const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
     const draftsCollection = useSelector((state: RootState) => state.cache.draftsCollection);
@@ -108,6 +106,9 @@ export const QuickReplyModalContent = forwardRef(
       }
 
       setCommentValue(_value);
+      inputRef.current?.setNativeProps({
+        text: _value,
+      });
     }, [selectedPost]);
 
     // add quick comment value into cache
@@ -145,7 +146,7 @@ export const QuickReplyModalContent = forwardRef(
     const _submitPost = async () => {
       let _isSuccess = false;
       const _body =
-        mediaUrls.length > 0 ? `${commentValue}\n\n ![Wave Media](${mediaUrls[0]})` : commentValue;
+        mediaUrls.length > 0 ? `${commentValue}\n\n ![](${mediaUrls[0]})` : commentValue;
 
       switch (mode) {
         case 'comment':
@@ -164,6 +165,9 @@ export const QuickReplyModalContent = forwardRef(
           dispatch(deleteDraftCacheEntry(draftId));
         }
         setCommentValue('');
+        inputRef.current?.setNativeProps({
+          text: '',
+        });
         onClose();
       } else {
         _addQuickCommentIntoCache(); // add comment value into cache if there is error while posting comment
@@ -204,6 +208,7 @@ export const QuickReplyModalContent = forwardRef(
           params: {
             isReply: true,
             post: selectedPost,
+            replyMediaUrls: mediaUrls,
           },
         });
       }
@@ -260,7 +265,7 @@ export const QuickReplyModalContent = forwardRef(
 
       const _mediaThumb = !mediaModalVisible && mediaUrls.length > 0 && (
         <TouchableOpacity onPress={_onPress} disabled={isUploading}>
-          <FastImage source={{ uri: mediaUrls[0] }} style={styles.mediaItem} />
+          <ExpoImage source={{ uri: mediaUrls[0] }} style={styles.mediaItem} />
           {_minusIcon}
         </TouchableOpacity>
       );
@@ -355,8 +360,7 @@ export const QuickReplyModalContent = forwardRef(
         {_renderAvatar()}
         <View style={styles.inputContainer}>
           <TextInput
-            // innerRef={inputRef}
-            value={commentValue}
+            innerRef={inputRef}
             onChangeText={_onChangeText}
             autoFocus={true}
             placeholder={intl.formatMessage({

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { Alert, Text, View } from 'react-native';
-import { useSnippetDeleteMutation } from '../../providers/queries';
+import { editorQueries } from '../../providers/queries';
 import IconButton from '../iconButton';
 import styles from './snippetsModalStyles';
 
@@ -15,7 +15,7 @@ interface SnippetItemProps {
 
 const SnippetItem = ({ id, title, body, index, onEditPress }: SnippetItemProps) => {
   const intl = useIntl();
-  const snippetsDeleteMutation = useSnippetDeleteMutation();
+  const snippetsDeleteMutation = editorQueries.useSnippetDeleteMutation();
 
   const _onRemovePress = () => {
     // asks for remvoe confirmation and run remove routing upon confirming

@@ -117,11 +117,7 @@ class PostHeaderDescription extends PureComponent {
                 <Text style={styles.name}>{name}</Text>
               </TouchableOpacity>
 
-              {inlineTime && (
-                <Text style={styles.date}>
-                  {isPromoted ? intl.formatMessage({ id: 'post.promoted' }) : date}
-                </Text>
-              )}
+              {inlineTime && <Text style={styles.date}>{date}</Text>}
 
               {isShowOwnerIndicator && (
                 <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
@@ -165,11 +161,7 @@ class PostHeaderDescription extends PureComponent {
                 </TouchableOpacity>
               )}
 
-              {!inlineTime && (
-                <Text style={styles.date}>
-                  {isPromoted ? intl.formatMessage({ id: 'post.promoted' }) : date}
-                </Text>
-              )}
+              {!inlineTime && <Text style={styles.date}>{date}</Text>}
             </View>
           </View>
         </View>

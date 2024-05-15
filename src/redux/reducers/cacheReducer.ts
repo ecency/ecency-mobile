@@ -13,6 +13,8 @@ import {
   DELETE_POINT_ACTIVITY_CACHE_ENTRY,
   UPDATE_CLAIM_CACHE,
   DELETE_CLAIM_CACHE_ENTRY,
+  UPDATE_ANNOUNCEMENTS_META,
+  UPDATE_POLL_VOTE_CACHE
 } from '../constants/constants';
 
 export enum CacheStatus {
@@ -30,6 +32,15 @@ export interface VoteCache {
   rshares: number;
   percent: number;
   incrementStep: number;
+  votedAt: number;
+  expiresAt: number;
+  status: CacheStatus;
+}
+
+export interface PollVoteCache {
+  choiceNum: number;
+  userHp:number;
+  username: string;
   votedAt: number;
   expiresAt: number;
   status: CacheStatus;
@@ -85,27 +96,36 @@ export interface SubscribedCommunity {
   expiresAt?: number;
 }
 
+export interface AnnouncementMeta {
+  lastSeen: number;
+  processed: boolean;
+}
+
 export interface LastUpdateMeta {
   postPath: string;
   updatedAt: number;
-  type: 'vote' | 'comment' | 'draft';
+  type: 'vote' | 'comment' | 'draft' | 'poll-vote';
 }
 
 interface State {
   votesCollection: { [key: string]: VoteCache };
-  commentsCollection: { [key: string]: Comment }; // TODO: handle comment array per post, if parent is same
+  commentsCollection: { [key: string]: Comment };
+  pollVotesCollection: { [key: string]: PollVoteCache };
   draftsCollection: { [key: string]: Draft };
   claimsCollection: ClaimsCollection;
   subscribedCommunities: Map<string, SubscribedCommunity>;
   pointActivities: Map<string, PointActivity>;
+  announcementsMeta: { [key: string]: AnnouncementMeta };
   lastUpdate: LastUpdateMeta;
 }
 
 const initialState: State = {
   votesCollection: {},
   commentsCollection: {},
+  pollVotesCollection: {},
   draftsCollection: {},
   claimsCollection: {},
+  announcementsMeta: {},
   subscribedCommunities: new Map(),
   pointActivities: new Map(),
   lastUpdate: null,
@@ -142,6 +162,20 @@ const cacheReducer = (state = initialState, action) => {
           postPath: payload.commentPath,
           updatedAt: new Date().getTime(),
           type: 'comment',
+        },
+      };
+
+    case UPDATE_POLL_VOTE_CACHE:
+      if (!state.pollVotesCollection) {
+        state.pollVotesCollection = {};
+      }
+      state.pollVotesCollection = { ...state.pollVotesCollection, [payload.postPath]: payload.pollVote };
+      return {
+        ...state, // spread operator in requried here, otherwise persist do not register change
+        lastUpdate: {
+          postPath: payload.postPath,
+          updatedAt: new Date().getTime(),
+          type: 'poll-vote',
         },
       };
 
@@ -248,6 +282,24 @@ const cacheReducer = (state = initialState, action) => {
       }
       return { ...state };
 
+    case UPDATE_ANNOUNCEMENTS_META:
+      if (!state.announcementsMeta) {
+        state.announcementsMeta = {};
+      }
+
+      const _alreadyProcessed = state.announcementsMeta[payload.id]?.processed || false;
+
+      state.announcementsMeta = {
+        ...state.announcementsMeta,
+        [payload.id]: {
+          processed: _alreadyProcessed || payload.processed,
+          lastSeen: new Date().getTime(),
+        } as AnnouncementMeta,
+      };
+      return {
+        ...state, // spread operator in requried here, otherwise persist do not register change
+      };
+
     case PURGE_EXPIRED_CACHE:
       const currentTime = new Date().getTime();
 
@@ -265,6 +317,15 @@ const cacheReducer = (state = initialState, action) => {
           const comment = state.commentsCollection[key];
           if (comment && (comment?.expiresAt || 0) < currentTime) {
             delete state.commentsCollection[key];
+          }
+        });
+      }
+
+      if (state.pollVotesCollection) {
+        Object.keys(state.pollVotesCollection).forEach((key) => {
+          const vote = state.pollVotesCollection[key];
+          if (vote && (vote?.expiresAt || 0) < currentTime) {
+            delete state.pollVotesCollection[key];
           }
         });
       }

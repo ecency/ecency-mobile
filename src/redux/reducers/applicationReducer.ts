@@ -75,7 +75,7 @@ interface State {
 }
 
 const initialState: State = {
-  api: 'rpc.ecency.com',
+  api: 'https://api.hive.blog',
   currency: {
     currency: 'usd',
     currencyRate: 1,

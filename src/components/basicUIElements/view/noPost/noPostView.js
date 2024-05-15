@@ -23,7 +23,6 @@ const NoPost = ({
     )}
     {isButtonText && (
       <MainButton
-        style={{ width: 150 }}
         onPress={handleOnButtonPress}
         iconName="person"
         iconColor="white"

@@ -42,10 +42,9 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBlue',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 2,
-    height: 12,
+    paddingHorizontal: 4,
     minWidth: 18,
-    borderRadius: 12 / 2,
+    borderRadius: 16,
   },
   badgeText: {
     fontSize: 8,

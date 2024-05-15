@@ -140,7 +140,7 @@ const BasicHeaderView = ({
               ) : (
                 <DropdownButton
                   isHasChildIcon
-                  iconName="md-more"
+                  iconName="more"
                   options={['ALL ACTIVITIES', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
                   onSelect={_handleOnDropdownSelect}
                 />

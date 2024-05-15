@@ -9,10 +9,14 @@ const PostPlaceHolder = () => {
   const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
   const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
 
+
+  const width = getWindowDimensions().nativeWidth - 36;
+  const height = width * 1.65 ;
+
   return (
     <View>
       <LottieView
-        style={{ width: getWindowDimensions().nativeWidth - 24 }}
+        style={{ width, height }}
         source={require('../../../../assets/animations/postBody.json')}
         autoPlay
         loop={true}

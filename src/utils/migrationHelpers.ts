@@ -296,6 +296,10 @@ const reduxMigrations = {
     state.application.waveUpvotePercent = state.application.commentUpvotePercent;
     return state;
   },
+  7: (state) => {
+    state.cache.announcementsMeta = {};
+    return state;
+  },
 };
 
 export default {

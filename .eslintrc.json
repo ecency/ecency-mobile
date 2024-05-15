@@ -10,7 +10,7 @@
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:jest/recommended",
-    "@react-native-community",
+    "@react-native",
     "plugin:import/typescript"
   ],
   "env": {

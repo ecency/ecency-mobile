@@ -7,6 +7,7 @@
     "claim_reward_balance": "Ödül Talep Et ",
     "points_activity": "Activity",
     "transfer": "Transfer",
+    "recurrent_transfer": "Recurrent Transfer",
     "power_up": "Hakediş",
     "transfer_from_savings": "Tasarruflardan",
     "withdraw_savings": "Withdraw Savings",
@@ -51,7 +52,7 @@
     "checkin_extra_desc": "Uygulamanın sürekli kullanılması size daha fazla puan kazanma şansı verir, daha fazla aktif ol ve daha fazla kazan.",
     "dropdown_transfer": "Hediye",
     "dropdown_promote": "Tanıtım Yap",
-    "dropdown_boost": "Güçlendir",
+    "dropdown_boost": "Boost+",
     "from": "Gönderen",
     "to": "Kime",
     "estimated_value_desc": "Satınalma değerine göre",
@@ -250,7 +251,7 @@
     "this_week": "Bu Hafta",
     "last_week": "Geçen Hafta",
     "this_month": "Bu Ay",
-    "older_then": "Bir Aydan Daha Önce",
+    "older_then": "Last Month & Older",
     "activities": "Tümü",
     "replies": "Yorumlar",
     "mentions": "Bahsedilmeler",
@@ -375,12 +376,13 @@
     "no_user": "Kullanıcı bulunamadı."
   },
   "login": {
-    "signin": "Giriş",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "ŞİMDİ KATIL",
     "signin_title": "Ecency kullanmanın tüm avantajlarından yararlanmak için",
-    "username": "Kullanıcı Adı",
-    "password": "Şifre yada WIF",
-    "description": "Kayıt olarak Hizmet Şartları ve Gizlilik Politikası'nı kabul edersiniz.",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "geç",
     "login": "GİRİŞ",
     "steemconnect_description": "Eğer kullanıcı şifrelerinizi şifreli olarak tutulmasını istemiyorsanız şifreleri cihazınıza indirebilir ya da Hivesigner kullanabilirsiniz.",
@@ -392,7 +394,10 @@
     "deep_login_alert_title": "Easy Login @{username}",
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Get Hive Account",
@@ -415,7 +420,9 @@
       "username_contains_double_hyphens": "Should not contain double hyphens",
       "username_contains_underscore": "Should not contain underscore",
       "username_exists": "Username already exists, try a different one"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "Akış",
@@ -513,6 +520,7 @@
     "scheduled_for": "İçin Zamanlandı",
     "scheduled_immediate": "Hemen",
     "scheduled_later": "Daha Sonra",
+    "schedule_video_unsupported": "Scheduling video posts not available",
     "settings_title": "Gönderi Seçenekleri",
     "done": "TAMAMLANDI",
     "draft_save_title": "Taslağı Kaydetme",
@@ -528,7 +536,9 @@
     "invalid_url_error": "Please insert valid url",
     "plain": "Plain",
     "video": "Video",
-    "image": "Image"
+    "image": "Image",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "Hiç Snippet Bulunamadı",
@@ -553,10 +563,20 @@
     "btn_add": "Görsel",
     "btn_insert": "GİR",
     "btn_delete": "SİL",
-    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "confirm_delete": "Are you sure you want to delete selected items from your uploads",
     "message_failed": "Görsel yüklenemedi",
     "delete_failed": "Failed to delete image",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)",
+    "publish_manual": "Ready",
+    "published": "Published",
+    "encoding_ipfs": "Encoding",
+    "encoding_preparing": "Preparing",
+    "deleted": "Deleted",
+    "start_upload": "START UPLOAD",
+    "uploading": "UPLOADING",
+    "select_thumb": "Select Thumbnail",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "Açmak için pin kodunu giriniz",
@@ -578,6 +598,9 @@
     "continue": "Continue",
     "okay": "Okay",
     "done": "Done",
+    "notice": "Notice!",
+    "close": "CLOSE",
+    "later": "Later",
     "move_question": "Taslaklara taşıyacağınızdan emin misiniz?",
     "success_shared": "Başarılı! İçerik gönderildi!",
     "success_moved": "Taslağa taşındı",
@@ -745,7 +768,8 @@
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
     "edit-history": "Edit History",
-    "mute": "Mute / Block"
+    "mute": "Mute / Block",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "Kullanici Bulunamadi",
@@ -769,13 +793,19 @@
     "to": "Kime",
     "amount_information": "Miktarı ayarlamak için kaydırıcıyı sürükleyin",
     "amount": "Miktar",
+    "executions": "Executions",
+    "recurrence": "Recurrence",
     "memo": "Notlar",
+    "recurrent_transfer": "Recurrent Transfer",
+    "delete_recurrent_transfer": "Delete Recurrent Transfer ",
     "information": "Continue transaction?",
     "amount_desc": "Bakiye",
     "memo_desc": "Bu not herkese açık",
     "convert_desc": "Dönştürme 3.5 gün alır ve eğer HBD fiyatı 1$'dan fazlaysa önerilmez",
     "to_placeholder": "Kullanıcı Adı",
     "memo_placeholder": "Notlarınızı buraya girin",
+    "recurrence_placeholder": "Choose Recurrence",
+    "executions_placeholder": "Number of Repeats",
     "transfer_token": "Transfer",
     "purchase_estm": "Satınalma Noktaları",
     "convert": "HBD'den HIVE'a dönüştür",
@@ -860,8 +890,8 @@
     "next": "SONRAKİ",
     "info": "Actual value of vote you receive may vary",
     "account": {
-      "title": "Hesap Yükseltme Al",
-      "desc": "30 günlük delegasyon oylarınızı ve sosyal etkişeminizi yükseltecek ve daha fazla Kaynak Kredisi ile size daha fazla aksiyon verecek."
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -896,6 +926,12 @@
   },
   "boostPost": {
     "title": "Yükselt"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "ÖDÜLLER",
@@ -1036,7 +1072,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

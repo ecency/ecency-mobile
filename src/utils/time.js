@@ -3,6 +3,7 @@ import moment from 'moment';
 const TODAY = new Date();
 const ONE_DAY = new Date(TODAY.getTime() - 24 * 60 * 60 * 1000);
 const SEVEN_DAY = new Date(TODAY.getTime() - 7 * 24 * 60 * 60 * 1000);
+const FOURTEEN_DAY = new Date(TODAY.getTime() - 14 * 24 * 60 * 60 * 1000);
 
 const MINUTE = 60;
 const HOUR = 60 * 60;
@@ -86,6 +87,16 @@ export const getTimeFromNow = (value, isWithoutUtc) => {
   return moment.utc(value).fromNow();
 };
 
+
+export const getDaysPassedSince = (value) => {
+  if (!value) {
+    return 0;
+  }
+
+  const created = moment(value);
+  return moment().diff(created, 'days');
+ }
+
 export const getFormatedCreatedDate = (value) => {
   if (!value) {
     return null;
@@ -112,17 +123,17 @@ export const isYesterday = (value) => {
 
 export const isThisWeek = (value) => {
   const day = new Date(value).getTime();
-  return day < TODAY.getTime() && day > SEVEN_DAY.getTime();
+  return day < TODAY.getTime() && day >= SEVEN_DAY.getTime();
 };
 
 export const isLastWeek = (value) => {
   const day = new Date(value).getTime();
-  return day < SEVEN_DAY.getTime() && day > 2 * SEVEN_DAY.getTime();
+  return day < SEVEN_DAY.getTime() && day >= FOURTEEN_DAY.getTime();
 };
 
 export const isThisMonth = (value) => {
   const day = new Date(value);
-  return TODAY.getMonth() === day.getMonth() && TODAY.getFullYear() === day.getFullYear() ? 1 : 0;
+  return TODAY.getMonth() === day.getMonth() && TODAY.getFullYear() === day.getFullYear();
 };
 
 export const isEmptyContentDate = (value) => {

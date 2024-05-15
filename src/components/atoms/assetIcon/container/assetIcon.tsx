@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from '../styles/assetIcon.styles';
 import HIVE_ENGINE_ICON from '../../../../assets/hive_engine.png';
@@ -61,20 +61,20 @@ export const AssetIcon = ({
 
   return (
     <View style={containerStyle}>
-      <FastImage
+      <ExpoImage
         style={_logoStyle}
         tintColor={_tintColor}
-        resizeMode="contain"
+        contentFit="contain"
         source={_iconSource}
       />
       {isEngine && (
         <View style={styles.hiveEngineWrapper}>
-          <FastImage style={styles.hiveEngineLogo} resizeMode="contain" source={HIVE_ENGINE_ICON} />
+          <ExpoImage style={styles.hiveEngineLogo} contentFit="contain" source={HIVE_ENGINE_ICON} />
         </View>
       )}
       {isSpk && (
         <View style={styles.hiveEngineWrapper}>
-          <FastImage style={styles.hiveEngineLogo} resizeMode="contain" source={HIVE_SPK_ICON} />
+          <ExpoImage style={styles.hiveEngineLogo} contentFit="contain" source={HIVE_SPK_ICON} />
         </View>
       )}
     </View>

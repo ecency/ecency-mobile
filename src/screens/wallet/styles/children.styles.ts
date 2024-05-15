@@ -1,6 +1,5 @@
-import { TextStyle, ViewStyle } from 'react-native';
+import { TextStyle, ViewStyle, ImageStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { ImageStyle } from 'react-native-fast-image';
 import { isRTL } from '../../../utils/I18nUtils';
 
 export default EStyleSheet.create({

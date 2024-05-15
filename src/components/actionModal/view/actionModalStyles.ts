@@ -11,16 +11,16 @@ export default EStyleSheet.create({
 
   sheetContent: {
     backgroundColor: '$primaryBackgroundColor',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
+    justifyContent: 'flex-end',
     zIndex: 999,
+  } as ViewStyle,
+
+  sheetIndicator: {
+    backgroundColor: '$primaryWhiteLightBackground',
   },
 
   container: {
     marginTop: 16,
-    marginBottom: 36,
     paddingHorizontal: 24,
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -71,8 +71,20 @@ export default EStyleSheet.create({
   actionPanel: {
     width: '100%',
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap-reverse',
     justifyContent: 'space-around',
     alignItems: 'center',
   } as ViewStyle,
+  cancel: {
+    backgroundColor: 'transparent',
+    minWidth: 150,
+    paddingVertical: 16,
+    marginVertical: 8,
+    borderRadius: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+  } as ViewStyle,
+  cancelBtnText: {
+    color: '$primaryDarkGray',
+  } as TextStyle,
 });

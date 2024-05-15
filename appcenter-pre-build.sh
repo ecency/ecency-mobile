@@ -62,7 +62,17 @@ printf "\n.env created with contents:\n"
 cat .env
 printf "\nEND OF .env\n"
 
-cd ios && pod install && cd ..
+#check if platform to be built for is android
+if [ "$PLATFORM" == "Android" ]; then
+    echo "Building for Android"
+    cd android && ./gradlew clean && cd ..
+    
+elif [ "$PLATFORM" == "iOS" ]; then
+    echo "Building for iOS"
+    cd ios && pod install && cd ..
+fi
 
-cd android && ./gradlew clean && cd ..
+
+
+
 

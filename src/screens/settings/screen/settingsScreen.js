@@ -13,12 +13,7 @@ import NSFW from '../../../constants/options/nsfw';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
 // Components
-import {
-  BasicHeader,
-  SettingsItem,
-  CollapsibleCard,
-  BackupPrivateKeysModal,
-} from '../../../components';
+import { BasicHeader, SettingsItem, CollapsibleCard } from '../../../components';
 
 // Styles
 import styles from './settingsStyles';

@@ -10,7 +10,7 @@ const authMenuItems = [
   {
     name: 'Bookmarks',
     route: ROUTES.SCREENS.BOOKMARKS,
-    icon: 'ios-bookmarks-outline',
+    icon: 'bookmarks-outline',
     iconType: 'Ionicons',
     id: 'bookmarks',
   },

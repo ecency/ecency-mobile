@@ -20,18 +20,22 @@ index c640410..fbba022 100644
       */debugTouchArea:_propTypes2.default.bool, /**
       * Set to true to animate values with default 'timing' animation type
 diff --git a/node_modules/react-native-slider/src/Slider.js b/node_modules/react-native-slider/src/Slider.js
-index 37deee5..db33538 100644
+index 37deee5..6005ea2 100644
 --- a/node_modules/react-native-slider/src/Slider.js
 +++ b/node_modules/react-native-slider/src/Slider.js
-@@ -15,6 +15,7 @@ import {
+@@ -11,10 +11,10 @@ import {
+   PanResponder,
+   View,
+   Easing,
+-  ViewPropTypes
  } from "react-native";
  
  import PropTypes from 'prop-types';
-+import { ImagePropTypes } from 'deprecated-react-native-prop-types';
++import { ImagePropTypes, ViewPropTypes } from 'deprecated-react-native-prop-types';
  
  var TRACK_SIZE = 4;
  var THUMB_SIZE = 20;
-@@ -146,7 +147,7 @@ export default class Slider extends PureComponent {
+@@ -146,7 +146,7 @@ export default class Slider extends PureComponent {
      /**
       * Sets an image for the thumb.
       */

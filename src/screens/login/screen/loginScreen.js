@@ -1,8 +1,7 @@
-import React, { PureComponent } from 'react';
-import { View, Platform, Keyboard } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Platform, Keyboard, Text } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { debounce } from 'lodash';
 
 // Actions
@@ -15,213 +14,214 @@ import {
   LoginHeader,
   MainButton,
   Modal,
-  TabBar,
-  TextButton,
+  OrDivider,
 } from '../../../components';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
+import { ECENCY_TERMS_URL } from '../../../config/ecencyApi';
 
 // Styles
 import styles from './loginStyles';
-import globalStyles from '../../../globalStyles';
+import { HiveSignerIcon } from '../../../assets/svgs';
 
-import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
-import { ECENCY_TERMS_URL } from '../../../config/ecencyApi';
+const LoginScreen = ({
+  initialUsername,
+  getAccountsWithUsername,
+  navigation,
+  handleOnPressLogin,
+  handleSignUp,
+  isLoading,
+}) => {
+  const intl = useIntl();
+  const [username, setUsername] = useState(initialUsername || '');
+  const [password, setPassword] = useState('');
+  const [isUsernameValid, setIsUsernameValid] = useState(true);
+  const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-class LoginScreen extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      username: props.initialUsername || '',
-      password: '',
-      isUsernameValid: true,
-      keyboardIsOpen: false,
-      isModalOpen: false,
-    };
-  }
-
-  componentDidMount() {
-    if (this.props.initialUsername) {
-      this._handleUsernameChange(this.props.initialUsername);
+  useEffect(() => {
+    if (initialUsername) {
+      _handleUsernameChange(initialUsername);
     }
-  }
+  }, []);
 
-  componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
-  }
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
 
-  _handleOnPasswordChange = (value) => {
-    this.setState({ password: value });
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
+  const debouncedCheckValidity = debounce((uname) => {
+    _checkUsernameIsValid(uname);
+  }, 1000);
+
+  useEffect(() => {
+    if (username) {
+      debouncedCheckValidity(username);
+
+      return () => debouncedCheckValidity.cancel();
+    }
+  }, [username]);
+
+  const _keyboardDidShow = () => {
+    setKeyboardIsOpen(true);
   };
 
-  _handleUsernameChange = (username) => {
-    const { getAccountsWithUsername } = this.props;
+  const _keyboardDidHide = () => {
+    setKeyboardIsOpen(false);
+  };
 
-    this.setState({ username });
+  const _handleOnPasswordChange = (value) => {
+    setPassword(value);
+  };
 
-    getAccountsWithUsername(username).then((res) => {
-      const isValid = res.includes(username);
+  const _handleUsernameChange = (username) => {
+    const formattedUsername = username.trim().toLowerCase();
+    setUsername(formattedUsername);
+  };
 
-      this.setState({ isUsernameValid: isValid });
+  const _checkUsernameIsValid = (uname) => {
+    getAccountsWithUsername(uname).then((res) => {
+      const isValid = res.includes(uname);
+      setIsUsernameValid(isValid);
     });
   };
 
-  _handleOnModalToggle = () => {
-    const { isModalOpen } = this.state;
-    this.setState({ isModalOpen: !isModalOpen });
+  const _handleOnModalToggle = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
-  UNSAFE_componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () =>
-      this.setState({ keyboardIsOpen: true }),
-    );
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () =>
-      this.setState({ keyboardIsOpen: false }),
-    );
-  }
+  const _renderHiveicon = () => (
+    <View style={styles.hsLoginBtnIconStyle}>
+      <HiveSignerIcon />
+    </View>
+  );
 
-  render() {
-    const { navigation, intl, handleOnPressLogin, handleSignUp, isLoading } = this.props;
-    const { username, isUsernameValid, keyboardIsOpen, password, isModalOpen } = this.state;
+  return (
+    <View style={styles.container}>
+      <LoginHeader
+        isKeyboardOpen={keyboardIsOpen}
+        title={intl.formatMessage({
+          id: 'login.signin',
+        })}
+        description={intl.formatMessage({
+          id: 'login.signin_title',
+        })}
+        onPress={() => handleSignUp()}
+        rightButtonText={intl.formatMessage({
+          id: 'login.signup',
+        })}
+        onBackPress={() => {
+          navigation.navigate({
+            name: ROUTES.DRAWER.MAIN,
+          });
+        }}
+      />
 
-    console.log('keyboardIsOpen : ', keyboardIsOpen);
-    return (
-      <View style={styles.container}>
-        <LoginHeader
-          isKeyboardOpen={keyboardIsOpen}
-          title={intl.formatMessage({
-            id: 'login.signin',
-          })}
-          description={intl.formatMessage({
-            id: 'login.signin_title',
-          })}
-          onPress={() => handleSignUp()}
-          rightButtonText={intl.formatMessage({
-            id: 'login.signup',
-          })}
-        />
-        <ScrollableTabView
-          locked={isLoading}
-          style={globalStyles.tabView}
-          renderTabBar={() => (
-            <TabBar
-              style={styles.tabbar}
-              tabUnderlineDefaultWidth={100}
-              tabUnderlineScaleX={2} // default 3
-              activeColor="#357ce6"
-              inactiveColor="#222"
-            />
-          )}
+        <KeyboardAwareScrollView
+          enableAutoAutomaticScroll={Platform.OS === 'ios'}
+          contentContainerStyle={styles.formWrapper}
+          enableOnAndroid={true}
         >
-          <View
-            tabLabel={intl.formatMessage({
-              id: 'login.signin',
+          <FormInput
+            rightIconName="at"
+            leftIconName="close"
+            iconType="MaterialCommunityIcons"
+            isValid={isUsernameValid}
+            onChange={_handleUsernameChange}
+            placeholder={intl.formatMessage({
+              id: 'login.username',
             })}
-            style={styles.tabbarItem}
-          >
-            <KeyboardAwareScrollView
-              enableAutoAutomaticScroll={Platform.OS === 'ios'}
-              contentContainerStyle={styles.formWrapper}
-              enableOnAndroid={true}
-            >
-              <FormInput
-                rightIconName="at"
-                leftIconName="close"
-                iconType="MaterialCommunityIcons"
-                isValid={isUsernameValid}
-                onChange={debounce(this._handleUsernameChange, 1000)}
-                placeholder={intl.formatMessage({
-                  id: 'login.username',
-                })}
-                isEditable
-                type="username"
-                isFirstImage
-                value={username}
-                inputStyle={styles.input}
-              />
-              <FormInput
-                rightIconName="lock"
-                leftIconName="close"
-                isValid={isUsernameValid}
-                onChange={(value) => this._handleOnPasswordChange(value)}
-                placeholder={intl.formatMessage({
-                  id: 'login.password',
-                })}
-                isEditable
-                secureTextEntry
-                type="password"
-                numberOfLines={1}
-                value={password}
-                inputStyle={styles.input}
-              />
-              <InformationArea
-                description={intl.formatMessage({
-                  id: 'login.description',
-                })}
-                link={ECENCY_TERMS_URL}
-                iconName="ios-information-circle-outline"
-              />
-            </KeyboardAwareScrollView>
+            isEditable
+            type="username"
+            isFirstImage
+            value={username}
+            inputStyle={styles.input}
+            onBlur={() => _checkUsernameIsValid(username)}
+          />
+          <FormInput
+            rightIconName="lock"
+            leftIconName="close"
+            isValid={isUsernameValid}
+            onChange={_handleOnPasswordChange}
+            placeholder={intl.formatMessage({
+              id: 'login.password',
+            })}
+            isEditable
+            secureTextEntry
+            type="password"
+            numberOfLines={1}
+            value={password}
+            inputStyle={styles.input}
+          />
+          <InformationArea
+            description={intl.formatMessage({
+              id: 'login.description',
+            })}
+            link={ECENCY_TERMS_URL}
+            iconName="information-circle-outline"
+          />
+          <MainButton
+            onPress={() => handleOnPressLogin(username, password)}
+            iconName="person"
+            iconColor="white"
+            text={intl.formatMessage({
+              id: 'login.login',
+            })}
+            textStyle={styles.mainBtnText}
+            isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
+            isLoading={isLoading}
+            wrapperStyle={styles.loginBtnWrapper}
+            bodyWrapperStyle={styles.loginBtnBodyWrapper}
+            height={50}
+            iconStyle={styles.loginBtnIconStyle}
+          />
+          <OrDivider />
+          <MainButton
+            onPress={() => _handleOnModalToggle()}
+            renderIcon={_renderHiveicon()}
+            text={intl.formatMessage({
+              id: 'login.login_with_hs',
+            })}
+            textStyle={styles.hsLoginBtnText}
+            wrapperStyle={styles.loginBtnWrapper}
+            bodyWrapperStyle={styles.loginBtnBodyWrapper}
+            height={48}
+            style={styles.hsLoginBtnStyle}
+          />
+        
+        <View style={styles.footerButtons}>
+          <Text style={styles.noAccountText}>
+            {intl.formatMessage({
+              id: 'login.no_account_text',
+            })}
+          </Text>
+          <Text style={styles.signUpNowText} onPress={() => handleSignUp()}>
+            {intl.formatMessage({
+              id: 'login.signup_now',
+            })}
+          </Text>
+        </View>
+        </KeyboardAwareScrollView>
+  
+      <Modal
+        isOpen={isModalOpen}
+        isFullScreen
+        isCloseButton
+        handleOnModalClose={_handleOnModalToggle}
+        title={intl.formatMessage({
+          id: 'login.signin',
+        })}
+      >
+        <HiveSigner handleOnModalClose={_handleOnModalToggle} />
+      </Modal>
+    </View>
+  );
+};
 
-            <View style={styles.footerButtons}>
-              <TextButton
-                style={styles.cancelButton}
-                onPress={() =>
-                  navigation.navigate({
-                    name: ROUTES.DRAWER.MAIN,
-                  })
-                }
-                text={intl.formatMessage({
-                  id: 'login.cancel',
-                })}
-              />
-              <MainButton
-                onPress={() => handleOnPressLogin(username, password)}
-                iconName="person"
-                iconColor="white"
-                text={intl.formatMessage({
-                  id: 'login.login',
-                })}
-                textStyle={styles.mainBtnText}
-                isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
-                isLoading={isLoading}
-              />
-            </View>
-          </View>
-          <View tabLabel="Hivesigner" style={styles.tabbarItem}>
-            <InformationArea
-              description={intl.formatMessage({
-                id: 'login.steemconnect_description',
-              })}
-              iconName="ios-information-circle-outline"
-              link="https://hivesigner.com"
-            />
-            <MainButton
-              wrapperStyle={styles.mainButtonWrapper}
-              onPress={() => this._handleOnModalToggle()}
-              source={STEEM_CONNECT_LOGO}
-              text="hive"
-              secondText="signer"
-            />
-          </View>
-        </ScrollableTabView>
-        <Modal
-          isOpen={isModalOpen}
-          isFullScreen
-          isCloseButton
-          handleOnModalClose={this._handleOnModalToggle}
-          title={intl.formatMessage({
-            id: 'login.signin',
-          })}
-        >
-          <HiveSigner handleOnModalClose={this._handleOnModalToggle} />
-        </Modal>
-      </View>
-    );
-  }
-}
-
-export default injectIntl(LoginScreen);
+export default LoginScreen;

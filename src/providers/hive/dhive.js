@@ -371,7 +371,7 @@ export const getUser = async (user, loggedIn = true) => {
       getCache('rcPower');
     await setCache('rcPower', rcPower);
 
-    _account.reputation = parseReputation(_account.reputation);
+    _account.reputation = await getUserReputation(user)
     _account.username = _account.name;
     _account.unread_activity_count = unreadActivityCount;
     _account.vp_manabar = client.rc.calculateVPMana(_account);
@@ -408,6 +408,27 @@ export const getUser = async (user, loggedIn = true) => {
     return Promise.reject(error);
   }
 };
+
+export const getUserReputation = async (author) => {
+  try {
+    const response = await client.call('condenser_api', 'get_account_reputations', [author, 1]);
+  
+    if (response && response.length < 1) {
+      return 0;
+    }
+
+    const _account = {
+      ...response[0],
+    };
+
+    return parseReputation(_account.reputation);
+
+  } catch (error) {
+    bugsnagInstance.notify(error)
+    return 0;
+  }
+}
+
 
 const cache = {};
 const patt = /hive-\d\w+/g;
@@ -638,6 +659,28 @@ export const getActiveVotes = (author, permlink) =>
       reject(error);
     }
   });
+
+export const getPostReblogs = async (author, permlink) => {
+  try {
+    if (!author || !permlink) {
+      throw new Error('invalid parameters');
+    }
+
+    console.log('Getting post reblogs:', author, permlink);
+
+    const reblogs = await client.call('condenser_api', 'get_reblogged_by', [author, permlink]);
+
+    if (!reblogs) {
+      throw new Error('invalid data');
+    }
+
+    console.log(`Returning reblogs`, reblogs);
+    return reblogs;
+  } catch (error) {
+    bugsnapInstance.notify(error);
+    return [];
+  }
+};
 
 export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   try {
@@ -1834,7 +1877,7 @@ export const transferPoint = (currentAccount, pinCode, data) => {
   }
 };
 
-export const promote = (currentAccount, pinCode, duration, permlink, author) => {
+export const promote = (currentAccount, pinCode, duration, author, permlink) => {
   const pin = getDigitPinCode(pinCode);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 
@@ -1867,7 +1910,39 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
   }
 };
 
-export const boost = (currentAccount, pinCode, point, permlink, author) => {
+export const boostPlus = (currentAccount, pinCode, duration, account) => {
+  const pin = getDigitPinCode(pinCode);
+  const key = getActiveKey(get(currentAccount, 'local'), pin);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const user = get(currentAccount, 'name');
+
+    const json = {
+      id: 'ecency_boost_plus',
+      json: JSON.stringify({
+        user,
+        account,
+        duration,
+      }),
+      required_auths: [user],
+      required_posting_auths: [],
+    };
+    const opArray = [['custom_json', json]];
+
+    return sendHiveOperations(opArray, privateKey);
+  } else {
+    const err = new Error('Check private key permission! Required private active key or above.');
+    bugsnagInstance.notify(err, (event) => {
+      event.setUser(currentAccount.username);
+      event.context('boost-plus-content');
+      event.setMetaData('encryptedLocal', currentAccount.local);
+    });
+    return Promise.reject(err);
+  }
+};
+
+export const boost = (currentAccount, pinCode, point, author, permlink) => {
   const pin = getDigitPinCode(pinCode);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 
