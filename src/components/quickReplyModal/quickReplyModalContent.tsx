@@ -65,6 +65,7 @@ export const QuickReplyModalContent = forwardRef(
     const [mediaUrls, setMediaUrls] = useState<string[]>([]);
     const [isUploading, setIsUploading] = useState(false);
     const [mediaModalVisible, setMediaModalVisible] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const parentAuthor = selectedPost ? selectedPost.author : '';
     const parentPermlink = selectedPost ? selectedPost.permlink : '';
@@ -144,6 +145,12 @@ export const QuickReplyModalContent = forwardRef(
 
     // handle submit reply
     const _submitPost = async () => {
+
+      if(isSubmitting){
+        return;
+      }
+
+      setIsSubmitting(true);
       let _isSuccess = false;
       const _body =
         mediaUrls.length > 0 ? `${commentValue}\n\n ![](${mediaUrls[0]})` : commentValue;
@@ -172,6 +179,7 @@ export const QuickReplyModalContent = forwardRef(
       } else {
         _addQuickCommentIntoCache(); // add comment value into cache if there is error while posting comment
       }
+      setIsSubmitting(false);
     };
 
     const _handleMediaInsert = (data: MediaInsertData[]) => {
@@ -345,7 +353,7 @@ export const QuickReplyModalContent = forwardRef(
               id: _titleId,
             })}
             isDisable={isUploading || bodyLengthExceeded}
-            isLoading={postSubmitter.isSending}
+            isLoading={isSubmitting}
           />
         </View>
       );
