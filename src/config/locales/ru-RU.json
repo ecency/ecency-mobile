@@ -52,7 +52,7 @@
     "checkin_extra_desc": "Постоянное использование приложения дает шанс заработать дополнительные баллы. Больше активности - больше вознаграждений.",
     "dropdown_transfer": "Подарить",
     "dropdown_promote": "Продвинуть",
-    "dropdown_boost": "Boost+",
+    "dropdown_boost": "Усилить+",
     "from": "От",
     "to": "Кому",
     "estimated_value_desc": "По стоимости покупки",
@@ -303,7 +303,10 @@
       "display_name": "Отображаемое имя",
       "about": "О себе",
       "location": "Местоположение",
-      "website": "Веб-сайт"
+      "website": "Веб-сайт",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
@@ -466,6 +469,22 @@
     "update": "Обновить",
     "reply": "Ответить",
     "schedule": "Запланировать"
+  },
+  "account_list": {
+    "title": "Users"
+  },
+  "post_poll": {
+    "voters": "Voters",
+    "voted": "voted",
+    "hp": "HP",
+    "view_stats": "View Stats",
+    "hide_stats": "Hide Stats",
+    "ended": "Ended",
+    "ends": "Ends {inTime}",
+    "age_limit": "• Only accounts older than {days} days allowed",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "Заголовок",
@@ -890,8 +909,8 @@
     "next": "ДАЛЕЕ",
     "info": "Фактическое значение голоса, которое вы получите, может варьироваться",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
+      "title": "Получить усиление аккаунта",
+      "desc": "Альтернатива, покупка в приложении: Делегация на 30 дней для усиления вашего аккаунта."
     },
     "confirm_purchase": "Подтвердите покупку @{username}",
     "confirm_purchase_summary": "Покупка {points} для {username} по {price}",
@@ -928,10 +947,10 @@
     "title": "Усилить"
   },
   "boost_plus": {
-    "title": "Boost+",
-    "confirm_boost": "Are you sure to Boost with Points?",
+    "title": "Усилить+",
+    "confirm_boost": "Вы уверены, что хотите усилить с помощью баллов?",
     "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
-    "already_boosted": "Account already boosted till {date}"
+    "already_boosted": "Аккаунт уже усилен до {date}"
   },
   "voters_dropdown": {
     "rewards": "НАГРАДЫ",

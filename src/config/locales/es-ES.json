@@ -303,7 +303,10 @@
       "display_name": "Nombre para mostrar",
       "about": "Acerca de",
       "location": "Localización",
-      "website": "Página web"
+      "website": "Página web",
+      "edit_profile": "Editar perfil",
+      "cover_img": "Imagen de portada",
+      "profile_img": "Imagen de perfil"
     }
   },
   "settings": {
@@ -466,6 +469,22 @@
     "update": "Actualizar",
     "reply": "Responder",
     "schedule": "Programar"
+  },
+  "account_list": {
+    "title": "Usuarios"
+  },
+  "post_poll": {
+    "voters": "Votantes",
+    "voted": "votado",
+    "hp": "HP",
+    "view_stats": "Ver estadísticas",
+    "hide_stats": "Ocultar estadísticas",
+    "ended": "Terminado",
+    "ends": "Termina {inTime}",
+    "age_limit": "• Solo se permiten cuentas de más de {days} días",
+    "interpretation_token": "• Interpretación de voto basada en HP del usuario",
+    "interpret_token": "Interpretar por Tokens",
+    "interpret_vote": "Interpretar por votos"
   },
   "editor": {
     "title": "Título",
@@ -890,8 +909,8 @@
     "next": "SIGUIENTE",
     "info": "El valor real del voto que recibes puede variar",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
+      "title": "Obtener impulso de cuenta",
+      "desc": "Alternativamente, Compra en la aplicación: delegación de 30 días para impulsar tu cuenta."
     },
     "confirm_purchase": "Confirmar compra @{username}",
     "confirm_purchase_summary": "Comprando {points} por {username} a {price}",
@@ -929,8 +948,8 @@
   },
   "boost_plus": {
     "title": "Impulsar+",
-    "confirm_boost": "Are you sure to Boost with Points?",
-    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "confirm_boost": "¿Estás seguro de impulsar con Puntos?",
+    "confirm_boost_plus": "¿Está seguro de que desea comprar Impulso desde la aplicación?",
     "already_boosted": "Cuenta ya impulsada hasta {date}"
   },
   "voters_dropdown": {

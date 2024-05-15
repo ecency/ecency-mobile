@@ -303,7 +303,10 @@
       "display_name": "Näyttönimi",
       "about": "Tietoa",
       "location": "Sijainti",
-      "website": "Nettisivu"
+      "website": "Nettisivu",
+      "edit_profile": "Muokkaa profiilia",
+      "cover_img": "Kansikuva",
+      "profile_img": "Profiilikuva"
     }
   },
   "settings": {
@@ -466,6 +469,22 @@
     "update": "Päivitä",
     "reply": "Vastaa",
     "schedule": "Ajasta"
+  },
+  "account_list": {
+    "title": "Käyttäjät"
+  },
+  "post_poll": {
+    "voters": "Äänestäjät",
+    "voted": "äänesti",
+    "hp": "HP",
+    "view_stats": "Näytä tilastot",
+    "hide_stats": "Piilota tilastot",
+    "ended": "Päättyi",
+    "ends": "Päättyy {inTime}",
+    "age_limit": "• {days} päivää vanhemmat tilit",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "Otsikko",
@@ -890,8 +909,8 @@
     "next": "SEURAAVA",
     "info": "Antamasi äänen todellinen arvo voi vaihdella",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
+      "title": "Vastaanota Tilitehostus",
+      "desc": "Vaihtoehtoinen, sovelluksen sisäinen osto: 30 päivän valtuutus tehostaaksesi tiliäsi."
     },
     "confirm_purchase": "Vahvista ostos @{username}",
     "confirm_purchase_summary": "Ostetaan {points} {username} hintaan {price}",
@@ -929,8 +948,8 @@
   },
   "boost_plus": {
     "title": "Tehosta+",
-    "confirm_boost": "Are you sure to Boost with Points?",
-    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "confirm_boost": "Haluatko tehostaa Pisteillä?",
+    "confirm_boost_plus": "Haluatko tehostaa sovelluksen sisäisellä ostolla?",
     "already_boosted": "Tili on jo tehostettu {date} asti"
   },
   "voters_dropdown": {
