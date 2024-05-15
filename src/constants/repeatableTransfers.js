@@ -4,7 +4,6 @@
 export const RepeatableTransfers = {
   //Hive transfers
   "transfer": true,
-  "recurrent_transfer": true,
   //Ecency transfer
   "outgoing_transfer_title": true,
   //Engine transfers
