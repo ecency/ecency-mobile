@@ -958,7 +958,9 @@
     "time": "AIKA"
   },
   "reblog": {
-    "title": "Jakotiedot"
+    "title": "Jakotiedot",
+    "reblog_post": "Reblog Post",
+    "reblog_delete": "Undo Reblog"
   },
   "dsteem": {
     "date_error": {
