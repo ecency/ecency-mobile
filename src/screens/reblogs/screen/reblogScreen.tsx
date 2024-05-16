@@ -3,12 +3,11 @@ import { FlatList, SafeAreaView, RefreshControl, ScrollView, Text } from 'react-
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import reactotron from 'reactotron-react-native';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import showLoginAlert from '../../../utils/showLoginAlert';
-import { reblog } from '../../../providers/hive/dhive';
+import { getPostReblogs, reblog } from '../../../providers/hive/dhive';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
-import { getPostReblogs } from '../../../providers/ecency/ecency';
+
 // Components
 import { BasicHeader, MainButton, UserListItem } from '../../../components';
 
@@ -19,8 +18,9 @@ import AccountListContainer from '../../../containers/accountListContainer';
 import globalStyles from '../../../globalStyles';
 import { getTimeFromNow } from '../../../utils/time';
 import { setRcOffer, toastNotification } from '../../../redux/actions/uiAction';
-import { PointActivityIds } from '../../../providers/ecency/ecency.types'; import { jsonStringify } from '../../../utils/jsonUtils';
-import { acc } from 'react-native-reanimated';
+import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import { useQuery } from '@tanstack/react-query';
+import QUERIES from '../../../providers/queries/queryKeys';
 ;
 
 const renderUserListItem = (item, index, handleOnUserPress) => {
@@ -35,25 +35,31 @@ const renderUserListItem = (item, index, handleOnUserPress) => {
 };
 
 const ReblogScreen = ({ route }) => {
-  const [refreshing, setRefreshing] = React.useState(false);
+  const dispatch = useAppDispatch();
+
   const author = route.params?.author;
   const permlink = route.params?.permlink;
-  const pReblogs = route.params?.reblogs;
-  const content = {
-    author,
-    permlink,
-  };
-  const [reblogs, setReblogs] = useState(pReblogs);
+
+
+  const [reblogs, setReblogs] = useState([]);
   const intl = useIntl();
   const headerTitle = intl.formatMessage({
     id: 'reblog.title',
   });
 
-  const dispatch = useAppDispatch();
   const userActivityMutation = useUserActivityMutation();
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
+
+
+  const reblogsQuery = useQuery(
+    [QUERIES.POST.GET_REBLOGS, author, permlink],
+    () => getPostReblogs(author, permlink),
+    { initialData: [] }
+  );
+
+
 
   const _reblog = () => {
     if (!isLoggedIn) {
@@ -100,6 +106,8 @@ const ReblogScreen = ({ route }) => {
           }
         });
     }
+
+
     if (currentAccount.name) {
       [
         ...reblogs,
@@ -118,12 +126,11 @@ const ReblogScreen = ({ route }) => {
       ])
     }
 
-
   }
 
 
   return (
-    <AccountListContainer data={reblogs}>
+    <AccountListContainer data={reblogsQuery.data.map(username => ({account:username}))}>
       {({ data, filterResult, handleSearch, handleOnUserPress }) => (
 
         <SafeAreaView style={[globalStyles.container, { paddingBottom: 40 }]}>

@@ -35,16 +35,16 @@ export const PostCardActionsPanel = ({ content, handleCardInteraction }: Props) 
   };
 
   const _onReblogsPress = () => {
-    if (content.reblogs > 0) {
-      handleCardInteraction(PostCardActionIds.NAVIGATE, {
-        name: ROUTES.SCREENS.REBLOGS,
-        params: {
-          author: content.author,
-          permlink: content.permlink,
-          reblogs,
-        },
-      });
-    }
+    const { author, permlink } = content;
+
+    handleCardInteraction(PostCardActionIds.NAVIGATE, {
+      name: ROUTES.SCREENS.REBLOGS,
+      params: {
+        author,
+        permlink,
+      },
+    });
+
   };
 
   return (
