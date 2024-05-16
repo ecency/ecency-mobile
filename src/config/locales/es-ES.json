@@ -959,7 +959,7 @@
   },
   "reblog": {
     "title": "Información de reblogueo",
-    "reblog_post": "Reblog Post",
+    "reblog_post": "Rebloguear Post",
     "reblog_delete": "Undo Reblog"
   },
   "dsteem": {
