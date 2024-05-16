@@ -958,7 +958,9 @@
     "time": "VREME"
   },
   "reblog": {
-    "title": "Podeli informaciju"
+    "title": "Podeli informaciju",
+    "reblog_post": "Reblog Post",
+    "reblog_delete": "Undo Reblog"
   },
   "dsteem": {
     "date_error": {

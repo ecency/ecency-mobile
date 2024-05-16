@@ -958,7 +958,9 @@
     "time": "समय"
   },
   "reblog": {
-    "title": "रिबॉग जानकारी"
+    "title": "रिबॉग जानकारी",
+    "reblog_post": "Reblog Post",
+    "reblog_delete": "Undo Reblog"
   },
   "dsteem": {
     "date_error": {

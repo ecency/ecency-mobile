@@ -958,7 +958,9 @@
     "time": "الوقت"
   },
   "reblog": {
-    "title": "معلومات إعادة النشر"
+    "title": "معلومات إعادة النشر",
+    "reblog_post": "Reblog Post",
+    "reblog_delete": "Undo Reblog"
   },
   "dsteem": {
     "date_error": {

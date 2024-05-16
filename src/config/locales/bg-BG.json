@@ -958,7 +958,9 @@
     "time": "Време"
   },
   "reblog": {
-    "title": "Информация за споделяния"
+    "title": "Информация за споделяния",
+    "reblog_post": "Reblog Post",
+    "reblog_delete": "Undo Reblog"
   },
   "dsteem": {
     "date_error": {

@@ -958,7 +958,9 @@
     "time": "ORA"
   },
   "reblog": {
-    "title": "Info condivisione"
+    "title": "Info condivisione",
+    "reblog_post": "Reblog Post",
+    "reblog_delete": "Undo Reblog"
   },
   "dsteem": {
     "date_error": {
