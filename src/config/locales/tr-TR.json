@@ -958,7 +958,9 @@
     "time": "SÜRE"
   },
   "reblog": {
-    "title": "Tekrar Gönderi Bilgisi"
+    "title": "Tekrar Gönderi Bilgisi",
+    "reblog_post": "Reblog Post",
+    "reblog_delete": "Undo Reblog"
   },
   "dsteem": {
     "date_error": {
