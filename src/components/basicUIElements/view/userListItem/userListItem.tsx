@@ -37,8 +37,7 @@ const UserListItem = ({
     if (onPressRightText) {
       const _data = {};
       _data.following = username;
-
-      onPressRightText(_data, isFollowing);
+      onPressRightText();
     }
   };
 
@@ -145,7 +144,7 @@ const UserListItem = ({
                     fromRect={popoverAnchorRect}
                     supportedOrientations={['portrait', 'landscape']}
                   >
-                    <Text>{rightTooltipText}</Text>
+                    <Text style={styles.tooltipText}>{rightTooltipText}</Text>
                   </Popover>
                 </Fragment>
               )}

@@ -1,8 +1,10 @@
 export default [
   'promote',
-  'boost',
+  // NOTE: post boost option can be enabled later if need by uncommenting option below
+  // 'boost',
   'copy',
   'reply',
+  'translate',
   'reblog',
   'pin-blog',
   'unpin-blog',

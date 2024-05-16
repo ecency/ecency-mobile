@@ -2,9 +2,12 @@
   "wallet": {
     "curation_reward": "큐레이션 보상",
     "author_reward": "저자 보상",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "베네피셔리 보상",
     "claim_reward_balance": "보상 청구하기",
+    "points_activity": "Activity",
     "transfer": "전송",
+    "recurrent_transfer": "Recurrent Transfer",
     "power_up": "파워업",
     "transfer_from_savings": "안전 금고에서 출금하기",
     "withdraw_savings": "Withdraw Savings",
@@ -49,14 +52,14 @@
     "checkin_extra_desc": "꾸준한 앱 사용을 통해 더 많은 포인트 얻을 수 있는 기회가 제공됩니다. ",
     "dropdown_transfer": "선물하기",
     "dropdown_promote": "홍보",
-    "dropdown_boost": "후원",
+    "dropdown_boost": "Boost+",
     "from": "보낸 사람",
     "to": "받는 사람",
     "estimated_value_desc": "구매 가치에 따라",
     "estimated_value": "추정 자산 가치",
     "vote_value": "보팅 가치",
     "delegated_hive_power": "Delegated hive power",
-    "powering_down_hive_power": "파워 다운 중",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "임대받은 하이브 파워",
     "total_hive_power": "총 하이브 파워",
     "savings": "Savings",
@@ -83,6 +86,7 @@
     "withdraw_hive": "Withdraw Savings",
     "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "안전 금고에 보관하기",
+    "swap_token": "Swap Token",
     "convert": "전환하기",
     "convert_request": "Convert Request",
     "escrow_transfer": "에스크로 송금",
@@ -247,7 +251,7 @@
     "this_week": "이번 주",
     "last_week": "지난 주",
     "this_month": "이번 달",
-    "older_then": "1 달 이상",
+    "older_then": "Last Month & Older",
     "activities": "모든",
     "replies": "받은 댓글",
     "mentions": "언급",
@@ -299,7 +303,10 @@
       "display_name": "이름",
       "about": "소개",
       "location": "위치",
-      "website": "웹사이트"
+      "website": "웹사이트",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
@@ -372,12 +379,13 @@
     "no_user": "사용자를 찾을 수 없습니다."
   },
   "login": {
-    "signin": "로그인",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "지금 가입해보세요.",
     "signin_title": "Ecency의 모든 혜택을 즐기세요",
-    "username": "사용자 이름",
-    "password": "비밀번호 또는 WIF",
-    "description": "가입과 동시에 서비스 약관 및 개인 정보 보호 정책에 동의하게 됩니다",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "취소",
     "login": "로그인",
     "steemconnect_description": "암호화된 비밀번호를 기기에 저장하고 싶지 않다면, HiveSigner를 사용하시면 됩니다",
@@ -389,7 +397,10 @@
     "deep_login_alert_title": "Easy Login @{username}",
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Get Hive Account",
@@ -412,7 +423,9 @@
       "username_contains_double_hyphens": "Should not contain double hyphens",
       "username_contains_underscore": "Should not contain underscore",
       "username_exists": "Username already exists, try a different one"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "피드",
@@ -456,6 +469,22 @@
     "update": "업데이트",
     "reply": "댓글",
     "schedule": "예약"
+  },
+  "account_list": {
+    "title": "Users"
+  },
+  "post_poll": {
+    "voters": "Voters",
+    "voted": "voted",
+    "hp": "HP",
+    "view_stats": "View Stats",
+    "hide_stats": "Hide Stats",
+    "ended": "Ended",
+    "ends": "Ends {inTime}",
+    "age_limit": "• Only accounts older than {days} days allowed",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "제목",
@@ -510,6 +539,7 @@
     "scheduled_for": "예약 날짜:",
     "scheduled_immediate": "즉시",
     "scheduled_later": "나중에",
+    "schedule_video_unsupported": "Scheduling video posts not available",
     "settings_title": "글 설정",
     "done": "완료",
     "draft_save_title": "임시 저장 중",
@@ -525,7 +555,9 @@
     "invalid_url_error": "유효한 URL을 입력하세요",
     "plain": "일반",
     "video": "영상",
-    "image": "이미지"
+    "image": "이미지",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "스니펫 없음",
@@ -550,10 +582,20 @@
     "btn_add": "이미지",
     "btn_insert": "삽입",
     "btn_delete": "삭제",
-    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "confirm_delete": "Are you sure you want to delete selected items from your uploads",
     "message_failed": "이미지 업로드에 실패",
     "delete_failed": "Failed to delete image",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)",
+    "publish_manual": "Ready",
+    "published": "Published",
+    "encoding_ipfs": "Encoding",
+    "encoding_preparing": "Preparing",
+    "deleted": "Deleted",
+    "start_upload": "START UPLOAD",
+    "uploading": "UPLOADING",
+    "select_thumb": "Select Thumbnail",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "잠금을 해제하려면 PIN 코드를 입력해주세요",
@@ -574,6 +616,10 @@
     "move": "이동",
     "continue": "Continue",
     "okay": "Okay",
+    "done": "Done",
+    "notice": "Notice!",
+    "close": "CLOSE",
+    "later": "Later",
     "move_question": "임시 보관함으로 이동하시겠습니까?",
     "success_shared": "성공! 콘텐츠가 제출되었습니다!",
     "success_moved": "임시 보관함으로 이동했습니다",
@@ -597,6 +643,7 @@
     "warning": "경고",
     "invalid_pincode": "올바르지 않은 PIN 코드입니다. 확인 후 다시 시도해주세요.",
     "remove_alert": "정말 삭제하시겠습니까?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "정말 삭제하시겠습니까?",
     "clear_user_alert": "정말 모든 사용자 데이터를 삭제하시겠습니까?",
     "decrypt_fail_alert": "앱 상태가 손상되었습니다. 상태를 재설정하려면 다시 로그인하세요.",
@@ -661,7 +708,8 @@
     "wrong_link": "잘못된 링크",
     "in": "에서",
     "reveal_muted": "뮤트 증\n콘텐츠를 표시하려면 탭하세요",
-    "posted_by": "Posted by {username} via {appname} "
+    "posted_by": "Posted by {username} via {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "임시 보관함",
@@ -739,7 +787,8 @@
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
     "edit-history": "편집 내역",
-    "mute": "Mute / Block"
+    "mute": "Mute / Block",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "존재하지 않는 사용자입니다",
@@ -763,13 +812,19 @@
     "to": "받는 사람",
     "amount_information": "슬라이드를 드래그해서 수량을 설정할 수 있습니다",
     "amount": "수량",
+    "executions": "Executions",
+    "recurrence": "Recurrence",
     "memo": "메모",
+    "recurrent_transfer": "Recurrent Transfer",
+    "delete_recurrent_transfer": "Delete Recurrent Transfer ",
     "information": "Continue transaction?",
     "amount_desc": "잔액",
     "memo_desc": "이 메모는 누구나 볼 수 있습니다",
     "convert_desc": "전환은 3.5일이 소요되며, 하이브 달러가 1달러 이상인 경우에 권장하지 않습니다.",
     "to_placeholder": "사용자 이름",
     "memo_placeholder": "메모 내용을 입력하세요",
+    "recurrence_placeholder": "Choose Recurrence",
+    "executions_placeholder": "Number of Repeats",
     "transfer_token": "전송",
     "purchase_estm": "포인트 구입",
     "convert": "하이브달러를 하이브로 전환하기",
@@ -834,14 +889,28 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001"
   },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Entered amount is more than your available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
+    "fee": "Fee",
+    "free": "Free",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped",
+    "swap_pending": "Swap Pending!",
+    "swap_pending_body": "Swap requests may be pending, please check pending open orders in selected token details",
+    "new_swap": "New Swap"
+  },
   "boost": {
     "title": "포인트 받기",
     "buy": "포인트 받기",
     "next": "다음",
     "info": "Actual value of vote you receive may vary",
     "account": {
-      "title": "계정 부스트 받기",
-      "desc": "30일 임대는 투표와 사회 활동을 강화하고 더 많은 리소스 크레딧으로 더 많은 활동을 제공합니다."
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -877,6 +946,12 @@
   "boostPost": {
     "title": "후원"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "보상",
     "percent": "비율",
@@ -894,7 +969,7 @@
   },
   "comments": {
     "title": "작성한 댓글",
-    "reveal_comment": "명성도가 낮은 사용자의 댓글 보기",
+    "reveal_comment": "Reveal Content",
     "read_more": "댓글 더 보기",
     "more_replies": "댓글",
     "no_comments": "Be the first to respond..."
@@ -991,8 +1066,11 @@
   },
   "quick_reply": {
     "placeholder": "Add a comment...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "댓글",
     "reply": "답변",
+    "publish": "PUBLISH",
     "close": "닫기"
   },
   "walkthrough": {
@@ -1013,10 +1091,34 @@
     "open": "URL 열기",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "지원하지 않는 URL입니다!",
-    "unsupported_alert_desc": "Please scan a valid ecency url."
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
+    "confirmTransaction": "Confirm transaction",
+    "approve": "Approve",
+    "cancel": "Cancel",
+    "multi_array_ops_alert": "Operation not supported by Ecency",
+    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations yet",
+    "invalid_op": "Invalid operation data",
+    "invalid_op_desc": "try contacting QR/link author",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Enter valid amount in proper format",
+    "transaction_failed": "Transaction Failed!",
+    "invalid_key": "{key} key is required to perform this transaction",
+    "invalid_key_desc": "kindly login with {key} key or master key to perform this transaction"
   },
   "history": {
     "edit": "편집 내역",
     "version": "버전"
+  },
+  "chain-error": {
+    "min-root-comment": "You may only post once every five minutes.",
+    "identical-vote": "Your current vote on this content is identical to this vote.",
+    "insufficient-resource": "Insufficient Resource Credits.",
+    "delete-comment-with-vote": "Cannot delete a content with positive pending rewards.",
+    "comment-cashout": "Content after their payout cannot be deleted.",
+    "comment-children": "Cannot delete a content with replies.",
+    "paid-out-post-forbidden": "Voting for paid out content is not available.",
+    "missing-authority": "This operation requires Active private key or authority.",
+    "missing-owner-authority": "This operation requires Owner private key or authority.",
+    "insufficient_fund": "Insufficient Funds"
   }
 }

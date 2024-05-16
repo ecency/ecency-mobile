@@ -224,7 +224,7 @@ class LoginContainer extends PureComponent {
     };
     const notifyTypes = [];
 
-    Object.keys(notificationDetails).map((item) => {
+    Object.keys(notificationDetails).forEach((item) => {
       const notificationType = item.replace('Notification', '');
 
       if (notificationDetails[item]) {

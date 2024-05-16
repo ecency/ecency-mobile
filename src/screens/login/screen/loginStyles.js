@@ -3,18 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '$primaryLightBackground',
-  },
-  tabbar: {
-    alignSelf: 'center',
-    height: 40,
     backgroundColor: '$primaryBackgroundColor',
-  },
-  tabbarItem: {
-    flex: 1,
-    backgroundColor: '$primaryBackgroundColor',
-    minWidth: '$deviceWidth',
-    height: '$deviceHeight / 1.95',
   },
   mainButtonWrapper: {
     position: 'absolute',
@@ -22,28 +11,60 @@ export default EStyleSheet.create({
     bottom: 24,
     flexDirection: 'row',
   },
-  footerButtons: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'flex-end',
-    paddingRight: 24,
-    paddingBottom: 24,
-    backgroundColor: '$primaryBackgroundColor',
-  },
+
   cancelButton: {
     marginRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   formWrapper: {
-    flexGrow: 1,
-    marginHorizontal: 30,
-    marginVertical: 10,
+    paddingHorizontal: 30,
+    paddingVertical: 10,
   },
   input: {
     color: '$primaryDarkText',
     flexGrow: 1,
   },
   mainBtnText: {
-    marginRight: 12,
+    flexGrow: 1,
+  },
+  loginBtnWrapper: {
+    marginVertical: 12,
+  },
+  loginBtnBodyWrapper: {
+    flex: 1,
+  },
+  loginBtnIconStyle: {
+    position: 'absolute',
+    left: 0,
+  },
+  hsLoginBtnStyle: {
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: '$primaryBlue',
+  },
+  hsLoginBtnText: {
+    flexGrow: 1,
+    color: '$primaryBlue',
+  },
+  hsLoginBtnIconStyle: {
+    marginLeft: 20,
+  },
+  footerButtons: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical:8,
+    paddingHorizontal: 24,
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  noAccountText: {
+    color: '$primaryDarkGray',
+    fontSize: 16,
+  },
+  signUpNowText: {
+    color: '$primaryBlue',
+    marginLeft: 4,
+    fontSize: 16,
   },
 });

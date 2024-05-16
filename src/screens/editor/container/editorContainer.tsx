@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert, AppState, AppStateStatus, NativeEventSubscription } from 'react-native';
+import { Alert, AppState, AppStateStatus, NativeEventSubscription, Platform } from 'react-native';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isArray } from 'lodash';
@@ -10,8 +10,9 @@ import { isArray } from 'lodash';
 import { Buffer } from 'buffer';
 import { useQueryClient } from '@tanstack/react-query';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { postBodySummary } from '@ecency/render-helper';
 import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
-import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
+import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
 import {
   postContent,
   getPurePost,
@@ -26,18 +27,22 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Utilities
 import {
   generatePermlink,
-  generateReplyPermlink,
+  generateUniquePermlink,
   makeJsonMetadata,
   makeOptions,
   extractMetadata,
   makeJsonMetadataForUpdate,
   createPatch,
+  extract3SpeakIds,
 } from '../../../utils/editor';
-// import { generateSignature } from '../../../utils/image';
 
 // Component
 import EditorScreen from '../screen/editorScreen';
-import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
+import {
+  removeBeneficiaries,
+  setAllowSpkPublishing,
+  setBeneficiaries,
+} from '../../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID, TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import {
   deleteDraftCacheEntry,
@@ -49,6 +54,14 @@ import bugsnapInstance from '../../../config/bugsnag';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { usePostsCachePrimer } from '../../../providers/queries/postQueries/postQueries';
+import { PostTypes } from '../../../constants/postTypes';
+
+import { speakQueries } from '../../../providers/queries';
+import {
+  BENEFICIARY_SRC_ENCODER,
+  DEFAULT_SPEAK_BENEFICIARIES,
+} from '../../../providers/speak/constants';
+import { ThreeSpeakVideo } from '../../../providers/speak/speak.types';
 
 /*
  *            Props Name        Description                                     Value
@@ -87,13 +100,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       onLoadDraftPress: false,
       thumbUrl: '',
       shouldReblog: false,
+      postDescription: '',
     };
   }
 
   // Component Life Cycle Functions
   componentDidMount() {
     this._isMounted = true;
-    const { currentAccount, route, queryClient } = this.props;
+    const { currentAccount, route, draftsCollection, queryClient, dispatch } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     let isReply;
     let draftId;
@@ -104,10 +118,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     if (route.params) {
       const navigationParams = route.params;
-      hasSharedIntent = navigationParams.hasSharedIntent;
+      const { hasSharedIntent: _hasShared, draftId: _draftId } = navigationParams;
+      hasSharedIntent = _hasShared;
 
-      if (navigationParams.draftId) {
-        draftId = navigationParams.draftId;
+      if (_draftId) {
+        draftId = _draftId;
         const cachedDrafts: any = queryClient.getQueryData([QUERIES.DRAFTS.GET]);
 
         if (cachedDrafts && cachedDrafts.length) {
@@ -137,18 +152,27 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       if (navigationParams.isReply) {
         ({ isReply } = navigationParams);
+        let _draftBody = '';
+
         if (post) {
           draftId = `${currentAccount.name}/${post.author}/${post.permlink}`;
+          const _draft = draftsCollection && draftsCollection[draftId];
+
+          if (_draft && !!_draft.body) {
+            const _mediaUrls = navigationParams.replyMediaUrls;
+            _draftBody =
+              _mediaUrls.length > 0 ? `${_draft.body}\n\n ![](${_mediaUrls[0]})` : _draft.body;
+          }
         }
 
         this.setState({
+          draftPost: {
+            body: _draftBody,
+          },
           isReply,
           draftId,
           autoFocusText: true,
         });
-        if (draftId) {
-          this._getStorageDraft(username, isReply, { _id: draftId });
-        }
       }
 
       if (navigationParams.isEdit) {
@@ -188,12 +212,16 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     this._requestKeyboardFocus();
 
     this._appStateSub = AppState.addEventListener('change', this._handleAppStateChange);
+
+    // dispatch spk publishing status
+    dispatch(setAllowSpkPublishing(!isReply && !isEdit));
   }
 
   componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>): void {
     if (
       prevState.rewardType !== this.state.rewardType ||
-      prevProps.beneficiariesMap !== this.props.beneficiariesMap
+      prevProps.beneficiariesMap !== this.props.beneficiariesMap ||
+      prevState.postDescription !== this.state.postDescription
     ) {
       // update isDraftSaved when reward type or beneficiaries are changed in post options
       this._handleFormChanged();
@@ -289,11 +317,18 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
     }
 
+    if (draft.meta && draft.meta.description) {
+      this.setState({
+        postDescription: draft.meta.description,
+      });
+    }
+
     if (draft._id && draft.meta && draft.meta.beneficiaries) {
       if (isArray(draft.meta.beneficiaries)) {
         const filteredBeneficiaries = draft.meta.beneficiaries.filter(
           (item) => item.account !== currentAccount.username,
         ); // remove default beneficiary from array while saving
+
         dispatch(setBeneficiaries(draft._id || TEMP_BENEFICIARIES_ID, filteredBeneficiaries));
       }
     }
@@ -387,18 +422,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
   _extractBeneficiaries = () => {
     const { draftId } = this.state;
-    const { beneficiariesMap, currentAccount } = this.props;
+    const { beneficiariesMap } = this.props;
 
-    return (
-      beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID] || [
-        { account: currentAccount.name, weight: 10000 },
-      ]
-    );
+    return beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID] || [];
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
-    const { isDraftSaved, draftId, thumbUrl, isReply, rewardType } = this.state;
-    const { currentAccount, dispatch, intl, queryClient } = this.props;
+    const { isDraftSaved, draftId, thumbUrl, isReply, rewardType, postDescription } = this.state;
+    const { currentAccount, dispatch, intl, queryClient, speakContentBuilder } = this.props;
 
     try {
       // saves draft locallly
@@ -412,8 +443,15 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       return;
     }
 
-    const beneficiaries = this._extractBeneficiaries();
+    speakContentBuilder.build(fields.body);
 
+    const beneficiaries = this._extractBeneficiaries();
+    const postBodySummaryContent = postBodySummary(
+      get(fields, 'body', ''),
+      200,
+      Platform.OS as any,
+    );
+    this._handlePostDescriptionChange(postBodySummaryContent);
     try {
       if (!isDraftSaved) {
         let draftField;
@@ -434,13 +472,30 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         const _extractedMeta = await extractMetadata({
           body: draftField.body,
           thumbUrl,
+          videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
           fetchRatios: false,
         });
+
+        // inject video meta for draft
+        const speakIds = extract3SpeakIds({ body: draftField.body });
+        const videos: any = {};
+        const videosCache: any = queryClient.getQueryData([QUERIES.MEDIA.GET_VIDEOS]);
+
+        speakIds.forEach((_id) => {
+          const videoItem = videosCache.find((item) => item._id === _id);
+          if (videoItem?.speakData) {
+            videos[_id] = videoItem.speakData;
+          }
+        });
+
         const meta = Object.assign({}, _extractedMeta, {
           tags: draftField.tags,
           beneficiaries,
           rewardType,
+          description: postDescription || postBodySummaryContent,
+          videos: Object.keys(videos).length > 0 && videos,
         });
+
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
 
         // update draft is draftId is present
@@ -464,7 +519,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         // create new darft otherwise
         else if (draftField) {
           const { title, body, tags } = draftField;
-          const draft = { title, body, tags, jsonMeta };
+          const draft = { title, body, tags, meta: jsonMeta };
           const response = await addDraft(draft);
           const _resDraft = response.pop();
 
@@ -556,7 +611,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
   };
 
-  _submitPost = async ({ fields, scheduleDate }: { fields: any; scheduleDate?: string }) => {
+  _submitPost = async ({
+    fields: _fieldsBase,
+    scheduleDate,
+  }: {
+    fields: any;
+    scheduleDate?: string;
+  }) => {
     const {
       currentAccount,
       dispatch,
@@ -564,27 +625,69 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       navigation,
       pinCode,
       userActivityMutation,
-      // isDefaultFooter,
+      speakContentBuilder,
+      speakMutations,
     } = this.props;
     const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
 
-    const beneficiaries = this._extractBeneficiaries();
+    const fields = Object.assign({}, _fieldsBase);
+    let beneficiaries = this._extractBeneficiaries();
+    let videoPublishMeta: ThreeSpeakVideo | undefined = undefined;
 
     if (isPostSending) {
       return;
     }
 
     if (currentAccount) {
+      // build speak video body
+      try {
+        fields.body = speakContentBuilder.build(fields.body);
+        videoPublishMeta = speakContentBuilder.videoPublishMetaRef.current;
+
+        // verify and make video beneficiaries redundent
+        beneficiaries = beneficiaries.filter((item) => item.src !== BENEFICIARY_SRC_ENCODER);
+        if (videoPublishMeta) {
+          const encoderBene = [
+            ...JSON.parse(videoPublishMeta.beneficiaries || '[]'),
+            ...DEFAULT_SPEAK_BENEFICIARIES,
+          ];
+          beneficiaries = [...encoderBene, ...beneficiaries];
+        }
+      } catch (err) {
+        console.warn('fail', err);
+        return;
+      }
+
+      if (scheduleDate && videoPublishMeta) {
+        dispatch(
+          showActionModal({
+            title: intl.formatMessage({ id: 'alert.notice' }),
+            body: intl.formatMessage({ id: 'editor.schedule_video_unsupported' }),
+          }),
+        );
+        return;
+      }
+
       this.setState({
         isPostSending: true,
       });
 
-      const meta = await extractMetadata({ body: fields.body, thumbUrl, fetchRatios: true });
+      // only require video meta for unpublished video, it will always be one
+      const meta = await extractMetadata({
+        body: fields.body,
+        thumbUrl,
+        videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
+        fetchRatios: true,
+        videoPublishMeta,
+      });
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
+
       // TODO: check if permlink is available github: #314 https://github.com/ecency/ecency-mobile/pull/314
-      let permlink = generatePermlink(fields.title || '');
+      let permlink = videoPublishMeta
+        ? videoPublishMeta.permlink
+        : generatePermlink(fields.title || '');
 
       let dublicatePost;
       try {
@@ -611,6 +714,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         if (fields.tags.length === 0) {
           fields.tags = ['hive-125125'];
         }
+
         this._setScheduledPost({
           author,
           permlink,
@@ -633,6 +737,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         )
           .then((response) => {
             console.log(response);
+
             // track user activity for points
             userActivityMutation.mutate({
               pointsTy: PointActivityIds.POST,
@@ -653,6 +758,18 @@ class EditorContainer extends Component<EditorContainerProps, any> {
                 .catch((err) => {
                   console.warn('Failed to reblog post', err);
                 });
+            }
+
+            // mark unpublished video as published on 3speak if that is the case
+            if (videoPublishMeta) {
+              console.log('marking inserted video as published');
+              speakMutations.updateInfoMutation.mutate({
+                id: videoPublishMeta._id,
+                title: fields.title,
+                body: fields.body,
+                tags: fields.tags,
+              });
+              speakMutations.markAsPublishedMutation.mutate(videoPublishMeta._id);
             }
 
             // post publish updates
@@ -693,8 +810,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _submitReply = async (fields) => {
-    const { currentAccount, pinCode, dispatch, userActivityMutation, draftsCollection } =
-      this.props;
+    const {
+      currentAccount,
+      pinCode,
+      dispatch,
+      userActivityMutation,
+      draftsCollection,
+      speakContentBuilder,
+    } = this.props;
     const { isPostSending } = this.state;
 
     if (isPostSending) {
@@ -707,12 +830,23 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
 
       const { post } = this.state;
-      const permlink = generateReplyPermlink(post.author);
+
+      fields.body = speakContentBuilder.build(fields.body);
+
+      const _prefix = `re-${post.author.replace(/\./g, '')}`;
+      const permlink = generateUniquePermlink(_prefix);
 
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
       const parentTags = post.json_metadata.tags;
       const draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
+
+      const meta = await extractMetadata({
+        body: fields.body,
+        fetchRatios: true,
+        postType: PostTypes.COMMENT,
+      });
+      const jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency']);
 
       await postComment(
         currentAccount,
@@ -721,7 +855,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         parentPermlink,
         permlink,
         fields.body,
-        parentTags,
+        jsonMetadata,
       )
         .then((response) => {
           // record user activity for points
@@ -763,7 +897,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _submitEdit = async (fields) => {
-    const { currentAccount, pinCode, dispatch, postCachePrimer } = this.props;
+    const { currentAccount, pinCode, dispatch, postCachePrimer, speakContentBuilder } = this.props;
     const { post, isEdit, isPostSending, thumbUrl, isReply } = this.state;
 
     if (isPostSending) {
@@ -774,6 +908,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       this.setState({
         isPostSending: true,
       });
+
+      // build speak video body
+      fields.body = speakContentBuilder.build(fields.body);
+
       const { tags, body, title } = fields;
       const {
         markdownBody: oldBody,
@@ -790,7 +928,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         newBody = patch;
       }
 
-      const meta = await extractMetadata({ body: fields.body, thumbUrl, fetchRatios: true });
+      const meta = await extractMetadata({
+        body: fields.body,
+        videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
+        thumbUrl,
+        fetchRatios: true,
+      });
 
       let jsonMeta = {};
 
@@ -1080,6 +1223,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     this.setState({ rewardType: value });
   };
 
+  _handlePostDescriptionChange = (value: string) => {
+    this.setState({ postDescription: value });
+  };
+
   _handleShouldReblogChange = (value: boolean) => {
     this.setState({
       shouldReblog: value,
@@ -1120,10 +1267,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       thumbUrl,
       uploadProgress,
       rewardType,
+      postDescription,
     } = this.state;
 
     const tags = route.params?.tags;
     const paramFiles = route.params?.files;
+
     return (
       <EditorScreen
         paramFiles={paramFiles}
@@ -1133,7 +1282,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={() => {}}
+        handleOnBackPress={() => {
+          console.log('cancel pressed');
+        }}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
         isDarkTheme={isDarkTheme}
@@ -1161,6 +1312,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         setThumbUrl={this._handleSetThumbUrl}
         uploadProgress={uploadProgress}
         rewardType={rewardType}
+        postDescription={postDescription}
+        handlePostDescriptionChange={this._handlePostDescriptionChange}
         getBeneficiaries={this._extractBeneficiaries}
         setIsUploading={this._setIsUploading}
       />
@@ -1179,6 +1332,8 @@ const mapStateToProps = (state) => ({
 
 const mapQueriesToProps = () => ({
   queryClient: useQueryClient(),
+  speakContentBuilder: speakQueries.useSpeakContentBuilder(),
+  speakMutations: speakQueries.useSpeakMutations(),
   userActivityMutation: useUserActivityMutation(),
   postCachePrimer: usePostsCachePrimer(),
 });

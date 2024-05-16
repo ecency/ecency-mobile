@@ -9,14 +9,13 @@ import {
   TouchableOpacity,
   Keyboard,
 } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import Popover, { usePopover } from 'react-native-modal-popover';
 
 // Components
+import { useSelector } from 'react-redux';
 import { TextInput } from '../../textInput';
 import { Icon } from '../../icon';
-import { ThemeContainer } from '../../../containers';
-
 // Utils
 import { getResizedAvatar } from '../../../utils/image';
 
@@ -69,7 +68,7 @@ const FormInputView = ({
   const [_value, setValue] = useState(value || '');
   const [inputBorderColor, setInputBorderColor] = useState('#e7e7e7');
   const [_isValid, setIsValid] = useState(true);
-
+  const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
   const isIos = Platform.OS === 'ios';
 
   const _handleOnChange = (text) => {
@@ -134,7 +133,7 @@ const FormInputView = ({
   const _renderInfoIconWithPopover = () => (
     <View style={styles.infoIconContainer}>
       <TouchableOpacity ref={touchableRef} onPress={_handleInfoPress}>
-        <Icon iconType={'MaterialIcons'} name="info-outline" style={styles.infoIcon} />
+        <Icon iconType="MaterialIcons" name="info-outline" style={styles.infoIcon} />
       </TouchableOpacity>
       <Popover
         backgroundStyle={styles.overlay}
@@ -163,13 +162,12 @@ const FormInputView = ({
     >
       {isFirstImage && value && value.length > 2 ? (
         <View style={{ flex: 0.15 }}>
-          <FastImage
+          <ExpoImage
             style={styles.firstImage}
             source={{
               uri: getResizedAvatar(value),
-              priority: FastImage.priority.high,
             }}
-            resizeMode={FastImage.resizeMode.cover}
+            contentFit="cover"
           />
         </View>
       ) : (
@@ -178,35 +176,31 @@ const FormInputView = ({
         )
       )}
       <View style={styles.textInput}>
-        <ThemeContainer>
-          {({ isDarkTheme }) => (
-            <TextInput
-              innerRef={inputRef}
-              style={inputStyle}
-              onFocus={_handleOnFocus}
-              onBlur={_handleOnBlur}
-              autoCapitalize="none"
-              secureTextEntry={secureTextEntry}
-              height={height}
-              placeholder={placeholder}
-              editable={isEditable}
-              textContentType={type}
-              onChangeText={_handleOnChange}
-              value={_value}
-              placeholderTextColor={isDarkTheme ? '#526d91' : '#788187'}
-              autoCorrect={false}
-              contextMenuHidden={false}
-              {...props}
-            />
-          )}
-        </ThemeContainer>
+        <TextInput
+          innerRef={inputRef}
+          style={inputStyle}
+          onFocus={_handleOnFocus}
+          onBlur={_handleOnBlur}
+          autoCapitalize="none"
+          secureTextEntry={secureTextEntry}
+          height={height}
+          placeholder={placeholder}
+          editable={isEditable}
+          textContentType={type}
+          onChangeText={_handleOnChange}
+          value={_value}
+          placeholderTextColor={isDarkTheme ? '#526d91' : '#788187'}
+          autoCorrect={false}
+          contextMenuHidden={false}
+          {...props}
+        />
       </View>
       {rightInfoIcon && !isValid ? (
         _renderInfoIconWithPopover()
       ) : value && value.length > 0 ? (
         <Icon
           iconType={iconType || 'MaterialIcons'}
-          onPress={() => setValue('')}
+          onPress={() => _handleOnChange('')}
           name={leftIconName}
           style={styles.icon}
         />

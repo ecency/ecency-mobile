@@ -5,16 +5,24 @@ import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { searchAccount } from '../../../../../../providers/ecency/ecency';
+import { lookupAccounts } from '../../../../../../providers/hive/dhive';
 
-const PeopleResultsContainer = ({ children, searchValue, username }) => {
+const PeopleResultsContainer = ({ children, searchValue, username, isUsername }) => {
   const navigation = useNavigation();
 
   const [users, setUsers] = useState([]);
+  const [userNames, setUsernames] = useState([]);
   const [noResult, setNoResult] = useState(false);
 
   useEffect(() => {
     setNoResult(false);
     setUsers([]);
+    if (!searchValue) {
+      setUsernames([]);
+    }
+    if (searchValue && isUsername) {
+      _fetchUsernames(searchValue);
+    }
 
     searchAccount(searchValue, 20, searchValue ? 0 : 1)
       .then((res) => {
@@ -29,11 +37,16 @@ const PeopleResultsContainer = ({ children, searchValue, username }) => {
       });
   }, [searchValue]);
 
+  const _fetchUsernames = async (username) => {
+    const users = await lookupAccounts(username);
+    setUsernames(users);
+  };
+
   // Component Functions
 
   const _handleOnPress = (item) => {
     navigation.navigate({
-      name: item.name === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE,
+      name: ROUTES.SCREENS.PROFILE,
       params: {
         username: item.name,
       },
@@ -45,6 +58,7 @@ const PeopleResultsContainer = ({ children, searchValue, username }) => {
     children &&
     children({
       users,
+      userNames,
       handleOnPress: _handleOnPress,
       noResult,
     })

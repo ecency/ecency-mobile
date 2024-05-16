@@ -3,7 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 export default EStyleSheet.create({
-  modalStyle:{
+  modalStyle: {
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
     margin: 0,
@@ -23,7 +23,7 @@ export default EStyleSheet.create({
   } as ViewStyle,
 
   scrollContainer: {
-    flex:1,
+    flex: 1,
     marginTop: 16,
     marginBottom: 16,
   } as ViewStyle,
@@ -35,33 +35,30 @@ export default EStyleSheet.create({
   } as TextStyle,
 
   modalContainer: {
-    flex:1,
+    flex: 1,
     marginBottom: 44,
     paddingHorizontal: 24,
     alignItems: 'center',
     justifyContent: 'space-between',
- 
   } as ViewStyle,
 
-  sectionTextStyle : {
-    color:'$primaryBlack',
+  sectionTextStyle: {
+    color: '$primaryBlack',
     fontSize: 16,
     marginHorizontal: 16,
-    marginVertical:4,
-
+    marginVertical: 4,
   } as TextStyle,
 
-  sectionSubTextStyle : {
-    color:'$iconColor',
+  sectionSubTextStyle: {
+    color: '$iconColor',
     fontSize: 18,
     marginHorizontal: 16,
-    marginVertical:16,
-    alignSelf:'center'
-
+    marginVertical: 16,
+    alignSelf: 'center',
   } as TextStyle,
 
-  dragBtnContainer:{
-    padding:8
+  dragBtnContainer: {
+    padding: 8,
   } as ViewStyle,
 
   title: {
@@ -83,12 +80,12 @@ export default EStyleSheet.create({
 
   btnText: {
     color: '$pureWhite',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   } as TextStyle,
 
-  assetIconContainer:{
-    width:32,
-    marginLeft:16
+  assetIconContainer: {
+    width: 32,
+    marginLeft: 16,
   },
 
   button: {

@@ -13,6 +13,8 @@ import {
   DELETE_POINT_ACTIVITY_CACHE_ENTRY,
   UPDATE_CLAIM_CACHE,
   DELETE_CLAIM_CACHE_ENTRY,
+  UPDATE_ANNOUNCEMENTS_META,
+  UPDATE_POLL_VOTE_CACHE
 } from '../constants/constants';
 
 export enum CacheStatus {
@@ -24,10 +26,21 @@ export enum CacheStatus {
   UPDATED = 'UPDATED',
 }
 
-export interface Vote {
+export interface VoteCache {
   amount: number;
   isDownvote: boolean;
+  rshares: number;
+  percent: number;
   incrementStep: number;
+  votedAt: number;
+  expiresAt: number;
+  status: CacheStatus;
+}
+
+export interface PollVoteCache {
+  choiceNum: number;
+  userHp:number;
+  username: string;
   votedAt: number;
   expiresAt: number;
   status: CacheStatus;
@@ -54,6 +67,7 @@ export interface Comment {
   expandedReplies?: boolean;
   renderOnTop?: boolean;
   status: CacheStatus;
+  url?: string;
 }
 
 export interface Draft {
@@ -82,33 +96,42 @@ export interface SubscribedCommunity {
   expiresAt?: number;
 }
 
+export interface AnnouncementMeta {
+  lastSeen: number;
+  processed: boolean;
+}
+
 export interface LastUpdateMeta {
   postPath: string;
   updatedAt: number;
-  type: 'vote' | 'comment' | 'draft';
+  type: 'vote' | 'comment' | 'draft' | 'poll-vote';
 }
 
 interface State {
-  votesCollection: { [key: string]: Vote };
-  commentsCollection: { [key: string]: Comment }; // TODO: handle comment array per post, if parent is same
+  votesCollection: { [key: string]: VoteCache };
+  commentsCollection: { [key: string]: Comment };
+  pollVotesCollection: { [key: string]: PollVoteCache };
   draftsCollection: { [key: string]: Draft };
   claimsCollection: ClaimsCollection;
   subscribedCommunities: Map<string, SubscribedCommunity>;
   pointActivities: Map<string, PointActivity>;
+  announcementsMeta: { [key: string]: AnnouncementMeta };
   lastUpdate: LastUpdateMeta;
 }
 
 const initialState: State = {
   votesCollection: {},
   commentsCollection: {},
+  pollVotesCollection: {},
   draftsCollection: {},
   claimsCollection: {},
+  announcementsMeta: {},
   subscribedCommunities: new Map(),
   pointActivities: new Map(),
   lastUpdate: null,
 };
 
-export default function (state = initialState, action) {
+const cacheReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case UPDATE_VOTE_CACHE:
@@ -139,6 +162,20 @@ export default function (state = initialState, action) {
           postPath: payload.commentPath,
           updatedAt: new Date().getTime(),
           type: 'comment',
+        },
+      };
+
+    case UPDATE_POLL_VOTE_CACHE:
+      if (!state.pollVotesCollection) {
+        state.pollVotesCollection = {};
+      }
+      state.pollVotesCollection = { ...state.pollVotesCollection, [payload.postPath]: payload.pollVote };
+      return {
+        ...state, // spread operator in requried here, otherwise persist do not register change
+        lastUpdate: {
+          postPath: payload.postPath,
+          updatedAt: new Date().getTime(),
+          type: 'poll-vote',
         },
       };
 
@@ -245,51 +282,70 @@ export default function (state = initialState, action) {
       }
       return { ...state };
 
+    case UPDATE_ANNOUNCEMENTS_META:
+      if (!state.announcementsMeta) {
+        state.announcementsMeta = {};
+      }
+
+      const _alreadyProcessed = state.announcementsMeta[payload.id]?.processed || false;
+
+      state.announcementsMeta = {
+        ...state.announcementsMeta,
+        [payload.id]: {
+          processed: _alreadyProcessed || payload.processed,
+          lastSeen: new Date().getTime(),
+        } as AnnouncementMeta,
+      };
+      return {
+        ...state, // spread operator in requried here, otherwise persist do not register change
+      };
+
     case PURGE_EXPIRED_CACHE:
       const currentTime = new Date().getTime();
 
       if (state.votesCollection) {
-        for (const key in state.votesCollection) {
-          if (state.votesCollection.hasOwnProperty(key)) {
-            const vote = state.votesCollection[key];
-            if (vote && (vote?.expiresAt || 0) < currentTime) {
-              delete state.votesCollection[key];
-            }
+        Object.keys(state.votesCollection).forEach((key) => {
+          const vote = state.votesCollection[key];
+          if (vote && (vote?.expiresAt || 0) < currentTime) {
+            delete state.votesCollection[key];
           }
-        }
+        });
       }
 
       if (state.commentsCollection) {
-        for (const key in state.commentsCollection) {
-          if (state.commentsCollection.hasOwnProperty(key)) {
-            const comment = state.commentsCollection[key];
-            if (comment && (comment?.expiresAt || 0) < currentTime) {
-              delete state.commentsCollection[key];
-            }
+        Object.keys(state.commentsCollection).forEach((key) => {
+          const comment = state.commentsCollection[key];
+          if (comment && (comment?.expiresAt || 0) < currentTime) {
+            delete state.commentsCollection[key];
           }
-        }
+        });
+      }
+
+      if (state.pollVotesCollection) {
+        Object.keys(state.pollVotesCollection).forEach((key) => {
+          const vote = state.pollVotesCollection[key];
+          if (vote && (vote?.expiresAt || 0) < currentTime) {
+            delete state.pollVotesCollection[key];
+          }
+        });
       }
 
       if (state.draftsCollection) {
-        for (const key in state.draftsCollection) {
-          if (state.draftsCollection.hasOwnProperty(key)) {
-            const draft = state.draftsCollection[key];
-            if (draft && ((draft?.expiresAt || 0) < currentTime || !draft.body)) {
-              delete state.draftsCollection[key];
-            }
+        Object.keys(state.draftsCollection).forEach((key) => {
+          const draft = state.draftsCollection[key];
+          if (draft && ((draft?.expiresAt || 0) < currentTime || !draft.body)) {
+            delete state.draftsCollection[key];
           }
-        }
+        });
       }
 
       if (state.claimsCollection) {
-        for (const key in state.claimsCollection) {
-          if (state.claimsCollection.hasOwnProperty(key)) {
-            const claim = state.claimsCollection[key];
-            if (claim && (claim?.expiresAt || 0) < currentTime) {
-              delete state.claimsCollection[key];
-            }
+        Object.keys(state.claimsCollection).forEach((key) => {
+          const claim = state.claimsCollection[key];
+          if (claim && (claim?.expiresAt || 0) < currentTime) {
+            delete state.claimsCollection[key];
           }
-        }
+        });
       }
 
       if (state.subscribedCommunities && state.subscribedCommunities.size) {
@@ -306,4 +362,6 @@ export default function (state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+export default cacheReducer;

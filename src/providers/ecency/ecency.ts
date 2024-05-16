@@ -1,5 +1,4 @@
 import { isArray } from 'lodash';
-import api from '../../config/api';
 import bugsnagInstance from '../../config/bugsnag';
 import ecencyApi from '../../config/ecencyApi';
 import { upload } from '../../config/imageApi';
@@ -7,6 +6,7 @@ import serverList from '../../config/serverListApi';
 import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
 import {
+  convertAnnouncement,
   convertCommentHistory,
   convertDraft,
   convertLatestQuotes,
@@ -31,13 +31,13 @@ import {
  * ************************************
  */
 
-export const getCurrencyRate = (currency) =>
+export const getFiatHbdRate = (fiatCode: string) =>
   ecencyApi
-    .get(`/private-api/market-data/${currency}/hbd?fixed=1`)
+    .get(`/private-api/market-data/${fiatCode}/hbd`)
     .then((resp) => resp.data)
     .catch((err) => {
       bugsnagInstance.notify(err);
-      //TODO: save currency rate of offline values
+      // TODO: save currency rate of offline values
       return 1;
     });
 
@@ -53,7 +53,7 @@ export const getLatestQuotes = async (currencyRate: number): Promise<LatestMarke
     const data = convertLatestQuotes(res.data, currencyRate);
     console.log('parsed quotes data', data, currencyRate);
 
-    //TODO fetch engine quotes here
+    // TODO fetch engine quotes here
 
     return data;
   } catch (error) {
@@ -119,15 +119,15 @@ export const deleteDraft = async (draftId: string) => {
 /**
  * @param draft
  */
-export const addDraft = async (draft: Object) => {
+export const addDraft = async (draft: any) => {
   const { title, body, tags, meta } = draft;
   try {
     const newDraft = { title, body, tags, meta };
     const res = await ecencyApi.post('/private-api/drafts-add', newDraft);
     const rawData = res.data?.drafts;
 
-    if(!rawData){
-      throw new Error("Invalid response, drafts data not returned")
+    if (!rawData) {
+      throw new Error('Invalid response, drafts data not returned');
     }
 
     const data = rawData.length > 0 ? rawData.map(convertDraft) : [];
@@ -151,7 +151,7 @@ export const updateDraft = async (
   title: string,
   body: string,
   tags: string,
-  meta: Object,
+  meta: any,
 ) => {
   try {
     const data = { id: draftId, title, body, tags, meta };
@@ -223,9 +223,18 @@ export const deleteBookmark = async (bookmarkId: string) => {
   }
 };
 
+/**
+ * TOOD:
+ * POST /private-api/report
+ *
+ * body:
+ * type:string
+ * data:string
+ *
+ * */
 export const addReport = async (type: 'content' | 'user', data: string) => {
   try {
-    const response = await api.post('/report', {
+    const response = await ecencyApi.post('/private-api/report', {
       type,
       data,
     });
@@ -237,10 +246,20 @@ export const addReport = async (type: 'content' | 'user', data: string) => {
   }
 };
 
-export const deleteAccount = async (username: string) => {
+/**
+ * TOOD:
+ * POST /private-api/request-delete
+ *
+ * body:
+ * username:string
+ * data:string
+ *
+ * */
+export const deleteAccount = async (username: string, data: string) => {
   try {
-    const response = await api.post('/request-delete', {
+    const response = await ecencyApi.post('/private-api/request-delete', {
       username,
+      data,
     });
     return response.data;
   } catch (err) {
@@ -526,7 +545,7 @@ export const searchPath = async (q: string) => {
  * @param random random
  * @returns array of accounts
  */
-export const searchAccount = async (q: string = '', limit: number = 20, random: number = 0) => {
+export const searchAccount = async (q = '', limit = 20, random = 0) => {
   try {
     const data = {
       q,
@@ -549,7 +568,7 @@ export const searchAccount = async (q: string = '', limit: number = 20, random: 
  * @param random random
  * @returns array of accounts
  */
-export const searchTag = async (q: string = '', limit: number = 20, random: number = 0) => {
+export const searchTag = async (q = '', limit = 20, random = 0) => {
   try {
     const data = {
       q,
@@ -725,7 +744,7 @@ export const uploadImage = async (media, username, sign, uploadProgress = null) 
 
 export const getNodes = async () => {
   try {
-    const response = await serverList.get('/');
+    const response = await serverList.get('');
     console.log('nodes response', response.data);
 
     if (!response.data?.hived) {
@@ -779,21 +798,76 @@ export const getPromotedEntries = async (username: string) => {
 };
 
 /**
+ * fetches boost plus prices
+ * @returns array of prices
+ */
+export const getBoostPlusPrice = async () => {
+  try {
+    console.log('Fetching boost plus prices');
+    return ecencyApi.post('/private-api/boost-plus-price').then((resp) => {
+      return resp.data;
+    });
+  } catch (error) {
+    console.warn('Failed to get boost plus prices');
+    bugsnagInstance.notify(error);
+    return error;
+  }
+};
+
+/**
+ * fetches boost plus account
+ * @param account for knowing if already boosted
+ * @returns array
+ */
+export const getBoostPlusAccount = async (account: string) => {
+  const data = {
+    account,
+  };
+  try {
+    console.log('Fetching boosted plus account');
+    return ecencyApi.post('/private-api/boosted-plus-account', data).then((resp) => {
+      return resp.data;
+    });
+  } catch (error) {
+    console.warn('Failed to get boost plus prices');
+    bugsnagInstance.notify(error);
+    return error;
+  }
+};
+
+/**
+* TOOD:
+* POST /private-api/purchase-order
+*
+* body:
+* platform:string
+* product:string
+* receipt:string
+* user:string
+
+NOTE: data or type PurchaseRequestData should contain body, pass as it is
+* */
+
+/**
  * post inapp purchase method to call
  * @param data PurchaseRequestData
  * @returns
- **/
-export const purchaseOrder = (data: PurchaseRequestData) =>
-  api
-    .post('/purchase-order', data)
-    .then((resp) => resp.data)
-    .catch((error) => bugsnagInstance.notify(error));
+ * */
 
-export const getPostReblogs = (data) =>
-  api
-    .get(`/post-reblogs/${data.author}/${data.permlink}`)
-    .then((resp) => resp.data)
-    .catch((error) => bugsnagInstance.notify(error));
+// api
+//   .post('/purchase-order', data)
+//   .then((resp) => resp.data)
+//   .catch((error) => bugsnagInstance.notify(error));
+
+export const purchaseOrder = async (data: PurchaseRequestData) => {
+  try {
+    const response = await ecencyApi.post('/private-api/purchase-order', data);
+    return response.data;
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    throw error;
+  }
+};
 
 /**
  * Registers new user with ecency and hive, on confirmation sends
@@ -884,6 +958,23 @@ export const getCommentHistory = async (
       throw new Error('No history data!');
     }
     return res?.data?.list.map((item) => convertCommentHistory(item));
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    throw error;
+  }
+};
+
+export const getAnnouncements = async (accessToken: string) => {
+  try {
+  
+    const params = accessToken ? { code:accessToken } : null
+
+    const res = await ecencyApi.get('/private-api/announcements', { params });
+    console.log('announcements fetcehd', res.data);
+    if (!res.data) {
+      throw new Error('No announcements found!');
+    }
+    return res?.data.map(convertAnnouncement);
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;

@@ -9,7 +9,7 @@ module.exports = (api) => {
   // Reanimated should be last plugin added in babel
   plugins.push(['react-native-reanimated/plugin']);
   return {
-    presets: ['module:metro-react-native-babel-preset'],
+    presets: ['module:@react-native/babel-preset'],
     sourceMaps: true,
     plugins,
   };

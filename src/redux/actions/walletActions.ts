@@ -63,7 +63,7 @@ export const fetchCoinQuotes = () => (dispatch, getState) => {
 };
 
 export const fetchAndSetCoinsData =
-  (refresh: boolean = false) =>
+  (refresh = false) =>
   async (dispatch: AppDispatch, getState: RootState) => {
     const coins = getState().wallet.selectedCoins;
     const { quotes } = getState().wallet;

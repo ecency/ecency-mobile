@@ -52,7 +52,7 @@ export const login = async (username, password) => {
   const privateKeys = getPrivateKeys(username, password);
 
   // Check all keys
-  Object.keys(publicKeys).map((pubKey) => {
+  Object.keys(publicKeys).forEach((pubKey) => {
     if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
       loginFlag = true;
       if (privateKeys.isMasterKey) {
@@ -330,27 +330,27 @@ export const getUpdatedUserData = (userData, data) => {
     masterKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY
         ? encryptKey(data.password, get(data, 'pinCode'))
-        : '',
+        : get(userData, 'masterKey', ''),
     postingKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-      get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
+        get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
         ? encryptKey(get(privateKeys, 'postingKey', '').toString(), get(data, 'pinCode'))
-        : '',
+        : get(userData, 'postingKey', ''),
     activeKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-      get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
+        get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
         ? encryptKey(get(privateKeys, 'activeKey', '').toString(), get(data, 'pinCode'))
-        : '',
+        : get(userData, 'activeKey', ''),
     memoKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-      get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
+        get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
         ? encryptKey(get(privateKeys, 'memoKey', '').toString(), get(data, 'pinCode'))
-        : '',
+        : get(userData, 'memoKey', ''),
     ownerKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-      get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
+        get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
         ? encryptKey(get(privateKeys, 'ownerKey', '').toString(), get(data, 'pinCode'))
-        : '',
+        : get(userData, 'ownerKey', ''),
   };
 };
 
@@ -369,22 +369,38 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
   // // Set private keys of user
   const privateKeys = getPrivateKeys(data.username, data.password);
 
-  // Check all keys
-  Object.keys(publicKeys).map((pubKey) => {
+  // Check all keys and set authType
+  let authType = '';
+  Object.keys(publicKeys).forEach((pubKey) => {
     if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
       loginFlag = true;
+      if (privateKeys.isMasterKey) {
+        authType = AUTH_TYPE.MASTER_KEY;
+      } else {
+        authType = pubKey;
+      }
     }
   });
 
+
+
   if (loginFlag) {
-    currentAccountData.local = {
+    const _prevAuthType = currentAccountData.authType
+
+    const _localData = {
       ...currentAccountData.local,
-      masterKey: encryptKey(data.password, get(data, 'pinCode')),
-      postingKey: encryptKey(get(privateKeys, 'postingKey', '').toString(), get(data, 'pinCode')),
-      activeKey: encryptKey(get(privateKeys, 'activeKey', '').toString(), get(data, 'pinCode')),
-      memoKey: encryptKey(get(privateKeys, 'memoKey', '').toString(), get(data, 'pinCode')),
-      ownerKey: encryptKey(get(privateKeys, 'ownerKey', '').toString(), get(data, 'pinCode')),
-    };
+      authType
+    }
+    const _userData = getUpdatedUserData(_localData, data)
+
+    //sustain appropriate authType;
+    if(_prevAuthType === AUTH_TYPE.STEEM_CONNECT){
+      _userData.authType = _prevAuthType;
+    }
+    
+    await setUserData(_userData);
+    currentAccountData.local = _userData
+    
     return currentAccountData;
   }
   return Promise.reject(new Error('auth.invalid_credentials'));

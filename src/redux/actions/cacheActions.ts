@@ -16,17 +16,19 @@ import {
   UPDATE_POINT_ACTIVITY_CACHE,
   UPDATE_CLAIM_CACHE,
   DELETE_CLAIM_CACHE_ENTRY,
+  UPDATE_ANNOUNCEMENTS_META,
+  UPDATE_POLL_VOTE_CACHE,
 } from '../constants/constants';
 import {
-  ClaimCache,
   Comment,
   CacheStatus,
   Draft,
   SubscribedCommunity,
-  Vote,
+  VoteCache,
+  PollVoteCache,
 } from '../reducers/cacheReducer';
 
-export const updateVoteCache = (postPath: string, vote: Vote) => ({
+export const updateVoteCache = (postPath: string, vote: VoteCache) => ({
   payload: {
     postPath,
     vote,
@@ -93,6 +95,14 @@ export const updateCommentCache = (
     type: UPDATE_COMMENT_CACHE,
   };
 };
+
+export const updatePollVoteCache = (postPath: string, pollVote: PollVoteCache) => ({
+  payload: {
+    postPath,
+    pollVote,
+  },
+  type: UPDATE_POLL_VOTE_CACHE,
+});
 
 export const deleteCommentCacheEntry = (commentPath: string) => ({
   payload: commentPath,
@@ -166,6 +176,14 @@ export const updatePointActivityCache = (id: string, pointActivity: PointActivit
 export const deletePointActivityCache = (id: string) => ({
   payload: id,
   type: DELETE_POINT_ACTIVITY_CACHE_ENTRY,
+});
+
+export const updateAnnoucementsMeta = (id: string, processed: boolean) => ({
+  payload: {
+    id,
+    processed,
+  },
+  type: UPDATE_ANNOUNCEMENTS_META,
 });
 
 export const purgeExpiredCache = () => ({

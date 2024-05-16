@@ -2,9 +2,12 @@
   "wallet": {
     "curation_reward": "審查獎勵",
     "author_reward": "作者獎勵",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "受益者獎勵分配",
     "claim_reward_balance": "領取獎勵",
+    "points_activity": "Activity",
     "transfer": "轉賬",
+    "recurrent_transfer": "Recurrent Transfer",
     "power_up": "轉為 Hive Power",
     "transfer_from_savings": "從儲蓄轉出",
     "withdraw_savings": "從儲存提款出來",
@@ -49,14 +52,14 @@
     "checkin_extra_desc": "持續使用Ecency應用，您就有額外機會獲得更多的ecency點數，越活躍，賺得越多。",
     "dropdown_transfer": "贈送",
     "dropdown_promote": "推廣",
-    "dropdown_boost": "增加收益",
+    "dropdown_boost": "Boost+",
     "from": "來自",
     "to": "至",
     "estimated_value_desc": "取決於購買積分的價值",
     "estimated_value": "估計價值",
     "vote_value": "估計點贊價值",
     "delegated_hive_power": "代理Hive Power",
-    "powering_down_hive_power": "斷電中",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "已接收的 Hive Power(HP)",
     "total_hive_power": "Hive Power點贊力總額",
     "savings": "存款",
@@ -83,6 +86,7 @@
     "withdraw_hive": "從儲存提款Hive出來",
     "withdraw_hbd": "從儲存提款HBD出來",
     "transfer_to_savings": "轉為儲蓄",
+    "swap_token": "Swap Token",
     "convert": "兌換",
     "convert_request": "提出兌換要求",
     "escrow_transfer": "託管轉帳",
@@ -247,7 +251,7 @@
     "this_week": "本週",
     "last_week": "最後一周",
     "this_month": "本月",
-    "older_then": "一個月前",
+    "older_then": "Last Month & Older",
     "activities": "全部",
     "replies": "回覆",
     "mentions": "提及",
@@ -299,7 +303,10 @@
       "display_name": "顯示名",
       "about": "關於",
       "location": "位置",
-      "website": "網站"
+      "website": "網站",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
@@ -372,12 +379,13 @@
     "no_user": "找不到用戶。"
   },
   "login": {
-    "signin": "登入",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "立即加入",
     "signin_title": "登錄以獲得更多Ecency的好處",
-    "username": "使用者名稱",
-    "password": "密碼或WIF",
-    "description": "登錄並同意服務條款和隱私政策",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "取消",
     "login": "登錄",
     "steemconnect_description": "假如您不想將您的密碼保存在手機，您可以使用Hivesigner。",
@@ -389,7 +397,10 @@
     "deep_login_alert_title": "Easy Login @{username}",
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Get Hive Account",
@@ -412,7 +423,9 @@
       "username_contains_double_hyphens": "Should not contain double hyphens",
       "username_contains_underscore": "Should not contain underscore",
       "username_exists": "Username already exists, try a different one"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "朋友圈",
@@ -456,6 +469,22 @@
     "update": "更新",
     "reply": "回覆",
     "schedule": "排程發帖"
+  },
+  "account_list": {
+    "title": "Users"
+  },
+  "post_poll": {
+    "voters": "Voters",
+    "voted": "voted",
+    "hp": "HP",
+    "view_stats": "View Stats",
+    "hide_stats": "Hide Stats",
+    "ended": "Ended",
+    "ends": "Ends {inTime}",
+    "age_limit": "• Only accounts older than {days} days allowed",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "標題",
@@ -510,6 +539,7 @@
     "scheduled_for": "預定發帖",
     "scheduled_immediate": "Immediate",
     "scheduled_later": "Later",
+    "schedule_video_unsupported": "Scheduling video posts not available",
     "settings_title": "Post Options",
     "done": "DONE",
     "draft_save_title": "Saving Draft",
@@ -525,7 +555,9 @@
     "invalid_url_error": "Please insert valid url",
     "plain": "Plain",
     "video": "Video",
-    "image": "Image"
+    "image": "Image",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "沒找到片段",
@@ -550,10 +582,20 @@
     "btn_add": "圖片",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "confirm_delete": "Are you sure you want to delete selected items from your uploads",
     "message_failed": "圖片上傳失效",
     "delete_failed": "Failed to delete image",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)",
+    "publish_manual": "Ready",
+    "published": "Published",
+    "encoding_ipfs": "Encoding",
+    "encoding_preparing": "Preparing",
+    "deleted": "Deleted",
+    "start_upload": "START UPLOAD",
+    "uploading": "UPLOADING",
+    "select_thumb": "Select Thumbnail",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "輸入PIN碼解鎖",
@@ -574,6 +616,10 @@
     "move": "移動",
     "continue": "Continue",
     "okay": "Okay",
+    "done": "Done",
+    "notice": "Notice!",
+    "close": "CLOSE",
+    "later": "Later",
     "move_question": "您確定要存為草稿嗎？",
     "success_shared": "成功遞交！內容已經上載成功。",
     "success_moved": "存為草稿",
@@ -597,6 +643,7 @@
     "warning": "警告",
     "invalid_pincode": "無效的PIN碼，請核對後再試一次。",
     "remove_alert": "確定要刪除嗎？",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "您確定要清除嗎？",
     "clear_user_alert": "您確定要清除所有用戶數據嗎？",
     "decrypt_fail_alert": "應用程序錯亂，請重新登錄",
@@ -661,7 +708,8 @@
     "wrong_link": "連結錯誤",
     "in": "in",
     "reveal_muted": "MUTED\nTap to reveal content",
-    "posted_by": "Posted by {username} via {appname} "
+    "posted_by": "Posted by {username} via {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "草稿",
@@ -739,7 +787,8 @@
     "pin-community": "置頂于社群",
     "unpin-community": "取消社區置頂",
     "edit-history": "更改副本",
-    "mute": "Mute / Block"
+    "mute": "Mute / Block",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "用户不存在",
@@ -763,13 +812,19 @@
     "to": "至",
     "amount_information": "拖動滑塊來調整數量",
     "amount": "數量",
+    "executions": "Executions",
+    "recurrence": "Recurrence",
     "memo": "備註（Memo）",
+    "recurrent_transfer": "Recurrent Transfer",
+    "delete_recurrent_transfer": "Delete Recurrent Transfer ",
     "information": "Continue transaction?",
     "amount_desc": "餘額",
     "memo_desc": "這個備註是公開的",
     "convert_desc": "兌換需要3.5天時間。如果HBD市價超過一美元不鼓勵兌換",
     "to_placeholder": "用戶名",
     "memo_placeholder": "在此輸入您的備註",
+    "recurrence_placeholder": "Choose Recurrence",
+    "executions_placeholder": "Number of Repeats",
     "transfer_token": "轉帳",
     "purchase_estm": "購買點數",
     "convert": "HBD 兌換 Hive",
@@ -834,14 +889,28 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001"
   },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Entered amount is more than your available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
+    "fee": "Fee",
+    "free": "Free",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped",
+    "swap_pending": "Swap Pending!",
+    "swap_pending_body": "Swap requests may be pending, please check pending open orders in selected token details",
+    "new_swap": "New Swap"
+  },
   "boost": {
     "title": "獲取積分",
     "buy": "購買積分",
     "next": "下一個",
     "info": "收到的點贊金額可能會有差異",
     "account": {
-      "title": "增加點贊力",
-      "desc": "30天的點贊力代理可以使您的點贊更有價值，得以回饋社區甚至造就自身的知名度。與此同時還可以廣大您的信用資源"
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "確認購買推薦給 @{username}",
     "confirm_purchase_summary": "使用 {points} 積分兌換點贊給 {username} 大約值 {price}",
@@ -877,6 +946,12 @@
   "boostPost": {
     "title": "推薦"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "獎勵",
     "percent": "百分比",
@@ -894,7 +969,7 @@
   },
   "comments": {
     "title": "評論",
-    "reveal_comment": "顯示評論",
+    "reveal_comment": "Reveal Content",
     "read_more": "查看更多評論",
     "more_replies": "回復",
     "no_comments": "Be the first to respond..."
@@ -991,8 +1066,11 @@
   },
   "quick_reply": {
     "placeholder": "Add a comment...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "Comment",
     "reply": "REPLY",
+    "publish": "PUBLISH",
     "close": "CLOSE"
   },
   "walkthrough": {
@@ -1013,10 +1091,34 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url."
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
+    "confirmTransaction": "Confirm transaction",
+    "approve": "Approve",
+    "cancel": "Cancel",
+    "multi_array_ops_alert": "Operation not supported by Ecency",
+    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations yet",
+    "invalid_op": "Invalid operation data",
+    "invalid_op_desc": "try contacting QR/link author",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Enter valid amount in proper format",
+    "transaction_failed": "Transaction Failed!",
+    "invalid_key": "{key} key is required to perform this transaction",
+    "invalid_key_desc": "kindly login with {key} key or master key to perform this transaction"
   },
   "history": {
     "edit": "Edit History",
     "version": "Version"
+  },
+  "chain-error": {
+    "min-root-comment": "You may only post once every five minutes.",
+    "identical-vote": "Your current vote on this content is identical to this vote.",
+    "insufficient-resource": "Insufficient Resource Credits.",
+    "delete-comment-with-vote": "Cannot delete a content with positive pending rewards.",
+    "comment-cashout": "Content after their payout cannot be deleted.",
+    "comment-children": "Cannot delete a content with replies.",
+    "paid-out-post-forbidden": "Voting for paid out content is not available.",
+    "missing-authority": "This operation requires Active private key or authority.",
+    "missing-owner-authority": "This operation requires Owner private key or authority.",
+    "insufficient_fund": "Insufficient Funds"
   }
 }

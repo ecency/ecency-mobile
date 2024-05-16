@@ -18,7 +18,7 @@ export default EStyleSheet.create({
   icon: {
     alignSelf: 'center',
     fontSize: 25,
-    marginLeft: 20,
+    marginLeft: 16,
   },
   text: {
     color: 'white',
@@ -26,8 +26,8 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     fontSize: 14,
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 16,
+    paddingRight: 16,
   },
   secondText: {
     fontWeight: 'bold',

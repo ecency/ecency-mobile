@@ -12,6 +12,13 @@ export default EStyleSheet.create({
     height: 30,
     marginTop: 8,
   },
+  imgLabel: {
+    marginTop: 8,
+    marginBottom: 8,
+    fontSize: 14,
+    color: '$primaryDarkText',
+    fontWeight: '500',
+  },
   label: {
     marginTop: 8,
     fontSize: 14,
@@ -19,7 +26,7 @@ export default EStyleSheet.create({
     fontWeight: '500',
   },
   formItem: {
-    marginBottom: 20,
+    marginBottom: 12,
   },
   coverImg: {
     borderRadius: 5,
@@ -30,14 +37,14 @@ export default EStyleSheet.create({
   },
   coverImageWrapper: {},
   addIcon: {
-    color: '$white',
+    color: 'white',
     textAlign: 'center',
   },
   addButton: {
-    backgroundColor: '$iconColor',
-    width: 20,
-    height: 20,
-    borderRadius: 20 / 2,
+    backgroundColor: '$primaryBlue',
+    width: 30,
+    height: 30,
+    borderRadius: 30 / 2,
     borderColor: '$white',
     borderWidth: 1,
     position: 'absolute',

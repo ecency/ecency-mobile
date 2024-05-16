@@ -14,8 +14,6 @@ import {
   IS_LOGIN_DONE,
   IS_NOTIFICATION_OPEN,
   LOGIN,
-  LOGOUT_DONE,
-  LOGOUT,
   SET_API,
   SET_CURRENCY,
   SET_LANGUAGE,
@@ -32,6 +30,7 @@ import {
   SET_TERMS_ACCEPTED,
   SET_IS_BIOMETRIC_ENABLED,
   SET_ENC_UNLOCK_PIN,
+  SET_WAVE_UPVOTE_PERCENT,
 } from '../constants/constants';
 
 interface State {
@@ -62,6 +61,7 @@ interface State {
   };
   postUpvotePercent: number;
   commentUpvotePercent: number;
+  waveUpvotePercent: number;
   nsfw: string;
   pin: string | null; // encrypted pin used for encrypting sensitive user data
   isPinCodeOpen: boolean;
@@ -75,7 +75,7 @@ interface State {
 }
 
 const initialState: State = {
-  api: 'rpc.ecency.com',
+  api: 'https://api.hive.blog',
   currency: {
     currency: 'usd',
     currencyRate: 1,
@@ -102,6 +102,7 @@ const initialState: State = {
   },
   postUpvotePercent: 1,
   commentUpvotePercent: 1,
+  waveUpvotePercent: 1,
   nsfw: '1',
   pin: null,
   isPinCodeOpen: false,
@@ -114,7 +115,7 @@ const initialState: State = {
   isBiometricEnabled: false,
 };
 
-export default function (state = initialState, action): State {
+const applicationReducer = (state = initialState, action): State => {
   switch (action.type) {
     case LOGIN:
       return {
@@ -240,6 +241,10 @@ export default function (state = initialState, action): State {
       return Object.assign({}, state, {
         commentUpvotePercent: action.payload,
       });
+    case SET_WAVE_UPVOTE_PERCENT:
+      return Object.assign({}, state, {
+        waveUpvotePercent: action.payload,
+      });
     case SET_NSFW:
       return Object.assign({}, state, {
         nsfw: action.payload,
@@ -297,4 +302,6 @@ export default function (state = initialState, action): State {
     default:
       return state;
   }
-}
+};
+
+export default applicationReducer;

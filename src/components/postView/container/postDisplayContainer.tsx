@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { injectIntl, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Action
@@ -8,7 +8,6 @@ import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Dsteem
 import { deleteComment } from '../../../providers/hive/dhive';
-import { getPostReblogs } from '../../../providers/ecency/ecency';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -25,6 +24,7 @@ const PostDisplayContainer = ({
   isNewPost,
   parentPost,
   isPostUnavailable,
+  isWavePost,
   author,
   permlink,
 }) => {
@@ -32,23 +32,20 @@ const PostDisplayContainer = ({
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
 
-  const currentAccount = useAppSelector(state => state.account.currentAccount);
-  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
-  const pinCode = useAppSelector(state => state.application.pin);
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const pinCode = useAppSelector((state) => state.application.pin);
 
   const [activeVotes, setActiveVotes] = useState([]);
   const [activeVotesCount, setActiveVotesCount] = useState(0);
-  const [reblogs, setReblogs] = useState([]);
 
   useEffect(() => {
     if (post) {
       console.log('Gettting reblogs inside postDisplayContainer');
       const votes = get(post, 'active_votes', []);
+      const activeVotesCount = get(post, 'stats.total_votes', 0);
       setActiveVotes(votes);
-      setActiveVotesCount(votes.length);
-      getPostReblogs(post).then((result) => {
-        setReblogs(result || []);
-      });
+      setActiveVotesCount(activeVotesCount);
     }
   }, [post]);
 
@@ -70,7 +67,7 @@ const PostDisplayContainer = ({
   };
 
   const _handleOnReblogsPress = () => {
-    if (reblogs.length > 0) {
+    if (post.reblogs > 0) {
       navigation.navigate({
         name: ROUTES.SCREENS.REBLOGS,
         params: {
@@ -78,7 +75,7 @@ const PostDisplayContainer = ({
           author,
           permlink,
         },
-        key: post.permlink + reblogs.length,
+        key: post.permlink + post.reblogs.length,
       } as never);
     }
   };
@@ -125,14 +122,11 @@ const PostDisplayContainer = ({
     });
   };
 
-
-
   const _fetchPost = async () => {
     if (post) {
       fetchPost(post.author, post.permlink);
     }
   };
-
 
   return (
     <PostDisplayView
@@ -146,17 +140,15 @@ const PostDisplayContainer = ({
       post={post}
       activeVotes={activeVotes}
       activeVotesCount={activeVotesCount}
-      reblogs={reblogs}
+      isWavePost={isWavePost}
       fetchPost={_fetchPost}
       handleOnEditPress={_handleOnEditPress}
       handleOnRemovePress={_handleDeleteComment}
       handleOnReplyPress={_handleOnReplyPress}
       handleOnVotersPress={_handleOnVotersPress}
       handleOnReblogsPress={_handleOnReblogsPress}
-
     />
   );
 };
 
-
-export default injectIntl(PostDisplayContainer);
+export default PostDisplayContainer;

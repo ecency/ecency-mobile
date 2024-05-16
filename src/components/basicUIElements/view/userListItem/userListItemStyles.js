@@ -98,4 +98,7 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  tooltipText: {
+    color: '$primaryDarkText',
+  },
 });

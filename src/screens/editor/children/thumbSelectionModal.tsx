@@ -2,7 +2,7 @@ import React, { useImperativeHandle, useRef, useState, forwardRef } from 'react'
 import { FlatList } from 'react-native-gesture-handler';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 
 import { View, Text, Alert, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
@@ -35,13 +35,13 @@ const ThumbSelectionModal = ({ onThumbSelection, thumbUrl }: ThumbSelectionModal
       }
 
       setImageUrls(urls);
-      sheetModalRef.current?.setModalVisible(true);
+      sheetModalRef.current?.show();
     },
   }));
 
   const _onSelection = (index: number) => {
     onThumbSelection(index);
-    sheetModalRef.current?.setModalVisible(false);
+    sheetModalRef.current?.hide();
   };
 
   // VIEW_RENDERERS
@@ -54,10 +54,10 @@ const ThumbSelectionModal = ({ onThumbSelection, thumbUrl }: ThumbSelectionModal
 
     return (
       <TouchableOpacity onPress={() => _onPress()}>
-        <FastImage
+        <ExpoImage
           source={{ uri: item }}
           style={{ ...styles.thumbStyle, ...selectedStyle }}
-          resizeMode="cover"
+          contentFit="cover"
         />
       </TouchableOpacity>
     );
@@ -83,9 +83,8 @@ const ThumbSelectionModal = ({ onThumbSelection, thumbUrl }: ThumbSelectionModal
     <ActionSheet
       ref={sheetModalRef}
       gestureEnabled={false}
-      hideUnderlay
       containerStyle={styles.sheetContent}
-      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+      indicatorStyle={{ backgroundColor: EStyleSheet.value('$primaryWhiteLightBackground') }}
     >
       {_renderContent()}
     </ActionSheet>

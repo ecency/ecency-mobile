@@ -2,9 +2,12 @@
   "wallet": {
     "curation_reward": "Tarkastuspalkinto",
     "author_reward": "Julkaisupalkinto",
+    "community_reward": "Yhteisöpalkkiot",
     "comment_benefactor_reward": "Hyötyjäpalkkio",
     "claim_reward_balance": "Lunasta palkkio ",
+    "points_activity": "Aktiivisuus",
     "transfer": "Siirto",
+    "recurrent_transfer": "Toistuva Siirto",
     "power_up": "Ansaintaan",
     "transfer_from_savings": "Säästöistä",
     "withdraw_savings": "Kotiuta säästöihin",
@@ -49,14 +52,14 @@
     "checkin_extra_desc": "Toistuva appin käyttö voi johtaa lisäpisteisiin, ole aktiivinen ja saat enemmän.",
     "dropdown_transfer": "Lahjoita",
     "dropdown_promote": "Korosta",
-    "dropdown_boost": "Tehosta",
+    "dropdown_boost": "Tehosta+",
     "from": "Lähettäjä",
     "to": "Vastaanottaja",
     "estimated_value_desc": "Ostohinnan mukaan",
     "estimated_value": "Arvioutu arvo",
     "vote_value": "Ääniarvo",
     "delegated_hive_power": "Valtuutettu Hive Power",
-    "powering_down_hive_power": "Tehon alentaminen",
+    "powering_down_hive_power": "Heikennys ({subValue})",
     "received_hive_power": "Vastaanotettu Hive Power",
     "total_hive_power": "Hive Power yhteensä",
     "savings": "Säästöt",
@@ -83,6 +86,7 @@
     "withdraw_hive": "Kotiuta säästöihin",
     "withdraw_hbd": "Kotiuta säästöt",
     "transfer_to_savings": "Säästöihin",
+    "swap_token": "Swap Token",
     "convert": "Muunna",
     "convert_request": "Muunnospyyntö",
     "escrow_transfer": "Escrow-siirto",
@@ -247,7 +251,7 @@
     "this_week": "Tällä Viikolla",
     "last_week": "Viime viikolla",
     "this_month": "Tässä kuussa",
-    "older_then": "Kuukautta vanhempi",
+    "older_then": "Kuukauden vanhat",
     "activities": "Kaikki",
     "replies": "Vastaukset",
     "mentions": "Maininnat",
@@ -299,7 +303,10 @@
       "display_name": "Näyttönimi",
       "about": "Tietoa",
       "location": "Sijainti",
-      "website": "Nettisivu"
+      "website": "Nettisivu",
+      "edit_profile": "Muokkaa profiilia",
+      "cover_img": "Kansikuva",
+      "profile_img": "Profiilikuva"
     }
   },
   "settings": {
@@ -347,7 +354,7 @@
     "backup_private_keys": "Hallitse Valtuuksia",
     "backup": "Hallinnoi",
     "keys_warning": "Herkkä tilitieto!\nEcency on suojattava PIN-koodilla ennen yksityisavainten katselua.",
-    "set_pin": "Set PIN",
+    "set_pin": "Aseta PIN-koodi",
     "backup_keys_modal": {
       "owner_key": "Omistajan Avain",
       "active_key": "Aktiivinen Avain",
@@ -372,12 +379,13 @@
     "no_user": "Käyttäjää ei löydy."
   },
   "login": {
-    "signin": "Kirjaudu sisään",
+    "signin": "Kirjaudu",
+    "login_with_hs": "Kirjaudu sisään hivesignerilla",
     "signup": "LIITY NYT",
     "signin_title": "Hyötyäksesi Ecencyn käytöstä",
-    "username": "Käyttäjänimi",
-    "password": "Salasana tai WIF",
-    "description": "Kirjautumalla sisään hyväksyt käyttöehdomme ja tietosuojamme periaatteet.",
+    "username": "käyttäjätunnus",
+    "password": "salasana / yksityinen avain",
+    "description": "Kirjautumalla sisään hyväksyt Käyttöehtomme ja Tietosuojamme periaatteet.",
     "cancel": "peruuta",
     "login": "KIRJAUDU SISÄÄN",
     "steemconnect_description": "Jos et halua säilyttää kryptattua salasanaa laitteessasi, voit käyttää Hivesigneriä.",
@@ -389,7 +397,10 @@
     "deep_login_alert_title": "Helppo kirjautuminen @{username}",
     "deep_login_alert_body": "Vahvista suora kirjautuminen pääsykoodilla",
     "deep_login_url_expired": "Kirjautumisosoite vanhentunut, käytä yksityistä avainta tai salasanaa kirjautuaksesi",
-    "deep_login_malformed_url": "Virheellinen sisäänkirjautumisosoite, käytä yksityistä avainta tai salasanaa kirjautumiseen"
+    "deep_login_malformed_url": "Virheellinen sisäänkirjautumisosoite, käytä yksityistä avainta tai salasanaa kirjautumiseen",
+    "no_account_text": "Eikö sinulla ole vielä tiliä?",
+    "signup_now": "Rekisteröidy nyt!",
+    "or": "TAI"
   },
   "register": {
     "modal_title": "Hanki Hive-tili",
@@ -412,7 +423,9 @@
       "username_contains_double_hyphens": "Ei kaksinkertaisia tavuviivoja",
       "username_contains_underscore": "Ei alaviivoja",
       "username_exists": "Käyttäjätunnus on jo olemassa, kokeile toista"
-    }
+    },
+    "have_account_text": "Onko sinulla jo tili?",
+    "login_here": "Kirjaudu sisään tästä"
   },
   "home": {
     "feed": "Syöte",
@@ -456,6 +469,22 @@
     "update": "Päivitä",
     "reply": "Vastaa",
     "schedule": "Ajasta"
+  },
+  "account_list": {
+    "title": "Käyttäjät"
+  },
+  "post_poll": {
+    "voters": "Äänestäjät",
+    "voted": "äänesti",
+    "hp": "HP",
+    "view_stats": "Näytä tilastot",
+    "hide_stats": "Piilota tilastot",
+    "ended": "Päättyi",
+    "ends": "Päättyy {inTime}",
+    "age_limit": "• {days} päivää vanhemmat tilit",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "Otsikko",
@@ -510,6 +539,7 @@
     "scheduled_for": "Julkaisuaika",
     "scheduled_immediate": "Heti",
     "scheduled_later": "Myöhemmin",
+    "schedule_video_unsupported": "Videoiden ajoittaminen ei ole saatavilla",
     "settings_title": "Julkaisuasetukset",
     "done": "VALMIS",
     "draft_save_title": "Tallennetaan luonnosta",
@@ -525,7 +555,9 @@
     "invalid_url_error": "Syötä kelvollinen URL",
     "plain": "Yksinkertainen",
     "video": "Video",
-    "image": "Kuva"
+    "image": "Kuva",
+    "short_desc": "Lyhyt kuvaus",
+    "short_desc_placeholder": "Lyhyt yhteenveto sisällöstä"
   },
   "snippets": {
     "label_no_snippets": "Katkelmia ei löytynyt",
@@ -550,10 +582,20 @@
     "btn_add": "Kuva",
     "btn_insert": "Lisää",
     "btn_delete": "POISTA",
-    "confirm_delete": "Haluatko varmasti poistaa kuvat latauksistasi",
+    "confirm_delete": "Haluatko varmasti poistaa valitut kohteet latauksistasi",
     "message_failed": "Kuvan lataaminen epäonnistui",
     "delete_failed": "Kuvan poisto epäonnistui",
-    "failed_count": "Ei voitu ladata {failedCount} valituista kuvista {totalCount}"
+    "failed_count": "Ei voitu ladata {failedCount} valituista kuvista {totalCount}",
+    "publish_manual": "Valmis",
+    "published": "Julkaistu",
+    "encoding_ipfs": "Koodaus",
+    "encoding_preparing": "Valmistellaan",
+    "deleted": "Poistettu",
+    "start_upload": "ALOITA LATAUS",
+    "uploading": "LADATAAN",
+    "select_thumb": "Valitse pienoiskuva",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "Poista lukitus antamalla PIN-koodi",
@@ -574,6 +616,10 @@
     "move": "Siirrä",
     "continue": "Jatka",
     "okay": "Ok",
+    "done": "Valmis",
+    "notice": "Huom!",
+    "close": "SULJE",
+    "later": "Myöhemmin",
     "move_question": "Haluatko varmasti siirtää luonnoksiin?",
     "success_shared": "Onnistui! Sisältö lähetetty!",
     "success_moved": "Siirretty luonnoksiin",
@@ -597,6 +643,7 @@
     "warning": "Varoitus",
     "invalid_pincode": "Virheellinen PIN-koodi, tarkista koodi ja yritä uudelleen.",
     "remove_alert": "Haluatko varmasti poistaa?",
+    "remove_all_alert": "Haluatko varmasti poistaa kaikki valitut?",
     "clear_alert": "Haluatko varmasti poistaa?",
     "clear_user_alert": "Haluatko varmasti tyhjentää kaikki historiatiedot?",
     "decrypt_fail_alert": "Sovelluksen tila on virheellinen, ole hyvä ja kirjaudu uudelleen nollataksesi tilan.",
@@ -661,7 +708,8 @@
     "wrong_link": "Väärä linkki",
     "in": "yht",
     "reveal_muted": "Hiljennetty\nNapauta näyttääksesi sisällön",
-    "posted_by": "Julkaisija {username} {appname} kautta "
+    "posted_by": "Julkaisija {username} {appname} kautta ",
+    "ecency_waves": "Ecency Aallot"
   },
   "drafts": {
     "title": "Luonnokset",
@@ -739,7 +787,8 @@
     "pin-community": "Kiinnitä yhteisölle",
     "unpin-community": "Poista kiinnitys yhteisöstä",
     "edit-history": "Muokkaushistoria",
-    "mute": "Mykistä / Estä"
+    "mute": "Mykistä / Estä",
+    "translate": "Käännökset"
   },
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",
@@ -763,13 +812,19 @@
     "to": "Vastaanottaja",
     "amount_information": "Siirrä kytkintä muuttaaksesi määrää",
     "amount": "Määrä",
+    "executions": "Suoritukset",
+    "recurrence": "Toistuvuus",
     "memo": "Muistio",
+    "recurrent_transfer": "Toistuva Siirto",
+    "delete_recurrent_transfer": "Poista Toistuva Siirto ",
     "information": "Jatketaanko tapahtumaa?",
     "amount_desc": "Saldo",
     "memo_desc": "Tämä muistio on julkinen",
     "convert_desc": "Muunnoksessa kestää 3.5 päivää, eikä suositella jos HBD on yli $1",
     "to_placeholder": "Käyttäjänimi",
     "memo_placeholder": "Kirjoita viesti tähän",
+    "recurrence_placeholder": "Valitse Toistuvuus",
+    "executions_placeholder": "Toistojen määrä",
     "transfer_token": "Siirto",
     "purchase_estm": "Osta pisteitä",
     "convert": "Muunna HBD HIVEksi",
@@ -834,6 +889,20 @@
     "amount_select_description": "Syötä summa maksimaalisen käytettävissä olevan saldon mukaan {suffix}",
     "amount_select_desc_limit": " ja on oltava suurempi kuin 0,001"
   },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Syötetty summa on enemmän, kuin käytettävissä oleva saldo",
+    "offer-unavailable": "Tarjous ei ole saatavilla syötetylle summalle. Vähennä summaa",
+    "too-much-slippage": "Suosittelemme sinua vähentämään määrää paremman hinnoittelun vuoksi",
+    "fee": "Kulut",
+    "free": "Ilmainen",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped",
+    "swap_pending": "Swap Pending!",
+    "swap_pending_body": "Swap requests may be pending, please check pending open orders in selected token details",
+    "new_swap": "New Swap"
+  },
   "boost": {
     "title": "Hanki pisteitä",
     "buy": "Hanki Pisteitä",
@@ -841,7 +910,7 @@
     "info": "Antamasi äänen todellinen arvo voi vaihdella",
     "account": {
       "title": "Vastaanota Tilitehostus",
-      "desc": "30 päivän valtuutus tehostaa ääniäsi ja sosiaalista toimintaa, antaen lisää toimintoja ja Resurssipisteitä."
+      "desc": "Vaihtoehtoinen, sovelluksen sisäinen osto: 30 päivän valtuutus tehostaaksesi tiliäsi."
     },
     "confirm_purchase": "Vahvista ostos @{username}",
     "confirm_purchase_summary": "Ostetaan {points} {username} hintaan {price}",
@@ -877,6 +946,12 @@
   "boostPost": {
     "title": "Tehosta"
   },
+  "boost_plus": {
+    "title": "Tehosta+",
+    "confirm_boost": "Haluatko tehostaa Pisteillä?",
+    "confirm_boost_plus": "Haluatko tehostaa sovelluksen sisäisellä ostolla?",
+    "already_boosted": "Tili on jo tehostettu {date} asti"
+  },
   "voters_dropdown": {
     "rewards": "PALKKIOT",
     "percent": "PROS",
@@ -894,7 +969,7 @@
   },
   "comments": {
     "title": "Kommentit",
-    "reveal_comment": "Näytä kommentti",
+    "reveal_comment": "Näytä sisältö",
     "read_more": "Lue lisää kommentteja",
     "more_replies": "vastaukset",
     "no_comments": "Ole ensimmäinen kommentoija..."
@@ -991,8 +1066,11 @@
   },
   "quick_reply": {
     "placeholder": "Lisää kommentti...",
+    "placeholder_wave": "Mitä tapahtuu?",
+    "summary_wave": "Julkaistaan: {host}",
     "comment": "Kommentti",
     "reply": "VASTAA",
+    "publish": "Julkaise",
     "close": "SULJE"
   },
   "walkthrough": {
@@ -1013,10 +1091,34 @@
     "open": "Avaa URL",
     "detected_url": "Havaittu URL",
     "unsupported_alert_title": "URL-osoitetta ei tuettu!",
-    "unsupported_alert_desc": "Ole hyvä ja skannaa kelvollinen ecency url."
+    "unsupported_alert_desc": "Ecency-mobiilisovellus ei tue linkkiä",
+    "confirmTransaction": "Vahvista tapahtuma",
+    "approve": "Hyväksy",
+    "cancel": "Peruuta",
+    "multi_array_ops_alert": "Ecency ei tue toimintoa",
+    "multi_array_ops_aler_desct": "Ecency ei tue vielä useiden toimintojen vahvistamista",
+    "invalid_op": "Virheelliset toiminnon tiedot",
+    "invalid_op_desc": "ota yhteyttä QR/linkin tekijään",
+    "invalid_amount": "Virheellinen määrä",
+    "invalid_amount_desc": "Syötä kelvollinen summa oikeassa muodossa",
+    "transaction_failed": "Tapahtuma Epäonnistui!",
+    "invalid_key": "{key} vaaditaan siirron toteuttamiseksi",
+    "invalid_key_desc": "kirjaudu käyttämällä {key} avainta tai päänavainta tämän tapahtuman suorittamiseksi"
   },
   "history": {
     "edit": "Muokkaushistoria",
     "version": "Versio"
+  },
+  "chain-error": {
+    "min-root-comment": "Voit julkaista vain kerran viidessä minuutissa.",
+    "identical-vote": "Tämänhetkinen äänestyksenne tästä sisällöstä on sama kuin tässä äänestyksessä.",
+    "insufficient-resource": "Liian vähän Resurssihyvityksiä.",
+    "delete-comment-with-vote": "Sisältöä ei voi poistaa positiivisesta odottavasta palkkiosta johtuen.",
+    "comment-cashout": "Maksun jälkeen sisältöä ei voi poistaa.",
+    "comment-children": "Keskustelua, jossa on vastauksia, ei voi poistaa.",
+    "paid-out-post-forbidden": "Äänestäminen maksetusta sisällöstä ei ole saatavilla.",
+    "missing-authority": "Tämä operaatio vaatii aktiivisen yksityisen avaimen tai valtuuden.",
+    "missing-owner-authority": "Tämä toiminto vaatii omistajan yksityisen avaimen tai valtuuden.",
+    "insufficient_fund": "Riittämättömät varat"
   }
 }

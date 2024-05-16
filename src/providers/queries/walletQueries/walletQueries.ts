@@ -55,7 +55,7 @@ export const useUnclaimedRewardsQuery = () => {
   const _processCachedData = (rewardsCollection: RewardsCollection) => {
     if (claimsCollection) {
       const _curTime = new Date().getTime();
-      for (const key in claimsCollection) {
+      Object.keys(claimsCollection).forEach((key) => {
         const _claimCache = claimsCollection[key];
         const _rewardValue = rewardsCollection[key];
         if (
@@ -67,7 +67,7 @@ export const useUnclaimedRewardsQuery = () => {
         ) {
           delete rewardsCollection[key];
         }
-      }
+      });
     }
 
     return rewardsCollection;
@@ -239,11 +239,11 @@ export const useClaimRewardsMutation = () => {
       return isClaimingColl[assetId] || false;
     }
 
-    for (const key in isClaimingColl) {
+    Object.keys(isClaimingColl).forEach((key) => {
       if (isClaimingColl[key] === true) {
         return true;
       }
-    }
+    });
 
     return false;
   };
@@ -253,9 +253,6 @@ export const useClaimRewardsMutation = () => {
     checkIsClaiming,
   };
 };
-
-
-
 
 export const useActivitiesQuery = (assetId: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
@@ -278,15 +275,15 @@ export const useActivitiesQuery = (assetId: string) => {
       globalProps,
       startIndex: pageParam,
       limit: ACTIVITIES_FETCH_LIMIT,
-      isEngine: assetData.isEngine
+      isEngine: assetData.isEngine,
     });
 
-    console.log('new page fetched', _activites);
+    // console.log('new page fetched', _activites);
     return _activites || [];
   };
 
   const _getNextPageParam = (lastPage: any[]) => {
-    const lastId = lastPage && lastPage.length ? lastPage.lastItem.trxIndex : undefined;
+    const lastId = lastPage && lastPage.length ? lastPage.slice(-1)[0].trxIndex : undefined;
     console.log('extracting next page parameter', lastId);
     return lastId;
   };
@@ -300,6 +297,8 @@ export const useActivitiesQuery = (assetId: string) => {
     })),
   });
 
+  const _lastItem = queries[queries.length - 1]
+
   const _refresh = async () => {
     setIsRefreshing(true);
     setNoMoreData(false);
@@ -309,7 +308,7 @@ export const useActivitiesQuery = (assetId: string) => {
   };
 
   const _fetchNextPage = () => {
-    const lastPage = queries.lastItem;
+    const lastPage = queries.slice(-1)[0];
 
     if (!lastPage || lastPage.isFetching || lastPage.isLoading || noMoreData) {
       return;
@@ -320,7 +319,7 @@ export const useActivitiesQuery = (assetId: string) => {
       return;
     }
 
-    if (assetData.isEngine) { 
+    if (assetData.isEngine) {
       pageParams.push(pageParams.length);
       setPageParams([...pageParams]);
     } else {
@@ -330,25 +329,22 @@ export const useActivitiesQuery = (assetId: string) => {
         setPageParams([...pageParams]);
       }
     }
-
   };
 
   const _data = useMemo(() => {
     const _dataArrs = queries.map((query) => query.data);
     return unionBy(..._dataArrs, 'trxIndex');
-  }, [queries.lastItem?.data]);
+  }, [_lastItem?.data]);
 
+ 
   return {
     data: _data,
     isRefreshing,
-    isLoading: queries.lastItem.isLoading || queries.lastItem.isFetching,
+    isLoading: _lastItem?.isLoading || _lastItem?.isFetching,
     fetchNextPage: _fetchNextPage,
     refresh: _refresh,
   };
 };
-
-
-
 
 export const usePendingRequestsQuery = (assetId: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);

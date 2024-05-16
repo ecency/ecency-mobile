@@ -3,14 +3,14 @@ import { default as ROUTES } from './routeNames';
 const authMenuItems = [
   {
     name: 'Profile',
-    route: ROUTES.TABBAR.PROFILE,
+    route: ROUTES.SCREENS.PROFILE,
     icon: 'user',
     id: 'profile',
   },
   {
     name: 'Bookmarks',
     route: ROUTES.SCREENS.BOOKMARKS,
-    icon: 'ios-bookmarks-outline',
+    icon: 'bookmarks-outline',
     iconType: 'Ionicons',
     id: 'bookmarks',
   },

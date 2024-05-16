@@ -15,6 +15,9 @@ export default EStyleSheet.create({
     marginTop: -4,
     marginBottom: 4,
   },
+  titlePlaceholder: {
+    marginBottom: 4,
+  },
   title: {
     fontSize: 24,
     color: '$primaryBlack',

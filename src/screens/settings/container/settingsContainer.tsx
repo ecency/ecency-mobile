@@ -47,9 +47,10 @@ import {
   showActionModal,
   toastNotification,
 } from '../../../redux/actions/uiAction';
-import { setPushToken, getNodes, deleteAccount } from '../../../providers/ecency/ecency';
+import { setPushToken, deleteAccount } from '../../../providers/ecency/ecency';
 import { checkClient } from '../../../providers/hive/dhive';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { useGetServersQuery } from '../../../providers/queries';
 // Middleware
 
 // Constants
@@ -63,7 +64,6 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 
 // Component
 import SettingsScreen from '../screen/settingsScreen';
-import { SERVER_LIST } from '../../../constants/options/api';
 import ROUTES from '../../../constants/routeNames';
 
 /*
@@ -76,19 +76,9 @@ class SettingsContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      serverList: SERVER_LIST,
       isNotificationMenuOpen: props.isNotificationSettingsOpen,
       isLoading: false,
     };
-  }
-
-  // Component Life Cycle Functions
-  componentDidMount() {
-    getNodes().then((resp) => {
-      this.setState({
-        serverList: resp,
-      });
-    });
   }
 
   // Component Functions
@@ -129,13 +119,13 @@ class SettingsContainer extends Component {
   };
 
   _changeApi = async (action) => {
-    const { dispatch, selectedApi, intl } = this.props;
-    const { serverList } = this.state;
+    const { dispatch, selectedApi, intl, getServersQuery } = this.props as any;
+    const serverList = getServersQuery.data;
     const server = serverList[action];
     let serverResp;
     let isError = false;
     let alertMessage;
-    const client = new Client([server, 'https://rpc.ecency.com'], {
+    const client = new Client([server, 'https://api.hive.blog'], {
       timeout: 4000,
       failoverThreshold: 10,
       consoleOnFailover: true,
@@ -274,7 +264,7 @@ class SettingsContainer extends Component {
       type: actionType,
     });
 
-    Object.keys(notificationDetails).map((item) => {
+    Object.keys(notificationDetails).forEach((item) => {
       const notificationType = item.replace('Notification', '');
 
       if (notificationType === actionType.replace('notification.', '')) {
@@ -313,29 +303,35 @@ class SettingsContainer extends Component {
             navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
           });
         } else {
-          dispatch(showActionModal({
-            title:intl.formatMessage({id:'alert.warning'}),
-            body:intl.formatMessage({id:'settings.keys_warning'}),
-            buttons:[{
-              text:intl.formatMessage({id:'alert.cancel'}),
-              onPress:()=>{},
-              type:'destructive'
-            },{
-              text:intl.formatMessage({id:'settings.set_pin'}),
-              onPress:()=>{
-                navigation.navigate(ROUTES.SCREENS.PINCODE, {
-                  callback: () => {
-                    this._enableDefaultUnlockPin(true)
+          dispatch(
+            showActionModal({
+              title: intl.formatMessage({ id: 'alert.warning' }),
+              body: intl.formatMessage({ id: 'settings.keys_warning' }),
+              buttons: [
+                {
+                  text: intl.formatMessage({ id: 'alert.cancel' }),
+                  onPress: () => {
+                    console.log('cancel pressed');
                   },
-                  navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
-                  isReset: true,
-                  isOldPinVerified: true,
-                  oldPinCode: Config.DEFAULT_PIN,
-                });
-              }
-            }]
-          }))
-       
+                  type: 'destructive',
+                },
+                {
+                  text: intl.formatMessage({ id: 'settings.set_pin' }),
+                  onPress: () => {
+                    navigation.navigate(ROUTES.SCREENS.PINCODE, {
+                      callback: () => {
+                        this._enableDefaultUnlockPin(true);
+                      },
+                      navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
+                      isReset: true,
+                      isOldPinVerified: true,
+                      oldPinCode: Config.DEFAULT_PIN,
+                    });
+                  },
+                },
+              ],
+            }),
+          );
         }
         break;
 
@@ -454,7 +450,9 @@ class SettingsContainer extends Component {
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {},
+            onPress: () => {
+              console.log('cancel pressed');
+            },
           },
           {
             text: intl.formatMessage({ id: 'alert.delete' }),
@@ -522,9 +520,9 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { serverList, isNotificationMenuOpen, isLoading, isVisibleBackupKeysModal } = this
-      .state as any;
-    const { colorTheme } = this.props as any;
+    const { isNotificationMenuOpen, isLoading } = this.state as any;
+    const { colorTheme, getServersQuery } = this.props as any;
+    const serverList = getServersQuery.data;
 
     return (
       <SettingsScreen
@@ -570,6 +568,7 @@ const mapStateToProps = (state) => ({
 
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  return <SettingsContainer {...props} navigation={navigation} />;
+  const getServersQuery = useGetServersQuery();
+  return <SettingsContainer {...props} navigation={navigation} getServersQuery={getServersQuery} />;
 };
 export default gestureHandlerRootHOC(connect(mapStateToProps)(injectIntl(mapHooksToProps)));

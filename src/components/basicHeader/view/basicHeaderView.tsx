@@ -49,6 +49,7 @@ const BasicHeaderView = ({
   enableViewModeToggle,
   handleSettingsPress,
   backIconName,
+  isLoadingRightIcon,
 }) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const rewardMenuRef = useRef(null);
@@ -65,7 +66,9 @@ const BasicHeaderView = ({
     }
   };
 
-  const _handleOnDropdownSelect = () => {};
+  const _handleOnDropdownSelect = () => {
+    console.log('pressed');
+  };
 
   const _handleSearchButtonPress = () => {
     setIsInputVisible(!isInputVisible);
@@ -137,14 +140,14 @@ const BasicHeaderView = ({
               ) : (
                 <DropdownButton
                   isHasChildIcon
-                  iconName="md-more"
+                  iconName="more"
                   options={['ALL ACTIVITIES', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
                   onSelect={_handleOnDropdownSelect}
                 />
               )}
             </View>
           )}
-  
+
           {rightIconName && !isHasSearch && (
             <IconButton
               size={25}
@@ -153,6 +156,7 @@ const BasicHeaderView = ({
               style={rightIconBtnStyle}
               name={rightIconName}
               iconType={iconType}
+              isLoading={isLoadingRightIcon}
             />
           )}
 
@@ -194,11 +198,10 @@ const BasicHeaderView = ({
               size={28}
               onPress={() => handleBrowserIconPress()}
               iconStyle={styles.rightIcon}
-              name={'open-in-browser'}
-              iconType={'MaterialIcons'}
+              name="open-in-browser"
+              iconType="MaterialIcons"
             />
           )}
-
         </View>
 
         {isHasIcons && (

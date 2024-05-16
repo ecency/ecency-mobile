@@ -92,7 +92,7 @@ const CommunitiesContainer = ({ children }) => {
 
   useEffect(() => {
     const discoversData = [...discovers];
-    Object.keys(subscribingCommunitiesInDiscoverTab).map((communityId) => {
+    Object.keys(subscribingCommunitiesInDiscoverTab).forEach((communityId) => {
       if (!subscribingCommunitiesInDiscoverTab[communityId].loading) {
         if (!subscribingCommunitiesInDiscoverTab[communityId].error) {
           if (subscribingCommunitiesInDiscoverTab[communityId].isSubscribed) {
@@ -121,7 +121,7 @@ const CommunitiesContainer = ({ children }) => {
         subscribedCommunities.data,
         subscribedCommunitiesCache,
       );
-      Object.keys(subscribingCommunitiesInJoinedTab).map((communityId) => {
+      Object.keys(subscribingCommunitiesInJoinedTab).forEach((communityId) => {
         if (!subscribingCommunitiesInJoinedTab[communityId].loading) {
           if (!subscribingCommunitiesInJoinedTab[communityId].error) {
             if (subscribingCommunitiesInJoinedTab[communityId].isSubscribed) {
@@ -190,7 +190,7 @@ const CommunitiesContainer = ({ children }) => {
   };
 
   const _invalidateSubscribedCommunityCache = (fetchedList) => {
-    fetchedList.map((listItem) => {
+    fetchedList.forEach((listItem) => {
       const itemExists = subscribedCommunitiesCache.get(listItem[0]);
       if (itemExists) {
         dispatch(deleteSubscribedCommunityCacheEntry(listItem[0]));

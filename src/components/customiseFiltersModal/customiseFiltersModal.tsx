@@ -6,8 +6,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDispatch } from 'react-redux';
 import { CheckBox } from '..';
 import { getDefaultFilters, getFilterMap } from '../../constants/options/filters';
-
-import { ThemeContainer } from '../../containers';
 import { useAppSelector } from '../../hooks';
 import {
   setCommunityTabs,
@@ -67,13 +65,13 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
 
   useImperativeHandle(ref, () => ({
     show: () => {
-      sheetModalRef.current?.setModalVisible(true);
+      sheetModalRef.current?.show();
     },
   }));
 
   // actions
   const _onClose = () => {
-    sheetModalRef.current?.setModalVisible(false);
+    sheetModalRef.current?.hide();
   };
 
   // save snippet based on editor pageType
@@ -109,61 +107,55 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
 
   const _renderOptions = () => {
     const options = [];
-    for (const key in filterMap) {
-      if (filterMap.hasOwnProperty(key)) {
-        const isSelected = selectedFilters.has(key);
+    Object.keys(filterMap).forEach((key) => {
+      const isSelected = selectedFilters.has(key);
 
-        const _onPress = () => {
-          if (isSelected) {
-            selectedFilters.delete(key);
-          } else {
-            const index = getFilterIndex(filterMap, key);
-            selectedFilters.set(key, index);
-          }
-          setSelectedFilters(new Map([...selectedFilters]));
-        };
+      const _onPress = () => {
+        if (isSelected) {
+          selectedFilters.delete(key);
+        } else {
+          const index = getFilterIndex(filterMap, key);
+          selectedFilters.set(key, index);
+        }
+        setSelectedFilters(new Map([...selectedFilters]));
+      };
 
-        options.push(
-          <TouchableOpacity key={key} onPress={_onPress}>
-            <View style={styles.checkView}>
-              <Text style={styles.informationText}>
-                {intl.formatMessage({
-                  id: filterMap[key],
-                })}
-              </Text>
-              <CheckBox locked isChecked={isSelected} />
-            </View>
-          </TouchableOpacity>,
-        );
-      }
-    }
+      options.push(
+        <TouchableOpacity key={key} onPress={_onPress}>
+          <View style={styles.checkView}>
+            <Text style={styles.informationText}>
+              {intl.formatMessage({
+                id: filterMap[key],
+              })}
+            </Text>
+            <CheckBox locked isChecked={isSelected} />
+          </View>
+        </TouchableOpacity>,
+      );
+    });
 
     return <View style={styles.textContainer}>{options}</View>;
   };
 
   const _renderContent = (
-    <ThemeContainer>
-      {({ isDarkTheme }) => (
-        <KeyboardAvoidingView
-          style={styles.container}
-          keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : null}
-          behavior={Platform.OS === 'ios' ? 'padding' : null}
-        >
-          <Text style={styles.title}>Customise Filters</Text>
+    <KeyboardAvoidingView
+      style={styles.container}
+      keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : null}
+      behavior={Platform.OS === 'ios' ? 'padding' : null}
+    >
+      <Text style={styles.title}>Customise Filters</Text>
 
-          {_renderOptions()}
+      {_renderOptions()}
 
-          <View style={styles.actionPanel}>
-            <TextButton
-              text="APPLY"
-              onPress={_onApply}
-              textStyle={styles.btnText}
-              style={styles.button}
-            />
-          </View>
-        </KeyboardAvoidingView>
-      )}
-    </ThemeContainer>
+      <View style={styles.actionPanel}>
+        <TextButton
+          text="APPLY"
+          onPress={_onApply}
+          textStyle={styles.btnText}
+          style={styles.button}
+        />
+      </View>
+    </KeyboardAvoidingView>
   );
 
   return (

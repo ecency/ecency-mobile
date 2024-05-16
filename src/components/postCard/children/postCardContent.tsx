@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { TouchableOpacity, Text, View } from 'react-native';
 
 // Utils
-import FastImage from 'react-native-fast-image';
+
+import { Image as ExpoImage } from 'expo-image';
+
+
+import { get } from 'lodash';
+import { useIntl } from 'react-intl';
 
 // Components
 
@@ -36,8 +41,14 @@ export const PostCardContent = ({
   setImageRatio,
   handleCardInteraction,
 }: Props) => {
+  const intl = useIntl();
   const imgWidth = dim.width - 18;
   const [calcImgHeight, setCalcImgHeight] = useState(imageRatio ? imgWidth / imageRatio : 300);
+
+  const resizeMode = useMemo(() => {
+    return calcImgHeight < dim.height ? "contain" : "cover";
+  }, [dim.height]);
+  const isPromoted = get(content, 'is_promoted', false);
 
   const _onPress = () => {
     handleCardInteraction(PostCardActionIds.NAVIGATE, {
@@ -66,7 +77,7 @@ export const PostCardContent = ({
     <View style={styles.postBodyWrapper}>
       <TouchableOpacity activeOpacity={0.8} style={styles.hiddenImages} onPress={_onPress}>
         {!isHideImage && (
-          <FastImage
+          <ExpoImage
             source={{ uri: images.image }}
             style={[
               styles.thumbnail,
@@ -75,12 +86,10 @@ export const PostCardContent = ({
                 height: Math.min(calcImgHeight, dim.height),
               },
             ]}
-            resizeMode={
-              calcImgHeight < dim.height ? FastImage.resizeMode.contain : FastImage.resizeMode.cover
-            }
+            contentFit={resizeMode}
             onLoad={(evt) => {
               if (!imageRatio) {
-                const _imgRatio = evt.nativeEvent.width / evt.nativeEvent.height;
+                const _imgRatio = evt.source.width / evt.source.height;
                 const height = imgWidth / _imgRatio;
                 setCalcImgHeight(height);
                 setImageRatio(content.author + content.permlink, _imgRatio);
@@ -90,6 +99,9 @@ export const PostCardContent = ({
         )}
 
         <View style={[styles.postDescripton]}>
+          {!!isPromoted && (
+            <Text style={styles.promotedText}>{intl.formatMessage({ id: 'post.promoted' })}</Text>
+          )}
           <Text style={styles.title}>{content.title}</Text>
           <Text style={styles.summary}>{content.summary}</Text>
         </View>

@@ -18,13 +18,14 @@ const ecencyApi = axios.create({
 });
 
 ecencyApi.interceptors.request.use((request) => {
-  console.log('Starting ecency Request', request);
+  // console.log(`Starting ecency Request`, request);
 
   // skip code addition is register and token refresh endpoint is triggered
   if (
     request.url === '/private-api/account-create' ||
     request.url === '/auth-api/hs-token-refresh' ||
     request.url === '/private-api/promoted-entries' ||
+    request.url === '/private-api/announcements' ||
     request.url.startsWith('private-api/leaderboard') ||
     request.url.startsWith('/private-api/received-vesting/') ||
     request.url.startsWith('/private-api/referrals/') ||
@@ -68,7 +69,7 @@ ecencyApi.interceptors.request.use((request) => {
 });
 
 ecencyApi.interceptors.response.use((response) => {
-  console.log('Response:', response);
+  // console.log('Response:', response);
   return response;
 });
 

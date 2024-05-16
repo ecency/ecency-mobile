@@ -1,7 +1,7 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { View } from 'react-native';
-import Animated, { FlipInEasyX, FlipOutEasyX } from 'react-native-reanimated';
+import Animated, { FlipInEasyX } from 'react-native-reanimated';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
   BeneficiarySelectionContent,
@@ -12,6 +12,10 @@ import {
 } from '../../../components';
 import styles from './postOptionsModalStyles';
 import ThumbSelectionContent from './thumbSelectionContent';
+import PostDescription from './postDescription';
+import { useSpeakContentBuilder } from '../../../providers/queries/editorQueries/speakQueries';
+import { DEFAULT_SPEAK_BENEFICIARIES } from '../../../providers/speak/constants';
+import { Beneficiary } from '../../../redux/reducers/editorReducer';
 
 const REWARD_TYPES = [
   {
@@ -39,8 +43,10 @@ interface PostOptionsModalProps {
   isEdit: boolean;
   isCommunityPost: boolean;
   rewardType: string;
+  postDescription: string;
   isUploading: boolean;
   handleRewardChange: (rewardType: string) => void;
+  handlePostDescriptionChange: (value: string) => void;
   handleThumbSelection: (url: string) => void;
   handleScheduleChange: (datetime: string | null) => void;
   handleShouldReblogChange: (shouldReblog: boolean) => void;
@@ -56,16 +62,19 @@ const PostOptionsModal = forwardRef(
       isEdit,
       isCommunityPost,
       rewardType,
+      postDescription,
       isUploading,
       handleRewardChange,
       handleThumbSelection,
       handleScheduleChange,
       handleShouldReblogChange,
       handleFormUpdate,
+      handlePostDescriptionChange,
     }: PostOptionsModalProps,
     ref,
   ) => {
     const intl = useIntl();
+    const speakContentBuilder = useSpeakContentBuilder();
 
     const [showModal, setShowModal] = useState(false);
     const [rewardTypeIndex, setRewardTypeIndex] = useState(0);
@@ -74,8 +83,28 @@ const PostOptionsModal = forwardRef(
     const [scheduledFor, setScheduledFor] = useState('');
     const [disableDone, setDisableDone] = useState(false);
 
-    // removed the useeffect causing index reset bug
+    const { encodingBeneficiaries, videoThumbUrls } = useMemo(() => {
+      let benefs: Beneficiary[] = [];
+      if (body && showModal) {
+        speakContentBuilder.build(body);
+        const unpublishedMeta = speakContentBuilder.videoPublishMetaRef.current;
+        if (unpublishedMeta) {
+          const vidBeneficiaries = JSON.parse(unpublishedMeta.beneficiaries || '[]');
+          benefs = [...DEFAULT_SPEAK_BENEFICIARIES, ...vidBeneficiaries];
+        }
 
+        return {
+          videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
+          encodingBeneficiaries: benefs,
+        };
+      }
+      return {
+        videoThumbUrls: [],
+        encodingBeneficiaries: benefs,
+      };
+    }, [showModal, body]);
+
+    // removed the useeffect causing index reset bug
     useEffect(() => {
       if (!scheduleLater) {
         handleScheduleChange(null);
@@ -191,12 +220,21 @@ const PostOptionsModal = forwardRef(
             <ThumbSelectionContent
               body={body}
               thumbUrl={thumbUrl}
+              videoThumbUrls={videoThumbUrls}
               isUploading={isUploading}
               onThumbSelection={_handleThumbIndexSelection}
             />
+            <PostDescription
+              postDescription={postDescription}
+              handlePostDescriptionChange={handlePostDescriptionChange}
+            />
 
             {!isEdit && (
-              <BeneficiarySelectionContent draftId={draftId} setDisableDone={setDisableDone} />
+              <BeneficiarySelectionContent
+                draftId={draftId}
+                setDisableDone={setDisableDone}
+                encodingBeneficiaries={encodingBeneficiaries}
+              />
             )}
           </View>
         </KeyboardAwareScrollView>

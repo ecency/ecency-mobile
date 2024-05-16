@@ -15,6 +15,7 @@ export default {
   $primaryBlue: '#357ce6',
   $primaryDarkBlue: '#1a509a',
   $primaryLightBlue: '#eaf2fc',
+  $primaryLightBlue2: '#90b5eb',
   $primaryGray: '#f5f5f5',
   $primaryDarkGray: '#788187',
   $primaryLightGray: '#f6f6f6',

@@ -66,7 +66,10 @@ export const CoinBasics = ({
   };
 
   const _renderExtraData = (args: DataPair, index: number) => {
-    const label = intl.formatMessage({ id: `wallet.${args.dataKey || args.labelId}` });
+    const label = intl.formatMessage(
+      { id: `wallet.${args.dataKey || args.labelId}` },
+      args.subValue ? { subValue: args.subValue } : undefined,
+    );
 
     const _onPress = () => {
       onInfoPress(args.dataKey);

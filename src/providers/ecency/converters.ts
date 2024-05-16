@@ -2,11 +2,11 @@ import { ASSET_IDS } from '../../constants/defaultAssets';
 import { Referral } from '../../models';
 import {
   CommentHistoryItem,
-  LatestMarketPrices,
   LatestQuotes,
   QuoteItem,
   ReferralStat,
-  Draft
+  Draft,
+  Accouncement,
 } from './ecency.types';
 
 export const convertReferral = (rawData: any) => {
@@ -14,7 +14,7 @@ export const convertReferral = (rawData: any) => {
     _id: rawData.id || 0,
     referral: rawData.referral || '',
     referredUsername: rawData.username || '',
-    isRewarded: rawData.rewarded ? true : false,
+    isRewarded: !!rawData.rewarded,
     timestamp: new Date(rawData.created) || new Date(),
   } as Referral;
 };
@@ -37,23 +37,23 @@ export const convertQuoteItem = (rawData: any, currencyRate: number) => {
   } as QuoteItem;
 };
 
-export const convertDraft = (rawData:any) => {
-  if(!rawData){
-    return null
+export const convertDraft = (rawData: any) => {
+  if (!rawData) {
+    return null;
   }
 
   return {
-    _id:rawData._id,
-    title:rawData.title,
-    body:rawData.body,
-    tags_arr:rawData.tags_arr,
-    tags:rawData.tags,
-    meta:rawData.meta,
-    modified:rawData.modified,
-    created:rawData.created,
-    timestamp:rawData.timestamp
-  } as Draft
-}
+    _id: rawData._id,
+    title: rawData.title,
+    body: rawData.body,
+    tags_arr: rawData.tags_arr,
+    tags: rawData.tags,
+    meta: rawData.meta,
+    modified: rawData.modified,
+    created: rawData.created,
+    timestamp: rawData.timestamp,
+  } as Draft;
+};
 
 export const convertLatestQuotes = (rawData: any, currencyRate: number) => {
   return {
@@ -72,4 +72,16 @@ export const convertCommentHistory = (rawData: any) => {
     title: rawData.title || '',
     v: rawData.v || 1,
   } as CommentHistoryItem;
+};
+
+export const convertAnnouncement = (rawData: any) => {
+  return {
+    id: rawData.id,
+    title: rawData.title,
+    description: rawData.description,
+    button_text: rawData.button_text,
+    button_link: rawData.button_link,
+    ops: rawData.ops,
+    auth: rawData.auth,
+  } as Accouncement;
 };

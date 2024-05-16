@@ -1,7 +1,6 @@
 import { PrivateKey } from '@esteemapp/dhive';
 import { Operation } from '@hiveio/dhive';
 import axios from 'axios';
-import parseAsset from '../../utils/parseAsset';
 import parseToken from '../../utils/parseToken';
 import TransferTypes from '../../constants/transferTypes';
 import { getActiveKey, getDigitPinCode, sendHiveOperations } from '../hive/dhive';
@@ -20,13 +19,14 @@ import {
 } from './hiveSpk.types';
 
 export const SPK_NODE_ECENCY = 'good-karma.spk';
-const spkNodes = [
-  'https://spk.good-karma.xyz',
-  'https://spkinstant.hivehoneycomb.com',
-  'https://spknode.blocktrades.us',
-  'https://spk.tcmd-spkcc.com',
-  'https://spktoken.dlux.io',
-];
+
+// const spkNodes = [
+//   'https://spk.good-karma.xyz',
+//   'https://spkinstant.hivehoneycomb.com',
+//   'https://spknode.blocktrades.us',
+//   'https://spk.tcmd-spkcc.com',
+//   'https://spktoken.dlux.io',
+// ];
 
 const spkNode = 'https://spk.good-karma.xyz/'; // spkNodes[Math.floor(Math.random()*spkNodes.length)];
 
@@ -35,12 +35,12 @@ const spkApi = axios.create({
 });
 
 export function rewardSpk(data: SpkApiWallet, sstats: any) {
-  let r = 0,
-    a = 0,
+  let a = 0,
     b = 0,
     c = 0,
-    t = 0,
-    diff = data.head_block - data.spk_block;
+    t = 0;
+
+  const diff = data.head_block - data.spk_block;
   if (!data.spk_block) {
     return 0;
   } else if (diff < 28800) {

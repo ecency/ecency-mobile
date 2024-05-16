@@ -17,8 +17,6 @@ class IconView extends PureComponent {
     this.state = {};
   }
 
-  // for ios its turn ios-eye-off-outline
-  // for android its turn to md-off-outline
   _getIconName = () => {
     const { name, androidName } = this.props;
 
@@ -27,7 +25,7 @@ class IconView extends PureComponent {
       let iconName;
 
       if (!isIos) {
-        iconName = androidName || (name && `md-${name.split('ios-')}`);
+        iconName = androidName || name;
       }
       return iconName;
     }

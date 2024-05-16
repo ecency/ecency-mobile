@@ -1,13 +1,15 @@
-import React, { PureComponent, Fragment } from 'react';
-import { StatusBar } from 'react-native';
+import React, { PureComponent } from 'react';
+import { View } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { ProfileEditContainer } from '../../../containers';
 
-import { AvatarHeader, ProfileEditForm } from '../../../components';
+import { EditAvatar, Header, ProfileEditForm } from '../../../components/index';
 import { OptionsModal } from '../../../components/atoms';
+import styles from './profileEditScreenStyles';
+import { BasicHeader } from '../../../components/index';
 
 class ProfileEditScreen extends PureComponent {
   /* Props
@@ -56,9 +58,9 @@ class ProfileEditScreen extends PureComponent {
           saveEnabled,
           handleOnSubmit,
         }) => (
-          <Fragment>
-            <StatusBar barStyle="light-content" />
-            <AvatarHeader
+          <View style={styles.container}>
+            <Header isReverse={true} />
+            <EditAvatar
               username={get(currentAccount, 'name')}
               name={name}
               reputation={get(currentAccount, 'reputation')}
@@ -103,7 +105,7 @@ class ProfileEditScreen extends PureComponent {
                 );
               }}
             />
-          </Fragment>
+          </View>
         )}
       </ProfileEditContainer>
     );

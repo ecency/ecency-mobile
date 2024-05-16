@@ -1,5 +1,5 @@
 import getSymbolFromCurrency from 'currency-symbol-map';
-import { getCurrencyRate } from '../../providers/ecency/ecency';
+import { getFiatHbdRate } from '../../providers/ecency/ecency';
 import {
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
@@ -32,6 +32,7 @@ import {
   SET_ENC_UNLOCK_PIN,
   SET_POST_UPVOTE_PERCENT,
   SET_COMMENT_UPVOTE_PERCENT,
+  SET_WAVE_UPVOTE_PERCENT,
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -62,6 +63,10 @@ export const setPostUpvotePercent = (payload) => ({
 export const setCommentUpvotePercent = (payload) => ({
   payload,
   type: SET_COMMENT_UPVOTE_PERCENT,
+});
+export const setWaveUpvotePercent = (payload) => ({
+  payload,
+  type: SET_WAVE_UPVOTE_PERCENT,
 });
 
 export const changeAllNotificationSettings = (payload) => ({
@@ -166,7 +171,13 @@ export const isDefaultFooter = (payload) => ({
 export const setCurrency = (currency) => async (dispatch) => {
   const currencySymbol = getSymbolFromCurrency(currency);
 
-  const currencyRate = await getCurrencyRate(currency);
+  let currencyRate = 1;
+  if (currency !== 'usd') {
+    const _usdRate = await getFiatHbdRate('usd');
+    const _fiatRate = await getFiatHbdRate(currency);
+    currencyRate = _fiatRate / _usdRate;
+  }
+
   dispatch({
     type: SET_CURRENCY,
     payload: { currency, currencyRate, currencySymbol },

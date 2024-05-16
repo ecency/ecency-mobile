@@ -27,7 +27,6 @@ const PostCard = ({
   content,
   isHideImage,
   nsfw,
-  reblogs,
   imageRatio,
   setImageRatio,
   handleCardInteraction,
@@ -48,11 +47,7 @@ const PostCard = ({
         setImageRatio={setImageRatio}
         handleCardInteraction={handleCardInteraction}
       />
-      <PostCardActionsPanel
-        content={content}
-        reblogs={reblogs || []}
-        handleCardInteraction={handleCardInteraction}
-      />
+      <PostCardActionsPanel content={content} handleCardInteraction={handleCardInteraction} />
     </View>
   );
 };

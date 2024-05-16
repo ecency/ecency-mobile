@@ -18,6 +18,7 @@ import { createHash } from 'react-native-crypto';
 import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
+import * as hiveuri from 'hive-uri';
 import { getServer, getCache, setCache } from '../../realm/realm';
 
 // Utils
@@ -42,8 +43,9 @@ import { SERVER_LIST } from '../../constants/options/api';
 import { b64uEnc } from '../../utils/b64';
 import bugsnagInstance from '../../config/bugsnag';
 import bugsnapInstance from '../../config/bugsnag';
-import { makeJsonMetadataReply } from '../../utils/editor';
+import TransferTypes from '../../constants/transferTypes';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
 const DEFAULT_SERVER = SERVER_LIST;
@@ -139,7 +141,9 @@ export const broadcastPostingJSON = async (id, json, currentAccount, pinHash) =>
       accessToken: token,
     });
 
-    return api.customJson([], [username], id, JSON.stringify(json)).then((r) => r.result);
+    return api
+      .customJson([], [currentAccount.username], id, JSON.stringify(json))
+      .then((r) => r.result);
   }
 
   if (key) {
@@ -174,6 +178,11 @@ export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
 export const getDynamicGlobalProperties = () => client.database.getDynamicGlobalProperties();
 
 export const getRewardFund = () => client.database.call('get_reward_fund', ['post']);
+
+export const getMarketStatistics = () => client.call('condenser_api', 'get_ticker', []);
+
+export const getOrderBook = (limit = 500) =>
+  client.call('condenser_api', 'get_order_book', [limit]);
 
 export const getFeedHistory = async () => {
   try {
@@ -362,7 +371,7 @@ export const getUser = async (user, loggedIn = true) => {
       getCache('rcPower');
     await setCache('rcPower', rcPower);
 
-    _account.reputation = parseReputation(_account.reputation);
+    _account.reputation = await getUserReputation(user)
     _account.username = _account.name;
     _account.unread_activity_count = unreadActivityCount;
     _account.vp_manabar = client.rc.calculateVPMana(_account);
@@ -400,52 +409,72 @@ export const getUser = async (user, loggedIn = true) => {
   }
 };
 
+export const getUserReputation = async (author) => {
+  try {
+    const response = await client.call('condenser_api', 'get_account_reputations', [author, 1]);
+  
+    if (response && response.length < 1) {
+      return 0;
+    }
+
+    const _account = {
+      ...response[0],
+    };
+
+    return parseReputation(_account.reputation);
+
+  } catch (error) {
+    bugsnagInstance.notify(error)
+    return 0;
+  }
+}
+
+
 const cache = {};
 const patt = /hive-\d\w+/g;
-export const getCommunity = async (tag, observer = '') =>
-  new Promise(async (resolve, reject) => {
+export const getCommunity = async (tag, observer = '') => {
+  try {
+    const community = await client.call('bridge', 'get_community', {
+      name: tag,
+      observer,
+    });
+    if (community) {
+      return community;
+    } else {
+      return {};
+    }
+  } catch (err) {
+    bugsnagInstance.notify('failed to get community', err);
+    throw err;
+  }
+};
+
+export const getCommunityTitle = async (tag) => {
+  if (cache[tag] !== undefined) {
+    return cache[tag];
+  }
+  const mm = tag.match(patt);
+  if (mm && mm.length > 0) {
     try {
       const community = await client.call('bridge', 'get_community', {
         name: tag,
-        observer,
+        observer: '',
       });
       if (community) {
-        resolve(community);
+        const { title } = community;
+        cache[tag] = title;
+        return title;
       } else {
-        resolve({});
+        return tag;
       }
-    } catch (error) {
-      reject(error);
+    } catch (err) {
+      bugsnagInstance.notify('failed to get community title');
+      throw err;
     }
-  });
-
-export const getCommunityTitle = async (tag) =>
-  new Promise(async (resolve, reject) => {
-    if (cache[tag] !== undefined) {
-      resolve(cache[tag]);
-      return;
-    }
-    const mm = tag.match(patt);
-    if (mm && mm.length > 0) {
-      try {
-        const community = await client.call('bridge', 'get_community', {
-          name: tag,
-          observer: '',
-        });
-        if (community) {
-          const { title } = community;
-          cache[tag] = title;
-          resolve(title);
-        } else {
-          resolve(tag);
-        }
-      } catch (error) {
-        reject(error);
-      }
-    }
-
-    resolve(tag);
-  });
+  } else {
+    return tag;
+  }
+};
 
 export const getCommunities = async (
   last = '',
@@ -453,43 +482,43 @@ export const getCommunities = async (
   query = null,
   sort = 'rank',
   observer = '',
-) =>
-  new Promise(async (resolve, reject) => {
-    try {
-      console.log('Getting communities', query);
-      const data = await client.call('bridge', 'list_communities', {
-        last,
-        limit,
-        query,
-        sort,
-        observer,
-      });
-      if (data) {
-        resolve(data);
-      } else {
-        resolve({});
-      }
-    } catch (error) {
-      console.log(error);
-      resolve({});
+) => {
+  try {
+    console.log('Getting communities', query);
+    const data = await client.call('bridge', 'list_communities', {
+      last,
+      limit,
+      query,
+      sort,
+      observer,
+    });
+    if (data) {
+      return data;
+    } else {
+      return {};
     }
-  });
+  } catch (error) {
+    console.warn('failed to get communities', error);
+    bugsnagInstance.notify('failed to get communities', error);
+    return {};
+  }
+};
 
-export const getSubscriptions = (account = '') =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const data = await client.call('bridge', 'list_all_subscriptions', {
-        account,
-      });
-      if (data) {
-        resolve(data);
-      } else {
-        resolve({});
-      }
-    } catch (error) {
-      reject(error);
+export const getSubscriptions = async (account = '') => {
+  try {
+    const data = await client.call('bridge', 'list_all_subscriptions', {
+      account,
+    });
+    if (data) {
+      return data;
+    } else {
+      return {};
     }
-  });
+  } catch (error) {
+    bugsnagInstance.notify('failed to get subscriptions', error);
+    throw error;
+  }
+};
 
 // TODO: Move to utils folder
 export const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) =>
@@ -630,6 +659,28 @@ export const getActiveVotes = (author, permlink) =>
       reject(error);
     }
   });
+
+export const getPostReblogs = async (author, permlink) => {
+  try {
+    if (!author || !permlink) {
+      throw new Error('invalid parameters');
+    }
+
+    console.log('Getting post reblogs:', author, permlink);
+
+    const reblogs = await client.call('condenser_api', 'get_reblogged_by', [author, permlink]);
+
+    if (!reblogs) {
+      throw new Error('invalid data');
+    }
+
+    console.log(`Returning reblogs`, reblogs);
+    return reblogs;
+  } catch (error) {
+    bugsnapInstance.notify(error);
+    return [];
+  }
+};
 
 export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   try {
@@ -971,6 +1022,51 @@ export const transferToken = (currentAccount, pin, data) => {
           }
         })
         .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
+};
+
+export const recurrentTransferToken = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const args = {
+      from: get(data, 'from'),
+      to: get(data, 'destination'),
+      amount: get(data, 'amount'),
+      memo: get(data, 'memo'),
+      recurrence: get(data, 'recurrence'),
+      executions: get(data, 'executions'),
+      extensions: [],
+    };
+
+    const opArray = [[TransferTypes.RECURRENT_TRANSFER, args]];
+
+    return new Promise((resolve, reject) => {
+      sendHiveOperations(opArray, privateKey)
+        .then((result) => {
+          if (result) {
+            resolve(result);
+          }
+        })
+        .catch((err) => {
+          console.log('====================================');
+          console.log('error on recurrent transfer token');
+          console.log('====================================');
+          console.log(err);
           reject(err);
         });
     });
@@ -1450,6 +1546,19 @@ export const getTrendingTags = async (tag, number = 20) => {
   }
 };
 
+export const getRecurrentTransfers = async (username) => {
+  try {
+    const rawData = await client.call('condenser_api', 'find_recurrent_transfers', [username]);
+    if (!rawData || !rawData.length) {
+      return [];
+    }
+    return rawData;
+  } catch (err) {
+    console.warn('Failed to get recurrent transfers', err);
+    return [];
+  }
+};
+
 export const postContent = (
   account,
   pin,
@@ -1503,8 +1612,7 @@ export const postComment = (
   parentPermlink,
   permlink,
   body,
-  parentTags,
-  isEdit = false,
+  jsonMetadata,
 ) =>
   _postContent(
     account,
@@ -1514,7 +1622,7 @@ export const postComment = (
     permlink,
     '',
     body,
-    makeJsonMetadataReply(parentTags || ['ecency']),
+    jsonMetadata,
     null,
     null,
   )
@@ -1769,7 +1877,7 @@ export const transferPoint = (currentAccount, pinCode, data) => {
   }
 };
 
-export const promote = (currentAccount, pinCode, duration, permlink, author) => {
+export const promote = (currentAccount, pinCode, duration, author, permlink) => {
   const pin = getDigitPinCode(pinCode);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 
@@ -1802,7 +1910,39 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
   }
 };
 
-export const boost = (currentAccount, pinCode, point, permlink, author) => {
+export const boostPlus = (currentAccount, pinCode, duration, account) => {
+  const pin = getDigitPinCode(pinCode);
+  const key = getActiveKey(get(currentAccount, 'local'), pin);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const user = get(currentAccount, 'name');
+
+    const json = {
+      id: 'ecency_boost_plus',
+      json: JSON.stringify({
+        user,
+        account,
+        duration,
+      }),
+      required_auths: [user],
+      required_posting_auths: [],
+    };
+    const opArray = [['custom_json', json]];
+
+    return sendHiveOperations(opArray, privateKey);
+  } else {
+    const err = new Error('Check private key permission! Required private active key or above.');
+    bugsnagInstance.notify(err, (event) => {
+      event.setUser(currentAccount.username);
+      event.context('boost-plus-content');
+      event.setMetaData('encryptedLocal', currentAccount.local);
+    });
+    return Promise.reject(err);
+  }
+};
+
+export const boost = (currentAccount, pinCode, point, author, permlink) => {
   const pin = getDigitPinCode(pinCode);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 
@@ -2068,10 +2208,83 @@ export const getActiveKey = (local, pin) => {
 };
 
 export const votingPower = (account) => {
-  // @ts-ignore "Account" is compatible with dhive's "ExtendedAccount"
   const calc = client.rc.calculateVPMana(account);
   const { percentage } = calc;
 
   return percentage / 100;
 };
 /* eslint-enable */
+
+export const resolveTransaction = async (parsedTx, parsedParams, signer) => {
+  const EXPIRE_TIME = 60 * 1000;
+  const props = await client.database.getDynamicGlobalProperties();
+
+  // resolve the decoded tx and params to a signable tx
+  const { tx } = hiveuri.resolveTransaction(parsedTx, parsedParams, {
+    ref_block_num: props.head_block_number & 0xffff,
+    ref_block_prefix: Buffer.from(props.head_block_id, 'hex').readUInt32LE(4),
+    expiration: new Date(Date.now() + client.broadcast.expireTime + EXPIRE_TIME)
+      .toISOString()
+      .slice(0, -5),
+    signers: [signer],
+    preferred_signer: signer,
+  });
+  tx.ref_block_num = parseInt(`${tx.ref_block_num}`, 10);
+  tx.ref_block_prefix = parseInt(`${tx.ref_block_prefix}`, 10);
+
+  return tx;
+};
+
+const handleChainError = (strErr: string) => {
+  if (/You may only post once every/.test(strErr)) {
+    return 'chain-error.min-root-comment';
+  } else if (/Your current vote on this comment is identical/.test(strErr)) {
+    return 'chain-error.identical-vote';
+  } else if (/Please wait to transact, or power up/.test(strErr)) {
+    return 'chain-error.insufficient-resource';
+  } else if (/Cannot delete a comment with net positive/.test(strErr)) {
+    return 'chain-error.delete-comment-with-vote';
+  } else if (/children == 0/.test(strErr)) {
+    return 'chain-error.comment-children';
+  } else if (/comment_cashout/.test(strErr)) {
+    return 'chain-error.comment-cashout';
+  } else if (/Votes evaluating for comment that is paid out is forbidden/.test(strErr)) {
+    return 'chain-error.paid-out-post-forbidden';
+  } else if (/Missing Active Authority/.test(strErr)) {
+    return 'chain-error.missing-authority';
+  } else if (/Missing Owner Authority/.test(strErr)) {
+    return 'chain-error.missing-owner-authority';
+  } else if (/does not have sufficient funds/.test(strErr)) {
+    return 'chain-error.insufficient_fund';
+  }
+  return null;
+};
+
+export const handleHiveUriOperation = async (
+  currentAccount: any,
+  pin: any,
+  tx: any,
+): Promise<TransactionConfirmation> => {
+  try {
+    const digitPinCode = getDigitPinCode(pin);
+    const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+    const privateKey = PrivateKey.fromString(key);
+    const chainId = Buffer.from(
+      'beeab0de00000000000000000000000000000000000000000000000000000000',
+      'hex',
+    );
+    // console.log('tx : ', tx);
+    const transaction = cryptoUtils.signTransaction(tx, privateKey, chainId);
+    const trxId = generateTrxId(transaction);
+    const resultHive = await client.broadcast.call('broadcast_transaction', [transaction]);
+    const result = Object.assign({ id: trxId }, resultHive);
+    return result;
+  } catch (err) {
+    const errString = handleChainError(err.toString());
+    bugsnagInstance.notify(err, (event) => {
+      event.context = 'handle-hive-uri-operation';
+      event.setMetaData('tx', tx);
+    });
+    return Promise.reject(errString);
+  }
+};

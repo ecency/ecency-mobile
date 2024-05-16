@@ -2,9 +2,12 @@
   "wallet": {
     "curation_reward": "Kuracijos Atlygis",
     "author_reward": "Autorius Atlygis",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Labdarystės atlygis",
     "claim_reward_balance": "Atsiimti atlygį ",
+    "points_activity": "Activity",
     "transfer": "Pervesti",
+    "recurrent_transfer": "Recurrent Transfer",
     "power_up": "Į Teisių suteikimą",
     "transfer_from_savings": "Iš santaupų",
     "withdraw_savings": "Išsiimti santaupas",
@@ -49,14 +52,14 @@
     "checkin_extra_desc": "Reguliarus programos naudojimas duoda jums papildomų galimybių užsidirbti taškų, būkite labiau aktyvus ir uždirbkite daugiau.",
     "dropdown_transfer": "Dovana",
     "dropdown_promote": "Reklamuok",
-    "dropdown_boost": "Sustiprink",
+    "dropdown_boost": "Boost+",
     "from": "Nuo",
     "to": "Į",
     "estimated_value_desc": "Atsižvelgiant į pirkinio vertę",
     "estimated_value": "Apytikslė vertė",
     "vote_value": "Balso vertė",
     "delegated_hive_power": "Deleguota Hive galia",
-    "powering_down_hive_power": "Mažėjanti galia",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "Gauta Hive galios",
     "total_hive_power": "Iš viso Hive galios",
     "savings": "Santaupos",
@@ -83,6 +86,7 @@
     "withdraw_hive": "Išsiimti santaupas",
     "withdraw_hbd": "Išsiimti santaupas",
     "transfer_to_savings": "Į santaupas",
+    "swap_token": "Swap Token",
     "convert": "Konvertuoti",
     "convert_request": "Konvertuoti užklausą",
     "escrow_transfer": "Escrow pervedimas",
@@ -247,7 +251,7 @@
     "this_week": "Šią savaitę",
     "last_week": "Praėjusią savaitę",
     "this_month": "Šį mėnesį",
-    "older_then": "Senesni negu vienas mėnuo",
+    "older_then": "Last Month & Older",
     "activities": "Visi",
     "replies": "Atsakymai",
     "mentions": "Paminėjimai",
@@ -299,7 +303,10 @@
       "display_name": "Rodomas vardas",
       "about": "Apie",
       "location": "Vietovė",
-      "website": "Svetainė"
+      "website": "Svetainė",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
@@ -372,12 +379,13 @@
     "no_user": "Naudotojas nerastas."
   },
   "login": {
-    "signin": "Prisijungti",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "PRISIJUNKITE DABAR",
     "signin_title": "Kad gautumėte visus privalumus naudojant Ecency",
-    "username": "Naudotojo vardas",
-    "password": "Slaptažodis arba WIF",
-    "description": "Prisiregistruodami, jūs sutinkate su mūsų paslaugų tiekimo sąlygomis ir privatumo politika.",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "atšaukti",
     "login": "PRISIJUNGTI",
     "steemconnect_description": "Jei nenorite, kad jūsų slaptažodis būtų įrašomas į jūsų įrenginį, galite naudoti Hivesighner.",
@@ -389,7 +397,10 @@
     "deep_login_alert_title": "Easy Login @{username}",
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Get Hive Account",
@@ -412,7 +423,9 @@
       "username_contains_double_hyphens": "Should not contain double hyphens",
       "username_contains_underscore": "Should not contain underscore",
       "username_exists": "Username already exists, try a different one"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "Pagrindinis",
@@ -456,6 +469,22 @@
     "update": "Atnaujinti",
     "reply": "Atsakyti",
     "schedule": "Grafikas"
+  },
+  "account_list": {
+    "title": "Users"
+  },
+  "post_poll": {
+    "voters": "Voters",
+    "voted": "voted",
+    "hp": "HP",
+    "view_stats": "View Stats",
+    "hide_stats": "Hide Stats",
+    "ended": "Ended",
+    "ends": "Ends {inTime}",
+    "age_limit": "• Only accounts older than {days} days allowed",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "Pavadinimas",
@@ -510,6 +539,7 @@
     "scheduled_for": "Suplanuota iki",
     "scheduled_immediate": "Nedelsiant",
     "scheduled_later": "Vėliau",
+    "schedule_video_unsupported": "Scheduling video posts not available",
     "settings_title": "Įrašo nustatymai",
     "done": "ATLIKTA",
     "draft_save_title": "Juodraštis išsaugomas",
@@ -525,7 +555,9 @@
     "invalid_url_error": "Prašome įvesti tinkamą tinklalapio adresą",
     "plain": "Paprastas",
     "video": "Vaizdo įrašai",
-    "image": "Vaizdai"
+    "image": "Vaizdai",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "Iškarpa nerasta",
@@ -550,10 +582,20 @@
     "btn_add": "Vaizdas",
     "btn_insert": "ĮDĖKITE",
     "btn_delete": "IŠTRINTI",
-    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "confirm_delete": "Are you sure you want to delete selected items from your uploads",
     "message_failed": "Nepavyko įkelti vaizdo",
     "delete_failed": "Failed to delete image",
-    "failed_count": "Nepavyko įkelti {failedCount} iš {totalCount} pasirinkto vaizdo(ų)"
+    "failed_count": "Nepavyko įkelti {failedCount} iš {totalCount} pasirinkto vaizdo(ų)",
+    "publish_manual": "Ready",
+    "published": "Published",
+    "encoding_ipfs": "Encoding",
+    "encoding_preparing": "Preparing",
+    "deleted": "Deleted",
+    "start_upload": "START UPLOAD",
+    "uploading": "UPLOADING",
+    "select_thumb": "Select Thumbnail",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "Įveskite slaptažodį, kad atrakintumėte",
@@ -574,6 +616,10 @@
     "move": "Perkelti",
     "continue": "Continue",
     "okay": "Okay",
+    "done": "Done",
+    "notice": "Notice!",
+    "close": "CLOSE",
+    "later": "Later",
     "move_question": "Ar tikrai norite įrenginius perkelti į juodraščius?",
     "success_shared": "Sėkmė! Turinys išsiųstas!",
     "success_moved": "Perkelta į juodraščius",
@@ -597,6 +643,7 @@
     "warning": "Įspėjimas",
     "invalid_pincode": "Neteisingas PIN kodas, prašome patikrinti ir bandyti dar kartą.",
     "remove_alert": "Ar tikrai norite perkelti?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Ar tikrai norite panaikinti?",
     "clear_user_alert": "Ar tikrai norite panaikinti visą naudotojo informaciją?",
     "decrypt_fail_alert": "Programėlė šiuo metu nepatikima, prašome bandyti prisijungti iš naujo.",
@@ -661,7 +708,8 @@
     "wrong_link": "Netinkama nuoroda",
     "in": "į",
     "reveal_muted": "UŽTILDYTA\nPaspauskite, kad atidarytumėte turinį",
-    "posted_by": "{username} paskelbė per {appname} "
+    "posted_by": "{username} paskelbė per {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "Juodraščiai",
@@ -739,7 +787,8 @@
     "pin-community": "Prisegti prie bendruomenės",
     "unpin-community": "Atsegti nuo bendruomenės",
     "edit-history": "Redaguoti istoriją",
-    "mute": "Mute / Block"
+    "mute": "Mute / Block",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "Nėra tokio vartotojo",
@@ -763,13 +812,19 @@
     "to": "Į",
     "amount_information": "Vilkite slankiklį, kad sureguliuotumėte sumą",
     "amount": "Kiekis",
+    "executions": "Executions",
+    "recurrence": "Recurrence",
     "memo": "Atmintinė",
+    "recurrent_transfer": "Recurrent Transfer",
+    "delete_recurrent_transfer": "Delete Recurrent Transfer ",
     "information": "Continue transaction?",
     "amount_desc": "Likutis",
     "memo_desc": "Ši atmintinė yra vieša",
     "convert_desc": "Konvertavimas trunka 3,5 dienos ir NEREKOMENDUOJAMA jeigu HBD kaina yra didesnė nei $1",
     "to_placeholder": "Vartotojo vardas",
     "memo_placeholder": "Įveskite savo užrašus čia",
+    "recurrence_placeholder": "Choose Recurrence",
+    "executions_placeholder": "Number of Repeats",
     "transfer_token": "Pervesti",
     "purchase_estm": "Pirkimo taškai",
     "convert": "Konvertuok HBD į HIVE",
@@ -834,14 +889,28 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001"
   },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Entered amount is more than your available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
+    "fee": "Fee",
+    "free": "Free",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped",
+    "swap_pending": "Swap Pending!",
+    "swap_pending_body": "Swap requests may be pending, please check pending open orders in selected token details",
+    "new_swap": "New Swap"
+  },
   "boost": {
     "title": "Gauk taškų",
     "buy": "GAUK Taškų",
     "next": "KITAS",
     "info": "Actual value of vote you receive may vary",
     "account": {
-      "title": "Sustiprink paskyrą",
-      "desc": "30 dienų delegacijos padidins jūsų balsų kiekį ir paspartins socialinę veiklą ir suteiks jums daugiau veiksmų su resursų kreditais."
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Patvirtinkite pirkinį{username}",
     "confirm_purchase_summary": "{points} pirkimas {username} už {price}",
@@ -877,6 +946,12 @@
   "boostPost": {
     "title": "Sustiprink"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "ATLYGIAI",
     "percent": "PROCENTAI",
@@ -894,7 +969,7 @@
   },
   "comments": {
     "title": "Komentarai",
-    "reveal_comment": "Rodyti komentarus",
+    "reveal_comment": "Reveal Content",
     "read_more": "Skaityti daugiau komentarų",
     "more_replies": "atsakytos žinutės",
     "no_comments": "Be the first to respond..."
@@ -991,8 +1066,11 @@
   },
   "quick_reply": {
     "placeholder": "Add a comment...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "Komentuoti",
     "reply": "ATSAKYTI",
+    "publish": "PUBLISH",
     "close": "UŽDARYTI"
   },
   "walkthrough": {
@@ -1013,10 +1091,34 @@
     "open": "Atidaryti URL",
     "detected_url": "Aptiktas URL",
     "unsupported_alert_title": "Nepalaikomas URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url."
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
+    "confirmTransaction": "Confirm transaction",
+    "approve": "Approve",
+    "cancel": "Cancel",
+    "multi_array_ops_alert": "Operation not supported by Ecency",
+    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations yet",
+    "invalid_op": "Invalid operation data",
+    "invalid_op_desc": "try contacting QR/link author",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Enter valid amount in proper format",
+    "transaction_failed": "Transaction Failed!",
+    "invalid_key": "{key} key is required to perform this transaction",
+    "invalid_key_desc": "kindly login with {key} key or master key to perform this transaction"
   },
   "history": {
     "edit": "Redaguoti Istoriją",
     "version": "Versija"
+  },
+  "chain-error": {
+    "min-root-comment": "You may only post once every five minutes.",
+    "identical-vote": "Your current vote on this content is identical to this vote.",
+    "insufficient-resource": "Insufficient Resource Credits.",
+    "delete-comment-with-vote": "Cannot delete a content with positive pending rewards.",
+    "comment-cashout": "Content after their payout cannot be deleted.",
+    "comment-children": "Cannot delete a content with replies.",
+    "paid-out-post-forbidden": "Voting for paid out content is not available.",
+    "missing-authority": "This operation requires Active private key or authority.",
+    "missing-owner-authority": "This operation requires Owner private key or authority.",
+    "insufficient_fund": "Insufficient Funds"
   }
 }

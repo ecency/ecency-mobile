@@ -2,9 +2,12 @@
   "wallet": {
     "curation_reward": "Ganjaran Kurasi",
     "author_reward": "Ganjaran penulis",
+    "community_reward": "Community Reward",
     "comment_benefactor_reward": "Ganjaran Penyumbang",
     "claim_reward_balance": "Tuntut Ganjaran ",
+    "points_activity": "Activity",
     "transfer": "Pindah",
+    "recurrent_transfer": "Recurrent Transfer",
     "power_up": "Tingkatkan Kuasa",
     "transfer_from_savings": "Dari Simpanan",
     "withdraw_savings": "Withdraw Savings",
@@ -49,14 +52,14 @@
     "checkin_extra_desc": "Penggunaan aplikasi yang konsisten memberikan anda lebih banyak peluang untuk mendapatkan lebih banyak mata. Lebih aktif, lebih banyak mata.",
     "dropdown_transfer": "Hadiah",
     "dropdown_promote": "Promosikan",
-    "dropdown_boost": "Galakkan",
+    "dropdown_boost": "Boost+",
     "from": "Daripada",
     "to": "Kepada",
     "estimated_value_desc": "Menurut nilai beli",
     "estimated_value": "Nilai anggaran",
     "vote_value": "Vote value",
     "delegated_hive_power": "Delegated hive power",
-    "powering_down_hive_power": "Powering down",
+    "powering_down_hive_power": "Powering down ({subValue})",
     "received_hive_power": "Received hive power",
     "total_hive_power": "Total hive power",
     "savings": "Savings",
@@ -83,6 +86,7 @@
     "withdraw_hive": "Withdraw Savings",
     "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "Ke Simpanan",
+    "swap_token": "Swap Token",
     "convert": "Tukar",
     "convert_request": "Convert Request",
     "escrow_transfer": "Pemindahan Escrow",
@@ -247,7 +251,7 @@
     "this_week": "Minggu ini",
     "last_week": "Minggu Lepas",
     "this_month": "Bulan Ini",
-    "older_then": "Lebih dari sebulan",
+    "older_then": "Last Month & Older",
     "activities": "Semua",
     "replies": "Balasan",
     "mentions": "Sebutan",
@@ -299,7 +303,10 @@
       "display_name": "Display Name",
       "about": "About",
       "location": "Location",
-      "website": "Website"
+      "website": "Website",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
@@ -372,12 +379,13 @@
     "no_user": "User is not found."
   },
   "login": {
-    "signin": "Log masuk",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "JOIN NOW",
     "signin_title": "To get all the benefits of using Ecency",
-    "username": "Nama Pengguna",
-    "password": "Kata laluan atau wif",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "batal",
     "login": "LOG MASUK",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
@@ -389,7 +397,10 @@
     "deep_login_alert_title": "Easy Login @{username}",
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Get Hive Account",
@@ -412,7 +423,9 @@
       "username_contains_double_hyphens": "Should not contain double hyphens",
       "username_contains_underscore": "Should not contain underscore",
       "username_exists": "Username already exists, try a different one"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "Suapan",
@@ -456,6 +469,22 @@
     "update": "Mengemaskini",
     "reply": "Balas",
     "schedule": "Schedule"
+  },
+  "account_list": {
+    "title": "Users"
+  },
+  "post_poll": {
+    "voters": "Voters",
+    "voted": "voted",
+    "hp": "HP",
+    "view_stats": "View Stats",
+    "hide_stats": "Hide Stats",
+    "ended": "Ended",
+    "ends": "Ends {inTime}",
+    "age_limit": "• Only accounts older than {days} days allowed",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "Tajuk",
@@ -510,6 +539,7 @@
     "scheduled_for": "Scheduled For",
     "scheduled_immediate": "Immediate",
     "scheduled_later": "Later",
+    "schedule_video_unsupported": "Scheduling video posts not available",
     "settings_title": "Post Options",
     "done": "DONE",
     "draft_save_title": "Saving Draft",
@@ -525,7 +555,9 @@
     "invalid_url_error": "Please insert valid url",
     "plain": "Plain",
     "video": "Video",
-    "image": "Image"
+    "image": "Image",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -550,10 +582,20 @@
     "btn_add": "Image",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "confirm_delete": "Are you sure you want to delete selected items from your uploads",
     "message_failed": "Failed to upload image",
     "delete_failed": "Failed to delete image",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)",
+    "publish_manual": "Ready",
+    "published": "Published",
+    "encoding_ipfs": "Encoding",
+    "encoding_preparing": "Preparing",
+    "deleted": "Deleted",
+    "start_upload": "START UPLOAD",
+    "uploading": "UPLOADING",
+    "select_thumb": "Select Thumbnail",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -574,6 +616,10 @@
     "move": "Pindah",
     "continue": "Continue",
     "okay": "Okay",
+    "done": "Done",
+    "notice": "Notice!",
+    "close": "CLOSE",
+    "later": "Later",
     "move_question": "Adakah anda pasti hendak mengalih ke Draf?",
     "success_shared": "Success! Content submitted!",
     "success_moved": "Pindah kepada Draf",
@@ -597,6 +643,7 @@
     "warning": "Amaran",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Adakah anda pasti ingin memadam?",
+    "remove_all_alert": "Are you sure you want to remove all selected items?",
     "clear_alert": "Pasti kamu ingin padamkan semua?",
     "clear_user_alert": "Adakah anda pasti memadamkan semua data pengguna?",
     "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
@@ -661,7 +708,8 @@
     "wrong_link": "Salah pautan",
     "in": "dalam",
     "reveal_muted": "DIBISUKAN\nKetuk untuk mendedahkan kandungan",
-    "posted_by": "Posted by {username} via {appname} "
+    "posted_by": "Posted by {username} via {appname} ",
+    "ecency_waves": "Ecency Waves"
   },
   "drafts": {
     "title": "Draf",
@@ -739,7 +787,8 @@
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
     "edit-history": "Edit History",
-    "mute": "Mute / Block"
+    "mute": "Mute / Block",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "Pengguna tidak wujud",
@@ -763,13 +812,19 @@
     "to": "Kepada",
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Jumlah",
+    "executions": "Executions",
+    "recurrence": "Recurrence",
     "memo": "Memo",
+    "recurrent_transfer": "Recurrent Transfer",
+    "delete_recurrent_transfer": "Delete Recurrent Transfer ",
     "information": "Continue transaction?",
     "amount_desc": "Baki",
     "memo_desc": "Memo ini adalah umum",
     "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukkan catatan anda di sini",
+    "recurrence_placeholder": "Choose Recurrence",
+    "executions_placeholder": "Number of Repeats",
     "transfer_token": "Pindah",
     "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
@@ -834,6 +889,20 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001"
   },
+  "trade": {
+    "swap_token": "Swap Your Funds",
+    "more-than-balance": "Entered amount is more than your available balance",
+    "offer-unavailable": "Offer not available for entered amount. Please reduce amount",
+    "too-much-slippage": "We highly recommend you to reduce amount for better pricing",
+    "fee": "Fee",
+    "free": "Free",
+    "confirm_swap": "Confirm Swap",
+    "swap_for": "Swapping {fromAmount} for {toAmount}",
+    "swap_successful": "Successfully Swapped",
+    "swap_pending": "Swap Pending!",
+    "swap_pending_body": "Swap requests may be pending, please check pending open orders in selected token details",
+    "new_swap": "New Swap"
+  },
   "boost": {
     "title": "Get Points",
     "buy": "GET Points",
@@ -841,7 +910,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -877,6 +946,12 @@
   "boostPost": {
     "title": "Boost"
   },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
+  },
   "voters_dropdown": {
     "rewards": "REWARDS",
     "percent": "PERCENT",
@@ -894,7 +969,7 @@
   },
   "comments": {
     "title": "Komen-komen",
-    "reveal_comment": "Reveal comment",
+    "reveal_comment": "Reveal Content",
     "read_more": "Read more comments",
     "more_replies": "replies",
     "no_comments": "Be the first to respond..."
@@ -991,8 +1066,11 @@
   },
   "quick_reply": {
     "placeholder": "Add a comment...",
+    "placeholder_wave": "What's happening?",
+    "summary_wave": "Will be published in: {host}",
     "comment": "Comment",
     "reply": "REPLY",
+    "publish": "PUBLISH",
     "close": "CLOSE"
   },
   "walkthrough": {
@@ -1013,10 +1091,34 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url."
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
+    "confirmTransaction": "Confirm transaction",
+    "approve": "Approve",
+    "cancel": "Cancel",
+    "multi_array_ops_alert": "Operation not supported by Ecency",
+    "multi_array_ops_aler_desct": "Ecency does not support signing multiple operations yet",
+    "invalid_op": "Invalid operation data",
+    "invalid_op_desc": "try contacting QR/link author",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Enter valid amount in proper format",
+    "transaction_failed": "Transaction Failed!",
+    "invalid_key": "{key} key is required to perform this transaction",
+    "invalid_key_desc": "kindly login with {key} key or master key to perform this transaction"
   },
   "history": {
     "edit": "Edit History",
     "version": "Version"
+  },
+  "chain-error": {
+    "min-root-comment": "You may only post once every five minutes.",
+    "identical-vote": "Your current vote on this content is identical to this vote.",
+    "insufficient-resource": "Insufficient Resource Credits.",
+    "delete-comment-with-vote": "Cannot delete a content with positive pending rewards.",
+    "comment-cashout": "Content after their payout cannot be deleted.",
+    "comment-children": "Cannot delete a content with replies.",
+    "paid-out-post-forbidden": "Voting for paid out content is not available.",
+    "missing-authority": "This operation requires Active private key or authority.",
+    "missing-owner-authority": "This operation requires Owner private key or authority.",
+    "insufficient_fund": "Insufficient Funds"
   }
 }

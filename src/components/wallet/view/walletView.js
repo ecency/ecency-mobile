@@ -1,20 +1,21 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { Fragment } from 'react';
+import { useSelector } from 'react-redux';
 import { View, Text, ScrollView, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
-
 // Components
 import { Icon } from '../../icon';
 import { MainButton } from '../../mainButton';
 import { CollapsibleCard } from '../../collapsibleCard';
 import { WalletDetails } from '../../walletDetails';
 import { WalletDetailsPlaceHolder } from '../../basicUIElements';
-import { ThemeContainer, WalletContainer } from '../../../containers';
+import { WalletContainer } from '../../../containers';
 
 // Styles
 import styles from './walletStyles';
 
 const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) => {
+  const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
   const intl = useIntl();
 
   const _getUnclaimedText = (walletData, isPreview) => (
@@ -47,74 +48,70 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
         walletData,
         userActivities,
       }) => (
-        <ThemeContainer>
-          {(isDarkTheme) => (
-            <ScrollView
-              onScroll={handleOnScroll && handleOnScroll}
-              style={styles.scrollView}
-              refreshControl={
-                <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={handleOnWalletRefresh}
-                  progressBackgroundColor="#357CE6"
-                  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-                  titleColor="#fff"
-                  colors={['#fff']}
-                />
-              }
-              contentContainerStyle={styles.scrollContentContainer}
-              scrollEventThrottle={16}
-            >
-              {!walletData ? (
-                <Fragment>
-                  <WalletDetailsPlaceHolder />
-                </Fragment>
-              ) : (
-                <Fragment>
-                  {walletData.hasUnclaimedRewards && (
-                    <CollapsibleCard
-                      titleColor="#788187"
-                      isBoldTitle
-                      defaultTitle={intl.formatMessage({
-                        id: 'profile.unclaimed_rewards',
-                      })}
-                      expanded
+        <ScrollView
+          onScroll={handleOnScroll && handleOnScroll}
+          style={styles.scrollView}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleOnWalletRefresh}
+              progressBackgroundColor="#357CE6"
+              tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+              titleColor="#fff"
+              colors={['#fff']}
+            />
+          }
+          contentContainerStyle={styles.scrollContentContainer}
+          scrollEventThrottle={16}
+        >
+          {!walletData ? (
+            <Fragment>
+              <WalletDetailsPlaceHolder />
+            </Fragment>
+          ) : (
+            <Fragment>
+              {walletData.hasUnclaimedRewards && (
+                <CollapsibleCard
+                  titleColor="#788187"
+                  isBoldTitle
+                  defaultTitle={intl.formatMessage({
+                    id: 'profile.unclaimed_rewards',
+                  })}
+                  expanded
+                >
+                  {currentAccountUsername === selectedUsername ? (
+                    <MainButton
+                      isLoading={isClaiming}
+                      isDisable={isClaiming}
+                      style={styles.mainButton}
+                      height={50}
+                      onPress={() => claimRewardBalance()}
                     >
-                      {currentAccountUsername === selectedUsername ? (
-                        <MainButton
-                          isLoading={isClaiming}
-                          isDisable={isClaiming}
-                          style={styles.mainButton}
-                          height={50}
-                          onPress={() => claimRewardBalance()}
-                        >
-                          <View style={styles.mainButtonWrapper}>
-                            {_getUnclaimedText(walletData)}
-                            <View style={styles.mainIconWrapper}>
-                              <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
-                            </View>
-                          </View>
-                        </MainButton>
-                      ) : (
-                        _getUnclaimedText(walletData, true)
-                      )}
-                    </CollapsibleCard>
+                      <View style={styles.mainButtonWrapper}>
+                        {_getUnclaimedText(walletData)}
+                        <View style={styles.mainIconWrapper}>
+                          <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+                        </View>
+                      </View>
+                    </MainButton>
+                  ) : (
+                    _getUnclaimedText(walletData, true)
                   )}
-
-                  <CollapsibleCard
-                    titleColor="#788187"
-                    title={intl.formatMessage({
-                      id: 'profile.wallet_details',
-                    })}
-                    expanded
-                  >
-                    <WalletDetails intl={intl} walletData={walletData} isShowDropdowns={false} />
-                  </CollapsibleCard>
-                </Fragment>
+                </CollapsibleCard>
               )}
-            </ScrollView>
+
+              <CollapsibleCard
+                titleColor="#788187"
+                title={intl.formatMessage({
+                  id: 'profile.wallet_details',
+                })}
+                expanded
+              >
+                <WalletDetails intl={intl} walletData={walletData} isShowDropdowns={false} />
+              </CollapsibleCard>
+            </Fragment>
           )}
-        </ThemeContainer>
+        </ScrollView>
       )}
     </WalletContainer>
   );
