@@ -958,7 +958,9 @@
     "time": "TIMP"
   },
   "reblog": {
-    "title": "Info redistribuire"
+    "title": "Info redistribuire",
+    "reblog_post": "Reblog Post",
+    "reblog_delete": "Undo Reblog"
   },
   "dsteem": {
     "date_error": {
