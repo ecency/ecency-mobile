@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import Config from 'react-native-config';
@@ -79,19 +79,21 @@ class PinCodeContainer extends Component {
         isBiometricEnabled,
       } = this.props;
 
-      if (isReset || !isBiometricEnabled) {
+      const _hasHardware = await LocalAuthentication.hasHardwareAsync();
+      const _isEnrolled = await LocalAuthentication.isEnrolledAsync();
+
+      if (isReset || !isBiometricEnabled || !_hasHardware || !_isEnrolled ) {
         return;
       }
 
-      
-      const biometryType = await LocalAuthentication.hasHardwareAsync() 
- 
-      console.log('biometryType is => ', biometryType);
-
-      await LocalAuthentication.authenticateAsync({
-        promptMessage:intl.formatMessage({ id: 'pincode.biometric_desc' })
+      const authResp = await LocalAuthentication.authenticateAsync({
+        promptMessage: intl.formatMessage({ id: 'pincode.biometric_desc' })
       })
-      
+
+      if (!authResp.success) {
+        throw new Error("Authentication Failed");
+      }
+
       console.log('successfully passed biometric auth');
 
       // code gets here means biometeric succeeded
@@ -104,7 +106,9 @@ class PinCodeContainer extends Component {
       console.warn('Failed to process biometric', err);
     }
 
-    LocalAuthentication.cancelAuthenticate();
+    if (Platform.OS === 'android') {
+      LocalAuthentication.cancelAuthenticate();
+    }
   };
 
   // this function updates realm with appropriate master key required for encyrption
