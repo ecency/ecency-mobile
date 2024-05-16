@@ -16,11 +16,13 @@ import AccountListContainer from '../../../containers/accountListContainer';
 
 // Utils
 import globalStyles from '../../../globalStyles';
+import styles from '../styles/reblogScreen.styles';
 import { getTimeFromNow } from '../../../utils/time';
 import { setRcOffer, toastNotification } from '../../../redux/actions/uiAction';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { useQuery } from '@tanstack/react-query';
 import QUERIES from '../../../providers/queries/queryKeys';
+import Animated, { BounceInRight } from 'react-native-reanimated';
 ;
 
 const renderUserListItem = (item, index, handleOnUserPress) => {
@@ -35,14 +37,12 @@ const renderUserListItem = (item, index, handleOnUserPress) => {
 };
 
 const ReblogScreen = ({ route }) => {
+  const intl = useIntl();
   const dispatch = useAppDispatch();
 
   const author = route.params?.author;
   const permlink = route.params?.permlink;
 
-
-  const [reblogs, setReblogs] = useState([]);
-  const intl = useIntl();
   const headerTitle = intl.formatMessage({
     id: 'reblog.title',
   });
@@ -61,7 +61,7 @@ const ReblogScreen = ({ route }) => {
 
 
 
-  const _reblog = () => {
+  const _handleReblogPost = () => {
     if (!isLoggedIn) {
       showLoginAlert({ intl });
       return;
@@ -84,7 +84,7 @@ const ReblogScreen = ({ route }) => {
               }),
             ),
           );
-          onRefresh();
+          reblogsQuery.refetch();
         })
         .catch((error) => {
           if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged') > -1) {
@@ -107,30 +107,33 @@ const ReblogScreen = ({ route }) => {
         });
     }
 
-
-    if (currentAccount.name) {
-      [
-        ...reblogs,
-        {
-          account: currentAccount.name,
-          timestamp: new Date().toString(),
-        }
-      ]
-    } else {
-      setReblogs([
-        ...reblogs,
-        {
-          account: currentAccount.name,
-          timestamp: new Date().toString(),
-        }
-      ])
-    }
-
   }
 
 
+  const _renderFloatingButton = () => {
+
+    return (
+
+      <Animated.View style={styles.floatingContainer} entering={BounceInRight.delay(300)}>
+
+        <MainButton
+          // style={{ width: isLoading ? null : 120 }}
+          onPress={_handleReblogPost}
+          iconName="repeat"
+          iconType="MaterialCommunityIcons"
+          iconColor="white"
+          text={intl.formatMessage({ id: 'reblog.reblog_post' })}
+          isLoading={false}
+        />
+
+      </Animated.View>
+
+    );
+  };
+
+
   return (
-    <AccountListContainer data={reblogsQuery.data.map(username => ({account:username}))}>
+    <AccountListContainer data={reblogsQuery.data.map(username => ({ account: username }))}>
       {({ data, filterResult, handleSearch, handleOnUserPress }) => (
 
         <SafeAreaView style={[globalStyles.container, { paddingBottom: 40 }]}>
@@ -153,14 +156,16 @@ const ReblogScreen = ({ route }) => {
 
 
           </ScrollView>
-          <MainButton
+          {_renderFloatingButton()}
+          {/* <MainButton
             style={globalStyles.mainbutton}
             onPress={_reblog}
             iconName="square-edit-outline"
             iconType="MaterialCommunityIcons"
             iconColor="white"
             text="Reblog Post"
-          />
+            
+          /> */}
         </SafeAreaView>
 
       )

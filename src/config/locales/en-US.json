@@ -960,7 +960,8 @@
     "time": "TIME"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Reblog Info",
+    "reblog_post": "Reblog Post"
   },
   "dsteem": {
     "date_error": {
