@@ -412,7 +412,7 @@ export const getUser = async (user, loggedIn = true) => {
 export const getUserReputation = async (author) => {
   try {
     const response = await client.call('condenser_api', 'get_account_reputations', [author, 1]);
-  
+
     if (response && response.length < 1) {
       return 0;
     }
@@ -1751,61 +1751,29 @@ const _postContent = async (
 
 // Re-blog
 // TODO: remove pinCode
-export const reblog = (account, pinCode, author, permlink) =>
-  _reblog(account, pinCode, author, permlink).then((resp) => {
+export const reblog = (account, pinCode, author, permlink, undo = false) =>
+  _reblog(account, pinCode, author, permlink, undo).then((resp) => {
     return resp;
   });
 
-const _reblog = async (account, pinCode, author, permlink) => {
-  const pin = getDigitPinCode(pinCode);
-  const key = getAnyPrivateKey(account.local, pin);
 
-  if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-    const token = decryptKey(account.local.accessToken, pin);
-    const api = new hsClient({
-      accessToken: token,
-    });
+const _reblog = async (account, pinCode, author, permlink, undo = false) => {
 
-    const follower = account.name;
+  const json = [
+    'reblog',
+    {
+      account: account.name,
+      author,
+      permlink,
+      delete: undo ? 'delete' : undefined
+    },
+  ];
 
-    return api.reblog(follower, author, permlink).then((resp) => resp.result);
-  }
 
-  if (key) {
-    const privateKey = PrivateKey.fromString(key);
-    const follower = account.name;
+  return broadcastPostingJSON('follow', json, account, pinCode)
 
-    const json = {
-      id: 'follow',
-      json: jsonStringify([
-        'reblog',
-        {
-          account: follower,
-          author,
-          permlink,
-        },
-      ]),
-      required_auths: [],
-      required_posting_auths: [follower],
-    };
-
-    const opArray = [['custom_json', json]];
-
-    return new Promise((resolve, reject) => {
-      sendHiveOperations(opArray, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  return Promise.reject(
-    new Error('Check private key permission! Required private posting key or above.'),
-  );
 };
+
 
 export const claimRewardBalance = (account, pinCode, rewardHive, rewardHbd, rewardVests) => {
   const pin = getDigitPinCode(pinCode);
