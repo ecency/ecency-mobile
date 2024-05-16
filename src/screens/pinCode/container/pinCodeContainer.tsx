@@ -88,7 +88,6 @@ class PinCodeContainer extends Component {
 
       const authResp = await LocalAuthentication.authenticateAsync({
         promptMessage: intl.formatMessage({ id: 'pincode.biometric_desc' }),
-        disableDeviceFallback: true
       })
 
       if (!authResp.success) {
