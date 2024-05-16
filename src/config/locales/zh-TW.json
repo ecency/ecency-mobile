@@ -958,7 +958,9 @@
     "time": "時間"
   },
   "reblog": {
-    "title": "轉發資訊"
+    "title": "轉發資訊",
+    "reblog_post": "Reblog Post",
+    "reblog_delete": "Undo Reblog"
   },
   "dsteem": {
     "date_error": {
