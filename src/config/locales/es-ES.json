@@ -960,7 +960,7 @@
   "reblog": {
     "title": "Información de reblogueo",
     "reblog_post": "Rebloguear Post",
-    "reblog_delete": "Undo Reblog"
+    "reblog_delete": "Deshacer Reblogueo"
   },
   "dsteem": {
     "date_error": {
