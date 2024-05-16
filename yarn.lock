@@ -11456,10 +11456,6 @@ react-native-extended-stylesheet@^0.10.0:
     css-mediaquery "^0.1.2"
     object-resolve-path "^1.1.0"
 
-react-native-fingerprint-scanner@hieuvp/react-native-fingerprint-scanner:
-  version "6.0.0"
-  resolved "https://codeload.github.com/hieuvp/react-native-fingerprint-scanner/tar.gz/3898597b031ebf4b2f685958b7de0a755bb8fb16"
-
 react-native-flipper@^0.164.0:
   version "0.164.0"
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.164.0.tgz#64f6269a86a13a72e30f53ba9f5281d2073a7697"

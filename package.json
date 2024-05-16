@@ -120,7 +120,6 @@
     "react-native-dynamic": "^1.0.0",
     "react-native-email-link": "^1.14.3",
     "react-native-extended-stylesheet": "^0.10.0",
-    "react-native-fingerprint-scanner": "hieuvp/react-native-fingerprint-scanner",
     "react-native-flipper": "^0.164.0",
     "react-native-gesture-handler": "^2.14.0",
     "react-native-heic-converter": "^1.3.1",
