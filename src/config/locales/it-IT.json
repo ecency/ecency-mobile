@@ -7,6 +7,7 @@
     "claim_reward_balance": "Richiedi ricompensa ",
     "points_activity": "Activity",
     "transfer": "Trasferimento",
+    "recurrent_transfer": "Recurrent Transfer",
     "power_up": "To Vesting",
     "transfer_from_savings": "Dal salvadanaio",
     "withdraw_savings": "Withdraw Savings",
@@ -51,7 +52,7 @@
     "checkin_extra_desc": "L'uso costante dell'app ti dà la possibilità di guadagnare più di punti, più sei attivo e più guadagni.",
     "dropdown_transfer": "Dona",
     "dropdown_promote": "Promuovi",
-    "dropdown_boost": "Potenzia",
+    "dropdown_boost": "Boost+",
     "from": "Da",
     "to": "A",
     "estimated_value_desc": "In base al valore di acquisto",
@@ -250,7 +251,7 @@
     "this_week": "Questa settimana",
     "last_week": "Last Week",
     "this_month": "Questo Mese",
-    "older_then": "Più Di Un Mese Fa",
+    "older_then": "Last Month & Older",
     "activities": "Tutte",
     "replies": "Risposte",
     "mentions": "Menzioni",
@@ -302,7 +303,10 @@
       "display_name": "Nome che sarà visualizzato",
       "about": "Info",
       "location": "Luogo",
-      "website": "Sito Web"
+      "website": "Sito Web",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
@@ -375,12 +379,13 @@
     "no_user": "Utente non trovato."
   },
   "login": {
-    "signin": "Accedi",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "ISCRIVITI ORA",
     "signin_title": "To get all the benefits of using Ecency",
-    "username": "Nome Utente",
-    "password": "Password o WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "cancella",
     "login": "ACCEDI",
     "steemconnect_description": "Se non vuoi mantenere la tua password crittografata e salvata sul tuo dispositivo, puoi usare Hivesigner.",
@@ -392,7 +397,10 @@
     "deep_login_alert_title": "Easy Login @{username}",
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Get Hive Account",
@@ -415,7 +423,9 @@
       "username_contains_double_hyphens": "Should not contain double hyphens",
       "username_contains_underscore": "Should not contain underscore",
       "username_exists": "Username already exists, try a different one"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "Feed",
@@ -459,6 +469,22 @@
     "update": "Aggiorna",
     "reply": "Rispondi",
     "schedule": "Schedule"
+  },
+  "account_list": {
+    "title": "Users"
+  },
+  "post_poll": {
+    "voters": "Voters",
+    "voted": "voted",
+    "hp": "HP",
+    "view_stats": "View Stats",
+    "hide_stats": "Hide Stats",
+    "ended": "Ended",
+    "ends": "Ends {inTime}",
+    "age_limit": "• Only accounts older than {days} days allowed",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "Titolo",
@@ -513,6 +539,7 @@
     "scheduled_for": "Scheduled For",
     "scheduled_immediate": "Immediate",
     "scheduled_later": "Later",
+    "schedule_video_unsupported": "Scheduling video posts not available",
     "settings_title": "Post Options",
     "done": "DONE",
     "draft_save_title": "Saving Draft",
@@ -528,7 +555,9 @@
     "invalid_url_error": "Please insert valid url",
     "plain": "Plain",
     "video": "Video",
-    "image": "Image"
+    "image": "Image",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -553,10 +582,20 @@
     "btn_add": "Image",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "confirm_delete": "Are you sure you want to delete selected items from your uploads",
     "message_failed": "Failed to upload image",
     "delete_failed": "Failed to delete image",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)",
+    "publish_manual": "Ready",
+    "published": "Published",
+    "encoding_ipfs": "Encoding",
+    "encoding_preparing": "Preparing",
+    "deleted": "Deleted",
+    "start_upload": "START UPLOAD",
+    "uploading": "UPLOADING",
+    "select_thumb": "Select Thumbnail",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "Inserisci il PIN per sbloccare",
@@ -578,6 +617,9 @@
     "continue": "Continue",
     "okay": "Okay",
     "done": "Done",
+    "notice": "Notice!",
+    "close": "CLOSE",
+    "later": "Later",
     "move_question": "Sei sicuro di voler salvare il post nelle bozze?",
     "success_shared": "Success! Content submitted!",
     "success_moved": "Salvato in bozza",
@@ -745,7 +787,8 @@
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
     "edit-history": "Edit History",
-    "mute": "Mute / Block"
+    "mute": "Mute / Block",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "Utente non esistente",
@@ -769,13 +812,19 @@
     "to": "A",
     "amount_information": "Trascina il cursore per regolare la quantità",
     "amount": "Importo",
+    "executions": "Executions",
+    "recurrence": "Recurrence",
     "memo": "Memo",
+    "recurrent_transfer": "Recurrent Transfer",
+    "delete_recurrent_transfer": "Delete Recurrent Transfer ",
     "information": "Continue transaction?",
     "amount_desc": "Saldo",
     "memo_desc": "Questo memo è pubblico",
     "convert_desc": "La conversione richiede 3,5 giorni e NON è consigliata se il prezzo di HBD è superiore a $1",
     "to_placeholder": "Nome Utente",
     "memo_placeholder": "Inserisci qui le tue note",
+    "recurrence_placeholder": "Choose Recurrence",
+    "executions_placeholder": "Number of Repeats",
     "transfer_token": "Trasferisci",
     "purchase_estm": "Purchase Points",
     "convert": "Converti HBD in HIVE",
@@ -860,8 +909,8 @@
     "next": "PROSSIMO",
     "info": "Actual value of vote you receive may vary",
     "account": {
-      "title": "Ottieni un Boost per il tuo Account",
-      "desc": "La delegazione per 30 giorni accrescerà il peso dei tuoi voti e delle tue attività sociali e ti darà più azioni con più crediti di risorse."
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -896,6 +945,12 @@
   },
   "boostPost": {
     "title": "Potenzia"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "Compensi",
@@ -1036,7 +1091,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

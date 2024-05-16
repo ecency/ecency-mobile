@@ -57,7 +57,7 @@ const getStampedData = (data) => {
 };
 
 const processStampedData = (stampedData) => {
-  if (stampedData.hasOwnProperty('stamp') && stampedData.stamp == STAMP) {
+  if (stampedData?.stamp && stampedData.stamp == STAMP) {
     return stampedData.data;
   }
   throw new Error('Possibly un-stamped legacy data');

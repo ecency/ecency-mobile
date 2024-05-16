@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View, Text, Alert, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -32,7 +32,6 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
 
-
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const currency = useAppSelector((state) => state.application.currency);
 
@@ -56,11 +55,9 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
   const _fromAssetId = fromAssetSymbol === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE;
   const _toAssetId = _toAssetSymbol === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE;
 
-
   // queres
   const assetsQuery = walletQueries.useAssetsQuery();
   const pendingRequestsQuery = walletQueries.usePendingRequestsQuery(_fromAssetId);
-
 
   // this method makes sure amount is only updated when new order book is fetched after asset change
   // this avoid wrong from and to swap value on changing source asset
@@ -93,8 +90,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
   const _fromAssetData = assetsData[_fromAssetId];
   const _balance = _fromAssetData.balance;
   const _fromFiatPrice = _fromAssetData.currentPrice;
-  const _toFiatPrice =
-    assetsData[_toAssetId].currentPrice;
+  const _toFiatPrice = assetsData[_toAssetId].currentPrice;
   const _marketFiatPrice = marketPrice * _toFiatPrice;
 
   const _toAmountStr = toAmount.toFixed(3);
@@ -130,11 +126,12 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
     setFromAmount('0');
   };
 
-  const _onSwapSuccess = async (hasPending:boolean) => {
-
-    const _badgeColor = hasPending ? EStyleSheet.value('$primaryBlue') : EStyleSheet.value('$primaryGreen');
-    const _badgeIcon = hasPending ? "error-outline" : "check";
-    const _titleId = hasPending ? 'trade.swap_pending' : 'trade.swap_successful'
+  const _onSwapSuccess = async (hasPending: boolean) => {
+    const _badgeColor = hasPending
+      ? EStyleSheet.value('$primaryBlue')
+      : EStyleSheet.value('$primaryGreen');
+    const _badgeIcon = hasPending ? 'error-outline' : 'check';
+    const _titleId = hasPending ? 'trade.swap_pending' : 'trade.swap_successful';
     const _body = hasPending ? intl.formatMessage({ id: 'trade.swap_pending_body' }) : undefined;
 
     const headerContent = (
@@ -190,7 +187,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
         const _existingPedingCount = pendingRequestsQuery.data?.length || 0;
         const pendingRequests = await pendingRequestsQuery.refetch();
         const _hasPending = pendingRequests.data?.length !== _existingPedingCount;
-        
+
         onSuccess();
         setSwapping(false);
         _onSwapSuccess(_hasPending);
@@ -214,7 +211,12 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
           },
         ),
         buttons: [
-          { textId: 'alert.cancel', onPress: () => {} },
+          {
+            textId: 'alert.cancel',
+            onPress: () => {
+              console.log('cancel pressed');
+            },
+          },
           { textId: 'alert.confirm', onPress: _confirmSwap },
         ],
       }),

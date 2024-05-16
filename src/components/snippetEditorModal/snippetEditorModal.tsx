@@ -4,7 +4,7 @@ import { Alert, KeyboardAvoidingView, Platform, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { TextInput } from '..';
 import { Snippet } from '../../models';
-import { useSnippetsMutation } from '../../providers/queries';
+import { editorQueries } from '../../providers/queries';
 import { TextButton } from '../buttons';
 import Modal from '../modal';
 import styles from './snippetEditorModalStyles';
@@ -13,13 +13,13 @@ export interface SnippetEditorModalRef {
   showNewModal: () => void;
   showEditModal: (snippet: Snippet) => void;
 }
-
+// eslint-disable-next-line no-empty-pattern
 const SnippetEditorModal = ({}, ref) => {
   const intl = useIntl();
   const titleInputRef = useRef(null);
   const bodyInputRef = useRef(null);
 
-  const snippetsMutation = useSnippetsMutation();
+  const snippetsMutation = editorQueries.useSnippetsMutation();
 
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');

@@ -1,7 +1,8 @@
 import { AppRegistry, LogBox } from 'react-native';
 import AppCenter from 'appcenter';
 import { name as appName } from './app.json';
-import 'core-js';
+
+import 'react-native-url-polyfill/auto';
 import 'intl';
 import 'intl/locale-data/jsonp/en-US';
 

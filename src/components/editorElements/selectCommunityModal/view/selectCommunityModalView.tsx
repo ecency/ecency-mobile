@@ -14,7 +14,6 @@ const SelectCommunityModalView = ({
   subscribedCommunities,
   onPressCommunity,
   onChangeSearch,
-  onPressCloseForSearch,
   searchedCommunities,
   showSearchedCommunities,
   currentAccount,

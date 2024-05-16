@@ -3,8 +3,9 @@ import { View, Text, TouchableOpacity, Alert, Pressable } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import ESStyleSheet from 'react-native-extended-stylesheet';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
@@ -16,7 +17,6 @@ import { OptionsModal } from '../../atoms';
 import styles from './draftListItemStyles';
 import { ScheduledPostStatus } from '../../../providers/ecency/ecency.types';
 import { PopoverWrapper } from '../../popoverWrapper/popoverWrapperView';
-import ESStyleSheet from 'react-native-extended-stylesheet';
 
 const DraftListItemView = ({
   title,
@@ -26,7 +26,6 @@ const DraftListItemView = ({
   reputation,
   created,
   image,
-  thumbnail,
   handleOnPressItem,
   handleOnRemoveItem,
   handleOnMovePress,
@@ -186,10 +185,10 @@ const DraftListItemView = ({
         <View style={styles.body}>
           <TouchableOpacity onPress={_onItemPress} onLongPress={_onItemLongPress}>
             {image !== null && (
-              <FastImage
+              <ExpoImage
                 source={image}
                 style={styles.thumbnail}
-                resizeMode={FastImage.resizeMode.cover}
+                contentFit="cover"
               />
             )}
             <View style={styles.postDescripton}>

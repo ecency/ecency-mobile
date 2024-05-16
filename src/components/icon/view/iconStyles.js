@@ -10,7 +10,7 @@ export default EStyleSheet.create({
   },
   badgeWrapper: {
     position: 'absolute',
-    right: scalePx(15),
+    left: scalePx(15),
     top: scalePx(18),
     backgroundColor: '$primaryRed',
     borderWidth: 0,

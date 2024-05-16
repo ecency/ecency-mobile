@@ -2,12 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, PermissionsAndroid, Platform, View, Text } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import QRCodeScanner from 'react-native-qrcode-scanner';
 import { useIntl } from 'react-intl';
 import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
+import { get } from 'lodash';
+import * as hiveuri from 'hive-uri';
 import styles from './qrModalStyles';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
+  handleDeepLink,
   showActionModal,
   showWebViewModal,
   toastNotification,
@@ -19,17 +21,15 @@ import getWindowDimensions from '../../utils/getWindowDimensions';
 import { isHiveUri, getFormattedTx } from '../../utils/hive-uri';
 import { handleHiveUriOperation, resolveTransaction } from '../../providers/hive/dhive';
 import bugsnagInstance from '../../config/bugsnag';
-import { get } from 'lodash';
 import showLoginAlert from '../../utils/showLoginAlert';
 import authType from '../../constants/authType';
 import { delay } from '../../utils/editor';
-import ROUTES from '../../../src/constants/routeNames';
+import ROUTES from '../../constants/routeNames';
+import {useCameraDevice, Camera, useCodeScanner} from 'react-native-vision-camera';
 
-const hiveuri = require('hive-uri');
 const screenHeight = getWindowDimensions().height;
-interface QRModalProps {}
 
-export const QRModal = ({}: QRModalProps) => {
+export const QRModal = () => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
   const isVisibleQRModal = useAppSelector((state) => state.ui.isVisibleQRModal);
@@ -37,15 +37,32 @@ export const QRModal = ({}: QRModalProps) => {
   const pinCode = useAppSelector((state) => state.application.pin);
   const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const device = useCameraDevice('back');
 
   const [isScannerActive, setIsScannerActive] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
   const sheetModalRef = useRef<ActionSheet>();
-  const scannerRef = useRef(null);
+
+  const codeScanner = useCodeScanner({
+    codeTypes: ['qr'],
+    onCodeScanned: (codes) => {
+      console.log(`Scanned ${codes.length} codes!`, codes)
+      handleLink({data:codes[0].value});
+    }
+  })
+
+  // TODO: make sure to properly clean uri processing code to process uri from deep links and notifications
+  const deepLinkToHandle = useAppSelector((state) => state.ui.deepLinkToHandle);
+  useEffect(() => {
+    if (deepLinkToHandle) {
+      handleLink({ data: deepLinkToHandle });
+    }
+  }, [deepLinkToHandle]);
 
   useEffect(() => {
     if (isVisibleQRModal) {
       requestCameraPermission();
+      setIsScannerActive(true);
       sheetModalRef?.current?.show();
     } else {
       sheetModalRef?.current?.hide();
@@ -112,7 +129,7 @@ export const QRModal = ({}: QRModalProps) => {
     dispatch(toggleQRModal(false));
   };
 
-  const onSuccess = (e) => {
+  const handleLink = (e) => {
     setIsScannerActive(false);
     if (isHiveUri(e.data)) {
       _handleHiveUri(e.data);
@@ -149,7 +166,7 @@ export const QRModal = ({}: QRModalProps) => {
       await delay(500); // NOTE: it's required to avoid modal mis fire
       dispatch(
         showWebViewModal({
-          uri: uri,
+          uri,
         }),
       );
       return;
@@ -157,10 +174,10 @@ export const QRModal = ({}: QRModalProps) => {
 
     const parsed = hiveuri.decode(uri);
     const authoritiesMap = new Map();
-    authoritiesMap.set('active', currentAccount?.local?.activeKey ? true : false);
-    authoritiesMap.set('posting', currentAccount?.local?.postingKey ? true : false);
-    authoritiesMap.set('owner', currentAccount?.local?.ownerKey ? true : false);
-    authoritiesMap.set('memo', currentAccount?.local?.memoKey ? true : false);
+    authoritiesMap.set('active', !!currentAccount?.local?.activeKey);
+    authoritiesMap.set('posting', !!currentAccount?.local?.postingKey);
+    authoritiesMap.set('owner', !!currentAccount?.local?.ownerKey);
+    authoritiesMap.set('memo', !!currentAccount?.local?.memoKey);
 
     getFormattedTx(parsed.tx, authoritiesMap)
       .then(async (formattedTx) => {
@@ -180,7 +197,9 @@ export const QRModal = ({}: QRModalProps) => {
                 text: intl.formatMessage({
                   id: 'qr.cancel',
                 }),
-                onPress: () => {},
+                onPress: () => {
+                  console.log('cancel pressed');
+                },
                 style: 'cancel',
               },
               {
@@ -205,6 +224,7 @@ export const QRModal = ({}: QRModalProps) => {
                 },
               },
             ],
+            onClosed: () => dispatch(handleDeepLink('')),
           }),
         );
       })
@@ -218,7 +238,6 @@ export const QRModal = ({}: QRModalProps) => {
             { key: errObj.authorityKeyType },
           ),
         );
-        return;
       });
   };
 
@@ -268,16 +287,10 @@ export const QRModal = ({}: QRModalProps) => {
           },
           style: 'cancel',
         },
-        {
-          text: 'Rescan',
-          onPress: () => {
-            setIsScannerActive(true);
-            scannerRef.current?.reactivate();
-          },
-        },
       ],
     );
   };
+
 
   return (
     <ActionSheet
@@ -285,20 +298,16 @@ export const QRModal = ({}: QRModalProps) => {
       gestureEnabled={true}
       containerStyle={{ ...styles.sheetContent, height: screenHeight }}
       onClose={_onClose}
-      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+      indicatorStyle={styles.indicator}
     >
       <View style={styles.mainContainer}>
-        <QRCodeScanner
-          reactivate={isScannerActive}
-          showMarker={true}
-          ref={scannerRef}
-          onRead={onSuccess}
-          topViewStyle={{ display: 'none' }}
-          bottomViewStyle={{ display: 'none' }}
-          containerStyle={styles.scannerContainer}
-          cameraContainerStyle={styles.cameraContainer}
-          cameraStyle={styles.cameraStyle}
+        <Camera 
+          style={EStyleSheet.absoluteFill}
+          device={device}
+          isActive={isScannerActive}
+          codeScanner={codeScanner}
         />
+
         {isProcessing && (
           <View style={styles.activityIndicatorContainer}>
             <ActivityIndicator color="white" style={styles.activityIndicator} />

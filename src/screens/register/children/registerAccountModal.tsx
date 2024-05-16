@@ -220,6 +220,7 @@ export const RegisterAccountModal = forwardRef(({ username, email, refUsername }
             skus={ITEM_SKUS}
             username={_username}
             email={email}
+            referral={refUsername}
             isNoSpin
             disablePurchaseListenerOnMount={true}
             handleOnPurchaseSuccess={_handleOnPurchaseSuccess}

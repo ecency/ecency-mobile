@@ -1,23 +1,24 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "community_reward": "Community Reward",
-    "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
-    "points_activity": "Activity",
-    "transfer": "Transfer",
-    "power_up": "To Vesting",
-    "transfer_from_savings": "From Savings",
-    "withdraw_savings": "Withdraw Savings",
+    "curation_reward": "Recompensa de curación",
+    "author_reward": "Recompensa de autor",
+    "community_reward": "Recompensas de comunidad",
+    "comment_benefactor_reward": "Recompensa de Benefactor",
+    "claim_reward_balance": "Reclamar recompensas ",
+    "points_activity": "Actividades",
+    "transfer": "Transferir",
+    "recurrent_transfer": "Transferencia recurrente",
+    "power_up": "A invertir",
+    "transfer_from_savings": "Desde Ahorros",
+    "withdraw_savings": "Retirar ahorros",
     "withdraw_vesting": "Power Down | Unstake",
-    "open_order": "Open Order",
-    "fill_order": "Fill Order",
-    "post": "Post",
-    "comment": "Comment",
-    "checkin": "Check-in",
-    "vote": "Vote",
-    "reblog": "Reblog",
+    "open_order": "Órdenes abiertas",
+    "fill_order": "Completar orden",
+    "post": "Publicación",
+    "comment": "Comentario",
+    "checkin": "Registrarse",
+    "vote": "Votar",
+    "reblog": "Rebloguear",
     "login": "Login",
     "incoming_transfer_title": "Incoming transfer",
     "outgoing_transfer_title": "Outgoing transfer",
@@ -51,7 +52,7 @@
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost",
+    "dropdown_boost": "Boost+",
     "from": "From",
     "to": "To",
     "estimated_value_desc": "According to purchase value",
@@ -250,7 +251,7 @@
     "this_week": "This Week",
     "last_week": "Last Week",
     "this_month": "This Month",
-    "older_then": "Older Than A Month",
+    "older_then": "Last Month & Older",
     "activities": "All",
     "replies": "Replies",
     "mentions": "Mentions",
@@ -302,7 +303,10 @@
       "display_name": "Display Name",
       "about": "About",
       "location": "Location",
-      "website": "Website"
+      "website": "Website",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
@@ -375,12 +379,13 @@
     "no_user": "User is not found."
   },
   "login": {
-    "signin": "Sign in",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "JOIN NOW",
     "signin_title": "To get all the benefits of using Ecency",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "cancel",
     "login": "LOGIN",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
@@ -392,7 +397,10 @@
     "deep_login_alert_title": "Easy Login @{username}",
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Get Hive Account",
@@ -415,7 +423,9 @@
       "username_contains_double_hyphens": "Should not contain double hyphens",
       "username_contains_underscore": "Should not contain underscore",
       "username_exists": "Username already exists, try a different one"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "Feed",
@@ -459,6 +469,22 @@
     "update": "Update",
     "reply": "Reply",
     "schedule": "Schedule"
+  },
+  "account_list": {
+    "title": "Users"
+  },
+  "post_poll": {
+    "voters": "Voters",
+    "voted": "voted",
+    "hp": "HP",
+    "view_stats": "View Stats",
+    "hide_stats": "Hide Stats",
+    "ended": "Ended",
+    "ends": "Ends {inTime}",
+    "age_limit": "• Only accounts older than {days} days allowed",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "Title",
@@ -513,6 +539,7 @@
     "scheduled_for": "Scheduled For",
     "scheduled_immediate": "Immediate",
     "scheduled_later": "Later",
+    "schedule_video_unsupported": "Scheduling video posts not available",
     "settings_title": "Post Options",
     "done": "DONE",
     "draft_save_title": "Saving Draft",
@@ -528,7 +555,9 @@
     "invalid_url_error": "Please insert valid url",
     "plain": "Plain",
     "video": "Video",
-    "image": "Image"
+    "image": "Image",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -553,10 +582,20 @@
     "btn_add": "Image",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "confirm_delete": "Are you sure you want to delete selected items from your uploads",
     "message_failed": "Failed to upload image",
     "delete_failed": "Failed to delete image",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)",
+    "publish_manual": "Ready",
+    "published": "Published",
+    "encoding_ipfs": "Encoding",
+    "encoding_preparing": "Preparing",
+    "deleted": "Deleted",
+    "start_upload": "START UPLOAD",
+    "uploading": "UPLOADING",
+    "select_thumb": "Select Thumbnail",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "Enter PIN to unlock",
@@ -578,6 +617,9 @@
     "continue": "Continue",
     "okay": "Okay",
     "done": "Done",
+    "notice": "Notice!",
+    "close": "CLOSE",
+    "later": "Later",
     "move_question": "Are you sure to move to drafts?",
     "success_shared": "Success! Content submitted!",
     "success_moved": "Moved to draft",
@@ -745,7 +787,8 @@
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
     "edit-history": "Edit History",
-    "mute": "Mute / Block"
+    "mute": "Mute / Block",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
@@ -769,13 +812,19 @@
     "to": "To",
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Amount",
+    "executions": "Executions",
+    "recurrence": "Recurrence",
     "memo": "Memo",
+    "recurrent_transfer": "Recurrent Transfer",
+    "delete_recurrent_transfer": "Delete Recurrent Transfer ",
     "information": "Continue transaction?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
     "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "Username",
     "memo_placeholder": "Enter your notes here",
+    "recurrence_placeholder": "Choose Recurrence",
+    "executions_placeholder": "Number of Repeats",
     "transfer_token": "Transfer",
     "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
@@ -861,7 +910,7 @@
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -896,6 +945,12 @@
   },
   "boostPost": {
     "title": "Boost"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "REWARDS",
@@ -1036,7 +1091,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

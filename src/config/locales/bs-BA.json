@@ -7,6 +7,7 @@
     "claim_reward_balance": "Zatražite Nagradu ",
     "points_activity": "Activity",
     "transfer": "Prijenos",
+    "recurrent_transfer": "Recurrent Transfer",
     "power_up": "Za Dodijeliti",
     "transfer_from_savings": "Od štednje",
     "withdraw_savings": "Withdraw Savings",
@@ -51,7 +52,7 @@
     "checkin_extra_desc": "Dosljedno korištenje aplikacije daje vam dodatne šanse da zaradite više bodova, budete aktivniji i zaradite više.",
     "dropdown_transfer": "Poklon",
     "dropdown_promote": "Promoviši",
-    "dropdown_boost": "Pojačaj",
+    "dropdown_boost": "Boost+",
     "from": "Od",
     "to": "Za",
     "estimated_value_desc": "Prema nabavnoj vrijednosti",
@@ -250,7 +251,7 @@
     "this_week": "Ove sedmice",
     "last_week": "Prošle sedmice",
     "this_month": "Ovaj mjesec",
-    "older_then": "Stariji od mjesec dana",
+    "older_then": "Last Month & Older",
     "activities": "Sve",
     "replies": "Odgovori",
     "mentions": "Pominjanja",
@@ -302,7 +303,10 @@
       "display_name": "Prikazano ime",
       "about": "O tome",
       "location": "Lokacija",
-      "website": "Web stranica"
+      "website": "Web stranica",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
@@ -375,12 +379,13 @@
     "no_user": "Korisnik nije pronađen."
   },
   "login": {
-    "signin": "Prijavite se",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "PRIDRUŽITE SE SADA",
     "signin_title": "Da biste iskoristili sve prednosti korištenja Ecency",
-    "username": "Korisničko ime",
-    "password": "Lozinka ili WIF",
-    "description": "Prijavom se slažete sa našim uslovima usluga i politikama privatnosti.",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "otkaži",
     "login": "PRIJAVI SE",
     "steemconnect_description": "Ako ne želite da lozinka ostane šifrovana i sačuvana na uređaju, možete koristiti Hivesigner.",
@@ -392,7 +397,10 @@
     "deep_login_alert_title": "Easy Login @{username}",
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "Get Hive Account",
@@ -415,7 +423,9 @@
       "username_contains_double_hyphens": "Should not contain double hyphens",
       "username_contains_underscore": "Should not contain underscore",
       "username_exists": "Username already exists, try a different one"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "Novosti",
@@ -459,6 +469,22 @@
     "update": "Ažuriraj",
     "reply": "Odgovori",
     "schedule": "Raspored"
+  },
+  "account_list": {
+    "title": "Users"
+  },
+  "post_poll": {
+    "voters": "Voters",
+    "voted": "voted",
+    "hp": "HP",
+    "view_stats": "View Stats",
+    "hide_stats": "Hide Stats",
+    "ended": "Ended",
+    "ends": "Ends {inTime}",
+    "age_limit": "• Only accounts older than {days} days allowed",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "Naslov",
@@ -513,6 +539,7 @@
     "scheduled_for": "Zakazano za",
     "scheduled_immediate": "Odmah",
     "scheduled_later": "Kasnije",
+    "schedule_video_unsupported": "Scheduling video posts not available",
     "settings_title": "Opcije objave",
     "done": "GOTOVO",
     "draft_save_title": "Spremanje nacrta",
@@ -528,7 +555,9 @@
     "invalid_url_error": "Please insert valid url",
     "plain": "Plain",
     "video": "Video",
-    "image": "Image"
+    "image": "Image",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "Isječci nisu pronađeni",
@@ -553,10 +582,20 @@
     "btn_add": "Slika",
     "btn_insert": "UMETNI",
     "btn_delete": "IZBRIŠI",
-    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "confirm_delete": "Are you sure you want to delete selected items from your uploads",
     "message_failed": "Otpremanje slike nije uspjelo",
     "delete_failed": "Failed to delete image",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)",
+    "publish_manual": "Ready",
+    "published": "Published",
+    "encoding_ipfs": "Encoding",
+    "encoding_preparing": "Preparing",
+    "deleted": "Deleted",
+    "start_upload": "START UPLOAD",
+    "uploading": "UPLOADING",
+    "select_thumb": "Select Thumbnail",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "Unesite PIN za otključavanje",
@@ -578,6 +617,9 @@
     "continue": "Continue",
     "okay": "Okay",
     "done": "Done",
+    "notice": "Notice!",
+    "close": "CLOSE",
+    "later": "Later",
     "move_question": "Sigurni ste da želite prijeći na nacrte?",
     "success_shared": "Uspjeh! Sadržaj poslat!",
     "success_moved": "Premješteno u nacrt",
@@ -745,7 +787,8 @@
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
     "edit-history": "Edit History",
-    "mute": "Mute / Block"
+    "mute": "Mute / Block",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "Nema postojećeg korisnika",
@@ -769,13 +812,19 @@
     "to": "Za",
     "amount_information": "Prevucite klizač da podesite količinu",
     "amount": "Iznos",
+    "executions": "Executions",
+    "recurrence": "Recurrence",
     "memo": "Bilješka",
+    "recurrent_transfer": "Recurrent Transfer",
+    "delete_recurrent_transfer": "Delete Recurrent Transfer ",
     "information": "Continue transaction?",
     "amount_desc": "Stanje",
     "memo_desc": "Ova bilješka je javna",
     "convert_desc": "Pretvaranje traje 3.5 dana i ne preporučuje se ako je cijena HBD veća od $1",
     "to_placeholder": "Korisničko ime",
     "memo_placeholder": "Ovdje unesite svoje bilješke",
+    "recurrence_placeholder": "Choose Recurrence",
+    "executions_placeholder": "Number of Repeats",
     "transfer_token": "Prijenos",
     "purchase_estm": "Kupite bodove",
     "convert": "Pretvori HBD u HIVE",
@@ -860,8 +909,8 @@
     "next": "SLJEDEĆI",
     "info": "Actual value of vote you receive may vary",
     "account": {
-      "title": "Dobijte pojačanje računa",
-      "desc": "30-dnevna delegacija će povećati vaše glasove i društvene aktivnosti i dati vam više akcija s više resursa."
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}",
@@ -896,6 +945,12 @@
   },
   "boostPost": {
     "title": "Pojačaj"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "NAGRADE",
@@ -1036,7 +1091,7 @@
     "open": "Open URL",
     "detected_url": "Detected URL",
     "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url.",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

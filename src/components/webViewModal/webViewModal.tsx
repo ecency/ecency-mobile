@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import WebView from 'react-native-webview';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { hideWebViewModal } from '../../redux/actions/uiAction';
-import WebView from 'react-native-webview';
 import { hsOptions } from '../../constants/hsOptions';
 import { Modal } from '..';
-import styles from './webViewModalStyles';
 
-interface QRModalProps {}
 interface WebViewModalData {
   uri: string;
 }
 
-export const WebViewModal = ({}: QRModalProps) => {
+export const WebViewModal = () => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
   const isVisibleWebViewModal = useAppSelector((state) => state.ui.isVisibleWebViewModal);

@@ -17,6 +17,7 @@ import {
   LOGOUT_DONE,
   SHOW_WEBVIEW_MODAL,
   HIDE_WEBVIEW_MODAL,
+  HIVE_URI_TO_HANDLE,
 } from '../constants/constants';
 import { PostEditorModalData } from '../reducers/uiReducer';
 
@@ -99,10 +100,10 @@ export const setLockedOrientation = (payload: string) => ({
   type: SET_LOCKED_ORIENTATION,
 });
 
-export const showReplyModal = ({mode, parentPost}:PostEditorModalData) => ({
+export const showReplyModal = ({ mode, parentPost }: PostEditorModalData) => ({
   payload: {
     mode: mode || 'comment',
-    parentPost
+    parentPost,
   } as PostEditorModalData,
   type: SHOW_REPLY_MODAL,
 });
@@ -117,4 +118,9 @@ export const logout = () => ({
 
 export const logoutDone = () => ({
   type: LOGOUT_DONE,
+});
+
+export const handleDeepLink = (hiveUri: string) => ({
+  payload: hiveUri,
+  type: HIVE_URI_TO_HANDLE,
 });

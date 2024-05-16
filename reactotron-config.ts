@@ -15,3 +15,8 @@ const reactotron = Reactotron.setAsyncStorageHandler(AsyncStorage) // AsyncStora
   .connect(); // let's connect!
 
 export default reactotron;
+
+export const log = (...rest) => {
+  Reactotron.log(...rest);
+  console.log(...rest);
+};

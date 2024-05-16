@@ -14,7 +14,7 @@ import { IconButton } from '../../..';
 import RootNavigation from '../../../../navigation/rootNavigation';
 
 // Constants
-const DEFAULT_IMAGE = require('../../../../assets/ecency.png');
+import DEFAULT_IMAGE from '../../../../assets/ecency.png';
 
 class PostHeaderDescription extends PureComponent {
   // Component Life Cycles
@@ -88,7 +88,6 @@ class PostHeaderDescription extends PureComponent {
       secondaryContentComponent,
       showDotMenuButton,
       handleOnDotPress,
-      isPinned,
     } = this.props;
 
     return (
@@ -118,11 +117,7 @@ class PostHeaderDescription extends PureComponent {
                 <Text style={styles.name}>{name}</Text>
               </TouchableOpacity>
 
-              {inlineTime && (
-                <Text style={styles.date}>
-                  {isPromoted ? intl.formatMessage({ id: 'post.promoted' }) : date}
-                </Text>
-              )}
+              {inlineTime && <Text style={styles.date}>{date}</Text>}
 
               {isShowOwnerIndicator && (
                 <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
@@ -166,11 +161,7 @@ class PostHeaderDescription extends PureComponent {
                 </TouchableOpacity>
               )}
 
-              {!inlineTime && (
-                <Text style={styles.date}>
-                  {isPromoted ? intl.formatMessage({ id: 'post.promoted' }) : date}
-                </Text>
-              )}
+              {!inlineTime && <Text style={styles.date}>{date}</Text>}
             </View>
           </View>
         </View>

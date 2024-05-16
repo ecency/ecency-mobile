@@ -7,6 +7,7 @@
     "claim_reward_balance": "Получить награду ",
     "points_activity": "Активность",
     "transfer": "Перевод",
+    "recurrent_transfer": "Повторяющийся перевод",
     "power_up": "В силу",
     "transfer_from_savings": "Из сейфа",
     "withdraw_savings": "Вывести сбережения",
@@ -51,14 +52,14 @@
     "checkin_extra_desc": "Постоянное использование приложения дает шанс заработать дополнительные баллы. Больше активности - больше вознаграждений.",
     "dropdown_transfer": "Подарить",
     "dropdown_promote": "Продвинуть",
-    "dropdown_boost": "Усилить",
+    "dropdown_boost": "Усилить+",
     "from": "От",
     "to": "Кому",
     "estimated_value_desc": "По стоимости покупки",
     "estimated_value": "Расчетная стоимость",
     "vote_value": "Величина голоса",
     "delegated_hive_power": "Делегированная сила голоса",
-    "powering_down_hive_power": "Powering down ({subValue})",
+    "powering_down_hive_power": "Понижение силы ({subValue})",
     "received_hive_power": "Полученная сила голоса",
     "total_hive_power": "Всего силы голоса",
     "savings": "Сбережения",
@@ -250,7 +251,7 @@
     "this_week": "На неделе",
     "last_week": "На прошлой неделе",
     "this_month": "В этом месяце",
-    "older_then": "Давно",
+    "older_then": "Последний месяц и старше",
     "activities": "Все",
     "replies": "Ответы",
     "mentions": "Упоминания",
@@ -302,7 +303,10 @@
       "display_name": "Отображаемое имя",
       "about": "О себе",
       "location": "Местоположение",
-      "website": "Веб-сайт"
+      "website": "Веб-сайт",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
@@ -376,11 +380,12 @@
   },
   "login": {
     "signin": "Войти",
+    "login_with_hs": "Войти с помощью hivesigner",
     "signup": "ПРИСОЕДИНЯЙТЕСЬ СЕЙЧАС",
     "signin_title": "Чтобы получить все преимущества от использования Ecency",
-    "username": "Пользователь",
-    "password": "Пароль или ключ",
-    "description": "Регистрируясь, вы соглашаетесь с Условиями использования и Политикой конфиденциальности.",
+    "username": "имя пользователя",
+    "password": "пароль / приватный ключ",
+    "description": "Авторизуясь, вы соглашаетесь с нашими Условиями обслуживания и Политикой конфиденциальности.",
     "cancel": "отмена",
     "login": "Войти",
     "steemconnect_description": "Если вы не хотите хранить зашифрованные ключи на своем устройстве, используйте Hivesigner.",
@@ -392,7 +397,10 @@
     "deep_login_alert_title": "Простой вход @{username}",
     "deep_login_alert_body": "Подтвердите авторизацию с помощью кода доступа",
     "deep_login_url_expired": "Срок действия URL-адреса для авторизации истёк, пожалуйста, используйте закрытый ключ или пароль для входа",
-    "deep_login_malformed_url": "Неверный URL-адрес для входа, используйте закрытый ключ или пароль для входа"
+    "deep_login_malformed_url": "Неверный URL-адрес для входа, используйте закрытый ключ или пароль для входа",
+    "no_account_text": "Не зарегистрированы?",
+    "signup_now": "Зарегистрируйтесь сейчас!",
+    "or": "ИЛИ"
   },
   "register": {
     "modal_title": "Получить учетную запись Hive",
@@ -415,7 +423,9 @@
       "username_contains_double_hyphens": "Не должно содержать двойные дефисы",
       "username_contains_underscore": "Не должно содержать подчеркивания",
       "username_exists": "Имя пользователя уже существует, попробуйте другое"
-    }
+    },
+    "have_account_text": "У вас уже есть аккаунт?",
+    "login_here": "Войти здесь"
   },
   "home": {
     "feed": "Лента",
@@ -459,6 +469,22 @@
     "update": "Обновить",
     "reply": "Ответить",
     "schedule": "Запланировать"
+  },
+  "account_list": {
+    "title": "Users"
+  },
+  "post_poll": {
+    "voters": "Voters",
+    "voted": "voted",
+    "hp": "HP",
+    "view_stats": "View Stats",
+    "hide_stats": "Hide Stats",
+    "ended": "Ended",
+    "ends": "Ends {inTime}",
+    "age_limit": "• Only accounts older than {days} days allowed",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "Заголовок",
@@ -513,6 +539,7 @@
     "scheduled_for": "Запланировано на",
     "scheduled_immediate": "Немедленно",
     "scheduled_later": "Позже",
+    "schedule_video_unsupported": "Планирование публикации видео недоступно",
     "settings_title": "Параметры статьи",
     "done": "ГОТОВО",
     "draft_save_title": "Сохранение черновика",
@@ -528,7 +555,9 @@
     "invalid_url_error": "Пожалуйста, введите действительную ссылку",
     "plain": "Обычный",
     "video": "Видео",
-    "image": "Изображение"
+    "image": "Изображение",
+    "short_desc": "Краткое описание",
+    "short_desc_placeholder": "Краткое содержание"
   },
   "snippets": {
     "label_no_snippets": "Сниппеты не найдены",
@@ -553,10 +582,20 @@
     "btn_add": "Изображение",
     "btn_insert": "ВСТАВИТЬ",
     "btn_delete": "УДАЛИТЬ",
-    "confirm_delete": "Вы уверены, что хотите удалить изображения из своих загрузок",
+    "confirm_delete": "Вы уверены, что хотите удалить выбранные элементы из ваших загрузок",
     "message_failed": "Не удалось загрузить изображение",
     "delete_failed": "Не удалось удалить изображение",
-    "failed_count": "Не удалось загрузить {failedCount} из {totalCount} выбранного изображения(ов)"
+    "failed_count": "Не удалось загрузить {failedCount} из {totalCount} выбранного изображения(ов)",
+    "publish_manual": "Готово",
+    "published": "Опубликовано",
+    "encoding_ipfs": "Кодирование",
+    "encoding_preparing": "Подготовка",
+    "deleted": "Удалено",
+    "start_upload": "НАЧАТЬ ЗАГРУЗКУ",
+    "uploading": "ЗАГРУЗКА",
+    "select_thumb": "Выбрать миниатюру",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "Чтобы разблокировать введите пин-код",
@@ -578,6 +617,9 @@
     "continue": "Продолжить",
     "okay": "Окей",
     "done": "Готово",
+    "notice": "Примечание!",
+    "close": "ЗАКРЫТЬ",
+    "later": "Позже",
     "move_question": "Вы уверены, что хотите переместить в черновики?",
     "success_shared": "Успех! Контент отправлен!",
     "success_moved": "Перемещён в черновики",
@@ -745,7 +787,8 @@
     "pin-community": "Закрепить в сообществе",
     "unpin-community": "Открепить от сообщества",
     "edit-history": "История изменений",
-    "mute": "Отключить / Блокировать"
+    "mute": "Отключить / Блокировать",
+    "translate": "Перевод"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
@@ -769,13 +812,19 @@
     "to": "Кому",
     "amount_information": "Потяните ползунок чтобы установить сумму",
     "amount": "Сумма",
+    "executions": "Выполнение",
+    "recurrence": "Периодичность",
     "memo": "Примечание",
+    "recurrent_transfer": "Повторяющийся перевод",
+    "delete_recurrent_transfer": "Удалить повторяющийся перевод ",
     "information": "Продолжить транзакцию?",
     "amount_desc": "Баланс",
     "memo_desc": "Эта заметка публична",
     "convert_desc": "Конвертация занимает 3,5 дня и НЕ рекомендуется ЕСЛИ цена HBD выше $1",
     "to_placeholder": "Пользователь",
     "memo_placeholder": "Введите свою заметку",
+    "recurrence_placeholder": "Выбрать повторение",
+    "executions_placeholder": "Количество повторов",
     "transfer_token": "Перевод",
     "purchase_estm": "Купить Баллы",
     "convert": "Конвертировать HBD в HIVE",
@@ -861,7 +910,7 @@
     "info": "Фактическое значение голоса, которое вы получите, может варьироваться",
     "account": {
       "title": "Получить усиление аккаунта",
-      "desc": "30-дневная делегация увеличит ваши голоса и социальную активность, а также даст вам больше действий с использованием Ресурс Кредитов."
+      "desc": "Альтернатива, покупка в приложении: Делегация на 30 дней для усиления вашего аккаунта."
     },
     "confirm_purchase": "Подтвердите покупку @{username}",
     "confirm_purchase_summary": "Покупка {points} для {username} по {price}",
@@ -896,6 +945,12 @@
   },
   "boostPost": {
     "title": "Усилить"
+  },
+  "boost_plus": {
+    "title": "Усилить+",
+    "confirm_boost": "Вы уверены, что хотите усилить с помощью баллов?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Аккаунт уже усилен до {date}"
   },
   "voters_dropdown": {
     "rewards": "НАГРАДЫ",
@@ -1036,7 +1091,7 @@
     "open": "Открыть Ссылку",
     "detected_url": "Обнаружена Ссылка",
     "unsupported_alert_title": "Неподдерживаемый URL!",
-    "unsupported_alert_desc": "Пожалуйста, отсканируйте корректный адрес ecency.",
+    "unsupported_alert_desc": "Ссылка не поддерживается мобильным приложением Ecency",
     "confirmTransaction": "Подтвердить транзакцию",
     "approve": "Утвердить",
     "cancel": "Отменить",

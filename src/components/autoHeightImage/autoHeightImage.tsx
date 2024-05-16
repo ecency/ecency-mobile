@@ -1,8 +1,8 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Image, Platform, TouchableOpacity } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { Platform, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 
 interface AutoHeightImageProps {
   contentWidth: number;
@@ -25,10 +25,11 @@ export const AutoHeightImage = ({
   const _initialHeight = useMemo(() => {
     let _height = contentWidth / (16 / 9);
     if (metadata && metadata.image && metadata.image_ratios) {
+
       metadata.image_ratios.forEach((_ratio, index) => {
         const url = metadata.image[index];
 
-        if (url && !isNaN(_ratio)) {
+        if (url && Number.isFinite(_ratio) && _ratio !== 0) {
           const poxifiedUrl = proxifyImageSrc(
             url,
             undefined,
@@ -40,7 +41,6 @@ export const AutoHeightImage = ({
           );
 
           if (imgUrl === poxifiedUrl) {
-            const _ratio = metadata.image_ratios[index];
             _height = contentWidth / _ratio;
           }
         }
@@ -70,15 +70,15 @@ export const AutoHeightImage = ({
 
   const _onLoad = (evt) => {
     setOnLoadCalled(true);
-    _setImageBounds(evt.nativeEvent.width, evt.nativeEvent.height);
+    _setImageBounds(evt.source.width, evt.source.height);
   };
 
   return (
     <TouchableOpacity onPress={onPress} disabled={isAnchored} activeOpacity={activeOpacity || 1}>
-      <FastImage
+      <ExpoImage
         style={imgStyle}
         source={{ uri: imgUrl }}
-        resizeMode={FastImage.resizeMode.contain}
+        contentFit={"contain"}
         onLoad={_onLoad}
       />
     </TouchableOpacity>

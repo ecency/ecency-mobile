@@ -80,8 +80,8 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
-  cancelIcon:{
-    marginLeft:8,
+  cancelIcon: {
+    marginLeft: 8,
   },
   dropdownWrapper: {
     flex: 1,

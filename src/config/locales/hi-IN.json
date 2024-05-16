@@ -7,6 +7,7 @@
     "claim_reward_balance": "इनाम दावा ",
     "points_activity": "गतिविधि",
     "transfer": "स्थानांतरण",
+    "recurrent_transfer": "Recurrent Transfer",
     "power_up": "वेस्टिंग को",
     "transfer_from_savings": "बचत से",
     "withdraw_savings": "बचत खाते से निकालें",
@@ -51,7 +52,7 @@
     "checkin_extra_desc": "एप्लिकेशन का लगातार उपयोग आपको अधिक अंक अर्जित करने, अधिक सक्रिय होने और अधिक कमाने के लिए अतिरिक्त मौके देता है।",
     "dropdown_transfer": "उपहार",
     "dropdown_promote": "प्रचार करना",
-    "dropdown_boost": "बूस्ट",
+    "dropdown_boost": "Boost+",
     "from": "से",
     "to": "को",
     "estimated_value_desc": "खरीद मूल्य के अनुसार",
@@ -250,7 +251,7 @@
     "this_week": "इस सप्ताह",
     "last_week": "पिछला सप्ताह",
     "this_month": "इस महीने",
-    "older_then": "एक महीना से अधिक पुराना",
+    "older_then": "Last Month & Older",
     "activities": "सब",
     "replies": "जबाबें",
     "mentions": "का उल्लेख है",
@@ -302,7 +303,10 @@
       "display_name": "प्रदर्शित होने वाला नाम",
       "about": "के बारे में",
       "location": "स्थान",
-      "website": "वेबसाइट"
+      "website": "वेबसाइट",
+      "edit_profile": "Edit Profile",
+      "cover_img": "Cover Image",
+      "profile_img": "Profile Image"
     }
   },
   "settings": {
@@ -375,12 +379,13 @@
     "no_user": "उपयोगकर्ता नहीं मिला।"
   },
   "login": {
-    "signin": "अंदर आएं",
+    "signin": "Login",
+    "login_with_hs": "Login with hivesigner",
     "signup": "अब सम्मिलित हों",
     "signin_title": "इसेंसी का उपयोग करने के सभी लाभ प्राप्त करने के लिए",
-    "username": "प्रयोक्ता नाम",
-    "password": "पासवर्ड या डब्लूएआईएफ",
-    "description": "साइन इन करके, आप हमारी सेवा की शर्तों और गोपनीयता नीतियों से सहमत हैं।",
+    "username": "username",
+    "password": "password / private key",
+    "description": "By logging in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "रद्द करें",
     "login": "लॉगिन करें",
     "steemconnect_description": "यदि आप अपने पासवर्ड को अपने डिवाइस पर एन्क्रिप्ट और सहेज कर नहीं रखना चाहते हैं, तो आप हाइवसाईनरका उपयोग कर सकते हैं।",
@@ -392,7 +397,10 @@
     "deep_login_alert_title": "आसान लॉगिन @{username}",
     "deep_login_alert_body": "एक्सेस कोड का उपयोग करके सीधे लॉगिन सत्यापित करें",
     "deep_login_url_expired": "लॉगिन यूआरएल समाप्त हो गया है, कृपया लॉगिन करने के लिए निजी कुंजी या पासवर्ड का उपयोग करें",
-    "deep_login_malformed_url": "विकृत लॉगिन यूआरएल, लॉग इन करने के लिए कृपया निजी कुंजी या पासवर्ड का उपयोग करें"
+    "deep_login_malformed_url": "विकृत लॉगिन यूआरएल, लॉग इन करने के लिए कृपया निजी कुंजी या पासवर्ड का उपयोग करें",
+    "no_account_text": "Don't have an account?",
+    "signup_now": "Sign up now!",
+    "or": "OR"
   },
   "register": {
     "modal_title": "हाइव खाता प्राप्त करें",
@@ -415,7 +423,9 @@
       "username_contains_double_hyphens": "डबल हाइफ़न नहीं होना चाहिए",
       "username_contains_underscore": "अंडरस्कोर नहीं होना चाहिए",
       "username_exists": "उपयोगकर्ता नाम पहले से मौजूद है, कोई दूसरा नाम आज़माएं"
-    }
+    },
+    "have_account_text": "Already have an account?",
+    "login_here": "Login Here"
   },
   "home": {
     "feed": "संभरण",
@@ -459,6 +469,22 @@
     "update": "नवनीकरण",
     "reply": "जबाब",
     "schedule": "शेड्यूल"
+  },
+  "account_list": {
+    "title": "Users"
+  },
+  "post_poll": {
+    "voters": "Voters",
+    "voted": "voted",
+    "hp": "HP",
+    "view_stats": "View Stats",
+    "hide_stats": "Hide Stats",
+    "ended": "Ended",
+    "ends": "Ends {inTime}",
+    "age_limit": "• Only accounts older than {days} days allowed",
+    "interpretation_token": "• User HP based vote interpretation",
+    "interpret_token": "Interpret by Tokens",
+    "interpret_vote": "Interpret by Votes"
   },
   "editor": {
     "title": "शीर्षक",
@@ -513,6 +539,7 @@
     "scheduled_for": "के लिए निर्धारित",
     "scheduled_immediate": "तुरंत",
     "scheduled_later": "बाद में",
+    "schedule_video_unsupported": "Scheduling video posts not available",
     "settings_title": "पोस्ट विकल्प",
     "done": "हो गया",
     "draft_save_title": "ड्राफ्ट सहेजा जा रहा है",
@@ -528,7 +555,9 @@
     "invalid_url_error": "कृपया मान्य यूआरएल डालें",
     "plain": "प्लेन",
     "video": "वीडियो",
-    "image": "छवि"
+    "image": "छवि",
+    "short_desc": "Short description",
+    "short_desc_placeholder": "Brief summary of content"
   },
   "snippets": {
     "label_no_snippets": "कोई स्निपेट नहीं मिला",
@@ -553,10 +582,20 @@
     "btn_add": "छवि",
     "btn_insert": "सम्मिलित करें",
     "btn_delete": "हटाएँ",
-    "confirm_delete": "क्या आप वाकई अपने अपलोड से छवियों को हटाना चाहते हैं",
+    "confirm_delete": "Are you sure you want to delete selected items from your uploads",
     "message_failed": "छवि अपलोड करने में विफल",
     "delete_failed": "छवि हटाने में विफल",
-    "failed_count": "{totalCount} चयनित छवियों में से {failedCount} अपलोड करने में विफल"
+    "failed_count": "{totalCount} चयनित छवियों में से {failedCount} अपलोड करने में विफल",
+    "publish_manual": "Ready",
+    "published": "Published",
+    "encoding_ipfs": "Encoding",
+    "encoding_preparing": "Preparing",
+    "deleted": "Deleted",
+    "start_upload": "START UPLOAD",
+    "uploading": "UPLOADING",
+    "select_thumb": "Select Thumbnail",
+    "warn_vid_already_added": "",
+    "warn_vid_in_process": ""
   },
   "pincode": {
     "enter_text": "खोलनें के लिए पिन डालें",
@@ -578,6 +617,9 @@
     "continue": "जारी रखना",
     "okay": "ठीक है",
     "done": "हो गया",
+    "notice": "Notice!",
+    "close": "CLOSE",
+    "later": "Later",
     "move_question": "क्या आप ड्राफ्ट में जाना सुनिश्चित करते हैं?",
     "success_shared": "सफलता! प्रस्तुत सामग्री!",
     "success_moved": "ड्राफ्ट में ले जाया गया",
@@ -745,7 +787,8 @@
     "pin-community": "समुदाय को पिन करें",
     "unpin-community": "समुदाय से अनपिन करें",
     "edit-history": "इतिहास संपादित करें",
-    "mute": "म्यूट / ब्लॉक"
+    "mute": "म्यूट / ब्लॉक",
+    "translate": "Translate"
   },
   "deep_link": {
     "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",
@@ -769,13 +812,19 @@
     "to": "को",
     "amount_information": "राशि समायोजित करने के लिए स्लाइडर को खींचें।",
     "amount": "रकम",
+    "executions": "Executions",
+    "recurrence": "Recurrence",
     "memo": "ज्ञापन",
+    "recurrent_transfer": "Recurrent Transfer",
+    "delete_recurrent_transfer": "Delete Recurrent Transfer ",
     "information": "Continue transaction?",
     "amount_desc": "शेष रकम",
     "memo_desc": "यह ज्ञापन सार्वजनिक है",
     "convert_desc": "कन्वर्ट में 3.5 दिन लगते हैं और अनुशंसित नहीं है यदि एचबीडी की कीमत $ 1 से अधिक है",
     "to_placeholder": "प्रयोक्ता नाम",
     "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
+    "recurrence_placeholder": "Choose Recurrence",
+    "executions_placeholder": "Number of Repeats",
     "transfer_token": "स्थानांतरण",
     "purchase_estm": "पॉइंट्स खरीदे",
     "convert": "एचबीडी को हाइव में बदलें",
@@ -860,8 +909,8 @@
     "next": "अगला",
     "info": "आपको प्राप्त होने वाले वोट का वास्तविक मूल्य भिन्न हो सकता है",
     "account": {
-      "title": "खाता बूस्ट प्राप्त करें",
-      "desc": "30 दिनों का प्रतिनिधिमंडल आपके वोटों और सामाजिक गतिविधियों को बढ़ावा देगा और आपको अधिक संसाधन क्रेडिट के साथ अधिक कार्रवाई देगा।"
+      "title": "Get Account Boost",
+      "desc": "Alternative, In-app Purchase: 30 days delegation to boost your account."
     },
     "confirm_purchase": "खरीद की पुष्टि करें @{username}",
     "confirm_purchase_summary": "{username} के लिए {price} पर {points} ख़रीदना",
@@ -896,6 +945,12 @@
   },
   "boostPost": {
     "title": "प्रोत्साहन"
+  },
+  "boost_plus": {
+    "title": "Boost+",
+    "confirm_boost": "Are you sure to Boost with Points?",
+    "confirm_boost_plus": "Are you sure to Boost with In-App Purchase?",
+    "already_boosted": "Account already boosted till {date}"
   },
   "voters_dropdown": {
     "rewards": "इनाम",
@@ -1036,7 +1091,7 @@
     "open": "यूआरएल खोलें",
     "detected_url": "यूआरएल का पता चला",
     "unsupported_alert_title": "असमर्थित यूआरएल!",
-    "unsupported_alert_desc": "कृपया एक मान्य ईसेंसी यूआरएल स्कैन करें।",
+    "unsupported_alert_desc": "Link not supported by Ecency mobile app",
     "confirmTransaction": "Confirm transaction",
     "approve": "Approve",
     "cancel": "Cancel",

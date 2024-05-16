@@ -10,8 +10,16 @@ import HeaderView from '../view/headerView';
 import { AccountContainer } from '../../../containers';
 import { parseReputation } from '../../../utils/user';
 import { toggleQRModal } from '../../../redux/actions/uiAction';
+import ROUTES from '../../../constants/routeNames';
 
-const HeaderContainer = ({ selectedUser, isReverse, handleOnBackPress, hideUser, showQR }) => {
+const HeaderContainer = ({
+  selectedUser,
+  isReverse,
+  handleOnBackPress,
+  hideUser,
+  showQR,
+  showBoost,
+}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
@@ -33,8 +41,14 @@ const HeaderContainer = ({ selectedUser, isReverse, handleOnBackPress, hideUser,
     dispatch(toggleQRModal(true));
   };
 
-  return (
+  const _handleOnBoostPress = () => {
+    // navigate to boost plus screen;
+    navigation.navigate(ROUTES.SCREENS.REDEEM, {
+      redeemType: 'boost_plus',
+    });
+  };
 
+  return (
     <AccountContainer>
       {({ currentAccount, isLoggedIn, isLoginDone }) => {
         const _user = isReverse && selectedUser ? selectedUser : currentAccount;
@@ -46,6 +60,7 @@ const HeaderContainer = ({ selectedUser, isReverse, handleOnBackPress, hideUser,
             handleOnPressBackButton={_handleOnPressBackButton}
             handleOnQRPress={_handleQRPress}
             handleOpenDrawer={_handleOpenDrawer}
+            handleOnBoostPress={_handleOnBoostPress}
             isDarkTheme={isDarkTheme}
             isLoggedIn={isLoggedIn}
             isLoginDone={isLoginDone}
@@ -54,11 +69,11 @@ const HeaderContainer = ({ selectedUser, isReverse, handleOnBackPress, hideUser,
             username={get(_user, 'name')}
             hideUser={hideUser}
             showQR={showQR}
+            showBoost={showBoost}
           />
         );
       }}
     </AccountContainer>
-
   );
 };
 

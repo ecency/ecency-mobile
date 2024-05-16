@@ -1,11 +1,9 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { injectIntl } from 'react-intl';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 // Constants
-import { useNavigation } from '@react-navigation/native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useDispatch, connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { showProfileModal } from '../../../redux/actions/uiAction';
 // Components
 import { BasicHeader, UserListItem } from '../../../components';

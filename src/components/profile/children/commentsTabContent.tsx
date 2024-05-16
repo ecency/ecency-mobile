@@ -109,7 +109,9 @@ const CommentsTabContent = ({
     <View key="profile.comments" style={styles.commentsTabBar}>
       <Comments
         comments={data}
-        fetchPost={() => {}}
+        fetchPost={() => {
+          console.log('implement fetch if required');
+        }}
         isOwnProfile={isOwnProfile}
         isHideImage={isHideImage}
         flatListProps={{

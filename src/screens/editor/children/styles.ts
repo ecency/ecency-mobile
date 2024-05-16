@@ -1,5 +1,4 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export default EStyleSheet.create({
   sheetContent: {
@@ -33,7 +32,7 @@ export default EStyleSheet.create({
     textAlign: 'left',
   },
   listContainer: {
-    paddingBottom: getBottomSpace() + 16,
+    paddingBottom: 12,
   },
   container: {
     paddingVertical: 16,
@@ -56,5 +55,14 @@ export default EStyleSheet.create({
   doneButton: { borderRadius: 16, backgroundColor: '$primaryBlue' },
   thumbSelectContainer: {
     marginTop: 12,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '$borderColor',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    color: '$primaryBlack',
+    marginVertical: 8,
+    height: 60,
   },
 });

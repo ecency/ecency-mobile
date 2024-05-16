@@ -1,4 +1,4 @@
-import { AvatarHeader } from './avatarHeader';
+import EditAvatar from './editAvatar/editAvatar';
 import { AccountsBottomSheet } from './accountsBottomSheet';
 import { BasicHeader } from './basicHeader';
 import { BoostIndicatorAnimation, PulseAnimation, SpinIndicator } from './animations';
@@ -92,6 +92,7 @@ import { ActionModal } from './actionModal';
 import { CustomiseFiltersModal } from './customiseFiltersModal';
 import { ForegroundNotification } from './foregroundNotification';
 import { PostHtmlRenderer } from './postHtmlRenderer';
+import { PostPoll } from './postPoll';
 import { QuickProfileModal } from './organisms';
 import QuickReplyModal from './quickReplyModal/quickReplyModalView';
 import Tooltip from './tooltip/tooltipView';
@@ -103,6 +104,9 @@ import TransferAccountSelector from './transferAccountSelector/transferAccountSe
 import TransferAmountInputSection from './transferAmountInputSection/transferAmountInputSection';
 import TextBoxWithCopy from './textBoxWithCopy/textBoxWithCopy';
 import WebViewModal from './webViewModal/webViewModal';
+import OrDivider from './orDivider/orDividerView';
+import PostTranslationModal from './post-translation-modal/postTranslationModal';
+import { ImageViewer } from './imageViewer';
 
 // Basic UI Elements
 import {
@@ -130,7 +134,7 @@ import {
 } from './basicUIElements';
 
 export {
-  AvatarHeader,
+  EditAvatar,
   AccountsBottomSheet,
   BasicHeader,
   BeneficiaryModal,
@@ -241,6 +245,7 @@ export {
   CustomiseFiltersModal,
   ForegroundNotification,
   PostHtmlRenderer,
+  PostPoll,
   QuickProfileModal,
   QuickReplyModal,
   Tooltip,
@@ -253,4 +258,7 @@ export {
   TransferAmountInputSection,
   TextBoxWithCopy,
   WebViewModal,
+  OrDivider,
+  PostTranslationModal,
+  ImageViewer
 };

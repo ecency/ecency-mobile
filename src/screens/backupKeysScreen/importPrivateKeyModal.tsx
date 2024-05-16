@@ -1,22 +1,21 @@
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { Modal, TextInput } from '../../components';
 import { useAppSelector } from '../../hooks';
-import { useDispatch } from 'react-redux';
 
 // styles
 import styles from './backupKeysScreenStyles';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 // redux / providers
 import { getUpdatedUserKeys } from '../../providers/hive/auth';
 import { getDigitPinCode } from '../../providers/hive/dhive';
 import { updateCurrentAccount } from '../../redux/actions/accountAction';
 
-type Props = {};
-
-export const ImportPrivateKeyModalModal = forwardRef(({}: Props, ref) => {
+// eslint-disable-next-line no-empty-pattern
+export const ImportPrivateKeyModalModal = forwardRef(({}, ref) => {
   const intl = useIntl();
   const dispatch = useDispatch();
 
@@ -44,8 +43,6 @@ export const ImportPrivateKeyModalModal = forwardRef(({}: Props, ref) => {
     getUpdatedUserKeys(currentAccount, data)
       .then((result) => {
         if (result) {
-          // Save user data to Realm DB
-          // await setUserData(updatedUserData);
           // update user data in redux
           dispatch(updateCurrentAccount({ ...result }));
           setShowModal(false);

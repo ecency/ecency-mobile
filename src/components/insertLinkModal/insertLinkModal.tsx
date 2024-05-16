@@ -4,6 +4,7 @@ import { Platform, Text, TouchableOpacity, View, ActivityIndicator } from 'react
 import { renderPostBody } from '@ecency/render-helper';
 import { ScrollView } from 'react-native-gesture-handler';
 import Clipboard from '@react-native-clipboard/clipboard';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { MainButton, PostBody, TextButton } from '..';
 import styles from './insertLinkModalStyles';
 import TextInput from '../textInput';
@@ -12,7 +13,6 @@ import { isStringWebLink } from '../markdownEditor/children/formats/utils';
 import applyWebLinkFormat from '../markdownEditor/children/formats/applyWebLinkFormat';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 import Modal from '../modal';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 interface InsertLinkModalProps {
   handleOnInsertLink: ({
@@ -35,7 +35,6 @@ export const InsertLinkModal = forwardRef(
     const [label, setLabel] = useState('');
     const [url, setUrl] = useState('');
     const [isUrlValid, setIsUrlValid] = useState(true);
-    const [selectedText, setSelectedText] = useState('');
     const [formattedText, setFormattedText] = useState('');
     const [selection, setSelection] = useState({ start: 0, end: 0 });
     const [selectedUrlType, setSelectedUrlType] = useState(0);
@@ -47,7 +46,6 @@ export const InsertLinkModal = forwardRef(
     useImperativeHandle(ref, () => ({
       showModal: async ({ selectedText, selection }) => {
         if (selectedText) {
-          setSelectedText(selectedText);
           setSelection(selection);
           if (selection && selection.start !== selection.end) {
             if (isStringWebLink(selectedText)) {
@@ -78,7 +76,7 @@ export const InsertLinkModal = forwardRef(
         const labelText =
           selectedUrlType === 2 ? url.split('/').pop() : selectedUrlType === 1 ? '' : label;
         applyWebLinkFormat({
-          item: { text: labelText, url: url },
+          item: { text: labelText, url },
           text: '',
           selection: { start: 0, end: 0 },
           setTextAndSelection: _setFormattedTextAndSelection,
@@ -97,8 +95,8 @@ export const InsertLinkModal = forwardRef(
       }
     };
 
-    const _setFormattedTextAndSelection = ({ selection, text }) => {
-      setPreviewBody(renderPostBody(text, true, Platform.OS === 'ios' ? false : true));
+    const _setFormattedTextAndSelection = ({ text }) => {
+      setPreviewBody(renderPostBody(text, true, Platform.OS !== 'ios'));
       setFormattedText(text);
     };
 
@@ -117,7 +115,6 @@ export const InsertLinkModal = forwardRef(
       setSelectedUrlType(0);
       setPreviewBody('');
       setIsUrlValid(true);
-      setSelectedText('');
       setFormattedText('');
       handleOnSheetClose();
     };
@@ -127,7 +124,7 @@ export const InsertLinkModal = forwardRef(
         setIsUrlValid(false);
         return;
       }
-      handleOnInsertLink({ snippetText: formattedText, selection: selection });
+      handleOnInsertLink({ snippetText: formattedText, selection });
       setIsUrlValid(true);
     };
     const _renderFloatingPanel = () => {
@@ -135,7 +132,7 @@ export const InsertLinkModal = forwardRef(
         <View style={styles.floatingContainer}>
           <TextButton
             style={styles.cancelButton}
-            onPress={() => setVisible(false)} // sheetModalRef.current?.setModalVisible(false)}
+            onPress={() => setVisible(false)} // sheetModalRef.current?.hide()}
             text="Cancel"
           />
           <MainButton

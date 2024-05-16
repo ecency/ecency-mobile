@@ -52,7 +52,7 @@ class ProfileContainer extends Component {
       user: null,
       quickProfile: {
         reputation: get(props, 'route.params.reputation', ''),
-        name: isOwnProfile ? currentAccountUsername : username
+        name: isOwnProfile ? currentAccountUsername : username,
       },
       reverseHeader: true,
       deepLinkFilter: get(props, 'route.params.deepLinkFilter'),
@@ -166,6 +166,9 @@ class ProfileContainer extends Component {
             mutes.splice(mutedIndex, 1);
             currentAccount.mutes = mutes;
             dispatch(updateCurrentAccount(currentAccount));
+            this.setState({
+              isMuted: false,
+            });
           }
         }
 
@@ -425,7 +428,9 @@ class ProfileContainer extends Component {
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {},
+            onPress: () => {
+              console.log('cancel pressed');
+            },
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
@@ -481,9 +486,7 @@ class ProfileContainer extends Component {
 
     if (isLoggedIn && !nextProps.isLoggedIn) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
-      return;
     }
-
   }
 
   render() {

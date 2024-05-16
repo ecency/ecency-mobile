@@ -20,6 +20,7 @@ const HeaderView = ({
   handleOnPressBackButton,
   handleOnQRPress,
   handleOpenDrawer,
+  handleOnBoostPress,
   isDarkTheme,
   isLoggedIn,
   isLoginDone,
@@ -28,6 +29,7 @@ const HeaderView = ({
   username,
   hideUser,
   showQR,
+  showBoost,
 }) => {
   const navigation = useNavigation();
 
@@ -100,7 +102,7 @@ const HeaderView = ({
           <IconButton
             style={styles.backButton}
             iconStyle={styles.backIcon}
-            name="md-arrow-back"
+            name="arrow-back"
             onPress={handleOnPressBackButton}
           />
         </View>
@@ -115,7 +117,17 @@ const HeaderView = ({
               onPress={handleOnQRPress}
             />
           )}
-          <IconButton iconStyle={styles.backIcon} name="md-search" onPress={_onPressSearchButton} />
+          <IconButton iconStyle={styles.backIcon} name="search" onPress={_onPressSearchButton} />
+
+          {showBoost && isLoggedIn && (
+            <IconButton
+              style={styles.boostIconContainer}
+              iconStyle={styles.boostPlusIcon}
+              name="fire"
+              iconType="FontAwesome5"
+              onPress={handleOnBoostPress}
+            />
+          )}
         </View>
       )}
     </>

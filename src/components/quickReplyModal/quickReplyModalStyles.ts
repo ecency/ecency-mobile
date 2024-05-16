@@ -3,10 +3,23 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   sheetContent: {
-    backgroundColor: '$primaryBackgroundColor',
-    marginTop: 132,
+    backgroundColor: 'transparent',
+    paddingBottom: 12,
+    zIndez: 999,
+    shadowColor: 'transparent',
+  } as ViewStyle,
+  sheetIndicator: {
+    backgroundColor: 'transparent',
   },
 
+  backdrop: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  } as ViewStyle,
   container: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -14,11 +27,12 @@ export default EStyleSheet.create({
   },
 
   modalContainer: {
-    margin: 16,
+    marginHorizontal: 16,
     borderRadius: 16,
     backgroundColor: '$primaryBackgroundColor',
-    paddingTop: 16,
-    paddingBottom: 16,
+    borderWidth: EStyleSheet.hairlineWidth,
+    borderColor: '$iconColor',
+    paddingVertical: 16,
   },
 
   cancelButton: {
@@ -30,6 +44,7 @@ export default EStyleSheet.create({
   },
   titleBtnTxt: {
     fontSize: 18,
+
     fontWeight: 'bold',
     color: '$primaryBlack',
   },
@@ -41,7 +56,8 @@ export default EStyleSheet.create({
   },
   inputContainer: {
     paddingVertical: 6,
-    height: 120,
+    minHeight: 120,
+    maxHeight: 200,
   },
   textInput: {
     color: '$primaryBlack',
@@ -108,8 +124,8 @@ export default EStyleSheet.create({
     width: 96,
     borderRadius: 16,
     backgroundColor: '$primaryLightBackground',
-    justifyContent:'center',
-    alignItems:'center'
+    justifyContent: 'center',
+    alignItems: 'center',
   } as ImageStyle,
   minusContainer: {
     position: 'absolute',
@@ -119,12 +135,11 @@ export default EStyleSheet.create({
     borderRadius: 16,
     padding: 2,
   } as ViewStyle,
-  toolbarContainer:{
-    flexDirection:'row',
-    alignItems:'center'
+  toolbarContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   } as ViewStyle,
-  toolbarSpacer:{
-    marginLeft:8
+  toolbarSpacer: {
+    marginLeft: 8,
   } as ViewStyle,
-
 });

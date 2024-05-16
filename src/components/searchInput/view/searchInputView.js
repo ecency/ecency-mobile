@@ -51,7 +51,7 @@ const SearchInputView = ({
       iconStyle={styles.closeIcon}
       iconType="Ionicons"
       style={styles.closeIconButton}
-      name="ios-close-circle-outline"
+      name="close-circle-outline"
       onPress={onPress}
     />
   );

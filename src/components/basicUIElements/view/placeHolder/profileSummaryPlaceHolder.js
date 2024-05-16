@@ -29,7 +29,6 @@ const ProfileSummaryPlaceHolder = () => {
       </View>
     </View>
   );
-
 };
 
 export default ProfileSummaryPlaceHolder;

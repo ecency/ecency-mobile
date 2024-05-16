@@ -4,9 +4,13 @@ import LottieView from 'lottie-react-native';
 import { useSelector } from 'react-redux';
 import styles from './postCardPlaceHolderStyles';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
+
 const PostCardPlaceHolder = () => {
+  const _width = getWindowDimensions().width - 32;
+
   const animationStyle = {
-    width: getWindowDimensions().nativeWidth - 32,
+    width: _width,
+    height: _width * 2
   };
 
   const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
@@ -29,6 +33,5 @@ const PostCardPlaceHolder = () => {
       />
     </View>
   );
-
 };
 export default PostCardPlaceHolder;

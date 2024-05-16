@@ -1,47 +1,45 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { SafeAreaView, PermissionsAndroid, Platform, View, Text } from 'react-native';
-import CameraRoll from '@react-native-community/cameraroll';
+import { PermissionsAndroid, Platform, View } from 'react-native';
+import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import ImageView from 'react-native-image-viewing';
 import RNFetchBlob from 'rn-fetch-blob';
 import ActionSheetView from 'react-native-actions-sheet';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
 import { writeToClipboard } from '../../../../utils/clipboard';
-import { showProfileModal, toastNotification } from '../../../../redux/actions/uiAction';
+import {
+  handleDeepLink,
+  showProfileModal,
+  toastNotification,
+} from '../../../../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
 import { OptionsModal } from '../../../atoms';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
-import { PostHtmlRenderer, VideoPlayer } from '../../..';
+import { ImageViewer, PostHtmlRenderer, VideoPlayer } from '../../..';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../../hooks';
-import { IconButton } from '../../../buttons';
-import styles from './postBodyStyles';
+import { isHiveUri } from '../../../../utils/hive-uri';
 
 const WIDTH = getWindowDimensions().width;
 
 const PostBody = ({ body, metadata, onLoadEnd, width }) => {
+  const intl = useIntl();
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
-  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-
-  const [postImages, setPostImages] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null);
   const [selectedLink, setSelectedLink] = useState(null);
   const [html, setHtml] = useState('');
   const [youtubeVideoId, setYoutubeVideoId] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
   const [videoStartTime, setVideoStartTime] = useState(0);
 
-  const intl = useIntl();
-  const actionImage = useRef(null);
   const actionLink = useRef(null);
+  const imageViewerRef = useRef(null);
   const youtubePlayerRef = useRef(null);
 
   useEffect(() => {
@@ -54,7 +52,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
     if (videoId && youtubePlayerRef.current) {
       setYoutubeVideoId(videoId);
       setVideoStartTime(startTime);
-      youtubePlayerRef.current.setModalVisible(true);
+      youtubePlayerRef.current.show();
     }
   };
 
@@ -62,34 +60,10 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
     if (embedUrl && youtubePlayerRef.current) {
       setVideoUrl(embedUrl);
       setVideoStartTime(0);
-      youtubePlayerRef.current.setModalVisible(true);
+      youtubePlayerRef.current.show();
     }
   };
 
-  const handleImagePress = (ind) => {
-    if (ind === 1) {
-      // open gallery mode
-      setIsImageModalOpen(true);
-    }
-    if (ind === 0) {
-      // copy to clipboard
-      writeToClipboard(selectedImage).then(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.copied',
-            }),
-          ),
-        );
-      });
-    }
-    if (ind === 2) {
-      // save to local
-      _saveImage(selectedImage);
-    }
-
-    setSelectedImage(null);
-  };
 
   const handleLinkPress = (ind) => {
     if (ind === 1) {
@@ -141,8 +115,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
       const anchoredPostRegex = /(.*?\#\@)(.*)\/(.*)/;
       const matchedLink = permlink.match(anchoredPostRegex);
       if (matchedLink) {
-        author = matchedLink[2];
-        permlink = matchedLink[3];
+        [, , author, permlink] = matchedLink;
       }
 
       // check if permlink has trailing query param, remove that if is the case
@@ -249,51 +222,26 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
   };
 
   const _handleSetSelectedLink = (link) => {
-    setSelectedLink(link);
-    actionLink.current.show();
+    if (isHiveUri(link)) {
+      dispatch(handleDeepLink(link));
+    } else {
+      setSelectedLink(link);
+      actionLink.current.show();
+    }
   };
 
   const _handleSetSelectedImage = (imageLink, postImgUrls) => {
-    if (postImages.length !== postImgUrls.length) {
-      setPostImages(postImgUrls);
+    if(imageViewerRef.current){
+      imageViewerRef.current.show(imageLink, postImgUrls);
     }
-    setSelectedImage(imageLink);
-    actionImage.current.show();
   };
 
-  const _renderImageViewerHeader = (imageIndex) => {
-    return (
-      <SafeAreaView
-        style={{
-          marginTop: Platform.select({ ios: 0, android: 25 }),
-        }}
-      >
-        <View style={styles.imageViewerHeaderContainer}>
-          <Text style={styles.imageGalleryHeaderText}>{`${imageIndex + 1}/${
-            postImages.length
-          }`}</Text>
-          <IconButton
-            name="close"
-            color={EStyleSheet.value('$primaryDarkText')}
-            buttonStyle={styles.closeIconButton}
-            size={20}
-            handleOnPress={() => setIsImageModalOpen(false)}
-          />
-        </View>
-      </SafeAreaView>
-    );
-  };
 
   return (
     <Fragment>
-      <ImageView
-        images={postImages.map((url) => ({ uri: url }))}
-        imageIndex={0}
-        visible={isImageModalOpen}
-        animationType="slide"
-        swipeToCloseEnabled
-        onRequestClose={() => setIsImageModalOpen(false)}
-        HeaderComponent={(imageIndex) => _renderImageViewerHeader(imageIndex.imageIndex)}
+
+      <ImageViewer 
+        ref={imageViewerRef}
       />
 
       <ActionSheetView
@@ -301,7 +249,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
         gestureEnabled={true}
         hideUnderlay
         containerStyle={{ backgroundColor: 'black' }}
-        indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+        indicatorStyle={{ backgroundColor: EStyleSheet.value('$primaryWhiteLightBackground') }}
         onClose={() => {
           setYoutubeVideoId(null);
           setVideoUrl(null);
@@ -315,20 +263,6 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
         />
       </ActionSheetView>
 
-      <OptionsModal
-        ref={actionImage}
-        options={[
-          intl.formatMessage({ id: 'post.copy_link' }),
-          intl.formatMessage({ id: 'post.gallery_mode' }),
-          intl.formatMessage({ id: 'post.save_to_local' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
-        ]}
-        title={intl.formatMessage({ id: 'post.image' })}
-        cancelButtonIndex={3}
-        onPress={(index) => {
-          handleImagePress(index);
-        }}
-      />
       <OptionsModal
         ref={actionLink}
         options={[

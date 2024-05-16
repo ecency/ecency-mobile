@@ -1,6 +1,5 @@
-import { TextStyle, ViewStyle } from 'react-native';
+import { TextStyle, ViewStyle, ImageStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { ImageStyle } from 'react-native-fast-image';
 import { isRTL } from '../../../utils/I18nUtils';
 
 export default EStyleSheet.create({
@@ -27,13 +26,13 @@ export default EStyleSheet.create({
   } as ViewStyle,
 
   cardValuesContainer: {
-    flex:1,
+    flex: 1,
     marginHorizontal: 8,
     justifyContent: 'flex-end',
   } as ViewStyle,
 
   logoContainer: {
-    paddingRight: 8
+    paddingRight: 8,
   } as ImageStyle,
 
   menuIcon: {
@@ -48,13 +47,13 @@ export default EStyleSheet.create({
     backgroundColor: '$darkGrayBackground',
   },
 
-  claimContainer:{
-    marginTop:16,
+  claimContainer: {
+    marginTop: 16,
   },
 
   chartContainer: {
-    height:80,
-    marginTop:-16,
+    height: 80,
+    marginTop: -16,
   },
   cardFooter: {
     position: 'absolute',

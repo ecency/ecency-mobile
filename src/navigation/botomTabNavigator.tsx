@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import ROUTES from '../constants/routeNames';
 import { BottomTabBar } from '../components';
-import { Feed, Notification, Profile, Wallet } from '../screens';
+import { Feed, Notification, Wallet } from '../screens';
 import Waves from '../screens/waves';
 
 const Tab = createBottomTabNavigator();
@@ -60,7 +60,6 @@ export const BottomTabNavigator = () => {
           iconName: 'notifications', // read in bottomTabBarView
         }}
       />
-
     </Tab.Navigator>
   );
 };

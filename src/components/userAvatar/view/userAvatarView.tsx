@@ -1,7 +1,7 @@
 import React from 'react';
 import { ActivityIndicator, TouchableOpacity, ViewStyle } from 'react-native';
 
-import FastImage from 'react-native-fast-image';
+import { Image as ExpoImage } from 'expo-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './userAvatarStyles';
 import RootNavigation from '../../../navigation/rootNavigation';
@@ -14,7 +14,7 @@ import ROUTES from '../../../constants/routeNames';
 import { useAppSelector } from '../../../hooks';
 import { getResizedAvatar } from '../../../utils/image';
 
-const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
+import DEFAULT_IMAGE from '../../../assets/avatar_default.png';
 
 /* Props
  * ------------------------------------------------f
@@ -24,7 +24,7 @@ const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 interface UserAvatarProps {
   username: string;
   avatarUrl?: string;
-  size?: 'xl';
+  size?: 'xl' | 'xxl';
   style?: ViewStyle;
   disableSize?: boolean;
   noAction?: boolean;
@@ -56,7 +56,6 @@ const UserAvatarView = ({
         uri: `${uri}${
           username === curUsername && avatarCacheStamp ? `?stamp=${avatarCacheStamp}` : ''
         }`,
-        cache: FastImage.cacheControl.web,
       }
     : DEFAULT_IMAGE;
 
@@ -66,11 +65,14 @@ const UserAvatarView = ({
     if (size === 'xl') {
       _size = 64;
     }
+    if (size === 'xxl') {
+      _size = 128;
+    }
   }
 
   return (
     <TouchableOpacity disabled={noAction} onPress={() => _handleOnAvatarPress(username)}>
-      <FastImage
+      <ExpoImage
         style={[
           styles.avatar,
           style,
