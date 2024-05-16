@@ -958,7 +958,9 @@
     "time": "সময়"
   },
   "reblog": {
-    "title": "রিব্লগ তথ্য"
+    "title": "রিব্লগ তথ্য",
+    "reblog_post": "Reblog Post",
+    "reblog_delete": "Undo Reblog"
   },
   "dsteem": {
     "date_error": {
