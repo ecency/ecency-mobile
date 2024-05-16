@@ -1,14 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import QUERIES from "../queryKeys";
-import { castPollVote } from "../../polls/polls";
-import { useEffect, useState } from "react";
-import { Poll, PollChoice } from "../../polls/polls.types";
 import { useAppSelector } from "../../../hooks";
-import parseToken from "../../../utils/parseToken";
-import { vestsToHp } from "../../../utils/conversions";
-import { updatePollVoteCache } from "../../../redux/actions/cacheActions";
 import { useDispatch } from "react-redux";
-import { CacheStatus, PollVoteCache } from "../../../redux/reducers/cacheReducer";
 import { setRcOffer, toastNotification } from "../../../redux/actions/uiAction";
 import { useIntl } from "react-intl";
 import { getPostReblogs, reblog } from "../../hive/dhive";
@@ -66,13 +59,13 @@ export function useReblogMutation(author: string, permlink: string) {
 
     return useMutation({
         mutationKey: [QUERIES.POST.REBLOG_POST],
-        mutationFn: async () => {
+        mutationFn: async ({ undo }:{undo:boolean}) => {
 
             if (!author || !permlink || !currentAccount) {
                 throw new Error("Not enough data to reblog post")
             }
 
-            const resp = await reblog(currentAccount, pinHash, author, permlink)
+            const resp = await reblog(currentAccount, pinHash, author, permlink, undo)
 
             // track user activity points ty=130
             userActivityMutation.mutate({
@@ -81,20 +74,12 @@ export function useReblogMutation(author: string, permlink: string) {
 
             });
 
-            dispatch(
-                toastNotification(
-                    intl.formatMessage({
-                        id: 'alert.success_rebloged',
-                    }),
-                ),
-            );
-
             return resp;
 
         },
         retry: 3,
 
-        onSuccess: (resp) => {
+        onSuccess: (resp, vars) => {
             console.log("reblog response", resp);
             //update poll cache here
             queryClient.setQueryData<ReturnType<typeof useGetReblogsQuery>["data"]>(
@@ -104,7 +89,11 @@ export function useReblogMutation(author: string, permlink: string) {
                         return data;
                     }
 
-                    if (!data.includes(currentAccount.username)) {
+                    const _curIndex = data.indexOf(currentAccount.username)
+                    if(vars.undo){
+                        data.splice(_curIndex, 1)
+                    }
+                    else if (_curIndex < 0) {
                         data.splice(0, 0, currentAccount.username);
                     }
 

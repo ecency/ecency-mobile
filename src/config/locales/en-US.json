@@ -961,7 +961,8 @@
   },
   "reblog": {
     "title": "Reblog Info",
-    "reblog_post": "Reblog Post"
+    "reblog_post": "Reblog Post",
+    "reblog_delete": "Undo Reblog"
   },
   "dsteem": {
     "date_error": {
