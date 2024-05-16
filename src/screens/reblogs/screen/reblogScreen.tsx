@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FlatList, SafeAreaView, RefreshControl, ScrollView, Text } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { FlatList, RefreshControl, SafeAreaView, ScrollView, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -23,6 +23,7 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { useQuery } from '@tanstack/react-query';
 import QUERIES from '../../../providers/queries/queryKeys';
 import Animated, { BounceInRight } from 'react-native-reanimated';
+import { pollQueries, reblogQueries } from '../../../providers/queries';
 ;
 
 const renderUserListItem = (item, index, handleOnUserPress) => {
@@ -38,73 +39,40 @@ const renderUserListItem = (item, index, handleOnUserPress) => {
 
 const ReblogScreen = ({ route }) => {
   const intl = useIntl();
-  const dispatch = useAppDispatch();
 
   const author = route.params?.author;
   const permlink = route.params?.permlink;
+
+  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+
+
+  const [isReblogging, setIsReblogging] = useState(false);
+
+
+  const reblogsQuery = reblogQueries.useGetReblogsQuery(author, permlink);
+  const reblogMutation = reblogQueries.useReblogMutation(author, permlink);
+
+
+  //map reblogs data for account list
+  const reblogs = useMemo(() =>
+    reblogsQuery.data ? reblogsQuery.data.map((username) => ({ account: username })) : [],
+    [reblogsQuery.data?.length])
 
   const headerTitle = intl.formatMessage({
     id: 'reblog.title',
   });
 
-  const userActivityMutation = useUserActivityMutation();
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinCode = useAppSelector((state) => state.application.pin);
-
-
-  const reblogsQuery = useQuery(
-    [QUERIES.POST.GET_REBLOGS, author, permlink],
-    () => getPostReblogs(author, permlink),
-    { initialData: [] }
-  );
-
-
-
-  const _handleReblogPost = () => {
+  const _handleReblogPost = async () => {
     if (!isLoggedIn) {
       showLoginAlert({ intl });
       return;
     }
 
     if (isLoggedIn) {
-      reblog(currentAccount, pinCode, author, permlink)
-        .then((response) => {
-          // track user activity points ty=130
-          userActivityMutation.mutate({
-            pointsTy: PointActivityIds.REBLOG,
-            transactionId: response.id,
-
-          });
-
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'alert.success_rebloged',
-              }),
-            ),
-          );
-          reblogsQuery.refetch();
-        })
-        .catch((error) => {
-          if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged') > -1) {
-            dispatch(
-              toastNotification(
-                intl.formatMessage({
-                  id: 'alert.already_rebloged',
-                }),
-              ),
-            );
-          } else {
-            if (error && error.jse_shortmsg.split(': ')[1].includes('wait to transact')) {
-              // when RC is not enough, offer boosting account
-              dispatch(setRcOffer(true));
-            } else {
-              // when other errors
-              dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-            }
-          }
-        });
+      setIsReblogging(true);
+      await reblogMutation.mutateAsync();
+      setIsReblogging(false);
     }
 
   }
@@ -113,31 +81,28 @@ const ReblogScreen = ({ route }) => {
   const _renderFloatingButton = () => {
 
     return (
-
       <Animated.View style={styles.floatingContainer} entering={BounceInRight.delay(300)}>
-
         <MainButton
-          // style={{ width: isLoading ? null : 120 }}
           onPress={_handleReblogPost}
           iconName="repeat"
           iconType="MaterialCommunityIcons"
           iconColor="white"
           text={intl.formatMessage({ id: 'reblog.reblog_post' })}
-          isLoading={false}
+          isLoading={isReblogging}
         />
-
       </Animated.View>
-
     );
   };
 
 
+
+
   return (
-    <AccountListContainer data={reblogsQuery.data.map(username => ({ account: username }))}>
+    <AccountListContainer data={reblogs}>
       {({ data, filterResult, handleSearch, handleOnUserPress }) => (
 
         <SafeAreaView style={[globalStyles.container, { paddingBottom: 40 }]}>
-          <ScrollView>
+       
             {/* Your content goes here */}
             <BasicHeader
               title={`${headerTitle} (${data && data.length})`}
@@ -152,20 +117,18 @@ const ReblogScreen = ({ route }) => {
               renderItem={({ item, index }) =>
                 renderUserListItem(item, index, handleOnUserPress)
               }
+              refreshControl={
+                <RefreshControl
+                  refreshing={reblogsQuery.isLoading || reblogsQuery.isFetching}
+                  onRefresh={() => reblogsQuery.refetch()}
+                  progressBackgroundColor="#357CE6"
+                  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                  titleColor="#fff"
+                  colors={['#fff']}
+                />}
             />
 
-
-          </ScrollView>
           {_renderFloatingButton()}
-          {/* <MainButton
-            style={globalStyles.mainbutton}
-            onPress={_reblog}
-            iconName="square-edit-outline"
-            iconType="MaterialCommunityIcons"
-            iconColor="white"
-            text="Reblog Post"
-            
-          /> */}
         </SafeAreaView>
 
       )
