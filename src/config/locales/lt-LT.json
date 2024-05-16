@@ -958,7 +958,9 @@
     "time": "LAIKAS"
   },
   "reblog": {
-    "title": "Pasidalinti įrašo informaciją"
+    "title": "Pasidalinti įrašo informaciją",
+    "reblog_post": "Reblog Post",
+    "reblog_delete": "Undo Reblog"
   },
   "dsteem": {
     "date_error": {
