@@ -85,6 +85,7 @@
     "events": "^1.0.0",
     "expo": "^50.0.8",
     "expo-image": "~1.10.6",
+    "expo-local-authentication": "~13.8.0",
     "hive-uri": "^0.2.5",
     "hivesigner": "^3.3.4",
     "https-browserify": "~0.0.0",

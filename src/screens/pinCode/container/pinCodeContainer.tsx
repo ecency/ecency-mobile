@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import Config from 'react-native-config';
 import get from 'lodash/get';
-import FingerprintScanner from 'react-native-fingerprint-scanner';
+import * as LocalAuthentication from 'expo-local-authentication';
 
 // Actions & Services
 import { useNavigation } from '@react-navigation/native';
@@ -83,12 +83,15 @@ class PinCodeContainer extends Component {
         return;
       }
 
-      const biometryType = await FingerprintScanner.isSensorAvailable();
+      
+      const biometryType = await LocalAuthentication.hasHardwareAsync() 
+ 
       console.log('biometryType is => ', biometryType);
 
-      await FingerprintScanner.authenticate({
-        description: intl.formatMessage({ id: 'pincode.biometric_desc' }),
-      });
+      await LocalAuthentication.authenticateAsync({
+        promptMessage:intl.formatMessage({ id: 'pincode.biometric_desc' })
+      })
+      
       console.log('successfully passed biometric auth');
 
       // code gets here means biometeric succeeded
@@ -101,7 +104,7 @@ class PinCodeContainer extends Component {
       console.warn('Failed to process biometric', err);
     }
 
-    FingerprintScanner.release();
+    LocalAuthentication.cancelAuthenticate();
   };
 
   // this function updates realm with appropriate master key required for encyrption

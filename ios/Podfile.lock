@@ -40,6 +40,8 @@ PODS:
     - SDWebImageWebPCoder (~> 0.13.0)
   - ExpoKeepAwake (12.8.2):
     - ExpoModulesCore
+  - ExpoLocalAuthentication (13.8.0):
+    - ExpoModulesCore
   - ExpoModulesCore (1.11.10):
     - glog
     - RCT-Folly (= 2022.05.16.00)
@@ -1446,6 +1448,7 @@ DEPENDENCIES:
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
   - ExpoImage (from `../node_modules/expo-image/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
+  - ExpoLocalAuthentication (from `../node_modules/expo-local-authentication/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
@@ -1635,6 +1638,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-image/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
+  ExpoLocalAuthentication:
+    :path: "../node_modules/expo-local-authentication/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core"
   FBLazyVector:
@@ -1842,6 +1847,7 @@ SPEC CHECKSUMS:
   ExpoFileSystem: eecaf6796aed0f4dd20042dc2ca2cac6c4bc1185
   ExpoImage: 8cf2d51de3d03b7e984e9b0ba8f19c0c22057001
   ExpoKeepAwake: 0f5cad99603a3268e50af9a6eb8b76d0d9ac956c
+  ExpoLocalAuthentication: c55ffb179683efed04cb144fc80ccf26891f0cb4
   ExpoModulesCore: b2ae7a3fc6193556273c5db90065fbe7e11c7a60
   FBLazyVector: fbc4957d9aa695250b55d879c1d86f79d7e69ab4
   FBReactNativeSpec: 86de768f89901ef6ed3207cd686362189d64ac88
