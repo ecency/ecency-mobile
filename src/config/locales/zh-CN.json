@@ -958,7 +958,9 @@
     "time": "时间"
   },
   "reblog": {
-    "title": "转发信息"
+    "title": "转发信息",
+    "reblog_post": "Reblog Post",
+    "reblog_delete": "Undo Reblog"
   },
   "dsteem": {
     "date_error": {
