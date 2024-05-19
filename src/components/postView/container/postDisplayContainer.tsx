@@ -67,17 +67,14 @@ const PostDisplayContainer = ({
   };
 
   const _handleOnReblogsPress = () => {
-    if (post.reblogs > 0) {
       navigation.navigate({
         name: ROUTES.SCREENS.REBLOGS,
         params: {
-          reblogs,
           author,
           permlink,
         },
         key: post.permlink + post.reblogs.length,
       } as never);
-    }
   };
 
   const _handleOnReplyPress = () => {
