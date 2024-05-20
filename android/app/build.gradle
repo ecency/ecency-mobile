@@ -128,8 +128,6 @@ android {
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
-    
-    implementation "androidx.core:core-splashscreen:1.0.0"
     implementation 'com.android.support:multidex:2.0.1'
     implementation project(':react-native-pager-view')
     implementation 'com.getkeepsafe.relinker:relinker:1.4.4'
