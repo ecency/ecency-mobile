@@ -101,7 +101,7 @@ export function useVotePollMutation(poll: Poll | null) {
             const postPath = `${poll?.author || ''}/${poll?.permlink || ''}`;
             const curTime = new Date().getTime();
             const vote = {
-                choiceNum,
+                choices,
                 userHp,
                 username: currentAccount.username,
                 votedAt: curTime,
