@@ -81,20 +81,20 @@ export function useVotePollMutation(poll: Poll | null) {
 
     return useMutation({
         mutationKey: [ QUERIES.POST.SIGN_POLL_VOTE , poll?.author, poll?.permlink],
-        mutationFn: async ({ choiceNum }: { choiceNum: number }) => {
+        mutationFn: async ({ choices }: { choices: number[] }) => {
 
             if (!poll || !currentAccount) {
                 throw new Error("Failed to register vote")
             }
 
-            if (typeof choiceNum !== "number") {
+            if (!(choices instanceof Array)) {
                 throw new Error("Invalid vote")
             }
 
-            return await castPollVote(poll.poll_trx_id, choiceNum, currentAccount, pinHash)
+            return await castPollVote(poll.poll_trx_id, choices, currentAccount, pinHash)
         },
         retry:3,
-        onMutate: ({ choiceNum }) => {
+        onMutate: ({ choices }) => {
 
             // update redux
             const userHp = Math.round(vestsToHp(parseToken(currentAccount.vesting_shares), globalProps.hivePerMVests) * 1000) / 1000;

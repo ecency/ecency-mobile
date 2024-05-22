@@ -15,7 +15,7 @@ export interface PollChoice {
 
 export interface PollVoter {
     name: string;
-    choice_num: number;
+    choices: number[];
     hive_hp: number;
     hive_proxied_hp: number;
     hive_hp_incl_proxied: number;
