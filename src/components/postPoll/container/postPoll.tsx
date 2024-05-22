@@ -91,8 +91,7 @@ export const PostPoll = ({
 
 
     const _handleCastVote = () => {
-        //TODO: assess what go in mutate function
-        votePollMutation.mutate({ choiceNum: selection })
+        votePollMutation.mutate({ choices: selection })
         setSelection([]);
     }
 
@@ -122,7 +121,7 @@ export const PostPoll = ({
         }
 
         const _filteredVoters = _voters
-            .filter(item => item.choice_num === choiceNum)
+            .filter(item => item.choices.includes(choiceNum))
             .map(voter => ({ account: voter.name }))
 
         navigation.navigate(ROUTES.MODALS.ACCOUNT_LIST, {
@@ -173,7 +172,6 @@ export const PostPoll = ({
                 text={"Vote"}
                 isDisable={!selection.length}
             />
-
         </View>
     )
 

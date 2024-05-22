@@ -70,7 +70,7 @@ export const PollChoices = ({
 
 
   const _renderProgressBar = (option: PollChoice) => {
-    const _isVoted = !_isModeSelect && (userVote?.choice_num === option.choice_num)
+    const _isVoted = !_isModeSelect && (userVote?.choices.includes(option.choice_num))
     const _isSelected = selection.includes(option.choice_num)
 
     const votes = Math.round(get(option.votes, interpretationToken ? 'hive_hp_incl_proxied':'total_votes', 0) * 1000 ) / 1000;
