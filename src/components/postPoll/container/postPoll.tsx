@@ -98,16 +98,25 @@ export const PostPoll = ({
 
     const _handleChoiceSelect = (choiceNum: number) => {
 
-        const _maxSelected = pollsQuery.data
-            ? selection.length >= pollsQuery.data.max_choices_voted : 1
+        const _maxSelectable = pollsQuery.data?.max_choices_voted || 1
 
-        const index = selection.indexOf(choiceNum)
-        if (index >= 0) {
-            selection.splice(index, 1);
-        } else if (!_maxSelected) {
-            selection.push(choiceNum)
+        if (_maxSelectable > 1) {
+            //handle multiple choice selection
+            const _maxSelected = pollsQuery.data
+                ? selection.length >= pollsQuery.data?.max_choices_voted : 1
+
+            const index = selection.indexOf(choiceNum)
+            if (index >= 0) {
+                selection.splice(index, 1);
+            } else if (!_maxSelected) {
+                selection.push(choiceNum)
+            }
+            setSelection([...selection]);
+        } else {
+            //if only one choice allowed, overwrite selection
+            setSelection([choiceNum]);
         }
-        setSelection([...selection]);
+
     }
 
     const _handleModeToggle = () => {
