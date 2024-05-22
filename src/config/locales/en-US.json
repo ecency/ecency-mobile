@@ -485,6 +485,7 @@
     "ends":"Ends {inTime}",
     "age_limit":"\u2022 Only accounts older than {days} days allowed",
     "interpretation_token":"\u2022 User HP based vote interpretation",
+    "max_choices":"\u2022 You may select upto {choices} choices",
     "interpret_token":"Interpret by Tokens",
     "interpret_vote":"Interpret by Votes"
   },
