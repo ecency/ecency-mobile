@@ -13,6 +13,7 @@ import styles from './postCardStyles';
 import { IconButton } from '../..';
 import { getTimeFromNow } from '../../../utils/time';
 import { PostCardActionIds } from '../container/postCard';
+import { ContentType } from '../../../providers/hive/hive.types';
 
 interface Props {
   intl: IntlShape;
@@ -57,9 +58,16 @@ export const PostCardHeader = ({ intl, content, isHideImage, handleCardInteracti
           rebloggedBy={rebloggedBy}
           isPromoted={get(content, 'is_promoted')}
         />
-        {(content?.stats?.is_pinned || content?.stats?.is_pinned_blog) && (
-          <Icon style={styles.pushPinIcon} size={20} name="pin" iconType="MaterialCommunityIcons" />
-        )}
+
+        <View style={styles.headerIconsWrapper}>
+          {content?.json_metadata?.content_type === ContentType.POLL && (
+            <Icon style={styles.pollPostIcon} size={16} name="chart" iconType="SimpleLineIcons" />
+          )}
+          {(content?.stats?.is_pinned || content?.stats?.is_pinned_blog) && (
+            <Icon style={styles.pushPinIcon} size={20} name="pin" iconType="MaterialCommunityIcons" />
+          )}
+        </View>
+
         <View style={styles.dropdownWrapper}>
           <IconButton
             style={styles.optionsIconContainer}
