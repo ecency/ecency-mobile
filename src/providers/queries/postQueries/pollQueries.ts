@@ -141,11 +141,11 @@ export function useVotePollMutation(poll: Poll | null) {
 
 
 //used to create, update and remove poll vote entry from votes data
-const useInjectPollVoteCache = (pollData: Poll) => {
+const useInjectPollVoteCache = (pollData: Poll|null) => {
 
     const pollVotesCollection = useAppSelector((state) => state.cache.pollVotesCollection);
     const lastUpdate = useAppSelector((state) => state.cache.lastUpdate);
-    const [retData, setRetData] = useState<any | any[] | null>(null);
+    const [retData, setRetData] = useState<Poll|null>(null);
 
     useEffect(() => {
         if (pollData && lastUpdate && lastUpdate.type === 'poll-vote') {

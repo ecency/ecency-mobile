@@ -19,7 +19,7 @@ interface PollChoicesProps {
   choices?: PollChoice[];
   userVote?: PollVoter;
   mode: PollModes;
-  selection: number;
+  selection: number[];
   voteDisabled: boolean;
   hideVoters: boolean;
   interpretationToken?: boolean
@@ -65,13 +65,13 @@ export const PollChoices = ({
 
 
   const _handleChoiceSelect = (choiceNum: number) => {
-    handleChoiceSelect(choiceNum === selection ? 0 : choiceNum);
+    handleChoiceSelect(choiceNum);
   }
 
 
   const _renderProgressBar = (option: PollChoice) => {
     const _isVoted = !_isModeSelect && (userVote?.choice_num === option.choice_num)
-    const _isSelected = selection === option.choice_num
+    const _isSelected = selection.includes(option.choice_num)
 
     const votes = Math.round(get(option.votes, interpretationToken ? 'hive_hp_incl_proxied':'total_votes', 0) * 1000 ) / 1000;
 

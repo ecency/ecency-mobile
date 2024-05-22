@@ -42,7 +42,7 @@ export const PostPoll = ({
     const currentAccount = useAppSelector(state => state.account.currentAccount)
     const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
 
-    const [selection, setSelection] = useState(0);
+    const [selection, setSelection] = useState<number[]>([]);
     const [mode, setMode] = useState(PollModes.LOADING)
     const [interpretation, setInterpretation] = useState(metadata.preferred_interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES);
 
@@ -91,13 +91,24 @@ export const PostPoll = ({
 
 
     const _handleCastVote = () => {
+        //TODO: assess what go in mutate function
         votePollMutation.mutate({ choiceNum: selection })
-        setSelection(0);
+        setSelection([]);
     }
 
 
     const _handleChoiceSelect = (choiceNum: number) => {
-        setSelection(choiceNum)
+
+        const _maxSelected = pollsQuery.data
+            ? selection.length >= pollsQuery.data.max_choices_voted : 1
+
+        const index = selection.indexOf(choiceNum)
+        if (index >= 0) {
+            selection.splice(index, 1);
+        } else if (!_maxSelected) {
+            selection.push(choiceNum)
+        }
+        setSelection([...selection]);
     }
 
     const _handleModeToggle = () => {
