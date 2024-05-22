@@ -171,7 +171,7 @@ export const PostPoll = ({
                 iconStyle={{ fontSize: 16 }}
                 onPress={_handleCastVote}
                 text={"Vote"}
-                isDisable={!selection}
+                isDisable={!selection.length}
             />
 
         </View>
