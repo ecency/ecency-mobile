@@ -76,12 +76,20 @@ export default EStyleSheet.create({
     marginBottom: 12,
     marginRight: 0,
   },
+  headerIconsWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: -8,
+    paddingBottom:5
+  },
   pushPinIcon: {
     color: '$primaryRed',
-    alignSelf: 'center',
     marginLeft: 8,
-    marginRight: -8,
     transform: [{ rotate: '45deg' }],
+  },
+  pollPostIcon: {
+    color: '$iconColor',
+    marginLeft: 8,
   },
   leftFooterWrapper: {
     flex: 1,
