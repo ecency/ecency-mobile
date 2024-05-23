@@ -50,7 +50,8 @@ export const PostCardContent = ({
     return calcImgHeight < dim.height ? "contain" : "cover";
   }, [dim.height]);
 
-
+  
+  //featured text can be used to add more labels in future by just inserting text as array item
   const _featuredText = [
     content?.is_promoted && intl.formatMessage({ id: 'post.promoted' }), 
     content?.json_metadata?.content_type === ContentType.POLL && intl.formatMessage({ id: 'post.poll' })
