@@ -746,8 +746,11 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
   try {
     console.log('Getting post: ', author, permlink);
     const post = await client.call('bridge', 'get_post', { author, permlink });
+    console.log("post fetched", post?.post_id)
     return post ? parsePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
+    console.warn(error)
+    bugsnagInstance.notify(error)
     return error;
   }
 };
