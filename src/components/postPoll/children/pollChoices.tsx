@@ -102,7 +102,7 @@ export const PollChoices = ({
           <View style={styles.progressContentWrapper}>
             <View style={styles.choiceLabelWrapper}>
               <CheckBox locked isChecked={_isVoted} isRound={true} style={styles.checkContainerStyle} />
-              <Text style={styles.label}>{option.choice_text}</Text>
+              <Text numberOfLines={2} style={styles.label}>{option.choice_text}</Text>
             </View>
             {!_isModeSelect &&
               <TextButton
