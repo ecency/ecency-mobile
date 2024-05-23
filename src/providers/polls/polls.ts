@@ -16,7 +16,7 @@ import { Operation, PrivateKey } from "@esteemapp/dhive";
  * 
  */
 
-const POLLS_BASE_URL = 'https://polls.ecency.com';
+const POLLS_BASE_URL = 'https://polls.hivehub.dev/';
 
 const PATH_RPC = 'rpc'
 const PATH_POLL = 'poll'
