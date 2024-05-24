@@ -483,7 +483,7 @@
     "ends": "Päättyy {inTime}",
     "age_limit": "• {days} päivää vanhemmat tilit",
     "interpretation_token": "• Käyttäjän HP-pohjainen äänten tulkinta",
-    "max_choices": "• You may select upto {choices} choices",
+    "max_choices": "• Voit valita {choices}",
     "interpret_token": "Tulkitse Merkkien mukaan",
     "interpret_vote": "Tulkitse Äänten mukaan"
   },
@@ -699,7 +699,7 @@
     "copy_text": "Kopioi teksti",
     "reblogged": "uudelleenjakanut",
     "promoted": "Ylennetty",
-    "poll": "POLL",
+    "poll": "Kysely",
     "open_thread": "Avaa ketju",
     "image": "Kuva",
     "link": "Linkki",
