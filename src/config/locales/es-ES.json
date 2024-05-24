@@ -483,7 +483,7 @@
     "ends": "Termina {inTime}",
     "age_limit": "• Solo se permiten cuentas de más de {days} días",
     "interpretation_token": "• Interpretación de voto basada en HP del usuario",
-    "max_choices": "• You may select upto {choices} choices",
+    "max_choices": "• Puedes seleccionar hasta {choices} opciones",
     "interpret_token": "Interpretar por Tokens",
     "interpret_vote": "Interpretar por votos"
   },
@@ -699,7 +699,7 @@
     "copy_text": "Copiar texto",
     "reblogged": "reblogueado por",
     "promoted": "PROMOCIONADO",
-    "poll": "POLL",
+    "poll": "ENCUESTA",
     "open_thread": "Hilo abierto",
     "image": "Imágen",
     "link": "Enlace",
