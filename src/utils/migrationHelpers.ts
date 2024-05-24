@@ -300,6 +300,10 @@ const reduxMigrations = {
     state.cache.announcementsMeta = {};
     return state;
   },
+  8: (state) => {
+    state.cache.pollVotesCollection = {};
+    return state;
+  }
 };
 
 export default {
