@@ -2,15 +2,14 @@ import { TextStyle, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-    choiceWrapper:{
-        marginBottom:8
+    choiceWrapper: {
+        marginBottom: 8
     },
     progressBar: {
         borderRadius: 12,
-        borderWidth: 1,
+        borderWidth: 2,
         alignSelf: 'stretch',
         marginHorizontal: 8,
-
     } as ViewStyle,
     progressContentWrapper: {
         position: 'absolute',
@@ -18,24 +17,26 @@ export default EStyleSheet.create({
         top: 0, bottom: 0,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent:'space-between'
+        justifyContent: 'space-between'
     } as ViewStyle,
-    choiceLabelWrapper:{
+    choiceLabelWrapper: {
         flexDirection: 'row',
         alignItems: 'center',
-    },
-    label:{
+        flexShrink:1
+    } as ViewStyle,
+    label: {
         marginLeft: 8,
-        fontSize:12,
-        color: '$primaryBlack'
+        fontSize: 12,
+        color: '$primaryBlack',
+        flexShrink:1,
     } as TextStyle,
-    count:{
-        fontSize:12,
-        marginLeft:8,
-        color: '$primaryDarkGray'
+    count: {
+        fontSize: 12,
+        marginLeft: 8,
+        color: '$primaryDarkGray',
     } as TextStyle,
-    checkContainerStyle:{
-        backgroundColor:'$white',
+    checkContainerStyle: {
+        backgroundColor: '$white',
 
     } as ViewStyle
 });

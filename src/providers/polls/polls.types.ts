@@ -15,7 +15,7 @@ export interface PollChoice {
 
 export interface PollVoter {
     name: string;
-    choice_num: number;
+    choices: number[];
     hive_hp: number;
     hive_proxied_hp: number;
     hive_hp_incl_proxied: number;
@@ -42,6 +42,7 @@ export interface Poll {
     preferred_interpretation: PollPreferredInterpretation;
     token: string;
     end_time: string;
+    max_choices_voted: number;
     status: string;
     filter_account_age_days: number;
     ui_hide_res_until_voted: any; // Adjust this type according to your data structure

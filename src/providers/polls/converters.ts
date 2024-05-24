@@ -19,6 +19,7 @@ export const convertPoll = (rawData: any): Poll | null => {
         token,
         end_time,
         status,
+        max_choices_voted,
         filter_account_age_days,
         ui_hide_res_until_voted,
         platform,
@@ -48,7 +49,7 @@ export const convertPoll = (rawData: any): Poll | null => {
     // Parsing poll voters
     const parsedPollVoters: PollVoter[] = poll_voters ? poll_voters.map((voter: any) => ({
         name: voter.name,
-        choice_num: voter.choice_num,
+        choices: voter.choices,
         hive_hp: voter.hive_hp || 0,
         hive_proxied_hp: voter.hive_proxied_hp || 0,
         hive_hp_incl_proxied: voter.hive_hp_incl_proxied || 0
@@ -81,6 +82,7 @@ export const convertPoll = (rawData: any): Poll | null => {
         token,
         end_time,
         status,
+        max_choices_voted: max_choices_voted || 1,
         filter_account_age_days: filter_account_age_days || 0,
         ui_hide_res_until_voted, // Assuming this field can be null, otherwise adjust accordingly
         platform, // Assuming this field can be null, otherwise adjust accordingly

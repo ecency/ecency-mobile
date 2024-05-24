@@ -25,6 +25,7 @@ export interface PostMetadata {
   //POLL
   question: string;
   preferred_interpretation: PollPreferredInterpretation;
+  max_choices_voted: number;
   choices: string[];
   filters: {
     account_age: number

@@ -7,12 +7,16 @@ import { Operation, PrivateKey } from "@esteemapp/dhive";
 
 
 /**
+ * 
+ * swapper importable api url
+ * https://polls-beta.hivehub.dev/
+ * 
  * hive polls docs reference:
  * https://gitlab.com/peakd/hive-open-polls
  * 
  */
 
-const POLLS_BASE_URL = 'https://polls.ecency.com';
+const POLLS_BASE_URL = 'https://polls.hivehub.dev/';
 
 const PATH_RPC = 'rpc'
 const PATH_POLL = 'poll'
@@ -80,20 +84,20 @@ export const getPollData = async (author: string, permlink: string): Promise<Pol
 };
 
 
-export const castPollVote = async (postId: string, choiceNum: number, currentAccount: any, pinHash: string) => {
+export const castPollVote = async (postId: string, choices: number[], currentAccount: any, pinHash: string) => {
     try {
         if (!postId || !currentAccount) {
             throw new Error("Failed to register vote")
         }
 
-        if (typeof choiceNum !== "number") {
+        if (!choices || !choices.length) {
             throw new Error("Invalid vote")
         }
 
         await executePollAction("polls", {
             poll: postId,
             action: "vote",
-            choice: choiceNum
+            choices: choices
         }, currentAccount, pinHash);
 
         return true;

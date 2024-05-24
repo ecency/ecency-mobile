@@ -19,7 +19,7 @@ interface PollChoicesProps {
   choices?: PollChoice[];
   userVote?: PollVoter;
   mode: PollModes;
-  selection: number;
+  selection: number[];
   voteDisabled: boolean;
   hideVoters: boolean;
   interpretationToken?: boolean
@@ -65,13 +65,13 @@ export const PollChoices = ({
 
 
   const _handleChoiceSelect = (choiceNum: number) => {
-    handleChoiceSelect(choiceNum === selection ? 0 : choiceNum);
+    handleChoiceSelect(choiceNum);
   }
 
 
   const _renderProgressBar = (option: PollChoice) => {
-    const _isVoted = !_isModeSelect && (userVote?.choice_num === option.choice_num)
-    const _isSelected = selection === option.choice_num
+    const _isVoted = !_isModeSelect && (userVote?.choices.includes(option.choice_num))
+    const _isSelected = selection.includes(option.choice_num)
 
     const votes = Math.round(get(option.votes, interpretationToken ? 'hive_hp_incl_proxied':'total_votes', 0) * 1000 ) / 1000;
 
@@ -102,7 +102,7 @@ export const PollChoices = ({
           <View style={styles.progressContentWrapper}>
             <View style={styles.choiceLabelWrapper}>
               <CheckBox locked isChecked={_isVoted} isRound={true} style={styles.checkContainerStyle} />
-              <Text style={styles.label}>{option.choice_text}</Text>
+              <Text numberOfLines={2} style={styles.label}>{option.choice_text}</Text>
             </View>
             {!_isModeSelect &&
               <TextButton

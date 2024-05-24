@@ -17,6 +17,7 @@ import styles from './postCardStyles';
 import { PostCardActionIds } from '../container/postCard';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import ROUTES from '../../../constants/routeNames';
+import { ContentType } from '../../../providers/hive/hive.types';
 
 const dim = getWindowDimensions();
 const DEFAULT_IMAGE =
@@ -48,7 +49,14 @@ export const PostCardContent = ({
   const resizeMode = useMemo(() => {
     return calcImgHeight < dim.height ? "contain" : "cover";
   }, [dim.height]);
-  const isPromoted = get(content, 'is_promoted', false);
+
+  
+  //featured text can be used to add more labels in future by just inserting text as array item
+  const _featuredText = [
+    content?.is_promoted && intl.formatMessage({ id: 'post.promoted' }), 
+    content?.json_metadata?.content_type === ContentType.POLL && intl.formatMessage({ id: 'post.poll' })
+  ].filter(i => !!i).join(' | ')
+
 
   const _onPress = () => {
     handleCardInteraction(PostCardActionIds.NAVIGATE, {
@@ -99,8 +107,8 @@ export const PostCardContent = ({
         )}
 
         <View style={[styles.postDescripton]}>
-          {!!isPromoted && (
-            <Text style={styles.promotedText}>{intl.formatMessage({ id: 'post.promoted' })}</Text>
+          {!!_featuredText && (
+            <Text style={styles.promotedText}>{_featuredText}</Text>
           )}
           <Text style={styles.title}>{content.title}</Text>
           <Text style={styles.summary}>{content.summary}</Text>

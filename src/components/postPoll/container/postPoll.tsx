@@ -42,7 +42,7 @@ export const PostPoll = ({
     const currentAccount = useAppSelector(state => state.account.currentAccount)
     const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
 
-    const [selection, setSelection] = useState(0);
+    const [selection, setSelection] = useState<number[]>([]);
     const [mode, setMode] = useState(PollModes.LOADING)
     const [interpretation, setInterpretation] = useState(metadata.preferred_interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES);
 
@@ -91,13 +91,32 @@ export const PostPoll = ({
 
 
     const _handleCastVote = () => {
-        votePollMutation.mutate({ choiceNum: selection })
-        setSelection(0);
+        votePollMutation.mutate({ choices: selection })
+        setSelection([]);
     }
 
 
     const _handleChoiceSelect = (choiceNum: number) => {
-        setSelection(choiceNum)
+
+        const _maxSelectable = pollsQuery.data?.max_choices_voted || 1
+
+        if (_maxSelectable > 1) {
+            //handle multiple choice selection
+            const _maxSelected = pollsQuery.data
+                ? selection.length >= pollsQuery.data?.max_choices_voted : 1
+
+            const index = selection.indexOf(choiceNum)
+            if (index >= 0) {
+                selection.splice(index, 1);
+            } else if (!_maxSelected) {
+                selection.push(choiceNum)
+            }
+            setSelection([...selection]);
+        } else {
+            //if only one choice allowed, overwrite selection
+            setSelection([choiceNum]);
+        }
+
     }
 
     const _handleModeToggle = () => {
@@ -111,7 +130,7 @@ export const PostPoll = ({
         }
 
         const _filteredVoters = _voters
-            .filter(item => item.choice_num === choiceNum)
+            .filter(item => item.choices.includes(choiceNum))
             .map(voter => ({ account: voter.name }))
 
         navigation.navigate(ROUTES.MODALS.ACCOUNT_LIST, {
@@ -160,9 +179,8 @@ export const PostPoll = ({
                 iconStyle={{ fontSize: 16 }}
                 onPress={_handleCastVote}
                 text={"Vote"}
-                isDisable={!selection}
+                isDisable={!selection.length}
             />
-
         </View>
     )
 
