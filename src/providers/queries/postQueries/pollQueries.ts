@@ -12,8 +12,6 @@ import { useDispatch } from "react-redux";
 import { CacheStatus, PollVoteCache } from "../../../redux/reducers/cacheReducer";
 import { toastNotification } from "../../../redux/actions/uiAction";
 import { useIntl } from "react-intl";
-import { Alert } from "react-native";
-
 
 
 /** hook used to return post poll */
@@ -177,6 +175,11 @@ const useInjectPollVoteCache = (pollData: Poll | null) => {
         const voteCache = pollVotesCollection[_path];
 
         const _cData = injectPollVoteCache(pollData, voteCache);
+
+        //check if data follows old schema, migrate if nesseary
+        if(_cData.poll_voters instanceof Array && !!_cData.poll_voters[0].choice_num){
+            _cData.poll_voters = _cData.poll_voters.map(voter => ({...voter, choices:[voter.choice_num]}))
+        }
 
         setRetData(_cData);
     }, [pollData]);
