@@ -1997,10 +1997,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hiveio/dhive@^1.2.5":
-  version "1.2.8"
-  resolved "https://registry.yarnpkg.com/@hiveio/dhive/-/dhive-1.2.8.tgz#1ad13d92649a6db8c01b3a80872bcba218f91ba9"
-  integrity sha512-prarzjLnnQagE4wdcdeSzPuzlW7sw/WE6WYJ/mXHuqwiyay2cK8fyoRgGdE5bDQYEzgH5x+jQELbJYbg0ZJ5Sg==
+"@hiveio/dhive@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@hiveio/dhive/-/dhive-1.3.0.tgz#352c1a0597a8262d78a954d425865b2460e0ea37"
+  integrity sha512-5MflC3/dMPSN5ZJ/6970PAubRTzwyHDxxb62Z6fs1NXA7Ut79yoNpFGXO9BlsdEmdcFeVsfb9vJx1e0enDQ5bQ==
   dependencies:
     bigi "^1.4.2"
     bs58 "^4.0.1"
