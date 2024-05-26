@@ -483,6 +483,7 @@
     "ends": "Termina {inTime}",
     "age_limit": "• Solo se permiten cuentas de más de {days} días",
     "interpretation_token": "• Interpretación de voto basada en HP del usuario",
+    "max_choices": "• Puedes seleccionar hasta {choices} opciones",
     "interpret_token": "Interpretar por Tokens",
     "interpret_vote": "Interpretar por votos"
   },
@@ -698,6 +699,7 @@
     "copy_text": "Copiar texto",
     "reblogged": "reblogueado por",
     "promoted": "PROMOCIONADO",
+    "poll": "ENCUESTA",
     "open_thread": "Hilo abierto",
     "image": "Imágen",
     "link": "Enlace",
@@ -959,8 +961,8 @@
   },
   "reblog": {
     "title": "Información de reblogueo",
-    "reblog_post": "Reblog Post",
-    "reblog_delete": "Undo Reblog"
+    "reblog_post": "Rebloguear Post",
+    "reblog_delete": "Deshacer Reblogueo"
   },
   "dsteem": {
     "date_error": {

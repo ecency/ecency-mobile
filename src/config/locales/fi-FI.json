@@ -482,9 +482,10 @@
     "ended": "Päättyi",
     "ends": "Päättyy {inTime}",
     "age_limit": "• {days} päivää vanhemmat tilit",
-    "interpretation_token": "• User HP based vote interpretation",
-    "interpret_token": "Interpret by Tokens",
-    "interpret_vote": "Interpret by Votes"
+    "interpretation_token": "• Käyttäjän HP-pohjainen äänten tulkinta",
+    "max_choices": "• Voit valita {choices}",
+    "interpret_token": "Tulkitse Merkkien mukaan",
+    "interpret_vote": "Tulkitse Äänten mukaan"
   },
   "editor": {
     "title": "Otsikko",
@@ -698,6 +699,7 @@
     "copy_text": "Kopioi teksti",
     "reblogged": "uudelleenjakanut",
     "promoted": "Ylennetty",
+    "poll": "Kysely",
     "open_thread": "Avaa ketju",
     "image": "Kuva",
     "link": "Linkki",
@@ -959,8 +961,8 @@
   },
   "reblog": {
     "title": "Jakotiedot",
-    "reblog_post": "Reblog Post",
-    "reblog_delete": "Undo Reblog"
+    "reblog_post": "Jaa Julkaisu uudelleen",
+    "reblog_delete": "Kumoa Uudelleenjako"
   },
   "dsteem": {
     "date_error": {

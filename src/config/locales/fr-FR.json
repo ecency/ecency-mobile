@@ -483,6 +483,7 @@
     "ends": "Termine {inTime}",
     "age_limit": "• Only accounts older than {days} days allowed",
     "interpretation_token": "• User HP based vote interpretation",
+    "max_choices": "• You may select upto {choices} choices",
     "interpret_token": "Interpret by Tokens",
     "interpret_vote": "Interpret by Votes"
   },
@@ -698,6 +699,7 @@
     "copy_text": "Copier le texte",
     "reblogged": "reblogué par",
     "promoted": "PROMOTÉ",
+    "poll": "POLL",
     "open_thread": "Ouvrir le fil de discussion",
     "image": "Image",
     "link": "Lien",
