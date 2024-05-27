@@ -211,7 +211,23 @@ export const useWavesQuery = (host: string) => {
   const _data = unionBy(...wavesQueries.map((query) => query.data), 'url');
 
   const _filteredData = useMemo(
-    () => _data.filter((post) => (isArray(mutes) ? mutes.indexOf(post?.author) < 0 : true)),
+    
+    () => _data.filter((post) => 
+      {
+        let _status = true;
+        //discard wave if author is muted
+        if (isArray(mutes) && mutes.indexOf(post?.author) > 0) {
+          _status = false;
+        } 
+        
+        //discard if wave is downvoted or marked gray
+        else if (post.net_rshares < 0 || post.stats?.gray || post.stats.hide) {
+          _status = false
+        }
+  
+        return _status
+      }),
+      // (isArray(mutes) ? mutes.indexOf(post?.author) < 0 : true)),
     [mutes, _data],
   );
 
