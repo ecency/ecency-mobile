@@ -169,6 +169,7 @@ export const useWavesQuery = (host: string) => {
       throw new Error('Failed to parse waves');
     }
 
+    _threadedComments.filter((item) => item.net_rshares >= 0 && !item.stats?.gray && !item.stats.hide);
     _threadedComments.sort((a, b) => (new Date(a.created) > new Date(b.created) ? -1 : 1));
     _threadedComments.forEach((item) => {
       wavesIndexCollection.current[`${item.author}/${item.permlink}`] = pagePermlink;
