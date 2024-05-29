@@ -1,14 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ContentType, PollPreferredInterpretation, PostMetadata } from '../../../providers/hive/hive.types';
+import { useIntl } from 'react-intl';
+import {
+  ContentType,
+  PollPreferredInterpretation,
+  PostMetadata,
+} from '../../../providers/hive/hive.types';
 import { PollChoices, PollHeader } from '../children';
 import styles from '../styles/postPoll.styles';
 import { pollQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
 import { MainButton, TextButton } from '../..';
 import ROUTES from '../../../constants/routeNames';
-import { useIntl } from 'react-intl';
 import { getDaysPassedSince } from '../../../utils/time';
 
 export enum PollModes {
@@ -23,6 +27,7 @@ interface PostPoll {
   metadata: PostMetadata;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const PostPoll = ({ author, permlink, metadata }: PostPoll) => {
   if (metadata.content_type !== ContentType.POLL) {
     return null;
@@ -142,14 +147,12 @@ export const PostPoll = ({ author, permlink, metadata }: PostPoll) => {
 
   const _authorPanel = _isPollAuthor && (
     <View style={styles.authorPanel}>
-          <TextButton
+      <TextButton
         text={intl.formatMessage({
           id: _isModeSelect ? 'post_poll.view_stats' : 'post_poll.hide_stats',
         })}
         onPress={_handleModeToggle}
-              textStyle={styles.viewVotesBtn}
-            />
-
+        textStyle={styles.viewVotesBtn}
       />
 
       {!_isModeSelect && (
@@ -158,8 +161,7 @@ export const PostPoll = ({ author, permlink, metadata }: PostPoll) => {
             id: _isInterpretationToken ? 'post_poll.interpret_vote' : 'post_poll.interpret_token',
           })}
           textStyle={styles.viewVotesBtn}
-                  onPress={_switchInterpretation}
-                />
+          onPress={_switchInterpretation}
         />
       )}
     </View>
@@ -167,14 +169,14 @@ export const PostPoll = ({ author, permlink, metadata }: PostPoll) => {
 
   const _actionPanel = !_voteDisabled && (
     <View style={styles.actionPanel}>
-          <MainButton
+      <MainButton
         style={styles.voteButton}
-              iconName="chart"
+        iconName="chart"
         iconType="SimpleLineIcons"
-              iconColor="white"
+        iconColor="white"
         iconStyle={{ fontSize: 16 }}
         onPress={_handleCastVote}
-              text="Vote"
+        text="Vote"
         isDisable={!selection.length}
       />
     </View>
@@ -182,26 +184,23 @@ export const PostPoll = ({ author, permlink, metadata }: PostPoll) => {
 
   return (
     <View style={styles.container}>
-          <PollHeader
-              metadata={metadata}
-              expired={_expired}
-            />
+      <PollHeader metadata={metadata} expired={_expired} />
 
       <PollChoices
-              metadata={metadata}
+        metadata={metadata}
         choices={pollsQuery.data?.poll_choices}
-              userVote={userVote}
+        userVote={userVote}
         voteDisabled={_voteDisabled}
         loading={pollsQuery.isLoading}
         mode={mode}
         selection={selection}
-              hideVoters={_hideVoters}
+        hideVoters={_hideVoters}
         interpretationToken={interpretation === PollPreferredInterpretation.TOKENS}
-              handleChoiceSelect={_handleChoiceSelect}
-              handleVotersPress={_handleVotersPress}
-            />
+        handleChoiceSelect={_handleChoiceSelect}
+        handleVotersPress={_handleVotersPress}
+      />
 
-          {_authorPanel}
+      {_authorPanel}
       {_actionPanel}
     </View>
   );

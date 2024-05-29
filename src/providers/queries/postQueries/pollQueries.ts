@@ -81,7 +81,7 @@ export function useVotePollMutation(poll: Poll | null) {
       if (!(choices instanceof Array)) {
         throw new Error('Invalid vote');
       }
-
+      // eslint-disable-next-line no-return-await
       return await castPollVote(poll.poll_trx_id, choices, currentAccount, pinHash);
     },
     retry: 3,
@@ -196,7 +196,8 @@ const injectPollVoteCache = (data: Poll, voteCache: PollVoteCache) => {
   const previousUserChoices = data.poll_choices?.filter((pc) =>
     existingVote?.choices.includes(pc.choice_num),
   );
-  const selectedChoices = data.poll_choices?.filter((pc) => choices.includes(pc.choice_num))!;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+  const selectedChoices = data.poll_choices.filter((pc) => choices.includes(pc.choice_num))!;
 
   // filtered list to separate untoched multiple choice e.g from old [1,2,3] new [3,4,5], removed would be [1, 2] , new would be [4, 5]
   const removedChoices = previousUserChoices.filter(

@@ -9,7 +9,7 @@ import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { PollChoice, PollVoter } from '../../../providers/polls/polls.types';
 import { mapMetaChoicesToPollChoices } from '../../../providers/polls/converters';
 import { CheckBox } from '../../checkbox';
-import { PostMetadata, PollPreferredInterpretation } from '../../../providers/hive/hive.types';
+import { PostMetadata } from '../../../providers/hive/hive.types';
 import { PollModes } from '../container/postPoll';
 import { TextButton } from '../../buttons';
 
@@ -134,7 +134,8 @@ export const PollChoices = ({
     return _choices.map((option, index) => {
       return (
         <TouchableOpacity
-          key={index}
+          // eslint-disable-next-line react/no-array-index-key
+          key={`key_${index}`}
           disabled={voteDisabled}
           onPress={() => _handleChoiceSelect(option.choice_num)}
         >

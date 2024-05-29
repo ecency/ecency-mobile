@@ -1,7 +1,7 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import Animated, { Easing, SlideInDown, SlideInRight, SlideInUp } from 'react-native-reanimated';
+import Animated, { SlideInRight } from 'react-native-reanimated';
 import { RedeemContainer, PointsContainer } from '../../../containers';
 
 import { Promote, PostBoost } from '../../../components';

@@ -296,7 +296,7 @@ const PostDisplayView = ({
                     {
                       username: author || post.author,
                       appname: post?.json_metadata?.app
-                        ? capitalize((post?.json_metadata?.app).split('/')[0])
+                        ? capitalize(post?.json_metadata?.app?.split('/')[0])
                         : 'Ecency',
                     },
                   )}

@@ -1,12 +1,11 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, Platform, ActivityIndicator } from 'react-native';
+import { View, TouchableOpacity, Text, Platform } from 'react-native';
 import Animated, { BounceInRight } from 'react-native-reanimated';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { injectIntl, useIntl } from 'react-intl';
 
 // Images
 import { Image as ExpoImage } from 'expo-image';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import LIGHT_COVER_IMAGE from '../../assets/default_cover_image.png';
 import DARK_COVER_IMAGE from '../../assets/dark_cover_image.png';
 

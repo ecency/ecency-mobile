@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Keyboard, Text, View, ViewStyle } from 'react-native';
+import { Keyboard, View, ViewStyle } from 'react-native';
 import {
   FlatList,
   Gesture,

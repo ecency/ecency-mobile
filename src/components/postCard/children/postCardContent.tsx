@@ -1,12 +1,7 @@
 import React, { useMemo, useState } from 'react';
-
 import { TouchableOpacity, Text, View } from 'react-native';
-
 // Utils
-
 import { Image as ExpoImage } from 'expo-image';
-
-import { get } from 'lodash';
 import { useIntl } from 'react-intl';
 
 // Components

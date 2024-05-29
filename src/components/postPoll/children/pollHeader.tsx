@@ -32,7 +32,7 @@ export const PollHeader = ({ metadata, expired }: PollHeaderProps) => {
   return (
     <View>
       <View style={styles.headerWrapper}>
-        <Text style={styles.question}>{metadata.question} </Text>
+        <Text style={styles.question}>{metadata.question}</Text>
         <PopoverWrapper text={_endDate.toString()}>
           <View style={styles.timeContainer}>
             <Text style={styles.timeText}>{formattedEndTime}</Text>

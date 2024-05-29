@@ -3,17 +3,16 @@ import { View, Text, Platform, SafeAreaView, Share, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImageViewing from 'react-native-image-viewing';
 import { useIntl } from 'react-intl';
-import IconButton from '../iconButton';
-import { useDispatch } from 'react-redux';
 import { PermissionsAndroid } from 'react-native';
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import { Image as ExpoImage } from 'expo-image';
 import RNFetchBlob from 'rn-fetch-blob';
+import IconButton from '../iconButton';
 import styles from './imageViewer.styles';
 
+// eslint-disable-next-line no-empty-pattern
 export const ImageViewer = forwardRef(({}, ref) => {
   const intl = useIntl();
-  const dispatch = useDispatch();
   // intl.formatMessage({ id: 'post.copy_link' }),
   // intl.formatMessage({ id: 'post.gallery_mode' }),
   // intl.formatMessage({ id: 'post.save_to_local' }),
@@ -101,7 +100,7 @@ export const ImageViewer = forwardRef(({}, ref) => {
       iconType="MaterialCommunityIcons"
       color={EStyleSheet.value('$iconColor')}
       style={{ marginHorizontal: 4 }}
-          size={24}
+      size={24}
       onPress={onPress}
     />
   );
@@ -109,16 +108,16 @@ export const ImageViewer = forwardRef(({}, ref) => {
   const _renderImageViewerHeader = (imageIndex: number) => {
     return (
       <SafeAreaView
-              style={{
+        style={{
           marginTop: Platform.select({ ios: 0, android: 25 }),
         }}
-              <View style={styles.imageViewerHeaderContainer}>
-                  <View style={styles.leftContainer}>
+      >
+        <View style={styles.imageViewerHeaderContainer}>
+          <View style={styles.leftContainer}>
             {_renderIconButton('close', _onCloseImageViewer)}
-                      <Text style={styles.imageGalleryHeaderText}>
-{
-                            `Preview (${imageIndex + 1}/${imageUrls.length})`}
-</Text>
+            <Text style={styles.imageGalleryHeaderText}>
+              {`Preview (${imageIndex + 1}/${imageUrls.length})`}
+            </Text>
           </View>
 
           <View style={styles.rightContainer}>
@@ -138,7 +137,7 @@ export const ImageViewer = forwardRef(({}, ref) => {
   return (
     <ImageViewing
       images={imageUrls.map((url) => ({ uri: url }))}
-          imageIndex={selectedIndex}
+      imageIndex={selectedIndex}
       visible={visible}
       animationType="slide"
       swipeToCloseEnabled
