@@ -7,17 +7,17 @@ export default EStyleSheet.create({
   },
   leftContainer: {
     position: 'absolute',
-    flexDirection:'row',
-    alignItems:'center',
+    flexDirection: 'row',
+    alignItems: 'center',
     left: 8,
   },
   rightContainer: {
     position: 'absolute',
-    flexDirection:'row',
+    flexDirection: 'row',
     right: 8,
   },
   imageGalleryHeaderText: {
     color: '$iconColor',
-    fontSize: 16
+    fontSize: 16,
   },
 });

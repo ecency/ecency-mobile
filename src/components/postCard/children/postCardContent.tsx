@@ -6,7 +6,6 @@ import { TouchableOpacity, Text, View } from 'react-native';
 
 import { Image as ExpoImage } from 'expo-image';
 
-
 import { get } from 'lodash';
 import { useIntl } from 'react-intl';
 
@@ -47,16 +46,17 @@ export const PostCardContent = ({
   const [calcImgHeight, setCalcImgHeight] = useState(imageRatio ? imgWidth / imageRatio : 300);
 
   const resizeMode = useMemo(() => {
-    return calcImgHeight < dim.height ? "contain" : "cover";
+    return calcImgHeight < dim.height ? 'contain' : 'cover';
   }, [dim.height]);
 
-  
-  //featured text can be used to add more labels in future by just inserting text as array item
+  // featured text can be used to add more labels in future by just inserting text as array item
   const _featuredText = [
-    content?.is_promoted && intl.formatMessage({ id: 'post.promoted' }), 
-    content?.json_metadata?.content_type === ContentType.POLL && intl.formatMessage({ id: 'post.poll' })
-  ].filter(i => !!i).join(' | ')
-
+    content?.is_promoted && intl.formatMessage({ id: 'post.promoted' }),
+    content?.json_metadata?.content_type === ContentType.POLL &&
+      intl.formatMessage({ id: 'post.poll' }),
+  ]
+    .filter((i) => !!i)
+    .join(' | ');
 
   const _onPress = () => {
     handleCardInteraction(PostCardActionIds.NAVIGATE, {
@@ -107,9 +107,7 @@ export const PostCardContent = ({
         )}
 
         <View style={[styles.postDescripton]}>
-          {!!_featuredText && (
-            <Text style={styles.promotedText}>{_featuredText}</Text>
-          )}
+          {!!_featuredText && <Text style={styles.promotedText}>{_featuredText}</Text>}
           <Text style={styles.title}>{content.title}</Text>
           <Text style={styles.summary}>{content.summary}</Text>
         </View>

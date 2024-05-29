@@ -77,7 +77,7 @@ const ProfileEditFormView = ({
               }
             />
             <IconButton
-              color={'white'}
+              color="white"
               isLoading={isUploading}
               iconStyle={styles.addIcon}
               style={styles.addButton}

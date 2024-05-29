@@ -80,7 +80,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginRight: -8,
-    paddingBottom:5
+    paddingBottom: 5,
   },
   pushPinIcon: {
     color: '$primaryRed',

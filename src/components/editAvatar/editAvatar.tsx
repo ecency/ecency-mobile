@@ -19,7 +19,7 @@ const EditAvatar = ({ username, avatarUrl, showImageUploadActions, isUploading }
           />
           <IconButton
             isLoading={isUploading}
-            color={'white'}
+            color="white"
             iconStyle={styles.addIcon}
             style={styles.addButton}
             iconType="MaterialIcons"

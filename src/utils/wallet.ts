@@ -248,7 +248,7 @@ export const groomingEngineHistory = (transaction: HistoryItem): CoinActivity | 
     receiver: to,
     icon: 'local-activity',
     expires: '',
-    repeatable : RepeatableTransfers[operation] || false
+    repeatable: RepeatableTransfers[operation] || false,
   };
 
   switch (result.textKey) {
@@ -1113,7 +1113,7 @@ export const groomingPointsTransactionData = (transaction) => {
   result.trxIndex = transaction.id;
   result.repeatable = RepeatableTransfers[transaction.textKey] || false;
   result.sender = transaction.sender;
-  result.receiver  = transaction.receiver;
+  result.receiver = transaction.receiver;
 
   return result;
 };

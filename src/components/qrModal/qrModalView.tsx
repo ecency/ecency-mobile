@@ -6,6 +6,7 @@ import { useIntl } from 'react-intl';
 import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
 import { get } from 'lodash';
 import * as hiveuri from 'hive-uri';
+import { useCameraDevice, Camera, useCodeScanner } from 'react-native-vision-camera';
 import styles from './qrModalStyles';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
@@ -25,7 +26,6 @@ import showLoginAlert from '../../utils/showLoginAlert';
 import authType from '../../constants/authType';
 import { delay } from '../../utils/editor';
 import ROUTES from '../../constants/routeNames';
-import {useCameraDevice, Camera, useCodeScanner} from 'react-native-vision-camera';
 
 const screenHeight = getWindowDimensions().height;
 
@@ -46,10 +46,10 @@ export const QRModal = () => {
   const codeScanner = useCodeScanner({
     codeTypes: ['qr'],
     onCodeScanned: (codes) => {
-      console.log(`Scanned ${codes.length} codes!`, codes)
-      handleLink({data:codes[0].value});
-    }
-  })
+      console.log(`Scanned ${codes.length} codes!`, codes);
+      handleLink({ data: codes[0].value });
+    },
+  });
 
   // TODO: make sure to properly clean uri processing code to process uri from deep links and notifications
   const deepLinkToHandle = useAppSelector((state) => state.ui.deepLinkToHandle);
@@ -291,7 +291,6 @@ export const QRModal = () => {
     );
   };
 
-
   return (
     <ActionSheet
       ref={sheetModalRef}
@@ -301,7 +300,7 @@ export const QRModal = () => {
       indicatorStyle={styles.indicator}
     >
       <View style={styles.mainContainer}>
-        <Camera 
+        <Camera
           style={EStyleSheet.absoluteFill}
           device={device}
           isActive={isScannerActive}

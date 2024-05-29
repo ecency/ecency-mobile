@@ -65,7 +65,7 @@ const UploadsGalleryContent = ({
     animatedHeight.value = withTiming(COMPACT_HEIGHT, {
       easing: Easing.inOut(Easing.cubic),
     });
-  }, [])
+  }, []);
 
   const isDeleting =
     mode === Modes.MODE_IMAGE
@@ -247,8 +247,8 @@ const UploadsGalleryContent = ({
         {mode === Modes.MODE_IMAGE
           ? _renderSelectButtons
           : isAddingToUploads
-            ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
-            : _renderSelectButtons}
+          ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
+          : _renderSelectButtons}
       </View>
       <View style={styles.pillBtnContainer}>
         <IconButton

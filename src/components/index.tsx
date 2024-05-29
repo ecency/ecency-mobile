@@ -260,5 +260,5 @@ export {
   WebViewModal,
   OrDivider,
   PostTranslationModal,
-  ImageViewer
+  ImageViewer,
 };

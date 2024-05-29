@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { PermissionsAndroid, Platform, View } from 'react-native';
-import {CameraRoll} from '@react-native-camera-roll/camera-roll';
+import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -63,7 +63,6 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
       youtubePlayerRef.current.show();
     }
   };
-
 
   const handleLinkPress = (ind) => {
     if (ind === 1) {
@@ -231,18 +230,14 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
   };
 
   const _handleSetSelectedImage = (imageLink, postImgUrls) => {
-    if(imageViewerRef.current){
+    if (imageViewerRef.current) {
       imageViewerRef.current.show(imageLink, postImgUrls);
     }
   };
 
-
   return (
     <Fragment>
-
-      <ImageViewer 
-        ref={imageViewerRef}
-      />
+      <ImageViewer ref={imageViewerRef} />
 
       <ActionSheetView
         ref={youtubePlayerRef}

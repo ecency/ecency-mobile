@@ -13,6 +13,7 @@ import get from 'lodash/get';
 // Constants
 import { Image as ExpoImage } from 'expo-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { proxifyImageSrc } from '@ecency/render-helper';
 import LIGHT_COVER_IMAGE from '../../../assets/default_cover_image.png';
 import DARK_COVER_IMAGE from '../../../assets/dark_cover_image.png';
 
@@ -23,7 +24,6 @@ import { DropdownButton } from '../../dropdownButton';
 
 // Utils
 import { makeCountFriendly } from '../../../utils/formatter';
-import { proxifyImageSrc } from '@ecency/render-helper';
 
 // Styles
 import styles from './profileSummaryStyles';

@@ -13,51 +13,49 @@ import AccountListContainer from '../../../containers/accountListContainer';
 import globalStyles from '../../../globalStyles';
 import { getTimeFromNow } from '../../../utils/time';
 
-
-
 const AccountList = ({ route }) => {
-    const intl = useIntl();
+  const intl = useIntl();
 
-    const users = route.params?.users || [];
+  const users = route.params?.users || [];
 
-    const headerTitle = route.params?.title || intl.formatMessage({
-        id: 'account_list.title',
+  const headerTitle =
+    route.params?.title ||
+    intl.formatMessage({
+      id: 'account_list.title',
     });
 
-
-    return (
-        <AccountListContainer data={users}>
-            {({ data, filterResult, handleSearch, handleOnUserPress }) => (
-                <SafeAreaView style={[globalStyles.container, { paddingBottom: 40 }]}>
-                    <BasicHeader
-                        title={`${headerTitle} (${data && data.length})`}
-                        backIconName="close"
-                        isHasSearch
-                        handleOnSearch={(text) => handleSearch(text, 'account')}
-                    />
-                    <FlatList
-                        data={filterResult || data}
-                        keyExtractor={(item) => item.account}
-                        removeClippedSubviews={false}
-                        renderItem={({ item, index }) => renderUserListItem(item, index, handleOnUserPress)}
-                    />
-                </SafeAreaView>
-            )}
-        </AccountListContainer>
-    );
+  return (
+    <AccountListContainer data={users}>
+      {({ data, filterResult, handleSearch, handleOnUserPress }) => (
+        <SafeAreaView style={[globalStyles.container, { paddingBottom: 40 }]}>
+          <BasicHeader
+            title={`${headerTitle} (${data && data.length})`}
+            backIconName="close"
+            isHasSearch
+            handleOnSearch={(text) => handleSearch(text, 'account')}
+          />
+          <FlatList
+            data={filterResult || data}
+            keyExtractor={(item) => item.account}
+            removeClippedSubviews={false}
+            renderItem={({ item, index }) => renderUserListItem(item, index, handleOnUserPress)}
+          />
+        </SafeAreaView>
+      )}
+    </AccountListContainer>
+  );
 };
 
 export default gestureHandlerRootHOC(AccountList);
 
-
 const renderUserListItem = (item, index, handleOnUserPress) => {
-    return (
-        <UserListItem
-            index={index}
-            username={item.account}
-            description={getTimeFromNow(item.timestamp)}
-            handleOnPress={() => handleOnUserPress(item.account)}
-            isClickable
-        />
-    );
+  return (
+    <UserListItem
+      index={index}
+      username={item.account}
+      description={getTimeFromNow(item.timestamp)}
+      handleOnPress={() => handleOnUserPress(item.account)}
+      isClickable
+    />
+  );
 };

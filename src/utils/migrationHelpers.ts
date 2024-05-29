@@ -303,7 +303,7 @@ const reduxMigrations = {
   8: (state) => {
     state.cache.pollVotesCollection = {};
     return state;
-  }
+  },
 };
 
 export default {

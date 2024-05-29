@@ -17,10 +17,9 @@ import LaunchScreen from '../../launch';
 import styles from '../children/WelcomeScreenStyles';
 
 const WelcomeScreen = () => {
-
-  //NOTE: I have no logical explanation for this, but only this solution
-  //makes sure first screen is renderd from stack, otherwise it's always 
-  //blank white screen no matter what we try.
+  // NOTE: I have no logical explanation for this, but only this solution
+  // makes sure first screen is renderd from stack, otherwise it's always
+  // blank white screen no matter what we try.
   require('@esteemapp/dhive');
 
   const intl = useIntl();

@@ -297,7 +297,7 @@ export const useActivitiesQuery = (assetId: string) => {
     })),
   });
 
-  const _lastItem = queries[queries.length - 1]
+  const _lastItem = queries[queries.length - 1];
 
   const _refresh = async () => {
     setIsRefreshing(true);
@@ -336,7 +336,6 @@ export const useActivitiesQuery = (assetId: string) => {
     return unionBy(..._dataArrs, 'trxIndex');
   }, [_lastItem?.data]);
 
- 
   return {
     data: _data,
     isRefreshing,

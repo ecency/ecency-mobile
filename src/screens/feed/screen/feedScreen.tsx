@@ -4,7 +4,14 @@ import get from 'lodash/get';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { EmptyScreen, Header, PostCard, PostCardPlaceHolder, PostPlaceHolder, TabbedPosts } from '../../../components';
+import {
+  EmptyScreen,
+  Header,
+  PostCard,
+  PostCardPlaceHolder,
+  PostPlaceHolder,
+  TabbedPosts,
+} from '../../../components';
 
 // Container
 import { AccountContainer } from '../../../containers';

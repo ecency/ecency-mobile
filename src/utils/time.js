@@ -87,7 +87,6 @@ export const getTimeFromNow = (value, isWithoutUtc) => {
   return moment.utc(value).fromNow();
 };
 
-
 export const getDaysPassedSince = (value) => {
   if (!value) {
     return 0;
@@ -95,7 +94,7 @@ export const getDaysPassedSince = (value) => {
 
   const created = moment(value);
   return moment().diff(created, 'days');
- }
+};
 
 export const getFormatedCreatedDate = (value) => {
   if (!value) {

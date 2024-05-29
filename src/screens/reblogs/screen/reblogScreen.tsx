@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { FlatList, RefreshControl, SafeAreaView } from 'react-native';
 import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import Animated, { BounceInRight } from 'react-native-reanimated';
 import { useAppSelector } from '../../../hooks';
 import showLoginAlert from '../../../utils/showLoginAlert';
 
@@ -15,9 +16,7 @@ import AccountListContainer from '../../../containers/accountListContainer';
 import globalStyles from '../../../globalStyles';
 import styles from '../styles/reblogScreen.styles';
 import { getTimeFromNow } from '../../../utils/time';
-import Animated, { BounceInRight } from 'react-native-reanimated';
 import { reblogQueries } from '../../../providers/queries';
-;
 
 const renderUserListItem = (item, index, handleOnUserPress) => {
   return (
@@ -40,15 +39,12 @@ const ReblogScreen = ({ route }) => {
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
 
-
   const [isReblogging, setIsReblogging] = useState(false);
-
 
   const reblogsQuery = reblogQueries.useGetReblogsQuery(author, permlink);
   const reblogMutation = reblogQueries.useReblogMutation(author, permlink);
 
-
-  //map reblogs data for account list
+  // map reblogs data for account list
   const { reblogs, deleteEnabled } = useMemo(() => {
     let _reblogs: any[] = [];
     let _deleteEnabled = false;
@@ -58,18 +54,18 @@ const ReblogScreen = ({ route }) => {
     }
     return {
       reblogs: _reblogs,
-      deleteEnabled: _deleteEnabled
-    }
-  }, [reblogsQuery.data?.length])
-
-
+      deleteEnabled: _deleteEnabled,
+    };
+  }, [reblogsQuery.data?.length]);
 
   const headerTitle = intl.formatMessage({
     id: 'reblog.title',
   });
 
-  const _actionBtnTitle = intl.formatMessage({ id: deleteEnabled ? 'reblog.reblog_delete' : 'reblog.reblog_post' })
-  const _actionBtnIcon = deleteEnabled ? "repeat-off" : "repeat";
+  const _actionBtnTitle = intl.formatMessage({
+    id: deleteEnabled ? 'reblog.reblog_delete' : 'reblog.reblog_post',
+  });
+  const _actionBtnIcon = deleteEnabled ? 'repeat-off' : 'repeat';
 
   const _handleReblogPost = async () => {
     if (!isLoggedIn) {
@@ -79,15 +75,12 @@ const ReblogScreen = ({ route }) => {
 
     if (isLoggedIn) {
       setIsReblogging(true);
-      await reblogMutation.mutateAsync({ undo:deleteEnabled });
+      await reblogMutation.mutateAsync({ undo: deleteEnabled });
       setIsReblogging(false);
     }
-
-  }
-
+  };
 
   const _renderFloatingButton = () => {
-
     return (
       <Animated.View style={styles.floatingContainer} entering={BounceInRight.delay(300)}>
         <MainButton
@@ -102,15 +95,10 @@ const ReblogScreen = ({ route }) => {
     );
   };
 
-
-
-
   return (
     <AccountListContainer data={reblogs}>
       {({ data, filterResult, handleSearch, handleOnUserPress }) => (
-
         <SafeAreaView style={[globalStyles.container, { paddingBottom: 40 }]}>
-
           {/* Your content goes here */}
           <BasicHeader
             title={`${headerTitle} (${data && data.length})`}
@@ -122,9 +110,7 @@ const ReblogScreen = ({ route }) => {
             data={filterResult || data}
             keyExtractor={(item) => item.account}
             removeClippedSubviews={false}
-            renderItem={({ item, index }) =>
-              renderUserListItem(item, index, handleOnUserPress)
-            }
+            renderItem={({ item, index }) => renderUserListItem(item, index, handleOnUserPress)}
             refreshControl={
               <RefreshControl
                 refreshing={reblogsQuery.isLoading || reblogsQuery.isFetching}
@@ -133,15 +119,14 @@ const ReblogScreen = ({ route }) => {
                 tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
                 titleColor="#fff"
                 colors={['#fff']}
-              />}
+              />
+            }
           />
 
           {_renderFloatingButton()}
         </SafeAreaView>
-
-      )
-      }
-    </AccountListContainer >
+      )}
+    </AccountListContainer>
   );
 };
 

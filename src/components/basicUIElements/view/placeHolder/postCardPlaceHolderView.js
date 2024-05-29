@@ -10,7 +10,7 @@ const PostCardPlaceHolder = () => {
 
   const animationStyle = {
     width: _width,
-    height: _width * 2
+    height: _width * 2,
   };
 
   const isDarkTheme = useSelector((state) => state.application.isDarkTheme);

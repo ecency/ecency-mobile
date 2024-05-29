@@ -54,9 +54,7 @@ if (__DEV__) {
   const createDebugger = require('redux-flipper').default;
   const Reactotron = require('../../../reactotron-config').default;
   middleware.push(createDebugger());
-  enhancers = compose(
-    applyMiddleware(...middleware), 
-    Reactotron.createEnhancer());
+  enhancers = compose(applyMiddleware(...middleware), Reactotron.createEnhancer());
 } else {
   enhancers = applyMiddleware(...middleware);
 }

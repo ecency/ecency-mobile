@@ -1,12 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import Animated, { Easing, SlideInDown, SlideInRight, SlideInUp } from 'react-native-reanimated';
 import { RedeemContainer, PointsContainer } from '../../../containers';
 
 import { Promote, PostBoost } from '../../../components';
 import BoostPlus from '../children/boostPlus';
 import styles from '../styles/redeemScreen.styles';
-import Animated, { Easing, SlideInDown, SlideInRight, SlideInUp } from 'react-native-reanimated';
 
 class RedeemScreen extends PureComponent {
   constructor(props) {
@@ -34,54 +34,59 @@ class RedeemScreen extends PureComponent {
           }) => (
             <RedeemContainer>
               {({ handleOnSubmit, SCPath, isSCModalOpen, handleOnSCModalClose, isLoading }) => {
-
                 let _retView = null;
                 switch (redeemType) {
                   case 'promote':
-                    _retView = <Promote
-                      isLoading={isLoading}
-                      accounts={accounts}
-                      currentAccountName={currentAccountName}
-                      balance={balance}
-                      navigationParams={navigationParams}
-                      handleOnSubmit={handleOnSubmit}
-                      redeemType={redeemType}
-                      isSCModalOpen={isSCModalOpen}
-                      handleOnSCModalClose={handleOnSCModalClose}
-                      SCPath={SCPath}
-                      getESTMPrice={getESTMPrice}
-                    />
+                    _retView = (
+                      <Promote
+                        isLoading={isLoading}
+                        accounts={accounts}
+                        currentAccountName={currentAccountName}
+                        balance={balance}
+                        navigationParams={navigationParams}
+                        handleOnSubmit={handleOnSubmit}
+                        redeemType={redeemType}
+                        isSCModalOpen={isSCModalOpen}
+                        handleOnSCModalClose={handleOnSCModalClose}
+                        SCPath={SCPath}
+                        getESTMPrice={getESTMPrice}
+                      />
+                    );
                     break;
                   case 'boost':
-                    _retView = <PostBoost
-                      isLoading={isLoading}
-                      accounts={accounts}
-                      currentAccountName={currentAccountName}
-                      balance={balance}
-                      navigationParams={navigationParams}
-                      handleOnSubmit={handleOnSubmit}
-                      redeemType={redeemType}
-                      isSCModalOpen={isSCModalOpen}
-                      handleOnSCModalClose={handleOnSCModalClose}
-                      SCPath={SCPath}
-                      getESTMPrice={getESTMPrice}
-                      user={user}
-                    />
+                    _retView = (
+                      <PostBoost
+                        isLoading={isLoading}
+                        accounts={accounts}
+                        currentAccountName={currentAccountName}
+                        balance={balance}
+                        navigationParams={navigationParams}
+                        handleOnSubmit={handleOnSubmit}
+                        redeemType={redeemType}
+                        isSCModalOpen={isSCModalOpen}
+                        handleOnSCModalClose={handleOnSCModalClose}
+                        SCPath={SCPath}
+                        getESTMPrice={getESTMPrice}
+                        user={user}
+                      />
+                    );
                     break;
                   case 'boost_plus':
-                    _retView = <BoostPlus
-                      isLoading={isLoading}
-                      accounts={accounts}
-                      currentAccountName={currentAccountName}
-                      balance={balance}
-                      navigationParams={navigationParams}
-                      handleOnSubmit={handleOnSubmit}
-                      redeemType={redeemType}
-                      isSCModalOpen={isSCModalOpen}
-                      handleOnSCModalClose={handleOnSCModalClose}
-                      SCPath={SCPath}
-                      getESTMPrice={getESTMPrice}
-                    />
+                    _retView = (
+                      <BoostPlus
+                        isLoading={isLoading}
+                        accounts={accounts}
+                        currentAccountName={currentAccountName}
+                        balance={balance}
+                        navigationParams={navigationParams}
+                        handleOnSubmit={handleOnSubmit}
+                        redeemType={redeemType}
+                        isSCModalOpen={isSCModalOpen}
+                        handleOnSCModalClose={handleOnSCModalClose}
+                        SCPath={SCPath}
+                        getESTMPrice={getESTMPrice}
+                      />
+                    );
                     break;
                 }
 
@@ -89,7 +94,7 @@ class RedeemScreen extends PureComponent {
                   <Animated.View style={StyleSheet.absoluteFill} entering={SlideInRight}>
                     {_retView}
                   </Animated.View>
-                )
+                );
               }}
             </RedeemContainer>
           )}

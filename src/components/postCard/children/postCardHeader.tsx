@@ -64,7 +64,12 @@ export const PostCardHeader = ({ intl, content, isHideImage, handleCardInteracti
             <Icon style={styles.pollPostIcon} size={16} name="chart" iconType="SimpleLineIcons" />
           )}
           {(content?.stats?.is_pinned || content?.stats?.is_pinned_blog) && (
-            <Icon style={styles.pushPinIcon} size={20} name="pin" iconType="MaterialCommunityIcons" />
+            <Icon
+              style={styles.pushPinIcon}
+              size={20}
+              name="pin"
+              iconType="MaterialCommunityIcons"
+            />
           )}
         </View>
 
