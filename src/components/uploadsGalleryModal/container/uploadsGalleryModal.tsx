@@ -19,6 +19,7 @@ import { editorQueries, speakQueries } from '../../../providers/queries';
 import { showActionModal } from '../../../redux/actions/uiAction';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 import { SpeakUploaderModal } from '../children/speakUploaderModal';
+import { isVisible } from 'react-native-bootsplash';
 
 export interface UploadsGalleryModalRef {
   showModal: () => void;
@@ -109,6 +110,7 @@ export const UploadsGalleryModal = forwardRef(
         setShowModal(value);
       },
       getMode: () => mode,
+      isVisible: () => showModal
     }));
 
     useEffect(() => {

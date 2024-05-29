@@ -16,11 +16,10 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { IconButton, UploadsGalleryModal } from '../..';
+import { IconButton, UploadsGalleryModal, PollsWizardModal } from '../..';
 import { useAppSelector } from '../../../hooks';
 import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import styles from '../styles/editorToolbarStyles';
-import Formats from './formats/formats';
 
 type Props = {
   draftId?: string;
@@ -51,6 +50,7 @@ export const EditorToolbar = ({
 }: Props) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
+  const pollsWizardModalRef = useRef(null);
   const extensionHeight = useRef(0);
 
   const translateY = useSharedValue(200);
@@ -87,21 +87,62 @@ export const EditorToolbar = ({
     </View>
   );
 
-  const _showUploadsExtension = (mode: Modes) => {
+  const _showUploadsExtension = async (mode: Modes) => {
+
+
     if (!uploadsGalleryModalRef.current) {
       return;
     }
 
+    const _isThisVisible = uploadsGalleryModalRef.current.isVisible();
     const _curMode = uploadsGalleryModalRef.current.getMode();
 
-    if (!isExtensionVisible || _curMode !== mode) {
-      uploadsGalleryModalRef.current.toggleModal(true, mode);
-      _revealExtension();
+
+    const _runRevealRoutine = () => {
+      if (!_isThisVisible || _curMode !== mode) {
+        uploadsGalleryModalRef.current.toggleModal(true, mode);
+        _revealExtension();
+      }
+    }
+
+    if (isExtensionVisible) {
+      _hideExtension(
+        _runRevealRoutine
+      );
+    } else {
+      _runRevealRoutine();
+    }
+
+  };
+
+
+
+
+  const _showPollsExtension = async () => {
+
+    if (!pollsWizardModalRef.current) {
       return;
     }
 
-    _hideExtension();
-  };
+    const _isThisVisible = pollsWizardModalRef.current.isVisible();
+
+
+    const _runRevealRoutine = () => {
+      if (!_isThisVisible) {
+        pollsWizardModalRef.current?.toggleModal(true);
+        _revealExtension();
+      }
+    }
+
+
+    if (isExtensionVisible) {
+      _hideExtension(
+        _runRevealRoutine
+      );
+    } else {
+      _runRevealRoutine();
+    }
+  }
 
   const _showImageUploads = () => {
     _showUploadsExtension(Modes.MODE_IMAGE);
@@ -149,12 +190,21 @@ export const EditorToolbar = ({
     });
   };
 
-  const _hideExtension = () => {
+  //make is async method
+  const _hideExtension = (onComplete?: () => void) => {
+
     const _onComplete = () => {
+      console.log("EXTENSION HIDDEN")
       setIsExtensionVisible(false);
-      if (uploadsGalleryModalRef.current) {
-        uploadsGalleryModalRef.current.toggleModal(false);
+      uploadsGalleryModalRef.current?.toggleModal(false);
+      pollsWizardModalRef.current?.toggleModal(false);
+      //TODO: hide formatting extension here
+
+      if (onComplete) {
+        console.log("calling on complete")
+        onComplete();
       }
+
     };
 
     translateY.value = withTiming(
@@ -195,6 +245,10 @@ export const EditorToolbar = ({
               handleMediaInsert={handleMediaInsert}
               setIsUploading={setIsUploading}
             />
+            <PollsWizardModal
+              ref={pollsWizardModalRef}
+              isPreviewActive={isPreviewActive}
+            />
           </View>
         </Animated.View>
       </GestureDetector>
@@ -217,16 +271,26 @@ export const EditorToolbar = ({
       {!isPreviewActive && (
         <View style={_buttonsContainerStyle}>
           <View style={styles.leftButtonsWrapper}>
-            <FlatList
+            {/* <FlatList
               data={Formats}
               keyboardShouldPersistTaps="always"
               renderItem={({ item, index }) => index < 3 && _renderMarkupButton({ item })}
               horizontal
-            />
-          </View>
-          <View style={styles.rightButtonsWrapper}>
+            /> */}
+
             <IconButton
-              size={20}
+              size={22}
+              style={styles.rightIcons}
+              iconStyle={styles.icon}
+              iconType="MaterialCommunityIcons"
+              name="format-text"
+              onPress={() => {
+                throw new Error("Add support for formatting toolbar");
+              }}
+            />
+
+            <IconButton
+              size={18}
               style={styles.rightIcons}
               iconStyle={styles.icon}
               iconType="FontAwesome"
@@ -247,6 +311,15 @@ export const EditorToolbar = ({
             />
 
             <IconButton
+              size={18}
+              style={styles.rightIcons}
+              iconStyle={styles.icon}
+              iconType="SimpleLineIcons"
+              name="chart"
+              onPress={_showPollsExtension}
+            />
+
+            <IconButton
               onPress={_showImageUploads}
               style={styles.rightIcons}
               size={18}
@@ -262,6 +335,13 @@ export const EditorToolbar = ({
               iconType="MaterialCommunityIcons"
               name="video-outline"
             />
+
+          </View>
+
+
+          <View style={styles.rightButtonsWrapper}>
+
+
             <View style={styles.clearButtonWrapper}>
               <IconButton
                 onPress={() => {
