@@ -20,6 +20,7 @@ import { IconButton, UploadsGalleryModal, PollsWizardModal } from '../..';
 import { useAppSelector } from '../../../hooks';
 import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import styles from '../styles/editorToolbarStyles';
+import { isVisible } from 'react-native-bootsplash';
 
 type Props = {
   draftId?: string;
@@ -87,8 +88,23 @@ export const EditorToolbar = ({
     </View>
   );
 
-  const _showUploadsExtension = async (mode: Modes) => {
 
+  const _prepareExtensionToggle = (revealWhenReady, onReady) => {
+    const _runRevealRoutine = () => {
+      if (revealWhenReady) {
+        onReady()
+        _revealExtension();
+      }
+    }
+    if (isExtensionVisible) {
+      _hideExtension(_runRevealRoutine);
+    } else {
+      _runRevealRoutine();
+    }
+  }
+
+
+  const _showUploadsExtension = async (mode: Modes) => {
 
     if (!uploadsGalleryModalRef.current) {
       return;
@@ -97,51 +113,24 @@ export const EditorToolbar = ({
     const _isThisVisible = uploadsGalleryModalRef.current.isVisible();
     const _curMode = uploadsGalleryModalRef.current.getMode();
 
+    const _revealWhenReady = !_isThisVisible || _curMode !== mode
 
-    const _runRevealRoutine = () => {
-      if (!_isThisVisible || _curMode !== mode) {
-        uploadsGalleryModalRef.current.toggleModal(true, mode);
-        _revealExtension();
-      }
-    }
-
-    if (isExtensionVisible) {
-      _hideExtension(
-        _runRevealRoutine
-      );
-    } else {
-      _runRevealRoutine();
-    }
-
+    _prepareExtensionToggle(_revealWhenReady, () => {
+      uploadsGalleryModalRef.current.toggleModal(true, mode);
+    })
   };
 
-
-
-
+  
   const _showPollsExtension = async () => {
-
     if (!pollsWizardModalRef.current) {
       return;
     }
 
-    const _isThisVisible = pollsWizardModalRef.current.isVisible();
+    const _revealWhenReady = !pollsWizardModalRef.current.isVisible();
 
-
-    const _runRevealRoutine = () => {
-      if (!_isThisVisible) {
-        pollsWizardModalRef.current?.toggleModal(true);
-        _revealExtension();
-      }
-    }
-
-
-    if (isExtensionVisible) {
-      _hideExtension(
-        _runRevealRoutine
-      );
-    } else {
-      _runRevealRoutine();
-    }
+    _prepareExtensionToggle(_revealWhenReady, () => {
+      pollsWizardModalRef.current?.toggleModal(true);
+    })
   }
 
   const _showImageUploads = () => {
