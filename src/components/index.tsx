@@ -5,6 +5,7 @@ import { BoostIndicatorAnimation, PulseAnimation, SpinIndicator } from './animat
 import BeneficiaryModal from './beneficiaryModal/beneficiaryModal';
 import SnippetsModal from './snippetsModal/snippetsModal';
 import { UploadsGalleryModal } from './uploadsGalleryModal/container/uploadsGalleryModal';
+import { PollsWizardModal } from './pollsWizardModal';
 import { BottomTabBar } from './bottomTabBar';
 import { CheckBox } from './checkbox';
 import { CircularButton, TextButton, SquareButton } from './buttons';
@@ -204,6 +205,7 @@ export {
   SideMenu,
   SnippetsModal,
   UploadsGalleryModal,
+  PollsWizardModal,
   SpinGame,
   SpinIndicator,
   SquareButton,
