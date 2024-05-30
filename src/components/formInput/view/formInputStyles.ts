@@ -1,3 +1,4 @@
+import { ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
@@ -9,6 +10,7 @@ export default EStyleSheet.create({
     height: 60,
     borderBottomWidth: 2,
     backgroundColor: '$primaryWhiteLightBackground',
+    alignItems:'center'
   },
   firstImage: {
     width: 24,
@@ -24,10 +26,9 @@ export default EStyleSheet.create({
   icon: {
     flex: 0.15,
     fontSize: 25,
-    top: 18,
     left: 8,
     color: '$iconColor',
-  },
+  } as ViewStyle,
   infoIconContainer: {
     right: 0,
     flex: 0.15,
