@@ -2,22 +2,24 @@ import React, { useState } from 'react';
 import { View, Text, Button } from 'react-native';
 import styles from '../styles/pollsWizardContent.styles';
 import { useIntl } from 'react-intl';
-import TextInput from '../../textInput';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { TextButton } from '../../buttons';
 import { FormInput } from '../../formInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
+import DatePicker from 'react-native-date-picker';
 
 export const PollsWizardContent = () => {
     const intl = useIntl();
 
     const [question, setQuestion] = useState('');
     const [choices, setChoices] = useState<string[]>(['', '']);
-    const [expiryDateTime, setExpiryDateTime] = useState(null);
+    const [expiryDateTime, setExpiryDateTime] = useState(new Date());
     const [selectedAge, setSelectedAge] = useState(null);
     const [selectedPollMode, setSelectedPollMode] = useState(null);
     const [maxOptions, setMaxOptions] = useState(1);
     const [showVotes, setShowVotes] = useState(false);
+
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
     const addChoice = () => {
         setChoices([...choices, '']);
@@ -35,8 +37,9 @@ export const PollsWizardContent = () => {
     };
 
     return (
-        <KeyboardAwareScrollView contentContainerStyle={styles.container} >
-            {/* <View style={styles.container}> */}
+        <View style={{ width: getWindowDimensions().width, height: 350 }}>
+            <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={styles.container} >
+                {/* <View style={styles.container}> */}
                 <Text style={styles.title}>{intl.formatMessage({ id: 'post_poll.create_title' })}</Text>
                 <FormInput
                     rightIconName="progress-question"
@@ -81,7 +84,12 @@ export const PollsWizardContent = () => {
                 />
 
                 <Text style={styles.label}>End Time</Text>
-                {/* Implement date and time picker here */}
+                <TextButton
+                    text={expiryDateTime.toDateString()}
+                    onPress={() => { setShowDatePicker(true) }}
+                    textStyle={styles.addChoice}
+                />
+
 
                 <Text>Age Range:</Text>
                 {/* Implement age range selector here */}
@@ -96,7 +104,22 @@ export const PollsWizardContent = () => {
                 {/* Implement toggle switch for vote visibility */}
 
                 <Button title="Create Poll" onPress={createPoll} />
-            {/* </View> */}
-        </KeyboardAwareScrollView>
+                {/* </View> */}
+            </KeyboardAwareScrollView>
+            
+            <DatePicker
+                type="datetime"
+                modal={true}
+                onChanged={() => { }}
+                date={expiryDateTime}
+                open={showDatePicker}
+                onConfirm={(date) => {
+                    setExpiryDateTime(date);
+                }}
+                onCancel={() => {
+                    setShowDatePicker(false)
+                }}
+            />
+        </View>
     );
 };
