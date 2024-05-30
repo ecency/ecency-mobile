@@ -5,7 +5,6 @@ export default EStyleSheet.create({
     container:{
         paddingHorizontal:16,
         paddingVertical:8,
-        maxHeight:'$deviceWidth/1.2',
     } as ViewStyle,
     title:{
         fontSize:18,
@@ -31,6 +30,12 @@ export default EStyleSheet.create({
     } as ViewStyle,
     input:{
         color:'$primaryDarkText',
-    } as TextStyle
+    } as TextStyle,
+    optionsContainer:{
+         position: 'absolute',
+        top: 0, left: 0, right: 0, bottom: 0, 
+        padding:16,
+        backgroundColor: '$primaryBackgroundColor' 
+    }
 
 });

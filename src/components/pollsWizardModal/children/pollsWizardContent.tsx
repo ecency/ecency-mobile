@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, TouchableOpacity } from 'react-native';
 import styles from '../styles/pollsWizardContent.styles';
 import { useIntl } from 'react-intl';
 import { TextButton } from '../../buttons';
@@ -7,6 +7,9 @@ import { FormInput } from '../../formInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import DatePicker from 'react-native-date-picker';
+import Animated, { SlideInDown, SlideInLeft, SlideInRight, SlideOutDown, SlideOutLeft, SlideOutRight } from 'react-native-reanimated';
+import moment from 'moment/moment';
+import { dateToFormatted } from '../../../utils/time';
 
 export const PollsWizardContent = () => {
     const intl = useIntl();
@@ -18,6 +21,7 @@ export const PollsWizardContent = () => {
     const [selectedPollMode, setSelectedPollMode] = useState(null);
     const [maxOptions, setMaxOptions] = useState(1);
     const [showVotes, setShowVotes] = useState(false);
+    const [showOptions, setShowOptions] = useState(false);
 
     const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -36,8 +40,74 @@ export const PollsWizardContent = () => {
         console.log('Poll created!');
     };
 
+    const resetPoll = () => {
+        setQuestion('');
+        setChoices(['', '']);
+        setExpiryDateTime(new Date());
+    }
+
+
+    const _renderEndTime = () => {
+        const _dateString = dateToFormatted(expiryDateTime.toISOString(), 'ddd  |  MMM DD  |  hh:mm A')
+        return (
+            <>
+                <Text style={styles.label}>End Time</Text>
+                <TouchableOpacity onPress={()=>{setShowDatePicker(true)}} >
+                <FormInput
+                        rightIconName="clock"
+                        iconType="MaterialCommunityIcons"
+                        isEditable={false}
+                        value={_dateString}
+                        wrapperStyle={styles.inputWrapper}
+                        inputStyle={styles.input}
+                        pointerEvents="none" 
+                    />
+                </TouchableOpacity>
+            </>
+        )
+
+
+    }
+
+
+    const _renderOptions = () => {
+        return (
+            <>
+                {showOptions && (
+                    <Animated.View style={styles.optionsContainer} exiting={SlideOutRight} entering={SlideInRight}>
+
+                        <TextButton
+                            text={"Edit Options"}
+                            onPress={() => { setShowOptions(true) }}
+                            textStyle={styles.addChoice}
+                        />
+                        <Text>Age Range:</Text>
+                        {/* Implement age range selector here */}
+
+                        <Text>Poll Mode:</Text>
+                        {/* Implement poll mode selector here */}
+
+                        <Text>Max Options:</Text>
+                        {/* Implement max options selector here */}
+
+                        <Text>Show Votes:</Text>
+                        {/* Implement toggle switch for vote visibility */}
+
+                        <TextButton
+                            text={"Back"}
+                            onPress={() => { setShowOptions(false) }}
+                            textStyle={styles.addChoice}
+                        />
+
+
+                    </Animated.View>
+                )}
+            </>
+        )
+    }
+
     return (
-        <View style={{ width: getWindowDimensions().width, height: 350 }}>
+        <View style={{ width: getWindowDimensions().width, height: 400 }}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={styles.container} >
                 {/* <View style={styles.container}> */}
                 <Text style={styles.title}>{intl.formatMessage({ id: 'post_poll.create_title' })}</Text>
@@ -83,30 +153,23 @@ export const PollsWizardContent = () => {
                     textStyle={styles.addChoice}
                 />
 
-                <Text style={styles.label}>End Time</Text>
+                {_renderEndTime()}
+
+
                 <TextButton
-                    text={expiryDateTime.toDateString()}
-                    onPress={() => { setShowDatePicker(true) }}
+                    text={"Edit Options"}
+                    onPress={() => { setShowOptions(true) }}
                     textStyle={styles.addChoice}
                 />
 
 
-                <Text>Age Range:</Text>
-                {/* Implement age range selector here */}
 
-                <Text>Poll Mode:</Text>
-                {/* Implement poll mode selector here */}
-
-                <Text>Max Options:</Text>
-                {/* Implement max options selector here */}
-
-                <Text>Show Votes:</Text>
-                {/* Implement toggle switch for vote visibility */}
-
-                <Button title="Create Poll" onPress={createPoll} />
+                <Button title="Reset Poll" onPress={resetPoll} />
                 {/* </View> */}
             </KeyboardAwareScrollView>
-            
+
+            {_renderOptions()}
+
             <DatePicker
                 type="datetime"
                 modal={true}
@@ -115,6 +178,7 @@ export const PollsWizardContent = () => {
                 open={showDatePicker}
                 onConfirm={(date) => {
                     setExpiryDateTime(date);
+                    setShowDatePicker(false)
                 }}
                 onCancel={() => {
                     setShowDatePicker(false)
