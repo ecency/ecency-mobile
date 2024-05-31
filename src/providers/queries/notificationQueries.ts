@@ -55,7 +55,6 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
   };
 
   const _fetchNextPage = () => {
-
     if (!_lastPage || _lastPage.isFetching) {
       return;
     }
@@ -68,7 +67,6 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
   };
 
   const _dataArrs = notificationQueries.map((query) => query.data);
-
 
   return {
     data: unionBy(..._dataArrs, 'id'),

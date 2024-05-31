@@ -5,11 +5,11 @@ export enum ContentType {
 
 export enum PollPreferredInterpretation {
   NUMBER_OF_VOTES = 'number_of_votes',
-  TOKENS = 'tokens'
+  TOKENS = 'tokens',
 }
 
 export interface PostMetadata {
-  //GENERAL
+  // GENERAL
   tags: string[];
   token: string;
   content_type: ContentType;
@@ -18,23 +18,22 @@ export interface PostMetadata {
   version: number;
   app: string;
 
-  //IMAGE
+  // IMAGE
   image: string[];
   image_ratios: number[];
 
-  //POLL
+  // POLL
   question: string;
   preferred_interpretation: PollPreferredInterpretation;
   max_choices_voted: number;
   choices: string[];
   filters: {
-    account_age: number
-  }
+    account_age: number;
+  };
   end_time: number;
-  //ECENCY SPECIFIC POLL OPTIONS
+  // ECENCY SPECIFIC POLL OPTIONS
   vote_change: boolean;
   hide_votes: boolean;
-
 }
 
 export interface Vote {
@@ -155,4 +154,3 @@ export interface TransferDataType {
   amount: string;
   memo?: string;
 }
-

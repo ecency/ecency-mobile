@@ -4,7 +4,7 @@ import get from 'lodash/get';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { EmptyScreen, Header, PostCard, PostCardPlaceHolder, PostPlaceHolder, TabbedPosts } from '../../../components';
+import { Header, TabbedPosts } from '../../../components';
 
 // Container
 import { AccountContainer } from '../../../containers';
@@ -15,8 +15,6 @@ import styles from './feedStyles';
 import { getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
 
 import { useAppSelector } from '../../../hooks';
-import LaunchScreen from '../../launch/screen/launchScreen';
-import { CommentPlaceHolder } from '../../../components/basicUIElements';
 
 const FeedScreen = () => {
   const mainTabs = useAppSelector(

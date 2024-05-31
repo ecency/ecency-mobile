@@ -7,6 +7,7 @@ import get from 'lodash/get';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Utils
+import { useQueryClient } from '@tanstack/react-query';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
@@ -28,7 +29,6 @@ import { PostComments } from '../../postComments';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import UpvotePopover from '../../upvotePopover';
 import { PostPoll } from '../../postPoll';
-import { useQueryClient } from '@tanstack/react-query';
 import QUERIES from '../../../providers/queries/queryKeys';
 
 const WIDTH = getWindowDimensions().width;
@@ -284,11 +284,8 @@ const PostDisplayView = ({
               metadata={post.json_metadata}
               onLoadEnd={_handleOnPostBodyLoad}
             />
-            
-            <PostPoll 
-              author={author} 
-              permlink={permlink} 
-              metadata={post.json_metadata}  />
+
+            <PostPoll author={author} permlink={permlink} metadata={post.json_metadata} />
 
             {!postBodyLoading && (
               <View style={styles.footer}>
@@ -299,7 +296,7 @@ const PostDisplayView = ({
                     {
                       username: author || post.author,
                       appname: post?.json_metadata?.app
-                        ? capitalize((post?.json_metadata?.app).split('/')[0])
+                        ? capitalize(post?.json_metadata?.app?.split('/')[0])
                         : 'Ecency',
                     },
                   )}

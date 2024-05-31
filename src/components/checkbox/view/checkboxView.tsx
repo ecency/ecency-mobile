@@ -9,7 +9,7 @@ interface CheckBoxProps {
   locked?: boolean;
   isRound?: boolean;
   style?: ViewStyle;
-  clicked: (val: string, isChecked: boolean) => void,
+  clicked: (val: string, isChecked: boolean) => void;
 }
 
 const CheckBoxView = ({ clicked, value, isChecked, style, locked, isRound }: CheckBoxProps) => {
@@ -27,12 +27,12 @@ const CheckBoxView = ({ clicked, value, isChecked, style, locked, isRound }: Che
     }
   };
 
-  const containerStyle = [styles.bigSquare, style, isRound && { borderRadius: 10 }]
+  const containerStyle = [styles.bigSquare, style, isRound && { borderRadius: 10 }];
   const innerStyle = [
     styles.smallSquare,
     isCheck && styles.checked,
-    isRound && { borderRadius: 5 }
-  ]
+    isRound && { borderRadius: 5 },
+  ];
 
   return (
     <TouchableOpacity disabled={locked} onPress={_checkClicked}>

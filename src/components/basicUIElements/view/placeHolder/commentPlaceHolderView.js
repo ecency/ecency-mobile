@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import styles from './listItemPlaceHolderStyles';
 
 const CommentPlaceHolderView = () => {
-
   const _width = 300;
 
   const animationStyle = {

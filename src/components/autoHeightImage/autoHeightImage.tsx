@@ -25,7 +25,6 @@ export const AutoHeightImage = ({
   const _initialHeight = useMemo(() => {
     let _height = contentWidth / (16 / 9);
     if (metadata && metadata.image && metadata.image_ratios) {
-
       metadata.image_ratios.forEach((_ratio, index) => {
         const url = metadata.image[index];
 
@@ -75,12 +74,7 @@ export const AutoHeightImage = ({
 
   return (
     <TouchableOpacity onPress={onPress} disabled={isAnchored} activeOpacity={activeOpacity || 1}>
-      <ExpoImage
-        style={imgStyle}
-        source={{ uri: imgUrl }}
-        contentFit={"contain"}
-        onLoad={_onLoad}
-      />
+      <ExpoImage style={imgStyle} source={{ uri: imgUrl }} contentFit="contain" onLoad={_onLoad} />
     </TouchableOpacity>
   );
 };

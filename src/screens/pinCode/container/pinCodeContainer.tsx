@@ -82,16 +82,16 @@ class PinCodeContainer extends Component {
       const _hasHardware = await LocalAuthentication.hasHardwareAsync();
       const _isEnrolled = await LocalAuthentication.isEnrolledAsync();
 
-      if (isReset || !isBiometricEnabled || !_hasHardware || !_isEnrolled ) {
+      if (isReset || !isBiometricEnabled || !_hasHardware || !_isEnrolled) {
         return;
       }
 
       const authResp = await LocalAuthentication.authenticateAsync({
         promptMessage: intl.formatMessage({ id: 'pincode.biometric_desc' }),
-      })
+      });
 
       if (!authResp.success) {
-        throw new Error("Authentication Failed");
+        throw new Error('Authentication Failed');
       }
 
       console.log('successfully passed biometric auth');

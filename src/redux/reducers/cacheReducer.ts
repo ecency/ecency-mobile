@@ -14,7 +14,7 @@ import {
   UPDATE_CLAIM_CACHE,
   DELETE_CLAIM_CACHE_ENTRY,
   UPDATE_ANNOUNCEMENTS_META,
-  UPDATE_POLL_VOTE_CACHE
+  UPDATE_POLL_VOTE_CACHE,
 } from '../constants/constants';
 
 export enum CacheStatus {
@@ -39,7 +39,7 @@ export interface VoteCache {
 
 export interface PollVoteCache {
   choices: number[];
-  userHp:number;
+  userHp: number;
   username: string;
   votedAt: number;
   expiresAt: number;
@@ -169,7 +169,10 @@ const cacheReducer = (state = initialState, action) => {
       if (!state.pollVotesCollection) {
         state.pollVotesCollection = {};
       }
-      state.pollVotesCollection = { ...state.pollVotesCollection, [payload.postPath]: payload.pollVote };
+      state.pollVotesCollection = {
+        ...state.pollVotesCollection,
+        [payload.postPath]: payload.pollVote,
+      };
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
         lastUpdate: {

@@ -185,11 +185,7 @@ const DraftListItemView = ({
         <View style={styles.body}>
           <TouchableOpacity onPress={_onItemPress} onLongPress={_onItemLongPress}>
             {image !== null && (
-              <ExpoImage
-                source={image}
-                style={styles.thumbnail}
-                contentFit="cover"
-              />
+              <ExpoImage source={image} style={styles.thumbnail} contentFit="cover" />
             )}
             <View style={styles.postDescripton}>
               {title !== '' && <Text style={styles.title}>{title}</Text>}

@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { useEffect, useMemo } from 'react';
-import { getAnnouncements } from '../ecency/ecency';
 import VersionNumber from 'react-native-version-number';
+import { getAnnouncements } from '../ecency/ecency';
 import QUERIES from './queryKeys';
 import { useAppSelector } from '../../hooks';
 import { updateAnnoucementsMeta } from '../../redux/actions/cacheActions';
@@ -24,48 +24,42 @@ export const useAnnouncementsQuery = () => {
   const pinHash = useAppSelector((state) => state.application.pin);
 
   const lastAppVersion = useAppSelector((state) => state.application.lastAppVersion);
-  const appVersion = useMemo(() => VersionNumber.appVersion, [])
+  const appVersion = useMemo(() => VersionNumber.appVersion, []);
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const announcementsMeta = useAppSelector((state) => state.cache.announcementsMeta);
 
-
   const announcmentsQuery = useQuery([QUERIES.ANNOUNCEMENTS.GET], () => {
     const encToken = currentAccount?.local?.accessToken;
     const token = !!encToken && decryptKey(encToken, getDigitPinCode(pinHash));
-    return getAnnouncements(token)
+    return getAnnouncements(token);
   });
 
-
   useEffect(() => {
-
-    //bypass if it's first launch after new version install/update
+    // bypass if it's first launch after new version install/update
     const _isNewVersionLaunch =
-      !lastAppVersion || parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion)
+      !lastAppVersion || parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion);
     if (_isNewVersionLaunch) {
       return;
     }
 
-    //bypass if logged in user is required for announcement, skip otherwise
+    // bypass if logged in user is required for announcement, skip otherwise
     const firstAnnounce = announcementsMeta.data && announcmentsQuery.data[0];
     if (!firstAnnounce || (firstAnnounce?.auth && !currentAccount?.username)) {
       return;
     }
 
-    //prepare annoucmnet data
+    // prepare annoucmnet data
     const _metaId = `${firstAnnounce.id}_${currentAccount?.username || 'guest'}`;
     const _meta = announcementsMeta && announcementsMeta[_metaId];
     const curTime = new Date().getTime();
 
-    //bypass if already processed or last prompt limit now expired
-    if (_meta?.processed ||
-      _meta?.lastSeen + PROMPT_AGAIN_INTERVAL > curTime) {
+    // bypass if already processed or last prompt limit now expired
+    if (_meta?.processed || _meta?.lastSeen + PROMPT_AGAIN_INTERVAL > curTime) {
       return;
     }
 
-  
     _showAnnouncement(firstAnnounce, _metaId);
-
   }, [announcmentsQuery.data, currentAccount.username, lastAppVersion]);
 
   const _showAnnouncement = async (data, metaId) => {
@@ -111,4 +105,3 @@ export const useAnnouncementsQuery = () => {
     );
   };
 };
-

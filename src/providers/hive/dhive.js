@@ -371,7 +371,7 @@ export const getUser = async (user, loggedIn = true) => {
       getCache('rcPower');
     await setCache('rcPower', rcPower);
 
-    _account.reputation = await getUserReputation(user)
+    _account.reputation = await getUserReputation(user);
     _account.username = _account.name;
     _account.unread_activity_count = unreadActivityCount;
     _account.vp_manabar = client.rc.calculateVPMana(_account);
@@ -422,13 +422,11 @@ export const getUserReputation = async (author) => {
     };
 
     return parseReputation(_account.reputation);
-
   } catch (error) {
-    bugsnagInstance.notify(error)
+    bugsnagInstance.notify(error);
     return 0;
   }
-}
-
+};
 
 const cache = {};
 const patt = /hive-\d\w+/g;
@@ -746,11 +744,11 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
   try {
     console.log('Getting post: ', author, permlink);
     const post = await client.call('bridge', 'get_post', { author, permlink });
-    console.log("post fetched", post?.post_id)
+    console.log('post fetched', post?.post_id);
     return post ? parsePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
-    console.warn(error)
-    bugsnagInstance.notify(error)
+    console.warn(error);
+    bugsnagInstance.notify(error);
     return error;
   }
 };
@@ -1759,24 +1757,19 @@ export const reblog = (account, pinCode, author, permlink, undo = false) =>
     return resp;
   });
 
-
 const _reblog = async (account, pinCode, author, permlink, undo = false) => {
-
   const json = [
     'reblog',
     {
       account: account.name,
       author,
       permlink,
-      delete: undo ? 'delete' : undefined
+      delete: undo ? 'delete' : undefined,
     },
   ];
 
-
-  return broadcastPostingJSON('follow', json, account, pinCode)
-
+  return broadcastPostingJSON('follow', json, account, pinCode);
 };
-
 
 export const claimRewardBalance = (account, pinCode, rewardHive, rewardHbd, rewardVests) => {
   const pin = getDigitPinCode(pinCode);

@@ -145,8 +145,7 @@ export const QuickReplyModalContent = forwardRef(
 
     // handle submit reply
     const _submitPost = async () => {
-
-      if(isSubmitting){
+      if (isSubmitting) {
         return;
       }
 

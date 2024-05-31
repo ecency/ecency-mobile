@@ -54,7 +54,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical:8,
+    marginVertical: 8,
     paddingHorizontal: 24,
     backgroundColor: '$primaryBackgroundColor',
   },

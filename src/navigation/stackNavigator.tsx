@@ -78,10 +78,11 @@ const MainStackNavigator = () => {
           component={AssetsSelect}
           options={{ presentation: 'modal' }}
         />
-        <MainStack.Screen 
-          name={ROUTES.MODALS.ACCOUNT_LIST} 
-          component={AccountList}  
-          options={{ presentation: 'modal' }}/>
+        <MainStack.Screen
+          name={ROUTES.MODALS.ACCOUNT_LIST}
+          component={AccountList}
+          options={{ presentation: 'modal' }}
+        />
       </MainStack.Group>
     </MainStack.Navigator>
   );

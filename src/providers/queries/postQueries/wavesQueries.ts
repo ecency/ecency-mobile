@@ -1,4 +1,10 @@
-import { QueryKey, UseMutationOptions, useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
+import {
+  QueryKey,
+  UseMutationOptions,
+  useMutation,
+  useQueries,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { unionBy, isArray } from 'lodash';
@@ -169,7 +175,9 @@ export const useWavesQuery = (host: string) => {
       throw new Error('Failed to parse waves');
     }
 
-    _threadedComments.filter((item) => item.net_rshares >= 0 && !item.stats?.gray && !item.stats.hide);
+    _threadedComments.filter(
+      (item) => item.net_rshares >= 0 && !item.stats?.gray && !item.stats.hide,
+    );
     _threadedComments.sort((a, b) => (new Date(a.created) > new Date(b.created) ? -1 : 1));
     _threadedComments.forEach((item) => {
       wavesIndexCollection.current[`${item.author}/${item.permlink}`] = pagePermlink;
@@ -181,13 +189,11 @@ export const useWavesQuery = (host: string) => {
   };
 
   const _fetchNextPage = () => {
-
     if (!_lastItem || _lastItem.isFetching) {
       return;
     }
 
     const _nextPagePermlink = permlinksBucket[activePermlinks.length];
-
 
     if (_nextPagePermlink && !activePermlinks.includes(_nextPagePermlink)) {
       console.log('updating next page permlink', _nextPagePermlink);
@@ -211,23 +217,22 @@ export const useWavesQuery = (host: string) => {
   const _data = unionBy(...wavesQueries.map((query) => query.data), 'url');
 
   const _filteredData = useMemo(
-    
-    () => _data.filter((post) => 
-      {
+    () =>
+      _data.filter((post) => {
         let _status = true;
-        //discard wave if author is muted
+        // discard wave if author is muted
         if (isArray(mutes) && mutes.indexOf(post?.author) > 0) {
           _status = false;
-        } 
-        
-        //discard if wave is downvoted or marked gray
-        else if (post.net_rshares < 0 || post.stats?.gray || post.stats?.hide) {
-          _status = false
         }
-  
-        return _status
+
+        // discard if wave is downvoted or marked gray
+        else if (post.net_rshares < 0 || post.stats?.gray || post.stats?.hide) {
+          _status = false;
+        }
+
+        return _status;
       }),
-      // (isArray(mutes) ? mutes.indexOf(post?.author) < 0 : true)),
+    // (isArray(mutes) ? mutes.indexOf(post?.author) < 0 : true)),
     [mutes, _data],
   );
 
@@ -296,16 +301,19 @@ export const usePublishWaveMutation = () => {
       const _host = cacheCommentData.parent_author;
 
       // update query data
-      const containerQueriesData: [QueryKey, string[] | undefined][] = queryClient.getQueriesData([QUERIES.WAVES.INITIAL_CONTAINERS, _host]);
+      const containerQueriesData: [QueryKey, string[] | undefined][] = queryClient.getQueriesData([
+        QUERIES.WAVES.INITIAL_CONTAINERS,
+        _host,
+      ]);
 
       if (!containerQueriesData[0][1]) {
         return;
       }
 
-      //get query data of first waves container
+      // get query data of first waves container
       const _containerKey: string = containerQueriesData[0][1][0];
-      const _queryKey = [QUERIES.WAVES.GET, _host, _containerKey, 0]
-      const queryData: any[] | undefined = queryClient.getQueryData(_queryKey)
+      const _queryKey = [QUERIES.WAVES.GET, _host, _containerKey, 0];
+      const queryData: any[] | undefined = queryClient.getQueryData(_queryKey);
 
       console.log('query data', queryData);
 

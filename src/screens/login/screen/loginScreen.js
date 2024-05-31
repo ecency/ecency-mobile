@@ -123,78 +123,78 @@ const LoginScreen = ({
         }}
       />
 
-        <KeyboardAwareScrollView
-          enableAutoAutomaticScroll={Platform.OS === 'ios'}
-          contentContainerStyle={styles.formWrapper}
-          enableOnAndroid={true}
-        >
-          <FormInput
-            rightIconName="at"
-            leftIconName="close"
-            iconType="MaterialCommunityIcons"
-            isValid={isUsernameValid}
-            onChange={_handleUsernameChange}
-            placeholder={intl.formatMessage({
-              id: 'login.username',
-            })}
-            isEditable
-            type="username"
-            isFirstImage
-            value={username}
-            inputStyle={styles.input}
-            onBlur={() => _checkUsernameIsValid(username)}
-          />
-          <FormInput
-            rightIconName="lock"
-            leftIconName="close"
-            isValid={isUsernameValid}
-            onChange={_handleOnPasswordChange}
-            placeholder={intl.formatMessage({
-              id: 'login.password',
-            })}
-            isEditable
-            secureTextEntry
-            type="password"
-            numberOfLines={1}
-            value={password}
-            inputStyle={styles.input}
-          />
-          <InformationArea
-            description={intl.formatMessage({
-              id: 'login.description',
-            })}
-            link={ECENCY_TERMS_URL}
-            iconName="information-circle-outline"
-          />
-          <MainButton
-            onPress={() => handleOnPressLogin(username, password)}
-            iconName="person"
-            iconColor="white"
-            text={intl.formatMessage({
-              id: 'login.login',
-            })}
-            textStyle={styles.mainBtnText}
-            isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
-            isLoading={isLoading}
-            wrapperStyle={styles.loginBtnWrapper}
-            bodyWrapperStyle={styles.loginBtnBodyWrapper}
-            height={50}
-            iconStyle={styles.loginBtnIconStyle}
-          />
-          <OrDivider />
-          <MainButton
-            onPress={() => _handleOnModalToggle()}
-            renderIcon={_renderHiveicon()}
-            text={intl.formatMessage({
-              id: 'login.login_with_hs',
-            })}
-            textStyle={styles.hsLoginBtnText}
-            wrapperStyle={styles.loginBtnWrapper}
-            bodyWrapperStyle={styles.loginBtnBodyWrapper}
-            height={48}
-            style={styles.hsLoginBtnStyle}
-          />
-        
+      <KeyboardAwareScrollView
+        enableAutoAutomaticScroll={Platform.OS === 'ios'}
+        contentContainerStyle={styles.formWrapper}
+        enableOnAndroid={true}
+      >
+        <FormInput
+          rightIconName="at"
+          leftIconName="close"
+          iconType="MaterialCommunityIcons"
+          isValid={isUsernameValid}
+          onChange={_handleUsernameChange}
+          placeholder={intl.formatMessage({
+            id: 'login.username',
+          })}
+          isEditable
+          type="username"
+          isFirstImage
+          value={username}
+          inputStyle={styles.input}
+          onBlur={() => _checkUsernameIsValid(username)}
+        />
+        <FormInput
+          rightIconName="lock"
+          leftIconName="close"
+          isValid={isUsernameValid}
+          onChange={_handleOnPasswordChange}
+          placeholder={intl.formatMessage({
+            id: 'login.password',
+          })}
+          isEditable
+          secureTextEntry
+          type="password"
+          numberOfLines={1}
+          value={password}
+          inputStyle={styles.input}
+        />
+        <InformationArea
+          description={intl.formatMessage({
+            id: 'login.description',
+          })}
+          link={ECENCY_TERMS_URL}
+          iconName="information-circle-outline"
+        />
+        <MainButton
+          onPress={() => handleOnPressLogin(username, password)}
+          iconName="person"
+          iconColor="white"
+          text={intl.formatMessage({
+            id: 'login.login',
+          })}
+          textStyle={styles.mainBtnText}
+          isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
+          isLoading={isLoading}
+          wrapperStyle={styles.loginBtnWrapper}
+          bodyWrapperStyle={styles.loginBtnBodyWrapper}
+          height={50}
+          iconStyle={styles.loginBtnIconStyle}
+        />
+        <OrDivider />
+        <MainButton
+          onPress={() => _handleOnModalToggle()}
+          renderIcon={_renderHiveicon()}
+          text={intl.formatMessage({
+            id: 'login.login_with_hs',
+          })}
+          textStyle={styles.hsLoginBtnText}
+          wrapperStyle={styles.loginBtnWrapper}
+          bodyWrapperStyle={styles.loginBtnBodyWrapper}
+          height={48}
+          style={styles.hsLoginBtnStyle}
+        />
+
         <View style={styles.footerButtons}>
           <Text style={styles.noAccountText}>
             {intl.formatMessage({
@@ -207,8 +207,8 @@ const LoginScreen = ({
             })}
           </Text>
         </View>
-        </KeyboardAwareScrollView>
-  
+      </KeyboardAwareScrollView>
+
       <Modal
         isOpen={isModalOpen}
         isFullScreen
