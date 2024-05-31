@@ -165,9 +165,9 @@ export const AssetCard = ({
     chartData.length > 0 ? (
       <View style={styles.cardFooter}>
         <Text style={styles.textCurValue}>{`${currencySymbol} ${currentValue.toFixed(2)}`}</Text>
-        <Text style={changePercent > 0 ? styles.textDiffPositive : styles.textDiffNegative}>{`${
-          changePercent >= 0 ? '+' : ''
-        }${changePercent.toFixed(1)}%`}</Text>
+        <Text style={changePercent > 0 ? styles.textDiffPositive : styles.textDiffNegative}>
+          {`${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(1)}%`}
+        </Text>
       </View>
     ) : (
       <View style={{ height: 12 }} />

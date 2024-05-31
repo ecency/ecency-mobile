@@ -44,7 +44,6 @@ export const PostCardActionsPanel = ({ content, handleCardInteraction }: Props) 
         permlink,
       },
     });
-
   };
 
   return (

@@ -966,8 +966,7 @@ export const getCommentHistory = async (
 
 export const getAnnouncements = async (accessToken: string) => {
   try {
-  
-    const params = accessToken ? { code:accessToken } : null
+    const params = accessToken ? { code: accessToken } : null;
 
     const res = await ecencyApi.get('/private-api/announcements', { params });
     console.log('announcements fetcehd', res.data);

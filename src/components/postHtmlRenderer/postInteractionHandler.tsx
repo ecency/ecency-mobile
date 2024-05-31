@@ -23,7 +23,7 @@ interface PostHtmlInteractionHandlerProps {
 
 export const PostHtmlInteractionHandler = forwardRef(
   ({ postType }: PostHtmlInteractionHandlerProps, ref) => {
-    console.log('Post Type', postType)
+    console.log('Post Type', postType);
 
     const navigation = useNavigation();
     const dispatch = useDispatch();
@@ -40,7 +40,7 @@ export const PostHtmlInteractionHandler = forwardRef(
 
     useImperativeHandle(ref, () => ({
       handleImagePress: (url: string, postImgUrls: string[]) => {
-        if(imageViewerRef.current){
+        if (imageViewerRef.current) {
           imageViewerRef.current.show(url, postImgUrls);
         }
       },
@@ -68,9 +68,6 @@ export const PostHtmlInteractionHandler = forwardRef(
         }
       },
     }));
-
-
-
 
     const _handleLinkOptionPress = (ind) => {
       if (ind === 1) {
@@ -103,10 +100,7 @@ export const PostHtmlInteractionHandler = forwardRef(
 
     return (
       <Fragment>
-
-        <ImageViewer 
-          ref={imageViewerRef}
-        />
+        <ImageViewer ref={imageViewerRef} />
 
         <OptionsModal
           ref={actionLink}

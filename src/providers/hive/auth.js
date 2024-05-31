@@ -333,22 +333,22 @@ export const getUpdatedUserData = (userData, data) => {
         : get(userData, 'masterKey', ''),
     postingKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
         ? encryptKey(get(privateKeys, 'postingKey', '').toString(), get(data, 'pinCode'))
         : get(userData, 'postingKey', ''),
     activeKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
         ? encryptKey(get(privateKeys, 'activeKey', '').toString(), get(data, 'pinCode'))
         : get(userData, 'activeKey', ''),
     memoKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
         ? encryptKey(get(privateKeys, 'memoKey', '').toString(), get(data, 'pinCode'))
         : get(userData, 'memoKey', ''),
     ownerKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
         ? encryptKey(get(privateKeys, 'ownerKey', '').toString(), get(data, 'pinCode'))
         : get(userData, 'ownerKey', ''),
   };
@@ -382,25 +382,23 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
     }
   });
 
-
-
   if (loginFlag) {
-    const _prevAuthType = currentAccountData.authType
+    const _prevAuthType = currentAccountData.authType;
 
     const _localData = {
       ...currentAccountData.local,
-      authType
-    }
-    const _userData = getUpdatedUserData(_localData, data)
+      authType,
+    };
+    const _userData = getUpdatedUserData(_localData, data);
 
-    //sustain appropriate authType;
-    if(_prevAuthType === AUTH_TYPE.STEEM_CONNECT){
+    // sustain appropriate authType;
+    if (_prevAuthType === AUTH_TYPE.STEEM_CONNECT) {
       _userData.authType = _prevAuthType;
     }
-    
+
     await setUserData(_userData);
-    currentAccountData.local = _userData
-    
+    currentAccountData.local = _userData;
+
     return currentAccountData;
   }
   return Promise.reject(new Error('auth.invalid_credentials'));
