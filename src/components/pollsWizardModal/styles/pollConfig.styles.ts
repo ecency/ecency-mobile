@@ -2,14 +2,7 @@ import { TextStyle, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-    container:{
-        paddingHorizontal:16,
-        paddingVertical:8,
-    } as ViewStyle,
-    title:{
-        fontSize:18,
-        color:'$primaryDarkText',
-    } as TextStyle,
+
     label:{
         fontSize:16,
         color:'$primaryDarkText',

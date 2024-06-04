@@ -489,7 +489,9 @@
     "create_title":"Create a poll",
     "add_choice":"Add Choice",
     "question_placeholder":"Add poll question...",
-    "choice_placeholder":"Choice {number}"
+    "choice_placeholder":"Choice {number}",
+    "number_of_votes":"Number of Votes",
+    "tokens":"Total Tokens"
   },
   "editor": {
     "title": "Title",

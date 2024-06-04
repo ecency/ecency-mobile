@@ -8,7 +8,22 @@ export enum PollPreferredInterpretation {
   TOKENS = 'tokens',
 }
 
-export interface PostMetadata {
+export interface PollMetadata {
+  // POLL
+  question: string;
+  preferred_interpretation: PollPreferredInterpretation;
+  max_choices_voted: number;
+  choices: string[];
+  filters: {
+    account_age: number;
+  };
+  end_time: number;
+  // ECENCY SPECIFIC POLL OPTIONS
+  vote_change: boolean;
+  hide_votes: boolean;
+}
+
+export interface PostMetadata extends PollMetadata {
   // GENERAL
   tags: string[];
   token: string;
@@ -22,18 +37,7 @@ export interface PostMetadata {
   image: string[];
   image_ratios: number[];
 
-  // POLL
-  question: string;
-  preferred_interpretation: PollPreferredInterpretation;
-  max_choices_voted: number;
-  choices: string[];
-  filters: {
-    account_age: number;
-  };
-  end_time: number;
-  // ECENCY SPECIFIC POLL OPTIONS
-  vote_change: boolean;
-  hide_votes: boolean;
+
 }
 
 export interface Vote {
