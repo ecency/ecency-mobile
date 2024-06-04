@@ -19,12 +19,64 @@ interface Props {
 export const PollConfig = forwardRef(({ pollMeta, setPollMeta }: Props, ref) => {
     const intl = useIntl();
     const [visible, setVisible] = useState(false);
+    const _interpretations = Object.values(PollPreferredInterpretation);
 
     useImperativeHandle(ref, () => ({
         showConfig: () => {
             setVisible(true)
         }
     }))
+
+    const _onAgeLimitChange = (text) => {
+
+        const val = parseInt(text);
+        if (val >= 0) {
+            setPollMeta({
+                ...pollMeta,
+                filters: {
+                    account_age: val
+                }
+            })
+        }
+
+    }
+
+    const _onMaxOptionsChange = (text) => {
+        const val = parseInt(text);
+        if (val >= 0) {
+            setPollMeta({
+                ...pollMeta,
+                max_choices_voted: val
+            })
+        }
+    }
+
+
+    const _onInterpretationChange = (index: number) => {
+        const preferred_interpretation = _interpretations[index];
+        setPollMeta({
+            ...pollMeta,
+            preferred_interpretation
+        })
+    }
+
+
+    const _onShowVotesChange = (val: boolean) => {
+        setPollMeta({
+            ...pollMeta,
+            hide_votes: !val
+        })
+    }
+
+    const _onVoteChangeUpdate = (val: boolean) => {
+        setPollMeta({
+            ...pollMeta,
+            vote_change: val
+        })
+    }
+
+
+
 
     return (
         <>
@@ -33,13 +85,13 @@ export const PollConfig = forwardRef(({ pollMeta, setPollMeta }: Props, ref) => 
                     handleOnBackPress={() => { setVisible(false) }}
                     title={"Edit Configuration"}
                 />
-                <KeyboardAwareScrollView contentContainerStyle={{paddingHorizontal: 16 }}>
-                <Text style={styles.label}>Min. Account Age (Days)</Text>
+                <KeyboardAwareScrollView contentContainerStyle={{ paddingHorizontal: 16 }}>
+                    <Text style={styles.label}>Min. Account Age (Days)</Text>
                     <FormInput
                         rightIconName="calendar"
                         iconType="MaterialCommunityIcons"
                         isValid={true}
-                        onChange={(text) => { }}
+                        onChange={_onAgeLimitChange}
                         placeholder={"minimum account age, default is 100"}
                         isEditable
                         value={pollMeta.filters?.account_age + ''}
@@ -53,7 +105,7 @@ export const PollConfig = forwardRef(({ pollMeta, setPollMeta }: Props, ref) => 
                         rightIconName="check-all"
                         iconType="MaterialCommunityIcons"
                         isValid={true}
-                        onChange={(text) => { }}
+                        onChange={_onMaxOptionsChange}
                         placeholder={"minimum account age, default is 100"}
                         isEditable
                         value={pollMeta.max_choices_voted + ''}
@@ -69,12 +121,12 @@ export const PollConfig = forwardRef(({ pollMeta, setPollMeta }: Props, ref) => 
                         type="dropdown"
                         actionType="language"
                         options={
-                            Object.values(PollPreferredInterpretation).map(id=>intl.formatMessage({
-                                id:`post_poll.${id}`
+                            _interpretations.map(id => intl.formatMessage({
+                                id: `post_poll.${id}`
                             }))
                         }
-                        selectedOptionIndex={0}
-                        handleOnChange={() => { }}
+                        selectedOptionIndex={_interpretations.indexOf(pollMeta.preferred_interpretation)}
+                        handleOnChange={_onInterpretationChange}
                         wrapperStyle={styles.settingsWrapper}
                     />
 
@@ -86,7 +138,7 @@ export const PollConfig = forwardRef(({ pollMeta, setPollMeta }: Props, ref) => 
                         actionType={'show_votes'}
                         titleStyle={styles.settingsTitle}
                         wrapperStyle={styles.settingsWrapper}
-                        handleOnChange={() => { }}
+                        handleOnChange={_onShowVotesChange}
                         isOn={!pollMeta.hide_votes}
                     />
 
@@ -98,15 +150,15 @@ export const PollConfig = forwardRef(({ pollMeta, setPollMeta }: Props, ref) => 
                         actionType={'show_votes'}
                         titleStyle={styles.settingsTitle}
                         wrapperStyle={styles.settingsWrapper}
-                        handleOnChange={() => { }}
+                        handleOnChange={_onVoteChangeUpdate}
                         isOn={pollMeta.vote_change}
                     />
 
-           
+
 
                 </KeyboardAwareScrollView>
-             
-                  
+
+
 
             </Animated.View>}
         </>
