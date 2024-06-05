@@ -37,6 +37,7 @@ export const convertQuoteItem = (rawData: any, currencyRate: number) => {
   } as QuoteItem;
 };
 
+
 export const convertDraft = (rawData: any) => {
   if (!rawData) {
     return null;

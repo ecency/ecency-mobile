@@ -5,6 +5,7 @@ import VersionNumber from 'react-native-version-number';
 import getSlug from 'speakingurl';
 import { PostTypes } from '../constants/postTypes';
 import { ThreeSpeakVideo } from '../providers/speak/speak.types';
+import { PollDraft } from '../providers/ecency/ecency.types';
 
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
@@ -233,6 +234,7 @@ export const extractMetadata = async ({
   fetchRatios,
   postType,
   videoPublishMeta,
+  pollDraft
 }: {
   body: string;
   thumbUrl?: string;
@@ -240,6 +242,7 @@ export const extractMetadata = async ({
   fetchRatios?: boolean;
   postType?: PostTypes;
   videoPublishMeta?: ThreeSpeakVideo;
+  pollDraft?:PollDraft
 }) => {
   // NOTE: keepting regex to extract usernames as reference for later usage if any
   // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
@@ -309,6 +312,12 @@ export const extractMetadata = async ({
         tags: videoPublishMeta.tags_v2,
       },
     };
+  }
+
+
+  if(pollDraft){
+    //TODO convert draft poll to poll meta here
+
   }
 
   // setting post type, primary usecase for separating waves from other posts

@@ -1,9 +1,10 @@
+import { PollDraft } from '../../providers/ecency/ecency.types';
 import { PollMetadata } from '../../providers/hive/hive.types';
 import {
   SET_BENEFICIARIES,
   REMOVE_EDITOR_CACHE,
   SET_ALLOW_SPK_PUBLISHING,
-  SET_POLL_META,
+  SET_POLL_DRAFT,
 } from '../constants/constants';
 import { Beneficiary } from '../reducers/editorReducer';
 
@@ -22,12 +23,12 @@ export const removeEditorCache = (draftId: string) => ({
   type: REMOVE_EDITOR_CACHE,
 });
 
-export const setPollMetadata = (draftId: string, pollMeta: PollMetadata) => ({
+export const setPollDraftAction = (draftId: string, pollDraft: PollDraft) => ({
   payload: {
     draftId,
-    pollMeta,
+    pollDraft,
   },
-  type: SET_POLL_META,
+  type: SET_POLL_DRAFT,
 });
 
 export const setAllowSpkPublishing = (allowSpkPublishing: boolean) => ({

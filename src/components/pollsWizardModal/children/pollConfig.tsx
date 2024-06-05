@@ -1,22 +1,23 @@
 
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
 import styles from '../styles/pollsWizardContent.styles';
 import { FormInput } from '../../formInput';
 import Animated, { SlideInRight, SlideOutRight } from 'react-native-reanimated';
 import SettingsItem from '../../settingsItem';
 import BasicHeader from '../../basicHeader';
-import { PollMetadata, PollPreferredInterpretation } from '../../../providers/hive/hive.types';
+import { PollPreferredInterpretation } from '../../../providers/hive/hive.types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useIntl } from 'react-intl';
+import { PollDraft } from '../../../providers/ecency/ecency.types';
 
 
 interface Props {
-    pollMeta: PollMetadata,
-    setPollMeta: (meta: PollMetadata) => void
+    pollDraft: PollDraft,
+    setPollDraft: (meta: PollDraft) => void
 }
 
-export const PollConfig = forwardRef(({ pollMeta, setPollMeta }: Props, ref) => {
+export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) => {
     const intl = useIntl();
     const [visible, setVisible] = useState(false);
     const _interpretations = Object.values(PollPreferredInterpretation);
@@ -31,10 +32,10 @@ export const PollConfig = forwardRef(({ pollMeta, setPollMeta }: Props, ref) => 
 
         const val = parseInt(text);
         if (val >= 0) {
-            setPollMeta({
-                ...pollMeta,
+            setPollDraft({
+                ...pollDraft,
                 filters: {
-                    account_age: val
+                    accountAge: val
                 }
             })
         }
@@ -44,34 +45,34 @@ export const PollConfig = forwardRef(({ pollMeta, setPollMeta }: Props, ref) => 
     const _onMaxOptionsChange = (text) => {
         const val = parseInt(text);
         if (val >= 0) {
-            setPollMeta({
-                ...pollMeta,
-                max_choices_voted: val
+            setPollDraft({
+                ...pollDraft,
+                maxChoicesVoted: val
             })
         }
     }
 
 
     const _onInterpretationChange = (index: number) => {
-        const preferred_interpretation = _interpretations[index];
-        setPollMeta({
-            ...pollMeta,
-            preferred_interpretation
+        const interpretation = _interpretations[index];
+        setPollDraft({
+            ...pollDraft,
+            interpretation
         })
     }
 
 
     const _onShowVotesChange = (val: boolean) => {
-        setPollMeta({
-            ...pollMeta,
-            hide_votes: !val
+        setPollDraft({
+            ...pollDraft,
+            hideVotes: !val
         })
     }
 
     const _onVoteChangeUpdate = (val: boolean) => {
-        setPollMeta({
-            ...pollMeta,
-            vote_change: val
+        setPollDraft({
+            ...pollDraft,
+            voteChange: val
         })
     }
 
@@ -94,7 +95,7 @@ export const PollConfig = forwardRef(({ pollMeta, setPollMeta }: Props, ref) => 
                         onChange={_onAgeLimitChange}
                         placeholder={"minimum account age, default is 100"}
                         isEditable
-                        value={pollMeta.filters?.account_age + ''}
+                        value={pollDraft.filters?.accountAge + ''}
                         wrapperStyle={styles.inputWrapper}
                         inputStyle={styles.input}
                         keyboardType='numeric'
@@ -108,7 +109,7 @@ export const PollConfig = forwardRef(({ pollMeta, setPollMeta }: Props, ref) => 
                         onChange={_onMaxOptionsChange}
                         placeholder={"minimum account age, default is 100"}
                         isEditable
-                        value={pollMeta.max_choices_voted + ''}
+                        value={pollDraft.maxChoicesVoted + ''}
                         wrapperStyle={styles.inputWrapper}
                         inputStyle={styles.input}
                         keyboardType='numeric'
@@ -125,7 +126,7 @@ export const PollConfig = forwardRef(({ pollMeta, setPollMeta }: Props, ref) => 
                                 id: `post_poll.${id}`
                             }))
                         }
-                        selectedOptionIndex={_interpretations.indexOf(pollMeta.preferred_interpretation)}
+                        selectedOptionIndex={_interpretations.indexOf(pollDraft.interpretation)}
                         handleOnChange={_onInterpretationChange}
                         wrapperStyle={styles.settingsWrapper}
                     />
@@ -139,7 +140,7 @@ export const PollConfig = forwardRef(({ pollMeta, setPollMeta }: Props, ref) => 
                         titleStyle={styles.settingsTitle}
                         wrapperStyle={styles.settingsWrapper}
                         handleOnChange={_onShowVotesChange}
-                        isOn={!pollMeta.hide_votes}
+                        isOn={!pollDraft.hideVotes}
                     />
 
 
@@ -151,7 +152,7 @@ export const PollConfig = forwardRef(({ pollMeta, setPollMeta }: Props, ref) => 
                         titleStyle={styles.settingsTitle}
                         wrapperStyle={styles.settingsWrapper}
                         handleOnChange={_onVoteChangeUpdate}
-                        isOn={pollMeta.vote_change}
+                        isOn={pollDraft.voteChange}
                     />
 
 

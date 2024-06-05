@@ -305,7 +305,7 @@ const reduxMigrations = {
     return state;
   },
   9: (state) => {
-    state.editor.pollsMetaMap = {};
+    state.editor.pollDraftsMap = {};
     return state;
   }
 };

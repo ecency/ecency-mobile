@@ -1,8 +1,8 @@
-import { PollMetadata } from '../../providers/hive/hive.types';
+import { PollDraft } from '../../providers/ecency/ecency.types';
 import {
   REMOVE_EDITOR_CACHE,
   SET_BENEFICIARIES,
-  SET_POLL_META,
+  SET_POLL_DRAFT,
   SET_ALLOW_SPK_PUBLISHING,
 } from '../constants/constants';
 
@@ -17,15 +17,15 @@ interface State {
   beneficiariesMap: {
     [key: string]: Beneficiary[];
   };
-  pollsMetaMap: {
-    [key: string]: PollMetadata;
+  pollDraftsMap: {
+    [key: string]: PollDraft;
   }
   allowSpkPublishing: boolean;
 }
 
 const initialState: State = {
   beneficiariesMap: {},
-  pollsMetaMap: {},
+  pollDraftsMap: {},
   allowSpkPublishing: false,
 };
 
@@ -37,14 +37,17 @@ const editorReducer = (state = initialState, action) => {
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
       };
-    case SET_POLL_META:
-      state.pollsMetaMap[payload.draftId] = payload.pollMeta;
+    case SET_POLL_DRAFT:
+      if(!state.pollDraftsMap){
+        state.pollDraftsMap = {};
+      }
+      state.pollDraftsMap[payload.draftId] = payload.pollDraft;
       return {
         ...state
       }
     case REMOVE_EDITOR_CACHE:
       delete state.beneficiariesMap[payload.draftId];
-      delete state.pollsMetaMap[payload.draftId];
+      delete state.pollDraftsMap[payload.draftId];
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
       };

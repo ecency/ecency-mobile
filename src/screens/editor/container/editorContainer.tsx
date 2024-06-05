@@ -42,6 +42,7 @@ import {
   removeEditorCache,
   setAllowSpkPublishing,
   setBeneficiaries,
+  setPollDraftAction,
 } from '../../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import {
@@ -62,6 +63,8 @@ import {
   DEFAULT_SPEAK_BENEFICIARIES,
 } from '../../../providers/speak/constants';
 import { ThreeSpeakVideo } from '../../../providers/speak/speak.types';
+import { ContentType, PollMetadata } from '../../../providers/hive/hive.types';
+import { convertDraft } from '../../../providers/ecency/converters';
 
 /*
  *            Props Name        Description                                     Value
@@ -221,6 +224,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     if (
       prevState.rewardType !== this.state.rewardType ||
       prevProps.beneficiariesMap !== this.props.beneficiariesMap ||
+      prevProps.pollDraftsMap !== this.props.pollDraftsMap ||
       prevState.postDescription !== this.state.postDescription
     ) {
       // update isDraftSaved when reward type or beneficiaries are changed in post options
@@ -323,14 +327,20 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
     }
 
-    if (draft._id && draft.meta && draft.meta.beneficiaries) {
-      if (isArray(draft.meta.beneficiaries)) {
+    if (draft._id) {
+
+      if (isArray(draft.meta?.beneficiaries)) {
         const filteredBeneficiaries = draft.meta.beneficiaries.filter(
           (item) => item.account !== currentAccount.username,
         ); // remove default beneficiary from array while saving
 
         dispatch(setBeneficiaries(draft._id || DEFAULT_USER_DRAFT_ID, filteredBeneficiaries));
       }
+
+      if (draft.meta?.poll){
+        dispatch(setPollDraftAction(draft._id, draft.meta.poll))
+      }
+
     }
 
 
@@ -431,6 +441,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     return beneficiariesMap[draftId || DEFAULT_USER_DRAFT_ID] || [];
   };
 
+  _extractPollDraft = () => {
+    const { draftId } = this.state;
+    const { pollDraftsMap } = this.props;
+
+    return pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID] || [];
+  };
+
   _saveDraftToDB = async (fields, saveAsNew = false) => {
     const { isDraftSaved, draftId, thumbUrl, isReply, rewardType, postDescription } = this.state;
     const { currentAccount, dispatch, intl, queryClient, speakContentBuilder } = this.props;
@@ -450,6 +467,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     speakContentBuilder.build(fields.body);
 
     const beneficiaries = this._extractBeneficiaries();
+    const pollDraft = this._extractPollDraft();
     const postBodySummaryContent = postBodySummary(
       get(fields, 'body', ''),
       200,
@@ -495,6 +513,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         const meta = Object.assign({}, _extractedMeta, {
           tags: draftField.tags,
           beneficiaries,
+          poll:pollDraft,
           rewardType,
           description: postDescription || postBodySummaryContent,
           videos: Object.keys(videos).length > 0 && videos,
@@ -542,6 +561,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             (item) => item.account !== currentAccount.username,
           ); // remove default beneficiary from array while saving
           dispatch(setBeneficiaries(_resDraft._id, filteredBeneficiaries));
+          dispatch(setPollDraftAction(_resDraft._id, pollDraft));
 
           //TODO: assess if need to set poll meta here as well
           
@@ -639,6 +659,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     const fields = Object.assign({}, _fieldsBase);
     let beneficiaries = this._extractBeneficiaries();
+    let pollDraft = this._extractPollDraft();
     let videoPublishMeta: ThreeSpeakVideo | undefined = undefined;
 
     if (isPostSending) {
@@ -660,6 +681,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           ];
           beneficiaries = [...encoderBene, ...beneficiaries];
         }
+
+        //TODO: handle poll draft publishing with meta data;
+
       } catch (err) {
         console.warn('fail', err);
         return;
@@ -686,10 +710,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
         fetchRatios: true,
         videoPublishMeta,
+        pollDraft
       });
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
-      const jsonMeta = makeJsonMetadata(meta, _tags);
+      const jsonMeta = makeJsonMetadata(meta, _tags); 
 
       // TODO: check if permlink is available github: #314 https://github.com/ecency/ecency-mobile/pull/314
       let permlink = videoPublishMeta
@@ -1334,6 +1359,7 @@ const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   pinCode: state.application.pin,
   beneficiariesMap: state.editor.beneficiariesMap,
+  pollDraftsMap: state.editor.pollDraftsMap,
   draftsCollection: state.cache.draftsCollection,
 });
 

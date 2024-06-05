@@ -11,20 +11,21 @@ import { dateToFormatted } from '../../../utils/time';
 import { PollConfig } from './pollConfig';
 import { PollMetadata, PollPreferredInterpretation } from '../../../providers/hive/hive.types';
 import { useDispatch } from 'react-redux';
-import { setPollMetadata } from '../../../redux/actions/editorActions';
+import { setPollDraftAction } from '../../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
+import { PollDraft } from '../../../providers/ecency/ecency.types';
 
-const INIT_POLL_META:PollMetadata = {
-    question: '',
+const INIT_POLL_Draft:PollDraft = {
+    title: '',
     choices: ['', ''],
     filters: {
-        account_age: 100,
+        accountAge: 100,
     },
-    preferred_interpretation: PollPreferredInterpretation.NUMBER_OF_VOTES,
-    vote_change: false,
-    hide_votes: false,
-    max_choices_voted: 1,
-    end_time: ( new Date().getTime() ) / 1000
+    interpretation: PollPreferredInterpretation.NUMBER_OF_VOTES,
+    voteChange: false,
+    hideVotes: false,
+    maxChoicesVoted: 1,
+    endTime: new Date().toISOString()
 }
 
 
@@ -37,26 +38,26 @@ export const PollsWizardContent = ({draftId}:{draftId?:string}) => {
     const [showDatePicker, setShowDatePicker] = useState(false);
 
 
-    const [pollMeta, setPollMeta] = useState<PollMetadata>(INIT_POLL_META)
+    const [pollDraft, setPollDraft] = useState<PollDraft>(INIT_POLL_Draft)
 
-    const expiryDateTime = new Date(pollMeta.end_time * 1000) //TOOD: adjust time formate to match with web
+    const expiryDateTime = new Date(pollDraft.endTime) //TOOD: adjust time formate to match with web
 
     const addChoice = () => {
         // setChoices([...choices, '']);
-        setPollMeta({
-            ...pollMeta,
+        setPollDraft({
+            ...pollDraft,
             choices:[
-                ...pollMeta.choices,
+                ...pollDraft.choices,
                 ''
             ]
         })
     };
 
     const handleChoiceChange = (index, value) => {
-        const newChoices = [...pollMeta.choices];
+        const newChoices = [...pollDraft.choices];
         newChoices[index] = value;
-        setPollMeta({
-            ...pollMeta,
+        setPollDraft({
+            ...pollDraft,
             choices:newChoices
         });
     };
@@ -64,27 +65,27 @@ export const PollsWizardContent = ({draftId}:{draftId?:string}) => {
     const createPoll = () => {
         // Implement poll creation logic here
         console.log('Poll created!');
-        dispatch(setPollMetadata(draftId || DEFAULT_USER_DRAFT_ID, pollMeta))
+        dispatch(setPollDraftAction(draftId || DEFAULT_USER_DRAFT_ID, pollDraft))
         
     };
 
     const resetPoll = () => {
-       setPollMeta(INIT_POLL_META)
+       setPollDraft(INIT_POLL_Draft)
     }
 
 
     const _onQuestionChange = (text) => {
-        setPollMeta({
-            ...pollMeta,
-            question:text
+        setPollDraft({
+            ...pollDraft,
+            title:text
         })
     }
 
     const _onExpiryDateChange = (date:Date) => {
         //TODO: add past and present checks
-        setPollMeta({
-            ...pollMeta,
-            end_time:( date.getTime() ) / 1000
+        setPollDraft({
+            ...pollDraft,
+            endTime:date.toISOString()
         })
     }   
 
@@ -164,13 +165,13 @@ export const PollsWizardContent = ({draftId}:{draftId?:string}) => {
                         id: 'post_poll.question_placeholder',
                     })}
                     isEditable
-                    value={pollMeta.question}
+                    value={pollDraft.question}
                     wrapperStyle={styles.inputWrapper}
                     inputStyle={styles.input}
                 />
 
                 <Text style={styles.label}>Choices</Text>
-                {pollMeta.choices.map(_renderChoiceInput)}
+                {pollDraft.choices.map(_renderChoiceInput)}
 
                 <TextButton
                     text={intl.formatMessage({
@@ -184,18 +185,18 @@ export const PollsWizardContent = ({draftId}:{draftId?:string}) => {
                 {_renderConfig()}
 
 
-                <Button title="Reset Poll" onPress={resetPoll} />
-                <Button title="Attach Poll" onPress={createPoll} />
+                <TextButton textStyle={styles.addChoice} text="Reset Poll" onPress={resetPoll} />
+                <TextButton textStyle={styles.addChoice} text="Attach Poll" onPress={createPoll} />
                 
             </KeyboardAwareScrollView>
 
-            <PollConfig ref={pollConfigRef} pollMeta={pollMeta} setPollMeta={setPollMeta} />
+            <PollConfig ref={pollConfigRef} pollDraft={pollDraft} setPollDraft={setPollDraft} />
 
             <DatePicker
                 type="datetime"
                 modal={true}
                 onChanged={() => { }}
-                date={new Date(pollMeta.end_time)}
+                date={new Date(pollDraft.endTime)}
                 open={showDatePicker}
                 onConfirm={(date) => {
                     _onExpiryDateChange(date)
