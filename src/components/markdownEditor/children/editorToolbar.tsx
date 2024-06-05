@@ -237,6 +237,7 @@ export const EditorToolbar = ({
             <PollsWizardModal
               ref={pollsWizardModalRef}
               isPreviewActive={isPreviewActive}
+              draftId={draftId}
             />
           </View>
         </Animated.View>

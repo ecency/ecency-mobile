@@ -10,7 +10,9 @@ import DatePicker from 'react-native-date-picker';
 import { dateToFormatted } from '../../../utils/time';
 import { PollConfig } from './pollConfig';
 import { PollMetadata, PollPreferredInterpretation } from '../../../providers/hive/hive.types';
-
+import { useDispatch } from 'react-redux';
+import { setPollMetadata } from '../../../redux/actions/editorActions';
+import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 
 const INIT_POLL_META:PollMetadata = {
     question: '',
@@ -22,12 +24,13 @@ const INIT_POLL_META:PollMetadata = {
     vote_change: false,
     hide_votes: false,
     max_choices_voted: 1,
-    end_time: new Date().getTime()
+    end_time: ( new Date().getTime() ) / 1000
 }
 
 
-export const PollsWizardContent = () => {
+export const PollsWizardContent = ({draftId}:{draftId?:string}) => {
     const intl = useIntl();
+    const dispatch = useDispatch();
 
     const pollConfigRef = useRef<typeof PollConfig>(null);
 
@@ -36,7 +39,7 @@ export const PollsWizardContent = () => {
 
     const [pollMeta, setPollMeta] = useState<PollMetadata>(INIT_POLL_META)
 
-    const expiryDateTime = new Date(pollMeta.end_time) //TOOD: adjust time formate to match with web
+    const expiryDateTime = new Date(pollMeta.end_time * 1000) //TOOD: adjust time formate to match with web
 
     const addChoice = () => {
         // setChoices([...choices, '']);
@@ -61,6 +64,8 @@ export const PollsWizardContent = () => {
     const createPoll = () => {
         // Implement poll creation logic here
         console.log('Poll created!');
+        dispatch(setPollMetadata(draftId || DEFAULT_USER_DRAFT_ID, pollMeta))
+        
     };
 
     const resetPoll = () => {
@@ -79,7 +84,7 @@ export const PollsWizardContent = () => {
         //TODO: add past and present checks
         setPollMeta({
             ...pollMeta,
-            end_time:date.getTime()
+            end_time:( date.getTime() ) / 1000
         })
     }   
 
@@ -180,6 +185,8 @@ export const PollsWizardContent = () => {
 
 
                 <Button title="Reset Poll" onPress={resetPoll} />
+                <Button title="Attach Poll" onPress={createPoll} />
+                
             </KeyboardAwareScrollView>
 
             <PollConfig ref={pollConfigRef} pollMeta={pollMeta} setPollMeta={setPollMeta} />
