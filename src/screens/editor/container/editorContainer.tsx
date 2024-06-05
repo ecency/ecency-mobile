@@ -43,7 +43,7 @@ import {
   setAllowSpkPublishing,
   setBeneficiaries,
 } from '../../../redux/actions/editorActions';
-import { DEFAULT_USER_DRAFT_ID, TEMP_DRAFT_ID } from '../../../redux/constants/constants';
+import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import {
   deleteDraftCacheEntry,
   updateCommentCache,
@@ -329,7 +329,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           (item) => item.account !== currentAccount.username,
         ); // remove default beneficiary from array while saving
 
-        dispatch(setBeneficiaries(draft._id || TEMP_DRAFT_ID, filteredBeneficiaries));
+        dispatch(setBeneficiaries(draft._id || DEFAULT_USER_DRAFT_ID, filteredBeneficiaries));
       }
     }
 
@@ -428,7 +428,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const { draftId } = this.state;
     const { beneficiariesMap } = this.props;
 
-    return beneficiariesMap[draftId || TEMP_DRAFT_ID] || [];
+    return beneficiariesMap[draftId || DEFAULT_USER_DRAFT_ID] || [];
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
@@ -542,7 +542,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             (item) => item.account !== currentAccount.username,
           ); // remove default beneficiary from array while saving
           dispatch(setBeneficiaries(_resDraft._id, filteredBeneficiaries));
-          dispatch(removeBeneficiaries(TEMP_DRAFT_ID));
+          dispatch(removeBeneficiaries(DEFAULT_USER_DRAFT_ID));
 
           // clear local copy if darft save is successful
           const username = get(currentAccount, 'name', '');
@@ -779,7 +779,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             // post publish updates
             dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
 
-            dispatch(removeBeneficiaries(TEMP_DRAFT_ID));
+            dispatch(removeBeneficiaries(DEFAULT_USER_DRAFT_ID));
             if (draftId) {
               dispatch(removeBeneficiaries(draftId));
             }
