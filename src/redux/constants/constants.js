@@ -117,7 +117,7 @@ export const SET_OWN_PROFILE_TABS = 'SET_OWN_PROFILE_TABS';
 // EDITOR
 export const SET_BENEFICIARIES = 'SET_BENEFICIARIES';
 export const REMOVE_BENEFICIARIES = 'REMOVE_BENEFICIARIES';
-export const TEMP_BENEFICIARIES_ID = 'temp-beneficiaries';
+export const TEMP_DRAFT_ID = 'temp-beneficiaries';
 export const SET_ALLOW_SPK_PUBLISHING = 'SET_ALLOW_SPK_PUBLISHING';
 
 // CACHE

@@ -13,7 +13,7 @@ import styles from './beneficiaryModalStyles';
 import IconButton from '../iconButton';
 import { useAppSelector } from '../../hooks';
 import { Beneficiary } from '../../redux/reducers/editorReducer';
-import { TEMP_BENEFICIARIES_ID } from '../../redux/constants/constants';
+import { TEMP_DRAFT_ID } from '../../redux/constants/constants';
 
 interface BeneficiaryModal {
   username: string;
@@ -42,7 +42,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
 
   const readTempBeneficiaries = async () => {
     if (beneficiariesMap) {
-      const tempBeneficiaries = beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID];
+      const tempBeneficiaries = beneficiariesMap[draftId || TEMP_DRAFT_ID];
 
       if (isArray(tempBeneficiaries)) {
         tempBeneficiaries.forEach((item) => {
