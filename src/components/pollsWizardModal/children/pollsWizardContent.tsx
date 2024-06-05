@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { View, Text, Button, TouchableOpacity } from 'react-native';
 import styles from '../styles/pollsWizardContent.styles';
 import { useIntl } from 'react-intl';
@@ -14,8 +14,10 @@ import { useDispatch } from 'react-redux';
 import { setPollDraftAction } from '../../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { PollDraft } from '../../../providers/ecency/ecency.types';
+import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../../hooks';
 
-const INIT_POLL_Draft:PollDraft = {
+const INIT_POLL_DRAFT: PollDraft = {
     title: '',
     choices: ['', ''],
     filters: {
@@ -29,16 +31,22 @@ const INIT_POLL_Draft:PollDraft = {
 }
 
 
-export const PollsWizardContent = ({draftId}:{draftId?:string}) => {
+export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
     const intl = useIntl();
     const dispatch = useDispatch();
 
     const pollConfigRef = useRef<typeof PollConfig>(null);
 
+    const pollDraftsMeta = useAppSelector(state => state.editor.pollDraftsMap);
+
+    const _initPollDraft = useMemo(() => draftId && pollDraftsMeta[draftId]
+        ? pollDraftsMeta[draftId] : INIT_POLL_DRAFT,
+        [])
+
     const [showDatePicker, setShowDatePicker] = useState(false);
 
 
-    const [pollDraft, setPollDraft] = useState<PollDraft>(INIT_POLL_Draft)
+    const [pollDraft, setPollDraft] = useState<PollDraft>(_initPollDraft)
 
     const expiryDateTime = new Date(pollDraft.endTime) //TOOD: adjust time formate to match with web
 
@@ -46,7 +54,7 @@ export const PollsWizardContent = ({draftId}:{draftId?:string}) => {
         // setChoices([...choices, '']);
         setPollDraft({
             ...pollDraft,
-            choices:[
+            choices: [
                 ...pollDraft.choices,
                 ''
             ]
@@ -58,7 +66,7 @@ export const PollsWizardContent = ({draftId}:{draftId?:string}) => {
         newChoices[index] = value;
         setPollDraft({
             ...pollDraft,
-            choices:newChoices
+            choices: newChoices
         });
     };
 
@@ -66,28 +74,28 @@ export const PollsWizardContent = ({draftId}:{draftId?:string}) => {
         // Implement poll creation logic here
         console.log('Poll created!');
         dispatch(setPollDraftAction(draftId || DEFAULT_USER_DRAFT_ID, pollDraft))
-        
+
     };
 
     const resetPoll = () => {
-       setPollDraft(INIT_POLL_Draft)
+        setPollDraft(INIT_POLL_DRAFT)
     }
 
 
     const _onQuestionChange = (text) => {
         setPollDraft({
             ...pollDraft,
-            title:text
+            title: text
         })
     }
 
-    const _onExpiryDateChange = (date:Date) => {
+    const _onExpiryDateChange = (date: Date) => {
         //TODO: add past and present checks
         setPollDraft({
             ...pollDraft,
-            endTime:date.toISOString()
+            endTime: date.toISOString()
         })
-    }   
+    }
 
 
     const _renderEndTime = () => {
@@ -165,7 +173,7 @@ export const PollsWizardContent = ({draftId}:{draftId?:string}) => {
                         id: 'post_poll.question_placeholder',
                     })}
                     isEditable
-                    value={pollDraft.question}
+                    value={pollDraft.title}
                     wrapperStyle={styles.inputWrapper}
                     inputStyle={styles.input}
                 />
@@ -187,7 +195,7 @@ export const PollsWizardContent = ({draftId}:{draftId?:string}) => {
 
                 <TextButton textStyle={styles.addChoice} text="Reset Poll" onPress={resetPoll} />
                 <TextButton textStyle={styles.addChoice} text="Attach Poll" onPress={createPoll} />
-                
+
             </KeyboardAwareScrollView>
 
             <PollConfig ref={pollConfigRef} pollDraft={pollDraft} setPollDraft={setPollDraft} />
