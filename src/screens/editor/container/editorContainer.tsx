@@ -39,7 +39,7 @@ import {
 // Component
 import EditorScreen from '../screen/editorScreen';
 import {
-  removeBeneficiaries,
+  removeEditorCache,
   setAllowSpkPublishing,
   setBeneficiaries,
 } from '../../../redux/actions/editorActions';
@@ -542,7 +542,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             (item) => item.account !== currentAccount.username,
           ); // remove default beneficiary from array while saving
           dispatch(setBeneficiaries(_resDraft._id, filteredBeneficiaries));
-          dispatch(removeBeneficiaries(DEFAULT_USER_DRAFT_ID));
+
+          //TODO: assess if need to set poll meta here as well
+          
+          dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
 
           // clear local copy if darft save is successful
           const username = get(currentAccount, 'name', '');
@@ -779,9 +782,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             // post publish updates
             dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
 
-            dispatch(removeBeneficiaries(DEFAULT_USER_DRAFT_ID));
+            dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
             if (draftId) {
-              dispatch(removeBeneficiaries(draftId));
+              dispatch(removeEditorCache(draftId));
             }
 
             dispatch(

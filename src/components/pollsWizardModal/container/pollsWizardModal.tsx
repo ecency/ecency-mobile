@@ -10,12 +10,14 @@ export interface UploadsGalleryModalRef {
 
 interface PollsWizardModalProps {
     isPreviewActive: boolean;
+    draftId?:string;
 }
 
 export const PollsWizardModal = forwardRef(
     (
         {
             isPreviewActive,
+            draftId
         }: PollsWizardModalProps,
         ref,
     ) => {
@@ -45,6 +47,7 @@ export const PollsWizardModal = forwardRef(
             <>
                 {showModal && (
                     <PollsWizardContent
+                        draftId={draftId}
                     />
                 )}
             </>

@@ -1,6 +1,8 @@
+import { PollMetadata } from '../../providers/hive/hive.types';
 import {
-  REMOVE_BENEFICIARIES,
+  REMOVE_EDITOR_CACHE,
   SET_BENEFICIARIES,
+  SET_POLL_META,
   SET_ALLOW_SPK_PUBLISHING,
 } from '../constants/constants';
 
@@ -15,11 +17,15 @@ interface State {
   beneficiariesMap: {
     [key: string]: Beneficiary[];
   };
+  pollsMetaMap: {
+    [key: string]: PollMetadata;
+  }
   allowSpkPublishing: boolean;
 }
 
 const initialState: State = {
   beneficiariesMap: {},
+  pollsMetaMap: {},
   allowSpkPublishing: false,
 };
 
@@ -31,11 +37,18 @@ const editorReducer = (state = initialState, action) => {
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
       };
-    case REMOVE_BENEFICIARIES:
+    case SET_POLL_META:
+      state.pollsMetaMap[payload.draftId] = payload.pollMeta;
+      return {
+        ...state
+      }
+    case REMOVE_EDITOR_CACHE:
       delete state.beneficiariesMap[payload.draftId];
+      delete state.pollsMetaMap[payload.draftId];
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
       };
+
     case SET_ALLOW_SPK_PUBLISHING:
       return {
         ...state,
