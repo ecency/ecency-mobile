@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 import {
   ContentType,
+  PollMetadata,
   PollPreferredInterpretation,
   PostMetadata,
 } from '../../../providers/hive/hive.types';
@@ -19,16 +20,18 @@ export enum PollModes {
   LOADING = 0,
   SELECT = 1,
   RESULT = 2,
+  PREVIEW = 3
 }
 
 interface PostPoll {
-  author: string;
-  permlink: string;
-  metadata: PostMetadata;
+  author?: string;
+  permlink?: string;
+  metadata: PostMetadata|PollMetadata;
+  initMode?:PollModes
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const PostPoll = ({ author, permlink, metadata }: PostPoll) => {
+export const PostPoll = ({ author, permlink, metadata, initMode }: PostPoll) => {
   if (metadata.content_type !== ContentType.POLL) {
     return null;
   }
@@ -40,7 +43,7 @@ export const PostPoll = ({ author, permlink, metadata }: PostPoll) => {
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
   const [selection, setSelection] = useState<number[]>([]);
-  const [mode, setMode] = useState(PollModes.LOADING);
+  const [mode, setMode] = useState(initMode || PollModes.LOADING);
   const [interpretation, setInterpretation] = useState(
     metadata.preferred_interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES,
   );
@@ -78,11 +81,13 @@ export const PostPoll = ({ author, permlink, metadata }: PostPoll) => {
     const _noVoteChange =
       metadata.vote_change !== undefined ? !metadata.vote_change && !!userVote : false;
 
-    return _expired || !isLoggedIn || _noVoteChange || _ageLimitApllies;
+    const _previewMode = mode === PollModes.PREVIEW;
+
+    return _expired || !isLoggedIn || _noVoteChange || _ageLimitApllies || _previewMode;
   }, [metadata, userVote]);
 
   useEffect(() => {
-    if (pollsQuery.isSuccess) {
+    if (pollsQuery.isSuccess && pollsQuery.data) {
       setMode(!!userVote || _expired ? PollModes.RESULT : PollModes.SELECT);
       setInterpretation(
         pollsQuery.data?.preferred_interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES,
@@ -177,7 +182,7 @@ export const PostPoll = ({ author, permlink, metadata }: PostPoll) => {
         iconStyle={{ fontSize: 16 }}
         onPress={_handleCastVote}
         text="Vote"
-        isDisable={!selection.length}
+        isDisable={!selection.length || mode === PollModes.PREVIEW}
       />
     </View>
   );

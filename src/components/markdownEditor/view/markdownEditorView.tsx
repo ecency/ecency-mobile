@@ -24,6 +24,7 @@ import {
   InsertLinkModal,
   Modal,
   PostBody,
+  PostPoll,
   SnippetsModal,
   SummaryArea,
   TagArea,
@@ -44,6 +45,9 @@ import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGall
 import { EditorToolbar } from '../children/editorToolbar';
 import applySnippet from '../children/formats/applySnippet';
 import styles from '../styles/markdownEditorStyles';
+import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
+import { convertToPollMeta } from '../../../utils/editor';
+import { PollModes } from '../../postPoll';
 
 // const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -73,6 +77,7 @@ const MarkdownEditorView = ({
   const dispatch = useDispatch();
 
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const pollDraft = useAppSelector(state => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID]);
 
   const [editable, setEditable] = useState(true);
   // const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
@@ -251,7 +256,11 @@ const MarkdownEditorView = ({
   const _renderPreview = () => (
     <ScrollView style={styles.previewContainer}>
       {bodyTextRef.current ? (
+        <>
         <PostBody body={renderPostBody(bodyTextRef.current, true, Platform.OS !== 'ios')} />
+        {pollDraft && <PostPoll initMode={PollModes.PREVIEW} metadata={convertToPollMeta(pollDraft)} />}
+        </>
+        
       ) : (
         <Text>...</Text>
       )}

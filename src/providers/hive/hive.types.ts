@@ -10,6 +10,7 @@ export enum PollPreferredInterpretation {
 
 export interface PollMetadata {
   // POLL
+  content_type:ContentType,
   question: string;
   preferred_interpretation: PollPreferredInterpretation;
   max_choices_voted: number;
