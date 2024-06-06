@@ -6,6 +6,7 @@ import getSlug from 'speakingurl';
 import { PostTypes } from '../constants/postTypes';
 import { ThreeSpeakVideo } from '../providers/speak/speak.types';
 import { PollDraft } from '../providers/ecency/ecency.types';
+import { ContentType, PollMetadata, PostMetadata } from '../providers/hive/hive.types';
 
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
@@ -247,7 +248,7 @@ export const extractMetadata = async ({
   // NOTE: keepting regex to extract usernames as reference for later usage if any
   // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
 
-  const out: any = {};
+  let out: PostMetadata = {};
   const mUrls = extractUrls(body);
   const matchedImages = [...extractImageUrls({ urls: mUrls }), ...(videoThumbUrls || [])];
 
@@ -317,11 +318,16 @@ export const extractMetadata = async ({
 
   if(pollDraft){
     //TODO convert draft poll to poll meta here
-
+    const _pollMeta = convertToPollMeta(pollDraft);
+    out = {
+      ...out,
+      ..._pollMeta
+    }
   }
 
   // setting post type, primary usecase for separating waves from other posts
   out.type = postType || PostTypes.POST;
+  out.content_type = pollDraft ? ContentType.POLL : ContentType.GENERAL;
 
   return out;
 };
@@ -339,3 +345,25 @@ export const createPatch = (text1, text2) => {
 };
 
 export const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
+
+export const convertToPollMeta = (pollDraft:PollDraft) => {
+
+  if(!pollDraft){
+    return {};
+  }
+
+  return {
+    content_type:ContentType.POLL,
+    question:pollDraft.title,
+    choices:pollDraft.choices,
+    preferred_interpretation:pollDraft.interpretation,
+    end_time:(new Date(pollDraft.endTime).getTime()) / 1000,
+    vote_change:pollDraft.voteChange,
+    hide_votes:pollDraft.hideVotes,
+    max_choices_voted:pollDraft.maxChoicesVoted,
+    filters:{
+      account_age:pollDraft.filters.accountAge
+    }
+  } as PollMetadata
+}
