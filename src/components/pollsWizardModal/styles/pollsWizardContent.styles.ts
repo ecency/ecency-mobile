@@ -6,14 +6,15 @@ export default EStyleSheet.create({
         paddingHorizontal:16,
         paddingVertical:8,
     } as ViewStyle,
-    title:{
-        fontSize:18,
-        color:'$primaryDarkText',
-    } as TextStyle,
     label:{
         fontSize:16,
         color:'$primaryDarkText',
         marginTop:16
+    } as TextStyle,
+    addChoice:{
+        paddingTop:12,
+        color: "$primaryBlue",
+        fontWeight: 'bold',
     } as TextStyle,
     settingsTitle:{
         fontWeight:'400',
@@ -21,11 +22,6 @@ export default EStyleSheet.create({
     },
     settingsWrapper:{
         marginTop:20
-    },
-    addChoice:{
-        paddingTop:12,
-        color: "$primaryBlue",
-        fontWeight: 'bold',
     },
     inputWrapper:{
         borderRadius:16,
@@ -42,6 +38,17 @@ export default EStyleSheet.create({
          position: 'absolute',
         top: 0, left: 0, right: 0, bottom: 0, 
         backgroundColor: '$primaryBackgroundColor' 
-    }
+    },
+    actionPanel:{
+        marginTop:16,
+        flexDirection: 'row-reverse',
+        alignItems: 'center'
+    } as ViewStyle,
+    btnReset:{
+        paddingRight:12,
+    } as TextStyle,
+    btnMain:{
+        paddingHorizontal:16
+    } as ViewStyle,
 
 });

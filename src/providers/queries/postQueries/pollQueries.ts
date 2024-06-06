@@ -18,6 +18,7 @@ export const useGetPollQuery = (_author?: string, _permlink?: string, metadata?:
   const [author, setAuthor] = useState(_author);
   const [permlink, setPermlink] = useState(_permlink);
 
+
   // post process initial post if available
   const _initialPollData = useMemo(() => {
     // TODO: convert metadata to Poll data;

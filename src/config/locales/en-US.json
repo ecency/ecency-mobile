@@ -481,6 +481,7 @@
     "hide_stats": "Hide Stats",
     "ended": "Ended",
     "ends": "Ends {inTime}",
+    "poll_question":"Poll Question",
     "age_limit": "\u2022 Only accounts older than {days} days allowed",
     "interpretation_token": "\u2022 User HP based vote interpretation",
     "max_choices": "\u2022 You may select upto {choices} choices",
@@ -491,7 +492,9 @@
     "question_placeholder":"Add poll question...",
     "choice_placeholder":"Choice {number}",
     "number_of_votes":"Number of Votes",
-    "tokens":"Total Tokens"
+    "tokens":"Total Tokens",
+    "attach_poll":"Attach Poll",
+    "update_poll":"Update Poll"
   },
   "editor": {
     "title": "Title",

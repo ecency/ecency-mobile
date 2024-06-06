@@ -1,5 +1,5 @@
 import React, { useState, useRef, useMemo } from 'react';
-import { View, Text, Button, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import styles from '../styles/pollsWizardContent.styles';
 import { useIntl } from 'react-intl';
 import { TextButton } from '../../buttons';
@@ -9,13 +9,13 @@ import getWindowDimensions from '../../../utils/getWindowDimensions';
 import DatePicker from 'react-native-date-picker';
 import { dateToFormatted } from '../../../utils/time';
 import { PollConfig } from './pollConfig';
-import { PollMetadata, PollPreferredInterpretation } from '../../../providers/hive/hive.types';
+import { PollPreferredInterpretation } from '../../../providers/hive/hive.types';
 import { useDispatch } from 'react-redux';
 import { setPollDraftAction } from '../../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { PollDraft } from '../../../providers/ecency/ecency.types';
-import { useSelector } from 'react-redux';
 import { useAppSelector } from '../../../hooks';
+import { MainButton } from '../../mainButton';
 
 const INIT_POLL_DRAFT: PollDraft = {
     title: '',
@@ -38,10 +38,12 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
     const pollConfigRef = useRef<typeof PollConfig>(null);
 
     const pollDraftsMeta = useAppSelector(state => state.editor.pollDraftsMap);
+    const _pollAtttaced = draftId && pollDraftsMeta[draftId]
 
-    const _initPollDraft = useMemo(() => draftId && pollDraftsMeta[draftId]
+    const _initPollDraft = useMemo(() => _pollAtttaced
         ? pollDraftsMeta[draftId] : INIT_POLL_DRAFT,
         [])
+    
 
     const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -49,6 +51,8 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
     const [pollDraft, setPollDraft] = useState<PollDraft>(_initPollDraft)
 
     const expiryDateTime = new Date(pollDraft.endTime) //TOOD: adjust time formate to match with web
+    const _mainBtnTitle = intl.formatMessage({id:_pollAtttaced 
+        ? 'post_poll.update_poll' : 'post_poll.attach_poll'})
 
     const addChoice = () => {
         // setChoices([...choices, '']);
@@ -161,9 +165,9 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
 
 
     return (
-        <View style={{ width: getWindowDimensions().width, height: 400 }}>
+        <View style={{ flex: 1 }}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={styles.container} >
-                <Text style={styles.title}>{intl.formatMessage({ id: 'post_poll.create_title' })}</Text>
+            <Text style={styles.label}>{intl.formatMessage({id:'post_poll.poll_question'})}</Text>
                 <FormInput
                     rightIconName="progress-question"
                     iconType="MaterialCommunityIcons"
@@ -192,9 +196,10 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
                 {_renderEndTime()}
                 {_renderConfig()}
 
-
-                <TextButton textStyle={styles.addChoice} text="Reset Poll" onPress={resetPoll} />
-                <TextButton textStyle={styles.addChoice} text="Attach Poll" onPress={createPoll} />
+                <View style={styles.actionPanel}>
+                    <MainButton style={styles.btnMain} text={_mainBtnTitle} onPress={createPoll} />
+                    <TextButton textStyle={styles.btnReset} text="Reset Poll" onPress={resetPoll} />
+                </View>
 
             </KeyboardAwareScrollView>
 

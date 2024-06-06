@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Keyboard, View, ViewStyle } from 'react-native';
 import {
-  FlatList,
   Gesture,
   GestureDetector,
   GestureStateChangeEvent,
@@ -20,7 +19,8 @@ import { IconButton, UploadsGalleryModal, PollsWizardModal } from '../..';
 import { useAppSelector } from '../../../hooks';
 import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import styles from '../styles/editorToolbarStyles';
-import { isVisible } from 'react-native-bootsplash';
+import { useNavigation } from '@react-navigation/native';
+import ROUTES from '../../../constants/routeNames';
 
 type Props = {
   draftId?: string;
@@ -49,6 +49,9 @@ export const EditorToolbar = ({
   handleOnMarkupButtonPress,
   handleShowSnippets,
 }: Props) => {
+
+  const navigation = useNavigation();
+
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
   const pollsWizardModalRef = useRef(null);
@@ -73,39 +76,36 @@ export const EditorToolbar = ({
     };
   }, []);
 
-  const _renderMarkupButton = ({ item }) => (
-    <View style={styles.buttonWrapper}>
-      <IconButton
-        size={20}
-        style={styles.editorButton}
-        iconStyle={styles.icon}
-        iconType={item.iconType}
-        name={item.icon}
-        onPress={() => {
-          handleOnMarkupButtonPress && handleOnMarkupButtonPress(item);
-        }}
-      />
-    </View>
-  );
-
+  // const _renderMarkupButton = ({ item }) => (
+  //   <View style={styles.buttonWrapper}>
+  //     <IconButton
+  //       size={20}
+  //       style={styles.editorButton}
+  //       iconStyle={styles.icon}
+  //       iconType={item.iconType}
+  //       name={item.icon}
+  //       onPress={() => {
+  //         handleOnMarkupButtonPress && handleOnMarkupButtonPress(item);
+  //       }}
+  //     />
+  //   </View>
+  // );
 
   const _prepareExtensionToggle = (revealWhenReady, onReady) => {
     const _runRevealRoutine = () => {
       if (revealWhenReady) {
-        onReady()
+        onReady();
         _revealExtension();
       }
-    }
+    };
     if (isExtensionVisible) {
       _hideExtension(_runRevealRoutine);
     } else {
       _runRevealRoutine();
     }
-  }
-
+  };
 
   const _showUploadsExtension = async (mode: Modes) => {
-
     if (!uploadsGalleryModalRef.current) {
       return;
     }
@@ -113,25 +113,27 @@ export const EditorToolbar = ({
     const _isThisVisible = uploadsGalleryModalRef.current.isVisible();
     const _curMode = uploadsGalleryModalRef.current.getMode();
 
-    const _revealWhenReady = !_isThisVisible || _curMode !== mode
+    const _revealWhenReady = !_isThisVisible || _curMode !== mode;
 
     _prepareExtensionToggle(_revealWhenReady, () => {
       uploadsGalleryModalRef.current.toggleModal(true, mode);
-    })
+    });
   };
 
-  
   const _showPollsExtension = async () => {
-    if (!pollsWizardModalRef.current) {
-      return;
-    }
-
-    const _revealWhenReady = !pollsWizardModalRef.current.isVisible();
-
-    _prepareExtensionToggle(_revealWhenReady, () => {
-      pollsWizardModalRef.current?.toggleModal(true);
+    navigation.navigate(ROUTES.MODALS.POLL_WIZARD, {
+      draftId,
     })
-  }
+    // if (!pollsWizardModalRef.current) {
+    //   return;
+    // }
+
+    // const _revealWhenReady = !pollsWizardModalRef.current.isVisible();
+
+    // _prepareExtensionToggle(_revealWhenReady, () => {
+    //   pollsWizardModalRef.current?.toggleModal(true);
+    // });
+  };
 
   const _showImageUploads = () => {
     _showUploadsExtension(Modes.MODE_IMAGE);
@@ -179,21 +181,19 @@ export const EditorToolbar = ({
     });
   };
 
-  //make is async method
+  // make is async method
   const _hideExtension = (onComplete?: () => void) => {
-
     const _onComplete = () => {
-      console.log("EXTENSION HIDDEN")
+      console.log('EXTENSION HIDDEN');
       setIsExtensionVisible(false);
       uploadsGalleryModalRef.current?.toggleModal(false);
       pollsWizardModalRef.current?.toggleModal(false);
-      //TODO: hide formatting extension here
+      // TODO: hide formatting extension here
 
       if (onComplete) {
-        console.log("calling on complete")
+        console.log('calling on complete');
         onComplete();
       }
-
     };
 
     translateY.value = withTiming(
@@ -275,7 +275,7 @@ export const EditorToolbar = ({
               iconType="MaterialCommunityIcons"
               name="format-text"
               onPress={() => {
-                throw new Error("Add support for formatting toolbar");
+                throw new Error('Add support for formatting toolbar');
               }}
             />
 
@@ -325,13 +325,9 @@ export const EditorToolbar = ({
               iconType="MaterialCommunityIcons"
               name="video-outline"
             />
-
           </View>
 
-
           <View style={styles.rightButtonsWrapper}>
-
-
             <View style={styles.clearButtonWrapper}>
               <IconButton
                 onPress={() => {
