@@ -4,6 +4,7 @@ import {
   SET_BENEFICIARIES,
   SET_POLL_DRAFT,
   SET_ALLOW_SPK_PUBLISHING,
+  REMOVE_POLL_DRAFT,
 } from '../constants/constants';
 
 export interface Beneficiary {
@@ -51,6 +52,12 @@ const editorReducer = (state = initialState, action) => {
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
       };
+
+    case REMOVE_POLL_DRAFT:
+      delete state.pollDraftsMap[payload.draftId];
+      return {
+        ...state
+      }
 
     case SET_ALLOW_SPK_PUBLISHING:
       return {

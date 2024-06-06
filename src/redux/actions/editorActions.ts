@@ -5,6 +5,7 @@ import {
   REMOVE_EDITOR_CACHE,
   SET_ALLOW_SPK_PUBLISHING,
   SET_POLL_DRAFT,
+  REMOVE_POLL_DRAFT
 } from '../constants/constants';
 import { Beneficiary } from '../reducers/editorReducer';
 
@@ -22,6 +23,13 @@ export const removeEditorCache = (draftId: string) => ({
   },
   type: REMOVE_EDITOR_CACHE,
 });
+
+export const removePollDraft = (draftId:string) => ({
+  payload: {
+    draftId,
+  },
+  type: REMOVE_POLL_DRAFT,
+})
 
 export const setPollDraftAction = (draftId: string, pollDraft: PollDraft) => ({
   payload: {

@@ -11,11 +11,12 @@ import { dateToFormatted } from '../../../utils/time';
 import { PollConfig } from './pollConfig';
 import { PollPreferredInterpretation } from '../../../providers/hive/hive.types';
 import { useDispatch } from 'react-redux';
-import { setPollDraftAction } from '../../../redux/actions/editorActions';
+import { removePollDraft, setPollDraftAction } from '../../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { PollDraft } from '../../../providers/ecency/ecency.types';
 import { useAppSelector } from '../../../hooks';
 import { MainButton } from '../../mainButton';
+import { useNavigation } from '@react-navigation/native';
 
 const INIT_POLL_DRAFT: PollDraft = {
     title: '',
@@ -34,6 +35,7 @@ const INIT_POLL_DRAFT: PollDraft = {
 export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
     const intl = useIntl();
     const dispatch = useDispatch();
+    const navigation = useNavigation();
 
     const pollConfigRef = useRef<typeof PollConfig>(null);
 
@@ -78,11 +80,12 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
         // Implement poll creation logic here
         console.log('Poll created!');
         dispatch(setPollDraftAction(draftId || DEFAULT_USER_DRAFT_ID, pollDraft))
-
+        navigation.goBack();
     };
 
     const resetPoll = () => {
-        setPollDraft(INIT_POLL_DRAFT)
+        setPollDraft(INIT_POLL_DRAFT);
+    dispatch(removePollDraft(draftId || DEFAULT_USER_DRAFT_ID));
     }
 
 
