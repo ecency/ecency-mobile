@@ -1,6 +1,6 @@
 
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { Text } from 'react-native';
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import { Text, View } from 'react-native';
 import styles from '../styles/pollsWizardContent.styles';
 import { FormInput } from '../../formInput';
 import Animated, { SlideInRight, SlideOutRight } from 'react-native-reanimated';
@@ -10,6 +10,7 @@ import { PollPreferredInterpretation } from '../../../providers/hive/hive.types'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useIntl } from 'react-intl';
 import { PollDraft } from '../../../providers/ecency/ecency.types';
+import ActionSheet from 'react-native-actions-sheet';
 
 
 interface Props {
@@ -19,12 +20,15 @@ interface Props {
 
 export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) => {
     const intl = useIntl();
+    const sheetModalRef = useRef(null);
+
     const [visible, setVisible] = useState(false);
     const _interpretations = Object.values(PollPreferredInterpretation);
 
     useImperativeHandle(ref, () => ({
         showConfig: () => {
             setVisible(true)
+            sheetModalRef.current?.show()
         }
     }))
 
@@ -79,90 +83,99 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
 
 
 
-    return (
-        <>
-            {visible && <Animated.View style={styles.optionsContainer} exiting={SlideOutRight} entering={SlideInRight}>
-                <BasicHeader
-                    handleOnBackPress={() => { setVisible(false) }}
-                    title={"Edit Configuration"}
+    const _renderFormContent = (
+        <View style={styles.optionsContainer}>
+            {/* <BasicHeader
+                handleOnBackPress={() => { setVisible(false) }}
+                title={"Edit Configuration"}
+            /> */}
+            {/* <KeyboardAwareScrollView contentContainerStyle={{ paddingHorizontal: 16 }}> */}
+                <Text style={styles.label}>Min. Account Age (Days)</Text>
+                <FormInput
+                    rightIconName="calendar"
+                    iconType="MaterialCommunityIcons"
+                    isValid={true}
+                    onChange={_onAgeLimitChange}
+                    placeholder={"minimum account age, default is 100"}
+                    isEditable
+                    value={pollDraft.filters?.accountAge + ''}
+                    wrapperStyle={styles.inputWrapper}
+                    inputStyle={styles.input}
+                    keyboardType='numeric'
                 />
-                <KeyboardAwareScrollView contentContainerStyle={{ paddingHorizontal: 16 }}>
-                    <Text style={styles.label}>Min. Account Age (Days)</Text>
-                    <FormInput
-                        rightIconName="calendar"
-                        iconType="MaterialCommunityIcons"
-                        isValid={true}
-                        onChange={_onAgeLimitChange}
-                        placeholder={"minimum account age, default is 100"}
-                        isEditable
-                        value={pollDraft.filters?.accountAge + ''}
-                        wrapperStyle={styles.inputWrapper}
-                        inputStyle={styles.input}
-                        keyboardType='numeric'
-                    />
 
-                    <Text style={styles.label}>Max Options</Text>
-                    <FormInput
-                        rightIconName="check-all"
-                        iconType="MaterialCommunityIcons"
-                        isValid={true}
-                        onChange={_onMaxOptionsChange}
-                        placeholder={"minimum account age, default is 100"}
-                        isEditable
-                        value={pollDraft.maxChoicesVoted + ''}
-                        wrapperStyle={styles.inputWrapper}
-                        inputStyle={styles.input}
-                        keyboardType='numeric'
-                    />
+                <Text style={styles.label}>Max Options</Text>
+                <FormInput
+                    rightIconName="check-all"
+                    iconType="MaterialCommunityIcons"
+                    isValid={true}
+                    onChange={_onMaxOptionsChange}
+                    placeholder={"minimum account age, default is 100"}
+                    isEditable
+                    value={pollDraft.maxChoicesVoted + ''}
+                    wrapperStyle={styles.inputWrapper}
+                    inputStyle={styles.input}
+                    keyboardType='numeric'
+                />
 
 
-                    <SettingsItem
-                        title={'Poll Interpretation'}
-                        titleStyle={styles.settingsTitle}
-                        type="dropdown"
-                        actionType="language"
-                        options={
-                            _interpretations.map(id => intl.formatMessage({
-                                id: `post_poll.${id}`
-                            }))
-                        }
-                        selectedOptionIndex={_interpretations.indexOf(pollDraft.interpretation)}
-                        handleOnChange={_onInterpretationChange}
-                        wrapperStyle={styles.settingsWrapper}
-                    />
+                <SettingsItem
+                    title={'Poll Interpretation'}
+                    titleStyle={styles.settingsTitle}
+                    type="dropdown"
+                    actionType="language"
+                    options={
+                        _interpretations.map(id => intl.formatMessage({
+                            id: `post_poll.${id}`
+                        }))
+                    }
+                    selectedOptionIndex={_interpretations.indexOf(pollDraft.interpretation)}
+                    handleOnChange={_onInterpretationChange}
+                    wrapperStyle={styles.settingsWrapper}
+                />
 
 
-                    <SettingsItem
-                        title={"Show votes "}
-                        text={"show more votes"}
-                        type="toggle"
-                        actionType={'show_votes'}
-                        titleStyle={styles.settingsTitle}
-                        wrapperStyle={styles.settingsWrapper}
-                        handleOnChange={_onShowVotesChange}
-                        isOn={!pollDraft.hideVotes}
-                    />
+                <SettingsItem
+                    title={"Show votes "}
+                    text={"show more votes"}
+                    type="toggle"
+                    actionType={'show_votes'}
+                    titleStyle={styles.settingsTitle}
+                    wrapperStyle={styles.settingsWrapper}
+                    handleOnChange={_onShowVotesChange}
+                    isOn={!pollDraft.hideVotes}
+                />
 
 
-                    <SettingsItem
-                        title={"Vote Change"}
-                        text={"show more votes"}
-                        type="toggle"
-                        actionType={'show_votes'}
-                        titleStyle={styles.settingsTitle}
-                        wrapperStyle={styles.settingsWrapper}
-                        handleOnChange={_onVoteChangeUpdate}
-                        isOn={pollDraft.voteChange}
-                    />
+                <SettingsItem
+                    title={"Vote Change"}
+                    text={"show more votes"}
+                    type="toggle"
+                    actionType={'show_votes'}
+                    titleStyle={styles.settingsTitle}
+                    wrapperStyle={styles.settingsWrapper}
+                    handleOnChange={_onVoteChangeUpdate}
+                    isOn={pollDraft.voteChange}
+                />
 
 
 
-                </KeyboardAwareScrollView>
 
 
 
-            </Animated.View>}
-        </>
+        </View>
 
+    )
+
+    return (
+        <ActionSheet
+            ref={sheetModalRef}
+            gestureEnabled={true}
+            closeOnTouchBackdrop={true}
+            containerStyle={styles.sheetContent}
+            indicatorStyle={styles.sheetIndicator}>
+            {_renderFormContent}
+
+        </ActionSheet>
     )
 })

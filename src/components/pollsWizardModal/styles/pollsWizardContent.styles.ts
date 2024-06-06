@@ -35,9 +35,7 @@ export default EStyleSheet.create({
         color:'$primaryDarkText',
     } as TextStyle,
     optionsContainer:{
-         position: 'absolute',
-        top: 0, left: 0, right: 0, bottom: 0, 
-        backgroundColor: '$primaryBackgroundColor' 
+        padding:16
     },
     actionPanel:{
         marginTop:16,
@@ -50,5 +48,13 @@ export default EStyleSheet.create({
     btnMain:{
         paddingHorizontal:16
     } as ViewStyle,
+    sheetContent: {
+        backgroundColor: '$primaryBackgroundColor',
+        zIndex: 999,
+      },
+    
+      sheetIndicator: {
+        backgroundColor: '$iconColor',
+      },
 
 });
