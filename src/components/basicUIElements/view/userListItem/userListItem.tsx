@@ -49,7 +49,7 @@ const UserListItem = ({
     >
       <View style={[styles.voteItemWrapper, index % 2 === 1 && styles.voteItemWrapperGray]}>
         {leftItemRenderer && leftItemRenderer()}
-        {itemIndex && <Text style={styles.itemIndex}>{itemIndex}</Text>}
+        {!!itemIndex && <Text style={styles.itemIndex}>{itemIndex}</Text>}
         <UserAvatar noAction={true} style={styles.avatar} username={username} />
         <View style={styles.userDescription}>
           {!searchValue && <Text style={styles.name}>{text || username}</Text>}
@@ -80,7 +80,7 @@ const UserListItem = ({
             <Text style={[styles.date, descriptionStyle]}>{description}</Text>
           )}
         </View>
-        {middleText && (
+        {!!middleText && (
           <View style={styles.middleWrapper}>
             <Text
               style={[
@@ -132,7 +132,7 @@ const UserListItem = ({
                       >
                         {rightText}
                       </Text>
-                      {subRightText && <Text style={styles.text}>{subRightText}</Text>}
+                      {!!subRightText && <Text style={styles.text}>{subRightText}</Text>}
                     </>
                   </TouchableOpacity>
                   <Popover
