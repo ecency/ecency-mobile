@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styles from '../styles/pollsWizardContent.styles';
 import { useIntl } from 'react-intl';
@@ -49,15 +49,24 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
 
 
     const [showDatePicker, setShowDatePicker] = useState(false);
-
-
     const [pollDraft, setPollDraft] = useState<PollDraft>(_initPollDraft)
+    const [isValid, setIsValid] = useState(false);
 
     const expiryDateTime = new Date(pollDraft.endTime) //TOOD: adjust time formate to match with web
     const _mainBtnTitle = intl.formatMessage({
         id: _pollAtttaced
             ? 'post_poll.update_poll' : 'post_poll.attach_poll'
     })
+
+
+    useEffect(() => {
+        if (pollDraft && !!pollDraft.title) {
+            const hasNullOrEmpty = pollDraft.choices.some(item => item === null || item === "");
+            setIsValid(!hasNullOrEmpty);
+            return;
+        }
+        setIsValid(false);
+    }, [pollDraft])
 
     const addChoice = () => {
         // setChoices([...choices, '']);
@@ -74,7 +83,7 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
         pollDraft.choices.splice(index, 1);
         setPollDraft({
             ...pollDraft,
-            choices:[
+            choices: [
                 ...pollDraft.choices,
             ]
         })
@@ -185,7 +194,7 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
                     size={24}
                     name={'close'}
                     style={styles.btnRemove}
-                    onPress={() => {_removeChoice(index)}}
+                    onPress={() => { _removeChoice(index) }}
                 />
             )}
         </View>
@@ -226,7 +235,7 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
                 {_renderConfig()}
 
                 <View style={styles.actionPanel}>
-                    <MainButton style={styles.btnMain} text={_mainBtnTitle} onPress={createPoll} />
+                    <MainButton style={styles.btnMain} text={_mainBtnTitle} isDisable={!isValid} onPress={createPoll} />
                     <TextButton textStyle={styles.btnReset} text="Reset Poll" onPress={resetPoll} />
                 </View>
 
