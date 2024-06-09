@@ -5,7 +5,6 @@ import { useIntl } from 'react-intl';
 import { TextButton } from '../../buttons';
 import { FormInput } from '../../formInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
 import DatePicker from 'react-native-date-picker';
 import { dateToFormatted } from '../../../utils/time';
 import { PollConfig } from './pollConfig';
@@ -30,7 +29,7 @@ const INIT_POLL_DRAFT: PollDraft = {
     voteChange: false,
     hideVotes: false,
     maxChoicesVoted: 1,
-    endTime: new Date().toISOString()
+    endTime: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() //set to 7 days from now
 }
 
 
@@ -239,6 +238,7 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
                 type="datetime"
                 modal={true}
                 onChanged={() => { }}
+                minimumDate={new Date()}
                 date={new Date(pollDraft.endTime)}
                 open={showDatePicker}
                 onConfirm={(date) => {
