@@ -17,6 +17,8 @@ import { PollDraft } from '../../../providers/ecency/ecency.types';
 import { useAppSelector } from '../../../hooks';
 import { MainButton } from '../../mainButton';
 import { useNavigation } from '@react-navigation/native';
+import IconButton from '../../iconButton';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const INIT_POLL_DRAFT: PollDraft = {
     title: '',
@@ -45,7 +47,7 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
     const _initPollDraft = useMemo(() => _pollAtttaced
         ? pollDraftsMeta[draftId] : INIT_POLL_DRAFT,
         [])
-    
+
 
     const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -53,8 +55,10 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
     const [pollDraft, setPollDraft] = useState<PollDraft>(_initPollDraft)
 
     const expiryDateTime = new Date(pollDraft.endTime) //TOOD: adjust time formate to match with web
-    const _mainBtnTitle = intl.formatMessage({id:_pollAtttaced 
-        ? 'post_poll.update_poll' : 'post_poll.attach_poll'})
+    const _mainBtnTitle = intl.formatMessage({
+        id: _pollAtttaced
+            ? 'post_poll.update_poll' : 'post_poll.attach_poll'
+    })
 
     const addChoice = () => {
         // setChoices([...choices, '']);
@@ -66,6 +70,16 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
             ]
         })
     };
+
+    const _removeChoice = (index) => {
+        pollDraft.choices.splice(index, 1);
+        setPollDraft({
+            ...pollDraft,
+            choices:[
+                ...pollDraft.choices,
+            ]
+        })
+    }
 
     const handleChoiceChange = (index, value) => {
         const newChoices = [...pollDraft.choices];
@@ -85,7 +99,7 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
 
     const resetPoll = () => {
         setPollDraft(INIT_POLL_DRAFT);
-    dispatch(removePollDraft(draftId || DEFAULT_USER_DRAFT_ID));
+        dispatch(removePollDraft(draftId || DEFAULT_USER_DRAFT_ID));
     }
 
 
@@ -151,26 +165,39 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
 
 
     const _renderChoiceInput = (choice, index) => (
-        <FormInput
-            rightIconName="arrow-right"
-            iconType="MaterialCommunityIcons"
-            isValid={true}
-            onChange={(text) => handleChoiceChange(index, text)}
-            placeholder={intl.formatMessage({
-                id: 'post_poll.choice_placeholder',
-            }, { number: index + 1 })}
-            isEditable
-            value={choice}
-            wrapperStyle={styles.inputWrapper}
-            inputStyle={styles.input}
-        />
+        <View style={styles.inputContainer}>
+            <FormInput
+                rightIconName="arrow-right"
+                iconType="MaterialCommunityIcons"
+                isValid={true}
+                onChange={(text) => handleChoiceChange(index, text)}
+                placeholder={intl.formatMessage({
+                    id: 'post_poll.choice_placeholder',
+                }, { number: index + 1 })}
+                isEditable
+                value={choice}
+                wrapperStyle={styles.inputWrapper}
+                inputStyle={styles.input}
+            />
+            {index > 1 && (
+                <IconButton
+                    iconType="MaterialIcons"
+                    color={EStyleSheet.value('$iconColor')}
+                    size={24}
+                    name={'close'}
+                    style={styles.btnRemove}
+                    onPress={() => {_removeChoice(index)}}
+                />
+            )}
+        </View>
+
     )
 
 
     return (
         <View style={{ flex: 1 }}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={styles.container} >
-            <Text style={styles.label}>{intl.formatMessage({id:'post_poll.poll_question'})}</Text>
+                <Text style={styles.label}>{intl.formatMessage({ id: 'post_poll.poll_question' })}</Text>
                 <FormInput
                     rightIconName="progress-question"
                     iconType="MaterialCommunityIcons"

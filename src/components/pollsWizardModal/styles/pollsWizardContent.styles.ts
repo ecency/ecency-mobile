@@ -23,7 +23,12 @@ export default EStyleSheet.create({
     settingsWrapper:{
         marginTop:20
     },
+    inputContainer:{
+        flexDirection:'row',
+        alignItems:'center',
+    },
     inputWrapper:{
+        flex:1,
         borderRadius:16,
         borderTopEndRadius:16,
         borderTopStartRadius:16,
@@ -34,6 +39,10 @@ export default EStyleSheet.create({
     input:{
         color:'$primaryDarkText',
     } as TextStyle,
+    btnRemove:{
+        marginTop:8,
+        marginLeft:4
+    },
     optionsContainer:{
         padding:16
     },
