@@ -21,6 +21,8 @@ import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uplo
 import styles from '../styles/editorToolbarStyles';
 import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../constants/routeNames';
+import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 type Props = {
   draftId?: string;
@@ -53,6 +55,8 @@ export const EditorToolbar = ({
   const navigation = useNavigation();
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const pollDraft = useAppSelector(state => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID]);
+  
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
   const pollsWizardModalRef = useRef(null);
   const extensionHeight = useRef(0);
@@ -302,7 +306,7 @@ export const EditorToolbar = ({
 
             <IconButton
               size={18}
-              style={styles.rightIcons}
+              style={[styles.rightIcons, !!pollDraft && styles.iconBottomBar]}
               iconStyle={styles.icon}
               iconType="SimpleLineIcons"
               name="chart"

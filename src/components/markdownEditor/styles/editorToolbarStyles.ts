@@ -38,6 +38,11 @@ export default EStyleSheet.create({
     borderColor: '$primaryLightBackground',
     paddingBottom: getBottomSpace(),
   },
+  iconBottomBar:{
+    borderBottomWidth:3,
+    borderRadius:0,
+    borderColor:'$primaryBlue'
+  } as ViewStyle,
   clearIcon: {
     color: '$primaryLightGray',
   },

@@ -19,12 +19,10 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
     const intl = useIntl();
     const sheetModalRef = useRef(null);
 
-    const [visible, setVisible] = useState(false);
     const _interpretations = Object.values(PollPreferredInterpretation);
 
     useImperativeHandle(ref, () => ({
         showConfig: () => {
-            setVisible(true)
             sheetModalRef.current?.show()
         }
     }))
