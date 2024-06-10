@@ -20,14 +20,14 @@ export enum PollModes {
   LOADING = 0,
   SELECT = 1,
   RESULT = 2,
-  PREVIEW = 3
+  PREVIEW = 3,
 }
 
 interface PostPoll {
   author?: string;
   permlink?: string;
-  metadata: PostMetadata|PollMetadata;
-  initMode?:PollModes
+  metadata: PostMetadata | PollMetadata;
+  initMode?: PollModes;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

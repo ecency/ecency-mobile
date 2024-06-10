@@ -10,7 +10,7 @@ export enum PollPreferredInterpretation {
 
 export interface PollMetadata {
   // POLL
-  content_type:ContentType,
+  content_type: ContentType;
   question: string;
   preferred_interpretation: PollPreferredInterpretation;
   max_choices_voted: number;
@@ -37,8 +37,6 @@ export interface PostMetadata extends PollMetadata {
   // IMAGE
   image: string[];
   image_ratios: number[];
-
-
 }
 
 export interface Vote {

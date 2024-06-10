@@ -37,7 +37,7 @@ import {
   AssetsSelect,
   BackupKeysScreen,
   AccountList,
-  PollWizardScreen
+  PollWizardScreen,
 } from '../screens';
 import { DrawerNavigator } from './drawerNavigator';
 
@@ -102,7 +102,11 @@ export const StackNavigator = ({ initRoute }) => {
       <RootStack.Screen name={ROUTES.SCREENS.ACCOUNT_LIST} component={AccountList} />
       <RootStack.Screen name={ROUTES.SCREENS.WEB_BROWSER} component={WebBrowser} />
 
-      <RootStack.Screen name={ROUTES.MODALS.POLL_WIZARD} component={PollWizardScreen} options={{ presentation: 'modal' }}/>
+      <RootStack.Screen
+        name={ROUTES.MODALS.POLL_WIZARD}
+        component={PollWizardScreen}
+        options={{ presentation: 'modal' }}
+      />
       <RootStack.Screen
         name={ROUTES.SCREENS.PINCODE}
         options={{ gestureEnabled: false }}

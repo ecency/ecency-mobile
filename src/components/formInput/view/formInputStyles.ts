@@ -10,7 +10,7 @@ export default EStyleSheet.create({
     height: 60,
     borderBottomWidth: 2,
     backgroundColor: '$primaryWhiteLightBackground',
-    alignItems:'center'
+    alignItems: 'center',
   },
   firstImage: {
     width: 24,

@@ -15,11 +15,11 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { IconButton, UploadsGalleryModal, PollsWizardModal } from '../..';
+import { useNavigation } from '@react-navigation/native';
+import { IconButton, UploadsGalleryModal } from '../..';
 import { useAppSelector } from '../../../hooks';
 import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import styles from '../styles/editorToolbarStyles';
-import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../constants/routeNames';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { TextFormatModal } from './textFormatModal';
@@ -51,11 +51,12 @@ export const EditorToolbar = ({
   handleOnMarkupButtonPress,
   handleShowSnippets,
 }: Props) => {
-
   const navigation = useNavigation();
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pollDraft = useAppSelector(state => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID]);
+  const pollDraft = useAppSelector(
+    (state) => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID],
+  );
 
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
   const textFormatModalRef = useRef(null);
@@ -79,7 +80,6 @@ export const EditorToolbar = ({
       keyboardDidShowListener.remove();
     };
   }, []);
-
 
   const _prepareExtensionToggle = (revealWhenReady, onReady) => {
     const _runRevealRoutine = () => {
@@ -113,8 +113,7 @@ export const EditorToolbar = ({
   const _showPollsExtension = async () => {
     navigation.navigate(ROUTES.MODALS.POLL_WIZARD, {
       draftId,
-    })
-
+    });
   };
 
   const _showImageUploads = () => {
@@ -135,7 +134,7 @@ export const EditorToolbar = ({
     _prepareExtensionToggle(_revealWhenReady, () => {
       textFormatModalRef.current?.toggleModal(true);
     });
-  }
+  };
 
   const _onPanEnd = (e: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
     console.log('finalize', e.velocityY, e.translationY);
@@ -255,8 +254,6 @@ export const EditorToolbar = ({
       {!isPreviewActive && (
         <View style={_buttonsContainerStyle}>
           <View style={styles.leftButtonsWrapper}>
-
-
             <IconButton
               size={22}
               style={styles.rightIcons}

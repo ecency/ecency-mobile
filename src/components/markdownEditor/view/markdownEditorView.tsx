@@ -77,7 +77,9 @@ const MarkdownEditorView = ({
   const dispatch = useDispatch();
 
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
-  const pollDraft = useAppSelector(state => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID]);
+  const pollDraft = useAppSelector(
+    (state) => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID],
+  );
 
   const [editable, setEditable] = useState(true);
   // const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
@@ -257,10 +259,11 @@ const MarkdownEditorView = ({
     <ScrollView style={styles.previewContainer}>
       {bodyTextRef.current ? (
         <>
-        <PostBody body={renderPostBody(bodyTextRef.current, true, Platform.OS !== 'ios')} />
-        {pollDraft && <PostPoll initMode={PollModes.PREVIEW} metadata={convertToPollMeta(pollDraft)} />}
+          <PostBody body={renderPostBody(bodyTextRef.current, true, Platform.OS !== 'ios')} />
+          {pollDraft && (
+            <PostPoll initMode={PollModes.PREVIEW} metadata={convertToPollMeta(pollDraft)} />
+          )}
         </>
-        
       ) : (
         <Text>...</Text>
       )}

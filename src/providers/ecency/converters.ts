@@ -39,34 +39,31 @@ export const convertQuoteItem = (rawData: any, currencyRate: number) => {
   } as QuoteItem;
 };
 
-
-
 export const convertDraftMeta = (rawData: any) => {
-
   if (!rawData) {
     return null;
   }
 
-
-  const poll = rawData.poll && {
-    title: rawData.poll.title || '',
-    endTime: rawData.poll.endTime || new Date().toISOString(),
-    voteChange: rawData.poll.voteChange || false,
-    hideVotes: rawData.poll.hideVotes || false,
-    interpretation: rawData.poll.interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES,
-    choices: rawData.poll.choices || ['', ''],
-    maxChoicesVoted: rawData.poll.maxChoicesVoted || 1,
-    filters: {
-        accountAge: rawData.poll.filters?.accountAge || 100
-    }
-  } as PollDraft
+  const poll =
+    rawData.poll &&
+    ({
+      title: rawData.poll.title || '',
+      endTime: rawData.poll.endTime || new Date().toISOString(),
+      voteChange: rawData.poll.voteChange || false,
+      hideVotes: rawData.poll.hideVotes || false,
+      interpretation: rawData.poll.interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES,
+      choices: rawData.poll.choices || ['', ''],
+      maxChoicesVoted: rawData.poll.maxChoicesVoted || 1,
+      filters: {
+        accountAge: rawData.poll.filters?.accountAge || 100,
+      },
+    } as PollDraft);
 
   return {
     ...rawData,
-    poll
-  }
-}
-
+    poll,
+  };
+};
 
 export const convertDraft = (rawData: any) => {
   if (!rawData) {

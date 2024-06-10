@@ -1,1 +1,1 @@
-export * from './container/modalHeader'
+export * from './container/modalHeader';

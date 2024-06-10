@@ -38,10 +38,10 @@ export default EStyleSheet.create({
     borderColor: '$primaryLightBackground',
     paddingBottom: getBottomSpace(),
   },
-  iconBottomBar:{
-    borderBottomWidth:3,
-    borderRadius:0,
-    borderColor:'$primaryBlue'
+  iconBottomBar: {
+    borderBottomWidth: 3,
+    borderRadius: 0,
+    borderColor: '$primaryBlue',
   } as ViewStyle,
   clearIcon: {
     color: '$primaryLightGray',
@@ -58,13 +58,13 @@ export default EStyleSheet.create({
     marginLeft: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'space-between',
-    flexGrow:1,
+    justifyContent: 'space-between',
+    flexGrow: 1,
   } as ViewStyle,
   rightButtonsWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor:'green'
+    backgroundColor: 'green',
   },
   icon: {
     color: '$editorButtonColor',
@@ -84,8 +84,8 @@ export default EStyleSheet.create({
     margin: 8,
     alignSelf: 'center',
   },
-  formatsWrapper:{
-    paddingBottom:16, 
-    paddingHorizontal:16
-  } as ViewStyle
+  formatsWrapper: {
+    paddingBottom: 16,
+    paddingHorizontal: 16,
+  } as ViewStyle,
 });

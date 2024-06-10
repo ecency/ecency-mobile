@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
 import { default as ModalBox } from 'react-native-modal';
-import { IconButton } from '../../iconButton';
 import styles from './modalStyles';
 import { ModalHeader } from '../../modalHeader';
 
@@ -65,9 +63,7 @@ export default class Modal extends PureComponent {
         onModalDismiss={() => console.log('dismiss')}
         {...this.props}
       >
-        <ModalHeader
-          onClosePress={() => this._handleOnClose()}
-          {...this.props} />
+        <ModalHeader onClosePress={() => this._handleOnClose()} {...this.props} />
         {children}
       </ModalBox>
     );

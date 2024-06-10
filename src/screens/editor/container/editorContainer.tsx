@@ -63,8 +63,6 @@ import {
   DEFAULT_SPEAK_BENEFICIARIES,
 } from '../../../providers/speak/constants';
 import { ThreeSpeakVideo } from '../../../providers/speak/speak.types';
-import { ContentType, PollMetadata } from '../../../providers/hive/hive.types';
-import { convertDraft } from '../../../providers/ecency/converters';
 
 /*
  *            Props Name        Description                                     Value
@@ -328,7 +326,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
 
     if (draft._id) {
-
       if (isArray(draft.meta?.beneficiaries)) {
         const filteredBeneficiaries = draft.meta.beneficiaries.filter(
           (item) => item.account !== currentAccount.username,
@@ -337,15 +334,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         dispatch(setBeneficiaries(draft._id || DEFAULT_USER_DRAFT_ID, filteredBeneficiaries));
       }
 
-      if (draft.meta?.poll){
-        dispatch(setPollDraftAction(draft._id, draft.meta.poll))
+      if (draft.meta?.poll) {
+        dispatch(setPollDraftAction(draft._id, draft.meta.poll));
       }
-
     }
 
-
-    //TODO: handle poll meta load here load
-
+    // TODO: handle poll meta load here load
   };
 
   _requestKeyboardFocus = () => {
@@ -513,7 +507,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         const meta = Object.assign({}, _extractedMeta, {
           tags: draftField.tags,
           beneficiaries,
-          poll:pollDraft,
+          poll: pollDraft,
           rewardType,
           description: postDescription || postBodySummaryContent,
           videos: Object.keys(videos).length > 0 && videos,
@@ -563,8 +557,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           dispatch(setBeneficiaries(_resDraft._id, filteredBeneficiaries));
           dispatch(setPollDraftAction(_resDraft._id, pollDraft));
 
-          //TODO: assess if need to set poll meta here as well
-          
+          // TODO: assess if need to set poll meta here as well
+
           dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
 
           // clear local copy if darft save is successful
@@ -659,7 +653,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     const fields = Object.assign({}, _fieldsBase);
     let beneficiaries = this._extractBeneficiaries();
-    let pollDraft = this._extractPollDraft();
+    const pollDraft = this._extractPollDraft();
     let videoPublishMeta: ThreeSpeakVideo | undefined = undefined;
 
     if (isPostSending) {
@@ -682,8 +676,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           beneficiaries = [...encoderBene, ...beneficiaries];
         }
 
-        //TODO: handle poll draft publishing with meta data;
-
+        // TODO: handle poll draft publishing with meta data;
       } catch (err) {
         console.warn('fail', err);
         return;
@@ -710,11 +703,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
         fetchRatios: true,
         videoPublishMeta,
-        pollDraft
+        pollDraft,
       });
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
-      const jsonMeta = makeJsonMetadata(meta, _tags); 
+      const jsonMeta = makeJsonMetadata(meta, _tags);
 
       // TODO: check if permlink is available github: #314 https://github.com/ecency/ecency-mobile/pull/314
       let permlink = videoPublishMeta

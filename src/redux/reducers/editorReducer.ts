@@ -20,7 +20,7 @@ interface State {
   };
   pollDraftsMap: {
     [key: string]: PollDraft;
-  }
+  };
   allowSpkPublishing: boolean;
 }
 
@@ -39,13 +39,13 @@ const editorReducer = (state = initialState, action) => {
         ...state, // spread operator in requried here, otherwise persist do not register change
       };
     case SET_POLL_DRAFT:
-      if(!state.pollDraftsMap){
+      if (!state.pollDraftsMap) {
         state.pollDraftsMap = {};
       }
       state.pollDraftsMap[payload.draftId] = payload.pollDraft;
       return {
-        ...state
-      }
+        ...state,
+      };
     case REMOVE_EDITOR_CACHE:
       delete state.beneficiariesMap[payload.draftId];
       delete state.pollDraftsMap[payload.draftId];
@@ -56,8 +56,8 @@ const editorReducer = (state = initialState, action) => {
     case REMOVE_POLL_DRAFT:
       delete state.pollDraftsMap[payload.draftId];
       return {
-        ...state
-      }
+        ...state,
+      };
 
     case SET_ALLOW_SPK_PUBLISHING:
       return {

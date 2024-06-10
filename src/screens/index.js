@@ -73,5 +73,5 @@ export {
   AccountList,
   AssetsSelect,
   BackupKeysScreen,
-  PollWizardScreen
+  PollWizardScreen,
 };

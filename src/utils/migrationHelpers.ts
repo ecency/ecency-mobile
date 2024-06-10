@@ -307,7 +307,7 @@ const reduxMigrations = {
   9: (state) => {
     state.editor.pollDraftsMap = {};
     return state;
-  }
+  },
 };
 
 export default {

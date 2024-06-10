@@ -235,7 +235,7 @@ export const extractMetadata = async ({
   fetchRatios,
   postType,
   videoPublishMeta,
-  pollDraft
+  pollDraft,
 }: {
   body: string;
   thumbUrl?: string;
@@ -243,7 +243,7 @@ export const extractMetadata = async ({
   fetchRatios?: boolean;
   postType?: PostTypes;
   videoPublishMeta?: ThreeSpeakVideo;
-  pollDraft?:PollDraft
+  pollDraft?: PollDraft;
 }) => {
   // NOTE: keepting regex to extract usernames as reference for later usage if any
   // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
@@ -315,14 +315,13 @@ export const extractMetadata = async ({
     };
   }
 
-
-  if(pollDraft){
-    //TODO convert draft poll to poll meta here
+  if (pollDraft) {
+    // TODO convert draft poll to poll meta here
     const _pollMeta = convertToPollMeta(pollDraft);
     out = {
       ...out,
-      ..._pollMeta
-    }
+      ..._pollMeta,
+    };
   }
 
   // setting post type, primary usecase for separating waves from other posts
@@ -346,24 +345,22 @@ export const createPatch = (text1, text2) => {
 
 export const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-
-export const convertToPollMeta = (pollDraft:PollDraft) => {
-
-  if(!pollDraft){
+export const convertToPollMeta = (pollDraft: PollDraft) => {
+  if (!pollDraft) {
     return {};
   }
 
   return {
-    content_type:ContentType.POLL,
-    question:pollDraft.title,
-    choices:pollDraft.choices,
-    preferred_interpretation:pollDraft.interpretation,
-    end_time:(new Date(pollDraft.endTime).getTime()) / 1000,
-    vote_change:pollDraft.voteChange,
-    hide_votes:pollDraft.hideVotes,
-    max_choices_voted:pollDraft.maxChoicesVoted,
-    filters:{
-      account_age:pollDraft.filters.accountAge
-    }
-  } as PollMetadata
-}
+    content_type: ContentType.POLL,
+    question: pollDraft.title,
+    choices: pollDraft.choices,
+    preferred_interpretation: pollDraft.interpretation,
+    end_time: new Date(pollDraft.endTime).getTime() / 1000,
+    vote_change: pollDraft.voteChange,
+    hide_votes: pollDraft.hideVotes,
+    max_choices_voted: pollDraft.maxChoicesVoted,
+    filters: {
+      account_age: pollDraft.filters.accountAge,
+    },
+  } as PollMetadata;
+};
