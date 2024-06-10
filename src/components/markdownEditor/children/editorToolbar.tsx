@@ -22,7 +22,7 @@ import styles from '../styles/editorToolbarStyles';
 import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../constants/routeNames';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
-import EStyleSheet from 'react-native-extended-stylesheet';
+import { TextFormatModal } from './textFormatModal';
 
 type Props = {
   draftId?: string;
@@ -56,9 +56,9 @@ export const EditorToolbar = ({
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pollDraft = useAppSelector(state => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID]);
-  
+
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
-  const pollsWizardModalRef = useRef(null);
+  const textFormatModalRef = useRef(null);
   const extensionHeight = useRef(0);
 
   const translateY = useSharedValue(200);
@@ -80,20 +80,6 @@ export const EditorToolbar = ({
     };
   }, []);
 
-  // const _renderMarkupButton = ({ item }) => (
-  //   <View style={styles.buttonWrapper}>
-  //     <IconButton
-  //       size={20}
-  //       style={styles.editorButton}
-  //       iconStyle={styles.icon}
-  //       iconType={item.iconType}
-  //       name={item.icon}
-  //       onPress={() => {
-  //         handleOnMarkupButtonPress && handleOnMarkupButtonPress(item);
-  //       }}
-  //     />
-  //   </View>
-  // );
 
   const _prepareExtensionToggle = (revealWhenReady, onReady) => {
     const _runRevealRoutine = () => {
@@ -128,15 +114,7 @@ export const EditorToolbar = ({
     navigation.navigate(ROUTES.MODALS.POLL_WIZARD, {
       draftId,
     })
-    // if (!pollsWizardModalRef.current) {
-    //   return;
-    // }
 
-    // const _revealWhenReady = !pollsWizardModalRef.current.isVisible();
-
-    // _prepareExtensionToggle(_revealWhenReady, () => {
-    //   pollsWizardModalRef.current?.toggleModal(true);
-    // });
   };
 
   const _showImageUploads = () => {
@@ -146,6 +124,18 @@ export const EditorToolbar = ({
   const _showVideoUploads = () => {
     _showUploadsExtension(Modes.MODE_VIDEO);
   };
+
+  const _showTextFormatModal = () => {
+    if (!textFormatModalRef.current) {
+      return;
+    }
+
+    const _revealWhenReady = !textFormatModalRef.current.isVisible();
+
+    _prepareExtensionToggle(_revealWhenReady, () => {
+      textFormatModalRef.current?.toggleModal(true);
+    });
+  }
 
   const _onPanEnd = (e: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
     console.log('finalize', e.velocityY, e.translationY);
@@ -191,7 +181,7 @@ export const EditorToolbar = ({
       console.log('EXTENSION HIDDEN');
       setIsExtensionVisible(false);
       uploadsGalleryModalRef.current?.toggleModal(false);
-      pollsWizardModalRef.current?.toggleModal(false);
+      textFormatModalRef.current?.toggleModal(false);
       // TODO: hide formatting extension here
 
       if (onComplete) {
@@ -238,10 +228,10 @@ export const EditorToolbar = ({
               handleMediaInsert={handleMediaInsert}
               setIsUploading={setIsUploading}
             />
-            <PollsWizardModal
-              ref={pollsWizardModalRef}
+            <TextFormatModal
+              ref={textFormatModalRef}
               isPreviewActive={isPreviewActive}
-              draftId={draftId}
+              handleOnMarkupButtonPress={handleOnMarkupButtonPress}
             />
           </View>
         </Animated.View>
@@ -265,12 +255,7 @@ export const EditorToolbar = ({
       {!isPreviewActive && (
         <View style={_buttonsContainerStyle}>
           <View style={styles.leftButtonsWrapper}>
-            {/* <FlatList
-              data={Formats}
-              keyboardShouldPersistTaps="always"
-              renderItem={({ item, index }) => index < 3 && _renderMarkupButton({ item })}
-              horizontal
-            /> */}
+
 
             <IconButton
               size={22}
@@ -278,9 +263,7 @@ export const EditorToolbar = ({
               iconStyle={styles.icon}
               iconType="MaterialCommunityIcons"
               name="format-text"
-              onPress={() => {
-                throw new Error('Add support for formatting toolbar');
-              }}
+              onPress={_showTextFormatModal}
             />
 
             <IconButton

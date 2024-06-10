@@ -84,4 +84,8 @@ export default EStyleSheet.create({
     margin: 8,
     alignSelf: 'center',
   },
+  formatsWrapper:{
+    paddingBottom:16, 
+    paddingHorizontal:16
+  } as ViewStyle
 });
