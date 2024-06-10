@@ -25,6 +25,7 @@ import { LoginHeader } from './loginHeader';
 import { MainButton } from './mainButton';
 import { MarkdownEditor } from './markdownEditor';
 import { Modal } from './modal';
+import { ModalHeader } from './modalHeader';
 import { NotificationLine } from './notificationLine';
 import { NumericKeyboard } from './numericKeyboard';
 import { ParentPost } from './parentPost';
@@ -171,6 +172,7 @@ export {
   MainButton,
   MarkdownEditor,
   Modal,
+  ModalHeader,
   NoInternetConnection,
   NoPost,
   Notification,

@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { default as ModalBox } from 'react-native-modal';
 import { IconButton } from '../../iconButton';
 import styles from './modalStyles';
+import { ModalHeader } from '../../modalHeader';
 
 /*
  *            Props Name        Description                                     Value
@@ -46,16 +47,8 @@ export default class Modal extends PureComponent {
       children,
       isRadius,
       isTransparent = false,
-      title,
       animationType = 'fade',
-      isCloseButton,
       isBottomModal = false,
-      hasRightText = false,
-      rightText,
-      onPressRightText,
-      modalHeaderContainerStyle,
-      modalHeaderTitleStyle,
-      modalCloseBtnStyle,
     } = this.props;
     return (
       <ModalBox
@@ -72,33 +65,9 @@ export default class Modal extends PureComponent {
         onModalDismiss={() => console.log('dismiss')}
         {...this.props}
       >
-        {title && (
-          <View style={[styles.modalHeader, modalHeaderContainerStyle]}>
-            <Text
-              style={[
-                styles.headerTitle,
-                (isCloseButton || hasRightText) && { marginLeft: 50 },
-                modalHeaderTitleStyle,
-              ]}
-            >
-              {title}
-            </Text>
-            {isCloseButton && (
-              <IconButton
-                style={[styles.closeButton, modalCloseBtnStyle]}
-                iconType="FontAwesome"
-                iconStyle={styles.closeIcon}
-                name="close"
-                onPress={() => this._handleOnClose()}
-              />
-            )}
-            {hasRightText && (
-              <TouchableOpacity onPress={onPressRightText}>
-                <Text style={styles.rightText}>{rightText}</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        )}
+        <ModalHeader
+          onClosePress={() => this._handleOnClose()}
+          {...this.props} />
         {children}
       </ModalBox>
     );
