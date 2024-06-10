@@ -1,13 +1,10 @@
 
 import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import { Text, View } from 'react-native';
-import styles from '../styles/pollsWizardContent.styles';
+import styles from '../styles/pollConfig.styles';
 import { FormInput } from '../../formInput';
-import Animated, { SlideInRight, SlideOutRight } from 'react-native-reanimated';
 import SettingsItem from '../../settingsItem';
-import BasicHeader from '../../basicHeader';
 import { PollPreferredInterpretation } from '../../../providers/hive/hive.types';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useIntl } from 'react-intl';
 import { PollDraft } from '../../../providers/ecency/ecency.types';
 import ActionSheet from 'react-native-actions-sheet';

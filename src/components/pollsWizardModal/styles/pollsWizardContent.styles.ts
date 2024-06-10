@@ -43,9 +43,6 @@ export default EStyleSheet.create({
         marginTop:8,
         marginLeft:4
     },
-    optionsContainer:{
-        padding:16
-    },
     actionPanel:{
         marginTop:16,
         flexDirection: 'row-reverse',
@@ -57,13 +54,4 @@ export default EStyleSheet.create({
     btnMain:{
         paddingHorizontal:16
     } as ViewStyle,
-    sheetContent: {
-        backgroundColor: '$primaryBackgroundColor',
-        zIndex: 999,
-      },
-    
-      sheetIndicator: {
-        backgroundColor: '$iconColor',
-      },
-
 });
