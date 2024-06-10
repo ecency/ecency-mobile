@@ -7,7 +7,7 @@ import { FormInput } from '../../formInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import DatePicker from 'react-native-date-picker';
 import { dateToFormatted } from '../../../utils/time';
-import { PollConfig } from './pollConfig';
+import { PollConfig } from '../children/pollConfig';
 import { PollPreferredInterpretation } from '../../../providers/hive/hive.types';
 import { useDispatch } from 'react-redux';
 import { removePollDraft, setPollDraftAction } from '../../../redux/actions/editorActions';

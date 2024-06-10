@@ -1,5 +1,5 @@
 import React from "react"
-import { PollsWizardContent } from "../../../components/pollsWizardModal/children/pollsWizardContent"
+import { PollsWizardContent } from "../../../components"
 import { View } from "react-native";
 import styles from "../styles/pollWizardScreen.styles";
 import { ModalHeader } from "../../../components";
