@@ -24,6 +24,7 @@ import org.wonday.orientation.OrientationActivityLifecycle;
 //import android.webkit.WebView; 
 
 import com.reactnativepagerview.PagerViewPackage;
+import com.vydia.RNUploader.UploaderReactPackage;
 
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
       // example:
       // packages.add(new MyReactNativePackage());
       packages.add(new PagerViewPackage());
+      packages.add(new UploaderReactPackage());
       return packages;
     }
 
