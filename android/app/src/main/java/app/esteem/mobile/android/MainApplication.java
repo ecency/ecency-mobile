@@ -24,14 +24,13 @@ import org.wonday.orientation.OrientationActivityLifecycle;
 //import android.webkit.WebView; 
 
 import com.reactnativepagerview.PagerViewPackage;
+import com.vydia.RNUploader.UploaderReactPackage;
 
 import java.util.List;
 
 import com.facebook.react.bridge.JSIModulePackage;
 
 public class MainApplication extends MultiDexApplication implements ReactApplication {
-
-  
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHostWrapper(this, new DefaultReactNativeHost(this) {
 
@@ -51,6 +50,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
       return packages;
     }
 
+
     @Override
     protected String getJSMainModuleName() {
       return "index";
@@ -60,6 +60,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     protected boolean isNewArchEnabled() {
       return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
     }
+
     @Override
     protected Boolean isHermesEnabled() {
       return BuildConfig.IS_HERMES_ENABLED;
@@ -86,10 +87,12 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     registerActivityLifecycleCallbacks(OrientationActivityLifecycle.getInstance());
 
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
-      // If you opted-in for the New Architecture, we load the native entry point for this app.
+      // If you opted-in for the New Architecture, we load the native entry point for
+      // this app.
       DefaultNewArchitectureEntryPoint.load();
     }
-    // ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    // ReactNativeFlipper.initializeFlipper(this,
+    // getReactNativeHost().getReactInstanceManager());
     ApplicationLifecycleDispatcher.onApplicationCreate(this);
 
   }
