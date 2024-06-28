@@ -21,6 +21,8 @@ import CommentsView from '../view/commentsView';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import { postQueries } from '../../../providers/queries';
+import { useDeleteWaveMutation } from '../../../providers/queries/postQueries/wavesQueries';
+import { PostTypes } from '../../../constants/postTypes';
 
 const CommentsContainer = ({
   author,
@@ -56,6 +58,7 @@ const CommentsContainer = ({
 }) => {
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
+  const deleteWaveMutation = useDeleteWaveMutation();
 
   const [lcomments, setLComments] = useState([]);
   const [propComments, setPropComments] = useState(comments);
@@ -221,6 +224,10 @@ const CommentsContainer = ({
         setLComments(filteredComments);
       } else {
         filteredComments = propComments.filter(_applyFilter);
+        console.log('filteredComments : ', filteredComments);
+        if (postType === PostTypes.WAVE) {
+          deleteWaveMutation.mutate(filteredComments);
+        }
         setPropComments(filteredComments);
       }
 

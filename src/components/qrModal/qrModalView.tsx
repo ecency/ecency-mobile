@@ -300,13 +300,14 @@ export const QRModal = () => {
       indicatorStyle={styles.indicator}
     >
       <View style={styles.mainContainer}>
-        <Camera
-          style={EStyleSheet.absoluteFill}
-          device={device}
-          isActive={isScannerActive}
-          codeScanner={codeScanner}
-        />
-
+        {!!device && (
+          <Camera
+            style={EStyleSheet.absoluteFill}
+            device={device}
+            isActive={isScannerActive}
+            codeScanner={codeScanner}
+          />
+        )}
         {isProcessing && (
           <View style={styles.activityIndicatorContainer}>
             <ActivityIndicator color="white" style={styles.activityIndicator} />

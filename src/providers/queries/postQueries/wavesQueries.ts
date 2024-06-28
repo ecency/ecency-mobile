@@ -355,3 +355,29 @@ export const fetchLatestWavesContainer = async (host) => {
 
   return _latestPost;
 };
+
+export const useDeleteWaveMutation = () => {
+  const queryClient = useQueryClient();
+
+  const _mutationFn = async (wavePermlink: any) => {
+    if (wavePermlink) {
+      return wavePermlink;
+    }
+
+    throw new Error('invalid mutations data');
+  };
+
+  const _options: UseMutationOptions<string, unknown, string, void> = {
+    onMutate: async (filteredWavesData: any) => {
+      await queryClient.cancelQueries(QUERIES.WAVES.GET);
+      queryClient.setQueryData([QUERIES.WAVES.GET], [...filteredWavesData]);
+
+      return filteredWavesData;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries([QUERIES.WAVES.GET]);
+    },
+  };
+
+  return useMutation(_mutationFn, _options);
+};
