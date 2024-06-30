@@ -39,11 +39,12 @@ import {
 // Component
 import EditorScreen from '../screen/editorScreen';
 import {
-  removeBeneficiaries,
+  removeEditorCache,
   setAllowSpkPublishing,
   setBeneficiaries,
+  setPollDraftAction,
 } from '../../../redux/actions/editorActions';
-import { DEFAULT_USER_DRAFT_ID, TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
+import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import {
   deleteDraftCacheEntry,
   updateCommentCache,
@@ -221,6 +222,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     if (
       prevState.rewardType !== this.state.rewardType ||
       prevProps.beneficiariesMap !== this.props.beneficiariesMap ||
+      prevProps.pollDraftsMap !== this.props.pollDraftsMap ||
       prevState.postDescription !== this.state.postDescription
     ) {
       // update isDraftSaved when reward type or beneficiaries are changed in post options
@@ -323,15 +325,21 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
     }
 
-    if (draft._id && draft.meta && draft.meta.beneficiaries) {
-      if (isArray(draft.meta.beneficiaries)) {
+    if (draft._id) {
+      if (isArray(draft.meta?.beneficiaries)) {
         const filteredBeneficiaries = draft.meta.beneficiaries.filter(
           (item) => item.account !== currentAccount.username,
         ); // remove default beneficiary from array while saving
 
-        dispatch(setBeneficiaries(draft._id || TEMP_BENEFICIARIES_ID, filteredBeneficiaries));
+        dispatch(setBeneficiaries(draft._id || DEFAULT_USER_DRAFT_ID, filteredBeneficiaries));
+      }
+
+      if (draft.meta?.poll) {
+        dispatch(setPollDraftAction(draft._id, draft.meta.poll));
       }
     }
+
+    // TODO: handle poll meta load here load
   };
 
   _requestKeyboardFocus = () => {
@@ -424,7 +432,14 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const { draftId } = this.state;
     const { beneficiariesMap } = this.props;
 
-    return beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID] || [];
+    return beneficiariesMap[draftId || DEFAULT_USER_DRAFT_ID] || [];
+  };
+
+  _extractPollDraft = () => {
+    const { draftId } = this.state;
+    const { pollDraftsMap } = this.props;
+
+    return pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID] || [];
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
@@ -446,6 +461,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     speakContentBuilder.build(fields.body);
 
     const beneficiaries = this._extractBeneficiaries();
+    const pollDraft = this._extractPollDraft();
     const postBodySummaryContent = postBodySummary(
       get(fields, 'body', ''),
       200,
@@ -491,6 +507,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         const meta = Object.assign({}, _extractedMeta, {
           tags: draftField.tags,
           beneficiaries,
+          poll: pollDraft,
           rewardType,
           description: postDescription || postBodySummaryContent,
           videos: Object.keys(videos).length > 0 && videos,
@@ -538,7 +555,11 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             (item) => item.account !== currentAccount.username,
           ); // remove default beneficiary from array while saving
           dispatch(setBeneficiaries(_resDraft._id, filteredBeneficiaries));
-          dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
+          dispatch(setPollDraftAction(_resDraft._id, pollDraft));
+
+          // TODO: assess if need to set poll meta here as well
+
+          dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
 
           // clear local copy if darft save is successful
           const username = get(currentAccount, 'name', '');
@@ -632,6 +653,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     const fields = Object.assign({}, _fieldsBase);
     let beneficiaries = this._extractBeneficiaries();
+    const pollDraft = this._extractPollDraft();
     let videoPublishMeta: ThreeSpeakVideo | undefined = undefined;
 
     if (isPostSending) {
@@ -653,6 +675,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           ];
           beneficiaries = [...encoderBene, ...beneficiaries];
         }
+
+        // TODO: handle poll draft publishing with meta data;
       } catch (err) {
         console.warn('fail', err);
         return;
@@ -679,6 +703,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
         fetchRatios: true,
         videoPublishMeta,
+        pollDraft,
       });
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
@@ -775,9 +800,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             // post publish updates
             dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
 
-            dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
+            dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
             if (draftId) {
-              dispatch(removeBeneficiaries(draftId));
+              dispatch(removeEditorCache(draftId));
             }
 
             dispatch(
@@ -1327,6 +1352,7 @@ const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   pinCode: state.application.pin,
   beneficiariesMap: state.editor.beneficiariesMap,
+  pollDraftsMap: state.editor.pollDraftsMap,
   draftsCollection: state.cache.draftsCollection,
 });
 

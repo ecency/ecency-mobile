@@ -34,6 +34,7 @@ import WelcomeScreen from './welcome';
 import AccountList from './accountList';
 import AssetsSelect from './assetsSelect';
 import BackupKeysScreen from './backupKeysScreen/backupKeysScreen';
+import PollWizardScreen from './pollWizard';
 
 export {
   Bookmarks,
@@ -72,4 +73,5 @@ export {
   AccountList,
   AssetsSelect,
   BackupKeysScreen,
+  PollWizardScreen,
 };

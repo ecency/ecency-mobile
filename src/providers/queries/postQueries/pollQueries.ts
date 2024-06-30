@@ -167,7 +167,7 @@ const useInjectPollVoteCache = (pollData: Poll | null) => {
     const _cData = injectPollVoteCache(pollData, voteCache);
 
     // check if data follows old schema, migrate if nesseary
-    if (_cData.poll_voters instanceof Array && !!_cData.poll_voters[0].choice_num) {
+    if (_cData.poll_voters instanceof Array && !!_cData.poll_voters[0]?.choice_num) {
       _cData.poll_voters = _cData.poll_voters.map((voter) => ({
         ...voter,
         choices: [voter.choice_num],

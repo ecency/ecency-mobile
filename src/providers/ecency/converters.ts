@@ -1,5 +1,6 @@
 import { ASSET_IDS } from '../../constants/defaultAssets';
 import { Referral } from '../../models';
+import { PollPreferredInterpretation } from '../hive/hive.types';
 import {
   CommentHistoryItem,
   LatestQuotes,
@@ -7,6 +8,7 @@ import {
   ReferralStat,
   Draft,
   Accouncement,
+  PollDraft,
 } from './ecency.types';
 
 export const convertReferral = (rawData: any) => {
@@ -37,6 +39,32 @@ export const convertQuoteItem = (rawData: any, currencyRate: number) => {
   } as QuoteItem;
 };
 
+export const convertDraftMeta = (rawData: any) => {
+  if (!rawData) {
+    return null;
+  }
+
+  const poll =
+    rawData.poll &&
+    ({
+      title: rawData.poll.title || '',
+      endTime: rawData.poll.endTime || new Date().toISOString(),
+      voteChange: rawData.poll.voteChange || false,
+      hideVotes: rawData.poll.hideVotes || false,
+      interpretation: rawData.poll.interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES,
+      choices: rawData.poll.choices || ['', ''],
+      maxChoicesVoted: rawData.poll.maxChoicesVoted || 1,
+      filters: {
+        accountAge: rawData.poll.filters?.accountAge || 100,
+      },
+    } as PollDraft);
+
+  return {
+    ...rawData,
+    poll,
+  };
+};
+
 export const convertDraft = (rawData: any) => {
   if (!rawData) {
     return null;
@@ -48,7 +76,7 @@ export const convertDraft = (rawData: any) => {
     body: rawData.body,
     tags_arr: rawData.tags_arr,
     tags: rawData.tags,
-    meta: rawData.meta,
+    meta: convertDraftMeta(rawData.meta),
     modified: rawData.modified,
     created: rawData.created,
     timestamp: rawData.timestamp,

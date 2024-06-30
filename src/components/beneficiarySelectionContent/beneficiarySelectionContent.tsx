@@ -9,7 +9,7 @@ import { CheckBox, FormInput, IconButton, TextButton } from '..';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { lookupAccounts } from '../../providers/hive/dhive';
 import { setBeneficiaries as setBeneficiariesAction } from '../../redux/actions/editorActions';
-import { TEMP_BENEFICIARIES_ID } from '../../redux/constants/constants';
+import { DEFAULT_USER_DRAFT_ID } from '../../redux/constants/constants';
 import { Beneficiary } from '../../redux/reducers/editorReducer';
 import { BENEFICIARY_SRC_ENCODER } from '../../providers/speak/constants';
 
@@ -89,7 +89,7 @@ const BeneficiarySelectionContent = ({
   };
 
   const initBeneficiaries = async () => {
-    const _draftId = draftId || TEMP_BENEFICIARIES_ID;
+    const _draftId = draftId || DEFAULT_USER_DRAFT_ID;
 
     let savedBeneficiareis: Beneficiary[] = [DEFAULT_BENEFICIARY, ...(encodingBeneficiaries || [])];
 
@@ -117,7 +117,7 @@ const BeneficiarySelectionContent = ({
     if (handleSaveBeneficiary) {
       handleSaveBeneficiary(filteredBeneficiaries);
     } else {
-      dispatch(setBeneficiariesAction(draftId || TEMP_BENEFICIARIES_ID, filteredBeneficiaries));
+      dispatch(setBeneficiariesAction(draftId || DEFAULT_USER_DRAFT_ID, filteredBeneficiaries));
     }
   };
 

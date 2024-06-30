@@ -5,6 +5,7 @@ import { BoostIndicatorAnimation, PulseAnimation, SpinIndicator } from './animat
 import BeneficiaryModal from './beneficiaryModal/beneficiaryModal';
 import SnippetsModal from './snippetsModal/snippetsModal';
 import { UploadsGalleryModal } from './uploadsGalleryModal/container/uploadsGalleryModal';
+import { PollsWizardContent } from './pollsWizardContent';
 import { BottomTabBar } from './bottomTabBar';
 import { CheckBox } from './checkbox';
 import { CircularButton, TextButton, SquareButton } from './buttons';
@@ -24,6 +25,7 @@ import { LoginHeader } from './loginHeader';
 import { MainButton } from './mainButton';
 import { MarkdownEditor } from './markdownEditor';
 import { Modal } from './modal';
+import { ModalHeader } from './modalHeader';
 import { NotificationLine } from './notificationLine';
 import { NumericKeyboard } from './numericKeyboard';
 import { ParentPost } from './parentPost';
@@ -170,6 +172,7 @@ export {
   MainButton,
   MarkdownEditor,
   Modal,
+  ModalHeader,
   NoInternetConnection,
   NoPost,
   Notification,
@@ -204,6 +207,7 @@ export {
   SideMenu,
   SnippetsModal,
   UploadsGalleryModal,
+  PollsWizardContent,
   SpinGame,
   SpinIndicator,
   SquareButton,

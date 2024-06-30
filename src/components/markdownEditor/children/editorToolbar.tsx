@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Keyboard, View, ViewStyle } from 'react-native';
 import {
-  FlatList,
   Gesture,
   GestureDetector,
   GestureStateChangeEvent,
@@ -16,11 +15,14 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { useNavigation } from '@react-navigation/native';
 import { IconButton, UploadsGalleryModal } from '../..';
 import { useAppSelector } from '../../../hooks';
 import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import styles from '../styles/editorToolbarStyles';
-import Formats from './formats/formats';
+import ROUTES from '../../../constants/routeNames';
+import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
+import { TextFormatModal } from './textFormatModal';
 
 type Props = {
   draftId?: string;
@@ -49,8 +51,15 @@ export const EditorToolbar = ({
   handleOnMarkupButtonPress,
   handleShowSnippets,
 }: Props) => {
+  const navigation = useNavigation();
+
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const pollDraft = useAppSelector(
+    (state) => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID],
+  );
+
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
+  const textFormatModalRef = useRef(null);
   const extensionHeight = useRef(0);
 
   const translateY = useSharedValue(200);
@@ -72,35 +81,39 @@ export const EditorToolbar = ({
     };
   }, []);
 
-  const _renderMarkupButton = ({ item }) => (
-    <View style={styles.buttonWrapper}>
-      <IconButton
-        size={20}
-        style={styles.editorButton}
-        iconStyle={styles.icon}
-        iconType={item.iconType}
-        name={item.icon}
-        onPress={() => {
-          handleOnMarkupButtonPress && handleOnMarkupButtonPress(item);
-        }}
-      />
-    </View>
-  );
+  const _prepareExtensionToggle = (revealWhenReady, onReady) => {
+    const _runRevealRoutine = () => {
+      if (revealWhenReady) {
+        onReady();
+        _revealExtension();
+      }
+    };
+    if (isExtensionVisible) {
+      _hideExtension(_runRevealRoutine);
+    } else {
+      _runRevealRoutine();
+    }
+  };
 
-  const _showUploadsExtension = (mode: Modes) => {
+  const _showUploadsExtension = async (mode: Modes) => {
     if (!uploadsGalleryModalRef.current) {
       return;
     }
 
+    const _isThisVisible = uploadsGalleryModalRef.current.isVisible();
     const _curMode = uploadsGalleryModalRef.current.getMode();
 
-    if (!isExtensionVisible || _curMode !== mode) {
-      uploadsGalleryModalRef.current.toggleModal(true, mode);
-      _revealExtension();
-      return;
-    }
+    const _revealWhenReady = !_isThisVisible || _curMode !== mode;
 
-    _hideExtension();
+    _prepareExtensionToggle(_revealWhenReady, () => {
+      uploadsGalleryModalRef.current.toggleModal(true, mode);
+    });
+  };
+
+  const _showPollsExtension = async () => {
+    navigation.navigate(ROUTES.MODALS.POLL_WIZARD, {
+      draftId,
+    });
   };
 
   const _showImageUploads = () => {
@@ -109,6 +122,18 @@ export const EditorToolbar = ({
 
   const _showVideoUploads = () => {
     _showUploadsExtension(Modes.MODE_VIDEO);
+  };
+
+  const _showTextFormatModal = () => {
+    if (!textFormatModalRef.current) {
+      return;
+    }
+
+    const _revealWhenReady = !textFormatModalRef.current.isVisible();
+
+    _prepareExtensionToggle(_revealWhenReady, () => {
+      textFormatModalRef.current?.toggleModal(true);
+    });
   };
 
   const _onPanEnd = (e: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
@@ -149,11 +174,18 @@ export const EditorToolbar = ({
     });
   };
 
-  const _hideExtension = () => {
+  // make is async method
+  const _hideExtension = (onComplete?: () => void) => {
     const _onComplete = () => {
+      console.log('EXTENSION HIDDEN');
       setIsExtensionVisible(false);
-      if (uploadsGalleryModalRef.current) {
-        uploadsGalleryModalRef.current.toggleModal(false);
+      uploadsGalleryModalRef.current?.toggleModal(false);
+      textFormatModalRef.current?.toggleModal(false);
+      // TODO: hide formatting extension here
+
+      if (onComplete) {
+        console.log('calling on complete');
+        onComplete();
       }
     };
 
@@ -195,6 +227,11 @@ export const EditorToolbar = ({
               handleMediaInsert={handleMediaInsert}
               setIsUploading={setIsUploading}
             />
+            <TextFormatModal
+              ref={textFormatModalRef}
+              isPreviewActive={isPreviewActive}
+              handleOnMarkupButtonPress={handleOnMarkupButtonPress}
+            />
           </View>
         </Animated.View>
       </GestureDetector>
@@ -217,16 +254,17 @@ export const EditorToolbar = ({
       {!isPreviewActive && (
         <View style={_buttonsContainerStyle}>
           <View style={styles.leftButtonsWrapper}>
-            <FlatList
-              data={Formats}
-              keyboardShouldPersistTaps="always"
-              renderItem={({ item, index }) => index < 3 && _renderMarkupButton({ item })}
-              horizontal
-            />
-          </View>
-          <View style={styles.rightButtonsWrapper}>
             <IconButton
-              size={20}
+              size={22}
+              style={styles.rightIcons}
+              iconStyle={styles.icon}
+              iconType="MaterialCommunityIcons"
+              name="format-text"
+              onPress={_showTextFormatModal}
+            />
+
+            <IconButton
+              size={18}
               style={styles.rightIcons}
               iconStyle={styles.icon}
               iconType="FontAwesome"
@@ -247,6 +285,15 @@ export const EditorToolbar = ({
             />
 
             <IconButton
+              size={18}
+              style={[styles.rightIcons, !!pollDraft && styles.iconBottomBar]}
+              iconStyle={styles.icon}
+              iconType="SimpleLineIcons"
+              name="chart"
+              onPress={_showPollsExtension}
+            />
+
+            <IconButton
               onPress={_showImageUploads}
               style={styles.rightIcons}
               size={18}
@@ -262,6 +309,9 @@ export const EditorToolbar = ({
               iconType="MaterialCommunityIcons"
               name="video-outline"
             />
+          </View>
+
+          <View style={styles.rightButtonsWrapper}>
             <View style={styles.clearButtonWrapper}>
               <IconButton
                 onPress={() => {

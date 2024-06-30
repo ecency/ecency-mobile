@@ -15,7 +15,7 @@ interface Props {
 }
 
 const ToggleSwitchView = ({ onColor, offColor, latchBack, onToggle, ...props }: Props) => {
-  const [isOn, setIsOn] = useState(props.isOn);
+  const [isOn, setIsOn] = useState(false);
 
   const offsetX = useSharedValue(0);
 
