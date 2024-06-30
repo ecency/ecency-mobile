@@ -11,6 +11,7 @@ export enum PollPreferredInterpretation {
 export interface PollMetadata {
   // POLL
   content_type: ContentType;
+  version: number;
   question: string;
   preferred_interpretation: PollPreferredInterpretation;
   max_choices_voted: number;
@@ -19,6 +20,7 @@ export interface PollMetadata {
     account_age: number;
   };
   end_time: number;
+  ui_hide_res_until_voted: boolean;
   // ECENCY SPECIFIC POLL OPTIONS
   vote_change: boolean;
   hide_votes: boolean;
