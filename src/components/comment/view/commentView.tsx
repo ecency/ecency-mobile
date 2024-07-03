@@ -124,6 +124,7 @@ const CommentView = ({
               author={comment.author}
               permlink={comment.permlink}
               metadata={comment.json_metadata}
+              compactView={true}
             />
           )
         }

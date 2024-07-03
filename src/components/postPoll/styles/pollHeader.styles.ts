@@ -10,6 +10,10 @@ export default EStyleSheet.create({
     marginHorizontal: 8,
     marginBottom: 12,
   } as ViewStyle,
+  compactHeaderExtension:{
+    marginHorizontal: 0,
+    marginRight:8
+  },
   question: {
     fontSize: 16,
     fontWeight: '600',

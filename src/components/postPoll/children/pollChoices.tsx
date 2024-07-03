@@ -23,6 +23,7 @@ interface PollChoicesProps {
   voteDisabled: boolean;
   hideVoters: boolean;
   interpretationToken?: boolean;
+  compactView?:boolean;
   handleChoiceSelect: (optionNum: number) => void;
   handleVotersPress: (optionNum: number) => void;
 }
@@ -37,6 +38,7 @@ export const PollChoices = ({
   voteDisabled,
   hideVoters,
   interpretationToken,
+  compactView,
   handleChoiceSelect,
   handleVotersPress,
 }: PollChoicesProps) => {
@@ -61,7 +63,7 @@ export const PollChoices = ({
     }
   }, [loading, choices]);
 
-  const _isModeSelect = mode === PollModes.SELECT;
+  const _isModeSelect = mode !== PollModes.RESULT;
 
   const _handleChoiceSelect = (choiceNum: number) => {
     handleChoiceSelect(choiceNum);
@@ -78,12 +80,13 @@ export const PollChoices = ({
       ) / 1000;
 
     const percentage = !_isModeSelect && !!totalVotes ? (votes / totalVotes) * 100 : 0; // TODO: adjust logic here
-    const _barWidth = getWindowDimensions().width - 64;
+    const _barWidth = getWindowDimensions().width - (compactView ? 72 : 64);
 
-    const _barStyle = {
-      ...styles.progressBar,
-      borderColor: EStyleSheet.value(_isSelected ? '$primaryBlue' : 'transparent'),
-    };
+    const _barStyle = [
+      styles.progressBar,
+      compactView && styles.progressBarCompact,
+      {borderColor: EStyleSheet.value(_isSelected ? '$primaryBlue' : 'transparent')},
+    ];
 
     const _onVotersPress = () => {
       handleVotersPress(option.choice_num);
@@ -95,7 +98,7 @@ export const PollChoices = ({
           <ProgressBar
             progress={_isModeSelect ? 0 : percentage / 100}
             width={_barWidth}
-            height={40}
+            height={compactView ? 32 : 40 }
             style={_barStyle}
             unfilledColor={EStyleSheet.value('$primaryLightBackground')}
             color={EStyleSheet.value(_isVoted ? '$primaryLightBlue2' : '$darkIconColor')}
@@ -110,7 +113,7 @@ export const PollChoices = ({
                 isRound={true}
                 style={styles.checkContainerStyle}
               />
-              <Text numberOfLines={2} style={styles.label}>
+              <Text numberOfLines={compactView ? 1 : 2} style={styles.label}>
                 {option.choice_text}
               </Text>
             </View>
