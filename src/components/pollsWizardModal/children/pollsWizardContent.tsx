@@ -31,7 +31,13 @@ const INIT_POLL_DRAFT: PollDraft = {
   endTime: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // set to 7 days from now
 };
 
-export const PollsWizardContent = ({ draftId, onClose }: { draftId?: string, onClose: () => void }) => {
+export const PollsWizardContent = ({
+  draftId,
+  onClose,
+}: {
+  draftId?: string;
+  onClose: () => void;
+}) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   // const navigation = useNavigation();
@@ -92,8 +98,8 @@ export const PollsWizardContent = ({ draftId, onClose }: { draftId?: string, onC
     // Implement poll creation logic here
     console.log('Poll created!');
     dispatch(setPollDraftAction(draftId || DEFAULT_USER_DRAFT_ID, pollDraft));
-    //handle modal close
-    onClose()
+    // handle modal close
+    onClose();
   };
 
   const resetPoll = () => {

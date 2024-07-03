@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useMemo } from 'react';
-import { ActivityIndicator, View, Text } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { useIntl } from 'react-intl';
 
 import { useDispatch } from 'react-redux';
@@ -19,7 +19,7 @@ import { useAppSelector } from '../../../hooks';
 import { showReplyModal } from '../../../redux/actions/uiAction';
 import { PostTypes } from '../../../constants/postTypes';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
-import { PollModes, PostPoll } from '../../postPoll';
+import { PostPoll } from '../../postPoll';
 import { ContentType } from '../../../providers/hive/hive.types';
 
 const CommentView = ({
@@ -118,16 +118,14 @@ const CommentView = ({
           handleYoutubePress={handleYoutubePress}
         />
 
-        {
-          comment.json_metadata.content_type === ContentType.POLL && (
-            <PostPoll
-              author={comment.author}
-              permlink={comment.permlink}
-              metadata={comment.json_metadata}
-              compactView={true}
-            />
-          )
-        }
+        {comment.json_metadata.content_type === ContentType.POLL && (
+          <PostPoll
+            author={comment.author}
+            permlink={comment.permlink}
+            metadata={comment.json_metadata}
+            compactView={true}
+          />
+        )}
 
         <Fragment>
           <View style={styles.footerWrapper}>{_renderActionPanel()}</View>
@@ -231,9 +229,9 @@ const CommentView = ({
   const customContainerStyle =
     _depth > 1
       ? {
-        paddingLeft: (_depth - 2) * 44,
-        backgroundColor: EStyleSheet.value('$primaryLightBackground'),
-      }
+          paddingLeft: (_depth - 2) * 44,
+          backgroundColor: EStyleSheet.value('$primaryLightBackground'),
+        }
       : null;
 
   return (

@@ -30,7 +30,7 @@ export const PollHeader = ({ metadata, expired, compactView }: PollHeaderProps) 
 
   const _renderSubText = (text) => <Text style={styles.subText}>{text}</Text>;
 
-  const _headerStyle = [styles.headerWrapper, compactView && styles.compactHeaderExtension]
+  const _headerStyle = [styles.headerWrapper, compactView && styles.compactHeaderExtension];
 
   return (
     <View>

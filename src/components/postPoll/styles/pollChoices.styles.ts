@@ -13,7 +13,7 @@ export default EStyleSheet.create({
   } as ViewStyle,
   progressBarCompact: {
     marginHorizontal: 0,
-    marginRight:8
+    marginRight: 8,
   } as ViewStyle,
   progressContentWrapper: {
     position: 'absolute',
