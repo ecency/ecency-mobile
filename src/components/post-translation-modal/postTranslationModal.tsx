@@ -1,22 +1,27 @@
-import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ActivityIndicator, Alert, FlatList, Platform, Text, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ActionSheet, { useScrollHandlers } from 'react-native-actions-sheet';
 import { postBodySummary } from '@ecency/render-helper';
 import SelectDropdown from 'react-native-select-dropdown';
+import { useDispatch } from 'react-redux';
 import { getTranslation, fetchSupportedLangs } from '../../providers/translation/translation';
 import styles from './postTranslationModalStyle';
 import { useAppSelector } from '../../hooks';
+import { hideTranslationModal } from '../../redux/actions/uiAction';
 
 const srcLang = { name: 'Auto', code: 'auto' };
 const targetLang = { name: 'English', code: 'en' };
 
-const PostTranslationModal = (props, ref) => {
+const PostTranslationModal = () => {
   const intl = useIntl();
+  const dispatch = useDispatch();
   const bottomSheetModalRef = useRef<ActionSheet | null>(null);
   const scrollHandlers = useScrollHandlers<FlatList>('scrollview-1', bottomSheetModalRef);
   const appLang = useAppSelector((state) => state.application.language);
+  const translationModalVisible = useAppSelector((state) => state.ui.translationModalVisible);
+  const translationModalData = useAppSelector((state) => state.ui.translationModalData);
 
   const [content, setContent] = useState<any>(null);
   const [translatedPost, setTranslatedPost] = useState('');
@@ -28,23 +33,24 @@ const PostTranslationModal = (props, ref) => {
   const [isLoadingLangsList, setisLoadingLangsList] = useState(false);
   const [translationError, setTranslationError] = useState('');
 
-  useImperativeHandle(ref, () => ({
-    show: (_content) => {
-      if (!_content) {
-        Alert.alert(
-          intl.formatMessage({ id: 'alert.something_wrong' }),
-          'Post content not passed for viewing post options',
-        );
-        return;
-      }
-
+  useEffect(() => {
+    if (translationModalVisible) {
       if (bottomSheetModalRef.current) {
-        setContent(_content);
+        if (!translationModalData) {
+          Alert.alert(
+            intl.formatMessage({ id: 'alert.something_wrong' }),
+            'Post content not passed for viewing post options',
+          );
+          return;
+        }
+        setContent(translationModalData);
         bottomSheetModalRef.current.show();
         getSupportedLanguages();
       }
-    },
-  }));
+    } else {
+      _handleOnSheetClose();
+    }
+  }, [translationModalVisible]);
 
   useEffect(() => {
     if (content && content.body) {
@@ -109,6 +115,8 @@ const PostTranslationModal = (props, ref) => {
     setTranslationError('');
     setSelectedSourceLang(srcLang);
     setSelectedTargetLang(targetLang);
+    dispatch(hideTranslationModal());
+    bottomSheetModalRef.current.hide();
   };
 
   const _checkApplang = (langsList: any[]) => {
@@ -206,4 +214,4 @@ const PostTranslationModal = (props, ref) => {
   );
 };
 
-export default forwardRef(PostTranslationModal);
+export default PostTranslationModal;

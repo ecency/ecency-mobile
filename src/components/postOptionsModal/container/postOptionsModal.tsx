@@ -10,7 +10,12 @@ import { FlatList } from 'react-native-gesture-handler';
 import ActionSheet from 'react-native-actions-sheet';
 import { ignoreUser, pinCommunityPost, profileUpdate, reblog } from '../../../providers/hive/dhive';
 import { addBookmark, addReport } from '../../../providers/ecency/ecency';
-import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
+import {
+  toastNotification,
+  setRcOffer,
+  showActionModal,
+  showTranslationModal,
+} from '../../../redux/actions/uiAction';
 
 // Constants
 import OPTIONS from '../../../constants/options/post';
@@ -39,10 +44,10 @@ import { delay } from '../../../utils/editor';
 interface Props {
   pageType?: string;
   isWave?: boolean;
-  postTranslationModalRef?: any;
+  isVisibleTranslateModal?: boolean;
 }
 
-const PostOptionsModal = ({ pageType, isWave, postTranslationModalRef }: Props, ref) => {
+const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, ref) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
@@ -137,7 +142,7 @@ const PostOptionsModal = ({ pageType, isWave, postTranslationModalRef }: Props, 
         case 'unpin-community':
           return _canUpdateCommunityPin && _isPinnedInCommunity;
         case 'translate':
-          return isWave;
+          return isVisibleTranslateModal;
         default:
           return true;
       }
@@ -483,12 +488,8 @@ const PostOptionsModal = ({ pageType, isWave, postTranslationModalRef }: Props, 
         !isOwnProfile && _muteUser();
         break;
       case 'translate':
-        if (postTranslationModalRef && postTranslationModalRef?.current) {
-          // added delay here to let first sheet close it completly before showing translation sheet.
-          // can be improved by handling sheets with Sheet Manager
-          await delay(700);
-          postTranslationModalRef?.current?.show(content);
-        }
+        await delay(700);
+        dispatch(showTranslationModal(content));
         break;
       default:
         break;

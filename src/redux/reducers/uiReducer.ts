@@ -18,6 +18,8 @@ import {
   SHOW_WEBVIEW_MODAL,
   HIDE_WEBVIEW_MODAL,
   HIVE_URI_TO_HANDLE,
+  SHOW_TRANSLATION_MODAL,
+  HIDE_TRANSLATION_MODAL,
 } from '../constants/constants';
 import { orientations } from '../constants/orientationsConstants';
 
@@ -44,6 +46,8 @@ interface UiState {
   replyModalData?: PostEditorModalData | null;
   isLogingOut: boolean;
   deepLinkToHandle: string;
+  translationModalVisible: boolean;
+  translationModalData: any;
 }
 
 const initialState: UiState = {
@@ -64,6 +68,8 @@ const initialState: UiState = {
   replyModalVisible: false,
   isLogingOut: false,
   deepLinkToHandle: '',
+  translationModalVisible: false,
+  translationModalData: null,
 };
 
 const uiReducer = (state = initialState, action): UiState => {
@@ -183,6 +189,18 @@ const uiReducer = (state = initialState, action): UiState => {
       return {
         ...state,
         deepLinkToHandle: action.payload,
+      };
+    case SHOW_TRANSLATION_MODAL:
+      return {
+        ...state,
+        translationModalVisible: true,
+        translationModalData: action.payload,
+      };
+    case HIDE_TRANSLATION_MODAL:
+      return {
+        ...state,
+        translationModalVisible: false,
+        translationModalData: null,
       };
     default:
       return state;

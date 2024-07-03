@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 // Components
 import { Image as ExpoImage } from 'expo-image';
-import { BasicHeader, IconButton, PostDisplay, PostOptionsModal } from '../../../components';
+import { BasicHeader, IconButton, PostDisplay, PostOptionsModal } from '../../../components/index';
 import styles from '../styles/postScreen.styles';
 
 // Component
@@ -26,6 +26,11 @@ const PostScreen = ({ route }) => {
     () => getPostQuery.data?.parent_author === 'ecency.waves',
     [getPostQuery.data],
   ); // TODO: implement a better generic way to avoid parent fetching for waves
+
+  const isSubPost = useMemo(
+    () => !!getPostQuery.data?.parent_author || !!getPostQuery.data?.parent_permlink,
+    [getPostQuery.data],
+  ); // check if post opened have any parent post, this is for showing translation modal for sub posts like waves and comments
 
   useEffect(() => {
     return () => {
@@ -94,7 +99,11 @@ const PostScreen = ({ route }) => {
         post={getPostQuery.data}
         isWavePost={isWavePost}
       />
-      <PostOptionsModal ref={postOptionsModalRef} isWave={isWavePost} />
+      <PostOptionsModal
+        ref={postOptionsModalRef}
+        isWave={isWavePost}
+        isVisibleTranslateModal={isSubPost}
+      />
     </View>
   );
 };

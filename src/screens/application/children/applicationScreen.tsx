@@ -27,7 +27,8 @@ import {
   QRModal,
   QuickReplyModal,
   WebViewModal,
-} from '../../../components';
+  PostTranslationModal,
+} from '../../../components/index';
 
 // Themes (Styles)
 
@@ -131,6 +132,7 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
         <QuickReplyModal />
         <QRModal />
         <WebViewModal />
+        <PostTranslationModal />
         {isShowToastNotification && (
           <ToastNotification
             text={toastNotification}
