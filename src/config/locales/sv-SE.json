@@ -274,7 +274,7 @@
     "following": "Följer",
     "follower": "Följare",
     "edit_label": "Redigera",
-    "post": "Post",
+    "post": "Inlägg",
     "details": "Profile Details",
     "comments": "Kommentarer",
     "replies": "Svar",
@@ -305,7 +305,7 @@
       "location": "Location",
       "website": "Webbplats",
       "edit_profile": "Redigera profil",
-      "cover_img": "Cover Image",
+      "cover_img": "Omslagsbild",
       "profile_img": "Profilbild"
     }
   },
@@ -334,7 +334,7 @@
     "reset": "Återställ",
     "nsfw_content": "NSFW",
     "send_feedback": "Send Feedback",
-    "send": "Send",
+    "send": "Skicka",
     "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Always show",
@@ -398,8 +398,8 @@
     "deep_login_alert_body": "Verify direct login using access code",
     "deep_login_url_expired": "Login url expired, please use private key or password to login",
     "deep_login_malformed_url": "Malformed login url, please use private key or password to login",
-    "no_account_text": "Don't have an account?",
-    "signup_now": "Sign up now!",
+    "no_account_text": "Har du inget konto?",
+    "signup_now": "Registrera dig nu!",
     "or": "ELLER"
   },
   "register": {
@@ -567,8 +567,8 @@
     "title_remove_confirmation": "Delete snippet",
     "placeholder_title": "Snippet title",
     "placeholder_body": "Add snippet body here...",
-    "btn_save": "SAVE",
-    "btn_close": "CLOSE",
+    "btn_save": "SPARA",
+    "btn_close": "STÄNG",
     "btn_add": "Snippet",
     "message_incomplete": "Please add title and body for snippet",
     "message_failed": "Failed to save snippet",
@@ -580,9 +580,9 @@
     "label_no_images": "No Existing Uploads...",
     "title": "Uploaded Images",
     "title_remove_confirmation": "Delete image",
-    "btn_add": "Image",
+    "btn_add": "Bild",
     "btn_insert": "INSERT",
-    "btn_delete": "DELETE",
+    "btn_delete": "RADERA",
     "confirm_delete": "Are you sure you want to delete selected items from your uploads",
     "message_failed": "Failed to upload image",
     "delete_failed": "Failed to delete image",
@@ -701,8 +701,8 @@
     "promoted": "PROMOTED",
     "poll": "POLL",
     "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
+    "image": "Bild",
+    "link": "Länk",
     "gallery_mode": "Gallery mode",
     "save_to_local": "Download to device",
     "image_saved": "Image saved to Photo Gallery",
@@ -908,7 +908,7 @@
   "boost": {
     "title": "Get Points",
     "buy": "GET Points",
-    "next": "NEXT",
+    "next": "NÄSTA",
     "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Get Account Boost",
@@ -1031,7 +1031,7 @@
     "delegate": "DELEGATE HIVE POWER"
   },
   "communities": {
-    "joined": "Membership",
+    "joined": "Medlemskap",
     "discover": "Discover",
     "discover_communities": "Discover Communities",
     "no_communities": "Connect with people who share your interests by joining Communities."
