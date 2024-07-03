@@ -34,7 +34,15 @@ const editorReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case SET_BENEFICIARIES:
-      state.beneficiariesMap[payload.draftId] = payload.benficiaries;
+      if(!state.beneficiariesMap){
+        state.beneficiariesMap = {}
+      }
+
+      state.beneficiariesMap = {
+        ...state.beneficiariesMap,
+        [payload.draftId]:payload.benficiaries
+      }
+
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
       };
@@ -42,7 +50,12 @@ const editorReducer = (state = initialState, action) => {
       if (!state.pollDraftsMap) {
         state.pollDraftsMap = {};
       }
-      state.pollDraftsMap[payload.draftId] = payload.pollDraft;
+
+      state.pollDraftsMap = {
+        ...state.pollDraftsMap,
+        [payload.draftId]: payload.pollDraft,
+      };
+  
       return {
         ...state,
       };
@@ -55,6 +68,9 @@ const editorReducer = (state = initialState, action) => {
 
     case REMOVE_POLL_DRAFT:
       delete state.pollDraftsMap[payload.draftId];
+      state.pollDraftsMap = {
+        ...state.pollDraftsMap
+      }
       return {
         ...state,
       };
