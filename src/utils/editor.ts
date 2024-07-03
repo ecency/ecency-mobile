@@ -355,7 +355,7 @@ export const convertToPollMeta = (pollDraft: PollDraft) => {
     question: pollDraft.title,
     choices: pollDraft.choices,
     preferred_interpretation: pollDraft.interpretation,
-    end_time: new Date(pollDraft.endTime).getTime() / 1000,
+    end_time: Math.floor(new Date(pollDraft.endTime).getTime() / 1000),
     vote_change: pollDraft.voteChange,
     hide_votes: pollDraft.hideVotes,
     max_choices_voted: pollDraft.maxChoicesVoted,
@@ -363,6 +363,6 @@ export const convertToPollMeta = (pollDraft: PollDraft) => {
     filters: {
       account_age: pollDraft.filters.accountAge,
     },
-    version:0.1
+    version:0.8
   } as PollMetadata;
 };

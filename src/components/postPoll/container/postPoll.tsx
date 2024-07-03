@@ -28,10 +28,11 @@ interface PostPoll {
   permlink?: string;
   metadata: PostMetadata | PollMetadata;
   initMode?: PollModes;
+  compactView?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const PostPoll = ({ author, permlink, metadata, initMode }: PostPoll) => {
+export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: PostPoll) => {
   if (metadata.content_type !== ContentType.POLL) {
     return null;
   }
@@ -43,7 +44,7 @@ export const PostPoll = ({ author, permlink, metadata, initMode }: PostPoll) => 
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
   const [selection, setSelection] = useState<number[]>([]);
-  const [mode, setMode] = useState(initMode || PollModes.LOADING);
+  const [mode, setMode] = useState(initMode || compactView ? PollModes.SELECT : PollModes.LOADING);
   const [interpretation, setInterpretation] = useState(
     metadata.preferred_interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES,
   );
@@ -172,10 +173,11 @@ export const PostPoll = ({ author, permlink, metadata, initMode }: PostPoll) => 
     </View>
   );
 
+  const _voteButtonStyle = [styles.voteButton, compactView && styles.voteButtonCompact]
   const _actionPanel = !_voteDisabled && (
     <View style={styles.actionPanel}>
       <MainButton
-        style={styles.voteButton}
+        style={_voteButtonStyle}
         iconName="chart"
         iconType="SimpleLineIcons"
         iconColor="white"
@@ -187,9 +189,11 @@ export const PostPoll = ({ author, permlink, metadata, initMode }: PostPoll) => 
     </View>
   );
 
+  const _containerStyle  = compactView ? styles.compactContainer : styles.container
+
   return (
-    <View style={styles.container}>
-      <PollHeader metadata={metadata} expired={_expired} />
+    <View style={_containerStyle}>
+      <PollHeader compactView={compactView} metadata={metadata} expired={_expired} />
 
       <PollChoices
         metadata={metadata}
@@ -201,6 +205,7 @@ export const PostPoll = ({ author, permlink, metadata, initMode }: PostPoll) => 
         selection={selection}
         hideVoters={_hideVoters}
         interpretationToken={interpretation === PollPreferredInterpretation.TOKENS}
+        compactView={compactView}
         handleChoiceSelect={_handleChoiceSelect}
         handleVotersPress={_handleVotersPress}
       />

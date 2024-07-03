@@ -4,13 +4,12 @@ import { useIntl } from 'react-intl';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import DatePicker from 'react-native-date-picker';
 import { useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from '../styles/pollsWizardContent.styles';
 import { TextButton } from '../../buttons';
 import { FormInput } from '../../formInput';
 import { dateToFormatted } from '../../../utils/time';
-import { PollConfig } from '../children/pollConfig';
+import { PollConfig } from './pollConfig';
 import { PollPreferredInterpretation } from '../../../providers/hive/hive.types';
 import { removePollDraft, setPollDraftAction } from '../../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
@@ -32,10 +31,10 @@ const INIT_POLL_DRAFT: PollDraft = {
   endTime: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // set to 7 days from now
 };
 
-export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
+export const PollsWizardContent = ({ draftId, onClose }: { draftId?: string, onClose: () => void }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
   const pollConfigRef = useRef<typeof PollConfig>(null);
 
@@ -93,7 +92,8 @@ export const PollsWizardContent = ({ draftId }: { draftId?: string }) => {
     // Implement poll creation logic here
     console.log('Poll created!');
     dispatch(setPollDraftAction(draftId || DEFAULT_USER_DRAFT_ID, pollDraft));
-    navigation.goBack();
+    //handle modal close
+    onClose()
   };
 
   const resetPoll = () => {
