@@ -255,7 +255,7 @@ export const QuickReplyModalContent = forwardRef(
     // VIEW_RENDERERS
 
     const _renderSummary = () => (
-      <TouchableOpacity onPress={() => _handleOnSummaryPress()}>
+      <TouchableOpacity disabled={mode === 'wave'} onPress={() => _handleOnSummaryPress()}>
         <Text numberOfLines={2} style={styles.summaryStyle}>
           {headerText}
         </Text>
