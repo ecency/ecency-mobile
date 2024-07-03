@@ -95,7 +95,14 @@ export const getReceivedVestingShares = async (
 export const getDrafts = async () => {
   try {
     const res = await ecencyApi.post('/private-api/drafts');
-    return res.data || [];
+    const rawData = res.data;
+
+    if (!rawData) {
+      return [];
+    }
+
+    const _retData = rawData.length > 0 ? rawData.map(convertDraft) : [];
+    return _retData;
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;
@@ -109,7 +116,14 @@ export const deleteDraft = async (draftId: string) => {
   try {
     const data = { id: draftId };
     const res = await ecencyApi.post('/private-api/drafts-delete', data);
-    return res.data || [];
+    const rawData = res.data;
+
+    if (!rawData) {
+      throw new Error('Invalid response, drafts data not returned');
+    }
+
+    const _retData = rawData.length > 0 ? rawData.map(convertDraft) : [];
+    return _retData;
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;

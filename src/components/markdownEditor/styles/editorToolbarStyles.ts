@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { Platform, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 
@@ -38,6 +38,11 @@ export default EStyleSheet.create({
     borderColor: '$primaryLightBackground',
     paddingBottom: getBottomSpace(),
   },
+  iconBottomBar: {
+    borderBottomWidth: 3,
+    borderRadius: 0,
+    borderColor: '$primaryBlue',
+  } as ViewStyle,
   clearIcon: {
     color: '$primaryLightGray',
   },
@@ -53,11 +58,13 @@ export default EStyleSheet.create({
     marginLeft: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    maxWidth: '$deviceWidth / 3',
-  },
+    justifyContent: 'space-between',
+    flexGrow: 1,
+  } as ViewStyle,
   rightButtonsWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: 'green',
   },
   icon: {
     color: '$editorButtonColor',
@@ -77,4 +84,8 @@ export default EStyleSheet.create({
     margin: 8,
     alignSelf: 'center',
   },
+  formatsWrapper: {
+    paddingBottom: 16,
+    paddingHorizontal: 16,
+  } as ViewStyle,
 });

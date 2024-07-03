@@ -43,7 +43,8 @@ const ROUTES = {
   },
   MODALS: {
     ASSETS_SELECT: `AssetsSelect${MODAL_SUFFIX}`,
-    ACCOUNT_LIST: `AccountList${SCREEN_SUFFIX}`,
+    ACCOUNT_LIST: `AccountList${MODAL_SUFFIX}`,
+    POLL_WIZARD: `PollWizard${MODAL_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,
