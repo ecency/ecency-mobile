@@ -14,7 +14,7 @@ const PollWizardScreen = ({ route }) => {
 
   const _closeModal = () => {
     navigation.goBack();
-  }
+  };
 
   return (
     <View style={styles.container}>

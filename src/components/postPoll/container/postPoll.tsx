@@ -173,7 +173,7 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
     </View>
   );
 
-  const _voteButtonStyle = [styles.voteButton, compactView && styles.voteButtonCompact]
+  const _voteButtonStyle = [styles.voteButton, compactView && styles.voteButtonCompact];
   const _actionPanel = !_voteDisabled && (
     <View style={styles.actionPanel}>
       <MainButton
@@ -189,7 +189,7 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
     </View>
   );
 
-  const _containerStyle  = compactView ? styles.compactContainer : styles.container
+  const _containerStyle = compactView ? styles.compactContainer : styles.container;
 
   return (
     <View style={_containerStyle}>

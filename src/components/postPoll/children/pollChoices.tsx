@@ -23,7 +23,7 @@ interface PollChoicesProps {
   voteDisabled: boolean;
   hideVoters: boolean;
   interpretationToken?: boolean;
-  compactView?:boolean;
+  compactView?: boolean;
   handleChoiceSelect: (optionNum: number) => void;
   handleVotersPress: (optionNum: number) => void;
 }
@@ -85,7 +85,7 @@ export const PollChoices = ({
     const _barStyle = [
       styles.progressBar,
       compactView && styles.progressBarCompact,
-      {borderColor: EStyleSheet.value(_isSelected ? '$primaryBlue' : 'transparent')},
+      { borderColor: EStyleSheet.value(_isSelected ? '$primaryBlue' : 'transparent') },
     ];
 
     const _onVotersPress = () => {
@@ -98,7 +98,7 @@ export const PollChoices = ({
           <ProgressBar
             progress={_isModeSelect ? 0 : percentage / 100}
             width={_barWidth}
-            height={compactView ? 32 : 40 }
+            height={compactView ? 32 : 40}
             style={_barStyle}
             unfilledColor={EStyleSheet.value('$primaryLightBackground')}
             color={EStyleSheet.value(_isVoted ? '$primaryLightBlue2' : '$darkIconColor')}

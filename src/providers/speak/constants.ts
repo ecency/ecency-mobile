@@ -12,12 +12,7 @@ export const DEFAULT_SPEAK_BENEFICIARIES = [
   {
     account: 'spk.beneficiary',
     src: 'ENCODER_PAY',
-    weight: 900,
-  },
-  {
-    account: 'threespeakleader',
-    src: 'ENCODER_PAY',
-    weight: 100,
+    weight: 1000,
   },
 ];
 

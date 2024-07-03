@@ -79,7 +79,7 @@ export function useVotePollMutation(poll: Poll | null) {
       }
 
       if (!poll) {
-        throw new Error(intl.formatMessage({ id: "post_poll.poll_not_ready" }));
+        throw new Error(intl.formatMessage({ id: 'post_poll.poll_not_ready' }));
       }
 
       if (!(choices instanceof Array)) {

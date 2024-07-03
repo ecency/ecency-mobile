@@ -160,7 +160,6 @@ export const QuickReplyModalContent = forwardRef(
       const _body =
         mediaUrls.length > 0 ? `${commentValue}\n\n ![](${mediaUrls[0]})` : commentValue;
 
-
       switch (mode) {
         case 'comment':
           _isSuccess = await postSubmitter.submitReply(_body, selectedPost);
@@ -239,11 +238,9 @@ export const QuickReplyModalContent = forwardRef(
     const _handlePollBtn = async () => {
       Keyboard.dismiss();
       if (pollWizardModalRef.current) {
-        pollWizardModalRef.current.showModal(
-          draftId
-        )
+        pollWizardModalRef.current.showModal(draftId);
       }
-    }
+    };
 
     const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), []);
 
@@ -356,7 +353,6 @@ export const QuickReplyModalContent = forwardRef(
               />
               <Text style={_lengthTextStyle}>{`${commentValue.length}/${MAX_BODY_LENGTH}`}</Text>
             </>
-
           )}
         </View>
       );
@@ -416,9 +412,7 @@ export const QuickReplyModalContent = forwardRef(
           {_renderReplyBtn()}
         </View>
 
-        <PollWizardModal
-          ref={pollWizardModalRef}
-        />
+        <PollWizardModal ref={pollWizardModalRef} />
       </View>
     );
   },

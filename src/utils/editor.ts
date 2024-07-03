@@ -359,10 +359,10 @@ export const convertToPollMeta = (pollDraft: PollDraft) => {
     vote_change: pollDraft.voteChange,
     hide_votes: pollDraft.hideVotes,
     max_choices_voted: pollDraft.maxChoicesVoted,
-    ui_hide_res_until_voted:true,
+    ui_hide_res_until_voted: true,
     filters: {
       account_age: pollDraft.filters.accountAge,
     },
-    version:0.8
+    version: 0.8,
   } as PollMetadata;
 };

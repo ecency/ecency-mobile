@@ -28,7 +28,7 @@ export const usePostSubmitter = () => {
     commentBody: string,
     parentPost: any,
     postType: PostTypes = PostTypes.COMMENT,
-    pollDraft?:PollDraft
+    pollDraft?: PollDraft,
   ) => {
     if (!commentBody) {
       return false;
@@ -56,7 +56,7 @@ export const usePostSubmitter = () => {
         body: commentBody,
         fetchRatios: true,
         postType,
-        pollDraft
+        pollDraft,
       });
       const jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency']);
 
@@ -131,12 +131,17 @@ export const usePostSubmitter = () => {
   };
 
   // feteced lates wafves container and post wave to that container
-  const _submitWave = async (body: string, pollDraft:PollDraft) => {
+  const _submitWave = async (body: string, pollDraft: PollDraft) => {
     try {
       const _wavesHost = 'ecency.waves'; // TODO: make waves host selection dynamic
       const latestWavesPost = await wavesQueries.fetchLatestWavesContainer(_wavesHost);
 
-      const _cacheCommentData = await _submitReply(body, latestWavesPost, PostTypes.WAVE, pollDraft);
+      const _cacheCommentData = await _submitReply(
+        body,
+        latestWavesPost,
+        PostTypes.WAVE,
+        pollDraft,
+      );
 
       if (_cacheCommentData) {
         pusblishWaveMutation.mutate(_cacheCommentData);

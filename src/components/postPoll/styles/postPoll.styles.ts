@@ -11,7 +11,7 @@ export default EStyleSheet.create({
   } as ViewStyle,
   compactContainer: {
     paddingBottom: 8,
-    paddingRight:8
+    paddingRight: 8,
   } as ViewStyle,
   question: {
     fontSize: 16,
