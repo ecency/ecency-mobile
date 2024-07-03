@@ -132,7 +132,7 @@ const PostTranslationModal = () => {
   };
 
   const _renderLanguageSelector = () => (
-    <View style={styles.languageSelectorRow}>
+    <>
       <View style={styles.row}>
         <Text style={styles.labelText}>{intl.formatMessage({ id: 'wallet.from' })}</Text>
         <SelectDropdown
@@ -183,7 +183,7 @@ const PostTranslationModal = () => {
           dropdownFlatlistProps={scrollHandlers}
         />
       </View>
-    </View>
+    </>
   );
 
   return (
@@ -195,9 +195,11 @@ const PostTranslationModal = () => {
       onClose={_handleOnSheetClose}
     >
       <View style={styles.listContainer}>
-        {!isLoadingLangsList && supportedLangsList && supportedLangsList.length
-          ? _renderLanguageSelector()
-          : null}
+        <View style={styles.languageSelectorRow}>
+          {!isLoadingLangsList && supportedLangsList && supportedLangsList.length
+            ? _renderLanguageSelector()
+            : null}
+        </View>
         <View style={styles.translatedTextContainer}>
           {isLoadingTranslation ? (
             <ActivityIndicator
