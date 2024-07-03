@@ -109,6 +109,7 @@ export const UploadsGalleryModal = forwardRef(
         setShowModal(value);
       },
       getMode: () => mode,
+      isVisible: () => showModal,
     }));
 
     useEffect(() => {

@@ -12,9 +12,10 @@ import { PollPreferredInterpretation, PostMetadata } from '../../../providers/hi
 interface PollHeaderProps {
   metadata: PostMetadata;
   expired: boolean;
+  compactView?: boolean;
 }
 
-export const PollHeader = ({ metadata, expired }: PollHeaderProps) => {
+export const PollHeader = ({ metadata, expired, compactView }: PollHeaderProps) => {
   const intl = useIntl();
 
   const _endDate = new Date(metadata.end_time * 1000);
@@ -29,9 +30,11 @@ export const PollHeader = ({ metadata, expired }: PollHeaderProps) => {
 
   const _renderSubText = (text) => <Text style={styles.subText}>{text}</Text>;
 
+  const _headerStyle = [styles.headerWrapper, compactView && styles.compactHeaderExtension]
+
   return (
     <View>
-      <View style={styles.headerWrapper}>
+      <View style={_headerStyle}>
         <Text style={styles.question}>{metadata.question}</Text>
         <PopoverWrapper text={_endDate.toString()}>
           <View style={styles.timeContainer}>

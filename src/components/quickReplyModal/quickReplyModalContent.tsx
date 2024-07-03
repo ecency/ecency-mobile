@@ -20,6 +20,7 @@ import {
   Icon,
   IconButton,
   MainButton,
+  PollWizardModal,
   TextButton,
   TextInput,
   UploadsGalleryModal,
@@ -38,6 +39,7 @@ import {
   MediaInsertData,
   MediaInsertStatus,
 } from '../uploadsGalleryModal/container/uploadsGalleryModal';
+import { removePollDraft } from '../../redux/actions/editorActions';
 
 export interface QuickReplyModalContentProps {
   mode: 'comment' | 'wave' | 'post';
@@ -57,9 +59,11 @@ export const QuickReplyModalContent = forwardRef(
     const postSubmitter = usePostSubmitter();
 
     const inputRef = useRef<RNTextInput | null>(null);
+    const pollWizardModalRef = useRef(null);
 
     const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
     const draftsCollection = useSelector((state: RootState) => state.cache.draftsCollection);
+    const pollDraftsMap = useSelector((state: RootState) => state.editor.pollDraftsMap);
 
     const [commentValue, setCommentValue] = useState('');
     const [mediaUrls, setMediaUrls] = useState<string[]>([]);
@@ -72,13 +76,15 @@ export const QuickReplyModalContent = forwardRef(
 
     const headerText =
       mode === 'wave'
-        ? intl.formatMessage({ id: 'quick_reply.summary_wave' }, { host: 'ecency.waves' }) // TODO: update based on selected host
+        ? intl.formatMessage({ id: 'quick_reply.summary_wave' }, { host: 'demo.com' }) // TODO: update based on selected host
         : selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
 
     const draftId =
       mode === 'wave'
         ? `${currentAccount.name}/ecency.waves` // TODO: update author based on selected host
         : `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
+
+    const pollDraft = draftId && pollDraftsMap[draftId];
 
     const bodyLengthExceeded = useMemo(
       () => commentValue.length > MAX_BODY_LENGTH && mode === 'wave',
@@ -154,12 +160,13 @@ export const QuickReplyModalContent = forwardRef(
       const _body =
         mediaUrls.length > 0 ? `${commentValue}\n\n ![](${mediaUrls[0]})` : commentValue;
 
+
       switch (mode) {
         case 'comment':
           _isSuccess = await postSubmitter.submitReply(_body, selectedPost);
           break;
         case 'wave':
-          _isSuccess = await postSubmitter.submitWave(_body);
+          _isSuccess = await postSubmitter.submitWave(_body, pollDraft);
           break;
         default:
           throw new Error('mode needs implementing');
@@ -170,6 +177,7 @@ export const QuickReplyModalContent = forwardRef(
         if (draftsCollection && draftsCollection[draftId]) {
           dispatch(deleteDraftCacheEntry(draftId));
         }
+        dispatch(removePollDraft(draftId));
         setCommentValue('');
         inputRef.current?.setNativeProps({
           text: '',
@@ -228,6 +236,15 @@ export const QuickReplyModalContent = forwardRef(
       }
     };
 
+    const _handlePollBtn = async () => {
+      Keyboard.dismiss();
+      if (pollWizardModalRef.current) {
+        pollWizardModalRef.current.showModal(
+          draftId
+        )
+      }
+    }
+
     const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), []);
 
     const _onChangeText = (value) => {
@@ -238,7 +255,7 @@ export const QuickReplyModalContent = forwardRef(
     // VIEW_RENDERERS
 
     const _renderSummary = () => (
-      <TouchableOpacity onPress={() => _handleOnSummaryPress()}>
+      <TouchableOpacity disabled={mode === 'wave'} onPress={() => _handleOnSummaryPress()}>
         <Text numberOfLines={2} style={styles.summaryStyle}>
           {headerText}
         </Text>
@@ -328,7 +345,18 @@ export const QuickReplyModalContent = forwardRef(
               color={EStyleSheet.value('$primaryBlack')}
             />
           ) : (
-            <Text style={_lengthTextStyle}>{`${commentValue.length}/${MAX_BODY_LENGTH}`}</Text>
+            <>
+              <IconButton
+                iconType="SimpleLineIcons"
+                style={!!pollDraft && styles.iconBottomBar}
+                name="chart"
+                onPress={_handlePollBtn}
+                size={18}
+                color={EStyleSheet.value('$primaryBlack')}
+              />
+              <Text style={_lengthTextStyle}>{`${commentValue.length}/${MAX_BODY_LENGTH}`}</Text>
+            </>
+
           )}
         </View>
       );
@@ -387,6 +415,10 @@ export const QuickReplyModalContent = forwardRef(
           {_renderExpandBtn()}
           {_renderReplyBtn()}
         </View>
+
+        <PollWizardModal
+          ref={pollWizardModalRef}
+        />
       </View>
     );
   },

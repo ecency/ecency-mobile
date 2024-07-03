@@ -74,8 +74,12 @@ export function useVotePollMutation(poll: Poll | null) {
   return useMutation({
     mutationKey: [QUERIES.POST.SIGN_POLL_VOTE, poll?.author, poll?.permlink],
     mutationFn: async ({ choices }: { choices: number[] }) => {
-      if (!poll || !currentAccount) {
-        throw new Error('Failed to register vote');
+      if (!currentAccount) {
+        throw new Error('No logged in user');
+      }
+
+      if (!poll) {
+        throw new Error(intl.formatMessage({ id: "post_poll.poll_not_ready" }));
       }
 
       if (!(choices instanceof Array)) {
@@ -123,7 +127,7 @@ export function useVotePollMutation(poll: Poll | null) {
         dispatch(updatePollVoteCache(postPath, voteCache));
       }
 
-      dispatch(toastNotification(`${intl.formateMessage({ id: 'alert.fail' })}. ${err.message}`));
+      dispatch(toastNotification(`${intl.formatMessage({ id: 'alert.fail' })}. ${err.message}`));
 
       queryClient.invalidateQueries([QUERIES.POST.GET_POLL, poll?.author, poll?.permlink]);
     },
@@ -167,7 +171,7 @@ const useInjectPollVoteCache = (pollData: Poll | null) => {
     const _cData = injectPollVoteCache(pollData, voteCache);
 
     // check if data follows old schema, migrate if nesseary
-    if (_cData.poll_voters instanceof Array && !!_cData.poll_voters[0].choice_num) {
+    if (_cData.poll_voters instanceof Array && !!_cData.poll_voters[0]?.choice_num) {
       _cData.poll_voters = _cData.poll_voters.map((voter) => ({
         ...voter,
         choices: [voter.choice_num],

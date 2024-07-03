@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 import {
   ContentType,
+  PollMetadata,
   PollPreferredInterpretation,
   PostMetadata,
 } from '../../../providers/hive/hive.types';
@@ -19,16 +20,19 @@ export enum PollModes {
   LOADING = 0,
   SELECT = 1,
   RESULT = 2,
+  PREVIEW = 3,
 }
 
 interface PostPoll {
-  author: string;
-  permlink: string;
-  metadata: PostMetadata;
+  author?: string;
+  permlink?: string;
+  metadata: PostMetadata | PollMetadata;
+  initMode?: PollModes;
+  compactView?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const PostPoll = ({ author, permlink, metadata }: PostPoll) => {
+export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: PostPoll) => {
   if (metadata.content_type !== ContentType.POLL) {
     return null;
   }
@@ -40,7 +44,7 @@ export const PostPoll = ({ author, permlink, metadata }: PostPoll) => {
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
   const [selection, setSelection] = useState<number[]>([]);
-  const [mode, setMode] = useState(PollModes.LOADING);
+  const [mode, setMode] = useState(initMode || compactView ? PollModes.SELECT : PollModes.LOADING);
   const [interpretation, setInterpretation] = useState(
     metadata.preferred_interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES,
   );
@@ -78,11 +82,13 @@ export const PostPoll = ({ author, permlink, metadata }: PostPoll) => {
     const _noVoteChange =
       metadata.vote_change !== undefined ? !metadata.vote_change && !!userVote : false;
 
-    return _expired || !isLoggedIn || _noVoteChange || _ageLimitApllies;
+    const _previewMode = mode === PollModes.PREVIEW;
+
+    return _expired || !isLoggedIn || _noVoteChange || _ageLimitApllies || _previewMode;
   }, [metadata, userVote]);
 
   useEffect(() => {
-    if (pollsQuery.isSuccess) {
+    if (pollsQuery.isSuccess && pollsQuery.data) {
       setMode(!!userVote || _expired ? PollModes.RESULT : PollModes.SELECT);
       setInterpretation(
         pollsQuery.data?.preferred_interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES,
@@ -167,24 +173,27 @@ export const PostPoll = ({ author, permlink, metadata }: PostPoll) => {
     </View>
   );
 
+  const _voteButtonStyle = [styles.voteButton, compactView && styles.voteButtonCompact]
   const _actionPanel = !_voteDisabled && (
     <View style={styles.actionPanel}>
       <MainButton
-        style={styles.voteButton}
+        style={_voteButtonStyle}
         iconName="chart"
         iconType="SimpleLineIcons"
         iconColor="white"
         iconStyle={{ fontSize: 16 }}
         onPress={_handleCastVote}
         text="Vote"
-        isDisable={!selection.length}
+        isDisable={!selection.length || mode === PollModes.PREVIEW}
       />
     </View>
   );
 
+  const _containerStyle  = compactView ? styles.compactContainer : styles.container
+
   return (
-    <View style={styles.container}>
-      <PollHeader metadata={metadata} expired={_expired} />
+    <View style={_containerStyle}>
+      <PollHeader compactView={compactView} metadata={metadata} expired={_expired} />
 
       <PollChoices
         metadata={metadata}
@@ -196,6 +205,7 @@ export const PostPoll = ({ author, permlink, metadata }: PostPoll) => {
         selection={selection}
         hideVoters={_hideVoters}
         interpretationToken={interpretation === PollPreferredInterpretation.TOKENS}
+        compactView={compactView}
         handleChoiceSelect={_handleChoiceSelect}
         handleVotersPress={_handleVotersPress}
       />
