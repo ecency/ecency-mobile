@@ -9,7 +9,7 @@ import React, {
   useMemo,
 } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, TouchableOpacity, Keyboard, Platform, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Keyboard, Platform, ActivityIndicator } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
 import { get, debounce } from 'lodash';
@@ -82,6 +82,8 @@ export const QuickReplyModalContent = forwardRef(
       mode === 'wave'
         ? `${currentAccount.name}/ecency.waves` // TODO: update author based on selected host
         : `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
+
+    const pollDraft = draftId && pollDraftsMap[draftId];
 
     const bodyLengthExceeded = useMemo(
       () => commentValue.length > MAX_BODY_LENGTH && mode === 'wave',
@@ -157,7 +159,6 @@ export const QuickReplyModalContent = forwardRef(
       const _body =
         mediaUrls.length > 0 ? `${commentValue}\n\n ![](${mediaUrls[0]})` : commentValue;
 
-      const pollDraft = draftId && pollDraftsMap[draftId];
 
       switch (mode) {
         case 'comment':
@@ -345,6 +346,7 @@ export const QuickReplyModalContent = forwardRef(
             <>
               <IconButton
                 iconType="SimpleLineIcons"
+                style={!!pollDraft && styles.iconBottomBar}
                 name="chart"
                 onPress={_handlePollBtn}
                 size={18}
