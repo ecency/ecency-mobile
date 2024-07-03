@@ -38,6 +38,7 @@ export default EStyleSheet.create({
   },
   languageSelectorRow: {
     flexDirection: 'row',
+    height: 60,
   },
   rowTextStyle: {
     fontSize: 12,
