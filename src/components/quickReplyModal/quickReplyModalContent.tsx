@@ -39,6 +39,7 @@ import {
   MediaInsertData,
   MediaInsertStatus,
 } from '../uploadsGalleryModal/container/uploadsGalleryModal';
+import { removePollDraft } from '../../redux/actions/editorActions';
 
 export interface QuickReplyModalContentProps {
   mode: 'comment' | 'wave' | 'post';
@@ -176,6 +177,7 @@ export const QuickReplyModalContent = forwardRef(
         if (draftsCollection && draftsCollection[draftId]) {
           dispatch(deleteDraftCacheEntry(draftId));
         }
+        dispatch(removePollDraft(draftId));
         setCommentValue('');
         inputRef.current?.setNativeProps({
           text: '',
