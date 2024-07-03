@@ -9,7 +9,7 @@ import React, {
   useMemo,
 } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, TouchableOpacity, Keyboard, Platform, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, Keyboard, Platform, ActivityIndicator, Alert } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
 import { get, debounce } from 'lodash';
@@ -20,6 +20,7 @@ import {
   Icon,
   IconButton,
   MainButton,
+  PollWizardModal,
   TextButton,
   TextInput,
   UploadsGalleryModal,
@@ -57,9 +58,11 @@ export const QuickReplyModalContent = forwardRef(
     const postSubmitter = usePostSubmitter();
 
     const inputRef = useRef<RNTextInput | null>(null);
+    const pollWizardModalRef = useRef(null);
 
     const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
     const draftsCollection = useSelector((state: RootState) => state.cache.draftsCollection);
+    const pollDraftsMap = useSelector((state: RootState) => state.editor.pollDraftsMap);
 
     const [commentValue, setCommentValue] = useState('');
     const [mediaUrls, setMediaUrls] = useState<string[]>([]);
@@ -72,7 +75,7 @@ export const QuickReplyModalContent = forwardRef(
 
     const headerText =
       mode === 'wave'
-        ? intl.formatMessage({ id: 'quick_reply.summary_wave' }, { host: 'ecency.waves' }) // TODO: update based on selected host
+        ? intl.formatMessage({ id: 'quick_reply.summary_wave' }, { host: 'demo.com' }) // TODO: update based on selected host
         : selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
 
     const draftId =
@@ -154,12 +157,14 @@ export const QuickReplyModalContent = forwardRef(
       const _body =
         mediaUrls.length > 0 ? `${commentValue}\n\n ![](${mediaUrls[0]})` : commentValue;
 
+      const pollDraft = draftId && pollDraftsMap[draftId];
+
       switch (mode) {
         case 'comment':
           _isSuccess = await postSubmitter.submitReply(_body, selectedPost);
           break;
         case 'wave':
-          _isSuccess = await postSubmitter.submitWave(_body);
+          _isSuccess = await postSubmitter.submitWave(_body, pollDraft);
           break;
         default:
           throw new Error('mode needs implementing');
@@ -227,6 +232,15 @@ export const QuickReplyModalContent = forwardRef(
         setMediaModalVisible(!mediaModalVisible);
       }
     };
+
+    const _handlePollBtn = async () => {
+      Keyboard.dismiss();
+      if (pollWizardModalRef.current) {
+        pollWizardModalRef.current.showModal(
+          draftId
+        )
+      }
+    }
 
     const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), []);
 
@@ -328,7 +342,17 @@ export const QuickReplyModalContent = forwardRef(
               color={EStyleSheet.value('$primaryBlack')}
             />
           ) : (
-            <Text style={_lengthTextStyle}>{`${commentValue.length}/${MAX_BODY_LENGTH}`}</Text>
+            <>
+              <IconButton
+                iconType="SimpleLineIcons"
+                name="chart"
+                onPress={_handlePollBtn}
+                size={18}
+                color={EStyleSheet.value('$primaryBlack')}
+              />
+              <Text style={_lengthTextStyle}>{`${commentValue.length}/${MAX_BODY_LENGTH}`}</Text>
+            </>
+
           )}
         </View>
       );
@@ -387,6 +411,10 @@ export const QuickReplyModalContent = forwardRef(
           {_renderExpandBtn()}
           {_renderReplyBtn()}
         </View>
+
+        <PollWizardModal
+          ref={pollWizardModalRef}
+        />
       </View>
     );
   },

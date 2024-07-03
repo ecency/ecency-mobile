@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useMemo } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, View, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 
 import { useDispatch } from 'react-redux';
@@ -19,6 +19,8 @@ import { useAppSelector } from '../../../hooks';
 import { showReplyModal } from '../../../redux/actions/uiAction';
 import { PostTypes } from '../../../constants/postTypes';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
+import { PollModes, PostPoll } from '../../postPoll';
+import { ContentType } from '../../../providers/hive/hive.types';
 
 const CommentView = ({
   avatarSize,
@@ -115,6 +117,16 @@ const CommentView = ({
           handleVideoPress={handleVideoPress}
           handleYoutubePress={handleYoutubePress}
         />
+
+        {
+          comment.json_metadata.content_type === ContentType.POLL && (
+            <PostPoll
+              author={comment.author}
+              permlink={comment.permlink}
+              metadata={comment.json_metadata}
+            />
+          )
+        }
 
         <Fragment>
           <View style={styles.footerWrapper}>{_renderActionPanel()}</View>
@@ -218,9 +230,9 @@ const CommentView = ({
   const customContainerStyle =
     _depth > 1
       ? {
-          paddingLeft: (_depth - 2) * 44,
-          backgroundColor: EStyleSheet.value('$primaryLightBackground'),
-        }
+        paddingLeft: (_depth - 2) * 44,
+        backgroundColor: EStyleSheet.value('$primaryLightBackground'),
+      }
       : null;
 
   return (

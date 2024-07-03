@@ -12,16 +12,18 @@ const PollWizardScreen = ({ route }) => {
   const navigation = useNavigation();
   const draftId = route.params?.draftId || DEFAULT_USER_DRAFT_ID;
 
+  const _closeModal = () => {
+    navigation.goBack();
+  }
+
   return (
     <View style={styles.container}>
       <ModalHeader
         title={intl.formatMessage({ id: 'post_poll.create_title' })}
         isCloseButton={true}
-        onClosePress={() => {
-          navigation.goBack();
-        }}
+        onClosePress={_closeModal}
       />
-      <PollsWizardContent draftId={draftId} />
+      <PollsWizardContent draftId={draftId} onClose={_closeModal} />
     </View>
   );
 };
