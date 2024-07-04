@@ -481,11 +481,21 @@
     "hide_stats": "Ocultar estadísticas",
     "ended": "Terminado",
     "ends": "Termina {inTime}",
+    "poll_question": "Pregunta de encuesta",
     "age_limit": "• Solo se permiten cuentas de más de {days} días",
     "interpretation_token": "• Interpretación de voto basada en HP del usuario",
     "max_choices": "• Puedes seleccionar hasta {choices} opciones",
+    "poll_not_ready": "La encuesta no está lista para votar, inténtalo de nuevo en breve",
     "interpret_token": "Interpretar por Tokens",
-    "interpret_vote": "Interpretar por votos"
+    "interpret_vote": "Interpretar por votos",
+    "create_title": "Crear una encuesta",
+    "add_choice": "Agregar opción",
+    "question_placeholder": "Añadir pregunta de encuesta...",
+    "choice_placeholder": "Opción {number}",
+    "number_of_votes": "Número de votos",
+    "tokens": "Tokens totales",
+    "attach_poll": "Adjuntar encuesta",
+    "update_poll": "Actualizar encuesta"
   },
   "editor": {
     "title": "Título",
