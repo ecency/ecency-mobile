@@ -481,11 +481,21 @@
     "hide_stats": "Piilota tilastot",
     "ended": "Päättyi",
     "ends": "Päättyy {inTime}",
+    "poll_question": "Poll Question",
     "age_limit": "• {days} päivää vanhemmat tilit",
     "interpretation_token": "• Käyttäjän HP-pohjainen äänten tulkinta",
     "max_choices": "• Voit valita {choices}",
+    "poll_not_ready": "Poll not ready for vote, try again shortly",
     "interpret_token": "Tulkitse Merkkien mukaan",
-    "interpret_vote": "Tulkitse Äänten mukaan"
+    "interpret_vote": "Tulkitse Äänten mukaan",
+    "create_title": "Create a poll",
+    "add_choice": "Add Choice",
+    "question_placeholder": "Add poll question...",
+    "choice_placeholder": "Choice {number}",
+    "number_of_votes": "Number of Votes",
+    "tokens": "Total Tokens",
+    "attach_poll": "Attach Poll",
+    "update_poll": "Update Poll"
   },
   "editor": {
     "title": "Otsikko",

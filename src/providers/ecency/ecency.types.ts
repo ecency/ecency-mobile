@@ -1,4 +1,5 @@
 import { QuoteItem } from '../../redux/reducers/walletReducer';
+import { PollPreferredInterpretation } from '../hive/hive.types';
 import { ThreeSpeakVideo } from '../speak/speak.types';
 
 export interface ReceivedVestingShare {
@@ -44,6 +45,24 @@ export interface Referral {
 export interface ReferralStat {
   total: number;
   rewarded: number;
+}
+
+export interface PollDraft {
+  title: string;
+  endTime: string; // 2024-05-13T13:30:53.783Z
+  voteChange: boolean;
+  hideVotes: boolean;
+  interpretation: PollPreferredInterpretation;
+  choices: string[];
+  maxChoicesVoted: number;
+  filters: {
+    accountAge: number;
+  };
+}
+
+export interface DraftMetadata {
+  // TOOD: complete object
+  poll: PollDraft;
 }
 
 export interface Draft {

@@ -8,7 +8,7 @@ import { extractMetadata, generateUniquePermlink, makeJsonMetadata } from '../..
 import { updateCommentCache } from '../../redux/actions/cacheActions';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { useUserActivityMutation, wavesQueries } from '../../providers/queries';
-import { PointActivityIds } from '../../providers/ecency/ecency.types';
+import { PointActivityIds, PollDraft } from '../../providers/ecency/ecency.types';
 import { usePublishWaveMutation } from '../../providers/queries/postQueries/wavesQueries';
 import { PostTypes } from '../../constants/postTypes';
 
@@ -28,6 +28,7 @@ export const usePostSubmitter = () => {
     commentBody: string,
     parentPost: any,
     postType: PostTypes = PostTypes.COMMENT,
+    pollDraft?: PollDraft,
   ) => {
     if (!commentBody) {
       return false;
@@ -55,6 +56,7 @@ export const usePostSubmitter = () => {
         body: commentBody,
         fetchRatios: true,
         postType,
+        pollDraft,
       });
       const jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency']);
 
@@ -129,12 +131,17 @@ export const usePostSubmitter = () => {
   };
 
   // feteced lates wafves container and post wave to that container
-  const _submitWave = async (body: string) => {
+  const _submitWave = async (body: string, pollDraft: PollDraft) => {
     try {
       const _wavesHost = 'ecency.waves'; // TODO: make waves host selection dynamic
       const latestWavesPost = await wavesQueries.fetchLatestWavesContainer(_wavesHost);
 
-      const _cacheCommentData = await _submitReply(body, latestWavesPost, PostTypes.WAVE);
+      const _cacheCommentData = await _submitReply(
+        body,
+        latestWavesPost,
+        PostTypes.WAVE,
+        pollDraft,
+      );
 
       if (_cacheCommentData) {
         pusblishWaveMutation.mutate(_cacheCommentData);

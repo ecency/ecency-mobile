@@ -142,4 +142,9 @@ export default EStyleSheet.create({
   toolbarSpacer: {
     marginLeft: 8,
   } as ViewStyle,
+  iconBottomBar: {
+    borderBottomWidth: 3,
+    borderRadius: 0,
+    borderColor: '$primaryBlue',
+  } as ViewStyle,
 });

@@ -9,13 +9,9 @@ export default EStyleSheet.create({
     borderColor: '$iconColor',
     padding: 8,
   } as ViewStyle,
-  headerWrapper: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginHorizontal: 8,
-    marginBottom: 12,
+  compactContainer: {
+    paddingBottom: 8,
+    paddingRight: 8,
   } as ViewStyle,
   question: {
     fontSize: 16,
@@ -51,6 +47,9 @@ export default EStyleSheet.create({
     height: 44,
     alignItems: 'center',
     justifyContent: 'center',
+  } as ViewStyle,
+  voteButtonCompact: {
+    height: 32,
   } as ViewStyle,
   viewVotesBtn: {
     color: '$primaryDarkGray',

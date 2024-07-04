@@ -481,11 +481,21 @@
     "hide_stats": "Hide Stats",
     "ended": "Ended",
     "ends": "Ends {inTime}",
+    "poll_question": "Poll Question",
     "age_limit": "• Only accounts older than {days} days allowed",
     "interpretation_token": "• User HP based vote interpretation",
     "max_choices": "• You may select upto {choices} choices",
+    "poll_not_ready": "Poll not ready for vote, try again shortly",
     "interpret_token": "Interpret by Tokens",
-    "interpret_vote": "Interpret by Votes"
+    "interpret_vote": "Interpret by Votes",
+    "create_title": "Create a poll",
+    "add_choice": "Add Choice",
+    "question_placeholder": "Add poll question...",
+    "choice_placeholder": "Choice {number}",
+    "number_of_votes": "Number of Votes",
+    "tokens": "Total Tokens",
+    "attach_poll": "Attach Poll",
+    "update_poll": "Update Poll"
   },
   "editor": {
     "title": "Pealkiri",

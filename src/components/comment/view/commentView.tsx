@@ -19,6 +19,8 @@ import { useAppSelector } from '../../../hooks';
 import { showReplyModal } from '../../../redux/actions/uiAction';
 import { PostTypes } from '../../../constants/postTypes';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
+import { PostPoll } from '../../postPoll';
+import { ContentType } from '../../../providers/hive/hive.types';
 
 const CommentView = ({
   avatarSize,
@@ -115,6 +117,15 @@ const CommentView = ({
           handleVideoPress={handleVideoPress}
           handleYoutubePress={handleYoutubePress}
         />
+
+        {comment.json_metadata.content_type === ContentType.POLL && (
+          <PostPoll
+            author={comment.author}
+            permlink={comment.permlink}
+            metadata={comment.json_metadata}
+            compactView={true}
+          />
+        )}
 
         <Fragment>
           <View style={styles.footerWrapper}>{_renderActionPanel()}</View>

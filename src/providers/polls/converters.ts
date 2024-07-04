@@ -30,7 +30,7 @@ export const convertPoll = (rawData: any): Poll | null => {
   } = rawData;
 
   // Ensure required properties are present
-  if (!question || !end_time || !poll_choices || !poll_stats) {
+  if (!end_time || !poll_choices) {
     return null;
   }
 
@@ -59,10 +59,10 @@ export const convertPoll = (rawData: any): Poll | null => {
 
   // Parsing poll stats
   const parsedPollStats: PollStats = {
-    total_voting_accounts_num: poll_stats.total_voting_accounts_num || 0,
-    total_hive_hp: poll_stats.total_hive_hp || 0,
-    total_hive_proxied_hp: poll_stats.total_hive_proxied_hp || 0,
-    total_hive_hp_incl_proxied: poll_stats.total_hive_hp_incl_proxied || 0,
+    total_voting_accounts_num: poll_stats?.total_voting_accounts_num || 0,
+    total_hive_hp: poll_stats?.total_hive_hp || 0,
+    total_hive_proxied_hp: poll_stats?.total_hive_proxied_hp || 0,
+    total_hive_hp_incl_proxied: poll_stats?.total_hive_hp_incl_proxied || 0,
   };
 
   // Constructing the parsed poll response
