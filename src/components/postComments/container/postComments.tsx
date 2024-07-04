@@ -7,26 +7,20 @@ import React, {
   useEffect,
   Fragment,
 } from 'react';
-import { ActivityIndicator, Platform, Text } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { RefreshControl } from 'react-native-gesture-handler';
 import { FlashList } from '@shopify/flash-list';
 
 // Components
-import { postBodySummary } from '@ecency/render-helper';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
-import {
-  showActionModal,
-  showProfileModal,
-  toastNotification,
-} from '../../../redux/actions/uiAction';
-import { writeToClipboard } from '../../../utils/clipboard';
+import { showActionModal, showProfileModal } from '../../../redux/actions/uiAction';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
@@ -37,6 +31,7 @@ import { CommentsSection } from '../children/commentsSection';
 import { sortComments } from '../children/sortComments';
 import styles from '../children/postComments.styles';
 import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
+import { PostOptionsModal } from '../../index';
 
 const PostComments = forwardRef(
   (
@@ -69,6 +64,7 @@ const PostComments = forwardRef(
     const writeCommentRef = useRef(null);
     const postInteractionRef = useRef<typeof PostHtmlInteractionHandler | null>(null);
     const commentsListRef = useRef<FlashList<any> | null>(null);
+    const postOptionsModalRef = useRef<any>(null);
 
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
@@ -191,6 +187,10 @@ const PostComments = forwardRef(
     };
 
     const _handleShowOptionsMenu = (comment) => {
+      if (postOptionsModalRef.current) {
+        postOptionsModalRef.current.show(comment);
+      }
+      /*      
       const _showCopiedToast = () => {
         dispatch(
           toastNotification(
@@ -230,6 +230,7 @@ const PostComments = forwardRef(
           ],
         }),
       );
+*/
     };
 
     const _onContentSizeChange = (x: number, y: number) => {
@@ -325,6 +326,7 @@ const PostComments = forwardRef(
           overScrollMode="never"
         />
         <PostHtmlInteractionHandler ref={postInteractionRef} />
+        <PostOptionsModal ref={postOptionsModalRef} isVisibleTranslateModal={true} />
       </Fragment>
     );
   },

@@ -18,6 +18,8 @@ import {
   SHOW_WEBVIEW_MODAL,
   HIDE_WEBVIEW_MODAL,
   HIVE_URI_TO_HANDLE,
+  SHOW_TRANSLATION_MODAL,
+  HIDE_TRANSLATION_MODAL,
 } from '../constants/constants';
 import { PostEditorModalData } from '../reducers/uiReducer';
 
@@ -123,4 +125,13 @@ export const logoutDone = () => ({
 export const handleDeepLink = (hiveUri: string) => ({
   payload: hiveUri,
   type: HIVE_URI_TO_HANDLE,
+});
+
+export const showTranslationModal = (data: any) => ({
+  payload: data,
+  type: SHOW_TRANSLATION_MODAL,
+});
+
+export const hideTranslationModal = () => ({
+  type: HIDE_TRANSLATION_MODAL,
 });
