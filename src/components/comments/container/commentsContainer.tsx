@@ -21,7 +21,6 @@ import CommentsView from '../view/commentsView';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import { postQueries } from '../../../providers/queries';
-import { useDeleteWaveMutation } from '../../../providers/queries/postQueries/wavesQueries';
 import { PostTypes } from '../../../constants/postTypes';
 
 const CommentsContainer = ({
@@ -55,10 +54,10 @@ const CommentsContainer = ({
   handleOnReplyPress,
   handleOnCommentsLoaded,
   postType,
+  handleWaveDelete,
 }) => {
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
-  const deleteWaveMutation = useDeleteWaveMutation();
 
   const [lcomments, setLComments] = useState([]);
   const [propComments, setPropComments] = useState(comments);
@@ -207,7 +206,14 @@ const CommentsContainer = ({
 
   const _handleDeleteComment = (_permlink) => {
     let filteredComments;
-
+    if (postType === PostTypes.WAVE && handleWaveDelete) {
+      handleWaveDelete({
+        currentAccount,
+        pinCode,
+        _permlink,
+      });
+      return;
+    }
     deleteComment(currentAccount, pinCode, _permlink).then(() => {
       let deletedItem = null;
 
@@ -224,10 +230,6 @@ const CommentsContainer = ({
         setLComments(filteredComments);
       } else {
         filteredComments = propComments.filter(_applyFilter);
-        console.log('filteredComments : ', filteredComments);
-        if (postType === PostTypes.WAVE) {
-          deleteWaveMutation.mutate(filteredComments);
-        }
         setPropComments(filteredComments);
       }
 
