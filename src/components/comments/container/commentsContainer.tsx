@@ -21,6 +21,7 @@ import CommentsView from '../view/commentsView';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import { postQueries } from '../../../providers/queries';
+import { PostTypes } from '../../../constants/postTypes';
 
 const CommentsContainer = ({
   author,
@@ -53,6 +54,7 @@ const CommentsContainer = ({
   handleOnReplyPress,
   handleOnCommentsLoaded,
   postType,
+  handleWaveDelete,
 }) => {
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
@@ -204,7 +206,14 @@ const CommentsContainer = ({
 
   const _handleDeleteComment = (_permlink) => {
     let filteredComments;
-
+    if (postType === PostTypes.WAVE && handleWaveDelete) {
+      handleWaveDelete({
+        currentAccount,
+        pinCode,
+        _permlink,
+      });
+      return;
+    }
     deleteComment(currentAccount, pinCode, _permlink).then(() => {
       let deletedItem = null;
 

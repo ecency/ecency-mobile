@@ -77,6 +77,14 @@ const WavesScreen = ({ route }) => {
     }
   };
 
+  const _handleWaveDelete = ({ currentAccount, pinCode, _permlink }: any) => {
+    wavesQuery.deleteWave({
+      currentAccount,
+      pinCode,
+      _permlink,
+    });
+  };
+
   // scrolls to top, blocks scroll popup for 2 seconds to reappear after scroll
   const _scrollTop = () => {
     if (postsListRef.current) {
@@ -138,6 +146,7 @@ const WavesScreen = ({ route }) => {
           postType={PostTypes.WAVE}
           comments={_data}
           handleOnOptionsPress={_handleOnOptionsPress}
+          handleWaveDelete={_handleWaveDelete}
           flatListProps={{
             ref: postsListRef,
             onEndReached: _fetchData,
