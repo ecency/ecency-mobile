@@ -29,6 +29,9 @@ export const useWavesQuery = (host: string) => {
 
   const cache = useAppSelector((state) => state.cache);
   const mutes = useAppSelector((state) => state.account.currentAccount.mutes);
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const pinCode = useAppSelector((state) => state.application.pin);
+
   const cacheRef = useRef(cache);
 
   const cachedVotes = cache.votesCollection;
@@ -272,25 +275,30 @@ export const useWavesQuery = (host: string) => {
   };
 
   // wave delete mutation to delete wave and update query
-  const deleteWave = async ({ currentAccount, pinCode, _permlink }: any) => {
+  const deleteWave = async ({ _permlink, _parent_permlink }: any) => {
     const response = await deleteComment(currentAccount, pinCode, _permlink);
 
     if (!response?.id) {
       throw new Error('Failed to delete the wave');
     }
-    return _permlink;
+    return { _permlink, _parent_permlink };
   };
 
   const deleteMutation = useMutation(deleteWave, {
-    onSuccess: (_permlink) => {
-      const waveQueries = queryClient.getQueriesData([QUERIES.WAVES.GET, host]);
-      // filter out the deleted wave from queries data
-      waveQueries.forEach(([queryKey, oldData]) => {
-        if (oldData) {
-          const newData = oldData?.filter((wave: { permlink: any }) => wave.permlink !== _permlink);
-          queryClient.setQueryData(queryKey, newData);
+    onSuccess: ({ _permlink, _parent_permlink }) => {
+      // find container index based on _parent_permlink of comment/wave being deleted
+      const _containerIndex = activePermlinks.indexOf(_parent_permlink);
+      if (_containerIndex >= 0) {
+        // get query data from wavesQueries based on container index
+        const _qData: any[] | undefined = wavesQueries[_containerIndex].data;
+        // create query key for updating query data
+        const _qKey = [QUERIES.WAVES.GET, host, _parent_permlink, _containerIndex];
+        if (_qData && _qData.length > 0) {
+          // filter out comment/wave which is deleted and set query data
+          const _filteredData = _qData.filter((w) => w.permlink !== _permlink);
+          queryClient.setQueryData(_qKey, _filteredData);
         }
-      });
+      }
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
     },
     onError: (error) => {
