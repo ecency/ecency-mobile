@@ -29,7 +29,7 @@ const PeopleResultsContainer = ({ children, searchValue, username, isUsername })
         if (res && res.length === 0) {
           setNoResult(true);
         }
-        setUsers(res);
+        setUsers(res.reverse());
       })
       .catch((err) => {
         setNoResult(true);
