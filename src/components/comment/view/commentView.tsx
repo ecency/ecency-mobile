@@ -192,7 +192,7 @@ const CommentView = ({
                 iconStyle={styles.leftIcon}
                 style={styles.leftButton}
                 name="delete-forever"
-                onPress={() => handleDeleteComment(comment.permlink)}
+                onPress={() => handleDeleteComment(comment.permlink, comment.parent_permlink)}
                 iconType="MaterialIcons"
               />
             )}

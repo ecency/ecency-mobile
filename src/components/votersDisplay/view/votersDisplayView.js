@@ -29,7 +29,7 @@ const VotersDisplayView = ({ votes, createdAt = '2010-01-01T00:00:00' }) => {
 
   const _renderItem = ({ item, index }) => {
     const value = item.reward && `$ ${item.reward}`;
-    
+
     // eslint-disable-next-line
     const percent = !isNaN(item.percent100) && `${item.percent100}%`;
 
