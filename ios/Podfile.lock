@@ -1426,9 +1426,11 @@ PODS:
   - toolbar-android (0.2.1):
     - React
   - TUSKit (1.4.2)
-  - VisionCamera (3.9.0):
-    - React
-    - React-callinvoker
+  - VisionCamera (4.4.1):
+    - VisionCamera/Core (= 4.4.1)
+    - VisionCamera/React (= 4.4.1)
+  - VisionCamera/Core (4.4.1)
+  - VisionCamera/React (4.4.1):
     - React-Core
   - Yoga (1.14.0)
 
@@ -1969,7 +1971,7 @@ SPEC CHECKSUMS:
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   toolbar-android: 2a73856e98b750d7e71ce4644d3f41cc98211719
   TUSKit: 4bcc2fe13e1b4d6c3bfbaca57d64e64c1be31201
-  VisionCamera: 7a5c87805b13adaaa557132b44879ed1e1e39786
+  VisionCamera: 21e2ec4cda0955d40589e939042af275e149dbf9
   Yoga: 13c8ef87792450193e117976337b8527b49e8c03
 
 PODFILE CHECKSUM: 6d3e6586d42468a95935db6d58480cb8ba9b2218
