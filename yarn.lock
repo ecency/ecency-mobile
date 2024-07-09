@@ -11740,10 +11740,10 @@ react-native-video@^5.2.0:
     prop-types "^15.7.2"
     shaka-player "^2.5.9"
 
-react-native-vision-camera@^4.4.1:
-  version "4.4.1"
-  resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-4.4.1.tgz#5531b9410d7041304a1a9746b455f793bb7df935"
-  integrity sha512-pWuO+AMwQzMoZ85pOHv4P4G1kPdYGA1QAC26rtGfVBbjZt5UyEpYRTirzRhetkQ7meaBjHIWEE/5Qmo0VockHA==
+react-native-vision-camera@4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-4.4.0.tgz#6c4c30db0abfc9bbb93d4bb21cce3c2c1878202d"
+  integrity sha512-BXcSGJY0Ox4rYCiSRUykGy/uzLTUGldLN9Qcc9eYBWG+SKmisoE8oBaDbZbcC7VJEEpmN88NfLp9Sq1+DRXjhg==
 
 react-native-webview@^11.26.0:
   version "11.26.1"

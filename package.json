@@ -164,7 +164,7 @@
     "react-native-version": "^4.0.0",
     "react-native-version-number": "^0.3.5",
     "react-native-video": "^5.2.0",
-    "react-native-vision-camera": "^4.4.1",
+    "react-native-vision-camera": "4.4.0",
     "react-native-webview": "^11.26.0",
     "react-native-youtube-iframe": "^2.2.2",
     "react-navigation-redux-helpers": "^4.0.1",
