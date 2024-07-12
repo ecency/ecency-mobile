@@ -315,7 +315,7 @@ export const extractMetadata = async ({
     };
   }
 
-  if (pollDraft) {
+  if (pollDraft && pollDraft.title) {
     // TODO convert draft poll to poll meta here
     const _pollMeta = convertToPollMeta(pollDraft);
     out = {

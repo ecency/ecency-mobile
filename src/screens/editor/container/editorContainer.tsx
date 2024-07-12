@@ -439,7 +439,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const { draftId } = this.state;
     const { pollDraftsMap } = this.props;
 
-    return pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID] || [];
+    return pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID] || null;
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
