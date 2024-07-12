@@ -77,11 +77,10 @@ const WavesScreen = ({ route }) => {
     }
   };
 
-  const _handleWaveDelete = ({ currentAccount, pinCode, _permlink }: any) => {
+  const _handleCommentDelete = ({ _permlink, _parent_permlink }: any) => {
     wavesQuery.deleteWave({
-      currentAccount,
-      pinCode,
       _permlink,
+      _parent_permlink,
     });
   };
 
@@ -146,7 +145,7 @@ const WavesScreen = ({ route }) => {
           postType={PostTypes.WAVE}
           comments={_data}
           handleOnOptionsPress={_handleOnOptionsPress}
-          handleWaveDelete={_handleWaveDelete}
+          handleCommentDelete={_handleCommentDelete}
           flatListProps={{
             ref: postsListRef,
             onEndReached: _fetchData,

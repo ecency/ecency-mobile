@@ -54,7 +54,7 @@ const CommentsContainer = ({
   handleOnReplyPress,
   handleOnCommentsLoaded,
   postType,
-  handleWaveDelete,
+  handleCommentDelete,
 }) => {
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
@@ -204,13 +204,12 @@ const CommentsContainer = ({
     });
   };
 
-  const _handleDeleteComment = (_permlink) => {
+  const _handleDeleteComment = (_permlink, _parent_permlink) => {
     let filteredComments;
-    if (postType === PostTypes.WAVE && handleWaveDelete) {
-      handleWaveDelete({
-        currentAccount,
-        pinCode,
+    if (postType === PostTypes.WAVE && handleCommentDelete) {
+      handleCommentDelete({
         _permlink,
+        _parent_permlink,
       });
       return;
     }
