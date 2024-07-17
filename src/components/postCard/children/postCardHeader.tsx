@@ -25,6 +25,8 @@ interface Props {
 export const PostCardHeader = ({ intl, content, isHideImage, handleCardInteraction }: Props) => {
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
   const dateString = useMemo(() => getTimeFromNow(content?.created), [content]);
+  const _isPollPost = content?.json_metadata?.content_type === ContentType.POLL && 
+    !!content?.json_metadata?.question
 
   const _handleOnTagPress = (navParams) => {
     handleCardInteraction(PostCardActionIds.NAVIGATE, navParams);
@@ -60,7 +62,7 @@ export const PostCardHeader = ({ intl, content, isHideImage, handleCardInteracti
         />
 
         <View style={styles.headerIconsWrapper}>
-          {content?.json_metadata?.content_type === ContentType.POLL && (
+          {_isPollPost && (
             <Icon style={styles.pollPostIcon} size={16} name="chart" iconType="SimpleLineIcons" />
           )}
           {(content?.stats?.is_pinned || content?.stats?.is_pinned_blog) && (
