@@ -248,7 +248,10 @@ export const extractMetadata = async ({
   // NOTE: keepting regex to extract usernames as reference for later usage if any
   // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
 
-  let out: PostMetadata = {};
+  let out: PostMetadata = {
+    content_type:ContentType.GENERAL
+  };
+
   const mUrls = extractUrls(body);
   const matchedImages = [...extractImageUrls({ urls: mUrls }), ...(videoThumbUrls || [])];
 
@@ -316,17 +319,20 @@ export const extractMetadata = async ({
   }
 
   if (pollDraft && pollDraft.title) {
-    // TODO convert draft poll to poll meta here
+
+    //TODO: added poll validity checks
+
+    //convert draft poll to poll meta here
     const _pollMeta = convertToPollMeta(pollDraft);
     out = {
       ...out,
       ..._pollMeta,
+      content_type:ContentType.POLL
     };
   }
 
   // setting post type, primary usecase for separating waves from other posts
   out.type = postType || PostTypes.POST;
-  out.content_type = pollDraft ? ContentType.POLL : ContentType.GENERAL;
 
   return out;
 };
