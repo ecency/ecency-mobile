@@ -286,7 +286,7 @@ export const EditorToolbar = ({
 
             <IconButton
               size={18}
-              style={[styles.rightIcons, !!pollDraft && styles.iconBottomBar]}
+              style={[styles.rightIcons, !!pollDraft?.title && styles.iconBottomBar]}
               iconStyle={styles.icon}
               iconType="SimpleLineIcons"
               name="chart"

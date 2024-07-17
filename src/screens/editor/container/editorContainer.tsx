@@ -439,7 +439,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const { draftId } = this.state;
     const { pollDraftsMap } = this.props;
 
-    return pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID] || null;
+    return pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID];
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
@@ -555,10 +555,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             (item) => item.account !== currentAccount.username,
           ); // remove default beneficiary from array while saving
           dispatch(setBeneficiaries(_resDraft._id, filteredBeneficiaries));
-          dispatch(setPollDraftAction(_resDraft._id, pollDraft));
+
+          if(pollDraft){
+            dispatch(setPollDraftAction(_resDraft._id, pollDraft));
+          }
 
           // TODO: assess if need to set poll meta here as well
-
           dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
 
           // clear local copy if darft save is successful
