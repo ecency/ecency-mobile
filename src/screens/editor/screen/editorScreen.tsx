@@ -333,7 +333,7 @@ class EditorScreen extends Component {
   _handleChangeTitle = (text) => {
     const { fields: _fields } = this.state;
 
-    _fields.title = text;
+    _fields.title = text.replace('\n', ' ');
 
     this.setState({ fields: _fields }, () => {
       this._handleFormUpdate('title', _fields.title);
