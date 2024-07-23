@@ -993,3 +993,26 @@ export const getAnnouncements = async (accessToken: string) => {
     throw error;
   }
 };
+
+
+export const getPortfolio = async (username: string) => {
+  try {
+
+    if(!username){
+      throw new Error("Username must be passed for fethcing portfolio");
+    }
+
+    const res = await ecencyApi.post('/wallet-api/portfolio', { username });
+    console.log('portflio fetched', res.data);
+
+    if (!res.data) {
+      throw new Error('portfolio data not fetched!');
+    }
+
+    return res?.data;
+    
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    throw error;
+  }
+};

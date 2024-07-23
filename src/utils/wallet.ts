@@ -13,7 +13,7 @@ import {
   getOpenOrders,
   getSavingsWithdrawFrom,
 } from '../providers/hive/dhive';
-import { getCurrencyTokenRate, getLatestQuotes } from '../providers/ecency/ecency';
+import { getCurrencyTokenRate, getLatestQuotes, getPortfolio } from '../providers/ecency/ecency';
 import {
   CoinActivity,
   CoinBase,
@@ -43,6 +43,7 @@ import { fetchSpkWallet } from '../providers/hive-spk/hiveSpk';
 import TransferTypes from '../constants/transferTypes';
 import { getHoursDifferntial } from './time';
 import { RepeatableTransfers } from '../constants/repeatableTransfers';
+import { convertLatestQuotes } from '../providers/ecency/converters';
 
 export const transferTypes = [
   'curation_reward',
@@ -593,6 +594,7 @@ export const fetchCoinActivities = async ({
 };
 
 const fetchEngineTokensData = async (
+  engineData: any,
   username: string,
   hivePrice: number,
   vsCurrency: string,
@@ -601,7 +603,7 @@ const fetchEngineTokensData = async (
   const engineCoinData: { [key: string]: CoinData } = {};
 
   try {
-    const engineData = await fetchHiveEngineTokenBalances(username);
+    // const engineData =  await fetchHiveEngineTokenBalances(username);
     if (engineData) {
       engineData.forEach((item) => {
         if (item) {
@@ -671,11 +673,11 @@ const fetchEngineTokensData = async (
   return engineCoinData;
 };
 
-const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurrency: string) => {
+const _fetchSpkWalletData = async (spkWallet:any, username: string, hivePrice: number, vsCurrency: string) => {
   const spkWalletData: { [key: string]: CoinData } = {};
 
   try {
-    const spkWallet = await fetchSpkWallet(username);
+    // const spkWallet = await fetchSpkWallet(username);
     const _price = parseFloat(spkWallet.tick) * hivePrice;
 
     if (spkWallet.spk) {
@@ -816,7 +818,7 @@ export const fetchCoinsData = async ({
   currentAccount,
   vsCurrency,
   currencyRate,
-  globalProps,
+  globalProps:_globalProp,
   refresh,
   quotes,
   claimsCache,
@@ -832,23 +834,33 @@ export const fetchCoinsData = async ({
 }): Promise<{ [key: string]: CoinData }> => {
   const { username } = currentAccount;
   let coinData = {} as { [key: string]: CoinData };
-  const walletData = {};
 
   if (!username) {
-    return walletData;
+    return {};
   }
 
+
+  const {
+    globalProps,
+    marketData,
+    accountData,
+    pointsData,
+    engineData,
+    spkData
+  } = await getPortfolio(username);
+
   // fetch latest global props if refresh or data not available
-  const { base, quote, hivePerMVests } =
-    refresh || !globalProps || !globalProps.hivePerMVests ? await fetchGlobalProps() : globalProps;
+  const { hivePerMVests } = globalProps;
+    // refresh || !globalProps || !globalProps.hivePerMVests ? await fetchGlobalProps() : globalProps;
   // TODO: Use already available accoutn for frist wallet start
-  const userdata = refresh ? await getAccount(username) : currentAccount;
-  const _pointsSummary =
-    refresh || !currentAccount?.pointsSummary
-      ? await getPointsSummary(username)
-      : currentAccount.pointsSummary;
+  const userdata = accountData //refresh ? await getAccount(username) : currentAccount;
+  const _pointsSummary = pointsData
+    // refresh || !currentAccount?.pointsSummary
+    //   ? await getPointsSummary(username)
+    //   : currentAccount.pointsSummary;
   // TODO: cache data in redux or fetch once on wallet startup
-  const _prices = !refresh && quotes ? quotes : await getLatestQuotes(currencyRate); // TODO: figure out a way to handle other currencies
+
+  const _prices = convertLatestQuotes(marketData, currencyRate) // !refresh && quotes ? quotes : await getLatestQuotes(currencyRate); // TODO: figure out a way to handle other currencies
 
   coins.forEach((coinBase) => {
     switch (coinBase.id) {
@@ -1035,54 +1047,21 @@ export const fetchCoinsData = async ({
   });
 
   const engineCoinsData = await fetchEngineTokensData(
+    engineData,
     username,
     _prices.hive.price,
     vsCurrency,
-    claimsCache,
+    claimsCache
   );
   const spkWalletData = await _fetchSpkWalletData(
+    spkData,
     username,
     _prices.hive.price,
     vsCurrency,
-    claimsCache,
+    claimsCache
   );
   coinData = { ...coinData, ...engineCoinsData, ...spkWalletData };
 
-  // TODO:discard unnessacry data processings towards the end of PR
-  walletData.rewardHiveBalance = parseToken(userdata.reward_hive_balance);
-  walletData.rewardHbdBalance = parseToken(userdata.reward_hbd_balance);
-  walletData.rewardVestingHive = parseToken(userdata.reward_vesting_hive);
-
-  walletData.hasUnclaimedRewards =
-    walletData.rewardHiveBalance > 0 ||
-    walletData.rewardHbdBalance > 0 ||
-    walletData.rewardVestingHive > 0;
-
-  walletData.balance = parseToken(userdata.balance);
-  walletData.vestingShares = parseToken(userdata.vesting_shares);
-  walletData.vestingSharesDelegated = parseToken(userdata.delegated_vesting_shares);
-  walletData.vestingSharesReceived = parseToken(userdata.received_vesting_shares);
-  walletData.vestingSharesTotal =
-    walletData.vestingShares - walletData.vestingSharesDelegated + walletData.vestingSharesReceived;
-  walletData.hbdBalance = parseToken(userdata.hbd_balance);
-  walletData.savingBalance = parseToken(userdata.savings_balance);
-  walletData.savingBalanceHbd = parseToken(userdata.savings_hbd_balance);
-
-  walletData.hivePerMVests = hivePerMVests;
-  const pricePerHive = base / quote;
-
-  const totalHive =
-    vestsToHp(walletData.vestingShares, walletData.hivePerMVests) +
-    walletData.balance +
-    walletData.savingBalance;
-
-  const totalHbd = walletData.hbdBalance + walletData.savingBalanceHbd;
-
-  walletData.estimatedValue = totalHive * pricePerHive + totalHbd;
-
-  walletData.showPowerDown = userdata.next_vesting_withdrawal !== '1969-12-31T23:59:59';
-  const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());
-  walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
 
   return coinData;
 };
