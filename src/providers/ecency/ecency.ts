@@ -10,6 +10,7 @@ import {
   convertCommentHistory,
   convertDraft,
   convertLatestQuotes,
+  convertPortfolio,
   convertReferral,
   convertReferralStat,
 } from './converters';
@@ -988,6 +989,28 @@ export const getAnnouncements = async (accessToken: string) => {
       throw new Error('No announcements found!');
     }
     return res?.data.map(convertAnnouncement);
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    throw error;
+  }
+};
+
+export const getPortfolio = async (username: string) => {
+  try {
+    if (!username) {
+      throw new Error('Username must be passed for fethcing portfolio');
+    }
+
+    const res = await ecencyApi.post('/wallet-api/portfolio', { username });
+    console.log('portflio fetched', res.data);
+
+    const data = convertPortfolio(res.data);
+
+    if (!data) {
+      throw new Error('invalid portfolio data');
+    }
+
+    return data;
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;

@@ -1,4 +1,4 @@
-import { CoinBase } from '../redux/reducers/walletReducer';
+import { AssetBase } from '../redux/reducers/walletReducer';
 
 const DEFAULT_ASSETS = [
   {
@@ -25,7 +25,7 @@ const DEFAULT_ASSETS = [
     notCrypto: false,
     isEngine: false,
   },
-] as CoinBase[];
+] as AssetBase[];
 
 export enum ASSET_IDS {
   ECENCY = 'ecency',

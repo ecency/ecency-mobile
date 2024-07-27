@@ -9,6 +9,7 @@ import {
   Draft,
   Accouncement,
   PollDraft,
+  AssetsPortfolio,
 } from './ecency.types';
 
 export const convertReferral = (rawData: any) => {
@@ -112,4 +113,25 @@ export const convertAnnouncement = (rawData: any) => {
     ops: rawData.ops,
     auth: rawData.auth,
   } as Accouncement;
+};
+
+export const convertPortfolio = (rawData: any) => {
+  if (
+    !rawData ||
+    !rawData.marketData ||
+    !rawData.globalProps ||
+    !rawData.accountData ||
+    !rawData.pointsData
+  ) {
+    return null;
+  }
+
+  return {
+    globalProps: rawData.globalProps,
+    marketData: rawData.marketData,
+    accountData: rawData.accountData,
+    pointsData: rawData.pointsData,
+    engineData: rawData.engineData,
+    spkData: rawData.spkData,
+  } as AssetsPortfolio;
 };

@@ -249,7 +249,7 @@ export const extractMetadata = async ({
   // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
 
   let out: PostMetadata = {
-    content_type:ContentType.GENERAL
+    content_type: ContentType.GENERAL,
   };
 
   const mUrls = extractUrls(body);
@@ -319,15 +319,14 @@ export const extractMetadata = async ({
   }
 
   if (pollDraft && pollDraft.title) {
+    // TODO: added poll validity checks
 
-    //TODO: added poll validity checks
-
-    //convert draft poll to poll meta here
+    // convert draft poll to poll meta here
     const _pollMeta = convertToPollMeta(pollDraft);
     out = {
       ...out,
       ..._pollMeta,
-      content_type:ContentType.POLL
+      content_type: ContentType.POLL,
     };
   }
 

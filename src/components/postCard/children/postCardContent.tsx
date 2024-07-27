@@ -45,13 +45,12 @@ export const PostCardContent = ({
   }, [dim.height]);
 
   // featured text can be used to add more labels in future by just inserting text as array item
-  const _isPollPost = content?.json_metadata?.content_type === ContentType.POLL && 
-    !!content?.json_metadata?.question;
+  const _isPollPost =
+    content?.json_metadata?.content_type === ContentType.POLL && !!content?.json_metadata?.question;
 
   const _featuredText = [
     content?.is_promoted && intl.formatMessage({ id: 'post.promoted' }),
-    _isPollPost &&
-      intl.formatMessage({ id: 'post.poll' }),
+    _isPollPost && intl.formatMessage({ id: 'post.poll' }),
   ]
     .filter((i) => !!i)
     .join(' | ');

@@ -1,5 +1,5 @@
 import { getLatestQuotes } from '../../providers/ecency/ecency';
-import { fetchCoinsData } from '../../utils/wallet';
+import { fetchAssetsPortfolio } from '../../utils/wallet';
 import {
   SET_SELECTED_COINS,
   SET_PRICE_HISTORY,
@@ -8,10 +8,10 @@ import {
   RESET_WALLET_DATA,
   UPDATE_UNCLAIMED_BALANCE,
 } from '../constants/constants';
-import { CoinBase, CoinData } from '../reducers/walletReducer';
+import { AssetBase, CoinData } from '../reducers/walletReducer';
 import { AppDispatch, RootState } from '../store/store';
 
-export const setSelectedCoins = (coins: CoinBase[]) => ({
+export const setSelectedCoins = (coins: AssetBase[]) => ({
   payload: coins,
   type: SET_SELECTED_COINS,
 });
@@ -62,26 +62,18 @@ export const fetchCoinQuotes = () => (dispatch, getState) => {
   });
 };
 
-export const fetchAndSetCoinsData =
-  (refresh = false) =>
-  async (dispatch: AppDispatch, getState: RootState) => {
-    const coins = getState().wallet.selectedCoins;
-    const { quotes } = getState().wallet;
-    const { currentAccount } = getState().account;
-    const { currency } = getState().application;
-    const { globalProps } = getState().account;
-    const claimsCache = getState().cache.claimsCollection;
+export const fetchAndSetCoinsData = () => async (dispatch: AppDispatch, getState: RootState) => {
+  const { currentAccount, globalProps } = getState().account;
+  const { currency } = getState().application;
+  const claimsCache = getState().cache.claimsCollection;
 
-    const coinsData = await fetchCoinsData({
-      coins,
-      currentAccount,
-      vsCurrency: currency.currency,
-      currencyRate: currency.currencyRate,
-      globalProps,
-      quotes,
-      refresh,
-      claimsCache,
-    });
+  const coinsData = await fetchAssetsPortfolio({
+    globalProps,
+    currentAccount,
+    vsCurrency: currency.currency,
+    currencyRate: currency.currencyRate,
+    claimsCache,
+  });
 
-    return dispatch(setCoinsData(coinsData, currency.currency, currentAccount.username));
-  };
+  return dispatch(setCoinsData(coinsData, currency.currency, currentAccount.username));
+};

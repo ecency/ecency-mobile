@@ -1,3 +1,5 @@
+import { HiveEngineToken, MarketData } from 'providers/hive-engine/hiveEngine.types';
+import { SpkApiWallet } from 'providers/hive-spk/hiveSpk.types';
 import { QuoteItem } from '../../redux/reducers/walletReducer';
 import { PollPreferredInterpretation } from '../hive/hive.types';
 import { ThreeSpeakVideo } from '../speak/speak.types';
@@ -126,6 +128,15 @@ export interface PointActivity {
   username?: string;
   transactionId?: string;
   blockNum?: number | string;
+}
+
+export interface AssetsPortfolio {
+  globalProps: { hivePerMVests: number };
+  marketData: MarketData;
+  accountData: any;
+  pointsData: EcencyUser;
+  engineData: HiveEngineToken[];
+  spkData: SpkApiWallet;
 }
 
 export enum ScheduledPostStatus {

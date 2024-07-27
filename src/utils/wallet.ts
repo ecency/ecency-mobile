@@ -1,11 +1,11 @@
 import get from 'lodash/get';
 import { operationOrders } from '@hiveio/dhive/lib/utils';
 import { utils } from '@hiveio/dhive';
+import { SpkApiWallet } from 'providers/hive-spk/hiveSpk.types';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToHp } from './conversions';
 import {
-  fetchGlobalProps,
   getAccount,
   getAccountHistory,
   getConversionRequests,
@@ -13,36 +13,28 @@ import {
   getOpenOrders,
   getSavingsWithdrawFrom,
 } from '../providers/hive/dhive';
-import { getCurrencyTokenRate, getLatestQuotes } from '../providers/ecency/ecency';
-import {
-  CoinActivity,
-  CoinBase,
-  CoinData,
-  DataPair,
-  QuoteItem,
-} from '../redux/reducers/walletReducer';
+import { getCurrencyTokenRate, getPortfolio } from '../providers/ecency/ecency';
+import { CoinActivity, CoinData, DataPair } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
 import { getEstimatedAmount } from './vote';
-import { getPointsSummary, getPointsHistory } from '../providers/ecency/ePoint';
+import { getPointsHistory } from '../providers/ecency/ePoint';
 // Constant
 import POINTS from '../constants/options/points';
-import { ASSET_IDS } from '../constants/defaultAssets';
+import DEFAULT_ASSETS, { ASSET_IDS } from '../constants/defaultAssets';
 
 import parseAsset from './parseAsset';
-import {
-  fetchEngineAccountHistory,
-  fetchHiveEngineTokenBalances,
-} from '../providers/hive-engine/hiveEngine';
+import { fetchEngineAccountHistory } from '../providers/hive-engine/hiveEngine';
 import {
   EngineActions,
   EngineOperations,
   HistoryItem,
+  HiveEngineToken,
 } from '../providers/hive-engine/hiveEngine.types';
 import { ClaimsCollection } from '../redux/reducers/cacheReducer';
-import { fetchSpkWallet } from '../providers/hive-spk/hiveSpk';
 import TransferTypes from '../constants/transferTypes';
 import { getHoursDifferntial } from './time';
 import { RepeatableTransfers } from '../constants/repeatableTransfers';
+import { convertLatestQuotes } from '../providers/ecency/converters';
 
 export const transferTypes = [
   'curation_reward',
@@ -592,8 +584,8 @@ export const fetchCoinActivities = async ({
   }
 };
 
-const fetchEngineTokensData = async (
-  username: string,
+const _processEngineTokens = async (
+  engineData: HiveEngineToken[],
   hivePrice: number,
   vsCurrency: string,
   claimsCache: ClaimsCollection,
@@ -601,7 +593,6 @@ const fetchEngineTokensData = async (
   const engineCoinData: { [key: string]: CoinData } = {};
 
   try {
-    const engineData = await fetchHiveEngineTokenBalances(username);
     if (engineData) {
       engineData.forEach((item) => {
         if (item) {
@@ -671,11 +662,10 @@ const fetchEngineTokensData = async (
   return engineCoinData;
 };
 
-const _fetchSpkWalletData = async (username: string, hivePrice: number, vsCurrency: string) => {
+const _processSpkData = async (spkWallet: SpkApiWallet, hivePrice: number, vsCurrency: string) => {
   const spkWalletData: { [key: string]: CoinData } = {};
 
   try {
-    const spkWallet = await fetchSpkWallet(username);
     const _price = parseFloat(spkWallet.tick) * hivePrice;
 
     if (spkWallet.spk) {
@@ -811,56 +801,48 @@ const _processCachedData = (
   return balance;
 };
 
-export const fetchCoinsData = async ({
-  coins,
+export const fetchAssetsPortfolio = async ({
+  globalProps,
   currentAccount,
   vsCurrency,
   currencyRate,
-  globalProps,
-  refresh,
-  quotes,
   claimsCache,
 }: {
-  coins: CoinBase[];
+  globalProps: GlobalProps;
   currentAccount: any;
   vsCurrency: string;
   currencyRate: number;
-  globalProps: GlobalProps;
-  quotes: { [key: string]: QuoteItem };
-  refresh: boolean;
   claimsCache: ClaimsCollection;
 }): Promise<{ [key: string]: CoinData }> => {
   const { username } = currentAccount;
-  let coinData = {} as { [key: string]: CoinData };
-  const walletData = {};
+  let assetsData = {} as { [key: string]: CoinData };
 
   if (!username) {
-    return walletData;
+    return {};
   }
 
-  // fetch latest global props if refresh or data not available
-  const { base, quote, hivePerMVests } =
-    refresh || !globalProps || !globalProps.hivePerMVests ? await fetchGlobalProps() : globalProps;
-  // TODO: Use already available accoutn for frist wallet start
-  const userdata = refresh ? await getAccount(username) : currentAccount;
-  const _pointsSummary =
-    refresh || !currentAccount?.pointsSummary
-      ? await getPointsSummary(username)
-      : currentAccount.pointsSummary;
-  // TODO: cache data in redux or fetch once on wallet startup
-  const _prices = !refresh && quotes ? quotes : await getLatestQuotes(currencyRate); // TODO: figure out a way to handle other currencies
+  const {
+    globalProps: { hivePerMVests },
+    marketData,
+    accountData,
+    pointsData,
+    engineData,
+    spkData,
+  } = await getPortfolio(username);
 
-  coins.forEach((coinBase) => {
+  const _prices = convertLatestQuotes(marketData, currencyRate);
+
+  DEFAULT_ASSETS.forEach((coinBase) => {
     switch (coinBase.id) {
       case ASSET_IDS.ECENCY: {
-        const unclaimedFloat = parseFloat(_pointsSummary.unclaimed_points || '0');
-        let balance = _pointsSummary.points ? parseFloat(_pointsSummary.points) : 0;
+        const unclaimedFloat = parseFloat(pointsData.unclaimed_points || '0');
+        let balance = pointsData.points ? parseFloat(pointsData.points) : 0;
         balance = _processCachedData(coinBase.id, balance, unclaimedFloat, claimsCache);
 
         const unclaimedBalance = unclaimedFloat ? `${unclaimedFloat} Points` : '';
         const ppEstm = _prices[coinBase.id].price;
 
-        coinData[coinBase.id] = {
+        assetsData[coinBase.id] = {
           balance: Math.round(balance * 1000) / 1000,
           estimateValue: balance * ppEstm,
           vsCurrency,
@@ -873,14 +855,14 @@ export const fetchCoinsData = async ({
       case ASSET_IDS.HIVE: {
         const balance = _processCachedData(
           coinBase.id,
-          parseToken(userdata.balance),
-          parseToken(userdata.reward_hive_balance),
+          parseToken(accountData.balance),
+          parseToken(accountData.reward_hive_balance),
           claimsCache,
         );
-        const savings = parseToken(userdata.savings_balance);
+        const savings = parseToken(accountData.savings_balance);
         const ppHive = _prices[coinBase.id].price;
 
-        coinData[coinBase.id] = {
+        assetsData[coinBase.id] = {
           balance: Math.round(balance * 1000) / 1000,
           estimateValue: (balance + savings) * ppHive,
           savings: Math.round(savings * 1000) / 1000,
@@ -895,14 +877,14 @@ export const fetchCoinsData = async ({
       case ASSET_IDS.HBD: {
         const balance = _processCachedData(
           coinBase.id,
-          parseToken(userdata.hbd_balance),
-          parseToken(userdata.reward_hbd_balance),
+          parseToken(accountData.hbd_balance),
+          parseToken(accountData.reward_hbd_balance),
           claimsCache,
         );
-        const savings = parseToken(userdata.savings_hbd_balance);
+        const savings = parseToken(accountData.savings_hbd_balance);
         const ppHbd = _prices[coinBase.id].price;
 
-        coinData[coinBase.id] = {
+        assetsData[coinBase.id] = {
           balance: Math.round(balance * 1000) / 1000,
           estimateValue: (balance + savings) * ppHbd,
           savings: Math.round(savings * 1000) / 1000,
@@ -915,25 +897,32 @@ export const fetchCoinsData = async ({
       }
       case ASSET_IDS.HP: {
         let balance =
-          Math.round(vestsToHp(parseToken(userdata.vesting_shares), hivePerMVests) * 1000) / 1000;
+          Math.round(vestsToHp(parseToken(accountData.vesting_shares), hivePerMVests) * 1000) /
+          1000;
 
         balance = _processCachedData(
           coinBase.id,
           balance,
-          parseToken(userdata.vesting_shares),
+          parseToken(accountData.vesting_shares),
           claimsCache,
         );
 
-        const receivedHP = vestsToHp(parseToken(userdata.received_vesting_shares), hivePerMVests);
-        const delegatedHP = vestsToHp(parseToken(userdata.delegated_vesting_shares), hivePerMVests);
+        const receivedHP = vestsToHp(
+          parseToken(accountData.received_vesting_shares),
+          hivePerMVests,
+        );
+        const delegatedHP = vestsToHp(
+          parseToken(accountData.delegated_vesting_shares),
+          hivePerMVests,
+        );
 
         // agggregate claim button text
         const _getBalanceStr = (val: number, cur: string) =>
           val ? Math.round(val * 1000) / 1000 + cur : '';
         const unclaimedBalance = [
-          _getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE'),
-          _getBalanceStr(parseToken(userdata.reward_hbd_balance), ' HBD'),
-          _getBalanceStr(parseToken(userdata.vesting_shares), ' HP'),
+          _getBalanceStr(parseToken(accountData.reward_hive_balance), ' HIVE'),
+          _getBalanceStr(parseToken(accountData.reward_hbd_balance), ' HBD'),
+          _getBalanceStr(parseToken(accountData.vesting_shares), ' HP'),
         ].reduce(
           (prevVal, bal) => prevVal + (!bal ? '' : `${prevVal !== '' ? '   ' : ''}${bal}`),
           '',
@@ -941,22 +930,22 @@ export const fetchCoinsData = async ({
 
         // calculate power down
         const pwrDwnHoursLeft = getHoursDifferntial(
-          parseDate(userdata.next_vesting_withdrawal),
+          parseDate(accountData.next_vesting_withdrawal),
           new Date(),
         );
         const isPoweringDown = pwrDwnHoursLeft > 0;
 
         const nextVestingSharesWithdrawal = isPoweringDown
           ? Math.min(
-              parseAsset(userdata.vesting_withdraw_rate).amount,
-              (Number(userdata.to_withdraw) - Number(userdata.withdrawn)) / 1e6,
+              parseAsset(accountData.vesting_withdraw_rate).amount,
+              (Number(accountData.to_withdraw) - Number(accountData.withdrawn)) / 1e6,
             )
           : 0;
         const nextVestingSharesWithdrawalHive = isPoweringDown
           ? vestsToHp(nextVestingSharesWithdrawal, hivePerMVests)
           : 0;
 
-        const estimateVoteValueStr = `$ ${getEstimatedAmount(userdata, globalProps)}`;
+        const estimateVoteValueStr = `$ ${getEstimatedAmount(accountData, globalProps)}`;
 
         // aaggregate extra data pairs
         const extraDataPairs: DataPair[] = [];
@@ -1002,7 +991,7 @@ export const fetchCoinsData = async ({
         ]);
 
         const ppHive = _prices[ASSET_IDS.HIVE].price;
-        coinData[coinBase.id] = {
+        assetsData[coinBase.id] = {
           balance: Math.round(balance * 1000) / 1000,
           estimateValue: balance * ppHive,
           unclaimedBalance,
@@ -1034,57 +1023,18 @@ export const fetchCoinsData = async ({
     }
   });
 
-  const engineCoinsData = await fetchEngineTokensData(
-    username,
+  const engineCoinsData = await _processEngineTokens(
+    engineData,
     _prices.hive.price,
     vsCurrency,
     claimsCache,
   );
-  const spkWalletData = await _fetchSpkWalletData(
-    username,
-    _prices.hive.price,
-    vsCurrency,
-    claimsCache,
-  );
-  coinData = { ...coinData, ...engineCoinsData, ...spkWalletData };
 
-  // TODO:discard unnessacry data processings towards the end of PR
-  walletData.rewardHiveBalance = parseToken(userdata.reward_hive_balance);
-  walletData.rewardHbdBalance = parseToken(userdata.reward_hbd_balance);
-  walletData.rewardVestingHive = parseToken(userdata.reward_vesting_hive);
+  const spkWalletData = await _processSpkData(spkData, _prices.hive.price, vsCurrency);
 
-  walletData.hasUnclaimedRewards =
-    walletData.rewardHiveBalance > 0 ||
-    walletData.rewardHbdBalance > 0 ||
-    walletData.rewardVestingHive > 0;
+  assetsData = { ...assetsData, ...engineCoinsData, ...spkWalletData };
 
-  walletData.balance = parseToken(userdata.balance);
-  walletData.vestingShares = parseToken(userdata.vesting_shares);
-  walletData.vestingSharesDelegated = parseToken(userdata.delegated_vesting_shares);
-  walletData.vestingSharesReceived = parseToken(userdata.received_vesting_shares);
-  walletData.vestingSharesTotal =
-    walletData.vestingShares - walletData.vestingSharesDelegated + walletData.vestingSharesReceived;
-  walletData.hbdBalance = parseToken(userdata.hbd_balance);
-  walletData.savingBalance = parseToken(userdata.savings_balance);
-  walletData.savingBalanceHbd = parseToken(userdata.savings_hbd_balance);
-
-  walletData.hivePerMVests = hivePerMVests;
-  const pricePerHive = base / quote;
-
-  const totalHive =
-    vestsToHp(walletData.vestingShares, walletData.hivePerMVests) +
-    walletData.balance +
-    walletData.savingBalance;
-
-  const totalHbd = walletData.hbdBalance + walletData.savingBalanceHbd;
-
-  walletData.estimatedValue = totalHive * pricePerHive + totalHbd;
-
-  walletData.showPowerDown = userdata.next_vesting_withdrawal !== '1969-12-31T23:59:59';
-  const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());
-  walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
-
-  return coinData;
+  return assetsData;
 };
 
 function compare(a, b) {

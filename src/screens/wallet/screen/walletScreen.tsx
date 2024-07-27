@@ -22,7 +22,7 @@ import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import ROUTES from '../../../constants/routeNames';
 import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetailsScreen';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
-import { CoinBase, CoinData } from '../../../redux/reducers/walletReducer';
+import { AssetBase, CoinData } from '../../../redux/reducers/walletReducer';
 import {
   fetchCoinQuotes,
   resetWalletData,
@@ -124,7 +124,7 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _fetchPriceHistory = () => {
-    selectedCoins.forEach(async (token: CoinBase) => {
+    selectedCoins.forEach(async (token: AssetBase) => {
       const expiresAt = priceHistories[token.id]?.expiresAt || 0;
       const curTime = new Date().getTime();
 
@@ -164,24 +164,24 @@ const WalletScreen = ({ navigation }) => {
     navigation.navigate(ROUTES.MODALS.ASSETS_SELECT);
   };
 
-  const _renderItem = ({ item, index }: { item: CoinBase; index: number }) => {
+  const _renderItem = ({ item, index }: { item: AssetBase; index: number }) => {
     const coinData: CoinData = coinsData && coinsData[item.id];
 
     if (!coinData) {
       return null;
     }
 
-    const unclaimedRewards = (unclaimedRewardsQuery.data && unclaimedRewardsQuery.data[item.id]) || '';
+    const unclaimedRewards =
+      (unclaimedRewardsQuery.data && unclaimedRewardsQuery.data[item.id]) || '';
 
     const _isClaimingThis = claimRewardsMutation.checkIsClaiming(item.id);
     const _isClaimingAny = claimRewardsMutation.checkIsClaiming();
 
-    const _tokenMarketData: number[] = (priceHistories && priceHistories[item.id])
-      ? priceHistories[item.id].data : [];
+    const _tokenMarketData: number[] =
+      priceHistories && priceHistories[item.id] ? priceHistories[item.id].data : [];
     const quote = quotes && quotes[item.id];
 
     const _balance = coinData.balance + (coinData.savings || 0);
-
 
     const percentChange = quote ? quote.percentChange : coinData.percentChange;
 
@@ -241,8 +241,8 @@ const WalletScreen = ({ navigation }) => {
           {walletQuery.isFetching
             ? intl.formatMessage({ id: 'wallet.updating' })
             : `${intl.formatMessage({ id: 'wallet.last_updated' })} ${moment(
-              updateTimestamp,
-            ).format('HH:mm:ss')}`}
+                updateTimestamp,
+              ).format('HH:mm:ss')}`}
         </Text>
       </View>
     );

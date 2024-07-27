@@ -15,7 +15,7 @@ export interface DataPair {
   isClickable?: boolean;
 }
 
-export interface CoinBase {
+export interface AssetBase {
   id: string;
   symbol: string;
   notCrypto: boolean;
@@ -73,7 +73,7 @@ export interface QuoteItem {
 }
 
 interface State {
-  selectedCoins: CoinBase[];
+  selectedCoins: AssetBase[];
   coinsData: {
     [key: string]: CoinData;
   };
