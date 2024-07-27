@@ -8,10 +8,10 @@ import {
   RESET_WALLET_DATA,
   UPDATE_UNCLAIMED_BALANCE,
 } from '../constants/constants';
-import { CoinBase, CoinData } from '../reducers/walletReducer';
+import { AssetBase, CoinData } from '../reducers/walletReducer';
 import { AppDispatch, RootState } from '../store/store';
 
-export const setSelectedCoins = (coins: CoinBase[]) => ({
+export const setSelectedCoins = (coins: AssetBase[]) => ({
   payload: coins,
   type: SET_SELECTED_COINS,
 });

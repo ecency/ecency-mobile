@@ -9,7 +9,7 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import styles from '../styles/tokensSelectModa.styles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { CheckBox, Icon, MainButton, SearchInput } from '../../../components';
-import { CoinBase, CoinData } from '../../../redux/reducers/walletReducer';
+import { AssetBase, CoinData } from '../../../redux/reducers/walletReducer';
 import DEFAULT_ASSETS from '../../../constants/defaultAssets';
 import { setSelectedCoins } from '../../../redux/actions/walletActions';
 import { AssetIcon } from '../../../components/atoms';
@@ -35,11 +35,11 @@ const AssetsSelect = ({ navigation }) => {
   const intl = useIntl();
 
   const coinsData = useAppSelector((state) => state.wallet.coinsData);
-  const selectedCoins: CoinBase[] = useAppSelector((state) => state.wallet.selectedCoins);
+  const selectedCoins: AssetBase[] = useAppSelector((state) => state.wallet.selectedCoins);
   const pinCode = useAppSelector((state) => state.application.pin);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
-  const selectionRef = useRef<CoinBase[]>([]);
+  const selectionRef = useRef<AssetBase[]>([]);
 
   const [listData, setListData] = useState<CoinData[]>([]);
   const [sortedList, setSortedList] = useState([]);

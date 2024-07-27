@@ -22,7 +22,7 @@ import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import ROUTES from '../../../constants/routeNames';
 import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetailsScreen';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
-import { CoinBase, CoinData } from '../../../redux/reducers/walletReducer';
+import { AssetBase, CoinData } from '../../../redux/reducers/walletReducer';
 import {
   fetchCoinQuotes,
   resetWalletData,
@@ -124,7 +124,7 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _fetchPriceHistory = () => {
-    selectedCoins.forEach(async (token: CoinBase) => {
+    selectedCoins.forEach(async (token: AssetBase) => {
       const expiresAt = priceHistories[token.id]?.expiresAt || 0;
       const curTime = new Date().getTime();
 
@@ -164,7 +164,7 @@ const WalletScreen = ({ navigation }) => {
     navigation.navigate(ROUTES.MODALS.ASSETS_SELECT);
   };
 
-  const _renderItem = ({ item, index }: { item: CoinBase; index: number }) => {
+  const _renderItem = ({ item, index }: { item: AssetBase; index: number }) => {
     const coinData: CoinData = coinsData && coinsData[item.id];
 
     if (!coinData) {
