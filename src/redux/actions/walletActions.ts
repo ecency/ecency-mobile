@@ -1,5 +1,5 @@
 import { getLatestQuotes } from '../../providers/ecency/ecency';
-import { fetchCoinsData } from '../../utils/wallet';
+import { fetchAssetsPortfolio } from '../../utils/wallet';
 import {
   SET_SELECTED_COINS,
   SET_PRICE_HISTORY,
@@ -62,24 +62,18 @@ export const fetchCoinQuotes = () => (dispatch, getState) => {
   });
 };
 
-export const fetchAndSetCoinsData =
-  (refresh = false) =>
+export const fetchAndSetCoinsData = () =>
   async (dispatch: AppDispatch, getState: RootState) => {
-    const coins = getState().wallet.selectedCoins;
-    const { quotes } = getState().wallet;
-    const { currentAccount } = getState().account;
+  
+    const { currentAccount, globalProps } = getState().account;
     const { currency } = getState().application;
-    const { globalProps } = getState().account;
     const claimsCache = getState().cache.claimsCollection;
 
-    const coinsData = await fetchCoinsData({
-      coins,
+    const coinsData = await fetchAssetsPortfolio({
+      globalProps,
       currentAccount,
       vsCurrency: currency.currency,
       currencyRate: currency.currencyRate,
-      globalProps,
-      quotes,
-      refresh,
       claimsCache,
     });
 
