@@ -556,7 +556,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           ); // remove default beneficiary from array while saving
           dispatch(setBeneficiaries(_resDraft._id, filteredBeneficiaries));
 
-          if(pollDraft){
+          if (pollDraft) {
             dispatch(setPollDraftAction(_resDraft._id, pollDraft));
           }
 

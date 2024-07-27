@@ -171,17 +171,17 @@ const WalletScreen = ({ navigation }) => {
       return null;
     }
 
-    const unclaimedRewards = (unclaimedRewardsQuery.data && unclaimedRewardsQuery.data[item.id]) || '';
+    const unclaimedRewards =
+      (unclaimedRewardsQuery.data && unclaimedRewardsQuery.data[item.id]) || '';
 
     const _isClaimingThis = claimRewardsMutation.checkIsClaiming(item.id);
     const _isClaimingAny = claimRewardsMutation.checkIsClaiming();
 
-    const _tokenMarketData: number[] = (priceHistories && priceHistories[item.id])
-      ? priceHistories[item.id].data : [];
+    const _tokenMarketData: number[] =
+      priceHistories && priceHistories[item.id] ? priceHistories[item.id].data : [];
     const quote = quotes && quotes[item.id];
 
     const _balance = coinData.balance + (coinData.savings || 0);
-
 
     const percentChange = quote ? quote.percentChange : coinData.percentChange;
 
@@ -241,8 +241,8 @@ const WalletScreen = ({ navigation }) => {
           {walletQuery.isFetching
             ? intl.formatMessage({ id: 'wallet.updating' })
             : `${intl.formatMessage({ id: 'wallet.last_updated' })} ${moment(
-              updateTimestamp,
-            ).format('HH:mm:ss')}`}
+                updateTimestamp,
+              ).format('HH:mm:ss')}`}
         </Text>
       </View>
     );

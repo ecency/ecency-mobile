@@ -1,6 +1,7 @@
 import get from 'lodash/get';
 import { operationOrders } from '@hiveio/dhive/lib/utils';
 import { utils } from '@hiveio/dhive';
+import { SpkApiWallet } from 'providers/hive-spk/hiveSpk.types';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToHp } from './conversions';
@@ -13,11 +14,7 @@ import {
   getSavingsWithdrawFrom,
 } from '../providers/hive/dhive';
 import { getCurrencyTokenRate, getPortfolio } from '../providers/ecency/ecency';
-import {
-  CoinActivity,
-  CoinData,
-  DataPair,
-} from '../redux/reducers/walletReducer';
+import { CoinActivity, CoinData, DataPair } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
 import { getEstimatedAmount } from './vote';
 import { getPointsHistory } from '../providers/ecency/ePoint';
@@ -26,9 +23,7 @@ import POINTS from '../constants/options/points';
 import DEFAULT_ASSETS, { ASSET_IDS } from '../constants/defaultAssets';
 
 import parseAsset from './parseAsset';
-import {
-  fetchEngineAccountHistory,
-} from '../providers/hive-engine/hiveEngine';
+import { fetchEngineAccountHistory } from '../providers/hive-engine/hiveEngine';
 import {
   EngineActions,
   EngineOperations,
@@ -40,7 +35,6 @@ import TransferTypes from '../constants/transferTypes';
 import { getHoursDifferntial } from './time';
 import { RepeatableTransfers } from '../constants/repeatableTransfers';
 import { convertLatestQuotes } from '../providers/ecency/converters';
-import { SpkApiWallet } from 'providers/hive-spk/hiveSpk.types';
 
 export const transferTypes = [
   'curation_reward',
@@ -128,8 +122,9 @@ export const groomingTransactionData = (transaction, hivePerMVests): CoinActivit
         .toFixed(3)
         .replace(',', '.');
 
-      result.value = `${hbdPayout > 0 ? `${hbdPayout} HBD` : ''} ${hivePayout > 0 ? `${hivePayout} HIVE` : ''
-        } ${vestingPayout > 0 ? `${vestingPayout} HP` : ''}`;
+      result.value = `${hbdPayout > 0 ? `${hbdPayout} HBD` : ''} ${
+        hivePayout > 0 ? `${hivePayout} HIVE` : ''
+      } ${vestingPayout > 0 ? `${vestingPayout} HP` : ''}`;
 
       result.details = author && permlink ? `@${author}/${permlink}` : null;
       if (result.textKey === 'comment_benefactor_reward') {
@@ -143,8 +138,9 @@ export const groomingTransactionData = (transaction, hivePerMVests): CoinActivit
       rewardHive = parseToken(rewardHive).toFixed(3).replace(',', '.');
       rewardVests = vestsToHp(parseToken(rewardVests), hivePerMVests).toFixed(3).replace(',', '.');
 
-      result.value = `${rewardHdb > 0 ? `${rewardHdb} HBD` : ''} ${rewardHive > 0 ? `${rewardHive} HIVE` : ''
-        } ${rewardVests > 0 ? `${rewardVests} HP` : ''}`;
+      result.value = `${rewardHdb > 0 ? `${rewardHdb} HBD` : ''} ${
+        rewardHive > 0 ? `${rewardHive} HIVE` : ''
+      } ${rewardVests > 0 ? `${rewardVests} HP` : ''}`;
       break;
     case 'transfer':
     case 'transfer_to_savings':
@@ -496,16 +492,16 @@ export const fetchCoinActivities = async ({
         const completed =
           pointActivities && pointActivities.length
             ? pointActivities.map((item) => {
-              const { icon, iconType, textKey } = POINTS[item.type]
-                ? POINTS[item.type]
-                : POINTS.default;
-              return groomingPointsTransactionData({
-                ...item,
-                icon,
-                iconType,
-                textKey,
-              });
-            })
+                const { icon, iconType, textKey } = POINTS[item.type]
+                  ? POINTS[item.type]
+                  : POINTS.default;
+                return groomingPointsTransactionData({
+                  ...item,
+                  icon,
+                  iconType,
+                  textKey,
+                });
+              })
             : [];
 
         return completed;
@@ -570,8 +566,8 @@ export const fetchCoinActivities = async ({
     );
     const filterdActivities: CoinActivity[] = activities
       ? activities.filter((item) => {
-        return item && item.value && item.value.includes(assetSymbol);
-      })
+          return item && item.value && item.value.includes(assetSymbol);
+        })
       : [];
 
     console.log('FILTERED comap', activities.length, filterdActivities.length);
@@ -831,10 +827,10 @@ export const fetchAssetsPortfolio = async ({
     accountData,
     pointsData,
     engineData,
-    spkData
+    spkData,
   } = await getPortfolio(username);
 
-  const _prices = convertLatestQuotes(marketData, currencyRate)
+  const _prices = convertLatestQuotes(marketData, currencyRate);
 
   DEFAULT_ASSETS.forEach((coinBase) => {
     switch (coinBase.id) {
@@ -901,7 +897,8 @@ export const fetchAssetsPortfolio = async ({
       }
       case ASSET_IDS.HP: {
         let balance =
-          Math.round(vestsToHp(parseToken(accountData.vesting_shares), hivePerMVests) * 1000) / 1000;
+          Math.round(vestsToHp(parseToken(accountData.vesting_shares), hivePerMVests) * 1000) /
+          1000;
 
         balance = _processCachedData(
           coinBase.id,
@@ -910,8 +907,14 @@ export const fetchAssetsPortfolio = async ({
           claimsCache,
         );
 
-        const receivedHP = vestsToHp(parseToken(accountData.received_vesting_shares), hivePerMVests);
-        const delegatedHP = vestsToHp(parseToken(accountData.delegated_vesting_shares), hivePerMVests);
+        const receivedHP = vestsToHp(
+          parseToken(accountData.received_vesting_shares),
+          hivePerMVests,
+        );
+        const delegatedHP = vestsToHp(
+          parseToken(accountData.delegated_vesting_shares),
+          hivePerMVests,
+        );
 
         // agggregate claim button text
         const _getBalanceStr = (val: number, cur: string) =>
@@ -934,9 +937,9 @@ export const fetchAssetsPortfolio = async ({
 
         const nextVestingSharesWithdrawal = isPoweringDown
           ? Math.min(
-            parseAsset(accountData.vesting_withdraw_rate).amount,
-            (Number(accountData.to_withdraw) - Number(accountData.withdrawn)) / 1e6,
-          )
+              parseAsset(accountData.vesting_withdraw_rate).amount,
+              (Number(accountData.to_withdraw) - Number(accountData.withdrawn)) / 1e6,
+            )
           : 0;
         const nextVestingSharesWithdrawalHive = isPoweringDown
           ? vestsToHp(nextVestingSharesWithdrawal, hivePerMVests)
@@ -1024,17 +1027,12 @@ export const fetchAssetsPortfolio = async ({
     engineData,
     _prices.hive.price,
     vsCurrency,
-    claimsCache
+    claimsCache,
   );
 
-  const spkWalletData = await _processSpkData(
-    spkData,
-    _prices.hive.price,
-    vsCurrency
-  );
+  const spkWalletData = await _processSpkData(spkData, _prices.hive.price, vsCurrency);
 
   assetsData = { ...assetsData, ...engineCoinsData, ...spkWalletData };
-
 
   return assetsData;
 };

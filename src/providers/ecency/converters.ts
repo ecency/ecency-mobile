@@ -115,19 +115,23 @@ export const convertAnnouncement = (rawData: any) => {
   } as Accouncement;
 };
 
-
-export const convertPortfolio = (rawData:any) => {
-
-  if(!rawData || !rawData.marketData || !rawData.globalProps || !rawData.accountData || !rawData.pointsData){
+export const convertPortfolio = (rawData: any) => {
+  if (
+    !rawData ||
+    !rawData.marketData ||
+    !rawData.globalProps ||
+    !rawData.accountData ||
+    !rawData.pointsData
+  ) {
     return null;
   }
 
   return {
-    globalProps:rawData.globalProps,
-    marketData:rawData.marketData,
-    accountData:rawData.accountData,
-    pointsData:rawData.pointsData,
-    engineData:rawData.engineData,
-    spkData:rawData.spkData,
-  } as AssetsPortfolio
-}
+    globalProps: rawData.globalProps,
+    marketData: rawData.marketData,
+    accountData: rawData.accountData,
+    pointsData: rawData.pointsData,
+    engineData: rawData.engineData,
+    spkData: rawData.spkData,
+  } as AssetsPortfolio;
+};

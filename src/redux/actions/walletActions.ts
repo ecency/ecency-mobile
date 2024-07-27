@@ -62,20 +62,18 @@ export const fetchCoinQuotes = () => (dispatch, getState) => {
   });
 };
 
-export const fetchAndSetCoinsData = () =>
-  async (dispatch: AppDispatch, getState: RootState) => {
-  
-    const { currentAccount, globalProps } = getState().account;
-    const { currency } = getState().application;
-    const claimsCache = getState().cache.claimsCollection;
+export const fetchAndSetCoinsData = () => async (dispatch: AppDispatch, getState: RootState) => {
+  const { currentAccount, globalProps } = getState().account;
+  const { currency } = getState().application;
+  const claimsCache = getState().cache.claimsCollection;
 
-    const coinsData = await fetchAssetsPortfolio({
-      globalProps,
-      currentAccount,
-      vsCurrency: currency.currency,
-      currencyRate: currency.currencyRate,
-      claimsCache,
-    });
+  const coinsData = await fetchAssetsPortfolio({
+    globalProps,
+    currentAccount,
+    vsCurrency: currency.currency,
+    currencyRate: currency.currencyRate,
+    claimsCache,
+  });
 
-    return dispatch(setCoinsData(coinsData, currency.currency, currentAccount.username));
-  };
+  return dispatch(setCoinsData(coinsData, currency.currency, currentAccount.username));
+};
