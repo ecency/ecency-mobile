@@ -10,6 +10,7 @@ import {
   convertCommentHistory,
   convertDraft,
   convertLatestQuotes,
+  convertPortfolio,
   convertReferral,
   convertReferralStat,
 } from './converters';
@@ -1005,11 +1006,13 @@ export const getPortfolio = async (username: string) => {
     const res = await ecencyApi.post('/wallet-api/portfolio', { username });
     console.log('portflio fetched', res.data);
 
-    if (!res.data) {
-      throw new Error('portfolio data not fetched!');
+    const data = convertPortfolio(res.data);
+
+    if(!data){
+      throw new Error("invalid portfolio data")
     }
 
-    return res?.data;
+    return data;
     
   } catch (error) {
     bugsnagInstance.notify(error);
