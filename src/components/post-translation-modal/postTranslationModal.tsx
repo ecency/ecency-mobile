@@ -116,7 +116,9 @@ const PostTranslationModal = () => {
     setSelectedSourceLang(srcLang);
     setSelectedTargetLang(targetLang);
     dispatch(hideTranslationModal());
-    bottomSheetModalRef.current.hide();
+    if (bottomSheetModalRef.current) {
+      bottomSheetModalRef.current.hide();
+    }
   };
 
   const _checkApplang = (langsList: any[]) => {
