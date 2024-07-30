@@ -694,7 +694,7 @@
     "restart_ecency_desc": "Aplicar cambios requerirá un reinicio.",
     "invalid_response": "No se pudo procesar la solicitud, inténtalo de nuevo más tarde.",
     "wallet_updating": "Actualización del monedero en progreso, inténtalo de nuevo cuando finalice la actualización",
-    "claim_failed": "Error al reclamar recompensas, {message}\nInténtalo de nuevo o escribe a support@ecency.com",
+    "claim_failed": "Failed to claim rewards, {message}",
     "connection_issues": "El servidor no está disponible, por favor comprueba tu conexión e inténtalo de nuevo.",
     "open_settings": "Abrir configuración",
     "auth_expired": "Necesitamos verificar que todavía tienes acceso a sus claves, por favor verifica el inicio de sesión.",
