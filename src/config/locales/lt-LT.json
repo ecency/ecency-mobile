@@ -694,7 +694,7 @@
     "restart_ecency_desc": "Taikant pakeitimus perkraukite programėlę iš naujo.",
     "invalid_response": "Negalėjome įvykdyti užklausos, pabandykite vėliau.",
     "wallet_updating": "Pinigės atnaujinimas atliekamas, pabandykite kai atnaujinimas pasibaigs",
-    "claim_failed": "Nepavyko atsiimti apdovanojimų, {message}\nPabandykite vėliau arba rašykite support@ecency.com",
+    "claim_failed": "Failed to claim rewards, {message}",
     "connection_issues": "The server is unreachable, please check your connection and try again.",
     "open_settings": "Open Settings",
     "auth_expired": "We need to verify you still has access to your keys, please verify login.",
