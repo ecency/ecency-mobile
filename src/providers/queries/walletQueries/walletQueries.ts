@@ -228,8 +228,10 @@ export const useClaimRewardsMutation = () => {
     },
     onError: (error, { assetId }) => {
       setIsClaimingColl({ ...isClaimingColl, [assetId]: false });
-      toastNotification(
-        intl.formatMessage({ id: 'alert.claim_failed' }, { message: error.message }),
+      dispatch(
+        toastNotification(
+          intl.formatMessage({ id: 'alert.claim_failed' }, { message: error.message }),
+        ),
       );
     },
   });
