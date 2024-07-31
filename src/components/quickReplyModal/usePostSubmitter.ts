@@ -11,6 +11,7 @@ import { useUserActivityMutation, wavesQueries } from '../../providers/queries';
 import { PointActivityIds, PollDraft } from '../../providers/ecency/ecency.types';
 import { usePublishWaveMutation } from '../../providers/queries/postQueries/wavesQueries';
 import { PostTypes } from '../../constants/postTypes';
+import extractHashTags from '../../utils/extractHashTags';
 
 export const usePostSubmitter = () => {
   const dispatch = useDispatch();
@@ -47,9 +48,12 @@ export const usePostSubmitter = () => {
       const author = currentAccount.name;
       const parentAuthor = parentPost.author;
       const parentPermlink = parentPost.permlink;
-      const parentTags = parentPost.json_metadata.tags;
+      const parentTags = parentPost.json_metadata.tags || ['ecency'];
       const category = parentPost.category || '';
       const url = `/${category}/@${parentAuthor}/${parentPermlink}#@${author}/${permlink}`;
+
+      const hashtags = postType === PostTypes.WAVE ? extractHashTags(commentBody) : [];
+      const tags = [...parentTags, ...hashtags];
 
       // adding jsonmeta with image ratios here....
       const meta = await extractMetadata({
@@ -58,7 +62,7 @@ export const usePostSubmitter = () => {
         postType,
         pollDraft,
       });
-      const jsonMetadata = makeJsonMetadata(meta, parentTags || ['ecency']);
+      const jsonMetadata = makeJsonMetadata(meta, tags);
 
       console.log(
         currentAccount,
