@@ -694,7 +694,7 @@
     "restart_ecency_desc": "O'zgarishlarni qo'llash qayta ishga tushirishni talab qiladi.",
     "invalid_response": "So‘rovni amalga oshirib bo‘lmadi, keyinroq qayta urinib ko‘ring.",
     "wallet_updating": "Hamyonni yangilash davom etmoqda, yangilash tugallangach, qayta urinib ko‘ring",
-    "claim_failed": "Mukofotlarni olib bo‘lmadi, {message}\nQaytadan urining yoki support@ecency.com manziliga yozing",
+    "claim_failed": "Failed to claim rewards, {message}",
     "connection_issues": "Serverga ulanish imkonsiz, ulanishingizni tekshiring va qaytadan urinib ko‘ring.",
     "open_settings": "Open Settings",
     "auth_expired": "We need to verify you still has access to your keys, please verify login.",

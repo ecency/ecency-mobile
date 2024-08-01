@@ -694,7 +694,7 @@
     "restart_ecency_desc": "Добавяне на промени изисква пускане от начало.",
     "invalid_response": "Не можахме да обработим заявката ви. Опитайте пак по-късно.",
     "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
+    "claim_failed": "Failed to claim rewards, {message}",
     "connection_issues": "The server is unreachable, please check your connection and try again.",
     "open_settings": "Open Settings",
     "auth_expired": "We need to verify you still has access to your keys, please verify login.",
