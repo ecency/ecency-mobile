@@ -694,7 +694,7 @@
     "restart_ecency_desc": "Aplicar alterações exigirá uma reinicialização.",
     "invalid_response": "Não foi possível processar o pedido. Tente mais tarde.",
     "wallet_updating": "Atualização da carteira em andamento. Tente novamente quando terminada",
-    "claim_failed": "Failed to claim rewards, {message}",
+    "claim_failed": "Falha ao reivindicar recompensas, {message}",
     "connection_issues": "O servidor está inacessível. Por favor, verifique sua conexão e tente novamente.",
     "open_settings": "Abrir Opções",
     "auth_expired": "Entre novamente para confirmar o acesso às suas chaves.",
