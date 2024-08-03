@@ -60,6 +60,7 @@ import {
   isRenderRequired,
   isPinCodeOpen,
   setEncryptedUnlockPin,
+  setPrevLoggedInUsers,
 } from '../../../redux/actions/applicationActions';
 import {
   setAvatarCacheStamp,
@@ -586,6 +587,26 @@ class ApplicationContainer extends Component {
     return repairUserAccountData(username, dispatch, intl, _accounts, pinCode);
   };
 
+  // update previously loggedin users list,
+  _updatePrevLoggedInUsersList = (username: string) => {
+    const { dispatch, prevLoggedInUsers } = this.props as any;
+    if (prevLoggedInUsers && prevLoggedInUsers.length > 0) {
+      const userIndex = prevLoggedInUsers.findIndex((el: any) => el?.username === username);
+
+      if (userIndex > -1) {
+        const updatedPrevLoggedInUsers = prevLoggedInUsers;
+        updatedPrevLoggedInUsers[userIndex] = { username, isLoggedOut: true };
+        dispatch(setPrevLoggedInUsers(updatedPrevLoggedInUsers));
+      } else {
+        const u = { username, isLoggedOut: true };
+        dispatch(setPrevLoggedInUsers([...prevLoggedInUsers, u]));
+      }
+    } else {
+      const u = { username, isLoggedOut: true };
+      dispatch(setPrevLoggedInUsers([u]));
+    }
+  };
+
   _logout = async (username) => {
     const { otherAccounts, dispatch, intl } = this.props;
 
@@ -595,7 +616,7 @@ class ApplicationContainer extends Component {
       if (response instanceof Error) {
         throw response;
       }
-
+      this._updatePrevLoggedInUsersList(username);
       this._enableNotification(username, false);
 
       // switch account if other account exist
@@ -815,6 +836,7 @@ export default connect(
     settingsMigratedV2: state.application.settingsMigratedV2,
     isNotificationsEnabled: state.application.isNotificationOpen,
     notificationDetails: state.application.notificationDetails,
+    prevLoggedInUsers: state.application.prevLoggedInUsers,
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,

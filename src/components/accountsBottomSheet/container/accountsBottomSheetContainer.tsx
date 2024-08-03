@@ -40,6 +40,7 @@ const AccountsBottomSheetContainer = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const accounts = useAppSelector((state) => state.account.otherAccounts);
   const pinHash = useAppSelector((state) => state.application.pin);
+  const prevLoggedInUsers = useAppSelector((state) => state.application.prevLoggedInUsers);
 
   useEffect(() => {
     if (isVisibleAccountsBottomSheet) {
@@ -152,6 +153,7 @@ const AccountsBottomSheetContainer = () => {
       navigateToRoute={_navigateToRoute}
       switchAccount={_switchAccount}
       onClose={_onClose}
+      prevLoggedInUsers={prevLoggedInUsers}
     />
   );
 };
