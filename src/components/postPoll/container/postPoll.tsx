@@ -88,13 +88,13 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
   }, [metadata, userVote]);
 
   useEffect(() => {
-    if (pollsQuery.isSuccess && pollsQuery.data) {
+    if (!pollsQuery.isLoading) {
       setMode(!!userVote || _expired ? PollModes.RESULT : PollModes.SELECT);
       setInterpretation(
         pollsQuery.data?.preferred_interpretation || PollPreferredInterpretation.NUMBER_OF_VOTES,
       );
     }
-  }, [pollsQuery.isLoading, userVote]);
+  }, [pollsQuery.data, userVote]);
 
   const _handleCastVote = () => {
     votePollMutation.mutate({ choices: selection });
