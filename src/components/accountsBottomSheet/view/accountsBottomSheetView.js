@@ -14,7 +14,10 @@ import { default as ROUTES } from '../../../constants/routeNames';
 import styles from './accountsBottomSheetStyles';
 
 const AccountsBottomSheet = forwardRef(
-  ({ accounts, currentAccount, navigateToRoute, switchAccount, onClose }, ref) => {
+  (
+    { accounts, currentAccount, navigateToRoute, switchAccount, onClose, prevLoggedInUsers },
+    ref,
+  ) => {
     const bottomSheetModalRef = useRef();
     const userList = useRef();
     const insets = useSafeAreaInsets();
@@ -29,20 +32,42 @@ const AccountsBottomSheet = forwardRef(
       },
     }));
 
-    // _handlePressAccountTile(item)
-    const _renderAccountTile = ({ item }) => (
-      <TouchableOpacity style={styles.accountTile} onPress={() => switchAccount(item)}>
-        <View style={styles.avatarAndNameContainer}>
-          <UserAvatar username={item.username} />
-          <View style={styles.nameContainer}>
-            <Text style={styles.name}>{`@${item.username}`}</Text>
+    const _handlePressAccountTile = (item) => {
+      if (
+        item &&
+        typeof item === 'object' &&
+        Object.prototype.hasOwnProperty.call(item, 'isLoggedOut') &&
+        item.isLoggedOut
+      ) {
+        navigateToRoute(ROUTES.SCREENS.LOGIN, { username: item?.username || '' });
+      } else {
+        switchAccount(item);
+      }
+    };
+
+    const _renderAccountTile = ({ item }) => {
+      if (
+        item &&
+        typeof item === 'object' &&
+        Object.prototype.hasOwnProperty.call(item, 'isLoggedOut') &&
+        !item.isLoggedOut
+      )
+        return;
+
+      return (
+        <TouchableOpacity style={styles.accountTile} onPress={() => _handlePressAccountTile(item)}>
+          <View style={styles.avatarAndNameContainer}>
+            <UserAvatar username={item.username} />
+            <View style={styles.nameContainer}>
+              <Text style={styles.name}>{`@${item.username}`}</Text>
+            </View>
           </View>
-        </View>
-        {currentAccount.name === item.username && (
-          <Icon iconType="AntDesign" name="checkcircle" style={styles.checkIcon} size={24} />
-        )}
-      </TouchableOpacity>
-    );
+          {currentAccount.name === item.username && (
+            <Icon iconType="AntDesign" name="checkcircle" style={styles.checkIcon} size={24} />
+          )}
+        </TouchableOpacity>
+      );
+    };
 
     return (
       <View style={[styles.accountsModal]}>
@@ -55,7 +80,7 @@ const AccountsBottomSheet = forwardRef(
           onClose={onClose}
         >
           <FlatList
-            data={accounts}
+            data={[...accounts, ...prevLoggedInUsers]}
             ref={userList}
             scrollEnabled
             keyExtractor={(item, index) => `${item.name || item.username}${index}`}

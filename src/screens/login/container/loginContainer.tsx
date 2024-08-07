@@ -16,7 +16,11 @@ import {
   addOtherAccount,
   updateCurrentAccount,
 } from '../../../redux/actions/accountAction';
-import { login as loginAction, setPinCode } from '../../../redux/actions/applicationActions';
+import {
+  login as loginAction,
+  setPinCode,
+  setPrevLoggedInUsers,
+} from '../../../redux/actions/applicationActions';
 import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 import { setPushTokenSaved, setExistUser } from '../../../realm/realm';
 import { setPushToken } from '../../../providers/ecency/ecency';
@@ -154,8 +158,27 @@ class LoginContainer extends PureComponent {
       });
   };
 
+  // update previously loggedin users list,
+  _updatePrevLoggedInUsersList = (username: string) => {
+    const { dispatch, prevLoggedInUsers } = this.props as any;
+    if (prevLoggedInUsers && prevLoggedInUsers.length > 0) {
+      const userIndex = prevLoggedInUsers.findIndex((el: any) => el?.username === username);
+      if (userIndex > -1) {
+        const updatedPrevLoggedInUsers = prevLoggedInUsers;
+        updatedPrevLoggedInUsers[userIndex] = { username, isLoggedOut: false };
+        dispatch(setPrevLoggedInUsers(updatedPrevLoggedInUsers));
+      } else {
+        const u = { username, isLoggedOut: false };
+        dispatch(setPrevLoggedInUsers([...prevLoggedInUsers, u]));
+      }
+    } else {
+      const u = { username, isLoggedOut: false };
+      dispatch(setPrevLoggedInUsers([u]));
+    }
+  };
+
   _handleOnPressLogin = (username, password) => {
-    const { dispatch, intl, isPinCodeOpen, navigation, userActivityMutation } = this.props;
+    const { dispatch, intl, isPinCodeOpen, navigation, userActivityMutation } = this.props as any;
 
     this.setState({ isLoading: true });
 
@@ -170,7 +193,7 @@ class LoginContainer extends PureComponent {
           dispatch(loginAction(true));
           dispatch(setInitPosts([]));
           dispatch(setFeedPosts([]));
-
+          this._updatePrevLoggedInUsersList(username);
           // track user activity for login
           userActivityMutation.mutate({ pointsTy: PointActivityIds.LOGIN });
           setExistUser(true);
@@ -274,8 +297,8 @@ class LoginContainer extends PureComponent {
   };
 
   render() {
-    const { navigation, route } = this.props;
-    const { isLoading } = this.state;
+    const { navigation, route } = this.props as any;
+    const { isLoading } = this.state as any;
 
     const initialUsername = route.params?.username ?? '';
 
@@ -298,6 +321,7 @@ const mapStateToProps = (state) => ({
   notificationSettings: state.application.isNotificationOpen,
   isConnected: state.application.isConnected,
   isPinCodeOpen: state.application.isPinCodeOpen,
+  prevLoggedInUsers: state.application.prevLoggedInUsers,
 });
 
 const mapHooksToProps = () => ({
