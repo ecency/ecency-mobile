@@ -154,6 +154,7 @@ const AccountsBottomSheetContainer = () => {
       switchAccount={_switchAccount}
       onClose={_onClose}
       prevLoggedInUsers={prevLoggedInUsers}
+      dispatch={dispatch}
     />
   );
 };

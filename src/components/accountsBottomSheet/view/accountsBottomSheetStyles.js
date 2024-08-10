@@ -44,9 +44,24 @@ export default EStyleSheet.create({
   checkIcon: {
     color: '$successColor',
   },
+  deleteIcon: {
+    color: '$primaryRed',
+  },
   button: {
     justifyContent: 'center',
     backgroundColor: 'transparent',
     paddingVertical: 4,
+  },
+  loggedOutAccountTileContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    height: 60,
+  },
+  loggedOutAccountTile: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });

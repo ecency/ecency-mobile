@@ -2,10 +2,10 @@ import React, { useRef, forwardRef, useImperativeHandle } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionSheet from 'react-native-actions-sheet';
-
+import { get } from 'lodash';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
 import { FlatList } from 'react-native-gesture-handler';
+import { setPrevLoggedInUsers } from '../../../redux/actions/applicationActions';
 
 import { UserAvatar, Icon, Separator } from '../../index';
 
@@ -15,7 +15,15 @@ import styles from './accountsBottomSheetStyles';
 
 const AccountsBottomSheet = forwardRef(
   (
-    { accounts, currentAccount, navigateToRoute, switchAccount, onClose, prevLoggedInUsers },
+    {
+      accounts,
+      currentAccount,
+      navigateToRoute,
+      switchAccount,
+      onClose,
+      prevLoggedInUsers,
+      dispatch,
+    },
     ref,
   ) => {
     const bottomSheetModalRef = useRef();
@@ -32,30 +40,9 @@ const AccountsBottomSheet = forwardRef(
       },
     }));
 
-    const _handlePressAccountTile = (item) => {
-      if (
-        item &&
-        typeof item === 'object' &&
-        Object.prototype.hasOwnProperty.call(item, 'isLoggedOut') &&
-        item.isLoggedOut
-      ) {
-        navigateToRoute(ROUTES.SCREENS.LOGIN, { username: item?.username || '' });
-      } else {
-        switchAccount(item);
-      }
-    };
-
     const _renderAccountTile = ({ item }) => {
-      if (
-        item &&
-        typeof item === 'object' &&
-        Object.prototype.hasOwnProperty.call(item, 'isLoggedOut') &&
-        !item.isLoggedOut
-      )
-        return;
-
       return (
-        <TouchableOpacity style={styles.accountTile} onPress={() => _handlePressAccountTile(item)}>
+        <TouchableOpacity style={styles.accountTile} onPress={() => switchAccount(item)}>
           <View style={styles.avatarAndNameContainer}>
             <UserAvatar username={item.username} />
             <View style={styles.nameContainer}>
@@ -69,6 +56,80 @@ const AccountsBottomSheet = forwardRef(
       );
     };
 
+    const _handlePressLoggedOutAccountTile = (item) => {
+      if (item && item?.isLoggedOut === true) {
+        navigateToRoute(ROUTES.SCREENS.LOGIN, { username: item?.username || '' });
+      }
+    };
+
+    const _renderLoggedOutAccountTile = ({ item }) => {
+      if (
+        item &&
+        item?.isLoggedOut === true &&
+        accounts?.findIndex((el) => get(el, 'local.username', '') === item?.username) === -1
+      ) {
+        return (
+          <View style={styles.loggedOutAccountTileContainer}>
+            <TouchableOpacity
+              style={styles.loggedOutAccountTile}
+              onPress={() => _handlePressLoggedOutAccountTile(item)}
+            >
+              <View style={styles.avatarAndNameContainer}>
+                <UserAvatar username={item.username} />
+                <View style={styles.nameContainer}>
+                  <Text style={styles.name}>{`@${item.username}`}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+            <Icon
+              iconType="AntDesign"
+              name="delete"
+              style={styles.deleteIcon}
+              size={24}
+              onPress={() => _removePrevLoggedInUsersList(item?.username || '')}
+            />
+          </View>
+        );
+      }
+    };
+    const _renderPrevLoggedInUsersList = () =>
+      // render only if user is logged out
+      prevLoggedInUsers &&
+      prevLoggedInUsers?.length > 0 &&
+      prevLoggedInUsers?.filter((el) => el?.isLoggedOut === true).length > 0 ? (
+        <>
+          <Separator style={styles.separator} />
+          <Text style={styles.textButton}>
+            {intl.formatMessage({ id: 'side_menu.logged_out_accounts' })}
+          </Text>
+          <FlatList
+            data={prevLoggedInUsers}
+            ref={userList}
+            scrollEnabled
+            keyExtractor={(item, index) => `${item.name || item.username}${index}`}
+            renderItem={_renderLoggedOutAccountTile}
+            nestedScrollEnabled={true}
+            onScrollEndDrag={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
+            onScrollAnimationEnd={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
+            onMomentumScrollEnd={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
+          />
+        </>
+      ) : null;
+
+    // update previously loggedin users list,
+    const _removePrevLoggedInUsersList = (username) => {
+      if (prevLoggedInUsers && prevLoggedInUsers.length > 0) {
+        const userIndex = prevLoggedInUsers.findIndex((el) => el?.username === username);
+        if (userIndex > -1) {
+          const updatedPrevLoggedInUsers = prevLoggedInUsers?.slice();
+          updatedPrevLoggedInUsers?.splice(userIndex, 1);
+          dispatch(setPrevLoggedInUsers(updatedPrevLoggedInUsers));
+        }
+      } else {
+        console.log('user not found in list');
+      }
+    };
+
     return (
       <View style={[styles.accountsModal]}>
         <ActionSheet
@@ -80,7 +141,7 @@ const AccountsBottomSheet = forwardRef(
           onClose={onClose}
         >
           <FlatList
-            data={[...accounts, ...prevLoggedInUsers]}
+            data={accounts}
             ref={userList}
             scrollEnabled
             keyExtractor={(item, index) => `${item.name || item.username}${index}`}
@@ -91,6 +152,7 @@ const AccountsBottomSheet = forwardRef(
             onScrollAnimationEnd={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
             onMomentumScrollEnd={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
           />
+          {_renderPrevLoggedInUsersList()}
           <Separator style={styles.separator} />
           <View style={{ paddingBottom: insets.bottom + 16 }}>
             <TouchableOpacity
