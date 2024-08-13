@@ -45,7 +45,7 @@ export default EStyleSheet.create({
     color: '$successColor',
   },
   deleteIcon: {
-    color: '$primaryRed',
+    color: '$iconColor',
   },
   button: {
     justifyContent: 'center',

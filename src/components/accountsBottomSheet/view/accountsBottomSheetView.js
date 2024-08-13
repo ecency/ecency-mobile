@@ -83,7 +83,7 @@ const AccountsBottomSheet = forwardRef(
             </TouchableOpacity>
             <Icon
               iconType="AntDesign"
-              name="delete"
+              name="close"
               style={styles.deleteIcon}
               size={24}
               onPress={() => _removePrevLoggedInUsersList(item?.username || '')}

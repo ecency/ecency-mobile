@@ -35,7 +35,7 @@ const PostTranslationModal = () => {
 
   useEffect(() => {
     if (translationModalVisible) {
-      if (bottomSheetModalRef.current) {
+      if (bottomSheetModalRef?.current) {
         if (!translationModalData) {
           Alert.alert(
             intl.formatMessage({ id: 'alert.something_wrong' }),
@@ -44,7 +44,7 @@ const PostTranslationModal = () => {
           return;
         }
         setContent(translationModalData);
-        bottomSheetModalRef.current.show();
+        bottomSheetModalRef?.current?.show();
         getSupportedLanguages();
       }
     } else {
@@ -116,8 +116,8 @@ const PostTranslationModal = () => {
     setSelectedSourceLang(srcLang);
     setSelectedTargetLang(targetLang);
     dispatch(hideTranslationModal());
-    if (bottomSheetModalRef.current) {
-      bottomSheetModalRef.current.hide();
+    if (bottomSheetModalRef?.current) {
+      bottomSheetModalRef?.current?.hide();
     }
   };
 
