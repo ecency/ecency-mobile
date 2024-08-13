@@ -23,6 +23,7 @@ const AccountsBottomSheet = forwardRef(
       onClose,
       prevLoggedInUsers,
       dispatch,
+      isLoggedIn,
     },
     ref,
   ) => {
@@ -98,7 +99,7 @@ const AccountsBottomSheet = forwardRef(
       prevLoggedInUsers?.length > 0 &&
       prevLoggedInUsers?.filter((el) => el?.isLoggedOut === true).length > 0 ? (
         <>
-          <Separator style={styles.separator} />
+          {!!isLoggedIn && <Separator style={styles.separator} />}
           <Text style={styles.textButton}>
             {intl.formatMessage({ id: 'side_menu.logged_out_accounts' })}
           </Text>
