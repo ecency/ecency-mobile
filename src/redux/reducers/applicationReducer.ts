@@ -31,14 +31,7 @@ import {
   SET_IS_BIOMETRIC_ENABLED,
   SET_ENC_UNLOCK_PIN,
   SET_WAVE_UPVOTE_PERCENT,
-  SET_PREV_LOGGED_IN_USERS,
-  CLEAR_PREV_LOGGED_IN_USERS,
 } from '../constants/constants';
-
-export interface PrevLoggedInUsers {
-  username: string;
-  isLoggedOut: boolean;
-}
 
 interface State {
   api: string;
@@ -79,7 +72,6 @@ interface State {
   hidePostsThumbnails: boolean;
   isTermsAccepted: boolean;
   isBiometricEnabled: boolean;
-  prevLoggedInUsers: PrevLoggedInUsers[];
 }
 
 const initialState: State = {
@@ -121,7 +113,6 @@ const initialState: State = {
   hidePostsThumbnails: false,
   isTermsAccepted: false,
   isBiometricEnabled: false,
-  prevLoggedInUsers: [],
 };
 
 const applicationReducer = (state = initialState, action): State => {
@@ -306,16 +297,6 @@ const applicationReducer = (state = initialState, action): State => {
       return {
         ...state,
         encUnlockPin: action.payload,
-      };
-    case SET_PREV_LOGGED_IN_USERS:
-      return {
-        ...state,
-        prevLoggedInUsers: action.payload,
-      };
-    case CLEAR_PREV_LOGGED_IN_USERS:
-      return {
-        ...state,
-        prevLoggedInUsers: [],
       };
     default:
       return state;

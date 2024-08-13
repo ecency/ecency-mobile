@@ -5,7 +5,7 @@ import ActionSheet from 'react-native-actions-sheet';
 import { get } from 'lodash';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlatList } from 'react-native-gesture-handler';
-import { setPrevLoggedInUsers } from '../../../redux/actions/applicationActions';
+import { setPrevLoggedInUsers } from '../../../redux/actions/accountAction';
 
 import { UserAvatar, Icon, Separator } from '../../index';
 

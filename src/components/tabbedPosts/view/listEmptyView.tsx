@@ -36,7 +36,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   const isVisibleAccountsBottomSheet = useSelector(
     (state) => state.ui.isVisibleAccountsBottomSheet,
   );
-  const prevLoggedInUsers = useSelector((state) => state.application.prevLoggedInUsers);
+  const prevLoggedInUsers = useSelector((state) => state.account.prevLoggedInUsers);
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
   const [recommendedUsers, setRecommendedUsers] = useState([]);
   const followingUsers = useSelector((state) => state.user.followingUsersInFeedScreen);

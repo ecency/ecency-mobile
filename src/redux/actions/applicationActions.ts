@@ -1,5 +1,4 @@
 import getSymbolFromCurrency from 'currency-symbol-map';
-import { PrevLoggedInUsers } from 'redux/reducers/applicationReducer';
 import { getFiatHbdRate } from '../../providers/ecency/ecency';
 import {
   CHANGE_COMMENT_NOTIFICATION,
@@ -34,8 +33,6 @@ import {
   SET_POST_UPVOTE_PERCENT,
   SET_COMMENT_UPVOTE_PERCENT,
   SET_WAVE_UPVOTE_PERCENT,
-  SET_PREV_LOGGED_IN_USERS,
-  CLEAR_PREV_LOGGED_IN_USERS,
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -225,13 +222,4 @@ export const setIsBiometricEnabled = (enabled: boolean) => ({
 export const setEncryptedUnlockPin = (encryptedUnlockPin: string) => ({
   payload: encryptedUnlockPin,
   type: SET_ENC_UNLOCK_PIN,
-});
-
-export const setPrevLoggedInUsers = (data: PrevLoggedInUsers[]) => ({
-  payload: data,
-  type: SET_PREV_LOGGED_IN_USERS,
-});
-
-export const clearPrevLoggedInUsers = () => ({
-  type: CLEAR_PREV_LOGGED_IN_USERS,
 });

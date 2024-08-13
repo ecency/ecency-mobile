@@ -52,6 +52,7 @@ import {
   updateUnreadActivityCount,
   removeOtherAccount,
   fetchGlobalProperties,
+  setPrevLoggedInUsers,
 } from '../../../redux/actions/accountAction';
 import {
   login,
@@ -60,7 +61,6 @@ import {
   isRenderRequired,
   isPinCodeOpen,
   setEncryptedUnlockPin,
-  setPrevLoggedInUsers,
 } from '../../../redux/actions/applicationActions';
 import {
   setAvatarCacheStamp,
@@ -836,7 +836,7 @@ export default connect(
     settingsMigratedV2: state.application.settingsMigratedV2,
     isNotificationsEnabled: state.application.isNotificationOpen,
     notificationDetails: state.application.notificationDetails,
-    prevLoggedInUsers: state.application.prevLoggedInUsers,
+    prevLoggedInUsers: state.account.prevLoggedInUsers,
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,

@@ -11,6 +11,8 @@ import {
   REMOVE_ALL_OTHER_ACCOUNT,
   LOGOUT_FAIL,
   SET_GLOBAL_PROPS,
+  SET_PREV_LOGGED_IN_USERS,
+  CLEAR_PREV_LOGGED_IN_USERS,
 } from '../constants/constants';
 
 export interface GlobalProps {
@@ -21,7 +23,10 @@ export interface GlobalProps {
   fundRewardBalance: number;
   hbdPrintRate: number;
 }
-
+export interface PrevLoggedInUsers {
+  username: string;
+  isLoggedOut: boolean;
+}
 interface AccountState {
   isFetching: boolean;
   currentAccount: any;
@@ -30,6 +35,7 @@ interface AccountState {
   errorMessage: string;
   isLogingOut: boolean;
   globalProps: GlobalProps | null;
+  prevLoggedInUsers: PrevLoggedInUsers[] | null;
 }
 
 const initialState: AccountState = {
@@ -40,6 +46,7 @@ const initialState: AccountState = {
   errorMessage: null,
   isLogingOut: false,
   globalProps: null,
+  prevLoggedInUsers: [],
 };
 
 const accountReducer = (state = initialState, action) => {
@@ -129,6 +136,16 @@ const accountReducer = (state = initialState, action) => {
       return {
         ...state,
         isLogingOut: true,
+      };
+    case SET_PREV_LOGGED_IN_USERS:
+      return {
+        ...state,
+        prevLoggedInUsers: action.payload,
+      };
+    case CLEAR_PREV_LOGGED_IN_USERS:
+      return {
+        ...state,
+        prevLoggedInUsers: [],
       };
 
     default:

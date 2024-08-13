@@ -15,12 +15,9 @@ import {
   failedAccount,
   addOtherAccount,
   updateCurrentAccount,
-} from '../../../redux/actions/accountAction';
-import {
-  login as loginAction,
-  setPinCode,
   setPrevLoggedInUsers,
-} from '../../../redux/actions/applicationActions';
+} from '../../../redux/actions/accountAction';
+import { login as loginAction, setPinCode } from '../../../redux/actions/applicationActions';
 import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 import { setPushTokenSaved, setExistUser } from '../../../realm/realm';
 import { setPushToken } from '../../../providers/ecency/ecency';
@@ -321,7 +318,7 @@ const mapStateToProps = (state) => ({
   notificationSettings: state.application.isNotificationOpen,
   isConnected: state.application.isConnected,
   isPinCodeOpen: state.application.isPinCodeOpen,
-  prevLoggedInUsers: state.application.prevLoggedInUsers,
+  prevLoggedInUsers: state.account.prevLoggedInUsers,
 });
 
 const mapHooksToProps = () => ({

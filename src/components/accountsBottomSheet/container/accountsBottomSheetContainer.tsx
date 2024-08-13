@@ -40,7 +40,7 @@ const AccountsBottomSheetContainer = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const accounts = useAppSelector((state) => state.account.otherAccounts);
   const pinHash = useAppSelector((state) => state.application.pin);
-  const prevLoggedInUsers = useAppSelector((state) => state.application.prevLoggedInUsers);
+  const prevLoggedInUsers = useAppSelector((state) => state.account.prevLoggedInUsers);
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
   useEffect(() => {
