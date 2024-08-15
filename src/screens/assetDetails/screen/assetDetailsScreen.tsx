@@ -52,6 +52,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
   // state
   const [symbol] = useState(selectedCoins.find((item) => item.id === coinId).symbol);
+  const [showChart, setShowChart] = useState(false);
 
   // side-effects
   useEffect(() => {
@@ -189,6 +190,8 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       percentChagne={(quote ? quote.percentChange : coinData?.percentChange) || 0}
       onActionPress={_onActionPress}
       onInfoPress={_onInfoPress}
+      showChart={showChart}
+      setShowChart={setShowChart}
     />
   );
 

@@ -177,8 +177,8 @@ const WalletScreen = ({ navigation }) => {
     const _isClaimingThis = claimRewardsMutation.checkIsClaiming(item.id);
     const _isClaimingAny = claimRewardsMutation.checkIsClaiming();
 
-    const _tokenMarketData: number[] =
-      priceHistories && priceHistories[item.id] ? priceHistories[item.id].data : [];
+    // const _tokenMarketData: number[] =
+    //   priceHistories && priceHistories[item.id] ? priceHistories[item.id].data : [];
     const quote = quotes && quotes[item.id];
 
     const _balance = coinData.balance + (coinData.savings || 0);
@@ -212,7 +212,7 @@ const WalletScreen = ({ navigation }) => {
       <AssetCard
         name={coinData.name}
         iconUrl={coinData.iconUrl}
-        chartData={_tokenMarketData || []}
+        // chartData={_tokenMarketData || []}
         currentValue={quote?.price || coinData?.currentPrice || 0}
         changePercent={percentChange || 0}
         currencySymbol={currency.currencySymbol}
