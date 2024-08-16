@@ -457,7 +457,8 @@
     "add_an_existing_account": "Tambahkan akun yang ada",
     "accounts": "Akun",
     "refer": "Rekomendasikan Dan Dapatkan",
-    "qr": "Scan QR"
+    "qr": "Scan QR",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "Login untuk menyesuaikan feed Anda",
