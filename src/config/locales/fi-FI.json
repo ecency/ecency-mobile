@@ -457,7 +457,8 @@
     "add_an_existing_account": "Lisää olemassa oleva tili",
     "accounts": "Tilit",
     "refer": "Suosittele ja tienaa",
-    "qr": "QR-koodi"
+    "qr": "QR-koodi",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "Kirjaudu mukauttaaksesi syötettäsi",
