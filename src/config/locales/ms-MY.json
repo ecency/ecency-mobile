@@ -457,7 +457,8 @@
     "add_an_existing_account": "Tambah akaun sedia ada",
     "accounts": "Akaun",
     "refer": "Refer & Earn",
-    "qr": "QR Scan"
+    "qr": "QR Scan",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "Log masuk untuk menyesuaikan suapan anda",
