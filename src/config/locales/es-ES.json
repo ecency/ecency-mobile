@@ -457,7 +457,8 @@
     "add_an_existing_account": "Añadir una cuenta existente",
     "accounts": "Cuentas",
     "refer": "Referir y Ganar",
-    "qr": "Escaneo de QR"
+    "qr": "Escaneo de QR",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "Inicie sesión para personalizar su inicio",
