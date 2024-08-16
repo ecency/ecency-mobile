@@ -457,7 +457,8 @@
     "add_an_existing_account": "綁定現有帳號",
     "accounts": "帳號",
     "refer": "介紹給人也有介紹費",
-    "qr": "掃二維碼"
+    "qr": "掃二維碼",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "登入後定制您的朋友圈",
