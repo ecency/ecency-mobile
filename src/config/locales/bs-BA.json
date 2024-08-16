@@ -457,7 +457,8 @@
     "add_an_existing_account": "Dodaj postojeći račun",
     "accounts": "Računi",
     "refer": "Preporučite i zaradite",
-    "qr": "QR Scan"
+    "qr": "QR Scan",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "Prijavite se kako biste prilagodili vaše novosti",
