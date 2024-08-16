@@ -457,7 +457,8 @@
     "add_an_existing_account": "Přidat existující účet",
     "accounts": "Účty",
     "refer": "Pozvi a vydělávej",
-    "qr": "Skenovat QR kód"
+    "qr": "Skenovat QR kód",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "Pro zobrazení personalizovaného obsahu se přihlaš",
