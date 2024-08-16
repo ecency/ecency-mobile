@@ -457,7 +457,8 @@
     "add_an_existing_account": "Mavjud akkauntni qo'shish",
     "accounts": "Akkauntlar",
     "refer": "Taklif qiling & Daromad oling",
-    "qr": "QR skanerlash"
+    "qr": "QR skanerlash",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "Lentangizni sozlash uchun tizimga kiring",
