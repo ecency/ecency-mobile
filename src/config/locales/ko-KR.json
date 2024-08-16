@@ -457,7 +457,8 @@
     "add_an_existing_account": "기존 계정 추가",
     "accounts": "계정",
     "refer": "추천해서 혜택 받으세요",
-    "qr": "QR 코드 스캔"
+    "qr": "QR 코드 스캔",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "맞춤형 피드를 원하신다면 로그인하세요",
