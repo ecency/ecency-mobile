@@ -457,7 +457,8 @@
     "add_an_existing_account": "Добавить существующий аккаунт",
     "accounts": "Аккаунты",
     "refer": "Расскажите и заработайте",
-    "qr": "QR Скан"
+    "qr": "QR Скан",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "Войдите, чтобы настроить свою ленту",
