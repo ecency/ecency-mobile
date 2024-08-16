@@ -457,7 +457,8 @@
     "add_an_existing_account": "Add an existing account",
     "accounts": "Accounts",
     "refer": "Refer & Earn",
-    "qr": "QR Scan"
+    "qr": "QR Scan",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "Đăng nhập để tùy chỉnh nguồn cấp dữ liệu của bạn",
