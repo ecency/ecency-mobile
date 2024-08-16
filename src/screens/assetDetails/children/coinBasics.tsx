@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { AssetIcon } from '../../../components/atoms';
 import { DataPair } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
+import { Icon } from '../../../components/index';
 
 interface CoinBasicsProps {
   assetId: string;
@@ -13,6 +14,9 @@ interface CoinBasicsProps {
   percentChange: number;
   iconUrl?: string;
   isEngine: boolean;
+  isRenderChart?: boolean;
+  showChart: boolean;
+  setShowChart: (value: boolean) => void;
   onInfoPress: (id: string) => void;
 }
 
@@ -24,6 +28,9 @@ export const CoinBasics = ({
   percentChange,
   iconUrl,
   isEngine,
+  isRenderChart,
+  showChart,
+  setShowChart,
   onInfoPress,
 }: CoinBasicsProps) => {
   const intl = useIntl();
@@ -39,19 +46,28 @@ export const CoinBasics = ({
         />
         <Text style={styles.textCoinTitle}>{coinSymbol}</Text>
       </View>
-
-      {percentChange ? (
-        <Text style={styles.textHeaderChange}>
-          {intl.formatMessage({ id: 'wallet.change' })}
-          <Text style={percentChange > 0 ? styles.textPositive : styles.textNegative}>
-            {percentChange
-              ? ` ${percentChange >= 0 ? '+' : ''}${percentChange.toFixed(1)}%`
-              : ' ---'}
+      <TouchableOpacity style={styles.percentEyeContainer} onPress={() => setShowChart(!showChart)}>
+        {percentChange ? (
+          <Text style={styles.textHeaderChange}>
+            {intl.formatMessage({ id: 'wallet.change' })}
+            <Text style={percentChange > 0 ? styles.textPositive : styles.textNegative}>
+              {percentChange
+                ? ` ${percentChange >= 0 ? '+' : ''}${percentChange.toFixed(1)}%`
+                : ' ---'}
+            </Text>
           </Text>
-        </Text>
-      ) : (
-        <View style={styles.textHeaderChange} />
-      )}
+        ) : (
+          <View style={styles.textHeaderChange} />
+        )}
+        {!!isRenderChart && (
+          <Icon
+            iconType="Ionicons"
+            name={showChart ? 'eye' : 'eye-off'}
+            style={styles.eyeIcon}
+            size={20}
+          />
+        )}
+      </TouchableOpacity>
     </>
   );
 
