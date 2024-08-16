@@ -457,7 +457,8 @@
     "add_an_existing_account": "एक मौजूदा खाता जोड़ें",
     "accounts": "खाते",
     "refer": "रेफर करें और कमाएं",
-    "qr": "क्यूआर स्कैन"
+    "qr": "क्यूआर स्कैन",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "आपकी अपनी संभरण को अपने अनुकूल संयोजित करने के लिए लॉगिन करें",
