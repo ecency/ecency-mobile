@@ -457,7 +457,8 @@
     "add_an_existing_account": "Adicionar uma conta existente",
     "accounts": "Contas",
     "refer": "Indique & Ganhe",
-    "qr": "Leitor QR"
+    "qr": "Leitor QR",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "Login para personalizar o seu feed",
