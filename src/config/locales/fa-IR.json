@@ -457,7 +457,8 @@
     "add_an_existing_account": "یک حساب موجود اضافه کنید",
     "accounts": "حساب ها",
     "refer": "Refer & Earn",
-    "qr": "QR Scan"
+    "qr": "QR Scan",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "برای شخصی سازی فید های خود وارد شوید",
