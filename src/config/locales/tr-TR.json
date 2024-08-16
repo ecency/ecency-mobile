@@ -457,7 +457,8 @@
     "add_an_existing_account": "Başka hesap ekle",
     "accounts": "Hesaplar",
     "refer": "Referans Ol & Kazan",
-    "qr": "QR Scan"
+    "qr": "QR Scan",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "Giriş yap ve akışını özelleştir.",
