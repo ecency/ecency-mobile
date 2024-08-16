@@ -18,6 +18,8 @@ const SideMenuContainer = ({ navigation }) => {
 
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
   const currentAccount = useSelector((state) => state.account.currentAccount);
+  const prevLoggedInUsers = useSelector((state) => state.account.prevLoggedInUsers);
+
   const isVisibleAccountsBottomSheet = useSelector(
     (state) => state.ui.isVisibleAccountsBottomSheet,
   );
@@ -71,6 +73,8 @@ const SideMenuContainer = ({ navigation }) => {
       currentAccount={currentAccount}
       handleLogout={_handleLogout}
       handlePressOptions={_handlePressOptions}
+      prevLoggedInUsers={prevLoggedInUsers}
+      isVisibleAccountsBottomSheet={isVisibleAccountsBottomSheet}
     />
   );
 };
