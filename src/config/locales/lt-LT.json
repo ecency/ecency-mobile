@@ -457,7 +457,8 @@
     "add_an_existing_account": "Pridėkite esančią paskyrą",
     "accounts": "Paskyros",
     "refer": "Rekomenduok ir uždirbk",
-    "qr": "QR Scan"
+    "qr": "QR Scan",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "Prisijunkite norėdami keisti savo pagrindinį",
