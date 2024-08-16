@@ -457,7 +457,8 @@
     "add_an_existing_account": "Ajouter à un compte existant",
     "accounts": "Comptes",
     "refer": "Recommandez Et Gagnez",
-    "qr": "Scanner le QR code"
+    "qr": "Scanner le QR code",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "Connectez-vous pour personnaliser votre flux",
