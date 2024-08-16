@@ -457,7 +457,8 @@
     "add_an_existing_account": "Добави съществуващ акаунт",
     "accounts": "Акаунти",
     "refer": "Покани § спечели",
-    "qr": "QR Scan"
+    "qr": "QR Scan",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "Влезте, за да персонализирате вашите постове",
