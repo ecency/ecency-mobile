@@ -457,7 +457,8 @@
     "add_an_existing_account": "Mövcud bir hesab əlavə edin",
     "accounts": "Hesablar",
     "refer": "Refer & Earn",
-    "qr": "QR Scan"
+    "qr": "QR Scan",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "Axınını özəlləşdirmək üçün giriş et",
