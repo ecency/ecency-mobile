@@ -457,7 +457,8 @@
     "add_an_existing_account": "إضافة حساب آخر",
     "accounts": "الحسابات",
     "refer": "رشح أصدقائك واربح",
-    "qr": "مسح ال QR"
+    "qr": "مسح ال QR",
+    "logged_out_accounts": "Other accounts"
   },
   "header": {
     "title": "تسجيل الدخول لتخصيص خلاصتك",
