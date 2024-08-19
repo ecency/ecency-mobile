@@ -59,8 +59,8 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
 
   const clippedSearchValue =
     searchValue.startsWith('#') || searchValue.startsWith('@')
-      ? searchValue.substring(1).trim()
-      : searchValue.trim();
+      ? searchValue.substring(1).trim().toLowerCase()
+      : searchValue.trim().toLowerCase();
   const isUsername = !!(searchValue.startsWith('#') || searchValue.startsWith('@'));
 
   const _renderTabbar = () => (
