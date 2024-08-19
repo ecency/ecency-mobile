@@ -35,7 +35,7 @@ const PeopleResultsContainer = ({ children, searchValue, username, isUsername })
         setNoResult(true);
         setUsers([]);
       });
-  }, [searchValue]);
+  }, [searchValue, isUsername]);
 
   const _fetchUsernames = async (username) => {
     const users = await lookupAccounts(username);
