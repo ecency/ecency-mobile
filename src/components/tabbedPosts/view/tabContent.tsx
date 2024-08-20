@@ -211,7 +211,7 @@ const TabContent = ({
 
     const result = await loadPosts(options);
     if (_isMounted && result) {
-      if (shouldReset || isFirstCall) {
+      if (isFirstCall) {
         setPosts([]);
       }
       _postProcessLoadResult(result);
