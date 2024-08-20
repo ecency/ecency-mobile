@@ -96,7 +96,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       post: null,
       uploadedImage: null,
       community: [],
-      rewardType: 'default',
+      rewardType: !!props?.defaultRewardType ? props.defaultRewardType : 'default',
       sharedSnippetText: null,
       onLoadDraftPress: false,
       thumbUrl: '',
@@ -1355,6 +1355,7 @@ const mapStateToProps = (state) => ({
   pinCode: state.application.pin,
   beneficiariesMap: state.editor.beneficiariesMap,
   pollDraftsMap: state.editor.pollDraftsMap,
+  defaultRewardType: state.editor.defaultRewardType,
   draftsCollection: state.cache.draftsCollection,
 });
 

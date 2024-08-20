@@ -5,8 +5,9 @@ import {
   SET_ALLOW_SPK_PUBLISHING,
   SET_POLL_DRAFT,
   REMOVE_POLL_DRAFT,
+  SET_DEFAULT_REWARD_TYPE,
 } from '../constants/constants';
-import { Beneficiary } from '../reducers/editorReducer';
+import { Beneficiary, RewardTypes } from '../reducers/editorReducer';
 
 export const setBeneficiaries = (draftId: string, benficiaries: Beneficiary[]) => ({
   payload: {
@@ -41,4 +42,9 @@ export const setPollDraftAction = (draftId: string, pollDraft: PollDraft) => ({
 export const setAllowSpkPublishing = (allowSpkPublishing: boolean) => ({
   payload: allowSpkPublishing,
   type: SET_ALLOW_SPK_PUBLISHING,
+});
+
+export const setDefaultRewardType = (rewardType: RewardTypes | null) => ({
+  payload: rewardType,
+  type: SET_DEFAULT_REWARD_TYPE,
 });

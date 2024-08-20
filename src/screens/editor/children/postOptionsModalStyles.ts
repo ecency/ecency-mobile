@@ -106,4 +106,26 @@ export default EStyleSheet.create({
     top: 16,
     right: 16,
   } as ViewStyle,
+
+  saveDefaultCheckContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  } as ViewStyle,
+
+  saveDefaultText: {
+    fontSize: 14,
+    color: '$primaryBlack',
+    marginLeft: 8,
+  } as TextStyle,
+
+  flex1: {
+    flexGrow: 1,
+  } as ViewStyle,
+
+  saveDefaultCheckBtn: {
+    width: 172,
+    flexDirection: 'row',
+    alignItems: 'center',
+  } as ViewStyle,
 });

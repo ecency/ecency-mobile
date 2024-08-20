@@ -569,7 +569,8 @@
     "video": "Video",
     "image": "Image",
     "short_desc": "Short description",
-    "short_desc_placeholder": "Brief summary of content"
+    "short_desc_placeholder": "Brief summary of content",
+    "set_default": "Set Default"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
