@@ -5,6 +5,7 @@ import {
   SET_POLL_DRAFT,
   SET_ALLOW_SPK_PUBLISHING,
   REMOVE_POLL_DRAFT,
+  SET_DEFAULT_REWARD_TYPE,
 } from '../constants/constants';
 
 export interface Beneficiary {
@@ -12,6 +13,12 @@ export interface Beneficiary {
   weight: number;
   isValid?: boolean;
   autoPowerUp?: boolean;
+}
+
+export enum RewardTypes {
+  DEAFULT = 'default',
+  SP = 'sp',
+  DP = 'dp',
 }
 
 interface State {
@@ -22,12 +29,14 @@ interface State {
     [key: string]: PollDraft;
   };
   allowSpkPublishing: boolean;
+  defaultRewardType: RewardTypes | null;
 }
 
 const initialState: State = {
   beneficiariesMap: {},
   pollDraftsMap: {},
   allowSpkPublishing: false,
+  defaultRewardType: RewardTypes.DEAFULT,
 };
 
 const editorReducer = (state = initialState, action) => {
@@ -79,6 +88,11 @@ const editorReducer = (state = initialState, action) => {
       return {
         ...state,
         allowSpkPublishing: payload,
+      };
+    case SET_DEFAULT_REWARD_TYPE:
+      return {
+        ...state,
+        defaultRewardType: payload,
       };
     default:
       return state;

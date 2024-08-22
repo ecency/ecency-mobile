@@ -1,10 +1,12 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FlipInEasyX } from 'react-native-reanimated';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   BeneficiarySelectionContent,
+  CheckBox,
   DateTimePicker,
   MainButton,
   Modal,
@@ -16,6 +18,7 @@ import PostDescription from './postDescription';
 import { useSpeakContentBuilder } from '../../../providers/queries/editorQueries/speakQueries';
 import { DEFAULT_SPEAK_BENEFICIARIES } from '../../../providers/speak/constants';
 import { Beneficiary } from '../../../redux/reducers/editorReducer';
+import { setDefaultRewardType } from '../../../redux/actions/editorActions';
 
 const REWARD_TYPES = [
   {
@@ -74,7 +77,9 @@ const PostOptionsModal = forwardRef(
     ref,
   ) => {
     const intl = useIntl();
+    const dispatch = useDispatch();
     const speakContentBuilder = useSpeakContentBuilder();
+    const defaultRewardType = useSelector((state) => state.editor.defaultRewardType);
 
     const [showModal, setShowModal] = useState(false);
     const [rewardTypeIndex, setRewardTypeIndex] = useState(0);
@@ -82,6 +87,7 @@ const PostOptionsModal = forwardRef(
     const [shouldReblog, setShouldReblog] = useState(false);
     const [scheduledFor, setScheduledFor] = useState('');
     const [disableDone, setDisableDone] = useState(false);
+    const [isSaveDefaultChecked, setIsSaveDefaultChecked] = useState(false);
 
     const { encodingBeneficiaries, videoThumbUrls } = useMemo(() => {
       let benefs: Beneficiary[] = [];
@@ -131,6 +137,11 @@ const PostOptionsModal = forwardRef(
       }
     }, [rewardType]);
 
+    // update checkbox status according to values of defaultRewardType from redux and rewardType from parent
+    useEffect(() => {
+      setIsSaveDefaultChecked(!!defaultRewardType && defaultRewardType === rewardType);
+    }, [rewardType, defaultRewardType]);
+
     useImperativeHandle(ref, () => ({
       show: () => {
         setShowModal(true);
@@ -158,6 +169,35 @@ const PostOptionsModal = forwardRef(
     const _handleThumbIndexSelection = (url: string) => {
       handleThumbSelection(url);
     };
+
+    // handle save default reward checkbox here
+    const _onCheckPress = () => {
+      setIsSaveDefaultChecked(!isSaveDefaultChecked);
+      if (isSaveDefaultChecked) {
+        dispatch(setDefaultRewardType(null));
+      } else {
+        const index = REWARD_TYPES.findIndex((item) => item.key === rewardType);
+        const rewardTypeKey = REWARD_TYPES[index].key;
+        dispatch(setDefaultRewardType(rewardTypeKey as any));
+      }
+    };
+
+    const _renderRewardSaveDefault = () => (
+      <View style={styles.saveDefaultCheckContainer}>
+        <TouchableOpacity style={styles.saveDefaultCheckBtn} onPress={_onCheckPress}>
+          <CheckBox
+            clicked={_onCheckPress}
+            isChecked={isSaveDefaultChecked}
+            style={styles.checkStyle}
+          />
+          <Text style={styles.saveDefaultText}>
+            {intl.formatMessage({
+              id: 'editor.set_default',
+            })}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
 
     const _renderContent = () => (
       <View style={styles.fillSpace}>
@@ -202,7 +242,7 @@ const PostOptionsModal = forwardRef(
                   selectedOptionIndex={rewardTypeIndex}
                   handleOnChange={_handleRewardChange}
                 />
-
+                {_renderRewardSaveDefault()}
                 {isCommunityPost && (
                   <SettingsItem
                     title={intl.formatMessage({
