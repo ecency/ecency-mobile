@@ -1,9 +1,12 @@
 import axios from 'axios';
 import { Operation, PrivateKey } from '@esteemapp/dhive';
+import { Client as hsClient } from 'hivesigner';
 import bugsnagInstance from '../../config/bugsnag';
 import { Poll } from './polls.types';
 import { convertPoll } from './converters';
 import { getActiveKey, getDigitPinCode, sendHiveOperations } from '../hive/dhive';
+import AUTH_TYPE from '../../constants/authType';
+import { decryptKey } from '../../utils/crypto';
 
 /**
  *
@@ -25,20 +28,29 @@ const pollsApi = axios.create({
 });
 
 const executePollAction = (id: string, json: any, currentAccount: any, pinHash: string) => {
+  const username = currentAccount.name;
   const pin = getDigitPinCode(pinHash);
   const key = getActiveKey(currentAccount.local, pin);
-  const username = currentAccount.name;
+
+  const op = {
+    id,
+    json: JSON.stringify(json),
+    required_auths: [],
+    required_posting_auths: [username],
+  };
+  const opArray: Operation[] = [['custom_json', op]];
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, pin);
+    const api = new hsClient({
+      accessToken: token,
+    });
+
+    return api.broadcast(opArray).then((resp) => resp.result);
+  }
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
-
-    const op = {
-      id,
-      json: JSON.stringify(json),
-      required_auths: [username],
-      required_posting_auths: [],
-    };
-    const opArray: Operation[] = [['custom_json', op]];
     return sendHiveOperations(opArray, privateKey);
   }
 
