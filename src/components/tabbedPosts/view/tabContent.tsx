@@ -17,6 +17,7 @@ import { showReplyModal } from '../../../redux/actions/uiAction';
 import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsHelpers';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
 import ScrollTopPopup from './scrollTopPopup';
+import { useFeedQuery } from '../../../providers/queries/postQueries/feedQueries';
 
 const DEFAULT_TAB_META = {
   startAuthor: '',
@@ -56,6 +57,13 @@ const TabContent = ({
 
   const { username } = currentAccount;
   const userPinned = currentAccount.about?.profile?.pinned;
+
+  const feedQuery = useFeedQuery({
+    feedUsername,
+    filterKey,
+    tag,
+    cachePage: isInitialTab && isFeedScreen
+  });
 
   // state
   const [posts, setPosts] = useState([]);
@@ -108,7 +116,7 @@ const TabContent = ({
     console.log('curPinned change', userPinned);
     if (pageType === 'ownProfile' && userPinned !== curPinned) {
       _scrollToTop();
-      _loadPosts({ shouldReset: true, _pinnedPermlink: userPinned });
+      // _loadPosts({ shouldReset: true, _pinnedPermlink: userPinned });
       setCurPinned(userPinned);
     }
   }, [userPinned]);
@@ -132,10 +140,10 @@ const TabContent = ({
       posts.length > 0
     ) {
       const isLatestPostsCheck = true;
-      _loadPosts({
-        shouldReset: false,
-        isLatestPostsCheck,
-      });
+      // _loadPosts({
+      //   shouldReset: false,
+      //   isLatestPostsCheck,
+      // });
     }
 
     appState.current = nextAppState;
@@ -157,14 +165,14 @@ const TabContent = ({
     }
 
     if (username || (filterKey !== 'friends' && filterKey !== 'communities')) {
-      _loadPosts({
-        shouldReset: !isFirstCall,
-        isFirstCall,
-        isLatestPostsCheck: false,
-        _feedUsername,
-        _posts: initialPosts,
-        _tabMeta: DEFAULT_TAB_META,
-      });
+      // _loadPosts({
+      //   shouldReset: !isFirstCall,
+      //   isFirstCall,
+      //   isLatestPostsCheck: false,
+      //   _feedUsername,
+      //   _posts: initialPosts,
+      //   _tabMeta: DEFAULT_TAB_META,
+      // });
       _getPromotedPosts();
     }
   };
@@ -239,10 +247,10 @@ const TabContent = ({
       const timeLeft = calculateTimeLeftForPostCheck(firstPost);
       postFetchTimerRef.current = BackgroundTimer.setTimeout(() => {
         const isLatestPostsCheck = true;
-        _loadPosts({
-          shouldReset: false,
-          isLatestPostsCheck,
-        });
+        // _loadPosts({
+        //   shouldReset: false,
+        //   isLatestPostsCheck,
+        // });
       }, timeLeft);
     }
   };
@@ -342,20 +350,24 @@ const TabContent = ({
     <>
       <PostsList
         ref={postsListRef}
-        posts={posts}
+        posts={feedQuery.data}
         isFeedScreen={isFeedScreen}
         promotedPosts={promotedPosts}
         onLoadPosts={(shouldReset) => {
-          _loadPosts({ shouldReset });
+          // _loadPosts({ shouldReset });
+  
           if (shouldReset) {
+            feedQuery.refresh()
             _getPromotedPosts();
+          } else {
+            feedQuery.fetchNextPage();
           }
         }}
         onScroll={_onScroll}
         onScrollEndDrag={_handleOnScroll}
         onScrollBeginDrag={handleOnScrollBeginDrag}
-        isRefreshing={tabMeta.isRefreshing}
-        isLoading={tabMeta.isLoading}
+        isRefreshing={feedQuery.isRefreshing}
+        isLoading={feedQuery.isLoading}
         ListEmptyComponent={_renderEmptyContent}
         pageType={pageType}
         showQuickReplyModal={_showQuickReplyModal}

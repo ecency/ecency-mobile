@@ -1,4 +1,7 @@
 const QUERIES = {
+  FEED:{
+    GET:"QUERY_GET_FEED",
+  },
   DRAFTS: {
     GET: 'QUERY_GET_DRAFTS',
   },
