@@ -95,8 +95,8 @@ export const generateUniquePermlink = (prefix) => {
   const timeFormat = `${t.getFullYear().toString()}${(t.getMonth() + 1).toString()}${t
     .getDate()
     .toString()}t${t.getHours().toString()}${t.getMinutes().toString()}${t
-      .getSeconds()
-      .toString()}${t.getMilliseconds().toString()}z`;
+    .getSeconds()
+    .toString()}${t.getMilliseconds().toString()}z`;
 
   return `${prefix}-${timeFormat}`;
 };
@@ -115,8 +115,6 @@ export const makeOptions = (postObj) => {
     percent_hbd: 10000,
     extensions: [] as any,
   };
-
-
 
   switch (postObj.operationType) {
     case 'sp':
