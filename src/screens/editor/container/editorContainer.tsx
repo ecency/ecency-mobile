@@ -748,6 +748,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           fields,
           scheduleDate,
           jsonMeta,
+          beneficiaries,
         });
       } else {
         await postContent(
@@ -1188,13 +1189,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   _setScheduledPost = (data) => {
     const { dispatch, intl, currentAccount, navigation } = this.props;
     const { rewardType } = this.state;
-    const beneficiaries = this._extractBeneficiaries();
 
     const options = makeOptions({
       author: data.author,
       permlink: data.permlink,
       operationType: rewardType,
-      beneficiaries,
+      beneficiaries: data.beneficiaries,
     });
 
     addSchedule(
