@@ -1,5 +1,6 @@
 import { diff_match_patch as diffMatchPatch } from 'diff-match-patch';
 import MimeTypes from 'mime-types';
+import { unionBy } from 'lodash';
 import { Image } from 'react-native';
 import VersionNumber from 'react-native-version-number';
 import getSlug from 'speakingurl';
@@ -94,8 +95,8 @@ export const generateUniquePermlink = (prefix) => {
   const timeFormat = `${t.getFullYear().toString()}${(t.getMonth() + 1).toString()}${t
     .getDate()
     .toString()}t${t.getHours().toString()}${t.getMinutes().toString()}${t
-    .getSeconds()
-    .toString()}${t.getMilliseconds().toString()}z`;
+      .getSeconds()
+      .toString()}${t.getMilliseconds().toString()}z`;
 
   return `${prefix}-${timeFormat}`;
 };
@@ -112,35 +113,31 @@ export const makeOptions = (postObj) => {
     permlink: postObj.permlink,
     max_accepted_payout: '1000000.000 HBD',
     percent_hbd: 10000,
-    extensions: [],
+    extensions: [] as any,
   };
+
+
+
   switch (postObj.operationType) {
     case 'sp':
       a.max_accepted_payout = '1000000.000 HBD';
       a.percent_hbd = 0;
-      if (postObj.beneficiaries && postObj.beneficiaries.length > 0) {
-        postObj.beneficiaries.sort((a, b) => a.account.localeCompare(b.account));
-        a.extensions = [[0, { beneficiaries: postObj.beneficiaries }]];
-      }
       break;
 
     case 'dp':
       a.max_accepted_payout = '0.000 HBD';
       a.percent_hbd = 10000;
-      if (postObj.beneficiaries && postObj.beneficiaries.length > 0) {
-        postObj.beneficiaries.sort((a, b) => a.account.localeCompare(b.account));
-        a.extensions = [[0, { beneficiaries: postObj.beneficiaries }]];
-      }
       break;
 
     default:
       a.max_accepted_payout = '1000000.000 HBD';
       a.percent_hbd = 10000;
-      if (postObj.beneficiaries && postObj.beneficiaries.length > 0) {
-        postObj.beneficiaries.sort((a, b) => a.account.localeCompare(b.account));
-        a.extensions = [[0, { beneficiaries: postObj.beneficiaries }]];
-      }
       break;
+  }
+
+  if (postObj.beneficiaries && postObj.beneficiaries.length > 0) {
+    postObj.beneficiaries.sort((a, b) => a.account.localeCompare(b.account));
+    a.extensions = [[0, { beneficiaries: unionBy(postObj.beneficiaries, 'account') }]];
   }
 
   return a;
