@@ -1,4 +1,4 @@
-import { Query, useQueries, useQueryClient } from "@tanstack/react-query";
+import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import QUERIES from "../queryKeys";
 import { unionBy, isArray } from 'lodash';
@@ -80,7 +80,7 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFe
 
 
 
-  const _fetchPosts = async (pageKey: string, limit?: number) => {
+  const _fetchPosts = async (pageKey: string) => {
     // console.log('fetching waves from:', host, pagePermlink);
     const [startAuthor, startPermlink] = _parsePostLocalKey(pageKey);
 
@@ -89,7 +89,7 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFe
       observer: feedUsername || '',
       start_author: startAuthor,
       start_permlink: startPermlink,
-      limit: POSTS_PER_PAGE,
+      limit: POSTS_FETCH_COUNT,
     }
 
     switch (filterKey) {
