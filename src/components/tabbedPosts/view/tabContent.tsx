@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-} from 'react-native';
+import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { debounce } from 'lodash';
 import BackgroundTimer from 'react-native-background-timer';
 import PostsList from '../../postsList';
@@ -12,8 +9,10 @@ import TabEmptyView from './listEmptyView';
 import { showReplyModal } from '../../../redux/actions/uiAction';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
 import ScrollTopPopup from './scrollTopPopup';
-import { useFeedQuery, usePromotedPostsQuery } from '../../../providers/queries/postQueries/feedQueries';
-
+import {
+  useFeedQuery,
+  usePromotedPostsQuery,
+} from '../../../providers/queries/postQueries/feedQueries';
 
 let scrollOffset = 0;
 let blockPopup = false;
@@ -33,7 +32,6 @@ const TabContent = ({
   handleOnScroll,
   handleOnScrollBeginDrag,
 }: TabContentProps) => {
-
   // redux properties
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
@@ -106,8 +104,6 @@ const TabContent = ({
     }
   }, [userPinned]);
 
-
-
   const _initContent = (_sessionUsername: string) => {
     _scrollToTop();
     setSessionUser(_sessionUsername);
@@ -118,11 +114,10 @@ const TabContent = ({
     }
   };
 
-
   // view related routines
   const _onPostsPopupPress = () => {
     _scrollToTop();
-    feedQuery.mergetLatestPosts()
+    feedQuery.mergetLatestPosts();
   };
 
   const _scrollToTop = () => {
@@ -184,7 +179,7 @@ const TabContent = ({
         promotedPosts={!skipPromotedPosts ? promotedPostsQuery.data : []}
         onLoadPosts={(shouldReset) => {
           if (shouldReset) {
-            feedQuery.refresh()
+            feedQuery.refresh();
             promotedPostsQuery.refetch();
           } else {
             feedQuery.fetchNextPage();

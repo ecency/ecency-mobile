@@ -29,7 +29,7 @@ export const initQueryClient = () => {
         case QUERIES.NOTIFICATIONS.GET:
           return query.queryKey[2] === ''; // only dehydrate first page of notifications
         case QUERIES.FEED.GET:
-          return query.queryKey[3] === '' && query.queryKey[4] //only hydrate first page if cacheFlag is enabled
+          return query.queryKey[3] === '' && query.queryKey[4]; // only hydrate first page if cacheFlag is enabled
         default:
           return true;
       }

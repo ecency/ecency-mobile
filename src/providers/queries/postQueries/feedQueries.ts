@@ -1,27 +1,33 @@
-import { useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useRef, useState } from "react";
-import QUERIES from "../queryKeys";
+import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { unionBy, isArray } from 'lodash';
-import { useAppSelector } from "../../../hooks";
-// import { injectPostCache } from "../../../utils/postParser";
 import BackgroundTimer from 'react-native-background-timer';
-import { getAccountPosts, getRankedPosts } from "../../hive/dhive";
-import { calculateTimeLeftForPostCheck } from "../../../components/tabbedPosts/services/tabbedPostsHelpers";
-import { AppState, NativeEventSubscription } from "react-native";
-import { getPromotedEntries } from "../../../providers/ecency/ecency";
-import filterNsfwPost from "../../../utils/filterNsfwPost";
+import { AppState, NativeEventSubscription } from 'react-native';
+import QUERIES from '../queryKeys';
+import { useAppSelector } from '../../../hooks';
+// import { injectPostCache } from "../../../utils/postParser";
+import { getAccountPosts, getRankedPosts } from '../../hive/dhive';
+import { calculateTimeLeftForPostCheck } from '../../../components/tabbedPosts/services/tabbedPostsHelpers';
+import { getPromotedEntries } from '../../ecency/ecency';
+import filterNsfwPost from '../../../utils/filterNsfwPost';
 
 const POSTS_FETCH_COUNT = 10;
 
 interface FeedQueryParams {
-  feedUsername?: string,
-  filterKey?: string,
-  tag?: string,
-  cachePage?: boolean,
-  enableFetchOnAppState?: boolean
+  feedUsername?: string;
+  filterKey?: string;
+  tag?: string;
+  cachePage?: boolean;
+  enableFetchOnAppState?: boolean;
 }
 
-export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFetchOnAppState }: FeedQueryParams) => {
+export const useFeedQuery = ({
+  feedUsername,
+  filterKey,
+  tag,
+  cachePage,
+  enableFetchOnAppState,
+}: FeedQueryParams) => {
   const postFetchTimerRef = useRef(null);
   const appState = useRef(AppState.currentState);
   const appStateSubRef = useRef<NativeEventSubscription | null>();
@@ -41,7 +47,7 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFe
   // side effects
   useEffect(() => {
     if (enableFetchOnAppState) {
-    appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
+      appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
     }
     return _cleanup;
   }, []);
@@ -54,7 +60,6 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFe
     cacheRef.current = cache;
   }, [cache]);
 
-
   const _cleanup = () => {
     if (postFetchTimerRef.current) {
       BackgroundTimer.clearTimeout(postFetchTimerRef.current);
@@ -64,7 +69,6 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFe
       appStateSubRef.current.remove();
     }
   };
-
 
   // actions
   const _handleAppStateChange = (nextAppState) => {
@@ -80,19 +84,17 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFe
     appState.current = nextAppState;
   };
 
-
-
   const _fetchPosts = async (pageKey: string) => {
     // console.log('fetching waves from:', host, pagePermlink);
     const [startAuthor, startPermlink] = _parsePostLocalKey(pageKey);
 
-    var func = getAccountPosts;
-    var options: any = {
+    let func = getAccountPosts;
+    const options: any = {
       observer: feedUsername || '',
       start_author: startAuthor,
       start_permlink: startPermlink,
       limit: POSTS_FETCH_COUNT,
-    }
+    };
 
     switch (filterKey) {
       case 'friends':
@@ -119,11 +121,10 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFe
         break;
     }
 
-
     // fetching posts
     const result: any[] = await func(options, feedUsername, nsfw);
 
-    //TODO: inject cache here...
+    // TODO: inject cache here...
     //   const _cachedComments = cacheRef.current.commentsCollection;
     // const _cachedVotes = cacheRef.current.votesCollection;
     // const _lastCacheUpdate = cacheRef.current.lastCacheUpdate;
@@ -155,8 +156,13 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFe
     return _getPostLocalKey(lastPost.author, lastPost.permlink);
   };
 
-
-  const _getFeedQueryKey = (pageKey: string) => [QUERIES.FEED.GET, feedUsername || tag, filterKey, pageKey, cachePage]
+  const _getFeedQueryKey = (pageKey: string) => [
+    QUERIES.FEED.GET,
+    feedUsername || tag,
+    filterKey,
+    pageKey,
+    cachePage,
+  ];
 
   // query initialization
   const feedQueries = useQueries({
@@ -178,7 +184,6 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFe
   };
 
   const _fetchNextPage = () => {
-
     if (!_lastPage || _lastPage.isFetching || !isArray(_lastPage.data)) {
       return;
     }
@@ -189,7 +194,6 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFe
       setPageKeys([...pageKeys]);
     }
   };
-
 
   // schedules post fetch
   const _scheduleLatestPostsCheck = (firstPost?: any) => {
@@ -210,17 +214,18 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFe
     }
   };
 
-
   // fetch and filter posts that are not present in top 5 posts currently in list.
   const _fetchLatestPosts = async () => {
     const _fetchedPosts = await _fetchPosts('');
-    const _cachedPosts:any[] = queryClient.getQueryData(_getFeedQueryKey('')) || []
+    const _cachedPosts: any[] = queryClient.getQueryData(_getFeedQueryKey('')) || [];
 
     const _latestPosts = [] as any;
 
     _fetchedPosts.forEach((post) => {
       const newPostAuthPrem = post.author + post.permlink;
-      const postExist = _cachedPosts.find((cPost) => cPost.author + cPost.permlink === newPostAuthPrem);
+      const postExist = _cachedPosts.find(
+        (cPost) => cPost.author + cPost.permlink === newPostAuthPrem,
+      );
 
       if (!postExist) {
         _latestPosts.push(post);
@@ -233,8 +238,7 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFe
       _scheduleLatestPostsCheck();
       setLatestPosts([]);
     }
-  }
-
+  };
 
   const _mergeLatestPosts = () => {
     const _prevData = feedQueries[0].data || [];
@@ -242,13 +246,11 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFe
     queryClient.setQueryData(_firstPageKey, [...latestPosts, ..._prevData]);
     _scheduleLatestPostsCheck(latestPosts[0]);
     setLatestPosts([]);
-  }
-
+  };
 
   const _resetLatestPosts = () => {
-    setLatestPosts([])
-  }
-
+    setLatestPosts([]);
+  };
 
   const _data = unionBy(...feedQueries.map((query) => query.data), 'url');
   const _filteredData = useMemo(
@@ -270,31 +272,24 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFe
 
 /** hook used to return user drafts */
 export const usePromotedPostsQuery = () => {
-
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const nsfw = useAppSelector((state) => state.application.nsfw);
 
   const _getPromotedPosts = async () => {
     try {
-
       const posts = await getPromotedEntries(currentAccount.username);
-  
+
       return Array.isArray(posts) ? filterNsfwPost(posts, nsfw) : [];
     } catch (err) {
       console.warn('Failed to get promoted posts, ', err);
-      return []
+      return [];
     }
-  }
+  };
 
-  return useQuery(
-      [QUERIES.FEED.GET_PROMOTED, currentAccount.username], 
-      _getPromotedPosts,
-      {
-        initialData:[]
-      });
+  return useQuery([QUERIES.FEED.GET_PROMOTED, currentAccount.username], _getPromotedPosts, {
+    initialData: [],
+  });
 };
 
-
-
 const _getPostLocalKey = (author: string, permlink: string) => `${author}/${permlink}`;
-const _parsePostLocalKey = (localKey: string) => localKey ? localKey.split('/') : ['', ''];
+const _parsePostLocalKey = (localKey: string) => (localKey ? localKey.split('/') : ['', '']);
