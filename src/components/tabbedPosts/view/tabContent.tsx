@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  AppState,
-  NativeEventSubscription,
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from 'react-native';
@@ -12,9 +10,7 @@ import PostsList from '../../postsList';
 import { fetchPromotedEntries, loadPosts } from '../services/tabbedPostsFetch';
 import { LoadPostsOptions, TabContentProps, TabMeta } from '../services/tabbedPostsModels';
 import TabEmptyView from './listEmptyView';
-import { setInitPosts } from '../../../redux/actions/postsAction';
 import { showReplyModal } from '../../../redux/actions/uiAction';
-import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsHelpers';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
 import ScrollTopPopup from './scrollTopPopup';
 import { useFeedQuery } from '../../../providers/queries/postQueries/feedQueries';
@@ -62,7 +58,8 @@ const TabContent = ({
     feedUsername,
     filterKey,
     tag,
-    cachePage: isInitialTab && isFeedScreen
+    cachePage: isInitialTab && isFeedScreen,
+    enableFetchOnAppState: isFeedScreen,
   });
 
   // state
@@ -70,14 +67,12 @@ const TabContent = ({
   const [promotedPosts, setPromotedPosts] = useState([]);
   const [sessionUser, setSessionUser] = useState(username);
   const [tabMeta, setTabMeta] = useState(DEFAULT_TAB_META);
-  const [latestPosts, setLatestPosts] = useState<any[]>([]);
   const [enableScrollTop, setEnableScrollTop] = useState(false);
   const [curPinned, setCurPinned] = useState(pinnedPermlink);
 
   // refs
   const postsListRef = useRef<PostsListRef>();
-  const appState = useRef(AppState.currentState);
-  const appStateSubRef = useRef<NativeEventSubscription | null>();
+
   const postsRef = useRef(posts);
   const sessionUserRef = useRef(sessionUser);
   const postFetchTimerRef = useRef<any>(null);
@@ -88,13 +83,9 @@ const TabContent = ({
 
   // side effects
   useEffect(() => {
-    if (isFeedScreen) {
-      appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
-    }
 
     _initContent(true, feedUsername);
 
-    return _cleanup;
   }, [tag]);
 
   useEffect(() => {
@@ -116,38 +107,13 @@ const TabContent = ({
     console.log('curPinned change', userPinned);
     if (pageType === 'ownProfile' && userPinned !== curPinned) {
       _scrollToTop();
+      feedQuery.refresh();
       // _loadPosts({ shouldReset: true, _pinnedPermlink: userPinned });
       setCurPinned(userPinned);
     }
   }, [userPinned]);
 
-  const _cleanup = () => {
-    _isMounted = false;
-    if (postFetchTimerRef.current) {
-      BackgroundTimer.clearTimeout(postFetchTimerRef.current);
-      postFetchTimerRef.current = null;
-    }
-    if (isFeedScreen && appStateSubRef.current) {
-      appStateSubRef.current.remove();
-    }
-  };
 
-  // actions
-  const _handleAppStateChange = (nextAppState) => {
-    if (
-      appState.current.match(/inactive|background/) &&
-      nextAppState === 'active' &&
-      posts.length > 0
-    ) {
-      const isLatestPostsCheck = true;
-      // _loadPosts({
-      //   shouldReset: false,
-      //   isLatestPostsCheck,
-      // });
-    }
-
-    appState.current = nextAppState;
-  };
 
   const _initContent = (isFirstCall = false, _feedUsername: string) => {
     _scrollToTop();
@@ -157,7 +123,6 @@ const TabContent = ({
     setPosts(initialPosts);
     setTabMeta(DEFAULT_TAB_META);
     setSessionUser(_feedUsername);
-    setLatestPosts([]);
 
     if (postFetchTimerRef.current) {
       BackgroundTimer.clearTimeout(postFetchTimerRef.current);
@@ -222,7 +187,7 @@ const TabContent = ({
       if (shouldReset || isFirstCall) {
         setPosts([]);
       }
-      _postProcessLoadResult(result);
+      // _postProcessLoadResult(result);
     }
   };
 
@@ -236,65 +201,49 @@ const TabContent = ({
     }
   };
 
-  // schedules post fetch
-  const _scheduleLatestPostsCheck = (firstPost: any) => {
-    if (firstPost) {
-      if (postFetchTimerRef.current) {
-        BackgroundTimer.clearTimeout(postFetchTimerRef.current);
-        postFetchTimerRef.current = null;
-      }
 
-      const timeLeft = calculateTimeLeftForPostCheck(firstPost);
-      postFetchTimerRef.current = BackgroundTimer.setTimeout(() => {
-        const isLatestPostsCheck = true;
-        // _loadPosts({
-        //   shouldReset: false,
-        //   isLatestPostsCheck,
-        // });
-      }, timeLeft);
-    }
-  };
 
   // processes response from loadPost
-  const _postProcessLoadResult = ({ updatedPosts, latestPosts }: any) => {
-    // process new posts avatart
-    if (latestPosts && Array.isArray(latestPosts)) {
-      if (latestPosts.length > 0) {
-        setLatestPosts(latestPosts);
-      } else {
-        _scheduleLatestPostsCheck(posts[0]);
-      }
-    }
+  // const _postProcessLoadResult = ({ updatedPosts, latestPosts }: any) => {
 
-    // process returned data
-    if (Array.isArray(updatedPosts)) {
-      if (updatedPosts.length) {
-        // match new and old first post
-        const firstPostChanged =
-          posts.length == 0 || posts[0].permlink !== updatedPosts[0].permlink;
-        if (isFeedScreen && firstPostChanged) {
-          // schedule refetch of new posts by checking time of current post
-          _scheduleLatestPostsCheck(updatedPosts[0]);
+  //   // process returned data
+  //   if (Array.isArray(updatedPosts)) {
+  //     if (updatedPosts.length) {
+  //       // match new and old first post
+  //       const firstPostChanged =
+  //         posts.length == 0 || posts[0].permlink !== updatedPosts[0].permlink;
+  //       if (isFeedScreen && firstPostChanged) {
+  //         // schedule refetch of new posts by checking time of current post
+  //         _scheduleLatestPostsCheck(updatedPosts[0]);
 
-          if (isInitialTab) {
-            dispatch(setInitPosts(updatedPosts));
-          }
-        }
-      } else if (isFeedScreen && isInitialTab) {
-        // clear posts cache if no first tab posts available, precautionary measure for accoutn change
-        dispatch(setInitPosts([]));
-      }
-      setPosts(updatedPosts);
-    }
-  };
+  //         if (isInitialTab) {
+  //           dispatch(setInitPosts(updatedPosts));
+  //         }
+  //       }
+  //     } else if (isFeedScreen && isInitialTab) {
+  //       // clear posts cache if no first tab posts available, precautionary measure for accoutn change
+  //       dispatch(setInitPosts([]));
+  //     }
+  //     setPosts(updatedPosts);
+  //   }
+  // };
+
+
+  // const _fetchLatestPosts = async () => {
+  //   const _latestPosts = await feedQuery.fetchLatestPosts();
+
+  //   if (_latestPosts.length > 0) {
+  //     setLatestPosts(_latestPosts);
+  //   } else {
+  //     // _scheduleLatestPostsCheck(posts[0]);
+  //   }
+  // }
 
   // view related routines
   const _onPostsPopupPress = () => {
     _scrollToTop();
     _getPromotedPosts();
-    setPosts([...latestPosts, ...posts]);
-    _scheduleLatestPostsCheck(latestPosts[0]);
-    setLatestPosts([]);
+    feedQuery.mergetLatestPosts()
   };
 
   const _scrollToTop = () => {
@@ -355,7 +304,7 @@ const TabContent = ({
         promotedPosts={promotedPosts}
         onLoadPosts={(shouldReset) => {
           // _loadPosts({ shouldReset });
-  
+
           if (shouldReset) {
             feedQuery.refresh()
             _getPromotedPosts();
@@ -373,11 +322,11 @@ const TabContent = ({
         showQuickReplyModal={_showQuickReplyModal}
       />
       <ScrollTopPopup
-        popupAvatars={latestPosts.map((post) => post.avatar || '')}
+        popupAvatars={feedQuery.latestPosts.map((post) => post.avatar || '')}
         enableScrollTop={enableScrollTop}
         onPress={_onPostsPopupPress}
         onClose={() => {
-          setLatestPosts([]);
+          feedQuery.resetLatestPosts();
           setEnableScrollTop(false);
         }}
       />

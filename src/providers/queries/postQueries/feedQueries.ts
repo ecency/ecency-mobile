@@ -1,31 +1,48 @@
-import { useQueries } from "@tanstack/react-query";
+import { Query, useQueries, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import QUERIES from "../queryKeys";
 import { unionBy, isArray } from 'lodash';
 import { useAppSelector } from "../../../hooks";
 // import { injectPostCache } from "../../../utils/postParser";
+import BackgroundTimer from 'react-native-background-timer';
 import { getAccountPosts, getRankedPosts } from "../../hive/dhive";
+import { calculateTimeLeftForPostCheck } from "../../../components/tabbedPosts/services/tabbedPostsHelpers";
+import { AppState, NativeEventSubscription } from "react-native";
 
-const POSTS_PER_PAGE = 5;
+const POSTS_FETCH_COUNT = 10;
 
 interface FeedQueryParams {
   feedUsername?: string,
   filterKey?: string,
   tag?: string,
   cachePage?: boolean,
+  enableFetchOnAppState?: boolean
 }
 
-export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage }: FeedQueryParams) => {
+export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFetchOnAppState }: FeedQueryParams) => {
+  const postFetchTimerRef = useRef(null);
+  const appState = useRef(AppState.currentState);
+  const appStateSubRef = useRef<NativeEventSubscription | null>();
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [pageKeys, setPageKeys] = useState(['']);
-
+  const [latestPosts, setLatestPosts] = useState([]);
 
   const cache = useAppSelector((state) => state.cache);
   const cacheRef = useRef(cache);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const nsfw = useAppSelector((state) => state.application.nsfw);
   const { username, mutes } = currentAccount;
+
+  const queryClient = useQueryClient();
+
+  // side effects
+  useEffect(() => {
+    if (enableFetchOnAppState) {
+    appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
+    }
+    return _cleanup;
+  }, []);
 
   // hook to update cache reference,
   // workaround required since query fucntion do get passed an
@@ -36,7 +53,34 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage }: FeedQu
   }, [cache]);
 
 
-  const _fetchPosts = async (pageKey: string) => {
+  const _cleanup = () => {
+    if (postFetchTimerRef.current) {
+      BackgroundTimer.clearTimeout(postFetchTimerRef.current);
+      postFetchTimerRef.current = null;
+    }
+    if (enableFetchOnAppState && appStateSubRef.current) {
+      appStateSubRef.current.remove();
+    }
+  };
+
+
+  // actions
+  const _handleAppStateChange = (nextAppState) => {
+    if (
+      appState.current.match(/inactive|background/) &&
+      nextAppState === 'active' &&
+      feedQueries[0].data &&
+      feedQueries[0].data.length > 0
+    ) {
+      _fetchLatestPosts();
+    }
+
+    appState.current = nextAppState;
+  };
+
+
+
+  const _fetchPosts = async (pageKey: string, limit?: number) => {
     // console.log('fetching waves from:', host, pagePermlink);
     const [startAuthor, startPermlink] = _parsePostLocalKey(pageKey);
 
@@ -96,6 +140,10 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage }: FeedQu
 
     // console.log('new waves fetched', _threadedComments);
 
+    if (!pageKey) {
+      _scheduleLatestPostsCheck(result[0]);
+    }
+
     return result;
   };
 
@@ -105,10 +153,13 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage }: FeedQu
     return _getPostLocalKey(lastPost.author, lastPost.permlink);
   };
 
+
+  const _getFeedQueryKey = (pageKey: string) => [QUERIES.FEED.GET, feedUsername || tag, filterKey, pageKey, cachePage]
+
   // query initialization
   const feedQueries = useQueries({
     queries: pageKeys.map((pageKey) => ({
-      queryKey: [QUERIES.FEED.GET, feedUsername || tag, filterKey, pageKey, cachePage ],
+      queryKey: _getFeedQueryKey(pageKey),
       queryFn: () => _fetchPosts(pageKey),
       initialData: [],
     })),
@@ -138,6 +189,65 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage }: FeedQu
   };
 
 
+  // schedules post fetch
+  const _scheduleLatestPostsCheck = (firstPost?: any) => {
+    if (!firstPost && feedQueries[0].data) {
+      firstPost = feedQueries[0].data[0];
+    }
+
+    if (firstPost) {
+      if (postFetchTimerRef.current) {
+        BackgroundTimer.clearTimeout(postFetchTimerRef.current);
+        postFetchTimerRef.current = null;
+      }
+
+      const timeLeft = calculateTimeLeftForPostCheck(firstPost);
+      postFetchTimerRef.current = BackgroundTimer.setTimeout(() => {
+        _fetchLatestPosts();
+      }, timeLeft);
+    }
+  };
+
+
+  // fetch and filter posts that are not present in top 5 posts currently in list.
+  const _fetchLatestPosts = async () => {
+    const _fetchedPosts = await _fetchPosts('');
+    const _cachedPosts:any[] = queryClient.getQueryData(_getFeedQueryKey('')) || []
+
+    const _latestPosts = [] as any;
+
+    _fetchedPosts.forEach((post) => {
+      const newPostAuthPrem = post.author + post.permlink;
+      const postExist = _cachedPosts.find((cPost) => cPost.author + cPost.permlink === newPostAuthPrem);
+
+      if (!postExist) {
+        _latestPosts.push(post);
+      }
+    });
+
+    if (_latestPosts.length > 0) {
+      setLatestPosts(_latestPosts.slice(0, 5));
+    } else {
+      _scheduleLatestPostsCheck();
+      setLatestPosts([]);
+    }
+  }
+
+
+  const _mergeLatestPosts = () => {
+    const _prevData = feedQueries[0].data || [];
+    const _firstPageKey = _getFeedQueryKey('');
+    queryClient.setQueryData(_firstPageKey, [...latestPosts, ..._prevData]);
+    _scheduleLatestPostsCheck(latestPosts[0]);
+    setLatestPosts([]);
+  }
+
+
+  const _resetLatestPosts = () => {
+    setLatestPosts([])
+  }
+
+
   const _data = unionBy(...feedQueries.map((query) => query.data), 'url');
   const _filteredData = useMemo(
     () => _data.filter((post) => (isArray(mutes) ? mutes.indexOf(post?.author) < 0 : true)),
@@ -148,7 +258,10 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage }: FeedQu
     data: _filteredData,
     isRefreshing,
     isLoading: _lastPage.isLoading || _lastPage.isFetching,
+    latestPosts,
     fetchNextPage: _fetchNextPage,
+    mergetLatestPosts: _mergeLatestPosts,
+    resetLatestPosts: _resetLatestPosts,
     refresh: _refresh,
   };
 };
