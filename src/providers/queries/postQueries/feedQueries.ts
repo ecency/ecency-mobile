@@ -40,7 +40,7 @@ export const useFeedQuery = ({
   const cacheRef = useRef(cache);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const nsfw = useAppSelector((state) => state.application.nsfw);
-  const { username, mutes } = currentAccount;
+  const { mutes } = currentAccount;
 
   const queryClient = useQueryClient();
 
@@ -198,7 +198,7 @@ export const useFeedQuery = ({
   // schedules post fetch
   const _scheduleLatestPostsCheck = (firstPost?: any) => {
     if (!firstPost && feedQueries[0].data) {
-      firstPost = feedQueries[0].data[0];
+      [firstPost] = feedQueries[0].data;
     }
 
     if (firstPost) {
