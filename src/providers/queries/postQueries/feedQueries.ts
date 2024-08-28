@@ -1,4 +1,4 @@
-import { useQueries, useQueryClient } from "@tanstack/react-query";
+import { useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import QUERIES from "../queryKeys";
 import { unionBy, isArray } from 'lodash';
@@ -8,6 +8,8 @@ import BackgroundTimer from 'react-native-background-timer';
 import { getAccountPosts, getRankedPosts } from "../../hive/dhive";
 import { calculateTimeLeftForPostCheck } from "../../../components/tabbedPosts/services/tabbedPostsHelpers";
 import { AppState, NativeEventSubscription } from "react-native";
+import { getPromotedEntries } from "../../../providers/ecency/ecency";
+import filterNsfwPost from "../../../utils/filterNsfwPost";
 
 const POSTS_FETCH_COUNT = 10;
 
@@ -265,6 +267,33 @@ export const useFeedQuery = ({ feedUsername, filterKey, tag, cachePage, enableFe
     refresh: _refresh,
   };
 };
+
+/** hook used to return user drafts */
+export const usePromotedPostsQuery = () => {
+
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const nsfw = useAppSelector((state) => state.application.nsfw);
+
+  const _getPromotedPosts = async () => {
+    try {
+
+      const posts = await getPromotedEntries(currentAccount.username);
+  
+      return Array.isArray(posts) ? filterNsfwPost(posts, nsfw) : [];
+    } catch (err) {
+      console.warn('Failed to get promoted posts, ', err);
+      return []
+    }
+  }
+
+  return useQuery(
+      [QUERIES.FEED.GET_PROMOTED, currentAccount.username], 
+      _getPromotedPosts,
+      {
+        initialData:[]
+      });
+};
+
 
 
 const _getPostLocalKey = (author: string, permlink: string) => `${author}/${permlink}`;

@@ -14,6 +14,7 @@ import { showReplyModal } from '../../../redux/actions/uiAction';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
 import ScrollTopPopup from './scrollTopPopup';
 import { useFeedQuery } from '../../../providers/queries/postQueries/feedQueries';
+import { useFeedQuery, usePromotedPostsQuery } from '../../../providers/queries/postQueries/feedQueries';
 
 const DEFAULT_TAB_META = {
   startAuthor: '',
@@ -61,10 +62,10 @@ const TabContent = ({
     cachePage: isInitialTab && isFeedScreen,
     enableFetchOnAppState: isFeedScreen,
   });
+  const promotedPostsQuery = usePromotedPostsQuery();
 
   // state
   const [posts, setPosts] = useState([]);
-  const [promotedPosts, setPromotedPosts] = useState([]);
   const [sessionUser, setSessionUser] = useState(username);
   const [tabMeta, setTabMeta] = useState(DEFAULT_TAB_META);
   const [enableScrollTop, setEnableScrollTop] = useState(false);
@@ -81,6 +82,16 @@ const TabContent = ({
   postsRef.current = posts;
   sessionUserRef.current = sessionUser;
 
+  const skipPromotedPosts = useMemo(() => {
+    switch (pageType) {
+      case 'profile':
+      case 'ownProfile':
+      case 'community':
+        return true;
+      default:
+        return false;
+    }
+  }, [pageType]);
   // side effects
   useEffect(() => {
 
@@ -191,14 +202,6 @@ const TabContent = ({
     }
   };
 
-  const _getPromotedPosts = async () => {
-    if (pageType === 'profile' || pageType === 'ownProfile' || pageType === 'community') {
-      return;
-    }
-    const pPosts = await fetchPromotedEntries(username, nsfw);
-    if (pPosts) {
-      setPromotedPosts(pPosts);
-    }
   };
 
 
@@ -242,7 +245,6 @@ const TabContent = ({
   // view related routines
   const _onPostsPopupPress = () => {
     _scrollToTop();
-    _getPromotedPosts();
     feedQuery.mergetLatestPosts()
   };
 
@@ -301,13 +303,11 @@ const TabContent = ({
         ref={postsListRef}
         posts={feedQuery.data}
         isFeedScreen={isFeedScreen}
-        promotedPosts={promotedPosts}
+        promotedPosts={!skipPromotedPosts ? promotedPostsQuery.data : []}
         onLoadPosts={(shouldReset) => {
-          // _loadPosts({ shouldReset });
-
           if (shouldReset) {
             feedQuery.refresh()
-            _getPromotedPosts();
+            promotedPostsQuery.refetch();
           } else {
             feedQuery.fetchNextPage();
           }
