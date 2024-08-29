@@ -6,7 +6,6 @@ import { AppState, NativeEventSubscription } from 'react-native';
 import QUERIES from '../queryKeys';
 import { useAppSelector } from '../../../hooks';
 import { getAccountPosts, getRankedPosts } from '../../hive/dhive';
-import { calculateTimeLeftForPostCheck } from '../../../components/tabbedPosts/services/tabbedPostsHelpers';
 import { getPromotedEntries } from '../../ecency/ecency';
 import filterNsfwPost from '../../../utils/filterNsfwPost';
 import { useGetPostQuery } from './postQueries';
@@ -132,8 +131,8 @@ export const useFeedQuery = ({
     // fetching posts
     const response: any[] = await func(options, feedUsername, nsfw);
 
-    if(!Array.isArray(response) || response.length == 0){
-      return []
+    if (!Array.isArray(response) || response.length == 0) {
+      return [];
     }
 
     if (!pageKey) {
@@ -288,6 +287,22 @@ export const usePromotedPostsQuery = () => {
   return useQuery([QUERIES.FEED.GET_PROMOTED, currentAccount.username], _getPromotedPosts, {
     initialData: [],
   });
+};
+
+// cacludate posts check refresh time for selected filter;
+export const calculateTimeLeftForPostCheck = (firstPost: any) => {
+  const refetchTime = 600000;
+
+  // schedules refresh 30 minutes after last post creation time
+  const currentTime = new Date().getTime();
+  const createdAt = new Date(firstPost.created).getTime();
+
+  const timeSpent = currentTime - createdAt;
+  let timeLeft = refetchTime - timeSpent;
+  if (timeLeft < 30000) {
+    timeLeft = refetchTime;
+  }
+  return timeLeft;
 };
 
 const _getPostLocalKey = (author: string, permlink: string) => `${author}/${permlink}`;

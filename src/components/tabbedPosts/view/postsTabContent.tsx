@@ -4,7 +4,7 @@ import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { debounce } from 'lodash';
 import BackgroundTimer from 'react-native-background-timer';
 import PostsList from '../../postsList';
-import { TabContentProps } from '../services/tabbedPostsModels';
+import { PostsTabContentProps } from '../types/tabbedPosts.types';
 import TabEmptyView from './listEmptyView';
 import { showReplyModal } from '../../../redux/actions/uiAction';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
@@ -18,7 +18,7 @@ let scrollOffset = 0;
 let blockPopup = false;
 const SCROLL_POPUP_THRESHOLD = 5000;
 
-const TabContent = ({
+const PostsTabContent = ({
   filterKey,
   isFeedScreen,
   isInitialTab,
@@ -31,7 +31,7 @@ const TabContent = ({
   onScrollRequestProcessed,
   handleOnScroll,
   handleOnScrollBeginDrag,
-}: TabContentProps) => {
+}: PostsTabContentProps) => {
   // redux properties
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
@@ -208,4 +208,4 @@ const TabContent = ({
   );
 };
 
-export default TabContent;
+export default PostsTabContent;

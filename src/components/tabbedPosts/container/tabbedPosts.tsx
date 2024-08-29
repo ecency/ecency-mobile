@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import { TabbedPostsProps } from '../services/tabbedPostsModels';
+import { TabbedPostsProps } from '../types/tabbedPosts.types';
 import { StackedTabBar, TabItem } from '../view/stackedTabBar';
-import TabContent from '../view/tabContent';
+import PostsTabContent from '../view/postsTabContent';
 
 export const TabbedPosts = ({
   filterOptions,
@@ -67,7 +67,7 @@ export const TabbedPosts = ({
     }
 
     return (
-      <TabContent
+      <PostsTabContent
         key={filter.filterKey}
         filterKey={filter.filterKey}
         isFeedScreen={isFeedScreen}

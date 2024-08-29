@@ -18,33 +18,7 @@ export interface TabbedPostsProps {
   handleOnScroll: () => void;
 }
 
-export interface TabMeta {
-  startPermlink: string;
-  startAuthor: string;
-  isLoading: boolean;
-  isRefreshing: boolean;
-  isNoPost: boolean;
-}
-
-export interface LoadPostsOptions {
-  filterKey: string;
-  prevPosts: any[];
-  tabMeta: TabMeta;
-
-  setTabMeta: (meta: TabMeta) => void;
-  getFor: string;
-  isConnected: boolean;
-  isLoggedIn: boolean;
-  feedUsername: string;
-  pinnedPermlink: string;
-  pageType: string;
-  tag: string;
-  nsfw: string;
-  isLatestPostsCheck?: boolean;
-  refreshing?: boolean;
-}
-
-export interface TabContentProps {
+export interface PostsTabContentProps {
   filterKey: string;
   isFeedScreen: boolean;
   isInitialTab: boolean;
