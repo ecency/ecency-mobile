@@ -41,14 +41,6 @@ const TabContent = ({
   const { username } = currentAccount;
   const userPinned = currentAccount.about?.profile?.pinned;
 
-  const feedQuery = useFeedQuery({
-    feedUsername,
-    filterKey,
-    tag,
-    cachePage: isInitialTab && isFeedScreen,
-    enableFetchOnAppState: isFeedScreen,
-  });
-  const promotedPostsQuery = usePromotedPostsQuery();
 
   // state
   const [sessionUser, setSessionUser] = useState(username);
@@ -60,6 +52,18 @@ const TabContent = ({
 
   const sessionUserRef = useRef(sessionUser);
   const postFetchTimerRef = useRef<any>(null);
+
+
+  const feedQuery = useFeedQuery({
+    feedUsername,
+    filterKey,
+    tag,
+    cachePage: isInitialTab && isFeedScreen,
+    enableFetchOnAppState: isFeedScreen,
+    pinnedPermlink:curPinned
+
+  });
+  const promotedPostsQuery = usePromotedPostsQuery();
 
   // init state refs;
   sessionUserRef.current = sessionUser;
@@ -98,9 +102,9 @@ const TabContent = ({
   useEffect(() => {
     console.log('curPinned change', userPinned);
     if (pageType === 'ownProfile' && userPinned !== curPinned) {
+      setCurPinned(userPinned);
       _scrollToTop();
       feedQuery.refresh();
-      setCurPinned(userPinned);
     }
   }, [userPinned]);
 

@@ -10,6 +10,7 @@ import { getAccountPosts, getRankedPosts } from '../../hive/dhive';
 import { calculateTimeLeftForPostCheck } from '../../../components/tabbedPosts/services/tabbedPostsHelpers';
 import { getPromotedEntries } from '../../ecency/ecency';
 import filterNsfwPost from '../../../utils/filterNsfwPost';
+import { useGetPostQuery } from './postQueries';
 
 const POSTS_FETCH_COUNT = 10;
 
@@ -19,6 +20,7 @@ interface FeedQueryParams {
   tag?: string;
   cachePage?: boolean;
   enableFetchOnAppState?: boolean;
+  pinnedPermlink?:string;
 }
 
 export const useFeedQuery = ({
@@ -27,6 +29,7 @@ export const useFeedQuery = ({
   tag,
   cachePage,
   enableFetchOnAppState,
+  pinnedPermlink
 }: FeedQueryParams) => {
   const postFetchTimerRef = useRef(null);
   const appState = useRef(AppState.currentState);
@@ -41,6 +44,8 @@ export const useFeedQuery = ({
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const nsfw = useAppSelector((state) => state.application.nsfw);
   const { mutes } = currentAccount;
+
+  const pinnedPostQuery = useGetPostQuery(feedUsername, pinnedPermlink);
 
   const queryClient = useQueryClient();
 
@@ -179,7 +184,9 @@ export const useFeedQuery = ({
     setIsRefreshing(true);
     setPageKeys(['']);
 
+    pinnedPostQuery.refetch();
     await feedQueries[0].refetch();
+
     setIsRefreshing(false);
   };
 
@@ -197,7 +204,7 @@ export const useFeedQuery = ({
 
   // schedules post fetch
   const _scheduleLatestPostsCheck = (firstPost?: any) => {
-    if (!firstPost && feedQueries[0].data) {
+    if (!firstPost &&  Array.isArray(feedQueries[0].data)) {
       [firstPost] = feedQueries[0].data;
     }
 
@@ -252,7 +259,7 @@ export const useFeedQuery = ({
     setLatestPosts([]);
   };
 
-  const _data = unionBy(...feedQueries.map((query) => query.data), 'url');
+  const _data = unionBy(pinnedPostQuery.data ? [pinnedPostQuery.data] : [], ...feedQueries.map((query) => query.data), 'url');
   const _filteredData = useMemo(
     () => _data.filter((post) => (isArray(mutes) ? mutes.indexOf(post?.author) < 0 : true)),
     [mutes, _data],
