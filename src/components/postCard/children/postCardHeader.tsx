@@ -19,10 +19,17 @@ interface Props {
   intl: IntlShape;
   content: any;
   isHideImage: boolean;
+  pageType?: 'main' | 'community' | 'profile' | 'ownProfile';
   handleCardInteraction: (id: PostCardActionIds, payload?: any) => void;
 }
 
-export const PostCardHeader = ({ intl, content, isHideImage, handleCardInteraction }: Props) => {
+export const PostCardHeader = ({
+  intl,
+  content,
+  pageType,
+  isHideImage,
+  handleCardInteraction,
+}: Props) => {
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
   const dateString = useMemo(() => getTimeFromNow(content?.created), [content]);
   const _isPollPost =
@@ -31,6 +38,14 @@ export const PostCardHeader = ({ intl, content, isHideImage, handleCardInteracti
   const _handleOnTagPress = (navParams) => {
     handleCardInteraction(PostCardActionIds.NAVIGATE, navParams);
   };
+
+  // handle pinned status
+  const _isPinned =
+    pageType === 'community'
+      ? content?.stats?.is_pinned
+      : pageType === 'profile' || pageType === 'ownProfile'
+      ? content?.stats?.is_pinned_blog
+      : false;
 
   return (
     <>
@@ -65,7 +80,7 @@ export const PostCardHeader = ({ intl, content, isHideImage, handleCardInteracti
           {_isPollPost && (
             <Icon style={styles.pollPostIcon} size={16} name="chart" iconType="SimpleLineIcons" />
           )}
-          {(content?.stats?.is_pinned || content?.stats?.is_pinned_blog) && (
+          {_isPinned && (
             <Icon
               style={styles.pushPinIcon}
               size={20}

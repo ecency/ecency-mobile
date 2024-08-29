@@ -9,12 +9,16 @@ import QUERIES from '../queryKeys';
 import { Comment, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
 import { injectPostCache, injectVoteCache } from '../../../utils/postParser';
 
-/** hook used to return user drafts */
-export const useGetPostQuery = (_author?: string, _permlink?: string, initialPost?: any) => {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+interface PostQueryProps {
+  author?: string;
+  permlink?: string;
+  isPinned?: boolean;
+  initialPost?: any;
+}
 
-  const [author, setAuthor] = useState(_author);
-  const [permlink, setPermlink] = useState(_permlink);
+/** hook used to return user drafts */
+export const useGetPostQuery = ({ author, permlink, initialPost, isPinned }: PostQueryProps) => {
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
   // post process initial post if available
   const _initialPost = useMemo(() => {
@@ -42,6 +46,11 @@ export const useGetPostQuery = (_author?: string, _permlink?: string, initialPos
       try {
         const post = await getPost(author, permlink, currentAccount?.username);
         if (post?.post_id > 0) {
+          // set pinned post flag
+          if (isPinned) {
+            post.stats = { is_pinned_blog: true, ...post.stats };
+          }
+
           return post;
         }
 
@@ -62,8 +71,6 @@ export const useGetPostQuery = (_author?: string, _permlink?: string, initialPos
   return {
     ...query,
     data,
-    setAuthor,
-    setPermlink,
   };
 };
 
