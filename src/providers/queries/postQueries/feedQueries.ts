@@ -20,7 +20,7 @@ interface FeedQueryParams {
   tag?: string;
   cachePage?: boolean;
   enableFetchOnAppState?: boolean;
-  pinnedPermlink?:string;
+  pinnedPermlink?: string;
 }
 
 export const useFeedQuery = ({
@@ -29,7 +29,7 @@ export const useFeedQuery = ({
   tag,
   cachePage,
   enableFetchOnAppState,
-  pinnedPermlink
+  pinnedPermlink,
 }: FeedQueryParams) => {
   const postFetchTimerRef = useRef(null);
   const appState = useRef(AppState.currentState);
@@ -45,7 +45,11 @@ export const useFeedQuery = ({
   const nsfw = useAppSelector((state) => state.application.nsfw);
   const { mutes } = currentAccount;
 
-  const pinnedPostQuery = useGetPostQuery(feedUsername, pinnedPermlink);
+  const pinnedPostQuery = useGetPostQuery({
+    author: feedUsername,
+    permlink: pinnedPermlink,
+    isPinned: true,
+  });
 
   const queryClient = useQueryClient();
 
@@ -204,7 +208,7 @@ export const useFeedQuery = ({
 
   // schedules post fetch
   const _scheduleLatestPostsCheck = (firstPost?: any) => {
-    if (!firstPost &&  Array.isArray(feedQueries[0].data)) {
+    if (!firstPost && Array.isArray(feedQueries[0].data)) {
       [firstPost] = feedQueries[0].data;
     }
 
@@ -259,7 +263,11 @@ export const useFeedQuery = ({
     setLatestPosts([]);
   };
 
-  const _data = unionBy(pinnedPostQuery.data ? [pinnedPostQuery.data] : [], ...feedQueries.map((query) => query.data), 'url');
+  const _data = unionBy(
+    pinnedPostQuery.data ? [pinnedPostQuery.data] : [],
+    ...feedQueries.map((query) => query.data),
+    'url',
+  );
   const _filteredData = useMemo(
     () => _data.filter((post) => (isArray(mutes) ? mutes.indexOf(post?.author) < 0 : true)),
     [mutes, _data],

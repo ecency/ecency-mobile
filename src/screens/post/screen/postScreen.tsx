@@ -18,9 +18,18 @@ const PostScreen = ({ route }) => {
 
   const [author, setAuthor] = useState(params.content?.author || params.author);
   const [permlink, setPermlink] = useState(params.content?.permlink || params.permlink);
+  const [parentAuthor, setParentAuthor] = useState(params.content?.author || params.author);
+  const [parentPermlink, setParentPermlink] = useState(params.content?.permlink || params.permlink);
 
-  const getPostQuery = postQueries.useGetPostQuery(author, permlink, params.content);
-  const getParentPostQuery = postQueries.useGetPostQuery();
+  const getPostQuery = postQueries.useGetPostQuery({
+    author,
+    permlink,
+    initialPost: params.content,
+  });
+  const getParentPostQuery = postQueries.useGetPostQuery({
+    author: parentAuthor,
+    permlink: parentPermlink,
+  });
 
   const isWavePost = useMemo(
     () => getPostQuery.data?.parent_author === 'ecency.waves',
@@ -46,8 +55,8 @@ const PostScreen = ({ route }) => {
         post && post.depth > 0 && post.parent_author && post.parent_permlink && !isWavePost;
 
       if (_fetchParent) {
-        getParentPostQuery.setAuthor(post.parent_author);
-        getParentPostQuery.setPermlink(post.parent_permlink);
+        setParentAuthor(post.parent_author);
+        setParentPermlink(post.parent_permlink);
       }
     }
   }, [getPostQuery.data]);
