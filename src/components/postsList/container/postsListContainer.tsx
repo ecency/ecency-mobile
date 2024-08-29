@@ -219,6 +219,7 @@ const postsListContainer = (
         intl={intl}
         key={`${item.author}-${item.permlink}`}
         content={item}
+        pageType={pageType}
         isHideImage={isHideImages}
         nsfw={nsfw}
         imageRatio={imgRatio}
