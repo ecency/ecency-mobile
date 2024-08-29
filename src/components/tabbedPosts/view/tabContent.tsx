@@ -41,7 +41,6 @@ const TabContent = ({
   const { username } = currentAccount;
   const userPinned = currentAccount.about?.profile?.pinned;
 
-
   // state
   const [sessionUser, setSessionUser] = useState(username);
   const [enableScrollTop, setEnableScrollTop] = useState(false);
@@ -53,15 +52,13 @@ const TabContent = ({
   const sessionUserRef = useRef(sessionUser);
   const postFetchTimerRef = useRef<any>(null);
 
-
   const feedQuery = useFeedQuery({
     feedUsername,
     filterKey,
     tag,
     cachePage: isInitialTab && isFeedScreen,
     enableFetchOnAppState: isFeedScreen,
-    pinnedPermlink:curPinned
-
+    pinnedPermlink: curPinned,
   });
   const promotedPostsQuery = usePromotedPostsQuery();
 

@@ -5,7 +5,6 @@ import BackgroundTimer from 'react-native-background-timer';
 import { AppState, NativeEventSubscription } from 'react-native';
 import QUERIES from '../queryKeys';
 import { useAppSelector } from '../../../hooks';
-// import { injectPostCache } from "../../../utils/postParser";
 import { getAccountPosts, getRankedPosts } from '../../hive/dhive';
 import { calculateTimeLeftForPostCheck } from '../../../components/tabbedPosts/services/tabbedPostsHelpers';
 import { getPromotedEntries } from '../../ecency/ecency';
@@ -131,32 +130,17 @@ export const useFeedQuery = ({
     }
 
     // fetching posts
-    const result: any[] = await func(options, feedUsername, nsfw);
+    const response: any[] = await func(options, feedUsername, nsfw);
 
-    // TODO: inject cache here...
-    //   const _cachedComments = cacheRef.current.commentsCollection;
-    // const _cachedVotes = cacheRef.current.votesCollection;
-    // const _lastCacheUpdate = cacheRef.current.lastCacheUpdate;
-    // const _cResponse = injectPostCache(response, _cachedComments, _cachedVotes, _lastCacheUpdate);
-
-    // const _threadedComments = await mapDiscussionToThreads(_cResponse, host, pagePermlink, 1);
-
-    // if (!_threadedComments) {
-    //   throw new Error('Failed to parse waves');
-    // }
-
-    // _threadedComments.sort((a, b) => (new Date(a.created) > new Date(b.created) ? -1 : 1));
-    // _threadedComments.forEach((item) => {
-    //   wavesIndexCollection.current[`${item.author}/${item.permlink}`] = pagePermlink;
-    // });
-
-    // console.log('new waves fetched', _threadedComments);
-
-    if (!pageKey) {
-      _scheduleLatestPostsCheck(result[0]);
+    if(!Array.isArray(response) || response.length == 0){
+      return []
     }
 
-    return result;
+    if (!pageKey) {
+      _scheduleLatestPostsCheck(response[0]);
+    }
+
+    return response;
   };
 
   const _getNextPageParam = (lastPage: any[]) => {
