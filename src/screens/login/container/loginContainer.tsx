@@ -232,7 +232,7 @@ class LoginContainer extends PureComponent {
         bugsnapInstance.notify(err, (event) => {
           event.context = 'key-login-failure';
           event.setUser(username);
-        })
+        });
       });
   };
 

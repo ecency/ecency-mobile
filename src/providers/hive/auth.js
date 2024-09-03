@@ -57,18 +57,16 @@ export const login = async (username, password) => {
     }
   });
 
-  if(!_keyMatched){
+  if (!_keyMatched) {
     return Promise.reject(new Error('auth.invalid_credentials'));
   }
 
-  
-  //generate access token
+  // generate access token
   const signerPrivateKey = privateKeys.ownerKey || privateKeys.activeKey || privateKeys.postingKey;
   const code = makeHsCode(account.name, signerPrivateKey);
   const scTokens = await getSCAccessToken(code);
 
-
-  //fetch optional account data;
+  // fetch optional account data;
   try {
     const accessToken = scTokens?.access_token;
     account.unread_activity_count = await getUnreadNotificationCount(accessToken);
@@ -77,7 +75,6 @@ export const login = async (username, password) => {
   } catch (err) {
     console.warn('Optional user data fetch failed, account can still function without them', err);
   }
-  
 
   let jsonMetadata;
   try {
@@ -89,44 +86,41 @@ export const login = async (username, password) => {
     avatar = jsonMetadata.profile.profile_image || '';
   }
 
+  const userData = {
+    username,
+    avatar,
+    authType,
+    masterKey: '',
+    postingKey: '',
+    activeKey: '',
+    memoKey: '',
+    accessToken: '',
+  };
 
-    const userData = {
-      username,
-      avatar,
-      authType,
-      masterKey: '',
-      postingKey: '',
-      activeKey: '',
-      memoKey: '',
-      accessToken: '',
-    };
+  const resData = {
+    pinCode: Config.DEFAULT_PIN,
+    password,
+    accessToken: get(scTokens, 'access_token', ''),
+  };
+  const updatedUserData = getUpdatedUserData(userData, resData);
 
-    const resData = {
-      pinCode: Config.DEFAULT_PIN,
-      password,
-      accessToken: get(scTokens, 'access_token', ''),
-    };
-    const updatedUserData = getUpdatedUserData(userData, resData);
+  account.local = updatedUserData;
+  account.local.avatar = avatar;
 
-    account.local = updatedUserData;
-    account.local.avatar = avatar;
+  const authData = {
+    isLoggedIn: true,
+    currentUsername: username,
+  };
+  await setAuthStatus(authData);
+  await setSCAccount(scTokens);
 
-    const authData = {
-      isLoggedIn: true,
-      currentUsername: username,
-    };
-    await setAuthStatus(authData);
-    await setSCAccount(scTokens);
-
-    // Save user data to Realm DB
-    await setUserData(account.local);
-    await updateCurrentUsername(account.name);
-    return {
-      ...account,
-      password,
-    };
-
-
+  // Save user data to Realm DB
+  await setUserData(account.local);
+  await updateCurrentUsername(account.name);
+  return {
+    ...account,
+    password,
+  };
 };
 
 export const loginWithSC2 = async (code) => {
