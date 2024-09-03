@@ -37,7 +37,7 @@ const UserListItem = ({
     if (onPressRightText) {
       const _data = {};
       _data.following = username;
-      onPressRightText();
+      onPressRightText(_data);
     }
   };
 
