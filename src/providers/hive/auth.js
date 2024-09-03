@@ -7,7 +7,6 @@ import { getPointsSummary } from '../ecency/ePoint';
 import {
   setUserData,
   setAuthStatus,
-  getUserDataWithUsername,
   updateUserData,
   updateCurrentUsername,
   getUserData,
@@ -25,7 +24,7 @@ import { makeHsCode } from '../../utils/hive-signer-helper';
 import bugsnapInstance from '../../config/bugsnag';
 
 export const login = async (username, password) => {
-  let loginFlag = false;
+  let _keyMatched = false;
   let avatar = '';
   let authType = '';
   // Get user account data from HIVE Blockchain
@@ -34,11 +33,6 @@ export const login = async (username, password) => {
   if (!account) {
     return Promise.reject(new Error('auth.invalid_username'));
   }
-
-  // if (isUserLoggedIn) {
-  //   //TODO: write routine to overwrite account data if already logged in
-  //   return Promise.reject(new Error('auth.already_logged'));
-  // }
 
   // Public keys of user
   const publicKeys = {
@@ -54,7 +48,7 @@ export const login = async (username, password) => {
   // Check all keys
   Object.keys(publicKeys).forEach((pubKey) => {
     if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
-      loginFlag = true;
+      _keyMatched = true;
       if (privateKeys.isMasterKey) {
         authType = AUTH_TYPE.MASTER_KEY;
       } else {
@@ -63,10 +57,18 @@ export const login = async (username, password) => {
     }
   });
 
+  if(!_keyMatched){
+    return Promise.reject(new Error('auth.invalid_credentials'));
+  }
+
+  
+  //generate access token
   const signerPrivateKey = privateKeys.ownerKey || privateKeys.activeKey || privateKeys.postingKey;
   const code = makeHsCode(account.name, signerPrivateKey);
   const scTokens = await getSCAccessToken(code);
 
+
+  //fetch optional account data;
   try {
     const accessToken = scTokens?.access_token;
     account.unread_activity_count = await getUnreadNotificationCount(accessToken);
@@ -75,6 +77,7 @@ export const login = async (username, password) => {
   } catch (err) {
     console.warn('Optional user data fetch failed, account can still function without them', err);
   }
+  
 
   let jsonMetadata;
   try {
@@ -85,7 +88,8 @@ export const login = async (username, password) => {
   if (Object.keys(jsonMetadata).length !== 0) {
     avatar = jsonMetadata.profile.profile_image || '';
   }
-  if (loginFlag) {
+
+
     const userData = {
       username,
       avatar,
@@ -121,8 +125,8 @@ export const login = async (username, password) => {
       ...account,
       password,
     };
-  }
-  return Promise.reject(new Error('auth.invalid_credentials'));
+
+
 };
 
 export const loginWithSC2 = async (code) => {

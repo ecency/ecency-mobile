@@ -38,6 +38,7 @@ import { showActionModal } from '../../../redux/actions/uiAction';
 import { UserAvatar } from '../../../components';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import bugsnapInstance from '../../../config/bugsnag';
 
 /*
  *            Props Name        Description                                     Value
@@ -227,6 +228,11 @@ class LoginContainer extends PureComponent {
         );
         dispatch(failedAccount(err.message));
         this.setState({ isLoading: false });
+
+        bugsnapInstance.notify(err, (event) => {
+          event.context = 'key-login-failure';
+          event.setUser(username);
+        })
       });
   };
 
