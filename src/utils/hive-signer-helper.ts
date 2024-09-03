@@ -11,7 +11,7 @@ export interface HiveSignerMessage {
   signatures?: string[];
 }
 
-export const makeHsCode = async (account: string, privateKey: PrivateKey): Promise<string> => {
+export const makeHsCode = (account: string, privateKey: PrivateKey) => {
   const timestamp = new Date().getTime() / 1000;
   const messageObj: HiveSignerMessage = {
     signed_message: { type: 'code', app: 'ecency.app' },
