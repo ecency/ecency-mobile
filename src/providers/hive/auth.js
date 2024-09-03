@@ -64,7 +64,7 @@ export const login = async (username, password) => {
   });
 
   const signerPrivateKey = privateKeys.ownerKey || privateKeys.activeKey || privateKeys.postingKey;
-  const code = await makeHsCode(account.name, signerPrivateKey);
+  const code = makeHsCode(account.name, signerPrivateKey);
   const scTokens = await getSCAccessToken(code);
 
   try {
@@ -424,7 +424,7 @@ export const migrateToMasterKeyWithAccessToken = async (account, userData, pinHa
 
   const signerPrivateKey =
     privateKeys.ownerKey || privateKeys.activeKey || privateKeys.postingKey || privateKeys.memoKey;
-  const code = await makeHsCode(account.name, signerPrivateKey);
+  const code = makeHsCode(account.name, signerPrivateKey);
   const scTokens = await getSCAccessToken(code);
 
   await setSCAccount(scTokens);
