@@ -594,7 +594,7 @@ class ApplicationContainer extends Component {
       const userIndex = prevLoggedInUsers.findIndex((el: any) => el?.username === username);
 
       if (userIndex > -1) {
-        const updatedPrevLoggedInUsers = prevLoggedInUsers;
+        const updatedPrevLoggedInUsers = [...prevLoggedInUsers];
         updatedPrevLoggedInUsers[userIndex] = { username, isLoggedOut: true };
         dispatch(setPrevLoggedInUsers(updatedPrevLoggedInUsers));
       } else {
@@ -836,12 +836,12 @@ export default connect(
     settingsMigratedV2: state.application.settingsMigratedV2,
     isNotificationsEnabled: state.application.isNotificationOpen,
     notificationDetails: state.application.notificationDetails,
-    prevLoggedInUsers: state.account.prevLoggedInUsers,
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,
     currentAccount: state.account.currentAccount,
     otherAccounts: state.account.otherAccounts,
+    prevLoggedInUsers: state.account.prevLoggedInUsers,
     pinCode: state.application.pin,
 
     // UI

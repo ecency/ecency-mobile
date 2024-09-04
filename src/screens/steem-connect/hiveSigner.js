@@ -9,7 +9,11 @@ import { loginWithSC2 } from '../../providers/hive/auth';
 import { hsOptions } from '../../constants/hsOptions';
 
 // Actions
-import { addOtherAccount, updateCurrentAccount } from '../../redux/actions/accountAction';
+import {
+  addOtherAccount,
+  setPrevLoggedInUsers,
+  updateCurrentAccount,
+} from '../../redux/actions/accountAction';
 import { login as loginAction } from '../../redux/actions/applicationActions';
 
 // Constants
@@ -24,6 +28,25 @@ class HiveSigner extends PureComponent {
       isLoading: false,
     };
   }
+
+  // update previously loggedin users list,
+  _updatePrevLoggedInUsersList = (username) => {
+    const { dispatch, prevLoggedInUsers } = this.props;
+    if (prevLoggedInUsers && prevLoggedInUsers.length > 0) {
+      const userIndex = prevLoggedInUsers.findIndex((el) => el?.username === username);
+      if (userIndex > -1) {
+        const updatedPrevLoggedInUsers = [...prevLoggedInUsers];
+        updatedPrevLoggedInUsers[userIndex] = { username, isLoggedOut: false };
+        dispatch(setPrevLoggedInUsers(updatedPrevLoggedInUsers));
+      } else {
+        const u = { username, isLoggedOut: false };
+        dispatch(setPrevLoggedInUsers([...prevLoggedInUsers, u]));
+      }
+    } else {
+      const u = { username, isLoggedOut: false };
+      dispatch(setPrevLoggedInUsers([u]));
+    }
+  };
 
   _onNavigationStateChange = (event) => {
     let code;
@@ -49,6 +72,7 @@ class HiveSigner extends PureComponent {
               dispatch(fetchSubscribedCommunities(result.username));
               dispatch(addOtherAccount({ ...persistAccountData }));
               dispatch(loginAction(true));
+              this._updatePrevLoggedInUsersList(result.username);
 
               if (isPinCodeOpen) {
                 navigation.navigate({
@@ -104,6 +128,7 @@ class HiveSigner extends PureComponent {
 
 const mapStateToProps = (state) => ({
   isPinCodeOpen: state.application.isPinCodeOpen,
+  prevLoggedInUsers: state.account.prevLoggedInUsers,
 });
 
 const mapHooksToProps = (props) => {
