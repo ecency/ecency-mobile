@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 import { Alert } from 'react-native';
 import RootNavigation from '../../../navigation/rootNavigation';
 
-import { updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { setPrevLoggedInUsers, updateCurrentAccount } from '../../../redux/actions/accountAction';
 
 import {
   migrateToMasterKeyWithAccessToken,
@@ -46,8 +46,17 @@ const AccountsBottomSheetContainer = () => {
   useEffect(() => {
     if (isVisibleAccountsBottomSheet) {
       accountsBottomSheetViewRef.current?.showAccountsBottomSheet();
+      _checkPrevLoggedInUsersList();
     }
   }, [isVisibleAccountsBottomSheet]);
+
+  // checks if prevLoggedInUsers do not contain any invalid value and filters the array from invalid data
+  const _checkPrevLoggedInUsersList = () => {
+    if (prevLoggedInUsers && prevLoggedInUsers.length > 0) {
+      const filteredUsersList = prevLoggedInUsers.filter((el: any) => el.username);
+      dispatch(setPrevLoggedInUsers(filteredUsersList));
+    }
+  };
 
   const _navigateToRoute = (name: string, params: any) => {
     dispatch(toggleAccountsBottomSheet(false));

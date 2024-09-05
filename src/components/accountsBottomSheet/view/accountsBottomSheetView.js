@@ -87,7 +87,7 @@ const AccountsBottomSheet = forwardRef(
               name="close"
               style={styles.deleteIcon}
               size={24}
-              onPress={() => _removePrevLoggedInUsersList(item?.username || '')}
+              onPress={() => _removePrevLoggedInUsersList(item?.username)}
             />
           </View>
         );
@@ -117,7 +117,7 @@ const AccountsBottomSheet = forwardRef(
         </>
       ) : null;
 
-    // update previously loggedin users list,
+    // update previously loggedIn users list,
     const _removePrevLoggedInUsersList = (username) => {
       if (prevLoggedInUsers && prevLoggedInUsers.length > 0) {
         const userIndex = prevLoggedInUsers.findIndex((el) => el?.username === username);
