@@ -58,10 +58,10 @@
     "estimated_value_desc": "কিনা মূল্যৰ মতে",
     "estimated_value": "আনুমানিক মূল্য",
     "vote_value": "Vote value",
-    "delegated_hive_power": "Delegated hive power",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "Savings",
     "estimated_amount": "ভোটৰ মূল্য",
     "amount_information": "স্লাইডাৰৰ জৰিয়তে পৰিমাণ নিৰ্ধাৰণ কৰক",
@@ -289,7 +289,7 @@
     "follow_communities": "আপুনি যোগদান কৰা কমিউনিটিৰ পোষ্ট সমূহ ইয়াত দেখিবলৈ পাব.",
     "havent_commented": "এতিয়ালৈকে একো মন্তব্য কৰা নাই",
     "havent_posted": "এতিয়ালৈকে একো পোষ্ট কৰা নাই",
-    "hive_power": "হাইভ পাৱাৰ",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "দিনত",
     "day": "দিন",
@@ -1040,7 +1040,7 @@
     "mute": "MUTE / BLOCK",
     "unmute": "UNMUTE / UNBLOCK",
     "report": "REPORT USER",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "Membership",
