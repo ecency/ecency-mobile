@@ -58,10 +58,10 @@
     "estimated_value_desc": "Satınalma değerine göre",
     "estimated_value": "Tahmini değer",
     "vote_value": "Vote value",
-    "delegated_hive_power": "Delegated hive power",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "Savings",
     "estimated_amount": "Oy değeri",
     "amount_information": "Miktarı ayarlamak için kaydırıcıyı sürükleyin",
@@ -289,7 +289,7 @@
     "follow_communities": "Topluluklara katıldığınızda, topluluk gönderilerini burada göreceksiniz.",
     "havent_commented": "henüz yorum yapmadı",
     "havent_posted": "henüz post paylasmadi",
-    "hive_power": "Hive Power",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "gün içinde düşecek",
     "day": "gün içinde düşecek",
@@ -1040,7 +1040,7 @@
     "mute": "SUSTUR / ENGELLE",
     "unmute": "SUSTURMAYI KALDIR / ENGELİ KALDIR",
     "report": "KULLANICIYI BİLDİR",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "Üyelik",
