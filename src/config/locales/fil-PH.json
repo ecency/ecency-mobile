@@ -58,10 +58,10 @@
     "estimated_value_desc": "Batay sa halaga ng pagbili",
     "estimated_value": "Tinatayang halaga",
     "vote_value": "Vote value",
-    "delegated_hive_power": "Delegated hive power",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Kabuuang Hive Power",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "Savings",
     "estimated_amount": "Halaga ng boto",
     "amount_information": "I-drag ang slider para ma-adjust ang halaga",
@@ -289,7 +289,7 @@
     "follow_communities": "When you join communities you'll see posts from communities here.",
     "havent_commented": "wala pang na i-komentong bagay",
     "havent_posted": "wala pang na i-post na kahit anong bagay",
-    "hive_power": "Hive Power",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "mga araw",
     "day": "araw",
@@ -1040,7 +1040,7 @@
     "mute": "MUTE / BLOCK",
     "unmute": "UNMUTE / UNBLOCK",
     "report": "REPORT USER",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "Membership",
