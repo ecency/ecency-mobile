@@ -58,10 +58,10 @@
     "estimated_value_desc": "Ostohinnan mukaan",
     "estimated_value": "Arvioutu arvo",
     "vote_value": "Ääniarvo",
-    "delegated_hive_power": "Valtuutettu Hive Power",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "Vastaanotettu Hive Power",
-    "total_hive_power": "Hive Power yhteensä",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "Säästöt",
     "estimated_amount": "Ääniarvo",
     "amount_information": "Siirrä kytkintä muuttaaksesi määrää",
@@ -289,7 +289,7 @@
     "follow_communities": "Kun liityt yhteisöihin, näet viestejä yhteisöistä täällä.",
     "havent_commented": "ei ole vielä kommentoinut mitään",
     "havent_posted": "ei ole vielä julkaissut mitään",
-    "hive_power": "Hive Power",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "päivää",
     "day": "päivä",
@@ -1040,7 +1040,7 @@
     "mute": "HILJENNÄ / ESTÄ",
     "unmute": "POISTA HILJENNYS / ESTO",
     "report": "ILMIANNA KÄYTTÄJÄ",
-    "delegate": "VALTUUTA HIVE POWER"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "Jäsenyys",
