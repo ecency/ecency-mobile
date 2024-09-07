@@ -58,10 +58,10 @@
     "estimated_value_desc": "取决于购买的价值",
     "estimated_value": "预估值",
     "vote_value": "点赞价值",
-    "delegated_hive_power": "Delegated hive power",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "已接收的 Hive Power",
-    "total_hive_power": "Hive Power 总量",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "储蓄",
     "estimated_amount": "点赞价值",
     "amount_information": "拖动滑块来调整数量",
@@ -289,7 +289,7 @@
     "follow_communities": "When you join communities you'll see posts from communities here.",
     "havent_commented": "还没有任何评论",
     "havent_posted": "还没有发布任何内容",
-    "hive_power": "Hive Power",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "天",
     "day": "天",
@@ -1040,7 +1040,7 @@
     "mute": "MUTE / BLOCK",
     "unmute": "UNMUTE / UNBLOCK",
     "report": "REPORT USER",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "Membership",
