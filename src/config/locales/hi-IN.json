@@ -58,10 +58,10 @@
     "estimated_value_desc": "खरीद मूल्य के अनुसार",
     "estimated_value": "अनुमानित मूल्य",
     "vote_value": "वोट का मूल्य",
-    "delegated_hive_power": "प्रत्यायोजित हाइव पावर",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "हाइव पावर प्राप्त किया",
-    "total_hive_power": "कुल हाइव पावर",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "बचत",
     "estimated_amount": "वोट का मूल्य",
     "amount_information": "राशि समायोजित करने के लिए स्लाइडर को खींचें।",
@@ -289,7 +289,7 @@
     "follow_communities": "जब आप समुदायों में शामिल होते हैं तो आपको यहां समुदायों की पोस्ट दिखाई देंगी.",
     "havent_commented": "अभी तक कोई टिपण्णी नहीं की है",
     "havent_posted": "अभी तक कोई पोस्ट नहीं की है",
-    "hive_power": "हाइव पावर",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "दिनों",
     "day": "दिन",
@@ -1040,7 +1040,7 @@
     "mute": "म्यूट / ब्लॉक",
     "unmute": "अनम्यूट / अनब्लॉक",
     "report": "उपयोगकर्ता को रिपोर्ट करें",
-    "delegate": "डेलीगेट हाइव पावर"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "सदस्यता",
