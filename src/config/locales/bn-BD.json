@@ -58,10 +58,10 @@
     "estimated_value_desc": "ক্রয় মূল্য অনুযায়ী",
     "estimated_value": "আনুমানিক মূল্য",
     "vote_value": "Vote value",
-    "delegated_hive_power": "Delegated hive power",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "Savings",
     "estimated_amount": "ভোট মূল্য",
     "amount_information": "পরিমাণ সামঞ্জস্য করতে স্লাইডারটি টেনে আনুন",
@@ -289,7 +289,7 @@
     "follow_communities": "When you join communities you'll see posts from communities here.",
     "havent_commented": "এখনও কিছু মন্তব্য করেন নি",
     "havent_posted": "আপনি এখনো কিছু পোস্ট করেন নি",
-    "hive_power": "Hive Power",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "দিন",
     "day": "দিন",
@@ -1040,7 +1040,7 @@
     "mute": "MUTE / BLOCK",
     "unmute": "UNMUTE / UNBLOCK",
     "report": "REPORT USER",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "Membership",
