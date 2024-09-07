@@ -58,10 +58,10 @@
     "estimated_value_desc": "Sotib olish qiymatiga ko'ra",
     "estimated_value": "Taxminiy qiymat",
     "vote_value": "Ovoz kuchi",
-    "delegated_hive_power": "Delegasiyalangan Hive Power",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "Olingan Hive Power",
-    "total_hive_power": "Umumiy Hive Power",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "Jamg'arma",
     "estimated_amount": "Ovoz kuchi",
     "amount_information": "Miqdorni belgilash uchun slayderni torting",
@@ -289,7 +289,7 @@
     "follow_communities": "Guruhga qo‘shilganingizda, bu yerda guruhlarning postlarini ko‘rasiz.",
     "havent_commented": "hali izoh qoldirilmagan",
     "havent_posted": "hali post qo'yilmagan",
-    "hive_power": "Hive Power",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "kunlar",
     "day": "kun",
@@ -1040,7 +1040,7 @@
     "mute": "O'CHIRISH/BLOKLASH",
     "unmute": "YOQISH/BLOKDAN OCHISH",
     "report": "FOYDALANUVCHI HAQIDA",
-    "delegate": "HIVE POWERNI DELEGATSIYALASH"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "A'zolik",
