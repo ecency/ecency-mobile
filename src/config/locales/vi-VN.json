@@ -58,10 +58,10 @@
     "estimated_value_desc": "According to purchase value",
     "estimated_value": "Estimated value",
     "vote_value": "Vote value",
-    "delegated_hive_power": "Delegated hive power",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "Savings",
     "estimated_amount": "Vote value",
     "amount_information": "Drag the slider to adjust the amount",
@@ -289,7 +289,7 @@
     "follow_communities": "When you join communities you'll see posts from communities here.",
     "havent_commented": "chưa bình luận gì cả",
     "havent_posted": "chưa đăng gì cả",
-    "hive_power": "Hive Power",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "ngày",
     "day": "ngày",
@@ -1040,7 +1040,7 @@
     "mute": "MUTE / BLOCK",
     "unmute": "UNMUTE / UNBLOCK",
     "report": "REPORT USER",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "Membership",
