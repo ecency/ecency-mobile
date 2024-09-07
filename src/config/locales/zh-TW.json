@@ -58,10 +58,10 @@
     "estimated_value_desc": "取決於購買積分的價值",
     "estimated_value": "估計價值",
     "vote_value": "估計點贊價值",
-    "delegated_hive_power": "代理Hive Power",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "已接收的 Hive Power(HP)",
-    "total_hive_power": "Hive Power點贊力總額",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "存款",
     "estimated_amount": "估計點贊價值",
     "amount_information": "拖動指標來調整數量",
@@ -289,7 +289,7 @@
     "follow_communities": "當您加入社區，社區發出的帖子就會出現在社區動態",
     "havent_commented": "還沒有任何評論",
     "havent_posted": "還沒發佈任何內容",
-    "hive_power": "Hive Power（鎖倉）",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "天",
     "day": "天",
@@ -1040,7 +1040,7 @@
     "mute": "屏蔽",
     "unmute": "接觸屏蔽",
     "report": "投訴用戶",
-    "delegate": "代理 Hive Power"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "會員身份",
