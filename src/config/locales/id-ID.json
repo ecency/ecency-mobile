@@ -58,10 +58,10 @@
     "estimated_value_desc": "Menurut nilai pembelian",
     "estimated_value": "Nilai perkiraan",
     "vote_value": "Nilai Voting",
-    "delegated_hive_power": "Kekuatan Hive yang Didelegasikan",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "Kekuatan Hive yang diterima",
-    "total_hive_power": "Jumlah kekuatan Hive",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "Tabungan",
     "estimated_amount": "Nilai suara",
     "amount_information": "Seret penggeser untuk menyesuaikan jumlahnya",
@@ -289,7 +289,7 @@
     "follow_communities": "Saat Anda bergabung dengan komunitas, Anda akan melihat postingan dari komunitas di sini.",
     "havent_commented": "belum berkomentar",
     "havent_posted": "belum pernah mengirimkan sesuatu",
-    "hive_power": "Kekuatan Hive",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "hari",
     "day": "hari",
@@ -1040,7 +1040,7 @@
     "mute": "BISUKAN/BLOK",
     "unmute": "HIDUPKAN/BUKA",
     "report": "LAPORKAN PENGGUNA",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "Keanggotaan",
