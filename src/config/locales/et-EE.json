@@ -58,10 +58,10 @@
     "estimated_value_desc": "Vastavalt ostu väärtusele",
     "estimated_value": "Hinnanguline väärtus",
     "vote_value": "Vote value",
-    "delegated_hive_power": "Delegated hive power",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "Savings",
     "estimated_amount": "Hääle väärtus",
     "amount_information": "Koguse muutmiseks liiguta liugurit",
@@ -289,7 +289,7 @@
     "follow_communities": "When you join communities you'll see posts from communities here.",
     "havent_commented": "ei ole veel midagi kommenteerinud",
     "havent_posted": "ei ole veel midagi postitanud",
-    "hive_power": "Hive Power",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "päeva",
     "day": "päev",
@@ -1040,7 +1040,7 @@
     "mute": "MUTE / BLOCK",
     "unmute": "UNMUTE / UNBLOCK",
     "report": "REPORT USER",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "Liikmelisus",
