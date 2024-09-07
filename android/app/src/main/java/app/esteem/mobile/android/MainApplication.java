@@ -21,10 +21,9 @@ import com.bugsnag.android.Bugsnag;
 import org.wonday.orientation.OrientationActivityLifecycle;
 
 //See below, Webview debugging
-//import android.webkit.WebView; 
+//import android.webkit.WebView;
 
 import com.reactnativepagerview.PagerViewPackage;
-import com.vydia.RNUploader.UploaderReactPackage;
 
 import java.util.List;
 

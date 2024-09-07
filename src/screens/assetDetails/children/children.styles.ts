@@ -143,4 +143,11 @@ export default EStyleSheet.create({
     textDecorationLine: 'underline',
     textDecorationColor: '$primaryDarkText',
   },
+  percentEyeContainer: {
+    flexDirection: 'row',
+  },
+  eyeIcon: {
+    color: '$iconColor',
+    marginLeft: 12,
+  },
 });

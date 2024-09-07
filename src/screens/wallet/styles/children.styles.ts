@@ -11,13 +11,13 @@ export default EStyleSheet.create({
     overflow: 'hidden',
     borderWidth: 2,
     borderColor: '$primaryLightBackground',
+    paddingVertical: 16,
   } as ViewStyle,
 
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingTop: 16,
     zIndex: 10,
   } as ViewStyle,
 

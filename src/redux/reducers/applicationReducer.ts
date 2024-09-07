@@ -298,7 +298,6 @@ const applicationReducer = (state = initialState, action): State => {
         ...state,
         encUnlockPin: action.payload,
       };
-
     default:
       return state;
   }

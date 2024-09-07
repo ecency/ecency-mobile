@@ -3,8 +3,7 @@ import React, { ComponentType } from 'react';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from '../styles/children.styles';
-import { IconButton, SimpleChart } from '../../../components';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
+import { IconButton } from '../../../components';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { ClaimButton } from './claimButton';
 
@@ -12,15 +11,15 @@ import { AssetIcon } from '../../../components/atoms';
 
 export interface AssetCardProps {
   id: string;
-  chartData: number[];
+  // chartData: number[];
   name: string;
   iconUrl?: string;
-  notCrypto?: boolean;
+  // notCrypto?: boolean;
   isEngine?: boolean;
   isSpk?: boolean;
   symbol: string;
   currencySymbol: string;
-  changePercent: number;
+  // changePercent: number;
   currentValue: number;
   ownedBalance: number;
   unclaimedRewards: string;
@@ -39,13 +38,10 @@ export const AssetCard = ({
   id,
   name,
   iconUrl,
-  notCrypto,
   isEngine,
   isSpk,
-  chartData,
   currencySymbol,
   symbol,
-  changePercent,
   currentValue,
   ownedBalance,
   footerComponent,
@@ -125,7 +121,7 @@ export const AssetCard = ({
           isClaiming={isClaiming}
           containerStyle={{
             ...styles.claimContainer,
-            marginBottom: id === ASSET_IDS.ECENCY ? 0 : 16,
+            marginBottom: id === ASSET_IDS.ECENCY || id === ASSET_IDS.HP ? 0 : 16,
           }}
           onPress={_onClaimPress}
         />
@@ -144,43 +140,12 @@ export const AssetCard = ({
     }
   };
 
-  const _renderGraph = () => {
-    if (!chartData.length) {
-      return null;
-    }
-    const _baseWidth = getWindowDimensions().width - 32;
-    return (
-      <View style={styles.chartContainer}>
-        <SimpleChart
-          data={chartData.slice(0, 24)}
-          baseWidth={_baseWidth}
-          showLine={false}
-          chartHeight={60}
-        />
-      </View>
-    );
-  };
-
-  const _renderFooter =
-    chartData.length > 0 ? (
-      <View style={styles.cardFooter}>
-        <Text style={styles.textCurValue}>{`${currencySymbol} ${currentValue.toFixed(2)}`}</Text>
-        <Text style={changePercent > 0 ? styles.textDiffPositive : styles.textDiffNegative}>
-          {`${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(1)}%`}
-        </Text>
-      </View>
-    ) : (
-      <View style={{ height: 12 }} />
-    );
-
   return (
     <TouchableOpacity onPress={onCardPress}>
       <View style={styles.cardContainer}>
         {_renderHeader}
         {_renderBoostAccount()}
         {_renderClaimSection()}
-        {!notCrypto && !isSpk && _renderGraph()}
-        {!notCrypto ? _renderFooter : <View style={{ height: 12 }} />}
         {footerComponent && footerComponent}
       </View>
     </TouchableOpacity>

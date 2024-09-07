@@ -17,7 +17,7 @@ export default EStyleSheet.create({
   dropdownText: {
     fontSize: 14,
     paddingLeft: 16,
-    paddingHorizontal: 14,
+    paddingRight: 10,
     color: '$primaryDarkGray',
     flex: 1,
   },

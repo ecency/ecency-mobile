@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 import { Alert } from 'react-native';
 import RootNavigation from '../../../navigation/rootNavigation';
 
-import { updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { setPrevLoggedInUsers, updateCurrentAccount } from '../../../redux/actions/accountAction';
 
 import {
   migrateToMasterKeyWithAccessToken,
@@ -40,12 +40,23 @@ const AccountsBottomSheetContainer = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const accounts = useAppSelector((state) => state.account.otherAccounts);
   const pinHash = useAppSelector((state) => state.application.pin);
+  const prevLoggedInUsers = useAppSelector((state) => state.account.prevLoggedInUsers);
+  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
   useEffect(() => {
     if (isVisibleAccountsBottomSheet) {
       accountsBottomSheetViewRef.current?.showAccountsBottomSheet();
+      _checkPrevLoggedInUsersList();
     }
   }, [isVisibleAccountsBottomSheet]);
+
+  // checks if prevLoggedInUsers do not contain any invalid value and filters the array from invalid data
+  const _checkPrevLoggedInUsersList = () => {
+    if (prevLoggedInUsers && prevLoggedInUsers.length > 0) {
+      const filteredUsersList = prevLoggedInUsers.filter((el: any) => el.username);
+      dispatch(setPrevLoggedInUsers(filteredUsersList));
+    }
+  };
 
   const _navigateToRoute = (name: string, params: any) => {
     dispatch(toggleAccountsBottomSheet(false));
@@ -152,6 +163,9 @@ const AccountsBottomSheetContainer = () => {
       navigateToRoute={_navigateToRoute}
       switchAccount={_switchAccount}
       onClose={_onClose}
+      prevLoggedInUsers={prevLoggedInUsers}
+      dispatch={dispatch}
+      isLoggedIn={isLoggedIn}
     />
   );
 };

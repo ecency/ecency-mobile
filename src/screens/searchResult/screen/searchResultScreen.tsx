@@ -33,7 +33,7 @@ const SearchResultScreen = ({ navigation }) => {
 
   // custom debounce to debounce search value but updates search input value instantly
   // fixes character missing bug due to lodash debounce
-  const debouncedSearch = debounce(_handleSearchValue, _handleChangeText, 1000);
+  const debouncedSearch = debounce(_handleSearchValue, _handleChangeText, 500);
 
   const _navigationGoBack = () => {
     navigation.goBack();
@@ -59,8 +59,8 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
 
   const clippedSearchValue =
     searchValue.startsWith('#') || searchValue.startsWith('@')
-      ? searchValue.substring(1)
-      : searchValue;
+      ? searchValue.substring(1).trim().toLowerCase()
+      : searchValue.trim().toLowerCase();
   const isUsername = !!(searchValue.startsWith('#') || searchValue.startsWith('@'));
 
   const _renderTabbar = () => (

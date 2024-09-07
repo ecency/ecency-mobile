@@ -96,7 +96,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       post: null,
       uploadedImage: null,
       community: [],
-      rewardType: 'default',
+      rewardType: !!props?.defaultRewardType ? props.defaultRewardType : 'default',
       sharedSnippetText: null,
       onLoadDraftPress: false,
       thumbUrl: '',
@@ -748,6 +748,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           fields,
           scheduleDate,
           jsonMeta,
+          beneficiaries,
         });
       } else {
         await postContent(
@@ -1188,13 +1189,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   _setScheduledPost = (data) => {
     const { dispatch, intl, currentAccount, navigation } = this.props;
     const { rewardType } = this.state;
-    const beneficiaries = this._extractBeneficiaries();
 
     const options = makeOptions({
       author: data.author,
       permlink: data.permlink,
       operationType: rewardType,
-      beneficiaries,
+      beneficiaries: data.beneficiaries,
     });
 
     addSchedule(
@@ -1355,6 +1355,7 @@ const mapStateToProps = (state) => ({
   pinCode: state.application.pin,
   beneficiariesMap: state.editor.beneficiariesMap,
   pollDraftsMap: state.editor.pollDraftsMap,
+  defaultRewardType: state.editor.defaultRewardType,
   draftsCollection: state.cache.draftsCollection,
 });
 

@@ -25,6 +25,7 @@ import {
   ReferralStat,
   Snippet,
 } from './ecency.types';
+import { delay } from '../../utils/editor';
 
 /**
  * ************************************
@@ -779,16 +780,26 @@ export const getNodes = async () => {
  * @param code refresh token
  * @returns scToken (includes accessToken as property)
  */
-export const getSCAccessToken = async (code: string) => {
+export const getSCAccessToken = async (
+  code: string,
+  retriesCount = 3,
+  _delayMs = 200,
+): Promise<any> => {
   try {
     const response = await ecencyApi.post('/auth-api/hs-token-refresh', {
       code,
     });
+    console.log(`Success: ${response.status}`);
     return response.data;
   } catch (error) {
-    console.warn('failed to refresh token');
-    bugsnagInstance.notify(error);
-    throw error;
+    if (retriesCount > 0) {
+      await delay(_delayMs);
+      return getSCAccessToken(code, retriesCount - 1, _delayMs * 2);
+    } else {
+      console.warn('failed to refresh token');
+      bugsnagInstance.notify(error);
+      throw error;
+    }
   }
 };
 

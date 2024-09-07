@@ -1,13 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import {
-  View,
-  Text,
-  ImageBackground,
-  FlatList,
-  TouchableOpacity,
-  Linking,
-  Share,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
 import { injectIntl, useIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
 import VersionNumber from 'react-native-version-number';
@@ -30,7 +22,11 @@ import { getVotingPower } from '../../../utils/manaBar';
 
 // Styles
 import styles from './sideMenuStyles';
-import { showActionModal, toggleQRModal } from '../../../redux/actions/uiAction';
+import {
+  showActionModal,
+  toggleAccountsBottomSheet,
+  toggleQRModal,
+} from '../../../redux/actions/uiAction';
 
 // Images
 import SIDE_MENU_BACKGROUND from '../../../assets/side_menu_background.png';
@@ -41,6 +37,8 @@ const SideMenuView = ({
   handleLogout,
   navigateToRoute,
   handlePressOptions,
+  prevLoggedInUsers,
+  isVisibleAccountsBottomSheet,
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -118,6 +116,15 @@ const SideMenuView = ({
           showSchedules: true,
         },
       });
+      return;
+    }
+    // if there is any prevLoggedInUser, show account switch modal
+    if (item.id === 'add_account') {
+      if (prevLoggedInUsers && prevLoggedInUsers?.length > 0) {
+        dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
+      } else {
+        navigateToRoute(item.route);
+      }
       return;
     }
 

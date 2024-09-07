@@ -16,6 +16,7 @@ import {
 } from '../../../redux/actions/communitiesAction';
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
 import { getCommunity } from '../../../providers/hive/dhive';
+import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 
 interface TabEmptyViewProps {
   filterKey: string;
@@ -32,6 +33,10 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   const subscribingCommunities = useSelector(
     (state) => state.communities.subscribingCommunitiesInFeedScreen,
   );
+  const isVisibleAccountsBottomSheet = useSelector(
+    (state) => state.ui.isVisibleAccountsBottomSheet,
+  );
+  const prevLoggedInUsers = useSelector((state) => state.account.prevLoggedInUsers);
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
   const [recommendedUsers, setRecommendedUsers] = useState([]);
   const followingUsers = useSelector((state) => state.user.followingUsersInFeedScreen);
@@ -218,7 +223,12 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   };
 
   const _handleOnPressLogin = () => {
-    navigation.navigate(ROUTES.SCREENS.LOGIN);
+    // if there is any prevLoggedInUser, show account switch modal
+    if (prevLoggedInUsers && prevLoggedInUsers?.length > 0) {
+      dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
+    } else {
+      navigation.navigate(ROUTES.SCREENS.LOGIN);
+    }
   };
 
   // render related operations

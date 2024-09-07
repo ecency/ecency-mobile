@@ -8,7 +8,10 @@ import {
   UPDATE_CURRENT_ACCOUNT,
   UPDATE_UNREAD_ACTIVITY_COUNT,
   UPDATE_OTHER_ACCOUNT,
+  SET_PREV_LOGGED_IN_USERS,
+  CLEAR_PREV_LOGGED_IN_USERS,
 } from '../constants/constants';
+import { PrevLoggedInUsers } from '../reducers/accountReducer';
 
 export const fetchGlobalProperties = () => (dispatch) =>
   fetchGlobalProps().then((res) =>
@@ -55,4 +58,13 @@ export const removeAllOtherAccount = () => ({
 export const setGlobalProps = (data) => ({
   type: SET_GLOBAL_PROPS,
   payload: data,
+});
+
+export const setPrevLoggedInUsers = (data: PrevLoggedInUsers[]) => ({
+  payload: data,
+  type: SET_PREV_LOGGED_IN_USERS,
+});
+
+export const clearPrevLoggedInUsers = () => ({
+  type: CLEAR_PREV_LOGGED_IN_USERS,
 });
