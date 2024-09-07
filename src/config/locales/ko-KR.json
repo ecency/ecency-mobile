@@ -58,10 +58,10 @@
     "estimated_value_desc": "구매 가치에 따라",
     "estimated_value": "추정 자산 가치",
     "vote_value": "보팅 가치",
-    "delegated_hive_power": "Delegated hive power",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "임대받은 하이브 파워",
-    "total_hive_power": "총 하이브 파워",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "Savings",
     "estimated_amount": "보팅 가치",
     "amount_information": "슬라이드를 드래그해서 수량을 설정할 수 있습니다",
@@ -289,7 +289,7 @@
     "follow_communities": "커뮤니티에 가입하면 여기에서 커뮤니티의 전체 게시물을 볼 수 있습니다.",
     "havent_commented": "아직 댓글을 작성한 적이 없습니다",
     "havent_posted": "아직 게시한 글이 없습니다",
-    "hive_power": "Hive Power",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "일",
     "day": "일",
@@ -1040,7 +1040,7 @@
     "mute": "뮤트 / 차단",
     "unmute": "뮤트 취소 / 차단 취소",
     "report": "사용자 신고",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "멤버쉽",
