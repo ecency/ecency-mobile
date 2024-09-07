@@ -58,10 +58,10 @@
     "estimated_value_desc": "Hodnota podle ceny při nákupu",
     "estimated_value": "Odhadovaná hodnota",
     "vote_value": "Hodnota hlasu",
-    "delegated_hive_power": "Delegovaná Hive Power",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "Přijatá Hive Power",
-    "total_hive_power": "Celková Hive Power",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "Úspory",
     "estimated_amount": "Hodnota hlasu",
     "amount_information": "Přetažením posuvníku upravíte hodnotu",
@@ -289,7 +289,7 @@
     "follow_communities": "Když se přidáš do nějakých komunit, tady se budou zobrazovat články do nich publikované.",
     "havent_commented": "ještě nic neokomentoval/a",
     "havent_posted": "ještě nepublikoval/a žádný článek",
-    "hive_power": "Hive Power",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "dny",
     "day": "den",
@@ -1040,7 +1040,7 @@
     "mute": "MUTE / BLOCK",
     "unmute": "UNMUTE / UNBLOCK",
     "report": "REPORT USER",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "Membership",
