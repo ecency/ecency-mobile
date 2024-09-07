@@ -58,10 +58,10 @@
     "estimated_value_desc": "Prema nabavnoj vrijednosti",
     "estimated_value": "Procijenjena vrijednost",
     "vote_value": "Vote value",
-    "delegated_hive_power": "Delegated hive power",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "Savings",
     "estimated_amount": "Vrijednost glasa",
     "amount_information": "Prevucite klizač da podesite količinu",
@@ -289,7 +289,7 @@
     "follow_communities": "Kada se pridružite zajednicama, ovdje ćete vidjeti objave iz zajednica.",
     "havent_commented": "još ništa nije komentarisao",
     "havent_posted": "još ništa nije objavio",
-    "hive_power": "Hive Snaga",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "dana",
     "day": "dan",
@@ -1040,7 +1040,7 @@
     "mute": "UTIŠAJ / BLOKIRAJ",
     "unmute": "UKLJUČI / ODBLOKIRAJ",
     "report": "PRIJAVI KORISNIKA",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "Članstvo",
