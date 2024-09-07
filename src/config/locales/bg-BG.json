@@ -58,10 +58,10 @@
     "estimated_value_desc": "Според стойността при покупка",
     "estimated_value": "Предполагаема стойност",
     "vote_value": "Стойност на гласа",
-    "delegated_hive_power": "Делегиран Hive Power",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "Получен Hive Power",
-    "total_hive_power": "Общо Hive Power",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "Спестявания",
     "estimated_amount": "Стойност на гласа",
     "amount_information": "Плъзни лентата за промяна на сумата",
@@ -289,7 +289,7 @@
     "follow_communities": "Когато се присъединиш към група, ще виждаш постовете тук.",
     "havent_commented": "Все още няма коментари",
     "havent_posted": "Все още няма публикации",
-    "hive_power": "Hive Сила/стойност на гласа",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "дни",
     "day": "Ден",
@@ -1040,7 +1040,7 @@
     "mute": "Заглуши/Блокирай",
     "unmute": "Премахни заглушаване/Отблокирай",
     "report": "Доладвай потребител",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "Членство",
