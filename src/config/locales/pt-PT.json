@@ -58,10 +58,10 @@
     "estimated_value_desc": "De acordo com o valor da compra",
     "estimated_value": "Valor estimado",
     "vote_value": "Valor do voto",
-    "delegated_hive_power": "Hive Power delegado",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Diminuindo ({subValue})",
-    "received_hive_power": "Hive Power recebido",
-    "total_hive_power": "Poder hive total",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "Poupança",
     "estimated_amount": "Valor do voto",
     "amount_information": "Arraste o controle deslizante para ajustar a quantia",
@@ -289,7 +289,7 @@
     "follow_communities": "Quando você ingressar em comunidades, verá os posts delas aqui.",
     "havent_commented": "ainda não comentou nada",
     "havent_posted": "ainda não postou nada",
-    "hive_power": "Poder Hive",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Próxima diminuição de poder será em",
     "days": "dias",
     "day": "dia",
@@ -1040,7 +1040,7 @@
     "mute": "MUTAR / BLOQUEAR",
     "unmute": "NÃO SILENCIAR / DESBLOQUEAR",
     "report": "DENUNCIAR USUÁRIO",
-    "delegate": "DELEGAR HIVE POWER"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "Membros",
