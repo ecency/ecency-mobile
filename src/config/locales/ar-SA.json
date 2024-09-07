@@ -58,10 +58,10 @@
     "estimated_value_desc": "حسب قيمة الشراء",
     "estimated_value": "القيمه المتوقعه",
     "vote_value": "قيمة التصويت",
-    "delegated_hive_power": "قوة Hive التي تم تفويضها",
+    "delegated_hive_power": "Outgoing delegations",
     "powering_down_hive_power": "Unstaking ({subValue})",
-    "received_hive_power": "قوة Hive المستلمة",
-    "total_hive_power": "القوة الإجمالية",
+    "received_hive_power": "Incoming delegations",
+    "total_hive_power": "Total stake",
     "savings": "المدخرات",
     "estimated_amount": "قيمة التصويت",
     "amount_information": "اسحب شريط التمرير لضبط المبلغ",
@@ -289,7 +289,7 @@
     "follow_communities": "عندما تنضم إلى المجتمعات سترى مشاركاتهم هنا.",
     "havent_commented": "لم تكن قد علقت أي شيء حتى الآن",
     "havent_posted": "لم تنشر أي شيء حتى الآن",
-    "hive_power": "قوة Hive",
+    "hive_power": "Staked HIVE",
     "next_power_text": "Next unstaking is in",
     "days": "أيام",
     "day": "يوم",
@@ -1040,7 +1040,7 @@
     "mute": "كتم / صد",
     "unmute": "إلغاء الكتم / إلغاء الصد",
     "report": "تبليغ عن المستخدم",
-    "delegate": "تفويض قوة HIVE"
+    "delegate": "DELEGATE HIVE"
   },
   "communities": {
     "joined": "العضوية",
