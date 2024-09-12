@@ -424,7 +424,7 @@
       "username_contains_underscore": "Should not contain underscore",
       "username_exists": "Username already exists, try a different one"
     },
-    "have_account_text": "Already have an account?",
+    "have_account_text": "Har du redan ett konto?",
     "login_here": "Login Here"
   },
   "home": {
