@@ -53,6 +53,9 @@ export const TabbedPosts = ({
     : [];
 
   const combinedFilters = [...mainFilters, ...subFilters];
+  const [routes] = useState(
+    combinedFilters.map((filter, index) => ({ key: filter.filterKey, title: filter.label }))
+  );
 
   const [selectedFilter, setSelectedFilter] = useState(combinedFilters[initialTabIndex].filterKey);
   const [filterScrollRequest, createFilterScrollRequest] = useState<string | null>(null);
@@ -102,19 +105,10 @@ export const TabbedPosts = ({
   // render tab bar
   const _renderTabBar = (props:TabBarProps<any>) => {
 
-    // return (
-    //   <TabBar 
-    //     scrollEnabled={true}
-    //     indicatorStyle={{backgroundColor:'transparent'}}
-    //     style={{backgroundColor:EStyleSheet.value("$primaryLightBackground")}}
-    //     {...props} />
-    // )
-
     return (
       <FeedTabBar
         {...props}
-        firstStack={mainFilters}
-        secondStack={subFilters}
+        routes={routes}
         initialFirstStackIndex={selectedOptionIndex}
         onFilterSelect={_onFilterSelect}
         toggleHideImagesFlag={imagesToggleEnabled}
@@ -123,13 +117,14 @@ export const TabbedPosts = ({
     );
   };
 
-  const [routes] = useState(
-    combinedFilters.map((filter, index) => ({ key: filter.filterKey, title: filter.label }))
-  );
+
 
   // Dynamically create scenes for each tab
   const renderScene = ({ route }) => {
     // const tab = tabs.find((t) => t.key === route.key);
+    if (tabContentOverrides && tabContentOverrides.has(index)) {
+      return tabContentOverrides.get(index);
+    }
     return (
       <PostsTabContent
         key={route.key}
