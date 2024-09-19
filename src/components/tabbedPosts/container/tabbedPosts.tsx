@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+import React, { useMemo, useState } from 'react';
 import { TabbedPostsProps } from '../types/tabbedPosts.types';
-import { StackedTabBar, TabItem } from '../view/stackedTabBar';
+import { FeedTabBar, TabItem } from '../view/feedTabBar';
 import PostsTabContent from '../view/postsTabContent';
+import { TabView, SceneMap, TabBar, TabBarProps } from 'react-native-tab-view';
+import { Text, useWindowDimensions, View } from 'react-native';
 
 export const TabbedPosts = ({
   filterOptions,
@@ -19,6 +20,15 @@ export const TabbedPosts = ({
   onTabChange,
   ...props
 }: TabbedPostsProps) => {
+
+  const layout = useWindowDimensions();
+
+  const [index, setIndex] = React.useState(0);
+  // const [routes] = React.useState([
+  //   { key: 'first', title: 'First' },
+  //   { key: 'second', title: 'Second' },
+  // ]);
+
   // initialize state
   const [initialTabIndex] = useState(
     selectedOptionIndex == 0 && stackedTabs ? filterOptions.length : selectedOptionIndex,
@@ -26,20 +36,20 @@ export const TabbedPosts = ({
 
   const mainFilters = filterOptions.map(
     (label, index) =>
-      ({
-        filterKey: filterOptionsValue[index],
-        label,
-      } as TabItem),
+    ({
+      filterKey: filterOptionsValue[index],
+      label,
+    } as TabItem),
   );
 
   const subFilters = feedSubfilterOptions
     ? feedSubfilterOptions.map(
-        (label, index) =>
-          ({
-            filterKey: feedSubfilterOptionsValue[index],
-            label,
-          } as TabItem),
-      )
+      (label, index) =>
+      ({
+        filterKey: feedSubfilterOptionsValue[index],
+        label,
+      } as TabItem),
+    )
     : [];
 
   const combinedFilters = [...mainFilters, ...subFilters];
@@ -81,10 +91,27 @@ export const TabbedPosts = ({
     );
   });
 
+
+
+
+  // const renderScene = SceneMap({
+  //   first: scenes[0],
+  //   second: scenes[1],
+  // });
+
   // render tab bar
-  const _renderTabBar = (props) => {
+  const _renderTabBar = (props:TabBarProps<any>) => {
+
+    // return (
+    //   <TabBar 
+    //     scrollEnabled={true}
+    //     indicatorStyle={{backgroundColor:'transparent'}}
+    //     style={{backgroundColor:EStyleSheet.value("$primaryLightBackground")}}
+    //     {...props} />
+    // )
+
     return (
-      <StackedTabBar
+      <FeedTabBar
         {...props}
         firstStack={mainFilters}
         secondStack={subFilters}
@@ -96,15 +123,45 @@ export const TabbedPosts = ({
     );
   };
 
+  const [routes] = useState(
+    combinedFilters.map((filter, index) => ({ key: filter.filterKey, title: filter.label }))
+  );
+
+  // Dynamically create scenes for each tab
+  const renderScene = ({ route }) => {
+    // const tab = tabs.find((t) => t.key === route.key);
+    return (
+      <PostsTabContent
+        key={route.key}
+        filterKey={route.key}
+        isFeedScreen={isFeedScreen}
+        isInitialTab={initialTabIndex == index}
+        feedUsername={feedUsername}
+        pageType={pageType}
+        filterScrollRequest={filterScrollRequest}
+        onScrollRequestProcessed={_onScrollRequestProcessed}
+        {...props}
+      />
+    );
+  };
+
   return (
-    <ScrollableTabView
-      scrollWithoutAnimation={true}
-      locked={true}
-      initialPage={initialTabIndex}
-      renderTabBar={_renderTabBar}
-      onTabChange={onTabChange}
-    >
-      {pages}
-    </ScrollableTabView>
+    <View style={{ flex: 1, width: layout.width }} >
+      <TabView
+        // scrollWithoutAnimation={true}
+        // locked={true}
+        // initialPage={initialTabIndex}
+        // renderTabBar={_renderTabBar}
+        // onTabChange={onTabChange}
+        lazy={true}
+        swipeEnabled={false}
+        renderTabBar={_renderTabBar}
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={{ width: layout.width }}
+      />
+    </View>
+
   );
 };

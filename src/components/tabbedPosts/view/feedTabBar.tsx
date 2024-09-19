@@ -1,16 +1,20 @@
 import React, { useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { CustomiseFiltersModal, FilterBar } from '../..';
+import { CustomiseFiltersModal, FilterBar, IconButton, Tag } from '../..';
 import { setHidePostsThumbnails } from '../../../redux/actions/applicationActions';
 import { CustomiseFiltersModalRef } from '../../customiseFiltersModal/customiseFiltersModal';
+import { TabBar, TabBarProps } from 'react-native-tab-view';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { Text, useWindowDimensions, View } from 'react-native';
+import styles from '../styles/feedTabBar.styles';
 
 export interface TabItem {
   filterKey: string;
   label: string;
 }
 
-interface StackedTabBarProps {
+interface FeedTabBarProps extends TabBarProps<any> {
   goToPage: (pageIndex) => void;
   tabs: string[];
   pageType?: 'main' | 'community' | 'profile' | 'ownProfile';
@@ -22,7 +26,7 @@ interface StackedTabBarProps {
   toggleHideImagesFlag: boolean;
 }
 
-export const StackedTabBar = ({
+export const FeedTabBar = ({
   goToPage,
   tabs,
   shouldStack,
@@ -32,9 +36,11 @@ export const StackedTabBar = ({
   onFilterSelect,
   toggleHideImagesFlag,
   pageType,
-}: StackedTabBarProps) => {
+  ...props
+}: FeedTabBarProps) => {
   const dispatch = useDispatch();
   const intl = useIntl();
+  const layout = useWindowDimensions();
 
   const customiseModalRef = useRef<CustomiseFiltersModalRef>();
 
@@ -58,7 +64,7 @@ export const StackedTabBar = ({
 
   return (
     <>
-      <FilterBar
+      {/* <FilterBar
         options={firstStack.map((item, index) => {
           return tabs[index]
             ? tabs[index]
@@ -96,8 +102,47 @@ export const StackedTabBar = ({
             goToPage(firstStack.length + index);
           }}
         />
-      )}
+      )} */}
 
+      <View style={{ flexDirection: 'row', backgroundColor: EStyleSheet.value("$primaryLightBackground") }} >
+
+        <TabBar
+          renderLabel={({ route, focused }) => (
+            <Tag
+              key={route.key}
+              value={intl.formatMessage({ id: route.title.toLowerCase() }).toUpperCase()}
+              isFilter
+              isPin={focused}
+            />
+
+          )}
+          indicatorStyle={{
+            backgroundColor: 'transparent',
+          }}
+          tabStyle={{
+            width: 'auto',
+            height: 38,
+            paddingTop:0,
+          }}
+
+          style={{
+            backgroundColor: EStyleSheet.value("$primaryLightBackground"),  // Background color for the TabBar
+          }}
+          scrollEnabled={true}
+          onTabPress={({ route, preventDefault }) => {
+            onFilterSelect(route.key)
+          }}
+          {...props}
+        />
+        {/* <IconButton
+            iconStyle={styles.rightIcon}
+            style={styles.rightIconWrapper}
+            iconType="MaterialIcon"
+            size={28}
+            name="add"
+            onPress={_onCustomisePress}
+          /> */}
+      </View>
       {enableCustomTabs && <CustomiseFiltersModal pageType={pageType} ref={customiseModalRef} />}
     </>
   );
