@@ -1,4 +1,7 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
+
+const deviceWidth = getWindowDimensions().width;
 
 
 export default EStyleSheet.create({
@@ -18,6 +21,8 @@ export default EStyleSheet.create({
     backgroundColor: 'transparent',
   },
   tabStyle: {
+    width: 'auto',
+    minWidth: (deviceWidth / 3) - 12,
     height: 38,
     paddingTop: 0,
   },

@@ -120,7 +120,7 @@ export const FeedTabBar = ({
           )}
           style={styles.tabBarStyle}
           indicatorStyle={styles.indicatorStyle}
-          tabStyle={{ ...styles.tabStyle, width: routes.length > 3 ? 'auto' : undefined }}
+          tabStyle={styles.tabStyle}
           scrollEnabled={routes.length > 3}
           onTabPress={({ route }) => {
             onFilterSelect(route.key)
