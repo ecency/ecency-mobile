@@ -18,8 +18,10 @@ interface FeedTabBarProps extends TabBarProps<any> {
   goToPage: (pageIndex) => void;
   tabs: string[];
   pageType?: 'main' | 'community' | 'profile' | 'ownProfile';
-  routes: { key: string;
-    title: string}[] ,
+  routes: {
+    key: string;
+    title: string
+  }[],
   initialFirstStackIndex: number;
   onFilterSelect: (filterKey: string) => void;
   toggleHideImagesFlag: boolean;
@@ -101,15 +103,11 @@ export const FeedTabBar = ({
         />
       )} */}
 
-      {/* <View style={{ flexDirection: 'row', backgroundColor: EStyleSheet.value("$primaryLightBackground") }} > */}
-        <IconButton
-            iconStyle={styles.rightIcon}
-            style={styles.rightIconWrapper}
-            iconType="MaterialIcon"
-            size={28}
-            name="add"
-            onPress={_onCustomisePress}
-          />
+      <View style={{
+        flexDirection: 'row',
+        alignItems: 'center', backgroundColor: EStyleSheet.value("$primaryLightBackground")
+      }} >
+
         <TabBar
           renderLabel={({ route, focused }) => (
             <Tag
@@ -120,26 +118,27 @@ export const FeedTabBar = ({
             />
 
           )}
-          indicatorStyle={{
-            backgroundColor: 'transparent',
-          }}
-          tabStyle={{
-            width: routes.length > 3 ? 'auto' : undefined,
-            height: 38,
-            paddingTop: 0,
-          }}
-
-          style={{
-            backgroundColor: EStyleSheet.value("$primaryLightBackground"),  // Background color for the TabBar
-          }}
+          style={styles.tabBarStyle}
+          indicatorStyle={styles.indicatorStyle}
+          tabStyle={{ ...styles.tabStyle, width: routes.length > 3 ? 'auto' : undefined }}
           scrollEnabled={routes.length > 3}
           onTabPress={({ route }) => {
             onFilterSelect(route.key)
           }}
           {...props}
         />
+        {enableCustomTabs &&
+          <IconButton
+            iconStyle={styles.rightIcon}
+            style={styles.rightIconWrapper}
+            iconType="MaterialIcon"
+            size={28}
+            name="add"
+            onPress={_onCustomisePress}
+          />
+        }
 
-      {/* </View> */}
+      </View>
       {enableCustomTabs && <CustomiseFiltersModal pageType={pageType} ref={customiseModalRef} />}
     </>
   );

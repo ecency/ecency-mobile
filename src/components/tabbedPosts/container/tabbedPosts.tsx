@@ -1,9 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { TabbedPostsProps } from '../types/tabbedPosts.types';
 import { FeedTabBar, TabItem } from '../view/feedTabBar';
 import PostsTabContent from '../view/postsTabContent';
-import { TabView, SceneMap, TabBar, TabBarProps } from 'react-native-tab-view';
-import { Text, useWindowDimensions, View } from 'react-native';
+import { TabView, TabBarProps } from 'react-native-tab-view';
+import { useWindowDimensions, View } from 'react-native';
 
 export const TabbedPosts = ({
   filterOptions,
