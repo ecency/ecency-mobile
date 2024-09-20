@@ -15,7 +15,6 @@ export const TabbedPosts = ({
   feedUsername,
   pageType,
   tabContentOverrides,
-  imagesToggleEnabled,
   stackedTabs,
   onTabChange,
   ...props
@@ -23,16 +22,11 @@ export const TabbedPosts = ({
 
   const layout = useWindowDimensions();
 
-  const [index, setIndex] = React.useState(0);
-  // const [routes] = React.useState([
-  //   { key: 'first', title: 'First' },
-  //   { key: 'second', title: 'Second' },
-  // ]);
-
   // initialize state
   const [initialTabIndex] = useState(
     selectedOptionIndex == 0 && stackedTabs ? filterOptions.length : selectedOptionIndex,
   );
+  const [index, setIndex] = useState(initialTabIndex);
 
   const mainFilters = filterOptions.map(
     (label, index) =>
@@ -96,14 +90,8 @@ export const TabbedPosts = ({
 
 
 
-
-  // const renderScene = SceneMap({
-  //   first: scenes[0],
-  //   second: scenes[1],
-  // });
-
   // render tab bar
-  const _renderTabBar = (props:TabBarProps<any>) => {
+  const _renderTabBar = (props: TabBarProps<any>) => {
 
     return (
       <FeedTabBar
@@ -111,17 +99,15 @@ export const TabbedPosts = ({
         routes={routes}
         initialFirstStackIndex={selectedOptionIndex}
         onFilterSelect={_onFilterSelect}
-        toggleHideImagesFlag={imagesToggleEnabled}
         pageType={pageType}
       />
     );
   };
 
 
-
   // Dynamically create scenes for each tab
   const renderScene = ({ route }) => {
-    // const tab = tabs.find((t) => t.key === route.key);
+
     if (tabContentOverrides && tabContentOverrides.has(index)) {
       return tabContentOverrides.get(index);
     }
@@ -143,11 +129,7 @@ export const TabbedPosts = ({
   return (
     <View style={{ flex: 1, width: layout.width }} >
       <TabView
-        // scrollWithoutAnimation={true}
-        // locked={true}
-        // initialPage={initialTabIndex}
-        // renderTabBar={_renderTabBar}
-        // onTabChange={onTabChange}
+        animationEnabled={false}
         lazy={true}
         swipeEnabled={false}
         renderTabBar={_renderTabBar}

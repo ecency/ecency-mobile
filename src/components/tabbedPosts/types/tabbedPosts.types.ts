@@ -11,7 +11,6 @@ export interface TabbedPostsProps {
   tag: string;
   forceLoadPosts: boolean;
   tabContentOverrides: Map<number, any>;
-  imagesToggleEnabled?: boolean;
   stackedTabs: boolean;
   pinnedPermlink?: string;
   onTabChange: (index: number) => void;

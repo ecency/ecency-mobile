@@ -15,8 +15,6 @@ export interface TabItem {
 }
 
 interface FeedTabBarProps extends TabBarProps<any> {
-  goToPage: (pageIndex) => void;
-  tabs: string[];
   pageType?: 'main' | 'community' | 'profile' | 'ownProfile';
   routes: {
     key: string;
@@ -24,30 +22,20 @@ interface FeedTabBarProps extends TabBarProps<any> {
   }[],
   initialFirstStackIndex: number;
   onFilterSelect: (filterKey: string) => void;
-  toggleHideImagesFlag: boolean;
 }
 
 export const FeedTabBar = ({
-  goToPage,
-  tabs,
   routes,
   initialFirstStackIndex,
   onFilterSelect,
-  toggleHideImagesFlag,
   pageType,
   ...props
 }: FeedTabBarProps) => {
-  const dispatch = useDispatch();
+
   const intl = useIntl();
   const layout = useWindowDimensions();
 
   const customiseModalRef = useRef<CustomiseFiltersModalRef>();
-
-  // redux properties
-  const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
-
-  const [selectedFilterIndex, setSelectedFilterIndex] = useState(initialFirstStackIndex);
-  const [selectedSecondStackIndex, setSelectedSecondStackIndex] = useState(0);
 
   const enableCustomTabs = pageType !== undefined;
 
@@ -57,89 +45,45 @@ export const FeedTabBar = ({
     }
   };
 
-  const _onToggleImagesPress = () => {
-    dispatch(setHidePostsThumbnails(!isHideImages));
-  };
 
   return (
-    <>
-      {/* <FilterBar
-        options={firstStack.map((item, index) => {
-          return tabs[index]
-            ? tabs[index]
-            : intl.formatMessage({ id: item.label.toLowerCase() }).toUpperCase();
-        })}
-        selectedOptionIndex={selectedFilterIndex}
-        rightIconName={toggleHideImagesFlag && 'view-module'}
-        rightIconType={toggleHideImagesFlag && 'MaterialIcons'}
-        enableCustomiseButton={enableCustomTabs}
-        onCustomisePress={_onCustomisePress}
-        onDropdownSelect={(index) => {
-          setSelectedFilterIndex(index);
 
-          if (index == 0 && shouldStack) {
-            const tabIndex = firstStack.length + selectedSecondStackIndex;
-            onFilterSelect(secondStack[selectedSecondStackIndex].filterKey);
-            goToPage(tabIndex);
-          } else {
-            onFilterSelect(firstStack[index].filterKey);
-            goToPage(index);
-          }
-        }}
-        onRightIconPress={_onToggleImagesPress}
-      />
+    <View style={{
+      flexDirection: 'row',
+      alignItems: 'center', backgroundColor: EStyleSheet.value("$primaryLightBackground")
+    }} >
 
-      {selectedFilterIndex == 0 && shouldStack && (
-        <FilterBar
-          options={secondStack.map((item) =>
-            intl.formatMessage({ id: item.label.toLowerCase() }).toUpperCase(),
-          )}
-          selectedOptionIndex={selectedSecondStackIndex}
-          onDropdownSelect={(index) => {
-            setSelectedSecondStackIndex(index);
-            onFilterSelect(secondStack[index].filterKey);
-            goToPage(firstStack.length + index);
-          }}
-        />
-      )} */}
-
-      <View style={{
-        flexDirection: 'row',
-        alignItems: 'center', backgroundColor: EStyleSheet.value("$primaryLightBackground")
-      }} >
-
-        <TabBar
-          renderLabel={({ route, focused }) => (
-            <Tag
-              key={route.key}
-              value={intl.formatMessage({ id: route.title.toLowerCase() }).toUpperCase()}
-              isFilter
-              isPin={focused}
-            />
-
-          )}
-          style={styles.tabBarStyle}
-          indicatorStyle={styles.indicatorStyle}
-          tabStyle={styles.tabStyle}
-          scrollEnabled={routes.length > 3}
-          onTabPress={({ route }) => {
-            onFilterSelect(route.key)
-          }}
-          {...props}
-        />
-        {enableCustomTabs &&
-          <IconButton
-            iconStyle={styles.rightIcon}
-            style={styles.rightIconWrapper}
-            iconType="MaterialIcon"
-            size={28}
-            name="add"
-            onPress={_onCustomisePress}
+      <TabBar
+        renderLabel={({ route, focused }) => (
+          <Tag
+            key={route.key}
+            value={intl.formatMessage({ id: route.title.toLowerCase() }).toUpperCase()}
+            isFilter
+            isPin={focused}
           />
-        }
 
-      </View>
+        )}
+        style={styles.tabBarStyle}
+        indicatorStyle={styles.indicatorStyle}
+        tabStyle={{ ...styles.tabStyle, minWidth: (layout.width / 3) - (enableCustomTabs ? 14 : 0) }}
+        scrollEnabled={routes.length > 3}
+        onTabPress={({ route }) => {
+          onFilterSelect(route.key)
+        }}
+        {...props}
+      />
+      {enableCustomTabs &&
+        <IconButton
+          iconStyle={styles.rightIcon}
+          style={styles.rightIconWrapper}
+          iconType="MaterialIcon"
+          size={28}
+          name="add"
+          onPress={_onCustomisePress}
+        />
+      }
       {enableCustomTabs && <CustomiseFiltersModal pageType={pageType} ref={customiseModalRef} />}
-    </>
+    </View>
+
   );
 };
