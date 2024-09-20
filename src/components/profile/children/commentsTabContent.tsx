@@ -13,7 +13,7 @@ interface CommentsTabContentProps {
   type: 'comments' | 'replies';
   isOwnProfile: boolean;
   selectedUser: any;
-  onScroll: () => void;
+  onScroll?: () => void;
 }
 
 const CommentsTabContent = ({

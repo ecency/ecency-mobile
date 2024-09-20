@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
@@ -7,9 +7,8 @@ import { connect } from 'react-redux';
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { CollapsibleCard } from '../collapsibleCard';
-import { Comments } from '../comments';
 import { Header } from '../header';
-import { NoPost, ProfileSummaryPlaceHolder, WalletDetailsPlaceHolder } from '../basicUIElements';
+import { ProfileSummaryPlaceHolder, WalletDetailsPlaceHolder } from '../basicUIElements';
 import { ProfileSummary } from '../profileSummary';
 import { Wallet } from '../wallet';
 
