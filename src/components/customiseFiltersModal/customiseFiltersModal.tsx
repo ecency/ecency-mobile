@@ -76,7 +76,7 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
 
   // save snippet based on editor pageType
   const _onApply = () => {
-    if (selectedFilters.size !== 3) {
+    if (selectedFilters.size < 3) {
       alert(intl.formatMessage({ id: 'alert.wrong_filter_count' }));
       return;
     }

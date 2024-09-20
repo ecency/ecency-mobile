@@ -5,7 +5,7 @@ import { Image as ExpoImage } from 'expo-image';
 import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { IconButton } from '../..';
-import styles from './tabbedPostsStyles';
+import styles from '../styles/tabbedPosts.styles';
 
 interface ScrollTopPopupProps {
   onPress: () => void;

@@ -65,6 +65,7 @@
     "@tanstack/react-query": "^4.3.9",
     "@tanstack/react-query-persist-client": "^4.3.9",
     "@tradle/react-native-http": "^2.0.0",
+    "add": "^2.0.6",
     "appcenter": "5.0.0",
     "appcenter-analytics": "5.0.0",
     "appcenter-crashes": "5.0.0",
@@ -137,6 +138,7 @@
     "react-native-navigation-bar-color": "^2.0.2",
     "react-native-orientation-locker": "^1.6.0",
     "react-native-os": "^1.2.6",
+    "react-native-pager-view": "^6.4.1",
     "react-native-permissions": "^3.3.0",
     "react-native-portalize": "^1.0.7",
     "react-native-progress": "^5.0.0",
@@ -154,6 +156,7 @@
     "react-native-snap-carousel": "^3.8.0",
     "react-native-svg": "^12.1.1",
     "react-native-swiper": "^1.6.0-rc.3",
+    "react-native-tab-view": "^3.5.2",
     "react-native-tcp": "^4.0.0",
     "react-native-tus-client": "^1.1.0",
     "react-native-udp": "^4.1.4",
@@ -187,7 +190,8 @@
     "tty-browserify": "0.0.0",
     "url": "~0.10.1",
     "util": "~0.10.3",
-    "vm-browserify": "0.0.4"
+    "vm-browserify": "0.0.4",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

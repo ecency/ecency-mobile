@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NoPost, PostCardPlaceHolder, UserListItem } from '../..';
 import globalStyles from '../../../globalStyles';
 import { CommunityListItem, EmptyScreen } from '../../basicUIElements';
-import styles from './tabbedPostsStyles';
+import styles from '../styles/tabbedPosts.styles';
 import { default as ROUTES } from '../../../constants/routeNames';
 import {
   fetchCommunities,
