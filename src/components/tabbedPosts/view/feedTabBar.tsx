@@ -1,12 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { CustomiseFiltersModal, FilterBar, IconButton, Tag } from '../..';
-import { setHidePostsThumbnails } from '../../../redux/actions/applicationActions';
-import { CustomiseFiltersModalRef } from '../../customiseFiltersModal/customiseFiltersModal';
 import { TabBar, TabBarProps } from 'react-native-tab-view';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Text, useWindowDimensions, View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
+import { CustomiseFiltersModal, IconButton, Tag } from '../..';
+import { CustomiseFiltersModalRef } from '../../customiseFiltersModal/customiseFiltersModal';
 import styles from '../styles/feedTabBar.styles';
 
 export interface TabItem {
@@ -18,20 +16,12 @@ interface FeedTabBarProps extends TabBarProps<any> {
   pageType?: 'main' | 'community' | 'profile' | 'ownProfile';
   routes: {
     key: string;
-    title: string
-  }[],
-  initialFirstStackIndex: number;
+    title: string;
+  }[];
   onFilterSelect: (filterKey: string) => void;
 }
 
-export const FeedTabBar = ({
-  routes,
-  initialFirstStackIndex,
-  onFilterSelect,
-  pageType,
-  ...props
-}: FeedTabBarProps) => {
-
+export const FeedTabBar = ({ routes, onFilterSelect, pageType, ...props }: FeedTabBarProps) => {
   const intl = useIntl();
   const layout = useWindowDimensions();
 
@@ -45,14 +35,14 @@ export const FeedTabBar = ({
     }
   };
 
-
   return (
-
-    <View style={{
-      flexDirection: 'row',
-      alignItems: 'center', backgroundColor: EStyleSheet.value("$primaryLightBackground")
-    }} >
-
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: EStyleSheet.value('$primaryLightBackground'),
+      }}
+    >
       <TabBar
         renderLabel={({ route, focused }) => (
           <Tag
@@ -61,18 +51,17 @@ export const FeedTabBar = ({
             isFilter
             isPin={focused}
           />
-
         )}
         style={styles.tabBarStyle}
         indicatorStyle={styles.indicatorStyle}
-        tabStyle={{ ...styles.tabStyle, minWidth: (layout.width / 3) - (enableCustomTabs ? 14 : 0) }}
+        tabStyle={{ ...styles.tabStyle, minWidth: layout.width / 3 - (enableCustomTabs ? 14 : 0) }}
         scrollEnabled={routes.length > 3}
         onTabPress={({ route }) => {
-          onFilterSelect(route.key)
+          onFilterSelect(route.key);
         }}
         {...props}
       />
-      {enableCustomTabs &&
+      {enableCustomTabs && (
         <IconButton
           iconStyle={styles.rightIcon}
           style={styles.rightIconWrapper}
@@ -81,9 +70,8 @@ export const FeedTabBar = ({
           name="add"
           onPress={_onCustomisePress}
         />
-      }
+      )}
       {enableCustomTabs && <CustomiseFiltersModal pageType={pageType} ref={customiseModalRef} />}
     </View>
-
   );
 };

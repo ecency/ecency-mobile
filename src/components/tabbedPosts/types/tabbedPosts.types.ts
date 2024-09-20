@@ -13,7 +13,6 @@ export interface TabbedPostsProps {
   tabContentOverrides: Map<number, any>;
   stackedTabs: boolean;
   pinnedPermlink?: string;
-  onTabChange: (index: number) => void;
   handleOnScroll: () => void;
 }
 

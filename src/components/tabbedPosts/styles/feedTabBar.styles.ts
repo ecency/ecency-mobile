@@ -3,7 +3,6 @@ import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 const deviceWidth = getWindowDimensions().width;
 
-
 export default EStyleSheet.create({
   container: {
     justifyContent: 'center',
@@ -22,13 +21,13 @@ export default EStyleSheet.create({
   },
   tabStyle: {
     width: 'auto',
-    minWidth: (deviceWidth / 3) - 12,
+    minWidth: deviceWidth / 3 - 12,
     height: 38,
     paddingTop: 0,
   },
   tabBarStyle: {
     flex: 1,
-    backgroundColor: EStyleSheet.value("$primaryLightBackground"),  // Background color for the TabBar
+    backgroundColor: EStyleSheet.value('$primaryLightBackground'), // Background color for the TabBar
   },
 
   dropdownWrapper: {

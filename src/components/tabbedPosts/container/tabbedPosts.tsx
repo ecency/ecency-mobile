@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import { TabView, TabBarProps } from 'react-native-tab-view';
+import { useWindowDimensions, View } from 'react-native';
 import { TabbedPostsProps } from '../types/tabbedPosts.types';
 import { FeedTabBar, TabItem } from '../view/feedTabBar';
 import PostsTabContent from '../view/postsTabContent';
-import { TabView, TabBarProps } from 'react-native-tab-view';
-import { useWindowDimensions, View } from 'react-native';
 
 export const TabbedPosts = ({
   filterOptions,
@@ -16,10 +16,8 @@ export const TabbedPosts = ({
   pageType,
   tabContentOverrides,
   stackedTabs,
-  onTabChange,
   ...props
 }: TabbedPostsProps) => {
-
   const layout = useWindowDimensions();
 
   // initialize state
@@ -30,25 +28,25 @@ export const TabbedPosts = ({
 
   const mainFilters = filterOptions.map(
     (label, index) =>
-    ({
-      filterKey: filterOptionsValue[index],
-      label,
-    } as TabItem),
+      ({
+        filterKey: filterOptionsValue[index],
+        label,
+      } as TabItem),
   );
 
   const subFilters = feedSubfilterOptions
     ? feedSubfilterOptions.map(
-      (label, index) =>
-      ({
-        filterKey: feedSubfilterOptionsValue[index],
-        label,
-      } as TabItem),
-    )
+        (label, index) =>
+          ({
+            filterKey: feedSubfilterOptionsValue[index],
+            label,
+          } as TabItem),
+      )
     : [];
 
   const combinedFilters = [...mainFilters, ...subFilters];
   const [routes] = useState(
-    combinedFilters.map((filter, index) => ({ key: filter.filterKey, title: filter.label }))
+    combinedFilters.map((filter) => ({ key: filter.filterKey, title: filter.label })),
   );
 
   const [selectedFilter, setSelectedFilter] = useState(combinedFilters[initialTabIndex].filterKey);
@@ -67,47 +65,15 @@ export const TabbedPosts = ({
     createFilterScrollRequest(null);
   };
 
-  // initialize first set of pages
-  const pages = combinedFilters.map((filter, index) => {
-    if (tabContentOverrides && tabContentOverrides.has(index)) {
-      return tabContentOverrides.get(index);
-    }
-
-    return (
-      <PostsTabContent
-        key={filter.filterKey}
-        filterKey={filter.filterKey}
-        isFeedScreen={isFeedScreen}
-        isInitialTab={initialTabIndex == index}
-        feedUsername={feedUsername}
-        pageType={pageType}
-        filterScrollRequest={filterScrollRequest}
-        onScrollRequestProcessed={_onScrollRequestProcessed}
-        {...props}
-      />
-    );
-  });
-
-
-
   // render tab bar
   const _renderTabBar = (props: TabBarProps<any>) => {
-
     return (
-      <FeedTabBar
-        {...props}
-        routes={routes}
-        initialFirstStackIndex={selectedOptionIndex}
-        onFilterSelect={_onFilterSelect}
-        pageType={pageType}
-      />
+      <FeedTabBar {...props} routes={routes} onFilterSelect={_onFilterSelect} pageType={pageType} />
     );
   };
 
-
   // Dynamically create scenes for each tab
   const renderScene = ({ route }) => {
-
     if (tabContentOverrides && tabContentOverrides.has(index)) {
       return tabContentOverrides.get(index);
     }
@@ -127,7 +93,7 @@ export const TabbedPosts = ({
   };
 
   return (
-    <View style={{ flex: 1, width: layout.width }} >
+    <View style={{ flex: 1, width: layout.width }}>
       <TabView
         animationEnabled={false}
         lazy={true}
@@ -139,6 +105,5 @@ export const TabbedPosts = ({
         initialLayout={{ width: layout.width }}
       />
     </View>
-
   );
 };
