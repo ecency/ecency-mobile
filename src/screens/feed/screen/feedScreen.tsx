@@ -9,22 +9,22 @@ import { Header, TabbedPosts } from '../../../components';
 // Styles
 import styles from './feedStyles';
 
-import {DEFAULT_FEED_FILTERS, GLOBAL_POST_FILTERS, FEED_SCREEN_FILTER_MAP, GLOBAL_POST_FILTERS_VALUE } from '../../../constants/options/filters';
+import {
+  DEFAULT_FEED_FILTERS,
+  GLOBAL_POST_FILTERS,
+  FEED_SCREEN_FILTER_MAP,
+  GLOBAL_POST_FILTERS_VALUE,
+} from '../../../constants/options/filters';
 
 import { useAppSelector } from '../../../hooks';
 import CommentsTabContent from '../../../components/profile/children/commentsTabContent';
 import { TabItem } from '../../../components/tabbedPosts/types/tabbedPosts.types';
 
 const FeedScreen = () => {
-  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
-  const currentAccount = useAppSelector(
-    (state) => state.account.currentAccount,
-  );
+  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
-  const mainTabs = useAppSelector(
-    (state) => state.customTabs.mainTabs,
-  );
-
+  const mainTabs = useAppSelector((state) => state.customTabs.mainTabs);
 
   const [lazyLoad, setLazyLoad] = useState(false);
 
@@ -36,28 +36,32 @@ const FeedScreen = () => {
     }
   };
 
+  const feedFilters = useMemo(
+    () => (isLoggedIn ? mainTabs || DEFAULT_FEED_FILTERS : GLOBAL_POST_FILTERS_VALUE),
+    [isLoggedIn, mainTabs],
+  );
 
-  const feedFilters = useMemo(() =>
-    isLoggedIn ? mainTabs || DEFAULT_FEED_FILTERS : GLOBAL_POST_FILTERS_VALUE
-    , [isLoggedIn, mainTabs])
+  const tabFilters = useMemo(
+    () =>
+      feedFilters.map(
+        (key: string) =>
+          ({
+            filterKey: key,
+            label: FEED_SCREEN_FILTER_MAP[key],
+          } as TabItem),
+      ),
+    [feedFilters],
+  );
 
-  const tabFilters = useMemo(() =>
-    feedFilters.map(
-      (key: string) =>
-      ({
-        filterKey: key,
-        label: FEED_SCREEN_FILTER_MAP[key],
-      } as TabItem),
-    ), [feedFilters]);
+  const tabContentOverrides = useMemo(
+    () =>
+      feedFilters.indexOf('comments') >= 0
+        ? new Map([[feedFilters.indexOf('comments'), _contentComentsTab('comments')]])
+        : undefined,
+    [feedFilters],
+  );
 
-
-  const tabContentOverrides = useMemo(() =>
-    feedFilters.indexOf('comments') >= 0 ? new Map(
-      [[feedFilters.indexOf('comments'), _contentComentsTab('comments')]]) : undefined
-    ,[feedFilters]);
-
-
-  //render comments if tab is selected
+  // render comments if tab is selected
   const _contentComentsTab = (type: 'comments' | 'replies') => {
     return (
       <CommentsTabContent
@@ -68,7 +72,6 @@ const FeedScreen = () => {
       />
     );
   };
-
 
   return (
     <Fragment>

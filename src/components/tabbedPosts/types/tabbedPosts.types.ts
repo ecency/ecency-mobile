@@ -1,11 +1,10 @@
-
 export interface TabItem {
   filterKey: string;
   label: string;
 }
 
 export interface TabbedPostsProps {
-  tabFilters:TabItem[]
+  tabFilters: TabItem[];
   isFeedScreen: boolean;
   feedUsername: string;
   selectedOptionIndex: number;

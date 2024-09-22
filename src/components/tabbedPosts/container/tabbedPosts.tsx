@@ -19,7 +19,6 @@ export const TabbedPosts = ({
   // initialize state
   const [index, setIndex] = useState(selectedOptionIndex);
 
-
   const [routes] = useState(
     tabFilters.map((filter) => ({ key: filter.filterKey, title: filter.label })),
   );

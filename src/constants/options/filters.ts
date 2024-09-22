@@ -33,7 +33,6 @@ export const PROFILE_SCREEN_FILTER_MAP: { [key: string]: string } = {
 export const GLOBAL_POST_FILTERS = ['home.TOP', 'home.HOT', 'home.NEW'];
 export const GLOBAL_POST_FILTERS_VALUE = ['trending', 'hot', 'created'];
 
-
 export const getFilterMap = (type: 'main' | 'community' | 'profile' | 'ownProfile') => {
   switch (type) {
     case 'community':

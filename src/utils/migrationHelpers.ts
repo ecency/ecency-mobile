@@ -309,10 +309,10 @@ const reduxMigrations = {
     state.editor.pollDraftsMap = {};
     return state;
   },
-  10:(state) => {
-    state.customTabs.mainTabs = DEFAULT_FEED_FILTERS
+  10: (state) => {
+    state.customTabs.mainTabs = DEFAULT_FEED_FILTERS;
     return state;
-  }
+  },
 };
 
 export default {

@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { TabItem } from 'components/tabbedPosts/types/tabbedPosts.types';
 import { CollapsibleCard, BasicHeader, TabbedPosts } from '../../../components';
 import { Tag, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
 
@@ -12,9 +13,12 @@ import CommunityContainer from '../container/communityContainer';
 // Styles
 import styles from './communityStyles';
 
-import { COMMUNITY_SCREEN_FILTER_MAP, getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
+import {
+  COMMUNITY_SCREEN_FILTER_MAP,
+  getDefaultFilters,
+  getFilterMap,
+} from '../../../constants/options/filters';
 import { useAppSelector } from '../../../hooks';
-import { TabItem } from 'components/tabbedPosts/types/tabbedPosts.types';
 
 const CommunityScreen = ({ route }) => {
   const tag = route.params?.tag ?? '';
@@ -26,10 +30,17 @@ const CommunityScreen = ({ route }) => {
     (state) => state.customTabs.communityTabs || getDefaultFilters('community'),
   );
 
-  const tabFilters = useMemo(()=>(communityTabs.map((key:string)=>({
-    filterKey:key,
-    label:COMMUNITY_SCREEN_FILTER_MAP[key]
-  } as TabItem))),[communityTabs])
+  const tabFilters = useMemo(
+    () =>
+      communityTabs.map(
+        (key: string) =>
+          ({
+            filterKey: key,
+            label: COMMUNITY_SCREEN_FILTER_MAP[key],
+          } as TabItem),
+      ),
+    [communityTabs],
+  );
 
   const _getSelectedIndex = () => {
     if (filter) {

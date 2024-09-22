@@ -3,10 +3,11 @@ import { useIntl } from 'react-intl';
 import { TabBar, TabBarProps } from 'react-native-tab-view';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useWindowDimensions, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import { CustomiseFiltersModal, IconButton, Tag } from '../..';
 import { CustomiseFiltersModalRef } from '../../customiseFiltersModal/customiseFiltersModal';
 import styles from '../styles/feedTabBar.styles';
-
+import showLoginAlert from '../../../utils/showLoginAlert';
 
 interface FeedTabBarProps extends TabBarProps<any> {
   pageType?: 'main' | 'community' | 'profile' | 'ownProfile';
@@ -21,11 +22,17 @@ export const FeedTabBar = ({ routes, onFilterSelect, pageType, ...props }: FeedT
   const intl = useIntl();
   const layout = useWindowDimensions();
 
+  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
+
   const customiseModalRef = useRef<CustomiseFiltersModalRef>();
 
   const enableCustomTabs = pageType !== undefined;
 
   const _onCustomisePress = () => {
+    if (!isLoggedIn) {
+      showLoginAlert({ intl });
+      return;
+    }
     if (customiseModalRef.current) {
       customiseModalRef.current.show();
     }

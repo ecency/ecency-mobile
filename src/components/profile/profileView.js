@@ -226,13 +226,10 @@ class ProfileView extends PureComponent {
       }
     }
 
-    const tabFilters = tabs.map(
-      (key) =>
-      ({
-        filterKey: key,
-        label: getFilterMap(pageType)[key],
-      }),
-    );
+    const tabFilters = tabs.map((key) => ({
+      filterKey: key,
+      label: getFilterMap(pageType)[key],
+    }));
 
     // compile content overrides
     const tabContentOverrides = new Map();
@@ -245,10 +242,6 @@ class ProfileView extends PureComponent {
     if (tabs.indexOf('wallet')) {
       tabContentOverrides.set(tabs.indexOf('wallet'), this._contentWalletTab());
     }
-
-
-
-
 
     return (
       <View style={styles.postTabBar}>
