@@ -9,7 +9,7 @@ import { Header, TabbedPosts } from '../../../components';
 // Styles
 import styles from './feedStyles';
 
-import {DEFAULT_FEED_FILTERS, GLOBAL_POST_FILTERS, FEED_SCREEN_FILTER_MAP } from '../../../constants/options/filters';
+import {DEFAULT_FEED_FILTERS, GLOBAL_POST_FILTERS, FEED_SCREEN_FILTER_MAP, GLOBAL_POST_FILTERS_VALUE } from '../../../constants/options/filters';
 
 import { useAppSelector } from '../../../hooks';
 import CommentsTabContent from '../../../components/profile/children/commentsTabContent';
@@ -38,7 +38,7 @@ const FeedScreen = () => {
 
 
   const feedFilters = useMemo(() =>
-    isLoggedIn ? mainTabs || DEFAULT_FEED_FILTERS : GLOBAL_POST_FILTERS
+    isLoggedIn ? mainTabs || DEFAULT_FEED_FILTERS : GLOBAL_POST_FILTERS_VALUE
     , [isLoggedIn, mainTabs])
 
   const tabFilters = useMemo(() =>
