@@ -67,7 +67,6 @@ const FeedScreen = () => {
             key={JSON.stringify(filterOptions)} // this hack of key change resets tabbedposts whenever filters chanage, effective to remove filter change android bug
             filterOptions={filterOptions}
             filterOptionsValue={mainTabs}
-            getFor={get(currentAccount, 'name', null) ? 'feed' : 'hot'}
             selectedOptionIndex={get(currentAccount, 'name', null) ? 0 : 2}
             feedUsername={get(currentAccount, 'name', null)}
             tabContentOverrides={tabContentOverrides}

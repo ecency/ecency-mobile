@@ -243,7 +243,6 @@ class ProfileView extends PureComponent {
           filterOptionsValue={tabs}
           selectedOptionIndex={selectedIndex}
           pageType={pageType}
-          getFor="blog"
           feedUsername={username}
           handleOnScrollBeginDrag={isSummaryOpen ? this._handleOnScroll : null}
           forceLoadPost={forceLoadPost}
