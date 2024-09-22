@@ -14,7 +14,6 @@ import styles from './communityStyles';
 
 import { getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
 import { useAppSelector } from '../../../hooks';
-import { TagResult } from '../..';
 
 const CommunityScreen = ({ route }) => {
   const tag = route.params?.tag ?? '';
