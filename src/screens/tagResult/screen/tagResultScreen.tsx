@@ -10,12 +10,15 @@ import { SearchInput, TabbedPosts } from '../../../components';
 import styles from './tagResultStyles';
 
 import { GLOBAL_POST_FILTERS, GLOBAL_POST_FILTERS_VALUE } from '../../../constants/options/filters';
+import { TabItem } from 'components/tabbedPosts/types/tabbedPosts.types';
 
 const TagResultScreen = ({ navigation, route }) => {
   const initTag = route.params?.tag ?? '';
   const filter = route.params?.filter ?? '';
 
   const [tag, setTag] = useState(initTag);
+
+
 
   const _navigationGoBack = () => {
     navigation.goBack();
@@ -40,6 +43,12 @@ const TagResultScreen = ({ navigation, route }) => {
     return 0;
   };
 
+
+  const tabFilters = GLOBAL_POST_FILTERS_VALUE.map((key, index) => ({
+    filterKey: key,
+    label: GLOBAL_POST_FILTERS[index]
+  } as TabItem))
+
   return (
     <View style={styles.container}>
       <SearchInput
@@ -55,8 +64,7 @@ const TagResultScreen = ({ navigation, route }) => {
       <View style={styles.tabbarItem}>
         <TabbedPosts
           key={tag}
-          filterOptions={GLOBAL_POST_FILTERS}
-          filterOptionsValue={GLOBAL_POST_FILTERS_VALUE}
+          tabFilters={tabFilters}
           selectedOptionIndex={_getSelectedIndex()}
           tag={tag}
         />

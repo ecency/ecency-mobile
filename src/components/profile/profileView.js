@@ -226,21 +226,35 @@ class ProfileView extends PureComponent {
       }
     }
 
-    const filterOptions = tabs.map((key) => getFilterMap(pageType)[key]);
+    const tabFilters = tabs.map(
+      (key) =>
+      ({
+        filterKey: key,
+        label: getFilterMap(pageType)[key],
+      }),
+    );
 
     // compile content overrides
     const tabContentOverrides = new Map();
+    if (tabs.indexOf('replies')) {
+      tabContentOverrides.set(tabs.indexOf('replies'), this._contentComentsTab('replies'));
+    }
+    if (tabs.indexOf('comments')) {
+      tabContentOverrides.set(tabs.indexOf('comments'), this._contentComentsTab('comments'));
+    }
+    if (tabs.indexOf('wallet')) {
+      tabContentOverrides.set(tabs.indexOf('wallet'), this._contentWalletTab());
+    }
 
-    tabContentOverrides.set(tabs.indexOf('replies'), this._contentComentsTab('replies'));
-    tabContentOverrides.set(tabs.indexOf('comments'), this._contentComentsTab('comments'));
-    tabContentOverrides.set(tabs.indexOf('wallet'), this._contentWalletTab());
+
+
+
 
     return (
       <View style={styles.postTabBar}>
         <TabbedPosts
-          key={username + JSON.stringify(filterOptions)}
-          filterOptions={filterOptions}
-          filterOptionsValue={tabs}
+          key={username + JSON.stringify(tabFilters)}
+          tabFilters={tabFilters}
           selectedOptionIndex={selectedIndex}
           pageType={pageType}
           feedUsername={username}
