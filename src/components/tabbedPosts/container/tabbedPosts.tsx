@@ -2,15 +2,12 @@ import React, { useState } from 'react';
 import { TabView, TabBarProps } from 'react-native-tab-view';
 import { useWindowDimensions, View } from 'react-native';
 import { TabbedPostsProps } from '../types/tabbedPosts.types';
-import { FeedTabBar, TabItem } from '../view/feedTabBar';
+import { FeedTabBar } from '../view/feedTabBar';
 import PostsTabContent from '../view/postsTabContent';
 
 export const TabbedPosts = ({
-  filterOptions,
-  filterOptionsValue,
+  tabFilters,
   selectedOptionIndex,
-  feedSubfilterOptions,
-  feedSubfilterOptionsValue,
   isFeedScreen,
   feedUsername,
   pageType,
@@ -22,34 +19,16 @@ export const TabbedPosts = ({
 
   // initialize state
   const [initialTabIndex] = useState(
-    selectedOptionIndex == 0 && stackedTabs ? filterOptions.length : selectedOptionIndex,
+    selectedOptionIndex == 0 && stackedTabs ? tabFilters.length : selectedOptionIndex,
   );
   const [index, setIndex] = useState(initialTabIndex);
 
-  const mainFilters = filterOptions.map(
-    (label, index) =>
-      ({
-        filterKey: filterOptionsValue[index],
-        label,
-      } as TabItem),
-  );
 
-  const subFilters = feedSubfilterOptions
-    ? feedSubfilterOptions.map(
-        (label, index) =>
-          ({
-            filterKey: feedSubfilterOptionsValue[index],
-            label,
-          } as TabItem),
-      )
-    : [];
-
-  const combinedFilters = [...mainFilters, ...subFilters];
   const [routes] = useState(
-    combinedFilters.map((filter) => ({ key: filter.filterKey, title: filter.label })),
+    tabFilters.map((filter) => ({ key: filter.filterKey, title: filter.label })),
   );
 
-  const [selectedFilter, setSelectedFilter] = useState(combinedFilters[initialTabIndex].filterKey);
+  const [selectedFilter, setSelectedFilter] = useState(tabFilters[initialTabIndex].filterKey);
   const [filterScrollRequest, createFilterScrollRequest] = useState<string | null>(null);
 
   // components actions

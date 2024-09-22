@@ -7,10 +7,6 @@ import { CustomiseFiltersModal, IconButton, Tag } from '../..';
 import { CustomiseFiltersModalRef } from '../../customiseFiltersModal/customiseFiltersModal';
 import styles from '../styles/feedTabBar.styles';
 
-export interface TabItem {
-  filterKey: string;
-  label: string;
-}
 
 interface FeedTabBarProps extends TabBarProps<any> {
   pageType?: 'main' | 'community' | 'profile' | 'ownProfile';
