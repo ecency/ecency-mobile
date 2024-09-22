@@ -4,7 +4,7 @@ export const DEFAULT_PROFILE_FILTERS = ['blog', 'posts', 'comments'];
 export const DEFAULT_OWN_PROFILE_FILTERS = ['blog', 'posts', 'replies'];
 export const GUEST_FEED_FILTERS = ['trending', 'hot', 'created'];
 
-export const FEED_SCREEN_FILTER_MAP = {
+export const FEED_SCREEN_FILTER_MAP: { [key: string]: string } = {
   friends: 'home.friends',
   communities: 'home.communities',
   trending: 'home.top',
@@ -15,7 +15,7 @@ export const FEED_SCREEN_FILTER_MAP = {
   comments: 'home.my_comments',
 };
 
-export const COMMUNITY_SCREEN_FILTER_MAP = {
+export const COMMUNITY_SCREEN_FILTER_MAP: { [key: string]: string } = {
   trending: 'home.top',
   hot: 'home.hot',
   created: 'home.new',
@@ -23,7 +23,7 @@ export const COMMUNITY_SCREEN_FILTER_MAP = {
   payout: 'community.payout',
 };
 
-export const PROFILE_SCREEN_FILTER_MAP = {
+export const PROFILE_SCREEN_FILTER_MAP: { [key: string]: string } = {
   blog: 'home.blog',
   posts: 'home.posts',
   comments: 'profile.comments',
@@ -45,6 +45,8 @@ export const getFilterMap = (type: 'main' | 'community' | 'profile' | 'ownProfil
       return PROFILE_SCREEN_FILTER_MAP;
     case 'ownProfile':
       return PROFILE_SCREEN_FILTER_MAP;
+    default:
+      return FEED_SCREEN_FILTER_MAP;
   }
 };
 

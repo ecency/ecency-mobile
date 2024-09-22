@@ -9,10 +9,11 @@ import { Header, TabbedPosts } from '../../../components';
 // Styles
 import styles from './feedStyles';
 
-import { getFilterMap, DEFAULT_FEED_FILTERS, GUEST_FEED_FILTERS } from '../../../constants/options/filters';
+import {DEFAULT_FEED_FILTERS, GUEST_FEED_FILTERS, FEED_SCREEN_FILTER_MAP } from '../../../constants/options/filters';
 
 import { useAppSelector } from '../../../hooks';
 import CommentsTabContent from '../../../components/profile/children/commentsTabContent';
+import { TabItem } from '../../../components/tabbedPosts/types/tabbedPosts.types';
 
 const FeedScreen = () => {
   const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
@@ -26,7 +27,6 @@ const FeedScreen = () => {
 
 
   const [lazyLoad, setLazyLoad] = useState(false);
-  const [tabContentOverrides, setTabContentOverrides] = useState(new Map());
 
   const _lazyLoadContent = () => {
     if (!lazyLoad) {
@@ -37,23 +37,24 @@ const FeedScreen = () => {
   };
 
 
-  const filterOptionsValue = useMemo(() =>
+  const feedFilters = useMemo(() =>
     isLoggedIn ? mainTabs || DEFAULT_FEED_FILTERS : GUEST_FEED_FILTERS
     , [isLoggedIn, mainTabs])
 
-  const filterOptions = filterOptionsValue.map((key) => getFilterMap('main')[key]);
-
-  useEffect(() => {
-    if (lazyLoad && filterOptionsValue.indexOf('comments') >= 0) {
-      tabContentOverrides.set(filterOptionsValue.indexOf('comments'), _contentComentsTab('comments'));
-      setTabContentOverrides(new Map(tabContentOverrides));
-    }
-
-  }, [lazyLoad, filterOptionsValue])
-
+  const tabFilters = useMemo(() =>
+    feedFilters.map(
+      (key: string) =>
+      ({
+        filterKey: key,
+        label: FEED_SCREEN_FILTER_MAP[key],
+      } as TabItem),
+    ), [feedFilters]);
 
 
-
+  const tabContentOverrides = useMemo(() =>
+    feedFilters.indexOf('comments') >= 0 ? new Map(
+      [[feedFilters.indexOf('comments'), _contentComentsTab('comments')]]) : undefined
+    ,[feedFilters]);
 
 
   //render comments if tab is selected
@@ -69,16 +70,14 @@ const FeedScreen = () => {
   };
 
 
-
   return (
     <Fragment>
       <Header showQR={true} showBoost={true} />
       <View style={styles.container} onLayout={_lazyLoadContent}>
         {lazyLoad && (
           <TabbedPosts
-            key={JSON.stringify(filterOptions)} // this hack of key change resets tabbedposts whenever filters chanage, effective to remove filter change android bug
-            filterOptions={filterOptions}
-            filterOptionsValue={filterOptionsValue}
+            key={JSON.stringify(feedFilters)} // this hack of key change resets tabbedposts whenever filters chanage, effective to remove filter change android bug
+            tabFilters={tabFilters}
             selectedOptionIndex={0}
             feedUsername={get(currentAccount, 'name', null)}
             tabContentOverrides={tabContentOverrides}
