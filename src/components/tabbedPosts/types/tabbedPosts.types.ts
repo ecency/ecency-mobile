@@ -13,7 +13,6 @@ export interface TabbedPostsProps {
   tag: string;
   forceLoadPosts: boolean;
   tabContentOverrides?: Map<number, any>;
-  stackedTabs: boolean;
   pinnedPermlink?: string;
   handleOnScroll: () => void;
 }

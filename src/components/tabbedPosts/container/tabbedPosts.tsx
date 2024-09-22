@@ -12,23 +12,19 @@ export const TabbedPosts = ({
   feedUsername,
   pageType,
   tabContentOverrides,
-  stackedTabs,
   ...props
 }: TabbedPostsProps) => {
   const layout = useWindowDimensions();
 
   // initialize state
-  const [initialTabIndex] = useState(
-    selectedOptionIndex == 0 && stackedTabs ? tabFilters.length : selectedOptionIndex,
-  );
-  const [index, setIndex] = useState(initialTabIndex);
+  const [index, setIndex] = useState(selectedOptionIndex);
 
 
   const [routes] = useState(
     tabFilters.map((filter) => ({ key: filter.filterKey, title: filter.label })),
   );
 
-  const [selectedFilter, setSelectedFilter] = useState(tabFilters[initialTabIndex].filterKey);
+  const [selectedFilter, setSelectedFilter] = useState(tabFilters[selectedOptionIndex].filterKey);
   const [filterScrollRequest, createFilterScrollRequest] = useState<string | null>(null);
 
   // components actions
@@ -61,7 +57,7 @@ export const TabbedPosts = ({
         key={route.key}
         filterKey={route.key}
         isFeedScreen={isFeedScreen}
-        isInitialTab={initialTabIndex == index}
+        isInitialTab={selectedOptionIndex == index}
         feedUsername={feedUsername}
         pageType={pageType}
         filterScrollRequest={filterScrollRequest}
