@@ -134,6 +134,7 @@ import {
   Separator,
   EmptyScreen,
 } from './basicUIElements';
+import { SelectionList } from './selectionList';
 
 export {
   EditAvatar,
@@ -214,6 +215,7 @@ export {
   SquareButton,
   StickyBar,
   SummaryArea,
+  SelectionList,
   TabBar,
   Tag,
   TagArea,
