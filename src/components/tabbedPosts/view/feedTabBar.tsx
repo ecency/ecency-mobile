@@ -8,9 +8,6 @@ import { CustomiseFiltersModal, IconButton, Tag } from '../..';
 import { CustomiseFiltersModalRef } from '../../customiseFiltersModal/customiseFiltersModal';
 import styles from '../styles/feedTabBar.styles';
 import showLoginAlert from '../../../utils/showLoginAlert';
-import { useNavigation } from '@react-navigation/native';
-import ROUTES from '../../../constants/routeNames';
-import RootNavigation from '../../../navigation/rootNavigation';
 
 interface FeedTabBarProps extends TabBarProps<any> {
   pageType?: 'main' | 'community' | 'profile' | 'ownProfile';
@@ -24,7 +21,6 @@ interface FeedTabBarProps extends TabBarProps<any> {
 export const FeedTabBar = ({ routes, onFilterSelect, pageType, ...props }: FeedTabBarProps) => {
   const intl = useIntl();
   const layout = useWindowDimensions();
-  // const navigation = useNavigation();
 
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
 
@@ -38,16 +34,9 @@ export const FeedTabBar = ({ routes, onFilterSelect, pageType, ...props }: FeedT
       return;
     }
 
-    RootNavigation.navigate({
-      name: ROUTES.MODALS.CUSTOMISE_FEED_TABS,
-      params:{
-        pageType
-      }
-    });
-
-    // if (customiseModalRef.current) {
-    //   customiseModalRef.current.show();
-    // }
+    if ( customiseModalRef.current) {
+      customiseModalRef.current.show();
+    }
   };
 
   return (

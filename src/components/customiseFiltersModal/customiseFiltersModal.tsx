@@ -23,8 +23,6 @@ interface Props {
   pageType: 'main' | 'community' | 'profile' | 'ownProfile';
 }
 
-const getFilterIndex = (filterMap: any, key: string) => Object.keys(filterMap).indexOf(key);
-
 const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersModalRef>) => {
   if (!pageType) {
     throw new Error('pageType must not be empty');
