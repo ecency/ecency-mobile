@@ -1128,6 +1128,13 @@
     "edit": "Edit History",
     "version": "Version"
   },
+  "selection_list":{
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters":"Filters",
+    "title_filters":"Customise Filters"
+  },
   "chain-error": {
     "min-root-comment": "You may only post once every five minutes.",
     "identical-vote": "Your current vote on this content is identical to this vote.",

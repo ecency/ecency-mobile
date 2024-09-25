@@ -109,6 +109,7 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
           }))}
           initSelectedIds={savedFilters}
           onSelectionChange={setSelectedFilters}
+          headerPostfix={intl.formatMessage({id:'selection_list.postfix_filters'})}
         />
       </View>
     )
@@ -120,7 +121,7 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
       keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : null}
       behavior={Platform.OS === 'ios' ? 'padding' : null}
     >
-      <Text style={styles.title}>Customise Filters</Text>
+      <Text style={styles.title}>{intl.formatMessage({id:'selection_list.title_filters'})}</Text>
 
       {_renderOptions()}
 

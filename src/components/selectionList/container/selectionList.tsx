@@ -17,12 +17,14 @@ export interface ListItem {
 interface SelectionListProps {
     data: ListItem[],
     initSelectedIds: string[],
-    onSelectionChange: (selectedIds: string[]) => void
+    onSelectionChange: (selectedIds: string[]) => void,
+    headerPostfix?:string,
 }
 
 export const SelectionList = ({
     data,
     initSelectedIds,
+    headerPostfix,
     onSelectionChange
 }: SelectionListProps) => {
 
@@ -110,13 +112,13 @@ export const SelectionList = ({
 
     const _renderHeader = () =>
         _renderSectionSeparator(
-            intl.formatMessage({ id: 'wallet.selected_assets' }),
-            selectionRef.current.length ? '' : intl.formatMessage({ id: 'wallet.no_selected_assets' }),
+            intl.formatMessage({ id: 'selection_list.selected' }, {postfix:headerPostfix}),
+            selectionRef.current.length ? '' : intl.formatMessage({ id: 'selection_list.no_selected' }),
         );
 
     const _renderItem = ({ item, drag }:{item:ListItem, drag:()=>void}) => {
         if (item.isSectionSeparator) {
-            return _renderSectionSeparator(intl.formatMessage({ id: 'wallet.available_assets' }));
+            return _renderSectionSeparator(intl.formatMessage({ id: 'selection_list.available' }, {postfix:headerPostfix}));
         }
 
         // const key = item.symbol;
