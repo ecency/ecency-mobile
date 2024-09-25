@@ -1,6 +1,6 @@
-import React, { Ref, useImperativeHandle, useRef, useState } from 'react';
+import React, { Ref, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { TouchableOpacity, KeyboardAvoidingView, Platform, View, Text, SafeAreaView } from 'react-native';
+import { KeyboardAvoidingView, Platform, View, SafeAreaView, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
 import { useAppSelector } from '../../../hooks';
@@ -10,22 +10,23 @@ import {
     setOwnProfileTabs,
     setProfileTabs,
 } from '../../../redux/actions/customTabsAction';
-import { TextButton, CheckBox, ModalHeader } from '../../../components';
+import { TextButton, ModalHeader, SelectionList, MainButton } from '../../../components';
 import styles from '../styles/customiseFeedTabs.styles';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import globalStyles from '../../../globalStyles';
+import { ListItem } from '../../../components/selectionList';
 
 export interface CustomiseFiltersModalRef {
     show: () => void;
 }
 
-interface Props {
+interface Params {
     pageType: 'main' | 'community' | 'profile' | 'ownProfile';
 }
 
-const getFilterIndex = (filterMap: any, key: string) => Object.keys(filterMap).indexOf(key);
+// const getFilterIndex = (filterMap: any, key: string) => Object.keys(filterMap).indexOf(key);
 
-const CustomiseFeedTabs = ({ route, navigation }: Props, ref: Ref<CustomiseFiltersModalRef>) => {
+const CustomiseFeedTabs = ({ route, navigation }:any) => {
     const pageType = route.params.pageType;
 
     if (!pageType) {
@@ -34,8 +35,6 @@ const CustomiseFeedTabs = ({ route, navigation }: Props, ref: Ref<CustomiseFilte
 
     const dispatch = useDispatch();
     const intl = useIntl();
-
-    // const sheetModalRef = useRef<ActionSheet>();
 
     // redux
     const savedFilters = useAppSelector((state) => {
@@ -56,50 +55,35 @@ const CustomiseFeedTabs = ({ route, navigation }: Props, ref: Ref<CustomiseFilte
 
     // state
     const [filterMap] = useState(getFilterMap(pageType));
-    const [selectedFilters, setSelectedFilters] = useState<Map<string, number>>(
-        new Map(savedFilters.map((key: string) => [key, getFilterIndex(filterMap, key)])),
-    );
+    const [selectedFilters, setSelectedFilters] = useState<string[]>(savedFilters);
 
     /**
      * HANDLERS FUNCTIONS
      */
 
-    // useImperativeHandle(ref, () => ({
-    //     show: () => {
-    //         sheetModalRef.current?.show();
-    //     },
-    // }));
-
-    // // actions
-    // const _onClose = () => {
-    //     sheetModalRef.current?.hide();
-    // };
-
     // save snippet based on editor pageType
     const _onApply = () => {
-        if (selectedFilters.size < 3) {
-            alert(intl.formatMessage({ id: 'alert.wrong_filter_count' }));
+        if (selectedFilters.length < 3) {
+            Alert.alert(intl.formatMessage({ id: 'alert.wrong_filter_count' }));
             return;
         }
-        const entries = Array.from(selectedFilters.entries())
-            .sort((a, b) => (a[1] < b[1] ? -1 : 1))
-            .map((e) => e[0]);
-
+    
         switch (pageType) {
             case 'main':
-                dispatch(setMainTabs(entries));
+                dispatch(setMainTabs(selectedFilters));
                 break;
             case 'community':
-                dispatch(setCommunityTabs(entries));
+                dispatch(setCommunityTabs(selectedFilters));
                 break;
             case 'profile':
-                dispatch(setProfileTabs(entries));
+                dispatch(setProfileTabs(selectedFilters));
                 break;
             case 'ownProfile':
-                dispatch(setOwnProfileTabs(entries));
+                dispatch(setOwnProfileTabs(selectedFilters));
                 break;
         }
-        // _onClose();
+        
+        navigation.goBack();
     };
 
     /**
@@ -107,64 +91,42 @@ const CustomiseFeedTabs = ({ route, navigation }: Props, ref: Ref<CustomiseFilte
      */
 
     const _renderOptions = () => {
-        const options = [];
-        Object.keys(filterMap).forEach((key) => {
-            const isSelected = selectedFilters.has(key);
 
-            const _onPress = () => {
-                if (isSelected) {
-                    selectedFilters.delete(key);
-                } else {
-                    const index = getFilterIndex(filterMap, key);
-                    selectedFilters.set(key, index);
-                }
-                setSelectedFilters(new Map([...selectedFilters]));
-            };
+        const data = Object.entries(filterMap).map(([key, labelId]) => ({
+            id: key,
+            label: intl.formatMessage({ id: labelId })
+        } as ListItem));
 
-            options.push(
-                <TouchableOpacity key={key} onPress={_onPress}>
-                    <View style={styles.checkView}>
-                        <Text style={styles.informationText}>
-                            {intl.formatMessage({
-                                id: filterMap[key],
-                            })}
-                        </Text>
-                        <CheckBox locked isChecked={isSelected} />
-                    </View>
-                </TouchableOpacity>,
-            );
-        });
-
-        return <View style={styles.textContainer}>{options}</View>;
+        return (
+            <SelectionList
+                data={data}
+                initSelectedIds={savedFilters}
+                onSelectionChange={setSelectedFilters}
+            />
+        )
     };
 
     const _renderContent = (
-        <KeyboardAvoidingView
-            style={styles.container}
-            keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : null}
-            behavior={Platform.OS === 'ios' ? 'padding' : null}
-        >
-            {/* <Text style={styles.title}>Customise Filters</Text> */}
-
+        <View style={styles.container}>
             {_renderOptions()}
-
             <View style={styles.actionPanel}>
-                <TextButton
+                <MainButton
                     text="APPLY"
                     onPress={_onApply}
                     textStyle={styles.btnText}
                     style={styles.button}
                 />
             </View>
-        </KeyboardAvoidingView>
+        </View>
     );
+
 
     return (
         <SafeAreaView style={globalStyles.container} >
             <ModalHeader
                 title='Customise Filters'
                 isCloseButton
-                onClosePress={() => {navigation.goBack()}} />
+                onClosePress={() => { navigation.goBack() }} />
             {_renderContent}
         </SafeAreaView>
     );
