@@ -38,6 +38,7 @@ import {
   BackupKeysScreen,
   AccountList,
   PollWizardScreen,
+  CustomiseFeedTabs
 } from '../screens';
 import { DrawerNavigator } from './drawerNavigator';
 
@@ -74,6 +75,11 @@ const MainStackNavigator = () => {
         <MainStack.Screen name={ROUTES.SCREENS.TRADE} component={TradeScreen} />
         <MainStack.Screen name={ROUTES.SCREENS.EDITOR} component={Editor} />
         <MainStack.Screen name={ROUTES.SCREENS.BACKUP_KEYS} component={BackupKeysScreen} />
+        <MainStack.Screen
+          name={ROUTES.MODALS.CUSTOMISE_FEED_TABS}
+          component={CustomiseFeedTabs}
+          options={{ presentation: 'modal' }}
+        />
         <MainStack.Screen
           name={ROUTES.MODALS.ASSETS_SELECT}
           component={AssetsSelect}
