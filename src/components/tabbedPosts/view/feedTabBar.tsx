@@ -59,7 +59,7 @@ export const FeedTabBar = ({ routes, onFilterSelect, pageType, ...props }: FeedT
         style={styles.tabBarStyle}
         indicatorStyle={styles.indicatorStyle}
         tabStyle={{ ...styles.tabStyle, minWidth: layout.width / 3 - (enableCustomTabs ? 14 : 0) }}
-        scrollEnabled={routes.length > 3}
+        scrollEnabled={true}
         onTabPress={({ route }) => {
           onFilterSelect(route.key);
         }}
