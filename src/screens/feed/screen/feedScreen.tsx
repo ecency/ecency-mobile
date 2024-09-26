@@ -11,9 +11,8 @@ import styles from './feedStyles';
 
 import {
   DEFAULT_FEED_FILTERS,
-  GLOBAL_POST_FILTERS,
+  GUEST_FEED_FILTERS,
   FEED_SCREEN_FILTER_MAP,
-  GLOBAL_POST_FILTERS_VALUE,
 } from '../../../constants/options/filters';
 
 import { useAppSelector } from '../../../hooks';
@@ -37,7 +36,7 @@ const FeedScreen = () => {
   };
 
   const feedFilters = useMemo(
-    () => (isLoggedIn ? mainTabs || DEFAULT_FEED_FILTERS : GLOBAL_POST_FILTERS_VALUE),
+    () => (isLoggedIn ? mainTabs || DEFAULT_FEED_FILTERS : GUEST_FEED_FILTERS),
     [isLoggedIn, mainTabs],
   );
 
@@ -83,7 +82,7 @@ const FeedScreen = () => {
           <TabbedPosts
             key={JSON.stringify(feedFilters)} // this hack of key change resets tabbedposts whenever filters chanage, effective to remove filter change android bug
             tabFilters={tabFilters}
-            selectedOptionIndex={0}
+            selectedOptionIndex={isLoggedIn ? 0 : 1}
             feedUsername={get(currentAccount, 'name', null)}
             tabContentOverrides={tabContentOverrides}
             isFeedScreen={true}

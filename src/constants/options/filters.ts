@@ -2,6 +2,7 @@ export const DEFAULT_FEED_FILTERS = ['friends', 'communities', 'trending', 'hot'
 export const DEFAULT_COMMUNITY_FILTERS = ['trending', 'hot', 'created'];
 export const DEFAULT_PROFILE_FILTERS = ['blog', 'posts', 'comments'];
 export const DEFAULT_OWN_PROFILE_FILTERS = ['blog', 'posts', 'replies'];
+export const GUEST_FEED_FILTERS = ['friends', 'trending', 'hot', 'created'];
 
 export const FEED_SCREEN_FILTER_MAP: { [key: string]: string } = {
   friends: 'home.friends',
