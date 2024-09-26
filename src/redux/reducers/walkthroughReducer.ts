@@ -1,4 +1,4 @@
-import { REGISTER_TOOLTIP } from '../constants/constants';
+import { REGISTER_WALKTHROUGH_ITEM } from '../constants/constants';
 
 export interface WalkthroughItem {
   walkthroughIndex: number;
@@ -16,7 +16,7 @@ const walkthroughReducer = (state = initialState, action) => {
 
   const { type, payload } = action;
   switch (type) {
-    case REGISTER_TOOLTIP:
+    case REGISTER_WALKTHROUGH_ITEM:
       if (!state.walkthroughMap) {
         state.walkthroughMap = new Map<number, WalkthroughItem>();
       }
