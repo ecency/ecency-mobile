@@ -53,6 +53,18 @@ const FeedScreen = () => {
     [feedFilters],
   );
 
+    // render comments if tab is selected
+    const _contentComentsTab = (type: 'comments' | 'replies') => {
+      return (
+        <CommentsTabContent
+          username={currentAccount.username}
+          selectedUser={currentAccount.username}
+          isOwnProfile={true}
+          type={type}
+        />
+      );
+    };
+
   const tabContentOverrides = useMemo(
     () =>
       feedFilters.indexOf('comments') >= 0
@@ -61,17 +73,7 @@ const FeedScreen = () => {
     [feedFilters],
   );
 
-  // render comments if tab is selected
-  const _contentComentsTab = (type: 'comments' | 'replies') => {
-    return (
-      <CommentsTabContent
-        username={currentAccount.username}
-        selectedUser={currentAccount.username}
-        isOwnProfile={true}
-        type={type}
-      />
-    );
-  };
+
 
   return (
     <Fragment>
