@@ -27,7 +27,7 @@ export default EStyleSheet.create({
   },
   tabBarStyle: {
     flex: 1,
-    backgroundColor: EStyleSheet.value('$primaryLightBackground'), // Background color for the TabBar
+    backgroundColor: '$primaryLightBackground',
   },
 
   dropdownWrapper: {
