@@ -1,5 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
+import { ViewStyle } from 'react-native';
 
 const deviceWidth = getWindowDimensions().width;
 
@@ -21,7 +22,8 @@ export default EStyleSheet.create({
   },
   tabStyle: {
     width: 'auto',
-    minWidth: deviceWidth / 3 - 12,
+    minWidth: deviceWidth / 3 - 16,
+    paddingHorizontal:0,
     height: 38,
     paddingTop: 0,
   },
@@ -44,11 +46,11 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
   },
   rightIconWrapper: {
-    paddingRight: 12,
-    paddingLeft: 4,
-    width: 40,
+    paddingRight: 8,
+    paddingLeft: 8,
+    width: 44,
     alignSelf: 'center',
-  },
+  } as ViewStyle,
   rightIcon: {
     color: '$darkIconColor',
     textAlign: 'center',
