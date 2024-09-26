@@ -49,7 +49,7 @@ export default EStyleSheet.create({
   rightIconWrapper: {
     paddingRight: 12,
     paddingLeft: 8,
-    width: 40,
+    width: 44,
     alignSelf: 'center',
   } as ViewStyle,
   rightIcon: {

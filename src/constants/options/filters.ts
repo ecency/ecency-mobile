@@ -1,4 +1,4 @@
-export const DEFAULT_FEED_FILTERS = ['friends', 'communities', 'blog'];
+export const DEFAULT_FEED_FILTERS = ['friends', 'communities', 'trending', 'hot'];
 export const DEFAULT_COMMUNITY_FILTERS = ['trending', 'hot', 'created'];
 export const DEFAULT_PROFILE_FILTERS = ['blog', 'posts', 'comments'];
 export const DEFAULT_OWN_PROFILE_FILTERS = ['blog', 'posts', 'replies'];
@@ -6,7 +6,7 @@ export const DEFAULT_OWN_PROFILE_FILTERS = ['blog', 'posts', 'replies'];
 export const FEED_SCREEN_FILTER_MAP: { [key: string]: string } = {
   friends: 'home.friends',
   communities: 'home.communities',
-  trending: 'home.top',
+  trending: 'home.trending',
   hot: 'home.hot',
   created: 'home.new',
   blog: 'home.my_blog',
@@ -15,7 +15,7 @@ export const FEED_SCREEN_FILTER_MAP: { [key: string]: string } = {
 };
 
 export const COMMUNITY_SCREEN_FILTER_MAP: { [key: string]: string } = {
-  trending: 'home.top',
+  trending: 'home.trending',
   hot: 'home.hot',
   created: 'home.new',
   muted: 'community.muted',
