@@ -22,7 +22,7 @@ export default EStyleSheet.create({
   },
   tabStyle: {
     width: 'auto',
-    minWidth: deviceWidth / 3 - 16,
+    minWidth: deviceWidth / 3 - 12,
     paddingHorizontal:0,
     height: 38,
     paddingTop: 0,
@@ -30,7 +30,8 @@ export default EStyleSheet.create({
   tabBarStyle: {
     flex: 1,
     backgroundColor: '$primaryLightBackground',
-  },
+    shadowColor:'transparent'
+  } as ViewStyle,
 
   dropdownWrapper: {
     flexDirection: 'row',
@@ -46,9 +47,9 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
   },
   rightIconWrapper: {
-    paddingRight: 8,
+    paddingRight: 12,
     paddingLeft: 8,
-    width: 44,
+    width: 40,
     alignSelf: 'center',
   } as ViewStyle,
   rightIcon: {
