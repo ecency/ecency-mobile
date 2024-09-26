@@ -8,6 +8,8 @@ import { CustomiseFiltersModal, IconButton, Tag } from '../..';
 import { CustomiseFiltersModalRef } from '../../customiseFiltersModal/customiseFiltersModal';
 import styles from '../styles/feedTabBar.styles';
 import showLoginAlert from '../../../utils/showLoginAlert';
+import { WalkthroughMarker } from '../../../components';
+import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 
 interface FeedTabBarProps extends TabBarProps<any> {
   pageType?: 'main' | 'community' | 'profile' | 'ownProfile';
@@ -34,7 +36,7 @@ export const FeedTabBar = ({ routes, onFilterSelect, pageType, ...props }: FeedT
       return;
     }
 
-    if ( customiseModalRef.current) {
+    if (customiseModalRef.current) {
       customiseModalRef.current.show();
     }
   };
@@ -66,14 +68,21 @@ export const FeedTabBar = ({ routes, onFilterSelect, pageType, ...props }: FeedT
         {...props}
       />
       {enableCustomTabs && (
-        <IconButton
-          iconStyle={styles.rightIcon}
-          style={styles.rightIconWrapper}
-          iconType="MaterialIcon"
-          size={28}
-          name="add"
-          onPress={_onCustomisePress}
-        />
+        <WalkthroughMarker
+        hidden={!isLoggedIn}
+          walkthroughIndex={walkthrough.CUSTOM_TABS_BTN}
+          onInterceptComplete={_onCustomisePress}
+        >
+          {(onIntercept:(props:any)=>void) => (
+            <IconButton
+              iconStyle={styles.rightIcon}
+              style={styles.rightIconWrapper}
+              iconType="MaterialIcon"
+              size={28}
+              name="add"
+              onPress={onIntercept}
+            />)}
+        </WalkthroughMarker>
       )}
       {enableCustomTabs && <CustomiseFiltersModal pageType={pageType} ref={customiseModalRef} />}
     </View>

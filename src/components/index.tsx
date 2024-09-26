@@ -109,6 +109,7 @@ import WebViewModal from './webViewModal/webViewModal';
 import OrDivider from './orDivider/orDividerView';
 import PostTranslationModal from './post-translation-modal/postTranslationModal';
 import { ImageViewer } from './imageViewer';
+import { WalkthroughMarker } from './walkthroughMarker';
 
 // Basic UI Elements
 import {
@@ -268,4 +269,5 @@ export {
   OrDivider,
   PostTranslationModal,
   ImageViewer,
+  WalkthroughMarker
 };
