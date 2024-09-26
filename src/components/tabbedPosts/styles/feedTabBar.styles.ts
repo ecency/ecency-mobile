@@ -1,6 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { ViewStyle } from 'react-native';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 const deviceWidth = getWindowDimensions().width;
 
@@ -23,14 +23,14 @@ export default EStyleSheet.create({
   tabStyle: {
     width: 'auto',
     minWidth: deviceWidth / 3 - 12,
-    paddingHorizontal:0,
+    paddingHorizontal: 0,
     height: 38,
     paddingTop: 0,
   },
   tabBarStyle: {
     flex: 1,
     backgroundColor: '$primaryLightBackground',
-    shadowColor:'transparent'
+    shadowColor: 'transparent',
   } as ViewStyle,
 
   dropdownWrapper: {

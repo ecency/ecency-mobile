@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useMemo, useState } from 'react';
+import React, { Fragment, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import get from 'lodash/get';
 
@@ -52,17 +52,17 @@ const FeedScreen = () => {
     [feedFilters],
   );
 
-    // render comments if tab is selected
-    const _contentComentsTab = (type: 'comments' | 'replies') => {
-      return (
-        <CommentsTabContent
-          username={currentAccount.username}
-          selectedUser={currentAccount.username}
-          isOwnProfile={true}
-          type={type}
-        />
-      );
-    };
+  // render comments if tab is selected
+  const _contentComentsTab = (type: 'comments' | 'replies') => {
+    return (
+      <CommentsTabContent
+        username={currentAccount.username}
+        selectedUser={currentAccount.username}
+        isOwnProfile={true}
+        type={type}
+      />
+    );
+  };
 
   const tabContentOverrides = useMemo(
     () =>
@@ -71,8 +71,6 @@ const FeedScreen = () => {
         : undefined,
     [feedFilters],
   );
-
-
 
   return (
     <Fragment>

@@ -269,5 +269,5 @@ export {
   OrDivider,
   PostTranslationModal,
   ImageViewer,
-  WalkthroughMarker
+  WalkthroughMarker,
 };

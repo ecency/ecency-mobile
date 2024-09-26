@@ -13,11 +13,7 @@ import CommunityContainer from '../container/communityContainer';
 // Styles
 import styles from './communityStyles';
 
-import {
-  COMMUNITY_SCREEN_FILTER_MAP,
-  getDefaultFilters,
-  getFilterMap,
-} from '../../../constants/options/filters';
+import { COMMUNITY_SCREEN_FILTER_MAP, getDefaultFilters } from '../../../constants/options/filters';
 import { useAppSelector } from '../../../hooks';
 
 const CommunityScreen = ({ route }) => {
