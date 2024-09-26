@@ -35,7 +35,6 @@ import AccountList from './accountList';
 import AssetsSelect from './assetsSelect';
 import BackupKeysScreen from './backupKeysScreen/backupKeysScreen';
 import PollWizardScreen from './pollWizard';
-import CustomiseFeedTabs from './customiseFeedTabs';
 
 export {
   Bookmarks,
@@ -75,5 +74,4 @@ export {
   AssetsSelect,
   BackupKeysScreen,
   PollWizardScreen,
-  CustomiseFeedTabs
 };
