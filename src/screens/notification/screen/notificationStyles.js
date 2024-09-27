@@ -5,13 +5,21 @@ export default EStyleSheet.create({
     flex: 1,
     backgroundColor: '$primaryLightBackground',
   },
-  tabbar: {
-    alignSelf: 'center',
-    backgroundColor: '$primaryBackgroundColor',
+  tabView:{
+    flex:1
   },
   tabbarItem: {
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
     minWidth: '$deviceWidth',
   },
+  tabbar: {
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  tabbarLabel: {
+    color:'$primaryDarkText',
+  },
+  tabbarIndicator:{
+    backgroundColor:'$primaryBlue'
+  }
 });
