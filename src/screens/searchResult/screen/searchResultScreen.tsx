@@ -1,6 +1,5 @@
 import React, { memo, useState } from 'react';
 import { View } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import useDebounce from '../../../utils/useDebounceHook';

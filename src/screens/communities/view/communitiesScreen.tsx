@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { View } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
