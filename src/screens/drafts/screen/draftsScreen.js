@@ -1,7 +1,6 @@
 import React, { useMemo, useRef } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text, Platform, RefreshControl } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { default as AnimatedView, SlideInRight, SlideOutRight } from 'react-native-reanimated';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -25,6 +24,7 @@ import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
 import { useAppSelector } from '../../../hooks';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
+import { TabView } from 'react-native-tab-view';
 
 const DraftsScreen = ({
   currentAccount,
@@ -45,7 +45,6 @@ const DraftsScreen = ({
   handleItemLongPress,
   batchSelectedItems,
   handleBatchDeletePress,
-  onChangeTab,
 }) => {
   const actionSheet = useRef(null);
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
@@ -64,6 +63,23 @@ const DraftsScreen = ({
     }
     return null;
   }, [draftsCollection]);
+
+
+  const [index, setIndex] = React.useState(initialTabIndex);
+  const [routes] = React.useState([
+    {
+      key: 'drafts',
+      title: intl.formatMessage({
+        id: 'drafts.title',
+      })
+    },
+    {
+      key: 'schedules',
+      title: intl.formatMessage({
+        id: 'schedules.title',
+      })
+    },
+  ]);
 
   // Component Functions
   const _renderItem = (item, type) => {
@@ -190,6 +206,26 @@ const DraftsScreen = ({
     );
   };
 
+
+  const renderScene = ({ route }) => {
+    switch (route.key) {
+      case 'drafts':
+        return (
+          <View
+            style={styles.tabbarItem}>
+            {_getTabItem(drafts, 'drafts')}
+          </View>
+        )
+      case 'schedules':
+        return (
+          <View
+            style={styles.tabbarItem}>
+            {_getTabItem(schedules, 'schedules')}
+          </View>
+        )
+    }
+  }
+
   return (
     <>
       <View style={globalStyles.container}>
@@ -199,36 +235,14 @@ const DraftsScreen = ({
           })}
         />
 
-        <ScrollableTabView
+        <TabView
+          navigationState={{ index, routes }}
           style={[globalStyles.tabView, { paddingBottom: 40 }]}
-          initialPage={initialTabIndex}
-          // onChangeTab={onChangeTab}
-          renderTabBar={() => (
-            <TabBar
-              style={styles.tabbar}
-              tabUnderlineDefaultWidth={80}
-              tabUnderlineScaleX={2}
-              tabBarPosition="overlayTop"
-            />
-          )}
-        >
-          <View
-            tabLabel={intl.formatMessage({
-              id: 'drafts.title',
-            })}
-            style={styles.tabbarItem}
-          >
-            {_getTabItem(drafts, 'drafts')}
-          </View>
-          <View
-            tabLabel={intl.formatMessage({
-              id: 'schedules.title',
-            })}
-            style={styles.tabbarItem}
-          >
-            {_getTabItem(schedules, 'schedules')}
-          </View>
-        </ScrollableTabView>
+          onIndexChange={setIndex}
+          renderTabBar={TabBar}
+          renderScene={renderScene}
+        />
+
         {batchSelectedItems && batchSelectedItems.length > 0 ? _renderDeleteButton() : null}
       </View>
       <OptionsModal
