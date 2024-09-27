@@ -431,10 +431,14 @@
     "feed": "피드",
     "popular": "인기 순",
     "top": "트렌드순",
+    "trending": "Trending",
     "hot": "인기순",
     "new": "신규순",
     "blog": "블로그",
     "posts": "글 목록",
+    "my_blog": "My Blog",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
     "friends": "친구",
     "communities": "커뮤니티",
     "popup_postfix": "게시된",
@@ -1124,6 +1128,13 @@
   "history": {
     "edit": "편집 내역",
     "version": "버전"
+  },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
   },
   "chain-error": {
     "min-root-comment": "You may only post once every five minutes.",
