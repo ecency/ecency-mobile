@@ -431,10 +431,14 @@
     "feed": "Inicio",
     "popular": "Popular",
     "top": "Tendencia",
+    "trending": "Trending",
     "hot": "Caliente",
     "new": "Nuevo",
     "blog": "Blog",
     "posts": "Post",
+    "my_blog": "My Blog",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
     "friends": "Amigos",
     "communities": "Comunidades",
     "popup_postfix": "Publicado",
@@ -1124,6 +1128,13 @@
   "history": {
     "edit": "Editar historial",
     "version": "Versión"
+  },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
   },
   "chain-error": {
     "min-root-comment": "Sólo puedes publicar una vez cada cinco minutos.",
