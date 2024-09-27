@@ -431,10 +431,14 @@
     "feed": "संभरण",
     "popular": "लोकप्रिय",
     "top": "ऊपर",
+    "trending": "Trending",
     "hot": "लोकप्रीय",
     "new": "नया",
     "blog": "ब्लॉग",
     "posts": "Post",
+    "my_blog": "My Blog",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
     "friends": "दोस्त",
     "communities": "समुदाय",
     "popup_postfix": "पोस्ट की",
@@ -1124,6 +1128,13 @@
   "history": {
     "edit": "इतिहास संपादित करें",
     "version": "संस्करण"
+  },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
   },
   "chain-error": {
     "min-root-comment": "You may only post once every five minutes.",
