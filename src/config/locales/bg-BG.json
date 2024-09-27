@@ -431,10 +431,14 @@
     "feed": "Постове",
     "popular": "Популярни",
     "top": "Водещи",
+    "trending": "Trending",
     "hot": "Актуални",
     "new": "Нови",
     "blog": "Блог",
     "posts": "Публикации",
+    "my_blog": "My Blog",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
     "friends": "Приятели",
     "communities": "Общности",
     "popup_postfix": "Публикува",
@@ -1124,6 +1128,13 @@
   "history": {
     "edit": "Edit History",
     "version": "Version"
+  },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
   },
   "chain-error": {
     "min-root-comment": "You may only post once every five minutes.",
