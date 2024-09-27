@@ -6,10 +6,7 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryLightBackground',
   },
   tabView:{
-    flex:1
-  },
-  tabbarItem: {
-    flex: 1,
+    flex:1,
     backgroundColor: '$primaryBackgroundColor',
     minWidth: '$deviceWidth',
   },
