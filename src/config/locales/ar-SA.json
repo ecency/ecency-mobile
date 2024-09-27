@@ -431,10 +431,14 @@
     "feed": "المستجدات",
     "popular": "الأكثر شعبية",
     "top": "الأعلى",
+    "trending": "Trending",
     "hot": "ذات شعبية",
     "new": "الجديد",
     "blog": "المدونة",
     "posts": "منشورات",
+    "my_blog": "My Blog",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
     "friends": "الأصدقاء",
     "communities": "المجتمعات",
     "popup_postfix": "تم النشر",
@@ -1124,6 +1128,13 @@
   "history": {
     "edit": "تعديل التاريخ",
     "version": "الإصدار"
+  },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
   },
   "chain-error": {
     "min-root-comment": "يمكنك النشر مرة واحدة فقط كل خمس دقائق.",
