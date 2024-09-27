@@ -10,6 +10,7 @@ import { UserListItem, WalletDetailsPlaceHolder, BasicHeader, TabBar } from '../
 import globalStyles from '../../../globalStyles';
 import styles from './bookmarksStyles';
 import { OptionsModal } from '../../../components/atoms';
+import { Route, TabView } from 'react-native-tab-view';
 
 const BookmarksScreen = ({
   isLoading,
@@ -23,8 +24,23 @@ const BookmarksScreen = ({
   initialTabIndex,
 }) => {
   const [selectedItemId, setSelectedItemId] = useState(null);
-  const [activeTab, setActiveTab] = useState(0);
   const actionSheetRef = useRef(null);
+
+  const [index, setIndex] = React.useState(initialTabIndex);
+  const [routes] = React.useState([
+    {
+      key: 'bookmarks',
+      title: intl.formatMessage({
+        id: 'bookmarks.title',
+      })
+    },
+    {
+      key: 'favorites',
+      title: intl.formatMessage({
+        id: 'favorites.title',
+      })
+    },
+  ]);
 
   const _renderItem = (item, index, itemType) => {
     const isFavorites = itemType === 'favorites';
@@ -88,6 +104,25 @@ const BookmarksScreen = ({
     }
   };
 
+
+  const renderScene = ({ route }) => {
+    switch (route.key) {
+      case 'bookmarks':
+        return (
+          <View style={styles.tabbarItem} >
+            {_getTabItem(bookmarks, 'bookmarks')}
+          </View>
+
+        )
+      case 'favorites':
+        return (
+          <View style={styles.tabbarItem}>
+            {_getTabItem(favorites, 'favorites')}
+          </View>
+        )
+    }
+  }
+
   return (
     <View style={globalStyles.container}>
       <BasicHeader
@@ -96,36 +131,16 @@ const BookmarksScreen = ({
         })}
       />
 
-      <ScrollableTabView
-        initialPage={initialTabIndex}
-        onChangeTab={(event) => setActiveTab(event.i)}
+      <TabView
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        renderTabBar={TabBar}
+        renderScene={renderScene}
         style={[globalStyles.tabView, { paddingBottom: 40 }]}
-        renderTabBar={() => (
-          <TabBar
-            style={styles.tabbar}
-            tabUnderlineDefaultWidth={80}
-            tabUnderlineScaleX={2}
-            tabBarPosition="overlayTop"
-          />
-        )}
-      >
-        <View
-          tabLabel={intl.formatMessage({
-            id: 'bookmarks.title',
-          })}
-          style={styles.tabbarItem}
-        >
-          {_getTabItem(bookmarks, 'bookmarks')}
-        </View>
-        <View
-          tabLabel={intl.formatMessage({
-            id: 'favorites.title',
-          })}
-          style={styles.tabbarItem}
-        >
-          {_getTabItem(favorites, 'favorites')}
-        </View>
-      </ScrollableTabView>
+      />
+
+
+
       <OptionsModal
         ref={actionSheetRef}
         options={[
