@@ -431,10 +431,14 @@
     "feed": "Pagrindinis",
     "popular": "Populiarūs",
     "top": "Top",
+    "trending": "Trending",
     "hot": "Populiaru dabar",
     "new": "Nauja",
     "blog": "Tinklaraštis",
     "posts": "Įrašai",
+    "my_blog": "My Blog",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
     "friends": "Draugai",
     "communities": "Bendruomenės",
     "popup_postfix": "Publikuota",
@@ -1124,6 +1128,13 @@
   "history": {
     "edit": "Redaguoti Istoriją",
     "version": "Versija"
+  },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
   },
   "chain-error": {
     "min-root-comment": "You may only post once every five minutes.",
