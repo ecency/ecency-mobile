@@ -431,10 +431,14 @@
     "feed": "Syöte",
     "popular": "Suositut",
     "top": "Parhaat",
+    "trending": "Trending",
     "hot": "Kuumat",
     "new": "Uusimmat",
     "blog": "Blogi",
     "posts": "Julkaisut",
+    "my_blog": "My Blog",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
     "friends": "Ystävät",
     "communities": "Yhteisöt",
     "popup_postfix": "Julkaistu",
@@ -1124,6 +1128,13 @@
   "history": {
     "edit": "Muokkaushistoria",
     "version": "Versio"
+  },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
   },
   "chain-error": {
     "min-root-comment": "Voit julkaista vain kerran viidessä minuutissa.",
