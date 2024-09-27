@@ -48,6 +48,7 @@ import { decryptKey, encryptKey } from './crypto';
 import { delay } from './editor';
 import RootNavigation from '../navigation/rootNavigation';
 import ROUTES from '../constants/routeNames';
+import { DEFAULT_FEED_FILTERS } from '../constants/options/filters';
 
 // migrates settings from realm to redux once and do no user realm for settings again;
 export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean) => {
@@ -306,6 +307,10 @@ const reduxMigrations = {
   },
   9: (state) => {
     state.editor.pollDraftsMap = {};
+    return state;
+  },
+  10: (state) => {
+    state.customTabs.mainTabs = DEFAULT_FEED_FILTERS;
     return state;
   },
 };

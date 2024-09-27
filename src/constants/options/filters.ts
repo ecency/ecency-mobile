@@ -1,25 +1,29 @@
-export const DEFAULT_FEED_FILTERS = ['friends', 'communities', 'hot'];
+export const DEFAULT_FEED_FILTERS = ['friends', 'communities', 'trending', 'hot'];
 export const DEFAULT_COMMUNITY_FILTERS = ['trending', 'hot', 'created'];
 export const DEFAULT_PROFILE_FILTERS = ['blog', 'posts', 'comments'];
 export const DEFAULT_OWN_PROFILE_FILTERS = ['blog', 'posts', 'replies'];
+export const GUEST_FEED_FILTERS = ['friends', 'trending', 'hot', 'created'];
 
-export const FEED_SCREEN_FILTER_MAP = {
+export const FEED_SCREEN_FILTER_MAP: { [key: string]: string } = {
   friends: 'home.friends',
   communities: 'home.communities',
-  trending: 'home.top',
+  trending: 'home.trending',
   hot: 'home.hot',
   created: 'home.new',
+  blog: 'home.my_blog',
+  posts: 'home.my_posts',
+  comments: 'home.my_comments',
 };
 
-export const COMMUNITY_SCREEN_FILTER_MAP = {
-  trending: 'home.top',
+export const COMMUNITY_SCREEN_FILTER_MAP: { [key: string]: string } = {
+  trending: 'home.trending',
   hot: 'home.hot',
   created: 'home.new',
   muted: 'community.muted',
   payout: 'community.payout',
 };
 
-export const PROFILE_SCREEN_FILTER_MAP = {
+export const PROFILE_SCREEN_FILTER_MAP: { [key: string]: string } = {
   blog: 'home.blog',
   posts: 'home.posts',
   comments: 'profile.comments',
@@ -29,10 +33,6 @@ export const PROFILE_SCREEN_FILTER_MAP = {
 
 export const GLOBAL_POST_FILTERS = ['home.TOP', 'home.HOT', 'home.NEW'];
 export const GLOBAL_POST_FILTERS_VALUE = ['trending', 'hot', 'created'];
-
-export const PROFILE_FILTERS_OWN = ['home.BLOG', 'home.POSTS', 'profile.replies'];
-export const PROFILE_FILTERS = ['home.BLOG', 'home.POSTS', 'profile.comments', 'profile.wallet'];
-export const PROFILE_FILTERS_VALUE = ['blog', 'posts', 'comments', 'wallet'];
 
 export const getFilterMap = (type: 'main' | 'community' | 'profile' | 'ownProfile') => {
   switch (type) {
@@ -44,6 +44,8 @@ export const getFilterMap = (type: 'main' | 'community' | 'profile' | 'ownProfil
       return PROFILE_SCREEN_FILTER_MAP;
     case 'ownProfile':
       return PROFILE_SCREEN_FILTER_MAP;
+    default:
+      return FEED_SCREEN_FILTER_MAP;
   }
 };
 

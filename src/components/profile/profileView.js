@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
@@ -7,9 +7,8 @@ import { connect } from 'react-redux';
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { CollapsibleCard } from '../collapsibleCard';
-import { Comments } from '../comments';
 import { Header } from '../header';
-import { NoPost, ProfileSummaryPlaceHolder, WalletDetailsPlaceHolder } from '../basicUIElements';
+import { ProfileSummaryPlaceHolder, WalletDetailsPlaceHolder } from '../basicUIElements';
 import { ProfileSummary } from '../profileSummary';
 import { Wallet } from '../wallet';
 
@@ -227,24 +226,30 @@ class ProfileView extends PureComponent {
       }
     }
 
-    const filterOptions = tabs.map((key) => getFilterMap(pageType)[key]);
+    const tabFilters = tabs.map((key) => ({
+      filterKey: key,
+      label: getFilterMap(pageType)[key],
+    }));
 
     // compile content overrides
     const tabContentOverrides = new Map();
-
-    tabContentOverrides.set(tabs.indexOf('replies'), this._contentComentsTab('replies'));
-    tabContentOverrides.set(tabs.indexOf('comments'), this._contentComentsTab('comments'));
-    tabContentOverrides.set(tabs.indexOf('wallet'), this._contentWalletTab());
+    if (tabs.indexOf('replies')) {
+      tabContentOverrides.set(tabs.indexOf('replies'), this._contentComentsTab('replies'));
+    }
+    if (tabs.indexOf('comments')) {
+      tabContentOverrides.set(tabs.indexOf('comments'), this._contentComentsTab('comments'));
+    }
+    if (tabs.indexOf('wallet')) {
+      tabContentOverrides.set(tabs.indexOf('wallet'), this._contentWalletTab());
+    }
 
     return (
       <View style={styles.postTabBar}>
         <TabbedPosts
-          key={username + JSON.stringify(filterOptions)}
-          filterOptions={filterOptions}
-          filterOptionsValue={tabs}
+          key={username + JSON.stringify(tabFilters)}
+          tabFilters={tabFilters}
           selectedOptionIndex={selectedIndex}
           pageType={pageType}
-          getFor="blog"
           feedUsername={username}
           handleOnScrollBeginDrag={isSummaryOpen ? this._handleOnScroll : null}
           forceLoadPost={forceLoadPost}

@@ -1,17 +1,17 @@
+export interface TabItem {
+  filterKey: string;
+  label: string;
+}
+
 export interface TabbedPostsProps {
-  filterOptions: string[];
-  filterOptionsValue: string[];
+  tabFilters: TabItem[];
   isFeedScreen: boolean;
   feedUsername: string;
   selectedOptionIndex: number;
-  feedSubfilterOptions: string[];
-  feedSubfilterOptionsValue: string[];
-  getFor: string;
   pageType: 'main' | 'community' | 'profile' | 'ownProfile';
   tag: string;
   forceLoadPosts: boolean;
-  tabContentOverrides: Map<number, any>;
-  stackedTabs: boolean;
+  tabContentOverrides?: Map<number, any>;
   pinnedPermlink?: string;
   handleOnScroll: () => void;
 }
@@ -20,7 +20,6 @@ export interface PostsTabContentProps {
   filterKey: string;
   isFeedScreen: boolean;
   isInitialTab: boolean;
-  getFor: string;
   pageType: 'main' | 'profile' | 'ownProfile' | 'community';
   feedUsername: string;
   tag: string;

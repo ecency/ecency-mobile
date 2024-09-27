@@ -1,7 +1,7 @@
-import { REGISTER_TOOLTIP } from '../constants/constants';
-import { Walkthrough } from '../reducers/walkthroughReducer';
+import { REGISTER_WALKTHROUGH_ITEM } from '../constants/constants';
+import { WalkthroughItem } from '../reducers/walkthroughReducer';
 
-export const registerTooltip = (walkthrough: Walkthrough) => ({
+export const registerWalkthroughItem = (walkthrough: WalkthroughItem) => ({
   payload: walkthrough,
-  type: REGISTER_TOOLTIP,
+  type: REGISTER_WALKTHROUGH_ITEM,
 });

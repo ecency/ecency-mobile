@@ -109,6 +109,7 @@ import WebViewModal from './webViewModal/webViewModal';
 import OrDivider from './orDivider/orDividerView';
 import PostTranslationModal from './post-translation-modal/postTranslationModal';
 import { ImageViewer } from './imageViewer';
+import { WalkthroughMarker } from './walkthroughMarker';
 
 // Basic UI Elements
 import {
@@ -134,6 +135,7 @@ import {
   Separator,
   EmptyScreen,
 } from './basicUIElements';
+import { SelectionList } from './selectionList';
 
 export {
   EditAvatar,
@@ -214,6 +216,7 @@ export {
   SquareButton,
   StickyBar,
   SummaryArea,
+  SelectionList,
   TabBar,
   Tag,
   TagArea,
@@ -266,4 +269,5 @@ export {
   OrDivider,
   PostTranslationModal,
   ImageViewer,
+  WalkthroughMarker,
 };

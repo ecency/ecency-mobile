@@ -1,10 +1,10 @@
 import React, { forwardRef, Ref, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { TouchableOpacity, KeyboardAvoidingView, Platform, View, Text } from 'react-native';
+import { KeyboardAvoidingView, Platform, View, Text } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDispatch } from 'react-redux';
-import { CheckBox } from '..';
+import { MainButton, SelectionList } from '..';
 import { getDefaultFilters, getFilterMap } from '../../constants/options/filters';
 import { useAppSelector } from '../../hooks';
 import {
@@ -13,7 +13,6 @@ import {
   setOwnProfileTabs,
   setProfileTabs,
 } from '../../redux/actions/customTabsAction';
-import { TextButton } from '../buttons';
 import styles from './customiseFiltersModalStyles';
 
 export interface CustomiseFiltersModalRef {
@@ -23,8 +22,6 @@ export interface CustomiseFiltersModalRef {
 interface Props {
   pageType: 'main' | 'community' | 'profile' | 'ownProfile';
 }
-
-const getFilterIndex = (filterMap: any, key: string) => Object.keys(filterMap).indexOf(key);
 
 const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersModalRef>) => {
   if (!pageType) {
@@ -55,9 +52,7 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
 
   // state
   const [filterMap] = useState(getFilterMap(pageType));
-  const [selectedFilters, setSelectedFilters] = useState<Map<string, number>>(
-    new Map(savedFilters.map((key: string) => [key, getFilterIndex(filterMap, key)])),
-  );
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([...savedFilters]);
 
   /**
    * HANDLERS FUNCTIONS
@@ -76,26 +71,25 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
 
   // save snippet based on editor pageType
   const _onApply = () => {
-    if (selectedFilters.size < 3) {
+    if (selectedFilters.length < 3) {
       alert(intl.formatMessage({ id: 'alert.wrong_filter_count' }));
       return;
     }
-    const entries = Array.from(selectedFilters.entries())
-      .sort((a, b) => (a[1] < b[1] ? -1 : 1))
-      .map((e) => e[0]);
+
+    const filters = [...selectedFilters];
 
     switch (pageType) {
       case 'main':
-        dispatch(setMainTabs(entries));
+        dispatch(setMainTabs(filters));
         break;
       case 'community':
-        dispatch(setCommunityTabs(entries));
+        dispatch(setCommunityTabs(filters));
         break;
       case 'profile':
-        dispatch(setProfileTabs(entries));
+        dispatch(setProfileTabs(filters));
         break;
       case 'ownProfile':
-        dispatch(setOwnProfileTabs(entries));
+        dispatch(setOwnProfileTabs(filters));
         break;
     }
     _onClose();
@@ -106,35 +100,19 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
    */
 
   const _renderOptions = () => {
-    const options = [];
-    Object.keys(filterMap).forEach((key) => {
-      const isSelected = selectedFilters.has(key);
-
-      const _onPress = () => {
-        if (isSelected) {
-          selectedFilters.delete(key);
-        } else {
-          const index = getFilterIndex(filterMap, key);
-          selectedFilters.set(key, index);
-        }
-        setSelectedFilters(new Map([...selectedFilters]));
-      };
-
-      options.push(
-        <TouchableOpacity key={key} onPress={_onPress}>
-          <View style={styles.checkView}>
-            <Text style={styles.informationText}>
-              {intl.formatMessage({
-                id: filterMap[key],
-              })}
-            </Text>
-            <CheckBox locked isChecked={isSelected} />
-          </View>
-        </TouchableOpacity>,
-      );
-    });
-
-    return <View style={styles.textContainer}>{options}</View>;
+    return (
+      <View style={{ maxHeight: 500 }}>
+        <SelectionList
+          data={Object.entries(filterMap).map(([key, labelId]) => ({
+            id: key,
+            label: intl.formatMessage({ id: labelId }),
+          }))}
+          initSelectedIds={savedFilters}
+          onSelectionChange={setSelectedFilters}
+          headerPostfix={intl.formatMessage({ id: 'selection_list.postfix_filters' })}
+        />
+      </View>
+    );
   };
 
   const _renderContent = (
@@ -143,12 +121,12 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
       keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : null}
       behavior={Platform.OS === 'ios' ? 'padding' : null}
     >
-      <Text style={styles.title}>Customise Filters</Text>
+      <Text style={styles.title}>{intl.formatMessage({ id: 'selection_list.title_filters' })}</Text>
 
       {_renderOptions()}
 
       <View style={styles.actionPanel}>
-        <TextButton
+        <MainButton
           text="APPLY"
           onPress={_onApply}
           textStyle={styles.btnText}

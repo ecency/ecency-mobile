@@ -2,7 +2,7 @@ import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 import { View, Text, findNodeHandle, NativeModules } from 'react-native';
 import { Popover } from 'react-native-modal-popover';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerTooltip } from '../../redux/actions/walkthroughActions';
+import { registerWalkthroughItem } from '../../redux/actions/walkthroughActions';
 import { Walkthrough } from '../../redux/reducers/walkthroughReducer';
 
 import styles from './tooltipStyles';
@@ -32,7 +32,7 @@ const Tooltip = ({ children, text, walkthroughIndex }: TooltipProps, ref) => {
           walkthroughIndex,
           isShown: true,
         };
-        dispatch(registerTooltip(walkthrough));
+        dispatch(registerWalkthroughItem(walkthrough));
       }
       setShowPopover(false);
     },

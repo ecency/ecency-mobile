@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useIntl } from 'react-intl';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { TabItem } from 'components/tabbedPosts/types/tabbedPosts.types';
 import { CollapsibleCard, BasicHeader, TabbedPosts } from '../../../components';
 import { Tag, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
 
@@ -12,9 +13,8 @@ import CommunityContainer from '../container/communityContainer';
 // Styles
 import styles from './communityStyles';
 
-import { getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
+import { COMMUNITY_SCREEN_FILTER_MAP, getDefaultFilters } from '../../../constants/options/filters';
 import { useAppSelector } from '../../../hooks';
-import { TagResult } from '../..';
 
 const CommunityScreen = ({ route }) => {
   const tag = route.params?.tag ?? '';
@@ -25,7 +25,18 @@ const CommunityScreen = ({ route }) => {
   const communityTabs = useAppSelector(
     (state) => state.customTabs.communityTabs || getDefaultFilters('community'),
   );
-  const filterOptions = communityTabs.map((key) => getFilterMap('community')[key]);
+
+  const tabFilters = useMemo(
+    () =>
+      communityTabs.map(
+        (key: string) =>
+          ({
+            filterKey: key,
+            label: COMMUNITY_SCREEN_FILTER_MAP[key],
+          } as TabItem),
+      ),
+    [communityTabs],
+  );
 
   const _getSelectedIndex = () => {
     if (filter) {
@@ -126,9 +137,8 @@ const CommunityScreen = ({ route }) => {
           )}
           <View tabLabel={intl.formatMessage({ id: 'search.posts' })} style={styles.tabbarItem}>
             <TabbedPosts
-              key={tag + JSON.stringify(filterOptions)}
-              filterOptions={filterOptions}
-              filterOptionsValue={communityTabs}
+              key={tag + JSON.stringify(communityTabs)}
+              tabFilters={tabFilters}
               selectedOptionIndex={_getSelectedIndex()}
               tag={tag}
               pageType="community"

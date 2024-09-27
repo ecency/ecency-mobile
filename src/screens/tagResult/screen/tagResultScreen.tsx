@@ -4,6 +4,7 @@ import { debounce } from 'lodash';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { TabItem } from 'components/tabbedPosts/types/tabbedPosts.types';
 import { SearchInput, TabbedPosts } from '../../../components';
 
 // Styles
@@ -40,6 +41,14 @@ const TagResultScreen = ({ navigation, route }) => {
     return 0;
   };
 
+  const tabFilters = GLOBAL_POST_FILTERS_VALUE.map(
+    (key, index) =>
+      ({
+        filterKey: key,
+        label: GLOBAL_POST_FILTERS[index],
+      } as TabItem),
+  );
+
   return (
     <View style={styles.container}>
       <SearchInput
@@ -55,8 +64,7 @@ const TagResultScreen = ({ navigation, route }) => {
       <View style={styles.tabbarItem}>
         <TabbedPosts
           key={tag}
-          filterOptions={GLOBAL_POST_FILTERS}
-          filterOptionsValue={GLOBAL_POST_FILTERS_VALUE}
+          tabFilters={tabFilters}
           selectedOptionIndex={_getSelectedIndex()}
           tag={tag}
         />
