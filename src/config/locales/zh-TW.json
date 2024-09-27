@@ -431,10 +431,14 @@
     "feed": "朋友圈",
     "popular": "熱門",
     "top": "顶部",
+    "trending": "Trending",
     "hot": "熱門",
     "new": "最新",
     "blog": "部落格",
     "posts": "文章",
+    "my_blog": "My Blog",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
     "friends": "朋友",
     "communities": "社區",
     "popup_postfix": "已發佈",
@@ -1124,6 +1128,13 @@
   "history": {
     "edit": "Edit History",
     "version": "Version"
+  },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
   },
   "chain-error": {
     "min-root-comment": "You may only post once every five minutes.",
