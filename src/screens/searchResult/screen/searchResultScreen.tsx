@@ -1,6 +1,5 @@
 import React, { memo, useState } from 'react';
 import { View } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import useDebounce from '../../../utils/useDebounceHook';
@@ -15,6 +14,7 @@ import PeopleResults from './tabs/people/view/peopleResults';
 // Styles
 import styles from './searchResultStyles';
 import globalStyles from '../../../globalStyles';
+import { TabView } from 'react-native-tab-view';
 
 const SearchResultScreen = ({ navigation }) => {
   const intl = useIntl();
@@ -22,6 +22,7 @@ const SearchResultScreen = ({ navigation }) => {
 
   const [searchInputValue, setSearchInputValue] = useState('');
   const [searchValue, setSearchValue] = useState('');
+
 
   const _handleChangeText = (value) => {
     setSearchInputValue(value);
@@ -56,6 +57,34 @@ const SearchResultScreen = ({ navigation }) => {
 
 const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => {
   const intl = useIntl();
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    {
+      key: 'posts',
+      title: intl.formatMessage({
+        id: 'search_result.best.title',
+      })
+    },
+    {
+      key: 'people',
+      title: intl.formatMessage({
+        id: 'search_result.people.title',
+      })
+    },
+    {
+      key: 'topics',
+      title: intl.formatMessage({
+        id: 'search_result.topics.title',
+      })
+    },
+    {
+      key: 'communities',
+      title: intl.formatMessage({
+        id: 'search_result.communities.title',
+      })
+    },
+
+  ]);
 
   const clippedSearchValue =
     searchValue.startsWith('#') || searchValue.startsWith('@')
@@ -63,47 +92,47 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
       : searchValue.trim().toLowerCase();
   const isUsername = !!(searchValue.startsWith('#') || searchValue.startsWith('@'));
 
-  const _renderTabbar = () => (
-    <TabBar
-      style={styles.tabbar}
-      tabUnderlineDefaultWidth={80}
-      tabUnderlineScaleX={2}
-      tabBarPosition="overlayTop"
-      textStyle={styles.tabBarText}
-    />
-  );
+
+  const renderScene = ({ route }) => {
+    switch (route.key) {
+      case 'posts':
+        return (
+          <View style={styles.tabbarItem}>
+            <PostsResults searchValue={clippedSearchValue} />
+          </View>
+        );
+      case 'people':
+        return (
+          <View style={styles.tabbarItem}>
+            <PeopleResults searchValue={clippedSearchValue} isUsername={isUsername} />
+          </View>
+        );
+      case 'topics':
+        return (
+          <View style={styles.tabbarItem}>
+            <TopicsResults searchValue={clippedSearchValue} />
+          </View>
+        );
+      case 'communities':
+        return (
+          <View style={styles.tabbarItem}>
+            <Communities searchValue={clippedSearchValue} />
+          </View>
+        );
+
+    }
+
+  }
 
   return (
-    <ScrollableTabView
+    <TabView
       style={globalStyles.tabView}
-      renderTabBar={_renderTabbar}
-      prerenderingSiblingsNumber={Infinity}
-    >
-      <View
-        tabLabel={intl.formatMessage({ id: 'search_result.best.title' })}
-        style={styles.tabbarItem}
-      >
-        <PostsResults searchValue={clippedSearchValue} />
-      </View>
-      <View
-        tabLabel={intl.formatMessage({ id: 'search_result.people.title' })}
-        style={styles.tabbarItem}
-      >
-        <PeopleResults searchValue={clippedSearchValue} isUsername={isUsername} />
-      </View>
-      <View
-        tabLabel={intl.formatMessage({ id: 'search_result.topics.title' })}
-        style={styles.tabbarItem}
-      >
-        <TopicsResults searchValue={clippedSearchValue} />
-      </View>
-      <View
-        tabLabel={intl.formatMessage({ id: 'search_result.communities.title' })}
-        style={styles.tabbarItem}
-      >
-        <Communities searchValue={clippedSearchValue} />
-      </View>
-    </ScrollableTabView>
+      renderTabBar={TabBar}
+      renderScene={renderScene}
+      navigationState={{ index, routes }}
+      onIndexChange={setIndex}
+    />
+
   );
 });
 
