@@ -2,12 +2,12 @@ import React, { Fragment } from 'react';
 import { View } from 'react-native';
 
 // Components
-import { LeaderBoard, Notification, Header } from '../../../components';
+import { LeaderBoard, Notification, Header, TabBar } from '../../../components';
 import { LoggedInContainer } from '../../../containers';
 
 // Styles
 import styles from './notificationStyles';
-import { TabBar, TabView } from 'react-native-tab-view';
+import { TabView } from 'react-native-tab-view';
 import { useIntl } from 'react-intl';
 
 const NotificationScreen = ({
@@ -73,13 +73,11 @@ const NotificationScreen = ({
   }
 
 
-  const renderTabBar = (props) => (
-    <TabBar
-      {...props}
-      style={styles.tabbar}
-      indicatorStyle={styles.tabbarIndicator}
-      labelStyle={styles.tabbarLabel} />
-  )
+  // const renderTabBar = (props) => (
+  //   <TabBar
+  //     {...props}
+  //  />
+  // )
 
 
   return (
@@ -89,7 +87,7 @@ const NotificationScreen = ({
       <TabView
         navigationState={{ index, routes }}
         style={styles.tabView}
-        renderTabBar={renderTabBar}
+        renderTabBar={TabBar}
         onIndexChange={setIndex}
         renderScene={renderScene}
       />
