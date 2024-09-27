@@ -431,10 +431,14 @@
     "feed": "Лента",
     "popular": "Популярное",
     "top": "Топ",
+    "trending": "Trending",
     "hot": "Актуальное",
     "new": "Новое",
     "blog": "Блог",
     "posts": "Посты",
+    "my_blog": "My Blog",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
     "friends": "Друзья",
     "communities": "Сообщества",
     "popup_postfix": "Опубликовано",
@@ -1124,6 +1128,13 @@
   "history": {
     "edit": "История изменений",
     "version": "Версия"
+  },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
   },
   "chain-error": {
     "min-root-comment": "Вы можете размещать сообщения только один раз в пять минут.",
