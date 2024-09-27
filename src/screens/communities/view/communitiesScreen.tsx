@@ -20,7 +20,6 @@ import { TabView } from 'react-native-tab-view';
 
 const CommunitiesScreen = () => {
   const intl = useIntl();
-  const tabViewRef = useRef(null);
 
 
   const [index, setIndex] = React.useState(0);
