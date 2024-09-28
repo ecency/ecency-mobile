@@ -431,14 +431,14 @@
     "feed": "Inicio",
     "popular": "Popular",
     "top": "Tendencia",
-    "trending": "Trending",
+    "trending": "Tendencias",
     "hot": "Caliente",
     "new": "Nuevo",
     "blog": "Blog",
     "posts": "Post",
-    "my_blog": "My Blog",
-    "my_posts": "My Posts",
-    "my_comments": "My Comments",
+    "my_blog": "Mi blog",
+    "my_posts": "Mis publicaciones",
+    "my_comments": "Mis comentarios",
     "friends": "Amigos",
     "communities": "Comunidades",
     "popup_postfix": "Publicado",
@@ -1130,11 +1130,11 @@
     "version": "Versión"
   },
   "selection_list": {
-    "available": "Available {postfix}",
-    "selected": "Selected {postfix}",
-    "no_selected": "Please add from available",
-    "postfix_filters": "Filters",
-    "title_filters": "Customise Filters"
+    "available": "{postfix} disponible",
+    "selected": "Seleccionado {postfix}",
+    "no_selected": "Por favor, añada desde lo disponible",
+    "postfix_filters": "Filtros",
+    "title_filters": "Personalizar Filtros"
   },
   "chain-error": {
     "min-root-comment": "Sólo puedes publicar una vez cada cinco minutos.",
