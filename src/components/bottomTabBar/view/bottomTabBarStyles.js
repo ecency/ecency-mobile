@@ -6,13 +6,10 @@ const deviceWidth = getWindowDimensions().width;
 
 export default EStyleSheet.create({
   wrapper: {
-    width: deviceWidth,
     flexDirection: 'row',
-    flex: 0.085,
     backgroundColor: '$primaryBackgroundColor',
     borderTopWidth: 0.1,
     shadowOpacity: 0.2,
-    // height: scalePx(50),
     elevation: 15,
   },
   subContent: {
