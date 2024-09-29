@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { PermissionsAndroid, Platform, View } from 'react-native';
+import { PermissionsAndroid, Platform, useWindowDimensions, View } from 'react-native';
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -21,16 +21,19 @@ import { OptionsModal } from '../../../atoms';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
 import { ImageViewer, PostHtmlRenderer, VideoPlayer } from '../../..';
-import getWindowDimensions from '../../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../../hooks';
 import { isHiveUri } from '../../../../utils/hive-uri';
 
-const WIDTH = getWindowDimensions().width;
+
 
 const PostBody = ({ body, metadata, onLoadEnd, width }) => {
   const intl = useIntl();
-  const navigation = useNavigation();
   const dispatch = useAppDispatch();
+  const navigation = useNavigation();
+
+  const dims = useWindowDimensions();
+  const contentWidth = width || (dims.width - 32);
+
 
   const [selectedLink, setSelectedLink] = useState(null);
   const [html, setHtml] = useState('');
@@ -41,6 +44,8 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
   const actionLink = useRef(null);
   const imageViewerRef = useRef(null);
   const youtubePlayerRef = useRef(null);
+
+
 
   useEffect(() => {
     if (body) {
@@ -273,9 +278,10 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
       />
       <View>
         <PostHtmlRenderer
+          key={"html_content_" + contentWidth} //makes sure html content is rerendered on width update
           body={html}
           metadata={metadata}
-          contentWidth={width || WIDTH - 32}
+          contentWidth={contentWidth}
           onLoaded={_handleLoadEnd}
           setSelectedImage={_handleSetSelectedImage}
           setSelectedLink={_handleSetSelectedLink}
