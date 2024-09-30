@@ -5,7 +5,7 @@ import { Icon } from '../icon';
 
 // Constant
 import { default as ROUTES } from '../../constants/routeNames';
-import scalePx from '../../utils/scalePx';
+import roundPx from '../../utils/roundPx';
 
 const PostButtonView = () => {
   const navigation = useNavigation();
@@ -24,7 +24,7 @@ const PostButtonView = () => {
         style={{ padding: 15 }}
         name="pencil"
         color="#c1c5c7"
-        size={scalePx(26)}
+        size={roundPx(26)}
       />
     </TouchableOpacity>
   );

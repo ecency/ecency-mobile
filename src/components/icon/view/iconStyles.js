@@ -1,5 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import scalePx from '../../../utils/scalePx';
+import roundPx from '../../../utils/roundPx';
 
 export default EStyleSheet.create({
   badge: {

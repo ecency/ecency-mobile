@@ -1,7 +1,7 @@
 import { PixelRatio, Platform } from 'react-native';
 
 
-export default (size) => {
+export default (size:number) => {
   if (Platform.OS === 'ios') {
     return Math.round(PixelRatio.roundToNearestPixel(size));
   } else {

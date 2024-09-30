@@ -1,5 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import scalePx from '../../../../utils/scalePx';
+import roundPx from '../../../../utils/roundPx';
 
 export default EStyleSheet.create({
   container: {
@@ -18,6 +18,6 @@ export default EStyleSheet.create({
   },
   fixedFooter: {
     position: 'absolute',
-    bottom: scalePx(0),
+    bottom: roundPx(0),
   },
 });

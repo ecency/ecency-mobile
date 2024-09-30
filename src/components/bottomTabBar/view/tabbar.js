@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, TouchableHighlight, Animated } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 
-import scalePx from '../../../utils/scalePx';
+import roundPx from '../../../utils/roundPx';
 import styles from './bottomTabBarStyles';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -118,7 +118,7 @@ export default class TabBar extends Component {
           x="0px"
           y="0px"
           width="100%"
-          height={scalePx(100)}
+          height={roundPx(100)}
           viewBox="0 0 661 100"
           space="preserve"
         >

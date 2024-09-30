@@ -13,7 +13,7 @@ import ROUTES from '../../../constants/routeNames';
 // Styles
 import styles from './bottomTabBarStyles';
 import Icon, { IconContainer } from '../../icon';
-import scalePx from '../../../utils/scalePx';
+import roundPx from '../../../utils/roundPx';
 import { showReplyModal, updateActiveBottomTab } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import showLoginAlert from '../../../utils/showLoginAlert';

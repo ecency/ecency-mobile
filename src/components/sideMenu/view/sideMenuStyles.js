@@ -1,7 +1,7 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { isRTL } from '../../../utils/I18nUtils';
-import scalePx from '../../../utils/scalePx';
+import roundPx from '../../../utils/roundPx';
 
 export default EStyleSheet.create({
   container: {
@@ -46,14 +46,14 @@ export default EStyleSheet.create({
   username: {
     color: '$pureWhite',
     fontWeight: 'bold',
-    fontSize: scalePx(18),
+    fontSize: roundPx(18),
     marginBottom: 8,
     maxWidth: '$deviceWidth / 3',
   },
   usernick: {
     color: 'rgba(255, 255, 255, 0.7)',
     fontWeight: 'bold',
-    fontSize: scalePx(18),
+    fontSize: roundPx(18),
     marginTop: 2,
   },
   listItem: {
@@ -96,7 +96,7 @@ export default EStyleSheet.create({
   },
   vpText: {
     textAlign: 'center',
-    fontSize: scalePx(16),
+    fontSize: roundPx(16),
     color: '$iconColor',
   },
   imageBackground: {
