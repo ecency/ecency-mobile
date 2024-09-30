@@ -47,7 +47,7 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
   },
   descriptionStyle: {
-    maxWidth: '$deviceWidth',
+    maxWidth: '100%',
     marginTop: 4,
     marginRight: isRTL() ? 0 : 24,
     marginLeft: isRTL() ? 24 : 0,

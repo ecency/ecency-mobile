@@ -38,7 +38,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
   },
   picker: {
-    width: '$deviceWidth',
+    width: '100%',
     // marginLeft: 20,
   },
   datePickerText: {

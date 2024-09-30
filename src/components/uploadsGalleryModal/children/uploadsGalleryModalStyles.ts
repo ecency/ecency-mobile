@@ -10,7 +10,7 @@ export const EXPANDED_HEIGHT = getWindowDimensions().height * 0.65;
 
 export default EStyleSheet.create({
   container: {
-    width: '$deviceWidth',
+    width: '100%',
     height: COMPACT_HEIGHT,
   },
 
@@ -21,7 +21,7 @@ export default EStyleSheet.create({
   },
 
   gridContentContainer: {
-    width: '$deviceWidth',
+    width: '100%',
     paddingHorizontal: 16,
   },
 

@@ -4,7 +4,7 @@ export default EStyleSheet.create({
   notificationWrapper: {
     flex: 1,
     flexDirection: 'row',
-    width: '$deviceWidth',
+    width: '100%',
     justifyContent: 'space-between',
     alignItems: 'center',
     height: 64,

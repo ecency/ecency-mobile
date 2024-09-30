@@ -8,7 +8,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'space-between',
-    width: '$deviceWidth',
+    width: '100%',
     shadowOpacity: 0.1,
     shadowOffset: {
       width: 0,

@@ -18,13 +18,13 @@ const _dropShadow = {
 
 export default EStyleSheet.create({
   container: {
-    width: '$deviceWidth',
+    width: '100%',
     elevation: 3,
     backgroundColor: '$primaryBackgroundColor',
   },
   shadowedContainer: {
     elevation: 3,
-    width: '$deviceWidth',
+    width: '100%',
     ..._dropShadow,
   },
   dropShadow: {
@@ -33,7 +33,7 @@ export default EStyleSheet.create({
   buttonsContainer: {
     justifyContent: 'space-between',
     flexDirection: 'row',
-    width: '$deviceWidth',
+    width: '100%',
     backgroundColor: '$primaryBackgroundColor',
     borderColor: '$primaryLightBackground',
     paddingBottom: getBottomSpace(),

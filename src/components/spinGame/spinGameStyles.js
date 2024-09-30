@@ -31,7 +31,7 @@ export default EStyleSheet.create({
   },
   backgroundTags: {
     position: 'absolute',
-    width: '$deviceWidth',
+    width: '100%',
     height: 360,
     left: 0,
     top: 16,

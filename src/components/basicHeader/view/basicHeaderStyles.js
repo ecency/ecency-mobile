@@ -6,7 +6,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 16,
-    // width: '$deviceWidth',
+    // width: '100%',
     backgroundColor: '$primaryBackgroundColor',
     alignItems: 'center',
   },

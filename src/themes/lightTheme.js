@@ -50,11 +50,8 @@ export default {
   $chartText: '#357ce6',
 
   // Devices Sizes
-  $deviceHeight:
-    Platform.OS === 'ios'
-      ? getWindowDimensions().height
-      : getWindowDimensions().height + StatusBar.currentHeight,
-  $deviceWidth: getWindowDimensions().width,
+  $deviceHeight:'100%',
+  $deviceWidth: '100%',
 
   // Fonts Properties
   $primaryFont: 'Roboto',

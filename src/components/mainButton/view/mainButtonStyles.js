@@ -2,7 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   touchable: {
-    maxWidth: '$deviceWidth',
+    maxWidth: '100%',
     height: 56,
     borderRadius: 30,
     backgroundColor: '$primaryBlue',

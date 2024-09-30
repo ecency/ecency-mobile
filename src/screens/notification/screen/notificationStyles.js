@@ -8,7 +8,7 @@ export default EStyleSheet.create({
   tabView:{
     flex:1,
     backgroundColor: '$primaryBackgroundColor',
-    minWidth: '$deviceWidth',
+    minWidth: '100%',
   },
 
 });

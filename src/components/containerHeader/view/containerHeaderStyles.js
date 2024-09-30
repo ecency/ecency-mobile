@@ -2,7 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   wrapper: {
-    width: '$deviceWidth',
+    width: '100%',
     height: 50,
     backgroundColor: '$primaryBackgroundColor',
     flexDirection: 'row',

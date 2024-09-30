@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 export default EStyleSheet.create({
   container: {
     flexDirection: 'row',
-    width: '$deviceWidth',
+    width: '100%',
     backgroundColor: '$primaryBackgroundColor',
     flex: 1,
     maxHeight: Platform.OS === 'ios' ? 105 : 80,
