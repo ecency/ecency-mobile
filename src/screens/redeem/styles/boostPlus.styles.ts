@@ -101,7 +101,7 @@ export default EStyleSheet.create({
     marginTop: 16,
   },
   button: {
-    width: '$deviceWidth / 3',
+    paddingHorizontal: 44,
     marginTop: 30,
     justifyContent: 'center',
     alignItems: 'center',

@@ -24,7 +24,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
   } as ViewStyle,
   mainBtn: {
-    width: '$deviceWidth / 3',
+    paddingHorizontal: 44,
     justifyContent: 'center',
     alignItems: 'center',
     fontWeight: 'bold',
