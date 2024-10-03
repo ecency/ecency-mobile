@@ -8,7 +8,7 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
   },
   image: {
-    width: '$deviceWidth - 40',
+    width: '100% - 40',
     height: 192,
     marginTop: 16,
   },

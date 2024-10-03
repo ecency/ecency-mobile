@@ -25,7 +25,7 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     fontSize: 14,
     padding: 7,
-    maxWidth: '$deviceWidth - 100',
+    maxWidth: '100% - 100',
     marginLeft: 8,
   },
   closeIconButton: {

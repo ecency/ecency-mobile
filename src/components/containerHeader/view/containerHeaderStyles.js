@@ -19,7 +19,7 @@ export default EStyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     marginLeft: 32,
-    width: '$deviceWidth - 64',
+    width: '100% - 64',
   },
   centerTitle: {
     textAlign: 'center',

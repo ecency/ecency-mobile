@@ -15,7 +15,7 @@ export default EStyleSheet.create({
     marginHorizontal: 9,
   },
   thumbnail: {
-    width: '$deviceWidth - 16',
+    width: '100% - 16',
     height: 300,
   },
   postDescripton: {
