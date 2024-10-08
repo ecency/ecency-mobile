@@ -17,6 +17,7 @@ import { useAppSelector } from '../../../hooks';
 import WavesHeader from '../children/wavesHeader';
 import { PostTypes } from '../../../constants/postTypes';
 import ScrollTopPopup from '../../../components/tabbedPosts/view/scrollTopPopup';
+import { NewPostsPopup } from '../../../components/atoms';
 
 const SCROLL_POPUP_THRESHOLD = 5000;
 
@@ -165,12 +166,11 @@ const WavesScreen = ({ route }) => {
             ),
           }}
         />
-        <ScrollTopPopup
+
+        <NewPostsPopup
           popupAvatars={popupAvatars}
-          enableScrollTop={enableScrollTop}
           onPress={_scrollTop}
           onClose={() => {
-            setEnableScrollTop(false);
             setPopupAvatars([]);
           }}
         />
