@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import Animated, { SlideInLeft, SlideInRight } from 'react-native-reanimated';
+import Animated, { SlideInLeft, SlideInRight, SlideOutLeft, SlideOutRight } from 'react-native-reanimated';
 import { IconButton } from '../..';
 import styles from './scrollTopPopup.styles';
 
@@ -18,7 +18,7 @@ export const ScrollTopPopup = ({
   }
 
   return (
-    <Animated.View style={styles.popupContainer} entering={SlideInRight} exiting={SlideInLeft}>
+    <Animated.View style={styles.popupContainer} entering={SlideInRight} exiting={SlideOutRight}>
       <View style={styles.popupContentContainer}>
         <TouchableOpacity onPress={onPress}>
           <View style={styles.popupContentContainer}>
