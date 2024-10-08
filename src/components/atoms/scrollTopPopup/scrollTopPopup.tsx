@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import Animated, { SlideInLeft, SlideInRight, SlideOutLeft, SlideOutRight } from 'react-native-reanimated';
+import Animated, { SlideInRight, SlideOutRight } from 'react-native-reanimated';
 import { IconButton } from '../..';
 import styles from './scrollTopPopup.styles';
 
