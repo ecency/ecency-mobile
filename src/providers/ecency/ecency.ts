@@ -7,6 +7,7 @@ import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
 import {
   convertAnnouncement,
+  convertBotAuthors as convertBotAuthers,
   convertCommentHistory,
   convertDraft,
   convertLatestQuotes,
@@ -1025,5 +1026,24 @@ export const getPortfolio = async (username: string) => {
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;
+  }
+};
+
+export const getBotAuthers = async () => {
+  try {
+
+    const res = await ecencyApi.get('/private-api/public/bots');
+    const data = res.data; 
+
+    console.log('bots fetched', data);
+
+    if (!data || !isArray(data)) {
+      throw new Error('invalid bot authers data');
+    }
+
+    return data as string[];
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    return [] as string[];
   }
 };
