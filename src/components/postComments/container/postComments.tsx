@@ -7,7 +7,7 @@ import React, {
   useEffect,
   Fragment,
 } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { RefreshControl } from 'react-native-gesture-handler';
@@ -31,9 +31,8 @@ import { CommentsSection } from '../children/commentsSection';
 import { sortComments } from '../children/sortComments';
 import styles from '../children/postComments.styles';
 import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
-import { PostOptionsModal, UserAvatar } from '../../index';
-import { IconButton } from 'components/buttons';
-import ExpoImage from 'expo-image/build/ExpoImage';
+import { CommentsModal, PostOptionsModal, UserAvatar } from '../../index';
+import { BotCommentsPreview } from '../children/botCommentsPreview';
 
 const PostComments = forwardRef(
   (
@@ -65,6 +64,7 @@ const PostComments = forwardRef(
 
     const writeCommentRef = useRef(null);
     const postInteractionRef = useRef<typeof PostHtmlInteractionHandler | null>(null);
+
     const commentsListRef = useRef<FlashList<any> | null>(null);
     const postOptionsModalRef = useRef<any>(null);
 
@@ -192,47 +192,6 @@ const PostComments = forwardRef(
       if (postOptionsModalRef.current) {
         postOptionsModalRef.current.show(comment);
       }
-      /*      
-      const _showCopiedToast = () => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.copied',
-            }),
-          ),
-        );
-      };
-
-      const _copyCommentLink = () =>
-        writeToClipboard(`https://ecency.com${comment.url}`).then(_showCopiedToast);
-
-      const _copyCommentBody = () => {
-        const body = postBodySummary(comment.markdownBody, undefined, Platform.OS);
-        writeToClipboard(body).then(_showCopiedToast);
-      };
-
-      const _openThread = () => _openReplyThread(comment);
-
-      dispatch(
-        showActionModal({
-          title: intl.formatMessage({ id: 'post.select_action' }),
-          buttons: [
-            {
-              text: intl.formatMessage({ id: 'post.copy_link' }),
-              onPress: _copyCommentLink,
-            },
-            {
-              text: intl.formatMessage({ id: 'post.copy_text' }),
-              onPress: _copyCommentBody,
-            },
-            {
-              text: intl.formatMessage({ id: 'post.open_thread' }),
-              onPress: _openThread,
-            },
-          ],
-        }),
-      );
-*/
     };
 
     const _onContentSizeChange = (x: number, y: number) => {
@@ -245,7 +204,7 @@ const PostComments = forwardRef(
     const _postContentView = (
       <>
         {postContentView && postContentView}
-        
+
         {!isPostLoading && (
           <FilterBar
             dropdownIconName="arrow-drop-down"
@@ -257,39 +216,7 @@ const PostComments = forwardRef(
             selectedOptionIndex={selectedOptionIndex}
           />
         )}
-        {
-          <View style={{flexDirection:'row', padding:12, paddingTop:16, alignItems:'center'}}>
-          
-          {discussionQuery.botComments.map((comment)=>{
-            return (
-              <View style={{
-                // backgroundColor:EStyleSheet.value('$primaryLightBackground'),
-                padding:4,
-        
-                borderRadius:24,
-                flexDirection:'row',
-                alignItems:'center'
-              }}>
-                  <UserAvatar
-                    username={comment.author}
-                    
-                  />
-                  <View style={{
-                     backgroundColor:EStyleSheet.value('$primaryLightBackground'),
-                     padding:4,
-                   
-                     marginLeft:-8,
-                     borderTopRightRadius:24,
-                     borderBottomRightRadius:24,
-                     zIndex:-1
-                  }}>
-                  <Text style={{marginHorizontal:8, color:"white"}} >{comment.author}</Text>
-                  </View>
-              </View>
-            )
-          })}
-        </View>
-        }
+        <BotCommentsPreview comments={discussionQuery.botComments} />
       </>
     );
 
@@ -363,6 +290,7 @@ const PostComments = forwardRef(
         />
         <PostHtmlInteractionHandler ref={postInteractionRef} />
         <PostOptionsModal ref={postOptionsModalRef} isVisibleTranslateModal={true} />
+
       </Fragment>
     );
   },
