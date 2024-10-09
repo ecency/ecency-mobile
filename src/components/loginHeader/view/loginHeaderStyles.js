@@ -45,7 +45,7 @@ export default EStyleSheet.create({
     flex: 1,
   },
   headerRow: {
-    width: '$deviceWidth',
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '$primaryBackgroundColor',

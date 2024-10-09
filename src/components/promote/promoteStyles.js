@@ -89,7 +89,7 @@ export default EStyleSheet.create({
     color: '$iconColor',
   },
   button: {
-    width: '$deviceWidth / 3',
+    paddingHorizontal: 44,
     marginTop: 30,
     justifyContent: 'center',
     alignItems: 'center',

@@ -24,7 +24,7 @@ export default EStyleSheet.create({
     },
     elevation: 3,
     borderRadius: 12,
-    width: '$deviceWidth - 16',
+    width: '100% - 16',
   },
   contentContainer: {
     flexDirection: 'row',

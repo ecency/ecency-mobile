@@ -15,10 +15,10 @@ export default EStyleSheet.create({
     marginTop: 16,
     marginBottom: 12,
     alignSelf: 'stretch',
-    maxWidth: '$deviceWidth - 24',
+    maxWidth: '100% - 24',
   },
   footer: {
-    width: '$deviceWidth - 14',
+    width: '100% - 14',
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 10,

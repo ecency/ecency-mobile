@@ -14,7 +14,7 @@ export default EStyleSheet.create({
   tabbarItem: {
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
-    minWidth: '$deviceWidth',
+    minWidth: '100%',
   },
   deleteButtonContainer: {
     position: 'absolute',

@@ -33,7 +33,7 @@ export default EStyleSheet.create({
     flex: 1,
     marginTop: 16,
     backgroundColor: '$primaryBackgroundColor',
-    minWidth: '$deviceWidth',
+    minWidth: '100%',
   },
   tabs: {
     flex: 1,

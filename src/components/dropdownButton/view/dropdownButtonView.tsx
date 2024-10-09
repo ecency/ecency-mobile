@@ -80,7 +80,6 @@ const DropdownButtonView = ({
       textStyle={[textStyle || styles.buttonText]}
       dropdownStyle={[styles.dropdown, dropdownStyle, { height: 32 * (options.length + 0.8) }]}
       dropdownTextStyle={[dropdownTextStyle || styles.dropdownText]}
-      dropdownTextHighlightStyle={styles.dropdownTextHighlight}
       options={options}
       onSelect={(e) => onSelect && onSelect(e, options[e])}
       defaultIndex={selectedOptionIndex}

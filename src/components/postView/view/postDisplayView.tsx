@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState, Fragment } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -19,7 +19,6 @@ import { ParentPost } from '../../parentPost';
 // Styles
 import styles from './postDisplayStyles';
 import { OptionsModal, WritePostButton } from '../../atoms';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../hooks';
 import { showProfileModal, showReplyModal } from '../../../redux/actions/uiAction';
 import { PostTypes } from '../../../constants/postTypes';
@@ -31,7 +30,6 @@ import UpvotePopover from '../../upvotePopover';
 import { PostPoll } from '../../postPoll';
 import QUERIES from '../../../providers/queries/queryKeys';
 
-const WIDTH = getWindowDimensions().width;
 
 const PostDisplayView = ({
   currentAccount,
@@ -56,6 +54,7 @@ const PostDisplayView = ({
   const insets = useSafeAreaInsets();
   const queryClient = useQueryClient();
   const userActivityMutation = useUserActivityMutation();
+  const dims = useWindowDimensions();
 
   const postCommentsRef = useRef<PostComments>(null);
   const upvotePopoverRef = useRef<UpvotePopover>(null);
@@ -316,7 +315,7 @@ const PostDisplayView = ({
 
   return (
     <View style={styles.container}>
-      <View style={[styles.scroll, styles.scrollContent, { width: WIDTH }]}>
+      <View style={[styles.scroll, styles.scrollContent, { width: dims.width }]}>
         <PostComments
           ref={postCommentsRef}
           author={author || post?.author}

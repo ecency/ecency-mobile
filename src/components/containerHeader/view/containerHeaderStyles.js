@@ -2,7 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   wrapper: {
-    width: '$deviceWidth',
+    width: '100%',
     height: 50,
     backgroundColor: '$primaryBackgroundColor',
     flexDirection: 'row',
@@ -19,7 +19,7 @@ export default EStyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     marginLeft: 32,
-    width: '$deviceWidth - 64',
+    width: '100% - 64',
   },
   centerTitle: {
     textAlign: 'center',

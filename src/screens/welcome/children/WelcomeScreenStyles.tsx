@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
-import scalePx from '../../../utils/scalePx';
+import roundPx from '../../../utils/roundPx';
 
 const WINDOW_HEIGHT = getWindowDimensions().height;
 
@@ -26,11 +26,11 @@ export default EStyleSheet.create({
     justifyContent: 'center',
   },
   welcomeText: {
-    fontSize: scalePx(34),
+    fontSize: roundPx(34),
     color: '$primaryBlack',
   },
   ecencyText: {
-    fontSize: scalePx(34),
+    fontSize: roundPx(34),
     color: '$primaryBlue',
   },
   mascot: {
@@ -62,13 +62,13 @@ export default EStyleSheet.create({
     marginTop: 52,
   },
   sectionTitle: {
-    fontSize: scalePx(17),
+    fontSize: roundPx(17),
     fontWeight: '600',
     marginLeft: 10,
     color: '$primaryBlack',
   },
   sectionText: {
-    fontSize: scalePx(15),
+    fontSize: roundPx(15),
     marginLeft: 10,
     marginRight: 45,
     color: '$primaryBlack',

@@ -15,9 +15,9 @@ export default EStyleSheet.create({
   },
   popoverSlider: {
     flexDirection: 'row',
-    width: '$deviceWidth - 20',
+    width: '100% - 20',
     height: 48,
-    borderRadius: '$deviceWidth - 20 / 2',
+    borderRadius: 24,
     paddingHorizontal: 16,
     backgroundColor: '$primaryBackgroundColor',
   },

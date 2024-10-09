@@ -39,10 +39,6 @@ export default EStyleSheet.create({
     padding: 5,
     borderColor: '$borderColor',
   },
-  dropdownTextHighlight: {
-    backgroundColor: '$primaryBlue',
-    width: '$deviceWidth / 3',
-  },
   button: {
     marginLeft: 25,
   },

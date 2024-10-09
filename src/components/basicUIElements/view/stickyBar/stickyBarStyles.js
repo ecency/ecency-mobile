@@ -1,5 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import scalePx from '../../../../utils/scalePx';
+import roundPx from '../../../../utils/roundPx';
 
 export default EStyleSheet.create({
   container: {
@@ -8,7 +8,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'space-between',
-    width: '$deviceWidth',
+    width: '100%',
     shadowOpacity: 0.1,
     shadowOffset: {
       width: 0,
@@ -18,6 +18,6 @@ export default EStyleSheet.create({
   },
   fixedFooter: {
     position: 'absolute',
-    bottom: scalePx(0),
+    bottom: roundPx(0),
   },
 });

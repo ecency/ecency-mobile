@@ -15,7 +15,7 @@ export default EStyleSheet.create({
     marginTop: 72,
   },
   cover: {
-    width: '$deviceWidth',
+    width: '100%',
     height: 160,
   },
   avatar: {
@@ -55,7 +55,7 @@ export default EStyleSheet.create({
     flex: 1,
     paddingHorizontal: 7,
     backgroundColor: '#f9f9f9',
-    minWidth: '$deviceWidth',
+    minWidth: '100%',
   },
   postTabBar: {
     backgroundColor: '$primaryBackgroundColor',

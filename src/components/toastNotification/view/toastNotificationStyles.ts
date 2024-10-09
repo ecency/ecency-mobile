@@ -7,7 +7,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    maxWidth: '$deviceWidth',
+    maxWidth: '100%',
     minWidth: '$deviceWidth / 1.9',
     height: 44,
     borderRadius: 30,
