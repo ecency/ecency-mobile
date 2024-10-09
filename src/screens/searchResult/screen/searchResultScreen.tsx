@@ -2,6 +2,7 @@ import React, { memo, useState } from 'react';
 import { View } from 'react-native';
 import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { TabView } from 'react-native-tab-view';
 import useDebounce from '../../../utils/useDebounceHook';
 
 // Components
@@ -14,7 +15,6 @@ import PeopleResults from './tabs/people/view/peopleResults';
 // Styles
 import styles from './searchResultStyles';
 import globalStyles from '../../../globalStyles';
-import { TabView } from 'react-native-tab-view';
 
 const SearchResultScreen = ({ navigation }) => {
   const intl = useIntl();
@@ -22,7 +22,6 @@ const SearchResultScreen = ({ navigation }) => {
 
   const [searchInputValue, setSearchInputValue] = useState('');
   const [searchValue, setSearchValue] = useState('');
-
 
   const _handleChangeText = (value) => {
     setSearchInputValue(value);
@@ -63,27 +62,26 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
       key: 'posts',
       title: intl.formatMessage({
         id: 'search_result.best.title',
-      })
+      }),
     },
     {
       key: 'people',
       title: intl.formatMessage({
         id: 'search_result.people.title',
-      })
+      }),
     },
     {
       key: 'topics',
       title: intl.formatMessage({
         id: 'search_result.topics.title',
-      })
+      }),
     },
     {
       key: 'communities',
       title: intl.formatMessage({
         id: 'search_result.communities.title',
-      })
+      }),
     },
-
   ]);
 
   const clippedSearchValue =
@@ -91,7 +89,6 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
       ? searchValue.substring(1).trim().toLowerCase()
       : searchValue.trim().toLowerCase();
   const isUsername = !!(searchValue.startsWith('#') || searchValue.startsWith('@'));
-
 
   const renderScene = ({ route }) => {
     switch (route.key) {
@@ -119,10 +116,8 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
             <Communities searchValue={clippedSearchValue} />
           </View>
         );
-
     }
-
-  }
+  };
 
   return (
     <TabView
@@ -132,7 +127,6 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
       navigationState={{ index, routes }}
       onIndexChange={setIndex}
     />
-
   );
 });
 

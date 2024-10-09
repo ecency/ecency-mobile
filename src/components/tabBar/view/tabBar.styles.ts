@@ -5,10 +5,9 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
   },
   tabbarLabel: {
-    color:'$primaryDarkText',
+    color: '$primaryDarkText',
   },
-  tabbarIndicator:{
-    backgroundColor:'$primaryBlue'
-  }
-
+  tabbarIndicator: {
+    backgroundColor: '$primaryBlue',
+  },
 });

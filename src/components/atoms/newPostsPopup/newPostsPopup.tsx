@@ -5,24 +5,18 @@ import { Image as ExpoImage } from 'expo-image';
 import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { IconButton } from '../..';
-import styles from '../styles/tabbedPosts.styles';
+import styles from './newPostsPopup.styles';
 
-interface ScrollTopPopupProps {
+interface NewPostsPopupProps {
   onPress: () => void;
   onClose: () => void;
   popupAvatars: string[];
-  enableScrollTop: boolean;
 }
 
-const ScrollTopPopup = ({
-  onPress,
-  onClose,
-  popupAvatars,
-  enableScrollTop,
-}: ScrollTopPopupProps) => {
+export const NewPostsPopup = ({ onPress, onClose, popupAvatars }: NewPostsPopupProps) => {
   const intl = useIntl();
 
-  if (popupAvatars.length == 0 && !enableScrollTop) {
+  if (popupAvatars.length == 0) {
     return null;
   }
 
@@ -61,15 +55,9 @@ const ScrollTopPopup = ({
                 ),
               )}
 
-            {popupAvatars.length > 0 ? (
-              <Text style={styles.postedText}>
-                {intl.formatMessage({ id: 'home.popup_postfix' })}
-              </Text>
-            ) : (
-              <Text style={styles.scrollTopText}>
-                {intl.formatMessage({ id: 'home.scroll_top' })}
-              </Text>
-            )}
+            <Text style={styles.postedText}>
+              {intl.formatMessage({ id: 'home.popup_postfix' })}
+            </Text>
           </View>
         </TouchableOpacity>
 
@@ -84,5 +72,3 @@ const ScrollTopPopup = ({
     </Animated.View>
   );
 };
-
-export default ScrollTopPopup;

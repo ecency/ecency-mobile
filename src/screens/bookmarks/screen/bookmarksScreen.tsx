@@ -1,16 +1,15 @@
 import React, { useState, useRef } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 // Components
+import { TabView } from 'react-native-tab-view';
 import { UserListItem, WalletDetailsPlaceHolder, BasicHeader, TabBar } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './bookmarksStyles';
 import { OptionsModal } from '../../../components/atoms';
-import { Route, TabView } from 'react-native-tab-view';
 
 const BookmarksScreen = ({
   isLoading,
@@ -32,13 +31,13 @@ const BookmarksScreen = ({
       key: 'bookmarks',
       title: intl.formatMessage({
         id: 'bookmarks.title',
-      })
+      }),
     },
     {
       key: 'favorites',
       title: intl.formatMessage({
         id: 'favorites.title',
-      })
+      }),
     },
   ]);
 
@@ -104,24 +103,14 @@ const BookmarksScreen = ({
     }
   };
 
-
   const renderScene = ({ route }) => {
     switch (route.key) {
       case 'bookmarks':
-        return (
-          <View style={styles.tabbarItem} >
-            {_getTabItem(bookmarks, 'bookmarks')}
-          </View>
-
-        )
+        return <View style={styles.tabbarItem}>{_getTabItem(bookmarks, 'bookmarks')}</View>;
       case 'favorites':
-        return (
-          <View style={styles.tabbarItem}>
-            {_getTabItem(favorites, 'favorites')}
-          </View>
-        )
+        return <View style={styles.tabbarItem}>{_getTabItem(favorites, 'favorites')}</View>;
     }
-  }
+  };
 
   return (
     <View style={globalStyles.container}>
@@ -138,8 +127,6 @@ const BookmarksScreen = ({
         renderScene={renderScene}
         style={[globalStyles.tabView, { paddingBottom: 40 }]}
       />
-
-
 
       <OptionsModal
         ref={actionSheetRef}

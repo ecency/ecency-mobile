@@ -8,11 +8,11 @@ import { PostsTabContentProps } from '../types/tabbedPosts.types';
 import TabEmptyView from './listEmptyView';
 import { showReplyModal } from '../../../redux/actions/uiAction';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
-import ScrollTopPopup from './scrollTopPopup';
 import {
   useFeedQuery,
   usePromotedPostsQuery,
 } from '../../../providers/queries/postQueries/feedQueries';
+import { NewPostsPopup, ScrollTopPopup } from '../../atoms';
 
 let scrollOffset = 0;
 let blockPopup = false;
@@ -195,15 +195,14 @@ const PostsTabContent = ({
         pageType={pageType}
         showQuickReplyModal={_showQuickReplyModal}
       />
-      <ScrollTopPopup
+      <NewPostsPopup
         popupAvatars={feedQuery.latestPosts.map((post) => post.avatar || '')}
-        enableScrollTop={enableScrollTop}
         onPress={_onPostsPopupPress}
         onClose={() => {
           feedQuery.resetLatestPosts();
-          setEnableScrollTop(false);
         }}
       />
+      <ScrollTopPopup enable={enableScrollTop} onPress={_onPostsPopupPress} />
     </>
   );
 };

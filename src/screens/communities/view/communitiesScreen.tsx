@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import { View } from 'react-native';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { TabView } from 'react-native-tab-view';
 import {
   TabBar,
   BasicHeader,
@@ -15,11 +16,9 @@ import CommunitiesContainer from '../container/communitiesContainer';
 
 import styles from './communitiesScreenStyles';
 import globalStyles from '../../../globalStyles';
-import { TabView } from 'react-native-tab-view';
 
 const CommunitiesScreen = () => {
   const intl = useIntl();
-
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -27,21 +26,19 @@ const CommunitiesScreen = () => {
       key: 'joined',
       title: intl.formatMessage({
         id: 'communities.joined',
-      })
+      }),
     },
     {
       key: 'discover',
       title: intl.formatMessage({
         id: 'communities.discover',
-      })
+      }),
     },
   ]);
 
   const _handleDiscoverPress = () => {
-    setIndex(1)
+    setIndex(1);
   };
-
-
 
   return (
     <CommunitiesContainer>
@@ -83,10 +80,9 @@ const CommunitiesScreen = () => {
                           isLoading={isSubscriptionsLoading}
                         />
                       </View>
-                    )
+                    );
                   case 'discover':
                     return (
-
                       <View style={styles.tabbarItem}>
                         <CommunitiesList
                           data={discovers}
@@ -99,7 +95,7 @@ const CommunitiesScreen = () => {
                           isDiscoversLoading={isDiscoversLoading}
                         />
                       </View>
-                    )
+                    );
                 }
               }}
             />

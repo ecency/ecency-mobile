@@ -6,6 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Utils
 import { postBodySummary } from '@ecency/render-helper';
+import { TabView } from 'react-native-tab-view';
 import { catchImageFromMetadata, catchDraftImage } from '../../../utils/image';
 import { getFormatedCreatedDate } from '../../../utils/time';
 
@@ -24,7 +25,6 @@ import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
 import { useAppSelector } from '../../../hooks';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
-import { TabView } from 'react-native-tab-view';
 
 const DraftsScreen = ({
   currentAccount,
@@ -64,20 +64,19 @@ const DraftsScreen = ({
     return null;
   }, [draftsCollection]);
 
-
   const [index, setIndex] = React.useState(initialTabIndex);
   const [routes] = React.useState([
     {
       key: 'drafts',
       title: intl.formatMessage({
         id: 'drafts.title',
-      })
+      }),
     },
     {
       key: 'schedules',
       title: intl.formatMessage({
         id: 'schedules.title',
-      })
+      }),
     },
   ]);
 
@@ -206,25 +205,14 @@ const DraftsScreen = ({
     );
   };
 
-
   const renderScene = ({ route }) => {
     switch (route.key) {
       case 'drafts':
-        return (
-          <View
-            style={styles.tabbarItem}>
-            {_getTabItem(drafts, 'drafts')}
-          </View>
-        )
+        return <View style={styles.tabbarItem}>{_getTabItem(drafts, 'drafts')}</View>;
       case 'schedules':
-        return (
-          <View
-            style={styles.tabbarItem}>
-            {_getTabItem(schedules, 'schedules')}
-          </View>
-        )
+        return <View style={styles.tabbarItem}>{_getTabItem(schedules, 'schedules')}</View>;
     }
-  }
+  };
 
   return (
     <>
