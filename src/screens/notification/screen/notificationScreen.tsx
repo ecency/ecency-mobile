@@ -2,13 +2,13 @@ import React, { Fragment } from 'react';
 import { View } from 'react-native';
 
 // Components
+import { TabView } from 'react-native-tab-view';
+import { useIntl } from 'react-intl';
 import { LeaderBoard, Notification, Header, TabBar } from '../../../components';
 import { LoggedInContainer } from '../../../containers';
 
 // Styles
 import styles from './notificationStyles';
-import { TabView } from 'react-native-tab-view';
-import { useIntl } from 'react-intl';
 
 const NotificationScreen = ({
   notifications,
@@ -21,7 +21,6 @@ const NotificationScreen = ({
   changeSelectedFilter,
   globalProps,
 }) => {
-
   const intl = useIntl();
 
   const [index, setIndex] = React.useState(0);
@@ -30,16 +29,15 @@ const NotificationScreen = ({
       key: 'notifications',
       title: intl.formatMessage({
         id: 'notification.notification',
-      })
+      }),
     },
     {
       key: 'leaderboard',
       title: intl.formatMessage({
         id: 'notification.leaderboard',
-      })
+      }),
     },
   ]);
-
 
   const renderScene = ({ route }) => {
     switch (route.key) {
@@ -62,23 +60,21 @@ const NotificationScreen = ({
               )}
             </LoggedInContainer>
           </View>
-        )
+        );
       case 'leaderboard':
         return (
           <View style={styles.tabView}>
             <LeaderBoard />
           </View>
-        )
+        );
     }
-  }
-
+  };
 
   // const renderTabBar = (props) => (
   //   <TabBar
   //     {...props}
   //  />
   // )
-
 
   return (
     <Fragment>
@@ -91,7 +87,6 @@ const NotificationScreen = ({
         onIndexChange={setIndex}
         renderScene={renderScene}
       />
-
     </Fragment>
   );
 };

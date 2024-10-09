@@ -2,7 +2,6 @@ import { ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  
   popupContainer: {
     position: 'absolute',
     topicsResultsContainer: 24,
@@ -17,8 +16,8 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBlue',
     paddingHorizontal: 2,
     paddingVertical: 2,
-    borderRadius:32,
-  } as ViewStyle ,
+    borderRadius: 32,
+  } as ViewStyle,
   postedText: {
     fontWeight: '500',
     color: '$primaryGray',
@@ -49,5 +48,4 @@ export default EStyleSheet.create({
     height: 20,
     width: 20,
   },
-
 });

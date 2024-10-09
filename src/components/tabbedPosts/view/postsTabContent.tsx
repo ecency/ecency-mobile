@@ -12,7 +12,7 @@ import {
   useFeedQuery,
   usePromotedPostsQuery,
 } from '../../../providers/queries/postQueries/feedQueries';
-import { NewPostsPopup, ScrollTopPopup } from '../../../components/atoms';
+import { NewPostsPopup, ScrollTopPopup } from '../../atoms';
 
 let scrollOffset = 0;
 let blockPopup = false;
@@ -202,10 +202,7 @@ const PostsTabContent = ({
           feedQuery.resetLatestPosts();
         }}
       />
-      <ScrollTopPopup
-        enable={enableScrollTop}
-        onPress={_onPostsPopupPress}
-      />
+      <ScrollTopPopup enable={enableScrollTop} onPress={_onPostsPopupPress} />
     </>
   );
 };

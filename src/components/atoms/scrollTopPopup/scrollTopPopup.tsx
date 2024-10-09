@@ -9,12 +9,9 @@ interface ScrollTopPopupProps {
   enable: boolean;
 }
 
-export const ScrollTopPopup = ({
-  onPress,
-  enable,
-}: ScrollTopPopupProps) => {
+export const ScrollTopPopup = ({ onPress, enable }: ScrollTopPopupProps) => {
   if (!enable) {
-    return null
+    return null;
   }
 
   return (
@@ -29,12 +26,9 @@ export const ScrollTopPopup = ({
               onPress={onPress}
               size={16}
             />
-
           </View>
         </TouchableOpacity>
-
       </View>
     </Animated.View>
   );
 };
-

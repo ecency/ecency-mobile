@@ -1,1 +1,1 @@
-export * from './newPostsPopup'
+export * from './newPostsPopup';

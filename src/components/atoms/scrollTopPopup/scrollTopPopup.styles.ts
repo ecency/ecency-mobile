@@ -14,9 +14,9 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBlue',
     paddingHorizontal: 2,
     paddingVertical: 2,
-    borderTopLeftRadius:32,
-    borderBottomLeftRadius:32,
-  } as ViewStyle ,
+    borderTopLeftRadius: 32,
+    borderBottomLeftRadius: 32,
+  } as ViewStyle,
   arrowUpIcon: {
     color: '$primaryGray',
     margin: 0,

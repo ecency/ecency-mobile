@@ -10,13 +10,10 @@ import styles from './newPostsPopup.styles';
 interface NewPostsPopupProps {
   onPress: () => void;
   onClose: () => void;
-  popupAvatars: string[];}
+  popupAvatars: string[];
+}
 
-export const NewPostsPopup = ({
-  onPress,
-  onClose,
-  popupAvatars,
-}: NewPostsPopupProps) => {
+export const NewPostsPopup = ({ onPress, onClose, popupAvatars }: NewPostsPopupProps) => {
   const intl = useIntl();
 
   if (popupAvatars.length == 0) {
@@ -58,10 +55,9 @@ export const NewPostsPopup = ({
                 ),
               )}
 
-              <Text style={styles.postedText}>
-                {intl.formatMessage({ id: 'home.popup_postfix' })}
-              </Text>
-            
+            <Text style={styles.postedText}>
+              {intl.formatMessage({ id: 'home.popup_postfix' })}
+            </Text>
           </View>
         </TouchableOpacity>
 
@@ -76,4 +72,3 @@ export const NewPostsPopup = ({
     </Animated.View>
   );
 };
-

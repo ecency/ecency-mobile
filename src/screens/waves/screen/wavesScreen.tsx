@@ -173,10 +173,7 @@ const WavesScreen = ({ route }) => {
             setPopupAvatars([]);
           }}
         />
-        <ScrollTopPopup
-          enable={enableScrollTop}
-          onPress={_scrollTop}
-        />
+        <ScrollTopPopup enable={enableScrollTop} onPress={_scrollTop} />
       </View>
       <PostOptionsModal ref={postOptionsModalRef} isVisibleTranslateModal={true} isWave={true} />
     </View>
