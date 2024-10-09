@@ -78,7 +78,7 @@ import { InsertLinkModal } from './insertLinkModal/insertLinkModal';
 import { Comment } from './comment';
 import { Comments } from './comments';
 import { PostComments } from './postComments';
-import {CommentsModal} from './commentsModal';
+import { CommentsModal } from './commentsModal';
 import { LeaderBoard } from './leaderboard';
 import { Notification } from './notification';
 import { WalletHeader } from './walletHeader';

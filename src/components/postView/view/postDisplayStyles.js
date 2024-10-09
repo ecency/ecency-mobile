@@ -38,7 +38,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   footer: {
-    flex:1,
+    flex: 1,
     flexDirection: 'column',
     marginTop: 19,
     marginBottom: 10,

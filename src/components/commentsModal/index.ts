@@ -1,1 +1,1 @@
-export * from './container/commentsModal'
+export * from './container/commentsModal';

@@ -31,7 +31,7 @@ import { CommentsSection } from '../children/commentsSection';
 import { sortComments } from '../children/sortComments';
 import styles from '../children/postComments.styles';
 import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
-import { CommentsModal, PostOptionsModal, UserAvatar } from '../../index';
+import { PostOptionsModal } from '../../index';
 import { BotCommentsPreview } from '../children/botCommentsPreview';
 
 const PostComments = forwardRef(
@@ -290,7 +290,6 @@ const PostComments = forwardRef(
         />
         <PostHtmlInteractionHandler ref={postInteractionRef} />
         <PostOptionsModal ref={postOptionsModalRef} isVisibleTranslateModal={true} />
-
       </Fragment>
     );
   },
