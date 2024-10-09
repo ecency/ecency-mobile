@@ -10,6 +10,10 @@ interface BotCommentsProps {
 export const BotCommentsPreview = ({ comments }: BotCommentsProps) => {
   const commentsModalRef = useRef<typeof CommentsModal>();
 
+  if(!comments?.length){
+    return null;
+  }
+
   return (
     <View style={styles.container}>
       {comments.map((comment) => {
