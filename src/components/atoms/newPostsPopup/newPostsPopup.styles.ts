@@ -6,6 +6,7 @@ export default EStyleSheet.create({
   popupContainer: {
     position: 'absolute',
     topicsResultsContainer: 24,
+    top: 16,
     left: 0,
     right: 0,
     alignItems: 'center',
