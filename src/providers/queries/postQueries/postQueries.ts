@@ -8,6 +8,7 @@ import { getDiscussionCollection, getPost } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
 import { Comment, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
 import { injectPostCache, injectVoteCache } from '../../../utils/postParser';
+import { getBotAuthers } from '../../../providers/ecency/ecency';
 
 interface PostQueryProps {
   author?: string;
@@ -113,10 +114,19 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   );
   const lastCacheUpdate: LastUpdateMeta = useAppSelector((state) => state.cache.lastUpdate);
 
+  const useBotAuthersQuery = useQuery(
+    [QUERIES.POST.GET_BOT_AUTHERS],
+    getBotAuthers,
+    {
+      initialData: []
+    }
+  )
+
   const [author, setAuthor] = useState(_author);
   const [permlink, setPermlink] = useState(_permlink);
 
   const [data, setData] = useState({});
+  const [botComments, setBotComments] = useState([])
   const [sectionedData, setSectionedData] = useState([]);
 
   const _fetchComments = async () => getDiscussionCollection(author, permlink);
@@ -135,7 +145,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
   useEffect(() => {
     restructureData();
-  }, [data]);
+  }, [data, useBotAuthersQuery.data]);
 
   // traverse discussion collection to curate sections
   const restructureData = async () => {
@@ -187,13 +197,20 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       }
     });
 
-    setSectionedData(comments);
+
+    // filter comments using botsdata
+    const _botComments = comments.filter(comment => useBotAuthersQuery.data.includes(comment.author))
+    const _userComments = comments.filter(comment => !useBotAuthersQuery.data.includes(comment.author))
+
+    setBotComments(_botComments);
+    setSectionedData(_userComments);
   };
 
   return {
     ...query,
     data,
     sectionedData,
+    botComments,
     setAuthor,
     setPermlink,
   };
