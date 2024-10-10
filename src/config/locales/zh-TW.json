@@ -992,7 +992,8 @@
     "reveal_comment": "Reveal Content",
     "read_more": "查看更多評論",
     "more_replies": "回復",
-    "no_comments": "Be the first to respond..."
+    "no_comments": "Be the first to respond...",
+    "bot_comments": "Bot Comments"
   },
   "search_result": {
     "others": "其他選項",
