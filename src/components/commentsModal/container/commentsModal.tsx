@@ -6,6 +6,14 @@ import { View } from 'react-native';
 import Comments from '../../comments';
 import styles from '../styles/commentsModal.styles';
 
+/**
+ * NOTE: this comments modal is in draft stage, right now rendering of 
+ * content works great but actions do not respond as expected since most 
+ * of action reply on modals and action sheets which causes a conflict with 
+ * rendering comments in existing modal, similarly some actions require navigation
+ * to different screen while comments modal is still visible on screen.
+ */
+
 export const CommentsModal = forwardRef((_, ref) => {
   const bottomSheetModalRef = useRef<ActionSheet | null>(null);
 
