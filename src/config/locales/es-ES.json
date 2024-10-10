@@ -540,7 +540,7 @@
     "snippets": "Fragmentos de código",
     "alert_init_title": "Nuevo contenido",
     "alert_init_body": "Abrir borrador reciente o Crear nueva publicación",
-    "alert_btn_draft": "Últimos borradores",
+    "alert_btn_draft": "Borrador reciente",
     "alert_btn_new": "Nueva publicación",
     "alert_pub_edit_title": "Publicando ediciones",
     "alert_pub_new_title": "Publicando nueva publicación",
@@ -560,7 +560,7 @@
     "done": "HECHO",
     "draft_save_title": "Guardar Borrador",
     "draft_update": "Actualizar borrador actual",
-    "draft_save_new": "Guardar como borrador",
+    "draft_save_new": "Guardar como nuevo borrador",
     "label": "Etiqueta",
     "enter_label_placeholder": "Introducir etiqueta (opcional)",
     "url": "URL",
@@ -993,7 +993,7 @@
     "read_more": "Cargar más comentarios",
     "more_replies": "respuestas",
     "no_comments": "Sé el primero en responder...",
-    "bot_comments": "Bot Comments"
+    "bot_comments": "Comentarios de Bots"
   },
   "search_result": {
     "others": "Otros",
