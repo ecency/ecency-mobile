@@ -992,7 +992,8 @@
     "reveal_comment": "Reveal Content",
     "read_more": "댓글 더 보기",
     "more_replies": "댓글",
-    "no_comments": "Be the first to respond..."
+    "no_comments": "Be the first to respond...",
+    "bot_comments": "Bot Comments"
   },
   "search_result": {
     "others": "기타",
