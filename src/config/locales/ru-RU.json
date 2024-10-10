@@ -992,7 +992,8 @@
     "reveal_comment": "Отобразить содержимое",
     "read_more": "Читать больше комментариев",
     "more_replies": "ответы",
-    "no_comments": "Прокомментируйте первым..."
+    "no_comments": "Прокомментируйте первым...",
+    "bot_comments": "Bot Comments"
   },
   "search_result": {
     "others": "Другое",
