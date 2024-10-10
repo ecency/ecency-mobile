@@ -30,7 +30,6 @@ import UpvotePopover from '../../upvotePopover';
 import { PostPoll } from '../../postPoll';
 import QUERIES from '../../../providers/queries/queryKeys';
 
-
 const PostDisplayView = ({
   currentAccount,
   isLoggedIn,

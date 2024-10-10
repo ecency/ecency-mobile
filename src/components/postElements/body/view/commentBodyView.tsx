@@ -18,8 +18,6 @@ import { toastNotification } from '../../../../redux/actions/uiAction';
 import { useAppDispatch } from '../../../../hooks';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
-import getWindowDimensions from '../../../../utils/getWindowDimensions';
-
 
 interface CommentBodyProps {
   body: string;
@@ -50,7 +48,6 @@ const CommentBody = ({
   handleImagePress,
   handleLinkPress,
 }: CommentBodyProps) => {
-
   const dispatch = useAppDispatch();
   const dims = useWindowDimensions();
 
@@ -59,7 +56,6 @@ const CommentBody = ({
   const intl = useIntl();
 
   const _contentWidth = dims.width - (40 + 28 + (commentDepth > 2 ? 44 : 0));
-
 
   const _onLongPressStateChange = ({ nativeEvent }) => {
     if (nativeEvent.state === State.ACTIVE) {
@@ -133,7 +129,7 @@ const CommentBody = ({
         <LongPressGestureHandler onHandlerStateChange={_onLongPressStateChange}>
           <View>
             <PostHtmlRenderer
-              key={"comment_width_" + _contentWidth}
+              key={`comment_width_${_contentWidth}`}
               contentWidth={_contentWidth}
               body={body}
               metadata={metadata}

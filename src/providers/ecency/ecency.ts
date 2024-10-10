@@ -1027,3 +1027,21 @@ export const getPortfolio = async (username: string) => {
     throw error;
   }
 };
+
+export const getBotAuthers = async () => {
+  try {
+    const res = await ecencyApi.get('/private-api/public/bots');
+    const { data } = res;
+
+    console.log('bots fetched', data);
+
+    if (!data || !isArray(data)) {
+      throw new Error('invalid bot authers data');
+    }
+
+    return data as string[];
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    return [] as string[];
+  }
+};

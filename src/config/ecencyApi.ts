@@ -26,6 +26,7 @@ ecencyApi.interceptors.request.use((request) => {
     request.url === '/auth-api/hs-token-refresh' ||
     request.url === '/private-api/promoted-entries' ||
     request.url === '/private-api/announcements' ||
+    request.url === '/private-api/public/bots' ||
     request.url.startsWith('private-api/leaderboard') ||
     request.url.startsWith('/private-api/received-vesting/') ||
     request.url.startsWith('/private-api/referrals/') ||

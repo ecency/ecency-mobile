@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { SafeAreaView, View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 
 // Components
 // import TabBar from './tabbar';
@@ -8,16 +8,15 @@ import { SafeAreaView, View, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useIntl } from 'react-intl';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ROUTES from '../../../constants/routeNames';
 
 // Styles
 import styles from './bottomTabBarStyles';
 import Icon, { IconContainer } from '../../icon';
-import roundPx from '../../../utils/roundPx';
 import { showReplyModal, updateActiveBottomTab } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import showLoginAlert from '../../../utils/showLoginAlert';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const BottomTabBarView = ({
   state: { routes, index },
@@ -93,11 +92,7 @@ const BottomTabBarView = ({
     );
   });
 
-  return (
-    <View style={{ ...styles.wrapper, paddingBottom: insets.bottom }}>
-      {_tabButtons}
-    </View>
-  );
+  return <View style={{ ...styles.wrapper, paddingBottom: insets.bottom }}>{_tabButtons}</View>;
 };
 
 export default BottomTabBarView;

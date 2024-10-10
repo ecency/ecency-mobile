@@ -24,16 +24,13 @@ import { ImageViewer, PostHtmlRenderer, VideoPlayer } from '../../..';
 import { useAppDispatch } from '../../../../hooks';
 import { isHiveUri } from '../../../../utils/hive-uri';
 
-
-
 const PostBody = ({ body, metadata, onLoadEnd, width }) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
 
   const dims = useWindowDimensions();
-  const contentWidth = width || (dims.width - 32);
-
+  const contentWidth = width || dims.width - 32;
 
   const [selectedLink, setSelectedLink] = useState(null);
   const [html, setHtml] = useState('');
@@ -44,8 +41,6 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
   const actionLink = useRef(null);
   const imageViewerRef = useRef(null);
   const youtubePlayerRef = useRef(null);
-
-
 
   useEffect(() => {
     if (body) {
@@ -278,7 +273,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
       />
       <View>
         <PostHtmlRenderer
-          key={"html_content_" + contentWidth} //makes sure html content is rerendered on width update
+          key={`html_content_${contentWidth}`} // makes sure html content is rerendered on width update
           body={html}
           metadata={metadata}
           contentWidth={contentWidth}

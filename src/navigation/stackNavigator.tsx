@@ -38,8 +38,10 @@ import {
   BackupKeysScreen,
   AccountList,
   PollWizardScreen,
+  BotComments
 } from '../screens';
 import { DrawerNavigator } from './drawerNavigator';
+
 
 const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
@@ -83,6 +85,11 @@ const MainStackNavigator = () => {
           name={ROUTES.MODALS.ACCOUNT_LIST}
           component={AccountList}
           options={{ presentation: 'modal' }}
+        />
+        <MainStack.Screen
+          name={ROUTES.MODALS.BOT_COMMENTS}
+          component={BotComments}
+        
         />
       </MainStack.Group>
     </MainStack.Navigator>

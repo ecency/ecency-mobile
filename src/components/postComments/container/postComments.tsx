@@ -32,6 +32,7 @@ import { sortComments } from '../children/sortComments';
 import styles from '../children/postComments.styles';
 import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 import { PostOptionsModal } from '../../index';
+import { BotCommentsPreview } from '../children/botCommentsPreview';
 
 const PostComments = forwardRef(
   (
@@ -63,6 +64,7 @@ const PostComments = forwardRef(
 
     const writeCommentRef = useRef(null);
     const postInteractionRef = useRef<typeof PostHtmlInteractionHandler | null>(null);
+
     const commentsListRef = useRef<FlashList<any> | null>(null);
     const postOptionsModalRef = useRef<any>(null);
 
@@ -190,47 +192,6 @@ const PostComments = forwardRef(
       if (postOptionsModalRef.current) {
         postOptionsModalRef.current.show(comment);
       }
-      /*      
-      const _showCopiedToast = () => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.copied',
-            }),
-          ),
-        );
-      };
-
-      const _copyCommentLink = () =>
-        writeToClipboard(`https://ecency.com${comment.url}`).then(_showCopiedToast);
-
-      const _copyCommentBody = () => {
-        const body = postBodySummary(comment.markdownBody, undefined, Platform.OS);
-        writeToClipboard(body).then(_showCopiedToast);
-      };
-
-      const _openThread = () => _openReplyThread(comment);
-
-      dispatch(
-        showActionModal({
-          title: intl.formatMessage({ id: 'post.select_action' }),
-          buttons: [
-            {
-              text: intl.formatMessage({ id: 'post.copy_link' }),
-              onPress: _copyCommentLink,
-            },
-            {
-              text: intl.formatMessage({ id: 'post.copy_text' }),
-              onPress: _copyCommentBody,
-            },
-            {
-              text: intl.formatMessage({ id: 'post.open_thread' }),
-              onPress: _openThread,
-            },
-          ],
-        }),
-      );
-*/
     };
 
     const _onContentSizeChange = (x: number, y: number) => {
@@ -243,6 +204,7 @@ const PostComments = forwardRef(
     const _postContentView = (
       <>
         {postContentView && postContentView}
+
         {!isPostLoading && (
           <FilterBar
             dropdownIconName="arrow-drop-down"
@@ -254,6 +216,7 @@ const PostComments = forwardRef(
             selectedOptionIndex={selectedOptionIndex}
           />
         )}
+        <BotCommentsPreview comments={discussionQuery.botComments} />
       </>
     );
 
