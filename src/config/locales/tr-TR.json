@@ -992,7 +992,8 @@
     "reveal_comment": "Reveal Content",
     "read_more": "Daha fazla yorum oku",
     "more_replies": "yanıtlar",
-    "no_comments": "Be the first to respond..."
+    "no_comments": "Be the first to respond...",
+    "bot_comments": "Bot Comments"
   },
   "search_result": {
     "others": "Diğerleri",
