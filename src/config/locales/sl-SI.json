@@ -992,7 +992,8 @@
     "reveal_comment": "Reveal Content",
     "read_more": "Read more comments",
     "more_replies": "replies",
-    "no_comments": "Be the first to respond..."
+    "no_comments": "Be the first to respond...",
+    "bot_comments": "Bot Comments"
   },
   "search_result": {
     "others": "Others",
