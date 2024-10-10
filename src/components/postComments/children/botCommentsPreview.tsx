@@ -1,14 +1,16 @@
 import React, { useRef } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { CommentsModal, Icon, UserAvatar } from '../..';
 import styles from '../styles/botCommentsPreview.styles';
-import EStyleSheet from 'react-native-extended-stylesheet';
+import { useIntl } from 'react-intl';
 
 interface BotCommentsProps {
     comments: any[];
 }
 
 export const BotCommentsPreview = ({ comments }: BotCommentsProps) => {
+    const intl = useIntl();
     const commentsModalRef = useRef<typeof CommentsModal>();
 
     if (!comments?.length) {
@@ -18,10 +20,12 @@ export const BotCommentsPreview = ({ comments }: BotCommentsProps) => {
     return (
         <View style={styles.container}>
             <View style={styles.labelWrapper}>
-                <Text style={styles.label}>{"Bot Comments"}</Text>
+                <Text style={styles.label}>
+                    {intl.formatMessage({id:'comments.bot_comments'})}
+                </Text>
                 <Icon
                     iconType="AntDesign"
-                    name='right'
+                    name="right"
                     size={14}
                     color={EStyleSheet.value('$primaryDarkText')}
                 />
@@ -33,7 +37,7 @@ export const BotCommentsPreview = ({ comments }: BotCommentsProps) => {
                     }
                 }}
             >
-                <View style={styles.botAvatarsWrapper} >
+                <View style={styles.botAvatarsWrapper}>
                     {comments.map((comment) => {
                         return (
                             <View style={styles.item}>
