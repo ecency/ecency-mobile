@@ -992,7 +992,8 @@
     "reveal_comment": "كشف المحتوى",
     "read_more": "المزيد من التعليقات",
     "more_replies": "ردود",
-    "no_comments": "كن اول من يرد..."
+    "no_comments": "كن اول من يرد...",
+    "bot_comments": "Bot Comments"
   },
   "search_result": {
     "others": "أخرى",
