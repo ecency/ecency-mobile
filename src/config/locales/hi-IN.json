@@ -992,7 +992,8 @@
     "reveal_comment": "Reveal Content",
     "read_more": "अधिक टिप्पणियाँ पढ़ें",
     "more_replies": "जवाब",
-    "no_comments": "जवाब देने वाले पहले बनें..."
+    "no_comments": "जवाब देने वाले पहले बनें...",
+    "bot_comments": "Bot Comments"
   },
   "search_result": {
     "others": "अन्यों",
