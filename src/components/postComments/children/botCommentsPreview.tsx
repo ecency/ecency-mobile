@@ -4,6 +4,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { CommentsModal, Icon, UserAvatar } from '../..';
 import styles from '../styles/botCommentsPreview.styles';
 import { useIntl } from 'react-intl';
+import { useNavigation } from '@react-navigation/native';
+import ROUTES from '../../../constants/routeNames';
 
 interface BotCommentsProps {
     comments: any[];
@@ -11,17 +13,28 @@ interface BotCommentsProps {
 
 export const BotCommentsPreview = ({ comments }: BotCommentsProps) => {
     const intl = useIntl();
+    const navigation = useNavigation();
+
     const commentsModalRef = useRef<typeof CommentsModal>();
 
     if (!comments?.length) {
         return null;
     }
 
+    const _onPress = () => {
+        navigation.navigate({
+            name: ROUTES.MODALS.BOT_COMMENTS,
+            params: {
+                comments
+            }
+        });
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.labelWrapper}>
                 <Text style={styles.label}>
-                    {intl.formatMessage({id:'comments.bot_comments'})}
+                    {intl.formatMessage({ id: 'comments.bot_comments' })}
                 </Text>
                 <Icon
                     iconType="AntDesign"
@@ -31,11 +44,7 @@ export const BotCommentsPreview = ({ comments }: BotCommentsProps) => {
                 />
             </View>
             <TouchableOpacity
-                onPress={() => {
-                    if (commentsModalRef.current) {
-                        commentsModalRef.current.show(comments);
-                    }
-                }}
+                onPress={_onPress}
             >
                 <View style={styles.botAvatarsWrapper}>
                     {comments.map((comment) => {
