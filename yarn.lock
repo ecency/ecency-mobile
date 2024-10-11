@@ -1391,10 +1391,10 @@
   dependencies:
     "@dotlottie/common" "0.7.10"
 
-"@ecency/render-helper@^2.2.31":
-  version "2.2.31"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.2.31.tgz#c7f7e0bf91b9f34f3f796cc5e5966d242061cdc9"
-  integrity sha512-4ZF8ZtJVQ0Z58uygit5IBaTn88kt2+oHItNvGoSDHBNgfho6hoPYaLTSFQ2nEXEKAOgoYzam0SQc0V8oS37mpw==
+"@ecency/render-helper@^2.2.36":
+  version "2.2.36"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.2.36.tgz#4c59579f596fd36f23abb20fa51e548b37422a62"
+  integrity sha512-U3xELhOXeTx5A445XK1drXkfM6uBgJu0qLoWaXbq3u3zzy2xh+DE5frJ6EwcrBW21hmQhCXFYfEaSNM/hxgdFA==
   dependencies:
     he "^1.2.0"
     lolight "^1.4.0"
