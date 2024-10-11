@@ -424,17 +424,21 @@
       "username_contains_underscore": "Should not contain underscore",
       "username_exists": "Username already exists, try a different one"
     },
-    "have_account_text": "Already have an account?",
+    "have_account_text": "Har du redan ett konto?",
     "login_here": "Login Here"
   },
   "home": {
     "feed": "Feed",
     "popular": "Popular",
     "top": "Top",
+    "trending": "Trendar",
     "hot": "Hot",
     "new": "New",
     "blog": "Blog",
     "posts": "Post",
+    "my_blog": "Min blogg",
+    "my_posts": "Mina inlägg",
+    "my_comments": "Mina kommentarer",
     "friends": "Vänner",
     "communities": "Communities",
     "popup_postfix": "Posted",
@@ -988,7 +992,8 @@
     "reveal_comment": "Reveal Content",
     "read_more": "Read more comments",
     "more_replies": "replies",
-    "no_comments": "Be the first to respond..."
+    "no_comments": "Be the first to respond...",
+    "bot_comments": "Bot Comments"
   },
   "search_result": {
     "others": "Others",
@@ -1124,6 +1129,13 @@
   "history": {
     "edit": "Edit History",
     "version": "Version"
+  },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
   },
   "chain-error": {
     "min-root-comment": "You may only post once every five minutes.",

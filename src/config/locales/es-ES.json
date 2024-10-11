@@ -58,10 +58,10 @@
     "estimated_value_desc": "De acuerdo al valor de compra",
     "estimated_value": "Valor estimado",
     "vote_value": "Valor del voto",
-    "delegated_hive_power": "Outgoing delegations",
+    "delegated_hive_power": "Delegaciones salientes",
     "powering_down_hive_power": "Retirando de Estaca ({subValue})",
-    "received_hive_power": "Incoming delegations",
-    "total_hive_power": "Total stake",
+    "received_hive_power": "Delegaciones entrantes",
+    "total_hive_power": "Estaca total",
     "savings": "Ahorros",
     "estimated_amount": "Valor del voto",
     "amount_information": "Arrastra el deslizador para ajustar la cantidad",
@@ -289,7 +289,7 @@
     "follow_communities": "Cuando te unes a las comunidades verás mensajes de las comunidades aquí.",
     "havent_commented": "no has comentado nada aún",
     "havent_posted": "no has publicado nada aún",
-    "hive_power": "Staked HIVE",
+    "hive_power": "HIVE Estacado",
     "next_power_text": "Siguiente Retiro de Estaca en",
     "days": "días",
     "day": "día",
@@ -431,10 +431,14 @@
     "feed": "Inicio",
     "popular": "Popular",
     "top": "Tendencia",
+    "trending": "Tendencias",
     "hot": "Caliente",
     "new": "Nuevo",
     "blog": "Blog",
     "posts": "Post",
+    "my_blog": "Mi blog",
+    "my_posts": "Mis publicaciones",
+    "my_comments": "Mis comentarios",
     "friends": "Amigos",
     "communities": "Comunidades",
     "popup_postfix": "Publicado",
@@ -536,7 +540,7 @@
     "snippets": "Fragmentos de código",
     "alert_init_title": "Nuevo contenido",
     "alert_init_body": "Abrir borrador reciente o Crear nueva publicación",
-    "alert_btn_draft": "Últimos borradores",
+    "alert_btn_draft": "Borrador reciente",
     "alert_btn_new": "Nueva publicación",
     "alert_pub_edit_title": "Publicando ediciones",
     "alert_pub_new_title": "Publicando nueva publicación",
@@ -556,7 +560,7 @@
     "done": "HECHO",
     "draft_save_title": "Guardar Borrador",
     "draft_update": "Actualizar borrador actual",
-    "draft_save_new": "Guardar como borrador",
+    "draft_save_new": "Guardar como nuevo borrador",
     "label": "Etiqueta",
     "enter_label_placeholder": "Introducir etiqueta (opcional)",
     "url": "URL",
@@ -988,7 +992,8 @@
     "reveal_comment": "Revelar Contenido",
     "read_more": "Cargar más comentarios",
     "more_replies": "respuestas",
-    "no_comments": "Sé el primero en responder..."
+    "no_comments": "Sé el primero en responder...",
+    "bot_comments": "Comentarios de Bots"
   },
   "search_result": {
     "others": "Otros",
@@ -1040,7 +1045,7 @@
     "mute": "SILENCIAR / BLOQUEAR",
     "unmute": "NO SILENCIAR / DESBLOQUEAR",
     "report": "DENUNCIAR USUARIO",
-    "delegate": "DELEGATE HIVE"
+    "delegate": "DELEGAR HIVE"
   },
   "communities": {
     "joined": "Membresía",
@@ -1124,6 +1129,13 @@
   "history": {
     "edit": "Editar historial",
     "version": "Versión"
+  },
+  "selection_list": {
+    "available": "{postfix} disponible",
+    "selected": "Seleccionado {postfix}",
+    "no_selected": "Por favor, añada desde lo disponible",
+    "postfix_filters": "Filtros",
+    "title_filters": "Personalizar Filtros"
   },
   "chain-error": {
     "min-root-comment": "Sólo puedes publicar una vez cada cinco minutos.",

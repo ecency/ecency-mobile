@@ -431,10 +431,14 @@
     "feed": "Feed",
     "popular": "Tanyag",
     "top": "Tuktok",
+    "trending": "Trending",
     "hot": "Mainit",
     "new": "Bago",
     "blog": "Blog",
     "posts": "Post",
+    "my_blog": "My Blog",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
     "friends": "Mga kaibigan",
     "communities": "Mga pamayanan",
     "popup_postfix": "Posted",
@@ -988,7 +992,8 @@
     "reveal_comment": "Reveal Content",
     "read_more": "Magbasa ng maraming komento",
     "more_replies": "replies",
-    "no_comments": "Be the first to respond..."
+    "no_comments": "Be the first to respond...",
+    "bot_comments": "Bot Comments"
   },
   "search_result": {
     "others": "Others",
@@ -1124,6 +1129,13 @@
   "history": {
     "edit": "Edit History",
     "version": "Version"
+  },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
   },
   "chain-error": {
     "min-root-comment": "You may only post once every five minutes.",

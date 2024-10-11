@@ -431,10 +431,14 @@
     "feed": "خبرنامه",
     "popular": "مورد علاقه",
     "top": "بالا",
+    "trending": "Trending",
     "hot": "داغ",
     "new": "جدید",
     "blog": "وبلاگ",
     "posts": "Post",
+    "my_blog": "My Blog",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
     "friends": "دوستان",
     "communities": "انجمن ها",
     "popup_postfix": "Posted",
@@ -988,7 +992,8 @@
     "reveal_comment": "Reveal Content",
     "read_more": "نظرات بیشتر را بخوانید",
     "more_replies": "replies",
-    "no_comments": "Be the first to respond..."
+    "no_comments": "Be the first to respond...",
+    "bot_comments": "Bot Comments"
   },
   "search_result": {
     "others": "دیگر",
@@ -1124,6 +1129,13 @@
   "history": {
     "edit": "Edit History",
     "version": "Version"
+  },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
   },
   "chain-error": {
     "min-root-comment": "You may only post once every five minutes.",

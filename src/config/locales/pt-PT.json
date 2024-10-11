@@ -58,10 +58,10 @@
     "estimated_value_desc": "De acordo com o valor da compra",
     "estimated_value": "Valor estimado",
     "vote_value": "Valor do voto",
-    "delegated_hive_power": "Outgoing delegations",
+    "delegated_hive_power": "Delegações realizadas",
     "powering_down_hive_power": "Diminuindo ({subValue})",
-    "received_hive_power": "Incoming delegations",
-    "total_hive_power": "Total stake",
+    "received_hive_power": "Delegações recebidas",
+    "total_hive_power": "Montante total",
     "savings": "Poupança",
     "estimated_amount": "Valor do voto",
     "amount_information": "Arraste o controle deslizante para ajustar a quantia",
@@ -289,7 +289,7 @@
     "follow_communities": "Quando você ingressar em comunidades, verá os posts delas aqui.",
     "havent_commented": "ainda não comentou nada",
     "havent_posted": "ainda não postou nada",
-    "hive_power": "Staked HIVE",
+    "hive_power": "Hive Bloqueado",
     "next_power_text": "Próxima diminuição de poder será em",
     "days": "dias",
     "day": "dia",
@@ -431,10 +431,14 @@
     "feed": "Conteúdo de notícias",
     "popular": "Popular",
     "top": "Cima",
+    "trending": "Trending",
     "hot": "Quente",
     "new": "Novo",
     "blog": "Blog",
     "posts": "Posts",
+    "my_blog": "My Blog",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
     "friends": "Amigos",
     "communities": "Comunidades",
     "popup_postfix": "Postado",
@@ -988,7 +992,8 @@
     "reveal_comment": "Mostrar Conteúdo",
     "read_more": "Ler mais comentários",
     "more_replies": "respostas",
-    "no_comments": "Seja o primeiro a comentar..."
+    "no_comments": "Seja o primeiro a comentar...",
+    "bot_comments": "Bot Comments"
   },
   "search_result": {
     "others": "Outros",
@@ -1040,7 +1045,7 @@
     "mute": "MUTAR / BLOQUEAR",
     "unmute": "NÃO SILENCIAR / DESBLOQUEAR",
     "report": "DENUNCIAR USUÁRIO",
-    "delegate": "DELEGATE HIVE"
+    "delegate": "DELEGAR HIVE"
   },
   "communities": {
     "joined": "Membros",
@@ -1124,6 +1129,13 @@
   "history": {
     "edit": "Editar Histórico",
     "version": "Versão"
+  },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
   },
   "chain-error": {
     "min-root-comment": "Você só pode postar uma vez a cada cinco minutos.",
