@@ -18,6 +18,7 @@ import {
   DELETE_CLAIM_CACHE_ENTRY,
   UPDATE_ANNOUNCEMENTS_META,
   UPDATE_POLL_VOTE_CACHE,
+  UPDATE_PROPOSALS_VOTE_META
 } from '../constants/constants';
 import {
   Comment,
@@ -182,6 +183,15 @@ export const updateAnnoucementsMeta = (id: string, processed: boolean) => ({
   payload: {
     id,
     processed,
+  },
+  type: UPDATE_ANNOUNCEMENTS_META,
+});
+
+export const updateProposalVoteMeta = (id:number, username: string, isVoted: boolean, ignore:boolean) => ({
+  payload: {
+    id: id + "_" + username,   
+    isVoted,
+    ignore,
   },
   type: UPDATE_ANNOUNCEMENTS_META,
 });

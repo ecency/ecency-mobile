@@ -15,6 +15,7 @@ import {
   DELETE_CLAIM_CACHE_ENTRY,
   UPDATE_ANNOUNCEMENTS_META,
   UPDATE_POLL_VOTE_CACHE,
+  UPDATE_PROPOSALS_VOTE_META
 } from '../constants/constants';
 
 export enum CacheStatus {
@@ -101,6 +102,12 @@ export interface AnnouncementMeta {
   processed: boolean;
 }
 
+export interface ProposalsVoteMeta {
+  lastPostponed: number;
+  isVoted: boolean;
+  ignore: boolean;
+}
+
 export interface LastUpdateMeta {
   postPath: string;
   updatedAt: number;
@@ -116,6 +123,7 @@ interface State {
   subscribedCommunities: Map<string, SubscribedCommunity>;
   pointActivities: Map<string, PointActivity>;
   announcementsMeta: { [key: string]: AnnouncementMeta };
+  proposalsVoteMeta: { [key: string]: ProposalsVoteMeta }; //proposal cache id: [proposalId]_[username]
   lastUpdate: LastUpdateMeta;
 }
 
@@ -126,6 +134,7 @@ const initialState: State = {
   draftsCollection: {},
   claimsCollection: {},
   announcementsMeta: {},
+  proposalsVoteMeta: {},
   subscribedCommunities: new Map(),
   pointActivities: new Map(),
   lastUpdate: null,
@@ -284,6 +293,26 @@ const cacheReducer = (state = initialState, action) => {
         state.pointActivities.delete(payload);
       }
       return { ...state };
+
+    case UPDATE_PROPOSALS_VOTE_META:
+      if (!state.proposalsVoteMeta) {
+        state.proposalsVoteMeta = {};
+      }
+
+      // const _isVoted = state.proposalsVoteMeta[payload.id]?.isVoted || false;
+
+      state.proposalsVoteMeta = {
+        ...state.proposalsVoteMeta,
+        [payload.id]: {
+          ignore:payload.ignore,
+          isVoted:payload.isVoted,
+          lastPostponed: new Date().getTime(),
+        } as ProposalsVoteMeta,
+      };
+      return {
+        ...state, // spread operator in requried here, otherwise persist do not register change
+      };
+
 
     case UPDATE_ANNOUNCEMENTS_META:
       if (!state.announcementsMeta) {
