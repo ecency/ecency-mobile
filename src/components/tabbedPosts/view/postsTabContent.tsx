@@ -13,6 +13,7 @@ import {
   usePromotedPostsQuery,
 } from '../../../providers/queries/postQueries/feedQueries';
 import { NewPostsPopup, ScrollTopPopup } from '../../atoms';
+import { ProposalVoteRequest } from '../..';
 
 let scrollOffset = 0;
 let blockPopup = false;
@@ -137,6 +138,15 @@ const PostsTabContent = ({
     }
   };
 
+
+  const _renderHeader = () => {
+    if (pageType === 'main' && isInitialTab) {
+      return (
+        <ProposalVoteRequest />
+      )
+    }
+
+  }
   // view rendereres
   const _renderEmptyContent = () => {
     const _isNoPost = !feedQuery.isLoading && feedQuery.data.length == 0;
@@ -194,6 +204,7 @@ const PostsTabContent = ({
         ListEmptyComponent={_renderEmptyContent}
         pageType={pageType}
         showQuickReplyModal={_showQuickReplyModal}
+        ListHeaderComponent={_renderHeader}
       />
       <NewPostsPopup
         popupAvatars={feedQuery.latestPosts.map((post) => post.avatar || '')}
