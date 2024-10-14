@@ -3,28 +3,35 @@ import { Image, Text, View } from "react-native";
 import styles from "../styles/ProposalVoteRequest.styles";
 import { TextButton } from "../../../components/buttons";
 import { MainButton } from "../../../components/mainButton";
-import { useDispatch } from "react-redux";
-import { handleDeepLink, showActionModal } from "../../../redux/actions/uiAction";
+import { useDispatch, useSelector } from "react-redux";
+import { showActionModal } from "../../../redux/actions/uiAction";
 import { ButtonTypes } from "../../../components/actionModal/container/actionModalContainer";
-import { delay } from '../../../utils/editor';
+import { voteProposal } from '../../../providers/hive/dhive';
+import { useProposalVotedQuery } from '../../../providers/queries';
 
-
-const HIVE_VOTE_OPS = "hive://sign/op/WyJ1cGRhdGVfcHJvcG9zYWxfdm90ZXMiLHsidm90ZXIiOiAiX19zaWduZXIiLCJwcm9wb3NhbF9pZHMiOiBbMjgzXSwiYXBwcm92ZSI6dHJ1ZSwiZXh0ZW5zaW9ucyI6IFtdfV0."
-
-
+const ECENCY_PROPOSAL_ID = 283;
 
 export const ProposalVoteRequest = () => {
 
     const dispatch = useDispatch();
 
+    const proposalVotedQuery = useProposalVotedQuery(ECENCY_PROPOSAL_ID);
+
+    const isLoggedIn = useSelector(state => state.application.isLoggedIn);
+    const pinHash = useSelector(state => state.application.pin);
+    const currentAccount = useSelector(state => state.account.currentAccount);
+
     const [voting, setVoting] = useState(false);
     const [voteCasted, setVoteCasted] = useState(false);
 
+    //assess if user should be promopted to vote proposal
+    if(!isLoggedIn || proposalVotedQuery.data){
+        return null;
+    }
+
     const _voteAction = async () => {
         setVoting(true);
-        // dispatch(handleDeepLink(HIVE_VOTE_OPS));
-        await delay(800);
-
+        await voteProposal(currentAccount, pinHash, ECENCY_PROPOSAL_ID)
         setVoting(false);
         setVoteCasted(true);
     }
