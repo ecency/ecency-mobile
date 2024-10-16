@@ -43,6 +43,7 @@ import { SearchInput } from './searchInput';
 import { SearchModal } from './searchModal';
 import { SettingsItem } from './settingsItem';
 import { SideMenu } from './sideMenu';
+import { ProposalVoteRequest } from './proposalVoteRequest';
 
 import CommunityCard from './communityCard';
 
@@ -272,4 +273,6 @@ export {
   PostTranslationModal,
   ImageViewer,
   WalkthroughMarker,
+  ProposalVoteRequest
+  
 };

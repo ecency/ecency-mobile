@@ -18,6 +18,7 @@ import {
   DELETE_CLAIM_CACHE_ENTRY,
   UPDATE_ANNOUNCEMENTS_META,
   UPDATE_POLL_VOTE_CACHE,
+  UPDATE_PROPOSALS_VOTE_META
 } from '../constants/constants';
 import {
   Comment,
@@ -184,6 +185,22 @@ export const updateAnnoucementsMeta = (id: string, processed: boolean) => ({
     processed,
   },
   type: UPDATE_ANNOUNCEMENTS_META,
+});
+
+/**
+ * 
+ * @param id proposalId
+ * @param username 
+ * @param processed 
+ * @returns 
+ */
+export const updateProposalVoteMeta = (id:number, username: string, processed:boolean, dismissedAt:number = 0) => ({
+  payload: {
+    id: id + "_" + username,   
+    processed,
+    dismissedAt
+  },
+  type: UPDATE_PROPOSALS_VOTE_META,
 });
 
 export const purgeExpiredCache = () => ({

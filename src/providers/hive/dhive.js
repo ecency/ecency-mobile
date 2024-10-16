@@ -641,6 +641,33 @@ export const ignoreUser = async (currentAccount, pin, data) => {
   );
 };
 
+export const getProposalsVoted = async (username) => {
+  try {
+    if (!username) {
+      throw new Error('invalid parameters');
+    }
+
+    console.log('Getting proposals voted:', username);
+
+    const votedProposals = await client.call(
+      'condenser_api', 
+      'list_proposal_votes', 
+      [[username], 100, "by_voter_proposal", "ascending", "active"]);
+
+    if (!Array.isArray(votedProposals)) {
+      throw new Error('invalid data');
+    }
+
+    const filteredProposals = votedProposals.filter(item => item.voter === username);
+
+    console.log(`Returning filtered proposals`, filteredProposals);
+    return filteredProposals;
+  } catch (error) {
+    bugsnapInstance.notify(error);
+    return [];
+  }
+}
+
 export const getActiveVotes = (author, permlink) =>
   new Promise((resolve, reject) => {
     try {
@@ -959,6 +986,64 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
 
     return new Promise((resolve, reject) => {
       sendHiveOperations(args, privateKey)
+        .then((result) => {
+          console.log('vote result', result);
+          resolve(result);
+        })
+        .catch((err) => {
+          if (err && get(err, 'jse_info.code') === 4030100) {
+            err.message = getDsteemDateErrorMessage(err);
+          }
+          bugsnagInstance.notify(err);
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
+};
+
+
+/**
+ * Update Hive Proposal Vote with current account as voter
+ * @param {*} currentAccount 
+ * @param {*} pin 
+ * @param {*} proposalId 
+ * @returns 
+ */
+export const voteProposal = (currentAccount, pinHash, proposalId) => {
+  const digitPinCode = getDigitPinCode(pinHash);
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+
+  const voter = currentAccount.name;
+  const opArray = [
+    [
+      "update_proposal_votes",
+      {
+        voter: voter,
+        proposal_ids: [proposalId],
+        approve: true,
+        extensions: []
+      }
+    ],
+  ];
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = new hsClient({
+      accessToken: token,
+    });
+
+    return api.broadcast(opArray).then((resp) => resp.result);
+  }
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+
+    return new Promise((resolve, reject) => {
+      sendHiveOperations(opArray, privateKey)
         .then((result) => {
           console.log('vote result', result);
           resolve(result);
