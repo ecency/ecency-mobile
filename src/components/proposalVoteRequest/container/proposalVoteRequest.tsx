@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Image, Text, View } from "react-native";
 import styles from "../styles/ProposalVoteRequest.styles";
 import { TextButton } from "../../../components/buttons";
@@ -6,34 +6,47 @@ import { MainButton } from "../../../components/mainButton";
 import { useDispatch, useSelector } from "react-redux";
 import { showActionModal } from "../../../redux/actions/uiAction";
 import { ButtonTypes } from "../../../components/actionModal/container/actionModalContainer";
-import { voteProposal } from '../../../providers/hive/dhive';
-import { useProposalVotedQuery } from '../../../providers/queries';
+import { useProposalVotedQuery, useProposalVoteMutation } from '../../../providers/queries';
+import { updateProposalVoteMeta } from '../../../redux/actions/cacheActions';
 
 const ECENCY_PROPOSAL_ID = 283;
+const RE_REQUEST_INTERVAL = 259200000; //3 days;
 
 export const ProposalVoteRequest = () => {
 
     const dispatch = useDispatch();
 
     const proposalVotedQuery = useProposalVotedQuery(ECENCY_PROPOSAL_ID);
+    const proposalVoteMutation = useProposalVoteMutation();
 
-    const isLoggedIn = useSelector(state => state.application.isLoggedIn);
-    const pinHash = useSelector(state => state.application.pin);
     const currentAccount = useSelector(state => state.account.currentAccount);
 
-    const [voting, setVoting] = useState(false);
-    const [voteCasted, setVoteCasted] = useState(false);
-
     //assess if user should be promopted to vote proposal
-    if(!isLoggedIn || proposalVotedQuery.data){
+    //makes sure this logic is only calculated once on launch
+    const [skipOnLaunch] = useState(!currentAccount ||
+        proposalVotedQuery.data ||
+        proposalVotedQuery.meta?.processed);
+
+
+    //render or no render based on dimiss action performed 
+    const skipRender = useMemo(() => {
+        if (!skipOnLaunch && proposalVotedQuery.meta) {
+            const curTime = new Date().getTime();
+            const nextRequestTime = proposalVotedQuery.meta.dismissedAt + RE_REQUEST_INTERVAL
+            return nextRequestTime > curTime;
+        }
+        return skipOnLaunch;
+    }, [proposalVotedQuery.meta])
+
+
+    if (skipRender) {
         return null;
     }
 
-    const _voteAction = async () => {
-        setVoting(true);
-        await voteProposal(currentAccount, pinHash, ECENCY_PROPOSAL_ID)
-        setVoting(false);
-        setVoteCasted(true);
+    const voteCasted = proposalVoteMutation.isSuccess;
+
+    const _voteAction = () => {
+        proposalVoteMutation.mutate({ proposalId: ECENCY_PROPOSAL_ID })
     }
 
 
@@ -46,12 +59,23 @@ export const ProposalVoteRequest = () => {
                     type: ButtonTypes.CANCEL,
                     onPress: () => {
                         console.log('Ignore');
+                        dispatch(updateProposalVoteMeta(
+                            ECENCY_PROPOSAL_ID,
+                            currentAccount.username,
+                            true,
+                            new Date().getTime()
+                        ))
                     },
                 },
                 {
                     text: "Remind Later",
                     onPress: () => {
-                        console.log('remind later');
+                        dispatch(updateProposalVoteMeta(
+                            ECENCY_PROPOSAL_ID,
+                            currentAccount.username,
+                            false,
+                            new Date().getTime()
+                        ))
                     },
                 },
             ],
@@ -67,7 +91,7 @@ export const ProposalVoteRequest = () => {
                     style={{ height: 40 }}
                     textStyle={styles.voteBtnTitle}
                     text={"Cast My Vote"}
-                    isLoading={voting}
+                    isLoading={proposalVoteMutation.isLoading}
 
                 />
                 <TextButton

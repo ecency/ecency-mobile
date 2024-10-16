@@ -102,10 +102,9 @@ export interface AnnouncementMeta {
   processed: boolean;
 }
 
-export interface ProposalsVoteMeta {
-  lastPostponed: number;
-  isVoted: boolean;
-  ignore: boolean;
+export interface ProposalVoteMeta {
+  dismissedAt: number;
+  processed: boolean;
 }
 
 export interface LastUpdateMeta {
@@ -123,7 +122,7 @@ interface State {
   subscribedCommunities: Map<string, SubscribedCommunity>;
   pointActivities: Map<string, PointActivity>;
   announcementsMeta: { [key: string]: AnnouncementMeta };
-  proposalsVoteMeta: { [key: string]: ProposalsVoteMeta }; //proposal cache id: [proposalId]_[username]
+  proposalsVoteMeta: { [key: string]: ProposalVoteMeta }; //proposal cache id: [proposalId]_[username]
   lastUpdate: LastUpdateMeta;
 }
 
@@ -304,10 +303,9 @@ const cacheReducer = (state = initialState, action) => {
       state.proposalsVoteMeta = {
         ...state.proposalsVoteMeta,
         [payload.id]: {
-          ignore:payload.ignore,
-          isVoted:payload.isVoted,
-          lastPostponed: new Date().getTime(),
-        } as ProposalsVoteMeta,
+          processed:payload.processed,
+          dismissedAt: payload.dismissedAt,
+        } as ProposalVoteMeta,
       };
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change

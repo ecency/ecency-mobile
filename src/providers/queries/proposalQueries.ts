@@ -1,14 +1,22 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import QUERIES from "./queryKeys"
 import { useSelector } from "react-redux"
-import { getProposalsVoted } from "../../providers/hive/dhive";
-import { useMemo } from "react";
+import { getProposalsVoted, voteProposal } from "../../providers/hive/dhive";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useIntl } from "react-intl";
+import { toastNotification } from "../../redux/actions/uiAction";
+import { updateProposalVoteMeta } from "../../redux/actions/cacheActions";
+import { ProposalVoteMeta } from "redux/reducers/cacheReducer";
 
 
 export const useProposalVotedQuery = (proposalId: number) => {
 
     const currentAccount = useSelector(state => state.account.currentAccount);
-    const proposalsVoteMeta = useSelector(state => state.account.proposalsVoteMeta);
+    const proposalsVoteMeta = useSelector(state => state.cache.proposalsVoteMeta);
+
+    //form meta id
+    const _cacheId = `${proposalId}_${currentAccount.username}`
+    const _proposalVoteMeta:ProposalVoteMeta|null = proposalsVoteMeta[_cacheId]
 
     const _getProposalVoteStatus = async () => {
         const votedProposals = await getProposalsVoted(currentAccount.username);
@@ -22,17 +30,37 @@ export const useProposalVotedQuery = (proposalId: number) => {
         [QUERIES.PROPOSALS.GET_VOTES, currentAccount.name, proposalId],
         _getProposalVoteStatus,
         { initialData: true }
-    )
-
-
-    const data = useMemo(() => {
-        //form meta id
-        const cacheId = `${proposalId}_${currentAccount.username}`
-        return query.data || proposalsVoteMeta[cacheId].isVoted;
-    }, [query.data, proposalsVoteMeta])
+    );
 
     return {
         ...query,
-        data
+        meta:_proposalVoteMeta
     };
 }
+
+
+export const useProposalVoteMutation = () => {
+    const dispatch = useAppDispatch();
+    const intl = useIntl();
+
+    const currentAccount = useAppSelector(state => state.account.currentAccount);
+    const pinHash = useAppSelector(state => state.application.pin);
+
+
+    return useMutation<any, Error, { proposalId: number }>(
+        ({proposalId}) => voteProposal(currentAccount, pinHash, proposalId),
+        {
+            retry: 3,
+            onSuccess: (_,{proposalId}) => {
+                dispatch(toastNotification("Thankyou, your support means everything to us"));
+                dispatch(updateProposalVoteMeta(
+                    proposalId,
+                    currentAccount.username,
+                    true
+                ))
+            },
+            onError: () => {
+                dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+            },
+        });
+} 

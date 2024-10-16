@@ -187,13 +187,20 @@ export const updateAnnoucementsMeta = (id: string, processed: boolean) => ({
   type: UPDATE_ANNOUNCEMENTS_META,
 });
 
-export const updateProposalVoteMeta = (id:number, username: string, isVoted: boolean, ignore:boolean) => ({
+/**
+ * 
+ * @param id proposalId
+ * @param username 
+ * @param processed 
+ * @returns 
+ */
+export const updateProposalVoteMeta = (id:number, username: string, processed:boolean, dismissedAt:number = 0) => ({
   payload: {
     id: id + "_" + username,   
-    isVoted,
-    ignore,
+    processed,
+    dismissedAt
   },
-  type: UPDATE_ANNOUNCEMENTS_META,
+  type: UPDATE_PROPOSALS_VOTE_META,
 });
 
 export const purgeExpiredCache = () => ({

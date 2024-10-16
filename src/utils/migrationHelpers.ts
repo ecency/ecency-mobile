@@ -313,6 +313,10 @@ const reduxMigrations = {
     state.customTabs.mainTabs = DEFAULT_FEED_FILTERS;
     return state;
   },
+  11: (state) => {
+    state.cache.proposalsVoteMeta = {};
+    return state;
+  }
 };
 
 export default {
