@@ -634,6 +634,7 @@
     "continue": "Jatka",
     "okay": "Ok",
     "done": "Valmis",
+    "thankyou": "Thank You!",
     "notice": "Huom!",
     "close": "SULJE",
     "later": "Myöhemmin",
@@ -1148,5 +1149,16 @@
     "missing-authority": "Tämä operaatio vaatii aktiivisen yksityisen avaimen tai valtuuden.",
     "missing-owner-authority": "Tämä toiminto vaatii omistajan yksityisen avaimen tai valtuuden.",
     "insufficient_fund": "Riittämättömät varat"
+  },
+  "proposal": {
+    "title": "Enjoying Ecency!",
+    "title-voted": "We are grateful!",
+    "desc": "Support proposal by voting, be part of our continuous efforts to improve experience on Ecency.",
+    "desc-voted": "Your support means everything to us",
+    "title-action-dismiss": "Dismiss Vote Request",
+    "btn-vote": "Cast My Vote",
+    "btn-dismiss": "Dismiss",
+    "btn-later": "Remind Later",
+    "btn-ignore": "Forever"
   }
 }
