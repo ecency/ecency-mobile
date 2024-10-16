@@ -52,7 +52,7 @@ export const useProposalVoteMutation = () => {
         {
             retry: 3,
             onSuccess: (_,{proposalId}) => {
-                dispatch(toastNotification("Thankyou, your support means everything to us"));
+                dispatch(toastNotification(intl.formatMessage({ id: 'alert.thankyou' })));
                 dispatch(updateProposalVoteMeta(
                     proposalId,
                     currentAccount.username,

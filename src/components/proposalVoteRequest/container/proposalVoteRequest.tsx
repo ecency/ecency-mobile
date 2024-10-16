@@ -8,12 +8,13 @@ import { showActionModal } from "../../../redux/actions/uiAction";
 import { ButtonTypes } from "../../../components/actionModal/container/actionModalContainer";
 import { useProposalVotedQuery, useProposalVoteMutation } from '../../../providers/queries';
 import { updateProposalVoteMeta } from '../../../redux/actions/cacheActions';
+import { useIntl } from 'react-intl';
 
 const ECENCY_PROPOSAL_ID = 283;
 const RE_REQUEST_INTERVAL = 259200000; //3 days;
 
 export const ProposalVoteRequest = () => {
-
+    const intl = useIntl();
     const dispatch = useDispatch();
 
     const proposalVotedQuery = useProposalVotedQuery(ECENCY_PROPOSAL_ID);
@@ -52,10 +53,10 @@ export const ProposalVoteRequest = () => {
 
     const _remindLater = () => {
         dispatch(showActionModal({
-            title: "Dismiss Vote Request",
+            title: intl.formatMessage({id:'proposal.title-action-dismiss'}) ,// "Dismiss Vote Request",
             buttons: [
                 {
-                    text: "Forever",
+                    text: intl.formatMessage({id:'proposal.btn-ignore'}),
                     type: ButtonTypes.CANCEL,
                     onPress: () => {
                         console.log('Ignore');
@@ -68,7 +69,7 @@ export const ProposalVoteRequest = () => {
                     },
                 },
                 {
-                    text: "Remind Later",
+                    text: intl.formatMessage({id:'proposal.btn-later'}),
                     onPress: () => {
                         dispatch(updateProposalVoteMeta(
                             ECENCY_PROPOSAL_ID,
@@ -90,32 +91,32 @@ export const ProposalVoteRequest = () => {
                     onPress={_voteAction}
                     style={{ height: 40 }}
                     textStyle={styles.voteBtnTitle}
-                    text={"Cast My Vote"}
+                    text={intl.formatMessage({id:'proposal.btn-vote'})}
                     isLoading={proposalVoteMutation.isLoading}
 
                 />
                 <TextButton
                     onPress={_remindLater}
                     style={{ marginLeft: 8 }}
-                    text={"Dismiss"}
+                    text={intl.formatMessage({id:'proposal.btn-dismiss'})}
                 />
             </View>
         );
     }
 
-    const title = voteCasted ? "We are grateful!" : "Enjoying Ecency!";
-    const body = voteCasted ? "Your support means everything to us" : "Support proposal by voting, be part of our continuous efforts to improve experience on Ecency."
+    const titleTextId = voteCasted ? "proposal.title-voted" : "proposal.title";
+    const descTextId = voteCasted ? "proposal.desc-voted" : "proposal.desc"
 
     return (
         <View style={styles.container}>
             <View style={styles.content} >
                 <View style={{ flex: 1 }}>
                     <Text style={styles.title} >
-                        {title}
+                        {intl.formatMessage({id:titleTextId})}
                     </Text>
 
                     <Text style={styles.description} >
-                        {body}
+                        {intl.formatMessage({id:descTextId})}
                     </Text>
                 </View>
 
