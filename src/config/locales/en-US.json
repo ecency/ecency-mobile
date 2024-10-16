@@ -634,6 +634,7 @@
     "continue": "Continue",
     "okay": "Okay",
     "done": "Done",
+    "thankyou": "Thank You!",
     "notice": "Notice!",
     "close": "CLOSE",
     "later": "Later",
@@ -1148,5 +1149,16 @@
     "missing-authority": "This operation requires Active private key or authority.",
     "missing-owner-authority": "This operation requires Owner private key or authority.",
     "insufficient_fund": "Insufficient Funds"
+  },
+  "proposal":{
+    "title":"Enjoying Ecency!",
+    "title-voted":"We are grateful!",
+    "desc":"Support proposal by voting, be part of our continuous efforts to improve experience on Ecency.",
+    "desc-voted":"Your support means everything to us",
+    "title-action-dismiss":"Dismiss Vote Request",
+    "btn-vote":"Cast My Vote",
+    "btn-dismiss":"Dismiss",
+    "btn-later":"Remind Later",
+    "btn-ignore":"Forever"
   }
 }
