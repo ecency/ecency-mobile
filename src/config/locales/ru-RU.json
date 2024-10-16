@@ -634,6 +634,7 @@
     "continue": "Продолжить",
     "okay": "Окей",
     "done": "Готово",
+    "thankyou": "Thank You!",
     "notice": "Примечание!",
     "close": "ЗАКРЫТЬ",
     "later": "Позже",
@@ -1148,5 +1149,16 @@
     "missing-authority": "Для выполнения этой операции требуется приватный ключ или ключ владельца.",
     "missing-owner-authority": "Для выполнения этой операции требуется приватный ключ или ключ владельца.",
     "insufficient_fund": "Недостаточность средств"
+  },
+  "proposal": {
+    "title": "Enjoying Ecency!",
+    "title-voted": "We are grateful!",
+    "desc": "Support proposal by voting, be part of our continuous efforts to improve experience on Ecency.",
+    "desc-voted": "Your support means everything to us",
+    "title-action-dismiss": "Dismiss Vote Request",
+    "btn-vote": "Cast My Vote",
+    "btn-dismiss": "Dismiss",
+    "btn-later": "Remind Later",
+    "btn-ignore": "Forever"
   }
 }
