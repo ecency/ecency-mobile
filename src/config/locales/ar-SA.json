@@ -634,6 +634,7 @@
     "continue": "متابعة",
     "okay": "حسناً",
     "done": "تم",
+    "thankyou": "Thank You!",
     "notice": "إشعار!",
     "close": "إغلاق",
     "later": "لاحقاً",
@@ -1148,5 +1149,16 @@
     "missing-authority": "هذه العملية تتطلب المفتاح الخاص النشط أو الرئيسي.",
     "missing-owner-authority": "هذه العملية تتطلب المفتاح الخاص للمالك أو الرئيسي.",
     "insufficient_fund": "الرصيد غير كافي"
+  },
+  "proposal": {
+    "title": "Enjoying Ecency!",
+    "title-voted": "We are grateful!",
+    "desc": "Support proposal by voting, be part of our continuous efforts to improve experience on Ecency.",
+    "desc-voted": "Your support means everything to us",
+    "title-action-dismiss": "Dismiss Vote Request",
+    "btn-vote": "Cast My Vote",
+    "btn-dismiss": "Dismiss",
+    "btn-later": "Remind Later",
+    "btn-ignore": "Forever"
   }
 }
