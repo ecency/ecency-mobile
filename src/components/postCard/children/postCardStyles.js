@@ -3,14 +3,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   post: {
     paddingTop: 10,
-    marginBottom: 10,
+    marginBottom: 4,
     backgroundColor: '$primaryBackgroundColor',
-    shadowOpacity: 0.2,
-    shadowColor: '$shadowColor',
-    elevation: 0.1,
-    shadowOffset: {
-      height: 1,
-    },
   },
   optionsIconContainer: {
     marginLeft: 12,

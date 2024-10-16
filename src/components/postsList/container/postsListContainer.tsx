@@ -14,7 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 import PostCard from '../../postCard';
 import styles from '../view/postsListStyles';
-import { UpvotePopover } from '../..';
+import { Separator, UpvotePopover } from '../..';
 import { PostTypes } from '../../../constants/postTypes';
 import { PostOptionsModal } from '../../postOptionsModal';
 import { PostCardActionIds } from '../../postCard/container/postCard';
@@ -208,6 +208,8 @@ const postsListContainer = (
     }
   };
 
+  const _renderSeparator = () => <Separator style={styles.separator} />
+
   const _renderItem = ({ item }: { item: any }) => {
     // get image height from cache if available
     const localId = item.author + item.permlink;
@@ -229,6 +231,7 @@ const postsListContainer = (
         }
       />
     );
+
   };
 
   return (
@@ -242,6 +245,7 @@ const postsListContainer = (
         onEndReachedThreshold={1}
         maxToRenderPerBatch={5}
         initialNumToRender={3}
+        ItemSeparatorComponent={_renderSeparator}
         estimatedItemSize={609}
         windowSize={8}
         extraData={[imageRatios, votesCache]}
