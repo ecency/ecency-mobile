@@ -39,7 +39,12 @@ export const ProfileStats = ({ data, horizontalMargin, intermediate }: Props) =>
 const StatItem = (props: { label: string; value: number | string; intermediate: boolean }) => (
   <View style={{ alignItems: 'center', flex: 1 }}>
     {!props.intermediate ? (
-      <Animated.Text entering={BounceIn} exiting={BounceOut} style={styles.statValue}>
+      <Animated.Text
+        entering={BounceIn}
+        exiting={BounceOut}
+        style={styles.statValue}
+        allowFontScaling={false}
+      >
         {props.value}
       </Animated.Text>
     ) : (
