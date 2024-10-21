@@ -187,21 +187,22 @@ export const useWavesQuery = (host: string) => {
       throw new Error('Failed to parse waves');
     }
 
-    _threadedComments.filter(
-      (item) => 
+    const _filteredComments = _threadedComments.filter(
+      (item) =>
         item.net_rshares >= 0 &&
-       !item.stats?.gray &&
+        !item.stats?.gray &&
         !item.stats.hide &&
-        !botAuthorsQuery.data.includes(item.author),
+        !botAuthorsQuery.data.includes(item.author)
     );
-    _threadedComments.sort((a, b) => (new Date(a.created) > new Date(b.created) ? -1 : 1));
-    _threadedComments.forEach((item) => {
+    
+    _filteredComments.sort((a, b) => (new Date(a.created) > new Date(b.created) ? -1 : 1));
+    _filteredComments.forEach((item) => {
       wavesIndexCollection.current[`${item.author}/${item.permlink}`] = pagePermlink;
     });
 
-    console.log('new waves fetched', _threadedComments);
+    console.log('new waves fetched', _filteredComments);
 
-    return _threadedComments || [];
+    return _filteredComments || [];
   };
 
   const _fetchNextPage = () => {
