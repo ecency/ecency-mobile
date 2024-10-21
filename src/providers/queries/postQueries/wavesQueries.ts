@@ -33,7 +33,7 @@ export const useWavesQuery = (host: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
 
-  //TOTO: import bot authors query here
+  // TOTO: import bot authors query here
   const botAuthorsQuery = useBotAuthorsQuery();
 
   const cacheRef = useRef(cache);
@@ -192,9 +192,9 @@ export const useWavesQuery = (host: string) => {
         item.net_rshares >= 0 &&
         !item.stats?.gray &&
         !item.stats.hide &&
-        !botAuthorsQuery.data.includes(item.author)
+        !botAuthorsQuery.data.includes(item.author),
     );
-    
+
     _filteredComments.sort((a, b) => (new Date(a.created) > new Date(b.created) ? -1 : 1));
     _filteredComments.forEach((item) => {
       wavesIndexCollection.current[`${item.author}/${item.permlink}`] = pagePermlink;

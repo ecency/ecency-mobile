@@ -15,7 +15,7 @@ import {
   DELETE_CLAIM_CACHE_ENTRY,
   UPDATE_ANNOUNCEMENTS_META,
   UPDATE_POLL_VOTE_CACHE,
-  UPDATE_PROPOSALS_VOTE_META
+  UPDATE_PROPOSALS_VOTE_META,
 } from '../constants/constants';
 
 export enum CacheStatus {
@@ -122,7 +122,7 @@ interface State {
   subscribedCommunities: Map<string, SubscribedCommunity>;
   pointActivities: Map<string, PointActivity>;
   announcementsMeta: { [key: string]: AnnouncementMeta };
-  proposalsVoteMeta: { [key: string]: ProposalVoteMeta }; //proposal cache id: [proposalId]_[username]
+  proposalsVoteMeta: { [key: string]: ProposalVoteMeta }; // proposal cache id: [proposalId]_[username]
   lastUpdate: LastUpdateMeta;
 }
 
@@ -303,14 +303,13 @@ const cacheReducer = (state = initialState, action) => {
       state.proposalsVoteMeta = {
         ...state.proposalsVoteMeta,
         [payload.id]: {
-          processed:payload.processed,
+          processed: payload.processed,
           dismissedAt: payload.dismissedAt,
         } as ProposalVoteMeta,
       };
       return {
         ...state, // spread operator in requried here, otherwise persist do not register change
       };
-
 
     case UPDATE_ANNOUNCEMENTS_META:
       if (!state.announcementsMeta) {

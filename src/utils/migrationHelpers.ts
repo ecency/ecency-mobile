@@ -316,7 +316,7 @@ const reduxMigrations = {
   11: (state) => {
     state.cache.proposalsVoteMeta = {};
     return state;
-  }
+  },
 };
 
 export default {

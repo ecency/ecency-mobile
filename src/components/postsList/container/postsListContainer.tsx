@@ -208,7 +208,7 @@ const postsListContainer = (
     }
   };
 
-  const _renderSeparator = () => <Separator style={styles.separator} />
+  const _renderSeparator = () => <Separator style={styles.separator} />;
 
   const _renderItem = ({ item }: { item: any }) => {
     // get image height from cache if available
@@ -231,7 +231,6 @@ const postsListContainer = (
         }
       />
     );
-
   };
 
   return (

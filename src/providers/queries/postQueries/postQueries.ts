@@ -114,7 +114,6 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   );
   const lastCacheUpdate: LastUpdateMeta = useAppSelector((state) => state.cache.lastUpdate);
 
-
   const [author, setAuthor] = useState(_author);
   const [permlink, setPermlink] = useState(_permlink);
 
@@ -214,17 +213,11 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   };
 };
 
-
-export const useBotAuthorsQuery = () => useQuery(
-  [QUERIES.POST.GET_BOT_AUTHERS],
-  getBotAuthers,
-  {
+export const useBotAuthorsQuery = () =>
+  useQuery([QUERIES.POST.GET_BOT_AUTHERS], getBotAuthers, {
     cacheTime: 1000 * 60 * 60 * 24 * 30, // 30 days cache timer
-    initialData: [] //TODO: initialise authors with already known bots,
-  }
-);
-
-
+    initialData: [], // TODO: initialise authors with already known bots,
+  });
 
 /**
  *

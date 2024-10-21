@@ -75,5 +75,5 @@ export {
   AssetsSelect,
   BackupKeysScreen,
   PollWizardScreen,
-  BotComments
+  BotComments,
 };
