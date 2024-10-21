@@ -21,6 +21,7 @@ import {
 } from '../../../utils/postParser';
 import { useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
+import { useBotAuthorsQuery } from './postQueries';
 
 export const useWavesQuery = (host: string) => {
   const queryClient = useQueryClient();
@@ -31,6 +32,9 @@ export const useWavesQuery = (host: string) => {
   const mutes = useAppSelector((state) => state.account.currentAccount.mutes);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
+
+  //TOTO: import bot authors query here
+  const botAuthorsQuery = useBotAuthorsQuery();
 
   const cacheRef = useRef(cache);
 
@@ -184,7 +188,11 @@ export const useWavesQuery = (host: string) => {
     }
 
     _threadedComments.filter(
-      (item) => item.net_rshares >= 0 && !item.stats?.gray && !item.stats.hide,
+      (item) => 
+        item.net_rshares >= 0 &&
+       !item.stats?.gray &&
+        !item.stats.hide &&
+        !botAuthorsQuery.data.includes(item.author),
     );
     _threadedComments.sort((a, b) => (new Date(a.created) > new Date(b.created) ? -1 : 1));
     _threadedComments.forEach((item) => {
