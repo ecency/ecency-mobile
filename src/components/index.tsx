@@ -273,6 +273,5 @@ export {
   PostTranslationModal,
   ImageViewer,
   WalkthroughMarker,
-  ProposalVoteRequest
-  
+  ProposalVoteRequest,
 };

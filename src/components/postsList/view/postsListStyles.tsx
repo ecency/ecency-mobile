@@ -11,8 +11,8 @@ export default EStyleSheet.create({
   placeholderWrapper: {
     flex: 1,
   },
-  separator:{
-    backgroundColor:'$primaryLightBackground', 
-    marginBottom:8
-  }
+  separator: {
+    backgroundColor: '$primaryLightBackground',
+    marginBottom: 8,
+  },
 });

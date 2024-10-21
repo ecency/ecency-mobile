@@ -649,16 +649,19 @@ export const getProposalsVoted = async (username) => {
 
     console.log('Getting proposals voted:', username);
 
-    const votedProposals = await client.call(
-      'condenser_api', 
-      'list_proposal_votes', 
-      [[username], 100, "by_voter_proposal", "ascending", "active"]);
+    const votedProposals = await client.call('condenser_api', 'list_proposal_votes', [
+      [username],
+      100,
+      'by_voter_proposal',
+      'ascending',
+      'active',
+    ]);
 
     if (!Array.isArray(votedProposals)) {
       throw new Error('invalid data');
     }
 
-    const filteredProposals = votedProposals.filter(item => item.voter === username);
+    const filteredProposals = votedProposals.filter((item) => item.voter === username);
 
     console.log(`Returning filtered proposals`, filteredProposals);
     return filteredProposals;
@@ -666,7 +669,7 @@ export const getProposalsVoted = async (username) => {
     bugsnapInstance.notify(error);
     return [];
   }
-}
+};
 
 export const getActiveVotes = (author, permlink) =>
   new Promise((resolve, reject) => {
@@ -1005,13 +1008,12 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
   );
 };
 
-
 /**
  * Update Hive Proposal Vote with current account as voter
- * @param {*} currentAccount 
- * @param {*} pin 
- * @param {*} proposalId 
- * @returns 
+ * @param {*} currentAccount
+ * @param {*} pin
+ * @param {*} proposalId
+ * @returns
  */
 export const voteProposal = (currentAccount, pinHash, proposalId) => {
   const digitPinCode = getDigitPinCode(pinHash);
@@ -1020,13 +1022,13 @@ export const voteProposal = (currentAccount, pinHash, proposalId) => {
   const voter = currentAccount.name;
   const opArray = [
     [
-      "update_proposal_votes",
+      'update_proposal_votes',
       {
-        voter: voter,
+        voter,
         proposal_ids: [proposalId],
         approve: true,
-        extensions: []
-      }
+        extensions: [],
+      },
     ],
   ];
 

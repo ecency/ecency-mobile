@@ -138,15 +138,11 @@ const PostsTabContent = ({
     }
   };
 
-
   const _renderHeader = () => {
     if (pageType === 'main' && isInitialTab) {
-      return (
-        <ProposalVoteRequest />
-      )
+      return <ProposalVoteRequest />;
     }
-
-  }
+  };
   // view rendereres
   const _renderEmptyContent = () => {
     const _isNoPost = !feedQuery.isLoading && feedQuery.data.length == 0;
