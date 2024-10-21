@@ -114,9 +114,6 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   );
   const lastCacheUpdate: LastUpdateMeta = useAppSelector((state) => state.cache.lastUpdate);
 
-  const useBotAuthersQuery = useQuery([QUERIES.POST.GET_BOT_AUTHERS], getBotAuthers, {
-    initialData: [],
-  });
 
   const [author, setAuthor] = useState(_author);
   const [permlink, setPermlink] = useState(_permlink);
@@ -124,6 +121,8 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const [data, setData] = useState({});
   const [botComments, setBotComments] = useState([]);
   const [sectionedData, setSectionedData] = useState([]);
+
+  const botAuthorsQuery = useBotAuthorsQuery();
 
   const _fetchComments = async () => getDiscussionCollection(author, permlink);
   const query = useQuery<{ [key: string]: Comment }>(
@@ -141,7 +140,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
   useEffect(() => {
     restructureData();
-  }, [data, useBotAuthersQuery.data]);
+  }, [data, botAuthorsQuery.data]);
 
   // traverse discussion collection to curate sections
   const restructureData = async () => {
@@ -195,10 +194,10 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
     // filter comments using botsdata
     const _botComments = comments.filter((comment) =>
-      useBotAuthersQuery.data.includes(comment.author),
+      botAuthorsQuery.data.includes(comment.author),
     );
     const _userComments = comments.filter(
-      (comment) => !useBotAuthersQuery.data.includes(comment.author),
+      (comment) => !botAuthorsQuery.data.includes(comment.author),
     );
 
     setBotComments(_botComments);
@@ -214,6 +213,18 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
     setPermlink,
   };
 };
+
+
+export const useBotAuthorsQuery = () => useQuery(
+  [QUERIES.POST.GET_BOT_AUTHERS],
+  getBotAuthers,
+  {
+    cacheTime: 1000 * 60 * 60 * 24 * 30, // 30 days cache timer
+    initialData: [] //TODO: initialise authors with already known bots,
+  }
+);
+
+
 
 /**
  *
