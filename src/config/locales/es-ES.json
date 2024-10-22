@@ -634,7 +634,7 @@
     "continue": "Continuar",
     "okay": "Ok",
     "done": "Hecho",
-    "thankyou": "Thank You!",
+    "thankyou": "¡Gracias!",
     "notice": "¡Aviso!",
     "close": "CERRAR",
     "later": "Más tarde",
@@ -994,7 +994,7 @@
     "read_more": "Cargar más comentarios",
     "more_replies": "respuestas",
     "no_comments": "Sé el primero en responder...",
-    "bot_comments": "Comments"
+    "bot_comments": "Comentarios"
   },
   "search_result": {
     "others": "Otros",
@@ -1151,14 +1151,14 @@
     "insufficient_fund": "Fondos insuficientes"
   },
   "proposal": {
-    "title": "Enjoying Ecency!",
-    "title-voted": "We are grateful!",
-    "desc": "Support proposal by voting, be part of our continuous efforts to improve experience on Ecency.",
-    "desc-voted": "Your support means everything to us",
-    "title-action-dismiss": "Dismiss Vote Request",
-    "btn-vote": "Cast My Vote",
-    "btn-dismiss": "Dismiss",
-    "btn-later": "Remind Later",
-    "btn-ignore": "Forever"
+    "title": "¡Disfrutando de la Ecency!",
+    "title-voted": "¡Estamos muy agradecidos!",
+    "desc": "Apoyar la propuesta mediante votación, formar parte de nuestros continuos esfuerzos para mejorar la experiencia en Ecency.",
+    "desc-voted": "Tu apoyo significa todo para nosotros",
+    "title-action-dismiss": "Descartar solicitud de voto",
+    "btn-vote": "Emitir mi voto",
+    "btn-dismiss": "Descartar",
+    "btn-later": "Recordar Más Tarde",
+    "btn-ignore": "Permanentemente"
   }
 }
