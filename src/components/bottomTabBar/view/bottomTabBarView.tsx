@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useIntl } from 'react-intl';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 import ROUTES from '../../../constants/routeNames';
 
 // Styles
@@ -92,7 +93,9 @@ const BottomTabBarView = ({
     );
   });
 
-  return <View style={{ ...styles.wrapper, paddingBottom: insets.bottom }}>{_tabButtons}</View>;
+  const _bottomPadding = insets.bottom + (isIphoneX() ? 0 : 12);
+
+  return <View style={{ ...styles.wrapper, paddingBottom: _bottomPadding }}>{_tabButtons}</View>;
 };
 
 export default BottomTabBarView;
