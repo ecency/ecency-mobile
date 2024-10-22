@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { CommentsModal, Icon, UserAvatar } from '../..';
 import styles from '../styles/botCommentsPreview.styles';
@@ -12,7 +11,6 @@ interface BotCommentsProps {
 }
 
 export const BotCommentsPreview = ({ comments }: BotCommentsProps) => {
-  const intl = useIntl();
   const navigation = useNavigation();
 
   const commentsModalRef = useRef<typeof CommentsModal>();
@@ -33,11 +31,10 @@ export const BotCommentsPreview = ({ comments }: BotCommentsProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.labelWrapper}>
-        <Text style={styles.label}>{intl.formatMessage({ id: 'comments.bot_comments' })}</Text>
         <Icon
           iconType="AntDesign"
-          name="right"
-          size={14}
+          name="doubleright"
+          size={16}
           color={EStyleSheet.value('$primaryDarkText')}
         />
       </View>
