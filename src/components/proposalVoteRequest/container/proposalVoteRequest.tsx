@@ -21,11 +21,12 @@ export const ProposalVoteRequest = () => {
   const proposalVoteMutation = useProposalVoteMutation();
 
   const currentAccount = useSelector((state) => state.account.currentAccount);
+  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
 
   // assess if user should be promopted to vote proposal
   // makes sure this logic is only calculated once on launch
   const [skipOnLaunch] = useState(
-    !currentAccount || proposalVotedQuery.data || proposalVotedQuery.meta?.processed,
+    !isLoggedIn || proposalVotedQuery.data || proposalVotedQuery.meta?.processed,
   );
 
   // render or no render based on dimiss action performed
