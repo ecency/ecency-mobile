@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, TouchableOpacity, Platform } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 
 // Components
 // import TabBar from './tabbar';
@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useIntl } from 'react-intl';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 import ROUTES from '../../../constants/routeNames';
 
 // Styles
@@ -17,7 +18,6 @@ import Icon, { IconContainer } from '../../icon';
 import { showReplyModal, updateActiveBottomTab } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import showLoginAlert from '../../../utils/showLoginAlert';
-import { isIphoneX } from 'react-native-iphone-x-helper';
 
 const BottomTabBarView = ({
   state: { routes, index },
@@ -93,9 +93,9 @@ const BottomTabBarView = ({
     );
   });
 
-  const _bottomPadding = insets.bottom + (isIphoneX() ? 0 : 12)
+  const _bottomPadding = insets.bottom + (isIphoneX() ? 0 : 12);
 
-  return <View style={{ ...styles.wrapper, paddingBottom: _bottomPadding}}>{_tabButtons}</View>;
+  return <View style={{ ...styles.wrapper, paddingBottom: _bottomPadding }}>{_tabButtons}</View>;
 };
 
 export default BottomTabBarView;

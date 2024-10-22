@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity} from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useIntl } from 'react-intl';
 
 // Components
 import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { SearchModal } from '../../searchModal';
 import { IconButton } from '../../iconButton';
 import { UserAvatar } from '../../userAvatar';
@@ -14,7 +15,6 @@ import ROUTES from '../../../constants/routeNames';
 
 // Styles
 import styles from './headerStyles';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HeaderView = ({
   displayName,
