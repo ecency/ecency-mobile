@@ -1,13 +1,12 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Platform } from 'react-native';
 
 export default EStyleSheet.create({
   container: {
     flexDirection: 'row',
     width: '100%',
     backgroundColor: '$primaryBackgroundColor',
-    flex: 1,
-    maxHeight: Platform.OS === 'ios' ? 105 : 80,
+    paddingTop:8,
+    paddingBottom:12,
   },
   containerReverse: {
     justifyContent: 'space-between',

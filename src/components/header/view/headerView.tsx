@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useIntl } from 'react-intl';
 
@@ -14,6 +14,7 @@ import ROUTES from '../../../constants/routeNames';
 
 // Styles
 import styles from './headerStyles';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HeaderView = ({
   displayName,
@@ -134,7 +135,7 @@ const HeaderView = ({
   );
 
   return (
-    <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
+    <SafeAreaView edges={['top']} style={[styles.container, isReverse && styles.containerReverse]}>
       {!hideUser && (
         <>
           <SearchModal
