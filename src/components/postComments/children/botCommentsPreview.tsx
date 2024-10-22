@@ -33,11 +33,10 @@ export const BotCommentsPreview = ({ comments }: BotCommentsProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.labelWrapper}>
-        <Text style={styles.label}>{intl.formatMessage({ id: 'comments.bot_comments' })}</Text>
         <Icon
           iconType="AntDesign"
-          name="right"
-          size={14}
+          name="doubleright"
+          size={16}
           color={EStyleSheet.value('$primaryDarkText')}
         />
       </View>
