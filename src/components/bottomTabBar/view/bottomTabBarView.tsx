@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Platform } from 'react-native';
 
 // Components
 // import TabBar from './tabbar';
@@ -17,6 +17,7 @@ import Icon, { IconContainer } from '../../icon';
 import { showReplyModal, updateActiveBottomTab } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import showLoginAlert from '../../../utils/showLoginAlert';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 
 const BottomTabBarView = ({
   state: { routes, index },
@@ -92,7 +93,9 @@ const BottomTabBarView = ({
     );
   });
 
-  return <View style={{ ...styles.wrapper, paddingBottom: insets.bottom }}>{_tabButtons}</View>;
+  const _bottomPadding = insets.bottom + (isIphoneX() ? 0 : 12)
+
+  return <View style={{ ...styles.wrapper, paddingBottom: _bottomPadding}}>{_tabButtons}</View>;
 };
 
 export default BottomTabBarView;
