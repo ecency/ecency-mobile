@@ -181,6 +181,7 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
       throw new Error('could not recover account data from redux copy');
     }
 
+    //TODO: check if this need to accomodate HIVE_AUTH;
     if (_authType === AUTH_TYPE.STEEM_CONNECT) {
       const _scAccount = await getSCAccount(username);
       if (!_scAccount?.refreshToken) {
