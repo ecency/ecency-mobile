@@ -138,6 +138,7 @@ import {
   EmptyScreen,
 } from './basicUIElements';
 import { SelectionList } from './selectionList';
+import { HiveAuthModal } from './hiveAuthModal';
 
 export {
   EditAvatar,
@@ -274,4 +275,5 @@ export {
   ImageViewer,
   WalkthroughMarker,
   ProposalVoteRequest,
+  HiveAuthModal,
 };

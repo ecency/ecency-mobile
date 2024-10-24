@@ -3,9 +3,6 @@ import type { RootState, AppDispatch } from './redux/store/store';
 import persistAccountGenerator from './utils/persistAccountGenerator';
 import { addOtherAccount, setPrevLoggedInUsers, updateCurrentAccount } from './redux/actions/accountAction';
 import { fetchSubscribedCommunities } from './redux/actions/communitiesAction';
-import ROUTES from './constants/routeNames';
-import { useNavigation } from '@react-navigation/native';
-import { useIntl } from 'react-intl';
 import { login as loginAction } from './redux/actions/applicationActions';
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
@@ -15,11 +12,8 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 
 export const usePostLoginActions = () => {
-    const intl = useIntl();
     const dispatch = useDispatch();
-    const navigation = useNavigation();
 
-    const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen)
     const prevLoggedInUsers = useAppSelector((state) => state.account.prevLoggedInUsers)
 
 
@@ -52,20 +46,6 @@ export const usePostLoginActions = () => {
             dispatch(loginAction(true));
             _updatePrevLoggedInUsersList(accountData.username);
 
-            if (isPinCodeOpen) {
-                navigation.navigate({
-                    name: ROUTES.SCREENS.PINCODE,
-                    params: {
-                        accessToken: accountData.accessToken,
-                        navigateTo: ROUTES.DRAWER.MAIN,
-                    },
-                });
-            } else {
-                navigation.navigate({
-                    name: ROUTES.DRAWER.MAIN,
-                    params: { accessToken: accountData.accessToken },
-                });
-            }
         } else {
             throw new Error('alert.unknow_error');
  

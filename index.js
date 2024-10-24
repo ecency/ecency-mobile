@@ -5,6 +5,7 @@ import { name as appName } from './app.json';
 import 'react-native-url-polyfill/auto';
 import 'intl';
 import 'intl/locale-data/jsonp/en-US';
+import 'react-native-get-random-values';
 
 // set check frequency options
 const EcencyApp = require('./App').default;

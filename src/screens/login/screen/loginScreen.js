@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Platform, Keyboard, Text } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useIntl } from 'react-intl';
@@ -10,6 +10,7 @@ import HiveSigner from '../../steem-connect/hiveSigner';
 // Internal Components
 import {
   FormInput,
+  HiveAuthModal,
   InformationArea,
   LoginHeader,
   MainButton,
@@ -34,6 +35,10 @@ const LoginScreen = ({
   isLoading,
 }) => {
   const intl = useIntl();
+
+  const hiveAuthModalRef = useRef();
+
+
   const [username, setUsername] = useState(initialUsername || '');
   const [password, setPassword] = useState('');
   const [isUsernameValid, setIsUsernameValid] = useState(true);
@@ -195,6 +200,19 @@ const LoginScreen = ({
           style={styles.hsLoginBtnStyle}
         />
 
+        <MainButton
+          onPress={() => hiveAuthModalRef.current.showModal(username)}
+          renderIcon={_renderHiveicon()}
+          text={intl.formatMessage({
+            id: 'login.login_with_hiveauth',
+          })}
+          textStyle={styles.hsLoginBtnText}
+          wrapperStyle={styles.loginBtnWrapper}
+          bodyWrapperStyle={styles.loginBtnBodyWrapper}
+          height={48}
+          style={styles.hsLoginBtnStyle}
+        />
+
         <View style={styles.footerButtons}>
           <Text style={styles.noAccountText}>
             {intl.formatMessage({
@@ -220,6 +238,8 @@ const LoginScreen = ({
       >
         <HiveSigner handleOnModalClose={_handleOnModalToggle} />
       </Modal>
+
+      <HiveAuthModal ref={hiveAuthModalRef} />
     </View>
   );
 };
