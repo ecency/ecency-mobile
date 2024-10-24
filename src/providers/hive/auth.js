@@ -193,6 +193,79 @@ export const loginWithSC2 = async (code) => {
   }
 };
 
+
+export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => {
+  try {
+    const scTokens = await getSCAccessToken(hsCode);
+    hsApi.setAccessToken(get(scTokens, 'access_token', ''));
+    const scAccount = await hsApi.me();
+  
+    // NOTE: even though sAccount.account has account data but there are certain properties missing from hsApi variant, for instance account.username
+    // that is why we still have to fetch account data using dhive, thought post processing done in dhive variant can be done in utils in future
+    const account = await getUser(scAccount.account.name);
+    let avatar = '';
+
+    try {
+      account.unread_activity_count = await getUnreadNotificationCount(accessToken);
+      account.pointsSummary = await getPointsSummary(account.username);
+      account.mutes = await getMutes(account.username);
+    } catch (err) {
+      console.warn('Optional user data fetch failed, account can still function without them', err);
+    }
+
+    let jsonMetadata;
+    try {
+      jsonMetadata = JSON.parse(account.posting_json_metadata) || '';
+      if (Object.keys(jsonMetadata).length !== 0) {
+        avatar = jsonMetadata.profile.profile_image || '';
+      }
+    } catch (error) {
+      jsonMetadata = '';
+    }
+
+    const userData = {
+      username: account.name,
+      avatar,
+      authType: AUTH_TYPE.HIVE_AUTH,
+      masterKey: '',
+      postingKey: '',
+      activeKey: '',
+      memoKey: '',
+      accessToken: '',
+      hiveAuthKey: hiveAuthKey,
+      hiveAuthExpiry: hiveAuthExpiry
+    };
+
+    const resData = {
+      pinCode: Config.DEFAULT_PIN,
+      accessToken: get(scTokens, 'access_token', ''),
+    };
+    const updatedUserData = getUpdatedUserData(userData, resData);
+
+    account.local = updatedUserData;
+    account.local.avatar = avatar;
+
+    await setUserData(account.local);
+
+    await updateCurrentUsername(account.name);
+    const authData = {
+      isLoggedIn: true,
+      currentUsername: account.name,
+    };
+    await setAuthStatus(authData);
+    await setSCAccount(scTokens);
+
+    return {
+      ...account,
+      accessToken: get(scTokens, 'access_token', ''),
+    };
+  } catch (err) {
+    bugsnapInstance.notify(err);
+    throw err;
+  }
+};
+
+
 export const updatePinCode = (data) =>
   new Promise((resolve, reject) => {
     let currentUser = null;
