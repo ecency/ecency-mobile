@@ -6,6 +6,7 @@ import { fetchSubscribedCommunities } from './redux/actions/communitiesAction';
 import ROUTES from './constants/routeNames';
 import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
+import { login as loginAction } from './redux/actions/applicationActions';
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 export const useAppDispatch = () => useDispatch<AppDispatch>();
@@ -46,7 +47,7 @@ export const usePostLoginActions = () => {
             const persistAccountData = persistAccountGenerator(accountData);
 
             dispatch(updateCurrentAccount({ ...accountData }));
-            dispatch(fetchSubscribedCommunities(result.username));
+            dispatch(fetchSubscribedCommunities(accountData.username));
             dispatch(addOtherAccount({ ...persistAccountData }));
             dispatch(loginAction(true));
             _updatePrevLoggedInUsersList(accountData.username);
@@ -76,7 +77,3 @@ export const usePostLoginActions = () => {
         updateAccountsData
     }
 }
-function loginAction(arg0: boolean): any {
-    throw new Error('Function not implemented.');
-}
-

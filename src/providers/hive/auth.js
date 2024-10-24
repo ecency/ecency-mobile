@@ -196,10 +196,12 @@ export const loginWithSC2 = async (code) => {
 
 export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => {
   try {
+
     const scTokens = await getSCAccessToken(hsCode);
+
     hsApi.setAccessToken(get(scTokens, 'access_token', ''));
     const scAccount = await hsApi.me();
-  
+
     // NOTE: even though sAccount.account has account data but there are certain properties missing from hsApi variant, for instance account.username
     // that is why we still have to fetch account data using dhive, thought post processing done in dhive variant can be done in utils in future
     const account = await getUser(scAccount.account.name);
@@ -232,13 +234,15 @@ export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => 
       activeKey: '',
       memoKey: '',
       accessToken: '',
-      hiveAuthKey: hiveAuthKey,
-      hiveAuthExpiry: hiveAuthExpiry
+      hiveAuthKey: '',
+      hiveAuthExpiry: 0
     };
 
     const resData = {
       pinCode: Config.DEFAULT_PIN,
       accessToken: get(scTokens, 'access_token', ''),
+      hiveAuthKey: hiveAuthKey,
+      hiveAuthExpiry: hiveAuthExpiry
     };
     const updatedUserData = getUpdatedUserData(userData, resData);
 
@@ -300,7 +304,10 @@ export const updatePinCode = (data) =>
                 }
 
                 data.password = password;
-              } else if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
+              }
+
+              //TODO: check if this need to accomodate HIVE_AUTH;
+              else if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
                 const accessToken = decryptKey(
                   get(userData, 'accessToken'),
                   get(data, 'oldPinCode', ''),
@@ -390,13 +397,15 @@ export const getPrivateKeys = (username, password) => {
   }
 };
 
-export const getUpdatedUserData = (userData, data) => {
+
+const getUpdatedUserData = (userData, data) => {
   const privateKeys = getPrivateKeys(get(userData, 'username', ''), get(data, 'password'));
 
   return {
     username: get(userData, 'username', ''),
     authType: get(userData, 'authType', ''),
     accessToken: encryptKey(data.accessToken, get(data, 'pinCode')),
+    hiveAuthExpiry: get(data, 'hiveAuthExpiry', 0),
 
     masterKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY
@@ -404,24 +413,28 @@ export const getUpdatedUserData = (userData, data) => {
         : get(userData, 'masterKey', ''),
     postingKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-      get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
+        get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
         ? encryptKey(get(privateKeys, 'postingKey', '').toString(), get(data, 'pinCode'))
         : get(userData, 'postingKey', ''),
     activeKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-      get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
+        get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
         ? encryptKey(get(privateKeys, 'activeKey', '').toString(), get(data, 'pinCode'))
         : get(userData, 'activeKey', ''),
     memoKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-      get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
+        get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
         ? encryptKey(get(privateKeys, 'memoKey', '').toString(), get(data, 'pinCode'))
         : get(userData, 'memoKey', ''),
     ownerKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-      get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
+        get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
         ? encryptKey(get(privateKeys, 'ownerKey', '').toString(), get(data, 'pinCode'))
         : get(userData, 'ownerKey', ''),
+    hiveAuthKey:
+      get(userData, 'authType', '') === AUTH_TYPE.HIVE_AUTH
+        ? encryptKey(data.hiveAuthKey, get(data, 'pinCode'))
+        : get(userData, 'hiveAuthKey', ''),
   };
 };
 
@@ -462,7 +475,8 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
     };
     const _userData = getUpdatedUserData(_localData, data);
 
-    // sustain appropriate authType;
+    // sustain appropriate authType
+    //TODO: check if this need to accomodate HIVE_AUTH;
     if (_prevAuthType === AUTH_TYPE.STEEM_CONNECT) {
       _userData.authType = _prevAuthType;
     }
