@@ -80,6 +80,7 @@ class PowerDownView extends Component {
 
     this.setState({ isTransfering: true });
 
+    //TODO: check if this need to accomodate HIVE_AUTH;
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
       Alert.alert(
         intl.formatMessage({ id: 'alert.warning' }),

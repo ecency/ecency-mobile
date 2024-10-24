@@ -108,6 +108,7 @@ const TransferView = ({
   const _handleTransferAction = debounce(
     () => {
       setIsTransfering(true);
+      //TODO: check if this need to accomodate HIVE_AUTH;
       if (accountType === AUTH_TYPE.STEEM_CONNECT) {
         setHsTransfer(true);
       } else {
@@ -127,7 +128,8 @@ const TransferView = ({
 
   const _handleDeleteRecurrentTransfer = debounce(
     () => {
-      setIsTransfering(true);
+      setIsTransfering(true)
+      //TODO: check if this need to accomodate HIVE_AUTH;
       if (accountType === AUTH_TYPE.STEEM_CONNECT) {
         setHsTransfer(true);
       } else {

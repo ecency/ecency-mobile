@@ -14,6 +14,7 @@ const ROUTES = {
     SPIN_GAME: `SpinGame${SCREEN_SUFFIX}`,
     FEED: `Feed${SCREEN_SUFFIX}`,
     LOGIN: `Login${SCREEN_SUFFIX}`,
+    KEYCHAIN: `Keychain${SCREEN_SUFFIX}`,
     PINCODE: `PinCode${SCREEN_SUFFIX}`,
     POST: `Post${SCREEN_SUFFIX}`,
     PROFILE_EDIT: `ProfileEdit${SCREEN_SUFFIX}`,

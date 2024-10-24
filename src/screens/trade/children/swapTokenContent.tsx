@@ -174,6 +174,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
       toAmount,
     };
 
+    //TODO: check if this need to accomodate HIVE_AUTH;
     if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
       await delay(500); // NOTE: it's required to avoid modal mis fire
       handleHsTransfer(generateHsSwapTokenPath(currentAccount, data));

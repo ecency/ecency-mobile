@@ -40,6 +40,7 @@ const executePollAction = (id: string, json: any, currentAccount: any, pinHash: 
   };
   const opArray: Operation[] = [['custom_json', op]];
 
+  //TODO: check if this need to accomodate HIVE_AUTH;
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, pin);
     const api = new hsClient({
