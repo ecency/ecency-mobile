@@ -634,7 +634,7 @@
     "continue": "Fortsätt",
     "okay": "Okay",
     "done": "Done",
-    "thankyou": "Thank You!",
+    "thankyou": "Tack!",
     "notice": "Notice!",
     "close": "STÄNG",
     "later": "Later",
@@ -1158,7 +1158,7 @@
     "title-action-dismiss": "Dismiss Vote Request",
     "btn-vote": "Cast My Vote",
     "btn-dismiss": "Dismiss",
-    "btn-later": "Remind Later",
+    "btn-later": "Påminn senare",
     "btn-ignore": "Forever"
   }
 }
