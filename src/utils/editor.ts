@@ -229,6 +229,7 @@ export const extractMetadata = async ({
   videoThumbUrls,
   fetchRatios,
   postType,
+  contentType,
   videoPublishMeta,
   pollDraft,
 }: {
@@ -237,6 +238,7 @@ export const extractMetadata = async ({
   videoThumbUrls: string[];
   fetchRatios?: boolean;
   postType?: PostTypes;
+  contentType?: ContentType;
   videoPublishMeta?: ThreeSpeakVideo;
   pollDraft?: PollDraft;
 }) => {
@@ -244,7 +246,7 @@ export const extractMetadata = async ({
   // const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
 
   let out: PostMetadata = {
-    content_type: ContentType.GENERAL,
+    content_type: contentType || ContentType.GENERAL,
   };
 
   const mUrls = extractUrls(body);

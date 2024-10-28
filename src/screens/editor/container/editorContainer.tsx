@@ -961,6 +961,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         videoThumbUrls: speakContentBuilder.thumbUrlsRef.current,
         thumbUrl,
         fetchRatios: true,
+        postType: jsonMetadata.type,
+        contentType: jsonMetadata.content_type
       });
 
       let jsonMeta = {};
