@@ -306,7 +306,7 @@ export const updatePinCode = (data) =>
                 data.password = password;
               }
 
-              //TODO: check if this need to accomodate HIVE_AUTH;
+              
               else if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
                 const accessToken = decryptKey(
                   get(userData, 'accessToken'),
@@ -317,6 +317,25 @@ export const updatePinCode = (data) =>
                   return;
                 }
                 data.accessToken = accessToken;
+              }
+
+              else if (get(userData, 'authType', '') === AUTH_TYPE.HIVE_AUTH) {
+                const accessToken = decryptKey(
+                  get(userData, 'accessToken'),
+                  get(data, 'oldPinCode', ''),
+                  _onDecryptError,
+                );
+                const hiveAuthKey = decryptKey(
+                  get(userData, 'hiveAuthKey'),
+                  get(data, 'oldPinCode', ''),
+                  _onDecryptError,
+                );
+
+                if (accessToken === undefined || hiveAuthKey === undefined) {
+                  return;
+                }
+                data.accessToken = accessToken;
+                data.hiveAuthKey = hiveAuthKey;
               }
               const updatedUserData = getUpdatedUserData(userData, data);
               updateUserData(updatedUserData);
@@ -476,8 +495,7 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
     const _userData = getUpdatedUserData(_localData, data);
 
     // sustain appropriate authType
-    //TODO: check if this need to accomodate HIVE_AUTH;
-    if (_prevAuthType === AUTH_TYPE.STEEM_CONNECT) {
+    if (_prevAuthType === AUTH_TYPE.STEEM_CONNECT || _prevAuthType === AUTH_TYPE.HIVE_AUTH) {
       _userData.authType = _prevAuthType;
     }
 

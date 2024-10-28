@@ -487,7 +487,7 @@ class ApplicationContainer extends Component {
       // cannot migrate or refresh token since pin would null while pin code modal is open
       if (!isPinCodeOpen || encUnlockPin) {
         // migration script for previously mast key based logged in user not having access token
-        if (realmObject.authType !== AUTH_TYPE.STEEM_CONNECT && realmObject.accessToken === '') {
+        if (realmObject.authType !== AUTH_TYPE.STEEM_CONNECT && realmObject.authType !== AUTH_TYPE.HIVE_AUTH && realmObject.accessToken === '') {
           accountData = await migrateToMasterKeyWithAccessToken(accountData, realmObject, pinCode);
         }
 
@@ -717,7 +717,7 @@ class ApplicationContainer extends Component {
       }
 
       // migreate account to use access token for master key auth type
-      if (realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT && realmData[0].accessToken === '') {
+      if (realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT && realmData[0].authType !== AUTH_TYPE.HIVE_AUTH && realmData[0].accessToken === '') {
         _currentAccount = await migrateToMasterKeyWithAccessToken(
           _currentAccount,
           realmData[0],
