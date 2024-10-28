@@ -962,7 +962,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         thumbUrl,
         fetchRatios: true,
         postType: jsonMetadata.type,
-        contentType: jsonMetadata.content_type
+        contentType: jsonMetadata.content_type,
       });
 
       let jsonMeta = {};

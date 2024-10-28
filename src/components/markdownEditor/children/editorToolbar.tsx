@@ -30,7 +30,7 @@ type Props = {
   paramFiles: any[];
   isEditing: boolean;
   isPreviewActive: boolean;
-  isEditMode: boolean
+  isEditMode: boolean;
   setIsUploading: (isUploading: boolean) => void;
   handleMediaInsert: (data: MediaInsertData[]) => void;
   handleOnAddLinkPress: () => void;
@@ -286,20 +286,16 @@ export const EditorToolbar = ({
               name="text-short"
             />
 
-            {
-              !isEditMode && (
-                <IconButton
-                  size={18}
-                  style={[styles.rightIcons, !!pollDraft?.title && styles.iconBottomBar]}
-                  iconStyle={styles.icon}
-                  iconType="SimpleLineIcons"
-                  name="chart"
-                  onPress={_showPollsExtension}
-                />
-              )
-
-            }
-
+            {!isEditMode && (
+              <IconButton
+                size={18}
+                style={[styles.rightIcons, !!pollDraft?.title && styles.iconBottomBar]}
+                iconStyle={styles.icon}
+                iconType="SimpleLineIcons"
+                name="chart"
+                onPress={_showPollsExtension}
+              />
+            )}
 
             <IconButton
               onPress={_showImageUploads}
