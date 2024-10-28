@@ -447,6 +447,7 @@ const MarkdownEditorView = ({
           postBody={bodyTextRef.current}
           isPreviewActive={isPreviewActive}
           paramFiles={paramFiles}
+          isEditMode={isEdit}
           setIsUploading={setIsUploading}
           handleMediaInsert={_handleMediaInsert}
           handleOnAddLinkPress={_handleOnAddLinkPress}
