@@ -189,7 +189,18 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
       }
       _userAccount = await loginWithSC2(_scAccount.refreshToken);
       console.log('successfully repair hive signer based account data', username);
-    } else {
+    } 
+    
+    //TOOD: handle hive auth account repair
+    else if (_authType === AUTH_TYPE.HIVE_AUTH){
+      //get SC data
+      //make sure tokens are not already expired
+      //repair data
+
+      //if already expired, prompt for relogin
+    }
+    
+    else {
       const _encryptedKey = _userAccount.local[_authType];
       const _key = decryptKey(_encryptedKey, getDigitPinCode(pinHash));
       if (!_key) {

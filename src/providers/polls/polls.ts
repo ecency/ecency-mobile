@@ -5,7 +5,6 @@ import bugsnagInstance from '../../config/bugsnag';
 import { Poll } from './polls.types';
 import { convertPoll } from './converters';
 import { getActiveKey, getDigitPinCode, isHsClientSupported, sendHiveOperations } from '../hive/dhive';
-import AUTH_TYPE from '../../constants/authType';
 import { decryptKey } from '../../utils/crypto';
 
 /**
@@ -40,7 +39,7 @@ const executePollAction = (id: string, json: any, currentAccount: any, pinHash: 
   };
   const opArray: Operation[] = [['custom_json', op]];
 
-  //TODO: check if this need to accomodate HIVE_AUTH;
+
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, pin);
     const api = new hsClient({
