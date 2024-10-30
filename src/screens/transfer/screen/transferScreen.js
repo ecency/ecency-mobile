@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
@@ -10,6 +10,7 @@ import AUTH_TYPE from '../../../constants/authType';
 
 import {
   BasicHeader,
+  HiveAuthModal,
   MainButton,
   Modal,
   TransferAccountSelector,
@@ -27,6 +28,7 @@ import {
   SPK_NODE_ECENCY,
 } from '../../../providers/hive-spk/hiveSpk';
 import parseToken from '../../../utils/parseToken';
+import { buildTransferOpsArray } from '../../../providers/hive/transactionOpsBuilder';
 
 const TransferView = ({
   currentAccountName,
@@ -50,6 +52,8 @@ const TransferView = ({
 }) => {
   const dispatch = useAppDispatch();
 
+  const hiveAuthModalRef = useRef();
+
   const [from, setFrom] = useState(currentAccountName);
   const [destination, setDestination] = useState(
     transferType === 'transfer_to_vesting' ||
@@ -65,10 +69,10 @@ const TransferView = ({
       transferType === TransferTypes.LOCK_LIQUIDITY_SPK
       ? currentAccountName
       : transferType === 'purchase_estm'
-      ? 'esteem.app'
-      : transferType === TransferTypes.DELEGATE_SPK
-      ? SPK_NODE_ECENCY
-      : referredUsername || '',
+        ? 'esteem.app'
+        : transferType === TransferTypes.DELEGATE_SPK
+          ? SPK_NODE_ECENCY
+          : referredUsername || '',
   );
 
   const [amount, setAmount] = useState(`${initialAmount}`);
@@ -108,10 +112,23 @@ const TransferView = ({
   const _handleTransferAction = debounce(
     () => {
       setIsTransfering(true);
-      //TODO: check if this need to accomodate HIVE_AUTH;
+
       if (accountType === AUTH_TYPE.STEEM_CONNECT) {
         setHsTransfer(true);
-      } else {
+      }
+
+      else if (accountType === AUTH_TYPE.HIVE_AUTH) {
+        const opArray = buildTransferOpsArray(transferType, {
+          from,
+          to: destination,
+          amount,
+          memo,
+          recurrence: isRecurrentTransfer ? +recurrence : null,
+          executions: isRecurrentTransfer ? +executions : null
+        })
+        hiveAuthModalRef.current.broadcastActiveOps(opArray)
+      }
+      else {
         transferToAccount(
           from,
           destination,
@@ -143,24 +160,6 @@ const TransferView = ({
   let path;
 
   if (hsTransfer) {
-    // NOTE: Keepping point purchase url here for referemnce in case we have to put it back again,
-    // the path formatting seems quite complex so perhaps it's better to just let it live here
-    // as comment
-    // if (transferType === transferTypes.PURCHASE_ESTM) {
-    //   const json = JSON.stringify({
-    //     sender: get(selectedAccount, 'name'),
-    //     receiver: destination,
-    //     amount: `${Number(amount).toFixed(3)} ${fundType}`,
-    //     memo,
-    //   });
-    //   path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
-    //     selectedAccount,
-    //     'name',
-    //   )}%22%5D&required_posting_auths=%5B%5D&id=ecency_point_transfer&json=${encodeURIComponent(
-    //     json,
-    //   )}`;
-    // } else
-
     if (transferType === TransferTypes.RECURRENT_TRANSFER) {
       path = `sign/recurrent_transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
@@ -222,11 +221,10 @@ const TransferView = ({
     } else if (isSpkToken) {
       // compose spk json
       const json = getSpkActionJSON(Number(amount), destination, memo);
-      path = `sign/custom-json?authority=active&required_auths=%5B%22${
-        selectedAccount.name
-      }%22%5D&required_posting_auths=%5B%5D&id=${getSpkTransactionId(
-        transferType,
-      )}&json=${encodeURIComponent(JSON.stringify(json))}`;
+      path = `sign/custom-json?authority=active&required_auths=%5B%22${selectedAccount.name
+        }%22%5D&required_posting_auths=%5B%5D&id=${getSpkTransactionId(
+          transferType,
+        )}&json=${encodeURIComponent(JSON.stringify(json))}`;
     } else {
       path = `sign/transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
@@ -384,6 +382,12 @@ const TransferView = ({
           <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
         </Modal>
       )}
+
+      <HiveAuthModal
+        ref={hiveAuthModalRef}
+        onClose={handleOnModalClose}
+      />
+
     </View>
   );
 };

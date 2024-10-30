@@ -1,12 +1,12 @@
 import { FormInput, MainButton, ModalHeader } from '../../../components';
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { Linking, Alert, View } from 'react-native';
+import { Linking, Alert, View, Text } from 'react-native';
 
 import HAS from 'hive-auth-wrapper';
 import { v4 as uuidv4 } from "uuid";
 import { useIntl } from 'react-intl';
 import styles from '../styles/hiveAuthModal.styles'
-import { lookupAccounts } from '../../../providers/hive/dhive';
+import { getDigitPinCode, lookupAccounts } from '../../../providers/hive/dhive';
 import { loginWithHiveAuth } from '../../../providers/hive/auth';
 import { useAppSelector, usePostLoginActions } from '../../../hooks';
 import { HiveSignerMessage } from 'utils/hive-signer-helper';
@@ -14,6 +14,9 @@ import { debounce } from 'lodash';
 import ROUTES from '../../../constants/routeNames';
 import { useNavigation } from '@react-navigation/native';
 import ActionSheet from 'react-native-actions-sheet';
+import AUTH_TYPE from '../../../constants/authType';
+import { decryptKey } from '../../../utils/crypto';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 
 const APP_META = {
@@ -23,14 +26,27 @@ const APP_META = {
 }
 
 
-export const HiveAuthModal = forwardRef((_, ref) => {
+interface HiveAuthModalProps {
+    onClose?: () => void
+}
+
+
+export const HiveAuthModal = forwardRef(({
+    onClose
+}: HiveAuthModalProps, ref) => {
 
     useImperativeHandle(ref, () => ({
-        showModal: (_username:string) => {
-            if(_username){
+        showModal: (_username: string) => {
+            if (_username) {
                 setUsername(_username)
             }
             bottomSheetModalRef.current?.show();
+        },
+        broadcastActiveOps: (opsArray: any) => {
+            if (opsArray) {
+                setOpsArray(opsArray);
+                bottomSheetModalRef.current?.show();
+            }
         }
     }))
 
@@ -39,6 +55,8 @@ export const HiveAuthModal = forwardRef((_, ref) => {
     const postLoginActions = usePostLoginActions();
 
     const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen)
+    const pinHash = useAppSelector((state) => state.application.pin)
+    const currentAccount = useAppSelector((state) => state.account.currentAccount)
 
 
     const bottomSheetModalRef = useRef();
@@ -46,6 +64,7 @@ export const HiveAuthModal = forwardRef((_, ref) => {
     const [username, setUsername] = useState('');
     const [isUsernameValid, setIsUsernameValid] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [opsArray, setOpsArray] = useState<null | any>(null);
 
 
     useEffect(() => {
@@ -174,35 +193,61 @@ export const HiveAuthModal = forwardRef((_, ref) => {
 
 
 
-    // const _sendVoteReq = () => {
-    //     console.log("expire check", auth.expire, new Date().getTime())
-    //     // if(auth.expire && auth.expire > new Date().getTime()){
+    const _broadcastActiveOps = async () => {
 
-    //     const args = [
-    //         [
-    //             'vote',
-    //             {
-    //                 voter: 'demo.com',
-    //                 author: 'demo.com',
-    //                 permlink: 'test-from-ecency-app',
-    //                 weight: 5000,
-    //             },
-    //         ],
-    //     ];
+        try {
 
-    //     HAS.broadcast(auth, 'posting', args, (evt) => {
-    //         console.log("sign wait", evt)
-    //         Linking.openURL("has://sign_req");
-    //     }).then((res) => {
-    //         console.log("broadcast complete", res)
-    //     }).catch((e) => {
-    //         console.log("broadcast fail", e)
-    //     })
+            setIsLoading(true);
+            if (currentAccount.local.authType !== AUTH_TYPE.HIVE_AUTH) {
+                throw new Error("Invalid auth type")
+            }
 
-    // }
+            const _hiveAuthObj = {
+                username: currentAccount.username,
+                expiry: currentAccount.local.hiveAuthExpiry,
+                key: decryptKey(currentAccount.local.hiveAuthKey, getDigitPinCode(pinHash)),
+            }
+
+            if (!_hiveAuthObj.key) {
+                throw new Error("Failed to decrypt hive auth key");
+            }
+
+            if (_hiveAuthObj.expiry < (new Date().getTime())) {
+                console.log("expire check", _hiveAuthObj.expiry, new Date().getTime())
+                throw new Error("Hive Auth Key is expired, reauthenticate and try again")
+            }
+
+            if (!opsArray) {
+                throw new Error("Missing operations array to broadcast")
+            }
+
+            const _cdWait = (evt) => {
+                console.log("sign wait", evt)
+                Linking.openURL("has://sign_req");
+            }
+
+            const res = await HAS.broadcast(_hiveAuthObj, 'active', opsArray, _cdWait)
+
+            if (res && res.broadcast) {
+                console.log("broadcast response", res)
+                //TODO: hive modal
+                //respond back to transfer screen
+            }
+
+            setIsLoading(false);
+        } catch (error) {
+            setIsLoading(false);
+            Alert.alert("Fail", error.message)
+        }
+
+    }
 
     const _closeModal = () => {
         bottomSheetModalRef.current?.hide()
+        if (onClose) {
+            onClose();
+        }
+
     }
 
     const _handleUsernameChange = (username: string) => {
@@ -248,6 +293,20 @@ export const HiveAuthModal = forwardRef((_, ref) => {
                     isDisable={!username || !isUsernameValid}
                     isLoading={isLoading}
                 />
+
+                {!!opsArray && (
+                    <>
+                        <MainButton
+                            text="Broadcast Transaction"
+                            onPress={_broadcastActiveOps}
+                            // isDisable={!username || !isUsernameValid}
+                            isLoading={isLoading}
+                        />
+                        <Text style={{ color: EStyleSheet.value('$primaryDarkText') }}>
+                            {JSON.stringify(opsArray, null, '\t')}
+                        </Text>
+                    </>
+                )}
             </View>
 
         </View>
