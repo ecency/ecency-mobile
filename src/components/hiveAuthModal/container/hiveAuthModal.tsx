@@ -1,5 +1,5 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { Linking, Alert, View, Text, ActivityIndicator, Keyboard } from 'react-native';
+import { Linking, View, Text, ActivityIndicator, Keyboard } from 'react-native';
 
 import HAS from 'hive-auth-wrapper';
 import { v4 as uuidv4 } from 'uuid';
@@ -57,11 +57,15 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
         },
         broadcastActiveOps: (opsArray: any) => {
             if (opsArray) {
-                setOpsArray(opsArray);
                 setMode(Modes.SIGN)
-                setStatus(Status.IDLE);
-                setStatusText('')
+                setStatus(Status.PROCESSING);
+                setStatusText('Initializing...');
                 bottomSheetModalRef.current?.show();
+                delay(2000).then(()=>{
+                    _broadcastActiveOps(opsArray);
+                })
+                
+     
             }
         },
     }));
@@ -82,7 +86,6 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
     const [statusText, setStatusText] = useState('');
     const [isUsernameValid, setIsUsernameValid] = useState(true);
     const [status, setStatus] = useState(Status.IDLE);
-    const [opsArray, setOpsArray] = useState<null | any>(null);
 
     useEffect(() => {
         // Your application information
@@ -107,6 +110,8 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
             return () => debouncedCheckValidity.cancel();
         }
     }, [username]);
+
+
 
     const _sendAuthReq = async () => {
 
@@ -165,7 +170,7 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
                     Linking.openURL(uri);
                 } else {
                     // TOOD: prompt to install valid keychain app
-                    setStatusText("No Hive Authentication App Found")
+                    setStatusText("Hive Authentication App Not Installed")
                     setStatus(Status.ERROR);
                 }
             };
@@ -185,7 +190,7 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
             setStatusText("Authentication Success!")
             setStatus(Status.SUCCESS);
 
-            await delay(3000);
+            await delay(2000);
 
             if (isPinCodeOpen) {
                 navigation.navigate({
@@ -204,14 +209,15 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
         } catch (error) {
 
             console.warn('Login failed');
-            setStatusText(error.message)
+            setStatusText(error.message || "Authentication Failed")
             setStatus(Status.ERROR);
         }
     };
 
-    const _broadcastActiveOps = async () => {
+    const _broadcastActiveOps = async (opsArray:any) => {
         try {
             setStatus(Status.PROCESSING);
+            setStatusText("Initializing...");
             if (currentAccount.local.authType !== AUTH_TYPE.HIVE_AUTH) {
                 throw new Error('Invalid auth type');
             }
@@ -235,9 +241,17 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
                 throw new Error('Missing operations array to broadcast');
             }
 
-            const _cdWait = (evt) => {
+            const _cdWait = async (evt) => {
                 console.log('sign wait', evt);
-                Linking.openURL('has://sign_req');
+                
+                const _canOpenUri = await Linking.canOpenURL('has://sign_req')
+                if(_canOpenUri){
+                    setStatusText("Requesting...");
+                    Linking.openURL('has://sign_req');
+                } else {
+                    throw new Error("No compatible app installed")
+                }
+               
             };
 
             const res = await HAS.broadcast(_hiveAuthObj, 'active', opsArray, _cdWait);
@@ -249,9 +263,13 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
             }
 
             setStatus(Status.SUCCESS);
+            setStatusText("Transaction Successful!")
+            await delay(2000);
+
+            _closeModal();
         } catch (error) {
             setStatus(Status.ERROR);
-            setStatusText(error.message)
+            setStatusText(error.message || "Transaction Rejected!")
         }
     };
 
@@ -319,20 +337,20 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
     )
 
 
-    const _renderSignContent = (
-        <>
-            {!!opsArray && (
-                <>
-                    <MainButton
-                        text="Broadcast Transaction"
-                        onPress={_broadcastActiveOps}
-                        // isDisable={!username || !isUsernameValid}
-                        isLoading={status === Status.PROCESSING}
-                    />
-                </>
-            )}
-        </>
-    )
+    // const _renderSignContent = (
+    //     <>
+    //         {!!opsArray && (
+    //             <>
+    //                 <MainButton
+    //                     text="Broadcast Transaction"
+    //                     onPress={_broadcastActiveOps}
+    //                     // isDisable={!username || !isUsernameValid}
+    //                     isLoading={status === Status.PROCESSING}
+    //                 />
+    //             </>
+    //         )}
+    //     </>
+    // )
 
     const _renderResultIcon = (iconName: string, colorId: string) => (
         <Animated.View entering={ZoomIn.springify().duration(500)} exiting={ZoomOut}>
@@ -360,7 +378,12 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
                         size={'large'}
                         color={EStyleSheet.value('$primaryBlue')} />
                 }
-                <Text style={{ color: EStyleSheet.value('$primaryDarkText'), fontWeight: 300, fontSize: 24 }}>{statusText}</Text>
+                <Text style={{
+                    color: EStyleSheet.value('$primaryDarkText'),
+                    fontWeight: 300,
+                    fontSize: 24,
+                    textAlign: 'center'
+                }}>{statusText}</Text>
             </Animated.View >
         </>
     )
@@ -371,7 +394,7 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
             <ModalHeader title="Hive Auth" isCloseButton={true} onClosePress={_closeModal} />
             <View style={styles.content}>
                 {status !== Status.IDLE ? _renderProcessContent :
-                    mode === Modes.AUTH ? _renderAuthContent : _renderSignContent}
+                    mode === Modes.AUTH && _renderAuthContent}
             </View>
         </View>
     );
@@ -382,8 +405,9 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
             gestureEnabled={false}
             hideUnderlay={true}
             onClose={() => {
-                setStatus(false);
-                setUsername('')
+                setStatus(Status.IDLE);
+                setStatusText('');
+                setUsername('');
             }}
             containerStyle={styles.sheetContent}
             indicatorStyle={styles.indicator}
