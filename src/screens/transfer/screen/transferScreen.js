@@ -122,6 +122,7 @@ const TransferView = ({
           from,
           to: destination,
           amount,
+          fundType,
           memo,
           recurrence: isRecurrentTransfer ? +recurrence : null,
           executions: isRecurrentTransfer ? +executions : null
