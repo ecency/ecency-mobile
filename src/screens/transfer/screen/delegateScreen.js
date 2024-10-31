@@ -153,7 +153,7 @@ class DelegateScreen extends Component {
     const { transferToAccount, accountType } = this.props;
     const { from, destination, amount } = this.state;
 
-    //TODO: check if this need to accomodate HIVE_AUTH;
+    // TODO: check if this need to accomodate HIVE_AUTH;
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
       this.setState({ steemConnectTransfer: true });
     } else {

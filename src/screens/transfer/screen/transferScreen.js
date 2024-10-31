@@ -69,10 +69,10 @@ const TransferView = ({
       transferType === TransferTypes.LOCK_LIQUIDITY_SPK
       ? currentAccountName
       : transferType === 'purchase_estm'
-        ? 'esteem.app'
-        : transferType === TransferTypes.DELEGATE_SPK
-          ? SPK_NODE_ECENCY
-          : referredUsername || '',
+      ? 'esteem.app'
+      : transferType === TransferTypes.DELEGATE_SPK
+      ? SPK_NODE_ECENCY
+      : referredUsername || '',
   );
 
   const [amount, setAmount] = useState(`${initialAmount}`);
@@ -115,9 +115,7 @@ const TransferView = ({
 
       if (accountType === AUTH_TYPE.STEEM_CONNECT) {
         setHsTransfer(true);
-      }
-
-      else if (accountType === AUTH_TYPE.HIVE_AUTH) {
+      } else if (accountType === AUTH_TYPE.HIVE_AUTH) {
         const opArray = buildTransferOpsArray(transferType, {
           from,
           to: destination,
@@ -125,11 +123,10 @@ const TransferView = ({
           fundType,
           memo,
           recurrence: isRecurrentTransfer ? +recurrence : null,
-          executions: isRecurrentTransfer ? +executions : null
-        })
-        hiveAuthModalRef.current.broadcastActiveOps(opArray)
-      }
-      else {
+          executions: isRecurrentTransfer ? +executions : null,
+        });
+        hiveAuthModalRef.current.broadcastActiveOps(opArray);
+      } else {
         transferToAccount(
           from,
           destination,
@@ -146,8 +143,8 @@ const TransferView = ({
 
   const _handleDeleteRecurrentTransfer = debounce(
     () => {
-      setIsTransfering(true)
-      //TODO: check if this need to accomodate HIVE_AUTH;
+      setIsTransfering(true);
+      // TODO: check if this need to accomodate HIVE_AUTH;
       if (accountType === AUTH_TYPE.STEEM_CONNECT) {
         setHsTransfer(true);
       } else {
@@ -222,10 +219,11 @@ const TransferView = ({
     } else if (isSpkToken) {
       // compose spk json
       const json = getSpkActionJSON(Number(amount), destination, memo);
-      path = `sign/custom-json?authority=active&required_auths=%5B%22${selectedAccount.name
-        }%22%5D&required_posting_auths=%5B%5D&id=${getSpkTransactionId(
-          transferType,
-        )}&json=${encodeURIComponent(JSON.stringify(json))}`;
+      path = `sign/custom-json?authority=active&required_auths=%5B%22${
+        selectedAccount.name
+      }%22%5D&required_posting_auths=%5B%5D&id=${getSpkTransactionId(
+        transferType,
+      )}&json=${encodeURIComponent(JSON.stringify(json))}`;
     } else {
       path = `sign/transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
@@ -384,11 +382,7 @@ const TransferView = ({
         </Modal>
       )}
 
-      <HiveAuthModal
-        ref={hiveAuthModalRef}
-        onClose={handleOnModalClose}
-      />
-
+      <HiveAuthModal ref={hiveAuthModalRef} onClose={handleOnModalClose} />
     </View>
   );
 };

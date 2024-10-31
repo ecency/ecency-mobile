@@ -14,5 +14,4 @@ export default {
   MEMO_KEY,
   POSTING_KEY,
   OWNER_KEY,
-
 };

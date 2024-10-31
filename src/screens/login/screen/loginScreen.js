@@ -38,7 +38,6 @@ const LoginScreen = ({
 
   const hiveAuthModalRef = useRef();
 
-
   const [username, setUsername] = useState(initialUsername || '');
   const [password, setPassword] = useState('');
   const [isUsernameValid, setIsUsernameValid] = useState(true);

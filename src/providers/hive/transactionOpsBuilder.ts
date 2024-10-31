@@ -2,18 +2,19 @@ import { countDecimals } from '../../utils/number';
 import TransferTypes from '../../constants/transferTypes';
 
 interface TansferData {
-  from: string,
-  to: string,
-  amount: string,
-  fundType: string,
-  memo?: string,
-  recurrence?: number,
-  executions?: number,
+  from: string;
+  to: string;
+  amount: string;
+  fundType: string;
+  memo?: string;
+  recurrence?: number;
+  executions?: number;
 }
 
-
-export const buildTransferOpsArray = (transferType: string, { from, to, amount, memo, fundType, recurrence, executions }: TansferData) => {
-
+export const buildTransferOpsArray = (
+  transferType: string,
+  { from, to, amount, memo, fundType, recurrence, executions }: TansferData,
+) => {
   if (countDecimals(Number(amount)) < 3) {
     amount = Number(amount).toFixed(3);
   }
@@ -26,7 +27,7 @@ export const buildTransferOpsArray = (transferType: string, { from, to, amount, 
         'convert',
         {
           owner: from,
-          amount: amount,
+          amount,
           requestid: new Date().getTime() >>> 0,
         },
       ];
@@ -43,25 +44,33 @@ export const buildTransferOpsArray = (transferType: string, { from, to, amount, 
 
     case TransferTypes.PURCHASE_ESTM:
     case TransferTypes.TRANSFER_TOKEN:
-      return [['transfer', {
-        from,
-        to,
-        amount,
-        memo,
-      }]];
+      return [
+        [
+          'transfer',
+          {
+            from,
+            to,
+            amount,
+            memo,
+          },
+        ],
+      ];
 
     case TransferTypes.RECURRENT_TRANSFER:
-
-
-      return [['recurrent_transfer', {
-        from,
-        to,
-        amount,
-        memo,
-        recurrence,
-        executions,
-        extensions: []
-      }]];
+      return [
+        [
+          'recurrent_transfer',
+          {
+            from,
+            to,
+            amount,
+            memo,
+            recurrence,
+            executions,
+            extensions: [],
+          },
+        ],
+      ];
 
     case TransferTypes.TRANSFER_TO_SAVINGS:
       return [
@@ -104,8 +113,8 @@ export const buildTransferOpsArray = (transferType: string, { from, to, amount, 
       const json = JSON.stringify({
         sender: from,
         receiver: to,
-        amount: amount,
-        memo: memo,
+        amount,
+        memo,
       });
 
       const op = {
@@ -115,7 +124,7 @@ export const buildTransferOpsArray = (transferType: string, { from, to, amount, 
         required_posting_auths: [],
       };
       return [['custom_json', op]];
-      
+
     // case 'power_down':
     //   data.amount = `${amount.toFixed(6)} VESTS`;
     //   func = withdrawVesting;
@@ -167,4 +176,4 @@ export const buildTransferOpsArray = (transferType: string, { from, to, amount, 
     default:
       throw new Error(`Unsupported transaction type: ${transferType}`);
   }
-}
+};

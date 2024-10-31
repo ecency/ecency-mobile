@@ -2266,13 +2266,14 @@ export const votingPower = (account) => {
 };
 
 export const isHsClientSupported = (authType) => {
-  switch(authType){
+  switch (authType) {
     case AUTH_TYPE.STEEM_CONNECT:
     case AUTH_TYPE.HIVE_AUTH:
       return true;
-    default: return false;
+    default:
+      return false;
   }
-}
+};
 
 /* eslint-enable */
 

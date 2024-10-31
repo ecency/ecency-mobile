@@ -117,7 +117,11 @@ const AccountsBottomSheetContainer = () => {
       [_currentAccount.local] = realmData;
 
       // migreate account to use access token for master key auth type
-      if (realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT && realmData[0].authType !== AUTH_TYPE.HIVE_AUTH && realmData[0].accessToken === '') {
+      if (
+        realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT &&
+        realmData[0].authType !== AUTH_TYPE.HIVE_AUTH &&
+        realmData[0].accessToken === ''
+      ) {
         _currentAccount = await migrateToMasterKeyWithAccessToken(
           _currentAccount,
           realmData[0],

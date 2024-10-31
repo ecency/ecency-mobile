@@ -4,7 +4,12 @@ import { Client as hsClient } from 'hivesigner';
 import bugsnagInstance from '../../config/bugsnag';
 import { Poll } from './polls.types';
 import { convertPoll } from './converters';
-import { getActiveKey, getDigitPinCode, isHsClientSupported, sendHiveOperations } from '../hive/dhive';
+import {
+  getActiveKey,
+  getDigitPinCode,
+  isHsClientSupported,
+  sendHiveOperations,
+} from '../hive/dhive';
 import { decryptKey } from '../../utils/crypto';
 
 /**
@@ -38,7 +43,6 @@ const executePollAction = (id: string, json: any, currentAccount: any, pinHash: 
     required_posting_auths: [username],
   };
   const opArray: Operation[] = [['custom_json', op]];
-
 
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, pin);

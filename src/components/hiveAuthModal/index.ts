@@ -1,1 +1,1 @@
-export * from './container/hiveAuthModal'
+export * from './container/hiveAuthModal';
