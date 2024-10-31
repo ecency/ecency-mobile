@@ -381,7 +381,7 @@
   "login": {
     "signin": "Login",
     "login_with_hs": "Login with hivesigner",
-    "login_with_hiveauth": "Login with HiveAuth",
+    "signin_with": "Sign in with",
     "signup": "JOIN NOW",
     "signin_title": "To get all the benefits of using Ecency",
     "username": "username",

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Platform, Keyboard, Text } from 'react-native';
+import { View, Platform, Keyboard, Text, Image } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useIntl } from 'react-intl';
 import { debounce } from 'lodash';
@@ -25,6 +25,9 @@ import { ECENCY_TERMS_URL } from '../../../config/ecencyApi';
 // Styles
 import styles from './loginStyles';
 import { HiveSignerIcon } from '../../../assets/svgs';
+import EStyleSheet from 'react-native-extended-stylesheet';
+
+const HIVE_AUTH_LOGO  = require('../../../assets/HiveAuth_logo.png');
 
 const LoginScreen = ({
   initialUsername,
@@ -106,6 +109,7 @@ const LoginScreen = ({
     </View>
   );
 
+
   return (
     <View style={styles.container}>
       <LoginHeader
@@ -126,6 +130,8 @@ const LoginScreen = ({
           });
         }}
       />
+
+
 
       <KeyboardAwareScrollView
         enableAutoAutomaticScroll={Platform.OS === 'ios'}
@@ -185,7 +191,8 @@ const LoginScreen = ({
           height={50}
           iconStyle={styles.loginBtnIconStyle}
         />
-        <OrDivider />
+        <OrDivider containerStyle={{marginBottom:16}} />
+
         <MainButton
           onPress={() => _handleOnModalToggle()}
           renderIcon={_renderHiveicon()}
@@ -201,10 +208,12 @@ const LoginScreen = ({
 
         <MainButton
           onPress={() => hiveAuthModalRef.current.showModal(username)}
-          renderIcon={_renderHiveicon()}
+          source={HIVE_AUTH_LOGO}
           text={intl.formatMessage({
-            id: 'login.login_with_hiveauth',
+            id: 'login.signin_with',
           })}
+          secondText={" Hive"}
+          secondTextStyle={{color:EStyleSheet.value('$primaryRed')}}
           textStyle={styles.hsLoginBtnText}
           wrapperStyle={styles.loginBtnWrapper}
           bodyWrapperStyle={styles.loginBtnBodyWrapper}
