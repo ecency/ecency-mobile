@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import { RangeSelector } from '.';
 import { SimpleChart } from '../../../components';
 import { useAppSelector } from '../../../hooks';
 import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
 import styles, { CHART_NEGATIVE_MARGIN } from './children.styles';
 
 interface CoinChartProps {
@@ -14,6 +13,8 @@ interface CoinChartProps {
 }
 
 export const CoinChart = ({ coinId, isEngine }: CoinChartProps) => {
+  const dim = useWindowDimensions();
+
   const priceHistory = useAppSelector((state) => state.wallet.priceHistories[coinId]);
   const currency = useAppSelector((state) => state.application.currency);
 
@@ -42,7 +43,7 @@ export const CoinChart = ({ coinId, isEngine }: CoinChartProps) => {
   };
 
   const _renderGraph = () => {
-    const _baseWidth = getWindowDimensions().width - 32 + CHART_NEGATIVE_MARGIN;
+    const _baseWidth = dim.width - 32 + CHART_NEGATIVE_MARGIN;
     return (
       <View style={styles.chartContainer}>
         <SimpleChart

@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { Bar as ProgressBar } from 'react-native-progress';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
 import { get } from 'lodash';
 import styles from '../styles/pollChoices.styles';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { PollChoice, PollVoter } from '../../../providers/polls/polls.types';
 import { mapMetaChoicesToPollChoices } from '../../../providers/polls/converters';
 import { CheckBox } from '../../checkbox';
@@ -43,6 +42,7 @@ export const PollChoices = ({
   handleVotersPress,
 }: PollChoicesProps) => {
   const intl = useIntl();
+  const dim = useWindowDimensions();
 
   const [_choices, setChoices] = useState(choices || mapMetaChoicesToPollChoices(metadata.choices));
 
@@ -80,7 +80,7 @@ export const PollChoices = ({
       ) / 1000;
 
     const percentage = !_isModeSelect && !!totalVotes ? (votes / totalVotes) * 100 : 0; // TODO: adjust logic here
-    const _barWidth = getWindowDimensions().width - (compactView ? 72 : 64);
+    const _barWidth = dim.width - (compactView ? 72 : 64);
 
     const _barStyle = [
       styles.progressBar,

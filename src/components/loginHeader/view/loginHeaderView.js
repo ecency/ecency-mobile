@@ -7,7 +7,6 @@ import * as Animatable from 'react-native-animatable';
 import { LineBreak } from '../../basicUIElements';
 // Styles
 import styles from './loginHeaderStyles';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { IconButton } from '../..';
 
 class LoginHeaderView extends PureComponent {
@@ -69,7 +68,6 @@ class LoginHeaderView extends PureComponent {
 
 export default LoginHeaderView;
 
-const { height } = getWindowDimensions();
 const bodyHeight = 120;
 const showAnimation = {
   from: {

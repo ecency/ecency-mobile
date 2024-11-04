@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, PermissionsAndroid, Platform, View, Text } from 'react-native';
+import { ActivityIndicator, Alert, PermissionsAndroid, Platform, View, Text, useWindowDimensions } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
@@ -18,7 +18,6 @@ import {
 } from '../../redux/actions/uiAction';
 import { deepLinkParser } from '../../utils/deepLinkParser';
 import RootNavigation from '../../navigation/rootNavigation';
-import getWindowDimensions from '../../utils/getWindowDimensions';
 import { isHiveUri, getFormattedTx } from '../../utils/hive-uri';
 import { handleHiveUriOperation, resolveTransaction } from '../../providers/hive/dhive';
 import bugsnagInstance from '../../config/bugsnag';
@@ -27,11 +26,12 @@ import authType from '../../constants/authType';
 import { delay } from '../../utils/editor';
 import ROUTES from '../../constants/routeNames';
 
-const screenHeight = getWindowDimensions().height;
 
 export const QRModal = () => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
+  const dim = useWindowDimensions();
+
   const isVisibleQRModal = useAppSelector((state) => state.ui.isVisibleQRModal);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
@@ -295,7 +295,7 @@ export const QRModal = () => {
     <ActionSheet
       ref={sheetModalRef}
       gestureEnabled={true}
-      containerStyle={{ ...styles.sheetContent, height: screenHeight }}
+      containerStyle={{ ...styles.sheetContent, height: dim.height }}
       onClose={_onClose}
       indicatorStyle={styles.indicator}
     >
