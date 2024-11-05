@@ -85,6 +85,7 @@ export const UploadsGalleryModal = forwardRef(
     const [isAddingToUploads, setIsAddingToUploads] = useState(false);
     const [mode, setMode] = useState<Modes>(Modes.MODE_IMAGE);
     const [mediaUrls, setMediaUrls] = useState<string[]>([]);
+    const [isScrolledTop, setIsScrolledTop] = useState(true);
 
     const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
@@ -110,6 +111,9 @@ export const UploadsGalleryModal = forwardRef(
       },
       getMode: () => mode,
       isVisible: () => showModal,
+      isScrolledTop: () => {
+        return isScrolledTop;
+      }
     }));
 
     useEffect(() => {
@@ -480,6 +484,7 @@ export const UploadsGalleryModal = forwardRef(
             handleOpenCamera={_handleOpenCamera}
             handleOpenGallery={_handleOpenImagePicker}
             handleOpenSpeakUploader={_handleOpenSpeakUploader}
+            handleIsScrolledTop={setIsScrolledTop}
           />
         )}
         <SpeakUploaderModal
