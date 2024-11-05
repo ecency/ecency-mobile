@@ -1,6 +1,13 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Platform, Text, TouchableOpacity, View, ActivityIndicator, useWindowDimensions } from 'react-native';
+import {
+  Platform,
+  Text,
+  TouchableOpacity,
+  View,
+  ActivityIndicator,
+  useWindowDimensions,
+} from 'react-native';
 import { renderPostBody } from '@ecency/render-helper';
 import { ScrollView } from 'react-native-gesture-handler';
 import Clipboard from '@react-native-clipboard/clipboard';

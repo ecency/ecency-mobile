@@ -113,7 +113,7 @@ export const UploadsGalleryModal = forwardRef(
       isVisible: () => showModal,
       isScrolledTop: () => {
         return isScrolledTop;
-      }
+      },
     }));
 
     useEffect(() => {

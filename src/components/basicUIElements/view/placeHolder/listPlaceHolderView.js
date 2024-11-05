@@ -5,7 +5,6 @@ import times from 'lodash/times';
 
 import ListItemPlaceHolder from './listItemPlaceHolderView';
 
-
 const ListPlaceHolderView = () => {
   const dim = useWindowDimensions();
 

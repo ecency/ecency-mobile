@@ -7,9 +7,7 @@ import Placeholder from 'rn-placeholder';
 // import { useSelector } from 'react-redux'; //NEW LINE ADDED
 import styles from './boostPlaceHolderStyles';
 
-
 const BoostPlaceHolder = () => {
-
   const dim = useWindowDimensions();
 
   const ratio = (dim.height - 300) / 50 / 1.3;

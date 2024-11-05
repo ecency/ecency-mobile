@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ActivityIndicator, Alert, Keyboard, NativeScrollEvent, NativeSyntheticEvent, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Keyboard,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { FlatList } from 'react-native-gesture-handler';
 import Animated, {
@@ -35,7 +45,7 @@ type Props = {
   handleOpenGallery: (addToUploads?: boolean) => void;
   handleOpenSpeakUploader: () => void;
   handleOpenCamera: () => void;
-  handleIsScrolledTop:(isScrolledTop:boolean)=> void;
+  handleIsScrolledTop: (isScrolledTop: boolean) => void;
 };
 
 const UploadsGalleryContent = ({
@@ -79,7 +89,6 @@ const UploadsGalleryContent = ({
       Keyboard.dismiss();
     }
   }, [isExpandedMode]);
-
 
   const _deleteMedia = async () => {
     const _options = {
@@ -133,12 +142,10 @@ const UploadsGalleryContent = ({
     }
   };
 
-
-  const _onScroll = (event:NativeSyntheticEvent<NativeScrollEvent>)=>{
+  const _onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset } = event.nativeEvent;
     handleIsScrolledTop(contentOffset.y <= 0);
-  
-
+  };
 
   // render list item for snippet and handle actions;
   const _renderItem = ({ item, index }: { item: MediaItem; index: number }) => {
@@ -257,8 +264,8 @@ const UploadsGalleryContent = ({
         {mode === Modes.MODE_IMAGE
           ? _renderSelectButtons
           : isAddingToUploads
-            ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
-            : _renderSelectButtons}
+          ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
+          : _renderSelectButtons}
       </View>
       <View style={styles.pillBtnContainer}>
         <IconButton
@@ -295,7 +302,6 @@ const UploadsGalleryContent = ({
       )}
 
       {isExpandedMode && _renderExpansionButton()}
-
     </View>
   );
 
@@ -330,18 +336,13 @@ const UploadsGalleryContent = ({
 
   const _renderDeleteButton = () => {
     if (deleteIds.length > 0) {
-
       const _delStyle = {
         ...styles.deleteButtonContainer,
-        justifyContent: isExpandedMode ? 'flex-end' : 'center'
-      } as ViewStyle
+        justifyContent: isExpandedMode ? 'flex-end' : 'center',
+      } as ViewStyle;
 
       return (
-        <AnimatedView.View
-          entering={SlideInRight}
-          exiting={SlideOutRight}
-          style={_delStyle}
-        >
+        <AnimatedView.View entering={SlideInRight} exiting={SlideOutRight} style={_delStyle}>
           <IconButton
             style={styles.deleteButton}
             color={EStyleSheet.value('$pureWhite')}

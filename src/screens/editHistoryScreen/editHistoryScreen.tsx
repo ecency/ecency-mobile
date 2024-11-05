@@ -1,7 +1,15 @@
 import React, { Fragment, useEffect, useState } from 'react';
 
 import { useIntl } from 'react-intl';
-import { Alert, FlatList, ScrollView, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import {
+  Alert,
+  FlatList,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -25,18 +33,15 @@ export interface CommentHistoryListItemDiff {
 }
 
 const EditHistoryScreen = ({ route }) => {
-
   const intl = useIntl();
   const dim = useWindowDimensions();
-
 
   const [editHistory, setEditHistory] = useState<CommentHistoryListItemDiff[]>([]);
   const [versionSelected, setVersionSelected] = useState(1);
   const [showDiff, setShowDiff] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-
-  const contentWidth = dim.width - 32
+  const contentWidth = dim.width - 32;
   const { author, permlink } = route.params ?? {};
 
   // webview styles for renderring diff
