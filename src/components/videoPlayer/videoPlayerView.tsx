@@ -30,7 +30,6 @@ const VideoPlayer = ({
   const dim = useWindowDimensions();
   const videoPlayer = useRef(null);
 
-
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -40,11 +39,9 @@ const VideoPlayer = ({
   const [screenType, setScreenType] = useState('contain');
   const lockedOrientation = useSelector((state) => state.ui.lockedOrientation);
 
-
   const PLAYER_HEIGHT = (contentWidth || dim.width) * (9 / 16);
   const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;
   const isExtensionType = mode === 'uri' ? uri.match(checkSrcRegex) : false;
-
 
   useEffect(() => {
     if (isFullScreen) {

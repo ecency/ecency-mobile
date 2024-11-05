@@ -369,8 +369,8 @@ const UpvotePopover = forwardRef(({}, ref) => {
 
   const _minSliderVal = isVoted || isDownVoted ? 0 : 0.01;
 
-  const _sliderWidth = deviceWidth - 24
-  const _sliderStyle = {...styles.popoverSlider, width:_sliderWidth};
+  const _sliderWidth = deviceWidth - 24;
+  const _sliderStyle = { ...styles.popoverSlider, width: _sliderWidth };
 
   return (
     <Fragment>

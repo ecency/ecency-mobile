@@ -158,8 +158,8 @@ export default EStyleSheet.create({
   deleteButtonContainer: {
     position: 'absolute',
     right: 0,
-    top: 0,
-    bottom: 0,
+    top: 16,
+    bottom: 16,
     justifyContent: 'center',
   },
 
