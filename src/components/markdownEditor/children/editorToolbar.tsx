@@ -140,7 +140,13 @@ export const EditorToolbar = ({
 
   const _onPanEnd = (e: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
     console.log('finalize', e.velocityY, e.translationY);
-    const _shouldHide = e.velocityY > 300 || e.translationY > extensionHeight.current / 2;
+
+    // if grab point is top handle or modal content is scrolled to top, allose close
+    const _allowClose = e.y < 44 || uploadsGalleryModalRef.current?.isScrolledTop();
+    // hide extenstion is close is allowed and either velocity is good are modal grapped to half of extensin height
+    const _shouldHide =
+      _allowClose && (e.velocityY > 300 || e.translationY > extensionHeight.current / 2);
+
     if (_shouldHide) {
       _hideExtension();
     } else {

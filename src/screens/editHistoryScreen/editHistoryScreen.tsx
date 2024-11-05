@@ -1,7 +1,15 @@
 import React, { Fragment, useEffect, useState } from 'react';
 
 import { useIntl } from 'react-intl';
-import { Alert, FlatList, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  FlatList,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -12,7 +20,6 @@ import styles from './editHistoryScreenStyles';
 import { getCommentHistory } from '../../providers/ecency/ecency';
 import { dateToFormatted } from '../../utils/time';
 import historyBuilder from './historyBuilder';
-import getWindowDimensions from '../../utils/getWindowDimensions';
 
 export interface CommentHistoryListItemDiff {
   title: string;
@@ -25,15 +32,17 @@ export interface CommentHistoryListItemDiff {
   v: number;
 }
 
-const screenWidth = getWindowDimensions().width - 32;
-
 const EditHistoryScreen = ({ route }) => {
-  const { author, permlink } = route.params ?? {};
   const intl = useIntl();
+  const dim = useWindowDimensions();
+
   const [editHistory, setEditHistory] = useState<CommentHistoryListItemDiff[]>([]);
   const [versionSelected, setVersionSelected] = useState(1);
   const [showDiff, setShowDiff] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const contentWidth = dim.width - 32;
+  const { author, permlink } = route.params ?? {};
 
   // webview styles for renderring diff
   const customTitleStyle = `
@@ -52,7 +61,7 @@ const EditHistoryScreen = ({ route }) => {
       color: ${EStyleSheet.value('$primaryBlack')};
       font-family: Roboto, sans-serif;
       font-size: 16px;
-      width: ${screenWidth - 12}px;
+      width: ${contentWidth - 12}px;
     } 
   `;
 
@@ -61,7 +70,7 @@ const EditHistoryScreen = ({ route }) => {
       color: ${EStyleSheet.value('$primaryBlack')};
       font-family: Roboto, sans-serif;
       font-size: 18px;
-      width: ${screenWidth}px;
+      width: ${contentWidth}px;
 
       overflow-wrap: break-word;
       word-wrap: break-word;

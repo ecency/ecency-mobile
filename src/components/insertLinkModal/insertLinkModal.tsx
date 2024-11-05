@@ -1,6 +1,13 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Platform, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import {
+  Platform,
+  Text,
+  TouchableOpacity,
+  View,
+  ActivityIndicator,
+  useWindowDimensions,
+} from 'react-native';
 import { renderPostBody } from '@ecency/render-helper';
 import { ScrollView } from 'react-native-gesture-handler';
 import Clipboard from '@react-native-clipboard/clipboard';
@@ -11,7 +18,6 @@ import TextInput from '../textInput';
 import { delay } from '../../utils/editor';
 import { isStringWebLink } from '../markdownEditor/children/formats/utils';
 import applyWebLinkFormat from '../markdownEditor/children/formats/applyWebLinkFormat';
-import getWindowDimensions from '../../utils/getWindowDimensions';
 import Modal from '../modal';
 
 interface InsertLinkModalProps {
@@ -24,11 +30,11 @@ interface InsertLinkModalProps {
   }) => void;
   handleOnSheetClose: () => void;
 }
-const screenWidth = getWindowDimensions().width - 58;
 
 export const InsertLinkModal = forwardRef(
   ({ handleOnInsertLink, handleOnSheetClose }: InsertLinkModalProps, ref) => {
     const intl = useIntl();
+    const dim = useWindowDimensions();
 
     const [visible, setVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -263,7 +269,7 @@ export const InsertLinkModal = forwardRef(
                   <PostBody
                     body={previewBody}
                     onLoadEnd={() => setIsLoading(false)}
-                    width={screenWidth}
+                    width={dim.width - 58}
                   />
                 ) : null}
               </View>

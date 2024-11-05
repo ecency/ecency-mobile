@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { TouchableOpacity, Text, View } from 'react-native';
+import { TouchableOpacity, Text, View, useWindowDimensions } from 'react-native';
 // Utils
 import { Image as ExpoImage } from 'expo-image';
 import { useIntl } from 'react-intl';
@@ -9,11 +9,9 @@ import { useIntl } from 'react-intl';
 // Styles
 import styles from './postCardStyles';
 import { PostCardActionIds } from '../container/postCard';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
 import ROUTES from '../../../constants/routeNames';
 import { ContentType } from '../../../providers/hive/hive.types';
 
-const dim = getWindowDimensions();
 const DEFAULT_IMAGE =
   'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
 const NSFW_IMAGE =
@@ -37,6 +35,8 @@ export const PostCardContent = ({
   handleCardInteraction,
 }: Props) => {
   const intl = useIntl();
+  const dim = useWindowDimensions();
+
   const imgWidth = dim.width - 18;
   const [calcImgHeight, setCalcImgHeight] = useState(imageRatio ? imgWidth / imageRatio : 300);
 

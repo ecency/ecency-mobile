@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, useWindowDimensions } from 'react-native';
 
 import WebView from 'react-native-webview';
 import YoutubeIframe, { InitialPlayerParams } from 'react-native-youtube-iframe';
@@ -7,7 +7,6 @@ import Video from 'react-native-video';
 import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
 import Orientation from 'react-native-orientation-locker';
 import { useSelector } from 'react-redux';
-import getWindowDimensions from '../../utils/getWindowDimensions';
 import { orientations } from '../../redux/constants/orientationsConstants';
 
 interface VideoPlayerProps {
@@ -24,15 +23,13 @@ const VideoPlayer = ({
   youtubeVideoId,
   startTime,
   uri,
-  contentWidth = getWindowDimensions().width,
+  contentWidth,
   mode,
   disableAutoplay,
 }: VideoPlayerProps) => {
-  const PLAYER_HEIGHT = contentWidth * (9 / 16);
-  const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;
-  const isExtensionType = mode === 'uri' ? uri.match(checkSrcRegex) : false;
-
+  const dim = useWindowDimensions();
   const videoPlayer = useRef(null);
+
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -41,6 +38,10 @@ const VideoPlayer = ({
   const [playerState, setPlayerState] = useState(PLAYER_STATES.PAUSED);
   const [screenType, setScreenType] = useState('contain');
   const lockedOrientation = useSelector((state) => state.ui.lockedOrientation);
+
+  const PLAYER_HEIGHT = (contentWidth || dim.width) * (9 / 16);
+  const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;
+  const isExtensionType = mode === 'uri' ? uri.match(checkSrcRegex) : false;
 
   useEffect(() => {
     if (isFullScreen) {

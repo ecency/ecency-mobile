@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ActivityIndicator, Alert, Keyboard, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Keyboard,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { FlatList } from 'react-native-gesture-handler';
 import Animated, {
@@ -35,6 +45,7 @@ type Props = {
   handleOpenGallery: (addToUploads?: boolean) => void;
   handleOpenSpeakUploader: () => void;
   handleOpenCamera: () => void;
+  handleIsScrolledTop: (isScrolledTop: boolean) => void;
 };
 
 const UploadsGalleryContent = ({
@@ -46,6 +57,7 @@ const UploadsGalleryContent = ({
   handleOpenGallery,
   handleOpenCamera,
   handleOpenSpeakUploader,
+  handleIsScrolledTop,
 }: Props) => {
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -128,6 +140,11 @@ const UploadsGalleryContent = ({
     } else {
       setIsDeleteMode(!isDeleteMode);
     }
+  };
+
+  const _onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const { contentOffset } = event.nativeEvent;
+    handleIsScrolledTop(contentOffset.y <= 0);
   };
 
   // render list item for snippet and handle actions;
@@ -285,7 +302,6 @@ const UploadsGalleryContent = ({
       )}
 
       {isExpandedMode && _renderExpansionButton()}
-      {isExpandedMode && _renderDeleteButton()}
     </View>
   );
 
@@ -320,27 +336,13 @@ const UploadsGalleryContent = ({
 
   const _renderDeleteButton = () => {
     if (deleteIds.length > 0) {
-      return isExpandedMode ? (
-        <AnimatedView.View entering={SlideInRight} exiting={SlideOutRight}>
-          <IconButton
-            style={{
-              ...styles.pillBtnContainer,
-              backgroundColor: EStyleSheet.value('$primaryRed'),
-            }}
-            iconType="MaterialCommunityIcons"
-            name="delete-outline"
-            color={EStyleSheet.value(deleteIds.length > 0 ? '$pureWhite' : '$pureWhite')}
-            size={32}
-            onPress={_onDeletePress}
-            isLoading={isDeleting}
-          />
-        </AnimatedView.View>
-      ) : (
-        <AnimatedView.View
-          entering={SlideInRight}
-          exiting={SlideOutRight}
-          style={styles.deleteButtonContainer}
-        >
+      const _delStyle = {
+        ...styles.deleteButtonContainer,
+        justifyContent: isExpandedMode ? 'flex-end' : 'center',
+      } as ViewStyle;
+
+      return (
+        <AnimatedView.View entering={SlideInRight} exiting={SlideOutRight} style={_delStyle}>
           <IconButton
             style={styles.deleteButton}
             color={EStyleSheet.value('$pureWhite')}
@@ -375,9 +377,10 @@ const UploadsGalleryContent = ({
         horizontal={!isExpandedMode}
         numColumns={isExpandedMode ? 2 : 1}
         keyboardShouldPersistTaps="always"
+        onScroll={_onScroll}
       />
 
-      {!isExpandedMode && _renderDeleteButton()}
+      {_renderDeleteButton()}
     </Animated.View>
   );
 };

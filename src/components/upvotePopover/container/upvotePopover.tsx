@@ -10,7 +10,7 @@ import get from 'lodash/get';
 
 // Services and Actions
 import { Rect } from 'react-native-modal-popover/lib/PopoverGeometry';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, useWindowDimensions } from 'react-native';
 import { Popover } from 'react-native-modal-popover';
 import Slider from '@esteemapp/react-native-slider';
 import { useIntl } from 'react-intl';
@@ -69,6 +69,7 @@ interface PopoverOptions {
 const UpvotePopover = forwardRef(({}, ref) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
+  const deviceWidth = useWindowDimensions().width;
 
   const userActivityMutation = useUserActivityMutation();
 
@@ -368,10 +369,13 @@ const UpvotePopover = forwardRef(({}, ref) => {
 
   const _minSliderVal = isVoted || isDownVoted ? 0 : 0.01;
 
+  const _sliderWidth = deviceWidth - 24;
+  const _sliderStyle = { ...styles.popoverSlider, width: _sliderWidth };
+
   return (
     <Fragment>
       <Popover
-        contentStyle={showPayoutDetails ? styles.popoverDetails : styles.popoverSlider}
+        contentStyle={showPayoutDetails ? styles.popoverDetails : _sliderStyle}
         arrowStyle={showPayoutDetails ? styles.arrow : styles.hideArrow}
         backgroundStyle={styles.overlay}
         visible={!!anchorRect}
