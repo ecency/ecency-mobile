@@ -125,31 +125,44 @@ export const buildTransferOpsArray = (
       };
       return [['custom_json', op]];
 
-    // case 'power_down':
-    //   data.amount = `${amount.toFixed(6)} VESTS`;
-    //   func = withdrawVesting;
-    //   currentAccount = selectedAccount;
-    //   break;
-    // case 'delegate':
-    //   func = delegateVestingShares;
-    //   currentAccount = selectedAccount;
-    //   data.amount = `${amount.toFixed(6)} VESTS`;
-    //   break;
-    // case 'transfer_engine':
+    case TransferTypes.POWER_DOWN:
+      return [
+        [
+          'withdraw_vesting',
+          {
+            account: from,
+            vesting_shares: amount,
+          },
+        ],
+      ];
+    case TransferTypes.DELEGATE:
+      return [
+        [
+          'delegate_vesting_shares',
+          {
+            delegator: from,
+            delegatee: to,
+            vesting_shares: amount,
+          },
+        ],
+      ];
+
+    // case TransferTypes.TRANSFER_ENGINE:
     //   func = transferHiveEngine;
     //   break;
-    // case 'stake_engine':
+    // case TransferTypes.STAKE_ENGINE:
     //   func = stakeHiveEngine;
     //   break;
-    // case 'delegate_engine':
+    // case TransferTypes.DELEGATE_ENGINE:
     //   func = delegateHiveEngine;
     //   break;
-    // case 'unstake_engine':
+    // case TransferTypes.UNSTAKE_ENGINE:
     //   func = unstakeHiveEngine;
     //   break;
-    // case 'undelegate_engine':
+    // case TransferTypes.UNDELEGATE_ENGINE:
     //   func = undelegateHiveEngine;
     //   break;
+
     // case TransferTypes.TRANSFER_SPK:
     //   func = transferSpk;
     //   break;
@@ -170,8 +183,8 @@ export const buildTransferOpsArray = (
     // case TransferTypes.DELEGATE_SPK:
     //   func = delegateLarynx;
     //   break;
-    // default:
-    //   break;
+    default:
+      break;
 
     default:
       throw new Error(`Unsupported transaction type: ${transferType}`);

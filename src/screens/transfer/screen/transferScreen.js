@@ -185,7 +185,7 @@ const TransferView = ({
       path = `sign/convert?owner=${currentAccountName}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&requestid=${new Date().getTime() >>> 0}`;
-    } else if (transferType === TransferTypes.WITHDRAW_VESTING) {
+    } else if (transferType === TransferTypes.WITHDRAW_VESTING_ENGINE) {
       path = `sign/withdraw_vesting?account=${currentAccountName}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;

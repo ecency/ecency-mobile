@@ -15,7 +15,7 @@ const TransferTypes = {
   RECURRENT_TRANSFER: 'recurrent_transfer',
 
   // Engine Transfer types
-  WITHDRAW_VESTING: 'withdraw_vesting',
+  WITHDRAW_VESTING_ENGINE: 'withdraw_vesting',
   TRANSFER_ENGINE: 'transfer_engine',
   UNSTAKE_ENGINE: 'unstake_engine',
   STAKE_ENGINE: 'stake_engine',
