@@ -285,7 +285,7 @@ const UploadsGalleryContent = ({
       )}
 
       {isExpandedMode && _renderExpansionButton()}
-      {isExpandedMode && _renderDeleteButton()}
+
     </View>
   );
 
@@ -320,26 +320,17 @@ const UploadsGalleryContent = ({
 
   const _renderDeleteButton = () => {
     if (deleteIds.length > 0) {
-      return isExpandedMode ? (
-        <AnimatedView.View entering={SlideInRight} exiting={SlideOutRight}>
-          <IconButton
-            style={{
-              ...styles.pillBtnContainer,
-              backgroundColor: EStyleSheet.value('$primaryRed'),
-            }}
-            iconType="MaterialCommunityIcons"
-            name="delete-outline"
-            color={EStyleSheet.value(deleteIds.length > 0 ? '$pureWhite' : '$pureWhite')}
-            size={32}
-            onPress={_onDeletePress}
-            isLoading={isDeleting}
-          />
-        </AnimatedView.View>
-      ) : (
+
+      const _delStyle = {
+        ...styles.deleteButtonContainer,
+        justifyContent: isExpandedMode ? 'flex-end' : 'center'
+      } as ViewStyle
+
+      return (
         <AnimatedView.View
           entering={SlideInRight}
           exiting={SlideOutRight}
-          style={styles.deleteButtonContainer}
+          style={_delStyle}
         >
           <IconButton
             style={styles.deleteButton}
@@ -377,7 +368,7 @@ const UploadsGalleryContent = ({
         keyboardShouldPersistTaps="always"
       />
 
-      {!isExpandedMode && _renderDeleteButton()}
+      {_renderDeleteButton()}
     </Animated.View>
   );
 };
