@@ -15,7 +15,6 @@ export default EStyleSheet.create({
   },
   popoverSlider: {
     flexDirection: 'row',
-    width: '100% - 20',
     height: 48,
     borderRadius: 24,
     paddingHorizontal: 16,

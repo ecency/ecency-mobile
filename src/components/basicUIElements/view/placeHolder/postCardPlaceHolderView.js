@@ -1,12 +1,11 @@
 import React from 'react';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { useSelector } from 'react-redux';
 import styles from './postCardPlaceHolderStyles';
-import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const PostCardPlaceHolder = () => {
-  const _width = getWindowDimensions().width - 32;
+  const _width = useWindowDimensions().width - 32;
 
   const animationStyle = {
     width: _width,

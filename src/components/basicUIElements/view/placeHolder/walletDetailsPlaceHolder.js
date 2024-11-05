@@ -1,17 +1,16 @@
 /* eslint-disable radix */
 import React, { Fragment } from 'react';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import Placeholder from 'rn-placeholder';
 import times from 'lodash/times';
 import { useSelector } from 'react-redux';
 
 import styles from './walletDetailsPlaceHolderStyles';
-import getWindowDimensions from '../../../../utils/getWindowDimensions';
-
-const HEIGHT = getWindowDimensions().height;
 
 const listPlaceHolderView = (color) => {
-  const ratio = (HEIGHT - 300) / 50;
+  const dim = useWindowDimensions();
+
+  const ratio = (dim.height - 300) / 50;
   const listElements = [];
 
   times(parseInt(ratio), (i) => {

@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert, useWindowDimensions } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Video as VideoType } from 'react-native-image-crop-picker';
@@ -17,7 +17,6 @@ import { uploadFile, uploadVideoInfo } from '../../../providers/speak/speak';
 import { useAppSelector } from '../../../hooks';
 import QUERIES from '../../../providers/queries/queryKeys';
 import Icon from '../../icon';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { TextButton } from '../../buttons';
 
 interface Props {
@@ -28,6 +27,7 @@ interface Props {
 export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: Props, ref) => {
   const intl = useIntl();
   const sheetModalRef = useRef();
+  const dim = useWindowDimensions();
 
   const queryClient = useQueryClient();
 
@@ -194,7 +194,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
         progress={uploadProgress}
         color={EStyleSheet.value('$primaryBlue')}
         unfilledColor={EStyleSheet.value('$primaryLightBackground')}
-        width={getWindowDimensions().width - 40}
+        width={dim.width - 40}
         indeterminate={uploadProgress === 1 && isUploading}
       />
     );
