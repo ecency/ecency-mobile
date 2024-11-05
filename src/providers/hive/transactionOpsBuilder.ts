@@ -183,8 +183,8 @@ export const buildTransferOpsArray = (
     // case TransferTypes.DELEGATE_SPK:
     //   func = delegateLarynx;
     //   break;
-    default:
-      break;
+    // default:
+    //   break;
 
     default:
       throw new Error(`Unsupported transaction type: ${transferType}`);
