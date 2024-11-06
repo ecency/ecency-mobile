@@ -367,9 +367,9 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
     const _renderProcessContent = (
         <>
             {status === Status.SUCCESS &&
-                _renderResultIcon('checkcircle', '$primaryGreen')}
+                _renderResultIcon('checkcircleo', '$primaryGreen')}
             {status === Status.ERROR &&
-                _renderResultIcon('closecircle', '$primaryRed')}
+                _renderResultIcon('closecircleo', '$primaryRed')}
 
             <Animated.View style={{ flexDirection: 'row', alignItems: 'center' }} layout={LinearTransition} entering={FadeInUp} exiting={(FadeOutDown)}>
                 {status === Status.PROCESSING &&
