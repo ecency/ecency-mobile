@@ -61,11 +61,11 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
                 setStatus(Status.PROCESSING);
                 setStatusText('Initializing...');
                 bottomSheetModalRef.current?.show();
-                delay(2000).then(()=>{
+                delay(2000).then(() => {
                     _broadcastActiveOps(opsArray);
                 })
-                
-     
+
+
             }
         },
     }));
@@ -84,7 +84,7 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
 
     const [username, setUsername] = useState('');
     const [statusText, setStatusText] = useState('');
-    const [isUsernameValid, setIsUsernameValid] = useState(true);
+    const [isUsernameValid, setIsUsernameValid] = useState(false);
     const [status, setStatus] = useState(Status.IDLE);
 
     useEffect(() => {
@@ -101,14 +101,11 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
 
     const debouncedCheckValidity = debounce((uname) => {
         _checkUsernameIsValid(uname);
-    }, 1000);
+    }, 500);
 
     useEffect(() => {
-        if (username) {
-            debouncedCheckValidity(username);
-
-            return () => debouncedCheckValidity.cancel();
-        }
+        debouncedCheckValidity(username);
+        return () => debouncedCheckValidity.cancel();
     }, [username]);
 
 
@@ -214,7 +211,7 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
         }
     };
 
-    const _broadcastActiveOps = async (opsArray:any) => {
+    const _broadcastActiveOps = async (opsArray: any) => {
         try {
             setStatus(Status.PROCESSING);
             setStatusText("Initializing...");
@@ -243,15 +240,15 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
 
             const _cdWait = async (evt) => {
                 console.log('sign wait', evt);
-                
+
                 const _canOpenUri = await Linking.canOpenURL('has://sign_req')
-                if(_canOpenUri){
+                if (_canOpenUri) {
                     setStatusText("Requesting...");
                     Linking.openURL('has://sign_req');
                 } else {
                     throw new Error("No compatible app installed")
                 }
-               
+
             };
 
             const res = await HAS.broadcast(_hiveAuthObj, 'active', opsArray, _cdWait);
@@ -303,7 +300,7 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
                     rightIconName="at"
                     leftIconName="close"
                     iconType="MaterialCommunityIcons"
-                    isValid={isUsernameValid}
+                    isValid={!username ||isUsernameValid}
                     onChange={_handleUsernameChange}
                     placeholder={intl.formatMessage({
                         id: 'login.username',
@@ -318,7 +315,7 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
                 />
             </Animated.View>
 
-            {!!username && isUsernameValid &&
+            {isUsernameValid &&
                 <Animated.View entering={ZoomIn} exiting={ZoomOut}>
                     <MainButton
                         text={intl.formatMessage({ id: 'login.signin_with' })}
@@ -326,7 +323,6 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
                         secondTextStyle={{ color: EStyleSheet.value('$primaryRed') }}
                         style={{ backgroundColor: 'transparent', marginTop: 12, borderWidth: 1, borderColor: EStyleSheet.value('$iconColor'), height: 44 }}
                         onPress={_sendAuthReq}
-                        isDisable={!username || !isUsernameValid}
                         isLoading={status === Status.PROCESSING}
                         source={HIVE_AUTH_ICON}
                     />
@@ -336,21 +332,6 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
         </Animated.View>
     )
 
-
-    // const _renderSignContent = (
-    //     <>
-    //         {!!opsArray && (
-    //             <>
-    //                 <MainButton
-    //                     text="Broadcast Transaction"
-    //                     onPress={_broadcastActiveOps}
-    //                     // isDisable={!username || !isUsernameValid}
-    //                     isLoading={status === Status.PROCESSING}
-    //                 />
-    //             </>
-    //         )}
-    //     </>
-    // )
 
     const _renderResultIcon = (iconName: string, colorId: string) => (
         <Animated.View entering={ZoomIn.springify().duration(500)} exiting={ZoomOut}>
