@@ -14,7 +14,7 @@ import {
 } from '../../../providers/hive/auth';
 import { getUserDataWithUsername } from '../../../realm/realm';
 
-import { logout, toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+import { logout, showActionModal, toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 import AccountsBottomSheet from '../view/accountsBottomSheetView';
 
 // Constants
@@ -28,6 +28,7 @@ import { clearSubscribedCommunitiesCache } from '../../../redux/actions/cacheAct
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 import { decryptKey } from '../../../utils/crypto';
 import { repairUserAccountData } from '../../../utils/migrationHelpers';
+import ROUTES from '../../../constants/routeNames';
 
 const AccountsBottomSheetContainer = () => {
   const intl = useIntl();
@@ -82,6 +83,41 @@ const AccountsBottomSheetContainer = () => {
     dispatch(logout());
   };
 
+  const _checkHiveAuthExpiry = (authData: any) => {
+
+
+    if (authData?.username) {
+
+      const curTime = new Date().getTime();
+      if (curTime < authData.hiveAuthExpiry) {
+        dispatch( showActionModal({
+          title: intl.formatMessage({ id: 'alert.warning' }),
+          body: intl.formatMessage({ id: 'alert.auth_expired' }),
+          buttons: [
+            {
+              text: intl.formatMessage({ id: 'alert.cancel' }),
+              style: 'destructive',
+              onPress: () => {
+                console.log('cancel pressed');
+              },
+            },
+            {
+              text: intl.formatMessage({ id: 'alert.verify' }),
+              onPress: () => {
+                RootNavigation.navigate({
+                  name: ROUTES.SCREENS.LOGIN,
+                  params: { username:authData.username },
+                });
+              },
+            },
+          ],
+        }),
+        )
+      }
+    }
+  }
+
+
   const _handleSwitch = async (switchingAccount = {}) => {
     try {
       const accountData = accounts.filter(
@@ -116,6 +152,11 @@ const AccountsBottomSheetContainer = () => {
 
       [_currentAccount.local] = realmData;
 
+
+      if(currentAccount.local.authType = AUTH_TYPE.HIVE_AUTH) {
+        _checkHiveAuthExpiry(_currentAccount.local);
+      }
+
       // migreate account to use access token for master key auth type
       if (
         realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT &&
@@ -128,6 +169,8 @@ const AccountsBottomSheetContainer = () => {
           pinHash,
         );
       }
+
+
 
       // refresh access token
       const encryptedAccessToken = await refreshSCToken(

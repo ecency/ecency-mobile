@@ -370,8 +370,46 @@ class ApplicationContainer extends Component {
     }
   };
 
+  _checkHiveAuthExpiry = (authData: any) => {
+    const {
+      intl,
+      dispatch,
+    } = this.props;
+
+    if (authData?.username) {
+
+      const curTime = new Date().getTime();
+      if (curTime < authData.hiveAuthExpiry) {
+        dispatch(showActionModal({
+          title: intl.formatMessage({ id: 'alert.warning' }),
+          body: intl.formatMessage({ id: 'alert.auth_expired' }),
+          buttons: [
+            {
+              text: intl.formatMessage({ id: 'alert.cancel' }),
+              style: 'destructive',
+              onPress: () => {
+                console.log('cancel pressed');
+              },
+            },
+            {
+              text: intl.formatMessage({ id: 'alert.verify' }),
+              onPress: () => {
+                RootNavigation.navigate({
+                  name: ROUTES.SCREENS.LOGIN,
+                  params: { username:authData.username },
+                });
+              },
+            },
+          ],
+        }),
+        )
+      }
+    }
+  }
+
   _getUserDataFromRealm = async () => {
     const {
+
       dispatch,
       isPinCodeOpen: _isPinCodeOpen,
       isConnected,
@@ -405,21 +443,27 @@ class ApplicationContainer extends Component {
         });
       }
 
-      let realmObject: any[] = realmData.filter((data) => data.username === username);
+      let [authData]: any = realmData.filter((data) => data.username === username);
 
       // reapir otherAccouts data is needed
       // this repair must be done because code above makes sure every entry is realmData is a valid one
       repairOtherAccountsData(otherAccounts, realmData, dispatch);
 
-      if (!realmObject[0]) {
+      if (!authData) {
         // means current logged in user keys data not present, re-verify required
-        realmObject = await this._repairUserAccountData(username);
+        authData = await this._repairUserAccountData(username);
 
         // disrupt routine if repair helper fails
-        if (!realmObject[0]) {
+        if (!authData) {
           return null;
         }
       }
+
+      //check session expiry in case of HIVE_AUTH
+      if (authData.authType === AUTH_TYPE.HIVE_AUTH) {
+        this._checkHiveAuthExpiry(authData);
+      }
+
 
       // If in dev mode pin code does not show
       if (_isPinCodeOpen) {
@@ -430,10 +474,10 @@ class ApplicationContainer extends Component {
       }
 
       if (isConnected) {
-        this._fetchUserDataFromDsteem(realmObject[0]);
+        this._fetchUserDataFromDsteem(authData);
       }
 
-      return realmObject[0];
+      return authData;
     }
   };
 
@@ -552,8 +596,7 @@ class ApplicationContainer extends Component {
         console.warn('access token not present, reporting to bugsnag');
         bugsnapInstance.notify(
           new Error(
-            `Reporting missing access token in other accounts section: account:${
-              account.name
+            `Reporting missing access token in other accounts section: account:${account.name
             } with local data ${JSON.stringify(account?.local)}`,
           ),
         );
@@ -731,6 +774,11 @@ class ApplicationContainer extends Component {
           realmData[0],
           pinCode,
         );
+      }
+
+      //check session expiry in case of HIVE_AUTH
+      if (realmData[0].authType === AUTH_TYPE.HIVE_AUTH) {
+        this._checkHiveAuthExpiry(realmData[0]);
       }
 
       // update refresh token
