@@ -379,7 +379,7 @@ class ApplicationContainer extends Component {
     if (authData?.username) {
 
       const curTime = new Date().getTime();
-      if (curTime < authData.hiveAuthExpiry) {
+      if (curTime > authData.hiveAuthExpiry) {
         dispatch(showActionModal({
           title: intl.formatMessage({ id: 'alert.warning' }),
           body: intl.formatMessage({ id: 'alert.auth_expired' }),
