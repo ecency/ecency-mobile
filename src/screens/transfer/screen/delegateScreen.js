@@ -30,6 +30,7 @@ import {
   UserAvatar,
   Icon,
   Modal,
+  HiveAuthModal,
 } from '../../../components';
 // Styles
 import styles from './transferStyles';
@@ -43,6 +44,8 @@ import { isEmptyDate } from '../../../utils/time';
 import { hpToVests, vestsToHp } from '../../../utils/conversions';
 import parseAsset from '../../../utils/parseAsset';
 import { delay } from '../../../utils/editor';
+import { buildTransferOpsArray } from '../../../providers/hive/transactionOpsBuilder';
+import TransferTypes from '../../../constants/transferTypes';
 
 class DelegateScreen extends Component {
   _handleOnAmountChange = debounce(
@@ -60,6 +63,8 @@ class DelegateScreen extends Component {
 
   constructor(props) {
     super(props);
+    this.hiveAuthModalRef = React.createRef();
+
     this.state = {
       amount: 0,
       isAmountValid: true,
@@ -156,7 +161,18 @@ class DelegateScreen extends Component {
     // TODO: check if this need to accomodate HIVE_AUTH;
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
       this.setState({ steemConnectTransfer: true });
-    } else {
+    }
+    else if (accountType === AUTH_TYPE.HIVE_AUTH) {
+    
+      const opArray = buildTransferOpsArray(TransferTypes.DELEGATE, {
+        from,
+        to: destination,
+        amount: amount.toFixed(6),
+        fundType: 'VESTS'
+      });
+      this.hiveAuthModalRef.current?.broadcastActiveOps(opArray);
+    }
+    else {
       this.setState({ isTransfering: true });
       transferToAccount(from, destination, amount, '');
     }
@@ -264,11 +280,11 @@ class DelegateScreen extends Component {
         ) +
         (delegatedHP
           ? `\n${intl.formatMessage(
-              { id: 'transfer.confirm_summary_para' },
-              {
-                prev: delegatedHP,
-              },
-            )}`
+            { id: 'transfer.confirm_summary_para' },
+            {
+              prev: delegatedHP,
+            },
+          )}`
           : '');
 
       if (amountValid) {
@@ -478,7 +494,7 @@ class DelegateScreen extends Component {
       availableVestingShares =
         parseToken(get(selectedAccount, 'vesting_shares')) -
         (Number(get(selectedAccount, 'to_withdraw')) - Number(get(selectedAccount, 'withdrawn'))) /
-          1e6 -
+        1e6 -
         parseToken(get(selectedAccount, 'delegated_vesting_shares'));
     } else {
       // not powering down
@@ -623,6 +639,9 @@ class DelegateScreen extends Component {
             <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
           </Modal>
         )}
+
+        <HiveAuthModal ref={this.hiveAuthModalRef} onClose={handleOnModalClose} />
+
       </Fragment>
     );
   }
