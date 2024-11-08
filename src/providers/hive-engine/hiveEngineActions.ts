@@ -11,7 +11,7 @@ import {
 import { TransferDataType } from '../hive/hive.types';
 import { EngineActionJSON, EngineActions, EngineContracts } from './hiveEngine.types';
 
-const executeEngineAction = (json: EngineActionJSON, currentAccount: any, pinHash: string) => {
+const executeEngineAction = (opArray: Operation[], currentAccount: any, pinHash: string) => {
   const pin = getDigitPinCode(pinHash);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
   const username = get(currentAccount, 'name');
@@ -19,13 +19,7 @@ const executeEngineAction = (json: EngineActionJSON, currentAccount: any, pinHas
   if (key) {
     const privateKey = PrivateKey.fromString(key);
 
-    const op = {
-      id: 'ssc-mainnet-hive',
-      json: JSON.stringify(json),
-      required_auths: [username],
-      required_posting_auths: [],
-    };
-    const opArray: Operation[] = [['custom_json', op]];
+
     return sendHiveOperations(opArray, privateKey);
   }
 
@@ -34,14 +28,15 @@ const executeEngineAction = (json: EngineActionJSON, currentAccount: any, pinHas
   );
 };
 
-export const getEngineActionJSON = (
+export const getEngineActionOpArray = (
   action: EngineActions,
+  username: string,
   to: string,
   amount: string,
   symbol: string,
   memo?: string,
-): EngineActionJSON => {
-  return {
+): Operation[] => {
+  const json = {
     contractName: EngineContracts.TOKENS,
     contractAction: action,
     contractPayload: {
@@ -51,6 +46,14 @@ export const getEngineActionJSON = (
       memo: action === EngineActions.TRANSFER ? memo : undefined,
     },
   };
+
+  const op = {
+    id: 'ssc-mainnet-hive',
+    json: JSON.stringify(json),
+    required_auths: [username],
+    required_posting_auths: [],
+  };
+  return [['custom_json', op]];
 };
 
 export const claimRewards = async (
@@ -72,15 +75,16 @@ export const transferHiveEngine = async (
   pinHash: string,
   data: TransferDataType,
 ) => {
-  const json = getEngineActionJSON(
+  const opArray = getEngineActionOpArray(
     EngineActions.TRANSFER,
+    currentAccount.username,
     data.destination,
     data.amount,
     data.fundType,
     data.memo,
   );
 
-  return executeEngineAction(json, currentAccount, pinHash);
+  return executeEngineAction(opArray, currentAccount, pinHash);
 };
 
 export const delegateHiveEngine = async (
@@ -88,14 +92,15 @@ export const delegateHiveEngine = async (
   pinHash: string,
   data: TransferDataType,
 ) => {
-  const json = getEngineActionJSON(
+  const opArray = getEngineActionOpArray(
     EngineActions.DELEGATE,
+    currentAccount.username,
     data.destination,
     data.amount,
     data.fundType,
   );
 
-  return executeEngineAction(json, currentAccount, pinHash);
+  return executeEngineAction(opArray, currentAccount, pinHash);
 };
 
 export const undelegateHiveEngine = async (
@@ -103,14 +108,15 @@ export const undelegateHiveEngine = async (
   pinHash: string,
   data: TransferDataType,
 ) => {
-  const json = getEngineActionJSON(
+  const opArray = getEngineActionOpArray(
     EngineActions.UNDELEGATE,
+    currentAccount.username,
     data.destination,
     data.amount,
     data.fundType,
   );
 
-  return executeEngineAction(json, currentAccount, pinHash);
+  return executeEngineAction(opArray, currentAccount, pinHash);
 };
 
 export const stakeHiveEngine = async (
@@ -118,14 +124,15 @@ export const stakeHiveEngine = async (
   pinHash: string,
   data: TransferDataType,
 ) => {
-  const json = getEngineActionJSON(
+  const opArray = getEngineActionOpArray(
     EngineActions.STAKE,
+    currentAccount.username,
     data.destination,
     data.amount,
     data.fundType,
   );
 
-  return executeEngineAction(json, currentAccount, pinHash);
+  return executeEngineAction(opArray, currentAccount, pinHash);
 };
 
 export const unstakeHiveEngine = async (
@@ -133,12 +140,13 @@ export const unstakeHiveEngine = async (
   pinHash: string,
   data: TransferDataType,
 ) => {
-  const json = getEngineActionJSON(
+  const opArray = getEngineActionOpArray(
     EngineActions.UNSTAKE,
+    currentAccount.username,
     data.destination,
     data.amount,
     data.fundType,
   );
 
-  return executeEngineAction(json, currentAccount, pinHash);
+  return executeEngineAction(opArray, currentAccount, pinHash);
 };
