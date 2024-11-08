@@ -3,6 +3,8 @@ import TransferTypes from '../constants/transferTypes';
 import { OrderIdPrefix, SwapOptions } from '../providers/hive-trade/hiveTrade.types';
 import { convertSwapOptionsToLimitOrder } from '../providers/hive-trade/converters';
 import { getLimitOrderCreateOpData } from '../providers/hive-trade/hiveTrade';
+import { getEngineActionOpArray } from 'providers/hive-engine/hiveEngineActions';
+import { EngineActions } from 'providers/hive-engine/hiveEngine.types';
 
 interface TansferData {
   from: string;
@@ -130,21 +132,7 @@ export const buildTransferOpsArray = (
           },
         ],
       ];
-    case TransferTypes.POINTS:
-      const json = JSON.stringify({
-        sender: from,
-        receiver: to,
-        amount,
-        memo,
-      });
 
-      const op = {
-        id: 'ecency_point_transfer',
-        json,
-        required_auths: [from],
-        required_posting_auths: [],
-      };
-      return [['custom_json', op]];
 
     case TransferTypes.POWER_DOWN:
       return [
@@ -168,21 +156,69 @@ export const buildTransferOpsArray = (
         ],
       ];
 
-    // case TransferTypes.TRANSFER_ENGINE:
-    //   func = transferHiveEngine;
-    //   break;
-    // case TransferTypes.STAKE_ENGINE:
-    //   func = stakeHiveEngine;
-    //   break;
-    // case TransferTypes.DELEGATE_ENGINE:
-    //   func = delegateHiveEngine;
-    //   break;
-    // case TransferTypes.UNSTAKE_ENGINE:
-    //   func = unstakeHiveEngine;
-    //   break;
-    // case TransferTypes.UNDELEGATE_ENGINE:
-    //   func = undelegateHiveEngine;
-    //   break;
+    case TransferTypes.POINTS:
+      const json = JSON.stringify({
+        sender: from,
+        receiver: to,
+        amount,
+        memo,
+      });
+
+      const op = {
+        id: 'ecency_point_transfer',
+        json,
+        required_auths: [from],
+        required_posting_auths: [],
+      };
+      return [['custom_json', op]];
+
+
+    case TransferTypes.TRANSFER_ENGINE:
+      return getEngineActionOpArray(
+        EngineActions.TRANSFER,
+        from,
+        to,
+        amount,
+        fundType,
+        memo,
+      );
+
+    case TransferTypes.STAKE_ENGINE:
+      return getEngineActionOpArray(
+        EngineActions.STAKE,
+        from,
+        to,
+        amount,
+        fundType,
+        memo,
+      );
+    case TransferTypes.DELEGATE_ENGINE:
+      return getEngineActionOpArray(
+        EngineActions.DELEGATE,
+        from,
+        to,
+        amount,
+        fundType,
+        memo,
+      );
+    case TransferTypes.UNSTAKE_ENGINE:
+      return getEngineActionOpArray(
+        EngineActions.UNDELEGATE,
+        from,
+        to,
+        amount,
+        fundType,
+        memo,
+      );
+    case TransferTypes.UNDELEGATE_ENGINE:
+      return getEngineActionOpArray(
+        EngineActions.UNDELEGATE,
+        from,
+        to,
+        amount,
+        fundType,
+        memo,
+      );
 
     // case TransferTypes.TRANSFER_SPK:
     //   func = transferSpk;
