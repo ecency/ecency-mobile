@@ -1,5 +1,4 @@
 export enum ContentType {
-  GENERAL = 'general',
   POLL = 'poll',
 }
 
@@ -26,11 +25,10 @@ export interface PollMetadata {
   hide_votes: boolean;
 }
 
-export interface PostMetadata extends PollMetadata {
+export interface PostMetadata extends Partial<PollMetadata> {
   // GENERAL
   tags: string[];
   token: string;
-  content_type: ContentType;
   description: string;
   format: string;
   version: number;
