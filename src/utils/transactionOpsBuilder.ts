@@ -5,6 +5,10 @@ import { convertSwapOptionsToLimitOrder } from '../providers/hive-trade/converte
 import { getLimitOrderCreateOpData } from '../providers/hive-trade/hiveTrade';
 import { getEngineActionOpArray } from 'providers/hive-engine/hiveEngineActions';
 import { EngineActions } from 'providers/hive-engine/hiveEngine.types';
+import parseToken from './parseToken';
+import { Operation } from '@hiveio/dhive';
+import { buildActiveCustomJsonOpArr } from 'providers/hive/dhive';
+import { getSpkActionJSON, getSpkTransactionId } from 'providers/hive-spk/hiveSpk';
 
 interface TansferData {
   from: string;
@@ -156,21 +160,7 @@ export const buildTransferOpsArray = (
         ],
       ];
 
-    case TransferTypes.POINTS:
-      const json = JSON.stringify({
-        sender: from,
-        receiver: to,
-        amount,
-        memo,
-      });
 
-      const op = {
-        id: 'ecency_point_transfer',
-        json,
-        required_auths: [from],
-        required_posting_auths: [],
-      };
-      return [['custom_json', op]];
 
 
     case TransferTypes.TRANSFER_ENGINE:
@@ -220,30 +210,34 @@ export const buildTransferOpsArray = (
         memo,
       );
 
-    // case TransferTypes.TRANSFER_SPK:
-    //   func = transferSpk;
-    //   break;
-    // case TransferTypes.TRANSFER_LARYNX:
-    //   func = transferLarynx;
-    // case TransferTypes.POWER_UP_SPK:
-    //   func = powerLarynx;
-    //   data.mode = SpkPowerMode.UP;
-    //   break;
-    // case TransferTypes.POWER_DOWN_SPK:
-    //   func = powerLarynx;
-    //   data.mode = SpkPowerMode.DOWN;
-    //   break;
-    // case TransferTypes.LOCK_LIQUIDITY_SPK:
-    //   func = lockLarynx;
-    //   data.mode = SpkLockMode.LOCK;
-    //   break;
-    // case TransferTypes.DELEGATE_SPK:
-    //   func = delegateLarynx;
-    //   break;
-    // default:
-    //   break;
+    case TransferTypes.POINTS:
+      return buildActiveCustomJsonOpArr(
+        from,
+        'ecency_point_transfer',
+        JSON.stringify({
+          sender: from,
+          receiver: to,
+          amount,
+          memo,
+        })
+      );
+
+    case TransferTypes.TRANSFER_SPK:
+    case TransferTypes.TRANSFER_LARYNX:
+    case TransferTypes.TRANSFER_LARYNX:
+    case TransferTypes.POWER_UP_SPK:
+    case TransferTypes.POWER_DOWN_SPK:
+    case TransferTypes.LOCK_LIQUIDITY_SPK:
+    case TransferTypes.DELEGATE_SPK:
+      return buildActiveCustomJsonOpArr(
+        from,
+        getSpkTransactionId(transferType),
+        getSpkActionJSON(parseToken(amount), to, memo)
+      );
 
     default:
       throw new Error(`Unsupported transaction type: ${transferType}`);
   }
 };
+
+

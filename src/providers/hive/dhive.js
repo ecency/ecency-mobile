@@ -173,6 +173,24 @@ export const broadcastPostingJSON = async (id, json, currentAccount, pinHash) =>
   );
 };
 
+
+export const buildActiveCustomJsonOpArr = (
+  username,
+  operationId,
+  json
+) => {
+  return [
+    [
+      'custom_json', {
+        id: operationId,
+        json: JSON.stringify(json),
+        required_auths: [username],
+        required_posting_auths: [],
+      }
+    ]
+  ]
+};
+
 export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
 
 export const getDynamicGlobalProperties = () => client.database.getDynamicGlobalProperties();
