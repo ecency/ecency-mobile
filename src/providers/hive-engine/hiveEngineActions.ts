@@ -28,15 +28,14 @@ const executeEngineAction = (opArray: Operation[], currentAccount: any, pinHash:
   );
 };
 
-export const getEngineActionOpArray = (
+export const getEngineActionJSON = (
   action: EngineActions,
-  username: string,
   to: string,
   amount: string,
   symbol: string,
   memo?: string,
-): Operation[] => {
-  const json = {
+): EngineActionJSON => {
+  return {
     contractName: EngineContracts.TOKENS,
     contractAction: action,
     contractPayload: {
@@ -46,6 +45,24 @@ export const getEngineActionOpArray = (
       memo: action === EngineActions.TRANSFER ? memo : undefined,
     },
   };
+};
+
+export const getEngineActionOpArray = (
+  action: EngineActions,
+  username: string,
+  to: string,
+  amount: string,
+  symbol: string,
+  memo?: string,
+): Operation[] => {
+  
+  const json = getEngineActionJSON(
+    action,
+    to,
+    amount,
+    symbol,
+    memo,
+  )
 
   const op = {
     id: 'ssc-mainnet-hive',
