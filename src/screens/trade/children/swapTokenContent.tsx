@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, Alert, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -6,7 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { useNavigation } from '@react-navigation/native';
 import styles from '../styles/tradeScreen.styles';
 import { AssetChangeBtn, ErrorSection, SwapAmountInput, SwapFeeSection } from '.';
-import { Icon, MainButton } from '../../../components';
+import { HiveAuthModal, Icon, MainButton } from '../../../components';
 import {
   fetchHiveMarketRate,
   generateHsSwapTokenPath,
@@ -20,6 +20,7 @@ import { walletQueries } from '../../../providers/queries';
 import { useSwapCalculator } from './useSwapCalculator';
 import AUTH_TYPE from '../../../constants/authType';
 import { delay } from '../../../utils/editor';
+import { buildTradeOpsArray } from '../../../utils/transactionOpsBuilder';
 
 interface Props {
   initialSymbol: MarketAsset;
@@ -31,6 +32,8 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
+
+  const hiveAuthModalRef = useRef();
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const currency = useAppSelector((state) => state.application.currency);
@@ -174,11 +177,17 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
       toAmount,
     };
 
-    // TODO: check if this need to accomodate HIVE_AUTH;
+
     if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
       await delay(500); // NOTE: it's required to avoid modal mis fire
       handleHsTransfer(generateHsSwapTokenPath(currentAccount, data));
-    } else {
+    }
+    else if (currentAccount.local.authType === AUTH_TYPE.HIVE_AUTH) {
+      await delay(500); // NOTE: it's required to avoid modal mis fire
+      const opsArray = buildTradeOpsArray(currentAccount.username, data)
+      hiveAuthModalRef.current?.broadcastActiveOps(opsArray);
+    }
+    else {
       try {
         setSwapping(true);
 
@@ -319,6 +328,9 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
       <ErrorSection message={_errorMessage} />
 
       {_renderMainBtn()}
+
+      <HiveAuthModal ref={hiveAuthModalRef} onClose={() => navigation.goBack()} />
+
     </KeyboardAwareScrollView>
   );
 };

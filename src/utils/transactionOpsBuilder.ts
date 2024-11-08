@@ -1,5 +1,8 @@
 import { countDecimals } from './number';
 import TransferTypes from '../constants/transferTypes';
+import { OrderIdPrefix, SwapOptions } from '../providers/hive-trade/hiveTrade.types';
+import { convertSwapOptionsToLimitOrder } from '../providers/hive-trade/converters';
+import { getLimitOrderCreateOpData } from '../providers/hive-trade/hiveTrade';
 
 interface TansferData {
   from: string;
@@ -10,6 +13,24 @@ interface TansferData {
   recurrence?: number;
   executions?: number;
 }
+
+
+export const buildTradeOpsArray = (
+  username: string,
+  data: SwapOptions,
+) => {
+  const { amountToSell, minToRecieve, transactionType } = convertSwapOptionsToLimitOrder(data);
+  const opData = getLimitOrderCreateOpData(
+    username,
+    amountToSell,
+    minToRecieve,
+    transactionType,
+    OrderIdPrefix.SWAP
+  )
+
+  return [['limit_order_create', opData]];
+}
+
 
 export const buildTransferOpsArray = (
   transferType: string,
