@@ -1,7 +1,7 @@
-import { getEngineActionOpArray } from 'providers/hive-engine/hiveEngineActions';
-import { EngineActions } from 'providers/hive-engine/hiveEngine.types';
-import { buildActiveCustomJsonOpArr } from 'providers/hive/dhive';
-import { getSpkActionJSON, getSpkTransactionId } from 'providers/hive-spk/hiveSpk';
+import { getEngineActionOpArray } from '../providers/hive-engine/hiveEngineActions';
+import { EngineActions } from '../providers/hive-engine/hiveEngine.types';
+import { buildActiveCustomJsonOpArr } from '../providers/hive/dhive';
+import { getSpkActionJSON, getSpkTransactionId } from '../providers/hive-spk/hiveSpk';
 import { countDecimals } from './number';
 import TransferTypes from '../constants/transferTypes';
 import { OrderIdPrefix, SwapOptions } from '../providers/hive-trade/hiveTrade.types';
