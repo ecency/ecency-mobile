@@ -1,5 +1,5 @@
-import { countDecimals } from '../../utils/number';
-import TransferTypes from '../../constants/transferTypes';
+import { countDecimals } from './number';
+import TransferTypes from '../constants/transferTypes';
 
 interface TansferData {
   from: string;

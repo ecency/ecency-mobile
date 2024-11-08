@@ -44,7 +44,7 @@ import { isEmptyDate } from '../../../utils/time';
 import { hpToVests, vestsToHp } from '../../../utils/conversions';
 import parseAsset from '../../../utils/parseAsset';
 import { delay } from '../../../utils/editor';
-import { buildTransferOpsArray } from '../../../providers/hive/transactionOpsBuilder';
+import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
 import TransferTypes from '../../../constants/transferTypes';
 
 class DelegateScreen extends Component {

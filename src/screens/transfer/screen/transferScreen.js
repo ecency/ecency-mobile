@@ -28,7 +28,7 @@ import {
   SPK_NODE_ECENCY,
 } from '../../../providers/hive-spk/hiveSpk';
 import parseToken from '../../../utils/parseToken';
-import { buildTransferOpsArray } from '../../../providers/hive/transactionOpsBuilder';
+import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
 
 const TransferView = ({
   currentAccountName,

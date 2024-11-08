@@ -30,7 +30,7 @@ import { isEmptyDate, daysTillDate } from '../../../utils/time';
 import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
 import TransferTypes from '../../../constants/transferTypes';
-import { buildTransferOpsArray } from '../../../providers/hive/transactionOpsBuilder';
+import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
 
 /* Props
  * ------------------------------------------------
