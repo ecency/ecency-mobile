@@ -14,11 +14,9 @@ import { EngineActionJSON, EngineActions, EngineContracts } from './hiveEngine.t
 const executeEngineAction = (opArray: Operation[], currentAccount: any, pinHash: string) => {
   const pin = getDigitPinCode(pinHash);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
-  const username = get(currentAccount, 'name');
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
-
 
     return sendHiveOperations(opArray, privateKey);
   }
@@ -55,14 +53,7 @@ export const getEngineActionOpArray = (
   symbol: string,
   memo?: string,
 ): Operation[] => {
-  
-  const json = getEngineActionJSON(
-    action,
-    to,
-    amount,
-    symbol,
-    memo,
-  )
+  const json = getEngineActionJSON(action, to, amount, symbol, memo);
 
   const op = {
     id: 'ssc-mainnet-hive',

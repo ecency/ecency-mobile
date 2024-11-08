@@ -177,17 +177,14 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
       toAmount,
     };
 
-
     if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
       await delay(500); // NOTE: it's required to avoid modal mis fire
       handleHsTransfer(generateHsSwapTokenPath(currentAccount, data));
-    }
-    else if (currentAccount.local.authType === AUTH_TYPE.HIVE_AUTH) {
+    } else if (currentAccount.local.authType === AUTH_TYPE.HIVE_AUTH) {
       await delay(500); // NOTE: it's required to avoid modal mis fire
-      const opsArray = buildTradeOpsArray(currentAccount.username, data)
+      const opsArray = buildTradeOpsArray(currentAccount.username, data);
       hiveAuthModalRef.current?.broadcastActiveOps(opsArray);
-    }
-    else {
+    } else {
       try {
         setSwapping(true);
 
@@ -330,7 +327,6 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
       {_renderMainBtn()}
 
       <HiveAuthModal ref={hiveAuthModalRef} onClose={() => navigation.goBack()} />
-
     </KeyboardAwareScrollView>
   );
 };

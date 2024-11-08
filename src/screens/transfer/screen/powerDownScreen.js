@@ -91,17 +91,15 @@ class PowerDownView extends Component {
         intl.formatMessage({ id: 'transfer.sc_power_down_error' }),
       );
       this.setState({ steemConnectTransfer: true, isTransfering: false });
-    } 
-    else if (accountType === AUTH_TYPE.HIVE_AUTH) {
+    } else if (accountType === AUTH_TYPE.HIVE_AUTH) {
       const opArray = buildTransferOpsArray(TransferTypes.POWER_DOWN, {
         from,
         to: destinationAccounts,
         amount: amount.toFixed(6),
-        fundType: 'VESTS'
+        fundType: 'VESTS',
       });
       this.hiveAuthModalRef.current?.broadcastActiveOps(opArray);
-    }
-    else {
+    } else {
       transferToAccount(from, destinationAccounts, amount, '');
     }
   };
@@ -340,7 +338,7 @@ class PowerDownView extends Component {
       getAccountsWithUsername,
       transferType,
       hivePerMVests,
-      handleOnModalClose
+      handleOnModalClose,
     } = this.props;
     const { amount, hp, isAmountValid, isTransfering, isOpenWithdrawAccount } = this.state;
     let poweringDownVests = 0;

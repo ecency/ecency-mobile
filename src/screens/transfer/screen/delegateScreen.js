@@ -161,18 +161,15 @@ class DelegateScreen extends Component {
     // TODO: check if this need to accomodate HIVE_AUTH;
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
       this.setState({ steemConnectTransfer: true });
-    }
-    else if (accountType === AUTH_TYPE.HIVE_AUTH) {
-    
+    } else if (accountType === AUTH_TYPE.HIVE_AUTH) {
       const opArray = buildTransferOpsArray(TransferTypes.DELEGATE, {
         from,
         to: destination,
         amount: amount.toFixed(6),
-        fundType: 'VESTS'
+        fundType: 'VESTS',
       });
       this.hiveAuthModalRef.current?.broadcastActiveOps(opArray);
-    }
-    else {
+    } else {
       this.setState({ isTransfering: true });
       transferToAccount(from, destination, amount, '');
     }
@@ -280,11 +277,11 @@ class DelegateScreen extends Component {
         ) +
         (delegatedHP
           ? `\n${intl.formatMessage(
-            { id: 'transfer.confirm_summary_para' },
-            {
-              prev: delegatedHP,
-            },
-          )}`
+              { id: 'transfer.confirm_summary_para' },
+              {
+                prev: delegatedHP,
+              },
+            )}`
           : '');
 
       if (amountValid) {
@@ -494,7 +491,7 @@ class DelegateScreen extends Component {
       availableVestingShares =
         parseToken(get(selectedAccount, 'vesting_shares')) -
         (Number(get(selectedAccount, 'to_withdraw')) - Number(get(selectedAccount, 'withdrawn'))) /
-        1e6 -
+          1e6 -
         parseToken(get(selectedAccount, 'delegated_vesting_shares'));
     } else {
       // not powering down
@@ -641,7 +638,6 @@ class DelegateScreen extends Component {
         )}
 
         <HiveAuthModal ref={this.hiveAuthModalRef} onClose={handleOnModalClose} />
-
       </Fragment>
     );
   }

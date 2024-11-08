@@ -206,6 +206,7 @@ export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => 
     let avatar = '';
 
     try {
+      const accessToken = scTokens ? scTokens.access_token : '';
       account.unread_activity_count = await getUnreadNotificationCount(accessToken);
       account.pointsSummary = await getPointsSummary(account.username);
       account.mutes = await getMutes(account.username);

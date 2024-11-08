@@ -14,7 +14,11 @@ import {
 } from '../../../providers/hive/auth';
 import { getUserDataWithUsername } from '../../../realm/realm';
 
-import { logout, showActionModal, toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+import {
+  logout,
+  showActionModal,
+  toggleAccountsBottomSheet,
+} from '../../../redux/actions/uiAction';
 import AccountsBottomSheet from '../view/accountsBottomSheetView';
 
 // Constants
@@ -84,39 +88,36 @@ const AccountsBottomSheetContainer = () => {
   };
 
   const _checkHiveAuthExpiry = (authData: any) => {
-
-
     if (authData?.username) {
-
       const curTime = new Date().getTime();
       if (curTime > authData.hiveAuthExpiry) {
-        dispatch( showActionModal({
-          title: intl.formatMessage({ id: 'alert.warning' }),
-          body: intl.formatMessage({ id: 'alert.auth_expired' }),
-          buttons: [
-            {
-              text: intl.formatMessage({ id: 'alert.cancel' }),
-              style: 'destructive',
-              onPress: () => {
-                console.log('cancel pressed');
+        dispatch(
+          showActionModal({
+            title: intl.formatMessage({ id: 'alert.warning' }),
+            body: intl.formatMessage({ id: 'alert.auth_expired' }),
+            buttons: [
+              {
+                text: intl.formatMessage({ id: 'alert.cancel' }),
+                style: 'destructive',
+                onPress: () => {
+                  console.log('cancel pressed');
+                },
               },
-            },
-            {
-              text: intl.formatMessage({ id: 'alert.verify' }),
-              onPress: () => {
-                RootNavigation.navigate({
-                  name: ROUTES.SCREENS.LOGIN,
-                  params: { username:authData.username },
-                });
+              {
+                text: intl.formatMessage({ id: 'alert.verify' }),
+                onPress: () => {
+                  RootNavigation.navigate({
+                    name: ROUTES.SCREENS.LOGIN,
+                    params: { username: authData.username },
+                  });
+                },
               },
-            },
-          ],
-        }),
-        )
+            ],
+          }),
+        );
       }
     }
-  }
-
+  };
 
   const _handleSwitch = async (switchingAccount = {}) => {
     try {
@@ -152,8 +153,7 @@ const AccountsBottomSheetContainer = () => {
 
       [_currentAccount.local] = realmData;
 
-
-      if(currentAccount.local.authType = AUTH_TYPE.HIVE_AUTH) {
+      if ((currentAccount.local.authType = AUTH_TYPE.HIVE_AUTH)) {
         _checkHiveAuthExpiry(_currentAccount.local);
       }
 
@@ -169,8 +169,6 @@ const AccountsBottomSheetContainer = () => {
           pinHash,
         );
       }
-
-
 
       // refresh access token
       const encryptedAccessToken = await refreshSCToken(

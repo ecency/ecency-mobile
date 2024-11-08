@@ -12,25 +12,25 @@ export default EStyleSheet.create({
     height: 300,
   } as ViewStyle,
   content: {
-    flex:1,
+    flex: 1,
     paddingHorizontal: 32,
-    marginTop:-40,
-    justifyContent:'center',
-    alignItems:'center',
+    marginTop: -40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   input: {
     color: '$primaryDarkText',
     // flexGrow: 1,
   },
-  resultIcon:{
-    marginBottom:24,
+  resultIcon: {
+    marginBottom: 24,
   },
   inputWrapper: {
     borderRadius: 28,
     borderTopEndRadius: 28,
     borderTopStartRadius: 28,
     marginBottom: 12,
-    borderBottomWidth:1,
+    borderBottomWidth: 1,
     height: 56,
   } as ViewStyle,
 });

@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import { debounce } from 'lodash';
 
 // Actions
+import EStyleSheet from 'react-native-extended-stylesheet';
 import HiveSigner from '../../steem-connect/hiveSigner';
 
 // Internal Components
@@ -25,9 +26,8 @@ import { ECENCY_TERMS_URL } from '../../../config/ecencyApi';
 // Styles
 import styles from './loginStyles';
 import { HiveSignerIcon } from '../../../assets/svgs';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
-const HIVE_AUTH_LOGO  = require('../../../assets/HiveAuth_logo.png');
+import HIVE_AUTH_LOGO from '../../../assets/HiveAuth_logo.png';
 
 const LoginScreen = ({
   initialUsername,
@@ -109,7 +109,6 @@ const LoginScreen = ({
     </View>
   );
 
-
   return (
     <View style={styles.container}>
       <LoginHeader
@@ -130,8 +129,6 @@ const LoginScreen = ({
           });
         }}
       />
-
-
 
       <KeyboardAwareScrollView
         enableAutoAutomaticScroll={Platform.OS === 'ios'}
@@ -191,7 +188,7 @@ const LoginScreen = ({
           height={50}
           iconStyle={styles.loginBtnIconStyle}
         />
-        <OrDivider containerStyle={{marginBottom:16}} />
+        <OrDivider containerStyle={{ marginBottom: 16 }} />
 
         <MainButton
           onPress={() => _handleOnModalToggle()}
@@ -212,8 +209,8 @@ const LoginScreen = ({
           text={intl.formatMessage({
             id: 'login.signin_with',
           })}
-          secondText={" Hive"}
-          secondTextStyle={{color:EStyleSheet.value('$primaryRed')}}
+          secondText=" Hive"
+          secondTextStyle={{ color: EStyleSheet.value('$primaryRed') }}
           textStyle={styles.hsLoginBtnText}
           wrapperStyle={styles.loginBtnWrapper}
           bodyWrapperStyle={styles.loginBtnBodyWrapper}

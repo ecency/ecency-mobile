@@ -1,14 +1,13 @@
+import { getEngineActionOpArray } from 'providers/hive-engine/hiveEngineActions';
+import { EngineActions } from 'providers/hive-engine/hiveEngine.types';
+import { buildActiveCustomJsonOpArr } from 'providers/hive/dhive';
+import { getSpkActionJSON, getSpkTransactionId } from 'providers/hive-spk/hiveSpk';
 import { countDecimals } from './number';
 import TransferTypes from '../constants/transferTypes';
 import { OrderIdPrefix, SwapOptions } from '../providers/hive-trade/hiveTrade.types';
 import { convertSwapOptionsToLimitOrder } from '../providers/hive-trade/converters';
 import { getLimitOrderCreateOpData } from '../providers/hive-trade/hiveTrade';
-import { getEngineActionOpArray } from 'providers/hive-engine/hiveEngineActions';
-import { EngineActions } from 'providers/hive-engine/hiveEngine.types';
 import parseToken from './parseToken';
-import { Operation } from '@hiveio/dhive';
-import { buildActiveCustomJsonOpArr } from 'providers/hive/dhive';
-import { getSpkActionJSON, getSpkTransactionId } from 'providers/hive-spk/hiveSpk';
 
 interface TansferData {
   from: string;
@@ -20,23 +19,18 @@ interface TansferData {
   executions?: number;
 }
 
-
-export const buildTradeOpsArray = (
-  username: string,
-  data: SwapOptions,
-) => {
+export const buildTradeOpsArray = (username: string, data: SwapOptions) => {
   const { amountToSell, minToRecieve, transactionType } = convertSwapOptionsToLimitOrder(data);
   const opData = getLimitOrderCreateOpData(
     username,
     amountToSell,
     minToRecieve,
     transactionType,
-    OrderIdPrefix.SWAP
-  )
+    OrderIdPrefix.SWAP,
+  );
 
   return [['limit_order_create', opData]];
-}
-
+};
 
 export const buildTransferOpsArray = (
   transferType: string,
@@ -137,7 +131,6 @@ export const buildTransferOpsArray = (
         ],
       ];
 
-
     case TransferTypes.POWER_DOWN:
       return [
         [
@@ -160,55 +153,16 @@ export const buildTransferOpsArray = (
         ],
       ];
 
-
-
-
     case TransferTypes.TRANSFER_ENGINE:
-      return getEngineActionOpArray(
-        EngineActions.TRANSFER,
-        from,
-        to,
-        amount,
-        fundType,
-        memo,
-      );
-
+      return getEngineActionOpArray(EngineActions.TRANSFER, from, to, amount, fundType, memo);
     case TransferTypes.STAKE_ENGINE:
-      return getEngineActionOpArray(
-        EngineActions.STAKE,
-        from,
-        to,
-        amount,
-        fundType,
-        memo,
-      );
+      return getEngineActionOpArray(EngineActions.STAKE, from, to, amount, fundType, memo);
     case TransferTypes.DELEGATE_ENGINE:
-      return getEngineActionOpArray(
-        EngineActions.DELEGATE,
-        from,
-        to,
-        amount,
-        fundType,
-        memo,
-      );
+      return getEngineActionOpArray(EngineActions.DELEGATE, from, to, amount, fundType, memo);
     case TransferTypes.UNSTAKE_ENGINE:
-      return getEngineActionOpArray(
-        EngineActions.UNDELEGATE,
-        from,
-        to,
-        amount,
-        fundType,
-        memo,
-      );
+      return getEngineActionOpArray(EngineActions.UNDELEGATE, from, to, amount, fundType, memo);
     case TransferTypes.UNDELEGATE_ENGINE:
-      return getEngineActionOpArray(
-        EngineActions.UNDELEGATE,
-        from,
-        to,
-        amount,
-        fundType,
-        memo,
-      );
+      return getEngineActionOpArray(EngineActions.UNDELEGATE, from, to, amount, fundType, memo);
 
     case TransferTypes.POINTS:
       return buildActiveCustomJsonOpArr(
@@ -219,11 +173,10 @@ export const buildTransferOpsArray = (
           receiver: to,
           amount,
           memo,
-        })
+        }),
       );
 
     case TransferTypes.TRANSFER_SPK:
-    case TransferTypes.TRANSFER_LARYNX:
     case TransferTypes.TRANSFER_LARYNX:
     case TransferTypes.POWER_UP_SPK:
     case TransferTypes.POWER_DOWN_SPK:
@@ -232,12 +185,10 @@ export const buildTransferOpsArray = (
       return buildActiveCustomJsonOpArr(
         from,
         getSpkTransactionId(transferType),
-        getSpkActionJSON(parseToken(amount), to, memo)
+        getSpkActionJSON(parseToken(amount), to, memo),
       );
 
     default:
       throw new Error(`Unsupported transaction type: ${transferType}`);
   }
 };
-
-

@@ -42,7 +42,7 @@ export default EStyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: '$primaryBlue',
-    marginTop:-12
+    marginTop: -12,
   },
   hsLoginBtnText: {
     flexGrow: 1,
