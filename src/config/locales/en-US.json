@@ -403,6 +403,23 @@
     "signup_now": "Sign up now!",
     "or": "OR"
   },
+  "hiveauth":{
+    "title":"Hive Auth",
+    "initiating":"Initiating...",
+    "authenticating":"Authenticating...",
+    "requesting":"Requesting...",
+    "logging_in":":Logging In...",
+    "auth_success":"Authenticationg Successful",
+    "auth_fail":"Authentication Failed",
+    "transaction_success":"Transaction Successful",
+    "transaction_fail":"Transaction Failed",
+    "not_installed":"Hive Authentication App Not Installed",
+    "missing_op_arr":"Missing operations array to broadcast",
+    "invalid_auth_type":"Invalid auth type",
+    "decrypt_fail":"Failed to decrypt hive auth key",
+    "expired":"Hive Auth Key is expired, reauthenticate and try again"
+
+  },
   "register": {
     "modal_title": "Get Hive Account",
     "button": "Sign Up",

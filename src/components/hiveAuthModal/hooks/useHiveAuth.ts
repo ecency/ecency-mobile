@@ -13,6 +13,8 @@ import { decryptKey } from '../../../utils/crypto';
 import { delay } from '../../../utils/editor';
 import { Operation } from '@hiveio/dhive';
 import assert from 'assert';
+import { useIntl } from 'react-intl';
+import bugsnapInstance from '../../../config/bugsnag';
 
 
 const APP_META = {
@@ -20,6 +22,9 @@ const APP_META = {
     description: 'Decentralised Social Blogging',
     icon: undefined,
 };
+
+const HAS_AUTH_URI = 'has://auth_req';
+const HAS_SIGN_URI = 'has://sign_req'
 
 
 export enum HiveAuthStatus {
@@ -32,7 +37,7 @@ export enum HiveAuthStatus {
 
 
 export const useHiveAuth = () => {
-
+    const intl = useIntl();
     const postLoginActions = usePostLoginActions();
 
     const pinHash = useAppSelector((state) => state.application.pin);
@@ -41,6 +46,7 @@ export const useHiveAuth = () => {
     const [statusText, setStatusText] = useState('');
     const [status, setStatus] = useState(HiveAuthStatus.INPUT);
 
+    //initiate has web hook connection
     useEffect(() => {
         // Retrieving connection status
         HAS.connect().then(() => {
@@ -50,8 +56,15 @@ export const useHiveAuth = () => {
     }, []);
 
 
+
+    /**
+     * authenticates user via installed hive auth or keychain app
+     * compiles and set account data in redux store
+     * @param username user to log in
+     * @returns Promise<boolean> success status
+     */
     const authenticate = async (username: string) => {
-        setStatusText('Initiating...');
+        setStatusText(intl.formatMessage({ id: 'hiveauth.initiating' }));
         setStatus(HiveAuthStatus.PROCESSING);
 
         Keyboard.dismiss();
@@ -98,32 +111,31 @@ export const useHiveAuth = () => {
 
                 console.log(encodedData);
 
-                const uri = `has://auth_req/${encodedData}`;
+                const uri = `${HAS_AUTH_URI}/${encodedData}`;
 
                 const _canOpenUri = await Linking.canOpenURL(uri);
                 if (_canOpenUri) {
-                    setStatusText('Authenticating...');
+                    setStatusText(intl.formatMessage({ id: 'hiveauth.authenticating' }));
                     Linking.openURL(uri);
                 } else {
                     // TOOD: prompt to install valid keychain app
-                    setStatusText('Hive Authentication App Not Installed');
+                    setStatusText( intl.formatMessage({ id: 'hiveauth.not_installed' }));
                     setStatus(HiveAuthStatus.ERROR);
                 }
             };
 
             const authRes = await HAS.authenticate(auth, APP_META, challenge_data, _cbWait);
 
-            setStatusText('Logging In...');
+            setStatusText(intl.formatMessage({ id: 'hiveauth.logging_in' }));
             // update message with sign and encode to created hsCode
             messageObj.signatures = [authRes.data.challenge.challenge];
             const hsCode = btoa(JSON.stringify(messageObj));
 
-            // handleOnModalClose();
             const accountData = await loginWithHiveAuth(hsCode, auth.key, auth.expire);
 
             postLoginActions.updateAccountsData(accountData);
 
-            setStatusText('Authentication Success!');
+            setStatusText(intl.formatMessage({ id: 'hiveauth.auth_success' }));
             setStatus(HiveAuthStatus.SUCCESS);
 
             await delay(2000);
@@ -132,23 +144,30 @@ export const useHiveAuth = () => {
 
 
         } catch (error) {
-            console.warn('Login failed');
-            setStatusText(error.message || 'Authentication Failed');
+            setStatusText(intl.formatMessage({ id: error.message || 'hiveauth.auth_fail' }));
             setStatus(HiveAuthStatus.ERROR);
+
+            console.warn('Login failed', error);
+            bugsnapInstance.notify(error);
             return false;
         }
     };
 
 
-
+    /**
+     * Broadcasts ops array using hive auth app,
+     * uses hive auth key from current account data
+     * @param opsArray Operation array to broadcast
+     * @returns Promise<boolean> success status
+     */
     const broadcast = async (opsArray: Operation[]) => {
         try {
 
-            assert(opsArray, 'Missing operations array to broadcast');
-            assert(currentAccount.local.authType === AUTH_TYPE.HIVE_AUTH, "Invalid auth type")
+            assert(opsArray, intl.formatMessage({ id: 'hiveauth.missing_op_arr' }));
+            assert(currentAccount.local.authType === AUTH_TYPE.HIVE_AUTH, intl.formatMessage({ id: 'hiveauth.invalid_auth_type' }))
 
             setStatus(HiveAuthStatus.PROCESSING);
-            setStatusText('Initializing...');
+            setStatusText(intl.formatMessage({ id: 'hiveauth.initiating' }));
             await delay(1000);
 
 
@@ -158,19 +177,18 @@ export const useHiveAuth = () => {
                 key: decryptKey(currentAccount.local.hiveAuthKey, getDigitPinCode(pinHash)),
             };
 
-            assert(_hiveAuthObj.key, 'Failed to decrypt hive auth key')
-            assert(_hiveAuthObj.expiry > new Date().getTime(), 'Hive Auth Key is expired, reauthenticate and try again')
-
+            assert(_hiveAuthObj.key, intl.formatMessage({id:"hiveauth.decrypt_fail"}))
+            assert(_hiveAuthObj.expiry > new Date().getTime(), intl.formatMessage({id:'hiveauth.expired'}) )
 
             const _cdWait = async (evt: any) => {
                 console.log('sign wait', evt);
 
-                const _canOpenUri = await Linking.canOpenURL('has://sign_req');
+                const _canOpenUri = await Linking.canOpenURL(HAS_SIGN_URI);
                 if (_canOpenUri) {
-                    setStatusText('Requesting...');
-                    Linking.openURL('has://sign_req');
+                    setStatusText(intl.formatMessage({ id: 'hiveauth.requesting' }));
+                    Linking.openURL(HAS_SIGN_URI);
                 } else {
-                    throw new Error('Hive Authentication App Not Installed');
+                    throw new Error(intl.formatMessage({ id: 'hiveauth.not_installed' }));
                 }
             };
 
@@ -183,14 +201,17 @@ export const useHiveAuth = () => {
             }
 
             setStatus(HiveAuthStatus.SUCCESS);
-            setStatusText('Transaction Successful!');
+            setStatusText(intl.formatMessage({ id: 'hiveauth.transaction_success' }));
             await delay(2000);
 
             return true;
 
         } catch (error) {
             setStatus(HiveAuthStatus.ERROR);
-            setStatusText(error.message || 'Transaction Rejected!');
+            setStatusText(intl.formatMessage({ id: error.message || 'hiveauth.transaction_fail' }));
+            
+            console.warn('Transaction failed', error);
+            bugsnapInstance.notify(error);
             return false;
         }
     }
