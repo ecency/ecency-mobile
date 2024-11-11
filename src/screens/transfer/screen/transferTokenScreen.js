@@ -73,6 +73,7 @@ class TransferTokenView extends Component {
 
     this.setState({ isTransfering: true });
 
+    // TODO: check if this need to accomodate HIVE_AUTH;
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
       this.setState({ steemConnectTransfer: true });
     } else {

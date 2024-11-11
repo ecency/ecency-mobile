@@ -46,6 +46,7 @@ class MainButton extends Component {
       source,
       iconType,
       textStyle,
+      secondTextStyle,
       iconPosition,
       iconStyle,
       renderIcon,
@@ -82,7 +83,7 @@ class MainButton extends Component {
             ]}
           >
             {text}
-            {secondText && <Text style={styles.secondText}>{secondText}</Text>}
+            {secondText && <Text style={[styles.secondText, secondTextStyle]}>{secondText}</Text>}
           </Text>
           {iconPosition === 'right' && iconComponent}
         </Fragment>

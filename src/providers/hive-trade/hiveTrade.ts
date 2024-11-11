@@ -181,7 +181,13 @@ export const fetchHiveMarketRate = async (asset: MarketAsset): Promise<number> =
   }
 };
 
-const getLimitOrderCreateOpData = (username, amountToSell, minToReceive, orderType, idPrefix) => {
+export const getLimitOrderCreateOpData = (
+  username,
+  amountToSell,
+  minToReceive,
+  orderType,
+  idPrefix,
+) => {
   let expiration: any = new Date(Date.now());
   expiration.setDate(expiration.getDate() + 27);
   [expiration] = expiration.toISOString().split('.');

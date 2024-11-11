@@ -18,6 +18,7 @@ import {
   IconButton,
   BeneficiarySelectionContent,
   TextInput,
+  HiveAuthModal,
 } from '../../../components';
 import WithdrawAccountModal from './withdrawAccountModal';
 
@@ -28,6 +29,8 @@ import { isEmptyDate, daysTillDate } from '../../../utils/time';
 
 import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
+import TransferTypes from '../../../constants/transferTypes';
+import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
 
 /* Props
  * ------------------------------------------------
@@ -37,6 +40,7 @@ import { OptionsModal } from '../../../components/atoms';
 class PowerDownView extends Component {
   constructor(props) {
     super(props);
+    this.hiveAuthModalRef = React.createRef();
     this.state = {
       from: props.currentAccountName,
       amount: 0,
@@ -80,12 +84,21 @@ class PowerDownView extends Component {
 
     this.setState({ isTransfering: true });
 
+    // TODO: check if this need to accomodate HIVE_AUTH;
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
       Alert.alert(
         intl.formatMessage({ id: 'alert.warning' }),
         intl.formatMessage({ id: 'transfer.sc_power_down_error' }),
       );
       this.setState({ steemConnectTransfer: true, isTransfering: false });
+    } else if (accountType === AUTH_TYPE.HIVE_AUTH) {
+      const opArray = buildTransferOpsArray(TransferTypes.POWER_DOWN, {
+        from,
+        to: destinationAccounts,
+        amount: amount.toFixed(6),
+        fundType: 'VESTS',
+      });
+      this.hiveAuthModalRef.current?.broadcastActiveOps(opArray);
     } else {
       transferToAccount(from, destinationAccounts, amount, '');
     }
@@ -320,13 +333,12 @@ class PowerDownView extends Component {
 
   render() {
     const {
-      accounts,
       selectedAccount,
       intl,
       getAccountsWithUsername,
       transferType,
-      currentAccountName,
       hivePerMVests,
+      handleOnModalClose,
     } = this.props;
     const { amount, hp, isAmountValid, isTransfering, isOpenWithdrawAccount } = this.state;
     let poweringDownVests = 0;
@@ -520,6 +532,7 @@ class PowerDownView extends Component {
             handleOnSubmit={this._handleOnSubmit}
           />
         </Modal>
+        <HiveAuthModal ref={this.hiveAuthModalRef} onClose={handleOnModalClose} />
       </Fragment>
     );
   }

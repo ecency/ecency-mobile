@@ -193,6 +193,81 @@ export const loginWithSC2 = async (code) => {
   }
 };
 
+export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => {
+  try {
+    const scTokens = await getSCAccessToken(hsCode);
+
+    hsApi.setAccessToken(get(scTokens, 'access_token', ''));
+    const scAccount = await hsApi.me();
+
+    // NOTE: even though sAccount.account has account data but there are certain properties missing from hsApi variant, for instance account.username
+    // that is why we still have to fetch account data using dhive, thought post processing done in dhive variant can be done in utils in future
+    const account = await getUser(scAccount.account.name);
+    let avatar = '';
+
+    try {
+      const accessToken = scTokens ? scTokens.access_token : '';
+      account.unread_activity_count = await getUnreadNotificationCount(accessToken);
+      account.pointsSummary = await getPointsSummary(account.username);
+      account.mutes = await getMutes(account.username);
+    } catch (err) {
+      console.warn('Optional user data fetch failed, account can still function without them', err);
+    }
+
+    let jsonMetadata;
+    try {
+      jsonMetadata = JSON.parse(account.posting_json_metadata) || '';
+      if (Object.keys(jsonMetadata).length !== 0) {
+        avatar = jsonMetadata.profile.profile_image || '';
+      }
+    } catch (error) {
+      jsonMetadata = '';
+    }
+
+    const userData = {
+      username: account.name,
+      avatar,
+      authType: AUTH_TYPE.HIVE_AUTH,
+      masterKey: '',
+      postingKey: '',
+      activeKey: '',
+      memoKey: '',
+      accessToken: '',
+      hiveAuthKey: '',
+      hiveAuthExpiry: 0,
+    };
+
+    const resData = {
+      pinCode: Config.DEFAULT_PIN,
+      accessToken: get(scTokens, 'access_token', ''),
+      hiveAuthKey,
+      hiveAuthExpiry,
+    };
+    const updatedUserData = getUpdatedUserData(userData, resData);
+
+    account.local = updatedUserData;
+    account.local.avatar = avatar;
+
+    await setUserData(account.local);
+
+    await updateCurrentUsername(account.name);
+    const authData = {
+      isLoggedIn: true,
+      currentUsername: account.name,
+    };
+    await setAuthStatus(authData);
+    await setSCAccount(scTokens);
+
+    return {
+      ...account,
+      accessToken: get(scTokens, 'access_token', ''),
+    };
+  } catch (err) {
+    bugsnapInstance.notify(err);
+    throw err;
+  }
+};
+
 export const updatePinCode = (data) =>
   new Promise((resolve, reject) => {
     let currentUser = null;
@@ -237,6 +312,23 @@ export const updatePinCode = (data) =>
                   return;
                 }
                 data.accessToken = accessToken;
+              } else if (get(userData, 'authType', '') === AUTH_TYPE.HIVE_AUTH) {
+                const accessToken = decryptKey(
+                  get(userData, 'accessToken'),
+                  get(data, 'oldPinCode', ''),
+                  _onDecryptError,
+                );
+                const hiveAuthKey = decryptKey(
+                  get(userData, 'hiveAuthKey'),
+                  get(data, 'oldPinCode', ''),
+                  _onDecryptError,
+                );
+
+                if (accessToken === undefined || hiveAuthKey === undefined) {
+                  return;
+                }
+                data.accessToken = accessToken;
+                data.hiveAuthKey = hiveAuthKey;
               }
               const updatedUserData = getUpdatedUserData(userData, data);
               updateUserData(updatedUserData);
@@ -317,13 +409,14 @@ export const getPrivateKeys = (username, password) => {
   }
 };
 
-export const getUpdatedUserData = (userData, data) => {
+const getUpdatedUserData = (userData, data) => {
   const privateKeys = getPrivateKeys(get(userData, 'username', ''), get(data, 'password'));
 
   return {
     username: get(userData, 'username', ''),
     authType: get(userData, 'authType', ''),
     accessToken: encryptKey(data.accessToken, get(data, 'pinCode')),
+    hiveAuthExpiry: get(data, 'hiveAuthExpiry', 0),
 
     masterKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY
@@ -349,6 +442,10 @@ export const getUpdatedUserData = (userData, data) => {
       get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
         ? encryptKey(get(privateKeys, 'ownerKey', '').toString(), get(data, 'pinCode'))
         : get(userData, 'ownerKey', ''),
+    hiveAuthKey:
+      get(userData, 'authType', '') === AUTH_TYPE.HIVE_AUTH
+        ? encryptKey(data.hiveAuthKey, get(data, 'pinCode'))
+        : get(userData, 'hiveAuthKey', ''),
   };
 };
 
@@ -389,8 +486,8 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
     };
     const _userData = getUpdatedUserData(_localData, data);
 
-    // sustain appropriate authType;
-    if (_prevAuthType === AUTH_TYPE.STEEM_CONNECT) {
+    // sustain appropriate authType
+    if (_prevAuthType === AUTH_TYPE.STEEM_CONNECT || _prevAuthType === AUTH_TYPE.HIVE_AUTH) {
       _userData.authType = _prevAuthType;
     }
 

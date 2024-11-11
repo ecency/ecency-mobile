@@ -135,7 +135,7 @@ export const broadcastPostingJSON = async (id, json, currentAccount, pinHash) =>
   const digitPinCode = getDigitPinCode(pinHash);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
-  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+  if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = new hsClient({
       accessToken: token,
@@ -171,6 +171,20 @@ export const broadcastPostingJSON = async (id, json, currentAccount, pinHash) =>
   return Promise.reject(
     new Error('Check private key permission! Required private posting key or above.'),
   );
+};
+
+export const buildActiveCustomJsonOpArr = (username, operationId, json) => {
+  return [
+    [
+      'custom_json',
+      {
+        id: operationId,
+        json: JSON.stringify(json),
+        required_auths: [username],
+        required_posting_auths: [],
+      },
+    ],
+  ];
 };
 
 export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
@@ -598,7 +612,7 @@ export const ignoreUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
-  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+  if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = new hsClient({
       accessToken: token,
@@ -811,7 +825,7 @@ export const deleteComment = (currentAccount, pin, permlink) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
-  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+  if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = new hsClient({
       accessToken: token,
@@ -895,7 +909,7 @@ export const signImage = async (file, currentAccount, pin) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
-  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+  if (isHsClientSupported(currentAccount.local.authType)) {
     return decryptKey(currentAccount.local.accessToken, digitPinCode);
   }
   if (key) {
@@ -951,7 +965,7 @@ export const vote = async (account, pin, author, permlink, weight) => {
 const _vote = (currentAccount, pin, author, permlink, weight) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
-  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+  if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = new hsClient({
       accessToken: token,
@@ -1032,7 +1046,7 @@ export const voteProposal = (currentAccount, pinHash, proposalId) => {
     ],
   ];
 
-  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+  if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = new hsClient({
       accessToken: token,
@@ -1473,7 +1487,7 @@ export const followUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
-  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+  if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
     const api = new hsClient({
       accessToken: token,
@@ -1519,7 +1533,7 @@ export const unfollowUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
-  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+  if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = new hsClient({
       accessToken: token,
@@ -1586,7 +1600,7 @@ export const markHiveNotifications = async (currentAccount, pinHash) => {
     ['custom_json', params1],
   ];
 
-  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+  if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
     const api = new hsClient({
       accessToken: token,
@@ -1743,7 +1757,7 @@ const _postContent = async (
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(account.local, digitPinCode);
 
-  if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+  if (isHsClientSupported(account.local.authType)) {
     const token = decryptKey(account.local.accessToken, digitPinCode);
     const api = new hsClient({
       accessToken: token,
@@ -1862,7 +1876,7 @@ export const claimRewardBalance = (account, pinCode, rewardHive, rewardHbd, rewa
   const pin = getDigitPinCode(pinCode);
   const key = getAnyPrivateKey(get(account, 'local'), pin);
 
-  if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+  if (isHsClientSupported(account.local.authType)) {
     const token = decryptKey(get(account, 'local.accessToken'), pin);
     const api = new hsClient({
       accessToken: token,
@@ -2044,7 +2058,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
   );
   newPosting.account_auths.sort();
 
-  if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
+  if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
     const api = new hsClient({
       accessToken: token,
@@ -2107,7 +2121,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(get(currentAccount, 'local'), digitPinCode);
 
-  if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
+  if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
     const api = new hsClient({
       accessToken: token,
@@ -2197,7 +2211,7 @@ export const pinCommunityPost = (
   };
   const opArray = [['custom_json', op]];
 
-  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+  if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = new hsClient({
       accessToken: token,
@@ -2264,6 +2278,17 @@ export const votingPower = (account) => {
 
   return percentage / 100;
 };
+
+export const isHsClientSupported = (authType) => {
+  switch (authType) {
+    case AUTH_TYPE.STEEM_CONNECT:
+    case AUTH_TYPE.HIVE_AUTH:
+      return true;
+    default:
+      return false;
+  }
+};
+
 /* eslint-enable */
 
 export const resolveTransaction = async (parsedTx, parsedParams, signer) => {

@@ -370,6 +370,40 @@ class ApplicationContainer extends Component {
     }
   };
 
+  _checkHiveAuthExpiry = (authData: any) => {
+    const { intl, dispatch } = this.props;
+
+    if (authData?.username) {
+      const curTime = new Date().getTime();
+      if (curTime > authData.hiveAuthExpiry) {
+        dispatch(
+          showActionModal({
+            title: intl.formatMessage({ id: 'alert.warning' }),
+            body: intl.formatMessage({ id: 'alert.auth_expired' }),
+            buttons: [
+              {
+                text: intl.formatMessage({ id: 'alert.cancel' }),
+                style: 'destructive',
+                onPress: () => {
+                  console.log('cancel pressed');
+                },
+              },
+              {
+                text: intl.formatMessage({ id: 'alert.verify' }),
+                onPress: () => {
+                  RootNavigation.navigate({
+                    name: ROUTES.SCREENS.LOGIN,
+                    params: { username: authData.username },
+                  });
+                },
+              },
+            ],
+          }),
+        );
+      }
+    }
+  };
+
   _getUserDataFromRealm = async () => {
     const {
       dispatch,
@@ -405,20 +439,25 @@ class ApplicationContainer extends Component {
         });
       }
 
-      let realmObject: any[] = realmData.filter((data) => data.username === username);
+      let [authData]: any = realmData.filter((data) => data.username === username);
 
       // reapir otherAccouts data is needed
       // this repair must be done because code above makes sure every entry is realmData is a valid one
       repairOtherAccountsData(otherAccounts, realmData, dispatch);
 
-      if (!realmObject[0]) {
+      if (!authData) {
         // means current logged in user keys data not present, re-verify required
-        realmObject = await this._repairUserAccountData(username);
+        authData = await this._repairUserAccountData(username);
 
         // disrupt routine if repair helper fails
-        if (!realmObject[0]) {
+        if (!authData) {
           return null;
         }
+      }
+
+      // check session expiry in case of HIVE_AUTH
+      if (authData.authType === AUTH_TYPE.HIVE_AUTH) {
+        this._checkHiveAuthExpiry(authData);
       }
 
       // If in dev mode pin code does not show
@@ -430,10 +469,10 @@ class ApplicationContainer extends Component {
       }
 
       if (isConnected) {
-        this._fetchUserDataFromDsteem(realmObject[0]);
+        this._fetchUserDataFromDsteem(authData);
       }
 
-      return realmObject[0];
+      return authData;
     }
   };
 
@@ -487,7 +526,11 @@ class ApplicationContainer extends Component {
       // cannot migrate or refresh token since pin would null while pin code modal is open
       if (!isPinCodeOpen || encUnlockPin) {
         // migration script for previously mast key based logged in user not having access token
-        if (realmObject.authType !== AUTH_TYPE.STEEM_CONNECT && realmObject.accessToken === '') {
+        if (
+          realmObject.authType !== AUTH_TYPE.STEEM_CONNECT &&
+          realmObject.authType !== AUTH_TYPE.HIVE_AUTH &&
+          realmObject.accessToken === ''
+        ) {
           accountData = await migrateToMasterKeyWithAccessToken(accountData, realmObject, pinCode);
         }
 
@@ -717,12 +760,21 @@ class ApplicationContainer extends Component {
       }
 
       // migreate account to use access token for master key auth type
-      if (realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT && realmData[0].accessToken === '') {
+      if (
+        realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT &&
+        realmData[0].authType !== AUTH_TYPE.HIVE_AUTH &&
+        realmData[0].accessToken === ''
+      ) {
         _currentAccount = await migrateToMasterKeyWithAccessToken(
           _currentAccount,
           realmData[0],
           pinCode,
         );
+      }
+
+      // check session expiry in case of HIVE_AUTH
+      if (realmData[0].authType === AUTH_TYPE.HIVE_AUTH) {
+        this._checkHiveAuthExpiry(realmData[0]);
       }
 
       // update refresh token

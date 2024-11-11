@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { View, Platform, Keyboard, Text } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, Platform, Keyboard, Text, Image } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useIntl } from 'react-intl';
 import { debounce } from 'lodash';
 
 // Actions
+import EStyleSheet from 'react-native-extended-stylesheet';
 import HiveSigner from '../../steem-connect/hiveSigner';
 
 // Internal Components
 import {
   FormInput,
+  HiveAuthModal,
   InformationArea,
   LoginHeader,
   MainButton,
@@ -25,6 +27,8 @@ import { ECENCY_TERMS_URL } from '../../../config/ecencyApi';
 import styles from './loginStyles';
 import { HiveSignerIcon } from '../../../assets/svgs';
 
+import HIVE_AUTH_LOGO from '../../../assets/HiveAuth_logo.png';
+
 const LoginScreen = ({
   initialUsername,
   getAccountsWithUsername,
@@ -34,6 +38,9 @@ const LoginScreen = ({
   isLoading,
 }) => {
   const intl = useIntl();
+
+  const hiveAuthModalRef = useRef();
+
   const [username, setUsername] = useState(initialUsername || '');
   const [password, setPassword] = useState('');
   const [isUsernameValid, setIsUsernameValid] = useState(true);
@@ -181,12 +188,26 @@ const LoginScreen = ({
           height={50}
           iconStyle={styles.loginBtnIconStyle}
         />
-        <OrDivider />
+        <OrDivider containerStyle={{ marginBottom: 16 }} />
+
         <MainButton
           onPress={() => _handleOnModalToggle()}
           renderIcon={_renderHiveicon()}
           text={intl.formatMessage({
             id: 'login.login_with_hs',
+          })}
+          textStyle={styles.hsLoginBtnText}
+          wrapperStyle={styles.loginBtnWrapper}
+          bodyWrapperStyle={styles.loginBtnBodyWrapper}
+          height={48}
+          style={styles.hsLoginBtnStyle}
+        />
+
+        <MainButton
+          onPress={() => hiveAuthModalRef.current.showModal(username)}
+          source={HIVE_AUTH_LOGO}
+          text={intl.formatMessage({
+            id: 'login.signin_with_hiveauth',
           })}
           textStyle={styles.hsLoginBtnText}
           wrapperStyle={styles.loginBtnWrapper}
@@ -220,6 +241,8 @@ const LoginScreen = ({
       >
         <HiveSigner handleOnModalClose={_handleOnModalToggle} />
       </Modal>
+
+      <HiveAuthModal ref={hiveAuthModalRef} />
     </View>
   );
 };
