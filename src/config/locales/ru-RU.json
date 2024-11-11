@@ -381,6 +381,7 @@
   "login": {
     "signin": "Войти",
     "login_with_hs": "Войти с помощью hivesigner",
+    "signin_with_hiveauth": "Login with hiveauth",
     "signup": "ПРИСОЕДИНЯЙТЕСЬ СЕЙЧАС",
     "signin_title": "Чтобы получить все преимущества от использования Ecency",
     "username": "имя пользователя",
@@ -401,6 +402,22 @@
     "no_account_text": "Не зарегистрированы?",
     "signup_now": "Зарегистрируйтесь сейчас!",
     "or": "ИЛИ"
+  },
+  "hiveauth": {
+    "title": "Hive Auth",
+    "initiating": "Initiating...",
+    "authenticating": "Authenticating...",
+    "requesting": "Requesting...",
+    "logging_in": "Logging In...",
+    "auth_success": "Authentication Successful",
+    "auth_fail": "Authentication Failed",
+    "transaction_success": "Transaction Successful",
+    "transaction_fail": "Transaction Failed",
+    "not_installed": "Hive authentication app not installed",
+    "missing_op_arr": "Missing operations array to broadcast",
+    "invalid_auth_type": "Invalid auth type",
+    "decrypt_fail": "Failed to decrypt hive auth key",
+    "expired": "Hive auth key is expired, re-authenticate and try again"
   },
   "register": {
     "modal_title": "Получить учетную запись Hive",
@@ -704,7 +721,7 @@
     "claim_failed": "Failed to claim rewards, {message}",
     "connection_issues": "Сервер недоступен, проверьте подключение и повторите попытку.",
     "open_settings": "Открыть настройки",
-    "auth_expired": "Нам нужно убедиться, что у вас все ещё есть доступ к вашим ключам, пожалуйста, подтвердите вход.",
+    "auth_expired": "Your session has expired. Please verify your login to confirm access to your account.",
     "verify": "Подтвердить",
     "logging_out": "Выход {username}"
   },
