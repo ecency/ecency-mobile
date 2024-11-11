@@ -408,7 +408,7 @@
     "initiating": "Initiating...",
     "authenticating": "Authenticating...",
     "requesting": "Requesting...",
-    "logging_in": "Logging In...",
+    "logging_in": "Loggar in...",
     "auth_success": "Authentication Successful",
     "auth_fail": "Authentication Failed",
     "transaction_success": "Transaction Successful",
