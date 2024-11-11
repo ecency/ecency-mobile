@@ -80,6 +80,7 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
     return (
       <View style={styles.container}>
         <ModalHeader
+          modalHeaderContainerStyle={styles.modalHeader}
           title={intl.formatMessage({ id: 'hiveauth.title' })}
           isCloseButton={true}
           onClosePress={_closeModal}

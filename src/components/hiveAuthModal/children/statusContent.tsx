@@ -37,28 +37,19 @@ export const StatusContent = ({ status, statusText }: StatusContentProps) => {
       {status === HiveAuthStatus.ERROR && _renderResultIcon('closecircleo', '$primaryRed')}
 
       <Animated.View
-        style={{ flexDirection: 'row', alignItems: 'center' }}
+        style={styles.statusContent}
         layout={LinearTransition}
         entering={FadeInUp}
         exiting={FadeOutDown}
       >
         {status === HiveAuthStatus.PROCESSING && (
           <ActivityIndicator
-            style={{ marginRight: 16 }}
+            style={styles.activityIndicator}
             size="large"
             color={EStyleSheet.value('$primaryBlue')}
           />
         )}
-        <Text
-          style={{
-            color: EStyleSheet.value('$primaryDarkText'),
-            fontWeight: 300,
-            fontSize: 24,
-            textAlign: 'center',
-          }}
-        >
-          {statusText}
-        </Text>
+        <Text style={styles.statusText}>{statusText}</Text>
       </Animated.View>
     </>
   );

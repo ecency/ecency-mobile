@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { debounce } from 'lodash';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import Animated, { FadeOut, LinearTransition, ZoomIn, ZoomOut } from 'react-native-reanimated';
 import styles from '../styles/hiveAuthModal.styles';
 import { lookupAccounts } from '../../../providers/hive/dhive';
@@ -56,11 +55,8 @@ export const AuthInputContent = ({ initUsername, handleAuthRequest }: AuthInputC
   };
 
   return (
-    <Animated.View
-      style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}
-      exiting={FadeOut}
-    >
-      <Animated.View style={{ width: '90%' }} layout={LinearTransition}>
+    <Animated.View style={styles.authInputContent} exiting={FadeOut}>
+      <Animated.View style={styles.authInputWrapper} layout={LinearTransition}>
         <FormInput
           rightIconName="at"
           leftIconName="close"
@@ -84,14 +80,8 @@ export const AuthInputContent = ({ initUsername, handleAuthRequest }: AuthInputC
         <Animated.View entering={ZoomIn} exiting={ZoomOut}>
           <MainButton
             text={intl.formatMessage({ id: 'login.signin_with_hiveauth' })}
-            textStyle={{ color: EStyleSheet.value('$primaryBlack') }}
-            style={{
-              backgroundColor: 'transparent',
-              marginTop: 12,
-              borderWidth: 1,
-              borderColor: EStyleSheet.value('$iconColor'),
-              height: 44,
-            }}
+            textStyle={styles.loginBtnText}
+            style={styles.loginBtnWrapper}
             onPress={onSignInPress}
             source={HIVE_AUTH_ICON}
           />
