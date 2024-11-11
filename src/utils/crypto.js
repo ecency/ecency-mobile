@@ -17,7 +17,9 @@ export const decryptKey = (data, key, onError) => {
     return response;
   } catch (err) {
     console.log('decryption with new method failed, trying legacy', err);
-    onError(err);
+    if (onError) {
+      onError(err);
+    }
   }
 };
 
