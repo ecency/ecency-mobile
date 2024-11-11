@@ -12,14 +12,12 @@ export const encryptKey = (data, key) => {
 };
 
 export const decryptKey = (data, key, onError) => {
-  const legacyDecrypt = () => decryptKeyLegacy(data, key, onError);
-
   try {
     const response = decryptKeyNew(data, key);
     return response;
   } catch (err) {
-    console.warn('decryption with new method failed, trying legacy', err);
-    return legacyDecrypt();
+    console.log('decryption with new method failed, trying legacy', err);
+    onError(err);
   }
 };
 
@@ -33,19 +31,6 @@ const decryptKeyNew = (data, key) => {
   return ret;
 };
 
-const decryptKeyLegacy = (data, key, onError) => {
-  try {
-    console.log('decrypting legacy ', data, key);
-    const ret = CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
-    console.log('returning: ', ret);
-    return ret;
-  } catch (err) {
-    console.warn('decryption with legacy failed as well');
-    if (onError) {
-      onError(err);
-    }
-  }
-};
 
 // stamping mechanism will help distinguish old legacy data and new encrypted data
 // second purpose is to avoid necrypting empty strings
