@@ -381,6 +381,7 @@
   "login": {
     "signin": "Login",
     "login_with_hs": "Login with hivesigner",
+    "signin_with_hiveauth": "Login with hiveauth",
     "signup": "अब सम्मिलित हों",
     "signin_title": "इसेंसी का उपयोग करने के सभी लाभ प्राप्त करने के लिए",
     "username": "username",
@@ -401,6 +402,22 @@
     "no_account_text": "Don't have an account?",
     "signup_now": "Sign up now!",
     "or": "OR"
+  },
+  "hiveauth": {
+    "title": "Hive Auth",
+    "initiating": "Initiating...",
+    "authenticating": "Authenticating...",
+    "requesting": "Requesting...",
+    "logging_in": "Logging In...",
+    "auth_success": "Authentication Successful",
+    "auth_fail": "Authentication Failed",
+    "transaction_success": "Transaction Successful",
+    "transaction_fail": "Transaction Failed",
+    "not_installed": "Hive authentication app not installed",
+    "missing_op_arr": "Missing operations array to broadcast",
+    "invalid_auth_type": "Invalid auth type",
+    "decrypt_fail": "Failed to decrypt hive auth key",
+    "expired": "Hive auth key is expired, re-authenticate and try again"
   },
   "register": {
     "modal_title": "हाइव खाता प्राप्त करें",
@@ -704,7 +721,7 @@
     "claim_failed": "Failed to claim rewards, {message}",
     "connection_issues": "सर्वर पहुंच योग्य नहीं है, कृपया अपने कनेक्शन की जांच करें और पुन: प्रयास करें।",
     "open_settings": "सेटिंग्स खोलें",
-    "auth_expired": "हमें यह सत्यापित करने की आवश्यकता है कि आपके पास अभी भी आपकी कुंजियों तक पहुंच है, कृपया लॉगिन सत्यापित करें।",
+    "auth_expired": "Your session has expired. Please verify your login to confirm access to your account.",
     "verify": "सत्यापित करें",
     "logging_out": "लॉग आउट हो रहा है {username}"
   },
