@@ -26,7 +26,7 @@ interface AuthInputContentProps {
 export const AuthInputContent = ({ initUsername, handleAuthRequest }: AuthInputContentProps) => {
     const intl = useIntl();
 
-    const [username, setUsername] = useState('');
+    const [username, setUsername] = useState(initUsername || '');
     const [isUsernameValid, setIsUsernameValid] = useState(false);
 
     const debouncedCheckValidity = debounce((uname: string) => {
@@ -34,7 +34,9 @@ export const AuthInputContent = ({ initUsername, handleAuthRequest }: AuthInputC
     }, 500);
 
     useEffect(() => {
-        setUsername(initUsername || '')
+        if(initUsername){
+            setUsername(initUsername)
+        }
     }, [initUsername])
 
     useEffect(() => {
