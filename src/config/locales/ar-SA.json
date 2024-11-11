@@ -381,6 +381,7 @@
   "login": {
     "signin": "تسجيل الدخول",
     "login_with_hs": "تسجيل الدخول عن طريق hivesigner",
+    "signin_with_hiveauth": "Login with hiveauth",
     "signup": "انضم الآن",
     "signin_title": "للحصول على جميع فوائد إستخدم Ecency",
     "username": "إسم المستخدم",
@@ -401,6 +402,22 @@
     "no_account_text": "ليس لديك حساب؟",
     "signup_now": "اشترك الآن!",
     "or": "أو"
+  },
+  "hiveauth": {
+    "title": "Hive Auth",
+    "initiating": "Initiating...",
+    "authenticating": "Authenticating...",
+    "requesting": "Requesting...",
+    "logging_in": "Logging In...",
+    "auth_success": "Authentication Successful",
+    "auth_fail": "Authentication Failed",
+    "transaction_success": "Transaction Successful",
+    "transaction_fail": "Transaction Failed",
+    "not_installed": "Hive authentication app not installed",
+    "missing_op_arr": "Missing operations array to broadcast",
+    "invalid_auth_type": "Invalid auth type",
+    "decrypt_fail": "Failed to decrypt hive auth key",
+    "expired": "Hive auth key is expired, re-authenticate and try again"
   },
   "register": {
     "modal_title": "احصل على حساب Hive",
@@ -704,7 +721,7 @@
     "claim_failed": "Failed to claim rewards, {message}",
     "connection_issues": "لا يمكن الوصول إلى الخادم، يرجى التحقق من اتصالك وحاول مرة أخرى.",
     "open_settings": "فتح الإعدادات",
-    "auth_expired": "نحن بحاجة إلى التحقق من أنه لا يزال لديك حق الوصول إلى مفاتيحك، يرجى التحقق من تسجيل الدخول.",
+    "auth_expired": "Your session has expired. Please verify your login to confirm access to your account.",
     "verify": "التحقق",
     "logging_out": "تسجيل الخروج {username}"
   },
