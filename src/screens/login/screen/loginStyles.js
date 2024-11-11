@@ -46,7 +46,7 @@ export default EStyleSheet.create({
   },
   hsLoginBtnText: {
     flexGrow: 1,
-    color: '$primaryDarkText',
+    color: '$primaryBlack',
   },
   hsLoginBtnIconStyle: {
     marginLeft: 20,

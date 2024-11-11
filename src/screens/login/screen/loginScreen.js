@@ -209,7 +209,6 @@ const LoginScreen = ({
           text={intl.formatMessage({
             id: 'login.signin_with_hiveauth',
           })}
-          secondTextStyle={{ color: EStyleSheet.value('$primaryRed') }}
           textStyle={styles.hsLoginBtnText}
           wrapperStyle={styles.loginBtnWrapper}
           bodyWrapperStyle={styles.loginBtnBodyWrapper}

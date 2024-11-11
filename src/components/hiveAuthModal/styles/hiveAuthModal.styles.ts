@@ -3,7 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   sheetContent: {
-    backgroundColor: '$modalBackground',
+    backgroundColor: '$primaryBackgroundColor',
   },
   indicator: {
     backgroundColor: '$iconColor',
