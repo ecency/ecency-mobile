@@ -58,14 +58,12 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
         navigation.navigate({
           name: ROUTES.SCREENS.PINCODE,
           params: {
-            accessToken: accountData.accessToken,
             navigateTo: ROUTES.DRAWER.MAIN,
           },
         });
       } else {
         navigation.navigate({
           name: ROUTES.DRAWER.MAIN,
-          params: { accessToken: accountData.accessToken },
         });
       }
     }

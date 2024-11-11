@@ -408,16 +408,16 @@
     "initiating":"Initiating...",
     "authenticating":"Authenticating...",
     "requesting":"Requesting...",
-    "logging_in":":Logging In...",
-    "auth_success":"Authenticationg Successful",
+    "logging_in":"Logging In...",
+    "auth_success":"Authentication Successful",
     "auth_fail":"Authentication Failed",
     "transaction_success":"Transaction Successful",
     "transaction_fail":"Transaction Failed",
-    "not_installed":"Hive Authentication App Not Installed",
+    "not_installed":"Hive authentication app not installed",
     "missing_op_arr":"Missing operations array to broadcast",
     "invalid_auth_type":"Invalid auth type",
     "decrypt_fail":"Failed to decrypt hive auth key",
-    "expired":"Hive Auth Key is expired, reauthenticate and try again"
+    "expired":"Hive auth key is expired, re-authenticate and try again"
 
   },
   "register": {
