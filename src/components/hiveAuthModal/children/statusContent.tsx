@@ -12,7 +12,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import styles from '../styles/hiveAuthModal.styles';
 import { Icon } from '../..';
-import { HiveAuthStatus } from '../container/hiveAuthModal';
+import { HiveAuthStatus } from '../hooks/useHiveAuth';
+
+
 
 
 interface StatusContentProps {
@@ -21,7 +23,6 @@ interface StatusContentProps {
 }
 
 export const StatusContent = ({ status, statusText}:StatusContentProps) => {
-
 
   const _renderResultIcon = (iconName: string, colorId: string) => (
     <Animated.View entering={ZoomIn.springify().duration(500)} exiting={ZoomOut}>
