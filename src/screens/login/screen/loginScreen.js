@@ -207,9 +207,8 @@ const LoginScreen = ({
           onPress={() => hiveAuthModalRef.current.showModal(username)}
           source={HIVE_AUTH_LOGO}
           text={intl.formatMessage({
-            id: 'login.signin_with',
+            id: 'login.signin_with_hiveauth',
           })}
-          secondText=" Hive"
           secondTextStyle={{ color: EStyleSheet.value('$primaryRed') }}
           textStyle={styles.hsLoginBtnText}
           wrapperStyle={styles.loginBtnWrapper}

@@ -91,9 +91,8 @@ export const AuthInputContent = ({ initUsername, handleAuthRequest }: AuthInputC
             {isUsernameValid && (
                 <Animated.View entering={ZoomIn} exiting={ZoomOut}>
                     <MainButton
-                        text={intl.formatMessage({ id: 'login.signin_with' })}
-                        secondText=" Hive"
-                        secondTextStyle={{ color: EStyleSheet.value('$primaryRed') }}
+                        text={intl.formatMessage({ id: 'login.signin_with_hiveauth' })}
+                       
                         style={{
                             backgroundColor: 'transparent',
                             marginTop: 12,
