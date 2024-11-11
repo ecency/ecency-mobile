@@ -31,7 +31,6 @@ const decryptKeyNew = (data, key) => {
   return ret;
 };
 
-
 // stamping mechanism will help distinguish old legacy data and new encrypted data
 // second purpose is to avoid necrypting empty strings
 const getStampedData = (data) => {

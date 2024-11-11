@@ -1,7 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import { View } from 'react-native';
 
-
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import ActionSheet from 'react-native-actions-sheet';
@@ -15,13 +14,11 @@ import { AuthInputContent } from '../children/authInputContent';
 import { StatusContent } from '../children/statusContent';
 import { HiveAuthStatus, useHiveAuth } from '../hooks/useHiveAuth';
 
-
 interface HiveAuthModalProps {
   onClose?: () => void;
 }
 
 export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) => {
-
   const intl = useIntl();
   const navigation = useNavigation();
   const hiveAuth = useHiveAuth();
@@ -36,7 +33,6 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
     showModal: (_username?: string) => {
       setInitUsername(_username);
       bottomSheetModalRef.current?.show();
-
     },
     broadcastActiveOps: (opsArray: any) => {
       if (opsArray) {
@@ -46,13 +42,10 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
     },
   }));
 
-
-
   const handleAuthRequest = async (username: string) => {
-
     const success = await hiveAuth.authenticate(username);
 
-    //isLoggedInt
+    // isLoggedInt
     if (success) {
       if (isPinCodeOpen) {
         navigation.navigate({
@@ -67,9 +60,7 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
         });
       }
     }
-
   };
-
 
   const _closeModal = () => {
     bottomSheetModalRef.current?.hide();
@@ -78,27 +69,25 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
     }
   };
 
-
   const _renderContent = () => {
-
-    const _content = hiveAuth.status === HiveAuthStatus.INPUT
-      ? <AuthInputContent initUsername={initUsername} handleAuthRequest={handleAuthRequest} />
-      : <StatusContent status={hiveAuth.status} statusText={hiveAuth.statusText} />
-
+    const _content =
+      hiveAuth.status === HiveAuthStatus.INPUT ? (
+        <AuthInputContent initUsername={initUsername} handleAuthRequest={handleAuthRequest} />
+      ) : (
+        <StatusContent status={hiveAuth.status} statusText={hiveAuth.statusText} />
+      );
 
     return (
       <View style={styles.container}>
         <ModalHeader
-          title={intl.formatMessage({id:'hiveauth.title'})}
+          title={intl.formatMessage({ id: 'hiveauth.title' })}
           isCloseButton={true}
-          onClosePress={_closeModal} />
+          onClosePress={_closeModal}
+        />
 
-        <View style={styles.content}>
-          {_content}
-        </View>
-
+        <View style={styles.content}>{_content}</View>
       </View>
-    )
+    );
   };
 
   return (
@@ -107,7 +96,7 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
       gestureEnabled={false}
       hideUnderlay={true}
       onClose={() => {
-        hiveAuth.reset()
+        hiveAuth.reset();
         setInitUsername(undefined);
       }}
       containerStyle={styles.sheetContent}

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Text, ActivityIndicator } from 'react-native';
 
@@ -14,16 +13,12 @@ import styles from '../styles/hiveAuthModal.styles';
 import { Icon } from '../..';
 import { HiveAuthStatus } from '../hooks/useHiveAuth';
 
-
-
-
 interface StatusContentProps {
-    status:HiveAuthStatus,
-    statusText:string
+  status: HiveAuthStatus;
+  statusText: string;
 }
 
-export const StatusContent = ({ status, statusText}:StatusContentProps) => {
-
+export const StatusContent = ({ status, statusText }: StatusContentProps) => {
   const _renderResultIcon = (iconName: string, colorId: string) => (
     <Animated.View entering={ZoomIn.springify().duration(500)} exiting={ZoomOut}>
       <Icon
@@ -36,36 +31,35 @@ export const StatusContent = ({ status, statusText}:StatusContentProps) => {
     </Animated.View>
   );
 
+  return (
+    <>
+      {status === HiveAuthStatus.SUCCESS && _renderResultIcon('checkcircleo', '$primaryGreen')}
+      {status === HiveAuthStatus.ERROR && _renderResultIcon('closecircleo', '$primaryRed')}
 
-    return (
-        <>
-            {status === HiveAuthStatus.SUCCESS && _renderResultIcon('checkcircleo', '$primaryGreen')}
-            {status === HiveAuthStatus.ERROR && _renderResultIcon('closecircleo', '$primaryRed')}
-
-            <Animated.View
-                style={{ flexDirection: 'row', alignItems: 'center' }}
-                layout={LinearTransition}
-                entering={FadeInUp}
-                exiting={FadeOutDown}
-            >
-                {status === HiveAuthStatus.PROCESSING && (
-                    <ActivityIndicator
-                        style={{ marginRight: 16 }}
-                        size="large"
-                        color={EStyleSheet.value('$primaryBlue')}
-                    />
-                )}
-                <Text
-                    style={{
-                        color: EStyleSheet.value('$primaryDarkText'),
-                        fontWeight: 300,
-                        fontSize: 24,
-                        textAlign: 'center',
-                    }}
-                >
-                    {statusText}
-                </Text>
-            </Animated.View>
-        </>
-    )
-}
+      <Animated.View
+        style={{ flexDirection: 'row', alignItems: 'center' }}
+        layout={LinearTransition}
+        entering={FadeInUp}
+        exiting={FadeOutDown}
+      >
+        {status === HiveAuthStatus.PROCESSING && (
+          <ActivityIndicator
+            style={{ marginRight: 16 }}
+            size="large"
+            color={EStyleSheet.value('$primaryBlue')}
+          />
+        )}
+        <Text
+          style={{
+            color: EStyleSheet.value('$primaryDarkText'),
+            fontWeight: 300,
+            fontSize: 24,
+            textAlign: 'center',
+          }}
+        >
+          {statusText}
+        </Text>
+      </Animated.View>
+    </>
+  );
+};

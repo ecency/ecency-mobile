@@ -31,7 +31,7 @@ export default EStyleSheet.create({
     borderTopStartRadius: 28,
     marginBottom: 12,
     borderBottomWidth: 1,
-    paddingRight:8,
+    paddingRight: 8,
     height: 56,
   } as ViewStyle,
 });
