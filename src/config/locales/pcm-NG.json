@@ -381,6 +381,7 @@
   "login": {
     "signin": "Login",
     "login_with_hs": "Login with hivesigner",
+    "signin_with_hiveauth": "Login with hiveauth",
     "signup": "ENTER NOW",
     "signin_title": "To enjoy all the yanfu-yanfu wey dey Ecency",
     "username": "username",
@@ -401,6 +402,22 @@
     "no_account_text": "Don't have an account?",
     "signup_now": "Sign up now!",
     "or": "OR"
+  },
+  "hiveauth": {
+    "title": "Hive Auth",
+    "initiating": "Initiating...",
+    "authenticating": "Authenticating...",
+    "requesting": "Requesting...",
+    "logging_in": "Logging In...",
+    "auth_success": "Authentication Successful",
+    "auth_fail": "Authentication Failed",
+    "transaction_success": "Transaction Successful",
+    "transaction_fail": "Transaction Failed",
+    "not_installed": "Hive authentication app not installed",
+    "missing_op_arr": "Missing operations array to broadcast",
+    "invalid_auth_type": "Invalid auth type",
+    "decrypt_fail": "Failed to decrypt hive auth key",
+    "expired": "Hive auth key is expired, re-authenticate and try again"
   },
   "register": {
     "modal_title": "Get Hive Account",
@@ -704,7 +721,7 @@
     "claim_failed": "Failed to claim rewards, {message}",
     "connection_issues": "The server is unreachable, please check your connection and try again.",
     "open_settings": "Open Settings",
-    "auth_expired": "We need to verify you still has access to your keys, please verify login.",
+    "auth_expired": "Your session has expired. Please verify your login to confirm access to your account.",
     "verify": "Verify",
     "logging_out": "Logging out {username}"
   },
