@@ -13,6 +13,7 @@ import { ModalHeader } from '../..';
 import { AuthInputContent } from '../children/authInputContent';
 import { StatusContent } from '../children/statusContent';
 import { HiveAuthStatus, useHiveAuth } from '../hooks/useHiveAuth';
+import { Operation } from '@hiveio/dhive';
 
 interface HiveAuthModalProps {
   onClose?: () => void;
@@ -37,7 +38,8 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
     broadcastActiveOps: (opsArray: any) => {
       if (opsArray) {
         bottomSheetModalRef.current?.show();
-        hiveAuth.broadcast(opsArray);
+        handleBroadcastRequst(opsArray);
+
       }
     },
   }));
@@ -61,6 +63,13 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
       }
     }
   };
+
+  const handleBroadcastRequst = async (opsArray:Operation[]) => {
+    const success = await hiveAuth.broadcast(opsArray);
+    if(success){
+      _closeModal();
+    }
+  }
 
   const _closeModal = () => {
     bottomSheetModalRef.current?.hide();
