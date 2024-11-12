@@ -165,16 +165,12 @@ export const buildTransferOpsArray = (
       return getEngineActionOpArray(EngineActions.UNDELEGATE, from, to, amount, fundType, memo);
 
     case TransferTypes.POINTS:
-      return buildActiveCustomJsonOpArr(
-        from,
-        'ecency_point_transfer',
-        JSON.stringify({
-          sender: from,
-          receiver: to,
-          amount,
-          memo,
-        }),
-      );
+      return buildActiveCustomJsonOpArr(from, 'ecency_point_transfer', {
+        sender: from,
+        receiver: to,
+        amount,
+        memo,
+      });
 
     case TransferTypes.TRANSFER_SPK:
     case TransferTypes.TRANSFER_LARYNX:
