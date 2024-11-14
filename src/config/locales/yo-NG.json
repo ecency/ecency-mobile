@@ -381,6 +381,7 @@
   "login": {
     "signin": "Login",
     "login_with_hs": "Login with hivesigner",
+    "signin_with_hiveauth": "Login with hiveauth",
     "signup": "JOIN NOW",
     "signin_title": "To get all the benefits of using Ecency",
     "username": "username",
@@ -401,6 +402,22 @@
     "no_account_text": "Don't have an account?",
     "signup_now": "Sign up now!",
     "or": "OR"
+  },
+  "hiveauth": {
+    "title": "Hive Auth",
+    "initiating": "Initiating...",
+    "authenticating": "Authenticating...",
+    "requesting": "Requesting...",
+    "logging_in": "Logging In...",
+    "auth_success": "Authentication Successful",
+    "auth_fail": "Authentication Failed",
+    "transaction_success": "Transaction Successful",
+    "transaction_fail": "Transaction Failed",
+    "not_installed": "Hive authentication app not installed",
+    "missing_op_arr": "Missing operations array to broadcast",
+    "invalid_auth_type": "Invalid auth type",
+    "decrypt_fail": "Failed to decrypt hive auth key",
+    "expired": "Hive auth key is expired, re-authenticate and try again"
   },
   "register": {
     "modal_title": "Get Hive Account",
@@ -431,10 +448,14 @@
     "feed": "Ate gbogbo agbawole",
     "popular": "Gbajumo",
     "top": "Top",
+    "trending": "Trending",
     "hot": "Hot",
     "new": "New",
     "blog": "Blog",
     "posts": "Post",
+    "my_blog": "My Blog",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
     "friends": "Friends",
     "communities": "Communities",
     "popup_postfix": "Posted",
@@ -630,6 +651,7 @@
     "continue": "Continue",
     "okay": "Okay",
     "done": "Done",
+    "thankyou": "Thank You!",
     "notice": "Notice!",
     "close": "CLOSE",
     "later": "Later",
@@ -699,7 +721,7 @@
     "claim_failed": "Failed to claim rewards, {message}",
     "connection_issues": "The server is unreachable, please check your connection and try again.",
     "open_settings": "Open Settings",
-    "auth_expired": "We need to verify you still has access to your keys, please verify login.",
+    "auth_expired": "Your session has expired. Please verify your login to confirm access to your account.",
     "verify": "Verify",
     "logging_out": "Logging out {username}"
   },
@@ -988,7 +1010,8 @@
     "reveal_comment": "Reveal Content",
     "read_more": "Read more comments",
     "more_replies": "replies",
-    "no_comments": "Be the first to respond..."
+    "no_comments": "Be the first to respond...",
+    "bot_comments": "Comments"
   },
   "search_result": {
     "others": "Others",
@@ -1125,6 +1148,13 @@
     "edit": "Edit History",
     "version": "Version"
   },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
+  },
   "chain-error": {
     "min-root-comment": "You may only post once every five minutes.",
     "identical-vote": "Your current vote on this content is identical to this vote.",
@@ -1136,5 +1166,16 @@
     "missing-authority": "This operation requires Active private key or authority.",
     "missing-owner-authority": "This operation requires Owner private key or authority.",
     "insufficient_fund": "Insufficient Funds"
+  },
+  "proposal": {
+    "title": "Enjoying Ecency!",
+    "title-voted": "We are grateful!",
+    "desc": "Support proposal by voting, be part of our continuous efforts to improve experience on Ecency.",
+    "desc-voted": "Your support means everything to us",
+    "title-action-dismiss": "Dismiss Vote Request",
+    "btn-vote": "Cast My Vote",
+    "btn-dismiss": "Dismiss",
+    "btn-later": "Remind Later",
+    "btn-ignore": "Forever"
   }
 }

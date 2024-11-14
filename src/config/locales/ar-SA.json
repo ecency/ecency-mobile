@@ -381,6 +381,7 @@
   "login": {
     "signin": "تسجيل الدخول",
     "login_with_hs": "تسجيل الدخول عن طريق hivesigner",
+    "signin_with_hiveauth": "Login with hiveauth",
     "signup": "انضم الآن",
     "signin_title": "للحصول على جميع فوائد إستخدم Ecency",
     "username": "إسم المستخدم",
@@ -401,6 +402,22 @@
     "no_account_text": "ليس لديك حساب؟",
     "signup_now": "اشترك الآن!",
     "or": "أو"
+  },
+  "hiveauth": {
+    "title": "Hive Auth",
+    "initiating": "Initiating...",
+    "authenticating": "Authenticating...",
+    "requesting": "Requesting...",
+    "logging_in": "Logging In...",
+    "auth_success": "Authentication Successful",
+    "auth_fail": "Authentication Failed",
+    "transaction_success": "Transaction Successful",
+    "transaction_fail": "Transaction Failed",
+    "not_installed": "Hive authentication app not installed",
+    "missing_op_arr": "Missing operations array to broadcast",
+    "invalid_auth_type": "Invalid auth type",
+    "decrypt_fail": "Failed to decrypt hive auth key",
+    "expired": "Hive auth key is expired, re-authenticate and try again"
   },
   "register": {
     "modal_title": "احصل على حساب Hive",
@@ -431,10 +448,14 @@
     "feed": "المستجدات",
     "popular": "الأكثر شعبية",
     "top": "الأعلى",
+    "trending": "Trending",
     "hot": "ذات شعبية",
     "new": "الجديد",
     "blog": "المدونة",
     "posts": "منشورات",
+    "my_blog": "My Blog",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
     "friends": "الأصدقاء",
     "communities": "المجتمعات",
     "popup_postfix": "تم النشر",
@@ -630,6 +651,7 @@
     "continue": "متابعة",
     "okay": "حسناً",
     "done": "تم",
+    "thankyou": "Thank You!",
     "notice": "إشعار!",
     "close": "إغلاق",
     "later": "لاحقاً",
@@ -699,7 +721,7 @@
     "claim_failed": "Failed to claim rewards, {message}",
     "connection_issues": "لا يمكن الوصول إلى الخادم، يرجى التحقق من اتصالك وحاول مرة أخرى.",
     "open_settings": "فتح الإعدادات",
-    "auth_expired": "نحن بحاجة إلى التحقق من أنه لا يزال لديك حق الوصول إلى مفاتيحك، يرجى التحقق من تسجيل الدخول.",
+    "auth_expired": "Your session has expired. Please verify your login to confirm access to your account.",
     "verify": "التحقق",
     "logging_out": "تسجيل الخروج {username}"
   },
@@ -988,7 +1010,8 @@
     "reveal_comment": "كشف المحتوى",
     "read_more": "المزيد من التعليقات",
     "more_replies": "ردود",
-    "no_comments": "كن اول من يرد..."
+    "no_comments": "كن اول من يرد...",
+    "bot_comments": "Comments"
   },
   "search_result": {
     "others": "أخرى",
@@ -1125,6 +1148,13 @@
     "edit": "تعديل التاريخ",
     "version": "الإصدار"
   },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
+  },
   "chain-error": {
     "min-root-comment": "يمكنك النشر مرة واحدة فقط كل خمس دقائق.",
     "identical-vote": "تصويتك الحالي على هذا المحتوى مطابق لهذا التصويت.",
@@ -1136,5 +1166,16 @@
     "missing-authority": "هذه العملية تتطلب المفتاح الخاص النشط أو الرئيسي.",
     "missing-owner-authority": "هذه العملية تتطلب المفتاح الخاص للمالك أو الرئيسي.",
     "insufficient_fund": "الرصيد غير كافي"
+  },
+  "proposal": {
+    "title": "Enjoying Ecency!",
+    "title-voted": "We are grateful!",
+    "desc": "Support proposal by voting, be part of our continuous efforts to improve experience on Ecency.",
+    "desc-voted": "Your support means everything to us",
+    "title-action-dismiss": "Dismiss Vote Request",
+    "btn-vote": "Cast My Vote",
+    "btn-dismiss": "Dismiss",
+    "btn-later": "Remind Later",
+    "btn-ignore": "Forever"
   }
 }

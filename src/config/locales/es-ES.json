@@ -58,10 +58,10 @@
     "estimated_value_desc": "De acuerdo al valor de compra",
     "estimated_value": "Valor estimado",
     "vote_value": "Valor del voto",
-    "delegated_hive_power": "Outgoing delegations",
+    "delegated_hive_power": "Delegaciones salientes",
     "powering_down_hive_power": "Retirando de Estaca ({subValue})",
-    "received_hive_power": "Incoming delegations",
-    "total_hive_power": "Total stake",
+    "received_hive_power": "Delegaciones entrantes",
+    "total_hive_power": "Estaca total",
     "savings": "Ahorros",
     "estimated_amount": "Valor del voto",
     "amount_information": "Arrastra el deslizador para ajustar la cantidad",
@@ -289,7 +289,7 @@
     "follow_communities": "Cuando te unes a las comunidades verás mensajes de las comunidades aquí.",
     "havent_commented": "no has comentado nada aún",
     "havent_posted": "no has publicado nada aún",
-    "hive_power": "Staked HIVE",
+    "hive_power": "HIVE Estacado",
     "next_power_text": "Siguiente Retiro de Estaca en",
     "days": "días",
     "day": "día",
@@ -381,6 +381,7 @@
   "login": {
     "signin": "Iniciar Sesión",
     "login_with_hs": "Iniciar Sesión con hivesigner",
+    "signin_with_hiveauth": "Iniciar sesión con hiveauth",
     "signup": "ÚNETE AHORA",
     "signin_title": "Para obtener todos los beneficios de utilizar Ecency",
     "username": "nombre de usuario",
@@ -401,6 +402,22 @@
     "no_account_text": "¿No tienes una cuenta?",
     "signup_now": "¡Regístrate ahora!",
     "or": "O"
+  },
+  "hiveauth": {
+    "title": "Hive Auth",
+    "initiating": "Iniciando...",
+    "authenticating": "Autentificando...",
+    "requesting": "Solicitando...",
+    "logging_in": "Iniciando sesión...",
+    "auth_success": "Autenticación exitosa",
+    "auth_fail": "Autenticación fallida",
+    "transaction_success": "Transacción exitosa",
+    "transaction_fail": "Transacción fallida",
+    "not_installed": "Aplicación de autenticación Hive no instalada",
+    "missing_op_arr": "Falta la matriz de operaciones para emitir",
+    "invalid_auth_type": "Tipo de autenticación no válido",
+    "decrypt_fail": "No se pudo descifrar la clave de Hive Auth",
+    "expired": "La clave de Hive Auth ha caducado, vuelve a autentificar y vuelve a intentarlo"
   },
   "register": {
     "modal_title": "Obtener cuenta de Hive",
@@ -431,10 +448,14 @@
     "feed": "Inicio",
     "popular": "Popular",
     "top": "Tendencia",
+    "trending": "Tendencias",
     "hot": "Caliente",
     "new": "Nuevo",
     "blog": "Blog",
     "posts": "Post",
+    "my_blog": "Mi blog",
+    "my_posts": "Mis publicaciones",
+    "my_comments": "Mis comentarios",
     "friends": "Amigos",
     "communities": "Comunidades",
     "popup_postfix": "Publicado",
@@ -536,7 +557,7 @@
     "snippets": "Fragmentos de código",
     "alert_init_title": "Nuevo contenido",
     "alert_init_body": "Abrir borrador reciente o Crear nueva publicación",
-    "alert_btn_draft": "Últimos borradores",
+    "alert_btn_draft": "Borrador reciente",
     "alert_btn_new": "Nueva publicación",
     "alert_pub_edit_title": "Publicando ediciones",
     "alert_pub_new_title": "Publicando nueva publicación",
@@ -556,7 +577,7 @@
     "done": "HECHO",
     "draft_save_title": "Guardar Borrador",
     "draft_update": "Actualizar borrador actual",
-    "draft_save_new": "Guardar como borrador",
+    "draft_save_new": "Guardar como nuevo borrador",
     "label": "Etiqueta",
     "enter_label_placeholder": "Introducir etiqueta (opcional)",
     "url": "URL",
@@ -630,6 +651,7 @@
     "continue": "Continuar",
     "okay": "Ok",
     "done": "Hecho",
+    "thankyou": "¡Gracias!",
     "notice": "¡Aviso!",
     "close": "CERRAR",
     "later": "Más tarde",
@@ -699,7 +721,7 @@
     "claim_failed": "Error al reclamar recompensas, {message}",
     "connection_issues": "El servidor no está disponible, por favor comprueba tu conexión e inténtalo de nuevo.",
     "open_settings": "Abrir configuración",
-    "auth_expired": "Necesitamos verificar que todavía tienes acceso a sus claves, por favor verifica el inicio de sesión.",
+    "auth_expired": "Su sesión ha caducado. Por favor verifique su inicio de sesión para confirmar el acceso a su cuenta.",
     "verify": "Verificar",
     "logging_out": "Cerrando sesión {username}"
   },
@@ -988,7 +1010,8 @@
     "reveal_comment": "Revelar Contenido",
     "read_more": "Cargar más comentarios",
     "more_replies": "respuestas",
-    "no_comments": "Sé el primero en responder..."
+    "no_comments": "Sé el primero en responder...",
+    "bot_comments": "Comentarios"
   },
   "search_result": {
     "others": "Otros",
@@ -1040,7 +1063,7 @@
     "mute": "SILENCIAR / BLOQUEAR",
     "unmute": "NO SILENCIAR / DESBLOQUEAR",
     "report": "DENUNCIAR USUARIO",
-    "delegate": "DELEGATE HIVE"
+    "delegate": "DELEGAR HIVE"
   },
   "communities": {
     "joined": "Membresía",
@@ -1125,6 +1148,13 @@
     "edit": "Editar historial",
     "version": "Versión"
   },
+  "selection_list": {
+    "available": "{postfix} disponible",
+    "selected": "Seleccionado {postfix}",
+    "no_selected": "Por favor, añada desde lo disponible",
+    "postfix_filters": "Filtros",
+    "title_filters": "Personalizar Filtros"
+  },
   "chain-error": {
     "min-root-comment": "Sólo puedes publicar una vez cada cinco minutos.",
     "identical-vote": "Tu voto actual sobre este contenido es idéntico a esta votación.",
@@ -1136,5 +1166,16 @@
     "missing-authority": "Esta operación requiere una Clave Activa Privada o autoridad.",
     "missing-owner-authority": "Esta operación requiere una Clave Propietaria Privada o su autoridad.",
     "insufficient_fund": "Fondos insuficientes"
+  },
+  "proposal": {
+    "title": "¡Disfrutando de la Ecency!",
+    "title-voted": "¡Estamos muy agradecidos!",
+    "desc": "Apoyar la propuesta mediante votación, formar parte de nuestros continuos esfuerzos para mejorar la experiencia en Ecency.",
+    "desc-voted": "Tu apoyo significa todo para nosotros",
+    "title-action-dismiss": "Descartar solicitud de voto",
+    "btn-vote": "Emitir mi voto",
+    "btn-dismiss": "Descartar",
+    "btn-later": "Recordar Más Tarde",
+    "btn-ignore": "Permanentemente"
   }
 }

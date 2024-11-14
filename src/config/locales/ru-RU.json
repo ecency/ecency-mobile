@@ -381,6 +381,7 @@
   "login": {
     "signin": "Войти",
     "login_with_hs": "Войти с помощью hivesigner",
+    "signin_with_hiveauth": "Login with hiveauth",
     "signup": "ПРИСОЕДИНЯЙТЕСЬ СЕЙЧАС",
     "signin_title": "Чтобы получить все преимущества от использования Ecency",
     "username": "имя пользователя",
@@ -401,6 +402,22 @@
     "no_account_text": "Не зарегистрированы?",
     "signup_now": "Зарегистрируйтесь сейчас!",
     "or": "ИЛИ"
+  },
+  "hiveauth": {
+    "title": "Hive Auth",
+    "initiating": "Initiating...",
+    "authenticating": "Authenticating...",
+    "requesting": "Requesting...",
+    "logging_in": "Logging In...",
+    "auth_success": "Authentication Successful",
+    "auth_fail": "Authentication Failed",
+    "transaction_success": "Transaction Successful",
+    "transaction_fail": "Transaction Failed",
+    "not_installed": "Hive authentication app not installed",
+    "missing_op_arr": "Missing operations array to broadcast",
+    "invalid_auth_type": "Invalid auth type",
+    "decrypt_fail": "Failed to decrypt hive auth key",
+    "expired": "Hive auth key is expired, re-authenticate and try again"
   },
   "register": {
     "modal_title": "Получить учетную запись Hive",
@@ -431,10 +448,14 @@
     "feed": "Лента",
     "popular": "Популярное",
     "top": "Топ",
+    "trending": "Trending",
     "hot": "Актуальное",
     "new": "Новое",
     "blog": "Блог",
     "posts": "Посты",
+    "my_blog": "My Blog",
+    "my_posts": "My Posts",
+    "my_comments": "My Comments",
     "friends": "Друзья",
     "communities": "Сообщества",
     "popup_postfix": "Опубликовано",
@@ -630,6 +651,7 @@
     "continue": "Продолжить",
     "okay": "Окей",
     "done": "Готово",
+    "thankyou": "Thank You!",
     "notice": "Примечание!",
     "close": "ЗАКРЫТЬ",
     "later": "Позже",
@@ -699,7 +721,7 @@
     "claim_failed": "Failed to claim rewards, {message}",
     "connection_issues": "Сервер недоступен, проверьте подключение и повторите попытку.",
     "open_settings": "Открыть настройки",
-    "auth_expired": "Нам нужно убедиться, что у вас все ещё есть доступ к вашим ключам, пожалуйста, подтвердите вход.",
+    "auth_expired": "Your session has expired. Please verify your login to confirm access to your account.",
     "verify": "Подтвердить",
     "logging_out": "Выход {username}"
   },
@@ -988,7 +1010,8 @@
     "reveal_comment": "Отобразить содержимое",
     "read_more": "Читать больше комментариев",
     "more_replies": "ответы",
-    "no_comments": "Прокомментируйте первым..."
+    "no_comments": "Прокомментируйте первым...",
+    "bot_comments": "Comments"
   },
   "search_result": {
     "others": "Другое",
@@ -1125,6 +1148,13 @@
     "edit": "История изменений",
     "version": "Версия"
   },
+  "selection_list": {
+    "available": "Available {postfix}",
+    "selected": "Selected {postfix}",
+    "no_selected": "Please add from available",
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
+  },
   "chain-error": {
     "min-root-comment": "Вы можете размещать сообщения только один раз в пять минут.",
     "identical-vote": "Ваше текущее голосование по данному содержанию идентично этому голосованию.",
@@ -1136,5 +1166,16 @@
     "missing-authority": "Для выполнения этой операции требуется приватный ключ или ключ владельца.",
     "missing-owner-authority": "Для выполнения этой операции требуется приватный ключ или ключ владельца.",
     "insufficient_fund": "Недостаточность средств"
+  },
+  "proposal": {
+    "title": "Enjoying Ecency!",
+    "title-voted": "We are grateful!",
+    "desc": "Support proposal by voting, be part of our continuous efforts to improve experience on Ecency.",
+    "desc-voted": "Your support means everything to us",
+    "title-action-dismiss": "Dismiss Vote Request",
+    "btn-vote": "Cast My Vote",
+    "btn-dismiss": "Dismiss",
+    "btn-later": "Remind Later",
+    "btn-ignore": "Forever"
   }
 }
