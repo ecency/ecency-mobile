@@ -381,7 +381,7 @@
   "login": {
     "signin": "Kirjaudu",
     "login_with_hs": "Kirjaudu sisään hivesignerilla",
-    "signin_with_hiveauth": "Login with hiveauth",
+    "signin_with_hiveauth": "Kirjaudu sisään hiveautilla",
     "signup": "LIITY NYT",
     "signin_title": "Hyötyäksesi Ecencyn käytöstä",
     "username": "käyttäjätunnus",
@@ -405,19 +405,19 @@
   },
   "hiveauth": {
     "title": "Hive Auth",
-    "initiating": "Initiating...",
-    "authenticating": "Authenticating...",
-    "requesting": "Requesting...",
-    "logging_in": "Logging In...",
-    "auth_success": "Authentication Successful",
-    "auth_fail": "Authentication Failed",
-    "transaction_success": "Transaction Successful",
-    "transaction_fail": "Transaction Failed",
-    "not_installed": "Hive authentication app not installed",
-    "missing_op_arr": "Missing operations array to broadcast",
-    "invalid_auth_type": "Invalid auth type",
-    "decrypt_fail": "Failed to decrypt hive auth key",
-    "expired": "Hive auth key is expired, re-authenticate and try again"
+    "initiating": "Aloitetaan...",
+    "authenticating": "Varmennetaan...",
+    "requesting": "Pyydetään...",
+    "logging_in": "Kirjaudutaan sisään...",
+    "auth_success": "Varmennus onnistui",
+    "auth_fail": "Varmennus epäonnistui",
+    "transaction_success": "Siirto onnistui",
+    "transaction_fail": "Siirto epäonnistui",
+    "not_installed": "Hiven todennussovellusta ei ole asennettu",
+    "missing_op_arr": "Lähetysjono puuttuu",
+    "invalid_auth_type": "Virheellinen varmenteen tyyppi",
+    "decrypt_fail": "Hiven auth-avaimen salauksen purkaminen epäonnistui",
+    "expired": "Hive auth-avain on vanhentunut, todenna uudelleen"
   },
   "register": {
     "modal_title": "Hanki Hive-tili",
@@ -448,14 +448,14 @@
     "feed": "Syöte",
     "popular": "Suositut",
     "top": "Parhaat",
-    "trending": "Trending",
+    "trending": "Nousussa",
     "hot": "Kuumat",
     "new": "Uusimmat",
     "blog": "Blogi",
     "posts": "Julkaisut",
-    "my_blog": "My Blog",
-    "my_posts": "My Posts",
-    "my_comments": "My Comments",
+    "my_blog": "Oma Blogi",
+    "my_posts": "Julkaisuni",
+    "my_comments": "Kommenttini",
     "friends": "Ystävät",
     "communities": "Yhteisöt",
     "popup_postfix": "Julkaistu",
@@ -507,7 +507,7 @@
     "age_limit": "• {days} päivää vanhemmat tilit",
     "interpretation_token": "• Käyttäjän HP-pohjainen äänten tulkinta",
     "max_choices": "• Voit valita {choices}",
-    "poll_not_ready": "Poll not ready for vote, try again shortly",
+    "poll_not_ready": "Äänestys ei ole valmis, yritä pian uudelleen",
     "interpret_token": "Tulkitse Merkkien mukaan",
     "interpret_vote": "Tulkitse Äänten mukaan",
     "create_title": "Luo kysely",
@@ -651,7 +651,7 @@
     "continue": "Jatka",
     "okay": "Ok",
     "done": "Valmis",
-    "thankyou": "Thank You!",
+    "thankyou": "Kiitos!",
     "notice": "Huom!",
     "close": "SULJE",
     "later": "Myöhemmin",
@@ -721,7 +721,7 @@
     "claim_failed": "Palkkioiden lunastaminen epäonnistui, {message}",
     "connection_issues": "Palvelin ei ole tavoitettavissa, tarkista yhteytesi ja yritä uudelleen.",
     "open_settings": "Avaa asetukset",
-    "auth_expired": "Your session has expired. Please verify your login to confirm access to your account.",
+    "auth_expired": "Istuntosi on vanhentunut. Vahvista kirjautumisesi vahvistaaksesi pääsyn tiliisi.",
     "verify": "Vahvista",
     "logging_out": "Kirjaudutaan ulos {username}"
   },
@@ -1011,7 +1011,7 @@
     "read_more": "Lue lisää kommentteja",
     "more_replies": "vastaukset",
     "no_comments": "Ole ensimmäinen kommentoija...",
-    "bot_comments": "Comments"
+    "bot_comments": "Kommentit"
   },
   "search_result": {
     "others": "Muut",
@@ -1149,11 +1149,11 @@
     "version": "Versio"
   },
   "selection_list": {
-    "available": "Available {postfix}",
-    "selected": "Selected {postfix}",
-    "no_selected": "Please add from available",
-    "postfix_filters": "Filters",
-    "title_filters": "Customise Filters"
+    "available": "Käytettävissä {postfix}",
+    "selected": "Valittu {postfix}",
+    "no_selected": "Lisää vaihtoehto",
+    "postfix_filters": "Suodattimet",
+    "title_filters": "Muokkaa Suodattimia"
   },
   "chain-error": {
     "min-root-comment": "Voit julkaista vain kerran viidessä minuutissa.",
@@ -1168,14 +1168,14 @@
     "insufficient_fund": "Riittämättömät varat"
   },
   "proposal": {
-    "title": "Enjoying Ecency!",
-    "title-voted": "We are grateful!",
-    "desc": "Support proposal by voting, be part of our continuous efforts to improve experience on Ecency.",
-    "desc-voted": "Your support means everything to us",
-    "title-action-dismiss": "Dismiss Vote Request",
-    "btn-vote": "Cast My Vote",
-    "btn-dismiss": "Dismiss",
-    "btn-later": "Remind Later",
-    "btn-ignore": "Forever"
+    "title": "Nauti Ecencystä!",
+    "title-voted": "Olemme kiitollisia!",
+    "desc": "Kannata ehdotustamme äänestämällä, ole osa jatkuvaa pyrkimystämme parantaa Ecencyn käyttökokemusta.",
+    "desc-voted": "Tukesi merkitsee meille paljon",
+    "title-action-dismiss": "Hylkää Äänestyspyyntö",
+    "btn-vote": "Lähetä Ääneni",
+    "btn-dismiss": "Hylkää",
+    "btn-later": "Muistuta myöhemmin",
+    "btn-ignore": "Aina"
   }
 }
