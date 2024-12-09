@@ -4,12 +4,12 @@ import { View, FlatList, Text } from 'react-native';
 
 // Components
 import { TabView } from 'react-native-tab-view';
+import { useDispatch } from 'react-redux';
 import { UserListItem, WalletDetailsPlaceHolder, BasicHeader, TabBar } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './bookmarksStyles';
-import { useDispatch } from 'react-redux';
 import { showActionModal } from '../../../redux/actions/uiAction';
 import { ButtonTypes } from '../../../components/actionModal/container/actionModalContainer';
 
@@ -24,7 +24,6 @@ const BookmarksScreen = ({
   removeBookmark,
   initialTabIndex,
 }) => {
-
   const dispatch = useDispatch();
 
   const [tabIndex, setTabIndex] = React.useState(initialTabIndex);
@@ -99,34 +98,29 @@ const BookmarksScreen = ({
     );
   };
 
-
-
   const _handleLongPress = (_selectedItemId) => {
-
     const _onConfirmDelete = () => {
-      tabIndex === 0
-        ? removeBookmark(_selectedItemId)
-        : removeFavorite(_selectedItemId);
-    }
+      tabIndex === 0 ? removeBookmark(_selectedItemId) : removeFavorite(_selectedItemId);
+    };
 
-    dispatch(showActionModal({
-      title: intl.formatMessage({ id: 'alert.remove_alert' }),
-      buttons: [
-        {
-          text: intl.formatMessage({ id: 'alert.cancel' }),
-          type: ButtonTypes.CANCEL,
-          onPress: () => {
-            console.log('canceled delete comment');
+    dispatch(
+      showActionModal({
+        title: intl.formatMessage({ id: 'alert.remove_alert' }),
+        buttons: [
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            type: ButtonTypes.CANCEL,
+            onPress: () => {
+              console.log('canceled delete comment');
+            },
           },
-
-        },
-        {
-          text: intl.formatMessage({ id: 'alert.delete' }),
-          onPress: _onConfirmDelete,
-        },
-      ],
-    }))
-
+          {
+            text: intl.formatMessage({ id: 'alert.delete' }),
+            onPress: _onConfirmDelete,
+          },
+        ],
+      }),
+    );
   };
 
   const renderScene = ({ route }) => {
@@ -153,7 +147,6 @@ const BookmarksScreen = ({
         renderScene={renderScene}
         style={[globalStyles.tabView, { paddingBottom: 40 }]}
       />
-
     </View>
   );
 };
