@@ -25,7 +25,7 @@ const BookmarksScreen = ({
   const [selectedItemId, setSelectedItemId] = useState(null);
   const actionSheetRef = useRef(null);
 
-  const [index, setIndex] = React.useState(initialTabIndex);
+  const [tabIndex, setTabIndex] = React.useState(initialTabIndex);
   const [routes] = React.useState([
     {
       key: 'bookmarks',
@@ -121,8 +121,8 @@ const BookmarksScreen = ({
       />
 
       <TabView
-        navigationState={{ index, routes }}
-        onIndexChange={setIndex}
+        navigationState={{ index: tabIndex, routes }}
+        onIndexChange={setTabIndex}
         renderTabBar={TabBar}
         renderScene={renderScene}
         style={[globalStyles.tabView, { paddingBottom: 40 }]}
@@ -139,7 +139,7 @@ const BookmarksScreen = ({
         destructiveButtonIndex={0}
         onPress={(index) => {
           if (index === 0) {
-            activeTab === 0 ? removeBookmark(selectedItemId) : removeFavorite(selectedItemId);
+            tabIndex === 0 ? removeBookmark(selectedItemId) : removeFavorite(selectedItemId);
           }
         }}
       />
