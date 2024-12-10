@@ -27,16 +27,23 @@ export default EStyleSheet.create({
   },
   spinnerWrapper: {
     flex: 1,
+    width: '100%',
     marginTop: 10,
   },
-  backgroundTags: {
+  backgroundTagsWrapper: {
     position: 'absolute',
-    width: '100%',
-    height: 360,
     left: 0,
-    top: 16,
+    top: 0,
     right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
     zIndex: 998,
+  },
+  backgroundTags: {
+    width: 400,
+    height: 360,
   },
   descriptionWrapper: {
     backgroundColor: '$primaryDarkBlue',
