@@ -60,10 +60,14 @@ const SpinGameView = ({
             </Fragment>
           )}
         </View>
+
         <View style={styles.spinnerWrapper}>
           {!isSpinning && !isLoading && gameRight > 0 && (
-            <Image source={ESTM_TAGS} style={styles.backgroundTags} />
+            <View style={styles.backgroundTagsWrapper}>
+              <Image source={ESTM_TAGS} resizeMode="contain" style={styles.backgroundTags} />
+            </View>
           )}
+
           <BoostIndicatorAnimation key={gameRight} isSpinning={isSpinning} />
 
           {!isSpinning && score > 0 && (
@@ -75,6 +79,7 @@ const SpinGameView = ({
             </View>
           )}
         </View>
+
         <View style={styles.productWrapper}>
           {!isSpinning && !isLoading && (
             <Fragment>
