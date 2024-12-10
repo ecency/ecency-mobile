@@ -1,15 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
 
 // Components
 import { TabView } from 'react-native-tab-view';
+import { useDispatch } from 'react-redux';
 import { UserListItem, WalletDetailsPlaceHolder, BasicHeader, TabBar } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './bookmarksStyles';
-import { OptionsModal } from '../../../components/atoms';
+import { showActionModal } from '../../../redux/actions/uiAction';
+import { ButtonTypes } from '../../../components/actionModal/container/actionModalContainer';
 
 const BookmarksScreen = ({
   isLoading,
@@ -22,10 +24,9 @@ const BookmarksScreen = ({
   removeBookmark,
   initialTabIndex,
 }) => {
-  const [selectedItemId, setSelectedItemId] = useState(null);
-  const actionSheetRef = useRef(null);
+  const dispatch = useDispatch();
 
-  const [index, setIndex] = React.useState(initialTabIndex);
+  const [tabIndex, setTabIndex] = React.useState(initialTabIndex);
   const [routes] = React.useState([
     {
       key: 'bookmarks',
@@ -96,11 +97,30 @@ const BookmarksScreen = ({
       </View>
     );
   };
+
   const _handleLongPress = (_selectedItemId) => {
-    if (actionSheetRef.current) {
-      setSelectedItemId(_selectedItemId);
-      actionSheetRef.current.show();
-    }
+    const _onConfirmDelete = () => {
+      tabIndex === 0 ? removeBookmark(_selectedItemId) : removeFavorite(_selectedItemId);
+    };
+
+    dispatch(
+      showActionModal({
+        title: intl.formatMessage({ id: 'alert.remove_alert' }),
+        buttons: [
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            type: ButtonTypes.CANCEL,
+            onPress: () => {
+              console.log('canceled delete comment');
+            },
+          },
+          {
+            text: intl.formatMessage({ id: 'alert.delete' }),
+            onPress: _onConfirmDelete,
+          },
+        ],
+      }),
+    );
   };
 
   const renderScene = ({ route }) => {
@@ -121,27 +141,11 @@ const BookmarksScreen = ({
       />
 
       <TabView
-        navigationState={{ index, routes }}
-        onIndexChange={setIndex}
+        navigationState={{ index: tabIndex, routes }}
+        onIndexChange={setTabIndex}
         renderTabBar={TabBar}
         renderScene={renderScene}
         style={[globalStyles.tabView, { paddingBottom: 40 }]}
-      />
-
-      <OptionsModal
-        ref={actionSheetRef}
-        options={[
-          intl.formatMessage({ id: 'alert.delete' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
-        ]}
-        title={intl.formatMessage({ id: 'alert.remove_alert' })}
-        cancelButtonIndex={1}
-        destructiveButtonIndex={0}
-        onPress={(index) => {
-          if (index === 0) {
-            activeTab === 0 ? removeBookmark(selectedItemId) : removeFavorite(selectedItemId);
-          }
-        }}
       />
     </View>
   );
