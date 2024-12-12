@@ -139,7 +139,7 @@ const PostsTabContent = ({
   };
 
   const _renderHeader = () => {
-    if (pageType === 'main' && isInitialTab) {
+    if (isLoggedIn && pageType === 'main' && isInitialTab) {
       return <ProposalVoteRequest />;
     }
   };
