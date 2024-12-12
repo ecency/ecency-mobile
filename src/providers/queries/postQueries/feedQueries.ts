@@ -144,6 +144,11 @@ export const useFeedQuery = ({
 
   const _getNextPageParam = (lastPage: any[]) => {
     const lastPost = lastPage && lastPage.length ? lastPage.slice(-1)[0] : undefined;
+
+    if (!lastPost) {
+      return;
+    }
+
     console.log('extracting next page parameter', lastPost.url);
     return _getPostLocalKey(lastPost.author, lastPost.permlink);
   };
@@ -183,7 +188,7 @@ export const useFeedQuery = ({
     }
 
     const _pageKey = _getNextPageParam(_lastPage.data);
-    if (!pageKeys.includes(_pageKey)) {
+    if (_pageKey && !pageKeys.includes(_pageKey)) {
       pageKeys.push(_pageKey);
       setPageKeys([...pageKeys]);
     }
