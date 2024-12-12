@@ -143,14 +143,10 @@ export const useFeedQuery = ({
   };
 
   const _getNextPageParam = (lastPage: any[]) => {
-    const lastPost = lastPage && lastPage.length ? lastPage.slice(-1)[0] : undefined;
-
-    if (!lastPost) {
-      return;
-    }
+    const lastPost = !!lastPage?.length && lastPage[lastPage.length - 1];
 
     console.log('extracting next page parameter', lastPost.url);
-    return _getPostLocalKey(lastPost.author, lastPost.permlink);
+    return _getPostLocalKey(lastPost?.author, lastPost?.permlink);
   };
 
   const _getFeedQueryKey = (pageKey: string) => [
@@ -310,5 +306,6 @@ export const calculateTimeLeftForPostCheck = (firstPost: any) => {
   return timeLeft;
 };
 
-const _getPostLocalKey = (author: string, permlink: string) => `${author}/${permlink}`;
+const _getPostLocalKey = (author: string, permlink: string) =>
+  author && permlink ? `${author}/${permlink}` : undefined;
 const _parsePostLocalKey = (localKey: string) => (localKey ? localKey.split('/') : ['', '']);

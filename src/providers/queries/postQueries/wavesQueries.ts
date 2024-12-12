@@ -218,7 +218,7 @@ export const useWavesQuery = (host: string) => {
       setActivePermlinks([...activePermlinks]);
     } else {
       console.log('fetching new containers');
-      _fetchPermlinks(permlinksBucket.slice(-1)[0]);
+      _fetchPermlinks(permlinksBucket[permlinksBucket.length - 1]);
     }
   };
 

@@ -285,7 +285,7 @@ export const useActivitiesQuery = (assetId: string) => {
   };
 
   const _getNextPageParam = (lastPage: any[]) => {
-    const lastId = lastPage && lastPage.length ? lastPage.slice(-1)[0].trxIndex : undefined;
+    const lastId = !!lastPage?.length && lastPage[lastPage.length - 1].trxIndex;
     console.log('extracting next page parameter', lastId);
     return lastId;
   };
@@ -310,7 +310,7 @@ export const useActivitiesQuery = (assetId: string) => {
   };
 
   const _fetchNextPage = () => {
-    const lastPage = queries.slice(-1)[0];
+    const lastPage = queries[queries.length - 1];
 
     if (!lastPage || lastPage.isFetching || lastPage.isLoading || noMoreData) {
       return;
@@ -326,7 +326,7 @@ export const useActivitiesQuery = (assetId: string) => {
       setPageParams([...pageParams]);
     } else {
       const lastId = _getNextPageParam(lastPage.data);
-      if (!pageParams.includes(lastId)) {
+      if (lastId && !pageParams.includes(lastId)) {
         pageParams.push(lastId);
         setPageParams([...pageParams]);
       }
