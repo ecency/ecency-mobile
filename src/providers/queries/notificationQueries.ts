@@ -31,7 +31,7 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
   };
 
   const _getNextPageParam = (lastPage: any[]) => {
-    const lastId = lastPage && lastPage.length ? lastPage.slice(-1)[0].id : undefined;
+    const lastId = !!lastPage?.length && lastPage[lastPage.length - 1].id;
     console.log('extracting next page parameter', lastId);
     return lastId;
   };
@@ -60,7 +60,7 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
     }
 
     const lastId = _getNextPageParam(_lastPage.data);
-    if (!pageParams.includes(lastId)) {
+    if (lastId && !pageParams.includes(lastId)) {
       pageParams.push(lastId);
       setPageParams([...pageParams]);
     }
