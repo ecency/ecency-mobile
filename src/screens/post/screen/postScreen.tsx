@@ -7,10 +7,11 @@ import { BasicHeader, IconButton, PostDisplay, PostOptionsModal } from '../../..
 import styles from '../styles/postScreen.styles';
 
 // Component
-import { postQueries } from '../../../providers/queries';
+import { postQueries, usePlausibleTracker } from '../../../providers/queries';
 
 const PostScreen = ({ route }) => {
   const params = route.params || {};
+  const tracker = usePlausibleTracker();
 
   // // refs
   const isNewPost = useRef(route.params?.isNewPost).current;
@@ -50,7 +51,10 @@ const PostScreen = ({ route }) => {
 
   useEffect(() => {
     const post = getPostQuery.data;
+
     if (post) {
+      tracker.recordEvent(post.url, true);
+
       const _fetchParent =
         post && post.depth > 0 && post.parent_author && post.parent_permlink && !isWavePost;
 
