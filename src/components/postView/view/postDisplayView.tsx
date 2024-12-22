@@ -29,6 +29,7 @@ import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import UpvotePopover from '../../upvotePopover';
 import { PostPoll } from '../../postPoll';
 import QUERIES from '../../../providers/queries/queryKeys';
+import { usePostStatsQuery } from '../../../providers/queries';
 
 const PostDisplayView = ({
   currentAccount,
@@ -51,9 +52,13 @@ const PostDisplayView = ({
 }) => {
   const dispatch = useAppDispatch();
   const insets = useSafeAreaInsets();
+
   const queryClient = useQueryClient();
   const userActivityMutation = useUserActivityMutation();
   const dims = useWindowDimensions();
+  const postStatsQuery = usePostStatsQuery ({
+    initialUrlPath: post?.url || ''
+  })
 
   const postCommentsRef = useRef<PostComments>(null);
   const upvotePopoverRef = useRef<UpvotePopover>(null);
@@ -122,6 +127,8 @@ const PostDisplayView = ({
     }
   };
 
+
+
   const _renderActionPanel = (isFixedFooter = false) => {
     return (
       <StickyBar isFixedFooter={isFixedFooter} style={styles.stickyBar}>
@@ -180,6 +187,18 @@ const PostDisplayView = ({
               textMarginLeft={20}
             />
           )}
+
+          {postStatsQuery.data && (
+            <TextWithIcon
+              iconName="eye-outline"
+              iconStyle={styles.barIcons}
+              iconType="MaterialCommunityIcons"
+              isClickable
+              text={postStatsQuery.data.pageviews}
+              textMarginLeft={20}
+            />
+          )}
+ 
           <View style={styles.stickyRightWrapper}>
             {get(currentAccount, 'name') === get(post, 'author') && (
               <Fragment>
@@ -206,6 +225,8 @@ const PostDisplayView = ({
       </StickyBar>
     );
   };
+
+
 
   const { name } = currentAccount;
 
