@@ -87,6 +87,9 @@ const PostDisplayView = ({
         _tags.splice(0, 0, post.category);
       }
       setTags(_tags);
+
+      //set url path for stats query
+      postStatsQuery.setUrlPath(post.url);
     }
   }, [post]);
 
