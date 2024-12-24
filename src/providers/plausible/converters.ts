@@ -1,4 +1,4 @@
-import { PostStats, StatsResponse } from "./plausible.types";
+import { PostStats, PostStatsByCountry, StatsResponse, StatsResponseResult } from "./plausible.types";
 
 
 export const convertStatsData = (rawData: any) => {
@@ -6,19 +6,18 @@ export const convertStatsData = (rawData: any) => {
         throw new Error("Invalid stats raw data");
     }
 
-    const [result] = rawData.results;
+    const results = rawData.results;
 
-    if (!result || !result.metrics?.length) {
+    if (!results?.length) {
         throw new Error("Invalid response format: Missing metrics.");
     }
 
     return ({
-        results: [
-            {
-                metrics: result.metrics || [],
-                dimensions: result.dimensions || [],
-            }
-        ],
+        results: rawData.results.map((result:any) =>
+        ({
+            metrics: result.metrics || [],
+            dimensions: result.dimensions || [],
+        })),
         query: {
             site_id: rawData.query?.site_id || '',
             metrics: rawData.query?.metrics || [],
@@ -44,8 +43,10 @@ export function getMetricsListForPostStats(): string[] {
     return Object.keys(getDefaultPostStats());
 }
 
-export function parsePostStatsResponse(response: StatsResponse): PostStats {
-    const [result] = response.results;
+export function parsePostStatsResponse(response: StatsResponse, targetResult?: StatsResponseResult): PostStats {
+
+    const result = targetResult || response.results[0];
+    // const [result] = response.results;
 
     if (!result || !result.metrics || result.metrics.length < Object.keys(getDefaultPostStats()).length) {
         throw new Error("Invalid response format: Missing required metrics.");
@@ -64,4 +65,13 @@ export function parsePostStatsResponse(response: StatsResponse): PostStats {
     }, { ...defaultStats });
 
     return parsedStats as PostStats;
+}
+
+
+export function parsePostStatsByCountry(response: StatsResponse): PostStatsByCountry[] {
+    return response.results.map((result) => ({
+        country: result.dimensions[0],
+        stats: parsePostStatsResponse(response, result)
+    } as PostStatsByCountry)
+    )
 }

@@ -1,7 +1,7 @@
 import { useRef, useState } from "react"
 import { useQuery, useMutation } from "@tanstack/react-query";
 import QUERIES from "../../providers/queries/queryKeys";
-import { fetchPostStats, recordPlausibleEvent } from "../../providers/plausible/plausible";
+import { fetchPostStats, fetchPostStatsByCountry, recordPlausibleEvent } from "../../providers/plausible/plausible";
 
 
 
@@ -54,45 +54,39 @@ export const usePlausibleTracker = () => {
 
 
 /**
- * Custom hook to fetch post stats based on a URL path, dimensions, and date range.
+ * Custom hook to fetch all post stats.
  *
- * @param {Object} params - The parameters for fetching post stats.
- * @param {string} params.initialUrlPath - The initial URL path for fetching stats.
- * @param {string[]} params.dimensions - The dimensions of the stats (e.g., categories, filters).
- * @param {string} params.dateRange - The date range for the stats (default is 'all').
+ * @param {string} urlPath - The initial URL path for fetching stats.
+ * @param {string} dateRange - The date range for the stats (default is 'all').
  * @returns {Object} - An object with the setUrlPath function to set the URL path.
  */
 
-export function usePostStatsQuery({
-    initialUrlPath = '', // Default to an empty string if no initialUrlPath is provided
-    dimensions = [], // Default to an empty array if no dimensions are provided
-    dateRange = 'all' // Default to 'all' if no dateRange is provided
-}) {
-    const [urlPath, setUrlPath] = useState(initialUrlPath);
-
-    const _setUrlPath = async (urlPath: string) => {
-        setUrlPath(urlPath);
-    };
-
-    const _fetchStats = async () => {
-        if (!urlPath) return null; // Don't fetch if urlPath is empty
-
-        const stats = await fetchPostStats(urlPath, dimensions, dateRange);
-        console.log("POST STATS", stats);
-        return stats;
-    };
-
-    const query = useQuery(
-        [QUERIES.PLAUSIBLE.GET_POST_STATS, urlPath, dateRange, JSON.stringify(dimensions)],
-        _fetchStats,
+export const usePostStatsQuery = (urlPath: string, dateRange = 'all') =>
+    useQuery(
+        [QUERIES.PLAUSIBLE.GET_POST_STATS, urlPath, dateRange],
+        () => fetchPostStats(urlPath, dateRange),
         {
             enabled: !!urlPath, // Only enable the query if urlPath is not empty
             staleTime: 60000, // Set staleTime to 1 minute (60000 ms)
         }
     );
 
-    return {
-        ...query,
-        setUrlPath: _setUrlPath,
-    };
-}
+
+
+/**
+ * Custom hook to fetch post stats by country  
+ *
+ * @param {string} urlPath - The initial URL path for fetching stats.
+ * @param {string} dateRange - The date range for the stats (default is 'all').
+ * @returns {Object} - An object with the setUrlPath function to set the URL path.
+ */
+
+export const usePostStatsByCountryQuery = (urlPath: string, dateRange = 'all') =>
+    useQuery(
+        [QUERIES.PLAUSIBLE.GET_POST_STATS_BY_COUNTRY, urlPath, dateRange],
+        () => fetchPostStatsByCountry(urlPath, dateRange),
+        {
+            enabled: !!urlPath, // Only enable the query if urlPath is not empty
+            staleTime: 60000, // Set staleTime to 1 minute (60000 ms)
+        }
+    );

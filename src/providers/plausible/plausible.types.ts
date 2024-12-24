@@ -1,12 +1,12 @@
 
 
+export interface StatsResponseResult {
+    metrics: number[];
+    dimensions: string[];
+}
+
 export interface StatsResponse {
-    results: [
-      {
-        metrics: number[];
-        dimensions: string[];
-      }
-    ];
+    results: StatsResponseResult[];
     query: {
       site_id: string;
       metrics: string[];
@@ -21,4 +21,9 @@ export interface PostStats {
   visitors:number, 
   pageviews:number, 
   visit_duration:number,
+}
+
+export interface PostStatsByCountry {
+  country:string,
+  stats:PostStats
 }

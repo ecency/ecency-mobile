@@ -3,7 +3,7 @@ import bugsnagInstance from '../../config/bugsnag';
 import axios from 'axios';
 import Config from 'react-native-config';
 import { convert } from 'providers/hive/dhive';
-import { convertStatsData, getMetricsListForPostStats as getMetricsForPostStats, parsePostStatsResponse } from './converters';
+import { convertStatsData, getMetricsListForPostStats as getMetricsForPostStats, parsePostStatsByCountry, parsePostStatsResponse } from './converters';
 
 
 const PATH_EVENT_API = '/api/event';
@@ -93,14 +93,29 @@ const fetchStats = async (
 }
 
 
-export const fetchPostStats = async (urlPath:string, dimensions:string[] = [], dateRange = 'all') => {
+export const fetchPostStats = async (urlPath:string, dateRange = 'all') => {
     
     const metrics = getMetricsForPostStats();
-    const stats  = await fetchStats(urlPath, metrics, dimensions, dateRange);
+    const stats  = await fetchStats(urlPath, metrics, [], dateRange);
     const postStats = parsePostStatsResponse(stats);
 
     if(!postStats){
         throw new Error("Failed to fetch post posts")
+    }
+
+    return postStats;
+}
+
+
+
+export const fetchPostStatsByCountry = async (urlPath:string, dateRange = 'all') => {
+    
+    const metrics = getMetricsForPostStats();
+    const stats  = await fetchStats(urlPath, metrics, ["visit:country_name"], dateRange);
+    const postStats = parsePostStatsByCountry(stats);
+
+    if(!postStats){
+        throw new Error("Failed to fetch post stats")
     }
 
     return postStats;
