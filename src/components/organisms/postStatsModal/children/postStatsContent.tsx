@@ -18,15 +18,12 @@ export const PostStatsContent = ({ urlPath, onPromotePress }: QuickProfileConten
     const statsQuery = usePostStatsQuery(urlPath);
 
 
+    const _durationValue = Math.floor((statsQuery.data?.visit_duration || 0) / 1000);
     const statsData1 = [
         { label: intl.formatMessage({ id: 'stats.viewers' }), value: statsQuery.data?.visitors },
         { label: intl.formatMessage({ id: 'stats.pageviews' }), value: statsQuery.data?.pageviews },
-        { label: intl.formatMessage({ id: 'stats.duration' }), value: (statsQuery.data?.visit_duration / 1000) },
+        { label: intl.formatMessage({ id: 'stats.duration' }), value: _durationValue },
     ] as StatsItem[];
-
-
-
-
 
 
     return (
