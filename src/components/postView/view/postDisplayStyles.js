@@ -58,23 +58,15 @@ export default EStyleSheet.create({
   },
   stickyWrapper: {
     flexDirection: 'row',
-    paddingHorizontal: 16,
     paddingVertical: 8,
-    width: '100%',
+    paddingHorizontal: 16,
+    width:'100%',
     alignItems: 'center',
-    alignSelf: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   barIcons: {
     color: '$primaryDarkGray',
     fontSize: 20,
-    marginRight: 8,
-    marginLeft: 25,
-    opacity: 0.7,
-  },
-  barIconRight: {
-    color: '$primaryDarkGray',
-    fontSize: 16,
     opacity: 0.7,
   },
   barIconButton: {
