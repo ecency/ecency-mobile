@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import styles from './statsPanel.styles';
+import { getAbbreviatedNumber } from '../../utils/number';
 
 export interface StatsItem {
   label: string;
@@ -38,7 +39,7 @@ const StatItem = (props: { label: string; value: number | string; intermediate: 
         style={styles.statValue}
         allowFontScaling={false}
       >
-        {formatIfNumber(props.value)}
+        {getAbbreviatedNumber(props.value)}
       </Animated.Text>
     ) : (
       <Text style={styles.statValue}>--</Text>
@@ -48,21 +49,3 @@ const StatItem = (props: { label: string; value: number | string; intermediate: 
   </View>
 );
 
-const formatIfNumber = (input: string | number) => {
-  const num = parseFloat(input); // Convert the string to a number
-
-  // Check if the input is not a valid number
-  if (Number.isNaN(num)) {
-    return input; // Return the original string if it's not a number
-  }
-
-  if (num >= 1_000_000) {
-    return `${(num / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`; // Format in millions
-  } else if (num >= 100_000) {
-    return `${(num / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`; // Convert 100K to 0.1M
-  } else if (num >= 1_000) {
-    return `${(num / 1_000).toFixed(1).replace(/\.0$/, '')}K`; // Format in thousands
-  } else {
-    return num.toString(); // Return smaller numbers as-is
-  }
-};
