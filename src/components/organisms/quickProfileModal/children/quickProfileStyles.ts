@@ -39,22 +39,6 @@ export default EStyleSheet.create({
     marginTop: 32,
   } as TextStyle,
 
-  statValue: {
-    fontFamily: '$editorFont',
-    color: '$primaryBlack',
-    alignSelf: 'center',
-    textAlign: 'center',
-    fontSize: 34,
-    fontWeight: 'normal',
-  } as TextStyle,
-
-  statLabel: {
-    color: '$primaryBlack',
-    alignSelf: 'center',
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: 'normal',
-  } as TextStyle,
 
   bodyText: {
     color: '$primaryBlack',
