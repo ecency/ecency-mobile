@@ -30,6 +30,7 @@ import UpvotePopover from '../../upvotePopover';
 import { PostPoll } from '../../postPoll';
 import QUERIES from '../../../providers/queries/queryKeys';
 import { usePostStatsQuery } from '../../../providers/queries';
+import { PostStatsModal } from '../../../components/organisms';
 
 const PostDisplayView = ({
   currentAccount,
@@ -56,12 +57,11 @@ const PostDisplayView = ({
   const queryClient = useQueryClient();
   const userActivityMutation = useUserActivityMutation();
   const dims = useWindowDimensions();
-  const postStatsQuery = usePostStatsQuery ({
-    initialUrlPath: post?.url || ''
-  })
+  const postStatsQuery = usePostStatsQuery (post?.url || '')
 
   const postCommentsRef = useRef<PostComments>(null);
   const upvotePopoverRef = useRef<UpvotePopover>(null);
+  const postStatsModalRef = useRef<typeof PostStatsModal>(null);
 
   const [cacheVoteIcrement] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
@@ -87,9 +87,6 @@ const PostDisplayView = ({
         _tags.splice(0, 0, post.category);
       }
       setTags(_tags);
-
-      //set url path for stats query
-      postStatsQuery.setUrlPath(post.url);
     }
   }, [post]);
 
@@ -129,6 +126,11 @@ const PostDisplayView = ({
       });
     }
   };
+
+
+  const _showStatsModal = () => {
+    postStatsModalRef.current?.show(post.url);
+  }
 
 
 
@@ -197,6 +199,7 @@ const PostDisplayView = ({
               iconStyle={styles.barIcons}
               iconType="MaterialCommunityIcons"
               isClickable
+              onPress={_showStatsModal}
               text={postStatsQuery.data.pageviews}
               textMarginLeft={20}
             />
@@ -371,6 +374,7 @@ const PostDisplayView = ({
         onPress={(index) => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
       />
       <UpvotePopover ref={upvotePopoverRef} />
+      <PostStatsModal ref={postStatsModalRef} post={post} />
     </View>
   );
 };
