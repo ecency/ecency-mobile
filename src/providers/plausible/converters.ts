@@ -69,9 +69,13 @@ export function parsePostStatsResponse(response: StatsResponse, targetResult?: S
 
 
 export function parsePostStatsByCountry(response: StatsResponse): PostStatsByCountry[] {
-    return response.results.map((result) => ({
+    const reData = response.results.map((result) => ({
         country: result.dimensions[0],
         stats: parsePostStatsResponse(response, result)
     } as PostStatsByCountry)
     )
+
+    reData.sort((a, b) => (a.stats.pageviews > b.stats.pageviews ? -1 : 1));
+
+    return reData;
 }
