@@ -1,15 +1,14 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { useNavigation } from '@react-navigation/native';
 import { PostStatsContent } from '../children';
 import styles from '../styles/postStatsModal.styles';
 import ROUTES from '../../../../constants/routeNames';
-import { useNavigation } from '@react-navigation/native';
 import { useAppSelector } from '../../../../hooks';
 
-
 interface PostStatsModalProps {
-  post: any
+  post: any;
 }
 
 export const PostStatsModal = forwardRef(({ post }: PostStatsModalProps, ref) => {
@@ -22,29 +21,26 @@ export const PostStatsModal = forwardRef(({ post }: PostStatsModalProps, ref) =>
 
   const [urlPath, setUrlPath] = useState('');
 
-
   useImperativeHandle(ref, () => ({
     show(_urlPath: string) {
-      setUrlPath(_urlPath)
+      setUrlPath(_urlPath);
       sheetModalRef.current?.show();
     },
   }));
 
-
   const _onPromotePress = () => {
-
     if (!isLoggedIn) {
       return;
     }
 
-    const routeName = ROUTES.SCREENS.REDEEM
+    const routeName = ROUTES.SCREENS.REDEEM;
     const params = {
       from: 1,
       permlink: `${post.author}/${post.permlink}`,
       redeemType: 'promote',
     };
 
-    sheetModalRef.current?.hide()
+    sheetModalRef.current?.hide();
     if (isPinCodeOpen) {
       navigation.navigate({
         name: ROUTES.SCREENS.PINCODE,
@@ -57,9 +53,7 @@ export const PostStatsModal = forwardRef(({ post }: PostStatsModalProps, ref) =>
     }
 
     navigation.navigate(routeName, params);
-
-  }
-
+  };
 
   return (
     <ActionSheet

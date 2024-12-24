@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { View, Alert } from 'react-native';
+import { StatsItem } from 'components/statsPanel';
 import { MainButton, StatsPanel } from '../../..';
 import { addFavorite, checkFavorite, deleteFavorite } from '../../../../providers/ecency/ecency';
 import { followUser, getFollows, getRelationship, getUser } from '../../../../providers/hive/dhive';
@@ -15,7 +16,6 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { toastNotification } from '../../../../redux/actions/uiAction';
 import bugsnapInstance from '../../../../config/bugsnag';
 import RootNavigation from '../../../../navigation/rootNavigation';
-import { StatsItem } from 'components/statsPanel';
 
 interface QuickProfileContentProps {
   username: string;

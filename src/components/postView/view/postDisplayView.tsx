@@ -30,7 +30,7 @@ import UpvotePopover from '../../upvotePopover';
 import { PostPoll } from '../../postPoll';
 import QUERIES from '../../../providers/queries/queryKeys';
 import { usePostStatsQuery } from '../../../providers/queries';
-import { PostStatsModal } from '../../../components/organisms';
+import { PostStatsModal } from '../../organisms';
 
 const PostDisplayView = ({
   currentAccount,
@@ -57,7 +57,7 @@ const PostDisplayView = ({
   const queryClient = useQueryClient();
   const userActivityMutation = useUserActivityMutation();
   const dims = useWindowDimensions();
-  const postStatsQuery = usePostStatsQuery (post?.url || '')
+  const postStatsQuery = usePostStatsQuery(post?.url || '');
 
   const postCommentsRef = useRef<PostComments>(null);
   const upvotePopoverRef = useRef<UpvotePopover>(null);
@@ -127,12 +127,9 @@ const PostDisplayView = ({
     }
   };
 
-
   const _showStatsModal = () => {
     postStatsModalRef.current?.show(post.url);
-  }
-
-
+  };
 
   const _renderActionPanel = (isFixedFooter = false) => {
     return (
@@ -204,7 +201,7 @@ const PostDisplayView = ({
               textMarginLeft={20}
             />
           )}
- 
+
           <View style={styles.stickyRightWrapper}>
             {get(currentAccount, 'name') === get(post, 'author') && (
               <Fragment>
@@ -231,8 +228,6 @@ const PostDisplayView = ({
       </StickyBar>
     );
   };
-
-
 
   const { name } = currentAccount;
 

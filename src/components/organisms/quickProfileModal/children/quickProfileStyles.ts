@@ -39,7 +39,6 @@ export default EStyleSheet.create({
     marginTop: 32,
   } as TextStyle,
 
-
   bodyText: {
     color: '$primaryBlack',
     alignSelf: 'center',
@@ -80,7 +79,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
   } as ViewStyle,
 
-  statsPanel:{
-    marginTop:40
-  } as ViewStyle
+  statsPanel: {
+    marginTop: 40,
+  } as ViewStyle,
 });

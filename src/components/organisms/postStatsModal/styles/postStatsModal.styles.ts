@@ -27,4 +27,4 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   } as ViewStyle,
-})
+});
