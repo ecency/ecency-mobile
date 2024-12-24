@@ -79,4 +79,8 @@ export default EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   } as ViewStyle,
+
+  statsPanel:{
+    marginTop:40
+  } as ViewStyle
 });

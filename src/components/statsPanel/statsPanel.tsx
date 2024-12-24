@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import styles from './statsPanel.styles';
 
@@ -11,19 +11,14 @@ export interface StatsItem {
 
 interface Props {
   data: StatsItem[];
-  horizontalMargin?: number;
   intermediate: boolean;
+  style?:ViewStyle
 }
 
-export const StatsPanel = ({ data, horizontalMargin, intermediate }: Props) => {
+export const StatsPanel = ({ data, intermediate, style }: Props) => {
   return (
     <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginTop: 40,
-        marginHorizontal: horizontalMargin,
-      }}
+      style={{...styles.container, ...style}}
     >
       {data.map((item) => (
         <StatItem

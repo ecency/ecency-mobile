@@ -231,8 +231,8 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
         isLoading={isLoading}
         onPress={_openFullProfile}
       />
-      <StatsPanel data={statsData1} intermediate={!isProfileLoaded} />
-      <StatsPanel horizontalMargin={16} data={statsData2} intermediate={!isProfileLoaded} />
+      <StatsPanel style={styles.statsPanel} data={statsData1} intermediate={!isProfileLoaded} />
+      <StatsPanel style={styles.statsPanel} data={statsData2} intermediate={!isProfileLoaded} />
       <MainButton
         style={styles.button}
         text={intl.formatMessage({ id: 'profile.view_full' })}
