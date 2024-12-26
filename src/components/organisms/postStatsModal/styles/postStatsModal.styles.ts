@@ -1,4 +1,4 @@
-import { ViewStyle } from 'react-native';
+import { TextStyle, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
@@ -19,7 +19,7 @@ export default EStyleSheet.create({
   } as ViewStyle,
 
   button: {
-    marginTop: 40,
+    marginTop: 16,
     backgroundColor: '$primaryBlue',
     paddingHorizontal: 44,
     paddingVertical: 16,
@@ -27,4 +27,17 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   } as ViewStyle,
+
+  promoteText:{
+    marginTop:32,
+    marginHorizontal:24,
+    color: '$primaryBlack', 
+    fontWeight: '700' 
+  } as TextStyle,
+
+  promoteSubText:{
+    color: '$iconColor', 
+    fontWeight: '500' 
+  } as TextStyle
+
 });
