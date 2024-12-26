@@ -15,4 +15,5 @@ export default [
   'bookmarks',
   'mute',
   'report',
+  'delete-post'
 ];

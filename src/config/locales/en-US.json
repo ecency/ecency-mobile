@@ -831,7 +831,8 @@
     "unpin-community": "Unpin from community",
     "edit-history": "Edit History",
     "mute": "Mute / Block",
-    "translate": "Translate"
+    "translate": "Translate",
+    "delete-post": "Delete"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
