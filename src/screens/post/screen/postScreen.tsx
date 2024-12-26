@@ -8,19 +8,26 @@ import styles from '../styles/postScreen.styles';
 
 // Component
 import { postQueries, usePlausibleTracker } from '../../../providers/queries';
+import ROUTES from '../../../constants/routeNames';
+import { useNavigation } from '@react-navigation/native';
+import { useAppSelector } from '../../../hooks';
 
 const PostScreen = ({ route }) => {
   const params = route.params || {};
   const tracker = usePlausibleTracker();
+  const navigation = useNavigation();
 
   // // refs
   const isNewPost = useRef(route.params?.isNewPost).current;
   const postOptionsModalRef = useRef<typeof PostOptionsModal | null>(null);
 
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+
   const [author, setAuthor] = useState(params.content?.author || params.author);
   const [permlink, setPermlink] = useState(params.content?.permlink || params.permlink);
   const [parentAuthor, setParentAuthor] = useState('');
   const [parentPermlink, setParentPermlink] = useState('');
+  const [isOwnPost, setIsOwnPost] = useState(false);
 
   const getPostQuery = postQueries.useGetPostQuery({
     author,
@@ -62,6 +69,8 @@ const PostScreen = ({ route }) => {
         setParentAuthor(post.parent_author);
         setParentPermlink(post.parent_permlink);
       }
+
+      setIsOwnPost(currentAccount.username === post.author);
     }
   }, [getPostQuery.data]);
 
@@ -82,6 +91,31 @@ const PostScreen = ({ route }) => {
     }
   };
 
+  const _onEditPress = () => {
+    if (getPostQuery.data) {
+      const isReply = parentAuthor;
+
+      navigation.navigate({
+        name: ROUTES.SCREENS.EDITOR,
+        key: `editor_post_${permlink}`,
+        params: {
+          isEdit: true,
+          isReply,
+          post: getPostQuery.data,
+          fetchPost: _loadPost,
+        },
+      } as never);
+    }
+  }
+
+
+  const _editIconProps = isOwnPost && {
+    rightIconName: "create",
+    iconType: "MaterialIcons",
+    rightIconStyle: { fontSize: 20 },
+    handleRightIconPress: _onEditPress,
+  }
+
   const _postOptionsBtn = (
     <IconButton
       iconStyle={styles.optionsIcon}
@@ -100,7 +134,9 @@ const PostScreen = ({ route }) => {
         content={getPostQuery.data}
         dropdownComponent={_postOptionsBtn}
         isNewPost={isNewPost}
+        {..._editIconProps}
       />
+
       <PostDisplay
         author={author}
         permlink={permlink}
