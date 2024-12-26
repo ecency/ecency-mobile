@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Action
 import { useNavigation } from '@react-navigation/native';
-import { toastNotification } from '../../../redux/actions/uiAction';
-
-// Dsteem
-import { deleteComment } from '../../../providers/hive/dhive';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
 
 // Component
 import PostDisplayView from '../view/postDisplayView';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../hooks';
 
 const PostDisplayContainer = ({
   post,
@@ -28,13 +23,11 @@ const PostDisplayContainer = ({
   author,
   permlink,
 }) => {
-  const intl = useIntl();
-  const dispatch = useAppDispatch();
   const navigation = useNavigation();
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
-  const pinCode = useAppSelector((state) => state.application.pin);
+
 
   const [activeVotes, setActiveVotes] = useState([]);
   const [activeVotesCount, setActiveVotesCount] = useState(0);
@@ -89,35 +82,7 @@ const PostDisplayContainer = ({
     } as never);
   };
 
-  const _handleOnEditPress = () => {
-    if (post) {
-      const isReply = post.parent_author;
 
-      navigation.navigate({
-        name: ROUTES.SCREENS.EDITOR,
-        key: `editor_post_${post.permlink}`,
-        params: {
-          isEdit: true,
-          isReply,
-          post,
-          fetchPost: _fetchPost,
-        },
-      } as never);
-    }
-  };
-
-  const _handleDeleteComment = (permlink) => {
-    deleteComment(currentAccount, pinCode, permlink).then(() => {
-      navigation.goBack();
-      dispatch(
-        toastNotification(
-          intl.formatMessage({
-            id: 'alert.removed',
-          }),
-        ),
-      );
-    });
-  };
 
   const _fetchPost = async () => {
     if (post) {
@@ -139,8 +104,6 @@ const PostDisplayContainer = ({
       activeVotesCount={activeVotesCount}
       isWavePost={isWavePost}
       fetchPost={_fetchPost}
-      handleOnEditPress={_handleOnEditPress}
-      handleOnRemovePress={_handleDeleteComment}
       handleOnReplyPress={_handleOnReplyPress}
       handleOnVotersPress={_handleOnVotersPress}
       handleOnReblogsPress={_handleOnReblogsPress}

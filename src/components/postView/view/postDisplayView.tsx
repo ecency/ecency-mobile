@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState, Fragment } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, Text, useWindowDimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -38,7 +38,6 @@ const PostDisplayView = ({
   isLoggedIn,
   isNewPost,
   fetchPost,
-  handleOnEditPress,
   handleOnVotersPress,
   handleOnReblogsPress,
   post,
@@ -47,7 +46,6 @@ const PostDisplayView = ({
   isPostUnavailable,
   author,
   permlink,
-  handleOnRemovePress,
   activeVotes,
   isWavePost,
   activeVotesCount,
@@ -66,7 +64,6 @@ const PostDisplayView = ({
 
   const [cacheVoteIcrement] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
-  const actionSheet = useRef(null);
   const [refreshing, setRefreshing] = useState(false);
   const [postBodyLoading, setPostBodyLoading] = useState(true);
   const [tags, setTags] = useState([]);
@@ -202,29 +199,6 @@ const PostDisplayView = ({
             textMarginLeft={20}
             isLoading={postStatsQuery.isLoading}
           />
-
-
-          {get(currentAccount, 'name') === get(post, 'author') && (
-            <>
-              {!get(post, 'children') && !activeVotes.length && (
-                <IconButton
-                  iconStyle={styles.barIcons}
-                  iconType="MaterialIcons"
-                  name="delete-forever"
-                  onPress={() => actionSheet.current.show()}
-                />
-              )}
-
-              <IconButton
-                iconStyle={styles.barIcons}
-                iconType="MaterialIcons"
-                name="create"
-                onPress={() => handleOnEditPress && handleOnEditPress()}
-              />
-
-            </>
-          )}
-
         </View>
       </StickyBar>
     );
@@ -359,16 +333,7 @@ const PostDisplayView = ({
       </View>
       {post && _renderActionPanel(true)}
 
-      <OptionsModal
-        ref={actionSheet}
-        options={[
-          intl.formatMessage({ id: 'alert.delete' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
-        ]}
-        title={intl.formatMessage({ id: 'alert.remove_alert' })}
-        cancelButtonIndex={1}
-        onPress={(index) => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
-      />
+
       <UpvotePopover ref={upvotePopoverRef} />
       <PostStatsModal ref={postStatsModalRef} post={post} />
     </View>
