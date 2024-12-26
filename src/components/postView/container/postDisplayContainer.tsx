@@ -28,7 +28,6 @@ const PostDisplayContainer = ({
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
-
   const [activeVotes, setActiveVotes] = useState([]);
   const [activeVotesCount, setActiveVotesCount] = useState(0);
 
@@ -81,8 +80,6 @@ const PostDisplayContainer = ({
       },
     } as never);
   };
-
-
 
   const _fetchPost = async () => {
     if (post) {

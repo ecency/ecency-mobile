@@ -3,13 +3,13 @@ import { View } from 'react-native';
 
 // Components
 import { Image as ExpoImage } from 'expo-image';
+import { useNavigation } from '@react-navigation/native';
 import { BasicHeader, IconButton, PostDisplay, PostOptionsModal } from '../../../components/index';
 import styles from '../styles/postScreen.styles';
 
 // Component
 import { postQueries, usePlausibleTracker } from '../../../providers/queries';
 import ROUTES from '../../../constants/routeNames';
-import { useNavigation } from '@react-navigation/native';
 import { useAppSelector } from '../../../hooks';
 
 const PostScreen = ({ route }) => {
@@ -21,7 +21,7 @@ const PostScreen = ({ route }) => {
   const isNewPost = useRef(route.params?.isNewPost).current;
   const postOptionsModalRef = useRef<typeof PostOptionsModal | null>(null);
 
-  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
   const [author, setAuthor] = useState(params.content?.author || params.author);
   const [permlink, setPermlink] = useState(params.content?.permlink || params.permlink);
@@ -106,15 +106,14 @@ const PostScreen = ({ route }) => {
         },
       } as never);
     }
-  }
-
+  };
 
   const _editIconProps = isOwnPost && {
-    rightIconName: "create",
-    iconType: "MaterialIcons",
+    rightIconName: 'create',
+    iconType: 'MaterialIcons',
     rightIconStyle: { fontSize: 20 },
     handleRightIconPress: _onEditPress,
-  }
+  };
 
   const _postOptionsBtn = (
     <IconButton

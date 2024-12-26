@@ -134,7 +134,6 @@ const BasicHeaderView = ({
             </Text>
           )}
 
-
           {rightIconName && !isHasSearch && (
             <IconButton
               size={25}

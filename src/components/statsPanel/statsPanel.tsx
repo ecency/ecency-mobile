@@ -48,4 +48,3 @@ const StatItem = (props: { label: string; value: number | string; intermediate: 
     <Text style={styles.statLabel}>{props.label}</Text>
   </View>
 );
-

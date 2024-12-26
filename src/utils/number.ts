@@ -26,8 +26,6 @@ export const getDecimalPlaces = (value: number) => {
   return match ? match[0].length : 0;
 };
 
-
-
 export const formatNumberInputStr = (text: string, precision = 10) => {
   if (text.includes(',')) {
     text = text.replace(',', '.');
@@ -51,9 +49,6 @@ export const formatNumberInputStr = (text: string, precision = 10) => {
     return text;
   }
 };
-
-
-
 
 export const getAbbreviatedNumber = (input: string | number) => {
   const num = parseFloat(input); // Convert the string to a number

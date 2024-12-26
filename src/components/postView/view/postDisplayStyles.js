@@ -60,7 +60,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 8,
     paddingHorizontal: 16,
-    width:'100%',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'space-between',
   },

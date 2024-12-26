@@ -13,12 +13,11 @@ import { getTimeFromNow } from '../../../utils/time';
 // Components
 import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
 import { PostPlaceHolder, StickyBar, TextWithIcon, NoPost } from '../../basicUIElements';
-import { IconButton } from '../../iconButton';
 import { ParentPost } from '../../parentPost';
 
 // Styles
 import styles from './postDisplayStyles';
-import { OptionsModal, WritePostButton } from '../../atoms';
+import { WritePostButton } from '../../atoms';
 import { useAppDispatch } from '../../../hooks';
 import { showProfileModal, showReplyModal } from '../../../redux/actions/uiAction';
 import { PostTypes } from '../../../constants/postTypes';
@@ -188,7 +187,6 @@ const PostDisplayView = ({
             />
           )}
 
-
           <TextWithIcon
             iconName="eye-outline"
             iconStyle={styles.barIcons}
@@ -332,7 +330,6 @@ const PostDisplayView = ({
         />
       </View>
       {post && _renderActionPanel(true)}
-
 
       <UpvotePopover ref={upvotePopoverRef} />
       <PostStatsModal ref={postStatsModalRef} post={post} />
