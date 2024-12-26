@@ -1,2 +1,2 @@
 export * from './postStatsContent';
-export * from './countryStats';
+export * from './deviceStats';

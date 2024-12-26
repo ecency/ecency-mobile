@@ -6,7 +6,8 @@ import { MainButton } from '../../..';
 import styles from '../styles/postStatsModal.styles';
 import { usePostStatsQuery } from '../../../../providers/queries';
 import { StatsItem, StatsPanel } from '../../../statsPanel';
-import { CountryStats } from './countryStats';
+import { DeviceStats } from './deviceStats';
+
 
 interface QuickProfileContentProps {
   urlPath: string;
@@ -27,7 +28,7 @@ export const PostStatsContent = ({ urlPath, onPromotePress }: QuickProfileConten
   return (
     <View style={styles.modalStyle}>
       <StatsPanel data={statsData1} intermediate={statsQuery.isLoading} />
-      <CountryStats urlPath={urlPath} />
+      <DeviceStats urlPath={urlPath} />
       <MainButton
         style={styles.button}
         text={intl.formatMessage({ id: 'stats.promote' })}
