@@ -20,7 +20,17 @@ export interface PostStats {
   visit_duration: number;
 }
 
-export interface PostStatsByCountry {
-  country: string;
+export type PostStatsByDimension = {
+  dimension: string;
   stats: PostStats;
-}
+};
+
+export type PostStatsByCountry = {
+  country_name: string;
+  stats: PostStats;
+};
+
+export type PostStatsByDevice = {
+  device: string;
+  stats: PostStats;
+};

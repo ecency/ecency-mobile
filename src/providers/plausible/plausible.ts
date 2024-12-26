@@ -5,7 +5,7 @@ import bugsnagInstance from '../../config/bugsnag';
 import {
   convertStatsData,
   getMetricsListForPostStats as getMetricsForPostStats,
-  parsePostStatsByCountry,
+  parsePostStatsByDimension,
   parsePostStatsResponse,
 } from './converters';
 
@@ -85,6 +85,7 @@ const fetchStats = async (
   }
 };
 
+
 export const fetchPostStats = async (urlPath: string, dateRange = 'all') => {
   const metrics = getMetricsForPostStats();
   const stats = await fetchStats(urlPath, metrics, [], dateRange);
@@ -97,10 +98,12 @@ export const fetchPostStats = async (urlPath: string, dateRange = 'all') => {
   return postStats;
 };
 
-export const fetchPostStatsByCountry = async (urlPath: string, dateRange = 'all') => {
+
+
+export const fetchPostStatsByDimension = async <T>(urlPath: string, dateRange = 'all', dimensionKey:string) => {
   const metrics = getMetricsForPostStats();
-  const stats = await fetchStats(urlPath, metrics, ['visit:country_name'], dateRange);
-  const postStats = parsePostStatsByCountry(stats);
+  const stats = await fetchStats(urlPath, metrics, [`visit:${dimensionKey}`], dateRange);
+  const postStats = parsePostStatsByDimension<T>(stats, dimensionKey);
 
   if (!postStats) {
     throw new Error('Failed to fetch post stats');

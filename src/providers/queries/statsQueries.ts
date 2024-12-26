@@ -3,9 +3,12 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import QUERIES from './queryKeys';
 import {
   fetchPostStats,
-  fetchPostStatsByCountry,
+  fetchPostStatsByDimension,
   recordPlausibleEvent,
 } from '../plausible/plausible';
+import { convertStatsByDimension } from '../../providers/plausible/converters';
+import { PostStatsByCountry, PostStatsByDevice } from '../../providers/plausible/plausible.types';
+import { Alert } from 'react-native';
 
 /**
  * Custom hook to track events with Plausible Analytics.
@@ -79,10 +82,29 @@ export const usePostStatsQuery = (urlPath: string, dateRange = 'all') =>
  * @returns {Object} - An object with the setUrlPath function to set the URL path.
  */
 
-export const usePostStatsByCountryQuery = (urlPath: string, dateRange = 'all') =>
+export const usePostStatsByCountry = (urlPath: string, dateRange = 'all') =>
   useQuery(
     [QUERIES.PLAUSIBLE.GET_POST_STATS_BY_COUNTRY, urlPath, dateRange],
-    () => fetchPostStatsByCountry(urlPath, dateRange),
+    () => fetchPostStatsByDimension<PostStatsByCountry>(urlPath, dateRange, 'country_name'),
+    {
+      enabled: !!urlPath, // Only enable the query if urlPath is not empty
+      staleTime: 60000, // Set staleTime to 1 minute (60000 ms)
+    },
+  );
+
+
+  /**
+ * Custom hook to fetch post stats by device
+ *
+ * @param {string} urlPath - The initial URL path for fetching stats.
+ * @param {string} dateRange - The date range for the stats (default is 'all').
+ * @returns {Object} - An object with the setUrlPath function to set the URL path.
+ */
+
+export const usePostStatsByDevice = (urlPath: string, dateRange = 'all') =>
+  useQuery(
+    [QUERIES.PLAUSIBLE.GET_POST_STATS_BY_DEVICE, urlPath, dateRange],
+    async () => fetchPostStatsByDimension<PostStatsByDevice>(urlPath, dateRange, 'device'),
     {
       enabled: !!urlPath, // Only enable the query if urlPath is not empty
       staleTime: 60000, // Set staleTime to 1 minute (60000 ms)
