@@ -519,6 +519,14 @@
     "attach_poll": "Liitä Kysely",
     "update_poll": "Päivitä kysely"
   },
+  "stats": {
+    "viewers": "Visitors",
+    "pageviews": "Views",
+    "duration": "Minutes",
+    "promote": "PROMOTE POST",
+    "promote_title": "Want more views and reads?\n",
+    "promote_message": "Use Ecency Perks to promote your post and gain wider exposure."
+  },
   "editor": {
     "title": "Otsikko",
     "tags": "Tagit (eroteltu välilyönnillä)",
@@ -824,7 +832,8 @@
     "unpin-community": "Poista kiinnitys yhteisöstä",
     "edit-history": "Muokkaushistoria",
     "mute": "Mykistä / Estä",
-    "translate": "Käännökset"
+    "translate": "Käännökset",
+    "delete-post": "Delete"
   },
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",
