@@ -519,6 +519,14 @@
     "attach_poll": "Attach Poll",
     "update_poll": "Update Poll"
   },
+  "stats": {
+    "viewers": "Visitors",
+    "pageviews": "Views",
+    "duration": "Minutes",
+    "promote": "PROMOTE POST",
+    "promote_title": "Want more views and reads?\n",
+    "promote_message": "Use Ecency Perks to promote your post and gain wider exposure."
+  },
   "editor": {
     "title": "تیتر",
     "tags": "برچسب ها (جدا با فاصله)",
@@ -824,7 +832,8 @@
     "unpin-community": "Unpin from community",
     "edit-history": "Edit History",
     "mute": "Mute / Block",
-    "translate": "Translate"
+    "translate": "Translate",
+    "delete-post": "Delete"
   },
   "deep_link": {
     "no_existing_user": "کاربری موجود نیست",
