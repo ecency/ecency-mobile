@@ -8,7 +8,13 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
 import ActionSheet from 'react-native-actions-sheet';
-import { ignoreUser, pinCommunityPost, profileUpdate, reblog } from '../../../providers/hive/dhive';
+import {
+  deleteComment,
+  ignoreUser,
+  pinCommunityPost,
+  profileUpdate,
+  reblog,
+} from '../../../providers/hive/dhive';
 import { addBookmark, addReport } from '../../../providers/ecency/ecency';
 import {
   toastNotification,
@@ -130,6 +136,13 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         : false;
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
 
+    // check if post can be deleted
+    const _canDeletePost =
+      currentAccount.name === content.author &&
+      !content.is_paidout &&
+      !content.children &&
+      !content.active_votes?.length;
+
     // cook options list based on collected flags
     const _options = OPTIONS.filter((option) => {
       switch (option) {
@@ -143,6 +156,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
           return _canUpdateCommunityPin && _isPinnedInCommunity;
         case 'translate':
           return isVisibleTranslateModal;
+        case 'delete-post':
+          return _canDeletePost;
         default:
           return true;
       }
@@ -245,6 +260,38 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
+            onPress: _onConfirm,
+          },
+        ],
+      }),
+    );
+  };
+
+  const _deletePost = () => {
+    const _onConfirm = async () => {
+      await deleteComment(currentAccount, pinCode, content.permlink);
+      navigation.goBack();
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: 'alert.removed',
+          }),
+        ),
+      );
+    };
+
+    dispatch(
+      showActionModal({
+        title: intl.formatMessage({ id: 'alert.remove_alert' }),
+        buttons: [
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            onPress: () => {
+              console.log('cancel pressed');
+            },
+          },
+          {
+            text: intl.formatMessage({ id: 'alert.delete' }),
             onPress: _onConfirm,
           },
         ],
@@ -491,6 +538,10 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         await delay(700);
         dispatch(showTranslationModal(content));
         break;
+      case 'delete-post':
+        await delay(700);
+        _deletePost();
+        break;
       default:
         break;
     }
@@ -507,7 +558,12 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         underlayColor={EStyleSheet.value('$primaryLightBackground')}
         onPress={_onPress}
       >
-        <Text style={styles.dropdownItem}>
+        <Text
+          style={[
+            styles.dropdownItem,
+            item === 'delete-post' && { color: EStyleSheet.value('$primaryRed') },
+          ]}
+        >
           {intl.formatMessage({ id: `post_dropdown.${item}` }).toLocaleUpperCase()}
         </Text>
       </TouchableHighlight>

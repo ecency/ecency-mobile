@@ -133,6 +133,19 @@ const BasicHeaderView = ({
               {quickTitle || title}
             </Text>
           )}
+
+          {rightIconName && !isHasSearch && (
+            <IconButton
+              size={25}
+              onPress={() => handleRightIconPress()}
+              iconStyle={[styles.rightIcon, rightIconStyle]}
+              style={rightIconBtnStyle}
+              name={rightIconName}
+              iconType={iconType}
+              isLoading={isLoadingRightIcon}
+            />
+          )}
+
           {isHasDropdown && (
             <View>
               {dropdownComponent ? (
@@ -146,18 +159,6 @@ const BasicHeaderView = ({
                 />
               )}
             </View>
-          )}
-
-          {rightIconName && !isHasSearch && (
-            <IconButton
-              size={25}
-              onPress={() => handleRightIconPress()}
-              iconStyle={[styles.rightIcon, rightIconStyle]}
-              style={rightIconBtnStyle}
-              name={rightIconName}
-              iconType={iconType}
-              isLoading={isLoadingRightIcon}
-            />
           )}
 
           {enableViewModeToggle && (

@@ -44,6 +44,7 @@ import { SearchModal } from './searchModal';
 import { SettingsItem } from './settingsItem';
 import { SideMenu } from './sideMenu';
 import { ProposalVoteRequest } from './proposalVoteRequest';
+import { StatsPanel } from './statsPanel';
 
 import CommunityCard from './communityCard';
 
@@ -219,6 +220,7 @@ export {
   SpinIndicator,
   SquareButton,
   StickyBar,
+  StatsPanel,
   SummaryArea,
   SelectionList,
   TabBar,

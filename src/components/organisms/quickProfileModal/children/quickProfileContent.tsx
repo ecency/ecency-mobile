@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { View, Alert } from 'react-native';
-import { ProfileStats, StatsData } from './profileStats';
-import { MainButton } from '../../..';
+import { StatsItem } from 'components/statsPanel';
+import { MainButton, StatsPanel } from '../../..';
 import { addFavorite, checkFavorite, deleteFavorite } from '../../../../providers/ecency/ecency';
 import { followUser, getFollows, getRelationship, getUser } from '../../../../providers/hive/dhive';
 import { getRcPower, getVotingPower } from '../../../../utils/manaBar';
@@ -209,7 +209,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
     { label: intl.formatMessage({ id: 'profile.follower' }), value: _followerCount },
     { label: intl.formatMessage({ id: 'profile.following' }), value: _followingCount },
     { label: intl.formatMessage({ id: 'profile.post' }), value: _postCount },
-  ] as StatsData[];
+  ] as StatsItem[];
 
   const statsData2 = [
     {
@@ -218,7 +218,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
       suffix: '%',
     },
     { label: intl.formatMessage({ id: 'profile.reputation' }), value: _reputation },
-  ] as StatsData[];
+  ] as StatsItem[];
 
   return (
     <View style={styles.modalStyle}>
@@ -230,8 +230,8 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
         isLoading={isLoading}
         onPress={_openFullProfile}
       />
-      <ProfileStats data={statsData1} intermediate={!isProfileLoaded} />
-      <ProfileStats horizontalMargin={16} data={statsData2} intermediate={!isProfileLoaded} />
+      <StatsPanel style={styles.statsPanel} data={statsData1} intermediate={!isProfileLoaded} />
+      <StatsPanel style={styles.statsPanel} data={statsData2} intermediate={!isProfileLoaded} />
       <MainButton
         style={styles.button}
         text={intl.formatMessage({ id: 'profile.view_full' })}

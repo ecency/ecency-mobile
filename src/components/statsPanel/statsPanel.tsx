@@ -1,30 +1,24 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
-import styles from './quickProfileStyles';
+import styles from './statsPanel.styles';
+import { getAbbreviatedNumber } from '../../utils/number';
 
-export interface StatsData {
+export interface StatsItem {
   label: string;
   value: number | string;
   suffix?: string;
 }
 
 interface Props {
-  data: StatsData[];
-  horizontalMargin?: number;
+  data: StatsItem[];
   intermediate: boolean;
+  style?: ViewStyle;
 }
 
-export const ProfileStats = ({ data, horizontalMargin, intermediate }: Props) => {
+export const StatsPanel = ({ data, intermediate, style }: Props) => {
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginTop: 40,
-        marginHorizontal: horizontalMargin,
-      }}
-    >
+    <View style={{ ...styles.container, ...style }}>
       {data.map((item) => (
         <StatItem
           label={item.label}
@@ -40,12 +34,12 @@ const StatItem = (props: { label: string; value: number | string; intermediate: 
   <View style={{ alignItems: 'center', flex: 1 }}>
     {!props.intermediate ? (
       <Animated.Text
-        entering={BounceIn}
+        entering={BounceIn.delay(300)}
         exiting={BounceOut}
         style={styles.statValue}
         allowFontScaling={false}
       >
-        {props.value}
+        {getAbbreviatedNumber(props.value)}
       </Animated.Text>
     ) : (
       <Text style={styles.statValue}>--</Text>

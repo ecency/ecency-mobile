@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState, Fragment } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, Text, useWindowDimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -13,12 +13,11 @@ import { getTimeFromNow } from '../../../utils/time';
 // Components
 import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
 import { PostPlaceHolder, StickyBar, TextWithIcon, NoPost } from '../../basicUIElements';
-import { IconButton } from '../../iconButton';
 import { ParentPost } from '../../parentPost';
 
 // Styles
 import styles from './postDisplayStyles';
-import { OptionsModal, WritePostButton } from '../../atoms';
+import { WritePostButton } from '../../atoms';
 import { useAppDispatch } from '../../../hooks';
 import { showProfileModal, showReplyModal } from '../../../redux/actions/uiAction';
 import { PostTypes } from '../../../constants/postTypes';
@@ -29,13 +28,15 @@ import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import UpvotePopover from '../../upvotePopover';
 import { PostPoll } from '../../postPoll';
 import QUERIES from '../../../providers/queries/queryKeys';
+import { usePostStatsQuery } from '../../../providers/queries';
+import { PostStatsModal } from '../../organisms';
+import { getAbbreviatedNumber } from '../../../utils/number';
 
 const PostDisplayView = ({
   currentAccount,
   isLoggedIn,
   isNewPost,
   fetchPost,
-  handleOnEditPress,
   handleOnVotersPress,
   handleOnReblogsPress,
   post,
@@ -44,23 +45,24 @@ const PostDisplayView = ({
   isPostUnavailable,
   author,
   permlink,
-  handleOnRemovePress,
   activeVotes,
   isWavePost,
   activeVotesCount,
 }) => {
   const dispatch = useAppDispatch();
   const insets = useSafeAreaInsets();
+
   const queryClient = useQueryClient();
   const userActivityMutation = useUserActivityMutation();
   const dims = useWindowDimensions();
+  const postStatsQuery = usePostStatsQuery(post?.url || '');
 
   const postCommentsRef = useRef<PostComments>(null);
   const upvotePopoverRef = useRef<UpvotePopover>(null);
+  const postStatsModalRef = useRef<typeof PostStatsModal>(null);
 
   const [cacheVoteIcrement] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
-  const actionSheet = useRef(null);
   const [refreshing, setRefreshing] = useState(false);
   const [postBodyLoading, setPostBodyLoading] = useState(true);
   const [tags, setTags] = useState([]);
@@ -122,6 +124,10 @@ const PostDisplayView = ({
     }
   };
 
+  const _showStatsModal = () => {
+    postStatsModalRef.current?.show(post.url);
+  };
+
   const _renderActionPanel = (isFixedFooter = false) => {
     return (
       <StickyBar isFixedFooter={isFixedFooter} style={styles.stickyBar}>
@@ -180,28 +186,17 @@ const PostDisplayView = ({
               textMarginLeft={20}
             />
           )}
-          <View style={styles.stickyRightWrapper}>
-            {get(currentAccount, 'name') === get(post, 'author') && (
-              <Fragment>
-                {!get(post, 'children') && !activeVotes.length && (
-                  <IconButton
-                    iconStyle={styles.barIconRight}
-                    iconType="MaterialIcons"
-                    name="delete-forever"
-                    onPress={() => actionSheet.current.show()}
-                    style={styles.barIconButton}
-                  />
-                )}
-                <IconButton
-                  iconStyle={styles.barIconRight}
-                  iconType="MaterialIcons"
-                  name="create"
-                  onPress={() => handleOnEditPress && handleOnEditPress()}
-                  style={styles.barIconButton}
-                />
-              </Fragment>
-            )}
-          </View>
+
+          <TextWithIcon
+            iconName="eye-outline"
+            iconStyle={styles.barIcons}
+            iconType="MaterialCommunityIcons"
+            isClickable
+            onPress={_showStatsModal}
+            text={getAbbreviatedNumber(postStatsQuery.data?.pageviews || 0)}
+            textMarginLeft={20}
+            isLoading={postStatsQuery.isLoading}
+          />
         </View>
       </StickyBar>
     );
@@ -336,17 +331,8 @@ const PostDisplayView = ({
       </View>
       {post && _renderActionPanel(true)}
 
-      <OptionsModal
-        ref={actionSheet}
-        options={[
-          intl.formatMessage({ id: 'alert.delete' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
-        ]}
-        title={intl.formatMessage({ id: 'alert.remove_alert' })}
-        cancelButtonIndex={1}
-        onPress={(index) => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
-      />
       <UpvotePopover ref={upvotePopoverRef} />
+      <PostStatsModal ref={postStatsModalRef} post={post} />
     </View>
   );
 };

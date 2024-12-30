@@ -1129,9 +1129,9 @@ PODS:
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - react-native-config (1.5.1):
-    - react-native-config/App (= 1.5.1)
-  - react-native-config/App (1.5.1):
+  - react-native-config (1.5.3):
+    - react-native-config/App (= 1.5.3)
+  - react-native-config/App (1.5.3):
     - React-Core
   - react-native-create-thumbnail (1.6.4):
     - React-Core
@@ -1910,7 +1910,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 9ee041e1d7be96da6d76a251f92e72b711c651d6
   react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-cameraroll: 17e0fd2d851dc27bd7c57d71ab5fcfd3e6e55e52
-  react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
+  react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
   react-native-create-thumbnail: e022bcdcba8a0b4529a50d3fa1a832ec921be39d
   react-native-date-picker: db26a4dc48fe4e7c3c3afd5008519fad1091c524
   react-native-flipper: c33a4995958ef12a2b2f8290d63bed7adeed7634
