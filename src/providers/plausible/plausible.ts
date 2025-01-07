@@ -14,7 +14,7 @@ const PATH_STATS_API = '/api/v2/query';
 const SITE_ID = 'ecency.com';
 
 const plausibleApi = axios.create({
-  baseURL: Config.PLAUSIBLE_HOST_URL,
+  baseURL: "https://pl.ecency.com/",
   headers: {
     Authorization: `Bearer ${Config.PLAUSIBLE_API_KEY}`,
     'Content-Type': 'application/json',
