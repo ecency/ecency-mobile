@@ -9,6 +9,8 @@ import {
   parsePostStatsResponse,
 } from './converters';
 
+import DeviceInfo from 'react-native-device-info';
+
 const PATH_EVENT_API = '/api/event';
 const PATH_STATS_API = '/api/v2/query';
 const SITE_ID = 'ecency.com';
@@ -34,7 +36,10 @@ export const recordPlausibleEvent = async (urlPath: string, eventName?: string):
       force: true,
     };
 
-    const res = await plausibleApi.post(PATH_EVENT_API, payload);
+    const userAgent = await DeviceInfo.getUserAgent();
+    const res = await plausibleApi.post(PATH_EVENT_API, payload, {
+      headers: { "User-Agent": userAgent }
+    });
 
     if (res.status !== 202) {
       throw new Error(`Plausible API responded with status ${res.status}`);
@@ -80,7 +85,7 @@ const fetchStats = async (
     return data;
   } catch (error) {
     bugsnagInstance.notify(error);
-    console.error(`Failed to record event:`, error);
+    console.error(`Failed to fetch stats:`, error);
     throw error;
   }
 };
@@ -100,7 +105,7 @@ export const fetchPostStats = async (urlPath: string, dateRange = 'all') => {
 
 
 
-export const fetchPostStatsByDimension = async <T>(urlPath: string, dateRange = 'all', dimensionKey:string) => {
+export const fetchPostStatsByDimension = async <T>(urlPath: string, dateRange = 'all', dimensionKey: string) => {
   const metrics = getMetricsForPostStats();
   const stats = await fetchStats(urlPath, metrics, [`visit:${dimensionKey}`], dateRange);
   const postStats = parsePostStatsByDimension<T>(stats, dimensionKey);

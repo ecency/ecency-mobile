@@ -1,6 +1,5 @@
 import {
   PostStats,
-  PostStatsByCountry,
   PostStatsByDimension,
   StatsResponse,
   StatsResponseResult,
