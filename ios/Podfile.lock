@@ -1376,15 +1376,15 @@ PODS:
     - React-Core
   - RNIap (12.12.0):
     - React-Core
-  - RNImageCropPicker (0.40.3):
+  - RNImageCropPicker (0.41.6):
     - React-Core
     - React-RCTImage
-    - RNImageCropPicker/QBImagePickerController (= 0.40.3)
-    - TOCropViewController
-  - RNImageCropPicker/QBImagePickerController (0.40.3):
+    - RNImageCropPicker/QBImagePickerController (= 0.41.6)
+    - TOCropViewController (~> 2.7.4)
+  - RNImageCropPicker/QBImagePickerController (0.41.6):
     - React-Core
     - React-RCTImage
-    - TOCropViewController
+    - TOCropViewController (~> 2.7.4)
   - RNNotifee (7.8.0):
     - React-Core
     - RNNotifee/NotifeeCore (= 7.8.0)
@@ -1426,7 +1426,7 @@ PODS:
   - SocketRocket (0.6.1)
   - TcpSockets (4.0.0):
     - React
-  - TOCropViewController (2.6.1)
+  - TOCropViewController (2.7.4)
   - toolbar-android (0.2.1):
     - React
   - TUSKit (1.4.2)
@@ -1961,7 +1961,7 @@ SPEC CHECKSUMS:
   RNFlashList: 4b4b6b093afc0df60ae08f9cbf6ccd4c836c667a
   RNGestureHandler: 61bfdfc05db9b79dd61f894dcd29d3dcc6db3c02
   RNIap: 313ab52dde2bc1a25abb76cba70388e9b5f6a8c1
-  RNImageCropPicker: e7ab6fb43d2fc3e84651e786ef4a080d63b0ed3d
+  RNImageCropPicker: 8e39c01f205e00d739c31e682f068aac315587bf
   RNNotifee: f3c01b391dd8e98e67f539f9a35a9cbcd3bae744
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNPermissions: 4e3714e18afe7141d000beae3755e5b5fb2f5e05
@@ -1976,7 +1976,7 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: af09429398d99d524cae2fe00f6f0f6e491ed102
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   TcpSockets: 4ef55305239923b343ed0a378b1fac188b1373b0
-  TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
+  TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
   toolbar-android: 2a73856e98b750d7e71ce4644d3f41cc98211719
   TUSKit: 4bcc2fe13e1b4d6c3bfbaca57d64e64c1be31201
   VisionCamera: 7606673f2384ef7216c040601ac4d88b3c425584
