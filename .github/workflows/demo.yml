@@ -16,5 +16,7 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - name: Show selected platform
-        run: echo "The selected Platform is ${{ vars.PLATFORM }}"
+        env: 
+          PLATFORM: ${{ vars.PLATFORM }}
+        run: echo "The selected Platform is $PLATFORM"
       - run: echo "🍏 This job's status is ${{ job.status }}."
