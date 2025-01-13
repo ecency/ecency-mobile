@@ -84,8 +84,10 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+      - name: Setup Gradle 8.0.1
+        uses: gradle/actions/setup-gradle@v4
+          with:
+            gradle-version: "8.0.1"
       - name: Create Google Services JSON File
         env:
           GOOGLE_JSON: ${{ secrets.GOOGLE_JSON }}
