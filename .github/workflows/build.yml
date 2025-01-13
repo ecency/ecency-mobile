@@ -1,3 +1,4 @@
+name: App Dev Builds
 on:
   push:
     branches: [ "nt/gh-actions" ]
@@ -73,6 +74,10 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
+      - name: Create Google Services JSON File
+        env:
+          GOOGLE_JSON: ${{ secrets.GOOGLE_JSON }}
+        run: echo $GOOGLE_JSON | base64 -di > ./android/app/google-services.json
       - name: Execute Gradle build
         run: |
           cd android
