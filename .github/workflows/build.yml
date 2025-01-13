@@ -20,7 +20,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.0.0'
-
       - name: Setup Cocoapods
         uses: maxim-lobanov/setup-cocoapods@v1
         with:
@@ -29,8 +28,6 @@ jobs:
         env:
           GOOGLE_JSON: ${{ secrets.GOOGLE_PLIST }}
         run: echo $GOOGLE_PLIST | base64 --decode > ./ios/GoogleService-Info.plist
-      - name: Install npm dependency
-        run: yarn install
       - name: Cache cocoapods
         uses: actions/cache@v3
         with:
@@ -38,10 +35,8 @@ jobs:
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
-      - name: Install pod dependency
-        run: |
-          cd ios
-          bundle exec pod install
+      - name: Install npm dependency
+        run: yarn install
       - name: Build iOS JS Bundle
         run: |
           yarn run package-ios
