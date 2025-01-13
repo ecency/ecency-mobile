@@ -22,7 +22,7 @@ import { decryptKey } from '../../utils/crypto';
  *
  */
 
-const POLLS_BASE_URL = 'https://polls.hivehub.dev/';
+const POLLS_BASE_URL = 'https://polls.ecency.com/';
 
 const PATH_RPC = 'rpc';
 const PATH_POLL = 'poll';
