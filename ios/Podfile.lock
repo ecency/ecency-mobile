@@ -1408,7 +1408,7 @@ PODS:
   - RNTusClient (1.1.0):
     - React-Core
     - TUSKit (~> 1.4.2)
-  - RNVectorIcons (10.0.2):
+  - RNVectorIcons (10.2.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1969,7 +1969,7 @@ SPEC CHECKSUMS:
   RNScreens: 5f4df9babb21d30723580377b5f52d9f9baf0005
   RNSVG: d7d7bc8229af3842c9cfc3a723c815a52cdd1105
   RNTusClient: b90393226531c118c4716a2b71128e3b9d9c77ee
-  RNVectorIcons: 8cabd5809519015ed2c1cdb4ec83d563296bd5cc
+  RNVectorIcons: 48aa8b1a17c7f82461df43783b0818cad38a2bcf
   SDWebImage: 750adf017a315a280c60fde706ab1e552a3ae4e9
   SDWebImageAVIFCoder: 8348fef6d0ec69e129c66c9fe4d74fbfbf366112
   SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
