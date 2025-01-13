@@ -86,8 +86,8 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Setup Gradle 8.0.1
         uses: gradle/actions/setup-gradle@v4
-          with:
-            gradle-version: "8.0.1"
+        with:
+          gradle-version: "8.0.1"
       - name: Create Google Services JSON File
         env:
           GOOGLE_JSON: ${{ secrets.GOOGLE_JSON }}
