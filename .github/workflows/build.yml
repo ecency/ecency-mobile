@@ -19,6 +19,10 @@ jobs:
         uses: maxim-lobanov/setup-cocoapods@v1
         with:
           version: 1.15.2
+      - name: Create Google Services PLIST File
+        env:
+          GOOGLE_JSON: ${{ secrets.GOOGLE_PLIST }}
+        run: echo $GOOGLE_PLIST | base64 --decode > ./ios/GoogleService-Info.plist
       - name: Install npm dependency
         run: yarn install
       - name: Cache cocoapods
