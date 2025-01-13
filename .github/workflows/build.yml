@@ -6,6 +6,7 @@ jobs:
   ios-build:
     name: iOS Dev Build
     runs-on: macos-latest
+    environment: Android Dev
     steps:
       - name: Show host machine infomation
         run: uname -a
