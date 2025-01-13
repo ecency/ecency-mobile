@@ -73,7 +73,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
+        uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: 11479570
       - uses: actions/cache@v3
         with:
           path: |
