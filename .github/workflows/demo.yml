@@ -15,8 +15,6 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - name: Show decoded Google JSON
-        env:
-          GOOGLE_JSON: ${{ secrets.GOOGLE_JSON }}
-        run: echo $GOOGLE_JSON | base64 --decode
+      - name: Show selected platform
+        run: echo "The selected Platform is ${{ variables.PLATFORM }}"
       - run: echo "🍏 This job's status is ${{ job.status }}."
