@@ -28,13 +28,13 @@ jobs:
         env:
           GOOGLE_JSON: ${{ secrets.GOOGLE_PLIST }}
         run: echo $GOOGLE_PLIST | base64 --decode > ./ios/GoogleService-Info.plist
-      - name: Cache cocoapods
-        uses: actions/cache@v3
-        with:
-          path: /ios/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
+      # - name: Cache cocoapods
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: /ios/Pods
+      #     key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pods-
       - name: Install npm dependency
         run: yarn install
       - name: Build iOS JS Bundle
@@ -76,14 +76,14 @@ jobs:
         uses: android-actions/setup-android@v3
         with:
           cmdline-tools-version: 11479570
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+      # - uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       ~/.gradle/caches
+      #       ~/.gradle/wrapper
+      #     key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-gradle-
       - name: Setup Gradle 8.0.1
         uses: gradle/actions/setup-gradle@v4
         with:
