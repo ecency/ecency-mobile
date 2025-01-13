@@ -18,7 +18,7 @@ jobs:
       - name: Setup Cocoapods
         uses: maxim-lobanov/setup-cocoapods@v1
         with:
-          podfile-path: /ios/Podfile.lock
+          version: 1.15.2
       - name: Install npm dependency
         run: yarn install
       - name: Cache cocoapods
