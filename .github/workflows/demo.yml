@@ -1,4 +1,5 @@
 name: GitHub Actions Demo
+environment: Android Dev
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
