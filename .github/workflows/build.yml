@@ -76,14 +76,14 @@ jobs:
         uses: android-actions/setup-android@v3
         with:
           cmdline-tools-version: 11479570
-      # - uses: actions/cache@v3
-      #   with:
-      #     path: |
-      #       ~/.gradle/caches
-      #       ~/.gradle/wrapper
-      #     key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-gradle-
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
       - name: Create Google Services JSON File
@@ -93,9 +93,14 @@ jobs:
       - name: Execute Gradle build
         run: |
           cd android
-          ./gradlew clean
-          rm -rf ~/.gradle/caches/*
           ./gradlew assembleRelease
+      - name: Cache generated APK
+        uses: actions/cache@v3
+        with:
+          path: app/build/outputs/apk/
+          key: apk-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            apk-${{ runner.os }}-
       - name: Upload application
         uses: actions/upload-artifact@v4
         with:
