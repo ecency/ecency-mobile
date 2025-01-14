@@ -95,6 +95,8 @@ jobs:
       - name: Execute Gradle build
         run: |
           cd android
+          ./gradlew clean
+          rm -rf ~/.gradle/caches/*
           ./gradlew build -x lint
       - name: Build Android JS Bundle
         run: |
