@@ -96,20 +96,25 @@ jobs:
           ./gradlew clean
           rm -rf ~/.gradle/caches/*
           ./gradlew assembleRelease
-      - name: Build Android JS Bundle
-        run: |
-          yarn run package-android
-      - name: Delete Android build duplicate assets resource
-        run: yarn run delete-pics
-      - name: Install bundler
-        run: |
-          cd android
-          gem install bundler
-      - name: Install gem plugins
-        run: |
-          cd android
-          bundle install
-      - name: Run fastlane
-        run: |
-          cd android
-          bundle exec fastlane build_qa
+      - name: Upload application
+        uses: actions/upload-artifact@v4
+        with:
+          name: app
+          path: ./android/app/build/outputs/apk/release/app-release-unsigned.apk
+      # - name: Build Android JS Bundle
+      #   run: |
+      #     yarn run package-android
+      # - name: Delete Android build duplicate assets resource
+      #   run: yarn run delete-pics
+      # - name: Install bundler
+      #   run: |
+      #     cd android
+      #     gem install bundler
+      # - name: Install gem plugins
+      #   run: |
+      #     cd android
+      #     bundle install
+      # - name: Run fastlane
+      #   run: |
+      #     cd android
+      #     bundle exec fastlane build_qa
