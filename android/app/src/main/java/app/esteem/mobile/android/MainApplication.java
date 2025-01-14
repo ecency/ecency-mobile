@@ -90,7 +90,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
       // this app.
       DefaultNewArchitectureEntryPoint.load();
     }
-    // ReactNativeFlipper.initializeFlipper(this,
+
     // getReactNativeHost().getReactInstanceManager());
     ApplicationLifecycleDispatcher.onApplicationCreate(this);
 
