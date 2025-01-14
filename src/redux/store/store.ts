@@ -50,11 +50,9 @@ const middleware = [thunk];
 
 let enhancers;
 if (__DEV__) {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const createDebugger = require('redux-flipper').default;
+
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const Reactotron = require('../../../reactotron-config').default;
-  middleware.push(createDebugger());
   enhancers = compose(applyMiddleware(...middleware), Reactotron.createEnhancer());
 } else {
   enhancers = applyMiddleware(...middleware);
