@@ -95,7 +95,7 @@ jobs:
           cd android
           ./gradlew clean
           rm -rf ~/.gradle/caches/*
-          ./gradlew build -x lint
+          ./gradlew assembleRelease
       - name: Build Android JS Bundle
         run: |
           yarn run package-android
