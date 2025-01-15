@@ -65,17 +65,17 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: nt/gh-actions
-      - name: Create .env file from .env.example
+      - name: Create .env file
         run: |
-          # Read keys from .env.example and populate .env
-          while IFS= read -r line || [ -n "$line" ]; do
-            key=$(echo "$line" | cut -d'=' -f1)  # Extract the key before '='
-            if [ -n "$key" ] && [ "${key:0:1}" != "#" ]; then
-              # Fetch the corresponding GitHub secret or environment variable
-              value="${!key}"
-              echo "${key}=${value}" >> .env
-            fi
-          done < .env.example
+          echo "ACTIVITY_WEBSOCKET_URL=${{ vars.ACTIVITY_WEBSOCKET_URL }}" >> .env
+          echo "BUGSNAG_API_KEY=${{ secrets.BUGSNAG_API_KEY }}" >> .env
+          echo "DEFAULT_PIN=${{ secrets.DEFAULT_PIN }}" >> .env
+          echo "ECENCY_BACKEND_API=${{ vars.ECENCY_BACKEND_API }}" >> .env
+          echo "NEW_IMAGE_API=${{ vars.NEW_IMAGE_API }}" >> .env
+          echo "PIN_KEY=${{ secrets.PIN_KEY }}" >> .env
+          echo "SERVER_LIST_API=${{ vars.SERVER_LIST_API }}" >> .env
+          echo "USER_AGENT=${{ vars.USER_AGENT }}" >> .env
+          echo "PLAUSIBLE_API_KEY=${{ secrets.PLAUSIBLE_API_KEY }}" >> .env
       - name: Install npm dependency
         run: yarn install
       - name: Set up JDK 17
