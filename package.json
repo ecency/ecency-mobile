@@ -241,7 +241,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "./sync-env-example.sh && lint-staged"
     }
   },
   "engines": {
