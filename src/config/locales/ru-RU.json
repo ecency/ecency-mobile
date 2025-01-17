@@ -24,7 +24,7 @@
     "outgoing_transfer_title": "Исходящий перевод",
     "checkin_extra": "Бонус",
     "staked": "Заморожено",
-    "delegations_in": "Делегировано вам",
+    "delegations_in": "Delegations In",
     "delegations_out": "Делегировано другим",
     "delegation": "Делегирование",
     "delegations": "Делегирование",
@@ -519,6 +519,14 @@
     "attach_poll": "Attach Poll",
     "update_poll": "Update Poll"
   },
+  "stats": {
+    "viewers": "Visitors",
+    "pageviews": "Views",
+    "duration": "Minutes",
+    "promote": "PROMOTE POST",
+    "promote_title": "Want more views and reads?\n",
+    "promote_message": "Use Ecency Perks to promote your post and gain wider exposure."
+  },
   "editor": {
     "title": "Заголовок",
     "tags": "Теги (через пробел)",
@@ -824,7 +832,8 @@
     "unpin-community": "Открепить от сообщества",
     "edit-history": "История изменений",
     "mute": "Отключить / Блокировать",
-    "translate": "Перевод"
+    "translate": "Перевод",
+    "delete-post": "Delete"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",

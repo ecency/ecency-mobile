@@ -24,7 +24,7 @@
     "outgoing_transfer_title": "जाने वाली फाइल स्थानांतरण",
     "checkin_extra": "बोनस",
     "staked": "Staked",
-    "delegations_in": "Delegagtions In",
+    "delegations_in": "Delegations In",
     "delegations_out": "Delegations Out",
     "delegation": "प्रतिनिधि मंडल",
     "delegations": "प्रतिनिधि मंडल",
@@ -519,6 +519,14 @@
     "attach_poll": "Attach Poll",
     "update_poll": "Update Poll"
   },
+  "stats": {
+    "viewers": "Visitors",
+    "pageviews": "Views",
+    "duration": "Minutes",
+    "promote": "PROMOTE POST",
+    "promote_title": "Want more views and reads?\n",
+    "promote_message": "Use Ecency Perks to promote your post and gain wider exposure."
+  },
   "editor": {
     "title": "शीर्षक",
     "tags": "टैग (अंतरिक्ष के साथ अलग)",
@@ -824,7 +832,8 @@
     "unpin-community": "समुदाय से अनपिन करें",
     "edit-history": "इतिहास संपादित करें",
     "mute": "म्यूट / ब्लॉक",
-    "translate": "Translate"
+    "translate": "Translate",
+    "delete-post": "Delete"
   },
   "deep_link": {
     "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",
