@@ -1,5 +1,6 @@
 require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
-# $RNFirebaseAsStaticFramework = true
+
+
 # Resolve react_native_pods.rb with node to allow for hoisting
 require Pod::Executable.execute_command('node', ['-p',
   'require.resolve(
@@ -25,6 +26,8 @@ if linkage != nil
 end
 
 
+use_frameworks! :linkage => :static # SUPER IMPORTANT
+$RNFirebaseAsStaticFramework = true
 
 target 'Ecency' do
 
@@ -44,6 +47,7 @@ target 'Ecency' do
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
   # Pods for Ecency
 
+
   use_react_native!(
     :path => config[:reactNativePath],
 
@@ -51,7 +55,7 @@ target 'Ecency' do
     #
     # Note that if you have use_frameworks! enabled, Flipper will not work and
     # you should disable the next line.
-    :flipper_configuration => flipper_config,
+    # :flipper_configuration => flipper_config,
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
@@ -124,5 +128,6 @@ end
 
 
 target 'ImageNotifi' do
+  use_frameworks!
   pod 'Firebase/Messaging'
 end
