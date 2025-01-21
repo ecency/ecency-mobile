@@ -24,7 +24,7 @@
     "outgoing_transfer_title": "Išeinantis pervedimas",
     "checkin_extra": "Bonusas",
     "staked": "Užstatyta",
-    "delegations_in": "Paskyrimas į",
+    "delegations_in": "Delegations In",
     "delegations_out": "Paskyrimas iš",
     "delegation": "Delegacija",
     "delegations": "Delegacijos",
@@ -519,6 +519,14 @@
     "attach_poll": "Attach Poll",
     "update_poll": "Update Poll"
   },
+  "stats": {
+    "viewers": "Visitors",
+    "pageviews": "Views",
+    "duration": "Minutes",
+    "promote": "PROMOTE POST",
+    "promote_title": "Want more views and reads?\n",
+    "promote_message": "Use Ecency Perks to promote your post and gain wider exposure."
+  },
   "editor": {
     "title": "Pavadinimas",
     "tags": "Žymės (atskirkite su tarpu)",
@@ -824,7 +832,8 @@
     "unpin-community": "Atsegti nuo bendruomenės",
     "edit-history": "Redaguoti istoriją",
     "mute": "Mute / Block",
-    "translate": "Translate"
+    "translate": "Translate",
+    "delete-post": "Delete"
   },
   "deep_link": {
     "no_existing_user": "Nėra tokio vartotojo",

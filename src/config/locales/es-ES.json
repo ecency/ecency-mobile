@@ -519,6 +519,14 @@
     "attach_poll": "Adjuntar encuesta",
     "update_poll": "Actualizar encuesta"
   },
+  "stats": {
+    "viewers": "Visitas",
+    "pageviews": "Vistas",
+    "duration": "Minutos",
+    "promote": "PROMOCIONAR PUBLICACIÓN",
+    "promote_title": "¿Quieres más vistas y lecturas?\n",
+    "promote_message": "Utilice las ventajas de Ecency (Ecency Perks) para promocionar su publicación y obtener una exposición más amplia."
+  },
   "editor": {
     "title": "Título",
     "tags": "Etiquetas (separadas con un espacio)",
@@ -824,7 +832,8 @@
     "unpin-community": "Desanclar de la comunidad",
     "edit-history": "Editar historial",
     "mute": "Silenciar / Bloquear",
-    "translate": "Traducir"
+    "translate": "Traducir",
+    "delete-post": "Borrar"
   },
   "deep_link": {
     "no_existing_user": "Usuario no existe",

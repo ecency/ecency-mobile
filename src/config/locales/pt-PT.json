@@ -24,7 +24,7 @@
     "outgoing_transfer_title": "Transferência de saída",
     "checkin_extra": "Bónus",
     "staked": "Poder Guardado",
-    "delegations_in": "Delegações recebidas",
+    "delegations_in": "Delegations In",
     "delegations_out": "Delegações",
     "delegation": "Delegação",
     "delegations": "Delegações",
@@ -519,6 +519,14 @@
     "attach_poll": "Anexar Enquete",
     "update_poll": "Atualizar Enquete"
   },
+  "stats": {
+    "viewers": "Visitors",
+    "pageviews": "Views",
+    "duration": "Minutes",
+    "promote": "PROMOTE POST",
+    "promote_title": "Want more views and reads?\n",
+    "promote_message": "Use Ecency Perks to promote your post and gain wider exposure."
+  },
   "editor": {
     "title": "Título",
     "tags": "Etiquetas (separadas com espaço)",
@@ -824,7 +832,8 @@
     "unpin-community": "Desafixar da comunidade",
     "edit-history": "Histórico de Edição",
     "mute": "Silenciar / Bloquear",
-    "translate": "Traduzir"
+    "translate": "Traduzir",
+    "delete-post": "Delete"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
