@@ -295,14 +295,21 @@ export const groomingEngineHistory = (transaction: HistoryItem): CoinActivity | 
   return result;
 };
 
-export const groomingWalletData = async (user, globalProps, userCurrency) => {
+export const groomingWalletTabData = async ({
+  user,
+  globalProps,
+  quotes,
+  userCurrency,
+  isRefresh
+}) => {
   const walletData = {};
 
   if (!user) {
     return walletData;
   }
 
-  const userdata = await getAccount(get(user, 'name'));
+  //TODO: use passed account data if not refreshing
+  const userdata = isRefresh ? await getAccount(get(user, 'name')) : user;
 
   // const { accounts } = state;
   // if (!accounts) {
@@ -326,9 +333,14 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   walletData.savingBalance = parseToken(userdata.savings_balance);
   walletData.savingBalanceHbd = parseToken(userdata.savings_hbd_balance);
 
-  // TOOD: use base and quote from account.globalProps redux
-  const feedHistory = await getFeedHistory();
-  const base = parseToken(feedHistory.current_median_history.base);
+  // use base and quote from account.globalProps redux
+  const feedHistory = isRefresh ? await getFeedHistory() : {
+    current_median_history: {
+      base: globalProps.base,
+      quote: globalProps.quote
+    }
+  };
+  const base = parseToken(feedHistory.current_median_history.base)
   const quote = parseToken(feedHistory.current_median_history.quote);
 
   walletData.hivePerMVests = globalProps.hivePerMVests;
@@ -344,9 +356,9 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 
   walletData.estimatedValue = totalHive * pricePerHive + totalHbd;
 
-  // TODO: cache data in redux or fetch once on wallet startup
-  const ppHbd = await getCurrencyTokenRate(userCurrency, 'hbd');
-  const ppHive = await getCurrencyTokenRate(userCurrency, 'hive');
+  //if refresh not required, use cached quotes
+  const ppHbd = !isRefresh ? quotes.hive_dollar.price : await getCurrencyTokenRate(userCurrency, 'hbd');
+  const ppHive = !isRefresh ? quotes.hive.price : await getCurrencyTokenRate(userCurrency, 'hive');
 
   walletData.estimatedHiveValue = (walletData.balance + walletData.savingBalance) * ppHive;
   walletData.estimatedHbdValue = totalHbd * ppHbd;
