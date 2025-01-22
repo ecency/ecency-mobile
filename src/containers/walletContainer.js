@@ -185,7 +185,8 @@ const WalletContainer = ({
       })
       .then(() => getAccount(currentAccount.name))
       .then((account) => {
-        _getWalletData(selectedUser);
+        const _isRefresh = true;
+        _getWalletData(selectedUser, _isRefresh);
         if (isHasUnclaimedRewards) {
           dispatch(
             toastNotification(
@@ -197,7 +198,8 @@ const WalletContainer = ({
         }
       })
       .then((account) => {
-        _getWalletData(selectedUser);
+        const _isRefresh = true;
+        _getWalletData(selectedUser, _isRefresh);
         setIsClaiming(false);
       })
       .catch(() => {
@@ -219,7 +221,8 @@ const WalletContainer = ({
 
     getAccount(selectedUser.name)
       .then((account) => {
-        _getWalletData(selectedUser);
+        const _isRefresh = true;
+        _getWalletData(selectedUser, _isRefresh);
         setRefreshing(false);
       })
       .catch(() => {
