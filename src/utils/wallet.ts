@@ -1,6 +1,5 @@
 import get from 'lodash/get';
 import { operationOrders } from '@hiveio/dhive/lib/utils';
-import { utils } from '@hiveio/dhive';
 import { SpkApiWallet } from 'providers/hive-spk/hiveSpk.types';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
@@ -295,14 +294,21 @@ export const groomingEngineHistory = (transaction: HistoryItem): CoinActivity | 
   return result;
 };
 
-export const groomingWalletData = async (user, globalProps, userCurrency) => {
+export const groomingWalletTabData = async ({
+  user,
+  globalProps,
+  quotes,
+  userCurrency,
+  isRefresh,
+}) => {
   const walletData = {};
 
   if (!user) {
     return walletData;
   }
 
-  const userdata = await getAccount(get(user, 'name'));
+  // TODO: use passed account data if not refreshing
+  const userdata = isRefresh ? await getAccount(get(user, 'name')) : user;
 
   // const { accounts } = state;
   // if (!accounts) {
@@ -326,8 +332,15 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   walletData.savingBalance = parseToken(userdata.savings_balance);
   walletData.savingBalanceHbd = parseToken(userdata.savings_hbd_balance);
 
-  // TOOD: use base and quote from account.globalProps redux
-  const feedHistory = await getFeedHistory();
+  // use base and quote from account.globalProps redux
+  const feedHistory = isRefresh
+    ? await getFeedHistory()
+    : {
+        current_median_history: {
+          base: globalProps.base,
+          quote: globalProps.quote,
+        },
+      };
   const base = parseToken(feedHistory.current_median_history.base);
   const quote = parseToken(feedHistory.current_median_history.quote);
 
@@ -344,9 +357,11 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 
   walletData.estimatedValue = totalHive * pricePerHive + totalHbd;
 
-  // TODO: cache data in redux or fetch once on wallet startup
-  const ppHbd = await getCurrencyTokenRate(userCurrency, 'hbd');
-  const ppHive = await getCurrencyTokenRate(userCurrency, 'hive');
+  // if refresh not required, use cached quotes
+  const ppHbd = !isRefresh
+    ? quotes.hive_dollar.price
+    : await getCurrencyTokenRate(userCurrency, 'hbd');
+  const ppHive = !isRefresh ? quotes.hive.price : await getCurrencyTokenRate(userCurrency, 'hive');
 
   walletData.estimatedHiveValue = (walletData.balance + walletData.savingBalance) * ppHive;
   walletData.estimatedHbdValue = totalHbd * ppHbd;
@@ -357,32 +372,6 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());
   walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
 
-  // TOOD: transfer history can be separated from here
-  const op = utils.operationOrders;
-  const ops = [
-    op.transfer, // HIVE
-    op.author_reward, // HBD, HP
-    op.curation_reward, // HP
-    op.transfer_to_vesting, // HIVE, HP
-    op.withdraw_vesting, // HIVE, HP
-    op.interest, // HP
-    op.transfer_to_savings, // HIVE, HBD
-    op.transfer_from_savings, // HIVE, HBD
-    op.fill_convert_request, // HBD
-    op.fill_order, // HIVE, HBD
-    op.claim_reward_balance, // HP
-    op.sps_fund, // HBD
-    op.comment_benefactor_reward, // HP
-    op.return_vesting_delegation, // HP
-  ];
-
-  const history = await getAccountHistory(get(user, 'name'), ops);
-
-  const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
-
-  transfers.sort(compare);
-
-  walletData.transactions = transfers;
   return walletData;
 };
 
