@@ -127,11 +127,11 @@ const WalletContainer = ({
   const _getWalletData = useCallback(
     async (_selectedUser, isRefresh = false) => {
       const _walletData = await groomingWalletTabData({
-        user:_selectedUser,
+        user: _selectedUser,
         globalProps,
-        userCurrency:currency,
+        userCurrency: currency,
         quotes,
-        isRefresh
+        isRefresh,
       });
 
       setWalletData(_walletData);

@@ -1,6 +1,5 @@
 import get from 'lodash/get';
 import { operationOrders } from '@hiveio/dhive/lib/utils';
-import { utils } from '@hiveio/dhive';
 import { SpkApiWallet } from 'providers/hive-spk/hiveSpk.types';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
@@ -300,7 +299,7 @@ export const groomingWalletTabData = async ({
   globalProps,
   quotes,
   userCurrency,
-  isRefresh
+  isRefresh,
 }) => {
   const walletData = {};
 
@@ -308,7 +307,7 @@ export const groomingWalletTabData = async ({
     return walletData;
   }
 
-  //TODO: use passed account data if not refreshing
+  // TODO: use passed account data if not refreshing
   const userdata = isRefresh ? await getAccount(get(user, 'name')) : user;
 
   // const { accounts } = state;
@@ -334,13 +333,15 @@ export const groomingWalletTabData = async ({
   walletData.savingBalanceHbd = parseToken(userdata.savings_hbd_balance);
 
   // use base and quote from account.globalProps redux
-  const feedHistory = isRefresh ? await getFeedHistory() : {
-    current_median_history: {
-      base: globalProps.base,
-      quote: globalProps.quote
-    }
-  };
-  const base = parseToken(feedHistory.current_median_history.base)
+  const feedHistory = isRefresh
+    ? await getFeedHistory()
+    : {
+        current_median_history: {
+          base: globalProps.base,
+          quote: globalProps.quote,
+        },
+      };
+  const base = parseToken(feedHistory.current_median_history.base);
   const quote = parseToken(feedHistory.current_median_history.quote);
 
   walletData.hivePerMVests = globalProps.hivePerMVests;
@@ -356,8 +357,10 @@ export const groomingWalletTabData = async ({
 
   walletData.estimatedValue = totalHive * pricePerHive + totalHbd;
 
-  //if refresh not required, use cached quotes
-  const ppHbd = !isRefresh ? quotes.hive_dollar.price : await getCurrencyTokenRate(userCurrency, 'hbd');
+  // if refresh not required, use cached quotes
+  const ppHbd = !isRefresh
+    ? quotes.hive_dollar.price
+    : await getCurrencyTokenRate(userCurrency, 'hbd');
   const ppHive = !isRefresh ? quotes.hive.price : await getCurrencyTokenRate(userCurrency, 'hive');
 
   walletData.estimatedHiveValue = (walletData.balance + walletData.savingBalance) * ppHive;
@@ -368,7 +371,6 @@ export const groomingWalletTabData = async ({
   walletData.showPowerDown = userdata.next_vesting_withdrawal !== '1969-12-31T23:59:59';
   const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());
   walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
-
 
   return walletData;
 };
