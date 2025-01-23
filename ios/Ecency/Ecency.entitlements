@@ -10,9 +10,5 @@
 		<string>applinks:ecency.page.link</string>
 		<string>applinks:alpha.ecency.com</string>
 	</array>
-	<key>com.apple.security.application-groups</key>
-	<array>
-		<string>group.com.ecency.eshare</string>
-	</array>
 </dict>
 </plist>

@@ -17,7 +17,7 @@ import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import messaging from '@react-native-firebase/messaging';
 import VersionNumber from 'react-native-version-number';
-import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
+// import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -123,20 +123,20 @@ class ApplicationContainer extends Component {
     setMomentLocale();
     this._fetchApp();
 
-    ReceiveSharingIntent.getReceivedFiles(
-      (files) => {
-        RootNavigation.navigate({
-          name: ROUTES.SCREENS.EDITOR,
-          params: { hasSharedIntent: true, files },
-        });
-        // files returns as JSON Array example
-        // [{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
-        ReceiveSharingIntent.clearReceivedFiles(); // clear Intents
-      },
-      (error) => {
-        console.log('error :>> ', error);
-      },
-    );
+    // ReceiveSharingIntent.getReceivedFiles(
+    //   (files) => {
+    //     RootNavigation.navigate({
+    //       name: ROUTES.SCREENS.EDITOR,
+    //       params: { hasSharedIntent: true, files },
+    //     });
+    //     // files returns as JSON Array example
+    //     // [{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
+    //     ReceiveSharingIntent.clearReceivedFiles(); // clear Intents
+    //   },
+    //   (error) => {
+    //     console.log('error :>> ', error);
+    //   },
+    // );
   };
 
   componentDidUpdate(prevProps) {
@@ -323,7 +323,7 @@ class ApplicationContainer extends Component {
         RootNavigation.navigate({
           name: ROUTES.SCREENS.PINCODE,
         });
-      }, 1 * 60 * 1000);
+      }, 1 * 10 * 1000);
     }
   };
 

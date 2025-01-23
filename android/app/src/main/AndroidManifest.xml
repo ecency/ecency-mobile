@@ -143,7 +143,7 @@
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="ecency.page.link" />
         </intent-filter>
-        <intent-filter>
+        <!-- <intent-filter>
             <action android:name="android.intent.action.SEND" />
             <category android:name="android.intent.category.DEFAULT" />
             <data android:mimeType="text/*" />
@@ -157,7 +157,7 @@
             <action android:name="android.intent.action.SEND_MULTIPLE" />
             <category android:name="android.intent.category.DEFAULT" />
             <data android:mimeType="image/*" />
-        </intent-filter>
+        </intent-filter> -->
       </activity>
       <activity android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
         android:exported="true"/>
