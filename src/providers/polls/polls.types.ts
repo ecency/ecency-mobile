@@ -41,6 +41,7 @@ export interface Poll {
   preferred_interpretation: PollPreferredInterpretation;
   token: string;
   end_time: string;
+  community_membership: string[],
   allow_vote_changes: boolean;
   max_choices_voted: number;
   status: string;
