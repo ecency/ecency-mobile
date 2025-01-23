@@ -358,6 +358,7 @@ export const convertToPollMeta = (pollDraft: PollDraft) => {
     choices: pollDraft.choices,
     preferred_interpretation: pollDraft.interpretation,
     end_time: Math.floor(new Date(pollDraft.endTime).getTime() / 1000),
+      //TODO: change to allow_vote_changes
     vote_change: pollDraft.voteChange,
     hide_votes: pollDraft.hideVotes,
     max_choices_voted: pollDraft.maxChoicesVoted,
