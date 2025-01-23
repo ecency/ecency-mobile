@@ -1153,8 +1153,6 @@ PODS:
     - React-Core
   - react-native-randombytes (3.6.1):
     - React-Core
-  - react-native-receive-sharing-intent (2.0.0):
-    - React-Core
   - react-native-render-html (6.3.4):
     - React-Core
   - react-native-restart (0.0.24):
@@ -1519,7 +1517,6 @@ DEPENDENCIES:
   - react-native-orientation-locker (from `../node_modules/react-native-orientation-locker`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
-  - react-native-receive-sharing-intent (from `../node_modules/react-native-receive-sharing-intent`)
   - react-native-render-html (from `../node_modules/react-native-render-html`)
   - react-native-restart (from `../node_modules/react-native-restart`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -1725,8 +1722,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-pager-view"
   react-native-randombytes:
     :path: "../node_modules/react-native-randombytes"
-  react-native-receive-sharing-intent:
-    :path: "../node_modules/react-native-receive-sharing-intent"
   react-native-render-html:
     :path: "../node_modules/react-native-render-html"
   react-native-restart:
@@ -1920,7 +1915,6 @@ SPEC CHECKSUMS:
   react-native-orientation-locker: 4409c5b12b65f942e75449872b4f078b6f27af81
   react-native-pager-view: 4e062b5bf27b7070d470c60fd2e091ee641ba852
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
-  react-native-receive-sharing-intent: 62ab28c50e6ae56d32b9e841d7452091312a0bc7
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
   react-native-restart: 45c8dca02491980f2958595333cbccd6877cb57e
   react-native-safe-area-context: 5141f11858b033636f1788b14f32eaba92cee810
@@ -1984,4 +1978,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 6d3e6586d42468a95935db6d58480cb8ba9b2218
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
