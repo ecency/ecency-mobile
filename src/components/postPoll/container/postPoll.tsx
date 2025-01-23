@@ -79,6 +79,7 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
         ? getDaysPassedSince(currentAccount.created) < _accAgeLimit
         : false;
 
+    //TODO: change to allow_vote_changes, also refernce from poll data not meta data if need
     const _noVoteChange =
       metadata.vote_change !== undefined ? !metadata.vote_change && !!userVote : false;
 

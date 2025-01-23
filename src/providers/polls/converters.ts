@@ -83,6 +83,7 @@ export const convertPoll = (rawData: any): Poll | null => {
     status,
     max_choices_voted: max_choices_voted || 1,
     filter_account_age_days: filter_account_age_days || 0,
+    //TODO: parse updated properties
     ui_hide_res_until_voted, // Assuming this field can be null, otherwise adjust accordingly
     platform, // Assuming this field can be null, otherwise adjust accordingly
     poll_trx_id,
