@@ -159,7 +159,6 @@
     "react-native-swiper": "^1.6.0-rc.3",
     "react-native-tab-view": "^3.5.2",
     "react-native-tcp": "^4.0.0",
-    "react-native-tus-client": "^1.1.0",
     "react-native-udp": "^4.1.4",
     "react-native-unique-id": "^2.0.0",
     "react-native-url-polyfill": "^2.0.0",

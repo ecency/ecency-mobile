@@ -1,7 +1,7 @@
 import axios from 'axios';
 import hs from 'hivesigner';
 import { Image, Video } from 'react-native-image-crop-picker';
-import { Upload } from 'react-native-tus-client';
+// import { Upload } from 'react-native-tus-client';
 import { Platform } from 'react-native';
 import { getDigitPinCode } from '../hive/dhive';
 import { ThreeSpeakVideo } from './speak.types';
@@ -179,27 +179,27 @@ export const uploadFile = (media: Video | Image, onProgress?: (progress: number)
         throw new Error('failed to create apporpriate path');
       }
 
-      const upload = new Upload(_path, {
-        endpoint: tusEndPoint, // use your tus server endpoint instead
-        metadata: {
-          filename: media.filename || media.path.split('/').pop(),
-          filetype: media.mime,
-        },
-        onError: (error) => console.log('error', error),
-        onSuccess: () => {
-          console.log('Upload completed. File url:', upload.url);
-          const _videoId = upload.url.replace(tusEndPoint, '');
-          resolve(_videoId);
-        },
+      // const upload = new Upload(_path, {
+      //   endpoint: tusEndPoint, // use your tus server endpoint instead
+      //   metadata: {
+      //     filename: media.filename || media.path.split('/').pop(),
+      //     filetype: media.mime,
+      //   },
+      //   onError: (error) => console.log('error', error),
+      //   onSuccess: () => {
+      //     console.log('Upload completed. File url:', upload.url);
+      //     const _videoId = upload.url.replace(tusEndPoint, '');
+      //     resolve(_videoId);
+      //   },
 
-        onProgress: (uploaded, total) => {
-          if (onProgress) {
-            onProgress(uploaded / total);
-          }
-        },
-      });
+      //   onProgress: (uploaded, total) => {
+      //     if (onProgress) {
+      //       onProgress(uploaded / total);
+      //     }
+      //   },
+      // });
 
-      upload.start();
+      // upload.start();
     } catch (error) {
       console.warn('Image upload failed', error);
       reject(error);
