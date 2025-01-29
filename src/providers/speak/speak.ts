@@ -1,7 +1,7 @@
 import axios from 'axios';
 import hs from 'hivesigner';
 import { Image, Video } from 'react-native-image-crop-picker';
-import { Upload } from 'react-native-tus-client';
+import * as tus from 'tus-js-client';
 import { Platform } from 'react-native';
 import { getDigitPinCode } from '../hive/dhive';
 import { ThreeSpeakVideo } from './speak.types';
@@ -147,8 +147,6 @@ export const markAsPublished = async (currentAccount: any, pinHash: string, vide
     });
 };
 
-// 'https://studio.3speak.tv/mobile/api/video/${permlink}/delete
-
 export const deleteVideo = async (currentAccount: any, pinHash: string, permlink: string) => {
   const token = await threespeakAuth(currentAccount, pinHash);
 
@@ -170,32 +168,44 @@ export const deleteVideo = async (currentAccount: any, pinHash: string, permlink
 export const uploadFile = (media: Video | Image, onProgress?: (progress: number) => void) => {
   return new Promise((resolve, reject) => {
     try {
-      const _path = Platform.select({
-        ios: media.path,
-        android: media.path.replace('file://', ''),
+      const _uri = Platform.select({
+        ios: media.sourceURL,
+        android: media.path,
       });
 
-      if (!_path) {
+      if (!_uri) {
         throw new Error('failed to create apporpriate path');
       }
 
-      const upload = new Upload(_path, {
-        endpoint: tusEndPoint, // use your tus server endpoint instead
+      const filename = media.filename || media.path.split('/').pop();
+
+      const file = {
+        size: media.size,
+        uri: _uri,
+        name: media.filename || media.path.split('/').pop(),
+        type: media.mime,
+      } as any;
+
+      const upload = new tus.Upload(file, {
+        endpoint: tusEndPoint,
+        retryDelays: [0, 1000, 3000, 5000],
         metadata: {
-          filename: media.filename || media.path.split('/').pop(),
+          filename: filename || '',
           filetype: media.mime,
         },
-        onError: (error) => console.log('error', error),
-        onSuccess: () => {
-          console.log('Upload completed. File url:', upload.url);
-          const _videoId = upload.url.replace(tusEndPoint, '');
-          resolve(_videoId);
+        onError: (error) => {
+          console.log('error', error);
+          reject(error);
         },
-
         onProgress: (uploaded, total) => {
           if (onProgress) {
             onProgress(uploaded / total);
           }
+        },
+        onSuccess: () => {
+          console.log('Upload completed. File url:', upload.url);
+          const _videoId = upload.url.replace(tusEndPoint, '');
+          resolve(_videoId);
         },
       });
 
