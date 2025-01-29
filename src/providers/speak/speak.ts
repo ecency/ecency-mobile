@@ -1,7 +1,7 @@
 import axios from 'axios';
 import hs from 'hivesigner';
 import { Image, Video } from 'react-native-image-crop-picker';
-import * as tus from 'tus-js-client'
+import * as tus from 'tus-js-client';
 import { Platform } from 'react-native';
 import { getDigitPinCode } from '../hive/dhive';
 import { ThreeSpeakVideo } from './speak.types';
@@ -147,7 +147,6 @@ export const markAsPublished = async (currentAccount: any, pinHash: string, vide
     });
 };
 
-
 export const deleteVideo = async (currentAccount: any, pinHash: string, permlink: string) => {
   const token = await threespeakAuth(currentAccount, pinHash);
 
@@ -181,12 +180,11 @@ export const uploadFile = (media: Video | Image, onProgress?: (progress: number)
       const filename = media.filename || media.path.split('/').pop();
 
       const file = {
-        size: media.size, 
+        size: media.size,
         uri: _uri,
         name: media.filename || media.path.split('/').pop(),
-        type: media.mime
-      } as any  ; 
-
+        type: media.mime,
+      } as any;
 
       const upload = new tus.Upload(file, {
         endpoint: tusEndPoint,
@@ -209,11 +207,9 @@ export const uploadFile = (media: Video | Image, onProgress?: (progress: number)
           const _videoId = upload.url.replace(tusEndPoint, '');
           resolve(_videoId);
         },
-      })
+      });
 
-      upload.start()
-
-
+      upload.start();
     } catch (error) {
       console.warn('Image upload failed', error);
       reject(error);
