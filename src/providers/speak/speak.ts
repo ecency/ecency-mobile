@@ -169,12 +169,12 @@ export const deleteVideo = async (currentAccount: any, pinHash: string, permlink
 export const uploadFile = (media: Video | Image, onProgress?: (progress: number) => void) => {
   return new Promise((resolve, reject) => {
     try {
-      const _path = Platform.select({
-        ios: media.path,
-        android: media.path.replace('file://', ''),
+      const _uri = Platform.select({
+        ios: media.sourceURL,
+        android: media.path,
       });
 
-      if (!_path) {
+      if (!_uri) {
         throw new Error('failed to create apporpriate path');
       }
 
@@ -182,7 +182,7 @@ export const uploadFile = (media: Video | Image, onProgress?: (progress: number)
 
       const file = {
         size: media.size, 
-        uri: media.sourceURL,
+        uri: _uri,
         name: media.filename || media.path.split('/').pop(),
         type: media.mime
       } as any  ; 
