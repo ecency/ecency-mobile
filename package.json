@@ -155,7 +155,7 @@
     "react-native-select-dropdown": "^3.4.0",
     "react-native-slider": "^0.11.0",
     "react-native-snap-carousel": "^3.8.0",
-    "react-native-svg": "^12.1.1",
+    "react-native-svg": "^15.11.1",
     "react-native-swiper": "^1.6.0-rc.3",
     "react-native-tab-view": "^3.5.2",
     "react-native-tcp": "^4.0.0",

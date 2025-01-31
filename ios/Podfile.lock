@@ -1421,7 +1421,7 @@ PODS:
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - RNSVG (12.5.1):
+  - RNSVG (15.11.1):
     - React-Core
   - RNTusClient (1.1.0):
     - React-Core
@@ -1985,7 +1985,7 @@ SPEC CHECKSUMS:
   RNPermissions: 4e3714e18afe7141d000beae3755e5b5fb2f5e05
   RNReanimated: 69c281d0f6a57c22675914581b72ac67f294b0c2
   RNScreens: 5f4df9babb21d30723580377b5f52d9f9baf0005
-  RNSVG: d7d7bc8229af3842c9cfc3a723c815a52cdd1105
+  RNSVG: d23fa135b1fa2d61aed871ce0774fc5da707d4a1
   RNTusClient: b90393226531c118c4716a2b71128e3b9d9c77ee
   RNVectorIcons: 8cabd5809519015ed2c1cdb4ec83d563296bd5cc
   SDWebImage: 750adf017a315a280c60fde706ab1e552a3ae4e9
