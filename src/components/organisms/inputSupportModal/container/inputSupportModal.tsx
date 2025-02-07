@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View as AnimatedView } from 'react-native-animatable';
+import Animated, { FadeIn, SlideInUp, SlideOutDown } from 'react-native-reanimated'
 import { Portal } from 'react-native-portalize';
-import { KeyboardAvoidingView, Platform, View } from 'react-native';
+import { Easing, KeyboardAvoidingView, Platform, View } from 'react-native';
 import styles from '../children/inputSupportModal.styles';
 
 export interface InputSupportModalProps {
@@ -31,13 +31,12 @@ export const InputSupportModal = ({ children, visible, onClose }: InputSupportMo
   return (
     showModal && (
       <Portal>
-        <AnimatedView ref={container} animation="fadeIn" duration={300} style={styles.container}>
-          <AnimatedView
+        <Animated.View ref={container} entering={FadeIn} style={styles.container}>
+          <Animated.View
             ref={innerContainer}
             style={{ flex: 1 }}
-            animation="slideInUp"
-            duration={300}
-          >
+            entering={SlideInUp.easing(Easing.ease)}>
+
             <View style={{ flex: 1 }} onTouchEnd={onClose} />
 
             {Platform.select({
@@ -48,8 +47,9 @@ export const InputSupportModal = ({ children, visible, onClose }: InputSupportMo
               ),
               android: <View>{children}</View>,
             })}
-          </AnimatedView>
-        </AnimatedView>
+
+          </Animated.View>
+        </Animated.View>
       </Portal>
     )
   );
