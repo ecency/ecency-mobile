@@ -11802,7 +11802,7 @@ react-native-bootsplash@^6.3.3:
     ts-dedent "^2.2.0"
     xml-formatter "^3.6.3"
 
-react-native-chart-kit@^6.11.0:
+react-native-chart-kit@^6.12.0:
   version "6.12.0"
   resolved "https://registry.yarnpkg.com/react-native-chart-kit/-/react-native-chart-kit-6.12.0.tgz#187a4987a668a85b7e93588c248ed2c33b3a06f6"
   integrity sha512-nZLGyCFzZ7zmX0KjYeeSV1HKuPhl1wOMlTAqa0JhlyW62qV/1ZPXHgT8o9s8mkFaGxdqbspOeuaa6I9jUQDgnA==
