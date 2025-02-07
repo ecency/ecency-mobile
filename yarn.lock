@@ -11709,10 +11709,10 @@ react-native-dynamic@^1.0.0:
     "@types/react-native" ">=0.62.0"
     toolkit.ts "^0.0.2"
 
-react-native-email-link@^1.14.3:
-  version "1.14.8"
-  resolved "https://registry.yarnpkg.com/react-native-email-link/-/react-native-email-link-1.14.8.tgz#f1f7d985159f756a4181b2f8c8c0e4885d9daeaa"
-  integrity sha512-G0EFGwCg61Fq8ZcUZWJa3oZiHsKfaFpp3kjFYeAANTy+m+syVtm3slEXt8+6RXFilV8lGadrtKG/OMWx/InmTw==
+react-native-email-link@^1.16.1:
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/react-native-email-link/-/react-native-email-link-1.16.1.tgz#e46f2f0baa1343e05618abdd1248f42e0baf8e9b"
+  integrity sha512-uTolJXOa6HKPEiRAQuLKN/OhVwUA4xS++yPV6YiCtRBWxl2q3FUlrJt1G6plfMAEU4qNhmwZnH3tCJ9WNYIDhg==
 
 react-native-extended-stylesheet@^0.10.0:
   version "0.10.0"
