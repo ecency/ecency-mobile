@@ -1076,7 +1076,7 @@ PODS:
     - react-native-config/App (= 1.5.3)
   - react-native-config/App (1.5.3):
     - React-Core
-  - react-native-create-thumbnail (1.6.4):
+  - react-native-create-thumbnail (2.0.1):
     - React-Core
   - react-native-date-picker (4.3.4):
     - React-Core
@@ -1829,7 +1829,7 @@ SPEC CHECKSUMS:
   react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-cameraroll: cb50eb7ae5f482d842c5a058679701de5a267f21
   react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
-  react-native-create-thumbnail: e022bcdcba8a0b4529a50d3fa1a832ec921be39d
+  react-native-create-thumbnail: 4ffd51a6c02a9313edc74e2460cd07264221f554
   react-native-date-picker: db26a4dc48fe4e7c3c3afd5008519fad1091c524
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
   react-native-heic-converter: 8f7cd7a143ef013a54540ef7ebbc232cecb4fa87

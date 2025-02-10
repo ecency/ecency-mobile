@@ -11826,10 +11826,10 @@ react-native-config@^1.5.3:
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.5.3.tgz#1286c0c117adb367a948b31005430146e88c9c2e"
   integrity sha512-3D05Abgk5DfDw9w258EzXvX5AkU7eqj3u9H0H0L4gUga4nYg/zuupcrpGbpF4QeXBcJ84jjs6g8JaEP6VBT7Pg==
 
-react-native-create-thumbnail@^1.6.4:
-  version "1.6.4"
-  resolved "https://registry.yarnpkg.com/react-native-create-thumbnail/-/react-native-create-thumbnail-1.6.4.tgz#90f5b0a587de6e3738a7632fe3d9a9624ed83581"
-  integrity sha512-JWuKXswDXtqUPfuqh6rjCVMvTSSG3kUtwvSK/YdaNU0i+nZKxeqHmt/CO2+TyI/WSUFynGVmWT1xOHhCZAFsRQ==
+react-native-create-thumbnail@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-create-thumbnail/-/react-native-create-thumbnail-2.0.1.tgz#8a42f4a73fe6db8cc7ecc4673c55f13f89dd45fb"
+  integrity sha512-D3UEuFJ9hDuf4XTMyNsqsk1SsTxak8EeKTf68QclZQKngwe67YuYaCE8h6CWdzm6ncDH4nbq/MZtFs+d+lD+iA==
 
 react-native-crypto-js@^1.0.0:
   version "1.0.0"
