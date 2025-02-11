@@ -1388,8 +1388,6 @@ PODS:
   - TcpSockets (4.0.0):
     - React
   - TOCropViewController (2.7.4)
-  - toolbar-android (0.2.1):
-    - React
   - TUSKit (1.4.2)
   - VisionCamera (4.4.0):
     - VisionCamera/Core (= 4.4.0)
@@ -1508,7 +1506,6 @@ DEPENDENCIES:
   - RNTusClient (from `../node_modules/react-native-tus-client`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - TcpSockets (from `../node_modules/react-native-tcp`)
-  - "toolbar-android (from `../node_modules/@react-native-community/toolbar-android`)"
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -1754,8 +1751,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-vector-icons"
   TcpSockets:
     :path: "../node_modules/react-native-tcp"
-  toolbar-android:
-    :path: "../node_modules/@react-native-community/toolbar-android"
   VisionCamera:
     :path: "../node_modules/react-native-vision-camera"
   Yoga:
@@ -1894,7 +1889,6 @@ SPEC CHECKSUMS:
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   TcpSockets: 4ef55305239923b343ed0a378b1fac188b1373b0
   TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
-  toolbar-android: 2a73856e98b750d7e71ce4644d3f41cc98211719
   TUSKit: 4bcc2fe13e1b4d6c3bfbaca57d64e64c1be31201
   VisionCamera: 7606673f2384ef7216c040601ac4d88b3c425584
   Yoga: 13c8ef87792450193e117976337b8527b49e8c03

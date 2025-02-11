@@ -3056,11 +3056,6 @@
   dependencies:
     invariant "^2.2.4"
 
-"@react-native-community/toolbar-android@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@react-native-community/toolbar-android/-/toolbar-android-0.2.1.tgz#5d021da8f6aef9412c58d5c981a62b91191af3fe"
-  integrity sha512-kq1jVuJTSnKvqiyFqHp0hNLfntZRdE16heQI2UbE7dUUI0pR7YIoBoRlnt8x5ivJJ/f6m1Dcidku9LkwtcUs6w==
-
 "@react-native-firebase/analytics@^14.12.0":
   version "14.12.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-14.12.0.tgz#a95ed34187018704d1c0aa7a05c02c1711fac94f"
