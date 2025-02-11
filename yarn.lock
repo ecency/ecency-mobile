@@ -11852,10 +11852,10 @@ react-native-crypto@^2.2.0:
     public-encrypt "^4.0.0"
     randomfill "^1.0.3"
 
-react-native-date-picker@^4.2.0:
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-4.3.4.tgz#1935b246ecc850dd819431339232ada4c9628111"
-  integrity sha512-m02Q49mLn3p11CPvXkOBeUDTLrv1Khubd5Tyrs4pUXYr2dXcPDpGWVw5X0zNYrWWvpDuHKKv8cwBwYR3xNqi3Q==
+react-native-date-picker@5.0.7:
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-5.0.7.tgz#24161d30c6dca8627afe1aa5a55a389421fdfba4"
+  integrity sha512-/RodyCZWjb+f3f4YHqKbWFYczGm+tNngwbVSB6MLGgt5Kl7LQXpv4QE6ybnHW+DM4LteTP8A6lj8LEkQ7+usLQ==
 
 react-native-device-info@^10.7.0:
   version "10.12.0"

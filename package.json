@@ -114,7 +114,7 @@
     "react-native-config": "^1.5.3",
     "react-native-create-thumbnail": "^2.0.1",
     "react-native-crypto": "^2.2.0",
-    "react-native-date-picker": "^4.2.0",
+    "react-native-date-picker": "5.0.7",
     "react-native-device-info": "^10.7.0",
     "react-native-draggable-flatlist": "^4.0.1",
     "react-native-dynamic": "^1.0.0",

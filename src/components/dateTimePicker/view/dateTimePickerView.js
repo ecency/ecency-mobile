@@ -34,7 +34,6 @@ const DateTimePickerView = React.forwardRef(
           textColor={styles.datePickerText.color}
           date={date}
           onDateChange={_setDate}
-          style={styles.picker}
           minimumDate={new Date()}
           androidVariant="iosClone"
           is24hourSource="device"
