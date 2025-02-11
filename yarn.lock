@@ -11888,10 +11888,10 @@ react-native-get-random-values@^1.11.0:
   dependencies:
     fast-base64-decode "^1.0.0"
 
-react-native-heic-converter@^1.3.1:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/react-native-heic-converter/-/react-native-heic-converter-1.3.2.tgz#e6404ffc60d1326f8638980bffb7a9487b7a32f0"
-  integrity sha512-cIzDAfnNEfd8YjqMkjvpe7ODF6kRqNI4jlUhPc0voi0CH/acQbXJqJBU/caYq/uFf5Tmx/GapvYlWvA0mL8xnQ==
+react-native-heic-converter@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/react-native-heic-converter/-/react-native-heic-converter-1.3.3.tgz#e0a7f860094a464b8ad9a0222b63f4ac501dbe8f"
+  integrity sha512-ssQT3sNDILsG8y1fUU4jh1N47CuBvyF+gKbCcL+/jbk6aciJEzkLfWnB9SXPn7anXDY85+Fy96RwsDuRTVVz0g==
 
 react-native-highlight-words@^1.0.1:
   version "1.0.1"

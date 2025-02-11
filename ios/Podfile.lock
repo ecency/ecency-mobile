@@ -1082,7 +1082,7 @@ PODS:
     - React-Core
   - react-native-get-random-values (1.11.0):
     - React-Core
-  - react-native-heic-converter (1.3.2):
+  - react-native-heic-converter (1.3.3):
     - React
   - react-native-netinfo (11.2.1):
     - React-Core
@@ -1832,7 +1832,7 @@ SPEC CHECKSUMS:
   react-native-create-thumbnail: 4ffd51a6c02a9313edc74e2460cd07264221f554
   react-native-date-picker: 06a4d96ab525a163c7a90bccd68833d136b0bb13
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
-  react-native-heic-converter: 8f7cd7a143ef013a54540ef7ebbc232cecb4fa87
+  react-native-heic-converter: 5e6c2a09ba2ffef6f64115919a86be8e46170fab
   react-native-netinfo: 8a7fd3f7130ef4ad2fb4276d5c9f8d3f28d2df3d
   react-native-orientation-locker: 4409c5b12b65f942e75449872b4f078b6f27af81
   react-native-pager-view: 4e062b5bf27b7070d470c60fd2e091ee641ba852
