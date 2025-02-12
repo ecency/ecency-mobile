@@ -192,8 +192,6 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
-  - Permission-Camera (3.10.1):
-    - RNPermissions
   - PromisesObjC (2.3.1)
   - RCT-Folly (2022.05.16.00):
     - boost
@@ -1086,9 +1084,9 @@ PODS:
     - React
   - react-native-netinfo (11.2.1):
     - React-Core
-  - react-native-orientation-locker (1.6.0):
+  - react-native-orientation-locker (1.7.0):
     - React-Core
-  - react-native-pager-view (6.4.1):
+  - react-native-pager-view (6.7.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1098,7 +1096,7 @@ PODS:
     - React-Core
   - react-native-render-html (6.3.4):
     - React-Core
-  - react-native-restart (0.0.24):
+  - react-native-restart (0.0.27):
     - React-Core
   - react-native-safe-area-context (4.11.1):
     - React-Core
@@ -1335,7 +1333,7 @@ PODS:
     - React-Core
   - RNOS (1.2.6):
     - React
-  - RNPermissions (3.10.1):
+  - RNPermissions (5.2.5):
     - React-Core
   - RNReanimated (3.16.7):
     - glog
@@ -1420,7 +1418,6 @@ DEPENDENCIES:
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
   - libevent (~> 2.1.12)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
-  - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -1583,8 +1580,6 @@ EXTERNAL SOURCES:
     :tag: hermes-2023-11-17-RNv0.73.0-21043a3fc062be445e56a2c10ecd8be028dd9cc5
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
-  Permission-Camera:
-    :path: "../node_modules/react-native-permissions/ios/Camera"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -1798,7 +1793,6 @@ SPEC CHECKSUMS:
   lottie-ios: 3d98679b41fa6fd6aff2352b3953dbd3df8a397e
   lottie-react-native: a2ae9c27c273b060b2affff2957bc0ff7fdca353
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
-  Permission-Camera: 9b70902f34a83c10e198d2d01f0e453e58842776
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   RCT-Folly: 7169b2b1c44399c76a47b5deaaba715eeeb476c0
   RCTRequired: 9b1e7e262745fb671e33c51c1078d093bd30e322
@@ -1829,12 +1823,12 @@ SPEC CHECKSUMS:
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
   react-native-heic-converter: 5e6c2a09ba2ffef6f64115919a86be8e46170fab
   react-native-netinfo: 8a7fd3f7130ef4ad2fb4276d5c9f8d3f28d2df3d
-  react-native-orientation-locker: 4409c5b12b65f942e75449872b4f078b6f27af81
-  react-native-pager-view: 4e062b5bf27b7070d470c60fd2e091ee641ba852
+  react-native-orientation-locker: 5819fd23ca89cbac0d736fb4314745f62716d517
+  react-native-pager-view: 7550b232b7b4779ef8397e24c61843a57ee1d615
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-receive-sharing-intent: 62ab28c50e6ae56d32b9e841d7452091312a0bc7
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
-  react-native-restart: 45c8dca02491980f2958595333cbccd6877cb57e
+  react-native-restart: 7595693413fe3ca15893702f2c8306c62a708162
   react-native-safe-area-context: 5141f11858b033636f1788b14f32eaba92cee810
   react-native-udp: df79c3cb72c4e71240cd3ce4687bfb8a137140d5
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
@@ -1876,7 +1870,7 @@ SPEC CHECKSUMS:
   RNImageCropPicker: 8e39c01f205e00d739c31e682f068aac315587bf
   RNNotifee: f3c01b391dd8e98e67f539f9a35a9cbcd3bae744
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
-  RNPermissions: 4e3714e18afe7141d000beae3755e5b5fb2f5e05
+  RNPermissions: 8955b392074e48a7b33f98771b943e5178452bb2
   RNReanimated: 69c281d0f6a57c22675914581b72ac67f294b0c2
   RNScreens: 5f4df9babb21d30723580377b5f52d9f9baf0005
   RNSVG: d23fa135b1fa2d61aed871ce0774fc5da707d4a1
@@ -1893,6 +1887,6 @@ SPEC CHECKSUMS:
   VisionCamera: 7606673f2384ef7216c040601ac4d88b3c425584
   Yoga: 13c8ef87792450193e117976337b8527b49e8c03
 
-PODFILE CHECKSUM: 2b4fecb099899190e71ae60fba8efbf0f2500988
+PODFILE CHECKSUM: 8a9d06b91c49c3ba4e89cb7c39498edd713e3eb6
 
 COCOAPODS: 1.16.2
