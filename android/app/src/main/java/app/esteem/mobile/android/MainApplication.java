@@ -9,7 +9,6 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
-import com.facebook.react.soloader.OpenSourceMergedSoMapping;
 import com.facebook.soloader.SoLoader;
 
 import android.content.res.Configuration;
@@ -71,11 +70,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
   }
 
   @Override
-  public ReactHost getReactHost() {
-    return DefaultReactHost.getDefaultReactHost(getApplicationContext(), mReactNativeHost);
-  }
-
-  @Override
   public void onCreate() {
     super.onCreate();
     // Relink bugsnag for ndk and anr cases
@@ -84,11 +78,8 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     // Start bugsnag
     Bugsnag.start(this /* app context */);
 
-    try {
-      SoLoader.init(this, OpenSourceMergedSoMapping.INSTANCE);
-    } catch (IOException e) {
-      e.printStackTrace(); // You can also log this exception or handle it in another way
-    }
+    SoLoader.init(this, false);
+
 
     // Uncomment below line to Debug Webview
     // WebView.setWebContentsDebuggingEnabled(true);
