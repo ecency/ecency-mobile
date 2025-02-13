@@ -9,6 +9,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
+import com.facebook.react.soloader.OpenSourceMergedSoMapping;
 import com.facebook.soloader.SoLoader;
 
 import android.content.res.Configuration;
@@ -21,7 +22,6 @@ import com.bugsnag.android.Bugsnag;
 import org.wonday.orientation.OrientationActivityLifecycle;
 
 //See below, Webview debugging
-//import android.webkit.WebView;
 
 import com.reactnativepagerview.PagerViewPackage;
 
@@ -49,7 +49,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
       return packages;
     }
 
-
     @Override
     protected String getJSMainModuleName() {
       return "index";
@@ -72,6 +71,11 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
   }
 
   @Override
+  public ReactHost getReactHost() {
+    return DefaultReactHost.getDefaultReactHost(getApplicationContext(), mReactNativeHost);
+  }
+
+  @Override
   public void onCreate() {
     super.onCreate();
     // Relink bugsnag for ndk and anr cases
@@ -80,7 +84,12 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     // Start bugsnag
     Bugsnag.start(this /* app context */);
 
-    SoLoader.init(this, /* native exopackage */ false);
+    try {
+      SoLoader.init(this, OpenSourceMergedSoMapping.INSTANCE);
+    } catch (IOException e) {
+      e.printStackTrace(); // You can also log this exception or handle it in another way
+    }
+
     // Uncomment below line to Debug Webview
     // WebView.setWebContentsDebuggingEnabled(true);
     registerActivityLifecycleCallbacks(OrientationActivityLifecycle.getInstance());
@@ -90,8 +99,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
       // this app.
       DefaultNewArchitectureEntryPoint.load();
     }
-    // ReactNativeFlipper.initializeFlipper(this,
-    // getReactNativeHost().getReactInstanceManager());
+
     ApplicationLifecycleDispatcher.onApplicationCreate(this);
 
   }
