@@ -18,19 +18,19 @@ PODS:
   - AppCenterReactNativeShared (5.0.1):
     - AppCenter/Core (= 5.0.4)
   - boost (1.83.0)
-  - BugsnagReactNative (7.22.2):
+  - BugsnagReactNative (7.25.1):
     - React-Core
   - BVLinearGradient (2.8.3):
     - React-Core
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
-  - EXConstants (15.4.5):
+  - EXConstants (15.4.6):
     - ExpoModulesCore
   - EXFont (11.10.3):
     - ExpoModulesCore
-  - Expo (50.0.11):
+  - Expo (50.0.21):
     - ExpoModulesCore
-  - ExpoFileSystem (16.0.8):
+  - ExpoFileSystem (16.0.9):
     - ExpoModulesCore
   - ExpoImage (1.10.6):
     - ExpoModulesCore
@@ -42,7 +42,7 @@ PODS:
     - ExpoModulesCore
   - ExpoLocalAuthentication (13.8.0):
     - ExpoModulesCore
-  - ExpoModulesCore (1.11.10):
+  - ExpoModulesCore (1.11.14):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1072,9 +1072,9 @@ PODS:
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - react-native-config (1.5.3):
-    - react-native-config/App (= 1.5.3)
-  - react-native-config/App (1.5.3):
+  - react-native-config (1.5.5):
+    - react-native-config/App (= 1.5.5)
+  - react-native-config/App (1.5.5):
     - React-Core
   - react-native-create-thumbnail (2.0.1):
     - React-Core
@@ -1766,18 +1766,18 @@ SPEC CHECKSUMS:
   appcenter-crashes: 266063788bcebd553e621344a54286395a8e2010
   AppCenterReactNativeShared: 22aea9046e80c449137f4e574ae1f229616e2358
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
-  BugsnagReactNative: ca14503071d534fcfdcb5f2da08eca140963e5d0
+  BugsnagReactNative: 0e335dab2447e0cb761ca271d6d26699e4ae61db
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: fea03f2699887d960129cc54bba7e52542b6f953
-  EXConstants: 988aa430ca0f76b43cd46b66e7fae3287f9cc2fc
+  EXConstants: a5f6276e565d98f9eb4280f81241fc342d641590
   EXFont: f20669cb266ef48b004f1eb1f2b20db96cd1df9f
-  Expo: bbffa600c41f904151a925e5a214d1f4c5a79794
-  ExpoFileSystem: eecaf6796aed0f4dd20042dc2ca2cac6c4bc1185
+  Expo: 7b9976a9b2be116a701b233d6655b229a3c9316e
+  ExpoFileSystem: 74cc0fae916f9f044248433971dcfc8c3befd057
   ExpoImage: 8cf2d51de3d03b7e984e9b0ba8f19c0c22057001
   ExpoKeepAwake: 0f5cad99603a3268e50af9a6eb8b76d0d9ac956c
   ExpoLocalAuthentication: c55ffb179683efed04cb144fc80ccf26891f0cb4
-  ExpoModulesCore: b2ae7a3fc6193556273c5db90065fbe7e11c7a60
+  ExpoModulesCore: 421e9c6bcb63baf153a5ec22b2b4319addfe331c
   FBLazyVector: fbc4957d9aa695250b55d879c1d86f79d7e69ab4
   FBReactNativeSpec: 86de768f89901ef6ed3207cd686362189d64ac88
   Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
@@ -1825,7 +1825,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 9ee041e1d7be96da6d76a251f92e72b711c651d6
   react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-cameraroll: cb50eb7ae5f482d842c5a058679701de5a267f21
-  react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
+  react-native-config: 3367df9c1f25bb96197007ec531c7087ed4554c3
   react-native-create-thumbnail: 4ffd51a6c02a9313edc74e2460cd07264221f554
   react-native-date-picker: 06a4d96ab525a163c7a90bccd68833d136b0bb13
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
