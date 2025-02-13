@@ -65,7 +65,7 @@
     "appcenter": "5.0.0",
     "appcenter-analytics": "5.0.0",
     "appcenter-crashes": "5.0.0",
-    "assert": "^1.1.1",
+    "assert": "^2.1.0",
     "axios": "^1.7.9",
     "browserify-zlib": "~0.2.0",
     "buffer": "^6.0.3",
