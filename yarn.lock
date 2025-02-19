@@ -6221,10 +6221,22 @@ expo-font@~13.0.3:
   dependencies:
     fontfaceobserver "^2.1.0"
 
+expo-image@~2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/expo-image/-/expo-image-2.0.5.tgz#68aa00a56b09af01a728f5afc55b1877d02e6ce0"
+  integrity sha512-FAq7uyaTAfLWER3lN+KVAtep7IfGPZN9ygnVKW4GvgnvR4hKhTtZ5WNxiJ18KKLVb4nUKuHOpQeJNnljy3dtmA==
+
 expo-keep-awake@~14.0.2:
   version "14.0.2"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-14.0.2.tgz#124a729df43c87994631f51d5b1b5093d58e6c80"
   integrity sha512-71XAMnoWjKZrN8J7Q3+u0l9Ytp4OfhNAYz8BCWF1/9aFUw09J3I7Z5DuI3MUsVMa/KWi+XhG+eDUFP8cVA19Uw==
+
+expo-local-authentication@~15.0.2:
+  version "15.0.2"
+  resolved "https://registry.yarnpkg.com/expo-local-authentication/-/expo-local-authentication-15.0.2.tgz#c45460046d9d040370a2a9e18df399abb3df4913"
+  integrity sha512-v7TOfovuivGWffA8B0FudEas+njMKTrjhaPpJYLASiTLTP3zUYqtumNgZ9pkaDB6Cagq0+DeNH39AI8tdEBUkQ==
+  dependencies:
+    invariant "^2.2.4"
 
 expo-modules-autolinking@2.0.7:
   version "2.0.7"
@@ -11095,10 +11107,10 @@ react-native-video@^6.10.0:
   resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-6.10.0.tgz#35ac89761c2ffde9234ca65456db9f62342ca930"
   integrity sha512-NyDnpSBRJkj7TxMku2dEys54qKynW/l9kSPCVvayyqXWrc24cxHhLvAaxORdJDb6tS4FhUbR8tFIoOY65/XKZg==
 
-react-native-vision-camera@4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-4.4.0.tgz#6c4c30db0abfc9bbb93d4bb21cce3c2c1878202d"
-  integrity sha512-BXcSGJY0Ox4rYCiSRUykGy/uzLTUGldLN9Qcc9eYBWG+SKmisoE8oBaDbZbcC7VJEEpmN88NfLp9Sq1+DRXjhg==
+react-native-vision-camera@4.6.3:
+  version "4.6.3"
+  resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-4.6.3.tgz#4454ec5a00d529dde6e4d96e29cdb49fc37a3b7f"
+  integrity sha512-fVHww4cNFrxvMYOlUZcjl3iYmR3vcUtvLZKW9NHlKZ3o4zsspwYjbw2vheZvHrHtJ30OrE3N2NFqT6CxgPvRCw==
 
 react-native-webview@^13.13.2:
   version "13.13.2"
