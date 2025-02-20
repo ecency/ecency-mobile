@@ -4,7 +4,7 @@
 #import <AppCenterReactNativeAnalytics.h>
 #import <AppCenterReactNativeCrashes.h>
 #import <Bugsnag/Bugsnag.h>
-#import <Firebase.h>
+//#import <Firebase.h>
 
 #import <React/RCTBundleURLProvider.h>
 
@@ -38,9 +38,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   //third party initiations
-  if ([FIRApp defaultApp] == nil) {
-    [FIRApp configure];
-  }
+//  if ([FIRApp defaultApp] == nil) {
+//    [FIRApp configure];
+//  }
   [AppCenterReactNative register];
   [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
   [AppCenterReactNativeCrashes registerWithAutomaticProcessing];

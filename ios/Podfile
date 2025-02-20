@@ -1,5 +1,4 @@
 require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
-# $RNFirebaseAsStaticFramework = true
 
 
 # Resolve react_native_pods.rb with node to allow for hoisting
@@ -42,14 +41,15 @@ target 'Ecency' do
 
 
 
-
   setup_permissions([
     'Camera',
   ])
 
 
-  # Pods for Ecency
+  use_frameworks! :linkage => :static
+  # $RNFirebaseAsStaticFramework = true
 
+  # Pods for Ecency
   use_react_native!(
     :path => config[:reactNativePath],
 
@@ -126,5 +126,6 @@ end
 
 
 target 'ImageNotifi' do
+  use_frameworks! :linkage => :static
   pod 'Firebase/Messaging'
 end
