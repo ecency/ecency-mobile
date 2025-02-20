@@ -216,7 +216,6 @@
     "prettier": "2.8.8",
     "prettier-eslint": "^9.0.1",
     "react-native-codegen": "^0.0.13",
-    "react-query-native-devtools": "^4.0.0",
     "react-test-renderer": "18.3.1",
     "reactotron-react-native": "^5.0.3",
     "reactotron-redux": "^3.1.3",
