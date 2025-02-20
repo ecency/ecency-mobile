@@ -45,6 +45,7 @@
     "@react-native-clipboard/clipboard": "^1.16.1",
     "@react-native-community/netinfo": "^11.4.1",
     "@react-native-community/push-notification-ios": "^1.11.0",
+    "@react-native-firebase/app": "^21.11.0",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/drawer": "^6.6.6",
     "@react-navigation/native": "^6.1.9",

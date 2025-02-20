@@ -47,7 +47,7 @@ target 'Ecency' do
 
 
   use_frameworks! :linkage => :static
-  # $RNFirebaseAsStaticFramework = true
+  $RNFirebaseAsStaticFramework = true
 
   # Pods for Ecency
   use_react_native!(
