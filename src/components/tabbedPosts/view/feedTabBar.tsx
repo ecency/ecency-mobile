@@ -46,14 +46,6 @@ export const FeedTabBar = ({ onFilterSelect, pageType, ...props }: FeedTabBarPro
       }}
     >
       <TabBar
-        renderLabel={({ route, focused }) => (
-          <Tag
-            key={route.key}
-            value={intl.formatMessage({ id: route.title.toLowerCase() }).toUpperCase()}
-            isFilter
-            isPin={focused}
-          />
-        )}
         style={styles.tabBarStyle}
         indicatorStyle={styles.indicatorStyle}
         tabStyle={{ ...styles.tabStyle, minWidth: layout.width / 3 - (enableCustomTabs ? 14 : 0) }}
