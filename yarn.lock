@@ -2817,12 +2817,29 @@
   dependencies:
     invariant "^2.2.4"
 
+"@react-native-firebase/analytics@^21.11.0":
+  version "21.11.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-21.11.0.tgz#0b70c8b1f5914a5e48036794e4429893cc45fd62"
+  integrity sha512-hz94N41mTCtX/won3gCZW3rEG9l3+WqgRu/bbG8B3QRg0WOPIMCTc7Krj2KH5DGUtDP1rnjmUvrqMnrzrxuD7A==
+  dependencies:
+    superstruct "^2.0.2"
+
 "@react-native-firebase/app@^21.11.0":
   version "21.11.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-21.11.0.tgz#a01b0cb738a8b9ca7bb7ab7dd461c5a9744cb68a"
   integrity sha512-25qALpiaVuJB+QA6XdNw/t9Cqb/wbf9cf0XeXfBbSoOYZfaa7yZynS8a2HnBFEHfpV0KfD4tS/5g1sgZSLp0zg==
   dependencies:
     firebase "11.3.1"
+
+"@react-native-firebase/dynamic-links@^21.11.0":
+  version "21.11.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-21.11.0.tgz#56d5375e8f4afb8281a7e02c294231f772cf53e2"
+  integrity sha512-VMfQIQ/5bSd0Y/w98WmaA03dnElLRqwv0Jl0x3eDYa1L0gPbRYS6SAxHHMTWaPUWeCW7mFH2RnUAb6o/aCSMsQ==
+
+"@react-native-firebase/messaging@^21.11.0":
+  version "21.11.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-21.11.0.tgz#881b465ffbcd7c30498d007a3a09f5f13a78027e"
+  integrity sha512-oQDDRnjuFWX2Zbc1f/nPFGdZdZRKBj+G5NKEHm2F03d9UtnPLlPIZeFemTPQKYUPM8QeRWWzD8VA55ZzNEgQCw==
 
 "@react-native/assets-registry@0.76.7":
   version "0.76.7"
@@ -13030,6 +13047,11 @@ sudo-prompt@^9.0.0:
   version "9.2.1"
   resolved "https://registry.yarnpkg.com/sudo-prompt/-/sudo-prompt-9.2.1.tgz#77efb84309c9ca489527a4e749f287e6bdd52afd"
   integrity sha512-Mu7R0g4ig9TUuGSxJavny5Rv0egCEtpZRNMrZaYS1vxkiIxGiGUwoezU3LazIQ+KE04hTrTfNPgxU5gzi7F5Pw==
+
+superstruct@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/superstruct/-/superstruct-2.0.2.tgz#3f6d32fbdc11c357deff127d591a39b996300c54"
+  integrity sha512-uV+TFRZdXsqXTL2pRvujROjdZQ4RAlBUS5BTh9IGm+jTqQntYThciG/qu57Gs69yjnVUSqdxF9YLmSnpupBW9A==
 
 supports-color@^2.0.0:
   version "2.0.0"
