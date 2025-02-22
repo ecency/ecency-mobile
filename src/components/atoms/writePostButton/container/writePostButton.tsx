@@ -14,10 +14,8 @@ interface WritePostButtonProps {
 export const WritePostButton = ({ placeholderId: placeholder, onPress }: WritePostButtonProps) => {
   const intl = useIntl();
 
-
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-
 
   const _onPress = () => {
     if (!isLoggedIn) {
@@ -39,4 +37,4 @@ export const WritePostButton = ({ placeholderId: placeholder, onPress }: WritePo
       </View>
     </TouchableOpacity>
   );
-}
+};

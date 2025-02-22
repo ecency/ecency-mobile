@@ -1,14 +1,14 @@
 import { useRef } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
+import { Alert } from 'react-native';
 import QUERIES from './queryKeys';
 import {
   fetchPostStats,
   fetchPostStatsByDimension,
   recordPlausibleEvent,
 } from '../plausible/plausible';
-import { convertStatsByDimension } from '../../providers/plausible/converters';
-import { PostStatsByCountry, PostStatsByDevice } from '../../providers/plausible/plausible.types';
-import { Alert } from 'react-native';
+import { convertStatsByDimension } from '../plausible/converters';
+import { PostStatsByCountry, PostStatsByDevice } from '../plausible/plausible.types';
 
 /**
  * Custom hook to track events with Plausible Analytics.
@@ -92,8 +92,7 @@ export const usePostStatsByCountry = (urlPath: string, dateRange = 'all') =>
     },
   );
 
-
-  /**
+/**
  * Custom hook to fetch post stats by device
  *
  * @param {string} urlPath - The initial URL path for fetching stats.

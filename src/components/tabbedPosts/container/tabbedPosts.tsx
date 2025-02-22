@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { TabView, TabBarProps } from 'react-native-tab-view';
 import { useWindowDimensions, View } from 'react-native';
+import { useIntl } from 'react-intl';
 import { TabbedPostsProps } from '../types/tabbedPosts.types';
 import { FeedTabBar } from '../view/feedTabBar';
 import PostsTabContent from '../view/postsTabContent';
-import { useIntl } from 'react-intl';
-import { Tag } from '../../../components';
+import { Tag } from '../..';
 
 export const TabbedPosts = ({
   tabFilters,
@@ -49,14 +49,14 @@ export const TabbedPosts = ({
     );
   };
 
-  const _renderTabLabel = (({ labelText, focused }: { focused: boolean, labelText: string }) => (
+  const _renderTabLabel = ({ labelText, focused }: { focused: boolean; labelText: string }) => (
     <Tag
       key={labelText}
       value={intl.formatMessage({ id: labelText.toLowerCase() }).toUpperCase()}
       isFilter
       isPin={focused}
     />
-  ))
+  );
 
   // Dynamically create scenes for each tab
   const renderScene = ({ route }) => {

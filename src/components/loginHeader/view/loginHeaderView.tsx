@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Image, SafeAreaView } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
   interpolate,
-  Easing
+  Easing,
 } from 'react-native-reanimated';
 // Constants
 
@@ -16,26 +16,17 @@ import styles from './loginHeaderStyles';
 import { IconButton } from '../..';
 
 const LoginHeaderView = ({ description, isKeyboardOpen, title, onBackPress }) => {
-
   // Shared value to track animation progress
   const progress = useSharedValue(isKeyboardOpen ? 0 : 1);
 
   // Update progress when visibility changes
   useEffect(() => {
-    progress.value = withTiming(
-      isKeyboardOpen ? 0 : 1,
-      { duration: 300, easing: Easing.ease }
-    );
+    progress.value = withTiming(isKeyboardOpen ? 0 : 1, { duration: 300, easing: Easing.ease });
   }, [isKeyboardOpen]);
-
 
   // Create animated styles
   const animatedStyles = useAnimatedStyle(() => {
-    const height = interpolate(
-      progress.value,
-      [0, 1],
-      [0, bodyHeight]
-    );
+    const height = interpolate(progress.value, [0, 1], [0, bodyHeight]);
 
     return {
       height,
@@ -43,7 +34,6 @@ const LoginHeaderView = ({ description, isKeyboardOpen, title, onBackPress }) =>
       overflow: 'hidden',
     };
   });
-
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -59,9 +49,7 @@ const LoginHeaderView = ({ description, isKeyboardOpen, title, onBackPress }) =>
           </View>
         </View>
 
-        <Animated.View
-          style={animatedStyles}
-        >
+        <Animated.View style={animatedStyles}>
           <View style={styles.body}>
             <View style={styles.titleText}>
               <Text style={styles.title}>{title}</Text>
@@ -80,9 +68,8 @@ const LoginHeaderView = ({ description, isKeyboardOpen, title, onBackPress }) =>
       </View>
     </SafeAreaView>
   );
-}
+};
 
 export default LoginHeaderView;
 
 const bodyHeight = 120;
-

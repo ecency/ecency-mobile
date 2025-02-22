@@ -20,8 +20,8 @@ export default EStyleSheet.create({
   statLabel: {
     color: '$primaryBlack',
     fontSize: 14,
-    marginLeft:8,
-    marginVertical:2,
+    marginLeft: 8,
+    marginVertical: 2,
     fontWeight: 'normal',
   } as TextStyle,
 });
