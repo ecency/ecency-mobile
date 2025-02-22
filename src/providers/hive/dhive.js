@@ -358,7 +358,7 @@ export const getState = async (path) => {
  * @method getUser get account data
  * @param user username
  */
-export const getUser = async (user, loggedIn = true) => {
+export const getUser = async (user) => {
   try {
     const account = await client.database.getAccounts([user]);
     const _account = {
@@ -927,22 +927,22 @@ export const signImage = async (file, currentAccount, pin) => {
   }
 };
 
-/**
- * @method getBlockNum return block num based on transaction id
- * @param trx_id transactionId
- */
-const getBlockNum = async (trx_id) => {
-  try {
-    console.log('Getting transaction data', trx_id);
-    const transData = await client.call('condenser_api', 'get_transaction', [trx_id]);
-    const blockNum = transData.block_num;
-    console.log('Block number', blockNum);
-    return blockNum;
-  } catch (err) {
-    console.warn('Failed to get transaction data: ', err);
-    return undefined;
-  }
-};
+// /**
+//  * @method getBlockNum return block num based on transaction id
+//  * @param trx_id transactionId
+//  */
+// const getBlockNum = async (trx_id) => {
+//   try {
+//     console.log('Getting transaction data', trx_id);
+//     const transData = await client.call('condenser_api', 'get_transaction', [trx_id]);
+//     const blockNum = transData.block_num;
+//     console.log('Block number', blockNum);
+//     return blockNum;
+//   } catch (err) {
+//     console.warn('Failed to get transaction data: ', err);
+//     return undefined;
+//   }
+// };
 
 /**
  * @method upvote upvote a content
@@ -1672,7 +1672,6 @@ export const postContent = (
   jsonMetadata,
   options = null,
   voteWeight = null,
-  isEdit = false,
 ) =>
   _postContent(
     account,
@@ -2229,7 +2228,7 @@ export const pinCommunityPost = (
   );
 };
 
-export const getBtcAddress = (pin, currentAccount) => {
+export const getBtcAddress = () => {
   /* const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 

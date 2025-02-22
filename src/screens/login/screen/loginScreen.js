@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Platform, Keyboard, Text, Image } from 'react-native';
+import { View, Platform, Keyboard, Text } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useIntl } from 'react-intl';
 import { debounce } from 'lodash';
 
 // Actions
-import EStyleSheet from 'react-native-extended-stylesheet';
 import HiveSigner from '../../steem-connect/hiveSigner';
 
 // Internal Components

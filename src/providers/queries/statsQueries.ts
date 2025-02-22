@@ -1,13 +1,11 @@
 import { useRef } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { Alert } from 'react-native';
 import QUERIES from './queryKeys';
 import {
   fetchPostStats,
   fetchPostStatsByDimension,
   recordPlausibleEvent,
 } from '../plausible/plausible';
-import { convertStatsByDimension } from '../plausible/converters';
 import { PostStatsByCountry, PostStatsByDevice } from '../plausible/plausible.types';
 
 /**

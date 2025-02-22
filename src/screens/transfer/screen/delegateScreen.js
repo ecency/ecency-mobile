@@ -254,7 +254,7 @@ class DelegateScreen extends Component {
   };
 
   _handleNext = async ({ availableVestingShares }) => {
-    const { step, hp, amount, destination, from, delegatedHP } = this.state;
+    const { step, hp, destination, from, delegatedHP } = this.state;
     const { dispatch, intl, hivePerMVests } = this.props;
     const vestsForHp = hpToVests(hp, hivePerMVests);
     const parsedHpValue = parseFloat(hp);
@@ -373,7 +373,6 @@ class DelegateScreen extends Component {
 
   _renderInput = (placeholder, state, keyboardType, availableVestingShares, isTextArea) => {
     const { isAmountValid } = this.state;
-    const { hivePerMVests } = this.props;
 
     switch (state) {
       case 'from':
@@ -463,16 +462,7 @@ class DelegateScreen extends Component {
   };
 
   render() {
-    const {
-      intl,
-      accounts,
-      currentAccountName,
-      selectedAccount,
-      handleOnModalClose,
-      hivePerMVests,
-      actionModalVisible,
-      accountType,
-    } = this.props;
+    const { intl, selectedAccount, handleOnModalClose, hivePerMVests } = this.props;
     const {
       amount,
       isTransfering,
@@ -481,7 +471,6 @@ class DelegateScreen extends Component {
       steemConnectTransfer,
       step,
       delegatedHP,
-      hp,
       confirmModalOpen,
       isAmountValid,
     } = this.state;

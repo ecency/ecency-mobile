@@ -49,14 +49,8 @@ class SearchModalView extends PureComponent {
   };
 
   render() {
-    const {
-      handleOnChangeSearchInput,
-      handleOnClose,
-      handleOnPressListItem,
-      isOpen,
-      placeholder,
-      searchResults,
-    } = this.props;
+    const { handleOnChangeSearchInput, handleOnClose, isOpen, placeholder, searchResults } =
+      this.props;
 
     return (
       <Modal

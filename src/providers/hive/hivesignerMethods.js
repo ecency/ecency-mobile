@@ -162,7 +162,7 @@ export const reblogPost = (data) =>
       });
   });
 
-export const removeAccessToken = (data) =>
+export const removeAccessToken = () =>
   new Promise((resolve, reject) => {
     try {
       hs.removeAccessToken();

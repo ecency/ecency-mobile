@@ -144,7 +144,6 @@ class BoostPostScreen extends PureComponent {
       isSCModalOpen,
       handleOnSCModalClose,
       getESTMPrice,
-      user,
     } = this.props;
 
     const calculatedESTM = 150 + 50 * factor;

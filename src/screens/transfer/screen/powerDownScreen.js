@@ -215,7 +215,7 @@ class PowerDownView extends Component {
 
   _renderBeneficiarySelectionContent = () => {
     const { intl } = this.props;
-    const { from, destinationAccounts, amount } = this.state;
+    const { destinationAccounts } = this.state;
 
     const powerDownBeneficiaries = destinationAccounts?.map((item) => ({
       account: item.username,

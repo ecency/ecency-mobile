@@ -4,7 +4,7 @@ import { TabBar, TabBarProps } from 'react-native-tab-view';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useWindowDimensions, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { CustomiseFiltersModal, IconButton, Tag } from '../..';
+import { CustomiseFiltersModal, IconButton } from '../..';
 import { CustomiseFiltersModalRef } from '../../customiseFiltersModal/customiseFiltersModal';
 import styles from '../styles/feedTabBar.styles';
 import showLoginAlert from '../../../utils/showLoginAlert';

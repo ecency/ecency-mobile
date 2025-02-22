@@ -286,7 +286,7 @@ export const setPinCodeOpen = async (status) => {
   }
 };
 
-export const getLastUpdateCheck = async (lastUpdateCheck) => {
+export const getLastUpdateCheck = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
     if (setting) {

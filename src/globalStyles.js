@@ -1,5 +1,4 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { FlipInEasyX } from 'react-native-reanimated';
 
 export default EStyleSheet.create({
   containerHorizontal16: {

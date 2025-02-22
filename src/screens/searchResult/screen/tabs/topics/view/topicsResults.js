@@ -7,9 +7,7 @@ import TopicsResultsContainer from '../container/topicsResultsContainer';
 
 import styles from './topicsResultsStyles';
 
-const filterOptions = ['user', 'tag'];
-
-const TopicsResults = ({ navigation, searchValue }) => {
+const TopicsResults = ({ searchValue }) => {
   const _renderTagItem = (item, index) => (
     <View style={[styles.itemWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
       <Text style={styles.username}>{`#${item.tag}`}</Text>

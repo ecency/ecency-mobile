@@ -25,7 +25,7 @@ const OtherResultContainer = ({ children, searchValue }) => {
           }
           setTags(res);
         })
-        .catch((err) => {
+        .catch(() => {
           setNoResult(true);
           setTags([]);
         });
@@ -37,7 +37,7 @@ const OtherResultContainer = ({ children, searchValue }) => {
           }
           setTags(res);
         })
-        .catch((err) => {
+        .catch(() => {
           setNoResult(true);
           setTags([]);
         });

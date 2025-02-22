@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Animated, { FadeIn, SlideInUp, SlideOutDown } from 'react-native-reanimated';
+import Animated, { FadeIn, SlideInUp } from 'react-native-reanimated';
 import { Portal } from 'react-native-portalize';
 import { Easing, KeyboardAvoidingView, Platform, View } from 'react-native';
 import styles from '../children/inputSupportModal.styles';

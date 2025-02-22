@@ -50,7 +50,6 @@ const middleware = [thunk];
 
 let enhancers;
 if (__DEV__) {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires;
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const Reactotron = require('../../../reactotron-config').default;
   enhancers = compose(applyMiddleware(...middleware), Reactotron.createEnhancer());

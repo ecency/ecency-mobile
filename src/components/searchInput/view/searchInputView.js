@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View } from 'react-native';
 
 // Components
-import { Icon } from '../../icon';
 import { IconButton } from '../../iconButton';
 import { TextInput } from '../../textInput';
 
