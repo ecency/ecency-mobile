@@ -5,7 +5,7 @@ import { Client } from '@hiveio/dhive';
 import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
-import messaging from '@react-native-firebase/messaging';
+import { getMessaging } from '@react-native-firebase/messaging';
 import { useNavigation } from '@react-navigation/native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { languageRestart } from '../../../utils/I18nUtils';
@@ -368,7 +368,7 @@ class SettingsContainer extends Component {
           otherAccounts.forEach((item) => {
             const { isNotificationSettingsOpen } = this.props;
 
-            messaging()
+            getMessaging()
               .getToken()
               .then((token) => {
                 const data = {
