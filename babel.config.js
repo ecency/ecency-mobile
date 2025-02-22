@@ -9,7 +9,7 @@ module.exports = (api) => {
   // Reanimated should be last plugin added in babel
   plugins.push(['react-native-reanimated/plugin']);
   return {
-    presets: ['module:@react-native/babel-preset'],
+    presets: ['babel-preset-expo'],
     sourceMaps: true,
     plugins,
   };
