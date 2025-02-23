@@ -2323,9 +2323,6 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNTusClient (1.1.0):
-    - React-Core
-    - TUSKit (~> 1.4.2)
   - RNVectorIcons (10.2.0):
     - DoubleConversion
     - glog
@@ -2359,7 +2356,6 @@ PODS:
   - TcpSockets (4.0.0):
     - React
   - TOCropViewController (2.7.4)
-  - TUSKit (1.4.2)
   - VisionCamera (4.6.3):
     - VisionCamera/Core (= 4.6.3)
     - VisionCamera/React (= 4.6.3)
@@ -2488,7 +2484,6 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
-  - RNTusClient (from `../node_modules/react-native-tus-client`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - TcpSockets (from `../node_modules/react-native-tcp`)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
@@ -2520,7 +2515,6 @@ SPEC REPOS:
     - SDWebImageSVGCoder
     - SocketRocket
     - TOCropViewController
-    - TUSKit
 
 EXTERNAL SOURCES:
   appcenter-analytics:
@@ -2756,8 +2750,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSVG:
     :path: "../node_modules/react-native-svg"
-  RNTusClient:
-    :path: "../node_modules/react-native-tus-client"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   TcpSockets:
@@ -2903,7 +2895,6 @@ SPEC CHECKSUMS:
   RNReanimated: ddc60075b382b872662cadaf9972b07d52a8fce7
   RNScreens: 3d9895696d5716e9a780237a9c2589c7aa3d199f
   RNSVG: 3cd6669b7ad658c8b482db630dccf364c3b59cfb
-  RNTusClient: b90393226531c118c4716a2b71128e3b9d9c77ee
   RNVectorIcons: 8c7af262a73890caabbac2bb081ddbaa1b8a768c
   SDWebImage: 8a6b7b160b4d710e2a22b6900e25301075c34cb3
   SDWebImageAVIFCoder: 00310d246aab3232ce77f1d8f0076f8c4b021d90
@@ -2911,7 +2902,6 @@ SPEC CHECKSUMS:
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   TcpSockets: 4ef55305239923b343ed0a378b1fac188b1373b0
   TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
-  TUSKit: 4bcc2fe13e1b4d6c3bfbaca57d64e64c1be31201
   VisionCamera: 598ab83c6bf4d65f5c32ec54361eed866505d388
   Yoga: d213adae4f2c5518e9b19f919afa25a73848ecfb
 
