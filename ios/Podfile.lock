@@ -18,7 +18,7 @@ PODS:
   - AppCenterReactNativeShared (5.0.2):
     - AppCenter/Core (= 5.0.5)
   - boost (1.84.0)
-  - BugsnagReactNative (7.25.1):
+  - BugsnagReactNative (8.2.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2766,7 +2766,7 @@ SPEC CHECKSUMS:
   appcenter-crashes: 266063788bcebd553e621344a54286395a8e2010
   AppCenterReactNativeShared: e6f6bd4d0e055bf1a3d7337edb4993bfce79185b
   boost: 1dca942403ed9342f98334bf4c3621f011aa7946
-  BugsnagReactNative: a7a012808b16dbd217958e01b032065a7012a3b9
+  BugsnagReactNative: 0e67d7e6d7aab02bfde08ca4cf8b7f6e884a39db
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: f16ae600a246532c4020132d54af21d0ddb2a385

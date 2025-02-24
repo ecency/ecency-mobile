@@ -30,7 +30,7 @@
   "dependencies": {
     "@babel/preset-typescript": "^7.26.0",
     "@babel/runtime": "^7.26.7",
-    "@bugsnag/react-native": "^7.22.2",
+    "@bugsnag/react-native": "^8.2.0",
     "@ecency/render-helper": "^2.2.36",
     "@esteemapp/dhive": "0.15.0",
     "@esteemapp/react-native-autocomplete-input": "^4.2.1",
@@ -185,7 +185,7 @@
     "@babel/helper-environment-visitor": "^7.16.7",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
-    "@bugsnag/source-maps": "^2.3.1",
+    "@bugsnag/source-maps": "^2.3.3",
     "@react-native-community/cli": "15.0.1",
     "@react-native-community/cli-platform-android": "15.0.1",
     "@react-native-community/cli-platform-ios": "15.0.1",
