@@ -29,6 +29,7 @@ end
 target 'Ecency' do
 
   use_expo_modules!
+  
   post_integrate do |installer|
     begin
       expo_patch_react_imports!(installer)
@@ -39,8 +40,6 @@ target 'Ecency' do
 
   config = use_native_modules!
 
-
-
   setup_permissions([
     'Camera',
   ])
@@ -50,6 +49,8 @@ target 'Ecency' do
   $RNFirebaseAsStaticFramework = true
 
   # Pods for Ecency
+  pod 'GoogleUtilities'
+
   use_react_native!(
     :path => config[:reactNativePath],
 
@@ -127,5 +128,6 @@ end
 
 target 'ImageNotifi' do
   use_frameworks! :linkage => :static
+  pod 'GoogleUtilities'
   pod 'Firebase/Messaging'
 end
