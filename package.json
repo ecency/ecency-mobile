@@ -80,6 +80,7 @@
     "domain-browser": "^5.7.0",
     "events": "^1.0.0",
     "expo": "^52.0.33",
+    "expo-crypto": "~14.0.2",
     "expo-image": "~2.0.5",
     "expo-local-authentication": "~15.0.2",
     "hive-auth-wrapper": "https://github.com/noumantahir/hive-auth-wrapper.git",
