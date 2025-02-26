@@ -58,7 +58,7 @@ const SearchInputView = ({
   const inputWrapperFlex = { flex: backEnabled ? 16 : 1 };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {backEnabled && (
         <View style={styles.backButtonContainer}>
           <IconButton
@@ -86,7 +86,7 @@ const SearchInputView = ({
         {handleOnModalClose && _renderCrossButton(() => handleOnModalClose())}
         {showClearButton && _renderCrossButton(() => setInputValue(''))}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

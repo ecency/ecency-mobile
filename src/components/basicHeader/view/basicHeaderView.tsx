@@ -108,7 +108,7 @@ const BasicHeaderView = ({
    */
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.backWrapper}>
           <IconButton
@@ -265,7 +265,7 @@ const BasicHeaderView = ({
         title="Reward"
         onPress={_handleRewardMenuSelect}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
