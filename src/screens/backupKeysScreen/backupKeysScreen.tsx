@@ -14,6 +14,7 @@ import styles from './backupKeysScreenStyles';
 
 // utils
 import { decryptKey } from '../../utils/crypto';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const BackupKeysScreen = () => {
   const intl = useIntl();
@@ -160,7 +161,7 @@ const BackupKeysScreen = () => {
   );
 
   return (
-    <Fragment>
+    <SafeAreaView style={styles.mainContainer}>
       <BasicHeader
         backIconName="close"
         title={intl.formatMessage({
@@ -169,7 +170,7 @@ const BackupKeysScreen = () => {
       />
       <View style={styles.mainContainer}>{_renderContent}</View>
       <ImportPrivateKeyModalModal ref={importKeyModalRef} />
-    </Fragment>
+    </SafeAreaView>
   );
 };
 

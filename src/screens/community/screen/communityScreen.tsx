@@ -15,6 +15,7 @@ import styles from './communityStyles';
 
 import { COMMUNITY_SCREEN_FILTER_MAP, getDefaultFilters } from '../../../constants/options/filters';
 import { useAppSelector } from '../../../hooks';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const CommunityScreen = ({ route }) => {
   const tag = route.params?.tag ?? '';
@@ -69,7 +70,7 @@ const CommunityScreen = ({ route }) => {
         isSubscribed,
         isLoggedIn,
       }) => (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <BasicHeader
             title={`${data && data.title ? data.title : ''} ${intl.formatMessage({
               id: 'community.community',
@@ -145,7 +146,7 @@ const CommunityScreen = ({ route }) => {
               handleOnScrollBeginDrag={isExpanded ? _handleOnScrollBeginDrag : null}
             />
           </View>
-        </View>
+        </SafeAreaView>
       )}
     </CommunityContainer>
   );

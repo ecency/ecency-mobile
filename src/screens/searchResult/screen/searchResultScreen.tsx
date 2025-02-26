@@ -15,6 +15,7 @@ import PeopleResults from './tabs/people/view/peopleResults';
 // Styles
 import styles from './searchResultStyles';
 import globalStyles from '../../../globalStyles';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SearchResultScreen = ({ navigation }) => {
   const intl = useIntl();
@@ -40,7 +41,7 @@ const SearchResultScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <SearchInput
         showClearButton={true}
         placeholder={intl.formatMessage({ id: 'header.search' })}
@@ -50,7 +51,7 @@ const SearchResultScreen = ({ navigation }) => {
         onBackPress={_navigationGoBack}
       />
       <SearchResultsTabView searchValue={searchValue} />
-    </View>
+    </SafeAreaView>
   );
 };
 

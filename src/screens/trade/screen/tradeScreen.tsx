@@ -10,6 +10,7 @@ import { hsOptions } from '../../../constants/hsOptions';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
 import { delay } from '../../../utils/editor';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const TradeScreen = ({ route, navigation }) => {
   const intl = useIntl();
@@ -61,7 +62,7 @@ const TradeScreen = ({ route, navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <BasicHeader title={intl.formatMessage({ id: `trade.${transferType}` })} />
       {_content}
 
@@ -76,7 +77,7 @@ const TradeScreen = ({ route, navigation }) => {
           <WebView source={{ uri: `${hsOptions.base_url}${hsSignPath}` }} />
         </Modal>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

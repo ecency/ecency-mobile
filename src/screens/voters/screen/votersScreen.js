@@ -12,6 +12,8 @@ import AccountListContainer from '../../../containers/accountListContainer';
 import { getActiveVotes } from '../../../providers/hive/dhive';
 import { parseActiveVotes } from '../../../utils/postParser';
 import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import globalStyles from '../../../globalStyles';
 
 const filterOptions = ['rewards', 'percent', 'time'];
 
@@ -44,7 +46,7 @@ const VotersScreen = ({ route }) => {
   return (
     <AccountListContainer data={_activeVotes}>
       {({ data, filterResult, filterIndex, handleOnVotersDropdownSelect, handleSearch }) => (
-        <>
+        <SafeAreaView style={globalStyles.container}>
           <BasicHeader
             backIconName="close"
             title={`${headerTitle} (${data && data.length})`}
@@ -65,7 +67,7 @@ const VotersScreen = ({ route }) => {
             onDropdownSelect={handleOnVotersDropdownSelect}
           />
           <VotersDisplay votes={filterResult || data} createdAt={post.created} />
-        </>
+        </SafeAreaView>
       )}
     </AccountListContainer>
   );

@@ -25,6 +25,7 @@ import { isCommunity } from '../../../utils/communityValidation';
 
 import styles from './editorScreenStyles';
 import PostOptionsModal from '../children/postOptionsModal';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 class EditorScreen extends Component {
   /* Props
@@ -456,7 +457,7 @@ class EditorScreen extends Component {
     };
 
     return (
-      <View style={globalStyles.defaultContainer}>
+      <SafeAreaView edges={['top']} style={globalStyles.defaultContainer}>
         <BasicHeader
           handleSchedulePress={(date) => handleSchedulePress(date, fields)}
           handleRewardChange={handleRewardChange}
@@ -545,7 +546,7 @@ class EditorScreen extends Component {
           handleShouldReblogChange={handleShouldReblogChange}
           handleFormUpdate={this._handleFormUpdate}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }

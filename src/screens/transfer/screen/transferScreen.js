@@ -29,6 +29,7 @@ import {
 } from '../../../providers/hive-spk/hiveSpk';
 import parseToken from '../../../utils/parseToken';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const TransferView = ({
   currentAccountName,
@@ -304,7 +305,7 @@ const TransferView = ({
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <BasicHeader
         title={intl.formatMessage({ id: `transfer.${transferType}` })}
         backIconName="close"
@@ -383,7 +384,7 @@ const TransferView = ({
       )}
 
       <HiveAuthModal ref={hiveAuthModalRef} onClose={handleOnModalClose} />
-    </View>
+    </SafeAreaView>
   );
 };
 

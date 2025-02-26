@@ -12,6 +12,7 @@ import globalStyles from '../../../globalStyles';
 import styles from './bookmarksStyles';
 import { showActionModal } from '../../../redux/actions/uiAction';
 import { ButtonTypes } from '../../../components/actionModal/container/actionModalContainer';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const BookmarksScreen = ({
   isLoading,
@@ -133,7 +134,7 @@ const BookmarksScreen = ({
   };
 
   return (
-    <View style={globalStyles.container}>
+    <SafeAreaView style={globalStyles.container}>
       <BasicHeader
         title={intl.formatMessage({
           id: 'bookmarks.title',
@@ -145,9 +146,9 @@ const BookmarksScreen = ({
         onIndexChange={setTabIndex}
         renderTabBar={TabBar}
         renderScene={renderScene}
-        style={[globalStyles.tabView, { paddingBottom: 40 }]}
+        style={globalStyles.tabView}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

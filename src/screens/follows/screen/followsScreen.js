@@ -10,6 +10,7 @@ import { BasicHeader, UserListItem } from '../../../components';
 
 // Utils
 import styles from './followScreenStyles';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 class FollowsScreen extends PureComponent {
   /* Props
@@ -50,7 +51,7 @@ class FollowsScreen extends PureComponent {
     const headerTitle = `${title} (${count})`;
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <BasicHeader
           title={headerTitle}
           isHasSearch
@@ -75,7 +76,7 @@ class FollowsScreen extends PureComponent {
             )
           }
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }

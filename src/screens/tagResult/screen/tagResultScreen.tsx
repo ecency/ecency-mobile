@@ -11,6 +11,7 @@ import { SearchInput, TabbedPosts } from '../../../components';
 import styles from './tagResultStyles';
 
 import { GLOBAL_POST_FILTERS, GLOBAL_POST_FILTERS_VALUE } from '../../../constants/options/filters';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const TagResultScreen = ({ navigation, route }) => {
   const initTag = route.params?.tag ?? '';
@@ -50,7 +51,7 @@ const TagResultScreen = ({ navigation, route }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <SearchInput
         showClearButton={true}
         autoFocus={false}
@@ -69,7 +70,7 @@ const TagResultScreen = ({ navigation, route }) => {
           tag={tag}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

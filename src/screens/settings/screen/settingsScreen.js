@@ -18,6 +18,8 @@ import { BasicHeader, SettingsItem, CollapsibleCard } from '../../../components'
 // Styles
 import styles from './settingsStyles';
 import settingsTypes from '../../../constants/settingsTypes';
+import globalStyles from '../../../globalStyles';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SettingsScreen = ({
   handleOnChange,
@@ -47,7 +49,7 @@ const SettingsScreen = ({
   isHideImages,
 }) => {
   return (
-    <Fragment>
+    <SafeAreaView style={globalStyles.defaultContainer}>
       <BasicHeader
         title={intl.formatMessage({
           id: 'settings.settings',
@@ -329,7 +331,7 @@ const SettingsScreen = ({
           )}
         </View>
       </ScrollView>
-    </Fragment>
+    </SafeAreaView>
   );
 };
 export default injectIntl(SettingsScreen);

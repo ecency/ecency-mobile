@@ -16,6 +16,7 @@ import globalStyles from '../../../globalStyles';
 import UserRibbon from '../../../components/userRibbon/userRibbon';
 import styles from './styles';
 import { toastNotification } from '../../../redux/actions/uiAction';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ITEM_SKUS = Platform.select({
   ios: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
@@ -48,7 +49,7 @@ const BoostScreen = ({ route }) => {
       handleOnPurchaseFailure={_onPurchaseFailure}
     >
       {({ buyItem, productList, isLoading, isProcessing, getTitle }) => (
-        <View style={globalStyles.container}>
+        <SafeAreaView style={globalStyles.container}>
           <BasicHeader
             disabled={isProcessing}
             title={intl.formatMessage({
@@ -74,7 +75,7 @@ const BoostScreen = ({ route }) => {
               ))}
             </ScrollView>
           )}
-        </View>
+        </SafeAreaView>
       )}
     </InAppPurchaseContainer>
   );

@@ -14,6 +14,7 @@ import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
 import parseAsset from '../../../utils/parseAsset';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export interface AssetDetailsScreenParams {
   coinId: string;
@@ -196,7 +197,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <BasicHeader title={intl.formatMessage({ id: 'wallet.coin_details' })} />
       <ActivitiesList
         header={_renderHeaderComponent}
@@ -210,7 +211,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         onActionPress={_onActionPress}
       />
       <DelegationsModal ref={delegationsModalRef} />
-    </View>
+    </SafeAreaView>
   );
 };
 

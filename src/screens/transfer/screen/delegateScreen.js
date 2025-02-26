@@ -46,6 +46,7 @@ import parseAsset from '../../../utils/parseAsset';
 import { delay } from '../../../utils/editor';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
 import TransferTypes from '../../../constants/transferTypes';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 class DelegateScreen extends Component {
   _handleOnAmountChange = debounce(
@@ -597,7 +598,7 @@ class DelegateScreen extends Component {
     );
 
     return (
-      <Fragment>
+      <SafeAreaView style={styles.container}>
         <BasicHeader title={intl.formatMessage({ id: 'transfer.delegate' })} backIconName="close" />
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : null}
@@ -627,7 +628,7 @@ class DelegateScreen extends Component {
         )}
 
         <HiveAuthModal ref={this.hiveAuthModalRef} onClose={handleOnModalClose} />
-      </Fragment>
+      </SafeAreaView>
     );
   }
 }

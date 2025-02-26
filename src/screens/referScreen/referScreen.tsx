@@ -36,6 +36,7 @@ import ROUTES from '../../constants/routeNames';
 import { showProfileModal } from '../../redux/actions/uiAction';
 import RootNavigation from '../../navigation/rootNavigation';
 import { useAppSelector } from '../../hooks';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ReferScreen = () => {
   const intl = useIntl();
@@ -240,14 +241,14 @@ const ReferScreen = () => {
     );
   };
   return (
-    <Fragment>
+    <SafeAreaView style={styles.mainContainer}>
       <BasicHeader
         title={intl.formatMessage({
           id: 'refer.refer_earn',
         })}
       />
       <View style={styles.mainContainer}>{_renderReferralsList()}</View>
-    </Fragment>
+    </SafeAreaView>
   );
 };
 

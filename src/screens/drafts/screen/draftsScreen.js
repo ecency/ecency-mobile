@@ -25,6 +25,7 @@ import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
 import { useAppSelector } from '../../../hooks';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const DraftsScreen = ({
   currentAccount,
@@ -216,7 +217,7 @@ const DraftsScreen = ({
 
   return (
     <>
-      <View style={globalStyles.container}>
+      <SafeAreaView style={globalStyles.container}>
         <BasicHeader
           title={intl.formatMessage({
             id: 'drafts.title',
@@ -225,14 +226,14 @@ const DraftsScreen = ({
 
         <TabView
           navigationState={{ index, routes }}
-          style={[globalStyles.tabView, { paddingBottom: 40 }]}
+          style={globalStyles.tabView}
           onIndexChange={setIndex}
           renderTabBar={TabBar}
           renderScene={renderScene}
         />
 
         {batchSelectedItems && batchSelectedItems.length > 0 ? _renderDeleteButton() : null}
-      </View>
+      </SafeAreaView>
       <OptionsModal
         ref={actionSheet}
         options={[

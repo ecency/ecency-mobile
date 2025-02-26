@@ -31,6 +31,7 @@ import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
 import TransferTypes from '../../../constants/transferTypes';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 /* Props
  * ------------------------------------------------
@@ -475,7 +476,7 @@ class PowerDownView extends Component {
       </View>
     );
     return (
-      <Fragment>
+      <SafeAreaView style={styles.container}>
         <BasicHeader
           title={intl.formatMessage({ id: `transfer.${transferType}` })}
           backIconName="close"
@@ -533,7 +534,7 @@ class PowerDownView extends Component {
           />
         </Modal>
         <HiveAuthModal ref={this.hiveAuthModalRef} onClose={handleOnModalClose} />
-      </Fragment>
+      </SafeAreaView>
     );
   }
 }

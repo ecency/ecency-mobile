@@ -20,6 +20,7 @@ import styles from './editHistoryScreenStyles';
 import { getCommentHistory } from '../../providers/ecency/ecency';
 import { dateToFormatted } from '../../utils/time';
 import historyBuilder from './historyBuilder';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export interface CommentHistoryListItemDiff {
   title: string;
@@ -206,7 +207,7 @@ const EditHistoryScreen = ({ route }) => {
   };
 
   return (
-    <Fragment>
+    <SafeAreaView style={styles.mainContainer}>
       <BasicHeader
         title={intl.formatMessage({
           id: 'history.edit',
@@ -224,7 +225,7 @@ const EditHistoryScreen = ({ route }) => {
           {editHistory.length > 0 && _renderBody()}
         </View>
       )}
-    </Fragment>
+    </SafeAreaView>
   );
 };
 

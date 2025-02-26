@@ -11,6 +11,7 @@ import styles from '../styles/postScreen.styles';
 import { postQueries, usePlausibleTracker } from '../../../providers/queries';
 import ROUTES from '../../../constants/routeNames';
 import { useAppSelector } from '../../../hooks';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const PostScreen = ({ route }) => {
   const params = route.params || {};
@@ -126,7 +127,7 @@ const PostScreen = ({ route }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView edges={['top']} style={styles.container}>
       <BasicHeader
         isHasDropdown={true}
         title="Post"
@@ -152,7 +153,7 @@ const PostScreen = ({ route }) => {
         isWave={isWavePost}
         isVisibleTranslateModal={isSubPost}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

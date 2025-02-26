@@ -16,6 +16,7 @@ import CommunitiesContainer from '../container/communitiesContainer';
 
 import styles from './communitiesScreenStyles';
 import globalStyles from '../../../globalStyles';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const CommunitiesScreen = () => {
   const intl = useIntl();
@@ -54,7 +55,7 @@ const CommunitiesScreen = () => {
         isDiscoversLoading,
       }) => {
         return (
-          <View style={styles.container}>
+          <SafeAreaView style={styles.container}>
             <BasicHeader
               title={intl.formatMessage({
                 id: 'side_menu.communities',
@@ -99,7 +100,7 @@ const CommunitiesScreen = () => {
                 }
               }}
             />
-          </View>
+          </SafeAreaView>
         );
       }}
     </CommunitiesContainer>
