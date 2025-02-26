@@ -439,8 +439,9 @@ class EditorScreen extends Component {
       return (
         <Modal
           isOpen={isCommunitiesListModalOpen}
-          animationType="animationType"
-          presentationStyle="pageSheet"
+           presentationStyle="formSheet"
+           animationType="slide"
+          
           style={styles.modal}
         >
           <SelectCommunityModalContainer

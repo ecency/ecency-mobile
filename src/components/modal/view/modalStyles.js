@@ -7,7 +7,7 @@ export default EStyleSheet.create({
     borderRadius: 20,
   },
   fullModal: {
-    flex: 1,
+    flex: 1
   },
   borderTopRadius: {
     borderTopLeftRadius: 10,
