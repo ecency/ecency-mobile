@@ -230,6 +230,9 @@ const DraftsScreen = ({
           onIndexChange={setIndex}
           renderTabBar={TabBar}
           renderScene={renderScene}
+          commonOptions={{
+            labelStyle: styles.tabLabelColor,
+          }}
         />
 
         {batchSelectedItems && batchSelectedItems.length > 0 ? _renderDeleteButton() : null}

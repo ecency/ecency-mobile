@@ -8,7 +8,6 @@ const TabBar = <T extends Route>(props: TabBarProps<T>) => {
       {...props}
       style={styles.tabbar}
       indicatorStyle={styles.tabbarIndicator}
-      labelStyle={styles.tabbarLabel}
     />
   );
 };

@@ -127,6 +127,9 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
       renderScene={renderScene}
       navigationState={{ index, routes }}
       onIndexChange={setIndex}
+      commonOptions={{
+        labelStyle: styles.tabLabelColor,
+      }}
     />
   );
 });

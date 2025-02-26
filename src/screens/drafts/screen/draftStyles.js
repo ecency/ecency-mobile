@@ -31,4 +31,7 @@ export default EStyleSheet.create({
     borderTopLeftRadius: 20,
     backgroundColor: '$primaryRed',
   },
+  tabLabelColor: {
+    color: '$primaryDarkText',
+  },
 });

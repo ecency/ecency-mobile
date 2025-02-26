@@ -147,6 +147,9 @@ const BookmarksScreen = ({
         renderTabBar={TabBar}
         renderScene={renderScene}
         style={globalStyles.tabView}
+        commonOptions={{
+          labelStyle: styles.tabLabelColor,
+        }}
       />
     </SafeAreaView>
   );
