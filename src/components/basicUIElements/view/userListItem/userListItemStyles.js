@@ -82,10 +82,8 @@ export default EStyleSheet.create({
   },
   popoverDetails: {
     flexDirection: 'row',
-    height: 'auto',
     borderRadius: 20,
-    paddingHorizontal: 26,
-    width: 200,
+    padding: 16,
     backgroundColor: '$primaryBackgroundColor',
   },
   arrow: {
@@ -100,5 +98,7 @@ export default EStyleSheet.create({
   },
   tooltipText: {
     color: '$primaryDarkText',
+    alignSelf: 'center',
+    maxWidth:150,
   },
 });

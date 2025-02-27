@@ -10,7 +10,7 @@ import {
   Keyboard,
 } from 'react-native';
 import { Image as ExpoImage } from 'expo-image';
-import Popover, { usePopover } from 'react-native-modal-popover';
+import Popover from 'react-native-popover-view';
 
 // Components
 import { useSelector } from 'react-redux';
@@ -61,10 +61,11 @@ const FormInputView = ({
   onFocus,
   ...props
 }: Props) => {
-  const { openPopover, closePopover, popoverVisible, touchableRef, popoverAnchorRect } =
-    usePopover();
-  const inputRef = useRef(null);
 
+  const inputRef = useRef(null);
+  const popoverRef = useRef(null);
+
+  const [popoverVisible, setPopoverVisible] = useState(false);
   const [_value, setValue] = useState(value || '');
   const [inputBorderColor, setInputBorderColor] = useState('#e7e7e7');
   const [_isValid, setIsValid] = useState(true);
@@ -118,12 +119,12 @@ const FormInputView = ({
     // added delay between keyboard closing and popover opening,
     // immediate opening popover calculates wrong popover position
     setTimeout(() => {
-      openPopover();
+      setPopoverVisible(true);
     }, 800);
   };
 
   const _handleClosePopover = () => {
-    closePopover();
+    setPopoverVisible(false);
     // delayed keyboard opening to solve immediate keyboard open glitch
     setTimeout(() => {
       inputRef?.current?.focus();
@@ -132,18 +133,15 @@ const FormInputView = ({
 
   const _renderInfoIconWithPopover = () => (
     <View style={styles.infoIconContainer}>
-      <TouchableOpacity ref={touchableRef} onPress={_handleInfoPress}>
+      <TouchableOpacity ref={popoverRef} onPress={_handleInfoPress}>
         <Icon iconType="MaterialIcons" name="info-outline" style={styles.infoIcon} />
       </TouchableOpacity>
       <Popover
         backgroundStyle={styles.overlay}
-        contentStyle={styles.popoverDetails}
-        arrowStyle={styles.arrow}
-        visible={popoverVisible}
-        onClose={_handleClosePopover}
-        fromRect={popoverAnchorRect}
-        supportedOrientations={['portrait', 'landscape']}
-        placement="top"
+        popoverStyle={styles.popoverDetails}
+        isVisible={popoverVisible}
+        onRequestClose={_handleClosePopover}
+        from={popoverRef}
       >
         <View style={styles.popoverWrapper}>
           <Text style={styles.popoverText}>{errorInfo}</Text>

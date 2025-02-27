@@ -43,6 +43,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     width: '$deviceWidth / 2',
     borderRadius: 12,
+    padding: 8,
     backgroundColor: '$primaryBackgroundColor',
   },
   arrow: {
