@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useIntl } from 'react-intl';
 import {
@@ -14,6 +14,7 @@ import get from 'lodash/get';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDispatch } from 'react-redux';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   BasicHeader,
   Icon,
@@ -36,7 +37,6 @@ import ROUTES from '../../constants/routeNames';
 import { showProfileModal } from '../../redux/actions/uiAction';
 import RootNavigation from '../../navigation/rootNavigation';
 import { useAppSelector } from '../../hooks';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ReferScreen = () => {
   const intl = useIntl();

@@ -327,15 +327,15 @@ const MarkdownEditorView = ({
       return (
         <>
           <Wrapper style={styles.floatingContainer} entering={BounceInRight}>
-              <MainButton
-                style={{ width: isLoading ? null : 120 }}
-                onPress={_onPress}
-                iconName="square-edit-outline"
-                iconType="MaterialCommunityIcons"
-                iconColor="white"
-                text="DRAFT"
-                isLoading={isLoading}
-              />
+            <MainButton
+              style={{ width: isLoading ? null : 120 }}
+              onPress={_onPress}
+              iconName="square-edit-outline"
+              iconType="MaterialCommunityIcons"
+              iconColor="white"
+              text="DRAFT"
+              isLoading={isLoading}
+            />
           </Wrapper>
         </>
       );

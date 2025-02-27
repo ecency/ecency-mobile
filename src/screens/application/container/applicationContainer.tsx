@@ -591,7 +591,8 @@ class ApplicationContainer extends Component {
         console.warn('access token not present, reporting to bugsnag');
         bugsnapInstance.notify(
           new Error(
-            `Reporting missing access token in other accounts section: account:${account.name
+            `Reporting missing access token in other accounts section: account:${
+              account.name
             } with local data ${JSON.stringify(account?.local)}`,
           ),
         );

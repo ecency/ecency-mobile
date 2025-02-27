@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Text, View, ScrollView } from 'react-native';
 import { injectIntl } from 'react-intl';
 import QRCode from 'react-native-qrcode-svg';
 import { connect } from 'react-redux';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader } from '../../../components';
 
 import styles from './transferStyles';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 /* Props
  * ------------------------------------------------

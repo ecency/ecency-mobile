@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { View } from 'react-native';
 import WebView from 'react-native-webview';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, Modal } from '../../../components';
 import { SwapTokenContent } from '../children';
 import styles from '../styles/tradeScreen.styles';
@@ -10,7 +10,6 @@ import { hsOptions } from '../../../constants/hsOptions';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
 import { delay } from '../../../utils/editor';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const TradeScreen = ({ route, navigation }) => {
   const intl = useIntl();

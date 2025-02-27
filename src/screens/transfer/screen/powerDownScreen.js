@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
 import Animated, { BounceInRight } from 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { getWithdrawRoutes } from '../../../providers/hive/dhive';
 import AUTH_TYPE from '../../../constants/authType';
 
@@ -31,7 +32,6 @@ import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
 import TransferTypes from '../../../constants/transferTypes';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 /* Props
  * ------------------------------------------------

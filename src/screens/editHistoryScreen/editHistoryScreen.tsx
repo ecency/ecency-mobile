@@ -13,6 +13,7 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, Icon, PostPlaceHolder, TextInput } from '../../components';
 
 // styles
@@ -20,7 +21,6 @@ import styles from './editHistoryScreenStyles';
 import { getCommentHistory } from '../../providers/ecency/ecency';
 import { dateToFormatted } from '../../utils/time';
 import historyBuilder from './historyBuilder';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export interface CommentHistoryListItemDiff {
   title: string;

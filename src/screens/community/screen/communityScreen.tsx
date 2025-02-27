@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { TabItem } from 'components/tabbedPosts/types/tabbedPosts.types';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { CollapsibleCard, BasicHeader, TabbedPosts } from '../../../components';
 import { Tag, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
 
@@ -15,7 +16,6 @@ import styles from './communityStyles';
 
 import { COMMUNITY_SCREEN_FILTER_MAP, getDefaultFilters } from '../../../constants/options/filters';
 import { useAppSelector } from '../../../hooks';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const CommunityScreen = ({ route }) => {
   const tag = route.params?.tag ?? '';

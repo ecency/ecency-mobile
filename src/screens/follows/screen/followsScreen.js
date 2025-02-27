@@ -1,16 +1,16 @@
 import React, { PureComponent } from 'react';
 import { injectIntl } from 'react-intl';
-import { ActivityIndicator, FlatList, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Text } from 'react-native';
 // Constants
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { showProfileModal } from '../../../redux/actions/uiAction';
 // Components
 import { BasicHeader, UserListItem } from '../../../components';
 
 // Utils
 import styles from './followScreenStyles';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 class FollowsScreen extends PureComponent {
   /* Props

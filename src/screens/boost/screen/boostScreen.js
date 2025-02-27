@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Platform, ScrollView } from 'react-native';
+import { Platform, ScrollView } from 'react-native';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
 
 // Container
@@ -16,7 +17,6 @@ import globalStyles from '../../../globalStyles';
 import UserRibbon from '../../../components/userRibbon/userRibbon';
 import styles from './styles';
 import { toastNotification } from '../../../redux/actions/uiAction';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ITEM_SKUS = Platform.select({
   ios: ['099points', '199points', '499points', '999points', '4999points', '9999points'],

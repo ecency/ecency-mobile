@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import notifee, { EventType } from '@notifee/react-native';
 import { isEmpty, some, get } from 'lodash';
-import {getMessaging} from '@react-native-firebase/messaging';
+import { getMessaging } from '@react-native-firebase/messaging';
 import BackgroundTimer from 'react-native-background-timer';
 import { Image as ExpoImage } from 'expo-image';
 import { useAppDispatch, useAppSelector } from '../../../hooks';

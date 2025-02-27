@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useRef } from 'react';
-import { View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Components

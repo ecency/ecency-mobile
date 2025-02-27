@@ -7,6 +7,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 // Utils
 import { postBodySummary } from '@ecency/render-helper';
 import { TabView } from 'react-native-tab-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { catchImageFromMetadata, catchDraftImage } from '../../../utils/image';
 import { getFormatedCreatedDate } from '../../../utils/time';
 
@@ -25,7 +26,6 @@ import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
 import { useAppSelector } from '../../../hooks';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const DraftsScreen = ({
   currentAccount,

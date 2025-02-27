@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { get, isNull, isEqual } from 'lodash';
 
 // Utils
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { extractMetadata, getWordsCount, makeJsonMetadata } from '../../../utils/editor';
 
 // Components
@@ -25,7 +26,6 @@ import { isCommunity } from '../../../utils/communityValidation';
 
 import styles from './editorScreenStyles';
 import PostOptionsModal from '../children/postOptionsModal';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 class EditorScreen extends Component {
   /* Props
@@ -440,9 +440,8 @@ class EditorScreen extends Component {
       return (
         <Modal
           isOpen={isCommunitiesListModalOpen}
-           presentationStyle="formSheet"
-           animationType="slide"
-          
+          presentationStyle="formSheet"
+          animationType="slide"
           style={styles.modal}
         >
           <SelectCommunityModalContainer

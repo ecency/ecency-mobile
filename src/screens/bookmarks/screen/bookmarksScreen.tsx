@@ -5,6 +5,7 @@ import { View, FlatList, Text } from 'react-native';
 // Components
 import { TabView } from 'react-native-tab-view';
 import { useDispatch } from 'react-redux';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { UserListItem, WalletDetailsPlaceHolder, BasicHeader, TabBar } from '../../../components';
 
 // Styles
@@ -12,7 +13,6 @@ import globalStyles from '../../../globalStyles';
 import styles from './bookmarksStyles';
 import { showActionModal } from '../../../redux/actions/uiAction';
 import { ButtonTypes } from '../../../components/actionModal/container/actionModalContainer';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const BookmarksScreen = ({
   isLoading,

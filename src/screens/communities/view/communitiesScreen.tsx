@@ -5,6 +5,7 @@ import { View } from 'react-native';
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { TabView } from 'react-native-tab-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   TabBar,
   BasicHeader,
@@ -16,7 +17,6 @@ import CommunitiesContainer from '../container/communitiesContainer';
 
 import styles from './communitiesScreenStyles';
 import globalStyles from '../../../globalStyles';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const CommunitiesScreen = () => {
   const intl = useIntl();

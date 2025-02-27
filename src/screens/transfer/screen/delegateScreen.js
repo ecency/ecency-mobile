@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,7 @@ import { FlatList } from 'react-native-gesture-handler';
 
 // Constants
 import { debounce } from 'lodash';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import AUTH_TYPE from '../../../constants/authType';
 import { hsOptions } from '../../../constants/hsOptions';
 
@@ -46,7 +47,6 @@ import parseAsset from '../../../utils/parseAsset';
 import { delay } from '../../../utils/editor';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
 import TransferTypes from '../../../constants/transferTypes';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 class DelegateScreen extends Component {
   _handleOnAmountChange = debounce(

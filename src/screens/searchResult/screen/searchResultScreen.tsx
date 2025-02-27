@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { TabView } from 'react-native-tab-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import useDebounce from '../../../utils/useDebounceHook';
 
 // Components
@@ -15,7 +16,6 @@ import PeopleResults from './tabs/people/view/peopleResults';
 // Styles
 import styles from './searchResultStyles';
 import globalStyles from '../../../globalStyles';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SearchResultScreen = ({ navigation }) => {
   const intl = useIntl();

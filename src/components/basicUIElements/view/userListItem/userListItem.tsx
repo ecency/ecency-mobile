@@ -33,7 +33,6 @@ const UserListItem = ({
   leftItemRenderer,
   rightItemRenderer,
 }) => {
-
   const popoverRef = useRef();
   const [showPopover, setShowPopover] = useState(false);
 
@@ -75,7 +74,6 @@ const UserListItem = ({
                 color: EStyleSheet.value('$white'),
               }}
               searchWords={[searchValue]}
-
               textToHighlight={description}
               style={styles.summary}
               numberOfLines={3}
@@ -107,9 +105,7 @@ const UserListItem = ({
               <ActivityIndicator style={{ width: 30 }} color={EStyleSheet.value('$primaryBlue')} />
             </View>
           ) : (
-
             <>
-
               <TouchableOpacity
                 style={styles.rightWrapper}
                 onPress={() => {
@@ -142,11 +138,11 @@ const UserListItem = ({
                 isVisible={showPopover}
                 onRequestClose={() => setShowPopover(false)}
                 from={popoverRef}
-                supportedOrientations={['portrait', 'landscape']}>
+                supportedOrientations={['portrait', 'landscape']}
+              >
                 <Text style={styles.tooltipText}>{rightTooltipText}</Text>
               </Popover>
             </>
-
           ))}
       </View>
     </TouchableOpacity>

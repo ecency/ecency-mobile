@@ -2,10 +2,10 @@ import React from 'react';
 
 // Container
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { SpinGameContainer, InAppPurchaseContainer } from '../../../containers';
 
 import { SpinGame } from '../../../components';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import globalStyles from '../../../globalStyles';
 
 const SpinGameScreen = gestureHandlerRootHOC(({ route }) => {

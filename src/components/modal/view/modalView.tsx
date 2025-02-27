@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Modal as ModalBox } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './modalStyles';
 import { ModalHeader } from '../../modalHeader';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 /*
  *            Props Name        Description                                     Value
@@ -51,7 +51,6 @@ export default class Modal extends PureComponent {
     } = this.props;
     return (
       <ModalBox
-       
         transparent={isTransparent}
         animationType={animationType}
         visible={isOpen}
@@ -61,14 +60,21 @@ export default class Modal extends PureComponent {
         onModalDismiss={() => console.log('dismiss')}
         {...this.props}
       >
-        <SafeAreaView style={ this.props.style ||[
-          isRadius && styles.borderTopRadius,
-          isFullScreen ? styles.fullModal : isBottomModal ? styles.bottomModal : styles.centerModal,
-        ]}>
+        <SafeAreaView
+          style={
+            this.props.style || [
+              isRadius && styles.borderTopRadius,
+              isFullScreen
+                ? styles.fullModal
+                : isBottomModal
+                ? styles.bottomModal
+                : styles.centerModal,
+            ]
+          }
+        >
           <ModalHeader onClosePress={() => this._handleOnClose()} {...this.props} />
           {children}
         </SafeAreaView>
-
       </ModalBox>
     );
   }

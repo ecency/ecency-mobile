@@ -16,7 +16,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 12,
-    padding:8
+    padding: 8,
   },
   overlay: {},
   popoverText: {

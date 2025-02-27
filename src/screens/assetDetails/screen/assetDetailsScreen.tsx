@@ -1,7 +1,8 @@
-import { View, Alert, AppState, AppStateStatus, NativeEventSubscription } from 'react-native';
+import { Alert, AppState, AppStateStatus, NativeEventSubscription } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader } from '../../../components';
 import { CoinSummary, ActivitiesList } from '../children';
 import styles from './screen.styles';
@@ -14,7 +15,6 @@ import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
 import parseAsset from '../../../utils/parseAsset';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export interface AssetDetailsScreenParams {
   coinId: string;

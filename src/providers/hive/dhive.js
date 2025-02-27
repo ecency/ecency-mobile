@@ -75,7 +75,7 @@ checkClient();
 
 /**
  * Computes the SHA-256 hash of the input.
- * 
+ *
  * @param {Buffer | string} input - The input data to hash (either a Buffer or a string).
  * @returns {Promise<Buffer>} - A Promise that resolves to the hash as a Buffer.
  */
@@ -84,15 +84,11 @@ const sha256 = async (input) => {
   const inputData = input instanceof Buffer ? input.toString('utf8') : input;
 
   // Compute the SHA-256 hash using expo-crypto
-  const hash = await Crypto.digestStringAsync(
-    Crypto.CryptoDigestAlgorithm.SHA256,
-    inputData
-  );
+  const hash = await Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, inputData);
 
   // Convert the hexadecimal hash string back to a Buffer
   return Buffer.from(hash, 'hex');
 };
-
 
 export const generateTrxId = async (transaction) => {
   const buffer = new bytebuffer(bytebuffer.DEFAULT_CAPACITY, bytebuffer.LITTLE_ENDIAN);
@@ -106,8 +102,6 @@ export const generateTrxId = async (transaction) => {
   const _bufferHash = await sha256(transactionData);
   return _bufferHash.toString('hex').slice(0, 40); // CryptoJS.enc.Hex;
 };
-
-
 
 export const sendHiveOperations = async (
   operations: Operation[],

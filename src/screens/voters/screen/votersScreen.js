@@ -4,6 +4,7 @@ import get from 'lodash/get';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, FilterBar, VotersDisplay } from '../../../components';
 
 import AccountListContainer from '../../../containers/accountListContainer';
@@ -12,7 +13,6 @@ import AccountListContainer from '../../../containers/accountListContainer';
 import { getActiveVotes } from '../../../providers/hive/dhive';
 import { parseActiveVotes } from '../../../utils/postParser';
 import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import globalStyles from '../../../globalStyles';
 
 const filterOptions = ['rewards', 'percent', 'time'];

@@ -1,6 +1,5 @@
 import React, { Ref, useCallback, useEffect, useRef, useState } from 'react';
-import { NativeModules, Text, TouchableOpacity, View, findNodeHandle } from 'react-native';
-import { Rect } from 'react-native-modal-popover/lib/PopoverGeometry';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { useAppSelector } from '../../../hooks';
 import { isDownVoted as isDownVotedFunc, isVoted as isVotedFunc } from '../../../utils/postParser';
 import { FormattedCurrency } from '../../formatedElements';
@@ -45,7 +44,6 @@ export const UpvoteButton = ({
     setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
   }, [activeVotes]);
 
-
   const _onPress = () => {
     const _onVotingStart = (status) => {
       if (status > 0) {
@@ -64,7 +62,7 @@ export const UpvoteButton = ({
   };
 
   const _onDetailsPress = () => {
-    onPayoutDetailsPress(detailsRef)
+    onPayoutDetailsPress(detailsRef);
   };
 
   const isDeclinedPayout = content?.is_declined_payout;

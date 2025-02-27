@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import Animated, { SlideInRight } from 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { RedeemContainer, PointsContainer } from '../../../containers';
 
 import { Promote, PostBoost } from '../../../components';
 import BoostPlus from '../children/boostPlus';
 import styles from '../styles/redeemScreen.styles';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import globalStyles from '../../../globalStyles';
 
 class RedeemScreen extends PureComponent {
@@ -94,10 +94,7 @@ class RedeemScreen extends PureComponent {
 
                 return (
                   <Animated.View style={StyleSheet.absoluteFill} entering={SlideInRight}>
-                    <SafeAreaView style={globalStyles.container} >
-                      {_retView}
-                    </SafeAreaView>
-
+                    <SafeAreaView style={globalStyles.container}>{_retView}</SafeAreaView>
                   </Animated.View>
                 );
               }}

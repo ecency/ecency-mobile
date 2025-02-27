@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { View } from 'react-native';
 
 // Components
 import { Image as ExpoImage } from 'expo-image';
 import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, IconButton, PostDisplay, PostOptionsModal } from '../../../components/index';
 import styles from '../styles/postScreen.styles';
 
@@ -11,7 +11,6 @@ import styles from '../styles/postScreen.styles';
 import { postQueries, usePlausibleTracker } from '../../../providers/queries';
 import ROUTES from '../../../constants/routeNames';
 import { useAppSelector } from '../../../hooks';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const PostScreen = ({ route }) => {
   const params = route.params || {};

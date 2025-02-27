@@ -1,8 +1,9 @@
-import React, { Fragment, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import get from 'lodash/get';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, TextBoxWithCopy } from '../../components';
 import { useAppSelector } from '../../hooks';
 import { getDigitPinCode } from '../../providers/hive/dhive';
@@ -14,7 +15,6 @@ import styles from './backupKeysScreenStyles';
 
 // utils
 import { decryptKey } from '../../utils/crypto';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const BackupKeysScreen = () => {
   const intl = useIntl();

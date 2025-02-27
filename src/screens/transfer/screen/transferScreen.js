@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl';
 import { get, debounce } from 'lodash';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { hsOptions } from '../../../constants/hsOptions';
 import AUTH_TYPE from '../../../constants/authType';
 
@@ -29,7 +30,6 @@ import {
 } from '../../../providers/hive-spk/hiveSpk';
 import parseToken from '../../../utils/parseToken';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const TransferView = ({
   currentAccountName,

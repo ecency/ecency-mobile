@@ -10,11 +10,11 @@ import React, {
 import get from 'lodash/get';
 
 // Services and Actions
-import { Rect } from 'react-native-modal-popover/lib/PopoverGeometry';
 import { View, TouchableOpacity, Text, useWindowDimensions } from 'react-native';
 import Popover from 'react-native-popover-view';
 import Slider from '@esteemapp/react-native-slider';
 import { useIntl } from 'react-intl';
+import { Placement } from 'react-native-popover-view/dist/Types';
 import {
   setCommentUpvotePercent,
   setPostUpvotePercent,
@@ -51,7 +51,6 @@ import { PayoutDetailsContent } from '../children/payoutDetailsContent';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { delay } from '../../../utils/editor';
-import { Placement } from 'react-native-popover-view/dist/Types';
 
 interface PopoverOptions {
   sourceRef: Ref<any>;
@@ -112,7 +111,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
       }
 
       onVotingStartRef.current = onVotingStart;
-      
+
       sourceRef.current = _sourceRef.current;
       setPostType(_postType || PostTypes.POST);
       setContent(_content);

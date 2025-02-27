@@ -61,7 +61,6 @@ const FormInputView = ({
   onFocus,
   ...props
 }: Props) => {
-
   const inputRef = useRef(null);
   const popoverRef = useRef(null);
 

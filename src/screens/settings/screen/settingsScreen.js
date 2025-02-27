@@ -4,6 +4,7 @@ import { ScrollView, View, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { groomingServerName } from '../../../utils/settings';
 
 // Constants
@@ -19,7 +20,6 @@ import { BasicHeader, SettingsItem, CollapsibleCard } from '../../../components'
 import styles from './settingsStyles';
 import settingsTypes from '../../../constants/settingsTypes';
 import globalStyles from '../../../globalStyles';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SettingsScreen = ({
   handleOnChange,

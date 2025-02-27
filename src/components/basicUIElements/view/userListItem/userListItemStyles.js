@@ -99,6 +99,6 @@ export default EStyleSheet.create({
   tooltipText: {
     color: '$primaryDarkText',
     alignSelf: 'center',
-    maxWidth:150,
+    maxWidth: 150,
   },
 });
