@@ -31,7 +31,6 @@ import {
   TagInput,
   TextInput,
   TitleArea,
-  Tooltip,
   UserAvatar,
 } from '../../index';
 
@@ -328,11 +327,6 @@ const MarkdownEditorView = ({
       return (
         <>
           <Wrapper style={styles.floatingContainer} entering={BounceInRight}>
-            <Tooltip
-              ref={tooltipRef}
-              text={intl.formatMessage({ id: 'walkthrough.load_draft_tooltip' })}
-              walkthroughIndex={walkthrough.EDITOR_DRAFT_BTN}
-            >
               <MainButton
                 style={{ width: isLoading ? null : 120 }}
                 onPress={_onPress}
@@ -342,7 +336,6 @@ const MarkdownEditorView = ({
                 text="DRAFT"
                 isLoading={isLoading}
               />
-            </Tooltip>
           </Wrapper>
         </>
       );
