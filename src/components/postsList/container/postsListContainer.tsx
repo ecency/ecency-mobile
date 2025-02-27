@@ -188,7 +188,7 @@ const postsListContainer = (
       case PostCardActionIds.UPVOTE:
         if (upvotePopoverRef.current && payload && content) {
           upvotePopoverRef.current.showPopover({
-            anchorRect: payload,
+            sourceRef: payload,
             content,
             postType: PostTypes.POST,
             onVotingStart: onCallback,
@@ -199,7 +199,7 @@ const postsListContainer = (
       case PostCardActionIds.PAYOUT_DETAILS:
         if (upvotePopoverRef.current && payload && content) {
           upvotePopoverRef.current.showPopover({
-            anchorRect: payload,
+            sourceRef: payload,
             content,
             showPayoutDetails: true,
           });

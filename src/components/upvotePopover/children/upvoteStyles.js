@@ -25,6 +25,7 @@ export default EStyleSheet.create({
     height: 'auto',
     borderRadius: 20,
     paddingHorizontal: 26,
+    paddingVertical: 8,
     backgroundColor: '$primaryBackgroundColor',
   },
   track: {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { Ref, useCallback, useEffect, useRef, useState } from 'react';
 import { NativeModules, Text, TouchableOpacity, View, findNodeHandle } from 'react-native';
 import { Rect } from 'react-native-modal-popover/lib/PopoverGeometry';
 import { useAppSelector } from '../../../hooks';
@@ -12,8 +12,8 @@ interface UpvoteButtonProps {
   activeVotes: any[];
   isShowPayoutValue?: boolean;
   boldPayout?: boolean;
-  onUpvotePress: (anchorRect: Rect, onVotingStart: (status: number) => void) => void;
-  onPayoutDetailsPress: (anchorRef: Rect) => void;
+  onUpvotePress: (sourceRef: Ref<any>, onVotingStart: (status: number) => void) => void;
+  onPayoutDetailsPress: (anchorRef: Ref<any>) => void;
 }
 
 export const UpvoteButton = ({
@@ -45,15 +45,6 @@ export const UpvoteButton = ({
     setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
   }, [activeVotes]);
 
-  const _getRectFromRef = (ref: any, callback: (anchorRect: Rect, onVotingStart?) => void) => {
-    const handle = findNodeHandle(ref.current);
-    if (handle) {
-      NativeModules.UIManager.measure(handle, (x0, y0, width, height, x, y) => {
-        const anchorRect: Rect = { x, y, width, height };
-        callback(anchorRect);
-      });
-    }
-  };
 
   const _onPress = () => {
     const _onVotingStart = (status) => {
@@ -65,13 +56,15 @@ export const UpvoteButton = ({
         _calculateVoteStatus();
       }
     };
-    _getRectFromRef(upvoteRef, (rect) => {
-      onUpvotePress(rect, _onVotingStart);
-    });
+
+    onUpvotePress(upvoteRef, _onVotingStart);
+    // _getRectFromRef(upvoteRef, (rect) => {
+    //   onUpvotePress(rect, _onVotingStart);
+    // });
   };
 
   const _onDetailsPress = () => {
-    _getRectFromRef(detailsRef, onPayoutDetailsPress);
+    onPayoutDetailsPress(detailsRef)
   };
 
   const isDeclinedPayout = content?.is_declined_payout;
