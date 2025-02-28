@@ -104,9 +104,6 @@ android {
         }
         missingDimensionStrategy 'store', 'play'
     }
-    dexOptions {
-        javaMaxHeapSize "9g"
-    }
 
     signingConfigs {
         debug {
