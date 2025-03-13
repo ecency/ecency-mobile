@@ -171,4 +171,3 @@ export enum PointActivityIds {
   VOTE = 120,
   REBLOG = 130,
 }
-

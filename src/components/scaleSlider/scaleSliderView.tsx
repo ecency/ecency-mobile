@@ -7,16 +7,14 @@ import styles from './scaleSliderStyles';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 
 const ScaleSliderView = ({ values, LRpadding, handleOnValueChange, activeValue }) => {
-
   const [_activeValue, setActiveValue] = useState(activeValue || values[0]);
-  const [activeIndex, setActiveIndex] = useState(values?.length > 0 ? values.indexOf(_activeValue) : 0)
-
-  const sliderKey = useMemo(
-    (() => JSON.stringify(values)),
-    [values]
+  const [activeIndex, setActiveIndex] = useState(
+    values?.length > 0 ? values.indexOf(_activeValue) : 0,
   );
 
-  const _renderMarker = () => (<View style={styles.marker} />);
+  const sliderKey = useMemo(() => JSON.stringify(values), [values]);
+
+  const _renderMarker = () => <View style={styles.marker} />;
 
   const _valueChange = (_values) => {
     const index = _values[0] - 1;
@@ -73,8 +71,7 @@ const ScaleSliderView = ({ values, LRpadding, handleOnValueChange, activeValue }
       </View>
     </View>
   );
-
-}
+};
 
 export default ScaleSliderView;
 /* eslint-enable */

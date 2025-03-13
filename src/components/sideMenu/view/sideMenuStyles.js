@@ -48,7 +48,7 @@ export default EStyleSheet.create({
   },
   usernick: {
     color: '$pureWhite',
-    fontWeight:'500',
+    fontWeight: '500',
     opacity: 0.6,
     marginTop: 2,
   },
@@ -94,7 +94,7 @@ export default EStyleSheet.create({
     textAlign: 'center',
     fontSize: 12,
     color: '$pureWhite',
-    fontWeight:'500',
+    fontWeight: '500',
     opacity: 0.6,
   },
   imageBackground: {
@@ -105,7 +105,7 @@ export default EStyleSheet.create({
   iconWrapper: {
     width: 28,
     height: 28,
-    padding:4,
+    padding: 4,
     borderRadius: 16,
     borderColor: 'white',
     borderWidth: 1,
@@ -156,7 +156,7 @@ export default EStyleSheet.create({
     color: '$successColor',
   },
   pwInfoWrapper: {
-    flexDirection: 'row', 
-    alignItems: 'center',  
-  }
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 });

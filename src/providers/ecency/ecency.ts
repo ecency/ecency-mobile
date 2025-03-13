@@ -1047,8 +1047,7 @@ export const getBotAuthers = async () => {
   }
 };
 
-
-//TOOD: get active proposal id api call
+//get active proposal meta api call
 export const getActiveProposalMeta = async () => {
   try {
     const res = await ecencyApi.get('/private-api/proposal/active');

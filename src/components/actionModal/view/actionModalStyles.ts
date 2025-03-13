@@ -78,7 +78,7 @@ export default EStyleSheet.create({
     marginBottom: Platform.select({
       ios: getBottomSpace(),
       android: 12,
-    })
+    }),
   } as ViewStyle,
   cancel: {
     backgroundColor: 'transparent',

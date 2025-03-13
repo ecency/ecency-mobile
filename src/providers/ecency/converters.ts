@@ -136,9 +136,7 @@ export const convertPortfolio = (rawData: any) => {
   } as AssetsPortfolio;
 };
 
-
 export const convertProposalMeta = (rawData: any) => {
-
   if (!rawData) {
     return null;
   }
@@ -146,4 +144,4 @@ export const convertProposalMeta = (rawData: any) => {
   return {
     id: rawData.id,
   };
-}
+};

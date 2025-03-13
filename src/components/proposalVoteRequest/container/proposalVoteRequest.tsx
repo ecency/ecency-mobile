@@ -7,7 +7,11 @@ import { TextButton } from '../../buttons';
 import { MainButton } from '../../mainButton';
 import { showActionModal } from '../../../redux/actions/uiAction';
 import { ButtonTypes } from '../../actionModal/container/actionModalContainer';
-import { useActiveProposalMetaQuery, useProposalVotedQuery, useProposalVoteMutation } from '../../../providers/queries';
+import {
+  useActiveProposalMetaQuery,
+  useProposalVotedQuery,
+  useProposalVoteMutation,
+} from '../../../providers/queries';
 import { updateProposalVoteMeta } from '../../../redux/actions/cacheActions';
 
 const RE_REQUEST_INTERVAL = 259200000; // 3 days;
@@ -16,11 +20,11 @@ export const ProposalVoteRequest = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
 
-  //TODO: reference query with active proposal id
+  //reference query with active proposal id
   const activeProposalMetaQuery = useActiveProposalMetaQuery();
   const _ecencyProposalId = activeProposalMetaQuery.data?.id;
 
-  //TODO: make sure proposalVotedQuery returnes updated data on id change
+  // make sure proposalVotedQuery returnes updated data on id change
   const proposalVotedQuery = useProposalVotedQuery(_ecencyProposalId);
   const proposalVoteMutation = useProposalVoteMutation();
 

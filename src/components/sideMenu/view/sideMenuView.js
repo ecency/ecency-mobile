@@ -6,6 +6,7 @@ import VersionNumber from 'react-native-version-number';
 import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { getStorageType } from '../../../realm/realm';
 
 // Components
@@ -29,7 +30,6 @@ import {
 
 // Images
 import SIDE_MENU_BACKGROUND from '../../../assets/side_menu_background.png';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 const SideMenuView = ({
   currentAccount,
@@ -176,7 +176,6 @@ const SideMenuView = ({
         <ImageBackground source={SIDE_MENU_BACKGROUND} style={styles.imageBackground}>
           {isLoggedIn && (
             <View style={{ ...styles.headerContentWrapper, marginTop: insets.top }}>
-
               <UserAvatar username={currentAccount.name} size="xl" style={styles.userAvatar} />
 
               <View style={styles.userInfoWrapper}>
@@ -193,11 +192,11 @@ const SideMenuView = ({
                   <Icon
                     iconType="MaterialIcons"
                     name="expand-less"
-                    color={EStyleSheet.value("$iconColor")}
-                    size={18} ></Icon>
+                    color={EStyleSheet.value('$iconColor')}
+                    size={18}
+                  ></Icon>
                   <Text style={styles.vpText}>{upower}</Text>
                 </View>
-
               </View>
 
               <TouchableOpacity style={styles.iconWrapper} onPress={handlePressOptions}>
@@ -209,7 +208,6 @@ const SideMenuView = ({
                   size={14}
                 />
               </TouchableOpacity>
-
             </View>
           )}
         </ImageBackground>

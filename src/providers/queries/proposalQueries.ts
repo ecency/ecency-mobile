@@ -7,13 +7,13 @@ import { getProposalsVoted, voteProposal } from '../hive/dhive';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { updateProposalVoteMeta } from '../../redux/actions/cacheActions';
-import { getActiveProposalMeta } from '../../providers/ecency/ecency';
-import { ProposalMeta } from '../../providers/ecency/ecency.types';
+import { getActiveProposalMeta } from '../ecency/ecency';
+import { ProposalMeta } from '../ecency/ecency.types';
 
-//query for getting active proposal meta;
+// query for getting active proposal meta;
 export const useActiveProposalMetaQuery = () => {
   return useQuery<ProposalMeta>([QUERIES.PROPOSALS.GET_ACTIVE_PROPOSAL], getActiveProposalMeta);
-}
+};
 
 export const useProposalVotedQuery = (proposalId?: number) => {
   const currentAccount = useSelector((state) => state.account.currentAccount);
