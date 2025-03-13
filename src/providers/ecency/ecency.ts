@@ -11,6 +11,7 @@ import {
   convertDraft,
   convertLatestQuotes,
   convertPortfolio,
+  convertProposalMeta,
   convertReferral,
   convertReferralStat,
 } from './converters';
@@ -1043,5 +1044,26 @@ export const getBotAuthers = async () => {
   } catch (error) {
     bugsnagInstance.notify(error);
     return [] as string[];
+  }
+};
+
+
+//TOOD: get active proposal id api call
+export const getActiveProposalMeta = async () => {
+  try {
+    const res = await ecencyApi.get('/private-api/proposal/active');
+
+    const data = convertProposalMeta(res.data);
+
+    console.log('active proposal meta', data);
+
+    if (!data) {
+      throw new Error('invalid proposal data');
+    }
+
+    return data;
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    throw error;
   }
 };

@@ -139,6 +139,10 @@ export interface AssetsPortfolio {
   spkData: SpkApiWallet;
 }
 
+export interface ProposalMeta {
+  id: number;
+}
+
 export enum ScheduledPostStatus {
   PENDING = 1,
   POSTPONED = 2,
@@ -167,3 +171,4 @@ export enum PointActivityIds {
   VOTE = 120,
   REBLOG = 130,
 }
+

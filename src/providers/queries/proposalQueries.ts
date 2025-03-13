@@ -7,8 +7,15 @@ import { getProposalsVoted, voteProposal } from '../hive/dhive';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { updateProposalVoteMeta } from '../../redux/actions/cacheActions';
+import { getActiveProposalMeta } from '../../providers/ecency/ecency';
+import { ProposalMeta } from '../../providers/ecency/ecency.types';
 
-export const useProposalVotedQuery = (proposalId: number) => {
+//query for getting active proposal meta;
+export const useActiveProposalMetaQuery = () => {
+  return useQuery<ProposalMeta>([QUERIES.PROPOSALS.GET_ACTIVE_PROPOSAL], getActiveProposalMeta);
+}
+
+export const useProposalVotedQuery = (proposalId?: number) => {
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const proposalsVoteMeta = useSelector((state) => state.cache.proposalsVoteMeta);
 
@@ -17,6 +24,9 @@ export const useProposalVotedQuery = (proposalId: number) => {
   const _proposalVoteMeta: ProposalVoteMeta | null = proposalsVoteMeta[_cacheId];
 
   const _getProposalVoteStatus = async () => {
+    if (!proposalId) {
+      return true;
+    }
     const votedProposals = await getProposalsVoted(currentAccount.username);
     const isVoted = votedProposals.some((item) => item.proposal.proposal_id === proposalId);
 
