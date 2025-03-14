@@ -11551,10 +11551,10 @@ react-native-iap@^12.16.2:
   resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-12.16.2.tgz#56d870e5bd851ceafe3990089ec7099feee451cd"
   integrity sha512-pIyO3eSZkYJYLdgDF90Or2wUsbiiYwa5xgUpaHBqZuVEk5Nz0ZDN4acwoXFfPa/a52MmQOYEeHbYLAQQW0o+rg==
 
-react-native-image-crop-picker@^0.42.0:
-  version "0.42.0"
-  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.42.0.tgz#0672c080feb8ffefd65ba00a4e64bc8a1066136e"
-  integrity sha512-EOEkekPJ7g+CNf92HrWAGM4kcDJyVY02gQJUVH7MSNUOK11SHnurXVM0TnwIt410Y4T+lBkq3rfJEA1qDaDDwA==
+react-native-image-crop-picker@^0.41.6:
+  version "0.41.6"
+  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.41.6.tgz#de2c00102f4c934848fa11ff2335f29f5dc6b3e3"
+  integrity sha512-oyEVkiJX1cnjYJolQluOqXxz9xhLHrv+pyCs7+jA87yaa110/0jv1UCqxjVjxueKug7zk/UnjG7i9Ks1cGyLpA==
 
 react-native-image-viewing@^0.2.2:
   version "0.2.2"

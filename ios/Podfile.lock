@@ -2118,12 +2118,12 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNImageCropPicker (0.42.0):
+  - RNImageCropPicker (0.41.6):
     - React-Core
     - React-RCTImage
-    - RNImageCropPicker/QBImagePickerController (= 0.42.0)
+    - RNImageCropPicker/QBImagePickerController (= 0.41.6)
     - TOCropViewController (~> 2.7.4)
-  - RNImageCropPicker/QBImagePickerController (0.42.0):
+  - RNImageCropPicker/QBImagePickerController (0.41.6):
     - React-Core
     - React-RCTImage
     - TOCropViewController (~> 2.7.4)
@@ -2912,7 +2912,7 @@ SPEC CHECKSUMS:
   RNFlashList: f832facfc91d28650f73e75648267badc76b2b1c
   RNGestureHandler: 0a16f3f13829c01268ae55610a40b57b713c8161
   RNIap: daac81aa70fe3ac6d6967c1c8da3dc4b415b73d6
-  RNImageCropPicker: 64b6bec9ec185ee59b71a93d7058816bd0e1916e
+  RNImageCropPicker: 8e39c01f205e00d739c31e682f068aac315587bf
   RNNotifee: 4a6ee5c7deaf00e005050052d73ee6315dff7ec9
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNPermissions: fa012d5c4ff22faf7ccbb80d767e75df92265f70
