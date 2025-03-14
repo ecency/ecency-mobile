@@ -131,10 +131,17 @@ const AssetsSelect = ({ navigation }) => {
         }));
       }
 
+      //extract a list of tokens with meta entry
+      const assetsWithMeta = currentAccount.about.profile.tokens.filter((item) => (!!item.meta))
+
       const updatedCurrentAccountData = currentAccount;
       updatedCurrentAccountData.about.profile = {
         ...updatedCurrentAccountData.about.profile,
-        tokens: assetsData,
+        // make sure entries with meta are preserved
+        tokens: [
+          ...assetsData,
+          ...assetsWithMeta
+        ],
       };
       const params = {
         ...updatedCurrentAccountData.about.profile,
