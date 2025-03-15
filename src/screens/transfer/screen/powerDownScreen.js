@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
 import Animated, { BounceInRight } from 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { getWithdrawRoutes } from '../../../providers/hive/dhive';
 import AUTH_TYPE from '../../../constants/authType';
 
@@ -215,7 +216,7 @@ class PowerDownView extends Component {
 
   _renderBeneficiarySelectionContent = () => {
     const { intl } = this.props;
-    const { from, destinationAccounts, amount } = this.state;
+    const { destinationAccounts } = this.state;
 
     const powerDownBeneficiaries = destinationAccounts?.map((item) => ({
       account: item.username,
@@ -475,7 +476,7 @@ class PowerDownView extends Component {
       </View>
     );
     return (
-      <Fragment>
+      <SafeAreaView style={styles.container}>
         <BasicHeader
           title={intl.formatMessage({ id: `transfer.${transferType}` })}
           backIconName="close"
@@ -533,7 +534,7 @@ class PowerDownView extends Component {
           />
         </Modal>
         <HiveAuthModal ref={this.hiveAuthModalRef} onClose={handleOnModalClose} />
-      </Fragment>
+      </SafeAreaView>
     );
   }
 }

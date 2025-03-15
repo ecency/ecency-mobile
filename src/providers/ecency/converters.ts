@@ -135,3 +135,13 @@ export const convertPortfolio = (rawData: any) => {
     spkData: rawData.spkData,
   } as AssetsPortfolio;
 };
+
+export const convertProposalMeta = (rawData: any) => {
+  if (!rawData) {
+    return null;
+  }
+
+  return {
+    id: rawData.id,
+  };
+};

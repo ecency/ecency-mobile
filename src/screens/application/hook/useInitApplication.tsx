@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import notifee, { EventType } from '@notifee/react-native';
 import { isEmpty, some, get } from 'lodash';
-import messaging from '@react-native-firebase/messaging';
+import { getMessaging } from '@react-native-firebase/messaging';
 import BackgroundTimer from 'react-native-background-timer';
 import { Image as ExpoImage } from 'expo-image';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -129,12 +129,12 @@ export const useInitApplication = () => {
     // on android messaging event work fine for both background and quite state
     // while notifee events do not fuction as expected
     if (Platform.OS === 'android') {
-      messagingEventRef.current = messaging().onNotificationOpenedApp((remoteMessage) => {
+      messagingEventRef.current = getMessaging().onNotificationOpenedApp((remoteMessage) => {
         console.log('Notificaiton opened app', remoteMessage);
         _pushNavigate(remoteMessage);
       });
 
-      const initialNotification = await messaging().getInitialNotification();
+      const initialNotification = await getMessaging().getInitialNotification();
       if (initialNotification) {
         console.log('Initial Notification', initialNotification);
         _pushNavigate(initialNotification);

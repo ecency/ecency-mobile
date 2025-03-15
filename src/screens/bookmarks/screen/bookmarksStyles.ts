@@ -21,4 +21,7 @@ export default EStyleSheet.create({
   tabs: {
     flex: 1,
   },
+  tabLabelColor: {
+    color: '$primaryDarkText',
+  },
 });

@@ -1,7 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { isRTL } from '../../../utils/I18nUtils';
-import roundPx from '../../../utils/roundPx';
 
 export default EStyleSheet.create({
   container: {
@@ -11,25 +10,24 @@ export default EStyleSheet.create({
     paddingBottom: getBottomSpace(),
   },
   headerView: {
-    flex: 1,
     flexDirection: 'row',
     backgroundColor: '$primaryBlue',
     justifyContent: 'center',
-    height: 128,
+    height: 164,
     alignItems: 'center',
   },
   headerContentWrapper: {
+    alignSelf: 'flex-end',
     alignItems: 'center',
-    height: 70,
     flexDirection: isRTL() ? 'row-reverse' : 'row',
-    alignSelf: 'center',
+    marginBottom: 20,
     flex: 1,
   },
   contentView: {
     flex: 4,
   },
   userAvatar: {
-    marginLeft: isRTL() ? 15 : 32,
+    marginLeft: isRTL() ? 15 : 20,
     marginRight: isRTL() ? 15 : 0,
   },
   otherUserAvatar: {
@@ -38,22 +36,20 @@ export default EStyleSheet.create({
     marginLeft: -7,
     marginRight: 10,
   },
+
   userInfoWrapper: {
-    alignSelf: 'center',
-    marginLeft: 15,
-    width: 120,
+    marginLeft: 12,
+    flex: 1,
   },
   username: {
     color: '$pureWhite',
     fontWeight: 'bold',
-    fontSize: roundPx(18),
-    marginBottom: 8,
-    maxWidth: '$deviceWidth / 3',
+    fontSize: 14,
   },
   usernick: {
-    color: 'rgba(255, 255, 255, 0.7)',
-    fontWeight: 'bold',
-    fontSize: roundPx(18),
+    color: '$pureWhite',
+    fontWeight: '500',
+    opacity: 0.6,
     marginTop: 2,
   },
   listItem: {
@@ -96,8 +92,10 @@ export default EStyleSheet.create({
   },
   vpText: {
     textAlign: 'center',
-    fontSize: roundPx(16),
-    color: '$iconColor',
+    fontSize: 12,
+    color: '$pureWhite',
+    fontWeight: '500',
+    opacity: 0.6,
   },
   imageBackground: {
     width: '100%',
@@ -105,17 +103,16 @@ export default EStyleSheet.create({
     flexDirection: 'row',
   },
   iconWrapper: {
-    width: 32,
-    height: 32,
+    width: 28,
+    height: 28,
+    padding: 4,
     borderRadius: 16,
     borderColor: 'white',
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  optionIcon: {
-    height: 16,
-    width: 16,
+    marginLeft: 8,
+    marginRight: 16,
   },
   accountTile: {
     height: 60,
@@ -157,5 +154,9 @@ export default EStyleSheet.create({
   },
   checkIcon: {
     color: '$successColor',
+  },
+  pwInfoWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

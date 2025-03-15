@@ -70,12 +70,6 @@ const NotificationScreen = ({
     }
   };
 
-  // const renderTabBar = (props) => (
-  //   <TabBar
-  //     {...props}
-  //  />
-  // )
-
   return (
     <Fragment>
       <Header />
@@ -86,6 +80,9 @@ const NotificationScreen = ({
         renderTabBar={TabBar}
         onIndexChange={setIndex}
         renderScene={renderScene}
+        commonOptions={{
+          labelStyle: styles.tabLabelColor,
+        }}
       />
     </Fragment>
   );

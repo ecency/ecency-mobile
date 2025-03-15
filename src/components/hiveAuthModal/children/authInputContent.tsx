@@ -80,7 +80,7 @@ export const AuthInputContent = ({ initUsername, handleAuthRequest }: AuthInputC
         <Animated.View entering={ZoomIn} exiting={ZoomOut}>
           <MainButton
             text={intl.formatMessage({ id: 'login.signin_with_hiveauth' })}
-            secondText={" *beta"}
+            secondText=" *beta"
             textStyle={styles.loginBtnText}
             style={styles.loginBtnWrapper}
             onPress={onSignInPress}

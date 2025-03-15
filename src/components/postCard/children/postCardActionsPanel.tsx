@@ -54,11 +54,11 @@ export const PostCardActionsPanel = ({ content, handleCardInteraction }: Props) 
           activeVotes={activeVotes}
           isShowPayoutValue={true}
           parentType={PostTypes.POST}
-          onUpvotePress={(anchorRect, onVotingStart) =>
-            handleCardInteraction(PostCardActionIds.UPVOTE, anchorRect, onVotingStart)
+          onUpvotePress={(sourceRef, onVotingStart) =>
+            handleCardInteraction(PostCardActionIds.UPVOTE, sourceRef, onVotingStart)
           }
-          onPayoutDetailsPress={(anchorRect) =>
-            handleCardInteraction(PostCardActionIds.PAYOUT_DETAILS, anchorRect)
+          onPayoutDetailsPress={(sourceRef) =>
+            handleCardInteraction(PostCardActionIds.PAYOUT_DETAILS, sourceRef)
           }
         />
 

@@ -41,4 +41,7 @@ export default EStyleSheet.create({
     color: '$iconColor',
     justifyContent: 'center',
   },
+  tabLabelColor: {
+    color: '$primaryDarkText',
+  },
 });

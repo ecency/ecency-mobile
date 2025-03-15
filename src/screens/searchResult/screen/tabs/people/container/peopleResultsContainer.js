@@ -7,7 +7,7 @@ import ROUTES from '../../../../../../constants/routeNames';
 import { searchAccount } from '../../../../../../providers/ecency/ecency';
 import { lookupAccounts } from '../../../../../../providers/hive/dhive';
 
-const PeopleResultsContainer = ({ children, searchValue, username, isUsername }) => {
+const PeopleResultsContainer = ({ children, searchValue, isUsername }) => {
   const navigation = useNavigation();
 
   const [users, setUsers] = useState([]);
@@ -31,7 +31,7 @@ const PeopleResultsContainer = ({ children, searchValue, username, isUsername })
         }
         setUsers(res.reverse());
       })
-      .catch((err) => {
+      .catch(() => {
         setNoResult(true);
         setUsers([]);
       });

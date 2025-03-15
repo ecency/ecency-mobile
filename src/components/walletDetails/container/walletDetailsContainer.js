@@ -26,7 +26,7 @@ class WalletContainer extends PureComponent {
 
   // Component Functions
   _navigate = async (transferType, fundType) => {
-    const { dispatch, walletData, isPinCodeOpen, navigation } = this.props;
+    const { walletData, isPinCodeOpen, navigation } = this.props;
     let balance;
 
     switch (fundType) {

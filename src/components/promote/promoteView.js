@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment, useState, useEffect, useRef } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { injectIntl } from 'react-intl';
 import { Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -91,8 +91,6 @@ const PromoteView = ({
       setIsValid(false);
     }
   };
-
-  const _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
 
   const _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton

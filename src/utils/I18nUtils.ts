@@ -1,16 +1,16 @@
-import { Alert, NativeModules } from 'react-native';
+import { Alert, I18nManager } from 'react-native';
 import RNRestart from 'react-native-restart';
 import rtlDetect from 'rtl-detect';
 
-export const isRTL = () => NativeModules.I18nManager.isRTL;
+export const isRTL = () => I18nManager.isRTL;
 
 export const languageRestart = (prevLang, lang, intl) => {
   if (prevLang != lang) {
     // if selected lang is RTL, switch the layout
     if (rtlDetect.isRtlLang(lang)) {
-      NativeModules.I18nManager.forceRTL(true);
+      I18nManager.forceRTL(true);
     } else {
-      NativeModules.I18nManager.forceRTL(false);
+      I18nManager.forceRTL(false);
     }
 
     // if any prevLang or curr Lang is of different layout, alert user and restart

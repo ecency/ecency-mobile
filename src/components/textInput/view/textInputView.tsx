@@ -1,5 +1,5 @@
 import React, { Ref } from 'react';
-import { TextInput, NativeModules, TextInputProps, TextStyle } from 'react-native';
+import { TextInput, I18nManager, TextInputProps, TextStyle } from 'react-native';
 
 import { useAppSelector } from '../../../hooks';
 
@@ -18,7 +18,7 @@ const TextInputView = ({ innerRef, height, style, ...props }: Props) => {
     <TextInput
       ref={innerRef}
       keyboardAppearance={isDarkTheme ? 'dark' : 'light'}
-      textAlign={NativeModules.I18nManager.isRTL ? 'right' : 'left'}
+      textAlign={I18nManager.isRTL ? 'right' : 'left'}
       {...props}
       style={[styles.input, { minHeight: height }, style]}
     />

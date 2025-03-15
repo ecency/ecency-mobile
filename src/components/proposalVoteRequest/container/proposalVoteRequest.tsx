@@ -7,17 +7,25 @@ import { TextButton } from '../../buttons';
 import { MainButton } from '../../mainButton';
 import { showActionModal } from '../../../redux/actions/uiAction';
 import { ButtonTypes } from '../../actionModal/container/actionModalContainer';
-import { useProposalVotedQuery, useProposalVoteMutation } from '../../../providers/queries';
+import {
+  useActiveProposalMetaQuery,
+  useProposalVotedQuery,
+  useProposalVoteMutation,
+} from '../../../providers/queries';
 import { updateProposalVoteMeta } from '../../../redux/actions/cacheActions';
 
-const ECENCY_PROPOSAL_ID = 283;
 const RE_REQUEST_INTERVAL = 259200000; // 3 days;
 
 export const ProposalVoteRequest = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
 
-  const proposalVotedQuery = useProposalVotedQuery(ECENCY_PROPOSAL_ID);
+  //reference query with active proposal id
+  const activeProposalMetaQuery = useActiveProposalMetaQuery();
+  const _ecencyProposalId = activeProposalMetaQuery.data?.id;
+
+  // make sure proposalVotedQuery returnes updated data on id change
+  const proposalVotedQuery = useProposalVotedQuery(_ecencyProposalId);
   const proposalVoteMutation = useProposalVoteMutation();
 
   const currentAccount = useSelector((state) => state.account.currentAccount);
@@ -46,7 +54,7 @@ export const ProposalVoteRequest = () => {
   const voteCasted = proposalVoteMutation.isSuccess;
 
   const _voteAction = () => {
-    proposalVoteMutation.mutate({ proposalId: ECENCY_PROPOSAL_ID });
+    proposalVoteMutation.mutate({ proposalId: _ecencyProposalId });
   };
 
   const _remindLater = () => {
@@ -61,7 +69,7 @@ export const ProposalVoteRequest = () => {
               console.log('Ignore');
               dispatch(
                 updateProposalVoteMeta(
-                  ECENCY_PROPOSAL_ID,
+                  _ecencyProposalId,
                   currentAccount.username,
                   true,
                   new Date().getTime(),
@@ -74,7 +82,7 @@ export const ProposalVoteRequest = () => {
             onPress: () => {
               dispatch(
                 updateProposalVoteMeta(
-                  ECENCY_PROPOSAL_ID,
+                  _ecencyProposalId,
                   currentAccount.username,
                   false,
                   new Date().getTime(),

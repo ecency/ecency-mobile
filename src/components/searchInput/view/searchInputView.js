@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
 
 // Components
-import { Icon } from '../../icon';
 import { IconButton } from '../../iconButton';
 import { TextInput } from '../../textInput';
 
@@ -59,7 +58,7 @@ const SearchInputView = ({
   const inputWrapperFlex = { flex: backEnabled ? 16 : 1 };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {backEnabled && (
         <View style={styles.backButtonContainer}>
           <IconButton
@@ -87,7 +86,7 @@ const SearchInputView = ({
         {handleOnModalClose && _renderCrossButton(() => handleOnModalClose())}
         {showClearButton && _renderCrossButton(() => setInputValue(''))}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -13,7 +13,7 @@ import {
 } from '@hiveio/dhive';
 import { PrivateKey } from '@esteemapp/dhive';
 import bytebuffer from 'bytebuffer';
-import { createHash } from 'react-native-crypto';
+import * as Crypto from 'expo-crypto';
 
 import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
@@ -73,11 +73,24 @@ export const checkClient = async () => {
 
 checkClient();
 
-const sha256 = (input: Buffer | string): Buffer => {
-  return createHash('sha256').update(input).digest();
+/**
+ * Computes the SHA-256 hash of the input.
+ *
+ * @param {Buffer | string} input - The input data to hash (either a Buffer or a string).
+ * @returns {Promise<Buffer>} - A Promise that resolves to the hash as a Buffer.
+ */
+const sha256 = async (input) => {
+  // Convert input to a string if it's a Buffer
+  const inputData = input instanceof Buffer ? input.toString('utf8') : input;
+
+  // Compute the SHA-256 hash using expo-crypto
+  const hash = await Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, inputData);
+
+  // Convert the hexadecimal hash string back to a Buffer
+  return Buffer.from(hash, 'hex');
 };
 
-export const generateTrxId = (transaction) => {
+export const generateTrxId = async (transaction) => {
   const buffer = new bytebuffer(bytebuffer.DEFAULT_CAPACITY, bytebuffer.LITTLE_ENDIAN);
   try {
     Types.Transaction(buffer, transaction);
@@ -86,7 +99,8 @@ export const generateTrxId = (transaction) => {
   }
   buffer.flip();
   const transactionData = Buffer.from(buffer.toBuffer());
-  return sha256(transactionData).toString('hex').slice(0, 40); // CryptoJS.enc.Hex
+  const _bufferHash = await sha256(transactionData);
+  return _bufferHash.toString('hex').slice(0, 40); // CryptoJS.enc.Hex;
 };
 
 export const sendHiveOperations = async (
@@ -116,7 +130,7 @@ export const sendHiveOperations = async (
     };
 
     const transaction = await cryptoUtils.signTransaction(tx, key, chainId);
-    const trxId = generateTrxId(transaction);
+    const trxId = await generateTrxId(transaction);
     const resultHive = await client.broadcast.call('broadcast_transaction', [transaction]);
     const result = Object.assign({ id: trxId }, resultHive);
     return result;
@@ -358,7 +372,7 @@ export const getState = async (path) => {
  * @method getUser get account data
  * @param user username
  */
-export const getUser = async (user, loggedIn = true) => {
+export const getUser = async (user) => {
   try {
     const account = await client.database.getAccounts([user]);
     const _account = {
@@ -927,22 +941,22 @@ export const signImage = async (file, currentAccount, pin) => {
   }
 };
 
-/**
- * @method getBlockNum return block num based on transaction id
- * @param trx_id transactionId
- */
-const getBlockNum = async (trx_id) => {
-  try {
-    console.log('Getting transaction data', trx_id);
-    const transData = await client.call('condenser_api', 'get_transaction', [trx_id]);
-    const blockNum = transData.block_num;
-    console.log('Block number', blockNum);
-    return blockNum;
-  } catch (err) {
-    console.warn('Failed to get transaction data: ', err);
-    return undefined;
-  }
-};
+// /**
+//  * @method getBlockNum return block num based on transaction id
+//  * @param trx_id transactionId
+//  */
+// const getBlockNum = async (trx_id) => {
+//   try {
+//     console.log('Getting transaction data', trx_id);
+//     const transData = await client.call('condenser_api', 'get_transaction', [trx_id]);
+//     const blockNum = transData.block_num;
+//     console.log('Block number', blockNum);
+//     return blockNum;
+//   } catch (err) {
+//     console.warn('Failed to get transaction data: ', err);
+//     return undefined;
+//   }
+// };
 
 /**
  * @method upvote upvote a content
@@ -1672,7 +1686,6 @@ export const postContent = (
   jsonMetadata,
   options = null,
   voteWeight = null,
-  isEdit = false,
 ) =>
   _postContent(
     account,
@@ -2229,7 +2242,7 @@ export const pinCommunityPost = (
   );
 };
 
-export const getBtcAddress = (pin, currentAccount) => {
+export const getBtcAddress = () => {
   /* const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
@@ -2351,7 +2364,7 @@ export const handleHiveUriOperation = async (
     );
     // console.log('tx : ', tx);
     const transaction = cryptoUtils.signTransaction(tx, privateKey, chainId);
-    const trxId = generateTrxId(transaction);
+    const trxId = await generateTrxId(transaction);
     const resultHive = await client.broadcast.call('broadcast_transaction', [transaction]);
     const result = Object.assign({ id: trxId }, resultHive);
     return result;

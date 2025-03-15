@@ -5,6 +5,7 @@ import { View } from 'react-native';
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { TabView } from 'react-native-tab-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   TabBar,
   BasicHeader,
@@ -54,7 +55,7 @@ const CommunitiesScreen = () => {
         isDiscoversLoading,
       }) => {
         return (
-          <View style={styles.container}>
+          <SafeAreaView style={styles.container}>
             <BasicHeader
               title={intl.formatMessage({
                 id: 'side_menu.communities',
@@ -99,7 +100,7 @@ const CommunitiesScreen = () => {
                 }
               }}
             />
-          </View>
+          </SafeAreaView>
         );
       }}
     </CommunitiesContainer>

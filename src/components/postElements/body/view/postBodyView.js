@@ -1,9 +1,7 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { PermissionsAndroid, Platform, useWindowDimensions, View } from 'react-native';
-import { CameraRoll } from '@react-native-camera-roll/camera-roll';
+import { useWindowDimensions, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import RNFetchBlob from 'rn-fetch-blob';
 import ActionSheetView from 'react-native-actions-sheet';
 
 // Services and Actions
@@ -142,72 +140,6 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
         toastNotification(
           intl.formatMessage({
             id: 'post.wrong_link',
-          }),
-        ),
-      );
-    }
-  };
-
-  const checkAndroidPermission = async () => {
-    try {
-      const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
-      await PermissionsAndroid.request(permission);
-      Promise.resolve();
-    } catch (error) {
-      Promise.reject(error);
-    }
-  };
-
-  const _downloadImage = async (uri) => {
-    return RNFetchBlob.config({
-      fileCache: true,
-      appendExt: 'jpg',
-    })
-      .fetch('GET', uri)
-      .then((res) => {
-        const { status } = res.info();
-
-        if (status == 200) {
-          return res.path();
-        } else {
-          Promise.reject();
-        }
-      })
-      .catch((errorMessage) => {
-        Promise.reject(errorMessage);
-      });
-  };
-
-  const _saveImage = async (uri) => {
-    try {
-      if (Platform.OS === 'android') {
-        await checkAndroidPermission();
-        uri = `file://${await _downloadImage(uri)}`;
-      }
-      CameraRoll.saveToCameraRoll(uri)
-        .then((res) => {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'post.image_saved',
-              }),
-            ),
-          );
-        })
-        .catch((error) => {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'post.image_saved_error',
-              }),
-            ),
-          );
-        });
-    } catch (error) {
-      dispatch(
-        toastNotification(
-          intl.formatMessage({
-            id: 'post.image_saved_error',
           }),
         ),
       );

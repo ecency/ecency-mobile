@@ -13,6 +13,7 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, Icon, PostPlaceHolder, TextInput } from '../../components';
 
 // styles
@@ -206,7 +207,7 @@ const EditHistoryScreen = ({ route }) => {
   };
 
   return (
-    <Fragment>
+    <SafeAreaView style={styles.mainContainer}>
       <BasicHeader
         title={intl.formatMessage({
           id: 'history.edit',
@@ -224,7 +225,7 @@ const EditHistoryScreen = ({ route }) => {
           {editHistory.length > 0 && _renderBody()}
         </View>
       )}
-    </Fragment>
+    </SafeAreaView>
   );
 };
 

@@ -22,7 +22,6 @@ const WalletHeaderView = ({
   userBalance,
   type = '',
   componentDidUpdate,
-  showIconList,
   currentIndex,
   valueDescriptions,
   showBuyButton,

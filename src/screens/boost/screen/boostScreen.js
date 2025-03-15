@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Platform, ScrollView } from 'react-native';
+import { Platform, ScrollView } from 'react-native';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
 
 // Container
@@ -48,7 +49,7 @@ const BoostScreen = ({ route }) => {
       handleOnPurchaseFailure={_onPurchaseFailure}
     >
       {({ buyItem, productList, isLoading, isProcessing, getTitle }) => (
-        <View style={globalStyles.container}>
+        <SafeAreaView style={globalStyles.container}>
           <BasicHeader
             disabled={isProcessing}
             title={intl.formatMessage({
@@ -74,7 +75,7 @@ const BoostScreen = ({ route }) => {
               ))}
             </ScrollView>
           )}
-        </View>
+        </SafeAreaView>
       )}
     </InAppPurchaseContainer>
   );

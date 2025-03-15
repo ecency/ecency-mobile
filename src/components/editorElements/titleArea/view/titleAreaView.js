@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { useSelector, connect } from 'react-redux';
+import { connect } from 'react-redux';
 // Constants
 
 // Components

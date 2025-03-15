@@ -1,8 +1,9 @@
-import React, { Fragment, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import get from 'lodash/get';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, TextBoxWithCopy } from '../../components';
 import { useAppSelector } from '../../hooks';
 import { getDigitPinCode } from '../../providers/hive/dhive';
@@ -160,7 +161,7 @@ const BackupKeysScreen = () => {
   );
 
   return (
-    <Fragment>
+    <SafeAreaView style={styles.mainContainer}>
       <BasicHeader
         backIconName="close"
         title={intl.formatMessage({
@@ -169,7 +170,7 @@ const BackupKeysScreen = () => {
       />
       <View style={styles.mainContainer}>{_renderContent}</View>
       <ImportPrivateKeyModalModal ref={importKeyModalRef} />
-    </Fragment>
+    </SafeAreaView>
   );
 };
 

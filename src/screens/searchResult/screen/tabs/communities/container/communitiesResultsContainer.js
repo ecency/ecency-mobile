@@ -87,7 +87,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
         }
         setIsDiscoversLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         setNoResult(true);
         setData([]);
         setIsDiscoversLoading(false);

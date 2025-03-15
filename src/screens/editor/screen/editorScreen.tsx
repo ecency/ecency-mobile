@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { get, isNull, isEqual } from 'lodash';
 
 // Utils
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { extractMetadata, getWordsCount, makeJsonMetadata } from '../../../utils/editor';
 
 // Components
@@ -439,8 +440,8 @@ class EditorScreen extends Component {
       return (
         <Modal
           isOpen={isCommunitiesListModalOpen}
-          animationType="animationType"
-          presentationStyle="pageSheet"
+          presentationStyle="formSheet"
+          animationType="slide"
           style={styles.modal}
         >
           <SelectCommunityModalContainer
@@ -455,7 +456,7 @@ class EditorScreen extends Component {
     };
 
     return (
-      <View style={globalStyles.defaultContainer}>
+      <SafeAreaView edges={['top']} style={globalStyles.defaultContainer}>
         <BasicHeader
           handleSchedulePress={(date) => handleSchedulePress(date, fields)}
           handleRewardChange={handleRewardChange}
@@ -544,7 +545,7 @@ class EditorScreen extends Component {
           handleShouldReblogChange={handleShouldReblogChange}
           handleFormUpdate={this._handleFormUpdate}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }
