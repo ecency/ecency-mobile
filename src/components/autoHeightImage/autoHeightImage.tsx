@@ -8,25 +8,31 @@ import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from '
 interface AutoHeightImageProps {
   contentWidth: number;
   imgUrl: string;
-  metadata: any;
+  metadata?: any;
   isAnchored: boolean;
   activeOpacity?: number;
-  onPress: () => void;
+  aspectRatio?: number;
+  lockWidth?: boolean;
+  onPress?: () => void;
+  setAspectRatio?: (ratio: number) => void;
 }
 
 const AnimatedExpoImage = Animated.createAnimatedComponent(ExpoImage);
 
 export const AutoHeightImage = ({
   contentWidth,
+  lockWidth,
   imgUrl,
   metadata,
+  aspectRatio,
   isAnchored,
   activeOpacity,
   onPress,
+  setAspectRatio,
 }: AutoHeightImageProps) => {
   // extract iniital height based on provided ratio
   const _initialHeight = useMemo(() => {
-    let _height = contentWidth / (16 / 9);
+    let _height = contentWidth / (aspectRatio || 16 / 9);
     if (metadata && metadata.image && metadata.image_ratios) {
       metadata.image_ratios.forEach((_ratio, index) => {
         const url = metadata.image[index];
@@ -71,12 +77,19 @@ export const AutoHeightImage = ({
 
   // NOTE: important to have post image bound set even for images with ratio already provided
   // as this handles the case where width can be lower than contentWidth
-  const _setImageBounds = (width, height) => {
-    const newWidth = Math.round(width < contentWidth ? width : contentWidth);
+  const _setImageBounds = (width:number, height:number) => {
+    const newWidth = lockWidth ? contentWidth : Math.round(width < contentWidth ? width : contentWidth);
     const newHeight = Math.round((height / width) * newWidth);
 
-    animateHeight(newHeight); // Animate the height change
+    if(!aspectRatio){
+      animateHeight(newHeight); // Animate the height change
+    }
+   
     setImgWidth(newWidth);
+
+    if(!aspectRatio && setAspectRatio){
+      setAspectRatio(newHeight / newWidth);
+    }
   };
 
   // Use Reanimated to bind the animated height value to the style
@@ -84,10 +97,12 @@ export const AutoHeightImage = ({
     width: imgWidth,
     height: imgHeightAnim.value, // Bind animated height
     backgroundColor: bgColorAnim.value,
+    borderRadius:8,
   }));
-  
+
   const animatedImgStyle = useAnimatedStyle(() => ({
     flex: 1,
+    borderRadius:8,
     opacity: imgOpacityAnim.value, // Bind animated opacity
   }));
 
