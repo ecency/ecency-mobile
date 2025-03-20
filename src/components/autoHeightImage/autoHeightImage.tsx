@@ -55,10 +55,13 @@ export const AutoHeightImage = ({
   // NOTE: important to have post image bound set even for images with ratio already provided
   // as this handles the case where width can be lower than contentWidth
   const _setImageBounds = (width, height) => {
-    const newWidth = width < contentWidth ? width : contentWidth;
-    const newHeight = (height / width) * newWidth;
+
+    const newWidth = Math.round(width < contentWidth ? width : contentWidth);
+    const newHeight = Math.round((height / width) * newWidth);
+
     setImgHeight(newHeight);
     setImgWidth(newWidth);
+
   };
 
   const imgStyle = {
