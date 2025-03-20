@@ -3,7 +3,12 @@ import React, { useMemo, useState } from 'react';
 import { Platform, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 interface AutoHeightImageProps {
   contentWidth: number;
@@ -37,7 +42,7 @@ export const AutoHeightImage = ({
       metadata.image_ratios.forEach((_ratio, index) => {
         const url = metadata.image[index];
 
-        //make sure ratio is of the target image proxified source
+        // make sure ratio is of the target image proxified source
         if (url && Number.isFinite(_ratio) && _ratio !== 0) {
           const poxifiedUrl = proxifyImageSrc(
             url,
@@ -58,7 +63,6 @@ export const AutoHeightImage = ({
     return _height;
   }, [imgUrl]);
 
-
   const [imgWidth, setImgWidth] = useState(contentWidth);
   const imgHeightAnim = useSharedValue(_initialHeight); // Initial height based on 16:9 ratio
   const imgOpacityAnim = useSharedValue(0); // Initial opacity for fade-in effect
@@ -66,8 +70,11 @@ export const AutoHeightImage = ({
 
   // Function to animate the height change using Reanimated
   const animateHeight = (newHeight: number) => {
-    imgHeightAnim.value = withTiming(newHeight, { duration: 300, easing: Easing.out(Easing.circle) }); // Smooth transition over 300ms
-    bgColorAnim.value = withTiming('transparent'), { duration: 200 }; // Smooth transition over 300ms
+    imgHeightAnim.value = withTiming(newHeight, {
+      duration: 300,
+      easing: Easing.out(Easing.circle),
+    }); // Smooth transition over 300ms
+    (bgColorAnim.value = withTiming('transparent')), { duration: 200 }; // Smooth transition over 300ms
   };
 
   // Function to animate the fade-in effect
@@ -77,17 +84,19 @@ export const AutoHeightImage = ({
 
   // NOTE: important to have post image bound set even for images with ratio already provided
   // as this handles the case where width can be lower than contentWidth
-  const _setImageBounds = (width:number, height:number) => {
-    const newWidth = lockWidth ? contentWidth : Math.round(width < contentWidth ? width : contentWidth);
+  const _setImageBounds = (width: number, height: number) => {
+    const newWidth = lockWidth
+      ? contentWidth
+      : Math.round(width < contentWidth ? width : contentWidth);
     const newHeight = Math.round((height / width) * newWidth);
 
-    if(!aspectRatio){
+    if (!aspectRatio) {
       animateHeight(newHeight); // Animate the height change
     }
-   
+
     setImgWidth(newWidth);
 
-    if(!aspectRatio && setAspectRatio){
+    if (!aspectRatio && setAspectRatio) {
       setAspectRatio(newHeight / newWidth);
     }
   };
@@ -97,28 +106,29 @@ export const AutoHeightImage = ({
     width: imgWidth,
     height: imgHeightAnim.value, // Bind animated height
     backgroundColor: bgColorAnim.value,
-    borderRadius:8,
+    borderRadius: 8,
   }));
 
   const animatedImgStyle = useAnimatedStyle(() => ({
     flex: 1,
-    borderRadius:8,
+    borderRadius: 8,
     opacity: imgOpacityAnim.value, // Bind animated opacity
   }));
 
-
   const _onLoad = (evt) => {
     _setImageBounds(evt.source.width, evt.source.height);
-    animateFadeIn()
+    animateFadeIn();
   };
 
   return (
     <TouchableOpacity onPress={onPress} disabled={isAnchored} activeOpacity={activeOpacity || 1}>
       <Animated.View style={animatedWrapperStyle}>
-        <AnimatedExpoImage style={animatedImgStyle}
+        <AnimatedExpoImage
+          style={animatedImgStyle}
           source={{ uri: imgUrl }}
           contentFit="cover"
-          onLoad={_onLoad} />
+          onLoad={_onLoad}
+        />
       </Animated.View>
     </TouchableOpacity>
   );

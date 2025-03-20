@@ -1,7 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import { TouchableOpacity, Text, View, useWindowDimensions } from 'react-native';
 // Utils
-import { Image as ExpoImage } from 'expo-image';
 import { useIntl } from 'react-intl';
 
 // Components
@@ -11,7 +10,7 @@ import styles from './postCardStyles';
 import { PostCardActionIds } from '../container/postCard';
 import ROUTES from '../../../constants/routeNames';
 import { ContentType } from '../../../providers/hive/hive.types';
-import { AutoHeightImage } from '../../../components/autoHeightImage/autoHeightImage';
+import { AutoHeightImage } from '../../autoHeightImage/autoHeightImage';
 
 const DEFAULT_IMAGE =
   'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
@@ -65,7 +64,7 @@ export const PostCardContent = ({
 
   const _setAspectRatio = (ratio: number) => {
     setImageRatio(content.author + content.permlink, ratio);
-  }
+  };
 
   let images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
   if (content.thumbnail) {
