@@ -1,8 +1,9 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { Platform, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 interface AutoHeightImageProps {
   contentWidth: number;
@@ -28,6 +29,7 @@ export const AutoHeightImage = ({
       metadata.image_ratios.forEach((_ratio, index) => {
         const url = metadata.image[index];
 
+        //make sure ratio is of the target image proxified source
         if (url && Number.isFinite(_ratio) && _ratio !== 0) {
           const poxifiedUrl = proxifyImageSrc(
             url,
@@ -48,9 +50,21 @@ export const AutoHeightImage = ({
     return _height;
   }, [imgUrl]);
 
+
   const [imgWidth, setImgWidth] = useState(contentWidth);
-  const [imgHeight, setImgHeight] = useState(_initialHeight);
-  const [onLoadCalled, setOnLoadCalled] = useState(false);
+  const imgHeightAnim = useSharedValue(_initialHeight); // Initial height based on 16:9 ratio
+  const imgOpacityAnim = useSharedValue(0); // Initial opacity for fade-in effect
+
+  // Function to animate the height change using Reanimated
+  const animateHeight = (newHeight: number) => {
+    imgHeightAnim.value = withTiming(newHeight, { duration: 200, easing:Easing.ease}); // Smooth transition over 300ms
+    
+  };
+
+    // Function to animate the fade-in effect
+    const animateFadeIn = () => {
+      imgOpacityAnim.value = withTiming(1, { duration: 300 }); // Fade in over 500ms
+    };
 
   // NOTE: important to have post image bound set even for images with ratio already provided
   // as this handles the case where width can be lower than contentWidth
@@ -59,25 +73,35 @@ export const AutoHeightImage = ({
     const newWidth = Math.round(width < contentWidth ? width : contentWidth);
     const newHeight = Math.round((height / width) * newWidth);
 
-    setImgHeight(newHeight);
+    animateHeight(newHeight); // Animate the height change
     setImgWidth(newWidth);
 
   };
 
+  // Use Reanimated to bind the animated height value to the style
+  const animatedStyle = useAnimatedStyle(() => ({
+    height: imgHeightAnim.value, // Bind animated height
+    opacity: imgOpacityAnim.value, // Bind animated opacity
+  }));
+
   const imgStyle = {
     width: imgWidth,
-    height: imgHeight,
-    backgroundColor: onLoadCalled ? 'transparent' : EStyleSheet.value('$primaryLightBackground'),
+    backgroundColor: EStyleSheet.value('$primaryLightBackground'),
   };
 
   const _onLoad = (evt) => {
-    setOnLoadCalled(true);
     _setImageBounds(evt.source.width, evt.source.height);
+    animateFadeIn()
   };
 
   return (
     <TouchableOpacity onPress={onPress} disabled={isAnchored} activeOpacity={activeOpacity || 1}>
-      <ExpoImage style={imgStyle} source={{ uri: imgUrl }} contentFit="contain" onLoad={_onLoad} />
+      <Animated.View style={[imgStyle, animatedStyle]}>
+        <ExpoImage  style={{ flex: 1 }}
+          source={{ uri: imgUrl }}
+          contentFit="contain"
+          onLoad={_onLoad} />
+      </Animated.View>
     </TouchableOpacity>
   );
 };
