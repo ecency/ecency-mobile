@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { TouchableOpacity, Text, View, useWindowDimensions } from 'react-native';
 // Utils
 import { useIntl } from 'react-intl';
@@ -10,7 +10,7 @@ import styles from './postCardStyles';
 import { PostCardActionIds } from '../container/postCard';
 import ROUTES from '../../../constants/routeNames';
 import { ContentType } from '../../../providers/hive/hive.types';
-import { AutoHeightImage } from '../../autoHeightImage/autoHeightImage';
+import { Image as ExpoImage } from 'expo-image';
 
 const DEFAULT_IMAGE =
   'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
@@ -38,6 +38,11 @@ export const PostCardContent = ({
   const dim = useWindowDimensions();
 
   const imgWidth = dim.width - 18;
+  const [calcImgHeight, setCalcImgHeight] = useState(imageRatio ? imgWidth / imageRatio : 300);
+
+  const resizeMode = useMemo(() => {
+    return calcImgHeight < dim.height ? 'contain' : 'cover';
+  }, [dim.height]);
 
   // featured text can be used to add more labels in future by just inserting text as array item
   const _isPollPost =
@@ -62,9 +67,9 @@ export const PostCardContent = ({
     });
   };
 
-  const _setAspectRatio = (ratio: number) => {
-    setImageRatio(content.author + content.permlink, ratio);
-  };
+  // const _setAspectRatio = (ratio: number) => {
+  //   setImageRatio(content.author + content.permlink, ratio);
+  // };
 
   let images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
   if (content.thumbnail) {
@@ -81,14 +86,24 @@ export const PostCardContent = ({
     <View style={styles.postBodyWrapper}>
       <TouchableOpacity activeOpacity={0.8} style={styles.hiddenImages} onPress={_onPress}>
         {!isHideImage && (
-          <AutoHeightImage
-            contentWidth={imgWidth}
-            imgUrl={images.image}
-            isAnchored={true}
-            activeOpacity={0.8}
-            aspectRatio={imageRatio}
-            lockWidth={true}
-            setAspectRatio={_setAspectRatio}
+          <ExpoImage
+            source={{ uri: images.image }}
+            style={[
+              styles.thumbnail,
+              {
+                width: imgWidth,
+                height: Math.min(calcImgHeight, dim.height),
+              },
+            ]}
+            contentFit={resizeMode}
+            onLoad={(evt) => {
+              if (!imageRatio) {
+                const _imgRatio = evt.source.width / evt.source.height;
+                const height = imgWidth / _imgRatio;
+                setCalcImgHeight(height);
+                setImageRatio(content.author + content.permlink, _imgRatio);
+              }
+            }}
           />
         )}
 
