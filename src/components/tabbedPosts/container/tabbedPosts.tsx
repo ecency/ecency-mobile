@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { TabView, TabBarProps } from 'react-native-tab-view';
 import { useWindowDimensions, View } from 'react-native';
+import { useIntl } from 'react-intl';
 import { TabbedPostsProps } from '../types/tabbedPosts.types';
 import { FeedTabBar } from '../view/feedTabBar';
 import PostsTabContent from '../view/postsTabContent';
+import { Tag } from '../..';
 
 export const TabbedPosts = ({
   tabFilters,
@@ -15,6 +17,7 @@ export const TabbedPosts = ({
   ...props
 }: TabbedPostsProps) => {
   const layout = useWindowDimensions();
+  const intl = useIntl();
 
   // initialize state
   const [index, setIndex] = useState(selectedOptionIndex);
@@ -46,6 +49,15 @@ export const TabbedPosts = ({
     );
   };
 
+  const _renderTabLabel = ({ labelText, focused }: { focused: boolean; labelText: string }) => (
+    <Tag
+      key={labelText}
+      value={intl.formatMessage({ id: labelText.toLowerCase() }).toUpperCase()}
+      isFilter
+      isPin={focused}
+    />
+  );
+
   // Dynamically create scenes for each tab
   const renderScene = ({ route }) => {
     if (tabContentOverrides && tabContentOverrides.has(index)) {
@@ -76,6 +88,9 @@ export const TabbedPosts = ({
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={setIndex}
+        commonOptions={{
+          label: _renderTabLabel,
+        }}
         initialLayout={{ width: layout.width }}
       />
     </View>

@@ -1,5 +1,5 @@
-import Popover, { PopoverController } from 'react-native-modal-popover';
-import React, { Fragment } from 'react';
+import Popover from 'react-native-popover-view';
+import React, { Fragment, useRef, useState } from 'react';
 import { ActivityIndicator, View, Text, TouchableOpacity } from 'react-native';
 import Highlighter from 'react-native-highlight-words';
 
@@ -33,6 +33,9 @@ const UserListItem = ({
   leftItemRenderer,
   rightItemRenderer,
 }) => {
+  const popoverRef = useRef();
+  const [showPopover, setShowPopover] = useState(false);
+
   const _handleRightButtonPress = () => {
     if (onPressRightText) {
       const _data = {};
@@ -102,53 +105,44 @@ const UserListItem = ({
               <ActivityIndicator style={{ width: 30 }} color={EStyleSheet.value('$primaryBlue')} />
             </View>
           ) : (
-            <PopoverController>
-              {({
-                openPopover,
-                closePopover,
-                popoverVisible,
-                setPopoverAnchor,
-                popoverAnchorRect,
-              }) => (
-                <Fragment>
-                  <TouchableOpacity
-                    ref={setPopoverAnchor}
-                    style={styles.rightWrapper}
-                    onPress={() => {
-                      if (rightTooltipText) {
-                        openPopover();
-                      }
-                      _handleRightButtonPress();
-                    }}
+            <>
+              <TouchableOpacity
+                style={styles.rightWrapper}
+                onPress={() => {
+                  if (rightTooltipText) {
+                    setShowPopover(true);
+                  }
+                  _handleRightButtonPress();
+                }}
+              >
+                <>
+                  <Text
+                    ref={popoverRef}
+                    style={[
+                      styles.value,
+                      isBlackRightColor && styles.valueBlack,
+                      rightTextStyle,
+                      isFollowing && styles.unfollowText,
+                    ]}
                   >
-                    <>
-                      <Text
-                        style={[
-                          styles.value,
-                          isBlackRightColor && styles.valueBlack,
-                          rightTextStyle,
-                          isFollowing && styles.unfollowText,
-                        ]}
-                      >
-                        {rightText}
-                      </Text>
-                      {!!subRightText && <Text style={styles.text}>{subRightText}</Text>}
-                    </>
-                  </TouchableOpacity>
-                  <Popover
-                    contentStyle={styles.popoverDetails}
-                    arrowStyle={styles.arrow}
-                    backgroundStyle={styles.overlay}
-                    visible={popoverVisible}
-                    onClose={closePopover}
-                    fromRect={popoverAnchorRect}
-                    supportedOrientations={['portrait', 'landscape']}
-                  >
-                    <Text style={styles.tooltipText}>{rightTooltipText}</Text>
-                  </Popover>
-                </Fragment>
-              )}
-            </PopoverController>
+                    {rightText}
+                  </Text>
+                  {!!subRightText && <Text style={styles.text}>{subRightText}</Text>}
+                </>
+              </TouchableOpacity>
+
+              <Popover
+                popoverStyle={styles.popoverDetails}
+                arrowStyle={styles.arrow}
+                backgroundStyle={styles.overlay}
+                isVisible={showPopover}
+                onRequestClose={() => setShowPopover(false)}
+                from={popoverRef}
+                supportedOrientations={['portrait', 'landscape']}
+              >
+                <Text style={styles.tooltipText}>{rightTooltipText}</Text>
+              </Popover>
+            </>
           ))}
       </View>
     </TouchableOpacity>

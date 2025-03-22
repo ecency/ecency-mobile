@@ -147,11 +147,11 @@ const CommentView = ({
           activeVotes={activeVotes}
           isShowPayoutValue={true}
           parentType={PostTypes.COMMENT}
-          onUpvotePress={(anchorRect, onVotingStart) => {
-            onUpvotePress({ content: comment, anchorRect, onVotingStart });
+          onUpvotePress={(sourceRef, onVotingStart) => {
+            onUpvotePress({ content: comment, sourceRef, onVotingStart });
           }}
-          onPayoutDetailsPress={(anchorRect) => {
-            onUpvotePress({ content: comment, anchorRect, showPayoutDetails: true });
+          onPayoutDetailsPress={(sourceRef) => {
+            onUpvotePress({ content: comment, sourceRef, showPayoutDetails: true });
           }}
         />
         <TextWithIcon

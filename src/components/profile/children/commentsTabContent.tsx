@@ -65,8 +65,8 @@ const CommentsTabContent = ({
     if (Array.isArray(_comments)) {
       setData(_comments);
       if (_comments.length > 0) {
-        setLastAuthor(_comments[_comments.lastIndex].author);
-        setLastPermlink(_comments[_comments.lastIndex].permlink);
+        setLastAuthor(_comments.at(-1).author);
+        setLastPermlink(_comments.at(-1).permlink);
       }
       if (result.length == 0) {
         setNoMore(true);

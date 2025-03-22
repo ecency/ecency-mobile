@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { shuffle, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { useIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';

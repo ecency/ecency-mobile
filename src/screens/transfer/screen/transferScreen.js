@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl';
 import { get, debounce } from 'lodash';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { hsOptions } from '../../../constants/hsOptions';
 import AUTH_TYPE from '../../../constants/authType';
 
@@ -304,7 +305,7 @@ const TransferView = ({
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <BasicHeader
         title={intl.formatMessage({ id: `transfer.${transferType}` })}
         backIconName="close"
@@ -383,7 +384,7 @@ const TransferView = ({
       )}
 
       <HiveAuthModal ref={hiveAuthModalRef} onClose={handleOnModalClose} />
-    </View>
+    </SafeAreaView>
   );
 };
 

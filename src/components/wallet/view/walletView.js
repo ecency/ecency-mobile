@@ -46,7 +46,6 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
         refreshing,
         selectedUsername,
         walletData,
-        userActivities,
       }) => (
         <ScrollView
           onScroll={handleOnScroll && handleOnScroll}

@@ -4,7 +4,7 @@ import { TabBar, TabBarProps } from 'react-native-tab-view';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useWindowDimensions, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { CustomiseFiltersModal, IconButton, Tag } from '../..';
+import { CustomiseFiltersModal, IconButton } from '../..';
 import { CustomiseFiltersModalRef } from '../../customiseFiltersModal/customiseFiltersModal';
 import styles from '../styles/feedTabBar.styles';
 import showLoginAlert from '../../../utils/showLoginAlert';
@@ -46,14 +46,6 @@ export const FeedTabBar = ({ onFilterSelect, pageType, ...props }: FeedTabBarPro
       }}
     >
       <TabBar
-        renderLabel={({ route, focused }) => (
-          <Tag
-            key={route.key}
-            value={intl.formatMessage({ id: route.title.toLowerCase() }).toUpperCase()}
-            isFilter
-            isPin={focused}
-          />
-        )}
         style={styles.tabBarStyle}
         indicatorStyle={styles.indicatorStyle}
         tabStyle={{ ...styles.tabStyle, minWidth: layout.width / 3 - (enableCustomTabs ? 14 : 0) }}

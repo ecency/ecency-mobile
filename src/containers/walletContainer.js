@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 
@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import { toastNotification } from '../redux/actions/uiAction';
 
 // dhive
-import { getAccount, claimRewardBalance, getBtcAddress } from '../providers/hive/dhive';
+import { getAccount, claimRewardBalance } from '../providers/hive/dhive';
 
 // Utils
 import { groomingWalletTabData, groomingTransactionData, transferTypes } from '../utils/wallet';
@@ -37,7 +37,6 @@ const WalletContainer = ({
   coinSymbol,
   quotes,
   globalProps,
-  handleOnScroll,
   pinCode,
   selectedUser,
   setEstimatedWalletValue,

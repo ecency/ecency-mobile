@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SafeAreaView, FlatList, View, Text, TouchableOpacity } from 'react-native';
 import get from 'lodash/get';
 import isUndefined from 'lodash/isUndefined';
@@ -6,7 +6,7 @@ import Highlighter from 'react-native-highlight-words';
 
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { PostHeaderDescription, FilterBar } from '../../../../../../components';
+import { PostHeaderDescription } from '../../../../../../components';
 import {
   TextWithIcon,
   CommunitiesPlaceHolder,
@@ -19,9 +19,7 @@ import styles from './postsResultsStyles';
 import { useAppDispatch } from '../../../../../../hooks';
 import { showProfileModal } from '../../../../../../redux/actions/uiAction';
 
-const filterOptions = ['relevance', 'popularity', 'newest'];
-
-const PostsResults = ({ navigation, searchValue }) => {
+const PostsResults = ({ searchValue }) => {
   const dispatch = useAppDispatch();
 
   const _showProfileModal = (username) => {

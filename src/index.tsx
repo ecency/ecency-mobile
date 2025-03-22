@@ -15,12 +15,6 @@ import { initQueryClient } from './providers/queries';
 
 const queryClientProviderProps = initQueryClient();
 
-if (__DEV__) {
-  import('react-query-native-devtools').then(({ addPlugin }) => {
-    addPlugin({ queryClient: queryClientProviderProps.client });
-  });
-}
-
 const _renderApp = ({ locale }) => (
   <PersistQueryClientProvider {...queryClientProviderProps}>
     <PersistGate loading={null} persistor={persistor}>

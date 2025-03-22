@@ -100,7 +100,6 @@ import { PostHtmlRenderer } from './postHtmlRenderer';
 import { PostPoll } from './postPoll';
 import { QuickProfileModal } from './organisms';
 import QuickReplyModal from './quickReplyModal/quickReplyModalView';
-import Tooltip from './tooltip/tooltipView';
 import VideoPlayer from './videoPlayer/videoPlayerView';
 import QRModal from './qrModal/qrModalView';
 import { SimpleChart } from './simpleChart';
@@ -262,7 +261,6 @@ export {
   PostPoll,
   QuickProfileModal,
   QuickReplyModal,
-  Tooltip,
   VideoPlayer,
   InsertLinkModal,
   QRModal,

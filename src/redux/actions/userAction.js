@@ -22,7 +22,7 @@ export const followUser = (currentAccount, pin, data, successToastText, failToas
   return (dispatch) => {
     dispatch({ type: FOLLOW_USER, payload: data });
     followUserReq(currentAccount, pin, data)
-      .then((res) => dispatch(followUserSuccess(data, successToastText)))
+      .then(() => dispatch(followUserSuccess(data, successToastText)))
       .catch((err) => dispatch(followUserFail(err, data, failToastText)));
   };
 };
@@ -58,7 +58,7 @@ export const unfollowUser = (currentAccount, pin, data, successToastText, failTo
   return (dispatch) => {
     dispatch({ type: UNFOLLOW_USER, payload: data });
     unfollowUserReq(currentAccount, pin, data)
-      .then((res) => dispatch(unfollowUserSuccess(data, successToastText)))
+      .then(() => dispatch(unfollowUserSuccess(data, successToastText)))
       .catch((err) => dispatch(unfollowUserFail(err, data, failToastText)));
   };
 };

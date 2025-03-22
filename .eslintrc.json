@@ -101,6 +101,7 @@
     "class-methods-use-this": "off",
     "react/jsx-wrap-multilines": "off",
     "jsx-one-expression-per-line": "off",
-    "react/jsx-one-expression-per-line": "off"
+    "react/jsx-one-expression-per-line": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }
