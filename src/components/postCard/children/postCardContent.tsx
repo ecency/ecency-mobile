@@ -6,11 +6,11 @@ import { useIntl } from 'react-intl';
 // Components
 
 // Styles
+import { Image as ExpoImage } from 'expo-image';
 import styles from './postCardStyles';
 import { PostCardActionIds } from '../container/postCard';
 import ROUTES from '../../../constants/routeNames';
 import { ContentType } from '../../../providers/hive/hive.types';
-import { Image as ExpoImage } from 'expo-image';
 
 const DEFAULT_IMAGE =
   'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';

@@ -20,7 +20,7 @@ export const ProposalVoteRequest = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
 
-  //reference query with active proposal id
+  // reference query with active proposal id
   const activeProposalMetaQuery = useActiveProposalMetaQuery();
   const _ecencyProposalId = activeProposalMetaQuery.data?.id;
 
