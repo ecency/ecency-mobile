@@ -183,7 +183,7 @@ const WalletContainer = ({
         setIsClaiming(false);
       })
       .then(() => getAccount(currentAccount.name))
-      .then((account) => {
+      .then(() => {
         const _isRefresh = true;
         _getWalletData(selectedUser, _isRefresh);
         if (isHasUnclaimedRewards) {
@@ -196,7 +196,7 @@ const WalletContainer = ({
           );
         }
       })
-      .then((account) => {
+      .then(() => {
         const _isRefresh = true;
         _getWalletData(selectedUser, _isRefresh);
         setIsClaiming(false);
@@ -219,7 +219,7 @@ const WalletContainer = ({
     setRefreshing(true);
 
     getAccount(selectedUser.name)
-      .then((account) => {
+      .then(() => {
         const _isRefresh = true;
         _getWalletData(selectedUser, _isRefresh);
         setRefreshing(false);

@@ -86,7 +86,7 @@ const WalletScreen = ({ navigation }) => {
 
   // actions
   const populateSelectedAssets = (tokensArr) => {
-    //filter out any other type of token other than ENGINE and SPK
+    // filter out any other type of token other than ENGINE and SPK
     return tokensArr
       .filter(({ type }) => type === 'ENGINE' || type === 'SPK')
       .map(({ symbol, type }) => ({
