@@ -524,8 +524,8 @@
     "pageviews": "Katsottu",
     "duration": "Minuuttia",
     "promote": "Korosta julkaisua",
-    "promote_title": "Want more views and reads?\n",
-    "promote_message": "Use Ecency Perks to promote your post and gain wider exposure."
+    "promote_title": "Haluatko lisää katsojia ja lukijoita?\n",
+    "promote_message": "Käytä Ecency Perk:ä korostaaksesi julkaisuasi ja saat lisää näkyvyyttä."
   },
   "editor": {
     "title": "Otsikko",
@@ -833,7 +833,7 @@
     "edit-history": "Muokkaushistoria",
     "mute": "Mykistä / Estä",
     "translate": "Käännökset",
-    "delete-post": "Delete"
+    "delete-post": "Poista"
   },
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",
