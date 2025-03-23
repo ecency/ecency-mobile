@@ -24,7 +24,7 @@
     "outgoing_transfer_title": "Menevä siirto",
     "checkin_extra": "Palkkio",
     "staked": "Panostettu",
-    "delegations_in": "Delegations In",
+    "delegations_in": "Valtuutukset",
     "delegations_out": "Annetut Valtuutukset",
     "delegation": "Valtuutukset",
     "delegations": "Valtuutukset",
@@ -520,10 +520,10 @@
     "update_poll": "Päivitä kysely"
   },
   "stats": {
-    "viewers": "Visitors",
-    "pageviews": "Views",
-    "duration": "Minutes",
-    "promote": "PROMOTE POST",
+    "viewers": "Vierailijaa",
+    "pageviews": "Katsottu",
+    "duration": "Minuuttia",
+    "promote": "Korosta julkaisua",
     "promote_title": "Want more views and reads?\n",
     "promote_message": "Use Ecency Perks to promote your post and gain wider exposure."
   },
