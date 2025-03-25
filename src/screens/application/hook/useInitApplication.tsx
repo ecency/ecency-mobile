@@ -142,11 +142,13 @@ export const useInitApplication = () => {
     } else if (Platform.OS === 'ios') {
       // for ios, notifee events work while messaging event are malfunctioning, the foreground event
       // on ios is called if user opens/starts app from notification
-      notifeeEventRef.current = notifee.onForegroundEvent(({ type, detail }) => {
+      notifeeEventRef.current = notifee.onBackgroundEvent(async ({ type, detail }) => {
         if (type === EventType.PRESS) {
+          console.log('User pressed the notification.', detail.notification);
           _pushNavigate(detail.notification);
         }
       });
+      
     }
   };
 
