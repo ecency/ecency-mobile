@@ -128,7 +128,7 @@ export const useInitApplication = () => {
 
     // on android messaging event work fine for both background and quite state
     // while notifee events do not fuction as expected
-    if (Platform.OS === 'android') {
+    
       messagingEventRef.current = getMessaging().onNotificationOpenedApp((remoteMessage) => {
         console.log('Notificaiton opened app', remoteMessage);
         _pushNavigate(remoteMessage);
@@ -139,17 +139,19 @@ export const useInitApplication = () => {
         console.log('Initial Notification', initialNotification);
         _pushNavigate(initialNotification);
       }
-    } else if (Platform.OS === 'ios') {
-      // for ios, notifee events work while messaging event are malfunctioning, the foreground event
-      // on ios is called if user opens/starts app from notification
-      notifeeEventRef.current = notifee.onBackgroundEvent(async ({ type, detail }) => {
-        if (type === EventType.PRESS) {
-          console.log('User pressed the notification.', detail.notification);
-          _pushNavigate(detail.notification);
-        }
-      });
+
+      //NOTE: notifee seems to have been malfunctioning, avoid using for testing
+    // } else if (Platform.OS === 'android') {
+    //   // for ios, notifee events work while messaging event are malfunctioning, the foreground event
+    //   // on ios is called if user opens/starts app from notification
+    //   notifee.onBackgroundEvent(async({ type, detail }) => {
+    //     if (type === EventType.PRESS) {
+    //       console.log('User pressed the notification.', detail.notification);
+    //       _pushNavigate(detail.notification);
+    //     }
+    //   });
       
-    }
+    // }
   };
 
   const _handleAppStateChange = (nextAppState) => {
