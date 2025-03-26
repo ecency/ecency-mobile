@@ -114,7 +114,7 @@ const PostsResults = ({ searchValue }) => {
               )}
               onEndReached={loadMore}
               ListEmptyComponent={_renderEmptyContent}
-              ListFooterComponent={<CommunitiesPlaceHolder />}
+              ListFooterComponent={!data && <CommunitiesPlaceHolder />}
             />
           )}
         </SafeAreaView>
