@@ -1122,13 +1122,29 @@ export const transferToken = (currentAccount, pin, data) => {
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
-    const args = {
-      from: get(data, 'from'),
-      to: get(data, 'destination'),
-      amount: get(data, 'amount'),
-      memo: get(data, 'memo'),
+
+    const destinationInput = data.destination
+
+    // Split the destination input into an array of usernames
+    // Handles both spaces and commas as separators
+    const destinations = destinationInput
+      ? destinationInput.trim().split(/[\s,]+/) // Split by spaces or commas
+      : [];
+
+    // Prepare the base arguments for the transfer operation
+    const baseArgs = {
+      from: data.from,
+      amount: data.amount,
+      memo: data.memo
     };
-    const opArray = [['transfer', args]];
+
+    // Create a transfer operation for each destination username
+    const opArray = destinations.map(destination => {
+      const args = { ...baseArgs, to: destination.trim() }; // Trim whitespace
+      return ['transfer', args];
+    });
+
+    console.log(opArray); // Output the array of operations
 
     return new Promise((resolve, reject) => {
       sendHiveOperations(opArray, privateKey)
