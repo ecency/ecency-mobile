@@ -103,7 +103,11 @@ const TransferAccountSelector = ({
           try {
             // Query the username and check if it exists
             const users = await getAccountsWithUsername(trimmedUsername);
-            return users.includes(username);; // Convert result to boolean (true if valid, false otherwise)
+            const _isValid = users.includes(username);
+            if(_isValid){
+              getRecurrentTransferOfUser(username);
+            }
+            return _isValid  // Convert result to boolean (true if valid, false otherwise)
           } catch (error) {
             console.error(`Error validating username "${trimmedUsername}":`, error);
             return false; // Treat query errors as invalid
