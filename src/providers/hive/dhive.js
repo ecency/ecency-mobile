@@ -1942,23 +1942,41 @@ export const transferPoint = (currentAccount, pinCode, data) => {
   const key = getActiveKey(get(currentAccount, 'local'), pin);
   const username = get(currentAccount, 'name');
 
-  const json = JSON.stringify({
-    sender: get(data, 'from'),
-    receiver: get(data, 'destination'),
-    amount: get(data, 'amount'),
-    memo: get(data, 'memo'),
-  });
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
 
-    const op = {
-      id: 'ecency_point_transfer',
-      json,
-      required_auths: [username],
-      required_posting_auths: [],
+    const destinationInput = data.destination
+
+    // Split the destination input into an array of usernames
+    // Handles both spaces and commas as separators
+    const destinations = destinationInput
+      ? destinationInput.trim().split(/[\s,]+/) // Split by spaces or commas
+      : [];
+
+    // Prepare the base arguments for the transfer operation
+    const baseArgs = {
+      sender: data,from,
+      amount: data.amount,
+      memo: data.memo,
     };
-    const opArray = [['custom_json', op]];
+
+    // Create a transfer operation for each destination username
+    const opArray = destinations.map(destination => {
+      const json = { ...baseArgs, receiver: destination.trim() }; // Trim whitespace
+      const op = {
+        id: 'ecency_point_transfer',
+        json,
+        required_auths: [username],
+        required_posting_auths: [],
+      };
+      return ['custom_json', op];
+    });
+
+    console.log(opArray); // Output the array of operations
+
+    return null;
+
     return sendHiveOperations(opArray, privateKey);
   } else {
     const err = new Error('Check private key permission! Required private active key or above.');
