@@ -1975,8 +1975,6 @@ export const transferPoint = (currentAccount, pinCode, data) => {
 
     console.log(opArray); // Output the array of operations
 
-    return null;
-
     return sendHiveOperations(opArray, privateKey);
   } else {
     const err = new Error('Check private key permission! Required private active key or above.');
