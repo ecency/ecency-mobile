@@ -1956,14 +1956,14 @@ export const transferPoint = (currentAccount, pinCode, data) => {
 
     // Prepare the base arguments for the transfer operation
     const baseArgs = {
-      sender: data,from,
+      sender: data.from,
       amount: data.amount,
       memo: data.memo,
     };
 
     // Create a transfer operation for each destination username
     const opArray = destinations.map(destination => {
-      const json = { ...baseArgs, receiver: destination.trim() }; // Trim whitespace
+      const json = JSON.stringify({ ...baseArgs, receiver: destination.trim() }); // Trim whitespace
       const op = {
         id: 'ecency_point_transfer',
         json,
