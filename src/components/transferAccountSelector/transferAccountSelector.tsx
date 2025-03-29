@@ -71,7 +71,8 @@ const TransferAccountSelector = ({
   }, [transferType]);
 
 
-  const allowMultipleDest = transferType === TransferTypes.TRANSFER_TOKEN || TransferTypes.POINTS;
+  const allowMultipleDest = transferType === TransferTypes.TRANSFER_TOKEN 
+    || transferType === TransferTypes.POINTS;
 
   const _handleOnFromUserChange = (username) => {
     fetchBalance(username);
@@ -115,7 +116,7 @@ const TransferAccountSelector = ({
         })
       );
 
-      if (usernames !== destinationRef.current) {
+      if (usernames.toString() !== destinationRef.current.toString()) {
         return;
       }
 
