@@ -70,9 +70,8 @@ const TransferAccountSelector = ({
     }
   }, [transferType]);
 
-
-  const allowMultipleDest = transferType === TransferTypes.TRANSFER_TOKEN 
-    || transferType === TransferTypes.POINTS;
+  const allowMultipleDest =
+    transferType === TransferTypes.TRANSFER_TOKEN || transferType === TransferTypes.POINTS;
 
   const _handleOnFromUserChange = (username) => {
     fetchBalance(username);
@@ -90,7 +89,6 @@ const TransferAccountSelector = ({
 
   const _debouncedValidateUsername = useCallback(
     debounce(async (usernames: string[]) => {
-
       if (usernames.length === 0) {
         console.log('No usernames provided.');
         setIsUsernameValid(false); // No usernames means invalid
@@ -105,15 +103,15 @@ const TransferAccountSelector = ({
             // Query the username and check if it exists
             const users = await getAccountsWithUsername(trimmedUsername);
             const _isValid = users.includes(username);
-            if(_isValid){
+            if (_isValid) {
               getRecurrentTransferOfUser(username);
             }
-            return _isValid  // Convert result to boolean (true if valid, false otherwise)
+            return _isValid; // Convert result to boolean (true if valid, false otherwise)
           } catch (error) {
             console.error(`Error validating username "${trimmedUsername}":`, error);
             return false; // Treat query errors as invalid
           }
-        })
+        }),
       );
 
       if (usernames.toString() !== destinationRef.current.toString()) {
@@ -121,7 +119,7 @@ const TransferAccountSelector = ({
       }
 
       // Step 3: Check if all usernames are valid
-      const isValid = validationResults.every(result => result);
+      const isValid = validationResults.every((result) => result);
 
       // Step 4: Set the isUsernameValid flag
       setIsUsernameValid(isValid);
@@ -130,7 +128,6 @@ const TransferAccountSelector = ({
       console.log('Extracted Usernames:', usernames);
       console.log('Validation Results:', validationResults);
       console.log('Is All Usernames Valid:', isValid);
-
     }, 300),
     [getRecurrentTransferOfUser],
   );
@@ -181,10 +178,10 @@ const TransferAccountSelector = ({
         state === 'destination'
           ? destination
           : state === 'amount'
-            ? amount
-            : state === 'memo'
-              ? memo
-              : ''
+          ? amount
+          : state === 'memo'
+          ? memo
+          : ''
       }
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
@@ -248,15 +245,19 @@ const TransferAccountSelector = ({
       <View style={styles.toFromAvatarsContainer}>
         <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
         <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
-        {
-          destinationRef.current.length > 0 ? (
-            destinationRef.current.map((username, index) => (
-              <UserAvatar key={username} username={username} size="xl" style={{...styles.userAvatar, marginLeft: index && -48}} noAction />
-            ))
-          ) : (
-            <UserAvatar username={''} size="xl" style={styles.userAvatar} noAction />
-          )
-        }
+        {destinationRef.current.length > 0 ? (
+          destinationRef.current.map((username, index) => (
+            <UserAvatar
+              key={username}
+              username={username}
+              size="xl"
+              style={{ ...styles.userAvatar, marginLeft: index && -48 }}
+              noAction
+            />
+          ))
+        ) : (
+          <UserAvatar username="" size="xl" style={styles.userAvatar} noAction />
+        )}
       </View>
     </View>
   );

@@ -1123,7 +1123,7 @@ export const transferToken = (currentAccount, pin, data) => {
   if (key) {
     const privateKey = PrivateKey.fromString(key);
 
-    const destinationInput = data.destination
+    const destinationInput = data.destination;
 
     // Split the destination input into an array of usernames
     // Handles both spaces and commas as separators
@@ -1135,11 +1135,11 @@ export const transferToken = (currentAccount, pin, data) => {
     const baseArgs = {
       from: data.from,
       amount: data.amount,
-      memo: data.memo
+      memo: data.memo,
     };
 
     // Create a transfer operation for each destination username
-    const opArray = destinations.map(destination => {
+    const opArray = destinations.map((destination) => {
       const args = { ...baseArgs, to: destination.trim() }; // Trim whitespace
       return ['transfer', args];
     });
@@ -1942,11 +1942,10 @@ export const transferPoint = (currentAccount, pinCode, data) => {
   const key = getActiveKey(get(currentAccount, 'local'), pin);
   const username = get(currentAccount, 'name');
 
-
   if (key) {
     const privateKey = PrivateKey.fromString(key);
 
-    const destinationInput = data.destination
+    const destinationInput = data.destination;
 
     // Split the destination input into an array of usernames
     // Handles both spaces and commas as separators
@@ -1962,7 +1961,7 @@ export const transferPoint = (currentAccount, pinCode, data) => {
     };
 
     // Create a transfer operation for each destination username
-    const opArray = destinations.map(destination => {
+    const opArray = destinations.map((destination) => {
       const json = JSON.stringify({ ...baseArgs, receiver: destination.trim() }); // Trim whitespace
       const op = {
         id: 'ecency_point_transfer',

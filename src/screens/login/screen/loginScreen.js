@@ -209,7 +209,7 @@ const LoginScreen = ({
             id: 'login.signin_with_hiveauth',
           })}
           textStyle={styles.hsLoginBtnText}
-          secondText=" *beta"
+          secondText=""
           wrapperStyle={styles.loginBtnWrapper}
           bodyWrapperStyle={styles.loginBtnBodyWrapper}
           height={48}

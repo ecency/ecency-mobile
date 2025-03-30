@@ -26,36 +26,34 @@ const PostsResultsContainer = ({ children, searchValue }) => {
     _fetchResults();
   }, [searchValue]);
 
-
   const _fetchResults = async () => {
-    let _data:any = [];
+    let _data: any = [];
 
     setNoResult(false);
     setData(_data);
 
-    //parse author and permlink if url
-    const { author, permlink }  = postUrlParser(searchValue) || {}
+    // parse author and permlink if url
+    const { author, permlink } = postUrlParser(searchValue) || {};
 
-     //fetch based on post url
-     if(author && permlink){
-        const post = await getPost(author, permlink);
-        _data = post ? [post] : [];
-     } 
-     //search with query
-     else if (searchValue) {
-       const res = await search({ q: `${searchValue} type:post`, sort });
-        _data = res.results || [];
-        setScrollId(res.scroll_id);
-     } 
-     //get initial posts if not search value
-     else {
-        _data = await getInitialPosts();
-     }
+    // fetch based on post url
+    if (author && permlink) {
+      const post = await getPost(author, permlink);
+      _data = post ? [post] : [];
+    }
+    // search with query
+    else if (searchValue) {
+      const res = await search({ q: `${searchValue} type:post`, sort });
+      _data = res.results || [];
+      setScrollId(res.scroll_id);
+    }
+    // get initial posts if not search value
+    else {
+      _data = await getInitialPosts();
+    }
 
-     setData(_data);
-     setNoResult(_data.length === 0);
-  }
-
+    setData(_data);
+    setNoResult(_data.length === 0);
+  };
 
   const getInitialPosts = async () => {
     const options = {

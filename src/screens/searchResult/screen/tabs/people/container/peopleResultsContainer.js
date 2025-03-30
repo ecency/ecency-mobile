@@ -25,8 +25,8 @@ const PeopleResultsContainer = ({ children, searchValue, isUsername }) => {
       _fetchUsernames(searchValue);
     }
 
-    //parse username if url is provided
-    const {author} = postUrlParser(searchValue) || {}
+    // parse username if url is provided
+    const { author } = postUrlParser(searchValue) || {};
 
     searchAccount(author || searchValue, 20, searchValue ? 0 : 1)
       .then((res) => {

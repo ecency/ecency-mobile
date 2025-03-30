@@ -194,7 +194,7 @@ const SideMenuView = ({
                     name="expand-less"
                     color={EStyleSheet.value('$iconColor')}
                     size={18}
-                  ></Icon>
+                  />
                   <Text style={styles.vpText}>{upower}</Text>
                 </View>
               </View>
