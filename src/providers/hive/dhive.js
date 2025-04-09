@@ -81,7 +81,7 @@ checkClient();
  */
 const sha256 = async (input) => {
   // Convert input buffer to a int8array
-  const inputData = new Int8Array(input)
+  const inputData = new Int8Array(input);
 
   // Compute the SHA-256 hash using expo-crypto
   const hash = await Crypto.digest(Crypto.CryptoDigestAlgorithm.SHA256, inputData);
