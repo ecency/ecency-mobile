@@ -4,7 +4,6 @@ on:
     branches: ["nt/gh-actions"]
 jobs:
   ios-build:
-    needs: android-build
     name: iOS Build
     runs-on: macos-latest
     steps:
@@ -28,18 +27,40 @@ jobs:
         env:
           GOOGLE_JSON: ${{ secrets.GOOGLE_PLIST }}
         run: echo $GOOGLE_PLIST | base64 --decode > ./ios/GoogleService-Info.plist
-      # - name: Cache cocoapods
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: /ios/Pods
-      #     key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-pods-
+      #- name: Install the Apple certificate and provisioning profile
+      #  env:
+      #    BUILD_CERTIFICATE_BASE64: ${{ secrets.CERTIFICATES_P12 }}
+      #    P12_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
+      #    BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE }}
+      #    KEYCHAIN_PASSWORD: ${{ secrets.APPLE_APP_PASS }}
+      #  run: |
+      #   # create variables
+      #    CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+      #    PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+      #    KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+          # import certificate and provisioning profile from secrets
+      #    echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
+      #    echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode -o $PP_PATH
+
+          # create temporary keychain
+      #    security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+      #    security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+      #    security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificate to keychain
+      #    security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+      #    security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+      #    security list-keychain -d user -s $KEYCHAIN_PATH
+
+          # apply provisioning profile
+      #    mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+      #    cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
       - name: Install npm dependency
         run: yarn install
       - name: Build iOS JS Bundle
         run: |
-          yarn run package-ios
+          yarn run bundle:ios
       - name: Install bundler
         run: |
           cd ios
@@ -52,6 +73,26 @@ jobs:
         run: |
           cd ios
           bundle exec fastlane build_testflight
+      #- name: Upload App bundle to Releases
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    name: Ecency-Bundle
+      #    path: ./android/app/build/outputs/bundle/release/app-release.aab
+  #ios-deploy:
+  #  name: Deploy iOS Build
+  #  needs: ios-build
+  #  runs-on: macos-latest
+  #  steps:
+  #    - uses: actions/checkout@v1
+  #    - name: Get iOS Build from artifacts
+  #      uses: actions/download-artifact@v4
+  #    - name: Upload to AppStoreConnect
+  #      env:
+  #        APPLE_ID: ${{ secrets.APPLE_ID }}
+  #        APPLE_APP_PASS: ${{ secrets.APPLE_APP_PASS }}
+  #      run: xcrun altool --upload-app -f "build/ios/ipa/waves.ipa" -t ios -u "$APPLE_ID" -p "$APPLE_APP_PASS"
+
+
   android-build:
     name: Android Build
     runs-on: macos-latest
@@ -125,8 +166,9 @@ jobs:
       - name: Upload APK application
         uses: actions/upload-artifact@v4
         with:
-          name: Ecency-app
+          name: Ecency-APK
           path: ./android/app/build/outputs/apk/release/app-release.apk
+          retention-days: 90
       - name: Execute Gradle Bundle build
         run: |
           cd android
@@ -135,7 +177,7 @@ jobs:
       - name: Upload App bundle to Releases
         uses: actions/upload-artifact@v4
         with:
-          name: Ecency-bundle
+          name: Ecency-Bundle
           path: ./android/app/build/outputs/bundle/release/app-release.aab
   android-deploy:
     name: Deploy Android Build
