@@ -1,0 +1,344 @@
+diff --git a/node_modules/@bugsnag/react-native/android/build.gradle b/node_modules/@bugsnag/react-native/android/build.gradle
+index 2d38081..17a6f4d 100644
+--- a/node_modules/@bugsnag/react-native/android/build.gradle
++++ b/node_modules/@bugsnag/react-native/android/build.gradle
+@@ -49,7 +49,7 @@ dependencies {
+     api "com.bugsnag:bugsnag-plugin-react-native:5.31.3"
+     implementation 'com.facebook.react:react-native:+'
+ 
+-    testImplementation "junit:junit:4.12"
++    testImplementation "junit:junit:4.13.2"
+     testImplementation "org.mockito:mockito-core:2.28.2"
+ }
+ 
+diff --git a/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/results.bin b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/results.bin
+new file mode 100644
+index 0000000..5ff383e
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/results.bin
+@@ -0,0 +1 @@
++o/debug
+diff --git a/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/android/BugsnagPackage.dex b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/android/BugsnagPackage.dex
+new file mode 100644
+index 0000000..67a40c6
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/android/BugsnagPackage.dex differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/android/BugsnagReactNative.dex b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/android/BugsnagReactNative.dex
+new file mode 100644
+index 0000000..a729873
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/android/BugsnagReactNative.dex differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/android/BugsnagReactNativeImpl$1.dex b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/android/BugsnagReactNativeImpl$1.dex
+new file mode 100644
+index 0000000..ea35178
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/android/BugsnagReactNativeImpl$1.dex differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/android/BugsnagReactNativeImpl.dex b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/android/BugsnagReactNativeImpl.dex
+new file mode 100644
+index 0000000..a797246
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/android/BugsnagReactNativeImpl.dex differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/android/ReactNativeCompat.dex b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/android/ReactNativeCompat.dex
+new file mode 100644
+index 0000000..1ec59d5
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/android/ReactNativeCompat.dex differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/reactnative/BuildConfig.dex b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/reactnative/BuildConfig.dex
+new file mode 100644
+index 0000000..da36c4f
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/debug_dex/com/bugsnag/reactnative/BuildConfig.dex differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/desugar_graph.bin b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/desugar_graph.bin
+new file mode 100644
+index 0000000..901580e
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/.transforms/4910518e9fe194c1e4a1009d0de7db29/transformed/debug/desugar_graph.bin differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/.transforms/516d76727c582552ffa29481643dda4f/results.bin b/node_modules/@bugsnag/react-native/android/build/.transforms/516d76727c582552ffa29481643dda4f/results.bin
+new file mode 100644
+index 0000000..1ed65e0
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/.transforms/516d76727c582552ffa29481643dda4f/results.bin
+@@ -0,0 +1 @@
++i/
+diff --git a/node_modules/@bugsnag/react-native/android/build/.transforms/6a625b37fdbf0511aad2ad0936c04c9c/results.bin b/node_modules/@bugsnag/react-native/android/build/.transforms/6a625b37fdbf0511aad2ad0936c04c9c/results.bin
+new file mode 100644
+index 0000000..1ed65e0
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/.transforms/6a625b37fdbf0511aad2ad0936c04c9c/results.bin
+@@ -0,0 +1 @@
++i/
+diff --git a/node_modules/@bugsnag/react-native/android/build/.transforms/d7d9c7085705bdef030dcbc2b0cf7719/results.bin b/node_modules/@bugsnag/react-native/android/build/.transforms/d7d9c7085705bdef030dcbc2b0cf7719/results.bin
+new file mode 100644
+index 0000000..e3f0ff0
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/.transforms/d7d9c7085705bdef030dcbc2b0cf7719/results.bin
+@@ -0,0 +1 @@
++i/classes_global-synthetics
+diff --git a/node_modules/@bugsnag/react-native/android/build/.transforms/f96b5d97c6c115cfeecac2457d2e7096/results.bin b/node_modules/@bugsnag/react-native/android/build/.transforms/f96b5d97c6c115cfeecac2457d2e7096/results.bin
+new file mode 100644
+index 0000000..4c288ce
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/.transforms/f96b5d97c6c115cfeecac2457d2e7096/results.bin
+@@ -0,0 +1 @@
++i/debug_dex
+diff --git a/node_modules/@bugsnag/react-native/android/build/.transforms/f978269b1efc5fe1499003370e396daf/results.bin b/node_modules/@bugsnag/react-native/android/build/.transforms/f978269b1efc5fe1499003370e396daf/results.bin
+new file mode 100644
+index 0000000..0d259dd
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/.transforms/f978269b1efc5fe1499003370e396daf/results.bin
+@@ -0,0 +1 @@
++o/classes
+diff --git a/node_modules/@bugsnag/react-native/android/build/.transforms/f978269b1efc5fe1499003370e396daf/transformed/classes/classes_dex/classes.dex b/node_modules/@bugsnag/react-native/android/build/.transforms/f978269b1efc5fe1499003370e396daf/transformed/classes/classes_dex/classes.dex
+new file mode 100644
+index 0000000..837d6a3
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/.transforms/f978269b1efc5fe1499003370e396daf/transformed/classes/classes_dex/classes.dex differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/generated/source/buildConfig/debug/com/bugsnag/reactnative/BuildConfig.java b/node_modules/@bugsnag/react-native/android/build/generated/source/buildConfig/debug/com/bugsnag/reactnative/BuildConfig.java
+new file mode 100644
+index 0000000..3a50161
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/generated/source/buildConfig/debug/com/bugsnag/reactnative/BuildConfig.java
+@@ -0,0 +1,10 @@
++/**
++ * Automatically generated file. DO NOT MODIFY
++ */
++package com.bugsnag.reactnative;
++
++public final class BuildConfig {
++  public static final boolean DEBUG = Boolean.parseBoolean("true");
++  public static final String LIBRARY_PACKAGE_NAME = "com.bugsnag.reactnative";
++  public static final String BUILD_TYPE = "debug";
++}
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml b/node_modules/@bugsnag/react-native/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml
+new file mode 100644
+index 0000000..74ff951
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.bugsnag.reactnative" >
++
++    <uses-sdk android:minSdkVersion="26" />
++
++</manifest>
+\ No newline at end of file
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json b/node_modules/@bugsnag/react-native/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json
+new file mode 100644
+index 0000000..7fa8696
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json
+@@ -0,0 +1,18 @@
++{
++  "version": 3,
++  "artifactType": {
++    "type": "AAPT_FRIENDLY_MERGED_MANIFESTS",
++    "kind": "Directory"
++  },
++  "applicationId": "com.bugsnag.reactnative",
++  "variantName": "debug",
++  "elements": [
++    {
++      "type": "SINGLE",
++      "filters": [],
++      "attributes": [],
++      "outputFile": "AndroidManifest.xml"
++    }
++  ],
++  "elementType": "File"
++}
+\ No newline at end of file
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/aar_metadata/debug/aar-metadata.properties b/node_modules/@bugsnag/react-native/android/build/intermediates/aar_metadata/debug/aar-metadata.properties
+new file mode 100644
+index 0000000..776557e
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/intermediates/aar_metadata/debug/aar-metadata.properties
+@@ -0,0 +1,5 @@
++aarFormatVersion=1.0
++aarMetadataVersion=1.0
++minCompileSdk=1
++minCompileSdkExtension=0
++minAndroidGradlePluginVersion=1.0.0
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json b/node_modules/@bugsnag/react-native/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json
+new file mode 100644
+index 0000000..9e26dfe
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json
+@@ -0,0 +1 @@
++{}
+\ No newline at end of file
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/compile_library_classes_jar/debug/classes.jar b/node_modules/@bugsnag/react-native/android/build/intermediates/compile_library_classes_jar/debug/classes.jar
+new file mode 100644
+index 0000000..8af5ac3
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/intermediates/compile_library_classes_jar/debug/classes.jar differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/compile_r_class_jar/debug/R.jar b/node_modules/@bugsnag/react-native/android/build/intermediates/compile_r_class_jar/debug/R.jar
+new file mode 100644
+index 0000000..48786e5
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/intermediates/compile_r_class_jar/debug/R.jar differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/compile_symbol_list/debug/R.txt b/node_modules/@bugsnag/react-native/android/build/intermediates/compile_symbol_list/debug/R.txt
+new file mode 100644
+index 0000000..e69de29
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties b/node_modules/@bugsnag/react-native/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
+new file mode 100644
+index 0000000..0af4e11
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
+@@ -0,0 +1 @@
++#Tue Jan 14 12:19:42 PKT 2025
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml b/node_modules/@bugsnag/react-native/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
+new file mode 100644
+index 0000000..3a90b26
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/main/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/main/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated" generated-set="generated$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/build/generated/res/resValues/debug"/></dataSet><mergedItems/></merger>
+\ No newline at end of file
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml b/node_modules/@bugsnag/react-native/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml
+new file mode 100644
+index 0000000..458d656
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/main/jniLibs"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/debug/jniLibs"/></dataSet></merger>
+\ No newline at end of file
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/incremental/mergeDebugShaders/merger.xml b/node_modules/@bugsnag/react-native/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
+new file mode 100644
+index 0000000..db5bfca
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/main/shaders"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/debug/shaders"/></dataSet></merger>
+\ No newline at end of file
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/incremental/packageDebugAssets/merger.xml b/node_modules/@bugsnag/react-native/android/build/intermediates/incremental/packageDebugAssets/merger.xml
+new file mode 100644
+index 0000000..0933313
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/intermediates/incremental/packageDebugAssets/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/main/assets"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/debug/assets"/></dataSet><dataSet config="generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/build/intermediates/shader_assets/debug/out"/></dataSet></merger>
+\ No newline at end of file
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/android/BugsnagPackage.class b/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/android/BugsnagPackage.class
+new file mode 100644
+index 0000000..49e73b6
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/android/BugsnagPackage.class differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/android/BugsnagReactNative.class b/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/android/BugsnagReactNative.class
+new file mode 100644
+index 0000000..de6aabd
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/android/BugsnagReactNative.class differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/android/BugsnagReactNativeImpl$1.class b/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/android/BugsnagReactNativeImpl$1.class
+new file mode 100644
+index 0000000..ca84854
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/android/BugsnagReactNativeImpl$1.class differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/android/BugsnagReactNativeImpl.class b/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/android/BugsnagReactNativeImpl.class
+new file mode 100644
+index 0000000..728301c
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/android/BugsnagReactNativeImpl.class differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/android/ReactNativeCompat.class b/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/android/ReactNativeCompat.class
+new file mode 100644
+index 0000000..c83d495
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/android/ReactNativeCompat.class differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/reactnative/BuildConfig.class b/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/reactnative/BuildConfig.class
+new file mode 100644
+index 0000000..486dc99
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/intermediates/javac/debug/classes/com/bugsnag/reactnative/BuildConfig.class differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/local_only_symbol_list/debug/R-def.txt b/node_modules/@bugsnag/react-native/android/build/intermediates/local_only_symbol_list/debug/R-def.txt
+new file mode 100644
+index 0000000..78ac5b8
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/intermediates/local_only_symbol_list/debug/R-def.txt
+@@ -0,0 +1,2 @@
++R_DEF: Internal format may change without notice
++local
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt b/node_modules/@bugsnag/react-native/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt
+new file mode 100644
+index 0000000..587cca9
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt
+@@ -0,0 +1,7 @@
++1<?xml version="1.0" encoding="utf-8"?>
++2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++3    package="com.bugsnag.reactnative" >
++4
++5    <uses-sdk android:minSdkVersion="26" />
++6
++7</manifest>
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml b/node_modules/@bugsnag/react-native/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml
+new file mode 100644
+index 0000000..74ff951
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.bugsnag.reactnative" >
++
++    <uses-sdk android:minSdkVersion="26" />
++
++</manifest>
+\ No newline at end of file
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/navigation_json/debug/navigation.json b/node_modules/@bugsnag/react-native/android/build/intermediates/navigation_json/debug/navigation.json
+new file mode 100644
+index 0000000..0637a08
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/intermediates/navigation_json/debug/navigation.json
+@@ -0,0 +1 @@
++[]
+\ No newline at end of file
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/android/BugsnagPackage.class b/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/android/BugsnagPackage.class
+new file mode 100644
+index 0000000..49e73b6
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/android/BugsnagPackage.class differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/android/BugsnagReactNative.class b/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/android/BugsnagReactNative.class
+new file mode 100644
+index 0000000..de6aabd
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/android/BugsnagReactNative.class differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/android/BugsnagReactNativeImpl$1.class b/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/android/BugsnagReactNativeImpl$1.class
+new file mode 100644
+index 0000000..ca84854
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/android/BugsnagReactNativeImpl$1.class differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/android/BugsnagReactNativeImpl.class b/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/android/BugsnagReactNativeImpl.class
+new file mode 100644
+index 0000000..728301c
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/android/BugsnagReactNativeImpl.class differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/android/ReactNativeCompat.class b/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/android/ReactNativeCompat.class
+new file mode 100644
+index 0000000..c83d495
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/android/ReactNativeCompat.class differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/reactnative/BuildConfig.class b/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/reactnative/BuildConfig.class
+new file mode 100644
+index 0000000..486dc99
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_dir/debug/com/bugsnag/reactnative/BuildConfig.class differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar b/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar
+new file mode 100644
+index 0000000..dcc217f
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar differ
+diff --git a/node_modules/@bugsnag/react-native/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt b/node_modules/@bugsnag/react-native/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
+new file mode 100644
+index 0000000..e52a021
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
+@@ -0,0 +1 @@
++com.bugsnag.reactnative
+diff --git a/node_modules/@bugsnag/react-native/android/build/outputs/logs/manifest-merger-debug-report.txt b/node_modules/@bugsnag/react-native/android/build/outputs/logs/manifest-merger-debug-report.txt
+new file mode 100644
+index 0000000..81da078
+--- /dev/null
++++ b/node_modules/@bugsnag/react-native/android/build/outputs/logs/manifest-merger-debug-report.txt
+@@ -0,0 +1,17 @@
++-- Merging decision tree log ---
++manifest
++ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/main/AndroidManifest.xml:1:1-2:12
++INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/main/AndroidManifest.xml:1:1-2:12
++	package
++		ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/main/AndroidManifest.xml:1:70-103
++		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/main/AndroidManifest.xml
++	xmlns:android
++		ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/main/AndroidManifest.xml:1:11-69
++uses-sdk
++INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/main/AndroidManifest.xml reason: use-sdk injection requested
++INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/main/AndroidManifest.xml
++INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/main/AndroidManifest.xml
++	android:targetSdkVersion
++		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/main/AndroidManifest.xml
++	android:minSdkVersion
++		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/@bugsnag/react-native/android/src/main/AndroidManifest.xml
+diff --git a/node_modules/@bugsnag/react-native/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin b/node_modules/@bugsnag/react-native/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin
+new file mode 100644
+index 0000000..b9a71e6
+Binary files /dev/null and b/node_modules/@bugsnag/react-native/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin differ

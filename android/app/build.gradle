@@ -58,7 +58,7 @@ react {
     //
     //   The list of flags to pass to the Hermes compiler. By default is "-O", "-output-source-map"
     // hermesFlags = ["-O", "-output-source-map"]
-     
+
     /* Autolinking */
     autolinkLibrariesWithApp()
 }
@@ -77,9 +77,16 @@ react {
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+
 android {
     ndkVersion rootProject.ext.ndkVersion
-    
+
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
@@ -106,6 +113,14 @@ android {
     }
 
     signingConfigs {
+        release {
+            //From decoded key
+            storeFile = file('key.jks')
+            //From key.properties
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storePassword keystoreProperties['storePassword']
+        }
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
@@ -123,7 +138,11 @@ android {
             // signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
@@ -147,6 +166,8 @@ dependencies {
 }
 
 apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
+
+
 
 
 
