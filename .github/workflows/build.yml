@@ -68,14 +68,14 @@ jobs:
           ref: nt/gh-actions
       - name: Create .env file
         run: |
-          echo "ACTIVITY_WEBSOCKET_URL=${{ vars.ACTIVITY_WEBSOCKET_URL }}" >> .env
+          echo "ACTIVITY_WEBSOCKET_URL=${{ secrets.ACTIVITY_WEBSOCKET_URL }}" >> .env
           echo "BUGSNAG_API_KEY=${{ secrets.BUGSNAG_API_KEY }}" >> .env
           echo "DEFAULT_PIN=${{ secrets.DEFAULT_PIN }}" >> .env
-          echo "ECENCY_BACKEND_API=${{ vars.ECENCY_BACKEND_API }}" >> .env
-          echo "NEW_IMAGE_API=${{ vars.NEW_IMAGE_API }}" >> .env
+          echo "ECENCY_BACKEND_API=${{ secrets.ECENCY_BACKEND_API }}" >> .env
+          echo "NEW_IMAGE_API=${{ secrets.NEW_IMAGE_API }}" >> .env
           echo "PIN_KEY=${{ secrets.PIN_KEY }}" >> .env
-          echo "SERVER_LIST_API=${{ vars.SERVER_LIST_API }}" >> .env
-          echo "USER_AGENT=${{ vars.USER_AGENT }}" >> .env
+          echo "SERVER_LIST_API=${{ secrets.SERVER_LIST_API }}" >> .env
+          echo "USER_AGENT=${{ secrets.USER_AGENT }}" >> .env
           echo "PLAUSIBLE_API_KEY=${{ secrets.PLAUSIBLE_API_KEY }}" >> .env
       - name: Install npm dependency
         run: yarn install
