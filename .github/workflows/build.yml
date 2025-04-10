@@ -96,7 +96,7 @@ jobs:
           -exportPath $RUNNER_TEMP/build                    
 
       - name: Upload App
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Ecency-iOS
           path: ${{ runner.temp }}/build/Ecency.ipa
