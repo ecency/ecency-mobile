@@ -138,7 +138,7 @@ jobs:
           ./gradlew assembleRelease
       - name: Upload AAB
         id: uploadArtifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: Ecency-release-app
           path: ./android/app/build/outputs/bundle/release/app-release.aab
