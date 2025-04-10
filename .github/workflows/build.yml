@@ -128,9 +128,10 @@ jobs:
         run: |
           echo "${{secrets.UPLOAD_KEYSTORE}}" > upload.keystore.asc
           base64 -d --input upload.keystore.asc --output android/app/key.jks
+
       - name: Key.Properties
         run: |
-          echo keyPassword=\${{ secrets.UPLOAD_KEYSTORE_PASSPHRASE }} > ${{env.PROPERTIES_PATH}}
+          echo keyPassword=\${{ secrets.UPLOAD_KEYSTORE_PASSPHRASE }} >> ${{env.PROPERTIES_PATH}}
           echo storePassword=\${{ secrets.UPLOAD_KEYSTORE_PASSPHRASE }} >> ${{env.PROPERTIES_PATH}}
           echo keyAlias=\${{ secrets.ALIAS }} >> ${{env.PROPERTIES_PATH}}
       - name: Execute Gradle Release build
