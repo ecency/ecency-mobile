@@ -134,14 +134,14 @@ jobs:
       - name: Execute Gradle Release build
         run: |
           cd android
-          ./gradlew assembleRelease
+          ./gradlew bundleRelease
       # npx react-native build-android --mode=release
       - name: Upload AAB
         id: uploadArtifact
         uses: actions/upload-artifact@v4
         with:
           name: Ecency-release-app
-          path: ./android/app/build/outputs/bundle/release/app-release.aab
+          path: app/build/outputs/bundle/release/app-release.aab
 
       - name: Deploy to Play Store (BETA)
         id: deploy
@@ -149,8 +149,8 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: app.esteem.mobile.android
-          releaseFiles: "android/app/build/outputs/bundle/release/app-release.aab"
-          track: internal
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          track: alpha
           status: completed
 
       # - name: Build Android JS Bundle
