@@ -4,6 +4,7 @@ on:
     branches: ["nt/gh-actions"]
 jobs:
   ios-build:
+    needs: android-build
     name: iOS Dev Build
     runs-on: macos-latest
     environment: Android Dev
