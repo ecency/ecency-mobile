@@ -1,4 +1,4 @@
-name: App Dev Builds
+name: App Builds
 on:
   push:
     branches: ["nt/gh-actions"]
@@ -103,7 +103,7 @@ jobs:
         run: echo $GOOGLE_JSON | base64 --decode > ./android/app/google-services.json
       - name: Bundle Android
         run: yarn run bundle:android
-      - name: Execute Gradle build
+      - name: Execute Gradle Debug build
         run: |
           cd android
           ./gradlew assembleDebug
@@ -118,11 +118,41 @@ jobs:
           key: apk-${{ runner.os }}-${{ github.sha }}
           restore-keys: |
             apk-${{ runner.os }}-
-      - name: Upload application
+      - name: Upload Debug application
         uses: actions/upload-artifact@v4
         with:
-          name: app
+          name: Ecency-debug-app
           path: ./android/app/build/outputs/apk/debug/app-debug.apk
+      - name: Upload-keystore generator
+        run: |
+          echo "${{secrets.UPLOAD_KEYSTORE}}" > upload.keystore.asc
+          base64 -d --input upload.keystore.asc --output android/app/key.jks
+      - name: Key.Properties
+        run: |
+          echo keyPassword=\${{ secrets.UPLOAD_KEYSTORE_PASSPHRASE }} > ${{env.PROPERTIES_PATH}}
+          echo storePassword=\${{ secrets.UPLOAD_KEYSTORE_PASSPHRASE }} >> ${{env.PROPERTIES_PATH}}
+          echo keyAlias=\${{ secrets.ALIAS }} >> ${{env.PROPERTIES_PATH}}
+      - name: Execute Gradle Release build
+        run: |
+          cd android
+          ./gradlew assembleRelease
+      - name: Upload AAB
+        id: uploadArtifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Ecency-release-app
+          path: ./android/app/build/outputs/bundle/release/app-release.aab
+
+      - name: Deploy to Play Store (BETA)
+        id: deploy
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: app.esteem.mobile.android
+          releaseFiles: "android/app/build/outputs/bundle/release/app-release.aab"
+          track: internal
+          status: completed
+
       # - name: Build Android JS Bundle
       #   run: |
       #     yarn run package-android
