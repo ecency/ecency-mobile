@@ -5,11 +5,10 @@ on:
 jobs:
   ios-build:
     needs: android-build
-    name: iOS Dev Build
+    name: iOS Build
     runs-on: macos-latest
-    environment: Android Dev
     steps:
-      - name: Show host machine infomation
+      - name: Show host machine information
         run: uname -a
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.1
@@ -54,11 +53,10 @@ jobs:
           cd ios
           bundle exec fastlane build_testflight
   android-build:
-    name: Android Dev Build
+    name: Android Build
     runs-on: macos-latest
-    environment: Android Dev
     steps:
-      - name: Show host machine infomation
+      - name: Show host machine information
         run: uname -a
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.1
