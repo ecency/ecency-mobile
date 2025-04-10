@@ -1,4 +1,4 @@
-import { NativeModules, Platform } from 'react-native';
+import { NativeModules, I18nManager, Platform } from 'react-native';
 
 export default () => {
   let locale = '';
@@ -8,7 +8,7 @@ export default () => {
       NativeModules.SettingsManager.settings.AppleLocale ||
       NativeModules.SettingsManager.settings.AppleLanguages[0];
   } else {
-    locale = NativeModules.I18nManager.localeIdentifier;
+    locale = I18nManager.localeIdentifier;
   }
 
   return locale;

@@ -1,5 +1,4 @@
 import applyWrapFormat from './applyWrapFormat';
-import applyWrapFormatNewLines from './applyWrapFormatNewLines';
 import applyListFormat from './applyListFormat';
 import applyWebLinkFormat from './applyWebLinkFormat';
 

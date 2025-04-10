@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, NativeModules } from 'react-native';
+import { View, TouchableOpacity, I18nManager } from 'react-native';
 import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
 
 // Styles
@@ -22,7 +22,7 @@ const ToggleSwitchView = ({ onColor, offColor, latchBack, onToggle, ...props }: 
   useEffect(() => {
     const _width = 68;
     const _translateX = 36;
-    const _toValue = isOn ? _width - (NativeModules.I18nManager.isRTL ? 100 : _translateX) : 0; // in rtl layout, set the translate value to 100
+    const _toValue = isOn ? _width - (I18nManager.isRTL ? 100 : _translateX) : 0; // in rtl layout, set the translate value to 100
     offsetX.value = withTiming(_toValue);
   }, [isOn]);
 

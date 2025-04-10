@@ -2,13 +2,12 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { Text, View } from 'react-native';
 
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { MainButton } from '../../..';
 import styles from '../styles/postStatsModal.styles';
 import { usePostStatsQuery } from '../../../../providers/queries';
 import { StatsItem, StatsPanel } from '../../../statsPanel';
 import { DeviceStats } from './deviceStats';
-import Animated, { FadeInDown } from 'react-native-reanimated';
-
 
 interface QuickProfileContentProps {
   urlPath: string;
@@ -26,24 +25,22 @@ export const PostStatsContent = ({ urlPath, onPromotePress }: QuickProfileConten
     { label: intl.formatMessage({ id: 'stats.duration' }), value: _durationValue },
   ] as StatsItem[];
 
-
   const _renderActionPanel = () => (
     <Animated.View entering={FadeInDown.delay(500)}>
-
       <Text style={styles.promoteText}>
-        { intl.formatMessage({id:'stats.promote_title'})}
+        {intl.formatMessage({ id: 'stats.promote_title' })}
         <Text style={styles.promoteSubText}>
-          {intl.formatMessage({id:"stats.promote_message"})}</Text>
+          {intl.formatMessage({ id: 'stats.promote_message' })}
+        </Text>
       </Text>
-      
+
       <MainButton
         style={styles.button}
         text={intl.formatMessage({ id: 'stats.promote' })}
         onPress={onPromotePress}
       />
     </Animated.View>
-
-  )
+  );
 
   return (
     <View style={styles.modalStyle}>

@@ -98,7 +98,7 @@ const ReblogScreen = ({ route }) => {
   return (
     <AccountListContainer data={reblogs}>
       {({ data, filterResult, handleSearch, handleOnUserPress }) => (
-        <SafeAreaView style={[globalStyles.container, { paddingBottom: 40 }]}>
+        <SafeAreaView style={globalStyles.container}>
           {/* Your content goes here */}
           <BasicHeader
             title={`${headerTitle} (${data && data.length})`}

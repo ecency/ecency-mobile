@@ -1,11 +1,12 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { useRef } from 'react';
 import { View, Text, TouchableOpacity, Image, Alert, useWindowDimensions } from 'react-native';
+import { Image as ImageType } from 'react-native-image-crop-picker';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Video as VideoType } from 'react-native-image-crop-picker';
 import Video from 'react-native-video';
-import { createThumbnail } from 'react-native-create-thumbnail';
+import { createThumbnail, Thumbnail } from 'react-native-create-thumbnail';
 import { useQueryClient } from '@tanstack/react-query';
 import ImagePicker, { Options } from 'react-native-image-crop-picker';
 import { FlashList } from '@shopify/flash-list';
@@ -34,8 +35,8 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinHash = useAppSelector((state) => state.application.pin);
 
-  const [selectedThumb, setSelectedThumb] = useState(null);
-  const [availableThumbs, setAvailableThumbs] = useState([]);
+  const [selectedThumb, setSelectedThumb] = useState<Thumbnail | null>(null);
+  const [availableThumbs, setAvailableThumbs] = useState<Thumbnail[]>([]);
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const [selectedVido, setSelectedVideo] = useState<VideoType | null>(null);
@@ -87,9 +88,15 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
 
       const videoId = await uploadFile(selectedVido, _onProgress);
 
+      const thmubnail = selectedThumb || availableThumbs[0];
       let thumbId: any = '';
 
-      thumbId = await uploadFile(selectedThumb || availableThumbs[0]);
+      const thumbMedia = {
+        ...thmubnail,
+        sourceURL: `file://${thmubnail.path}`,
+      } as ImageType;
+
+      thumbId = await uploadFile(thumbMedia);
 
       console.log('updating video information', videoId, thumbId);
 

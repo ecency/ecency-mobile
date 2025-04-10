@@ -76,7 +76,7 @@ export const subscribeCommunity = (
   return (dispatch) => {
     dispatch({ type: SUBSCRIBE_COMMUNITY, payload: { ...data, screen } });
     subscribeCommunityReq(currentAccount, pin, data)
-      .then((res) => dispatch(subscribeCommunitySuccess(data, successToastText, screen)))
+      .then(() => dispatch(subscribeCommunitySuccess(data, successToastText, screen)))
       .catch((err) => dispatch(subscribeCommunityFail(err, data, failToastText, screen)));
   };
 };
@@ -119,7 +119,7 @@ export const leaveCommunity = (
   return (dispatch) => {
     dispatch({ type: LEAVE_COMMUNITY, payload: { ...data, screen } });
     subscribeCommunityReq(currentAccount, pin, data)
-      .then((res) => dispatch(leaveCommunitySuccess(data, successToastText, screen)))
+      .then(() => dispatch(leaveCommunitySuccess(data, successToastText, screen)))
       .catch((err) => dispatch(leaveCommunityFail(err, data, failToastText, screen)));
   };
 };

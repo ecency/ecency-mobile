@@ -5,6 +5,7 @@ import { debounce } from 'lodash';
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { TabItem } from 'components/tabbedPosts/types/tabbedPosts.types';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { SearchInput, TabbedPosts } from '../../../components';
 
 // Styles
@@ -50,7 +51,7 @@ const TagResultScreen = ({ navigation, route }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <SearchInput
         showClearButton={true}
         autoFocus={false}
@@ -69,7 +70,7 @@ const TagResultScreen = ({ navigation, route }) => {
           tag={tag}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

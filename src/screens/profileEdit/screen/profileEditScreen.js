@@ -9,7 +9,6 @@ import { ProfileEditContainer } from '../../../containers';
 import { EditAvatar, Header, ProfileEditForm } from '../../../components/index';
 import { OptionsModal } from '../../../components/atoms';
 import styles from './profileEditScreenStyles';
-import { BasicHeader } from '../../../components/index';
 
 class ProfileEditScreen extends PureComponent {
   /* Props

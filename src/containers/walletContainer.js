@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 
@@ -6,10 +6,10 @@ import get from 'lodash/get';
 import { toastNotification } from '../redux/actions/uiAction';
 
 // dhive
-import { getAccount, claimRewardBalance, getBtcAddress } from '../providers/hive/dhive';
+import { getAccount, claimRewardBalance } from '../providers/hive/dhive';
 
 // Utils
-import { groomingWalletData, groomingTransactionData, transferTypes } from '../utils/wallet';
+import { groomingWalletTabData, groomingTransactionData, transferTypes } from '../utils/wallet';
 import parseToken from '../utils/parseToken';
 import { vestsToHp } from '../utils/conversions';
 import RootNavigation from '../navigation/rootNavigation';
@@ -35,8 +35,8 @@ const WalletContainer = ({
   children,
   currentAccount,
   coinSymbol,
+  quotes,
   globalProps,
-  handleOnScroll,
   pinCode,
   selectedUser,
   setEstimatedWalletValue,
@@ -124,8 +124,14 @@ const WalletContainer = ({
   // Components functions
 
   const _getWalletData = useCallback(
-    async (_selectedUser) => {
-      const _walletData = await groomingWalletData(_selectedUser, globalProps, currency);
+    async (_selectedUser, isRefresh = false) => {
+      const _walletData = await groomingWalletTabData({
+        user: _selectedUser,
+        globalProps,
+        userCurrency: currency,
+        quotes,
+        isRefresh,
+      });
 
       setWalletData(_walletData);
       setIsLoading(false);
@@ -177,8 +183,9 @@ const WalletContainer = ({
         setIsClaiming(false);
       })
       .then(() => getAccount(currentAccount.name))
-      .then((account) => {
-        _getWalletData(selectedUser);
+      .then(() => {
+        const _isRefresh = true;
+        _getWalletData(selectedUser, _isRefresh);
         if (isHasUnclaimedRewards) {
           dispatch(
             toastNotification(
@@ -189,8 +196,9 @@ const WalletContainer = ({
           );
         }
       })
-      .then((account) => {
-        _getWalletData(selectedUser);
+      .then(() => {
+        const _isRefresh = true;
+        _getWalletData(selectedUser, _isRefresh);
         setIsClaiming(false);
       })
       .catch(() => {
@@ -211,8 +219,9 @@ const WalletContainer = ({
     setRefreshing(true);
 
     getAccount(selectedUser.name)
-      .then((account) => {
-        _getWalletData(selectedUser);
+      .then(() => {
+        const _isRefresh = true;
+        _getWalletData(selectedUser, _isRefresh);
         setRefreshing(false);
       })
       .catch(() => {
@@ -342,6 +351,7 @@ const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
   globalProps: state.account.globalProps,
+  quotes: state.wallet.quotes,
   currency: state.application.currency.currency,
   hivePerMVests: state.account.globalProps.hivePerMVests,
   isPinCodeOpen: state.application.isPinCodeOpen,

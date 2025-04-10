@@ -10,7 +10,7 @@ import {
 import { useIntl } from 'react-intl';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { MainButton, Tag, TextButton, UserAvatar } from '../../index';
+import { Tag, TextButton, UserAvatar } from '../../index';
 import { ListPlaceHolder } from '../../basicUIElements';
 
 import DEFAULT_IMAGE from '../../../assets/no_image.png';

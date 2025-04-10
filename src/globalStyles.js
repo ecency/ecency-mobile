@@ -1,5 +1,4 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { FlipInEasyX } from 'react-native-reanimated';
 
 export default EStyleSheet.create({
   containerHorizontal16: {
@@ -8,7 +7,7 @@ export default EStyleSheet.create({
   },
   defaultContainer: {
     flex: 1,
-    backgroundColor: '$primaryLightBackground',
+    backgroundColor: '$primaryBackgroundColor',
   },
   listWrapper: {
     paddingHorizontal: 8,
@@ -60,8 +59,8 @@ export default EStyleSheet.create({
     fontSize: 12,
   },
   container: {
+    flex: 1,
     backgroundColor: '$primaryBackgroundColor',
-    height: '$deviceHeight',
   },
   lightContainer: {
     backgroundColor: '$primaryLightBackground',

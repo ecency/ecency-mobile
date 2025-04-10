@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useRef } from 'react';
-import { View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Components
@@ -108,7 +108,7 @@ const BasicHeaderView = ({
    */
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.backWrapper}>
           <IconButton
@@ -265,7 +265,7 @@ const BasicHeaderView = ({
         title="Reward"
         onPress={_handleRewardMenuSelect}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

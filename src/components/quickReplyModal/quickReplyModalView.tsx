@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ActionSheet from 'react-native-actions-sheet';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { QuickReplyModalContent } from './quickReplyModalContent';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { hideReplyModal } from '../../redux/actions/uiAction';
@@ -42,6 +42,7 @@ const QuickReplyModal = () => {
         containerStyle={styles.sheetContent}
         indicatorStyle={styles.sheetIndicator}
         defaultOverlayOpacity={0}
+        keyboardHandlerEnabled={Platform.OS !== 'android'} // hack to prevent sheet height issue on android
         onClose={_onClose}
       >
         <QuickReplyModalContent

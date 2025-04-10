@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { TabView } from 'react-native-tab-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import useDebounce from '../../../utils/useDebounceHook';
 
 // Components
@@ -40,7 +41,7 @@ const SearchResultScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <SearchInput
         showClearButton={true}
         placeholder={intl.formatMessage({ id: 'header.search' })}
@@ -50,7 +51,7 @@ const SearchResultScreen = ({ navigation }) => {
         onBackPress={_navigationGoBack}
       />
       <SearchResultsTabView searchValue={searchValue} />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -126,6 +127,9 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
       renderScene={renderScene}
       navigationState={{ index, routes }}
       onIndexChange={setIndex}
+      commonOptions={{
+        labelStyle: styles.tabLabelColor,
+      }}
     />
   );
 });

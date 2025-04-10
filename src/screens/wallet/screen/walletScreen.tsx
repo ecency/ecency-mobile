@@ -86,13 +86,16 @@ const WalletScreen = ({ navigation }) => {
 
   // actions
   const populateSelectedAssets = (tokensArr) => {
-    return tokensArr.map(({ symbol, type }) => ({
-      id: symbol,
-      symbol,
-      isEngine: type === 'ENGINE',
-      isSpk: type === 'SPK',
-      notCrypto: false,
-    }));
+    // filter out any other type of token other than ENGINE and SPK
+    return tokensArr
+      .filter(({ type }) => type === 'ENGINE' || type === 'SPK')
+      .map(({ symbol, type }) => ({
+        id: symbol,
+        symbol,
+        isEngine: type === 'ENGINE',
+        isSpk: type === 'SPK',
+        notCrypto: false,
+      }));
   };
 
   const _updateSelectedAssetsDataFromProfileJsonMeta = () => {

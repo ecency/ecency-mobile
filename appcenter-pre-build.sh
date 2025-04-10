@@ -65,7 +65,7 @@ printf "\nEND OF .env\n"
 #check if platform to be built for is android
 if [ "$PLATFORM" == "Android" ]; then
     echo "Building for Android"
-    cd android && ./gradlew clean && cd ..
+    cd android && ./gradlew clean  && cd ..
     
 elif [ "$PLATFORM" == "iOS" ]; then
     echo "Building for iOS"

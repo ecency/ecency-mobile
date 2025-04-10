@@ -6,12 +6,12 @@ import VersionNumber from 'react-native-version-number';
 import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { getStorageType } from '../../../realm/realm';
 
 // Components
 import { Icon } from '../../icon';
 import { UserAvatar } from '../../userAvatar';
-import { TextWithIcon } from '../../basicUIElements';
 
 // Constants
 import MENU from '../../../constants/sideMenuItems';
@@ -177,12 +177,8 @@ const SideMenuView = ({
           {isLoggedIn && (
             <View style={{ ...styles.headerContentWrapper, marginTop: insets.top }}>
               <UserAvatar username={currentAccount.name} size="xl" style={styles.userAvatar} />
-              <View
-                style={[
-                  styles.userInfoWrapper,
-                  currentAccount.display_name && { alignSelf: 'flex-start' },
-                ]}
-              >
+
+              <View style={styles.userInfoWrapper}>
                 {currentAccount.display_name && (
                   <Text numberOfLines={1} ellipsizeMode="tail" style={styles.username}>
                     {currentAccount.display_name}
@@ -191,13 +187,16 @@ const SideMenuView = ({
                 <Text numberOfLines={1} ellipsizeMode="tail" style={styles.usernick}>
                   {`@${_username}`}
                 </Text>
-                <TextWithIcon
-                  iconName="expand-less"
-                  iconSize={30}
-                  iconType="MaterialIcons"
-                  text={`${upower}%`}
-                  textStyle={styles.vpText}
-                />
+
+                <View style={styles.pwInfoWrapper}>
+                  <Icon
+                    iconType="MaterialIcons"
+                    name="expand-less"
+                    color={EStyleSheet.value('$iconColor')}
+                    size={18}
+                  />
+                  <Text style={styles.vpText}>{upower}</Text>
+                </View>
               </View>
 
               <TouchableOpacity style={styles.iconWrapper} onPress={handlePressOptions}>
@@ -206,7 +205,7 @@ const SideMenuView = ({
                   style={styles.optionIcon}
                   name="options"
                   color="white"
-                  size={16}
+                  size={14}
                 />
               </TouchableOpacity>
             </View>

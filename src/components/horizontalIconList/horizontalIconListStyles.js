@@ -2,7 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   iconsWrapper: {
-    marginBottom: 8,
+    marginTop: 16,
     marginHorizontal: 0,
     justifyContent: 'center',
     alignSelf: 'center',

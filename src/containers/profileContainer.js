@@ -89,10 +89,7 @@ class ProfileContainer extends Component {
   }
 
   _getReplies = async (query) => {
-    const { isOwnProfile, comments, user } = this.state;
-    const {
-      currentAccount: { name: currentAccountUsername },
-    } = this.props;
+    const { isOwnProfile, comments } = this.state;
     this.setState({ isProfileLoading: true });
     let repliesAction;
 

@@ -5,15 +5,16 @@ import React, {
   forwardRef,
   useImperativeHandle,
   useRef,
+  Ref,
 } from 'react';
 import get from 'lodash/get';
 
 // Services and Actions
-import { Rect } from 'react-native-modal-popover/lib/PopoverGeometry';
 import { View, TouchableOpacity, Text, useWindowDimensions } from 'react-native';
-import { Popover } from 'react-native-modal-popover';
+import Popover from 'react-native-popover-view';
 import Slider from '@esteemapp/react-native-slider';
 import { useIntl } from 'react-intl';
+import { Placement } from 'react-native-popover-view/dist/Types';
 import {
   setCommentUpvotePercent,
   setPostUpvotePercent,
@@ -52,7 +53,7 @@ import showLoginAlert from '../../../utils/showLoginAlert';
 import { delay } from '../../../utils/editor';
 
 interface PopoverOptions {
-  anchorRect: Rect;
+  sourceRef: Ref<any>;
   content: any;
   postType?: PostTypes;
   showPayoutDetails?: boolean;
@@ -74,6 +75,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
   const userActivityMutation = useUserActivityMutation();
 
   const onVotingStartRef = useRef<any>(null);
+  const sourceRef = useRef<any>(null);
 
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const postUpvotePercent = useAppSelector((state) => state.application.postUpvotePercent);
@@ -86,7 +88,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
 
   const [content, setContent] = useState<any>(null);
   const [postType, setPostType] = useState<PostTypes>(PostTypes.POST);
-  const [anchorRect, setAcnhorRect] = useState<Rect | null>(null);
+  const [showPopover, setShowPopover] = useState(false);
   const [showPayoutDetails, setShowPayoutDetails] = useState(false);
 
   const [isVoted, setIsVoted] = useState<any>(null);
@@ -97,7 +99,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
 
   useImperativeHandle(ref, () => ({
     showPopover: ({
-      anchorRect: _anchorRect,
+      sourceRef: _sourceRef,
       content: _content,
       postType: _postType,
       showPayoutDetails: _showPayoutDetails,
@@ -109,10 +111,12 @@ const UpvotePopover = forwardRef(({}, ref) => {
       }
 
       onVotingStartRef.current = onVotingStart;
+
+      sourceRef.current = _sourceRef.current;
       setPostType(_postType || PostTypes.POST);
       setContent(_content);
       setShowPayoutDetails(_showPayoutDetails || false);
-      setAcnhorRect(_anchorRect);
+      setShowPopover(true);
     },
   }));
 
@@ -349,7 +353,8 @@ const UpvotePopover = forwardRef(({}, ref) => {
   };
 
   const _closePopover = () => {
-    setAcnhorRect(null);
+    setShowPopover(false);
+
     setTimeout(() => {
       setShowPayoutDetails(false);
     }, 300);
@@ -375,16 +380,16 @@ const UpvotePopover = forwardRef(({}, ref) => {
   return (
     <Fragment>
       <Popover
-        contentStyle={showPayoutDetails ? styles.popoverDetails : _sliderStyle}
-        arrowStyle={showPayoutDetails ? styles.arrow : styles.hideArrow}
+        popoverStyle={showPayoutDetails ? styles.popoverDetails : _sliderStyle}
+        arrowSize={showPayoutDetails ? undefined : { width: 0, height: 0 }}
         backgroundStyle={styles.overlay}
-        visible={!!anchorRect}
-        onClose={() => {
+        isVisible={showPopover}
+        onRequestClose={() => {
           _closePopover();
         }}
-        fromRect={anchorRect || { x: 0, y: 0, width: 0, height: 0 }}
-        placement="top"
-        supportedOrientations={['portrait', 'landscape']}
+        from={sourceRef}
+        placement={[Placement.TOP]}
+        offset={12}
       >
         <View style={styles.popoverWrapper}>
           {showPayoutDetails ? (

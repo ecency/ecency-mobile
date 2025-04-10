@@ -5,6 +5,7 @@ import { View, FlatList, Text } from 'react-native';
 // Components
 import { TabView } from 'react-native-tab-view';
 import { useDispatch } from 'react-redux';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { UserListItem, WalletDetailsPlaceHolder, BasicHeader, TabBar } from '../../../components';
 
 // Styles
@@ -133,7 +134,7 @@ const BookmarksScreen = ({
   };
 
   return (
-    <View style={globalStyles.container}>
+    <SafeAreaView style={globalStyles.container}>
       <BasicHeader
         title={intl.formatMessage({
           id: 'bookmarks.title',
@@ -145,9 +146,12 @@ const BookmarksScreen = ({
         onIndexChange={setTabIndex}
         renderTabBar={TabBar}
         renderScene={renderScene}
-        style={[globalStyles.tabView, { paddingBottom: 40 }]}
+        style={globalStyles.tabView}
+        commonOptions={{
+          labelStyle: styles.tabLabelColor,
+        }}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

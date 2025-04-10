@@ -15,7 +15,8 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: 12,
+    padding: 8,
   },
   overlay: {},
   popoverText: {

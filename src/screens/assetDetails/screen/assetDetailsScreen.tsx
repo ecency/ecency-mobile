@@ -1,7 +1,8 @@
-import { View, Alert, AppState, AppStateStatus, NativeEventSubscription } from 'react-native';
+import { Alert, AppState, AppStateStatus, NativeEventSubscription } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader } from '../../../components';
 import { CoinSummary, ActivitiesList } from '../children';
 import styles from './screen.styles';
@@ -196,7 +197,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <BasicHeader title={intl.formatMessage({ id: 'wallet.coin_details' })} />
       <ActivitiesList
         header={_renderHeaderComponent}
@@ -210,7 +211,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         onActionPress={_onActionPress}
       />
       <DelegationsModal ref={delegationsModalRef} />
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
 import axios from 'axios';
 import Config from 'react-native-config';
+import DeviceInfo from 'react-native-device-info';
 import bugsnagInstance from '../../config/bugsnag';
 import {
   convertStatsData,
@@ -9,14 +10,12 @@ import {
   parsePostStatsResponse,
 } from './converters';
 
-import DeviceInfo from 'react-native-device-info';
-
 const PATH_EVENT_API = '/api/event';
 const PATH_STATS_API = '/api/v2/query';
 const SITE_ID = 'ecency.com';
 
 const plausibleApi = axios.create({
-  baseURL: "https://pl.ecency.com/",
+  baseURL: 'https://pl.ecency.com/',
   headers: {
     Authorization: `Bearer ${Config.PLAUSIBLE_API_KEY}`,
     'Content-Type': 'application/json',
@@ -38,7 +37,7 @@ export const recordPlausibleEvent = async (urlPath: string, eventName?: string):
 
     const userAgent = await DeviceInfo.getUserAgent();
     const res = await plausibleApi.post(PATH_EVENT_API, payload, {
-      headers: { "User-Agent": userAgent }
+      headers: { 'User-Agent': userAgent },
     });
 
     if (res.status !== 202) {
@@ -90,7 +89,6 @@ const fetchStats = async (
   }
 };
 
-
 export const fetchPostStats = async (urlPath: string, dateRange = 'all') => {
   const metrics = getMetricsForPostStats();
   const stats = await fetchStats(urlPath, metrics, [], dateRange);
@@ -103,9 +101,11 @@ export const fetchPostStats = async (urlPath: string, dateRange = 'all') => {
   return postStats;
 };
 
-
-
-export const fetchPostStatsByDimension = async <T>(urlPath: string, dateRange = 'all', dimensionKey: string) => {
+export const fetchPostStatsByDimension = async <T>(
+  urlPath: string,
+  dateRange = 'all',
+  dimensionKey: string,
+) => {
   const metrics = getMetricsForPostStats();
   const stats = await fetchStats(urlPath, metrics, [`visit:${dimensionKey}`], dateRange);
   const postStats = parsePostStatsByDimension<T>(stats, dimensionKey);

@@ -7,14 +7,15 @@ import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { search } from '../../../../../../providers/ecency/ecency';
-import { getAccountPosts } from '../../../../../../providers/hive/dhive';
+import { getAccountPosts, getPost } from '../../../../../../providers/hive/dhive';
 import { postQueries } from '../../../../../../providers/queries';
+import postUrlParser from '../../../../../../utils/postUrlParser';
 
 const PostsResultsContainer = ({ children, searchValue }) => {
   const navigation = useNavigation();
   const postsCacherPrimer = postQueries.usePostsCachePrimer();
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
   const [sort] = useState('newest');
   const [scrollId, setScrollId] = useState('');
   const [noResult, setNoResult] = useState(false);
@@ -22,46 +23,37 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   const currentAccountUsername = useSelector((state) => state.account.currentAccount.username);
 
   useEffect(() => {
-    setNoResult(false);
-    setData([]);
-
-    if (searchValue) {
-      search({ q: `${searchValue} type:post`, sort })
-        .then((res) => {
-          if (res) {
-            setScrollId(res.scroll_id);
-            setData(res.results);
-            if (res.results.length === 0) {
-              setNoResult(true);
-            }
-          } else {
-            setNoResult(true);
-            setData([]);
-          }
-        })
-        .catch(() => {
-          setNoResult(true);
-          setData([]);
-        });
-    } else {
-      getInitialPosts()
-        .then((res) => {
-          if (res) {
-            if (res.length === 0) {
-              setNoResult(true);
-            }
-            setData(res);
-          } else {
-            setNoResult(true);
-            setData([]);
-          }
-        })
-        .catch(() => {
-          setNoResult(true);
-          setData([]);
-        });
-    }
+    _fetchResults();
   }, [searchValue]);
+
+  const _fetchResults = async () => {
+    let _data: any = [];
+
+    setNoResult(false);
+    setData(_data);
+
+    // parse author and permlink if url
+    const { author, permlink } = postUrlParser(searchValue) || {};
+
+    // fetch based on post url
+    if (author && permlink) {
+      const post = await getPost(author, permlink);
+      _data = post ? [post] : [];
+    }
+    // search with query
+    else if (searchValue) {
+      const res = await search({ q: `${searchValue} type:post`, sort });
+      _data = res.results || [];
+      setScrollId(res.scroll_id);
+    }
+    // get initial posts if not search value
+    else {
+      _data = await getInitialPosts();
+    }
+
+    setData(_data);
+    setNoResult(_data.length === 0);
+  };
 
   const getInitialPosts = async () => {
     const options = {
