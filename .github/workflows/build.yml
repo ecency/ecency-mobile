@@ -111,10 +111,10 @@ jobs:
           echo "keyAlias=${{ secrets.ALIAS }}" >> ./android/key.properties
       - name: Bundle Android
         run: yarn run bundle:android
-      - name: Execute Gradle Debug build
+      - name: Execute Gradle APK build
         run: |
           cd android
-          ./gradlew assembleDebug
+          ./gradlew assembleRelease
       # - name: Execute Gradle build
       #   run: |
       #     cd android
@@ -126,23 +126,16 @@ jobs:
           key: apk-${{ runner.os }}-${{ github.sha }}
           restore-keys: |
             apk-${{ runner.os }}-
-      - name: Upload Debug application
+      - name: Upload APK application
         uses: actions/upload-artifact@v4
         with:
-          name: Ecency-debug-app
-          path: ./android/app/build/outputs/apk/debug/app-debug.apk
-      - name: Execute Gradle Release build
+          name: Ecency-app
+          path: ./android/app/build/outputs/apk/release/app-release.apk
+      - name: Execute Gradle Bundle build
         run: |
           cd android
           ./gradlew bundleRelease
       # npx react-native build-android --mode=release
-      - name: Upload AAB
-        id: uploadArtifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Ecency-release-app
-          path: app/build/outputs/bundle/release/app-release.aab
-
       - name: Deploy to Play Store (BETA)
         id: deploy
         uses: r0adkll/upload-google-play@v1
