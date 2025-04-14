@@ -79,10 +79,9 @@ jobs:
           xcodebuild -workspace Ecency.xcworkspace \
           -scheme "Ecency" \
           -sdk iphoneos \
-          -configuration Release \
+          -configuration Debug \
           -destination generic/platform=iOS \
-          -archivePath $RUNNER_TEMP/ecency.xcarchive \
-          archive          
+          clean archive          
 
       - name: Export IPA
         env:
