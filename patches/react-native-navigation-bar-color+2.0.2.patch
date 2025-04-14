@@ -1,0 +1,396 @@
+diff --git a/node_modules/react-native-navigation-bar-color/android/.classpath b/node_modules/react-native-navigation-bar-color/android/.classpath
+new file mode 100644
+index 0000000..bbe97e5
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/.classpath
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<classpath>
++	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17/"/>
++	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
++	<classpathentry kind="output" path="bin/default"/>
++</classpath>
+diff --git a/node_modules/react-native-navigation-bar-color/android/.project b/node_modules/react-native-navigation-bar-color/android/.project
+new file mode 100644
+index 0000000..bc1012d
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/.project
+@@ -0,0 +1,34 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>react-native-navigation-bar-color</name>
++	<comment>Project react-native-navigation-bar-color created by Buildship.</comment>
++	<projects>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>org.eclipse.jdt.core.javabuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.buildship.core.gradleprojectbuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>org.eclipse.jdt.core.javanature</nature>
++		<nature>org.eclipse.buildship.core.gradleprojectnature</nature>
++	</natures>
++	<filteredResources>
++		<filter>
++			<id>1740373427129</id>
++			<name></name>
++			<type>30</type>
++			<matcher>
++				<id>org.eclipse.core.resources.regexFilterMatcher</id>
++				<arguments>node_modules|\.git|__CREATED_BY_JAVA_LANGUAGE_SERVER__</arguments>
++			</matcher>
++		</filter>
++	</filteredResources>
++</projectDescription>
+diff --git a/node_modules/react-native-navigation-bar-color/android/.settings/org.eclipse.buildship.core.prefs b/node_modules/react-native-navigation-bar-color/android/.settings/org.eclipse.buildship.core.prefs
+new file mode 100644
+index 0000000..1675490
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/.settings/org.eclipse.buildship.core.prefs
+@@ -0,0 +1,2 @@
++connection.project.dir=../../../android
++eclipse.preferences.version=1
+diff --git a/node_modules/react-native-navigation-bar-color/android/build.gradle b/node_modules/react-native-navigation-bar-color/android/build.gradle
+index 9d285c4..42847e5 100644
+--- a/node_modules/react-native-navigation-bar-color/android/build.gradle
++++ b/node_modules/react-native-navigation-bar-color/android/build.gradle
+@@ -1,6 +1,6 @@
+ buildscript {
+     repositories {
+-        jcenter()
++        mavenCentral() //patched
+     }
+ 
+     dependencies {
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/.transforms/5c0126d08594f0b028021f9364d42b78/results.bin b/node_modules/react-native-navigation-bar-color/android/build/.transforms/5c0126d08594f0b028021f9364d42b78/results.bin
+new file mode 100644
+index 0000000..0d259dd
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/.transforms/5c0126d08594f0b028021f9364d42b78/results.bin
+@@ -0,0 +1 @@
++o/classes
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/.transforms/5c0126d08594f0b028021f9364d42b78/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-navigation-bar-color/android/build/.transforms/5c0126d08594f0b028021f9364d42b78/transformed/classes/classes_dex/classes.dex
+new file mode 100644
+index 0000000..4228c6d
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/.transforms/5c0126d08594f0b028021f9364d42b78/transformed/classes/classes_dex/classes.dex differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/results.bin b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/results.bin
+new file mode 100644
+index 0000000..7ed749e
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/results.bin
+@@ -0,0 +1 @@
++o/bundleLibRuntimeToDirDebug
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/BuildConfig.dex b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/BuildConfig.dex
+new file mode 100644
+index 0000000..8b4fb6c
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/BuildConfig.dex differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorModule$1$1.dex b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorModule$1$1.dex
+new file mode 100644
+index 0000000..f2ac4d0
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorModule$1$1.dex differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorModule$1.dex b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorModule$1.dex
+new file mode 100644
+index 0000000..1faf850
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorModule$1.dex differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorModule$2.dex b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorModule$2.dex
+new file mode 100644
+index 0000000..a4475e6
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorModule$2.dex differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorModule$3.dex b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorModule$3.dex
+new file mode 100644
+index 0000000..29a40fc
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorModule$3.dex differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorModule.dex b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorModule.dex
+new file mode 100644
+index 0000000..0b883fb
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorModule.dex differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorPackage.dex b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorPackage.dex
+new file mode 100644
+index 0000000..7f14ed4
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/bundleLibRuntimeToDirDebug_dex/com/thebylito/navigationbarcolor/NavigationBarColorPackage.dex differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/desugar_graph.bin b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/desugar_graph.bin
+new file mode 100644
+index 0000000..aef0bdc
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/.transforms/ab85bbc21f1497de96c8c373e7c34caf/transformed/bundleLibRuntimeToDirDebug/desugar_graph.bin differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/generated/source/buildConfig/debug/com/thebylito/navigationbarcolor/BuildConfig.java b/node_modules/react-native-navigation-bar-color/android/build/generated/source/buildConfig/debug/com/thebylito/navigationbarcolor/BuildConfig.java
+new file mode 100644
+index 0000000..3de3018
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/generated/source/buildConfig/debug/com/thebylito/navigationbarcolor/BuildConfig.java
+@@ -0,0 +1,10 @@
++/**
++ * Automatically generated file. DO NOT MODIFY
++ */
++package com.thebylito.navigationbarcolor;
++
++public final class BuildConfig {
++  public static final boolean DEBUG = Boolean.parseBoolean("true");
++  public static final String LIBRARY_PACKAGE_NAME = "com.thebylito.navigationbarcolor";
++  public static final String BUILD_TYPE = "debug";
++}
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/aapt_friendly_merged_manifests/debug/processDebugManifest/aapt/AndroidManifest.xml b/node_modules/react-native-navigation-bar-color/android/build/intermediates/aapt_friendly_merged_manifests/debug/processDebugManifest/aapt/AndroidManifest.xml
+new file mode 100644
+index 0000000..223c139
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/intermediates/aapt_friendly_merged_manifests/debug/processDebugManifest/aapt/AndroidManifest.xml
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.thebylito.navigationbarcolor" >
++
++    <uses-sdk android:minSdkVersion="26" />
++
++</manifest>
+\ No newline at end of file
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/aapt_friendly_merged_manifests/debug/processDebugManifest/aapt/output-metadata.json b/node_modules/react-native-navigation-bar-color/android/build/intermediates/aapt_friendly_merged_manifests/debug/processDebugManifest/aapt/output-metadata.json
+new file mode 100644
+index 0000000..f6fea8d
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/intermediates/aapt_friendly_merged_manifests/debug/processDebugManifest/aapt/output-metadata.json
+@@ -0,0 +1,18 @@
++{
++  "version": 3,
++  "artifactType": {
++    "type": "AAPT_FRIENDLY_MERGED_MANIFESTS",
++    "kind": "Directory"
++  },
++  "applicationId": "com.thebylito.navigationbarcolor",
++  "variantName": "debug",
++  "elements": [
++    {
++      "type": "SINGLE",
++      "filters": [],
++      "attributes": [],
++      "outputFile": "AndroidManifest.xml"
++    }
++  ],
++  "elementType": "File"
++}
+\ No newline at end of file
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/aar_metadata/debug/writeDebugAarMetadata/aar-metadata.properties b/node_modules/react-native-navigation-bar-color/android/build/intermediates/aar_metadata/debug/writeDebugAarMetadata/aar-metadata.properties
+new file mode 100644
+index 0000000..1211b1e
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/intermediates/aar_metadata/debug/writeDebugAarMetadata/aar-metadata.properties
+@@ -0,0 +1,6 @@
++aarFormatVersion=1.0
++aarMetadataVersion=1.0
++minCompileSdk=1
++minCompileSdkExtension=0
++minAndroidGradlePluginVersion=1.0.0
++coreLibraryDesugaringEnabled=false
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/annotation_processor_list/debug/javaPreCompileDebug/annotationProcessors.json b/node_modules/react-native-navigation-bar-color/android/build/intermediates/annotation_processor_list/debug/javaPreCompileDebug/annotationProcessors.json
+new file mode 100644
+index 0000000..9e26dfe
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/intermediates/annotation_processor_list/debug/javaPreCompileDebug/annotationProcessors.json
+@@ -0,0 +1 @@
++{}
+\ No newline at end of file
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar b/node_modules/react-native-navigation-bar-color/android/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar
+new file mode 100644
+index 0000000..d98831c
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/compile_r_class_jar/debug/generateDebugRFile/R.jar b/node_modules/react-native-navigation-bar-color/android/build/intermediates/compile_r_class_jar/debug/generateDebugRFile/R.jar
+new file mode 100644
+index 0000000..d3b3196
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/compile_r_class_jar/debug/generateDebugRFile/R.jar differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/compile_symbol_list/debug/generateDebugRFile/R.txt b/node_modules/react-native-navigation-bar-color/android/build/intermediates/compile_symbol_list/debug/generateDebugRFile/R.txt
+new file mode 100644
+index 0000000..e69de29
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties b/node_modules/react-native-navigation-bar-color/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
+new file mode 100644
+index 0000000..35d299b
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
+@@ -0,0 +1 @@
++#Fri Feb 28 19:25:12 PKT 2025
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml b/node_modules/react-native-navigation-bar-color/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
+new file mode 100644
+index 0000000..f98728e
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/main/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/main/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated" generated-set="generated$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/build/generated/res/resValues/debug"/></dataSet><mergedItems/></merger>
+\ No newline at end of file
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml b/node_modules/react-native-navigation-bar-color/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml
+new file mode 100644
+index 0000000..89c35f4
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/main/jniLibs"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/debug/jniLibs"/></dataSet></merger>
+\ No newline at end of file
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/incremental/mergeDebugShaders/merger.xml b/node_modules/react-native-navigation-bar-color/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
+new file mode 100644
+index 0000000..4978604
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/main/shaders"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/debug/shaders"/></dataSet></merger>
+\ No newline at end of file
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/incremental/packageDebugAssets/merger.xml b/node_modules/react-native-navigation-bar-color/android/build/intermediates/incremental/packageDebugAssets/merger.xml
+new file mode 100644
+index 0000000..55eb659
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/intermediates/incremental/packageDebugAssets/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/main/assets"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/debug/assets"/></dataSet><dataSet config="generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/build/intermediates/shader_assets/debug/compileDebugShaders/out"/></dataSet></merger>
+\ No newline at end of file
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/BuildConfig.class b/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/BuildConfig.class
+new file mode 100644
+index 0000000..2f0dde8
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/BuildConfig.class differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorModule$1$1.class b/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorModule$1$1.class
+new file mode 100644
+index 0000000..d2aeae7
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorModule$1$1.class differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorModule$1.class b/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorModule$1.class
+new file mode 100644
+index 0000000..c3891ff
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorModule$1.class differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorModule$2.class b/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorModule$2.class
+new file mode 100644
+index 0000000..f4ab4a4
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorModule$2.class differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorModule$3.class b/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorModule$3.class
+new file mode 100644
+index 0000000..0b9b112
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorModule$3.class differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorModule.class b/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorModule.class
+new file mode 100644
+index 0000000..ccd5316
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorModule.class differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorPackage.class b/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorPackage.class
+new file mode 100644
+index 0000000..b775186
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/thebylito/navigationbarcolor/NavigationBarColorPackage.class differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/local_only_symbol_list/debug/parseDebugLocalResources/R-def.txt b/node_modules/react-native-navigation-bar-color/android/build/intermediates/local_only_symbol_list/debug/parseDebugLocalResources/R-def.txt
+new file mode 100644
+index 0000000..78ac5b8
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/intermediates/local_only_symbol_list/debug/parseDebugLocalResources/R-def.txt
+@@ -0,0 +1,2 @@
++R_DEF: Internal format may change without notice
++local
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/manifest_merge_blame_file/debug/processDebugManifest/manifest-merger-blame-debug-report.txt b/node_modules/react-native-navigation-bar-color/android/build/intermediates/manifest_merge_blame_file/debug/processDebugManifest/manifest-merger-blame-debug-report.txt
+new file mode 100644
+index 0000000..88f78b5
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/intermediates/manifest_merge_blame_file/debug/processDebugManifest/manifest-merger-blame-debug-report.txt
+@@ -0,0 +1,7 @@
++1<?xml version="1.0" encoding="utf-8"?>
++2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++3    package="com.thebylito.navigationbarcolor" >
++4
++5    <uses-sdk android:minSdkVersion="26" />
++6
++7</manifest>
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml b/node_modules/react-native-navigation-bar-color/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml
+new file mode 100644
+index 0000000..223c139
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.thebylito.navigationbarcolor" >
++
++    <uses-sdk android:minSdkVersion="26" />
++
++</manifest>
+\ No newline at end of file
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/navigation_json/debug/extractDeepLinksDebug/navigation.json b/node_modules/react-native-navigation-bar-color/android/build/intermediates/navigation_json/debug/extractDeepLinksDebug/navigation.json
+new file mode 100644
+index 0000000..0637a08
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/intermediates/navigation_json/debug/extractDeepLinksDebug/navigation.json
+@@ -0,0 +1 @@
++[]
+\ No newline at end of file
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/nested_resources_validation_report/debug/generateDebugResources/nestedResourcesValidationReport.txt b/node_modules/react-native-navigation-bar-color/android/build/intermediates/nested_resources_validation_report/debug/generateDebugResources/nestedResourcesValidationReport.txt
+new file mode 100644
+index 0000000..08f4ebe
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/intermediates/nested_resources_validation_report/debug/generateDebugResources/nestedResourcesValidationReport.txt
+@@ -0,0 +1 @@
++0 Warning/Error
+\ No newline at end of file
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/BuildConfig.class b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/BuildConfig.class
+new file mode 100644
+index 0000000..2f0dde8
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/BuildConfig.class differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorModule$1$1.class b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorModule$1$1.class
+new file mode 100644
+index 0000000..d2aeae7
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorModule$1$1.class differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorModule$1.class b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorModule$1.class
+new file mode 100644
+index 0000000..c3891ff
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorModule$1.class differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorModule$2.class b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorModule$2.class
+new file mode 100644
+index 0000000..f4ab4a4
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorModule$2.class differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorModule$3.class b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorModule$3.class
+new file mode 100644
+index 0000000..0b9b112
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorModule$3.class differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorModule.class b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorModule.class
+new file mode 100644
+index 0000000..ccd5316
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorModule.class differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorPackage.class b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorPackage.class
+new file mode 100644
+index 0000000..b775186
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_dir/debug/bundleLibRuntimeToDirDebug/com/thebylito/navigationbarcolor/NavigationBarColorPackage.class differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_jar/debug/bundleLibRuntimeToJarDebug/classes.jar b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_jar/debug/bundleLibRuntimeToJarDebug/classes.jar
+new file mode 100644
+index 0000000..17fc218
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/intermediates/runtime_library_classes_jar/debug/bundleLibRuntimeToJarDebug/classes.jar differ
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/intermediates/symbol_list_with_package_name/debug/generateDebugRFile/package-aware-r.txt b/node_modules/react-native-navigation-bar-color/android/build/intermediates/symbol_list_with_package_name/debug/generateDebugRFile/package-aware-r.txt
+new file mode 100644
+index 0000000..d5ec49e
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/intermediates/symbol_list_with_package_name/debug/generateDebugRFile/package-aware-r.txt
+@@ -0,0 +1 @@
++com.thebylito.navigationbarcolor
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/outputs/logs/manifest-merger-debug-report.txt b/node_modules/react-native-navigation-bar-color/android/build/outputs/logs/manifest-merger-debug-report.txt
+new file mode 100644
+index 0000000..41972db
+--- /dev/null
++++ b/node_modules/react-native-navigation-bar-color/android/build/outputs/logs/manifest-merger-debug-report.txt
+@@ -0,0 +1,17 @@
++-- Merging decision tree log ---
++manifest
++ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/main/AndroidManifest.xml:1:1-3:12
++INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/main/AndroidManifest.xml:1:1-3:12
++	package
++		ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/main/AndroidManifest.xml:2:5-47
++		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/main/AndroidManifest.xml
++	xmlns:android
++		ADDED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/main/AndroidManifest.xml:1:11-69
++uses-sdk
++INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/main/AndroidManifest.xml reason: use-sdk injection requested
++INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/main/AndroidManifest.xml
++INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/main/AndroidManifest.xml
++	android:targetSdkVersion
++		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/main/AndroidManifest.xml
++	android:minSdkVersion
++		INJECTED from /Users/noumantahir/Documents/ReactNativeProjects/ecency-mobile/node_modules/react-native-navigation-bar-color/android/src/main/AndroidManifest.xml
+diff --git a/node_modules/react-native-navigation-bar-color/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin b/node_modules/react-native-navigation-bar-color/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin
+new file mode 100644
+index 0000000..43be6a0
+Binary files /dev/null and b/node_modules/react-native-navigation-bar-color/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin differ
