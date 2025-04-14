@@ -25,7 +25,7 @@ jobs:
           version: 1.15.2
       - name: Create Google Services PLIST File
         env:
-          $GOOGLE_PLIST: ${{ secrets.GOOGLE_PLIST }}
+          GOOGLE_PLIST: ${{ secrets.GOOGLE_PLIST }}
         run: |
           echo "$GOOGLE_PLIST" | base64 --decode -o ./ios/GoogleService-Info.plist
           ls -l ./ios
