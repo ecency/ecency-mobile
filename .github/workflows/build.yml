@@ -25,7 +25,7 @@ jobs:
           version: 1.15.2
       - name: Create Google Services PLIST File
         env:
-          GOOGLE_JSON: ${{ secrets.GOOGLE_PLIST }}
+          $GOOGLE_PLIST: ${{ secrets.GOOGLE_PLIST }}
         run: echo $GOOGLE_PLIST | base64 --decode > ./ios/GoogleService-Info.plist
       - name: Install the Apple certificate and provisioning profile
         env:
