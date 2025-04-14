@@ -64,6 +64,9 @@ jobs:
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
           cp $EX_PATH ~/Library/MobileDevice/Provisioning\ Profiles
           cp $NOT_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+          
+          # check if the certificate and provisioning profile are installed
+          ls ~/Library/MobileDevice/Provisioning\ Profiles
       - name: Install npm dependency
         run: yarn install
       - name: Install Cocoapod dependencies
