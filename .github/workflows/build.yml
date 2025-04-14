@@ -64,7 +64,6 @@ jobs:
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
           cp $EX_PATH ~/Library/MobileDevice/Provisioning\ Profiles
           cp $NOT_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           for PROVISION in `ls $RUNNER_TEMP/*.mobileprovision`
           do
             UUID=`/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin <<< $(security cms -D -i $PROVISION)`
