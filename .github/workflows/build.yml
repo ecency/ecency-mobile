@@ -67,9 +67,7 @@ jobs:
           
           # check if the certificate and provisioning profile are installed
           ls ~/Library/MobileDevice/Provisioning\ Profiles
-          security cms -D -i ~/Library/MobileDevice/Provisioning\ Profiles/build_ex.mobileprovision | head -n 30
-          security cms -D -i ~/Library/MobileDevice/Provisioning\ Profiles/build_not.mobileprovision | head -n 30
-          security cms -D -i ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision | head -n 30
+   
       - name: Install npm dependency
         run: yarn install
       - name: Install Cocoapod dependencies
