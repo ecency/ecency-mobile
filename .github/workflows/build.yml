@@ -64,10 +64,13 @@ jobs:
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
           cp $EX_PATH ~/Library/MobileDevice/Provisioning\ Profiles
           cp $NOT_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-          
-          # check if the certificate and provisioning profile are installed
-          ls ~/Library/MobileDevice/Provisioning\ Profiles
-   
+          for PROVISION in `ls $RUNNER_TEMP/*.mobileprovision`
+          do
+            UUID=`/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin <<< $(security cms -D -i $PROVISION)`
+            cp $PROVISION ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
+          done
+          security find-identity -v -p codesigning
+          ls -l ~/Library/MobileDevice/Provisioning\ Profiles
       - name: Install npm dependency
         run: yarn install
       - name: Install Cocoapod dependencies
