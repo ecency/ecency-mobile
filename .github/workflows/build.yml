@@ -173,8 +173,6 @@ jobs:
           echo "keyPassword=${{ secrets.UPLOAD_KEYSTORE_PASSPHRASE }}" >> ./android/key.properties
           echo "storePassword=${{ secrets.UPLOAD_KEYSTORE_PASSPHRASE }}" >> ./android/key.properties
           echo "keyAlias=${{ secrets.ALIAS }}" >> ./android/key.properties
-      - name: Bundle Android
-        run: yarn run bundle:android
       - name: Execute Gradle APK build
         run: |
           cd android
