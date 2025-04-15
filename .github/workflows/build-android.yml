@@ -60,6 +60,11 @@ jobs:
           echo "keyPassword=${{ secrets.UPLOAD_KEYSTORE_PASSPHRASE }}" >> ./android/key.properties
           echo "storePassword=${{ secrets.UPLOAD_KEYSTORE_PASSPHRASE }}" >> ./android/key.properties
           echo "keyAlias=${{ secrets.ALIAS }}" >> ./android/key.properties
+      - name: Set version code
+        run: |
+          TIMESTAMP=$(date +%s)
+          echo "Setting version code to: $TIMESTAMP"
+          sed -i '' "s/versionCode .*/versionCode $TIMESTAMP/" android/app/build.gradle
       - name: Bundle Android
         run: yarn run bundle:android
       - name: Execute Gradle APK build
