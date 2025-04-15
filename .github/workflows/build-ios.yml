@@ -6,7 +6,7 @@ jobs:
   ios-build:
     name: iOS Build
     runs-on: macos-latest
-    
+
     steps:
       - uses: maxim-lobanov/setup-xcode@v1
         with:
@@ -50,23 +50,23 @@ jobs:
            EX_PATH=$RUNNER_TEMP/build_ex.mobileprovision
            NOT_PATH=$RUNNER_TEMP/build_not.mobileprovision
            KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
-          
+
            # import certificate and provisioning profile from secrets
            echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
            echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode -o $PP_PATH
            echo -n "$EXTEN_PROVISION_PROFILE_BASE64" | base64 --decode -o $EX_PATH
            echo -n "$NOTIFI_PROVISION_PROFILE_BASE64" | base64 --decode -o $NOT_PATH
-          
+
            # create temporary keychain
            security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
            security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
            security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          
+
            # import certificate to keychain
            security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
            security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
            security list-keychain -d user -s $KEYCHAIN_PATH
-          
+
            # apply provisioning profile
            mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
            cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
@@ -77,7 +77,17 @@ jobs:
              UUID=`/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin <<< $(security cms -D -i $PROVISION)`
              cp $PROVISION ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
            done
-
+      - name: Create .env file
+        run: |
+          echo "ACTIVITY_WEBSOCKET_URL=${{ secrets.ACTIVITY_WEBSOCKET_URL }}" >> .env
+          echo "BUGSNAG_API_KEY=${{ secrets.BUGSNAG_API_KEY }}" >> .env
+          echo "DEFAULT_PIN=${{ secrets.DEFAULT_PIN }}" >> .env
+          echo "ECENCY_BACKEND_API=${{ secrets.ECENCY_BACKEND_API }}" >> .env
+          echo "NEW_IMAGE_API=${{ secrets.NEW_IMAGE_API }}" >> .env
+          echo "PIN_KEY=${{ secrets.PIN_KEY }}" >> .env
+          echo "SERVER_LIST_API=${{ secrets.SERVER_LIST_API }}" >> .env
+          echo "USER_AGENT=${{ secrets.USER_AGENT }}" >> .env
+          echo "PLAUSIBLE_API_KEY=${{ secrets.PLAUSIBLE_API_KEY }}" >> .env
       - name: Install npm dependency
         run: yarn install
       - name: Install Cocoapod dependencies
@@ -101,7 +111,7 @@ jobs:
           -configuration Release \
           -destination generic/platform=iOS \
           -archivePath $RUNNER_TEMP/Ecency.xcarchive \
-          clean archive        
+          clean archive
 
       - name: Export IPA
         env:
@@ -115,7 +125,7 @@ jobs:
           -exportPath $RUNNER_TEMP/build
       - name: List build contents
         run: |
-          ls -la $RUNNER_TEMP/build                    
+          ls -la $RUNNER_TEMP/build
 
       - name: Upload App
         uses: actions/upload-artifact@v4
