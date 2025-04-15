@@ -6,9 +6,15 @@ jobs:
   ios-build:
     name: iOS Build
     runs-on: macos-latest
+    
     steps:
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
       - name: Show host machine information
-        run: uname -a
+        run: |
+          uname -a
+          xcodebuild -showsdks
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.1
       - name: Checkout repo from dev branch
