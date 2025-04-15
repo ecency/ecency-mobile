@@ -107,7 +107,10 @@ jobs:
           xcodebuild -exportArchive \
           -archivePath $RUNNER_TEMP/Ecency.xcarchive \
           -exportOptionsPlist $EXPORT_OPTS_PATH \
-          -exportPath $RUNNER_TEMP/build                    
+          -exportPath $RUNNER_TEMP/build
+      - name: List build contents
+        run: |
+          ls -la $RUNNER_TEMP/build                    
 
       - name: Upload App
         uses: actions/upload-artifact@v4
