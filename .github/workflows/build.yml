@@ -37,6 +37,7 @@ jobs:
           EXTEN_PROVISION_PROFILE_BASE64: ${{ secrets.EXTEN_PROVISIONING_PROFILE }}
           NOTIFI_PROVISION_PROFILE_BASE64: ${{ secrets.NOTIFI_PROVISIONING_PROFILE }}
           KEYCHAIN_PASSWORD: ${{ secrets.APPLE_APP_PASS }}
+          EXPORT_OPTIONS_PLIST: ${{ secrets.EXPORT_OPTIONS_PLIST }}
         run: |
          # create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
@@ -73,6 +74,10 @@ jobs:
           done
           security find-identity -v -p codesigning
           ls -l ~/Library/MobileDevice/Provisioning\ Profiles
+
+          # test export options plist parsing
+          echo -n "$EXPORT_OPTIONS_PLIST" | base64 --decode -o $RUNNER_TEMP/ExportOptions.plist
+          echo "$(cat $RUNNER_TEMP/ExportOptions.plist)"
       - name: Install npm dependency
         run: yarn install
       - name: Install Cocoapod dependencies
