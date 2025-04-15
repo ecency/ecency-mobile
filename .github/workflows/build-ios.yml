@@ -84,6 +84,11 @@ jobs:
         run: |
           cd ios
           pod install
+      - name: Set version code
+        run: |
+          TIMESTAMP=$(date +%s)
+          echo "Setting version code to: $TIMESTAMP"
+          sed -i '' "s/CURRENT_PROJECT_VERSION = [0-9]*/CURRENT_PROJECT_VERSION = $TIMESTAMP/" ios/Ecency.xcodeproj/project.pbxproj
       - name: Build iOS JS Bundle
         run: |
           yarn run bundle:ios
