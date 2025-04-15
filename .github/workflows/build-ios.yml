@@ -107,7 +107,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Ecency-iOS
-          path: ${{ runner.temp }}/build/Ecency.ipa
+          path: $RUNNER_TEMP/build/Ecency.ipa
           retention-days: 90
 
   ios-deploy:
