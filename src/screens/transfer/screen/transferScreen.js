@@ -195,6 +195,7 @@ const TransferView = ({
         `${amount} ${fundType}`,
       )}`;
     } else if (transferType === TransferTypes.POINTS) {
+      
       path = hiveuri
         .encodeOps(
           destinations.map((receiver) => [
@@ -213,7 +214,9 @@ const TransferView = ({
           ]),
         )
         .replace('hive://', '');
-      path += '?authority=active'; // sets appropriate key to use with signing
+
+      path += '?authority=active'; // IMPORTANT: sets appropriate key to use with transaction signing
+
     } else if (isEngineToken) {
       const json = getEngineActionJSON(
         transferType.split('_')[0],
