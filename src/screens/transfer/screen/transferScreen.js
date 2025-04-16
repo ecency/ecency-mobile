@@ -8,6 +8,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { hsOptions } from '../../../constants/hsOptions';
 import AUTH_TYPE from '../../../constants/authType';
+import * as hiveuri from 'hive-uri';
 
 import {
   BasicHeader,
@@ -226,9 +227,9 @@ const TransferView = ({
         transferType,
       )}&json=${encodeURIComponent(JSON.stringify(json))}`;
     } else {
-      path = `sign/transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
-        `${amount} ${fundType}`,
-      )}&memo=${encodeURIComponent(memo)}`;
+      path = hiveuri.encodeOps([
+        ['transfer', { from: currentAccountName, to: destination, amount: `${amount} ${fundType}`, memo: memo }],
+      ]).replace('hive://', '');
     }
     console.log('path is: ', path);
   }
