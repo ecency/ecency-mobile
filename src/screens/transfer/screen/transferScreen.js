@@ -160,6 +160,11 @@ const TransferView = ({
   let path;
 
   if (hsTransfer) {
+
+
+    //split to multiple destinations
+    const destinations = destination.trim().split(/[\s,]+/) // Split by spaces or commas
+
     if (transferType === TransferTypes.RECURRENT_TRANSFER) {
       path = `sign/recurrent_transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
@@ -227,9 +232,10 @@ const TransferView = ({
         transferType,
       )}&json=${encodeURIComponent(JSON.stringify(json))}`;
     } else {
-      path = hiveuri.encodeOps([
-        ['transfer', { from: currentAccountName, to: destination, amount: `${amount} ${fundType}`, memo: memo }],
-      ]).replace('hive://', '');
+      path = hiveuri.encodeOps(
+        destinations.map(
+          receiver => ['transfer', { from: currentAccountName, to: receiver, amount: `${amount} ${fundType}`, memo: memo }])
+      ).replace('hive://', '');
     }
     console.log('path is: ', path);
   }
