@@ -197,18 +197,21 @@ const TransferView = ({
         `${amount} ${fundType}`,
       )}`;
     } else if (transferType === TransferTypes.POINTS) {
-      const json = JSON.stringify({
-        sender: get(selectedAccount, 'name'),
-        receiver: destination,
-        amount: `${Number(amount).toFixed(3)} ${fundType}`,
-        memo,
-      });
-      path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
-        selectedAccount,
-        'name',
-      )}%22%5D&required_posting_auths=%5B%5D&id=ecency_point_transfer&json=${encodeURIComponent(
-        json,
-      )}`;
+
+      path = hiveuri.encodeOps(destinations.map(receiver =>
+        ["custom_json", {
+          required_auths: [selectedAccount.name],
+          required_posting_auths: [],
+          id: "ecency_point_transfer",
+          json: JSON.stringify({
+            sender: selectedAccount.name,
+            receiver: receiver,
+            amount: `${Number(amount).toFixed(3)} ${fundType}`,
+            memo,
+          })
+        }])).replace('hive://', '');
+      path += '?authority=active'; //sets appropriate key to use with signing
+
     } else if (isEngineToken) {
       const json = getEngineActionJSON(
         transferType.split('_')[0],
