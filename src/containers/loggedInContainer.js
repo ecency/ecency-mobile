@@ -6,6 +6,7 @@ import ROUTES from '../constants/routeNames';
 import RootNavigation from '../navigation/rootNavigation';
 
 import { NoPost } from '../components';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const LoggedInContainer = ({ isLoggedIn, isLoginDone, children }) => {
   const intl = useIntl();
@@ -13,7 +14,7 @@ const LoggedInContainer = ({ isLoggedIn, isLoginDone, children }) => {
   if (!isLoggedIn) {
     return (
       <NoPost
-        style={{ flex: 1 }}
+        imageStyle={styles.imageStyle}
         isButtonText
         defaultText={intl.formatMessage({
           id: 'profile.login_to_see',
@@ -39,3 +40,11 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps)(LoggedInContainer);
 /* eslint-enable */
+
+ 
+const styles = EStyleSheet.create({
+  imageStyle: {
+    width: 193,
+    height: 189,
+  },
+})
