@@ -1,6 +1,5 @@
 import { Platform, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 const _dropShadow = {
   shadowOpacity: 0.1,
@@ -36,7 +35,6 @@ export default EStyleSheet.create({
     width: '100%',
     backgroundColor: '$primaryBackgroundColor',
     borderColor: '$primaryLightBackground',
-    paddingBottom: getBottomSpace(),
   },
   iconBottomBar: {
     borderBottomWidth: 3,
