@@ -107,7 +107,6 @@ class HiveSigner extends PureComponent {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <StatusBar hidden translucent />
         <WebView
           source={{
             uri: `${hsOptions.base_url}oauth2/authorize?client_id=${

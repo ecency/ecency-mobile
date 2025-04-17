@@ -10,6 +10,7 @@ import ROUTES from '../../constants/routeNames';
 // Styles
 import styles from './styles';
 import RootNavigation from '../../navigation/rootNavigation';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface RemoteMessage {
   data: {
@@ -33,9 +34,10 @@ interface Props {
 
 const ForegroundNotification = ({ remoteMessage }: Props) => {
   const intl = useIntl();
+  const insets = useSafeAreaInsets();
   const hideTimeoutRef = useRef<any>(null);
 
-  const [duration] = useState(5000);
+  const [duration] = useState(5000000);
   const [activeId, setActiveId] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   const [username, setUsername] = useState('');
@@ -105,10 +107,12 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
     hide();
   };
 
+  const _containerStyle = {...styles.container, marginTop: insets.top};
+
   return (
     isVisible && (
       <Animated.View
-        style={styles.container}
+        style={_containerStyle}
         entering={SlideInUp.duration(500)}
         exiting={FadeOutUp}
       >

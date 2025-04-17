@@ -46,7 +46,7 @@ export default class Modal extends PureComponent {
       children,
       isRadius,
       isTransparent = false,
-      animationType = 'fade',
+      animationType = 'slide',
       isBottomModal = false,
     } = this.props;
     return (
@@ -58,6 +58,7 @@ export default class Modal extends PureComponent {
         onShow={() => this._handleOnOpen(this)}
         onModalHide={() => console.log('hide')}
         onModalDismiss={() => console.log('dismiss')}
+        presentationStyle='formSheet'
         {...this.props}
       >
         <SafeAreaView

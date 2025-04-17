@@ -5,7 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import VersionNumber from 'react-native-version-number';
 import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { getStorageType } from '../../../realm/realm';
 
@@ -216,13 +216,13 @@ const SideMenuView = ({
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView edges={['bottom']} style={styles.container}>
       {_renderHeader()}
       <View style={styles.contentView}>
         <FlatList data={menuItems} keyExtractor={(item) => item.id} renderItem={_renderItem} />
       </View>
       <Text style={styles.versionText}>{`v${appVersion}, ${buildVersion}${storageT}`}</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 
