@@ -1,5 +1,4 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { isRTL } from '../../../utils/I18nUtils';
 
 export default EStyleSheet.create({
@@ -7,7 +6,6 @@ export default EStyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '$primaryBackgroundColor',
-    paddingBottom: getBottomSpace(),
   },
   headerView: {
     flexDirection: 'row',
