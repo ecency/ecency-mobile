@@ -1,6 +1,5 @@
-import { TextStyle, ViewStyle, ImageStyle, Platform } from 'react-native';
+import { TextStyle, ViewStyle, ImageStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export default EStyleSheet.create({
   modalStyle: {
@@ -75,10 +74,6 @@ export default EStyleSheet.create({
     flexWrap: 'wrap-reverse',
     justifyContent: 'space-around',
     alignItems: 'center',
-    marginBottom: Platform.select({
-      ios: getBottomSpace(),
-      android: 12,
-    }),
   } as ViewStyle,
   cancel: {
     backgroundColor: 'transparent',
