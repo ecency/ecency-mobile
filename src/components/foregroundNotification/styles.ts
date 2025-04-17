@@ -1,8 +1,5 @@
-import { Platform } from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
-export const CONTAINER_HEIGHT = getStatusBarHeight() + 100;
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
@@ -12,10 +9,6 @@ export default EStyleSheet.create({
     zIndex: 9999,
     marginHorizontal: 8,
     paddingTop: 16,
-    marginTop: Platform.select({
-      ios: getStatusBarHeight() + 12,
-      android: 8,
-    }),
     backgroundColor: '$darkGrayBackground',
     shadowColor: '#5f5f5fbf',
     shadowOpacity: 0.3,
