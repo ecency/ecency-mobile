@@ -115,9 +115,8 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
   const _renderAppNavigator = () => {
     return (
       <Fragment>
-        {!isConnected && <NoInternetConnection />}
-
         <AppNavigator />
+        {!isConnected && <NoInternetConnection />}
       </Fragment>
     );
   };
