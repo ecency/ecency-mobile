@@ -185,12 +185,14 @@ const DraftsScreen = ({
 
   const _renderDeleteButton = () => {
     return (
-      <>
-        <AnimatedView.View
-          entering={SlideInRight}
-          exiting={SlideOutRight}
-          style={styles.deleteButtonContainer}
-        >
+
+
+      <AnimatedView.View
+        entering={SlideInRight}
+        exiting={SlideOutRight}
+        style={styles.deleteButtonContainer}
+      >
+        <SafeAreaView>
           <IconButton
             style={styles.deleteButton}
             color={EStyleSheet.value('$pureWhite')}
@@ -201,8 +203,9 @@ const DraftsScreen = ({
             onPress={() => actionSheet?.current?.show()}
             isLoading={isBatchDeleting}
           />
-        </AnimatedView.View>
-      </>
+        </SafeAreaView>
+      </AnimatedView.View >
+
     );
   };
 
