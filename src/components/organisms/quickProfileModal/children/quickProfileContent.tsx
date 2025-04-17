@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { toastNotification } from '../../../../redux/actions/uiAction';
 import bugsnapInstance from '../../../../config/bugsnag';
 import RootNavigation from '../../../../navigation/rootNavigation';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface QuickProfileContentProps {
   username: string;
@@ -24,6 +25,7 @@ interface QuickProfileContentProps {
 
 export const QuickProfileContent = ({ username, onClose }: QuickProfileContentProps) => {
   const intl = useIntl();
+  const insets = useSafeAreaInsets();
   const dispatch = useAppDispatch();
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
@@ -220,8 +222,15 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
     { label: intl.formatMessage({ id: 'profile.reputation' }), value: _reputation },
   ] as StatsItem[];
 
+
+  const _modaStyle = {
+    ...styles.modalStyle,
+    marginBottom: !insets.bottom && 16,
+  }
+
+
   return (
-    <View style={styles.modalStyle}>
+    <View style={_modaStyle}>
       <ProfileBasic
         username={username}
         about={_about}
