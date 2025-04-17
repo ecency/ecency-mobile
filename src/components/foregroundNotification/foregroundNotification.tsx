@@ -40,12 +40,11 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
   const [duration] = useState(5000000);
   const [activeId, setActiveId] = useState('');
   const [isVisible, setIsVisible] = useState(false);
-  const [username, setUsername] = useState('Test User');
-  const [title, setTitle] = useState('Test title here');
-  const [body, setBody] = useState('now here goes test body to');
+  const [username, setUsername] = useState('');
+  const [title, setTitle] = useState('');
+  const [body, setBody] = useState('');
 
   useEffect(() => {
-    show();
     if (remoteMessage) {
       const { source, target, type, id } = remoteMessage.data;
       if (activeId !== id && (type === 'reply' || type === 'mention')) {
