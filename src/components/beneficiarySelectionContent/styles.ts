@@ -1,5 +1,4 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export default EStyleSheet.create({
   sheetContent: {
@@ -28,9 +27,6 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
     flexGrow: 1,
     textAlign: 'left',
-  },
-  listContainer: {
-    paddingBottom: getBottomSpace() + 16,
   },
   container: {
     paddingVertical: 16,
