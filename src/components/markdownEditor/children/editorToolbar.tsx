@@ -6,7 +6,6 @@ import {
   GestureStateChangeEvent,
   PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
 import Animated, {
   Easing,
   clamp,
@@ -23,6 +22,7 @@ import styles from '../styles/editorToolbarStyles';
 import ROUTES from '../../../constants/routeNames';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { TextFormatModal } from './textFormatModal';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type Props = {
   draftId?: string;
@@ -54,6 +54,7 @@ export const EditorToolbar = ({
   handleShowSnippets,
 }: Props) => {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pollDraft = useAppSelector(
@@ -252,7 +253,7 @@ export const EditorToolbar = ({
   const _buttonsContainerStyle: ViewStyle = {
     ...styles.buttonsContainer,
     borderTopWidth: isExtensionVisible ? 1 : 0,
-    paddingBottom: !isKeyboardVisible ? getBottomSpace() : 0,
+    paddingBottom: !isKeyboardVisible ? insets.bottom : 0,
   };
 
   return (
