@@ -1,8 +1,5 @@
 #import "AppDelegate.h"
 
-#import <AppCenterReactNative.h>
-#import <AppCenterReactNativeAnalytics.h>
-#import <AppCenterReactNativeCrashes.h>
 #import <Bugsnag/Bugsnag.h>
 #import <Firebase.h>
 
@@ -43,9 +40,6 @@
   if ([FIRApp defaultApp] == nil) {
     [FIRApp configure];
   }
-  [AppCenterReactNative register];
-  [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
-  [AppCenterReactNativeCrashes registerWithAutomaticProcessing];
   [Bugsnag start];
 
   self.moduleName = @"Ecency";
