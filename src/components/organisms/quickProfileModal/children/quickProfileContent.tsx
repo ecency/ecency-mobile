@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { View, Alert } from 'react-native';
 import { StatsItem } from 'components/statsPanel';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MainButton, StatsPanel } from '../../..';
 import { addFavorite, checkFavorite, deleteFavorite } from '../../../../providers/ecency/ecency';
 import { followUser, getFollows, getRelationship, getUser } from '../../../../providers/hive/dhive';
@@ -16,7 +17,6 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { toastNotification } from '../../../../redux/actions/uiAction';
 import bugsnapInstance from '../../../../config/bugsnag';
 import RootNavigation from '../../../../navigation/rootNavigation';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface QuickProfileContentProps {
   username: string;
@@ -222,12 +222,10 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
     { label: intl.formatMessage({ id: 'profile.reputation' }), value: _reputation },
   ] as StatsItem[];
 
-
   const _modaStyle = {
     ...styles.modalStyle,
     marginBottom: !insets.bottom && 16,
-  }
-
+  };
 
   return (
     <View style={_modaStyle}>

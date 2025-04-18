@@ -58,7 +58,7 @@ export default class Modal extends PureComponent {
         onShow={() => this._handleOnOpen(this)}
         onModalHide={() => console.log('hide')}
         onModalDismiss={() => console.log('dismiss')}
-        presentationStyle='formSheet'
+        presentationStyle="formSheet"
         {...this.props}
       >
         <SafeAreaView

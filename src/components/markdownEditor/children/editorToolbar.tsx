@@ -15,6 +15,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { IconButton, UploadsGalleryModal } from '../..';
 import { useAppSelector } from '../../../hooks';
 import { MediaInsertData, Modes } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
@@ -22,7 +23,6 @@ import styles from '../styles/editorToolbarStyles';
 import ROUTES from '../../../constants/routeNames';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { TextFormatModal } from './textFormatModal';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type Props = {
   draftId?: string;
