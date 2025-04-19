@@ -185,8 +185,6 @@ const DraftsScreen = ({
 
   const _renderDeleteButton = () => {
     return (
-
-
       <AnimatedView.View
         entering={SlideInRight}
         exiting={SlideOutRight}
@@ -204,8 +202,7 @@ const DraftsScreen = ({
             isLoading={isBatchDeleting}
           />
         </SafeAreaView>
-      </AnimatedView.View >
-
+      </AnimatedView.View>
     );
   };
 

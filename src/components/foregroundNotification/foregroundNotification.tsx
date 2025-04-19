@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import Animated, { FadeOutUp, SlideInUp } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { IconButton } from '..';
 import UserAvatar from '../userAvatar';
 import ROUTES from '../../constants/routeNames';
@@ -10,7 +11,6 @@ import ROUTES from '../../constants/routeNames';
 // Styles
 import styles from './styles';
 import RootNavigation from '../../navigation/rootNavigation';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface RemoteMessage {
   data: {
@@ -107,15 +107,11 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
     hide();
   };
 
-  const _containerStyle = {...styles.container, marginTop: insets.top};
+  const _containerStyle = { ...styles.container, marginTop: insets.top };
 
   return (
     isVisible && (
-      <Animated.View
-        style={_containerStyle}
-        entering={SlideInUp.duration(500)}
-        exiting={FadeOutUp}
-      >
+      <Animated.View style={_containerStyle} entering={SlideInUp.duration(500)} exiting={FadeOutUp}>
         <View style={styles.contentContainer}>
           <TouchableOpacity onPress={_onPress} style={{ flexShrink: 1 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 24 }}>

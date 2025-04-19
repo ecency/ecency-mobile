@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 
-
 // Constants
 import { useDispatch } from 'react-redux';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
@@ -90,7 +89,7 @@ const BottomTabBarView = ({
     );
   });
 
-  const _bottomPadding = insets.bottom || 16
+  const _bottomPadding = insets.bottom || 16;
 
   return <View style={{ ...styles.wrapper, paddingBottom: _bottomPadding }}>{_tabButtons}</View>;
 };
