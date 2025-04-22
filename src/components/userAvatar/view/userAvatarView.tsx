@@ -68,6 +68,9 @@ const UserAvatarView = ({
     if (size === 'xxl') {
       _size = 128;
     }
+    if(size === 'small') {
+      _size = 18;
+    }
   }
 
   return (

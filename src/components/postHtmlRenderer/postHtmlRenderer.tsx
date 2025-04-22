@@ -8,7 +8,9 @@ import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
-import { VideoPlayer } from '..';
+import { UserAvatar, VideoPlayer } from '..';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
@@ -126,7 +128,7 @@ export const PostHtmlRenderer = memo(
           default:
             break;
         }
-      } catch (error) {}
+      } catch (error) { }
     };
 
     // this method checks if image is a child of table column
@@ -237,6 +239,34 @@ export const PostHtmlRenderer = memo(
             onPress={_onPress}
           />
         );
+      }
+
+      //render user avatar
+      if (tnode.classes?.indexOf('markdown-author-link') >= 0) {
+
+        const usernameStyle = { ...styles.tagText, marginLeft: 4 }
+        return (
+          <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
+
+            <UserAvatar
+              username={tnode.attributes['data-author']}
+              size='small'
+              metadata={metadata}
+              noAction
+            />
+            <Text style={usernameStyle} >@{tnode.attributes['data-author']}</Text>
+
+          </TouchableOpacity>
+        )
+      }
+
+      //render tag
+      if (tnode.classes?.indexOf('markdown-tag-link') >= 0) {
+        return (
+          <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
+            <Text style={styles.tagText} >#{tnode.attributes['data-tag']}</Text>
+          </TouchableOpacity>
+        )
       }
 
       return <InternalRenderer tnode={tnode} onPress={_onPress} {...props} />;
