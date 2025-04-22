@@ -22,11 +22,11 @@ export default EStyleSheet.create({
   } as ViewStyle,
 
   cardTitleContainer: {
+    flex: 1,
     marginHorizontal: 8,
   } as ViewStyle,
 
   cardValuesContainer: {
-    flex: 1,
     marginHorizontal: 8,
     justifyContent: 'flex-end',
   } as ViewStyle,
