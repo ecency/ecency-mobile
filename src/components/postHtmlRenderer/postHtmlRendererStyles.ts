@@ -143,5 +143,6 @@ export default EStyleSheet.create({
     color: '$primaryBlue',
     fontSize: 12,
     marginHorizontal: 6,
+    marginTop:-2
   }
 });
