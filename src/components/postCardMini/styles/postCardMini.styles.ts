@@ -9,8 +9,6 @@ export default EStyleSheet.create({
         borderWidth: EStyleSheet.hairlineWidth,
         borderColor: '$iconColor',
         borderRadius: 12,
-        marginRight: 8,
-        marginBottom: 12,
     } as ViewStyle,
     thumbnail: {
         width: 56,
