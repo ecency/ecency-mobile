@@ -126,7 +126,7 @@ export const PostHtmlRenderer = memo(
           default:
             break;
         }
-      } catch (error) {}
+      } catch (error) { }
     };
 
     // this method checks if image is a child of table column
@@ -237,6 +237,7 @@ export const PostHtmlRenderer = memo(
             onPress={_onPress}
           />
         );
+
       }
 
       //render hive post mini card for post-link
@@ -255,24 +256,34 @@ export const PostHtmlRenderer = memo(
       if (tnode.classes?.indexOf('markdown-author-link') >= 0) {
         const usernameStyle = { ...styles.tagText, marginLeft: 4 };
         return (
-          <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
-            <UserAvatar
-              username={parsedTnode.author || ''}
-              size="small"
-              metadata={metadata}
-              noAction
-            />
-            <Text style={usernameStyle}>@{tnode.attributes['data-author']}</Text>
-          </TouchableOpacity>
+          <Text>
+            {' '}
+            <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
+              <UserAvatar
+                username={parsedTnode.author || ''}
+                size="small"
+                metadata={metadata}
+                noAction
+              />
+              <Text style={usernameStyle}>@{tnode.attributes['data-author']}</Text>
+            </TouchableOpacity>
+            {' '}
+          </Text>
+
         );
       }
 
       // render tag
       if (tnode.classes?.indexOf('markdown-tag-link') >= 0) {
         return (
-          <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
-            <Text style={styles.tagText}>#{parsedTnode.tag}</Text>
-          </TouchableOpacity>
+          <Text>
+            {' '}
+            <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
+              <Text style={styles.tagText}>#{parsedTnode.tag}</Text>
+            </TouchableOpacity>
+            {' '}
+          </Text>
+
         );
       }
 
