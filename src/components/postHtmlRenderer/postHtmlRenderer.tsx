@@ -3,12 +3,12 @@ import RenderHTML, { CustomRendererProps, Element, TNode } from 'react-native-re
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
 import { ScrollView } from 'react-native-gesture-handler';
-// import { prependChild, removeElement } from 'htmlparser2/node_modules/domutils';
+import { Text, TouchableOpacity } from 'react-native';
 import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
-import { VideoPlayer } from '..';
+import { PostCardMini, UserAvatar, VideoPlayer } from '..';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
@@ -236,6 +236,42 @@ export const PostHtmlRenderer = memo(
             activeOpacity={0.8}
             onPress={_onPress}
           />
+        );
+      }
+
+      if (tnode.classes?.indexOf('markdown-post-link') >= 0) {
+        return (
+          <PostCardMini
+            author={parsedTnode.author}
+            permlink={parsedTnode.permlink}
+            onPress={_onPress}
+            contentWidth={contentWidth}
+          />
+        );
+      }
+
+      // render user avatar
+      if (tnode.classes?.indexOf('markdown-author-link') >= 0) {
+        const usernameStyle = { ...styles.tagText, marginLeft: 4 };
+        return (
+          <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
+            <UserAvatar
+              username={parsedTnode.author || ''}
+              size="small"
+              metadata={metadata}
+              noAction
+            />
+            <Text style={usernameStyle}>@{tnode.attributes['data-author']}</Text>
+          </TouchableOpacity>
+        );
+      }
+
+      // render tag
+      if (tnode.classes?.indexOf('markdown-tag-link') >= 0) {
+        return (
+          <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
+            <Text style={styles.tagText}>#{parsedTnode.tag}</Text>
+          </TouchableOpacity>
         );
       }
 

@@ -90,6 +90,11 @@ export const AutoHeightImage = ({
       : Math.round(width < contentWidth ? width : contentWidth);
     const newHeight = Math.round((height / width) * newWidth);
 
+    // if newHeight and oldHeight are approximately equal, skip animation
+    if (Math.abs(newHeight - imgHeightAnim.value) < 1) {
+      return;
+    }
+
     if (!aspectRatio) {
       animateHeight(newHeight); // Animate the height change
     }

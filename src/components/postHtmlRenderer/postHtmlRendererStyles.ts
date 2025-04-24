@@ -21,6 +21,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',
+    textAlignVertical: 'center',
   } as TextStyle,
   h6: {
     fontSize: 14,
@@ -127,5 +128,21 @@ export default EStyleSheet.create({
   },
   imageGalleryHeaderText: {
     color: '$primaryDarkText',
+  },
+  tagWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: EStyleSheet.hairlineWidth,
+    borderColor: '$iconColor',
+    paddingVertical: 2,
+    borderRadius: 20,
+    height: 18,
+    marginBottom: -3,
+  },
+  tagText: {
+    color: '$primaryBlue',
+    fontSize: 12,
+    marginHorizontal: 6,
+    marginTop: -2,
   },
 });

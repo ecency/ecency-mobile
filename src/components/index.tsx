@@ -112,6 +112,7 @@ import OrDivider from './orDivider/orDividerView';
 import PostTranslationModal from './post-translation-modal/postTranslationModal';
 import { ImageViewer } from './imageViewer';
 import { WalkthroughMarker } from './walkthroughMarker';
+import { PostCardMini } from './postCardMini';
 
 // Basic UI Elements
 import {
@@ -276,4 +277,5 @@ export {
   WalkthroughMarker,
   ProposalVoteRequest,
   HiveAuthModal,
+  PostCardMini,
 };
