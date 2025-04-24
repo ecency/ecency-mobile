@@ -239,6 +239,7 @@ export const PostHtmlRenderer = memo(
         );
       }
 
+      //render hive post mini card for post-link
       if (tnode.classes?.indexOf('markdown-post-link') >= 0) {
         return (
           <PostCardMini
