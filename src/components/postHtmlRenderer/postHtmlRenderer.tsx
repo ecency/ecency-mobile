@@ -8,7 +8,7 @@ import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
-import { UserAvatar, VideoPlayer } from '..';
+import { PostCardMini, UserAvatar, VideoPlayer } from '..';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -241,6 +241,12 @@ export const PostHtmlRenderer = memo(
         );
       }
 
+
+      if(tnode.classes?.indexOf('markdown-post-link') >= 0) {
+        return <PostCardMini author={parsedTnode.author} permlink={parsedTnode.permlink} onPress={_onPress} contentWidth={contentWidth} />
+      }
+
+
       //render user avatar
       if (tnode.classes?.indexOf('markdown-author-link') >= 0) {
 
@@ -249,7 +255,7 @@ export const PostHtmlRenderer = memo(
           <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
 
             <UserAvatar
-              username={tnode.attributes['data-author']}
+              username={parsedTnode.author || ''}
               size='small'
               metadata={metadata}
               noAction
@@ -264,7 +270,7 @@ export const PostHtmlRenderer = memo(
       if (tnode.classes?.indexOf('markdown-tag-link') >= 0) {
         return (
           <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
-            <Text style={styles.tagText} >#{tnode.attributes['data-tag']}</Text>
+            <Text style={styles.tagText} >#{parsedTnode.tag}</Text>
           </TouchableOpacity>
         )
       }
