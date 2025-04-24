@@ -21,7 +21,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',
-    textAlignVertical: 'center'
+    textAlignVertical: 'center',
   } as TextStyle,
   h6: {
     fontSize: 14,
@@ -143,6 +143,6 @@ export default EStyleSheet.create({
     color: '$primaryBlue',
     fontSize: 12,
     marginHorizontal: 6,
-    marginTop:-2
-  }
+    marginTop: -2,
+  },
 });

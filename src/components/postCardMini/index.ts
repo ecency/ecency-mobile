@@ -1,1 +1,1 @@
-export * from './container/postCardMini'
+export * from './container/postCardMini';

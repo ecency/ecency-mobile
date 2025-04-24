@@ -277,5 +277,5 @@ export {
   WalkthroughMarker,
   ProposalVoteRequest,
   HiveAuthModal,
-  PostCardMini
+  PostCardMini,
 };

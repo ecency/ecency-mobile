@@ -3,14 +3,12 @@ import RenderHTML, { CustomRendererProps, Element, TNode } from 'react-native-re
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
 import { ScrollView } from 'react-native-gesture-handler';
-// import { prependChild, removeElement } from 'htmlparser2/node_modules/domutils';
+import { Text, TouchableOpacity } from 'react-native';
 import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
 import { PostCardMini, UserAvatar, VideoPlayer } from '..';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
@@ -128,7 +126,7 @@ export const PostHtmlRenderer = memo(
           default:
             break;
         }
-      } catch (error) { }
+      } catch (error) {}
     };
 
     // this method checks if image is a child of table column
@@ -241,38 +239,40 @@ export const PostHtmlRenderer = memo(
         );
       }
 
-
-      if(tnode.classes?.indexOf('markdown-post-link') >= 0) {
-        return <PostCardMini author={parsedTnode.author} permlink={parsedTnode.permlink} onPress={_onPress} contentWidth={contentWidth} />
+      if (tnode.classes?.indexOf('markdown-post-link') >= 0) {
+        return (
+          <PostCardMini
+            author={parsedTnode.author}
+            permlink={parsedTnode.permlink}
+            onPress={_onPress}
+            contentWidth={contentWidth}
+          />
+        );
       }
 
-
-      //render user avatar
+      // render user avatar
       if (tnode.classes?.indexOf('markdown-author-link') >= 0) {
-
-        const usernameStyle = { ...styles.tagText, marginLeft: 4 }
+        const usernameStyle = { ...styles.tagText, marginLeft: 4 };
         return (
           <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
-
             <UserAvatar
               username={parsedTnode.author || ''}
-              size='small'
+              size="small"
               metadata={metadata}
               noAction
             />
-            <Text style={usernameStyle} >@{tnode.attributes['data-author']}</Text>
-
+            <Text style={usernameStyle}>@{tnode.attributes['data-author']}</Text>
           </TouchableOpacity>
-        )
+        );
       }
 
-      //render tag
+      // render tag
       if (tnode.classes?.indexOf('markdown-tag-link') >= 0) {
         return (
           <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
-            <Text style={styles.tagText} >#{parsedTnode.tag}</Text>
+            <Text style={styles.tagText}>#{parsedTnode.tag}</Text>
           </TouchableOpacity>
-        )
+        );
       }
 
       return <InternalRenderer tnode={tnode} onPress={_onPress} {...props} />;
