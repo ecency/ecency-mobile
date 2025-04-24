@@ -28,24 +28,26 @@ export const PostCardMini = ({ author, permlink, contentWidth, onPress }: PostCa
   );
 
   return (
-    <TouchableOpacity onPress={onPress} style={_containerStyle}>
-      <ExpoImage source={{ uri: getPostQuery.data?.image }} style={styles.thumbnail} />
-      <View style={styles.textContainer}>
-        <Text style={styles.hivePost}>HIVE POST</Text>
-        {getPostQuery.isLoading ? (
-          _renderPlaceholder
-        ) : (
-          <Text style={styles.title} numberOfLines={1}>
-            {getPostQuery.data.title}
-          </Text>
-        )}
-        {getPostQuery.isLoading ? (
-          _renderPlaceholder
-        ) : (
-          <Text style={styles.body} numberOfLines={1}>
-            {getPostQuery.data.summary}
-          </Text>
-        )}
+    <TouchableOpacity onPress={onPress} >
+      <View style={_containerStyle}>
+        <ExpoImage source={{ uri: getPostQuery.data?.image }} style={styles.thumbnail} />
+        <View style={styles.textContainer}>
+          <Text style={styles.hivePost}>HIVE POST</Text>
+          {getPostQuery.isLoading ? (
+            _renderPlaceholder
+          ) : (
+            <Text style={styles.title} numberOfLines={1}>
+              {getPostQuery.data.title}
+            </Text>
+          )}
+          {getPostQuery.isLoading ? (
+            _renderPlaceholder
+          ) : (
+            <Text style={styles.body} numberOfLines={1}>
+              {getPostQuery.data.summary}
+            </Text>
+          )}
+        </View>
       </View>
     </TouchableOpacity>
   );
