@@ -388,8 +388,6 @@ export const extractMetadata = async ({
 
   console.log('out : ', out);
 
-  throw new Error('Breaking the flow');
-
   return out;
 };
 
