@@ -258,14 +258,13 @@ export const extractMetadata = async ({
   const matchedImages = [...mImageUrls, ...(videoThumbUrls || [])];
 
 
-
     // Process link URLs and add to list_meta
     const filteredUrls = mUrls.filter((url) => !mImageUrls.includes(url)).slice(0, 5);
     out.links = filteredUrls;
-    const postPromises:Promise<any>[] = [];
-  
+
     // Create an array to track parsed URL data alongside promises
-    const urlData:{author:string, permlink:string, url:string}[] = [];
+    const postPromises:Promise<any>[] = [];
+    const promiseUrls:string[] = [];
   
     filteredUrls.forEach((url) => {
       try {
@@ -274,9 +273,9 @@ export const extractMetadata = async ({
   
         if (author && permlink) {
           // Store URL info alongside the promise
-          urlData.push({ url, author, permlink });
+          promiseUrls.push(url);
           postPromises.push(getPost(author, permlink));
-        }
+        } 
       }
       catch (e) {
         console.log('error parsing url: ', url, e);
@@ -288,17 +287,15 @@ export const extractMetadata = async ({
     // Now combine responses with original URL data
     postResponses.forEach((linkedPost, index) => {
       try {
-        const { url, author, permlink } = urlData[index];
+        const url = promiseUrls[index];
   
         out.links_meta = {
           ...(out.links_meta || {}),
-          [url]: {
-            author,
-            permlink,
+          [url]: linkedPost ? {
             title: linkedPost.title,
             summary: linkedPost.summary,
             image: linkedPost.image,
-          },
+          } : null,
         };
       } catch (e) {
         // Skip url if post data not returned
