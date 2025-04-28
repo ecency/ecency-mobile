@@ -196,6 +196,7 @@ export const PostHtmlRenderer = memo(
 
     const _anchorRenderer = ({ InternalRenderer, tnode, ...props }: CustomRendererProps<TNode>) => {
       const parsedTnode = parseLinkData(tnode);
+
       const _onPress = () => {
         console.log('Link Pressed:', tnode);
         const data = parseLinkData(tnode);
@@ -241,10 +242,15 @@ export const PostHtmlRenderer = memo(
 
       // render hive post mini card for post-link
       if (tnode.classes?.indexOf('markdown-post-link') >= 0) {
+
+        const origUrl = parsedTnode.href;
+        const lintMeta = metadata.links_meta && metadata.links_meta[origUrl || '']
+
         return (
           <PostCardMini
             author={parsedTnode.author}
             permlink={parsedTnode.permlink}
+            linkMeta={lintMeta}
             onPress={_onPress}
             contentWidth={contentWidth}
           />

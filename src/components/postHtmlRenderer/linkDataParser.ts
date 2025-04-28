@@ -52,6 +52,7 @@ export const parseLinkData = (tnode: TNode): LinkData => {
   if (tnode.classes.includes('markdown-post-link')) {
     let author = tnode.attributes['data-author'];
     let permlink = tnode.attributes['data-permlink'];
+    let href = tnode.attributes['data-href'];
 
     // snippets checks if there is anchored post inside permlink and use that instead
     const anchoredPostRegex = /(.*?\#\@)(.*)\/(.*)/;
@@ -70,6 +71,7 @@ export const parseLinkData = (tnode: TNode): LinkData => {
       type: 'markdown-post-link',
       author,
       permlink,
+      href
     };
   }
 
