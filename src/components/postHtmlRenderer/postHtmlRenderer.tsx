@@ -126,7 +126,7 @@ export const PostHtmlRenderer = memo(
           default:
             break;
         }
-      } catch (error) { }
+      } catch (error) {}
     };
 
     // this method checks if image is a child of table column
@@ -237,10 +237,9 @@ export const PostHtmlRenderer = memo(
             onPress={_onPress}
           />
         );
-
       }
 
-      //render hive post mini card for post-link
+      // render hive post mini card for post-link
       if (tnode.classes?.indexOf('markdown-post-link') >= 0) {
         return (
           <PostCardMini
@@ -266,10 +265,8 @@ export const PostHtmlRenderer = memo(
                 noAction
               />
               <Text style={usernameStyle}>@{tnode.attributes['data-author']}</Text>
-            </TouchableOpacity>
-            {' '}
+            </TouchableOpacity>{' '}
           </Text>
-
         );
       }
 
@@ -280,10 +277,8 @@ export const PostHtmlRenderer = memo(
             {' '}
             <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
               <Text style={styles.tagText}>#{parsedTnode.tag}</Text>
-            </TouchableOpacity>
-            {' '}
+            </TouchableOpacity>{' '}
           </Text>
-
         );
       }
 

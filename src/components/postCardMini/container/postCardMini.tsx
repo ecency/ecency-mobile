@@ -28,7 +28,7 @@ export const PostCardMini = ({ author, permlink, contentWidth, onPress }: PostCa
   );
 
   return (
-    <TouchableOpacity onPress={onPress} >
+    <TouchableOpacity onPress={onPress}>
       <View style={_containerStyle}>
         <ExpoImage source={{ uri: getPostQuery.data?.image }} style={styles.thumbnail} />
         <View style={styles.textContainer}>

@@ -11,7 +11,6 @@ import { ContentType, PollMetadata, PostMetadata } from '../providers/hive/hive.
 import { getPost } from '../providers/hive/dhive';
 import postUrlParser from './postUrlParser';
 
-
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
 
@@ -98,8 +97,8 @@ export const generateUniquePermlink = (prefix) => {
   const timeFormat = `${t.getFullYear().toString()}${(t.getMonth() + 1).toString()}${t
     .getDate()
     .toString()}t${t.getHours().toString()}${t.getMinutes().toString()}${t
-      .getSeconds()
-      .toString()}${t.getMilliseconds().toString()}z`;
+    .getSeconds()
+    .toString()}${t.getMilliseconds().toString()}z`;
 
   return `${prefix}-${timeFormat}`;
 };
@@ -257,55 +256,53 @@ export const extractMetadata = async ({
 
   const matchedImages = [...mImageUrls, ...(videoThumbUrls || [])];
 
+  // Process link URLs and add to list_meta
+  const filteredUrls = mUrls.filter((url) => !mImageUrls.includes(url)).slice(0, 5);
+  out.links = filteredUrls;
 
-    // Process link URLs and add to list_meta
-    const filteredUrls = mUrls.filter((url) => !mImageUrls.includes(url)).slice(0, 5);
-    out.links = filteredUrls;
+  // Create an array to track parsed URL data alongside promises
+  const postPromises: Promise<any>[] = [];
+  const promiseUrls: string[] = [];
 
-    // Create an array to track parsed URL data alongside promises
-    const postPromises:Promise<any>[] = [];
-    const promiseUrls:string[] = [];
-  
-    filteredUrls.forEach((url) => {
-      try {
-        // Check if url is a post url
-        const { author, permlink } = postUrlParser(url);
-  
-        if (author && permlink) {
-          // Store URL info alongside the promise
-          promiseUrls.push(url);
-          postPromises.push(getPost(author, permlink));
-        } 
+  filteredUrls.forEach((url) => {
+    try {
+      // Check if url is a post url
+      const { author, permlink } = postUrlParser(url);
+
+      if (author && permlink) {
+        // Store URL info alongside the promise
+        promiseUrls.push(url);
+        postPromises.push(getPost(author, permlink));
       }
-      catch (e) {
-        console.log('error parsing url: ', url, e);
-      }
-    });
-  
-    const postResponses = await Promise.all(postPromises);
-  
-    // Now combine responses with original URL data
-    postResponses.forEach((linkedPost, index) => {
-      try {
-        const url = promiseUrls[index];
-  
-        out.links_meta = {
-          ...(out.links_meta || {}),
-          [url]: linkedPost ? {
-            title: linkedPost.title,
-            summary: linkedPost.summary,
-            image: linkedPost.image,
-          } : null,
-        };
-      } catch (e) {
-        // Skip url if post data not returned
-        console.log('error fetching post data for url, skipping url: ', urlData[index]?.url, e);
-      }
-    });
-  
+    } catch (e) {
+      console.log('error parsing url: ', url, e);
+    }
+  });
 
+  const postResponses = await Promise.all(postPromises);
 
-  //sort based on thumbUrl if provided
+  // Now combine responses with original URL data
+  postResponses.forEach((linkedPost, index) => {
+    try {
+      const url = promiseUrls[index];
+
+      out.links_meta = {
+        ...(out.links_meta || {}),
+        [url]: linkedPost
+          ? {
+              title: linkedPost.title,
+              summary: linkedPost.summary,
+              image: linkedPost.image,
+            }
+          : null,
+      };
+    } catch (e) {
+      // Skip url if post data not returned
+      console.log('error fetching post data for url, skipping url: ', urlData[index]?.url, e);
+    }
+  });
+
+  // sort based on thumbUrl if provided
   if (matchedImages.length) {
     if (thumbUrl) {
       matchedImages.sort((item) => (item === thumbUrl ? -1 : 1));
@@ -381,10 +378,8 @@ export const extractMetadata = async ({
     };
   }
 
-
   // setting post type, primary usecase for separating waves from other posts
   out.type = postType || PostTypes.POST;
-
 
   console.log('out : ', out);
 

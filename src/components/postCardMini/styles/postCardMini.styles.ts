@@ -3,7 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
-    marginVertical:6,
+    marginVertical: 6,
     flexDirection: 'row',
     padding: 8,
     borderWidth: EStyleSheet.hairlineWidth,
