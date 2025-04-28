@@ -1,0 +1,104 @@
+diff --git a/node_modules/@ecency/render-helper/lib/methods/a.method.js b/node_modules/@ecency/render-helper/lib/methods/a.method.js
+index 2b54620..883a639 100644
+--- a/node_modules/@ecency/render-helper/lib/methods/a.method.js
++++ b/node_modules/@ecency/render-helper/lib/methods/a.method.js
+@@ -58,7 +58,8 @@ function a(el, forApp, webp) {
+             el.textContent = "@".concat(author, "/").concat(permlink);
+         }
+         if (forApp) {
+-            el.removeAttribute('href');
++            el.setAttribute('data-href', href)
++            el.removeAttribute('href')
+             el.setAttribute('data-tag', tag);
+             el.setAttribute('data-author', author);
+             el.setAttribute('data-permlink', permlink);
+@@ -128,7 +129,8 @@ function a(el, forApp, webp) {
+                 el.textContent = "@".concat(author, "/").concat(permlink);
+             }
+             if (forApp) {
+-                el.removeAttribute('href');
++                el.setAttribute('data-href', href)
++                el.removeAttribute('href')
+                 el.setAttribute('data-tag', tag);
+                 el.setAttribute('data-author', author);
+                 el.setAttribute('data-permlink', permlink);
+@@ -189,7 +191,8 @@ function a(el, forApp, webp) {
+                 el.textContent = "@".concat(author, "/").concat(permlink);
+             }
+             if (forApp) {
+-                el.removeAttribute('href');
++                el.setAttribute('data-href', href)
++                el.removeAttribute('href')
+                 el.setAttribute('data-tag', tag);
+                 el.setAttribute('data-author', author);
+                 el.setAttribute('data-permlink', permlink);
+@@ -277,7 +280,8 @@ function a(el, forApp, webp) {
+             el.textContent = "@".concat(author, "/").concat(permlink);
+         }
+         if (forApp) {
+-            el.removeAttribute('href');
++            el.setAttribute('data-href', href)
++            el.removeAttribute('href')
+             el.setAttribute('data-tag', tag);
+             el.setAttribute('data-author', author);
+             el.setAttribute('data-permlink', permlink);
+diff --git a/node_modules/@ecency/render-helper/src/methods/a.method.ts b/node_modules/@ecency/render-helper/src/methods/a.method.ts
+index 70ec473..7140818 100644
+--- a/node_modules/@ecency/render-helper/src/methods/a.method.ts
++++ b/node_modules/@ecency/render-helper/src/methods/a.method.ts
+@@ -105,11 +105,13 @@ export function a(el: HTMLElement, forApp: boolean, webp: boolean): void {
+       el.textContent = `@${author}/${permlink}`
+     }
+     if (forApp) {
++      el.setAttribute('data-href', href)
+       el.removeAttribute('href')
+ 
+       el.setAttribute('data-tag', tag)
+       el.setAttribute('data-author', author)
+       el.setAttribute('data-permlink', permlink)
++     
+     } else {
+       const h = `/${tag}/@${author}/${permlink}`
+       el.setAttribute('href', h)
+@@ -179,10 +181,13 @@ export function a(el: HTMLElement, forApp: boolean, webp: boolean): void {
+         el.textContent = `@${author}/${permlink}`
+       }
+       if (forApp) {
++        el.setAttribute('data-href', href)
+         el.removeAttribute('href')
++
+         el.setAttribute('data-tag', tag)
+         el.setAttribute('data-author', author)
+         el.setAttribute('data-permlink', permlink)
++
+       } else {
+         const h = `/${tag}/@${author}/${permlink}`
+         el.setAttribute('href', h)
+@@ -245,10 +250,13 @@ export function a(el: HTMLElement, forApp: boolean, webp: boolean): void {
+         el.textContent = `@${author}/${permlink}`
+       }
+       if (forApp) {
++        el.setAttribute('data-href', href)
+         el.removeAttribute('href')
++        
+         el.setAttribute('data-tag', tag)
+         el.setAttribute('data-author', author)
+         el.setAttribute('data-permlink', permlink)
++   
+       } else {
+         const h = `/${tag}/@${author}/${permlink}`
+         el.setAttribute('href', h)
+@@ -341,11 +349,13 @@ export function a(el: HTMLElement, forApp: boolean, webp: boolean): void {
+       el.textContent = `@${author}/${permlink}`
+     }
+     if (forApp) {
++      el.setAttribute('data-href', href)
+       el.removeAttribute('href')
+ 
+       el.setAttribute('data-tag', tag)
+       el.setAttribute('data-author', author)
+       el.setAttribute('data-permlink', permlink)
++
+     } else {
+       const h = `/${tag}/@${author}/${permlink}`
+       el.setAttribute('href', h)
