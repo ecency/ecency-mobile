@@ -9,14 +9,22 @@ import styles from '../styles/postCardMini.styles';
 interface PostCardMiniProps {
   author: string;
   permlink: string;
+  linkMeta:any;
   contentWidth: number;
   onPress: () => void;
 }
 
-export const PostCardMini = ({ author, permlink, contentWidth, onPress }: PostCardMiniProps) => {
+export const PostCardMini = ({ author, permlink, linkMeta, contentWidth, onPress }: PostCardMiniProps) => {
   const _containerStyle = { ...styles.container, width: contentWidth };
 
-  const getPostQuery = useGetPostQuery({ author, permlink });
+  // optionally use post query to get post data if linkMeta is not provided
+  const getPostQuery = !linkMeta ? useGetPostQuery({ author, permlink }) : null; 
+
+  const _linkMeta = linkMeta || {
+    title: getPostQuery?.data?.title,
+    summary: getPostQuery?.data?.summary,
+    image: getPostQuery?.data?.image,
+  }
 
   const _renderPlaceholder = (
     <Placeholder.Box
@@ -30,21 +38,21 @@ export const PostCardMini = ({ author, permlink, contentWidth, onPress }: PostCa
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={_containerStyle}>
-        <ExpoImage source={{ uri: getPostQuery.data?.image }} style={styles.thumbnail} />
+        <ExpoImage source={{ uri: _linkMeta.image }} style={styles.thumbnail} />
         <View style={styles.textContainer}>
           <Text style={styles.hivePost}>HIVE POST</Text>
-          {getPostQuery.isLoading ? (
+          {!_linkMeta.title ? (
             _renderPlaceholder
           ) : (
             <Text style={styles.title} numberOfLines={1}>
-              {getPostQuery.data.title}
+              {_linkMeta.title}
             </Text>
           )}
-          {getPostQuery.isLoading ? (
+          {!_linkMeta.summary ? (
             _renderPlaceholder
           ) : (
             <Text style={styles.body} numberOfLines={1}>
-              {getPostQuery.data.summary}
+              {_linkMeta.summary}
             </Text>
           )}
         </View>
