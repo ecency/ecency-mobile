@@ -35,7 +35,7 @@ export const PollHeader = ({ metadata, expired, compactView }: PollHeaderProps) 
   return (
     <View>
       <View style={_headerStyle}>
-        <Text style={styles.question}>{metadata.question}</Text>
+        <Text style={styles.question}>{metadata.question?.trim()}</Text>
         <PopoverWrapper text={_endDate.toString()}>
           <View style={styles.timeContainer}>
             <Text style={styles.timeText}>{formattedEndTime}</Text>
