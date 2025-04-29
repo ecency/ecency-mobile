@@ -354,7 +354,7 @@ export const convertToPollMeta = (pollDraft: PollDraft) => {
 
   return {
     content_type: ContentType.POLL,
-    question: pollDraft.title,
+    question: pollDraft.title.trim(),
     choices: pollDraft.choices,
     preferred_interpretation: pollDraft.interpretation,
     end_time: Math.floor(new Date(pollDraft.endTime).getTime() / 1000),
