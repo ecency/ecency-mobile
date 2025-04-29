@@ -8,7 +8,7 @@ import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
-import { PostCardMini, UserAvatar, VideoPlayer } from '..';
+import { LinkPreview, UserAvatar, VideoPlayer } from '..';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
@@ -247,7 +247,7 @@ export const PostHtmlRenderer = memo(
         const lintMeta = metadata.links_meta && metadata.links_meta[origUrl || '']
 
         return (
-          <PostCardMini
+          <LinkPreview
             author={parsedTnode.author}
             permlink={parsedTnode.permlink}
             linkMeta={lintMeta}

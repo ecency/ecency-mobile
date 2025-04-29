@@ -4,9 +4,9 @@ import Placeholder from 'rn-placeholder';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import { useGetPostQuery } from '../../../providers/queries/postQueries/postQueries';
-import styles from '../styles/postCardMini.styles';
+import styles from '../styles/linkPreview.styles';
 
-interface PostCardMiniProps {
+interface LinkPreviewProps {
   author: string;
   permlink: string;
   linkMeta: any;
@@ -14,7 +14,7 @@ interface PostCardMiniProps {
   onPress: () => void;
 }
 
-export const PostCardMini = ({ author, permlink, linkMeta, contentWidth, onPress }: PostCardMiniProps) => {
+export const LinkPreview = ({ author, permlink, linkMeta, contentWidth, onPress }: LinkPreviewProps) => {
   const _containerStyle = { ...styles.container, width: contentWidth };
 
   // optionally use post query to get post data if linkMeta is not provided
@@ -40,7 +40,6 @@ export const PostCardMini = ({ author, permlink, linkMeta, contentWidth, onPress
       <View style={_containerStyle}>
         <ExpoImage source={{ uri: _linkMeta.image }} style={styles.thumbnail} />
         <View style={styles.textContainer}>
-          {linkMeta && <Text style={{ color: 'red' }} >Using link meta</Text>}
           <Text style={styles.hivePost}>HIVE POST</Text>
           {!_linkMeta.title ? (
             _renderPlaceholder
