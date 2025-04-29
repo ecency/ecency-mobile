@@ -15,10 +15,11 @@ interface PostQueryProps {
   permlink?: string;
   isPinned?: boolean;
   initialPost?: any;
+  isPreview?: boolean;
 }
 
 /** hook used to return user drafts */
-export const useGetPostQuery = ({ author, permlink, initialPost, isPinned }: PostQueryProps) => {
+export const useGetPostQuery = ({ author, permlink, initialPost, isPinned, isPreview }: PostQueryProps) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
   // post process initial post if available
@@ -64,6 +65,7 @@ export const useGetPostQuery = ({ author, permlink, initialPost, isPinned }: Pos
     {
       initialData: _initialPost,
       cacheTime: 30 * 60 * 1000, // keeps cache for 30 minutes
+      staleTime: isPreview && currentAccount.username !== author ? 15 * 60 * 1000 : 0, //do not refetch in case of preview only
     },
   );
 

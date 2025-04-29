@@ -9,7 +9,7 @@ import styles from '../styles/postCardMini.styles';
 interface PostCardMiniProps {
   author: string;
   permlink: string;
-  linkMeta:any;
+  linkMeta: any;
   contentWidth: number;
   onPress: () => void;
 }
@@ -18,7 +18,7 @@ export const PostCardMini = ({ author, permlink, linkMeta, contentWidth, onPress
   const _containerStyle = { ...styles.container, width: contentWidth };
 
   // optionally use post query to get post data if linkMeta is not provided
-  const getPostQuery = !linkMeta ? useGetPostQuery({ author, permlink }) : null; 
+  const getPostQuery = !linkMeta ? useGetPostQuery({ author, permlink, isPreview: true }) : null;
 
   const _linkMeta = linkMeta || {
     title: getPostQuery?.data?.title,
@@ -40,6 +40,7 @@ export const PostCardMini = ({ author, permlink, linkMeta, contentWidth, onPress
       <View style={_containerStyle}>
         <ExpoImage source={{ uri: _linkMeta.image }} style={styles.thumbnail} />
         <View style={styles.textContainer}>
+          {linkMeta && <Text style={{ color: 'red' }} >Using link meta</Text>}
           <Text style={styles.hivePost}>HIVE POST</Text>
           {!_linkMeta.title ? (
             _renderPlaceholder
