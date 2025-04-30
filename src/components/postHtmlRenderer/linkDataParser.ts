@@ -12,6 +12,7 @@ export interface LinkData {
   startTime?: number;
   filter?: string;
   community?: string;
+  isInLine?: boolean;
 }
 
 export const parseLinkData = (tnode: TNode): LinkData => {
@@ -53,6 +54,7 @@ export const parseLinkData = (tnode: TNode): LinkData => {
     let author = tnode.attributes['data-author'];
     let permlink = tnode.attributes['data-permlink'];
     let href = tnode.attributes['data-href'];
+    let isInLine = tnode.attributes['data-is-inline'] === 'true';
 
     // snippets checks if there is anchored post inside permlink and use that instead
     const anchoredPostRegex = /(.*?\#\@)(.*)\/(.*)/;
@@ -66,12 +68,16 @@ export const parseLinkData = (tnode: TNode): LinkData => {
     if (queryIndex > -1) {
       permlink = permlink.substring(0, queryIndex);
     }
+    
+    //add check for inline post link based on text of first child to be "@[author]/[permlink]"
+
 
     return {
       type: 'markdown-post-link',
       author,
       permlink,
-      href
+      href,
+      isInLine
     };
   }
 
