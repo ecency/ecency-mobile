@@ -14,7 +14,13 @@ interface LinkPreviewProps {
   onPress: () => void;
 }
 
-export const LinkPreview = ({ author, permlink, linkMeta, contentWidth, onPress }: LinkPreviewProps) => {
+export const LinkPreview = ({
+  author,
+  permlink,
+  linkMeta,
+  contentWidth,
+  onPress,
+}: LinkPreviewProps) => {
   const _containerStyle = { ...styles.container, width: contentWidth };
 
   // optionally use post query to get post data if linkMeta is not provided
@@ -24,7 +30,7 @@ export const LinkPreview = ({ author, permlink, linkMeta, contentWidth, onPress 
     title: getPostQuery?.data?.title,
     summary: getPostQuery?.data?.summary,
     image: getPostQuery?.data?.image,
-  }
+  };
 
   const _renderPlaceholder = (
     <Placeholder.Box

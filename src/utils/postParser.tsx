@@ -419,22 +419,20 @@ const parseTags = (post: any) => {
   return post;
 };
 
-
 const parseLinksMeta = (jsonMeta) => {
-
-     // If jsonMeta is null, undefined, or doesn't have links_meta, return the original object
+  // If jsonMeta is null, undefined, or doesn't have links_meta, return the original object
   if (!jsonMeta || !jsonMeta.links_meta) {
     return jsonMeta;
   }
-  
+
   const validatedLinksMeta = {};
   let hasValidLinks = false;
-  
+
   // Iterate through each key in links_meta
   Object.entries(jsonMeta.links_meta).forEach(([key, linkData]) => {
     // Check if linkData is an object and has the required title and summary properties
     if (
-      linkData && 
+      linkData &&
       typeof linkData === 'object' &&
       typeof linkData.title === 'string' &&
       typeof linkData.summary === 'string' &&
@@ -446,16 +444,16 @@ const parseLinksMeta = (jsonMeta) => {
     }
     // If not well-formed, don't include this link
   });
-  
+
   // Create a new object with the validated links_meta
   const result = { ...jsonMeta };
-  
+
   // Only set links_meta if we have valid links, otherwise remove it
   if (hasValidLinks) {
     result.links_meta = validatedLinksMeta;
   } else {
     delete result.links_meta;
   }
-  
+
   return result;
-}
+};
