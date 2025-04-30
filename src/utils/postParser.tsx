@@ -66,6 +66,8 @@ export const parsePost = (
     }
   }
 
+  post.json_metadata = parseLinksMeta(post.json_metadata);
+
   post.author_reputation = parseReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
   if (!isList) {
@@ -243,6 +245,8 @@ export const parseComment = (comment: any) => {
   // stamp comments with fetched time;
   comment.post_fetched_at = new Date().getTime();
 
+  comment.json_metadata = parseLinksMeta(comment.json_metadata);
+
   return comment;
 };
 
@@ -413,4 +417,43 @@ const parseTags = (post: any) => {
     }
   }
   return post;
+};
+
+const parseLinksMeta = (jsonMeta) => {
+  // If jsonMeta is null, undefined, or doesn't have links_meta, return the original object
+  if (!jsonMeta || !jsonMeta.links_meta) {
+    return jsonMeta;
+  }
+
+  const validatedLinksMeta = {};
+  let hasValidLinks = false;
+
+  // Iterate through each key in links_meta
+  Object.entries(jsonMeta.links_meta).forEach(([key, linkData]) => {
+    // Check if linkData is an object and has the required title and summary properties
+    if (
+      linkData &&
+      typeof linkData === 'object' &&
+      typeof linkData.title === 'string' &&
+      typeof linkData.summary === 'string' &&
+      typeof linkData.image === 'string'
+    ) {
+      // This link is well-formed, add it to validated links
+      validatedLinksMeta[key] = linkData;
+      hasValidLinks = true;
+    }
+    // If not well-formed, don't include this link
+  });
+
+  // Create a new object with the validated links_meta
+  const result = { ...jsonMeta };
+
+  // Only set links_meta if we have valid links, otherwise remove it
+  if (hasValidLinks) {
+    result.links_meta = validatedLinksMeta;
+  } else {
+    delete result.links_meta;
+  }
+
+  return result;
 };

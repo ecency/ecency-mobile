@@ -33,7 +33,7 @@
     "@babel/preset-typescript": "^7.26.0",
     "@babel/runtime": "^7.26.7",
     "@bugsnag/react-native": "^8.2.0",
-    "@ecency/render-helper": "^2.2.36",
+    "@ecency/render-helper": "^2.2.39",
     "@esteemapp/dhive": "0.15.0",
     "@esteemapp/react-native-autocomplete-input": "^4.2.1",
     "@esteemapp/react-native-multi-slider": "^1.1.0",
