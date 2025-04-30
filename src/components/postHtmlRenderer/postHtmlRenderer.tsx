@@ -204,7 +204,7 @@ export const PostHtmlRenderer = memo(
       };
 
       // process video link
-      if (tnode.classes?.indexOf('markdown-video-link') >= 0) {
+      if (parsedTnode?.type === 'markdown-video-link') {
         if (isComment) {
           const imgElement = tnode.children.find((child) => {
             return child.classes.indexOf('video-thumbnail') > 0;
@@ -241,7 +241,7 @@ export const PostHtmlRenderer = memo(
       }
 
       // render hive post mini card for post-link
-      if (parsedTnode.type === 'markdown-post-link' && !parsedTnode.isInLine) {
+      if (parsedTnode?.type === 'markdown-post-link' && !parsedTnode.isInLine) {
         const origUrl = parsedTnode.href;
         const lintMeta = metadata.links_meta && metadata.links_meta[origUrl || ''];
 
@@ -257,7 +257,7 @@ export const PostHtmlRenderer = memo(
       }
 
       // render user avatar
-      if (tnode.classes?.indexOf('markdown-author-link') >= 0) {
+      if (parsedTnode?.type === 'markdown-author-link') {
         const usernameStyle = { ...styles.tagText, marginLeft: 4 };
         return (
           <Text>
@@ -276,7 +276,7 @@ export const PostHtmlRenderer = memo(
       }
 
       // render tag
-      if (tnode.classes?.indexOf('markdown-tag-link') >= 0) {
+      if (parsedTnode?.type === 'markdown-tag-link') {
         return (
           <Text>
             {' '}

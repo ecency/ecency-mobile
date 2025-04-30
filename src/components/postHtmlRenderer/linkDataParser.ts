@@ -15,7 +15,7 @@ export interface LinkData {
   isInLine?: boolean;
 }
 
-export const parseLinkData = (tnode: TNode): LinkData => {
+export const parseLinkData = (tnode: TNode): LinkData | null => {
   if (!tnode) {
     return null;
   }
@@ -140,4 +140,6 @@ export const parseLinkData = (tnode: TNode): LinkData => {
       };
     }
   }
+
+  return null;
 };
