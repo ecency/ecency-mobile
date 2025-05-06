@@ -13,6 +13,8 @@ import UserAvatar from '../userAvatar';
 import styles from './transferAccountSelectorStyles';
 import { Market } from '../../providers/hive-spk/hiveSpk.types';
 import { SPK_NODE_ECENCY } from '../../providers/hive-spk/hiveSpk';
+import { useDispatch } from 'react-redux';
+import { toastNotification } from '../../redux/actions/uiAction';
 
 export interface TransferAccountSelectorProps {
   accounts: any;
@@ -54,6 +56,7 @@ const TransferAccountSelector = ({
   getRecurrentTransferOfUser,
 }: TransferAccountSelectorProps) => {
   const intl = useIntl();
+  const dispatch = useDispatch();
   const destinationRef = useRef<string[]>([]);
 
   const destinationLocked = useMemo(() => {
@@ -92,6 +95,13 @@ const TransferAccountSelector = ({
       if (usernames.length === 0) {
         console.log('No usernames provided.');
         setIsUsernameValid(false); // No usernames means invalid
+        return;
+      }
+
+      if(usernames.length > 5) {
+        console.log('Too many usernames provided. Maximum is 5.');
+        dispatch(toastNotification(intl.formatMessage({ id: 'transfer.too_many_usernames' })));
+        setIsUsernameValid(false); // Too many usernames means invalid
         return;
       }
 
