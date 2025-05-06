@@ -932,7 +932,8 @@
     "account_select_description": "Operações com ativos são irreversíveis. Certifique-se que o nome de usuário está correto",
     "amount_select_title": "Detalhes do Procedimento",
     "amount_select_description": "Digite um valor dentro do saldo disponível {suffix}",
-    "amount_select_desc_limit": " e deve ser maior que 0,001"
+    "amount_select_desc_limit": " e deve ser maior que 0,001",
+    "too_many_usernames": "Max 5 usernames allowed."
   },
   "trade": {
     "swap_token": "Trocar Seus Fundos",
