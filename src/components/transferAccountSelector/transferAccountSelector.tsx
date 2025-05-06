@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { Text, View } from 'react-native';
 import { debounce } from 'lodash';
+import { useDispatch } from 'react-redux';
 import TransferTypes from '../../constants/transferTypes';
 import DropdownButton from '../dropdownButton';
 import Icon from '../icon';
@@ -13,7 +14,6 @@ import UserAvatar from '../userAvatar';
 import styles from './transferAccountSelectorStyles';
 import { Market } from '../../providers/hive-spk/hiveSpk.types';
 import { SPK_NODE_ECENCY } from '../../providers/hive-spk/hiveSpk';
-import { useDispatch } from 'react-redux';
 import { toastNotification } from '../../redux/actions/uiAction';
 
 export interface TransferAccountSelectorProps {
@@ -98,7 +98,7 @@ const TransferAccountSelector = ({
         return;
       }
 
-      if(usernames.length > 5) {
+      if (usernames.length > 5) {
         console.log('Too many usernames provided. Maximum is 5.');
         dispatch(toastNotification(intl.formatMessage({ id: 'transfer.too_many_usernames' })));
         setIsUsernameValid(false); // Too many usernames means invalid
