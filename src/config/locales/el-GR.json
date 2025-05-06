@@ -933,7 +933,7 @@
     "amount_select_title": "Action Details",
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001",
-    "too_many_usernames": "Max 5 usernames allowed."
+    "too_many_usernames": "Ο μέγιστος επιτρεπόμενος αριθμός ονομάτων χρηστών είναι 5."
   },
   "trade": {
     "swap_token": "Swap Your Funds",
