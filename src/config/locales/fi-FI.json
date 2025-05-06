@@ -932,7 +932,8 @@
     "account_select_description": "Varoihin liittyvät toiminnot ovat peruuttamattomia. Varmista, että vastaanottajan käyttäjätunnus on oikea",
     "amount_select_title": "Toiminnon tiedot",
     "amount_select_description": "Syötä summa maksimaalisen käytettävissä olevan saldon mukaan {suffix}",
-    "amount_select_desc_limit": " ja on oltava suurempi kuin 0,001"
+    "amount_select_desc_limit": " ja on oltava suurempi kuin 0,001",
+    "too_many_usernames": "Max 5 usernames allowed."
   },
   "trade": {
     "swap_token": "Vaihda varojasi",
