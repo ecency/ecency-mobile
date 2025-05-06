@@ -932,7 +932,8 @@
     "account_select_description": "Операции, связанные с фондами необратимы, убедитесь, что имя пользователя верно",
     "amount_select_title": "Информация о действии",
     "amount_select_description": "Введите сумму в пределах максимально доступного баланса {suffix}",
-    "amount_select_desc_limit": " и должно быть больше 0,001"
+    "amount_select_desc_limit": " и должно быть больше 0,001",
+    "too_many_usernames": "Max 5 usernames allowed."
   },
   "trade": {
     "swap_token": "Обмен ваших средств",
