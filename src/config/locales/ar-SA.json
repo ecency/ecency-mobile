@@ -932,7 +932,8 @@
     "account_select_description": "العمليات المتعلقة بالأموال لا رجعة فيها، تأكد من صحة اسم المستخدم",
     "amount_select_title": "تفاصيل الإجراء",
     "amount_select_description": "أدخل المبلغ ضمن الحد الأقصى للرصيد المتاح {suffix}",
-    "amount_select_desc_limit": " ويجب أن يكون أكبر من 0.001"
+    "amount_select_desc_limit": " ويجب أن يكون أكبر من 0.001",
+    "too_many_usernames": "Max 5 usernames allowed."
   },
   "trade": {
     "swap_token": "مبادلة أموالك",
