@@ -932,7 +932,8 @@
     "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
     "amount_select_title": "Détails de l'action",
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
-    "amount_select_desc_limit": " et doit être supérieur à 0.001"
+    "amount_select_desc_limit": " et doit être supérieur à 0.001",
+    "too_many_usernames": "Max 5 usernames allowed."
   },
   "trade": {
     "swap_token": "Swap Your Funds",
