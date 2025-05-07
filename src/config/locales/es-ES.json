@@ -933,7 +933,7 @@
     "amount_select_title": "Detalles de la acción",
     "amount_select_description": "Introduzca la cantidad dentro del saldo máximo disponible {suffix}",
     "amount_select_desc_limit": " y debe ser mayor que 0.001",
-    "too_many_usernames": "Max 5 usernames allowed."
+    "too_many_usernames": "Máx. 5 nombres de usuario permitidos."
   },
   "trade": {
     "swap_token": "Intercambiar tus fondos",
