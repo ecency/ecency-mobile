@@ -63,7 +63,7 @@ class InAppPurchaseContainer extends Component {
         this._purchaseUpdatedListener();
       }
 
-      this._getItems();
+      await this._getItems();
       await this._handleQrPurchase();
 
       // place rest of unconsumed purhcases in state
