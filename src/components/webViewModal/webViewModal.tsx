@@ -8,6 +8,7 @@ import { Modal } from '..';
 
 interface WebViewModalData {
   uri: string;
+  onClose?: () => void;
 }
 
 export const WebViewModal = () => {
@@ -28,6 +29,9 @@ export const WebViewModal = () => {
 
   const _onClose = () => {
     dispatch(hideWebViewModal());
+    if (webViewModalData.onClose) {
+      webViewModalData.onClose()
+    }
   };
 
   return (
@@ -44,5 +48,6 @@ export const WebViewModal = () => {
     </Modal>
   );
 };
+
 
 export default WebViewModal;
