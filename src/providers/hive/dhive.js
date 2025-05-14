@@ -24,7 +24,6 @@ import { getServer, getCache, setCache } from '../../realm/realm';
 // Utils
 import { decryptKey } from '../../utils/crypto';
 import {
-  parsePosts,
   parsePost,
   parseComments,
   parseCommentThreads,
@@ -738,6 +737,7 @@ export const getPostReblogs = async (author, permlink) => {
   }
 };
 
+
 export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   try {
     console.log('Getting ranked posts:', query);
@@ -746,7 +746,8 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
 
     if (posts) {
       const areComments = query.sort === 'comments' || query.sort === 'replies';
-      posts = areComments ? parseComments(posts) : parsePosts(posts, currentUserName, false);
+
+      posts = areComments ? parseComments(posts) : await resolvePosts(posts, currentUserName, false);
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);
@@ -767,7 +768,8 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
 
     if (posts) {
       const areComments = query.sort === 'comments' || query.sort === 'replies';
-      posts = areComments ? parseComments(posts) : parsePosts(posts, currentUserName, false);
+
+      posts = areComments ? parseComments(posts) : await resolvePosts(posts, currentUserName, false);
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);
@@ -803,7 +805,8 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
     console.log('Getting post: ', author, permlink);
     const post = await client.call('bridge', 'get_post', { author, permlink });
     console.log('post fetched', post?.post_id);
-    return post ? parsePost(post, currentUserName, isPromoted) : null;
+    //TODO check for cross post, resolve it
+    return post ? await resolvePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
     console.warn(error);
     bugsnagInstance.notify(error);
@@ -899,6 +902,52 @@ export const getComments = async (author, permlink) => {
     return error;
   }
 };
+
+
+//resolve individual post based on simple or cross post
+const resolvePost = async (post, currentUsername, isPromoted = false, isList = false, discardBody = false) => {
+  if (post) {
+
+    const json = post.json_metadata;
+    if (
+      json?.original_author &&
+      json?.original_permlink &&
+      json?.tags &&
+      json?.tags[0] === "cross-post"
+    ) {
+      //fetch and replace cross post with original post with cross post meta
+      const originalPost = await getPost(json.original_author, json.original_permlink);
+
+      //TODO: use cross post meta in UI
+      originalPost.crosspostMeta = {
+        author: post.author,
+        community: post.category,
+        message: "" //TODO: Parse actual message
+      }
+
+      return originalPost
+    } else {
+      return parsePost(post, currentUsername, isPromoted, false, isList, discardBody);
+    }
+
+  }
+  return null;
+}
+
+//resolves posts to be used in the feed, 
+const resolvePosts = async (posts, currentUsername,) => {
+  if (posts) {
+    const formattedPosts =
+      posts.map(async (post) => await resolvePost(post, currentUsername))
+
+    console.log('formatted posts', formattedPosts);
+    const _formattedPost = await Promise.all(formattedPosts)
+    return _formattedPost;
+  }
+  return null;
+}
+
+
 
 /**
  * @method getPostWithComments get user data
