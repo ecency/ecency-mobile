@@ -21,6 +21,7 @@ import {
   setRcOffer,
   showActionModal,
   showTranslationModal,
+  showCrossPostModal,
 } from '../../../redux/actions/uiAction';
 
 // Constants
@@ -74,6 +75,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   const [content, setContent] = useState<any>(null);
   const [options, setOptions] = useState(OPTIONS);
 
+
   useImperativeHandle(ref, () => ({
     show: (_content) => {
       if (!_content) {
@@ -90,6 +92,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       }
     },
   }));
+
+
 
   useEffect(() => {
     if (content) {
@@ -118,6 +122,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     };
   }, [content]);
 
+
+
   const _initOptions = () => {
     // check if post is owned by current user or not, if so pinned or not
     const _canUpdateBlogPin =
@@ -125,6 +131,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     const _isPinnedInProfile = !!content && content.stats?.is_pinned_blog;
 
     // check community pin update eligibility
+    const _isCommunityPost = !!content && !!content.community;
+
     const _canUpdateCommunityPin =
       subscribedCommunities.data && !!content && content.community
         ? subscribedCommunities.data.reduce((role, subscription) => {
@@ -158,6 +166,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
           return isVisibleTranslateModal;
         case 'delete-post':
           return _canDeletePost;
+        case 'cross-post':
+          return _isCommunityPost
         default:
           return true;
       }
@@ -165,6 +175,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
     setOptions(_options);
   };
+
+
 
   const _muteUser = () => {
     const username = content.author;
@@ -198,6 +210,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         _profileActionDone({ error: err });
       });
   };
+
+
 
   const _profileActionDone = ({ error = null }: { error: any }) => {
     if (error) {
@@ -368,6 +382,12 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         });
     }
   };
+
+
+  const _crossPost = () => {
+    dispatch(showCrossPostModal(content));
+    return;
+  }
 
   const _updatePinnedPost = async (
     { unpinPost }: { unpinPost: boolean } = { unpinPost: false },
@@ -542,10 +562,16 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         await delay(700);
         _deletePost();
         break;
+      case 'cross-post':
+        await delay(700);
+        _crossPost();
+        break;
       default:
         break;
     }
   };
+
+
 
   const _renderItem = ({ item, index }: { item: string; index: number }) => {
     const _onPress = () => {
@@ -569,6 +595,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       </TouchableHighlight>
     );
   };
+
+
 
   return (
     <ActionSheet
