@@ -12,15 +12,6 @@ import { calculateVoteReward } from './vote';
 
 const webp = Platform.OS !== 'ios';
 
-export const parsePosts = (posts, currentUserName, discardBody = false) => {
-  if (posts) {
-    const formattedPosts = posts.map((post) =>
-      parsePost(post, currentUserName, false, true, discardBody),
-    );
-    return formattedPosts;
-  }
-  return null;
-};
 
 export const parsePost = (
   post,
