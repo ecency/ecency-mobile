@@ -403,22 +403,21 @@
     "signup_now": "Sign up now!",
     "or": "OR"
   },
-  "hiveauth":{
-    "title":"Hive Auth",
-    "initiating":"Initiating...",
-    "authenticating":"Authenticating...",
-    "requesting":"Requesting...",
-    "logging_in":"Logging In...",
-    "auth_success":"Authentication Successful",
-    "auth_fail":"Authentication Failed",
-    "transaction_success":"Transaction Successful",
-    "transaction_fail":"Transaction Failed",
-    "not_installed":"Hive authentication app not installed",
-    "missing_op_arr":"Missing operations array to broadcast",
-    "invalid_auth_type":"Invalid auth type",
-    "decrypt_fail":"Failed to decrypt hive auth key",
-    "expired":"Hive auth key is expired, re-authenticate and try again"
-
+  "hiveauth": {
+    "title": "Hive Auth",
+    "initiating": "Initiating...",
+    "authenticating": "Authenticating...",
+    "requesting": "Requesting...",
+    "logging_in": "Logging In...",
+    "auth_success": "Authentication Successful",
+    "auth_fail": "Authentication Failed",
+    "transaction_success": "Transaction Successful",
+    "transaction_fail": "Transaction Failed",
+    "not_installed": "Hive authentication app not installed",
+    "missing_op_arr": "Missing operations array to broadcast",
+    "invalid_auth_type": "Invalid auth type",
+    "decrypt_fail": "Failed to decrypt hive auth key",
+    "expired": "Hive auth key is expired, re-authenticate and try again"
   },
   "register": {
     "modal_title": "Get Hive Account",
@@ -449,7 +448,7 @@
     "feed": "Feed",
     "popular": "Popular",
     "top": "Top",
-    "trending":"Trending",
+    "trending": "Trending",
     "hot": "Hot",
     "new": "New",
     "blog": "Blog",
@@ -504,29 +503,29 @@
     "hide_stats": "Hide Stats",
     "ended": "Ended",
     "ends": "Ends {inTime}",
-    "poll_question":"Poll Question",
+    "poll_question": "Poll Question",
     "age_limit": "\u2022 Only accounts older than {days} days allowed",
     "interpretation_token": "\u2022 User HP based vote interpretation",
     "max_choices": "\u2022 You may select upto {choices} choices",
-    "poll_not_ready":"Poll not ready for vote, try again shortly",
+    "poll_not_ready": "Poll not ready for vote, try again shortly",
     "interpret_token": "Interpret by Tokens",
     "interpret_vote": "Interpret by Votes",
-    "create_title":"Create a poll",
-    "add_choice":"Add Choice",
-    "question_placeholder":"Add poll question...",
-    "choice_placeholder":"Choice {number}",
-    "number_of_votes":"Number of Votes",
-    "tokens":"Total Tokens",
-    "attach_poll":"Attach Poll",
-    "update_poll":"Update Poll"
+    "create_title": "Create a poll",
+    "add_choice": "Add Choice",
+    "question_placeholder": "Add poll question...",
+    "choice_placeholder": "Choice {number}",
+    "number_of_votes": "Number of Votes",
+    "tokens": "Total Tokens",
+    "attach_poll": "Attach Poll",
+    "update_poll": "Update Poll"
   },
-  "stats":{
-    "viewers":"Visitors",
-    "pageviews":"Views",
-    "duration":"Minutes",
-    "promote":"PROMOTE POST",
-    "promote_title":"Want more views and reads?\n",
-    "promote_message":"Use Ecency Perks to promote your post and gain wider exposure."
+  "stats": {
+    "viewers": "Visitors",
+    "pageviews": "Views",
+    "duration": "Minutes",
+    "promote": "PROMOTE POST",
+    "promote_title": "Want more views and reads?\n",
+    "promote_message": "Use Ecency Perks to promote your post and gain wider exposure."
   },
   "editor": {
     "title": "Title",
@@ -756,6 +755,11 @@
     "posted_by": "Posted by {username} via {appname} ",
     "ecency_waves": "Ecency Waves"
   },
+  "cross_post": {
+    "title": "Cross Post",
+    "description": "Rewards are automatically declined for the cross post and discussions under cross post will be different and will follow different community guidelines.",
+    "message_placeholder": "Share your thoughts here..."
+  },
   "drafts": {
     "title": "Drafts",
     "load_error": "Could not load drafts",
@@ -834,7 +838,8 @@
     "edit-history": "Edit History",
     "mute": "Mute / Block",
     "translate": "Translate",
-    "delete-post": "Delete"
+    "delete-post": "Delete",
+    "cross-post": "Cross Post"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
@@ -1159,12 +1164,12 @@
     "edit": "Edit History",
     "version": "Version"
   },
-  "selection_list":{
+  "selection_list": {
     "available": "Available {postfix}",
     "selected": "Selected {postfix}",
     "no_selected": "Please add from available",
-    "postfix_filters":"Filters",
-    "title_filters":"Customise Filters"
+    "postfix_filters": "Filters",
+    "title_filters": "Customise Filters"
   },
   "chain-error": {
     "min-root-comment": "You may only post once every five minutes.",
@@ -1178,15 +1183,15 @@
     "missing-owner-authority": "This operation requires Owner private key or authority.",
     "insufficient_fund": "Insufficient Funds"
   },
-  "proposal":{
-    "title":"Enjoying Ecency!",
-    "title-voted":"We are grateful!",
-    "desc":"Support proposal by voting, be part of our continuous efforts to improve experience on Ecency.",
-    "desc-voted":"Your support means everything to us",
-    "title-action-dismiss":"Dismiss Vote Request",
-    "btn-vote":"Cast My Vote",
-    "btn-dismiss":"Dismiss",
-    "btn-later":"Remind Later",
-    "btn-ignore":"Forever"
+  "proposal": {
+    "title": "Enjoying Ecency!",
+    "title-voted": "We are grateful!",
+    "desc": "Support proposal by voting, be part of our continuous efforts to improve experience on Ecency.",
+    "desc-voted": "Your support means everything to us",
+    "title-action-dismiss": "Dismiss Vote Request",
+    "btn-vote": "Cast My Vote",
+    "btn-dismiss": "Dismiss",
+    "btn-later": "Remind Later",
+    "btn-ignore": "Forever"
   }
 }
