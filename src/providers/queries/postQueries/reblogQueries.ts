@@ -117,17 +117,15 @@ export function useReblogMutation(author: string, permlink: string) {
 
 
 export function useCrossPostMutation() {
-  // const { activeUser } = useMappedStore();
   const intl = useIntl();
   const dispatch = useDispatch();
-  const queryClient = useQueryClient();
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinHash = useAppSelector((state) => state.application.pin);
 
   const userActivityMutation = useUserActivityMutation();
 
   return useMutation({
-    mutationKey: [QUERIES.POST.REBLOG_POST],
+    mutationKey: [QUERIES.POST.CROSS_POST],
     mutationFn: async ({post, communityId, message }: {post:any, communityId: string, message: string }) => {
 
       if (!communityId || !currentAccount) {
@@ -150,7 +148,6 @@ export function useCrossPostMutation() {
       const options = makeOptions({ author, permlink, operationType: "dp" })
       options.allow_curation_rewards = false;
       
-
       const resp = await postContent(currentAccount, pinHash, '', communityId, permlink, title, body, jsonMetadata, options);
 
       // track user activity points ty=130
@@ -165,43 +162,22 @@ export function useCrossPostMutation() {
 
     onSuccess: (resp, vars) => {
       console.log('cross post response', resp);
-      // update poll cache here
-      // queryClient.setQueryData<ReturnType<typeof useGetReblogsQuery>['data']>(
-      //   [QUERIES.POST.GET_REBLOGS, author, permlink],
-      //   (data) => {
-      //     if (!data || !resp) {
-      //       return data;
-      //     }
-
-      //     const _curIndex = data.indexOf(currentAccount.username);
-      //     if (vars.undo) {
-      //       data.splice(_curIndex, 1);
-      //     } else if (_curIndex < 0) {
-      //       data.splice(0, 0, currentAccount.username);
-      //     }
-
-      //     return [...data] as ReturnType<typeof useGetReblogsQuery>['data'];
-      //   },
-      // );
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: 'alert.success',
+          }),
+        ));
     },
     onError: (error) => {
-      if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged') > -1) {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.already_rebloged',
-            }),
-          ),
-        );
-      } else {
-        if (error && error.jse_shortmsg.split(': ')[1].includes('wait to transact')) {
+
+        if (error?.jse_shortmsg?.split(': ')[1].includes('wait to transact')) {
           // when RC is not enough, offer boosting account
           dispatch(setRcOffer(true));
         } else {
           // when other errors
           dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
         }
-      }
     },
   });
 }

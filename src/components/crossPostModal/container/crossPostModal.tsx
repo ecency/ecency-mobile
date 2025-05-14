@@ -1,25 +1,30 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Alert } from 'react-native';
+import { View, Text } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import styles from '../styles/crossPostModal.styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormInput, MainButton, Modal, SelectCommunityModalContainer, TextButton } from '../../../components';
 import { useIntl } from 'react-intl';
 import { hideCrossPostModal } from '../../../redux/actions/uiAction';
+import { useCrossPostMutation } from '../../../providers/queries/postQueries/reblogQueries';
+import RootNavigation from '../../../navigation/rootNavigation';
+import ROUTES from '../../../constants/routeNames';
 
 
 export const CrossPostModal = () => {
     const intl = useIntl();
     const dispatch = useDispatch();
-    const sheetModalRef = useRef<ActionSheet>();
 
+    const sheetModalRef = useRef<ActionSheet>();
+    const crossPostMutation = useCrossPostMutation();
 
     const currentAccount = useSelector((state) => state.account.currentAccount);
     const crossPostModalVisible = useSelector((state) => state.ui.crossPostModalVisible);
+    const crossPostModalData = useSelector((state) => state.ui.crossPostModalData);
 
     const [message, setMessage] = useState('');
     const [selectedCommunityId, setSelectedCommunityId] = useState('');
-    const [selectedCommunityName, setSelectedCommunityName] = useState(''); 
+    const [selectedCommunityName, setSelectedCommunityName] = useState('');
     const [isCommunitiesListModalOpen, setIsCommunitiesListModalOpen] = useState(false);
 
 
@@ -39,12 +44,28 @@ export const CrossPostModal = () => {
         setIsCommunitiesListModalOpen(false);
     };
 
-
-    const handleCrossPost = () => {
-        if (message && selectedCommunityId) {
+    const handleCrossPost = async () => {
+        if (selectedCommunityId && crossPostModalData) {
             console.log('Cross posting to:', selectedCommunityId, 'with message:', message);
-        } else {
-            Alert.alert('Please fill in all fields.');
+            try {
+                const response = await crossPostMutation.mutateAsync({
+                    post: crossPostModalData,
+                    communityId: selectedCommunityId,
+                    message: message,
+                })
+                console.log('Cross post response:', response);
+                _onClose();
+                RootNavigation.navigate({
+                    name: ROUTES.SCREENS.COMMUNITY,
+                    params: {
+                        tag: selectedCommunityId,
+                        filter: "created"
+                    },
+                });
+            }
+            catch (error) {
+                console.error('Cross post error:', error);
+            }
         }
     };
 
@@ -83,7 +104,8 @@ export const CrossPostModal = () => {
                     onPress={handleCrossPost}
                     style={styles.btnMain}
                     isDisable={!selectedCommunityId}
-                    
+                    isLoading={crossPostMutation.isLoading}
+
                 />
                 <TextButton
                     style={styles.btnClose}
@@ -103,13 +125,12 @@ export const CrossPostModal = () => {
                 <Text style={styles.title}>{intl.formatMessage({ id: 'cross_post.title' })}</Text>
                 <FormInput
                     isValid={true}
-                    // onChange={setMessage}
                     placeholder={"Select Community"}
                     isEditable={false}
                     value={selectedCommunityName}
                     wrapperStyle={styles.inputWrapper}
                     inputStyle={styles.input}
-                
+
                     onPress={() => {
                         setIsCommunitiesListModalOpen(true);
                     }}
