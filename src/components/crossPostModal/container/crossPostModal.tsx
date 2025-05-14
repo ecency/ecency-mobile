@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FormInput, MainButton, Modal, SelectCommunityModalContainer, TextButton } from '../../../components';
 import { useIntl } from 'react-intl';
 import { hideCrossPostModal } from '../../../redux/actions/uiAction';
-import { useCrossPostMutation } from '../../../providers/queries/postQueries/reblogQueries';
+import { repostQueries } from '../../../providers/queries';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 
@@ -16,7 +16,7 @@ export const CrossPostModal = () => {
     const dispatch = useDispatch();
 
     const sheetModalRef = useRef<ActionSheet>();
-    const crossPostMutation = useCrossPostMutation();
+    const crossPostMutation = repostQueries.useCrossPostMutation();
 
     const currentAccount = useSelector((state) => state.account.currentAccount);
     const crossPostModalVisible = useSelector((state) => state.ui.crossPostModalVisible);
