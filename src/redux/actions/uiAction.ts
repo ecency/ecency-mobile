@@ -23,7 +23,7 @@ import {
   SHOW_CROSS_POST_MODAL,
   HIDE_CROSS_POST_MODAL,
 } from '../constants/constants';
-import { CrossPostModalData, PostEditorModalData } from '../reducers/uiReducer';
+import { PostEditorModalData } from '../reducers/uiReducer';
 
 export const updateActiveBottomTab = (payload: string) => ({
   payload,
@@ -139,9 +139,9 @@ export const hideTranslationModal = () => ({
 });
 
 export const showCrossPostModal = (post: any) => ({
-  payload:  post,
+  payload: post,
   type: SHOW_CROSS_POST_MODAL,
-})
+});
 
 export const hideCrossPostModal = () => ({
   type: HIDE_CROSS_POST_MODAL,

@@ -45,10 +45,8 @@ export const PostCardHeader = ({
     pageType === 'community'
       ? content?.stats?.is_pinned
       : pageType === 'profile' || pageType === 'ownProfile'
-        ? content?.stats?.is_pinned_blog
-        : false;
-
-  
+      ? content?.stats?.is_pinned_blog
+      : false;
 
   return (
     <>

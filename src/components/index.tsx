@@ -279,5 +279,5 @@ export {
   ProposalVoteRequest,
   HiveAuthModal,
   LinkPreview,
-  CrossPostModal
+  CrossPostModal,
 };

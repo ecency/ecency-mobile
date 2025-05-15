@@ -14,7 +14,12 @@ import {
 } from '../../../../redux/actions/communitiesAction';
 import { mergeSubCommunitiesCacheInSubList } from '../../../../utils/communitiesUtils';
 
-const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount, onCloseModal, showSubscribedOnly }) => {
+const SelectCommunityModalContainer = ({
+  onPressCommunity,
+  currentAccount,
+  onCloseModal,
+  showSubscribedOnly,
+}) => {
   const dispatch = useDispatch();
 
   const [searchedCommunities, setSearchedCommunities] = useState([]);
@@ -43,21 +48,24 @@ const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount, onClo
         subscribedCommunitiesCache,
       );
       if (updatedSubsList && updatedSubsList.length > 0) {
-        setSubscriptions(updatedSubsList.filter((item) => item[4] === true).map((item) => ({name:item[0], title:item[1]})))
+        setSubscriptions(
+          updatedSubsList
+            .filter((item) => item[4] === true)
+            .map((item) => ({ name: item[0], title: item[1] })),
+        );
       }
     }
     dispatch(fetchSubscribedCommunities(currentAccount.name));
   };
 
   const handleChangeSearch = (text) => {
-
-    if(showSubscribedOnly){
-      const filteredSubscriptions = subscriptions?.filter((item) => item.title.toLowerCase().includes(text.toLowerCase()));
+    if (showSubscribedOnly) {
+      const filteredSubscriptions = subscriptions?.filter((item) =>
+        item.title.toLowerCase().includes(text.toLowerCase()),
+      );
       setSearchedCommunities(filteredSubscriptions);
       setShowSearchedCommunities(true);
-    }
-
-    else if (text.length >= 3) {
+    } else if (text.length >= 3) {
       setShowSearchedCommunities(true);
       getCommunities('', 15, text, 'rank')
         .then((searcheds) => {
@@ -72,18 +80,17 @@ const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount, onClo
   };
 
   return (
-      <SelectCommunityModalView
-        onPressCommunity={onPressCommunity}
-        topCommunities={topCommunities}
-        subscribedCommunities={subscriptions}
-        showSubscribedOnly={showSubscribedOnly}
-        onChangeSearch={debounce(handleChangeSearch, 500)}
-        searchedCommunities={searchedCommunities}
-        showSearchedCommunities={showSearchedCommunities}
-        currentAccount={currentAccount}
-        onCloseModal={onCloseModal}
-
-      />
+    <SelectCommunityModalView
+      onPressCommunity={onPressCommunity}
+      topCommunities={topCommunities}
+      subscribedCommunities={subscriptions}
+      showSubscribedOnly={showSubscribedOnly}
+      onChangeSearch={debounce(handleChangeSearch, 500)}
+      searchedCommunities={searchedCommunities}
+      showSearchedCommunities={showSearchedCommunities}
+      currentAccount={currentAccount}
+      onCloseModal={onCloseModal}
+    />
   );
 };
 

@@ -10,7 +10,6 @@ import { PointActivityIds } from '../../ecency/ecency.types';
 import { useUserActivityMutation } from '../pointQueries';
 import { makeJsonMetadata, makeOptions } from '../../../utils/editor';
 
-
 /** hook used to return post poll */
 export const useGetReblogsQuery = (author: string, permlink: string) => {
   const query = useQuery<string[]>(
@@ -113,9 +112,6 @@ export function useReblogMutation(author: string, permlink: string) {
   });
 }
 
-
-
-
 export function useCrossPostMutation() {
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -126,8 +122,15 @@ export function useCrossPostMutation() {
 
   return useMutation({
     mutationKey: [QUERIES.POST.CROSS_POST],
-    mutationFn: async ({post, communityId, message }: {post:any, communityId: string, message: string }) => {
-
+    mutationFn: async ({
+      post,
+      communityId,
+      message,
+    }: {
+      post: any;
+      communityId: string;
+      message: string;
+    }) => {
       if (!communityId || !currentAccount) {
         throw new Error('Not enough data to make cross post');
       }
@@ -140,15 +143,25 @@ export function useCrossPostMutation() {
 
       const metadata = {
         original_author: post.author,
-        original_permlink: post.permlink
+        original_permlink: post.permlink,
       };
 
       const jsonMetadata = makeJsonMetadata(metadata, ['cross-post']);
 
-      const options = makeOptions({ author, permlink, operationType: "dp" })
+      const options = makeOptions({ author, permlink, operationType: 'dp' });
       options.allow_curation_rewards = false;
-      
-      const resp = await postContent(currentAccount, pinHash, '', communityId, permlink, title, body, jsonMetadata, options);
+
+      const resp = await postContent(
+        currentAccount,
+        pinHash,
+        '',
+        communityId,
+        permlink,
+        title,
+        body,
+        jsonMetadata,
+        options,
+      );
 
       // track user activity points ty=130
       userActivityMutation.mutate({
@@ -160,24 +173,24 @@ export function useCrossPostMutation() {
     },
     retry: 3,
 
-    onSuccess: (resp, vars) => {
+    onSuccess: (resp) => {
       console.log('cross post response', resp);
       dispatch(
         toastNotification(
           intl.formatMessage({
             id: 'alert.success',
           }),
-        ));
+        ),
+      );
     },
     onError: (error) => {
-
-        if (error?.jse_shortmsg?.split(': ')[1].includes('wait to transact')) {
-          // when RC is not enough, offer boosting account
-          dispatch(setRcOffer(true));
-        } else {
-          // when other errors
-          dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-        }
+      if (error?.jse_shortmsg?.split(': ')[1].includes('wait to transact')) {
+        // when RC is not enough, offer boosting account
+        dispatch(setRcOffer(true));
+      } else {
+        // when other errors
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      }
     },
   });
 }

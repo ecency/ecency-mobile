@@ -12,7 +12,6 @@ import { calculateVoteReward } from './vote';
 
 const webp = Platform.OS !== 'ios';
 
-
 export const parsePost = (
   post,
   currentUserName,

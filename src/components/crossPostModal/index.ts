@@ -1,1 +1,1 @@
-export * from './container/crossPostModal'
+export * from './container/crossPostModal';

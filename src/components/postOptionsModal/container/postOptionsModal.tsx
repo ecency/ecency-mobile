@@ -75,7 +75,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   const [content, setContent] = useState<any>(null);
   const [options, setOptions] = useState(OPTIONS);
 
-
   useImperativeHandle(ref, () => ({
     show: (_content) => {
       if (!_content) {
@@ -92,8 +91,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       }
     },
   }));
-
-
 
   useEffect(() => {
     if (content) {
@@ -121,8 +118,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       }
     };
   }, [content]);
-
-
 
   const _initOptions = () => {
     // check if post is owned by current user or not, if so pinned or not
@@ -167,7 +162,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         case 'delete-post':
           return _canDeletePost;
         case 'cross-post':
-          return _isCommunityPost
+          return _isCommunityPost;
         default:
           return true;
       }
@@ -175,8 +170,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
 
     setOptions(_options);
   };
-
-
 
   const _muteUser = () => {
     const username = content.author;
@@ -210,8 +203,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         _profileActionDone({ error: err });
       });
   };
-
-
 
   const _profileActionDone = ({ error = null }: { error: any }) => {
     if (error) {
@@ -383,11 +374,9 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     }
   };
 
-
   const _crossPost = () => {
     dispatch(showCrossPostModal(content));
-    return;
-  }
+  };
 
   const _updatePinnedPost = async (
     { unpinPost }: { unpinPost: boolean } = { unpinPost: false },
@@ -571,8 +560,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     }
   };
 
-
-
   const _renderItem = ({ item, index }: { item: string; index: number }) => {
     const _onPress = () => {
       bottomSheetModalRef.current?.hide();
@@ -595,8 +582,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       </TouchableHighlight>
     );
   };
-
-
 
   return (
     <ActionSheet

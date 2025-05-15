@@ -21,7 +21,7 @@ import {
   SHOW_TRANSLATION_MODAL,
   HIDE_TRANSLATION_MODAL,
   SHOW_CROSS_POST_MODAL,
-  HIDE_CROSS_POST_MODAL
+  HIDE_CROSS_POST_MODAL,
 } from '../constants/constants';
 import { orientations } from '../constants/orientationsConstants';
 
@@ -29,7 +29,6 @@ export interface PostEditorModalData {
   mode: 'wave' | 'comment' | 'post';
   parentPost?: any;
 }
-
 
 interface UiState {
   activeBottomTab: string;
@@ -77,7 +76,7 @@ const initialState: UiState = {
   translationModalData: null,
   crossPostModalVisible: false,
   crossPostModalData: null,
-};  
+};
 
 const uiReducer = (state = initialState, action): UiState => {
   switch (action.type) {
@@ -214,12 +213,12 @@ const uiReducer = (state = initialState, action): UiState => {
         ...state,
         crossPostModalVisible: true,
         crossPostModalData: action.payload,
-      }
+      };
     case HIDE_CROSS_POST_MODAL:
       return {
         ...state,
         crossPostModalVisible: false,
-      }
+      };
     default:
       return state;
   }

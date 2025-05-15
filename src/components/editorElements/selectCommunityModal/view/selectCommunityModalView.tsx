@@ -38,7 +38,12 @@ const SelectCommunityModalView = ({
         });
       }
 
-      if (!showSubscribedOnly && !topCommunities.isLoading && !topCommunities.error && topCommunities.data?.length > 0) {
+      if (
+        !showSubscribedOnly &&
+        !topCommunities.isLoading &&
+        !topCommunities.error &&
+        topCommunities.data?.length > 0
+      ) {
         _sections.push({
           sectionTitle: intl.formatMessage({ id: 'editor.top_communities' }).toUpperCase(),
           data: topCommunities.data,
