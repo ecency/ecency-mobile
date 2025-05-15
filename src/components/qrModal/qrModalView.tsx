@@ -61,7 +61,6 @@ export const QRModal = () => {
   // TODO: make sure to properly clean uri processing code to process uri from deep links and notifications
   const deepLinkToHandle = useAppSelector((state) => state.ui.deepLinkToHandle);
   useEffect(() => {
-    handleLink({ data: 'https://ecency.com/@demo.com/' });
     if (deepLinkToHandle) {
       handleLink({ data: deepLinkToHandle });
     }
