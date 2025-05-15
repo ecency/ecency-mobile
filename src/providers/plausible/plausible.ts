@@ -35,7 +35,7 @@ export const recordPlausibleEvent = async (urlPath: string, eventName?: string):
       force: true,
     };
 
-    const userAgent = await DeviceInfo.getUserAgent();
+    const userAgent = getEcencyUserAgent();
     const res = await plausibleApi.post(PATH_EVENT_API, payload, {
       headers: { 'User-Agent': userAgent },
     });
@@ -116,3 +116,14 @@ export const fetchPostStatsByDimension = async <T>(
 
   return postStats;
 };
+
+
+const getEcencyUserAgent = () => {
+  const appName = DeviceInfo.getApplicationName();
+    const appVersion = DeviceInfo.getVersion();
+    const systemName = Platform.OS === 'ios' ? 'iOS' : 'Android';
+    const systemVersion = DeviceInfo.getSystemVersion();
+    const deviceModel = DeviceInfo.getModel();
+
+    return`${appName}/${appVersion} (${systemName} ${systemVersion}; ${deviceModel})`;
+}
