@@ -6,12 +6,7 @@ export default EStyleSheet.create({
     marginBottom: 4,
     backgroundColor: '$primaryBackgroundColor',
   },
-  optionsIconContainer: {
-    marginLeft: 12,
-  },
-  optionsIcon: {
-    color: '$iconColor',
-  },
+
   commentButton: {
     padding: 0,
     margin: 0,
@@ -33,8 +28,6 @@ export default EStyleSheet.create({
     margin: 0,
     alignItems: 'center',
     alignSelf: 'center',
-    // height: 200,
-    // width: '100% - 16',
     borderRadius: 8,
     backgroundColor: '$primaryLightBackground',
   },
@@ -62,29 +55,6 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     margin: 16,
   },
-  bodyHeader: {
-    backgroundColor: '$primaryBackgroundColor',
-    flexDirection: 'row',
-    marginTop: 4,
-    marginHorizontal: 12,
-    marginBottom: 12,
-    marginRight: 0,
-  },
-  headerIconsWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: -8,
-    paddingBottom: 5,
-  },
-  pushPinIcon: {
-    color: '$primaryRed',
-    marginLeft: 8,
-    transform: [{ rotate: '45deg' }],
-  },
-  pollPostIcon: {
-    color: '$iconColor',
-    marginLeft: 8,
-  },
   leftFooterWrapper: {
     flex: 1,
     flexDirection: 'row',
@@ -95,17 +65,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
-  dropdownWrapper: {
-    marginTop: 6,
-  },
-  reblogWrapper: {
-    marginLeft: 6,
-  },
-  reblogText: {
-    fontWeight: 'bold',
-    color: '$primaryDarkGray',
-    marginLeft: 2,
-  },
+
   revealButton: {
     backgroundColor: '$primaryGrayBackground',
     height: 56,

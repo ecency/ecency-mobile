@@ -9,7 +9,7 @@ import { TextWithIcon } from '../../basicUIElements';
 import { Icon } from '../../icon';
 
 // Styles
-import styles from './postCardStyles';
+import styles from '../styles/children.styles';
 import { IconButton } from '../..';
 import { getTimeFromNow } from '../../../utils/time';
 import { PostCardActionIds } from '../container/postCard';
