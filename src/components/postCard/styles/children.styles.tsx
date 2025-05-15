@@ -32,13 +32,14 @@ export default EStyleSheet.create({
   },
   boldText: {
     fontWeight: 'bold',
-  }, 
-   reblogWrapper: {
+  },
+  reblogWrapper: {
     marginLeft: 6,
   },
-  reblogText: {
+  repostText: {
     fontWeight: 'bold',
     color: '$primaryDarkGray',
+    fontSize:11,
     marginLeft: 2,
   },
   bodyHeader: {
@@ -63,7 +64,7 @@ export default EStyleSheet.create({
   pollPostIcon: {
     color: '$iconColor',
     marginLeft: 8,
-  },  dropdownWrapper: {
+  }, dropdownWrapper: {
     marginTop: 6,
   },
   optionsIconContainer: {
@@ -72,5 +73,11 @@ export default EStyleSheet.create({
   optionsIcon: {
     color: '$iconColor',
   },
+  crossPostWrapper:{
+    marginHorizontal:12,
+    marginVertical:5,
+    flexDirection:'row',
+    alignItems:'center'
+  }
 
 });
