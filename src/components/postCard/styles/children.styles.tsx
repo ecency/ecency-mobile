@@ -75,7 +75,7 @@ export default EStyleSheet.create({
   },
   crossPostWrapper:{
     marginHorizontal:12,
-    marginVertical:5,
+    marginVertical:6,
     flexDirection:'row',
     alignItems:'center'
   }
