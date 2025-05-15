@@ -740,6 +740,7 @@
     "copy_link": "Copy link",
     "copy_text": "Copy text",
     "reblogged": "reblogged by",
+    "cross_post": "cross post by {username} in {community}",
     "promoted": "PROMOTED",
     "poll": "POLL",
     "open_thread": "Open thread",
