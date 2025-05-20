@@ -1849,8 +1849,6 @@ PODS:
     - React-Core
   - RNCClipboard (1.16.1):
     - React-Core
-  - RNCPushNotificationIOS (1.11.0):
-    - React-Core
   - RNDeviceInfo (14.0.4):
     - React-Core
   - RNFBAnalytics (21.11.0):
@@ -2190,7 +2188,6 @@ DEPENDENCIES:
   - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
-  - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -2440,8 +2437,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
     :path: "../node_modules/@react-native-clipboard/clipboard"
-  RNCPushNotificationIOS:
-    :path: "../node_modules/@react-native-community/push-notification-ios"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNFBAnalytics:
@@ -2600,7 +2595,6 @@ SPEC CHECKSUMS:
   RNBootSplash: 2a9d2de139a6f8a84a0f1728ac40f3e7b167e15a
   RNCAsyncStorage: af7b591318005069c3795076addc83a4dd5c0a2e
   RNCClipboard: ee059e6006b137e369caed5eb852b4aad9f5d886
-  RNCPushNotificationIOS: 6c4ca3388c7434e4a662b92e4dfeeee858e6f440
   RNDeviceInfo: d863506092aef7e7af3a1c350c913d867d795047
   RNFBAnalytics: 1dfa1e8dd307e0d75b8fce82e308fd791a6d8163
   RNFBApp: b5626640e0f4b4fe5be4f44375df703c0d62ee4b
