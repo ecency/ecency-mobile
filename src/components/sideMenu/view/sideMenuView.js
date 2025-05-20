@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
 import { injectIntl, useIntl } from 'react-intl';
-import LinearGradient from 'react-native-linear-gradient';
 import VersionNumber from 'react-native-version-number';
 import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
@@ -167,12 +166,7 @@ const SideMenuView = ({
 
   const _renderHeader = () => {
     return (
-      <LinearGradient
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        colors={['#357ce6', '#2d5aa0']}
-        style={styles.headerView}
-      >
+      <View style={styles.headerView}>
         <ImageBackground source={SIDE_MENU_BACKGROUND} style={styles.imageBackground}>
           {isLoggedIn && (
             <View style={{ ...styles.headerContentWrapper, marginTop: insets.top }}>
@@ -211,7 +205,7 @@ const SideMenuView = ({
             </View>
           )}
         </ImageBackground>
-      </LinearGradient>
+      </View>
     );
   };
 
