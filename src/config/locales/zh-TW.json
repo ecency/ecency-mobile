@@ -372,7 +372,8 @@
       "sign": "Sign",
       "sign_input_placeholder": "Master password or Private Key",
       "import_failed": "Keys Import Failed"
-    }
+    },
+    "feedback_body": "Write your message here!\n\nHive username: {username}\nApp version: {appVersion}\nPlatform: {platform}\n"
   },
   "voters": {
     "voters_info": "投票者訊息",
@@ -740,6 +741,7 @@
     "copy_link": "複製連結",
     "copy_text": "Copy text",
     "reblogged": "已轉發，轉發者是",
+    "cross_post": "cross post by {username} in {community}",
     "promoted": "PROMOTED",
     "poll": "POLL",
     "open_thread": "打開主題",
@@ -754,6 +756,11 @@
     "reveal_muted": "MUTED\nTap to reveal content",
     "posted_by": "Posted by {username} via {appname} ",
     "ecency_waves": "Ecency Waves"
+  },
+  "cross_post": {
+    "title": "Cross Post",
+    "description": "Rewards are automatically declined for the cross post and discussions under cross post will be different and will follow different community guidelines.",
+    "message_placeholder": "Share your thoughts here..."
   },
   "drafts": {
     "title": "草稿",
@@ -833,7 +840,8 @@
     "edit-history": "更改副本",
     "mute": "Mute / Block",
     "translate": "Translate",
-    "delete-post": "Delete"
+    "delete-post": "Delete",
+    "cross-post": "Cross Post"
   },
   "deep_link": {
     "no_existing_user": "用户不存在",
