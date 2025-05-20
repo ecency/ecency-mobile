@@ -9,11 +9,12 @@ import { TextWithIcon } from '../../basicUIElements';
 import { Icon } from '../../icon';
 
 // Styles
-import styles from './postCardStyles';
+import styles from '../styles/children.styles';
 import { IconButton } from '../..';
 import { getTimeFromNow } from '../../../utils/time';
 import { PostCardActionIds } from '../container/postCard';
 import { ContentType } from '../../../providers/hive/hive.types';
+import CrossPostLabel from './crossPostLabel';
 
 interface Props {
   intl: IntlShape;
@@ -56,11 +57,16 @@ export const PostCardHeader = ({
           iconType="MaterialIcons"
           iconName="repeat"
           iconSize={16}
-          textStyle={styles.reblogText}
+          textStyle={styles.repostText}
           isClickable={true}
           onPress={() => handleCardInteraction(PostCardActionIds.USER, rebloggedBy)}
         />
       )}
+
+      <CrossPostLabel
+        crosspostMeta={content?.crosspostMeta}
+        handleCardInteraction={handleCardInteraction}
+      />
 
       <View style={styles.bodyHeader}>
         <PostHeaderDescription

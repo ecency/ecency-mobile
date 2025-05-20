@@ -7,7 +7,7 @@ import { useIntl } from 'react-intl';
 
 // Styles
 import { Image as ExpoImage } from 'expo-image';
-import styles from './postCardStyles';
+import styles from '../styles/postCard.styles';
 import { PostCardActionIds } from '../container/postCard';
 import ROUTES from '../../../constants/routeNames';
 import { ContentType } from '../../../providers/hive/hive.types';

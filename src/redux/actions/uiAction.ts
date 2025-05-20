@@ -20,6 +20,8 @@ import {
   HIVE_URI_TO_HANDLE,
   SHOW_TRANSLATION_MODAL,
   HIDE_TRANSLATION_MODAL,
+  SHOW_CROSS_POST_MODAL,
+  HIDE_CROSS_POST_MODAL,
 } from '../constants/constants';
 import { PostEditorModalData } from '../reducers/uiReducer';
 
@@ -134,4 +136,13 @@ export const showTranslationModal = (data: any) => ({
 
 export const hideTranslationModal = () => ({
   type: HIDE_TRANSLATION_MODAL,
+});
+
+export const showCrossPostModal = (post: any) => ({
+  payload: post,
+  type: SHOW_CROSS_POST_MODAL,
+});
+
+export const hideCrossPostModal = () => ({
+  type: HIDE_CROSS_POST_MODAL,
 });

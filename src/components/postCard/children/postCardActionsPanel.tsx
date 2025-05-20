@@ -6,7 +6,7 @@ import { TouchableOpacity, View } from 'react-native';
 import { TextWithIcon } from '../../basicUIElements';
 
 // Styles
-import styles from './postCardStyles';
+import styles from '../styles/postCard.styles';
 import { UpvoteButton } from './upvoteButton';
 import { PostTypes } from '../../../constants/postTypes';
 import { PostCardActionIds } from '../container/postCard';

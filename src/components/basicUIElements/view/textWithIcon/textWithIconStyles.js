@@ -3,7 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   container: {
     justifyContent: 'center',
-    margin: 5,
+    margin: 6,
   },
   wrapper: {
     flexDirection: 'row',

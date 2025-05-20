@@ -21,6 +21,7 @@ import {
   setRcOffer,
   showActionModal,
   showTranslationModal,
+  showCrossPostModal,
 } from '../../../redux/actions/uiAction';
 
 // Constants
@@ -125,6 +126,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     const _isPinnedInProfile = !!content && content.stats?.is_pinned_blog;
 
     // check community pin update eligibility
+    const _isCommunityPost = !!content && !!content.community;
+
     const _canUpdateCommunityPin =
       subscribedCommunities.data && !!content && content.community
         ? subscribedCommunities.data.reduce((role, subscription) => {
@@ -158,6 +161,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
           return isVisibleTranslateModal;
         case 'delete-post':
           return _canDeletePost;
+        case 'cross-post':
+          return _isCommunityPost;
         default:
           return true;
       }
@@ -369,6 +374,10 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     }
   };
 
+  const _crossPost = () => {
+    dispatch(showCrossPostModal(content));
+  };
+
   const _updatePinnedPost = async (
     { unpinPost }: { unpinPost: boolean } = { unpinPost: false },
   ) => {
@@ -541,6 +550,10 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       case 'delete-post':
         await delay(700);
         _deletePost();
+        break;
+      case 'cross-post':
+        await delay(700);
+        _crossPost();
         break;
       default:
         break;
