@@ -372,7 +372,8 @@
       "sign": "Assinar",
       "sign_input_placeholder": "Senha Mestra ou Chave Privada",
       "import_failed": "A importação de chaves falhou"
-    }
+    },
+    "feedback_body": "Write your message here!\n\nHive username: {username}\nApp version: {appVersion}\nPlatform: {platform}\n"
   },
   "voters": {
     "voters_info": "Informação de eleitores",
@@ -740,6 +741,7 @@
     "copy_link": "Copiar link",
     "copy_text": "Copiar texto",
     "reblogged": "repostado por",
+    "cross_post": "cross post by {username} in {community}",
     "promoted": "PROMOVIDO",
     "poll": "ENQUETE",
     "open_thread": "Tópico aberto",
@@ -754,6 +756,11 @@
     "reveal_muted": "SILENCIADO\nClique para revelar conteúdo",
     "posted_by": "Publicado por {username} via {appname} ",
     "ecency_waves": "Ondas da Ecency"
+  },
+  "cross_post": {
+    "title": "Cross Post",
+    "description": "Rewards are automatically declined for the cross post and discussions under cross post will be different and will follow different community guidelines.",
+    "message_placeholder": "Share your thoughts here..."
   },
   "drafts": {
     "title": "Rascunhos",
@@ -833,7 +840,8 @@
     "edit-history": "Histórico de Edição",
     "mute": "Silenciar / Bloquear",
     "translate": "Traduzir",
-    "delete-post": "Delete"
+    "delete-post": "Delete",
+    "cross-post": "Cross Post"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
