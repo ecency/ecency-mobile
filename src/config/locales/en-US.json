@@ -372,7 +372,8 @@
       "sign": "Sign",
       "sign_input_placeholder": "Master password or Private Key",
       "import_failed": "Keys Import Failed"
-    }
+    },
+    "feedback_body":"Write your message here!\n\nHive username: {username}\nApp version: {appVersion}\nPlatform: {platform}\n"
   },
   "voters": {
     "voters_info": "Voters Info",

@@ -65,6 +65,7 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 // Component
 import SettingsScreen from '../screen/settingsScreen';
 import ROUTES from '../../../constants/routeNames';
+import DeviceInfo from 'react-native-device-info';
 
 /*
  *            Props Name        Description                                     Value
@@ -387,16 +388,20 @@ class SettingsContainer extends Component {
   };
 
   _handleSendFeedback = async () => {
-    const { dispatch, intl } = this.props;
+    const { dispatch, intl, currentAccount } = this.props;
     let message;
+
+    const deviceName = await DeviceInfo.getDeviceName();
+    const platform = `${deviceName} - ${Platform.OS === 'ios' ? 'iOS' : 'Android'} ${Platform.Version}`
+    const appVersion = `${DeviceInfo.getVersion()} (${DeviceInfo.getBuildNumber()})`
+    const username = currentAccount?.username || 'Unknown User';
+
+    const _emailBody = intl.formatMessage({id:'settings.feedback_body'}, {username, appVersion, platform})
 
     await sendEmail(
       'bug@ecency.com',
       'Feedback/Bug report',
-      `Write your message here!
-
-      App version: ${VersionNumber.buildVersion}
-      Platform: ${Platform.OS === 'ios' ? 'IOS' : 'Android'}`,
+      _emailBody,
     )
       .then(() => {
         message = 'settings.feedback_success';
