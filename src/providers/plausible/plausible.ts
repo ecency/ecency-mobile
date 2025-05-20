@@ -120,10 +120,16 @@ export const fetchPostStatsByDimension = async <T>(
 
 const getEcencyUserAgent = () => {
   const appName = DeviceInfo.getApplicationName();
-    const appVersion = DeviceInfo.getVersion();
-    const systemName = Platform.OS === 'ios' ? 'iOS' : 'Android';
-    const systemVersion = DeviceInfo.getSystemVersion();
-    const deviceModel = DeviceInfo.getModel();
+  const appVersion = DeviceInfo.getVersion();
+  const systemName = Platform.OS === 'ios' ? 'iOS' : 'Android';
+  const systemVersion = DeviceInfo.getSystemVersion();
+  const deviceModel = DeviceInfo.getModel();
 
-    return`${appName}/${appVersion} (${systemName} ${systemVersion}; ${deviceModel})`;
+  //This combination ensures event appear as Mobile App with specific version installed
+  //The last part starting from Version/4.0 is essential for plausoible to record event as Mobile App, no other combination works
+  const userAgent = `${appName}/${appVersion} (${systemName} ${systemVersion}; ${deviceModel}) Version/4.0 Chrome/${appVersion} Mobile`;
+
+  console.log("Plausible User Agent", userAgent);
+
+  return userAgent
 }
