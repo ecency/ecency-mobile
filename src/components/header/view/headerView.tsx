@@ -37,7 +37,7 @@ const HeaderView = ({
 
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const intl = useIntl();
-  let gradientColor = isDarkTheme ? ['#081c36', '#43638e'] : ['#2d5aa0', '#357ce6']
+  const gradientColor = isDarkTheme ? ['#081c36', '#43638e'] : ['#2d5aa0', '#357ce6'];
 
   const _onPressSearchButton = () => {
     navigation.navigate(ROUTES.SCREENS.SEARCH_RESULT);
