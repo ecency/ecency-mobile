@@ -4,7 +4,7 @@ import { useAppSelector } from '../../../hooks';
 import { isDownVoted as isDownVotedFunc, isVoted as isVotedFunc } from '../../../utils/postParser';
 import { FormattedCurrency } from '../../formatedElements';
 import Icon from '../../icon';
-import styles from './children.styles';
+import styles from '../styles/children.styles';
 
 interface UpvoteButtonProps {
   content: any;

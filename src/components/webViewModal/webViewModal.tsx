@@ -30,7 +30,7 @@ export const WebViewModal = () => {
   const _onClose = () => {
     dispatch(hideWebViewModal());
     if (webViewModalData.onClose) {
-      webViewModalData.onClose()
+      webViewModalData.onClose();
     }
   };
 
@@ -48,6 +48,5 @@ export const WebViewModal = () => {
     </Modal>
   );
 };
-
 
 export default WebViewModal;

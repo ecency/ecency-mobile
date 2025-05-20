@@ -4,7 +4,7 @@ import { PostCardActionsPanel } from '../children/postCardActionsPanel';
 import { PostCardContent } from '../children/postCardContent';
 import { PostCardHeader } from '../children/postCardHeader';
 
-import styles from '../children/postCardStyles';
+import styles from '../styles/postCard.styles';
 
 /*
  *            Props Name        Description                                     Value

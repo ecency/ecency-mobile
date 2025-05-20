@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { ProposalVoteMeta } from 'redux/reducers/cacheReducer';
+import * as hiveuri from 'hive-uri';
 import QUERIES from './queryKeys';
 import { getProposalsVoted, voteProposal } from '../hive/dhive';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -10,7 +11,6 @@ import { updateProposalVoteMeta } from '../../redux/actions/cacheActions';
 import { getActiveProposalMeta } from '../ecency/ecency';
 import { ProposalMeta } from '../ecency/ecency.types';
 import authType from '../../constants/authType';
-import * as hiveuri from 'hive-uri';
 
 // query for getting active proposal meta;
 export const useActiveProposalMetaQuery = () => {
@@ -58,25 +58,28 @@ export const useProposalVoteMutation = () => {
   return useMutation<any, Error, { proposalId: number }>(
     ({ proposalId }) => {
       if (currentAccount.local.authType === authType.STEEM_CONNECT) {
+        const _enHiveuri = hiveuri.encodeOp([
+          'update_proposal_votes',
+          {
+            voter: currentAccount.username,
+            proposal_ids: [proposalId],
+            approve: true,
+            extensions: [],
+          },
+        ]);
 
-        const _enHiveuri = hiveuri.encodeOp(['update_proposal_votes', {
-          voter:currentAccount.username,
-          proposal_ids: [proposalId],
-          approve: true,
-          extensions: [],
-        }])
-
-
-        return new Promise((resolve, reject) => {
-          dispatch(showWebViewModal({
-            uri: _enHiveuri, onClose: () => {
-             resolve(true)
-            }
-          }));
-        })
-
+        return new Promise((resolve) => {
+          dispatch(
+            showWebViewModal({
+              uri: _enHiveuri,
+              onClose: () => {
+                resolve(true);
+              },
+            }),
+          );
+        });
       }
-      return voteProposal(currentAccount, pinHash, proposalId)
+      return voteProposal(currentAccount, pinHash, proposalId);
     },
     {
       retry: 3,

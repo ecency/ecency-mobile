@@ -113,6 +113,7 @@ import PostTranslationModal from './post-translation-modal/postTranslationModal'
 import { ImageViewer } from './imageViewer';
 import { WalkthroughMarker } from './walkthroughMarker';
 import { LinkPreview } from './linkPreview';
+import { CrossPostModal } from './crossPostModal';
 
 // Basic UI Elements
 import {
@@ -278,4 +279,5 @@ export {
   ProposalVoteRequest,
   HiveAuthModal,
   LinkPreview,
+  CrossPostModal,
 };
