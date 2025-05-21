@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { View, Alert } from 'react-native';
 import { StatsItem } from 'components/statsPanel';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MainButton, StatsPanel } from '../../..';
 import { addFavorite, checkFavorite, deleteFavorite } from '../../../../providers/ecency/ecency';
 import { followUser, getFollows, getRelationship, getUser } from '../../../../providers/hive/dhive';
@@ -24,6 +25,7 @@ interface QuickProfileContentProps {
 
 export const QuickProfileContent = ({ username, onClose }: QuickProfileContentProps) => {
   const intl = useIntl();
+  const insets = useSafeAreaInsets();
   const dispatch = useAppDispatch();
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
@@ -220,8 +222,13 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
     { label: intl.formatMessage({ id: 'profile.reputation' }), value: _reputation },
   ] as StatsItem[];
 
+  const _modaStyle = {
+    ...styles.modalStyle,
+    marginBottom: !insets.bottom && 16,
+  };
+
   return (
-    <View style={styles.modalStyle}>
+    <View style={_modaStyle}>
       <ProfileBasic
         username={username}
         about={_about}

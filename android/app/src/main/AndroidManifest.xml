@@ -4,8 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="com.android.vending.BILLING" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>                                               
+    <uses-permission android:name="com.android.vending.BILLING" />                                           
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />                                              
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
@@ -36,8 +35,9 @@
       android:icon="@mipmap/ic_launcher"
       android:allowBackup="false"
       android:largeHeap="true"
-      android:theme="@style/AppTheme">
-
+      android:theme="@style/AppTheme"
+      android:supportsRtl="true">
+      
       <activity
         android:name=".MainActivity"
         android:launchMode="singleTask"
@@ -159,8 +159,6 @@
             <data android:mimeType="image/*" />
         </intent-filter>
       </activity>
-      <activity android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
-        android:exported="true"/>
       <meta-data
           android:name="com.google.firebase.messaging.default_notification_icon"
           android:resource="@drawable/ic_notification" />

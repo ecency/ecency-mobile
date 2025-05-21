@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { Text, View } from 'react-native';
 import { debounce } from 'lodash';
+import { useDispatch } from 'react-redux';
 import TransferTypes from '../../constants/transferTypes';
 import DropdownButton from '../dropdownButton';
 import Icon from '../icon';
@@ -13,6 +14,7 @@ import UserAvatar from '../userAvatar';
 import styles from './transferAccountSelectorStyles';
 import { Market } from '../../providers/hive-spk/hiveSpk.types';
 import { SPK_NODE_ECENCY } from '../../providers/hive-spk/hiveSpk';
+import { toastNotification } from '../../redux/actions/uiAction';
 
 export interface TransferAccountSelectorProps {
   accounts: any;
@@ -54,7 +56,8 @@ const TransferAccountSelector = ({
   getRecurrentTransferOfUser,
 }: TransferAccountSelectorProps) => {
   const intl = useIntl();
-  const destinationRef = useRef('');
+  const dispatch = useDispatch();
+  const destinationRef = useRef<string[]>([]);
 
   const destinationLocked = useMemo(() => {
     switch (transferType) {
@@ -69,6 +72,9 @@ const TransferAccountSelector = ({
         return false;
     }
   }, [transferType]);
+
+  const allowMultipleDest =
+    transferType === TransferTypes.TRANSFER_TOKEN || transferType === TransferTypes.POINTS;
 
   const _handleOnFromUserChange = (username) => {
     fetchBalance(username);
@@ -85,21 +91,53 @@ const TransferAccountSelector = ({
   };
 
   const _debouncedValidateUsername = useCallback(
-    debounce((username: string) => {
-      getAccountsWithUsername(username).then((res) => {
-        // often times response for check with no matching user is returned later
-        // compoared to updated input values, this makes sure only matching value/response is processed
-        if (username !== destinationRef.current) {
-          return;
-        }
-        const isValid = res.includes(username);
+    debounce(async (usernames: string[]) => {
+      if (usernames.length === 0) {
+        console.log('No usernames provided.');
+        setIsUsernameValid(false); // No usernames means invalid
+        return;
+      }
 
-        if (isValid) {
-          getRecurrentTransferOfUser(username);
-        }
+      if (usernames.length > 5) {
+        console.log('Too many usernames provided. Maximum is 5.');
+        dispatch(toastNotification(intl.formatMessage({ id: 'transfer.too_many_usernames' })));
+        setIsUsernameValid(false); // Too many usernames means invalid
+        return;
+      }
 
-        setIsUsernameValid(isValid);
-      });
+      // Step 2: Validate each username by querying one at a time
+      const validationResults = await Promise.all(
+        usernames.map(async (username) => {
+          const trimmedUsername = username.trim(); // Trim whitespace
+          try {
+            // Query the username and check if it exists
+            const users = await getAccountsWithUsername(trimmedUsername);
+            const _isValid = users.includes(username);
+            if (_isValid) {
+              getRecurrentTransferOfUser(username);
+            }
+            return _isValid; // Convert result to boolean (true if valid, false otherwise)
+          } catch (error) {
+            console.error(`Error validating username "${trimmedUsername}":`, error);
+            return false; // Treat query errors as invalid
+          }
+        }),
+      );
+
+      if (usernames.toString() !== destinationRef.current.toString()) {
+        return;
+      }
+
+      // Step 3: Check if all usernames are valid
+      const isValid = validationResults.every((result) => result);
+
+      // Step 4: Set the isUsernameValid flag
+      setIsUsernameValid(isValid);
+
+      // Optional: Log results for debugging
+      console.log('Extracted Usernames:', usernames);
+      console.log('Validation Results:', validationResults);
+      console.log('Is All Usernames Valid:', isValid);
     }, 300),
     [getRecurrentTransferOfUser],
   );
@@ -115,8 +153,12 @@ const TransferAccountSelector = ({
       }
     }
     if (state === 'destination') {
-      _debouncedValidateUsername(val);
-      destinationRef.current = _amount;
+      // Step 1: Split the destination input into an array of usernames
+      const usernames = val
+        ? val.trim().split(/[\s,]+/) // Split by spaces or commas
+        : [];
+      _debouncedValidateUsername(allowMultipleDest ? usernames : [val]);
+      destinationRef.current = allowMultipleDest ? usernames : [val];
       setDestination(_amount);
     }
     if (state === 'memo') {
@@ -213,7 +255,19 @@ const TransferAccountSelector = ({
       <View style={styles.toFromAvatarsContainer}>
         <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
         <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
-        <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
+        {destinationRef.current.length > 0 ? (
+          destinationRef.current.map((username, index) => (
+            <UserAvatar
+              key={username}
+              username={username}
+              size="xl"
+              style={{ ...styles.userAvatar, marginLeft: index && -48 }}
+              noAction
+            />
+          ))
+        ) : (
+          <UserAvatar username="" size="xl" style={styles.userAvatar} noAction />
+        )}
       </View>
     </View>
   );

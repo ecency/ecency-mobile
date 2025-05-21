@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { View } from 'react-native';
 
 // Components
 import { Image as ExpoImage } from 'expo-image';
 import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, IconButton, PostDisplay, PostOptionsModal } from '../../../components/index';
 import styles from '../styles/postScreen.styles';
 
@@ -126,7 +126,7 @@ const PostScreen = ({ route }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView edges={['top']} style={styles.container}>
       <BasicHeader
         isHasDropdown={true}
         title="Post"
@@ -152,7 +152,7 @@ const PostScreen = ({ route }) => {
         isWave={isWavePost}
         isVisibleTranslateModal={isSubPost}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

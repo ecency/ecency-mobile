@@ -1,15 +1,11 @@
 import React, { useEffect } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 
-// Components
-// import TabBar from './tabbar';
-
 // Constants
 import { useDispatch } from 'react-redux';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useIntl } from 'react-intl';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { isIphoneX } from 'react-native-iphone-x-helper';
 import ROUTES from '../../../constants/routeNames';
 
 // Styles
@@ -93,7 +89,7 @@ const BottomTabBarView = ({
     );
   });
 
-  const _bottomPadding = insets.bottom + (isIphoneX() ? 0 : 12);
+  const _bottomPadding = insets.bottom || 16;
 
   return <View style={{ ...styles.wrapper, paddingBottom: _bottomPadding }}>{_tabButtons}</View>;
 };

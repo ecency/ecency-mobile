@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { View } from 'react-native';
 import WebView from 'react-native-webview';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, Modal } from '../../../components';
 import { SwapTokenContent } from '../children';
 import styles from '../styles/tradeScreen.styles';
@@ -61,7 +61,7 @@ const TradeScreen = ({ route, navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <BasicHeader title={intl.formatMessage({ id: `trade.${transferType}` })} />
       {_content}
 
@@ -76,7 +76,7 @@ const TradeScreen = ({ route, navigation }) => {
           <WebView source={{ uri: `${hsOptions.base_url}${hsSignPath}` }} />
         </Modal>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

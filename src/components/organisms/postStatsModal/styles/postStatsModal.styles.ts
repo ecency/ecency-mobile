@@ -28,16 +28,15 @@ export default EStyleSheet.create({
     alignItems: 'center',
   } as ViewStyle,
 
-  promoteText:{
-    marginTop:32,
-    marginHorizontal:24,
-    color: '$primaryBlack', 
-    fontWeight: '700' 
+  promoteText: {
+    marginTop: 32,
+    marginHorizontal: 24,
+    color: '$primaryBlack',
+    fontWeight: '700',
   } as TextStyle,
 
-  promoteSubText:{
-    color: '$iconColor', 
-    fontWeight: '500' 
-  } as TextStyle
-
+  promoteSubText: {
+    color: '$iconColor',
+    fontWeight: '500',
+  } as TextStyle,
 });

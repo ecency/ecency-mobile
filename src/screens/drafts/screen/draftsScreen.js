@@ -7,6 +7,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 // Utils
 import { postBodySummary } from '@ecency/render-helper';
 import { TabView } from 'react-native-tab-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { catchImageFromMetadata, catchDraftImage } from '../../../utils/image';
 import { getFormatedCreatedDate } from '../../../utils/time';
 
@@ -184,12 +185,12 @@ const DraftsScreen = ({
 
   const _renderDeleteButton = () => {
     return (
-      <>
-        <AnimatedView.View
-          entering={SlideInRight}
-          exiting={SlideOutRight}
-          style={styles.deleteButtonContainer}
-        >
+      <AnimatedView.View
+        entering={SlideInRight}
+        exiting={SlideOutRight}
+        style={styles.deleteButtonContainer}
+      >
+        <SafeAreaView>
           <IconButton
             style={styles.deleteButton}
             color={EStyleSheet.value('$pureWhite')}
@@ -200,8 +201,8 @@ const DraftsScreen = ({
             onPress={() => actionSheet?.current?.show()}
             isLoading={isBatchDeleting}
           />
-        </AnimatedView.View>
-      </>
+        </SafeAreaView>
+      </AnimatedView.View>
     );
   };
 
@@ -216,7 +217,7 @@ const DraftsScreen = ({
 
   return (
     <>
-      <View style={globalStyles.container}>
+      <SafeAreaView style={globalStyles.container}>
         <BasicHeader
           title={intl.formatMessage({
             id: 'drafts.title',
@@ -225,14 +226,17 @@ const DraftsScreen = ({
 
         <TabView
           navigationState={{ index, routes }}
-          style={[globalStyles.tabView, { paddingBottom: 40 }]}
+          style={globalStyles.tabView}
           onIndexChange={setIndex}
           renderTabBar={TabBar}
           renderScene={renderScene}
+          commonOptions={{
+            labelStyle: styles.tabLabelColor,
+          }}
         />
 
         {batchSelectedItems && batchSelectedItems.length > 0 ? _renderDeleteButton() : null}
-      </View>
+      </SafeAreaView>
       <OptionsModal
         ref={actionSheet}
         options={[

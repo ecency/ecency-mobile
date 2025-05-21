@@ -24,7 +24,7 @@ import { postQueries } from '../../../providers/queries';
  *
  */
 
-const SearchModalContainer = ({ isConnected, handleOnClose, username, isOpen, placeholder }) => {
+const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder }) => {
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
 

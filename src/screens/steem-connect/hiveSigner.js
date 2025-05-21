@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Alert, StatusBar } from 'react-native';
+import { View, Alert } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
 
@@ -107,7 +107,6 @@ class HiveSigner extends PureComponent {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <StatusBar hidden translucent />
         <WebView
           source={{
             uri: `${hsOptions.base_url}oauth2/authorize?client_id=${

@@ -2,6 +2,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import ROUTES from '../constants/routeNames';
 import RootNavigation from '../navigation/rootNavigation';
 
@@ -13,7 +14,7 @@ const LoggedInContainer = ({ isLoggedIn, isLoginDone, children }) => {
   if (!isLoggedIn) {
     return (
       <NoPost
-        style={{ flex: 1 }}
+        imageStyle={styles.imageStyle}
         isButtonText
         defaultText={intl.formatMessage({
           id: 'profile.login_to_see',
@@ -39,3 +40,10 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps)(LoggedInContainer);
 /* eslint-enable */
+
+const styles = EStyleSheet.create({
+  imageStyle: {
+    width: 193,
+    height: 189,
+  },
+});

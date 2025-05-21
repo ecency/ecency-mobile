@@ -1,6 +1,4 @@
-import { Platform, StatusBar } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
 export default EStyleSheet.create({
   tabbar: {
@@ -19,7 +17,7 @@ export default EStyleSheet.create({
   deleteButtonContainer: {
     position: 'absolute',
     right: 0,
-    top: Platform.select({ ios: getStatusBarHeight() + 4, android: StatusBar.currentHeight + 4 }),
+    top: 8,
     justifyContent: 'center',
   },
 
@@ -30,5 +28,8 @@ export default EStyleSheet.create({
     borderBottomLeftRadius: 20,
     borderTopLeftRadius: 20,
     backgroundColor: '$primaryRed',
+  },
+  tabLabelColor: {
+    color: '$primaryDarkText',
   },
 });

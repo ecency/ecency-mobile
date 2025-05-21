@@ -15,7 +15,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
-import messaging from '@react-native-firebase/messaging';
+import { getMessaging } from '@react-native-firebase/messaging';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 
@@ -337,9 +337,9 @@ class ApplicationContainer extends Component {
   };
 
   _createPushListener = async () => {
-    await messaging().requestPermission();
+    await getMessaging().requestPermission();
 
-    firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
+    firebaseOnMessageListener = getMessaging().onMessage((remoteMessage) => {
       console.log('Notification Received: foreground', remoteMessage);
 
       this.setState({
@@ -719,7 +719,7 @@ class ApplicationContainer extends Component {
       notify_types = [1, 2, 3, 4, 5, 6, 13, 15];
     }
 
-    messaging()
+    getMessaging()
       .getToken()
       .then((token) => {
         setPushToken(

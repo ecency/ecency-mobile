@@ -10,4 +10,7 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     minWidth: '100%',
   },
+  tabLabelColor: {
+    color: '$primaryDarkText',
+  },
 });

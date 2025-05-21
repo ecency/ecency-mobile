@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import { Image as ExpoImage } from 'expo-image';
 import ActionSheet from 'react-native-actions-sheet';
 import { useIntl } from 'react-intl';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import styles from './actionModalStyles';
 
 import { ActionModalData, ButtonTypes } from '../container/actionModalContainer';
@@ -22,6 +23,7 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
   const sheetModalRef = useRef<ActionSheet>();
 
   const intl = useIntl();
+  const insets = useSafeAreaInsets();
 
   useImperativeHandle(ref, () => ({
     showModal: () => {
@@ -38,6 +40,8 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
   }
 
   const { title, body, buttons, headerImage, para, headerContent, bodyContent } = data;
+
+  const _actionPanelStyle = { ...styles.actionPanel, marginBottom: !insets.bottom && 12 };
 
   const _renderContent = (
     <View style={styles.container}>
@@ -57,7 +61,7 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
         )}
       </View>
 
-      <View style={styles.actionPanel}>
+      <View style={_actionPanelStyle}>
         {buttons ? (
           buttons.map((props) => (
             <MainButton

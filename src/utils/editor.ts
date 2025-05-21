@@ -8,6 +8,8 @@ import { PostTypes } from '../constants/postTypes';
 import { ThreeSpeakVideo } from '../providers/speak/speak.types';
 import { PollDraft } from '../providers/ecency/ecency.types';
 import { ContentType, PollMetadata, PostMetadata } from '../providers/hive/hive.types';
+import { getPost } from '../providers/hive/dhive';
+import postUrlParser from './postUrlParser';
 
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
@@ -250,8 +252,57 @@ export const extractMetadata = async ({
   };
 
   const mUrls = extractUrls(body);
-  const matchedImages = [...extractImageUrls({ urls: mUrls }), ...(videoThumbUrls || [])];
+  const mImageUrls = extractImageUrls({ body, urls: mUrls });
 
+  const matchedImages = [...mImageUrls, ...(videoThumbUrls || [])];
+
+  // Process link URLs and add to list_meta
+  const filteredUrls = mUrls.filter((url) => !mImageUrls.includes(url)).slice(0, 5);
+  out.links = filteredUrls;
+
+  // Create an array to track parsed URL data alongside promises
+  const postPromises: Promise<any>[] = [];
+  const promiseUrls: string[] = [];
+
+  filteredUrls.forEach((url) => {
+    try {
+      // Check if url is a post url
+      const { author, permlink } = postUrlParser(url);
+
+      if (author && permlink) {
+        // Store URL info alongside the promise
+        promiseUrls.push(url);
+        postPromises.push(getPost(author, permlink));
+      }
+    } catch (e) {
+      console.log('error parsing url: ', url, e);
+    }
+  });
+
+  const postResponses = await Promise.all(postPromises);
+
+  // Now combine responses with original URL data
+  postResponses.forEach((linkedPost, index) => {
+    try {
+      const url = promiseUrls[index];
+
+      out.links_meta = {
+        ...(out.links_meta || {}),
+        [url]: linkedPost
+          ? {
+              title: linkedPost.title,
+              summary: linkedPost.summary,
+              image: linkedPost.image,
+            }
+          : null,
+      };
+    } catch (e) {
+      // Skip url if post data not returned
+      console.log('error fetching post data for url, skipping url: ', urlData[index]?.url, e);
+    }
+  });
+
+  // sort based on thumbUrl if provided
   if (matchedImages.length) {
     if (thumbUrl) {
       matchedImages.sort((item) => (item === thumbUrl ? -1 : 1));
@@ -330,6 +381,8 @@ export const extractMetadata = async ({
   // setting post type, primary usecase for separating waves from other posts
   out.type = postType || PostTypes.POST;
 
+  console.log('out : ', out);
+
   return out;
 };
 
@@ -354,7 +407,7 @@ export const convertToPollMeta = (pollDraft: PollDraft) => {
 
   return {
     content_type: ContentType.POLL,
-    question: pollDraft.title,
+    question: pollDraft.title.trim(),
     choices: pollDraft.choices,
     preferred_interpretation: pollDraft.interpretation,
     end_time: Math.floor(new Date(pollDraft.endTime).getTime() / 1000),

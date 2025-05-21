@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import ActionSheet from 'react-native-actions-sheet';
+import { Operation } from '@hiveio/dhive';
 import styles from '../styles/hiveAuthModal.styles';
 import { useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
@@ -13,7 +14,6 @@ import { ModalHeader } from '../..';
 import { AuthInputContent } from '../children/authInputContent';
 import { StatusContent } from '../children/statusContent';
 import { HiveAuthStatus, useHiveAuth } from '../hooks/useHiveAuth';
-import { Operation } from '@hiveio/dhive';
 
 interface HiveAuthModalProps {
   onClose?: () => void;
@@ -39,7 +39,6 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
       if (opsArray) {
         bottomSheetModalRef.current?.show();
         handleBroadcastRequst(opsArray);
-
       }
     },
   }));
@@ -64,12 +63,12 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
     }
   };
 
-  const handleBroadcastRequst = async (opsArray:Operation[]) => {
+  const handleBroadcastRequst = async (opsArray: Operation[]) => {
     const success = await hiveAuth.broadcast(opsArray);
-    if(success){
+    if (success) {
       _closeModal();
     }
-  }
+  };
 
   const _closeModal = () => {
     bottomSheetModalRef.current?.hide();

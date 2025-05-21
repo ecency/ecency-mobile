@@ -3,7 +3,7 @@ import { Alert, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import Config from 'react-native-config';
-import messaging from '@react-native-firebase/messaging';
+import { getMessaging } from '@react-native-firebase/messaging';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
@@ -258,7 +258,7 @@ class LoginContainer extends PureComponent {
       }
     });
 
-    messaging()
+    getMessaging()
       .getToken()
       .then((token) => {
         const data = {

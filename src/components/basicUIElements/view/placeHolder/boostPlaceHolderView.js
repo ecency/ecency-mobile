@@ -12,7 +12,7 @@ const BoostPlaceHolder = () => {
 
   const ratio = (dim.height - 300) / 50 / 1.3;
   const listElements = [];
-  const isDarkTheme = useSelector((state) => state.application.isDarkTeme);
+  const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
   const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
   times(parseInt(ratio), (i) => {
     listElements.push(

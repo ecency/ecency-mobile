@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import get from 'lodash/get';
@@ -35,7 +35,6 @@ const PointsContainer = ({
   user,
   activeBottomTab,
   isPinCodeOpen,
-  globalProps,
   pinCode,
   currency,
   route,

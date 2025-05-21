@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { default as ModalBox } from 'react-native-modal';
+import { Modal as ModalBox } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './modalStyles';
 import { ModalHeader } from '../../modalHeader';
 
@@ -45,26 +46,36 @@ export default class Modal extends PureComponent {
       children,
       isRadius,
       isTransparent = false,
-      animationType = 'fade',
+      animationType = 'slide',
       isBottomModal = false,
     } = this.props;
     return (
       <ModalBox
-        style={[
-          isRadius && styles.borderTopRadius,
-          isFullScreen ? styles.fullModal : isBottomModal ? styles.bottomModal : styles.centerModal,
-        ]}
         transparent={isTransparent}
         animationType={animationType}
-        isVisible={isOpen}
+        visible={isOpen}
         onRequestClose={() => this._handleOnClose(this)}
         onShow={() => this._handleOnOpen(this)}
         onModalHide={() => console.log('hide')}
         onModalDismiss={() => console.log('dismiss')}
+        presentationStyle="formSheet"
         {...this.props}
       >
-        <ModalHeader onClosePress={() => this._handleOnClose()} {...this.props} />
-        {children}
+        <SafeAreaView
+          style={
+            this.props.style || [
+              isRadius && styles.borderTopRadius,
+              isFullScreen
+                ? styles.fullModal
+                : isBottomModal
+                ? styles.bottomModal
+                : styles.centerModal,
+            ]
+          }
+        >
+          <ModalHeader onClosePress={() => this._handleOnClose()} {...this.props} />
+          {children}
+        </SafeAreaView>
       </ModalBox>
     );
   }

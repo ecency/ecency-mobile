@@ -16,7 +16,7 @@ import AccountListContainer from '../../../containers/accountListContainer';
 import globalStyles from '../../../globalStyles';
 import styles from '../styles/reblogScreen.styles';
 import { getTimeFromNow } from '../../../utils/time';
-import { reblogQueries } from '../../../providers/queries';
+import { repostQueries } from '../../../providers/queries';
 
 const renderUserListItem = (item, index, handleOnUserPress) => {
   return (
@@ -41,8 +41,8 @@ const ReblogScreen = ({ route }) => {
 
   const [isReblogging, setIsReblogging] = useState(false);
 
-  const reblogsQuery = reblogQueries.useGetReblogsQuery(author, permlink);
-  const reblogMutation = reblogQueries.useReblogMutation(author, permlink);
+  const reblogsQuery = repostQueries.useGetReblogsQuery(author, permlink);
+  const reblogMutation = repostQueries.useReblogMutation(author, permlink);
 
   // map reblogs data for account list
   const { reblogs, deleteEnabled } = useMemo(() => {
@@ -98,7 +98,7 @@ const ReblogScreen = ({ route }) => {
   return (
     <AccountListContainer data={reblogs}>
       {({ data, filterResult, handleSearch, handleOnUserPress }) => (
-        <SafeAreaView style={[globalStyles.container, { paddingBottom: 40 }]}>
+        <SafeAreaView style={globalStyles.container}>
           {/* Your content goes here */}
           <BasicHeader
             title={`${headerTitle} (${data && data.length})`}

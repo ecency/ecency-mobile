@@ -3,12 +3,12 @@ import RenderHTML, { CustomRendererProps, Element, TNode } from 'react-native-re
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
 import { ScrollView } from 'react-native-gesture-handler';
-// import { prependChild, removeElement } from 'htmlparser2/node_modules/domutils';
+import { Text, TouchableOpacity } from 'react-native';
 import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
-import { VideoPlayer } from '..';
+import { LinkPreview, UserAvatar, VideoPlayer } from '..';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
@@ -196,6 +196,7 @@ export const PostHtmlRenderer = memo(
 
     const _anchorRenderer = ({ InternalRenderer, tnode, ...props }: CustomRendererProps<TNode>) => {
       const parsedTnode = parseLinkData(tnode);
+
       const _onPress = () => {
         console.log('Link Pressed:', tnode);
         const data = parseLinkData(tnode);
@@ -203,7 +204,7 @@ export const PostHtmlRenderer = memo(
       };
 
       // process video link
-      if (tnode.classes?.indexOf('markdown-video-link') >= 0) {
+      if (parsedTnode?.type === 'markdown-video-link') {
         if (isComment) {
           const imgElement = tnode.children.find((child) => {
             return child.classes.indexOf('video-thumbnail') > 0;
@@ -236,6 +237,53 @@ export const PostHtmlRenderer = memo(
             activeOpacity={0.8}
             onPress={_onPress}
           />
+        );
+      }
+
+      // render hive post mini card for post-link
+      if (parsedTnode?.type === 'markdown-post-link' && !parsedTnode.isInLine) {
+        const origUrl = parsedTnode.href;
+        const lintMeta = metadata.links_meta && metadata.links_meta[origUrl || ''];
+
+        return (
+          <LinkPreview
+            author={parsedTnode.author}
+            permlink={parsedTnode.permlink}
+            linkMeta={lintMeta}
+            onPress={_onPress}
+            contentWidth={contentWidth}
+          />
+        );
+      }
+
+      // render user avatar
+      if (parsedTnode?.type === 'markdown-author-link') {
+        const usernameStyle = { ...styles.tagText, marginLeft: 4 };
+        return (
+          <Text>
+            {' '}
+            <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
+              <UserAvatar
+                username={parsedTnode.author || ''}
+                size="small"
+                metadata={metadata}
+                noAction
+              />
+              <Text style={usernameStyle}>@{tnode.attributes['data-author']}</Text>
+            </TouchableOpacity>{' '}
+          </Text>
+        );
+      }
+
+      // render tag
+      if (parsedTnode?.type === 'markdown-tag-link') {
+        return (
+          <Text>
+            {' '}
+            <TouchableOpacity onPress={_onPress} style={styles.tagWrapper}>
+              <Text style={styles.tagText}>#{parsedTnode.tag}</Text>
+            </TouchableOpacity>{' '}
+          </Text>
         );
       }
 

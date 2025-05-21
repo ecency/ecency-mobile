@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from 'react';
 import { TouchableOpacity, Text, View, useWindowDimensions } from 'react-native';
 // Utils
-import { Image as ExpoImage } from 'expo-image';
 import { useIntl } from 'react-intl';
 
 // Components
 
 // Styles
-import styles from './postCardStyles';
+import { Image as ExpoImage } from 'expo-image';
+import styles from '../styles/postCard.styles';
 import { PostCardActionIds } from '../container/postCard';
 import ROUTES from '../../../constants/routeNames';
 import { ContentType } from '../../../providers/hive/hive.types';
@@ -66,6 +66,10 @@ export const PostCardContent = ({
       key: `${content.author}/${content.permlink}`,
     });
   };
+
+  // const _setAspectRatio = (ratio: number) => {
+  //   setImageRatio(content.author + content.permlink, ratio);
+  // };
 
   let images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
   if (content.thumbnail) {

@@ -1,0 +1,113 @@
+name: Android Build
+on:
+  push:
+    branches: ["development"]
+jobs:
+  android-build:
+    name: Android Build
+    runs-on: macos-latest
+    steps:
+      - name: Show host machine information
+        run: uname -a
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.9.1
+      - name: Checkout repo from dev branch
+        uses: actions/checkout@v3
+        with:
+          ref: development
+      - name: Create .env file
+        run: |
+          echo "ACTIVITY_WEBSOCKET_URL=${{ secrets.ACTIVITY_WEBSOCKET_URL }}" >> .env
+          echo "BUGSNAG_API_KEY=${{ secrets.BUGSNAG_API_KEY }}" >> .env
+          echo "DEFAULT_PIN=${{ secrets.DEFAULT_PIN }}" >> .env
+          echo "ECENCY_BACKEND_API=${{ secrets.ECENCY_BACKEND_API }}" >> .env
+          echo "NEW_IMAGE_API=${{ secrets.NEW_IMAGE_API }}" >> .env
+          echo "PIN_KEY=${{ secrets.PIN_KEY }}" >> .env
+          echo "SERVER_LIST_API=${{ secrets.SERVER_LIST_API }}" >> .env
+          echo "USER_AGENT=${{ secrets.USER_AGENT }}" >> .env
+          echo "PLAUSIBLE_API_KEY=${{ secrets.PLAUSIBLE_API_KEY }}" >> .env
+      - name: Install npm dependency
+        run: yarn install
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "temurin"
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: 11479570
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Create Google Services JSON File
+        env:
+          GOOGLE_JSON: ${{ secrets.GOOGLE_JSON }}
+        run: echo $GOOGLE_JSON | base64 --decode > ./android/app/google-services.json
+      - name: Upload-keystore generator
+        run: |
+          echo "${{secrets.UPLOAD_KEYSTORE}}" > upload.keystore.asc
+          base64 -d --input upload.keystore.asc --output android/app/key.jks
+      - name: Key.Properties
+        run: |
+          echo "keyPassword=${{ secrets.UPLOAD_KEYSTORE_PASSPHRASE }}" >> ./android/key.properties
+          echo "storePassword=${{ secrets.UPLOAD_KEYSTORE_PASSPHRASE }}" >> ./android/key.properties
+          echo "keyAlias=${{ secrets.ALIAS }}" >> ./android/key.properties
+      - name: Set version code
+        run: |
+          TIMESTAMP=$(date +%s)
+          echo "Setting version code to: $TIMESTAMP"
+          sed -i '' "s/versionCode .*/versionCode $TIMESTAMP/" android/app/build.gradle
+      - name: Bundle Android
+        run: yarn run bundle:android
+      - name: Execute Gradle APK build
+        run: |
+          cd android
+          ./gradlew assembleRelease
+      - name: Cache generated APK
+        uses: actions/cache@v3
+        with:
+          path: app/build/outputs/apk/
+          key: apk-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            apk-${{ runner.os }}-
+      - name: Upload APK application
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ecency-APK
+          path: ./android/app/build/outputs/apk/release/app-release.apk
+          retention-days: 90
+      - name: Execute Gradle Bundle build
+        run: |
+          cd android
+          ./gradlew bundleRelease
+      # npx react-native build-android --mode=release
+      - name: Upload App bundle to Releases
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ecency-Bundle
+          path: ./android/app/build/outputs/bundle/release/app-release.aab
+  android-deploy:
+    name: Deploy Android Build
+    needs: android-build
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Get Android Build from artifacts
+        uses: actions/download-artifact@v4
+      - name: Deploy to Play Store (BETA)
+        id: deploy
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: app.esteem.mobile.android
+          releaseFiles: Ecency-Bundle/app-release.aab
+          track: alpha
+          status: completed

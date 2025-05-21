@@ -5,6 +5,8 @@ import { injectIntl } from 'react-intl';
 import { get, debounce } from 'lodash';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import * as hiveuri from 'hive-uri';
 import { hsOptions } from '../../../constants/hsOptions';
 import AUTH_TYPE from '../../../constants/authType';
 
@@ -158,6 +160,9 @@ const TransferView = ({
   let path;
 
   if (hsTransfer) {
+    // split to multiple destinations
+    const destinations = destination.trim().split(/[\s,]+/); // Split by spaces or commas
+
     if (transferType === TransferTypes.RECURRENT_TRANSFER) {
       path = `sign/recurrent_transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
@@ -190,18 +195,26 @@ const TransferView = ({
         `${amount} ${fundType}`,
       )}`;
     } else if (transferType === TransferTypes.POINTS) {
-      const json = JSON.stringify({
-        sender: get(selectedAccount, 'name'),
-        receiver: destination,
-        amount: `${Number(amount).toFixed(3)} ${fundType}`,
-        memo,
-      });
-      path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
-        selectedAccount,
-        'name',
-      )}%22%5D&required_posting_auths=%5B%5D&id=ecency_point_transfer&json=${encodeURIComponent(
-        json,
-      )}`;
+      path = hiveuri
+        .encodeOps(
+          destinations.map((receiver) => [
+            'custom_json',
+            {
+              required_auths: [selectedAccount.name],
+              required_posting_auths: [],
+              id: 'ecency_point_transfer',
+              json: JSON.stringify({
+                sender: selectedAccount.name,
+                receiver,
+                amount: `${Number(amount).toFixed(3)} ${fundType}`,
+                memo,
+              }),
+            },
+          ]),
+        )
+        .replace('hive://', '');
+
+      path += '?authority=active'; // IMPORTANT: sets appropriate key to use with transaction signing
     } else if (isEngineToken) {
       const json = getEngineActionJSON(
         transferType.split('_')[0],
@@ -225,10 +238,16 @@ const TransferView = ({
         transferType,
       )}&json=${encodeURIComponent(JSON.stringify(json))}`;
     } else {
-      path = `sign/transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
-        `${amount} ${fundType}`,
-      )}&memo=${encodeURIComponent(memo)}`;
+      path = hiveuri
+        .encodeOps(
+          destinations.map((receiver) => [
+            'transfer',
+            { from: currentAccountName, to: receiver, amount: `${amount} ${fundType}`, memo },
+          ]),
+        )
+        .replace('hive://', '');
     }
+
     console.log('path is: ', path);
   }
 
@@ -304,7 +323,7 @@ const TransferView = ({
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <BasicHeader
         title={intl.formatMessage({ id: `transfer.${transferType}` })}
         backIconName="close"
@@ -383,7 +402,7 @@ const TransferView = ({
       )}
 
       <HiveAuthModal ref={hiveAuthModalRef} onClose={handleOnModalClose} />
-    </View>
+    </SafeAreaView>
   );
 };
 

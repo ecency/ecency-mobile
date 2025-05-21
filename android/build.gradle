@@ -14,16 +14,15 @@ def getNpmVersionArray() { // major [0], minor [1], patch [2]
 
 buildscript {
     ext {
-        buildToolsVersion = "34.0.0"
+        buildToolsVersion = "35.0.0"
         minSdkVersion = 26
-        compileSdkVersion = 34
+        compileSdkVersion = 35
         targetSdkVersion = 34
-        ndkVersion = "26.2.11394342"
-        kotlinVersion = "1.8.0"
+        ndkVersion = "27.2.12479018"
+        kotlinVersion = "2.0.21"
         googlePlayServicesVisionVersion = "17.0.2"
         googlePlayServicesVersion = "16.+"
         firebaseVersion = "17.3.4"
-        FLIPPER_VERSION="0.164.0"
     }
     repositories {
         google()
@@ -34,7 +33,6 @@ buildscript {
         classpath 'com.google.gms:google-services:4.4.0'
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
-        classpath 'com.bugsnag:bugsnag-android-gradle-plugin:7.+'
     }
 }
 

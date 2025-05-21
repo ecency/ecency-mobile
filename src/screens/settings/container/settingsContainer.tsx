@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Platform, Alert, Appearance } from 'react-native';
 import { connect } from 'react-redux';
 import { Client } from '@hiveio/dhive';
-import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
-import messaging from '@react-native-firebase/messaging';
+import { getMessaging } from '@react-native-firebase/messaging';
 import { useNavigation } from '@react-navigation/native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import DeviceInfo from 'react-native-device-info';
 import { languageRestart } from '../../../utils/I18nUtils';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
@@ -368,7 +368,7 @@ class SettingsContainer extends Component {
           otherAccounts.forEach((item) => {
             const { isNotificationSettingsOpen } = this.props;
 
-            messaging()
+            getMessaging()
               .getToken()
               .then((token) => {
                 const data = {
@@ -387,17 +387,22 @@ class SettingsContainer extends Component {
   };
 
   _handleSendFeedback = async () => {
-    const { dispatch, intl } = this.props;
+    const { dispatch, intl, currentAccount } = this.props;
     let message;
 
-    await sendEmail(
-      'bug@ecency.com',
-      'Feedback/Bug report',
-      `Write your message here!
+    const deviceName = await DeviceInfo.getDeviceName();
+    const platform = `${deviceName} - ${Platform.OS === 'ios' ? 'iOS' : 'Android'} ${
+      Platform.Version
+    }`;
+    const appVersion = `${DeviceInfo.getVersion()} (${DeviceInfo.getBuildNumber()})`;
+    const username = currentAccount?.username || 'Unknown User';
 
-      App version: ${VersionNumber.buildVersion}
-      Platform: ${Platform.OS === 'ios' ? 'IOS' : 'Android'}`,
-    )
+    const _emailBody = intl.formatMessage(
+      { id: 'settings.feedback_body' },
+      { username, appVersion, platform },
+    );
+
+    await sendEmail('bug@ecency.com', 'Feedback/Bug report', _emailBody)
       .then(() => {
         message = 'settings.feedback_success';
       })

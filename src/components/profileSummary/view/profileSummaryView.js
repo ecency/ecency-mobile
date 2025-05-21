@@ -114,7 +114,6 @@ class ProfileSummaryView extends PureComponent {
       isProfileLoading,
       percentRC,
       percentVP,
-      username,
     } = this.props;
 
     let dropdownOptions = [];

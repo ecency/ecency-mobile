@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useIntl } from 'react-intl';
 
@@ -13,12 +13,9 @@ const CommunityListItem = ({
   handleOnLongPress,
   title,
   about,
-  admins,
-  id,
   authors,
   posts,
   subscribers,
-  isNsfw,
   name,
   handleSubscribeButtonPress,
   isSubscribed,

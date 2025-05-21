@@ -6,8 +6,9 @@ import ROUTES from '../../../../../../constants/routeNames';
 
 import { searchAccount } from '../../../../../../providers/ecency/ecency';
 import { lookupAccounts } from '../../../../../../providers/hive/dhive';
+import postUrlParser from '../../../../../../utils/postUrlParser';
 
-const PeopleResultsContainer = ({ children, searchValue, username, isUsername }) => {
+const PeopleResultsContainer = ({ children, searchValue, isUsername }) => {
   const navigation = useNavigation();
 
   const [users, setUsers] = useState([]);
@@ -24,14 +25,17 @@ const PeopleResultsContainer = ({ children, searchValue, username, isUsername })
       _fetchUsernames(searchValue);
     }
 
-    searchAccount(searchValue, 20, searchValue ? 0 : 1)
+    // parse username if url is provided
+    const { author } = postUrlParser(searchValue) || {};
+
+    searchAccount(author || searchValue, 20, searchValue ? 0 : 1)
       .then((res) => {
         if (res && res.length === 0) {
           setNoResult(true);
         }
         setUsers(res.reverse());
       })
-      .catch((err) => {
+      .catch(() => {
         setNoResult(true);
         setUsers([]);
       });

@@ -1,13 +1,13 @@
 ### Ecency Mobile
 
-iOS ![iOS](https://build.appcenter.ms/v0.1/apps/ef80aa2a-d4e1-4f43-a4f8-be12ea72ba9b/branches/master/badge)
-Android ![Android](https://build.appcenter.ms/v0.1/apps/12aace32-b58a-49da-bf85-5477f89ae16e/branches/master/badge)
+iOS ![iOS](https://github.com/ecency/ecency-mobile/actions/workflows/build-ios.yml/badge.svg)
+Android ![Android](https://github.com/ecency/ecency-mobile/actions/workflows/build-android.yml/badge.svg)
 
 ## Open Beta 🔥
 
 [IOS](https://install.appcenter.ms/orgs/ecency/apps/ios/distribution_groups/beta_testers)
 
-[ANDROID](https://install.appcenter.ms/orgs/ecency/apps/android/distribution_groups/beta_testers)
+[ANDROID](https://play.google.com/apps/testing/app.esteem.mobile.android)
 
 ## Download
 
@@ -123,4 +123,3 @@ We will evaluate the risk and make a patch available before filing the issue.
 - Hive community
 - React native community
 - Bugsnag
-- Appcenter

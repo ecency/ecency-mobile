@@ -69,7 +69,7 @@ export function parsePostStatsResponse(
   const parsedStats = Object.keys(defaultStats).reduce(
     (acc, key) => {
       acc[key as keyof PostStats] = metrics[metricIndexMap[key]] || 0;
-    return acc;
+      return acc;
     },
     { ...defaultStats },
   );
@@ -77,7 +77,7 @@ export function parsePostStatsResponse(
   return parsedStats as PostStats;
 }
 
-export function parsePostStatsByDimension<T>(response: StatsResponse, dimensionKey:string) {
+export function parsePostStatsByDimension<T>(response: StatsResponse, dimensionKey: string) {
   const reData = response.results.map(
     (result) =>
       ({
@@ -91,13 +91,10 @@ export function parsePostStatsByDimension<T>(response: StatsResponse, dimensionK
   return reData;
 }
 
-
 // Convert PostStatsByDimension to a new type based on T, where key is inferred from T
-export const convertStatsByDimension = <T>(
-  data: PostStatsByDimension[]
-): T[] => {
+export const convertStatsByDimension = <T>(data: PostStatsByDimension[]): T[] => {
   // Get the key name from the first item of the type T
   const key = Object.keys({} as T)[0] as keyof T;
 
-  return data.map(item => ({ [key]: item.dimension, stats: item.stats } as T));
+  return data.map((item) => ({ [key]: item.dimension, stats: item.stats } as T));
 };

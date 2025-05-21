@@ -19,6 +19,7 @@ const SelectCommunityModalView = ({
   currentAccount,
   onCloseModal,
   intl,
+  showSubscribedOnly,
 }) => {
   const [sections, setSections] = useState<any[]>([]);
 
@@ -33,11 +34,16 @@ const SelectCommunityModalView = ({
       if (subscribedCommunities) {
         _sections.push({
           sectionTitle: intl.formatMessage({ id: 'editor.my_communities' }).toUpperCase(),
-          data: subscribedCommunities.map((item) => ({ name: item[0], title: item[1] })),
+          data: subscribedCommunities,
         });
       }
 
-      if (!topCommunities.isLoading && !topCommunities.error && topCommunities.data?.length > 0) {
+      if (
+        !showSubscribedOnly &&
+        !topCommunities.isLoading &&
+        !topCommunities.error &&
+        topCommunities.data?.length > 0
+      ) {
         _sections.push({
           sectionTitle: intl.formatMessage({ id: 'editor.top_communities' }).toUpperCase(),
           data: topCommunities.data,
@@ -57,7 +63,7 @@ const SelectCommunityModalView = ({
         backEnabled={true}
         onBackPress={onCloseModal}
       />
-      {!showSearchedCommunities && (
+      {!showSubscribedOnly && !showSearchedCommunities && (
         <>
           <Text style={[globalStyles.label, styles.title]}>
             {intl.formatMessage({ id: 'editor.my_blog' }).toUpperCase()}

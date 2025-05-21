@@ -1,5 +1,4 @@
 import { AppRegistry, LogBox } from 'react-native';
-import AppCenter from 'appcenter';
 import { name as appName } from './app.json';
 
 import 'react-native-url-polyfill/auto';
@@ -9,8 +8,6 @@ import 'react-native-get-random-values';
 
 // set check frequency options
 const EcencyApp = require('./App').default;
-
-AppCenter.setLogLevel(AppCenter.LogLevel.VERBOSE);
 
 // TODO Remove ignoreLogs when referenced issue is fixed properly
 // ref: https://github.com/ecency/ecency-mobile/issues/2466

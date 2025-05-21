@@ -76,13 +76,13 @@ const CommentsView = ({
     setSelectedComment(null);
   };
 
-  const _onUpvotePress = ({ content, anchorRect, showPayoutDetails, onVotingStart }) => {
+  const _onUpvotePress = ({ content, sourceRef, showPayoutDetails, onVotingStart }) => {
     if (upvotePopoverRef.current) {
       const postType =
         content.parent_author === 'ecency.waves' ? PostTypes.WAVE : PostTypes.COMMENT;
 
       upvotePopoverRef.current.showPopover({
-        anchorRect,
+        sourceRef,
         showPayoutDetails,
         content,
         postType,
