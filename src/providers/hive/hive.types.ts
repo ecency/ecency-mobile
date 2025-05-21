@@ -20,10 +20,9 @@ export interface PollMetadata {
   };
   end_time: number;
   ui_hide_res_until_voted: boolean;
-  // ECENCY SPECIFIC POLL OPTIONS
-  //TODO: change to allow_vote_changes
-  vote_change: boolean;
-  hide_votes: boolean;
+  token?:string,
+  community_membership?: string[];
+  allow_vote_changes?:boolean;
 }
 
 export interface PostMetadata extends Partial<PollMetadata> {
