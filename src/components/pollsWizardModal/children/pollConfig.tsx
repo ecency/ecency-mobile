@@ -49,9 +49,14 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
 
   const _onInterpretationChange = (index: number) => {
     const interpretation = _interpretations[index];
+
+    //TODO: handle token selection later
+    const token = interpretation === PollPreferredInterpretation.TOKENS ? "HIVE:HP" : undefined;
+
     setPollDraft({
       ...pollDraft,
       interpretation,
+      token
     });
   };
 
