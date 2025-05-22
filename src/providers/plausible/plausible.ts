@@ -35,7 +35,7 @@ export const recordPlausibleEvent = async (urlPath: string, eventName?: string):
       force: true,
     };
 
-    const userAgent = await DeviceInfo.getUserAgent();
+    const userAgent = getEcencyUserAgent();
     const res = await plausibleApi.post(PATH_EVENT_API, payload, {
       headers: { 'User-Agent': userAgent },
     });
@@ -116,3 +116,20 @@ export const fetchPostStatsByDimension = async <T>(
 
   return postStats;
 };
+
+
+const getEcencyUserAgent = () => {
+  const appName = DeviceInfo.getApplicationName();
+  const appVersion = DeviceInfo.getVersion();
+  const systemName = Platform.OS === 'ios' ? 'iOS' : 'Android';
+  const systemVersion = DeviceInfo.getSystemVersion();
+  const deviceModel = DeviceInfo.getModel();
+
+  //This combination ensures event appear as Mobile App with specific version installed
+  //The last part starting from Version/4.0 is essential for plausoible to record event as Mobile App, no other combination works
+  const userAgent = `${appName}/${appVersion} (${systemName} ${systemVersion}; ${deviceModel}) Version/4.0 Chrome/${appVersion} Mobile`;
+
+  console.log("Plausible User Agent", userAgent);
+
+  return userAgent
+}
