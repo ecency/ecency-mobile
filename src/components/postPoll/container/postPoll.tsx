@@ -80,12 +80,16 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
         : false;
 
     const _noVoteChange =
-      metadata.vote_change !== undefined ? !metadata.vote_change && !!userVote : false;
+      metadata.allow_vote_changes !== undefined
+        ? !metadata.allow_vote_changes && !!userVote
+        : false;
 
     const _previewMode = mode === PollModes.PREVIEW;
 
     return _expired || !isLoggedIn || _noVoteChange || _ageLimitApllies || _previewMode;
   }, [metadata, userVote]);
+
+  const _allowPeeking = !userVote && !metadata.ui_hide_res_until_voted;
 
   useEffect(() => {
     if (!pollsQuery.isLoading) {
@@ -151,17 +155,19 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
     );
   };
 
-  const _authorPanel = _isPollAuthor && (
+  const _authorPanel = (
     <View style={styles.authorPanel}>
-      <TextButton
-        text={intl.formatMessage({
-          id: _isModeSelect ? 'post_poll.view_stats' : 'post_poll.hide_stats',
-        })}
-        onPress={_handleModeToggle}
-        textStyle={styles.viewVotesBtn}
-      />
+      {(_isPollAuthor || _allowPeeking) && (
+        <TextButton
+          text={intl.formatMessage({
+            id: _isModeSelect ? 'post_poll.view_stats' : 'post_poll.hide_stats',
+          })}
+          onPress={_handleModeToggle}
+          textStyle={styles.viewVotesBtn}
+        />
+      )}
 
-      {!_isModeSelect && (
+      {!_isModeSelect && _isPollAuthor && (
         <TextButton
           text={intl.formatMessage({
             id: _isInterpretationToken ? 'post_poll.interpret_vote' : 'post_poll.interpret_token',
@@ -205,6 +211,7 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
         selection={selection}
         hideVoters={_hideVoters}
         interpretationToken={interpretation === PollPreferredInterpretation.TOKENS}
+        token={pollsQuery.data?.token}
         compactView={compactView}
         handleChoiceSelect={_handleChoiceSelect}
         handleVotersPress={_handleVotersPress}

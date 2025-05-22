@@ -5,7 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
 import { get } from 'lodash';
 import styles from '../styles/pollChoices.styles';
-import { PollChoice, PollVoter } from '../../../providers/polls/polls.types';
+import { PollChoice, PollVoter, TokenPrefix } from '../../../providers/polls/polls.types';
 import { mapMetaChoicesToPollChoices } from '../../../providers/polls/converters';
 import { CheckBox } from '../../checkbox';
 import { PostMetadata } from '../../../providers/hive/hive.types';
@@ -23,6 +23,7 @@ interface PollChoicesProps {
   hideVoters: boolean;
   interpretationToken?: boolean;
   compactView?: boolean;
+  token?: string;
   handleChoiceSelect: (optionNum: number) => void;
   handleVotersPress: (optionNum: number) => void;
 }
@@ -38,6 +39,7 @@ export const PollChoices = ({
   hideVoters,
   interpretationToken,
   compactView,
+  token,
   handleChoiceSelect,
   handleVotersPress,
 }: PollChoicesProps) => {
@@ -46,22 +48,30 @@ export const PollChoices = ({
 
   const [_choices, setChoices] = useState(choices || mapMetaChoicesToPollChoices(metadata.choices));
 
-  const totalVotes = useMemo(
-    () =>
-      _choices.reduce(
-        (prevVal, option) =>
-          prevVal +
-          get(option.votes, interpretationToken ? 'hive_hp_incl_proxied' : 'total_votes', 0),
-        0,
-      ),
-    [_choices, interpretationToken],
-  );
-
   useEffect(() => {
     if (!loading && !!choices) {
       setChoices(choices);
     }
   }, [loading, choices]);
+
+  // set vote prop and calcualte total votes;
+  const { votesProp, votesSymbol } = useMemo(() => {
+    if (interpretationToken) {
+      if (token?.startsWith(TokenPrefix.HE)) {
+        return { votesProp: 'he_token', votesSymbol: TokenPrefix.HE };
+      } else if (token?.startsWith(TokenPrefix.SPL)) {
+        return { votesProp: 'spl_spsp', votesSymbol: TokenPrefix.SPL };
+      } else if (token?.startsWith(TokenPrefix.HIVE)) {
+        return { votesProp: 'hive_hp', votesSymbol: TokenPrefix.HIVE };
+      }
+    }
+    return { votesProp: 'total_votes', votesSymbol: intl.formatMessage({ id: 'post_poll.voted' }) };
+  }, [interpretationToken]);
+
+  const totalVotes = useMemo(
+    () => _choices.reduce((prevVal, option) => prevVal + get(option.votes, votesProp, 0), 0),
+    [_choices, interpretationToken],
+  );
 
   const _isModeSelect = mode !== PollModes.RESULT;
 
@@ -74,10 +84,7 @@ export const PollChoices = ({
       !_isModeSelect && userVote?.choices && userVote.choices.includes(option.choice_num);
     const _isSelected = selection.includes(option.choice_num);
 
-    const votes =
-      Math.round(
-        get(option.votes, interpretationToken ? 'hive_hp_incl_proxied' : 'total_votes', 0) * 1000,
-      ) / 1000;
+    const votes = Math.round(get(option.votes, votesProp, 0) * 1000) / 1000;
 
     const percentage = !_isModeSelect && !!totalVotes ? (votes / totalVotes) * 100 : 0; // TODO: adjust logic here
     const _barWidth = dim.width - (compactView ? 72 : 64);
@@ -121,9 +128,7 @@ export const PollChoices = ({
               <TextButton
                 disabled={hideVoters}
                 textStyle={styles.count}
-                text={`${votes} ${intl.formatMessage({
-                  id: interpretationToken ? 'post_poll.hp' : 'post_poll.voted',
-                })}`}
+                text={`${votes} ${votesSymbol}`}
                 onPress={_onVotersPress}
               />
             )}

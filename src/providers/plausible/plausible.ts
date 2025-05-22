@@ -117,7 +117,6 @@ export const fetchPostStatsByDimension = async <T>(
   return postStats;
 };
 
-
 const getEcencyUserAgent = () => {
   const appName = DeviceInfo.getApplicationName();
   const appVersion = DeviceInfo.getVersion();
@@ -125,11 +124,11 @@ const getEcencyUserAgent = () => {
   const systemVersion = DeviceInfo.getSystemVersion();
   const deviceModel = DeviceInfo.getModel();
 
-  //This combination ensures event appear as Mobile App with specific version installed
-  //The last part starting from Version/4.0 is essential for plausoible to record event as Mobile App, no other combination works
+  // This combination ensures event appear as Mobile App with specific version installed
+  // The last part starting from Version/4.0 is essential for plausoible to record event as Mobile App, no other combination works
   const userAgent = `${appName}/${appVersion} (${systemName} ${systemVersion}; ${deviceModel}) Version/4.0 Chrome/${appVersion} Mobile`;
 
-  console.log("Plausible User Agent", userAgent);
+  console.log('Plausible User Agent', userAgent);
 
-  return userAgent
-}
+  return userAgent;
+};

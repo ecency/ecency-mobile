@@ -27,6 +27,8 @@ export const convertPoll = (rawData: any): Poll | null => {
     poll_choices,
     poll_voters,
     poll_stats,
+    allow_vote_changes,
+    community_membership,
   } = rawData;
 
   // Ensure required properties are present
@@ -83,7 +85,9 @@ export const convertPoll = (rawData: any): Poll | null => {
     status,
     max_choices_voted: max_choices_voted || 1,
     filter_account_age_days: filter_account_age_days || 0,
-    ui_hide_res_until_voted, // Assuming this field can be null, otherwise adjust accordingly
+    ui_hide_res_until_voted: ui_hide_res_until_voted || false, // Assuming this field can be null, otherwise adjust accordingly
+    allow_vote_changes: allow_vote_changes || false,
+    community_membership: community_membership || [],
     platform, // Assuming this field can be null, otherwise adjust accordingly
     poll_trx_id,
     poll_choices: parsedPollChoices,

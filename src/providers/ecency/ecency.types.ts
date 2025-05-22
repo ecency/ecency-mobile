@@ -54,9 +54,12 @@ export interface PollDraft {
   endTime: string; // 2024-05-13T13:30:53.783Z
   voteChange: boolean;
   hideVotes: boolean;
+  hideResults: boolean;
   interpretation: PollPreferredInterpretation;
   choices: string[];
   maxChoicesVoted: number;
+  token?: string;
+  communityMembership: string[];
   filters: {
     accountAge: number;
   };

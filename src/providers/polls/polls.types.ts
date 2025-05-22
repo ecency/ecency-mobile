@@ -41,6 +41,8 @@ export interface Poll {
   preferred_interpretation: PollPreferredInterpretation;
   token: string;
   end_time: string;
+  community_membership: string[];
+  allow_vote_changes: boolean;
   max_choices_voted: number;
   status: string;
   filter_account_age_days: number;
@@ -50,4 +52,10 @@ export interface Poll {
   poll_choices: PollChoice[];
   poll_voters: PollVoter[];
   poll_stats: PollStats;
+}
+
+export enum TokenPrefix {
+  HIVE = 'HIVE',
+  HE = 'HE',
+  SPL = 'SPL',
 }
