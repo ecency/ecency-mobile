@@ -372,7 +372,8 @@
       "sign": "Sign",
       "sign_input_placeholder": "Master password or Private Key",
       "import_failed": "Keys Import Failed"
-    }
+    },
+    "feedback_body": "Write your message here!\n\nHive username: {username}\nApp version: {appVersion}\nPlatform: {platform}\n"
   },
   "voters": {
     "voters_info": "Voters Info",
@@ -505,8 +506,9 @@
     "ends": "Ends {inTime}",
     "poll_question": "Poll Question",
     "age_limit": "• Only accounts older than {days} days allowed",
-    "interpretation_token": "• User HP based vote interpretation",
+    "interpretation_token": "• {token} based vote interpretation",
     "max_choices": "• You may select upto {choices} choices",
+    "community_restricted": "• Community restricted: {communities}",
     "poll_not_ready": "Poll not ready for vote, try again shortly",
     "interpret_token": "Interpret by Tokens",
     "interpret_vote": "Interpret by Votes",
@@ -515,9 +517,20 @@
     "question_placeholder": "Add poll question...",
     "choice_placeholder": "Choice {number}",
     "number_of_votes": "Number of Votes",
-    "tokens": "Total Tokens",
+    "tokens": "Token - Hive Power",
     "attach_poll": "Attach Poll",
-    "update_poll": "Update Poll"
+    "update_poll": "Update Poll",
+    "wizard_end_time": "End Time",
+    "wizard_choices": "Choices",
+    "wizard_config_label": "Configuration",
+    "wizard_config_val": "Age  |  Visibility  |  Interpretation",
+    "wizard_reset": "Reset Poll",
+    "config_age": "Min. Account Age (Days)",
+    "config_max_options": "Max Options",
+    "config_poll_interpretation": "Interpretation",
+    "config_hide_results": "Hide results until voted",
+    "config_show_voters": "Show voters",
+    "config_vote_change": "Allow vote change"
   },
   "stats": {
     "viewers": "Visitors",
@@ -740,6 +753,7 @@
     "copy_link": "Copy link",
     "copy_text": "Copy text",
     "reblogged": "reblogged by",
+    "cross_post": "cross post by {username} in {community}",
     "promoted": "PROMOTED",
     "poll": "POLL",
     "open_thread": "Open thread",
@@ -754,6 +768,11 @@
     "reveal_muted": "MUTED\nTap to reveal content",
     "posted_by": "Posted by {username} via {appname} ",
     "ecency_waves": "Ecency Waves"
+  },
+  "cross_post": {
+    "title": "Cross Post",
+    "description": "Rewards are automatically declined for the cross post and discussions under cross post will be different and will follow different community guidelines.",
+    "message_placeholder": "Share your thoughts here..."
   },
   "drafts": {
     "title": "Drafts",
@@ -833,7 +852,8 @@
     "edit-history": "Edit History",
     "mute": "Mute / Block",
     "translate": "Translate",
-    "delete-post": "Delete"
+    "delete-post": "Delete",
+    "cross-post": "Cross Post"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
@@ -932,7 +952,8 @@
     "account_select_description": "Operations related to funds are irreversible, make sure username is correct",
     "amount_select_title": "Action Details",
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
-    "amount_select_desc_limit": " and must be greater than 0.001"
+    "amount_select_desc_limit": " and must be greater than 0.001",
+    "too_many_usernames": "Max 5 usernames allowed."
   },
   "trade": {
     "swap_token": "Swap Your Funds",

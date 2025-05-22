@@ -372,7 +372,8 @@
       "sign": "Firmar",
       "sign_input_placeholder": "Contraseña maestra o Clave Privada",
       "import_failed": "Importación de claves fallida"
-    }
+    },
+    "feedback_body": "¡Escribe aquí tu mensaje!\n\nNombre de usuario de Hive: {username}\nVersión de la App: {appVersion}\nPlataforma: {platform}\n"
   },
   "voters": {
     "voters_info": "Información de votantes",
@@ -505,8 +506,9 @@
     "ends": "Termina {inTime}",
     "poll_question": "Pregunta de encuesta",
     "age_limit": "• Solo se permiten cuentas de más de {days} días",
-    "interpretation_token": "• Interpretación de voto basada en HP del usuario",
+    "interpretation_token": "• {token} based vote interpretation",
     "max_choices": "• Puedes seleccionar hasta {choices} opciones",
+    "community_restricted": "• Community restricted: {communities}",
     "poll_not_ready": "La encuesta no está lista para votar, inténtalo de nuevo en breve",
     "interpret_token": "Interpretar por Tokens",
     "interpret_vote": "Interpretar por votos",
@@ -515,9 +517,20 @@
     "question_placeholder": "Añadir pregunta de encuesta...",
     "choice_placeholder": "Opción {number}",
     "number_of_votes": "Número de votos",
-    "tokens": "Tokens totales",
+    "tokens": "Token - Hive Power",
     "attach_poll": "Adjuntar encuesta",
-    "update_poll": "Actualizar encuesta"
+    "update_poll": "Actualizar encuesta",
+    "wizard_end_time": "End Time",
+    "wizard_choices": "Choices",
+    "wizard_config_label": "Configuration",
+    "wizard_config_val": "Age  |  Visibility  |  Interpretation",
+    "wizard_reset": "Reset Poll",
+    "config_age": "Min. Account Age (Days)",
+    "config_max_options": "Max Options",
+    "config_poll_interpretation": "Interpretation",
+    "config_hide_results": "Hide results until voted",
+    "config_show_voters": "Show voters",
+    "config_vote_change": "Allow vote change"
   },
   "stats": {
     "viewers": "Visitas",
@@ -740,6 +753,7 @@
     "copy_link": "Copiar enlace",
     "copy_text": "Copiar texto",
     "reblogged": "reblogueado por",
+    "cross_post": "publicación cruzada por {username} en {community}",
     "promoted": "PROMOCIONADO",
     "poll": "ENCUESTA",
     "open_thread": "Hilo abierto",
@@ -754,6 +768,11 @@
     "reveal_muted": "SILENCIADO\nToca para revelar el contenido",
     "posted_by": "Publicado por {username} vía {appname} ",
     "ecency_waves": "Ondas de Ecency"
+  },
+  "cross_post": {
+    "title": "Publicación cruzada",
+    "description": "Las recompensas se rechazan automáticamente para la publicación cruzada y las discusiones bajo la publicación cruzada serán diferentes y seguirán diferentes pautas comunitarias.",
+    "message_placeholder": "Comparte tus pensamientos aquí..."
   },
   "drafts": {
     "title": "Borradores",
@@ -833,7 +852,8 @@
     "edit-history": "Editar historial",
     "mute": "Silenciar / Bloquear",
     "translate": "Traducir",
-    "delete-post": "Borrar"
+    "delete-post": "Borrar",
+    "cross-post": "Publicación cruzada"
   },
   "deep_link": {
     "no_existing_user": "Usuario no existe",
@@ -932,7 +952,8 @@
     "account_select_description": "Las operaciones relacionadas con los fondos son irreversibles, asegúrate de que el nombre de usuario es correcto",
     "amount_select_title": "Detalles de la acción",
     "amount_select_description": "Introduzca la cantidad dentro del saldo máximo disponible {suffix}",
-    "amount_select_desc_limit": " y debe ser mayor que 0.001"
+    "amount_select_desc_limit": " y debe ser mayor que 0.001",
+    "too_many_usernames": "Máx. 5 nombres de usuario permitidos."
   },
   "trade": {
     "swap_token": "Intercambiar tus fondos",
