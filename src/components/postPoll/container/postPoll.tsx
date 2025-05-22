@@ -88,6 +88,10 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
     return _expired || !isLoggedIn || _noVoteChange || _ageLimitApllies || _previewMode;
   }, [metadata, userVote]);
 
+
+  const _allowPeeking = !userVote && !metadata.ui_hide_res_until_voted;
+
+
   useEffect(() => {
     if (!pollsQuery.isLoading) {
       setMode(!!userVote || _expired ? PollModes.RESULT : PollModes.SELECT);
@@ -152,17 +156,21 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
     );
   };
 
-  const _authorPanel = _isPollAuthor && (
+  const _authorPanel = (
     <View style={styles.authorPanel}>
-      <TextButton
-        text={intl.formatMessage({
-          id: _isModeSelect ? 'post_poll.view_stats' : 'post_poll.hide_stats',
-        })}
-        onPress={_handleModeToggle}
-        textStyle={styles.viewVotesBtn}
-      />
+      {(_isPollAuthor || _allowPeeking) &&
+        <TextButton
+          text={intl.formatMessage({
+            id: _isModeSelect ? 'post_poll.view_stats' : 'post_poll.hide_stats',
+          })}
+          onPress={_handleModeToggle}
+          textStyle={styles.viewVotesBtn}
+        />
+      }
 
-      {!_isModeSelect && (
+
+
+      {!_isModeSelect && _isPollAuthor && (
         <TextButton
           text={intl.formatMessage({
             id: _isInterpretationToken ? 'post_poll.interpret_vote' : 'post_poll.interpret_token',
