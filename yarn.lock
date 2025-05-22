@@ -2887,13 +2887,6 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-11.4.1.tgz#a3c247aceab35f75dd0aa4bfa85d2be5a4508688"
   integrity sha512-B0BYAkghz3Q2V09BF88RA601XursIEA111tnc2JOaN7axJWmNefmfjZqw/KdSxKZp7CZUuPpjBmz/WCR9uaHYg==
 
-"@react-native-community/push-notification-ios@^1.11.0":
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/@react-native-community/push-notification-ios/-/push-notification-ios-1.11.0.tgz#d8ec4acfb52260cb779ed0379b9e197db7841b83"
-  integrity sha512-nfkUs8P2FeydOCR4r7BNmtGxAxI22YuGP6RmqWt6c8EEMUpqvIhNKWkRSFF3pHjkgJk2tpRb9wQhbezsqTyBvA==
-  dependencies:
-    invariant "^2.2.4"
-
 "@react-native-firebase/analytics@^21.11.0":
   version "21.11.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-21.11.0.tgz#0b70c8b1f5914a5e48036794e4429893cc45fd62"
@@ -6804,6 +6797,11 @@ expo-keep-awake@~14.0.2:
   version "14.0.2"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-14.0.2.tgz#124a729df43c87994631f51d5b1b5093d58e6c80"
   integrity sha512-71XAMnoWjKZrN8J7Q3+u0l9Ytp4OfhNAYz8BCWF1/9aFUw09J3I7Z5DuI3MUsVMa/KWi+XhG+eDUFP8cVA19Uw==
+
+expo-linear-gradient@~14.0.2:
+  version "14.0.2"
+  resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-14.0.2.tgz#51fb266d1c7a38349077d243e383cc3d69d4356b"
+  integrity sha512-nvac1sPUfFFJ4mY25UkvubpUV/olrBH+uQw5k+beqSvQaVQiUfFtYzfRr+6HhYBNb4AEsOtpsCRkpDww3M2iGQ==
 
 expo-local-authentication@~15.0.2:
   version "15.0.2"
@@ -11523,11 +11521,6 @@ react-native-level-fs@^3.0.0:
   dependencies:
     level-filesystem "^1.0.1"
     levelup "^0.18.2"
-
-react-native-linear-gradient@^2.8.3:
-  version "2.8.3"
-  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.8.3.tgz#9a116649f86d74747304ee13db325e20b21e564f"
-  integrity sha512-KflAXZcEg54PXkLyflaSZQ3PJp4uC4whM7nT/Uot9m0e/qxFV3p6uor1983D1YOBJbJN7rrWdqIjq0T42jOJyA==
 
 react-native-media-controls@^2.3.0:
   version "2.3.0"

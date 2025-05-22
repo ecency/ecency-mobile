@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
+
 import { useIntl } from 'react-intl';
 
 // Components
@@ -36,13 +37,7 @@ const HeaderView = ({
 
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const intl = useIntl();
-  let gradientColor;
-
-  if (isReverse) {
-    gradientColor = isDarkTheme ? ['#43638e', '#081c36'] : ['#357ce6', '#2d5aa0'];
-  } else {
-    gradientColor = isDarkTheme ? ['#081c36', '#43638e'] : ['#2d5aa0', '#357ce6'];
-  }
+  const gradientColor = isDarkTheme ? ['#081c36', '#43638e'] : ['#2d5aa0', '#357ce6'];
 
   const _onPressSearchButton = () => {
     navigation.navigate(ROUTES.SCREENS.SEARCH_RESULT);
@@ -53,7 +48,7 @@ const HeaderView = ({
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        colors={gradientColor}
+        colors={isReverse ? gradientColor.reverse() : gradientColor}
         style={[
           styles.avatarButtonWrapper,
           isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
