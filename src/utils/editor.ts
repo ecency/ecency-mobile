@@ -411,14 +411,15 @@ export const convertToPollMeta = (pollDraft: PollDraft) => {
     choices: pollDraft.choices,
     preferred_interpretation: pollDraft.interpretation,
     end_time: Math.floor(new Date(pollDraft.endTime).getTime() / 1000),
-      //TODO: change to allow_vote_changes
-    vote_change: pollDraft.voteChange,
-    hide_votes: pollDraft.hideVotes,
+    allow_vote_changes: pollDraft.voteChange,
+    hive_votes:pollDraft.hideVotes,
+    ui_hide_res_until_voted: pollDraft.hideResults,
     max_choices_voted: pollDraft.maxChoicesVoted,
-    ui_hide_res_until_voted: true,
     filters: {
       account_age: pollDraft.filters.accountAge,
     },
-    version: 0.8,
+    token:pollDraft.token,
+    community_membership:pollDraft.communityMembership,
+    version: 1.1,
   } as PollMetadata;
 };
