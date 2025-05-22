@@ -83,12 +83,9 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
 
   const _renderFormContent = (
     <View style={styles.optionsContainer}>
-      {/* <BasicHeader
-                handleOnBackPress={() => { setVisible(false) }}
-                title={"Edit Configuration"}
-            /> */}
-      {/* <KeyboardAwareScrollView contentContainerStyle={{ paddingHorizontal: 16 }}> */}
-      <Text style={styles.label}>Min. Account Age (Days)</Text>
+
+       
+      <Text style={styles.label}>{intl.formatMessage({id:"post_poll.config_age"})}</Text>
       <FormInput
         rightIconName="calendar"
         iconType="MaterialCommunityIcons"
@@ -102,7 +99,8 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
         keyboardType="numeric"
       />
 
-      <Text style={styles.label}>Max Options</Text>
+        {/** TODO: use translated text */}
+      <Text style={styles.label}>{intl.formatMessage({id:"post_poll.config_max_options"})}</Text> 
       <FormInput
         rightIconName="check-all"
         iconType="MaterialCommunityIcons"
@@ -117,7 +115,7 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
       />
 
       <SettingsItem
-        title="Poll Interpretation"
+        title={intl.formatMessage({id:"post_poll.config_poll_interpretation"})} 
         titleStyle={styles.settingsTitle}
         type="dropdown"
         actionType="language"
@@ -132,7 +130,7 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
       />
 
       <SettingsItem
-        title="Hide results untill voted"//TODO: use translated text
+        title={intl.formatMessage({id:"post_poll.config_hide_results"})}
         text="show more votes"
         type="toggle"
         actionType="show_votes"
@@ -143,7 +141,7 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
       />
 
       <SettingsItem
-        title="Show voters" //TODO: use translated text
+        title={intl.formatMessage({id:"post_poll.config_show_voters"})}
         text="show more votes"
         type="toggle"
         actionType="show_votes"
@@ -152,9 +150,10 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
         handleOnChange={_onShowVotesChange}
         isOn={!pollDraft.hideVotes}
       />
+      
 
       <SettingsItem
-        title="Vote Change"
+        title={intl.formatMessage({id:"post_poll.config_vote_change"})}
         text="show more votes"
         type="toggle"
         actionType="show_votes"
