@@ -20,11 +20,11 @@ export interface PollMetadata {
   };
   end_time: number;
   ui_hide_res_until_voted: boolean;
-  token?:string,
+  token?: string;
   community_membership?: string[];
-  allow_vote_changes?:boolean;
-  //ECENCY BASED PROPS
-  hide_votes?:boolean; //prop used to allow/disallwo viewing voters data
+  allow_vote_changes?: boolean;
+  // ECENCY BASED PROPS
+  hide_votes?: boolean; // prop used to allow/disallwo viewing voters data
 }
 
 export interface PostMetadata extends Partial<PollMetadata> {

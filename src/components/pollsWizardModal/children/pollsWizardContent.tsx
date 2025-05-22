@@ -28,8 +28,8 @@ const INIT_POLL_DRAFT: PollDraft = {
   voteChange: false,
   hideVotes: false,
   hideResults: true,
-  communityMembership:[],
-  token:undefined,
+  communityMembership: [],
+  token: undefined,
   maxChoicesVoted: 1,
   endTime: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // set to 7 days from now
 };
@@ -128,7 +128,7 @@ export const PollsWizardContent = ({
     const _dateString = dateToFormatted(expiryDateTime.toISOString(), 'ddd  |  MMM DD  |  hh:mm A');
     return (
       <>
-        <Text style={styles.label}>{intl.formatMessage({id:"post_poll.wizard_end_time"})}</Text>
+        <Text style={styles.label}>{intl.formatMessage({ id: 'post_poll.wizard_end_time' })}</Text>
         <TouchableOpacity onPress={() => setShowDatePicker(true)}>
           <FormInput
             rightIconName="clock"
@@ -147,7 +147,9 @@ export const PollsWizardContent = ({
   const _renderConfig = () => {
     return (
       <>
-        <Text style={styles.label}>{intl.formatMessage({id:"post_poll.wizard_config_label"})}</Text>
+        <Text style={styles.label}>
+          {intl.formatMessage({ id: 'post_poll.wizard_config_label' })}
+        </Text>
         <TouchableOpacity
           onPress={() => {
             pollConfigRef.current?.showConfig();
@@ -157,7 +159,7 @@ export const PollsWizardContent = ({
             rightIconName="settings"
             iconType="MaterialIcons"
             isEditable={false}
-            value={intl.formatMessage({id:"post_poll.wizard_config_val"})}
+            value={intl.formatMessage({ id: 'post_poll.wizard_config_val' })}
             wrapperStyle={styles.inputWrapper}
             inputStyle={styles.input}
             pointerEvents="none"
@@ -214,7 +216,7 @@ export const PollsWizardContent = ({
           inputStyle={styles.input}
         />
 
-        <Text style={styles.label}>{intl.formatMessage({id:"post_poll.wizard_choices"})}</Text>
+        <Text style={styles.label}>{intl.formatMessage({ id: 'post_poll.wizard_choices' })}</Text>
         {pollDraft.choices.map(_renderChoiceInput)}
 
         <TextButton
@@ -235,7 +237,11 @@ export const PollsWizardContent = ({
             isDisable={!isValid}
             onPress={createPoll}
           />
-          <TextButton textStyle={styles.btnReset} text={intl.formatMessage({id:"post_poll.wizard_reset"})} onPress={resetPoll} /> 
+          <TextButton
+            textStyle={styles.btnReset}
+            text={intl.formatMessage({ id: 'post_poll.wizard_reset' })}
+            onPress={resetPoll}
+          />
         </View>
       </KeyboardAwareScrollView>
 

@@ -41,7 +41,7 @@ export interface Poll {
   preferred_interpretation: PollPreferredInterpretation;
   token: string;
   end_time: string;
-  community_membership: string[],
+  community_membership: string[];
   allow_vote_changes: boolean;
   max_choices_voted: number;
   status: string;
@@ -55,7 +55,7 @@ export interface Poll {
 }
 
 export enum TokenPrefix {
-  HIVE = "HIVE",
-  HE = "HE",
-  SPL = "SPL"
+  HIVE = 'HIVE',
+  HE = 'HE',
+  SPL = 'SPL',
 }

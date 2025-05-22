@@ -80,16 +80,16 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
         : false;
 
     const _noVoteChange =
-      metadata.allow_vote_changes !== undefined ? !metadata.allow_vote_changes && !!userVote : false;
+      metadata.allow_vote_changes !== undefined
+        ? !metadata.allow_vote_changes && !!userVote
+        : false;
 
     const _previewMode = mode === PollModes.PREVIEW;
 
     return _expired || !isLoggedIn || _noVoteChange || _ageLimitApllies || _previewMode;
   }, [metadata, userVote]);
 
-
   const _allowPeeking = !userVote && !metadata.ui_hide_res_until_voted;
-
 
   useEffect(() => {
     if (!pollsQuery.isLoading) {
@@ -157,7 +157,7 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
 
   const _authorPanel = (
     <View style={styles.authorPanel}>
-      {(_isPollAuthor || _allowPeeking) &&
+      {(_isPollAuthor || _allowPeeking) && (
         <TextButton
           text={intl.formatMessage({
             id: _isModeSelect ? 'post_poll.view_stats' : 'post_poll.hide_stats',
@@ -165,9 +165,7 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
           onPress={_handleModeToggle}
           textStyle={styles.viewVotesBtn}
         />
-      }
-
-
+      )}
 
       {!_isModeSelect && _isPollAuthor && (
         <TextButton

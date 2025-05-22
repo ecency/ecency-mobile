@@ -54,34 +54,24 @@ export const PollChoices = ({
     }
   }, [loading, choices]);
 
-
-  //set vote prop and calcualte total votes;
+  // set vote prop and calcualte total votes;
   const { votesProp, votesSymbol } = useMemo(() => {
-
     if (interpretationToken) {
       if (token?.startsWith(TokenPrefix.HE)) {
-        return { votesProp: 'he_token', votesSymbol: TokenPrefix.HE }
+        return { votesProp: 'he_token', votesSymbol: TokenPrefix.HE };
       } else if (token?.startsWith(TokenPrefix.SPL)) {
-        return { votesProp: 'spl_spsp', votesSymbol: TokenPrefix.SPL }
+        return { votesProp: 'spl_spsp', votesSymbol: TokenPrefix.SPL };
       } else if (token?.startsWith(TokenPrefix.HIVE)) {
-        return { votesProp: 'hive_hp', votesSymbol: TokenPrefix.HIVE }
+        return { votesProp: 'hive_hp', votesSymbol: TokenPrefix.HIVE };
       }
     }
-    return { votesProp: 'total_votes', votesSymbol: intl.formatMessage({ id: 'post_poll.voted' }) }
-
-  }, [interpretationToken])
-
+    return { votesProp: 'total_votes', votesSymbol: intl.formatMessage({ id: 'post_poll.voted' }) };
+  }, [interpretationToken]);
 
   const totalVotes = useMemo(
-    () => _choices.reduce(
-      (prevVal, option) =>
-        prevVal +
-        get(option.votes, votesProp, 0),
-      0,
-    ), [_choices, interpretationToken],
+    () => _choices.reduce((prevVal, option) => prevVal + get(option.votes, votesProp, 0), 0),
+    [_choices, interpretationToken],
   );
-
-
 
   const _isModeSelect = mode !== PollModes.RESULT;
 
@@ -94,10 +84,7 @@ export const PollChoices = ({
       !_isModeSelect && userVote?.choices && userVote.choices.includes(option.choice_num);
     const _isSelected = selection.includes(option.choice_num);
 
-    const votes =
-      Math.round(
-        get(option.votes, votesProp, 0) * 1000,
-      ) / 1000;
+    const votes = Math.round(get(option.votes, votesProp, 0) * 1000) / 1000;
 
     const percentage = !_isModeSelect && !!totalVotes ? (votes / totalVotes) * 100 : 0; // TODO: adjust logic here
     const _barWidth = dim.width - (compactView ? 72 : 64);

@@ -50,13 +50,13 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
   const _onInterpretationChange = (index: number) => {
     const interpretation = _interpretations[index];
 
-    //TODO: handle token selection later
-    const token = interpretation === PollPreferredInterpretation.TOKENS ? "HIVE:HP" : undefined;
+    // TODO: handle token selection later
+    const token = interpretation === PollPreferredInterpretation.TOKENS ? 'HIVE:HP' : undefined;
 
     setPollDraft({
       ...pollDraft,
       interpretation,
-      token
+      token,
     });
   };
 
@@ -74,18 +74,16 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
     });
   };
 
-  const _onHideResultsChange = (val:boolean) => {
+  const _onHideResultsChange = (val: boolean) => {
     setPollDraft({
       ...pollDraft,
       hideResults: val,
     });
-  }
+  };
 
   const _renderFormContent = (
     <View style={styles.optionsContainer}>
-
-       
-      <Text style={styles.label}>{intl.formatMessage({id:"post_poll.config_age"})}</Text>
+      <Text style={styles.label}>{intl.formatMessage({ id: 'post_poll.config_age' })}</Text>
       <FormInput
         rightIconName="calendar"
         iconType="MaterialCommunityIcons"
@@ -99,8 +97,8 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
         keyboardType="numeric"
       />
 
-        {/** TODO: use translated text */}
-      <Text style={styles.label}>{intl.formatMessage({id:"post_poll.config_max_options"})}</Text> 
+      {/** TODO: use translated text */}
+      <Text style={styles.label}>{intl.formatMessage({ id: 'post_poll.config_max_options' })}</Text>
       <FormInput
         rightIconName="check-all"
         iconType="MaterialCommunityIcons"
@@ -115,7 +113,7 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
       />
 
       <SettingsItem
-        title={intl.formatMessage({id:"post_poll.config_poll_interpretation"})} 
+        title={intl.formatMessage({ id: 'post_poll.config_poll_interpretation' })}
         titleStyle={styles.settingsTitle}
         type="dropdown"
         actionType="language"
@@ -130,7 +128,7 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
       />
 
       <SettingsItem
-        title={intl.formatMessage({id:"post_poll.config_hide_results"})}
+        title={intl.formatMessage({ id: 'post_poll.config_hide_results' })}
         text="show more votes"
         type="toggle"
         actionType="show_votes"
@@ -141,7 +139,7 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
       />
 
       <SettingsItem
-        title={intl.formatMessage({id:"post_poll.config_show_voters"})}
+        title={intl.formatMessage({ id: 'post_poll.config_show_voters' })}
         text="show more votes"
         type="toggle"
         actionType="show_votes"
@@ -150,10 +148,9 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
         handleOnChange={_onShowVotesChange}
         isOn={!pollDraft.hideVotes}
       />
-      
 
       <SettingsItem
-        title={intl.formatMessage({id:"post_poll.config_vote_change"})}
+        title={intl.formatMessage({ id: 'post_poll.config_vote_change' })}
         text="show more votes"
         type="toggle"
         actionType="show_votes"

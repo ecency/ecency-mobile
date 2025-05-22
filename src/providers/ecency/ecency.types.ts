@@ -58,8 +58,8 @@ export interface PollDraft {
   interpretation: PollPreferredInterpretation;
   choices: string[];
   maxChoicesVoted: number;
-  token?:string;
-  communityMembership:string[];
+  token?: string;
+  communityMembership: string[];
   filters: {
     accountAge: number;
   };

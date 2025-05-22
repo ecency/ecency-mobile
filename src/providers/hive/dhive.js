@@ -925,11 +925,11 @@ const resolvePost = async (
       // fetch and replace cross post with original post with cross post meta
       const originalPost = await getPost(json.original_author, json.original_permlink);
 
-      //inject cross poster usename and community id in origin post
+      // inject cross poster usename and community id in origin post
       originalPost.crosspostMeta = {
         author: post.author,
         community: post.category,
-        message: post.body
+        message: post.body,
       };
 
       return originalPost;
