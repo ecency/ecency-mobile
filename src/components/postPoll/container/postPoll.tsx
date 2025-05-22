@@ -213,6 +213,7 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
         selection={selection}
         hideVoters={_hideVoters}
         interpretationToken={interpretation === PollPreferredInterpretation.TOKENS}
+        token={pollsQuery.data?.token}
         compactView={compactView}
         handleChoiceSelect={_handleChoiceSelect}
         handleVotersPress={_handleVotersPress}

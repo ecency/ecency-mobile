@@ -53,3 +53,9 @@ export interface Poll {
   poll_voters: PollVoter[];
   poll_stats: PollStats;
 }
+
+export enum TokenPrefix {
+  HIVE = "HIVE",
+  HE = "HE",
+  SPL = "SPL"
+}
