@@ -23,6 +23,8 @@ export interface PollMetadata {
   token?:string,
   community_membership?: string[];
   allow_vote_changes?:boolean;
+  //ECENCY BASED PROPS
+  hide_votes?:boolean; //prop used to allow/disallwo viewing voters data
 }
 
 export interface PostMetadata extends Partial<PollMetadata> {
