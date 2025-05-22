@@ -10,6 +10,7 @@ import { PollDraft } from '../providers/ecency/ecency.types';
 import { ContentType, PollMetadata, PostMetadata } from '../providers/hive/hive.types';
 import { getPost } from '../providers/hive/dhive';
 import postUrlParser from './postUrlParser';
+import { POLLS_PROTOCOL_VERSION } from '../providers/polls/polls';
 
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
@@ -420,6 +421,6 @@ export const convertToPollMeta = (pollDraft: PollDraft) => {
     },
     token:pollDraft.token,
     community_membership:pollDraft.communityMembership,
-    version: 1.1,
+    version: POLLS_PROTOCOL_VERSION,
   } as PollMetadata;
 };

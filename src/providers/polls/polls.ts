@@ -27,9 +27,13 @@ const POLLS_BASE_URL = 'https://polls.ecency.com/';
 const PATH_RPC = 'rpc';
 const PATH_POLL = 'poll';
 
+
+export const POLLS_PROTOCOL_VERSION = 1.1
+
 const pollsApi = axios.create({
   baseURL: POLLS_BASE_URL,
 });
+
 
 const executePollAction = (id: string, json: any, currentAccount: any, pinHash: string) => {
   const username = currentAccount.name;
