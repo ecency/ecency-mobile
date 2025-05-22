@@ -27,6 +27,7 @@ export const PollHeader = ({ metadata, expired, compactView }: PollHeaderProps) 
   const _interpretationToken =
     metadata?.preferred_interpretation === PollPreferredInterpretation.TOKENS || false;
   const _maxChoicesVotable = metadata?.max_choices_voted || 1;
+  const _token = metadata.token || 'HIVE:HP';
 
   const _renderSubText = (text) => <Text style={styles.subText}>{text}</Text>;
 
@@ -52,7 +53,7 @@ export const PollHeader = ({ metadata, expired, compactView }: PollHeaderProps) 
       {!!_ageLimit &&
         _renderSubText(intl.formatMessage({ id: 'post_poll.age_limit' }, { days: _ageLimit }))}
       {_interpretationToken &&
-        _renderSubText(intl.formatMessage({ id: 'post_poll.interpretation_token' }))}
+        _renderSubText(intl.formatMessage({ id: 'post_poll.interpretation_token' }, { token: _token }))}
       {_maxChoicesVotable > 1 &&
         _renderSubText(
           intl.formatMessage({ id: 'post_poll.max_choices' }, { choices: _maxChoicesVotable }),
