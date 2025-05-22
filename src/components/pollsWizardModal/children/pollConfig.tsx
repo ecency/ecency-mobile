@@ -69,6 +69,13 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
     });
   };
 
+  const _onHideResultsChange = (val:boolean) => {
+    setPollDraft({
+      ...pollDraft,
+      hideResults: val,
+    });
+  }
+
   const _renderFormContent = (
     <View style={styles.optionsContainer}>
       {/* <BasicHeader
@@ -120,7 +127,18 @@ export const PollConfig = forwardRef(({ pollDraft, setPollDraft }: Props, ref) =
       />
 
       <SettingsItem
-        title="Show votes "
+        title="Hide results untill voted"//TODO: use translated text
+        text="show more votes"
+        type="toggle"
+        actionType="show_votes"
+        titleStyle={styles.settingsTitle}
+        wrapperStyle={styles.settingsWrapper}
+        handleOnChange={_onHideResultsChange}
+        isOn={pollDraft.hideResults}
+      />
+
+      <SettingsItem
+        title="Show voters" //TODO: use translated text
         text="show more votes"
         type="toggle"
         actionType="show_votes"
