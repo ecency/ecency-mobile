@@ -27,6 +27,9 @@ const INIT_POLL_DRAFT: PollDraft = {
   interpretation: PollPreferredInterpretation.NUMBER_OF_VOTES,
   voteChange: false,
   hideVotes: false,
+  hideResults: true,
+  communityMembership:[],
+  token:undefined,
   maxChoicesVoted: 1,
   endTime: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // set to 7 days from now
 };
