@@ -506,7 +506,7 @@
     "ends": "Ends {inTime}",
     "poll_question": "Poll Question",
     "age_limit": "• Only accounts older than {days} days allowed",
-    "interpretation_token": "• {token} based vote interpretation",
+    "interpretation_token": "• Διερμηνεία ψήφου με βάση το {token}",
     "max_choices": "• You may select upto {choices} choices",
     "community_restricted": "• Community restricted: {communities}",
     "poll_not_ready": "Poll not ready for vote, try again shortly",
