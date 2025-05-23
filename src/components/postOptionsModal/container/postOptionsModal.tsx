@@ -7,7 +7,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
-import ActionSheet from 'react-native-actions-sheet';
+import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import {
   deleteComment,
   ignoreUser,
@@ -20,7 +20,6 @@ import {
   toastNotification,
   setRcOffer,
   showActionModal,
-  showTranslationModal,
   showCrossPostModal,
 } from '../../../redux/actions/uiAction';
 
@@ -545,7 +544,11 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         break;
       case 'translate':
         await delay(700);
-        dispatch(showTranslationModal(content));
+        SheetManager.show('post_translation', {
+          payload:{
+            content
+          }
+        })
         break;
       case 'delete-post':
         await delay(700);

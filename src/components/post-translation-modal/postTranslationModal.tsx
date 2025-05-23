@@ -1,29 +1,24 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { ActivityIndicator, Alert, FlatList, Platform, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Platform, Text, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import ActionSheet, { useScrollHandlers } from 'react-native-actions-sheet';
+import ActionSheet, { SheetProps, useScrollHandlers } from 'react-native-actions-sheet';
 import { postBodySummary } from '@ecency/render-helper';
 import SelectDropdown from 'react-native-select-dropdown';
-import { useDispatch } from 'react-redux';
 import { getTranslation, fetchSupportedLangs } from '../../providers/translation/translation';
 import styles from './postTranslationModalStyle';
 import { useAppSelector } from '../../hooks';
-import { hideTranslationModal } from '../../redux/actions/uiAction';
 
 const srcLang = { name: 'Auto', code: 'auto' };
 const targetLang = { name: 'English', code: 'en' };
 
-const PostTranslationModal = () => {
+const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
   const intl = useIntl();
-  const dispatch = useDispatch();
+
   const bottomSheetModalRef = useRef<ActionSheet | null>(null);
   const scrollHandlers = useScrollHandlers<FlatList>('scrollview-1', bottomSheetModalRef);
   const appLang = useAppSelector((state) => state.application.language);
-  const translationModalVisible = useAppSelector((state) => state.ui.translationModalVisible);
-  const translationModalData = useAppSelector((state) => state.ui.translationModalData);
 
-  const [content, setContent] = useState<any>(null);
   const [translatedPost, setTranslatedPost] = useState('');
   // const [supportedLangs, setSupportedLangs] = useState([]);
   const [supportedLangsList, setSupportedLangsList] = useState([]);
@@ -33,24 +28,13 @@ const PostTranslationModal = () => {
   const [isLoadingLangsList, setisLoadingLangsList] = useState(false);
   const [translationError, setTranslationError] = useState('');
 
+
+  const content = payload?.content;
+
   useEffect(() => {
-    if (translationModalVisible) {
-      if (bottomSheetModalRef?.current) {
-        if (!translationModalData) {
-          Alert.alert(
-            intl.formatMessage({ id: 'alert.something_wrong' }),
-            'Post content not passed for viewing post options',
-          );
-          return;
-        }
-        setContent(translationModalData);
-        bottomSheetModalRef?.current?.show();
-        getSupportedLanguages();
-      }
-    } else {
-      _handleOnSheetClose();
-    }
-  }, [translationModalVisible]);
+    getSupportedLanguages();
+  }, [])
+
 
   useEffect(() => {
     if (content && content.body) {
@@ -79,9 +63,9 @@ const PostTranslationModal = () => {
       setIsLoadingTranslation(false);
       setTranslationError(
         error?.message ||
-          intl.formatMessage({
-            id: 'alert.error',
-          }),
+        intl.formatMessage({
+          id: 'alert.error',
+        }),
       );
       console.log('error : ', error);
     }
@@ -110,15 +94,10 @@ const PostTranslationModal = () => {
   };
 
   const _handleOnSheetClose = () => {
-    setContent('');
     setTranslatedPost('');
     setTranslationError('');
     setSelectedSourceLang(srcLang);
     setSelectedTargetLang(targetLang);
-    dispatch(hideTranslationModal());
-    if (bottomSheetModalRef?.current) {
-      bottomSheetModalRef?.current?.hide();
-    }
   };
 
   const _checkApplang = (langsList: any[]) => {
@@ -190,7 +169,6 @@ const PostTranslationModal = () => {
 
   return (
     <ActionSheet
-      ref={bottomSheetModalRef}
       gestureEnabled={true}
       containerStyle={styles.sheetContent}
       indicatorStyle={styles.indicator}

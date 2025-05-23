@@ -122,6 +122,7 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
     );
   };
 
+
   const _renderAppModals = () => {
     return (
       <>
@@ -132,7 +133,6 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
         <QuickReplyModal />
         <QRModal />
         <WebViewModal />
-        <PostTranslationModal />
         <CrossPostModal />
         {isShowToastNotification && (
           <ToastNotification

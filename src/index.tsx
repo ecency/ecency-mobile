@@ -12,6 +12,8 @@ import messages from './config/locales';
 import Application from './screens/application';
 import { persistor, store } from './redux/store/store';
 import { initQueryClient } from './providers/queries';
+import { SheetProvider } from 'react-native-actions-sheet';
+import "./navigation/sheets";
 
 const queryClientProviderProps = initQueryClient();
 
@@ -20,11 +22,13 @@ const _renderApp = ({ locale }) => (
     <PersistGate loading={null} persistor={persistor}>
       <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <SafeAreaProvider>
-            <Host>
-              <Application />
-            </Host>
-          </SafeAreaProvider>
+          <SheetProvider>
+            <SafeAreaProvider>
+              <Host>
+                <Application />
+              </Host>
+            </SafeAreaProvider>
+          </SheetProvider>
         </GestureHandlerRootView>
       </IntlProvider>
     </PersistGate>
