@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ActionSheet from 'react-native-actions-sheet';
 import { Platform, View } from 'react-native';
-import { QuickReplyModalContent } from './quickReplyModalContent';
+import { QuickReplyModalContent } from './quickPostModalContent';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { hideReplyModal } from '../../redux/actions/uiAction';
 import { PostEditorModalData } from '../../redux/reducers/uiReducer';
-import styles from './quickReplyModalStyles';
+import styles from './quickPostModal.styles';
 
-const QuickReplyModal = () => {
+const QuickPostModal = () => {
   const dispatch = useAppDispatch();
   const bottomSheetModalRef = useRef();
 
@@ -57,4 +57,4 @@ const QuickReplyModal = () => {
   );
 };
 
-export default QuickReplyModal;
+export default QuickPostModal;

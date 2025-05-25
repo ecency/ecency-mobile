@@ -99,7 +99,7 @@ import { ForegroundNotification } from './foregroundNotification';
 import { PostHtmlRenderer } from './postHtmlRenderer';
 import { PostPoll } from './postPoll';
 import { QuickProfileModal } from './organisms';
-import QuickReplyModal from './quickReplyModal/quickReplyModalView';
+import QuickPostModal from './quickPostModal/quickPostModal';
 import VideoPlayer from './videoPlayer/videoPlayerView';
 import QRModal from './qrModal/qrModalView';
 import { SimpleChart } from './simpleChart';
@@ -262,7 +262,7 @@ export {
   PostHtmlRenderer,
   PostPoll,
   QuickProfileModal,
-  QuickReplyModal,
+  QuickPostModal,
   VideoPlayer,
   InsertLinkModal,
   QRModal,
