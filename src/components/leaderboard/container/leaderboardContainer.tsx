@@ -8,9 +8,11 @@ import FILTER_OPTIONS from '../../../constants/options/leaderboard';
 
 // Component
 import LeaderboardView from '../view/leaderboardView';
-import { showProfileModal, toastNotification } from '../../../redux/actions/uiAction';
+import { toastNotification } from '../../../redux/actions/uiAction';
 import { leaderboardQuries } from '../../../providers/queries';
 import QUERIES from '../../../providers/queries/queryKeys';
+import { SheetNames } from '../../../navigation/sheets';
+import { SheetManager } from 'react-native-actions-sheet';
 
 /*
  *            Props Name        Description                                     Value
@@ -47,7 +49,11 @@ const LeaderboardContainer = () => {
   }, [leaderboardQuery.error, leaderboardQuery.isFetching]);
 
   const _handleOnUserPress = (username) => {
-    dispatch(showProfileModal(username));
+    SheetManager.show(SheetNames.QUICK_PROFILE, {
+      payload: {
+        username,
+      }
+    })
   };
 
   const _fetchLeaderBoard = async (selectedFilter, index) => {

@@ -19,7 +19,7 @@ import { ParentPost } from '../../parentPost';
 import styles from './postDisplayStyles';
 import { WritePostButton } from '../../atoms';
 import { useAppDispatch } from '../../../hooks';
-import { showProfileModal, showReplyModal } from '../../../redux/actions/uiAction';
+import { showReplyModal } from '../../../redux/actions/uiAction';
 import { PostTypes } from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
@@ -31,6 +31,8 @@ import QUERIES from '../../../providers/queries/queryKeys';
 import { usePostStatsQuery } from '../../../providers/queries';
 import { PostStatsModal } from '../../organisms';
 import { getAbbreviatedNumber } from '../../../utils/number';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 const PostDisplayView = ({
   currentAccount,
@@ -235,7 +237,11 @@ const PostDisplayView = ({
   // show quick reply modal
   const _showQuickProfileModal = (username) => {
     if (username) {
-      dispatch(showProfileModal(username));
+      SheetManager.show(SheetNames.QUICK_PROFILE, {
+        payload: {
+          username,
+        }
+      })
     }
   };
 

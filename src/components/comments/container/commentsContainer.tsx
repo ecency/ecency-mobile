@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getComments, deleteComment } from '../../../providers/hive/dhive';
 // Services and Actions
 import { writeToClipboard } from '../../../utils/clipboard';
-import { showProfileModal, toastNotification } from '../../../redux/actions/uiAction';
+import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Middleware
 
@@ -22,6 +22,8 @@ import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import { postQueries } from '../../../providers/queries';
 import { PostTypes } from '../../../constants/postTypes';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 const CommentsContainer = ({
   author,
@@ -244,7 +246,11 @@ const CommentsContainer = ({
 
   const _handleOnUserPress = (username) => {
     if (username) {
-      dispatch(showProfileModal(username));
+      SheetManager.show(SheetNames.QUICK_PROFILE, {
+        payload: {
+          username,
+        }
+      })
     }
   };
 

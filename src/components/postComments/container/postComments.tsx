@@ -20,7 +20,7 @@ import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
-import { showActionModal, showProfileModal } from '../../../redux/actions/uiAction';
+import { showActionModal } from '../../../redux/actions/uiAction';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
@@ -33,6 +33,8 @@ import styles from '../children/postComments.styles';
 import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 import { PostOptionsModal } from '../../index';
 import { BotCommentsPreview } from '../children/botCommentsPreview';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 const PostComments = forwardRef(
   (
@@ -185,7 +187,11 @@ const PostComments = forwardRef(
     };
 
     const _handleOnUserPress = (username) => {
-      dispatch(showProfileModal(username));
+      SheetManager.show(SheetNames.QUICK_PROFILE, {
+        payload: {
+          username,
+        }
+      })
     };
 
     const _handleShowOptionsMenu = (comment) => {

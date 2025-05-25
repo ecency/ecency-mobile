@@ -19,8 +19,8 @@ import { PostTypes } from '../../../constants/postTypes';
 import { PostOptionsModal } from '../../postOptionsModal';
 import { PostCardActionIds } from '../../postCard/container/postCard';
 import { useAppDispatch } from '../../../hooks';
-import { showProfileModal } from '../../../redux/actions/uiAction';
 import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
+import { SheetManager } from 'react-native-actions-sheet';
 
 export interface PostsListRef {
   scrollToTop: () => void;
@@ -168,7 +168,10 @@ const postsListContainer = (
   ) => {
     switch (id) {
       case PostCardActionIds.USER:
-        dispatch(showProfileModal(payload));
+        SheetManager.show('quick_profile', {
+          payload: {
+            username: payload,
+          }});
         break;
 
       case PostCardActionIds.OPTIONS:

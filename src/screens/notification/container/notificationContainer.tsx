@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unused-state */
 import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import get from 'lodash/get';
 
 // Actions and Services
@@ -13,14 +12,14 @@ import ROUTES from '../../../constants/routeNames';
 
 // Components
 import NotificationScreen from '../screen/notificationScreen';
-import { showProfileModal } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import { useNotificationReadMutation, useNotificationsQuery } from '../../../providers/queries';
 import { NotificationFilters } from '../../../providers/ecency/ecency.types';
 import QUERIES from '../../../providers/queries/queryKeys';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 const NotificationContainer = ({ navigation }) => {
-  const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
@@ -42,8 +41,8 @@ const NotificationContainer = ({ navigation }) => {
     selectedFilter === NotificationFilters.REPLIES
       ? repliesNotificationsQuery
       : selectedFilter === NotificationFilters.MENTIONS
-      ? mentiosnNotificationsQuery
-      : allNotificationsQuery;
+        ? mentiosnNotificationsQuery
+        : allNotificationsQuery;
 
   useEffect(() => {
     if (curUsername.current !== currentAccount.username) {
@@ -113,7 +112,11 @@ const NotificationContainer = ({ navigation }) => {
   };
 
   const _handleOnUserPress = (username) => {
-    dispatch(showProfileModal(username));
+    SheetManager.show(SheetNames.QUICK_PROFILE, {
+      payload: {
+        username,
+      }
+    })
   };
 
   // TODO: handle mark as read mutations

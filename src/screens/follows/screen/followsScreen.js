@@ -5,12 +5,13 @@ import { ActivityIndicator, FlatList, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { showProfileModal } from '../../../redux/actions/uiAction';
 // Components
 import { BasicHeader, UserListItem } from '../../../components';
 
 // Utils
 import styles from './followScreenStyles';
+import { SheetNames } from '../../../navigation/sheets';
+import { SheetManager } from 'react-native-actions-sheet';
 
 class FollowsScreen extends PureComponent {
   /* Props
@@ -27,7 +28,11 @@ class FollowsScreen extends PureComponent {
 
   // Component Functions
   _handleOnUserPress = (username) => {
-    this.props.dispatch(showProfileModal(username));
+    SheetManager.show(SheetNames.QUICK_PROFILE, {
+      payload: {
+        username,
+      }
+    })
   };
 
   _renderItem = ({ item, index }) => {
