@@ -1,13 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { useIntl } from 'react-intl';
+import { SheetManager } from 'react-native-actions-sheet';
 import { WritePostButton } from '../../../components/atoms';
 import styles from '../styles/children.styles';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 export const WavesHeader = () => {
-
   const intl = useIntl();
 
   const _onPress = () => {

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { debounce } from 'lodash';
 import BackgroundTimer from 'react-native-background-timer';
+import { SheetManager } from 'react-native-actions-sheet';
 import PostsList from '../../postsList';
 import { PostsTabContentProps } from '../types/tabbedPosts.types';
 import TabEmptyView from './listEmptyView';
@@ -13,7 +14,6 @@ import {
 } from '../../../providers/queries/postQueries/feedQueries';
 import { NewPostsPopup, ScrollTopPopup } from '../../atoms';
 import { ProposalVoteRequest } from '../..';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 let scrollOffset = 0;
@@ -172,7 +172,8 @@ const PostsTabContent = ({
     if (isLoggedIn) {
       SheetManager.show(SheetNames.QUICK_POST, {
         payload: {
-          mode: 'comment', parentPost: post
+          mode: 'comment',
+          parentPost: post,
         },
       });
     } else {

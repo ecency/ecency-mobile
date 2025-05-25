@@ -19,7 +19,6 @@ import { ParentPost } from '../../parentPost';
 // Styles
 import styles from './postDisplayStyles';
 import { WritePostButton } from '../../atoms';
-import { useAppDispatch } from '../../../hooks';
 import { PostTypes } from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
@@ -50,7 +49,7 @@ const PostDisplayView = ({
   isWavePost,
   activeVotesCount,
 }) => {
-  const dispatch = useAppDispatch();
+
   const insets = useSafeAreaInsets();
 
   const queryClient = useQueryClient();
@@ -229,10 +228,10 @@ const PostDisplayView = ({
     if (isLoggedIn) {
       SheetManager.show(SheetNames.QUICK_POST, {
         payload: {
-          mode: 'comment', parentPost: _post
+          mode: 'comment',
+          parentPost: _post,
         },
       });
-
     } else {
       console.log('Not LoggedIn');
     }

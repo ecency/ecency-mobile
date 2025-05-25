@@ -3,6 +3,7 @@ import { ActivityIndicator, View } from 'react-native';
 import { useIntl } from 'react-intl';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { SheetManager } from 'react-native-actions-sheet';
 import { getTimeFromNow } from '../../../utils/time';
 import { delay } from '../../../utils/editor';
 // Constants
@@ -19,7 +20,6 @@ import { PostTypes } from '../../../constants/postTypes';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import { PostPoll } from '../../postPoll';
 import { ContentType } from '../../../providers/hive/hive.types';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 const CommentView = ({
@@ -84,7 +84,8 @@ const CommentView = ({
     if (isLoggedIn) {
       SheetManager.show(SheetNames.QUICK_POST, {
         payload: {
-          mode: 'comment', parentPost: comment
+          mode: 'comment',
+          parentPost: comment,
         },
       });
     } else {
@@ -236,9 +237,9 @@ const CommentView = ({
   const customContainerStyle =
     _depth > 1
       ? {
-        paddingLeft: (_depth - 2) * 44,
-        backgroundColor: EStyleSheet.value('$primaryLightBackground'),
-      }
+          paddingLeft: (_depth - 2) * 44,
+          backgroundColor: EStyleSheet.value('$primaryLightBackground'),
+        }
       : null;
 
   return (

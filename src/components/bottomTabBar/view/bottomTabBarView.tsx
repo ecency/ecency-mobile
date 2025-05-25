@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useIntl } from 'react-intl';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SheetManager } from 'react-native-actions-sheet';
 import ROUTES from '../../../constants/routeNames';
 
 // Styles
@@ -14,7 +15,6 @@ import Icon, { IconContainer } from '../../icon';
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import showLoginAlert from '../../../utils/showLoginAlert';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 const BottomTabBarView = ({

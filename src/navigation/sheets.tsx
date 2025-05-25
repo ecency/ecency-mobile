@@ -1,5 +1,10 @@
 import { registerSheet, SheetDefinition } from 'react-native-actions-sheet';
-import { ActionModal, PostTranslationModal, QuickProfileModal, QuickPostModal } from '../components';
+import {
+  ActionModal,
+  PostTranslationModal,
+  QuickProfileModal,
+  QuickPostModal,
+} from '../components';
 
 export enum SheetNames {
   POST_TRANSLATION = 'post_translation',
@@ -54,4 +59,4 @@ declare module 'react-native-actions-sheet' {
   }
 }
 
-export { };
+export {};
