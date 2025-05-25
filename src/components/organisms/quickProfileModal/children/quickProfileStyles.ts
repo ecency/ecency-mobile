@@ -13,6 +13,10 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
   },
 
+  indicatorStyle :{
+    color: '$primaryWhiteLightBackground'
+  },
+
   container: {
     alignItems: 'center',
     marginHorizontal: 16,

@@ -1,38 +1,27 @@
-import React, { useEffect, useRef } from 'react';
-import ActionSheet from 'react-native-actions-sheet';
-import EStyleSheet from 'react-native-extended-stylesheet';
+import React from 'react';
+import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import { QuickProfileContent } from '../children/quickProfileContent';
 import styles from '../children/quickProfileStyles';
-import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { hideProfileModal } from '../../../../redux/actions/uiAction';
+import assert from 'assert';
+export const QuickProfileModal = ({payload}:SheetProps<'quick_profile'>) => {
 
-export const QuickProfileModal = () => {
-  const sheetModalRef = useRef<ActionSheet>();
-  const dispatch = useAppDispatch();
+  const username = payload?.username
 
-  const profileModalUsername = useAppSelector((state) => state.ui.profileModalUsername);
-
-  useEffect(() => {
-    if (profileModalUsername) {
-      sheetModalRef.current.show();
-    } else {
-      sheetModalRef.current.hide();
-    }
-  }, [profileModalUsername]);
+  if(!username) {
+    assert(!!username, 'QuickProfileModal requires a username in payload');
+  }
 
   const _onClose = () => {
-    dispatch(hideProfileModal());
+    SheetManager.hide('quick_profile');
   };
 
   return (
     <ActionSheet
-      ref={sheetModalRef}
       gestureEnabled={true}
       containerStyle={styles.sheetContent}
-      onClose={_onClose}
-      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+      indicatorStyle={styles.indicatorStyle}
     >
-      <QuickProfileContent username={profileModalUsername} onClose={_onClose} />
+      <QuickProfileContent username={username} onClose={_onClose} />
     </ActionSheet>
   );
 };
