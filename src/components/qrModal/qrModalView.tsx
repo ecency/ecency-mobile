@@ -8,7 +8,7 @@ import {
   Text,
   useWindowDimensions,
 } from 'react-native';
-import ActionSheet from 'react-native-actions-sheet';
+import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
 import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
@@ -22,7 +22,6 @@ import {
   showActionModal,
   showWebViewModal,
   toastNotification,
-  toggleQRModal,
 } from '../../redux/actions/uiAction';
 import { deepLinkParser } from '../../utils/deepLinkParser';
 import RootNavigation from '../../navigation/rootNavigation';
@@ -33,13 +32,13 @@ import showLoginAlert from '../../utils/showLoginAlert';
 import authType from '../../constants/authType';
 import { delay } from '../../utils/editor';
 import ROUTES from '../../constants/routeNames';
+import { SheetNames } from '../../navigation/sheets';
 
 export const QRModal = () => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
   const dim = useWindowDimensions();
 
-  const isVisibleQRModal = useAppSelector((state) => state.ui.isVisibleQRModal);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
   const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
@@ -67,14 +66,13 @@ export const QRModal = () => {
   }, [deepLinkToHandle]);
 
   useEffect(() => {
-    if (isVisibleQRModal) {
-      requestCameraPermission();
-      setIsScannerActive(true);
-      sheetModalRef?.current?.show();
-    } else {
-      sheetModalRef?.current?.hide();
+    requestCameraPermission();
+    setIsScannerActive(true);
+
+    return () => {
+      setIsScannerActive(false);
     }
-  }, [isVisibleQRModal]);
+  }, []);
 
   const requestCameraPermission = async () => {
     if (Platform.OS === 'ios') {
@@ -133,7 +131,7 @@ export const QRModal = () => {
   };
 
   const _onClose = () => {
-    dispatch(toggleQRModal(false));
+    SheetManager.hide(SheetNames.QR_SCAN)
   };
 
   const handleLink = (e) => {
@@ -303,7 +301,6 @@ export const QRModal = () => {
       ref={sheetModalRef}
       gestureEnabled={true}
       containerStyle={{ ...styles.sheetContent, height: dim.height }}
-      onClose={_onClose}
       indicatorStyle={styles.indicator}
     >
       <View style={styles.mainContainer}>

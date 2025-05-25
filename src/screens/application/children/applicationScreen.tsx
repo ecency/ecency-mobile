@@ -22,7 +22,6 @@ import {
   NoInternetConnection,
   ActionModal,
   ForegroundNotification,
-  QRModal,
   WebViewModal,
 } from '../../../components/index';
 
@@ -122,7 +121,6 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
       <>
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
         <ActionModal />
-        <QRModal />
         <WebViewModal />
         {isShowToastNotification && (
           <ToastNotification
