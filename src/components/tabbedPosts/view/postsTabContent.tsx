@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { debounce } from 'lodash';
 import BackgroundTimer from 'react-native-background-timer';
 import PostsList from '../../postsList';
 import { PostsTabContentProps } from '../types/tabbedPosts.types';
 import TabEmptyView from './listEmptyView';
-import { showReplyModal } from '../../../redux/actions/uiAction';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
 import {
   useFeedQuery,
@@ -14,6 +13,8 @@ import {
 } from '../../../providers/queries/postQueries/feedQueries';
 import { NewPostsPopup, ScrollTopPopup } from '../../atoms';
 import { ProposalVoteRequest } from '../..';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 let scrollOffset = 0;
 let blockPopup = false;
@@ -34,7 +35,6 @@ const PostsTabContent = ({
   handleOnScrollBeginDrag,
 }: PostsTabContentProps) => {
   // redux properties
-  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
   const isConnected = useSelector((state) => state.application.isConnected);
   const currentAccount = useSelector((state) => state.account.currentAccount);
@@ -170,7 +170,11 @@ const PostsTabContent = ({
   // show quick reply modal
   const _showQuickReplyModal = (post: any) => {
     if (isLoggedIn) {
-      dispatch(showReplyModal({ mode: 'comment', parentPost: post }));
+      SheetManager.show(SheetNames.QUICK_POST, {
+        payload: {
+          mode: 'comment', parentPost: post
+        },
+      });
     } else {
       // TODO: show proper alert message
       console.log('Not LoggedIn');

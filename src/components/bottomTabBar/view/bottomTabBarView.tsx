@@ -11,9 +11,11 @@ import ROUTES from '../../../constants/routeNames';
 // Styles
 import styles from './bottomTabBarStyles';
 import Icon, { IconContainer } from '../../icon';
-import { showReplyModal, updateActiveBottomTab } from '../../../redux/actions/uiAction';
+import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import showLoginAlert from '../../../utils/showLoginAlert';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 const BottomTabBarView = ({
   state: { routes, index },
@@ -37,7 +39,9 @@ const BottomTabBarView = ({
       }
 
       if (routes[index].name === ROUTES.TABBAR.WAVES) {
-        dispatch(showReplyModal({ mode: 'wave' }));
+        SheetManager.show(SheetNames.QUICK_POST, {
+          payload: { mode: 'wave' },
+        });
       } else {
         navigation.navigate(ROUTES.SCREENS.EDITOR, { key: 'editor_post' });
       }

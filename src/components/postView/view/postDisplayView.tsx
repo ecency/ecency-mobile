@@ -20,7 +20,6 @@ import { ParentPost } from '../../parentPost';
 import styles from './postDisplayStyles';
 import { WritePostButton } from '../../atoms';
 import { useAppDispatch } from '../../../hooks';
-import { showReplyModal } from '../../../redux/actions/uiAction';
 import { PostTypes } from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
@@ -228,7 +227,12 @@ const PostDisplayView = ({
   // show quick reply modal
   const _showQuickReplyModal = (_post = post) => {
     if (isLoggedIn) {
-      dispatch(showReplyModal({ mode: 'comment', parentPost: _post }));
+      SheetManager.show(SheetNames.QUICK_POST, {
+        payload: {
+          mode: 'comment', parentPost: _post
+        },
+      });
+
     } else {
       console.log('Not LoggedIn');
     }
