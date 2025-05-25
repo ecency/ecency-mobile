@@ -22,13 +22,13 @@ const _renderApp = ({ locale }) => (
     <PersistGate loading={null} persistor={persistor}>
       <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <SheetProvider>
-            <SafeAreaProvider>
+          <SafeAreaProvider>
+            <SheetProvider>
               <Host>
                 <Application />
               </Host>
-            </SafeAreaProvider>
-          </SheetProvider>
+            </SheetProvider>
+          </SafeAreaProvider>
         </GestureHandlerRootView>
       </IntlProvider>
     </PersistGate>
