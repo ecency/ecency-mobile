@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // Actions
 import { useDrawerStatus } from '@react-navigation/drawer';
+import { SheetManager } from 'react-native-actions-sheet';
 import { logout } from '../../../redux/actions/uiAction';
 import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 
@@ -11,7 +12,6 @@ import SideMenuView from '../view/sideMenuView';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { getUser } from '../../../providers/hive/dhive';
 import bugsnapInstance from '../../../config/bugsnag';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 const SideMenuContainer = ({ navigation }) => {
@@ -21,7 +21,6 @@ const SideMenuContainer = ({ navigation }) => {
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const prevLoggedInUsers = useSelector((state) => state.account.prevLoggedInUsers);
-  
 
   useEffect(() => {
     if (drawerStatus === 'open') {

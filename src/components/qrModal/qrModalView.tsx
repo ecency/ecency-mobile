@@ -47,7 +47,6 @@ export const QRModal = () => {
 
   const [isScannerActive, setIsScannerActive] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
-  const sheetModalRef = useRef<ActionSheet>();
 
   const codeScanner = useCodeScanner({
     codeTypes: ['qr'],
@@ -71,7 +70,7 @@ export const QRModal = () => {
 
     return () => {
       setIsScannerActive(false);
-    }
+    };
   }, []);
 
   const requestCameraPermission = async () => {
@@ -131,7 +130,7 @@ export const QRModal = () => {
   };
 
   const _onClose = () => {
-    SheetManager.hide(SheetNames.QR_SCAN)
+    SheetManager.hide(SheetNames.QR_SCAN);
   };
 
   const handleLink = (e) => {
@@ -298,7 +297,6 @@ export const QRModal = () => {
 
   return (
     <ActionSheet
-      ref={sheetModalRef}
       gestureEnabled={true}
       containerStyle={{ ...styles.sheetContent, height: dim.height }}
       indicatorStyle={styles.indicator}

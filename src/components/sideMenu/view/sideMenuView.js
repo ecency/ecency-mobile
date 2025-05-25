@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { SheetManager } from 'react-native-actions-sheet';
 import { getStorageType } from '../../../realm/realm';
 
 // Components
@@ -25,7 +26,6 @@ import { showActionModal } from '../../../redux/actions/uiAction';
 
 // Images
 import SIDE_MENU_BACKGROUND from '../../../assets/side_menu_background.png';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 const SideMenuView = ({

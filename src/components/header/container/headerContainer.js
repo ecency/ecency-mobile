@@ -5,12 +5,12 @@ import has from 'lodash/has';
 // Component
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { SheetManager } from 'react-native-actions-sheet';
 import HeaderView from '../view/headerView';
 
 import { AccountContainer } from '../../../containers';
 import { parseReputation } from '../../../utils/user';
 import ROUTES from '../../../constants/routeNames';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 const HeaderContainer = ({

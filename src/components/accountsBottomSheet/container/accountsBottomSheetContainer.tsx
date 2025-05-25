@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { useIntl } from 'react-intl';
 import { Alert } from 'react-native';
+import { SheetManager } from 'react-native-actions-sheet';
 import RootNavigation from '../../../navigation/rootNavigation';
 
 import { setPrevLoggedInUsers, updateCurrentAccount } from '../../../redux/actions/accountAction';
@@ -14,10 +15,7 @@ import {
 } from '../../../providers/hive/auth';
 import { getUserDataWithUsername } from '../../../realm/realm';
 
-import {
-  logout,
-  showActionModal,
-} from '../../../redux/actions/uiAction';
+import { logout, showActionModal } from '../../../redux/actions/uiAction';
 import AccountsBottomSheet, { AccountsBottomSheetRef } from '../view/accountsBottomSheetView';
 
 // Constants
@@ -32,16 +30,13 @@ import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAc
 import { decryptKey } from '../../../utils/crypto';
 import { repairUserAccountData } from '../../../utils/migrationHelpers';
 import ROUTES from '../../../constants/routeNames';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 const AccountsBottomSheetContainer = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
 
-  
   const accountsBottomSheetViewRef = useRef<AccountsBottomSheetRef | null>(null);
-
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const accounts = useAppSelector((state) => state.account.otherAccounts);

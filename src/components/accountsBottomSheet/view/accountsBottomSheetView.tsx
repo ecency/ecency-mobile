@@ -13,7 +13,6 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 import styles from './accountsBottomSheetStyles';
 
-
 export interface AccountsBottomSheetRef {
   showAccountsBottomSheet: () => void;
   closeAccountsBottomSheet: () => void;
@@ -39,7 +38,7 @@ const AccountsBottomSheet = forwardRef(
       prevLoggedInUsers,
       dispatch,
       isLoggedIn,
-    }:AccountsBottomSheetProps,
+    }: AccountsBottomSheetProps,
     ref,
   ) => {
     const bottomSheetModalRef = useRef();
@@ -147,52 +146,52 @@ const AccountsBottomSheet = forwardRef(
     };
 
     return (
-        <ActionSheet
-          ref={bottomSheetModalRef}
-          gestureEnabled={true}
-          hideUnderlay
-          containerStyle={styles.sheetContent}
-          indicatorStyle={styles.sheetIndicator}
-        >
-          <FlatList
-            data={accounts}
-            ref={userList}
-            scrollEnabled
-            keyExtractor={(item, index) => `${item.name || item.username}${index}`}
-            renderItem={_renderAccountTile}
-            contentContainerStyle={styles.contentContainer}
-            nestedScrollEnabled={true}
-            onScrollEndDrag={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
-            onScrollAnimationEnd={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
-            onMomentumScrollEnd={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
-          />
-          {_renderPrevLoggedInUsersList()}
+      <ActionSheet
+        ref={bottomSheetModalRef}
+        gestureEnabled={true}
+        hideUnderlay
+        containerStyle={styles.sheetContent}
+        indicatorStyle={styles.sheetIndicator}
+      >
+        <FlatList
+          data={accounts}
+          ref={userList}
+          scrollEnabled
+          keyExtractor={(item, index) => `${item.name || item.username}${index}`}
+          renderItem={_renderAccountTile}
+          contentContainerStyle={styles.contentContainer}
+          nestedScrollEnabled={true}
+          onScrollEndDrag={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
+          onScrollAnimationEnd={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
+          onMomentumScrollEnd={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
+        />
+        {_renderPrevLoggedInUsersList()}
+        <Separator style={styles.separator} />
+        <View style={{ paddingBottom: insets.bottom + 16 }}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
+          >
+            <View>
+              <Text style={styles.textButton}>
+                {intl.formatMessage({ id: 'side_menu.create_a_new_account' })}
+              </Text>
+            </View>
+          </TouchableOpacity>
           <Separator style={styles.separator} />
-          <View style={{ paddingBottom: insets.bottom + 16 }}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
-            >
-              <View>
-                <Text style={styles.textButton}>
-                  {intl.formatMessage({ id: 'side_menu.create_a_new_account' })}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <Separator style={styles.separator} />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
-            >
-              <View>
-                <Text style={styles.textButton}>
-                  {intl.formatMessage({ id: 'side_menu.add_an_existing_account' })}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <Separator style={styles.separator} />
-          </View>
-        </ActionSheet>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
+          >
+            <View>
+              <Text style={styles.textButton}>
+                {intl.formatMessage({ id: 'side_menu.add_an_existing_account' })}
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <Separator style={styles.separator} />
+        </View>
+      </ActionSheet>
     );
   },
 );

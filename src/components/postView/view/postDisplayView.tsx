@@ -49,7 +49,6 @@ const PostDisplayView = ({
   isWavePost,
   activeVotesCount,
 }) => {
-
   const insets = useSafeAreaInsets();
 
   const queryClient = useQueryClient();

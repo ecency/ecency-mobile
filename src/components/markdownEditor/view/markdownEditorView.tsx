@@ -11,11 +11,11 @@ import {
 } from 'react-native';
 import Animated, { BounceInRight } from 'react-native-reanimated';
 import { useSelector } from 'react-redux';
+import { SheetManager } from 'react-native-actions-sheet';
 import { Icon } from '../../icon';
 
 // Utils
 import applyMediaLink from '../children/formats/applyMediaLink';
-
 
 // Components
 import {
@@ -45,7 +45,6 @@ import styles from '../styles/markdownEditorStyles';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { convertToPollMeta } from '../../../utils/editor';
 import { PollModes } from '../../postPoll';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 // const MIN_BODY_INPUT_HEIGHT = 300;
@@ -73,7 +72,6 @@ const MarkdownEditorView = ({
   onLoadDraftPress,
   setIsUploading,
 }) => {
-
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const pollDraft = useAppSelector(
     (state) => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID],
