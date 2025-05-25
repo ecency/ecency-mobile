@@ -1,15 +1,17 @@
 import { registerSheet, SheetDefinition } from 'react-native-actions-sheet';
-import { ActionModal, PostTranslationModal, QuickProfileModal } from '../components';
+import { ActionModal, PostTranslationModal, QuickProfileModal, QuickPostModal } from '../components';
 
 export enum SheetNames {
   POST_TRANSLATION = 'post_translation',
   QUICK_PROFILE = 'quick_profile',
   ACTION_MODAL = 'action_modal',
+  QUICK_POST = 'quick_post',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
 registerSheet(SheetNames.QUICK_PROFILE, QuickProfileModal);
 registerSheet(SheetNames.ACTION_MODAL, ActionModal);
+registerSheet(SheetNames.QUICK_POST, QuickPostModal);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -23,6 +25,12 @@ declare module 'react-native-actions-sheet' {
     [SheetNames.QUICK_PROFILE]: SheetDefinition<{
       payload: {
         username: string;
+      };
+    }>;
+    [SheetNames.QUICK_POST]: SheetDefinition<{
+      payload: {
+        mode: 'comment' | 'wave';
+        parentPost?: any;
       };
     }>;
     [SheetNames.ACTION_MODAL]: SheetDefinition<{
@@ -46,4 +54,4 @@ declare module 'react-native-actions-sheet' {
   }
 }
 
-export {};
+export { };

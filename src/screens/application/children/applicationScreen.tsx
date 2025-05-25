@@ -24,7 +24,6 @@ import {
   ActionModal,
   ForegroundNotification,
   QRModal,
-  QuickReplyModal,
   WebViewModal,
   CrossPostModal,
 } from '../../../components/index';
@@ -124,10 +123,8 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
     return (
       <>
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
-        {/* <QuickProfileModal /> */}
         <AccountsBottomSheet />
         <ActionModal />
-        <QuickReplyModal />
         <QRModal />
         <WebViewModal />
         <CrossPostModal />

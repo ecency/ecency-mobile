@@ -1,43 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ActionSheet from 'react-native-actions-sheet';
+import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import { Platform, View } from 'react-native';
 import { QuickReplyModalContent } from './quickPostModalContent';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { hideReplyModal } from '../../redux/actions/uiAction';
-import { PostEditorModalData } from '../../redux/reducers/uiReducer';
 import styles from './quickPostModal.styles';
+import { SheetNames } from '../../navigation/sheets';
 
-const QuickPostModal = () => {
-  const dispatch = useAppDispatch();
-  const bottomSheetModalRef = useRef();
-
-  const [backdropVisible, setBackdropVisible] = useState(false);
-
-  const replyModalVisible = useAppSelector((state) => state.ui.replyModalVisible);
-  const replyModalData: PostEditorModalData = useAppSelector((state) => state.ui.replyModalData);
+const QuickPostModal = ({ payload }: SheetProps<SheetNames.QUICK_POST>) => {
 
   const modalContentRef = useRef(null);
+  const { mode, parentPost } = payload || {};
 
-  useEffect(() => {
-    if (replyModalVisible) {
-      setBackdropVisible(true);
-      bottomSheetModalRef.current?.show();
-    }
-  }, [replyModalVisible]);
+
 
   const _onClose = () => {
-    setBackdropVisible(false);
-    bottomSheetModalRef.current?.hide();
+    SheetManager.hide(SheetNames.QUICK_POST);
+
     if (modalContentRef.current) {
       modalContentRef.current.handleSheetClose();
     }
-    dispatch(hideReplyModal());
+
   };
 
   return (
     <>
       <ActionSheet
-        ref={bottomSheetModalRef}
         gestureEnabled={true}
         containerStyle={styles.sheetContent}
         indicatorStyle={styles.sheetIndicator}
@@ -47,12 +33,12 @@ const QuickPostModal = () => {
       >
         <QuickReplyModalContent
           ref={modalContentRef}
-          mode={replyModalData?.mode || 'comment'}
-          selectedPost={replyModalData?.parentPost}
+          mode={mode || 'comment'}
+          selectedPost={parentPost}
           onClose={_onClose}
         />
       </ActionSheet>
-      {backdropVisible && <View style={styles.backdrop} />}
+      <View style={styles.backdrop} />
     </>
   );
 };
