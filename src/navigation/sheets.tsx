@@ -5,6 +5,7 @@ import {
   QuickProfileModal,
   QuickPostModal,
   CrossPostModal,
+  AccountsBottomSheet,
 } from '../components';
 
 export enum SheetNames {
@@ -13,6 +14,7 @@ export enum SheetNames {
   ACTION_MODAL = 'action_modal',
   QUICK_POST = 'quick_post',
   CROSS_POST = 'cross_post',
+  ACCOUNTS_SHEET = 'accounts_sheet',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -20,6 +22,8 @@ registerSheet(SheetNames.QUICK_PROFILE, QuickProfileModal);
 registerSheet(SheetNames.ACTION_MODAL, ActionModal);
 registerSheet(SheetNames.QUICK_POST, QuickPostModal);
 registerSheet(SheetNames.CROSS_POST, CrossPostModal);
+registerSheet(SheetNames.ACCOUNTS_SHEET, AccountsBottomSheet);
+
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -46,6 +50,7 @@ declare module 'react-native-actions-sheet' {
         postContent: any;
       };
     }>;
+    [SheetNames.ACCOUNTS_SHEET]: SheetDefinition;
     [SheetNames.ACTION_MODAL]: SheetDefinition<{
       payload: {
         title: string;

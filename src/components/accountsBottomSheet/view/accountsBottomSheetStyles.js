@@ -23,9 +23,6 @@ export default EStyleSheet.create({
   name: {
     color: '$primaryDarkGray',
   },
-  accountsModal: {
-    backgroundColor: 'yellow',
-  },
   textButton: {
     color: '$primaryDarkGray',
     fontWeight: '700',

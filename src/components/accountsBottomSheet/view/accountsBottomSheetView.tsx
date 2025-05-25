@@ -13,6 +13,22 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 import styles from './accountsBottomSheetStyles';
 
+
+export interface AccountsBottomSheetRef {
+  showAccountsBottomSheet: () => void;
+  closeAccountsBottomSheet: () => void;
+}
+
+export interface AccountsBottomSheetProps {
+  accounts: any[];
+  currentAccount: any;
+  navigateToRoute: (route: string, params?: any) => void;
+  switchAccount: (account: any) => void;
+  prevLoggedInUsers: Array<any>;
+  dispatch: (action: any) => void;
+  isLoggedIn: boolean;
+}
+
 const AccountsBottomSheet = forwardRef(
   (
     {
@@ -20,11 +36,10 @@ const AccountsBottomSheet = forwardRef(
       currentAccount,
       navigateToRoute,
       switchAccount,
-      onClose,
       prevLoggedInUsers,
       dispatch,
       isLoggedIn,
-    },
+    }:AccountsBottomSheetProps,
     ref,
   ) => {
     const bottomSheetModalRef = useRef();
@@ -132,14 +147,12 @@ const AccountsBottomSheet = forwardRef(
     };
 
     return (
-      <View style={[styles.accountsModal]}>
         <ActionSheet
           ref={bottomSheetModalRef}
           gestureEnabled={true}
           hideUnderlay
           containerStyle={styles.sheetContent}
           indicatorStyle={styles.sheetIndicator}
-          onClose={onClose}
         >
           <FlatList
             data={accounts}
@@ -180,7 +193,6 @@ const AccountsBottomSheet = forwardRef(
             <Separator style={styles.separator} />
           </View>
         </ActionSheet>
-      </View>
     );
   },
 );

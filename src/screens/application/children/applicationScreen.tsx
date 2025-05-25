@@ -20,7 +20,6 @@ import ROUTES from '../../../constants/routeNames';
 import {
   ToastNotification,
   NoInternetConnection,
-  AccountsBottomSheet,
   ActionModal,
   ForegroundNotification,
   QRModal,
@@ -122,7 +121,6 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
     return (
       <>
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
-        <AccountsBottomSheet />
         <ActionModal />
         <QRModal />
         <WebViewModal />
