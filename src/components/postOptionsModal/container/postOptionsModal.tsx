@@ -40,6 +40,7 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import styles from '../styles/postOptionsModal.styles';
 import { delay } from '../../../utils/editor';
+import { SheetNames } from '../../../navigation/sheets';
 
 /*
  *            Props Name        Description                                     Value
@@ -544,7 +545,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         break;
       case 'translate':
         await delay(700);
-        SheetManager.show('post_translation', {
+        SheetManager.show(SheetNames.POST_TRANSLATION, {
           payload:{
             content
           }
