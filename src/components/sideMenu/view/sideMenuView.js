@@ -21,13 +21,12 @@ import { getVotingPower } from '../../../utils/manaBar';
 
 // Styles
 import styles from './sideMenuStyles';
-import {
-  showActionModal,
-  toggleQRModal,
-} from '../../../redux/actions/uiAction';
+import { showActionModal } from '../../../redux/actions/uiAction';
 
 // Images
 import SIDE_MENU_BACKGROUND from '../../../assets/side_menu_background.png';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 const SideMenuView = ({
   currentAccount,
@@ -92,7 +91,7 @@ const SideMenuView = ({
     }
 
     if (item.id === 'qr') {
-      dispatch(toggleQRModal(true));
+      SheetManager.show(SheetNames.QR_SCAN);
       return;
     }
 
@@ -135,8 +134,6 @@ const SideMenuView = ({
   const { buildVersion, appVersion } = VersionNumber;
 
   const _username = currentAccount.name;
-
-
 
   const _renderItem = (item) => (
     <TouchableOpacity
