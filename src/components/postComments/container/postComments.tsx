@@ -15,6 +15,7 @@ import { FlashList } from '@shopify/flash-list';
 
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { SheetManager } from 'react-native-actions-sheet';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
@@ -33,7 +34,6 @@ import styles from '../children/postComments.styles';
 import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 import { PostOptionsModal } from '../../index';
 import { BotCommentsPreview } from '../children/botCommentsPreview';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 const PostComments = forwardRef(
@@ -190,8 +190,8 @@ const PostComments = forwardRef(
       SheetManager.show(SheetNames.QUICK_PROFILE, {
         payload: {
           username,
-        }
-      })
+        },
+      });
     };
 
     const _handleShowOptionsMenu = (comment) => {

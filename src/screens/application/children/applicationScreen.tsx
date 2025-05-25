@@ -120,7 +120,6 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
     );
   };
 
-
   const _renderAppModals = () => {
     return (
       <>

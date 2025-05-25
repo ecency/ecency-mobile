@@ -13,8 +13,8 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
   },
 
-  indicatorStyle :{
-    color: '$primaryWhiteLightBackground'
+  indicatorStyle: {
+    color: '$primaryWhiteLightBackground',
   },
 
   container: {

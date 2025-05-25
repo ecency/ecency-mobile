@@ -14,6 +14,7 @@ import get from 'lodash/get';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { SheetManager } from 'react-native-actions-sheet';
 import {
   BasicHeader,
   Icon,
@@ -35,7 +36,6 @@ import ROUTES from '../../constants/routeNames';
 // Redux / Services
 import RootNavigation from '../../navigation/rootNavigation';
 import { useAppSelector } from '../../hooks';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../navigation/sheets';
 
 const ReferScreen = () => {
@@ -106,8 +106,8 @@ const ReferScreen = () => {
     SheetManager.show(SheetNames.QUICK_PROFILE, {
       payload: {
         username,
-      }
-    })
+      },
+    });
   };
 
   const _renderPointsEarned = () => {
@@ -159,11 +159,11 @@ const ReferScreen = () => {
         text={
           item.isRewarded
             ? intl.formatMessage({
-              id: 'refer.rewarded',
-            })
+                id: 'refer.rewarded',
+              })
             : intl.formatMessage({
-              id: 'refer.not_rewarded',
-            })
+                id: 'refer.not_rewarded',
+              })
         }
       >
         <Text style={[styles.dollarSign, item.isRewarded ? styles.blueDollarSign : {}]}>$$</Text>

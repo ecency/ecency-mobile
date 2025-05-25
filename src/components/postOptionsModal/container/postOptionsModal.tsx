@@ -546,10 +546,10 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       case 'translate':
         await delay(700);
         SheetManager.show(SheetNames.POST_TRANSLATION, {
-          payload:{
-            content
-          }
-        })
+          payload: {
+            content,
+          },
+        });
         break;
       case 'delete-post':
         await delay(700);

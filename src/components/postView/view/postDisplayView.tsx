@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Utils
 import { useQueryClient } from '@tanstack/react-query';
+import { SheetManager } from 'react-native-actions-sheet';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
@@ -31,7 +32,6 @@ import QUERIES from '../../../providers/queries/queryKeys';
 import { usePostStatsQuery } from '../../../providers/queries';
 import { PostStatsModal } from '../../organisms';
 import { getAbbreviatedNumber } from '../../../utils/number';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 const PostDisplayView = ({
@@ -240,8 +240,8 @@ const PostDisplayView = ({
       SheetManager.show(SheetNames.QUICK_PROFILE, {
         payload: {
           username,
-        }
-      })
+        },
+      });
     }
   };
 

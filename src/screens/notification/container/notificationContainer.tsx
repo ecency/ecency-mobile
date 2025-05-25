@@ -8,6 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 // Constants
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { SheetManager } from 'react-native-actions-sheet';
 import ROUTES from '../../../constants/routeNames';
 
 // Components
@@ -16,7 +17,6 @@ import { useAppSelector } from '../../../hooks';
 import { useNotificationReadMutation, useNotificationsQuery } from '../../../providers/queries';
 import { NotificationFilters } from '../../../providers/ecency/ecency.types';
 import QUERIES from '../../../providers/queries/queryKeys';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 const NotificationContainer = ({ navigation }) => {
@@ -41,8 +41,8 @@ const NotificationContainer = ({ navigation }) => {
     selectedFilter === NotificationFilters.REPLIES
       ? repliesNotificationsQuery
       : selectedFilter === NotificationFilters.MENTIONS
-        ? mentiosnNotificationsQuery
-        : allNotificationsQuery;
+      ? mentiosnNotificationsQuery
+      : allNotificationsQuery;
 
   useEffect(() => {
     if (curUsername.current !== currentAccount.username) {
@@ -115,8 +115,8 @@ const NotificationContainer = ({ navigation }) => {
     SheetManager.show(SheetNames.QUICK_PROFILE, {
       payload: {
         username,
-      }
-    })
+      },
+    });
   };
 
   // TODO: handle mark as read mutations

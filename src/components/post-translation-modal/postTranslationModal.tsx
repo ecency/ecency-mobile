@@ -28,13 +28,11 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
   const [isLoadingLangsList, setisLoadingLangsList] = useState(false);
   const [translationError, setTranslationError] = useState('');
 
-
   const content = payload?.content;
 
   useEffect(() => {
     getSupportedLanguages();
-  }, [])
-
+  }, []);
 
   useEffect(() => {
     if (content && content.body) {
@@ -63,9 +61,9 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
       setIsLoadingTranslation(false);
       setTranslationError(
         error?.message ||
-        intl.formatMessage({
-          id: 'alert.error',
-        }),
+          intl.formatMessage({
+            id: 'alert.error',
+          }),
       );
       console.log('error : ', error);
     }

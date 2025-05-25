@@ -6,12 +6,12 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
 // Components
+import { SheetManager } from 'react-native-actions-sheet';
 import { BasicHeader, UserListItem } from '../../../components';
 
 // Utils
 import styles from './followScreenStyles';
 import { SheetNames } from '../../../navigation/sheets';
-import { SheetManager } from 'react-native-actions-sheet';
 
 class FollowsScreen extends PureComponent {
   /* Props
@@ -31,8 +31,8 @@ class FollowsScreen extends PureComponent {
     SheetManager.show(SheetNames.QUICK_PROFILE, {
       payload: {
         username,
-      }
-    })
+      },
+    });
   };
 
   _renderItem = ({ item, index }) => {

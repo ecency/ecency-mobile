@@ -7,10 +7,7 @@ import ActionSheetView, { SheetManager } from 'react-native-actions-sheet';
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
 import { writeToClipboard } from '../../../../utils/clipboard';
-import {
-  handleDeepLink,
-  toastNotification,
-} from '../../../../redux/actions/uiAction';
+import { handleDeepLink, toastNotification } from '../../../../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
@@ -137,8 +134,8 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
       SheetManager.show(SheetNames.QUICK_PROFILE, {
         payload: {
           username,
-        }
-      })
+        },
+      });
     } else {
       dispatch(
         toastNotification(

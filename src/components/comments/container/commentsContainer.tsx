@@ -6,6 +6,7 @@ import get from 'lodash/get';
 
 import { postBodySummary } from '@ecency/render-helper';
 import { useNavigation } from '@react-navigation/native';
+import { SheetManager } from 'react-native-actions-sheet';
 import { getComments, deleteComment } from '../../../providers/hive/dhive';
 // Services and Actions
 import { writeToClipboard } from '../../../utils/clipboard';
@@ -22,7 +23,6 @@ import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import { postQueries } from '../../../providers/queries';
 import { PostTypes } from '../../../constants/postTypes';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 const CommentsContainer = ({
@@ -249,8 +249,8 @@ const CommentsContainer = ({
       SheetManager.show(SheetNames.QUICK_PROFILE, {
         payload: {
           username,
-        }
-      })
+        },
+      });
     }
   };
 

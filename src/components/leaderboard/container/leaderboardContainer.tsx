@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
+import { SheetManager } from 'react-native-actions-sheet';
 import FILTER_OPTIONS from '../../../constants/options/leaderboard';
 
 // Component
@@ -12,7 +13,6 @@ import { toastNotification } from '../../../redux/actions/uiAction';
 import { leaderboardQuries } from '../../../providers/queries';
 import QUERIES from '../../../providers/queries/queryKeys';
 import { SheetNames } from '../../../navigation/sheets';
-import { SheetManager } from 'react-native-actions-sheet';
 
 /*
  *            Props Name        Description                                     Value
@@ -52,8 +52,8 @@ const LeaderboardContainer = () => {
     SheetManager.show(SheetNames.QUICK_PROFILE, {
       payload: {
         username,
-      }
-    })
+      },
+    });
   };
 
   const _fetchLeaderBoard = async (selectedFilter, index) => {

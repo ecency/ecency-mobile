@@ -6,14 +6,14 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Host } from 'react-native-portalize';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SheetProvider } from 'react-native-actions-sheet';
 import { flattenMessages } from './utils/flattenMessages';
 import messages from './config/locales';
 
 import Application from './screens/application';
 import { persistor, store } from './redux/store/store';
 import { initQueryClient } from './providers/queries';
-import { SheetProvider } from 'react-native-actions-sheet';
-import "./navigation/sheets";
+import './navigation/sheets';
 
 const queryClientProviderProps = initQueryClient();
 

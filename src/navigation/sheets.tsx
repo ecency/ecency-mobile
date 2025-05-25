@@ -1,7 +1,6 @@
 import { registerSheet, SheetDefinition } from 'react-native-actions-sheet';
 import { ActionModal, PostTranslationModal, QuickProfileModal } from '../components';
 
-
 export enum SheetNames {
   POST_TRANSLATION = 'post_translation',
   QUICK_PROFILE = 'quick_profile',
@@ -15,9 +14,6 @@ registerSheet(SheetNames.ACTION_MODAL, ActionModal);
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
 declare module 'react-native-actions-sheet' {
-
-
-
   interface Sheets {
     [SheetNames.POST_TRANSLATION]: SheetDefinition<{
       payload: {
@@ -50,5 +46,4 @@ declare module 'react-native-actions-sheet' {
   }
 }
 
-
-export { };
+export {};
