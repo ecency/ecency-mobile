@@ -25,7 +25,6 @@ import {
   ForegroundNotification,
   QRModal,
   WebViewModal,
-  CrossPostModal,
 } from '../../../components/index';
 
 // Themes (Styles)
@@ -127,7 +126,6 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
         <ActionModal />
         <QRModal />
         <WebViewModal />
-        <CrossPostModal />
         {isShowToastNotification && (
           <ToastNotification
             text={toastNotification}

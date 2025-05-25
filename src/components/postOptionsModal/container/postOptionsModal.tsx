@@ -16,12 +16,7 @@ import {
   reblog,
 } from '../../../providers/hive/dhive';
 import { addBookmark, addReport } from '../../../providers/ecency/ecency';
-import {
-  toastNotification,
-  setRcOffer,
-  showActionModal,
-  showCrossPostModal,
-} from '../../../redux/actions/uiAction';
+import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
 
 // Constants
 import OPTIONS from '../../../constants/options/post';
@@ -375,7 +370,11 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   };
 
   const _crossPost = () => {
-    dispatch(showCrossPostModal(content));
+    SheetManager.show(SheetNames.CROSS_POST, {
+      payload: {
+        postContent: content,
+      },
+    });
   };
 
   const _updatePinnedPost = async (
