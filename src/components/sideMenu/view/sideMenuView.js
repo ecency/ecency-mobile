@@ -23,7 +23,6 @@ import { getVotingPower } from '../../../utils/manaBar';
 import styles from './sideMenuStyles';
 import {
   showActionModal,
-  toggleAccountsBottomSheet,
   toggleQRModal,
 } from '../../../redux/actions/uiAction';
 
@@ -35,9 +34,8 @@ const SideMenuView = ({
   isLoggedIn,
   handleLogout,
   navigateToRoute,
-  handlePressOptions,
   prevLoggedInUsers,
-  isVisibleAccountsBottomSheet,
+  handleShowAccountsSheet,
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -120,7 +118,7 @@ const SideMenuView = ({
     // if there is any prevLoggedInUser, show account switch modal
     if (item.id === 'add_account') {
       if (prevLoggedInUsers && prevLoggedInUsers?.length > 0) {
-        dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
+        handleShowAccountsSheet();
       } else {
         navigateToRoute(item.route);
       }
@@ -137,6 +135,8 @@ const SideMenuView = ({
   const { buildVersion, appVersion } = VersionNumber;
 
   const _username = currentAccount.name;
+
+
 
   const _renderItem = (item) => (
     <TouchableOpacity
@@ -193,7 +193,7 @@ const SideMenuView = ({
                 </View>
               </View>
 
-              <TouchableOpacity style={styles.iconWrapper} onPress={handlePressOptions}>
+              <TouchableOpacity style={styles.iconWrapper} onPress={handleShowAccountsSheet}>
                 <Icon
                   iconType="SimpleLineIcons"
                   style={styles.optionIcon}

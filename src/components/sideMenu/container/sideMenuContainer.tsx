@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // Actions
 import { useDrawerStatus } from '@react-navigation/drawer';
-import { logout, toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+import { logout } from '../../../redux/actions/uiAction';
 import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 
 // Component
@@ -11,6 +11,8 @@ import SideMenuView from '../view/sideMenuView';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { getUser } from '../../../providers/hive/dhive';
 import bugsnapInstance from '../../../config/bugsnag';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 const SideMenuContainer = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -19,10 +21,7 @@ const SideMenuContainer = ({ navigation }) => {
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const prevLoggedInUsers = useSelector((state) => state.account.prevLoggedInUsers);
-
-  const isVisibleAccountsBottomSheet = useSelector(
-    (state) => state.ui.isVisibleAccountsBottomSheet,
-  );
+  
 
   useEffect(() => {
     if (drawerStatus === 'open') {
@@ -60,9 +59,9 @@ const SideMenuContainer = ({ navigation }) => {
     dispatch(logout());
   };
 
-  const _handlePressOptions = () => {
+  const _handleShowAccountsSheet = () => {
+    SheetManager.show(SheetNames.ACCOUNTS_SHEET);
     navigation.closeDrawer();
-    dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
   };
 
   return (
@@ -72,9 +71,8 @@ const SideMenuContainer = ({ navigation }) => {
       userAvatar={null}
       currentAccount={currentAccount}
       handleLogout={_handleLogout}
-      handlePressOptions={_handlePressOptions}
+      handleShowAccountsSheet={_handleShowAccountsSheet}
       prevLoggedInUsers={prevLoggedInUsers}
-      isVisibleAccountsBottomSheet={isVisibleAccountsBottomSheet}
     />
   );
 };
