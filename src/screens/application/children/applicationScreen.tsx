@@ -20,7 +20,6 @@ import {
   ToastNotification,
   NoInternetConnection,
   ForegroundNotification,
-  WebViewModal,
 } from '../../../components/index';
 
 // Themes (Styles)
@@ -120,10 +119,7 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
   const _renderAppModals = () => {
     return (
       <>
-
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
-
-        <WebViewModal />
         {isShowToastNotification && (
           <ToastNotification
             text={toastNotification}

@@ -6,11 +6,13 @@ import * as hiveuri from 'hive-uri';
 import QUERIES from './queryKeys';
 import { getProposalsVoted, voteProposal } from '../hive/dhive';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { showWebViewModal, toastNotification } from '../../redux/actions/uiAction';
+import { toastNotification } from '../../redux/actions/uiAction';
 import { updateProposalVoteMeta } from '../../redux/actions/cacheActions';
 import { getActiveProposalMeta } from '../ecency/ecency';
 import { ProposalMeta } from '../ecency/ecency.types';
 import authType from '../../constants/authType';
+import { useNavigation } from '@react-navigation/native';
+import ROUTES from '../../constants/routeNames';
 
 // query for getting active proposal meta;
 export const useActiveProposalMetaQuery = () => {
@@ -50,6 +52,7 @@ export const useProposalVotedQuery = (proposalId?: number) => {
 
 export const useProposalVoteMutation = () => {
   const dispatch = useAppDispatch();
+  const navigation = useNavigation();
   const intl = useIntl();
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
@@ -69,14 +72,13 @@ export const useProposalVoteMutation = () => {
         ]);
 
         return new Promise((resolve) => {
-          dispatch(
-            showWebViewModal({
-              uri: _enHiveuri,
-              onClose: () => {
-                resolve(true);
-              },
-            }),
-          );
+          navigation.navigate(ROUTES.MODALS.HIVE_SIGNER, {
+            hiveuri: _enHiveuri,
+            onClose: () => {
+              resolve(true);
+            },
+          })
+
         });
       }
       return voteProposal(currentAccount, pinHash, proposalId);

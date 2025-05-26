@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -19,7 +19,6 @@ import styles from './qrModalStyles';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   handleDeepLink,
-  showWebViewModal,
   toastNotification,
 } from '../../redux/actions/uiAction';
 import { deepLinkParser } from '../../utils/deepLinkParser';
@@ -56,6 +55,7 @@ export const QRModal = () => {
   });
 
   // TODO: make sure to properly clean uri processing code to process uri from deep links and notifications
+  //TOOD: handle deep link from a different location as qr mdoal only mounts on qr action press
   const deepLinkToHandle = useAppSelector((state) => state.ui.deepLinkToHandle);
   useEffect(() => {
     if (deepLinkToHandle) {
@@ -167,11 +167,13 @@ export const QRModal = () => {
   const _handleHiveUriTransaction = async (uri: string) => {
     if (get(currentAccount, 'local.authType') === authType.STEEM_CONNECT) {
       await delay(500); // NOTE: it's required to avoid modal mis fire
-      dispatch(
-        showWebViewModal({
-          uri,
-        }),
-      );
+      RootNavigation.navigate({
+        name: ROUTES.MODALS.HIVE_SIGNER, 
+        params: {
+          hiveuri: uri,
+
+        }
+      })
       return;
     }
 
@@ -196,34 +198,34 @@ export const QRModal = () => {
             bodyContent: _renderActionModalBody(op, formattedTx.opName),
             buttons: [
               {
-          text: intl.formatMessage({
-            id: 'qr.cancel',
-          }),
-          onPress: () => {
-            console.log('cancel pressed');
-          },
-          style: 'cancel',
+                text: intl.formatMessage({
+                  id: 'qr.cancel',
+                }),
+                onPress: () => {
+                  console.log('cancel pressed');
+                },
+                style: 'cancel',
               },
               {
-          text: intl.formatMessage({
-            id: 'qr.approve',
-          }),
-          onPress: () => {
-            handleHiveUriOperation(currentAccount, pinCode, tx)
-              .then(() => {
-                dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-              })
-              .catch((err) => {
-                bugsnagInstance.notify(err);
-                if (err) {
-            dispatch(toastNotification(intl.formatMessage({ id: err })));
-                } else {
-            dispatch(
-              toastNotification(intl.formatMessage({ id: 'qr.transaction_failed' })),
-            );
-                }
-              });
-          },
+                text: intl.formatMessage({
+                  id: 'qr.approve',
+                }),
+                onPress: () => {
+                  handleHiveUriOperation(currentAccount, pinCode, tx)
+                    .then(() => {
+                      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+                    })
+                    .catch((err) => {
+                      bugsnagInstance.notify(err);
+                      if (err) {
+                        dispatch(toastNotification(intl.formatMessage({ id: err })));
+                      } else {
+                        dispatch(
+                          toastNotification(intl.formatMessage({ id: 'qr.transaction_failed' })),
+                        );
+                      }
+                    });
+                },
               },
             ],
             onClosed: () => dispatch(handleDeepLink('')),
@@ -296,6 +298,7 @@ export const QRModal = () => {
   return (
     <ActionSheet
       gestureEnabled={true}
+      snapPoints={[90]}
       containerStyle={{ ...styles.sheetContent, height: dim.height }}
       indicatorStyle={styles.indicator}
     >
