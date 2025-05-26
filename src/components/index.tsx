@@ -107,7 +107,7 @@ import BeneficiarySelectionContent from './beneficiarySelectionContent/beneficia
 import TransferAccountSelector from './transferAccountSelector/transferAccountSelector';
 import TransferAmountInputSection from './transferAmountInputSection/transferAmountInputSection';
 import TextBoxWithCopy from './textBoxWithCopy/textBoxWithCopy';
-import WebViewModal from './webViewModal/webViewModal';
+import HiveSignerModal from './hiveSignerModal/hiveSignerModal';
 import OrDivider from './orDivider/orDividerView';
 import PostTranslationModal from './post-translation-modal/postTranslationModal';
 import { ImageViewer } from './imageViewer';
@@ -271,7 +271,7 @@ export {
   TransferAccountSelector,
   TransferAmountInputSection,
   TextBoxWithCopy,
-  WebViewModal,
+  HiveSignerModal,
   OrDivider,
   PostTranslationModal,
   ImageViewer,

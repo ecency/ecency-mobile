@@ -47,6 +47,7 @@ const ROUTES = {
     ACCOUNT_LIST: `AccountList${MODAL_SUFFIX}`,
     POLL_WIZARD: `PollWizard${MODAL_SUFFIX}`,
     BOT_COMMENTS: `BotComments${MODAL_SUFFIX}`,
+    HIVE_SIGNER: `HiveSigner${MODAL_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,
