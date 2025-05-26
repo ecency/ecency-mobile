@@ -20,7 +20,6 @@ import ROUTES from '../../../constants/routeNames';
 import {
   ToastNotification,
   NoInternetConnection,
-  ActionModal,
   ForegroundNotification,
   WebViewModal,
 } from '../../../components/index';
@@ -119,8 +118,9 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
   const _renderAppModals = () => {
     return (
       <>
+
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
-        <ActionModal />
+
         <WebViewModal />
         {isShowToastNotification && (
           <ToastNotification

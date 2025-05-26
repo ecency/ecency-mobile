@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
 import { Image as ExpoImage } from 'expo-image';
 import ActionSheet from 'react-native-actions-sheet';
@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import styles from './actionModalStyles';
 
-import { ActionModalData, ButtonTypes } from '../container/actionModalContainer';
+import { ActionModalPayload, ButtonTypes } from '../container/actionModalContainer';
 import { MainButton } from '../../mainButton';
 
 export interface ActionModalRef {
@@ -16,24 +16,13 @@ export interface ActionModalRef {
 
 interface ActionModalViewProps {
   onClose: () => void;
-  data: ActionModalData;
+  data: ActionModalPayload;
 }
 
-const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
-  const sheetModalRef = useRef<ActionSheet>();
+const ActionModalView = ({ onClose, data }: ActionModalViewProps) => {
 
   const intl = useIntl();
   const insets = useSafeAreaInsets();
-
-  useImperativeHandle(ref, () => ({
-    showModal: () => {
-      console.log('Showing action modal');
-      sheetModalRef.current?.show();
-    },
-    closeModal() {
-      sheetModalRef.current?.hide();
-    },
-  }));
 
   if (!data) {
     return null;
@@ -68,7 +57,7 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
               key={props.text}
               text={props.textId ? intl.formatMessage({ id: props.textId }) : props.text}
               onPress={(evn) => {
-                sheetModalRef.current?.hide();
+                onClose();
                 props.onPress(evn);
               }}
               style={props?.type === ButtonTypes.CANCEL ? styles.cancel : styles.button}
@@ -80,7 +69,7 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
             key="default"
             text="OK"
             onPress={() => {
-              sheetModalRef.current?.hide();
+              onClose();
             }}
             style={styles.button}
             textStyle={styles.btnText}
@@ -92,7 +81,6 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
 
   return (
     <ActionSheet
-      ref={sheetModalRef}
       gestureEnabled={false}
       containerStyle={styles.sheetContent}
       indicatorStyle={styles.sheetIndicator}
@@ -103,4 +91,4 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps, ref) => {
   );
 };
 
-export default forwardRef(ActionModalView);
+export default ActionModalView;

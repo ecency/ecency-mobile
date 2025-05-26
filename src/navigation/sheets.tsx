@@ -8,6 +8,7 @@ import {
   AccountsBottomSheet,
   QRModal,
 } from '../components';
+import { ActionModalPayload } from '../components/actionModal/container/actionModalContainer';
 
 export enum SheetNames {
   POST_TRANSLATION = 'post_translation',
@@ -52,26 +53,12 @@ declare module 'react-native-actions-sheet' {
         postContent: any;
       };
     }>;
+    [SheetNames.ACTION_MODAL]: SheetDefinition<{
+      payload: ActionModalPayload;
+    }>;
     [SheetNames.ACCOUNTS_SHEET]: SheetDefinition;
     [SheetNames.QR_SCAN]: SheetDefinition;
-    [SheetNames.ACTION_MODAL]: SheetDefinition<{
-      payload: {
-        title: string;
-        body: string;
-        action?: {
-          label: string;
-          onPress: () => void;
-        };
-        buttons?: {
-          text: string;
-          onPress?: () => void;
-          style?: 'default' | 'cancel' | 'destructive';
-        }[];
-        headerImage?: string;
-        headerContent?: React.ReactNode;
-        bodyContent?: React.ReactNode;
-      };
-    }>;
+
   }
 }
 
