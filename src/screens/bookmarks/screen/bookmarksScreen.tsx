@@ -4,15 +4,15 @@ import { View, FlatList, Text } from 'react-native';
 
 // Components
 import { TabView } from 'react-native-tab-view';
-import { useDispatch } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { UserListItem, WalletDetailsPlaceHolder, BasicHeader, TabBar } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './bookmarksStyles';
-import { showActionModal } from '../../../redux/actions/uiAction';
 import { ButtonTypes } from '../../../components/actionModal/container/actionModalContainer';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 const BookmarksScreen = ({
   isLoading,
@@ -25,7 +25,6 @@ const BookmarksScreen = ({
   removeBookmark,
   initialTabIndex,
 }) => {
-  const dispatch = useDispatch();
 
   const [tabIndex, setTabIndex] = React.useState(initialTabIndex);
   const [routes] = React.useState([
@@ -104,8 +103,8 @@ const BookmarksScreen = ({
       tabIndex === 0 ? removeBookmark(_selectedItemId) : removeFavorite(_selectedItemId);
     };
 
-    dispatch(
-      showActionModal({
+    SheetManager.show(SheetNames.ACTION_MODAL, {
+      payload: {
         title: intl.formatMessage({ id: 'alert.remove_alert' }),
         buttons: [
           {
@@ -120,8 +119,9 @@ const BookmarksScreen = ({
             onPress: _onConfirmDelete,
           },
         ],
-      }),
-    );
+      }
+    })
+
   };
 
   const renderScene = ({ route }) => {

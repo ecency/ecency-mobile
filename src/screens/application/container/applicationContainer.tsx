@@ -64,7 +64,6 @@ import {
 } from '../../../redux/actions/applicationActions';
 import {
   setAvatarCacheStamp,
-  showActionModal,
   toastNotification,
   updateActiveBottomTab,
   logout,
@@ -85,6 +84,8 @@ import MigrationHelpers, {
 } from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 let firebaseOnMessageListener: any = null;
 let appStateSub: NativeEventSubscription | null = null;
@@ -218,7 +219,7 @@ class ApplicationContainer extends Component {
 
   _compareAndPromptForUpdate = async () => {
     const recheckInterval = 48 * 3600 * 1000; // 2 days
-    const { dispatch, intl } = this.props;
+    const { intl } = this.props;
 
     const lastUpdateCheck = await getLastUpdateCheck();
 
@@ -232,8 +233,9 @@ class ApplicationContainer extends Component {
     const remoteVersion = await fetchLatestAppVersion();
 
     if (parseVersionNumber(remoteVersion) > parseVersionNumber(VersionNumber.appVersion)) {
-      dispatch(
-        showActionModal({
+
+      SheetManager.show(SheetNames.ACTION_MODAL, {
+        payload: {
           title: intl.formatMessage(
             { id: 'alert.update_available_title' },
             { version: remoteVersion },
@@ -265,8 +267,8 @@ class ApplicationContainer extends Component {
             },
           ],
           headerImage: require('../../../assets/phone-holding.png'),
-        }),
-      );
+        }
+      })
     }
   };
 
@@ -371,13 +373,13 @@ class ApplicationContainer extends Component {
   };
 
   _checkHiveAuthExpiry = (authData: any) => {
-    const { intl, dispatch } = this.props;
+    const { intl } = this.props;
 
     if (authData?.username) {
       const curTime = new Date().getTime();
       if (curTime > authData.hiveAuthExpiry) {
-        dispatch(
-          showActionModal({
+        SheetManager.show(SheetNames.ACTION_MODAL, {
+          payload: {
             title: intl.formatMessage({ id: 'alert.warning' }),
             body: intl.formatMessage({ id: 'alert.auth_expired' }),
             buttons: [
@@ -398,8 +400,9 @@ class ApplicationContainer extends Component {
                 },
               },
             ],
-          }),
-        );
+          },
+        });
+
       }
     }
   };
@@ -591,8 +594,7 @@ class ApplicationContainer extends Component {
         console.warn('access token not present, reporting to bugsnag');
         bugsnapInstance.notify(
           new Error(
-            `Reporting missing access token in other accounts section: account:${
-              account.name
+            `Reporting missing access token in other accounts section: account:${account.name
             } with local data ${JSON.stringify(account?.local)}`,
           ),
         );

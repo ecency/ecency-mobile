@@ -22,8 +22,6 @@ import {
 import styles from './transferStyles';
 import TransferTypes from '../../../constants/transferTypes';
 import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineActions';
-import { useAppDispatch } from '../../../hooks';
-import { showActionModal } from '../../../redux/actions/uiAction';
 import {
   getSpkActionJSON,
   getSpkTransactionId,
@@ -31,6 +29,8 @@ import {
 } from '../../../providers/hive-spk/hiveSpk';
 import parseToken from '../../../utils/parseToken';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 const TransferView = ({
   currentAccountName,
@@ -52,7 +52,6 @@ const TransferView = ({
   fetchRecurrentTransfers,
   recurrentTransfers,
 }) => {
-  const dispatch = useAppDispatch();
 
   const hiveAuthModalRef = useRef();
 
@@ -71,10 +70,10 @@ const TransferView = ({
       transferType === TransferTypes.LOCK_LIQUIDITY_SPK
       ? currentAccountName
       : transferType === 'purchase_estm'
-      ? 'esteem.app'
-      : transferType === TransferTypes.DELEGATE_SPK
-      ? SPK_NODE_ECENCY
-      : referredUsername || '',
+        ? 'esteem.app'
+        : transferType === TransferTypes.DELEGATE_SPK
+          ? SPK_NODE_ECENCY
+          : referredUsername || '',
   );
 
   const [amount, setAmount] = useState(`${initialAmount}`);
@@ -232,11 +231,10 @@ const TransferView = ({
     } else if (isSpkToken) {
       // compose spk json
       const json = getSpkActionJSON(Number(amount), destination, memo);
-      path = `sign/custom-json?authority=active&required_auths=%5B%22${
-        selectedAccount.name
-      }%22%5D&required_posting_auths=%5B%5D&id=${getSpkTransactionId(
-        transferType,
-      )}&json=${encodeURIComponent(JSON.stringify(json))}`;
+      path = `sign/custom-json?authority=active&required_auths=%5B%22${selectedAccount.name
+        }%22%5D&required_posting_auths=%5B%5D&id=${getSpkTransactionId(
+          transferType,
+        )}&json=${encodeURIComponent(JSON.stringify(json))}`;
     } else {
       path = hiveuri
         .encodeOps(
@@ -257,8 +255,8 @@ const TransferView = ({
 
       return false;
     } else {
-      dispatch(
-        showActionModal({
+      SheetManager.show(SheetNames.ACTION_MODAL, {
+        payload: {
           title: intl.formatMessage({ id: 'transfer.information' }),
           buttons: [
             {
@@ -272,8 +270,9 @@ const TransferView = ({
               onPress: deleteTransfer ? _handleDeleteRecurrentTransfer : _handleTransferAction,
             },
           ],
-        }),
-      );
+        }
+      });
+
     }
   };
 

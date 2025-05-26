@@ -3,7 +3,6 @@ import { View, Text, ImageBackground, FlatList, TouchableOpacity } from 'react-n
 import { injectIntl, useIntl } from 'react-intl';
 import VersionNumber from 'react-native-version-number';
 import { isEmpty } from 'lodash';
-import { useDispatch } from 'react-redux';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SheetManager } from 'react-native-actions-sheet';
@@ -22,7 +21,6 @@ import { getVotingPower } from '../../../utils/manaBar';
 
 // Styles
 import styles from './sideMenuStyles';
-import { showActionModal } from '../../../redux/actions/uiAction';
 
 // Images
 import SIDE_MENU_BACKGROUND from '../../../assets/side_menu_background.png';
@@ -37,7 +35,6 @@ const SideMenuView = ({
   handleShowAccountsSheet,
 }) => {
   const intl = useIntl();
-  const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
 
   const [menuItems, setMenuItems] = useState(
@@ -68,8 +65,9 @@ const SideMenuView = ({
   // Component Functions
   const _handleOnMenuItemPress = (item) => {
     if (item.id === 'logout') {
-      dispatch(
-        showActionModal({
+
+      SheetManager.show(SheetNames.ACTION_MODAL, {
+        payload:{
           title: intl.formatMessage({ id: 'side_menu.logout_text' }),
           buttons: [
             {
@@ -85,8 +83,8 @@ const SideMenuView = ({
               },
             },
           ],
-        }),
-      );
+        }
+      });
       return;
     }
 

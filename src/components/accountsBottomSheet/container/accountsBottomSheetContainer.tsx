@@ -15,7 +15,7 @@ import {
 } from '../../../providers/hive/auth';
 import { getUserDataWithUsername } from '../../../realm/realm';
 
-import { logout, showActionModal } from '../../../redux/actions/uiAction';
+import { logout } from '../../../redux/actions/uiAction';
 import AccountsBottomSheet, { AccountsBottomSheetRef } from '../view/accountsBottomSheetView';
 
 // Constants
@@ -81,8 +81,8 @@ const AccountsBottomSheetContainer = () => {
     if (authData?.username) {
       const curTime = new Date().getTime();
       if (curTime > authData.hiveAuthExpiry) {
-        dispatch(
-          showActionModal({
+        SheetManager.show(SheetNames.ACTION_MODAL, {
+          payload: {
             title: intl.formatMessage({ id: 'alert.warning' }),
             body: intl.formatMessage({ id: 'alert.auth_expired' }),
             buttons: [
@@ -103,8 +103,8 @@ const AccountsBottomSheetContainer = () => {
                 },
               },
             ],
-          }),
-        );
+          }
+        });
       }
     }
   };

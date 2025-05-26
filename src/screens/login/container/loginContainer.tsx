@@ -34,11 +34,12 @@ import ROUTES from '../../../constants/routeNames';
 import LoginScreen from '../screen/loginScreen';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
-import { showActionModal } from '../../../redux/actions/uiAction';
 import { UserAvatar } from '../../../components';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import bugsnapInstance from '../../../config/bugsnag';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 /*
  *            Props Name        Description                                     Value
@@ -89,8 +90,8 @@ class LoginContainer extends PureComponent {
       }
 
       // Everything is set, show login confirmation
-      dispatch(
-        showActionModal({
+      SheetManager.show(SheetNames.ACTION_MODAL, {
+        payload: {
           title: intl.formatMessage({ id: 'login.deep_login_alert_title' }, { username }),
           body: intl.formatMessage({ id: 'login.deep_login_alert_body' }),
           buttons: [
@@ -105,8 +106,9 @@ class LoginContainer extends PureComponent {
             },
           ],
           headerContent: <UserAvatar username={username} size="xl" />,
-        }),
-      );
+        },
+      });
+     
     } catch (err) {
       console.warn('Failed to login using code', err);
       Alert.alert(

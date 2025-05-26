@@ -22,11 +22,13 @@ import { checkFavorite, addFavorite, deleteFavorite, addReport } from '../provid
 
 // Utilitites
 import { getRcPower, getVotingPower } from '../utils/manaBar';
-import { toastNotification, setRcOffer, showActionModal } from '../redux/actions/uiAction';
+import { toastNotification, setRcOffer } from '../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../constants/routeNames';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../navigation/sheets';
 
 class ProfileContainer extends Component {
   constructor(props) {
@@ -418,8 +420,8 @@ class ProfileContainer extends Component {
         });
     };
 
-    dispatch(
-      showActionModal({
+    SheetManager.show(SheetNames.ACTION_MODAL, {
+      payload: {
         title: intl.formatMessage({ id: 'report.confirm_report_title' }),
         body: intl.formatMessage({ id: 'report.confirm_report_body' }),
         buttons: [
@@ -434,8 +436,10 @@ class ProfileContainer extends Component {
             onPress: _onConfirm,
           },
         ],
-      }),
-    );
+      },
+    });
+
+
   };
 
   _handleDelegateHp = () => {

@@ -19,7 +19,6 @@ import styles from './qrModalStyles';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   handleDeepLink,
-  showActionModal,
   showWebViewModal,
   toastNotification,
 } from '../../redux/actions/uiAction';
@@ -189,48 +188,47 @@ export const QRModal = () => {
         const tx = await resolveTransaction(formattedTx.tx, parsed.params, currentAccount.name);
         const ops = get(tx, 'operations', []);
         const op = ops[0];
-
-        dispatch(
-          showActionModal({
+        SheetManager.show(SheetNames.ACTION_MODAL, {
+          payload: {
             title: intl.formatMessage({
               id: 'qr.confirmTransaction',
             }),
             bodyContent: _renderActionModalBody(op, formattedTx.opName),
             buttons: [
               {
-                text: intl.formatMessage({
-                  id: 'qr.cancel',
-                }),
-                onPress: () => {
-                  console.log('cancel pressed');
-                },
-                style: 'cancel',
+          text: intl.formatMessage({
+            id: 'qr.cancel',
+          }),
+          onPress: () => {
+            console.log('cancel pressed');
+          },
+          style: 'cancel',
               },
               {
-                text: intl.formatMessage({
-                  id: 'qr.approve',
-                }),
-                onPress: () => {
-                  handleHiveUriOperation(currentAccount, pinCode, tx)
-                    .then(() => {
-                      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-                    })
-                    .catch((err) => {
-                      bugsnagInstance.notify(err);
-                      if (err) {
-                        dispatch(toastNotification(intl.formatMessage({ id: err })));
-                      } else {
-                        dispatch(
-                          toastNotification(intl.formatMessage({ id: 'qr.transaction_failed' })),
-                        );
-                      }
-                    });
-                },
+          text: intl.formatMessage({
+            id: 'qr.approve',
+          }),
+          onPress: () => {
+            handleHiveUriOperation(currentAccount, pinCode, tx)
+              .then(() => {
+                dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+              })
+              .catch((err) => {
+                bugsnagInstance.notify(err);
+                if (err) {
+            dispatch(toastNotification(intl.formatMessage({ id: err })));
+                } else {
+            dispatch(
+              toastNotification(intl.formatMessage({ id: 'qr.transaction_failed' })),
+            );
+                }
+              });
+          },
               },
             ],
             onClosed: () => dispatch(handleDeepLink('')),
-          }),
-        );
+          },
+        });
       })
       .catch((errObj) => {
         Alert.alert(

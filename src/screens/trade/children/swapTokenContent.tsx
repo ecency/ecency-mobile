@@ -12,15 +12,16 @@ import {
   generateHsSwapTokenPath,
   swapToken,
 } from '../../../providers/hive-trade/hiveTrade';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../hooks';
 import { MarketAsset, SwapOptions } from '../../../providers/hive-trade/hiveTrade.types';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
-import { showActionModal } from '../../../redux/actions/uiAction';
 import { walletQueries } from '../../../providers/queries';
 import { useSwapCalculator } from './useSwapCalculator';
 import AUTH_TYPE from '../../../constants/authType';
 import { delay } from '../../../utils/editor';
 import { buildTradeOpsArray } from '../../../utils/transactionOpsBuilder';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 interface Props {
   initialSymbol: MarketAsset;
@@ -30,7 +31,6 @@ interface Props {
 
 export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }: Props) => {
   const intl = useIntl();
-  const dispatch = useAppDispatch();
   const navigation = useNavigation();
 
   const hiveAuthModalRef = useRef();
@@ -154,8 +154,9 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
         />
       </View>
     );
-    dispatch(
-      showActionModal({
+
+    SheetManager.show(SheetNames.ACTION_MODAL, {
+      payload: {
         headerContent,
         title: intl.formatMessage({ id: _titleId }),
         body: _body,
@@ -163,8 +164,8 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
           { textId: 'trade.new_swap', onPress: _reset },
           { textId: 'alert.done', onPress: () => navigation.goBack() },
         ],
-      }),
-    );
+      },
+    });
   };
 
   // initiates swaping action on confirmation
@@ -207,8 +208,8 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
 
   // prompts user to verify swap action;
   const handleContinue = () => {
-    dispatch(
-      showActionModal({
+    SheetManager.show(SheetNames.ACTION_MODAL, {
+      payload: {
         title: intl.formatMessage({ id: 'trade.confirm_swap' }),
         body: intl.formatMessage(
           { id: 'trade.swap_for' },
@@ -226,8 +227,9 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
           },
           { textId: 'alert.confirm', onPress: _confirmSwap },
         ],
-      }),
-    );
+      },
+    });
+
   };
 
   // refreshes wallet data and market rate

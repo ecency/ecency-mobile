@@ -16,7 +16,7 @@ import {
   reblog,
 } from '../../../providers/hive/dhive';
 import { addBookmark, addReport } from '../../../providers/ecency/ecency';
-import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
+import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 
 // Constants
 import OPTIONS from '../../../constants/options/post';
@@ -126,11 +126,11 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     const _canUpdateCommunityPin =
       subscribedCommunities.data && !!content && content.community
         ? subscribedCommunities.data.reduce((role, subscription) => {
-            if (content.community === subscription[0]) {
-              return ['owner', 'admin', 'mod'].includes(subscription[2]);
-            }
-            return role;
-          }, false)
+          if (content.community === subscription[0]) {
+            return ['owner', 'admin', 'mod'].includes(subscription[2]);
+          }
+          return role;
+        }, false)
         : false;
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
 
@@ -247,8 +247,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         });
     };
 
-    dispatch(
-      showActionModal({
+    SheetManager.show(SheetNames.ACTION_MODAL, {
+      payload: {
         title: intl.formatMessage({ id: 'report.confirm_report_title' }),
         body: intl.formatMessage({ id: 'report.confirm_report_body' }),
         buttons: [
@@ -263,8 +263,10 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
             onPress: _onConfirm,
           },
         ],
-      }),
-    );
+      }
+
+    })
+
   };
 
   const _deletePost = () => {
@@ -280,8 +282,10 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       );
     };
 
-    dispatch(
-      showActionModal({
+
+
+    SheetManager.show(SheetNames.ACTION_MODAL, {
+      payload: {
         title: intl.formatMessage({ id: 'alert.remove_alert' }),
         buttons: [
           {
@@ -295,8 +299,9 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
             onPress: _onConfirm,
           },
         ],
-      }),
-    );
+      }
+    })
+
   };
 
   const _addToBookmarks = () => {

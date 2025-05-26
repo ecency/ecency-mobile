@@ -21,7 +21,6 @@ import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
-import { showActionModal } from '../../../redux/actions/uiAction';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
@@ -155,8 +154,8 @@ const PostComments = forwardRef(
         }
       };
 
-      dispatch(
-        showActionModal({
+      SheetManager.show(SheetNames.ACTION_MODAL, {
+        payload: {
           title: intl.formatMessage({ id: 'delete.confirm_delete_title' }),
           buttons: [
             {
@@ -170,8 +169,8 @@ const PostComments = forwardRef(
               onPress: _onConfirmDelete,
             },
           ],
-        }),
-      );
+        }
+      })
     };
 
     const _openReplyThread = (comment) => {

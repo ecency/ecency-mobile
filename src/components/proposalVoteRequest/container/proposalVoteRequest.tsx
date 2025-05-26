@@ -5,7 +5,6 @@ import { useIntl } from 'react-intl';
 import styles from '../styles/ProposalVoteRequest.styles';
 import { TextButton } from '../../buttons';
 import { MainButton } from '../../mainButton';
-import { showActionModal } from '../../../redux/actions/uiAction';
 import { ButtonTypes } from '../../actionModal/container/actionModalContainer';
 import {
   useActiveProposalMetaQuery,
@@ -13,6 +12,8 @@ import {
   useProposalVoteMutation,
 } from '../../../providers/queries';
 import { updateProposalVoteMeta } from '../../../redux/actions/cacheActions';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 const RE_REQUEST_INTERVAL = 259200000; // 3 days;
 
@@ -58,8 +59,13 @@ export const ProposalVoteRequest = () => {
   };
 
   const _remindLater = () => {
-    dispatch(
-      showActionModal({
+
+    if (!_ecencyProposalId) {
+      return null;
+    }
+
+    SheetManager.show(SheetNames.ACTION_MODAL, {
+      payload: {
         title: intl.formatMessage({ id: 'proposal.title-action-dismiss' }), // "Dismiss Vote Request",
         buttons: [
           {
@@ -91,8 +97,9 @@ export const ProposalVoteRequest = () => {
             },
           },
         ],
-      }),
-    );
+      }
+    })
+
   };
 
   const _actionPanel = () => {

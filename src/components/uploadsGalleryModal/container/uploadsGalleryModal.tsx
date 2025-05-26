@@ -16,9 +16,10 @@ import {
 } from '../../../utils/editor';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { editorQueries, speakQueries } from '../../../providers/queries';
-import { showActionModal } from '../../../redux/actions/uiAction';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 import { SpeakUploaderModal } from '../children/speakUploaderModal';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 export interface UploadsGalleryModalRef {
   showModal: () => void;
@@ -411,11 +412,13 @@ export const UploadsGalleryModal = forwardRef(
       }
 
       dispatch(
-        showActionModal({
-          title,
-          body,
-          buttons: [action],
-        }),
+        SheetManager.show(SheetNames.ACTION_MODAL, {
+          payload: {
+            title,
+            body,
+            buttons: [action],
+          },
+        })
       );
     };
 

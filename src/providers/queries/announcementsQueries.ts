@@ -7,13 +7,15 @@ import { getAnnouncements } from '../ecency/ecency';
 import QUERIES from './queryKeys';
 import { useAppSelector } from '../../hooks';
 import { updateAnnoucementsMeta } from '../../redux/actions/cacheActions';
-import { handleDeepLink, showActionModal } from '../../redux/actions/uiAction';
+import { handleDeepLink } from '../../redux/actions/uiAction';
 import { getPostUrl } from '../../utils/post';
 import { delay } from '../../utils/editor';
 import { ButtonTypes } from '../../components/actionModal/container/actionModalContainer';
 import parseVersionNumber from '../../utils/parseVersionNumber';
 import { decryptKey } from '../../utils/crypto';
 import { getDigitPinCode } from '../hive/dhive';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../navigation/sheets';
 
 const PROMPT_AGAIN_INTERVAL = 48 * 3600 * 1000; // 2 days
 
@@ -95,13 +97,14 @@ export const useAnnouncementsQuery = () => {
 
     await delay(3000);
 
-    dispatch(
-      showActionModal({
+    SheetManager.show(SheetNames.ACTION_MODAL, {
+      payload: {
         title: data.title,
         body: data.description,
         buttons: _buttons,
         onClosed: _markAsSeen,
-      }),
-    );
+      },
+    })
+
   };
 };

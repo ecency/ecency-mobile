@@ -44,7 +44,7 @@ import {
 import {
   logout,
   logoutDone,
-  showActionModal,
+
   toastNotification,
 } from '../../../redux/actions/uiAction';
 import { setPushToken, deleteAccount } from '../../../providers/ecency/ecency';
@@ -65,6 +65,8 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 // Component
 import SettingsScreen from '../screen/settingsScreen';
 import ROUTES from '../../../constants/routeNames';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 /*
  *            Props Name        Description                                     Value
@@ -285,7 +287,7 @@ class SettingsContainer extends Component {
   };
 
   _handleButtonPress = (actionType) => {
-    const { navigation, isPinCodeOpen, dispatch, intl } = this.props as any;
+    const { navigation, isPinCodeOpen, intl } = this.props as any;
     switch (actionType) {
       case 'reset_pin':
         navigation.navigate(ROUTES.SCREENS.PINCODE, {
@@ -303,8 +305,8 @@ class SettingsContainer extends Component {
             navigateTo: ROUTES.SCREENS.BACKUP_KEYS,
           });
         } else {
-          dispatch(
-            showActionModal({
+          SheetManager.show(SheetNames.ACTION_MODAL, {
+            payload: {
               title: intl.formatMessage({ id: 'alert.warning' }),
               body: intl.formatMessage({ id: 'settings.keys_warning' }),
               buttons: [
@@ -330,8 +332,8 @@ class SettingsContainer extends Component {
                   },
                 },
               ],
-            }),
-          );
+            }
+          })
         }
         break;
 
@@ -391,9 +393,8 @@ class SettingsContainer extends Component {
     let message;
 
     const deviceName = await DeviceInfo.getDeviceName();
-    const platform = `${deviceName} - ${Platform.OS === 'ios' ? 'iOS' : 'Android'} ${
-      Platform.Version
-    }`;
+    const platform = `${deviceName} - ${Platform.OS === 'ios' ? 'iOS' : 'Android'} ${Platform.Version
+      }`;
     const appVersion = `${DeviceInfo.getVersion()} (${DeviceInfo.getBuildNumber()})`;
     const username = currentAccount?.username || 'Unknown User';
 
@@ -448,8 +449,9 @@ class SettingsContainer extends Component {
         });
     };
 
-    dispatch(
-      showActionModal({
+
+    SheetManager.show(SheetNames.ACTION_MODAL, {
+      payload: {
         title: intl.formatMessage({ id: 'delete.confirm_delete_title' }),
         body: intl.formatMessage({ id: 'delete.confirm_delete_body' }),
         buttons: [
@@ -464,8 +466,8 @@ class SettingsContainer extends Component {
             onPress: _onConfirm,
           },
         ],
-      }),
-    );
+      }
+    });
   };
 
   _clearUserData = async () => {

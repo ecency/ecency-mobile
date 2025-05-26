@@ -11,7 +11,6 @@ import { AppNavigator } from '../../../navigation';
 import {
   toastNotification as toastNotificationAction,
   setRcOffer,
-  showActionModal,
 } from '../../../redux/actions/uiAction';
 
 import ROUTES from '../../../constants/routeNames';
@@ -27,6 +26,8 @@ import {
 // Themes (Styles)
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { SheetNames } from '../../../navigation/sheets';
+import { SheetManager } from 'react-native-actions-sheet';
 // import EStyleSheet from 'react-native-extended-stylesheet';
 
 const ApplicationScreen = ({ foregroundNotificationData }) => {
@@ -46,8 +47,9 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
   useEffect(() => {
     if (!rcOfferRef.current && rcOffer) {
       setTimeout(() => {
-        dispatch(
-          showActionModal({
+
+        SheetManager.show(SheetNames.ACTION_MODAL, {
+          payload: {
             title: intl.formatMessage({
               id: 'alert.fail',
             }),
@@ -70,8 +72,8 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
                 },
               },
             ],
-          }),
-        );
+          }
+        });
       }, 300);
     }
 

@@ -36,8 +36,6 @@ import {
 // Styles
 import styles from './transferStyles';
 
-//  Redux
-import { showActionModal } from '../../../redux/actions/uiAction';
 // Utils
 import { getReceivedVestingShares } from '../../../providers/ecency/ecency';
 import parseToken from '../../../utils/parseToken';
@@ -47,6 +45,8 @@ import parseAsset from '../../../utils/parseAsset';
 import { delay } from '../../../utils/editor';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
 import TransferTypes from '../../../constants/transferTypes';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 class DelegateScreen extends Component {
   _handleOnAmountChange = debounce(
@@ -278,33 +278,33 @@ class DelegateScreen extends Component {
         ) +
         (delegatedHP
           ? `\n${intl.formatMessage(
-              { id: 'transfer.confirm_summary_para' },
-              {
-                prev: delegatedHP,
-              },
-            )}`
+            { id: 'transfer.confirm_summary_para' },
+            {
+              prev: delegatedHP,
+            },
+          )}`
           : '');
 
       if (amountValid) {
         this.setState({ confirmModalOpen: true });
-        dispatch(
-          showActionModal({
-            title: intl.formatMessage({ id: 'transfer.confirm' }),
-            body,
-            buttons: [
-              {
-                text: intl.formatMessage({ id: 'alert.cancel' }),
-                onPress: () => console.log('Cancel'),
-              },
-              {
-                text: intl.formatMessage({ id: 'alert.confirm' }),
-                onPress: () => this._handleTransferAction(),
-              },
-            ],
-            headerContent: this._renderToFromAvatars(),
-            onClosed: () => this.setState({ confirmModalOpen: false }),
-          }),
-        );
+
+        SheetManager.show(SheetNames.ACTION_MODAL, {
+          title: intl.formatMessage({ id: 'transfer.confirm' }),
+          body,
+          buttons: [
+            {
+              text: intl.formatMessage({ id: 'alert.cancel' }),
+              onPress: () => console.log('Cancel'),
+            },
+            {
+              text: intl.formatMessage({ id: 'alert.confirm' }),
+              onPress: () => this._handleTransferAction(),
+            },
+          ],
+          headerContent: this._renderToFromAvatars(),
+          onClosed: () => this.setState({ confirmModalOpen: false }),
+        });
+
       } else {
         Alert.alert(
           intl.formatMessage({ id: 'transfer.invalid_amount' }),
@@ -481,7 +481,7 @@ class DelegateScreen extends Component {
       availableVestingShares =
         parseToken(get(selectedAccount, 'vesting_shares')) -
         (Number(get(selectedAccount, 'to_withdraw')) - Number(get(selectedAccount, 'withdrawn'))) /
-          1e6 -
+        1e6 -
         parseToken(get(selectedAccount, 'delegated_vesting_shares'));
     } else {
       // not powering down
