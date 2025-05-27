@@ -7,7 +7,6 @@ import { getAnnouncements } from '../ecency/ecency';
 import QUERIES from './queryKeys';
 import { useAppSelector } from '../../hooks';
 import { updateAnnoucementsMeta } from '../../redux/actions/cacheActions';
-import { handleDeepLink } from '../../redux/actions/uiAction';
 import { getPostUrl } from '../../utils/post';
 import { delay } from '../../utils/editor';
 import { ButtonTypes } from '../../components/actionModal/container/actionModalContainer';
@@ -16,12 +15,14 @@ import { decryptKey } from '../../utils/crypto';
 import { getDigitPinCode } from '../hive/dhive';
 import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../navigation/sheets';
+import { useLinkProcessor } from '../../hooks';
 
 const PROMPT_AGAIN_INTERVAL = 48 * 3600 * 1000; // 2 days
 
 export const useAnnouncementsQuery = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const linkProcessor = useLinkProcessor();
 
   const pinHash = useAppSelector((state) => state.application.pin);
 
@@ -71,12 +72,12 @@ export const useAnnouncementsQuery = () => {
 
     const _onActionPress = () => {
       if (data.ops) {
-        dispatch(handleDeepLink(data.ops));
+        linkProcessor.handleLink(data.ops);
       } else if (data.button_link) {
         const _url = data.button_link.startsWith('https://')
           ? data.button_link
           : getPostUrl(data.button_link);
-        dispatch(handleDeepLink(_url));
+        linkProcessor.handleLink(_url);
       }
 
       // mark as processed

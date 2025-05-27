@@ -12,7 +12,7 @@ import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native
 import { useCameraDevice, Camera, useCodeScanner } from 'react-native-vision-camera';
 import styles from './qrModalStyles';
 import { SheetNames } from '../../navigation/sheets';
-import useLinkProcessor from '../../hooks/useLinkProcessor';
+import { useLinkProcessor } from '../../hooks';
 
 export const QRModal = () => {
 
@@ -32,7 +32,6 @@ export const QRModal = () => {
         setIsScannerActive(false);
         linkProcessor.handleLink(codes[0].value);
       }
-
     },
   });
 

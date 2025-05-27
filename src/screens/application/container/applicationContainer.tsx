@@ -191,6 +191,7 @@ class ApplicationContainer extends Component {
   };
 
   _handleOpenURL = (event) => {
+    //TODO: later handle via link processor hook when possible
     this._handleDeepLink(event.url);
   };
 

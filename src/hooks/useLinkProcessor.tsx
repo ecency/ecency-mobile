@@ -20,7 +20,7 @@ import { useAppSelector } from './index';
 import authType from '../constants/authType';
 
 
-const useLinkProcessor = (onClose?: () => void) => {
+export const useLinkProcessor = (onClose?: () => void) => {
     const intl = useIntl();
     const dispatch = useDispatch();
 
@@ -180,7 +180,6 @@ const useLinkProcessor = (onClose?: () => void) => {
     return { handleLink };
 };
 
-export default useLinkProcessor;
 
 const { width: SCREEN_WIDTH } = getWindowDimensions();
 const styles = EStyleSheet.create({

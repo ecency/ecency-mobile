@@ -10,7 +10,6 @@ import BackgroundTimer from 'react-native-background-timer';
 import { Image as ExpoImage } from 'expo-image';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import {
-  handleDeepLink,
   setDeviceOrientation,
   setLockedOrientation,
 } from '../../../redux/actions/uiAction';
@@ -25,9 +24,12 @@ import { markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
+import { useLinkProcessor } from '../../../hooks';
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
+  const linkProcessor = useLinkProcessor();
+
   const { isDarkTheme, colorTheme, isPinCodeOpen, currency } = useAppSelector(
     (state) => state.application,
   );
@@ -236,7 +238,7 @@ export const useInitApplication = () => {
 
         case 'hiveuri':
           if (push.hiveUri) {
-            dispatch(handleDeepLink(push.hiveUri));
+            linkProcessor.handleLink(push.hiveUri);
           }
           break;
 

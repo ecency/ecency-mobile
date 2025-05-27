@@ -7,7 +7,7 @@ import ActionSheetView, { SheetManager } from 'react-native-actions-sheet';
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
 import { writeToClipboard } from '../../../../utils/clipboard';
-import { handleDeepLink, toastNotification } from '../../../../redux/actions/uiAction';
+import { toastNotification } from '../../../../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
@@ -18,11 +18,13 @@ import { ImageViewer, PostHtmlRenderer, VideoPlayer } from '../../..';
 import { useAppDispatch } from '../../../../hooks';
 import { isHiveUri } from '../../../../utils/hive-uri';
 import { SheetNames } from '../../../../navigation/sheets';
+import { useLinkProcessor } from '../../../../hooks';
 
 const PostBody = ({ body, metadata, onLoadEnd, width }) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
+  const linkProcessor = useLinkProcessor();
 
   const dims = useWindowDimensions();
   const contentWidth = width || dims.width - 32;
@@ -155,7 +157,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
 
   const _handleSetSelectedLink = (link) => {
     if (isHiveUri(link)) {
-      dispatch(handleDeepLink(link));
+      linkProcessor.processLink(link);
     } else {
       setSelectedLink(link);
       actionLink.current.show();
