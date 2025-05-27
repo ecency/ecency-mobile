@@ -116,7 +116,7 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
     );
   };
 
-  const _renderAppModals = () => {
+  const _renderNotifiers = () => {
     return (
       <>
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
@@ -135,7 +135,7 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
     <View style={{ flex: 1 }}>
       {_renderStatusBar()}
       {_renderAppNavigator()}
-      {_renderAppModals()}
+      {_renderNotifiers()}
     </View>
   );
 };
