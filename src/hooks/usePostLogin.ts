@@ -1,17 +1,15 @@
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import type { RootState, AppDispatch } from './redux/store/store';
-import persistAccountGenerator from './utils/persistAccountGenerator';
+import { useDispatch } from 'react-redux';
+import persistAccountGenerator from '../utils/persistAccountGenerator';
 import {
   addOtherAccount,
   setPrevLoggedInUsers,
   updateCurrentAccount,
-} from './redux/actions/accountAction';
-import { fetchSubscribedCommunities } from './redux/actions/communitiesAction';
-import { login as loginAction } from './redux/actions/applicationActions';
+} from '../redux/actions/accountAction';
+import { fetchSubscribedCommunities } from '../redux/actions/communitiesAction';
+import { login as loginAction } from '../redux/actions/applicationActions';
+import { useAppSelector } from './index';
 
-// Use throughout your app instead of plain `useDispatch` and `useSelector`
-export const useAppDispatch = () => useDispatch<AppDispatch>();
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
 
 export const usePostLoginActions = () => {
   const dispatch = useDispatch();
