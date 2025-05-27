@@ -22,13 +22,12 @@ import authType from '../constants/authType';
 interface UseDeepLinkHandlerProps {
     intl: any; // Replace with the appropriate type from 'react-intl' if available
     _onClose: () => void;
-    setIsScannerActive: (isActive: boolean) => void;
     setIsProcessing: (isProcessing: boolean) => void;
 }
 
-const useDeepLinkHandler = ({
+
+const useLinkProcessor = ({
     _onClose,
-    setIsScannerActive,
     setIsProcessing,
 }: UseDeepLinkHandlerProps) => {
     const intl = useIntl();
@@ -40,7 +39,6 @@ const useDeepLinkHandler = ({
     const pinCode = useAppSelector((state) => state.application.pin);
 
     const handleLink = (deeplink:string) => {
-        setIsScannerActive(false);
         if (isHiveUri(deeplink)) {
             _handleHiveUri(deeplink);
         } else {
@@ -50,7 +48,6 @@ const useDeepLinkHandler = ({
 
     const _handleHiveUri = async (uri:string) => {
         try {
-            setIsScannerActive(false);
             _onClose();
             if (!isLoggedIn) {
                 showLoginAlert({ intl });
@@ -142,7 +139,6 @@ const useDeepLinkHandler = ({
         const { name, params, key } = deepLinkData || {};
         setIsProcessing(false);
         if (name && params && key) {
-            setIsScannerActive(false);
             _onClose();
             RootNavigation.navigate(deepLinkData);
         } else {
@@ -196,7 +192,7 @@ useEffect(() => {
 return { handleLink };
 };
 
-export default useDeepLinkHandler;
+export default useLinkProcessor;
 
 const { width: SCREEN_WIDTH } = getWindowDimensions(); 
 const styles = EStyleSheet.create({
