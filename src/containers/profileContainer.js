@@ -7,6 +7,7 @@ import { injectIntl } from 'react-intl';
 
 // Providers
 import { useNavigation } from '@react-navigation/native';
+import { SheetManager } from 'react-native-actions-sheet';
 import {
   followUser,
   unfollowUser,
@@ -27,7 +28,6 @@ import { toastNotification, setRcOffer } from '../redux/actions/uiAction';
 // Constants
 import { default as ROUTES } from '../constants/routeNames';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../navigation/sheets';
 
 class ProfileContainer extends Component {
@@ -438,8 +438,6 @@ class ProfileContainer extends Component {
         ],
       },
     });
-
-
   };
 
   _handleDelegateHp = () => {

@@ -18,6 +18,7 @@ import { FlatList } from 'react-native-gesture-handler';
 // Constants
 import { debounce } from 'lodash';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { SheetManager } from 'react-native-actions-sheet';
 import AUTH_TYPE from '../../../constants/authType';
 import { hsOptions } from '../../../constants/hsOptions';
 
@@ -45,7 +46,6 @@ import parseAsset from '../../../utils/parseAsset';
 import { delay } from '../../../utils/editor';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
 import TransferTypes from '../../../constants/transferTypes';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 class DelegateScreen extends Component {
@@ -256,7 +256,7 @@ class DelegateScreen extends Component {
 
   _handleNext = async ({ availableVestingShares }) => {
     const { step, hp, destination, from, delegatedHP } = this.state;
-    const { dispatch, intl, hivePerMVests } = this.props;
+    const { intl, hivePerMVests } = this.props;
     const vestsForHp = hpToVests(hp, hivePerMVests);
     const parsedHpValue = parseFloat(hp);
     const amountValid = this._validateHP({ value: hp, availableVestingShares });
@@ -278,11 +278,11 @@ class DelegateScreen extends Component {
         ) +
         (delegatedHP
           ? `\n${intl.formatMessage(
-            { id: 'transfer.confirm_summary_para' },
-            {
-              prev: delegatedHP,
-            },
-          )}`
+              { id: 'transfer.confirm_summary_para' },
+              {
+                prev: delegatedHP,
+              },
+            )}`
           : '');
 
       if (amountValid) {
@@ -304,7 +304,6 @@ class DelegateScreen extends Component {
           headerContent: this._renderToFromAvatars(),
           onClosed: () => this.setState({ confirmModalOpen: false }),
         });
-
       } else {
         Alert.alert(
           intl.formatMessage({ id: 'transfer.invalid_amount' }),
@@ -481,7 +480,7 @@ class DelegateScreen extends Component {
       availableVestingShares =
         parseToken(get(selectedAccount, 'vesting_shares')) -
         (Number(get(selectedAccount, 'to_withdraw')) - Number(get(selectedAccount, 'withdrawn'))) /
-        1e6 -
+          1e6 -
         parseToken(get(selectedAccount, 'delegated_vesting_shares'));
     } else {
       // not powering down

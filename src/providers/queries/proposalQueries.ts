@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { ProposalVoteMeta } from 'redux/reducers/cacheReducer';
 import * as hiveuri from 'hive-uri';
+import { useNavigation } from '@react-navigation/native';
 import QUERIES from './queryKeys';
 import { getProposalsVoted, voteProposal } from '../hive/dhive';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -11,7 +12,6 @@ import { updateProposalVoteMeta } from '../../redux/actions/cacheActions';
 import { getActiveProposalMeta } from '../ecency/ecency';
 import { ProposalMeta } from '../ecency/ecency.types';
 import authType from '../../constants/authType';
-import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../constants/routeNames';
 
 // query for getting active proposal meta;
@@ -77,8 +77,7 @@ export const useProposalVoteMutation = () => {
             onClose: () => {
               resolve(true);
             },
-          })
-
+          });
         });
       }
       return voteProposal(currentAccount, pinHash, proposalId);

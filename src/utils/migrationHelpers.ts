@@ -2,6 +2,7 @@ import { Appearance } from 'react-native';
 import Config from 'react-native-config';
 
 // Constants
+import { SheetManager } from 'react-native-actions-sheet';
 import THEME_OPTIONS from '../constants/options/theme';
 import { getUnreadNotificationCount } from '../providers/ecency/ecency';
 import { getPointsSummary } from '../providers/ecency/ePoint';
@@ -37,16 +38,12 @@ import {
   setIsDarkTheme,
 } from '../redux/actions/applicationActions';
 import { fetchSubscribedCommunities } from '../redux/actions/communitiesAction';
-import {
-  setRcOffer,
-  toastNotification,
-} from '../redux/actions/uiAction';
+import { setRcOffer, toastNotification } from '../redux/actions/uiAction';
 import { decryptKey, encryptKey } from './crypto';
 import { delay } from './editor';
 import RootNavigation from '../navigation/rootNavigation';
 import ROUTES from '../constants/routeNames';
 import { DEFAULT_FEED_FILTERS } from '../constants/options/filters';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../navigation/sheets';
 
 // migrates settings from realm to redux once and do no user realm for settings again;
@@ -234,9 +231,8 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
             },
           },
         ],
-      }
+      },
     });
-
   }
 
   return authData;

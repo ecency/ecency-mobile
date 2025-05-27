@@ -58,7 +58,6 @@ declare module 'react-native-actions-sheet' {
     }>;
     [SheetNames.ACCOUNTS_SHEET]: SheetDefinition;
     [SheetNames.QR_SCAN]: SheetDefinition;
-
   }
 }
 

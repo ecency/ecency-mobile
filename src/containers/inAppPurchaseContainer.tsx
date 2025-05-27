@@ -8,6 +8,7 @@ import get from 'lodash/get';
 
 // Services
 import { useNavigation } from '@react-navigation/native';
+import { SheetManager } from 'react-native-actions-sheet';
 import bugsnagInstance from '../config/bugsnag';
 import { purchaseOrder } from '../providers/ecency/ecency';
 
@@ -15,7 +16,6 @@ import { purchaseOrder } from '../providers/ecency/ecency';
 import { default as ROUTES } from '../constants/routeNames';
 import { UserAvatar } from '../components';
 import { PurchaseRequestData } from '../providers/ecency/ecency.types';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../navigation/sheets';
 
 class InAppPurchaseContainer extends Component {
@@ -291,7 +291,7 @@ class InAppPurchaseContainer extends Component {
   };
 
   _handleQrPurchase = async () => {
-    const { skus, dispatch, intl, route } = this.props;
+    const { skus, intl, route } = this.props;
     const products = await IAP.getProducts({ skus });
     const productId = route?.param?.productId ?? '';
     const username = route?.param?.username ?? '';
@@ -336,8 +336,7 @@ class InAppPurchaseContainer extends Component {
           ],
           headerContent: <UserAvatar username={username} size="xl" />,
         },
-      }
-      )
+      });
     }
   };
 

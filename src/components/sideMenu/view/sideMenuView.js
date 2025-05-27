@@ -65,9 +65,8 @@ const SideMenuView = ({
   // Component Functions
   const _handleOnMenuItemPress = (item) => {
     if (item.id === 'logout') {
-
       SheetManager.show(SheetNames.ACTION_MODAL, {
-        payload:{
+        payload: {
           title: intl.formatMessage({ id: 'side_menu.logout_text' }),
           buttons: [
             {
@@ -83,7 +82,7 @@ const SideMenuView = ({
               },
             },
           ],
-        }
+        },
       });
       return;
     }

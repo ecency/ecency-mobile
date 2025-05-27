@@ -20,6 +20,7 @@ import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 
 // Constants
+import { SheetManager } from 'react-native-actions-sheet';
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
 
@@ -84,7 +85,6 @@ import MigrationHelpers, {
 } from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 let firebaseOnMessageListener: any = null;
@@ -191,7 +191,7 @@ class ApplicationContainer extends Component {
   };
 
   _handleOpenURL = (event) => {
-    //TODO: later handle via link processor hook when possible
+    // TODO: later handle via link processor hook when possible
     this._handleDeepLink(event.url);
   };
 
@@ -234,7 +234,6 @@ class ApplicationContainer extends Component {
     const remoteVersion = await fetchLatestAppVersion();
 
     if (parseVersionNumber(remoteVersion) > parseVersionNumber(VersionNumber.appVersion)) {
-
       SheetManager.show(SheetNames.ACTION_MODAL, {
         payload: {
           title: intl.formatMessage(
@@ -268,8 +267,8 @@ class ApplicationContainer extends Component {
             },
           ],
           headerImage: require('../../../assets/phone-holding.png'),
-        }
-      })
+        },
+      });
     }
   };
 
@@ -403,7 +402,6 @@ class ApplicationContainer extends Component {
             ],
           },
         });
-
       }
     }
   };
@@ -595,7 +593,8 @@ class ApplicationContainer extends Component {
         console.warn('access token not present, reporting to bugsnag');
         bugsnapInstance.notify(
           new Error(
-            `Reporting missing access token in other accounts section: account:${account.name
+            `Reporting missing access token in other accounts section: account:${
+              account.name
             } with local data ${JSON.stringify(account?.local)}`,
           ),
         );

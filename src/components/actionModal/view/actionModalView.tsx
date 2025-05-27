@@ -20,7 +20,6 @@ interface ActionModalViewProps {
 }
 
 const ActionModalView = ({ onClose, data }: ActionModalViewProps) => {
-
   const intl = useIntl();
   const insets = useSafeAreaInsets();
 

@@ -126,11 +126,11 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
     const _canUpdateCommunityPin =
       subscribedCommunities.data && !!content && content.community
         ? subscribedCommunities.data.reduce((role, subscription) => {
-          if (content.community === subscription[0]) {
-            return ['owner', 'admin', 'mod'].includes(subscription[2]);
-          }
-          return role;
-        }, false)
+            if (content.community === subscription[0]) {
+              return ['owner', 'admin', 'mod'].includes(subscription[2]);
+            }
+            return role;
+          }, false)
         : false;
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
 
@@ -263,10 +263,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
             onPress: _onConfirm,
           },
         ],
-      }
-
-    })
-
+      },
+    });
   };
 
   const _deletePost = () => {
@@ -281,8 +279,6 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         ),
       );
     };
-
-
 
     SheetManager.show(SheetNames.ACTION_MODAL, {
       payload: {
@@ -299,9 +295,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
             onPress: _onConfirm,
           },
         ],
-      }
-    })
-
+      },
+    });
   };
 
   const _addToBookmarks = () => {

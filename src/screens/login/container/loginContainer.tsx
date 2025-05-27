@@ -8,6 +8,7 @@ import { getMessaging } from '@react-native-firebase/messaging';
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { SheetManager } from 'react-native-actions-sheet';
 import { login, loginWithSC2 } from '../../../providers/hive/auth';
 import { lookupAccounts } from '../../../providers/hive/dhive';
 
@@ -38,7 +39,6 @@ import { UserAvatar } from '../../../components';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import bugsnapInstance from '../../../config/bugsnag';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 /*
@@ -71,7 +71,7 @@ class LoginContainer extends PureComponent {
 
   // Component Functions
   _confirmCodeLogin = (username, code) => {
-    const { dispatch, intl } = this.props;
+    const { intl } = this.props;
 
     try {
       // check accessCode formatting and compare expiry
@@ -108,7 +108,6 @@ class LoginContainer extends PureComponent {
           headerContent: <UserAvatar username={username} size="xl" />,
         },
       });
-     
     } catch (err) {
       console.warn('Failed to login using code', err);
       Alert.alert(

@@ -8,6 +8,7 @@ import { getMessaging } from '@react-native-firebase/messaging';
 import { useNavigation } from '@react-navigation/native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import DeviceInfo from 'react-native-device-info';
+import { SheetManager } from 'react-native-actions-sheet';
 import { languageRestart } from '../../../utils/I18nUtils';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
@@ -41,12 +42,7 @@ import {
   setHidePostsThumbnails,
   setIsDarkTheme,
 } from '../../../redux/actions/applicationActions';
-import {
-  logout,
-  logoutDone,
-
-  toastNotification,
-} from '../../../redux/actions/uiAction';
+import { logout, logoutDone, toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, deleteAccount } from '../../../providers/ecency/ecency';
 import { checkClient } from '../../../providers/hive/dhive';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
@@ -65,7 +61,6 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 // Component
 import SettingsScreen from '../screen/settingsScreen';
 import ROUTES from '../../../constants/routeNames';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 /*
@@ -332,8 +327,8 @@ class SettingsContainer extends Component {
                   },
                 },
               ],
-            }
-          })
+            },
+          });
         }
         break;
 
@@ -393,8 +388,9 @@ class SettingsContainer extends Component {
     let message;
 
     const deviceName = await DeviceInfo.getDeviceName();
-    const platform = `${deviceName} - ${Platform.OS === 'ios' ? 'iOS' : 'Android'} ${Platform.Version
-      }`;
+    const platform = `${deviceName} - ${Platform.OS === 'ios' ? 'iOS' : 'Android'} ${
+      Platform.Version
+    }`;
     const appVersion = `${DeviceInfo.getVersion()} (${DeviceInfo.getBuildNumber()})`;
     const username = currentAccount?.username || 'Unknown User';
 
@@ -449,7 +445,6 @@ class SettingsContainer extends Component {
         });
     };
 
-
     SheetManager.show(SheetNames.ACTION_MODAL, {
       payload: {
         title: intl.formatMessage({ id: 'delete.confirm_delete_title' }),
@@ -466,7 +461,7 @@ class SettingsContainer extends Component {
             onPress: _onConfirm,
           },
         ],
-      }
+      },
     });
   };
 

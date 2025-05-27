@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Alert,
-  PermissionsAndroid,
-  Platform,
-  View,
-  useWindowDimensions,
-} from 'react-native';
+import { Alert, PermissionsAndroid, Platform, View, useWindowDimensions } from 'react-native';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
@@ -15,11 +9,8 @@ import { SheetNames } from '../../navigation/sheets';
 import { useLinkProcessor } from '../../hooks';
 
 export const QRModal = () => {
-
   const dim = useWindowDimensions();
-  const linkProcessor = useLinkProcessor(
-    () => SheetManager.hide(SheetNames.QR_SCAN),
-  )
+  const linkProcessor = useLinkProcessor(() => SheetManager.hide(SheetNames.QR_SCAN));
 
   const device = useCameraDevice('back');
   const [isScannerActive, setIsScannerActive] = useState(true);
@@ -34,7 +25,6 @@ export const QRModal = () => {
       }
     },
   });
-
 
   useEffect(() => {
     requestCameraPermission();
@@ -121,7 +111,6 @@ export const QRModal = () => {
             codeScanner={codeScanner}
           />
         )}
-
       </View>
     </ActionSheet>
   );

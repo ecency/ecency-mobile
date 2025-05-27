@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Image, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
+import { SheetManager } from 'react-native-actions-sheet';
 import styles from '../styles/ProposalVoteRequest.styles';
 import { TextButton } from '../../buttons';
 import { MainButton } from '../../mainButton';
@@ -12,7 +13,6 @@ import {
   useProposalVoteMutation,
 } from '../../../providers/queries';
 import { updateProposalVoteMeta } from '../../../redux/actions/cacheActions';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 const RE_REQUEST_INTERVAL = 259200000; // 3 days;
@@ -59,7 +59,6 @@ export const ProposalVoteRequest = () => {
   };
 
   const _remindLater = () => {
-
     if (!_ecencyProposalId) {
       return null;
     }
@@ -97,9 +96,8 @@ export const ProposalVoteRequest = () => {
             },
           },
         ],
-      }
-    })
-
+      },
+    });
   };
 
   const _actionPanel = () => {

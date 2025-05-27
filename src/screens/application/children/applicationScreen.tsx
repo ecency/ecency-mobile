@@ -4,6 +4,7 @@ import { StatusBar, Platform, View } from 'react-native';
 import { useIntl } from 'react-intl';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { SheetManager } from 'react-native-actions-sheet';
 import RootNavigation from '../../../navigation/rootNavigation';
 import { AppNavigator } from '../../../navigation';
 
@@ -26,7 +27,6 @@ import {
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { SheetNames } from '../../../navigation/sheets';
-import { SheetManager } from 'react-native-actions-sheet';
 // import EStyleSheet from 'react-native-extended-stylesheet';
 
 const ApplicationScreen = ({ foregroundNotificationData }) => {
@@ -46,7 +46,6 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
   useEffect(() => {
     if (!rcOfferRef.current && rcOffer) {
       setTimeout(() => {
-
         SheetManager.show(SheetNames.ACTION_MODAL, {
           payload: {
             title: intl.formatMessage({
@@ -71,7 +70,7 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
                 },
               },
             ],
-          }
+          },
         });
       }, 300);
     }

@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useNavigation } from '@react-navigation/native';
+import { SheetManager } from 'react-native-actions-sheet';
 import styles from '../styles/tradeScreen.styles';
 import { AssetChangeBtn, ErrorSection, SwapAmountInput, SwapFeeSection } from '.';
 import { HiveAuthModal, Icon, MainButton } from '../../../components';
@@ -20,7 +21,6 @@ import { useSwapCalculator } from './useSwapCalculator';
 import AUTH_TYPE from '../../../constants/authType';
 import { delay } from '../../../utils/editor';
 import { buildTradeOpsArray } from '../../../utils/transactionOpsBuilder';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 interface Props {
@@ -229,7 +229,6 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
         ],
       },
     });
-
   };
 
   // refreshes wallet data and market rate

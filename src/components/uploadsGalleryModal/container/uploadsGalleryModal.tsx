@@ -4,6 +4,7 @@ import { Alert, AlertButton } from 'react-native';
 import ImagePicker, { Image, Options, Video } from 'react-native-image-crop-picker';
 import RNHeicConverter from 'react-native-heic-converter';
 import { openSettings } from 'react-native-permissions';
+import { SheetManager } from 'react-native-actions-sheet';
 import bugsnapInstance from '../../../config/bugsnag';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
 
@@ -18,7 +19,6 @@ import showLoginAlert from '../../../utils/showLoginAlert';
 import { editorQueries, speakQueries } from '../../../providers/queries';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 import { SpeakUploaderModal } from '../children/speakUploaderModal';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 export interface UploadsGalleryModalRef {
@@ -418,7 +418,7 @@ export const UploadsGalleryModal = forwardRef(
             body,
             buttons: [action],
           },
-        })
+        }),
       );
     };
 

@@ -9,8 +9,6 @@ import { fetchSubscribedCommunities } from '../redux/actions/communitiesAction';
 import { login as loginAction } from '../redux/actions/applicationActions';
 import { useAppSelector } from './index';
 
-
-
 export const usePostLoginActions = () => {
   const dispatch = useDispatch();
 

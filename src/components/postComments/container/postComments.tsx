@@ -169,8 +169,8 @@ const PostComments = forwardRef(
               onPress: _onConfirmDelete,
             },
           ],
-        }
-      })
+        },
+      });
     };
 
     const _openReplyThread = (comment) => {

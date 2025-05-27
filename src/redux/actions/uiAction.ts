@@ -20,18 +20,15 @@ export const toastNotification = (payload: string) => ({
   type: TOAST_NOTIFICATION,
 });
 
-
 export const setRcOffer = (payload: boolean) => ({
   payload,
   type: RC_OFFER,
 });
 
-
 export const setAvatarCacheStamp = (payload: number) => ({
   payload,
   type: SET_AVATAR_CACHE_STAMP,
 });
-
 
 export const setDeviceOrientation = (payload: string) => ({
   payload,
@@ -42,7 +39,6 @@ export const setLockedOrientation = (payload: string) => ({
   payload,
   type: SET_LOCKED_ORIENTATION,
 });
-
 
 export const logout = () => ({
   type: LOGOUT,
@@ -56,4 +52,3 @@ export const handleDeepLink = (hiveUri: string) => ({
   payload: hiveUri,
   type: HIVE_URI_TO_HANDLE,
 });
-

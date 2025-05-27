@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { useEffect, useMemo } from 'react';
 import VersionNumber from 'react-native-version-number';
+import { SheetManager } from 'react-native-actions-sheet';
 import { getAnnouncements } from '../ecency/ecency';
 import QUERIES from './queryKeys';
 import { useAppSelector } from '../../hooks';
@@ -13,7 +14,6 @@ import { ButtonTypes } from '../../components/actionModal/container/actionModalC
 import parseVersionNumber from '../../utils/parseVersionNumber';
 import { decryptKey } from '../../utils/crypto';
 import { getDigitPinCode } from '../hive/dhive';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../navigation/sheets';
 import { useLinkProcessor } from '../../hooks';
 
@@ -105,7 +105,6 @@ export const useAnnouncementsQuery = () => {
         buttons: _buttons,
         onClosed: _markAsSeen,
       },
-    })
-
+    });
   };
 };

@@ -11,6 +11,7 @@ import { Buffer } from 'buffer';
 import { useQueryClient } from '@tanstack/react-query';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { postBodySummary } from '@ecency/render-helper';
+import { SheetManager } from 'react-native-actions-sheet';
 import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
@@ -63,7 +64,6 @@ import {
   DEFAULT_SPEAK_BENEFICIARIES,
 } from '../../../providers/speak/constants';
 import { ThreeSpeakVideo } from '../../../providers/speak/speak.types';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 /*
@@ -687,14 +687,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       }
 
       if (scheduleDate && videoPublishMeta) {
-
         SheetManager.show(SheetNames.ACTION_MODAL, {
           payload: {
             title: intl.formatMessage({ id: 'alert.notice' }),
             body: intl.formatMessage({ id: 'editor.schedule_video_unsupported' }),
           },
         });
-        
+
         return;
       }
 

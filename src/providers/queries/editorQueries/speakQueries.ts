@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
 import { useRef } from 'react';
+import { SheetManager } from 'react-native-actions-sheet';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { MediaItem } from '../../ecency/ecency.types';
@@ -14,7 +15,6 @@ import QUERIES from '../queryKeys';
 import { extract3SpeakIds } from '../../../utils/editor';
 import { ThreeSpeakStatus, ThreeSpeakVideo } from '../../speak/speak.types';
 import bugsnapInstance from '../../../config/bugsnag';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 /**
@@ -75,13 +75,12 @@ export const useSpeakContentBuilder = () => {
           if (!videoPublishMetaRef.current) {
             videoPublishMetaRef.current = mediaItem.speakData;
           } else {
-
             SheetManager.show(SheetNames.ACTION_MODAL, {
               payload: {
                 title: 'Fail',
                 body: 'Can have only one unpublished video per post',
-              }
-            })
+              },
+            });
 
             throw new Error('Fail');
           }

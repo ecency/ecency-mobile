@@ -1,33 +1,31 @@
 import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import WebView from 'react-native-webview';
-import { hsOptions } from '../../constants/hsOptions';
 import { View } from 'react-native';
+import { hsOptions } from '../../constants/hsOptions';
 import styles from './hiveSignerModal.styles';
-import { ModalHeader } from '../../components/modalHeader';
+import { ModalHeader } from '../modalHeader';
 
-//TODO: later handle other operations liek opsArray and logging in
+// TODO: later handle other operations liek opsArray and logging in
 export const HiveSignerModal = ({ route, navigation }) => {
   const intl = useIntl();
 
   const { hiveuri, onClose } = route.params || {};
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+    const unsubscribe = navigation.addListener('beforeRemove', () => {
       onClose && onClose();
     });
 
     return unsubscribe;
   }, [navigation, onClose]);
 
-
   const _onClose = () => {
     navigation.goBack();
     onClose && onClose();
   };
 
-  const _hsUri = `${hsOptions.base_url}${hiveuri?.substring(7)}`
-
+  const _hsUri = `${hsOptions.base_url}${hiveuri?.substring(7)}`;
 
   return (
     <View style={styles.container}>

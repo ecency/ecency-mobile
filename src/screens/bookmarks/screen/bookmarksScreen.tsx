@@ -5,13 +5,13 @@ import { View, FlatList, Text } from 'react-native';
 // Components
 import { TabView } from 'react-native-tab-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { SheetManager } from 'react-native-actions-sheet';
 import { UserListItem, WalletDetailsPlaceHolder, BasicHeader, TabBar } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './bookmarksStyles';
 import { ButtonTypes } from '../../../components/actionModal/container/actionModalContainer';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
 
 const BookmarksScreen = ({
@@ -25,7 +25,6 @@ const BookmarksScreen = ({
   removeBookmark,
   initialTabIndex,
 }) => {
-
   const [tabIndex, setTabIndex] = React.useState(initialTabIndex);
   const [routes] = React.useState([
     {
@@ -119,9 +118,8 @@ const BookmarksScreen = ({
             onPress: _onConfirmDelete,
           },
         ],
-      }
-    })
-
+      },
+    });
   };
 
   const renderScene = ({ route }) => {

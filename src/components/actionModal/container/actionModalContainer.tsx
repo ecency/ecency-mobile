@@ -1,8 +1,8 @@
 import React from 'react';
 import { AlertButton } from 'react-native';
 import { ImageSource } from 'expo-image';
-import ActionModalView from '../view/actionModalView';
 import { SheetManager, SheetProps } from 'react-native-actions-sheet';
+import ActionModalView from '../view/actionModalView';
 import { SheetNames } from '../../../navigation/sheets';
 
 export enum ButtonTypes {
@@ -24,10 +24,9 @@ export interface ActionModalPayload {
   onClosed?: () => void;
   headerContent?: React.ReactNode;
   bodyContent?: React.ReactNode;
-} 
+}
 
-const ActionModalContainer = ({payload}:SheetProps<SheetNames.ACTION_MODAL>) => {
-
+const ActionModalContainer = ({ payload }: SheetProps<SheetNames.ACTION_MODAL>) => {
   const _onClose = () => {
     if (payload?.onClosed) {
       payload.onClosed();
@@ -35,7 +34,7 @@ const ActionModalContainer = ({payload}:SheetProps<SheetNames.ACTION_MODAL>) => 
     SheetManager.hide(SheetNames.ACTION_MODAL);
   };
 
-  if(!payload) {
+  if (!payload) {
     return null;
   }
 

@@ -18,7 +18,6 @@ import { isHiveUri } from '../../utils/hive-uri';
 import { ImageViewer } from '../imageViewer';
 import { useLinkProcessor } from '../../hooks';
 
-
 interface PostHtmlInteractionHandlerProps {
   postType?: PostTypes;
 }
