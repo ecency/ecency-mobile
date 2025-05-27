@@ -38,8 +38,6 @@ import {
 } from '../redux/actions/applicationActions';
 import { fetchSubscribedCommunities } from '../redux/actions/communitiesAction';
 import {
-  hideActionModal,
-  hideProfileModal,
   setRcOffer,
   toastNotification,
 } from '../redux/actions/uiAction';
@@ -58,8 +56,6 @@ export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean
   }
 
   // reset certain properties
-  dispatch(hideActionModal());
-  dispatch(hideProfileModal());
   dispatch(toastNotification(''));
   dispatch(setRcOffer(false));
 

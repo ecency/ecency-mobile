@@ -1,23 +1,20 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import ActionSheet, { SheetProps } from 'react-native-actions-sheet';
-import { useDispatch, useSelector } from 'react-redux';
+import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
+import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { SheetNames } from 'navigation/sheets';
+import { SheetNames } from '../../../navigation/sheets';
 import styles from '../styles/crossPostModal.styles';
 import { FormInput, MainButton, Modal, SelectCommunityModalContainer, TextButton } from '../..';
-import { hideCrossPostModal } from '../../../redux/actions/uiAction';
 import { repostQueries } from '../../../providers/queries';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 
 export const CrossPostModal = ({ payload }: SheetProps<SheetNames.CROSS_POST>) => {
   const intl = useIntl();
-  const dispatch = useDispatch();
 
   const postContent = payload?.postContent || {};
 
-  const sheetModalRef = useRef<ActionSheet>();
   const crossPostMutation = repostQueries.useCrossPostMutation();
 
   const currentAccount = useSelector((state) => state.account.currentAccount);
@@ -28,8 +25,7 @@ export const CrossPostModal = ({ payload }: SheetProps<SheetNames.CROSS_POST>) =
   const [isCommunitiesListModalOpen, setIsCommunitiesListModalOpen] = useState(false);
 
   const _onClose = () => {
-    sheetModalRef.current?.hide();
-    dispatch(hideCrossPostModal());
+    SheetManager.hide(SheetNames.CROSS_POST);
     setMessage('');
     setSelectedCommunityId('');
     setSelectedCommunityName('');
@@ -143,7 +139,6 @@ export const CrossPostModal = ({ payload }: SheetProps<SheetNames.CROSS_POST>) =
 
   return (
     <ActionSheet
-      ref={sheetModalRef}
       gestureEnabled={false}
       containerStyle={styles.sheetContent}
       indicatorStyle={styles.sheetIndicator}
