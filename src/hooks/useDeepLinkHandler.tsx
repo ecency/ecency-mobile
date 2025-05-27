@@ -17,6 +17,7 @@ import { SheetNames } from '../navigation/sheets';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import getWindowDimensions from '../utils/getWindowDimensions';
 import { useAppSelector } from './index';
+import authType from '../constants/authType';
 
 interface UseDeepLinkHandlerProps {
     intl: any; // Replace with the appropriate type from 'react-intl' if available
@@ -71,7 +72,7 @@ const useDeepLinkHandler = ({
     };
 
     const _handleHiveUriTransaction = async (uri:string) => {
-        if (get(currentAccount, 'local.authType') === 'STEEM_CONNECT') {
+        if (get(currentAccount, 'local.authType') === authType.STEEM_CONNECT) {
             await delay(500); // NOTE: it's required to avoid modal misfire
             RootNavigation.navigate({
                 name: ROUTES.MODALS.HIVE_SIGNER,
