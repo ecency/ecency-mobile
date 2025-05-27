@@ -2,28 +2,13 @@ import {
   TOAST_NOTIFICATION,
   UPDATE_ACTIVE_BOTTOM_TAB,
   RC_OFFER,
-  TOGGLE_ACCOUNTS_BOTTOM_SHEET,
-  SHOW_ACTION_MODAL,
-  HIDE_ACTION_MODAL,
   SET_AVATAR_CACHE_STAMP,
-  SHOW_PROFILE_MODAL,
-  HIDE_PROFILE_MODAL,
-  TOGGLE_QR_MODAL,
   SET_DEVICE_ORIENTATION,
-  SHOW_REPLY_MODAL,
-  HIDE_REPLY_MODAL,
   SET_LOCKED_ORIENTATION,
   LOGOUT,
   LOGOUT_DONE,
-  SHOW_WEBVIEW_MODAL,
-  HIDE_WEBVIEW_MODAL,
   HIVE_URI_TO_HANDLE,
-  SHOW_TRANSLATION_MODAL,
-  HIDE_TRANSLATION_MODAL,
-  SHOW_CROSS_POST_MODAL,
-  HIDE_CROSS_POST_MODAL,
 } from '../constants/constants';
-import { PostEditorModalData } from '../reducers/uiReducer';
 
 export const updateActiveBottomTab = (payload: string) => ({
   payload,
@@ -35,63 +20,14 @@ export const toastNotification = (payload: string) => ({
   type: TOAST_NOTIFICATION,
 });
 
-export const showActionModal = (payload: any) => ({
-  payload: {
-    actionModalVisible: new Date().getTime(),
-    actionModalData: {
-      ...payload,
-    },
-  },
-  type: SHOW_ACTION_MODAL,
-});
-
-export const hideActionModal = () => ({
-  type: HIDE_ACTION_MODAL,
-});
-
-export const showProfileModal = (username: string) => ({
-  payload: {
-    profileModalUsername: username,
-  },
-  type: SHOW_PROFILE_MODAL,
-});
-
-export const hideProfileModal = () => ({
-  type: HIDE_PROFILE_MODAL,
-});
-
 export const setRcOffer = (payload: boolean) => ({
   payload,
   type: RC_OFFER,
 });
 
-export const toggleAccountsBottomSheet = (payload: boolean) => ({
-  payload,
-  type: TOGGLE_ACCOUNTS_BOTTOM_SHEET,
-});
-
 export const setAvatarCacheStamp = (payload: number) => ({
   payload,
   type: SET_AVATAR_CACHE_STAMP,
-});
-
-export const toggleQRModal = (payload: boolean) => ({
-  payload,
-  type: TOGGLE_QR_MODAL,
-});
-
-export const showWebViewModal = (payload: any) => ({
-  payload: {
-    isVisibleWebViewModal: new Date().getTime(),
-    webViewModalData: {
-      ...payload,
-    },
-  },
-  type: SHOW_WEBVIEW_MODAL,
-});
-
-export const hideWebViewModal = () => ({
-  type: HIDE_WEBVIEW_MODAL,
 });
 
 export const setDeviceOrientation = (payload: string) => ({
@@ -102,18 +38,6 @@ export const setDeviceOrientation = (payload: string) => ({
 export const setLockedOrientation = (payload: string) => ({
   payload,
   type: SET_LOCKED_ORIENTATION,
-});
-
-export const showReplyModal = ({ mode, parentPost }: PostEditorModalData) => ({
-  payload: {
-    mode: mode || 'comment',
-    parentPost,
-  } as PostEditorModalData,
-  type: SHOW_REPLY_MODAL,
-});
-
-export const hideReplyModal = () => ({
-  type: HIDE_REPLY_MODAL,
 });
 
 export const logout = () => ({
@@ -127,22 +51,4 @@ export const logoutDone = () => ({
 export const handleDeepLink = (hiveUri: string) => ({
   payload: hiveUri,
   type: HIVE_URI_TO_HANDLE,
-});
-
-export const showTranslationModal = (data: any) => ({
-  payload: data,
-  type: SHOW_TRANSLATION_MODAL,
-});
-
-export const hideTranslationModal = () => ({
-  type: HIDE_TRANSLATION_MODAL,
-});
-
-export const showCrossPostModal = (post: any) => ({
-  payload: post,
-  type: SHOW_CROSS_POST_MODAL,
-});
-
-export const hideCrossPostModal = () => ({
-  type: HIDE_CROSS_POST_MODAL,
 });

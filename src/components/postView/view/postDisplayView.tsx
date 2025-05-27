@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Utils
 import { useQueryClient } from '@tanstack/react-query';
+import { SheetManager } from 'react-native-actions-sheet';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
@@ -18,8 +19,6 @@ import { ParentPost } from '../../parentPost';
 // Styles
 import styles from './postDisplayStyles';
 import { WritePostButton } from '../../atoms';
-import { useAppDispatch } from '../../../hooks';
-import { showProfileModal, showReplyModal } from '../../../redux/actions/uiAction';
 import { PostTypes } from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
@@ -31,6 +30,7 @@ import QUERIES from '../../../providers/queries/queryKeys';
 import { usePostStatsQuery } from '../../../providers/queries';
 import { PostStatsModal } from '../../organisms';
 import { getAbbreviatedNumber } from '../../../utils/number';
+import { SheetNames } from '../../../navigation/sheets';
 
 const PostDisplayView = ({
   currentAccount,
@@ -49,7 +49,6 @@ const PostDisplayView = ({
   isWavePost,
   activeVotesCount,
 }) => {
-  const dispatch = useAppDispatch();
   const insets = useSafeAreaInsets();
 
   const queryClient = useQueryClient();
@@ -226,7 +225,12 @@ const PostDisplayView = ({
   // show quick reply modal
   const _showQuickReplyModal = (_post = post) => {
     if (isLoggedIn) {
-      dispatch(showReplyModal({ mode: 'comment', parentPost: _post }));
+      SheetManager.show(SheetNames.QUICK_POST, {
+        payload: {
+          mode: 'comment',
+          parentPost: _post,
+        },
+      });
     } else {
       console.log('Not LoggedIn');
     }
@@ -235,7 +239,11 @@ const PostDisplayView = ({
   // show quick reply modal
   const _showQuickProfileModal = (username) => {
     if (username) {
-      dispatch(showProfileModal(username));
+      SheetManager.show(SheetNames.QUICK_PROFILE, {
+        payload: {
+          username,
+        },
+      });
     }
   };
 

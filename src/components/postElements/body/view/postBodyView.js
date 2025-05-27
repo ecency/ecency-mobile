@@ -2,16 +2,12 @@ import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import ActionSheetView from 'react-native-actions-sheet';
+import ActionSheetView, { SheetManager } from 'react-native-actions-sheet';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
 import { writeToClipboard } from '../../../../utils/clipboard';
-import {
-  handleDeepLink,
-  showProfileModal,
-  toastNotification,
-} from '../../../../redux/actions/uiAction';
+import { toastNotification } from '../../../../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
@@ -21,11 +17,14 @@ import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters
 import { ImageViewer, PostHtmlRenderer, VideoPlayer } from '../../..';
 import { useAppDispatch } from '../../../../hooks';
 import { isHiveUri } from '../../../../utils/hive-uri';
+import { SheetNames } from '../../../../navigation/sheets';
+import { useLinkProcessor } from '../../../../hooks';
 
 const PostBody = ({ body, metadata, onLoadEnd, width }) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
+  const linkProcessor = useLinkProcessor();
 
   const dims = useWindowDimensions();
   const contentWidth = width || dims.width - 32;
@@ -134,7 +133,11 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
 
   const _handleOnUserPress = (username) => {
     if (username) {
-      dispatch(showProfileModal(username));
+      SheetManager.show(SheetNames.QUICK_PROFILE, {
+        payload: {
+          username,
+        },
+      });
     } else {
       dispatch(
         toastNotification(
@@ -154,7 +157,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
 
   const _handleSetSelectedLink = (link) => {
     if (isHiveUri(link)) {
-      dispatch(handleDeepLink(link));
+      linkProcessor.processLink(link);
     } else {
       setSelectedLink(link);
       actionLink.current.show();

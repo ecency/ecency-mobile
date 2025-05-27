@@ -2,8 +2,8 @@ import React, { Fragment, useState, useMemo } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useIntl } from 'react-intl';
 
-import { useDispatch } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { SheetManager } from 'react-native-actions-sheet';
 import { getTimeFromNow } from '../../../utils/time';
 import { delay } from '../../../utils/editor';
 // Constants
@@ -16,11 +16,11 @@ import { TextWithIcon } from '../../basicUIElements';
 // Styles
 import styles from './commentStyles';
 import { useAppSelector } from '../../../hooks';
-import { showReplyModal } from '../../../redux/actions/uiAction';
 import { PostTypes } from '../../../constants/postTypes';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import { PostPoll } from '../../postPoll';
 import { ContentType } from '../../../providers/hive/hive.types';
+import { SheetNames } from '../../../navigation/sheets';
 
 const CommentView = ({
   avatarSize,
@@ -43,7 +43,6 @@ const CommentView = ({
   onUpvotePress,
 }) => {
   const intl = useIntl();
-  const dispatch = useDispatch();
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
@@ -83,7 +82,12 @@ const CommentView = ({
 
   const _handleOnReplyPress = () => {
     if (isLoggedIn) {
-      dispatch(showReplyModal({ mode: 'comment', parentPost: comment }));
+      SheetManager.show(SheetNames.QUICK_POST, {
+        payload: {
+          mode: 'comment',
+          parentPost: comment,
+        },
+      });
     } else {
       console.log('Not LoggedIn');
     }

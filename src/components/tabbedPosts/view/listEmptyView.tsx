@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import { Text, View, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { SheetManager } from 'react-native-actions-sheet';
 import { NoPost, PostCardPlaceHolder, UserListItem } from '../..';
 import globalStyles from '../../../globalStyles';
 import { CommunityListItem, EmptyScreen } from '../../basicUIElements';
@@ -16,7 +17,7 @@ import {
 } from '../../../redux/actions/communitiesAction';
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
 import { getCommunity } from '../../../providers/hive/dhive';
-import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+import { SheetNames } from '../../../navigation/sheets';
 
 interface TabEmptyViewProps {
   filterKey: string;
@@ -33,9 +34,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   const subscribingCommunities = useSelector(
     (state) => state.communities.subscribingCommunitiesInFeedScreen,
   );
-  const isVisibleAccountsBottomSheet = useSelector(
-    (state) => state.ui.isVisibleAccountsBottomSheet,
-  );
+
   const prevLoggedInUsers = useSelector((state) => state.account.prevLoggedInUsers);
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
   const [recommendedUsers, setRecommendedUsers] = useState([]);
@@ -225,7 +224,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   const _handleOnPressLogin = () => {
     // if there is any prevLoggedInUser, show account switch modal
     if (prevLoggedInUsers && prevLoggedInUsers?.length > 0) {
-      dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
+      SheetManager.show(SheetNames.ACCOUNTS_SHEET);
     } else {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
     }

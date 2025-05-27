@@ -7,6 +7,7 @@ import { get, debounce } from 'lodash';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as hiveuri from 'hive-uri';
+import { SheetManager } from 'react-native-actions-sheet';
 import { hsOptions } from '../../../constants/hsOptions';
 import AUTH_TYPE from '../../../constants/authType';
 
@@ -22,8 +23,6 @@ import {
 import styles from './transferStyles';
 import TransferTypes from '../../../constants/transferTypes';
 import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineActions';
-import { useAppDispatch } from '../../../hooks';
-import { showActionModal } from '../../../redux/actions/uiAction';
 import {
   getSpkActionJSON,
   getSpkTransactionId,
@@ -31,6 +30,7 @@ import {
 } from '../../../providers/hive-spk/hiveSpk';
 import parseToken from '../../../utils/parseToken';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
+import { SheetNames } from '../../../navigation/sheets';
 
 const TransferView = ({
   currentAccountName,
@@ -52,8 +52,6 @@ const TransferView = ({
   fetchRecurrentTransfers,
   recurrentTransfers,
 }) => {
-  const dispatch = useAppDispatch();
-
   const hiveAuthModalRef = useRef();
 
   const [from, setFrom] = useState(currentAccountName);
@@ -257,8 +255,8 @@ const TransferView = ({
 
       return false;
     } else {
-      dispatch(
-        showActionModal({
+      SheetManager.show(SheetNames.ACTION_MODAL, {
+        payload: {
           title: intl.formatMessage({ id: 'transfer.information' }),
           buttons: [
             {
@@ -272,8 +270,8 @@ const TransferView = ({
               onPress: deleteTransfer ? _handleDeleteRecurrentTransfer : _handleTransferAction,
             },
           ],
-        }),
-      );
+        },
+      });
     }
   };
 

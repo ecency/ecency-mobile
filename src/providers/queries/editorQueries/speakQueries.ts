@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
 import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { SheetManager } from 'react-native-actions-sheet';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
+import { toastNotification } from '../../../redux/actions/uiAction';
 import { MediaItem } from '../../ecency/ecency.types';
 import {
   deleteVideo,
@@ -15,6 +15,7 @@ import QUERIES from '../queryKeys';
 import { extract3SpeakIds } from '../../../utils/editor';
 import { ThreeSpeakStatus, ThreeSpeakVideo } from '../../speak/speak.types';
 import bugsnapInstance from '../../../config/bugsnag';
+import { SheetNames } from '../../../navigation/sheets';
 
 /**
  * fetches and caches speak video uploads
@@ -55,7 +56,6 @@ export const useVideoUploadsQuery = () => {
 };
 
 export const useSpeakContentBuilder = () => {
-  const dispatch = useDispatch();
   const videoUploads = useVideoUploadsQuery();
   const videoPublishMetaRef = useRef<ThreeSpeakVideo | null>(null);
   const thumbUrlsRef = useRef<string[]>([]);
@@ -75,12 +75,13 @@ export const useSpeakContentBuilder = () => {
           if (!videoPublishMetaRef.current) {
             videoPublishMetaRef.current = mediaItem.speakData;
           } else {
-            dispatch(
-              showActionModal({
+            SheetManager.show(SheetNames.ACTION_MODAL, {
+              payload: {
                 title: 'Fail',
                 body: 'Can have only one unpublished video per post',
-              }),
-            );
+              },
+            });
+
             throw new Error('Fail');
           }
         }

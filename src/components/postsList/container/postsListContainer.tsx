@@ -12,14 +12,13 @@ import { FlashList } from '@shopify/flash-list';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
+import { SheetManager } from 'react-native-actions-sheet';
 import PostCard from '../../postCard';
 import styles from '../view/postsListStyles';
 import { Separator, UpvotePopover } from '../..';
 import { PostTypes } from '../../../constants/postTypes';
 import { PostOptionsModal } from '../../postOptionsModal';
 import { PostCardActionIds } from '../../postCard/container/postCard';
-import { useAppDispatch } from '../../../hooks';
-import { showProfileModal } from '../../../redux/actions/uiAction';
 import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
 
 export interface PostsListRef {
@@ -55,7 +54,6 @@ const postsListContainer = (
 ) => {
   const flatListRef = useRef(null);
   const intl = useIntl();
-  const dispatch = useAppDispatch();
 
   const navigation = useNavigation();
 
@@ -168,7 +166,11 @@ const postsListContainer = (
   ) => {
     switch (id) {
       case PostCardActionIds.USER:
-        dispatch(showProfileModal(payload));
+        SheetManager.show('quick_profile', {
+          payload: {
+            username: payload,
+          },
+        });
         break;
 
       case PostCardActionIds.OPTIONS:

@@ -7,7 +7,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
-import ActionSheet from 'react-native-actions-sheet';
+import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import {
   deleteComment,
   ignoreUser,
@@ -16,13 +16,7 @@ import {
   reblog,
 } from '../../../providers/hive/dhive';
 import { addBookmark, addReport } from '../../../providers/ecency/ecency';
-import {
-  toastNotification,
-  setRcOffer,
-  showActionModal,
-  showTranslationModal,
-  showCrossPostModal,
-} from '../../../redux/actions/uiAction';
+import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 
 // Constants
 import OPTIONS from '../../../constants/options/post';
@@ -41,6 +35,7 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import styles from '../styles/postOptionsModal.styles';
 import { delay } from '../../../utils/editor';
+import { SheetNames } from '../../../navigation/sheets';
 
 /*
  *            Props Name        Description                                     Value
@@ -252,8 +247,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         });
     };
 
-    dispatch(
-      showActionModal({
+    SheetManager.show(SheetNames.ACTION_MODAL, {
+      payload: {
         title: intl.formatMessage({ id: 'report.confirm_report_title' }),
         body: intl.formatMessage({ id: 'report.confirm_report_body' }),
         buttons: [
@@ -268,8 +263,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
             onPress: _onConfirm,
           },
         ],
-      }),
-    );
+      },
+    });
   };
 
   const _deletePost = () => {
@@ -285,8 +280,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
       );
     };
 
-    dispatch(
-      showActionModal({
+    SheetManager.show(SheetNames.ACTION_MODAL, {
+      payload: {
         title: intl.formatMessage({ id: 'alert.remove_alert' }),
         buttons: [
           {
@@ -300,8 +295,8 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
             onPress: _onConfirm,
           },
         ],
-      }),
-    );
+      },
+    });
   };
 
   const _addToBookmarks = () => {
@@ -375,7 +370,11 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   };
 
   const _crossPost = () => {
-    dispatch(showCrossPostModal(content));
+    SheetManager.show(SheetNames.CROSS_POST, {
+      payload: {
+        postContent: content,
+      },
+    });
   };
 
   const _updatePinnedPost = async (
@@ -545,7 +544,11 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
         break;
       case 'translate':
         await delay(700);
-        dispatch(showTranslationModal(content));
+        SheetManager.show(SheetNames.POST_TRANSLATION, {
+          payload: {
+            content,
+          },
+        });
         break;
       case 'delete-post':
         await delay(700);

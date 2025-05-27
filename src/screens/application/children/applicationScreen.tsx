@@ -4,6 +4,7 @@ import { StatusBar, Platform, View } from 'react-native';
 import { useIntl } from 'react-intl';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { SheetManager } from 'react-native-actions-sheet';
 import RootNavigation from '../../../navigation/rootNavigation';
 import { AppNavigator } from '../../../navigation';
 
@@ -11,7 +12,6 @@ import { AppNavigator } from '../../../navigation';
 import {
   toastNotification as toastNotificationAction,
   setRcOffer,
-  showActionModal,
 } from '../../../redux/actions/uiAction';
 
 import ROUTES from '../../../constants/routeNames';
@@ -20,20 +20,13 @@ import ROUTES from '../../../constants/routeNames';
 import {
   ToastNotification,
   NoInternetConnection,
-  AccountsBottomSheet,
-  ActionModal,
   ForegroundNotification,
-  QuickProfileModal,
-  QRModal,
-  QuickReplyModal,
-  WebViewModal,
-  PostTranslationModal,
-  CrossPostModal,
 } from '../../../components/index';
 
 // Themes (Styles)
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { SheetNames } from '../../../navigation/sheets';
 // import EStyleSheet from 'react-native-extended-stylesheet';
 
 const ApplicationScreen = ({ foregroundNotificationData }) => {
@@ -53,8 +46,8 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
   useEffect(() => {
     if (!rcOfferRef.current && rcOffer) {
       setTimeout(() => {
-        dispatch(
-          showActionModal({
+        SheetManager.show(SheetNames.ACTION_MODAL, {
+          payload: {
             title: intl.formatMessage({
               id: 'alert.fail',
             }),
@@ -77,8 +70,8 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
                 },
               },
             ],
-          }),
-        );
+          },
+        });
       }, 300);
     }
 
@@ -122,18 +115,10 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
     );
   };
 
-  const _renderAppModals = () => {
+  const _renderNotifiers = () => {
     return (
       <>
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
-        <QuickProfileModal />
-        <AccountsBottomSheet />
-        <ActionModal />
-        <QuickReplyModal />
-        <QRModal />
-        <WebViewModal />
-        <PostTranslationModal />
-        <CrossPostModal />
         {isShowToastNotification && (
           <ToastNotification
             text={toastNotification}
@@ -149,7 +134,7 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
     <View style={{ flex: 1 }}>
       {_renderStatusBar()}
       {_renderAppNavigator()}
-      {_renderAppModals()}
+      {_renderNotifiers()}
     </View>
   );
 };

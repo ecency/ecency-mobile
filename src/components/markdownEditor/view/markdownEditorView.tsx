@@ -10,14 +10,12 @@ import {
   View,
 } from 'react-native';
 import Animated, { BounceInRight } from 'react-native-reanimated';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { SheetManager } from 'react-native-actions-sheet';
 import { Icon } from '../../icon';
 
 // Utils
 import applyMediaLink from '../children/formats/applyMediaLink';
-
-// Actions
-import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 
 // Components
 import {
@@ -47,6 +45,7 @@ import styles from '../styles/markdownEditorStyles';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 import { convertToPollMeta } from '../../../utils/editor';
 import { PollModes } from '../../postPoll';
+import { SheetNames } from '../../../navigation/sheets';
 
 // const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -73,8 +72,6 @@ const MarkdownEditorView = ({
   onLoadDraftPress,
   setIsUploading,
 }) => {
-  const dispatch = useDispatch();
-
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const pollDraft = useAppSelector(
     (state) => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID],
@@ -93,9 +90,6 @@ const MarkdownEditorView = ({
   const bodyTextRef = useRef('');
   const bodySelectionRef = useRef({ start: 0, end: 0 });
 
-  const isVisibleAccountsBottomSheet = useSelector(
-    (state) => state.ui.isVisibleAccountsBottomSheet,
-  );
   const draftBtnTooltipState = useSelector((state) => state.walkthrough.walkthroughMap);
   const draftBtnTooltipRegistered = draftBtnTooltipState.get(walkthrough.EDITOR_DRAFT_BTN);
   const headerText = post && (post.summary || postBodySummary(post, 150, Platform.OS));
@@ -178,7 +172,7 @@ const MarkdownEditorView = ({
   }, [autoFocusText]);
 
   const changeUser = async () => {
-    dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
+    SheetManager.show(SheetNames.ACCOUNTS_SHEET);
   };
 
   // const _onApplyUsername = (username) => {

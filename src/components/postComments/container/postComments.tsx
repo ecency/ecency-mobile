@@ -15,12 +15,12 @@ import { FlashList } from '@shopify/flash-list';
 
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { SheetManager } from 'react-native-actions-sheet';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
-import { showActionModal, showProfileModal } from '../../../redux/actions/uiAction';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
@@ -33,6 +33,7 @@ import styles from '../children/postComments.styles';
 import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 import { PostOptionsModal } from '../../index';
 import { BotCommentsPreview } from '../children/botCommentsPreview';
+import { SheetNames } from '../../../navigation/sheets';
 
 const PostComments = forwardRef(
   (
@@ -153,8 +154,8 @@ const PostComments = forwardRef(
         }
       };
 
-      dispatch(
-        showActionModal({
+      SheetManager.show(SheetNames.ACTION_MODAL, {
+        payload: {
           title: intl.formatMessage({ id: 'delete.confirm_delete_title' }),
           buttons: [
             {
@@ -168,8 +169,8 @@ const PostComments = forwardRef(
               onPress: _onConfirmDelete,
             },
           ],
-        }),
-      );
+        },
+      });
     };
 
     const _openReplyThread = (comment) => {
@@ -185,7 +186,11 @@ const PostComments = forwardRef(
     };
 
     const _handleOnUserPress = (username) => {
-      dispatch(showProfileModal(username));
+      SheetManager.show(SheetNames.QUICK_PROFILE, {
+        payload: {
+          username,
+        },
+      });
     };
 
     const _handleShowOptionsMenu = (comment) => {

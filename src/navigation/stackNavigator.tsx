@@ -41,6 +41,7 @@ import {
   BotComments,
 } from '../screens';
 import { DrawerNavigator } from './drawerNavigator';
+import { HiveSignerModal } from '../components';
 
 const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
@@ -107,6 +108,11 @@ export const StackNavigator = ({ initRoute }) => {
       <RootStack.Screen
         name={ROUTES.MODALS.POLL_WIZARD}
         component={PollWizardScreen}
+        options={{ presentation: 'modal' }}
+      />
+      <RootStack.Screen
+        name={ROUTES.MODALS.HIVE_SIGNER}
+        component={HiveSignerModal}
         options={{ presentation: 'modal' }}
       />
       <RootStack.Screen

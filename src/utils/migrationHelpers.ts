@@ -2,6 +2,7 @@ import { Appearance } from 'react-native';
 import Config from 'react-native-config';
 
 // Constants
+import { SheetManager } from 'react-native-actions-sheet';
 import THEME_OPTIONS from '../constants/options/theme';
 import { getUnreadNotificationCount } from '../providers/ecency/ecency';
 import { getPointsSummary } from '../providers/ecency/ePoint';
@@ -37,18 +38,13 @@ import {
   setIsDarkTheme,
 } from '../redux/actions/applicationActions';
 import { fetchSubscribedCommunities } from '../redux/actions/communitiesAction';
-import {
-  hideActionModal,
-  hideProfileModal,
-  setRcOffer,
-  showActionModal,
-  toastNotification,
-} from '../redux/actions/uiAction';
+import { setRcOffer, toastNotification } from '../redux/actions/uiAction';
 import { decryptKey, encryptKey } from './crypto';
 import { delay } from './editor';
 import RootNavigation from '../navigation/rootNavigation';
 import ROUTES from '../constants/routeNames';
 import { DEFAULT_FEED_FILTERS } from '../constants/options/filters';
+import { SheetNames } from '../navigation/sheets';
 
 // migrates settings from realm to redux once and do no user realm for settings again;
 export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean) => {
@@ -57,8 +53,6 @@ export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean
   }
 
   // reset certain properties
-  dispatch(hideActionModal());
-  dispatch(hideProfileModal());
   dispatch(toastNotification(''));
   dispatch(setRcOffer(false));
 
@@ -214,8 +208,9 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
   } catch (err) {
     // keys data corrupted, ask user to verify login
     await delay(500);
-    dispatch(
-      showActionModal({
+
+    SheetManager.show(SheetNames.ACTION_MODAL, {
+      payload: {
         title: intl.formatMessage({ id: 'alert.warning' }),
         body: intl.formatMessage({ id: 'alert.auth_expired' }),
         buttons: [
@@ -236,8 +231,8 @@ export const repairUserAccountData = async (username, dispatch, intl, accounts, 
             },
           },
         ],
-      }),
-    );
+      },
+    });
   }
 
   return authData;

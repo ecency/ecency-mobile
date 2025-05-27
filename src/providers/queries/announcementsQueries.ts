@@ -3,23 +3,26 @@ import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { useEffect, useMemo } from 'react';
 import VersionNumber from 'react-native-version-number';
+import { SheetManager } from 'react-native-actions-sheet';
 import { getAnnouncements } from '../ecency/ecency';
 import QUERIES from './queryKeys';
 import { useAppSelector } from '../../hooks';
 import { updateAnnoucementsMeta } from '../../redux/actions/cacheActions';
-import { handleDeepLink, showActionModal } from '../../redux/actions/uiAction';
 import { getPostUrl } from '../../utils/post';
 import { delay } from '../../utils/editor';
 import { ButtonTypes } from '../../components/actionModal/container/actionModalContainer';
 import parseVersionNumber from '../../utils/parseVersionNumber';
 import { decryptKey } from '../../utils/crypto';
 import { getDigitPinCode } from '../hive/dhive';
+import { SheetNames } from '../../navigation/sheets';
+import { useLinkProcessor } from '../../hooks';
 
 const PROMPT_AGAIN_INTERVAL = 48 * 3600 * 1000; // 2 days
 
 export const useAnnouncementsQuery = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const linkProcessor = useLinkProcessor();
 
   const pinHash = useAppSelector((state) => state.application.pin);
 
@@ -69,12 +72,12 @@ export const useAnnouncementsQuery = () => {
 
     const _onActionPress = () => {
       if (data.ops) {
-        dispatch(handleDeepLink(data.ops));
+        linkProcessor.handleLink(data.ops);
       } else if (data.button_link) {
         const _url = data.button_link.startsWith('https://')
           ? data.button_link
           : getPostUrl(data.button_link);
-        dispatch(handleDeepLink(_url));
+        linkProcessor.handleLink(_url);
       }
 
       // mark as processed
@@ -95,13 +98,13 @@ export const useAnnouncementsQuery = () => {
 
     await delay(3000);
 
-    dispatch(
-      showActionModal({
+    SheetManager.show(SheetNames.ACTION_MODAL, {
+      payload: {
         title: data.title,
         body: data.description,
         buttons: _buttons,
         onClosed: _markAsSeen,
-      }),
-    );
+      },
+    });
   };
 };

@@ -6,6 +6,7 @@ import Highlighter from 'react-native-highlight-words';
 
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { SheetManager } from 'react-native-actions-sheet';
 import { PostHeaderDescription } from '../../../../../../components';
 import {
   TextWithIcon,
@@ -16,15 +17,16 @@ import PostsResultsContainer from '../container/postsResultsContainer';
 
 import { getTimeFromNow } from '../../../../../../utils/time';
 import styles from './postsResultsStyles';
-import { useAppDispatch } from '../../../../../../hooks';
-import { showProfileModal } from '../../../../../../redux/actions/uiAction';
+import { SheetNames } from '../../../../../../navigation/sheets';
 
 const PostsResults = ({ searchValue }) => {
-  const dispatch = useAppDispatch();
-
   const _showProfileModal = (username) => {
     if (username) {
-      dispatch(showProfileModal(username));
+      SheetManager.show(SheetNames.QUICK_PROFILE, {
+        payload: {
+          username,
+        },
+      });
     }
   };
 

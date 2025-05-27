@@ -1,17 +1,18 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
+import { SheetManager } from 'react-native-actions-sheet';
 import { WritePostButton } from '../../../components/atoms';
-import { showReplyModal } from '../../../redux/actions/uiAction';
 import styles from '../styles/children.styles';
+import { SheetNames } from '../../../navigation/sheets';
 
 export const WavesHeader = () => {
-  const dispatch = useDispatch();
   const intl = useIntl();
 
   const _onPress = () => {
-    dispatch(showReplyModal({ mode: 'wave' }));
+    SheetManager.show(SheetNames.QUICK_POST, {
+      payload: { mode: 'wave' },
+    });
   };
 
   return (

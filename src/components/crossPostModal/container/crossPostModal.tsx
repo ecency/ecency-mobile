@@ -1,40 +1,31 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import ActionSheet from 'react-native-actions-sheet';
-import { useDispatch, useSelector } from 'react-redux';
+import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
+import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
+import { SheetNames } from '../../../navigation/sheets';
 import styles from '../styles/crossPostModal.styles';
 import { FormInput, MainButton, Modal, SelectCommunityModalContainer, TextButton } from '../..';
-import { hideCrossPostModal } from '../../../redux/actions/uiAction';
 import { repostQueries } from '../../../providers/queries';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 
-export const CrossPostModal = () => {
+export const CrossPostModal = ({ payload }: SheetProps<SheetNames.CROSS_POST>) => {
   const intl = useIntl();
-  const dispatch = useDispatch();
 
-  const sheetModalRef = useRef<ActionSheet>();
+  const postContent = payload?.postContent || {};
+
   const crossPostMutation = repostQueries.useCrossPostMutation();
 
   const currentAccount = useSelector((state) => state.account.currentAccount);
-  const crossPostModalVisible = useSelector((state) => state.ui.crossPostModalVisible);
-  const crossPostModalData = useSelector((state) => state.ui.crossPostModalData);
 
   const [message, setMessage] = useState('');
   const [selectedCommunityId, setSelectedCommunityId] = useState('');
   const [selectedCommunityName, setSelectedCommunityName] = useState('');
   const [isCommunitiesListModalOpen, setIsCommunitiesListModalOpen] = useState(false);
 
-  useEffect(() => {
-    if (crossPostModalVisible) {
-      sheetModalRef.current?.show();
-    }
-  }, [crossPostModalVisible]);
-
   const _onClose = () => {
-    sheetModalRef.current?.hide();
-    dispatch(hideCrossPostModal());
+    SheetManager.hide(SheetNames.CROSS_POST);
     setMessage('');
     setSelectedCommunityId('');
     setSelectedCommunityName('');
@@ -42,11 +33,11 @@ export const CrossPostModal = () => {
   };
 
   const handleCrossPost = async () => {
-    if (selectedCommunityId && crossPostModalData) {
+    if (selectedCommunityId && postContent) {
       console.log('Cross posting to:', selectedCommunityId, 'with message:', message);
       try {
         const response = await crossPostMutation.mutateAsync({
-          post: crossPostModalData,
+          post: postContent,
           communityId: selectedCommunityId,
           message,
         });
@@ -148,7 +139,6 @@ export const CrossPostModal = () => {
 
   return (
     <ActionSheet
-      ref={sheetModalRef}
       gestureEnabled={false}
       containerStyle={styles.sheetContent}
       indicatorStyle={styles.sheetIndicator}

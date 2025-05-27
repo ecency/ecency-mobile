@@ -3,14 +3,15 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 
 // Component
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { SheetManager } from 'react-native-actions-sheet';
 import HeaderView from '../view/headerView';
 
 import { AccountContainer } from '../../../containers';
 import { parseReputation } from '../../../utils/user';
-import { toggleQRModal } from '../../../redux/actions/uiAction';
 import ROUTES from '../../../constants/routeNames';
+import { SheetNames } from '../../../navigation/sheets';
 
 const HeaderContainer = ({
   selectedUser,
@@ -21,7 +22,7 @@ const HeaderContainer = ({
   showBoost,
 }) => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
+
   const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
   const _handleOpenDrawer = () => {
     if (has(navigation, 'openDrawer') && typeof get(navigation, 'openDrawer') === 'function') {
@@ -38,7 +39,7 @@ const HeaderContainer = ({
   };
 
   const _handleQRPress = () => {
-    dispatch(toggleQRModal(true));
+    SheetManager.show(SheetNames.QR_SCAN);
   };
 
   const _handleOnBoostPress = () => {

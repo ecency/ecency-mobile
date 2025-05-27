@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { get, debounce } from 'lodash';
 import { postBodySummary } from '@ecency/render-helper';
 import { Image as ExpoImage } from 'expo-image';
-import styles from './quickReplyModalStyles';
+import styles from './quickPostModal.styles';
 import {
   Icon,
   IconButton,

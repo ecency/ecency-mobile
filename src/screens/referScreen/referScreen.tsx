@@ -12,9 +12,9 @@ import {
 } from 'react-native';
 import get from 'lodash/get';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useDispatch } from 'react-redux';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { SheetManager } from 'react-native-actions-sheet';
 import {
   BasicHeader,
   Icon,
@@ -34,13 +34,12 @@ import styles from './referScreenStyles';
 import ROUTES from '../../constants/routeNames';
 
 // Redux / Services
-import { showProfileModal } from '../../redux/actions/uiAction';
 import RootNavigation from '../../navigation/rootNavigation';
 import { useAppSelector } from '../../hooks';
+import { SheetNames } from '../../navigation/sheets';
 
 const ReferScreen = () => {
   const intl = useIntl();
-  const dispatch = useDispatch();
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
 
@@ -104,7 +103,11 @@ const ReferScreen = () => {
   };
 
   const _handleOnItemPress = (username: string) => {
-    dispatch(showProfileModal(username));
+    SheetManager.show(SheetNames.QUICK_PROFILE, {
+      payload: {
+        username,
+      },
+    });
   };
 
   const _renderPointsEarned = () => {

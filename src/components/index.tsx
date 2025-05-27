@@ -99,7 +99,7 @@ import { ForegroundNotification } from './foregroundNotification';
 import { PostHtmlRenderer } from './postHtmlRenderer';
 import { PostPoll } from './postPoll';
 import { QuickProfileModal } from './organisms';
-import QuickReplyModal from './quickReplyModal/quickReplyModalView';
+import QuickPostModal from './quickPostModal/quickPostModal';
 import VideoPlayer from './videoPlayer/videoPlayerView';
 import QRModal from './qrModal/qrModalView';
 import { SimpleChart } from './simpleChart';
@@ -107,7 +107,7 @@ import BeneficiarySelectionContent from './beneficiarySelectionContent/beneficia
 import TransferAccountSelector from './transferAccountSelector/transferAccountSelector';
 import TransferAmountInputSection from './transferAmountInputSection/transferAmountInputSection';
 import TextBoxWithCopy from './textBoxWithCopy/textBoxWithCopy';
-import WebViewModal from './webViewModal/webViewModal';
+import HiveSignerModal from './hiveSignerModal/hiveSignerModal';
 import OrDivider from './orDivider/orDividerView';
 import PostTranslationModal from './post-translation-modal/postTranslationModal';
 import { ImageViewer } from './imageViewer';
@@ -262,7 +262,7 @@ export {
   PostHtmlRenderer,
   PostPoll,
   QuickProfileModal,
-  QuickReplyModal,
+  QuickPostModal,
   VideoPlayer,
   InsertLinkModal,
   QRModal,
@@ -271,7 +271,7 @@ export {
   TransferAccountSelector,
   TransferAmountInputSection,
   TextBoxWithCopy,
-  WebViewModal,
+  HiveSignerModal,
   OrDivider,
   PostTranslationModal,
   ImageViewer,

@@ -4,6 +4,7 @@ import { Alert, AlertButton } from 'react-native';
 import ImagePicker, { Image, Options, Video } from 'react-native-image-crop-picker';
 import RNHeicConverter from 'react-native-heic-converter';
 import { openSettings } from 'react-native-permissions';
+import { SheetManager } from 'react-native-actions-sheet';
 import bugsnapInstance from '../../../config/bugsnag';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
 
@@ -16,9 +17,9 @@ import {
 } from '../../../utils/editor';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { editorQueries, speakQueries } from '../../../providers/queries';
-import { showActionModal } from '../../../redux/actions/uiAction';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 import { SpeakUploaderModal } from '../children/speakUploaderModal';
+import { SheetNames } from '../../../navigation/sheets';
 
 export interface UploadsGalleryModalRef {
   showModal: () => void;
@@ -411,10 +412,12 @@ export const UploadsGalleryModal = forwardRef(
       }
 
       dispatch(
-        showActionModal({
-          title,
-          body,
-          buttons: [action],
+        SheetManager.show(SheetNames.ACTION_MODAL, {
+          payload: {
+            title,
+            body,
+            buttons: [action],
+          },
         }),
       );
     };

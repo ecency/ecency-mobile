@@ -3,9 +3,9 @@ import { View, Text, ImageBackground, FlatList, TouchableOpacity } from 'react-n
 import { injectIntl, useIntl } from 'react-intl';
 import VersionNumber from 'react-native-version-number';
 import { isEmpty } from 'lodash';
-import { useDispatch } from 'react-redux';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { SheetManager } from 'react-native-actions-sheet';
 import { getStorageType } from '../../../realm/realm';
 
 // Components
@@ -21,26 +21,20 @@ import { getVotingPower } from '../../../utils/manaBar';
 
 // Styles
 import styles from './sideMenuStyles';
-import {
-  showActionModal,
-  toggleAccountsBottomSheet,
-  toggleQRModal,
-} from '../../../redux/actions/uiAction';
 
 // Images
 import SIDE_MENU_BACKGROUND from '../../../assets/side_menu_background.png';
+import { SheetNames } from '../../../navigation/sheets';
 
 const SideMenuView = ({
   currentAccount,
   isLoggedIn,
   handleLogout,
   navigateToRoute,
-  handlePressOptions,
   prevLoggedInUsers,
-  isVisibleAccountsBottomSheet,
+  handleShowAccountsSheet,
 }) => {
   const intl = useIntl();
-  const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
 
   const [menuItems, setMenuItems] = useState(
@@ -71,8 +65,8 @@ const SideMenuView = ({
   // Component Functions
   const _handleOnMenuItemPress = (item) => {
     if (item.id === 'logout') {
-      dispatch(
-        showActionModal({
+      SheetManager.show(SheetNames.ACTION_MODAL, {
+        payload: {
           title: intl.formatMessage({ id: 'side_menu.logout_text' }),
           buttons: [
             {
@@ -88,13 +82,13 @@ const SideMenuView = ({
               },
             },
           ],
-        }),
-      );
+        },
+      });
       return;
     }
 
     if (item.id === 'qr') {
-      dispatch(toggleQRModal(true));
+      SheetManager.show(SheetNames.QR_SCAN);
       return;
     }
 
@@ -120,7 +114,7 @@ const SideMenuView = ({
     // if there is any prevLoggedInUser, show account switch modal
     if (item.id === 'add_account') {
       if (prevLoggedInUsers && prevLoggedInUsers?.length > 0) {
-        dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
+        handleShowAccountsSheet();
       } else {
         navigateToRoute(item.route);
       }
@@ -193,7 +187,7 @@ const SideMenuView = ({
                 </View>
               </View>
 
-              <TouchableOpacity style={styles.iconWrapper} onPress={handlePressOptions}>
+              <TouchableOpacity style={styles.iconWrapper} onPress={handleShowAccountsSheet}>
                 <Icon
                   iconType="SimpleLineIcons"
                   style={styles.optionIcon}

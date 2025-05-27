@@ -7,7 +7,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../constants/routeNames';
-import { handleDeepLink, toastNotification } from '../../redux/actions/uiAction';
+import { toastNotification } from '../../redux/actions/uiAction';
 import { writeToClipboard } from '../../utils/clipboard';
 
 import { OptionsModal } from '../atoms';
@@ -16,6 +16,7 @@ import VideoPlayer from '../videoPlayer/videoPlayerView';
 import { PostTypes } from '../../constants/postTypes';
 import { isHiveUri } from '../../utils/hive-uri';
 import { ImageViewer } from '../imageViewer';
+import { useLinkProcessor } from '../../hooks';
 
 interface PostHtmlInteractionHandlerProps {
   postType?: PostTypes;
@@ -28,6 +29,7 @@ export const PostHtmlInteractionHandler = forwardRef(
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const intl = useIntl();
+    const linkProcessor = useLinkProcessor();
 
     const actionLink = useRef(null);
     const youtubePlayerRef = useRef(null);
@@ -46,7 +48,7 @@ export const PostHtmlInteractionHandler = forwardRef(
       },
       handleLinkPress: (url: string) => {
         if (isHiveUri(url)) {
-          dispatch(handleDeepLink(url));
+          linkProcessor.handleLink(url);
         } else {
           setSelectedLink(url);
           actionLink.current?.show();

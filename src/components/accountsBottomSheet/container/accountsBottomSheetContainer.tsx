@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { useIntl } from 'react-intl';
 import { Alert } from 'react-native';
+import { SheetManager } from 'react-native-actions-sheet';
 import RootNavigation from '../../../navigation/rootNavigation';
 
 import { setPrevLoggedInUsers, updateCurrentAccount } from '../../../redux/actions/accountAction';
@@ -14,12 +15,8 @@ import {
 } from '../../../providers/hive/auth';
 import { getUserDataWithUsername } from '../../../realm/realm';
 
-import {
-  logout,
-  showActionModal,
-  toggleAccountsBottomSheet,
-} from '../../../redux/actions/uiAction';
-import AccountsBottomSheet from '../view/accountsBottomSheetView';
+import { logout } from '../../../redux/actions/uiAction';
+import AccountsBottomSheet, { AccountsBottomSheetRef } from '../view/accountsBottomSheetView';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -33,15 +30,14 @@ import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAc
 import { decryptKey } from '../../../utils/crypto';
 import { repairUserAccountData } from '../../../utils/migrationHelpers';
 import ROUTES from '../../../constants/routeNames';
+import { SheetNames } from '../../../navigation/sheets';
 
 const AccountsBottomSheetContainer = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const accountsBottomSheetViewRef = useRef();
 
-  const isVisibleAccountsBottomSheet = useAppSelector(
-    (state) => state.ui.isVisibleAccountsBottomSheet,
-  );
+  const accountsBottomSheetViewRef = useRef<AccountsBottomSheetRef | null>(null);
+
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const accounts = useAppSelector((state) => state.account.otherAccounts);
   const pinHash = useAppSelector((state) => state.application.pin);
@@ -49,11 +45,9 @@ const AccountsBottomSheetContainer = () => {
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
   useEffect(() => {
-    if (isVisibleAccountsBottomSheet) {
-      accountsBottomSheetViewRef.current?.showAccountsBottomSheet();
-      _checkPrevLoggedInUsersList();
-    }
-  }, [isVisibleAccountsBottomSheet]);
+    accountsBottomSheetViewRef.current?.showAccountsBottomSheet();
+    _checkPrevLoggedInUsersList();
+  }, []);
 
   // checks if prevLoggedInUsers do not contain any invalid value and filters the array from invalid data
   const _checkPrevLoggedInUsersList = () => {
@@ -64,19 +58,15 @@ const AccountsBottomSheetContainer = () => {
   };
 
   const _navigateToRoute = (name: string, params: any) => {
-    dispatch(toggleAccountsBottomSheet(false));
+    SheetManager.hide(SheetNames.ACCOUNTS_SHEET);
     accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
     if (name) {
       RootNavigation.navigate({ name, params });
     }
   };
 
-  const _onClose = () => {
-    dispatch(toggleAccountsBottomSheet(false));
-  };
-
   const _switchAccount = async (account = {}) => {
-    dispatch(toggleAccountsBottomSheet(false));
+    SheetManager.hide(SheetNames.ACCOUNTS_SHEET);
     accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
     if (currentAccount && account && account.username !== currentAccount.name) {
       _handleSwitch(account);
@@ -91,8 +81,8 @@ const AccountsBottomSheetContainer = () => {
     if (authData?.username) {
       const curTime = new Date().getTime();
       if (curTime > authData.hiveAuthExpiry) {
-        dispatch(
-          showActionModal({
+        SheetManager.show(SheetNames.ACTION_MODAL, {
+          payload: {
             title: intl.formatMessage({ id: 'alert.warning' }),
             body: intl.formatMessage({ id: 'alert.auth_expired' }),
             buttons: [
@@ -113,8 +103,8 @@ const AccountsBottomSheetContainer = () => {
                 },
               },
             ],
-          }),
-        );
+          },
+        });
       }
     }
   };
@@ -207,7 +197,6 @@ const AccountsBottomSheetContainer = () => {
       currentAccount={currentAccount}
       navigateToRoute={_navigateToRoute}
       switchAccount={_switchAccount}
-      onClose={_onClose}
       prevLoggedInUsers={prevLoggedInUsers}
       dispatch={dispatch}
       isLoggedIn={isLoggedIn}
