@@ -3,7 +3,7 @@ import { Alert, View, Text, ViewStyle, TextStyle } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { SheetManager } from 'react-native-actions-sheet';
 import { get } from 'lodash';
-import { handleDeepLink, toastNotification } from '../redux/actions/uiAction';
+import { toastNotification } from '../redux/actions/uiAction';
 import { handleHiveUriOperation, resolveTransaction } from '../providers/hive/dhive';
 import { useIntl } from 'react-intl';
 import { getFormattedTx, isHiveUri } from '../utils/hive-uri';
@@ -19,17 +19,8 @@ import getWindowDimensions from '../utils/getWindowDimensions';
 import { useAppSelector } from './index';
 import authType from '../constants/authType';
 
-interface UseDeepLinkHandlerProps {
-    intl: any; // Replace with the appropriate type from 'react-intl' if available
-    _onClose: () => void;
-    setIsProcessing: (isProcessing: boolean) => void;
-}
 
-
-const useLinkProcessor = ({
-    _onClose,
-    setIsProcessing,
-}: UseDeepLinkHandlerProps) => {
+const useLinkProcessor = (onClose?: () => void) => {
     const intl = useIntl();
     const dispatch = useDispatch();
 
@@ -38,7 +29,7 @@ const useLinkProcessor = ({
     const currentAccount = useAppSelector((state) => state.account.currentAccount);
     const pinCode = useAppSelector((state) => state.application.pin);
 
-    const handleLink = (deeplink:string) => {
+    const handleLink = (deeplink: string) => {
         if (isHiveUri(deeplink)) {
             _handleHiveUri(deeplink);
         } else {
@@ -46,9 +37,9 @@ const useLinkProcessor = ({
         }
     };
 
-    const _handleHiveUri = async (uri:string) => {
+    const _handleHiveUri = async (uri: string) => {
         try {
-            _onClose();
+            onClose && onClose();
             if (!isLoggedIn) {
                 showLoginAlert({ intl });
                 return;
@@ -68,7 +59,7 @@ const useLinkProcessor = ({
         }
     };
 
-    const _handleHiveUriTransaction = async (uri:string) => {
+    const _handleHiveUriTransaction = async (uri: string) => {
         if (get(currentAccount, 'local.authType') === authType.STEEM_CONNECT) {
             await delay(500); // NOTE: it's required to avoid modal misfire
             RootNavigation.navigate({
@@ -87,7 +78,7 @@ const useLinkProcessor = ({
         authoritiesMap.set('owner', !!currentAccount?.local?.ownerKey);
         authoritiesMap.set('memo', !!currentAccount?.local?.memoKey);
 
-         getFormattedTx(parsed.tx, authoritiesMap)
+        getFormattedTx(parsed.tx, authoritiesMap)
             .then(async (formattedTx) => {
                 const tx = await resolveTransaction(formattedTx.tx, parsed.params, currentAccount.name);
                 const ops = get(tx, 'operations', []);
@@ -121,11 +112,10 @@ const useLinkProcessor = ({
                                 },
                             },
                         ],
-                        onClosed: () => dispatch(handleDeepLink('')),
                     },
                 });
             })
-            .catch((errObj:any) => {
+            .catch((errObj: any) => {
                 Alert.alert(
                     intl.formatMessage({ id: errObj.errorKey1 }, { key: errObj.authorityKeyType }),
                     intl.formatMessage({ id: errObj.errorKey2 }, { key: errObj.authorityKeyType }),
@@ -133,68 +123,66 @@ const useLinkProcessor = ({
             });
     };
 
-    const _handleDeepLink = async (url:string) => {
-        setIsProcessing(true);
+    const _handleDeepLink = async (url: string) => {
         const deepLinkData = await deepLinkParser(url);
         const { name, params, key } = deepLinkData || {};
-        setIsProcessing(false);
         if (name && params && key) {
-            _onClose();
+            onClose && onClose();
             RootNavigation.navigate(deepLinkData);
         } else {
             _showInvalidAlert();
         }
     };
 
-    const _renderTransactionInfoRow = (item:string[]) => (
-        <View style= { styles.transactionRow } >
-        <Text numberOfLines={ 1} style = { styles.transactionItem1 } >
-            { item[0]}
+    const _renderTransactionInfoRow = (item: string[]) => (
+        <View style={styles.transactionRow} >
+            <Text numberOfLines={1} style={styles.transactionItem1} >
+                {item[0]}
             </Text>
-            < Text numberOfLines = { 1} style = { styles.transactionItem2 } >
-                { item[1]}
-                </Text>
-                </View>
+            < Text numberOfLines={1} style={styles.transactionItem2} >
+                {item[1]}
+            </Text>
+        </View>
     );
 
-const _renderActionModalBody = (operations:any[], opName:string) => (
-    <View style= { styles.transactionBodyContainer } >
-    <View style={ styles.transactionHeadingContainer }>
-        <Text style={ styles.transactionHeading }> { opName } </Text>
+    const _renderActionModalBody = (operations: any[], opName: string) => (
+        <View style={styles.transactionBodyContainer} >
+            <View style={styles.transactionHeadingContainer}>
+                <Text style={styles.transactionHeading}> {opName} </Text>
             </View>
-            < View style = { styles.transactionItemsContainer } >
-                { Object.entries(operations[1]).map((item) => _renderTransactionInfoRow(item as string[])) }
-                </View>
-                </View>
+            < View style={styles.transactionItemsContainer} >
+                {Object.entries(operations[1]).map((item) => _renderTransactionInfoRow(item as string[]))}
+            </View>
+        </View>
     );
 
-const _showInvalidAlert = () => {
-    Alert.alert(
-        intl.formatMessage({ id: 'qr.unsupported_alert_title' }),
-        intl.formatMessage({ id: 'qr.unsupported_alert_desc' }),
-        [
-            {
-                text: 'Close',
-                onPress: () => _onClose(),
-                style: 'cancel',
-            },
-        ],
-    );
-};
-
-useEffect(() => {
-    // Add event listener for deep links here if needed
-    return () => {
-        // Cleanup event listener if added
+    const _showInvalidAlert = () => {
+        Alert.alert(
+            intl.formatMessage({ id: 'qr.unsupported_alert_title' }),
+            intl.formatMessage({ id: 'qr.unsupported_alert_desc' }),
+            [
+                {
+                    text: 'Close',
+                    onPress: () => { onClose && onClose(); },
+                    style: 'cancel',
+                },
+            ],
+        );
     };
-}, []);
 
-return { handleLink };
+    useEffect(() => {
+        // Add event listener for deep links here if needed
+        return () => {
+            // Cleanup event listener if added
+        };
+    }, []);
+
+    return { handleLink };
 };
 
 export default useLinkProcessor;
 
-const { width: SCREEN_WIDTH } = getWindowDimensions(); 
+const { width: SCREEN_WIDTH } = getWindowDimensions();
 const styles = EStyleSheet.create({
     transactionBodyContainer: {
         borderWidth: 1,
@@ -203,39 +191,39 @@ const styles = EStyleSheet.create({
         // padding: 8,
         marginVertical: 10,
         width: SCREEN_WIDTH - 64,
-      } as ViewStyle,
-      transactionRow: {
+    } as ViewStyle,
+    transactionRow: {
         flexDirection: 'row',
         alignItems: 'center',
         marginVertical: 4,
-      } as ViewStyle,
-      transactionHeadingContainer: {
+    } as ViewStyle,
+    transactionHeadingContainer: {
         borderBottomWidth: 1,
         borderColor: '$borderColor',
         height: 36,
         paddingHorizontal: 8,
         justifyContent: 'center',
-      } as ViewStyle,
-      transactionHeading: {
+    } as ViewStyle,
+    transactionHeading: {
         color: '$primaryBlack',
         fontSize: 18,
         fontWeight: '700',
         textTransform: 'capitalize',
-      } as TextStyle,
-      transactionItemsContainer: {
+    } as TextStyle,
+    transactionItemsContainer: {
         padding: 8,
-      } as ViewStyle,
-      transactionItem1: {
+    } as ViewStyle,
+    transactionItem1: {
         color: '$primaryBlack',
         fontSize: 16,
         fontWeight: '700',
         flex: 1,
         textTransform: 'capitalize',
-      } as TextStyle,
-      transactionItem2: {
+    } as TextStyle,
+    transactionItem2: {
         color: '$primaryBlack',
         fontSize: 16,
         fontWeight: '400',
         flex: 1,
-      } as TextStyle,
+    } as TextStyle,
 })

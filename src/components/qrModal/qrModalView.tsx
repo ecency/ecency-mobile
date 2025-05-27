@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  ActivityIndicator,
   Alert,
   PermissionsAndroid,
   Platform,
@@ -9,7 +8,6 @@ import {
 } from 'react-native';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useIntl } from 'react-intl';
 import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
 import { useCameraDevice, Camera, useCodeScanner } from 'react-native-vision-camera';
 import styles from './qrModalStyles';
@@ -17,25 +15,24 @@ import { SheetNames } from '../../navigation/sheets';
 import useLinkProcessor from '../../hooks/useLinkProcessor';
 
 export const QRModal = () => {
-  const intl = useIntl();
+
   const dim = useWindowDimensions();
-  const linkProcessor = useLinkProcessor({
-    intl,
-    _onClose: () => SheetManager.hide(SheetNames.QR_SCAN),
-    setIsProcessing: (isProcessing) => setIsProcessing(isProcessing),
-  })
+  const linkProcessor = useLinkProcessor(
+    () => SheetManager.hide(SheetNames.QR_SCAN),
+  )
 
   const device = useCameraDevice('back');
-
   const [isScannerActive, setIsScannerActive] = useState(true);
-  const [isProcessing, setIsProcessing] = useState(false);
 
   const codeScanner = useCodeScanner({
     codeTypes: ['qr'],
     onCodeScanned: (codes) => {
       console.log(`Scanned ${codes.length} codes!`, codes);
-      setIsScannerActive(false);
-      linkProcessor.handleLink(codes[0].value);
+      if (codes[0].value) {
+        setIsScannerActive(false);
+        linkProcessor.handleLink(codes[0].value);
+      }
+
     },
   });
 
@@ -125,11 +122,7 @@ export const QRModal = () => {
             codeScanner={codeScanner}
           />
         )}
-        {isProcessing && (
-          <View style={styles.activityIndicatorContainer}>
-            <ActivityIndicator color="white" style={styles.activityIndicator} />
-          </View>
-        )}
+
       </View>
     </ActionSheet>
   );
