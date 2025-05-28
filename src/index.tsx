@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SheetProvider } from 'react-native-actions-sheet';
 import { flattenMessages } from './utils/flattenMessages';
 import messages from './config/locales';
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 import Application from './screens/application';
 import { persistor, store } from './redux/store/store';
@@ -23,11 +24,13 @@ const _renderApp = ({ locale }) => (
       <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <SafeAreaProvider>
-            <SheetProvider>
-              <Host>
-                <Application />
-              </Host>
-            </SheetProvider>
+            <KeyboardProvider>
+              <SheetProvider>
+                <Host>
+                  <Application />
+                </Host>
+              </SheetProvider>
+            </KeyboardProvider>
           </SafeAreaProvider>
         </GestureHandlerRootView>
       </IntlProvider>
