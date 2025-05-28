@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } 
 import { useIntl } from 'react-intl';
 import { Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FlipInEasyX } from 'react-native-reanimated';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   BeneficiarySelectionContent,

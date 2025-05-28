@@ -4,7 +4,7 @@ import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import { get, debounce } from 'lodash';
 
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as hiveuri from 'hive-uri';
 import { SheetManager } from 'react-native-actions-sheet';
