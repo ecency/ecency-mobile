@@ -37,7 +37,7 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
   const insets = useSafeAreaInsets();
   const hideTimeoutRef = useRef<any>(null);
 
-  const [duration] = useState(5000000);
+  const [duration] = useState(5000);
   const [activeId, setActiveId] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   const [username, setUsername] = useState('');
