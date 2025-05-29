@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, Platform } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import Animated, { BounceInRight } from 'react-native-reanimated';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { injectIntl, useIntl } from 'react-intl';
@@ -49,9 +49,7 @@ const ProfileEditFormView = ({
 
   return (
     <View style={styles.container}>
-      <KeyboardAwareScrollView
-        contentContainerStyle={styles.contentContainer}
-      >
+      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.formItem}>
           <Text style={styles.imgLabel}>
             {intl.formatMessage({
@@ -69,8 +67,8 @@ const ProfileEditFormView = ({
                 coverUrl
                   ? { uri: getResizedImage(coverUrl, 600) }
                   : isDarkTheme
-                    ? DARK_COVER_IMAGE
-                    : LIGHT_COVER_IMAGE
+                  ? DARK_COVER_IMAGE
+                  : LIGHT_COVER_IMAGE
               }
             />
             <IconButton

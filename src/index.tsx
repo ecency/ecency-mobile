@@ -7,9 +7,9 @@ import { Host } from 'react-native-portalize';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SheetProvider } from 'react-native-actions-sheet';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { flattenMessages } from './utils/flattenMessages';
 import messages from './config/locales';
-import { KeyboardProvider } from "react-native-keyboard-controller";
 
 import Application from './screens/application';
 import { persistor, store } from './redux/store/store';
@@ -18,8 +18,7 @@ import './navigation/sheets';
 
 const queryClientProviderProps = initQueryClient();
 
-
-//sets up contexts
+// sets up contexts
 const _renderApp = ({ locale }) => (
   <PersistQueryClientProvider {...queryClientProviderProps}>
     <PersistGate loading={null} persistor={persistor}>
