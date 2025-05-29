@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { debounce } from 'lodash';
 
@@ -17,16 +17,11 @@ const TagResultScreen = ({ navigation, route }) => {
   const initTag = route.params?.tag ?? '';
   const filter = route.params?.filter ?? '';
 
-  const [tag, setTag] = useState(initTag);
+  const [tag, setTag] = useState(initTag.trim());
 
   const _navigationGoBack = () => {
     navigation.goBack();
   };
-
-  // change state of tag when component initially mounts and value of initTag changes
-  useEffect(() => {
-    setTag(initTag);
-  }, [initTag]);
 
   const _setTag = debounce((tag) => {
     setTag(tag);

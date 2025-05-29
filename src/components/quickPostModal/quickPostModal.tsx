@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 import { QuickReplyModalContent } from './quickPostModalContent';
 import styles from './quickPostModal.styles';
 import { SheetNames } from '../../navigation/sheets';
