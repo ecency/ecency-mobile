@@ -243,7 +243,7 @@ export const PostHtmlRenderer = memo(
       // render hive post mini card for post-link
       if (parsedTnode?.type === 'markdown-post-link' && !parsedTnode.isInLine) {
         const origUrl = parsedTnode.href;
-        const lintMeta = metadata.links_meta && metadata.links_meta[origUrl || ''];
+        const lintMeta = metadata?.links_meta && metadata.links_meta[origUrl || ''];
 
         return (
           <LinkPreview
