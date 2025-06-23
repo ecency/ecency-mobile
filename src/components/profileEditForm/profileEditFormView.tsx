@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import Animated, { BounceInRight } from 'react-native-reanimated';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { injectIntl, useIntl } from 'react-intl';
 
 // Images
@@ -49,7 +49,9 @@ const ProfileEditFormView = ({
 
   return (
     <View style={styles.container}>
-      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.contentContainer}
+        enableOnAndroid={true}>
         <View style={styles.formItem}>
           <Text style={styles.imgLabel}>
             {intl.formatMessage({
@@ -67,8 +69,8 @@ const ProfileEditFormView = ({
                 coverUrl
                   ? { uri: getResizedImage(coverUrl, 600) }
                   : isDarkTheme
-                  ? DARK_COVER_IMAGE
-                  : LIGHT_COVER_IMAGE
+                    ? DARK_COVER_IMAGE
+                    : LIGHT_COVER_IMAGE
               }
             />
             <IconButton

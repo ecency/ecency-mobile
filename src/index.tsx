@@ -7,7 +7,6 @@ import { Host } from 'react-native-portalize';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SheetProvider } from 'react-native-actions-sheet';
-import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { flattenMessages } from './utils/flattenMessages';
 import messages from './config/locales';
 
@@ -25,13 +24,11 @@ const _renderApp = ({ locale }) => (
       <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <SafeAreaProvider>
-            <KeyboardProvider>
-              <SheetProvider>
-                <Host>
-                  <Application />
-                </Host>
-              </SheetProvider>
-            </KeyboardProvider>
+            <SheetProvider>
+              <Host>
+                <Application />
+              </Host>
+            </SheetProvider>
           </SafeAreaProvider>
         </GestureHandlerRootView>
       </IntlProvider>
