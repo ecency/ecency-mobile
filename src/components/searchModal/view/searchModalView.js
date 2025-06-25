@@ -58,7 +58,6 @@ class SearchModalView extends PureComponent {
         handleOnModalClose={handleOnClose}
         isFullScreen
         swipeToClose
-        isTransparent
       >
         <SafeAreaView style={styles.container}>
           <SearchInput
