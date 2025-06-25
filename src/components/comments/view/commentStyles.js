@@ -1,9 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  list: {
-    marginBottom: 0,
-  },
   moreRepliesButtonWrapper: {
     backgroundColor: '$iconColor',
     height: 18,
