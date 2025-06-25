@@ -289,20 +289,22 @@ class DelegateScreen extends Component {
         this.setState({ confirmModalOpen: true });
 
         SheetManager.show(SheetNames.ACTION_MODAL, {
-          title: intl.formatMessage({ id: 'transfer.confirm' }),
-          body,
-          buttons: [
-            {
-              text: intl.formatMessage({ id: 'alert.cancel' }),
-              onPress: () => console.log('Cancel'),
-            },
-            {
-              text: intl.formatMessage({ id: 'alert.confirm' }),
-              onPress: () => this._handleTransferAction(),
-            },
-          ],
-          headerContent: this._renderToFromAvatars(),
-          onClosed: () => this.setState({ confirmModalOpen: false }),
+          payload: {
+            title: intl.formatMessage({ id: 'transfer.confirm' }),
+            body,
+            buttons: [
+              {
+                text: intl.formatMessage({ id: 'alert.cancel' }),
+                onPress: () => console.log('Cancel'),
+              },
+              {
+                text: intl.formatMessage({ id: 'alert.confirm' }),
+                onPress: () => this._handleTransferAction(),
+              },
+            ],
+            headerContent: this._renderToFromAvatars(),
+            onClosed: () => this.setState({ confirmModalOpen: false }),
+          }
         });
       } else {
         Alert.alert(
