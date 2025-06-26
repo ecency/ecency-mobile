@@ -21,29 +21,42 @@ const PeopleResultsContainer = ({ children, searchValue, isUsername }) => {
     if (!searchValue) {
       setUsernames([]);
     }
-    if (searchValue && isUsername) {
-      _fetchUsernames(searchValue);
-    }
 
-    // parse username if url is provided
+    //if serachValue is url
     const { author } = postUrlParser(searchValue) || {};
 
-    searchAccount(author || searchValue, 20, searchValue ? 0 : 1)
-      .then((res) => {
-        if (res && res.length === 0) {
-          setNoResult(true);
-        }
-        setUsers(res.reverse());
-      })
-      .catch(() => {
-        setNoResult(true);
-        setUsers([]);
-      });
+    if (searchValue ) {
+      _fetchUsernames(author || searchValue);
+    }
+
+
+    // searchAccount(author || searchValue, 20, searchValue ? 0 : 1)
+    //   .then((res) => {
+    //     if (res && res.length === 0) {
+    //       setNoResult(true);
+    //     }
+    //     setUsers(res.reverse());
+    //   })
+    //   .catch(() => {
+    //     setNoResult(true);
+    //     setUsers([]);
+    //   });
+
+    
   }, [searchValue, isUsername]);
 
   const _fetchUsernames = async (username) => {
-    const users = await lookupAccounts(username);
-    setUsernames(users);
+    try {
+      const users = await lookupAccounts(username);
+      if (!users || users.length === 0) {
+        throw new Error('No users found');
+      }
+      setUsernames(users);
+    } catch (error) {
+      setNoResult(true);
+      setUsernames([]);
+    }
+
   };
 
   // Component Functions

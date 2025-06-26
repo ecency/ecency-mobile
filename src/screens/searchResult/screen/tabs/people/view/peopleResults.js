@@ -21,7 +21,7 @@ const PeopleResults = ({ searchValue, isUsername }) => {
   };
 
   const _renderUsernames = (userNames, handleOnPress) => {
-    return searchValue && isUsername && userNames && userNames.length ? (
+    return searchValue && userNames && userNames.length ? (
       <FlatList
         data={userNames}
         keyExtractor={(item, index) => index.toString()}
@@ -38,7 +38,6 @@ const PeopleResults = ({ searchValue, isUsername }) => {
             text={`@${item}`}
             isHasRightItem
             isLoggedIn
-            searchValue={searchValue}
             isLoadingRightAction={false}
           />
         )}
