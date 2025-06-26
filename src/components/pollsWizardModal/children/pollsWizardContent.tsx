@@ -1,7 +1,7 @@
 import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import DatePicker from 'react-native-date-picker';
 import { useDispatch } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -170,7 +170,7 @@ export const PollsWizardContent = ({
   };
 
   const _renderChoiceInput = (choice, index) => (
-    <View style={styles.inputContainer}>
+    <View key={`poll-choice-${index}`} style={styles.inputContainer}>
       <FormInput
         rightIconName="arrow-right"
         iconType="MaterialCommunityIcons"

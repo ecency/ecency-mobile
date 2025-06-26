@@ -86,7 +86,7 @@ class FollowsContainer extends Component {
   };
 
   _handleSearch = async (text) => {
-    const { users, username, isFollowingPress } = this.state;
+    const { users, isFollowingPress } = this.state;
 
     const newData = users.filter((item) => {
       const itemName = isFollowingPress
@@ -97,24 +97,25 @@ class FollowsContainer extends Component {
       return itemName.indexOf(_text) > -1;
     });
 
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
+    //TODD: fix and re-enable cloud serach when available
+    // if (this.timer) {
+    //   clearTimeout(this.timer);
+    // }
 
-    if (!newData || newData.length < 1) {
-      this.setState({ isLoading: true });
+    // if (!newData || newData.length < 1) {
+    //   this.setState({ isLoading: true });
 
-      this.timer = setTimeout(
-        () =>
-          getFollowSearch(username, text).then((res) => {
-            this.setState({
-              filterResult: res || [],
-              isLoading: false,
-            });
-          }),
-        500,
-      );
-    }
+    //   this.timer = setTimeout(
+    //     () =>
+    //       getFollowSearch(username, text).then((res) => {
+    //         this.setState({
+    //           filterResult: res || [],
+    //           isLoading: false,
+    //         });
+    //       }),
+    //     500,
+    //   );
+    // }
 
     this.setState({
       filterResult: newData,

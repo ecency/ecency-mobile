@@ -168,7 +168,7 @@ const CommentsView = ({
   return (
     <Fragment>
       <FlashList
-        contentContainerStyle={{ padding: 0, ...styles.list, ...styleOerride }}
+        contentContainerStyle={{ padding: 0, ...styleOerride }}
         data={comments}
         keyExtractor={(item) => item.author + item.permlink}
         renderItem={_renderItem}

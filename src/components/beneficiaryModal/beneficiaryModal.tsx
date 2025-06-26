@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { isArray, debounce } from 'lodash';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { lookupAccounts } from '../../providers/hive/dhive';
 
 import { FormInput, MainButton, TextButton } from '..';
