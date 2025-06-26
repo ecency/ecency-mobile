@@ -177,6 +177,7 @@ export const InsertLinkModal = forwardRef(
       const selected = item.id === selectedUrlType;
       return (
         <TouchableOpacity
+          key={item.id}
           onPress={() => {
             setSelectedUrlType(item.id);
             if (item.id === 0) {

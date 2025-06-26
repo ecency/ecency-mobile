@@ -42,7 +42,7 @@ export const BotCommentsPreview = ({ comments }: BotCommentsProps) => {
         <View style={styles.botAvatarsWrapper}>
           {comments.map((comment) => {
             return (
-              <View style={styles.item}>
+              <View key={`${comment.author}-${comment.permlink}`} style={styles.item}>
                 <UserAvatar username={comment.author} noAction />
               </View>
             );

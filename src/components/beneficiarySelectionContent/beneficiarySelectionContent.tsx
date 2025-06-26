@@ -308,7 +308,7 @@ const BeneficiarySelectionContent = ({
     </>
   );
 
-  const _renderItem = ({ item, index }) => {
+  const _renderItem = (item, index) => {
     const _isCurrentUser = item.account === username;
 
     const _onRemovePress = () => {
@@ -323,7 +323,7 @@ const BeneficiarySelectionContent = ({
     };
 
     return (
-      <View style={styles.inputWrapper}>
+      <View key={`benef-${item.account}-${index}`} style={styles.inputWrapper}>
         {powerDown && _renderCheckBox({ locked: true, isChecked: item.autoPowerUp })}
         <View style={styles.weightInput}>
           <FormInput
@@ -367,12 +367,9 @@ const BeneficiarySelectionContent = ({
       <Text style={labelStyle || styles.settingLabel}>
         {label || intl.formatMessage({ id: 'editor.beneficiaries' })}
       </Text>
-      <FlatList
-        data={beneficiaries}
-        renderItem={_renderItem}
-        ListHeaderComponent={_renderHeader}
-        showsVerticalScrollIndicator={false}
-      />
+      
+      {_renderHeader()}
+      {beneficiaries.map(_renderItem)}
       {_renderFooter()}
     </View>
   );

@@ -170,7 +170,7 @@ export const PollsWizardContent = ({
   };
 
   const _renderChoiceInput = (choice, index) => (
-    <View style={styles.inputContainer}>
+    <View key={`poll-choice-${index}`} style={styles.inputContainer}>
       <FormInput
         rightIconName="arrow-right"
         iconType="MaterialCommunityIcons"
