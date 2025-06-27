@@ -10,7 +10,7 @@ import useDebounce from '../../../utils/useDebounceHook';
 import { SearchInput, TabBar } from '../../../components';
 import Communities from './tabs/communities/view/communitiesResults';
 import PostsResults from './tabs/best/view/postsResults';
-import TopicsResults from './tabs/topics/view/topicsResults';
+// import TopicsResults from './tabs/topics/view/topicsResults';
 import PeopleResults from './tabs/people/view/peopleResults';
 
 // Styles
@@ -71,12 +71,13 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
         id: 'search_result.people.title',
       }),
     },
-    {
-      key: 'topics',
-      title: intl.formatMessage({
-        id: 'search_result.topics.title',
-      }),
-    },
+    //TOOD: removed topics tab uptill tags search api is resolved
+    // {
+    //   key: 'topics',
+    //   title: intl.formatMessage({
+    //     id: 'search_result.topics.title',
+    //   }),
+    // },
     {
       key: 'communities',
       title: intl.formatMessage({
@@ -105,12 +106,13 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
             <PeopleResults searchValue={clippedSearchValue} isUsername={isUsername} />
           </View>
         );
-      case 'topics':
-        return (
-          <View style={styles.tabbarItem}>
-            <TopicsResults searchValue={clippedSearchValue} />
-          </View>
-        );
+      //TOOD: removed topics tab uptill tags search api is resolved
+      // case 'topics':
+      //   return (
+      //     <View style={styles.tabbarItem}>
+      //       <TopicsResults searchValue={clippedSearchValue} />
+      //     </View>
+      //   );
       case 'communities':
         return (
           <View style={styles.tabbarItem}>
