@@ -71,7 +71,7 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
         id: 'search_result.people.title',
       }),
     },
-    //TOOD: removed topics tab uptill tags search api is resolved
+    // TOOD: removed topics tab uptill tags search api is resolved
     // {
     //   key: 'topics',
     //   title: intl.formatMessage({
@@ -106,7 +106,7 @@ const SearchResultsTabView = memo(({ searchValue }: { searchValue: string }) => 
             <PeopleResults searchValue={clippedSearchValue} isUsername={isUsername} />
           </View>
         );
-      //TOOD: removed topics tab uptill tags search api is resolved
+      // TOOD: removed topics tab uptill tags search api is resolved
       // case 'topics':
       //   return (
       //     <View style={styles.tabbarItem}>

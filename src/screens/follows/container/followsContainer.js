@@ -7,7 +7,7 @@ import get from 'lodash/get';
 
 // Services and Actions
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { getFollowers, getFollowing, getFollowSearch } from '../../../providers/hive/dhive';
+import { getFollowers, getFollowing } from '../../../providers/hive/dhive';
 // Component
 import FollowsScreen from '../screen/followsScreen';
 
@@ -97,7 +97,7 @@ class FollowsContainer extends Component {
       return itemName.indexOf(_text) > -1;
     });
 
-    //TODD: fix and re-enable cloud serach when available
+    // TODD: fix and re-enable cloud serach when available
     // if (this.timer) {
     //   clearTimeout(this.timer);
     // }

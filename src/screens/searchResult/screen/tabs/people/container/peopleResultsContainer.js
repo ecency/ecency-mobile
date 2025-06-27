@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../../../../constants/routeNames';
 
-
 import { lookupAccounts } from '../../../../../../providers/hive/dhive';
 import postUrlParser from '../../../../../../utils/postUrlParser';
 
@@ -18,13 +17,12 @@ const PeopleResultsContainer = ({ children, searchValue }) => {
       setUsers([]);
     }
 
-    //if serachValue is url parse author
+    // if serachValue is url parse author
     const { author } = postUrlParser(searchValue) || {};
 
     if (searchValue) {
       _lookupAccounts(author || searchValue);
     }
-
   }, [searchValue]);
 
   const _lookupAccounts = async (username) => {

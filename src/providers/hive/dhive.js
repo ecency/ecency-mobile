@@ -601,8 +601,8 @@ export const getRelationship = (follower, following) =>
     }
   });
 
-  /** DEPRECATED - Do not use this method and it's an invalid use of get_following call
-   *  almost always returns wrong data, espacially when user is not in following or follwers list */
+/** DEPRECATED - Do not use this method and it's an invalid use of get_following call
+ *  almost always returns wrong data, espacially when user is not in following or follwers list */
 export const getFollowSearch = (user, targetUser) =>
   new Promise((resolve, reject) => {
     if (targetUser) {
