@@ -20,58 +20,30 @@ const PeopleResults = ({ searchValue, isUsername }) => {
     );
   };
 
-  const _renderUsernames = (userNames, handleOnPress) => {
-    return searchValue && userNames && userNames.length ? (
-      <FlatList
-        data={userNames}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item, index }) => (
-          <UserListItem
-            handleOnPress={() =>
-              handleOnPress({
-                name: item,
-                text: item,
-              })
-            }
-            index={index}
-            username={item}
-            text={`@${item}`}
-            isHasRightItem
-            isLoggedIn
-            isLoadingRightAction={false}
-          />
-        )}
-        ListEmptyComponent={_renderEmptyContent}
-      />
-    ) : null;
-  };
-
   return (
     <PeopleResultsContainer searchValue={searchValue} isUsername={isUsername}>
-      {({ users, userNames, handleOnPress, noResult }) => (
+      {({ users, handleOnPress, noResult }) => (
         <SafeAreaView style={styles.container}>
-          {noResult && !userNames.length ? (
+          {noResult && !users.length ? (
             <EmptyScreen />
           ) : (
             <FlatList
               data={users}
-              keyExtractor={(item, index) => index.toString()}
+              keyExtractor={(item) => item.name}
               renderItem={({ item, index }) => (
                 <UserListItem
                   handleOnPress={() => handleOnPress(item)}
                   index={index}
                   username={item.name}
-                  text={`@${item.name} ${item.full_name}`}
+                  text={`@${item.name}`}
                   description={item.about}
                   descriptionStyle={styles.descriptionStyle}
                   isHasRightItem
                   isLoggedIn
-                  searchValue={searchValue}
                   isLoadingRightAction={false}
                 />
               )}
               ListEmptyComponent={_renderEmptyContent}
-              ListHeaderComponent={_renderUsernames(userNames, handleOnPress)}
             />
           )}
         </SafeAreaView>

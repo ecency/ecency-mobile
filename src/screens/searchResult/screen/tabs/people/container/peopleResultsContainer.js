@@ -1,62 +1,46 @@
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-
 import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../../../../constants/routeNames';
 
-import { searchAccount } from '../../../../../../providers/ecency/ecency';
+
 import { lookupAccounts } from '../../../../../../providers/hive/dhive';
 import postUrlParser from '../../../../../../utils/postUrlParser';
 
-const PeopleResultsContainer = ({ children, searchValue, isUsername }) => {
+const PeopleResultsContainer = ({ children, searchValue }) => {
   const navigation = useNavigation();
 
   const [users, setUsers] = useState([]);
-  const [userNames, setUsernames] = useState([]);
-  const [noResult, setNoResult] = useState(false);
+  const [noResult, setNoResult] = useState(true);
 
   useEffect(() => {
-    setNoResult(false);
-    setUsers([]);
     if (!searchValue) {
-      setUsernames([]);
+      setUsers([]);
     }
 
-    //if serachValue is url
+    //if serachValue is url parse author
     const { author } = postUrlParser(searchValue) || {};
 
-    if (searchValue ) {
-      _fetchUsernames(author || searchValue);
+    if (searchValue) {
+      _lookupAccounts(author || searchValue);
     }
 
+  }, [searchValue]);
 
-    // searchAccount(author || searchValue, 20, searchValue ? 0 : 1)
-    //   .then((res) => {
-    //     if (res && res.length === 0) {
-    //       setNoResult(true);
-    //     }
-    //     setUsers(res.reverse());
-    //   })
-    //   .catch(() => {
-    //     setNoResult(true);
-    //     setUsers([]);
-    //   });
+  const _lookupAccounts = async (username) => {
+    setNoResult(false);
+    setUsers([]);
 
-    
-  }, [searchValue, isUsername]);
-
-  const _fetchUsernames = async (username) => {
     try {
-      const users = await lookupAccounts(username);
-      if (!users || users.length === 0) {
+      const usernames = await lookupAccounts(username);
+      if (!usernames || usernames.length === 0) {
         throw new Error('No users found');
       }
-      setUsernames(users);
+      setUsers(usernames.map((username) => ({ name: username })));
     } catch (error) {
       setNoResult(true);
-      setUsernames([]);
+      setUsers([]);
     }
-
   };
 
   // Component Functions
@@ -75,7 +59,6 @@ const PeopleResultsContainer = ({ children, searchValue, isUsername }) => {
     children &&
     children({
       users,
-      userNames,
       handleOnPress: _handleOnPress,
       noResult,
     })
