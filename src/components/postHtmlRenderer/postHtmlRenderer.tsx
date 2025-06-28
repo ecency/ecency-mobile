@@ -331,13 +331,24 @@ export const PostHtmlRenderer = memo(
 
     // based on number of columns a table have, sets scroll enabled or disable, also adjust table full width
     const _tableRenderer = ({ InternalRenderer, ...props }: CustomRendererProps<TNode>) => {
-      // const tableProps = useHtmlTableProps(props);
 
-      let maxColumns = 0;
-      props.tnode.children.forEach(
-        (child) =>
-          (maxColumns = child.children.length > maxColumns ? child.children.length : maxColumns),
-      );
+      //recursive calculates the max number of table columns (th) in the table
+      const getMaxThCount = (node:TNode) => {
+        if (!node || !node.children) return 0;
+        let max = 0;
+        node.children.forEach((child) => {
+          if (child.tagName === 'tr' && child.children) {
+            const thCount = child.children.filter((c) => c.tagName === 'th').length;
+            if (thCount > max) max = thCount;
+          }
+          // Recursively check for nested tr elements
+          const childMax = getMaxThCount(child);
+          if (childMax > max) max = childMax;
+        });
+        return max;
+      };
+
+      const maxColumns = getMaxThCount(props.tnode);
 
       const isScrollable = maxColumns > 3;
       const _tableWidth = isScrollable ? maxColumns * _minTableColWidth : contentWidth;
