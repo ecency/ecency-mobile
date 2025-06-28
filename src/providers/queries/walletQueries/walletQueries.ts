@@ -347,6 +347,10 @@ export const useActivitiesQuery = (assetId: string) => {
   };
 };
 
+
+//TODO: added query to tracker recurring transfers]
+
+
 export const usePendingRequestsQuery = (assetId: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
