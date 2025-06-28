@@ -51,7 +51,8 @@ const ProfileEditFormView = ({
     <View style={styles.container}>
       <KeyboardAwareScrollView
         contentContainerStyle={styles.contentContainer}
-        enableOnAndroid={true}>
+        enableOnAndroid={true}
+      >
         <View style={styles.formItem}>
           <Text style={styles.imgLabel}>
             {intl.formatMessage({
@@ -69,8 +70,8 @@ const ProfileEditFormView = ({
                 coverUrl
                   ? { uri: getResizedImage(coverUrl, 600) }
                   : isDarkTheme
-                    ? DARK_COVER_IMAGE
-                    : LIGHT_COVER_IMAGE
+                  ? DARK_COVER_IMAGE
+                  : LIGHT_COVER_IMAGE
               }
             />
             <IconButton

@@ -304,7 +304,7 @@ class DelegateScreen extends Component {
             ],
             headerContent: this._renderToFromAvatars(),
             onClosed: () => this.setState({ confirmModalOpen: false }),
-          }
+          },
         });
       } else {
         Alert.alert(

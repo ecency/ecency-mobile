@@ -1,7 +1,7 @@
 import { debounce, isArray } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { FlatList, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './styles';
 
@@ -367,7 +367,7 @@ const BeneficiarySelectionContent = ({
       <Text style={labelStyle || styles.settingLabel}>
         {label || intl.formatMessage({ id: 'editor.beneficiaries' })}
       </Text>
-      
+
       {_renderHeader()}
       {beneficiaries.map(_renderItem)}
       {_renderFooter()}
