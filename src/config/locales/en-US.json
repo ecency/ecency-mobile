@@ -8,6 +8,7 @@
     "points_activity": "Activity",
     "transfer": "Transfer",
     "recurrent_transfer": "Recurrent Transfer",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "To Vesting",
     "transfer_from_savings": "From Savings",
     "withdraw_savings": "Withdraw Savings",

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 import Animated, {
   Easing,
@@ -58,6 +58,7 @@ export const CoinSummary = ({
     });
   }
 
+  //TODO: make sure it is not updated multiple times
   if (totalRecurrentAmount && totalRecurrentAmount > 0) {
     extraDataPairs?.push({
       dataKey: 'recurrent_transfer',
@@ -65,6 +66,20 @@ export const CoinSummary = ({
       isClickable: true,
     })
   }
+
+  // Create a new array for extraDataPairs to avoid mutating the original reference
+  const _extraDataPairs = useMemo(() => {
+    let pairs = extraDataPairs ? [...extraDataPairs] : [];
+    if (totalRecurrentAmount && totalRecurrentAmount > 0) {
+      pairs.push({
+        dataKey: 'total_recurrent_transfers',
+        value: `${totalRecurrentAmount} ${coinSymbol}`,
+        isClickable: true,
+      });
+    }
+    return pairs;
+  }, [extraDataPairs, totalRecurrentAmount, coinSymbol]);
+
 
   const _shRrenderChart = id !== ASSET_IDS.ECENCY && id !== ASSET_IDS.HP && !coinData.isSpk;
   const animationProgress = useSharedValue(showChart ? 1 : 0);
@@ -96,7 +111,7 @@ export const CoinSummary = ({
         assetId={id}
         iconUrl={coinData.iconUrl}
         valuePairs={valuePairs}
-        extraData={extraDataPairs || recurrentTransfer}
+        extraData={_extraDataPairs}
         coinSymbol={coinSymbol}
         percentChange={percentChagne}
         isEngine={coinData.isEngine}
