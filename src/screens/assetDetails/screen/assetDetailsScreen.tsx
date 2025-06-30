@@ -109,6 +109,8 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     ) {
       delegationsModalRef.current.showModal(dataKey);
     }
+
+    //TODO: handle recurrent transfers click
   };
 
   const _onActionPress = (transferType: string, baseActivity: CoinActivity | null = null) => {
@@ -198,7 +200,6 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       onInfoPress={_onInfoPress}
       showChart={showChart}
       setShowChart={setShowChart}
-      
     />
   );
 
