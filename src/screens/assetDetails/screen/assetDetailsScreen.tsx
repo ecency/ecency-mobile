@@ -41,6 +41,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const assetsQuery = walletQueries.useAssetsQuery();
   const activitiesQuery = walletQueries.useActivitiesQuery(coinId);
   const pendingRequestsQuery = walletQueries.usePendingRequestsQuery(coinId);
+  const recurringActivitiesQuery = walletQueries.useRecurringActivitesQuery(coinId);
 
   // redux props
   const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
@@ -84,6 +85,9 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       assetsQuery.refetch();
       activitiesQuery.refresh();
       pendingRequestsQuery.refetch();
+      if (recurringActivitiesQuery) {
+        recurringActivitiesQuery.refetch();
+      }
       return;
     } else if (activitiesQuery.isLoading) {
       console.log('Skipping transaction fetch');
@@ -189,10 +193,12 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       coinSymbol={symbol}
       coinData={coinData}
       percentChagne={(quote ? quote.percentChange : coinData?.percentChange) || 0}
+      totalRecurrentAmount={recurringActivitiesQuery?.totalAmount || 0}
       onActionPress={_onActionPress}
       onInfoPress={_onInfoPress}
       showChart={showChart}
       setShowChart={setShowChart}
+      
     />
   );
 

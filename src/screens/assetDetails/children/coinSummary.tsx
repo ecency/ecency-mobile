@@ -17,6 +17,7 @@ export interface CoinSummaryProps {
   coinData: CoinData;
   percentChagne: number;
   showChart: boolean;
+  totalRecurrentAmount?: number;
   setShowChart: (value: boolean) => void;
   onActionPress: (action: string) => void;
   onInfoPress: (dataKey: string) => void;
@@ -28,10 +29,12 @@ export const CoinSummary = ({
   coinData,
   percentChagne,
   showChart,
+  totalRecurrentAmount,
   setShowChart,
   onActionPress,
   onInfoPress,
 }: CoinSummaryProps) => {
+
   const { balance, estimateValue, savings, extraDataPairs, actions, precision } = coinData;
 
   const valuePairs = [
@@ -53,6 +56,14 @@ export const CoinSummary = ({
       dataKey: 'savings',
       value: savings,
     });
+  }
+
+  if (totalRecurrentAmount && totalRecurrentAmount > 0) {
+    extraDataPairs?.push({
+      dataKey: 'recurrent_transfer',
+      value: `${totalRecurrentAmount} ${coinSymbol}`,
+      isClickable: true,
+    })
   }
 
   const _shRrenderChart = id !== ASSET_IDS.ECENCY && id !== ASSET_IDS.HP && !coinData.isSpk;
@@ -85,7 +96,7 @@ export const CoinSummary = ({
         assetId={id}
         iconUrl={coinData.iconUrl}
         valuePairs={valuePairs}
-        extraData={extraDataPairs}
+        extraData={extraDataPairs || recurrentTransfer}
         coinSymbol={coinSymbol}
         percentChange={percentChagne}
         isEngine={coinData.isEngine}
