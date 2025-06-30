@@ -8,13 +8,14 @@ import { fetchAndSetCoinsData } from '../../../redux/actions/walletActions';
 import parseToken from '../../../utils/parseToken';
 import { claimPoints, getPointsSummary } from '../../ecency/ePoint';
 import { fetchUnclaimedRewards } from '../../hive-engine/hiveEngine';
-import { claimRewardBalance, getAccount } from '../../hive/dhive';
+import { claimRewardBalance, getAccount, getRecurrentTransfers } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
 import { claimRewards } from '../../hive-engine/hiveEngineActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { updateClaimCache } from '../../../redux/actions/cacheActions';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
-import { fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
+import { convertRecurrentTransferToActivity, fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
+import { fetchRecurringTransfers } from '../../../utils/wallet';
 
 interface RewardsCollection {
   [key: string]: string;
@@ -348,7 +349,46 @@ export const useActivitiesQuery = (assetId: string) => {
 };
 
 
-//TODO: added query to tracker recurring transfers]
+//added query to tracker recurring transfers]
+export const useRecurringActivitesQuery = (coinId:string) => {
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+
+  if(coinId !== ASSET_IDS.HIVE){
+    return null;
+  }
+
+  const query =  useQuery(
+    [QUERIES.WALLET.GET_RECURRING_TRANSFERS, coinId, currentAccount.username],
+    async () => {
+      if (!currentAccount?.username) {
+        return [];
+      }
+      const recurringTransfers = await getRecurrentTransfers(currentAccount.username);
+
+      if(!recurringTransfers){
+        return []
+      }
+
+      return recurringTransfers;
+    },
+  );
+
+  const totalAmount = useMemo(() => {
+    if (!query.data || !query.data.length) {
+      return 0;
+    }
+
+    return query.data.reduce((acc, item) => {
+      const amount = parseFloat(item.amount);
+      return acc + (isNaN(amount) ? 0 : amount);
+    }, 0);
+  }, [query.data]);
+
+  return {
+    ...query,
+    totalAmount
+  }
+};
 
 
 export const usePendingRequestsQuery = (assetId: string) => {
