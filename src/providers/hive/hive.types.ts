@@ -159,3 +159,16 @@ export interface TransferDataType {
   amount: string;
   memo?: string;
 }
+
+export interface RecurrentTransfer {
+  amount: string;
+  consecutive_failures: number;
+  from: string;
+  id: number;
+  memo: string;
+  pair_id: number;
+  recurrence: number;
+  remaining_executions: number;
+  to: string;
+  trigger_date: string;
+}

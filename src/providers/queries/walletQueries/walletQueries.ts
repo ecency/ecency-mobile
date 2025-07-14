@@ -16,6 +16,7 @@ import { updateClaimCache } from '../../../redux/actions/cacheActions';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
 import { convertRecurrentTransferToActivity, fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
 import { fetchRecurringTransfers } from '../../../utils/wallet';
+import { RecurrentTransfer } from 'providers/hive/hive.types';
 
 interface RewardsCollection {
   [key: string]: string;
@@ -369,7 +370,7 @@ export const useRecurringActivitesQuery = (coinId:string) => {
         return []
       }
 
-      return recurringTransfers;
+      return recurringTransfers as RecurrentTransfer[];
     },
   );
 
