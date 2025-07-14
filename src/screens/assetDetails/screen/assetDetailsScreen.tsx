@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader } from '../../../components';
-import { CoinSummary, ActivitiesList } from '../children';
+import { CoinSummary, ActivitiesList, RecurrentTransfersModal } from '../children';
 import styles from './screen.styles';
 import { CoinActivity, CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
 import { useAppSelector } from '../../../hooks';
@@ -15,6 +15,7 @@ import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
 import parseAsset from '../../../utils/parseAsset';
+
 
 export interface AssetDetailsScreenParams {
   coinId: string;
@@ -36,6 +37,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   // refs
   const appState = useRef(AppState.currentState);
   const delegationsModalRef = useRef(null);
+  const recurrentTransfersModalRef = useRef(null);
 
   // queries
   const assetsQuery = walletQueries.useAssetsQuery();
@@ -110,7 +112,10 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       delegationsModalRef.current.showModal(dataKey);
     }
 
-    //TODO: handle recurrent transfers click
+    if (dataKey === 'total_recurrent_transfers') {
+      recurrentTransfersModalRef.current?.showModal();
+    }
+
   };
 
   const _onActionPress = (transferType: string, baseActivity: CoinActivity | null = null) => {
@@ -218,6 +223,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         onActionPress={_onActionPress}
       />
       <DelegationsModal ref={delegationsModalRef} />
+      <RecurrentTransfersModal assetId={coinId} ref={recurrentTransfersModalRef} />
     </SafeAreaView>
   );
 };
