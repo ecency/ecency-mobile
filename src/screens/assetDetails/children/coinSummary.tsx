@@ -58,15 +58,6 @@ export const CoinSummary = ({
     });
   }
 
-  //TODO: make sure it is not updated multiple times
-  if (totalRecurrentAmount && totalRecurrentAmount > 0) {
-    extraDataPairs?.push({
-      dataKey: 'recurrent_transfer',
-      value: `${totalRecurrentAmount} ${coinSymbol}`,
-      isClickable: true,
-    })
-  }
-
   // Create a new array for extraDataPairs to avoid mutating the original reference
   const _extraDataPairs = useMemo(() => {
     let pairs = extraDataPairs ? [...extraDataPairs] : [];
