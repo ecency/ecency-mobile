@@ -2,6 +2,7 @@ import { useQuery, useQueries, useMutation, useQueryClient } from '@tanstack/rea
 import { useRef, useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { unionBy } from 'lodash';
+import { RecurrentTransfer } from 'providers/hive/hive.types';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { fetchAndSetCoinsData } from '../../../redux/actions/walletActions';
@@ -14,9 +15,7 @@ import { claimRewards } from '../../hive-engine/hiveEngineActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { updateClaimCache } from '../../../redux/actions/cacheActions';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
-import { convertRecurrentTransferToActivity, fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
-import { fetchRecurringTransfers } from '../../../utils/wallet';
-import { RecurrentTransfer } from 'providers/hive/hive.types';
+import { fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
 
 interface RewardsCollection {
   [key: string]: string;
@@ -349,16 +348,15 @@ export const useActivitiesQuery = (assetId: string) => {
   };
 };
 
-
-//added query to tracker recurring transfers]
-export const useRecurringActivitesQuery = (coinId:string) => {
+// added query to tracker recurring transfers]
+export const useRecurringActivitesQuery = (coinId: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
-  if(coinId !== ASSET_IDS.HIVE){
+  if (coinId !== ASSET_IDS.HIVE) {
     return null;
   }
 
-  const query =  useQuery(
+  const query = useQuery(
     [QUERIES.WALLET.GET_RECURRING_TRANSFERS, coinId, currentAccount.username],
     async () => {
       if (!currentAccount?.username) {
@@ -366,8 +364,8 @@ export const useRecurringActivitesQuery = (coinId:string) => {
       }
       const recurringTransfers = await getRecurrentTransfers(currentAccount.username);
 
-      if(!recurringTransfers){
-        return []
+      if (!recurringTransfers) {
+        return [];
       }
 
       return recurringTransfers as RecurrentTransfer[];
@@ -381,16 +379,15 @@ export const useRecurringActivitesQuery = (coinId:string) => {
 
     return query.data.reduce((acc, item) => {
       const amount = parseFloat(item.amount);
-      return acc + (isNaN(amount) ? 0 : amount);
+      return acc + (!amount ? 0 : amount);
     }, 0);
   }, [query.data]);
 
   return {
     ...query,
-    totalAmount
-  }
+    totalAmount,
+  };
 };
-
 
 export const usePendingRequestsQuery = (assetId: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);

@@ -34,7 +34,6 @@ export const CoinSummary = ({
   onActionPress,
   onInfoPress,
 }: CoinSummaryProps) => {
-
   const { balance, estimateValue, savings, extraDataPairs, actions, precision } = coinData;
 
   const valuePairs = [
@@ -60,7 +59,7 @@ export const CoinSummary = ({
 
   // Create a new array for extraDataPairs to avoid mutating the original reference
   const _extraDataPairs = useMemo(() => {
-    let pairs = extraDataPairs ? [...extraDataPairs] : [];
+    const pairs = extraDataPairs ? [...extraDataPairs] : [];
     if (totalRecurrentAmount && totalRecurrentAmount > 0) {
       pairs.push({
         dataKey: 'total_recurrent_transfers',
@@ -70,7 +69,6 @@ export const CoinSummary = ({
     }
     return pairs;
   }, [extraDataPairs, totalRecurrentAmount, coinSymbol]);
-
 
   const _shRrenderChart = id !== ASSET_IDS.ECENCY && id !== ASSET_IDS.HP && !coinData.isSpk;
   const animationProgress = useSharedValue(showChart ? 1 : 0);

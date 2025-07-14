@@ -16,7 +16,6 @@ import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
 import parseAsset from '../../../utils/parseAsset';
 
-
 export interface AssetDetailsScreenParams {
   coinId: string;
 }
@@ -115,7 +114,6 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     if (dataKey === 'total_recurrent_transfers') {
       recurrentTransfersModalRef.current?.showModal();
     }
-
   };
 
   const _onActionPress = (transferType: string, baseActivity: CoinActivity | null = null) => {

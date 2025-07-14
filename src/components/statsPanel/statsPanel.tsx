@@ -21,6 +21,7 @@ export const StatsPanel = ({ data, intermediate, style }: Props) => {
     <View style={{ ...styles.container, ...style }}>
       {data.map((item) => (
         <StatItem
+          key={item.label}
           label={item.label}
           value={item.value && item.value + (item.suffix || '')}
           intermediate={intermediate}
