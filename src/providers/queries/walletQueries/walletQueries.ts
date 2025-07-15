@@ -408,6 +408,7 @@ export const usePendingRequestsQuery = (assetId: string) => {
 
 export const useDeleteRecurrentTransferMutation = () => {
   const dispatch = useAppDispatch();
+  const intl = useIntl();
   const queryClient = useQueryClient();
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinHash = useAppSelector((state) => state.application.pin);
@@ -450,14 +451,12 @@ export const useDeleteRecurrentTransferMutation = () => {
           );
         }
         dispatch(
-          toastNotification('Recurrent transfer deleted successfully.'),
+          toastNotification(intl.formatMessage({ id: "recurrent.delete_success" })),
         );
       },
       onError: (error) => {
         dispatch(
-          toastNotification(
-            `Failed to delete recurrent transfer: ${error.message}`
-          ),
+          toastNotification(intl.formatMessage({ id: "recurrent.delete_failed" }, { error: error.message })),
         );
       },
     },

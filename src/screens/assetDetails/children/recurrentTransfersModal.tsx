@@ -55,7 +55,7 @@ export const RecurrentTransfersModal = forwardRef(
 
                 Alert.alert(
                     intl.formatMessage({ id: 'alert.confirm' }),
-                    `Unsubscribe recurrent transfer to ${item.to}?`,
+                    intl.formatMessage({ id: 'recurrent.unsubscribe_confirmation' },{username: item.to}),
                     [
                         {
                             text: intl.formatMessage({ id: 'alert.cancel' }),
@@ -94,8 +94,8 @@ export const RecurrentTransfersModal = forwardRef(
 
         const _renderItem = ({ item, index }: { item: RecurrentTransfer; index: number }) => {
             const value = item.amount;
-            const timeString = 'Transfer ' + moment(item.trigger_date).fromNow(); //TODO: use i18n
-            const subRightText = `Remaining ${item.remaining_executions} transfers`; //TODO: use i18n
+            const timeString = intl.formatMessage({ id: "recurrent.transfer_in" }, { time: moment(item.trigger_date).fromNow() });
+            const subRightText = intl.formatMessage({ id: "recurrent.remaining_executions" }, { executions: item.remaining_executions });
 
             return (
                 <UserListItem
@@ -115,7 +115,7 @@ export const RecurrentTransfersModal = forwardRef(
         };
 
 
-        const title = intl.formatMessage({ id: `wallet.recurrent_transfer` });
+
         const _renderContent = () => {
             const data = recurringActivitiesQuery?.data;
             return (
@@ -123,12 +123,12 @@ export const RecurrentTransfersModal = forwardRef(
                     <BasicHeader
                         backIconName="close"
                         isModalHeader={true}
-                        title={`${title} (${data && data.length})`}
+                        title={intl.formatMessage({ id: `recurrent.title` }, { total: data?.length || 0 })}
                         handleOnPressClose={() => setShowModal(false)}
                     />
                     <FlatList
                         data={data}
-                        keyExtractor={(item) => item.delegator}
+                        keyExtractor={(item) => `${item.to}-${item.recurrence}`}
                         removeClippedSubviews={false}
                         renderItem={_renderItem}
                         refreshControl={
