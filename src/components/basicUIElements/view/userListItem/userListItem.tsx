@@ -97,7 +97,6 @@ const UserListItem = ({
           </View>
         )}
 
-
         {isHasRightItem &&
           isLoggedIn &&
           (isLoadingRightAction ? (

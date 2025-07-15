@@ -404,8 +404,6 @@ export const usePendingRequestsQuery = (assetId: string) => {
   );
 };
 
-
-
 export const useDeleteRecurrentTransferMutation = () => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
@@ -415,8 +413,7 @@ export const useDeleteRecurrentTransferMutation = () => {
 
   const mutation = useMutation<boolean, Error, { recurrentTransfer: RecurrentTransfer }>(
     async ({ recurrentTransfer }) => {
-
-      //form up rec transfer data for deletion
+      // form up rec transfer data for deletion
       const data = {
         from: recurrentTransfer.from,
         destination: recurrentTransfer.to,
@@ -432,9 +429,11 @@ export const useDeleteRecurrentTransferMutation = () => {
     {
       onSuccess: (_, { recurrentTransfer }) => {
         // manually update previous query data
-        const prevData = queryClient.getQueryData<RecurrentTransfer[]>(
-          [QUERIES.WALLET.GET_RECURRING_TRANSFERS, ASSET_IDS.HIVE, currentAccount.username]
-        );
+        const prevData = queryClient.getQueryData<RecurrentTransfer[]>([
+          QUERIES.WALLET.GET_RECURRING_TRANSFERS,
+          ASSET_IDS.HIVE,
+          currentAccount.username,
+        ]);
 
         if (prevData) {
           const updatedData = prevData.filter(
@@ -443,20 +442,20 @@ export const useDeleteRecurrentTransferMutation = () => {
                 item.from === recurrentTransfer.from &&
                 item.to === recurrentTransfer.to &&
                 item.recurrence === recurrentTransfer.recurrence
-              )
+              ),
           );
           queryClient.setQueryData(
             [QUERIES.WALLET.GET_RECURRING_TRANSFERS, ASSET_IDS.HIVE, currentAccount.username],
-            updatedData
+            updatedData,
           );
         }
-        dispatch(
-          toastNotification(intl.formatMessage({ id: "recurrent.delete_success" })),
-        );
+        dispatch(toastNotification(intl.formatMessage({ id: 'recurrent.delete_success' })));
       },
       onError: (error) => {
         dispatch(
-          toastNotification(intl.formatMessage({ id: "recurrent.delete_failed" }, { error: error.message })),
+          toastNotification(
+            intl.formatMessage({ id: 'recurrent.delete_failed' }, { error: error.message }),
+          ),
         );
       },
     },
