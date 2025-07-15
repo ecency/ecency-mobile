@@ -97,7 +97,7 @@ const UserListItem = ({
           </View>
         )}
 
-        {rightItemRenderer && rightItemRenderer()}
+
         {isHasRightItem &&
           isLoggedIn &&
           (isLoadingRightAction ? (
@@ -144,6 +144,7 @@ const UserListItem = ({
               </Popover>
             </>
           ))}
+        {rightItemRenderer && rightItemRenderer()}
       </View>
     </TouchableOpacity>
   );

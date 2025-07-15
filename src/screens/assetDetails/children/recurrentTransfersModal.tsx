@@ -5,127 +5,161 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { RecurrentTransfer } from 'providers/hive/hive.types';
-import { Alert } from 'react-native';
 import ROUTES from '../../../constants/routeNames';
 import styles from './children.styles';
 import { BasicHeader, Modal, UserListItem } from '../../../components';
 import { useAppSelector } from '../../../hooks';
 import { walletQueries } from '../../../providers/queries';
+import moment from 'moment';
+import { IconButton } from '../../../components/buttons';
+import { Alert } from 'react-native';
+
 
 interface RecurrentTransfersModalProps {
-  assetId: string;
+    assetId: string;
 }
 
 export const RecurrentTransfersModal = forwardRef(
-  ({ assetId }: RecurrentTransfersModalProps, ref) => {
-    const intl = useIntl();
-    const navigation = useNavigation<StackNavigationProp<any>>();
+    ({ assetId }: RecurrentTransfersModalProps, ref) => {
+        const intl = useIntl();
+        const navigation = useNavigation<StackNavigationProp<any>>();
 
-    const recurringActivitiesQuery = walletQueries.useRecurringActivitesQuery(assetId);
-    const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+        const recurringActivitiesQuery = walletQueries.useRecurringActivitesQuery(assetId);
+        const delRecurrentTransferMutation = walletQueries.useDeleteRecurrentTransferMutation();
+        const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
 
-    const [showModal, setShowModal] = useState(false);
+        const [showModal, setShowModal] = useState(false);
 
-    useImperativeHandle(ref, () => ({
-      showModal: () => {
-        setShowModal(true);
-        recurringActivitiesQuery?.refetch();
-      },
-    }));
+        useImperativeHandle(ref, () => ({
+            showModal: () => {
+                setShowModal(true);
+                recurringActivitiesQuery?.refetch();
+            },
+        }));
 
-    const _handleOnUserPress = (username: string) => {
-      navigation.navigate({
-        name: ROUTES.SCREENS.PROFILE,
-        params: {
-          username,
-        },
-        key: username,
-      });
-      setShowModal(false);
-    };
+        const _handleOnUserPress = (username: string) => {
+            navigation.navigate({
+                name: ROUTES.SCREENS.PROFILE,
+                params: {
+                    username,
+                },
+                key: username,
+            });
+            setShowModal(false);
+        };
 
-    const _handleOnPressUpdate = (username: string) => {
-      Alert.alert('handle update press');
-      // if (mode === MODES.DELEGATEED) {
-      //     console.log('delegate HP!');
-      //     navigation.navigate({
-      //         name: ROUTES.SCREENS.TRANSFER,
-      //         params: {
-      //             transferType: 'delegate',
-      //             fundType: 'HIVE_POWER',
-      //             referredUsername: username,
-      //         },
-      //     });
-      //     setShowModal(false);
-      // }
-    };
 
-    const title = intl.formatMessage({ id: `wallet.recurrent_transfer` });
+        const _btnUnsubscribe = (item: RecurrentTransfer) => {
 
-    const _renderItem = ({ item, index }: { item: RecurrentTransfer; index: number }) => {
-      const value = item.amount;
-      const timeString = new Date(item.trigger_date).toDateString();
-      const subRightText = intl.formatMessage({ id: 'wallet.tap_update' });
+            const _onPress = () => {
 
-      return (
-        <UserListItem
-          key={item.to}
-          index={index}
-          username={item.to}
-          description={timeString}
-          isHasRightItem
-          rightText={value}
-          subRightText={subRightText}
-          isLoggedIn
-          handleOnPress={() => _handleOnUserPress(item.to)}
-          onPressRightText={() => _handleOnPressUpdate(item.to)}
-          isClickable
-        />
-      );
-    };
+                Alert.alert(
+                    intl.formatMessage({ id: 'alert.confirm' }),
+                    `Unsubscribe recurrent transfer to ${item.to}?`,
+                    [
+                        {
+                            text: intl.formatMessage({ id: 'alert.cancel' }),
+                            style: 'destructive',
+                            onPress: () => {
+                                console.log('cancel pressed');
+                            },
+                        },
+                        {
+                            text: intl.formatMessage({ id: 'alert.confirm' }),
+                            onPress: () => {
+                                delRecurrentTransferMutation.mutate({
+                                    recurrentTransfer: item
+                                })
+                            }
+                        }
+                    ]
+                )
 
-    const _renderContent = () => {
-      const data = recurringActivitiesQuery?.data;
-      return (
-        <>
-          <BasicHeader
-            backIconName="close"
-            isModalHeader={true}
-            title={`${title} (${data && data.length})`}
-            handleOnPressClose={() => setShowModal(false)}
-          />
-          <FlatList
-            data={data}
-            keyExtractor={(item) => item.delegator}
-            removeClippedSubviews={false}
-            renderItem={_renderItem}
-            refreshControl={
-              <RefreshControl
-                refreshing={recurringActivitiesQuery?.isLoading || false}
-                onRefresh={recurringActivitiesQuery?.refetch}
-                progressBackgroundColor="#357CE6"
-                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-                titleColor="#fff"
-                colors={['#fff']}
-              />
             }
-          />
-        </>
-      );
-    };
 
-    return (
-      <Modal
-        isOpen={showModal}
-        handleOnModalClose={() => setShowModal(false)}
-        isFullScreen
-        isCloseButton
-        presentationStyle="formSheet"
-        animationType="slide"
-        style={styles.delegationsModal}
-      >
-        {_renderContent()}
-      </Modal>
-    );
-  },
+            return (
+                <IconButton
+                    size={24}
+                    style={styles.closeIcon}
+                    name="close"
+                    buttonStyle={{ paddingRight: 0 }}
+                    iconType="MaterialCommunityIcons"
+                    handleOnPress={_onPress}
+                />
+            )
+        }
+
+
+
+
+        const _renderItem = ({ item, index }: { item: RecurrentTransfer; index: number }) => {
+            const value = item.amount;
+            const timeString = 'Transfer ' + moment(item.trigger_date).fromNow(); //TODO: use i18n
+            const subRightText = `Remaining ${item.remaining_executions} transfers`; //TODO: use i18n
+            const rightTooltipText = "TODO: Formulate text for transfer meta"
+
+            return (
+                <UserListItem
+                    key={item.to}
+                    index={index}
+                    username={item.to}
+                    description={timeString}
+                    isHasRightItem
+                    rightText={value}
+                    subRightText={subRightText}
+                    isLoggedIn
+                    handleOnPress={() => _handleOnUserPress(item.to)}
+                    rightTooltipText={rightTooltipText}
+                    rightItemRenderer={() => _btnUnsubscribe(item)}
+                    isClickable
+                />
+            );
+        };
+
+
+        const title = intl.formatMessage({ id: `wallet.recurrent_transfer` });
+        const _renderContent = () => {
+            const data = recurringActivitiesQuery?.data;
+            return (
+                <>
+                    <BasicHeader
+                        backIconName="close"
+                        isModalHeader={true}
+                        title={`${title} (${data && data.length})`}
+                        handleOnPressClose={() => setShowModal(false)}
+                    />
+                    <FlatList
+                        data={data}
+                        keyExtractor={(item) => item.delegator}
+                        removeClippedSubviews={false}
+                        renderItem={_renderItem}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={recurringActivitiesQuery?.isFetching || delRecurrentTransferMutation.isLoading}
+                                onRefresh={recurringActivitiesQuery?.refetch}
+                                progressBackgroundColor="#357CE6"
+                                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                                titleColor="#fff"
+                                colors={['#fff']}
+                            />
+                        }
+                    />
+                </>
+            );
+        };
+
+        return (
+            <Modal
+                isOpen={showModal}
+                handleOnModalClose={() => setShowModal(false)}
+                isFullScreen
+                isCloseButton
+                presentationStyle="formSheet"
+                animationType="slide"
+                style={styles.delegationsModal}
+            >
+                {_renderContent()}
+            </Modal>
+        );
+    },
 );
