@@ -96,7 +96,6 @@ export const RecurrentTransfersModal = forwardRef(
             const value = item.amount;
             const timeString = 'Transfer ' + moment(item.trigger_date).fromNow(); //TODO: use i18n
             const subRightText = `Remaining ${item.remaining_executions} transfers`; //TODO: use i18n
-            const rightTooltipText = "TODO: Formulate text for transfer meta"
 
             return (
                 <UserListItem
@@ -109,7 +108,6 @@ export const RecurrentTransfersModal = forwardRef(
                     subRightText={subRightText}
                     isLoggedIn
                     handleOnPress={() => _handleOnUserPress(item.to)}
-                    rightTooltipText={rightTooltipText}
                     rightItemRenderer={() => _btnUnsubscribe(item)}
                     isClickable
                 />
