@@ -16,6 +16,7 @@ import { toastNotification } from '../../../redux/actions/uiAction';
 import { updateClaimCache } from '../../../redux/actions/cacheActions';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
 import { fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
+import { recurrentTransferToken } from '../../hive/dhive';
 
 interface RewardsCollection {
   [key: string]: string;
@@ -401,4 +402,66 @@ export const usePendingRequestsQuery = (assetId: string) => {
       return pendingRequests;
     },
   );
+};
+
+
+
+export const useDeleteRecurrentTransferMutation = () => {
+  const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const pinHash = useAppSelector((state) => state.application.pin);
+
+  const mutation = useMutation<boolean, Error, { recurrentTransfer: RecurrentTransfer }>(
+    async ({ recurrentTransfer }) => {
+
+      //form up rec transfer data for deletion
+      const data = {
+        from: recurrentTransfer.from,
+        destination: recurrentTransfer.to,
+        amount: '0.000 HIVE',
+        memo: recurrentTransfer.memo || '',
+        recurrence: recurrentTransfer.recurrence || 0,
+        executions: recurrentTransfer.remaining_executions || 0,
+      };
+
+      await recurrentTransferToken(currentAccount, pinHash, data);
+      return true;
+    },
+    {
+      onSuccess: (_, { recurrentTransfer }) => {
+        // manually update previous query data
+        const prevData = queryClient.getQueryData<RecurrentTransfer[]>(
+          [QUERIES.WALLET.GET_RECURRING_TRANSFERS, ASSET_IDS.HIVE, currentAccount.username]
+        );
+
+        if (prevData) {
+          const updatedData = prevData.filter(
+            (item) =>
+              !(
+                item.from === recurrentTransfer.from &&
+                item.to === recurrentTransfer.to &&
+                item.recurrence === recurrentTransfer.recurrence
+              )
+          );
+          queryClient.setQueryData(
+            [QUERIES.WALLET.GET_RECURRING_TRANSFERS, ASSET_IDS.HIVE, currentAccount.username],
+            updatedData
+          );
+        }
+        dispatch(
+          toastNotification('Recurrent transfer deleted successfully.'),
+        );
+      },
+      onError: (error) => {
+        dispatch(
+          toastNotification(
+            `Failed to delete recurrent transfer: ${error.message}`
+          ),
+        );
+      },
+    },
+  );
+
+  return mutation;
 };
