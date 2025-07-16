@@ -67,7 +67,7 @@ const SelectCommunityModalContainer = ({
       setShowSearchedCommunities(true);
     } else if (text.length >= 3) {
       setShowSearchedCommunities(true);
-      getCommunities('', 15, text, 'rank')
+      getCommunities('', 15, text, 'rank', currentAccount.name)
         .then((searcheds) => {
           setSearchedCommunities(searcheds);
         })
