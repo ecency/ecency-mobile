@@ -55,7 +55,6 @@ export const ActivitiesList = ({
       setCancellingTrxIndex(-1);
     }
 
-    // TODO: handle recurring transfer cancellation
   };
 
   const _onRepeatPress = async (item: CoinActivity) => {
@@ -87,7 +86,6 @@ export const ActivitiesList = ({
     });
   }
 
-  // TODO added recurring transfers section if there are any
 
   if (activitiesEnabled) {
     sections.push({
