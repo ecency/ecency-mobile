@@ -4,3 +4,4 @@ export * from './rangeSelector';
 export * from './coinSummary';
 export * from './activitiesList';
 export * from './coinActions';
+export * from './recurrentTransfersModal';
