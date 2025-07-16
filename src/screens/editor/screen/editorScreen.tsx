@@ -367,7 +367,8 @@ class EditorScreen extends Component {
   };
 
   _getCommunity = (hive) => {
-    getCommunity(hive)
+    const {currentAccount} = this.props;
+    getCommunity(hive, currentAccount.name)
       .then((community) => {
         this.setState({ selectedCommunity: community });
       })
