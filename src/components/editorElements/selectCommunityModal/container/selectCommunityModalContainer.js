@@ -22,7 +22,6 @@ const SelectCommunityModalContainer = ({
 }) => {
   const dispatch = useDispatch();
 
-
   const [searchedCommunities, setSearchedCommunities] = useState([]);
   const [showSearchedCommunities, setShowSearchedCommunities] = useState(false);
   const [subscriptions, setSubscriptions] = useState(null);
@@ -80,14 +79,13 @@ const SelectCommunityModalContainer = ({
     }
   };
 
-
   const _onPressCommunity = async (community) => {
-    //TOOD: intercept press community and fetch complete communit object
-    if(community.name && !community.type_id){
-      community = await getCommunity(community.name, currentAccount.name)
+    // TOOD: intercept press community and fetch complete communit object
+    if (community.name && !community.type_id) {
+      community = await getCommunity(community.name, currentAccount.name);
     }
     onPressCommunity(community);
-  }
+  };
 
   return (
     <SelectCommunityModalView

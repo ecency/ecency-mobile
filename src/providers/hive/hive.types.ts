@@ -174,7 +174,7 @@ export interface RecurrentTransfer {
 }
 
 export enum CommunityTypeId {
-  TOPIC = 1, //any one can post or comment
-  JOURNEL = 2, //only members (subscribed) can post or guests (both sub and unsub) can comment
-  COUNCIL = 3, //only members can post or comment (users in team array of community)
+  TOPIC = 1, // any one can post or comment
+  JOURNEL = 2, // only members (subscribed) can post or guests (both sub and unsub) can comment
+  COUNCIL = 3, // only members can post or comment (users in team array of community)
 }
