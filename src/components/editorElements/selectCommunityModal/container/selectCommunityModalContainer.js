@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { debounce } from 'lodash';
 
 // HIVE
-import { getCommunities } from '../../../../providers/hive/dhive';
+import { getCommunities, getCommunity } from '../../../../providers/hive/dhive';
 
 import SelectCommunityModalView from '../view/selectCommunityModalView';
 
@@ -21,6 +21,7 @@ const SelectCommunityModalContainer = ({
   showSubscribedOnly,
 }) => {
   const dispatch = useDispatch();
+
 
   const [searchedCommunities, setSearchedCommunities] = useState([]);
   const [showSearchedCommunities, setShowSearchedCommunities] = useState(false);
@@ -79,9 +80,18 @@ const SelectCommunityModalContainer = ({
     }
   };
 
+
+  const _onPressCommunity = async (community) => {
+    //TOOD: intercept press community and fetch complete communit object
+    if(community.name && !community.type_id){
+      community = await getCommunity(community.name, currentAccount.name)
+    }
+    onPressCommunity(community);
+  }
+
   return (
     <SelectCommunityModalView
-      onPressCommunity={onPressCommunity}
+      onPressCommunity={_onPressCommunity}
       topCommunities={topCommunities}
       subscribedCommunities={subscriptions}
       showSubscribedOnly={showSubscribedOnly}
