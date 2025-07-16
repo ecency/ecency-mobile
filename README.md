@@ -1,7 +1,7 @@
 ### Ecency Mobile
 
-iOS ![iOS](https://github.com/ecency/ecency-mobile/actions/workflows/build-ios.yml/badge.svg)
-Android ![Android](https://github.com/ecency/ecency-mobile/actions/workflows/build-android.yml/badge.svg)
+[![iOS](https://github.com/ecency/ecency-mobile/actions/workflows/build-ios.yml/badge.svg)](https://github.com/ecency/ecency-mobile/actions/workflows/build-ios.yml)
+[![Android](https://github.com/ecency/ecency-mobile/actions/workflows/build-android.yml/badge.svg)](https://github.com/ecency/ecency-mobile/actions/workflows/build-android.yml)
 
 ## Open Beta 🔥
 
