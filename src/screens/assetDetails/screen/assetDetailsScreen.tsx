@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader } from '../../../components';
-import { CoinSummary, ActivitiesList } from '../children';
+import { CoinSummary, ActivitiesList, RecurrentTransfersModal } from '../children';
 import styles from './screen.styles';
 import { CoinActivity, CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
 import { useAppSelector } from '../../../hooks';
@@ -36,11 +36,13 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   // refs
   const appState = useRef(AppState.currentState);
   const delegationsModalRef = useRef(null);
+  const recurrentTransfersModalRef = useRef(null);
 
   // queries
   const assetsQuery = walletQueries.useAssetsQuery();
   const activitiesQuery = walletQueries.useActivitiesQuery(coinId);
   const pendingRequestsQuery = walletQueries.usePendingRequestsQuery(coinId);
+  const recurringActivitiesQuery = walletQueries.useRecurringActivitesQuery(coinId);
 
   // redux props
   const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
@@ -84,6 +86,9 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       assetsQuery.refetch();
       activitiesQuery.refresh();
       pendingRequestsQuery.refetch();
+      if (recurringActivitiesQuery) {
+        recurringActivitiesQuery.refetch();
+      }
       return;
     } else if (activitiesQuery.isLoading) {
       console.log('Skipping transaction fetch');
@@ -104,6 +109,10 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       delegationsModalRef.current
     ) {
       delegationsModalRef.current.showModal(dataKey);
+    }
+
+    if (dataKey === 'total_recurrent_transfers') {
+      recurrentTransfersModalRef.current?.showModal();
     }
   };
 
@@ -189,6 +198,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       coinSymbol={symbol}
       coinData={coinData}
       percentChagne={(quote ? quote.percentChange : coinData?.percentChange) || 0}
+      totalRecurrentAmount={recurringActivitiesQuery?.totalAmount || 0}
       onActionPress={_onActionPress}
       onInfoPress={_onInfoPress}
       showChart={showChart}
@@ -211,6 +221,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         onActionPress={_onActionPress}
       />
       <DelegationsModal ref={delegationsModalRef} />
+      <RecurrentTransfersModal assetId={coinId} ref={recurrentTransfersModalRef} />
     </SafeAreaView>
   );
 };

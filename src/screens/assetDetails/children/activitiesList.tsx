@@ -54,6 +54,7 @@ export const ActivitiesList = ({
     } catch (err) {
       setCancellingTrxIndex(-1);
     }
+
   };
 
   const _onRepeatPress = async (item: CoinActivity) => {
@@ -84,6 +85,7 @@ export const ActivitiesList = ({
       data: pendingActivities,
     });
   }
+
 
   if (activitiesEnabled) {
     sections.push({

@@ -150,4 +150,8 @@ export default EStyleSheet.create({
     color: '$iconColor',
     marginLeft: 12,
   },
+  closeIcon: {
+    color: '$iconColor',
+    // paddingRight: 0
+  },
 });

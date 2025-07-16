@@ -331,9 +331,8 @@ export const PostHtmlRenderer = memo(
 
     // based on number of columns a table have, sets scroll enabled or disable, also adjust table full width
     const _tableRenderer = ({ InternalRenderer, ...props }: CustomRendererProps<TNode>) => {
-
-      //recursive calculates the max number of table columns (th) in the table
-      const getMaxThCount = (node:TNode) => {
+      // recursive calculates the max number of table columns (th) in the table
+      const getMaxThCount = (node: TNode) => {
         if (!node || !node.children) return 0;
         let max = 0;
         node.children.forEach((child) => {

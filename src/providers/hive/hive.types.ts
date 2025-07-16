@@ -160,6 +160,18 @@ export interface TransferDataType {
   memo?: string;
 }
 
+export interface RecurrentTransfer {
+  amount: string;
+  consecutive_failures: number;
+  from: string;
+  id: number;
+  memo: string;
+  pair_id: number;
+  recurrence: number;
+  remaining_executions: number;
+  to: string;
+  trigger_date: string;
+}
 
 export enum CommunityTypeId {
   TOPIC = 1, //any one can post or comment

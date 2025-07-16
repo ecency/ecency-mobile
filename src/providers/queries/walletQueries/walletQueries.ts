@@ -2,19 +2,21 @@ import { useQuery, useQueries, useMutation, useQueryClient } from '@tanstack/rea
 import { useRef, useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { unionBy } from 'lodash';
+import { RecurrentTransfer } from 'providers/hive/hive.types';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { fetchAndSetCoinsData } from '../../../redux/actions/walletActions';
 import parseToken from '../../../utils/parseToken';
 import { claimPoints, getPointsSummary } from '../../ecency/ePoint';
 import { fetchUnclaimedRewards } from '../../hive-engine/hiveEngine';
-import { claimRewardBalance, getAccount } from '../../hive/dhive';
+import { claimRewardBalance, getAccount, getRecurrentTransfers } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
 import { claimRewards } from '../../hive-engine/hiveEngineActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { updateClaimCache } from '../../../redux/actions/cacheActions';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
 import { fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
+import { recurrentTransferToken } from '../../hive/dhive';
 
 interface RewardsCollection {
   [key: string]: string;
@@ -347,6 +349,47 @@ export const useActivitiesQuery = (assetId: string) => {
   };
 };
 
+// added query to tracker recurring transfers]
+export const useRecurringActivitesQuery = (coinId: string) => {
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+
+  if (coinId !== ASSET_IDS.HIVE) {
+    return null;
+  }
+
+  const query = useQuery(
+    [QUERIES.WALLET.GET_RECURRING_TRANSFERS, coinId, currentAccount.username],
+    async () => {
+      if (!currentAccount?.username) {
+        return [];
+      }
+      const recurringTransfers = await getRecurrentTransfers(currentAccount.username);
+
+      if (!recurringTransfers) {
+        return [];
+      }
+
+      return recurringTransfers as RecurrentTransfer[];
+    },
+  );
+
+  const totalAmount = useMemo(() => {
+    if (!query.data || !query.data.length) {
+      return 0;
+    }
+
+    return query.data.reduce((acc, item) => {
+      const amount = parseFloat(item.amount);
+      return acc + (!amount ? 0 : amount);
+    }, 0);
+  }, [query.data]);
+
+  return {
+    ...query,
+    totalAmount,
+  };
+};
+
 export const usePendingRequestsQuery = (assetId: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
@@ -359,4 +402,64 @@ export const usePendingRequestsQuery = (assetId: string) => {
       return pendingRequests;
     },
   );
+};
+
+export const useDeleteRecurrentTransferMutation = () => {
+  const dispatch = useAppDispatch();
+  const intl = useIntl();
+  const queryClient = useQueryClient();
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const pinHash = useAppSelector((state) => state.application.pin);
+
+  const mutation = useMutation<boolean, Error, { recurrentTransfer: RecurrentTransfer }>(
+    async ({ recurrentTransfer }) => {
+      // form up rec transfer data for deletion
+      const data = {
+        from: recurrentTransfer.from,
+        destination: recurrentTransfer.to,
+        amount: '0.000 HIVE',
+        memo: recurrentTransfer.memo || '',
+        recurrence: recurrentTransfer.recurrence || 0,
+        executions: recurrentTransfer.remaining_executions || 0,
+      };
+
+      await recurrentTransferToken(currentAccount, pinHash, data);
+      return true;
+    },
+    {
+      onSuccess: (_, { recurrentTransfer }) => {
+        // manually update previous query data
+        const prevData = queryClient.getQueryData<RecurrentTransfer[]>([
+          QUERIES.WALLET.GET_RECURRING_TRANSFERS,
+          ASSET_IDS.HIVE,
+          currentAccount.username,
+        ]);
+
+        if (prevData) {
+          const updatedData = prevData.filter(
+            (item) =>
+              !(
+                item.from === recurrentTransfer.from &&
+                item.to === recurrentTransfer.to &&
+                item.recurrence === recurrentTransfer.recurrence
+              ),
+          );
+          queryClient.setQueryData(
+            [QUERIES.WALLET.GET_RECURRING_TRANSFERS, ASSET_IDS.HIVE, currentAccount.username],
+            updatedData,
+          );
+        }
+        dispatch(toastNotification(intl.formatMessage({ id: 'recurrent.delete_success' })));
+      },
+      onError: (error) => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({ id: 'recurrent.delete_failed' }, { error: error.message }),
+          ),
+        );
+      },
+    },
+  );
+
+  return mutation;
 };
