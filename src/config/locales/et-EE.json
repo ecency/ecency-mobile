@@ -8,6 +8,7 @@
     "points_activity": "Activity",
     "transfer": "Ülekanne",
     "recurrent_transfer": "Recurrent Transfer",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "To Vesting",
     "transfer_from_savings": "Hoiusest",
     "withdraw_savings": "Withdraw Savings",
@@ -954,6 +955,14 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Swap Your Funds",
