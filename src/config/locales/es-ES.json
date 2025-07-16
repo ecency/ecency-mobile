@@ -8,6 +8,7 @@
     "points_activity": "Actividad",
     "transfer": "Transferir",
     "recurrent_transfer": "Transferencia recurrente",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "A invertir",
     "transfer_from_savings": "Desde Ahorros",
     "withdraw_savings": "Retirar ahorros",
@@ -954,6 +955,14 @@
     "amount_select_description": "Introduzca la cantidad dentro del saldo máximo disponible {suffix}",
     "amount_select_desc_limit": " y debe ser mayor que 0.001",
     "too_many_usernames": "Máx. 5 nombres de usuario permitidos."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Intercambiar tus fondos",
