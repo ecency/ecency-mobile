@@ -614,7 +614,8 @@
     "short_desc": "Short description",
     "short_desc_placeholder": "Brief summary of content",
     "set_default": "Set Default",
-    "community_restriction": "Only members of this community can publish posts"
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",

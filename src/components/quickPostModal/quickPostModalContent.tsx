@@ -21,6 +21,7 @@ import {
   IconButton,
   MainButton,
   PollWizardModal,
+  PopoverWrapper,
   TextButton,
   TextInput,
   UploadsGalleryModal,
@@ -40,8 +41,10 @@ import {
   MediaInsertStatus,
 } from '../uploadsGalleryModal/container/uploadsGalleryModal';
 import { removePollDraft } from '../../redux/actions/editorActions';
+import { getCommunity } from '../../providers/hive/dhive';
+import { CommunityTypeId } from '../../providers/hive/hive.types';
 
-export interface QuickReplyModalContentProps {
+export interface QuickPostModalContentProps {
   mode: 'comment' | 'wave' | 'post';
   selectedPost?: any;
   onClose: () => void;
@@ -49,8 +52,8 @@ export interface QuickReplyModalContentProps {
 
 const MAX_BODY_LENGTH = 250;
 
-export const QuickReplyModalContent = forwardRef(
-  ({ mode, selectedPost, onClose }: QuickReplyModalContentProps, ref) => {
+export const QuickPostModalContent = forwardRef(
+  ({ mode, selectedPost, onClose }: QuickPostModalContentProps, ref) => {
     const intl = useIntl();
     const dispatch = useDispatch();
 
@@ -70,6 +73,7 @@ export const QuickReplyModalContent = forwardRef(
     const [isUploading, setIsUploading] = useState(false);
     const [mediaModalVisible, setMediaModalVisible] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [canCommentToCommunity, setCanCommentToCommunity] = useState(true);
 
     const parentAuthor = selectedPost ? selectedPost.author : '';
     const parentPermlink = selectedPost ? selectedPost.permlink : '';
@@ -116,7 +120,18 @@ export const QuickReplyModalContent = forwardRef(
       inputRef.current?.setNativeProps({
         text: _value,
       });
+
+      //check if user can comment to community
+      if (selectedPost?.community) {
+        _checkCanCommentToCommunity(selectedPost.community);
+      }
     }, [selectedPost]);
+
+    const _checkCanCommentToCommunity = async (communityName: string) => {
+      const community = await getCommunity(communityName, currentAccount.name);
+      const _canCommentToCommunity = !community || !(community.type_id === CommunityTypeId.COUNCIL && !community.context?.member)
+      setCanCommentToCommunity(_canCommentToCommunity);
+    }
 
     // add quick comment value into cache
     const _addQuickCommentIntoCache = (value = commentValue) => {
@@ -265,6 +280,19 @@ export const QuickReplyModalContent = forwardRef(
         <View style={styles.nameContainer}>
           <Text style={styles.name}>{`@${currentAccount.username}`}</Text>
         </View>
+
+        {!canCommentToCommunity && (
+          <PopoverWrapper text={intl.formatMessage({ id: 'editor.community_comment_restriction' }, {title: selectedPost?.community_title})}>
+            <Icon
+              iconType="MaterialCommunityIcons"
+              name="alert-circle-outline"
+              size={24}
+              color={EStyleSheet.value('$primaryRed')}
+              style={{marginLeft: 12}}
+            />
+          </PopoverWrapper>
+        )}
+
       </View>
     );
 
@@ -332,7 +360,7 @@ export const QuickReplyModalContent = forwardRef(
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
           />
-          {mode !== 'wave' ? (
+          {(mode !== 'wave' && canCommentToCommunity) && (
             <IconButton
               iconStyle={styles.toolbarSpacer}
               iconType="MaterialCommunityIcons"
@@ -341,7 +369,9 @@ export const QuickReplyModalContent = forwardRef(
               size={24}
               color={EStyleSheet.value('$primaryBlack')}
             />
-          ) : (
+          )}
+
+          {mode === 'wave' && (
             <>
               <IconButton
                 iconType="SimpleLineIcons"
@@ -360,6 +390,7 @@ export const QuickReplyModalContent = forwardRef(
 
     const _renderReplyBtn = () => {
       const _titleId = mode !== 'comment' ? 'quick_reply.publish' : 'quick_reply.reply';
+
       return (
         <View style={styles.replyBtnContainer}>
           <TextButton
@@ -375,7 +406,7 @@ export const QuickReplyModalContent = forwardRef(
             text={intl.formatMessage({
               id: _titleId,
             })}
-            isDisable={isUploading || bodyLengthExceeded}
+            isDisable={isUploading || bodyLengthExceeded || !canCommentToCommunity}
             isLoading={isSubmitting}
           />
         </View>
@@ -406,7 +437,7 @@ export const QuickReplyModalContent = forwardRef(
         </View>
 
         {_renderMediaPanel()}
-
+        {/* TOOD: add content indicating comment permission */}
         <View style={styles.footer}>
           {_renderExpandBtn()}
           {_renderReplyBtn()}
