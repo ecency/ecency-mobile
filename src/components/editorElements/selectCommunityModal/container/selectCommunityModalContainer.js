@@ -80,10 +80,11 @@ const SelectCommunityModalContainer = ({
   };
 
   const _onPressCommunity = async (community) => {
-    // TOOD: intercept press community and fetch complete communit object
-    if (community.name && !community.type_id) {
+    //intercept press community and fetch complete communit object
+    if (community && community.name && !community.type_id) {
       community = await getCommunity(community.name, currentAccount.name);
     }
+    
     onPressCommunity(community);
   };
 
