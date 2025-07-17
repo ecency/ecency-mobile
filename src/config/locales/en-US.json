@@ -613,7 +613,8 @@
     "image": "Image",
     "short_desc": "Short description",
     "short_desc_placeholder": "Brief summary of content",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of this community can publish posts"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",

@@ -8,9 +8,13 @@ import globalStyles from '../../../../globalStyles';
 
 import styles from './selectCommunityAreStyles';
 
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { PopoverWrapper } from '../../../../components';
+
 const SelectCommunityAreaView = ({
   selectedCommunity,
   selectedAccount,
+  canPostToCommunity = true,
   onPressIn,
   onPressOut,
   intl,
@@ -27,12 +31,25 @@ const SelectCommunityAreaView = ({
     title = intl.formatMessage({ id: 'editor.my_blog' });
   }
 
+  const _renderRestrictionIcon = !canPostToCommunity && (
+    <PopoverWrapper text={intl.formatMessage({ id: 'editor.community_restriction' })}>
+      <Icon
+        name="alert-circle-outline"
+        iconType="MaterialCommuntyIcon"
+        size={24}
+        color={EStyleSheet.value('$primaryRed')}
+        style={{ marginLeft: 8 }}
+      />
+    </PopoverWrapper>
+  );
+
   return (
     <TouchableOpacity
       style={[globalStyles.containerHorizontal16, styles.selectCommunityAreaViewContainer]}
       onPressIn={onPressIn}
       onPressOut={onPressOut}
     >
+
       <UserAvatar username={username} noAction />
       <Text style={[globalStyles.text, styles.chooseACommunityText]}>{title}</Text>
       <Icon
@@ -42,6 +59,8 @@ const SelectCommunityAreaView = ({
         name="arrow-drop-down"
         iconType="MaterialIcons"
       />
+
+      {_renderRestrictionIcon}
     </TouchableOpacity>
   );
 };
