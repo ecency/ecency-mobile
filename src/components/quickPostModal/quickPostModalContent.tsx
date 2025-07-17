@@ -443,7 +443,7 @@ export const QuickPostModalContent = forwardRef(
         </View>
 
         {_renderMediaPanel()}
-        {/* TOOD: add content indicating comment permission */}
+      
         <View style={styles.footer}>
           {_renderExpandBtn()}
           {_renderReplyBtn()}
