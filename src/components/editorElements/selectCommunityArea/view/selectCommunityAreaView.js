@@ -2,14 +2,14 @@ import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { UserAvatar } from '../../../userAvatar';
 import { Icon } from '../../../icon';
 import globalStyles from '../../../../globalStyles';
 
 import styles from './selectCommunityAreStyles';
 
-import EStyleSheet from 'react-native-extended-stylesheet';
-import { PopoverWrapper } from '../../../../components';
+import { PopoverWrapper } from '../../..';
 
 const SelectCommunityAreaView = ({
   selectedCommunity,
@@ -49,7 +49,6 @@ const SelectCommunityAreaView = ({
       onPressIn={onPressIn}
       onPressOut={onPressOut}
     >
-
       <UserAvatar username={username} noAction />
       <Text style={[globalStyles.text, styles.chooseACommunityText]}>{title}</Text>
       <Icon

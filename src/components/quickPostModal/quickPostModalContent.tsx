@@ -121,7 +121,7 @@ export const QuickPostModalContent = forwardRef(
         text: _value,
       });
 
-      //check if user can comment to community
+      // check if user can comment to community
       if (selectedPost?.community) {
         _checkCanCommentToCommunity(selectedPost.community);
       }
@@ -129,9 +129,11 @@ export const QuickPostModalContent = forwardRef(
 
     const _checkCanCommentToCommunity = async (communityName: string) => {
       const community = await getCommunity(communityName, currentAccount.name);
-      const _canCommentToCommunity = !community || !(community.type_id === CommunityTypeId.COUNCIL && !community.context?.member)
+      const _canCommentToCommunity =
+        !community ||
+        !(community.type_id === CommunityTypeId.COUNCIL && !community.context?.member);
       setCanCommentToCommunity(_canCommentToCommunity);
-    }
+    };
 
     // add quick comment value into cache
     const _addQuickCommentIntoCache = (value = commentValue) => {
@@ -282,17 +284,21 @@ export const QuickPostModalContent = forwardRef(
         </View>
 
         {!canCommentToCommunity && (
-          <PopoverWrapper text={intl.formatMessage({ id: 'editor.community_comment_restriction' }, {title: selectedPost?.community_title})}>
+          <PopoverWrapper
+            text={intl.formatMessage(
+              { id: 'editor.community_comment_restriction' },
+              { title: selectedPost?.community_title },
+            )}
+          >
             <Icon
               iconType="MaterialCommunityIcons"
               name="alert-circle-outline"
               size={24}
               color={EStyleSheet.value('$primaryRed')}
-              style={{marginLeft: 12}}
+              style={{ marginLeft: 12 }}
             />
           </PopoverWrapper>
         )}
-
       </View>
     );
 
@@ -360,7 +366,7 @@ export const QuickPostModalContent = forwardRef(
             size={24}
             color={EStyleSheet.value('$primaryBlack')}
           />
-          {(mode !== 'wave' && canCommentToCommunity) && (
+          {mode !== 'wave' && canCommentToCommunity && (
             <IconButton
               iconStyle={styles.toolbarSpacer}
               iconType="MaterialCommunityIcons"

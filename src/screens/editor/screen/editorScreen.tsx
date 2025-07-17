@@ -56,7 +56,7 @@ class EditorScreen extends Component {
       selectedAccount: null,
       scheduledFor: null,
       draftPostProp: props.draftPost,
-      canPostToCommunity: true
+      canPostToCommunity: true,
     };
   }
 
@@ -76,9 +76,11 @@ class EditorScreen extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-
     const { isUploadingProp, communityProp, selectedCommunity } = this.state;
-    if (prevState.isUploadingProp !== isUploadingProp || prevState.selectedCommunity !== selectedCommunity) {
+    if (
+      prevState.isUploadingProp !== isUploadingProp ||
+      prevState.selectedCommunity !== selectedCommunity
+    ) {
       this._handleFormUpdate();
     }
 
@@ -257,21 +259,19 @@ class EditorScreen extends Component {
       case CommunityTypeId.JOURNEL: // private
         return isReply || selectedCommunity.context.subscribed;
       case CommunityTypeId.COUNCIL: // invite only
-        return selectedCommunity.context.subscribed
+        return selectedCommunity.context.subscribed;
       default:
         return true;
     }
-
-
-  }
+  };
 
   _handleIsFormValid = (bodyText) => {
     const { fields } = this.state;
     const { isReply, isLoggedIn } = this.props;
     let isFormValid;
 
-    //check for post permission based on community membership and type_id
-    const canPostToCommunity = this._checkCanPostToCommunity()
+    // check for post permission based on community membership and type_id
+    const canPostToCommunity = this._checkCanPostToCommunity();
 
     if (isReply) {
       isFormValid = canPostToCommunity && get(fields, 'body').length > 0;
@@ -390,7 +390,7 @@ class EditorScreen extends Component {
   };
 
   _getCommunity = (hive) => {
-    const {currentAccount} = this.props;
+    const { currentAccount } = this.props;
     getCommunity(hive, currentAccount.name)
       .then((community) => {
         this.setState({ selectedCommunity: community });
@@ -420,7 +420,7 @@ class EditorScreen extends Component {
       selectedCommunity,
       selectedAccount,
       scheduledFor,
-      canPostToCommunity
+      canPostToCommunity,
     } = this.state;
     const {
       paramFiles,
