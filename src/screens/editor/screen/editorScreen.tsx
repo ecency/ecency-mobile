@@ -26,7 +26,7 @@ import { isCommunity } from '../../../utils/communityValidation';
 
 import styles from './editorScreenStyles';
 import PostOptionsModal from '../children/postOptionsModal';
-import { CommunityTypeId } from '../../../providers/hive/hive.types';
+import { CommunityRole, CommunityTypeId } from '../../../providers/hive/hive.types';
 
 class EditorScreen extends Component {
   /* Props
@@ -256,10 +256,10 @@ class EditorScreen extends Component {
     const { isReply } = this.props;
 
     switch (selectedCommunity?.type_id) {
-      case CommunityTypeId.JOURNEL: // private
-        return isReply || selectedCommunity.context.subscribed;
-      case CommunityTypeId.COUNCIL: // invite only
-        return selectedCommunity.context.subscribed;
+      case CommunityTypeId.JOURNEL: //only members can post, guests can comment
+        return isReply || selectedCommunity.context.role !== CommunityRole.GUEST;
+      case CommunityTypeId.COUNCIL: //only members can post to council
+        return selectedCommunity.context.role !== CommunityRole.GUEST;
       default:
         return true;
     }
