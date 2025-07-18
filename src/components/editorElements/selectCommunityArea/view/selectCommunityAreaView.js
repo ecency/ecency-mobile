@@ -32,7 +32,7 @@ const SelectCommunityAreaView = ({
   }
 
   const _renderRestrictionIcon = !canPostToCommunity && (
-    <PopoverWrapper text={intl.formatMessage({ id: 'editor.community_restriction' })}>
+    <PopoverWrapper text={intl.formatMessage({ id: 'editor.community_restriction' }, {title: selectedCommunity?.title})}>
       <Icon
         name="alert-circle-outline"
         iconType="MaterialCommuntyIcon"
