@@ -42,7 +42,7 @@ import {
 } from '../uploadsGalleryModal/container/uploadsGalleryModal';
 import { removePollDraft } from '../../redux/actions/editorActions';
 import { getCommunity } from '../../providers/hive/dhive';
-import { CommunityTypeId } from '../../providers/hive/hive.types';
+import { CommunityRole, CommunityTypeId } from '../../providers/hive/hive.types';
 
 export interface QuickPostModalContentProps {
   mode: 'comment' | 'wave' | 'post';
@@ -131,7 +131,7 @@ export const QuickPostModalContent = forwardRef(
       const community = await getCommunity(communityName, currentAccount.name);
       const _canCommentToCommunity =
         !community ||
-        !(community.type_id === CommunityTypeId.COUNCIL && !community.context?.member);
+        !(community.type_id === CommunityTypeId.COUNCIL && community.context?.role === CommunityRole.GUEST);
       setCanCommentToCommunity(_canCommentToCommunity);
     };
 
