@@ -256,9 +256,9 @@ class EditorScreen extends Component {
     const { isReply } = this.props;
 
     switch (selectedCommunity?.type_id) {
-      case CommunityTypeId.JOURNEL: //only members can post, guests can comment
+      case CommunityTypeId.JOURNEL: // only members can post, guests can comment
         return isReply || selectedCommunity.context.role !== CommunityRole.GUEST;
-      case CommunityTypeId.COUNCIL: //only members can post to council
+      case CommunityTypeId.COUNCIL: // only members can post to council
         return selectedCommunity.context.role !== CommunityRole.GUEST;
       default:
         return true;

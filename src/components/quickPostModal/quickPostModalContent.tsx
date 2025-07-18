@@ -131,7 +131,10 @@ export const QuickPostModalContent = forwardRef(
       const community = await getCommunity(communityName, currentAccount.name);
       const _canCommentToCommunity =
         !community ||
-        !(community.type_id === CommunityTypeId.COUNCIL && community.context?.role === CommunityRole.GUEST);
+        !(
+          community.type_id === CommunityTypeId.COUNCIL &&
+          community.context?.role === CommunityRole.GUEST
+        );
       setCanCommentToCommunity(_canCommentToCommunity);
     };
 
@@ -443,7 +446,7 @@ export const QuickPostModalContent = forwardRef(
         </View>
 
         {_renderMediaPanel()}
-      
+
         <View style={styles.footer}>
           {_renderExpandBtn()}
           {_renderReplyBtn()}
