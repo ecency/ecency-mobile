@@ -2,7 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   revealButton: {
-    backgroundColor: '$iconColor',
+    backgroundColor: '$primaryLightBackground',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
@@ -12,7 +12,7 @@ export default EStyleSheet.create({
     paddingVertical: 6,
   },
   revealText: {
-    color: '$white',
+    color: '$primaryDarkText',
     fontSize: 14,
   },
 });

@@ -26,6 +26,7 @@ import { isCommunity } from '../../../utils/communityValidation';
 
 import styles from './editorScreenStyles';
 import PostOptionsModal from '../children/postOptionsModal';
+import { CommunityRole, CommunityTypeId } from '../../../providers/hive/hive.types';
 
 class EditorScreen extends Component {
   /* Props
@@ -55,6 +56,7 @@ class EditorScreen extends Component {
       selectedAccount: null,
       scheduledFor: null,
       draftPostProp: props.draftPost,
+      canPostToCommunity: true,
     };
   }
 
@@ -74,8 +76,11 @@ class EditorScreen extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { isUploadingProp, communityProp } = this.state;
-    if (prevState.isUploadingProp !== isUploadingProp) {
+    const { isUploadingProp, communityProp, selectedCommunity } = this.state;
+    if (
+      prevState.isUploadingProp !== isUploadingProp ||
+      prevState.selectedCommunity !== selectedCommunity
+    ) {
       this._handleFormUpdate();
     }
 
@@ -246,15 +251,33 @@ class EditorScreen extends Component {
     }
   };
 
+  _checkCanPostToCommunity = () => {
+    const { selectedCommunity } = this.state;
+    const { isReply } = this.props;
+
+    switch (selectedCommunity?.type_id) {
+      case CommunityTypeId.JOURNEL: // only members can post, guests can comment
+        return isReply || selectedCommunity.context.role !== CommunityRole.GUEST;
+      case CommunityTypeId.COUNCIL: // only members can post to council
+        return selectedCommunity.context.role !== CommunityRole.GUEST;
+      default:
+        return true;
+    }
+  };
+
   _handleIsFormValid = (bodyText) => {
     const { fields } = this.state;
     const { isReply, isLoggedIn } = this.props;
     let isFormValid;
 
+    // check for post permission based on community membership and type_id
+    const canPostToCommunity = this._checkCanPostToCommunity();
+
     if (isReply) {
-      isFormValid = get(fields, 'body').length > 0;
+      isFormValid = canPostToCommunity && get(fields, 'body').length > 0;
     } else {
       isFormValid =
+        canPostToCommunity &&
         get(fields, 'title', '') &&
         get(fields, 'title', '').length < 255 &&
         (get(fields, 'body', '') || (bodyText && bodyText > 0)) &&
@@ -262,7 +285,7 @@ class EditorScreen extends Component {
         get(fields, 'tags', null).length <= 10 &&
         isLoggedIn;
     }
-    this.setState({ isFormValid });
+    this.setState({ isFormValid, canPostToCommunity });
   };
 
   _handleFormUpdate = async (componentID, content) => {
@@ -367,7 +390,8 @@ class EditorScreen extends Component {
   };
 
   _getCommunity = (hive) => {
-    getCommunity(hive)
+    const { currentAccount } = this.props;
+    getCommunity(hive, currentAccount.name)
       .then((community) => {
         this.setState({ selectedCommunity: community });
       })
@@ -396,6 +420,7 @@ class EditorScreen extends Component {
       selectedCommunity,
       selectedAccount,
       scheduledFor,
+      canPostToCommunity,
     } = this.state;
     const {
       paramFiles,
@@ -489,6 +514,7 @@ class EditorScreen extends Component {
             <SelectCommunityAreaView
               selectedAccount={selectedAccount}
               selectedCommunity={selectedCommunity}
+              canPostToCommunity={canPostToCommunity}
               // because of the bug in react-native-modal
               // https://github.com/facebook/react-native/issues/26892
               onPressOut={() => this.setState({ isCommunitiesListModalOpen: true })}

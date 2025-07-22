@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
 import { View, Platform } from 'react-native';
-import { QuickReplyModalContent } from './quickPostModalContent';
+import { QuickPostModalContent } from './quickPostModalContent';
 import styles from './quickPostModal.styles';
 import { SheetNames } from '../../navigation/sheets';
 
@@ -27,7 +27,7 @@ const QuickPostModal = ({ payload }: SheetProps<SheetNames.QUICK_POST>) => {
         keyboardHandlerEnabled={Platform.OS !== 'android'} // hack to prevent sheet height issue on android
         onClose={_onClose}
       >
-        <QuickReplyModalContent
+        <QuickPostModalContent
           ref={modalContentRef}
           mode={mode || 'comment'}
           selectedPost={parentPost}

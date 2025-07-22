@@ -172,3 +172,17 @@ export interface RecurrentTransfer {
   to: string;
   trigger_date: string;
 }
+
+export enum CommunityTypeId {
+  TOPIC = 1, // any one can post or comment
+  JOURNEL = 2, // only members can post or guests (both sub and unsub) can comment
+  COUNCIL = 3, // only subscribed members can post or comment
+}
+
+export enum CommunityRole {
+  MEMBER = 'member',
+  MODERATOR = 'mod',
+  ADMIN = 'admin',
+  OWNER = 'owner',
+  GUEST = 'guest',
+}

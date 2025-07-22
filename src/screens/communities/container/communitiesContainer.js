@@ -164,7 +164,7 @@ const CommunitiesContainer = ({ children }) => {
       .then((subs) => {
         subs.forEach((item) => item.push(true));
         _invalidateSubscribedCommunityCache(subs); // invalidate subscribed communities cache item when latest data is available
-        getCommunities('', 50, null, 'rank').then((communities) => {
+        getCommunities('', 50, null, 'rank', currentAccount.name).then((communities) => {
           communities.forEach((community) =>
             Object.assign(community, {
               isSubscribed: subs.some(

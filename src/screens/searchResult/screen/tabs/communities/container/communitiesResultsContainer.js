@@ -51,7 +51,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
     setData([]);
     setNoResult(false);
     setIsDiscoversLoading(true);
-    getCommunities('', searchValue ? 100 : 20, searchValue || null, 'rank')
+    getCommunities('', searchValue ? 100 : 20, searchValue || null, 'rank', currentAccount.name)
       .then((communities) => {
         if (currentAccount && currentAccount.username) {
           if (subscribedCommunities.data && subscribedCommunities.data.length) {
