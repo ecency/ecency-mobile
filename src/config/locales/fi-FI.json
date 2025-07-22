@@ -613,7 +613,9 @@
     "image": "Kuva",
     "short_desc": "Lyhyt kuvaus",
     "short_desc_placeholder": "Lyhyt yhteenveto sisällöstä",
-    "set_default": "Aseta oletus"
+    "set_default": "Aseta oletus",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "Katkelmia ei löytynyt",
@@ -768,7 +770,9 @@
     "in": "yht",
     "reveal_muted": "Hiljennetty\nNapauta näyttääksesi sisällön",
     "posted_by": "Julkaisija {username} {appname} kautta ",
-    "ecency_waves": "Ecency Aallot"
+    "ecency_waves": "Ecency Aallot",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -1046,7 +1050,7 @@
   },
   "comments": {
     "title": "Kommentit",
-    "reveal_comment": "Näytä sisältö",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "Lue lisää kommentteja",
     "more_replies": "vastaukset",
     "no_comments": "Ole ensimmäinen kommentoija...",
