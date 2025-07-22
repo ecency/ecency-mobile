@@ -614,8 +614,8 @@
     "short_desc": "Descripción corta",
     "short_desc_placeholder": "Resumen breve del contenido",
     "set_default": "Establecer como predeterminado",
-    "community_restriction": "Only members of {title} community can publish post",
-    "community_comment_restriction": "Only members of {title} community can comment on this post"
+    "community_restriction": "Solo pueden publicar los miembros de la comunidad {title}",
+    "community_comment_restriction": "Solamente pueden comentar en esta publicación los miembros de la comunidad {title}"
   },
   "snippets": {
     "label_no_snippets": "No se encontraron Fragmentos",
@@ -771,8 +771,8 @@
     "reveal_muted": "SILENCIADO\nToca para revelar el contenido",
     "posted_by": "Publicado por {username} vía {appname} ",
     "ecency_waves": "Ondas de Ecency",
-    "community_muted": "Content muted for community guidelines violation",
-    "muted": "Content is muted for violation"
+    "community_muted": "Contenido silenciado por violación de las directrices comunitarias",
+    "muted": "Contenido silenciado por infracción"
   },
   "cross_post": {
     "title": "Publicación cruzada",
@@ -1050,7 +1050,7 @@
   },
   "comments": {
     "title": "Comentarios",
-    "reveal_comment": "Muted! Tap To Reveal",
+    "reveal_comment": "¡Silenciado! Toca para mostrar",
     "read_more": "Cargar más comentarios",
     "more_replies": "respuestas",
     "no_comments": "Sé el primero en responder...",
