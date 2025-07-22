@@ -613,7 +613,9 @@
     "image": "Imagem",
     "short_desc": "Breve descrição",
     "short_desc_placeholder": "Breve resumo do conteúdo",
-    "set_default": "Definir Padrão"
+    "set_default": "Definir Padrão",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "Nenhum Snippet Encontrado",
@@ -768,7 +770,9 @@
     "in": "no",
     "reveal_muted": "SILENCIADO\nClique para revelar conteúdo",
     "posted_by": "Publicado por {username} via {appname} ",
-    "ecency_waves": "Ondas da Ecency"
+    "ecency_waves": "Ondas da Ecency",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -1046,7 +1050,7 @@
   },
   "comments": {
     "title": "Comentários",
-    "reveal_comment": "Mostrar Conteúdo",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "Ler mais comentários",
     "more_replies": "respostas",
     "no_comments": "Seja o primeiro a comentar...",
