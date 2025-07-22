@@ -613,7 +613,9 @@
     "image": "छवि",
     "short_desc": "Short description",
     "short_desc_placeholder": "Brief summary of content",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "कोई स्निपेट नहीं मिला",
@@ -768,7 +770,9 @@
     "in": "में",
     "reveal_muted": "मौन कर दिया गया\nसामग्री प्रकट करने के लिए टैप करें",
     "posted_by": "{username} द्वारा {appname} के माध्यम से पोस्ट किया गया ",
-    "ecency_waves": "इसेंसी तरंगें"
+    "ecency_waves": "इसेंसी तरंगें",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -1046,7 +1050,7 @@
   },
   "comments": {
     "title": "विवेचनाऐं",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "अधिक टिप्पणियाँ पढ़ें",
     "more_replies": "जवाब",
     "no_comments": "जवाब देने वाले पहले बनें...",
