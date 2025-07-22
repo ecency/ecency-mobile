@@ -613,7 +613,9 @@
     "image": "صورة",
     "short_desc": "وصف مختصر",
     "short_desc_placeholder": "ملخص موجز للمحتوى",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "لم يتم العثور على مقتطفات",
@@ -768,7 +770,9 @@
     "in": "في",
     "reveal_muted": "مكتوم\nانقر لإظهار المحتوى",
     "posted_by": "تم نشره بواسطة {username} عبر {appname} ",
-    "ecency_waves": "موجات Ecency"
+    "ecency_waves": "موجات Ecency",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -1046,7 +1050,7 @@
   },
   "comments": {
     "title": "التعليقات",
-    "reveal_comment": "كشف المحتوى",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "المزيد من التعليقات",
     "more_replies": "ردود",
     "no_comments": "كن اول من يرد...",
