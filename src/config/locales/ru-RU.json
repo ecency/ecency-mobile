@@ -613,7 +613,9 @@
     "image": "Изображение",
     "short_desc": "Краткое описание",
     "short_desc_placeholder": "Краткое содержание",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "Сниппеты не найдены",
@@ -768,7 +770,9 @@
     "in": "в",
     "reveal_muted": "ОТКЛЮЧЕНО\nНажмите, чтобы показать контент",
     "posted_by": "Опубликовано {username} с помощью {appname} ",
-    "ecency_waves": "Ecency Волны"
+    "ecency_waves": "Ecency Волны",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -1046,7 +1050,7 @@
   },
   "comments": {
     "title": "Комментарии",
-    "reveal_comment": "Отобразить содержимое",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "Читать больше комментариев",
     "more_replies": "ответы",
     "no_comments": "Прокомментируйте первым...",
