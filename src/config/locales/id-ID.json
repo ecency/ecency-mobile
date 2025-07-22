@@ -613,7 +613,9 @@
     "image": "Gambar",
     "short_desc": "Short description",
     "short_desc_placeholder": "Brief summary of content",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "Cuplikan Tidak Ditemukan",
@@ -768,7 +770,9 @@
     "in": "di",
     "reveal_muted": "DIBISUKAN\nKetuk untuk membatalkan konten",
     "posted_by": "Posted by {username} via {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ecency Waves",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -1046,7 +1050,7 @@
   },
   "comments": {
     "title": "Komentar",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "Baca lebih banyak komentar",
     "more_replies": "balasan",
     "no_comments": "Be the first to respond...",
