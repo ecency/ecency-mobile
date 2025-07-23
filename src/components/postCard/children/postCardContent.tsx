@@ -11,8 +11,6 @@ import styles from '../styles/postCard.styles';
 import { PostCardActionIds } from '../container/postCard';
 import ROUTES from '../../../constants/routeNames';
 import { ContentType } from '../../../providers/hive/hive.types';
-import { TextButton } from '../../../components/buttons';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { isCommunity } from '../../../utils/communityValidation';
 
 const DEFAULT_IMAGE =
@@ -51,12 +49,15 @@ export const PostCardContent = ({
   const _isPollPost =
     content?.json_metadata?.content_type === ContentType.POLL && !!content?.json_metadata?.question;
 
-  const _isMuted = content?.stats?.gray || content?.author_reputation < 25 || content?.net_rshares < 0;
+  const _isMuted =
+    content?.stats?.gray || content?.author_reputation < 25 || content?.net_rshares < 0;
   const _isCommunityPost = isCommunity(content?.community);
 
-  const _mutedText = _isMuted ?
-    _isCommunityPost ? (intl.formatMessage({ id: 'post.community_muted' })) : (intl.formatMessage({ id: 'post.muted' }))
-    : "";
+  const _mutedText = _isMuted
+    ? _isCommunityPost
+      ? intl.formatMessage({ id: 'post.community_muted' })
+      : intl.formatMessage({ id: 'post.muted' })
+    : '';
 
   const _featuredText = [
     content?.is_promoted && intl.formatMessage({ id: 'post.promoted' }),
@@ -77,10 +78,9 @@ export const PostCardContent = ({
     });
   };
 
-
   let images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
   if (!_isMuted && content.thumbnail) {
-    if ((nsfw !== '0' && content.nsfw)) {
+    if (nsfw !== '0' && content.nsfw) {
       images = { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
     } else {
       images = { image: content.image, thumbnail: content.thumbnail };
@@ -89,11 +89,8 @@ export const PostCardContent = ({
     images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
   }
 
-
-
   return (
     <View style={styles.postBodyWrapper}>
-
       <TouchableOpacity activeOpacity={0.8} style={styles.hiddenImages} onPress={_onPress}>
         {!isHideImage && (
           <ExpoImage
