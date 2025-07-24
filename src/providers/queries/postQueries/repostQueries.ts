@@ -33,8 +33,7 @@ export const useGetReblogsQuery = (author: string, permlink: string) => {
     },
     initialData: [],
     gcTime: 30 * 60 * 1000, // keeps cache for 30 minutes
-  },
-  );
+  });
 
   return query;
 };

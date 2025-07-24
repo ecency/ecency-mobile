@@ -37,15 +37,16 @@ interface MediaUploadVars {
 
 export const useMediaQuery = () => {
   return useQuery<MediaItem[]>({
-    queryKey: [QUERIES.MEDIA.GET], queryFn: getImages,
+    queryKey: [QUERIES.MEDIA.GET],
+    queryFn: getImages,
     initialData: [],
   });
 };
 
 export const useSnippetsQuery = () => {
-
   return useQuery<Snippet[]>({
-    queryKey: [QUERIES.SNIPPETS.GET], queryFn: getFragments,
+    queryKey: [QUERIES.SNIPPETS.GET],
+    queryFn: getFragments,
     initialData: [],
   });
 };
@@ -157,8 +158,7 @@ export const useMediaUploadMutation = () => {
       bugsnapInstance.notify('Media upload failed', err);
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     },
-  },
-  );
+  });
 };
 
 export const useSnippetsMutation = () => {
@@ -208,8 +208,7 @@ export const useSnippetsMutation = () => {
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'snippets.message_failed' })));
     },
-  },
-  );
+  });
 };
 
 /** DELETE MUTATIONS * */
@@ -240,8 +239,7 @@ export const useMediaDeleteMutation = () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'uploads_modal.delete_failed' })));
       queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET] });
     },
-  },
-  );
+  });
 };
 
 export const useSnippetDeleteMutation = () => {

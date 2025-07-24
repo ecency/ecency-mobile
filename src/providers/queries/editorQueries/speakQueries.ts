@@ -1,4 +1,4 @@
-import { Query, useMutation, UseMutationOptions, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Query, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
 import { useRef } from 'react';
 import { SheetManager } from 'react-native-actions-sheet';
@@ -22,16 +22,13 @@ import { SheetNames } from '../../../navigation/sheets';
  * @returns query instance with data as array of videos as MediaItem[]
  */
 export const useVideoUploadsQuery = () => {
-  const intl = useIntl();
-  const dispatch = useAppDispatch();
-
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinHash = useAppSelector((state) => state.application.pin);
 
   const _fetchVideoUploads = async () => getAllVideoStatuses(currentAccount, pinHash);
 
   const _setRefetchInterval = (query: Query<MediaItem[]>) => {
-    const data = query.state.data;
+    const { data } = query.state;
     if (data) {
       const hasPendingItem = data.find(
         (item) =>
@@ -48,7 +45,8 @@ export const useVideoUploadsQuery = () => {
   };
 
   return useQuery<MediaItem[]>({
-    queryKey: [QUERIES.MEDIA.GET_VIDEOS], queryFn: _fetchVideoUploads,
+    queryKey: [QUERIES.MEDIA.GET_VIDEOS],
+    queryFn: _fetchVideoUploads,
     initialData: [],
     refetchInterval: _setRefetchInterval,
   });
