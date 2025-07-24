@@ -15,10 +15,10 @@ def getNpmVersionArray() { // major [0], minor [1], patch [2]
 buildscript {
     ext {
         buildToolsVersion = "35.0.0"
-        minSdkVersion = 26
+        minSdkVersion = 24
         compileSdkVersion = 35
-        targetSdkVersion = 34
-        ndkVersion = "27.2.12479018"
+        targetSdkVersion = 35
+        ndkVersion = "27.1.12297006"
         kotlinVersion = "2.0.21"
         googlePlayServicesVisionVersion = "17.0.2"
         googlePlayServicesVersion = "16.+"
