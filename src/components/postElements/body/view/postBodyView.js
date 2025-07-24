@@ -157,7 +157,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
 
   const _handleSetSelectedLink = (link) => {
     if (isHiveUri(link)) {
-      linkProcessor.processLink(link);
+      linkProcessor.handleLink(link);
     } else {
       setSelectedLink(link);
       actionLink.current.show();
