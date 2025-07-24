@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Query, useMutation, UseMutationOptions, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
 import { useRef } from 'react';
 import { SheetManager } from 'react-native-actions-sheet';
@@ -30,7 +30,8 @@ export const useVideoUploadsQuery = () => {
 
   const _fetchVideoUploads = async () => getAllVideoStatuses(currentAccount, pinHash);
 
-  const _setRefetchInterval = (data: MediaItem[] | undefined) => {
+  const _setRefetchInterval = (query: Query<MediaItem[]>) => {
+    const data = query.state.data;
     if (data) {
       const hasPendingItem = data.find(
         (item) =>
@@ -46,12 +47,10 @@ export const useVideoUploadsQuery = () => {
     return false;
   };
 
-  return useQuery<MediaItem[]>([QUERIES.MEDIA.GET_VIDEOS], _fetchVideoUploads, {
+  return useQuery<MediaItem[]>({
+    queryKey: [QUERIES.MEDIA.GET_VIDEOS], queryFn: _fetchVideoUploads,
     initialData: [],
     refetchInterval: _setRefetchInterval,
-    onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-    },
   });
 };
 
@@ -127,9 +126,9 @@ export const useSpeakMutations = () => {
     }
   };
 
-  const _options: UseMutationOptions<number, unknown, string | undefined, void> = {
+  const _options = {
     retry: 3,
-    delay: 5000,
+    retryDelay: 5000,
     onMutate: async (videoId) => {
       // TODO: find a way to optimise mutations by avoiding too many loops
       console.log('on mutate data', videoId);

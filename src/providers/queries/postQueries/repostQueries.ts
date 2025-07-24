@@ -12,9 +12,9 @@ import { makeJsonMetadata, makeOptions } from '../../../utils/editor';
 
 /** hook used to return post poll */
 export const useGetReblogsQuery = (author: string, permlink: string) => {
-  const query = useQuery<string[]>(
-    [QUERIES.POST.GET_REBLOGS, author, permlink],
-    async () => {
+  const query = useQuery<string[]>({
+    queryKey: [QUERIES.POST.GET_REBLOGS, author, permlink],
+    queryFn: async () => {
       if (!author || !permlink) {
         return null;
       }
@@ -31,10 +31,9 @@ export const useGetReblogsQuery = (author: string, permlink: string) => {
         return [];
       }
     },
-    {
-      initialData: [],
-      cacheTime: 30 * 60 * 1000, // keeps cache for 30 minutes
-    },
+    initialData: [],
+    gcTime: 30 * 60 * 1000, // keeps cache for 30 minutes
+  },
   );
 
   return query;
