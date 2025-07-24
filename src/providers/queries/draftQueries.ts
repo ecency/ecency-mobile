@@ -12,8 +12,6 @@ import {
 } from '../ecency/ecency';
 import QUERIES from './queryKeys';
 
-
-
 /** hook used to return user drafts */
 export const useGetDraftsQuery = () => {
   return useQuery({ queryKey: [QUERIES.DRAFTS.GET], queryFn: _getDrafts });
@@ -80,8 +78,7 @@ export const useDraftsBatchDeleteMutation = () => {
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     },
-  },
-  );
+  });
 };
 
 export const useScheduleDeleteMutation = () => {
@@ -120,13 +117,12 @@ export const useSchedulesBatchDeleteMutation = () => {
     retry: 3,
     onSuccess: (deleteIds) => {
       console.log('Success schedules delete', deleteIds);
-      queryClient.invalidateQueries({queryKey:[QUERIES.SCHEDULES.GET]});
+      queryClient.invalidateQueries({ queryKey: [QUERIES.SCHEDULES.GET] });
     },
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     },
-  },
-  );
+  });
 };
 
 export const useMoveScheduleToDraftsMutation = () => {
@@ -139,7 +135,7 @@ export const useMoveScheduleToDraftsMutation = () => {
     onSuccess: (data) => {
       console.log('Moved to drafts data', data);
       queryClient.setQueryData([QUERIES.SCHEDULES.GET], _sortData(data));
-      queryClient.invalidateQueries({queryKey:[QUERIES.DRAFTS.GET]});
+      queryClient.invalidateQueries({ queryKey: [QUERIES.DRAFTS.GET] });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success_moved' })));
     },
     onError: () => {

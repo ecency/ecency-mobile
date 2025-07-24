@@ -224,8 +224,14 @@ export const useSpeakMutations = () => {
 
   // init mutations
   const markAsPublishedMutation = useMutation({ mutationFn: _mutationFn, ..._options });
-  const updateInfoMutation = useMutation({ mutationFn: _updateInfoMutationFn, ..._updateInfoOptions });
-  const deleteVideoMutation = useMutation({ mutationFn: _deleteMutationFn, ..._deleteVideoOptions });
+  const updateInfoMutation = useMutation({
+    mutationFn: _updateInfoMutationFn,
+    ..._updateInfoOptions,
+  });
+  const deleteVideoMutation = useMutation({
+    mutationFn: _deleteMutationFn,
+    ..._deleteVideoOptions,
+  });
 
   return {
     markAsPublishedMutation,

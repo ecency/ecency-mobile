@@ -354,10 +354,7 @@ export const usePublishWaveMutation = () => {
 
       // update query data
       const containerQueriesData: [QueryKey, string[] | undefined][] = queryClient.getQueriesData({
-        queryKey: [
-          QUERIES.WAVES.INITIAL_CONTAINERS,
-          _host,
-        ]
+        queryKey: [QUERIES.WAVES.INITIAL_CONTAINERS, _host],
       });
 
       if (!containerQueriesData[0][1]) {
@@ -379,7 +376,9 @@ export const usePublishWaveMutation = () => {
 
     onSuccess: async (host) => {
       // TODO: get first container permlink here from initial containers
-      const queriesData = queryClient.getQueriesData({ queryKey: [QUERIES.WAVES.INITIAL_CONTAINERS, host] });
+      const queriesData = queryClient.getQueriesData({
+        queryKey: [QUERIES.WAVES.INITIAL_CONTAINERS, host],
+      });
       const _queryKey = queriesData[0][0];
       queryClient.invalidateQueries({ queryKey: _queryKey });
     },

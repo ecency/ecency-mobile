@@ -46,8 +46,7 @@ export const useGetPollQuery = (_author?: string, _permlink?: string, metadata?:
     },
     initialData: _initialPollData,
     gcTime: 30 * 60 * 1000, // keeps cache for 30 minutes
-  },
-  );
+  });
 
   // TODO: use injectPollVoteCache here for simplifity and code reuseability
   const data = useInjectPollVoteCache(query.data);
@@ -128,7 +127,9 @@ export function useVotePollMutation(poll: Poll | null) {
 
       dispatch(toastNotification(`${intl.formatMessage({ id: 'alert.fail' })}. ${err.message}`));
 
-      queryClient.invalidateQueries({ queryKey: [QUERIES.POST.GET_POLL, poll?.author, poll?.permlink] });
+      queryClient.invalidateQueries({
+        queryKey: [QUERIES.POST.GET_POLL, poll?.author, poll?.permlink],
+      });
     },
   });
 }

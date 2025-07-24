@@ -38,7 +38,7 @@ export const useAnnouncementsQuery = () => {
       const encToken = currentAccount?.local?.accessToken;
       const token = !!encToken && decryptKey(encToken, getDigitPinCode(pinHash));
       return getAnnouncements(token);
-    }
+    },
   });
 
   useEffect(() => {

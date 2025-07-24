@@ -9,5 +9,5 @@ export const useGetLeaderboardQuery = (duration: 'day' | 'week' | 'month') => {
     return data || [];
   };
 
-  return useQuery({queryKey:[QUERIES.LEADERBOARD.GET, duration], queryFn:_getLeaderboard});
+  return useQuery({ queryKey: [QUERIES.LEADERBOARD.GET, duration], queryFn: _getLeaderboard });
 };

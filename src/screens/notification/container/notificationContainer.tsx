@@ -41,8 +41,8 @@ const NotificationContainer = ({ navigation }) => {
     selectedFilter === NotificationFilters.REPLIES
       ? repliesNotificationsQuery
       : selectedFilter === NotificationFilters.MENTIONS
-        ? mentiosnNotificationsQuery
-        : allNotificationsQuery;
+      ? mentiosnNotificationsQuery
+      : allNotificationsQuery;
 
   useEffect(() => {
     if (curUsername.current !== currentAccount.username) {

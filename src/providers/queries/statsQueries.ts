@@ -33,8 +33,7 @@ export const usePlausibleTracker = () => {
     onError: (error) => {
       console.error('Error recording event:', error);
     },
-  },
-  );
+  });
 
   const _recordEvent = (urlPath: string, isScreenEvent?: boolean) => {
     if (!isScreenEvent || !screenEventRecorded.current) {
@@ -81,7 +80,8 @@ export const usePostStatsQuery = (urlPath: string, dateRange = 'all') =>
 export const usePostStatsByCountry = (urlPath: string, dateRange = 'all') =>
   useQuery({
     queryKey: [QUERIES.PLAUSIBLE.GET_POST_STATS_BY_COUNTRY, urlPath, dateRange],
-    queryFn: () => fetchPostStatsByDimension<PostStatsByCountry>(urlPath, dateRange, 'country_name'),
+    queryFn: () =>
+      fetchPostStatsByDimension<PostStatsByCountry>(urlPath, dateRange, 'country_name'),
     enabled: !!urlPath, // Only enable the query if urlPath is not empty
     staleTime: 60000, // Set staleTime to 1 minute (60000 ms)
   });

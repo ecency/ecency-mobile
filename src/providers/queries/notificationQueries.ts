@@ -108,9 +108,7 @@ export const useNotificationReadMutation = () => {
 
       // update query data
       const queriesData: [QueryKey, any[] | undefined][] = queryClient.getQueriesData({
-        queryKey: [
-          QUERIES.NOTIFICATIONS.GET,
-        ]
+        queryKey: [QUERIES.NOTIFICATIONS.GET],
       });
       console.log('query data', queriesData);
 

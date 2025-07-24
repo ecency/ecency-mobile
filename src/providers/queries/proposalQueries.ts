@@ -16,7 +16,10 @@ import ROUTES from '../../constants/routeNames';
 
 // query for getting active proposal meta;
 export const useActiveProposalMetaQuery = () => {
-  return useQuery<ProposalMeta>({ queryKey: [QUERIES.PROPOSALS.GET_ACTIVE_PROPOSAL], queryFn: getActiveProposalMeta });
+  return useQuery<ProposalMeta>({
+    queryKey: [QUERIES.PROPOSALS.GET_ACTIVE_PROPOSAL],
+    queryFn: getActiveProposalMeta,
+  });
 };
 
 export const useProposalVotedQuery = (proposalId?: number) => {
@@ -42,8 +45,7 @@ export const useProposalVotedQuery = (proposalId?: number) => {
     queryKey: [QUERIES.PROPOSALS.GET_VOTES, currentAccount.name, proposalId],
     queryFn: _getProposalVoteStatus,
     initialData: true,
-  }
-  );
+  });
 
   return {
     ...query,
@@ -92,6 +94,5 @@ export const useProposalVoteMutation = () => {
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     },
-  },
-  );
+  });
 };

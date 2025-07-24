@@ -44,37 +44,35 @@ export const useGetPostQuery = ({
     return _post;
   }, [initialPost?.body]);
 
-  const query = useQuery(
-    {
-      queryKey: [QUERIES.POST.GET, author, permlink],
-      queryFn: async () => {
-        if (!author || !permlink) {
-          return null;
-        }
+  const query = useQuery({
+    queryKey: [QUERIES.POST.GET, author, permlink],
+    queryFn: async () => {
+      if (!author || !permlink) {
+        return null;
+      }
 
-        try {
-          const post = await getPost(author, permlink, currentAccount?.username);
-          if (post?.post_id > 0) {
-            // set pinned post flag
-            if (isPinned) {
-              post.stats = { is_pinned_blog: true, ...post.stats };
-            }
-
-            return post;
+      try {
+        const post = await getPost(author, permlink, currentAccount?.username);
+        if (post?.post_id > 0) {
+          // set pinned post flag
+          if (isPinned) {
+            post.stats = { is_pinned_blog: true, ...post.stats };
           }
 
-          new Error('Post unavailable');
-        } catch (err) {
-          console.warn('Failed to get post', err);
-          throw err;
+          return post;
         }
-      },
 
-      initialData: _initialPost,
-      gcTime: 30 * 60 * 1000, // keeps cache for 30 minutes
-      staleTime: isPreview && currentAccount.username !== author ? 15 * 60 * 1000 : 0, // do not refetch in case of preview only
+        new Error('Post unavailable');
+      } catch (err) {
+        console.warn('Failed to get post', err);
+        throw err;
+      }
     },
-  );
+
+    initialData: _initialPost,
+    gcTime: 30 * 60 * 1000, // keeps cache for 30 minutes
+    staleTime: isPreview && currentAccount.username !== author ? 15 * 60 * 1000 : 0, // do not refetch in case of preview only
+  });
 
   const data = useInjectVotesCache(query.data);
 
@@ -133,13 +131,12 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const botAuthorsQuery = useBotAuthorsQuery();
 
   const _fetchComments = async () => getDiscussionCollection(author, permlink);
-  
+
   const query = useQuery({
     queryKey: [QUERIES.POST.GET_DISCUSSION, author, permlink],
     queryFn: _fetchComments,
     gcTime: 5 * 60 * 1000, // keeps comments cache for 5 minutes
-  },
-  );
+  });
 
   useEffect(() => {
     const _data = injectPostCache(query.data, cachedComments, cachedVotes, lastCacheUpdate);
