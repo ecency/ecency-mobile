@@ -285,7 +285,9 @@ export const usePromotedPostsQuery = () => {
     }
   };
 
-  return useQuery([QUERIES.FEED.GET_PROMOTED, currentAccount.username], _getPromotedPosts, {
+  return useQuery({
+    queryKey: [QUERIES.FEED.GET_PROMOTED, currentAccount.username],
+    queryFn: _getPromotedPosts,
     initialData: [],
   });
 };

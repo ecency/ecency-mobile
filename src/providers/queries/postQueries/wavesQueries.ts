@@ -293,7 +293,8 @@ export const useWavesQuery = (host: string) => {
     return { _permlink, _parent_permlink };
   };
 
-  const deleteMutation = useMutation(deleteWave, {
+  const deleteMutation = useMutation({
+    mutationFn: deleteWave,
     onSuccess: ({ _permlink, _parent_permlink }) => {
       // find container index based on _parent_permlink of comment/wave being deleted
       const _containerIndex = activePermlinks.indexOf(_parent_permlink);
@@ -352,10 +353,12 @@ export const usePublishWaveMutation = () => {
       const _host = cacheCommentData.parent_author;
 
       // update query data
-      const containerQueriesData: [QueryKey, string[] | undefined][] = queryClient.getQueriesData([
-        QUERIES.WAVES.INITIAL_CONTAINERS,
-        _host,
-      ]);
+      const containerQueriesData: [QueryKey, string[] | undefined][] = queryClient.getQueriesData({
+        queryKey: [
+          QUERIES.WAVES.INITIAL_CONTAINERS,
+          _host,
+        ]
+      });
 
       if (!containerQueriesData[0][1]) {
         return;
@@ -376,13 +379,13 @@ export const usePublishWaveMutation = () => {
 
     onSuccess: async (host) => {
       // TODO: get first container permlink here from initial containers
-      const queriesData = queryClient.getQueriesData([QUERIES.WAVES.INITIAL_CONTAINERS, host]);
+      const queriesData = queryClient.getQueriesData({ queryKey: [QUERIES.WAVES.INITIAL_CONTAINERS, host] });
       const _queryKey = queriesData[0][0];
-      queryClient.invalidateQueries(_queryKey);
+      queryClient.invalidateQueries({ queryKey: _queryKey });
     },
   };
 
-  return useMutation(_mutationFn, _options);
+  return useMutation({ mutationFn: _mutationFn, ..._options });
 };
 
 export const fetchLatestWavesContainer = async (host) => {

@@ -36,14 +36,16 @@ export const useAssetsQuery = () => {
 
   const refreshRef = useRef(Object.keys(coinsData).length > 0);
 
-  return useQuery([QUERIES.WALLET.GET, currentAccount.username], async () => {
-    try {
-      await dispatch(fetchAndSetCoinsData(refreshRef.current));
-    } catch (err) {
-      console.warn('failed to get query response', err);
-    }
+  return useQuery({
+    queryKey: [QUERIES.WALLET.GET, currentAccount.username], queryFn: async () => {
+      try {
+        await dispatch(fetchAndSetCoinsData(refreshRef.current));
+      } catch (err) {
+        console.warn('failed to get query response', err);
+      }
 
-    return true;
+      return true;
+    }
   });
 };
 
@@ -149,9 +151,10 @@ export const useUnclaimedRewardsQuery = () => {
     return _processCachedData(rewardsCollection);
   };
 
-  return useQuery<RewardsCollection>(
-    [QUERIES.WALLET.UNCLAIMED_GET, currentAccount.username],
-    _fetchUnclaimedRewards,
+  return useQuery<RewardsCollection>({
+    queryKey: [QUERIES.WALLET.UNCLAIMED_GET, currentAccount.username],
+    queryFn: _fetchUnclaimedRewards,
+  }
   );
 };
 
@@ -191,7 +194,8 @@ export const useClaimRewardsMutation = () => {
     return true;
   };
 
-  const mutation = useMutation<boolean, Error, ClaimRewardsMutationVars>(_mutationFn, {
+  const mutation = useMutation<boolean, Error, ClaimRewardsMutationVars>({
+    mutationFn: _mutationFn,
     retry: 2,
     onMutate({ assetId }) {
       setIsClaimingColl({ ...isClaimingColl, [assetId]: true });
@@ -218,7 +222,7 @@ export const useClaimRewardsMutation = () => {
       }
 
       // invalidate wallet data;
-      queryClient.invalidateQueries([QUERIES.WALLET.GET, currentAccount.username]);
+      queryClient.invalidateQueries({ queryKey: [QUERIES.WALLET.GET, currentAccount.username] });
 
       dispatch(
         toastNotification(
@@ -357,9 +361,9 @@ export const useRecurringActivitesQuery = (coinId: string) => {
     return null;
   }
 
-  const query = useQuery(
-    [QUERIES.WALLET.GET_RECURRING_TRANSFERS, coinId, currentAccount.username],
-    async () => {
+  const query = useQuery({
+    queryKey: [QUERIES.WALLET.GET_RECURRING_TRANSFERS, coinId, currentAccount.username],
+    queryFn: async () => {
       if (!currentAccount?.username) {
         return [];
       }
@@ -371,6 +375,7 @@ export const useRecurringActivitesQuery = (coinId: string) => {
 
       return recurringTransfers as RecurrentTransfer[];
     },
+  }
   );
 
   const totalAmount = useMemo(() => {
@@ -396,11 +401,14 @@ export const usePendingRequestsQuery = (assetId: string) => {
   const symbol = useMemo(() => selectedCoins.find((item) => item.id === assetId).symbol, []);
 
   return useQuery(
-    [QUERIES.WALLET.GET_PENDING_REQUESTS, currentAccount.username, assetId],
-    async () => {
-      const pendingRequests = await fetchPendingRequests(currentAccount.username, symbol);
-      return pendingRequests;
-    },
+    {
+      queryKey:
+        [QUERIES.WALLET.GET_PENDING_REQUESTS, currentAccount.username, assetId],
+      queryFn: async () => {
+        const pendingRequests = await fetchPendingRequests(currentAccount.username, symbol);
+        return pendingRequests;
+      },
+    }
   );
 };
 
@@ -411,54 +419,55 @@ export const useDeleteRecurrentTransferMutation = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinHash = useAppSelector((state) => state.application.pin);
 
-  const mutation = useMutation<boolean, Error, { recurrentTransfer: RecurrentTransfer }>(
-    async ({ recurrentTransfer }) => {
-      // form up rec transfer data for deletion
-      const data = {
-        from: recurrentTransfer.from,
-        destination: recurrentTransfer.to,
-        amount: '0.000 HIVE',
-        memo: recurrentTransfer.memo || '',
-        recurrence: recurrentTransfer.recurrence || 0,
-        executions: recurrentTransfer.remaining_executions || 0,
-      };
+  const mutation = useMutation<boolean, Error, { recurrentTransfer: RecurrentTransfer }>({
+    mutationFn:
+      async ({ recurrentTransfer }) => {
+        // form up rec transfer data for deletion
+        const data = {
+          from: recurrentTransfer.from,
+          destination: recurrentTransfer.to,
+          amount: '0.000 HIVE',
+          memo: recurrentTransfer.memo || '',
+          recurrence: recurrentTransfer.recurrence || 0,
+          executions: recurrentTransfer.remaining_executions || 0,
+        };
 
-      await recurrentTransferToken(currentAccount, pinHash, data);
-      return true;
-    },
-    {
-      onSuccess: (_, { recurrentTransfer }) => {
-        // manually update previous query data
-        const prevData = queryClient.getQueryData<RecurrentTransfer[]>([
-          QUERIES.WALLET.GET_RECURRING_TRANSFERS,
-          ASSET_IDS.HIVE,
-          currentAccount.username,
-        ]);
-
-        if (prevData) {
-          const updatedData = prevData.filter(
-            (item) =>
-              !(
-                item.from === recurrentTransfer.from &&
-                item.to === recurrentTransfer.to &&
-                item.recurrence === recurrentTransfer.recurrence
-              ),
-          );
-          queryClient.setQueryData(
-            [QUERIES.WALLET.GET_RECURRING_TRANSFERS, ASSET_IDS.HIVE, currentAccount.username],
-            updatedData,
-          );
-        }
-        dispatch(toastNotification(intl.formatMessage({ id: 'recurrent.delete_success' })));
+        await recurrentTransferToken(currentAccount, pinHash, data);
+        return true;
       },
-      onError: (error) => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({ id: 'recurrent.delete_failed' }, { error: error.message }),
-          ),
+    retry: 2,
+    onSuccess: (_, { recurrentTransfer }) => {
+      // manually update previous query data
+      const prevData = queryClient.getQueryData<RecurrentTransfer[]>([
+        QUERIES.WALLET.GET_RECURRING_TRANSFERS,
+        ASSET_IDS.HIVE,
+        currentAccount.username,
+      ]);
+
+      if (prevData) {
+        const updatedData = prevData.filter(
+          (item) =>
+            !(
+              item.from === recurrentTransfer.from &&
+              item.to === recurrentTransfer.to &&
+              item.recurrence === recurrentTransfer.recurrence
+            ),
         );
-      },
+        queryClient.setQueryData(
+          [QUERIES.WALLET.GET_RECURRING_TRANSFERS, ASSET_IDS.HIVE, currentAccount.username],
+          updatedData,
+        );
+      }
+      dispatch(toastNotification(intl.formatMessage({ id: 'recurrent.delete_success' })));
     },
+    onError: (error) => {
+      dispatch(
+        toastNotification(
+          intl.formatMessage({ id: 'recurrent.delete_failed' }, { error: error.message }),
+        ),
+      );
+    },
+  },
   );
 
   return mutation;

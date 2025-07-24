@@ -32,10 +32,13 @@ export const useAnnouncementsQuery = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const announcementsMeta = useAppSelector((state) => state.cache.announcementsMeta);
 
-  const announcmentsQuery = useQuery([QUERIES.ANNOUNCEMENTS.GET], () => {
-    const encToken = currentAccount?.local?.accessToken;
-    const token = !!encToken && decryptKey(encToken, getDigitPinCode(pinHash));
-    return getAnnouncements(token);
+  const announcmentsQuery = useQuery({
+    queryKey: [QUERIES.ANNOUNCEMENTS.GET],
+    queryFn: () => {
+      const encToken = currentAccount?.local?.accessToken;
+      const token = !!encToken && decryptKey(encToken, getDigitPinCode(pinHash));
+      return getAnnouncements(token);
+    }
   });
 
   useEffect(() => {

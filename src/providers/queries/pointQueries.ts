@@ -27,7 +27,8 @@ export const useUserActivityMutation = () => {
     return true;
   };
 
-  const mutation = useMutation<boolean, Error, UserActivityMutationVars>(_mutationFn, {
+  const mutation = useMutation<boolean, Error, UserActivityMutationVars>({
+    mutationFn: _mutationFn,
     retry: 2,
     onSuccess: (data, vars) => {
       console.log('successfully logged activity', data, vars);

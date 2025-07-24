@@ -16,7 +16,7 @@ import ROUTES from '../../constants/routeNames';
 
 // query for getting active proposal meta;
 export const useActiveProposalMetaQuery = () => {
-  return useQuery<ProposalMeta>([QUERIES.PROPOSALS.GET_ACTIVE_PROPOSAL], getActiveProposalMeta);
+  return useQuery<ProposalMeta>({ queryKey: [QUERIES.PROPOSALS.GET_ACTIVE_PROPOSAL], queryFn: getActiveProposalMeta });
 };
 
 export const useProposalVotedQuery = (proposalId?: number) => {
@@ -38,10 +38,11 @@ export const useProposalVotedQuery = (proposalId?: number) => {
     return isVoted;
   };
 
-  const query = useQuery(
-    [QUERIES.PROPOSALS.GET_VOTES, currentAccount.name, proposalId],
-    _getProposalVoteStatus,
-    { initialData: true },
+  const query = useQuery({
+    queryKey: [QUERIES.PROPOSALS.GET_VOTES, currentAccount.name, proposalId],
+    queryFn: _getProposalVoteStatus,
+    initialData: true,
+  }
   );
 
   return {
@@ -58,8 +59,8 @@ export const useProposalVoteMutation = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinHash = useAppSelector((state) => state.application.pin);
 
-  return useMutation<any, Error, { proposalId: number }>(
-    ({ proposalId }) => {
+  return useMutation<any, Error, { proposalId: number }>({
+    mutationFn: ({ proposalId }) => {
       if (currentAccount.local.authType === authType.STEEM_CONNECT) {
         const _enHiveuri = hiveuri.encodeOp([
           'update_proposal_votes',
@@ -82,15 +83,15 @@ export const useProposalVoteMutation = () => {
       }
       return voteProposal(currentAccount, pinHash, proposalId);
     },
-    {
-      retry: 3,
-      onSuccess: (_, { proposalId }) => {
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.thankyou' })));
-        dispatch(updateProposalVoteMeta(proposalId, currentAccount.username, true));
-      },
-      onError: () => {
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-      },
+
+    retry: 3,
+    onSuccess: (_, { proposalId }) => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.thankyou' })));
+      dispatch(updateProposalVoteMeta(proposalId, currentAccount.username, true));
     },
+    onError: () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  },
   );
 };

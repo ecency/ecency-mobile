@@ -72,7 +72,7 @@ export const useAddToUploadsMutation = () => {
     onError: (error) => {
       if (error.toString().includes('code 409')) {
         // means image ware already preset, refresh to get updated order
-        queryClient.invalidateQueries([QUERIES.MEDIA.GET]);
+        queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET] });
       } else {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       }

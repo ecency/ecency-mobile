@@ -110,7 +110,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
         duration,
       );
 
-      queryClient.invalidateQueries([QUERIES.MEDIA.GET_VIDEOS]);
+      queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET_VIDEOS] });
 
       if (sheetModalRef.current) {
         sheetModalRef.current.hide();

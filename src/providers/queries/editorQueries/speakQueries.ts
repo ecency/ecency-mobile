@@ -158,7 +158,7 @@ export const useSpeakMutations = () => {
 
     onSuccess: async (status, _id) => {
       console.log('on success data', status);
-      queryClient.invalidateQueries([QUERIES.MEDIA.GET_VIDEOS]);
+      queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET_VIDEOS] });
     },
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
@@ -182,7 +182,7 @@ export const useSpeakMutations = () => {
     retry: 3,
     onSuccess: async (status, _data) => {
       console.log('on success data', status);
-      queryClient.invalidateQueries([QUERIES.MEDIA.GET_VIDEOS]);
+      queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET_VIDEOS] });
     },
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
@@ -214,7 +214,7 @@ export const useSpeakMutations = () => {
         queryClient.setQueryData([QUERIES.MEDIA.GET_VIDEOS], _newData);
       }
 
-      queryClient.invalidateQueries([QUERIES.MEDIA.GET_VIDEOS]);
+      queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET_VIDEOS] });
     },
     onError: (err) => {
       console.warn('delete failing', err);
@@ -223,9 +223,9 @@ export const useSpeakMutations = () => {
   };
 
   // init mutations
-  const markAsPublishedMutation = useMutation(_mutationFn, _options);
-  const updateInfoMutation = useMutation(_updateInfoMutationFn, _updateInfoOptions);
-  const deleteVideoMutation = useMutation(_deleteMutationFn, _deleteVideoOptions);
+  const markAsPublishedMutation = useMutation({ mutationFn: _mutationFn, ..._options });
+  const updateInfoMutation = useMutation({ mutationFn: _updateInfoMutationFn, ..._updateInfoOptions });
+  const deleteVideoMutation = useMutation({ mutationFn: _deleteMutationFn, ..._deleteVideoOptions });
 
   return {
     markAsPublishedMutation,
