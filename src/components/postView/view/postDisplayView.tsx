@@ -90,7 +90,7 @@ const PostDisplayView = ({
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     fetchPost().then(() => setRefreshing(false));
-    queryClient.resetQueries([QUERIES.POST.GET_POLL, author, permlink]);
+    queryClient.resetQueries({ queryKey: [QUERIES.POST.GET_POLL, author, permlink] });
   }, [refreshing]);
 
   const _scrollToComments = () => {

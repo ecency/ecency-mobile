@@ -61,7 +61,7 @@ const LeaderboardContainer = () => {
     if (index === undefined || !selectedFilter) {
       index = selectedIndex;
       selectedFilter = FILTER_OPTIONS[index];
-      queryClient.invalidateQueries([QUERIES.LEADERBOARD.GET, selectedFilter]);
+      queryClient.invalidateQueries({ queryKey: [QUERIES.LEADERBOARD.GET, selectedFilter] });
       setRefreshing(true);
     }
 

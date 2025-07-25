@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Query, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
 import { useRef } from 'react';
 import { SheetManager } from 'react-native-actions-sheet';
@@ -22,15 +22,13 @@ import { SheetNames } from '../../../navigation/sheets';
  * @returns query instance with data as array of videos as MediaItem[]
  */
 export const useVideoUploadsQuery = () => {
-  const intl = useIntl();
-  const dispatch = useAppDispatch();
-
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinHash = useAppSelector((state) => state.application.pin);
 
   const _fetchVideoUploads = async () => getAllVideoStatuses(currentAccount, pinHash);
 
-  const _setRefetchInterval = (data: MediaItem[] | undefined) => {
+  const _setRefetchInterval = (query: Query<MediaItem[]>) => {
+    const { data } = query.state;
     if (data) {
       const hasPendingItem = data.find(
         (item) =>
@@ -46,12 +44,11 @@ export const useVideoUploadsQuery = () => {
     return false;
   };
 
-  return useQuery<MediaItem[]>([QUERIES.MEDIA.GET_VIDEOS], _fetchVideoUploads, {
+  return useQuery<MediaItem[]>({
+    queryKey: [QUERIES.MEDIA.GET_VIDEOS],
+    queryFn: _fetchVideoUploads,
     initialData: [],
     refetchInterval: _setRefetchInterval,
-    onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-    },
   });
 };
 
@@ -127,9 +124,9 @@ export const useSpeakMutations = () => {
     }
   };
 
-  const _options: UseMutationOptions<number, unknown, string | undefined, void> = {
+  const _options = {
     retry: 3,
-    delay: 5000,
+    retryDelay: 5000,
     onMutate: async (videoId) => {
       // TODO: find a way to optimise mutations by avoiding too many loops
       console.log('on mutate data', videoId);
@@ -158,7 +155,7 @@ export const useSpeakMutations = () => {
 
     onSuccess: async (status, _id) => {
       console.log('on success data', status);
-      queryClient.invalidateQueries([QUERIES.MEDIA.GET_VIDEOS]);
+      queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET_VIDEOS] });
     },
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
@@ -182,7 +179,7 @@ export const useSpeakMutations = () => {
     retry: 3,
     onSuccess: async (status, _data) => {
       console.log('on success data', status);
-      queryClient.invalidateQueries([QUERIES.MEDIA.GET_VIDEOS]);
+      queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET_VIDEOS] });
     },
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
@@ -214,7 +211,7 @@ export const useSpeakMutations = () => {
         queryClient.setQueryData([QUERIES.MEDIA.GET_VIDEOS], _newData);
       }
 
-      queryClient.invalidateQueries([QUERIES.MEDIA.GET_VIDEOS]);
+      queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET_VIDEOS] });
     },
     onError: (err) => {
       console.warn('delete failing', err);
@@ -223,9 +220,15 @@ export const useSpeakMutations = () => {
   };
 
   // init mutations
-  const markAsPublishedMutation = useMutation(_mutationFn, _options);
-  const updateInfoMutation = useMutation(_updateInfoMutationFn, _updateInfoOptions);
-  const deleteVideoMutation = useMutation(_deleteMutationFn, _deleteVideoOptions);
+  const markAsPublishedMutation = useMutation({ mutationFn: _mutationFn, ..._options });
+  const updateInfoMutation = useMutation({
+    mutationFn: _updateInfoMutationFn,
+    ..._updateInfoOptions,
+  });
+  const deleteVideoMutation = useMutation({
+    mutationFn: _deleteMutationFn,
+    ..._deleteVideoOptions,
+  });
 
   return {
     markAsPublishedMutation,

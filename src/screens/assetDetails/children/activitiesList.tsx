@@ -48,7 +48,7 @@ export const ActivitiesList = ({
       if (trxId) {
         setCancellingTrxIndex(trxId);
         await limitOrderCancel(currentAccount, pinHash, trxId);
-        queryClient.invalidateQueries([QUERIES.WALLET.GET_PENDING_REQUESTS]);
+        queryClient.invalidateQueries({ queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS] });
         setCancellingTrxIndex(-1);
       }
     } catch (err) {
