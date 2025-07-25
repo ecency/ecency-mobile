@@ -581,7 +581,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
         // call fetch post to drafts screen
         if (queryClient) {
-          queryClient.invalidateQueries([QUERIES.DRAFTS.GET]);
+          queryClient.invalidateQueries({ queryKey: [QUERIES.DRAFTS.GET] });
         }
       }
     } catch (err) {

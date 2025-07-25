@@ -36,24 +36,18 @@ interface MediaUploadVars {
 /** GET QUERIES * */
 
 export const useMediaQuery = () => {
-  const intl = useIntl();
-  const dispatch = useAppDispatch();
-  return useQuery<MediaItem[]>([QUERIES.MEDIA.GET], getImages, {
+  return useQuery<MediaItem[]>({
+    queryKey: [QUERIES.MEDIA.GET],
+    queryFn: getImages,
     initialData: [],
-    onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-    },
   });
 };
 
 export const useSnippetsQuery = () => {
-  const intl = useIntl();
-  const dispatch = useAppDispatch();
-  return useQuery<Snippet[]>([QUERIES.SNIPPETS.GET], getFragments, {
+  return useQuery<Snippet[]>({
+    queryKey: [QUERIES.SNIPPETS.GET],
+    queryFn: getFragments,
     initialData: [],
-    onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-    },
   });
 };
 
@@ -64,7 +58,8 @@ export const useAddToUploadsMutation = () => {
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 
-  return useMutation<any[], Error, string>(addImage, {
+  return useMutation<any[], Error, string>({
+    mutationFn: addImage,
     retry: 3,
     onSuccess: (data) => {
       queryClient.setQueryData([QUERIES.MEDIA.GET], data);
@@ -72,7 +67,7 @@ export const useAddToUploadsMutation = () => {
     onError: (error) => {
       if (error.toString().includes('code 409')) {
         // means image ware already preset, refresh to get updated order
-        queryClient.invalidateQueries([QUERIES.MEDIA.GET]);
+        queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET] });
       } else {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       }
@@ -146,25 +141,24 @@ export const useMediaUploadMutation = () => {
   //   });
   // };
 
-  return useMutation<Image, undefined, MediaUploadVars>(
-    async ({ media }) => {
+  return useMutation<Image, undefined, MediaUploadVars>({
+    mutationFn: async ({ media }) => {
       console.log('uploading media', media);
       const sign = await signImage(media, currentAccount, pinCode);
       return uploadImage(media, currentAccount.name, sign);
     },
-    {
-      onSuccess: (response, { addToUploads }) => {
-        if (addToUploads && response && response.url) {
-          console.log('adding image to gallery', response.url);
-          addToUploadsMutation.mutate(response.url);
-        }
-      },
-      onError: (err) => {
-        bugsnapInstance.notify('Media upload failed', err);
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-      },
+
+    onSuccess: (response, { addToUploads }) => {
+      if (addToUploads && response && response.url) {
+        console.log('adding image to gallery', response.url);
+        addToUploadsMutation.mutate(response.url);
+      }
     },
-  );
+    onError: (err) => {
+      bugsnapInstance.notify('Media upload failed', err);
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  });
 };
 
 export const useSnippetsMutation = () => {
@@ -172,8 +166,8 @@ export const useSnippetsMutation = () => {
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 
-  return useMutation<Snippet[], undefined, SnippetMutationVars>(
-    async (vars) => {
+  return useMutation<Snippet[], undefined, SnippetMutationVars>({
+    mutationFn: async (vars) => {
       console.log('going to add/update snippet', vars);
       if (vars.id) {
         const response = await updateFragment(vars.id, vars.title, vars.body);
@@ -183,39 +177,38 @@ export const useSnippetsMutation = () => {
         return response;
       }
     },
-    {
-      onMutate: (vars) => {
-        console.log('mutate snippets for add/update', vars);
 
-        const _newItem = {
-          id: vars.id,
-          title: vars.title,
-          body: vars.body,
-          created: new Date().toDateString(),
-          modified: new Date().toDateString(),
-        } as Snippet;
+    onMutate: (vars) => {
+      console.log('mutate snippets for add/update', vars);
 
-        const data = queryClient.getQueryData<Snippet[]>([QUERIES.SNIPPETS.GET]);
+      const _newItem = {
+        id: vars.id,
+        title: vars.title,
+        body: vars.body,
+        created: new Date().toDateString(),
+        modified: new Date().toDateString(),
+      } as Snippet;
 
-        let _newData: Snippet[] = data ? [...data] : [];
-        if (vars.id) {
-          const snipIndex = _newData.findIndex((item) => vars.id === item.id);
-          _newData[snipIndex] = _newItem;
-        } else {
-          _newData = [_newItem, ..._newData];
-        }
+      const data = queryClient.getQueryData<Snippet[]>([QUERIES.SNIPPETS.GET]);
 
-        queryClient.setQueryData([QUERIES.SNIPPETS.GET], _newData);
-      },
-      onSuccess: (data) => {
-        console.log('added/updated snippet', data);
-        queryClient.invalidateQueries([QUERIES.SNIPPETS.GET]);
-      },
-      onError: () => {
-        dispatch(toastNotification(intl.formatMessage({ id: 'snippets.message_failed' })));
-      },
+      let _newData: Snippet[] = data ? [...data] : [];
+      if (vars.id) {
+        const snipIndex = _newData.findIndex((item) => vars.id === item.id);
+        _newData[snipIndex] = _newItem;
+      } else {
+        _newData = [_newItem, ..._newData];
+      }
+
+      queryClient.setQueryData([QUERIES.SNIPPETS.GET], _newData);
     },
-  );
+    onSuccess: (data) => {
+      console.log('added/updated snippet', data);
+      queryClient.invalidateQueries({ queryKey: [QUERIES.SNIPPETS.GET] });
+    },
+    onError: () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'snippets.message_failed' })));
+    },
+  });
 };
 
 /** DELETE MUTATIONS * */
@@ -224,8 +217,8 @@ export const useMediaDeleteMutation = () => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const intl = useIntl();
-  return useMutation<string[], undefined, string[]>(
-    async (deleteIds) => {
+  return useMutation<string[], undefined, string[]>({
+    mutationFn: async (deleteIds) => {
       // eslint-disable-next-line no-restricted-syntax
       for (const i in deleteIds) {
         // eslint-disable-next-line no-await-in-loop
@@ -233,29 +226,28 @@ export const useMediaDeleteMutation = () => {
       }
       return deleteIds;
     },
-    {
-      retry: 3,
-      onSuccess: (deleteIds) => {
-        console.log('Success media deletion delete', deleteIds);
-        const data: MediaItem[] | undefined = queryClient.getQueryData([QUERIES.MEDIA.GET]);
-        if (data) {
-          const _newData = data.filter((item) => !deleteIds.includes(item._id));
-          queryClient.setQueryData([QUERIES.MEDIA.GET], _newData);
-        }
-      },
-      onError: () => {
-        dispatch(toastNotification(intl.formatMessage({ id: 'uploads_modal.delete_failed' })));
-        queryClient.invalidateQueries([QUERIES.MEDIA.GET]);
-      },
+    retry: 3,
+    onSuccess: (deleteIds) => {
+      console.log('Success media deletion delete', deleteIds);
+      const data: MediaItem[] | undefined = queryClient.getQueryData([QUERIES.MEDIA.GET]);
+      if (data) {
+        const _newData = data.filter((item) => !deleteIds.includes(item._id));
+        queryClient.setQueryData([QUERIES.MEDIA.GET], _newData);
+      }
     },
-  );
+    onError: () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'uploads_modal.delete_failed' })));
+      queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET] });
+    },
+  });
 };
 
 export const useSnippetDeleteMutation = () => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const intl = useIntl();
-  return useMutation<Snippet[], undefined, string>(deleteFragment, {
+  return useMutation<Snippet[], undefined, string>({
+    mutationFn: deleteFragment,
     retry: 3,
     onSuccess: (data) => {
       console.log('Success scheduled post delete', data);

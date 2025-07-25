@@ -46,7 +46,7 @@ const NotificationContainer = ({ navigation }) => {
 
   useEffect(() => {
     if (curUsername.current !== currentAccount.username) {
-      queryClient.removeQueries([QUERIES.NOTIFICATIONS.GET]);
+      queryClient.removeQueries({ queryKey: [QUERIES.NOTIFICATIONS.GET] });
       selectedQuery.refresh();
       curUsername.current = currentAccount.useranme;
     }
@@ -54,7 +54,7 @@ const NotificationContainer = ({ navigation }) => {
 
   useEffect(() => {
     if (currentAccount.unread_activity_count > unreadCountRef.current) {
-      queryClient.invalidateQueries([QUERIES.NOTIFICATIONS.GET]);
+      queryClient.invalidateQueries({ queryKey: [QUERIES.NOTIFICATIONS.GET] });
       // TODO: fetch new notifications instead
     }
     unreadCountRef.current = currentAccount.unread_activity_count;

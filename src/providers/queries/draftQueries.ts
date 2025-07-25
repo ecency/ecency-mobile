@@ -14,19 +14,20 @@ import QUERIES from './queryKeys';
 
 /** hook used to return user drafts */
 export const useGetDraftsQuery = () => {
-  return useQuery([QUERIES.DRAFTS.GET], _getDrafts);
+  return useQuery({ queryKey: [QUERIES.DRAFTS.GET], queryFn: _getDrafts });
 };
 
 /** used to return user schedules */
 export const useGetSchedulesQuery = () => {
-  return useQuery([QUERIES.SCHEDULES.GET], _getSchedules);
+  return useQuery({ queryKey: [QUERIES.SCHEDULES.GET], queryFn: _getSchedules });
 };
 
 export const useAddDraftMutation = () => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const intl = useIntl();
-  return useMutation(addDraft, {
+  return useMutation({
+    mutationFn: addDraft,
     retry: 3,
     onSuccess: (data) => {
       queryClient.setQueryData([QUERIES.DRAFTS.GET], _sortData(data));
@@ -41,7 +42,8 @@ export const useDraftDeleteMutation = () => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const intl = useIntl();
-  return useMutation(deleteDraft, {
+  return useMutation({
+    mutationFn: deleteDraft,
     retry: 3,
     onSuccess: (data) => {
       console.log('Success draft delete', JSON.stringify(data, null, 2));
@@ -57,8 +59,8 @@ export const useDraftsBatchDeleteMutation = () => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const intl = useIntl();
-  return useMutation<any, any, any>(
-    async (deleteIds) => {
+  return useMutation<any, any, any>({
+    mutationFn: async (deleteIds) => {
       console.log('deleteIds : ', JSON.stringify(deleteIds, null, 2));
       // eslint-disable-next-line
       for (const i in deleteIds) {
@@ -67,24 +69,24 @@ export const useDraftsBatchDeleteMutation = () => {
       }
       return deleteIds;
     },
-    {
-      retry: 3,
-      onSuccess: (deleteIds) => {
-        console.log('Success draft delete', deleteIds);
-        queryClient.invalidateQueries([QUERIES.DRAFTS.GET]);
-      },
-      onError: () => {
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-      },
+
+    retry: 3,
+    onSuccess: (deleteIds) => {
+      console.log('Success draft delete', deleteIds);
+      queryClient.invalidateQueries({ queryKey: [QUERIES.DRAFTS.GET] });
     },
-  );
+    onError: () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  });
 };
 
 export const useScheduleDeleteMutation = () => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const intl = useIntl();
-  return useMutation(deleteScheduledPost, {
+  return useMutation({
+    mutationFn: deleteScheduledPost,
     retry: 3,
     onSuccess: (data) => {
       console.log('Success scheduled post delete', data);
@@ -100,8 +102,8 @@ export const useSchedulesBatchDeleteMutation = () => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const intl = useIntl();
-  return useMutation<any, any, any>(
-    async (deleteIds) => {
+  return useMutation<any, any, any>({
+    mutationFn: async (deleteIds) => {
       console.log('deleteIds : ', JSON.stringify(deleteIds, null, 2));
 
       // eslint-disable-next-line
@@ -111,29 +113,29 @@ export const useSchedulesBatchDeleteMutation = () => {
       }
       return deleteIds;
     },
-    {
-      retry: 3,
-      onSuccess: (deleteIds) => {
-        console.log('Success schedules delete', deleteIds);
-        queryClient.invalidateQueries([QUERIES.SCHEDULES.GET]);
-      },
-      onError: () => {
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-      },
+
+    retry: 3,
+    onSuccess: (deleteIds) => {
+      console.log('Success schedules delete', deleteIds);
+      queryClient.invalidateQueries({ queryKey: [QUERIES.SCHEDULES.GET] });
     },
-  );
+    onError: () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  });
 };
 
 export const useMoveScheduleToDraftsMutation = () => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const intl = useIntl();
-  return useMutation(moveScheduledToDraft, {
+  return useMutation({
+    mutationFn: moveScheduledToDraft,
     retry: 3,
     onSuccess: (data) => {
       console.log('Moved to drafts data', data);
       queryClient.setQueryData([QUERIES.SCHEDULES.GET], _sortData(data));
-      queryClient.invalidateQueries([QUERIES.DRAFTS.GET]);
+      queryClient.invalidateQueries({ queryKey: [QUERIES.DRAFTS.GET] });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.success_moved' })));
     },
     onError: () => {

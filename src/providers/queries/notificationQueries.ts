@@ -107,9 +107,9 @@ export const useNotificationReadMutation = () => {
       console.log('on mutate data', notificationId);
 
       // update query data
-      const queriesData: [QueryKey, any[] | undefined][] = queryClient.getQueriesData([
-        QUERIES.NOTIFICATIONS.GET,
-      ]);
+      const queriesData: [QueryKey, any[] | undefined][] = queryClient.getQueriesData({
+        queryKey: [QUERIES.NOTIFICATIONS.GET],
+      });
       console.log('query data', queriesData);
 
       queriesData.forEach(([queryKey, data]) => {
@@ -129,7 +129,7 @@ export const useNotificationReadMutation = () => {
 
       dispatch(updateUnreadActivityCount(unreadCount));
       if (!notificationId) {
-        queryClient.invalidateQueries([QUERIES.NOTIFICATIONS.GET]);
+        queryClient.invalidateQueries({ queryKey: [QUERIES.NOTIFICATIONS.GET] });
       }
     },
     onError: () => {
@@ -137,5 +137,5 @@ export const useNotificationReadMutation = () => {
     },
   };
 
-  return useMutation(_mutationFn, _options);
+  return useMutation({ mutationFn: _mutationFn, ..._options });
 };

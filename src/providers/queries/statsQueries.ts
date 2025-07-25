@@ -23,18 +23,17 @@ export const usePlausibleTracker = () => {
   const screenEventRecorded = useRef(false);
 
   // Define the mutation to record an event
-  const mutation = useMutation(
-    (urlPath: string) => recordPlausibleEvent(urlPath), // The API call function
-    {
-      // Optional onSuccess or onError callback to handle response or errors
-      onSuccess: (data) => {
-        console.log('Event recorded successfully:', data);
-      },
-      onError: (error) => {
-        console.error('Error recording event:', error);
-      },
+  const mutation = useMutation({
+    mutationFn: (urlPath: string) => recordPlausibleEvent(urlPath), // The API call function
+
+    // Optional onSuccess or onError callback to handle response or errors
+    onSuccess: (data) => {
+      console.log('Event recorded successfully:', data);
     },
-  );
+    onError: (error) => {
+      console.error('Error recording event:', error);
+    },
+  });
 
   const _recordEvent = (urlPath: string, isScreenEvent?: boolean) => {
     if (!isScreenEvent || !screenEventRecorded.current) {
@@ -49,7 +48,7 @@ export const usePlausibleTracker = () => {
 
   return {
     recordEvent: _recordEvent,
-    isLoading: mutation.isLoading, // Optional: You can return the loading state if needed
+    isLoading: mutation.isPending, // Optional: You can return the loading state if needed
     error: mutation.error, // Optional: You can return the error state if needed
   };
 };
@@ -63,14 +62,12 @@ export const usePlausibleTracker = () => {
  */
 
 export const usePostStatsQuery = (urlPath: string, dateRange = 'all') =>
-  useQuery(
-    [QUERIES.PLAUSIBLE.GET_POST_STATS, urlPath, dateRange],
-    () => fetchPostStats(urlPath, dateRange),
-    {
-      enabled: !!urlPath, // Only enable the query if urlPath is not empty
-      staleTime: 60000, // Set staleTime to 1 minute (60000 ms)
-    },
-  );
+  useQuery({
+    queryKey: [QUERIES.PLAUSIBLE.GET_POST_STATS, urlPath, dateRange],
+    queryFn: () => fetchPostStats(urlPath, dateRange),
+    enabled: !!urlPath, // Only enable the query if urlPath is not empty
+    staleTime: 60000, // Set staleTime to 1 minute (60000 ms)
+  });
 
 /**
  * Custom hook to fetch post stats by country
@@ -81,14 +78,13 @@ export const usePostStatsQuery = (urlPath: string, dateRange = 'all') =>
  */
 
 export const usePostStatsByCountry = (urlPath: string, dateRange = 'all') =>
-  useQuery(
-    [QUERIES.PLAUSIBLE.GET_POST_STATS_BY_COUNTRY, urlPath, dateRange],
-    () => fetchPostStatsByDimension<PostStatsByCountry>(urlPath, dateRange, 'country_name'),
-    {
-      enabled: !!urlPath, // Only enable the query if urlPath is not empty
-      staleTime: 60000, // Set staleTime to 1 minute (60000 ms)
-    },
-  );
+  useQuery({
+    queryKey: [QUERIES.PLAUSIBLE.GET_POST_STATS_BY_COUNTRY, urlPath, dateRange],
+    queryFn: () =>
+      fetchPostStatsByDimension<PostStatsByCountry>(urlPath, dateRange, 'country_name'),
+    enabled: !!urlPath, // Only enable the query if urlPath is not empty
+    staleTime: 60000, // Set staleTime to 1 minute (60000 ms)
+  });
 
 /**
  * Custom hook to fetch post stats by device
@@ -99,11 +95,9 @@ export const usePostStatsByCountry = (urlPath: string, dateRange = 'all') =>
  */
 
 export const usePostStatsByDevice = (urlPath: string, dateRange = 'all') =>
-  useQuery(
-    [QUERIES.PLAUSIBLE.GET_POST_STATS_BY_DEVICE, urlPath, dateRange],
-    async () => fetchPostStatsByDimension<PostStatsByDevice>(urlPath, dateRange, 'device'),
-    {
-      enabled: !!urlPath, // Only enable the query if urlPath is not empty
-      staleTime: 60000, // Set staleTime to 1 minute (60000 ms)
-    },
-  );
+  useQuery({
+    queryKey: [QUERIES.PLAUSIBLE.GET_POST_STATS_BY_DEVICE, urlPath, dateRange],
+    queryFn: async () => fetchPostStatsByDimension<PostStatsByDevice>(urlPath, dateRange, 'device'),
+    enabled: !!urlPath, // Only enable the query if urlPath is not empty
+    staleTime: 60000, // Set staleTime to 1 minute (60000 ms)
+  });

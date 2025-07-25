@@ -48,7 +48,9 @@ const BoostPlus = ({
   const startActionSheet = useRef(null);
   const startActionSheetP = useRef(null);
 
-  const boostPricesQuery = useQuery([QUERIES.REDEEM.GET_BOOST_PLUS_PRICES], getBoostPlusPrice, {
+  const boostPricesQuery = useQuery({
+    queryKey: [QUERIES.REDEEM.GET_BOOST_PLUS_PRICES],
+    queryFn: getBoostPlusPrice,
     initialData: [],
   });
 
