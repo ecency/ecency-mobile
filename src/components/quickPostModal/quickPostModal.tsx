@@ -24,7 +24,6 @@ const QuickPostModal = ({ payload }: SheetProps<SheetNames.QUICK_POST>) => {
         containerStyle={styles.sheetContent}
         indicatorStyle={styles.sheetIndicator}
         defaultOverlayOpacity={0}
-        keyboardHandlerEnabled={Platform.OS !== 'android'} // hack to prevent sheet height issue on android
         onClose={_onClose}
       >
         <QuickPostModalContent
