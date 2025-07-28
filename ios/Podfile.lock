@@ -2104,7 +2104,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNGestureHandler (2.24.0):
+  - RNGestureHandler (2.27.2):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2272,7 +2272,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (4.11.1):
+  - RNScreens (4.13.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2297,7 +2297,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNSVG (15.11.2):
+  - RNSVG (15.12.0):
     - React-Core
   - RNVectorIcons (10.2.0):
     - DoubleConversion
@@ -2884,15 +2884,15 @@ SPEC CHECKSUMS:
   RNFBDynamicLinks: 33a33e0362f0e4e07cdeb5506ec33673affe5463
   RNFBMessaging: 8e38f5ca846497f8a9c91d33f311c00ca52d119c
   RNFlashList: ba5a86000973c301819b03a52bde98cb51c74286
-  RNGestureHandler: e960beba92f592ee4a03b20aa4931806d0f16b06
+  RNGestureHandler: dbe2e0fcdaeb5b869267beb5431861160aeee185
   RNIap: f94647b3a3dbd5fa08ad7ed847eb588aa5fe95fe
   RNImageCropPicker: b0afedeefd8655254a15c34103718455fde6ce59
   RNNotifee: 5e3b271e8ea7456a36eec994085543c9adca9168
   RNOS: d07e5090b5060c6f2b83116d740a32cfdb33afe3
   RNPermissions: f02196b33009a5c2d85521719dc3c7b8b54b28d5
   RNReanimated: 8442cd220122765de7d858946846a7513e40fe04
-  RNScreens: 7f9d84a9901679dbb435592612d5ac57a044adce
-  RNSVG: ab84f2de7dd4f2c86d01825b8a65e0ef712fc36b
+  RNScreens: 48d705e4f7a2e66c08cf552a4c57714d4a44d6f9
+  RNSVG: 4d6e9f0087980e36e14e1739b9c1760e63de5b8c
   RNVectorIcons: d111d680b1629da748b7c40de18a246d9d585aab
   SDWebImage: f84b0feeb08d2d11e6a9b843cb06d75ebf5b8868
   SDWebImageAVIFCoder: 00310d246aab3232ce77f1d8f0076f8c4b021d90
