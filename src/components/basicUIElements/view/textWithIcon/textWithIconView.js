@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TouchableHighlight, Text, ActivityIndicator } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Icon } from '../../../icon';
@@ -27,21 +27,19 @@ const TextWithIcon = ({
   return (
     <View style={styles.container}>
       <TouchableHighlight
-        style={[styles.wrapper, wrapperStyle]}
         underlayColor="transparent"
         disabled={!isClickable || !onPress}
         onPress={() => onPress && onPress()}
         onLongPress={() => onLongPress && onLongPress()}
       >
-        <Fragment>
+        <View style={[styles.wrapper, wrapperStyle]}>
           {isLoading ? (
             <ActivityIndicator style={_iconStyle} color={EStyleSheet.value('$iconColor')} />
           ) : (
             <Icon style={_iconStyle} name={iconName} iconType={iconType} />
           )}
-
           <Text style={[styles.text, textStyle]}>{ltext}</Text>
-        </Fragment>
+        </View>
       </TouchableHighlight>
     </View>
   );
