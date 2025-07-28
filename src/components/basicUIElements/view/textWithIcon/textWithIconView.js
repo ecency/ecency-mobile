@@ -30,7 +30,8 @@ const TextWithIcon = ({
         underlayColor="transparent"
         disabled={!isClickable || !onPress}
         onPress={() => onPress && onPress()}
-        onLongPress={() => onLongPress && onLongPress()}>
+        onLongPress={() => onLongPress && onLongPress()}
+      >
         <View style={[styles.wrapper, wrapperStyle]}>
           {isLoading ? (
             <ActivityIndicator style={_iconStyle} color={EStyleSheet.value('$iconColor')} />
