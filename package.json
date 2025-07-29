@@ -32,7 +32,7 @@
   "dependencies": {
     "@babel/preset-typescript": "^7.26.0",
     "@babel/runtime": "^7.26.7",
-    "@bugsnag/react-native": "^8.2.0",
+    "@bugsnag/react-native": "^8.4.0",
     "@ecency/render-helper": "^2.2.39",
     "@esteemapp/dhive": "0.15.0",
     "@esteemapp/react-native-autocomplete-input": "^4.2.1",

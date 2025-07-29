@@ -1,6 +1,6 @@
 PODS:
   - boost (1.84.0)
-  - BugsnagReactNative (8.2.0):
+  - BugsnagReactNative (8.4.0):
     - React-Core
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
@@ -2756,7 +2756,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
-  BugsnagReactNative: 3e53a711e96ca1097bff567fb66213778905e3ca
+  BugsnagReactNative: f2731e875074768796910d51fab561dfde4a20be
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   EXConstants: 98bcf0f22b820f9b28f9fee55ff2daededadd2f8
