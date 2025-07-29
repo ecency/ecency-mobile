@@ -28,6 +28,9 @@ jobs:
           echo "PLAUSIBLE_API_KEY=${{ secrets.PLAUSIBLE_API_KEY }}" >> .env
       - name: Install npm dependency
         run: yarn install
+
+      - name: Patch ReactRootProjectPlugin
+        run: node patch-react-root-project-plugin.js
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
