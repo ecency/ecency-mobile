@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-
+/* eslint-disable */
 const fs = require('fs');
 const path = require('path');
+/* eslint-enable */
 
 // Define the file paths to patch
 const filePaths = [
