@@ -36,7 +36,7 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
         with:
-          cmdline-tools-version: 11479570
+          cmdline-tools-version: 12266719
       - uses: actions/cache@v3
         with:
           path: |
@@ -46,7 +46,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
       - name: Create Google Services JSON File
         env:
           GOOGLE_JSON: ${{ secrets.GOOGLE_JSON }}
