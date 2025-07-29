@@ -70,7 +70,6 @@ jobs:
       - name: Execute Gradle APK build
         run: |
           cd android
-          ./gradlew clean
           ./gradlew assembleRelease
       - name: Cache generated APK
         uses: actions/cache@v3
