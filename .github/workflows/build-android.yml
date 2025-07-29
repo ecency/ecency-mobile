@@ -1,7 +1,7 @@
 name: Android Build
 on:
   push:
-    branches: ["development"]
+    branches: ["development", "nt/upgrade"]
 jobs:
   android-build:
     name: Android Build
