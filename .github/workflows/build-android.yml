@@ -1,7 +1,7 @@
 name: Android Build
 on:
   push:
-    branches: ["development", "nt/upgrade"]
+    branches: ["development"]
 jobs:
   android-build:
     name: Android Build
@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repo from dev branch
         uses: actions/checkout@v3
         with:
-          ref: nt/upgrade
+          ref: development
       - name: Create .env file
         run: |
           echo "ACTIVITY_WEBSOCKET_URL=${{ secrets.ACTIVITY_WEBSOCKET_URL }}" >> .env
