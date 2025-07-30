@@ -28,7 +28,14 @@ jobs:
           echo "PLAUSIBLE_API_KEY=${{ secrets.PLAUSIBLE_API_KEY }}" >> .env
       - name: Install npm dependency
         run: yarn install
-        
+
+      - name: Run gradle patch script
+        run: |
+          # Make sure script is executable and remove quarantine
+          chmod +x patch-gradle.sh
+          xattr -d com.apple.quarantine patch-gradle.sh 2>/dev/null || true
+          ./patch-gradle.sh
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
