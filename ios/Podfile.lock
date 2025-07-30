@@ -1,6 +1,6 @@
 PODS:
   - boost (1.84.0)
-  - BugsnagReactNative (8.2.0):
+  - BugsnagReactNative (8.4.0):
     - React-Core
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
@@ -2057,7 +2057,7 @@ PODS:
     - React-Core
   - RNBootSplash (6.3.10):
     - React-Core
-  - RNCAsyncStorage (2.1.2):
+  - RNCAsyncStorage (2.2.0):
     - React-Core
   - RNCClipboard (1.16.1):
     - React-Core
@@ -2756,7 +2756,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
-  BugsnagReactNative: 3e53a711e96ca1097bff567fb66213778905e3ca
+  BugsnagReactNative: f2731e875074768796910d51fab561dfde4a20be
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   EXConstants: 98bcf0f22b820f9b28f9fee55ff2daededadd2f8
@@ -2876,7 +2876,7 @@ SPEC CHECKSUMS:
   ReactCommon: 1aa48867a0fc71a2b4f9e8a1529f5673648354f3
   rn-fetch-blob: 13834702ae4c003d643eaf5cca9857a4b50b6a7e
   RNBootSplash: 866866f2a3856cd76547a24c6a63be79aeca40f8
-  RNCAsyncStorage: b9f5f78da5d16a853fe3dc22e8268d932fc45a83
+  RNCAsyncStorage: b44e8a4e798c3e1f56bffccd0f591f674fb9198f
   RNCClipboard: ee059e6006b137e369caed5eb852b4aad9f5d886
   RNDeviceInfo: d863506092aef7e7af3a1c350c913d867d795047
   RNFBAnalytics: 1dfa1e8dd307e0d75b8fce82e308fd791a6d8163
