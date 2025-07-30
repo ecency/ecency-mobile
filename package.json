@@ -50,6 +50,7 @@
     "@react-native-firebase/app": "^21.11.0",
     "@react-native-firebase/dynamic-links": "^21.11.0",
     "@react-native-firebase/messaging": "^21.11.0",
+    "@react-native/gradle-plugin": "0.79.5",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/drawer": "^6.6.6",
     "@react-navigation/native": "^6.1.9",
