@@ -7,10 +7,64 @@ else
     IS_MACOS=false
 fi
 
+# Function to check React Native version
+check_rn_version() {
+    echo "🔍 Checking React Native version..."
+    
+    # Check if package.json exists
+    if [[ ! -f "package.json" ]]; then
+        echo "❌ Error: package.json not found. Please run this script from your React Native project root."
+        exit 1
+    fi
+    
+    # Extract React Native version from package.json
+    local rn_version
+    if command -v jq >/dev/null 2>&1; then
+        # Use jq if available (more reliable)
+        rn_version=$(jq -r '.dependencies["react-native"] // .devDependencies["react-native"] // empty' package.json 2>/dev/null)
+    else
+        # Fallback to grep/sed (works without jq)
+        rn_version=$(grep -E '"react-native"' package.json | head -1 | sed -E 's/.*"react-native"[[:space:]]*:[[:space:]]*"([^"]*)".*$/\1/')
+    fi
+    
+    # Clean version string (remove ^, ~, etc.)
+    rn_version=$(echo "$rn_version" | sed -E 's/[\^~>=<]*//')
+    
+    if [[ -z "$rn_version" ]]; then
+        echo "❌ Error: Could not detect React Native version from package.json"
+        echo "Please make sure React Native is listed in dependencies or devDependencies."
+        exit 1
+    fi
+    
+    echo "📱 Detected React Native version: $rn_version"
+    
+    # Check if version is exactly 0.79.5
+    if [[ "$rn_version" != "0.79.5" ]]; then
+        echo ""
+        echo "⚠️  WARNING: This patch is designed for React Native 0.79.5"
+        echo "📱 Your version: $rn_version"
+        echo "🎯 Required version: 0.79.5"
+        echo ""
+        echo "🚨 IMPORTANT: Before using this patch with a different version:"
+        echo "   1. Test your build WITHOUT this patch first"
+        echo "   2. Remove script if app build on Github Action without this script"
+        echo "   3. If not, update rn version on script and make sure patch is applied to file correctly"
+        echo "   4. For ref of patch content check url: https://github.com/cortinico/react-native/commit/7795d3472e2ee2571148b91f7570758fbf7d2b38"
+        echo ""
+        echo "💡 This patch modifies Gradle build dependencies and may not be"
+        echo "   compatible with other React Native versions."
+        echo ""
+        echo "❌ Patch aborted for safety. To proceed anyway, update the script."
+        exit 1
+    fi
+    
+    echo "✅ React Native version 0.79.5 confirmed - proceeding with patch"
+    echo ""
+}
+
 # Define the file paths to patch
 FILE_PATHS=(
     "node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/src/main/kotlin/com/facebook/react/ReactRootProjectPlugin.kt"
-    "node_modules/@react-native/gradle-plugin/react-native-gradle-plugin/bin/src/main/kotlin/com/facebook/react/ReactRootProjectPlugin.kt"
 )
 
 # Define the snippet to insert (at line 29)
@@ -119,6 +173,9 @@ patch_file() {
         return 1
     fi
 }
+
+# Check React Native version first
+check_rn_version
 
 # Main execution
 echo "🔧 Patching ReactRootProjectPlugin.kt files..."
