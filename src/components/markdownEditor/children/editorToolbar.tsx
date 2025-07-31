@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Keyboard, View, ViewStyle } from 'react-native';
+import { Keyboard, View, ViewStyle, Platform } from 'react-native';
 import {
   Gesture,
   GestureDetector,
@@ -69,13 +69,18 @@ export const EditorToolbar = ({
 
   const [isExtensionVisible, setIsExtensionVisible] = useState(false);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (e) => {
       setKeyboardVisible(true); // or some other action
+      setKeyboardHeight(
+        e.endCoordinates.height + Platform.select({ android: insets.bottom, default: 0 }),
+      );
     });
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', (_) => {
       setKeyboardVisible(false); // or some other action
+      setKeyboardHeight(0);
     });
 
     return () => {
@@ -257,7 +262,7 @@ export const EditorToolbar = ({
   };
 
   return (
-    <View style={_containerStyle}>
+    <View style={{ ..._containerStyle, marginBottom: keyboardHeight }}>
       {_renderExtension()}
 
       {!isPreviewActive && (
