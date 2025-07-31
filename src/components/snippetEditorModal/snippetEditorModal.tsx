@@ -67,7 +67,7 @@ const SnippetEditorModal = ({}, ref) => {
     <KeyboardAvoidingView
       style={styles.container}
       keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : null}
-      behavior={Platform.OS === 'ios' ? 'padding' : null}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <View style={styles.inputContainer}>
         <View style={{ height: Math.max(35, titleHeight) }}>

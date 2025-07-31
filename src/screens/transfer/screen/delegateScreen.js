@@ -602,7 +602,7 @@ class DelegateScreen extends Component {
       <SafeAreaView style={styles.container}>
         <BasicHeader title={intl.formatMessage({ id: 'transfer.delegate' })} backIconName="close" />
         <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : null}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.fillSpace}
           keyboardShouldPersistTaps="always"
         >

@@ -1,14 +1,7 @@
 import { postBodySummary, renderPostBody } from '@ecency/render-helper';
 import { debounce, get } from 'lodash';
 import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { BounceInRight } from 'react-native-reanimated';
 import { useSelector } from 'react-redux';
 import { SheetManager } from 'react-native-actions-sheet';
@@ -452,14 +445,7 @@ const MarkdownEditorView = ({
       </>
     );
 
-    return Platform.select({
-      ios: (
-        <KeyboardAvoidingView style={styles.container} behavior="padding">
-          {_innerContent}
-        </KeyboardAvoidingView>
-      ),
-      android: <View style={styles.container}>{_innerContent}</View>,
-    });
+    return <View style={styles.container}>{_innerContent}</View>;
   };
 
   return (

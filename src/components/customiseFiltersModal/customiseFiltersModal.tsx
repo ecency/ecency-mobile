@@ -119,7 +119,7 @@ const CustomiseFiltersModal = ({ pageType }: Props, ref: Ref<CustomiseFiltersMod
     <KeyboardAvoidingView
       style={styles.container}
       keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : null}
-      behavior={Platform.OS === 'ios' ? 'padding' : null}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <Text style={styles.title}>{intl.formatMessage({ id: 'selection_list.title_filters' })}</Text>
 
