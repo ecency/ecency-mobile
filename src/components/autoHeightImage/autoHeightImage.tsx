@@ -1,6 +1,6 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
 import React, { useMemo, useState } from 'react';
-import { Platform, TouchableOpacity } from 'react-native';
+import { Platform, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import Animated, {
@@ -22,7 +22,7 @@ interface AutoHeightImageProps {
   setAspectRatio?: (ratio: number) => void;
 }
 
-const AnimatedExpoImage = Animated.createAnimatedComponent(ExpoImage);
+// const AnimatedExpoImage = Animated.createAnimatedComponent(ExpoImage);
 
 export const AutoHeightImage = ({
   contentWidth,
@@ -64,6 +64,7 @@ export const AutoHeightImage = ({
   }, [imgUrl]);
 
   const [imgWidth, setImgWidth] = useState(contentWidth);
+  const [height, setHeight] = useState(_initialHeight);
   const imgHeightAnim = useSharedValue(_initialHeight); // Initial height based on 16:9 ratio
   const imgOpacityAnim = useSharedValue(0); // Initial opacity for fade-in effect
   const bgColorAnim = useSharedValue(EStyleSheet.value('$primaryLightBackground')); // Initial back
@@ -96,7 +97,8 @@ export const AutoHeightImage = ({
     }
 
     if (!aspectRatio) {
-      animateHeight(newHeight); // Animate the height change
+      setHeight(newHeight)
+      // animateHeight(newHeight); // Animate the height change
     }
 
     setImgWidth(newWidth);
@@ -107,18 +109,31 @@ export const AutoHeightImage = ({
   };
 
   // Use Reanimated to bind the animated height value to the style
-  const animatedWrapperStyle = useAnimatedStyle(() => ({
+  // const animatedWrapperStyle = useAnimatedStyle(() => ({
+  //   width: imgWidth,
+  //   height: imgHeightAnim.value, // Bind animated height
+  //   backgroundColor: bgColorAnim.value,
+  //   borderRadius: 8,
+  // }));
+
+  const animatedWrapperStyle = {
     width: imgWidth,
-    height: imgHeightAnim.value, // Bind animated height
+    height: height,// imgHeightAnim.value, // Bind animated height
     backgroundColor: bgColorAnim.value,
     borderRadius: 8,
-  }));
+  }
 
-  const animatedImgStyle = useAnimatedStyle(() => ({
+  // const animatedImgStyle = useAnimatedStyle(() => ({
+  //   flex: 1,
+  //   borderRadius: 8,
+  //   opacity: imgOpacityAnim.value, // Bind animated opacity
+  // }));
+
+  const animatedImgStyle = {
     flex: 1,
     borderRadius: 8,
-    opacity: imgOpacityAnim.value, // Bind animated opacity
-  }));
+    opacity: 1
+  }
 
   const _onLoad = (evt) => {
     _setImageBounds(evt.source.width, evt.source.height);
@@ -127,14 +142,14 @@ export const AutoHeightImage = ({
 
   return (
     <TouchableOpacity onPress={onPress} disabled={isAnchored} activeOpacity={activeOpacity || 1}>
-      <Animated.View style={animatedWrapperStyle}>
-        <AnimatedExpoImage
+      <View style={animatedWrapperStyle}>
+        <ExpoImage
           style={animatedImgStyle}
           source={{ uri: imgUrl }}
           contentFit="cover"
           onLoad={_onLoad}
         />
-      </Animated.View>
+      </View>
     </TouchableOpacity>
   );
 };
