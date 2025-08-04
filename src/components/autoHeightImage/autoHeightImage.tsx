@@ -3,12 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { Platform, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import { useSharedValue, withTiming } from 'react-native-reanimated';
 
 interface AutoHeightImageProps {
   contentWidth: number;
@@ -70,13 +65,13 @@ export const AutoHeightImage = ({
   const bgColorAnim = useSharedValue(EStyleSheet.value('$primaryLightBackground')); // Initial back
 
   // Function to animate the height change using Reanimated
-  const animateHeight = (newHeight: number) => {
+  /* const animateHeight = (newHeight: number) => {
     imgHeightAnim.value = withTiming(newHeight, {
       duration: 300,
       easing: Easing.out(Easing.circle),
     }); // Smooth transition over 300ms
     (bgColorAnim.value = withTiming('transparent')), { duration: 200 }; // Smooth transition over 300ms
-  };
+  }; */
 
   // Function to animate the fade-in effect
   const animateFadeIn = () => {
@@ -97,7 +92,7 @@ export const AutoHeightImage = ({
     }
 
     if (!aspectRatio) {
-      setHeight(newHeight)
+      setHeight(newHeight);
       // animateHeight(newHeight); // Animate the height change
     }
 
@@ -118,10 +113,10 @@ export const AutoHeightImage = ({
 
   const animatedWrapperStyle = {
     width: imgWidth,
-    height: height,// imgHeightAnim.value, // Bind animated height
+    height, // imgHeightAnim.value, // Bind animated height
     backgroundColor: bgColorAnim.value,
     borderRadius: 8,
-  }
+  };
 
   // const animatedImgStyle = useAnimatedStyle(() => ({
   //   flex: 1,
@@ -132,8 +127,8 @@ export const AutoHeightImage = ({
   const animatedImgStyle = {
     flex: 1,
     borderRadius: 8,
-    opacity: 1
-  }
+    opacity: 1,
+  };
 
   const _onLoad = (evt) => {
     _setImageBounds(evt.source.width, evt.source.height);
