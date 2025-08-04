@@ -103,6 +103,20 @@ jobs:
       - name: Build iOS JS Bundle
         run: |
           yarn run bundle:ios
+      - name: Upload source maps to Sentry (iOS)
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          DIST=$(date +%s)
+          npx sentry-cli releases new "$VERSION-$DIST" --org ecency --project ecency-mobile
+          npx sentry-cli releases files "$VERSION-$DIST" upload-sourcemaps \
+            --dist "$DIST" \
+            --org ecency --project ecency-mobile \
+            --rewrite \
+            --strip-prefix ios \
+            ios/main.jsbundle ios/main.jsbundle.map
+          npx sentry-cli releases finalize "$VERSION-$DIST" --org ecency --project ecency-mobile
       - name: Build archive
         run: |
           cd ios

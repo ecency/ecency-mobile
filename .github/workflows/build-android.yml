@@ -76,6 +76,22 @@ jobs:
         run: |
           cd android
           ./gradlew assembleRelease
+      - name: Upload source maps to Sentry (Android)
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          DIST=$(date +%s)
+          BUNDLE_PATH=android/app/src/main/assets/index.android.bundle
+          MAP_PATH=android/app/src/main/assets/index.android.bundle.map
+          npx sentry-cli releases new "$VERSION-$DIST" --org ecency --project ecency-mobile
+          npx sentry-cli releases files "$VERSION-$DIST" upload-sourcemaps \
+            --dist "$DIST" \
+            --org ecency --project ecency-mobile \
+            --rewrite \
+            --strip-prefix android/app/src/main/assets \
+            "$BUNDLE_PATH" "$MAP_PATH"
+          npx sentry-cli releases finalize "$VERSION-$DIST" --org ecency --project ecency-mobile
       - name: Cache generated APK
         uses: actions/cache@v3
         with:

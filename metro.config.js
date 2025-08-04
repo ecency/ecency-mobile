@@ -1,10 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { mergeConfig } = require('@react-native/metro-config');
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { wrapWithReanimatedMetroConfig } = require('react-native-reanimated/metro-config');
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { getSentryExpoConfig } = require('@sentry/react-native/metro');
+const { withSentry } = require('@sentry/react-native/metro');
 
 /**
  * Metro configuration
@@ -14,4 +14,7 @@ const { getSentryExpoConfig } = require('@sentry/react-native/metro');
  */
 const config = {};
 
-module.exports = wrapWithReanimatedMetroConfig(mergeConfig(getSentryExpoConfig(__dirname), config));
+// eslint-disable-next-line max-len
+module.exports = wrapWithReanimatedMetroConfig(
+  withSentry(mergeConfig(getDefaultConfig(__dirname), config)),
+);
