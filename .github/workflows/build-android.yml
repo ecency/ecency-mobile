@@ -89,7 +89,6 @@ jobs:
             --dist "$DIST" \
             --org ecency --project ecency-mobile \
             --rewrite \
-            --strip-prefix android/app/src/main/assets \
             "$BUNDLE_PATH" "$MAP_PATH"
           npx sentry-cli releases finalize "$VERSION-$DIST" --org ecency --project ecency-mobile
       - name: Cache generated APK

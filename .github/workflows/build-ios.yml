@@ -119,6 +119,7 @@ jobs:
           npx sentry-cli releases finalize "$VERSION-$DIST" --org ecency --project ecency-mobile
       - name: Build archive
         run: |
+          export SENTRY_DISABLE_AUTO_UPLOAD=true
           cd ios
           xcodebuild -workspace Ecency.xcworkspace \
           -scheme "Ecency" \
