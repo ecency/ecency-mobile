@@ -1,4 +1,16 @@
 {
   "name": "Ecency",
-  "displayName": "Ecency"
+  "displayName": "Ecency",
+  "expo": {
+    "plugins": [
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "ecency-mobile",
+          "organization": "ecency"
+        }
+      ]
+    ]
+  }
 }
