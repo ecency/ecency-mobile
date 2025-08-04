@@ -712,7 +712,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export EXTRA_PACKAGER_ARGS=\"--sourcemap-output $TMPDIR/$(md5 -qs \"$CONFIGURATION_BUILD_DIR\")-main.jsbundle.map\"\nexport NODE_BINARY=node\n/bin/sh `\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('@sentry/react-native/package.json')) + '/scripts/sentry-xcode.sh'\"` ../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "if [ \"$CI\" = \"true\" ]; then\n  echo \"Skipping automatic source map composition in CI\"\n  export SENTRY_DISABLE_AUTO_UPLOAD=true\n  export EXTRA_PACKAGER_ARGS=\"\"\n  export NODE_BINARY=node\n  ../node_modules/react-native/scripts/react-native-xcode.sh || true\nelse\n  export NODE_BINARY=node\n  /bin/sh \"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('@sentry/react-native/package.json')) + '/scripts/sentry-xcode.sh'\" ../node_modules/react-native/scripts/react-native-xcode.sh\nfi\n";
 		};
 		05BAAAEE25BF43F80072EA01 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -765,7 +765,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SOURCE_MAP=\"$TMPDIR/$(md5 -qs \"$CONFIGURATION_BUILD_DIR\")-main.jsbundle.map\" ../node_modules/@bugsnag/react-native/bugsnag-react-native-xcode.sh";
+			shellScript = "SOURCE_MAP=\"$TMPDIR/$(md5 -qs \"$CONFIGURATION_BUILD_DIR\")-main.jsbundle.map\" ../node_modules/@bugsnag/react-native/bugsnag-react-native-xcode.sh\n";
 		};
 		571D8075E41E7FED519F21A1 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
