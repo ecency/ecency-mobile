@@ -1,10 +1,5 @@
 import React, { memo, useMemo, useRef } from 'react';
-import RenderHTML, {
-  CustomRendererProps,
-  Element,
-  TNode,
-  TextSelectableRenderer,
-} from 'react-native-render-html';
+import RenderHTML, { CustomRendererProps, Element, TNode } from 'react-native-render-html';
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -163,7 +158,7 @@ export const PostHtmlRenderer = memo(
         }
       }
 
-      // this avoids invalid rendering of first element of table pushing rest of columsn to extreme right.
+      // this avoids invalid rendering of first element of table pushing rest of columns to extreme right.
       if (element.tagName === 'table') {
         console.log('table detected');
 
@@ -183,14 +178,14 @@ export const PostHtmlRenderer = memo(
               }
             });
 
-            // if row contans a header with column siblings
+            // if a row contains a header with column siblings
             // remove first child and place it as first separate row in table
             if (headerIndex !== -1 && colIndex !== -1 && headerIndex < colIndex) {
               console.log('time to do some switching', headerIndex, colIndex);
               // const header = child.children[headerIndex];
               // const headerRow = new Element('tr', {}, [header]);
 
-              // TODO: put back repalcement for domutils
+              // TODO: put back replacement for domutils
               // removeElement(header);
               // prependChild(element, headerRow);
             }
@@ -322,22 +317,16 @@ export const PostHtmlRenderer = memo(
     };
 
     /**
-     * the para renderer is designd to remove margins from para
+     * the para renderer is designed to remove margins from para
      * if it's a direct child of li tag as the added margin causes
-     * a weired misalignment of bullet and content
+     * weird misalignment of bullet and content
      * @returns Default Renderer
      */
-    const _paraRenderer = ({ tnode, ...props }: CustomRendererProps<TNode>) => {
-      const isInsideLi = tnode.parent?.tagName === 'li';
+    const _paraRenderer = ({ TDefaultRenderer, ...props }: CustomRendererProps<TNode>) => {
+      props.style = props.tnode.parent.tagName === 'li' ? styles.pLi : styles.p;
+      props.onPress = !props.onPress && handleOnContentPress ? handleOnContentPress : props.onPress;
 
-      return (
-        <TextSelectableRenderer
-          {...props}
-          tnode={tnode}
-          style={isInsideLi ? styles.pLi : styles.p}
-          onPress={!props.onPress && handleOnContentPress ? handleOnContentPress : props.onPress}
-        />
-      );
+      return <TDefaultRenderer {...props} />;
     };
 
     // based on number of columns a table have, sets scroll enabled or disable, also adjust table full width
@@ -424,9 +413,6 @@ export const PostHtmlRenderer = memo(
         p: _paraRenderer,
         iframe: _iframeRenderer,
         table: _tableRenderer,
-        span: TextSelectableRenderer,
-        div: TextSelectableRenderer,
-        li: TextSelectableRenderer,
       }),
       [],
     );
