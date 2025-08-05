@@ -907,7 +907,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh ../node_modules/@sentry/react-native/scripts/sentry-xcode-debug-files.sh";
+			shellScript = "if [ \"$CI\" = \"true\" ]; then\n  echo \"Skipping sentry-xcode-debug-files.sh in CI\"\n  exit 0\nfi\n\n/bin/sh ../node_modules/@sentry/react-native/scripts/sentry-xcode-debug-files.sh\n";
 		};
 		95D57B45B5017F2C387C1A09 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
