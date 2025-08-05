@@ -1,5 +1,5 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Platform, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
@@ -137,6 +137,9 @@ export const AutoHeightImage = ({
       hasSetBounds.current = true;
     }
   };
+  useEffect(() => {
+    hasSetBounds.current = false;
+  }, [imgUrl]);
 
   return (
     <TouchableOpacity onPress={onPress} disabled={isAnchored} activeOpacity={activeOpacity || 1}>

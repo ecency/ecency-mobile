@@ -72,6 +72,7 @@ const PostComments = forwardRef(
     const [selectedFilter, setSelectedFilter] = useState('trending');
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
     const [headerHeight, setHeaderHeight] = useState(0);
+    const headerHeightRef = useRef(0);
 
     const sortedSections = useMemo(
       () => sortComments(selectedFilter, discussionQuery.sectionedData),
@@ -200,8 +201,8 @@ const PostComments = forwardRef(
     };
 
     const _onContentSizeChange = (x: number, y: number) => {
-      // update header height
-      if (y !== headerHeight) {
+      if (y !== headerHeightRef.current) {
+        headerHeightRef.current = y;
         setHeaderHeight(y);
       }
     };
