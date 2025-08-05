@@ -765,7 +765,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n\nSOURCE_MAP=\"${SRCROOT}/main.jsbundle.map\"\nif [ ! -f \"$SOURCE_MAP\" ]; then\n  SOURCE_MAP=\"${SRCROOT}/ios/main.jsbundle.map\"\nfi\n\necho \"Using source map at: $SOURCE_MAP\"\n\nif [ -f \"$SOURCE_MAP\" ]; then\n  ../node_modules/@bugsnag/react-native/bugsnag-react-native-xcode.sh\nelse\n  echo \"Warning: Source map not found. Skipping Bugsnag upload.\"\nfi\n";
+			shellScript = "#!/bin/bash\n\nSOURCE_MAP=\"${SRCROOT}/main.jsbundle.map\"\nif [ ! -f \"$SOURCE_MAP\" ]; then\n  SOURCE_MAP=\"${SRCROOT}/ios/main.jsbundle.map\"\nfi\n\necho \"Using source map at: $SOURCE_MAP\"\n\nif [ -f \"$SOURCE_MAP\" ]; then\n  export SOURCE_MAP\n  ../node_modules/@bugsnag/react-native/bugsnag-react-native-xcode.sh\nelse\n  echo \"Warning: Source map not found. Skipping Bugsnag upload.\"\nfi\n";
 		};
 		571D8075E41E7FED519F21A1 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
