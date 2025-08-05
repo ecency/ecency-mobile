@@ -120,7 +120,6 @@ const CommentView = ({
           commentDepth={_depth}
           handleOnContentPress={_handleOnContentPress}
           handleOnUserPress={handleOnUserPress}
-          handleOnLongPress={() => handleOnLongPress(comment)}
           handleLinkPress={handleLinkPress}
           handleImagePress={handleImagePress}
           handleVideoPress={handleVideoPress}

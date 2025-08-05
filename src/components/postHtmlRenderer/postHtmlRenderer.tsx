@@ -451,7 +451,7 @@ export const PostHtmlRenderer = memo(
         renderers={renderers}
         onHTMLLoaded={onLoaded && onLoaded}
         defaultTextProps={{
-          selectable: false,
+          selectable: true,
         }}
         customHTMLElementModels={customHTMLElementModels}
         renderersProps={renderersProps}

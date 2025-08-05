@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import { useIntl } from 'react-intl';
 
-import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
 import RootNavigation from '../../../../navigation/rootNavigation';
 
 // Constants
@@ -27,7 +26,6 @@ interface CommentBodyProps {
   handleOnContentPress: () => void;
   handleOnUserPress: () => void;
   handleOnPostPress: () => void;
-  handleOnLongPress: () => void;
   handleVideoPress: () => void;
   handleYoutubePress: () => void;
   handleImagePress: () => void;
@@ -42,7 +40,6 @@ const CommentBody = ({
   handleOnContentPress,
   handleOnUserPress,
   handleOnPostPress,
-  handleOnLongPress,
   handleVideoPress,
   handleYoutubePress,
   handleImagePress,
@@ -56,12 +53,6 @@ const CommentBody = ({
   const intl = useIntl();
 
   const _contentWidth = dims.width - (40 + 28 + (commentDepth > 2 ? 44 : 0));
-
-  const _onLongPressStateChange = ({ nativeEvent }) => {
-    if (nativeEvent.state === State.ACTIVE) {
-      handleOnLongPress();
-    }
-  };
 
   const _showLowComment = () => {
     setRevealComment(true);
@@ -126,25 +117,23 @@ const CommentBody = ({
   return (
     <Fragment>
       {revealComment ? (
-        <LongPressGestureHandler onHandlerStateChange={_onLongPressStateChange}>
-          <View>
-            <PostHtmlRenderer
-              key={`comment_width_${_contentWidth}`}
-              contentWidth={_contentWidth}
-              body={body}
-              metadata={metadata}
-              isComment={true}
-              setSelectedImage={handleImagePress}
-              setSelectedLink={handleLinkPress}
-              handleOnPostPress={_handleOnPostPress}
-              handleOnUserPress={_handleOnUserPress}
-              handleTagPress={_handleTagPress}
-              handleVideoPress={handleVideoPress}
-              handleYoutubePress={handleYoutubePress}
-              handleOnContentPress={handleOnContentPress}
-            />
-          </View>
-        </LongPressGestureHandler>
+        <View>
+          <PostHtmlRenderer
+            key={`comment_width_${_contentWidth}`}
+            contentWidth={_contentWidth}
+            body={body}
+            metadata={metadata}
+            isComment={true}
+            setSelectedImage={handleImagePress}
+            setSelectedLink={handleLinkPress}
+            handleOnPostPress={_handleOnPostPress}
+            handleOnUserPress={_handleOnUserPress}
+            handleTagPress={_handleTagPress}
+            handleVideoPress={handleVideoPress}
+            handleYoutubePress={handleYoutubePress}
+            handleOnContentPress={handleOnContentPress}
+          />
+        </View>
       ) : (
         <TextButton
           style={styles.revealButton}
