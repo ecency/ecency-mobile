@@ -255,6 +255,12 @@ export const EditorToolbar = ({
   const _containerStyle: ViewStyle = isExtensionVisible
     ? styles.container
     : styles.shadowedContainer;
+
+  const _keyboardAdjustedStyle = {
+    ..._containerStyle,
+    marginBottom: Platform.OS === 'android' && Platform.Version < 35 ? 0 : keyboardHeight,
+  };
+
   const _buttonsContainerStyle: ViewStyle = {
     ...styles.buttonsContainer,
     borderTopWidth: isExtensionVisible ? 1 : 0,
@@ -262,7 +268,7 @@ export const EditorToolbar = ({
   };
 
   return (
-    <View style={{ ..._containerStyle, marginBottom: keyboardHeight }}>
+    <View style={_keyboardAdjustedStyle}>
       {_renderExtension()}
 
       {!isPreviewActive && (
