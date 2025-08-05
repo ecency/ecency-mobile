@@ -103,6 +103,11 @@ jobs:
       - name: Build iOS JS Bundle
         run: |
           yarn run bundle:ios
+      - name: Copy JS bundle and sourcemap to temp directory
+        run: |
+          mkdir -p $RUNNER_TEMP/js
+          cp ios/main.jsbundle $RUNNER_TEMP/js/main.jsbundle
+          cp ios/main.jsbundle.map $RUNNER_TEMP/js/main.jsbundle.map
       - name: Upload source maps to Sentry (iOS)
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
@@ -114,8 +119,8 @@ jobs:
             --dist "$DIST" \
             --org ecency --project ecency-mobile \
             --rewrite \
-            --strip-prefix ios \
-            ios/main.jsbundle ios/main.jsbundle.map
+            --strip-common-prefix \
+            $RUNNER_TEMP/js/main.jsbundle $RUNNER_TEMP/js/main.jsbundle.map
           npx sentry-cli releases finalize "$VERSION-$DIST" --org ecency --project ecency-mobile
       - name: Build archive
         run: |
