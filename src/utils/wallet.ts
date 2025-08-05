@@ -285,6 +285,7 @@ export const groomingEngineHistory = (transaction: HistoryItem): CoinActivity | 
     case EngineOperations.TOKENS_UNDELEGATE_DONE:
     case EngineOperations.TOKENS_UNSTAKE_DONE:
       result.icon = 'hourglass-full';
+      break;
     case EngineOperations.TOKENS_UNDELEGATE_START:
     case EngineOperations.TOKENS_UNSTAKE_START:
       result.icon = 'hourglass-top';
