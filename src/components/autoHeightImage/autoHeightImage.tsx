@@ -1,5 +1,5 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { Platform, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
@@ -63,7 +63,7 @@ export const AutoHeightImage = ({
   const imgHeightAnim = useSharedValue(_initialHeight); // Initial height based on 16:9 ratio
   const imgOpacityAnim = useSharedValue(0); // Initial opacity for fade-in effect
   const bgColorAnim = useSharedValue(EStyleSheet.value('$primaryLightBackground')); // Initial back
-
+  const hasSetBounds = useRef(false);
   // Function to animate the height change using Reanimated
   /* const animateHeight = (newHeight: number) => {
     imgHeightAnim.value = withTiming(newHeight, {
@@ -131,8 +131,11 @@ export const AutoHeightImage = ({
   };
 
   const _onLoad = (evt) => {
-    _setImageBounds(evt.source.width, evt.source.height);
-    animateFadeIn();
+    if (!hasSetBounds.current) {
+      _setImageBounds(evt.source.width, evt.source.height);
+      animateFadeIn();
+      hasSetBounds.current = true;
+    }
   };
 
   return (
