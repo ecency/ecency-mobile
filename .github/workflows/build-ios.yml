@@ -103,10 +103,6 @@ jobs:
       - name: Build iOS JS Bundle
         run: |
           yarn run bundle:ios
-      - name: Copy sourcemap to Bugsnag temp path
-        run: |
-          TMP_PATH="$(md5 -qs $CONFIGURATION_BUILD_DIR)-main.jsbundle.map"
-          cp ios/main.jsbundle.map $TMPDIR/$TMP_PATH
       - name: Copy JS bundle and sourcemap to temp directory
         run: |
           mkdir -p $RUNNER_TEMP/js
