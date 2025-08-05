@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { QuickPostModalContent } from './quickPostModalContent';
 import styles from './quickPostModal.styles';
 import { SheetNames } from '../../navigation/sheets';
@@ -24,6 +24,7 @@ const QuickPostModal = ({ payload }: SheetProps<SheetNames.QUICK_POST>) => {
         containerStyle={styles.sheetContent}
         indicatorStyle={styles.sheetIndicator}
         defaultOverlayOpacity={0}
+        keyboardHandlerEnabled={!(Platform.OS === 'android' && Platform.Version < 35)}
         onClose={_onClose}
       >
         <QuickPostModalContent
