@@ -9,7 +9,6 @@ Ecency is a React Native client for the [Hive](https://hive.io) blockchain avail
 
 Try the latest development builds:
 
-- [iOS beta](https://install.appcenter.ms/orgs/ecency/apps/ios/distribution_groups/beta_testers)
 - [Android beta](https://play.google.com/apps/testing/app.esteem.mobile.android)
 
 ## Download
@@ -89,3 +88,4 @@ Security issues should be reported privately to [security@ecency.com](mailto:sec
 - Hive community
 - React Native community
 - Bugsnag
+- Sentry
