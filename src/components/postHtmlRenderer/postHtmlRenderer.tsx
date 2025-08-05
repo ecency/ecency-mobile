@@ -1,5 +1,10 @@
 import React, { memo, useMemo, useRef } from 'react';
-import RenderHTML, { CustomRendererProps, Element, TNode } from 'react-native-render-html';
+import RenderHTML, {
+  CustomRendererProps,
+  Element,
+  TNode,
+  TextSelectableRenderer,
+} from 'react-native-render-html';
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -322,11 +327,17 @@ export const PostHtmlRenderer = memo(
      * a weired misalignment of bullet and content
      * @returns Default Renderer
      */
-    const _paraRenderer = ({ TDefaultRenderer, ...props }: CustomRendererProps<TNode>) => {
-      props.style = props.tnode.parent.tagName === 'li' ? styles.pLi : styles.p;
-      props.onPress = !props.onPress && handleOnContentPress ? handleOnContentPress : props.onPress;
+    const _paraRenderer = ({ tnode, ...props }: CustomRendererProps<TNode>) => {
+      const isInsideLi = tnode.parent?.tagName === 'li';
 
-      return <TDefaultRenderer {...props} />;
+      return (
+        <TextSelectableRenderer
+          {...props}
+          tnode={tnode}
+          style={isInsideLi ? styles.pLi : styles.p}
+          onPress={!props.onPress && handleOnContentPress ? handleOnContentPress : props.onPress}
+        />
+      );
     };
 
     // based on number of columns a table have, sets scroll enabled or disable, also adjust table full width
@@ -413,6 +424,9 @@ export const PostHtmlRenderer = memo(
         p: _paraRenderer,
         iframe: _iframeRenderer,
         table: _tableRenderer,
+        span: TextSelectableRenderer,
+        div: TextSelectableRenderer,
+        li: TextSelectableRenderer,
       }),
       [],
     );
