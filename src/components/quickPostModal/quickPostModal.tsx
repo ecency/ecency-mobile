@@ -24,9 +24,7 @@ const QuickPostModal = ({ payload }: SheetProps<SheetNames.QUICK_POST>) => {
         containerStyle={styles.sheetContent}
         indicatorStyle={styles.sheetIndicator}
         defaultOverlayOpacity={0}
-        keyboardHandlerEnabled={
-          Platform.OS === 'android' && Platform.Version < 35 ? false : true
-        }
+        keyboardHandlerEnabled={!(Platform.OS === 'android' && Platform.Version < 35)}
         onClose={_onClose}
       >
         <QuickPostModalContent
