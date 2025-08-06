@@ -3,7 +3,7 @@ import RenderHTML, { CustomRendererProps, Element, TNode } from 'react-native-re
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
@@ -331,18 +331,18 @@ export const PostHtmlRenderer = memo(
       const paragraphText = extractTextFromTNode(tnode).trim();
 
       const handleLongPress = () => {
-        setSelectedText(paragraphText);
-        setModalVisible(true);
+        if (paragraphText) {
+          setSelectedText(paragraphText);
+          setModalVisible(true);
+        }
       };
 
       return (
-        <Text
-          selectable={false}
-          style={isInsideLi ? styles.pLi : styles.p}
-          onLongPress={handleLongPress}
-        >
-          <props.InternalRenderer {...props} />
-        </Text>
+        <TouchableWithoutFeedback onLongPress={handleLongPress}>
+          <Text selectable={false} style={isInsideLi ? styles.pLi : styles.p}>
+            <props.InternalRenderer {...props} />
+          </Text>
+        </TouchableWithoutFeedback>
       );
     };
 
