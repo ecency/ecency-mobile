@@ -1,7 +1,5 @@
-// CopyModal.tsx
-import React from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet, Pressable, Alert } from 'react-native';
-import Clipboard from '@react-native-clipboard/clipboard';
+import React, { useEffect, useRef, useState } from 'react';
+import { Modal, View, TextInput, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
 
 const CopyModal = ({
   visible,
@@ -12,21 +10,33 @@ const CopyModal = ({
   onClose: () => void;
   text: string;
 }) => {
-  const handleCopy = () => {
-    Clipboard.setString(text);
-    Alert.alert('Copied!', 'Text has been copied to clipboard.');
-    onClose();
-  };
+  const inputRef = useRef<TextInput>(null);
+  const [selection, setSelection] = useState<{ start: number; end: number }>({ start: 0, end: 0 });
+
+  useEffect(() => {
+    if (visible) {
+      setSelection({ start: 0, end: text.length });
+    }
+  }, [visible, text]);
 
   return (
     <Modal animationType="slide" transparent visible={visible} onRequestClose={onClose}>
       <Pressable style={styles.overlay} onPress={onClose}>
         <View style={styles.modal}>
-          <Text selectable style={styles.text}>
-            {text}
-          </Text>
-          <TouchableOpacity style={styles.button} onPress={handleCopy}>
-            <Text style={styles.buttonText}>Copy</Text>
+          <TextInput
+            ref={inputRef}
+            style={styles.textInput}
+            value={text}
+            multiline
+            editable={false}
+            selectTextOnFocus
+            selection={selection}
+            scrollEnabled
+          />
+          <TouchableOpacity style={styles.button} onPress={onClose}>
+            <View>
+              <TextInput style={styles.buttonText} editable={false} value="Close" />
+            </View>
           </TouchableOpacity>
         </View>
       </Pressable>
@@ -48,12 +58,17 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
   },
-  text: {
+  textInput: {
     fontSize: 16,
-    marginBottom: 16,
     color: '#333',
+    minHeight: 120,
+    padding: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 6,
   },
   button: {
+    marginTop: 16,
     backgroundColor: '#1e90ff',
     paddingVertical: 10,
     borderRadius: 6,
