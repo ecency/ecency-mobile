@@ -324,8 +324,10 @@ export const PostHtmlRenderer = memo(
      * unique misalignment of bullet and content
      * @returns Default Renderer
      */
-    const _paraRenderer = ({ tnode }: CustomRendererProps<TNode>) => {
+    const _paraRenderer = (props: CustomRendererProps<TNode>) => {
+      const { tnode } = props;
       const isInsideLi = tnode.parent?.tagName === 'li';
+
       const paragraphText = extractTextFromTNode(tnode).trim();
 
       const handleLongPress = () => {
@@ -334,8 +336,12 @@ export const PostHtmlRenderer = memo(
       };
 
       return (
-        <Text selectable style={isInsideLi ? styles.pLi : styles.p} onLongPress={handleLongPress}>
-          {paragraphText}
+        <Text
+          selectable={false}
+          style={isInsideLi ? styles.pLi : styles.p}
+          onLongPress={handleLongPress}
+        >
+          <props.InternalRenderer {...props} />
         </Text>
       );
     };
