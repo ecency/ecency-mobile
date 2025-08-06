@@ -76,10 +76,6 @@ const CommentView = ({
     }
   };
 
-  const _handleOnContentPress = () => {
-    openReplyThread(comment);
-  };
-
   const _handleOnReplyPress = () => {
     if (isLoggedIn) {
       SheetManager.show(SheetNames.QUICK_POST, {
@@ -118,7 +114,6 @@ const CommentView = ({
           key={`key-${comment.permlink}`}
           hideContent={_hideContent}
           commentDepth={_depth}
-          handleOnContentPress={_handleOnContentPress}
           handleOnUserPress={handleOnUserPress}
           handleLinkPress={handleLinkPress}
           handleImagePress={handleImagePress}

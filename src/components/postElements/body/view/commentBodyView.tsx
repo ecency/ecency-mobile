@@ -23,7 +23,6 @@ interface CommentBodyProps {
   metadata?: any;
   commentDepth: number;
   hideContent: boolean;
-  handleOnContentPress: () => void;
   handleOnUserPress: () => void;
   handleOnPostPress: () => void;
   handleVideoPress: () => void;
@@ -37,7 +36,6 @@ const CommentBody = ({
   metadata,
   commentDepth,
   hideContent,
-  handleOnContentPress,
   handleOnUserPress,
   handleOnPostPress,
   handleVideoPress,
@@ -131,7 +129,6 @@ const CommentBody = ({
             handleTagPress={_handleTagPress}
             handleVideoPress={handleVideoPress}
             handleYoutubePress={handleYoutubePress}
-            handleOnContentPress={handleOnContentPress}
           />
         </View>
       ) : (

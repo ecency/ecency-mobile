@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useRef } from 'react';
+import React, { memo, useMemo, useRef, useState } from 'react';
 import RenderHTML, { CustomRendererProps, Element, TNode } from 'react-native-render-html';
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
@@ -9,6 +9,8 @@ import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
 import { LinkPreview, UserAvatar, VideoPlayer } from '..';
+import CopyModal from '../copyModal';
+import { extractTextFromTNode } from './htmlUtils';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
@@ -23,7 +25,6 @@ interface PostHtmlRendererProps {
   handleTagPress: (tag: string, filter?: string) => void;
   handleVideoPress: (videoUrl: string) => void;
   handleYoutubePress: (videoId: string, startTime: number) => void;
-  handleOnContentPress?: () => void;
 }
 
 export const PostHtmlRenderer = memo(
@@ -35,7 +36,6 @@ export const PostHtmlRenderer = memo(
     onLoaded,
     setSelectedImage,
     setSelectedLink,
-    handleOnContentPress,
     handleOnPostPress,
     handleOnUserPress,
     handleTagPress,
@@ -43,6 +43,8 @@ export const PostHtmlRenderer = memo(
     handleYoutubePress,
   }: PostHtmlRendererProps) => {
     const postImgUrlsRef = useRef<string[]>([]);
+    const [selectedText, setSelectedText] = useState<string | null>(null);
+    const [isModalVisible, setModalVisible] = useState(false);
 
     console.log('rendering body', body);
 
@@ -319,17 +321,27 @@ export const PostHtmlRenderer = memo(
     /**
      * the para renderer is designed to remove margins from para
      * if it's a direct child of li tag as the added margin causes
-     * weird misalignment of bullet and content
+     * unique misalignment of bullet and content
      * @returns Default Renderer
      */
-    const _paraRenderer = ({ TDefaultRenderer, ...props }: CustomRendererProps<TNode>) => {
-      props.style = props.tnode.parent.tagName === 'li' ? styles.pLi : styles.p;
-      props.onPress = !props.onPress && handleOnContentPress ? handleOnContentPress : props.onPress;
+    const _paraRenderer = ({ tnode }: CustomRendererProps<TNode>) => {
+      const isInsideLi = tnode.parent?.tagName === 'li';
+      const paragraphText = extractTextFromTNode(tnode).trim();
 
-      return <TDefaultRenderer {...props} />;
+      const handleLongPress = () => {
+        setSelectedText(paragraphText);
+        setModalVisible(true);
+      };
+
+      return (
+        <Text selectable style={isInsideLi ? styles.pLi : styles.p} onLongPress={handleLongPress}>
+          {paragraphText}
+        </Text>
+      );
     };
 
-    // based on number of columns a table have, sets scroll enabled or disable, also adjust table full width
+    // eslint-disable-next-line max-len
+    // based on the number of columns a table have, sets scroll enabled or disable, also adjust table full width
     const _tableRenderer = ({ InternalRenderer, ...props }: CustomRendererProps<TNode>) => {
       // recursive calculates the max number of table columns (th) in the table
       const getMaxThCount = (node: TNode) => {
@@ -441,23 +453,35 @@ export const PostHtmlRenderer = memo(
     );
 
     return (
-      <RenderHTML
-        source={{ html: body }}
-        contentWidth={contentWidth}
-        baseStyle={baseStyle}
-        classesStyles={classesStyles}
-        tagsStyles={tagsStyles}
-        domVisitors={domVisitors}
-        renderers={renderers}
-        onHTMLLoaded={onLoaded && onLoaded}
-        defaultTextProps={{
-          selectable: true,
-        }}
-        customHTMLElementModels={customHTMLElementModels}
-        renderersProps={renderersProps}
-        WebView={WebView}
-        pressableHightlightColor="transparent"
-      />
+      <>
+        {selectedText && (
+          <CopyModal
+            visible={isModalVisible}
+            onClose={() => {
+              setModalVisible(false);
+              setSelectedText(null);
+            }}
+            text={selectedText}
+          />
+        )}
+        <RenderHTML
+          source={{ html: body }}
+          contentWidth={contentWidth}
+          baseStyle={baseStyle}
+          classesStyles={classesStyles}
+          tagsStyles={tagsStyles}
+          domVisitors={domVisitors}
+          renderers={renderers}
+          onHTMLLoaded={onLoaded && onLoaded}
+          defaultTextProps={{
+            selectable: true,
+          }}
+          customHTMLElementModels={customHTMLElementModels}
+          renderersProps={renderersProps}
+          WebView={WebView}
+          pressableHightlightColor="transparent"
+        />
+      </>
     );
   },
   (next, prev) => next.body === prev.body,
