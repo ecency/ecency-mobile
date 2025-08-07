@@ -10,6 +10,9 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import com.zoontek.rnbootsplash.RNBootSplash;
 
+import com.facebook.react.ReactApplication;
+import com.facebook.react.ReactNativeHost;
+
 public class MainActivity extends ReactActivity {
   /**
    * Returns the instance of the {@link ReactActivityDelegate}. Here we use a util class {@link
