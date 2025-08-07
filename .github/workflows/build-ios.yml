@@ -1,7 +1,12 @@
 name: iOS Build
 on:
   push:
-    branches: ["development", "nt/copy-modal"]
+    branches: 
+      - "development"
+      - "nt/**"
+  pull_request:
+    branches: 
+      - "development"
 jobs:
   ios-build:
     name: iOS Build
