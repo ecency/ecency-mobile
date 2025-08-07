@@ -14,8 +14,7 @@ import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
-import { LinkPreview, UserAvatar, VideoPlayer } from '..';
-import CopyModal from '../copyModal';
+import { CopyModal, LinkPreview, UserAvatar, VideoPlayer } from '..';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
