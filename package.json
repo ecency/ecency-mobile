@@ -27,7 +27,8 @@
     "bump-patch": "npm version patch --no-git-tag-version",
     "bump-minor": "npm version minor --no-git-tag-version",
     "bump-major": "npm version major --no-git-tag-version",
-    "postinstall": "npx patch-package && node_modules/.bin/rn-nodeify --install --hack --yarn && cd ios && pod install",
+    "postinstall": "npx patch-package && node_modules/.bin/rn-nodeify --install --hack --yarn && bash patch-gradle.sh && cd ios && pod install",
+    "patch:gradle": "bash patch-gradle.sh",
     "ubuntu:pixel_6": "cd $ANDROID_HOME/tools && __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia emulator -avd pixel_6 -gpu host"
   },
   "dependencies": {

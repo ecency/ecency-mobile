@@ -54,6 +54,8 @@ yarn ios
    yarn android
    ```
 
+Installing dependencies will automatically run Gradle patch script required by React Native 0.79. If you hit Gradle errors after upgrading dependencies, run `bash patch-gradle.sh` to reapply the patch.
+
 ## Project structure
 
 The repository follows the typical React Native layout:
