@@ -1,7 +1,12 @@
 name: Android Build
 on:
   push:
-    branches: ["development", "nt/copy-modal"]
+    branches: 
+      - "development"
+      - "nt/**"
+  pull_request:
+    branches: 
+      - "development"
 jobs:
   android-build:
     name: Android Build
