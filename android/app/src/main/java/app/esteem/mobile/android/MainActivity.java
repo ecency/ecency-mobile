@@ -37,7 +37,7 @@ public class MainActivity extends ReactActivity {
 
     return delegate;
   }
-  
+
 
   @Override
   public void onNewIntent(Intent intent) {
@@ -55,9 +55,15 @@ public class MainActivity extends ReactActivity {
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-    getReactInstanceManager().onConfigurationChanged(this, newConfig);
+    // getReactInstanceManager().onConfigurationChanged(this, newConfig);
+    if (getApplication() instanceof ReactApplication) {
+      ReactNativeHost host = ((ReactApplication) getApplication()).getReactNativeHost();
+      if (host != null && host.getReactInstanceManager() != null) {
+        host.getReactInstanceManager().onConfigurationChanged(this, newConfig);
+      }
+    }
     Intent intent = new Intent("onConfigurationChanged");
     intent.putExtra("newConfig", newConfig);
-    this.sendBroadcast(intent);   
+    this.sendBroadcast(intent);
   }
 }
