@@ -1,16 +1,16 @@
 import React, { memo, useMemo, useRef, useState } from 'react';
-import RenderHTML, { CustomRendererProps, Element, TNode } from 'react-native-render-html';
+import RenderHTML, { CustomRendererProps, domNodeToHTMLString, Element, TNode } from 'react-native-render-html';
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Text, TouchableOpacity } from 'react-native';
+import { Platform, Text, TouchableOpacity } from 'react-native';
 import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
 import { LinkPreview, UserAvatar, VideoPlayer } from '..';
 import CopyModal from '../copyModal';
-import { extractTextFromTNode } from './htmlUtils';
+import { postBodySummary } from '@ecency/render-helper';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
@@ -128,7 +128,7 @@ export const PostHtmlRenderer = memo(
           default:
             break;
         }
-      } catch (error) {}
+      } catch (error) { }
     };
 
     // this method checks if image is a child of table column
@@ -324,27 +324,26 @@ export const PostHtmlRenderer = memo(
      * unique misalignment of bullet and content
      * @returns Default Renderer
      */
-    const _paraRenderer = (props: CustomRendererProps<TNode>) => {
+    const _paraRenderer = ({ TDefaultRenderer, ...props }: CustomRendererProps<TNode>) => {
       const { tnode } = props;
       const isInsideLi = tnode.parent?.tagName === 'li';
 
-      const paragraphText = extractTextFromTNode(tnode).trim();
+      const paragraphText = domNodeToHTMLString(tnode.domNode)
 
       const handleLongPress = () => {
         if (paragraphText) {
-          setSelectedText(paragraphText);
+          const rawText = postBodySummary(paragraphText, paragraphText.length, Platform.OS);
+          setSelectedText(rawText);
           setModalVisible(true);
         }
       };
 
+      props.style = isInsideLi ? styles.pLi : styles.p;
+
       return (
-        <Text
-          onLongPress={handleLongPress}
-          selectable={false}
-          style={isInsideLi ? styles.pLi : styles.p}
-        >
-          <props.InternalRenderer {...props} />
-        </Text>
+        <TouchableOpacity onLongPress={handleLongPress}>
+          <TDefaultRenderer {...props} />
+        </TouchableOpacity>
       );
     };
 
