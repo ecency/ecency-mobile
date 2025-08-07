@@ -38,7 +38,7 @@ import { PostForm } from './postForm';
 import { PostHeaderDescription, PostBody, Tags } from './postElements';
 import { DraftListItem } from './draftListItem';
 import { ProfileSummary } from './profileSummary';
-
+import { CopyModal } from './copyModal';
 import { SearchInput } from './searchInput';
 import { SearchModal } from './searchModal';
 import { SettingsItem } from './settingsItem';
@@ -280,4 +280,5 @@ export {
   HiveAuthModal,
   LinkPreview,
   CrossPostModal,
+  CopyModal,
 };
