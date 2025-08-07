@@ -30,8 +30,8 @@ end
 target 'Ecency' do
 
   use_expo_modules!
-  
-  
+
+
   if ENV['EXPO_USE_COMMUNITY_AUTOLINKING'] == '1'
     config_command = ['node', '-e', "process.argv=['', '', 'config'];require('@react-native-community/cli').run()"];
   else
@@ -46,10 +46,10 @@ target 'Ecency' do
       'ios'
     ]
   end
- 
+
   config = use_native_modules!(config_command)
-  
-  
+
+
   post_integrate do |installer|
     begin
       expo_patch_react_imports!(installer)
@@ -75,9 +75,10 @@ target 'Ecency' do
     :path => config[:reactNativePath],
 
     # An absolute path to your application root.
-    :app_path => "#{Pod::Config.instance.installation_root}/.."
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
+    :hermes_enabled => false
   )
-  
+
   target 'EcencyTests' do
     inherit! :complete
     # Pods for testing

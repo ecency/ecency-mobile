@@ -16,6 +16,9 @@ const CopyModal = ({
   useEffect(() => {
     if (visible) {
       setSelection({ start: 0, end: text.length });
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 0);
     }
   }, [visible, text]);
 
