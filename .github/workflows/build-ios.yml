@@ -1,7 +1,7 @@
 name: iOS Build
 on:
   push:
-    branches: ["development"]
+    branches: ["development", "nt/copy-modal"]
 jobs:
   ios-build:
     name: iOS Build
@@ -20,7 +20,7 @@ jobs:
       - name: Checkout repo from dev branch
         uses: actions/checkout@v3
         with:
-          ref: development
+          ref: ${{ github.ref_name }}
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
