@@ -13,7 +13,7 @@ import {
   getSavingsWithdrawFrom,
 } from '../providers/hive/dhive';
 import { getCurrencyTokenRate, getPortfolio } from '../providers/ecency/ecency';
-import { CoinActivity, CoinData, DataPair } from '../redux/reducers/walletReducer';
+import { CoinActivity, CoinData, DataPair, QuoteItem } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
 import { getEstimatedAmount } from './vote';
 import { getPointsHistory } from '../providers/ecency/ePoint';
@@ -820,7 +820,23 @@ export const fetchAssetsPortfolio = async ({
     spkData,
   } = await getPortfolio(username);
 
-  const _prices = convertLatestQuotes(marketData, currencyRate);
+  let _prices: { [key: string]: QuoteItem } = {};
+  try {
+    _prices = convertLatestQuotes(marketData, currencyRate);
+  } catch (err) {
+    console.warn('failed to get latest quotes', err);
+    const defaultQuote: QuoteItem = {
+      price: 0,
+      percentChange: 0,
+      lastUpdated: new Date().toISOString(),
+    };
+    _prices = {
+      [ASSET_IDS.HIVE]: { ...defaultQuote },
+      [ASSET_IDS.HP]: { ...defaultQuote },
+      [ASSET_IDS.HBD]: { ...defaultQuote },
+      [ASSET_IDS.ECENCY]: { ...defaultQuote },
+    };
+  }
 
   DEFAULT_ASSETS.forEach((coinBase) => {
     switch (coinBase.id) {
@@ -830,7 +846,7 @@ export const fetchAssetsPortfolio = async ({
         balance = _processCachedData(coinBase.id, balance, unclaimedFloat, claimsCache);
 
         const unclaimedBalance = unclaimedFloat ? `${unclaimedFloat} Points` : '';
-        const ppEstm = _prices[coinBase.id].price;
+        const ppEstm = _prices[coinBase.id]?.price || 0;
 
         assetsData[coinBase.id] = {
           balance: Math.round(balance * 1000) / 1000,
@@ -850,7 +866,7 @@ export const fetchAssetsPortfolio = async ({
           claimsCache,
         );
         const savings = parseToken(accountData.savings_balance);
-        const ppHive = _prices[coinBase.id].price;
+        const ppHive = _prices[coinBase.id]?.price || 0;
 
         assetsData[coinBase.id] = {
           balance: Math.round(balance * 1000) / 1000,
@@ -872,7 +888,7 @@ export const fetchAssetsPortfolio = async ({
           claimsCache,
         );
         const savings = parseToken(accountData.savings_hbd_balance);
-        const ppHbd = _prices[coinBase.id].price;
+        const ppHbd = _prices[coinBase.id]?.price || 0;
 
         assetsData[coinBase.id] = {
           balance: Math.round(balance * 1000) / 1000,
@@ -980,7 +996,7 @@ export const fetchAssetsPortfolio = async ({
           },
         ]);
 
-        const ppHive = _prices[ASSET_IDS.HIVE].price;
+        const ppHive = _prices[ASSET_IDS.HIVE]?.price || 0;
         assetsData[coinBase.id] = {
           balance: Math.round(balance * 1000) / 1000,
           estimateValue: balance * ppHive,
@@ -1015,12 +1031,16 @@ export const fetchAssetsPortfolio = async ({
 
   const engineCoinsData = await _processEngineTokens(
     engineData,
-    _prices.hive.price,
+    _prices[ASSET_IDS.HIVE]?.price || 0,
     vsCurrency,
     claimsCache,
   );
 
-  const spkWalletData = await _processSpkData(spkData, _prices.hive.price, vsCurrency);
+  const spkWalletData = await _processSpkData(
+    spkData,
+    _prices[ASSET_IDS.HIVE]?.price || 0,
+    vsCurrency,
+  );
 
   assetsData = { ...assetsData, ...engineCoinsData, ...spkWalletData };
 

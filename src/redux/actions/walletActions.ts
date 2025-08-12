@@ -50,16 +50,20 @@ export const resetWalletData = () => ({
   type: RESET_WALLET_DATA,
 });
 
-export const fetchCoinQuotes = () => (dispatch, getState) => {
+export const fetchCoinQuotes = () => async (dispatch, getState) => {
   const { currency } = getState().application;
-  console.log('fetching quotes for currency', currency);
-  getLatestQuotes(currency.currencyRate).then((quotes) => {
+
+  try {
+    console.log('fetching quotes for currency', currency);
+    const quotes = await getLatestQuotes(currency.currencyRate);
     console.log('Fetched quotes', quotes);
     dispatch({
       type: SET_COIN_QUOTES,
       payload: { ...quotes },
     });
-  });
+  } catch (err) {
+    console.warn('failed to fetch quotes', err);
+  }
 };
 
 export const fetchAndSetCoinsData = () => async (dispatch: AppDispatch, getState: RootState) => {
