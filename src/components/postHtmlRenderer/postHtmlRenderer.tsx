@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useRef, useState } from 'react';
+import React, { memo, useMemo, useRef } from 'react';
 import RenderHTML, {
   CustomRendererProps,
   domNodeToHTMLString,
@@ -14,7 +14,7 @@ import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
-import { CopyModal, LinkPreview, UserAvatar, VideoPlayer } from '..';
+import { LinkPreview, UserAvatar, VideoPlayer } from '..';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
@@ -29,6 +29,7 @@ interface PostHtmlRendererProps {
   handleTagPress: (tag: string, filter?: string) => void;
   handleVideoPress: (videoUrl: string) => void;
   handleYoutubePress: (videoId: string, startTime: number) => void;
+  handleParaSelection: (selectedText: string) => void;
 }
 
 export const PostHtmlRenderer = memo(
@@ -45,10 +46,9 @@ export const PostHtmlRenderer = memo(
     handleTagPress,
     handleVideoPress,
     handleYoutubePress,
+    handleParaSelection,
   }: PostHtmlRendererProps) => {
     const postImgUrlsRef = useRef<string[]>([]);
-    const [selectedText, setSelectedText] = useState<string | null>(null);
-    const [isModalVisible, setModalVisible] = useState(false);
 
     console.log('rendering body', body);
 
@@ -332,13 +332,11 @@ export const PostHtmlRenderer = memo(
       const { tnode } = props;
       const isInsideLi = tnode.parent?.tagName === 'li';
 
-      const paragraphText = domNodeToHTMLString(tnode.domNode);
-
       const handleLongPress = () => {
-        if (paragraphText) {
+        const paragraphText = domNodeToHTMLString(tnode.domNode);
+        if (handleParaSelection && !!paragraphText) {
           const rawText = postBodySummary(paragraphText, paragraphText.length, Platform.OS);
-          setSelectedText(rawText);
-          setModalVisible(true);
+          handleParaSelection(rawText);
         }
       };
 
@@ -464,35 +462,23 @@ export const PostHtmlRenderer = memo(
     );
 
     return (
-      <>
-        {selectedText && (
-          <CopyModal
-            visible={isModalVisible}
-            onClose={() => {
-              setModalVisible(false);
-              setSelectedText(null);
-            }}
-            text={selectedText}
-          />
-        )}
-        <RenderHTML
-          source={{ html: body }}
-          contentWidth={contentWidth}
-          baseStyle={baseStyle}
-          classesStyles={classesStyles}
-          tagsStyles={tagsStyles}
-          domVisitors={domVisitors}
-          renderers={renderers}
-          onHTMLLoaded={onLoaded && onLoaded}
-          defaultTextProps={{
-            selectable: false,
-          }}
-          customHTMLElementModels={customHTMLElementModels}
-          renderersProps={renderersProps}
-          WebView={WebView}
-          pressableHightlightColor="transparent"
-        />
-      </>
+      <RenderHTML
+        source={{ html: body }}
+        contentWidth={contentWidth}
+        baseStyle={baseStyle}
+        classesStyles={classesStyles}
+        tagsStyles={tagsStyles}
+        domVisitors={domVisitors}
+        renderers={renderers}
+        onHTMLLoaded={onLoaded && onLoaded}
+        defaultTextProps={{
+          selectable: false,
+        }}
+        customHTMLElementModels={customHTMLElementModels}
+        renderersProps={renderersProps}
+        WebView={WebView}
+        pressableHightlightColor="transparent"
+      />
     );
   },
   (next, prev) => next.body === prev.body,

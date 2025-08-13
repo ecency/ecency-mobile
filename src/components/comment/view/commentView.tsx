@@ -29,7 +29,7 @@ const CommentView = ({
   commentNumber,
   handleDeleteComment,
   handleOnEditPress,
-  handleOnLongPress,
+  handleOnMenuPress,
   handleOnUserPress,
   handleOnVotersPress,
   handleLinkPress,
@@ -41,6 +41,7 @@ const CommentView = ({
   repliesToggle,
   handleOnToggleReplies,
   onUpvotePress,
+  handleParaSelection,
 }) => {
   const intl = useIntl();
 
@@ -119,6 +120,7 @@ const CommentView = ({
           handleImagePress={handleImagePress}
           handleVideoPress={handleVideoPress}
           handleYoutubePress={handleYoutubePress}
+          handleParaSelection={handleParaSelection}
         />
 
         {comment.json_metadata.content_type === ContentType.POLL && (
@@ -251,7 +253,7 @@ const CommentView = ({
           inlineTime={true}
           customStyle={{ alignItems: 'flex-start', paddingLeft: 12 }}
           showDotMenuButton={true}
-          handleOnDotPress={() => handleOnLongPress(comment)}
+          handleOnDotPress={() => handleOnMenuPress(comment)}
           profileOnPress={handleOnUserPress}
           secondaryContentComponent={_renderComment()}
         />

@@ -129,12 +129,13 @@ const CommentsView = ({
         handleLinkPress={postInteractionRef.current?.handleLinkPress}
         handleVideoPress={postInteractionRef.current?.handleVideoPress}
         handleYoutubePress={postInteractionRef.current?.handleYoutubePress}
+        handleParaSelection={postInteractionRef.current?.handleParaSelection}
         isHideImage={isHideImage}
         isLoggedIn={isLoggedIn}
         showAllComments={showAllComments}
         isShowSubComments={isShowSubComments}
         marginLeft={marginLeft}
-        handleOnLongPress={() => _openCommentMenu(item)}
+        handleOnMenuPress={() => _openCommentMenu(item)}
         openReplyThread={() => _openReplyThread(item)}
         onUpvotePress={_onUpvotePress}
         fetchedAt={fetchedAt}
