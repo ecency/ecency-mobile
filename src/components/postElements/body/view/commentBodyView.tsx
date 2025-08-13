@@ -29,6 +29,7 @@ interface CommentBodyProps {
   handleYoutubePress: () => void;
   handleImagePress: () => void;
   handleLinkPress: () => void;
+  handleParaSelection: (selectedText: string) => void;
 }
 
 const CommentBody = ({
@@ -42,6 +43,7 @@ const CommentBody = ({
   handleYoutubePress,
   handleImagePress,
   handleLinkPress,
+  handleParaSelection,
 }: CommentBodyProps) => {
   const dispatch = useAppDispatch();
   const dims = useWindowDimensions();
@@ -129,6 +131,7 @@ const CommentBody = ({
             handleTagPress={_handleTagPress}
             handleVideoPress={handleVideoPress}
             handleYoutubePress={handleYoutubePress}
+            handleParaSelection={handleParaSelection}
           />
         </View>
       ) : (
