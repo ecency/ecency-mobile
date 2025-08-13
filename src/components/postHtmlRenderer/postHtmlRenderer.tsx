@@ -132,7 +132,7 @@ export const PostHtmlRenderer = memo(
           default:
             break;
         }
-      } catch (error) { }
+      } catch (error) {}
     };
 
     // this method checks if image is a child of table column
@@ -331,7 +331,6 @@ export const PostHtmlRenderer = memo(
     const _paraRenderer = ({ TDefaultRenderer, ...props }: CustomRendererProps<TNode>) => {
       const { tnode } = props;
       const isInsideLi = tnode.parent?.tagName === 'li';
-
 
       const handleLongPress = () => {
         const paragraphText = domNodeToHTMLString(tnode.domNode);

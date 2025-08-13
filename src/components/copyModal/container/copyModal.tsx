@@ -6,38 +6,33 @@ import { useIntl } from 'react-intl';
 import { MainButton } from '../../mainButton';
 import styles from '../styles/copyModal.styles';
 
-
 export type CopyModalHandle = {
-    show: (selectedText:string) => void;
+  show: (selectedText: string) => void;
 };
 
-const CopyModalInner =  (
-    {},
-    ref: React.Ref<CopyModalHandle>
-) => {
-    const intl = useIntl();
-    const inputRef = useRef<TextInput>(null);
+const CopyModalInner = (_: object, ref: React.Ref<CopyModalHandle>) => {
+  const intl = useIntl();
+  const inputRef = useRef<TextInput>(null);
 
-    const [isVisible, setIsVisible] = useState(false);
-    const [text, setText] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+  const [text, setText] = useState('');
 
-    useImperativeHandle(ref, () => ({
-        show: (selectedText) => {
-            setIsVisible(true);
-            setText(selectedText)
-             setTimeout(() => {
-                    inputRef.current?.focus();
-            }, 0);
-        }
-    }));
+  useImperativeHandle(ref, () => ({
+    show: (selectedText) => {
+      setIsVisible(true);
+      setText(selectedText);
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 0);
+    },
+  }));
 
+  const _onClose = () => {
+    setIsVisible(false);
+    setText('');
+  };
 
-    const _onClose = () => {
-        setIsVisible(false);
-        setText('')
-    }
- 
-    return (
+  return (
     <Popover
       popoverStyle={styles.modal}
       arrowSize={{ width: 0, height: 0 }}
@@ -66,6 +61,5 @@ const CopyModalInner =  (
     </Popover>
   );
 };
-
 
 export const CopyModal = forwardRef(CopyModalInner);

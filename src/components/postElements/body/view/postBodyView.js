@@ -133,8 +133,8 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
   };
 
   const _handleParaSelection = (selectedText) => {
-    copyModalRef.current.show(selectedText)
-  }
+    copyModalRef.current.show(selectedText);
+  };
 
   const _handleOnUserPress = (username) => {
     if (username) {
@@ -212,9 +212,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
         }}
       />
 
-      <CopyModal 
-        ref={copyModalRef}
-      />
+      <CopyModal ref={copyModalRef} />
 
       <View>
         <PostHtmlRenderer

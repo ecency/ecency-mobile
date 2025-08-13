@@ -17,7 +17,7 @@ import { PostTypes } from '../../constants/postTypes';
 import { isHiveUri } from '../../utils/hive-uri';
 import { ImageViewer } from '../imageViewer';
 import { useLinkProcessor } from '../../hooks';
-import { CopyModal } from '../../components/copyModal';
+import { CopyModal } from '../copyModal';
 
 interface PostHtmlInteractionHandlerProps {
   postType?: PostTypes;
@@ -72,10 +72,10 @@ export const PostHtmlInteractionHandler = forwardRef(
         }
       },
       handleParaSelection: (selectedText: string) => {
-        if(copyModalRef.current && selectedText){
+        if (copyModalRef.current && selectedText) {
           copyModalRef.current.show(selectedText);
         }
-      }
+      },
     }));
 
     const _handleLinkOptionPress = (ind) => {
@@ -143,9 +143,7 @@ export const PostHtmlInteractionHandler = forwardRef(
           />
         </ActionsSheet>
 
-        <CopyModal
-          ref={copyModalRef}
-        />
+        <CopyModal ref={copyModalRef} />
       </Fragment>
     );
   },
