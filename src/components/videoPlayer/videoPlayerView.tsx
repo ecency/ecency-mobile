@@ -49,12 +49,22 @@ const VideoPlayer = ({
     } else {
       // handle landscape/portrait lock according to initial lock setting
       if (lockedOrientation === orientations.LANDSCAPE) {
-        !Orientation.isLocked() && Orientation.lockToLandscape();
+        Orientation.lockToLandscape();
       } else {
-        !Orientation.isLocked() && Orientation.lockToPortrait();
+        Orientation.lockToPortrait();
       }
     }
-  }, [isFullScreen]);
+  }, [isFullScreen, lockedOrientation]);
+
+  useEffect(() => {
+    return () => {
+      if (lockedOrientation === orientations.LANDSCAPE) {
+        Orientation.lockToLandscape();
+      } else {
+        Orientation.lockToPortrait();
+      }
+    };
+  }, [lockedOrientation]);
 
   // react-native-youtube-iframe handlers
   const [shouldPlay, setShouldPlay] = useState(false);
@@ -113,6 +123,11 @@ const VideoPlayer = ({
 
   const exitFullScreen = () => {
     setIsFullScreen(false);
+    if (lockedOrientation === orientations.LANDSCAPE) {
+      Orientation.lockToLandscape();
+    } else {
+      Orientation.lockToPortrait();
+    }
   };
 
   const enterFullScreen = () => {
@@ -209,7 +224,16 @@ const VideoPlayer = ({
             play={shouldPlay}
             onChangeState={_onChangeState}
             onError={_onError}
-            onFullScreenChange={(status) => setIsFullScreen(status)}
+            onFullScreenChange={(status) => {
+              setIsFullScreen(status);
+              if (!status) {
+                if (lockedOrientation === orientations.LANDSCAPE) {
+                  Orientation.lockToLandscape();
+                } else {
+                  Orientation.lockToPortrait();
+                }
+              }
+            }}
             webViewProps={{ mediaPlaybackRequiresUserAction: true }}
           />
         </View>
