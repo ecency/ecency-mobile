@@ -1,25 +1,29 @@
 name: Android Build
 on:
-  push:
-    branches:
-      - "development"
-      - "nt/**"
-  pull_request:
-    branches:
-      - "development"
+  pull_request_review:
+    types: [submitted]
+
 jobs:
   android-build:
     name: Android Build
+    # Run only when the review is Approved, PR targets 'development', and it's a same-repo PR
+    if: >
+      github.event.review.state == 'approved' &&
+      github.event.pull_request.base.ref == 'development' &&
+      github.event.pull_request.head.repo.full_name == github.repository
     runs-on: macos-latest
     steps:
       - name: Show host machine information
         run: uname -a
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.1
-      - name: Checkout repo from dev branch
+
+      - name: Checkout PR head
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.sha }}
+
       - name: Create .env file
         run: |
           echo "ACTIVITY_WEBSOCKET_URL=${{ secrets.ACTIVITY_WEBSOCKET_URL }}" >> .env
@@ -32,10 +36,12 @@ jobs:
           echo "SERVER_LIST_API=${{ secrets.SERVER_LIST_API }}" >> .env
           echo "USER_AGENT=${{ secrets.USER_AGENT }}" >> .env
           echo "PLAUSIBLE_API_KEY=${{ secrets.PLAUSIBLE_API_KEY }}" >> .env
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Install npm dependency
         run: yarn install
 
@@ -47,10 +53,12 @@ jobs:
         with:
           java-version: "17"
           distribution: "temurin"
+
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
         with:
           cmdline-tools-version: 12266719
+
       - uses: actions/cache@v3
         with:
           path: |
@@ -59,32 +67,40 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+
       - name: Create Google Services JSON File
         env:
           GOOGLE_JSON: ${{ secrets.GOOGLE_JSON }}
         run: echo $GOOGLE_JSON | base64 --decode > ./android/app/google-services.json
+
       - name: Upload-keystore generator
         run: |
           echo "${{secrets.UPLOAD_KEYSTORE}}" > upload.keystore.asc
           base64 -d --input upload.keystore.asc --output android/app/key.jks
+
       - name: Key.Properties
         run: |
           echo "keyPassword=${{ secrets.UPLOAD_KEYSTORE_PASSPHRASE }}" >> ./android/key.properties
           echo "storePassword=${{ secrets.UPLOAD_KEYSTORE_PASSPHRASE }}" >> ./android/key.properties
           echo "keyAlias=${{ secrets.ALIAS }}" >> ./android/key.properties
+
       - name: Set version code
         run: |
           TIMESTAMP=$(date +%s)
           echo "Setting version code to: $TIMESTAMP"
           sed -i '' "s/versionCode .*/versionCode $TIMESTAMP/" android/app/build.gradle
+
       - name: Bundle Android
         run: yarn run bundle:android
+
       - name: Execute Gradle APK build
         run: |
           cd android
           ./gradlew assembleRelease
+
       - name: Upload source maps to Sentry (Android)
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
@@ -100,25 +116,33 @@ jobs:
             --rewrite \
             "$BUNDLE_PATH" "$MAP_PATH"
           npx sentry-cli releases finalize "$VERSION-$DIST" --org ecency --project ecency-mobile
+
       - name: Upload APK application
         uses: actions/upload-artifact@v4
         with:
           name: Ecency-APK
           path: ./android/app/build/outputs/apk/release/app-release.apk
           retention-days: 90
+
       - name: Execute Gradle Bundle build
         run: |
           cd android
           ./gradlew bundleRelease
-      # npx react-native build-android --mode=release
+
       - name: Upload App bundle to Releases
         uses: actions/upload-artifact@v4
         with:
           name: Ecency-Bundle
           path: ./android/app/build/outputs/bundle/release/app-release.aab
+
   android-deploy:
     name: Deploy Android Build
     needs: android-build
+    # Keep the same gating here too (belt & suspenders)
+    if: >
+      github.event.review.state == 'approved' &&
+      github.event.pull_request.base.ref == 'development' &&
+      github.event.pull_request.head.repo.full_name == github.repository
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
