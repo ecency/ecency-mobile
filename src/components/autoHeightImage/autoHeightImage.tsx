@@ -1,9 +1,10 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Platform, TouchableOpacity, View } from 'react-native';
+import { Platform, TouchableOpacity, View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
+import { Icon } from '..';
 
 interface AutoHeightImageProps {
   contentWidth: number;
@@ -57,6 +58,15 @@ export const AutoHeightImage = ({
     }
     return _height;
   }, [imgUrl]);
+
+  const isGif = useMemo(() => /\.gif/i.test(imgUrl), [imgUrl]);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const displayUrl = useMemo(() => {
+    if (isGif && !isPlaying) {
+      return proxifyImageSrc(imgUrl, Math.round(contentWidth), 0, 'png');
+    }
+    return imgUrl;
+  }, [imgUrl, isGif, isPlaying, contentWidth]);
 
   const [imgWidth, setImgWidth] = useState(contentWidth);
   const [height, setHeight] = useState(_initialHeight);
@@ -131,19 +141,73 @@ export const AutoHeightImage = ({
   };
   useEffect(() => {
     hasSetBounds.current = false;
+    setIsPlaying(false);
   }, [imgUrl]);
 
+  const handlePress = () => {
+    if (isGif && !isPlaying) {
+      setIsPlaying(true);
+    } else if (onPress) {
+      onPress();
+    }
+  };
+
   return (
-    <TouchableOpacity onPress={onPress} disabled={isAnchored} activeOpacity={activeOpacity || 1}>
+    <TouchableOpacity
+      onPress={handlePress}
+      disabled={isAnchored}
+      activeOpacity={activeOpacity || 1}
+    >
       <View style={animatedWrapperStyle}>
         <ExpoImage
           pointerEvents="none"
           style={animatedImgStyle}
-          source={{ uri: imgUrl }}
+          source={{ uri: displayUrl }}
           contentFit="cover"
           onLoad={_onLoad}
         />
+        {isGif && !isPlaying && (
+          <>
+            <View style={styles.gifBadge}>
+              <Text style={styles.gifBadgeText}>GIF</Text>
+            </View>
+            <View style={styles.playIconContainer}>
+              <Icon
+                name="play-arrow"
+                iconType="MaterialIcons"
+                size={36}
+                color={EStyleSheet.value('$white')}
+              />
+            </View>
+          </>
+        )}
       </View>
     </TouchableOpacity>
   );
 };
+
+const styles = EStyleSheet.create({
+  gifBadge: {
+    position: 'absolute',
+    left: 8,
+    bottom: 8,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    borderRadius: 4,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
+  },
+  gifBadgeText: {
+    color: '$pureWhite',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  playIconContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

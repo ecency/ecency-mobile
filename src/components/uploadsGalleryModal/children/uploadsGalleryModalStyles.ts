@@ -250,4 +250,28 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   } as ViewStyle,
+
+  gifBadge: {
+    position: 'absolute',
+    left: 8,
+    bottom: 8,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    borderRadius: 4,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
+  } as ViewStyle,
+  gifBadgeText: {
+    color: '$pureWhite',
+    fontSize: 12,
+    fontWeight: 'bold',
+  } as TextStyle,
+  playIconContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  } as ViewStyle,
 });

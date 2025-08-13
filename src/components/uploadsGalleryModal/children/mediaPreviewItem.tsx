@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { proxifyImageSrc } from '@ecency/render-helper';
 import { ActivityIndicator, Platform, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -31,8 +31,12 @@ export const MediaPreviewItem = ({
 }: Props) => {
   const intl = useIntl();
 
+  const isGif = /\.gif/i.test(item.url);
   const thumbUrl =
-    item.thumbUrl || proxifyImageSrc(item.url, 200, 200, Platform.OS === 'ios' ? 'match' : 'webp');
+    item.thumbUrl ||
+    proxifyImageSrc(item.url, 200, 200, isGif ? 'png' : Platform.OS === 'ios' ? 'match' : 'webp');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const previewUri = isGif && isExpandedMode && isPlaying ? item.url : thumbUrl;
   let isInsertedTimes = 0;
   insertedMediaUrls?.forEach((url) => {
     isInsertedTimes += url === item.url ? 1 : 0;
@@ -80,15 +84,40 @@ export const MediaPreviewItem = ({
       </View>
     );
 
+  const handlePress = () => {
+    if (isGif && isExpandedMode && !isPlaying) {
+      setIsPlaying(true);
+    } else {
+      onPress();
+    }
+  };
+
   return (
-    <TouchableOpacity onPress={onPress} disabled={isDeleting}>
+    <TouchableOpacity onPress={handlePress} disabled={isDeleting}>
       <View style={transformStyle}>
         <ExpoImage
           // Disable stray touches on thumbnails but allow gestures when expanded
           pointerEvents={isExpandedMode ? 'auto' : 'none'}
-          source={{ uri: thumbUrl }}
+          source={{ uri: previewUri }}
           style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
         />
+        {isGif && !isPlaying && (
+          <>
+            <View style={styles.gifBadge}>
+              <Text style={styles.gifBadgeText}>GIF</Text>
+            </View>
+            {isExpandedMode && (
+              <View style={styles.playIconContainer}>
+                <Icon
+                  name="play-arrow"
+                  iconType="MaterialIcons"
+                  size={36}
+                  color={EStyleSheet.value('$white')}
+                />
+              </View>
+            )}
+          </>
+        )}
         {_renderCounter()}
         {_renderStatus()}
         {_renderMinus()}
