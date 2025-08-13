@@ -1,4 +1,6 @@
+import { proxifyImageSrc } from '@ecency/render-helper';
 import { isArray } from 'lodash';
+import { Platform } from 'react-native';
 import bugsnagInstance from '../../config/bugsnag';
 import ecencyApi from '../../config/ecencyApi';
 import { upload } from '../../config/imageApi';
@@ -702,8 +704,16 @@ export const moveScheduledToDraft = async (id: string) => {
 
 export const getImages = async () => {
   try {
-    const response = await ecencyApi.post('/private-api/images');
-    return response.data;
+    const { data }: { data: MediaItem[] } = await ecencyApi.post('/private-api/images');
+    return data.map((item) => ({
+      ...item,
+      thumbUrl: proxifyImageSrc(
+        item.thumbUrl || item.url,
+        200,
+        200,
+        /\.gif/i.test(item.url) ? 'png' : Platform.OS === 'ios' ? 'match' : 'webp',
+      ),
+    }));
   } catch (error) {
     console.warn('Failed to get images', error);
     bugsnagInstance.notify(error);

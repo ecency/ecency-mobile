@@ -1,11 +1,11 @@
 name: Android Build
 on:
   push:
-    branches: 
+    branches:
       - "development"
       - "nt/**"
   pull_request:
-    branches: 
+    branches:
       - "development"
 jobs:
   android-build:
@@ -17,9 +17,9 @@ jobs:
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.1
       - name: Checkout repo from dev branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
       - name: Create .env file
         run: |
           echo "ACTIVITY_WEBSOCKET_URL=${{ secrets.ACTIVITY_WEBSOCKET_URL }}" >> .env
@@ -32,6 +32,10 @@ jobs:
           echo "SERVER_LIST_API=${{ secrets.SERVER_LIST_API }}" >> .env
           echo "USER_AGENT=${{ secrets.USER_AGENT }}" >> .env
           echo "PLAUSIBLE_API_KEY=${{ secrets.PLAUSIBLE_API_KEY }}" >> .env
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
       - name: Install npm dependency
         run: yarn install
 
@@ -96,13 +100,6 @@ jobs:
             --rewrite \
             "$BUNDLE_PATH" "$MAP_PATH"
           npx sentry-cli releases finalize "$VERSION-$DIST" --org ecency --project ecency-mobile
-      - name: Cache generated APK
-        uses: actions/cache@v3
-        with:
-          path: app/build/outputs/apk/
-          key: apk-${{ runner.os }}-${{ github.sha }}
-          restore-keys: |
-            apk-${{ runner.os }}-
       - name: Upload APK application
         uses: actions/upload-artifact@v4
         with:
@@ -124,7 +121,7 @@ jobs:
     needs: android-build
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Get Android Build from artifacts
         uses: actions/download-artifact@v4
       - name: Deploy to Play Store (BETA)
