@@ -100,13 +100,6 @@ jobs:
             --rewrite \
             "$BUNDLE_PATH" "$MAP_PATH"
           npx sentry-cli releases finalize "$VERSION-$DIST" --org ecency --project ecency-mobile
-      - name: Cache generated APK
-        uses: actions/cache@v3
-        with:
-          path: app/build/outputs/apk/
-          key: apk-${{ runner.os }}-${{ github.sha }}
-          restore-keys: |
-            apk-${{ runner.os }}-
       - name: Upload APK application
         uses: actions/upload-artifact@v4
         with:
