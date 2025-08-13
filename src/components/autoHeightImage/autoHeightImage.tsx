@@ -64,14 +64,6 @@ export const AutoHeightImage = ({
   const imgOpacityAnim = useSharedValue(0); // Initial opacity for fade-in effect
   const bgColorAnim = useSharedValue(EStyleSheet.value('$primaryLightBackground')); // Initial back
   const hasSetBounds = useRef(false);
-  // Function to animate the height change using Reanimated
-  /* const animateHeight = (newHeight: number) => {
-    imgHeightAnim.value = withTiming(newHeight, {
-      duration: 300,
-      easing: Easing.out(Easing.circle),
-    }); // Smooth transition over 300ms
-    (bgColorAnim.value = withTiming('transparent')), { duration: 200 }; // Smooth transition over 300ms
-  }; */
 
   // Function to animate the fade-in effect
   const animateFadeIn = () => {
@@ -80,11 +72,11 @@ export const AutoHeightImage = ({
 
   // NOTE: important to have post image bound set even for images with ratio already provided
   // as this handles the case where width can be lower than contentWidth
-  const _setImageBounds = (width: number, height: number) => {
+  const _setImageBounds = (width: number, imgHeight: number) => {
     const newWidth = lockWidth
       ? contentWidth
       : Math.round(width < contentWidth ? width : contentWidth);
-    const newHeight = Math.round((height / width) * newWidth);
+    const newHeight = Math.round((imgHeight / width) * newWidth);
 
     // if newHeight and oldHeight are approximately equal, skip animation
     if (Math.abs(newHeight - imgHeightAnim.value) < 1) {
@@ -145,6 +137,7 @@ export const AutoHeightImage = ({
     <TouchableOpacity onPress={onPress} disabled={isAnchored} activeOpacity={activeOpacity || 1}>
       <View style={animatedWrapperStyle}>
         <ExpoImage
+          pointerEvents="none"
           style={animatedImgStyle}
           source={{ uri: imgUrl }}
           contentFit="cover"

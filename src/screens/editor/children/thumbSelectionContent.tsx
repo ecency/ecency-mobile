@@ -64,7 +64,12 @@ const ThumbSelectionContent = ({
 
     return (
       <TouchableOpacity onPress={() => _onPress()}>
-        <ExpoImage source={{ uri: item }} style={styles.thumbStyle} contentFit="cover" />
+        <ExpoImage
+          pointerEvents="none"
+          source={{ uri: item }}
+          style={styles.thumbStyle}
+          contentFit="cover"
+        />
         {isSelected && (
           <Animated.View entering={ZoomIn} style={styles.checkContainer}>
             <Icon

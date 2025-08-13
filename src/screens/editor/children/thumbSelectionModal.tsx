@@ -55,6 +55,7 @@ const ThumbSelectionModal = ({ onThumbSelection, thumbUrl }: ThumbSelectionModal
     return (
       <TouchableOpacity onPress={() => _onPress()}>
         <ExpoImage
+          pointerEvents="none"
           source={{ uri: item }}
           style={{ ...styles.thumbStyle, ...selectedStyle }}
           contentFit="cover"

@@ -32,17 +32,20 @@ export const MediaPreviewItem = ({
   const intl = useIntl();
 
   const thumbUrl =
-    item.thumbUrl || proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
+    item.thumbUrl || proxifyImageSrc(item.url, 200, 200, Platform.OS === 'ios' ? 'match' : 'webp');
   let isInsertedTimes = 0;
-  insertedMediaUrls?.forEach((url) => (isInsertedTimes += url === item.url ? 1 : 0));
+  insertedMediaUrls?.forEach((url) => {
+    isInsertedTimes += url === item.url ? 1 : 0;
+  });
   const isToBeDeleted = deleteIds.indexOf(item._id) >= 0;
   const transformStyle = {
     transform: isToBeDeleted ? [{ scaleX: 0.7 }, { scaleY: 0.7 }] : [],
   };
 
+  const statusStyle = { ...styles.statusContainer, right: isExpandedMode ? 8 : 0 };
   const _renderStatus = () =>
     item.speakData && (
-      <View style={{ ...styles.statusContainer, right: isExpandedMode ? 8 : 0 }}>
+      <View style={statusStyle}>
         <Text style={styles.statusText}>
           {intl.formatMessage({ id: `uploads_modal.${item.speakData?.status}` })}
         </Text>
@@ -81,6 +84,8 @@ export const MediaPreviewItem = ({
     <TouchableOpacity onPress={onPress} disabled={isDeleting}>
       <View style={transformStyle}>
         <ExpoImage
+          // Disable stray touches on thumbnails but allow gestures when expanded
+          pointerEvents={isExpandedMode ? 'auto' : 'none'}
           source={{ uri: thumbUrl }}
           style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
         />
