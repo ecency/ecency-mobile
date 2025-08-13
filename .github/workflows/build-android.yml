@@ -1,11 +1,11 @@
 name: Android Build
 on:
   push:
-    branches: 
+    branches:
       - "development"
       - "nt/**"
   pull_request:
-    branches: 
+    branches:
       - "development"
 jobs:
   android-build:
@@ -17,7 +17,7 @@ jobs:
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.1
       - name: Checkout repo from dev branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
       - name: Create .env file
