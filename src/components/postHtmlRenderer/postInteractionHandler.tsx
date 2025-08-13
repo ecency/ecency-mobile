@@ -17,6 +17,7 @@ import { PostTypes } from '../../constants/postTypes';
 import { isHiveUri } from '../../utils/hive-uri';
 import { ImageViewer } from '../imageViewer';
 import { useLinkProcessor } from '../../hooks';
+import { CopyModal } from '../../components/copyModal';
 
 interface PostHtmlInteractionHandlerProps {
   postType?: PostTypes;
@@ -34,6 +35,7 @@ export const PostHtmlInteractionHandler = forwardRef(
     const actionLink = useRef(null);
     const youtubePlayerRef = useRef(null);
     const imageViewerRef = useRef(null);
+    const copyModalRef = useRef(null);
 
     const [videoUrl, setVideoUrl] = useState(null);
     const [youtubeVideoId, setYoutubeVideoId] = useState(null);
@@ -69,6 +71,11 @@ export const PostHtmlInteractionHandler = forwardRef(
           youtubePlayerRef.current.show();
         }
       },
+      handleParaSelection: (selectedText: string) => {
+        if(copyModalRef.current && selectedText){
+          copyModalRef.current.show(selectedText);
+        }
+      }
     }));
 
     const _handleLinkOptionPress = (ind) => {
@@ -135,6 +142,10 @@ export const PostHtmlInteractionHandler = forwardRef(
             startTime={videoStartTime}
           />
         </ActionsSheet>
+
+        <CopyModal
+          ref={copyModalRef}
+        />
       </Fragment>
     );
   },
