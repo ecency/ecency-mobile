@@ -14,7 +14,7 @@ import { default as ROUTES } from '../../../../constants/routeNames';
 import { OptionsModal } from '../../../atoms';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
-import { ImageViewer, PostHtmlRenderer, VideoPlayer } from '../../..';
+import { CopyModal, ImageViewer, PostHtmlRenderer, VideoPlayer } from '../../..';
 import { useAppDispatch } from '../../../../hooks';
 import { isHiveUri } from '../../../../utils/hive-uri';
 import { SheetNames } from '../../../../navigation/sheets';
@@ -38,6 +38,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
   const actionLink = useRef(null);
   const imageViewerRef = useRef(null);
   const youtubePlayerRef = useRef(null);
+  const copyModalRef = useRef(null);
 
   useEffect(() => {
     if (body) {
@@ -131,6 +132,10 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
     }
   };
 
+  const _handleParaSelection = (selectedText) => {
+    copyModalRef.current.show(selectedText)
+  }
+
   const _handleOnUserPress = (username) => {
     if (username) {
       SheetManager.show(SheetNames.QUICK_PROFILE, {
@@ -206,6 +211,11 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
           handleLinkPress(index);
         }}
       />
+
+      <CopyModal 
+        ref={copyModalRef}
+      />
+
       <View>
         <PostHtmlRenderer
           key={`html_content_${contentWidth}`} // makes sure html content is rerendered on width update
@@ -220,6 +230,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
           handleTagPress={_handleTagPress}
           handleVideoPress={_handleVideoPress}
           handleYoutubePress={_handleYoutubePress}
+          handleParaSelection={_handleParaSelection}
         />
       </View>
     </Fragment>
