@@ -59,7 +59,23 @@ export const AutoHeightImage = ({
     return _height;
   }, [imgUrl]);
 
-  const isGif = useMemo(() => /\.gif/i.test(imgUrl), [imgUrl]);
+  const isGif = useMemo(() => {
+    if (metadata?.image) {
+      const match = metadata.image.find((url: string) => {
+        const proxied = proxifyImageSrc(
+          url,
+          0,
+          0,
+          Platform.select({ ios: 'match', android: 'webp' }),
+        );
+        return imgUrl === proxied;
+      });
+      if (match) {
+        return /\.gif$/i.test(match);
+      }
+    }
+    return /\.gif$/i.test(imgUrl);
+  }, [imgUrl, metadata]);
   const [isPlaying, setIsPlaying] = useState(false);
   const displayUrl = useMemo(() => {
     if (isGif && !isPlaying) {

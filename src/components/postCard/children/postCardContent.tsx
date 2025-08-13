@@ -1,12 +1,15 @@
 import React, { useMemo, useState } from 'react';
 import { TouchableOpacity, Text, View, useWindowDimensions } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 // Utils
 import { useIntl } from 'react-intl';
+import { proxifyImageSrc } from '@ecency/render-helper';
 
 // Components
 
 // Styles
 import { Image as ExpoImage } from 'expo-image';
+import { Icon } from '../../icon';
 import styles from '../styles/postCard.styles';
 import { PostCardActionIds } from '../container/postCard';
 import ROUTES from '../../../constants/routeNames';
@@ -89,29 +92,56 @@ export const PostCardContent = ({
     images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
   }
 
+  const original = content?.json_metadata?.image?.[0];
+  const isGif = useMemo(() => /\.gif$/i.test(original), [original]);
+  const previewUri = useMemo(() => {
+    if (isGif) {
+      return proxifyImageSrc(original, Math.round(imgWidth), 0, 'png');
+    }
+    return images.image;
+  }, [isGif, original, images.image, imgWidth]);
+
   return (
     <View style={styles.postBodyWrapper}>
       <TouchableOpacity activeOpacity={0.8} style={styles.hiddenImages} onPress={_onPress}>
         {!isHideImage && (
-          <ExpoImage
-            source={{ uri: images.image }}
-            style={[
-              styles.thumbnail,
-              {
-                width: imgWidth,
-                height: Math.min(calcImgHeight, dim.height),
-              },
-            ]}
-            contentFit={resizeMode}
-            onLoad={(evt) => {
-              if (!imageRatio) {
-                const _imgRatio = evt.source.width / evt.source.height;
-                const height = imgWidth / _imgRatio;
-                setCalcImgHeight(height);
-                setImageRatio(content.author + content.permlink, _imgRatio);
-              }
-            }}
-          />
+          <View style={styles.imageWrapper}>
+            <ExpoImage
+              pointerEvents="none"
+              source={{ uri: previewUri }}
+              style={[
+                styles.thumbnail,
+                {
+                  width: imgWidth,
+                  height: Math.min(calcImgHeight, dim.height),
+                },
+              ]}
+              contentFit={resizeMode}
+              onLoad={(evt) => {
+                if (!imageRatio) {
+                  const _imgRatio = evt.source.width / evt.source.height;
+                  const height = imgWidth / _imgRatio;
+                  setCalcImgHeight(height);
+                  setImageRatio(content.author + content.permlink, _imgRatio);
+                }
+              }}
+            />
+            {isGif && (
+              <>
+                <View style={styles.gifBadge}>
+                  <Text style={styles.gifBadgeText}>GIF</Text>
+                </View>
+                <View style={styles.playIconContainer}>
+                  <Icon
+                    name="play-arrow"
+                    iconType="MaterialIcons"
+                    size={36}
+                    color={EStyleSheet.value('$white')}
+                  />
+                </View>
+              </>
+            )}
+          </View>
         )}
 
         <View style={[styles.postDescripton]}>

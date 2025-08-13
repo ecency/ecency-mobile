@@ -31,6 +31,9 @@ export default EStyleSheet.create({
     borderRadius: 8,
     backgroundColor: '$primaryLightBackground',
   },
+  imageWrapper: {
+    position: 'relative',
+  },
   hiddenImages: {
     flexDirection: 'column',
   },
@@ -49,6 +52,29 @@ export default EStyleSheet.create({
     fontSize: 16,
     color: '$primaryDarkGray',
     lineHeight: 22,
+  },
+  gifBadge: {
+    position: 'absolute',
+    left: 8,
+    bottom: 8,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    borderRadius: 4,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
+  },
+  gifBadgeText: {
+    color: '$pureWhite',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  playIconContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   bodyFooter: {
     backgroundColor: '$primaryBackgroundColor',
