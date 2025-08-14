@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { proxifyImageSrc } from '@ecency/render-helper';
 import { ActivityIndicator, Platform, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -30,13 +30,18 @@ export const MediaPreviewItem = ({
   onPress,
 }: Props) => {
   const intl = useIntl();
+  const imgRef = useRef<ExpoImage>(null);
 
-  const isGif = /\.gif/i.test(item.url);
+  const [isAnimated, setIsAnimated] = useState(false);
+
   const thumbUrl =
     item.thumbUrl ||
-    proxifyImageSrc(item.url, 200, 200, isGif ? 'png' : Platform.OS === 'ios' ? 'match' : 'webp');
+    proxifyImageSrc(item.url, 200, 200, Platform.OS === 'ios' ? 'match' : 'webp');
+
   const [isPlaying, setIsPlaying] = useState(false);
-  const previewUri = isGif && isExpandedMode && isPlaying ? item.url : thumbUrl;
+
+  const previewUri = isAnimated && isExpandedMode ? item.url : thumbUrl;
+
   let isInsertedTimes = 0;
   insertedMediaUrls?.forEach((url) => {
     isInsertedTimes += url === item.url ? 1 : 0;
@@ -47,6 +52,7 @@ export const MediaPreviewItem = ({
   };
 
   const statusStyle = { ...styles.statusContainer, right: isExpandedMode ? 8 : 0 };
+
   const _renderStatus = () =>
     item.speakData && (
       <View style={statusStyle}>
@@ -85,34 +91,43 @@ export const MediaPreviewItem = ({
     );
 
   const handlePress = () => {
-    if (isGif && isExpandedMode && !isPlaying) {
+    if (isAnimated && !isPlaying && isExpandedMode) {
+      imgRef.current?.startAnimating();
       setIsPlaying(true);
     } else {
       onPress();
     }
   };
 
+
+  const _onLoad = (evt) => {
+    setIsAnimated(evt.source?.isAnimated)
+  }
+
   return (
     <TouchableOpacity onPress={handlePress} disabled={isDeleting}>
       <View style={transformStyle}>
         <ExpoImage
           // Disable stray touches on thumbnails but allow gestures when expanded
+          ref={imgRef}
+          onLoad={_onLoad}
           pointerEvents={isExpandedMode ? 'auto' : 'none'}
           source={{ uri: previewUri }}
+          autoplay={false}
           style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
         />
-        {isGif && !isPlaying && (
+        {isAnimated && (
           <>
             <View style={styles.gifBadge}>
               <Text style={styles.gifBadgeText}>GIF</Text>
             </View>
-            {isExpandedMode && (
+            {isExpandedMode && !isPlaying && (
               <View style={styles.playIconContainer}>
                 <Icon
                   name="play-arrow"
                   iconType="MaterialIcons"
                   size={36}
-                  color={EStyleSheet.value('$white')}
+                  color={EStyleSheet.value('$pureWhite')}
                 />
               </View>
             )}

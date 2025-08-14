@@ -711,7 +711,7 @@ export const getImages = async () => {
         item.thumbUrl || item.url,
         200,
         200,
-        /\.gif/i.test(item.url) ? 'png' : Platform.OS === 'ios' ? 'match' : 'webp',
+        Platform.OS === 'ios' ? 'match' : 'webp',
       ),
     }));
   } catch (error) {
