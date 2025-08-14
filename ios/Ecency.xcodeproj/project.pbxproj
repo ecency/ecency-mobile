@@ -421,6 +421,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				D37E9A299B9AB1D4347A4E5C /* [CP] Copy Pods Resources */,
+				554DDED93AAFB15030A515C7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -484,6 +485,7 @@
 				571D8075E41E7FED519F21A1 /* [CP] Copy Pods Resources */,
 				FC9ADAED0FA6DA7E6957BFA3 /* [CP-User] [RNFB] Core Configuration */,
 				8CF5C7BDDFA9410F99B59D5C /* Upload Debug Symbols to Sentry */,
+				0D539A2A1F6FA6E9C75703DC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -751,6 +753,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		0D539A2A1F6FA6E9C75703DC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Ecency/Pods-Ecency-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ecency/Pods-Ecency-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		3D1F6693773C4541A695BB3C /* Upload source maps to Bugsnag */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -764,6 +784,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/bash\n\nSOURCE_MAP=\"${SRCROOT}/main.jsbundle.map\"\nif [ ! -f \"$SOURCE_MAP\" ]; then\n  SOURCE_MAP=\"${SRCROOT}/ios/main.jsbundle.map\"\nfi\n\necho \"Using source map at: $SOURCE_MAP\"\n\nif [ -f \"$SOURCE_MAP\" ]; then\n  export SOURCE_MAP\n  ../node_modules/@bugsnag/react-native/bugsnag-react-native-xcode.sh\nelse\n  echo \"Warning: Source map not found. Skipping Bugsnag upload.\"\nfi\n";
+		};
+		554DDED93AAFB15030A515C7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		571D8075E41E7FED519F21A1 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1869,7 +1907,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				SWIFT_VERSION = 4.0;
-				USE_HERMES = false;
+				USE_HERMES = true;
 			};
 			name = Debug;
 		};
@@ -1940,7 +1978,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_VERSION = 4.0;
-				USE_HERMES = false;
+				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
