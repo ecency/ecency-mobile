@@ -4,7 +4,7 @@ import { Platform, TouchableOpacity, View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
-import { Icon } from '..';
+
 
 interface AutoHeightImageProps {
   contentWidth: number;
@@ -17,6 +17,7 @@ interface AutoHeightImageProps {
   onPress?: () => void;
   setAspectRatio?: (ratio: number) => void;
 }
+
 
 // const AnimatedExpoImage = Animated.createAnimatedComponent(ExpoImage);
 
@@ -31,6 +32,10 @@ export const AutoHeightImage = ({
   onPress,
   setAspectRatio,
 }: AutoHeightImageProps) => {
+
+  const imgRef = useRef<ExpoImage>(null);
+  const [isAnimated, setIsAnimated] = useState(false);
+
   // extract iniital height based on provided ratio
   const _initialHeight = useMemo(() => {
     let _height = contentWidth / (aspectRatio || 16 / 9);
@@ -59,30 +64,7 @@ export const AutoHeightImage = ({
     return _height;
   }, [imgUrl]);
 
-  const isGif = useMemo(() => {
-    if (metadata?.image) {
-      const match = metadata.image.find((url: string) => {
-        const proxied = proxifyImageSrc(
-          url,
-          0,
-          0,
-          Platform.select({ ios: 'match', android: 'webp' }),
-        );
-        return imgUrl === proxied;
-      });
-      if (match) {
-        return /\.gif$/i.test(match);
-      }
-    }
-    return /\.gif$/i.test(imgUrl);
-  }, [imgUrl, metadata]);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const displayUrl = useMemo(() => {
-    if (isGif && !isPlaying) {
-      return proxifyImageSrc(imgUrl, Math.round(contentWidth), 0, 'png');
-    }
-    return imgUrl;
-  }, [imgUrl, isGif, isPlaying, contentWidth]);
+
 
   const [imgWidth, setImgWidth] = useState(contentWidth);
   const [height, setHeight] = useState(_initialHeight);
@@ -150,19 +132,22 @@ export const AutoHeightImage = ({
 
   const _onLoad = (evt) => {
     if (!hasSetBounds.current) {
+      setIsAnimated(evt.source.isAnimated)
       _setImageBounds(evt.source.width, evt.source.height);
       animateFadeIn();
       hasSetBounds.current = true;
     }
   };
+
+
   useEffect(() => {
     hasSetBounds.current = false;
-    setIsPlaying(false);
   }, [imgUrl]);
 
+
   const handlePress = () => {
-    if (isGif && !isPlaying) {
-      setIsPlaying(true);
+    if (isAnimated) {
+      imgRef.current?.startAnimating();
     } else if (onPress) {
       onPress();
     }
@@ -176,26 +161,18 @@ export const AutoHeightImage = ({
     >
       <View style={animatedWrapperStyle}>
         <ExpoImage
+          ref={imgRef}
           pointerEvents="none"
           style={animatedImgStyle}
-          source={{ uri: displayUrl }}
+          source={{ uri: imgUrl }}
           contentFit="cover"
           onLoad={_onLoad}
+          autoplay={false}
         />
-        {isGif && !isPlaying && (
-          <>
-            <View style={styles.gifBadge}>
-              <Text style={styles.gifBadgeText}>GIF</Text>
-            </View>
-            <View style={styles.playIconContainer}>
-              <Icon
-                name="play-arrow"
-                iconType="MaterialIcons"
-                size={36}
-                color={EStyleSheet.value('$white')}
-              />
-            </View>
-          </>
+        {isAnimated && (
+          <View style={styles.gifBadge}>
+            <Text style={styles.gifBadgeText}>GIF</Text>
+          </View>
         )}
       </View>
     </TouchableOpacity>
@@ -216,14 +193,5 @@ const styles = EStyleSheet.create({
     color: '$pureWhite',
     fontSize: 12,
     fontWeight: 'bold',
-  },
-  playIconContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
