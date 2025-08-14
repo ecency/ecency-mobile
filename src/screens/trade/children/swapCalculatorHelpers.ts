@@ -1,5 +1,5 @@
 import { Alert } from 'react-native';
-import bugsnapInstance from '../../../config/bugsnag';
+import * as Sentry from '@sentry/react-native';
 import { MarketAsset, OrdersDataItem } from '../../../providers/hive-trade/hiveTrade.types';
 import { getOrderBook } from '../../../providers/hive/dhive';
 
@@ -24,7 +24,7 @@ export async function fetchHiveOrderBook() {
   try {
     return await getOrderBook();
   } catch (e) {
-    bugsnapInstance.notify(e);
+    Sentry.captureException(e);
     Alert.alert('Order book is empty');
   }
   return null;

@@ -3,9 +3,8 @@ import { Text, View, TouchableHighlight } from 'react-native';
 import { injectIntl } from 'react-intl';
 import RNRestart from 'react-native-restart';
 
+import * as Sentry from '@sentry/react-native';
 import { Icon } from '../../../components';
-
-import bugsnagInstance from '../../../config/bugsnag';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -18,8 +17,8 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    bugsnagInstance.notify(error, (report) => {
-      report.addMetadata('errorBoundary', errorInfo);
+    Sentry.captureException(error, (scope) => {
+      scope.setContext('errorBoundary', errorInfo);
     });
   }
 

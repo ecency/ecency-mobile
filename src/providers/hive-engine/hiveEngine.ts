@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react-native';
 import {
   EngineContracts,
   EngineIds,
@@ -19,7 +20,6 @@ import {
   convertMarketData,
   convertEngineHistory,
 } from './converters';
-import bugsnapInstance from '../../config/bugsnag';
 import ecencyApi from '../../config/ecencyApi';
 
 /**
@@ -103,7 +103,7 @@ export const fetchHiveEngineTokenBalances = async (
     });
   } catch (err) {
     console.warn('Failed to get engine token balances', err);
-    bugsnapInstance.notify(err);
+    Sentry.captureException(err);
     throw err;
   }
 };
@@ -131,7 +131,7 @@ export const fetchMetics = async (tokens?: string[]) => {
     return response.data.result as EngineMetric[];
   } catch (err) {
     console.warn('Failed to get engine metrices', err);
-    bugsnapInstance.notify(err);
+    Sentry.captureException(err);
     throw err;
   }
 };
@@ -153,7 +153,7 @@ export const fetchUnclaimedRewards = async (account: string): Promise<TokenStatu
     return filteredData;
   } catch (err) {
     console.warn('failed ot get unclaimed engine rewards', err);
-    bugsnapInstance.notify(err);
+    Sentry.captureException(err);
     return [];
   }
 };
@@ -180,7 +180,7 @@ export const fetchEngineMarketData = async (
 
     return days > 1 && data.length > days ? data.slice(data.length - days) : data;
   } catch (err) {
-    bugsnapInstance.notify(err);
+    Sentry.captureException(err);
     console.warn('failed to get chart data', err.message);
     return [];
   }
@@ -212,7 +212,7 @@ export const fetchEngineAccountHistory = async (
 
     return data;
   } catch (err) {
-    bugsnapInstance.notify(err);
+    Sentry.captureException(err);
     console.warn('failed to get engine account history', err.message);
     return [];
   }

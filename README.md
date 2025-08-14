@@ -89,5 +89,4 @@ Security issues should be reported privately to [security@ecency.com](mailto:sec
 
 - Hive community
 - React Native community
-- Bugsnag
 - Sentry

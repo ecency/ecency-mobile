@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { View, Alert } from 'react-native';
 import { StatsItem } from 'components/statsPanel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import * as Sentry from '@sentry/react-native';
 import { MainButton, StatsPanel } from '../../..';
 import { addFavorite, checkFavorite, deleteFavorite } from '../../../../providers/ecency/ecency';
 import { followUser, getFollows, getRelationship, getUser } from '../../../../providers/hive/dhive';
@@ -15,7 +16,6 @@ import { ActionPanel } from './actionPanel';
 import { getTimeFromNowNative } from '../../../../utils/time';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { toastNotification } from '../../../../redux/actions/uiAction';
-import bugsnapInstance from '../../../../config/bugsnag';
 import RootNavigation from '../../../../navigation/rootNavigation';
 
 interface QuickProfileContentProps {
@@ -125,7 +125,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
     } catch (err) {
       setIsLoading(false);
       console.warn('Failed to follow user', err);
-      bugsnapInstance.notify(err);
+      Sentry.captureException(err);
       Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err.message);
     }
   };

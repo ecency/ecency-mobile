@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // Actions
 import { useDrawerStatus } from '@react-navigation/drawer';
 import { SheetManager } from 'react-native-actions-sheet';
+import * as Sentry from '@sentry/react-native';
 import { logout } from '../../../redux/actions/uiAction';
 import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 
@@ -11,7 +12,6 @@ import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 import SideMenuView from '../view/sideMenuView';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { getUser } from '../../../providers/hive/dhive';
-import bugsnapInstance from '../../../config/bugsnag';
 import { SheetNames } from '../../../navigation/sheets';
 
 const SideMenuContainer = ({ navigation }) => {
@@ -40,7 +40,7 @@ const SideMenuContainer = ({ navigation }) => {
       }
     } catch (err) {
       console.warn('failed to update user data');
-      bugsnapInstance.notify(err);
+      Sentry.captureException(err);
     }
   };
 

@@ -2,6 +2,7 @@ import { Query, useMutation, useQuery, useQueryClient } from '@tanstack/react-qu
 import { useIntl } from 'react-intl';
 import { useRef } from 'react';
 import { SheetManager } from 'react-native-actions-sheet';
+import * as Sentry from '@sentry/react-native';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { MediaItem } from '../../ecency/ecency.types';
@@ -14,7 +15,6 @@ import {
 import QUERIES from '../queryKeys';
 import { extract3SpeakIds } from '../../../utils/editor';
 import { ThreeSpeakStatus, ThreeSpeakVideo } from '../../speak/speak.types';
-import bugsnapInstance from '../../../config/bugsnag';
 import { SheetNames } from '../../../navigation/sheets';
 
 /**
@@ -120,7 +120,7 @@ export const useSpeakMutations = () => {
 
       return true;
     } catch (err) {
-      bugsnapInstance.notify(err);
+      Sentry.captureException(err);
     }
   };
 
@@ -171,7 +171,7 @@ export const useSpeakMutations = () => {
 
       return true;
     } catch (err) {
-      bugsnapInstance.notify(err);
+      Sentry.captureException(err);
     }
   };
 
@@ -197,7 +197,7 @@ export const useSpeakMutations = () => {
       console.log('deleted speak videos', permlinks);
       return true;
     } catch (err) {
-      bugsnapInstance.notify(err);
+      Sentry.captureException(err);
     }
   };
 

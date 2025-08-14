@@ -18,8 +18,6 @@ import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
 
 //custom packages
-import com.getkeepsafe.relinker.ReLinker
-import com.bugsnag.android.Bugsnag
 import org.wonday.orientation.OrientationActivityLifecycle
 import com.reactnativepagerview.PagerViewPackage
 
@@ -50,13 +48,6 @@ class MainApplication : Application(), ReactApplication {
     override fun onCreate() {
         super.onCreate()
 
-
-        // Relink bugsnag for ndk and anr cases
-        ReLinker.loadLibrary(this, "bugsnag-ndk")
-        ReLinker.loadLibrary(this, "bugsnag-plugin-android-anr")
-
-        // Start bugsnag
-        Bugsnag.start(this /* app context */)
 
         SoLoader.init(this, OpenSourceMergedSoMapping)
 
