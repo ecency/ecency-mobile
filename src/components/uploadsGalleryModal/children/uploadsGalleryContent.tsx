@@ -35,6 +35,17 @@ import { ThreeSpeakStatus } from '../../../providers/speak/speak.types';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import { Modes } from '../container/uploadsGalleryModal';
+import { withIO } from 'react-native-intersection-observer';
+
+const IOFlatList = withIO(FlatList, [
+  'scrollToIndex',
+  'scrollToOffset',
+  'scrollToEnd',
+  'getScrollResponder',
+  'getScrollableNode',
+  'recordInteraction',
+  'flashScrollIndicators',
+]);
 
 type Props = {
   mode: Modes;
@@ -264,8 +275,8 @@ const UploadsGalleryContent = ({
         {mode === Modes.MODE_IMAGE
           ? _renderSelectButtons
           : isAddingToUploads
-          ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
-          : _renderSelectButtons}
+            ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
+            : _renderSelectButtons}
       </View>
       <View style={styles.pillBtnContainer}>
         <IconButton
@@ -361,7 +372,7 @@ const UploadsGalleryContent = ({
 
   return (
     <Animated.View style={{ ...styles.container, height: animatedHeight }}>
-      <FlatList
+      <IOFlatList
         key={isExpandedMode ? 'vertical_grid' : 'horizontal_list'}
         data={mediaUploads.slice(0, !isExpandedMode ? MAX_HORIZONTAL_THUMBS : undefined)}
         keyExtractor={(item) => `item_${item.url}`}

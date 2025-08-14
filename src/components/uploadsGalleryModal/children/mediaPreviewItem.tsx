@@ -9,6 +9,7 @@ import { Icon } from '../..';
 import styles from './uploadsGalleryModalStyles';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 import { ThreeSpeakStatus } from '../../../providers/speak/speak.types';
+import { InView } from 'react-native-intersection-observer';
 
 interface Props {
   item: MediaItem;
@@ -104,40 +105,46 @@ export const MediaPreviewItem = ({
     setIsAnimated(evt.source?.isAnimated)
   }
 
+
+  const _onInViewChange = (inView: boolean) => {
+    if (isAnimated) {
+      if (inView) {
+        console.log("Playing Gif")
+        imgRef.current?.startAnimating();
+      } else {
+        console.log("Stopping Gif")
+        imgRef.current?.stopAnimating();
+      }
+    }
+
+  }
+
   return (
-    <TouchableOpacity onPress={handlePress} disabled={isDeleting}>
-      <View style={transformStyle}>
-        <ExpoImage
-          // Disable stray touches on thumbnails but allow gestures when expanded
-          ref={imgRef}
-          onLoad={_onLoad}
-          pointerEvents={isExpandedMode ? 'auto' : 'none'}
-          source={{ uri: previewUri }}
-          autoplay={false}
-          style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
-        />
-        {isAnimated && (
-          <>
-            <View style={styles.gifBadge}>
-              <Text style={styles.gifBadgeText}>GIF</Text>
-            </View>
-            {isExpandedMode && !isPlaying && (
-              <View style={styles.playIconContainer}>
-                <Icon
-                  name="play-arrow"
-                  iconType="MaterialIcons"
-                  size={36}
-                  color={EStyleSheet.value('$pureWhite')}
-                />
+    <InView onChange={_onInViewChange}>
+      <TouchableOpacity onPress={handlePress} disabled={isDeleting}>
+        <View style={transformStyle}>
+          <ExpoImage
+            // Disable stray touches on thumbnails but allow gestures when expanded
+            ref={imgRef}
+            onLoad={_onLoad}
+            pointerEvents={isExpandedMode ? 'auto' : 'none'}
+            source={{ uri: previewUri }}
+            autoplay={false}
+            style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
+          />
+          {isAnimated && (
+            <>
+              <View style={styles.gifBadge}>
+                <Text style={styles.gifBadgeText}>GIF</Text>
               </View>
-            )}
-          </>
-        )}
-        {_renderCounter()}
-        {_renderStatus()}
-        {_renderMinus()}
-        {_renderLoading()}
-      </View>
-    </TouchableOpacity>
+            </>
+          )}
+          {_renderCounter()}
+          {_renderStatus()}
+          {_renderMinus()}
+          {_renderLoading()}
+        </View>
+      </TouchableOpacity>
+    </InView>
   );
 };
