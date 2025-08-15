@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Operation, PrivateKey } from '@esteemapp/dhive';
 import { Client as hsClient } from 'hivesigner';
-import bugsnagInstance from '../../config/bugsnag';
+import * as Sentry from '@sentry/react-native';
 import { Poll } from './polls.types';
 import { convertPoll } from './converters';
 import {
@@ -92,7 +92,7 @@ export const getPollData = async (author: string, permlink: string): Promise<Pol
 
     return data;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -125,7 +125,7 @@ export const castPollVote = async (
 
     return true;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };

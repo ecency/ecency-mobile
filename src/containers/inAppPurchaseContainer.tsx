@@ -9,7 +9,7 @@ import get from 'lodash/get';
 // Services
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
-import bugsnagInstance from '../config/bugsnag';
+import * as Sentry from '@sentry/react-native';
 import { purchaseOrder } from '../providers/ecency/ecency';
 
 // Utilities
@@ -70,7 +70,7 @@ class InAppPurchaseContainer extends Component {
       // place rest of unconsumed purhcases in state
       this._getUnconsumedPurchases();
     } catch (err) {
-      bugsnagInstance.notify(err);
+      Sentry.captureException(err);
       console.warn(err.code, err.message);
 
       Alert.alert(
@@ -151,8 +151,8 @@ class InAppPurchaseContainer extends Component {
         handleOnPurchaseFailure(err);
       }
       this._getUnconsumedPurchases();
-      bugsnagInstance.notify(err, (report) => {
-        report.addMetadata('data', data);
+      Sentry.captureException(err, (scope) => {
+        scope.setContext('data', data);
       });
     }
   };
@@ -174,7 +174,7 @@ class InAppPurchaseContainer extends Component {
         }
       }
     } catch (err) {
-      bugsnagInstance.notify(err);
+      Sentry.captureException(err);
       console.warn(err.code, err.message);
     }
   };
@@ -186,7 +186,7 @@ class InAppPurchaseContainer extends Component {
     this.purchaseErrorSubscription = IAP.purchaseErrorListener((error) => {
       const { intl, handleOnPurchaseFailure } = this.props;
 
-      bugsnagInstance.notify(error);
+      Sentry.captureException(error);
       if (get(error, 'responseCode') === '3' && Platform.OS === 'android') {
         Alert.alert(
           intl.formatMessage({
@@ -236,7 +236,7 @@ class InAppPurchaseContainer extends Component {
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
       this.setState({ productList: products });
     } catch (error) {
-      bugsnagInstance.notify(error);
+      Sentry.captureException(error);
       Alert.alert(
         intl.formatMessage({
           id: 'alert.connection_issues',
@@ -279,8 +279,8 @@ class InAppPurchaseContainer extends Component {
       try {
         IAP.requestPurchase(Platform.OS === 'ios' ? { sku } : { skus: [sku] });
       } catch (err) {
-        bugsnagInstance.notify(err, (report) => {
-          report.addMetadata('sku', sku);
+        Sentry.captureException(err, (scope) => {
+          scope.setContext('sku', { sku });
         });
       }
     } else {

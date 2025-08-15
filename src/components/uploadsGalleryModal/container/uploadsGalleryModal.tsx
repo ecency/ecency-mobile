@@ -5,7 +5,7 @@ import ImagePicker, { Image, Options, Video } from 'react-native-image-crop-pick
 import RNHeicConverter from 'react-native-heic-converter';
 import { openSettings } from 'react-native-permissions';
 import { SheetManager } from 'react-native-actions-sheet';
-import bugsnapInstance from '../../../config/bugsnag';
+import * as Sentry from '@sentry/react-native';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -285,7 +285,7 @@ export const UploadsGalleryModal = forwardRef(
       } catch (error) {
         console.log('Failed to upload image', error);
 
-        bugsnapInstance.notify(error);
+        Sentry.captureException(error);
       }
     };
 

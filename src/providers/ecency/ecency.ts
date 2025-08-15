@@ -1,7 +1,7 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
 import { isArray } from 'lodash';
 import { Platform } from 'react-native';
-import bugsnagInstance from '../../config/bugsnag';
+import * as Sentry from '@sentry/react-native';
 import ecencyApi from '../../config/ecencyApi';
 import { upload } from '../../config/imageApi';
 import serverList from '../../config/serverListApi';
@@ -41,7 +41,7 @@ export const getFiatHbdRate = (fiatCode: string) =>
     .get(`/private-api/market-data/${fiatCode}/hbd`)
     .then((resp) => resp.data)
     .catch((err) => {
-      bugsnagInstance.notify(err);
+      Sentry.captureException(err);
       // TODO: save currency rate of offline values
       return 1;
     });
@@ -62,7 +62,7 @@ export const getLatestQuotes = async (currencyRate: number): Promise<LatestMarke
 
     return data;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     console.warn(error);
     throw error;
   }
@@ -73,7 +73,7 @@ export const getCurrencyTokenRate = (currency, token) =>
     .get(`/private-api/market-data/${currency}/${token}`)
     .then((resp) => resp.data)
     .catch((err) => {
-      bugsnagInstance.notify(err);
+      Sentry.captureException(err);
       return 0;
     });
 
@@ -88,7 +88,7 @@ export const getReceivedVestingShares = async (
     }
     return res.data.list;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     console.warn(error);
     throw error;
   }
@@ -109,7 +109,7 @@ export const getDrafts = async () => {
     const _retData = rawData.length > 0 ? rawData.map(convertDraft) : [];
     return _retData;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -130,7 +130,7 @@ export const deleteDraft = async (draftId: string) => {
     const _retData = rawData.length > 0 ? rawData.map(convertDraft) : [];
     return _retData;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -153,7 +153,7 @@ export const addDraft = async (draft: any) => {
 
     return data;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -181,7 +181,7 @@ export const updateDraft = async (
       throw new Error('No data returned in response');
     }
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -205,7 +205,7 @@ export const addBookmark = async (author: string, permlink: string) => {
     return response.data;
   } catch (error) {
     console.warn('Failed to add bookmark', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -220,7 +220,7 @@ export const getBookmarks = async () => {
     return response.data;
   } catch (error) {
     console.warn('Failed to get saved bookmarks', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -237,7 +237,7 @@ export const deleteBookmark = async (bookmarkId: string) => {
     return response.data;
   } catch (error) {
     console.warn('Failed to delete bookmark', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -260,7 +260,7 @@ export const addReport = async (type: 'content' | 'user', data: string) => {
     return response.data;
   } catch (err) {
     console.warn('Failed to report to ecency');
-    bugsnagInstance.notify(err);
+    Sentry.captureException(err);
     throw err;
   }
 };
@@ -283,7 +283,7 @@ export const deleteAccount = async (username: string, data: string) => {
     return response.data;
   } catch (err) {
     console.warn('Failed to report to ecency');
-    bugsnagInstance.notify(err);
+    Sentry.captureException(err);
     throw err;
   }
 };
@@ -304,7 +304,7 @@ export const getFavorites = async () => {
     return response.data;
   } catch (error) {
     console.warn('Failed to get favorites', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -321,7 +321,7 @@ export const checkFavorite = async (targetUsername: string) => {
     return response.data || false;
   } catch (error) {
     console.warn('Failed to check favorite', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
   }
 };
 
@@ -337,7 +337,7 @@ export const addFavorite = async (targetUsername: string) => {
     return response.data;
   } catch (error) {
     console.warn('Failed to add user favorites', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -354,7 +354,7 @@ export const deleteFavorite = async (targetUsername: string) => {
     return response.data;
   } catch (error) {
     console.warn('Failed to add user favorites', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -375,7 +375,7 @@ export const getFragments = async () => {
     return response.data as Snippet[];
   } catch (error) {
     console.warn('Failed to get fragments', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -394,7 +394,7 @@ export const addFragment = async (title: string, body: string) => {
     return response.data;
   } catch (error) {
     console.warn('Failed to add fragment', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -413,7 +413,7 @@ export const updateFragment = async (fragmentId: string, title: string, body: st
     return response.data;
   } catch (error) {
     console.warn('Failed to update fragment', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -430,7 +430,7 @@ export const deleteFragment = async (fragmentId: string) => {
     return response.data;
   } catch (error) {
     console.warn('Failed to delete fragment', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -451,7 +451,7 @@ export const getLeaderboard = async (duration: 'day' | 'week' | 'month') => {
     }
     return rawData;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -471,7 +471,7 @@ export const getNotifications = async (data: {
     return response.data;
   } catch (error) {
     console.warn('Failed to get notifications', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -482,7 +482,7 @@ export const getUnreadNotificationCount = async (accessToken?: string) => {
     const response = await ecencyApi.post('/private-api/notifications/unread', data);
     return response.data ? response.data.count : 0;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     return 0;
   }
 };
@@ -493,7 +493,7 @@ export const markNotifications = async (id: string | null = null) => {
     const response = await ecencyApi.post('/private-api/notifications/mark', data);
     return response.data;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -513,7 +513,7 @@ export const setPushToken = async (data, accessToken = null) => {
     return res.data;
   } catch (error) {
     console.warn('Failed to set push token on server');
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
   }
 };
 
@@ -535,7 +535,7 @@ export const search = async (data: {
     return response.data;
   } catch (error) {
     console.warn('Search failed', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -552,7 +552,7 @@ export const searchPath = async (q: string) => {
     return response.data;
   } catch (error) {
     console.warn('path search failed', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -575,7 +575,7 @@ export const searchAccount = async (q = '', limit = 20, random = 0) => {
     return response.data;
   } catch (error) {
     console.warn('account search failed', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -598,7 +598,7 @@ export const searchTag = async (q = '', limit = 20, random = 0) => {
     return response.data;
   } catch (error) {
     console.warn('tag search failed', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -641,7 +641,7 @@ export const addSchedule = async (
     return response.data;
   } catch (error) {
     console.warn('Failed to add post to schedule', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -656,7 +656,7 @@ export const getSchedules = async () => {
     return response.data || [];
   } catch (error) {
     console.warn('Failed to get schedules');
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -673,7 +673,7 @@ export const deleteScheduledPost = async (id: string) => {
     return response.data || [];
   } catch (error) {
     console.warn('Failed to delete scheduled post');
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -690,7 +690,7 @@ export const moveScheduledToDraft = async (id: string) => {
     return response.data;
   } catch (error) {
     console.warn('Failed to move scheduled post to drafts');
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -716,7 +716,7 @@ export const getImages = async () => {
     }));
   } catch (error) {
     console.warn('Failed to get images', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
   }
 };
 
@@ -727,7 +727,7 @@ export const addImage = async (url: string) => {
     return response.data as MediaItem[];
   } catch (error) {
     console.warn('Failed to add image', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -739,7 +739,7 @@ export const deleteImage = async (id: string) => {
     return response.data;
   } catch (error) {
     console.warn('Failed to delete image', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -781,7 +781,7 @@ export const getNodes = async () => {
     return response.data?.hived;
   } catch (error) {
     console.warn('failed to get nodes list', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     return SERVER_LIST;
   }
 };
@@ -808,7 +808,7 @@ export const getSCAccessToken = async (
       return getSCAccessToken(code, retriesCount - 1, _delayMs * 2);
     } else {
       console.warn('failed to refresh token');
-      bugsnagInstance.notify(error);
+      Sentry.captureException(error);
       throw error;
     }
   }
@@ -829,7 +829,7 @@ export const getPromotedEntries = async (username: string) => {
     });
   } catch (error) {
     console.warn('Failed to get promoted enties');
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     return error;
   }
 };
@@ -846,7 +846,7 @@ export const getBoostPlusPrice = async () => {
     });
   } catch (error) {
     console.warn('Failed to get boost plus prices');
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     return error;
   }
 };
@@ -867,7 +867,7 @@ export const getBoostPlusAccount = async (account: string) => {
     });
   } catch (error) {
     console.warn('Failed to get boost plus prices');
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     return error;
   }
 };
@@ -894,14 +894,14 @@ NOTE: data or type PurchaseRequestData should contain body, pass as it is
 // api
 //   .post('/purchase-order', data)
 //   .then((resp) => resp.data)
-//   .catch((error) => bugsnagInstance.notify(error));
+//   .catch((error) => Sentry.captureException(error));
 
 export const purchaseOrder = async (data: PurchaseRequestData) => {
   try {
     const response = await ecencyApi.post('/private-api/purchase-order', data);
     return response.data;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -924,7 +924,7 @@ export const signUp = async (username: string, email: string, referral?: string)
     const response = await ecencyApi.post('/private-api/account-create', data);
     return response.status === 202;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -953,7 +953,7 @@ export const getReferralsList = async (
       res.data.length > 0 ? res.data.map((referralItem: any) => convertReferral(referralItem)) : [];
     return referralsList;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     console.warn(error);
     throw error;
   }
@@ -968,7 +968,7 @@ export const getReferralsStats = async (username: string): Promise<ReferralStat>
     }
     return convertReferralStat(res.data);
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     console.warn(error);
     throw error;
   }
@@ -996,7 +996,7 @@ export const getCommentHistory = async (
     }
     return res?.data?.list.map((item) => convertCommentHistory(item));
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -1012,7 +1012,7 @@ export const getAnnouncements = async (accessToken: string) => {
     }
     return res?.data.map(convertAnnouncement);
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -1034,7 +1034,7 @@ export const getPortfolio = async (username: string) => {
 
     return data;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -1052,7 +1052,7 @@ export const getBotAuthers = async () => {
 
     return data as string[];
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     return [] as string[];
   }
 };
@@ -1072,7 +1072,7 @@ export const getActiveProposalMeta = async () => {
 
     return data;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };

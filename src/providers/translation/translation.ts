@@ -1,4 +1,4 @@
-import bugsnagInstance from '../../config/bugsnag';
+import * as Sentry from '@sentry/react-native';
 import translationApi from '../../config/translationApi';
 
 export const getTranslation = async (text: string, source: string, target: string) => {
@@ -11,7 +11,7 @@ export const getTranslation = async (text: string, source: string, target: strin
     return res.data;
   } catch (error) {
     console.log('error : ', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -25,7 +25,7 @@ export const fetchSupportedLangs = async () => {
     return res.data;
   } catch (error) {
     console.log('error : ', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };

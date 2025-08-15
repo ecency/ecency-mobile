@@ -1,5 +1,5 @@
+import * as Sentry from '@sentry/react-native';
 import ecencyApi from '../../config/ecencyApi';
-import bugsnagInstance from '../../config/bugsnag';
 import { EcencyUser, UserPoint } from './ecency.types';
 
 /**
@@ -24,7 +24,7 @@ export const userActivity = async (ty: number, tx = '', bl: string | number = ''
     return response.data;
   } catch (error) {
     console.warn('Failed to push user activity point', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -37,7 +37,7 @@ export const getPointsSummary = async (username: string): Promise<EcencyUser> =>
     return response.data;
   } catch (error) {
     console.warn('Failed to get points', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw new Error(error.response?.data?.message || error.message);
   }
 };
@@ -49,7 +49,7 @@ export const getPointsHistory = async (username: string): Promise<UserPoint[]> =
     return response.data;
   } catch (error) {
     console.warn('Failed to get points transactions', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw new Error(error.response?.data?.message || error.message);
   }
 };
@@ -60,7 +60,7 @@ export const claimPoints = async () => {
     return response.data;
   } catch (error) {
     console.warn('Failed to claim points', error);
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw new Error(error.response?.data?.message || error.message);
   }
 };
@@ -74,7 +74,7 @@ export const gameStatusCheck = async (game_type: string) => {
     }
     return _data;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -91,7 +91,7 @@ export const gameClaim = async (game_type: string, key: string) => {
     }
     return _data;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };

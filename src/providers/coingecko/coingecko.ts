@@ -1,4 +1,4 @@
-import bugsnagInstance from '../../config/bugsnag';
+import * as Sentry from '@sentry/react-native';
 import coingeckoApi from '../../config/coingeckoApi';
 import { convertMarketData } from './converters';
 import { MarketData } from './models';
@@ -46,7 +46,7 @@ export const fetchMarketChart = async (
 
     return data;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };

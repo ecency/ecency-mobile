@@ -1,5 +1,6 @@
 import { PrivateKey } from '@esteemapp/dhive';
 import { Operation } from '@hiveio/dhive';
+import * as Sentry from '@sentry/react-native';
 import {
   getAnyPrivateKey,
   getDigitPinCode,
@@ -13,7 +14,6 @@ import {
   SwapOptions,
   TransactionType,
 } from './hiveTrade.types';
-import bugsnapInstance from '../../config/bugsnag';
 import { convertSwapOptionsToLimitOrder } from './converters';
 
 // This operation creates a limit order and matches it against existing open orders.
@@ -59,7 +59,7 @@ export const limitOrderCreate = (
           }
         })
         .catch((err) => {
-          bugsnapInstance.notify(err);
+          Sentry.captureException(err);
           reject(err);
         });
     });
@@ -176,7 +176,7 @@ export const fetchHiveMarketRate = async (asset: MarketAsset): Promise<number> =
     }
   } catch (err) {
     console.warn('failed to get hive market rate');
-    bugsnapInstance.notify(err);
+    Sentry.captureException(err);
     throw err;
   }
 };
