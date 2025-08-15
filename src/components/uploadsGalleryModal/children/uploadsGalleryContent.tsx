@@ -22,6 +22,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useDispatch } from 'react-redux';
+import { withIO } from 'react-native-intersection-observer';
 import { Icon, IconButton } from '../..';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 import { editorQueries, speakQueries } from '../../../providers/queries';
@@ -35,7 +36,6 @@ import { ThreeSpeakStatus } from '../../../providers/speak/speak.types';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import { Modes } from '../container/uploadsGalleryModal';
-import { withIO } from 'react-native-intersection-observer';
 
 const IOFlatList = withIO(FlatList, [
   'scrollToIndex',
@@ -275,8 +275,8 @@ const UploadsGalleryContent = ({
         {mode === Modes.MODE_IMAGE
           ? _renderSelectButtons
           : isAddingToUploads
-            ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
-            : _renderSelectButtons}
+          ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
+          : _renderSelectButtons}
       </View>
       <View style={styles.pillBtnContainer}>
         <IconButton

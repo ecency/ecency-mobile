@@ -5,11 +5,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import { default as AnimatedView, ZoomIn } from 'react-native-reanimated';
 import { useIntl } from 'react-intl';
+import { InView } from 'react-native-intersection-observer';
 import { Icon } from '../..';
 import styles from './uploadsGalleryModalStyles';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 import { ThreeSpeakStatus } from '../../../providers/speak/speak.types';
-import { InView } from 'react-native-intersection-observer';
 
 interface Props {
   item: MediaItem;
@@ -36,8 +36,7 @@ export const MediaPreviewItem = ({
   const [isAnimated, setIsAnimated] = useState(false);
 
   const thumbUrl =
-    item.thumbUrl ||
-    proxifyImageSrc(item.url, 200, 200, Platform.OS === 'ios' ? 'match' : 'webp');
+    item.thumbUrl || proxifyImageSrc(item.url, 200, 200, Platform.OS === 'ios' ? 'match' : 'webp');
 
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -100,24 +99,21 @@ export const MediaPreviewItem = ({
     }
   };
 
-
   const _onLoad = (evt) => {
-    setIsAnimated(evt.source?.isAnimated)
-  }
-
+    setIsAnimated(evt.source?.isAnimated);
+  };
 
   const _onInViewChange = (inView: boolean) => {
     if (isAnimated) {
       if (inView) {
-        console.log("Playing Gif")
+        console.log('Playing Gif');
         imgRef.current?.startAnimating();
       } else {
-        console.log("Stopping Gif")
+        console.log('Stopping Gif');
         imgRef.current?.stopAnimating();
       }
     }
-
-  }
+  };
 
   return (
     <InView onChange={_onInViewChange}>

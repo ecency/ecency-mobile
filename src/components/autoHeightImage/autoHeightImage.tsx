@@ -5,7 +5,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
 
-
 interface AutoHeightImageProps {
   contentWidth: number;
   imgUrl: string;
@@ -17,7 +16,6 @@ interface AutoHeightImageProps {
   onPress?: () => void;
   setAspectRatio?: (ratio: number) => void;
 }
-
 
 // const AnimatedExpoImage = Animated.createAnimatedComponent(ExpoImage);
 
@@ -32,7 +30,6 @@ export const AutoHeightImage = ({
   onPress,
   setAspectRatio,
 }: AutoHeightImageProps) => {
-
   const imgRef = useRef<ExpoImage>(null);
   const [isAnimated, setIsAnimated] = useState(false);
 
@@ -63,8 +60,6 @@ export const AutoHeightImage = ({
     }
     return _height;
   }, [imgUrl]);
-
-
 
   const [imgWidth, setImgWidth] = useState(contentWidth);
   const [height, setHeight] = useState(_initialHeight);
@@ -132,18 +127,16 @@ export const AutoHeightImage = ({
 
   const _onLoad = (evt) => {
     if (!hasSetBounds.current) {
-      setIsAnimated(evt.source.isAnimated)
+      setIsAnimated(evt.source.isAnimated);
       _setImageBounds(evt.source.width, evt.source.height);
       animateFadeIn();
       hasSetBounds.current = true;
     }
   };
 
-
   useEffect(() => {
     hasSetBounds.current = false;
   }, [imgUrl]);
-
 
   const handlePress = () => {
     if (isAnimated) {
