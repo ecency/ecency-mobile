@@ -5,6 +5,7 @@ import { Image } from 'react-native-image-crop-picker';
 
 // import Config from 'react-native-config';
 // import { Platform } from 'react-native';
+import * as Sentry from '@sentry/react-native';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import {
@@ -20,7 +21,6 @@ import {
 import { MediaItem, Snippet } from '../../ecency/ecency.types';
 import { signImage } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
-import bugsnapInstance from '../../../config/bugsnag';
 
 interface SnippetMutationVars {
   id: string | null;
@@ -135,7 +135,9 @@ export const useMediaUploadMutation = () => {
   //       })
   //       .catch((err) => {
   //         console.warn('Meida Upload Failed', err);
-  //         bugsnapInstance.notify('Media upload failed', err);
+  //         Sentry.captureException(err, (scope) => {
+  //           scope.setContext('info', { message: 'Media upload failed' });
+  //         });
   //         reject(err);
   //       });
   //   });
@@ -155,7 +157,9 @@ export const useMediaUploadMutation = () => {
       }
     },
     onError: (err) => {
-      bugsnapInstance.notify('Media upload failed', err);
+      Sentry.captureException(err, (scope) => {
+        scope.setContext('info', { message: 'Media upload failed' });
+      });
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     },
   });

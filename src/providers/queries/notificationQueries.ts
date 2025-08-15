@@ -8,7 +8,7 @@ import {
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { unionBy } from 'lodash';
-import bugsnapInstance from '../../config/bugsnag';
+import * as Sentry from '@sentry/react-native';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { updateUnreadActivityCount } from '../../redux/actions/accountAction';
 import { toastNotification } from '../../redux/actions/uiAction';
@@ -97,7 +97,7 @@ export const useNotificationReadMutation = () => {
 
       return response.unread || 0;
     } catch (err) {
-      bugsnapInstance.notify(err);
+      Sentry.captureException(err);
     }
   };
 

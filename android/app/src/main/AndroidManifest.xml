@@ -4,8 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="com.android.vending.BILLING" />                                           
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />                                              
+    <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.front" android:required="false" />
@@ -37,7 +37,7 @@
       android:largeHeap="true"
       android:theme="@style/AppTheme"
       android:supportsRtl="true">
-      
+
       <activity
         android:name=".MainActivity"
         android:launchMode="singleTask"
@@ -56,53 +56,53 @@
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-            <data 
-                android:scheme="https" 
+            <data
+                android:scheme="https"
                 android:host="ecency.com"
                 android:pathPattern="/@.*"
             />
-            <data 
-                android:scheme="https" 
+            <data
+                android:scheme="https"
                 android:host="ecency.com"
                 android:pathPattern="/.*/@.*/.*"
             />
-            <data 
-                android:scheme="https" 
+            <data
+                android:scheme="https"
                 android:host="ecency.com"
                 android:pathPattern="/hot/.*"
             />
-            <data 
-                android:scheme="https" 
+            <data
+                android:scheme="https"
                 android:host="ecency.com"
                 android:pathPattern="/trending/.*"
             />
-            <data 
-                android:scheme="https" 
+            <data
+                android:scheme="https"
                 android:host="ecency.com"
                 android:pathPattern="/created/.*"
             />
-            <data 
-                android:scheme="https" 
+            <data
+                android:scheme="https"
                 android:host="ecency.com"
                 android:path="/trending"
             />
-            <data 
-                android:scheme="https" 
+            <data
+                android:scheme="https"
                 android:host="ecency.com"
                 android:path="/hot"
             />
-            <data 
-                android:scheme="https" 
+            <data
+                android:scheme="https"
                 android:host="ecency.com"
                 android:path="/signup"
             />
-            <data 
-                android:scheme="https" 
+            <data
+                android:scheme="https"
                 android:host="ecency.com"
                 android:path="/auth"
             />
-           <data 
-                android:scheme="https" 
+           <data
+                android:scheme="https"
                 android:host="ecency.com"
                 android:path="/purchase"
             />
@@ -166,11 +166,8 @@
           android:name="com.google.firebase.messaging.default_notification_color"
           android:resource="@color/notification_icon" /> -->
       <meta-data
-          android:name="com.bugsnag.android.API_KEY"
-          android:value="88a8a25738939a80ba49f1d5289dbc80" />
-      <meta-data 
             tools:replace="android:value"
-            android:name="google_analytics_adid_collection_enabled" 
+            android:name="google_analytics_adid_collection_enabled"
             android:value="false" />
     </application>
 

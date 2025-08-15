@@ -4,6 +4,7 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Services and Actions
+import * as Sentry from '@sentry/react-native';
 import {
   lookupAccounts,
   transferToken,
@@ -25,7 +26,6 @@ import { getPointsSummary } from '../providers/ecency/ePoint';
 
 // Utils
 import { countDecimals } from '../utils/number';
-import bugsnagInstance from '../config/bugsnag';
 import { fetchAndSetCoinsData } from '../redux/actions/walletActions';
 import {
   delegateHiveEngine,
@@ -330,7 +330,7 @@ class TransferContainer extends Component {
       })
       .catch((err) => {
         navigation.goBack();
-        bugsnagInstance.notify(err);
+        Sentry.captureException(err);
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
       });
   };

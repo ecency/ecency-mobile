@@ -2,10 +2,10 @@ import axios from 'axios';
 import Config from 'react-native-config';
 import VersionNumber from 'react-native-version-number';
 import { get } from 'lodash';
+import * as Sentry from '@sentry/react-native';
 import { store } from '../redux/store/store';
 import { getDigitPinCode } from '../providers/hive/dhive';
 import { decryptKey } from '../utils/crypto';
-import bugsnagInstance from './bugsnag';
 
 export const ECENCY_TERMS_URL = `${Config.ECENCY_BACKEND_API}/terms-of-service`;
 
@@ -56,10 +56,10 @@ ecencyApi.interceptors.request.use((request) => {
     } else if (state.application.isLoggedIn) {
       const errMsg = 'Failed to inject accessToken';
       console.warn(errMsg);
-      bugsnagInstance.notify(new Error(errMsg), (event) => {
-        event.setUser(currentAccount.username);
-        event.context = 'ecency_api_interceptor';
-        event.addMetadata('meta', {
+      Sentry.captureException(new Error(errMsg), (scope) => {
+        scope.setUser({ username: currentAccount.username });
+        scope.setTag('context', 'ecency_api_interceptor');
+        scope.setContext('meta', {
           url: request.url,
           accessTokenExist: !!token,
         });

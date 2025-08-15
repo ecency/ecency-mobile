@@ -21,6 +21,7 @@ import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 
 // Constants
 import { SheetManager } from 'react-native-actions-sheet';
+import * as Sentry from '@sentry/react-native';
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
 
@@ -84,7 +85,6 @@ import MigrationHelpers, {
   repairUserAccountData,
 } from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
-import bugsnapInstance from '../../../config/bugsnag';
 import { SheetNames } from '../../../navigation/sheets';
 
 let firebaseOnMessageListener: any = null;
@@ -590,8 +590,8 @@ class ApplicationContainer extends Component {
       if (account?.local?.accessToken) {
         _enabledNotificationForAccount(account);
       } else {
-        console.warn('access token not present, reporting to bugsnag');
-        bugsnapInstance.notify(
+        console.warn('access token not present, reporting to Sentry');
+        Sentry.captureException(
           new Error(
             `Reporting missing access token in other accounts section: account:${
               account.name

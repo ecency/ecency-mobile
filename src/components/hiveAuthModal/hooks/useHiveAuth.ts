@@ -7,13 +7,13 @@ import { HiveSignerMessage } from 'utils/hive-signer-helper';
 import { Operation } from '@hiveio/dhive';
 import assert from 'assert';
 import { useIntl } from 'react-intl';
+import * as Sentry from '@sentry/react-native';
 import { getDigitPinCode } from '../../../providers/hive/dhive';
 import { loginWithHiveAuth } from '../../../providers/hive/auth';
 import { useAppSelector, usePostLoginActions } from '../../../hooks';
 import AUTH_TYPE from '../../../constants/authType';
 import { decryptKey } from '../../../utils/crypto';
 import { delay } from '../../../utils/editor';
-import bugsnapInstance from '../../../config/bugsnag';
 
 const APP_META = {
   name: 'Ecency',
@@ -139,7 +139,7 @@ export const useHiveAuth = () => {
       setStatus(HiveAuthStatus.ERROR);
 
       console.warn('Login failed', error);
-      bugsnapInstance.notify(error);
+      Sentry.captureException(error);
       return false;
     }
   };
@@ -204,7 +204,7 @@ export const useHiveAuth = () => {
       setStatusText(intl.formatMessage({ id: error.message || 'hiveauth.transaction_fail' }));
 
       console.warn('Transaction failed', error);
-      bugsnapInstance.notify(error);
+      Sentry.captureException(error);
       return false;
     }
   };

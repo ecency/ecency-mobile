@@ -2,7 +2,7 @@ import { Platform } from 'react-native';
 import axios from 'axios';
 import Config from 'react-native-config';
 import DeviceInfo from 'react-native-device-info';
-import bugsnagInstance from '../../config/bugsnag';
+import * as Sentry from '@sentry/react-native';
 import {
   convertStatsData,
   getMetricsListForPostStats as getMetricsForPostStats,
@@ -46,7 +46,7 @@ export const recordPlausibleEvent = async (urlPath: string, eventName?: string):
 
     console.log(`Event "${eventName}" recorded successfully.`);
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     console.error(`Failed to record event "${eventName}":`, error);
     throw error;
   }
@@ -83,7 +83,7 @@ const fetchStats = async (
 
     return data;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     console.error(`Failed to fetch stats:`, error);
     throw error;
   }

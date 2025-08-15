@@ -9,6 +9,7 @@ import { getMessaging } from '@react-native-firebase/messaging';
 import { useNavigation } from '@react-navigation/native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SheetManager } from 'react-native-actions-sheet';
+import * as Sentry from '@sentry/react-native';
 import { login, loginWithSC2 } from '../../../providers/hive/auth';
 import { lookupAccounts } from '../../../providers/hive/dhive';
 
@@ -38,7 +39,6 @@ import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAc
 import { UserAvatar } from '../../../components';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
-import bugsnapInstance from '../../../config/bugsnag';
 import { SheetNames } from '../../../navigation/sheets';
 
 /*
@@ -230,9 +230,9 @@ class LoginContainer extends PureComponent {
         dispatch(failedAccount(err.message));
         this.setState({ isLoading: false });
 
-        bugsnapInstance.notify(err, (event) => {
-          event.context = 'key-login-failure';
-          event.setUser(username);
+        Sentry.captureException(err, (scope) => {
+          scope.setTag('context', 'key-login-failure');
+          scope.setUser({ username });
         });
       });
   };

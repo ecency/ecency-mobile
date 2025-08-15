@@ -1,4 +1,4 @@
-import bugsnagInstance from '../../config/bugsnag';
+import * as Sentry from '@sentry/react-native';
 import githubApi from '../../config/githubApi';
 
 export const fetchLatestAppVersion = async () => {
@@ -11,7 +11,7 @@ export const fetchLatestAppVersion = async () => {
 
     return data.tag_name;
   } catch (error) {
-    bugsnagInstance.notify(error);
+    Sentry.captureException(error);
     throw error;
   }
 };

@@ -1,5 +1,4 @@
 import Expo
-import Bugsnag
 import Firebase
 import React
 import ReactAppDependencyProvider
@@ -19,12 +18,10 @@ public class AppDelegate: ExpoAppDelegate {
     let delegate = ReactNativeDelegate()
     let factory = ExpoReactNativeFactory(delegate: delegate)
     delegate.dependencyProvider = RCTAppDependencyProvider()
-    
+
     //Register FIR app
     FirebaseApp.configure()
-    
-    //Register Bugsnag
-    Bugsnag.start()
+
 
     reactNativeDelegate = delegate
     reactNativeFactory = factory
@@ -59,17 +56,17 @@ public class AppDelegate: ExpoAppDelegate {
     let result = RCTLinkingManager.application(application, continue: userActivity, restorationHandler: restorationHandler)
     return super.application(application, continue: userActivity, restorationHandler: restorationHandler) || result
   }
-  
+
   //add interface orientation override
   public override func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
       return Orientation.getOrientation()
   }
-  
+
 }
 
 class ReactNativeDelegate: ExpoReactNativeFactoryDelegate {
   // Extension point for config-plugins
-  
+
   //bootsplash override method,
   //NOTE: unlike suggeted in docs, this method has to be declared here
   //issue ref:https://github.com/zoontek/react-native-bootsplash/issues/690#issuecomment-2877185057

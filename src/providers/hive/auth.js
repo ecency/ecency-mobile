@@ -2,6 +2,7 @@ import * as dsteem from '@esteemapp/dhive';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
+import * as Sentry from '@sentry/react-native';
 import { getDigitPinCode, getMutes, getUser } from './dhive';
 import { getPointsSummary } from '../ecency/ePoint';
 import {
@@ -21,7 +22,6 @@ import { getSCAccessToken, getUnreadNotificationCount } from '../ecency/ecency';
 // Constants
 import AUTH_TYPE from '../../constants/authType';
 import { makeHsCode } from '../../utils/hive-signer-helper';
-import bugsnapInstance from '../../config/bugsnag';
 
 export const login = async (username, password) => {
   let _keyMatched = false;
@@ -188,7 +188,7 @@ export const loginWithSC2 = async (code) => {
       accessToken: get(scTokens, 'access_token', ''),
     };
   } catch (err) {
-    bugsnapInstance.notify(err);
+    Sentry.captureException(err);
     throw err;
   }
 };
@@ -263,7 +263,7 @@ export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => 
       accessToken: get(scTokens, 'access_token', ''),
     };
   } catch (err) {
-    bugsnapInstance.notify(err);
+    Sentry.captureException(err);
     throw err;
   }
 };
