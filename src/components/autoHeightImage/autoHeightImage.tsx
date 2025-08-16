@@ -4,6 +4,7 @@ import { Platform, TouchableOpacity, View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
+import { InView } from 'react-native-intersection-observer';
 
 interface AutoHeightImageProps {
   contentWidth: number;
@@ -32,6 +33,7 @@ export const AutoHeightImage = ({
 }: AutoHeightImageProps) => {
   const imgRef = useRef<ExpoImage>(null);
   const [isAnimated, setIsAnimated] = useState(false);
+  const [autoplay, setAutoplay] = useState(false);
 
   // extract iniital height based on provided ratio
   const _initialHeight = useMemo(() => {
@@ -63,6 +65,7 @@ export const AutoHeightImage = ({
 
   const [imgWidth, setImgWidth] = useState(contentWidth);
   const [height, setHeight] = useState(_initialHeight);
+
   const imgHeightAnim = useSharedValue(_initialHeight); // Initial height based on 16:9 ratio
   const imgOpacityAnim = useSharedValue(0); // Initial opacity for fade-in effect
   const bgColorAnim = useSharedValue(EStyleSheet.value('$primaryLightBackground')); // Initial back
@@ -139,36 +142,43 @@ export const AutoHeightImage = ({
   }, [imgUrl]);
 
   const handlePress = () => {
-    if (isAnimated) {
-      imgRef.current?.startAnimating();
-    } else if (onPress) {
+    if (onPress) {
       onPress();
     }
   };
 
+
+  const _onInViewChange = (inView: boolean) => {
+    if (isAnimated) {
+      setAutoplay(inView)
+    }
+  }
+
   return (
-    <TouchableOpacity
-      onPress={handlePress}
-      disabled={isAnchored}
-      activeOpacity={activeOpacity || 1}
-    >
-      <View style={animatedWrapperStyle}>
-        <ExpoImage
-          ref={imgRef}
-          pointerEvents="none"
-          style={animatedImgStyle}
-          source={{ uri: imgUrl }}
-          contentFit="cover"
-          onLoad={_onLoad}
-          autoplay={false}
-        />
-        {isAnimated && (
-          <View style={styles.gifBadge}>
-            <Text style={styles.gifBadgeText}>GIF</Text>
-          </View>
-        )}
-      </View>
-    </TouchableOpacity>
+    <InView onChange={_onInViewChange}>
+      <TouchableOpacity
+        onPress={handlePress}
+        disabled={isAnchored}
+        activeOpacity={activeOpacity || 1}
+      >
+        <View style={animatedWrapperStyle}>
+          <ExpoImage
+            ref={imgRef}
+            pointerEvents="none"
+            style={animatedImgStyle}
+            source={{ uri: imgUrl }}
+            contentFit="cover"
+            onLoad={_onLoad}
+            autoplay={autoplay}
+          />
+          {isAnimated && (
+            <View style={styles.gifBadge}>
+              <Text style={styles.gifBadgeText}>GIF</Text>
+            </View>
+          )}
+        </View>
+      </TouchableOpacity>
+   </InView>
   );
 };
 
