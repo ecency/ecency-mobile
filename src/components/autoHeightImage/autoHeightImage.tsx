@@ -147,12 +147,11 @@ export const AutoHeightImage = ({
     }
   };
 
-
   const _onInViewChange = (inView: boolean) => {
     if (isAnimated) {
-      setAutoplay(inView)
+      setAutoplay(inView);
     }
-  }
+  };
 
   return (
     <InView onChange={_onInViewChange}>
@@ -178,7 +177,7 @@ export const AutoHeightImage = ({
           )}
         </View>
       </TouchableOpacity>
-   </InView>
+    </InView>
   );
 };
 

@@ -15,6 +15,7 @@ import { RefreshControl } from 'react-native-gesture-handler';
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SheetManager } from 'react-native-actions-sheet';
+import { IOFlatList } from 'react-native-intersection-observer';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
@@ -33,7 +34,6 @@ import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 import { PostOptionsModal } from '../../index';
 import { BotCommentsPreview } from '../children/botCommentsPreview';
 import { SheetNames } from '../../../navigation/sheets';
-import { IOFlatList } from 'react-native-intersection-observer';
 
 const PostComments = forwardRef(
   (

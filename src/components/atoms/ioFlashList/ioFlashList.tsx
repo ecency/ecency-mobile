@@ -5,18 +5,18 @@ import { FlashList, FlashListProps } from '@shopify/flash-list';
 export type IOFlashListController = FlashList<any>;
 export type IOFlashListProps<ItemT> = IOComponentProps & FlashListProps<ItemT>;
 
-//TOOD: fix issue realted measureLayout with using inView in children before replace IOFlatList with IOFlashList
+// NOTE: fix issue realted measureLayout with using inView in children before replace IOFlatList with IOFlashList
 
 const IOFlashList = withIO(FlashList, [
-    'scrollToIndex',
-    'scrollToOffset',
-    'scrollToEnd',
-    'getScrollResponder',
-    'getScrollableNode',
-    'recordInteraction',
-    'flashScrollIndicators',
+  'scrollToIndex',
+  'scrollToOffset',
+  'scrollToEnd',
+  'getScrollResponder',
+  'getScrollableNode',
+  'recordInteraction',
+  'flashScrollIndicators',
 ]);
 
 export default IOFlashList as unknown as ForwardRefExoticComponent<
-    IOFlashListProps<any> & RefAttributes<IOFlashListController>
+  IOFlashListProps<any> & RefAttributes<IOFlashListController>
 >;
