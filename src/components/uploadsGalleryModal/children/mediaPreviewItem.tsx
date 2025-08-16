@@ -34,13 +34,10 @@ export const MediaPreviewItem = ({
   const imgRef = useRef<ExpoImage>(null);
 
   const [isAnimated, setIsAnimated] = useState(false);
+  const [autoPlay, setAutoplay] = useState(false);
 
   const thumbUrl =
     item.thumbUrl || proxifyImageSrc(item.url, 200, 200, Platform.OS === 'ios' ? 'match' : 'webp');
-
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const previewUri = isAnimated && isExpandedMode ? item.url : thumbUrl;
 
   let isInsertedTimes = 0;
   insertedMediaUrls?.forEach((url) => {
@@ -91,12 +88,7 @@ export const MediaPreviewItem = ({
     );
 
   const handlePress = () => {
-    if (isAnimated && !isPlaying && isExpandedMode) {
-      imgRef.current?.startAnimating();
-      setIsPlaying(true);
-    } else {
-      onPress();
-    }
+    onPress();
   };
 
   const _onLoad = (evt) => {
@@ -105,13 +97,7 @@ export const MediaPreviewItem = ({
 
   const _onInViewChange = (inView: boolean) => {
     if (isAnimated) {
-      if (inView) {
-        console.log('Playing Gif');
-        imgRef.current?.startAnimating();
-      } else {
-        console.log('Stopping Gif');
-        imgRef.current?.stopAnimating();
-      }
+      setAutoplay(inView);
     }
   };
 
@@ -124,8 +110,8 @@ export const MediaPreviewItem = ({
             ref={imgRef}
             onLoad={_onLoad}
             pointerEvents={isExpandedMode ? 'auto' : 'none'}
-            source={{ uri: previewUri }}
-            autoplay={false}
+            source={{ uri: thumbUrl }}
+            autoplay={autoPlay}
             style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
           />
           {isAnimated && (
