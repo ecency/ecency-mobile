@@ -253,8 +253,8 @@ export default EStyleSheet.create({
 
   gifBadge: {
     position: 'absolute',
-    left: 8,
-    bottom: 8,
+    left: 10,
+    bottom: 10,
     backgroundColor: 'rgba(0,0,0,0.6)',
     borderRadius: 4,
     paddingHorizontal: 4,

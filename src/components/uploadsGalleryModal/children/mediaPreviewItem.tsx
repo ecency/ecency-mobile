@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { proxifyImageSrc } from '@ecency/render-helper';
 import { ActivityIndicator, Platform, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import { default as AnimatedView, ZoomIn } from 'react-native-reanimated';
 import { useIntl } from 'react-intl';
+import { InView } from 'react-native-intersection-observer';
 import { Icon } from '../..';
 import styles from './uploadsGalleryModalStyles';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
@@ -30,13 +31,14 @@ export const MediaPreviewItem = ({
   onPress,
 }: Props) => {
   const intl = useIntl();
+  const imgRef = useRef<ExpoImage>(null);
 
-  const isGif = /\.gif/i.test(item.url);
+  const [isAnimated, setIsAnimated] = useState(false);
+  const [autoPlay, setAutoplay] = useState(false);
+
   const thumbUrl =
-    item.thumbUrl ||
-    proxifyImageSrc(item.url, 200, 200, isGif ? 'png' : Platform.OS === 'ios' ? 'match' : 'webp');
-  const [isPlaying, setIsPlaying] = useState(false);
-  const previewUri = isGif && isExpandedMode && isPlaying ? item.url : thumbUrl;
+    item.thumbUrl || proxifyImageSrc(item.url, 200, 200, Platform.OS === 'ios' ? 'match' : 'webp');
+
   let isInsertedTimes = 0;
   insertedMediaUrls?.forEach((url) => {
     isInsertedTimes += url === item.url ? 1 : 0;
@@ -47,6 +49,7 @@ export const MediaPreviewItem = ({
   };
 
   const statusStyle = { ...styles.statusContainer, right: isExpandedMode ? 8 : 0 };
+
   const _renderStatus = () =>
     item.speakData && (
       <View style={statusStyle}>
@@ -85,44 +88,45 @@ export const MediaPreviewItem = ({
     );
 
   const handlePress = () => {
-    if (isGif && isExpandedMode && !isPlaying) {
-      setIsPlaying(true);
-    } else {
-      onPress();
+    onPress();
+  };
+
+  const _onLoad = (evt) => {
+    setIsAnimated(evt.source?.isAnimated);
+  };
+
+  const _onInViewChange = (inView: boolean) => {
+    if (isAnimated) {
+      setAutoplay(inView);
     }
   };
 
   return (
-    <TouchableOpacity onPress={handlePress} disabled={isDeleting}>
-      <View style={transformStyle}>
-        <ExpoImage
-          // Disable stray touches on thumbnails but allow gestures when expanded
-          pointerEvents={isExpandedMode ? 'auto' : 'none'}
-          source={{ uri: previewUri }}
-          style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
-        />
-        {isGif && !isPlaying && (
-          <>
-            <View style={styles.gifBadge}>
-              <Text style={styles.gifBadgeText}>GIF</Text>
-            </View>
-            {isExpandedMode && (
-              <View style={styles.playIconContainer}>
-                <Icon
-                  name="play-arrow"
-                  iconType="MaterialIcons"
-                  size={36}
-                  color={EStyleSheet.value('$white')}
-                />
+    <InView onChange={_onInViewChange}>
+      <TouchableOpacity onPress={handlePress} disabled={isDeleting}>
+        <View style={transformStyle}>
+          <ExpoImage
+            // Disable stray touches on thumbnails but allow gestures when expanded
+            ref={imgRef}
+            onLoad={_onLoad}
+            pointerEvents={isExpandedMode ? 'auto' : 'none'}
+            source={{ uri: thumbUrl }}
+            autoplay={autoPlay}
+            style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
+          />
+          {isAnimated && (
+            <>
+              <View style={styles.gifBadge}>
+                <Text style={styles.gifBadgeText}>GIF</Text>
               </View>
-            )}
-          </>
-        )}
-        {_renderCounter()}
-        {_renderStatus()}
-        {_renderMinus()}
-        {_renderLoading()}
-      </View>
-    </TouchableOpacity>
+            </>
+          )}
+          {_renderCounter()}
+          {_renderStatus()}
+          {_renderMinus()}
+          {_renderLoading()}
+        </View>
+      </TouchableOpacity>
+    </InView>
   );
 };
