@@ -7,11 +7,10 @@ import React, {
   useEffect,
   Fragment,
 } from 'react';
-import { ActivityIndicator, Text } from 'react-native';
+import { ActivityIndicator, FlatList, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { RefreshControl } from 'react-native-gesture-handler';
-import { FlashList } from '@shopify/flash-list';
 
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -34,6 +33,7 @@ import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 import { PostOptionsModal } from '../../index';
 import { BotCommentsPreview } from '../children/botCommentsPreview';
 import { SheetNames } from '../../../navigation/sheets';
+import { IOFlatList } from 'react-native-intersection-observer';
 
 const PostComments = forwardRef(
   (
@@ -66,7 +66,7 @@ const PostComments = forwardRef(
     const writeCommentRef = useRef(null);
     const postInteractionRef = useRef<typeof PostHtmlInteractionHandler | null>(null);
 
-    const commentsListRef = useRef<FlashList<any> | null>(null);
+    const commentsListRef = useRef<FlatList<any> | null>(null);
     const postOptionsModalRef = useRef<any>(null);
 
     const [selectedFilter, setSelectedFilter] = useState('trending');
@@ -272,16 +272,14 @@ const PostComments = forwardRef(
 
     return (
       <Fragment>
-        <FlashList
+        <IOFlatList
           ref={commentsListRef}
-          // style={styles.list}
           keyExtractor={(item) => `${item.author}/${item.permlink}`}
           contentContainerStyle={styles.listContent}
           ListHeaderComponent={_postContentView}
           ListEmptyComponent={_renderEmptyContent}
           data={isPostLoading ? [] : sortedSections.slice()}
           onContentSizeChange={_onContentSizeChange}
-          estimatedItemSize={104}
           renderItem={_renderItem}
           refreshControl={
             <RefreshControl
