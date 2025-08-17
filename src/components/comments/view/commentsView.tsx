@@ -1,18 +1,17 @@
 import React, { useState, Fragment, useRef } from 'react';
 import { Text } from 'react-native';
-import { FlashList } from '@shopify/flash-list';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Components
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { Comment, TextButton, UpvotePopover } from '../..';
+import { IOFlashList, OptionsModal } from '../../atoms';
+import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 
 // Styles
 import styles from './commentStyles';
-import { OptionsModal } from '../../atoms';
 import { PostTypes } from '../../../constants/postTypes';
-import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 
 const CommentsView = ({
   avatarSize,
@@ -168,7 +167,7 @@ const CommentsView = ({
 
   return (
     <Fragment>
-      <FlashList
+      <IOFlashList
         contentContainerStyle={{ padding: 0, ...styleOerride }}
         data={comments}
         keyExtractor={(item) => item.author + item.permlink}
