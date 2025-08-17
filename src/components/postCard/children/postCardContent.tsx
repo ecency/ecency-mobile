@@ -44,6 +44,7 @@ export const PostCardContent = ({
   const [calcImgHeight, setCalcImgHeight] = useState(imageRatio ? imgWidth / imageRatio : 300);
   const [autoplay, setAutoplay] = useState(false);
   const [isAnimated, setIsAnimated] = useState(false);
+  const [isInView, setIsInView] = useState(false);
 
   const resizeMode = useMemo(() => {
     return calcImgHeight < dim.height ? 'contain' : 'cover';
@@ -97,12 +98,13 @@ export const PostCardContent = ({
   const isGif = useMemo(() => /\.gif$/i.test(original), [original]);
   const imageUri = useMemo(() => {
     if (isGif) {
-      return proxifyImageSrc(original, Math.round(imgWidth), 0);
+      return proxifyImageSrc(original, Math.round(imgWidth), 0, 'png');
     }
     return images.image;
   }, [isGif, original, images.image, imgWidth]);
 
   const _onInViewChange = (inView: boolean) => {
+    setIsInView(inView);
     if (isAnimated) {
       setAutoplay(inView);
     }
@@ -127,7 +129,11 @@ export const PostCardContent = ({
                 contentFit={resizeMode}
                 autoplay={autoplay}
                 onLoad={(evt) => {
-                  setIsAnimated(evt.source.isAnimated);
+                  const animated = evt.source.isAnimated;
+                  setIsAnimated(animated);
+                  if (animated) {
+                    setAutoplay(isInView);
+                  }
                   if (!imageRatio) {
                     const _imgRatio = evt.source.width / evt.source.height;
                     const height = imgWidth / _imgRatio;
