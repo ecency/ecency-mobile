@@ -1,0 +1,11 @@
+diff --git a/node_modules/react-native-intersection-observer/lib/withIO.js b/node_modules/react-native-intersection-observer/lib/withIO.js
+index e5ff96d..164a0d9 100644
+--- a/node_modules/react-native-intersection-observer/lib/withIO.js
++++ b/node_modules/react-native-intersection-observer/lib/withIO.js
+@@
+-            this.node =
+-                this.scroller.current?.getNativeScrollRef?.() || this.scroller.current;
++            this.node =
++                this.scroller.current?.getNativeScrollRef?.() ||
++                this.scroller.current?.getScrollableNode?.() ||
++                this.scroller.current;
