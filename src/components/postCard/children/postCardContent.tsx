@@ -98,7 +98,8 @@ export const PostCardContent = ({
   const isGif = useMemo(() => /\.gif$/i.test(original), [original]);
   const imageUri = useMemo(() => {
     if (isGif) {
-      return proxifyImageSrc(original, Math.round(imgWidth), 0, 'png');
+      // use webp to preserve animation while still serving through proxy
+      return proxifyImageSrc(original, Math.round(imgWidth), 0, 'webp');
     }
     return images.image;
   }, [isGif, original, images.image, imgWidth]);
