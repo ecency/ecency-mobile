@@ -22,7 +22,17 @@ end
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
+# part of default RN project template, overridden by use_framework requirement of firbase modules
+# linkage = ENV['USE_FRAMEWORKS']
+# if linkage != nil
+#   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
+#   use_frameworks! :linkage => linkage.to_sym
+# end
 
+# use_framework static is required by firebase modules, it's better to diable use_framework to
+# utilise full potential of new Architecture.
+use_frameworks! :linkage => :static
+$RNFirebaseAsStaticFramework = true
 
 target 'Ecency' do
 
@@ -44,7 +54,10 @@ target 'Ecency' do
     ]
   end
 
-  config = use_native_modules!(config_command)
+
+  #config = use_native_modules! # part of default RN project, overriden by expo integration
+  config = use_native_modules!(config_command)  
+
 
 
   post_integrate do |installer|
@@ -60,9 +73,6 @@ target 'Ecency' do
     'Camera',
   ])
 
-
-  use_frameworks! :linkage => :static
-  $RNFirebaseAsStaticFramework = true
 
   # Pods for Ecency
   pod 'GoogleUtilities'
@@ -110,18 +120,20 @@ target 'Ecency' do
 
       #workarounf for xcode 14 archive signing issue
       #ref:https://github.com/CocoaPods/CocoaPods/issues/11402#issuecomment-1201464693
-      if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
-        target.build_configurations.each do |config|
-            config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
-        end
-      end
+      # if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
+      #   target.build_configurations.each do |config|
+      #       config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+      #   end
+      # end
 
       # Consider dropping these global overrides unless you truly need them:
-      # target.build_configurations.each do |cfg|
-      #   cfg.build_settings['ONLY_ACTIVE_ARCH'] = 'NO'
+      target.build_configurations.each do |cfg|
+        # requirement to run dev builds on m series devices
+        cfg.build_settings['ONLY_ACTIVE_ARCH'] = 'NO'
+      # No longer neede C++ backward compatibility, probably becayse we updated all our outdated packages
       #   defs = cfg.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)']
       #   defs << '_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION'
-      # end
+      end
 
       # TcpSockets duplicate symbols workaround (only if still needed)
       if target.name == 'TcpSockets'
@@ -145,7 +157,6 @@ end
 
 
 target 'ImageNotifi' do
-  use_frameworks! :linkage => :static
   pod 'GoogleUtilities'
   pod 'Firebase/Messaging'
 end
