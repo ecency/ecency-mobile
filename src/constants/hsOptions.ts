@@ -3,5 +3,6 @@ export const hsOptions = {
   client_id: 'ecency.app',
   redirect_uri: 'http://127.0.0.1:3000/auth',
   scope:
+    // eslint-disable-next-line max-len
     'vote,comment,delete_comment,comment_options,custom_json,claim_reward_balance,account_update,offline',
-};
+} as const;

@@ -8,4 +8,4 @@ export const RepeatableTransfers = {
   outgoing_transfer_title: true,
   // Engine transfers
   tokens_transfer: true,
-};
+} as const;

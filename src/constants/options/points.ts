@@ -99,37 +99,19 @@ export default {
     iconType: 'MaterialIcons',
     point: 0.1,
   },
-};
+} as const;
 
 export const POINTS_KEYS = [
-  {
-    type: 160,
-  },
-  {
-    type: 150,
-  },
-  {
-    type: 100,
-  },
-  {
-    type: 110,
-  },
-  {
-    type: 120,
-  },
-  {
-    type: 130,
-  },
-  {
-    type: 10,
-  },
-  {
-    type: 20,
-  },
-  {
-    type: 30,
-  },
-];
+  { type: 160 },
+  { type: 150 },
+  { type: 100 },
+  { type: 110 },
+  { type: 120 },
+  { type: 130 },
+  { type: 10 },
+  { type: 20 },
+  { type: 30 },
+] as const;
 
 export const PROMOTE_PRICING = [
   { duration: 1, price: 150 },
@@ -137,8 +119,8 @@ export const PROMOTE_PRICING = [
   { duration: 3, price: 350 },
   { duration: 7, price: 500 },
   { duration: 14, price: 1000 },
-];
-export const PROMOTE_DAYS = [1, 2, 3, 7, 14];
+] as const;
+export const PROMOTE_DAYS = [1, 2, 3, 7, 14] as const;
 
 export const PROMOTE_STATUS_PENDING = 1;
 export const PROMOTE_STATUS_SUCCESS = 2;

@@ -23,7 +23,7 @@ export default [
   'PKR',
   'VND',
   'NGN',
-];
+] as const;
 
 export const VALUE = [
   'btc',
@@ -50,4 +50,4 @@ export const VALUE = [
   'pkr',
   'vnd',
   'ngn',
-];
+] as const;

@@ -15,4 +15,4 @@ export default [
   'mute',
   'report',
   'delete-post',
-];
+] as const;

@@ -1,11 +1,11 @@
 import Clipboard from '@react-native-clipboard/clipboard';
 
-const readFromClipboard = async () => {
+const readFromClipboard = async (): Promise<string> => {
   const clipboardContent = await Clipboard.getString();
   return clipboardContent;
 };
 
-const writeToClipboard = async (text) => {
+const writeToClipboard = async (text?: string): Promise<boolean> => {
   if (!text) {
     return false;
   }

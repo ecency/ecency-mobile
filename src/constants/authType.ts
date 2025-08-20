@@ -6,7 +6,7 @@ const MEMO_KEY = 'memoKey';
 const POSTING_KEY = 'postingKey';
 const OWNER_KEY = 'ownerKey';
 
-export default {
+const AUTH_TYPE = {
   STEEM_CONNECT,
   HIVE_AUTH,
   MASTER_KEY,
@@ -14,4 +14,6 @@ export default {
   MEMO_KEY,
   POSTING_KEY,
   OWNER_KEY,
-};
+} as const;
+
+export default AUTH_TYPE;

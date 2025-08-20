@@ -1,6 +1,13 @@
-export default ['api.hive.blog', 'anyx.io', 'api.openhive.network', 'api.deathwing.me'];
+const API_OPTIONS = [
+  'api.hive.blog',
+  'anyx.io',
+  'api.openhive.network',
+  'api.deathwing.me',
+] as const;
 
-export const VALUE = ['api.hive.blog', 'anyx.io', 'api.openhive.network', 'api.deathwing.me'];
+export default API_OPTIONS;
+
+export const VALUE = API_OPTIONS;
 
 export const SERVER_LIST = [
   'https://api.hive.blog',
@@ -11,4 +18,4 @@ export const SERVER_LIST = [
   'https://rpc.ausbit.dev',
   'https://hived.emre.sh',
   'https://hive-api.arcange.eu',
-];
+] as const;

@@ -31,7 +31,7 @@ export default [
   'Português',
   'Românește',
   'Tiếng Việt',
-];
+] as const;
 
 export const VALUE = [
   'en-US',
@@ -66,4 +66,4 @@ export const VALUE = [
   'pt-PT',
   'ro-RO',
   'vi-VN',
-];
+] as const;

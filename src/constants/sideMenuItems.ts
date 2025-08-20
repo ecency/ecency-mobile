@@ -1,6 +1,14 @@
-import { default as ROUTES } from './routeNames';
+import ROUTES from './routeNames';
 
-const authMenuItems = [
+interface MenuItem {
+  name: string;
+  route: string;
+  icon: string;
+  id: string;
+  iconType?: string;
+}
+
+const authMenuItems: MenuItem[] = [
   {
     name: 'Profile',
     route: ROUTES.SCREENS.PROFILE,
@@ -65,7 +73,7 @@ const authMenuItems = [
   },
 ];
 
-const noAuthMenuItems = [
+const noAuthMenuItems: MenuItem[] = [
   {
     name: 'Add Account',
     route: ROUTES.SCREENS.LOGIN,

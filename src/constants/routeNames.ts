@@ -62,6 +62,6 @@ const ROUTES = {
   STACK: {
     MAIN: `Main${STACK_SUFFIX}`,
   },
-};
+} as const;
 
 export default ROUTES;
