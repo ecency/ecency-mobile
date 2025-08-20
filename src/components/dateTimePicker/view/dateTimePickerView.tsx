@@ -9,10 +9,10 @@ import getLocale from '../../../utils/getLocale';
 // Styles
 import styles from './dateTimePickerStyles';
 
-const DateTimePickerView = React.forwardRef(({ type, onChanged, selectedDate }) => {
+const DateTimePickerView = ({ type, onChanged, selectedDate }: any, _ref: any) => {
   const [date, setDate] = useState(selectedDate ? new Date(selectedDate) : new Date());
 
-  const _setDate = (_date) => {
+  const _setDate = (_date: Date) => {
     if (_date) {
       const formattedDate = moment(_date).format();
 
@@ -35,6 +35,6 @@ const DateTimePickerView = React.forwardRef(({ type, onChanged, selectedDate }) 
       />
     </View>
   );
-});
+};
 
-export default DateTimePickerView;
+export default React.forwardRef(DateTimePickerView);

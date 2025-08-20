@@ -6,8 +6,7 @@ import 'intl';
 import 'intl/locale-data/jsonp/en-US';
 import 'react-native-get-random-values';
 
-// set check frequency options
-const EcencyApp = require('./App').default;
+import EcencyApp from './App';
 
 // TODO Remove ignoreLogs when referenced issue is fixed properly
 // ref: https://github.com/ecency/ecency-mobile/issues/2466

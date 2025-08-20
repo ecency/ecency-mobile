@@ -1,3 +1,4 @@
+/* eslint-disable eslint-comments/disable-enable-pair, @typescript-eslint/no-var-requires, no-restricted-syntax, no-var */
 if (typeof __dirname === 'undefined') global.__dirname = '/';
 if (typeof __filename === 'undefined') global.__filename = '';
 if (typeof process === 'undefined') {
