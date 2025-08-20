@@ -5,13 +5,13 @@ import { makeOptions } from '../../utils/editor';
  * @method to upvote/unvote a content
  * @param {*} vote
  */
-export const vote = (voteObj) =>
+export const vote = (voteObj: any): Promise<any> =>
   new Promise((resolve, reject) => {
     hs.vote(voteObj.voter, voteObj.author, voteObj.permlink, voteObj.weight)
-      .then((result) => {
+      .then((result: any) => {
         resolve(result);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         reject(error);
       });
   });
@@ -20,7 +20,7 @@ export const vote = (voteObj) =>
  * @method to submit a comment/reply
  * @param {*} comment
  */
-export const comment = (commentObj) =>
+export const comment = (commentObj: any): Promise<any> =>
   new Promise((resolve, reject) => {
     hs.comment(
       commentObj.parentAuthor,
@@ -31,17 +31,17 @@ export const comment = (commentObj) =>
       commentObj.body,
       commentObj.jsonMetadata,
     )
-      .then((result) => {
+      .then((result: any) => {
         resolve(result);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         reject(error);
       });
   });
 
-export const post = (postObj) => {
+export const post = (postObj: any): Promise<any> => {
   // Create empty array for the operations
-  const operations = [];
+  const operations: any[] = [];
 
   // Create the object for the post
   const commentOp = [
@@ -64,16 +64,16 @@ export const post = (postObj) => {
 
   return new Promise((resolve, reject) => {
     hs.broadcast(operations)
-      .then((result) => {
+      .then((result: any) => {
         resolve(result);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         reject(error);
       });
   });
 };
 
-export const prepareBeneficiaries = (postObj) => {
+export const prepareBeneficiaries = (postObj: any): [string, any] => {
   const beneficiariesObject = {
     author: postObj.author,
     permlink: postObj.permlink,
@@ -99,24 +99,24 @@ export const prepareBeneficiaries = (postObj) => {
   return ['comment_options', beneficiariesObject];
 };
 
-export const follow = (data) =>
+export const follow = (data: any): Promise<any> =>
   new Promise((resolve, reject) => {
     hs.follow(data.follower, data.following)
-      .then((result) => {
+      .then((result: any) => {
         resolve(result);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         reject(error);
       });
   });
 
-export const unFollow = (data) =>
+export const unFollow = (data: any): Promise<any> =>
   new Promise((resolve, reject) => {
     hs.unfollow(data.unfollower, data.unfollowing)
-      .then((result) => {
+      .then((result: any) => {
         resolve(result);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         reject(error);
       });
   });
@@ -125,13 +125,13 @@ export const unFollow = (data) =>
  * @method to claim rewards
  * @param {*} data
  */
-export const claimRewards = (data) =>
+export const claimRewards = (data: any): Promise<any> =>
   new Promise((resolve, reject) => {
     hs.claimRewardBalance(data.account, data.rewardSteem, data.rewardSBD, data.VESTS)
-      .then((result) => {
+      .then((result: any) => {
         resolve(result);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         reject(error);
       });
   });
@@ -140,29 +140,29 @@ export const claimRewards = (data) =>
  * @method to mute/block an user
  * @param {*} data
  */
-export const muteUser = (data) =>
+export const muteUser = (data: any): Promise<any> =>
   new Promise((resolve, reject) => {
     hs.ignore(data.follower, data.following)
-      .then((result) => {
+      .then((result: any) => {
         resolve(result);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         reject(error);
       });
   });
 
-export const reblogPost = (data) =>
+export const reblogPost = (data: any): Promise<any> =>
   new Promise((resolve, reject) => {
     hs.reblog(data.account, data.author, data.permlink)
-      .then((result) => {
+      .then((result: any) => {
         resolve(result);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         reject(error);
       });
   });
 
-export const removeAccessToken = () =>
+export const removeAccessToken = (): Promise<void> =>
   new Promise((resolve, reject) => {
     try {
       hs.removeAccessToken();
@@ -175,7 +175,7 @@ export const removeAccessToken = () =>
 /**
  * @method to revoke access token (Hivesigner logout function)
  */
-export const revokeToken = () =>
+export const revokeToken = (): Promise<void> =>
   new Promise((resolve, reject) => {
     try {
       hs.revokeToken();
@@ -189,13 +189,13 @@ export const revokeToken = () =>
  * @method to update user profile data
  * @param {*} data
  */
-export const updateUserMetadata = (data) =>
+export const updateUserMetadata = (data: any): Promise<any> =>
   new Promise((resolve, reject) => {
     hs.updateUserMetadata(data)
-      .then((result) => {
+      .then((result: any) => {
         resolve(result);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         reject(error);
       });
   });

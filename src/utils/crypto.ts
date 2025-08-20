@@ -2,7 +2,12 @@ import CryptoJS from 'crypto-js';
 
 const STAMP = '995a06d5-ee54-407f-bb8e-e4af2ab2fe01';
 
-export const encryptKey = (data, key) => {
+interface StampedData {
+  data: string;
+  stamp: string;
+}
+
+export const encryptKey = (data: string, key: string): string => {
   console.log('encrypting: ', data, key);
   const stampedData = getStampedData(data);
   const encJson = CryptoJS.AES.encrypt(JSON.stringify(stampedData), key).toString();
@@ -11,7 +16,11 @@ export const encryptKey = (data, key) => {
   return encData;
 };
 
-export const decryptKey = (data, key, onError) => {
+export const decryptKey = (
+  data: string,
+  key: string,
+  onError?: (err: unknown) => void,
+): string | undefined => {
   try {
     const response = decryptKeyNew(data, key);
     return response;
@@ -23,11 +32,11 @@ export const decryptKey = (data, key, onError) => {
   }
 };
 
-const decryptKeyNew = (data, key) => {
+const decryptKeyNew = (data: string, key: string): string => {
   console.log('decrypting new: ', data, key);
   const decData = CryptoJS.enc.Base64.parse(data).toString(CryptoJS.enc.Utf8);
   const bytes = CryptoJS.AES.decrypt(decData, key).toString(CryptoJS.enc.Utf8);
-  const stampedData = JSON.parse(bytes);
+  const stampedData: StampedData = JSON.parse(bytes);
   const ret = processStampedData(stampedData);
   console.log('returning: ', ret);
   return ret;
@@ -35,25 +44,25 @@ const decryptKeyNew = (data, key) => {
 
 // stamping mechanism will help distinguish old legacy data and new encrypted data
 // second purpose is to avoid necrypting empty strings
-const getStampedData = (data) => {
+const getStampedData = (data: string): StampedData => {
   return {
     data,
     stamp: STAMP,
   };
 };
 
-const processStampedData = (stampedData) => {
+const processStampedData = (stampedData: StampedData): string => {
   if (stampedData?.stamp && stampedData.stamp == STAMP) {
     return stampedData.data;
   }
   throw new Error('Possibly un-stamped legacy data');
 };
 
-export const decodeBase64 = (code) => {
+export const decodeBase64 = (code: string): string | null => {
   try {
     return CryptoJS.enc.Base64.parse(code).toString(CryptoJS.enc.Utf8);
   } catch (err) {
-    console.warn('base64 decode failed', err.message);
+    console.warn('base64 decode failed', (err as Error).message);
     return null;
   }
 };

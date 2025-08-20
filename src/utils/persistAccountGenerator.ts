@@ -1,5 +1,7 @@
-export default (accountData = {}) => {
-  const persistData = {};
+type AccountData = Record<string, any>;
+
+const persistAccountGenerator = (accountData: AccountData = {}): AccountData => {
+  const persistData: AccountData = {};
 
   Object.assign(persistData, {
     about: accountData.about,
@@ -53,3 +55,5 @@ export default (accountData = {}) => {
 
   return persistData;
 };
+
+export default persistAccountGenerator;

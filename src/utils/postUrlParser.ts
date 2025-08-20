@@ -1,4 +1,12 @@
-const parseCatAuthorPermlink = (u) => {
+interface PostUrlParseResult {
+  feedType?: string;
+  tag?: string;
+  category?: string;
+  author?: string;
+  permlink?: string | null;
+}
+
+const parseCatAuthorPermlink = (u: string): PostUrlParseResult | null => {
   const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*?)(?:\?|$)/i;
   const postMatch = u.match(postRegex);
 
@@ -28,7 +36,7 @@ const parseCatAuthorPermlink = (u) => {
   return null;
 };
 
-const parseAuthorPermlink = (u) => {
+const parseAuthorPermlink = (u: string): PostUrlParseResult | null => {
   const r = /^https?:\/\/(.*)\/(@[\w.\d-]+)\/(.*?)(?:\?|$)/i;
   const match = u.match(r);
 
@@ -50,7 +58,7 @@ const parseAuthorPermlink = (u) => {
   return null;
 };
 
-export default (url) => {
+const postUrlParser = (url: string): PostUrlParseResult | null => {
   url = url && url.toLowerCase();
   if (url.startsWith('ecency://') || url.startsWith('esteem://')) {
     url = url
@@ -133,3 +141,5 @@ export default (url) => {
   }
   return null;
 };
+
+export default postUrlParser;
