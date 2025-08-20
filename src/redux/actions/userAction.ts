@@ -1,3 +1,4 @@
+import { Dispatch } from 'redux';
 import {
   FOLLOW_USER,
   FOLLOW_USER_SUCCESS,
@@ -18,8 +19,14 @@ import {
 import { getLeaderboard } from '../../providers/ecency/ecency';
 
 // Follow User
-export const followUser = (currentAccount, pin, data, successToastText, failToastText) => {
-  return (dispatch) => {
+export const followUser = (
+  currentAccount: any,
+  pin: any,
+  data: any,
+  successToastText: string,
+  failToastText: string,
+) => {
+  return (dispatch: Dispatch) => {
     dispatch({ type: FOLLOW_USER, payload: data });
     followUserReq(currentAccount, pin, data)
       .then(() => dispatch(followUserSuccess(data, successToastText)))
@@ -27,8 +34,8 @@ export const followUser = (currentAccount, pin, data, successToastText, failToas
   };
 };
 
-export const followUserSuccess = (data, successToastText) => {
-  return (dispatch) => [
+export const followUserSuccess = (data: any, successToastText: string) => {
+  return (dispatch: Dispatch) => [
     dispatch({
       payload: data,
       type: FOLLOW_USER_SUCCESS,
@@ -40,8 +47,8 @@ export const followUserSuccess = (data, successToastText) => {
   ];
 };
 
-export const followUserFail = (error, data, failToastText) => {
-  return (dispatch) => [
+export const followUserFail = (error: any, data: any, failToastText: string) => {
+  return (dispatch: Dispatch) => [
     dispatch({
       payload: data,
       type: FOLLOW_USER_FAIL,
@@ -54,8 +61,14 @@ export const followUserFail = (error, data, failToastText) => {
 };
 
 // Unfollow User
-export const unfollowUser = (currentAccount, pin, data, successToastText, failToastText) => {
-  return (dispatch) => {
+export const unfollowUser = (
+  currentAccount: any,
+  pin: any,
+  data: any,
+  successToastText: string,
+  failToastText: string,
+) => {
+  return (dispatch: Dispatch) => {
     dispatch({ type: UNFOLLOW_USER, payload: data });
     unfollowUserReq(currentAccount, pin, data)
       .then(() => dispatch(unfollowUserSuccess(data, successToastText)))
@@ -63,8 +76,8 @@ export const unfollowUser = (currentAccount, pin, data, successToastText, failTo
   };
 };
 
-export const unfollowUserSuccess = (data, successToastText) => {
-  return (dispatch) => [
+export const unfollowUserSuccess = (data: any, successToastText: string) => {
+  return (dispatch: Dispatch) => [
     dispatch({
       payload: data,
       type: UNFOLLOW_USER_SUCCESS,
@@ -76,8 +89,8 @@ export const unfollowUserSuccess = (data, successToastText) => {
   ];
 };
 
-export const unfollowUserFail = (error, data, failToastText) => {
-  return (dispatch) => [
+export const unfollowUserFail = (error: any, data: any, failToastText: string) => {
+  return (dispatch: Dispatch) => [
     dispatch({
       payload: data,
       type: UNFOLLOW_USER_FAIL,
@@ -90,8 +103,8 @@ export const unfollowUserFail = (error, data, failToastText) => {
 };
 
 // Fetch Leaderboard
-export const fetchLeaderboard = (duration = 'day') => {
-  return (dispatch) => {
+export const fetchLeaderboard = (duration: string = 'day') => {
+  return (dispatch: Dispatch) => {
     dispatch({ type: FETCH_LEADERBOARD });
     getLeaderboard(duration)
       .then((res) => dispatch(fetchLeaderboardSuccess(res)))
@@ -99,12 +112,12 @@ export const fetchLeaderboard = (duration = 'day') => {
   };
 };
 
-export const fetchLeaderboardSuccess = (payload) => ({
+export const fetchLeaderboardSuccess = (payload: any) => ({
   payload,
   type: FETCH_LEADERBOARD_SUCCESS,
 });
 
-export const fetchLeaderboardFail = (payload) => ({
+export const fetchLeaderboardFail = (payload: any) => ({
   payload,
   type: FETCH_LEADERBOARD_FAIL,
 });

@@ -3,7 +3,7 @@ export const FETCH_USER_FAIL = 'FETCH_USER_FAIL';
 export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
 export const SET_USER_DATA = 'SET_USER_DATA';
 
-// Applicaiton
+// Application
 export const IS_CONNECTED = 'IS_CONNECTED';
 export const IS_DARK_THEME = 'IS_DARK_THEME';
 export const IS_PIN_CODE_OPEN = 'IS_PIN_CODE_OPEN';

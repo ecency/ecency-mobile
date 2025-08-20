@@ -10,7 +10,24 @@ import {
   FETCH_LEADERBOARD_FAIL,
 } from '../constants/constants';
 
-const initialState = {
+interface FollowingUserState {
+  isFollowing: boolean;
+  loading: boolean;
+  error: boolean;
+}
+
+interface LeaderboardState {
+  data: any[];
+  loading: boolean;
+  error: any;
+}
+
+interface UserState {
+  followingUsersInFeedScreen: Record<string, FollowingUserState>;
+  leaderboard: LeaderboardState;
+}
+
+const initialState: UserState = {
   followingUsersInFeedScreen: {
     // ['username']: {
     //  isFollowing: false,
@@ -25,7 +42,7 @@ const initialState = {
   },
 };
 
-const userReducer = (state = initialState, action) => {
+const userReducer = (state: UserState = initialState, action: any): UserState => {
   switch (action.type) {
     case FOLLOW_USER:
       return {

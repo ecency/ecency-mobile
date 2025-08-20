@@ -14,7 +14,33 @@ import {
 } from '../constants/constants';
 import { statusMessage } from '../constants/communitiesConstants';
 
-const initialState = {
+interface CommunityState {
+  data: any[];
+  loading: boolean;
+  error: any;
+}
+
+interface SubscribedCommunityState extends CommunityState {
+  status: string;
+}
+
+interface SubscribingCommunityState {
+  isSubscribed: boolean;
+  loading: boolean;
+  error: boolean;
+  status: string;
+}
+
+interface CommunitiesState {
+  communities: CommunityState;
+  subscribedCommunities: SubscribedCommunityState;
+  subscribingCommunitiesInFeedScreen: Record<string, SubscribingCommunityState>;
+  subscribingCommunitiesInCommunitiesScreenDiscoverTab: Record<string, SubscribingCommunityState>;
+  subscribingCommunitiesInCommunitiesScreenJoinedTab: Record<string, SubscribingCommunityState>;
+  subscribingCommunitiesInSearchResultsScreen: Record<string, SubscribingCommunityState>;
+}
+
+const initialState: CommunitiesState = {
   communities: {
     data: [],
     loading: false,
@@ -56,7 +82,10 @@ const initialState = {
   },
 };
 
-const communitiesReducer = (state = initialState, action) => {
+const communitiesReducer = (
+  state: CommunitiesState = initialState,
+  action: any,
+): CommunitiesState => {
   switch (action.type) {
     case FETCH_COMMUNITIES:
       return {
