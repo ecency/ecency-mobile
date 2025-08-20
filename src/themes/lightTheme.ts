@@ -1,63 +1,65 @@
 import { Platform, StatusBar } from 'react-native';
 import getWindowDimensions from '../utils/getWindowDimensions';
 
-export default {
+const lightTheme = {
   // Primary Colors
-  $theme: 'darkTheme',
-  $primaryBackgroundColor: '#1e2835',
-  $primaryLightBackground: '#2e3d51',
-  $primaryGrayBackground: '#1e2835',
-  $primaryWhiteLightBackground: '#2e3d51',
-  $darkGrayBackground: '#526d91',
-  $modalBackground: '#1e2835',
-  $white: '#1e2835',
+  $theme: 'lightTheme',
+  $primaryBackgroundColor: '#FFFFFF',
+  $primaryLightBackground: '#f6f6f6',
+  $primaryGrayBackground: '#f5f5f5',
+  $primaryWhiteLightBackground: '#ffffff',
+  $darkGrayBackground: '#788187',
+  $modalBackground: '#ededed',
+  $white: '#FFFFFF',
   $black: '#000000',
   $primaryBlue: '#357ce6',
   $primaryDarkBlue: '#1a509a',
-  $primaryLightBlue: '#2e3d51',
-  $primaryLightBlue2: '#254c87',
+  $primaryLightBlue: '#eaf2fc',
+  $primaryLightBlue2: '#90b5eb',
   $primaryGray: '#f5f5f5',
-  $primaryDarkGray: '#fcfcfc',
+  $primaryDarkGray: '#788187',
   $primaryLightGray: '#f6f6f6',
   $primaryRed: '#e63535',
   $primaryGreen: '#4FD688',
   $companyRed: '#c10000',
-  $primaryBlack: '#fcfcfc',
-  $primaryDarkText: '#fcfcfc',
+  $primaryBlack: '#3c4449',
+  $primaryDarkText: '#788187',
 
   // General Colors
   $borderColor: '#c5c5c5',
-  $tagColor: '#2e3d51',
+  $tagColor: '#c1c5c7',
   $bubblesBlue: '#5CCDFF',
-  $borderTopColor: '#757575',
-  $iconColor: '#788187',
-  $darkIconColor: '#526d91',
+  $iconColor: '#c1c5c7',
+  $darkIconColor: '#c1c5c7',
+  $borderTopColor: '#cfcfcf',
   $dangerColor: '#fff',
   $warningColor: '#fff',
   $successColor: '#4BB543',
   $disableButton: '#fff',
-  $shadowColor: '#80000000',
+  $shadowColor: '#b0b0b0',
   $disableGray: '#fff',
-  $editorButtonColor: '#fff',
+  $editorButtonColor: '#3c4449',
   $pureWhite: '#ffffff',
-  $notificationBorder: '#1e2835',
-  $tableTrColor: '#2e3d51',
-  $tableBorderColor: '#1e2835',
+  $notificationBorder: '#fff',
+  $tableTrColor: '#f5f5f5',
+  $tableBorderColor: '#FFFFFF',
   $noConnectionColor: '#788187',
-  $borderedButtonBlue: '#5CCDFF',
+  $borderedButtonBlue: '#357ce6',
 
   $chartBlue: '#357CE6',
-  $chartText: '#f5f5f5',
+  $chartText: '#357ce6',
 
   // Devices Sizes
   $deviceHeight:
     Platform.OS === 'ios'
       ? getWindowDimensions().height
-      : getWindowDimensions().height + StatusBar.currentHeight,
+      : getWindowDimensions().height + (StatusBar.currentHeight ?? 0),
   $deviceWidth: getWindowDimensions().width,
 
   // Fonts Properties
   $primaryFont: 'Roboto',
   $editorFont: 'RobotoMono-Regular',
   $primaryLatterSpacing: 0,
-};
+} as const;
+
+export default lightTheme;
