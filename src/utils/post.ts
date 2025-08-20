@@ -1,0 +1,18 @@
+export default [
+  'cross-post',
+  'promote',
+  'copy',
+  'reply',
+  'translate',
+  'reblog',
+  'pin-blog',
+  'unpin-blog',
+  'pin-community',
+  'unpin-community',
+  'edit-history',
+  'share',
+  'bookmarks',
+  'mute',
+  'report',
+  'delete-post',
+] as const;

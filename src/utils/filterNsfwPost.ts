@@ -1,14 +1,24 @@
 import get from 'lodash/get';
-/* eslint-disable array-callback-return */
-export default (posts, option) => {
-  const updatedPosts = [];
+
+export interface Post {
+  parent_permlink?: string;
+  json_metadata?: {
+    tags?: string[];
+    [key: string]: any;
+  };
+  nsfw?: boolean;
+  [key: string]: any;
+}
+
+const filterNsfwPost = (posts: Post[], option: string): Post[] => {
+  const updatedPosts: Post[] = [];
 
   switch (option) {
     case '0':
       return posts;
 
     case '1':
-      posts.map((post) => {
+      posts.forEach((post) => {
         if (
           post.parent_permlink === 'nsfw' ||
           get(post, 'json_metadata.tags', []).includes('nsfw')
@@ -19,7 +29,7 @@ export default (posts, option) => {
       return posts;
 
     default:
-      posts.map((post) => {
+      posts.forEach((post) => {
         if (
           post.parent_permlink !== 'nsfw' &&
           !get(post, 'json_metadata.tags', []).includes('nsfw')
@@ -30,4 +40,5 @@ export default (posts, option) => {
       return updatedPosts;
   }
 };
-/* eslint-enable */
+
+export default filterNsfwPost;

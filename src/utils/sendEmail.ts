@@ -1,8 +1,17 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import qs from 'qs';
 import { Linking } from 'react-native';
 
-export const sendEmail = async (to, subject, body, options = {}) => {
+interface EmailOptions {
+  cc?: string;
+  bcc?: string;
+}
+
+export const sendEmail = async (
+  to: string,
+  subject: string,
+  body: string,
+  options: EmailOptions = {},
+): Promise<boolean> => {
   const { cc, bcc } = options;
 
   let url = `mailto:${to}`;
