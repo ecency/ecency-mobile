@@ -118,21 +118,10 @@ target 'Ecency' do
 
     installer.pods_project.targets.each do |target|
 
-      #workarounf for xcode 14 archive signing issue
-      #ref:https://github.com/CocoaPods/CocoaPods/issues/11402#issuecomment-1201464693
-      # if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
-      #   target.build_configurations.each do |config|
-      #       config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
-      #   end
-      # end
-
       # Consider dropping these global overrides unless you truly need them:
       target.build_configurations.each do |cfg|
         # requirement to run dev builds on m series devices
         cfg.build_settings['ONLY_ACTIVE_ARCH'] = 'NO'
-      # No longer neede C++ backward compatibility, probably becayse we updated all our outdated packages
-      #   defs = cfg.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)']
-      #   defs << '_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION'
       end
 
       # TcpSockets duplicate symbols workaround (only if still needed)
@@ -146,10 +135,6 @@ target 'Ecency' do
         end
       end
 
-      # React-Codegen iOS deployment target tweak (only if still needed)
-      # if target.name == 'React-Codegen'
-      #   target.build_configurations.each { |cfg| cfg.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET' }
-      # end
     end
   end
 
