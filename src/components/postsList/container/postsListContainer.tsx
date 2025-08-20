@@ -8,11 +8,12 @@ import React, {
   useMemo,
 } from 'react';
 import { FlatListProps, RefreshControl, ActivityIndicator, View } from 'react-native';
-import { FlashList } from '@shopify/flash-list';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 import { SheetManager } from 'react-native-actions-sheet';
+
+import { IOFlashList } from '../../atoms';
 import PostCard from '../../postCard';
 import styles from '../view/postsListStyles';
 import { Separator, UpvotePopover } from '../..';
@@ -237,7 +238,7 @@ const postsListContainer = (
 
   return (
     <Fragment>
-      <FlashList
+      <IOFlashList
         ref={flatListRef}
         data={cacheInjectedData}
         showsVerticalScrollIndicator={false}

@@ -5,12 +5,11 @@ import { FlashList, FlashListProps } from '@shopify/flash-list';
 export type IOFlashListController = FlashList<any>;
 export type IOFlashListProps<ItemT> = IOComponentProps & FlashListProps<ItemT>;
 
-// NOTE: fix issue realted measureLayout with using inView in children before replace IOFlatList with IOFlashList
-
 const IOFlashList = withIO(FlashList, [
   'scrollToIndex',
   'scrollToOffset',
   'scrollToEnd',
+  'scrollToItem',
   'getScrollResponder',
   'getScrollableNode',
   'recordInteraction',

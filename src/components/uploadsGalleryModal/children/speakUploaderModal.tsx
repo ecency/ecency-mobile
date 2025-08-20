@@ -1,24 +1,29 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { useRef } from 'react';
+import React, { forwardRef, useImperativeHandle, useState, useRef } from 'react';
 import { View, Text, TouchableOpacity, Image, Alert, useWindowDimensions } from 'react-native';
-import { Image as ImageType } from 'react-native-image-crop-picker';
+import { useIntl } from 'react-intl';
+import { useQueryClient } from '@tanstack/react-query';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Video as VideoType } from 'react-native-image-crop-picker';
-import Video from 'react-native-video';
-import { createThumbnail, Thumbnail } from 'react-native-create-thumbnail';
-import { useQueryClient } from '@tanstack/react-query';
-import ImagePicker, { Options } from 'react-native-image-crop-picker';
-import { FlashList } from '@shopify/flash-list';
 import * as Progress from 'react-native-progress';
-import { useIntl } from 'react-intl';
+import { createThumbnail, Thumbnail } from 'react-native-create-thumbnail';
+import ImagePicker, {
+  Options,
+  Image as ImageType,
+  Video as VideoType,
+} from 'react-native-image-crop-picker';
+import Video from 'react-native-video';
+
+// Components
+import { IOFlashList } from '../../atoms';
 import styles from '../styles/speakUploaderModal.styles';
 import { MainButton } from '../../mainButton';
+import Icon from '../../icon';
+import { TextButton } from '../../buttons';
+
+// Providers and hooks
 import { uploadFile, uploadVideoInfo } from '../../../providers/speak/speak';
 import { useAppSelector } from '../../../hooks';
 import QUERIES from '../../../providers/queries/queryKeys';
-import Icon from '../../icon';
-import { TextButton } from '../../buttons';
 
 interface Props {
   setIsUploading: (flag: boolean) => void;
@@ -182,7 +187,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
     return (
       <View style={styles.imageContainer}>
         <Text style={styles.label}>{intl.formatMessage({ id: 'uploads_modal.select_thumb' })}</Text>
-        <FlashList
+        <IOFlashList
           horizontal={true}
           ListHeaderComponent={_renderHeader}
           data={availableThumbs.slice()}

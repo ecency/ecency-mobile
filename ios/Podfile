@@ -2,6 +2,9 @@ require File.join(File.dirname(`node --print "require.resolve('expo/package.json
 
 ENV['RCT_NEW_ARCH_ENABLED'] = '0'
 
+# Use the actual Node runtime, not Yarn's temp shim
+ENV['NODE_BINARY'] = `node -p "process.execPath"`.strip
+
 # Resolve react_native_pods.rb with node to allow for hoisting
 def node_require(script)
   # Resolve script with node to allow for hoisting
@@ -19,13 +22,17 @@ end
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
-linkage = ENV['USE_FRAMEWORKS']
-if linkage != nil
-  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
-  use_frameworks! :linkage => linkage.to_sym
-end
+# part of default RN project template, overridden by use_framework requirement of firbase modules
+# linkage = ENV['USE_FRAMEWORKS']
+# if linkage != nil
+#   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
+#   use_frameworks! :linkage => linkage.to_sym
+# end
 
-
+# use_framework static is required by firebase modules, it's better to diable use_framework to
+# utilise full potential of new Architecture.
+use_frameworks! :linkage => :static
+$RNFirebaseAsStaticFramework = true
 
 target 'Ecency' do
 
@@ -47,7 +54,10 @@ target 'Ecency' do
     ]
   end
 
-  config = use_native_modules!(config_command)
+
+  #config = use_native_modules! # part of default RN project, overriden by expo integration
+  config = use_native_modules!(config_command)  
+
 
 
   post_integrate do |installer|
@@ -58,15 +68,11 @@ target 'Ecency' do
     end
   end
 
-  config = use_native_modules!
 
   setup_permissions([
     'Camera',
   ])
 
-
-  use_frameworks! :linkage => :static
-  $RNFirebaseAsStaticFramework = true
 
   # Pods for Ecency
   pod 'GoogleUtilities'
@@ -112,42 +118,30 @@ target 'Ecency' do
 
     installer.pods_project.targets.each do |target|
 
-      #workarounf for xcode 14 archive signing issue
-      #ref:https://github.com/CocoaPods/CocoaPods/issues/11402#issuecomment-1201464693
-      if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
-        target.build_configurations.each do |config|
-            config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+      # Consider dropping these global overrides unless you truly need them:
+      target.build_configurations.each do |cfg|
+        # requirement to run dev builds on m series devices
+        cfg.build_settings['ONLY_ACTIVE_ARCH'] = 'NO'
+      end
+
+      # TcpSockets duplicate symbols workaround (only if still needed)
+      if target.name == 'TcpSockets'
+        target.source_build_phase.files.each do |f|
+          if f.display_name =~ /GCDAsyncSocket\.m$/
+            puts "Removing #{f.display_name} from #{target.name}"
+            target.source_build_phase.files.delete(f)
+            break
+          end
         end
       end
 
-      target.build_configurations.each do |config|
-        config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
-        config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)', '_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION']
-      end
-
-      #this workaround resolves duplicate symbolds caused by GCDAsyncSocket inclusion in TcpSockets
-      if target.name == 'TcpSockets'
-        source_files = target.source_build_phase.files
-        gcd_async_socket = source_files[0] #First file in build phases is GCDAsyncSocket.m, chage index if not the case
-        puts "Deleting source file #{gcd_async_socket.inspect} from target #{target.inspect}."
-        source_files.delete gcd_async_socket
-      end
-
-      #workaround for resolving React-Codegen build failure on Xcode 14.3 (iOS 16.4) simulators - 'value' is unavailable
-      if target.name == 'React-Codegen'
-        target.build_configurations.each do |config|
-          config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
-         end
-      end
     end
-
   end
 
 end
 
 
 target 'ImageNotifi' do
-  use_frameworks! :linkage => :static
   pod 'GoogleUtilities'
   pod 'Firebase/Messaging'
 end
