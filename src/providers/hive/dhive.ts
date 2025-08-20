@@ -43,6 +43,16 @@ import { SERVER_LIST } from '../../constants/options/api';
 import { b64uEnc } from '../../utils/b64';
 import TransferTypes from '../../constants/transferTypes';
 
+interface LocalAccount {
+  authType: string;
+  accessToken: string;
+}
+
+interface CurrentAccount {
+  username: string;
+  local: LocalAccount;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
@@ -77,7 +87,7 @@ checkClient();
  * @param {Buffer} input - The input data to hash (either a Buffer or a string).
  * @returns {Promise<Buffer>} - A Promise that resolves to the hash as a Buffer.
  */
-const sha256 = async (input) => {
+const sha256 = async (input: Buffer | Uint8Array): Promise<Buffer> => {
   // Convert input buffer to a int8array
   const inputData = new Int8Array(input);
 
@@ -88,7 +98,7 @@ const sha256 = async (input) => {
   return Buffer.from(hash, 'hex');
 };
 
-export const generateTrxId = async (transaction) => {
+export const generateTrxId = async (transaction: Transaction): Promise<string> => {
   const buffer = new bytebuffer(bytebuffer.DEFAULT_CAPACITY, bytebuffer.LITTLE_ENDIAN);
   try {
     Types.Transaction(buffer, transaction);
@@ -143,7 +153,12 @@ export const sendHiveOperations = async (
 
 /** reuseable broadcast json method with posting auth */
 
-export const broadcastPostingJSON = async (id, json, currentAccount, pinHash) => {
+export const broadcastPostingJSON = async (
+  id: string,
+  json: unknown,
+  currentAccount: CurrentAccount,
+  pinHash: string,
+): Promise<TransactionConfirmation> => {
   const digitPinCode = getDigitPinCode(pinHash);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
@@ -155,7 +170,7 @@ export const broadcastPostingJSON = async (id, json, currentAccount, pinHash) =>
 
     return api
       .customJson([], [currentAccount.username], id, JSON.stringify(json))
-      .then((r) => r.result);
+      .then((r) => r.result as TransactionConfirmation);
   }
 
   if (key) {
@@ -167,9 +182,9 @@ export const broadcastPostingJSON = async (id, json, currentAccount, pinHash) =>
       required_auths: [],
       required_posting_auths: [currentAccount.username],
     };
-    const opArray = [['custom_json', custom_json]];
+    const opArray: Operation[] = [['custom_json', custom_json] as Operation];
 
-    return new Promise((resolve, reject) => {
+    return new Promise<TransactionConfirmation>((resolve, reject) => {
       sendHiveOperations(opArray, privateKey)
         .then((result) => {
           resolve(result);
@@ -185,7 +200,11 @@ export const broadcastPostingJSON = async (id, json, currentAccount, pinHash) =>
   );
 };
 
-export const buildActiveCustomJsonOpArr = (username, operationId, json) => {
+export const buildActiveCustomJsonOpArr = (
+  username: string,
+  operationId: string,
+  json: unknown,
+): Operation[] => {
   return [
     [
       'custom_json',
@@ -195,7 +214,7 @@ export const buildActiveCustomJsonOpArr = (username, operationId, json) => {
         required_auths: [username],
         required_posting_auths: [],
       },
-    ],
+    ] as Operation,
   ];
 };
 
