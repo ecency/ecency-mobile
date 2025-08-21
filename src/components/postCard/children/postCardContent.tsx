@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { TouchableOpacity, Text, View, useWindowDimensions } from 'react-native';
+import React, { useMemo, useRef, useState } from 'react';
+import { TouchableOpacity, Text, View, useWindowDimensions, Platform } from 'react-native';
 import { InView } from 'react-native-intersection-observer';
 // Utils
 import { useIntl } from 'react-intl';
@@ -39,6 +39,7 @@ export const PostCardContent = ({
 }: Props) => {
   const intl = useIntl();
   const dim = useWindowDimensions();
+  const imgRef = useRef<ExpoImage>(null);
 
   const imgWidth = dim.width - 18;
   const [calcImgHeight, setCalcImgHeight] = useState(imageRatio ? imgWidth / imageRatio : 300);
@@ -107,7 +108,13 @@ export const PostCardContent = ({
   const _onInViewChange = (inView: boolean) => {
     setIsInView(inView);
     if (isAnimated) {
-      setAutoplay(inView);
+
+      if (Platform.OS === 'ios') {
+        setAutoplay(inView);
+      } else {
+        imgRef.current?.[inView ? 'startAnimating' : 'stopAnimating']();
+      }
+
     }
   };
 
@@ -118,6 +125,7 @@ export const PostCardContent = ({
           <InView onChange={_onInViewChange}>
             <View style={styles.imageWrapper}>
               <ExpoImage
+                ref={imgRef}
                 pointerEvents="none"
                 source={{ uri: imageUri }}
                 style={[
@@ -133,7 +141,11 @@ export const PostCardContent = ({
                   const animated = evt.source.isAnimated;
                   setIsAnimated(animated);
                   if (animated) {
-                    setAutoplay(isInView);
+                    if (Platform.OS === 'ios') {
+                      setAutoplay(isInView);
+                    } else {
+                      imgRef.current?.[isInView ? 'startAnimating' : 'stopAnimating']();
+                    }
                   }
                   if (!imageRatio) {
                     const _imgRatio = evt.source.width / evt.source.height;

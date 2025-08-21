@@ -97,7 +97,11 @@ export const MediaPreviewItem = ({
 
   const _onInViewChange = (inView: boolean) => {
     if (isAnimated) {
-      setAutoplay(inView);
+      if (Platform.OS === 'ios') {
+        setAutoplay(inView);
+      } else {
+        imgRef.current?.[inView ? 'startAnimating' : 'stopAnimating']();
+      }
     }
   };
 

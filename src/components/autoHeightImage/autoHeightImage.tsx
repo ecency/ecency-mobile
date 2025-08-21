@@ -150,7 +150,11 @@ export const AutoHeightImage = ({
   const _onInViewChange = (inView: boolean) => {
     console.log('Animating?', isAnimated);
     if (isAnimated) {
-      setAutoplay(inView);
+      if (Platform.OS === 'ios') {
+        setAutoplay(inView);
+      } else {
+        imgRef.current?.[inView ? 'startAnimating' : 'stopAnimating']();
+      }
     }
   };
 
