@@ -32,6 +32,8 @@ export const AutoHeightImage = ({
   setAspectRatio,
 }: AutoHeightImageProps) => {
   const imgRef = useRef<ExpoImage>(null);
+  const isInViewRef = useRef(false);
+
   const [isAnimated, setIsAnimated] = useState(false);
   const [autoplay, setAutoplay] = useState(false);
 
@@ -129,11 +131,16 @@ export const AutoHeightImage = ({
   };
 
   const _onLoad = (evt) => {
+    const _isAnimated = evt.source.isAnimated;
     if (!hasSetBounds.current) {
-      setIsAnimated(evt.source.isAnimated);
+      setIsAnimated(_isAnimated);
       _setImageBounds(evt.source.width, evt.source.height);
       animateFadeIn();
       hasSetBounds.current = true;
+    }
+
+    if(_isAnimated) {
+     _toggleGif(isInViewRef.current);
     }
   };
 
@@ -147,14 +154,18 @@ export const AutoHeightImage = ({
     }
   };
 
-  const _onInViewChange = (inView: boolean) => {
-    console.log('Animating?', isAnimated);
-    if (isAnimated) {
+  const _toggleGif = (inView: boolean) => {
       if (Platform.OS === 'ios') {
         setAutoplay(inView);
       } else {
         imgRef.current?.[inView ? 'startAnimating' : 'stopAnimating']();
       }
+  }
+
+  const _onInViewChange = (inView: boolean) => {
+    isInViewRef.current = inView;
+    if (isAnimated) {
+      _toggleGif(inView);
     }
   };
 

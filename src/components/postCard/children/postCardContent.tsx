@@ -40,12 +40,13 @@ export const PostCardContent = ({
   const intl = useIntl();
   const dim = useWindowDimensions();
   const imgRef = useRef<ExpoImage>(null);
+  const isInViewRef = useRef(false);
 
   const imgWidth = dim.width - 18;
   const [calcImgHeight, setCalcImgHeight] = useState(imageRatio ? imgWidth / imageRatio : 300);
   const [autoplay, setAutoplay] = useState(false);
   const [isAnimated, setIsAnimated] = useState(false);
-  const [isInView, setIsInView] = useState(false);
+
 
   const resizeMode = useMemo(() => {
     return calcImgHeight < dim.height ? 'contain' : 'cover';
@@ -105,16 +106,18 @@ export const PostCardContent = ({
     return images.image;
   }, [isGif, original, images.image, imgWidth]);
 
+  const _toggleGif = (inView: boolean) => {
+    if (Platform.OS === 'ios') {
+      setAutoplay(inView);
+    } else {
+      imgRef.current?.[inView ? 'startAnimating' : 'stopAnimating']();
+    }
+  };
+
   const _onInViewChange = (inView: boolean) => {
-    setIsInView(inView);
+    isInViewRef.current = inView;
     if (isAnimated) {
-
-      if (Platform.OS === 'ios') {
-        setAutoplay(inView);
-      } else {
-        imgRef.current?.[inView ? 'startAnimating' : 'stopAnimating']();
-      }
-
+      _toggleGif(inView);
     }
   };
 
@@ -141,11 +144,7 @@ export const PostCardContent = ({
                   const animated = evt.source.isAnimated;
                   setIsAnimated(animated);
                   if (animated) {
-                    if (Platform.OS === 'ios') {
-                      setAutoplay(isInView);
-                    } else {
-                      imgRef.current?.[isInView ? 'startAnimating' : 'stopAnimating']();
-                    }
+                    _toggleGif(isInViewRef.current);
                   }
                   if (!imageRatio) {
                     const _imgRatio = evt.source.width / evt.source.height;
