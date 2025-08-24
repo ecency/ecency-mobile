@@ -32,6 +32,7 @@ export const MediaPreviewItem = ({
 }: Props) => {
   const intl = useIntl();
   const imgRef = useRef<ExpoImage>(null);
+  const isInViewRef = useRef(false);
 
   const [isAnimated, setIsAnimated] = useState(false);
   const [autoPlay, setAutoplay] = useState(false);
@@ -91,13 +92,27 @@ export const MediaPreviewItem = ({
     onPress();
   };
 
+  const _toggleGif = (inView: boolean) => {
+    isInViewRef.current = inView;
+    if (Platform.OS === 'ios') {
+      setAutoplay(inView);
+    } else {
+      imgRef.current?.[inView ? 'startAnimating' : 'stopAnimating']();
+    }
+  }
+
   const _onLoad = (evt) => {
-    setIsAnimated(evt.source?.isAnimated);
+    const _isAnimated = evt.source?.isAnimated;
+    setIsAnimated(_isAnimated);
+    if(_isAnimated) {
+      _toggleGif(isInViewRef.current);
+    } 
+
   };
 
   const _onInViewChange = (inView: boolean) => {
     if (isAnimated) {
-      setAutoplay(inView);
+     _toggleGif(inView);
     }
   };
 
