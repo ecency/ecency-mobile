@@ -11,9 +11,11 @@ jobs:
     name: Android Build
     # Run only when the review is Approved, PR targets 'development', and it's a same-repo PR
     if: >
+      (github.event_name == 'pull_request_review' &&
       github.event.review.state == 'approved' &&
       github.event.pull_request.base.ref == 'development' &&
-      github.event.pull_request.head.repo.full_name == github.repository
+      github.event.pull_request.head.repo.full_name == github.repository) ||
+      (github.event_name == 'pull_request')
     runs-on: macos-latest
     steps:
       - name: Show host machine information
