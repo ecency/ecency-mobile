@@ -2,6 +2,9 @@ name: Android Build
 on:
   pull_request_review:
     types: [submitted]
+  pull_request:
+    types: [ready_for_review, synchronize]
+    
 
 jobs:
   android-build:
@@ -137,8 +140,9 @@ jobs:
   android-deploy:
     name: Deploy Android Build
     needs: android-build
-    # Keep the same gating here too (belt & suspenders)
+    # Only deploy if the trigger is pull_request_review (not pull_request)
     if: >
+      github.event_name == 'pull_request_review' &&
       github.event.review.state == 'approved' &&
       github.event.pull_request.base.ref == 'development' &&
       github.event.pull_request.head.repo.full_name == github.repository

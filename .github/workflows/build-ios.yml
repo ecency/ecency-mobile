@@ -2,6 +2,9 @@ name: iOS Build
 on:
   pull_request_review:
     types: [submitted]
+  
+  pull_request:
+    types: [ready_for_review, synchronize]
 
 jobs:
   ios-build:
@@ -176,6 +179,7 @@ jobs:
     name: Deploy iOS Build
     needs: ios-build
     if: >
+      github.event_name == 'pull_request_review' &&
       github.event.review.state == 'approved' &&
       github.event.pull_request.base.ref == 'development' &&
       github.event.pull_request.head.repo.full_name == github.repository
