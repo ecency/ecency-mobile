@@ -43,6 +43,7 @@ import {
 import { removePollDraft } from '../../redux/actions/editorActions';
 import { getCommunity } from '../../providers/hive/dhive';
 import { CommunityRole, CommunityTypeId } from '../../providers/hive/hive.types';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export interface QuickPostModalContentProps {
   mode: 'comment' | 'wave' | 'post';
@@ -56,6 +57,7 @@ export const QuickPostModalContent = forwardRef(
   ({ mode, selectedPost, onClose }: QuickPostModalContentProps, ref) => {
     const intl = useIntl();
     const dispatch = useDispatch();
+    const insets = useSafeAreaInsets();
 
     const uploadsGalleryModalRef = useRef(null);
     const postsCachePrimer = postQueries.usePostsCachePrimer();
@@ -74,6 +76,7 @@ export const QuickPostModalContent = forwardRef(
     const [mediaModalVisible, setMediaModalVisible] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [canCommentToCommunity, setCanCommentToCommunity] = useState(true);
+    const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
     const parentAuthor = selectedPost ? selectedPost.author : '';
     const parentPermlink = selectedPost ? selectedPost.permlink : '';
@@ -100,6 +103,20 @@ export const QuickPostModalContent = forwardRef(
         _addQuickCommentIntoCache();
       },
     }));
+
+
+    useEffect(() => {
+      const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
+      const hideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
+
+      const showSub = Keyboard.addListener(showEvent, () => setIsKeyboardVisible(true));
+      const hideSub = Keyboard.addListener(hideEvent, () => setIsKeyboardVisible(false));
+
+      return () => {
+        showSub.remove();
+        hideSub.remove();
+      };
+    }, []);
 
     // load quick comment value from cache
     useEffect(() => {
@@ -425,8 +442,16 @@ export const QuickPostModalContent = forwardRef(
     const _placeholderId =
       mode === 'comment' ? 'quick_reply.placeholder' : 'quick_reply.placeholder_wave';
 
+
+    //iOS handles bottom margin well when keyboard is visible, for android we rquire this mod to avoid clipping
+    const _marginBottom = (isKeyboardVisible && Platform.OS !== 'ios') ? (insets.bottom || 12) : 0;
+
     return (
-      <View style={styles.modalContainer}>
+      <View
+        style={{
+          ...styles.modalContainer,
+          marginBottom: _marginBottom,
+        }}>
         {_renderSummary()}
         {_renderAvatar()}
         <View style={styles.inputContainer}>
