@@ -1649,7 +1649,7 @@ PODS:
     - React-Core
   - react-native-restart (0.0.27):
     - React-Core
-  - react-native-safe-area-context (5.4.0):
+  - react-native-safe-area-context (5.6.1):
     - React-Core
   - react-native-udp (4.1.7):
     - CocoaAsyncSocket
@@ -2862,7 +2862,7 @@ SPEC CHECKSUMS:
   react-native-receive-sharing-intent: cbd6daac89f5e84c231fe0d8e5453490cc431193
   react-native-render-html: 5afc4751f1a98621b3009432ef84c47019dcb2bd
   react-native-restart: 0bc732f4461709022a742bb29bcccf6bbc5b4863
-  react-native-safe-area-context: 9d72abf6d8473da73033b597090a80b709c0b2f1
+  react-native-safe-area-context: 2243039f43d10cb1ea30ec5ac57fc6d1448413f4
   react-native-udp: 806f16ab890dd838bc073afcebd6a221d4965572
   react-native-version-number: 3d74b5224ca4e1032b1593937d86d3f3c94bf95c
   react-native-video: 29f0fc48fbf7f7ca61f72ae0b93c782da3257a3c

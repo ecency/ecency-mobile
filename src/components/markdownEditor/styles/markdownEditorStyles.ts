@@ -1,5 +1,4 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Platform } from 'react-native';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
 
 export default EStyleSheet.create({
@@ -70,20 +69,11 @@ export default EStyleSheet.create({
     paddingTop: 32,
     paddingBottom: 16,
   },
-  floatingContainer: Platform.select({
-    // absolute positioning makes button hide behind keyboard on ios
-    ios: {
-      alignItems: 'flex-end',
-      margin: 16,
-      marginBottom: 24,
-    },
-    // on android the appearing of button was causing momentary glitch with ios variant style
-    android: {
-      position: 'absolute',
-      right: 16,
-      bottom: 56,
-    },
-  }),
+  floatingContainer: {
+    alignItems: 'flex-end',
+    margin: 16,
+    marginBottom: 24,
+  },
   searchAccountsContainer: {
     marginBottom: 12,
     paddingTop: 8,

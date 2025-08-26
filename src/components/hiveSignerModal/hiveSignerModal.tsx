@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import WebView from 'react-native-webview';
-import { View } from 'react-native';
+import { Platform } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { hsOptions } from '../../constants/hsOptions';
 import styles from './hiveSignerModal.styles';
 import { ModalHeader } from '../modalHeader';
@@ -27,8 +28,10 @@ export const HiveSignerModal = ({ route, navigation }) => {
 
   const _hsUri = `${hsOptions.base_url}${hiveuri?.substring(7)}`;
 
+  const _safeAreaEdges = Platform.select({ ios: [], default: ['top'] });
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={_safeAreaEdges}>
       <ModalHeader
         title={intl.formatMessage({ id: 'qr.confirmTransaction' })}
         isCloseButton={true}
@@ -41,7 +44,7 @@ export const HiveSignerModal = ({ route, navigation }) => {
         domStorageEnabled
         startInLoadingState
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

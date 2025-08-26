@@ -99,20 +99,19 @@ export const MediaPreviewItem = ({
     } else {
       imgRef.current?.[inView ? 'startAnimating' : 'stopAnimating']();
     }
-  }
+  };
 
   const _onLoad = (evt) => {
     const _isAnimated = evt.source?.isAnimated;
     setIsAnimated(_isAnimated);
-    if(_isAnimated) {
+    if (_isAnimated) {
       _toggleGif(isInViewRef.current);
-    } 
-
+    }
   };
 
   const _onInViewChange = (inView: boolean) => {
     if (isAnimated) {
-     _toggleGif(inView);
+      _toggleGif(inView);
     }
   };
 

@@ -30,6 +30,7 @@ export const PostHtmlInteractionHandler = forwardRef(
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const intl = useIntl();
+
     const linkProcessor = useLinkProcessor();
 
     const actionLink = useRef(null);

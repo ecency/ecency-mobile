@@ -139,8 +139,8 @@ export const AutoHeightImage = ({
       hasSetBounds.current = true;
     }
 
-    if(_isAnimated) {
-     _toggleGif(isInViewRef.current);
+    if (_isAnimated) {
+      _toggleGif(isInViewRef.current);
     }
   };
 
@@ -155,12 +155,12 @@ export const AutoHeightImage = ({
   };
 
   const _toggleGif = (inView: boolean) => {
-      if (Platform.OS === 'ios') {
-        setAutoplay(inView);
-      } else {
-        imgRef.current?.[inView ? 'startAnimating' : 'stopAnimating']();
-      }
-  }
+    if (Platform.OS === 'ios') {
+      setAutoplay(inView);
+    } else {
+      imgRef.current?.[inView ? 'startAnimating' : 'stopAnimating']();
+    }
+  };
 
   const _onInViewChange = (inView: boolean) => {
     isInViewRef.current = inView;

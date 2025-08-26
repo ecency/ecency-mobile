@@ -310,21 +310,18 @@ const MarkdownEditorView = ({
         onLoadDraftPress();
       };
 
-      const Wrapper = draftBtnTooltipRegistered ? Animated.View : View;
       return (
-        <>
-          <Wrapper style={styles.floatingContainer} entering={BounceInRight}>
-            <MainButton
-              style={{ width: isLoading ? null : 120 }}
-              onPress={_onPress}
-              iconName="square-edit-outline"
-              iconType="MaterialCommunityIcons"
-              iconColor="white"
-              text="DRAFT"
-              isLoading={isLoading}
-            />
-          </Wrapper>
-        </>
+        <Animated.View style={styles.floatingContainer} entering={BounceInRight}>
+          <MainButton
+            style={{ width: isLoading ? null : 120 }}
+            onPress={_onPress}
+            iconName="square-edit-outline"
+            iconType="MaterialCommunityIcons"
+            iconColor="white"
+            text="DRAFT"
+            isLoading={isLoading}
+          />
+        </Animated.View>
       );
     }
   };
