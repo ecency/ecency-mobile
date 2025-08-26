@@ -47,7 +47,6 @@ export const PostCardContent = ({
   const [autoplay, setAutoplay] = useState(false);
   const [isAnimated, setIsAnimated] = useState(false);
 
-
   const resizeMode = useMemo(() => {
     return calcImgHeight < dim.height ? 'contain' : 'cover';
   }, [dim.height]);

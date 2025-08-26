@@ -311,17 +311,17 @@ const MarkdownEditorView = ({
       };
 
       return (
-          <Animated.View style={styles.floatingContainer} entering={BounceInRight}>
-            <MainButton
-              style={{ width: isLoading ? null : 120 }}
-              onPress={_onPress}
-              iconName="square-edit-outline"
-              iconType="MaterialCommunityIcons"
-              iconColor="white"
-              text="DRAFT"
-              isLoading={isLoading}
-            />
-          </Animated.View>
+        <Animated.View style={styles.floatingContainer} entering={BounceInRight}>
+          <MainButton
+            style={{ width: isLoading ? null : 120 }}
+            onPress={_onPress}
+            iconName="square-edit-outline"
+            iconType="MaterialCommunityIcons"
+            iconColor="white"
+            text="DRAFT"
+            isLoading={isLoading}
+          />
+        </Animated.View>
       );
     }
   };

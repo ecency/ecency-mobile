@@ -1,5 +1,4 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Platform } from 'react-native';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
 
 export default EStyleSheet.create({
@@ -71,10 +70,10 @@ export default EStyleSheet.create({
     paddingBottom: 16,
   },
   floatingContainer: {
-      alignItems: 'flex-end',
-      margin: 16,
-      marginBottom: 24,
-    },
+    alignItems: 'flex-end',
+    margin: 16,
+    marginBottom: 24,
+  },
   searchAccountsContainer: {
     marginBottom: 12,
     paddingTop: 8,

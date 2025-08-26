@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { get, debounce } from 'lodash';
 import { postBodySummary } from '@ecency/render-helper';
 import { Image as ExpoImage } from 'expo-image';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import styles from './quickPostModal.styles';
 import {
   Icon,
@@ -43,7 +44,6 @@ import {
 import { removePollDraft } from '../../redux/actions/editorActions';
 import { getCommunity } from '../../providers/hive/dhive';
 import { CommunityRole, CommunityTypeId } from '../../providers/hive/hive.types';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export interface QuickPostModalContentProps {
   mode: 'comment' | 'wave' | 'post';
@@ -103,7 +103,6 @@ export const QuickPostModalContent = forwardRef(
         _addQuickCommentIntoCache();
       },
     }));
-
 
     useEffect(() => {
       const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
@@ -442,16 +441,16 @@ export const QuickPostModalContent = forwardRef(
     const _placeholderId =
       mode === 'comment' ? 'quick_reply.placeholder' : 'quick_reply.placeholder_wave';
 
-
-    //iOS handles bottom margin well when keyboard is visible, for android we rquire this mod to avoid clipping
-    const _marginBottom = (isKeyboardVisible && Platform.OS !== 'ios') ? (insets.bottom || 12) : 0;
+    // iOS handles bottom margin well when keyboard is visible, for android we rquire this mod to avoid clipping
+    const _marginBottom = isKeyboardVisible && Platform.OS !== 'ios' ? insets.bottom || 12 : 0;
 
     return (
       <View
         style={{
           ...styles.modalContainer,
           marginBottom: _marginBottom,
-        }}>
+        }}
+      >
         {_renderSummary()}
         {_renderAvatar()}
         <View style={styles.inputContainer}>

@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { Edges, SafeAreaView } from 'react-native-safe-area-context';
 import { SearchInput, UserListItem } from '../../../components';
 
 // Container
@@ -12,16 +13,14 @@ import AccountListContainer from '../../../containers/accountListContainer';
 // Utils
 import globalStyles from '../../../globalStyles';
 import { getTimeFromNow } from '../../../utils/time';
-import { Edges, SafeAreaView } from 'react-native-safe-area-context';
 
 const AccountList = ({ route, navigation }) => {
   const intl = useIntl();
 
   const users = route.params?.users || [];
 
-
   const _navigationGoBack = () => {
-    navigation.goBack()
+    navigation.goBack();
   };
 
   const headerTitle =
@@ -30,7 +29,7 @@ const AccountList = ({ route, navigation }) => {
       id: 'account_list.title',
     });
 
-  //for modals, iOS has its own safe area handling
+  // for modals, iOS has its own safe area handling
   const _safeAreaEdges: Edges = Platform.select({ ios: ['bottom'], default: ['top', 'bottom'] });
 
   return (
@@ -40,11 +39,13 @@ const AccountList = ({ route, navigation }) => {
           <SearchInput
             showClearButton={true}
             placeholder={`${headerTitle} (${data && data.length})`}
-            onChangeText={(text) => { handleSearch(text, 'account') }}
+            onChangeText={(text) => {
+              handleSearch(text, 'account');
+            }}
             backEnabled={true}
             autoFocus={false}
             onBackPress={_navigationGoBack}
-            backIconName={'close'}
+            backIconName="close"
           />
           <FlatList
             style={{ flex: 1, marginTop: 16 }}

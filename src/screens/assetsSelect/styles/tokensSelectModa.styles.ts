@@ -25,7 +25,7 @@ export default EStyleSheet.create({
   } as ViewStyle,
 
   scrollContentContainer: {
-    paddingBottom: 100
+    paddingBottom: 100,
   } as ViewStyle,
 
   informationText: {

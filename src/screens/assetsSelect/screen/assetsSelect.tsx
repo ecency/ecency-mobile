@@ -6,6 +6,7 @@ import { get, isArray } from 'lodash';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import DraggableFlatList, { ScaleDecorator } from 'react-native-draggable-flatlist';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { Edges, SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/tokensSelectModa.styles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { CheckBox, Icon, MainButton, SearchInput } from '../../../components';
@@ -15,7 +16,6 @@ import { setSelectedCoins } from '../../../redux/actions/walletActions';
 import { AssetIcon } from '../../../components/atoms';
 import { profileUpdate } from '../../../providers/hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
-import { Edges, SafeAreaView } from 'react-native-safe-area-context';
 
 enum TokenType {
   ENGINE = 'ENGINE',
@@ -111,9 +111,9 @@ const AssetsSelect = ({ navigation }) => {
       const _mapSymbolsToProfileToken = (symbols, type) =>
         isArray(symbols)
           ? symbols.map((symbol) => ({
-            symbol,
-            type,
-          }))
+              symbol,
+              type,
+            }))
           : [];
 
       _updateUserProfile([
@@ -299,11 +299,11 @@ const AssetsSelect = ({ navigation }) => {
     );
   };
 
-  //for modals, iOS has its own top safe area handling
+  // for modals, iOS has its own top safe area handling
   const _safeAreaEdges: Edges = Platform.select({ ios: ['bottom'], default: ['top', 'bottom'] });
 
   return (
-    <SafeAreaView style={styles.modalStyle} edges={_safeAreaEdges} >
+    <SafeAreaView style={styles.modalStyle} edges={_safeAreaEdges}>
       <SearchInput
         showClearButton={true}
         placeholder={intl.formatMessage({ id: 'header.search' })}
