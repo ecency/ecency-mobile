@@ -18,7 +18,6 @@ import { isHiveUri } from '../../utils/hive-uri';
 import { ImageViewer } from '../imageViewer';
 import { useLinkProcessor } from '../../hooks';
 import { CopyModal } from '../copyModal';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface PostHtmlInteractionHandlerProps {
   postType?: PostTypes;
@@ -31,7 +30,7 @@ export const PostHtmlInteractionHandler = forwardRef(
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const intl = useIntl();
-    const insets = useSafeAreaInsets();
+
     const linkProcessor = useLinkProcessor();
 
     const actionLink = useRef(null);
@@ -130,7 +129,7 @@ export const PostHtmlInteractionHandler = forwardRef(
         <ActionsSheet
           ref={youtubePlayerRef}
           gestureEnabled={true}
-          containerStyle={{ backgroundColor: 'black', paddingBottom: insets.bottom }}
+          containerStyle={{ backgroundColor: 'black' }}
           indicatorStyle={{ backgroundColor: EStyleSheet.value('$primaryWhiteLightBackground') }}
           onClose={() => {
             setYoutubeVideoId(null);

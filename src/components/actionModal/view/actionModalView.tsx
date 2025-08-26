@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Platform } from 'react-native';
+import { View, Text } from 'react-native';
 import { Image as ExpoImage } from 'expo-image';
 import ActionSheet from 'react-native-actions-sheet';
 import { useIntl } from 'react-intl';
@@ -29,8 +29,7 @@ const ActionModalView = ({ onClose, data }: ActionModalViewProps) => {
 
   const { title, body, buttons, headerImage, para, headerContent, bodyContent } = data;
 
-  const _marginBottom = Platform.select({ ios: 0, android: insets.bottom || 12 });
-  const _actionPanelStyle = { ...styles.actionPanel, marginBottom: _marginBottom };
+  const _actionPanelStyle = { ...styles.actionPanel, marginBottom: !insets.bottom && 12 };
 
   const _renderContent = (
     <View style={styles.container}>
