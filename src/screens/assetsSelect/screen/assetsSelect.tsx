@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Alert, Platform, Text, TouchableWithoutFeedback, View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 import { useIntl } from 'react-intl';
 import { get, isArray } from 'lodash';
@@ -15,6 +15,7 @@ import { setSelectedCoins } from '../../../redux/actions/walletActions';
 import { AssetIcon } from '../../../components/atoms';
 import { profileUpdate } from '../../../providers/hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { Edges, SafeAreaView } from 'react-native-safe-area-context';
 
 enum TokenType {
   ENGINE = 'ENGINE',
@@ -110,9 +111,9 @@ const AssetsSelect = ({ navigation }) => {
       const _mapSymbolsToProfileToken = (symbols, type) =>
         isArray(symbols)
           ? symbols.map((symbol) => ({
-              symbol,
-              type,
-            }))
+            symbol,
+            type,
+          }))
           : [];
 
       _updateUserProfile([
@@ -270,6 +271,7 @@ const AssetsSelect = ({ navigation }) => {
     return (
       <DraggableFlatList
         containerStyle={styles.scrollContainer}
+        contentContainerStyle={styles.scrollContentContainer}
         data={sortedList}
         extraData={query}
         renderItem={_renderItem}
@@ -297,8 +299,11 @@ const AssetsSelect = ({ navigation }) => {
     );
   };
 
+  //for modals, iOS has its own top safe area handling
+  const _safeAreaEdges: Edges = Platform.select({ ios: ['bottom'], default: ['top', 'bottom'] });
+
   return (
-    <View style={styles.modalStyle}>
+    <SafeAreaView style={styles.modalStyle} edges={_safeAreaEdges} >
       <SearchInput
         showClearButton={true}
         placeholder={intl.formatMessage({ id: 'header.search' })}
@@ -309,7 +314,7 @@ const AssetsSelect = ({ navigation }) => {
         onBackPress={_navigationGoBack}
       />
       {_renderContent()}
-    </View>
+    </SafeAreaView>
   );
 };
 

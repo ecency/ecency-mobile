@@ -6,9 +6,6 @@ export default EStyleSheet.create({
   modalStyle: {
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
-    margin: 0,
-    paddingTop: 16,
-    paddingBottom: 16,
   },
   sheetContent: {
     backgroundColor: '$primaryBackgroundColor',
@@ -25,7 +22,10 @@ export default EStyleSheet.create({
   scrollContainer: {
     flex: 1,
     marginTop: 16,
-    marginBottom: 16,
+  } as ViewStyle,
+
+  scrollContentContainer: {
+    paddingBottom: 100
   } as ViewStyle,
 
   informationText: {
@@ -36,7 +36,6 @@ export default EStyleSheet.create({
 
   modalContainer: {
     flex: 1,
-    marginBottom: 44,
     paddingHorizontal: 24,
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -95,5 +94,11 @@ export default EStyleSheet.create({
     borderRadius: 32,
     justifyContent: 'center',
     alignItems: 'center',
+  } as ViewStyle,
+
+  actionPanel: {
+    position: 'absolute',
+    right: 24,
+    bottom: 24,
   } as ViewStyle,
 });
