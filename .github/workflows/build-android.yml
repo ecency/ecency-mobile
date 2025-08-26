@@ -1,10 +1,15 @@
 name: Android Build
 on:
-  pull_request_review:
-    types: [submitted]
+
   pull_request:
     types: [ready_for_review, synchronize]
-    
+
+  pull_request_review:
+    types: [submitted]
+  
+  push:
+    branches:
+      - development
 
 jobs:
   android-build:
@@ -15,7 +20,8 @@ jobs:
       github.event.review.state == 'approved' &&
       github.event.pull_request.base.ref == 'development' &&
       github.event.pull_request.head.repo.full_name == github.repository) ||
-      (github.event_name == 'pull_request')
+      (github.event_name == 'pull_request') ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/development')
     runs-on: macos-latest
     steps:
       - name: Show host machine information
@@ -23,12 +29,15 @@ jobs:
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.1
 
-      - name: Checkout PR head
+      - name: Checkout PR head or development branch
         uses: actions/checkout@v4
         with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.sha }}
-
+          repository: > 
+            ${{ github.event_name == 'push' && github.ref == 'refs/heads/development' && github.repository || 
+            github.event.pull_request.head.repo.full_name }}
+          ref: >
+            ${{ github.event_name == 'push' && github.ref == 'refs/heads/development' && 'development' || 
+            github.event.pull_request.head.sha }}
       - name: Create .env file
         run: |
           echo "ACTIVITY_WEBSOCKET_URL=${{ secrets.ACTIVITY_WEBSOCKET_URL }}" >> .env
@@ -144,10 +153,11 @@ jobs:
     needs: android-build
     # Only deploy if the trigger is pull_request_review (not pull_request)
     if: >
-      github.event_name == 'pull_request_review' &&
+      (github.event_name == 'pull_request_review' &&
       github.event.review.state == 'approved' &&
       github.event.pull_request.base.ref == 'development' &&
-      github.event.pull_request.head.repo.full_name == github.repository
+      github.event.pull_request.head.repo.full_name == github.repository) ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/development')
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
