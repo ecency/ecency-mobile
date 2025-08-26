@@ -310,10 +310,8 @@ const MarkdownEditorView = ({
         onLoadDraftPress();
       };
 
-      const Wrapper = draftBtnTooltipRegistered ? Animated.View : View;
       return (
-        <>
-          <Wrapper style={styles.floatingContainer} entering={BounceInRight}>
+          <Animated.View style={styles.floatingContainer} entering={BounceInRight}>
             <MainButton
               style={{ width: isLoading ? null : 120 }}
               onPress={_onPress}
@@ -323,8 +321,7 @@ const MarkdownEditorView = ({
               text="DRAFT"
               isLoading={isLoading}
             />
-          </Wrapper>
-        </>
+          </Animated.View>
       );
     }
   };
