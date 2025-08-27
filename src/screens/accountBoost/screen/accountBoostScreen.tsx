@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, Platform, SafeAreaView, Image, Text } from 'react-native';
+import { View, Platform, Image, Text } from 'react-native';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
@@ -17,6 +17,7 @@ import { InAppPurchaseContainer } from '../../../containers';
 import styles from './accountBoostStyles';
 import UserRibbon from '../../../components/userRibbon/userRibbon';
 import { vestsToHp } from '../../../utils/conversions';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ITEM_SKUS = Platform.select({
   ios: ['999boosts'],

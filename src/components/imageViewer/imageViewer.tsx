@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { View, Text, Platform, SafeAreaView, Share, Alert } from 'react-native';
+import { View, Text, Platform, Share, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImageViewing from 'react-native-image-viewing';
 import { useIntl } from 'react-intl';
@@ -9,9 +9,10 @@ import { Image as ExpoImage } from 'expo-image';
 import RNFetchBlob from 'rn-fetch-blob';
 import IconButton from '../iconButton';
 import styles from './imageViewer.styles';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // eslint-disable-next-line no-empty-pattern
-export const ImageViewer = forwardRef(({}, ref) => {
+export const ImageViewer = forwardRef(({ }, ref) => {
   const intl = useIntl();
   // intl.formatMessage({ id: 'post.copy_link' }),
   // intl.formatMessage({ id: 'post.gallery_mode' }),
@@ -20,6 +21,7 @@ export const ImageViewer = forwardRef(({}, ref) => {
   const [visible, setVisible] = useState(false);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const insets = useSafeAreaInsets();
 
   useImperativeHandle(ref, () => ({
     show(selectedUrl: string, _imageUrls: string[]) {
@@ -107,9 +109,9 @@ export const ImageViewer = forwardRef(({}, ref) => {
 
   const _renderImageViewerHeader = (imageIndex: number) => {
     return (
-      <SafeAreaView
+      <View
         style={{
-          marginTop: Platform.select({ ios: 0, android: 25 }),
+          marginTop: Platform.select({ ios: insets.top, android: 16 }),
         }}
       >
         <View style={styles.imageViewerHeaderContainer}>
@@ -125,7 +127,7 @@ export const ImageViewer = forwardRef(({}, ref) => {
             {_renderIconButton('download', () => _onSavePress(imageIndex))}
           </View>
         </View>
-      </SafeAreaView>
+      </View>
     );
   };
 
@@ -135,6 +137,7 @@ export const ImageViewer = forwardRef(({}, ref) => {
   };
 
   return (
+    // <SafeAreaView>
     <ImageViewing
       images={imageUrls.map((url) => ({ uri: url }))}
       imageIndex={selectedIndex}
@@ -143,6 +146,8 @@ export const ImageViewer = forwardRef(({}, ref) => {
       swipeToCloseEnabled
       onRequestClose={_onCloseImageViewer}
       HeaderComponent={(data) => _renderImageViewerHeader(data.imageIndex)}
+
     />
+    // </SafeAreaView>
   );
 });
