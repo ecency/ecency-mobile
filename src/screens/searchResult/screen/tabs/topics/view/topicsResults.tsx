@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, FlatList, View, Text, TouchableOpacity } from 'react-native';
+import { FlatList, View, Text, TouchableOpacity } from 'react-native';
 
 // Components
 import { ListPlaceHolder, EmptyScreen } from '../../../../../../components/basicUIElements';
@@ -25,7 +25,7 @@ const TopicsResults = ({ searchValue }) => {
   return (
     <TopicsResultsContainer searchValue={searchValue}>
       {({ tags, handleOnPress, noResult }) => (
-        <SafeAreaView style={styles.container}>
+        <>
           {noResult ? (
             <EmptyScreen />
           ) : (
@@ -40,7 +40,7 @@ const TopicsResults = ({ searchValue }) => {
               ListEmptyComponent={_renderEmptyContent}
             />
           )}
-        </SafeAreaView>
+        </>
       )}
     </TopicsResultsContainer>
   );

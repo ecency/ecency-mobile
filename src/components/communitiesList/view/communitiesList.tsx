@@ -1,12 +1,10 @@
 import React from 'react';
-import { SafeAreaView, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 
 // Components
 import { CommunitiesPlaceHolder } from '../../basicUIElements';
 import CommunitiesListItem from './communitiesListItem';
 
-// Styles
-import styles from './communitiesListStyles';
 
 const CommunitiesList = ({
   data,
@@ -61,7 +59,6 @@ const CommunitiesList = ({
   };
 
   return (
-    <SafeAreaView style={styles.container}>
       <FlatList
         data={data}
         keyExtractor={(item, index) => index.toString()}
@@ -69,7 +66,6 @@ const CommunitiesList = ({
         ListEmptyComponent={_renderEmptyContent}
         ListFooterComponent={isDiscoversLoading && <CommunitiesPlaceHolder />}
       />
-    </SafeAreaView>
   );
 };
 

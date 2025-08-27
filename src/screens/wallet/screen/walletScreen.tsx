@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { SafeAreaView, View, Text, AppState, AppStateStatus } from 'react-native';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
+import { View, Text, AppState, AppStateStatus } from 'react-native';
 import { isArray } from 'lodash';
 
 // Containers
@@ -244,8 +244,8 @@ const WalletScreen = ({ navigation }) => {
           {walletQuery.isFetching
             ? intl.formatMessage({ id: 'wallet.updating' })
             : `${intl.formatMessage({ id: 'wallet.last_updated' })} ${moment(
-                updateTimestamp,
-              ).format('HH:mm:ss')}`}
+              updateTimestamp,
+            ).format('HH:mm:ss')}`}
         </Text>
       </View>
     );
@@ -270,25 +270,23 @@ const WalletScreen = ({ navigation }) => {
   return (
     <Fragment>
       <Header />
-      <SafeAreaView style={globalStyles.defaultContainer}>
-        <LoggedInContainer>
-          {() => (
-            <View style={styles.listWrapper}>
-              <FlatList
-                data={updateTimestamp ? selectedCoins : []}
-                extraData={[coinsData, priceHistories, unclaimedRewardsQuery.data]}
-                style={globalStyles.tabBarBottom}
-                ListEmptyComponent={<PostCardPlaceHolder />}
-                ListHeaderComponent={_renderHeader}
-                ListFooterComponent={<ManageAssetsBtn onPress={_showAssetsSelectModal} />}
-                renderItem={_renderItem}
-                keyExtractor={(item, index) => index.toString()}
-                refreshControl={_refreshControl}
-              />
-            </View>
-          )}
-        </LoggedInContainer>
-      </SafeAreaView>
+      <LoggedInContainer>
+        {() => (
+          <View style={styles.listWrapper}>
+            <FlatList
+              data={updateTimestamp ? selectedCoins : []}
+              extraData={[coinsData, priceHistories, unclaimedRewardsQuery.data]}
+              style={globalStyles.tabBarBottom}
+              ListEmptyComponent={<PostCardPlaceHolder />}
+              ListHeaderComponent={_renderHeader}
+              ListFooterComponent={<ManageAssetsBtn onPress={_showAssetsSelectModal} />}
+              renderItem={_renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              refreshControl={_refreshControl}
+            />
+          </View>
+        )}
+      </LoggedInContainer>
     </Fragment>
   );
 };

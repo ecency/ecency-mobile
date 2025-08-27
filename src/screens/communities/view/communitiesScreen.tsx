@@ -63,7 +63,7 @@ const CommunitiesScreen = () => {
             />
             <TabView
               navigationState={{ index, routes }}
-              style={[globalStyles.tabView, { paddingBottom: 40 }]}
+              style={[globalStyles.tabView]}
               onIndexChange={setIndex}
               renderTabBar={TabBar}
               renderScene={({ route }) => {

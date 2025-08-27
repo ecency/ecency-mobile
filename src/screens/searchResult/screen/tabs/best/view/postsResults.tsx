@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, FlatList, View, Text, TouchableOpacity } from 'react-native';
+import { FlatList, View, Text, TouchableOpacity } from 'react-native';
 import get from 'lodash/get';
 import isUndefined from 'lodash/isUndefined';
 import Highlighter from 'react-native-highlight-words';
@@ -102,7 +102,7 @@ const PostsResults = ({ searchValue }) => {
   return (
     <PostsResultsContainer searchValue={searchValue}>
       {({ data, handleOnPress, loadMore, noResult }) => (
-        <SafeAreaView style={styles.container}>
+        <>
           {noResult ? (
             <EmptyScreen />
           ) : (
@@ -119,7 +119,7 @@ const PostsResults = ({ searchValue }) => {
               ListFooterComponent={!data && <CommunitiesPlaceHolder />}
             />
           )}
-        </SafeAreaView>
+        </>
       )}
     </PostsResultsContainer>
   );
