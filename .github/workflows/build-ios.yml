@@ -11,6 +11,10 @@ on:
     branches:
       - development
 
+concurrency:
+  group: ios-build
+  cancel-in-progress: true
+
 jobs:
   ios-build:
     name: iOS Build
@@ -32,10 +36,6 @@ jobs:
         run: |
           uname -a
           xcodebuild -showsdks
-
-      - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
       - name: Checkout PR head
         uses: actions/checkout@v4
         with:

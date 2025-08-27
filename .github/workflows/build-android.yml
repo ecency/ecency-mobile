@@ -12,6 +12,10 @@ on:
     branches:
       - development
 
+concurrency:
+  group: android-build
+  cancel-in-progress: true
+
 jobs:
   android-build:
     name: Android Build
@@ -27,9 +31,7 @@ jobs:
     steps:
       - name: Show host machine information
         run: uname -a
-      - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
+        
       - name: Checkout PR head or development branch
         uses: actions/checkout@v4
         with:
