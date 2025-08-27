@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { Image as ExpoImage } from 'expo-image';
 import { get, has } from 'lodash';
 
@@ -54,7 +54,7 @@ class SearchModalView extends PureComponent {
 
     return (
       <Modal isOpen={isOpen} handleOnModalClose={handleOnClose} isFullScreen swipeToClose>
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
           <SearchInput
             onChangeText={handleOnChangeSearchInput}
             handleOnModalClose={handleOnClose}
@@ -83,7 +83,7 @@ class SearchModalView extends PureComponent {
               initialNumToRender={20}
             />
           </View>
-        </SafeAreaView>
+        </View>
       </Modal>
     );
   }

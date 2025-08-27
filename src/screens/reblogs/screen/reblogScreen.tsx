@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from 'react';
-import { FlatList, RefreshControl, SafeAreaView } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import Animated, { BounceInRight } from 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAppSelector } from '../../../hooks';
 import showLoginAlert from '../../../utils/showLoginAlert';
 

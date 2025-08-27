@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
-import { View, Platform, SafeAreaView, Image, Text } from 'react-native';
+import { View, Platform, Image, Text } from 'react-native';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
 // Components
 import { useSelector } from 'react-redux';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
 
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 
 // Utils
 import { useNavigation } from '@react-navigation/native';
@@ -55,7 +55,7 @@ const VotersDisplayView = ({ votes, createdAt = '2010-01-01T00:00:00' }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {votes && votes.length > 0 ? (
         <FlatList
           data={votes}
@@ -66,7 +66,7 @@ const VotersDisplayView = ({ votes, createdAt = '2010-01-01T00:00:00' }) => {
       ) : (
         <EmptyScreen style={styles.emptyContainer} />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

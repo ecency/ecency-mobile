@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 
 // Components
 import {
@@ -23,7 +23,7 @@ const PeopleResults = ({ searchValue, isUsername }) => {
   return (
     <PeopleResultsContainer searchValue={searchValue} isUsername={isUsername}>
       {({ users, handleOnPress, noResult }) => (
-        <SafeAreaView style={styles.container}>
+        <>
           {noResult && !users.length ? (
             <EmptyScreen />
           ) : (
@@ -46,7 +46,7 @@ const PeopleResults = ({ searchValue, isUsername }) => {
               ListEmptyComponent={_renderEmptyContent}
             />
           )}
-        </SafeAreaView>
+        </>
       )}
     </PeopleResultsContainer>
   );

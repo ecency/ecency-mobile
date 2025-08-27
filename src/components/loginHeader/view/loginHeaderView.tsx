@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, Image, SafeAreaView } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -10,6 +10,7 @@ import Animated, {
 // Constants
 
 // Components
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { LineBreak } from '../../basicUIElements';
 // Styles
 import styles from './loginHeaderStyles';
@@ -36,7 +37,7 @@ const LoginHeaderView = ({ description, isKeyboardOpen, title, onBackPress }) =>
   });
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
       <View styles={styles.container}>
         <View style={styles.headerRow}>
           <View style={styles.backIconContainer}>
