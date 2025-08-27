@@ -10,11 +10,11 @@ import Animated, {
 // Constants
 
 // Components
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { LineBreak } from '../../basicUIElements';
 // Styles
 import styles from './loginHeaderStyles';
 import { IconButton } from '../..';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const LoginHeaderView = ({ description, isKeyboardOpen, title, onBackPress }) => {
   // Shared value to track animation progress

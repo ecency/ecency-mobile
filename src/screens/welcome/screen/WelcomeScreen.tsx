@@ -7,6 +7,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { gestureHandlerRootHOC, ScrollView } from 'react-native-gesture-handler';
 import VersionNumber from 'react-native-version-number';
 
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { CheckBox, Icon, MainButton } from '../../../components';
 import { ECENCY_TERMS_URL } from '../../../config/ecencyApi';
 import ROUTES from '../../../constants/routeNames';
@@ -15,7 +16,6 @@ import { setLastAppVersion, setIsTermsAccepted } from '../../../redux/actions/ap
 import LaunchScreen from '../../launch';
 
 import styles from '../children/WelcomeScreenStyles';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const WelcomeScreen = () => {
   // NOTE: I have no logical explanation for this, but only this solution

@@ -3,6 +3,7 @@ import { FlatList, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import Animated, { BounceInRight } from 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAppSelector } from '../../../hooks';
 import showLoginAlert from '../../../utils/showLoginAlert';
 
@@ -17,7 +18,6 @@ import globalStyles from '../../../globalStyles';
 import styles from '../styles/reblogScreen.styles';
 import { getTimeFromNow } from '../../../utils/time';
 import { repostQueries } from '../../../providers/queries';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const renderUserListItem = (item, index, handleOnUserPress) => {
   return (

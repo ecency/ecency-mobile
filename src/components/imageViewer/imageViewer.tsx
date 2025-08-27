@@ -7,12 +7,12 @@ import { PermissionsAndroid } from 'react-native';
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import { Image as ExpoImage } from 'expo-image';
 import RNFetchBlob from 'rn-fetch-blob';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import IconButton from '../iconButton';
 import styles from './imageViewer.styles';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // eslint-disable-next-line no-empty-pattern
-export const ImageViewer = forwardRef(({ }, ref) => {
+export const ImageViewer = forwardRef(({}, ref) => {
   const intl = useIntl();
   // intl.formatMessage({ id: 'post.copy_link' }),
   // intl.formatMessage({ id: 'post.gallery_mode' }),
@@ -146,7 +146,6 @@ export const ImageViewer = forwardRef(({ }, ref) => {
       swipeToCloseEnabled
       onRequestClose={_onCloseImageViewer}
       HeaderComponent={(data) => _renderImageViewerHeader(data.imageIndex)}
-
     />
     // </SafeAreaView>
   );

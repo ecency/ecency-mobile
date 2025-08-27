@@ -5,7 +5,6 @@ import { FlatList } from 'react-native';
 import { CommunitiesPlaceHolder } from '../../basicUIElements';
 import CommunitiesListItem from './communitiesListItem';
 
-
 const CommunitiesList = ({
   data,
   subscribingCommunities,
@@ -59,13 +58,13 @@ const CommunitiesList = ({
   };
 
   return (
-      <FlatList
-        data={data}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={true && _renderItem}
-        ListEmptyComponent={_renderEmptyContent}
-        ListFooterComponent={isDiscoversLoading && <CommunitiesPlaceHolder />}
-      />
+    <FlatList
+      data={data}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={true && _renderItem}
+      ListEmptyComponent={_renderEmptyContent}
+      ListFooterComponent={isDiscoversLoading && <CommunitiesPlaceHolder />}
+    />
   );
 };
 
