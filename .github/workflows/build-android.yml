@@ -2,11 +2,7 @@ name: Android Build
 on:
 
   pull_request:
-    types: [ready_for_review, synchronize]
-
-  # Enable this to trigger build when PR review is submitted (for running tests before merge)
-  # pull_request_review:
-  #   types: [submitted]
+    types: [ready_for_review, synchronize, labeled]
   
   push:
     branches:
@@ -21,10 +17,6 @@ jobs:
     name: Android Build
     # Run only when the review is Approved, PR targets 'development', and it's a same-repo PR
     if: >
-      (github.event_name == 'pull_request_review' &&
-      github.event.review.state == 'approved' &&
-      github.event.pull_request.base.ref == 'development' &&
-      github.event.pull_request.head.repo.full_name == github.repository) ||
       (github.event_name == 'pull_request') ||
       (github.event_name == 'push' && github.ref == 'refs/heads/development')
     runs-on: macos-latest
@@ -154,12 +146,9 @@ jobs:
   android-deploy:
     name: Deploy Android Build
     needs: android-build
-    # Only deploy if the trigger is pull_request_review (not pull_request)
+    # Only deploy if the trigger is a pull_request with 'deploy_pr_build' label or a push to 'development'
     if: >
-      (github.event_name == 'pull_request_review' &&
-      github.event.review.state == 'approved' &&
-      github.event.pull_request.base.ref == 'development' &&
-      github.event.pull_request.head.repo.full_name == github.repository) ||
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy_pr_build')) ||
       (github.event_name == 'push' && github.ref == 'refs/heads/development')
     runs-on: macos-latest
     steps:
