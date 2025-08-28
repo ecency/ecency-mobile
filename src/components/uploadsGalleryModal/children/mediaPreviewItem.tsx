@@ -5,7 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import { default as AnimatedView, ZoomIn } from 'react-native-reanimated';
 import { useIntl } from 'react-intl';
-import { InView } from 'react-native-intersection-observer';
+// import { InView } from 'react-native-intersection-observer';
 import { Icon } from '../..';
 import styles from './uploadsGalleryModalStyles';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
@@ -116,31 +116,31 @@ export const MediaPreviewItem = ({
   };
 
   return (
-    <InView onChange={_onInViewChange}>
-      <TouchableOpacity onPress={handlePress} disabled={isDeleting}>
-        <View style={transformStyle}>
-          <ExpoImage
-            // Disable stray touches on thumbnails but allow gestures when expanded
-            ref={imgRef}
-            onLoad={_onLoad}
-            pointerEvents={isExpandedMode ? 'auto' : 'none'}
-            source={{ uri: thumbUrl }}
-            autoplay={autoPlay}
-            style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
-          />
-          {isAnimated && (
-            <>
-              <View style={styles.gifBadge}>
-                <Text style={styles.gifBadgeText}>GIF</Text>
-              </View>
-            </>
-          )}
-          {_renderCounter()}
-          {_renderStatus()}
-          {_renderMinus()}
-          {_renderLoading()}
-        </View>
-      </TouchableOpacity>
-    </InView>
+    // <InView onChange={_onInViewChange}>
+    <TouchableOpacity onPress={handlePress} disabled={isDeleting}>
+      <View style={transformStyle}>
+        <ExpoImage
+          // Disable stray touches on thumbnails but allow gestures when expanded
+          ref={imgRef}
+          onLoad={_onLoad}
+          pointerEvents={isExpandedMode ? 'auto' : 'none'}
+          source={{ uri: thumbUrl }}
+          autoplay={true}
+          style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
+        />
+        {isAnimated && (
+          <>
+            <View style={styles.gifBadge}>
+              <Text style={styles.gifBadgeText}>GIF</Text>
+            </View>
+          </>
+        )}
+        {_renderCounter()}
+        {_renderStatus()}
+        {_renderMinus()}
+        {_renderLoading()}
+      </View>
+    </TouchableOpacity>
+    // </InView>
   );
 };

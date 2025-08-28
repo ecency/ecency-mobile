@@ -22,7 +22,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useDispatch } from 'react-redux';
-import { withIO } from 'react-native-intersection-observer';
+// import { withIO } from 'react-native-intersection-observer';
 import { Icon, IconButton } from '../..';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 import { editorQueries, speakQueries } from '../../../providers/queries';
@@ -37,15 +37,15 @@ import { toastNotification } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import { Modes } from '../container/uploadsGalleryModal';
 
-const IOFlatList = withIO(FlatList, [
-  'scrollToIndex',
-  'scrollToOffset',
-  'scrollToEnd',
-  'getScrollResponder',
-  'getScrollableNode',
-  'recordInteraction',
-  'flashScrollIndicators',
-]);
+// const IOFlatList = withIO(FlatList, [
+//   'scrollToIndex',
+//   'scrollToOffset',
+//   'scrollToEnd',
+//   'getScrollResponder',
+//   'getScrollableNode',
+//   'recordInteraction',
+//   'flashScrollIndicators',
+// ]);
 
 type Props = {
   mode: Modes;
@@ -372,7 +372,7 @@ const UploadsGalleryContent = ({
 
   return (
     <Animated.View style={{ ...styles.container, height: animatedHeight }}>
-      <IOFlatList
+      <FlatList
         key={isExpandedMode ? 'vertical_grid' : 'horizontal_list'}
         data={mediaUploads.slice(0, !isExpandedMode ? MAX_HORIZONTAL_THUMBS : undefined)}
         keyExtractor={(item) => `item_${item.url}`}

@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { TouchableOpacity, Text, View, useWindowDimensions, Platform } from 'react-native';
-import { InView } from 'react-native-intersection-observer';
+// import { InView } from 'react-native-intersection-observer';
 // Utils
 import { useIntl } from 'react-intl';
 import { proxifyImageSrc } from '@ecency/render-helper';
@@ -124,42 +124,42 @@ export const PostCardContent = ({
     <View style={styles.postBodyWrapper}>
       <TouchableOpacity activeOpacity={0.8} style={styles.hiddenImages} onPress={_onPress}>
         {!isHideImage && (
-          <InView onChange={_onInViewChange}>
-            <View style={styles.imageWrapper}>
-              <ExpoImage
-                ref={imgRef}
-                pointerEvents="none"
-                source={{ uri: imageUri }}
-                style={[
-                  styles.thumbnail,
-                  {
-                    width: imgWidth,
-                    height: Math.min(calcImgHeight, dim.height),
-                  },
-                ]}
-                contentFit={resizeMode}
-                autoplay={autoplay}
-                onLoad={(evt) => {
-                  const animated = evt.source.isAnimated;
-                  setIsAnimated(animated);
-                  if (animated) {
-                    _toggleGif(isInViewRef.current);
-                  }
-                  if (!imageRatio) {
-                    const _imgRatio = evt.source.width / evt.source.height;
-                    const height = imgWidth / _imgRatio;
-                    setCalcImgHeight(height);
-                    setImageRatio(content.author + content.permlink, _imgRatio);
-                  }
-                }}
-              />
-              {isGif && (
-                <View style={styles.gifBadge}>
-                  <Text style={styles.gifBadgeText}>GIF</Text>
-                </View>
-              )}
-            </View>
-          </InView>
+          // <InView onChange={_onInViewChange}>
+          <View style={styles.imageWrapper}>
+            <ExpoImage
+              ref={imgRef}
+              pointerEvents="none"
+              source={{ uri: imageUri }}
+              style={[
+                styles.thumbnail,
+                {
+                  width: imgWidth,
+                  height: Math.min(calcImgHeight, dim.height),
+                },
+              ]}
+              contentFit={resizeMode}
+              autoplay={true}
+              onLoad={(evt) => {
+                const animated = evt.source.isAnimated;
+                setIsAnimated(animated);
+                if (animated) {
+                  _toggleGif(isInViewRef.current);
+                }
+                if (!imageRatio) {
+                  const _imgRatio = evt.source.width / evt.source.height;
+                  const height = imgWidth / _imgRatio;
+                  setCalcImgHeight(height);
+                  setImageRatio(content.author + content.permlink, _imgRatio);
+                }
+              }}
+            />
+            {isGif && (
+              <View style={styles.gifBadge}>
+                <Text style={styles.gifBadgeText}>GIF</Text>
+              </View>
+            )}
+          </View>
+          // {/* </InView> */}
         )}
 
         <View style={[styles.postDescripton]}>

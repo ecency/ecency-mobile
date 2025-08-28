@@ -4,7 +4,7 @@ import { Platform, TouchableOpacity, View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
-import { InView } from 'react-native-intersection-observer';
+// import { InView } from 'react-native-intersection-observer';
 
 interface AutoHeightImageProps {
   contentWidth: number;
@@ -170,30 +170,30 @@ export const AutoHeightImage = ({
   };
 
   return (
-    <InView onChange={_onInViewChange}>
-      <TouchableOpacity
-        onPress={handlePress}
-        disabled={isAnchored}
-        activeOpacity={activeOpacity || 1}
-      >
-        <View style={animatedWrapperStyle}>
-          <ExpoImage
-            ref={imgRef}
-            pointerEvents="none"
-            style={animatedImgStyle}
-            source={{ uri: imgUrl }}
-            contentFit="cover"
-            onLoad={_onLoad}
-            autoplay={autoplay}
-          />
-          {isAnimated && (
-            <View style={styles.gifBadge}>
-              <Text style={styles.gifBadgeText}>GIF</Text>
-            </View>
-          )}
-        </View>
-      </TouchableOpacity>
-    </InView>
+    // <InView onChange={_onInViewChange}>
+    <TouchableOpacity
+      onPress={handlePress}
+      disabled={isAnchored}
+      activeOpacity={activeOpacity || 1}
+    >
+      <View style={animatedWrapperStyle}>
+        <ExpoImage
+          ref={imgRef}
+          pointerEvents="none"
+          style={animatedImgStyle}
+          source={{ uri: imgUrl }}
+          contentFit="cover"
+          onLoad={_onLoad}
+          autoplay={true}
+        />
+        {isAnimated && (
+          <View style={styles.gifBadge}>
+            <Text style={styles.gifBadgeText}>GIF</Text>
+          </View>
+        )}
+      </View>
+    </TouchableOpacity>
+    // </InView>
   );
 };
 
