@@ -182,9 +182,9 @@ jobs:
   ios-deploy:
     name: Deploy iOS Build
     needs: ios-build
-    # Only deploy if the trigger is a pull_request with 'deploy_pr_build' label or a push to 'development'
+    # Only deploy if the trigger is a pull_request with 'deploy-pr-build' label or a push to 'development'
     if: >
-        (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy_pr_build')) ||
+        (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy-pr-build')) ||
         (github.event_name == 'push' && github.ref == 'refs/heads/development')
     runs-on: macos-latest
     steps:
