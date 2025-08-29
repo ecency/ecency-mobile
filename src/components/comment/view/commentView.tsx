@@ -77,6 +77,10 @@ const CommentView = ({
     }
   };
 
+  const _handleOnContentPress = () => {
+    openReplyThread && openReplyThread(comment);
+  }
+
   const _handleOnReplyPress = () => {
     if (isLoggedIn) {
       SheetManager.show(SheetNames.QUICK_POST, {
@@ -121,6 +125,7 @@ const CommentView = ({
           handleVideoPress={handleVideoPress}
           handleYoutubePress={handleYoutubePress}
           handleParaSelection={handleParaSelection}
+          handleOnContentPress={_handleOnContentPress}
         />
 
         {comment.json_metadata.content_type === ContentType.POLL && (

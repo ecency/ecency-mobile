@@ -30,6 +30,7 @@ interface PostHtmlRendererProps {
   handleVideoPress: (videoUrl: string) => void;
   handleYoutubePress: (videoId: string, startTime: number) => void;
   handleParaSelection: (selectedText: string) => void;
+  handleOnContentPress: () => void;
 }
 
 export const PostHtmlRenderer = memo(
@@ -46,6 +47,7 @@ export const PostHtmlRenderer = memo(
     handleTagPress,
     handleVideoPress,
     handleYoutubePress,
+    handleOnContentPress,
     handleParaSelection,
   }: PostHtmlRendererProps) => {
     const postImgUrlsRef = useRef<string[]>([]);
@@ -132,7 +134,7 @@ export const PostHtmlRenderer = memo(
           default:
             break;
         }
-      } catch (error) {}
+      } catch (error) { }
     };
 
     // this method checks if image is a child of table column
@@ -341,9 +343,10 @@ export const PostHtmlRenderer = memo(
       };
 
       props.style = isInsideLi ? styles.pLi : styles.p;
+      const _onPress = props.onPress || handleOnContentPress;
 
       return (
-        <TouchableOpacity onLongPress={handleLongPress}>
+        <TouchableOpacity onLongPress={handleLongPress} onPress={_onPress} activeOpacity={0.8}>
           <TDefaultRenderer {...props} />
         </TouchableOpacity>
       );
