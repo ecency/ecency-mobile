@@ -1,36 +1,41 @@
 import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
 
 // Components
-import Animated, { SlideInRight } from 'react-native-reanimated';
+// import Animated, { SlideInRight } from 'react-native-reanimated';
 import { Comment } from '../..';
 
 export const CommentsSection = ({ item, ...props }) => {
-  const [toggle, setToggle] = useState(item.expandedReplies || false);
+  const toggleRef = React.useRef(false);
+  const [toggle, setToggle] = useState(item.expandedReplies || toggleRef.current);
 
   useEffect(() => {
     if (item.expandedReplies) {
       setToggle(true);
+      toggleRef.current = true;
     }
   }, [item.expandedReplies]);
 
   const _renderComment = (item, index = 0) => {
     // animation makes sure there is 100 ms gab between each comment item
-    const _enteringAnim =
-      index >= 0
-        ? SlideInRight.duration(150)
-            .springify()
-            .delay(index * 100)
-        : undefined;
+    // const _enteringAnim =
+    //   index >= 0
+    //     ? SlideInRight.duration(150)
+    //         .springify()
+    //         .delay(index * 100)
+    //     : undefined;
 
     return (
-      <Animated.View key={item.author + item.permlink} entering={_enteringAnim}>
+      // <Animated.View key={item.author + item.permlink} entering={_enteringAnim}>
+      <View key={item.author + item.permlink}>
         <Comment
           comment={item}
           repliesToggle={toggle}
-          handleOnToggleReplies={() => setToggle(!toggle)}
+          handleOnToggleReplies={() => {toggleRef.current = !toggle; setToggle(!toggle)}}
           {...props}
         />
-      </Animated.View>
+        </View>
+      // </Animated.View>
     );
   };
 
