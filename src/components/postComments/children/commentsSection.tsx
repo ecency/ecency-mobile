@@ -32,8 +32,15 @@ export const CommentsSection = ({ item, ...props }) => {
 
   const _renderReplies = () => {
 
+    const _animation = LinearTransition
+      .easing(Easing.inOut(Easing.ease))
+      .duration(toggle ? 1 : 200); // hack to avoid animation on list height change if already expanded
+
     return (
-      <Animated.View layout={LinearTransition.easing(Easing.ease).duration(200)} style={{ overflow: 'hidden' }}  >
+      <Animated.View
+        layout={_animation}
+        style={{ overflow: 'hidden' }}
+      >
         {toggle && item.repliesThread.map((reply, index) => _renderComment(reply, index))}
       </Animated.View>
     )
