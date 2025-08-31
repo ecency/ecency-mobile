@@ -1,11 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { proxifyImageSrc } from '@ecency/render-helper';
 import { ActivityIndicator, Platform, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import { default as AnimatedView, ZoomIn } from 'react-native-reanimated';
 import { useIntl } from 'react-intl';
-// import { InView } from 'react-native-intersection-observer';
 import { Icon } from '../..';
 import styles from './uploadsGalleryModalStyles';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
@@ -18,6 +17,7 @@ interface Props {
   isDeleting: boolean;
   deleteIds: string[];
   isExpandedMode: boolean;
+  isViewable: boolean;
   onPress: () => void;
 }
 
@@ -28,6 +28,7 @@ export const MediaPreviewItem = ({
   isDeleting,
   deleteIds,
   isExpandedMode,
+  isViewable,
   onPress,
 }: Props) => {
   const intl = useIntl();
@@ -36,6 +37,12 @@ export const MediaPreviewItem = ({
 
   const [isAnimated, setIsAnimated] = useState(false);
   const [autoPlay, setAutoplay] = useState(false);
+
+  useEffect(() => {
+    if (isAnimated) {
+      _toggleGif(isViewable);
+    }
+  }, [isViewable])
 
   const thumbUrl =
     item.thumbUrl || proxifyImageSrc(item.url, 200, 200, Platform.OS === 'ios' ? 'match' : 'webp');
@@ -109,14 +116,8 @@ export const MediaPreviewItem = ({
     }
   };
 
-  const _onInViewChange = (inView: boolean) => {
-    if (isAnimated) {
-      _toggleGif(inView);
-    }
-  };
 
   return (
-    // <InView onChange={_onInViewChange}>
     <TouchableOpacity onPress={handlePress} disabled={isDeleting}>
       <View style={transformStyle}>
         <ExpoImage
@@ -125,7 +126,7 @@ export const MediaPreviewItem = ({
           onLoad={_onLoad}
           pointerEvents={isExpandedMode ? 'auto' : 'none'}
           source={{ uri: thumbUrl }}
-          autoplay={true}
+          autoplay={autoPlay}
           style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
         />
         {isAnimated && (
@@ -141,6 +142,6 @@ export const MediaPreviewItem = ({
         {_renderLoading()}
       </View>
     </TouchableOpacity>
-    // </InView>
+
   );
 };
