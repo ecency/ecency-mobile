@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { Comment } from '../..';
 import Animated, { LinearTransition, Easing } from 'react-native-reanimated';
+import { useLayoutState, useMappingHelper } from '@shopify/flash-list';
+
 
 export const CommentsSection = ({ item, ...props }) => {
-  const [toggle, setToggle] = useState(item.expandedReplies || false);
+
+  const { getMappingKey } = useMappingHelper();
+  const [toggle, setToggle] = useLayoutState(false);
 
   useEffect(() => {
     if (item.expandedReplies) {
@@ -14,7 +18,7 @@ export const CommentsSection = ({ item, ...props }) => {
 
   const _renderComment = (item, index = 0) => {
     return (
-      <View key={item.author + item.permlink}>
+      <View key={getMappingKey(item.commentKey, index)}>
         <Comment
           comment={item}
           repliesToggle={toggle}
