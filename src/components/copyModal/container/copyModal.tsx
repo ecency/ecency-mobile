@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, forwardRef, useState, useRef } from 'react';
+import React, { useImperativeHandle, forwardRef, useState, useRef, useEffect } from 'react';
 import { TextInput } from 'react-native';
 import Popover from 'react-native-popover-view';
 import { Placement } from 'react-native-popover-view/dist/Types';
@@ -21,11 +21,17 @@ const CopyModalInner = (_: object, ref: React.Ref<CopyModalHandle>) => {
     show: (selectedText) => {
       setIsVisible(true);
       setText(selectedText);
+    },
+  }));
+
+  //this makes sure the text is selected on focus, the text textInput is already upto date;
+  useEffect(() => {
+    if (!!text) {
       setTimeout(() => {
         inputRef.current?.focus();
       }, 0);
-    },
-  }));
+    }
+  }, [text]);
 
   const _onClose = () => {
     setIsVisible(false);
