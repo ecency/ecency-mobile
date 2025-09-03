@@ -24,7 +24,8 @@ const CopyModalInner = (_: object, ref: React.Ref<CopyModalHandle>) => {
     },
   }));
 
-  //this makes sure the text is selected on focus, the text textInput is already upto date;
+  //NOTE: this makes sure the text is selected on focus, the text textInput is already upto date
+  //otherwise the app crahhes on ios
   useEffect(() => {
     if (!!text) {
       setTimeout(() => {
