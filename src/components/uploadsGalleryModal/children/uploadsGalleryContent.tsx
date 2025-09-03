@@ -35,7 +35,7 @@ import { ThreeSpeakStatus } from '../../../providers/speak/speak.types';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import { Modes } from '../container/uploadsGalleryModal';
-import { FlashList } from '@shopify/flash-list';
+import { FlatList } from 'react-native-gesture-handler';
 
 type Props = {
   mode: Modes;
@@ -382,7 +382,7 @@ const UploadsGalleryContent = ({
 
   return (
     <Animated.View style={{ ...styles.container, height: animatedHeight }}>
-      <FlashList
+      <FlatList
         key={isExpandedMode ? 'vertical_grid' : 'horizontal_list'}
         data={mediaUploads.slice(0, !isExpandedMode ? MAX_HORIZONTAL_THUMBS : undefined)}
         keyExtractor={(item) => `item_${item.url}`}
