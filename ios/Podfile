@@ -1,6 +1,6 @@
 require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
 
-ENV['RCT_NEW_ARCH_ENABLED'] = '0'
+ENV['RCT_NEW_ARCH_ENABLED'] = '1'
 
 # Use the actual Node runtime, not Yarn's temp shim
 ENV['NODE_BINARY'] = `node -p "process.execPath"`.strip

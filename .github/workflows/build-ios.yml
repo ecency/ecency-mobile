@@ -1,11 +1,7 @@
 name: iOS Build
 on:
   pull_request:
-    types: [ready_for_review, synchronize]
-
-  # Enable this to trigger build when PR review is submitted (for running tests before merge)
-  # pull_request_review:
-  #   types: [submitted]
+    types: [ready_for_review, synchronize, labeled]
   
   push:
     branches:
@@ -19,10 +15,6 @@ jobs:
   ios-build:
     name: iOS Build
     if: >
-        (github.event_name == 'pull_request_review' &&
-        github.event.review.state == 'approved' &&
-        github.event.pull_request.base.ref == 'development' &&
-        github.event.pull_request.head.repo.full_name == github.repository) ||
         (github.event_name == 'pull_request') ||
         (github.event_name == 'push' && github.ref == 'refs/heads/development')
     runs-on: macos-latest
@@ -190,11 +182,9 @@ jobs:
   ios-deploy:
     name: Deploy iOS Build
     needs: ios-build
+    # Only deploy if the trigger is a pull_request with 'deploy-pr-build' label or a push to 'development'
     if: >
-        (github.event_name == 'pull_request_review' &&
-        github.event.review.state == 'approved' &&
-        github.event.pull_request.base.ref == 'development' &&
-        github.event.pull_request.head.repo.full_name == github.repository) ||
+        (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy-pr-build')) ||
         (github.event_name == 'push' && github.ref == 'refs/heads/development')
     runs-on: macos-latest
     steps:

@@ -10,9 +10,9 @@ import {
   TouchableOpacity,
   View,
   ViewStyle,
+  ViewToken,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { FlatList } from 'react-native-gesture-handler';
 import Animated, {
   default as AnimatedView,
   Easing,
@@ -22,7 +22,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useDispatch } from 'react-redux';
-import { withIO } from 'react-native-intersection-observer';
 import { Icon, IconButton } from '../..';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 import { editorQueries, speakQueries } from '../../../providers/queries';
@@ -36,16 +35,7 @@ import { ThreeSpeakStatus } from '../../../providers/speak/speak.types';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import { Modes } from '../container/uploadsGalleryModal';
-
-const IOFlatList = withIO(FlatList, [
-  'scrollToIndex',
-  'scrollToOffset',
-  'scrollToEnd',
-  'getScrollResponder',
-  'getScrollableNode',
-  'recordInteraction',
-  'flashScrollIndicators',
-]);
+import { FlatList } from 'react-native-gesture-handler';
 
 type Props = {
   mode: Modes;
@@ -81,6 +71,8 @@ const UploadsGalleryContent = ({
   const [deleteIds, setDeleteIds] = useState<string[]>([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [isExpandedMode, setIsExpandedMode] = useState(false);
+  const [viewableItemsMap, setViewableItemsMap] = useState<{ [index: number]: boolean }>({});
+
 
   const animatedHeight = useSharedValue(0);
 
@@ -223,6 +215,7 @@ const UploadsGalleryContent = ({
         isDeleteMode={isDeleteMode}
         isDeleting={isDeleting}
         isExpandedMode={isExpandedMode}
+        isViewable={viewableItemsMap[index] || false}
         onPress={_onPress}
       />
     );
@@ -275,8 +268,8 @@ const UploadsGalleryContent = ({
         {mode === Modes.MODE_IMAGE
           ? _renderSelectButtons
           : isAddingToUploads
-          ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
-          : _renderSelectButtons}
+            ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
+            : _renderSelectButtons}
       </View>
       <View style={styles.pillBtnContainer}>
         <IconButton
@@ -370,13 +363,31 @@ const UploadsGalleryContent = ({
     return null;
   };
 
+
+  const _visibleItemsChanged = ((info: {
+    viewableItems: ViewToken<MediaItem>[];
+    changed: ViewToken<MediaItem>[];
+  }) => {
+    const visibleMap = {} as { [key: string]: boolean };
+
+    info.viewableItems.forEach((viewable) => {
+      if (viewable.index !== null) {
+        visibleMap[viewable.index] = viewable.isViewable;
+      }
+    });
+    console.log('Visible items', JSON.stringify(visibleMap));
+    setViewableItemsMap(visibleMap);
+  
+  })
+
   return (
     <Animated.View style={{ ...styles.container, height: animatedHeight }}>
-      <IOFlatList
+      <FlatList
         key={isExpandedMode ? 'vertical_grid' : 'horizontal_list'}
         data={mediaUploads.slice(0, !isExpandedMode ? MAX_HORIZONTAL_THUMBS : undefined)}
         keyExtractor={(item) => `item_${item.url}`}
         renderItem={_renderItem}
+        
         style={{ flex: 1 }}
         contentContainerStyle={
           isExpandedMode ? styles.gridContentContainer : styles.listContentContainer
@@ -388,6 +399,7 @@ const UploadsGalleryContent = ({
         horizontal={!isExpandedMode}
         numColumns={isExpandedMode ? 2 : 1}
         keyboardShouldPersistTaps="always"
+        onViewableItemsChanged={_visibleItemsChanged}
         onScroll={_onScroll}
       />
 

@@ -20,7 +20,6 @@ export default EStyleSheet.create({
     borderBottomLeftRadius: 68 / 2,
   },
   avatarButtonWrapper: {
-    backgroundColor: '#357ce6',
     height: 50,
     width: 68,
     justifyContent: 'center',

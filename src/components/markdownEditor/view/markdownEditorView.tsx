@@ -76,6 +76,9 @@ const MarkdownEditorView = ({
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
+  const [selection, setSelection] = useState({ start: 0, end: 0 });
+  const [bodyText, setBodyText] = useState(draftBody || '');
+
   const inputRef = useRef<any>(null);
   const clearRef = useRef<any>(null);
   const insertLinkModalRef = useRef<any>(null);
@@ -195,6 +198,7 @@ const MarkdownEditorView = ({
       //   console.log("Updating draft state")
       //   setIsDraftupdated(true);
       // }
+      setBodyText(input);
       bodyTextRef.current = input;
 
       if (!isEditing) {
@@ -209,30 +213,30 @@ const MarkdownEditorView = ({
 
   const _handleOnSelectionChange = async (event) => {
     bodySelectionRef.current = event.nativeEvent.selection;
+    if(Platform.OS === 'ios'){
+      setSelection(event.nativeEvent.selection)
+    }
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
-    // console.log('_text : ', _text);
-    inputRef?.current?.setNativeProps({
-      text: _text,
-    });
 
-    const _updateSelection = () => {
+    if (Platform.OS === 'ios') {
+      setBodyText(_text)
+      setSelection(_selection)
+    } else {
+      inputRef?.current?.setNativeProps({
+        text: _text,
+      });
+
       bodySelectionRef.current = _selection;
       inputRef?.current?.setNativeProps({
         selection: _selection,
+      }); inputRef?.current?.setNativeProps({
+        text: _text,
       });
-    };
-
-    // Workaround for iOS selection update issue
-    if (Platform.OS === 'ios') {
-      setTimeout(() => {
-        _updateSelection();
-      }, 100);
-    } else {
-      _updateSelection();
     }
+
 
     if (isSnippetsOpen) {
       setIsSnippetsOpen(false);
@@ -393,6 +397,8 @@ const MarkdownEditorView = ({
           editable={editable}
           contextMenuHidden={false}
           scrollEnabled={editorScrollEnabled}
+          value={Platform.OS === 'ios' ? bodyText : undefined}
+          selection={Platform.OS === 'ios' ? selection : undefined}
         />
       ) : (
         _renderPreview()

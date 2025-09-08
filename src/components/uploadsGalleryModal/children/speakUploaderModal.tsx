@@ -193,7 +193,7 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
           data={availableThumbs.slice()}
           renderItem={_renderThumbItem}
           keyExtractor={(item, index) => item.path + index}
-          estimatedItemSize={128}
+          // estimatedItemSize={128}
         />
       </View>
     );
