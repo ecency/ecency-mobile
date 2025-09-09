@@ -39,8 +39,8 @@ export const AutoHeightImage = ({
   const { ref, key, visible, handleIfViewable } = useViewabilityTracker(!enableViewabilityTracker);
 
   useEffect(() => {
-    console.log("GIF Play State", visible, key)
-    if (isAnimated) {
+    if (isAnimated && enableViewabilityTracker) {
+      console.log("GIF Play State", key, visible)
       _toggleGif(visible);
     }
   }, [visible])

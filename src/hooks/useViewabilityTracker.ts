@@ -90,7 +90,7 @@ export function isViewable(ref: RefObject<View | null>, windowHeight: number): b
   ref.current.measure?.((x, y, width, height, pageX, pageY) => {
     if (
       pageY + height > 0 &&
-      pageY < windowHeight + 200 // add some buffer early gif load
+      pageY < windowHeight + 100 // add some buffer early gif load
     ) {
       viewable = true;
     }
@@ -140,7 +140,7 @@ export const useViewabilityTracker = (isDisabled: boolean = false) => {
     checkViewability(height);
   }
 
-  const _default = { visible: true }
+  const _default = { visible: false }
   const state = viewabilityStore.useStore((s) => s.items[key] || _default);
 
   return { ref, key, visible: state.visible, handleIfViewable: handleIfViewable };
