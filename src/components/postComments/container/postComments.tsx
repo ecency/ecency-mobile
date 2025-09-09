@@ -33,7 +33,8 @@ import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 import { PostOptionsModal } from '../../index';
 import { BotCommentsPreview } from '../children/botCommentsPreview';
 import { SheetNames } from '../../../navigation/sheets';
-import { IOFlashList } from '../../atoms';
+import { FlashList } from '@shopify/flash-list';
+import { setViewable, viewabilityStore } from '../../../hooks/useViewabilityTracker';
 
 const PostComments = forwardRef(
   (
@@ -207,6 +208,26 @@ const PostComments = forwardRef(
       }
     };
 
+
+    const _onScroll = (event) => {
+        const windowHeight = event.nativeEvent.layoutMeasurement.height;
+      
+        const state = viewabilityStore.getState();
+        const visibleKeys: string[] = [];
+      
+        Object.entries(state.items).forEach(([key, { ref }]) => {
+          ref?.current?.measure((x, y, width, height, pageX, pageY) => {
+            if (pageY + height > 0 && pageY < windowHeight) {
+              visibleKeys.push(key);
+            }
+          });
+        });
+      
+        console.log("Visible Keys", visibleKeys.length);
+        setViewable(visibleKeys);
+    }
+
+
     const _postContentView = (
       <>
         {postContentView && postContentView}
@@ -272,7 +293,7 @@ const PostComments = forwardRef(
 
     return (
       <Fragment>
-        <IOFlashList
+        <FlashList
           ref={commentsListRef}
           keyExtractor={(item) => `${item.author}/${item.permlink}`}
           contentContainerStyle={styles.listContent}
@@ -281,6 +302,7 @@ const PostComments = forwardRef(
           data={isPostLoading ? [] : sortedSections.slice()}
           onContentSizeChange={_onContentSizeChange}
           renderItem={_renderItem}
+          onScroll={_onScroll}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}

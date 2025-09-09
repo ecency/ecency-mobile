@@ -4,6 +4,7 @@ import { Platform, TouchableOpacity, View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
+import { useViewabilityTracker } from '../../hooks/useViewabilityTracker';
 // import { InView } from 'react-native-intersection-observer';
 
 interface AutoHeightImageProps {
@@ -33,6 +34,14 @@ export const AutoHeightImage = ({
 }: AutoHeightImageProps) => {
   const imgRef = useRef<ExpoImage>(null);
   const isInViewRef = useRef(false);
+  const {ref, playing} = useViewabilityTracker();
+
+  useEffect(() => {
+    console.log("GIF Play State", playing)
+    if (isAnimated) {
+      _toggleGif(playing);
+    }
+  }, [playing])
 
   const [isAnimated, setIsAnimated] = useState(false);
   const [autoplay, setAutoplay] = useState(false);
@@ -162,21 +171,13 @@ export const AutoHeightImage = ({
     }
   };
 
-  const _onInViewChange = (inView: boolean) => {
-    isInViewRef.current = inView;
-    if (isAnimated) {
-      _toggleGif(inView);
-    }
-  };
-
   return (
-    // <InView onChange={_onInViewChange}>
     <TouchableOpacity
       onPress={handlePress}
       disabled={isAnchored}
       activeOpacity={activeOpacity || 1}
     >
-      <View style={animatedWrapperStyle}>
+      <View ref={ref} style={animatedWrapperStyle}>
         <ExpoImage
           ref={imgRef}
           pointerEvents="none"
@@ -184,7 +185,7 @@ export const AutoHeightImage = ({
           source={{ uri: imgUrl }}
           contentFit="cover"
           onLoad={_onLoad}
-          autoplay={true}
+          autoplay={autoplay}
         />
         {isAnimated && (
           <View style={styles.gifBadge}>
@@ -193,7 +194,6 @@ export const AutoHeightImage = ({
         )}
       </View>
     </TouchableOpacity>
-    // </InView>
   );
 };
 
