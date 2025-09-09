@@ -1,43 +1,9 @@
 import { useSyncExternalStore, RefObject, useEffect, useRef } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 
-
-
 /**
  * Mini Store declarations
  */
-
-const createStore = (initialState) => {
-  let state = initialState;
-  const listeners = new Set<() => void>();
-
-  const getState = () => state;
-
-  const setState = (updater) => {
-    const nextState =
-      typeof updater === 'function' ? updater(state) : updater;
-    state = nextState;
-    listeners.forEach((l) => l());
-  };
-
-  const subscribe = (listener) => {
-    listeners.add(listener);
-    return () => listeners.delete(listener);
-  };
-
-  const useStore = (selector = (s) => s) =>
-    useSyncExternalStore(subscribe, () => selector(state));
-
-  return { getState, setState, useStore };
-}
-
-
-
-
-/**
- * Viewability Tracker Declarations
- */
-
 
 type ItemState = {
   visible: boolean;
@@ -47,6 +13,32 @@ type ItemState = {
 type StoreState = {
   items: Record<string, ItemState>;
 };
+
+const createStore = (initialState: StoreState) => {
+  let state = initialState;
+  const listeners = new Set<() => void>();
+
+  const getState = () => state;
+
+  const setState = (updater) => {
+    const nextState = typeof updater === 'function' ? updater(state) : updater;
+    state = nextState;
+    listeners.forEach((l) => l());
+  };
+
+  const subscribe = (listener) => {
+    listeners.add(listener);
+    return () => listeners.delete(listener);
+  };
+
+  const useStore = (selector = (s) => s) => useSyncExternalStore(subscribe, () => selector(state));
+
+  return { getState, setState, useStore };
+};
+
+/**
+ * Viewability Tracker Declarations
+ */
 
 export const viewabilityStore = createStore({
   items: {},
@@ -62,7 +54,6 @@ export function setViewable(keys: string[]) {
     return { ...s, items: newItems };
   });
 }
-
 
 export function registerRef(key: string, ref: RefObject<View>) {
   viewabilityStore.setState((s) => ({
@@ -82,7 +73,6 @@ export function unregisterKey(key: string) {
 }
 
 export function isViewable(ref: RefObject<View | null>, windowHeight: number): boolean {
-
   if (!ref?.current) return false;
 
   // Check visibility using measure
@@ -98,7 +88,6 @@ export function isViewable(ref: RefObject<View | null>, windowHeight: number): b
   return viewable;
 }
 
-
 export function checkViewability(windowHeight: number) {
   const state = viewabilityStore.getState();
   const visibleKeys: string[] = [];
@@ -112,14 +101,13 @@ export function checkViewability(windowHeight: number) {
   setViewable(visibleKeys);
 }
 
-
 /**
  * Veiwability tracker hook
  */
 
 export const useViewabilityTracker = (isDisabled: boolean = false) => {
   const ref = useRef<View>(null);
-  const key = useRef<string>('Img-' + Math.random().toString(36).substring(2, 9)).current; // unique key
+  const key = useRef<string>(`Img-${Math.random().toString(36).substring(2, 9)}`).current; // unique key
   const { height } = useWindowDimensions();
 
   // Register ref once
@@ -130,7 +118,7 @@ export const useViewabilityTracker = (isDisabled: boolean = false) => {
 
     return () => {
       unregisterKey(key);
-    }
+    };
   }, []);
 
   const handleIfViewable = () => {
@@ -138,10 +126,10 @@ export const useViewabilityTracker = (isDisabled: boolean = false) => {
       return;
     }
     checkViewability(height);
-  }
+  };
 
-  const _default = { visible: false }
+  const _default = { visible: false };
   const state = viewabilityStore.useStore((s) => s.items[key] || _default);
 
-  return { ref, key, visible: state.visible, handleIfViewable: handleIfViewable };
-}
+  return { ref, key, visible: state.visible, handleIfViewable };
+};

@@ -22,6 +22,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useDispatch } from 'react-redux';
+import { FlatList } from 'react-native-gesture-handler';
 import { Icon, IconButton } from '../..';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 import { editorQueries, speakQueries } from '../../../providers/queries';
@@ -35,7 +36,6 @@ import { ThreeSpeakStatus } from '../../../providers/speak/speak.types';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { useAppSelector } from '../../../hooks';
 import { Modes } from '../container/uploadsGalleryModal';
-import { FlatList } from 'react-native-gesture-handler';
 
 type Props = {
   mode: Modes;
@@ -72,7 +72,6 @@ const UploadsGalleryContent = ({
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [isExpandedMode, setIsExpandedMode] = useState(false);
   const [viewableItemsMap, setViewableItemsMap] = useState<{ [index: number]: boolean }>({});
-
 
   const animatedHeight = useSharedValue(0);
 
@@ -268,8 +267,8 @@ const UploadsGalleryContent = ({
         {mode === Modes.MODE_IMAGE
           ? _renderSelectButtons
           : isAddingToUploads
-            ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
-            : _renderSelectButtons}
+          ? _renderSelectButton('progress-upload', 'Uploading', handleOpenSpeakUploader)
+          : _renderSelectButtons}
       </View>
       <View style={styles.pillBtnContainer}>
         <IconButton
@@ -363,8 +362,7 @@ const UploadsGalleryContent = ({
     return null;
   };
 
-
-  const _visibleItemsChanged = ((info: {
+  const _visibleItemsChanged = (info: {
     viewableItems: ViewToken<MediaItem>[];
     changed: ViewToken<MediaItem>[];
   }) => {
@@ -377,8 +375,7 @@ const UploadsGalleryContent = ({
     });
     console.log('Visible items', JSON.stringify(visibleMap));
     setViewableItemsMap(visibleMap);
-  
-  })
+  };
 
   return (
     <Animated.View style={{ ...styles.container, height: animatedHeight }}>
@@ -387,7 +384,6 @@ const UploadsGalleryContent = ({
         data={mediaUploads.slice(0, !isExpandedMode ? MAX_HORIZONTAL_THUMBS : undefined)}
         keyExtractor={(item) => `item_${item.url}`}
         renderItem={_renderItem}
-        
         style={{ flex: 1 }}
         contentContainerStyle={
           isExpandedMode ? styles.gridContentContainer : styles.listContentContainer

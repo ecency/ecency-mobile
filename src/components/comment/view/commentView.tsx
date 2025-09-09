@@ -79,7 +79,7 @@ const CommentView = ({
 
   const _handleOnContentPress = () => {
     openReplyThread && openReplyThread(comment);
-  }
+  };
 
   const _handleOnReplyPress = () => {
     if (isLoggedIn) {

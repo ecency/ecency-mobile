@@ -213,17 +213,16 @@ const MarkdownEditorView = ({
 
   const _handleOnSelectionChange = async (event) => {
     bodySelectionRef.current = event.nativeEvent.selection;
-    if(Platform.OS === 'ios'){
-      setSelection(event.nativeEvent.selection)
+    if (Platform.OS === 'ios') {
+      setSelection(event.nativeEvent.selection);
     }
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
-
     if (Platform.OS === 'ios') {
-      setBodyText(_text)
-      setSelection(_selection)
+      setBodyText(_text);
+      setSelection(_selection);
     } else {
       inputRef?.current?.setNativeProps({
         text: _text,
@@ -232,11 +231,11 @@ const MarkdownEditorView = ({
       bodySelectionRef.current = _selection;
       inputRef?.current?.setNativeProps({
         selection: _selection,
-      }); inputRef?.current?.setNativeProps({
+      });
+      inputRef?.current?.setNativeProps({
         text: _text,
       });
     }
-
 
     if (isSnippetsOpen) {
       setIsSnippetsOpen(false);

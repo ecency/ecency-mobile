@@ -136,7 +136,7 @@ export const PostHtmlRenderer = memo(
           default:
             break;
         }
-      } catch (error) { }
+      } catch (error) {}
     };
 
     // this method checks if image is a child of table column

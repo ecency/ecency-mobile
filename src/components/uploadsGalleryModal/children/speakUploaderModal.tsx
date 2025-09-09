@@ -32,7 +32,7 @@ interface Props {
 
 export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: Props, ref) => {
   const intl = useIntl();
-  const sheetModalRef = useRef();
+  const sheetModalRef = useRef(null);
   const dim = useWindowDimensions();
 
   const queryClient = useQueryClient();
