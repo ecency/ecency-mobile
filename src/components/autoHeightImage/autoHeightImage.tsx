@@ -15,6 +15,7 @@ interface AutoHeightImageProps {
   activeOpacity?: number;
   aspectRatio?: number;
   lockWidth?: boolean;
+  enableViewabilityTracker?: boolean;
   onPress?: () => void;
   setAspectRatio?: (ratio: number) => void;
 }
@@ -29,12 +30,14 @@ export const AutoHeightImage = ({
   aspectRatio,
   isAnchored,
   activeOpacity,
+  enableViewabilityTracker,
   onPress,
   setAspectRatio,
 }: AutoHeightImageProps) => {
   const imgRef = useRef<ExpoImage>(null);
-  const isInViewRef = useRef(false);
-  const {ref, playing} = useViewabilityTracker();
+
+  // const trackableRef = useRef<View>(null);
+  const {ref, playing} = useViewabilityTracker(!enableViewabilityTracker);
 
   useEffect(() => {
     console.log("GIF Play State", playing)
@@ -185,7 +188,7 @@ export const AutoHeightImage = ({
           source={{ uri: imgUrl }}
           contentFit="cover"
           onLoad={_onLoad}
-          autoplay={autoplay}
+          autoplay={enableViewabilityTracker ? autoplay : true}
         />
         {isAnimated && (
           <View style={styles.gifBadge}>

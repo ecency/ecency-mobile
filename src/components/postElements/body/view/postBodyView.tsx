@@ -220,6 +220,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
           body={html}
           metadata={metadata}
           contentWidth={contentWidth}
+          enableViewabilityTracker={true}
           onLoaded={_handleLoadEnd}
           setSelectedImage={_handleSetSelectedImage}
           setSelectedLink={_handleSetSelectedLink}

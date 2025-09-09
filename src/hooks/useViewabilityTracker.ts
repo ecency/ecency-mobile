@@ -105,25 +105,23 @@ export function unregisterKey(key: string) {
  * Veiwability tracker hook
  */
 
-export const useViewabilityTracker = () => {
+export const useViewabilityTracker = (isDisabled:boolean = false) => {
   const ref = useRef<View>(null);
-  const [key, setKey] = useState<string>('');
+  const key = useRef<string>('Img-' + Math.random().toString(36).substring(2, 9)).current; // unique key
 
   // Register ref once
   useEffect(() => {
-    const totalItems = Object.keys(viewabilityStore.getState().items).length;
-    setKey("Img-" + totalItems);
-    registerRef("Img-" + totalItems, ref);
-    // return () => unregisterKey(key);
+    if (!isDisabled) {
+      registerRef(key, ref);
+    }
+
+    return () => {
+      unregisterKey(key);
+    }
   }, []);
 
-  const state = viewabilityStore.useStore((s) => s.items[key] || { visible: false, playing: false });
+  const _default = { visible: true, playing: true }
+  const state = viewabilityStore.useStore((s) => s.items[key] || _default);
 
-  // Auto play/pause when visibility changes
-  useEffect(() => {
-    if (state.visible) play(key);
-    else pause(key);
-  }, [state.visible]);
-
-  return { ref, key, visible: state.visible, playing: state.playing };
+  return { ref, key, visible: state.visible, playing: state.visible };
 }
