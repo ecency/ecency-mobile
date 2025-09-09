@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 import { SheetManager } from 'react-native-actions-sheet';
 
+import { FlashList } from '@shopify/flash-list';
 import PostCard from '../../postCard';
 import styles from '../view/postsListStyles';
 import { Separator, UpvotePopover } from '../..';
@@ -20,7 +21,6 @@ import { PostTypes } from '../../../constants/postTypes';
 import { PostOptionsModal } from '../../postOptionsModal';
 import { PostCardActionIds } from '../../postCard/container/postCard';
 import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
-import { FlashList } from '@shopify/flash-list';
 
 export interface PostsListRef {
   scrollToTop: () => void;

@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Components
+import { FlashList } from '@shopify/flash-list';
 import { Comment, TextButton, UpvotePopover } from '../..';
 import { OptionsModal } from '../../atoms';
 import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
@@ -12,7 +13,6 @@ import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 // Styles
 import styles from './commentStyles';
 import { PostTypes } from '../../../constants/postTypes';
-import { FlashList } from '@shopify/flash-list';
 
 const CommentsView = ({
   avatarSize,
