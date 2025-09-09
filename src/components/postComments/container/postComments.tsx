@@ -23,9 +23,7 @@ import ROUTES from '../../../constants/routeNames';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
-
 import { PostTypes } from '../../../constants/postTypes';
-
 import { CommentsSection } from '../children/commentsSection';
 import { sortComments } from '../children/sortComments';
 import styles from '../children/postComments.styles';
@@ -34,7 +32,7 @@ import { PostOptionsModal } from '../../index';
 import { BotCommentsPreview } from '../children/botCommentsPreview';
 import { SheetNames } from '../../../navigation/sheets';
 import { FlashList } from '@shopify/flash-list';
-import { setViewable, viewabilityStore } from '../../../hooks/useViewabilityTracker';
+import { checkViewability } from '../../../hooks/useViewabilityTracker';
 
 const PostComments = forwardRef(
   (
@@ -210,21 +208,8 @@ const PostComments = forwardRef(
 
 
     const _onScroll = (event) => {
-        const windowHeight = event.nativeEvent.layoutMeasurement.height;
-      
-        const state = viewabilityStore.getState();
-        const visibleKeys: string[] = [];
-      
-        Object.entries(state.items).forEach(([key, { ref }]) => {
-          ref?.current?.measure((x, y, width, height, pageX, pageY) => {
-            if (pageY + height > 0 && pageY < windowHeight) {
-              visibleKeys.push(key);
-            }
-          });
-        });
-      
-        console.log("Visible Keys", visibleKeys.length);
-        setViewable(visibleKeys);
+      const windowHeight = event.nativeEvent.layoutMeasurement.height;
+      checkViewability(windowHeight);
     }
 
 

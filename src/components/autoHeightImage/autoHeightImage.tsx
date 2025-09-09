@@ -36,15 +36,14 @@ export const AutoHeightImage = ({
 }: AutoHeightImageProps) => {
   const imgRef = useRef<ExpoImage>(null);
 
-  // const trackableRef = useRef<View>(null);
-  const {ref, playing} = useViewabilityTracker(!enableViewabilityTracker);
+  const { ref, key, visible, handleIfViewable } = useViewabilityTracker(!enableViewabilityTracker);
 
   useEffect(() => {
-    console.log("GIF Play State", playing)
+    console.log("GIF Play State", visible, key)
     if (isAnimated) {
-      _toggleGif(playing);
+      _toggleGif(visible);
     }
-  }, [playing])
+  }, [visible])
 
   const [isAnimated, setIsAnimated] = useState(false);
   const [autoplay, setAutoplay] = useState(false);
@@ -145,14 +144,14 @@ export const AutoHeightImage = ({
   const _onLoad = (evt) => {
     const _isAnimated = evt.source.isAnimated;
     if (!hasSetBounds.current) {
-      setIsAnimated(_isAnimated);
       _setImageBounds(evt.source.width, evt.source.height);
       animateFadeIn();
-      hasSetBounds.current = true;
-    }
+      if (_isAnimated) {
+        setIsAnimated(_isAnimated);
+        handleIfViewable();
+      }
 
-    if (_isAnimated) {
-      _toggleGif(isInViewRef.current);
+      hasSetBounds.current = true;
     }
   };
 

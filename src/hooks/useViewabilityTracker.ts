@@ -1,5 +1,5 @@
-import { useSyncExternalStore, RefObject, useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
+import { useSyncExternalStore, RefObject, useEffect, useRef } from 'react';
+import { useWindowDimensions, View } from 'react-native';
 
 
 
@@ -41,7 +41,6 @@ const createStore = (initialState) => {
 
 type ItemState = {
   visible: boolean;
-  playing: boolean;
   ref?: RefObject<View>;
 };
 
@@ -64,29 +63,12 @@ export function setViewable(keys: string[]) {
   });
 }
 
-export function play(key: string) {
-  viewabilityStore.setState((s) => ({
-    items: {
-      ...s.items,
-      [key]: { ...(s.items[key] || {}), playing: true },
-    },
-  }));
-}
-
-export function pause(key: string) {
-  viewabilityStore.setState((s) => ({
-    items: {
-      ...s.items,
-      [key]: { ...(s.items[key] || {}), playing: false },
-    },
-  }));
-}
 
 export function registerRef(key: string, ref: RefObject<View>) {
   viewabilityStore.setState((s) => ({
     items: {
       ...s.items,
-      [key]: { ...(s.items[key] || { playing: false }), ref },
+      [key]: { ...(s.items[key] || { visible: false }), ref },
     },
   }));
 }
@@ -99,15 +81,46 @@ export function unregisterKey(key: string) {
   });
 }
 
+export function isViewable(ref: RefObject<View | null>, windowHeight: number): boolean {
+
+  if (!ref?.current) return false;
+
+  // Check visibility using measure
+  let viewable = false;
+  ref.current.measure?.((x, y, width, height, pageX, pageY) => {
+    if (
+      pageY + height > 0 &&
+      pageY < windowHeight + 200 // add some buffer early gif load
+    ) {
+      viewable = true;
+    }
+  });
+  return viewable;
+}
+
+
+export function checkViewability(windowHeight: number) {
+  const state = viewabilityStore.getState();
+  const visibleKeys: string[] = [];
+
+  Object.entries(state.items).forEach(([key, { ref }]) => {
+    if (isViewable(ref, windowHeight)) {
+      visibleKeys.push(key);
+    }
+  });
+
+  setViewable(visibleKeys);
+}
 
 
 /**
  * Veiwability tracker hook
  */
 
-export const useViewabilityTracker = (isDisabled:boolean = false) => {
+export const useViewabilityTracker = (isDisabled: boolean = false) => {
   const ref = useRef<View>(null);
   const key = useRef<string>('Img-' + Math.random().toString(36).substring(2, 9)).current; // unique key
+  const { height } = useWindowDimensions();
 
   // Register ref once
   useEffect(() => {
@@ -120,8 +133,15 @@ export const useViewabilityTracker = (isDisabled:boolean = false) => {
     }
   }, []);
 
-  const _default = { visible: true, playing: true }
+  const handleIfViewable = () => {
+    if (isDisabled) {
+      return;
+    }
+    checkViewability(height);
+  }
+
+  const _default = { visible: true }
   const state = viewabilityStore.useStore((s) => s.items[key] || _default);
 
-  return { ref, key, visible: state.visible, playing: state.visible };
+  return { ref, key, visible: state.visible, handleIfViewable: handleIfViewable };
 }
