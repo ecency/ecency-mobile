@@ -98,7 +98,7 @@ export const AutoHeightImage = ({
     const newHeight = Math.round((imgHeight / width) * newWidth);
 
     // if newHeight and oldHeight are approximately equal, skip animation
-    if (Math.abs(newHeight - imgHeightAnim.value) < 1) {
+    if (Math.abs(newHeight - height) < 1) {
       return;
     }
 
@@ -125,7 +125,7 @@ export const AutoHeightImage = ({
   const animatedWrapperStyle = {
     width: imgWidth,
     height, // imgHeightAnim.value, // Bind animated height
-    backgroundColor: bgColorAnim.value,
+    backgroundColor: bgColorAnim,
     borderRadius: 8,
   };
 
