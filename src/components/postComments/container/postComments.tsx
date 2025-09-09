@@ -15,6 +15,7 @@ import { RefreshControl } from 'react-native-gesture-handler';
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SheetManager } from 'react-native-actions-sheet';
+import { FlashList } from '@shopify/flash-list';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
@@ -31,7 +32,6 @@ import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 import { PostOptionsModal } from '../../index';
 import { BotCommentsPreview } from '../children/botCommentsPreview';
 import { SheetNames } from '../../../navigation/sheets';
-import { FlashList } from '@shopify/flash-list';
 import { checkViewability } from '../../../hooks/useViewabilityTracker';
 
 const PostComments = forwardRef(
@@ -206,12 +206,10 @@ const PostComments = forwardRef(
       }
     };
 
-
     const _onScroll = (event) => {
       const windowHeight = event.nativeEvent.layoutMeasurement.height;
       checkViewability(windowHeight);
-    }
-
+    };
 
     const _postContentView = (
       <>

@@ -4,5 +4,3 @@ export * from './assetIcon';
 export * from './writePostButton';
 export * from './newPostsPopup';
 export * from './scrollTopPopup';
-
-export { default as IOFlashList } from './ioFlashList/ioFlashList';

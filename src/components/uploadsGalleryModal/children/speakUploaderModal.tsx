@@ -14,7 +14,6 @@ import ImagePicker, {
 import Video from 'react-native-video';
 
 // Components
-import { IOFlashList } from '../../atoms';
 import styles from '../styles/speakUploaderModal.styles';
 import { MainButton } from '../../mainButton';
 import Icon from '../../icon';
@@ -24,6 +23,7 @@ import { TextButton } from '../../buttons';
 import { uploadFile, uploadVideoInfo } from '../../../providers/speak/speak';
 import { useAppSelector } from '../../../hooks';
 import QUERIES from '../../../providers/queries/queryKeys';
+import { FlashList } from '@shopify/flash-list';
 
 interface Props {
   setIsUploading: (flag: boolean) => void;
@@ -187,13 +187,12 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
     return (
       <View style={styles.imageContainer}>
         <Text style={styles.label}>{intl.formatMessage({ id: 'uploads_modal.select_thumb' })}</Text>
-        <IOFlashList
+        <FlashList
           horizontal={true}
           ListHeaderComponent={_renderHeader}
           data={availableThumbs.slice()}
           renderItem={_renderThumbItem}
           keyExtractor={(item, index) => item.path + index}
-          // estimatedItemSize={128}
         />
       </View>
     );

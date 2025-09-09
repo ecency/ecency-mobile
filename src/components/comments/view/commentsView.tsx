@@ -6,12 +6,13 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Components
 import { Comment, TextButton, UpvotePopover } from '../..';
-import { IOFlashList, OptionsModal } from '../../atoms';
+import { OptionsModal } from '../../atoms';
 import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 
 // Styles
 import styles from './commentStyles';
 import { PostTypes } from '../../../constants/postTypes';
+import { FlashList } from '@shopify/flash-list';
 
 const CommentsView = ({
   avatarSize,
@@ -167,7 +168,7 @@ const CommentsView = ({
 
   return (
     <Fragment>
-      <IOFlashList
+      <FlashList
         contentContainerStyle={{ padding: 0, ...styleOerride }}
         data={comments}
         keyExtractor={(item) => item.author + item.permlink}
