@@ -48,6 +48,7 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
     }
   }, [content, selectedSourceLang, selectedTargetLang]);
 
+
   const translateText = async (text: string) => {
     try {
       if (selectedTargetLang) {
@@ -118,9 +119,8 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
   };
 
   const _renderLanguageSelector = () => (
-    <>
+    <View style={styles.languageSelectorRow}>
       <View style={styles.row}>
-
         <DropdownButton
           style={styles.dropdownStyle}
           defaultText={selectedSourceLang.name}
@@ -131,27 +131,29 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
           options={_dropdownOptions}
           textStyle={styles.dropdownRowTextStyle}
         />
-
       </View>
 
       <Icon iconType="MaterialIcons" name="translate" style={styles.convertIcon} size={24} />
       <Icon iconType="MaterialIcons" name="arrow-forward" style={styles.convertIcon} size={16} />
 
       <View style={styles.row}>
-
-        <DropdownButton
-          style={styles.dropdownStyle}
-          defaultText={selectedTargetLang?.name}
-          iconStyle={styles.dropdownIconStyle}
-          isHasChildIcon
-          noHighlight
-          onSelect={(index) => setSelectedTargetLang(supportedLangsList[index])}
-          options={_dropdownOptions}
-          textStyle={styles.dropdownRowTextStyle}
-        />
+        {
+          isLoadingLangsList ? <ActivityIndicator /> : (
+            <DropdownButton
+              style={styles.dropdownStyle}
+              defaultText={selectedTargetLang?.name}
+              iconStyle={styles.dropdownIconStyle}
+              isHasChildIcon
+              noHighlight
+              onSelect={(index) => setSelectedTargetLang(supportedLangsList[index])}
+              options={_dropdownOptions}
+              textStyle={styles.dropdownRowTextStyle}
+            />
+          )
+        }
 
       </View>
-    </>
+    </View>
   );
 
   return (
@@ -164,18 +166,11 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
       <ModalHeader title={intl.formatMessage({ id: 'post_dropdown.translate' })} />
 
       <View style={styles.listContainer}>
-
-        <View style={styles.languageSelectorRow}>
-          {!isLoadingLangsList && supportedLangsList && supportedLangsList.length
-            ? _renderLanguageSelector()
-            : null}
-        </View>
+        {_renderLanguageSelector()}
 
         <View style={styles.textContainer}>
           <Text style={styles.translatedText}>{originalText}</Text>
         </View>
-
-
 
         <View style={styles.textContainer}>
           {isLoadingTranslation ? (
