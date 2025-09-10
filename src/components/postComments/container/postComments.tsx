@@ -15,6 +15,7 @@ import { RefreshControl } from 'react-native-gesture-handler';
 // Components
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SheetManager } from 'react-native-actions-sheet';
+import { FlashList } from '@shopify/flash-list';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
 import { FilterBar } from '../../filterBar';
 import { postQueries } from '../../../providers/queries';
@@ -23,9 +24,7 @@ import ROUTES from '../../../constants/routeNames';
 import { deleteComment } from '../../../providers/hive/dhive';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus } from '../../../redux/reducers/cacheReducer';
-
 import { PostTypes } from '../../../constants/postTypes';
-
 import { CommentsSection } from '../children/commentsSection';
 import { sortComments } from '../children/sortComments';
 import styles from '../children/postComments.styles';
@@ -33,7 +32,7 @@ import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 import { PostOptionsModal } from '../../index';
 import { BotCommentsPreview } from '../children/botCommentsPreview';
 import { SheetNames } from '../../../navigation/sheets';
-import { IOFlashList } from '../../atoms';
+import { checkViewability } from '../../../hooks/useViewabilityTracker';
 
 const PostComments = forwardRef(
   (
@@ -207,6 +206,11 @@ const PostComments = forwardRef(
       }
     };
 
+    const _onScroll = (event) => {
+      const windowHeight = event.nativeEvent.layoutMeasurement.height;
+      checkViewability(windowHeight);
+    };
+
     const _postContentView = (
       <>
         {postContentView && postContentView}
@@ -272,7 +276,7 @@ const PostComments = forwardRef(
 
     return (
       <Fragment>
-        <IOFlashList
+        <FlashList
           ref={commentsListRef}
           keyExtractor={(item) => `${item.author}/${item.permlink}`}
           contentContainerStyle={styles.listContent}
@@ -281,6 +285,7 @@ const PostComments = forwardRef(
           data={isPostLoading ? [] : sortedSections.slice()}
           onContentSizeChange={_onContentSizeChange}
           renderItem={_renderItem}
+          onScroll={_onScroll}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}

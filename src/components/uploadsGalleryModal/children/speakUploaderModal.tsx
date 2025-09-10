@@ -14,7 +14,7 @@ import ImagePicker, {
 import Video from 'react-native-video';
 
 // Components
-import { IOFlashList } from '../../atoms';
+import { FlashList } from '@shopify/flash-list';
 import styles from '../styles/speakUploaderModal.styles';
 import { MainButton } from '../../mainButton';
 import Icon from '../../icon';
@@ -32,7 +32,7 @@ interface Props {
 
 export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: Props, ref) => {
   const intl = useIntl();
-  const sheetModalRef = useRef();
+  const sheetModalRef = useRef(null);
   const dim = useWindowDimensions();
 
   const queryClient = useQueryClient();
@@ -187,13 +187,12 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
     return (
       <View style={styles.imageContainer}>
         <Text style={styles.label}>{intl.formatMessage({ id: 'uploads_modal.select_thumb' })}</Text>
-        <IOFlashList
+        <FlashList
           horizontal={true}
           ListHeaderComponent={_renderHeader}
           data={availableThumbs.slice()}
           renderItem={_renderThumbItem}
           keyExtractor={(item, index) => item.path + index}
-          // estimatedItemSize={128}
         />
       </View>
     );

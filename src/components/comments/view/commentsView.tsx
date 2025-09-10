@@ -5,8 +5,9 @@ import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Components
+import { FlashList } from '@shopify/flash-list';
 import { Comment, TextButton, UpvotePopover } from '../..';
-import { IOFlashList, OptionsModal } from '../../atoms';
+import { OptionsModal } from '../../atoms';
 import { PostHtmlInteractionHandler } from '../../postHtmlRenderer';
 
 // Styles
@@ -167,7 +168,7 @@ const CommentsView = ({
 
   return (
     <Fragment>
-      <IOFlashList
+      <FlashList
         contentContainerStyle={{ padding: 0, ...styleOerride }}
         data={comments}
         keyExtractor={(item) => item.author + item.permlink}

@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { TouchableOpacity, Text, View, useWindowDimensions, Platform } from 'react-native';
+import { TouchableOpacity, Text, View, useWindowDimensions } from 'react-native';
 // import { InView } from 'react-native-intersection-observer';
 // Utils
 import { useIntl } from 'react-intl';
@@ -40,12 +40,12 @@ export const PostCardContent = ({
   const intl = useIntl();
   const dim = useWindowDimensions();
   const imgRef = useRef<ExpoImage>(null);
-  const isInViewRef = useRef(false);
+  // const isInViewRef = useRef(false);
 
   const imgWidth = dim.width - 18;
   const [calcImgHeight, setCalcImgHeight] = useState(imageRatio ? imgWidth / imageRatio : 300);
-  const [autoplay, setAutoplay] = useState(false);
-  const [isAnimated, setIsAnimated] = useState(false);
+  // const [autoplay, setAutoplay] = useState(false);
+  // const [isAnimated, setIsAnimated] = useState(false);
 
   const resizeMode = useMemo(() => {
     return calcImgHeight < dim.height ? 'contain' : 'cover';
@@ -105,26 +105,18 @@ export const PostCardContent = ({
     return images.image;
   }, [isGif, original, images.image, imgWidth]);
 
-  const _toggleGif = (inView: boolean) => {
-    if (Platform.OS === 'ios') {
-      setAutoplay(inView);
-    } else {
-      imgRef.current?.[inView ? 'startAnimating' : 'stopAnimating']();
-    }
-  };
-
-  const _onInViewChange = (inView: boolean) => {
-    isInViewRef.current = inView;
-    if (isAnimated) {
-      _toggleGif(inView);
-    }
-  };
+  // const _toggleGif = (inView: boolean) => {
+  //   if (Platform.OS === 'ios') {
+  //     setAutoplay(inView);
+  //   } else {
+  //     imgRef.current?.[inView ? 'startAnimating' : 'stopAnimating']();
+  //   }
+  // };
 
   return (
     <View style={styles.postBodyWrapper}>
       <TouchableOpacity activeOpacity={0.8} style={styles.hiddenImages} onPress={_onPress}>
         {!isHideImage && (
-          // <InView onChange={_onInViewChange}>
           <View style={styles.imageWrapper}>
             <ExpoImage
               ref={imgRef}
@@ -140,11 +132,11 @@ export const PostCardContent = ({
               contentFit={resizeMode}
               autoplay={true}
               onLoad={(evt) => {
-                const animated = evt.source.isAnimated;
-                setIsAnimated(animated);
-                if (animated) {
-                  _toggleGif(isInViewRef.current);
-                }
+                // const animated = evt.source.isAnimated;
+                // setIsAnimated(animated);
+                // if (animated) {
+                //   _toggleGif(isInViewRef.current);
+                // }
                 if (!imageRatio) {
                   const _imgRatio = evt.source.width / evt.source.height;
                   const height = imgWidth / _imgRatio;
@@ -159,7 +151,6 @@ export const PostCardContent = ({
               </View>
             )}
           </View>
-          // {/* </InView> */}
         )}
 
         <View style={[styles.postDescripton]}>

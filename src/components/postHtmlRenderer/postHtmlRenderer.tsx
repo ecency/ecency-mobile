@@ -21,6 +21,7 @@ interface PostHtmlRendererProps {
   body: string;
   metadata: any;
   isComment?: boolean;
+  enableViewabilityTracker?: boolean;
   onLoaded?: () => void;
   setSelectedImage: (imgUrl: string, postImageUrls: string[]) => void;
   setSelectedLink: (url: string) => void;
@@ -39,6 +40,7 @@ export const PostHtmlRenderer = memo(
     body,
     metadata,
     isComment,
+    enableViewabilityTracker,
     onLoaded,
     setSelectedImage,
     setSelectedLink,
@@ -134,7 +136,7 @@ export const PostHtmlRenderer = memo(
           default:
             break;
         }
-      } catch (error) { }
+      } catch (error) {}
     };
 
     // this method checks if image is a child of table column
@@ -319,6 +321,7 @@ export const PostHtmlRenderer = memo(
             metadata={metadata}
             isAnchored={isAnchored}
             onPress={_onPress}
+            enableViewabilityTracker={enableViewabilityTracker}
           />
         );
       }

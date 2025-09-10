@@ -42,7 +42,7 @@ export const MediaPreviewItem = ({
     if (isAnimated) {
       _toggleGif(isViewable);
     }
-  }, [isViewable])
+  }, [isViewable]);
 
   const thumbUrl =
     item.thumbUrl || proxifyImageSrc(item.url, 200, 200, Platform.OS === 'ios' ? 'match' : 'webp');
@@ -116,7 +116,6 @@ export const MediaPreviewItem = ({
     }
   };
 
-
   return (
     <TouchableOpacity onPress={handlePress} disabled={isDeleting}>
       <View style={transformStyle}>
@@ -142,6 +141,5 @@ export const MediaPreviewItem = ({
         {_renderLoading()}
       </View>
     </TouchableOpacity>
-
   );
 };

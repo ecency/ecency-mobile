@@ -13,7 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 import { SheetManager } from 'react-native-actions-sheet';
 
-import { IOFlashList } from '../../atoms';
+import { FlashList } from '@shopify/flash-list';
 import PostCard from '../../postCard';
 import styles from '../view/postsListStyles';
 import { Separator, UpvotePopover } from '../..';
@@ -238,7 +238,7 @@ const postsListContainer = (
 
   return (
     <Fragment>
-      <IOFlashList
+      <FlashList
         ref={flatListRef}
         data={cacheInjectedData}
         showsVerticalScrollIndicator={false}

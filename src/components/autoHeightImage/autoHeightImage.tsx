@@ -4,6 +4,7 @@ import { Platform, TouchableOpacity, View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
+import { useViewabilityTracker } from '../../hooks/useViewabilityTracker';
 // import { InView } from 'react-native-intersection-observer';
 
 interface AutoHeightImageProps {
@@ -14,6 +15,7 @@ interface AutoHeightImageProps {
   activeOpacity?: number;
   aspectRatio?: number;
   lockWidth?: boolean;
+  enableViewabilityTracker?: boolean;
   onPress?: () => void;
   setAspectRatio?: (ratio: number) => void;
 }
@@ -28,11 +30,20 @@ export const AutoHeightImage = ({
   aspectRatio,
   isAnchored,
   activeOpacity,
+  enableViewabilityTracker,
   onPress,
   setAspectRatio,
 }: AutoHeightImageProps) => {
   const imgRef = useRef<ExpoImage>(null);
-  const isInViewRef = useRef(false);
+
+  const { ref, key, visible, handleIfViewable } = useViewabilityTracker(!enableViewabilityTracker);
+
+  useEffect(() => {
+    if (isAnimated && enableViewabilityTracker) {
+      console.log('GIF Play State', key, visible);
+      _toggleGif(visible);
+    }
+  }, [visible]);
 
   const [isAnimated, setIsAnimated] = useState(false);
   const [autoplay, setAutoplay] = useState(false);
@@ -68,7 +79,7 @@ export const AutoHeightImage = ({
   const [imgWidth, setImgWidth] = useState(contentWidth);
   const [height, setHeight] = useState(_initialHeight);
 
-  const imgHeightAnim = useSharedValue(_initialHeight); // Initial height based on 16:9 ratio
+  // const imgHeightAnim = useSharedValue(_initialHeight); // Initial height based on 16:9 ratio
   const imgOpacityAnim = useSharedValue(0); // Initial opacity for fade-in effect
   const bgColorAnim = useSharedValue(EStyleSheet.value('$primaryLightBackground')); // Initial back
   const hasSetBounds = useRef(false);
@@ -87,7 +98,7 @@ export const AutoHeightImage = ({
     const newHeight = Math.round((imgHeight / width) * newWidth);
 
     // if newHeight and oldHeight are approximately equal, skip animation
-    if (Math.abs(newHeight - imgHeightAnim.value) < 1) {
+    if (Math.abs(newHeight - height) < 1) {
       return;
     }
 
@@ -114,7 +125,7 @@ export const AutoHeightImage = ({
   const animatedWrapperStyle = {
     width: imgWidth,
     height, // imgHeightAnim.value, // Bind animated height
-    backgroundColor: bgColorAnim.value,
+    backgroundColor: bgColorAnim,
     borderRadius: 8,
   };
 
@@ -133,14 +144,14 @@ export const AutoHeightImage = ({
   const _onLoad = (evt) => {
     const _isAnimated = evt.source.isAnimated;
     if (!hasSetBounds.current) {
-      setIsAnimated(_isAnimated);
       _setImageBounds(evt.source.width, evt.source.height);
       animateFadeIn();
-      hasSetBounds.current = true;
-    }
+      if (_isAnimated) {
+        setIsAnimated(_isAnimated);
+        handleIfViewable();
+      }
 
-    if (_isAnimated) {
-      _toggleGif(isInViewRef.current);
+      hasSetBounds.current = true;
     }
   };
 
@@ -162,21 +173,13 @@ export const AutoHeightImage = ({
     }
   };
 
-  const _onInViewChange = (inView: boolean) => {
-    isInViewRef.current = inView;
-    if (isAnimated) {
-      _toggleGif(inView);
-    }
-  };
-
   return (
-    // <InView onChange={_onInViewChange}>
     <TouchableOpacity
       onPress={handlePress}
       disabled={isAnchored}
       activeOpacity={activeOpacity || 1}
     >
-      <View style={animatedWrapperStyle}>
+      <View ref={ref} style={animatedWrapperStyle}>
         <ExpoImage
           ref={imgRef}
           pointerEvents="none"
@@ -184,7 +187,7 @@ export const AutoHeightImage = ({
           source={{ uri: imgUrl }}
           contentFit="cover"
           onLoad={_onLoad}
-          autoplay={true}
+          autoplay={enableViewabilityTracker ? autoplay : true}
         />
         {isAnimated && (
           <View style={styles.gifBadge}>
@@ -193,7 +196,6 @@ export const AutoHeightImage = ({
         )}
       </View>
     </TouchableOpacity>
-    // </InView>
   );
 };
 
