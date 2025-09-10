@@ -44,10 +44,6 @@ const renderDropdownRow = (
   </View>
 );
 
-
-
-
-
 const DropdownButtonView = ({
   childIconWrapperStyle,
   children,
@@ -68,21 +64,19 @@ const DropdownButtonView = ({
   isLoading,
   dropdownRef,
   dropdownRowWrapper,
-  disableFrameAdjustment
+  disableFrameAdjustment,
 }) => {
-
   const adjustDropdownFrame = (style: any) => {
-    if(disableFrameAdjustment){
+    if (disableFrameAdjustment) {
       return style;
     }
-    
+
     style.left = 'auto';
     style.right = 10;
     return style;
   };
 
   return (
-
     <View style={[styles.container, dropdownButtonStyle]}>
       <ModalDropdown
         ref={dropdownRef}
@@ -138,7 +132,7 @@ const DropdownButtonView = ({
         </View>
       )}
     </View>
-  )
+  );
 };
 
 export default DropdownButtonView;

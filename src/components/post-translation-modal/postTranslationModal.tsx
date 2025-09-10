@@ -4,15 +4,15 @@ import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ActionSheet, { SheetProps } from 'react-native-actions-sheet';
 import { postBodySummary } from '@ecency/render-helper';
+import Placeholder from 'rn-placeholder';
 import { getTranslation, fetchSupportedLangs } from '../../providers/translation/translation';
 import styles from './postTranslationModalStyle';
 import { useAppSelector } from '../../hooks';
-import { DropdownButton, Icon, ModalHeader } from '../../components';
-import Placeholder from 'rn-placeholder';
+import { DropdownButton, Icon, ModalHeader } from '..';
 
 interface Language {
-  name: string,
-  code: string,
+  name: string;
+  code: string;
 }
 
 const srcLang = { name: 'Auto', code: 'auto' };
@@ -25,7 +25,7 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
   const appLang = useAppSelector((state) => state.application.language);
 
   const [translatedPost, setTranslatedPost] = useState('');
-  const [originalText, setOriginalText] = useState('')
+  const [originalText, setOriginalText] = useState('');
   const [supportedLangsList, setSupportedLangsList] = useState<Language[]>([]);
   const [selectedSourceLang, setSelectedSourceLang] = useState<Language>(srcLang);
   const [selectedTargetLang, setSelectedTargetLang] = useState<Language | null>(null);
@@ -34,8 +34,10 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
   const [isLoadingLangsList, setisLoadingLangsList] = useState(false);
   const [translationError, setTranslationError] = useState('');
 
-  const _dropdownOptions = useMemo(() => supportedLangsList.map(lang => lang.name), [supportedLangsList]);
-
+  const _dropdownOptions = useMemo(
+    () => supportedLangsList.map((lang) => lang.name),
+    [supportedLangsList],
+  );
 
   useEffect(() => {
     getSupportedLanguages();
@@ -44,11 +46,10 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
   useEffect(() => {
     if (content && content.body) {
       const body = postBodySummary(content.body, null, Platform.OS);
-      setOriginalText(body)
+      setOriginalText(body);
       translateText(body);
     }
   }, [content, selectedSourceLang, selectedTargetLang]);
-
 
   const translateText = async (text: string) => {
     try {
@@ -70,9 +71,9 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
       setIsLoadingTranslation(false);
       setTranslationError(
         error?.message ||
-        intl.formatMessage({
-          id: 'alert.error',
-        }),
+          intl.formatMessage({
+            id: 'alert.error',
+          }),
       );
       console.log('error : ', error);
     }
@@ -139,34 +140,31 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
       <Icon iconType="MaterialIcons" name="arrow-forward" style={styles.convertIcon} size={16} />
 
       <View style={styles.row}>
-        {
-          isLoadingLangsList ? <ActivityIndicator /> : (
-            <DropdownButton
-              style={styles.dropdownStyle}
-              defaultText={selectedTargetLang?.name}
-              iconStyle={styles.dropdownIconStyle}
-              isHasChildIcon
-              noHighlight
-              onSelect={(index) => setSelectedTargetLang(supportedLangsList[index])}
-              options={_dropdownOptions}
-              textStyle={styles.dropdownRowTextStyle}
-              disableFrameAdjustment={true}
-            />
-          )
-        }
-
+        {isLoadingLangsList ? (
+          <ActivityIndicator />
+        ) : (
+          <DropdownButton
+            style={styles.dropdownStyle}
+            defaultText={selectedTargetLang?.name}
+            iconStyle={styles.dropdownIconStyle}
+            isHasChildIcon
+            noHighlight
+            onSelect={(index) => setSelectedTargetLang(supportedLangsList[index])}
+            options={_dropdownOptions}
+            textStyle={styles.dropdownRowTextStyle}
+            disableFrameAdjustment={true}
+          />
+        )}
       </View>
     </View>
   );
 
-
   const _renderTranslation = () => {
-
     if (isLoadingTranslation) {
       return (
         <Placeholder.Paragraph
           style={{ marginTop: 24, marginHorizontal: 16 }}
-          color={EStyleSheet.value("$primaryLightBackground")}
+          color={EStyleSheet.value('$primaryLightBackground')}
           lineNumber={4}
           textSize={16}
           lineSpacing={5}
@@ -175,14 +173,11 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
           firstLineWidth="50%"
           animate="fade"
         />
-      )
+      );
     }
 
-    return (
-      <Text style={styles.translatedText}>{translationError || translatedPost}</Text>
-    )
-
-  }
+    return <Text style={styles.translatedText}>{translationError || translatedPost}</Text>;
+  };
 
   return (
     <ActionSheet
@@ -197,13 +192,12 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
         {_renderLanguageSelector()}
 
         <View style={styles.origTextContainer}>
-          <Text style={styles.origText} numberOfLines={3}>{originalText}</Text>
+          <Text style={styles.origText} numberOfLines={3}>
+            {originalText}
+          </Text>
         </View>
 
         {_renderTranslation()}
-
-
-
       </View>
     </ActionSheet>
   );
