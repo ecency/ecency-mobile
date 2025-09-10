@@ -8,6 +8,7 @@ import { getTranslation, fetchSupportedLangs } from '../../providers/translation
 import styles from './postTranslationModalStyle';
 import { useAppSelector } from '../../hooks';
 import { DropdownButton, Icon, ModalHeader } from '../../components';
+import Placeholder from 'rn-placeholder';
 
 interface Language {
   name: string,
@@ -158,6 +159,31 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
     </View>
   );
 
+
+  const _renderTranslation = () => {
+
+    if (isLoadingTranslation) {
+      return (
+        <Placeholder.Paragraph
+          style={{ marginTop: 24, marginHorizontal: 16 }}
+          color={EStyleSheet.value("$primaryLightBackground")}
+          lineNumber={4}
+          textSize={16}
+          lineSpacing={5}
+          width="100%"
+          lastLineWidth="70%"
+          firstLineWidth="50%"
+          animate="fade"
+        />
+      )
+    }
+
+    return (
+      <Text style={styles.translatedText}>{translationError || translatedPost}</Text>
+    )
+
+  }
+
   return (
     <ActionSheet
       gestureEnabled={true}
@@ -170,21 +196,14 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
       <View style={styles.listContainer}>
         {_renderLanguageSelector()}
 
-        <View style={styles.textContainer}>
-          <Text style={styles.translatedText}>{originalText}</Text>
+        <View style={styles.origTextContainer}>
+          <Text style={styles.origText} numberOfLines={3}>{originalText}</Text>
         </View>
 
-        <View style={styles.textContainer}>
-          {isLoadingTranslation ? (
-            <ActivityIndicator
-              style={{ paddingHorizontal: 24, paddingBottom: 8 }}
-              size="small"
-              color={EStyleSheet.value('$iconColor')}
-            />
-          ) : (
-            <Text style={styles.translatedText}>{translationError || translatedPost}</Text>
-          )}
-        </View>
+        {_renderTranslation()}
+
+
+
       </View>
     </ActionSheet>
   );

@@ -26,20 +26,25 @@ export default EStyleSheet.create({
     height: '100%',
     paddingHorizontal: 16,
   },
-  textContainer: {
+  origTextContainer:{
     marginTop: 16,
-    minHeight:128,
+    minHeight:92,
     paddingHorizontal:16,
-    paddingVertical:0,
+    paddingVertical:12,
     borderRadius:16,
     backgroundColor:'$primaryLightBackground'
+  },
+  origText:{
+    color: '$primaryBlack',
+    fontFamily: '$primaryFont',
+    fontSize: 16
   },
   translatedText: {
     color: '$primaryBlack',
     fontFamily: '$primaryFont',
-    fontSize: 18,
-    fontWeight:'200',
-    marginVertical: 12,
+    fontSize: 24,
+    marginTop: 24,
+    margin:16
   },
   languageSelectorRow: {
     flexDirection: 'row',
@@ -122,7 +127,7 @@ export default EStyleSheet.create({
     flex: 1,
   },
   dropdownRowTextStyle: {
-    color: '$primaryDarkGray',
+    color: '$primaryBlack',
     fontSize: 14,
   },
   dropdownSelectedRowStyle: {
