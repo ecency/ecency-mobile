@@ -80,8 +80,8 @@ export const AutoHeightImage = ({
   const [height, setHeight] = useState(_initialHeight);
 
   // const imgHeightAnim = useSharedValue(_initialHeight); // Initial height based on 16:9 ratio
+  // const bgColorAnim = useSharedValue(EStyleSheet.value('$primaryLightBackground')); // Initial back
   const imgOpacityAnim = useSharedValue(0); // Initial opacity for fade-in effect
-  const bgColorAnim = useSharedValue(EStyleSheet.value('$primaryLightBackground')); // Initial back
   const hasSetBounds = useRef(false);
 
   // Function to animate the fade-in effect
@@ -125,7 +125,7 @@ export const AutoHeightImage = ({
   const animatedWrapperStyle = {
     width: imgWidth,
     height, // imgHeightAnim.value, // Bind animated height
-    backgroundColor: bgColorAnim,
+    backgroundColor: EStyleSheet.value('$primaryLightBackground'), // : bgColorAnim.value,
     borderRadius: 8,
   };
 

@@ -21,24 +21,41 @@ export default EStyleSheet.create({
     backgroundColor: '$iconColor',
   },
   listContainer: {
-    paddingTop: 16,
+    paddingTop: 8,
     paddingBottom: 40,
     height: '100%',
     paddingHorizontal: 16,
   },
-  translatedTextContainer: {
-    marginTop: 12,
-    flex: 1,
+  origTextContainer: {
+    marginTop: 16,
+    minHeight: 92,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 16,
+    backgroundColor: '$primaryLightBackground',
+  },
+  origText: {
+    color: '$primaryBlack',
+    fontFamily: '$primaryFont',
+    fontSize: 16,
   },
   translatedText: {
     color: '$primaryBlack',
     fontFamily: '$primaryFont',
-    fontSize: 16,
-    marginVertical: 12,
+    fontSize: 24,
+    marginTop: 24,
+    margin: 16,
   },
   languageSelectorRow: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     height: 60,
+    backgroundColor: '$primaryLightBackground',
+    borderRadius: 16,
+  },
+  convertIcon: {
+    color: '$iconColor',
   },
   rowTextStyle: {
     fontSize: 12,
@@ -74,6 +91,7 @@ export default EStyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     flex: 1,
   },
   labelText: {
@@ -109,7 +127,7 @@ export default EStyleSheet.create({
     flex: 1,
   },
   dropdownRowTextStyle: {
-    color: '$primaryDarkGray',
+    color: '$primaryBlack',
     fontSize: 14,
   },
   dropdownSelectedRowStyle: {
