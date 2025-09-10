@@ -130,6 +130,7 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
           onSelect={(index) => setSelectedSourceLang(supportedLangsList[index])}
           options={_dropdownOptions}
           textStyle={styles.dropdownRowTextStyle}
+          disableFrameAdjustment={true}
         />
       </View>
 
@@ -148,6 +149,7 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
               onSelect={(index) => setSelectedTargetLang(supportedLangsList[index])}
               options={_dropdownOptions}
               textStyle={styles.dropdownRowTextStyle}
+              disableFrameAdjustment={true}
             />
           )
         }
