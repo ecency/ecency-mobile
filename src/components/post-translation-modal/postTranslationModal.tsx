@@ -5,6 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import ActionSheet, { SheetProps } from 'react-native-actions-sheet';
 import { postBodySummary } from '@ecency/render-helper';
 import Placeholder from 'rn-placeholder';
+import Animated, { LinearTransition, Easing } from 'react-native-reanimated';
 import { getTranslation, fetchSupportedLangs } from '../../providers/translation/translation';
 import styles from './postTranslationModalStyle';
 import { useAppSelector } from '../../hooks';
@@ -160,23 +161,35 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
   );
 
   const _renderTranslation = () => {
-    if (isLoadingTranslation) {
-      return (
-        <Placeholder.Paragraph
-          style={{ marginTop: 24, marginHorizontal: 16 }}
-          color={EStyleSheet.value('$primaryLightBackground')}
-          lineNumber={4}
-          textSize={16}
-          lineSpacing={5}
-          width="100%"
-          lastLineWidth="70%"
-          firstLineWidth="50%"
-          animate="fade"
-        />
-      );
-    }
+    return (
+      <>
+        <Animated.View
+          style={{ overflow: 'hidden' }}
+          layout={LinearTransition.easing(Easing.ease).duration(300)}
+        >
+          {!isLoadingTranslation && (
+            <Text style={styles.translatedText}>
+              {isLoadingTranslation ? '' : translationError || translatedPost}
+            </Text>
+          )}
+        </Animated.View>
+        {isLoadingTranslation && (
+          <Placeholder.Paragraph
+            style={{ marginTop: 24, marginHorizontal: 16 }}
+            color={EStyleSheet.value('$primaryLightBackground')}
+            lineNumber={4}
+            textSize={16}
+            lineSpacing={5}
+            width="100%"
+            lastLineWidth="70%"
+            firstLineWidth="50%"
+            animate="fade"
+          />
+        )}
+      </>
+    );
 
-    return <Text style={styles.translatedText}>{translationError || translatedPost}</Text>;
+    // return <Text style={styles.translatedText}>{translationError || translatedPost}</Text>;
   };
 
   return (
