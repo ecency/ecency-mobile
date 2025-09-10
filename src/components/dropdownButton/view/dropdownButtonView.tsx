@@ -26,6 +26,7 @@ const renderDropdownRow = (
   dropdownRowWrapper,
 ) => (
   <View
+    key={rowID}
     style={[
       styles.dropdownRow,
       dropdownRowWrapper,
