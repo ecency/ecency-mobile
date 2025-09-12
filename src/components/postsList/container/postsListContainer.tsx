@@ -76,7 +76,7 @@ const postsListContainer = (
     return isFeedScreen ? state.posts.feedScrollPosition : state.posts.otherScrollPosition;
   });
 
-  const [imageRatios, setImageRatios] = useState(new Map<string, number>());
+  // const [imageRatios, setImageRatios] = useState(new Map<string, number>());
 
   const data = useMemo(() => {
     let _data = posts || cachedPosts;
@@ -134,11 +134,11 @@ const postsListContainer = (
     });
   }, [scrollPosition]);
 
-  const _setImageRatioInMap = (mapKey: string, height: number) => {
-    if (mapKey && height) {
-      setImageRatios(imageRatios.set(mapKey, height));
-    }
-  };
+  // const _setImageRatioInMap = (mapKey: string, height: number) => {
+  //   if (mapKey && height) {
+  //     setImageRatios(imageRatios.set(mapKey, height));
+  //   }
+  // };
 
   const _renderFooter = () => {
     if (isLoading && !isRefreshing) {
@@ -214,11 +214,6 @@ const postsListContainer = (
   const _renderSeparator = () => <Separator style={styles.separator} />;
 
   const _renderItem = ({ item }: { item: any }) => {
-    // get image height from cache if available
-    const localId = item.author + item.permlink;
-    const imgRatio = item.thumbRatio || imageRatios.get(localId);
-
-    //   e.push(
     return (
       <PostCard
         intl={intl}
@@ -227,8 +222,6 @@ const postsListContainer = (
         pageType={pageType}
         isHideImage={isHideImages}
         nsfw={nsfw}
-        imageRatio={imgRatio}
-        setImageRatio={_setImageRatioInMap}
         handleCardInteraction={(id: PostCardActionIds, payload: any, onCallback) =>
           _handleCardInteraction(id, payload, item, onCallback)
         }
@@ -250,7 +243,7 @@ const postsListContainer = (
         ItemSeparatorComponent={_renderSeparator}
         estimatedItemSize={609}
         windowSize={8}
-        extraData={[imageRatios, votesCache]}
+        extraData= {votesCache}
         onEndReached={_onEndReached}
         onMomentumScrollBegin={() => {
           _onEndReachedCalledDuringMomentum = false;

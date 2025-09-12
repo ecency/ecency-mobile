@@ -27,9 +27,7 @@ const PostCard = ({
   content,
   isHideImage,
   nsfw,
-  imageRatio,
   pageType,
-  setImageRatio,
   handleCardInteraction,
 }) => {
   return (
@@ -45,8 +43,6 @@ const PostCard = ({
         content={content}
         isHideImage={isHideImage}
         nsfw={nsfw}
-        imageRatio={imageRatio}
-        setImageRatio={setImageRatio}
         handleCardInteraction={handleCardInteraction}
       />
       <PostCardActionsPanel content={content} handleCardInteraction={handleCardInteraction} />
