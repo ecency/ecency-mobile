@@ -2,7 +2,6 @@ import React, {
   forwardRef,
   useRef,
   useImperativeHandle,
-  useState,
   useEffect,
   Fragment,
   useMemo,
@@ -243,7 +242,7 @@ const postsListContainer = (
         ItemSeparatorComponent={_renderSeparator}
         estimatedItemSize={609}
         windowSize={8}
-        extraData= {votesCache}
+        extraData={votesCache}
         onEndReached={_onEndReached}
         onMomentumScrollBegin={() => {
           _onEndReachedCalledDuringMomentum = false;

@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { TabView, TabBarProps } from 'react-native-tab-view';
 import { useWindowDimensions, View } from 'react-native';
 import { useIntl } from 'react-intl';
+import { Image } from 'expo-image';
 import { TabbedPostsProps } from '../types/tabbedPosts.types';
 import { FeedTabBar } from '../view/feedTabBar';
 import PostsTabContent from '../view/postsTabContent';
 import { Tag } from '../..';
-import { Image } from 'expo-image';
 
 export const TabbedPosts = ({
   tabFilters,
@@ -59,11 +59,10 @@ export const TabbedPosts = ({
     />
   );
 
-
-  const _setIndex = (i:number) => {
+  const _setIndex = (i: number) => {
     Image.clearMemoryCache();
-    setIndex(i)
-  }
+    setIndex(i);
+  };
 
   // Dynamically create scenes for each tab
   const renderScene = ({ route }) => {

@@ -22,14 +22,7 @@ export enum PostCardActionIds {
   NAVIGATE = 'NAVIGATE',
 }
 
-const PostCard = ({
-  intl,
-  content,
-  isHideImage,
-  nsfw,
-  pageType,
-  handleCardInteraction,
-}) => {
+const PostCard = ({ intl, content, isHideImage, nsfw, pageType, handleCardInteraction }) => {
   return (
     <View style={styles.post}>
       <PostCardHeader

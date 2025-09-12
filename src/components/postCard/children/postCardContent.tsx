@@ -9,12 +9,12 @@ import { proxifyImageSrc } from '@ecency/render-helper';
 
 // Styles
 import { Image as ExpoImage } from 'expo-image';
+import { useLayoutState } from '@shopify/flash-list';
 import styles from '../styles/postCard.styles';
 import { PostCardActionIds } from '../container/postCard';
 import ROUTES from '../../../constants/routeNames';
 import { ContentType } from '../../../providers/hive/hive.types';
 import { isCommunity } from '../../../utils/communityValidation';
-import { useLayoutState } from '@shopify/flash-list';
 
 const DEFAULT_IMAGE =
   'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
@@ -28,12 +28,7 @@ interface Props {
   handleCardInteraction: (id: PostCardActionIds, payload?: any) => void;
 }
 
-export const PostCardContent = ({
-  content,
-  isHideImage,
-  nsfw,
-  handleCardInteraction,
-}: Props) => {
+export const PostCardContent = ({ content, isHideImage, nsfw, handleCardInteraction }: Props) => {
   const intl = useIntl();
   const dim = useWindowDimensions();
   const imgRef = useRef<ExpoImage>(null);
@@ -41,7 +36,7 @@ export const PostCardContent = ({
 
   const imageRatio = content?.thumbRatio;
   const imgWidth = dim.width - 18;
-  const [imgHeight, setImgHeight] = useLayoutState(imageRatio ? imgWidth / imageRatio : 300)
+  const [imgHeight, setImgHeight] = useLayoutState(imageRatio ? imgWidth / imageRatio : 300);
   // const [autoplay, setAutoplay] = useState(false);
   // const [isAnimated, setIsAnimated] = useState(false);
 
