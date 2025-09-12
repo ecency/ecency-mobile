@@ -6,6 +6,7 @@ import { TabbedPostsProps } from '../types/tabbedPosts.types';
 import { FeedTabBar } from '../view/feedTabBar';
 import PostsTabContent from '../view/postsTabContent';
 import { Tag } from '../..';
+import { Image } from 'expo-image';
 
 export const TabbedPosts = ({
   tabFilters,
@@ -58,6 +59,12 @@ export const TabbedPosts = ({
     />
   );
 
+
+  const _setIndex = (i:number) => {
+    Image.clearMemoryCache();
+    setIndex(i)
+  }
+
   // Dynamically create scenes for each tab
   const renderScene = ({ route }) => {
     if (tabContentOverrides && tabContentOverrides.has(index)) {
@@ -87,7 +94,7 @@ export const TabbedPosts = ({
         renderTabBar={_renderTabBar}
         navigationState={{ index, routes }}
         renderScene={renderScene}
-        onIndexChange={setIndex}
+        onIndexChange={_setIndex}
         commonOptions={{
           label: _renderTabLabel,
         }}
