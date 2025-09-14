@@ -69,7 +69,7 @@ const FeedScreen = () => {
       feedFilters.indexOf('comments') >= 0
         ? new Map([[feedFilters.indexOf('comments'), _contentComentsTab('comments')]])
         : undefined,
-    [feedFilters],
+    [feedFilters, currentAccount],
   );
 
   return (
