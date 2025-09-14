@@ -6,4 +6,8 @@ export default EStyleSheet.create({
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
   } as ViewStyle,
+  contentContainer: {
+    flex: 1, 
+    paddingTop: 8
+  } as ViewStyle
 });

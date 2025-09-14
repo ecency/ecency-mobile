@@ -140,7 +140,7 @@ const WavesScreen = ({ route }) => {
     <View style={styles.container}>
       <Header />
 
-      <View style={{ flex: 1 }}>
+      <View style={styles.contentContainer}>
         <Comments
           postType={PostTypes.WAVE}
           comments={_data}

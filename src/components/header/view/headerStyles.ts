@@ -6,7 +6,7 @@ export default EStyleSheet.create({
     width: '100%',
     backgroundColor: '$primaryBackgroundColor',
     paddingTop: 8,
-    paddingBottom: 12,
+    paddingBottom: 4,
   },
   containerReverse: {
     justifyContent: 'space-between',
