@@ -7,7 +7,6 @@ import {
   Linking,
   AppState,
   NativeEventSubscription,
-  EventSubscription,
 } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
@@ -84,12 +83,10 @@ import MigrationHelpers, {
   repairOtherAccountsData,
   repairUserAccountData,
 } from '../../../utils/migrationHelpers';
-import { deepLinkParser } from '../../../utils/deepLinkParser';
 import { SheetNames } from '../../../navigation/sheets';
 
 let firebaseOnMessageListener: any = null;
 let appStateSub: NativeEventSubscription | null = null;
-let linkingEventSub: EventSubscription | null = null;
 
 class ApplicationContainer extends Component {
   _pinCodeTimer: any = null;
@@ -107,12 +104,6 @@ class ApplicationContainer extends Component {
   componentDidMount = () => {
     const { dispatch } = this.props;
     this._setNetworkListener();
-
-    linkingEventSub = Linking.addEventListener('url', this._handleOpenURL);
-    // TOOD: read initial URL
-    Linking.getInitialURL().then((url) => {
-      this._handleDeepLink(url);
-    });
 
     appStateSub = AppState.addEventListener('change', this._handleAppStateChange);
 
@@ -161,9 +152,6 @@ class ApplicationContainer extends Component {
     const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
     // TOOD: listen for back press and cancel all pending api requests;
-    if (linkingEventSub) {
-      linkingEventSub.remove();
-    }
 
     if (appStateSub) {
       appStateSub.remove();
@@ -188,34 +176,6 @@ class ApplicationContainer extends Component {
         this._fetchApp();
       }
     });
-  };
-
-  _handleOpenURL = (event) => {
-    // TODO: later handle via link processor hook when possible
-    this._handleDeepLink(event.url);
-  };
-
-  _handleDeepLink = async (url: string | null) => {
-    const { currentAccount } = this.props;
-
-    if (!url) {
-      return;
-    }
-
-    try {
-      const deepLinkData = await deepLinkParser(url, currentAccount);
-      const { name, params, key } = deepLinkData || {};
-
-      if (name && key) {
-        RootNavigation.navigate({
-          name,
-          params,
-          key,
-        });
-      }
-    } catch (err) {
-      this._handleAlert(err.message);
-    }
   };
 
   _compareAndPromptForUpdate = async () => {
