@@ -283,6 +283,7 @@ const PostDisplayView = ({
             <PostBody
               body={post.body}
               metadata={post.json_metadata}
+              enableViewabilityTracker={true}
               onLoadEnd={_handleOnPostBodyLoad}
             />
 
