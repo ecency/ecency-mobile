@@ -1,6 +1,6 @@
 import { postBodySummary, renderPostBody } from '@ecency/render-helper';
 import { debounce, get } from 'lodash';
-import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { BounceInRight } from 'react-native-reanimated';
 import { useSelector } from 'react-redux';
@@ -89,6 +89,12 @@ const MarkdownEditorView = ({
   const draftBtnTooltipState = useSelector((state) => state.walkthrough.walkthroughMap);
   const draftBtnTooltipRegistered = draftBtnTooltipState.get(walkthrough.EDITOR_DRAFT_BTN);
   const headerText = post && (post.summary || postBodySummary(post, 150, Platform.OS));
+
+  const _bodyHtmlForPreview = useMemo(
+    () =>
+      isPreviewActive && renderPostBody(bodyTextRef.current || '...', true, Platform.OS !== 'ios'),
+    [bodyTextRef.current, isPreviewActive],
+  );
 
   useEffect(() => {
     bodyTextRef.current = '';
@@ -245,18 +251,12 @@ const MarkdownEditorView = ({
   }, []);
 
   const _renderPreview = () => (
-    <ScrollView style={styles.previewContainer}>
-      {bodyTextRef.current ? (
-        <>
-          <PostBody body={renderPostBody(bodyTextRef.current, true, Platform.OS !== 'ios')} />
-          {pollDraft && (
-            <PostPoll initMode={PollModes.PREVIEW} metadata={convertToPollMeta(pollDraft)} />
-          )}
-        </>
-      ) : (
-        <Text>...</Text>
+    <View style={styles.previewContainer}>
+      <PostBody body={_bodyHtmlForPreview} />
+      {pollDraft && (
+        <PostPoll initMode={PollModes.PREVIEW} metadata={convertToPollMeta(pollDraft)} />
       )}
-    </ScrollView>
+    </View>
   );
 
   const _handleOnSnippetReceived = (snippetText) => {
