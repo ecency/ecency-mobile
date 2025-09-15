@@ -7,7 +7,6 @@ import {
   Linking,
   AppState,
   NativeEventSubscription,
-  EventSubscription,
 } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
@@ -178,7 +177,6 @@ class ApplicationContainer extends Component {
       }
     });
   };
-
 
   _compareAndPromptForUpdate = async () => {
     const recheckInterval = 48 * 3600 * 1000; // 2 days

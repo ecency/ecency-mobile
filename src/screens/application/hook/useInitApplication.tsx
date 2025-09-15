@@ -2,14 +2,24 @@ import { useEffect, useMemo, useRef } from 'react';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { isLandscape } from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Appearance, AppState, EventSubscription, Linking, NativeEventSubscription, useColorScheme } from 'react-native';
+import {
+  Appearance,
+  AppState,
+  EventSubscription,
+  Linking,
+  NativeEventSubscription,
+  useColorScheme,
+} from 'react-native';
 import notifee from '@notifee/react-native';
 import { isEmpty, some, get } from 'lodash';
 import { getMessaging } from '@react-native-firebase/messaging';
 import BackgroundTimer from 'react-native-background-timer';
 import { Image as ExpoImage } from 'expo-image';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { handleDeepLink, setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
+import {
+  setDeviceOrientation,
+  setLockedOrientation,
+} from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
 import isAndroidTablet from '../../../utils/isAndroidTablet';
 import darkTheme from '../../../themes/darkTheme';
@@ -79,11 +89,10 @@ export const useInitApplication = () => {
 
     _initPushListener();
 
-
-    //check for deep links
+    // check for deep links
     linkEventRef.current = Linking.addEventListener('url', (event) => {
-      linkProcessor.handleLink(event.url)
-    })
+      linkProcessor.handleLink(event.url);
+    });
 
     return _cleanup;
   }, []);
@@ -117,7 +126,7 @@ export const useInitApplication = () => {
       messagingEventRef.current();
     }
 
-    if(linkEventRef.current){
+    if (linkEventRef.current) {
       linkEventRef.current.remove();
     }
 

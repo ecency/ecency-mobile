@@ -18,6 +18,6 @@ export default EStyleSheet.create({
   listWrapper: {
     backgroundColor: '$primaryBackgroundColor',
     flex: 1,
-    paddingTop:8,
+    paddingTop: 8,
   },
 });

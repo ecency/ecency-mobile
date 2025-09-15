@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import VersionNumber from 'react-native-version-number';
 import { NavigationContainer } from '@react-navigation/native';
 import RNBootSplash from 'react-native-bootsplash';
+import { Linking } from 'react-native';
 import { useAppSelector, useLinkProcessor } from '../hooks';
 
 // Screens
@@ -9,7 +10,6 @@ import { StackNavigator } from './stackNavigator';
 import { navigationRef } from './rootNavigation';
 import ROUTES from '../constants/routeNames';
 import parseVersionNumber from '../utils/parseVersionNumber';
-import { Linking } from 'react-native';
 
 export const AppNavigator = () => {
   const lastAppVersion = useAppSelector((state) => state.application.lastAppVersion);
@@ -20,7 +20,7 @@ export const AppNavigator = () => {
   const _onReady = () => {
     RNBootSplash.hide({ fade: true });
 
-    //read initial URL
+    // read initial URL
     Linking.getInitialURL().then((url) => {
       if (url) {
         linkProcessor.handleLink(url);
