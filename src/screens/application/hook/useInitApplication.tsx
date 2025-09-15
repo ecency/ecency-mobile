@@ -2,14 +2,14 @@ import { useEffect, useMemo, useRef } from 'react';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { isLandscape } from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Appearance, AppState, NativeEventSubscription, useColorScheme } from 'react-native';
+import { Appearance, AppState, EventSubscription, Linking, NativeEventSubscription, useColorScheme } from 'react-native';
 import notifee from '@notifee/react-native';
 import { isEmpty, some, get } from 'lodash';
 import { getMessaging } from '@react-native-firebase/messaging';
 import BackgroundTimer from 'react-native-background-timer';
 import { Image as ExpoImage } from 'expo-image';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
+import { handleDeepLink, setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
 import isAndroidTablet from '../../../utils/isAndroidTablet';
 import darkTheme from '../../../themes/darkTheme';
@@ -38,6 +38,7 @@ export const useInitApplication = () => {
 
   const notifeeEventRef = useRef<any>(null);
   const messagingEventRef = useRef<any>(null);
+  const linkEventRef = useRef<EventSubscription>(null);
 
   const userActivityMutation = useUserActivityMutation();
   useAnnouncementsQuery();
@@ -78,6 +79,12 @@ export const useInitApplication = () => {
 
     _initPushListener();
 
+
+    //check for deep links
+    linkEventRef.current = Linking.addEventListener('url', (event) => {
+      linkProcessor.handleLink(event.url)
+    })
+
     return _cleanup;
   }, []);
 
@@ -108,6 +115,10 @@ export const useInitApplication = () => {
 
     if (messagingEventRef.current) {
       messagingEventRef.current();
+    }
+
+    if(linkEventRef.current){
+      linkEventRef.current.remove();
     }
 
     BackgroundTimer.stop(); // ref: https://github.com/ocetnik/react-native-background-timer#ios
