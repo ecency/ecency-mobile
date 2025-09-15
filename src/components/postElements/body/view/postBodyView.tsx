@@ -20,7 +20,21 @@ import { isHiveUri } from '../../../../utils/hive-uri';
 import { SheetNames } from '../../../../navigation/sheets';
 import { useLinkProcessor } from '../../../../hooks';
 
-const PostBody = ({ body, metadata, onLoadEnd, width }) => {
+interface PostBodyProps {
+  body: string;
+  metadata: any;
+  width: number;
+  enableViewabilityTracker?: boolean;
+  onLoadEnd: () => void;
+}
+
+const PostBody = ({
+  body,
+  metadata,
+  width,
+  enableViewabilityTracker,
+  onLoadEnd,
+}: PostBodyProps) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
@@ -220,7 +234,7 @@ const PostBody = ({ body, metadata, onLoadEnd, width }) => {
           body={html}
           metadata={metadata}
           contentWidth={contentWidth}
-          enableViewabilityTracker={true}
+          enableViewabilityTracker={enableViewabilityTracker}
           onLoaded={_handleLoadEnd}
           setSelectedImage={_handleSetSelectedImage}
           setSelectedLink={_handleSetSelectedLink}
