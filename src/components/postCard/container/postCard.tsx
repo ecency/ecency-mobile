@@ -22,16 +22,7 @@ export enum PostCardActionIds {
   NAVIGATE = 'NAVIGATE',
 }
 
-const PostCard = ({
-  intl,
-  content,
-  isHideImage,
-  nsfw,
-  imageRatio,
-  pageType,
-  setImageRatio,
-  handleCardInteraction,
-}) => {
+const PostCard = ({ intl, content, isHideImage, nsfw, pageType, handleCardInteraction }) => {
   return (
     <View style={styles.post}>
       <PostCardHeader
@@ -45,8 +36,6 @@ const PostCard = ({
         content={content}
         isHideImage={isHideImage}
         nsfw={nsfw}
-        imageRatio={imageRatio}
-        setImageRatio={setImageRatio}
         handleCardInteraction={handleCardInteraction}
       />
       <PostCardActionsPanel content={content} handleCardInteraction={handleCardInteraction} />

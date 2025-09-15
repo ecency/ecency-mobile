@@ -35,8 +35,9 @@ const CommentsTabContent = ({
   const [noMore, setNoMore] = useState(false);
 
   useEffect(() => {
+    console.log('selected user update', selectedUser);
     if (selectedUser) {
-      _fetchData();
+      _fetchData({ refresh: true });
     }
   }, [selectedUser]);
 

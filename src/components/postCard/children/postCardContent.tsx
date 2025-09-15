@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { TouchableOpacity, Text, View, useWindowDimensions } from 'react-native';
 // import { InView } from 'react-native-intersection-observer';
 // Utils
@@ -9,6 +9,7 @@ import { proxifyImageSrc } from '@ecency/render-helper';
 
 // Styles
 import { Image as ExpoImage } from 'expo-image';
+import { useLayoutState } from '@shopify/flash-list';
 import styles from '../styles/postCard.styles';
 import { PostCardActionIds } from '../container/postCard';
 import ROUTES from '../../../constants/routeNames';
@@ -23,32 +24,24 @@ const NSFW_IMAGE =
 interface Props {
   content: any;
   isHideImage: boolean;
-  imageRatio: number;
   nsfw: string;
-  setImageRatio: (postPath: string, height: number) => void;
   handleCardInteraction: (id: PostCardActionIds, payload?: any) => void;
 }
 
-export const PostCardContent = ({
-  content,
-  isHideImage,
-  imageRatio,
-  nsfw,
-  setImageRatio,
-  handleCardInteraction,
-}: Props) => {
+export const PostCardContent = ({ content, isHideImage, nsfw, handleCardInteraction }: Props) => {
   const intl = useIntl();
   const dim = useWindowDimensions();
   const imgRef = useRef<ExpoImage>(null);
   // const isInViewRef = useRef(false);
 
+  const imageRatio = content?.thumbRatio;
   const imgWidth = dim.width - 18;
-  const [calcImgHeight, setCalcImgHeight] = useState(imageRatio ? imgWidth / imageRatio : 300);
+  const [imgHeight, setImgHeight] = useLayoutState(imageRatio ? imgWidth / imageRatio : 300);
   // const [autoplay, setAutoplay] = useState(false);
   // const [isAnimated, setIsAnimated] = useState(false);
 
   const resizeMode = useMemo(() => {
-    return calcImgHeight < dim.height ? 'contain' : 'cover';
+    return imgHeight < dim.height ? 'contain' : 'cover';
   }, [dim.height]);
 
   // featured text can be used to add more labels in future by just inserting text as array item
@@ -126,7 +119,7 @@ export const PostCardContent = ({
                 styles.thumbnail,
                 {
                   width: imgWidth,
-                  height: Math.min(calcImgHeight, dim.height),
+                  height: Math.min(imgHeight, dim.height),
                 },
               ]}
               contentFit={resizeMode}
@@ -140,8 +133,8 @@ export const PostCardContent = ({
                 if (!imageRatio) {
                   const _imgRatio = evt.source.width / evt.source.height;
                   const height = imgWidth / _imgRatio;
-                  setCalcImgHeight(height);
-                  setImageRatio(content.author + content.permlink, _imgRatio);
+                  setImgHeight(height);
+                  // setImageRatio(content.author + content.permlink, _imgRatio);
                 }
               }}
             />
