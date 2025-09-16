@@ -8,6 +8,7 @@
     "points_activity": "Activity",
     "transfer": "转账",
     "recurrent_transfer": "Recurrent Transfer",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "To Vesting",
     "transfer_from_savings": "储蓄转出",
     "withdraw_savings": "Withdraw Savings",
@@ -20,8 +21,8 @@
     "vote": "投票",
     "reblog": "转发",
     "login": "登录",
-    "incoming_transfer_title": "转入",
-    "outgoing_transfer_title": "转出",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "奖金",
     "staked": "Staked",
     "delegations_in": "Delegations In",
@@ -50,7 +51,7 @@
     "reblog_desc": "  分享您喜欢的帖子给您的朋友，并赚取  esteem 点数(ESTM)。",
     "login_desc": "当您首次登录 esteem 应用程序时，您能赚取100 个esteem 点数(ESTM)。",
     "checkin_extra_desc": "持续使用 eSteem 应用，您就有额外机会获得更多的 esteem 点数(ESTM)，越活跃，赚得越多。",
-    "dropdown_transfer": "赠品",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "推广",
     "dropdown_boost": "Boost+",
     "from": "从",
@@ -75,7 +76,7 @@
     "memo_placeholder": "在此输入您的备注",
     "transfer_token": "转账",
     "purchase_estm": "获取积分",
-    "points": "赠送积分给他人",
+    "points": "Transfer Points",
     "transfer_to_saving": "转为储蓄",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "提现到储蓄",
@@ -612,7 +613,9 @@
     "image": "Image",
     "short_desc": "Short description",
     "short_desc_placeholder": "Brief summary of content",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -767,7 +770,9 @@
     "in": "in",
     "reveal_muted": "MUTED\nTap to reveal content",
     "posted_by": "Posted by {username} via {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ecency Waves",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "转账",
     "purchase_estm": "购买积分",
     "convert": "将HBD转换为HIVE",
-    "points": "Gift Points to someone",
+    "points": "Transfer Points",
     "transfer_to_savings": "Transfer To Saving",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "提现到储蓄",
@@ -954,6 +959,14 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Swap Your Funds",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "评论",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "查看更多评论",
     "more_replies": "replies",
     "no_comments": "Be the first to respond...",

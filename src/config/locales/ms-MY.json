@@ -8,6 +8,7 @@
     "points_activity": "Activity",
     "transfer": "Pindah",
     "recurrent_transfer": "Recurrent Transfer",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "Tingkatkan Kuasa",
     "transfer_from_savings": "Dari Simpanan",
     "withdraw_savings": "Withdraw Savings",
@@ -20,8 +21,8 @@
     "vote": "Vote",
     "reblog": "Reblog",
     "login": "Log Masuk",
-    "incoming_transfer_title": "Pindahan masuk",
-    "outgoing_transfer_title": "Pindahan keluar",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "Mata ganjaran",
     "staked": "Staked",
     "delegations_in": "Delegations In",
@@ -50,7 +51,7 @@
     "reblog_desc": "Kongsikan kiriman yang anda suka dengan pengikut anda dan dapatkan mata.",
     "login_desc": "Apabila anda mendaftar masuk ke dalam aplikasi buat pertama kali, anda mendapat 100 mata.",
     "checkin_extra_desc": "Penggunaan aplikasi yang konsisten memberikan anda lebih banyak peluang untuk mendapatkan lebih banyak mata. Lebih aktif, lebih banyak mata.",
-    "dropdown_transfer": "Hadiah",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "Promosikan",
     "dropdown_boost": "Boost+",
     "from": "Daripada",
@@ -75,7 +76,7 @@
     "memo_placeholder": "Masukkan catatan anda di sini",
     "transfer_token": "Pindah",
     "purchase_estm": "DAPATKAN MATA",
-    "points": "Hadiahkan Mata kepada seseorang",
+    "points": "Transfer Points",
     "transfer_to_saving": "Ke Simpanan",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Keluarkan Simpanan",
@@ -612,7 +613,9 @@
     "image": "Image",
     "short_desc": "Short description",
     "short_desc_placeholder": "Brief summary of content",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -767,7 +770,9 @@
     "in": "dalam",
     "reveal_muted": "DIBISUKAN\nKetuk untuk mendedahkan kandungan",
     "posted_by": "Posted by {username} via {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ecency Waves",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "Pindah",
     "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "points": "Transfer Points",
     "transfer_to_savings": "Transfer To Saving",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Keluarkan kepada penyimpanan",
@@ -954,6 +959,14 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Swap Your Funds",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "Komen-komen",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "Read more comments",
     "more_replies": "replies",
     "no_comments": "Be the first to respond...",

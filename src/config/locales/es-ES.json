@@ -8,6 +8,7 @@
     "points_activity": "Actividad",
     "transfer": "Transferir",
     "recurrent_transfer": "Transferencia recurrente",
+    "total_recurrent_transfers": "Total de transferencias recurrentes",
     "power_up": "A invertir",
     "transfer_from_savings": "Desde Ahorros",
     "withdraw_savings": "Retirar ahorros",
@@ -20,8 +21,8 @@
     "vote": "Voto",
     "reblog": "Reblogueo",
     "login": "Iniciar sesión",
-    "incoming_transfer_title": "Transferencia entrante",
-    "outgoing_transfer_title": "Transferencia enviada",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "Bono",
     "staked": "En Estaca",
     "delegations_in": "Delegaciones recibidas",
@@ -50,7 +51,7 @@
     "reblog_desc": "Comparte una publicación que te guste con tus amigos y gana puntos.",
     "login_desc": "Cuando inicias sesión en la aplicación por primera vez ganas 100 puntos.",
     "checkin_extra_desc": "El uso consistente de la aplicación te otorga más posibilidades de generar puntos, se más activo y gana mucho más.",
-    "dropdown_transfer": "Regalar",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "Promocionar",
     "dropdown_boost": "Impulsar+",
     "from": "Desde",
@@ -75,7 +76,7 @@
     "memo_placeholder": "Escribe tus notas aquí",
     "transfer_token": "Transferir",
     "purchase_estm": "OBTENER PUNTOS",
-    "points": "Regalar puntos a alguien",
+    "points": "Transfer Points",
     "transfer_to_saving": "A ahorros",
     "transfer_to_vesting": "Estaca",
     "withdraw_to_saving": "Retirar Ahorros",
@@ -612,7 +613,9 @@
     "image": "Imagen",
     "short_desc": "Descripción corta",
     "short_desc_placeholder": "Resumen breve del contenido",
-    "set_default": "Establecer como predeterminado"
+    "set_default": "Establecer como predeterminado",
+    "community_restriction": "Solo pueden publicar los miembros de la comunidad {title}",
+    "community_comment_restriction": "Solamente pueden comentar en esta publicación los miembros de la comunidad {title}"
   },
   "snippets": {
     "label_no_snippets": "No se encontraron Fragmentos",
@@ -767,7 +770,9 @@
     "in": "en",
     "reveal_muted": "SILENCIADO\nToca para revelar el contenido",
     "posted_by": "Publicado por {username} vía {appname} ",
-    "ecency_waves": "Ondas de Ecency"
+    "ecency_waves": "Ondas de Ecency",
+    "community_muted": "Contenido silenciado por violación de las directrices comunitarias",
+    "muted": "Contenido silenciado por infracción"
   },
   "cross_post": {
     "title": "Publicación cruzada",
@@ -893,7 +898,7 @@
     "transfer_token": "Transferir",
     "purchase_estm": "Puntos de compra",
     "convert": "Convertir HBD a HIVE",
-    "points": "Regalar puntos a alguien",
+    "points": "Transfer Points",
     "transfer_to_savings": "Transferir a Ahorros",
     "transfer_to_vesting": "Estaca",
     "withdraw_to_saving": "Retirar a Ahorros",
@@ -954,6 +959,14 @@
     "amount_select_description": "Introduzca la cantidad dentro del saldo máximo disponible {suffix}",
     "amount_select_desc_limit": " y debe ser mayor que 0.001",
     "too_many_usernames": "Máx. 5 nombres de usuario permitidos."
+  },
+  "recurrent": {
+    "title": "Transferencias recurrentes ({total})",
+    "transfer_in": "Transferir {time}",
+    "remaining_executions": "{executions} Transferencias restantes",
+    "unsubscribe_confirmation": "¿Eliminar la transferencia recurrente a {username}?",
+    "delete_success": "Transferencia recurrente eliminada correctamente",
+    "delete_failed": "No se pudo eliminar la transferencia recurrente, {error}"
   },
   "trade": {
     "swap_token": "Intercambiar tus fondos",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "Comentarios",
-    "reveal_comment": "Revelar Contenido",
+    "reveal_comment": "¡Silenciado! Toca para mostrar",
     "read_more": "Cargar más comentarios",
     "more_replies": "respuestas",
     "no_comments": "Sé el primero en responder...",

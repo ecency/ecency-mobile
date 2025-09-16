@@ -8,6 +8,7 @@
     "points_activity": "Activity",
     "transfer": "انتقال",
     "recurrent_transfer": "Recurrent Transfer",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "To Vesting",
     "transfer_from_savings": "از پس انداز",
     "withdraw_savings": "Withdraw Savings",
@@ -20,8 +21,8 @@
     "vote": "رأی",
     "reblog": "اشتراک گذاری",
     "login": "ورود",
-    "incoming_transfer_title": "Incoming transfer",
-    "outgoing_transfer_title": "انتقال خروجی",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "پاداش",
     "staked": "Staked",
     "delegations_in": "Delegations In",
@@ -50,7 +51,7 @@
     "reblog_desc": "پست های مورد علاقه خود را با دوستانتان به اشتراک بگذارید و امتیاز دریافت کنید.",
     "login_desc": "وقتی که برای اولین باز به برنامه وارد شوید  ۱۰۰ امیتاز کسب میکنید.",
     "checkin_extra_desc": "استفاده مداوم از برنامه به شما شانس کسب امتیاز بیشتر را میدهد، بیشتر فعال باشید و بیشتر امتیاز کسب کنید.",
-    "dropdown_transfer": "هدیه",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "تبلیغ",
     "dropdown_boost": "Boost+",
     "from": "از",
@@ -75,7 +76,7 @@
     "memo_placeholder": "یادداشت های خود را در اینجا وارد کنید",
     "transfer_token": "انتقال دادن",
     "purchase_estm": "گرفتن امتیاز",
-    "points": "هدیه دادن امیتازات به کسی دیگر",
+    "points": "Transfer Points",
     "transfer_to_saving": "به پس انداز",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "برداشت از پس انداز",
@@ -612,7 +613,9 @@
     "image": "Image",
     "short_desc": "Short description",
     "short_desc_placeholder": "Brief summary of content",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -767,7 +770,9 @@
     "in": "in",
     "reveal_muted": "MUTED\nTap to reveal content",
     "posted_by": "Posted by {username} via {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ecency Waves",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "انتقال",
     "purchase_estm": "خریداری امتیاز",
     "convert": "تبدیل HBD به HIVE",
-    "points": "به کسی امتیاز هدیه دهید",
+    "points": "Transfer Points",
     "transfer_to_savings": "Transfer To Saving",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "برداشت و انتقال به پس انداز",
@@ -954,6 +959,14 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Swap Your Funds",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "نظرات",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "نظرات بیشتر را بخوانید",
     "more_replies": "replies",
     "no_comments": "Be the first to respond...",

@@ -8,6 +8,7 @@
     "points_activity": "Activity",
     "transfer": "送金",
     "recurrent_transfer": "Recurrent Transfer",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "To Vesting",
     "transfer_from_savings": "貯蓄口座からの送金",
     "withdraw_savings": "Withdraw Savings",
@@ -20,8 +21,8 @@
     "vote": "ヴォート",
     "reblog": "リブログ",
     "login": "ログイン",
-    "incoming_transfer_title": "受贈",
-    "outgoing_transfer_title": "贈与",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "ボーナス",
     "staked": "Staked",
     "delegations_in": "Delegations In",
@@ -50,7 +51,7 @@
     "reblog_desc": "あなたの好きな投稿を友達と共有することで、ポイントが獲得できます。",
     "login_desc": "アプリに初めてログインすると100ポイント獲得できます。",
     "checkin_extra_desc": "アプリを一貫して使用し続けると、さらにポイントを獲得するチャンスがあります。積極的に使用してもっとポイントを貰おう。",
-    "dropdown_transfer": "贈る",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "プロモート",
     "dropdown_boost": "Boost+",
     "from": "差出人",
@@ -75,7 +76,7 @@
     "memo_placeholder": "ここに内容を入力してください",
     "transfer_token": "送金",
     "purchase_estm": "GET POINTS",
-    "points": "Gift Points to someone",
+    "points": "Transfer Points",
     "transfer_to_saving": "貯蓄口座への送金",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "貯蓄口座を引出す",
@@ -612,7 +613,9 @@
     "image": "Image",
     "short_desc": "Short description",
     "short_desc_placeholder": "Brief summary of content",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -767,7 +770,9 @@
     "in": "in",
     "reveal_muted": "MUTED\nTap to reveal content",
     "posted_by": "Posted by {username} via {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ecency Waves",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "送金",
     "purchase_estm": "Purchase Points",
     "convert": "HBDをHIVEに変換",
-    "points": "Gift Points to someone",
+    "points": "Transfer Points",
     "transfer_to_savings": "Transfer To Saving",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "貯蓄口座に引き出す",
@@ -954,6 +959,14 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Swap Your Funds",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "コメント",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "もっとコメントを読む",
     "more_replies": "replies",
     "no_comments": "Be the first to respond...",

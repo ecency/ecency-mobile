@@ -8,6 +8,7 @@
     "points_activity": "Активность",
     "transfer": "Перевод",
     "recurrent_transfer": "Повторяющийся перевод",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "В силу",
     "transfer_from_savings": "Из сейфа",
     "withdraw_savings": "Вывести сбережения",
@@ -20,8 +21,8 @@
     "vote": "Голоса",
     "reblog": "Репосты",
     "login": "Логин",
-    "incoming_transfer_title": "Входящий перевод",
-    "outgoing_transfer_title": "Исходящий перевод",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "Бонус",
     "staked": "Заморожено",
     "delegations_in": "Delegations In",
@@ -50,7 +51,7 @@
     "reblog_desc": "Поделитесь понравившейся публикацией с друзьями и заработайте баллы.",
     "login_desc": "При первой авторизации в приложении вы получите 100 баллов.",
     "checkin_extra_desc": "Постоянное использование приложения дает шанс заработать дополнительные баллы. Больше активности - больше вознаграждений.",
-    "dropdown_transfer": "Подарить",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "Продвинуть",
     "dropdown_boost": "Усилить+",
     "from": "От",
@@ -75,7 +76,7 @@
     "memo_placeholder": "Введите свою заметку",
     "transfer_token": "Перевод",
     "purchase_estm": "ПОЛУЧИТЬ БАЛЛЫ",
-    "points": "Подарить Баллы",
+    "points": "Transfer Points",
     "transfer_to_saving": "В Сейф",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Вывести в Сейф",
@@ -612,7 +613,9 @@
     "image": "Изображение",
     "short_desc": "Краткое описание",
     "short_desc_placeholder": "Краткое содержание",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "Сниппеты не найдены",
@@ -767,7 +770,9 @@
     "in": "в",
     "reveal_muted": "ОТКЛЮЧЕНО\nНажмите, чтобы показать контент",
     "posted_by": "Опубликовано {username} с помощью {appname} ",
-    "ecency_waves": "Ecency Волны"
+    "ecency_waves": "Ecency Волны",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "Перевод",
     "purchase_estm": "Купить Баллы",
     "convert": "Конвертировать HBD в HIVE",
-    "points": "Подарить Баллы",
+    "points": "Transfer Points",
     "transfer_to_savings": "Отправить в сейф",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Перевести в сейф",
@@ -954,6 +959,14 @@
     "amount_select_description": "Введите сумму в пределах максимально доступного баланса {suffix}",
     "amount_select_desc_limit": " и должно быть больше 0,001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Обмен ваших средств",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "Комментарии",
-    "reveal_comment": "Отобразить содержимое",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "Читать больше комментариев",
     "more_replies": "ответы",
     "no_comments": "Прокомментируйте первым...",

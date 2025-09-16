@@ -8,6 +8,7 @@
     "points_activity": "Aktiivisuus",
     "transfer": "Siirto",
     "recurrent_transfer": "Toistuva Siirto",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "Ansaintaan",
     "transfer_from_savings": "Säästöistä",
     "withdraw_savings": "Kotiuta säästöihin",
@@ -20,8 +21,8 @@
     "vote": "Äänestys",
     "reblog": "Jako",
     "login": "Kirjautuminen",
-    "incoming_transfer_title": "Tuleva siirto",
-    "outgoing_transfer_title": "Menevä siirto",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "Palkkio",
     "staked": "Panostettu",
     "delegations_in": "Valtuutukset",
@@ -50,7 +51,7 @@
     "reblog_desc": "Jaa haluamasi julkaisu ystävillesi ja saat pisteitä.",
     "login_desc": "Saat 100 pistettä ensimmäisellä sisäänkirjauksella.",
     "checkin_extra_desc": "Toistuva appin käyttö voi johtaa lisäpisteisiin, ole aktiivinen ja saat enemmän.",
-    "dropdown_transfer": "Lahjoita",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "Korosta",
     "dropdown_boost": "Tehosta+",
     "from": "Lähettäjä",
@@ -75,7 +76,7 @@
     "memo_placeholder": "Kirjoita viesti tähän",
     "transfer_token": "Siirto",
     "purchase_estm": "Lunasta pisteet",
-    "points": "Lahjoita pisteitä",
+    "points": "Transfer Points",
     "transfer_to_saving": "Säästöihin",
     "transfer_to_vesting": "Panos",
     "withdraw_to_saving": "Kotiuta säästöihin",
@@ -612,7 +613,9 @@
     "image": "Kuva",
     "short_desc": "Lyhyt kuvaus",
     "short_desc_placeholder": "Lyhyt yhteenveto sisällöstä",
-    "set_default": "Aseta oletus"
+    "set_default": "Aseta oletus",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "Katkelmia ei löytynyt",
@@ -767,7 +770,9 @@
     "in": "yht",
     "reveal_muted": "Hiljennetty\nNapauta näyttääksesi sisällön",
     "posted_by": "Julkaisija {username} {appname} kautta ",
-    "ecency_waves": "Ecency Aallot"
+    "ecency_waves": "Ecency Aallot",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "Siirto",
     "purchase_estm": "Osta pisteitä",
     "convert": "Muunna HBD HIVEksi",
-    "points": "Lahjoita pisteitä",
+    "points": "Transfer Points",
     "transfer_to_savings": "Siirrä säästöihin",
     "transfer_to_vesting": "Panos",
     "withdraw_to_saving": "Kotiuta säästöihin",
@@ -954,6 +959,14 @@
     "amount_select_description": "Syötä summa maksimaalisen käytettävissä olevan saldon mukaan {suffix}",
     "amount_select_desc_limit": " ja on oltava suurempi kuin 0,001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Vaihda varojasi",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "Kommentit",
-    "reveal_comment": "Näytä sisältö",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "Lue lisää kommentteja",
     "more_replies": "vastaukset",
     "no_comments": "Ole ensimmäinen kommentoija...",

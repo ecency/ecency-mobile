@@ -8,6 +8,7 @@
     "points_activity": "गतिविधि",
     "transfer": "स्थानांतरण",
     "recurrent_transfer": "Recurrent Transfer",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "वेस्टिंग को",
     "transfer_from_savings": "बचत से",
     "withdraw_savings": "बचत खाते से निकालें",
@@ -20,8 +21,8 @@
     "vote": "वोट",
     "reblog": "पुनर्प्रेशण",
     "login": "लॉग इन करें",
-    "incoming_transfer_title": "आने वाली फाइल स्थानांतरण",
-    "outgoing_transfer_title": "जाने वाली फाइल स्थानांतरण",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "बोनस",
     "staked": "Staked",
     "delegations_in": "Delegations In",
@@ -50,7 +51,7 @@
     "reblog_desc": "आप अपने दोस्तों के साथ जो पोस्ट पसंद करते हैं उसे साझा करें और अंक अर्जित करें।",
     "login_desc": "जब आप पहली बार ऐप में लॉगिन करते हैं तो आप 100 अंक कमाते हैं।",
     "checkin_extra_desc": "एप्लिकेशन का लगातार उपयोग आपको अधिक अंक अर्जित करने, अधिक सक्रिय होने और अधिक कमाने के लिए अतिरिक्त मौके देता है।",
-    "dropdown_transfer": "उपहार",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "प्रचार करना",
     "dropdown_boost": "Boost+",
     "from": "से",
@@ -75,7 +76,7 @@
     "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
     "transfer_token": "स्थानांतरण",
     "purchase_estm": "अंक प्राप्त करें",
-    "points": "किसी को उपहार दे",
+    "points": "Transfer Points",
     "transfer_to_saving": "बचत करने के लिए",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "बचत खाते से निकालें",
@@ -612,7 +613,9 @@
     "image": "छवि",
     "short_desc": "Short description",
     "short_desc_placeholder": "Brief summary of content",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "कोई स्निपेट नहीं मिला",
@@ -767,7 +770,9 @@
     "in": "में",
     "reveal_muted": "मौन कर दिया गया\nसामग्री प्रकट करने के लिए टैप करें",
     "posted_by": "{username} द्वारा {appname} के माध्यम से पोस्ट किया गया ",
-    "ecency_waves": "इसेंसी तरंगें"
+    "ecency_waves": "इसेंसी तरंगें",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "स्थानांतरण",
     "purchase_estm": "पॉइंट्स खरीदे",
     "convert": "एचबीडी को हाइव में बदलें",
-    "points": "किसी को अंक उपहार दे",
+    "points": "Transfer Points",
     "transfer_to_savings": "बचत खाते में स्थान्तरण करें",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "बचत खाते से निकालें",
@@ -954,6 +959,14 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Swap Your Funds",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "विवेचनाऐं",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "अधिक टिप्पणियाँ पढ़ें",
     "more_replies": "जवाब",
     "no_comments": "जवाब देने वाले पहले बनें...",

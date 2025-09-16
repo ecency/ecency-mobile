@@ -8,6 +8,7 @@
     "points_activity": "Atividade",
     "transfer": "Transferir",
     "recurrent_transfer": "Transferência Recorrente",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "Power Up",
     "transfer_from_savings": "Das poupanças",
     "withdraw_savings": "Levantar da Poupança",
@@ -20,8 +21,8 @@
     "vote": "Votar",
     "reblog": "Republicar",
     "login": "Entrar",
-    "incoming_transfer_title": "Transferência Entrada",
-    "outgoing_transfer_title": "Transferência de saída",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "Bónus",
     "staked": "Poder Guardado",
     "delegations_in": "Delegations In",
@@ -50,7 +51,7 @@
     "reblog_desc": "Compartilhe o post que gosta com seus amigos e ganhe ponto.",
     "login_desc": "Quando você entrar no app pela primeira vez ganha 100 pontos.",
     "checkin_extra_desc": "O uso consistente do aplicativo dá mais chances para ganhar mais pontos, seja mais ativo e ganhar mais.",
-    "dropdown_transfer": "Presente",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "Promover",
     "dropdown_boost": "Impulso+",
     "from": "De",
@@ -75,7 +76,7 @@
     "memo_placeholder": "Insira aqui as suas notas",
     "transfer_token": "Transferir",
     "purchase_estm": "GANHE PONTOS",
-    "points": "Dê Pontos a alguém",
+    "points": "Transfer Points",
     "transfer_to_saving": "Depositar na Poupança",
     "transfer_to_vesting": "Aumentar Poder",
     "withdraw_to_saving": "Levantar das poupanças",
@@ -612,7 +613,9 @@
     "image": "Imagem",
     "short_desc": "Breve descrição",
     "short_desc_placeholder": "Breve resumo do conteúdo",
-    "set_default": "Definir Padrão"
+    "set_default": "Definir Padrão",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "Nenhum Snippet Encontrado",
@@ -767,7 +770,9 @@
     "in": "no",
     "reveal_muted": "SILENCIADO\nClique para revelar conteúdo",
     "posted_by": "Publicado por {username} via {appname} ",
-    "ecency_waves": "Ondas da Ecency"
+    "ecency_waves": "Ondas da Ecency",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "Transferir",
     "purchase_estm": "Comprar Pontos",
     "convert": "Converter HBD em HIVE",
-    "points": "Dê Pontos a alguém",
+    "points": "Transfer Points",
     "transfer_to_savings": "Transferir para a Poupança",
     "transfer_to_vesting": "Aumentar Poder",
     "withdraw_to_saving": "Levantar das poupanças",
@@ -954,6 +959,14 @@
     "amount_select_description": "Digite um valor dentro do saldo disponível {suffix}",
     "amount_select_desc_limit": " e deve ser maior que 0,001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Trocar Seus Fundos",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "Comentários",
-    "reveal_comment": "Mostrar Conteúdo",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "Ler mais comentários",
     "more_replies": "respostas",
     "no_comments": "Seja o primeiro a comentar...",

@@ -8,6 +8,7 @@
     "points_activity": "Aktivita",
     "transfer": "Převod prostředků",
     "recurrent_transfer": "Opakovaná platba",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "Uložit do HP",
     "transfer_from_savings": "Výběr ze spořícího účtu",
     "withdraw_savings": "Vybrat ze spořícího účtu",
@@ -20,8 +21,8 @@
     "vote": "Hlasy",
     "reblog": "Sdílet",
     "login": "Přihlásit se",
-    "incoming_transfer_title": "Příchozí přenos",
-    "outgoing_transfer_title": "Odchozí platba",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "Bonus",
     "staked": "Uloženo",
     "delegations_in": "Delegations In",
@@ -50,7 +51,7 @@
     "reblog_desc": "Sdílejte články ostatních se svými přáteli a vydělávejte body.",
     "login_desc": "Za první přihlášení do aplikace dostanete 100 bodů.",
     "checkin_extra_desc": "Pravidelným využíváním aplikace si můžete vydělat víc bodů. Čím víc jste aktivní, tím více vyděláte.",
-    "dropdown_transfer": "Darovat",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "Propagovat",
     "dropdown_boost": "Boost+",
     "from": "Od",
@@ -75,7 +76,7 @@
     "memo_placeholder": "Zadejte své poznámky zde",
     "transfer_token": "Převod",
     "purchase_estm": "ZÍSKAT BODY",
-    "points": "Darovat někomu body",
+    "points": "Transfer Points",
     "transfer_to_saving": "Na spořící účet",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Vybrat ze spořícího účtu",
@@ -612,7 +613,9 @@
     "image": "Obrázek",
     "short_desc": "Krátký popis",
     "short_desc_placeholder": "Stručné shrnutí obsahu",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "Nebyly nalezeny žádné snippety",
@@ -767,7 +770,9 @@
     "in": "in",
     "reveal_muted": "MUTED\nTap to reveal content",
     "posted_by": "Posted by {username} via {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ecency Waves",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "Transfer",
     "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "points": "Transfer Points",
     "transfer_to_savings": "Transfer To Saving",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Withdraw To Saving",
@@ -954,6 +959,14 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Swap Your Funds",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "Comments",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "Read more comments",
     "more_replies": "replies",
     "no_comments": "Be the first to respond...",

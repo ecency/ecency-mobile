@@ -8,6 +8,7 @@
     "points_activity": "Activity",
     "transfer": "Prenos",
     "recurrent_transfer": "Recurrent Transfer",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "To Vesting",
     "transfer_from_savings": "Od štednje",
     "withdraw_savings": "Withdraw Savings",
@@ -20,8 +21,8 @@
     "vote": "Glasaj",
     "reblog": "Podeli",
     "login": "Prijavi se",
-    "incoming_transfer_title": "Dolazni prenos",
-    "outgoing_transfer_title": "Odlazni prenos",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "Bonus",
     "staked": "Staked",
     "delegations_in": "Delegations In",
@@ -50,7 +51,7 @@
     "reblog_desc": "Podelite objavu koju volite sa prijateljima i zaradite poene.",
     "login_desc": "Kada se prvi put prijavite u aplikaciji zaradićete 100 poena.",
     "checkin_extra_desc": "Dosledno korišćenje aplikacije pruža vam dodatne šanse da zaradite dodatne poene, budete aktivniji i zaradite više.",
-    "dropdown_transfer": "Poklon",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "Promoviši",
     "dropdown_boost": "Boost+",
     "from": "Od",
@@ -75,7 +76,7 @@
     "memo_placeholder": "Ovde unesite svoje beleške",
     "transfer_token": "Prenos",
     "purchase_estm": "DOBIJTE POENE",
-    "points": "Poklonite poene nekome",
+    "points": "Transfer Points",
     "transfer_to_saving": "U štednju",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Povuci štednju",
@@ -612,7 +613,9 @@
     "image": "Image",
     "short_desc": "Short description",
     "short_desc_placeholder": "Brief summary of content",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -767,7 +770,9 @@
     "in": "in",
     "reveal_muted": "MUTED\nTap to reveal content",
     "posted_by": "Posted by {username} via {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ecency Waves",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "Prenos",
     "purchase_estm": "Kupite poene",
     "convert": "Pretvori HBD u HIVE",
-    "points": "Poklonite poene nekome",
+    "points": "Transfer Points",
     "transfer_to_savings": "Transfer To Saving",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Povuci na štednju",
@@ -954,6 +959,14 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Swap Your Funds",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "Komentari",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "Pročitajte još komentara",
     "more_replies": "replies",
     "no_comments": "Be the first to respond...",

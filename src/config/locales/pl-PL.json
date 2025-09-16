@@ -8,6 +8,7 @@
     "points_activity": "Activity",
     "transfer": "Przelew",
     "recurrent_transfer": "Recurrent Transfer",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "To Vesting",
     "transfer_from_savings": "Z oszczędności",
     "withdraw_savings": "Withdraw Savings",
@@ -20,8 +21,8 @@
     "vote": "Głos",
     "reblog": "Resteem",
     "login": "Logowanie",
-    "incoming_transfer_title": "Przelew przychodzący",
-    "outgoing_transfer_title": "Przelew wychodzący",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "Premia",
     "staked": "Staked",
     "delegations_in": "Delegations In",
@@ -50,7 +51,7 @@
     "reblog_desc": "Podziel się ulubionym postem ze swoimi znajomymi i zdobądź punkt.",
     "login_desc": "Po pierwszym logowaniu do aplikacji, zarobisz 100 punktów.",
     "checkin_extra_desc": "Spójne korzystanie z aplikacji daje dodatkowe szanse na zdobycie więcej punktów, bądź bardziej aktywny i zyskaj więcej.",
-    "dropdown_transfer": "Prezent",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "Promować",
     "dropdown_boost": "Boost+",
     "from": "Od",
@@ -75,7 +76,7 @@
     "memo_placeholder": "Wprowadź swoje notatki tutaj",
     "transfer_token": "Przelew",
     "purchase_estm": "POBIERZ PUNKTY",
-    "points": "Punkty podarunkowe dla kogoś",
+    "points": "Transfer Points",
     "transfer_to_saving": "Do oszczędności",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Wypłać Oszczędności",
@@ -612,7 +613,9 @@
     "image": "Image",
     "short_desc": "Short description",
     "short_desc_placeholder": "Brief summary of content",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -767,7 +770,9 @@
     "in": "in",
     "reveal_muted": "MUTED\nTap to reveal content",
     "posted_by": "Posted by {username} via {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ecency Waves",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "Przelew",
     "purchase_estm": "Miejsce zakupu",
     "convert": "Zmień HBD na HIVE",
-    "points": "Punkty podarunkowe dla kogoś",
+    "points": "Transfer Points",
     "transfer_to_savings": "Transfer To Saving",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Wypłać Do Oszczędności",
@@ -954,6 +959,14 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Swap Your Funds",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "Komentarze",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "Przeczytaj więcej komentarzy",
     "more_replies": "replies",
     "no_comments": "Be the first to respond...",

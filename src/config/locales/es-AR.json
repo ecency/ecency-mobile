@@ -8,6 +8,7 @@
     "points_activity": "Activity",
     "transfer": "Transferir",
     "recurrent_transfer": "Recurrent Transfer",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "A invertir",
     "transfer_from_savings": "Desde Ahorros",
     "withdraw_savings": "Withdraw Savings",
@@ -20,8 +21,8 @@
     "vote": "Votar",
     "reblog": "Rebloguear",
     "login": "Iniciar sesión",
-    "incoming_transfer_title": "Transferencia entrante",
-    "outgoing_transfer_title": "Transferencia enviada",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "Bonus",
     "staked": "Staked",
     "delegations_in": "Delegations In",
@@ -50,7 +51,7 @@
     "reblog_desc": "Comparte una publicación que te guste con tus amigos y gana puntos.",
     "login_desc": "Cuando inicias sesión en la aplicación por primera vez ganas 100 puntos.",
     "checkin_extra_desc": "El uso consistente de la aplicación te otorga más posibilidades de generar puntos, se más activo y gana mucho más.",
-    "dropdown_transfer": "Regalo",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "Promocionar",
     "dropdown_boost": "Boost+",
     "from": "Desde",
@@ -75,7 +76,7 @@
     "memo_placeholder": "Escribe tus notas aquí",
     "transfer_token": "Transferir",
     "purchase_estm": "OBTENER PUNTOS",
-    "points": "Regalar puntos a alguien",
+    "points": "Transfer Points",
     "transfer_to_saving": "A Ahorros",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Retirar Ahorros",
@@ -612,7 +613,9 @@
     "image": "Image",
     "short_desc": "Short description",
     "short_desc_placeholder": "Brief summary of content",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -767,7 +770,9 @@
     "in": "in",
     "reveal_muted": "MUTED\nTap to reveal content",
     "posted_by": "Posted by {username} via {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ecency Waves",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "Transfer",
     "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "points": "Transfer Points",
     "transfer_to_savings": "Transfer To Saving",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Withdraw To Saving",
@@ -954,6 +959,14 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Swap Your Funds",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "Comments",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "Read more comments",
     "more_replies": "replies",
     "no_comments": "Be the first to respond...",

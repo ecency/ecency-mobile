@@ -8,6 +8,7 @@
     "points_activity": "الأنشطة والمستجدّات",
     "transfer": "تحويل",
     "recurrent_transfer": "تحويل متكرر",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "إلى استحقاق",
     "transfer_from_savings": "من المدخرات",
     "withdraw_savings": "سحب المدخرات",
@@ -20,8 +21,8 @@
     "vote": "تصويت",
     "reblog": "إعادة النشر",
     "login": "تسجيل الدخول",
-    "incoming_transfer_title": "التحويل الوارد",
-    "outgoing_transfer_title": "التحويل الصادر",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "ربح",
     "staked": "مرهون",
     "delegations_in": "Delegations In",
@@ -50,7 +51,7 @@
     "reblog_desc": "شارك المنشور الذي تحبه مع أصدقائك واكسب نقاط.",
     "login_desc": "عند تسجيل الدخول إلى التطبيق للمرة الأولى تحصل على 100 نقطة.",
     "checkin_extra_desc": "الاستخدام المستمر للتطبيق يمنحك فرصا إضافية لكسب المزيد من النقاط، كن أكثر نشاطا و إكسب المزيد.",
-    "dropdown_transfer": "هدية",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "حملة اعلانية لمنشورك",
     "dropdown_boost": "دعاية+",
     "from": "من",
@@ -75,7 +76,7 @@
     "memo_placeholder": "أدخل ملاحظاتك هنا",
     "transfer_token": "تحويل",
     "purchase_estm": "احصل على نقاط",
-    "points": "إهداء نقاطك لشخص آخر",
+    "points": "Transfer Points",
     "transfer_to_saving": "إلى المدخرات",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "سحب المدخرات",
@@ -612,7 +613,9 @@
     "image": "صورة",
     "short_desc": "وصف مختصر",
     "short_desc_placeholder": "ملخص موجز للمحتوى",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "لم يتم العثور على مقتطفات",
@@ -767,7 +770,9 @@
     "in": "في",
     "reveal_muted": "مكتوم\nانقر لإظهار المحتوى",
     "posted_by": "تم نشره بواسطة {username} عبر {appname} ",
-    "ecency_waves": "موجات Ecency"
+    "ecency_waves": "موجات Ecency",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "تحويل",
     "purchase_estm": "شراء النقاط",
     "convert": "تحويل HBD إلى HIVE",
-    "points": "إهداء نقاطك لشخص آخر",
+    "points": "Transfer Points",
     "transfer_to_savings": "النقل إلى المدخرات",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "سحب إلى الادخار",
@@ -954,6 +959,14 @@
     "amount_select_description": "أدخل المبلغ ضمن الحد الأقصى للرصيد المتاح {suffix}",
     "amount_select_desc_limit": " ويجب أن يكون أكبر من 0.001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "مبادلة أموالك",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "التعليقات",
-    "reveal_comment": "كشف المحتوى",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "المزيد من التعليقات",
     "more_replies": "ردود",
     "no_comments": "كن اول من يرد...",

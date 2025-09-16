@@ -8,6 +8,7 @@
     "points_activity": "Activity",
     "transfer": "O'tkazma",
     "recurrent_transfer": "Recurrent Transfer",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "Sarmoya kiritish",
     "transfer_from_savings": "Jamg'armadan",
     "withdraw_savings": "J'amg'armadan yechib olish",
@@ -20,8 +21,8 @@
     "vote": "Ovoz berish",
     "reblog": "Qayta bloglash",
     "login": "Kirish",
-    "incoming_transfer_title": "Kiruvchi transfer",
-    "outgoing_transfer_title": "Chiquvchi transfer",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "Bonus",
     "staked": "Staked",
     "delegations_in": "Delegations In",
@@ -50,7 +51,7 @@
     "reblog_desc": "Yoqtirgan postlaringizni ulashing va ball ishlang.",
     "login_desc": "Ilovaga birinchi marta kirganingizda 100 ball olasiz.",
     "checkin_extra_desc": "Ilovadan doimiy foydalanish sizga ko'proq ball to'plash, faolroq bo'lish va ko'proq pul ishlash uchun qo'shimcha imkoniyatlar beradi.",
-    "dropdown_transfer": "Sovg‘a",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "Targ'ib qilish",
     "dropdown_boost": "Boost+",
     "from": "Dan",
@@ -75,7 +76,7 @@
     "memo_placeholder": "Qaydlaringizni shu yerga kiriting",
     "transfer_token": "O'tkazma",
     "purchase_estm": "BALLARNI OLISH",
-    "points": "Ballarni sovg'a qilish",
+    "points": "Transfer Points",
     "transfer_to_saving": "Jamg'armaga",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "J'amg'armadan yechib olish",
@@ -612,7 +613,9 @@
     "image": "Rasm",
     "short_desc": "Short description",
     "short_desc_placeholder": "Brief summary of content",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "Snippetlar topilmadi",
@@ -767,7 +770,9 @@
     "in": "ichida",
     "reveal_muted": "O'CHIRILGAN\nKontentni ochish uchun bosing",
     "posted_by": "Posted by {username} via {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ecency Waves",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "O'tkazma",
     "purchase_estm": "Ball sotib olish",
     "convert": "HBDni HIVEga konvertatsiya qilish",
-    "points": "Ballarni sovg'a qilish",
+    "points": "Transfer Points",
     "transfer_to_savings": "Jang'armaga o'tqazish",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "J'amg'armadan yechib olish",
@@ -954,6 +959,14 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Swap Your Funds",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "Izohlar",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "Ko'proq izohlarni o'qish",
     "more_replies": "javoblar",
     "no_comments": "Be the first to respond...",

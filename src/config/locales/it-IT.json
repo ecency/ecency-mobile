@@ -8,6 +8,7 @@
     "points_activity": "Activity",
     "transfer": "Trasferimento",
     "recurrent_transfer": "Recurrent Transfer",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "To Vesting",
     "transfer_from_savings": "Dal salvadanaio",
     "withdraw_savings": "Withdraw Savings",
@@ -20,8 +21,8 @@
     "vote": "Voto",
     "reblog": "Reblog",
     "login": "Accedi",
-    "incoming_transfer_title": "Trasferimento in entrata",
-    "outgoing_transfer_title": "Trasferimento in uscita",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "Bonus",
     "staked": "Staked",
     "delegations_in": "Delegations In",
@@ -50,7 +51,7 @@
     "reblog_desc": "Condividi il post che ti piace con i tuoi amici e guadagna punti.",
     "login_desc": "Quando accedi all'app la prima volta che guadagni 100 punti.",
     "checkin_extra_desc": "L'uso costante dell'app ti dà la possibilità di guadagnare più di punti, più sei attivo e più guadagni.",
-    "dropdown_transfer": "Dona",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "Promuovi",
     "dropdown_boost": "Boost+",
     "from": "Da",
@@ -75,7 +76,7 @@
     "memo_placeholder": "Inserisci qui le tue note",
     "transfer_token": "Trasferimento",
     "purchase_estm": "GET POINTS",
-    "points": "Gift Points to someone",
+    "points": "Transfer Points",
     "transfer_to_saving": "Versa nel salvadanaio",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Preleva dal salvadanaio",
@@ -612,7 +613,9 @@
     "image": "Image",
     "short_desc": "Short description",
     "short_desc_placeholder": "Brief summary of content",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -767,7 +770,9 @@
     "in": "in",
     "reveal_muted": "MUTED\nTap to reveal content",
     "posted_by": "Posted by {username} via {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ecency Waves",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "Trasferisci",
     "purchase_estm": "Purchase Points",
     "convert": "Converti HBD in HIVE",
-    "points": "Gift Points to someone",
+    "points": "Transfer Points",
     "transfer_to_savings": "Transfer To Saving",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Versa nel Salvadanaio",
@@ -954,6 +959,14 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Swap Your Funds",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "Commenti",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "Carica altri commenti",
     "more_replies": "replies",
     "no_comments": "Be the first to respond...",

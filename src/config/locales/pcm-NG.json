@@ -8,6 +8,7 @@
     "points_activity": "Activity",
     "transfer": "Transfer",
     "recurrent_transfer": "Recurrent Transfer",
+    "total_recurrent_transfers": "Total Recurrent Transfers",
     "power_up": "To Vesting",
     "transfer_from_savings": "From wia you keep am",
     "withdraw_savings": "Withdraw Savings",
@@ -20,8 +21,8 @@
     "vote": "Vote",
     "reblog": "Reblog am",
     "login": "Login",
-    "incoming_transfer_title": "Something wey dey enter",
-    "outgoing_transfer_title": "Something wey dey comot",
+    "incoming_transfer_title": "Transfer/Gifting",
+    "outgoing_transfer_title": "Transfer/Gifting",
     "checkin_extra": "Awoof",
     "staked": "Staked",
     "delegations_in": "Delegations In",
@@ -50,7 +51,7 @@
     "reblog_desc": "You fit tell ur padi d tori wey you enjoy make you collect some things too.",
     "login_desc": "You go collect 100 somethings when you enta the application as jjc.",
     "checkin_extra_desc": "You go get chance collect beta some things if you dey use the application wella, and say you dey sha prapra.",
-    "dropdown_transfer": "Dash",
+    "dropdown_transfer": "Transfer",
     "dropdown_promote": "Loud am",
     "dropdown_boost": "Boost+",
     "from": "From",
@@ -75,7 +76,7 @@
     "memo_placeholder": "Write your note for here",
     "transfer_token": "Transfer",
     "purchase_estm": "COLLECT SOME THINGS",
-    "points": "Give ur personal people dem some things",
+    "points": "Transfer Points",
     "transfer_to_saving": "To wia you keep am",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Comot for wia you keep am",
@@ -612,7 +613,9 @@
     "image": "Image",
     "short_desc": "Short description",
     "short_desc_placeholder": "Brief summary of content",
-    "set_default": "Set Default"
+    "set_default": "Set Default",
+    "community_restriction": "Only members of {title} community can publish post",
+    "community_comment_restriction": "Only members of {title} community can comment on this post"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -767,7 +770,9 @@
     "in": "in",
     "reveal_muted": "MUTED\nTap to reveal content",
     "posted_by": "Posted by {username} via {appname} ",
-    "ecency_waves": "Ecency Waves"
+    "ecency_waves": "Ecency Waves",
+    "community_muted": "Content muted for community guidelines violation",
+    "muted": "Content is muted for violation"
   },
   "cross_post": {
     "title": "Cross Post",
@@ -893,7 +898,7 @@
     "transfer_token": "Transfer am",
     "purchase_estm": "Buy dem Points",
     "convert": "Change HBD enta HIVE",
-    "points": "Give ur personal people dem some things",
+    "points": "Transfer Points",
     "transfer_to_savings": "Transfer To Saving",
     "transfer_to_vesting": "Stake",
     "withdraw_to_saving": "Comot go wia you go keep am",
@@ -954,6 +959,14 @@
     "amount_select_description": "Enter amount within maximum available balance {suffix}",
     "amount_select_desc_limit": " and must be greater than 0.001",
     "too_many_usernames": "Max 5 usernames allowed."
+  },
+  "recurrent": {
+    "title": "Recurrent Transfers ({total})",
+    "transfer_in": "Transfer {time}",
+    "remaining_executions": "Remaining {executions} transfers",
+    "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
+    "delete_success": "Recurrent transfer deleted successfully",
+    "delete_failed": "Failed to delete recurrent transfer, {error}"
   },
   "trade": {
     "swap_token": "Swap Your Funds",
@@ -1037,7 +1050,7 @@
   },
   "comments": {
     "title": "Comments",
-    "reveal_comment": "Reveal Content",
+    "reveal_comment": "Muted! Tap To Reveal",
     "read_more": "Check dem comments",
     "more_replies": "replies",
     "no_comments": "Be the first to respond...",
