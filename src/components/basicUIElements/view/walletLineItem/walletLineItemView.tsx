@@ -44,10 +44,11 @@ const WalletLineItem = ({
                 styles.iconWrapper,
                 isCircleIcon && styles.circleIcon,
                 index && {
-                  backgroundColor: `${index && index % 2 !== 0
-                    ? EStyleSheet.value('$white')
-                    : EStyleSheet.value('$primaryLightBackground')
-                    }`,
+                  backgroundColor: `${
+                    index && index % 2 !== 0
+                      ? EStyleSheet.value('$white')
+                      : EStyleSheet.value('$primaryLightBackground')
+                  }`,
                 },
               ]}
             >
@@ -98,7 +99,6 @@ const WalletLineItem = ({
               </Text>
             </View>
           )}
-
         </View>
 
         <View style={styles.actionBtnWrapper}>

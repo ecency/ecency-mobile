@@ -101,7 +101,7 @@ export default EStyleSheet.create({
   repeatContainer: {
     marginLeft: 5,
   },
-  actionBtnWrapper:{
+  actionBtnWrapper: {
     justifyContent: 'center',
-  }
+  },
 });
