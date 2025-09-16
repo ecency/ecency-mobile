@@ -207,7 +207,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView edges={['top']} style={styles.container}>
       <BasicHeader title={intl.formatMessage({ id: 'wallet.coin_details' })} />
       <ActivitiesList
         header={_renderHeaderComponent}
