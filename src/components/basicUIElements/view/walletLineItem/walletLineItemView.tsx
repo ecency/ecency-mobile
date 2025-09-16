@@ -44,11 +44,10 @@ const WalletLineItem = ({
                 styles.iconWrapper,
                 isCircleIcon && styles.circleIcon,
                 index && {
-                  backgroundColor: `${
-                    index && index % 2 !== 0
-                      ? EStyleSheet.value('$white')
-                      : EStyleSheet.value('$primaryLightBackground')
-                  }`,
+                  backgroundColor: `${index && index % 2 !== 0
+                    ? EStyleSheet.value('$white')
+                    : EStyleSheet.value('$primaryLightBackground')
+                    }`,
                 },
               ]}
             >
@@ -86,64 +85,67 @@ const WalletLineItem = ({
               <Text style={[styles.description, !iconName && styles.onlyText]}>{description}</Text>
             )}
           </View>
+
+          {!!rightText && (
+            <View style={styles.rightTextWrapper}>
+              <Text
+                style={[
+                  styles.rightText,
+                  rightTextColor ? { color: rightTextColor } : !text && styles.onlyRightText,
+                ]}
+              >
+                {rightText}
+              </Text>
+            </View>
+          )}
+
         </View>
 
-        {!!rightText && (
-          <View style={styles.rightTextWrapper}>
-            <Text
-              style={[
-                styles.rightText,
-                rightTextColor ? { color: rightTextColor } : !text && styles.onlyRightText,
-              ]}
-            >
-              {rightText}
-            </Text>
-          </View>
-        )}
-
-        {!!cancelable && (
-          <IconButton
-            backgroundColor="transparent"
-            name="cancel"
-            iconType="MaterialIcons"
-            size={20}
-            style={styles.cancelIcon}
-            onPress={() => {
-              onCancelPress && onCancelPress();
-            }}
-            color="#c1c5c7"
-            isLoading={cancelling}
-          />
-        )}
-
-        {!!onRepeatPress && (
-          <IconButton
-            backgroundColor="transparent"
-            name="repeat"
-            iconType="FontAwesome"
-            size={18}
-            onPress={() => {
-              onRepeatPress();
-            }}
-            color="#c1c5c7"
-            isLoading={false}
-            style={styles.repeatContainer}
-          />
-        )}
-
-        {isHasdropdown && (
-          <View style={styles.dropdownWrapper}>
-            <DropdownButton
-              isHasChildIcon
-              iconName="arrow-drop-down"
-              options={dropdownOptions}
-              noHighlight
-              onSelect={onDropdownSelect}
-              rowTextStyle={styles.dropdownRowText}
-              dropdownStyle={styles.dropdownStyle}
+        <View style={styles.actionBtnWrapper}>
+          {!!cancelable && (
+            <IconButton
+              backgroundColor="transparent"
+              name="cancel"
+              iconType="MaterialIcons"
+              size={20}
+              style={styles.cancelIcon}
+              onPress={() => {
+                onCancelPress && onCancelPress();
+              }}
+              color="#c1c5c7"
+              isLoading={cancelling}
             />
-          </View>
-        )}
+          )}
+
+          {!!onRepeatPress && (
+            <IconButton
+              backgroundColor="transparent"
+              name="repeat"
+              iconType="FontAwesome"
+              size={18}
+              onPress={() => {
+                onRepeatPress();
+              }}
+              color="#c1c5c7"
+              isLoading={false}
+              style={styles.repeatContainer}
+            />
+          )}
+
+          {isHasdropdown && (
+            <View style={styles.dropdownWrapper}>
+              <DropdownButton
+                isHasChildIcon
+                iconName="arrow-drop-down"
+                options={dropdownOptions}
+                noHighlight
+                onSelect={onDropdownSelect}
+                rowTextStyle={styles.dropdownRowText}
+                dropdownStyle={styles.dropdownStyle}
+              />
+            </View>
+          )}
+        </View>
       </View>
     </GrayWrapper>
   </TouchableOpacity>
