@@ -23,17 +23,19 @@ export default EStyleSheet.create({
   },
   input: {
     color: '$primaryDarkText',
+    marginLeft: 6,
   },
   resultIcon: {
     marginBottom: 24,
   },
   inputWrapper: {
     borderRadius: 28,
-    borderTopEndRadius: 28,
-    borderTopStartRadius: 28,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
     marginBottom: 12,
     borderBottomWidth: 1,
-    paddingRight: 8,
+    paddingRight: 12,
+    paddingLeft: 8,
     height: 56,
   } as ViewStyle,
   authInputContent: {
