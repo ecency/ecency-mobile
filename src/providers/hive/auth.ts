@@ -36,10 +36,10 @@ export const login = async (username, password) => {
 
   // Public keys of user
   const publicKeys = {
-    activeKey: get(account, 'active.key_auths', []).map((x) => x[0])[0],
-    memoKey: get(account, 'memo_key', ''),
-    ownerKey: get(account, 'owner.key_auths', []).map((x) => x[0])[0],
-    postingKey: get(account, 'posting.key_auths', []).map((x) => x[0])[0],
+    activeKey: get(account, 'active.key_auths', []).map((x) => x[0]),
+    memoKey: [get(account, 'memo_key', '')],
+    ownerKey: get(account, 'owner.key_auths', []).map((x) => x[0]),
+    postingKey: get(account, 'posting.key_auths', []).map((x) => x[0]),
   };
 
   // // Set private keys of user
@@ -47,7 +47,8 @@ export const login = async (username, password) => {
 
   // Check all keys
   Object.keys(publicKeys).forEach((pubKey) => {
-    if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
+    const _genPublicKey = privateKeys[pubKey].createPublic().toString();
+    if (publicKeys[pubKey].some((key) => key === _genPublicKey)) {
       _keyMatched = true;
       if (privateKeys.isMasterKey) {
         authType = AUTH_TYPE.MASTER_KEY;
@@ -455,10 +456,10 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
   // const account = await getUser(username);
   // Public keys of user
   const publicKeys = {
-    activeKey: get(currentAccountData, 'active.key_auths', []).map((x) => x[0])[0],
-    memoKey: get(currentAccountData, 'memo_key', ''),
-    ownerKey: get(currentAccountData, 'owner.key_auths', []).map((x) => x[0])[0],
-    postingKey: get(currentAccountData, 'posting.key_auths', []).map((x) => x[0])[0],
+    activeKey: get(currentAccountData, 'active.key_auths', []).map((x) => x[0]),
+    memoKey: [get(currentAccountData, 'memo_key', '')],
+    ownerKey: get(currentAccountData, 'owner.key_auths', []).map((x) => x[0]),
+    postingKey: get(currentAccountData, 'posting.key_auths', []).map((x) => x[0]),
   };
 
   // // Set private keys of user
@@ -467,7 +468,8 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
   // Check all keys and set authType
   let authType = '';
   Object.keys(publicKeys).forEach((pubKey) => {
-    if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
+    const _genPublicKey = privateKeys[pubKey].createPublic().toString();
+    if (publicKeys[pubKey].some((key) => key === _genPublicKey)) {
       loginFlag = true;
       if (privateKeys.isMasterKey) {
         authType = AUTH_TYPE.MASTER_KEY;
