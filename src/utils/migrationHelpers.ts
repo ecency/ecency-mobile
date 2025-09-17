@@ -321,6 +321,10 @@ const reduxMigrations = {
     state.cache.proposalsVoteMeta = {};
     return state;
   },
+  12: (state) => {
+    state.application.pin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+    return state;
+  },
 };
 
 export default {
