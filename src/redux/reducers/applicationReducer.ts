@@ -1,3 +1,5 @@
+import Config from 'react-native-config';
+import { encryptKey } from '../../utils/crypto';
 import {
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
@@ -104,7 +106,7 @@ const initialState: State = {
   commentUpvotePercent: 1,
   waveUpvotePercent: 1,
   nsfw: '1',
-  pin: null,
+  pin: encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY),
   isPinCodeOpen: false,
   isRenderRequired: false,
   encUnlockPin: '',
