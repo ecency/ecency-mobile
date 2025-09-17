@@ -42,14 +42,13 @@ export const login = async (username, password) => {
     postingKey: get(account, 'posting.key_auths', []).map((x) => x[0]),
   };
 
-
   // // Set private keys of user
   const privateKeys = getPrivateKeys(username, password);
 
   // Check all keys
   Object.keys(publicKeys).forEach((pubKey) => {
-    const _privateKey = privateKeys[pubKey].createPublic().toString();
-    if (publicKeys[pubKey].some(key => key === _privateKey)) {
+    const _genPublicKey = privateKeys[pubKey].createPublic().toString();
+    if (publicKeys[pubKey].some((key) => key === _genPublicKey)) {
       _keyMatched = true;
       if (privateKeys.isMasterKey) {
         authType = AUTH_TYPE.MASTER_KEY;
@@ -426,22 +425,22 @@ const getUpdatedUserData = (userData, data) => {
         : get(userData, 'masterKey', ''),
     postingKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
         ? encryptKey(get(privateKeys, 'postingKey', '').toString(), get(data, 'pinCode'))
         : get(userData, 'postingKey', ''),
     activeKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
         ? encryptKey(get(privateKeys, 'activeKey', '').toString(), get(data, 'pinCode'))
         : get(userData, 'activeKey', ''),
     memoKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
         ? encryptKey(get(privateKeys, 'memoKey', '').toString(), get(data, 'pinCode'))
         : get(userData, 'memoKey', ''),
     ownerKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-        get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
+      get(userData, 'authType', '') === AUTH_TYPE.OWNER_KEY
         ? encryptKey(get(privateKeys, 'ownerKey', '').toString(), get(data, 'pinCode'))
         : get(userData, 'ownerKey', ''),
     hiveAuthKey:
@@ -469,8 +468,8 @@ export const getUpdatedUserKeys = async (currentAccountData, data) => {
   // Check all keys and set authType
   let authType = '';
   Object.keys(publicKeys).forEach((pubKey) => {
-    const _privateKey = privateKeys[pubKey].createPublic().toString();
-    if (publicKeys[pubKey].some(key => key === _privateKey)) {
+    const _genPublicKey = privateKeys[pubKey].createPublic().toString();
+    if (publicKeys[pubKey].some((key) => key === _genPublicKey)) {
       loginFlag = true;
       if (privateKeys.isMasterKey) {
         authType = AUTH_TYPE.MASTER_KEY;
