@@ -1149,7 +1149,7 @@
   "quick_reply": {
     "placeholder": "Add a comment...",
     "placeholder_wave": "What's happening?",
-    "summary_wave": "Published in {host}",
+    "summary_wave": "Publishing in {host}",
     "host_waves":"Waves",
     "comment": "Comment",
     "reply": "REPLY",
