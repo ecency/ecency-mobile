@@ -382,8 +382,8 @@
   },
   "login": {
     "signin": "Login",
-    "login_with_hs": "Login with hivesigner",
-    "signin_with_hiveauth": "Login with hiveauth",
+    "login_with_hs": "Login with Hivesigner",
+    "signin_with_hiveauth": "HiveAuth / Keychain",
     "signup": "अब सम्मिलित हों",
     "signin_title": "इसेंसी का उपयोग करने के सभी लाभ प्राप्त करने के लिए",
     "username": "username",
@@ -1149,7 +1149,8 @@
   "quick_reply": {
     "placeholder": "एक टिप्पणी जोड़ने...",
     "placeholder_wave": "What's happening?",
-    "summary_wave": "Will be published in: {host}",
+    "summary_wave": "Publishing in {host}",
+    "host_waves": "Waves",
     "comment": "टिप्पणी",
     "reply": "जवाब",
     "publish": "PUBLISH",
