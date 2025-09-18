@@ -11,7 +11,7 @@ import * as operationsData from './operations.json';
 export const normalizeHiveUri = (uri: string) => {
   const trimUri = uri.trim();
   const lowerCaseUri = trimUri.toLowerCase();
-  if (lowerCaseUri.startsWith('ecency://sign/transfer')) {
+  if (lowerCaseUri.startsWith('ecency://sign/')) {
     return `hive://${trimUri.slice('ecency://'.length)}`;
   }
 
