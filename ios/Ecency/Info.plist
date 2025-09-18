@@ -45,6 +45,7 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>has</string>
+		<string>hive</string>
 		<string>message</string>
 		<string>readdle-spark</string>
 		<string>airmail</string>

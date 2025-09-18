@@ -27,6 +27,11 @@
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="has" />
         </intent>
+
+             <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="hive" />
+        </intent>
     </queries>
 
     <application
@@ -106,6 +111,12 @@
                 android:host="ecency.com"
                 android:path="/purchase"
             />
+        </intent-filter>
+        <intent-filter android:label="Ecency" >
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="hive" />
         </intent-filter>
         <intent-filter android:label="Ecency" >
             <action android:name="android.intent.action.VIEW" />
