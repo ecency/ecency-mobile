@@ -382,8 +382,8 @@
   },
   "login": {
     "signin": "Войти",
-    "login_with_hs": "Войти с помощью hivesigner",
-    "signin_with_hiveauth": "Login with hiveauth",
+    "login_with_hs": "Login with Hivesigner",
+    "signin_with_hiveauth": "HiveAuth / Keychain",
     "signup": "ПРИСОЕДИНЯЙТЕСЬ СЕЙЧАС",
     "signin_title": "Чтобы получить все преимущества от использования Ecency",
     "username": "имя пользователя",
@@ -1149,7 +1149,8 @@
   "quick_reply": {
     "placeholder": "Добавить комментарий...",
     "placeholder_wave": "Что интересного вокруг?",
-    "summary_wave": "Будет опубликовано в: {host}",
+    "summary_wave": "Publishing in {host}",
+    "host_waves": "Waves",
     "comment": "Комментарий",
     "reply": "ОТВЕТИТЬ",
     "publish": "ОПУБЛИКОВАТЬ",
