@@ -382,8 +382,8 @@
   },
   "login": {
     "signin": "Kirjaudu",
-    "login_with_hs": "Kirjaudu sisään hivesignerilla",
-    "signin_with_hiveauth": "Kirjaudu sisään hiveautilla",
+    "login_with_hs": "Login with Hivesigner",
+    "signin_with_hiveauth": "HiveAuth / Keychain",
     "signup": "LIITY NYT",
     "signin_title": "Hyötyäksesi Ecencyn käytöstä",
     "username": "käyttäjätunnus",
@@ -1149,7 +1149,8 @@
   "quick_reply": {
     "placeholder": "Lisää kommentti...",
     "placeholder_wave": "Mitä tapahtuu?",
-    "summary_wave": "Julkaistaan: {host}",
+    "summary_wave": "Publishing in {host}",
+    "host_waves": "Waves",
     "comment": "Kommentti",
     "reply": "VASTAA",
     "publish": "Julkaise",
