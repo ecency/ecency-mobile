@@ -83,8 +83,10 @@ export const QuickPostModalContent = forwardRef(
 
     const headerText =
       mode === 'wave'
-        ? intl.formatMessage({ id: 'quick_reply.summary_wave' }, { host: 'ecency.waves' }) // TODO: update based on selected host
-        : selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
+        ? intl.formatMessage(
+          { id: 'quick_reply.summary_wave' },
+          { host: intl.formatMessage({ id: 'quick_reply.host_waves' }) }  // TODO: update based on selected host
+        ) : selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
 
     const draftId =
       mode === 'wave'
