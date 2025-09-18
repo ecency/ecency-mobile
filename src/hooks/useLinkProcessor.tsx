@@ -8,7 +8,7 @@ import * as hiveuri from 'hive-uri';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { toastNotification } from '../redux/actions/uiAction';
 import { handleHiveUriOperation, resolveTransaction } from '../providers/hive/dhive';
-import { getFormattedTx, isHiveUri } from '../utils/hive-uri';
+import { getFormattedTx, isHiveUri, normalizeHiveUri } from '../utils/hive-uri';
 import { deepLinkParser } from '../utils/deepLinkParser';
 import showLoginAlert from '../utils/showLoginAlert';
 import RootNavigation from '../navigation/rootNavigation';
@@ -29,8 +29,9 @@ export const useLinkProcessor = (onClose?: () => void) => {
   const pinCode = useAppSelector((state) => state.application.pin);
 
   const handleLink = (deeplink: string) => {
-    if (isHiveUri(deeplink)) {
-      _handleHiveUri(deeplink);
+    const normalizedLink = normalizeHiveUri(deeplink);
+    if (isHiveUri(normalizedLink)) {
+      _handleHiveUri(normalizedLink);
     } else {
       _handleDeepLink(deeplink);
     }
