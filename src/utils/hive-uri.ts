@@ -8,9 +8,19 @@ import * as operationsData from './operations.json';
  * Returns boolean if uri starts with 'hive://'
  * */
 
-export const isHiveUri = (uri: string) => {
+export const normalizeHiveUri = (uri: string) => {
   const trimUri = uri.trim();
-  return trimUri.startsWith('hive://');
+  const lowerCaseUri = trimUri.toLowerCase();
+  if (lowerCaseUri.startsWith('ecency://sign/transfer')) {
+    return `hive://${trimUri.slice('ecency://'.length)}`;
+  }
+
+  return trimUri;
+};
+
+export const isHiveUri = (uri: string) => {
+  const normalizedUri = normalizeHiveUri(uri);
+  return normalizedUri.startsWith('hive://');
 };
 
 // check operation array is valid and is a single operation array
