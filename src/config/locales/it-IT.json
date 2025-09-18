@@ -382,8 +382,8 @@
   },
   "login": {
     "signin": "Login",
-    "login_with_hs": "Login with hivesigner",
-    "signin_with_hiveauth": "Login with hiveauth",
+    "login_with_hs": "Login with Hivesigner",
+    "signin_with_hiveauth": "HiveAuth / Keychain",
     "signup": "ISCRIVITI ORA",
     "signin_title": "To get all the benefits of using Ecency",
     "username": "username",
@@ -1149,7 +1149,8 @@
   "quick_reply": {
     "placeholder": "Add a comment...",
     "placeholder_wave": "What's happening?",
-    "summary_wave": "Will be published in: {host}",
+    "summary_wave": "Publishing in {host}",
+    "host_waves": "Waves",
     "comment": "Comment",
     "reply": "REPLY",
     "publish": "PUBLISH",
