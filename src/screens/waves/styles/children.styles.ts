@@ -11,7 +11,6 @@ export default EStyleSheet.create({
   } as ViewStyle,
   headerTitle: {
     color: '$primaryDarkText',
-    marginTop: 16,
     fontSize: 24,
     fontWeight: '200',
   } as TextStyle,

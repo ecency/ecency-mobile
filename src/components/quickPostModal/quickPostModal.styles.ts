@@ -73,7 +73,7 @@ export default EStyleSheet.create({
     paddingHorizontal: 16,
   },
   commentBtn: {
-    width: 100,
+    minWidth: 100,
     height: 40,
     alignItems: 'center',
     justifyContent: 'center',
@@ -106,7 +106,7 @@ export default EStyleSheet.create({
   },
   name: {
     marginLeft: 4,
-    color: '$primaryDarkGray',
+    color: '$primaryBlack',
   },
   titleContainer: {
     paddingHorizontal: 16,

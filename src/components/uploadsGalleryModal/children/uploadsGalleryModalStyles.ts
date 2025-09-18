@@ -30,7 +30,7 @@ export default EStyleSheet.create({
     height: THUMB_SIZE,
     width: THUMB_SIZE,
     borderRadius: 16,
-    backgroundColor: '$primaryLightGray',
+    backgroundColor: '$primaryLightBackground',
   } as ImageStyle,
 
   gridMediaItem: {
@@ -39,7 +39,7 @@ export default EStyleSheet.create({
     width: GRID_THUMB_SIZE,
     marginVertical: 8,
     borderRadius: 16,
-    backgroundColor: '$primaryLightGray',
+    backgroundColor: '$primaryLightBackground',
   } as ImageStyle,
 
   inputContainer: {
