@@ -1,10 +1,11 @@
 import React, { useRef, forwardRef, useImperativeHandle } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionSheet from 'react-native-actions-sheet';
 import { get } from 'lodash';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlatList } from 'react-native-gesture-handler';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { setPrevLoggedInUsers } from '../../../redux/actions/accountAction';
 import AUTH_TYPE from '../../../constants/authType';
 
@@ -30,6 +31,7 @@ export interface AccountsBottomSheetProps {
   prevLoggedInUsers: Array<any>;
   dispatch: (action: any) => void;
   isLoggedIn: boolean;
+  isSwitching: boolean;
 }
 
 const AccountsBottomSheet = forwardRef(
@@ -42,6 +44,7 @@ const AccountsBottomSheet = forwardRef(
       prevLoggedInUsers,
       dispatch,
       isLoggedIn,
+      isSwitching,
     }: AccountsBottomSheetProps,
     ref,
   ) => {
@@ -179,14 +182,8 @@ const AccountsBottomSheet = forwardRef(
       }
     };
 
-    return (
-      <ActionSheet
-        ref={bottomSheetModalRef}
-        gestureEnabled={true}
-        hideUnderlay
-        containerStyle={styles.sheetContent}
-        indicatorStyle={styles.sheetIndicator}
-      >
+    const _renderMainContent = () => (
+      <>
         <FlatList
           data={accounts}
           ref={userList}
@@ -225,6 +222,29 @@ const AccountsBottomSheet = forwardRef(
           </TouchableOpacity>
           <Separator style={styles.separator} />
         </View>
+      </>
+    );
+
+    const _renderSwitchingContent = () => (
+      <View style={styles.switchingContainer}>
+        <ActivityIndicator
+          style={styles.activityIndicator}
+          size="large"
+          color={EStyleSheet.value('$primaryBlue')}
+        />
+        <Text style={styles.switchingText}>Switching...</Text>
+      </View>
+    );
+
+    return (
+      <ActionSheet
+        ref={bottomSheetModalRef}
+        gestureEnabled={true}
+        hideUnderlay
+        containerStyle={styles.sheetContent}
+        indicatorStyle={styles.sheetIndicator}
+      >
+        {isSwitching ? _renderSwitchingContent() : _renderMainContent()}
       </ActionSheet>
     );
   },

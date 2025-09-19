@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { isLandscape } from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {
   Appearance,
   AppState,
-  EventSubscription,
   Linking,
   NativeEventSubscription,
   useColorScheme,
@@ -37,6 +36,7 @@ export const useInitApplication = () => {
   const { isDarkTheme, colorTheme, isPinCodeOpen, currency } = useAppSelector(
     (state) => state.application,
   );
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const systemColorScheme = useColorScheme();
 
   const appState = useRef(AppState.currentState);
@@ -45,7 +45,6 @@ export const useInitApplication = () => {
 
   const notifeeEventRef = useRef<any>(null);
   const messagingEventRef = useRef<any>(null);
-  const linkEventRef = useRef<EventSubscription>(null);
 
   const userActivityMutation = useUserActivityMutation();
   useAnnouncementsQuery();
@@ -86,13 +85,18 @@ export const useInitApplication = () => {
 
     _initPushListener();
 
-    // check for deep links
-    linkEventRef.current = Linking.addEventListener('url', (event) => {
+    return _cleanup;
+  }, [currentAccount.username]);
+
+  useEffect(() => {
+    const sub = Linking.addEventListener('url', (event) => {
       linkProcessor.handleLink(event.url);
     });
 
-    return _cleanup;
-  }, []);
+    return () => {
+      sub.remove();
+    };
+  }, [currentAccount]);
 
   useEffect(() => {
     if (THEME_OPTIONS[colorTheme].value === null) {
@@ -121,10 +125,6 @@ export const useInitApplication = () => {
 
     if (messagingEventRef.current) {
       messagingEventRef.current();
-    }
-
-    if (linkEventRef.current) {
-      linkEventRef.current.remove();
     }
 
     BackgroundTimer.stop(); // ref: https://github.com/ocetnik/react-native-background-timer#ios
