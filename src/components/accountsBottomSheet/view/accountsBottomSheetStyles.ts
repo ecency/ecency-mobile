@@ -74,4 +74,16 @@ export default EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  switchingContainer: {
+    marginVertical: 72,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  switchingText: {
+    fontSize: 24,
+    fontWeight: '300',
+    color: '$primaryBlack',
+    marginLeft: 16
+  }
 });

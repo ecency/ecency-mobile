@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useIntl } from 'react-intl';
@@ -43,6 +43,7 @@ const AccountsBottomSheetContainer = () => {
   const pinHash = useAppSelector((state) => state.application.pin);
   const prevLoggedInUsers = useAppSelector((state) => state.account.prevLoggedInUsers);
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const [isSwitching, setIsSwitching] = useState(false);
 
   useEffect(() => {
     accountsBottomSheetViewRef.current?.showAccountsBottomSheet();
@@ -66,8 +67,6 @@ const AccountsBottomSheetContainer = () => {
   };
 
   const _switchAccount = async (account = {}) => {
-    SheetManager.hide(SheetNames.ACCOUNTS_SHEET);
-    accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
     if (currentAccount && account && account.username !== currentAccount.name) {
       _handleSwitch(account);
     }
@@ -111,16 +110,10 @@ const AccountsBottomSheetContainer = () => {
 
   const _handleSwitch = async (switchingAccount = {}) => {
     try {
+      setIsSwitching(true);
       const accountData = accounts.filter(
         (account) => account.username === switchingAccount.username,
       )[0];
-
-      // if account data has persistet content use that first
-      // to avoid lag
-      if (accountData.name) {
-        accountData.username = accountData.name;
-        dispatch(updateCurrentAccount(accountData));
-      }
 
       // fetch upto data account data nd update current account;
       let _currentAccount = await switchAccount(accountData.username);
@@ -176,6 +169,7 @@ const AccountsBottomSheetContainer = () => {
       dispatch(updateCurrentAccount(_currentAccount));
       dispatch(clearSubscribedCommunitiesCache());
       dispatch(fetchSubscribedCommunities(_currentAccount.username));
+
     } catch (error) {
       Alert.alert(
         intl.formatMessage({
@@ -188,6 +182,9 @@ const AccountsBottomSheetContainer = () => {
         ],
       );
     }
+    setIsSwitching(false);
+    SheetManager.hide(SheetNames.ACCOUNTS_SHEET);
+    accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
   };
 
   return (
@@ -200,6 +197,7 @@ const AccountsBottomSheetContainer = () => {
       prevLoggedInUsers={prevLoggedInUsers}
       dispatch={dispatch}
       isLoggedIn={isLoggedIn}
+      isSwitching={isSwitching}
     />
   );
 };
