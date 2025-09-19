@@ -1,13 +1,17 @@
 import React, { useRef, forwardRef, useImperativeHandle } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { useIntl } from 'react-intl';
 import ActionSheet from 'react-native-actions-sheet';
 import { get } from 'lodash';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlatList } from 'react-native-gesture-handler';
 import { setPrevLoggedInUsers } from '../../../redux/actions/accountAction';
+import AUTH_TYPE from '../../../constants/authType';
 
 import { UserAvatar, Icon, Separator } from '../../index';
+import { HiveSignerIcon } from '../../../assets/svgs';
+import HiveAuthIconSource from '../../../assets/HiveAuth_logo.png';
+import HiveIconSource from '../../../assets/hive_icon.png';
 
 import { default as ROUTES } from '../../../constants/routeNames';
 
@@ -55,7 +59,32 @@ const AccountsBottomSheet = forwardRef(
       },
     }));
 
+    const _renderLoginMethodIcon = (authType?: string): JSX.Element | null => {
+      switch (authType) {
+        case AUTH_TYPE.STEEM_CONNECT:
+          return (
+            <View style={styles.authIconWrapper}>
+              <HiveSignerIcon />
+            </View>
+          );
+        case AUTH_TYPE.HIVE_AUTH:
+          return <Image source={HiveAuthIconSource} style={styles.authImage} />;
+        case AUTH_TYPE.MASTER_KEY:
+        case AUTH_TYPE.ACTIVE_KEY:
+        case AUTH_TYPE.MEMO_KEY:
+        case AUTH_TYPE.POSTING_KEY:
+        case AUTH_TYPE.OWNER_KEY:
+          return <Image source={HiveIconSource} style={styles.authImage} />;
+        default:
+          return null;
+      }
+    };
+
     const _renderAccountTile = ({ item }) => {
+      const authType = get(item, 'local.authType') || get(item, 'authType') || undefined;
+      const loginMethodIcon = _renderLoginMethodIcon(authType);
+      const isCurrentAccount = get(currentAccount, 'name') === item.username;
+
       return (
         <TouchableOpacity style={styles.accountTile} onPress={() => switchAccount(item)}>
           <View style={styles.avatarAndNameContainer}>
@@ -64,8 +93,13 @@ const AccountsBottomSheet = forwardRef(
               <Text style={styles.name}>{`@${item.username}`}</Text>
             </View>
           </View>
-          {currentAccount.name === item.username && (
-            <Icon iconType="AntDesign" name="checkcircle" style={styles.checkIcon} size={24} />
+          {(loginMethodIcon || isCurrentAccount) && (
+            <View style={styles.statusContainer}>
+              {loginMethodIcon}
+              {isCurrentAccount && (
+                <Icon iconType="AntDesign" name="checkcircle" style={styles.checkIcon} size={24} />
+              )}
+            </View>
           )}
         </TouchableOpacity>
       );
