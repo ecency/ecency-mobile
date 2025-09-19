@@ -5,7 +5,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import {
   Appearance,
   AppState,
-  EventSubscription,
   Linking,
   NativeEventSubscription,
   useColorScheme,
@@ -37,7 +36,7 @@ export const useInitApplication = () => {
   const { isDarkTheme, colorTheme, isPinCodeOpen, currency } = useAppSelector(
     (state) => state.application,
   );
-  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const systemColorScheme = useColorScheme();
 
   const appState = useRef(AppState.currentState);
@@ -89,7 +88,6 @@ export const useInitApplication = () => {
     return _cleanup;
   }, [currentAccount.username]);
 
-
   useEffect(() => {
     const sub = Linking.addEventListener('url', (event) => {
       linkProcessor.handleLink(event.url);
@@ -97,8 +95,8 @@ export const useInitApplication = () => {
 
     return () => {
       sub.remove();
-    }
-  }, [currentAccount])
+    };
+  }, [currentAccount]);
 
   useEffect(() => {
     if (THEME_OPTIONS[colorTheme].value === null) {
@@ -165,10 +163,6 @@ export const useInitApplication = () => {
 
     // }
   };
-
-  const _handleDeepLink = useCallback((uri: string) => {
-    linkProcessor.handleLink(uri)
-  }, [currentAccount])
 
   const _handleAppStateChange = (nextAppState) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {

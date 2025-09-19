@@ -78,12 +78,12 @@ export default EStyleSheet.create({
     marginVertical: 72,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   switchingText: {
     fontSize: 24,
     fontWeight: '300',
     color: '$primaryBlack',
-    marginLeft: 16
-  }
+    marginLeft: 16,
+  },
 });

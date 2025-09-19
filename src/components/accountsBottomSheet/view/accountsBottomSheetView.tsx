@@ -5,6 +5,7 @@ import ActionSheet from 'react-native-actions-sheet';
 import { get } from 'lodash';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlatList } from 'react-native-gesture-handler';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { setPrevLoggedInUsers } from '../../../redux/actions/accountAction';
 import AUTH_TYPE from '../../../constants/authType';
 
@@ -16,7 +17,6 @@ import HiveIconSource from '../../../assets/hive_icon.png';
 import { default as ROUTES } from '../../../constants/routeNames';
 
 import styles from './accountsBottomSheetStyles';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 export interface AccountsBottomSheetRef {
   showAccountsBottomSheet: () => void;
@@ -44,7 +44,7 @@ const AccountsBottomSheet = forwardRef(
       prevLoggedInUsers,
       dispatch,
       isLoggedIn,
-      isSwitching
+      isSwitching,
     }: AccountsBottomSheetProps,
     ref,
   ) => {
@@ -147,8 +147,8 @@ const AccountsBottomSheet = forwardRef(
     const _renderPrevLoggedInUsersList = () =>
       // render only if user is logged out
       prevLoggedInUsers &&
-        prevLoggedInUsers?.length > 0 &&
-        prevLoggedInUsers?.filter((el) => el?.isLoggedOut === true).length > 0 ? (
+      prevLoggedInUsers?.length > 0 &&
+      prevLoggedInUsers?.filter((el) => el?.isLoggedOut === true).length > 0 ? (
         <>
           {!!isLoggedIn && <Separator style={styles.separator} />}
           <Text style={styles.textButton}>
@@ -223,17 +223,18 @@ const AccountsBottomSheet = forwardRef(
           <Separator style={styles.separator} />
         </View>
       </>
-    )
+    );
 
     const _renderSwitchingContent = () => (
-      <View style={styles.switchingContainer}  >
-        <ActivityIndicator 
+      <View style={styles.switchingContainer}>
+        <ActivityIndicator
           style={styles.activityIndicator}
           size="large"
-          color={EStyleSheet.value('$primaryBlue')} />
+          color={EStyleSheet.value('$primaryBlue')}
+        />
         <Text style={styles.switchingText}>Switching...</Text>
       </View>
-    )
+    );
 
     return (
       <ActionSheet
@@ -243,13 +244,7 @@ const AccountsBottomSheet = forwardRef(
         containerStyle={styles.sheetContent}
         indicatorStyle={styles.sheetIndicator}
       >
-
-        {isSwitching ? (
-          _renderSwitchingContent()
-        ) : (
-          _renderMainContent()
-        )}
-
+        {isSwitching ? _renderSwitchingContent() : _renderMainContent()}
       </ActionSheet>
     );
   },

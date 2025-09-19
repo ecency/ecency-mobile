@@ -169,7 +169,6 @@ const AccountsBottomSheetContainer = () => {
       dispatch(updateCurrentAccount(_currentAccount));
       dispatch(clearSubscribedCommunitiesCache());
       dispatch(fetchSubscribedCommunities(_currentAccount.username));
-
     } catch (error) {
       Alert.alert(
         intl.formatMessage({
