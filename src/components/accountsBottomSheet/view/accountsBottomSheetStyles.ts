@@ -38,8 +38,21 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  statusContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   checkIcon: {
     color: '$successColor',
+  },
+  authIconWrapper: {
+    marginRight: 8,
+  },
+  authImage: {
+    width: 20,
+    height: 20,
+    resizeMode: 'contain',
+    marginRight: 8,
   },
   deleteIcon: {
     color: '$iconColor',
