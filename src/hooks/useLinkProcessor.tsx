@@ -47,6 +47,177 @@ export const useLinkProcessor = (onClose?: () => void) => {
     }
   };
 
+  const _isEcencyTransferDeeplink = (deeplink: string) => {
+    try {
+      const parsedUrl = new URL(deeplink);
+      return (
+        parsedUrl.protocol.toLowerCase() === 'ecency:' &&
+        parsedUrl.hostname.toLowerCase() === 'transfer'
+      );
+    } catch (err) {
+      return false;
+    }
+  };
+
+  type EcencyTransferParams = {
+    to: string;
+    from: string;
+    asset: string;
+    amount: string;
+    memo: string;
+    callback?: string;
+    requestId?: string | null;
+  };
+
+  type HiveUriHandlingOptions = {
+    callbackUrl?: string;
+    requestId?: string | null;
+  };
+
+  const _parseEcencyTransferDeeplink = (deeplink: string): EcencyTransferParams | null => {
+    try {
+      const transferUrl = new URL(deeplink);
+      const toParam = transferUrl.searchParams.get('to') || '';
+      const fromParam = transferUrl.searchParams.get('from') || '';
+      const assetParam = transferUrl.searchParams.get('asset') || '';
+      const amountParam = transferUrl.searchParams.get('amount') || '';
+      const memoParam = transferUrl.searchParams.get('memo') || '';
+      const callbackParam = transferUrl.searchParams.get('callback') || undefined;
+      const requestIdParam = transferUrl.searchParams.get('request_id');
+
+      return {
+        to: toParam,
+        from: fromParam,
+        asset: assetParam,
+        amount: amountParam,
+        memo: memoParam,
+        callback: callbackParam,
+        requestId: requestIdParam,
+      };
+    } catch (error) {
+      console.warn('Failed to parse ecency transfer deeplink', error);
+      return null;
+    }
+  };
+
+  const _buildEcencyTransferHiveUri = (
+    params: EcencyTransferParams,
+  ): { hiveUri: string | null; normalizedFrom?: string } => {
+    const { to, from, asset, amount, memo, callback } = params;
+
+    const normalizedTo = to.replace(/^@/, '').trim();
+    const normalizedFrom = from.replace(/^@/, '').trim();
+    const parsedAmount = parseFloat(amount);
+    if (!normalizedTo || Number.isNaN(parsedAmount) || parsedAmount <= 0) {
+      return { hiveUri: null };
+    }
+
+    const formattedAmount = parsedAmount.toFixed(3);
+    const lowerCaseAsset = asset.trim().toLowerCase();
+
+    try {
+      if (lowerCaseAsset === 'points') {
+        const hiveUriOptions = callback ? { callback } : undefined;
+        const hiveUri = hiveuri.encodeOps(
+          [
+            [
+              'custom_json',
+              {
+                required_auths: [normalizedFrom || '__signer'],
+                required_posting_auths: [],
+                id: 'ecency_point_transfer',
+                json: JSON.stringify({
+                  sender: normalizedFrom || '__signer',
+                  receiver: normalizedTo,
+                  amount: `${formattedAmount} POINT`,
+                  memo,
+                }),
+              },
+            ],
+          ],
+          hiveUriOptions,
+        );
+
+        return { hiveUri, normalizedFrom: normalizedFrom || undefined };
+      }
+
+      const assetSymbol = lowerCaseAsset.toUpperCase();
+      if (assetSymbol === 'HIVE' || assetSymbol === 'HBD') {
+        const hiveUriOptions = callback ? { callback } : undefined;
+        const hiveUri = hiveuri.encodeOps(
+          [
+            [
+              'transfer',
+              {
+                from: normalizedFrom || '__signer',
+                to: normalizedTo,
+                amount: `${formattedAmount} ${assetSymbol}`,
+                memo,
+              },
+            ],
+          ],
+          hiveUriOptions,
+        );
+
+        return { hiveUri, normalizedFrom: normalizedFrom || undefined };
+      }
+    } catch (error) {
+      console.warn('Failed to build hive uri for ecency transfer', error);
+      return { hiveUri: null };
+    }
+
+    return { hiveUri: null };
+  };
+
+  const _handleEcencyTransferDeeplink = async (deeplink: string) => {
+    const transferParams = _parseEcencyTransferDeeplink(deeplink);
+    const callbackUrl = transferParams?.callback;
+    const requestId = transferParams?.requestId || null;
+
+    if (!transferParams || !transferParams.to || !transferParams.asset || !transferParams.amount) {
+      if (callbackUrl) {
+        await _openCallback(callbackUrl, requestId, {
+          status: 'error',
+          error: 'invalid_params',
+        });
+      }
+      _showInvalidAlert();
+      return;
+    }
+
+    const { hiveUri, normalizedFrom } = _buildEcencyTransferHiveUri(transferParams);
+
+    if (!hiveUri) {
+      if (callbackUrl) {
+        await _openCallback(callbackUrl, requestId, {
+          status: 'error',
+          error: 'invalid_params',
+        });
+      }
+      _showInvalidAlert();
+      return;
+    }
+
+    if (normalizedFrom) {
+      const normalizedCurrentAccount = (currentAccount?.name || '').toLowerCase();
+      if (normalizedCurrentAccount && normalizedFrom.toLowerCase() !== normalizedCurrentAccount) {
+        if (callbackUrl) {
+          await _openCallback(callbackUrl, requestId, {
+            status: 'error',
+            error: 'account_mismatch',
+          });
+        }
+        _showInvalidAlert();
+        return;
+      }
+    }
+
+    _handleHiveUri(hiveUri, {
+      callbackUrl,
+      requestId,
+    });
+  };
+
   const _getStoredUserData = async (username: string) => {
     try {
       const userData = await getUserDataWithUsername(username);
@@ -182,7 +353,11 @@ export const useLinkProcessor = (onClose?: () => void) => {
 
       if (!canProvideKey) {
         responsePayload.error = 'posting_key_unavailable';
-        responsePayload.message = `Username ${normalizedUsername} doesn't have a posting private key stored on Ecency.`;
+        responsePayload.message = [
+          'Username ',
+          normalizedUsername,
+          " doesn't have a posting private key stored on Ecency.",
+        ].join('');
         await _openCallback(callbackParam, requestId, responsePayload);
         return;
       }
@@ -217,7 +392,11 @@ export const useLinkProcessor = (onClose?: () => void) => {
 
       if (!postingKey) {
         responsePayload.error = 'posting_key_unavailable';
-        responsePayload.message = `Username ${normalizedUsername} doesn't have a posting private key stored on Ecency.`;
+        responsePayload.message = [
+          'Username ',
+          normalizedUsername,
+          " doesn't have a posting private key stored on Ecency.",
+        ].join('');
         await _openCallback(callbackParam, requestId, responsePayload);
         return;
       }
@@ -237,7 +416,12 @@ export const useLinkProcessor = (onClose?: () => void) => {
 
   const handleLink = (deeplink: string) => {
     if (_isEcencyLoginDeeplink(deeplink)) {
-      void _handleEcencyLoginDeeplink(deeplink);
+      _handleEcencyLoginDeeplink(deeplink);
+      return;
+    }
+
+    if (_isEcencyTransferDeeplink(deeplink)) {
+      _handleEcencyTransferDeeplink(deeplink);
       return;
     }
 
@@ -249,7 +433,7 @@ export const useLinkProcessor = (onClose?: () => void) => {
     }
   };
 
-  const _handleHiveUri = async (uri: string) => {
+  const _handleHiveUri = async (uri: string, options?: HiveUriHandlingOptions) => {
     try {
       onClose && onClose();
       if (!isLoggedIn) {
@@ -260,18 +444,18 @@ export const useLinkProcessor = (onClose?: () => void) => {
         RootNavigation.navigate({
           name: ROUTES.SCREENS.PINCODE,
           params: {
-            callback: () => _handleHiveUriTransaction(uri),
+            callback: () => _handleHiveUriTransaction(uri, options),
           },
         });
       } else {
-        _handleHiveUriTransaction(uri);
+        _handleHiveUriTransaction(uri, options);
       }
     } catch (err) {
       _showInvalidAlert();
     }
   };
 
-  const _handleHiveUriTransaction = async (uri: string) => {
+  const _handleHiveUriTransaction = async (uri: string, options?: HiveUriHandlingOptions) => {
     if (get(currentAccount, 'local.authType') === authType.STEEM_CONNECT) {
       await delay(500); // NOTE: it's required to avoid modal misfire
       RootNavigation.navigate({
@@ -284,15 +468,57 @@ export const useLinkProcessor = (onClose?: () => void) => {
     }
 
     const parsed = hiveuri.decode(uri);
+    const firstOperation = get(parsed, 'tx.operations[0]', []);
+    const isEcencyPointTransfer =
+      Array.isArray(firstOperation) &&
+      firstOperation.length >= 2 &&
+      firstOperation[0] === 'custom_json' &&
+      get(firstOperation, '[1].id') === 'ecency_point_transfer';
     const authoritiesMap = new Map();
     authoritiesMap.set('active', !!currentAccount?.local?.activeKey);
-    authoritiesMap.set('posting', !!currentAccount?.local?.postingKey);
+    authoritiesMap.set(
+      'posting',
+      !!currentAccount?.local?.postingKey ||
+        (isEcencyPointTransfer && !!currentAccount?.local?.activeKey),
+    );
     authoritiesMap.set('owner', !!currentAccount?.local?.ownerKey);
     authoritiesMap.set('memo', !!currentAccount?.local?.memoKey);
 
     getFormattedTx(parsed.tx, authoritiesMap)
       .then(async (formattedTx) => {
         const tx = await resolveTransaction(formattedTx.tx, parsed.params, currentAccount.name);
+        if (isEcencyPointTransfer) {
+          const signerName = currentAccount?.name;
+          if (signerName) {
+            tx.operations = tx.operations.map((operation: any) => {
+              if (!Array.isArray(operation) || operation.length < 2) {
+                return operation;
+              }
+              const [operationName, operationPayload] = operation;
+              if (operationPayload && typeof operationPayload === 'object') {
+                Object.keys(operationPayload).forEach((key) => {
+                  if (operationPayload[key] === '__signer') {
+                    operationPayload[key] = signerName;
+                  }
+                });
+              }
+              if (operationName === 'custom_json' && operationPayload?.json) {
+                try {
+                  const parsedJson = JSON.parse(operationPayload.json);
+                  Object.keys(parsedJson).forEach((key) => {
+                    if (parsedJson[key] === '__signer') {
+                      parsedJson[key] = signerName;
+                    }
+                  });
+                  operationPayload.json = JSON.stringify(parsedJson);
+                } catch (jsonError) {
+                  console.warn('Failed to normalize ecency point transfer payload', jsonError);
+                }
+              }
+              return [operationName, operationPayload];
+            });
+          }
+        }
         const ops = get(tx, 'operations', []);
         const op = ops[0];
         SheetManager.show(SheetNames.ACTION_MODAL, {
@@ -302,15 +528,37 @@ export const useLinkProcessor = (onClose?: () => void) => {
             buttons: [
               {
                 text: intl.formatMessage({ id: 'qr.cancel' }),
-                onPress: () => console.log('cancel pressed'),
+                onPress: () => {
+                  if (options?.callbackUrl || parsed.params?.callback) {
+                    _openCallback(
+                      options?.callbackUrl || parsed.params?.callback,
+                      options?.requestId || parsed.params?.request_id || null,
+                      {
+                        status: 'error',
+                        error: 'user_cancelled',
+                      },
+                    );
+                  }
+                },
                 style: 'cancel',
               },
               {
                 text: intl.formatMessage({ id: 'qr.approve' }),
                 onPress: () => {
                   handleHiveUriOperation(currentAccount, pinCode, tx)
-                    .then(() => {
+                    .then((result) => {
                       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+                      if (options?.callbackUrl || parsed.params?.callback) {
+                        const payload: Record<string, string> = { status: 'success' };
+                        if (result?.id) {
+                          payload.id = `${result.id}`;
+                        }
+                        _openCallback(
+                          options?.callbackUrl || parsed.params?.callback,
+                          options?.requestId || parsed.params?.request_id || null,
+                          payload,
+                        );
+                      }
                     })
                     .catch((err) => {
                       if (err) {
@@ -318,6 +566,16 @@ export const useLinkProcessor = (onClose?: () => void) => {
                       } else {
                         dispatch(
                           toastNotification(intl.formatMessage({ id: 'qr.transaction_failed' })),
+                        );
+                      }
+                      if (options?.callbackUrl || parsed.params?.callback) {
+                        _openCallback(
+                          options?.callbackUrl || parsed.params?.callback,
+                          options?.requestId || parsed.params?.request_id || null,
+                          {
+                            status: 'error',
+                            error: typeof err === 'string' ? err : 'qr.transaction_failed',
+                          },
                         );
                       }
                     });
