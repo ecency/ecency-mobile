@@ -8,7 +8,7 @@
     "points_activity": "Aktiivisuus",
     "transfer": "Siirto",
     "recurrent_transfer": "Toistuva Siirto",
-    "total_recurrent_transfers": "Total Recurrent Transfers",
+    "total_recurrent_transfers": "Toistuvat siirrot yhteensä",
     "power_up": "Ansaintaan",
     "transfer_from_savings": "Säästöistä",
     "withdraw_savings": "Kotiuta säästöihin",
@@ -21,8 +21,8 @@
     "vote": "Äänestys",
     "reblog": "Jako",
     "login": "Kirjautuminen",
-    "incoming_transfer_title": "Transfer/Gifting",
-    "outgoing_transfer_title": "Transfer/Gifting",
+    "incoming_transfer_title": "Siirto/Lahjoitus",
+    "outgoing_transfer_title": "Siirto/Lahjoitus",
     "checkin_extra": "Palkkio",
     "staked": "Panostettu",
     "delegations_in": "Valtuutukset",
@@ -51,7 +51,7 @@
     "reblog_desc": "Jaa haluamasi julkaisu ystävillesi ja saat pisteitä.",
     "login_desc": "Saat 100 pistettä ensimmäisellä sisäänkirjauksella.",
     "checkin_extra_desc": "Toistuva appin käyttö voi johtaa lisäpisteisiin, ole aktiivinen ja saat enemmän.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Siirto",
     "dropdown_promote": "Korosta",
     "dropdown_boost": "Tehosta+",
     "from": "Lähettäjä",
@@ -76,7 +76,7 @@
     "memo_placeholder": "Kirjoita viesti tähän",
     "transfer_token": "Siirto",
     "purchase_estm": "Lunasta pisteet",
-    "points": "Transfer Points",
+    "points": "Siirtopisteet",
     "transfer_to_saving": "Säästöihin",
     "transfer_to_vesting": "Panos",
     "withdraw_to_saving": "Kotiuta säästöihin",
@@ -374,7 +374,7 @@
       "sign_input_placeholder": "Pääsalasana tai Yksityisavain",
       "import_failed": "Avainten Tuonti Epäonnistui"
     },
-    "feedback_body": "Write your message here!\n\nHive username: {username}\nApp version: {appVersion}\nPlatform: {platform}\n"
+    "feedback_body": "Kirjoita viestisi tähän!\n\nHive Käyttäjänimi: {username}\nOhjelmaversio: {appVersion}\nAlusta: {platform}\n"
   },
   "voters": {
     "voters_info": "Äänestystiedot",
@@ -382,7 +382,7 @@
   },
   "login": {
     "signin": "Kirjaudu",
-    "login_with_hs": "Login with Hivesigner",
+    "login_with_hs": "Kirjaudu sisään Hivesignerillä",
     "signin_with_hiveauth": "HiveAuth / Keychain",
     "signup": "LIITY NYT",
     "signin_title": "Hyötyäksesi Ecencyn käytöstä",
@@ -507,9 +507,9 @@
     "ends": "Päättyy {inTime}",
     "poll_question": "Kyselyn kysymys",
     "age_limit": "• {days} päivää vanhemmat tilit",
-    "interpretation_token": "• {token} based vote interpretation",
+    "interpretation_token": "• {token}-pohjainen äänestystulkinta",
     "max_choices": "• Voit valita {choices}",
-    "community_restricted": "• Community restricted: {communities}",
+    "community_restricted": "• Yhteisörajotteet: {communities}",
     "poll_not_ready": "Äänestys ei ole valmis, yritä pian uudelleen",
     "interpret_token": "Tulkitse Merkkien mukaan",
     "interpret_vote": "Tulkitse Äänten mukaan",
@@ -518,20 +518,20 @@
     "question_placeholder": "Tee kysymys...",
     "choice_placeholder": "Valinta {number}",
     "number_of_votes": "Äänimäärä",
-    "tokens": "Token - Hive Power",
+    "tokens": "Merkki - Hive Power",
     "attach_poll": "Liitä Kysely",
     "update_poll": "Päivitä kysely",
-    "wizard_end_time": "End Time",
-    "wizard_choices": "Choices",
-    "wizard_config_label": "Configuration",
-    "wizard_config_val": "Age  |  Visibility  |  Interpretation",
-    "wizard_reset": "Reset Poll",
-    "config_age": "Min. Account Age (Days)",
-    "config_max_options": "Max Options",
-    "config_poll_interpretation": "Interpretation",
-    "config_hide_results": "Hide results until voted",
-    "config_show_voters": "Show voters",
-    "config_vote_change": "Allow vote change"
+    "wizard_end_time": "Päätösaika",
+    "wizard_choices": "Valinnat",
+    "wizard_config_label": "Asetukset",
+    "wizard_config_val": "Ikä  |  Näkyvyys  |  Tulkinta",
+    "wizard_reset": "Tyhjennä kysely",
+    "config_age": "Minimi tilin ikä (päivää)",
+    "config_max_options": "Maksimivalinnat",
+    "config_poll_interpretation": "Tulkinta",
+    "config_hide_results": "Piilota tulokset ennen äänestystä",
+    "config_show_voters": "Näytä äänestäjät",
+    "config_vote_change": "Salli äänen muuttaminen"
   },
   "stats": {
     "viewers": "Vierailijaa",
@@ -614,8 +614,8 @@
     "short_desc": "Lyhyt kuvaus",
     "short_desc_placeholder": "Lyhyt yhteenveto sisällöstä",
     "set_default": "Aseta oletus",
-    "community_restriction": "Only members of {title} community can publish post",
-    "community_comment_restriction": "Only members of {title} community can comment on this post"
+    "community_restriction": "Vain {title}-yhteisön jäsenet voivat julkaista",
+    "community_comment_restriction": "Vain {title}-yhteisön jäsenet voivat kommentoida julkaisuun"
   },
   "snippets": {
     "label_no_snippets": "Katkelmia ei löytynyt",
@@ -756,7 +756,7 @@
     "copy_link": "Kopioi linkki",
     "copy_text": "Kopioi teksti",
     "reblogged": "uudelleenjakanut",
-    "cross_post": "cross post by {username} in {community}",
+    "cross_post": "ristiinjulkaisu käyttäjältä {username} yhteisössä {community}",
     "promoted": "Ylennetty",
     "poll": "Kysely",
     "open_thread": "Avaa ketju",
@@ -771,13 +771,13 @@
     "reveal_muted": "Hiljennetty\nNapauta näyttääksesi sisällön",
     "posted_by": "Julkaisija {username} {appname} kautta ",
     "ecency_waves": "Ecency Aallot",
-    "community_muted": "Content muted for community guidelines violation",
-    "muted": "Content is muted for violation"
+    "community_muted": "Sisältö mykistetty yhteisön sääntöjen vastaisena",
+    "muted": "Sisältö mykistetty rikkomuksen vuoksi"
   },
   "cross_post": {
-    "title": "Cross Post",
-    "description": "Rewards are automatically declined for the cross post and discussions under cross post will be different and will follow different community guidelines.",
-    "message_placeholder": "Share your thoughts here..."
+    "title": "Ristiinjulkaisu",
+    "description": "Ristiinjulkaisun palkkiot hylätään automaattisesti ja keskustelut ovat erilaisia, sekä noudattavat eri yhteisösääntöjä.",
+    "message_placeholder": "Jaa ajatuksesi tähän..."
   },
   "drafts": {
     "title": "Luonnokset",
@@ -858,7 +858,7 @@
     "mute": "Mykistä / Estä",
     "translate": "Käännökset",
     "delete-post": "Poista",
-    "cross-post": "Cross Post"
+    "cross-post": "Ristiinjulkaisu"
   },
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",
@@ -898,7 +898,7 @@
     "transfer_token": "Siirto",
     "purchase_estm": "Osta pisteitä",
     "convert": "Muunna HBD HIVEksi",
-    "points": "Transfer Points",
+    "points": "Siirtopisteet",
     "transfer_to_savings": "Siirrä säästöihin",
     "transfer_to_vesting": "Panos",
     "withdraw_to_saving": "Kotiuta säästöihin",
@@ -958,11 +958,11 @@
     "amount_select_title": "Toiminnon tiedot",
     "amount_select_description": "Syötä summa maksimaalisen käytettävissä olevan saldon mukaan {suffix}",
     "amount_select_desc_limit": " ja on oltava suurempi kuin 0,001",
-    "too_many_usernames": "Max 5 usernames allowed."
+    "too_many_usernames": "Alle 5 käyttäjänimeä sallittu."
   },
   "recurrent": {
-    "title": "Recurrent Transfers ({total})",
-    "transfer_in": "Transfer {time}",
+    "title": "Toistuvat siirrot({total})",
+    "transfer_in": "Siirtyy {time}",
     "remaining_executions": "Remaining {executions} transfers",
     "unsubscribe_confirmation": "Unsubscribe recurrent transfer to {username}?",
     "delete_success": "Recurrent transfer deleted successfully",
