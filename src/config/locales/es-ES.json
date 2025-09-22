@@ -382,7 +382,7 @@
   },
   "login": {
     "signin": "Iniciar Sesión",
-    "login_with_hs": "Login with Hivesigner",
+    "login_with_hs": "Iniciar sesión con Hivesigner",
     "signin_with_hiveauth": "HiveAuth / Keychain",
     "signup": "ÚNETE AHORA",
     "signin_title": "Para obtener todos los beneficios de utilizar Ecency",
@@ -1149,8 +1149,8 @@
   "quick_reply": {
     "placeholder": "Añade un comentario...",
     "placeholder_wave": "¿Qué está pasando?",
-    "summary_wave": "Publishing in {host}",
-    "host_waves": "Waves",
+    "summary_wave": "Publicando en {host}",
+    "host_waves": "Olas",
     "comment": "Comentario",
     "reply": "RESPONDER",
     "publish": "PUBLICAR",
