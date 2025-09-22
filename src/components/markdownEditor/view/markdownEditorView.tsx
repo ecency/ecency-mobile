@@ -251,12 +251,22 @@ const MarkdownEditorView = ({
   }, []);
 
   const _renderPreview = () => (
-    <View style={styles.previewContainer}>
+    <ScrollView style={styles.previewContainer} contentContainerStyle={styles.previewContent} >
+      <View style={styles.previewHeader} >
+        <TitleArea value={fields.title} intl={intl} />
+        <TagArea
+          draftChips={fields.tags.length > 0 ? fields.tags : null}
+          componentID="tag-area"
+          intl={intl}
+          isPreviewActive={isPreviewActive}
+        />
+      </View>
+
       <PostBody body={_bodyHtmlForPreview} />
       {pollDraft && (
         <PostPoll initMode={PollModes.PREVIEW} metadata={convertToPollMeta(pollDraft)} />
       )}
-    </View>
+    </ScrollView>
   );
 
   const _handleOnSnippetReceived = (snippetText) => {
@@ -351,14 +361,7 @@ const MarkdownEditorView = ({
           setCommunity={getCommunity}
         />
       )}
-      {!isReply && isPreviewActive && (
-        <TagArea
-          draftChips={fields.tags.length > 0 ? fields.tags : null}
-          componentID="tag-area"
-          intl={intl}
-          isPreviewActive={isPreviewActive}
-        />
-      )}
+
       {isReply && (
         <View style={styles.replySection}>
           <TouchableOpacity style={styles.accountTile} onPress={() => changeUser()}>
@@ -378,30 +381,26 @@ const MarkdownEditorView = ({
           </TouchableOpacity>
         </View>
       )}
-      {!isPreviewActive ? (
-        <TextInput
-          multiline={true}
-          autoCorrect={false}
-          autoFocus={!!draftBtnTooltipRegistered}
-          onChangeText={_changeText}
-          onSelectionChange={_handleOnSelectionChange}
-          placeholder={intl.formatMessage({
-            id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
-          })}
-          placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
-          selectionColor="#357ce6"
-          style={styles.textWrapper}
-          underlineColorAndroid="transparent"
-          innerRef={inputRef}
-          editable={editable}
-          contextMenuHidden={false}
-          scrollEnabled={editorScrollEnabled}
-          value={Platform.OS === 'ios' ? bodyText : undefined}
-          selection={Platform.OS === 'ios' ? selection : undefined}
-        />
-      ) : (
-        _renderPreview()
-      )}
+      <TextInput
+        multiline={true}
+        autoCorrect={false}
+        autoFocus={!!draftBtnTooltipRegistered}
+        onChangeText={_changeText}
+        onSelectionChange={_handleOnSelectionChange}
+        placeholder={intl.formatMessage({
+          id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
+        })}
+        placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
+        selectionColor="#357ce6"
+        style={styles.textWrapper}
+        underlineColorAndroid="transparent"
+        innerRef={inputRef}
+        editable={editable}
+        contextMenuHidden={false}
+        scrollEnabled={editorScrollEnabled}
+        value={Platform.OS === 'ios' ? bodyText : undefined}
+        selection={Platform.OS === 'ios' ? selection : undefined}
+      />
     </>
   );
 
@@ -411,9 +410,12 @@ const MarkdownEditorView = ({
   const _editorWithoutScroll = <View style={styles.container}>{_renderEditor(true)}</View>;
 
   const _renderContent = () => {
-    const _innerContent = (
+
+    const _editorContent = (
       <>
         {isAndroidOreo() ? _editorWithoutScroll : _editorWithScroll}
+
+
         {/* {isDraftUpdated && (
           <UsernameAutofillBar
             text={bodyText}
@@ -446,6 +448,9 @@ const MarkdownEditorView = ({
         />
       </>
     );
+
+
+    const _innerContent = isPreviewActive ? _renderPreview() : _editorContent;
 
     return <View style={styles.container}>{_innerContent}</View>;
   };
