@@ -24,11 +24,11 @@ export default EStyleSheet.create({
     paddingHorizontal: 16,
   },
   previewContent: {
-    paddingBottom: 24
+    paddingBottom: 24,
   },
   previewHeader: {
     marginHorizontal: -16,
-    marginBottom: 12
+    marginBottom: 12,
   },
   inlinePadding: {
     padding: 8,

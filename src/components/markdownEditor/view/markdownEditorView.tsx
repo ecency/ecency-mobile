@@ -251,8 +251,8 @@ const MarkdownEditorView = ({
   }, []);
 
   const _renderPreview = () => (
-    <ScrollView style={styles.previewContainer} contentContainerStyle={styles.previewContent} >
-      <View style={styles.previewHeader} >
+    <ScrollView style={styles.previewContainer} contentContainerStyle={styles.previewContent}>
+      <View style={styles.previewHeader}>
         <TitleArea value={fields.title} intl={intl} />
         <TagArea
           draftChips={fields.tags.length > 0 ? fields.tags : null}
@@ -410,11 +410,9 @@ const MarkdownEditorView = ({
   const _editorWithoutScroll = <View style={styles.container}>{_renderEditor(true)}</View>;
 
   const _renderContent = () => {
-
     const _editorContent = (
       <>
         {isAndroidOreo() ? _editorWithoutScroll : _editorWithScroll}
-
 
         {/* {isDraftUpdated && (
           <UsernameAutofillBar
@@ -448,7 +446,6 @@ const MarkdownEditorView = ({
         />
       </>
     );
-
 
     const _innerContent = isPreviewActive ? _renderPreview() : _editorContent;
 
