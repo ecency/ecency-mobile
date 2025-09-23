@@ -246,7 +246,15 @@ export const useLinkProcessor = (onClose?: () => void) => {
         callbackUrl.searchParams.set('request_id', requestId);
       }
 
-      await Linking.openURL(callbackUrl.toString());
+      const parsedCallbackUrl = callbackUrl.toString();
+      const canOpenUrl = await Linking.canOpenURL(parsedCallbackUrl);
+
+      if (!canOpenUrl) {
+        console.warn('Callback url is not supported on this device', parsedCallbackUrl);
+        return;
+      }
+
+      await Linking.openURL(parsedCallbackUrl);
     } catch (err) {
       console.warn('Failed to open callback url', err);
       _showInvalidAlert();
