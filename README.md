@@ -87,10 +87,12 @@ When the prerequisites are met Ecency prompts the person to confirm that they wa
 ### `ecency://auth`
 
 The `ecency://auth` link enables passwordless authentication flows that supply an Ecency access token directly to the mobile app. It accepts the same `callback`/`redirect_uri`/`return_url` aliases used elsewhere, plus an `access_token` parameter containing the token that should be stored on the device. Integrators can combine this with web-based 1-click login experiences: once Ecency opens the link and validates the token, it logs the account in locally and then triggers the callback with `status=success`. Invalid or expired tokens trigger a `status=error` response along with a descriptive `error` code and `message` so callers can fall back to interactive login. `[:src/hooks/useLinkProcessor.tsx:L104-L169]`
+Path only supported with https://ecency.com host.
 
 ### `ecency://signup`
 
 Deep links in the form `ecency://signup` open the in-app registration flow. You can pass a `referral` parameter to prefill the referrer so that newly created accounts are automatically attributed to your integration. Ecency continues to honour the standard callback aliases (`callback`, `redirect_uri`, or `return_url`) and will notify the supplied URL with `status=success` when the registration finishes, or `status=error` if the user abandons the flow or the account creation fails. `[:src/hooks/useLinkProcessor.tsx:L32-L103]`
+Path only supported with https://ecency.com host.
 
 ### `ecency://transfer`
 
