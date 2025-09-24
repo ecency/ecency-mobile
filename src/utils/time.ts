@@ -101,7 +101,23 @@ export const getFormatedCreatedDate = (value?: string | Date): string | null => 
     return null;
   }
 
-  return new Date(value).toLocaleDateString();
+  let dateValue: Date;
+
+  if (value instanceof Date) {
+    dateValue = value;
+  } else if (moment(value, moment.ISO_8601, true).isValid()) {
+    dateValue = moment(value).toDate();
+  } else if (moment(value, 'YYYY-MM-DD HH:mm:ss', true).isValid()) {
+    dateValue = moment(value, 'YYYY-MM-DD HH:mm:ss').toDate();
+  } else {
+    dateValue = new Date(value);
+  }
+
+  if (Number.isNaN(dateValue.getTime())) {
+    return null;
+  }
+
+  return dateValue.toLocaleDateString();
 };
 
 export const isBefore = (a: string | Date, b: string | Date): number =>
