@@ -76,7 +76,7 @@ The repository follows the typical React Native layout:
 
 ## Ecency deep link schemes
 
-Ecency exposes custom URL schemes so third-party apps, mobile websites, and in-app browsers can hand transactions or credential requests to the Ecency mobile app. The handler lives inside the shared link processor hook, so the flows described below are identical on Android and iOS.【F:src/hooks/useLinkProcessor.tsx†L28-L442】
+Ecency exposes custom URL schemes so third-party apps, mobile websites, and in-app browsers can hand transactions or credential requests to the Ecency mobile app. The handler lives inside the shared link processor hook, so the flows described below are identical on Android and iOS. `[:src/hooks/useLinkProcessor.tsx:L28-L442]`
 
 ### `ecency://login`
 
