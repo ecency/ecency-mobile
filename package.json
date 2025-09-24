@@ -111,7 +111,7 @@
     "react-native-config": "^1.5.3",
     "react-native-create-thumbnail": "^2.1.1",
     "react-native-crypto": "^2.2.0",
-    "react-native-date-picker": "5.0.7",
+    "react-native-date-picker": "5.0.12",
     "react-native-device-info": "^14.0.4",
     "react-native-draggable-flatlist": "^4.0.1",
     "react-native-email-link": "^1.16.1",

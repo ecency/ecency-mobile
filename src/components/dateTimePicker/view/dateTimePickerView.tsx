@@ -8,9 +8,11 @@ import getLocale from '../../../utils/getLocale';
 
 // Styles
 import styles from './dateTimePickerStyles';
+import { useAppSelector } from '../../../hooks';
 
 const DateTimePickerView = ({ type, onChanged, selectedDate }: any, _ref: any) => {
   const [date, setDate] = useState(selectedDate ? new Date(selectedDate) : new Date());
+  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
 
   const _setDate = (_date: Date) => {
     if (_date) {
@@ -24,11 +26,10 @@ const DateTimePickerView = ({ type, onChanged, selectedDate }: any, _ref: any) =
   return (
     <View style={styles.container}>
       <DatePicker
-        textColor={styles.datePickerText.color}
         date={date}
+        theme={isDarkTheme ? 'dark' : 'light'}
         onDateChange={_setDate}
         minimumDate={new Date()}
-        androidVariant="iosClone"
         is24hourSource="device"
         locale={getLocale()}
         mode={type}
