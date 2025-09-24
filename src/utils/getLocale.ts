@@ -5,8 +5,8 @@ const getLocale = (): string => {
 
   if (Platform.OS === 'ios') {
     locale =
-      NativeModules.SettingsManager.settings.AppleLocale ||
-      NativeModules.SettingsManager.settings.AppleLanguages[0];
+      NativeModules.SettingsManager.getConstants().settings.AppleLocale ||
+      NativeModules.SettingsManager.getConstants().settings.AppleLanguages[0];
   } else {
     locale = I18nManager.localeIdentifier;
   }
