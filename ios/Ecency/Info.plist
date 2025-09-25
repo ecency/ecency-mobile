@@ -56,9 +56,10 @@
 		<string>superhuman</string>
 		<string>yandexmail</string>
 		<string>fastmail</string>
-		<string>protonmail</string>
-		<string>szn-email</string>
-	</array>
+                <string>protonmail</string>
+                <string>szn-email</string>
+                <string>waves</string>
+        </array>
 	<key>LSMinimumSystemVersion</key>
 	<string>13.0.0</string>
 	<key>LSRequiresIPhoneOS</key>

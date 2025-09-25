@@ -21,8 +21,25 @@ const APP_META = {
   icon: undefined,
 };
 
-const HAS_AUTH_URI = 'has://auth_req';
-const HAS_SIGN_URI = 'has://sign_req';
+const HIVE_AUTH_SCHEMES = ['has', 'waves', 'waves.exchange'] as const;
+
+const getHiveAuthUri = async (path: string) => {
+  const results = await Promise.all(
+    HIVE_AUTH_SCHEMES.map(async (scheme) => {
+      const uri = `${scheme}://${path}`;
+
+      try {
+        const canOpen = await Linking.canOpenURL(uri);
+        return canOpen ? uri : null;
+      } catch (error) {
+        console.warn(`Unable to query Hive Auth scheme ${scheme}`, error);
+        return null;
+      }
+    }),
+  );
+
+  return results.find((uri): uri is string => Boolean(uri)) ?? null;
+};
 
 export enum HiveAuthStatus {
   INPUT = 0,
@@ -104,10 +121,9 @@ export const useHiveAuth = () => {
 
         console.log(encodedData);
 
-        const uri = `${HAS_AUTH_URI}/${encodedData}`;
+        const uri = await getHiveAuthUri(`auth_req/${encodedData}`);
 
-        const _canOpenUri = await Linking.canOpenURL(uri);
-        if (_canOpenUri) {
+        if (uri) {
           setStatusText(intl.formatMessage({ id: 'hiveauth.authenticating' }));
           Linking.openURL(uri);
         } else {
@@ -177,10 +193,11 @@ export const useHiveAuth = () => {
       const _cdWait = async (evt: any) => {
         console.log('sign wait', evt);
 
-        const _canOpenUri = await Linking.canOpenURL(HAS_SIGN_URI);
-        if (_canOpenUri) {
+        const uri = await getHiveAuthUri('sign_req');
+
+        if (uri) {
           setStatusText(intl.formatMessage({ id: 'hiveauth.requesting' }));
-          Linking.openURL(HAS_SIGN_URI);
+          Linking.openURL(uri);
         } else {
           throw new Error(intl.formatMessage({ id: 'hiveauth.not_installed' }));
         }
