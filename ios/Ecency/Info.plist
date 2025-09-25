@@ -58,7 +58,6 @@
 		<string>fastmail</string>
 		<string>protonmail</string>
 		<string>szn-email</string>
-		<string>waves</string>
 	</array>
 	<key>LSMinimumSystemVersion</key>
 	<string>13.0.0</string>
