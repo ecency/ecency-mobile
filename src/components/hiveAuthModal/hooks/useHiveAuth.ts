@@ -23,9 +23,94 @@ const APP_META = {
 
 const HIVE_AUTH_SCHEMES = ['has', 'waves'] as const;
 
-const getHiveAuthUri = async (path: string) => {
+type HiveAuthScheme = (typeof HIVE_AUTH_SCHEMES)[number];
+
+const parseSchemeFromValue = (value: unknown): HiveAuthScheme | null => {
+  if (!value) {
+    return null;
+  }
+
+  const parseString = (raw: string) => {
+    const candidate = raw.split('://')[0]?.toLowerCase();
+
+    return HIVE_AUTH_SCHEMES.includes(candidate as HiveAuthScheme)
+      ? (candidate as HiveAuthScheme)
+      : null;
+  };
+
+  if (typeof value === 'string') {
+    return parseString(value);
+  }
+
+  if (Array.isArray(value)) {
+    let matched: HiveAuthScheme | null = null;
+
+    value.some((entry) => {
+      const scheme = parseSchemeFromValue(entry);
+      if (scheme) {
+        matched = scheme;
+        return true;
+      }
+
+      return false;
+    });
+
+    return matched;
+  }
+
+  return null;
+};
+
+const extractPreferredScheme = (evt: any): HiveAuthScheme | null => {
+  const candidates: unknown[] = [
+    evt?.scheme,
+    evt?.host,
+    evt?.redirect,
+    evt?.app?.scheme,
+    evt?.app?.host,
+    evt?.app?.redirect,
+    evt?.hosts,
+    evt?.app?.hosts,
+  ];
+
+  let resolvedScheme: HiveAuthScheme | null = null;
+
+  candidates.some((candidate) => {
+    const scheme = parseSchemeFromValue(candidate);
+    if (scheme) {
+      resolvedScheme = scheme;
+      return true;
+    }
+
+    return false;
+  });
+
+  if (resolvedScheme) {
+    return resolvedScheme;
+  }
+
+  const appName = evt?.app?.name ? String(evt.app.name).toLowerCase() : null;
+
+  if (appName) {
+    if (appName.includes('wave')) {
+      return 'waves';
+    }
+
+    if (appName.includes('has') || appName.includes('hive')) {
+      return 'has';
+    }
+  }
+
+  return null;
+};
+
+const getHiveAuthUri = async (path: string, preferredScheme?: HiveAuthScheme | null) => {
+  const schemesToTry: HiveAuthScheme[] = preferredScheme
+    ? [preferredScheme]
+    : [...HIVE_AUTH_SCHEMES];
+
   const results = await Promise.all(
-    HIVE_AUTH_SCHEMES.map(async (scheme) => {
+    schemesToTry.map(async (scheme) => {
       const uri = `${scheme}://${path}`;
 
       try {
@@ -121,7 +206,7 @@ export const useHiveAuth = () => {
 
         console.log(encodedData);
 
-        const uri = await getHiveAuthUri(`auth_req/${encodedData}`);
+        const uri = await getHiveAuthUri(`auth_req/${encodedData}`, extractPreferredScheme(evt));
 
         if (uri) {
           setStatusText(intl.formatMessage({ id: 'hiveauth.authenticating' }));
@@ -193,7 +278,7 @@ export const useHiveAuth = () => {
       const _cdWait = async (evt: any) => {
         console.log('sign wait', evt);
 
-        const uri = await getHiveAuthUri('sign_req');
+        const uri = await getHiveAuthUri('sign_req', extractPreferredScheme(evt));
 
         if (uri) {
           setStatusText(intl.formatMessage({ id: 'hiveauth.requesting' }));
