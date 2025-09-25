@@ -21,7 +21,7 @@ const APP_META = {
   icon: undefined,
 };
 
-const HIVE_AUTH_SCHEMES = ['has', 'waves', 'waves.exchange'] as const;
+const HIVE_AUTH_SCHEMES = ['has', 'waves'] as const;
 
 const getHiveAuthUri = async (path: string) => {
   const results = await Promise.all(
