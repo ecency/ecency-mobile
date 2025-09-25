@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback, Suspense, lazy } from 'react';
 import { useSelector } from 'react-redux';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { debounce } from 'lodash';
@@ -13,8 +13,9 @@ import {
   usePromotedPostsQuery,
 } from '../../../providers/queries/postQueries/feedQueries';
 import { NewPostsPopup, ScrollTopPopup } from '../../atoms';
-import { ProposalVoteRequest } from '../..';
 import { SheetNames } from '../../../navigation/sheets';
+
+const ProposalVoteRequest = lazy(() => import("../..").then(mod => ({ default: mod.ProposalVoteRequest })));
 
 let scrollOffset = 0;
 let blockPopup = false;
@@ -138,11 +139,17 @@ const PostsTabContent = ({
     }
   };
 
-  const _renderHeader = () => {
+  const _renderHeader = useMemo(() => {
     if (isLoggedIn && pageType === 'main' && isInitialTab) {
-      return <ProposalVoteRequest />;
+      return (
+        <Suspense>
+          <ProposalVoteRequest />
+        </Suspense>
+      );
     }
-  };
+  }, [currentAccount.username]);
+
+
   // view rendereres
   const _renderEmptyContent = () => {
     const _isNoPost = !feedQuery.isLoading && feedQuery.data.length == 0;
