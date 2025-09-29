@@ -105,13 +105,13 @@ export const parsePost = (
   return post;
 };
 
-export const parseDiscussionCollection = async (commentsMap: { [key: string]: any }) => {
+export const parseDiscussionCollection = async (commentsMap: { [key: string]: any }, currentUsername?: string) => {
   Object.keys(commentsMap).forEach((key) => {
     const comment = commentsMap[key];
 
     // prcoess first level comment
     if (comment) {
-      commentsMap[key] = parseComment(comment);
+      commentsMap[key] = parseComment(comment, currentUsername);
     } else {
       delete commentsMap[key];
     }
@@ -122,7 +122,7 @@ export const parseDiscussionCollection = async (commentsMap: { [key: string]: an
 };
 
 // TODO: discard/deprecate method after porting getComments in commentsContainer to getDiscussionCollection
-export const parseCommentThreads = async (commentsMap: any, author: string, permlink: string) => {
+export const parseCommentThreads = async (commentsMap: any, author: string, permlink: string, currentUsername?: string) => {
   const MAX_THREAD_LEVEL = 3;
   const comments = [];
 
@@ -136,7 +136,7 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
       return replies.map((pathKey) => {
         const comment = commentsMap[pathKey];
         if (comment) {
-          const parsedComment = parseComment(comment);
+          const parsedComment = parseComment(comment, currentUsername);
           parsedComment.replies = parseReplies(commentsMap, parsedComment.replies, level + 1);
           return parsedComment;
         } else {
@@ -152,7 +152,7 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
 
     // prcoess first level comment
     if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
-      const _parsedComment = parseComment(comment);
+      const _parsedComment = parseComment(comment, currentUsername);
       _parsedComment.replies = parseReplies(commentsMap, _parsedComment.replies, 1);
       comments.push(_parsedComment);
     }
@@ -202,15 +202,15 @@ export const mapDiscussionToThreads = async (
   return comments;
 };
 
-export const parseComments = (comments: any[]) => {
+export const parseComments = (comments: any[], currentUsername?: string) => {
   if (!comments) {
     return null;
   }
 
-  return comments.map((comment) => parseComment(comment));
+  return comments.map((comment) => parseComment(comment, currentUsername));
 };
 
-export const parseComment = (comment: any) => {
+export const parseComment = (comment: any, currentUsername?: string) => {
   comment.pending_payout_value = parseFloat(get(comment, 'pending_payout_value', 0)).toFixed(3);
   comment.author_reputation = parseReputation(get(comment, 'author_reputation'));
   comment.avatar = getResizedAvatar(get(comment, 'author'));
@@ -253,6 +253,12 @@ export const parseComment = (comment: any) => {
     comment.stats?.hide ||
     comment.author_reputation < 25 ||
     (comment.net_rshares < -7000000000 && comment.active_votes?.length > 3);
+
+
+  //set user vote status on comment
+  const vote = comment.active_votes.find((element) => element.voter === currentUsername);
+  comment.isUpVoted = !!vote && vote.rshares > 0;
+  comment.isDownVoted = !!vote && vote.rshares < 0;
 
   // stamp comments with fetched time;
   comment.post_fetched_at = new Date().getTime();

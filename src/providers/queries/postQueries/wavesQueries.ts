@@ -173,7 +173,7 @@ export const useWavesQuery = (host: string) => {
 
   const _fetchWaves = async (pagePermlink: string) => {
     console.log('fetching waves from:', host, pagePermlink);
-    const response = await getDiscussionCollection(host, pagePermlink);
+    const response = await getDiscussionCollection(host, pagePermlink, currentAccount?.username);
 
     // inject cache here...
     const _cachedComments = cacheRef.current.commentsCollection;
