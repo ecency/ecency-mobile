@@ -243,7 +243,7 @@ export const useWavesQuery = (host: string) => {
         }
 
         // discard if wave is downvoted or marked gray
-        else if (post.net_rshares < 0 || post.stats?.gray || post.stats?.hide) {
+        else if (post.isMuted) {
           _status = false;
         }
 

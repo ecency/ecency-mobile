@@ -74,6 +74,15 @@ export const parsePost = (
 
   post.total_payout = totalPayout;
 
+
+  //set mute status
+  post.isMuted =
+    post.stats?.gray ||
+    post.stats?.hide ||
+    post.author_reputation < 25 ||
+    (post.net_rshares < -7000000000 && post.active_votes?.length > 3);
+
+
   // stamp posts with fetched time;
   post.post_fetched_at = new Date().getTime();
 
@@ -231,6 +240,13 @@ export const parseComment = (comment: any) => {
     comment.net_rshares > 0 ||
     comment.is_paidout
   );
+
+  //set mute status
+  comment.isMuted =
+    comment.stats?.gray ||
+    comment.stats?.hide ||
+    comment.author_reputation < 25 ||
+    (comment.net_rshares < -7000000000 && comment.active_votes?.length > 3);
 
   // stamp comments with fetched time;
   comment.post_fetched_at = new Date().getTime();

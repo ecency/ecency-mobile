@@ -109,7 +109,7 @@ const CommentView = ({
 
   const _renderComment = () => {
     const _hideContent =
-      isMuted || comment.stats?.gray || comment.author_reputation < 25 || comment.net_rshares < 0;
+      isMuted ||  comment?.isMuted;
 
     return (
       <View style={[{ marginLeft: 2, marginTop: -6 }]}>
