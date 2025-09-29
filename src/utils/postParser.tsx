@@ -83,6 +83,12 @@ export const parsePost = (
     (post.net_rshares < -7000000000 && post.active_votes?.length > 3);
 
 
+
+  //determine vote status
+  const vote = post.active_votes.find((element) => element.voter === currentUserName);
+  post.isUpVoted = !!vote && vote.rshares > 0;
+  post.isDownVoted = !!vote && vote.rshares < 0;
+
   // stamp posts with fetched time;
   post.post_fetched_at = new Date().getTime();
 
@@ -339,6 +345,10 @@ export const injectVoteCache = (post, voteCache) => {
       );
       const _newVote = parseVote(voteCache, post, _totalRShares);
       post.active_votes = [...post.active_votes, _newVote];
+
+      // update vote status here
+      post.isUpVoted = !voteCache.isDownvote;
+      post.isDownVoted = !!voteCache.isDownvote;
     }
 
     // if vote already exist
@@ -358,6 +368,10 @@ export const injectVoteCache = (post, voteCache) => {
 
       post.active_votes[_voteIndex] = _vote;
       post.active_votes = [...post.active_votes];
+
+      // update vote status here
+      post.isUpVoted = !voteCache.isDownvote;
+      post.isDownVoted = !!voteCache.isDownvote;
     }
   }
 
