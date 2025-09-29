@@ -74,17 +74,14 @@ export const parsePost = (
 
   post.total_payout = totalPayout;
 
-
-  //set mute status
+  // set mute status
   post.isMuted =
     post.stats?.gray ||
     post.stats?.hide ||
     post.author_reputation < 25 ||
     (post.net_rshares < -7000000000 && post.active_votes?.length > 3);
 
-
-
-  //determine vote status
+  // determine vote status
   const vote = post.active_votes.find((element) => element.voter === currentUserName);
   post.isUpVoted = !!vote && vote.rshares > 0;
   post.isDownVoted = !!vote && vote.rshares < 0;
@@ -105,7 +102,10 @@ export const parsePost = (
   return post;
 };
 
-export const parseDiscussionCollection = async (commentsMap: { [key: string]: any }, currentUsername?: string) => {
+export const parseDiscussionCollection = async (
+  commentsMap: { [key: string]: any },
+  currentUsername?: string,
+) => {
   Object.keys(commentsMap).forEach((key) => {
     const comment = commentsMap[key];
 
@@ -122,7 +122,12 @@ export const parseDiscussionCollection = async (commentsMap: { [key: string]: an
 };
 
 // TODO: discard/deprecate method after porting getComments in commentsContainer to getDiscussionCollection
-export const parseCommentThreads = async (commentsMap: any, author: string, permlink: string, currentUsername?: string) => {
+export const parseCommentThreads = async (
+  commentsMap: any,
+  author: string,
+  permlink: string,
+  currentUsername?: string,
+) => {
   const MAX_THREAD_LEVEL = 3;
   const comments = [];
 
@@ -247,15 +252,14 @@ export const parseComment = (comment: any, currentUsername?: string) => {
     comment.is_paidout
   );
 
-  //set mute status
+  // set mute status
   comment.isMuted =
     comment.stats?.gray ||
     comment.stats?.hide ||
     comment.author_reputation < 25 ||
     (comment.net_rshares < -7000000000 && comment.active_votes?.length > 3);
 
-
-  //set user vote status on comment
+  // set user vote status on comment
   const vote = comment.active_votes.find((element) => element.voter === currentUsername);
   comment.isUpVoted = !!vote && vote.rshares > 0;
   comment.isDownVoted = !!vote && vote.rshares < 0;

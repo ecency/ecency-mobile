@@ -48,7 +48,7 @@ export const PostCardContent = ({ content, isHideImage, nsfw, handleCardInteract
   const _isPollPost =
     content?.json_metadata?.content_type === ContentType.POLL && !!content?.json_metadata?.question;
 
-  const _isMuted = content?.isMuted
+  const _isMuted = content?.isMuted;
   const _isCommunityPost = isCommunity(content?.community);
 
   const _mutedText = _isMuted

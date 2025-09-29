@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { useLayoutState } from '@shopify/flash-list';
 import { useAppSelector } from '../../../hooks';
 import { FormattedCurrency } from '../../formatedElements';
 import Icon from '../../icon';
 import styles from '../styles/children.styles';
-import { useLayoutState } from '@shopify/flash-list';
 
 interface UpvoteButtonProps {
   content: any;
-  activeVotes: any[];
   isShowPayoutValue?: boolean;
   boldPayout?: boolean;
   onUpvotePress: (sourceRef: Ref<any>, onVotingStart: (status: number) => void) => void;
@@ -17,7 +16,6 @@ interface UpvoteButtonProps {
 
 export const UpvoteButton = ({
   content,
-  activeVotes,
   isShowPayoutValue,
   boldPayout,
   onUpvotePress,
@@ -28,10 +26,10 @@ export const UpvoteButton = ({
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
-  const [isVoted, setIsVoted] = useLayoutState(content.isUpVoted || false)
-  const [isDownVoted, setIsDownVoted] = useLayoutState(content.isDownVoted || false)
+  const [isVoted, setIsVoted] = useLayoutState(content.isUpVoted || false);
+  const [isDownVoted, setIsDownVoted] = useLayoutState(content.isDownVoted || false);
 
-  //update voted state if vote status changes changes
+  // update voted state if vote status changes changes
   useEffect(() => {
     if (content.isUpVoted !== isVoted) {
       setIsVoted(content.isUpVoted);
@@ -39,11 +37,9 @@ export const UpvoteButton = ({
     if (content.isDownVoted !== isDownVoted) {
       setIsDownVoted(content.isDownVoted);
     }
-  }, [content.isUpVoted, content.isDownVoted])
-
+  }, [content.isUpVoted, content.isDownVoted]);
 
   const _onPress = () => {
-
     const _onVotingStart = (status) => {
       if (status > 0) {
         setIsVoted(true);

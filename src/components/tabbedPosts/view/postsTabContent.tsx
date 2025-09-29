@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback, Suspense, lazy } from 'react';
+import React, { useState, useEffect, useRef, useMemo, Suspense, lazy } from 'react';
 import { useSelector } from 'react-redux';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { debounce } from 'lodash';
@@ -15,7 +15,9 @@ import {
 import { NewPostsPopup, ScrollTopPopup } from '../../atoms';
 import { SheetNames } from '../../../navigation/sheets';
 
-const ProposalVoteRequest = lazy(() => import("../..").then(mod => ({ default: mod.ProposalVoteRequest })));
+const ProposalVoteRequest = lazy(() =>
+  import('../..').then((mod) => ({ default: mod.ProposalVoteRequest })),
+);
 
 let scrollOffset = 0;
 let blockPopup = false;
@@ -148,7 +150,6 @@ const PostsTabContent = ({
       );
     }
   }, [currentAccount.username]);
-
 
   // view rendereres
   const _renderEmptyContent = () => {

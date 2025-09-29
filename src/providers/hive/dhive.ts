@@ -788,7 +788,7 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   }
 };
 
-export const getAccountPosts = async (query, currentUserName:string, filterNsfw:string) => {
+export const getAccountPosts = async (query, currentUserName: string, filterNsfw: string) => {
   try {
     console.log('Getting account posts: ', query);
     let posts = await client.call('bridge', 'get_account_posts', query);
@@ -904,7 +904,11 @@ export const deleteComment = (currentAccount, pin, permlink) => {
   }
 };
 
-export const getDiscussionCollection = async (author: string, permlink: string, currentUsername?: string) => {
+export const getDiscussionCollection = async (
+  author: string,
+  permlink: string,
+  currentUsername?: string,
+) => {
   try {
     const commentsMap = await client.call('bridge', 'get_discussion', { author, permlink });
 

@@ -108,8 +108,7 @@ const CommentView = ({
   );
 
   const _renderComment = () => {
-    const _hideContent =
-      isMuted ||  comment?.isMuted;
+    const _hideContent = isMuted || comment?.isMuted;
 
     return (
       <View style={[{ marginLeft: 2, marginTop: -6 }]}>
@@ -150,7 +149,6 @@ const CommentView = ({
       <>
         <UpvoteButton
           content={comment}
-          activeVotes={activeVotes}
           isShowPayoutValue={true}
           parentType={PostTypes.COMMENT}
           onUpvotePress={(sourceRef, onVotingStart) => {

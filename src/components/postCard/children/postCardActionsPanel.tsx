@@ -51,7 +51,6 @@ export const PostCardActionsPanel = ({ content, handleCardInteraction }: Props) 
       <View style={styles.leftFooterWrapper}>
         <UpvoteButton
           content={content}
-          activeVotes={activeVotes}
           isShowPayoutValue={true}
           parentType={PostTypes.POST}
           onUpvotePress={(sourceRef, onVotingStart) =>

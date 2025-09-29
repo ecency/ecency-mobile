@@ -131,7 +131,8 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
   const botAuthorsQuery = useBotAuthorsQuery();
 
-  const _fetchComments = async () => getDiscussionCollection(author, permlink, currentAccount?.username);
+  const _fetchComments = async () =>
+    getDiscussionCollection(author, permlink, currentAccount?.username);
 
   const query = useQuery({
     queryKey: [QUERIES.POST.GET_DISCUSSION, author, permlink],

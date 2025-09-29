@@ -97,7 +97,6 @@ const PostDisplayContainer = ({
       isNewPost={isNewPost}
       parentPost={parentPost}
       post={post}
-      activeVotes={activeVotes}
       activeVotesCount={activeVotesCount}
       isWavePost={isWavePost}
       fetchPost={_fetchPost}
