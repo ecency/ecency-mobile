@@ -172,7 +172,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
     if (!isDownVoted) {
       const _onVotingStart = onVotingStartRef.current; // keeping a reference of call to avoid mismatch in case back to back voting
       _closePopover();
-      _onVotingStart ? _onVotingStart(1) : null;
+      _onVotingStart ? _onVotingStart(sliderValue) : null;
 
       await delay(300);
 
@@ -259,7 +259,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
     const _onVotingStart = onVotingStartRef.current; // keeping a reference of call to avoid mismatch in case back to back voting
     if (isDownVoted) {
       _closePopover();
-      _onVotingStart ? _onVotingStart(-1) : null;
+      _onVotingStart ? _onVotingStart(-sliderValue) : null;
 
       await delay(300);
 
