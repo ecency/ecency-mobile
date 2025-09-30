@@ -11,13 +11,6 @@
           "organization": "ecency"
         }
       ]
-    ],
-    "version": "3.3.5",
-    "android": {
-      "versionCode": 1
-    },
-    "ios": {
-      "buildNumber": "1"
-    }
+    ]
   }
 }

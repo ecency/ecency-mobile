@@ -1,6 +1,6 @@
 {
   "name": "ecency",
-  "version": "3.3.5",
+  "version": "3.3.6",
   "displayName": "Ecency",
   "private": true,
   "rnpm": {
@@ -10,7 +10,7 @@
   },
   "scripts": {
     "version": "./version-ios.sh",
-    "postversion": "react-native-version --never-amend --legacy",
+    "postversion": "react-native-version --never-amend --legacy --skip-expo",
     "start": "react-native start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
