@@ -113,6 +113,7 @@ export const usePostsCachePrimer = () => {
  * @returns raw query with commentsData as extra parameter
  */
 export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const cachedComments: { [key: string]: Comment } = useAppSelector(
     (state) => state.cache.commentsCollection,
   );
@@ -130,7 +131,8 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
   const botAuthorsQuery = useBotAuthorsQuery();
 
-  const _fetchComments = async () => getDiscussionCollection(author, permlink);
+  const _fetchComments = async () =>
+    getDiscussionCollection(author, permlink, currentAccount?.username);
 
   const query = useQuery({
     queryKey: [QUERIES.POST.GET_DISCUSSION, author, permlink],

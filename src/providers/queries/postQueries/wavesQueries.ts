@@ -173,7 +173,7 @@ export const useWavesQuery = (host: string) => {
 
   const _fetchWaves = async (pagePermlink: string) => {
     console.log('fetching waves from:', host, pagePermlink);
-    const response = await getDiscussionCollection(host, pagePermlink);
+    const response = await getDiscussionCollection(host, pagePermlink, currentAccount?.username);
 
     // inject cache here...
     const _cachedComments = cacheRef.current.commentsCollection;
@@ -243,7 +243,7 @@ export const useWavesQuery = (host: string) => {
         }
 
         // discard if wave is downvoted or marked gray
-        else if (post.net_rshares < 0 || post.stats?.gray || post.stats?.hide) {
+        else if (post.isMuted) {
           _status = false;
         }
 

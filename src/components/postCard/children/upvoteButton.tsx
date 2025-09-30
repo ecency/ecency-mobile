@@ -1,14 +1,13 @@
-import React, { Ref, useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { useLayoutState } from '@shopify/flash-list';
 import { useAppSelector } from '../../../hooks';
-import { isDownVoted as isDownVotedFunc, isVoted as isVotedFunc } from '../../../utils/postParser';
 import { FormattedCurrency } from '../../formatedElements';
 import Icon from '../../icon';
 import styles from '../styles/children.styles';
 
 interface UpvoteButtonProps {
   content: any;
-  activeVotes: any[];
   isShowPayoutValue?: boolean;
   boldPayout?: boolean;
   onUpvotePress: (sourceRef: Ref<any>, onVotingStart: (status: number) => void) => void;
@@ -17,7 +16,6 @@ interface UpvoteButtonProps {
 
 export const UpvoteButton = ({
   content,
-  activeVotes,
   isShowPayoutValue,
   boldPayout,
   onUpvotePress,
@@ -28,21 +26,18 @@ export const UpvoteButton = ({
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
-  const [isVoted, setIsVoted] = useState<any>(null);
-  const [isDownVoted, setIsDownVoted] = useState<any>(null);
+  const [isVoted, setIsVoted] = useLayoutState(content.isUpVoted || false);
+  const [isDownVoted, setIsDownVoted] = useLayoutState(content.isDownVoted || false);
 
+  // update voted state if vote status changes changes
   useEffect(() => {
-    _calculateVoteStatus();
-  }, [activeVotes]);
-
-  const _calculateVoteStatus = useCallback(async () => {
-    // TODO: do this heavy lifting during parsing or react-query/cache response
-    const _isVoted = await isVotedFunc(activeVotes, currentAccount?.name);
-    const _isDownVoted = await isDownVotedFunc(activeVotes, currentAccount?.name);
-
-    setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
-    setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
-  }, [activeVotes]);
+    if (content.isUpVoted !== isVoted) {
+      setIsVoted(content.isUpVoted);
+    }
+    if (content.isDownVoted !== isDownVoted) {
+      setIsDownVoted(content.isDownVoted);
+    }
+  }, [content.isUpVoted, content.isDownVoted]);
 
   const _onPress = () => {
     const _onVotingStart = (status) => {
@@ -51,14 +46,12 @@ export const UpvoteButton = ({
       } else if (status < 0) {
         setIsDownVoted(true);
       } else {
-        _calculateVoteStatus();
+        setIsVoted(false);
+        setIsDownVoted(false);
       }
     };
 
     onUpvotePress(upvoteRef, _onVotingStart);
-    // _getRectFromRef(upvoteRef, (rect) => {
-    //   onUpvotePress(rect, _onVotingStart);
-    // });
   };
 
   const _onDetailsPress = () => {
@@ -87,19 +80,6 @@ export const UpvoteButton = ({
   return (
     <View style={styles.container}>
       <TouchableOpacity ref={upvoteRef} onPress={_onPress} style={styles.upvoteButton}>
-        {/* <Fragment>
-                    {isVoting ? (
-                        <View style={{ width: 19 }}>
-                            <PulseAnimation
-                                color="#357ce6"
-                                numPulses={1}
-                                diameter={20}
-                                speed={100}
-                                duration={1500}
-                                isShow={!isVoting}
-                            />
-                        </View>
-                    ) : ( */}
         <View hitSlop={{ top: 10, bottom: 10, left: 10, right: 5 }}>
           <Icon
             style={[styles.upvoteIcon, isDownVoted && { color: '#ec8b88' }]}
@@ -108,8 +88,6 @@ export const UpvoteButton = ({
             name={isDownVoted ? downVoteIconName : iconName}
           />
         </View>
-        {/* )}
-                </Fragment> */}
       </TouchableOpacity>
       <View style={styles.payoutTextButton}>
         {isShowPayoutValue && (

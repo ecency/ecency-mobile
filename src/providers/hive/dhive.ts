@@ -773,7 +773,7 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
       const areComments = query.sort === 'comments' || query.sort === 'replies';
 
       posts = areComments
-        ? parseComments(posts)
+        ? parseComments(posts, currentUserName)
         : await resolvePosts(posts, currentUserName, false);
 
       if (filterNsfw !== '0') {
@@ -788,7 +788,7 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   }
 };
 
-export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
+export const getAccountPosts = async (query, currentUserName: string, filterNsfw: string) => {
   try {
     console.log('Getting account posts: ', query);
     let posts = await client.call('bridge', 'get_account_posts', query);
@@ -797,8 +797,8 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
       const areComments = query.sort === 'comments' || query.sort === 'replies';
 
       posts = areComments
-        ? parseComments(posts)
-        : await resolvePosts(posts, currentUserName, false);
+        ? parseComments(posts, currentUserName)
+        : await resolvePosts(posts, currentUserName);
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);
@@ -812,7 +812,7 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
   }
 };
 
-export const getRepliesByLastUpdate = async (query) => {
+export const getRepliesByLastUpdate = async (query, currentUsername) => {
   try {
     console.log('Getting replies: ', query);
     const replies = await client.database.call('get_replies_by_last_update', [
@@ -820,7 +820,7 @@ export const getRepliesByLastUpdate = async (query) => {
       query.start_permlink,
       query.limit,
     ]);
-    const groomedComments = parseComments(replies);
+    const groomedComments = parseComments(replies, currentUsername);
     return groomedComments;
   } catch (error) {
     return error;
@@ -904,11 +904,15 @@ export const deleteComment = (currentAccount, pin, permlink) => {
   }
 };
 
-export const getDiscussionCollection = async (author, permlink) => {
+export const getDiscussionCollection = async (
+  author: string,
+  permlink: string,
+  currentUsername?: string,
+) => {
   try {
     const commentsMap = await client.call('bridge', 'get_discussion', { author, permlink });
 
-    const _parsedCollection = await parseDiscussionCollection(commentsMap);
+    const _parsedCollection = await parseDiscussionCollection(commentsMap, currentUsername);
     return _parsedCollection;
   } catch (error) {
     console.warn('failed to fetch discusssion', error, author, permlink);
@@ -916,7 +920,7 @@ export const getDiscussionCollection = async (author, permlink) => {
   }
 };
 
-export const getComments = async (author, permlink) => {
+export const getComments = async (author: string, permlink: string, currentUsername?: string) => {
   try {
     const commentsMap = await client.call('bridge', 'get_discussion', { author, permlink });
 
@@ -925,7 +929,7 @@ export const getComments = async (author, permlink) => {
     // for now, deleting to keep the change footprint small for PR
     delete commentsMap[`${author}/${permlink}`];
 
-    const groomedComments = parseCommentThreads(commentsMap, author, permlink);
+    const groomedComments = parseCommentThreads(commentsMap, author, permlink, currentUsername);
     return groomedComments;
   } catch (error) {
     return error;
