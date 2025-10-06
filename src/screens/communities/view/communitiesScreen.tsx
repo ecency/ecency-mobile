@@ -66,6 +66,9 @@ const CommunitiesScreen = () => {
               style={[globalStyles.tabView]}
               onIndexChange={setIndex}
               renderTabBar={TabBar}
+              commonOptions={{
+                labelStyle: styles.tabLabelColor,
+              }}
               renderScene={({ route }) => {
                 switch (route.key) {
                   case 'joined':
