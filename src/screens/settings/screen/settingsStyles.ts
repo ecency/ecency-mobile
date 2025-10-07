@@ -10,6 +10,9 @@ export default EStyleSheet.create({
     paddingRight: 32,
     marginVertical: 5,
   },
+  scrollContent:{
+    paddingBottom: 72,
+  },
   cardTitle: {
     color: '$primaryBlue',
     textAlign: 'left',
