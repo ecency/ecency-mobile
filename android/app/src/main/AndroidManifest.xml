@@ -131,30 +131,7 @@
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="ecency" />
         </intent-filter>
-        <intent-filter android:label="Ecency">
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="https" android:host="esteem.app" />
-        </intent-filter>
-        <intent-filter android:label="Ecency">
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="https" android:host="hive.blog" />
-        </intent-filter>
-        <intent-filter android:label="Ecency">
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="https" android:host="peakd.com" />
-        </intent-filter>
-        <intent-filter android:label="Ecency">
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="https" android:host="leofinance.io" />
-        </intent-filter>
+
         <intent-filter android:label="Ecency">
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
@@ -180,9 +157,6 @@
       <meta-data
           android:name="com.google.firebase.messaging.default_notification_icon"
           android:resource="@drawable/ic_notification" />
-      <!-- <meta-data
-          android:name="com.google.firebase.messaging.default_notification_color"
-          android:resource="@color/notification_icon" /> -->
       <meta-data
             tools:replace="android:value"
             android:name="google_analytics_adid_collection_enabled"
