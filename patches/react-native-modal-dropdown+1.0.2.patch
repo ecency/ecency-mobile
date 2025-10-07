@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native-modal-dropdown/components/ModalDropdown.js b/node_modules/react-native-modal-dropdown/components/ModalDropdown.js
-index c7e4b4f..275b785 100644
+index c7e4b4f..1d7f73e 100644
 --- a/node_modules/react-native-modal-dropdown/components/ModalDropdown.js
 +++ b/node_modules/react-native-modal-dropdown/components/ModalDropdown.js
 @@ -434,7 +434,8 @@ export default class ModalDropdown extends Component {
@@ -12,6 +12,21 @@ index c7e4b4f..275b785 100644
          style={styles.list}
          keyExtractor={(item, i) => (`key-${i}`)}
          renderItem={this._renderItem}
+@@ -488,13 +489,12 @@ export default class ModalDropdown extends Component {
+     );
+ 
+     const touchableProps = {
+-      key,
+       accessible,
+       onPress: () => this._onRowPress(item, index, separators),
+       ...renderRowProps
+     };
+ 
+-    return <RowTouchable {...touchableProps}>{row}</RowTouchable>;
++    return <RowTouchable key={key} {...touchableProps}>{row}</RowTouchable>;
+   };
+ 
+   _onRowPress(rowData, rowID, highlightRow) {
 diff --git a/node_modules/react-native-modal-dropdown/example/android/build.gradle b/node_modules/react-native-modal-dropdown/example/android/build.gradle
 index eed9972..61bdb60 100644
 --- a/node_modules/react-native-modal-dropdown/example/android/build.gradle
