@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import VersionNumber from 'react-native-version-number';
 import { NavigationContainer } from '@react-navigation/native';
 import RNBootSplash from 'react-native-bootsplash';
@@ -16,20 +16,35 @@ export const AppNavigator = () => {
   const linkProcessor = useLinkProcessor();
 
   const [appVersion] = useState(VersionNumber.appVersion);
+  const [isNavReady, setIsNavReady] = useState(false);
+
+  const _isNewVersion = useMemo(() => (
+    !lastAppVersion ||
+    parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion)
+  ), [lastAppVersion])
+  
+
+  useEffect(() => {
+    if (isNavReady && !_isNewVersion) {
+
+      // read initial URL
+      Linking.getInitialURL().then((url) => {
+        if (url) {
+          linkProcessor.handleLink(url);
+        }
+      });
+    }
+
+  }, [isNavReady, _isNewVersion])
+
 
   const _onReady = () => {
     RNBootSplash.hide({ fade: true });
-
-    // read initial URL
-    Linking.getInitialURL().then((url) => {
-      if (url) {
-        linkProcessor.handleLink(url);
-      }
-    });
+    setIsNavReady(true);
   };
 
   const _initRoute =
-    !lastAppVersion || parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion)
+    _isNewVersion
       ? ROUTES.SCREENS.WELCOME
       : ROUTES.SCREENS.FEED;
 
