@@ -56,15 +56,14 @@ interface CurrentAccount {
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
-const DEFAULT_SERVER = SERVER_LIST;
-let client = new Client(DEFAULT_SERVER, {
+let client = new Client([...SERVER_LIST], {
   timeout: 4000,
   failoverThreshold: 10,
   consoleOnFailover: true,
 });
 
 export const checkClient = async () => {
-  const selectedServer = DEFAULT_SERVER;
+  const selectedServer = [...SERVER_LIST];
 
   await getServer().then((response) => {
     if (response) {

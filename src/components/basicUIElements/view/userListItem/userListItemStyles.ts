@@ -10,7 +10,7 @@ export default EStyleSheet.create({
   userDescription: {
     flexDirection: 'column',
     alignItems: isRTL() ? 'flex-end' : 'flex-start',
-    flexGrow: 1,
+    flex: 1,
     marginLeft: isRTL() ? 0 : 8,
     marginRight: isRTL() ? 8 : 0,
   },

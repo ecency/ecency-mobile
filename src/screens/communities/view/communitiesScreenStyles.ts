@@ -48,4 +48,7 @@ export default EStyleSheet.create({
   tabbarItem: {
     flex: 1,
   },
+  tabLabelColor: {
+    color: '$primaryDarkText',
+  },
 });

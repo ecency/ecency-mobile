@@ -49,7 +49,7 @@ const SettingsScreen = ({
   isHideImages,
 }) => {
   return (
-    <SafeAreaView style={globalStyles.defaultContainer}>
+    <SafeAreaView edges={['top']}  style={globalStyles.defaultContainer}>
       <BasicHeader
         title={intl.formatMessage({
           id: 'settings.settings',
@@ -58,6 +58,7 @@ const SettingsScreen = ({
 
       <ScrollView
         style={styles.container}
+        contentContainerStyle={styles.scrollContent}
         refreshControl={
           <RefreshControl
             refreshing={isLoading}

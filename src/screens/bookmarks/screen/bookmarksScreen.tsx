@@ -57,6 +57,7 @@ const BookmarksScreen = ({
           index={index}
           isClickable
           text={text}
+          isLoggedIn={true}
           username={isFavorites ? item.account : item.author}
         />
       );
@@ -81,19 +82,19 @@ const BookmarksScreen = ({
     const isFavorites = type === 'favorites';
 
     return (
-      <View style={styles.container}>
-        <FlatList
-          data={data.map((item) =>
-            item._id !== data[item._id] && isFavorites
-              ? item.account !== data[item.account] && item
-              : item,
-          )}
-          keyExtractor={(item) => item._id}
-          removeClippedSubviews={false}
-          renderItem={({ item, index }) => _renderItem(item, index, type)}
-          ListEmptyComponent={_renderEmptyContent()}
-        />
-      </View>
+      <FlatList
+        style={styles.container}
+        data={data.map((item) =>
+          item._id !== data[item._id] && isFavorites
+            ? item.account !== data[item.account] && item
+            : item,
+        )}
+        contentContainerStyle={styles.listContent}
+        keyExtractor={(item) => item._id}
+        removeClippedSubviews={false}
+        renderItem={({ item, index }) => _renderItem(item, index, type)}
+        ListEmptyComponent={_renderEmptyContent()}
+      />
     );
   };
 
@@ -132,7 +133,7 @@ const BookmarksScreen = ({
   };
 
   return (
-    <SafeAreaView style={globalStyles.container}>
+    <SafeAreaView edges={['top']} style={globalStyles.container}>
       <BasicHeader
         title={intl.formatMessage({
           id: 'bookmarks.title',
