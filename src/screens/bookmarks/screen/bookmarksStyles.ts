@@ -5,7 +5,7 @@ export default EStyleSheet.create({
     padding: 8,
     flex: 1,
   },
-  listContent:{
+  listContent: {
     paddingBottom: 72,
   },
   tabbar: {

@@ -18,15 +18,13 @@ export const AppNavigator = () => {
   const [appVersion] = useState(VersionNumber.appVersion);
   const [isNavReady, setIsNavReady] = useState(false);
 
-  const _isNewVersion = useMemo(() => (
-    !lastAppVersion ||
-    parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion)
-  ), [lastAppVersion])
-  
+  const _isNewVersion = useMemo(
+    () => !lastAppVersion || parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion),
+    [lastAppVersion],
+  );
 
   useEffect(() => {
     if (isNavReady && !_isNewVersion) {
-
       // read initial URL
       Linking.getInitialURL().then((url) => {
         if (url) {
@@ -34,19 +32,14 @@ export const AppNavigator = () => {
         }
       });
     }
-
-  }, [isNavReady, _isNewVersion])
-
+  }, [isNavReady, _isNewVersion]);
 
   const _onReady = () => {
     RNBootSplash.hide({ fade: true });
     setIsNavReady(true);
   };
 
-  const _initRoute =
-    _isNewVersion
-      ? ROUTES.SCREENS.WELCOME
-      : ROUTES.SCREENS.FEED;
+  const _initRoute = _isNewVersion ? ROUTES.SCREENS.WELCOME : ROUTES.SCREENS.FEED;
 
   return (
     <NavigationContainer ref={navigationRef} onReady={_onReady}>

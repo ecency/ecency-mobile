@@ -56,7 +56,6 @@ interface CurrentAccount {
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
-
 let client = new Client([...SERVER_LIST], {
   timeout: 4000,
   failoverThreshold: 10,
