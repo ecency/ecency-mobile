@@ -1156,10 +1156,10 @@
   dependencies:
     long "~3"
 
-"@ecency/render-helper@^2.2.39":
-  version "2.2.39"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.2.39.tgz#41ecff2f8b7f5be3bd0ddb3763dda21029278a48"
-  integrity sha512-2zqkoobLJgxH/6vEdEm5968TDAbSYccnZ4LX6oLuNYHProsdIXsax7BPkvqSIzvLu9BJMVZzrKbb8HXclXLYAw==
+"@ecency/render-helper@^2.3.17":
+  version "2.3.17"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.3.17.tgz#7576bb5ab69ca3f6ae36fb484aeee49548ffaa89"
+  integrity sha512-9l3PYeMWtFSURSzxjE6vpMS3t2aHBX8CNF//0CIqzEqyLWpdt7nOwb4OgASH8WbaF9BaAjXgXcneQy8HsdxrAw==
   dependencies:
     he "^1.2.0"
     lolight "^1.4.0"
