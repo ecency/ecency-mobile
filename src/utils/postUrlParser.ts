@@ -93,7 +93,8 @@ const postUrlParser = (url: string): PostUrlParseResult | null => {
   // For non urls with category like esteem/@good-karma/esteem-london-presentation-e3105ba6637ed
   match = url.match(/([\w.\d-]+)\/(@[\w.\d-]+)\/(.*?)(?:\?|$)/);
   if (match && match.length === 4) {
-    if (match[3].indexOf('#') > -1) {
+    // If the permlink contains a comment part, extract it
+    if (match[3].indexOf('#@') > -1) {
       const commentPart = match[3].split('@')[1];
       const splits = commentPart.split('/');
       return {
@@ -102,10 +103,14 @@ const postUrlParser = (url: string): PostUrlParseResult | null => {
         permlink: splits[1],
       };
     }
+
+    // strip hash from permlink if any
+    const permlink = match[3].indexOf('#') > -1 ? match[3].split('#')[0] : match[3];
+
     return {
       category: match[1],
       author: match[2].replace('@', ''),
-      permlink: match[3],
+      permlink,
     };
   }
 
