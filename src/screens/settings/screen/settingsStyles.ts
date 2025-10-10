@@ -10,7 +10,7 @@ export default EStyleSheet.create({
     paddingRight: 32,
     marginVertical: 5,
   },
-  scrollContent:{
+  scrollContent: {
     paddingBottom: 72,
   },
   cardTitle: {

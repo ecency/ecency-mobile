@@ -49,7 +49,7 @@ const SettingsScreen = ({
   isHideImages,
 }) => {
   return (
-    <SafeAreaView edges={['top']}  style={globalStyles.defaultContainer}>
+    <SafeAreaView edges={['top']} style={globalStyles.defaultContainer}>
       <BasicHeader
         title={intl.formatMessage({
           id: 'settings.settings',
