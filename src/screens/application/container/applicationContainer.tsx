@@ -675,20 +675,23 @@ class ApplicationContainer extends Component {
       notify_types = [1, 2, 3, 4, 5, 6, 13, 15];
     }
 
-    getMessaging()
-      .getToken()
-      .then((token) => {
-        setPushToken(
-          {
-            username,
-            token: isEnable ? token : '',
-            system: `fcm-${Platform.OS}`,
-            allows_notify: Number(isEnable),
-            notify_types,
-          },
-          accessToken,
-        );
-      });
+    try {
+      const token = await getMessaging().getToken();
+      console.log('FCM Token:', token);
+      setPushToken(
+        {
+          username,
+          token: isEnable ? token : '',
+          system: `fcm-${Platform.OS}`,
+          allows_notify: Number(isEnable),
+          notify_types,
+        },
+        accessToken,
+      );
+    } catch (error) {
+      console.warn('Failed to enable notification:', error);
+      Sentry.captureException(error);
+    }
   };
 
   _switchAccount = async (targetAccount) => {
