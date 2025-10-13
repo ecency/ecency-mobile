@@ -17,7 +17,6 @@ interface AutoHeightImageProps {
   lockWidth?: boolean;
   enableViewabilityTracker?: boolean;
   onPress?: () => void;
-  setAspectRatio?: (ratio: number) => void;
 }
 
 // const AnimatedExpoImage = Animated.createAnimatedComponent(ExpoImage);
@@ -32,7 +31,6 @@ export const AutoHeightImage = ({
   activeOpacity,
   enableViewabilityTracker,
   onPress,
-  setAspectRatio,
 }: AutoHeightImageProps) => {
   const imgRef = useRef<ExpoImage>(null);
 
@@ -102,16 +100,8 @@ export const AutoHeightImage = ({
       return;
     }
 
-    if (!aspectRatio) {
-      setHeight(newHeight);
-      // animateHeight(newHeight); // Animate the height change
-    }
-
+    setHeight(newHeight);
     setImgWidth(newWidth);
-
-    if (!aspectRatio && setAspectRatio) {
-      setAspectRatio(newHeight / newWidth);
-    }
   };
 
   // Use Reanimated to bind the animated height value to the style
