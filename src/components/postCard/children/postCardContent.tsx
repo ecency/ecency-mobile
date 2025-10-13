@@ -42,7 +42,7 @@ export const PostCardContent = ({ content, isHideImage, nsfw, handleCardInteract
 
   const resizeMode = useMemo(() => {
     return imgHeight < dim.height ? 'contain' : 'cover';
-  }, [dim.height]);
+  }, [dim.height, imgHeight]);
 
   // featured text can be used to add more labels in future by just inserting text as array item
   const _isPollPost =
@@ -124,17 +124,15 @@ export const PostCardContent = ({ content, isHideImage, nsfw, handleCardInteract
               contentFit={resizeMode}
               autoplay={true}
               onLoad={(evt) => {
-                // const animated = evt.source.isAnimated;
-                // setIsAnimated(animated);
-                // if (animated) {
-                //   _toggleGif(isInViewRef.current);
-                // }
-                if (!imageRatio) {
-                  const _imgRatio = evt.source.width / evt.source.height;
-                  const height = imgWidth / _imgRatio;
-                  setImgHeight(height);
-                  // setImageRatio(content.author + content.permlink, _imgRatio);
+                const _imgRatio = evt.source.width / evt.source.height;
+                const height = imgWidth / _imgRatio;
+
+                // if new height and old height are approximately equal, skip animation
+                if (Math.abs(height - imgHeight) < 1) {
+                  return;
                 }
+
+                setImgHeight(height);
               }}
             />
             {isGif && (
