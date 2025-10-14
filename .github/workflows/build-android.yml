@@ -96,7 +96,10 @@ jobs:
           echo "keyAlias=${{ secrets.ALIAS }}" >> ./android/key.properties
 
       - name: Generate signing report
-        run: ./gradlew signingReport
+        run: |
+          cd android
+          ./gradlew signingReport
+          cd ..
       - name: Set version code
         run: |
           TIMESTAMP=$(date +%s)
