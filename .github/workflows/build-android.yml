@@ -81,8 +81,8 @@ jobs:
 
       - name: Create Google Services JSON File
         env:
-          GOOGLE_JSON_NEW_KEY: ${{ secrets.GOOGLE_JSON_NEW_KEY }}
-        run: echo $GOOGLE_JSON_NEW_KEY | base64 --decode > ./android/app/google-services.json
+          GOOGLE_JSON: ${{ secrets.GOOGLE_JSON }}
+        run: echo $GOOGLE_JSON | base64 --decode > ./android/app/google-services.json
 
       - name: Upload-keystore generator
         run: |
