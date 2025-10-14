@@ -527,15 +527,7 @@ class ApplicationContainer extends Component {
 
     const _enabledNotificationForAccount = (account) => {
       const encAccessToken = account?.local?.accessToken;
-      // decrypt access token
-      let accessToken = null;
-      if (encAccessToken) {
-        // NOTE: default pin decryption works also for custom pin as other account
-        // keys are not yet being affected by changed pin, which I think we should dig more
-        accessToken = decryptKey(account.name, Config.DEFAULT_PIN);
-      }
-
-      this._enableNotification(account.name, isEnabled, settings, accessToken);
+      this._enableNotification(account.name, isEnabled, settings, encAccessToken);
     };
 
     // updateing fcm token with settings;
@@ -607,7 +599,7 @@ class ApplicationContainer extends Component {
   };
 
   _logout = async (username) => {
-    const { otherAccounts, dispatch, intl } = this.props;
+    const {currentAccount, otherAccounts, dispatch, intl } = this.props;
 
     try {
       const response = await removeUserData(username);
@@ -616,7 +608,10 @@ class ApplicationContainer extends Component {
         throw response;
       }
       this._updatePrevLoggedInUsersList(username);
-      this._enableNotification(username, false);
+
+      const encAccessToken =
+        currentAccount.username === username ? currentAccount?.local?.accessToken : null;
+      this._enableNotification(username, false, null, encAccessToken);
 
       // switch account if other account exist
       const _otherAccounts = otherAccounts.filter((user) => user.username !== username);
@@ -651,7 +646,10 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _enableNotification = async (username, isEnable, settings = null, accessToken = null) => {
+  _enableNotification = async (username, isEnable, settings = null, encAccesstoken = null) => {
+
+    const accessToken = encAccesstoken ? decryptKey(encAccesstoken, Config.DEFAULT_PIN) : null;
+
     // compile notify_types
     let notify_types = [];
     if (settings) {
@@ -675,20 +673,23 @@ class ApplicationContainer extends Component {
       notify_types = [1, 2, 3, 4, 5, 6, 13, 15];
     }
 
-    getMessaging()
-      .getToken()
-      .then((token) => {
-        setPushToken(
-          {
-            username,
-            token: isEnable ? token : '',
-            system: `fcm-${Platform.OS}`,
-            allows_notify: Number(isEnable),
-            notify_types,
-          },
-          accessToken,
-        );
-      });
+    try {
+      const token = await getMessaging().getToken();
+      console.log('FCM Token:', token);
+      setPushToken(
+        {
+          username,
+          token: token,
+          system: `fcm-${Platform.OS}`,
+          allows_notify: Number(isEnable),
+          notify_types,
+        },
+        accessToken,
+      );
+    } catch (error) {
+      console.warn('Failed to enable notification:', error);
+      Sentry.captureException(error);
+    }
   };
 
   _switchAccount = async (targetAccount) => {

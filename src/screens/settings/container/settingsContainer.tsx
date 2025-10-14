@@ -275,9 +275,9 @@ class SettingsContainer extends Component {
     notifyTypes.sort();
 
     if (actionType === 'notification') {
-      this._setPushToken(action ? notifyTypes : []);
+      this._setPushToken(action ? notifyTypes : [], action);
     } else {
-      this._setPushToken(notifyTypes);
+      this._setPushToken(notifyTypes, action);
     }
   };
 
@@ -356,30 +356,27 @@ class SettingsContainer extends Component {
     }
   };
 
-  _setPushToken = async (notifyTypes) => {
+  _setPushToken = (notifyTypes, enabled = true) => {
     const { isLoggedIn, otherAccounts = [] } = this.props;
 
     if (isLoggedIn) {
-      getExistUser().then((isExistUser) => {
-        if (isExistUser) {
-          otherAccounts.forEach((item) => {
-            const { isNotificationSettingsOpen } = this.props;
+      
+      otherAccounts.forEach(async (item) => {
+        const token = await getMessaging().getToken()
+        console.log('FCM Token:', token);
 
-            getMessaging()
-              .getToken()
-              .then((token) => {
-                const data = {
-                  username: item.username,
-                  token,
-                  system: `fcm-${Platform.OS}`,
-                  allows_notify: Number(isNotificationSettingsOpen),
-                  notify_types: notifyTypes,
-                };
-                setPushToken(data);
-              });
-          });
-        }
+        const data = {
+          username: item.username,
+          token,
+          system: `fcm-${Platform.OS}`,
+          allows_notify: enabled ? 1 : 0 ,
+          notify_types: notifyTypes,
+        };
+
+        setPushToken(data);
+
       });
+
     }
   };
 
@@ -388,9 +385,8 @@ class SettingsContainer extends Component {
     let message;
 
     const deviceName = await DeviceInfo.getDeviceName();
-    const platform = `${deviceName} - ${Platform.OS === 'ios' ? 'iOS' : 'Android'} ${
-      Platform.Version
-    }`;
+    const platform = `${deviceName} - ${Platform.OS === 'ios' ? 'iOS' : 'Android'} ${Platform.Version
+      }`;
     const appVersion = `${DeviceInfo.getVersion()} (${DeviceInfo.getBuildNumber()})`;
     const username = currentAccount?.username || 'Unknown User';
 

@@ -95,6 +95,11 @@ jobs:
           echo "storePassword=${{ secrets.UPLOAD_KEYSTORE_PASSPHRASE }}" >> ./android/key.properties
           echo "keyAlias=${{ secrets.ALIAS }}" >> ./android/key.properties
 
+      - name: Generate signing report
+        run: |
+          cd android
+          ./gradlew signingReport
+          cd ..
       - name: Set version code
         run: |
           TIMESTAMP=$(date +%s)
