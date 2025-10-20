@@ -9,7 +9,7 @@ import { fetchAndSetCoinsData } from '../../../redux/actions/walletActions';
 import parseToken from '../../../utils/parseToken';
 import { claimPoints, getPointsSummary } from '../../ecency/ePoint';
 import { fetchUnclaimedRewards } from '../../hive-engine/hiveEngine';
-import { claimRewardBalance, getAccount, getRecurrentTransfers } from '../../hive/dhive';
+import { claimRewardBalance, getAccount, getRecurrentTransfers, profileUpdate } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
 import { claimRewards } from '../../hive-engine/hiveEngineActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
@@ -17,6 +17,9 @@ import { updateClaimCache } from '../../../redux/actions/cacheActions';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
 import { fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
 import { recurrentTransferToken } from '../../hive/dhive';
+import { updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { ProfileToken } from '../../../screens/assetsSelect/screen/assetsSelect';
+import { Alert } from 'react-native';
 
 interface RewardsCollection {
   [key: string]: string;
@@ -460,6 +463,47 @@ export const useDeleteRecurrentTransferMutation = () => {
         toastNotification(
           intl.formatMessage({ id: 'recurrent.delete_failed' }, { error: error.message }),
         ),
+      );
+    },
+  });
+
+  return mutation;
+};
+
+
+
+export const useUpdateProfileTokensMutation = () => {
+  const dispatch = useAppDispatch();
+  const intl = useIntl();
+
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const pinHash = useAppSelector((state) => state.application.pin);
+
+  const mutation = useMutation<any, Error, ProfileToken[]>({
+    mutationFn: async (tokens) => {
+      // extract a list of tokens with meta entry
+      const updatedCurrentAccount = currentAccount;
+      updatedCurrentAccount.about.profile = {
+        ...updatedCurrentAccount.about.profile,
+
+        // make sure entries with meta are preserved
+        tokens: [...tokens],
+      };
+      const params = {
+        ...updatedCurrentAccount.about.profile,
+      };
+      await profileUpdate(params, pinHash, currentAccount);
+      return updatedCurrentAccount
+    },
+    onSuccess: (updatedCurrentAccount) => {
+      dispatch(updateCurrentAccount({ ...updatedCurrentAccount }))
+    },
+    onError: (error) => {
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        (error instanceof Error ? error.message : String(error)),
       );
     },
   });

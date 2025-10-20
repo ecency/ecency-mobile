@@ -32,6 +32,7 @@ import {
 import DEFAULT_ASSETS, { ASSET_IDS } from '../../../constants/defaultAssets';
 import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
 import { walletQueries } from '../../../providers/queries';
+import { migrateSelectedTokens } from '../../../utils/migrationHelpers';
 
 const CHART_DAYS_RANGE = 7;
 
@@ -55,6 +56,7 @@ const WalletScreen = ({ navigation }) => {
   const walletQuery = walletQueries.useAssetsQuery();
   const unclaimedRewardsQuery = walletQueries.useUnclaimedRewardsQuery();
   const claimRewardsMutation = walletQueries.useClaimRewardsMutation();
+  const updateProfileTokensMutation = walletQueries.useUpdateProfileTokensMutation();
 
   // state
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -80,12 +82,26 @@ const WalletScreen = ({ navigation }) => {
     _updateSelectedAssetsDataFromProfileJsonMeta();
   }, [currency, currentAccount]);
 
+
+  //add hook that checks and migrate token based on current account change
+  useEffect(() => {
+    const tokens = currentAccount?.about?.profile?.tokens;
+    if (tokens) {
+      const _migratedTokens = migrateSelectedTokens(tokens);
+      if (_migratedTokens) {
+       //update profile
+        updateProfileTokensMutation.mutate(_migratedTokens);
+      }
+    }
+  }, [currentAccount])
+
   useEffect(() => {
     _fetchPriceHistory();
   }, [selectedCoins]);
 
   // actions
   const populateSelectedAssets = (tokensArr) => {
+    //TOOD: handle hive and chain tokens
     // filter out any other type of token other than ENGINE and SPK
     return tokensArr
       .filter(({ type }) => type === 'ENGINE' || type === 'SPK')
@@ -244,8 +260,8 @@ const WalletScreen = ({ navigation }) => {
           {walletQuery.isFetching
             ? intl.formatMessage({ id: 'wallet.updating' })
             : `${intl.formatMessage({ id: 'wallet.last_updated' })} ${moment(
-                updateTimestamp,
-              ).format('HH:mm:ss')}`}
+              updateTimestamp,
+            ).format('HH:mm:ss')}`}
         </Text>
       </View>
     );

@@ -45,6 +45,8 @@ import RootNavigation from '../navigation/rootNavigation';
 import ROUTES from '../constants/routeNames';
 import { DEFAULT_FEED_FILTERS } from '../constants/options/filters';
 import { SheetNames } from '../navigation/sheets';
+import { isArray } from 'lodash';
+import { ProfileToken, TokenType } from '../screens/assetsSelect/screen/assetsSelect';
 
 // migrates settings from realm to redux once and do no user realm for settings again;
 export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean) => {
@@ -249,6 +251,57 @@ export const repairOtherAccountsData = (accounts, realmAuthData, dispatch) => {
   });
 };
 
+
+export const migrateSelectedTokens = (tokens: any) => {
+
+  if (!isArray(tokens)) {
+    // means tokens is using old object formation, covert to array
+    const _mapSymbolsToProfileToken = (symbols: string[], type: TokenType) =>
+      isArray(symbols)
+        ? symbols.map((symbol) => ({
+          symbol,
+          type,
+          meta: { show: true },
+        }))
+        : [];
+
+    return [
+      ..._mapSymbolsToProfileToken(tokens.engine, TokenType.ENGINE),
+      ..._mapSymbolsToProfileToken(tokens.spk, TokenType.SPK),
+    ];
+  }
+
+  //check for missing meta entries
+  else if (tokens.some((item:ProfileToken) => !item.meta)) {
+    //unify tokens to have meta and discard duplicate entries 
+
+    const map = new Map();
+
+    for (const token of tokens) {
+      const key = `${token.symbol}-${token.type}`;
+      const existing = map.get(key);
+
+      // If no existing entry, or existing entry has no meta but current has meta, update
+      if (!existing || (!existing.meta && token.meta)) {
+        map.set(key, token);
+      }
+      // If both have meta, keep the existing one (first occurrence)
+    }
+
+    // Add meta:{show:true} to entries missing meta
+    const _tokens = Array.from(map.values()).map(token => {
+      if (!token.meta) {
+        return { ...token, meta: { show: true } };
+      }
+      return token;
+    });
+
+    return _tokens;
+  }
+
+  return null;
+}
+
 const reduxMigrations = {
   0: (state) => {
     const { upvotePercent } = state.application;
@@ -330,5 +383,6 @@ const reduxMigrations = {
 export default {
   migrateSettings,
   migrateUserEncryption,
+  migrateSelectedTokens,
   reduxMigrations,
 };
