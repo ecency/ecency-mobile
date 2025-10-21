@@ -8,6 +8,23 @@ import {
   UPDATE_UNCLAIMED_BALANCE,
 } from '../constants/constants';
 
+export enum TokenType {
+  ENGINE = 'ENGINE',
+  SPK = 'SPK',
+  HIVE = 'HIVE',
+  CHAIN = 'CHAIN',
+}
+
+export interface ProfileToken {
+  symbol: string;
+  type: TokenType;
+  meta?: {
+    show: boolean;
+    address?: string;
+    publicKey?: string;
+  };
+}
+
 export interface DataPair {
   value: string | number;
   subValue?: string | number;
@@ -19,8 +36,9 @@ export interface AssetBase {
   id: string;
   symbol: string;
   notCrypto: boolean;
-  isEngine: boolean;
+  isEngine?: boolean;
   isSpk?: boolean;
+  isChain?: boolean;
 }
 
 export interface CoinData {

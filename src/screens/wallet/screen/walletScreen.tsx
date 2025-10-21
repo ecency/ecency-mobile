@@ -22,7 +22,7 @@ import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import ROUTES from '../../../constants/routeNames';
 import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetailsScreen';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
-import { AssetBase, CoinData } from '../../../redux/reducers/walletReducer';
+import { AssetBase, CoinData, ProfileToken, TokenType } from '../../../redux/reducers/walletReducer';
 import {
   fetchCoinQuotes,
   resetWalletData,
@@ -100,16 +100,16 @@ const WalletScreen = ({ navigation }) => {
   }, [selectedCoins]);
 
   // actions
-  const populateSelectedAssets = (tokensArr) => {
-    //TOOD: handle hive and chain tokens
-    // filter out any other type of token other than ENGINE and SPK
+  const populateSelectedAssets = (tokensArr:ProfileToken[]) => {
+    // filter out HIVE token and hidden tokens
     return tokensArr
-      .filter(({ type }) => type === 'ENGINE' || type === 'SPK')
+      .filter(({ type, meta }) => type !== TokenType.HIVE && (!meta || meta.show))
       .map(({ symbol, type }) => ({
         id: symbol,
         symbol,
-        isEngine: type === 'ENGINE',
-        isSpk: type === 'SPK',
+        isEngine: type === TokenType.ENGINE,
+        isSpk: type === TokenType.SPK,
+        isChain: type === TokenType.CHAIN,
         notCrypto: false,
       }));
   };

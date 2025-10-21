@@ -6,24 +6,28 @@ const DEFAULT_ASSETS = [
     symbol: 'Points',
     notCrypto: true,
     isEngine: false,
+    isChain: false
   },
   {
     id: 'hive_power',
     symbol: 'HP',
     notCrypto: true,
     isEngine: false,
+    isChain: false
   },
   {
     id: 'hive',
     symbol: 'HIVE',
     notCrypto: false,
     isEngine: false,
+    isChain: false
   },
   {
     id: 'hive_dollar',
     symbol: 'HBD',
     notCrypto: false,
     isEngine: false,
+    isChain: false
   },
 ] as AssetBase[];
 

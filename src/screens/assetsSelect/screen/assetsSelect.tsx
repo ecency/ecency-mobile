@@ -10,22 +10,12 @@ import { Edges, SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/tokensSelectModa.styles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { CheckBox, Icon, MainButton, SearchInput } from '../../../components';
-import { AssetBase, CoinData } from '../../../redux/reducers/walletReducer';
+import { AssetBase, CoinData, ProfileToken, TokenType } from '../../../redux/reducers/walletReducer';
 import DEFAULT_ASSETS from '../../../constants/defaultAssets';
 import { setSelectedCoins } from '../../../redux/actions/walletActions';
 import { AssetIcon } from '../../../components/atoms';
 import { profileUpdate } from '../../../providers/hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
-
-enum TokenType {
-  ENGINE = 'ENGINE',
-  SPK = 'SPK',
-}
-
-interface ProfileToken {
-  symbol: string;
-  type: TokenType;
-}
 
 /**
  *  NOTE: using AssetsSelectModal as part of native-stack with modal presentation is important
@@ -48,7 +38,7 @@ const AssetsSelect = ({ navigation }) => {
 
   useEffect(() => {
     selectionRef.current = selectedCoins.filter(
-      (item) => (item.isEngine || item.isSpk) && !!coinsData[item.symbol],
+      (item) => (item.isEngine || item.isSpk || item.isChain) && !!coinsData[item.symbol],
     );
     _updateSortedList();
   }, []);
@@ -101,31 +91,12 @@ const AssetsSelect = ({ navigation }) => {
     setSortedList(_data);
   };
 
-  // migration snippet
-  useEffect(() => {
-    const tokens = currentAccount?.about?.profile?.tokens;
-    if (!tokens) {
-      _updateUserProfile();
-    } else if (!isArray(tokens)) {
-      // means tokens is using old object formation, covert to array
-      const _mapSymbolsToProfileToken = (symbols, type) =>
-        isArray(symbols)
-          ? symbols.map((symbol) => ({
-              symbol,
-              type,
-            }))
-          : [];
-
-      _updateUserProfile([
-        ..._mapSymbolsToProfileToken(tokens.engine, TokenType.ENGINE),
-        ..._mapSymbolsToProfileToken(tokens.spk, TokenType.SPK),
-      ]);
-    }
-  }, [currentAccount]);
 
   const _updateUserProfile = async (assetsData?: ProfileToken[]) => {
     try {
       if (!assetsData?.length) {
+
+
         assetsData = selectionRef.current.map((item) => ({
           symbol: item.symbol,
           type: item.isEngine ? TokenType.ENGINE : TokenType.SPK,
