@@ -1042,6 +1042,9 @@ export const fetchAssetsPortfolio = async ({
     vsCurrency,
   );
 
+
+  //TODO: add chain tokens data when available....
+
   assetsData = { ...assetsData, ...engineCoinsData, ...spkWalletData };
 
   return assetsData;
