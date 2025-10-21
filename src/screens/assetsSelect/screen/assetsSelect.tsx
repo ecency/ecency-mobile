@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Platform, Text, TouchableWithoutFeedback, View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 import { useIntl } from 'react-intl';
-import { get, isArray } from 'lodash';
+import { get } from 'lodash';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import DraggableFlatList, { ScaleDecorator } from 'react-native-draggable-flatlist';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -16,6 +16,7 @@ import { setSelectedCoins } from '../../../redux/actions/walletActions';
 import { AssetIcon } from '../../../components/atoms';
 import { profileUpdate } from '../../../providers/hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { useUpdateProfileTokensMutation } from '../../../providers/queries/walletQueries/walletQueries';
 
 /**
  *  NOTE: using AssetsSelectModal as part of native-stack with modal presentation is important
@@ -31,6 +32,8 @@ const AssetsSelect = ({ navigation }) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
   const selectionRef = useRef<AssetBase[]>([]);
+
+  const updateProfileTokensMutation = useUpdateProfileTokensMutation();
 
   const [listData, setListData] = useState<CoinData[]>([]);
   const [sortedList, setSortedList] = useState([]);
@@ -93,38 +96,48 @@ const AssetsSelect = ({ navigation }) => {
 
 
   const _updateUserProfile = async (assetsData?: ProfileToken[]) => {
-    try {
-      if (!assetsData?.length) {
 
-
-        assetsData = selectionRef.current.map((item) => ({
-          symbol: item.symbol,
-          type: item.isEngine ? TokenType.ENGINE : TokenType.SPK,
-        }));
-      }
-
-      // extract a list of tokens with meta entry
-      const assetsWithMeta = currentAccount.about.profile.tokens.filter((item) => !!item.meta);
-
-      const updatedCurrentAccountData = currentAccount;
-      updatedCurrentAccountData.about.profile = {
-        ...updatedCurrentAccountData.about.profile,
-        // make sure entries with meta are preserved
-        tokens: [...assetsData, ...assetsWithMeta],
-      };
-      const params = {
-        ...updatedCurrentAccountData.about.profile,
-      };
-      await profileUpdate(params, pinCode, currentAccount);
-      dispatch(updateCurrentAccount(updatedCurrentAccountData));
-    } catch (err) {
-      Alert.alert(
-        intl.formatMessage({
-          id: 'alert.fail',
-        }),
-        get(err, 'message', err.toString()),
-      );
+    if (!assetsData?.length) {
+      //TODO: extract chain tokens when available in app
+      assetsData = selectionRef.current.filter(item => item.isEngine || item.isSpk).map((item) => ({
+        symbol: item.symbol,
+        type: item.isEngine ? TokenType.ENGINE : TokenType.SPK,
+      
+        meta: {
+          show: true,
+        },
+      }));
     }
+
+    // TODO: preserve on hive tokens
+
+    // extract a list of tokens preserved tokens
+    const preservedAssets = (currentAccount?.about?.profile?.tokens || [])
+      .filter((item: ProfileToken) => item.type === TokenType.HIVE || item.type === TokenType.CHAIN)
+      //TODO: do not sort when chain tokens are available
+      .sort((a: ProfileToken, b: ProfileToken) => {
+        if (a.type === b.type) return 0;
+        if (a.type === TokenType.HIVE) return -1;
+        if (b.type === TokenType.HIVE) return 1;
+        return 0;
+      });
+
+    //TODO: update meta for chain tokens instead of replacing meta entirely
+    //example: {show:false, address:"xyz"}
+
+    const updatedCurrentAccountData = currentAccount;
+    updatedCurrentAccountData.about.profile = {
+      ...updatedCurrentAccountData.about.profile,
+      // make sure entries with meta are preserved
+      tokens: [...preservedAssets, ...assetsData],
+    };
+    const params = {
+      ...updatedCurrentAccountData.about.profile,
+    };
+
+    console.log('updating profile with tokens:', params.tokens);
+    updateProfileTokensMutation.mutateAsync(params.tokens);
+    _navigationGoBack();
   };
 
   const _navigationGoBack = () => {
@@ -134,7 +147,6 @@ const AssetsSelect = ({ navigation }) => {
   const _onApply = () => {
     dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...selectionRef.current]));
     _updateUserProfile(); // update the user profile with updated tokens data
-    _navigationGoBack();
   };
 
   const _onDragEnd = ({ data, from, to }) => {
@@ -264,6 +276,7 @@ const AssetsSelect = ({ navigation }) => {
             onPress={_onApply}
             textStyle={styles.btnText}
             style={styles.button}
+            isLoading={updateProfileTokensMutation.isPending}
           />
         </View>
       </View>
