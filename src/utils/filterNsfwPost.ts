@@ -10,7 +10,7 @@ export interface Post {
   [key: string]: any;
 }
 
-const filterNsfwPost = (posts: Post[], option: string): Post[] => {
+const filterNsfwPost = (posts: Post[], option?: string): Post[] => {
   const updatedPosts: Post[] = [];
 
   switch (option) {
