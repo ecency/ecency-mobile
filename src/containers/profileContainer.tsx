@@ -92,7 +92,9 @@ class ProfileContainer extends Component {
 
   _getReplies = async (query) => {
     const { isOwnProfile, comments } = this.state;
-    const { currentAccount: { name: currentUsername } } = this.props;
+    const {
+      currentAccount: { name: currentUsername },
+    } = this.props;
 
     this.setState({ isProfileLoading: true });
     let repliesAction;
@@ -106,7 +108,7 @@ class ProfileContainer extends Component {
           query.start_permlink = query.permlink;
         }
         query.limit = 5;
-        query.observer = currentUsername ||''; //TODO: add current account username here
+        query.observer = currentUsername || ''; // TODO: add current account username here
         query.sort = 'comments';
       }
     } else {
@@ -118,7 +120,7 @@ class ProfileContainer extends Component {
           query.start_permlink = query.permlink;
         }
         query.limit = 5;
-        query.observer = currentUsername || ''; //TODO: add current account username here
+        query.observer = currentUsername || ''; // TODO: add current account username here
         query.sort = 'replies';
       }
     }

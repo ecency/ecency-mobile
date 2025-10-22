@@ -599,7 +599,7 @@ class ApplicationContainer extends Component {
   };
 
   _logout = async (username) => {
-    const {currentAccount, otherAccounts, dispatch, intl } = this.props;
+    const { currentAccount, otherAccounts, dispatch, intl } = this.props;
 
     try {
       const response = await removeUserData(username);
@@ -647,7 +647,6 @@ class ApplicationContainer extends Component {
   };
 
   _enableNotification = async (username, isEnable, settings = null, encAccesstoken = null) => {
-
     const accessToken = encAccesstoken ? decryptKey(encAccesstoken, Config.DEFAULT_PIN) : null;
 
     // compile notify_types
@@ -679,7 +678,7 @@ class ApplicationContainer extends Component {
       setPushToken(
         {
           username,
-          token: token,
+          token,
           system: `fcm-${Platform.OS}`,
           allows_notify: Number(isEnable),
           notify_types,

@@ -762,7 +762,7 @@ export const getPostReblogs = async (author, permlink) => {
   }
 };
 
-export const getRankedPosts = async (query:any, currentUserName:string, filterNsfw:string) => {
+export const getRankedPosts = async (query: any, currentUserName: string, filterNsfw: string) => {
   try {
     console.log('Getting ranked posts:', query);
 
@@ -787,7 +787,11 @@ export const getRankedPosts = async (query:any, currentUserName:string, filterNs
   }
 };
 
-export const getAccountPosts = async (query:any, currentUserName?: string, filterNsfw?: string) => {
+export const getAccountPosts = async (
+  query: any,
+  currentUserName?: string,
+  filterNsfw?: string,
+) => {
   try {
     console.log('Getting account posts: ', query);
     let posts = await client.call('bridge', 'get_account_posts', query);

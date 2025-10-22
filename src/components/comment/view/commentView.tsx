@@ -167,9 +167,7 @@ const CommentView = ({
           iconType="MaterialCommunityIcons"
           isClickable
           onPress={() =>
-            handleOnVotersPress &&
-            _totalVotes > 0 &&
-            handleOnVotersPress(activeVotes, comment)
+            handleOnVotersPress && _totalVotes > 0 && handleOnVotersPress(activeVotes, comment)
           }
           text={_totalVotes}
           textStyle={styles.voteCountText}

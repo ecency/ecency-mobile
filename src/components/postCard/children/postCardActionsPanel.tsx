@@ -22,7 +22,6 @@ interface Props {
 }
 
 export const PostCardActionsPanel = ({ content, handleCardInteraction }: Props) => {
-
   const _onVotersPress = () => {
     handleCardInteraction(PostCardActionIds.NAVIGATE, {
       name: ROUTES.SCREENS.VOTERS,
