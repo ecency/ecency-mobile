@@ -55,6 +55,8 @@ const CommentView = ({
   );
 
   const activeVotes = comment?.active_votes || [];
+  const _totalVotes = comment.stats?.total_votes || 0;
+
   const [isOpeningReplies, setIsOpeningReplies] = useState(false);
 
   const childCount = comment.children;
@@ -166,10 +168,10 @@ const CommentView = ({
           isClickable
           onPress={() =>
             handleOnVotersPress &&
-            activeVotes.length > 0 &&
+            _totalVotes > 0 &&
             handleOnVotersPress(activeVotes, comment)
           }
-          text={activeVotes.length}
+          text={_totalVotes}
           textStyle={styles.voteCountText}
         />
 
@@ -194,7 +196,7 @@ const CommentView = ({
               onPress={() => handleOnEditPress && handleOnEditPress(comment)}
               iconType="MaterialIcons"
             />
-            {!childCount && !activeVotes.length && comment.isDeletable && (
+            {!childCount && !_totalVotes && comment.isDeletable && (
               <IconButton
                 size={20}
                 iconStyle={styles.leftIcon}
