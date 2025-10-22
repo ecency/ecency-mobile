@@ -63,7 +63,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
       sort: 'blog',
     };
 
-    return getAccountPosts(options);
+    return getAccountPosts(options, currentAccountUsername || '');
   };
 
   // Component Functions

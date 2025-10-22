@@ -97,7 +97,7 @@ export const useFeedQuery = ({
 
     let func = getAccountPosts;
     const options: any = {
-      observer: feedUsername || '',
+      observer: currentAccount.username || '', //TOOD: add current account username here
       start_author: startAuthor,
       start_permlink: startPermlink,
       limit: POSTS_FETCH_COUNT,
@@ -129,7 +129,7 @@ export const useFeedQuery = ({
     }
 
     // fetching posts
-    const response: any[] = await func(options, feedUsername, nsfw);
+    const response: any[] = await func(options, currentAccount.username, nsfw); //TODO: which username to add here
 
     if (!Array.isArray(response) || response.length == 0) {
       return [];
