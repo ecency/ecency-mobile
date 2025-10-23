@@ -727,9 +727,9 @@ export const getProposalsVoted = async (username) => {
 /**
  * checks if post is voted by user
  * it usefull if voters count goes beyond 1000 limit of get_active_votes api
- * @param username 
- * @param author 
- * @param permlink  
+ * @param username
+ * @param author
+ * @param permlink
  * @returns  vote object or null
  */
 export const getUserPostVote = async (author: string, permlink: string, username: string) => {
@@ -753,16 +753,14 @@ export const getUserPostVote = async (author: string, permlink: string, username
       throw new Error('invalid data');
     }
 
-    const _votes: Vote[] = rawResult.votes
-    return _votes.length ? _votes[0] : null; //since we are fetching with limit 1
-
+    const _votes: Vote[] = rawResult.votes;
+    return _votes.length ? _votes[0] : null; // since we are fetching with limit 1
   } catch (error) {
     Sentry.captureException(error);
     console.warn('Failed to get post vote status', error);
     return null;
   }
 };
-
 
 export const getActiveVotes = (author, permlink) =>
   new Promise((resolve, reject) => {
@@ -1009,23 +1007,25 @@ const resolvePost = async (
 
       return originalPost;
     } else {
-
-      //check post vote count and vote status is needed
+      // check post vote count and vote status is needed
       if (post.stats.total_votes > 1000) {
+        // get user vote index
+        const existingVoteIndex = post.active_votes.findIndex(
+          (vote) => vote.voter === currentUsername,
+        );
 
-        //get user vote index
-        const existingVoteIndex = post.active_votes.findIndex(vote => vote.voter === currentUsername);
-
-        //no need to fetch vote status if it is already present
+        // no need to fetch vote status if it is already present
         if (existingVoteIndex < 0) {
-          //fetch user vote status
-          const userVote = currentUsername ? await getUserPostVote(post.author, post.permlink, currentUsername) : null;
+          // fetch user vote status
+          const userVote = currentUsername
+            ? await getUserPostVote(post.author, post.permlink, currentUsername)
+            : null;
           post.active_votes = post.active_votes || [];
           if (userVote) {
             post.active_votes.push({
               voter: userVote.voter,
               rshares: userVote.rshares,
-            })
+            });
           }
         }
       }
