@@ -42,6 +42,7 @@ import AUTH_TYPE from '../../constants/authType';
 import { SERVER_LIST } from '../../constants/options/api';
 import { b64uEnc } from '../../utils/b64';
 import TransferTypes from '../../constants/transferTypes';
+import { Vote } from './hive.types';
 
 interface LocalAccount {
   authType: string;
@@ -723,6 +724,46 @@ export const getProposalsVoted = async (username) => {
   }
 };
 
+/**
+ * checks if post is voted by user
+ * it usefull if voters count goes beyond 1000 limit of get_active_votes api
+ * @param username 
+ * @param author 
+ * @param permlink  
+ * @returns  vote object or null
+ */
+export const getUserPostVote = async (author: string, permlink: string, username: string) => {
+  try {
+    if (!username) {
+      throw new Error('invalid parameters');
+    }
+
+    console.log('Getting post vote status:', username);
+
+    const _limit = 1;
+    const _sort = 'by_voter_comment';
+
+    const rawResult = await client.call('database_api', 'list_votes', [
+      [username, author, permlink],
+      _limit,
+      _sort,
+    ]);
+
+    if (!Array.isArray(rawResult?.votes)) {
+      throw new Error('invalid data');
+    }
+
+    const _votes: Vote[] = rawResult.votes
+    return _votes.length ? _votes[0] : null; //since we are fetching with limit 1
+
+  } catch (error) {
+    Sentry.captureException(error);
+    console.warn('Failed to get post vote status', error);
+    return null;
+  }
+};
+
+
 export const getActiveVotes = (author, permlink) =>
   new Promise((resolve, reject) => {
     try {
@@ -837,7 +878,8 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
     console.log('Getting post: ', author, permlink);
     const post = await client.call('bridge', 'get_post', { author, permlink });
     console.log('post fetched', post?.post_id);
-    // TODO check for cross post, resolve it
+
+    // check for cross post, resolve it
     return post ? await resolvePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
     console.warn(error);
@@ -967,7 +1009,28 @@ const resolvePost = async (
 
       return originalPost;
     } else {
-      return parsePost(post, currentUsername, isPromoted, false, isList, discardBody);
+
+      //check post vote count and vote status is needed
+      if (post.stats.total_votes > 1000) {
+
+        //get user vote index
+        const existingVoteIndex = post.active_votes.findIndex(vote => vote.voter === currentUsername);
+
+        //no need to fetch vote status if it is already present
+        if (existingVoteIndex < 0) {
+          //fetch user vote status
+          const userVote = currentUsername ? await getUserPostVote(post.author, post.permlink, currentUsername) : null;
+          post.active_votes = post.active_votes || [];
+          if (userVote) {
+            post.active_votes.push({
+              voter: userVote.voter,
+              rshares: userVote.rshares,
+            })
+          }
+        }
+      }
+
+      return parsePost(post, currentUsername, isPromoted, isList, discardBody);
     }
   }
   return null;
