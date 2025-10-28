@@ -48,13 +48,15 @@ export const useAssetsQuery = () => {
         const response = await getPortfolio(currentAccount.username);
 
         if (!response || response.length === 0) {
-          return null;
+          return [];
         }
 
+        
         return response;
 
       } catch (err) {
         console.warn('failed to get query response', err);
+        return []
       }
 
     },

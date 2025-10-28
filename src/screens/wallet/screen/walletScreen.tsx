@@ -55,7 +55,7 @@ const WalletScreen = ({ navigation }) => {
 
   // queries
   const walletQuery = walletQueries.useAssetsQuery();
-  const unclaimedRewardsQuery = walletQueries.useUnclaimedRewardsQuery();
+  // const unclaimedRewardsQuery = walletQueries.useUnclaimedRewardsQuery();
   const claimRewardsMutation = walletQueries.useClaimRewardsMutation();
   const updateProfileTokensMutation = walletQueries.useUpdateProfileTokensMutation();
 
@@ -144,7 +144,7 @@ const WalletScreen = ({ navigation }) => {
   const _refetchData = () => {
     _fetchPriceHistory();
     _refetchCoinsData();
-    unclaimedRewardsQuery.refetch();
+    // unclaimedRewardsQuery.refetch();
   };
 
   const _fetchPriceHistory = () => {
@@ -239,7 +239,7 @@ const WalletScreen = ({ navigation }) => {
         unclaimedRewards={unclaimedRewards}
         enableBuy={!item.pendingRewards && item.symbol === 'POINTS'}
         isClaiming={_isClaimingThis}
-        isLoading={unclaimedRewardsQuery.isFetching && !_isClaimingAny}
+        // isLoading={unclaimedRewardsQuery.isFetching && !_isClaimingAny}
         // volume24h={coinData.volume24h}
         // precision={item.precision}
         onCardPress={_onCardPress}
@@ -291,13 +291,13 @@ const WalletScreen = ({ navigation }) => {
           <View style={styles.listWrapper}>
             <FlatList
               data={walletQuery.selectedData}
-              extraData={[coinsData, priceHistories, unclaimedRewardsQuery.data]}
+              // extraData={[coinsData, priceHistories, unclaimedRewardsQuery.data]}
               style={globalStyles.tabBarBottom}
-              ListEmptyComponent={<PostCardPlaceHolder />}
+              ListEmptyComponent={walletQuery.isLoading ? <PostCardPlaceHolder /> : null}
               ListHeaderComponent={_renderHeader}
               ListFooterComponent={<ManageAssetsBtn onPress={_showAssetsSelectModal} />}
               renderItem={_renderItem}
-              keyExtractor={(item, index) => index.toString()}
+              keyExtractor={(item, index) => item.symbol + index}
               refreshControl={_refreshControl}
             />
           </View>
