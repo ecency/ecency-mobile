@@ -20,6 +20,7 @@ import { recurrentTransferToken } from '../../hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { ProfileToken } from '../../../screens/assetsSelect/screen/assetsSelect';
 import { Alert } from 'react-native';
+import { getPortfolio } from '../../../providers/ecency/ecency';
 
 interface RewardsCollection {
   [key: string]: string;
@@ -31,27 +32,53 @@ interface ClaimRewardsMutationVars {
 
 const ACTIVITIES_FETCH_LIMIT = 50;
 
+
+
 /** hook used to return user drafts */
 export const useAssetsQuery = () => {
-  const dispatch = useAppDispatch();
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const coinsData = useAppSelector((state) => state.wallet.coinsData);
+  const selectedAssets = useAppSelector((state) => state.wallet.selectedAssets);
 
-  const refreshRef = useRef(Object.keys(coinsData).length > 0);
 
-  return useQuery({
+  const assetsQuery = useQuery({
     queryKey: [QUERIES.WALLET.GET, currentAccount.username],
     queryFn: async () => {
       try {
-        await dispatch(fetchAndSetCoinsData(refreshRef.current));
+
+        const response = await getPortfolio(currentAccount.username);
+
+        if (!response || response.length === 0) {
+          return null;
+        }
+
+        return response;
+
       } catch (err) {
         console.warn('failed to get query response', err);
       }
 
-      return true;
     },
   });
+
+  const selectedData = useMemo(() => {
+    if (!assetsQuery.data || !assetsQuery.data.length || selectedAssets.length === 0) {
+      return [];
+    }
+
+    // filter only selected tokens from portfolio data
+    return assetsQuery.data.filter((item) =>
+      selectedAssets.find((token) => token.symbol === item.symbol),
+    );
+
+  }, [assetsQuery.data, selectedAssets]);
+
+  return {
+    ...assetsQuery,
+    selectedData
+  }
 };
+
+
 
 export const useUnclaimedRewardsQuery = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
@@ -214,6 +241,8 @@ export const useClaimRewardsMutation = () => {
       ]);
       if (rewardsData) {
         // update claim cache value in redux;
+
+        // TOOD: assess what is happening here, possibly rewardsData already have some value set as cache
         dispatch(updateClaimCache(assetId, rewardsData[assetId]));
 
         // mutate claim data
