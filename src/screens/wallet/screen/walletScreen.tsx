@@ -22,17 +22,18 @@ import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import ROUTES from '../../../constants/routeNames';
 import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetailsScreen';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
-import { AssetBase, CoinData, ProfileToken, TokenType } from '../../../redux/reducers/walletReducer';
+import { AssetBase, ProfileToken, TokenType } from '../../../redux/reducers/walletReducer';
 import {
   fetchCoinQuotes,
   resetWalletData,
   setPriceHistory,
   setSelectedCoins,
 } from '../../../redux/actions/walletActions';
-import DEFAULT_ASSETS, { ASSET_IDS } from '../../../constants/defaultAssets';
+import DEFAULT_ASSETS from '../../../constants/defaultAssets';
 import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
 import { walletQueries } from '../../../providers/queries';
 import { migrateSelectedTokens } from '../../../utils/migrationHelpers';
+import { PortfolioItem } from '../../../providers/ecency/ecency.types';
 
 const CHART_DAYS_RANGE = 7;
 
@@ -114,6 +115,8 @@ const WalletScreen = ({ navigation }) => {
       }));
   };
 
+
+  //TODO: redo logic to update selected assets from profile json meta
   const _updateSelectedAssetsDataFromProfileJsonMeta = () => {
     const currSelectedEngineTokens = selectedAssets.filter(
       (item) => !DEFAULT_ASSETS.some((defaultAsset) => defaultAsset.id === item.id),
@@ -127,6 +130,8 @@ const WalletScreen = ({ navigation }) => {
       }
     }
   };
+
+
 
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
@@ -183,37 +188,31 @@ const WalletScreen = ({ navigation }) => {
     navigation.navigate(ROUTES.MODALS.ASSETS_SELECT);
   };
 
-  const _renderItem = ({ item, index }: { item: AssetBase; index: number }) => {
-    const coinData: CoinData = coinsData && coinsData[item.id];
+  const _renderItem = ({ item, index }: { item: PortfolioItem; index: number }) => {
 
-    if (!coinData) {
-      return null;
-    }
+    const unclaimedRewards = item.pendingRewards? `${item.pendingRewards.toFixed(3)} ${item.symbol}` : '';
 
-    const unclaimedRewards =
-      (unclaimedRewardsQuery.data && unclaimedRewardsQuery.data[item.id]) || '';
-
-    const _isClaimingThis = claimRewardsMutation.checkIsClaiming(item.id);
+    const _isClaimingThis = claimRewardsMutation.checkIsClaiming(item.symbol);
     const _isClaimingAny = claimRewardsMutation.checkIsClaiming();
 
     // const _tokenMarketData: number[] =
     //   priceHistories && priceHistories[item.id] ? priceHistories[item.id].data : [];
-    const quote = quotes && quotes[item.id];
+    // const quote = quotes && quotes[item.id];
 
-    const _balance = coinData.balance + (coinData.savings || 0);
+    const _balance = item.balance + (item.savings || 0);
 
-    const percentChange = quote ? quote.percentChange : coinData.percentChange;
+    // const percentChange = quote ? quote.percentChange : coinData.percentChange;
 
     const _onCardPress = () => {
       navigation.navigate(ROUTES.SCREENS.ASSET_DETAILS, {
-        coinId: item.id,
+        coinId: item.symbol,
       } as AssetDetailsScreenParams);
     };
 
     const _onClaimPress = () => {
       if (unclaimedRewards) {
-        _claimRewards(item.id);
-      } else if (item.id === ASSET_IDS.ECENCY) {
+        _claimRewards(item.symbol);
+      } else if (item.symbol === 'POINTS') {
         navigation.navigate(ROUTES.SCREENS.BOOST);
       }
     };
@@ -229,26 +228,27 @@ const WalletScreen = ({ navigation }) => {
 
     return (
       <AssetCard
-        name={coinData.name}
-        iconUrl={coinData.iconUrl}
+        symbol={item.symbol}
+        name={item.name}
+        iconUrl={item.iconUrl}
         // chartData={_tokenMarketData || []}
-        currentValue={quote?.price || coinData?.currentPrice || 0}
-        changePercent={percentChange || 0}
+        currentValue={item.fiatPrice || 0}
+        // changePercent={percentChange || 0}
         currencySymbol={currency.currencySymbol}
         ownedBalance={_balance}
         unclaimedRewards={unclaimedRewards}
-        enableBuy={!coinData.unclaimedBalance && item.id === ASSET_IDS.ECENCY}
+        enableBuy={!item.pendingRewards && item.symbol === 'POINTS'}
         isClaiming={_isClaimingThis}
         isLoading={unclaimedRewardsQuery.isFetching && !_isClaimingAny}
-        volume24h={coinData.volume24h}
-        precision={coinData.precision}
+        // volume24h={coinData.volume24h}
+        // precision={item.precision}
         onCardPress={_onCardPress}
         onClaimPress={_onClaimPress}
         onBoostAccountPress={_onBoostAccountPress}
         footerComponent={
           index === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />
         }
-        {...item}
+
       />
     );
   };
@@ -290,7 +290,7 @@ const WalletScreen = ({ navigation }) => {
         {() => (
           <View style={styles.listWrapper}>
             <FlatList
-              data={updateTimestamp ? selectedCoins : []}
+              data={walletQuery.selectedData}
               extraData={[coinsData, priceHistories, unclaimedRewardsQuery.data]}
               style={globalStyles.tabBarBottom}
               ListEmptyComponent={<PostCardPlaceHolder />}

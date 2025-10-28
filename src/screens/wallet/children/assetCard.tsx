@@ -10,7 +10,6 @@ import { ClaimButton } from './claimButton';
 import { AssetIcon } from '../../../components/atoms';
 
 export interface AssetCardProps {
-  id: string;
   // chartData: number[];
   name: string;
   iconUrl?: string;
@@ -35,13 +34,12 @@ export interface AssetCardProps {
 }
 
 export const AssetCard = ({
-  id,
+  symbol,
   name,
   iconUrl,
   isEngine,
   isSpk,
   currencySymbol,
-  symbol,
   currentValue,
   ownedBalance,
   footerComponent,
@@ -76,8 +74,8 @@ export const AssetCard = ({
     />
   );
 
-  const _name = intl.messages[`wallet.${id}.name`]
-    ? intl.formatMessage({ id: `wallet.${id}.name` })
+  const _name = intl.messages[`wallet.${symbol}.name`]
+    ? intl.formatMessage({ id: `wallet.${symbol}.name` })
     : name;
   const value = `${ownedBalance.toFixed(isEngine ? precision : 3)}`;
   const _fiatValue = ownedBalance * currentValue;
@@ -86,7 +84,7 @@ export const AssetCard = ({
   const _renderHeader = (
     <View style={styles.cardHeader}>
       <AssetIcon
-        id={id}
+        id={symbol}
         iconUrl={iconUrl}
         isEngine={isEngine}
         isSpk={isSpk}
@@ -112,7 +110,7 @@ export const AssetCard = ({
 
   const _renderClaimSection = () => {
     if (unclaimedRewards || enableBuy) {
-      const btnTitle = unclaimedRewards || intl.formatMessage({ id: `wallet.${id}.buy` });
+      const btnTitle = unclaimedRewards || intl.formatMessage({ id: `wallet.${symbol}.buy` });
 
       return (
         <ClaimButton
@@ -121,7 +119,7 @@ export const AssetCard = ({
           isClaiming={isClaiming}
           containerStyle={{
             ...styles.claimContainer,
-            marginBottom: id === ASSET_IDS.ECENCY || id === ASSET_IDS.HP ? 0 : 16,
+            marginBottom: symbol === ASSET_IDS.ECENCY || symbol === ASSET_IDS.HP ? 0 : 16,
           }}
           onPress={_onClaimPress}
         />
@@ -130,7 +128,7 @@ export const AssetCard = ({
   };
 
   const _renderBoostAccount = () => {
-    if (id === ASSET_IDS.HP && ownedBalance < 50) {
+    if (symbol === ASSET_IDS.HP && ownedBalance < 50) {
       return (
         <ClaimButton
           title={intl.formatMessage({ id: 'wallet.get_boost' })}
