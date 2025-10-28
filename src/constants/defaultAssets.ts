@@ -3,7 +3,7 @@ import { AssetBase } from '../redux/reducers/walletReducer';
 const DEFAULT_ASSETS = [
   {
     id: 'ecency',
-    symbol: 'Points',
+    symbol: 'POINTS',
     notCrypto: true,
     isEngine: false,
     isChain: false

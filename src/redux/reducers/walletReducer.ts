@@ -91,7 +91,7 @@ export interface QuoteItem {
 }
 
 interface State {
-  selectedCoins: AssetBase[];
+  selectedAssets: AssetBase[];
   coinsData: {
     [key: string]: CoinData;
   };
@@ -107,7 +107,7 @@ interface State {
 }
 
 const initialState: State = {
-  selectedCoins: DEFAULT_ASSETS,
+  selectedAssets: DEFAULT_ASSETS,
   coinsData: {},
   priceHistories: {},
   quotes: null,
@@ -122,13 +122,13 @@ const walletReducer = (state = initialState, action) => {
     case RESET_WALLET_DATA: {
       return {
         ...initialState,
-        selectedCoins: state.selectedCoins,
+        selectedAssets: state.selectedAssets,
       };
     }
     case SET_SELECTED_COINS: {
       return {
         ...state,
-        selectedCoins: payload,
+        selectedAssets: payload,
       };
     }
     case SET_COINS_DATA: {

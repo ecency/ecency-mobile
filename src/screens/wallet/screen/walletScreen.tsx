@@ -47,7 +47,7 @@ const WalletScreen = ({ navigation }) => {
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const currency = useAppSelector((state) => state.application.currency);
 
-  const { selectedCoins, priceHistories, coinsData, updateTimestamp, quotes, ...wallet } =
+  const { selectedAssets, priceHistories, coinsData, updateTimestamp, quotes, ...wallet } =
     useAppSelector((state) => state.wallet);
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
@@ -97,7 +97,7 @@ const WalletScreen = ({ navigation }) => {
 
   useEffect(() => {
     _fetchPriceHistory();
-  }, [selectedCoins]);
+  }, [selectedAssets]);
 
   // actions
   const populateSelectedAssets = (tokensArr:ProfileToken[]) => {
@@ -115,7 +115,7 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _updateSelectedAssetsDataFromProfileJsonMeta = () => {
-    const currSelectedEngineTokens = selectedCoins.filter(
+    const currSelectedEngineTokens = selectedAssets.filter(
       (item) => !DEFAULT_ASSETS.some((defaultAsset) => defaultAsset.id === item.id),
     );
 
@@ -143,7 +143,7 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _fetchPriceHistory = () => {
-    selectedCoins.forEach(async (token: AssetBase) => {
+    selectedAssets.forEach(async (token: AssetBase) => {
       const expiresAt = priceHistories[token.id]?.expiresAt || 0;
       const curTime = new Date().getTime();
 

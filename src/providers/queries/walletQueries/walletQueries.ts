@@ -268,9 +268,9 @@ export const useClaimRewardsMutation = () => {
 export const useActivitiesQuery = (assetId: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const globalProps = useAppSelector((state) => state.account.globalProps);
-  const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
+  const selectedAssets = useAppSelector((state) => state.wallet.selectedAssets);
 
-  const assetData = useMemo(() => selectedCoins.find((item) => item.id === assetId), [assetId]);
+  const assetData = useMemo(() => selectedAssets.find((item) => item.id === assetId), [assetId]);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [noMoreData, setNoMoreData] = useState(false);
@@ -399,8 +399,8 @@ export const useRecurringActivitesQuery = (coinId: string) => {
 
 export const usePendingRequestsQuery = (assetId: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
-  const symbol = useMemo(() => selectedCoins.find((item) => item.id === assetId).symbol, []);
+  const selectedAssets = useAppSelector((state) => state.wallet.selectedAssets);
+  const symbol = useMemo(() => selectedAssets.find((item) => item.id === assetId).symbol, []);
 
   return useQuery({
     queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS, currentAccount.username, assetId],

@@ -45,7 +45,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const recurringActivitiesQuery = walletQueries.useRecurringActivitesQuery(coinId);
 
   // redux props
-  const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
+  const selectedAssets = useAppSelector((state) => state.wallet.selectedAssets);
   const coinData: CoinData = useAppSelector((state) => state.wallet.coinsData[coinId]);
   const quote: QuoteItem = useAppSelector((state) =>
     state.wallet.quotes ? state.wallet.quotes[coinId] : {},
@@ -54,7 +54,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
 
   // state
-  const [symbol] = useState(selectedCoins.find((item) => item.id === coinId).symbol);
+  const [symbol] = useState(selectedAssets.find((item) => item.id === coinId).symbol);
   const [showChart, setShowChart] = useState(false);
 
   // side-effects

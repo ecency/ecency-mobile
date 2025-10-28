@@ -47,6 +47,7 @@ import { DEFAULT_FEED_FILTERS } from '../constants/options/filters';
 import { SheetNames } from '../navigation/sheets';
 import { isArray } from 'lodash';
 import { ProfileToken, TokenType } from '../screens/assetsSelect/screen/assetsSelect';
+import DEFAULT_ASSETS from '../constants/defaultAssets';
 
 // migrates settings from realm to redux once and do no user realm for settings again;
 export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean) => {
@@ -378,6 +379,16 @@ const reduxMigrations = {
     state.application.pin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
     return state;
   },
+  13: (state) => {
+    state.wallet.selectedAssets = state.wallet.selectedCoins || DEFAULT_ASSETS;
+    if(state.wallet.selectedAssets[0].symbol = 'POINTS'){
+      state.wallet.selectedAssets[0].symbol = 'POINTS';
+    } //ensuring correct symbol for ecency points
+
+    delete state.wallet.selectedCoins;
+    //TODO: delete coinsData if needed
+    return state;
+  }
 };
 
 export default {

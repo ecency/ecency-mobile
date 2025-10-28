@@ -27,7 +27,7 @@ const AssetsSelect = ({ navigation }) => {
   const intl = useIntl();
 
   const coinsData = useAppSelector((state) => state.wallet.coinsData);
-  const selectedCoins: AssetBase[] = useAppSelector((state) => state.wallet.selectedCoins);
+  const selectedAssets: AssetBase[] = useAppSelector((state) => state.wallet.selectedAssets);
   const pinCode = useAppSelector((state) => state.application.pin);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
@@ -40,7 +40,7 @@ const AssetsSelect = ({ navigation }) => {
   const [query, setQuery] = useState('');
 
   useEffect(() => {
-    selectionRef.current = selectedCoins.filter(
+    selectionRef.current = selectedAssets.filter(
       (item) => (item.isEngine || item.isSpk || item.isChain) && !!coinsData[item.symbol],
     );
     _updateSortedList();
