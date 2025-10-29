@@ -1,7 +1,7 @@
 import { getLatestQuotes } from '../../providers/ecency/ecency';
 import { fetchAssetsPortfolio } from '../../utils/wallet';
 import {
-  SET_SELECTED_COINS,
+  SET_SELECTED_ASSETS,
   SET_PRICE_HISTORY,
   SET_COINS_DATA,
   SET_COIN_QUOTES,
@@ -11,9 +11,9 @@ import {
 import { AssetBase, CoinData } from '../reducers/walletReducer';
 import { AppDispatch, RootState } from '../store/store';
 
-export const setSelectedCoins = (coins: AssetBase[]) => ({
+export const setSelectedAssets = (coins: AssetBase[]) => ({
   payload: coins,
-  type: SET_SELECTED_COINS,
+  type: SET_SELECTED_ASSETS,
 });
 
 export const setCoinsData = (

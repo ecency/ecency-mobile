@@ -1,7 +1,7 @@
 import DEFAULT_ASSETS, { ASSET_IDS } from '../../constants/defaultAssets';
 import {
   SET_PRICE_HISTORY,
-  SET_SELECTED_COINS,
+  SET_SELECTED_ASSETS,
   SET_COINS_DATA,
   SET_COIN_QUOTES,
   RESET_WALLET_DATA,
@@ -125,7 +125,7 @@ const walletReducer = (state = initialState, action) => {
         selectedAssets: state.selectedAssets,
       };
     }
-    case SET_SELECTED_COINS: {
+    case SET_SELECTED_ASSETS: {
       return {
         ...state,
         selectedAssets: payload,

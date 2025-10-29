@@ -27,7 +27,7 @@ import {
   fetchCoinQuotes,
   resetWalletData,
   setPriceHistory,
-  setSelectedCoins,
+  setSelectedAssets,
 } from '../../../redux/actions/walletActions';
 import DEFAULT_ASSETS from '../../../constants/defaultAssets';
 import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
@@ -126,7 +126,7 @@ const WalletScreen = ({ navigation }) => {
       const _selectedAssets = populateSelectedAssets(currentAccount.about.profile.tokens);
       // check if current selected engine tokens differ from profile json meta
       if (JSON.stringify(_selectedAssets) !== JSON.stringify(currSelectedEngineTokens)) {
-        dispatch(setSelectedCoins([...DEFAULT_ASSETS, ..._selectedAssets]));
+        dispatch(setSelectedAssets([...DEFAULT_ASSETS, ..._selectedAssets]));
       }
     }
   };

@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { CheckBox, Icon, MainButton, SearchInput } from '../../../components';
 import { AssetBase, CoinData, ProfileToken, TokenType } from '../../../redux/reducers/walletReducer';
 import DEFAULT_ASSETS from '../../../constants/defaultAssets';
-import { setSelectedCoins } from '../../../redux/actions/walletActions';
+import { setSelectedAssets } from '../../../redux/actions/walletActions';
 import { AssetIcon } from '../../../components/atoms';
 import { profileUpdate } from '../../../providers/hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
@@ -102,7 +102,7 @@ const AssetsSelect = ({ navigation }) => {
       assetsData = selectionRef.current.filter(item => item.isEngine || item.isSpk).map((item) => ({
         symbol: item.symbol,
         type: item.isEngine ? TokenType.ENGINE : TokenType.SPK,
-      
+
         meta: {
           show: true,
         },
@@ -145,7 +145,7 @@ const AssetsSelect = ({ navigation }) => {
   };
 
   const _onApply = () => {
-    dispatch(setSelectedCoins([...DEFAULT_ASSETS, ...selectionRef.current]));
+    dispatch(setSelectedAssets([...DEFAULT_ASSETS, ...selectionRef.current]));
     _updateUserProfile(); // update the user profile with updated tokens data
   };
 
