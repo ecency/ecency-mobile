@@ -153,7 +153,7 @@ interface TokenAction {
     //etc
 }
 
-type PortfolioLayer = "points" | "hive" | "chain" | "spk" | "engine";
+export type PortfolioLayer = "points" | "hive" | "chain" | "spk" | "engine";
 
 export interface PortfolioItem {
     name: string;

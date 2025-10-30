@@ -20,6 +20,7 @@ import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { Alert } from 'react-native';
 import { getPortfolio } from '../../../providers/ecency/ecency';
 import { ProfileToken } from '../../../redux/reducers/walletReducer';
+import { PortfolioLayer } from 'providers/ecency/ecency.types';
 
 interface RewardsCollection {
   [key: string]: string;
@@ -307,28 +308,26 @@ export const useClaimRewardsMutation = () => {
   };
 };
 
-export const useActivitiesQuery = (symbol: string) => {
+export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const globalProps = useAppSelector((state) => state.account.globalProps);
-  const selectedAssets = useAppSelector((state) => state.wallet.selectedAssets);
 
-  const assetData = useMemo(() => selectedAssets.find((item:ProfileToken) => item.symbol === symbol), [symbol]);
+  const isEngine = layer === 'engine';
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [noMoreData, setNoMoreData] = useState(false);
-  const [pageParams, setPageParams] = useState(assetData.isEngine ? [0] : [-1]);
+  const [pageParams, setPageParams] = useState(isEngine ? [0] : [-1]);
 
   const _fetchActivities = async (pageParam: number) => {
     console.log('fetching page since:', pageParam);
 
     const _activites = await fetchCoinActivities({
       username: currentAccount.name,
-      assetId: symbol,
-      assetSymbol: assetData.symbol,
+      assetSymbol: symbol,
       globalProps,
       startIndex: pageParam,
       limit: ACTIVITIES_FETCH_LIMIT,
-      isEngine: assetData.isEngine,
+      isEngine: isEngine,
     });
 
     // console.log('new page fetched', _activites);
@@ -355,7 +354,7 @@ export const useActivitiesQuery = (symbol: string) => {
   const _refresh = async () => {
     setIsRefreshing(true);
     setNoMoreData(false);
-    setPageParams(assetData.isEngine ? [0] : [-1]);
+    setPageParams(isEngine ? [0] : [-1]);
     await queries[0].refetch();
     setIsRefreshing(false);
   };
@@ -372,7 +371,7 @@ export const useActivitiesQuery = (symbol: string) => {
       return;
     }
 
-    if (assetData.isEngine) {
+    if (isEngine) {
       pageParams.push(pageParams.length);
       setPageParams([...pageParams]);
     } else {

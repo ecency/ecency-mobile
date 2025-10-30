@@ -46,7 +46,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
   // queries
   const assetsQuery = walletQueries.useAssetsQuery();
-  const activitiesQuery = walletQueries.useActivitiesQuery(assetSymbol);
+  const activitiesQuery = walletQueries.useActivitiesQuery(assetSymbol, asset.layer);
   const pendingRequestsQuery = walletQueries.usePendingRequestsQuery(assetSymbol);
   const recurringActivitiesQuery = walletQueries.useRecurringActivitesQuery(assetSymbol);
   // const quote: QuoteItem = useAppSelector((state) =>

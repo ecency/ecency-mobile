@@ -444,14 +444,12 @@ export const fetchPendingRequests = async (
 /**
  *
  * @param username
- * @param coinId
  * @param assetSymbol
  * @param globalProps
  * @returns {Promise<CoinActivity[]>}
  */
 export const fetchCoinActivities = async ({
   username,
-  assetId,
   assetSymbol,
   globalProps,
   startIndex,
@@ -459,7 +457,6 @@ export const fetchCoinActivities = async ({
   isEngine,
 }: {
   username: string;
-  assetId: string;
   assetSymbol: string;
   globalProps: GlobalProps;
   startIndex: number;
@@ -470,8 +467,8 @@ export const fetchCoinActivities = async ({
   let history = [];
 
   if (!isEngine) {
-    switch (assetId) {
-      case ASSET_IDS.ECENCY: {
+    switch (assetSymbol) {
+      case 'POINTS': {
         // TODO: remove condition when we have a way to fetch paginated points data
         if (startIndex !== -1) {
           return [];
@@ -496,7 +493,7 @@ export const fetchCoinActivities = async ({
 
         return completed;
       }
-      case ASSET_IDS.HIVE:
+      case 'HIVE':
         history = await getAccountHistory(
           username,
           [
@@ -511,7 +508,7 @@ export const fetchCoinActivities = async ({
           limit,
         );
         break;
-      case ASSET_IDS.HBD:
+      case 'HBD':
         history = await getAccountHistory(
           username,
           [
@@ -527,7 +524,7 @@ export const fetchCoinActivities = async ({
           limit,
         );
         break;
-      case ASSET_IDS.HP:
+      case 'HP':
         history = await getAccountHistory(
           username,
           [
