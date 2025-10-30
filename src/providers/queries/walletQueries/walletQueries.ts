@@ -36,7 +36,7 @@ const ACTIVITIES_FETCH_LIMIT = 50;
 /** hook used to return user drafts */
 export const useAssetsQuery = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const selectedAssets = useAppSelector((state) => state.wallet.selectedAssets);
+  const selectedAssets: ProfileToken[] = useAppSelector((state) => state.wallet.selectedAssets);
 
 
   const assetsQuery = useQuery({
@@ -67,9 +67,10 @@ export const useAssetsQuery = () => {
     }
 
     // filter only selected tokens from portfolio data
-    return assetsQuery.data.filter((item) =>
-      selectedAssets.find((token) => token.symbol === item.symbol),
-    );
+    const dataMap = new Map(assetsQuery.data.map(item => [item.symbol, item]));
+    return selectedAssets
+      .map((token) => dataMap.get(token.symbol))
+      .filter(Boolean);
 
   }, [assetsQuery.data, selectedAssets]);
 
