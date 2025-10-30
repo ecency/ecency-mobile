@@ -11,7 +11,7 @@ interface CoinBasicsProps {
   valuePairs: DataPair[];
   extraData: DataPair[];
   coinSymbol: string;
-  percentChange: number;
+  percentChange?: number;
   iconUrl?: string;
   isEngine: boolean;
   isRenderChart?: boolean;

@@ -9,13 +9,13 @@ import Animated, {
 import { CoinActions, CoinBasics, CoinChart } from '.';
 import { FormattedCurrency } from '../../../components';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
-import { CoinData, DataPair } from '../../../redux/reducers/walletReducer';
+import { DataPair } from '../../../redux/reducers/walletReducer';
+import { PortfolioItem } from 'providers/ecency/ecency.types';
 
 export interface CoinSummaryProps {
-  id: string;
   coinSymbol: string;
-  coinData: CoinData;
-  percentChagne: number;
+  asset: PortfolioItem;
+  percentChagne?: number;
   showChart: boolean;
   totalRecurrentAmount?: number;
   setShowChart: (value: boolean) => void;
@@ -25,8 +25,7 @@ export interface CoinSummaryProps {
 
 export const CoinSummary = ({
   coinSymbol,
-  id,
-  coinData,
+  asset,
   percentChagne,
   showChart,
   totalRecurrentAmount,
@@ -34,19 +33,21 @@ export const CoinSummary = ({
   onActionPress,
   onInfoPress,
 }: CoinSummaryProps) => {
-  const { balance, estimateValue, savings, extraDataPairs, actions, precision } = coinData;
+  const { balance, fiatPrice, savings, extraData, actions } = asset;
+  const isEngine = asset.layer === 'engine';
+  const isSpk = asset.layer === 'spk';
 
   const valuePairs = [
     {
       dataKey: 'amount_desc',
-      value: balance.toFixed(precision || 3),
+      value: balance.toFixed( 3),
     },
   ] as DataPair[];
 
-  if (estimateValue !== undefined) {
+  if (fiatPrice !== undefined) {
     valuePairs.push({
       dataKey: 'estimated_value',
-      value: <FormattedCurrency isApproximate isToken value={estimateValue} />,
+      value: <FormattedCurrency isApproximate isToken value={fiatPrice} />,
     });
   }
 
@@ -59,7 +60,7 @@ export const CoinSummary = ({
 
   // Create a new array for extraDataPairs to avoid mutating the original reference
   const _extraDataPairs = useMemo(() => {
-    const pairs = extraDataPairs ? [...extraDataPairs] : [];
+    const pairs = extraData ? [...extraData] : [];
     if (totalRecurrentAmount && totalRecurrentAmount > 0) {
       pairs.push({
         dataKey: 'total_recurrent_transfers',
@@ -68,9 +69,9 @@ export const CoinSummary = ({
       });
     }
     return pairs;
-  }, [extraDataPairs, totalRecurrentAmount, coinSymbol]);
+  }, [extraData, totalRecurrentAmount, coinSymbol]);
 
-  const _shRrenderChart = id !== ASSET_IDS.ECENCY && id !== ASSET_IDS.HP && !coinData.isSpk;
+  // const _shRrenderChart = id !== ASSET_IDS.ECENCY && id !== ASSET_IDS.HP && !isSpk;
   const animationProgress = useSharedValue(showChart ? 1 : 0);
 
   useEffect(() => {
@@ -88,29 +89,29 @@ export const CoinSummary = ({
     };
   });
 
-  const _renderCoinChart = () => (
-    <Animated.View style={animatedStyle}>
-      {showChart && <CoinChart coinId={id} isEngine={coinData.isEngine} />}
-    </Animated.View>
-  );
+  // const _renderCoinChart = () => (
+  //   <Animated.View style={animatedStyle}>
+  //     {showChart && <CoinChart coinId={id} isEngine={isEngine} />}
+  //   </Animated.View>
+  // );
 
   return (
     <View>
       <CoinBasics
-        assetId={id}
-        iconUrl={coinData.iconUrl}
+        // assetId={id}
+        iconUrl={asset.iconUrl}
         valuePairs={valuePairs}
         extraData={_extraDataPairs}
         coinSymbol={coinSymbol}
         percentChange={percentChagne}
-        isEngine={coinData.isEngine}
+        isEngine={isEngine}
         onInfoPress={onInfoPress}
         showChart={showChart}
         setShowChart={setShowChart}
-        isRenderChart={_shRrenderChart}
+        // isRenderChart={_shRrenderChart}
       />
       <CoinActions actions={actions} onActionPress={onActionPress} />
-      {_shRrenderChart && _renderCoinChart()}
+      {/* {_shRrenderChart && _renderCoinChart()} */}
     </View>
   );
 };

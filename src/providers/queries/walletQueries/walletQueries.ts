@@ -307,12 +307,12 @@ export const useClaimRewardsMutation = () => {
   };
 };
 
-export const useActivitiesQuery = (assetId: string) => {
+export const useActivitiesQuery = (symbol: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const globalProps = useAppSelector((state) => state.account.globalProps);
   const selectedAssets = useAppSelector((state) => state.wallet.selectedAssets);
 
-  const assetData = useMemo(() => selectedAssets.find((item) => item.id === assetId), [assetId]);
+  const assetData = useMemo(() => selectedAssets.find((item:ProfileToken) => item.symbol === symbol), [symbol]);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [noMoreData, setNoMoreData] = useState(false);
@@ -323,7 +323,7 @@ export const useActivitiesQuery = (assetId: string) => {
 
     const _activites = await fetchCoinActivities({
       username: currentAccount.name,
-      assetId,
+      assetId: symbol,
       assetSymbol: assetData.symbol,
       globalProps,
       startIndex: pageParam,
@@ -344,7 +344,7 @@ export const useActivitiesQuery = (assetId: string) => {
   // query initialization
   const queries = useQueries({
     queries: pageParams.map((pageParam) => ({
-      queryKey: [QUERIES.WALLET.GET_ACTIVITIES, currentAccount.username, assetId, pageParam],
+      queryKey: [QUERIES.WALLET.GET_ACTIVITIES, currentAccount.username, symbol, pageParam],
       queryFn: () => _fetchActivities(pageParam),
       initialData: [],
     })),
@@ -439,13 +439,11 @@ export const useRecurringActivitesQuery = (coinId: string) => {
   };
 };
 
-export const usePendingRequestsQuery = (assetId: string) => {
+export const usePendingRequestsQuery = (symbol: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const selectedAssets = useAppSelector((state) => state.wallet.selectedAssets);
-  const symbol = useMemo(() => selectedAssets.find((item) => item.id === assetId).symbol, []);
 
   return useQuery({
-    queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS, currentAccount.username, assetId],
+    queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS, currentAccount.username, symbol],
     queryFn: async () => {
       const pendingRequests = await fetchPendingRequests(currentAccount.username, symbol);
       return pendingRequests;

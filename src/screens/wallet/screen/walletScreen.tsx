@@ -205,7 +205,7 @@ const WalletScreen = ({ navigation }) => {
 
     const _onCardPress = () => {
       navigation.navigate(ROUTES.SCREENS.ASSET_DETAILS, {
-        coinId: item.symbol,
+        asset: item
       } as AssetDetailsScreenParams);
     };
 

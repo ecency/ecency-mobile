@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader } from '../../../components';
 import { CoinSummary, ActivitiesList, RecurrentTransfersModal } from '../children';
 import styles from './screen.styles';
-import { CoinActivity, CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
+import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import { useAppSelector } from '../../../hooks';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
@@ -15,9 +15,10 @@ import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
 import parseAsset from '../../../utils/parseAsset';
+import { PortfolioItem } from 'providers/ecency/ecency.types';
 
 export interface AssetDetailsScreenParams {
-  coinId: string;
+  asset: PortfolioItem;
 }
 
 interface AssetDetailsScreenProps {
@@ -28,9 +29,9 @@ interface AssetDetailsScreenProps {
 const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const intl = useIntl();
 
-  const coinId = route.params?.coinId;
-  if (!coinId) {
-    throw new Error('Coin symbol must be passed');
+  if (!route.params?.asset) {
+    Alert.alert('Invalid coin data');
+    navigation.goBack();
   }
 
   // refs
@@ -38,24 +39,31 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const delegationsModalRef = useRef(null);
   const recurrentTransfersModalRef = useRef(null);
 
+  // state
+  const [showChart, setShowChart] = useState(false);
+  const [asset, setAsset] = useState<PortfolioItem>(route.params?.asset);
+  const assetSymbol = asset.symbol;
+
   // queries
   const assetsQuery = walletQueries.useAssetsQuery();
-  const activitiesQuery = walletQueries.useActivitiesQuery(coinId);
-  const pendingRequestsQuery = walletQueries.usePendingRequestsQuery(coinId);
-  const recurringActivitiesQuery = walletQueries.useRecurringActivitesQuery(coinId);
-
-  // redux props
-  const selectedAssets = useAppSelector((state) => state.wallet.selectedAssets);
-  const coinData: CoinData = useAppSelector((state) => state.wallet.coinsData[coinId]);
-  const quote: QuoteItem = useAppSelector((state) =>
-    state.wallet.quotes ? state.wallet.quotes[coinId] : {},
-  );
+  const activitiesQuery = walletQueries.useActivitiesQuery(assetSymbol);
+  const pendingRequestsQuery = walletQueries.usePendingRequestsQuery(assetSymbol);
+  const recurringActivitiesQuery = walletQueries.useRecurringActivitesQuery(assetSymbol);
+  // const quote: QuoteItem = useAppSelector((state) =>
+  //   state.wallet.quotes ? state.wallet.quotes[assetSymbol] : {},
+  // );
   const username = useAppSelector((state) => state.wallet.username);
   const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
 
-  // state
-  const [symbol] = useState(selectedAssets.find((item) => item.id === coinId).symbol);
-  const [showChart, setShowChart] = useState(false);
+
+  useEffect(() => {
+    if (assetsQuery.data != null) {
+      const updatedAsset = assetsQuery.data.find((a) => a.symbol === assetSymbol);
+      if (updatedAsset) {
+        setAsset(updatedAsset);
+      }
+    }
+  }, [assetsQuery.data]);
 
   // side-effects
   useEffect(() => {
@@ -74,7 +82,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-      console.log('updating coins activities on app resume', coinId);
+      console.log('updating coins activities on app resume', assetSymbol);
       _fetchDetails(true);
     }
 
@@ -120,34 +128,34 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     let navigateTo = ROUTES.SCREENS.TRANSFER;
     let navigateParams = {};
 
-    if (coinId === ASSET_IDS.ECENCY && !transferType.includes('transfer')) {
+    if (assetSymbol === ASSET_IDS.ECENCY && !transferType.includes('transfer')) {
       navigateTo = ROUTES.SCREENS.REDEEM;
       navigateParams = {
-        balance: coinData.balance,
+        balance: asset.balance,
         redeemType: transferType === 'dropdown_promote' ? 'promote' : 'boost_plus',
       };
     } else {
-      let { balance } = coinData;
+      let { balance } = asset;
 
       switch (transferType) {
         case TransferTypes.UNSTAKE_ENGINE:
         case TransferTypes.DELEGATE_ENGINE:
           balance =
-            coinData.extraDataPairs?.reduce(
+            asset.extraData?.reduce(
               (bal, data) => (data.dataKey === 'staked' ? Number(data.value) : bal),
               0,
             ) ?? 0;
           break;
         case TransferTypes.UNDELEGATE_ENGINE:
           balance =
-            coinData.extraDataPairs?.reduce(
+            asset.extraData?.reduce(
               (bal, data) => (data.dataKey === 'delegations_out' ? Number(data.value) : bal),
               0,
             ) ?? 0;
           break;
         case TransferTypes.WITHDRAW_HIVE:
         case TransferTypes.WITHDRAW_HBD:
-          balance = coinData.savings ?? 0;
+          balance = asset.savings ?? 0;
           break;
 
         case TransferTypes.SWAP_TOKEN:
@@ -156,8 +164,8 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       }
 
       navigateParams = {
-        transferType: coinId === ASSET_IDS.ECENCY ? 'points' : transferType,
-        fundType: coinId === ASSET_IDS.ECENCY ? 'ESTM' : symbol,
+        transferType: assetSymbol === 'POINTS' ? 'points' : transferType,
+        fundType: assetSymbol === 'POINTS' ? 'ESTM' : assetSymbol,
         balance,
       };
     }
@@ -194,10 +202,10 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
   const _renderHeaderComponent = (
     <CoinSummary
-      id={coinId}
-      coinSymbol={symbol}
-      coinData={coinData}
-      percentChagne={(quote ? quote.percentChange : coinData?.percentChange) || 0}
+      // id={assetSymbol}
+      coinSymbol={assetSymbol}
+      asset={asset}
+      // percentChagne={(quote ? quote.percentChange : asset?.percentChange) || 0}
       totalRecurrentAmount={recurringActivitiesQuery?.totalAmount || 0}
       onActionPress={_onActionPress}
       onInfoPress={_onInfoPress}
@@ -215,13 +223,13 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
         pendingActivities={pendingRequestsQuery.data || []}
         refreshing={activitiesQuery.isRefreshing}
         loading={activitiesQuery.isLoading}
-        activitiesEnabled={!coinData?.isSpk}
+        activitiesEnabled={asset.layer !== 'spk' && asset.layer !== 'chain'}
         onEndReached={_fetchDetails}
         onRefresh={_onRefresh}
         onActionPress={_onActionPress}
       />
       <DelegationsModal ref={delegationsModalRef} />
-      <RecurrentTransfersModal assetId={coinId} ref={recurrentTransfersModalRef} />
+      <RecurrentTransfersModal assetId={assetSymbol} ref={recurrentTransfersModalRef} />
     </SafeAreaView>
   );
 };
