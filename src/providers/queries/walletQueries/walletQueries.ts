@@ -1,5 +1,5 @@
 import { useQuery, useQueries, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRef, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { unionBy } from 'lodash';
 import { RecurrentTransfer } from 'providers/hive/hive.types';
@@ -17,9 +17,9 @@ import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
 import { fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
 import { recurrentTransferToken } from '../../hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
-import { ProfileToken } from '../../../screens/assetsSelect/screen/assetsSelect';
 import { Alert } from 'react-native';
 import { getPortfolio } from '../../../providers/ecency/ecency';
+import { ProfileToken } from '../../../redux/reducers/walletReducer';
 
 interface RewardsCollection {
   [key: string]: string;
@@ -50,7 +50,7 @@ export const useAssetsQuery = () => {
           return [];
         }
 
-        
+
         return response;
 
       } catch (err) {
@@ -522,23 +522,29 @@ export const useUpdateProfileTokensMutation = () => {
 
   const mutation = useMutation<any, Error, ProfileToken[]>({
     mutationFn: async (tokens) => {
-      // extract a list of tokens with meta entry
-      const updatedCurrentAccount = currentAccount;
-      updatedCurrentAccount.about.profile = {
-        ...updatedCurrentAccount.about.profile,
 
-        // make sure entries with meta are preserved
+      const newProfileMeta = {
+        ...currentAccount.about.profile,
         tokens: [...tokens],
       };
-      const params = {
-        ...updatedCurrentAccount.about.profile,
-      };
-      await profileUpdate(params, pinHash, currentAccount);
-      return updatedCurrentAccount
+
+      await profileUpdate(newProfileMeta, pinHash, currentAccount);
+
+      return newProfileMeta
     },
-    onSuccess: (updatedCurrentAccount) => {
-      dispatch(updateCurrentAccount({ ...updatedCurrentAccount }))
+
+    onSuccess: (newProfileMeta) => {
+      //update current account in redux
+      const _currentAccount = {
+        ...currentAccount,
+        about: {
+          ...currentAccount.about,
+          profile: newProfileMeta
+        }
+      }
+      dispatch(updateCurrentAccount({ ..._currentAccount }))
     },
+
     onError: (error) => {
       Alert.alert(
         intl.formatMessage({

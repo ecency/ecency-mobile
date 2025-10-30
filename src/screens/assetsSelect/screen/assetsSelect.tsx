@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, Platform, Text, TouchableWithoutFeedback, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Platform, Text, TouchableWithoutFeedback, View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 import { useIntl } from 'react-intl';
-import { get } from 'lodash';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import DraggableFlatList, { ScaleDecorator } from 'react-native-draggable-flatlist';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -10,12 +9,10 @@ import { Edges, SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/tokensSelectModa.styles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { CheckBox, Icon, MainButton, SearchInput } from '../../../components';
-import { AssetBase, CoinData, ProfileToken, TokenType } from '../../../redux/reducers/walletReducer';
+import { AssetBase, ProfileToken, TokenType } from '../../../redux/reducers/walletReducer';
 import DEFAULT_ASSETS from '../../../constants/defaultAssets';
 import { setSelectedAssets } from '../../../redux/actions/walletActions';
 import { AssetIcon } from '../../../components/atoms';
-import { profileUpdate } from '../../../providers/hive/dhive';
-import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { useUpdateProfileTokensMutation } from '../../../providers/queries/walletQueries/walletQueries';
 import { walletQueries } from '../../../providers/queries';
 import { PortfolioItem } from 'providers/ecency/ecency.types';
@@ -102,46 +99,39 @@ const AssetsSelect = ({ navigation }) => {
   const _updateUserProfile = async () => {
 
     //extract a list of tokens preserved tokens
-    const preservedAssets = (currentAccount?.about?.profile?.tokens || [])
+    const fixedAssets = (currentAccount?.about?.profile?.tokens || [])
       .filter((item: ProfileToken) => item.type === TokenType.HIVE);
 
     //get updated chain assets
-    const chainAssets = (currentAccount?.about?.profile?.tokens || [])
+    let chainAssets = (currentAccount?.about?.profile?.tokens || [])
       .filter((item: ProfileToken) => item.type === TokenType.CHAIN)
-      .map((item: ProfileToken) => ({
-        ...item,
+
+
+    //construct profile tokens data from selectionRef
+    const selectedAssets = selectionRef.current.filter(item => item.isEngine || item.isSpk || item.isChain).map((item) => {
+
+      //remove matching chain asset from existing list and set show to true
+      if (item.isChain) {
+        const existingChainAsset = chainAssets.find((asset: ProfileToken) => asset.symbol === item.symbol);
+        chainAssets = chainAssets.filter((asset: ProfileToken) => asset.symbol !== item.symbol);
+
+        existingChainAsset.meta.show = true;
+        return existingChainAsset;
+      }
+
+      return {
+        symbol: item.symbol,
+        type: item.isEngine ? TokenType.ENGINE : TokenType.SPK, //we knwo chain tokens have already been filtered.
         meta: {
-          ...item.meta,
-          show: //check if item is present in selectionRef
-            selectionRef.current.some(
-              (asset) => asset.symbol === item.symbol,
-            ),
+          show: true,
         },
-      }));
+      }
+    });
 
-    //construct rest of assets data from selectionRef
-    const assetsData = selectionRef.current.filter(item => item.isEngine || item.isSpk).map((item) => ({
-      symbol: item.symbol,
-      type: item.isEngine ? TokenType.ENGINE : TokenType.SPK,
-      meta: {
-        show: true,
-      },
-    }));
+    const tokens = [...fixedAssets, ...selectedAssets, ...chainAssets];
+    console.log('updating profile with tokens:', tokens);
 
-
-    const updatedCurrentAccountData = currentAccount;
-    updatedCurrentAccountData.about.profile = {
-      ...updatedCurrentAccountData.about.profile,
-      // make sure entries with meta are preserved
-      tokens: [...preservedAssets, ...assetsData, ...chainAssets],
-    };
-    const params = {
-      ...updatedCurrentAccountData.about.profile,
-    };
-
-    console.log('updating profile with tokens:', params.tokens);
-  
-    updateProfileTokensMutation.mutateAsync(params.tokens);
+    updateProfileTokensMutation.mutateAsync(tokens);
     _navigationGoBack();
   };
 
