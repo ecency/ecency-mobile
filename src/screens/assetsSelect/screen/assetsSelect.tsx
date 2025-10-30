@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, Platform, Text, TouchableWithoutFeedback, View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 import { useIntl } from 'react-intl';
@@ -17,6 +17,8 @@ import { AssetIcon } from '../../../components/atoms';
 import { profileUpdate } from '../../../providers/hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { useUpdateProfileTokensMutation } from '../../../providers/queries/walletQueries/walletQueries';
+import { walletQueries } from '../../../providers/queries';
+import { PortfolioItem } from 'providers/ecency/ecency.types';
 
 /**
  *  NOTE: using AssetsSelectModal as part of native-stack with modal presentation is important
@@ -26,7 +28,10 @@ const AssetsSelect = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
 
-  const coinsData = useAppSelector((state) => state.wallet.coinsData);
+  const assetsQuery = walletQueries.useAssetsQuery();
+
+  // const coinsData = useAppSelector((state) => state.wallet.coinsData);
+
   const selectedAssets: AssetBase[] = useAppSelector((state) => state.wallet.selectedAssets);
   const pinCode = useAppSelector((state) => state.application.pin);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
@@ -35,39 +40,38 @@ const AssetsSelect = ({ navigation }) => {
 
   const updateProfileTokensMutation = useUpdateProfileTokensMutation();
 
-  const [listData, setListData] = useState<CoinData[]>([]);
-  const [sortedList, setSortedList] = useState([]);
+  const [listData, setListData] = useState<PortfolioItem[]>([]);
+  const [sortedList, setSortedList] = useState<PortfolioItem[]>([]);
   const [query, setQuery] = useState('');
 
   useEffect(() => {
     selectionRef.current = selectedAssets.filter(
-      (item) => (item.isEngine || item.isSpk || item.isChain) && !!coinsData[item.symbol],
+      (item) => (item.isEngine || item.isSpk || item.isChain) &&
+        assetsQuery.selectedableData?.some(asset => asset.symbol === item.symbol)
     );
     _updateSortedList();
   }, []);
 
   useEffect(() => {
-    const data: CoinData[] = [];
+    const data: PortfolioItem[] = [];
+    assetsQuery.selectedableData?.forEach((asset) => {
 
-    Object.keys(coinsData).forEach((key) => {
-      if (coinsData[key].isEngine || coinsData[key].isSpk) {
-        const asset: CoinData = coinsData[key];
-        const _name = asset.name.toLowerCase();
-        const _symbol = asset.symbol.toLowerCase();
-        const _query = query.toLowerCase();
+      const _name = asset.name?.toLowerCase() || '';
+      const _symbol = asset.symbol.toLowerCase();
+      const _query = query.toLowerCase();
 
-        const _isSelected =
-          selectionRef.current.findIndex((item) => item.symbol === asset.symbol) > -1;
+      const _isSelected =
+        selectionRef.current.findIndex((item) => item.symbol === asset.symbol) > -1;
 
-        if (query === '' || _isSelected || _symbol.includes(_query) || _name.includes(_query)) {
-          data.push(asset);
-        }
+      if (query === '' || _isSelected || _symbol.includes(_query) || _name.includes(_query)) {
+        data.push(asset);
       }
+
     });
 
     setListData(data);
     _updateSortedList({ data });
-  }, [query, coinsData]);
+  }, [query, assetsQuery.selectedableData]);
 
   const _updateSortedList = ({ data } = { data: listData }) => {
     const _data = [...data];
@@ -95,47 +99,48 @@ const AssetsSelect = ({ navigation }) => {
   };
 
 
-  const _updateUserProfile = async (assetsData?: ProfileToken[]) => {
+  const _updateUserProfile = async () => {
 
-    if (!assetsData?.length) {
-      //TODO: extract chain tokens when available in app
-      assetsData = selectionRef.current.filter(item => item.isEngine || item.isSpk).map((item) => ({
-        symbol: item.symbol,
-        type: item.isEngine ? TokenType.ENGINE : TokenType.SPK,
+    //extract a list of tokens preserved tokens
+    const preservedAssets = (currentAccount?.about?.profile?.tokens || [])
+      .filter((item: ProfileToken) => item.type === TokenType.HIVE);
 
+    //get updated chain assets
+    const chainAssets = (currentAccount?.about?.profile?.tokens || [])
+      .filter((item: ProfileToken) => item.type === TokenType.CHAIN)
+      .map((item: ProfileToken) => ({
+        ...item,
         meta: {
-          show: true,
+          ...item.meta,
+          show: //check if item is present in selectionRef
+            selectionRef.current.some(
+              (asset) => asset.symbol === item.symbol,
+            ),
         },
       }));
-    }
 
-    // TODO: preserve on hive tokens
+    //construct rest of assets data from selectionRef
+    const assetsData = selectionRef.current.filter(item => item.isEngine || item.isSpk).map((item) => ({
+      symbol: item.symbol,
+      type: item.isEngine ? TokenType.ENGINE : TokenType.SPK,
+      meta: {
+        show: true,
+      },
+    }));
 
-    // extract a list of tokens preserved tokens
-    const preservedAssets = (currentAccount?.about?.profile?.tokens || [])
-      .filter((item: ProfileToken) => item.type === TokenType.HIVE || item.type === TokenType.CHAIN)
-      //TODO: do not sort when chain tokens are available
-      .sort((a: ProfileToken, b: ProfileToken) => {
-        if (a.type === b.type) return 0;
-        if (a.type === TokenType.HIVE) return -1;
-        if (b.type === TokenType.HIVE) return 1;
-        return 0;
-      });
-
-    //TODO: update meta for chain tokens instead of replacing meta entirely
-    //example: {show:false, address:"xyz"}
 
     const updatedCurrentAccountData = currentAccount;
     updatedCurrentAccountData.about.profile = {
       ...updatedCurrentAccountData.about.profile,
       // make sure entries with meta are preserved
-      tokens: [...preservedAssets, ...assetsData],
+      tokens: [...preservedAssets, ...assetsData, ...chainAssets],
     };
     const params = {
       ...updatedCurrentAccountData.about.profile,
     };
 
     console.log('updating profile with tokens:', params.tokens);
+  
     updateProfileTokensMutation.mutateAsync(params.tokens);
     _navigationGoBack();
   };
@@ -156,10 +161,11 @@ const AssetsSelect = ({ navigation }) => {
     const _obj = {
       id: item.symbol,
       symbol: item.symbol,
-      isEngine: item.isEngine || false,
-      isSpk: item.isSpk || false,
+      isEngine: item.layer === 'engine',
+      isSpk: item.layer === 'spk',
+      isChain: item.layer === 'chain',
       notCrypto: false,
-    };
+    } as AssetBase;
 
     console.log('change order', item.symbol, from, to, 'total:', totalSel);
 
@@ -216,6 +222,7 @@ const AssetsSelect = ({ navigation }) => {
             symbol: key,
             isEngine: item.isEngine || false,
             isSpk: item.isSpk || false,
+            isChain: item.isChain || false,
             notCrypto: false,
           });
         }
@@ -284,7 +291,7 @@ const AssetsSelect = ({ navigation }) => {
   };
 
   // for modals, iOS has its own top safe area handling
-  const _safeAreaEdges: Edges = Platform.select({ ios: ['bottom'], default: ['top', 'bottom'] });
+  const _safeAreaEdges: Edges = Platform.select({ ios: [], default: ['top'] });
 
   return (
     <SafeAreaView style={styles.modalStyle} edges={_safeAreaEdges}>

@@ -5,7 +5,6 @@ import { unionBy } from 'lodash';
 import { RecurrentTransfer } from 'providers/hive/hive.types';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { fetchAndSetCoinsData } from '../../../redux/actions/walletActions';
 import parseToken from '../../../utils/parseToken';
 import { claimPoints, getPointsSummary } from '../../ecency/ePoint';
 import { fetchUnclaimedRewards } from '../../hive-engine/hiveEngine';
@@ -74,9 +73,20 @@ export const useAssetsQuery = () => {
 
   }, [assetsQuery.data, selectedAssets]);
 
+  const selectedableData = useMemo(() => {
+    if (!assetsQuery.data || !assetsQuery.data.length) {
+      return [];
+    }
+
+    return assetsQuery.data.filter(
+      (asset) => asset.layer !== 'hive' && asset.layer !== 'points',
+    );
+  }, [assetsQuery.data]);
+
   return {
     ...assetsQuery,
-    selectedData
+    selectedData,
+    selectedableData
   }
 };
 
