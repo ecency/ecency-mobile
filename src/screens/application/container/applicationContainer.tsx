@@ -599,7 +599,7 @@ class ApplicationContainer extends Component {
   };
 
   _logout = async (username) => {
-    const {currentAccount, otherAccounts, dispatch, intl } = this.props;
+    const { currentAccount, otherAccounts, dispatch, intl } = this.props;
 
     try {
       const response = await removeUserData(username);
@@ -611,7 +611,7 @@ class ApplicationContainer extends Component {
 
       const encAccessToken =
         currentAccount.username === username ? currentAccount?.local?.accessToken : null;
-      this._enableNotification(username, false, null, encAccessToken);
+      await this._enableNotification(username, false, null, encAccessToken);
 
       // switch account if other account exist
       const _otherAccounts = otherAccounts.filter((user) => user.username !== username);
@@ -647,7 +647,6 @@ class ApplicationContainer extends Component {
   };
 
   _enableNotification = async (username, isEnable, settings = null, encAccesstoken = null) => {
-
     const accessToken = encAccesstoken ? decryptKey(encAccesstoken, Config.DEFAULT_PIN) : null;
 
     // compile notify_types
@@ -674,12 +673,17 @@ class ApplicationContainer extends Component {
     }
 
     try {
-      const token = await getMessaging().getToken();
-      console.log('FCM Token:', token);
-      setPushToken(
+      let token: string | null = null;
+
+      if (isEnable) {
+        token = await getMessaging().getToken();
+        console.log('FCM Token:', token);
+      }
+
+      await setPushToken(
         {
           username,
-          token: token,
+          token,
           system: `fcm-${Platform.OS}`,
           allows_notify: Number(isEnable),
           notify_types,

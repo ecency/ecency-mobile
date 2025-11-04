@@ -105,7 +105,7 @@ export function checkViewability(windowHeight: number) {
  * Veiwability tracker hook
  */
 
-export const useViewabilityTracker = (isDisabled: boolean = false) => {
+export const useViewabilityTracker = (isDisabled = false) => {
   const ref = useRef<View>(null);
   const key = useRef<string>(`Img-${Math.random().toString(36).substring(2, 9)}`).current; // unique key
   const { height } = useWindowDimensions();
