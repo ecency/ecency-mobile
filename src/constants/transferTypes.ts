@@ -1,4 +1,11 @@
 const TransferTypes = {
+
+  //Ecency Transfer types
+  ECENCY_POINT_TRANSFER: 'ecency_point_transfer',
+  PROMOTE: 'promote',
+  BOOST: 'boost',
+
+  //Hive Transfer types
   TRANSFER_TOKEN: 'transfer_token',
   PURCHASE_ESTM: 'purchase_estm',
   CONVERT: 'convert',
