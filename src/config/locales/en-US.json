@@ -165,7 +165,7 @@
     "nftmarket_cancel": "Order Canceled",
     "nftmarket_changePrice": "Order Price Changed",
     "nftmarket_enableMarket": "Market Enabled for NFT Symbol",
-    "ecency": {
+    "POINTS": {
       "title": "Points",
       "name": "Ecency Points",
       "buy": "GET POINTS"

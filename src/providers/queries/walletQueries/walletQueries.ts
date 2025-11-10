@@ -27,7 +27,7 @@ interface RewardsCollection {
 }
 
 interface ClaimRewardsMutationVars {
-  assetId: ASSET_IDS | string;
+  symbol: string;
 }
 
 const ACTIVITIES_FETCH_LIMIT = 50;
@@ -39,6 +39,7 @@ export const useAssetsQuery = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const selectedAssets: ProfileToken[] = useAppSelector((state) => state.wallet.selectedAssets);
 
+  //TODO: test assets update with currency and quote change
 
   const assetsQuery = useQuery({
     queryKey: [QUERIES.WALLET.GET, currentAccount.username],
@@ -216,12 +217,12 @@ export const useClaimRewardsMutation = () => {
   const pinHash = useAppSelector((state) => state.application.pin);
   const [isClaimingColl, setIsClaimingColl] = useState<{ [key: string]: boolean }>({});
 
-  const _mutationFn = async ({ assetId }: ClaimRewardsMutationVars) => {
-    switch (assetId) {
-      case ASSET_IDS.ECENCY:
+  const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
+    switch (symbol) {
+      case 'POINTS':
         await claimPoints();
         break;
-      case ASSET_IDS.HP:
+      case 'HP':
         const account = await getAccount(currentAccount.name);
         await claimRewardBalance(
           currentAccount,
@@ -231,8 +232,9 @@ export const useClaimRewardsMutation = () => {
           account.reward_vesting_balance,
         );
         break;
+      //TODO: add support for other asset claims, 
       default:
-        await claimRewards([assetId], currentAccount, pinHash);
+        await claimRewards([symbol], currentAccount, pinHash);
         break;
     }
     return true;
@@ -241,12 +243,12 @@ export const useClaimRewardsMutation = () => {
   const mutation = useMutation<boolean, Error, ClaimRewardsMutationVars>({
     mutationFn: _mutationFn,
     retry: 2,
-    onMutate({ assetId }) {
-      setIsClaimingColl({ ...isClaimingColl, [assetId]: true });
+    onMutate({ symbol }) {
+      setIsClaimingColl({ ...isClaimingColl, [symbol]: true });
     },
-    onSuccess: (data, { assetId }) => {
-      console.log('successfully initiated claim action activity', data, { assetId });
-      setIsClaimingColl({ ...isClaimingColl, [assetId]: false });
+    onSuccess: (data, { symbol }) => {
+      console.log('successfully initiated claim action activity', data, { symbol });
+      setIsClaimingColl({ ...isClaimingColl, [symbol]: false });
 
       // get current rewards data from query
       const rewardsData: RewardsCollection | undefined = queryClient.getQueryData([
@@ -257,10 +259,10 @@ export const useClaimRewardsMutation = () => {
         // update claim cache value in redux;
 
         // TOOD: assess what is happening here, possibly rewardsData already have some value set as cache
-        dispatch(updateClaimCache(assetId, rewardsData[assetId]));
+        dispatch(updateClaimCache(symbol, rewardsData[symbol]));
 
         // mutate claim data
-        delete rewardsData[assetId];
+        delete rewardsData[symbol];
         queryClient.setQueryData(
           [QUERIES.WALLET.UNCLAIMED_GET, currentAccount.username],
           rewardsData,
@@ -278,8 +280,8 @@ export const useClaimRewardsMutation = () => {
         ),
       );
     },
-    onError: (error, { assetId }) => {
-      setIsClaimingColl({ ...isClaimingColl, [assetId]: false });
+    onError: (error, { symbol }) => {
+      setIsClaimingColl({ ...isClaimingColl, [symbol]: false });
       dispatch(
         toastNotification(
           intl.formatMessage({ id: 'alert.claim_failed' }, { message: error.message }),
@@ -288,9 +290,9 @@ export const useClaimRewardsMutation = () => {
     },
   });
 
-  const checkIsClaiming = (assetId?: string) => {
-    if (assetId) {
-      return isClaimingColl[assetId] || false;
+  const checkIsClaiming = (symbol?: string) => {
+    if (symbol) {
+      return isClaimingColl[symbol] || false;
     }
 
     Object.keys(isClaimingColl).forEach((key) => {
