@@ -30,7 +30,7 @@ export const WalletHeader = ({
   const actionHandlers = useMemo(
     () => ({
       manage_tokens: () => navigation.navigate(ROUTES.MODALS.ASSETS_SELECT),
-      claim_all: () => Alert.alert('TODO: Implement Claim All'),
+    //   claim_all: () => Alert.alert('TODO: Implement Claim All'),
       boost: () =>
         navigation.navigate({
           name: ROUTES.SCREENS.ACCOUNT_BOOST,
@@ -43,7 +43,10 @@ export const WalletHeader = ({
   );
 
   const _actionKeys = useMemo(() => {
-    const keys = ['manage_tokens', 'claim_all'];
+    const keys = [
+        'manage_tokens', 
+        // 'claim_all' TODO: Implement Claim All
+    ];
     if (hpBalance < 50) {
       keys.push('boost');
     }
