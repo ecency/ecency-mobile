@@ -126,7 +126,7 @@ export const convertPortfolio = (rawData: any) => {
     name: item.name || '',
     symbol: item.symbol || '',
     layer: item.layer || '',
-    balance: item.balance || 0,
+    balance: (item.symbol === 'HIVE' ? item.liquid : item.balance) || 0,
     fiatRate: item.fiatRate || 0,
     address: item.address,
     pendingRewards: item.pendingRewards || 0,
@@ -138,7 +138,7 @@ export const convertPortfolio = (rawData: any) => {
     staked: item.staked || 0,
     stakedFiat: item.stakedFiat || 0,
     iconUrl: item.iconUrl,
-    actions: item.actions || [],
+    actions: item.actions.map((action: any) => action.id) || [],
     extraData: item.extraData || []
   } as PortfolioItem));
 };

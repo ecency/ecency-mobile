@@ -6,79 +6,107 @@ import { IconButton } from '../../../components';
 import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 import { useAppSelector } from '../../../hooks';
+import { PortfolioItem } from '../../../providers/ecency/ecency.types';
 
 import styles from './walletHeader.styles';
 import { WalletActions } from '../../assetDetails/children';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 interface WalletHeaderProps {
-  totalBalanceLabel: string;
-  onRefresh: () => void;
-  hpBalance?: number;
+    assets?: PortfolioItem[];
+    currencyCode: string;
+    currencySymbol?: string;
+    onRefresh: () => void;
 }
 
 export const WalletHeader = ({
-  totalBalanceLabel,
-  onRefresh,
-  hpBalance = 0,
+    assets,
+    currencyCode,
+    currencySymbol,
+    onRefresh,
 }: WalletHeaderProps) => {
-  const navigation = useNavigation<any>();
-  const intl = useIntl();
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const RefreshIconButton = IconButton as any;
+    const navigation = useNavigation<any>();
+    const intl = useIntl();
+    const currentAccount = useAppSelector((state) => state.account.currentAccount);
+    const RefreshIconButton = IconButton as any;
 
-  const actionHandlers = useMemo(
-    () => ({
-      manage_tokens: () => navigation.navigate(ROUTES.MODALS.ASSETS_SELECT),
-    //   claim_all: () => Alert.alert('TODO: Implement Claim All'),
-      boost: () =>
-        navigation.navigate({
-          name: ROUTES.SCREENS.ACCOUNT_BOOST,
-          params: {
-            username: currentAccount.name,
-          },
+    const actionHandlers = useMemo(
+        () => ({
+            manage_tokens: () => navigation.navigate(ROUTES.MODALS.ASSETS_SELECT),
+            //   claim_all: () => Alert.alert('TODO: Implement Claim All'),
+            boost: () =>
+                navigation.navigate({
+                    name: ROUTES.SCREENS.ACCOUNT_BOOST,
+                    params: {
+                        username: currentAccount.name,
+                    },
+                }),
         }),
-    }),
-    [navigation, currentAccount.name],
-  );
+        [navigation, currentAccount.name],
+    );
 
-  const _actionKeys = useMemo(() => {
-    const keys = [
-        'manage_tokens', 
-        // 'claim_all' TODO: Implement Claim All
-    ];
-    if (hpBalance < 50) {
-      keys.push('boost');
-    }
-    return keys;
-  }, [hpBalance]);
+    const _actionKeys = useMemo(() => {
+        const hpBalance = assets?.find((asset) => asset.symbol?.toUpperCase?.() === 'HP')?.balance ?? 0;
 
-  const _handleActionPress = (action: string) => {
-    const handler = actionHandlers[action as keyof typeof actionHandlers];
+        const keys = [
+            'manage_tokens',
+            // 'claim_all' TODO: Implement Claim All
+        ];
+        if (hpBalance < 50) {
+            keys.push('boost');
+        }
+        return keys;
+    }, [assets]);
 
-    if (handler) {
-      handler();
-    }
-  };
+    const _handleActionPress = (action: string) => {
+        const handler = actionHandlers[action as keyof typeof actionHandlers];
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.totalLabel}>
-        {intl.formatMessage({ id: 'wallet.total_balance', defaultMessage: 'Total balance' })}
-      </Text>
+        if (handler) {
+            handler();
+        }
+    };
 
-      <View style={styles.balanceRow}>
-        <Text style={styles.totalValue}>{totalBalanceLabel}</Text>
-        <RefreshIconButton
-          name="refresh"
-          iconType="MaterialCommunityIcons"
-          size={20}
-          color={EStyleSheet.value('$primaryBlack')}
-          onPress={onRefresh}
-        />
-      </View>
-      <WalletActions actions={_actionKeys} onActionPress={_handleActionPress} />
-    </View>
-  );
+    
+
+    const totalBalanceLabel = useMemo(() => {
+        if (!assets || assets.length === 0) {
+            return currencySymbol ? `~${currencySymbol}0` : `~0 ${currencyCode}`.trim();
+        }
+
+        const total = assets.reduce((sum, asset) => {
+            const assetTotal = asset.balance * asset.fiatRate;
+            return sum + assetTotal;
+        }, 0);
+
+        const formattedTotal = total >= 1 ? total.toFixed(2) : total.toFixed(5);
+
+        if (currencySymbol) {
+            return `~${currencySymbol}${formattedTotal}`;
+        }
+
+        return `~${formattedTotal} ${currencyCode}`.trim();
+    }, [assets, currencyCode]);
+
+
+
+    return (
+        <View style={styles.container}>
+            <Text style={styles.totalLabel}>
+                {intl.formatMessage({ id: 'wallet.total_balance', defaultMessage: 'Total balance' })}
+            </Text>
+
+            <View style={styles.balanceRow}>
+                <Text style={styles.totalValue}>{totalBalanceLabel}</Text>
+                <RefreshIconButton
+                    name="refresh"
+                    iconType="MaterialCommunityIcons"
+                    size={20}
+                    color={EStyleSheet.value('$primaryBlack')}
+                    onPress={onRefresh}
+                />
+            </View>
+            <WalletActions actions={_actionKeys} onActionPress={_handleActionPress} />
+        </View>
+    );
 };
 

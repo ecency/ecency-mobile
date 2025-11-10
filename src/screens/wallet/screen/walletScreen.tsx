@@ -199,8 +199,6 @@ const WalletScreen = ({ navigation }) => {
     //   priceHistories && priceHistories[item.id] ? priceHistories[item.id].data : [];
     // const quote = quotes && quotes[item.id];
 
-    const _balance = item.balance + (item.savings || 0);
-
     // const percentChange = quote ? quote.percentChange : coinData.percentChange;
 
     const _onCardPress = () => {
@@ -226,7 +224,7 @@ const WalletScreen = ({ navigation }) => {
         currentValue={item.fiatRate || 0}
         // changePercent={percentChange || 0}
         currencySymbol={currency.currencySymbol}
-        ownedBalance={_balance}
+        ownedBalance={item.balance}
         unclaimedRewards={unclaimedRewards}
         enableBuy={!item.pendingRewards && item.symbol === 'POINTS'}
         isClaiming={_isClaimingThis}
@@ -253,21 +251,13 @@ const WalletScreen = ({ navigation }) => {
     />
   );
 
-  const totalBalanceLabel = '~79.456 USD';
-
-  const hpBalance = useMemo(() => {
-    const hpAsset = (walletQuery.selectedData as PortfolioItem[] | undefined)?.find(
-      (asset) => asset.symbol?.toUpperCase?.() === 'HP',
-    );
-
-    return hpAsset?.balance ?? 0;
-  }, [walletQuery.selectedData]);
 
   const _renderWalletHeader = () => (
     <WalletHeader
-      totalBalanceLabel={totalBalanceLabel}
+      assets={walletQuery.data}
+      currencyCode={currency.currency}
+      currencySymbol={currency.currencySymbol}
       onRefresh={_onRefresh}
-      hpBalance={hpBalance}
     />
   )
 
