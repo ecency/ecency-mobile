@@ -32,6 +32,29 @@ import parseToken from '../../../utils/parseToken';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
 import { SheetNames } from '../../../navigation/sheets';
 
+interface TransferViewProps {
+  currentAccountName: string;
+  transferType: string;
+  getAccountsWithUsername: (username: string) => any;
+  balance: number | string;
+  transferToAccount: (params: any) => void;
+  accountType: string;
+  accounts: any[];
+  intl: any;
+  handleOnModalClose: () => void;
+  fundType: string;
+  selectedAccount: any;
+  fetchBalance: () => void;
+  spkMarkets: any;
+  referredUsername?: string;
+  initialAmount?: string | number;
+  initialMemo?: string;
+  fetchRecurrentTransfers?: () => void;
+  recurrentTransfers?: any;
+  tokenLayer?: string;
+}
+
+
 const TransferView = ({
   currentAccountName,
   transferType,
@@ -51,7 +74,8 @@ const TransferView = ({
   initialMemo,
   fetchRecurrentTransfers,
   recurrentTransfers,
-}) => {
+  tokenLayer,
+}: TransferViewProps) => {
   const hiveAuthModalRef = useRef();
 
   const [from, setFrom] = useState(currentAccountName);
@@ -122,6 +146,7 @@ const TransferView = ({
           amount,
           fundType,
           memo,
+          tokenLayer,
           recurrence: isRecurrentTransfer ? +recurrence : null,
           executions: isRecurrentTransfer ? +executions : null,
         });

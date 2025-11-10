@@ -6,36 +6,28 @@ const TransferTypes = {
   BOOST: 'boost',
 
   //Hive Transfer types
-  TRANSFER_TOKEN: 'transfer_token',
-  PURCHASE_ESTM: 'purchase_estm',
+  TRANSFER: 'transfer',
   CONVERT: 'convert',
   TRANSFER_TO_SAVINGS: 'transfer_to_savings',
+  TRANSFER_FROM_SAVINGS: 'transfer_from_savings',
   TRANSFER_TO_VESTING: 'transfer_to_vesting',
-  POINTS: 'points',
-  WITHDRAW_HIVE: 'withdraw_hive',
-  WITHDRAW_HBD: 'withdraw_hbd',
   SWAP_TOKEN: 'swap_token',
-  DELEGATE: 'delegate',
-  POWER_DOWN: 'power_down',
   ADDRESS_VIEW: 'address_view',
   DELEGATE_VESTING_SHARES: 'delegate_vesting_shares',
   RECURRENT_TRANSFER: 'recurrent_transfer',
-
-  // Engine Transfer types
-  WITHDRAW_VESTING_ENGINE: 'withdraw_vesting',
-  TRANSFER_ENGINE: 'transfer_engine',
-  UNSTAKE_ENGINE: 'unstake_engine',
-  STAKE_ENGINE: 'stake_engine',
-  UNDELEGATE_ENGINE: 'undelegate_engine',
-  DELEGATE_ENGINE: 'delegate_engine',
+  WITHDRAW_VESTING: 'withdraw_vesting',
+  UNSTAKE: 'unstake',
+  STAKE: 'stake',
+  DELEGATE: 'delegate',
+  UNDELEGATE: 'undelegate',
 
   // SPK Transfer Types
-  TRANSFER_SPK: 'transfer_spk',
+  TRANSFER_SPK: 'transfer_spk_send',
   TRANSFER_LARYNX: 'transfer_larynx_spk',
-  POWER_UP_SPK: 'power_up_spk',
-  LOCK_LIQUIDITY_SPK: 'lock_liquidity_spk',
-  DELEGATE_SPK: 'delegate_spk',
-  POWER_DOWN_SPK: 'power_down_spk',
+  TRANSFER_SPKCC: 'spkcc_send',
+  POWER_GRANT_SPK: 'spkcc_power_grant',
+  POWER_UP_SPK: 'spkcc_power_up',
+  POWER_DOWN_SPK: 'spkcc_power_down',
 };
 
 export default TransferTypes;
