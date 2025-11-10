@@ -160,7 +160,7 @@ export interface PortfolioItem {
     symbol: string;
     layer: PortfolioLayer;
     balance: number;
-    fiatPrice: number;
+    fiatRate: number;
     address?: string;
     pendingRewards?: number;
     pendingRewardsFiat?: number;

@@ -33,7 +33,7 @@ export const CoinSummary = ({
   onActionPress,
   onInfoPress,
 }: CoinSummaryProps) => {
-  const { balance, fiatPrice, savings, extraData, actions } = asset;
+  const { balance, fiatRate, savings, extraData, actions } = asset;
   const isEngine = asset.layer === 'engine';
   const isSpk = asset.layer === 'spk';
 
@@ -44,10 +44,11 @@ export const CoinSummary = ({
     },
   ] as DataPair[];
 
-  if (fiatPrice !== undefined) {
+  if (fiatRate !== undefined) {
+    const estimatedValue = balance * fiatRate;
     valuePairs.push({
       dataKey: 'estimated_value',
-      value: <FormattedCurrency isApproximate isToken value={fiatPrice} />,
+      value: <FormattedCurrency isApproximate isToken value={estimatedValue} />,
     });
   }
 

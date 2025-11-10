@@ -127,7 +127,7 @@ export const convertPortfolio = (rawData: any) => {
     symbol: item.symbol || '',
     layer: item.layer || '',
     balance: item.balance || 0,
-    fiatPrice: item.fiatPrice || 0,
+    fiatRate: item.fiatRate || 0,
     address: item.address,
     pendingRewards: item.pendingRewards || 0,
     pendingRewardsFiat: item.pendingRewardsFiat || 0,

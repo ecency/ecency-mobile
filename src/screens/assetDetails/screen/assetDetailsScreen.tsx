@@ -106,10 +106,6 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     activitiesQuery.fetchNextPage();
   };
 
-  if (!coinData) {
-    Alert.alert('Invalid coin data');
-    navigation.goBack();
-  }
 
   const _onInfoPress = (dataKey: string) => {
     if (

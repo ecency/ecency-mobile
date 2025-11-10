@@ -92,9 +92,9 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
   // accumulate asset data properties
   const _fromAssetData = assetsData[_fromAssetId];
   const _balance = _fromAssetData.balance;
-  const _fromFiatPrice = _fromAssetData.currentPrice;
-  const _toFiatPrice = assetsData[_toAssetId].currentPrice;
-  const _marketFiatPrice = marketPrice * _toFiatPrice;
+  const _fromFiatRate = _fromAssetData.currentPrice;
+  const _toFiatRate = assetsData[_toAssetId].currentPrice;
+  const _marketFiatPrice = marketPrice * _toFiatRate;
 
   const _toAmountStr = toAmount.toFixed(3);
 
@@ -271,14 +271,14 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
         onChangeText={setFromAmount}
         value={fromAmount}
         symbol={fromAssetSymbol}
-        fiatPrice={_fromFiatPrice}
+        fiatRate={_fromFiatRate}
       />
 
       <SwapAmountInput
         label={intl.formatMessage({ id: 'transfer.to' })}
         value={_toAmountStr}
         symbol={_toAssetSymbol}
-        fiatPrice={_toFiatPrice}
+        fiatRate={_toFiatRate}
       />
       <AssetChangeBtn onPress={handleAssetChange} />
     </View>
