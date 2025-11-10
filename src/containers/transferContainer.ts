@@ -26,7 +26,6 @@ import { getPointsSummary } from '../providers/ecency/ePoint';
 
 // Utils
 import { countDecimals } from '../utils/number';
-import { fetchAndSetCoinsData } from '../redux/actions/walletActions';
 import {
   delegateHiveEngine,
   stakeHiveEngine,
@@ -200,7 +199,6 @@ class TransferContainer extends Component {
   _delayedRefreshCoinsData = () => {
     const { dispatch } = this.props;
     setTimeout(() => {
-      dispatch(fetchAndSetCoinsData(true));
     }, 3000);
   };
 
