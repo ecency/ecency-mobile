@@ -1,19 +1,34 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  scrollContainer: {
-    padding: 0,
-  },
-  header: {
-    alignItems: 'flex-end',
+  container: {
     paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 0,
   },
-  headerActionsContainer: {
+  totalLabel: {
+    fontWeight: '300',
+    fontSize: 12,
+    color: '$primaryBlack',
+  },
+  balanceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 4,
+    marginBottom: 16,
+  },
+  totalValue: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginRight: 4,
+    color: '$primaryBlack',
+  },
+  actionsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 16,
   },
-  headerActionButton: {
+  actionButton: {
     marginHorizontal: 4,
     marginVertical: 8,
     paddingHorizontal: 24,
@@ -23,21 +38,10 @@ export default EStyleSheet.create({
     alignItems: 'center',
     backgroundColor: '$primaryLightBackground',
   },
-  headerActionButtonText: {
+  actionButtonText: {
     fontSize: 13,
     color: '$primaryBlack',
     fontWeight: '600',
   },
-  lastUpdateText: {
-    color: '$iconColor',
-    fontSize: 10,
-  },
-  dotStyle: {
-    backgroundColor: '$primaryDarkText',
-  },
-  listWrapper: {
-    backgroundColor: '$primaryBackgroundColor',
-    flex: 1,
-    paddingTop: 8,
-  },
 });
+

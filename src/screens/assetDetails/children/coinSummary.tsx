@@ -6,7 +6,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { CoinActions, CoinBasics, CoinChart } from '.';
+import { WalletActions, CoinBasics, CoinChart } from '.';
 import { FormattedCurrency } from '../../../components';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { DataPair } from '../../../redux/reducers/walletReducer';
@@ -111,7 +111,7 @@ export const CoinSummary = ({
         setShowChart={setShowChart}
         // isRenderChart={_shRrenderChart}
       />
-      <CoinActions actions={actions} onActionPress={onActionPress} />
+      <WalletActions actions={actions} onActionPress={onActionPress} />
       {/* {_shRrenderChart && _renderCoinChart()} */}
     </View>
   );

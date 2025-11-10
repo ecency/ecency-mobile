@@ -1,12 +1,10 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { useState, useEffect, useRef, Fragment } from 'react';
-import { View, Text, AppState, AppStateStatus } from 'react-native';
+import React, { useState, useEffect, useRef, Fragment, useMemo } from 'react';
+import { View, AppState, AppStateStatus } from 'react-native';
 import { isArray } from 'lodash';
 
 // Containers
 import { RefreshControl, FlatList, gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { useIntl } from 'react-intl';
-import moment from 'moment';
 import { LoggedInContainer } from '../../../containers';
 
 // Components
@@ -17,7 +15,7 @@ import globalStyles from '../../../globalStyles';
 import styles from './walletScreenStyles';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { AssetCard, ManageAssetsBtn } from '../children';
+import { AssetCard, WalletHeader } from '../children';
 import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import ROUTES from '../../../constants/routeNames';
 import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetailsScreen';
@@ -38,7 +36,6 @@ import { PortfolioItem } from '../../../providers/ecency/ecency.types';
 const CHART_DAYS_RANGE = 7;
 
 const WalletScreen = ({ navigation }) => {
-  const intl = useIntl();
   const dispatch = useAppDispatch();
 
   // refs
@@ -90,7 +87,7 @@ const WalletScreen = ({ navigation }) => {
     if (tokens) {
       const _migratedTokens = migrateSelectedTokens(tokens);
       if (_migratedTokens) {
-       //update profile
+        //update profile
         updateProfileTokensMutation.mutate(_migratedTokens);
       }
     }
@@ -101,7 +98,7 @@ const WalletScreen = ({ navigation }) => {
   }, [selectedAssets]);
 
   // actions
-  const populateSelectedAssets = (tokensArr:ProfileToken[]) => {
+  const populateSelectedAssets = (tokensArr: ProfileToken[]) => {
     // filter out HIVE token and hidden tokens
     return tokensArr
       .filter(({ type, meta }) => type !== TokenType.HIVE && (!meta || meta.show))
@@ -179,18 +176,21 @@ const WalletScreen = ({ navigation }) => {
     setIsRefreshing(false);
   };
 
-  const _claimRewards = (assetId: string) => {
+  const _claimRewards = (symbol: string) => {
     // claim using mutation;
-    claimRewardsMutation.mutate({ assetId });
+    claimRewardsMutation.mutate({ symbol });
   };
 
-  const _showAssetsSelectModal = () => {
-    navigation.navigate(ROUTES.MODALS.ASSETS_SELECT);
-  };
+  const _onRefresh = () => {
+    if (!isRefreshing) {
+      setIsRefreshing(true);
+      _refetchData();
+    }
+  }
 
   const _renderItem = ({ item, index }: { item: PortfolioItem; index: number }) => {
 
-    const unclaimedRewards = item.pendingRewards? `${item.pendingRewards.toFixed(3)} ${item.symbol}` : '';
+    const unclaimedRewards = item.pendingRewards ? `${item.pendingRewards.toFixed(3)} ${item.symbol}` : '';
 
     const _isClaimingThis = claimRewardsMutation.checkIsClaiming(item.symbol);
     const _isClaimingAny = claimRewardsMutation.checkIsClaiming();
@@ -217,22 +217,13 @@ const WalletScreen = ({ navigation }) => {
       }
     };
 
-    const _onBoostAccountPress = () => {
-      navigation.navigate({
-        name: ROUTES.SCREENS.ACCOUNT_BOOST,
-        params: {
-          username: currentAccount.name,
-        },
-      });
-    };
-
     return (
       <AssetCard
         symbol={item.symbol}
         name={item.name}
         iconUrl={item.iconUrl}
         // chartData={_tokenMarketData || []}
-        currentValue={item.fiatPrice || 0}
+        currentValue={item.fiatRate || 0}
         // changePercent={percentChange || 0}
         currencySymbol={currency.currencySymbol}
         ownedBalance={_balance}
@@ -244,38 +235,17 @@ const WalletScreen = ({ navigation }) => {
         // precision={item.precision}
         onCardPress={_onCardPress}
         onClaimPress={_onClaimPress}
-        onBoostAccountPress={_onBoostAccountPress}
         footerComponent={
           index === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />
         }
-
       />
-    );
-  };
-
-  const _renderHeader = () => {
-    return (
-      <View style={styles.header}>
-        <Text style={styles.lastUpdateText}>
-          {walletQuery.isFetching
-            ? intl.formatMessage({ id: 'wallet.updating' })
-            : `${intl.formatMessage({ id: 'wallet.last_updated' })} ${moment(
-              updateTimestamp,
-            ).format('HH:mm:ss')}`}
-        </Text>
-      </View>
     );
   };
 
   const _refreshControl = (
     <RefreshControl
       refreshing={isRefreshing}
-      onRefresh={() => {
-        if (!isRefreshing) {
-          setIsRefreshing(true);
-          _refetchData();
-        }
-      }}
+      onRefresh={_onRefresh}
       progressBackgroundColor="#357CE6"
       tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
       titleColor="#fff"
@@ -283,19 +253,36 @@ const WalletScreen = ({ navigation }) => {
     />
   );
 
+  const totalBalanceLabel = '~79.456 USD';
+
+  const hpBalance = useMemo(() => {
+    const hpAsset = (walletQuery.selectedData as PortfolioItem[] | undefined)?.find(
+      (asset) => asset.symbol?.toUpperCase?.() === 'HP',
+    );
+
+    return hpAsset?.balance ?? 0;
+  }, [walletQuery.selectedData]);
+
+  const _renderWalletHeader = () => (
+    <WalletHeader
+      totalBalanceLabel={totalBalanceLabel}
+      onRefresh={_onRefresh}
+      hpBalance={hpBalance}
+    />
+  )
+
   return (
     <Fragment>
       <Header />
       <LoggedInContainer>
         {() => (
           <View style={styles.listWrapper}>
+
             <FlatList
               data={walletQuery.selectedData}
-              // extraData={[coinsData, priceHistories, unclaimedRewardsQuery.data]}
               style={globalStyles.tabBarBottom}
               ListEmptyComponent={walletQuery.isLoading ? <PostCardPlaceHolder /> : null}
-              ListHeaderComponent={_renderHeader}
-              ListFooterComponent={<ManageAssetsBtn onPress={_showAssetsSelectModal} />}
+              ListHeaderComponent={_renderWalletHeader}
               renderItem={_renderItem}
               keyExtractor={(item, index) => item.symbol + index}
               refreshControl={_refreshControl}

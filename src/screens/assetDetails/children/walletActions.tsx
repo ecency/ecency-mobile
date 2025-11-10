@@ -3,12 +3,12 @@ import { useIntl } from 'react-intl';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styles from './children.styles';
 
-interface CoinActionsProps {
+interface WalletActionsProps {
   actions: string[];
   onActionPress: (action: string) => void;
 }
 
-export const CoinActions = ({ actions, onActionPress }: CoinActionsProps) => {
+export const WalletActions = ({ actions, onActionPress }: WalletActionsProps) => {
   const intl = useIntl();
 
   const _renderItem = (item: string, index: number) => {

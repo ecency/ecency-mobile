@@ -49,6 +49,9 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const activitiesQuery = walletQueries.useActivitiesQuery(assetSymbol, asset.layer);
   const pendingRequestsQuery = walletQueries.usePendingRequestsQuery(assetSymbol);
   const recurringActivitiesQuery = walletQueries.useRecurringActivitesQuery(assetSymbol);
+
+
+  //TODO: verify if quote can be fetched like this or quote fetching can be ignored
   // const quote: QuoteItem = useAppSelector((state) =>
   //   state.wallet.quotes ? state.wallet.quotes[assetSymbol] : {},
   // );
@@ -159,6 +162,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
           break;
       }
 
+      //TODO: handle 
       navigateParams = {
         transferType: assetSymbol === 'POINTS' ? 'points' : transferType,
         fundType: assetSymbol === 'POINTS' ? 'ESTM' : assetSymbol,
