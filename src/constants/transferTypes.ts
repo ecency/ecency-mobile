@@ -28,6 +28,9 @@ const TransferTypes = {
   POWER_GRANT_SPK: 'spkcc_power_grant',
   POWER_UP_SPK: 'spkcc_power_up',
   POWER_DOWN_SPK: 'spkcc_power_down',
+
+  //CHAIN Transfer Types
+  RECEIVE: 'receive',
 };
 
 export default TransferTypes;

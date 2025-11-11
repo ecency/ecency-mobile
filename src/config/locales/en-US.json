@@ -108,7 +108,7 @@
     "escrow_release": "Escrow Release",
     "escrow_approve": "Escrow Approve",
     "cancel_transfer_from_savings": "Cancel From Savings",
-    "delegate_vesting_shares": "Delegation",
+    "delegate_vesting_shares": "Delegate",
     "fill_convert_request": "Convert Executed",
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "Unstake executed",

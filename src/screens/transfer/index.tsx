@@ -33,6 +33,7 @@ const Transfer = ({ navigation, route }) => (
       initialMemo,
       recurrentTransfers,
       fetchRecurrentTransfers,
+      tokenLayer,
     }) => {
       switch (transferType) {
         case TransferTypes.DELEGATE_VESTING_SHARES:
@@ -71,7 +72,7 @@ const Transfer = ({ navigation, route }) => (
               setWithdrawVestingRoute={setWithdrawVestingRoute}
             />
           );
-        case 'address_view':
+        case TransferTypes.RECEIVE:
           return (
             <AddressView
               fundType={fundType}
@@ -103,6 +104,7 @@ const Transfer = ({ navigation, route }) => (
               initialMemo={initialMemo || ''}
               recurrentTransfers={recurrentTransfers || []}
               fetchRecurrentTransfers={fetchRecurrentTransfers}
+              tokenLayer={tokenLayer}
             />
           );
       }

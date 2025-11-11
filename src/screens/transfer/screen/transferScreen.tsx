@@ -31,6 +31,8 @@ import {
 import parseToken from '../../../utils/parseToken';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
 import { SheetNames } from '../../../navigation/sheets';
+import TokenLayers from '../../../constants/tokenLayers';
+import { EngineActions } from '../../../providers/hive-engine/hiveEngine.types';
 
 interface TransferViewProps {
   currentAccountName: string;
@@ -80,22 +82,20 @@ const TransferView = ({
 
   const [from, setFrom] = useState(currentAccountName);
   const [destination, setDestination] = useState(
-    transferType === 'transfer_to_vesting' ||
-      transferType === 'transfer_to_savings' ||
-      transferType === 'withdraw_vesting' ||
-      transferType === 'withdraw_hive' ||
-      transferType === 'withdraw_hbd' ||
-      transferType === 'convert' ||
-      transferType === TransferTypes.UNSTAKE_ENGINE ||
-      transferType === TransferTypes.STAKE_ENGINE ||
+    transferType === TransferTypes.TRANSFER_TO_SAVINGS ||
+      transferType === TransferTypes.TRANSFER_TO_VESTING ||
+      transferType === TransferTypes.TRANSFER_FROM_SAVINGS ||
+      transferType === TransferTypes.WITHDRAW_VESTING ||
+      transferType === TransferTypes.CONVERT ||
+      transferType === TransferTypes.UNSTAKE ||
+      transferType === TransferTypes.STAKE ||
       transferType === TransferTypes.POWER_UP_SPK ||
-      transferType === TransferTypes.POWER_DOWN_SPK ||
-      transferType === TransferTypes.LOCK_LIQUIDITY_SPK
+      transferType === TransferTypes.POWER_DOWN_SPK
+      // ||
+      // transferType === TransferTypes.LOCK_LIQUIDITY_SPK //TODO: assess replacement for LOCK LIQUIDITY
       ? currentAccountName
-      : transferType === 'purchase_estm'
-      ? 'esteem.app'
-      : transferType === TransferTypes.DELEGATE_SPK
-      ? SPK_NODE_ECENCY
+      // : transferType === TransferTypes.DELEGATE_SPK
+      // ? SPK_NODE_ECENCY
       : referredUsername || '',
   );
 
@@ -107,31 +107,15 @@ const TransferView = ({
   const [executions, setExecutions] = useState('');
   const [startDate, setStartDate] = useState('');
 
-  const [isUsernameValid, setIsUsernameValid] = useState(
-    !!(
-      transferType === 'purchase_estm' ||
-      transferType === 'transfer_to_vesting' ||
-      transferType === 'transfer_to_savings' ||
-      transferType === 'withdraw_vesting' ||
-      transferType === 'withdraw_hive' ||
-      transferType === 'withdraw_hbd' ||
-      transferType === TransferTypes.UNSTAKE_ENGINE ||
-      transferType === TransferTypes.STAKE_ENGINE ||
-      transferType === TransferTypes.POWER_UP_SPK ||
-      transferType === TransferTypes.POWER_DOWN_SPK ||
-      transferType === TransferTypes.LOCK_LIQUIDITY_SPK ||
-      transferType === TransferTypes.DELEGATE_SPK ||
-      (transferType === 'convert' && currentAccountName) ||
-      !!referredUsername
-    ),
-  );
+  const [isUsernameValid, setIsUsernameValid] = useState(!!destination); //if destination is preset, set username to valid;
+
   const [hsTransfer, setHsTransfer] = useState(false);
   const [isTransfering, setIsTransfering] = useState(false);
 
   const isRecurrentTransfer = transferType === TransferTypes.RECURRENT_TRANSFER;
 
-  const isEngineToken = useMemo(() => transferType.endsWith('_engine'), [transferType]);
-  const isSpkToken = useMemo(() => transferType.endsWith('_spk'), [transferType]);
+  const isEngineToken = tokenLayer === TokenLayers.ENGINE;
+  const isSpkToken = tokenLayer === TokenLayers.SPK;
 
   const _handleTransferAction = debounce(
     () => {
@@ -186,7 +170,36 @@ const TransferView = ({
     // split to multiple destinations
     const destinations = destination.trim().split(/[\s,]+/); // Split by spaces or commas
 
-    if (transferType === TransferTypes.RECURRENT_TRANSFER) {
+    //handle engine transactions
+    if (isEngineToken) {
+      const json = getEngineActionJSON(
+        transferType as EngineActions,
+        destination,
+        `${amount} ${fundType}`,
+        fundType,
+        memo,
+      );
+      path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
+        selectedAccount,
+        'name',
+      )}%22%5D&required_posting_auths=%5B%5D&id=ssc-mainnet-hive&json=${encodeURIComponent(
+        JSON.stringify(json),
+      )}`;
+    }
+
+    // handle spk transactions
+    else if (isSpkToken) {
+      //TODO: update this section as required 
+      // compose spk json
+      const json = getSpkActionJSON(Number(amount), destination, memo);
+      path = `sign/custom-json?authority=active&required_auths=%5B%22${selectedAccount.name
+        }%22%5D&required_posting_auths=%5B%5D&id=${getSpkTransactionId(
+          transferType,
+        )}&json=${encodeURIComponent(JSON.stringify(json))}`;
+    }
+
+
+    else if (transferType === TransferTypes.RECURRENT_TRANSFER) {
       path = `sign/recurrent_transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}&recurrence=${recurrence}&executions=${executions}`;
@@ -203,8 +216,7 @@ const TransferView = ({
         `${amount} ${fundType}`,
       )}`;
     } else if (
-      transferType === TransferTypes.WITHDRAW_HIVE ||
-      transferType === TransferTypes.WITHDRAW_HBD
+      transferType === TransferTypes.TRANSFER_FROM_SAVINGS
     ) {
       path = `sign/transfer_from_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
@@ -213,11 +225,11 @@ const TransferView = ({
       path = `sign/convert?owner=${currentAccountName}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&requestid=${new Date().getTime() >>> 0}`;
-    } else if (transferType === TransferTypes.WITHDRAW_VESTING_ENGINE) {
+    } else if (transferType === TransferTypes.WITHDRAW_VESTING) {
       path = `sign/withdraw_vesting?account=${currentAccountName}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
-    } else if (transferType === TransferTypes.POINTS) {
+    } else if (transferType === TransferTypes.ECENCY_POINT_TRANSFER) {
       path = hiveuri
         .encodeOps(
           destinations.map((receiver) => [
@@ -238,28 +250,7 @@ const TransferView = ({
         .replace('hive://', '');
 
       path += '?authority=active'; // IMPORTANT: sets appropriate key to use with transaction signing
-    } else if (isEngineToken) {
-      const json = getEngineActionJSON(
-        transferType.split('_')[0],
-        destination,
-        `${amount} ${fundType}`,
-        fundType,
-        memo,
-      );
-      path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
-        selectedAccount,
-        'name',
-      )}%22%5D&required_posting_auths=%5B%5D&id=ssc-mainnet-hive&json=${encodeURIComponent(
-        JSON.stringify(json),
-      )}`;
-    } else if (isSpkToken) {
-      // compose spk json
-      const json = getSpkActionJSON(Number(amount), destination, memo);
-      path = `sign/custom-json?authority=active&required_auths=%5B%22${
-        selectedAccount.name
-      }%22%5D&required_posting_auths=%5B%5D&id=${getSpkTransactionId(
-        transferType,
-      )}&json=${encodeURIComponent(JSON.stringify(json))}`;
+
     } else {
       path = hiveuri
         .encodeOps(
@@ -348,7 +339,7 @@ const TransferView = ({
   return (
     <SafeAreaView style={styles.container}>
       <BasicHeader
-        title={intl.formatMessage({ id: `transfer.${transferType}` })}
+        title={intl.formatMessage({ id: `wallet.${transferType}` })}
         backIconName="close"
       />
 

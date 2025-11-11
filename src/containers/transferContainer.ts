@@ -44,6 +44,8 @@ import {
   fetchSpkMarkets,
 } from '../providers/hive-spk/hiveSpk';
 import { SpkLockMode, SpkPowerMode } from '../providers/hive-spk/hiveSpk.types';
+import TokenLayers from '../constants/tokenLayers';
+import { Alert } from 'react-native';
 
 /*
  *            Props Name        Description                                     Value
@@ -101,6 +103,8 @@ class TransferContainer extends Component {
   fetchBalance = (username) => {
     const { fundType, transferType, tokenAddress } = this.state;
 
+
+    //TODO: fetch balance from query data.
     getAccount(username).then(async (account) => {
       let balance;
 
@@ -147,7 +151,7 @@ class TransferContainer extends Component {
         if (transferType === TransferTypes.ECENCY_POINT_TRANSFER && fundType === 'ESTM') {
           this._getUserPointsBalance(username);
         }
-        if (transferType === 'transfer_to_savings' && fundType === 'HIVE') {
+        if (transferType === TransferTypes.TRANSFER_TO_SAVINGS  && fundType === 'HIVE') {
           balance = account.balance.replace(fundType, '');
         }
         if (transferType === 'transfer_to_savings' && fundType === 'HBD') {
@@ -199,6 +203,8 @@ class TransferContainer extends Component {
   _delayedRefreshCoinsData = () => {
     const { dispatch } = this.props;
     setTimeout(() => {
+      //TODO: invalidate portfolio query data here
+      
     }, 3000);
   };
 
@@ -216,6 +222,8 @@ class TransferContainer extends Component {
 
     const transferType = route.params?.transferType ?? '';
     const fundType = route.params?.fundType ?? '';
+    const tokenLayer = route.params?.assetLayer ?? '';
+
     let func;
 
     const data = {
@@ -236,84 +244,100 @@ class TransferContainer extends Component {
     }
 
     data.amount = `${data.amount} ${fundType}`;
-    switch (transferType) {
-      case TransferTypes.TRANSFER:
-        func = transferToken;
-        break;
-      case TransferTypes.RECURRENT_TRANSFER:
-        func = recurrentTransferToken;
-        break;
-      case 'purchase_estm':
-        func = transferToken;
-        break;
-      case 'convert':
-        func = convert;
-        data.requestId = new Date().getTime() >>> 0;
-        break;
-      case 'transfer_to_savings':
-        func = transferToSavings;
-        break;
-      case 'transfer_to_vesting':
-        func = transferToVesting;
-        break;
-      case 'withdraw_hive':
-        func = transferFromSavings;
-        data.requestId = new Date().getTime() >>> 0;
-        break;
-      case 'withdraw_hbd':
-        func = transferFromSavings;
-        data.requestId = new Date().getTime() >>> 0;
-        break;
-      case TransferTypes.ECENCY_POINT_TRANSFER:
+
+    if(tokenLayer === TokenLayers.POINTS) {
         func = transferPoint;
-        break;
-      case 'power_down':
-        data.amount = `${amount.toFixed(6)} VESTS`;
-        func = withdrawVesting;
-        currentAccount = selectedAccount;
-        break;
-      case TransferTypes.DELEGATE_VESTING_SHARES:
-        func = delegateVestingShares;
-        currentAccount = selectedAccount;
-        data.amount = `${amount.toFixed(6)} VESTS`;
-        break;
-      case 'transfer_engine':
-        func = transferHiveEngine;
-        break;
-      case 'stake_engine':
-        func = stakeHiveEngine;
-        break;
-      case 'delegate_engine':
-        func = delegateHiveEngine;
-        break;
-      case 'unstake_engine':
-        func = unstakeHiveEngine;
-        break;
-      case 'undelegate_engine':
-        func = undelegateHiveEngine;
-        break;
-      case TransferTypes.TRANSFER_SPK:
-        func = transferSpk;
-        break;
-      case TransferTypes.TRANSFER_LARYNX:
-        func = transferLarynx;
-      case TransferTypes.POWER_UP_SPK:
-        func = powerLarynx;
-        data.mode = SpkPowerMode.UP;
-        break;
-      case TransferTypes.POWER_DOWN_SPK:
-        func = powerLarynx;
-        data.mode = SpkPowerMode.DOWN;
-        break;
-      case TransferTypes.LOCK_LIQUIDITY_SPK:
-        func = lockLarynx;
-        data.mode = SpkLockMode.LOCK;
-        break;
-      case TransferTypes.DELEGATE_SPK:
-        func = delegateLarynx;
-        break;
-      default:
-        break;
+    }
+
+    if(tokenLayer === TokenLayers.ENGINE) {
+      switch(transferType) {
+        case TransferTypes.TRANSFER:
+          func = transferHiveEngine;
+          break;
+        case TransferTypes.STAKE:
+          func = stakeHiveEngine;
+          break;
+        case TransferTypes.DELEGATE:
+          func = delegateHiveEngine;
+          break;
+        case TransferTypes.UNSTAKE:
+          func = unstakeHiveEngine;
+          break;
+        case TransferTypes.UNDELEGATE:
+          func = undelegateHiveEngine;
+          break;
+      }
+    }
+
+
+    //TODO: handle/verify LOCK LIQUIDITY SPK and DELEGATE SPK
+    if(tokenLayer === TokenLayers.SPK) {
+      Alert.alert("handle spk actions")
+      switch(transferType) {
+        case TransferTypes.TRANSFER_SPK:
+          func = transferSpk;
+          break;
+        case TransferTypes.TRANSFER_LARYNX:
+          func = transferLarynx;
+        case TransferTypes.POWER_UP_SPK:
+          func = powerLarynx;
+          data.mode = SpkPowerMode.UP;
+          break;
+        case TransferTypes.POWER_DOWN_SPK:
+          func = powerLarynx;
+          data.mode = SpkPowerMode.DOWN;
+          break;
+        case TransferTypes.LOCK_LIQUIDITY_SPK:
+          func = lockLarynx;
+          data.mode = SpkLockMode.LOCK;
+          break;
+        case TransferTypes.DELEGATE:
+          func = delegateLarynx;
+          break;
+      }
+      
+       
+    }
+
+    if(tokenLayer === TokenLayers.HIVE) {
+      switch (transferType) {
+
+        case TransferTypes.TRANSFER:
+          func = transferToken;
+          break;
+        case TransferTypes.RECURRENT_TRANSFER:
+          func = recurrentTransferToken;
+          break;
+  
+        case TransferTypes.CONVERT:
+          func = convert;
+          data.requestId = new Date().getTime() >>> 0;
+          break;
+        case TransferTypes.TRANSFER_TO_SAVINGS:
+          func = transferToSavings;
+          break;
+        case TransferTypes.TRANSFER_TO_VESTING:
+          func = transferToVesting;
+          break;
+        case TransferTypes.TRANSFER_FROM_SAVINGS:
+          func = transferFromSavings;
+          data.requestId = new Date().getTime() >>> 0;
+          break;
+        case TransferTypes.WITHDRAW_VESTING:
+          data.amount = `${amount.toFixed(6)} VESTS`;
+          func = withdrawVesting;
+          currentAccount = selectedAccount;
+          break;
+        case TransferTypes.DELEGATE_VESTING_SHARES:
+          func = delegateVestingShares;
+          currentAccount = selectedAccount;
+          data.amount = `${amount.toFixed(6)} VESTS`;
+          break;
+  
+  
+    }
+
+
     }
     if (!currentAccount.local) {
       const realmData = await getUserDataWithUsername(currentAccount.name);
@@ -377,6 +401,7 @@ class TransferContainer extends Component {
     } = this.state;
 
     const transferType = route.params?.transferType ?? '';
+    const tokenLayer = route.params?.assetLayer ?? '';
 
     return (
       children &&
@@ -403,6 +428,7 @@ class TransferContainer extends Component {
         initialMemo,
         fetchRecurrentTransfers: this._fetchRecurrentTransfers,
         recurrentTransfers,
+        tokenLayer
       })
     );
   }
