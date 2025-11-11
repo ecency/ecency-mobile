@@ -42,9 +42,7 @@ const AddressView = ({
         handleOnPressBackButton={handleOnModalClose}
         handleOnPressClose={handleOnModalClose}
       />
-      <View
-        style={{ flex: 1, backgroundColor: 'blue', justifyContent: 'center', alignItems: 'center' }}
-      >
+      <View style={styles.container}>
         {showReceiveContent ? (
           <View style={styles.contentContainer}>
             <View style={styles.qrWrapper}>

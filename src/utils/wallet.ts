@@ -1039,7 +1039,6 @@ export const fetchAssetsPortfolio = async ({
     vsCurrency,
   );
 
-
   assetsData = { ...assetsData, ...engineCoinsData, ...spkWalletData };
 
   return assetsData;
