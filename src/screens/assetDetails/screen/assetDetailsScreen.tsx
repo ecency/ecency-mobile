@@ -16,6 +16,7 @@ import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
 import parseAsset from '../../../utils/parseAsset';
 import { PortfolioItem } from 'providers/ecency/ecency.types';
+import TokenLayers from '../../../constants/tokenLayers';
 
 export interface AssetDetailsScreenParams {
   asset: PortfolioItem;
@@ -43,6 +44,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const [showChart, setShowChart] = useState(false);
   const [asset, setAsset] = useState<PortfolioItem>(route.params?.asset);
   const assetSymbol = asset.symbol;
+  const assetLayer = asset.layer;
 
   // queries
   const assetsQuery = walletQueries.useAssetsQuery();
@@ -124,51 +126,71 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   };
 
   const _onActionPress = (transferType: string, baseActivity: CoinActivity | null = null) => {
-    let navigateTo = ROUTES.SCREENS.TRANSFER;
+    let navigateTo: string = ROUTES.SCREENS.TRANSFER;
     let navigateParams = {};
+    let { balance } = asset;
+    let fundType = assetSymbol;
 
-    if (assetSymbol === ASSET_IDS.ECENCY && !transferType.includes('transfer')) {
-      navigateTo = ROUTES.SCREENS.REDEEM;
-      navigateParams = {
-        balance: asset.balance,
-        redeemType: transferType === 'dropdown_promote' ? 'promote' : 'boost_plus',
-      };
-    } else {
-      let { balance } = asset;
 
+    if (assetLayer === TokenLayers.POINTS) {
       switch (transferType) {
-        case TransferTypes.UNSTAKE_ENGINE:
-        case TransferTypes.DELEGATE_ENGINE:
-          balance =
-            asset.extraData?.reduce(
-              (bal, data) => (data.dataKey === 'staked' ? Number(data.value) : bal),
-              0,
-            ) ?? 0;
+        case TransferTypes.ECENCY_POINT_TRANSFER:
+          fundType = 'ESTM';
           break;
-        case TransferTypes.UNDELEGATE_ENGINE:
+        case TransferTypes.PROMOTE:
+          navigateTo = ROUTES.SCREENS.REDEEM;
+          navigateParams = {
+            balance: asset.balance,
+            redeemType: 'promote'
+          };
+          break;
+        case TransferTypes.BOOST:
+          navigateTo = ROUTES.SCREENS.REDEEM;
+          navigateParams = {
+            balance: asset.balance,
+            redeemType: 'boost_plus'
+          };
+          break;
+      }
+    }
+
+
+    if (assetLayer === TokenLayers.HIVE) {
+      switch (transferType) {
+        case TransferTypes.SWAP_TOKEN:
+          navigateTo = ROUTES.SCREENS.TRADE;
+          break;
+        case TransferTypes.TRANSFER_FROM_SAVINGS:
+          balance = asset.savings ?? 0;
+          break;
+      }
+    }
+
+
+    if (assetLayer === TokenLayers.ENGINE) {
+      switch (transferType) {
+        case TransferTypes.UNSTAKE:
+        case TransferTypes.DELEGATE:
+          balance = asset.staked ?? 0;
+          break;
+        case TransferTypes.UNDELEGATE:
           balance =
             asset.extraData?.reduce(
               (bal, data) => (data.dataKey === 'delegations_out' ? Number(data.value) : bal),
               0,
             ) ?? 0;
           break;
-        case TransferTypes.WITHDRAW_HIVE:
-        case TransferTypes.WITHDRAW_HBD:
-          balance = asset.savings ?? 0;
-          break;
-
-        case TransferTypes.SWAP_TOKEN:
-          navigateTo = ROUTES.SCREENS.TRADE;
-          break;
       }
 
-      //TODO: handle 
-      navigateParams = {
-        transferType: assetSymbol === 'POINTS' ? 'points' : transferType,
-        fundType: assetSymbol === 'POINTS' ? 'ESTM' : assetSymbol,
-        balance,
-      };
     }
+
+    navigateParams = {
+      transferType,
+      fundType,
+      assetLayer,
+      balance,
+    };
+
 
     if (baseActivity) {
       navigateParams = {
