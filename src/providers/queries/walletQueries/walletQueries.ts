@@ -52,15 +52,15 @@ export const useAssetsQuery = () => {
           return [];
         }
 
-
         return response;
 
       } catch (err) {
         console.warn('failed to get query response', err);
         return []
       }
-
+     
     },
+    staleTime: 60 * 1000, // 1 minute in milliseconds
   });
 
   const selectedData = useMemo(() => {

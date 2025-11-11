@@ -63,7 +63,7 @@ const WalletScreen = ({ navigation }) => {
   useEffect(() => {
     const appStateSub = AppState.addEventListener('change', _handleAppStateChange);
 
-    _fetchPriceHistory();
+    // _fetchPriceHistory();
 
     return () => {
       if (appStateSub) {
@@ -93,9 +93,9 @@ const WalletScreen = ({ navigation }) => {
     }
   }, [currentAccount])
 
-  useEffect(() => {
-    _fetchPriceHistory();
-  }, [selectedAssets]);
+  // useEffect(() => {
+  //   _fetchPriceHistory();
+  // }, [selectedAssets]);
 
   // actions
   const populateSelectedAssets = (tokensArr: ProfileToken[]) => {
@@ -139,33 +139,33 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _refetchData = () => {
-    _fetchPriceHistory();
+    // _fetchPriceHistory();
     _refetchCoinsData();
     // unclaimedRewardsQuery.refetch();
   };
 
-  const _fetchPriceHistory = () => {
-    selectedAssets.forEach(async (token: AssetBase) => {
-      const expiresAt = priceHistories[token.id]?.expiresAt || 0;
-      const curTime = new Date().getTime();
+  // const _fetchPriceHistory = () => {
+  //   selectedAssets.forEach(async (token: AssetBase) => {
+  //     const expiresAt = priceHistories[token.id]?.expiresAt || 0;
+  //     const curTime = new Date().getTime();
 
-      if (!token.notCrypto && curTime > expiresAt) {
-        let priceData: number[] = [];
+  //     if (!token.notCrypto && curTime > expiresAt) {
+  //       let priceData: number[] = [];
 
-        if (token.isEngine) {
-          const marketData = await fetchEngineMarketData(token.id);
-          priceData = marketData.map((data) => data.close);
-        } else if (token.isSpk) {
-          // TODO: add request to fetch chart data if available
-        } else {
-          const marketChart = await fetchMarketChart(token.id, currency.currency, CHART_DAYS_RANGE);
-          priceData = marketChart.prices.map((item) => item.yValue);
-        }
+  //       if (token.isEngine) {
+  //         const marketData = await fetchEngineMarketData(token.id);
+  //         priceData = marketData.map((data) => data.close);
+  //       } else if (token.isSpk) {
+  //         // TODO: add request to fetch chart data if available
+  //       } else {
+  //         const marketChart = await fetchMarketChart(token.id, currency.currency, CHART_DAYS_RANGE);
+  //         priceData = marketChart.prices.map((item) => item.yValue);
+  //       }
 
-        dispatch(setPriceHistory(token.id, currency.currency, priceData));
-      }
-    });
-  };
+  //       dispatch(setPriceHistory(token.id, currency.currency, priceData));
+  //     }
+  //   });
+  // };
 
   const _refetchCoinsData = async () => {
     if (!quotes) {
@@ -195,11 +195,6 @@ const WalletScreen = ({ navigation }) => {
     const _isClaimingThis = claimRewardsMutation.checkIsClaiming(item.symbol);
     const _isClaimingAny = claimRewardsMutation.checkIsClaiming();
 
-    // const _tokenMarketData: number[] =
-    //   priceHistories && priceHistories[item.id] ? priceHistories[item.id].data : [];
-    // const quote = quotes && quotes[item.id];
-
-    // const percentChange = quote ? quote.percentChange : coinData.percentChange;
 
     const _onCardPress = () => {
       navigation.navigate(ROUTES.SCREENS.ASSET_DETAILS, {
@@ -220,17 +215,12 @@ const WalletScreen = ({ navigation }) => {
         symbol={item.symbol}
         name={item.name}
         iconUrl={item.iconUrl}
-        // chartData={_tokenMarketData || []}
         currentValue={item.fiatRate || 0}
-        // changePercent={percentChange || 0}
         currencySymbol={currency.currencySymbol}
         ownedBalance={item.balance}
         unclaimedRewards={unclaimedRewards}
         enableBuy={!item.pendingRewards && item.symbol === 'POINTS'}
         isClaiming={_isClaimingThis}
-        // isLoading={unclaimedRewardsQuery.isFetching && !_isClaimingAny}
-        // volume24h={coinData.volume24h}
-        // precision={item.precision}
         onCardPress={_onCardPress}
         onClaimPress={_onClaimPress}
         footerComponent={
