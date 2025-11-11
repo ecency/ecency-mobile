@@ -1,14 +1,7 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { View } from 'react-native';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
-import { WalletActions, CoinBasics, CoinChart } from '.';
+import { WalletActions, CoinBasics } from '.';
 import { FormattedCurrency } from '../../../components';
-import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { DataPair } from '../../../redux/reducers/walletReducer';
 import { PortfolioItem } from 'providers/ecency/ecency.types';
 
@@ -35,7 +28,6 @@ export const CoinSummary = ({
 }: CoinSummaryProps) => {
   const { balance, fiatRate, savings, extraData, actions } = asset;
   const isEngine = asset.layer === 'engine';
-  const isSpk = asset.layer === 'spk';
 
   const valuePairs = [
     {
@@ -72,34 +64,12 @@ export const CoinSummary = ({
     return pairs;
   }, [extraData, totalRecurrentAmount, coinSymbol]);
 
-  // const _shRrenderChart = id !== ASSET_IDS.ECENCY && id !== ASSET_IDS.HP && !isSpk;
-  const animationProgress = useSharedValue(showChart ? 1 : 0);
 
-  useEffect(() => {
-    animationProgress.value = withTiming(showChart ? 1 : 0, {
-      duration: 300,
-      easing: Easing.inOut(Easing.ease),
-    });
-  }, [showChart]);
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      opacity: animationProgress.value,
-      transform: [{ translateY: (1 - animationProgress.value) * -50 }],
-      height: animationProgress.value * 270, // Adjust this value based on your chart's height
-    };
-  });
-
-  // const _renderCoinChart = () => (
-  //   <Animated.View style={animatedStyle}>
-  //     {showChart && <CoinChart coinId={id} isEngine={isEngine} />}
-  //   </Animated.View>
-  // );
 
   return (
     <View>
       <CoinBasics
-        // assetId={id}
         iconUrl={asset.iconUrl}
         valuePairs={valuePairs}
         extraData={_extraDataPairs}
@@ -109,10 +79,9 @@ export const CoinSummary = ({
         onInfoPress={onInfoPress}
         showChart={showChart}
         setShowChart={setShowChart}
-        // isRenderChart={_shRrenderChart}
       />
       <WalletActions actions={actions} onActionPress={onActionPress} />
-      {/* {_shRrenderChart && _renderCoinChart()} */}
+      
     </View>
   );
 };

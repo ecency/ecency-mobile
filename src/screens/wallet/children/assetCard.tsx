@@ -51,7 +51,6 @@ export const AssetCard = ({
   precision,
   onCardPress,
   onClaimPress,
-  onBoostAccountPress,
 }: AssetCardProps) => {
   const intl = useIntl();
 
@@ -127,22 +126,11 @@ export const AssetCard = ({
     }
   };
 
-  const _renderBoostAccount = () => {
-    if (symbol === ASSET_IDS.HP && ownedBalance < 50) {
-      return (
-        <ClaimButton
-          title={intl.formatMessage({ id: 'wallet.get_boost' })}
-          onPress={onBoostAccountPress}
-        />
-      );
-    }
-  };
 
   return (
     <TouchableOpacity onPress={onCardPress}>
       <View style={styles.cardContainer}>
         {_renderHeader}
-        {_renderBoostAccount()}
         {_renderClaimSection()}
         {footerComponent && footerComponent}
       </View>
