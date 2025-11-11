@@ -23,18 +23,18 @@ export default EStyleSheet.create({
   textValueContainer: {
     borderWidth: 1,
     borderRightWidth: 0,
-    borderColor: '$borderColor',
+    borderColor: '$primaryLightBackground',
     paddingHorizontal: 10,
     marginVertical: 8,
     height: 40,
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '$primaryLightBackground',
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
     justifyContent: 'center',
   } as ViewStyle,
   textValue: {
-    color: 'black',
+    color: '$primaryBlack',
   } as TextStyle,
   copyIconStyle: {
     borderRadius: 0,
