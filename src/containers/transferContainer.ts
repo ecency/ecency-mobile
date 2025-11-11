@@ -45,8 +45,6 @@ import {
 } from '../providers/hive-spk/hiveSpk';
 import { SpkLockMode, SpkPowerMode } from '../providers/hive-spk/hiveSpk.types';
 import TokenLayers from '../constants/tokenLayers';
-import { Alert } from 'react-native';
-
 /*
  *            Props Name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here
@@ -272,7 +270,6 @@ class TransferContainer extends Component {
 
     //TODO: handle/verify LOCK LIQUIDITY SPK and DELEGATE SPK
     if(tokenLayer === TokenLayers.SPK) {
-      Alert.alert("handle spk actions")
       switch(transferType) {
         case TransferTypes.TRANSFER_SPK:
           func = transferSpk;
@@ -287,11 +284,7 @@ class TransferContainer extends Component {
           func = powerLarynx;
           data.mode = SpkPowerMode.DOWN;
           break;
-        case TransferTypes.LOCK_LIQUIDITY_SPK:
-          func = lockLarynx;
-          data.mode = SpkLockMode.LOCK;
-          break;
-        case TransferTypes.DELEGATE:
+        case TransferTypes.POWER_GRANT_SPK:
           func = delegateLarynx;
           break;
       }

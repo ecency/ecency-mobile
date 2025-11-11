@@ -25,7 +25,6 @@ import TransferTypes from '../../../constants/transferTypes';
 import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineActions';
 import {
   getSpkActionJSON,
-  getSpkTransactionId,
   SPK_NODE_ECENCY,
 } from '../../../providers/hive-spk/hiveSpk';
 import parseToken from '../../../utils/parseToken';
@@ -91,11 +90,9 @@ const TransferView = ({
       transferType === TransferTypes.STAKE ||
       transferType === TransferTypes.POWER_UP_SPK ||
       transferType === TransferTypes.POWER_DOWN_SPK
-      // ||
-      // transferType === TransferTypes.LOCK_LIQUIDITY_SPK //TODO: assess replacement for LOCK LIQUIDITY
       ? currentAccountName
-      // : transferType === TransferTypes.DELEGATE_SPK
-      // ? SPK_NODE_ECENCY
+      : transferType === TransferTypes.POWER_GRANT_SPK
+      ? SPK_NODE_ECENCY
       : referredUsername || '',
   );
 
@@ -193,9 +190,7 @@ const TransferView = ({
       // compose spk json
       const json = getSpkActionJSON(Number(amount), destination, memo);
       path = `sign/custom-json?authority=active&required_auths=%5B%22${selectedAccount.name
-        }%22%5D&required_posting_auths=%5B%5D&id=${getSpkTransactionId(
-          transferType,
-        )}&json=${encodeURIComponent(JSON.stringify(json))}`;
+        }%22%5D&required_posting_auths=%5B%5D&id=${transferType}&json=${encodeURIComponent(JSON.stringify(json))}`;
     }
 
 

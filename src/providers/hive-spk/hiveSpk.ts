@@ -2,7 +2,7 @@ import { PrivateKey } from '@esteemapp/dhive';
 import { Operation } from '@hiveio/dhive';
 import axios from 'axios';
 import parseToken from '../../utils/parseToken';
-import TransferTypes from '../../constants/transferTypes';
+// import TransferTypes from '../../constants/transferTypes';
 import { getActiveKey, getDigitPinCode, sendHiveOperations } from '../hive/dhive';
 // import { PrivateKey, TransactionConfirmation } from "@hiveio/dhive";
 // import { client as hiveClient } from "./hive";
@@ -15,7 +15,7 @@ import {
   SpkLockMode,
   SpkMarkets,
   SpkPowerMode,
-  SpkTransactionIds,
+  // SpkTransactionIds,
 } from './hiveSpk.types';
 
 export const SPK_NODE_ECENCY = 'good-karma.spk';
@@ -122,28 +122,6 @@ export const getSpkActionJSON = (amount: number, to?: string, memo?: string) => 
 };
 
 /**
- * map in-app transfer type with spk transaction id understandable by hive
- * @param transferType one of in-app SPK related TransferTypes
- * @returns transaction id useable in hive broadcast custom-json
- */
-export const getSpkTransactionId = (transferType: string) => {
-  switch (transferType) {
-    case TransferTypes.TRANSFER_SPK:
-      return SpkTransactionIds.SPKCC_SPK_SEND;
-    case TransferTypes.TRANSFER_LARYNX:
-      return SpkTransactionIds.SPKCC_SEND;
-    case TransferTypes.DELEGATE_SPK:
-      return SpkTransactionIds.SPKCC_POWER_GRANT;
-    case TransferTypes.POWER_UP_SPK:
-      return SpkTransactionIds.SPKCC_POWER_UP;
-    case TransferTypes.POWER_DOWN_SPK:
-      return SpkTransactionIds.SPKCC_POWER_DOWN;
-    default:
-      throw new Error(`TransferType "${transferType}" not mapped or not a valid spk action`);
-  }
-};
-
-/**
  * SPK operations
  */
 
@@ -229,78 +207,3 @@ export const lockLarynx = async (
     pinHash,
   );
 };
-
-/**
- * Claim operations
- */
-
-// export const claimLarynxRewards = async (from: string): Promise<TransactionConfirmation> => {
-//   const json = { gov: false };
-
-//   return broadcastPostingJSON(from, "spkcc_shares_claim", json);
-// };
-
-// export const claimAirdropLarynxRewards = async (from: string): Promise<TransactionConfirmation> => {
-//   const json = { claim: true };
-
-//   return broadcastPostingJSON(from, "spkcc_claim", json);
-// };
-
-/** Hive signer operations */
-
-// export const lockLarynxByKey = async (
-
-// export const lockLarynxByHs = async (mode: "lock" | "unlock", from: string, amount: string) => {
-//   const params = {
-//     authority: "active",
-//     required_auths: `["${from}"]`,
-//     required_posting_auths: "[]",
-//     id: mode === "lock" ? "spkcc_gov_up" : "spkcc_gov_down",
-//     json: JSON.stringify({ amount: +amount * 1000 })
-//   };
-//   hotSign("custom-json", params, `@${from}/spk`);
-// };
-
-// export const delegateLarynxByHs = async (from: string, to: string, amount: string) => {
-//   return sendSpkGeneralByHs("spkcc_power_grant", from, to, +amount);
-// };
-
-// export const powerLarynxByHs = (mode: "up" | "down", from: string, amount: string) => {
-//   const params = {
-//     authority: "active",
-//     required_auths: `["${from}"]`,
-//     required_posting_auths: "[]",
-//     id: `spkcc_power_${mode}`,
-//     json: JSON.stringify({ amount: +amount * 1000 })
-//   };
-//   hotSign("custom-json", params, `@${from}/spk`);
-// };
-
-// export const sendSpkByHs = (from: string, to: string, amount: string, memo?: string) => {
-//   return sendSpkGeneralByHs("spkcc_spk_send", from, to, amount, memo || "");
-// };
-
-// export const sendLarynxByHs = (from: string, to: string, amount: string, memo?: string) => {
-//   return sendSpkGeneralByHs("spkcc_send", from, to, amount, memo || "");
-// };
-
-// const sendSpkGeneralByHs = (
-//   id: string,
-//   from: string,
-//   to: string,
-//   amount: string | number,
-//   memo?: string
-// ) => {
-//   const params = {
-//     authority: "active",
-//     required_auths: `["${from}"]`,
-//     required_posting_auths: "[]",
-//     id,
-//     json: JSON.stringify({
-//       to,
-//       amount: +amount * 1000,
-//       ...(typeof memo === "string" ? { memo } : {})
-//     })
-//   };
-//   hotSign("custom-json", params, `@${from}/spk`);
-// };
