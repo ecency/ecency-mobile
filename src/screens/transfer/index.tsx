@@ -34,6 +34,7 @@ const Transfer = ({ navigation, route }) => (
       recurrentTransfers,
       fetchRecurrentTransfers,
       tokenLayer,
+      tokenAddress
     }) => {
       switch (transferType) {
         case TransferTypes.DELEGATE_VESTING_SHARES:
@@ -81,6 +82,7 @@ const Transfer = ({ navigation, route }) => (
               accountType={accountType}
               currentAccountName={currentAccountName}
               selectedAccount={selectedAccount}
+              tokenAddress={tokenAddress}
             />
           );
 

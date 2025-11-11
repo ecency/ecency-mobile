@@ -61,6 +61,8 @@
     "unstake": "Unstake",
     "undelegate": "Undelegate",
     "receive": "Receive",
+    "address_label": "{symbol} Address.",
+    "address_unavailable": "Address information is not available for this asset.",
     "spkcc_spk_send": "Transfer",
     "transfer_larynx_spk": "Transfer",
     "spkcc_send": "Transfer",

@@ -127,6 +127,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     let { balance } = asset;
     let fundType = assetSymbol;
 
+
     if (assetLayer === TokenLayers.POINTS) {
       switch (transferType) {
         case TransferTypes.ECENCY_POINT_TRANSFER:
@@ -182,6 +183,13 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       assetLayer,
       balance,
     };
+
+    if (assetLayer === TokenLayers.CHAIN && transferType === TransferTypes.RECEIVE) {
+      navigateParams = {
+        ...navigateParams,
+        tokenAddress: asset.address,
+      };
+    }
 
     if (baseActivity) {
       navigateParams = {
