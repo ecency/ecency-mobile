@@ -144,7 +144,7 @@ class TransferContainer extends Component {
         ) {
           balance = account.hbd_balance.replace(fundType, '');
         }
-        if (transferType === 'points' && fundType === 'ESTM') {
+        if (transferType === TransferTypes.ECENCY_POINT_TRANSFER && fundType === 'ESTM') {
           this._getUserPointsBalance(username);
         }
         if (transferType === 'transfer_to_savings' && fundType === 'HIVE') {
@@ -237,7 +237,7 @@ class TransferContainer extends Component {
 
     data.amount = `${data.amount} ${fundType}`;
     switch (transferType) {
-      case 'transfer_token':
+      case TransferTypes.TRANSFER:
         func = transferToken;
         break;
       case TransferTypes.RECURRENT_TRANSFER:
@@ -264,7 +264,7 @@ class TransferContainer extends Component {
         func = transferFromSavings;
         data.requestId = new Date().getTime() >>> 0;
         break;
-      case 'points':
+      case TransferTypes.ECENCY_POINT_TRANSFER:
         func = transferPoint;
         break;
       case 'power_down':
@@ -272,7 +272,7 @@ class TransferContainer extends Component {
         func = withdrawVesting;
         currentAccount = selectedAccount;
         break;
-      case 'delegate':
+      case TransferTypes.DELEGATE_VESTING_SHARES:
         func = delegateVestingShares;
         currentAccount = selectedAccount;
         data.amount = `${amount.toFixed(6)} VESTS`;

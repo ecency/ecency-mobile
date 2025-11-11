@@ -93,7 +93,7 @@ class PowerDownView extends Component {
       );
       this.setState({ steemConnectTransfer: true, isTransfering: false });
     } else if (accountType === AUTH_TYPE.HIVE_AUTH) {
-      const opArray = buildTransferOpsArray(TransferTypes.POWER_DOWN, {
+      const opArray = buildTransferOpsArray(TransferTypes.WITHDRAW_VESTING, {
         from,
         to: destinationAccounts,
         amount: amount.toFixed(6),
@@ -478,7 +478,7 @@ class PowerDownView extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <BasicHeader
-          title={intl.formatMessage({ id: `transfer.${transferType}` })}
+          title={intl.formatMessage({ id: `wallet.${transferType}` })}
           backIconName="close"
         />
         <KeyboardAvoidingView
