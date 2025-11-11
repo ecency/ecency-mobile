@@ -34,7 +34,7 @@ const Transfer = ({ navigation, route }) => (
       recurrentTransfers,
       fetchRecurrentTransfers,
       tokenLayer,
-      tokenAddress
+      tokenAddress,
     }) => {
       switch (transferType) {
         case TransferTypes.DELEGATE_VESTING_SHARES:

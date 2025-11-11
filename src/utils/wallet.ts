@@ -1040,8 +1040,6 @@ export const fetchAssetsPortfolio = async ({
   );
 
 
-  //TODO: add chain tokens data when available....
-
   assetsData = { ...assetsData, ...engineCoinsData, ...spkWalletData };
 
   return assetsData;

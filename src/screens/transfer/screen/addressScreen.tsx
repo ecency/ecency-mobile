@@ -1,12 +1,10 @@
 import React from 'react';
-import { Text, View, ScrollView, TouchableOpacity, Share, Alert } from 'react-native';
+import { Text, View } from 'react-native';
 import { injectIntl } from 'react-intl';
 import QRCode from 'react-native-qrcode-svg';
 import { connect } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, TextBoxWithCopy } from '../../../components';
-import { writeToClipboard } from '../../../utils/clipboard';
-import TokenLayers from '../../../constants/tokenLayers';
 
 import styles from './transferStyles';
 
@@ -17,10 +15,7 @@ import styles from './transferStyles';
 interface AddressViewProps {
   intl: any;
   transferType: string;
-  accountType: string;
   tokenAddress?: string;
-  currentAccountName: string;
-  selectedAccount: any;
   handleOnModalClose: () => void;
   fundType: string;
 }
@@ -32,48 +27,26 @@ const AddressView = ({
   handleOnModalClose,
   fundType,
 }: AddressViewProps) => {
-
   const address = tokenAddress || '';
   const assetSymbol = fundType;
 
   const showReceiveContent = Boolean(address);
 
-  const _handleCopy = () => {
-    if (!address) {
-      return;
-    }
-
-    writeToClipboard(address).then(() => {
-      Alert.alert(intl.formatMessage({ id: 'alert.copied', defaultMessage: 'Copied!' }));
-    });
-  };
-
-  const _handleShare = async () => {
-    if (!address) {
-      return;
-    }
-
-    try {
-      await Share.share({ message: address });
-    } catch (error) {
-      // ignore share errors
-    }
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <BasicHeader
-        title={`${intl.formatMessage({ id: `wallet.${transferType}` })}${assetSymbol ? ` · ${assetSymbol}` : ''
-          }`}
+        title={`${intl.formatMessage({ id: `wallet.${transferType}` })}${
+          assetSymbol ? ` · ${assetSymbol}` : ''
+        }`}
         backIconName="close"
         handleOnPressBackButton={handleOnModalClose}
         handleOnPressClose={handleOnModalClose}
       />
-      <View style={styles.container}>
+      <View
+        style={{ flex: 1, backgroundColor: 'blue', justifyContent: 'center', alignItems: 'center' }}
+      >
         {showReceiveContent ? (
-
           <View style={styles.contentContainer}>
-
             <View style={styles.qrWrapper}>
               <QRCode
                 value={address}
@@ -93,8 +66,6 @@ const AddressView = ({
                 value={address}
               />
             </View>
-
-
           </View>
         ) : (
           <View style={styles.middleContent}>

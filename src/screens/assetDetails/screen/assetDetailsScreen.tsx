@@ -127,7 +127,6 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     let { balance } = asset;
     let fundType = assetSymbol;
 
-
     if (assetLayer === TokenLayers.POINTS) {
       switch (transferType) {
         case TransferTypes.ECENCY_POINT_TRANSFER:
