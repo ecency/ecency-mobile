@@ -3,7 +3,7 @@ const TokenLayers = {
   ENGINE: 'engine',
   SPK: 'spk',
   POINTS: 'points',
-  CHAIN: 'chain'
+  CHAIN: 'chain',
 };
 
 export default TokenLayers;

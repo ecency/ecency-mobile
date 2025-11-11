@@ -9,7 +9,6 @@ import {
   Draft,
   Accouncement,
   PollDraft,
-  AssetsPortfolio,
   PortfolioItem,
 } from './ecency.types';
 
@@ -116,33 +115,34 @@ export const convertAnnouncement = (rawData: any) => {
   } as Accouncement;
 };
 
-
 export const convertPortfolio = (rawData: any) => {
   if (!rawData || !Array.isArray(rawData)) {
     return [];
   }
 
-  return rawData.map((item: any) => ({
-    name: item.name || '',
-    symbol: item.symbol || '',
-    layer: item.layer || '',
-    balance: (item.symbol === 'HIVE' ? item.liquid : item.balance) || 0,
-    fiatRate: item.fiatRate || 0,
-    address: item.address,
-    pendingRewards: item.pendingRewards || 0,
-    pendingRewardsFiat: item.pendingRewardsFiat || 0,
-    liquid: item.liquid || 0,
-    liquidFiat: item.liquidFiat || 0,
-    savings: item.savings || 0,
-    savingsFiat: item.savingsFiat || 0,
-    staked: item.staked || 0,
-    stakedFiat: item.stakedFiat || 0,
-    iconUrl: item.iconUrl,
-    actions: item.actions.map((action: any) => action.id) || [],
-    extraData: item.extraData || []
-  } as PortfolioItem));
+  return rawData.map(
+    (item: any) =>
+      ({
+        name: item.name || '',
+        symbol: item.symbol || '',
+        layer: item.layer || '',
+        balance: (item.symbol === 'HIVE' ? item.liquid : item.balance) || 0,
+        fiatRate: item.fiatRate || 0,
+        address: item.address,
+        pendingRewards: item.pendingRewards || 0,
+        pendingRewardsFiat: item.pendingRewardsFiat || 0,
+        liquid: item.liquid || 0,
+        liquidFiat: item.liquidFiat || 0,
+        savings: item.savings || 0,
+        savingsFiat: item.savingsFiat || 0,
+        staked: item.staked || 0,
+        stakedFiat: item.stakedFiat || 0,
+        iconUrl: item.iconUrl,
+        actions: item.actions.map((action: any) => action.id) || [],
+        extraData: item.extraData || [],
+      } as PortfolioItem),
+  );
 };
-
 
 export const convertProposalMeta = (rawData: any) => {
   if (!rawData) {

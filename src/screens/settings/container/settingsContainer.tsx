@@ -14,7 +14,6 @@ import THEME_OPTIONS from '../../../constants/options/theme';
 
 // Realm
 import {
-  getExistUser,
   setCurrency as setCurrency2DB,
   setServer,
   setNotificationSettings,
@@ -360,23 +359,20 @@ class SettingsContainer extends Component {
     const { isLoggedIn, otherAccounts = [] } = this.props;
 
     if (isLoggedIn) {
-      
       otherAccounts.forEach(async (item) => {
-        const token = await getMessaging().getToken()
+        const token = await getMessaging().getToken();
         console.log('FCM Token:', token);
 
         const data = {
           username: item.username,
           token,
           system: `fcm-${Platform.OS}`,
-          allows_notify: enabled ? 1 : 0 ,
+          allows_notify: enabled ? 1 : 0,
           notify_types: notifyTypes,
         };
 
         setPushToken(data);
-
       });
-
     }
   };
 
@@ -385,8 +381,9 @@ class SettingsContainer extends Component {
     let message;
 
     const deviceName = await DeviceInfo.getDeviceName();
-    const platform = `${deviceName} - ${Platform.OS === 'ios' ? 'iOS' : 'Android'} ${Platform.Version
-      }`;
+    const platform = `${deviceName} - ${Platform.OS === 'ios' ? 'iOS' : 'Android'} ${
+      Platform.Version
+    }`;
     const appVersion = `${DeviceInfo.getVersion()} (${DeviceInfo.getBuildNumber()})`;
     const username = currentAccount?.username || 'Unknown User';
 

@@ -1,112 +1,107 @@
 import React, { useMemo } from 'react';
-import { View, Text, Alert } from 'react-native';
+import { View, Text } from 'react-native';
 
-import ROUTES from '../../../constants/routeNames';
-import { IconButton } from '../../../components';
 import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import ROUTES from '../../../constants/routeNames';
+import { IconButton } from '../../../components';
 import { useAppSelector } from '../../../hooks';
 import { PortfolioItem } from '../../../providers/ecency/ecency.types';
 
 import styles from './walletHeader.styles';
 import { WalletActions } from '../../assetDetails/children';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 interface WalletHeaderProps {
-    assets?: PortfolioItem[];
-    currencyCode: string;
-    currencySymbol?: string;
-    onRefresh: () => void;
+  assets?: PortfolioItem[];
+  currencyCode: string;
+  currencySymbol?: string;
+  onRefresh: () => void;
 }
 
 export const WalletHeader = ({
-    assets,
-    currencyCode,
-    currencySymbol,
-    onRefresh,
+  assets,
+  currencyCode,
+  currencySymbol,
+  onRefresh,
 }: WalletHeaderProps) => {
-    const navigation = useNavigation<any>();
-    const intl = useIntl();
-    const currentAccount = useAppSelector((state) => state.account.currentAccount);
-    const RefreshIconButton = IconButton as any;
+  const navigation = useNavigation<any>();
+  const intl = useIntl();
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const RefreshIconButton = IconButton as any;
 
-    const actionHandlers = useMemo(
-        () => ({
-            manage_tokens: () => navigation.navigate(ROUTES.MODALS.ASSETS_SELECT),
-            //   claim_all: () => Alert.alert('TODO: Implement Claim All'),
-            boost: () =>
-                navigation.navigate({
-                    name: ROUTES.SCREENS.ACCOUNT_BOOST,
-                    params: {
-                        username: currentAccount.name,
-                    },
-                }),
+  const actionHandlers = useMemo(
+    () => ({
+      manage_tokens: () => navigation.navigate(ROUTES.MODALS.ASSETS_SELECT),
+      //   claim_all: () => Alert.alert('TODO: Implement Claim All'),
+      boost: () =>
+        navigation.navigate({
+          name: ROUTES.SCREENS.ACCOUNT_BOOST,
+          params: {
+            username: currentAccount.name,
+          },
         }),
-        [navigation, currentAccount.name],
-    );
+    }),
+    [navigation, currentAccount.name],
+  );
 
-    const _actionKeys = useMemo(() => {
-        const hpBalance = assets?.find((asset) => asset.symbol?.toUpperCase?.() === 'HP')?.balance ?? 0;
+  const _actionKeys = useMemo(() => {
+    const hpBalance = assets?.find((asset) => asset.symbol?.toUpperCase?.() === 'HP')?.balance ?? 0;
 
-        const keys = [
-            'manage_tokens',
-            // 'claim_all' TODO: Implement Claim All
-        ];
-        if (hpBalance < 50) {
-            keys.push('boost');
-        }
-        return keys;
-    }, [assets]);
+    const keys = [
+      'manage_tokens',
+      // 'claim_all' TODO: Implement Claim All
+    ];
+    if (hpBalance < 50) {
+      keys.push('boost');
+    }
+    return keys;
+  }, [assets]);
 
-    const _handleActionPress = (action: string) => {
-        const handler = actionHandlers[action as keyof typeof actionHandlers];
+  const _handleActionPress = (action: string) => {
+    const handler = actionHandlers[action as keyof typeof actionHandlers];
 
-        if (handler) {
-            handler();
-        }
-    };
+    if (handler) {
+      handler();
+    }
+  };
 
-    
+  const totalBalanceLabel = useMemo(() => {
+    if (!assets || assets.length === 0) {
+      return currencySymbol ? `~${currencySymbol}0` : `~0 ${currencyCode}`.trim();
+    }
 
-    const totalBalanceLabel = useMemo(() => {
-        if (!assets || assets.length === 0) {
-            return currencySymbol ? `~${currencySymbol}0` : `~0 ${currencyCode}`.trim();
-        }
+    const total = assets.reduce((sum, asset) => {
+      const assetTotal = asset.balance * asset.fiatRate;
+      return sum + assetTotal;
+    }, 0);
 
-        const total = assets.reduce((sum, asset) => {
-            const assetTotal = asset.balance * asset.fiatRate;
-            return sum + assetTotal;
-        }, 0);
+    const formattedTotal = total >= 1 ? total.toFixed(2) : total.toFixed(5);
 
-        const formattedTotal = total >= 1 ? total.toFixed(2) : total.toFixed(5);
+    if (currencySymbol) {
+      return `~${currencySymbol}${formattedTotal}`;
+    }
 
-        if (currencySymbol) {
-            return `~${currencySymbol}${formattedTotal}`;
-        }
+    return `~${formattedTotal} ${currencyCode}`.trim();
+  }, [assets, currencyCode]);
 
-        return `~${formattedTotal} ${currencyCode}`.trim();
-    }, [assets, currencyCode]);
+  return (
+    <View style={styles.container}>
+      <Text style={styles.totalLabel}>
+        {intl.formatMessage({ id: 'wallet.total_balance', defaultMessage: 'Total balance' })}
+      </Text>
 
-
-
-    return (
-        <View style={styles.container}>
-            <Text style={styles.totalLabel}>
-                {intl.formatMessage({ id: 'wallet.total_balance', defaultMessage: 'Total balance' })}
-            </Text>
-
-            <View style={styles.balanceRow}>
-                <Text style={styles.totalValue}>{totalBalanceLabel}</Text>
-                <RefreshIconButton
-                    name="refresh"
-                    iconType="MaterialCommunityIcons"
-                    size={20}
-                    color={EStyleSheet.value('$primaryBlack')}
-                    onPress={onRefresh}
-                />
-            </View>
-            <WalletActions actions={_actionKeys} onActionPress={_handleActionPress} />
-        </View>
-    );
+      <View style={styles.balanceRow}>
+        <Text style={styles.totalValue}>{totalBalanceLabel}</Text>
+        <RefreshIconButton
+          name="refresh"
+          iconType="MaterialCommunityIcons"
+          size={20}
+          color={EStyleSheet.value('$primaryBlack')}
+          onPress={onRefresh}
+        />
+      </View>
+      <WalletActions actions={_actionKeys} onActionPress={_handleActionPress} />
+    </View>
+  );
 };
-

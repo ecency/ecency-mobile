@@ -1023,7 +1023,11 @@ export const getPortfolio = async (username: string, currency?: string, onlyEnab
       throw new Error('Username must be passed for fethcing portfolio');
     }
 
-    const res = await ecencyApi.post('/wallet-api/portfolio-v2', { username, currency, onlyEnabled });
+    const res = await ecencyApi.post('/wallet-api/portfolio-v2', {
+      username,
+      currency,
+      onlyEnabled,
+    });
     console.log('portflio fetched', res.data);
 
     if (!res.data || !isArray(res.data.wallets)) {

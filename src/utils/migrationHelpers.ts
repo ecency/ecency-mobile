@@ -3,6 +3,7 @@ import Config from 'react-native-config';
 
 // Constants
 import { SheetManager } from 'react-native-actions-sheet';
+import { isArray } from 'lodash';
 import THEME_OPTIONS from '../constants/options/theme';
 import { getUnreadNotificationCount } from '../providers/ecency/ecency';
 import { getPointsSummary } from '../providers/ecency/ePoint';
@@ -45,7 +46,6 @@ import RootNavigation from '../navigation/rootNavigation';
 import ROUTES from '../constants/routeNames';
 import { DEFAULT_FEED_FILTERS } from '../constants/options/filters';
 import { SheetNames } from '../navigation/sheets';
-import { isArray } from 'lodash';
 import { ProfileToken, TokenType } from '../screens/assetsSelect/screen/assetsSelect';
 import DEFAULT_ASSETS from '../constants/defaultAssets';
 
@@ -252,18 +252,16 @@ export const repairOtherAccountsData = (accounts, realmAuthData, dispatch) => {
   });
 };
 
-
 export const migrateSelectedTokens = (tokens: any) => {
-
   if (!isArray(tokens)) {
     // means tokens is using old object formation, covert to array
     const _mapSymbolsToProfileToken = (symbols: string[], type: TokenType) =>
       isArray(symbols)
         ? symbols.map((symbol) => ({
-          symbol,
-          type,
-          meta: { show: true },
-        }))
+            symbol,
+            type,
+            meta: { show: true },
+          }))
         : [];
 
     return [
@@ -272,13 +270,13 @@ export const migrateSelectedTokens = (tokens: any) => {
     ];
   }
 
-  //check for missing meta entries
-  else if (tokens.some((item:ProfileToken) => !item.meta)) {
-    //unify tokens to have meta and discard duplicate entries 
+  // check for missing meta entries
+  else if (tokens.some((item: ProfileToken) => !item.meta)) {
+    // unify tokens to have meta and discard duplicate entries
 
     const map = new Map();
 
-    for (const token of tokens) {
+    tokens.forEach((token: ProfileToken) => {
       const key = `${token.symbol}-${token.type}`;
       const existing = map.get(key);
 
@@ -286,11 +284,10 @@ export const migrateSelectedTokens = (tokens: any) => {
       if (!existing || (!existing.meta && token.meta)) {
         map.set(key, token);
       }
-      // If both have meta, keep the existing one (first occurrence)
-    }
+    });
 
     // Add meta:{show:true} to entries missing meta
-    const _tokens = Array.from(map.values()).map(token => {
+    const _tokens = Array.from(map.values()).map((token) => {
       if (!token.meta) {
         return { ...token, meta: { show: true } };
       }
@@ -301,7 +298,7 @@ export const migrateSelectedTokens = (tokens: any) => {
   }
 
   return null;
-}
+};
 
 const reduxMigrations = {
   0: (state) => {
@@ -381,14 +378,15 @@ const reduxMigrations = {
   },
   13: (state) => {
     state.wallet.selectedAssets = state.wallet.selectedCoins || DEFAULT_ASSETS;
-    if(state.wallet.selectedAssets[0].symbol = 'POINTS'){
+    if ((state.wallet.selectedAssets[0].symbol = 'POINTS')) {
       state.wallet.selectedAssets[0].symbol = 'POINTS';
-    } //ensuring correct symbol for ecency points
+    } // ensuring correct symbol for ecency points
 
     delete state.wallet.selectedCoins;
-    //TODO: delete coinsData if needed
+    delete state.wallet.coinsData;
+
     return state;
-  }
+  },
 };
 
 export default {

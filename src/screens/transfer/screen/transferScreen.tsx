@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
@@ -23,10 +23,7 @@ import {
 import styles from './transferStyles';
 import TransferTypes from '../../../constants/transferTypes';
 import { getEngineActionJSON } from '../../../providers/hive-engine/hiveEngineActions';
-import {
-  getSpkActionJSON,
-  SPK_NODE_ECENCY,
-} from '../../../providers/hive-spk/hiveSpk';
+import { getSpkActionJSON, SPK_NODE_ECENCY } from '../../../providers/hive-spk/hiveSpk';
 import parseToken from '../../../utils/parseToken';
 import { buildTransferOpsArray } from '../../../utils/transactionOpsBuilder';
 import { SheetNames } from '../../../navigation/sheets';
@@ -54,7 +51,6 @@ interface TransferViewProps {
   recurrentTransfers?: any;
   tokenLayer?: string;
 }
-
 
 const TransferView = ({
   currentAccountName,
@@ -104,7 +100,7 @@ const TransferView = ({
   const [executions, setExecutions] = useState('');
   const [startDate, setStartDate] = useState('');
 
-  const [isUsernameValid, setIsUsernameValid] = useState(!!destination); //if destination is preset, set username to valid;
+  const [isUsernameValid, setIsUsernameValid] = useState(!!destination); // if destination is preset, set username to valid;
 
   const [hsTransfer, setHsTransfer] = useState(false);
   const [isTransfering, setIsTransfering] = useState(false);
@@ -167,7 +163,7 @@ const TransferView = ({
     // split to multiple destinations
     const destinations = destination.trim().split(/[\s,]+/); // Split by spaces or commas
 
-    //handle engine transactions
+    // handle engine transactions
     if (isEngineToken) {
       const json = getEngineActionJSON(
         transferType as EngineActions,
@@ -186,15 +182,15 @@ const TransferView = ({
 
     // handle spk transactions
     else if (isSpkToken) {
-      //TODO: update this section as required 
+      // TODO: update this section as required
       // compose spk json
       const json = getSpkActionJSON(Number(amount), destination, memo);
-      path = `sign/custom-json?authority=active&required_auths=%5B%22${selectedAccount.name
-        }%22%5D&required_posting_auths=%5B%5D&id=${transferType}&json=${encodeURIComponent(JSON.stringify(json))}`;
-    }
-
-
-    else if (transferType === TransferTypes.RECURRENT_TRANSFER) {
+      path = `sign/custom-json?authority=active&required_auths=%5B%22${
+        selectedAccount.name
+      }%22%5D&required_posting_auths=%5B%5D&id=${transferType}&json=${encodeURIComponent(
+        JSON.stringify(json),
+      )}`;
+    } else if (transferType === TransferTypes.RECURRENT_TRANSFER) {
       path = `sign/recurrent_transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}&recurrence=${recurrence}&executions=${executions}`;
@@ -210,9 +206,7 @@ const TransferView = ({
       path = `sign/transfer_to_vesting?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
-    } else if (
-      transferType === TransferTypes.TRANSFER_FROM_SAVINGS
-    ) {
+    } else if (transferType === TransferTypes.TRANSFER_FROM_SAVINGS) {
       path = `sign/transfer_from_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&request_id=${new Date().getTime() >>> 0}`;
@@ -245,7 +239,6 @@ const TransferView = ({
         .replace('hive://', '');
 
       path += '?authority=active'; // IMPORTANT: sets appropriate key to use with transaction signing
-
     } else {
       path = hiveuri
         .encodeOps(

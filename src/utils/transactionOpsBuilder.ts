@@ -45,19 +45,24 @@ export const buildTransferOpsArray = (
   amount = `${amount} ${fundType}`;
 
   // check layer and build appropriate operation
-  if (tokenLayer === TokenLayers.ENGINE ) {
+  if (tokenLayer === TokenLayers.ENGINE) {
     return getEngineActionOpArray(transferType as EngineActions, from, to, amount, fundType, memo);
   } else if (tokenLayer === TokenLayers.SPK) {
-    return buildActiveCustomJsonOpArr(from, transferType, getSpkActionJSON(parseToken(amount), to, memo));
-  } else if (tokenLayer === TokenLayers.POINTS && transferType === TransferTypes.ECENCY_POINT_TRANSFER) {
-
+    return buildActiveCustomJsonOpArr(
+      from,
+      transferType,
+      getSpkActionJSON(parseToken(amount), to, memo),
+    );
+  } else if (
+    tokenLayer === TokenLayers.POINTS &&
+    transferType === TransferTypes.ECENCY_POINT_TRANSFER
+  ) {
     return buildActiveCustomJsonOpArr(from, transferType, {
       sender: from,
       receiver: to,
       amount,
       memo,
     });
-
   }
 
   switch (transferType) {
@@ -153,17 +158,6 @@ export const buildTransferOpsArray = (
           transferType,
           {
             account: from,
-            vesting_shares: amount,
-          },
-        ],
-      ];
-    case TransferTypes.DELEGATE_VESTING_SHARES:
-      return [
-        [
-          transferType,
-          {
-            delegator: from,
-            delegatee: to,
             vesting_shares: amount,
           },
         ],

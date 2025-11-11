@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
+import { PortfolioItem } from 'providers/ecency/ecency.types';
 import { WalletActions, CoinBasics } from '.';
 import { FormattedCurrency } from '../../../components';
 import { DataPair } from '../../../redux/reducers/walletReducer';
-import { PortfolioItem } from 'providers/ecency/ecency.types';
 
 export interface CoinSummaryProps {
   coinSymbol: string;
@@ -32,7 +32,7 @@ export const CoinSummary = ({
   const valuePairs = [
     {
       dataKey: 'amount_desc',
-      value: balance.toFixed( 3),
+      value: balance.toFixed(3),
     },
   ] as DataPair[];
 
@@ -64,9 +64,6 @@ export const CoinSummary = ({
     return pairs;
   }, [extraData, totalRecurrentAmount, coinSymbol]);
 
-
-
-
   return (
     <View>
       <CoinBasics
@@ -81,7 +78,6 @@ export const CoinSummary = ({
         setShowChart={setShowChart}
       />
       <WalletActions actions={actions} onActionPress={onActionPress} />
-      
     </View>
   );
 };

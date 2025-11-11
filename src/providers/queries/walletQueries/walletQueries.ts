@@ -3,12 +3,19 @@ import { useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { unionBy } from 'lodash';
 import { RecurrentTransfer } from 'providers/hive/hive.types';
+import { Alert } from 'react-native';
+import { PortfolioLayer } from 'providers/ecency/ecency.types';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import parseToken from '../../../utils/parseToken';
 import { claimPoints, getPointsSummary } from '../../ecency/ePoint';
 import { fetchUnclaimedRewards } from '../../hive-engine/hiveEngine';
-import { claimRewardBalance, getAccount, getRecurrentTransfers, profileUpdate } from '../../hive/dhive';
+import {
+  claimRewardBalance,
+  getAccount,
+  getRecurrentTransfers,
+  profileUpdate,
+} from '../../hive/dhive';
 import QUERIES from '../queryKeys';
 import { claimRewards } from '../../hive-engine/hiveEngineActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
@@ -17,10 +24,8 @@ import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
 import { fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
 import { recurrentTransferToken } from '../../hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
-import { Alert } from 'react-native';
-import { getPortfolio } from '../../../providers/ecency/ecency';
+import { getPortfolio } from '../../ecency/ecency';
 import { ProfileToken } from '../../../redux/reducers/walletReducer';
-import { PortfolioLayer } from 'providers/ecency/ecency.types';
 
 interface RewardsCollection {
   [key: string]: string;
@@ -32,20 +37,17 @@ interface ClaimRewardsMutationVars {
 
 const ACTIVITIES_FETCH_LIMIT = 50;
 
-
-
 /** hook used to return user drafts */
 export const useAssetsQuery = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const selectedAssets: ProfileToken[] = useAppSelector((state) => state.wallet.selectedAssets);
 
-  //TODO: test assets update with currency and quote change
+  // TODO: test assets update with currency and quote change
 
   const assetsQuery = useQuery({
     queryKey: [QUERIES.WALLET.GET, currentAccount.username],
     queryFn: async () => {
       try {
-
         const response = await getPortfolio(currentAccount.username);
 
         if (!response || response.length === 0) {
@@ -53,12 +55,10 @@ export const useAssetsQuery = () => {
         }
 
         return response;
-
       } catch (err) {
         console.warn('failed to get query response', err);
-        return []
+        return [];
       }
-     
     },
     staleTime: 60 * 1000, // 1 minute in milliseconds
   });
@@ -69,11 +69,8 @@ export const useAssetsQuery = () => {
     }
 
     // filter only selected tokens from portfolio data
-    const dataMap = new Map(assetsQuery.data.map(item => [item.symbol, item]));
-    return selectedAssets
-      .map((token) => dataMap.get(token.symbol))
-      .filter(Boolean);
-
+    const dataMap = new Map(assetsQuery.data.map((item) => [item.symbol, item]));
+    return selectedAssets.map((token) => dataMap.get(token.symbol)).filter(Boolean);
   }, [assetsQuery.data, selectedAssets]);
 
   const selectedableData = useMemo(() => {
@@ -81,19 +78,15 @@ export const useAssetsQuery = () => {
       return [];
     }
 
-    return assetsQuery.data.filter(
-      (asset) => asset.layer !== 'hive' && asset.layer !== 'points',
-    );
+    return assetsQuery.data.filter((asset) => asset.layer !== 'hive' && asset.layer !== 'points');
   }, [assetsQuery.data]);
 
   return {
     ...assetsQuery,
     selectedData,
-    selectedableData
-  }
+    selectedableData,
+  };
 };
-
-
 
 export const useUnclaimedRewardsQuery = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
@@ -232,7 +225,7 @@ export const useClaimRewardsMutation = () => {
           account.reward_vesting_balance,
         );
         break;
-      //TODO: add support for other asset claims, 
+      // TODO: add support for other asset claims,
       default:
         await claimRewards([symbol], currentAccount, pinHash);
         break;
@@ -329,7 +322,7 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
       globalProps,
       startIndex: pageParam,
       limit: ACTIVITIES_FETCH_LIMIT,
-      isEngine: isEngine,
+      isEngine,
     });
 
     // console.log('new page fetched', _activites);
@@ -511,8 +504,6 @@ export const useDeleteRecurrentTransferMutation = () => {
   return mutation;
 };
 
-
-
 export const useUpdateProfileTokensMutation = () => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
@@ -522,7 +513,6 @@ export const useUpdateProfileTokensMutation = () => {
 
   const mutation = useMutation<any, Error, ProfileToken[]>({
     mutationFn: async (tokens) => {
-
       const newProfileMeta = {
         ...currentAccount.about.profile,
         tokens: [...tokens],
@@ -530,19 +520,19 @@ export const useUpdateProfileTokensMutation = () => {
 
       await profileUpdate(newProfileMeta, pinHash, currentAccount);
 
-      return newProfileMeta
+      return newProfileMeta;
     },
 
     onSuccess: (newProfileMeta) => {
-      //update current account in redux
+      // update current account in redux
       const _currentAccount = {
         ...currentAccount,
         about: {
           ...currentAccount.about,
-          profile: newProfileMeta
-        }
-      }
-      dispatch(updateCurrentAccount({ ..._currentAccount }))
+          profile: newProfileMeta,
+        },
+      };
+      dispatch(updateCurrentAccount({ ..._currentAccount }));
     },
 
     onError: (error) => {
@@ -550,7 +540,7 @@ export const useUpdateProfileTokensMutation = () => {
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        (error instanceof Error ? error.message : String(error)),
+        error instanceof Error ? error.message : String(error),
       );
     },
   });

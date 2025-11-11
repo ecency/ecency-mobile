@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { PortfolioItem } from 'providers/ecency/ecency.types';
 import { BasicHeader } from '../../../components';
 import { CoinSummary, ActivitiesList, RecurrentTransfersModal } from '../children';
 import styles from './screen.styles';
@@ -10,12 +11,10 @@ import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import { useAppSelector } from '../../../hooks';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
-import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
 import parseAsset from '../../../utils/parseAsset';
-import { PortfolioItem } from 'providers/ecency/ecency.types';
 import TokenLayers from '../../../constants/tokenLayers';
 
 export interface AssetDetailsScreenParams {
@@ -52,14 +51,12 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const pendingRequestsQuery = walletQueries.usePendingRequestsQuery(assetSymbol);
   const recurringActivitiesQuery = walletQueries.useRecurringActivitesQuery(assetSymbol);
 
-
-  //TODO: verify if quote can be fetched like this or quote fetching can be ignored
+  // TODO: verify if quote can be fetched like this or quote fetching can be ignored
   // const quote: QuoteItem = useAppSelector((state) =>
   //   state.wallet.quotes ? state.wallet.quotes[assetSymbol] : {},
   // );
   const username = useAppSelector((state) => state.wallet.username);
   const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
-
 
   useEffect(() => {
     if (assetsQuery.data != null) {
@@ -111,7 +108,6 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     activitiesQuery.fetchNextPage();
   };
 
-
   const _onInfoPress = (dataKey: string) => {
     if (
       (dataKey === MODES.DELEGATEED || dataKey === MODES.RECEIVED) &&
@@ -131,7 +127,6 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     let { balance } = asset;
     let fundType = assetSymbol;
 
-
     if (assetLayer === TokenLayers.POINTS) {
       switch (transferType) {
         case TransferTypes.ECENCY_POINT_TRANSFER:
@@ -141,19 +136,18 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
           navigateTo = ROUTES.SCREENS.REDEEM;
           navigateParams = {
             balance: asset.balance,
-            redeemType: 'promote'
+            redeemType: 'promote',
           };
           break;
         case TransferTypes.BOOST:
           navigateTo = ROUTES.SCREENS.REDEEM;
           navigateParams = {
             balance: asset.balance,
-            redeemType: 'boost_plus'
+            redeemType: 'boost_plus',
           };
           break;
       }
     }
-
 
     if (assetLayer === TokenLayers.HIVE) {
       switch (transferType) {
@@ -165,7 +159,6 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
           break;
       }
     }
-
 
     if (assetLayer === TokenLayers.ENGINE) {
       switch (transferType) {
@@ -181,7 +174,6 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
             ) ?? 0;
           break;
       }
-
     }
 
     navigateParams = {
@@ -190,7 +182,6 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       assetLayer,
       balance,
     };
-
 
     if (baseActivity) {
       navigateParams = {

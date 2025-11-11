@@ -6,6 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import DraggableFlatList, { ScaleDecorator } from 'react-native-draggable-flatlist';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Edges, SafeAreaView } from 'react-native-safe-area-context';
+import { PortfolioItem } from 'providers/ecency/ecency.types';
 import styles from '../styles/tokensSelectModa.styles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { CheckBox, Icon, MainButton, SearchInput } from '../../../components';
@@ -15,7 +16,6 @@ import { setSelectedAssets } from '../../../redux/actions/walletActions';
 import { AssetIcon } from '../../../components/atoms';
 import { useUpdateProfileTokensMutation } from '../../../providers/queries/walletQueries/walletQueries';
 import { walletQueries } from '../../../providers/queries';
-import { PortfolioItem } from 'providers/ecency/ecency.types';
 
 /**
  *  NOTE: using AssetsSelectModal as part of native-stack with modal presentation is important
@@ -30,7 +30,6 @@ const AssetsSelect = ({ navigation }) => {
   // const coinsData = useAppSelector((state) => state.wallet.coinsData);
 
   const selectedAssets: AssetBase[] = useAppSelector((state) => state.wallet.selectedAssets);
-  const pinCode = useAppSelector((state) => state.application.pin);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
   const selectionRef = useRef<AssetBase[]>([]);
@@ -43,8 +42,9 @@ const AssetsSelect = ({ navigation }) => {
 
   useEffect(() => {
     selectionRef.current = selectedAssets.filter(
-      (item) => (item.isEngine || item.isSpk || item.isChain) &&
-        assetsQuery.selectedableData?.some(asset => asset.symbol === item.symbol)
+      (item) =>
+        (item.isEngine || item.isSpk || item.isChain) &&
+        assetsQuery.selectedableData?.some((asset) => asset.symbol === item.symbol),
     );
     _updateSortedList();
   }, []);
@@ -52,7 +52,6 @@ const AssetsSelect = ({ navigation }) => {
   useEffect(() => {
     const data: PortfolioItem[] = [];
     assetsQuery.selectedableData?.forEach((asset) => {
-
       const _name = asset.name?.toLowerCase() || '';
       const _symbol = asset.symbol.toLowerCase();
       const _query = query.toLowerCase();
@@ -63,7 +62,6 @@ const AssetsSelect = ({ navigation }) => {
       if (query === '' || _isSelected || _symbol.includes(_query) || _name.includes(_query)) {
         data.push(asset);
       }
-
     });
 
     setListData(data);
@@ -95,38 +93,40 @@ const AssetsSelect = ({ navigation }) => {
     setSortedList(_data);
   };
 
-
   const _updateUserProfile = async () => {
+    // extract a list of tokens preserved tokens
+    const fixedAssets = (currentAccount?.about?.profile?.tokens || []).filter(
+      (item: ProfileToken) => item.type === TokenType.HIVE,
+    );
 
-    //extract a list of tokens preserved tokens
-    const fixedAssets = (currentAccount?.about?.profile?.tokens || [])
-      .filter((item: ProfileToken) => item.type === TokenType.HIVE);
+    // get updated chain assets
+    let chainAssets = (currentAccount?.about?.profile?.tokens || []).filter(
+      (item: ProfileToken) => item.type === TokenType.CHAIN,
+    );
 
-    //get updated chain assets
-    let chainAssets = (currentAccount?.about?.profile?.tokens || [])
-      .filter((item: ProfileToken) => item.type === TokenType.CHAIN)
+    // construct profile tokens data from selectionRef
+    const selectedAssets = selectionRef.current
+      .filter((item) => item.isEngine || item.isSpk || item.isChain)
+      .map((item) => {
+        // remove matching chain asset from existing list and set show to true
+        if (item.isChain) {
+          const existingChainAsset = chainAssets.find(
+            (asset: ProfileToken) => asset.symbol === item.symbol,
+          );
+          chainAssets = chainAssets.filter((asset: ProfileToken) => asset.symbol !== item.symbol);
 
+          existingChainAsset.meta.show = true;
+          return existingChainAsset;
+        }
 
-    //construct profile tokens data from selectionRef
-    const selectedAssets = selectionRef.current.filter(item => item.isEngine || item.isSpk || item.isChain).map((item) => {
-
-      //remove matching chain asset from existing list and set show to true
-      if (item.isChain) {
-        const existingChainAsset = chainAssets.find((asset: ProfileToken) => asset.symbol === item.symbol);
-        chainAssets = chainAssets.filter((asset: ProfileToken) => asset.symbol !== item.symbol);
-
-        existingChainAsset.meta.show = true;
-        return existingChainAsset;
-      }
-
-      return {
-        symbol: item.symbol,
-        type: item.isEngine ? TokenType.ENGINE : TokenType.SPK, //we knwo chain tokens have already been filtered.
-        meta: {
-          show: true,
-        },
-      }
-    });
+        return {
+          symbol: item.symbol,
+          type: item.isEngine ? TokenType.ENGINE : TokenType.SPK, // we knwo chain tokens have already been filtered.
+          meta: {
+            show: true,
+          },
+        };
+      });
 
     const tokens = [...fixedAssets, ...selectedAssets, ...chainAssets];
     console.log('updating profile with tokens:', tokens);

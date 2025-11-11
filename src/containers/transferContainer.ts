@@ -5,6 +5,7 @@ import get from 'lodash/get';
 
 // Services and Actions
 import * as Sentry from '@sentry/react-native';
+
 import {
   lookupAccounts,
   transferToken,
@@ -36,14 +37,13 @@ import {
 import { fetchTokenBalances } from '../providers/hive-engine/hiveEngine';
 import TransferTypes from '../constants/transferTypes';
 import {
-  lockLarynx,
   delegateLarynx,
   powerLarynx,
   transferLarynx,
   transferSpk,
   fetchSpkMarkets,
 } from '../providers/hive-spk/hiveSpk';
-import { SpkLockMode, SpkPowerMode } from '../providers/hive-spk/hiveSpk.types';
+import { SpkPowerMode } from '../providers/hive-spk/hiveSpk.types';
 import TokenLayers from '../constants/tokenLayers';
 /*
  *            Props Name        Description                                     Value
@@ -101,8 +101,7 @@ class TransferContainer extends Component {
   fetchBalance = (username) => {
     const { fundType, transferType, tokenAddress } = this.state;
 
-
-    //TODO: fetch balance from query data.
+    // TODO: fetch balance from query data.
     getAccount(username).then(async (account) => {
       let balance;
 
@@ -149,7 +148,7 @@ class TransferContainer extends Component {
         if (transferType === TransferTypes.ECENCY_POINT_TRANSFER && fundType === 'ESTM') {
           this._getUserPointsBalance(username);
         }
-        if (transferType === TransferTypes.TRANSFER_TO_SAVINGS  && fundType === 'HIVE') {
+        if (transferType === TransferTypes.TRANSFER_TO_SAVINGS && fundType === 'HIVE') {
           balance = account.balance.replace(fundType, '');
         }
         if (transferType === 'transfer_to_savings' && fundType === 'HBD') {
@@ -199,10 +198,8 @@ class TransferContainer extends Component {
   };
 
   _delayedRefreshCoinsData = () => {
-    const { dispatch } = this.props;
     setTimeout(() => {
-      //TODO: invalidate portfolio query data here
-      
+      // TODO: invalidate portfolio query data here
     }, 3000);
   };
 
@@ -243,12 +240,12 @@ class TransferContainer extends Component {
 
     data.amount = `${data.amount} ${fundType}`;
 
-    if(tokenLayer === TokenLayers.POINTS) {
-        func = transferPoint;
+    if (tokenLayer === TokenLayers.POINTS) {
+      func = transferPoint;
     }
 
-    if(tokenLayer === TokenLayers.ENGINE) {
-      switch(transferType) {
+    if (tokenLayer === TokenLayers.ENGINE) {
+      switch (transferType) {
         case TransferTypes.TRANSFER:
           func = transferHiveEngine;
           break;
@@ -267,10 +264,9 @@ class TransferContainer extends Component {
       }
     }
 
-
-    //TODO: handle/verify LOCK LIQUIDITY SPK and DELEGATE SPK
-    if(tokenLayer === TokenLayers.SPK) {
-      switch(transferType) {
+    // TODO: handle/verify LOCK LIQUIDITY SPK and DELEGATE SPK
+    if (tokenLayer === TokenLayers.SPK) {
+      switch (transferType) {
         case TransferTypes.TRANSFER_SPK:
           func = transferSpk;
           break;
@@ -288,20 +284,17 @@ class TransferContainer extends Component {
           func = delegateLarynx;
           break;
       }
-      
-       
     }
 
-    if(tokenLayer === TokenLayers.HIVE) {
+    if (tokenLayer === TokenLayers.HIVE) {
       switch (transferType) {
-
         case TransferTypes.TRANSFER:
           func = transferToken;
           break;
         case TransferTypes.RECURRENT_TRANSFER:
           func = recurrentTransferToken;
           break;
-  
+
         case TransferTypes.CONVERT:
           func = convert;
           data.requestId = new Date().getTime() >>> 0;
@@ -326,11 +319,7 @@ class TransferContainer extends Component {
           currentAccount = selectedAccount;
           data.amount = `${amount.toFixed(6)} VESTS`;
           break;
-  
-  
-    }
-
-
+      }
     }
     if (!currentAccount.local) {
       const realmData = await getUserDataWithUsername(currentAccount.name);
@@ -421,7 +410,7 @@ class TransferContainer extends Component {
         initialMemo,
         fetchRecurrentTransfers: this._fetchRecurrentTransfers,
         recurrentTransfers,
-        tokenLayer
+        tokenLayer,
       })
     );
   }

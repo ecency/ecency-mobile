@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { useState, useEffect, useRef, Fragment, useMemo } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { View, AppState, AppStateStatus } from 'react-native';
 import { isArray } from 'lodash';
 
@@ -16,24 +16,19 @@ import styles from './walletScreenStyles';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { AssetCard, WalletHeader } from '../children';
-import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import ROUTES from '../../../constants/routeNames';
 import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetailsScreen';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
-import { AssetBase, ProfileToken, TokenType } from '../../../redux/reducers/walletReducer';
+import { ProfileToken, TokenType } from '../../../redux/reducers/walletReducer';
 import {
   fetchCoinQuotes,
   resetWalletData,
-  setPriceHistory,
   setSelectedAssets,
 } from '../../../redux/actions/walletActions';
 import DEFAULT_ASSETS from '../../../constants/defaultAssets';
-import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
 import { walletQueries } from '../../../providers/queries';
 import { migrateSelectedTokens } from '../../../utils/migrationHelpers';
 import { PortfolioItem } from '../../../providers/ecency/ecency.types';
-
-const CHART_DAYS_RANGE = 7;
 
 const WalletScreen = ({ navigation }) => {
   const dispatch = useAppDispatch();
@@ -45,8 +40,7 @@ const WalletScreen = ({ navigation }) => {
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const currency = useAppSelector((state) => state.application.currency);
 
-  const { selectedAssets, priceHistories, coinsData, updateTimestamp, quotes, ...wallet } =
-    useAppSelector((state) => state.wallet);
+  const { selectedAssets, quotes, ...wallet } = useAppSelector((state) => state.wallet);
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
@@ -80,18 +74,17 @@ const WalletScreen = ({ navigation }) => {
     _updateSelectedAssetsDataFromProfileJsonMeta();
   }, [currency, currentAccount]);
 
-
-  //add hook that checks and migrate token based on current account change
+  // add hook that checks and migrate token based on current account change
   useEffect(() => {
     const tokens = currentAccount?.about?.profile?.tokens;
     if (tokens) {
       const _migratedTokens = migrateSelectedTokens(tokens);
       if (_migratedTokens) {
-        //update profile
+        // update profile
         updateProfileTokensMutation.mutate(_migratedTokens);
       }
     }
-  }, [currentAccount])
+  }, [currentAccount]);
 
   // useEffect(() => {
   //   _fetchPriceHistory();
@@ -112,8 +105,7 @@ const WalletScreen = ({ navigation }) => {
       }));
   };
 
-
-  //TODO: redo logic to update selected assets from profile json meta
+  // TODO: redo logic to update selected assets from profile json meta
   const _updateSelectedAssetsDataFromProfileJsonMeta = () => {
     const currSelectedEngineTokens = selectedAssets.filter(
       (item) => !DEFAULT_ASSETS.some((defaultAsset) => defaultAsset.id === item.id),
@@ -127,8 +119,6 @@ const WalletScreen = ({ navigation }) => {
       }
     }
   };
-
-
 
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
@@ -186,19 +176,18 @@ const WalletScreen = ({ navigation }) => {
       setIsRefreshing(true);
       _refetchData();
     }
-  }
+  };
 
   const _renderItem = ({ item, index }: { item: PortfolioItem; index: number }) => {
-
-    const unclaimedRewards = item.pendingRewards ? `${item.pendingRewards.toFixed(3)} ${item.symbol}` : '';
+    const unclaimedRewards = item.pendingRewards
+      ? `${item.pendingRewards.toFixed(3)} ${item.symbol}`
+      : '';
 
     const _isClaimingThis = claimRewardsMutation.checkIsClaiming(item.symbol);
-    const _isClaimingAny = claimRewardsMutation.checkIsClaiming();
-
 
     const _onCardPress = () => {
       navigation.navigate(ROUTES.SCREENS.ASSET_DETAILS, {
-        asset: item
+        asset: item,
       } as AssetDetailsScreenParams);
     };
 
@@ -241,7 +230,6 @@ const WalletScreen = ({ navigation }) => {
     />
   );
 
-
   const _renderWalletHeader = () => (
     <WalletHeader
       assets={walletQuery.data}
@@ -249,7 +237,7 @@ const WalletScreen = ({ navigation }) => {
       currencySymbol={currency.currencySymbol}
       onRefresh={_onRefresh}
     />
-  )
+  );
 
   return (
     <Fragment>
@@ -257,7 +245,6 @@ const WalletScreen = ({ navigation }) => {
       <LoggedInContainer>
         {() => (
           <View style={styles.listWrapper}>
-
             <FlatList
               data={walletQuery.selectedData}
               style={globalStyles.tabBarBottom}

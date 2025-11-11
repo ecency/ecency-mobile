@@ -1,11 +1,10 @@
 const TransferTypes = {
-
-  //Ecency Transfer types
+  // Ecency Transfer types
   ECENCY_POINT_TRANSFER: 'ecency_point_transfer',
   PROMOTE: 'promote',
   BOOST: 'boost',
 
-  //Hive Transfer types
+  // Hive Transfer types
   TRANSFER: 'transfer',
   CONVERT: 'convert',
   TRANSFER_TO_SAVINGS: 'transfer_to_savings',
@@ -29,7 +28,7 @@ const TransferTypes = {
   POWER_UP_SPK: 'spkcc_power_up',
   POWER_DOWN_SPK: 'spkcc_power_down',
 
-  //CHAIN Transfer Types
+  // CHAIN Transfer Types
   RECEIVE: 'receive',
 };
 

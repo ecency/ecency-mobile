@@ -4,21 +4,17 @@ import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from '../styles/children.styles';
 import { IconButton } from '../../../components';
-import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { ClaimButton } from './claimButton';
 
 import { AssetIcon } from '../../../components/atoms';
 
 export interface AssetCardProps {
-  // chartData: number[];
   name: string;
   iconUrl?: string;
-  // notCrypto?: boolean;
   isEngine?: boolean;
   isSpk?: boolean;
   symbol: string;
   currencySymbol: string;
-  // changePercent: number;
   currentValue: number;
   ownedBalance: number;
   unclaimedRewards: string;
@@ -30,7 +26,6 @@ export interface AssetCardProps {
   footerComponent: ComponentType<any>;
   onCardPress: () => void;
   onClaimPress: () => void;
-  onBoostAccountPress: () => void;
 }
 
 export const AssetCard = ({
@@ -125,7 +120,6 @@ export const AssetCard = ({
       );
     }
   };
-
 
   return (
     <TouchableOpacity onPress={onCardPress}>
