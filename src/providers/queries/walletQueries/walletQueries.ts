@@ -81,11 +81,17 @@ export const useAssetsQuery = () => {
     return assetsQuery.data.filter((asset) => asset.layer !== 'hive' && asset.layer !== 'points');
   }, [assetsQuery.data]);
 
-  return {
+
+  const _getAssetBySymbol = (symbol: string) => {
+    return assetsQuery.data.find((asset) => asset.symbol === symbol);
+  };
+
+  return useMemo(() => ({
     ...assetsQuery,
     selectedData,
     selectedableData,
-  };
+    getAssetBySymbol: _getAssetBySymbol,
+  }), [assetsQuery.data, selectedAssets]);
 };
 
 export const useUnclaimedRewardsQuery = () => {
