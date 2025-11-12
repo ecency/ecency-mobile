@@ -16,6 +16,7 @@ interface WalletHeaderProps {
   assets?: PortfolioItem[];
   currencyCode: string;
   currencySymbol?: string;
+  lastUpdated: number;
   onRefresh: () => void;
 }
 
@@ -23,6 +24,7 @@ export const WalletHeader = ({
   assets,
   currencyCode,
   currencySymbol,
+  lastUpdated,
   onRefresh,
 }: WalletHeaderProps) => {
   const navigation = useNavigation<any>();
@@ -48,13 +50,13 @@ export const WalletHeader = ({
   const _actionKeys = useMemo(() => {
     const hpBalance = assets?.find((asset) => asset.symbol?.toUpperCase?.() === 'HP')?.balance ?? 0;
 
-    const keys = [
-      'manage_tokens',
-      // 'claim_all' TODO: Implement Claim All
+    const keys: string[] = [
+      // 'manage_tokens',
+      // 'claim_all' //TODO: Implement Claim All
     ];
-    if (hpBalance < 50) {
-      keys.push('boost');
-    }
+    // if (hpBalance < 50) {
+      // keys.push('boost');
+    // }
     return keys;
   }, [assets]);
 
@@ -102,6 +104,9 @@ export const WalletHeader = ({
         />
       </View>
       <WalletActions actions={_actionKeys} onActionPress={_handleActionPress} />
+      <Text style={styles.lastUpdated}>
+        {intl.formatMessage({ id: 'wallet.last_updated' }, {datetime: new Date(lastUpdated).toLocaleString()})}
+      </Text>
     </View>
   );
 };

@@ -231,6 +231,7 @@ const WalletScreen = ({ navigation }) => {
       assets={walletQuery.data}
       currencyCode={currency.currency}
       currencySymbol={currency.currencySymbol}
+      lastUpdated={walletQuery.dataUpdatedAt || 0}
       onRefresh={_onRefresh}
     />
   );

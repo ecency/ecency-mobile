@@ -43,4 +43,9 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
     fontWeight: '600',
   },
+  lastUpdated: {
+    fontSize: 12,
+    color: '$primaryBlack',
+    fontWeight: '300',
+  },
 });

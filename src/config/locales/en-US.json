@@ -212,7 +212,7 @@
       "buy": "GET BTC",
       "address": "RECEIVE"
     },
-    "last_updated": "Last Updated:",
+    "last_updated": "updated {datetime}",
     "updating": "Updating...",
     "coin_details": "Details",
     "change": "Change",
