@@ -50,8 +50,6 @@ const WalletScreen = ({ navigation }) => {
   const claimRewardsMutation = walletQueries.useClaimRewardsMutation();
   const updateProfileTokensMutation = walletQueries.useUpdateProfileTokensMutation();
 
-  // state
-  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // side-effects
   useEffect(() => {
@@ -163,7 +161,6 @@ const WalletScreen = ({ navigation }) => {
     }
 
     await walletQuery.refetch();
-    setIsRefreshing(false);
   };
 
   const _claimRewards = (symbol: string) => {
@@ -172,8 +169,7 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _onRefresh = () => {
-    if (!isRefreshing) {
-      setIsRefreshing(true);
+    if (!walletQuery.isRefetching) {
       _refetchData();
     }
   };
@@ -221,7 +217,7 @@ const WalletScreen = ({ navigation }) => {
 
   const _refreshControl = (
     <RefreshControl
-      refreshing={isRefreshing}
+      refreshing={walletQuery.isLoading}
       onRefresh={_onRefresh}
       progressBackgroundColor="#357CE6"
       tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
