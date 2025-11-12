@@ -8,6 +8,7 @@ import ROUTES from '../../../constants/routeNames';
 import { IconButton } from '../../../components';
 import { useAppSelector } from '../../../hooks';
 import { PortfolioItem } from '../../../providers/ecency/ecency.types';
+import moment from 'moment';
 
 import styles from './walletHeader.styles';
 import { WalletActions } from '../../assetDetails/children';
@@ -16,7 +17,8 @@ interface WalletHeaderProps {
   assets?: PortfolioItem[];
   currencyCode: string;
   currencySymbol?: string;
-  lastUpdated: number;
+  lastUpdated?: number;
+  updating?: boolean;
   onRefresh: () => void;
 }
 
@@ -25,12 +27,16 @@ export const WalletHeader = ({
   currencyCode,
   currencySymbol,
   lastUpdated,
+  updating,
   onRefresh,
 }: WalletHeaderProps) => {
   const navigation = useNavigation<any>();
   const intl = useIntl();
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const walletState = useAppSelector((state) => state.wallet);
   const RefreshIconButton = IconButton as any;
+  const ManageIconButton = IconButton as any;
+  const BoostIconButton = IconButton as any;
 
   const actionHandlers = useMemo(
     () => ({
@@ -47,18 +53,20 @@ export const WalletHeader = ({
     [navigation, currentAccount.name],
   );
 
-  const _actionKeys = useMemo(() => {
-    const hpBalance = assets?.find((asset) => asset.symbol?.toUpperCase?.() === 'HP')?.balance ?? 0;
+  const hpBalance = useMemo(
+    () => assets?.find((asset) => asset.symbol?.toUpperCase?.() === 'HP')?.balance ?? 0,
+    [assets],
+  );
 
+  const _actionKeys = useMemo(() => {
     const keys: string[] = [
-      // 'manage_tokens',
       // 'claim_all' //TODO: Implement Claim All
     ];
-    // if (hpBalance < 50) {
-      // keys.push('boost');
-    // }
+    if (hpBalance < 50) {
+      keys.push('boost');
+    }
     return keys;
-  }, [assets]);
+  }, [hpBalance]);
 
   const _handleActionPress = (action: string) => {
     const handler = actionHandlers[action as keyof typeof actionHandlers];
@@ -87,26 +95,86 @@ export const WalletHeader = ({
     return `${formattedTotal} ${currencyCode}`.trim();
   }, [assets, currencyCode]);
 
+  const effectiveLastUpdated =
+    typeof lastUpdated === 'number' ? lastUpdated : walletState.updateTimestamp;
+  const isUpdating = Boolean(updating);
+
+  const _lastUpdatedTime =
+    typeof effectiveLastUpdated === 'number' && effectiveLastUpdated > 0
+      ? moment(effectiveLastUpdated).format(moment.localeData().longDateFormat('LT'))
+      : intl.formatMessage({ id: 'wallet.last_updated_placeholder', defaultMessage: '--:--' });
+
+  const _lastUpdateLabel = isUpdating
+    ? intl.formatMessage({ id: 'wallet.updating' })
+    : intl.formatMessage(
+      { id: 'wallet.last_updated', defaultMessage: 'Last updated at {datetime}' },
+      {
+        datetime: _lastUpdatedTime,
+      },
+    );
+
   return (
     <View style={styles.container}>
-      <Text style={styles.totalLabel}>
-        {intl.formatMessage({ id: 'wallet.estimated_balance', defaultMessage: 'Estimated balance' })}
-      </Text>
-
+      <View style={styles.headerRow}>
+        <Text style={styles.totalLabel}>
+          {intl.formatMessage({
+            id: 'wallet.estimated_balance',
+            defaultMessage: 'Estimated balance',
+          })}
+        </Text>
+        <Text style={styles.lastUpdated}>{_lastUpdateLabel}</Text>
+      </View>
       <View style={styles.balanceRow}>
-        <Text style={styles.totalValue}>{totalBalanceLabel}</Text>
-        <RefreshIconButton
-          name="refresh"
-          iconType="MaterialCommunityIcons"
-          size={20}
-          color={EStyleSheet.value('$primaryBlack')}
-          onPress={onRefresh}
-        />
+        <View style={styles.balanceValueContainer}>
+          <Text
+            style={styles.totalValue}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {totalBalanceLabel}
+          </Text>
+        </View>
+        <View style={styles.balanceActions}>
+          {hpBalance < 50 && (
+            <View style={[styles.actionIconWrapper, styles.firstActionIconWrapper]}>
+              <BoostIconButton
+                name="fire"
+                iconType="MaterialCommunityIcons"
+                size={24}
+                color={EStyleSheet.value('$primaryBlue')}
+                onPress={() => actionHandlers.boost?.()}
+                style={styles.actionIconButton}
+              />
+            </View>
+          )}
+          <View
+            style={[
+              styles.actionIconWrapper,
+              hpBalance >= 50 ? styles.firstActionIconWrapper : null,
+            ]}
+          >
+            <RefreshIconButton
+              name="refresh"
+              iconType="MaterialCommunityIcons"
+              size={24}
+              color={EStyleSheet.value('$primaryBlack')}
+              onPress={onRefresh}
+              style={styles.actionIconButton}
+            />
+          </View>
+          <View style={styles.actionIconWrapper}>
+            <ManageIconButton
+              name="cog"
+              iconType="MaterialCommunityIcons"
+              size={24}
+              color={EStyleSheet.value('$primaryBlack')}
+              onPress={() => actionHandlers.manage_tokens()}
+              style={styles.actionIconButton}
+            />
+          </View>
+        </View>
       </View>
       <WalletActions actions={_actionKeys} onActionPress={_handleActionPress} />
-      <Text style={styles.lastUpdated}>
-        {intl.formatMessage({ id: 'wallet.last_updated' }, {datetime: new Date(lastUpdated).toLocaleString()})}
-      </Text>
     </View>
   );
 };

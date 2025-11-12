@@ -6,6 +6,12 @@ export default EStyleSheet.create({
     paddingTop: 16,
     paddingBottom: 0,
   },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 4,
+  },
   totalLabel: {
     fontWeight: '300',
     fontSize: 12,
@@ -15,13 +21,44 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 4,
-    marginBottom: 16,
+    marginBottom: 8,
+    justifyContent: 'space-between',
+    paddingBottom: 8,
+  },
+  balanceValueContainer: {
+    backgroundColor: '$primaryLightBackground',
+    borderRadius: 40,
+    paddingVertical: 8,
+    paddingHorizontal: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 0,
+    flexShrink: 1,
+    maxWidth: '65%',
   },
   totalValue: {
     fontSize: 24,
     fontWeight: '700',
-    marginRight: 4,
     color: '$primaryBlack',
+    flexShrink: 1,
+  },
+  balanceActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 12,
+  },
+  actionIconButton: {
+    marginLeft: 0,
+  },
+  actionIconWrapper: {
+    marginLeft: 8,
+    backgroundColor: '$primaryLightBackground',
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
+  firstActionIconWrapper: {
+    marginLeft: 0,
   },
   actionsContainer: {
     flexDirection: 'row',
@@ -45,7 +82,8 @@ export default EStyleSheet.create({
   },
   lastUpdated: {
     fontSize: 12,
-    color: '$primaryBlack',
+    color: '$iconColor',
     fontWeight: '300',
+    marginLeft: 16,
   },
 });

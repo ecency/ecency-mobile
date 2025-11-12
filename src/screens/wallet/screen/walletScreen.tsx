@@ -160,7 +160,7 @@ const WalletScreen = ({ navigation }) => {
       dispatch(fetchCoinQuotes());
     }
 
-    await walletQuery.refetch();
+    walletQuery.refetch();
   };
 
   const _claimRewards = (symbol: string) => {
@@ -169,7 +169,7 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _onRefresh = () => {
-    if (!walletQuery.isRefetching) {
+    if (!walletQuery.isFetching) {
       _refetchData();
     }
   };
@@ -232,6 +232,7 @@ const WalletScreen = ({ navigation }) => {
       currencyCode={currency.currency}
       currencySymbol={currency.currencySymbol}
       lastUpdated={walletQuery.dataUpdatedAt || 0}
+      updating={walletQuery.isFetching}
       onRefresh={_onRefresh}
     />
   );
