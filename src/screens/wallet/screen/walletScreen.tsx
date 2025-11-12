@@ -168,7 +168,7 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _onRefresh = () => {
-    if (!walletQuery.isFetching) {
+    if (!walletQuery.isLoading) {
       _refetchData();
     }
   };
@@ -216,7 +216,7 @@ const WalletScreen = ({ navigation }) => {
 
   const _refreshControl = (
     <RefreshControl
-      refreshing={walletQuery.isLoading}
+      refreshing={walletQuery.isFetching}
       onRefresh={_onRefresh}
       progressBackgroundColor="#357CE6"
       tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}

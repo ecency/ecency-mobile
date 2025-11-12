@@ -85,15 +85,12 @@ export const useAssetsQuery = () => {
     return assetsQuery.data.find((asset) => asset.symbol === symbol);
   };
 
-  return useMemo(
-    () => ({
-      ...assetsQuery,
-      selectedData,
-      selectedableData,
-      getAssetBySymbol: _getAssetBySymbol,
-    }),
-    [assetsQuery.data, selectedAssets],
-  );
+  return {
+    ...assetsQuery,
+    selectedData,
+    selectedableData,
+    getAssetBySymbol: _getAssetBySymbol,
+  };
 };
 
 export const useUnclaimedRewardsQuery = () => {
