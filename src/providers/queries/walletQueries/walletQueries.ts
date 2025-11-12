@@ -60,7 +60,6 @@ export const useAssetsQuery = () => {
         return [];
       }
     },
-    staleTime: 60 * 1000, // 1 minute in milliseconds
     initialData: [],
   });
 
