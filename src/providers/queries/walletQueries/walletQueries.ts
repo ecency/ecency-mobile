@@ -61,6 +61,7 @@ export const useAssetsQuery = () => {
       }
     },
     staleTime: 60 * 1000, // 1 minute in milliseconds
+    initialData: [],
   });
 
   const selectedData = useMemo(() => {
