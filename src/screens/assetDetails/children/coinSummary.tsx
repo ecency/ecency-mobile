@@ -44,7 +44,7 @@ export const CoinSummary = ({
     });
   }
 
-  if (savings !== undefined) {
+  if (savings !== undefined && savings > 0) {
     valuePairs.push({
       dataKey: 'savings',
       value: savings,

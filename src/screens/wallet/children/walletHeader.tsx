@@ -68,7 +68,7 @@ export const WalletHeader = ({
 
   const totalBalanceLabel = useMemo(() => {
     if (!assets || assets.length === 0) {
-      return currencySymbol ? `~${currencySymbol}0` : `~0 ${currencyCode}`.trim();
+      return currencySymbol ? `${currencySymbol}0` : `0 ${currencyCode}`.trim();
     }
 
     const total = assets.reduce((sum, asset) => {
@@ -79,16 +79,16 @@ export const WalletHeader = ({
     const formattedTotal = total >= 1 ? total.toFixed(2) : total.toFixed(5);
 
     if (currencySymbol) {
-      return `~${currencySymbol}${formattedTotal}`;
+      return `${currencySymbol}${formattedTotal}`;
     }
 
-    return `~${formattedTotal} ${currencyCode}`.trim();
+    return `${formattedTotal} ${currencyCode}`.trim();
   }, [assets, currencyCode]);
 
   return (
     <View style={styles.container}>
       <Text style={styles.totalLabel}>
-        {intl.formatMessage({ id: 'wallet.total_balance', defaultMessage: 'Total balance' })}
+        {intl.formatMessage({ id: 'wallet.estimated_balance', defaultMessage: 'Estimated balance' })}
       </Text>
 
       <View style={styles.balanceRow}>
