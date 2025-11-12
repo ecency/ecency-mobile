@@ -8,6 +8,7 @@ import HIVE_SPK_ICON from '../../../../assets/hive_spk.png';
 import HBD_ICON from '../../../../assets/hbd_icon.png';
 import HIVE_ICON from '../../../../assets/hive_icon.png';
 import ECENCY_ICON from '../../../../assets/ecency-logo.png';
+import HIVE_CHAIN_ICON from '../../../../assets/chain-icon.png';
 import { ASSET_IDS } from '../../../../constants/defaultAssets';
 
 interface AssetIconProps {
@@ -15,6 +16,7 @@ interface AssetIconProps {
   iconUrl?: string;
   isEngine?: boolean;
   isSpk?: boolean;
+  isChain?: boolean;
   iconSize?: number;
   containerStyle?: ViewStyle;
 }
@@ -24,6 +26,7 @@ export const AssetIcon = ({
   iconUrl,
   isEngine,
   isSpk,
+  isChain,
   containerStyle,
   iconSize,
 }: AssetIconProps) => {
@@ -75,6 +78,11 @@ export const AssetIcon = ({
       {isSpk && (
         <View style={styles.hiveEngineWrapper}>
           <ExpoImage style={styles.hiveEngineLogo} contentFit="contain" source={HIVE_SPK_ICON} />
+        </View>
+      )}
+      {isChain && (
+        <View style={styles.hiveEngineWrapper}>
+          <ExpoImage style={styles.hiveEngineLogo} contentFit="contain" source={HIVE_CHAIN_ICON} />
         </View>
       )}
     </View>

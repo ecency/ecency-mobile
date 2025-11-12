@@ -21,7 +21,33 @@ import { walletQueries } from '../../../providers/queries';
  *  NOTE: using AssetsSelectModal as part of native-stack with modal presentation is important
  *  as GestureResponder do not work as expected when used inside regular Modal on android
  *  */
-const AssetsSelect = ({ navigation }) => {
+type SelectableAsset = PortfolioItem & {
+  isEngine?: boolean;
+  isSpk?: boolean;
+  isChain?: boolean;
+  isSectionSeparator?: boolean;
+};
+
+const IconComponent = Icon as any;
+const MainButtonComponent = MainButton as any;
+const SearchInputComponent = SearchInput as any;
+
+const mapAssetLayer = (asset: PortfolioItem | SelectableAsset): SelectableAsset => {
+  if ((asset as SelectableAsset).isSectionSeparator) {
+    return asset as SelectableAsset;
+  }
+
+  const base = asset as PortfolioItem;
+
+  return {
+    ...base,
+    isEngine: (asset as SelectableAsset).isEngine ?? base.layer === 'engine',
+    isSpk: (asset as SelectableAsset).isSpk ?? base.layer === 'spk',
+    isChain: (asset as SelectableAsset).isChain ?? base.layer === 'chain',
+  };
+};
+
+const AssetsSelect = ({ navigation }: { navigation: any }) => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
 
@@ -36,8 +62,8 @@ const AssetsSelect = ({ navigation }) => {
 
   const updateProfileTokensMutation = useUpdateProfileTokensMutation();
 
-  const [listData, setListData] = useState<PortfolioItem[]>([]);
-  const [sortedList, setSortedList] = useState<PortfolioItem[]>([]);
+  const [listData, setListData] = useState<SelectableAsset[]>([]);
+  const [sortedList, setSortedList] = useState<SelectableAsset[]>([]);
   const [query, setQuery] = useState('');
 
   useEffect(() => {
@@ -50,7 +76,7 @@ const AssetsSelect = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    const data: PortfolioItem[] = [];
+    const data: SelectableAsset[] = [];
     assetsQuery.selectedableData?.forEach((asset) => {
       const _name = asset.name?.toLowerCase() || '';
       const _symbol = asset.symbol.toLowerCase();
@@ -60,7 +86,7 @@ const AssetsSelect = ({ navigation }) => {
         selectionRef.current.findIndex((item) => item.symbol === asset.symbol) > -1;
 
       if (query === '' || _isSelected || _symbol.includes(_query) || _name.includes(_query)) {
-        data.push(asset);
+        data.push(mapAssetLayer(asset));
       }
     });
 
@@ -68,10 +94,11 @@ const AssetsSelect = ({ navigation }) => {
     _updateSortedList({ data });
   }, [query, assetsQuery.selectedableData]);
 
-  const _updateSortedList = ({ data } = { data: listData }) => {
-    const _data = [...data];
+  const _updateSortedList = ({ data }: { data?: SelectableAsset[] } = { data: listData }) => {
+    const source = data || listData;
+    const _data = source.map(mapAssetLayer);
     _data.sort((a, b) => {
-      const _getSortingIndex = (e) =>
+      const _getSortingIndex = (e: SelectableAsset) =>
         selectionRef.current.findIndex((item) => item.symbol === e.symbol);
       const _aIndex = _getSortingIndex(a);
       const _bIndex = _getSortingIndex(b);
@@ -88,7 +115,13 @@ const AssetsSelect = ({ navigation }) => {
       return 0;
     });
 
-    _data.splice(selectionRef.current.length, 0, { isSectionSeparator: true });
+    _data.splice(
+      selectionRef.current.length,
+      0,
+      {
+        isSectionSeparator: true,
+      } as SelectableAsset,
+    );
 
     setSortedList(_data);
   };
@@ -144,16 +177,27 @@ const AssetsSelect = ({ navigation }) => {
     _updateUserProfile(); // update the user profile with updated tokens data
   };
 
-  const _onDragEnd = ({ data, from, to }) => {
+  const _onDragEnd = ({
+    data,
+    from,
+    to,
+  }: {
+    data: SelectableAsset[];
+    from: number;
+    to: number;
+  }) => {
     const totalSel = selectionRef.current.length;
     const item = sortedList[from];
+    const isEngine = item.isEngine ?? item.layer === 'engine';
+    const isSpk = item.isSpk ?? item.layer === 'spk';
+    const isChain = item.isChain ?? item.layer === 'chain';
 
     const _obj = {
       id: item.symbol,
       symbol: item.symbol,
-      isEngine: item.layer === 'engine',
-      isSpk: item.layer === 'spk',
-      isChain: item.layer === 'chain',
+      isEngine,
+      isSpk,
+      isChain,
       notCrypto: false,
     } as AssetBase;
 
@@ -194,7 +238,13 @@ const AssetsSelect = ({ navigation }) => {
     );
 
   const _renderOptions = () => {
-    const _renderItem = ({ item, drag }) => {
+    const _renderItem = ({
+      item,
+      drag,
+    }: {
+      item: SelectableAsset;
+      drag: () => void;
+    }) => {
       if (item.isSectionSeparator) {
         return _renderSectionSeparator(intl.formatMessage({ id: 'wallet.available_assets' }));
       }
@@ -203,6 +253,10 @@ const AssetsSelect = ({ navigation }) => {
       const index = selectionRef.current.findIndex((selected) => selected.symbol === item.symbol);
       const isSelected = index >= 0;
 
+      const isEngine = item.isEngine ?? item.layer === 'engine';
+      const isSpk = item.isSpk ?? item.layer === 'spk';
+      const isChain = item.isChain ?? item.layer === 'chain';
+
       const _onPress = () => {
         if (isSelected) {
           selectionRef.current.splice(index, 1);
@@ -210,9 +264,9 @@ const AssetsSelect = ({ navigation }) => {
           selectionRef.current.push({
             id: key,
             symbol: key,
-            isEngine: item.isEngine || false,
-            isSpk: item.isSpk || false,
-            isChain: item.isChain || false,
+            isEngine,
+            isSpk,
+            isChain,
             notCrypto: false,
           });
         }
@@ -220,23 +274,28 @@ const AssetsSelect = ({ navigation }) => {
         _updateSortedList();
       };
 
+      const _onCheckToggle = (_val: string, _checked: boolean) => {
+        _onPress();
+      };
+
       return (
         <ScaleDecorator>
           <View style={styles.checkView}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <CheckBox clicked={_onPress} isChecked={isSelected} />
+              <CheckBox value={key} clicked={_onCheckToggle} isChecked={isSelected} />
               <AssetIcon
                 id={item.symbol}
                 containerStyle={styles.assetIconContainer}
                 iconUrl={item.iconUrl}
-                isEngine={item.isEngine}
-                isSpk={item.isSpk}
+                isEngine={isEngine}
+                isSpk={isSpk}
+                isChain={isChain}
                 iconSize={24}
               />
               <Text style={styles.informationText}>{key}</Text>
             </View>
             <TouchableWithoutFeedback onPressIn={drag} style={styles.dragBtnContainer}>
-              <Icon
+              <IconComponent
                 iconType="MaterialCommunityIcons"
                 name="drag-horizontal-variant"
                 color={EStyleSheet.value('$iconColor')}
@@ -268,7 +327,7 @@ const AssetsSelect = ({ navigation }) => {
         {_renderOptions()}
 
         <View style={styles.actionPanel}>
-          <MainButton
+          <MainButtonComponent
             text={intl.formatMessage({ id: 'alert.confirm' })}
             onPress={_onApply}
             textStyle={styles.btnText}
@@ -285,7 +344,7 @@ const AssetsSelect = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.modalStyle} edges={_safeAreaEdges}>
-      <SearchInput
+      <SearchInputComponent
         showClearButton={true}
         placeholder={intl.formatMessage({ id: 'header.search' })}
         onChangeText={setQuery}
