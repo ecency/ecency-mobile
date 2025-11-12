@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { useState, useEffect, useRef, Fragment } from 'react';
+import React, { useEffect, useRef, Fragment } from 'react';
 import { View, AppState, AppStateStatus } from 'react-native';
 import { isArray } from 'lodash';
 
@@ -49,7 +49,6 @@ const WalletScreen = ({ navigation }) => {
   // const unclaimedRewardsQuery = walletQueries.useUnclaimedRewardsQuery();
   const claimRewardsMutation = walletQueries.useClaimRewardsMutation();
   const updateProfileTokensMutation = walletQueries.useUpdateProfileTokensMutation();
-
 
   // side-effects
   useEffect(() => {

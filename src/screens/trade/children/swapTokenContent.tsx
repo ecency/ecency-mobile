@@ -86,10 +86,14 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
   }, [tooMuchSlippage, offerUnavailable, isMoreThanBalance]);
 
   // accumulate asset data properties
-  const _fromAssetData = useMemo(() => assetsQuery.getAssetBySymbol(fromAssetSymbol),
-    [assetsQuery.data, fromAssetSymbol]);
-  const _toAssetData = useMemo(() => assetsQuery.getAssetBySymbol(toAssetSymbol),
-    [assetsQuery.data, toAssetSymbol]);
+  const _fromAssetData = useMemo(
+    () => assetsQuery.getAssetBySymbol(fromAssetSymbol),
+    [assetsQuery.data, fromAssetSymbol],
+  );
+  const _toAssetData = useMemo(
+    () => assetsQuery.getAssetBySymbol(toAssetSymbol),
+    [assetsQuery.data, toAssetSymbol],
+  );
 
   const _balance = _fromAssetData?.balance || 0;
   const _fromFiatRate = _fromAssetData?.fiatRate || 0;

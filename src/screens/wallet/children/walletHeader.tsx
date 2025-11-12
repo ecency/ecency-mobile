@@ -4,11 +4,11 @@ import { View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import moment from 'moment';
 import ROUTES from '../../../constants/routeNames';
 import { IconButton } from '../../../components';
 import { useAppSelector } from '../../../hooks';
 import { PortfolioItem } from '../../../providers/ecency/ecency.types';
-import moment from 'moment';
 
 import styles from './walletHeader.styles';
 import { WalletActions } from '../../assetDetails/children';
@@ -107,11 +107,11 @@ export const WalletHeader = ({
   const _lastUpdateLabel = isUpdating
     ? intl.formatMessage({ id: 'wallet.updating' })
     : intl.formatMessage(
-      { id: 'wallet.last_updated', defaultMessage: 'Last updated at {datetime}' },
-      {
-        datetime: _lastUpdatedTime,
-      },
-    );
+        { id: 'wallet.last_updated', defaultMessage: 'Last updated at {datetime}' },
+        {
+          datetime: _lastUpdatedTime,
+        },
+      );
 
   return (
     <View style={styles.container}>
@@ -126,11 +126,7 @@ export const WalletHeader = ({
       </View>
       <View style={styles.balanceRow}>
         <View style={styles.balanceValueContainer}>
-          <Text
-            style={styles.totalValue}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
+          <Text style={styles.totalValue} numberOfLines={1} ellipsizeMode="tail">
             {totalBalanceLabel}
           </Text>
         </View>
