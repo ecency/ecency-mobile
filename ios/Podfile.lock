@@ -2238,15 +2238,59 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNImageCropPicker (0.42.0):
+  - RNImageCropPicker (0.51.1):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.11.18.00)
+    - RCTRequired
+    - RCTTypeSafety
     - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-hermes
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
     - React-RCTImage
-    - RNImageCropPicker/QBImagePickerController (= 0.42.0)
-    - TOCropViewController (~> 2.7.4)
-  - RNImageCropPicker/QBImagePickerController (0.42.0):
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - RNImageCropPicker/QBImagePickerController (= 0.51.1)
+    - TOCropViewController (~> 2.8.0)
+    - Yoga
+  - RNImageCropPicker/QBImagePickerController (0.51.1):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.11.18.00)
+    - RCTRequired
+    - RCTTypeSafety
     - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-hermes
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
     - React-RCTImage
-    - TOCropViewController (~> 2.7.4)
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - TOCropViewController (~> 2.8.0)
+    - Yoga
   - RNNotifee (9.1.8):
     - React-Core
     - RNNotifee/NotifeeCore (= 9.1.8)
@@ -2566,7 +2610,7 @@ PODS:
   - SocketRocket (0.7.1)
   - TcpSockets (4.0.0):
     - React
-  - TOCropViewController (2.7.4)
+  - TOCropViewController (2.8.0)
   - VisionCamera (4.7.1):
     - VisionCamera/Core (= 4.7.1)
     - VisionCamera/React (= 4.7.1)
@@ -3097,7 +3141,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: 97dc90cb79d1d015250d9d10032c920f1d49c354
   RNGestureHandler: 4fbe7fbce86b6b546f75c9db974974262f75ef5d
   RNIap: d73cedfb73b396cad75f90f4ed7d64352d6381cf
-  RNImageCropPicker: b0afedeefd8655254a15c34103718455fde6ce59
+  RNImageCropPicker: 2889fd7ef4b4bb7aeef8a0b598661f934f01f5e1
   RNNotifee: 5e3b271e8ea7456a36eec994085543c9adca9168
   RNOS: d07e5090b5060c6f2b83116d740a32cfdb33afe3
   RNPermissions: bc76b0cb03f371ba0a2e1cde0411263c5a09760e
@@ -3113,7 +3157,7 @@ SPEC CHECKSUMS:
   Sentry: 59993bffde4a1ac297ba6d268dc4bbce068d7c1b
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   TcpSockets: c5f030d4dbc758c4c7acb00496dc92c412b02cd2
-  TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
+  TOCropViewController: 797deaf39c90e6e9ddd848d88817f6b9a8a09888
   VisionCamera: 9a8f98ae344fe5d148f84bb45829f9e4caab9d2f
   Yoga: bfcce202dba74007f8974ee9c5f903a9a286c445
 
