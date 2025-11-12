@@ -15,7 +15,6 @@ import {
 } from '../../../providers/hive-trade/hiveTrade';
 import { useAppSelector } from '../../../hooks';
 import { MarketAsset, SwapOptions } from '../../../providers/hive-trade/hiveTrade.types';
-import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { walletQueries } from '../../../providers/queries';
 import { useSwapCalculator } from './useSwapCalculator';
 import AUTH_TYPE from '../../../constants/authType';
@@ -38,7 +37,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const currency = useAppSelector((state) => state.application.currency);
 
-  const assetsData = useAppSelector((state) => state.wallet.coinsData);
+  // const assetsData = useAppSelector((state) => state.wallet.coinsData);
   const pinHash = useAppSelector((state) => state.application.pin);
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
 
@@ -50,17 +49,14 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
   const [swapping, setSwapping] = useState(false);
   const [fromAmount, setFromAmount] = useState('0');
 
-  const _toAssetSymbol = useMemo(
+  const toAssetSymbol = useMemo(
     () => (fromAssetSymbol === MarketAsset.HBD ? MarketAsset.HIVE : MarketAsset.HBD),
     [fromAssetSymbol],
   );
 
-  const _fromAssetId = fromAssetSymbol === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE;
-  const _toAssetId = _toAssetSymbol === MarketAsset.HBD ? ASSET_IDS.HBD : ASSET_IDS.HIVE;
-
   // queres
   const assetsQuery = walletQueries.useAssetsQuery();
-  const pendingRequestsQuery = walletQueries.usePendingRequestsQuery(_fromAssetId);
+  const pendingRequestsQuery = walletQueries.usePendingRequestsQuery(fromAssetSymbol);
 
   // this method makes sure amount is only updated when new order book is fetched after asset change
   // this avoid wrong from and to swap value on changing source asset
@@ -90,10 +86,14 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
   }, [tooMuchSlippage, offerUnavailable, isMoreThanBalance]);
 
   // accumulate asset data properties
-  const _fromAssetData = assetsData[_fromAssetId];
-  const _balance = _fromAssetData.balance;
-  const _fromFiatRate = _fromAssetData.currentPrice;
-  const _toFiatRate = assetsData[_toAssetId].currentPrice;
+  const _fromAssetData = useMemo(() => assetsQuery.getAssetBySymbol(fromAssetSymbol),
+    [assetsQuery.data, fromAssetSymbol]);
+  const _toAssetData = useMemo(() => assetsQuery.getAssetBySymbol(toAssetSymbol),
+    [assetsQuery.data, toAssetSymbol]);
+
+  const _balance = _fromAssetData?.balance || 0;
+  const _fromFiatRate = _fromAssetData?.fiatRate || 0;
+  const _toFiatRate = _toAssetData?.fiatRate || 0;
   const _marketFiatPrice = marketPrice * _toFiatRate;
 
   const _toAmountStr = toAmount.toFixed(3);
@@ -215,7 +215,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
           { id: 'trade.swap_for' },
           {
             fromAmount: `${fromAmount} ${fromAssetSymbol}`,
-            toAmount: `${_toAmountStr} ${_toAssetSymbol}`,
+            toAmount: `${_toAmountStr} ${toAssetSymbol}`,
           },
         ),
         buttons: [
@@ -239,7 +239,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
   };
 
   const handleAssetChange = () => {
-    setFromAssetSymbol(_toAssetSymbol);
+    setFromAssetSymbol(toAssetSymbol);
   };
 
   const _disabledContinue =
@@ -277,7 +277,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
       <SwapAmountInput
         label={intl.formatMessage({ id: 'transfer.to' })}
         value={_toAmountStr}
-        symbol={_toAssetSymbol}
+        symbol={toAssetSymbol}
         fiatRate={_toFiatRate}
       />
       <AssetChangeBtn onPress={handleAssetChange} />
@@ -300,7 +300,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
   const _renderMarketPrice = () => (
     <Text style={styles.marketRate}>
       {`1 ${fromAssetSymbol} = ${marketPrice.toFixed(3)} ` +
-        `${_toAssetSymbol} (${currency.currencySymbol + _marketFiatPrice.toFixed(3)})`}
+        `${toAssetSymbol} (${currency.currencySymbol + _marketFiatPrice.toFixed(3)})`}
     </Text>
   );
 
