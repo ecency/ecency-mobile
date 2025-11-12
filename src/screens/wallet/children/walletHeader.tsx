@@ -11,7 +11,6 @@ import { useAppSelector } from '../../../hooks';
 import { PortfolioItem } from '../../../providers/ecency/ecency.types';
 
 import styles from './walletHeader.styles';
-import { WalletActions } from '../../assetDetails/children';
 
 interface WalletHeaderProps {
   assets?: PortfolioItem[];
@@ -38,43 +37,25 @@ export const WalletHeader = ({
   const ManageIconButton = IconButton as any;
   const BoostIconButton = IconButton as any;
 
-  const actionHandlers = useMemo(
-    () => ({
-      manage_tokens: () => navigation.navigate(ROUTES.MODALS.ASSETS_SELECT),
-      //   claim_all: () => Alert.alert('TODO: Implement Claim All'),
-      boost: () =>
-        navigation.navigate({
-          name: ROUTES.SCREENS.ACCOUNT_BOOST,
-          params: {
-            username: currentAccount.name,
-          },
-        }),
-    }),
-    [navigation, currentAccount.name],
-  );
+  const _onManageTokensPress = () => {
+    navigation.navigate(ROUTES.MODALS.ASSETS_SELECT);
+  };
+
+
+  const _onBoostPress = () => {
+    navigation.navigate({
+      name: ROUTES.SCREENS.ACCOUNT_BOOST,
+      params: {
+        username: currentAccount.name,
+      },
+    })
+  };
 
   const hpBalance = useMemo(
     () => assets?.find((asset) => asset.symbol?.toUpperCase?.() === 'HP')?.balance ?? 0,
     [assets],
   );
 
-  const _actionKeys = useMemo(() => {
-    const keys: string[] = [
-      // 'claim_all' //TODO: Implement Claim All
-    ];
-    if (hpBalance < 50) {
-      keys.push('boost');
-    }
-    return keys;
-  }, [hpBalance]);
-
-  const _handleActionPress = (action: string) => {
-    const handler = actionHandlers[action as keyof typeof actionHandlers];
-
-    if (handler) {
-      handler();
-    }
-  };
 
   const totalBalanceLabel = useMemo(() => {
     if (!assets || assets.length === 0) {
@@ -138,7 +119,7 @@ export const WalletHeader = ({
                 iconType="MaterialCommunityIcons"
                 size={24}
                 color={EStyleSheet.value('$primaryBlue')}
-                onPress={() => actionHandlers.boost?.()}
+                onPress={_onBoostPress}
                 style={styles.actionIconButton}
               />
             </View>
@@ -164,13 +145,12 @@ export const WalletHeader = ({
               iconType="MaterialCommunityIcons"
               size={24}
               color={EStyleSheet.value('$primaryBlack')}
-              onPress={() => actionHandlers.manage_tokens()}
+              onPress={_onManageTokensPress}
               style={styles.actionIconButton}
             />
           </View>
         </View>
       </View>
-      <WalletActions actions={_actionKeys} onActionPress={_handleActionPress} />
     </View>
   );
 };
