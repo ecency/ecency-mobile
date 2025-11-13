@@ -7,8 +7,7 @@ import { Alert } from 'react-native';
 import { PortfolioItem, PortfolioLayer } from 'providers/ecency/ecency.types';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import parseToken from '../../../utils/parseToken';
-import { claimPoints, getPointsSummary } from '../../ecency/ePoint';
+import { claimPoints } from '../../ecency/ePoint';
 import {
   claimRewardBalance,
   getAccount,
@@ -26,10 +25,6 @@ import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { getPortfolio } from '../../ecency/ecency';
 import { ProfileToken } from '../../../redux/reducers/walletReducer';
 
-interface RewardsCollection {
-  [key: string]: string;
-}
-
 interface ClaimRewardsMutationVars {
   symbol: string;
 }
@@ -40,7 +35,9 @@ const ACTIVITIES_FETCH_LIMIT = 50;
 export const useAssetsQuery = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const selectedAssets: ProfileToken[] = useAppSelector((state) => state.wallet.selectedAssets);
-  const claimsCollection: ClaimsCollection = useAppSelector((state) => state.cache.claimsCollection);
+  const claimsCollection: ClaimsCollection = useAppSelector(
+    (state) => state.cache.claimsCollection,
+  );
 
   // TODO: test assets update with currency and quote change
 
@@ -54,12 +51,15 @@ export const useAssetsQuery = () => {
           return [];
         }
 
-        //update response with redux claim cachce if pendingRewards value and cache valuye is equal and cache is not expired
+        // update response with redux claim cachce if pendingRewards value and cache valuye is equal and cache is not expired
         const updatedResponse = response.map((item) => {
           const claimCache = claimsCollection[item.symbol];
           const cachedRewardValue = Number(claimCache?.rewardValue) || 0;
-          if (claimCache?.expiresAt && claimCache?.expiresAt > Date.now()
-            && item.pendingRewards === cachedRewardValue) {
+          if (
+            claimCache?.expiresAt &&
+            claimCache?.expiresAt > Date.now() &&
+            item.pendingRewards === cachedRewardValue
+          ) {
             return { ...item, pendingRewards: 0 };
           }
           return item;
@@ -105,7 +105,6 @@ export const useAssetsQuery = () => {
   };
 };
 
-
 /**
  * query hook responsible for claiming any kind asset rewards, mutate rewards api.
  * Also updates claimsCollection in cache store redux and invalidates wallet data.
@@ -142,7 +141,7 @@ export const useClaimRewardsMutation = () => {
           pinHash,
           undefined,
           account.reward_hbd_balance,
-          undefined
+          undefined,
         );
         break;
       case 'HIVE':
@@ -174,9 +173,11 @@ export const useClaimRewardsMutation = () => {
       console.log('successfully initiated claim action activity', data, { symbol });
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));
 
-
       // Update claim cache and set claimed asset to zero in portfolio data (loop only once)
-      const portfolioData: PortfolioItem[] | undefined = queryClient.getQueryData<any[]>([QUERIES.WALLET.GET, currentAccount.username]);
+      const portfolioData: PortfolioItem[] | undefined = queryClient.getQueryData<any[]>([
+        QUERIES.WALLET.GET,
+        currentAccount.username,
+      ]);
 
       if (portfolioData) {
         let claimedValue = undefined;
@@ -188,12 +189,15 @@ export const useClaimRewardsMutation = () => {
           return item;
         });
 
-        //update redux claim cache
+        // update redux claim cache
         if (claimedValue) {
           dispatch(updateClaimCache(symbol, claimedValue));
         }
 
-        queryClient.setQueryData([QUERIES.WALLET.GET, currentAccount.username], updatedPortfolioData);
+        queryClient.setQueryData(
+          [QUERIES.WALLET.GET, currentAccount.username],
+          updatedPortfolioData,
+        );
       }
 
       dispatch(
