@@ -324,6 +324,10 @@ const TransferView = ({
     [recurrentTransfers],
   );
 
+  const allowMultipleDest =
+    (tokenLayer === TokenLayers.HIVE && transferType === TransferTypes.TRANSFER) ||
+    (tokenLayer === TokenLayers.POINTS && transferType === TransferTypes.ECENCY_POINT_TRANSFER);
+
   return (
     <SafeAreaView style={styles.container}>
       <BasicHeader
@@ -354,6 +358,7 @@ const TransferView = ({
             setMemo={setMemo}
             spkMarkets={spkMarkets}
             getRecurrentTransferOfUser={_findRecurrentTransferOfUser}
+            allowMultipleDest={allowMultipleDest}
           />
           <TransferAmountInputSection
             balance={balance}
