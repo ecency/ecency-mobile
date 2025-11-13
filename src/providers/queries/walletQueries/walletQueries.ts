@@ -120,12 +120,12 @@ export const useClaimRewardsMutation = () => {
   const [isClaimingColl, setIsClaimingColl] = useState<{ [key: string]: boolean }>({});
 
   const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
+    let account = await getAccount(currentAccount.name);
     switch (symbol) {
       case 'POINTS':
         await claimPoints();
         break;
       case 'HP':
-        const account = await getAccount(currentAccount.name);
         await claimRewardBalance(
           currentAccount,
           pinHash,
@@ -135,7 +135,6 @@ export const useClaimRewardsMutation = () => {
         );
         break;
       case 'HBD':
-        const account = await getAccount(currentAccount.name);
         await claimRewardBalance(
           currentAccount,
           pinHash,
@@ -145,7 +144,6 @@ export const useClaimRewardsMutation = () => {
         );
         break;
       case 'HIVE':
-        const account = await getAccount(currentAccount.name);
         await claimRewardBalance(
           currentAccount,
           pinHash,
