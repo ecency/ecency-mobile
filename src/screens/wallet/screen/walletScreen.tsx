@@ -201,7 +201,7 @@ const WalletScreen = ({ navigation }) => {
         iconUrl={item.iconUrl}
         currentValue={item.fiatRate || 0}
         currencySymbol={currency.currencySymbol}
-        ownedBalance={item.balance}
+        ownedBalance={item.balance || 0}
         unclaimedRewards={unclaimedRewards}
         enableBuy={!item.pendingRewards && item.symbol === 'POINTS'}
         isClaiming={_isClaimingThis}

@@ -41,21 +41,19 @@ export const WalletHeader = ({
     navigation.navigate(ROUTES.MODALS.ASSETS_SELECT);
   };
 
-
   const _onBoostPress = () => {
     navigation.navigate({
       name: ROUTES.SCREENS.ACCOUNT_BOOST,
       params: {
         username: currentAccount.name,
       },
-    })
+    });
   };
 
   const hpBalance = useMemo(
     () => assets?.find((asset) => asset.symbol?.toUpperCase?.() === 'HP')?.balance ?? 0,
     [assets],
   );
-
 
   const totalBalanceLabel = useMemo(() => {
     if (!assets || assets.length === 0) {

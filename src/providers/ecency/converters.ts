@@ -120,28 +120,40 @@ export const convertPortfolio = (rawData: any) => {
     return [];
   }
 
-  return rawData.map(
-    (item: any) =>
-      ({
-        name: item.name || '',
-        symbol: item.symbol || '',
-        layer: item.layer || '',
-        balance: (item.symbol === 'HIVE' ? item.liquid : item.balance) || 0,
-        fiatRate: item.fiatRate || 0,
-        address: item.address,
-        pendingRewards: item.pendingRewards || 0,
-        pendingRewardsFiat: item.pendingRewardsFiat || 0,
-        liquid: item.liquid || 0,
-        liquidFiat: item.liquidFiat || 0,
-        savings: item.savings || 0,
-        savingsFiat: item.savingsFiat || 0,
-        staked: item.staked || 0,
-        stakedFiat: item.stakedFiat || 0,
-        iconUrl: item.iconUrl,
-        actions: item.actions.map((action: any) => action.id) || [],
-        extraData: item.extraData || [],
-      } as PortfolioItem),
-  );
+  return rawData.map((item: any) => {
+    const balance = item.symbol === 'HIVE' ? item.liquid : item.balance;
+    const liquid = item.symbol === 'HP' ? 0 : item.liquid;
+
+    let { staked } = item;
+    switch (item.symbol) {
+      case 'HP':
+        staked = item.balance;
+        break;
+      case 'HIVE':
+        staked = 0;
+        break;
+    }
+
+    return {
+      name: item.name || '',
+      symbol: item.symbol || '',
+      layer: item.layer || '',
+      balance,
+      fiatRate: item.fiatRate || 0,
+      address: item.address,
+      pendingRewards: item.pendingRewards || 0,
+      pendingRewardsFiat: item.pendingRewardsFiat || 0,
+      liquid,
+      liquidFiat: item.liquidFiat || 0,
+      savings: item.savings || 0,
+      savingsFiat: item.savingsFiat || 0,
+      staked,
+      stakedFiat: item.stakedFiat || 0,
+      iconUrl: item.iconUrl,
+      actions: item.actions.map((action: any) => action.id) || [],
+      extraData: item.extraData || [],
+    } as PortfolioItem;
+  });
 };
 
 export const convertProposalMeta = (rawData: any) => {

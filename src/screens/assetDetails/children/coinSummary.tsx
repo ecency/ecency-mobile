@@ -3,10 +3,9 @@ import { View } from 'react-native';
 import { PortfolioItem } from 'providers/ecency/ecency.types';
 import { WalletActions, CoinBasics } from '.';
 import { FormattedCurrency } from '../../../components';
-import { DataPair } from '../../../redux/reducers/walletReducer';
 
 export interface CoinSummaryProps {
-  coinSymbol: string;
+  tokenSymbol: string;
   asset: PortfolioItem;
   percentChagne?: number;
   showChart: boolean;
@@ -17,7 +16,7 @@ export interface CoinSummaryProps {
 }
 
 export const CoinSummary = ({
-  coinSymbol,
+  tokenSymbol,
   asset,
   percentChagne,
   showChart,
@@ -26,15 +25,31 @@ export const CoinSummary = ({
   onActionPress,
   onInfoPress,
 }: CoinSummaryProps) => {
-  const { balance, fiatRate, savings, extraData, actions } = asset;
+  const { balance, fiatRate, savings, extraData, actions, liquid, staked } = asset;
   const isEngine = asset.layer === 'engine';
 
-  const valuePairs = [
-    {
+  const valuePairs = [];
+
+  if (tokenSymbol !== 'HP') {
+    valuePairs.push({
       dataKey: 'amount_desc',
-      value: balance.toFixed(3),
-    },
-  ] as DataPair[];
+      value: liquid?.toFixed(3) || '0',
+    });
+  }
+
+  if (staked !== undefined && staked > 0) {
+    valuePairs.push({
+      dataKey: 'staked',
+      value: staked?.toFixed(3) || '0',
+    });
+  }
+
+  if (savings !== undefined && savings > 0) {
+    valuePairs.push({
+      dataKey: 'savings',
+      value: savings?.toFixed(3) || '0',
+    });
+  }
 
   if (fiatRate !== undefined) {
     const estimatedValue = balance * fiatRate;
@@ -44,25 +59,18 @@ export const CoinSummary = ({
     });
   }
 
-  if (savings !== undefined && savings > 0) {
-    valuePairs.push({
-      dataKey: 'savings',
-      value: savings,
-    });
-  }
-
   // Create a new array for extraDataPairs to avoid mutating the original reference
   const _extraDataPairs = useMemo(() => {
     const pairs = extraData ? [...extraData] : [];
     if (totalRecurrentAmount && totalRecurrentAmount > 0) {
       pairs.push({
         dataKey: 'total_recurrent_transfers',
-        value: `${totalRecurrentAmount} ${coinSymbol}`,
+        value: `${totalRecurrentAmount} ${tokenSymbol}`,
         isClickable: true,
       });
     }
     return pairs;
-  }, [extraData, totalRecurrentAmount, coinSymbol]);
+  }, [extraData, totalRecurrentAmount, tokenSymbol]);
 
   return (
     <View>
@@ -70,7 +78,7 @@ export const CoinSummary = ({
         iconUrl={asset.iconUrl}
         valuePairs={valuePairs}
         extraData={_extraDataPairs}
-        coinSymbol={coinSymbol}
+        coinSymbol={tokenSymbol}
         percentChange={percentChagne}
         isEngine={isEngine}
         onInfoPress={onInfoPress}

@@ -95,7 +95,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
     [assetsQuery.data, toAssetSymbol],
   );
 
-  const _balance = _fromAssetData?.balance || 0;
+  const _balance = _fromAssetData?.liquid || 0;
   const _fromFiatRate = _fromAssetData?.fiatRate || 0;
   const _toFiatRate = _toAssetData?.fiatRate || 0;
   const _marketFiatPrice = marketPrice * _toFiatRate;

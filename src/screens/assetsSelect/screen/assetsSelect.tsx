@@ -115,13 +115,9 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
       return 0;
     });
 
-    _data.splice(
-      selectionRef.current.length,
-      0,
-      {
-        isSectionSeparator: true,
-      } as SelectableAsset,
-    );
+    _data.splice(selectionRef.current.length, 0, {
+      isSectionSeparator: true,
+    } as SelectableAsset);
 
     setSortedList(_data);
   };
@@ -238,13 +234,7 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
     );
 
   const _renderOptions = () => {
-    const _renderItem = ({
-      item,
-      drag,
-    }: {
-      item: SelectableAsset;
-      drag: () => void;
-    }) => {
+    const _renderItem = ({ item, drag }: { item: SelectableAsset; drag: () => void }) => {
       if (item.isSectionSeparator) {
         return _renderSectionSeparator(intl.formatMessage({ id: 'wallet.available_assets' }));
       }

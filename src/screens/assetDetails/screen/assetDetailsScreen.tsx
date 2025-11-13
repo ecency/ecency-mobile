@@ -124,7 +124,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   const _onActionPress = (transferType: string, baseActivity: CoinActivity | null = null) => {
     let navigateTo: string = ROUTES.SCREENS.TRANSFER;
     let navigateParams = {};
-    let { balance } = asset;
+    let baseBalance = asset.liquid ?? 0;
     let fundType = assetSymbol;
 
     if (assetLayer === TokenLayers.POINTS) {
@@ -155,7 +155,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
           navigateTo = ROUTES.SCREENS.TRADE;
           break;
         case TransferTypes.TRANSFER_FROM_SAVINGS:
-          balance = asset.savings ?? 0;
+          baseBalance = asset.savings ?? 0;
           break;
       }
     }
@@ -164,10 +164,10 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       switch (transferType) {
         case TransferTypes.UNSTAKE:
         case TransferTypes.DELEGATE:
-          balance = asset.staked ?? 0;
+          baseBalance = asset.staked ?? 0;
           break;
         case TransferTypes.UNDELEGATE:
-          balance =
+          baseBalance =
             asset.extraData?.reduce(
               (bal, data) => (data.dataKey === 'delegations_out' ? Number(data.value) : bal),
               0,
@@ -180,7 +180,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
       transferType,
       fundType,
       assetLayer,
-      balance,
+      balance: baseBalance,
     };
 
     if (assetLayer === TokenLayers.CHAIN && transferType === TransferTypes.RECEIVE) {
@@ -222,10 +222,8 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
 
   const _renderHeaderComponent = (
     <CoinSummary
-      // id={assetSymbol}
-      coinSymbol={assetSymbol}
+      tokenSymbol={assetSymbol}
       asset={asset}
-      // percentChagne={(quote ? quote.percentChange : asset?.percentChange) || 0}
       totalRecurrentAmount={recurringActivitiesQuery?.totalAmount || 0}
       onActionPress={_onActionPress}
       onInfoPress={_onInfoPress}
