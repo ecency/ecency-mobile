@@ -121,42 +121,24 @@ export const useClaimRewardsMutation = () => {
 
   const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
     let account = await getAccount(currentAccount.name);
-    switch (symbol) {
-      case 'POINTS':
-        await claimPoints();
-        break;
-      case 'HP':
-        await claimRewardBalance(
-          currentAccount,
-          pinHash,
-          undefined,
-          undefined,
-          account.reward_vesting_balance,
-        );
-        break;
-      case 'HBD':
-        await claimRewardBalance(
-          currentAccount,
-          pinHash,
-          undefined,
-          account.reward_hbd_balance,
-          undefined,
-        );
-        break;
-      case 'HIVE':
-        await claimRewardBalance(
-          currentAccount,
-          pinHash,
-          account.reward_hive_balance,
-          undefined,
-          undefined,
-        );
-        break;
+    if (!account) {
+      throw new Error('Account not found');
+    }
 
-      // TODO: add support for other asset claims,
-      default:
-        await claimRewards([symbol], currentAccount, pinHash);
-        break;
+
+    
+    if (symbol === 'POINTS') {
+      await claimPoints();
+    } else if (['HP', 'HBD', 'HIVE'].includes(symbol)) {
+      await claimRewardBalance(
+        currentAccount,
+        pinHash,
+        symbol === 'HIVE' ? account.reward_hive_balance : undefined,
+        symbol === 'HBD' ? account.reward_hbd_balance : undefined,
+        symbol === 'HP' ? account.reward_vesting_balance : undefined,
+      );
+    } else {
+      await claimRewards([symbol], currentAccount, pinHash);
     }
     return true;
   };
