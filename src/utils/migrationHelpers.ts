@@ -385,6 +385,8 @@ const reduxMigrations = {
     delete state.wallet.selectedCoins;
     delete state.wallet.coinsData;
 
+    state.cache.claimsCollection = {};
+
     return state;
   },
 };

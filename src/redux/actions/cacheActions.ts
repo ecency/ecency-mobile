@@ -123,7 +123,7 @@ export const deleteDraftCacheEntry = (id: string) => ({
   type: DELETE_DRAFT_CACHE_ENTRY,
 });
 
-export const updateClaimCache = (assetId: string, rewardValue: string) => ({
+export const updateClaimCache = (assetId: string, rewardValue: number) => ({
   payload: {
     assetId,
     rewardValue,

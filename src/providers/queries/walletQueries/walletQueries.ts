@@ -4,12 +4,11 @@ import { useIntl } from 'react-intl';
 import { unionBy } from 'lodash';
 import { RecurrentTransfer } from 'providers/hive/hive.types';
 import { Alert } from 'react-native';
-import { PortfolioLayer } from 'providers/ecency/ecency.types';
+import { PortfolioItem, PortfolioLayer } from 'providers/ecency/ecency.types';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import parseToken from '../../../utils/parseToken';
 import { claimPoints, getPointsSummary } from '../../ecency/ePoint';
-import { fetchUnclaimedRewards } from '../../hive-engine/hiveEngine';
 import {
   claimRewardBalance,
   getAccount,
@@ -41,6 +40,7 @@ const ACTIVITIES_FETCH_LIMIT = 50;
 export const useAssetsQuery = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const selectedAssets: ProfileToken[] = useAppSelector((state) => state.wallet.selectedAssets);
+  const claimsCollection: ClaimsCollection = useAppSelector((state) => state.cache.claimsCollection);
 
   // TODO: test assets update with currency and quote change
 
@@ -54,7 +54,18 @@ export const useAssetsQuery = () => {
           return [];
         }
 
-        return response;
+        //update response with redux claim cachce if pendingRewards value and cache valuye is equal and cache is not expired
+        const updatedResponse = response.map((item) => {
+          const claimCache = claimsCollection[item.symbol];
+          const cachedRewardValue = Number(claimCache?.rewardValue) || 0;
+          if (claimCache?.expiresAt && claimCache?.expiresAt > Date.now()
+            && item.pendingRewards === cachedRewardValue) {
+            return { ...item, pendingRewards: 0 };
+          }
+          return item;
+        });
+
+        return updatedResponse;
       } catch (err) {
         console.warn('failed to get query response', err);
         return [];
@@ -94,113 +105,6 @@ export const useAssetsQuery = () => {
   };
 };
 
-export const useUnclaimedRewardsQuery = () => {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const claimsCollection: ClaimsCollection = useAppSelector(
-    (state) => state.cache.claimsCollection,
-  );
-
-  // process cached claims data
-  const _processCachedData = (rewardsCollection: RewardsCollection) => {
-    if (claimsCollection) {
-      const _curTime = new Date().getTime();
-      Object.keys(claimsCollection).forEach((key) => {
-        const _claimCache = claimsCollection[key];
-        const _rewardValue = rewardsCollection[key];
-        if (
-          _claimCache &&
-          _claimCache.rewardValue &&
-          _rewardValue &&
-          _claimCache.rewardValue === _rewardValue &&
-          (_claimCache.expiresAt || 0) > _curTime
-        ) {
-          delete rewardsCollection[key];
-        }
-      });
-    }
-
-    return rewardsCollection;
-  };
-
-  // Ecency unclaimed balance
-  const _fetchUnclaimedPoints = async (username) => {
-    const _rewardsCollection: RewardsCollection = {};
-    try {
-      const _pointsSummary = await getPointsSummary(username);
-      const unclaimedPoints = parseFloat(_pointsSummary.unclaimed_points || '0');
-      const unclaimedEstm = unclaimedPoints ? `${unclaimedPoints} Points` : '';
-      _rewardsCollection[ASSET_IDS.ECENCY] = unclaimedEstm;
-    } catch (err) {
-      console.warn('failed to get unclaimed points', err);
-    }
-
-    return _rewardsCollection;
-  };
-
-  // HP unclaimed balance
-  const _fetchUnclaimedHive = async (username: string) => {
-    // agggregate claim button text
-    const _rewardsCollection: RewardsCollection = {};
-    try {
-      const userdata = await getAccount(username);
-      const _getBalanceStr = (val: number, cur: string) =>
-        val ? Math.round(val * 1000) / 1000 + cur : '';
-      const unclaimedHp = [
-        _getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE'),
-        _getBalanceStr(parseToken(userdata.reward_hbd_balance), ' HBD'),
-        _getBalanceStr(parseToken(userdata.reward_vesting_hive), ' HP'),
-      ].reduce(
-        (prevVal, bal) => prevVal + (!bal ? '' : `${prevVal !== '' ? '   ' : ''}${bal}`),
-        '',
-      );
-      _rewardsCollection[ASSET_IDS.HP] = unclaimedHp;
-    } catch (err) {
-      console.warn('failed to get unclaimed HIVE', err);
-    }
-    return _rewardsCollection;
-  };
-
-  // Engine unclaimed balance
-  const _fetchUnclaimedEngine = async (username: string) => {
-    const _rewardsCollection: RewardsCollection = {};
-    try {
-      const unclaimedEngine = await fetchUnclaimedRewards(username);
-      unclaimedEngine.forEach((tokenStatus) => {
-        const unclaimedBal = tokenStatus
-          ? `${tokenStatus.pendingRewards} ${tokenStatus.symbol}`
-          : '';
-        _rewardsCollection[tokenStatus.symbol] = unclaimedBal;
-      });
-    } catch (err) {
-      console.warn('failed to get unclaimed engine', err);
-    }
-    return _rewardsCollection;
-  };
-
-  const _fetchUnclaimedRewards = async () => {
-    const username = currentAccount?.username;
-    if (!username) {
-      return {};
-    }
-
-    const _unclaimedPoints = await _fetchUnclaimedPoints(username);
-    const _unclaimedHive = await _fetchUnclaimedHive(username);
-    const _unclaimedEngine = await _fetchUnclaimedEngine(username);
-
-    const rewardsCollection = {
-      ..._unclaimedPoints,
-      ..._unclaimedHive,
-      ..._unclaimedEngine,
-    };
-
-    return _processCachedData(rewardsCollection);
-  };
-
-  return useQuery<RewardsCollection>({
-    queryKey: [QUERIES.WALLET.UNCLAIMED_GET, currentAccount.username],
-    queryFn: _fetchUnclaimedRewards,
-  });
-};
 
 /**
  * query hook responsible for claiming any kind asset rewards, mutate rewards api.
@@ -264,33 +168,33 @@ export const useClaimRewardsMutation = () => {
     mutationFn: _mutationFn,
     retry: 2,
     onMutate({ symbol }) {
-      setIsClaimingColl({ ...isClaimingColl, [symbol]: true });
+      setIsClaimingColl((prev) => ({ ...prev, [symbol]: true }));
     },
     onSuccess: (data, { symbol }) => {
       console.log('successfully initiated claim action activity', data, { symbol });
-      setIsClaimingColl({ ...isClaimingColl, [symbol]: false });
+      setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));
 
-      // get current rewards data from query
-      const rewardsData: RewardsCollection | undefined = queryClient.getQueryData([
-        QUERIES.WALLET.UNCLAIMED_GET,
-        currentAccount.username,
-      ]);
-      if (rewardsData) {
-        // update claim cache value in redux;
 
-        // TOOD: assess what is happening here, possibly rewardsData already have some value set as cache
-        dispatch(updateClaimCache(symbol, rewardsData[symbol]));
+      // Update claim cache and set claimed asset to zero in portfolio data (loop only once)
+      const portfolioData: PortfolioItem[] | undefined = queryClient.getQueryData<any[]>([QUERIES.WALLET.GET, currentAccount.username]);
 
-        // mutate claim data
-        delete rewardsData[symbol];
-        queryClient.setQueryData(
-          [QUERIES.WALLET.UNCLAIMED_GET, currentAccount.username],
-          rewardsData,
-        );
+      if (portfolioData) {
+        let claimedValue = undefined;
+        const updatedPortfolioData = portfolioData.map((item) => {
+          if (item.symbol === symbol) {
+            claimedValue = item.pendingRewards;
+            return { ...item, pendingRewards: 0 };
+          }
+          return item;
+        });
+
+        //update redux claim cache
+        if (claimedValue) {
+          dispatch(updateClaimCache(symbol, claimedValue));
+        }
+
+        queryClient.setQueryData([QUERIES.WALLET.GET, currentAccount.username], updatedPortfolioData);
       }
-
-      // invalidate wallet data;
-      queryClient.invalidateQueries({ queryKey: [QUERIES.WALLET.GET, currentAccount.username] });
 
       dispatch(
         toastNotification(
@@ -301,7 +205,7 @@ export const useClaimRewardsMutation = () => {
       );
     },
     onError: (error, { symbol }) => {
-      setIsClaimingColl({ ...isClaimingColl, [symbol]: false });
+      setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));
       dispatch(
         toastNotification(
           intl.formatMessage({ id: 'alert.claim_failed' }, { message: error.message }),
