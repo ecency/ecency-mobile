@@ -226,11 +226,32 @@ export const useClaimRewardsMutation = () => {
         await claimRewardBalance(
           currentAccount,
           pinHash,
-          account.reward_hive_balance,
-          account.reward_hbd_balance,
+          undefined,
+          undefined,
           account.reward_vesting_balance,
         );
         break;
+      case 'HBD':
+        const account = await getAccount(currentAccount.name);
+        await claimRewardBalance(
+          currentAccount,
+          pinHash,
+          undefined,
+          account.reward_hbd_balance,
+          undefined
+        );
+        break;
+      case 'HIVE':
+        const account = await getAccount(currentAccount.name);
+        await claimRewardBalance(
+          currentAccount,
+          pinHash,
+          account.reward_hive_balance,
+          undefined,
+          undefined,
+        );
+        break;
+
       // TODO: add support for other asset claims,
       default:
         await claimRewards([symbol], currentAccount, pinHash);
