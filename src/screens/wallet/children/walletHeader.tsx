@@ -9,6 +9,7 @@ import ROUTES from '../../../constants/routeNames';
 import { IconButton } from '../../../components';
 import { useAppSelector } from '../../../hooks';
 import { PortfolioItem } from '../../../providers/ecency/ecency.types';
+import { formatAmount } from '../../../utils/number';
 
 import styles from './walletHeader.styles';
 
@@ -56,8 +57,11 @@ export const WalletHeader = ({
   );
 
   const totalBalanceLabel = useMemo(() => {
+    const locale = intl.locale;
     if (!assets || assets.length === 0) {
-      return currencySymbol ? `${currencySymbol}0` : `0 ${currencyCode}`.trim();
+      return currencySymbol
+        ? formatAmount(0, { currencySymbol, currencyCode, locale })
+        : `${formatAmount(0, { locale })} ${currencyCode}`.trim();
     }
 
     const total = assets.reduce((sum, asset) => {
@@ -65,14 +69,21 @@ export const WalletHeader = ({
       return sum + assetTotal;
     }, 0);
 
-    const formattedTotal = total >= 1 ? total.toFixed(2) : total.toFixed(5);
+    const isSmallNumber = total < 1;
+    const formattedTotal = formatAmount(total, {
+      locale,
+      currencySymbol,
+      currencyCode,
+      minimumFractionDigits: isSmallNumber ? 5 : 2,
+      maximumFractionDigits: isSmallNumber ? 5 : 2,
+    });
 
     if (currencySymbol) {
-      return `${currencySymbol}${formattedTotal}`;
+      return formattedTotal;
     }
 
     return `${formattedTotal} ${currencyCode}`.trim();
-  }, [assets, currencyCode]);
+  }, [assets, currencyCode, currencySymbol]);
 
   const effectiveLastUpdated =
     typeof lastUpdated === 'number' ? lastUpdated : walletState.updateTimestamp;

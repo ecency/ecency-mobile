@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
-import React, { ComponentType } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from '../styles/children.styles';
@@ -7,6 +7,9 @@ import { IconButton } from '../../../components';
 import { ClaimButton } from './claimButton';
 
 import { AssetIcon } from '../../../components/atoms';
+import { formatAmount } from '../../../utils/number';
+
+const AlertIconButton = IconButton as any;
 
 export interface AssetCardProps {
   name: string;
@@ -15,6 +18,8 @@ export interface AssetCardProps {
   isSpk?: boolean;
   symbol: string;
   currencySymbol: string;
+  currencyCode?: string;
+  locale?: string;
   currentValue: number;
   ownedBalance: number;
   unclaimedRewards: string;
@@ -23,7 +28,7 @@ export interface AssetCardProps {
   isLoading?: boolean;
   volume24h?: number;
   precision?: number;
-  footerComponent: ComponentType<any>;
+  footerComponent: ReactNode;
   onCardPress: () => void;
   onClaimPress: () => void;
 }
@@ -35,6 +40,8 @@ export const AssetCard = ({
   isEngine,
   isSpk,
   currencySymbol,
+  currencyCode,
+  locale,
   currentValue,
   ownedBalance,
   footerComponent,
@@ -48,13 +55,18 @@ export const AssetCard = ({
   onClaimPress,
 }: AssetCardProps) => {
   const intl = useIntl();
+  const resolvedLocale = useMemo(() => locale || intl.locale, [locale, intl.locale]);
+  const displayPrecision = useMemo(
+    () => (isEngine ? Math.min(precision || 3, 8) : 3),
+    [isEngine, precision],
+  );
 
   const _onClaimPress = () => {
     onClaimPress();
   };
 
   const _inactiveTokenBtn = !!volume24h && volume24h < 10 && (
-    <IconButton
+    <AlertIconButton
       name="alert-circle-outline"
       iconType="MaterialCommuntyIcon"
       size={24}
@@ -71,9 +83,20 @@ export const AssetCard = ({
   const _name = intl.messages[`wallet.${symbol}.name`]
     ? intl.formatMessage({ id: `wallet.${symbol}.name` })
     : name;
-  const value = `${ownedBalance.toFixed(isEngine ? precision : 3)}`;
+  const value = formatAmount(ownedBalance, {
+    locale: resolvedLocale,
+    minimumFractionDigits: displayPrecision,
+    maximumFractionDigits: displayPrecision,
+  });
   const _fiatValue = ownedBalance * currentValue;
-  const _fiatStr = `${_fiatValue.toFixed(_fiatValue < 1 ? 5 : 2)}${currencySymbol}`;
+  const isSmallFiatValue = _fiatValue < 1;
+  const _fiatStr = formatAmount(_fiatValue, {
+    locale: resolvedLocale,
+    currencySymbol,
+    currencyCode,
+    minimumFractionDigits: isSmallFiatValue ? 5 : 2,
+    maximumFractionDigits: isSmallFiatValue ? 5 : 2,
+  });
 
   const _renderHeader = (
     <View style={styles.cardHeader}>

@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { useEffect, useRef, Fragment } from 'react';
+import React, { useEffect, useRef, Fragment, useMemo } from 'react';
 import { View, AppState, AppStateStatus } from 'react-native';
 import { isArray } from 'lodash';
 
@@ -15,11 +15,12 @@ import globalStyles from '../../../globalStyles';
 import styles from './walletScreenStyles';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useIntl } from 'react-intl';
 import { AssetCard, WalletHeader } from '../children';
 import ROUTES from '../../../constants/routeNames';
 import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetailsScreen';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
-import { ProfileToken, TokenType } from '../../../redux/reducers/walletReducer';
+import { AssetBase, ProfileToken, TokenType } from '../../../redux/reducers/walletReducer';
 import {
   fetchCoinQuotes,
   resetWalletData,
@@ -29,9 +30,11 @@ import DEFAULT_ASSETS from '../../../constants/defaultAssets';
 import { walletQueries } from '../../../providers/queries';
 import { migrateSelectedTokens } from '../../../utils/migrationHelpers';
 import { PortfolioItem } from '../../../providers/ecency/ecency.types';
+import { formatAmount } from '../../../utils/number';
 
-const WalletScreen = ({ navigation }) => {
+const WalletScreen = ({ navigation }: { navigation: any }) => {
   const dispatch = useAppDispatch();
+  const intl = useIntl();
 
   // refs
   const appState = useRef(AppState.currentState);
@@ -43,12 +46,18 @@ const WalletScreen = ({ navigation }) => {
   const { selectedAssets, quotes, ...wallet } = useAppSelector((state) => state.wallet);
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-
-  // queries
+    // queries
   const walletQuery = walletQueries.useAssetsQuery();
-  // const unclaimedRewardsQuery = walletQueries.useUnclaimedRewardsQuery();
+
   const claimRewardsMutation = walletQueries.useClaimRewardsMutation();
   const updateProfileTokensMutation = walletQueries.useUpdateProfileTokensMutation();
+
+  const currentLocale = intl.locale;
+
+  const walletListData = useMemo(
+    () => (walletQuery.selectedData ? (walletQuery.selectedData.filter(Boolean) as PortfolioItem[]) : []),
+    [walletQuery.selectedData],
+  );
 
   // side-effects
   useEffect(() => {
@@ -88,7 +97,7 @@ const WalletScreen = ({ navigation }) => {
   // }, [selectedAssets]);
 
   // actions
-  const populateSelectedAssets = (tokensArr: ProfileToken[]) => {
+  const populateSelectedAssets = (tokensArr: ProfileToken[]): AssetBase[] => {
     // filter out HIVE token and hidden tokens
     return tokensArr
       .filter(({ type, meta }) => type !== TokenType.HIVE && (!meta || meta.show))
@@ -104,9 +113,9 @@ const WalletScreen = ({ navigation }) => {
 
   // TODO: redo logic to update selected assets from profile json meta
   const _updateSelectedAssetsDataFromProfileJsonMeta = () => {
-    const currSelectedEngineTokens = selectedAssets.filter(
-      (item) => !DEFAULT_ASSETS.some((defaultAsset) => defaultAsset.id === item.id),
-    );
+    const currSelectedEngineTokens = selectedAssets.filter((item: AssetBase) => {
+      return !DEFAULT_ASSETS.some((defaultAsset) => defaultAsset.id === item.id);
+    });
 
     if (isArray(currentAccount.about?.profile?.tokens)) {
       const _selectedAssets = populateSelectedAssets(currentAccount.about.profile.tokens);
@@ -174,8 +183,16 @@ const WalletScreen = ({ navigation }) => {
   };
 
   const _renderItem = ({ item, index }: { item: PortfolioItem; index: number }) => {
-    const unclaimedRewards = item.pendingRewards
-      ? `${item.pendingRewards.toFixed(3)} ${item.symbol}`
+    const unclaimedRewardsValue =
+      typeof item.pendingRewards === 'number' && item.pendingRewards > 0
+        ? formatAmount(item.pendingRewards, {
+            locale: currentLocale,
+            minimumFractionDigits: 3,
+            maximumFractionDigits: 3,
+          })
+        : '';
+    const unclaimedRewards = unclaimedRewardsValue
+      ? `${unclaimedRewardsValue} ${item.symbol}`
       : '';
 
     const _isClaimingThis = claimRewardsMutation.checkIsClaiming(item.symbol);
@@ -201,6 +218,8 @@ const WalletScreen = ({ navigation }) => {
         iconUrl={item.iconUrl}
         currentValue={item.fiatRate || 0}
         currencySymbol={currency.currencySymbol}
+        currencyCode={currency.currency}
+        locale={currentLocale}
         ownedBalance={item.balance || 0}
         unclaimedRewards={unclaimedRewards}
         enableBuy={!item.pendingRewards && item.symbol === 'POINTS'}
@@ -243,7 +262,7 @@ const WalletScreen = ({ navigation }) => {
         {() => (
           <View style={styles.listWrapper}>
             <FlatList
-              data={walletQuery.selectedData}
+              data={walletListData}
               style={globalStyles.tabBarBottom}
               ListEmptyComponent={walletQuery.isLoading ? <PostCardPlaceHolder /> : null}
               ListHeaderComponent={_renderWalletHeader}
