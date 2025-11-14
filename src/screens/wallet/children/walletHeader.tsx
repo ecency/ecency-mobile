@@ -57,7 +57,7 @@ export const WalletHeader = ({
   );
 
   const totalBalanceLabel = useMemo(() => {
-    const locale = intl.locale;
+    const { locale } = intl;
     if (!assets || assets.length === 0) {
       return currencySymbol
         ? formatAmount(0, { currencySymbol, currencyCode, locale })

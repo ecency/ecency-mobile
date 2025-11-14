@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import { PortfolioItem } from 'providers/ecency/ecency.types';
-import { WalletActions, CoinBasics } from '.';
 import { useIntl } from 'react-intl';
+import { WalletActions, CoinBasics } from '.';
 import { useAppSelector } from '../../../hooks';
 import { formatAmount } from '../../../utils/number';
 import { DataPair } from '../../../redux/reducers/walletReducer';

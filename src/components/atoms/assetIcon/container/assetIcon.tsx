@@ -7,7 +7,6 @@ import HIVE_SPK_ICON from '../../../../assets/hive_spk.png';
 import HIVE_CHAIN_ICON from '../../../../assets/chain-icon.png';
 
 interface AssetIconProps {
-  id: string;
   iconUrl?: string;
   isEngine?: boolean;
   isSpk?: boolean;
@@ -27,7 +26,7 @@ export const AssetIcon = ({
   const _logoStyle = iconSize ? { ...styles.logo, width: iconSize, height: iconSize } : styles.logo;
   let _tintColor;
 
-  let _iconSource = iconUrl && { uri: iconUrl };
+  const _iconSource = iconUrl && { uri: iconUrl };
 
   return (
     <View style={containerStyle}>

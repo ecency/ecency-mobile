@@ -121,7 +121,6 @@ export const convertPortfolio = (rawData: any) => {
   }
 
   return rawData.map((item: any) => {
-
     return {
       name: item.name || '',
       symbol: item.symbol || '',
@@ -131,7 +130,7 @@ export const convertPortfolio = (rawData: any) => {
       address: item.address,
       pendingRewards: item.pendingRewards || 0,
       pendingRewardsFiat: item.pendingRewardsFiat || 0,
-      liquid:item.symbol === 'HP' ? 0 : item.liquid,
+      liquid: item.symbol === 'HP' ? 0 : item.liquid,
       liquidFiat: item.liquidFiat || 0,
       savings: item.savings || 0,
       savingsFiat: item.savingsFiat || 0,

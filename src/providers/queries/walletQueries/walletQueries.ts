@@ -120,13 +120,11 @@ export const useClaimRewardsMutation = () => {
   const [isClaimingColl, setIsClaimingColl] = useState<{ [key: string]: boolean }>({});
 
   const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
-    let account = await getAccount(currentAccount.name);
+    const account = await getAccount(currentAccount.name);
     if (!account) {
       throw new Error('Account not found');
     }
 
-
-    
     if (symbol === 'POINTS') {
       await claimPoints();
     } else if (['HP', 'HBD', 'HIVE'].includes(symbol)) {

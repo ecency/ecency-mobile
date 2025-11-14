@@ -5,6 +5,7 @@ import { isArray } from 'lodash';
 
 // Containers
 import { RefreshControl, FlatList, gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { useIntl } from 'react-intl';
 import { LoggedInContainer } from '../../../containers';
 
 // Components
@@ -15,7 +16,6 @@ import globalStyles from '../../../globalStyles';
 import styles from './walletScreenStyles';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { useIntl } from 'react-intl';
 import { AssetCard, WalletHeader } from '../children';
 import ROUTES from '../../../constants/routeNames';
 import { AssetDetailsScreenParams } from '../../assetDetails/screen/assetDetailsScreen';
@@ -46,7 +46,7 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
   const { selectedAssets, quotes, ...wallet } = useAppSelector((state) => state.wallet);
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-    // queries
+  // queries
   const walletQuery = walletQueries.useAssetsQuery();
 
   const claimRewardsMutation = walletQueries.useClaimRewardsMutation();
@@ -55,7 +55,8 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
   const currentLocale = intl.locale;
 
   const walletListData = useMemo(
-    () => (walletQuery.selectedData ? (walletQuery.selectedData.filter(Boolean) as PortfolioItem[]) : []),
+    () =>
+      walletQuery.selectedData ? (walletQuery.selectedData.filter(Boolean) as PortfolioItem[]) : [],
     [walletQuery.selectedData],
   );
 
@@ -191,9 +192,7 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
             maximumFractionDigits: 3,
           })
         : '';
-    const unclaimedRewards = unclaimedRewardsValue
-      ? `${unclaimedRewardsValue} ${item.symbol}`
-      : '';
+    const unclaimedRewards = unclaimedRewardsValue ? `${unclaimedRewardsValue} ${item.symbol}` : '';
 
     const _isClaimingThis = claimRewardsMutation.checkIsClaiming(item.symbol);
 
