@@ -264,7 +264,7 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
             <FlatList
               data={walletListData}
               style={globalStyles.tabBarBottom}
-              ListEmptyComponent={walletQuery.isLoading ? <PostCardPlaceHolder /> : null}
+              ListEmptyComponent={walletQuery.isFetching ? <PostCardPlaceHolder /> : null}
               ListHeaderComponent={_renderWalletHeader}
               renderItem={_renderItem}
               keyExtractor={(item, index) => item.symbol + index}
