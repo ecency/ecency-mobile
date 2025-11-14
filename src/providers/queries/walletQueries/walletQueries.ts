@@ -133,9 +133,9 @@ export const useClaimRewardsMutation = () => {
       await claimRewardBalance(
         currentAccount,
         pinHash,
-        symbol === 'HIVE' ? account.reward_hive_balance : undefined,
-        symbol === 'HBD' ? account.reward_hbd_balance : undefined,
-        symbol === 'HP' ? account.reward_vesting_balance : undefined,
+        symbol === 'HIVE' ? account.reward_hive_balance : '0.000 HIVE',
+        symbol === 'HBD' ? account.reward_hbd_balance : '0.000 HBD',
+        symbol === 'HP' ? account.reward_vesting_balance : '0.000000 VESTS',
       );
     } else {
       await claimRewards([symbol], currentAccount, pinHash);
