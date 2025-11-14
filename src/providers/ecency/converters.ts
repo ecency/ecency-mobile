@@ -121,33 +121,21 @@ export const convertPortfolio = (rawData: any) => {
   }
 
   return rawData.map((item: any) => {
-    const balance = item.symbol === 'HIVE' ? item.liquid : item.balance;
-    const liquid = item.symbol === 'HP' ? 0 : item.liquid;
-
-    let { staked } = item;
-    switch (item.symbol) {
-      case 'HP':
-        staked = item.balance;
-        break;
-      case 'HIVE':
-        staked = 0;
-        break;
-    }
 
     return {
       name: item.name || '',
       symbol: item.symbol || '',
       layer: item.layer || '',
-      balance,
+      balance: item.balance || 0,
       fiatRate: item.fiatRate || 0,
       address: item.address,
       pendingRewards: item.pendingRewards || 0,
       pendingRewardsFiat: item.pendingRewardsFiat || 0,
-      liquid,
+      liquid:item.symbol === 'HP' ? 0 : item.liquid,
       liquidFiat: item.liquidFiat || 0,
       savings: item.savings || 0,
       savingsFiat: item.savingsFiat || 0,
-      staked,
+      staked: item.staked || 0,
       stakedFiat: item.stakedFiat || 0,
       iconUrl: item.iconUrl,
       actions: item.actions.map((action: any) => action.id) || [],

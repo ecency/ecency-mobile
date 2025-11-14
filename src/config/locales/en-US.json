@@ -78,6 +78,7 @@
     "powering_down_hive_power": "Unstaking ({subValue})",
     "received_hive_power": "Incoming delegations",
     "total_hive_power": "Total stake",
+    "net_hive_power": "Net stake",
     "savings": "Savings",
     "estimated_amount": "Vote value",
     "amount_information": "Drag the slider to adjust the amount",
