@@ -1,15 +1,19 @@
 import { useQuery, useQueries, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRef, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { unionBy } from 'lodash';
 import { RecurrentTransfer } from 'providers/hive/hive.types';
+import { Alert } from 'react-native';
+import { PortfolioItem, PortfolioLayer } from 'providers/ecency/ecency.types';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { fetchAndSetCoinsData } from '../../../redux/actions/walletActions';
-import parseToken from '../../../utils/parseToken';
-import { claimPoints, getPointsSummary } from '../../ecency/ePoint';
-import { fetchUnclaimedRewards } from '../../hive-engine/hiveEngine';
-import { claimRewardBalance, getAccount, getRecurrentTransfers } from '../../hive/dhive';
+import { claimPoints } from '../../ecency/ePoint';
+import {
+  claimRewardBalance,
+  getAccount,
+  getRecurrentTransfers,
+  profileUpdate,
+} from '../../hive/dhive';
 import QUERIES from '../queryKeys';
 import { claimRewards } from '../../hive-engine/hiveEngineActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
@@ -17,145 +21,88 @@ import { updateClaimCache } from '../../../redux/actions/cacheActions';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
 import { fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
 import { recurrentTransferToken } from '../../hive/dhive';
-
-interface RewardsCollection {
-  [key: string]: string;
-}
+import { updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { getPortfolio } from '../../ecency/ecency';
+import { ProfileToken } from '../../../redux/reducers/walletReducer';
 
 interface ClaimRewardsMutationVars {
-  assetId: ASSET_IDS | string;
+  symbol: string;
 }
 
 const ACTIVITIES_FETCH_LIMIT = 50;
 
 /** hook used to return user drafts */
 export const useAssetsQuery = () => {
-  const dispatch = useAppDispatch();
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const coinsData = useAppSelector((state) => state.wallet.coinsData);
-
-  const refreshRef = useRef(Object.keys(coinsData).length > 0);
-
-  return useQuery({
-    queryKey: [QUERIES.WALLET.GET, currentAccount.username],
-    queryFn: async () => {
-      try {
-        await dispatch(fetchAndSetCoinsData(refreshRef.current));
-      } catch (err) {
-        console.warn('failed to get query response', err);
-      }
-
-      return true;
-    },
-  });
-};
-
-export const useUnclaimedRewardsQuery = () => {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const selectedAssets: ProfileToken[] = useAppSelector((state) => state.wallet.selectedAssets);
   const claimsCollection: ClaimsCollection = useAppSelector(
     (state) => state.cache.claimsCollection,
   );
 
-  // process cached claims data
-  const _processCachedData = (rewardsCollection: RewardsCollection) => {
-    if (claimsCollection) {
-      const _curTime = new Date().getTime();
-      Object.keys(claimsCollection).forEach((key) => {
-        const _claimCache = claimsCollection[key];
-        const _rewardValue = rewardsCollection[key];
-        if (
-          _claimCache &&
-          _claimCache.rewardValue &&
-          _rewardValue &&
-          _claimCache.rewardValue === _rewardValue &&
-          (_claimCache.expiresAt || 0) > _curTime
-        ) {
-          delete rewardsCollection[key];
+  // TODO: test assets update with currency and quote change
+
+  const assetsQuery = useQuery({
+    queryKey: [QUERIES.WALLET.GET, currentAccount.username],
+    queryFn: async () => {
+      try {
+        const response = await getPortfolio(currentAccount.username);
+
+        if (!response || response.length === 0) {
+          return [];
         }
-      });
-    }
 
-    return rewardsCollection;
-  };
+        // update response with redux claim cachce if pendingRewards value and cache valuye is equal and cache is not expired
+        const updatedResponse = response.map((item) => {
+          const claimCache = claimsCollection[item.symbol];
+          const cachedRewardValue = Number(claimCache?.rewardValue) || 0;
+          if (
+            claimCache?.expiresAt &&
+            claimCache?.expiresAt > Date.now() &&
+            item.pendingRewards === cachedRewardValue
+          ) {
+            return { ...item, pendingRewards: 0 };
+          }
+          return item;
+        });
 
-  // Ecency unclaimed balance
-  const _fetchUnclaimedPoints = async (username) => {
-    const _rewardsCollection: RewardsCollection = {};
-    try {
-      const _pointsSummary = await getPointsSummary(username);
-      const unclaimedPoints = parseFloat(_pointsSummary.unclaimed_points || '0');
-      const unclaimedEstm = unclaimedPoints ? `${unclaimedPoints} Points` : '';
-      _rewardsCollection[ASSET_IDS.ECENCY] = unclaimedEstm;
-    } catch (err) {
-      console.warn('failed to get unclaimed points', err);
-    }
-
-    return _rewardsCollection;
-  };
-
-  // HP unclaimed balance
-  const _fetchUnclaimedHive = async (username: string) => {
-    // agggregate claim button text
-    const _rewardsCollection: RewardsCollection = {};
-    try {
-      const userdata = await getAccount(username);
-      const _getBalanceStr = (val: number, cur: string) =>
-        val ? Math.round(val * 1000) / 1000 + cur : '';
-      const unclaimedHp = [
-        _getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE'),
-        _getBalanceStr(parseToken(userdata.reward_hbd_balance), ' HBD'),
-        _getBalanceStr(parseToken(userdata.reward_vesting_hive), ' HP'),
-      ].reduce(
-        (prevVal, bal) => prevVal + (!bal ? '' : `${prevVal !== '' ? '   ' : ''}${bal}`),
-        '',
-      );
-      _rewardsCollection[ASSET_IDS.HP] = unclaimedHp;
-    } catch (err) {
-      console.warn('failed to get unclaimed HIVE', err);
-    }
-    return _rewardsCollection;
-  };
-
-  // Engine unclaimed balance
-  const _fetchUnclaimedEngine = async (username: string) => {
-    const _rewardsCollection: RewardsCollection = {};
-    try {
-      const unclaimedEngine = await fetchUnclaimedRewards(username);
-      unclaimedEngine.forEach((tokenStatus) => {
-        const unclaimedBal = tokenStatus
-          ? `${tokenStatus.pendingRewards} ${tokenStatus.symbol}`
-          : '';
-        _rewardsCollection[tokenStatus.symbol] = unclaimedBal;
-      });
-    } catch (err) {
-      console.warn('failed to get unclaimed engine', err);
-    }
-    return _rewardsCollection;
-  };
-
-  const _fetchUnclaimedRewards = async () => {
-    const username = currentAccount?.username;
-    if (!username) {
-      return {};
-    }
-
-    const _unclaimedPoints = await _fetchUnclaimedPoints(username);
-    const _unclaimedHive = await _fetchUnclaimedHive(username);
-    const _unclaimedEngine = await _fetchUnclaimedEngine(username);
-
-    const rewardsCollection = {
-      ..._unclaimedPoints,
-      ..._unclaimedHive,
-      ..._unclaimedEngine,
-    };
-
-    return _processCachedData(rewardsCollection);
-  };
-
-  return useQuery<RewardsCollection>({
-    queryKey: [QUERIES.WALLET.UNCLAIMED_GET, currentAccount.username],
-    queryFn: _fetchUnclaimedRewards,
+        return updatedResponse;
+      } catch (err) {
+        console.warn('failed to get query response', err);
+        return [];
+      }
+    },
+    staleTime: 1000 * 60, // 1 minutes
+    initialData: [],
   });
+
+  const selectedData = useMemo(() => {
+    if (!assetsQuery.data || !assetsQuery.data.length || selectedAssets.length === 0) {
+      return [];
+    }
+
+    // filter only selected tokens from portfolio data
+    const dataMap = new Map(assetsQuery.data.map((item) => [item.symbol, item]));
+    return selectedAssets.map((token) => dataMap.get(token.symbol)).filter(Boolean);
+  }, [assetsQuery.data, selectedAssets]);
+
+  const selectedableData = useMemo(() => {
+    if (!assetsQuery.data || !assetsQuery.data.length) {
+      return [];
+    }
+
+    return assetsQuery.data.filter((asset) => asset.layer !== 'hive' && asset.layer !== 'points');
+  }, [assetsQuery.data]);
+
+  const _getAssetBySymbol = (symbol: string) => {
+    return assetsQuery.data.find((asset) => asset.symbol === symbol);
+  };
+
+  return {
+    ...assetsQuery,
+    selectedData,
+    selectedableData,
+    getAssetBySymbol: _getAssetBySymbol,
+  };
 };
 
 /**
@@ -172,24 +119,24 @@ export const useClaimRewardsMutation = () => {
   const pinHash = useAppSelector((state) => state.application.pin);
   const [isClaimingColl, setIsClaimingColl] = useState<{ [key: string]: boolean }>({});
 
-  const _mutationFn = async ({ assetId }: ClaimRewardsMutationVars) => {
-    switch (assetId) {
-      case ASSET_IDS.ECENCY:
-        await claimPoints();
-        break;
-      case ASSET_IDS.HP:
-        const account = await getAccount(currentAccount.name);
-        await claimRewardBalance(
-          currentAccount,
-          pinHash,
-          account.reward_hive_balance,
-          account.reward_hbd_balance,
-          account.reward_vesting_balance,
-        );
-        break;
-      default:
-        await claimRewards([assetId], currentAccount, pinHash);
-        break;
+  const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
+    const account = await getAccount(currentAccount.name);
+    if (!account) {
+      throw new Error('Account not found');
+    }
+
+    if (symbol === 'POINTS') {
+      await claimPoints();
+    } else if (['HP', 'HBD', 'HIVE'].includes(symbol)) {
+      await claimRewardBalance(
+        currentAccount,
+        pinHash,
+        symbol === 'HIVE' ? account.reward_hive_balance : '0.000 HIVE',
+        symbol === 'HBD' ? account.reward_hbd_balance : '0.000 HBD',
+        symbol === 'HP' ? account.reward_vesting_balance : '0.000000 VESTS',
+      );
+    } else {
+      await claimRewards([symbol], currentAccount, pinHash);
     }
     return true;
   };
@@ -197,32 +144,39 @@ export const useClaimRewardsMutation = () => {
   const mutation = useMutation<boolean, Error, ClaimRewardsMutationVars>({
     mutationFn: _mutationFn,
     retry: 2,
-    onMutate({ assetId }) {
-      setIsClaimingColl({ ...isClaimingColl, [assetId]: true });
+    onMutate({ symbol }) {
+      setIsClaimingColl((prev) => ({ ...prev, [symbol]: true }));
     },
-    onSuccess: (data, { assetId }) => {
-      console.log('successfully initiated claim action activity', data, { assetId });
-      setIsClaimingColl({ ...isClaimingColl, [assetId]: false });
+    onSuccess: (data, { symbol }) => {
+      console.log('successfully initiated claim action activity', data, { symbol });
+      setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));
 
-      // get current rewards data from query
-      const rewardsData: RewardsCollection | undefined = queryClient.getQueryData([
-        QUERIES.WALLET.UNCLAIMED_GET,
+      // Update claim cache and set claimed asset to zero in portfolio data (loop only once)
+      const portfolioData: PortfolioItem[] | undefined = queryClient.getQueryData<any[]>([
+        QUERIES.WALLET.GET,
         currentAccount.username,
       ]);
-      if (rewardsData) {
-        // update claim cache value in redux;
-        dispatch(updateClaimCache(assetId, rewardsData[assetId]));
 
-        // mutate claim data
-        delete rewardsData[assetId];
+      if (portfolioData) {
+        let claimedValue = undefined;
+        const updatedPortfolioData = portfolioData.map((item) => {
+          if (item.symbol === symbol) {
+            claimedValue = item.pendingRewards;
+            return { ...item, pendingRewards: 0 };
+          }
+          return item;
+        });
+
+        // update redux claim cache
+        if (claimedValue) {
+          dispatch(updateClaimCache(symbol, claimedValue));
+        }
+
         queryClient.setQueryData(
-          [QUERIES.WALLET.UNCLAIMED_GET, currentAccount.username],
-          rewardsData,
+          [QUERIES.WALLET.GET, currentAccount.username],
+          updatedPortfolioData,
         );
       }
-
-      // invalidate wallet data;
-      queryClient.invalidateQueries({ queryKey: [QUERIES.WALLET.GET, currentAccount.username] });
 
       dispatch(
         toastNotification(
@@ -232,8 +186,8 @@ export const useClaimRewardsMutation = () => {
         ),
       );
     },
-    onError: (error, { assetId }) => {
-      setIsClaimingColl({ ...isClaimingColl, [assetId]: false });
+    onError: (error, { symbol }) => {
+      setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));
       dispatch(
         toastNotification(
           intl.formatMessage({ id: 'alert.claim_failed' }, { message: error.message }),
@@ -242,9 +196,9 @@ export const useClaimRewardsMutation = () => {
     },
   });
 
-  const checkIsClaiming = (assetId?: string) => {
-    if (assetId) {
-      return isClaimingColl[assetId] || false;
+  const checkIsClaiming = (symbol?: string) => {
+    if (symbol) {
+      return isClaimingColl[symbol] || false;
     }
 
     Object.keys(isClaimingColl).forEach((key) => {
@@ -262,28 +216,26 @@ export const useClaimRewardsMutation = () => {
   };
 };
 
-export const useActivitiesQuery = (assetId: string) => {
+export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const globalProps = useAppSelector((state) => state.account.globalProps);
-  const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
 
-  const assetData = useMemo(() => selectedCoins.find((item) => item.id === assetId), [assetId]);
+  const isEngine = layer === 'engine';
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [noMoreData, setNoMoreData] = useState(false);
-  const [pageParams, setPageParams] = useState(assetData.isEngine ? [0] : [-1]);
+  const [pageParams, setPageParams] = useState(isEngine ? [0] : [-1]);
 
   const _fetchActivities = async (pageParam: number) => {
     console.log('fetching page since:', pageParam);
 
     const _activites = await fetchCoinActivities({
       username: currentAccount.name,
-      assetId,
-      assetSymbol: assetData.symbol,
+      assetSymbol: symbol,
       globalProps,
       startIndex: pageParam,
       limit: ACTIVITIES_FETCH_LIMIT,
-      isEngine: assetData.isEngine,
+      isEngine,
     });
 
     // console.log('new page fetched', _activites);
@@ -299,7 +251,7 @@ export const useActivitiesQuery = (assetId: string) => {
   // query initialization
   const queries = useQueries({
     queries: pageParams.map((pageParam) => ({
-      queryKey: [QUERIES.WALLET.GET_ACTIVITIES, currentAccount.username, assetId, pageParam],
+      queryKey: [QUERIES.WALLET.GET_ACTIVITIES, currentAccount.username, symbol, pageParam],
       queryFn: () => _fetchActivities(pageParam),
       initialData: [],
     })),
@@ -310,7 +262,7 @@ export const useActivitiesQuery = (assetId: string) => {
   const _refresh = async () => {
     setIsRefreshing(true);
     setNoMoreData(false);
-    setPageParams(assetData.isEngine ? [0] : [-1]);
+    setPageParams(isEngine ? [0] : [-1]);
     await queries[0].refetch();
     setIsRefreshing(false);
   };
@@ -327,7 +279,7 @@ export const useActivitiesQuery = (assetId: string) => {
       return;
     }
 
-    if (assetData.isEngine) {
+    if (isEngine) {
       pageParams.push(pageParams.length);
       setPageParams([...pageParams]);
     } else {
@@ -394,13 +346,11 @@ export const useRecurringActivitesQuery = (coinId: string) => {
   };
 };
 
-export const usePendingRequestsQuery = (assetId: string) => {
+export const usePendingRequestsQuery = (symbol: string) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
-  const symbol = useMemo(() => selectedCoins.find((item) => item.id === assetId).symbol, []);
 
   return useQuery({
-    queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS, currentAccount.username, assetId],
+    queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS, currentAccount.username, symbol],
     queryFn: async () => {
       const pendingRequests = await fetchPendingRequests(currentAccount.username, symbol);
       return pendingRequests;
@@ -460,6 +410,50 @@ export const useDeleteRecurrentTransferMutation = () => {
         toastNotification(
           intl.formatMessage({ id: 'recurrent.delete_failed' }, { error: error.message }),
         ),
+      );
+    },
+  });
+
+  return mutation;
+};
+
+export const useUpdateProfileTokensMutation = () => {
+  const dispatch = useAppDispatch();
+  const intl = useIntl();
+
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const pinHash = useAppSelector((state) => state.application.pin);
+
+  const mutation = useMutation<any, Error, ProfileToken[]>({
+    mutationFn: async (tokens) => {
+      const newProfileMeta = {
+        ...currentAccount.about.profile,
+        tokens: [...tokens],
+      };
+
+      await profileUpdate(newProfileMeta, pinHash, currentAccount);
+
+      return newProfileMeta;
+    },
+
+    onSuccess: (newProfileMeta) => {
+      // update current account in redux
+      const _currentAccount = {
+        ...currentAccount,
+        about: {
+          ...currentAccount.about,
+          profile: newProfileMeta,
+        },
+      };
+      dispatch(updateCurrentAccount({ ..._currentAccount }));
+    },
+
+    onError: (error) => {
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        error instanceof Error ? error.message : String(error),
       );
     },
   });

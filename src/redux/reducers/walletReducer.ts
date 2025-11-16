@@ -1,12 +1,29 @@
 import DEFAULT_ASSETS, { ASSET_IDS } from '../../constants/defaultAssets';
 import {
   SET_PRICE_HISTORY,
-  SET_SELECTED_COINS,
+  SET_SELECTED_ASSETS,
   SET_COINS_DATA,
   SET_COIN_QUOTES,
   RESET_WALLET_DATA,
   UPDATE_UNCLAIMED_BALANCE,
 } from '../constants/constants';
+
+export enum TokenType {
+  ENGINE = 'ENGINE',
+  SPK = 'SPK',
+  HIVE = 'HIVE',
+  CHAIN = 'CHAIN',
+}
+
+export interface ProfileToken {
+  symbol: string;
+  type: TokenType;
+  meta?: {
+    show: boolean;
+    address?: string;
+    publicKey?: string;
+  };
+}
 
 export interface DataPair {
   value: string | number;
@@ -19,8 +36,9 @@ export interface AssetBase {
   id: string;
   symbol: string;
   notCrypto: boolean;
-  isEngine: boolean;
+  isEngine?: boolean;
   isSpk?: boolean;
+  isChain?: boolean;
 }
 
 export interface CoinData {
@@ -73,7 +91,7 @@ export interface QuoteItem {
 }
 
 interface State {
-  selectedCoins: AssetBase[];
+  selectedAssets: AssetBase[];
   coinsData: {
     [key: string]: CoinData;
   };
@@ -89,7 +107,7 @@ interface State {
 }
 
 const initialState: State = {
-  selectedCoins: DEFAULT_ASSETS,
+  selectedAssets: DEFAULT_ASSETS,
   coinsData: {},
   priceHistories: {},
   quotes: null,
@@ -104,13 +122,13 @@ const walletReducer = (state = initialState, action) => {
     case RESET_WALLET_DATA: {
       return {
         ...initialState,
-        selectedCoins: state.selectedCoins,
+        selectedAssets: state.selectedAssets,
       };
     }
-    case SET_SELECTED_COINS: {
+    case SET_SELECTED_ASSETS: {
       return {
         ...state,
-        selectedCoins: payload,
+        selectedAssets: payload,
       };
     }
     case SET_COINS_DATA: {

@@ -8,6 +8,26 @@ export default EStyleSheet.create({
     alignItems: 'flex-end',
     paddingHorizontal: 16,
   },
+  headerActionsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 16,
+  },
+  headerActionButton: {
+    marginHorizontal: 4,
+    marginVertical: 8,
+    paddingHorizontal: 24,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '$primaryLightBackground',
+  },
+  headerActionButtonText: {
+    fontSize: 13,
+    color: '$primaryBlack',
+    fontWeight: '600',
+  },
   lastUpdateText: {
     color: '$iconColor',
     fontSize: 10,

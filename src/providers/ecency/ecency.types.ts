@@ -142,6 +142,38 @@ export interface AssetsPortfolio {
   spkData: SpkApiWallet;
 }
 
+interface TokenAction {
+  id: string;
+  // Later Add support for other properties required for dynamically generating ops on app end
+  // to:string
+  // from:string
+  // memoSupported:boolean
+  // precision:number
+  // etc
+}
+
+export type PortfolioLayer = 'points' | 'hive' | 'chain' | 'spk' | 'engine';
+
+export interface PortfolioItem {
+  name: string;
+  symbol: string;
+  layer: PortfolioLayer;
+  balance: number;
+  fiatRate: number;
+  address?: string;
+  pendingRewards?: number;
+  pendingRewardsFiat?: number;
+  liquid?: number;
+  liquidFiat?: number;
+  savings?: number;
+  savingsFiat?: number;
+  staked?: number;
+  stakedFiat?: number;
+  iconUrl?: string;
+  actions?: TokenAction[];
+  extraData?: Array<{ dataKey: string; value: any }>;
+}
+
 export interface ProposalMeta {
   id: number;
 }

@@ -7,11 +7,10 @@ import styles from './children.styles';
 import { Icon } from '../../../components/index';
 
 interface CoinBasicsProps {
-  assetId: string;
   valuePairs: DataPair[];
   extraData: DataPair[];
   coinSymbol: string;
-  percentChange: number;
+  percentChange?: number;
   iconUrl?: string;
   isEngine: boolean;
   isRenderChart?: boolean;

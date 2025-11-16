@@ -34,6 +34,7 @@ export interface TransferAccountSelectorProps {
   setMemo: (value: string) => void;
   spkMarkets: Market[];
   getRecurrentTransferOfUser: (username: string) => string;
+  allowMultipleDest?: boolean;
 }
 
 const TransferAccountSelector = ({
@@ -54,6 +55,7 @@ const TransferAccountSelector = ({
   setMemo,
   spkMarkets,
   getRecurrentTransferOfUser,
+  allowMultipleDest,
 }: TransferAccountSelectorProps) => {
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -62,19 +64,14 @@ const TransferAccountSelector = ({
   const destinationLocked = useMemo(() => {
     switch (transferType) {
       case TransferTypes.CONVERT:
-      case TransferTypes.PURCHASE_ESTM:
-      case TransferTypes.UNSTAKE_ENGINE:
+      case TransferTypes.UNSTAKE:
       case TransferTypes.POWER_UP_SPK:
       case TransferTypes.POWER_DOWN_SPK:
-      case TransferTypes.LOCK_LIQUIDITY_SPK:
         return true;
       default:
         return false;
     }
   }, [transferType]);
-
-  const allowMultipleDest =
-    transferType === TransferTypes.TRANSFER_TOKEN || transferType === TransferTypes.POINTS;
 
   const _handleOnFromUserChange = (username) => {
     fetchBalance(username);

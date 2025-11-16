@@ -1,4 +1,4 @@
-export const countDecimals = (value) => {
+export const countDecimals = (value: number) => {
   if (!value) {
     return 0;
   }
@@ -51,7 +51,7 @@ export const formatNumberInputStr = (text: string, precision = 10) => {
 };
 
 export const getAbbreviatedNumber = (input: string | number) => {
-  const num = parseFloat(input); // Convert the string to a number
+  const num = parseFloat(input.toString()); // Convert the string to a number
 
   // Check if the input is not a valid number
   if (Number.isNaN(num)) {
@@ -67,4 +67,48 @@ export const getAbbreviatedNumber = (input: string | number) => {
   } else {
     return num.toString(); // Return smaller numbers as-is
   }
+};
+
+interface FormatAmountOptions {
+  locale?: string;
+  currencyCode?: string;
+  currencySymbol?: string;
+  minimumFractionDigits?: number;
+  maximumFractionDigits?: number;
+  symbolPosition?: 'prefix' | 'suffix';
+  fallback?: string;
+}
+
+export const formatAmount = (value: number, options: FormatAmountOptions = {}) => {
+  const {
+    locale,
+    currencyCode,
+    currencySymbol,
+    minimumFractionDigits = 2,
+    maximumFractionDigits = 2,
+    symbolPosition = 'prefix',
+    fallback = '0',
+  } = options;
+
+  if (value === null || value === undefined || Number.isNaN(value)) {
+    return fallback;
+  }
+
+  const formatter = new Intl.NumberFormat(locale, {
+    currency: currencyCode,
+    minimumFractionDigits,
+    maximumFractionDigits,
+    useGrouping: true,
+  });
+
+  let formattedValue = formatter.format(value);
+
+  if (currencySymbol) {
+    formattedValue =
+      symbolPosition === 'suffix'
+        ? `${formattedValue}${currencySymbol}`
+        : `${currencySymbol}${formattedValue}`;
+  }
+
+  return formattedValue;
 };

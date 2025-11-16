@@ -129,6 +129,48 @@ export default EStyleSheet.create({
     flexGrow: 1,
     width: 150,
   },
+  addressContainer: {
+    alignItems: 'center',
+    paddingVertical: 24,
+    paddingHorizontal: 16,
+  },
+  qrWrapper: {
+    padding: 16,
+    borderRadius: 16,
+    backgroundColor: '$primaryLightBackground',
+    marginBottom: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addressDescription: {
+    color: '$iconColor',
+    fontSize: 13,
+    textAlign: 'center',
+    marginBottom: 12,
+  },
+  addressValue: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '$primaryBlack',
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  addressActions: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 12,
+  },
+  addressActionButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
+    backgroundColor: '$primaryBlue',
+  },
+  addressActionText: {
+    color: '$white',
+    fontWeight: '600',
+  },
 
   formButton: {
     height: 44,
@@ -336,9 +378,16 @@ export default EStyleSheet.create({
     borderRadius: 12,
     backgroundColor: '$primaryLightBackground',
   },
-  scrollContentContainer: {
-    flexGrow: 1,
+  contentContainer: {
+    flex: 1,
     padding: 16,
+    marginTop: 40,
+    alignItems: 'center',
+  },
+  addressWrapper: {
+    flex: 1,
+    marginTop: 16,
+    width: '100%',
   },
   estimatedContainer: {
     flexDirection: 'row',

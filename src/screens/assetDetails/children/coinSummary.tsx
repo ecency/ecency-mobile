@@ -1,21 +1,16 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { View } from 'react-native';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
-import { CoinActions, CoinBasics, CoinChart } from '.';
-import { FormattedCurrency } from '../../../components';
-import { ASSET_IDS } from '../../../constants/defaultAssets';
-import { CoinData, DataPair } from '../../../redux/reducers/walletReducer';
+import { PortfolioItem } from 'providers/ecency/ecency.types';
+import { useIntl } from 'react-intl';
+import { WalletActions, CoinBasics } from '.';
+import { useAppSelector } from '../../../hooks';
+import { formatAmount } from '../../../utils/number';
+import { DataPair } from '../../../redux/reducers/walletReducer';
 
 export interface CoinSummaryProps {
-  id: string;
-  coinSymbol: string;
-  coinData: CoinData;
-  percentChagne: number;
+  tokenSymbol: string;
+  asset: PortfolioItem;
+  percentChagne?: number;
   showChart: boolean;
   totalRecurrentAmount?: number;
   setShowChart: (value: boolean) => void;
@@ -24,9 +19,8 @@ export interface CoinSummaryProps {
 }
 
 export const CoinSummary = ({
-  coinSymbol,
-  id,
-  coinData,
+  tokenSymbol,
+  asset,
   percentChagne,
   showChart,
   totalRecurrentAmount,
@@ -34,83 +28,95 @@ export const CoinSummary = ({
   onActionPress,
   onInfoPress,
 }: CoinSummaryProps) => {
-  const { balance, estimateValue, savings, extraDataPairs, actions, precision } = coinData;
+  const intl = useIntl();
+  const currency = useAppSelector((state) => state.application.currency);
+  const { balance, fiatRate, savings, extraData, actions, liquid, staked } = asset;
+  const isEngine = asset.layer === 'engine';
 
-  const valuePairs = [
-    {
-      dataKey: 'amount_desc',
-      value: balance.toFixed(precision || 3),
-    },
-  ] as DataPair[];
+  const formatTokenAmount = (amount?: number) =>
+    formatAmount(amount ?? 0, {
+      locale: intl.locale,
+      minimumFractionDigits: 3,
+      maximumFractionDigits: 3,
+    });
 
-  if (estimateValue !== undefined) {
+  const formatFiatAmount = (amount = 0) =>
+    formatAmount(amount, {
+      locale: intl.locale,
+      currencySymbol: currency.currencySymbol,
+      currencyCode: currency.currency,
+      minimumFractionDigits: amount < 1 ? 5 : 2,
+      maximumFractionDigits: amount < 1 ? 5 : 2,
+    });
+
+  const valuePairs: DataPair[] = [];
+
+  if (tokenSymbol !== 'HP') {
     valuePairs.push({
-      dataKey: 'estimated_value',
-      value: <FormattedCurrency isApproximate isToken value={estimateValue} />,
+      dataKey: 'amount_desc',
+      value: formatTokenAmount(liquid),
     });
   }
 
-  if (savings !== undefined) {
+  if (staked !== undefined && staked > 0) {
+    valuePairs.push({
+      dataKey: 'staked',
+      value: formatTokenAmount(staked),
+    });
+  }
+
+  if (savings !== undefined && savings > 0) {
     valuePairs.push({
       dataKey: 'savings',
-      value: savings,
+      value: formatTokenAmount(savings),
+    });
+  }
+
+  if (fiatRate !== undefined) {
+    const estimatedValue = balance * fiatRate;
+    valuePairs.push({
+      dataKey: 'estimated_value',
+      value: `~${formatFiatAmount(estimatedValue)}`,
     });
   }
 
   // Create a new array for extraDataPairs to avoid mutating the original reference
-  const _extraDataPairs = useMemo(() => {
-    const pairs = extraDataPairs ? [...extraDataPairs] : [];
+  const _extraDataPairs = useMemo<DataPair[]>(() => {
+    const pairs: DataPair[] = extraData ? extraData.map((item) => ({ ...item })) : [];
     if (totalRecurrentAmount && totalRecurrentAmount > 0) {
       pairs.push({
         dataKey: 'total_recurrent_transfers',
-        value: `${totalRecurrentAmount} ${coinSymbol}`,
+        value: `${formatTokenAmount(totalRecurrentAmount)} ${tokenSymbol}`,
         isClickable: true,
       });
     }
     return pairs;
-  }, [extraDataPairs, totalRecurrentAmount, coinSymbol]);
+  }, [extraData, totalRecurrentAmount, tokenSymbol]);
 
-  const _shRrenderChart = id !== ASSET_IDS.ECENCY && id !== ASSET_IDS.HP && !coinData.isSpk;
-  const animationProgress = useSharedValue(showChart ? 1 : 0);
-
-  useEffect(() => {
-    animationProgress.value = withTiming(showChart ? 1 : 0, {
-      duration: 300,
-      easing: Easing.inOut(Easing.ease),
-    });
-  }, [showChart]);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      opacity: animationProgress.value,
-      transform: [{ translateY: (1 - animationProgress.value) * -50 }],
-      height: animationProgress.value * 270, // Adjust this value based on your chart's height
-    };
-  });
-
-  const _renderCoinChart = () => (
-    <Animated.View style={animatedStyle}>
-      {showChart && <CoinChart coinId={id} isEngine={coinData.isEngine} />}
-    </Animated.View>
+  const walletActions = useMemo(
+    () =>
+      actions
+        ? actions
+            .map((action: any) => (typeof action === 'string' ? action : action?.id))
+            .filter((action): action is string => Boolean(action))
+        : [],
+    [actions],
   );
 
   return (
     <View>
       <CoinBasics
-        assetId={id}
-        iconUrl={coinData.iconUrl}
+        iconUrl={asset.iconUrl}
         valuePairs={valuePairs}
         extraData={_extraDataPairs}
-        coinSymbol={coinSymbol}
+        coinSymbol={tokenSymbol}
         percentChange={percentChagne}
-        isEngine={coinData.isEngine}
+        isEngine={isEngine}
         onInfoPress={onInfoPress}
         showChart={showChart}
         setShowChart={setShowChart}
-        isRenderChart={_shRrenderChart}
       />
-      <CoinActions actions={actions} onActionPress={onActionPress} />
-      {_shRrenderChart && _renderCoinChart()}
+      <WalletActions actions={walletActions} onActionPress={onActionPress} />
     </View>
   );
 };

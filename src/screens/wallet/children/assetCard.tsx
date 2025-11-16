@@ -1,25 +1,25 @@
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
-import React, { ComponentType } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from '../styles/children.styles';
 import { IconButton } from '../../../components';
-import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { ClaimButton } from './claimButton';
 
 import { AssetIcon } from '../../../components/atoms';
+import { formatAmount } from '../../../utils/number';
+
+const AlertIconButton = IconButton as any;
 
 export interface AssetCardProps {
-  id: string;
-  // chartData: number[];
   name: string;
   iconUrl?: string;
-  // notCrypto?: boolean;
   isEngine?: boolean;
   isSpk?: boolean;
   symbol: string;
   currencySymbol: string;
-  // changePercent: number;
+  currencyCode?: string;
+  locale?: string;
   currentValue: number;
   ownedBalance: number;
   unclaimedRewards: string;
@@ -28,20 +28,20 @@ export interface AssetCardProps {
   isLoading?: boolean;
   volume24h?: number;
   precision?: number;
-  footerComponent: ComponentType<any>;
+  footerComponent: ReactNode;
   onCardPress: () => void;
   onClaimPress: () => void;
-  onBoostAccountPress: () => void;
 }
 
 export const AssetCard = ({
-  id,
+  symbol,
   name,
   iconUrl,
   isEngine,
   isSpk,
   currencySymbol,
-  symbol,
+  currencyCode,
+  locale,
   currentValue,
   ownedBalance,
   footerComponent,
@@ -53,16 +53,20 @@ export const AssetCard = ({
   precision,
   onCardPress,
   onClaimPress,
-  onBoostAccountPress,
 }: AssetCardProps) => {
   const intl = useIntl();
+  const resolvedLocale = useMemo(() => locale || intl.locale, [locale, intl.locale]);
+  const displayPrecision = useMemo(
+    () => (isEngine ? Math.min(precision || 3, 8) : 3),
+    [isEngine, precision],
+  );
 
   const _onClaimPress = () => {
     onClaimPress();
   };
 
   const _inactiveTokenBtn = !!volume24h && volume24h < 10 && (
-    <IconButton
+    <AlertIconButton
       name="alert-circle-outline"
       iconType="MaterialCommuntyIcon"
       size={24}
@@ -76,17 +80,28 @@ export const AssetCard = ({
     />
   );
 
-  const _name = intl.messages[`wallet.${id}.name`]
-    ? intl.formatMessage({ id: `wallet.${id}.name` })
+  const _name = intl.messages[`wallet.${symbol}.name`]
+    ? intl.formatMessage({ id: `wallet.${symbol}.name` })
     : name;
-  const value = `${ownedBalance.toFixed(isEngine ? precision : 3)}`;
+  const value = formatAmount(ownedBalance, {
+    locale: resolvedLocale,
+    minimumFractionDigits: displayPrecision,
+    maximumFractionDigits: displayPrecision,
+  });
   const _fiatValue = ownedBalance * currentValue;
-  const _fiatStr = `${_fiatValue.toFixed(_fiatValue < 1 ? 5 : 2)}${currencySymbol}`;
+  const isSmallFiatValue = _fiatValue < 1;
+  const _fiatStr = formatAmount(_fiatValue, {
+    locale: resolvedLocale,
+    currencySymbol,
+    currencyCode,
+    minimumFractionDigits: isSmallFiatValue ? 5 : 2,
+    maximumFractionDigits: isSmallFiatValue ? 5 : 2,
+  });
 
   const _renderHeader = (
     <View style={styles.cardHeader}>
       <AssetIcon
-        id={id}
+        id={symbol}
         iconUrl={iconUrl}
         isEngine={isEngine}
         isSpk={isSpk}
@@ -112,7 +127,7 @@ export const AssetCard = ({
 
   const _renderClaimSection = () => {
     if (unclaimedRewards || enableBuy) {
-      const btnTitle = unclaimedRewards || intl.formatMessage({ id: `wallet.${id}.buy` });
+      const btnTitle = unclaimedRewards || intl.formatMessage({ id: `wallet.${symbol}.buy` });
 
       return (
         <ClaimButton
@@ -121,20 +136,9 @@ export const AssetCard = ({
           isClaiming={isClaiming}
           containerStyle={{
             ...styles.claimContainer,
-            marginBottom: id === ASSET_IDS.ECENCY || id === ASSET_IDS.HP ? 0 : 16,
+            marginBottom: symbol === 'POINTS' || symbol === 'HP' ? 0 : 16,
           }}
           onPress={_onClaimPress}
-        />
-      );
-    }
-  };
-
-  const _renderBoostAccount = () => {
-    if (id === ASSET_IDS.HP && ownedBalance < 50) {
-      return (
-        <ClaimButton
-          title={intl.formatMessage({ id: 'wallet.get_boost' })}
-          onPress={onBoostAccountPress}
         />
       );
     }
@@ -144,7 +148,6 @@ export const AssetCard = ({
     <TouchableOpacity onPress={onCardPress}>
       <View style={styles.cardContainer}>
         {_renderHeader}
-        {_renderBoostAccount()}
         {_renderClaimSection()}
         {footerComponent && footerComponent}
       </View>

@@ -9,7 +9,7 @@ import {
   Draft,
   Accouncement,
   PollDraft,
-  AssetsPortfolio,
+  PortfolioItem,
 } from './ecency.types';
 
 export const convertReferral = (rawData: any) => {
@@ -116,24 +116,31 @@ export const convertAnnouncement = (rawData: any) => {
 };
 
 export const convertPortfolio = (rawData: any) => {
-  if (
-    !rawData ||
-    !rawData.marketData ||
-    !rawData.globalProps ||
-    !rawData.accountData ||
-    !rawData.pointsData
-  ) {
-    return null;
+  if (!rawData || !Array.isArray(rawData)) {
+    return [];
   }
 
-  return {
-    globalProps: rawData.globalProps,
-    marketData: rawData.marketData,
-    accountData: rawData.accountData,
-    pointsData: rawData.pointsData,
-    engineData: rawData.engineData,
-    spkData: rawData.spkData,
-  } as AssetsPortfolio;
+  return rawData.map((item: any) => {
+    return {
+      name: item.name || '',
+      symbol: item.symbol || '',
+      layer: item.layer || '',
+      balance: item.balance || 0,
+      fiatRate: item.fiatRate || 0,
+      address: item.address,
+      pendingRewards: item.pendingRewards || 0,
+      pendingRewardsFiat: item.pendingRewardsFiat || 0,
+      liquid: item.symbol === 'HP' ? 0 : item.liquid,
+      liquidFiat: item.liquidFiat || 0,
+      savings: item.savings || 0,
+      savingsFiat: item.savingsFiat || 0,
+      staked: item.staked || 0,
+      stakedFiat: item.stakedFiat || 0,
+      iconUrl: item.iconUrl,
+      actions: item.actions.map((action: any) => action.id) || [],
+      extraData: item.extraData || [],
+    } as PortfolioItem;
+  });
 };
 
 export const convertProposalMeta = (rawData: any) => {

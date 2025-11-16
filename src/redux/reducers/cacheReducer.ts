@@ -83,7 +83,7 @@ export interface Draft {
 }
 
 export interface ClaimCache {
-  rewardValue: string;
+  rewardValue: number;
   claimedAt?: number;
   expiresAt?: number;
 }

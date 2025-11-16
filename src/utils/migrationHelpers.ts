@@ -3,6 +3,7 @@ import Config from 'react-native-config';
 
 // Constants
 import { SheetManager } from 'react-native-actions-sheet';
+import { isArray } from 'lodash';
 import THEME_OPTIONS from '../constants/options/theme';
 import { getUnreadNotificationCount } from '../providers/ecency/ecency';
 import { getPointsSummary } from '../providers/ecency/ePoint';
@@ -45,6 +46,8 @@ import RootNavigation from '../navigation/rootNavigation';
 import ROUTES from '../constants/routeNames';
 import { DEFAULT_FEED_FILTERS } from '../constants/options/filters';
 import { SheetNames } from '../navigation/sheets';
+import { ProfileToken, TokenType } from '../screens/assetsSelect/screen/assetsSelect';
+import DEFAULT_ASSETS from '../constants/defaultAssets';
 
 // migrates settings from realm to redux once and do no user realm for settings again;
 export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean) => {
@@ -249,6 +252,54 @@ export const repairOtherAccountsData = (accounts, realmAuthData, dispatch) => {
   });
 };
 
+export const migrateSelectedTokens = (tokens: any) => {
+  if (!isArray(tokens)) {
+    // means tokens is using old object formation, covert to array
+    const _mapSymbolsToProfileToken = (symbols: string[], type: TokenType) =>
+      isArray(symbols)
+        ? symbols.map((symbol) => ({
+            symbol,
+            type,
+            meta: { show: true },
+          }))
+        : [];
+
+    return [
+      ..._mapSymbolsToProfileToken(tokens.engine, TokenType.ENGINE),
+      ..._mapSymbolsToProfileToken(tokens.spk, TokenType.SPK),
+    ];
+  }
+
+  // check for missing meta entries
+  else if (tokens.some((item: ProfileToken) => !item.meta)) {
+    // unify tokens to have meta and discard duplicate entries
+
+    const map = new Map();
+
+    tokens.forEach((token: ProfileToken) => {
+      const key = `${token.symbol}-${token.type}`;
+      const existing = map.get(key);
+
+      // If no existing entry, or existing entry has no meta but current has meta, update
+      if (!existing || (!existing.meta && token.meta)) {
+        map.set(key, token);
+      }
+    });
+
+    // Add meta:{show:true} to entries missing meta
+    const _tokens = Array.from(map.values()).map((token) => {
+      if (!token.meta) {
+        return { ...token, meta: { show: true } };
+      }
+      return token;
+    });
+
+    return _tokens;
+  }
+
+  return null;
+};
+
 const reduxMigrations = {
   0: (state) => {
     const { upvotePercent } = state.application;
@@ -325,10 +376,24 @@ const reduxMigrations = {
     state.application.pin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
     return state;
   },
+  13: (state) => {
+    state.wallet.selectedAssets = state.wallet.selectedCoins || DEFAULT_ASSETS;
+    if ((state.wallet.selectedAssets[0].symbol = 'POINTS')) {
+      state.wallet.selectedAssets[0].symbol = 'POINTS';
+    } // ensuring correct symbol for ecency points
+
+    delete state.wallet.selectedCoins;
+    delete state.wallet.coinsData;
+
+    state.cache.claimsCollection = {};
+
+    return state;
+  },
 };
 
 export default {
   migrateSettings,
   migrateUserEncryption,
+  migrateSelectedTokens,
   reduxMigrations,
 };

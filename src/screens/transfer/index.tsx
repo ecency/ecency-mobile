@@ -7,6 +7,7 @@ import TransferView from './screen/transferScreen';
 import AddressView from './screen/addressScreen';
 import PowerDownView from './screen/powerDownScreen';
 import DelegateView from './screen/delegateScreen';
+import TransferTypes from '../../constants/transferTypes';
 
 const Transfer = ({ navigation, route }) => (
   <TransferContainer navigation={navigation} route={route}>
@@ -32,9 +33,11 @@ const Transfer = ({ navigation, route }) => (
       initialMemo,
       recurrentTransfers,
       fetchRecurrentTransfers,
+      tokenLayer,
+      tokenAddress,
     }) => {
       switch (transferType) {
-        case 'delegate':
+        case TransferTypes.DELEGATE_VESTING_SHARES:
           return (
             <DelegateView
               accounts={accounts}
@@ -52,7 +55,7 @@ const Transfer = ({ navigation, route }) => (
               referredUsername={referredUsername}
             />
           );
-        case 'power_down':
+        case TransferTypes.WITHDRAW_VESTING:
           return (
             <PowerDownView
               accounts={accounts}
@@ -70,7 +73,7 @@ const Transfer = ({ navigation, route }) => (
               setWithdrawVestingRoute={setWithdrawVestingRoute}
             />
           );
-        case 'address_view':
+        case TransferTypes.RECEIVE:
           return (
             <AddressView
               fundType={fundType}
@@ -79,6 +82,7 @@ const Transfer = ({ navigation, route }) => (
               accountType={accountType}
               currentAccountName={currentAccountName}
               selectedAccount={selectedAccount}
+              tokenAddress={tokenAddress}
             />
           );
 
@@ -102,6 +106,7 @@ const Transfer = ({ navigation, route }) => (
               initialMemo={initialMemo || ''}
               recurrentTransfers={recurrentTransfers || []}
               fetchRecurrentTransfers={fetchRecurrentTransfers}
+              tokenLayer={tokenLayer}
             />
           );
       }

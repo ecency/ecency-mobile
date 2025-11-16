@@ -1017,16 +1017,24 @@ export const getAnnouncements = async (accessToken: string) => {
   }
 };
 
-export const getPortfolio = async (username: string) => {
+export const getPortfolio = async (username: string, currency?: string, onlyEnabled?: boolean) => {
   try {
     if (!username) {
       throw new Error('Username must be passed for fethcing portfolio');
     }
 
-    const res = await ecencyApi.post('/wallet-api/portfolio', { username });
+    const res = await ecencyApi.post('/wallet-api/portfolio-v2', {
+      username,
+      currency,
+      onlyEnabled,
+    });
     console.log('portflio fetched', res.data);
 
-    const data = convertPortfolio(res.data);
+    if (!res.data || !isArray(res.data.wallets)) {
+      throw new Error('invalid portfolio response data');
+    }
+
+    const data = convertPortfolio(res.data.wallets);
 
     if (!data) {
       throw new Error('invalid portfolio data');
