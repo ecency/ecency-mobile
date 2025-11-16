@@ -22,8 +22,6 @@ interface Props {
 }
 
 export const PostCardActionsPanel = ({ content, handleCardInteraction }: Props) => {
-  const activeVotes = content?.active_votes || [];
-
   const _onVotersPress = () => {
     handleCardInteraction(PostCardActionIds.NAVIGATE, {
       name: ROUTES.SCREENS.VOTERS,
@@ -67,7 +65,7 @@ export const PostCardActionsPanel = ({ content, handleCardInteraction }: Props) 
             iconStyle={styles.commentIcon}
             iconType="MaterialCommunityIcons"
             isClickable
-            text={activeVotes.length}
+            text={content.stats?.total_votes || 0}
           />
         </TouchableOpacity>
       </View>
