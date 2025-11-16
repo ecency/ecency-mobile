@@ -2404,6 +2404,7 @@ export const isHsClientSupported = (authType) => {
   switch (authType) {
     case AUTH_TYPE.STEEM_CONNECT:
     case AUTH_TYPE.HIVE_AUTH:
+    case AUTH_TYPE.ACTIVE_KEY:
       return true;
     default:
       return false;
