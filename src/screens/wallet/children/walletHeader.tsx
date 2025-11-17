@@ -155,19 +155,19 @@ export const WalletHeader = ({
             </Animated.View>
           )}
 
-          {!updating && (
-            <Animated.View entering={ZoomIn.delay(200)} exiting={ZoomOut.delay(200)} style={styles.actionIconWrapper}>
-              <ManageIconButton
-                name="cog"
-                iconType="MaterialCommunityIcons"
-                size={24}
-                color={EStyleSheet.value('$primaryBlack')}
-                onPress={_onManageTokensPress}
-                style={styles.actionIconButton}
-              />
-            </Animated.View>
-          )}
+
+          <View style={styles.actionIconWrapper}>
+            <ManageIconButton
+              name="cog"
+              iconType="MaterialCommunityIcons"
+              size={24}
+              color={EStyleSheet.value('$primaryBlack')}
+              onPress={_onManageTokensPress}
+              style={styles.actionIconButton}
+            />
           </View>
+
+        </View>
       </View>
     </View>
   );
