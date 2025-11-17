@@ -74,7 +74,6 @@ export const QuickPostModalContent = forwardRef(
     const [mediaUrls, setMediaUrls] = useState<string[]>([]);
     const [isUploading, setIsUploading] = useState(false);
     const [mediaModalVisible, setMediaModalVisible] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [canCommentToCommunity, setCanCommentToCommunity] = useState(true);
     const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
@@ -84,9 +83,9 @@ export const QuickPostModalContent = forwardRef(
     const headerText =
       mode === 'wave'
         ? intl.formatMessage(
-            { id: 'quick_reply.summary_wave' },
-            { host: intl.formatMessage({ id: 'quick_reply.host_waves' }) }, // TODO: update based on selected host
-          )
+          { id: 'quick_reply.summary_wave' },
+          { host: intl.formatMessage({ id: 'quick_reply.host_waves' }) }, // TODO: update based on selected host
+        )
         : selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
 
     const draftId =
@@ -190,11 +189,10 @@ export const QuickPostModalContent = forwardRef(
 
     // handle submit reply
     const _submitPost = async () => {
-      if (isSubmitting) {
+      if (postSubmitter.isSubmitting) {
         return;
       }
 
-      setIsSubmitting(true);
       let _isSuccess = false;
       const _body =
         mediaUrls.length > 0 ? `${commentValue}\n\n ![](${mediaUrls[0]})` : commentValue;
@@ -224,7 +222,7 @@ export const QuickPostModalContent = forwardRef(
       } else {
         _addQuickCommentIntoCache(); // add comment value into cache if there is error while posting comment
       }
-      setIsSubmitting(false);
+
     };
 
     const _handleMediaInsert = (data: MediaInsertData[]) => {
@@ -430,12 +428,12 @@ export const QuickPostModalContent = forwardRef(
           />
           <MainButton
             style={styles.commentBtn}
-            onPress={() => _submitPost()}
+            onPress={_submitPost}
             text={intl.formatMessage({
               id: _titleId,
             })}
             isDisable={isUploading || bodyLengthExceeded || !canCommentToCommunity}
-            isLoading={isSubmitting}
+            isLoading={postSubmitter.isSubmitting}
           />
         </View>
       );

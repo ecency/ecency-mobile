@@ -1,8 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
 import { useIntl } from 'react-intl';
-import { useState } from 'react';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector, useStateWithRef } from '../../hooks';
 import { postComment } from '../../providers/hive/dhive';
 import { extractMetadata, generateUniquePermlink, makeJsonMetadata } from '../../utils/editor';
 import { updateCommentCache } from '../../redux/actions/cacheActions';
@@ -22,7 +21,7 @@ export const usePostSubmitter = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
   const userActivityMutation = useUserActivityMutation();
-  const [isSending, setIsSending] = useState(false);
+  const [isSubmitting, setIsSubmitting, getIsSubmittingCurrent] = useStateWithRef(false);
 
   // handle submit reply
   const _submitReply = async (
@@ -34,13 +33,12 @@ export const usePostSubmitter = () => {
     if (!commentBody) {
       return false;
     }
-    if (isSending) {
+    if (getIsSubmittingCurrent()) {
       return false;
     }
+    setIsSubmitting(true);
 
     if (currentAccount) {
-      setIsSending(true);
-
       const _prefix =
         postType === PostTypes.WAVE ? postType : `re-${parentPost.author.replace(/\./g, '')}`;
       const permlink = generateUniquePermlink(_prefix);
@@ -75,6 +73,7 @@ export const usePostSubmitter = () => {
       );
 
       try {
+
         const response = await postComment(
           currentAccount,
           pinCode,
@@ -89,7 +88,7 @@ export const usePostSubmitter = () => {
           pointsTy: PointActivityIds.COMMENT,
           transactionId: response.id,
         });
-        setIsSending(false);
+        setIsSubmitting(false);
 
         dispatch(
           toastNotification(
@@ -126,7 +125,7 @@ export const usePostSubmitter = () => {
           error.message || JSON.stringify(error),
         );
 
-        setIsSending(false);
+        setIsSubmitting(false);
         return false;
       }
     }
@@ -134,9 +133,14 @@ export const usePostSubmitter = () => {
     return false;
   };
 
-  // feteced lates wafves container and post wave to that container
+  // feteced lates wafves container and  wave to that container
   const _submitWave = async (body: string, pollDraft: PollDraft) => {
     try {
+      if (getIsSubmittingCurrent()) {
+        return false;
+      }
+
+      setIsSubmitting(true);
       const _wavesHost = 'ecency.waves'; // TODO: make waves host selection dynamic
       const latestWavesPost = await wavesQueries.fetchLatestWavesContainer(_wavesHost);
 
@@ -153,6 +157,7 @@ export const usePostSubmitter = () => {
 
       return _cacheCommentData;
     } catch (err) {
+      setIsSubmitting(false);
       Alert.alert('Fail', err.message);
       return false;
     }
@@ -161,6 +166,6 @@ export const usePostSubmitter = () => {
   return {
     submitReply: _submitReply,
     submitWave: _submitWave,
-    isSending,
+    isSubmitting,
   };
 };
