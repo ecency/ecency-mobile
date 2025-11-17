@@ -12,6 +12,7 @@ import { PortfolioItem } from '../../../providers/ecency/ecency.types';
 import { formatAmount } from '../../../utils/number';
 
 import styles from './walletHeader.styles';
+import Animated, { ZoomIn, ZoomOut, FadeIn, FadeOut, FlipInEasyX, FlipOutEasyX, RotateInUpRight, FlipInYRight } from 'react-native-reanimated';
 
 interface WalletHeaderProps {
   assets?: PortfolioItem[];
@@ -97,11 +98,11 @@ export const WalletHeader = ({
   const _lastUpdateLabel = isUpdating
     ? intl.formatMessage({ id: 'wallet.updating' })
     : intl.formatMessage(
-        { id: 'wallet.last_updated', defaultMessage: 'Last updated at {datetime}' },
-        {
-          datetime: _lastUpdatedTime,
-        },
-      );
+      { id: 'wallet.last_updated', defaultMessage: 'Last updated at {datetime}' },
+      {
+        datetime: _lastUpdatedTime,
+      },
+    );
 
   return (
     <View style={styles.container}>
@@ -115,14 +116,18 @@ export const WalletHeader = ({
         <Text style={styles.lastUpdated}>{_lastUpdateLabel}</Text>
       </View>
       <View style={styles.balanceRow}>
-        <View style={styles.balanceValueContainer}>
+        <Animated.View
+          entering={FlipInEasyX.duration(200).delay(200)}
+          exiting={FlipOutEasyX.duration(200)}
+          style={styles.balanceValueContainer}
+        >
           <Text style={styles.totalValue} numberOfLines={1} ellipsizeMode="tail">
-            {totalBalanceLabel}
+            {updating ? '--.--' : totalBalanceLabel}
           </Text>
-        </View>
+        </Animated.View>
         <View style={styles.balanceActions}>
-          {hpBalance < 50 && (
-            <View style={[styles.actionIconWrapper, styles.firstActionIconWrapper]}>
+          {!updating && hpBalance < 50 && (
+            <Animated.View entering={ZoomIn.delay(200)} exiting={ZoomOut.delay(200)} style={[styles.actionIconWrapper, styles.firstActionIconWrapper]}>
               <BoostIconButton
                 name="fire"
                 iconType="MaterialCommunityIcons"
@@ -131,34 +136,38 @@ export const WalletHeader = ({
                 onPress={_onBoostPress}
                 style={styles.actionIconButton}
               />
-            </View>
+            </Animated.View>
           )}
-          <View
-            style={[
+
+          {!updating && (
+            <Animated.View entering={ZoomIn} exiting={ZoomOut} style={[
               styles.actionIconWrapper,
               hpBalance >= 50 ? styles.firstActionIconWrapper : null,
-            ]}
-          >
-            <RefreshIconButton
-              name="refresh"
-              iconType="MaterialCommunityIcons"
-              size={24}
-              color={EStyleSheet.value('$primaryBlack')}
-              onPress={onRefresh}
-              style={styles.actionIconButton}
-            />
+            ]} >
+              <RefreshIconButton
+                name="refresh"
+                iconType="MaterialCommunityIcons"
+                size={24}
+                color={EStyleSheet.value('$primaryBlack')}
+                onPress={onRefresh}
+                style={styles.actionIconButton}
+              />
+            </Animated.View>
+          )}
+
+          {!updating && (
+            <Animated.View entering={ZoomIn.delay(200)} exiting={ZoomOut.delay(200)} style={styles.actionIconWrapper}>
+              <ManageIconButton
+                name="cog"
+                iconType="MaterialCommunityIcons"
+                size={24}
+                color={EStyleSheet.value('$primaryBlack')}
+                onPress={_onManageTokensPress}
+                style={styles.actionIconButton}
+              />
+            </Animated.View>
+          )}
           </View>
-          <View style={styles.actionIconWrapper}>
-            <ManageIconButton
-              name="cog"
-              iconType="MaterialCommunityIcons"
-              size={24}
-              color={EStyleSheet.value('$primaryBlack')}
-              onPress={_onManageTokensPress}
-              style={styles.actionIconButton}
-            />
-          </View>
-        </View>
       </View>
     </View>
   );
