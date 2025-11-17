@@ -83,9 +83,9 @@ export const QuickPostModalContent = forwardRef(
     const headerText =
       mode === 'wave'
         ? intl.formatMessage(
-          { id: 'quick_reply.summary_wave' },
-          { host: intl.formatMessage({ id: 'quick_reply.host_waves' }) }, // TODO: update based on selected host
-        )
+            { id: 'quick_reply.summary_wave' },
+            { host: intl.formatMessage({ id: 'quick_reply.host_waves' }) }, // TODO: update based on selected host
+          )
         : selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
 
     const draftId =
@@ -222,7 +222,6 @@ export const QuickPostModalContent = forwardRef(
       } else {
         _addQuickCommentIntoCache(); // add comment value into cache if there is error while posting comment
       }
-
     };
 
     const _handleMediaInsert = (data: MediaInsertData[]) => {

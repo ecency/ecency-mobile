@@ -73,7 +73,6 @@ export const usePostSubmitter = () => {
       );
 
       try {
-
         const response = await postComment(
           currentAccount,
           pinCode,

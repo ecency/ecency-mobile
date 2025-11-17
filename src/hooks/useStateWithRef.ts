@@ -18,7 +18,7 @@ import { useState, useRef, useCallback } from 'react';
  * // Use setState to update both state and ref
  * setIsSending(true);
  */
-export const useStateWithRef = <T,>(initialValue: T) => {
+export const useStateWithRef = <T>(initialValue: T) => {
   const [state, setState] = useState<T>(initialValue);
   const ref = useRef<T>(initialValue);
 
@@ -34,4 +34,3 @@ export const useStateWithRef = <T,>(initialValue: T) => {
 
   return [state, setStateWithRef, getCurrentRefValue] as const;
 };
-
