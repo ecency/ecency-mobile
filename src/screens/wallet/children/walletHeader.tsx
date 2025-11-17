@@ -5,6 +5,12 @@ import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
+import Animated, {
+  ZoomIn,
+  ZoomOut,
+  FlipInEasyX,
+  FlipOutEasyX,
+} from 'react-native-reanimated';
 import ROUTES from '../../../constants/routeNames';
 import { IconButton } from '../../../components';
 import { useAppSelector } from '../../../hooks';
@@ -12,7 +18,6 @@ import { PortfolioItem } from '../../../providers/ecency/ecency.types';
 import { formatAmount } from '../../../utils/number';
 
 import styles from './walletHeader.styles';
-import Animated, { ZoomIn, ZoomOut, FadeIn, FadeOut, FlipInEasyX, FlipOutEasyX, RotateInUpRight, FlipInYRight } from 'react-native-reanimated';
 
 interface WalletHeaderProps {
   assets?: PortfolioItem[];
@@ -98,11 +103,11 @@ export const WalletHeader = ({
   const _lastUpdateLabel = isUpdating
     ? intl.formatMessage({ id: 'wallet.updating' })
     : intl.formatMessage(
-      { id: 'wallet.last_updated', defaultMessage: 'Last updated at {datetime}' },
-      {
-        datetime: _lastUpdatedTime,
-      },
-    );
+        { id: 'wallet.last_updated', defaultMessage: 'Last updated at {datetime}' },
+        {
+          datetime: _lastUpdatedTime,
+        },
+      );
 
   return (
     <View style={styles.container}>
@@ -127,7 +132,11 @@ export const WalletHeader = ({
         </Animated.View>
         <View style={styles.balanceActions}>
           {!updating && hpBalance < 50 && (
-            <Animated.View entering={ZoomIn.delay(200)} exiting={ZoomOut.delay(200)} style={[styles.actionIconWrapper, styles.firstActionIconWrapper]}>
+            <Animated.View
+              entering={ZoomIn.delay(200)}
+              exiting={ZoomOut.delay(200)}
+              style={[styles.actionIconWrapper, styles.firstActionIconWrapper]}
+            >
               <BoostIconButton
                 name="fire"
                 iconType="MaterialCommunityIcons"
@@ -140,10 +149,14 @@ export const WalletHeader = ({
           )}
 
           {!updating && (
-            <Animated.View entering={ZoomIn} exiting={ZoomOut} style={[
-              styles.actionIconWrapper,
-              hpBalance >= 50 ? styles.firstActionIconWrapper : null,
-            ]} >
+            <Animated.View
+              entering={ZoomIn}
+              exiting={ZoomOut}
+              style={[
+                styles.actionIconWrapper,
+                hpBalance >= 50 ? styles.firstActionIconWrapper : null,
+              ]}
+            >
               <RefreshIconButton
                 name="refresh"
                 iconType="MaterialCommunityIcons"
@@ -155,7 +168,6 @@ export const WalletHeader = ({
             </Animated.View>
           )}
 
-
           <View style={styles.actionIconWrapper}>
             <ManageIconButton
               name="cog"
@@ -166,7 +178,6 @@ export const WalletHeader = ({
               style={styles.actionIconButton}
             />
           </View>
-
         </View>
       </View>
     </View>
