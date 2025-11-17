@@ -172,6 +172,7 @@ export interface PortfolioItem {
   iconUrl?: string;
   actions?: TokenAction[];
   extraData?: Array<{ dataKey: string; value: any }>;
+  apr?: number;
 }
 
 export interface ProposalMeta {
