@@ -5,12 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
-import Animated, {
-  ZoomIn,
-  ZoomOut,
-  FlipInEasyX,
-  FlipOutEasyX,
-} from 'react-native-reanimated';
+import Animated, { ZoomIn, ZoomOut, FlipInEasyX, FlipOutEasyX } from 'react-native-reanimated';
 import ROUTES from '../../../constants/routeNames';
 import { IconButton } from '../../../components';
 import { useAppSelector } from '../../../hooks';

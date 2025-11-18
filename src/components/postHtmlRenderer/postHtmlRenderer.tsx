@@ -56,7 +56,6 @@ export const PostHtmlRenderer = memo(
 
     console.log('rendering body', body);
 
-
     // new renderer functions
     body = body
       .replace(/<center>/g, '<div class="text-center">')
@@ -165,7 +164,7 @@ export const PostHtmlRenderer = memo(
       if (element.attribs && element.attribs['data-align']) {
         const alignValue = element.attribs['data-align'].toLowerCase();
         const alignClass = `align-${alignValue}`;
-        
+
         // Add align class to existing classes
         if (element.attribs.class) {
           if (!element.attribs.class.includes(alignClass)) {
