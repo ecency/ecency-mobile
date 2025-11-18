@@ -224,9 +224,10 @@ export const PostHtmlRenderer = memo(
       const parsedTnode = parseLinkData(tnode);
 
       const _onPress = () => {
-        console.log('Link Pressed:', tnode);
-        const data = parseLinkData(tnode);
-        _handleOnLinkPress(data);
+        // parse link data and handle on link press
+        const linkData = parseLinkData(tnode);
+        console.log('Link Data:', linkData);
+        _handleOnLinkPress(linkData);
       };
 
       // process video link
