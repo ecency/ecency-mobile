@@ -27,16 +27,16 @@ export default EStyleSheet.create({
     fontSize: 24,
   } as TextStyle,
   h2: {
-    fontSize: 22,
+    fontSize: 20,
   } as TextStyle,
   h3: {
-    fontSize: 19,
+    fontSize: 18,
   } as TextStyle,
   h4: {
-    fontSize: 17,
+    fontSize: 16,
   } as TextStyle,
   h5: {
-    fontSize: 16,
+    fontSize: 15,
   } as TextStyle,
   h6: {
     fontSize: 14,
