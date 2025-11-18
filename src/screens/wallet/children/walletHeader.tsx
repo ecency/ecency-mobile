@@ -5,6 +5,12 @@ import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
+import Animated, {
+  ZoomIn,
+  ZoomOut,
+  FlipInEasyX,
+  FlipOutEasyX,
+} from 'react-native-reanimated';
 import ROUTES from '../../../constants/routeNames';
 import { IconButton } from '../../../components';
 import { useAppSelector } from '../../../hooks';
@@ -115,14 +121,22 @@ export const WalletHeader = ({
         <Text style={styles.lastUpdated}>{_lastUpdateLabel}</Text>
       </View>
       <View style={styles.balanceRow}>
-        <View style={styles.balanceValueContainer}>
+        <Animated.View
+          entering={FlipInEasyX.duration(200).delay(200)}
+          exiting={FlipOutEasyX.duration(200)}
+          style={styles.balanceValueContainer}
+        >
           <Text style={styles.totalValue} numberOfLines={1} ellipsizeMode="tail">
-            {totalBalanceLabel}
+            {updating ? '--.--' : totalBalanceLabel}
           </Text>
-        </View>
+        </Animated.View>
         <View style={styles.balanceActions}>
-          {hpBalance < 50 && (
-            <View style={[styles.actionIconWrapper, styles.firstActionIconWrapper]}>
+          {!updating && hpBalance < 50 && (
+            <Animated.View
+              entering={ZoomIn.delay(200)}
+              exiting={ZoomOut.delay(200)}
+              style={[styles.actionIconWrapper, styles.firstActionIconWrapper]}
+            >
               <BoostIconButton
                 name="fire"
                 iconType="MaterialCommunityIcons"
@@ -131,23 +145,29 @@ export const WalletHeader = ({
                 onPress={_onBoostPress}
                 style={styles.actionIconButton}
               />
-            </View>
+            </Animated.View>
           )}
-          <View
-            style={[
-              styles.actionIconWrapper,
-              hpBalance >= 50 ? styles.firstActionIconWrapper : null,
-            ]}
-          >
-            <RefreshIconButton
-              name="refresh"
-              iconType="MaterialCommunityIcons"
-              size={24}
-              color={EStyleSheet.value('$primaryBlack')}
-              onPress={onRefresh}
-              style={styles.actionIconButton}
-            />
-          </View>
+
+          {!updating && (
+            <Animated.View
+              entering={ZoomIn}
+              exiting={ZoomOut}
+              style={[
+                styles.actionIconWrapper,
+                hpBalance >= 50 ? styles.firstActionIconWrapper : null,
+              ]}
+            >
+              <RefreshIconButton
+                name="refresh"
+                iconType="MaterialCommunityIcons"
+                size={24}
+                color={EStyleSheet.value('$primaryBlack')}
+                onPress={onRefresh}
+                style={styles.actionIconButton}
+              />
+            </Animated.View>
+          )}
+
           <View style={styles.actionIconWrapper}>
             <ManageIconButton
               name="cog"

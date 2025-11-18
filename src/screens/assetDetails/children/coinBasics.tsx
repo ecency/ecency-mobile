@@ -10,7 +10,7 @@ interface CoinBasicsProps {
   valuePairs: DataPair[];
   extraData: DataPair[];
   coinSymbol: string;
-  percentChange?: number;
+  apr?: number;
   iconUrl?: string;
   isEngine: boolean;
   isRenderChart?: boolean;
@@ -20,11 +20,10 @@ interface CoinBasicsProps {
 }
 
 export const CoinBasics = ({
-  assetId,
   valuePairs,
   extraData,
   coinSymbol,
-  percentChange,
+  apr,
   iconUrl,
   isEngine,
   isRenderChart,
@@ -37,7 +36,6 @@ export const CoinBasics = ({
     <>
       <View style={styles.coinTitleContainer}>
         <AssetIcon
-          id={assetId}
           iconUrl={iconUrl}
           iconSize={40}
           containerStyle={styles.iconContainer}
@@ -46,17 +44,12 @@ export const CoinBasics = ({
         <Text style={styles.textCoinTitle}>{coinSymbol}</Text>
       </View>
       <TouchableOpacity style={styles.percentEyeContainer} onPress={() => setShowChart(!showChart)}>
-        {percentChange ? (
-          <Text style={styles.textHeaderChange}>
-            {intl.formatMessage({ id: 'wallet.change' })}
-            <Text style={percentChange > 0 ? styles.textPositive : styles.textNegative}>
-              {percentChange
-                ? ` ${percentChange >= 0 ? '+' : ''}${percentChange.toFixed(1)}%`
-                : ' ---'}
-            </Text>
+        {!!apr ? (
+          <Text style={styles.textHeaderApr}>
+            {intl.formatMessage({ id: 'wallet.apr' })} {apr.toFixed(apr < 10 ? 3 : 2)}%
           </Text>
         ) : (
-          <View style={styles.textHeaderChange} />
+          <View style={styles.textHeaderApr} />
         )}
         {!!isRenderChart && (
           <Icon

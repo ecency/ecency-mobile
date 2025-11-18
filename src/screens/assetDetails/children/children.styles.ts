@@ -26,8 +26,8 @@ export default EStyleSheet.create({
     fontSize: 34,
     fontWeight: '700',
   } as TextStyle,
-  textHeaderChange: {
-    color: '$primaryDarkText',
+  textHeaderApr: {
+    color: '$iconColor',
     fontSize: 16,
     marginBottom: 32,
   } as TextStyle,

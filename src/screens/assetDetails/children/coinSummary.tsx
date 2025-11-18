@@ -10,7 +10,6 @@ import { DataPair } from '../../../redux/reducers/walletReducer';
 export interface CoinSummaryProps {
   tokenSymbol: string;
   asset: PortfolioItem;
-  percentChagne?: number;
   showChart: boolean;
   totalRecurrentAmount?: number;
   setShowChart: (value: boolean) => void;
@@ -21,7 +20,6 @@ export interface CoinSummaryProps {
 export const CoinSummary = ({
   tokenSymbol,
   asset,
-  percentChagne,
   showChart,
   totalRecurrentAmount,
   setShowChart,
@@ -110,7 +108,7 @@ export const CoinSummary = ({
         valuePairs={valuePairs}
         extraData={_extraDataPairs}
         coinSymbol={tokenSymbol}
-        percentChange={percentChagne}
+        apr={asset.apr}
         isEngine={isEngine}
         onInfoPress={onInfoPress}
         showChart={showChart}

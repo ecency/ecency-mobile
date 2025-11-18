@@ -139,6 +139,7 @@ export const convertPortfolio = (rawData: any) => {
       iconUrl: item.iconUrl,
       actions: item.actions.map((action: any) => action.id) || [],
       extraData: item.extraData || [],
+      apr: Number(item.apr) || 0,
     } as PortfolioItem;
   });
 };
