@@ -56,6 +56,7 @@ export const PostHtmlRenderer = memo(
 
     console.log('rendering body', body);
 
+
     // new renderer functions
     body = body
       .replace(/<center>/g, '<div class="text-center">')
@@ -160,6 +161,21 @@ export const PostHtmlRenderer = memo(
 
     // Does some needed dom modifications for proper rendering
     const _onElement = (element: Element) => {
+      // Handle data-align attribute on any element
+      if (element.attribs && element.attribs['data-align']) {
+        const alignValue = element.attribs['data-align'].toLowerCase();
+        const alignClass = `align-${alignValue}`;
+        
+        // Add align class to existing classes
+        if (element.attribs.class) {
+          if (!element.attribs.class.includes(alignClass)) {
+            element.attribs.class = `${element.attribs.class} ${alignClass}`;
+          }
+        } else {
+          element.attribs.class = alignClass;
+        }
+      }
+
       if (element.tagName === 'img' && element.attribs.src) {
         const imgUrl = element.attribs.src;
         console.log('img element detected', imgUrl);
@@ -345,7 +361,8 @@ export const PostHtmlRenderer = memo(
         }
       };
 
-      props.style = isInsideLi ? styles.pLi : styles.p;
+      const styleOverride = isInsideLi ? styles.pLi : styles.p;
+      props.style = { ...props.style, ...styleOverride };
       const _onPress = props.onPress || handleOnContentPress;
 
       return (
@@ -416,7 +433,6 @@ export const PostHtmlRenderer = memo(
         blockquote: styles.blockquote,
         code: styles.code,
         li: styles.li,
-        p: styles.p,
         h6: styles.h6,
       }),
       [contentWidth],
@@ -429,6 +445,9 @@ export const PostHtmlRenderer = memo(
         phishy: styles.phishy,
         'text-justify': styles.textJustify,
         'text-center': styles.textCenter,
+        'align-center': { alignSelf: 'center' as const },
+        'align-left': { alignSelf: 'flex-start' as const },
+        'align-right': { alignSelf: 'flex-end' as const },
       }),
       [],
     );
