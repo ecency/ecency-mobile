@@ -23,6 +23,21 @@ export default EStyleSheet.create({
     flexWrap: 'wrap',
     textAlignVertical: 'center',
   } as TextStyle,
+  h1: {
+    fontSize: 24,
+  } as TextStyle,
+  h2: {
+    fontSize: 20,
+  } as TextStyle,
+  h3: {
+    fontSize: 18,
+  } as TextStyle,
+  h4: {
+    fontSize: 16,
+  } as TextStyle,
+  h5: {
+    fontSize: 15,
+  } as TextStyle,
   h6: {
     fontSize: 14,
   } as TextStyle,

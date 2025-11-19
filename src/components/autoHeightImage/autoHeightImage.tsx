@@ -45,6 +45,7 @@ export const AutoHeightImage = ({
 
   const [isAnimated, setIsAnimated] = useState(false);
   const [autoplay, setAutoplay] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // extract iniital height based on provided ratio
   const _initialHeight = useMemo(() => {
@@ -115,7 +116,7 @@ export const AutoHeightImage = ({
   const animatedWrapperStyle = {
     width: imgWidth,
     height, // imgHeightAnim.value, // Bind animated height
-    backgroundColor: EStyleSheet.value('$primaryLightBackground'), // : bgColorAnim.value,
+    backgroundColor: isLoaded ? 'transparent' : EStyleSheet.value('$primaryLightBackground'),
     borderRadius: 8,
   };
 
@@ -143,10 +144,12 @@ export const AutoHeightImage = ({
 
       hasSetBounds.current = true;
     }
+    setIsLoaded(true);
   };
 
   useEffect(() => {
     hasSetBounds.current = false;
+    setIsLoaded(false);
   }, [imgUrl]);
 
   const handlePress = () => {
