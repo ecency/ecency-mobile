@@ -542,6 +542,8 @@
     "wizard_choices": "Valinnat",
     "wizard_config_label": "Asetukset",
     "wizard_config_val": "Ikä  |  Näkyvyys  |  Tulkinta",
+    "wizard_expand_config": "Show More Configuration",
+    "wizard_collapse_config": "Hide More Configuration",
     "wizard_reset": "Tyhjennä kysely",
     "config_age": "Minimi tilin ikä (päivää)",
     "config_max_options": "Maksimivalinnat",
