@@ -45,8 +45,6 @@ export const PollsWizardContent = ({
   const dispatch = useDispatch();
   // const navigation = useNavigation();
 
-  const pollConfigRef = useRef<typeof PollConfig>(null);
-
   const pollDraftsMeta = useAppSelector((state) => state.editor.pollDraftsMap);
   const _pollAtttaced = draftId && pollDraftsMeta[draftId];
 
@@ -56,6 +54,7 @@ export const PollsWizardContent = ({
   );
 
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showConfig, setShowConfig] = useState(false);
   const [pollDraft, setPollDraft] = useState<PollDraft>(_initPollDraft);
   const [isValid, setIsValid] = useState(false);
 
@@ -147,24 +146,30 @@ export const PollsWizardContent = ({
   const _renderConfig = () => {
     return (
       <>
-        <Text style={styles.label}>
+        <View style={styles.separator} />
+        {/* <Text style={styles.label}>
           {intl.formatMessage({ id: 'post_poll.wizard_config_label' })}
-        </Text>
+        </Text> */}
         <TouchableOpacity
           onPress={() => {
-            pollConfigRef.current?.showConfig();
+            setShowConfig(!showConfig);
           }}
         >
           <FormInput
             rightIconName="settings"
             iconType="MaterialIcons"
             isEditable={false}
-            value={intl.formatMessage({ id: 'post_poll.wizard_config_val' })}
+            value={
+              showConfig
+                ? intl.formatMessage({ id: 'post_poll.wizard_collapse_config' })
+                : intl.formatMessage({ id: 'post_poll.wizard_expand_config' })
+            }
             wrapperStyle={styles.inputWrapper}
             inputStyle={styles.input}
             pointerEvents="none"
           />
         </TouchableOpacity>
+        <PollConfig pollDraft={pollDraft} setPollDraft={setPollDraft} show={showConfig} />
       </>
     );
   };
@@ -244,8 +249,6 @@ export const PollsWizardContent = ({
           />
         </View>
       </KeyboardAwareScrollView>
-
-      <PollConfig ref={pollConfigRef} pollDraft={pollDraft} setPollDraft={setPollDraft} />
 
       <DatePicker
         type="datetime"

@@ -54,4 +54,12 @@ export default EStyleSheet.create({
   btnMain: {
     paddingHorizontal: 16,
   } as ViewStyle,
+  separator: {
+    width: '80%',
+    height: EStyleSheet.hairlineWidth,
+    backgroundColor: '$primaryLightGray',
+    marginTop: 24,
+    marginBottom: 16,
+    alignSelf: 'center',
+  } as ViewStyle,
 });

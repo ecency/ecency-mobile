@@ -31,7 +31,6 @@ export default EStyleSheet.create({
     color: '$primaryDarkText',
   } as TextStyle,
   optionsContainer: {
-    padding: 16,
   } as ViewStyle,
   sheetContent: {
     backgroundColor: '$primaryBackgroundColor',
