@@ -17,6 +17,7 @@ import { PollDraft } from '../../../providers/ecency/ecency.types';
 import { useAppSelector } from '../../../hooks';
 import { MainButton } from '../../mainButton';
 import IconButton from '../../iconButton';
+import Animated, { SlideOutRight } from 'react-native-reanimated';
 
 const INIT_POLL_DRAFT: PollDraft = {
   title: '',
@@ -45,8 +46,6 @@ export const PollsWizardContent = ({
   const dispatch = useDispatch();
   // const navigation = useNavigation();
 
-  const pollConfigRef = useRef<typeof PollConfig>(null);
-
   const pollDraftsMeta = useAppSelector((state) => state.editor.pollDraftsMap);
   const _pollAtttaced = draftId && pollDraftsMeta[draftId];
 
@@ -56,6 +55,7 @@ export const PollsWizardContent = ({
   );
 
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showConfig, setShowConfig] = useState(false);
   const [pollDraft, setPollDraft] = useState<PollDraft>(_initPollDraft);
   const [isValid, setIsValid] = useState(false);
 
@@ -147,24 +147,32 @@ export const PollsWizardContent = ({
   const _renderConfig = () => {
     return (
       <>
-        <Text style={styles.label}>
-          {intl.formatMessage({ id: 'post_poll.wizard_config_label' })}
-        </Text>
-        <TouchableOpacity
-          onPress={() => {
-            pollConfigRef.current?.showConfig();
-          }}
-        >
-          <FormInput
-            rightIconName="settings"
-            iconType="MaterialIcons"
-            isEditable={false}
-            value={intl.formatMessage({ id: 'post_poll.wizard_config_val' })}
-            wrapperStyle={styles.inputWrapper}
-            inputStyle={styles.input}
-            pointerEvents="none"
-          />
-        </TouchableOpacity>
+
+        {!showConfig && (
+          <Animated.View exiting={SlideOutRight}>
+            <View style={styles.separator} />
+            <TouchableOpacity
+              onPress={() => {
+                setShowConfig(!showConfig);
+              }}
+            >
+              <FormInput
+                rightIconName="settings"
+                iconType="MaterialIcons"
+                isEditable={false}
+                value={
+                  showConfig
+                    ? intl.formatMessage({ id: 'post_poll.wizard_collapse_config' })
+                    : intl.formatMessage({ id: 'post_poll.wizard_expand_config' })
+                }
+                wrapperStyle={styles.inputWrapper}
+                inputStyle={styles.input}
+                pointerEvents="none"
+              />
+            </TouchableOpacity>
+          </Animated.View>
+        )}
+        {showConfig && <PollConfig pollDraft={pollDraft} setPollDraft={setPollDraft} />}
       </>
     );
   };
@@ -244,8 +252,6 @@ export const PollsWizardContent = ({
           />
         </View>
       </KeyboardAwareScrollView>
-
-      <PollConfig ref={pollConfigRef} pollDraft={pollDraft} setPollDraft={setPollDraft} />
 
       <DatePicker
         type="datetime"
