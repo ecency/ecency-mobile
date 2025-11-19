@@ -30,8 +30,8 @@ export default EStyleSheet.create({
   inputWrapper: {
     flex: 1,
     borderRadius: 16,
-    borderTopEndRadius: 16,
-    borderTopStartRadius: 16,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
     marginTop: 12,
     borderBottomColor: 'transparent',
     height: 44,

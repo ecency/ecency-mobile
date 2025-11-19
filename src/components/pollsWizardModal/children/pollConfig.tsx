@@ -1,11 +1,12 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { useIntl } from 'react-intl';
-import styles from '../styles/pollConfig.styles';
+import styles from '../styles/pollsWizardContent.styles';
 import { FormInput } from '../../formInput';
 import SettingsItem from '../../settingsItem';
 import { PollPreferredInterpretation } from '../../../providers/hive/hive.types';
 import { PollDraft } from '../../../providers/ecency/ecency.types';
+import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
 
 interface Props {
   pollDraft: PollDraft;
@@ -73,7 +74,7 @@ export const PollConfig = ({ pollDraft, setPollDraft }: Props) => {
   };
 
   return (
-    <View style={styles.optionsContainer}>
+    <Animated.View entering={SlideInDown} exiting={SlideOutDown}>
         <Text style={styles.label}>{intl.formatMessage({ id: 'post_poll.config_age' })}</Text>
         <FormInput
           rightIconName="calendar"
@@ -150,6 +151,6 @@ export const PollConfig = ({ pollDraft, setPollDraft }: Props) => {
           handleOnChange={_onVoteChangeUpdate}
           isOn={pollDraft.voteChange}
         />
-    </View>
+    </Animated.View>
   );
 };
