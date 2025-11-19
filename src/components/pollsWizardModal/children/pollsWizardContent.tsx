@@ -169,7 +169,7 @@ export const PollsWizardContent = ({
             pointerEvents="none"
           />
         </TouchableOpacity>
-        <PollConfig pollDraft={pollDraft} setPollDraft={setPollDraft} show={showConfig} />
+        {showConfig && <PollConfig pollDraft={pollDraft} setPollDraft={setPollDraft} />}
       </>
     );
   };

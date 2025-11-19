@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 import { useIntl } from 'react-intl';
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import styles from '../styles/pollConfig.styles';
 import { FormInput } from '../../formInput';
 import SettingsItem from '../../settingsItem';
@@ -11,53 +10,11 @@ import { PollDraft } from '../../../providers/ecency/ecency.types';
 interface Props {
   pollDraft: PollDraft;
   setPollDraft: (meta: PollDraft) => void;
-  show: boolean;
 }
 
-export const PollConfig = ({ pollDraft, setPollDraft, show }: Props) => {
+export const PollConfig = ({ pollDraft, setPollDraft }: Props) => {
   const intl = useIntl();
   const _interpretations = Object.values(PollPreferredInterpretation);
-  const [contentHeight, setContentHeight] = useState(0);
-
-  const maxHeight = useSharedValue(show ? 10000 : 0);
-  const opacity = useSharedValue(show ? 1 : 0);
-
-  useEffect(() => {
-    if (contentHeight > 0) {
-      maxHeight.value = withTiming(show ? contentHeight : 0, {
-        duration: 300,
-      });
-      opacity.value = withTiming(show ? 1 : 0, {
-        duration: 300,
-      });
-    } else if (show) {
-      // If showing but not measured yet, allow content to render with large maxHeight
-      maxHeight.value = 10000;
-      opacity.value = 1;
-    }
-  }, [show, contentHeight]);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      maxHeight: maxHeight.value,
-      opacity: opacity.value,
-    };
-  });
-
-  const _onLayout = (event: { nativeEvent: { layout: { height: number } } }) => {
-    const { height: layoutHeight } = event.nativeEvent.layout;
-    if (layoutHeight > 0 && contentHeight === 0) {
-      setContentHeight(layoutHeight);
-      // Set initial animation values
-      if (show) {
-        maxHeight.value = layoutHeight;
-        opacity.value = 1;
-      } else {
-        maxHeight.value = 0;
-        opacity.value = 0;
-      }
-    }
-  };
 
   const _onAgeLimitChange = (text) => {
     const val = parseInt(text);
@@ -116,15 +73,7 @@ export const PollConfig = ({ pollDraft, setPollDraft, show }: Props) => {
   };
 
   return (
-    <Animated.View
-      style={[
-        animatedStyle,
-        {
-          overflow: 'hidden',
-        },
-      ]}
-    >
-      <View onLayout={_onLayout} style={styles.optionsContainer}>
+    <View style={styles.optionsContainer}>
         <Text style={styles.label}>{intl.formatMessage({ id: 'post_poll.config_age' })}</Text>
         <FormInput
           rightIconName="calendar"
@@ -201,7 +150,6 @@ export const PollConfig = ({ pollDraft, setPollDraft, show }: Props) => {
           handleOnChange={_onVoteChangeUpdate}
           isOn={pollDraft.voteChange}
         />
-      </View>
-    </Animated.View>
+    </View>
   );
 };
