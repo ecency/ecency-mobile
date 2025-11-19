@@ -160,7 +160,7 @@ export const broadcastPostingJSON = async (
   pinHash: string,
 ): Promise<TransactionConfirmation> => {
   const digitPinCode = getDigitPinCode(pinHash);
-  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+  const key = getPostingKey(currentAccount.local, digitPinCode);
 
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
@@ -649,7 +649,7 @@ export const getFollowSearch = (user, targetUser) =>
 
 export const ignoreUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+  const key = getPostingKey(currentAccount.local, digitPinCode);
 
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
@@ -912,7 +912,7 @@ export const getPurePost = async (author, permlink) => {
 export const deleteComment = (currentAccount, pin, permlink) => {
   const { name: author } = currentAccount;
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+  const key = getPostingKey(currentAccount.local, digitPinCode);
 
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
@@ -1069,7 +1069,7 @@ export const getPostWithComments = async (user, permlink) => {
 
 export const signImage = async (file, currentAccount, pin) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+  const key = getPostingKey(currentAccount.local, digitPinCode);
 
   if (isHsClientSupported(currentAccount.local.authType)) {
     return decryptKey(currentAccount.local.accessToken, digitPinCode);
@@ -1126,7 +1126,7 @@ export const vote = async (account, pin, author, permlink, weight) => {
 
 const _vote = (currentAccount, pin, author, permlink, weight) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+  const key = getPostingKey(currentAccount.local, digitPinCode);
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = new hsClient({
@@ -1193,7 +1193,7 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
  */
 export const voteProposal = (currentAccount, pinHash, proposalId) => {
   const digitPinCode = getDigitPinCode(pinHash);
-  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+  const key = getActiveKey(currentAccount.local, digitPinCode);
 
   const voter = currentAccount.name;
   const opArray = [
@@ -1261,12 +1261,7 @@ export const upvoteAmount = async (input) => {
 
 export const transferToken = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(
-    {
-      activeKey: get(currentAccount, 'local.activeKey'),
-    },
-    digitPinCode,
-  );
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -1314,12 +1309,7 @@ export const transferToken = (currentAccount, pin, data) => {
 
 export const recurrentTransferToken = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(
-    {
-      activeKey: get(currentAccount, 'local.activeKey'),
-    },
-    digitPinCode,
-  );
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -1359,12 +1349,7 @@ export const recurrentTransferToken = (currentAccount, pin, data) => {
 
 export const convert = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(
-    {
-      activeKey: get(currentAccount, 'local.activeKey'),
-    },
-    digitPinCode,
-  );
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -1400,12 +1385,7 @@ export const convert = (currentAccount, pin, data) => {
 
 export const transferToSavings = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(
-    {
-      activeKey: get(currentAccount, 'local.activeKey'),
-    },
-    digitPinCode,
-  );
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -1440,12 +1420,7 @@ export const transferToSavings = (currentAccount, pin, data) => {
 
 export const transferFromSavings = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(
-    {
-      activeKey: get(currentAccount, 'local.activeKey'),
-    },
-    digitPinCode,
-  );
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -1480,12 +1455,7 @@ export const transferFromSavings = (currentAccount, pin, data) => {
 
 export const transferToVesting = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(
-    {
-      activeKey: get(currentAccount, 'local.activeKey'),
-    },
-    digitPinCode,
-  );
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -1518,12 +1488,7 @@ export const transferToVesting = (currentAccount, pin, data) => {
 
 export const withdrawVesting = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(
-    {
-      activeKey: get(currentAccount, 'local.activeKey'),
-    },
-    digitPinCode,
-  );
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -1555,12 +1520,7 @@ export const withdrawVesting = (currentAccount, pin, data) => {
 
 export const delegateVestingShares = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(
-    {
-      activeKey: get(currentAccount, 'local.activeKey'),
-    },
-    digitPinCode,
-  );
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -1621,12 +1581,7 @@ export const getVestingDelegations = async (username, fromDelegatee = '', limit 
 
 export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(
-    {
-      activeKey: get(currentAccount, 'local.activeKey'),
-    },
-    digitPinCode,
-  );
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -1663,7 +1618,7 @@ export const getWithdrawRoutes = (account) =>
 
 export const followUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+  const key = getPostingKey(currentAccount.local, digitPinCode);
 
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
@@ -1709,7 +1664,7 @@ export const followUser = async (currentAccount, pin, data) => {
 
 export const unfollowUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+  const key = getPostingKey(currentAccount.local, digitPinCode);
 
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
@@ -1755,7 +1710,7 @@ export const unfollowUser = async (currentAccount, pin, data) => {
 
 export const markHiveNotifications = async (currentAccount, pinHash) => {
   const digitPinCode = getDigitPinCode(pinHash);
-  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+  const key = getPostingKey(currentAccount.local, digitPinCode);
 
   const now = new Date().toISOString();
   const date = now.split('.')[0];
@@ -1932,7 +1887,7 @@ const _postContent = async (
 ) => {
   const { name: author } = account;
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(account.local, digitPinCode);
+  const key = getPostingKey(account.local, digitPinCode);
 
   if (isHsClientSupported(account.local.authType)) {
     const token = decryptKey(account.local.accessToken, digitPinCode);
@@ -2051,7 +2006,7 @@ const _reblog = async (account, pinCode, author, permlink, undo = false) => {
 
 export const claimRewardBalance = (account, pinCode, rewardHive, rewardHbd, rewardVests) => {
   const pin = getDigitPinCode(pinCode);
-  const key = getAnyPrivateKey(get(account, 'local'), pin);
+  const key = getPostingKey(get(account, 'local'), pin);
 
   if (isHsClientSupported(account.local.authType)) {
     const token = decryptKey(get(account, 'local.accessToken'), pin);
@@ -2307,7 +2262,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
 
 export const profileUpdate = async (params, pin, currentAccount) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey(get(currentAccount, 'local'), digitPinCode);
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
@@ -2436,31 +2391,30 @@ return { address: address };
 
 // HELPERS
 
-export const getAnyPrivateKey = (local, pin) => {
-  const { postingKey, activeKey } = local;
-
-  // Always prefer the posting key for operations that require posting
-  // authority. If the posting key is not available (e.g. user logged in
-  // with only an active key) fall back to the active key.
-  if (postingKey) {
+export const getPostingKey = (local, pin) => {
+  if (local?.postingKey) {
     return decryptKey(local.postingKey, pin);
-  }
-
-  if (activeKey) {
-    return decryptKey(local.activeKey, pin);
   }
 
   return false;
 };
 
 export const getActiveKey = (local, pin) => {
-  const { activeKey } = local;
-
-  if (activeKey) {
+  if (local?.activeKey) {
     return decryptKey(local.activeKey, pin);
   }
 
   return false;
+};
+
+export const getAnyPrivateKey = (local, pin) => {
+  const postingKey = getPostingKey(local, pin);
+
+  if (postingKey) {
+    return postingKey;
+  }
+
+  return getActiveKey(local, pin);
 };
 
 export const votingPower = (account) => {
@@ -2505,6 +2459,9 @@ export const resolveTransaction = async (parsedTx, parsedParams, signer) => {
 };
 
 const handleChainError = (strErr: string) => {
+  if (strErr.includes('chain-error.missing-authority')) {
+    return 'chain-error.missing-authority';
+  }
   if (/You may only post once every/.test(strErr)) {
     return 'chain-error.min-root-comment';
   } else if (/Your current vote on this comment is identical/.test(strErr)) {
@@ -2529,14 +2486,58 @@ const handleChainError = (strErr: string) => {
   return null;
 };
 
+const POSTING_AUTH_OPERATION_NAMES = new Set([
+  'vote',
+  'comment',
+  'comment_options',
+  'custom_json',
+  'delete_comment',
+  'claim_reward_balance',
+]);
+
+const resolveOperationAuthority = (operation: Operation): 'posting' | 'active' => {
+  const [operationName, payload] = operation;
+
+  if (operationName === 'custom_json') {
+    const hasActiveAuth = Array.isArray(payload?.required_auths)
+      ? payload.required_auths.length > 0
+      : false;
+    if (hasActiveAuth) {
+      return 'active';
+    }
+    return 'posting';
+  }
+
+  return POSTING_AUTH_OPERATION_NAMES.has(operationName) ? 'posting' : 'active';
+};
+
+const resolveTxRequiredAuthority = (operations: Operation[]): 'posting' | 'active' => {
+  if (!operations || operations.length === 0) {
+    return 'posting';
+  }
+
+  return operations.some((operation) => resolveOperationAuthority(operation) === 'active')
+    ? 'active'
+    : 'posting';
+};
+
 export const handleHiveUriOperation = async (
   currentAccount: any,
   pin: any,
   tx: any,
 ): Promise<TransactionConfirmation> => {
+  const digitPinCode = getDigitPinCode(pin);
+  const requiredAuthority = resolveTxRequiredAuthority(tx?.operations || []);
+  const key =
+    requiredAuthority === 'posting'
+      ? getPostingKey(currentAccount.local, digitPinCode)
+      : getActiveKey(currentAccount.local, digitPinCode);
+
+  if (!key) {
+    return Promise.reject(new Error('chain-error.missing-authority'));
+  }
+
   try {
-    const digitPinCode = getDigitPinCode(pin);
-    const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
     const privateKey = PrivateKey.fromString(key);
     const chainId = Buffer.from(
       'beeab0de00000000000000000000000000000000000000000000000000000000',

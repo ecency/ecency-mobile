@@ -2,7 +2,7 @@ import { PrivateKey } from '@esteemapp/dhive';
 import { Operation } from '@hiveio/dhive';
 import * as Sentry from '@sentry/react-native';
 import {
-  getAnyPrivateKey,
+  getActiveKey,
   getDigitPinCode,
   getMarketStatistics,
   sendHiveOperations,
@@ -27,12 +27,7 @@ export const limitOrderCreate = (
   idPrefix = OrderIdPrefix.EMPTY,
 ) => {
   const digitPinCode = getDigitPinCode(pinHash);
-  const key = getAnyPrivateKey(
-    {
-      activeKey: currentAccount?.local?.activeKey,
-    },
-    digitPinCode,
-  );
+  const key = getActiveKey(currentAccount?.local, digitPinCode);
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -72,12 +67,7 @@ export const limitOrderCreate = (
 
 export const limitOrderCancel = (currentAccount: any, pinHash: string, orderid: number) => {
   const digitPinCode = getDigitPinCode(pinHash);
-  const key = getAnyPrivateKey(
-    {
-      activeKey: currentAccount?.local?.activeKey,
-    },
-    digitPinCode,
-  );
+  const key = getActiveKey(currentAccount?.local, digitPinCode);
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
