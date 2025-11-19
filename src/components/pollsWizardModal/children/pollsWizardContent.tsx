@@ -1,10 +1,11 @@
-import React, { useState, useRef, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import DatePicker from 'react-native-date-picker';
 import { useDispatch } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Animated, { SlideOutRight } from 'react-native-reanimated';
 import styles from '../styles/pollsWizardContent.styles';
 import { TextButton } from '../../buttons';
 import { FormInput } from '../../formInput';
@@ -17,7 +18,6 @@ import { PollDraft } from '../../../providers/ecency/ecency.types';
 import { useAppSelector } from '../../../hooks';
 import { MainButton } from '../../mainButton';
 import IconButton from '../../iconButton';
-import Animated, { SlideOutRight } from 'react-native-reanimated';
 
 const INIT_POLL_DRAFT: PollDraft = {
   title: '',
@@ -147,7 +147,6 @@ export const PollsWizardContent = ({
   const _renderConfig = () => {
     return (
       <>
-
         {!showConfig && (
           <Animated.View exiting={SlideOutRight}>
             <View style={styles.separator} />

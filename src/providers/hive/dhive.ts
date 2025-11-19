@@ -2439,12 +2439,15 @@ return { address: address };
 export const getAnyPrivateKey = (local, pin) => {
   const { postingKey, activeKey } = local;
 
-  if (activeKey) {
-    return decryptKey(local.activeKey, pin);
-  }
-
+  // Always prefer the posting key for operations that require posting
+  // authority. If the posting key is not available (e.g. user logged in
+  // with only an active key) fall back to the active key.
   if (postingKey) {
     return decryptKey(local.postingKey, pin);
+  }
+
+  if (activeKey) {
+    return decryptKey(local.activeKey, pin);
   }
 
   return false;
