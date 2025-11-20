@@ -54,14 +54,38 @@ export const getPointsHistory = async (username: string): Promise<UserPoint[]> =
   }
 };
 
-export const claimPoints = async () => {
+export const claimPoints = async (timeoutMs = 15000) => {
+  const startedAt = Date.now();
+
   try {
-    const response = await ecencyApi.post('/private-api/points-claim');
+    const response = await ecencyApi.post('/private-api/points-claim', undefined, {
+      timeout: timeoutMs,
+    });
+
+    const duration = Date.now() - startedAt;
+
+    if (duration > 8000) {
+      Sentry.captureMessage('points-claim-slow-response', (scope) => {
+        scope.setLevel('warning');
+        scope.setContext('claimPoints', { duration, timeoutMs });
+      });
+    }
+
     return response.data;
   } catch (error) {
+    const duration = Date.now() - startedAt;
+    const isTimeout = (error as any)?.code === 'ECONNABORTED';
+
     console.warn('Failed to claim points', error);
-    Sentry.captureException(error);
-    throw new Error(error.response?.data?.message || error.message);
+    Sentry.captureException(error, (scope) => {
+      scope.setContext('claimPoints', { duration, timeoutMs, isTimeout });
+    });
+
+    const errorMessage = isTimeout
+      ? 'Points claim timed out, please try again.'
+      : error.response?.data?.message || error.message;
+
+    throw new Error(errorMessage);
   }
 };
 

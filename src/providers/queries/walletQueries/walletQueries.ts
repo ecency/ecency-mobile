@@ -185,8 +185,31 @@ export const useClaimRewardsMutation = () => {
         ),
       );
     },
-    onError: (error, { symbol }) => {
+    onError: async (error, { symbol }) => {
       setIsClaimingColl((prev) => ({ ...prev, [symbol]: false }));
+
+      if (symbol === 'POINTS') {
+        // In some cases claim request may succeed on backend but fail locally due to
+        // long-running response or connectivity hiccups. Re-fetch the portfolio to
+        // verify whether pending rewards were actually claimed before surfacing an error.
+        const refreshedPortfolio = await queryClient.fetchQuery<PortfolioItem[]>([
+          QUERIES.WALLET.GET,
+          currentAccount.username,
+        ]);
+
+        const pointsAsset = refreshedPortfolio?.find((item) => item.symbol === symbol);
+        if (pointsAsset && pointsAsset.pendingRewards === 0) {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'alert.claim_reward_balance_ok',
+              }),
+            ),
+          );
+          return;
+        }
+      }
+
       dispatch(
         toastNotification(
           intl.formatMessage({ id: 'alert.claim_failed' }, { message: error.message }),
