@@ -81,6 +81,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
   _appState = AppState.currentState;
 
+  _isSubmitting = false;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -851,11 +853,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     } = this.props;
     const { isPostSending } = this.state;
 
-    if (isPostSending) {
+    if (isPostSending || this._isSubmitting) {
       return;
     }
 
     if (currentAccount) {
+      this._isSubmitting = true;
       this.setState({
         isPostSending: true,
       });
@@ -923,6 +926,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         })
         .catch((error) => {
           this._handleSubmitFailure(error);
+        })
+        .finally(() => {
+          this._isSubmitting = false;
         });
     }
   };
@@ -1037,6 +1043,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   _handleSubmitFailure = (error) => {
     const { intl, dispatch } = this.props;
     console.log(error);
+
+    this._isSubmitting = false;
     if (
       error &&
       error.response &&
@@ -1067,6 +1075,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
   _handleSubmitSuccess = () => {
     const { navigation } = this.props;
+
+    this._isSubmitting = false;
 
     if (navigation) {
       navigation.goBack();
