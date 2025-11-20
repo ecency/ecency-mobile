@@ -135,11 +135,6 @@ export const usePostSubmitter = () => {
   // feteced lates wafves container and  wave to that container
   const _submitWave = async (body: string, pollDraft: PollDraft) => {
     try {
-      if (getIsSubmittingCurrent()) {
-        return false;
-      }
-
-      setIsSubmitting(true);
       const _wavesHost = 'ecency.waves'; // TODO: make waves host selection dynamic
       const latestWavesPost = await wavesQueries.fetchLatestWavesContainer(_wavesHost);
 
