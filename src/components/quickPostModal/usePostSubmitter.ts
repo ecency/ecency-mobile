@@ -29,14 +29,18 @@ export const usePostSubmitter = () => {
     parentPost: any,
     postType: PostTypes = PostTypes.COMMENT,
     pollDraft?: PollDraft,
+    manageSubmittingState = true,
   ) => {
     if (!commentBody) {
       return false;
     }
-    if (getIsSubmittingCurrent()) {
+    if (manageSubmittingState && getIsSubmittingCurrent()) {
       return false;
     }
-    setIsSubmitting(true);
+
+    if (manageSubmittingState) {
+      setIsSubmitting(true);
+    }
 
     if (currentAccount) {
       const _prefix =
@@ -87,7 +91,9 @@ export const usePostSubmitter = () => {
           pointsTy: PointActivityIds.COMMENT,
           transactionId: response.id,
         });
-        setIsSubmitting(false);
+        if (manageSubmittingState) {
+          setIsSubmitting(false);
+        }
 
         dispatch(
           toastNotification(
@@ -124,7 +130,9 @@ export const usePostSubmitter = () => {
           error.message || JSON.stringify(error),
         );
 
-        setIsSubmitting(false);
+        if (manageSubmittingState) {
+          setIsSubmitting(false);
+        }
         return false;
       }
     }
@@ -134,7 +142,13 @@ export const usePostSubmitter = () => {
 
   // feteced lates wafves container and  wave to that container
   const _submitWave = async (body: string, pollDraft: PollDraft) => {
+    if (getIsSubmittingCurrent()) {
+      return false;
+    }
+
     try {
+      setIsSubmitting(true);
+
       const _wavesHost = 'ecency.waves'; // TODO: make waves host selection dynamic
       const latestWavesPost = await wavesQueries.fetchLatestWavesContainer(_wavesHost);
 
@@ -143,6 +157,7 @@ export const usePostSubmitter = () => {
         latestWavesPost,
         PostTypes.WAVE,
         pollDraft,
+        false,
       );
 
       if (_cacheCommentData) {
@@ -151,9 +166,10 @@ export const usePostSubmitter = () => {
 
       return _cacheCommentData;
     } catch (err) {
-      setIsSubmitting(false);
       Alert.alert('Fail', err.message);
       return false;
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
