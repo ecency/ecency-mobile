@@ -2323,7 +2323,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
 
 export const profileUpdate = async (params, pin, currentAccount) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+  const key = getPostingKey(get(currentAccount, 'local'), digitPinCode);
 
   if (isHsClientSupported(currentAccount.local.authType)) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
