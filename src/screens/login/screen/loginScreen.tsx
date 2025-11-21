@@ -21,6 +21,7 @@ import {
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
 import { ECENCY_TERMS_URL } from '../../../config/ecencyApi';
+import { getAccount } from '../../../providers/hive/dhive';
 
 // Styles
 import styles from './loginStyles';
@@ -87,15 +88,51 @@ const LoginScreen = ({
   };
 
   const _handleUsernameChange = (username) => {
-    const formattedUsername = username.trim().toLowerCase();
+    const formattedUsername = username.trim().replace(/^@+/, '').toLowerCase();
     setUsername(formattedUsername);
   };
 
   const _checkUsernameIsValid = (uname) => {
-    getAccountsWithUsername(uname).then((res) => {
-      const isValid = res.includes(uname);
-      setIsUsernameValid(isValid);
-    });
+    const normalized = uname.trim().replace(/^@+/, '').toLowerCase();
+
+    if (!normalized) {
+      setIsUsernameValid(false);
+      return;
+    }
+
+    getAccountsWithUsername(normalized)
+      .then(async (res) => {
+        if (!Array.isArray(res)) {
+          setIsUsernameValid(true);
+          return;
+        }
+
+        const isValid = res.some((item) => item?.toLowerCase() === normalized);
+
+        if (isValid) {
+          setIsUsernameValid(true);
+          return;
+        }
+
+        try {
+          await getAccount(normalized);
+          setIsUsernameValid(true);
+        } catch (e) {
+          const accountNotFoundMessage = 'Account not found';
+          const errorMessage = e?.message || '';
+
+          if (errorMessage.includes(accountNotFoundMessage)) {
+            setIsUsernameValid(false);
+          } else {
+            // ignore username validation failures so login button stays enabled
+            setIsUsernameValid(true);
+          }
+        }
+      })
+      .catch(() => {
+        // ignore username validation failures so login button stays enabled
+        setIsUsernameValid(true);
+      });
   };
 
   const _handleOnModalToggle = () => {

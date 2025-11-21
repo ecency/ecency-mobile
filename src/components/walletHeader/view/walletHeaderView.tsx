@@ -7,6 +7,7 @@ import get from 'lodash/get';
 // Components
 import { useNavigation } from '@react-navigation/native';
 import { Icon, MainButton, DropdownButton, WalletLineItem } from '../..';
+import { useAppSelector } from '../../../hooks';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -35,6 +36,7 @@ const WalletHeaderView = ({
   const navigation = useNavigation();
 
   const intl = useIntl();
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const dropdownRef = useRef();
 
   useEffect(() => {
@@ -92,7 +94,11 @@ const WalletHeaderView = ({
             isDisable={isClaiming}
             style={styles.mainButton}
             height={50}
-            onPress={() => (unclaimedBalance ? claim() : navigation.navigate(ROUTES.SCREENS.BOOST))}
+            onPress={() =>
+              unclaimedBalance
+                ? claim()
+                : navigation.navigate(ROUTES.SCREENS.BOOST, { username: currentAccount?.name })
+            }
           >
             <View style={styles.mainButtonWrapper}>
               <Text style={styles.unclaimedText}>

@@ -206,7 +206,7 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
       if (unclaimedRewards) {
         _claimRewards(item.symbol);
       } else if (item.symbol === 'POINTS') {
-        navigation.navigate(ROUTES.SCREENS.BOOST);
+        navigation.navigate(ROUTES.SCREENS.BOOST, { username: currentAccount?.name });
       }
     };
 
