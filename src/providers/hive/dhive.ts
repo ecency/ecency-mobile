@@ -81,6 +81,31 @@ export const checkClient = async () => {
 
 checkClient();
 
+const isInvalidParamsRpcError = (error: unknown): boolean => {
+  const name = (error as { name?: string })?.name;
+  const message = (error as { message?: string; jse_shortmsg?: string })?.message;
+  const shortMessage = (error as { jse_shortmsg?: string })?.jse_shortmsg;
+
+  return (
+    name === 'RPCError' &&
+    (message === 'Invalid parameters' || shortMessage === 'Invalid parameters')
+  );
+};
+
+const captureExceptionWithRpcParams = (
+  error: unknown,
+  params?: Record<string, unknown>,
+  configureScope?: (scope: Sentry.Scope) => void,
+) => {
+  Sentry.captureException(error, (scope) => {
+    if (params && isInvalidParamsRpcError(error)) {
+      scope.setContext('params', params);
+    }
+    configureScope?.(scope);
+    return scope;
+  });
+};
+
 /**
  * Computes the SHA-256 hash of the input.
  *
@@ -143,7 +168,7 @@ export const sendHiveOperations = async (
     const result = Object.assign({ id: trxId }, resultHive);
     return result;
   } catch (err) {
-    Sentry.captureException(err, (scope) => {
+    captureExceptionWithRpcParams(err, { operations }, (scope) => {
       scope.setTag('context', 'send-hive-operations');
       scope.setContext('operationsArray', { operations });
     });
@@ -468,7 +493,7 @@ export const getUserReputation = async (author) => {
 
     return parseReputation(_account.reputation);
   } catch (error) {
-    Sentry.captureException(error);
+    captureExceptionWithRpcParams(error, { author });
     return 0;
   }
 };
@@ -487,7 +512,7 @@ export const getCommunity = async (tag, observer = '') => {
       return {};
     }
   } catch (err) {
-    Sentry.captureException(err, (scope) => {
+    captureExceptionWithRpcParams(err, { tag, observer }, (scope) => {
       scope.setContext('info', { message: 'failed to get community' });
     });
     throw err;
@@ -544,7 +569,7 @@ export const getCommunities = async (
     }
   } catch (error) {
     console.warn('failed to get communities', error);
-    Sentry.captureException(error, (scope) => {
+    captureExceptionWithRpcParams(error, { last, limit, query, sort, observer }, (scope) => {
       scope.setContext('info', { message: 'failed to get communities' });
     });
     return {};
@@ -562,7 +587,7 @@ export const getSubscriptions = async (account = '') => {
       return {};
     }
   } catch (error) {
-    Sentry.captureException(error, (scope) => {
+    captureExceptionWithRpcParams(error, { account }, (scope) => {
       scope.setContext('info', { message: 'failed to get subscriptions' });
     });
     throw error;
@@ -600,7 +625,7 @@ export const getMutes = async (currentUsername) => {
     return response.map((item) => item.following);
   } catch (err) {
     console.warn('Failed to get muted accounts', err);
-    Sentry.captureException(err);
+    captureExceptionWithRpcParams(err, { currentUsername });
     return [];
   }
 };
@@ -719,7 +744,7 @@ export const getProposalsVoted = async (username) => {
     console.log(`Returning filtered proposals`, filteredProposals);
     return filteredProposals;
   } catch (error) {
-    Sentry.captureException(error);
+    captureExceptionWithRpcParams(error, { username });
     return [];
   }
 };
@@ -756,7 +781,7 @@ export const getUserPostVote = async (author: string, permlink: string, username
     const _votes: Vote[] = rawResult.votes;
     return _votes.length ? _votes[0] : null; // since we are fetching with limit 1
   } catch (error) {
-    Sentry.captureException(error);
+    captureExceptionWithRpcParams(error, { author, permlink, username });
     console.warn('Failed to get post vote status', error);
     return null;
   }
@@ -796,7 +821,7 @@ export const getPostReblogs = async (author, permlink) => {
     console.log(`Returning reblogs`, reblogs);
     return reblogs;
   } catch (error) {
-    Sentry.captureException(error);
+    captureExceptionWithRpcParams(error, { author, permlink });
     return [];
   }
 };
@@ -881,9 +906,8 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
     return post ? await resolvePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
     console.warn(error);
-    Sentry.captureException(error, (scope) => {
+    captureExceptionWithRpcParams(error, { author, permlink }, (scope) => {
       scope.setContext('params', { author, permlink });
-      return scope;
     });
     return error;
   }
@@ -907,9 +931,8 @@ export const getPurePost = async (author, permlink) => {
     return await client.call('bridge', 'get_post', { author, permlink });
   } catch (error) {
     console.warn('Failed to get pure post', error);
-    Sentry.captureException(error, (scope) => {
+    captureExceptionWithRpcParams(error, { author, permlink }, (scope) => {
       scope.setContext('params', { author, permlink });
-      return scope;
     });
     return error;
   }
@@ -1148,7 +1171,7 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
           resolve(result.result);
         })
         .catch((err) => {
-          Sentry.captureException(err);
+          captureExceptionWithRpcParams(err, { voter, author, permlink, weight });
           reject(err);
         });
     });
@@ -1179,7 +1202,7 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
           if (err && get(err, 'jse_info.code') === 4030100) {
             err.message = getDsteemDateErrorMessage(err);
           }
-          Sentry.captureException(err);
+          captureExceptionWithRpcParams(err, { voter, author, permlink, weight });
           reject(err);
         });
     });
@@ -1236,7 +1259,7 @@ export const voteProposal = (currentAccount, pinHash, proposalId) => {
           if (err && get(err, 'jse_info.code') === 4030100) {
             err.message = getDsteemDateErrorMessage(err);
           }
-          Sentry.captureException(err);
+          captureExceptionWithRpcParams(err, { voter, proposalId });
           reject(err);
         });
     });
@@ -1581,7 +1604,7 @@ export const getVestingDelegations = async (username, fromDelegatee = '', limit 
     return response;
   } catch (err) {
     console.warn('Failed to get vested delegatees');
-    Sentry.captureException(err);
+    captureExceptionWithRpcParams(err, { username, fromDelegatee, limit });
   }
 };
 
@@ -1829,7 +1852,12 @@ export const postContent = (
     })
     .catch((err) => {
       console.warn('Failed to post conent', err);
-      Sentry.captureException(err);
+      captureExceptionWithRpcParams(err, {
+        account: account?.name,
+        parentAuthor,
+        parentPermlink,
+        permlink,
+      });
       throw err;
     });
 
@@ -1871,7 +1899,12 @@ export const postComment = (
     })
     .catch((err) => {
       console.warn('Failed to post conent', err);
-      Sentry.captureException(err);
+      captureExceptionWithRpcParams(err, {
+        account: account?.name,
+        parentAuthor,
+        parentPermlink,
+        permlink,
+      });
       throw err;
     });
 
@@ -2086,7 +2119,7 @@ export const transferPoint = (currentAccount, pinCode, data) => {
     return sendHiveOperations(opArray, privateKey);
   } else {
     const err = new Error('Check private key permission! Required private active key or above.');
-    Sentry.captureException(err, (scope) => {
+    captureExceptionWithRpcParams(err, { username: currentAccount.username, data }, (scope) => {
       scope.setUser({ username: currentAccount.username });
       scope.setTag('context', 'transfer-points');
     });
@@ -2118,10 +2151,14 @@ export const promote = (currentAccount, pinCode, duration, author, permlink) => 
     return sendHiveOperations(opArray, privateKey);
   } else {
     const err = new Error('Check private key permission! Required private active key or above.');
-    Sentry.captureException(err, (scope) => {
-      scope.setUser({ username: currentAccount.username });
-      scope.setTag('context', 'promoting-content');
-    });
+    captureExceptionWithRpcParams(
+      err,
+      { username: currentAccount.username, author, permlink, duration },
+      (scope) => {
+        scope.setUser({ username: currentAccount.username });
+        scope.setTag('context', 'promoting-content');
+      },
+    );
     return Promise.reject(err);
   }
 };
@@ -2149,10 +2186,14 @@ export const boostPlus = (currentAccount, pinCode, duration, account) => {
     return sendHiveOperations(opArray, privateKey);
   } else {
     const err = new Error('Check private key permission! Required private active key or above.');
-    Sentry.captureException(err, (scope) => {
-      scope.setUser({ username: currentAccount.username });
-      scope.setTag('context', 'boost-plus-content');
-    });
+    captureExceptionWithRpcParams(
+      err,
+      { username: currentAccount.username, account, duration },
+      (scope) => {
+        scope.setUser({ username: currentAccount.username });
+        scope.setTag('context', 'boost-plus-content');
+      },
+    );
     return Promise.reject(err);
   }
 };
@@ -2181,10 +2222,14 @@ export const boost = (currentAccount, pinCode, point, author, permlink) => {
     return sendHiveOperations(opArray, privateKey);
   } else {
     const err = new Error('Check private key permission! Required private active key or above.');
-    Sentry.captureException(err, (scope) => {
-      scope.setUser({ username: currentAccount.username });
-      scope.setTag('context', 'boosting-content');
-    });
+    captureExceptionWithRpcParams(
+      err,
+      { username: currentAccount.username, author, permlink, point },
+      (scope) => {
+        scope.setUser({ username: currentAccount.username });
+        scope.setTag('context', 'boosting-content');
+      },
+    );
     return Promise.reject(err);
   }
 };
@@ -2226,7 +2271,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
       .then((resp) => resp.result)
       .catch((error) => {
         console.warn('Failed to update posting key');
-        Sentry.captureException(error);
+        captureExceptionWithRpcParams(error, { account: get(currentAccount, 'name') });
         console.log(error);
       });
   }
@@ -2255,7 +2300,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
             error.message = getDsteemDateErrorMessage(error);
           }
           console.warn('Failed to update posting key, non-steam', error);
-          Sentry.captureException(error);
+          captureExceptionWithRpcParams(error, { account: get(currentAccount, 'name') });
           reject(error);
         });
     });
@@ -2556,7 +2601,7 @@ export const handleHiveUriOperation = async (
     return result;
   } catch (err) {
     const errString = handleChainError(err.toString());
-    Sentry.captureException(err, (scope) => {
+    captureExceptionWithRpcParams(err, { tx }, (scope) => {
       scope.setTag('context', 'handle-hive-uri-operation');
       scope.setContext('tx', tx);
     });
