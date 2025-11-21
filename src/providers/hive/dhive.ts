@@ -881,7 +881,10 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
     return post ? await resolvePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
     console.warn(error);
-    Sentry.captureException(error);
+    Sentry.captureException(error, (scope) => {
+      scope.setContext('params', { author, permlink });
+      return scope;
+    });
     return error;
   }
 };
@@ -904,7 +907,10 @@ export const getPurePost = async (author, permlink) => {
     return await client.call('bridge', 'get_post', { author, permlink });
   } catch (error) {
     console.warn('Failed to get pure post', error);
-    Sentry.captureException(error);
+    Sentry.captureException(error, (scope) => {
+      scope.setContext('params', { author, permlink });
+      return scope;
+    });
     return error;
   }
 };
