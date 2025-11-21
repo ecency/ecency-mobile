@@ -79,6 +79,8 @@ class InAppPurchaseContainer extends Component {
         }),
         err.message,
       );
+    } finally {
+      this.setState({ isLoading: false });
     }
   };
 
