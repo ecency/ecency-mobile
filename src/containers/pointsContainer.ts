@@ -125,38 +125,41 @@ const PointsContainer = ({
       }),
     );
 
-  const _fetchUserPointActivities = useCallback(async (_username = username) => {
-    if (!_username) {
-      return;
-    }
-    setRefreshing(true);
+  const _fetchUserPointActivities = useCallback(
+    async (_username = username) => {
+      if (!_username) {
+        return;
+      }
+      setRefreshing(true);
 
-    await getPointsSummary(_username)
-      .then(async (userPointsP) => {
-        const _balance = Math.round(get(userPointsP, 'points') * 1000) / 1000;
-        setUserPoints(userPointsP);
-        setBalance(_balance);
-        setEstimatedEstm(await getPointsEstimate(_balance, currency));
-      })
-      .catch((err) => {
-        Alert.alert(get(err, 'message', 'Error'));
-      });
+      await getPointsSummary(_username)
+        .then(async (userPointsP) => {
+          const _balance = Math.round(get(userPointsP, 'points') * 1000) / 1000;
+          setUserPoints(userPointsP);
+          setBalance(_balance);
+          setEstimatedEstm(await getPointsEstimate(_balance, currency));
+        })
+        .catch((err) => {
+          Alert.alert(get(err, 'message', 'Error'));
+        });
 
-    await getPointsHistory(_username)
-      .then((userActivitiesP) => {
-        if (Object.entries(userActivitiesP).length !== 0) {
-          setUserActivities(_groomUserActivities(userActivitiesP));
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          Alert.alert(get(err, 'message') || err.toString());
-        }
-      });
+      await getPointsHistory(_username)
+        .then((userActivitiesP) => {
+          if (Object.entries(userActivitiesP).length !== 0) {
+            setUserActivities(_groomUserActivities(userActivitiesP));
+          }
+        })
+        .catch((err) => {
+          if (err) {
+            Alert.alert(get(err, 'message') || err.toString());
+          }
+        });
 
-    setRefreshing(false);
-    setIsLoading(false);
-  }, []);
+      setRefreshing(false);
+      setIsLoading(false);
+    },
+    [currency, username],
+  );
 
   const _getUserBalance = async (_username) => {
     await getPointsSummary(_username)
