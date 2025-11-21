@@ -774,11 +774,13 @@ export const getNodes = async () => {
     const response = await serverList.get('');
     console.log('nodes response', response.data);
 
-    if (!response.data?.hived) {
+    const nodes = response.data?.hived ?? response.data;
+
+    if (!isArray(nodes) || nodes.length === 0) {
       throw new Error('Invalid data returned, fallback to local copy');
     }
 
-    return response.data?.hived;
+    return nodes;
   } catch (error) {
     console.warn('failed to get nodes list', error);
     Sentry.captureException(error);
