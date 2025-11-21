@@ -11,7 +11,7 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
 import { login, loginWithSC2 } from '../../../providers/hive/auth';
-import { lookupAccounts } from '../../../providers/hive/dhive';
+import { getAccounts } from '../../../providers/hive/dhive';
 
 import {
   failedAccount,
@@ -276,21 +276,18 @@ class LoginContainer extends PureComponent {
   };
 
   _getAccountsWithUsername = async (username) => {
-    const { intl, isConnected } = this.props;
+    const { isConnected } = this.props;
 
     if (!isConnected) {
       return null;
     }
 
     try {
-      const validUsers = await lookupAccounts(username);
+      const accounts = await getAccounts([username]);
 
-      return validUsers;
+      return accounts;
     } catch (error) {
-      Alert.alert(
-        intl.formatMessage({ id: 'alert.error' }),
-        intl.formatMessage({ id: 'alert.unknow_error' }),
-      );
+      return null;
     }
   };
 

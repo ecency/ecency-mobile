@@ -21,7 +21,6 @@ import {
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
 import { ECENCY_TERMS_URL } from '../../../config/ecencyApi';
-import { getAccount } from '../../../providers/hive/dhive';
 
 // Styles
 import styles from './loginStyles';
@@ -101,37 +100,18 @@ const LoginScreen = ({
     }
 
     getAccountsWithUsername(normalized)
-      .then(async (res) => {
+      .then((res) => {
         if (!Array.isArray(res)) {
-          setIsUsernameValid(true);
+          setIsUsernameValid(false);
           return;
         }
 
-        const isValid = res.some((item) => item?.toLowerCase() === normalized);
+        const isValid = res.some((item) => item?.name?.toLowerCase() === normalized);
 
-        if (isValid) {
-          setIsUsernameValid(true);
-          return;
-        }
-
-        try {
-          await getAccount(normalized);
-          setIsUsernameValid(true);
-        } catch (e) {
-          const accountNotFoundMessage = 'Account not found';
-          const errorMessage = e?.message || '';
-
-          if (errorMessage.includes(accountNotFoundMessage)) {
-            setIsUsernameValid(false);
-          } else {
-            // ignore username validation failures so login button stays enabled
-            setIsUsernameValid(true);
-          }
-        }
+        setIsUsernameValid(isValid);
       })
       .catch(() => {
-        // ignore username validation failures so login button stays enabled
-        setIsUsernameValid(true);
+        setIsUsernameValid(false);
       });
   };
 

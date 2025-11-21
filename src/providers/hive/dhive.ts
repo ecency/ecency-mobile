@@ -479,6 +479,16 @@ export const getUser = async (user) => {
   }
 };
 
+export const getAccounts = async (usernames: string[]) => {
+  try {
+    const accounts = await client.database.call('get_accounts', [usernames]);
+    return accounts;
+  } catch (error) {
+    console.warn('Failed to get accounts', error);
+    return null;
+  }
+};
+
 export const getUserReputation = async (author) => {
   try {
     const response = await client.call('condenser_api', 'get_account_reputations', [author, 1]);
