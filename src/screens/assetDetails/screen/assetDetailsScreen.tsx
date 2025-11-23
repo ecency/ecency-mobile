@@ -133,19 +133,17 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
           fundType = 'ESTM';
           break;
         case TransferTypes.PROMOTE:
-          navigateTo = ROUTES.SCREENS.REDEEM;
-          navigateParams = {
-            balance: asset.balance,
-            redeemType: 'promote',
-          };
-          break;
         case TransferTypes.BOOST:
           navigateTo = ROUTES.SCREENS.REDEEM;
           navigateParams = {
             balance: asset.balance,
-            redeemType: 'boost_plus',
+            redeemType: transferType === TransferTypes.PROMOTE ? 'promote' : 'boost_plus',
           };
-          break;
+          RootNavigation.navigate({
+            name: navigateTo,
+            params: navigateParams,
+          });
+          return;
       }
     }
 
