@@ -166,7 +166,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           if (_draft && !!_draft.body) {
             const _mediaUrls = navigationParams.replyMediaUrls;
             _draftBody =
-              _mediaUrls.length > 0 ? `${_draft.body}\n\n ![](${_mediaUrls[0]})` : _draft.body;
+              _mediaUrls?.length > 0 ? `${_draft.body}\n\n ![](${_mediaUrls[0]})` : _draft.body;
           }
         }
 
