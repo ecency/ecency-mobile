@@ -157,7 +157,7 @@ const FormInputView = ({
         wrapperStyle,
       ]}
     >
-      {isFirstImage && value && value.length > 2 ? (
+      {isFirstImage && _isValid && value && value.length > 2 ? (
         <View style={{ flex: 0.15 }}>
           <ExpoImage
             style={styles.firstImage}
