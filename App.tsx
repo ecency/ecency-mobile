@@ -2,6 +2,13 @@
 import * as Sentry from '@sentry/react-native';
 import App from './src/index';
 
+const enableSessionReplay = __DEV__;
+const integrations = [Sentry.feedbackIntegration()];
+
+if (enableSessionReplay) {
+  integrations.unshift(Sentry.mobileReplayIntegration());
+}
+
 Sentry.init({
   dsn: 'https://a7b0c5a49bdeae965767e2967411b7b0@o4507985141956608.ingest.de.sentry.io/4509786252116048',
 
@@ -9,10 +16,11 @@ Sentry.init({
   // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
   sendDefaultPii: true,
 
-  // Configure Session Replay
-  replaysSessionSampleRate: 0.1,
-  replaysOnErrorSampleRate: 1,
-  integrations: [Sentry.mobileReplayIntegration(), Sentry.feedbackIntegration()],
+  // Disable in production to avoid unnecessary background
+  // processing and battery impact while still sampling replays in development.
+  replaysSessionSampleRate: enableSessionReplay ? 0.1 : 0,
+  replaysOnErrorSampleRate: enableSessionReplay ? 1 : 0,
+  integrations,
 
   // uncomment the line below to enable Spotlight (https://spotlightjs.com)
   // spotlight: __DEV__,
