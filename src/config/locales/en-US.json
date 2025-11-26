@@ -299,6 +299,7 @@
     "thread_empty": "No messages yet. Say hello to get the conversation started.",
     "anonymous": "Unknown user",
     "message_placeholder": "Message",
+    "search_placeholder": "Search channels or users",
     "send": "Send",
     "back": "Back to chats"
   },

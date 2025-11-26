@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   KeyboardAvoidingView,
   Platform,
@@ -24,6 +25,8 @@ import {
   sendMattermostMessage,
   getHiveUsernameFromMattermostUser,
   ensureMattermostUsersHaveHiveNames,
+  deleteMattermostMessage,
+  fetchMattermostChannelModeration,
 } from '../../../providers/chat/mattermost';
 import { UserAvatar } from '../../../components';
 import { chatThreadStyles as styles } from '../styles';
@@ -127,6 +130,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const [message, setMessage] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [hasBootstrapped, setHasBootstrapped] = useState<boolean>(!!initialBootstrap);
+  const [canModerate, setCanModerate] = useState<boolean>(false);
 
   const userLookupRef = useRef<Record<string, any>>({});
 
@@ -200,6 +204,22 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
     loadChannelMembers();
   }, [channelId, _ensureBootstrap, _mergeUserLookup]);
+
+  useEffect(() => {
+    const resolveModeration = async () => {
+      try {
+        await _ensureBootstrap();
+        const moderation = await fetchMattermostChannelModeration(channelId);
+        if (typeof moderation?.canModerate === 'boolean') {
+          setCanModerate(moderation.canModerate);
+        }
+      } catch (err) {
+        setCanModerate(false);
+      }
+    };
+
+    resolveModeration();
+  }, [channelId, _ensureBootstrap]);
 
   const _collectMissingUserIds = useCallback((list: ChatPost[]): string[] => {
     const ids = new Set<string>();
@@ -327,6 +347,23 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     }
   };
 
+  const _handleRemovePost = useCallback(
+    async (post: ChatPost) => {
+      if (!post?.id) {
+        return;
+      }
+
+      try {
+        await _ensureBootstrap();
+        await deleteMattermostMessage(channelId, post.id);
+        setPosts((prev) => prev.filter((item) => item.id !== post.id));
+      } catch (err: any) {
+        setError(err?.message || 'Unable to remove message.');
+      }
+    },
+    [_ensureBootstrap, channelId],
+  );
+
   const _renderItem = ({ item }: { item: ChatPost }) => {
     const isSystemAddMessage =
       item?.type === 'system_add_to_channel' || item?.type === 'system_add_to_team';
@@ -343,6 +380,27 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     const timestamp = item.create_at || item.update_at;
     const body = _formatPostBody(item);
 
+    const _confirmDelete = () => {
+      Alert.alert(
+        intl.formatMessage({ id: 'chats.remove_message', defaultMessage: 'Remove message?' }),
+        intl.formatMessage({
+          id: 'chats.remove_message_body',
+          defaultMessage: 'This will remove the message for everyone in the channel.',
+        }),
+        [
+          {
+            text: intl.formatMessage({ id: 'alert.cancel', defaultMessage: 'Cancel' }),
+            style: 'cancel',
+          },
+          {
+            text: intl.formatMessage({ id: 'chats.remove', defaultMessage: 'Remove' }),
+            style: 'destructive',
+            onPress: () => _handleRemovePost(item),
+          },
+        ],
+      );
+    };
+
     if (isSystemAddMessage) {
       return (
         <View style={[styles.message, styles.systemMessage]}>
@@ -353,7 +411,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     }
 
     return (
-      <View style={styles.message}>
+      <TouchableOpacity
+        style={styles.message}
+        onLongPress={canModerate ? _confirmDelete : undefined}
+      >
         <View style={styles.messageHeader}>
           <UserAvatar username={author} style={styles.messageAvatar} disableSize />
           <View style={styles.messageMeta}>
@@ -362,7 +423,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           </View>
         </View>
         {!!body && <Text style={styles.body}>{body}</Text>}
-      </View>
+      </TouchableOpacity>
     );
   };
 

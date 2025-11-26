@@ -1,3 +1,4 @@
+import axios from 'axios';
 import get from 'lodash/get';
 import chatApi from '../../config/chatApi';
 import { getDigitPinCode } from '../hive/dhive';
@@ -49,8 +50,96 @@ export const fetchMattermostChannels = async () => {
   return data.channels || data;
 };
 
+export const searchMattermostChannels = async (query: string) => {
+  const term = query.trim();
+
+  if (term.length < 2) {
+    return [];
+  }
+
+  try {
+    const { data } = await chatApi.post('/api/mattermost/channels/search', {
+      term,
+      include_public: true,
+      include_private: true,
+    });
+    return data.channels || data;
+  } catch (err: any) {
+    if (axios.isAxiosError(err)) {
+      if (err.response?.status === 405) {
+        const { data } = await chatApi.get('/api/mattermost/channels/search', {
+          params: { term },
+        });
+        return data.channels || data;
+      }
+
+      if (err.response?.status === 400) {
+        return [];
+      }
+    }
+
+    throw err;
+  }
+};
+
+export const searchMattermostUsers = async (query: string) => {
+  const term = query.trim();
+
+  if (term.length < 2) {
+    return [];
+  }
+
+  try {
+    const { data } = await chatApi.get('/api/mattermost/users/search', {
+      params: { q: term },
+    });
+    return data.users || data;
+  } catch (err: any) {
+    if (axios.isAxiosError(err) && err.response?.status === 405) {
+      const { data } = await chatApi.post('/api/mattermost/users/search', { q: term });
+      return data.users || data;
+    }
+
+    throw err;
+  }
+};
+
+export const joinMattermostChannel = async (channelId: string) => {
+  const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/join`);
+  return data.channel || data;
+};
+
+export const toggleMattermostChannelFavorite = async (channelId: string, favorite: boolean) => {
+  const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/favorite`, {
+    favorite,
+  });
+  return data.channel || data;
+};
+
+export const toggleMattermostChannelMute = async (channelId: string, muted: boolean) => {
+  const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/mute`, {
+    muted,
+  });
+  return data.channel || data;
+};
+
+export const leaveMattermostChannel = async (channelId: string) => {
+  const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/leave`);
+  return data.channel || data;
+};
+
 export const fetchMattermostChannelPosts = async (channelId: string) => {
   const { data } = await chatApi.get(`/api/mattermost/channels/${channelId}/posts`);
+  return data;
+};
+
+export const deleteMattermostMessage = async (channelId: string, postId: string) => {
+  const { data } = await chatApi.delete(`/api/mattermost/channels/${channelId}/posts/${postId}`);
+  return data;
+};
+
+export const fetchMattermostChannelModeration = async (channelId: string) => {
+  const { data } = await chatApi.get(`/api/mattermost/channels/${channelId}/moderation`);
   return data;
 };
 
@@ -72,6 +161,11 @@ export const fetchMattermostUsersByIds = async (userIds: string[]) => {
 
   const { data } = await chatApi.post('/api/mattermost/users/ids', { ids: userIds });
   return data.users || data;
+};
+
+export const startMattermostDirectMessage = async (userId: string) => {
+  const { data } = await chatApi.post('/api/mattermost/direct', { userId });
+  return data.channel || data;
 };
 
 export const getHiveUsernameFromMattermostUser = (user: any): string | undefined =>

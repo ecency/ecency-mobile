@@ -86,10 +86,18 @@ export const chatsStyles = EStyleSheet.create({
   channelRowContent: {
     flex: 1,
   },
+  channelTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
   channelName: {
     fontSize: 15,
     fontWeight: '600',
     color: '$primaryBlack',
+  },
+  channelMetaIcon: {
+    marginLeft: 6,
   },
   channelMeta: {
     marginTop: 4,
@@ -100,17 +108,75 @@ export const chatsStyles = EStyleSheet.create({
     color: '$primaryRed',
     marginTop: 8,
   },
-  refreshButton: {
-    marginTop: 8,
+  searchContainer: {
+    marginTop: 12,
+    padding: 12,
+    borderRadius: 12,
+    backgroundColor: '$primaryLightBackground',
+  },
+  searchInput: {
     paddingVertical: 10,
     paddingHorizontal: 12,
-    alignSelf: 'flex-start',
+    borderRadius: 10,
+    backgroundColor: '$primaryBackgroundColor',
+    color: '$primaryBlack',
+  },
+  searchSpinner: {
+    marginTop: 8,
+  },
+  searchResults: {
+    marginTop: 10,
+  },
+  searchSection: {
+    marginTop: 10,
+  },
+  searchRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomColor: '$borderColor',
+    borderBottomWidth: 1,
+  },
+  searchRowContent: {
+    flex: 1,
+  },
+  searchAction: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     borderRadius: 8,
     backgroundColor: '$primaryBlue',
   },
-  refreshLabel: {
+  searchActionLabel: {
     color: '$pureWhite',
     fontWeight: '600',
+  },
+  sectionHeading: {
+    fontWeight: '700',
+    color: '$primaryDarkText',
+    marginBottom: 6,
+  },
+  channelOptions: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  optionsLabel: {
+    fontSize: 18,
+    color: '$primaryDarkText',
+  },
+  unreadBadge: {
+    minWidth: 26,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 14,
+    backgroundColor: '$primaryBlue',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 6,
+  },
+  unreadBadgeText: {
+    color: '$pureWhite',
+    fontWeight: '700',
+    fontSize: 12,
   },
   emptyState: {
     marginTop: 16,
