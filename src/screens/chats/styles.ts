@@ -197,13 +197,20 @@ export const chatThreadStyles = EStyleSheet.create({
     borderBottomWidth: 1,
     backgroundColor: '$primaryBackgroundColor',
   },
-  backButton: {
-    alignSelf: 'flex-start',
-    marginBottom: 6,
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  backLabel: {
-    color: '$primaryBlue',
-    fontWeight: '600',
+  backButton: {
+    paddingVertical: 4,
+    paddingRight: 8,
+  },
+  backIcon: {
+    color: '$primaryBlack',
+  },
+  headerTextGroup: {
+    flex: 1,
+    marginLeft: 4,
   },
   title: {
     fontSize: 18,
@@ -241,6 +248,13 @@ export const chatThreadStyles = EStyleSheet.create({
   messageMeta: {
     flex: 1,
   },
+  messageActions: {
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+  },
+  actionsIcon: {
+    color: '$primaryDarkText',
+  },
   author: {
     fontWeight: '700',
     color: '$primaryBlack',
@@ -264,6 +278,21 @@ export const chatThreadStyles = EStyleSheet.create({
     color: '$primaryDarkText',
     fontSize: 12,
     marginBottom: 4,
+  },
+  unreadMarker: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 8,
+  },
+  unreadLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '$borderColor',
+  },
+  unreadLabel: {
+    marginHorizontal: 10,
+    color: '$primaryBlue',
+    fontWeight: '700',
   },
   composer: {
     flexDirection: 'row',
@@ -291,6 +320,32 @@ export const chatThreadStyles = EStyleSheet.create({
   sendLabel: {
     color: '$pureWhite',
     fontWeight: '700',
+  },
+  editingBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderTopColor: '$borderColor',
+    borderTopWidth: 1,
+    backgroundColor: '$primaryLightBackground',
+  },
+  editingLabel: {
+    color: '$primaryDarkText',
+    fontWeight: '600',
+  },
+  cancelEditButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  cancelEditLabel: {
+    marginLeft: 6,
+    color: '$primaryBlue',
+    fontWeight: '600',
+  },
+  cancelEditIcon: {
+    color: '$primaryBlue',
   },
   emptyState: {
     marginTop: 32,

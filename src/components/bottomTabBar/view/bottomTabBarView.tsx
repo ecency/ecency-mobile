@@ -79,6 +79,9 @@ const BottomTabBarView = ({
       case ROUTES.TABBAR.NOTIFICATION:
         _tabBarIcon = <IconContainer isBadge badgeType="notification" {..._iconProps} />;
         break;
+      case ROUTES.TABBAR.CHATS:
+        _tabBarIcon = <IconContainer isBadge badgeType="chat" {..._iconProps} />;
+        break;
       case ROUTES.TABBAR.POST_BUTTON:
       case ROUTES.TABBAR.WAVES:
         _iconProps.iconType = 'MaterialCommunityIcons';

@@ -124,8 +124,17 @@ export const toggleMattermostChannelMute = async (channelId: string, muted: bool
 };
 
 export const leaveMattermostChannel = async (channelId: string) => {
-  const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/leave`);
-  return data.channel || data;
+  try {
+    const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/leave`);
+    return data.channel || data;
+  } catch (err: any) {
+    if (axios.isAxiosError(err) && err.response?.status === 404) {
+      const { data } = await chatApi.delete(`/api/mattermost/channels/${channelId}/members/me`);
+      return data.channel || data;
+    }
+
+    throw err;
+  }
 };
 
 export const fetchMattermostChannelPosts = async (channelId: string) => {
@@ -133,9 +142,38 @@ export const fetchMattermostChannelPosts = async (channelId: string) => {
   return data;
 };
 
+export const markMattermostChannelViewed = async (
+  channelId: string,
+  prevChannelId?: string | null,
+) => {
+  const payload: { channel_id: string; prev_channel_id?: string | null } = {
+    channel_id: channelId,
+  };
+
+  if (prevChannelId) {
+    payload.prev_channel_id = prevChannelId;
+  }
+
+  const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/view`, payload);
+  return data;
+};
+
 export const deleteMattermostMessage = async (channelId: string, postId: string) => {
   const { data } = await chatApi.delete(`/api/mattermost/channels/${channelId}/posts/${postId}`);
   return data;
+};
+
+export const updateMattermostMessage = async (
+  channelId: string,
+  postId: string,
+  message: string,
+) => {
+  const payload = { message };
+  const { data } = await chatApi.put(
+    `/api/mattermost/channels/${channelId}/posts/${postId}`,
+    payload,
+  );
+  return data.post || data;
 };
 
 export const fetchMattermostChannelModeration = async (channelId: string) => {

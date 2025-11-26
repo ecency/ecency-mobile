@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useIntl } from 'react-intl';
 import moment from 'moment';
 import { useNavigation } from '@react-navigation/native';
@@ -27,8 +27,10 @@ import {
   ensureMattermostUsersHaveHiveNames,
   deleteMattermostMessage,
   fetchMattermostChannelModeration,
+  updateMattermostMessage,
+  markMattermostChannelViewed,
 } from '../../../providers/chat/mattermost';
-import { UserAvatar } from '../../../components';
+import { Icon, UserAvatar } from '../../../components';
 import { chatThreadStyles as styles } from '../styles';
 
 interface ChatThreadParams {
@@ -37,6 +39,7 @@ interface ChatThreadParams {
   channelDescription?: string;
   bootstrapResult?: any;
   userLookup?: Record<string, any>;
+  lastViewedAt?: number;
 }
 
 interface ChatPost {
@@ -111,6 +114,7 @@ const normalizeUsersFromMap = (usersMap?: Record<string, any>) =>
 const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) => {
   const intl = useIntl();
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   const {
     channelId,
@@ -131,8 +135,17 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const [error, setError] = useState<string | null>(null);
   const [hasBootstrapped, setHasBootstrapped] = useState<boolean>(!!initialBootstrap);
   const [canModerate, setCanModerate] = useState<boolean>(false);
+  const [lastViewedAt, setLastViewedAt] = useState<number | null>(
+    route.params?.lastViewedAt ?? null,
+  );
+  const [firstUnreadIndex, setFirstUnreadIndex] = useState<number | null>(null);
+  const [hasScrolledToUnread, setHasScrolledToUnread] = useState<boolean>(false);
+  const [editingPostId, setEditingPostId] = useState<string | null>(null);
 
   const userLookupRef = useRef<Record<string, any>>({});
+  const listRef = useRef<FlatList<ChatPost>>(null);
+  const inputRef = useRef<TextInput>(null);
+  const lastMarkedViewedAtRef = useRef<number | null>(null);
 
   const [userLookup, setUserLookup] = useState<Record<string, any>>(() => {
     const normalized = normalizeUserLookup(route.params?.userLookup);
@@ -193,6 +206,17 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           .map((member: any) => member?.user_id || member?.id)
           .filter(Boolean);
 
+        const bootstrapUserId = bootstrapResult?.user?.id;
+        if (!lastViewedAt && bootstrapUserId) {
+          const selfMember = members?.find(
+            (member: any) => member?.user_id === bootstrapUserId || member?.id === bootstrapUserId,
+          );
+
+          if (selfMember?.last_viewed_at) {
+            setLastViewedAt(selfMember.last_viewed_at);
+          }
+        }
+
         if (memberIds.length) {
           const users = await fetchMattermostUsersByIds(memberIds);
           _mergeUserLookup((prev) => ({ ...prev, ...ensureMattermostUsersHaveHiveNames(users) }));
@@ -203,7 +227,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     };
 
     loadChannelMembers();
-  }, [channelId, _ensureBootstrap, _mergeUserLookup]);
+  }, [channelId, _ensureBootstrap, _mergeUserLookup, bootstrapResult, lastViewedAt]);
 
   useEffect(() => {
     const resolveModeration = async () => {
@@ -295,6 +319,20 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       try {
         await _ensureBootstrap();
         const data = await fetchMattermostChannelPosts(channelId);
+        const membershipRecord =
+          data?.member ||
+          data?.membership ||
+          (Array.isArray(data?.members)
+            ? data.members.find(
+                (member: any) =>
+                  member?.user_id === bootstrapResult?.user?.id ||
+                  member?.id === bootstrapResult?.user?.id,
+              )
+            : null);
+
+        if (membershipRecord?.last_viewed_at || membershipRecord?.last_view_at) {
+          setLastViewedAt(membershipRecord.last_viewed_at || membershipRecord.last_view_at || null);
+        }
         const userMap = ensureMattermostUsersHaveHiveNames(normalizeUsersFromMap(data?.users));
         if (Object.keys(userMap).length) {
           _mergeUserLookup((prev) => ({ ...prev, ...userMap }));
@@ -316,12 +354,111 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       _resolveUserProfiles,
       _mergeUserLookup,
       channelId,
+      bootstrapResult,
     ],
   );
 
   useEffect(() => {
     _loadPosts(false);
   }, [_loadPosts]);
+
+  useEffect(() => {
+    setHasScrolledToUnread(false);
+  }, [channelId, lastViewedAt]);
+
+  useEffect(() => {
+    if (firstUnreadIndex === null || hasScrolledToUnread) {
+      return;
+    }
+
+    if (firstUnreadIndex >= 0) {
+      try {
+        listRef.current?.scrollToIndex({
+          index: firstUnreadIndex,
+          animated: true,
+          viewPosition: 0.5,
+        });
+      } catch (err) {
+        // ignore scroll failures; list will remain at the top
+      }
+    }
+
+    setHasScrolledToUnread(true);
+  }, [firstUnreadIndex, hasScrolledToUnread]);
+
+  useEffect(() => {
+    if (!posts.length) {
+      setFirstUnreadIndex(null);
+      return;
+    }
+
+    const lastViewed = lastViewedAt || 0;
+    const nextIndex = posts.findIndex(
+      (post) => (post.create_at || post.update_at || 0) > lastViewed,
+    );
+
+    setFirstUnreadIndex(nextIndex >= 0 ? nextIndex : null);
+  }, [lastViewedAt, posts]);
+
+  const latestPostTimestamp = useMemo(
+    () =>
+      posts.reduce((max, post) => {
+        const timestamp = post.create_at || post.update_at || 0;
+        return timestamp > max ? timestamp : max;
+      }, 0),
+    [posts],
+  );
+
+  const _markChannelViewed = useCallback(
+    async (latestTimestamp: number) => {
+      if (!latestTimestamp) {
+        return;
+      }
+
+      if (lastMarkedViewedAtRef.current && latestTimestamp <= lastMarkedViewedAtRef.current) {
+        return;
+      }
+
+      try {
+        await _ensureBootstrap();
+        await markMattermostChannelViewed(channelId);
+        lastMarkedViewedAtRef.current = latestTimestamp;
+        setLastViewedAt((prev) => {
+          const previous = prev || 0;
+          return latestTimestamp > previous ? latestTimestamp : prev;
+        });
+      } catch (err) {
+        // ignore view update failures so the thread still renders
+      }
+    },
+    [_ensureBootstrap, channelId],
+  );
+
+  useEffect(() => {
+    const shouldMarkViewed =
+      (firstUnreadIndex === null || hasScrolledToUnread) && latestPostTimestamp > 0;
+
+    if (!shouldMarkViewed) {
+      return;
+    }
+
+    _markChannelViewed(latestPostTimestamp);
+  }, [firstUnreadIndex, hasScrolledToUnread, latestPostTimestamp, _markChannelViewed]);
+
+  const _resetEditing = useCallback(() => {
+    setEditingPostId(null);
+    setMessage('');
+  }, []);
+
+  const _handleStartEdit = useCallback(
+    (post: ChatPost) => {
+      const body = _formatPostBody(post);
+      setMessage(body);
+      setEditingPostId(post.id || null);
+      setTimeout(() => inputRef.current?.focus(), 100);
+    },
+    [_formatPostBody],
+  );
 
   const _handleSend = async () => {
     const trimmedMessage = message.trim();
@@ -333,11 +470,29 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     setIsSending(true);
     try {
       await _ensureBootstrap();
-      const response = await sendMattermostMessage(channelId, trimmedMessage);
-      const newPost = normalizePost(response);
-      if (newPost) {
-        setPosts((prev) => _sortPosts([...prev, newPost]));
-        _resolveUserProfiles(_collectMissingUserIds([newPost]));
+      if (editingPostId) {
+        const response = await updateMattermostMessage(channelId, editingPostId, trimmedMessage);
+        const updatedPost = normalizePost(response) || {
+          id: editingPostId,
+          message: trimmedMessage,
+        };
+        setPosts((prev) =>
+          _sortPosts(
+            prev.map((item) =>
+              item.id === editingPostId
+                ? { ...item, ...updatedPost, message: trimmedMessage }
+                : item,
+            ),
+          ),
+        );
+        setEditingPostId(null);
+      } else {
+        const response = await sendMattermostMessage(channelId, trimmedMessage);
+        const newPost = normalizePost(response);
+        if (newPost) {
+          setPosts((prev) => _sortPosts([...prev, newPost]));
+          _resolveUserProfiles(_collectMissingUserIds([newPost]));
+        }
       }
       setMessage('');
     } catch (err: any) {
@@ -364,7 +519,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     [_ensureBootstrap, channelId],
   );
 
-  const _renderItem = ({ item }: { item: ChatPost }) => {
+  const _renderItem = ({ item, index }: { item: ChatPost; index: number }) => {
     const isSystemAddMessage =
       item?.type === 'system_add_to_channel' || item?.type === 'system_add_to_team';
     const authorId = item.user_id || item.user?.id;
@@ -379,6 +534,39 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       intl.formatMessage({ id: 'chats.anonymous', defaultMessage: 'Unknown user' });
     const timestamp = item.create_at || item.update_at;
     const body = _formatPostBody(item);
+    const isOwnMessage = authorId && bootstrapResult?.user?.id === authorId;
+    const showUnreadMarker = firstUnreadIndex !== null && index === firstUnreadIndex;
+
+    const _showActions = () => {
+      const actions = [] as any[];
+
+      if (isOwnMessage) {
+        actions.push({
+          text: intl.formatMessage({ id: 'chats.edit_message', defaultMessage: 'Edit message' }),
+          onPress: () => _handleStartEdit(item),
+        });
+      }
+
+      if (canModerate || isOwnMessage) {
+        actions.push({
+          text: intl.formatMessage({ id: 'chats.remove', defaultMessage: 'Remove' }),
+          style: 'destructive',
+          onPress: () => _confirmDelete(),
+        });
+      }
+
+      actions.push({
+        text: intl.formatMessage({ id: 'alert.cancel', defaultMessage: 'Cancel' }),
+        style: 'cancel',
+      });
+
+      Alert.alert(
+        intl.formatMessage({ id: 'chats.message_actions', defaultMessage: 'Message options' }),
+        undefined,
+        actions,
+        { cancelable: true },
+      );
+    };
 
     const _confirmDelete = () => {
       Alert.alert(
@@ -403,40 +591,88 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
     if (isSystemAddMessage) {
       return (
-        <View style={[styles.message, styles.systemMessage]}>
-          {!!timestamp && <Text style={styles.systemTimestamp}>{moment(timestamp).fromNow()}</Text>}
-          {!!body && <Text style={styles.systemBody}>{body}</Text>}
+        <View>
+          {showUnreadMarker && (
+            <View style={styles.unreadMarker}>
+              <View style={styles.unreadLine} />
+              <Text style={styles.unreadLabel}>
+                {intl.formatMessage({ id: 'chats.new_messages', defaultMessage: 'New messages' })}
+              </Text>
+              <View style={styles.unreadLine} />
+            </View>
+          )}
+          <View style={[styles.message, styles.systemMessage]}>
+            {!!timestamp && (
+              <Text style={styles.systemTimestamp}>{moment(timestamp).fromNow()}</Text>
+            )}
+            {!!body && <Text style={styles.systemBody}>{body}</Text>}
+          </View>
         </View>
       );
     }
 
     return (
-      <TouchableOpacity
-        style={styles.message}
-        onLongPress={canModerate ? _confirmDelete : undefined}
-      >
-        <View style={styles.messageHeader}>
-          <UserAvatar username={author} style={styles.messageAvatar} disableSize />
-          <View style={styles.messageMeta}>
-            <Text style={styles.author}>{author}</Text>
-            {timestamp ? <Text style={styles.timestamp}>{moment(timestamp).fromNow()}</Text> : null}
+      <View>
+        {showUnreadMarker && (
+          <View style={styles.unreadMarker}>
+            <View style={styles.unreadLine} />
+            <Text style={styles.unreadLabel}>
+              {intl.formatMessage({ id: 'chats.new_messages', defaultMessage: 'New messages' })}
+            </Text>
+            <View style={styles.unreadLine} />
           </View>
-        </View>
-        {!!body && <Text style={styles.body}>{body}</Text>}
-      </TouchableOpacity>
+        )}
+        <TouchableOpacity
+          style={styles.message}
+          onLongPress={canModerate ? _confirmDelete : undefined}
+          activeOpacity={0.9}
+        >
+          <View style={styles.messageHeader}>
+            <UserAvatar username={author} style={styles.messageAvatar} disableSize />
+            <View style={styles.messageMeta}>
+              <Text style={styles.author}>{author}</Text>
+              {timestamp ? (
+                <Text style={styles.timestamp}>{moment(timestamp).fromNow()}</Text>
+              ) : null}
+            </View>
+            {isOwnMessage ? (
+              <TouchableOpacity
+                onPress={_showActions}
+                style={styles.messageActions}
+                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              >
+                <Icon
+                  name="dots-horizontal"
+                  iconType="MaterialCommunityIcons"
+                  size={20}
+                  color={styles.actionsIcon.color}
+                />
+              </TouchableOpacity>
+            ) : null}
+          </View>
+          {!!body && <Text style={styles.body}>{body}</Text>}
+        </TouchableOpacity>
+      </View>
     );
   };
 
   const _header = useMemo(
     () => (
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Text style={styles.backLabel}>
-            {intl.formatMessage({ id: 'chats.back', defaultMessage: 'Back to chats' })}
-          </Text>
-        </TouchableOpacity>
-        <Text style={styles.title}>{channelName || channelId}</Text>
-        {!!channelDescription && <Text style={styles.meta}>{channelDescription}</Text>}
+        <View style={styles.headerRow}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+            <Icon
+              name="chevron-left"
+              iconType="MaterialCommunityIcons"
+              size={26}
+              color={styles.backIcon.color}
+            />
+          </TouchableOpacity>
+          <View style={styles.headerTextGroup}>
+            <Text style={styles.title}>{channelName || channelId}</Text>
+            {!!channelDescription && <Text style={styles.meta}>{channelDescription}</Text>}
+          </View>
+        </View>
       </View>
     ),
     [channelDescription, channelId, channelName, intl, navigation],
@@ -461,13 +697,19 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     );
   }, [error, intl, isLoading]);
 
+  const listContentStyle = useMemo(
+    () => [styles.listContent, { paddingBottom: styles.listContent.paddingBottom + insets.bottom }],
+    [insets.bottom],
+  );
+
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right', 'bottom']}>
       {_header}
 
       {isLoading && <ActivityIndicator style={{ marginTop: 16 }} />}
 
       <FlatList
+        ref={listRef}
         data={posts}
         keyExtractor={(item, index) => (item.id || index).toString()}
         renderItem={_renderItem}
@@ -475,15 +717,41 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={() => _loadPosts(true)} />
         }
-        contentContainerStyle={styles.listContent}
+        contentContainerStyle={listContentStyle}
+        onScrollToIndexFailed={({ index }) =>
+          setTimeout(
+            () => listRef.current?.scrollToIndex({ index, animated: true, viewPosition: 0.5 }),
+            400,
+          )
+        }
       />
+
+      {editingPostId && (
+        <View style={styles.editingBanner}>
+          <Text style={styles.editingLabel}>
+            {intl.formatMessage({ id: 'chats.editing_message', defaultMessage: 'Editing message' })}
+          </Text>
+          <TouchableOpacity onPress={_resetEditing} style={styles.cancelEditButton}>
+            <Icon
+              name="close"
+              iconType="MaterialCommunityIcons"
+              size={18}
+              color={styles.cancelEditIcon.color}
+            />
+            <Text style={styles.cancelEditLabel}>
+              {intl.formatMessage({ id: 'alert.cancel', defaultMessage: 'Cancel' })}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 64 + insets.top : 0}
       >
-        <View style={styles.composer}>
+        <View style={[styles.composer, { paddingBottom: Math.max(insets.bottom, 12) }]}>
           <TextInput
+            ref={inputRef}
             style={styles.input}
             placeholder={intl.formatMessage({
               id: 'chats.message_placeholder',
@@ -503,7 +771,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
               <ActivityIndicator color="white" />
             ) : (
               <Text style={styles.sendLabel}>
-                {intl.formatMessage({ id: 'chats.send', defaultMessage: 'Send' })}
+                {intl.formatMessage({
+                  id: editingPostId ? 'chats.update' : 'chats.send',
+                  defaultMessage: editingPostId ? 'Update' : 'Send',
+                })}
               </Text>
             )}
           </TouchableOpacity>

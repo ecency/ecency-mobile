@@ -453,6 +453,7 @@ const ChatsScreen = () => {
             channelDescription: dmChannel.purpose,
             bootstrapResult,
             userLookup,
+            lastViewedAt: dmChannel.last_viewed_at || dmChannel.last_view_at,
           } as never,
         );
       } catch (err: any) {
@@ -505,6 +506,12 @@ const ChatsScreen = () => {
           channelDescription: description,
           bootstrapResult,
           userLookup,
+          lastViewedAt:
+            item?.last_viewed_at ||
+            item?.last_view_at ||
+            item?.lastViewedAt ||
+            item?.lastViewed ||
+            null,
         } as never,
       );
     };

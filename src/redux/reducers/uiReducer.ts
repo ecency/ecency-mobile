@@ -8,6 +8,7 @@ import {
   LOGOUT,
   LOGOUT_DONE,
   HIVE_URI_TO_HANDLE,
+  UPDATE_UNREAD_CHAT_COUNT,
 } from '../constants/constants';
 import { orientations } from '../constants/orientationsConstants';
 
@@ -25,6 +26,7 @@ interface UiState {
   lockedOrientation: string;
   isLogingOut: boolean;
   deepLinkToHandle: string;
+  unreadChatCount: number;
 }
 
 const initialState: UiState = {
@@ -36,6 +38,7 @@ const initialState: UiState = {
   lockedOrientation: orientations.PORTRAIT,
   isLogingOut: false,
   deepLinkToHandle: '',
+  unreadChatCount: 0,
 };
 
 const uiReducer = (state = initialState, action): UiState => {
@@ -88,6 +91,12 @@ const uiReducer = (state = initialState, action): UiState => {
       return {
         ...state,
         deepLinkToHandle: action.payload,
+      };
+
+    case UPDATE_UNREAD_CHAT_COUNT:
+      return {
+        ...state,
+        unreadChatCount: action.payload,
       };
 
     default:

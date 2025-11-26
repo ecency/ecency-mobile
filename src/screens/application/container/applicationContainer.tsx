@@ -40,6 +40,10 @@ import {
 import { setPushToken, getUnreadNotificationCount } from '../../../providers/ecency/ecency';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
 import RootNavigation from '../../../navigation/rootNavigation';
+import {
+  bootstrapMattermostSession,
+  fetchMattermostChannels,
+} from '../../../providers/chat/mattermost';
 
 // Actions
 import {
@@ -63,6 +67,7 @@ import {
   updateActiveBottomTab,
   logout,
   logoutDone,
+  updateUnreadChatCount,
 } from '../../../redux/actions/uiAction';
 import { setFeedPosts, setInitPosts } from '../../../redux/actions/postsAction';
 import { fetchCoinQuotes } from '../../../redux/actions/walletActions';
@@ -246,6 +251,7 @@ class ApplicationContainer extends Component {
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       this._refreshGlobalProps();
       this._refreshUnreadActivityCount();
+      this._refreshUnreadChats();
       if (_isPinCodeOpen && this._pinCodeTimer) {
         clearTimeout(this._pinCodeTimer);
       }
@@ -267,6 +273,7 @@ class ApplicationContainer extends Component {
 
     this._refreshGlobalProps();
     await this._getUserDataFromRealm();
+    await this._refreshUnreadChats();
     this._compareAndPromptForUpdate();
     this._registerDeviceForNotifications();
     dispatch(purgeExpiredCache());
@@ -323,6 +330,68 @@ class ApplicationContainer extends Component {
     if (isLoggedIn) {
       const unreadActivityCount = await getUnreadNotificationCount();
       dispatch(updateUnreadActivityCount(unreadActivityCount));
+    }
+  };
+
+  _getChannelUnreadTotal = (channel: any) => {
+    const unreadMentions = Number.isFinite(channel?.unread_mentions)
+      ? channel.unread_mentions
+      : Number.isFinite(channel?.mention_count)
+      ? channel.mention_count
+      : Number.isFinite(channel?.mentions_count)
+      ? channel.mentions_count
+      : 0;
+
+    const unreadMessages = Number.isFinite(channel?.unread_messages)
+      ? channel.unread_messages
+      : Number.isFinite(channel?.unread_msg_count)
+      ? channel.unread_msg_count
+      : Number.isFinite(channel?.unread_count)
+      ? channel.unread_count
+      : 0;
+
+    return Math.max(0, unreadMentions) + Math.max(0, unreadMessages);
+  };
+
+  _normalizeChannels = (rawChannels: any): any[] => {
+    if (!rawChannels) {
+      return [];
+    }
+
+    if (Array.isArray(rawChannels)) {
+      return rawChannels;
+    }
+
+    if (Array.isArray(rawChannels.channels)) {
+      return rawChannels.channels;
+    }
+
+    return [];
+  };
+
+  _refreshUnreadChats = async () => {
+    const { dispatch, isLoggedIn, isConnected, currentAccount, pinCode } = this.props;
+
+    if (!isLoggedIn || !currentAccount?.name) {
+      dispatch(updateUnreadChatCount(0));
+      return;
+    }
+
+    if (isConnected === false) {
+      return;
+    }
+
+    try {
+      await bootstrapMattermostSession(currentAccount, pinCode);
+      const channels = this._normalizeChannels(await fetchMattermostChannels());
+      const unreadTotal = channels.reduce(
+        (total: number, channel: any) => total + this._getChannelUnreadTotal(channel),
+        0,
+      );
+
+      dispatch(updateUnreadChatCount(unreadTotal));
+    } catch (error) {
+      dispatch(updateUnreadChatCount(0));
     }
   };
 
