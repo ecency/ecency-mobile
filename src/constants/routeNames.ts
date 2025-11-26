@@ -38,6 +38,8 @@ const ROUTES = {
     ASSET_DETAILS: `AssetDetails${SCREEN_SUFFIX}`,
     EDIT_HISTORY: `EditHistory${SCREEN_SUFFIX}`,
     WELCOME: `Welcome${SCREEN_SUFFIX}`,
+    CHAT: `Chat${SCREEN_SUFFIX}`,
+    CHAT_THREAD: `ChatThread${SCREEN_SUFFIX}`,
     ACCOUNT_LIST: `AccountList${SCREEN_SUFFIX}`,
     BACKUP_KEYS: `BackupKeys${SCREEN_SUFFIX}`,
     TRADE: `Trade${SCREEN_SUFFIX}`,
@@ -58,6 +60,7 @@ const ROUTES = {
     WALLET: `Wallet${TABBAR_SUFFIX}`,
     POST_BUTTON: `PostButton${TABBAR_SUFFIX}`,
     WAVES: `Waves${TABBAR_SUFFIX}`,
+    CHATS: `Chats${TABBAR_SUFFIX}`,
   },
   STACK: {
     MAIN: `Main${STACK_SUFFIX}`,

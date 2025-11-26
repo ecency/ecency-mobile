@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import ROUTES from '../constants/routeNames';
 import { BottomTabBar } from '../components';
-import { Feed, Notification, Wallet } from '../screens';
+import { Chats, Feed, Notification, Wallet } from '../screens';
 import Waves from '../screens/waves';
 
 const Tab = createBottomTabNavigator();
@@ -34,6 +34,14 @@ export const BottomTabNavigator = () => {
         component={Waves}
         initialParams={{
           iconName: 'waves', // read in bottomTabBarView
+        }}
+      />
+
+      <Tab.Screen
+        name={ROUTES.TABBAR.CHATS}
+        component={Chats}
+        initialParams={{
+          iconName: 'forum', // read in bottomTabBarView
         }}
       />
 

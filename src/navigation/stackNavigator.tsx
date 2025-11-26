@@ -39,6 +39,7 @@ import {
   AccountList,
   PollWizardScreen,
   BotComments,
+  ChatThread,
 } from '../screens';
 import { DrawerNavigator } from './drawerNavigator';
 import { HiveSignerModal } from '../components';
@@ -68,6 +69,7 @@ const MainStackNavigator = () => {
       <MainStack.Screen name={ROUTES.SCREENS.ASSET_DETAILS} component={AssetDetails} />
       <MainStack.Screen name={ROUTES.SCREENS.EDIT_HISTORY} component={EditHistoryScreen} />
       <MainStack.Screen name={ROUTES.SCREENS.POST} component={Post} />
+      <MainStack.Screen name={ROUTES.SCREENS.CHAT_THREAD} component={ChatThread} />
       <MainStack.Group screenOptions={{ animation: 'slide_from_bottom' }}>
         <MainStack.Screen name={ROUTES.SCREENS.REBLOGS} component={Reblogs} />
         <MainStack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters} />

@@ -288,6 +288,20 @@
   "messages": {
     "comingsoon": "Messages feature is coming soon!"
   },
+  "chats": {
+    "title": "Chats",
+    "subtitle": "Message your communities and friends.",
+    "login_required": "Sign in to start chatting with your communities.",
+    "connecting": "Preparing your chat session…",
+    "connected": "Connected",
+    "refresh": "Refresh channels",
+    "empty": "No chats yet. Join a community to see its channels here.",
+    "thread_empty": "No messages yet. Say hello to get the conversation started.",
+    "anonymous": "Unknown user",
+    "message_placeholder": "Message",
+    "send": "Send",
+    "back": "Back to chats"
+  },
   "profile": {
     "following": "Following",
     "follower": "Follower",
