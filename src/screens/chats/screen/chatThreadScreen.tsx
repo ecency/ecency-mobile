@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   Alert,
   FlatList,
+  Image,
   KeyboardAvoidingView,
   Platform,
   RefreshControl,
@@ -15,6 +16,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useIntl } from 'react-intl';
 import moment from 'moment';
 import { useNavigation } from '@react-navigation/native';
+import ImagePicker from 'react-native-image-crop-picker';
 
 import { useAppSelector } from '../../../hooks';
 import {
@@ -30,8 +32,11 @@ import {
   updateMattermostMessage,
   markMattermostChannelViewed,
 } from '../../../providers/chat/mattermost';
+import { uploadImage } from '../../../providers/ecency/ecency';
+import { signImage } from '../../../providers/hive/dhive';
 import { Icon, UserAvatar } from '../../../components';
 import { chatThreadStyles as styles } from '../styles';
+import { emojifyMessage } from '../../../utils/emoji';
 
 interface ChatThreadParams {
   channelId: string;
@@ -111,6 +116,15 @@ const normalizeUserLookup = (lookup: Record<string, any> = {}) => {
 const normalizeUsersFromMap = (usersMap?: Record<string, any>) =>
   usersMap ? Object.values(usersMap) : [];
 
+const extractImageLinks = (text?: string) => {
+  if (!text) {
+    return [] as string[];
+  }
+
+  const matches = text.match(/https?:\/\/images\.ecency\.com\S+/gi);
+  return matches || [];
+};
+
 const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) => {
   const intl = useIntl();
   const navigation = useNavigation();
@@ -131,6 +145,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
+  const [isUploadingImage, setIsUploadingImage] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [hasBootstrapped, setHasBootstrapped] = useState<boolean>(!!initialBootstrap);
@@ -292,6 +307,18 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     },
     [_formatJoinedMessage],
   );
+
+  const _parseMessageContent = useCallback((rawMessage: string) => {
+    const imageLinks = extractImageLinks(rawMessage);
+
+    const textWithoutImages = rawMessage.replace(/https?:\/\/images\.ecency\.com\S+/gi, ' ').trim();
+    const emojifiedText = emojifyMessage(textWithoutImages);
+
+    return {
+      text: emojifiedText,
+      images: imageLinks,
+    };
+  }, []);
 
   const _resolveUserProfiles = useCallback(
     async (userIds: string[]) => {
@@ -466,28 +493,30 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       return;
     }
 
+    const emojifiedMessage = emojifyMessage(trimmedMessage);
+
     setError(null);
     setIsSending(true);
     try {
       await _ensureBootstrap();
       if (editingPostId) {
-        const response = await updateMattermostMessage(channelId, editingPostId, trimmedMessage);
+        const response = await updateMattermostMessage(channelId, editingPostId, emojifiedMessage);
         const updatedPost = normalizePost(response) || {
           id: editingPostId,
-          message: trimmedMessage,
+          message: emojifiedMessage,
         };
         setPosts((prev) =>
           _sortPosts(
             prev.map((item) =>
               item.id === editingPostId
-                ? { ...item, ...updatedPost, message: trimmedMessage }
+                ? { ...item, ...updatedPost, message: emojifiedMessage }
                 : item,
             ),
           ),
         );
         setEditingPostId(null);
       } else {
-        const response = await sendMattermostMessage(channelId, trimmedMessage);
+        const response = await sendMattermostMessage(channelId, emojifiedMessage);
         const newPost = normalizePost(response);
         if (newPost) {
           setPosts((prev) => _sortPosts([...prev, newPost]));
@@ -519,6 +548,40 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     [_ensureBootstrap, channelId],
   );
 
+  const _handleAttachImage = useCallback(async () => {
+    if (!currentAccount?.name) {
+      return;
+    }
+
+    try {
+      setIsUploadingImage(true);
+      const selection = await ImagePicker.openPicker({ mediaType: 'photo' });
+      const media = Array.isArray(selection) ? selection[0] : selection;
+
+      if (!media) {
+        setIsUploadingImage(false);
+        return;
+      }
+
+      const sign = await signImage(media, currentAccount, pinCode);
+      const uploadResult: any = await uploadImage(media, currentAccount.name, sign);
+      const uploadedUrl = uploadResult?.url || uploadResult?.image || uploadResult?.[0]?.url;
+
+      if (uploadedUrl) {
+        setMessage((prev) => (prev ? `${prev.trim()} ${uploadedUrl}` : uploadedUrl));
+      } else {
+        setError('Unable to attach image.');
+      }
+    } catch (err: any) {
+      if (err?.message?.toLowerCase?.().includes('cancelled')) {
+        return;
+      }
+      setError(err?.message || 'Unable to attach image.');
+    } finally {
+      setIsUploadingImage(false);
+    }
+  }, [currentAccount, pinCode]);
+
   const _renderItem = ({ item, index }: { item: ChatPost; index: number }) => {
     const isSystemAddMessage =
       item?.type === 'system_add_to_channel' || item?.type === 'system_add_to_team';
@@ -534,6 +597,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       intl.formatMessage({ id: 'chats.anonymous', defaultMessage: 'Unknown user' });
     const timestamp = item.create_at || item.update_at;
     const body = _formatPostBody(item);
+    const { text: messageText, images: messageImages } = _parseMessageContent(body);
     const isOwnMessage = authorId && bootstrapResult?.user?.id === authorId;
     const showUnreadMarker = firstUnreadIndex !== null && index === firstUnreadIndex;
 
@@ -590,6 +654,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     };
 
     if (isSystemAddMessage) {
+      const systemContent = _parseMessageContent(body);
+
       return (
         <View>
           {showUnreadMarker && (
@@ -605,7 +671,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             {!!timestamp && (
               <Text style={styles.systemTimestamp}>{moment(timestamp).fromNow()}</Text>
             )}
-            {!!body && <Text style={styles.systemBody}>{body}</Text>}
+            {!!systemContent.text && <Text style={styles.systemBody}>{systemContent.text}</Text>}
           </View>
         </View>
       );
@@ -650,7 +716,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
               </TouchableOpacity>
             ) : null}
           </View>
-          {!!body && <Text style={styles.body}>{body}</Text>}
+          {!!messageText && <Text style={styles.body}>{messageText}</Text>}
+          {messageImages.map((url) => (
+            <Image key={url} source={{ uri: url }} style={styles.chatImage} resizeMode="cover" />
+          ))}
         </TouchableOpacity>
       </View>
     );
@@ -750,6 +819,22 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         keyboardVerticalOffset={Platform.OS === 'ios' ? 64 + insets.top : 0}
       >
         <View style={[styles.composer, { paddingBottom: Math.max(insets.bottom, 12) }]}>
+          <TouchableOpacity
+            style={[styles.attachButton, isUploadingImage && styles.disabledButton]}
+            disabled={isUploadingImage || isSending}
+            onPress={_handleAttachImage}
+          >
+            {isUploadingImage ? (
+              <ActivityIndicator color={styles.attachIcon.color} />
+            ) : (
+              <Icon
+                name="image"
+                iconType="MaterialCommunityIcons"
+                size={24}
+                color={styles.attachIcon.color}
+              />
+            )}
+          </TouchableOpacity>
           <TextInput
             ref={inputRef}
             style={styles.input}
@@ -763,9 +848,12 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             multiline
           />
           <TouchableOpacity
-            style={[styles.sendButton, (!message.trim() || isSending) && { opacity: 0.5 }]}
+            style={[
+              styles.sendButton,
+              (!message.trim() || isSending || isUploadingImage) && { opacity: 0.5 },
+            ]}
             onPress={_handleSend}
-            disabled={!message.trim() || isSending}
+            disabled={!message.trim() || isSending || isUploadingImage}
           >
             {isSending ? (
               <ActivityIndicator color="white" />

@@ -264,6 +264,13 @@ export const chatThreadStyles = EStyleSheet.create({
     color: '$primaryBlack',
     lineHeight: 20,
   },
+  chatImage: {
+    width: '100%',
+    aspectRatio: 1.5,
+    marginTop: 10,
+    borderRadius: 12,
+    backgroundColor: '$primaryLightBackground',
+  },
   systemBody: {
     color: '$primaryDarkText',
     lineHeight: 20,
@@ -301,6 +308,20 @@ export const chatThreadStyles = EStyleSheet.create({
     borderTopColor: '$borderColor',
     borderTopWidth: 1,
     backgroundColor: '$primaryBackgroundColor',
+  },
+  attachButton: {
+    marginRight: 10,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: '$primaryLightBackground',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  attachIcon: {
+    color: '$primaryBlue',
+  },
+  disabledButton: {
+    opacity: 0.6,
   },
   input: {
     flex: 1,
