@@ -25,7 +25,7 @@ export const BottomTabNavigator = () => {
         name={ROUTES.TABBAR.FEED}
         component={Feed}
         initialParams={{
-          iconName: 'view-day', // read in bottomTabBarView
+          iconName: 'home', // read in bottomTabBarView
         }}
       />
 
@@ -41,15 +41,7 @@ export const BottomTabNavigator = () => {
         name={ROUTES.TABBAR.CHATS}
         component={Chats}
         initialParams={{
-          iconName: 'forum', // read in bottomTabBarView
-        }}
-      />
-
-      <Tab.Screen
-        name={ROUTES.TABBAR.POST_BUTTON}
-        component={EmptyScreen}
-        initialParams={{
-          iconName: 'pencil', // read in bottomTabBarView
+          iconName: 'chat-bubble-outline', // read in bottomTabBarView
         }}
       />
 
@@ -71,5 +63,3 @@ export const BottomTabNavigator = () => {
     </Tab.Navigator>
   );
 };
-
-const EmptyScreen = () => null;

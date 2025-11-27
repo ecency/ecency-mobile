@@ -26,29 +26,13 @@ const BottomTabBarView = ({
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const activeRoute = routes[index];
 
   useEffect(() => {
     dispatch(updateActiveBottomTab(routes[index].name));
   }, [index]);
 
   const _jumpTo = (route, isFocused) => {
-    if (route.name === ROUTES.TABBAR.POST_BUTTON) {
-      if (!isLoggedIn) {
-        showLoginAlert({ intl });
-        return;
-      }
-
-      if (routes[index].name === ROUTES.TABBAR.WAVES) {
-        SheetManager.show(SheetNames.QUICK_POST, {
-          payload: { mode: 'wave' },
-        });
-      } else {
-        navigation.navigate(ROUTES.SCREENS.EDITOR, { key: 'editor_post' });
-      }
-
-      return;
-    }
-
     const event = navigation.emit({
       type: 'tabPress',
       target: route.key,
@@ -82,7 +66,6 @@ const BottomTabBarView = ({
       case ROUTES.TABBAR.CHATS:
         _tabBarIcon = <IconContainer isBadge badgeType="chat" {..._iconProps} />;
         break;
-      case ROUTES.TABBAR.POST_BUTTON:
       case ROUTES.TABBAR.WAVES:
         _iconProps.iconType = 'MaterialCommunityIcons';
         _tabBarIcon = <Icon {..._iconProps} />;
@@ -97,8 +80,35 @@ const BottomTabBarView = ({
   });
 
   const _bottomPadding = insets.bottom || 16;
+  const _fabOffset = _bottomPadding + 70;
 
-  return <View style={{ ...styles.wrapper, paddingBottom: _bottomPadding }}>{_tabButtons}</View>;
+  const _onCreatePress = () => {
+    if (!isLoggedIn) {
+      showLoginAlert({ intl });
+      return;
+    }
+
+    if (activeRoute.name === ROUTES.TABBAR.WAVES) {
+      SheetManager.show(SheetNames.QUICK_POST, {
+        payload: { mode: 'wave' },
+      });
+      return;
+    }
+
+    navigation.navigate(ROUTES.SCREENS.EDITOR, { key: 'editor_post' });
+  };
+
+  return (
+    <View style={[styles.wrapper, { paddingBottom: _bottomPadding }]}>
+      {_tabButtons}
+
+      <View pointerEvents="box-none" style={[styles.fabWrapper, { bottom: _fabOffset }]}>
+        <TouchableOpacity style={styles.fabButton} onPress={_onCreatePress}>
+          <Icon iconType="MaterialCommunityIcons" name="pencil" color="#fff" size={24} />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 };
 
 export default BottomTabBarView;

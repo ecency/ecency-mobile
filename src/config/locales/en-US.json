@@ -312,6 +312,7 @@
     "mute": "Mute",
     "leave": "Leave channel",
     "unable_to_join_channel": "Unable to join channel. Please try again.",
+    "unable_to_leave_channel": "Unable to leave channel. Please try again.",
     "edit_message": "Edit message",
     "remove": "Remove",
     "message_actions": "Message options",

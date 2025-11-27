@@ -314,20 +314,41 @@ const ChatsScreen = () => {
     async (channel: any) => {
       try {
         await _ensureBootstrap();
-        await leaveMattermostChannel(channel.id || channel.channel_id);
+        const resolved = await _resolveChannelIdentity(channel);
+        const channelId = resolved?.channelId || _getChannelId(channel) || channel?.name;
+
+        if (!channelId) {
+          throw new Error(
+            intl.formatMessage({
+              id: 'chats.unable_to_leave_channel',
+              defaultMessage: 'Unable to leave channel. Please try again.',
+            }),
+          );
+        }
+
+        await leaveMattermostChannel(channelId);
         setChannels((prev) =>
           prev.filter(
             (item) =>
-              item.id !== (channel.id || channel.channel_id) &&
-              item.channel_id !== (channel.id || channel.channel_id) &&
-              item.name !== (channel.id || channel.channel_id),
+              item.id !== channelId &&
+              item.channel_id !== channelId &&
+              item.name !== channelId &&
+              item.id !== channel.id &&
+              item.channel_id !== channel.channel_id &&
+              item.name !== channel.name,
           ),
         );
       } catch (err: any) {
-        setError(err?.message || 'Unable to leave channel');
+        setError(
+          err?.message ||
+            intl.formatMessage({
+              id: 'chats.unable_to_leave_channel',
+              defaultMessage: 'Unable to leave channel. Please try again.',
+            }),
+        );
       }
     },
-    [_ensureBootstrap],
+    [_ensureBootstrap, _getChannelId, _resolveChannelIdentity, intl],
   );
 
   const _confirmChannelOptions = useCallback(
