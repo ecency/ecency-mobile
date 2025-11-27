@@ -772,7 +772,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   );
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right', 'bottom']}>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       {_header}
 
       {isLoading && <ActivityIndicator style={{ marginTop: 16 }} />}
@@ -816,9 +816,16 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 64 + insets.top : 0}
+        keyboardVerticalOffset={0}
       >
-        <View style={[styles.composer, { paddingBottom: Math.max(insets.bottom, 12) }]}>
+        <View
+          style={[
+            styles.composer,
+            {
+              paddingBottom: insets.bottom > 0 ? insets.bottom : 8,
+            },
+          ]}
+        >
           <TouchableOpacity
             style={[styles.attachButton, isUploadingImage && styles.disabledButton]}
             disabled={isUploadingImage || isSending}
