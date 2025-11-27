@@ -5,7 +5,7 @@ export default EStyleSheet.create({
   popupContainer: {
     position: 'absolute',
     bottom: 24,
-    right: 0,
+    left: 0,
     alignItems: 'center',
   },
   popupContentContainer: {
@@ -14,8 +14,8 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBlue',
     paddingHorizontal: 2,
     paddingVertical: 2,
-    borderTopLeftRadius: 32,
-    borderBottomLeftRadius: 32,
+    borderTopRightRadius: 32,
+    borderBottomRightRadius: 32,
   } as ViewStyle,
   arrowUpIcon: {
     color: '$primaryGray',

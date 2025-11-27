@@ -8,7 +8,7 @@ import { UploadsGalleryModal } from './uploadsGalleryModal/container/uploadsGall
 import { PollsWizardContent, PollWizardModal } from './pollsWizardModal';
 import { BottomTabBar } from './bottomTabBar';
 import { CheckBox } from './checkbox';
-import { CircularButton, TextButton, SquareButton } from './buttons';
+import { CircularButton, TextButton, SquareButton, FabButton } from './buttons';
 import { CollapsibleCard } from './collapsibleCard';
 import { ContainerHeader } from './containerHeader';
 import { DateTimePicker } from './dateTimePicker';
@@ -220,6 +220,7 @@ export {
   SpinGame,
   SpinIndicator,
   SquareButton,
+  FabButton,
   StickyBar,
   StatsPanel,
   SummaryArea,
