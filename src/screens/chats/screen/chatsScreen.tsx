@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 
@@ -30,12 +30,13 @@ import {
   toggleMattermostChannelMute,
   leaveMattermostChannel,
 } from '../../../providers/chat/mattermost';
-import { Icon, UserAvatar } from '../../../components';
+import { Header, Icon, IconButton, UserAvatar } from '../../../components';
 import { chatsStyles as styles } from '../styles';
 
 const ChatsScreen = () => {
   const intl = useIntl();
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
@@ -110,18 +111,18 @@ const ChatsScreen = () => {
     const unreadMentions = Number.isFinite(channel?.unread_mentions)
       ? channel.unread_mentions
       : Number.isFinite(channel?.mention_count)
-      ? channel.mention_count
-      : Number.isFinite(channel?.mentions_count)
-      ? channel.mentions_count
-      : 0;
+        ? channel.mention_count
+        : Number.isFinite(channel?.mentions_count)
+          ? channel.mentions_count
+          : 0;
 
     const unreadMessages = Number.isFinite(channel?.unread_messages)
       ? channel.unread_messages
       : Number.isFinite(channel?.unread_msg_count)
-      ? channel.unread_msg_count
-      : Number.isFinite(channel?.unread_count)
-      ? channel.unread_count
-      : 0;
+        ? channel.unread_msg_count
+        : Number.isFinite(channel?.unread_count)
+          ? channel.unread_count
+          : 0;
 
     const unreadCount = unreadMentions || unreadMessages || 0;
     const totalUnread = Math.max(0, unreadMentions) + Math.max(0, unreadMessages);
@@ -341,10 +342,10 @@ const ChatsScreen = () => {
       } catch (err: any) {
         setError(
           err?.message ||
-            intl.formatMessage({
-              id: 'chats.unable_to_leave_channel',
-              defaultMessage: 'Unable to leave channel. Please try again.',
-            }),
+          intl.formatMessage({
+            id: 'chats.unable_to_leave_channel',
+            defaultMessage: 'Unable to leave channel. Please try again.',
+          }),
         );
       }
     },
@@ -673,10 +674,10 @@ const ChatsScreen = () => {
       getHiveUsernameFromMattermostUser(fallbackUser);
     const displayName = isDirect
       ? avatarUsername ||
-        directUser?.username ||
-        fallbackUser?.username ||
-        item.display_name ||
-        name
+      directUser?.username ||
+      fallbackUser?.username ||
+      item.display_name ||
+      name
       : name;
     const communityIdentifier = extractHiveCommunityIdentifier(item);
 
@@ -763,84 +764,142 @@ const ChatsScreen = () => {
     );
   };
 
-  const _renderSearchResults = () => {
-    const hasResults = searchResults.channels.length || searchResults.users.length;
+  const _renderSearchInput = () => {
     return (
       <View style={styles.searchContainer}>
-        <TextInput
-          value={searchQuery}
-          onChangeText={(text) => setSearchQuery(text.toLowerCase())}
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder={intl.formatMessage({
-            id: 'chats.search_placeholder',
-            defaultMessage: 'Search channels or users',
-          })}
-          placeholderTextColor="#788187"
-          style={styles.searchInput}
-        />
-        {isSearching && <ActivityIndicator style={styles.searchSpinner} />}
+        <View style={styles.searchInputWrapper}>
+          <Icon
+            iconType="MaterialIcons"
+            name="search"
+            size={20}
+            color="#788187"
+            style={styles.searchIcon}
+          />
+          <TextInput
+            value={searchQuery}
+            onChangeText={(text) => setSearchQuery(text.toLowerCase())}
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder={intl.formatMessage({
+              id: 'chats.search_placeholder',
+              defaultMessage: 'Search channels or users',
+            })}
+            placeholderTextColor="#788187"
+            style={styles.searchInput}
+          />
+          {!!searchQuery && (
+            <TouchableOpacity
+              onPress={() => {
+                setSearchQuery('');
+                setSearchResults({ channels: [], users: [] });
+              }}
+              style={styles.clearButton}
+            >
+              <Icon
+                iconType="MaterialIcons"
+                name="close"
+                size={20}
+                color="#788187"
+              />
+            </TouchableOpacity>
+          )}
+        </View>
         {!!searchError && <Text style={styles.errorText}>{searchError}</Text>}
+      </View>
+    );
+  };
 
-        {hasResults ? (
-          <View style={styles.searchResults}>
-            {!!searchResults.channels.length && (
-              <View style={styles.searchSection}>
-                <Text style={styles.sectionHeading}>
-                  {intl.formatMessage({ id: 'chats.search_channels', defaultMessage: 'Channels' })}
-                </Text>
-                {searchResults.channels.map((channel) => (
-                  <View
-                    key={channel.id || channel.channel_id || channel.name}
-                    style={styles.searchRow}
+  const _renderSearchResults = () => {
+    const hasResults = searchResults.channels.length || searchResults.users.length;
+    if (!hasResults) {
+      return null;
+    }
+
+    return (
+      <View style={styles.searchResults}>
+        {!!searchResults.channels.length && (
+          <View style={styles.searchSection}>
+            <Text style={styles.sectionHeading}>
+              {intl.formatMessage({ id: 'chats.search_channels', defaultMessage: 'Channels' })}
+            </Text>
+            {searchResults.channels.map((channel) => {
+              const isDirect = channel?.type === 'D';
+              const communityIdentifier = extractHiveCommunityIdentifier(channel);
+              const channelInitial = (channel.display_name || channel.name || '')?.slice(0, 1)?.toUpperCase();
+
+              return (
+                <View
+                  key={channel.id || channel.channel_id || channel.name}
+                  style={styles.searchRow}
+                >
+                  {isDirect ? (
+                    <UserAvatar
+                      username={channel.display_name || channel.name}
+                      style={styles.searchRowAvatar}
+                      disableSize
+                    />
+                  ) : communityIdentifier ? (
+                    <UserAvatar
+                      username={communityIdentifier}
+                      style={styles.searchRowAvatar}
+                      disableSize
+                    />
+                  ) : (
+                    <View style={styles.searchRowAvatarFallback}>
+                      <Text style={styles.searchRowAvatarText}>{channelInitial}</Text>
+                    </View>
+                  )}
+                  <View style={styles.searchRowContent}>
+                    <Text style={styles.channelName}>{channel.display_name || channel.name}</Text>
+                    {!!channel.header && <Text style={styles.channelMeta}>{channel.header}</Text>}
+                  </View>
+                  <TouchableOpacity
+                    style={styles.searchMessageAction}
+                    onPress={() => _handleJoinChannel(channel)}
                   >
-                    <View style={styles.searchRowContent}>
-                      <Text style={styles.channelName}>{channel.display_name || channel.name}</Text>
-                      {!!channel.header && <Text style={styles.channelMeta}>{channel.header}</Text>}
-                    </View>
-                    <TouchableOpacity
-                      style={styles.searchAction}
-                      onPress={() => _handleJoinChannel(channel)}
-                    >
-                      <Text style={styles.searchActionLabel}>
-                        {intl.formatMessage({ id: 'chats.join', defaultMessage: 'Join' })}
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                ))}
-              </View>
-            )}
-
-            {!!searchResults.users.length && (
-              <View style={styles.searchSection}>
-                <Text style={styles.sectionHeading}>
-                  {intl.formatMessage({ id: 'chats.search_users', defaultMessage: 'Users' })}
-                </Text>
-                {searchResults.users.map((user) => (
-                  <View key={user.id || user.user_id} style={styles.searchRow}>
-                    <View style={styles.searchRowContent}>
-                      <Text style={styles.channelName}>
-                        {getHiveUsernameFromMattermostUser(user) || user.username || user.nickname}
-                      </Text>
-                      {!!user.position && <Text style={styles.channelMeta}>{user.position}</Text>}
-                    </View>
-                    <TouchableOpacity
-                      style={styles.searchAction}
-                      onPress={() => _handleStartDm(user)}
-                    >
-                      <Text style={styles.searchActionLabel}>
-                        {intl.formatMessage({
-                          id: 'chats.message_placeholder',
-                          defaultMessage: 'Message',
-                        })}
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                ))}
-              </View>
-            )}
+                    <Text style={styles.searchMessageActionLabel}>
+                      {intl.formatMessage({ id: 'chats.join', defaultMessage: 'Join' })}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
           </View>
-        ) : null}
+        )}
+
+        {!!searchResults.users.length && (
+          <View style={styles.searchSection}>
+            <Text style={styles.sectionHeading}>
+              {intl.formatMessage({ id: 'chats.search_users', defaultMessage: 'Users' })}
+            </Text>
+            {searchResults.users.map((user) => {
+              const username = getHiveUsernameFromMattermostUser(user) || user.username || user.nickname;
+              return (
+                <View key={user.id || user.user_id} style={styles.searchRow}>
+                  <UserAvatar username={username} style={styles.searchRowAvatar} disableSize />
+                  <View style={styles.searchRowContent}>
+                    <Text style={styles.channelName}>{username}</Text>
+                    {!!user.position && <Text style={styles.channelMeta}>{user.position}</Text>}
+                  </View>
+                  <TouchableOpacity
+                    style={styles.searchMessageAction}
+                    onPress={() => _handleStartDm(user)}
+                  >
+                    <Text style={styles.searchMessageActionLabel}>
+                      {intl.formatMessage({ id: 'chats.message', defaultMessage: 'Message' })}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
+          </View>
+        )}
+
+        {(searchResults.channels.length > 0 || searchResults.users.length > 0) && (
+            <Text style={{...styles.sectionHeading, marginTop: 8}}>
+              {intl.formatMessage({ id: 'chats.title', defaultMessage: 'Chats' })}
+            </Text>
+        )}
       </View>
     );
   };
@@ -922,41 +981,17 @@ const ChatsScreen = () => {
   }, [channels, _getUnreadMeta]);
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+    <View style={styles.container}>
+      <Header hideSearch={true} />
+
       <View style={styles.header}>
-        <Text style={styles.title}>
-          {intl.formatMessage({ id: 'chats.title', defaultMessage: 'Chats' })}
-        </Text>
-        <Text style={styles.subtitle}>
-          {intl.formatMessage({
-            id: 'chats.subtitle',
-            defaultMessage:
-              'Message your communities and friends. Ecency signs you in to our Mattermost-powered chat using your Hive session.',
-          })}
-        </Text>
-        <View style={styles.statusRow}>
-          <View
-            style={[styles.statusDot, { backgroundColor: bootstrapResult ? '#4FD688' : '#c1c5c7' }]}
-          />
-          <Text style={styles.channelMeta}>
-            {bootstrapResult
-              ? intl.formatMessage({
-                  id: 'chats.connected',
-                  defaultMessage: 'Connected to chat.ecency.com',
-                })
-              : intl.formatMessage({
-                  id: 'chats.connecting',
-                  defaultMessage: 'Preparing your chat session…',
-                })}
-          </Text>
-        </View>
         {error && !isLoading && <Text style={styles.errorText}>{error}</Text>}
       </View>
 
       <View style={styles.content}>
-        {_renderSearchResults()}
+        {_renderSearchInput()}
 
-        {isLoading && <ActivityIndicator style={{ marginTop: 16 }} />}
+        {(isLoading || isSearching) && <ActivityIndicator style={{ marginTop: 16 }} />}
 
         <FlatList
           data={sortedChannels}
@@ -967,13 +1002,35 @@ const ChatsScreen = () => {
           refreshControl={
             <RefreshControl refreshing={isRefreshing} onRefresh={() => _loadChannels(true)} />
           }
+          ListHeaderComponent={_renderSearchResults}
           ListEmptyComponent={_listEmpty}
           contentContainerStyle={
-            !channels.length ? { flex: 1, justifyContent: 'center' } : undefined
+            !channels.length
+              ? { flex: 1, justifyContent: 'center', paddingBottom: 56 }
+              : { paddingBottom: 56, paddingHorizontal: 16 }
           }
         />
       </View>
-    </SafeAreaView>
+
+      <View
+        style={styles.statusPill}
+      >
+        <View
+          style={[styles.statusDot, { backgroundColor: bootstrapResult ? '#4FD688' : '#c1c5c7' }]}
+        />
+        <Text style={styles.statusPillText}>
+          {bootstrapResult
+            ? intl.formatMessage({
+              id: 'chats.connected',
+              defaultMessage: 'Connected',
+            })
+            : intl.formatMessage({
+              id: 'chats.connecting',
+              defaultMessage: 'Connecting',
+            })}
+        </Text>
+      </View>
+    </View>
   );
 };
 

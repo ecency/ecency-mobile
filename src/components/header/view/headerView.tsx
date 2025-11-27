@@ -32,6 +32,7 @@ const HeaderView = ({
   hideUser,
   showQR,
   showBoost,
+  hideSearch,
 }) => {
   const navigation = useNavigation();
 
@@ -113,7 +114,9 @@ const HeaderView = ({
               onPress={handleOnQRPress}
             />
           )}
-          <IconButton iconStyle={styles.backIcon} name="search" onPress={_onPressSearchButton} />
+          {!hideSearch && (
+            <IconButton iconStyle={styles.backIcon} name="search" onPress={_onPressSearchButton} />
+          )}
 
           {showBoost && isLoggedIn && (
             <IconButton

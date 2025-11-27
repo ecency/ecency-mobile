@@ -7,16 +7,11 @@ export const chatsStyles = EStyleSheet.create({
   },
   content: {
     flex: 1,
-    paddingHorizontal: 16,
-    paddingBottom: 16,
   },
   header: {
     paddingHorizontal: 16,
-    paddingTop: 12,
-    paddingBottom: 8,
     backgroundColor: '$primaryBackgroundColor',
-    borderBottomColor: '$primaryLightGray',
-    borderBottomWidth: 1,
+    alignItems: 'flex-end',
   },
   title: {
     fontSize: 22,
@@ -29,16 +24,32 @@ export const chatsStyles = EStyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
   },
-  statusRow: {
+  statusPill: {
+    position: 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 12,
+    backgroundColor: '$primaryLightBackground',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 20,
+    shadowColor: '$shadowColor',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    right: 16,
+    bottom: 8,
   },
   statusDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    marginRight: 8,
+    marginRight: 6,
+  },
+  statusPillText: {
+    fontSize: 12,
+    color: '$primaryDarkText',
+    fontWeight: '500',
   },
   card: {
     marginTop: 12,
@@ -60,15 +71,15 @@ export const chatsStyles = EStyleSheet.create({
   channelRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomColor: '$borderColor',
-    borderBottomWidth: 1,
+    paddingVertical: 14,
+
   },
   channelAvatar: {
     width: 40,
     height: 40,
     borderRadius: 20,
     marginRight: 12,
+    borderWidth: 0,
   },
   channelAvatarFallback: {
     width: 40,
@@ -109,33 +120,59 @@ export const chatsStyles = EStyleSheet.create({
     marginTop: 8,
   },
   searchContainer: {
-    marginTop: 12,
-    padding: 12,
+    paddingVertical: 12,
     borderRadius: 12,
-    backgroundColor: '$primaryLightBackground',
+  },
+  searchInputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 16,
+    height: 44,
+    marginHorizontal: 16,
+    backgroundColor: '$primaryWhiteLightBackground',
+    paddingHorizontal: 12,
+  },
+  searchIcon: {
+    marginRight: 8,
   },
   searchInput: {
+    flex: 1,
     paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderRadius: 10,
-    backgroundColor: '$primaryBackgroundColor',
-    color: '$primaryBlack',
+    color: '$primaryDarkText',
   },
-  searchSpinner: {
-    marginTop: 8,
+  clearButton: {
+    padding: 4,
+    marginLeft: 8,
   },
   searchResults: {
-    marginTop: 10,
   },
   searchSection: {
     marginTop: 10,
+    marginBottom: 12,
   },
   searchRow: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 10,
-    borderBottomColor: '$borderColor',
-    borderBottomWidth: 1,
+  },
+  searchRowAvatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 12,
+  },
+  searchRowAvatarFallback: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '$primaryLightBackground',
+  },
+  searchRowAvatarText: {
+    fontWeight: '700',
+    color: '$primaryDarkText',
   },
   searchRowContent: {
     flex: 1,
@@ -150,10 +187,22 @@ export const chatsStyles = EStyleSheet.create({
     color: '$pureWhite',
     fontWeight: '600',
   },
+  searchMessageAction: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  searchMessageActionLabel: {
+    color: '#357ce6',
+    fontWeight: '600',
+  },
+  searchActionIcon: {
+    padding: 8,
+  },
   sectionHeading: {
-    fontWeight: '700',
+
     color: '$primaryDarkText',
     marginBottom: 6,
+    fontSize: 20,
   },
   channelOptions: {
     paddingHorizontal: 8,
