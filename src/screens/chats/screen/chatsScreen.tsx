@@ -246,6 +246,20 @@ const ChatsScreen = () => {
     }
   }, [bootstrapResult]);
 
+  const _getChannelId = useCallback((channel: any): string | undefined => {
+    if (!channel) {
+      return undefined;
+    }
+
+    return (
+      channel.id ||
+      channel.channel_id ||
+      channel.channelId ||
+      channel.channel?.id ||
+      (typeof channel === 'string' ? channel : undefined)
+    );
+  }, []);
+
   const _updateChannelState = useCallback((channelId: string, updates: Record<string, any>) => {
     setChannels((prev) =>
       prev.map((channel) =>
@@ -413,10 +427,30 @@ const ChatsScreen = () => {
     async (channel: any) => {
       try {
         await _ensureBootstrap();
-        const joined = await joinMattermostChannel(
-          channel.id || channel.channel_id || channel.name,
-        );
-        const joinedId = joined.id || joined.channel_id || joined.name;
+        const resolved = await _resolveChannelIdentity(channel);
+        const channelId = resolved?.channelId || _getChannelId(channel) || channel?.name;
+
+        if (channelId === channel?.name && (!resolved || resolved.channelId === channel?.name)) {
+          throw new Error(
+            intl.formatMessage({
+              id: 'chats.unable_to_join_channel',
+              defaultMessage: 'Unable to join channel. Please try again.',
+            }),
+          );
+        }
+
+        if (!channelId) {
+          throw new Error(
+            intl.formatMessage({
+              id: 'chats.unable_to_join_channel',
+              defaultMessage: 'Unable to join channel. Please try again.',
+            }),
+          );
+        }
+
+        const joined = await joinMattermostChannel(channelId);
+        const joinedId = _getChannelId(joined) || channelId;
+        const mergedChannel = { ...resolved?.resolvedChannel, ...channel, ...joined };
 
         setChannels((prev) => {
           const exists = prev.find(
@@ -426,29 +460,143 @@ const ChatsScreen = () => {
           if (exists) {
             return prev.map((item) =>
               item.id === joinedId || item.channel_id === joinedId || item.name === joinedId
-                ? { ...item, ...joined }
+                ? { ...item, ...mergedChannel }
                 : item,
             );
           }
-          return [joined, ...prev];
+          return [mergedChannel, ...prev];
         });
 
         navigation.navigate(
           ROUTES.SCREENS.CHAT_THREAD as never,
           {
             channelId: joinedId,
-            channelName: joined.display_name || joined.name || channel.name,
-            channelDescription: joined.header || joined.purpose,
+            channelName: mergedChannel.display_name || mergedChannel.name || channel.name,
+            channelDescription: mergedChannel.header || mergedChannel.purpose,
             bootstrapResult,
             userLookup,
-            lastViewedAt: joined.last_viewed_at || joined.last_view_at,
+            lastViewedAt: mergedChannel.last_viewed_at || mergedChannel.last_view_at,
           } as never,
         );
       } catch (err: any) {
         setSearchError(err?.message || 'Unable to join channel');
       }
     },
-    [_ensureBootstrap, bootstrapResult, navigation, userLookup],
+    [
+      _ensureBootstrap,
+      _getChannelId,
+      _resolveChannelIdentity,
+      bootstrapResult,
+      intl,
+      navigation,
+      userLookup,
+    ],
+  );
+
+  const _resolveDirectChannel = useCallback(
+    async (dmChannel: any, user: any) => {
+      const channelId = dmChannel?.id || dmChannel?.channel_id || dmChannel?.name;
+      if (channelId) {
+        setChannels((prev) => {
+          const existing = prev.find(
+            (item) =>
+              item.id === channelId || item.channel_id === channelId || item.name === channelId,
+          );
+
+          if (existing) {
+            return prev.map((item) =>
+              item.id === channelId || item.channel_id === channelId || item.name === channelId
+                ? { ...item, ...dmChannel }
+                : item,
+            );
+          }
+
+          return [dmChannel, ...prev];
+        });
+
+        return { channel: dmChannel, channelId };
+      }
+
+      const userId = user?.id || user?.user_id;
+      if (!userId) {
+        throw new Error(
+          intl.formatMessage({
+            id: 'chats.unable_to_start_dm',
+            defaultMessage: 'Unable to start chat. Please try again.',
+          }),
+        );
+      }
+
+      const channelResponse = await fetchMattermostChannels();
+      const normalizedChannels = _normalizeChannels(channelResponse);
+      const existingDm = normalizedChannels.find(
+        (channel) =>
+          channel?.type === 'D' &&
+          (channel?.teammate_id === userId || (channel?.name || '').split('__').includes(userId)),
+      );
+
+      if (existingDm) {
+        const resolvedId = existingDm.id || existingDm.channel_id || existingDm.name;
+
+        setChannels((prev) => {
+          const already = prev.find(
+            (item) =>
+              item.id === resolvedId || item.channel_id === resolvedId || item.name === resolvedId,
+          );
+
+          if (already) {
+            return prev.map((item) =>
+              item.id === resolvedId || item.channel_id === resolvedId || item.name === resolvedId
+                ? { ...item, ...existingDm }
+                : item,
+            );
+          }
+
+          return [existingDm, ...prev];
+        });
+
+        return { channel: existingDm, channelId: resolvedId };
+      }
+
+      throw new Error(
+        intl.formatMessage({
+          id: 'chats.unable_to_start_dm',
+          defaultMessage: 'Unable to start chat. Please try again.',
+        }),
+      );
+    },
+    [_normalizeChannels, intl],
+  );
+
+  const _resolveChannelIdentity = useCallback(
+    async (channel: any) => {
+      const currentId = _getChannelId(channel);
+      const name = channel?.name || channel?.display_name || currentId;
+
+      if (currentId && name && currentId !== name) {
+        return { channelId: currentId, resolvedChannel: channel };
+      }
+
+      if (!name) {
+        return null;
+      }
+
+      const searched = await searchMattermostChannels(name);
+      const normalized = _normalizeChannels(searched);
+      const match = normalized.find(
+        (item) =>
+          _getChannelId(item) === currentId ||
+          item.name === name ||
+          item.display_name === channel?.display_name,
+      );
+
+      if (!match) {
+        return null;
+      }
+
+      return { channelId: _getChannelId(match) || match.name || name, resolvedChannel: match };
+    },
+    [_getChannelId, _normalizeChannels],
   );
 
   const _handleStartDm = useCallback(
@@ -456,23 +604,27 @@ const ChatsScreen = () => {
       try {
         await _ensureBootstrap();
         const dmChannel = await startMattermostDirectMessage(user);
-        setChannels((prev) => [dmChannel, ...prev]);
+        const { channel: resolvedChannel, channelId } = await _resolveDirectChannel(
+          dmChannel,
+          user,
+        );
+
         navigation.navigate(
           ROUTES.SCREENS.CHAT_THREAD as never,
           {
-            channelId: dmChannel.id || dmChannel.channel_id || dmChannel.name,
+            channelId,
             channelName: getHiveUsernameFromMattermostUser(user) || user.username || user.nickname,
-            channelDescription: dmChannel.purpose,
+            channelDescription: resolvedChannel.header || resolvedChannel.purpose,
             bootstrapResult,
             userLookup,
-            lastViewedAt: dmChannel.last_viewed_at || dmChannel.last_view_at,
+            lastViewedAt: resolvedChannel.last_viewed_at || resolvedChannel.last_view_at,
           } as never,
         );
       } catch (err: any) {
         setSearchError(err?.message || 'Unable to start chat');
       }
     },
-    [_ensureBootstrap, bootstrapResult, navigation, userLookup],
+    [_ensureBootstrap, _resolveDirectChannel, bootstrapResult, navigation, userLookup],
   );
 
   const _renderChannel = ({ item }) => {
