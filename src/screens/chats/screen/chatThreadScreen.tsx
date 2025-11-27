@@ -775,54 +775,59 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       {_header}
 
-      {isLoading && <ActivityIndicator style={{ marginTop: 16 }} />}
-
-      <FlatList
-        ref={listRef}
-        data={posts}
-        keyExtractor={(item, index) => (item.id || index).toString()}
-        renderItem={_renderItem}
-        ListEmptyComponent={_emptyList}
-        refreshControl={
-          <RefreshControl refreshing={isRefreshing} onRefresh={() => _loadPosts(true)} />
-        }
-        contentContainerStyle={listContentStyle}
-        onScrollToIndexFailed={({ index }) =>
-          setTimeout(
-            () => listRef.current?.scrollToIndex({ index, animated: true, viewPosition: 0.5 }),
-            400,
-          )
-        }
-      />
-
-      {editingPostId && (
-        <View style={styles.editingBanner}>
-          <Text style={styles.editingLabel}>
-            {intl.formatMessage({ id: 'chats.editing_message', defaultMessage: 'Editing message' })}
-          </Text>
-          <TouchableOpacity onPress={_resetEditing} style={styles.cancelEditButton}>
-            <Icon
-              name="close"
-              iconType="MaterialCommunityIcons"
-              size={18}
-              color={styles.cancelEditIcon.color}
-            />
-            <Text style={styles.cancelEditLabel}>
-              {intl.formatMessage({ id: 'alert.cancel', defaultMessage: 'Cancel' })}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
-
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={0}
       >
+        {isLoading && <ActivityIndicator style={{ marginTop: 16 }} />}
+
+        <FlatList
+          ref={listRef}
+          data={posts}
+          keyExtractor={(item, index) => (item.id || index).toString()}
+          renderItem={_renderItem}
+          ListEmptyComponent={_emptyList}
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={() => _loadPosts(true)} />
+          }
+          contentContainerStyle={listContentStyle}
+          keyboardShouldPersistTaps="handled"
+          onScrollToIndexFailed={({ index }) =>
+            setTimeout(
+              () => listRef.current?.scrollToIndex({ index, animated: true, viewPosition: 0.5 }),
+              400,
+            )
+          }
+        />
+
+        {editingPostId && (
+          <View style={styles.editingBanner}>
+            <Text style={styles.editingLabel}>
+              {intl.formatMessage({
+                id: 'chats.editing_message',
+                defaultMessage: 'Editing message',
+              })}
+            </Text>
+            <TouchableOpacity onPress={_resetEditing} style={styles.cancelEditButton}>
+              <Icon
+                name="close"
+                iconType="MaterialCommunityIcons"
+                size={18}
+                color={styles.cancelEditIcon.color}
+              />
+              <Text style={styles.cancelEditLabel}>
+                {intl.formatMessage({ id: 'alert.cancel', defaultMessage: 'Cancel' })}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
         <View
           style={[
             styles.composer,
             {
-              paddingBottom: insets.bottom > 0 ? insets.bottom : 8,
+              paddingBottom: Platform.OS === 'ios' ? 8 : Math.max(insets.bottom, 8),
             },
           ]}
         >
@@ -842,6 +847,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
               />
             )}
           </TouchableOpacity>
+
           <TextInput
             ref={inputRef}
             style={styles.input}
@@ -854,6 +860,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             onChangeText={setMessage}
             multiline
           />
+
           <TouchableOpacity
             style={[
               styles.sendButton,
