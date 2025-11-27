@@ -12,6 +12,8 @@ export default EStyleSheet.create({
     shadowOpacity: 0.2,
     elevation: 15,
     position: 'relative',
+    overflow: 'visible',
+    zIndex: 10,
   },
   subContent: {
     flexDirection: 'row',
@@ -33,7 +35,11 @@ export default EStyleSheet.create({
   fabWrapper: {
     position: 'absolute',
     right: roundPx(16),
+    // bottom is overridden from component via { bottom: _fabOffset }
+    zIndex: 20,
+    elevation: 20,
   },
+
   fabButton: {
     width: roundPx(56),
     height: roundPx(56),

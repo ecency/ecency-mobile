@@ -15,6 +15,10 @@ export const BottomTabNavigator = () => {
       backBehavior="initialRoute"
       initialRouteName={ROUTES.TABBAR.FEED}
       screenOptions={{
+        tabBarStyle: {
+          overflow: 'visible',
+          position: 'absolute',
+        },
         headerShown: false,
         tabBarShowLabel: false,
         tabBarActiveTintColor: '#357ce6',
