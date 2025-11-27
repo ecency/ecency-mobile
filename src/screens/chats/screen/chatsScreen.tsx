@@ -416,34 +416,46 @@ const ChatsScreen = () => {
         const joined = await joinMattermostChannel(
           channel.id || channel.channel_id || channel.name,
         );
+        const joinedId = joined.id || joined.channel_id || joined.name;
+
         setChannels((prev) => {
           const exists = prev.find(
             (item) =>
-              item.id === (joined.id || joined.channel_id || joined.name) ||
-              item.channel_id === (joined.id || joined.channel_id || joined.name) ||
-              item.name === (joined.id || joined.channel_id || joined.name),
+              item.id === joinedId || item.channel_id === joinedId || item.name === joinedId,
           );
           if (exists) {
             return prev.map((item) =>
-              item.id === joined.id || item.channel_id === joined.id
+              item.id === joinedId || item.channel_id === joinedId || item.name === joinedId
                 ? { ...item, ...joined }
                 : item,
             );
           }
           return [joined, ...prev];
         });
+
+        navigation.navigate(
+          ROUTES.SCREENS.CHAT_THREAD as never,
+          {
+            channelId: joinedId,
+            channelName: joined.display_name || joined.name || channel.name,
+            channelDescription: joined.header || joined.purpose,
+            bootstrapResult,
+            userLookup,
+            lastViewedAt: joined.last_viewed_at || joined.last_view_at,
+          } as never,
+        );
       } catch (err: any) {
         setSearchError(err?.message || 'Unable to join channel');
       }
     },
-    [_ensureBootstrap],
+    [_ensureBootstrap, bootstrapResult, navigation, userLookup],
   );
 
   const _handleStartDm = useCallback(
     async (user: any) => {
       try {
         await _ensureBootstrap();
-        const dmChannel = await startMattermostDirectMessage(user.id || user.user_id);
+        const dmChannel = await startMattermostDirectMessage(user);
         setChannels((prev) => [dmChannel, ...prev]);
         navigation.navigate(
           ROUTES.SCREENS.CHAT_THREAD as never,

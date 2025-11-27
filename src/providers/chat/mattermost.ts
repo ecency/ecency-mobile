@@ -201,8 +201,31 @@ export const fetchMattermostUsersByIds = async (userIds: string[]) => {
   return data.users || data;
 };
 
-export const startMattermostDirectMessage = async (userId: string) => {
-  const { data } = await chatApi.post('/api/mattermost/direct', { userId });
+export const startMattermostDirectMessage = async (
+  user:
+    | string
+    | { id?: string; user_id?: string; username?: string; nickname?: string; name?: string },
+) => {
+  const userId = typeof user === 'string' ? user : user?.id || user?.user_id;
+  const username =
+    typeof user === 'string'
+      ? undefined
+      : user?.username || user?.nickname || user?.name || user?.id || user?.user_id;
+
+  if (!userId && !username) {
+    throw new Error('User id or username required');
+  }
+
+  const payload: { userId?: string; username?: string } = {};
+
+  if (userId) {
+    payload.userId = userId;
+  }
+  if (username) {
+    payload.username = username;
+  }
+
+  const { data } = await chatApi.post('/api/mattermost/direct', payload);
   return data.channel || data;
 };
 
