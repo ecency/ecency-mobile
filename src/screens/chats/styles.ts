@@ -271,64 +271,119 @@ export const chatThreadStyles = EStyleSheet.create({
     marginTop: 4,
   },
   listContent: {
-    paddingHorizontal: 16,
     paddingVertical: 8,
     flexGrow: 1,
     paddingBottom: 80,
   },
-  message: {
-    paddingVertical: 10,
-    borderBottomColor: '$borderColor',
-    borderBottomWidth: 1,
+  messageContainer: {
+    flexDirection: 'row',
+    marginVertical: 4,
+    paddingHorizontal: 16,
+    alignItems: 'flex-start',
+    width: '100%',
+  },
+  messageContainerOwn: {
+    justifyContent: 'flex-end',
+  },
+  messageContainerOther: {
+    justifyContent: 'flex-start',
+  },
+  messageBubble: {
+    maxWidth: '75%',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 16,
+    position: 'relative',
+  },
+  messageBubbleOwn: {
+    backgroundColor: '$primaryBlue',
+    borderTopRightRadius: 4,
+  },
+  messageBubbleOther: {
+    backgroundColor: '$primaryLightBackground',
+    borderTopLeftRadius: 4,
+  },
+  messageAvatar: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    marginRight: 8,
+  },
+  timestampContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 4,
+    justifyContent: 'flex-end',
+  },
+  messageActions: {
+    marginLeft: 6,
+    padding: 2,
+  },
+  actionsIcon: {
+    color: '$pureWhite',
+  },
+  author: {
+    fontWeight: '600',
+    fontSize: 13,
+    color: '$primaryDarkText',
+    marginBottom: 4,
+  },
+  body: {
+    color: '$primaryBlack',
+    lineHeight: 20,
+    fontSize: 15,
+  },
+  bodyOwn: {
+    color: '$pureWhite',
+  },
+  bodyOther: {
+    color: '$primaryBlack',
+  },
+  chatImage: {
+    width: '100%',
+    maxWidth: 250,
+    aspectRatio: 1.5,
+    marginTop: 4,
+    borderRadius: 12,
+    backgroundColor: '$primaryLightBackground',
+  },
+  chatImageOwn: {
+    borderRadius: 12,
+  },
+  chatImageOther: {
+    borderRadius: 12,
+  },
+  systemMessageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 8,
+    paddingHorizontal: 16,
+  },
+  systemMessagePill: {
+    paddingHorizontal: 12,
+    borderRadius: 16,
+    maxWidth: '80%',
   },
   systemMessage: {
     paddingVertical: 12,
   },
-  messageHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  messageAvatar: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    marginRight: 10,
-  },
-  messageMeta: {
-    flex: 1,
-  },
-  messageActions: {
-    paddingHorizontal: 6,
-    paddingVertical: 4,
-  },
-  actionsIcon: {
-    color: '$primaryDarkText',
-  },
-  author: {
-    fontWeight: '700',
-    color: '$primaryBlack',
-  },
-  body: {
-    marginTop: 4,
-    color: '$primaryBlack',
-    lineHeight: 20,
-  },
-  chatImage: {
-    width: '100%',
-    aspectRatio: 1.5,
-    marginTop: 10,
-    borderRadius: 12,
-    backgroundColor: '$primaryLightBackground',
-  },
   systemBody: {
-    color: '$primaryDarkText',
+    color: '$iconColor',
     lineHeight: 20,
     fontStyle: 'italic',
   },
   timestamp: {
     marginTop: 4,
+    fontSize: 11,
+    alignSelf: 'flex-end',
+  },
+  timestampOwn: {
+    color: '$pureWhite',
+    opacity: 0.9,
+  },
+  timestampOther: {
     color: '$primaryDarkText',
-    fontSize: 12,
+    opacity: 0.7,
   },
   systemTimestamp: {
     color: '$primaryDarkText',
@@ -352,44 +407,63 @@ export const chatThreadStyles = EStyleSheet.create({
   },
   composer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    padding: 12,
-    borderTopColor: '$borderColor',
-    borderTopWidth: 1,
-    backgroundColor: '$primaryBackgroundColor',
+    alignItems: 'flex-end',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
   },
   attachButton: {
-    marginRight: 10,
-    padding: 10,
-    borderRadius: 10,
-    backgroundColor: '$primaryLightBackground',
+    width: 44,
+    height: 44,
     alignItems: 'center',
     justifyContent: 'center',
   },
   attachIcon: {
-    color: '$primaryBlue',
+    color: '$pureWhite',
   },
   disabledButton: {
-    opacity: 0.6,
+    opacity: 0.5,
   },
-  input: {
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
     flex: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderRadius: 12,
     backgroundColor: '$primaryLightBackground',
-    color: '$primaryBlack',
+    borderRadius: 24,
+    marginRight: 8,
+    minHeight: 40,
   },
+
+  input: {
+      flex: 1,
+      paddingRight: 12,
+      paddingVertical: 10,
+      fontSize: 16,
+      color: '$primaryBlack',
+      minHeight: 40,
+    },
+
   sendButton: {
-    marginLeft: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderRadius: 10,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: '$primaryBlue',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '$primaryBlue',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  sendButtonDisabled: {
+    backgroundColor: '$primaryLightBackground',
+    shadowColor: '$primaryLightBackground',
+    shadowOpacity: 0.1,
   },
   sendLabel: {
     color: '$pureWhite',
     fontWeight: '700',
+    fontSize: 14,
   },
   editingBanner: {
     flexDirection: 'row',

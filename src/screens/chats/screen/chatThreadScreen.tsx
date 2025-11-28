@@ -34,9 +34,10 @@ import {
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
 import { signImage } from '../../../providers/hive/dhive';
-import { Icon, UserAvatar } from '../../../components';
+import { Icon, UserAvatar, IconButton, BasicHeader } from '../../../components';
 import { chatThreadStyles as styles } from '../styles';
 import { emojifyMessage } from '../../../utils/emoji';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 interface ChatThreadParams {
   channelId: string;
@@ -156,6 +157,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const [firstUnreadIndex, setFirstUnreadIndex] = useState<number | null>(null);
   const [hasScrolledToUnread, setHasScrolledToUnread] = useState<boolean>(false);
   const [editingPostId, setEditingPostId] = useState<string | null>(null);
+  const [headerUser, setHeaderUser] = useState<any>(null);
 
   const userLookupRef = useRef<Record<string, any>>({});
   const listRef = useRef<FlatList<ChatPost>>(null);
@@ -234,15 +236,52 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
         if (memberIds.length) {
           const users = await fetchMattermostUsersByIds(memberIds);
-          _mergeUserLookup((prev) => ({ ...prev, ...ensureMattermostUsersHaveHiveNames(users) }));
+          const usersWithHiveNames = ensureMattermostUsersHaveHiveNames(users);
+          _mergeUserLookup((prev) => ({ ...prev, ...usersWithHiveNames }));
+
+          // Determine the other user for header (for DM channels)
+          if (bootstrapUserId && memberIds.length === 2) {
+            // Likely a DM with 2 members
+            const otherUserId = memberIds.find((id: string) => id !== bootstrapUserId);
+            if (otherUserId && usersWithHiveNames[otherUserId]) {
+              const otherUser = usersWithHiveNames[otherUserId];
+              const hiveUsername =
+                otherUser.hiveUsername || getHiveUsernameFromMattermostUser(otherUser);
+              setHeaderUser({
+                name: hiveUsername || otherUser.username,
+                display_name: otherUser.nickname || otherUser.name || otherUser.username,
+              });
+            }
+          } else if (memberIds.length > 2 || !bootstrapUserId) {
+            // Channel (not DM) - use channel name for header
+            if (channelName) {
+              setHeaderUser({
+                name: channelName.toLowerCase().replace(/\s+/g, ''),
+                display_name: channelName,
+              });
+            }
+          }
+        } else if (channelName) {
+          // No members found, but we have channel name - use it for header
+          setHeaderUser({
+            name: channelName.toLowerCase().replace(/\s+/g, ''),
+            display_name: channelName,
+          });
         }
       } catch (err) {
         // ignore member lookup failures so messages still load
+        // But still try to set channel name if available
+        if (channelName && !headerUser) {
+          setHeaderUser({
+            name: channelName.toLowerCase().replace(/\s+/g, ''),
+            display_name: channelName,
+          });
+        }
       }
     };
 
     loadChannelMembers();
-  }, [channelId, _ensureBootstrap, _mergeUserLookup, bootstrapResult, lastViewedAt]);
+  }, [channelId, _ensureBootstrap, _mergeUserLookup, bootstrapResult, lastViewedAt, channelName, headerUser]);
 
   useEffect(() => {
     const resolveModeration = async () => {
@@ -274,7 +313,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   }, []);
 
   const _formatJoinedMessage = useCallback(
-    (post: ChatPost) => {
+    (post: ChatPost, timestamp?: number) => {
       const addedUserId =
         (post?.props as any)?.addedUserId ||
         (post?.props as any)?.userId ||
@@ -289,6 +328,12 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
       if (addedUsername) {
         const normalized = addedUsername.startsWith('@') ? addedUsername : `@${addedUsername}`;
+        if (timestamp) {
+          // Use moment's humanize() to get full format like "2 days ago"
+          const duration = moment.duration(moment().diff(moment(timestamp)));
+          const timeAgo = duration.humanize();
+          return `${normalized} joined ${timeAgo} ago`;
+        }
         return `${normalized} joined`;
       }
 
@@ -298,9 +343,9 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   );
 
   const _formatPostBody = useCallback(
-    (post: ChatPost) => {
+    (post: ChatPost, timestamp?: number) => {
       if (post?.type === 'system_add_to_channel' || post?.type === 'system_add_to_team') {
-        return _formatJoinedMessage(post);
+        return _formatJoinedMessage(post, timestamp);
       }
 
       return post.message || post.props?.message || post.text || '';
@@ -351,10 +396,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           data?.membership ||
           (Array.isArray(data?.members)
             ? data.members.find(
-                (member: any) =>
-                  member?.user_id === bootstrapResult?.user?.id ||
-                  member?.id === bootstrapResult?.user?.id,
-              )
+              (member: any) =>
+                member?.user_id === bootstrapResult?.user?.id ||
+                member?.id === bootstrapResult?.user?.id,
+            )
             : null);
 
         if (membershipRecord?.last_viewed_at || membershipRecord?.last_view_at) {
@@ -479,7 +524,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
   const _handleStartEdit = useCallback(
     (post: ChatPost) => {
-      const body = _formatPostBody(post);
+      const timestamp = post.create_at || post.update_at;
+      const body = _formatPostBody(post, timestamp);
       setMessage(body);
       setEditingPostId(post.id || null);
       setTimeout(() => inputRef.current?.focus(), 100);
@@ -596,7 +642,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       authorId ||
       intl.formatMessage({ id: 'chats.anonymous', defaultMessage: 'Unknown user' });
     const timestamp = item.create_at || item.update_at;
-    const body = _formatPostBody(item);
+    const body = _formatPostBody(item, timestamp);
     const { text: messageText, images: messageImages } = _parseMessageContent(body);
     const isOwnMessage = authorId && bootstrapResult?.user?.id === authorId;
     const showUnreadMarker = firstUnreadIndex !== null && index === firstUnreadIndex;
@@ -654,7 +700,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     };
 
     if (isSystemAddMessage) {
-      const systemContent = _parseMessageContent(body);
+      const formattedBody = _formatPostBody(item, timestamp);
+      const systemContent = _parseMessageContent(formattedBody);
 
       return (
         <View>
@@ -667,11 +714,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
               <View style={styles.unreadLine} />
             </View>
           )}
-          <View style={[styles.message, styles.systemMessage]}>
-            {!!timestamp && (
-              <Text style={styles.systemTimestamp}>{moment(timestamp).fromNow()}</Text>
-            )}
-            {!!systemContent.text && <Text style={styles.systemBody}>{systemContent.text}</Text>}
+          <View style={styles.systemMessageContainer}>
+            <View style={styles.systemMessagePill}>
+              {!!systemContent.text && <Text style={styles.systemBody}>{systemContent.text}</Text>}
+            </View>
           </View>
         </View>
       );
@@ -688,63 +734,130 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             <View style={styles.unreadLine} />
           </View>
         )}
-        <TouchableOpacity
-          style={styles.message}
-          onLongPress={canModerate ? _confirmDelete : undefined}
-          activeOpacity={0.9}
+        <View
+          style={[
+            styles.messageContainer,
+            isOwnMessage ? styles.messageContainerOwn : styles.messageContainerOther,
+          ]}
         >
-          <View style={styles.messageHeader}>
+          {!isOwnMessage && (
             <UserAvatar username={author} style={styles.messageAvatar} disableSize />
-            <View style={styles.messageMeta}>
+          )}
+          <TouchableOpacity
+            style={[
+              styles.messageBubble,
+              isOwnMessage ? styles.messageBubbleOwn : styles.messageBubbleOther,
+            ]}
+            onLongPress={canModerate || isOwnMessage ? _showActions : undefined}
+            activeOpacity={0.9}
+          >
+            {!isOwnMessage && (
               <Text style={styles.author}>{author}</Text>
-              {timestamp ? (
-                <Text style={styles.timestamp}>{moment(timestamp).fromNow()}</Text>
-              ) : null}
-            </View>
-            {isOwnMessage ? (
-              <TouchableOpacity
-                onPress={_showActions}
-                style={styles.messageActions}
-                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            )}
+            {!!messageText && (
+              <Text
+                style={[
+                  styles.body,
+                  isOwnMessage ? styles.bodyOwn : styles.bodyOther,
+                ]}
               >
-                <Icon
-                  name="dots-horizontal"
-                  iconType="MaterialCommunityIcons"
-                  size={20}
-                  color={styles.actionsIcon.color}
-                />
-              </TouchableOpacity>
-            ) : null}
-          </View>
-          {!!messageText && <Text style={styles.body}>{messageText}</Text>}
-          {messageImages.map((url) => (
-            <Image key={url} source={{ uri: url }} style={styles.chatImage} resizeMode="cover" />
-          ))}
-        </TouchableOpacity>
+                {messageText}
+              </Text>
+            )}
+            {messageImages.map((url) => (
+              <Image
+                key={url}
+                source={{ uri: url }}
+                style={[
+                  styles.chatImage,
+                  isOwnMessage ? styles.chatImageOwn : styles.chatImageOther,
+                ]}
+                resizeMode="cover"
+              />
+            ))}
+            <View style={styles.timestampContainer}>
+              {timestamp && (
+                <Text
+                  style={[
+                    styles.timestamp,
+                    isOwnMessage ? styles.timestampOwn : styles.timestampOther,
+                  ]}
+                >
+                  {moment(timestamp).fromNow()}
+                </Text>
+              )}
+              {isOwnMessage && (
+                <TouchableOpacity
+                  onPress={_showActions}
+                  style={styles.messageActions}
+                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                >
+                  <Icon
+                    name="dots-horizontal"
+                    iconType="MaterialCommunityIcons"
+                    size={16}
+                    color={styles.actionsIcon.color}
+                  />
+                </TouchableOpacity>
+              )}
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };
 
+  const headerTitle = useMemo(() => {
+    if (headerUser) {
+      return headerUser.display_name || headerUser.name || channelName || channelId;
+    }
+    return channelName || channelId;
+  }, [headerUser, channelName, channelId]);
+
+  const headerUsername = useMemo(() => {
+    if (headerUser?.name) {
+      return headerUser.name.startsWith('@') ? headerUser.name : `@${headerUser.name}`;
+    }
+    return null;
+  }, [headerUser]);
+
   const _header = useMemo(
     () => (
-      <View style={styles.header}>
-        <View style={styles.headerRow}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <Icon
-              name="chevron-left"
-              iconType="MaterialCommunityIcons"
-              size={26}
-              color={styles.backIcon.color}
+      <View style={styles.headerContainer}>
+        <View style={styles.basicHeaderContainer}>
+          <View style={styles.basicHeaderBackWrapper}>
+            <IconButton
+              iconStyle={styles.basicHeaderBackIcon}
+              iconType="MaterialIcons"
+              name="arrow-back"
+              onPress={() => navigation.goBack()}
             />
-          </TouchableOpacity>
-          <View style={styles.headerTextGroup}>
-            <Text style={styles.title}>{channelName || channelId}</Text>
-            {!!channelDescription && <Text style={styles.meta}>{channelDescription}</Text>}
+            {headerUsername && headerUser ? (
+              <View style={styles.headerTitleContainer}>
+                <UserAvatar
+                  username={headerUser.name}
+                  style={styles.headerAvatar}
+                  disableSize
+                />
+                <View style={styles.headerTitleTextContainer}>
+                  <Text style={styles.headerTitle} numberOfLines={1}>
+                    {headerTitle}
+                  </Text>
+                  <Text style={styles.headerSubtitle} numberOfLines={1}>
+                    {headerUsername}
+                  </Text>
+                </View>
+              </View>
+            ) : (
+              <Text style={styles.basicHeaderTitle} numberOfLines={1}>
+                {headerTitle}
+              </Text>
+            )}
           </View>
         </View>
       </View>
     ),
-    [channelDescription, channelId, channelName, intl, navigation],
+    [headerUser, headerTitle, headerUsername, navigation],
   );
 
   const _emptyList = useMemo(() => {
@@ -772,13 +885,15 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   );
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-      {_header}
+    <SafeAreaView style={styles.container}>
+      {/* {_header}
+       */}
+
+      <BasicHeader title={headerTitle} />
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={0}
       >
         {isLoading && <ActivityIndicator style={{ marginTop: 16 }} />}
 
@@ -823,63 +938,46 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           </View>
         )}
 
-        <View
-          style={[
-            styles.composer,
-            {
-              paddingBottom: Platform.OS === 'ios' ? 8 : Math.max(insets.bottom, 8),
-            },
-          ]}
-        >
-          <TouchableOpacity
-            style={[styles.attachButton, isUploadingImage && styles.disabledButton]}
-            disabled={isUploadingImage || isSending}
-            onPress={_handleAttachImage}
-          >
-            {isUploadingImage ? (
-              <ActivityIndicator color={styles.attachIcon.color} />
-            ) : (
-              <Icon
-                name="image"
-                iconType="MaterialCommunityIcons"
-                size={24}
-                color={styles.attachIcon.color}
-              />
-            )}
-          </TouchableOpacity>
+        <View style={styles.composer}>
+          <View style={styles.inputContainer}>
+            <IconButton
+              style={[styles.attachButton, isUploadingImage && styles.disabledButton]}
+              iconType="MaterialCommunityIcons"
+              name="plus"
+              color={EStyleSheet.value('$pureWhite')}
+              size={24}
+              onPress={_handleAttachImage}
+              disabled={isUploadingImage || isSending}
+              isLoading={isUploadingImage}
+            />
 
-          <TextInput
-            ref={inputRef}
-            style={styles.input}
-            placeholder={intl.formatMessage({
-              id: 'chats.message_placeholder',
-              defaultMessage: 'Message',
-            })}
-            placeholderTextColor="#788187"
-            value={message}
-            onChangeText={setMessage}
-            multiline
-          />
+            <TextInput
+              ref={inputRef}
+              style={styles.input}
+              placeholder={intl.formatMessage({
+                id: 'chats.message_placeholder',
+                defaultMessage: 'Message',
+              })}
+              placeholderTextColor="#788187"
+              value={message}
+              onChangeText={setMessage}
+              multiline
+            />
+          </View>
 
-          <TouchableOpacity
+          <IconButton
             style={[
               styles.sendButton,
-              (!message.trim() || isSending || isUploadingImage) && { opacity: 0.5 },
+              (!message.trim() || isSending || isUploadingImage) && styles.sendButtonDisabled,
             ]}
+            iconType="MaterialCommunityIcons"
+            name="send"
+            color={EStyleSheet.value('$pureWhite')}
+            size={20}
             onPress={_handleSend}
             disabled={!message.trim() || isSending || isUploadingImage}
-          >
-            {isSending ? (
-              <ActivityIndicator color="white" />
-            ) : (
-              <Text style={styles.sendLabel}>
-                {intl.formatMessage({
-                  id: editingPostId ? 'chats.update' : 'chats.send',
-                  defaultMessage: editingPostId ? 'Update' : 'Send',
-                })}
-              </Text>
-            )}
-          </TouchableOpacity>
+            isLoading={isSending}
+          />
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
