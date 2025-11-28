@@ -7,16 +7,26 @@ import {
   View,
   FlatList,
   AppState,
+  Platform,
 } from 'react-native';
 import { debounce } from 'lodash';
 import { useNavigationState } from '@react-navigation/native';
-import { Comments, EmptyScreen, Header, PostOptionsModal } from '../../../components/index';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SheetManager } from 'react-native-actions-sheet';
+import {
+  Comments,
+  EmptyScreen,
+  Header,
+  PostOptionsModal,
+  FabButton,
+} from '../../../components/index';
 import styles from '../styles/wavesScreen.styles';
 import { wavesQueries } from '../../../providers/queries';
 import { useAppSelector } from '../../../hooks';
 import WavesHeader from '../children/wavesHeader';
 import { PostTypes } from '../../../constants/postTypes';
 import { NewPostsPopup, ScrollTopPopup } from '../../../components/atoms';
+import { SheetNames } from '../../../navigation/sheets';
 
 const SCROLL_POPUP_THRESHOLD = 5000;
 
@@ -34,9 +44,13 @@ const WavesScreen = ({ route }) => {
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
 
   const navState = useNavigationState((state) => state);
+  const insets = useSafeAreaInsets();
 
   const [enableScrollTop, setEnableScrollTop] = useState(false);
   const [popupAvatars, setPopupAvatars] = useState<any[]>([]);
+
+  // Calculate FAB offset to account for bottom tab bar
+  const fabBottomOffset = Platform.OS === 'android' ? 66 + (insets.bottom || 0) : 16;
 
   useEffect(() => {
     const _stateSub = AppState.addEventListener('change', _handleAppStateChange);
@@ -124,6 +138,12 @@ const WavesScreen = ({ route }) => {
     }
   };
 
+  const _onCreatePress = () => {
+    SheetManager.show(SheetNames.QUICK_POST, {
+      payload: { mode: 'wave' },
+    });
+  };
+
   const _data = wavesQuery.data;
 
   const _renderListHeader = <WavesHeader />;
@@ -176,6 +196,7 @@ const WavesScreen = ({ route }) => {
         <ScrollTopPopup enable={enableScrollTop} onPress={_scrollTop} />
       </View>
       <PostOptionsModal ref={postOptionsModalRef} isVisibleTranslateModal={true} isWave={true} />
+      <FabButton bottomOffset={fabBottomOffset} onPress={_onCreatePress} />
     </View>
   );
 };

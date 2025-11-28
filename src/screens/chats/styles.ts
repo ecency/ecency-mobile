@@ -72,7 +72,6 @@ export const chatsStyles = EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 14,
-
   },
   channelAvatar: {
     width: 40,
@@ -144,8 +143,7 @@ export const chatsStyles = EStyleSheet.create({
     padding: 4,
     marginLeft: 8,
   },
-  searchResults: {
-  },
+  searchResults: {},
   searchSection: {
     marginTop: 10,
     marginBottom: 12,
@@ -199,7 +197,6 @@ export const chatsStyles = EStyleSheet.create({
     padding: 8,
   },
   sectionHeading: {
-
     color: '$primaryDarkText',
     marginBottom: 6,
     fontSize: 20,

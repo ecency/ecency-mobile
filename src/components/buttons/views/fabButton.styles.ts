@@ -23,4 +23,3 @@ export default EStyleSheet.create({
     elevation: 6,
   },
 });
-

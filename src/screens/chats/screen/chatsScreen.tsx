@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 
@@ -30,13 +29,12 @@ import {
   toggleMattermostChannelMute,
   leaveMattermostChannel,
 } from '../../../providers/chat/mattermost';
-import { Header, Icon, IconButton, UserAvatar } from '../../../components';
+import { Header, Icon, UserAvatar } from '../../../components';
 import { chatsStyles as styles } from '../styles';
 
 const ChatsScreen = () => {
   const intl = useIntl();
   const navigation = useNavigation();
-  const insets = useSafeAreaInsets();
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
@@ -111,18 +109,18 @@ const ChatsScreen = () => {
     const unreadMentions = Number.isFinite(channel?.unread_mentions)
       ? channel.unread_mentions
       : Number.isFinite(channel?.mention_count)
-        ? channel.mention_count
-        : Number.isFinite(channel?.mentions_count)
-          ? channel.mentions_count
-          : 0;
+      ? channel.mention_count
+      : Number.isFinite(channel?.mentions_count)
+      ? channel.mentions_count
+      : 0;
 
     const unreadMessages = Number.isFinite(channel?.unread_messages)
       ? channel.unread_messages
       : Number.isFinite(channel?.unread_msg_count)
-        ? channel.unread_msg_count
-        : Number.isFinite(channel?.unread_count)
-          ? channel.unread_count
-          : 0;
+      ? channel.unread_msg_count
+      : Number.isFinite(channel?.unread_count)
+      ? channel.unread_count
+      : 0;
 
     const unreadCount = unreadMentions || unreadMessages || 0;
     const totalUnread = Math.max(0, unreadMentions) + Math.max(0, unreadMessages);
@@ -342,10 +340,10 @@ const ChatsScreen = () => {
       } catch (err: any) {
         setError(
           err?.message ||
-          intl.formatMessage({
-            id: 'chats.unable_to_leave_channel',
-            defaultMessage: 'Unable to leave channel. Please try again.',
-          }),
+            intl.formatMessage({
+              id: 'chats.unable_to_leave_channel',
+              defaultMessage: 'Unable to leave channel. Please try again.',
+            }),
         );
       }
     },
@@ -674,10 +672,10 @@ const ChatsScreen = () => {
       getHiveUsernameFromMattermostUser(fallbackUser);
     const displayName = isDirect
       ? avatarUsername ||
-      directUser?.username ||
-      fallbackUser?.username ||
-      item.display_name ||
-      name
+        directUser?.username ||
+        fallbackUser?.username ||
+        item.display_name ||
+        name
       : name;
     const communityIdentifier = extractHiveCommunityIdentifier(item);
 
@@ -795,12 +793,7 @@ const ChatsScreen = () => {
               }}
               style={styles.clearButton}
             >
-              <Icon
-                iconType="MaterialIcons"
-                name="close"
-                size={20}
-                color="#788187"
-              />
+              <Icon iconType="MaterialIcons" name="close" size={20} color="#788187" />
             </TouchableOpacity>
           )}
         </View>
@@ -825,7 +818,9 @@ const ChatsScreen = () => {
             {searchResults.channels.map((channel) => {
               const isDirect = channel?.type === 'D';
               const communityIdentifier = extractHiveCommunityIdentifier(channel);
-              const channelInitial = (channel.display_name || channel.name || '')?.slice(0, 1)?.toUpperCase();
+              const channelInitial = (channel.display_name || channel.name || '')
+                ?.slice(0, 1)
+                ?.toUpperCase();
 
               return (
                 <View
@@ -873,7 +868,8 @@ const ChatsScreen = () => {
               {intl.formatMessage({ id: 'chats.search_users', defaultMessage: 'Users' })}
             </Text>
             {searchResults.users.map((user) => {
-              const username = getHiveUsernameFromMattermostUser(user) || user.username || user.nickname;
+              const username =
+                getHiveUsernameFromMattermostUser(user) || user.username || user.nickname;
               return (
                 <View key={user.id || user.user_id} style={styles.searchRow}>
                   <UserAvatar username={username} style={styles.searchRowAvatar} disableSize />
@@ -896,9 +892,9 @@ const ChatsScreen = () => {
         )}
 
         {(searchResults.channels.length > 0 || searchResults.users.length > 0) && (
-            <Text style={{...styles.sectionHeading, marginTop: 8}}>
-              {intl.formatMessage({ id: 'chats.title', defaultMessage: 'Chats' })}
-            </Text>
+          <Text style={{ ...styles.sectionHeading, marginTop: 8 }}>
+            {intl.formatMessage({ id: 'chats.title', defaultMessage: 'Chats' })}
+          </Text>
         )}
       </View>
     );
@@ -1012,22 +1008,20 @@ const ChatsScreen = () => {
         />
       </View>
 
-      <View
-        style={styles.statusPill}
-      >
+      <View style={styles.statusPill}>
         <View
           style={[styles.statusDot, { backgroundColor: bootstrapResult ? '#4FD688' : '#c1c5c7' }]}
         />
         <Text style={styles.statusPillText}>
           {bootstrapResult
             ? intl.formatMessage({
-              id: 'chats.connected',
-              defaultMessage: 'Connected',
-            })
+                id: 'chats.connected',
+                defaultMessage: 'Connected',
+              })
             : intl.formatMessage({
-              id: 'chats.connecting',
-              defaultMessage: 'Connecting',
-            })}
+                id: 'chats.connecting',
+                defaultMessage: 'Connecting',
+              })}
         </Text>
       </View>
     </View>

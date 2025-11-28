@@ -22,7 +22,6 @@ const BottomTabBarView = ({
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
 
-
   useEffect(() => {
     dispatch(updateActiveBottomTab(routes[index].name));
   }, [index]);
@@ -76,12 +75,7 @@ const BottomTabBarView = ({
 
   const _bottomPadding = insets.bottom || 16;
 
-  return (
-    <View style={[styles.wrapper, { paddingBottom: _bottomPadding }]}>
-      {_tabButtons}
-
-    </View>
-  );
+  return <View style={[styles.wrapper, { paddingBottom: _bottomPadding }]}>{_tabButtons}</View>;
 };
 
 export default BottomTabBarView;
