@@ -1,5 +1,5 @@
 import React, { Fragment, useMemo, useState } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import get from 'lodash/get';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -35,6 +35,10 @@ const FeedScreen = () => {
 
   const [lazyLoad, setLazyLoad] = useState(false);
 
+  // Calculate FAB offset to account for bottom tab bar
+  // On Android, add tab bar height (~50px + padding). On iOS, keep it simple as safe areas are handled properly
+  const fabBottomOffset = Platform.OS === 'android' ? 66 + (insets.bottom || 0) : 16;
+
   const _lazyLoadContent = () => {
     if (!lazyLoad) {
       setTimeout(() => {
@@ -52,10 +56,10 @@ const FeedScreen = () => {
     () =>
       feedFilters.map(
         (key: string) =>
-        ({
-          filterKey: key,
-          label: FEED_SCREEN_FILTER_MAP[key],
-        } as TabItem),
+          ({
+            filterKey: key,
+            label: FEED_SCREEN_FILTER_MAP[key],
+          } as TabItem),
       ),
     [feedFilters],
   );
@@ -79,8 +83,6 @@ const FeedScreen = () => {
         : undefined,
     [feedFilters, currentAccount],
   );
-
-
 
   const _onCreatePress = () => {
     if (!isLoggedIn) {
@@ -107,7 +109,7 @@ const FeedScreen = () => {
           />
         )}
       </View>
-      <FabButton bottomOffset={16} onPress={_onCreatePress} />
+      <FabButton bottomOffset={fabBottomOffset} onPress={_onCreatePress} />
     </Fragment>
   );
 };

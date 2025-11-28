@@ -1,8 +1,8 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
+import Animated, { BounceIn, FadeOut } from 'react-native-reanimated';
 import Icon from '../../icon';
 import styles from './fabButton.styles';
-import Animated, { BounceIn, FadeOut } from 'react-native-reanimated';
 
 interface FabButtonProps {
   bottomOffset: number;
@@ -23,4 +23,3 @@ const FabButton = ({ bottomOffset, onPress, iconName = 'pencil' }: FabButtonProp
 };
 
 export default FabButton;
-
