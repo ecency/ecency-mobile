@@ -48,6 +48,12 @@ interface ChatThreadParams {
   lastViewedAt?: number;
 }
 
+interface ChatReaction {
+  emoji_name: string;
+  user_id: string;
+  create_at?: number;
+}
+
 interface ChatPost {
   id?: string;
   message?: string;
@@ -55,10 +61,11 @@ interface ChatPost {
   user?: { username?: string; nickname?: string; name?: string };
   create_at?: number;
   update_at?: number;
-  props?: { message?: string };
+  props?: { message?: string; reactions?: ChatReaction[] };
   type?: string;
   text?: string;
   root_id?: string;
+  metadata?: { reactions?: ChatReaction[] };
 }
 
 const normalizePosts = (payload: any): ChatPost[] => {
@@ -738,6 +745,78 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     [rootMessages, posts, userLookup, intl],
   );
 
+  const _getEmojiDisplay = useCallback((emojiName: string) => {
+    // Map emoji names to actual emoji characters
+    const emojiMap: Record<string, string> = {
+      '+1': '👍',
+      '-1': '👎',
+      smile: '😄',
+      heart: '❤️',
+      tada: '🎉',
+      rocket: '🚀',
+      eyes: '👀',
+    };
+    return emojiMap[emojiName] || emojiName;
+  }, []);
+
+  const _renderReactions = useCallback(
+    (reactions: ChatReaction[] | undefined, isOwnMessage: boolean) => {
+      if (!reactions || reactions.length === 0) {
+        return null;
+      }
+
+      // Group reactions by emoji_name
+      const groupedReactions: Record<string, ChatReaction[]> = {};
+      reactions.forEach((reaction) => {
+        if (!groupedReactions[reaction.emoji_name]) {
+          groupedReactions[reaction.emoji_name] = [];
+        }
+        groupedReactions[reaction.emoji_name].push(reaction);
+      });
+
+      return (
+        <View
+          style={[
+            styles.reactionsContainer,
+            isOwnMessage ? styles.reactionsContainerOwn : styles.reactionsContainerOther,
+          ]}
+        >
+          {Object.entries(groupedReactions).map(([emojiName, reactionList]) => {
+            const emojiDisplay = _getEmojiDisplay(emojiName);
+            const count = reactionList.length;
+            const hasCurrentUserReaction = reactionList.some(
+              (r) => r.user_id === bootstrapResult?.userId,
+            );
+
+            return (
+              <View
+                key={emojiName}
+                style={[
+                  styles.reactionPill,
+                  isOwnMessage ? styles.reactionPillOwn : styles.reactionPillOther,
+                  hasCurrentUserReaction && styles.reactionPillActive,
+                ]}
+              >
+                <Text style={styles.reactionEmoji}>{emojiDisplay}</Text>
+                {count > 1 && (
+                  <Text
+                    style={[
+                      styles.reactionCount,
+                      hasCurrentUserReaction && styles.reactionCountActive,
+                    ]}
+                  >
+                    {count}
+                  </Text>
+                )}
+              </View>
+            );
+          })}
+        </View>
+      );
+    },
+    [_getEmojiDisplay, bootstrapResult],
+  );
+
   const _renderItem = ({ item, index }: { item: ChatPost; index: number }) => {
     const isSystemAddMessage =
       item?.type === 'system_add_to_channel' || item?.type === 'system_add_to_team';
@@ -906,7 +985,12 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
               )}
             </View>
           </TouchableOpacity>
+
         </View>
+        {_renderReactions(
+            item.metadata?.reactions || item.props?.reactions,
+            isOwnMessage,
+          )}
       </View>
     );
   };

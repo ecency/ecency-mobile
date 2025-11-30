@@ -344,13 +344,13 @@ export const chatThreadStyles = EStyleSheet.create({
     paddingTop: 6,
     paddingBottom: 6,
     borderRadius: 8,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: '$primaryGrayBackground',
   },
   replyPreviewOwn: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: '$primaryLightBlue',
   },
   replyPreviewOther: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    backgroundColor: '$primaryLightBackground',
   },
   replyPreviewLine: {
     width: 3,
@@ -367,7 +367,8 @@ export const chatThreadStyles = EStyleSheet.create({
     marginBottom: 2,
   },
   replyPreviewAuthorOwn: {
-    color: 'rgba(255, 255, 255, 0.9)',
+    color: '$pureWhite',
+    opacity: 0.9,
   },
   replyPreviewAuthorOther: {
     color: '$primaryBlue',
@@ -377,10 +378,61 @@ export const chatThreadStyles = EStyleSheet.create({
     lineHeight: 16,
   },
   replyPreviewTextOwn: {
-    color: 'rgba(255, 255, 255, 0.8)',
+    color: '$pureWhite',
+    opacity: 0.8,
   },
   replyPreviewTextOther: {
     color: '$primaryDarkText',
+  },
+  reactionsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: -8,
+  },
+  reactionsContainerOwn: {
+    alignSelf: 'flex-end',
+    marginRight: 0,
+  },
+  reactionsContainerOther: {
+    alignSelf: 'flex-start',
+    marginLeft: 40,
+  },
+  reactionPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+    backgroundColor: '$primaryLightBackground',
+    marginHorizontal: 24,
+    marginTop: -2,
+    borderWidth: EStyleSheet.hairlineWidth,
+    borderColor: '$borderColor',
+  },
+  reactionPillOwn: {
+    backgroundColor: '$primaryLightBlue',
+    borderColor: '$primaryLightBlue2',
+  },
+  reactionPillOther: {
+    backgroundColor: '$primaryLightBackground',
+    borderColor: '$borderColor',
+  },
+  reactionPillActive: {
+    backgroundColor: '$primaryBlue',
+    borderColor: '$primaryBlue',
+  },
+  reactionEmoji: {
+    fontSize: 14,
+    marginRight: 2,
+  },
+  reactionCount: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '$primaryDarkText',
+    marginLeft: 2,
+  },
+  reactionCountActive: {
+    color: '$pureWhite',
   },
   chatImage: {
     width: '100%',
