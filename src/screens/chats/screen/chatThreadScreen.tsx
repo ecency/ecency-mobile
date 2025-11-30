@@ -31,6 +31,7 @@ import {
   fetchMattermostChannelModeration,
   updateMattermostMessage,
   markMattermostChannelViewed,
+  fetchMattermostPost,
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
 import { signImage } from '../../../providers/hive/dhive';
@@ -58,6 +59,7 @@ interface ChatPost {
   props?: { message?: string };
   type?: string;
   text?: string;
+  root_id?: string;
 }
 
 const normalizePosts = (payload: any): ChatPost[] => {
@@ -158,6 +160,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const [hasScrolledToUnread, setHasScrolledToUnread] = useState<boolean>(false);
   const [editingPostId, setEditingPostId] = useState<string | null>(null);
   const [headerUser, setHeaderUser] = useState<any>(null);
+  const [rootMessages, setRootMessages] = useState<Record<string, ChatPost>>({});
 
   const userLookupRef = useRef<Record<string, any>>({});
   const listRef = useRef<FlatList<ChatPost>>(null);
@@ -382,6 +385,46 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     [_mergeUserLookup],
   );
 
+  const _fetchRootMessages = useCallback(
+    async (rootIds: string[]) => {
+      if (!rootIds.length) {
+        return;
+      }
+
+      try {
+        await _ensureBootstrap();
+        const fetchPromises = rootIds.map((rootId) =>
+          fetchMattermostPost(channelId, rootId).catch(() => null),
+        );
+        const results = await Promise.all(fetchPromises);
+        
+        const rootMessagesMap: Record<string, ChatPost> = {};
+        results.forEach((post) => {
+          if (post) {
+            const normalized = normalizePost(post);
+            if (normalized?.id) {
+              rootMessagesMap[normalized.id] = normalized;
+            }
+          }
+        });
+
+        if (Object.keys(rootMessagesMap).length > 0) {
+          setRootMessages((prev) => ({ ...prev, ...rootMessagesMap }));
+          // Resolve user profiles for root messages
+          const rootUserIds = Object.values(rootMessagesMap)
+            .map((post) => post.user_id || post.user?.id)
+            .filter(Boolean);
+          if (rootUserIds.length > 0) {
+            _resolveUserProfiles(rootUserIds);
+          }
+        }
+      } catch (err) {
+        // silently ignore root message fetch errors
+      }
+    },
+    [channelId, _ensureBootstrap, _resolveUserProfiles],
+  );
+
   const _loadPosts = useCallback(
     async (refresh = false) => {
       setIsLoading(!refresh);
@@ -412,6 +455,18 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         const normalizedPosts = _sortPosts(normalizePosts(data));
         setPosts(normalizedPosts);
         _resolveUserProfiles(_collectMissingUserIds(normalizedPosts));
+        
+        // Collect root_ids and fetch root messages
+        const rootIds = new Set<string>();
+        normalizedPosts.forEach((post: ChatPost) => {
+          if (post.root_id && !normalizedPosts.find((p: ChatPost) => p.id === post.root_id)) {
+            rootIds.add(post.root_id);
+          }
+        });
+        
+        if (rootIds.size > 0) {
+          _fetchRootMessages(Array.from(rootIds));
+        }
       } catch (err: any) {
         setError(err?.message || 'Unable to load messages.');
       } finally {
@@ -628,6 +683,60 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     }
   }, [currentAccount, pinCode]);
 
+  const _renderReplyPreview = useCallback(
+    (rootId: string, isOwnMessage: boolean) => {
+      const rootMessage = rootMessages[rootId] || posts.find((p: ChatPost) => p.id === rootId);
+      if (!rootMessage) {
+        return null;
+      }
+
+      const rootAuthorId = rootMessage.user_id || rootMessage.user?.id;
+      const rootMappedUser = (rootAuthorId && userLookup[rootAuthorId]) || rootMessage.user;
+      const rootHiveUsername =
+        rootMappedUser?.hiveUsername || getHiveUsernameFromMattermostUser(rootMappedUser);
+      const rootAuthor =
+        rootHiveUsername ||
+        rootMappedUser?.nickname ||
+        rootMappedUser?.username ||
+        rootMappedUser?.name ||
+        rootAuthorId ||
+        intl.formatMessage({ id: 'chats.anonymous', defaultMessage: 'Unknown user' });
+      const rootBody = rootMessage.message || rootMessage.props?.message || rootMessage.text || '';
+      const rootText = rootBody.length > 100 ? rootBody.substring(0, 100) + '...' : rootBody;
+
+      return (
+        <View
+          style={[
+            styles.replyPreview,
+            isOwnMessage ? styles.replyPreviewOwn : styles.replyPreviewOther,
+          ]}
+        >
+          <View style={styles.replyPreviewLine} />
+          <View style={styles.replyPreviewContent}>
+            <Text
+              style={[
+                styles.replyPreviewAuthor,
+                isOwnMessage ? styles.replyPreviewAuthorOwn : styles.replyPreviewAuthorOther,
+              ]}
+            >
+              {rootAuthor}
+            </Text>
+            <Text
+              style={[
+                styles.replyPreviewText,
+                isOwnMessage ? styles.replyPreviewTextOwn : styles.replyPreviewTextOther,
+              ]}
+              numberOfLines={2}
+            >
+              {rootText}
+            </Text>
+          </View>
+        </View>
+      );
+    },
+    [rootMessages, posts, userLookup, intl],
+  );
+
   const _renderItem = ({ item, index }: { item: ChatPost; index: number }) => {
     const isSystemAddMessage =
       item?.type === 'system_add_to_channel' || item?.type === 'system_add_to_team';
@@ -751,6 +860,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             onLongPress={canModerate || isOwnMessage ? _showActions : undefined}
             activeOpacity={0.9}
           >
+            {item.root_id && _renderReplyPreview(item.root_id, isOwnMessage)}
             {!isOwnMessage && (
               <Text style={styles.author}>{author}</Text>
             )}

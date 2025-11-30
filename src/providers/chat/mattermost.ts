@@ -142,6 +142,11 @@ export const fetchMattermostChannelPosts = async (channelId: string) => {
   return data;
 };
 
+export const fetchMattermostPost = async (channelId: string, postId: string) => {
+  const { data } = await chatApi.get(`/api/mattermost/channels/${channelId}/posts/${postId}`);
+  return data.post || data;
+};
+
 export const markMattermostChannelViewed = async (
   channelId: string,
   prevChannelId?: string | null,

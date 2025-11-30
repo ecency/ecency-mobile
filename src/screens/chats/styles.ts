@@ -336,6 +336,52 @@ export const chatThreadStyles = EStyleSheet.create({
   bodyOther: {
     color: '$primaryBlack',
   },
+  replyPreview: {
+    flexDirection: 'row',
+    marginBottom: 8,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingTop: 6,
+    paddingBottom: 6,
+    borderRadius: 8,
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  replyPreviewOwn: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  replyPreviewOther: {
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+  },
+  replyPreviewLine: {
+    width: 3,
+    borderRadius: 2,
+    backgroundColor: '$primaryBlue',
+    marginRight: 8,
+  },
+  replyPreviewContent: {
+    flex: 1,
+  },
+  replyPreviewAuthor: {
+    fontSize: 13,
+    fontWeight: '600',
+    marginBottom: 2,
+  },
+  replyPreviewAuthorOwn: {
+    color: 'rgba(255, 255, 255, 0.9)',
+  },
+  replyPreviewAuthorOther: {
+    color: '$primaryBlue',
+  },
+  replyPreviewText: {
+    fontSize: 13,
+    lineHeight: 16,
+  },
+  replyPreviewTextOwn: {
+    color: 'rgba(255, 255, 255, 0.8)',
+  },
+  replyPreviewTextOther: {
+    color: '$primaryDarkText',
+  },
   chatImage: {
     width: '100%',
     maxWidth: 250,
