@@ -477,13 +477,13 @@ export const chatThreadStyles = EStyleSheet.create({
   },
 
   input: {
-      flex: 1,
-      paddingRight: 12,
-      paddingVertical: 10,
-      fontSize: 16,
-      color: '$primaryBlack',
-      minHeight: 40,
-    },
+    flex: 1,
+    paddingRight: 12,
+    paddingVertical: 10,
+    fontSize: 16,
+    color: '$primaryBlack',
+    minHeight: 40,
+  },
 
   sendButton: {
     width: 44,

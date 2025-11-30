@@ -15,9 +15,9 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useIntl } from 'react-intl';
 import moment from 'moment';
-import { useNavigation } from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
 
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { useAppSelector } from '../../../hooks';
 import {
   bootstrapMattermostSession,
@@ -38,7 +38,6 @@ import { signImage } from '../../../providers/hive/dhive';
 import { Icon, UserAvatar, IconButton, BasicHeader } from '../../../components';
 import { chatThreadStyles as styles } from '../styles';
 import { emojifyMessage } from '../../../utils/emoji';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 interface ChatThreadParams {
   channelId: string;
@@ -130,15 +129,9 @@ const extractImageLinks = (text?: string) => {
 
 const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) => {
   const intl = useIntl();
-  const navigation = useNavigation();
   const insets = useSafeAreaInsets();
 
-  const {
-    channelId,
-    channelName,
-    channelDescription,
-    bootstrapResult: initialBootstrap,
-  } = route.params;
+  const { channelId, channelName, bootstrapResult: initialBootstrap } = route.params;
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
@@ -284,7 +277,15 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     };
 
     loadChannelMembers();
-  }, [channelId, _ensureBootstrap, _mergeUserLookup, bootstrapResult, lastViewedAt, channelName, headerUser]);
+  }, [
+    channelId,
+    _ensureBootstrap,
+    _mergeUserLookup,
+    bootstrapResult,
+    lastViewedAt,
+    channelName,
+    headerUser,
+  ]);
 
   useEffect(() => {
     const resolveModeration = async () => {
@@ -397,7 +398,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           fetchMattermostPost(channelId, rootId).catch(() => null),
         );
         const results = await Promise.all(fetchPromises);
-        
+
         const rootMessagesMap: Record<string, ChatPost> = {};
         results.forEach((post) => {
           if (post) {
@@ -439,10 +440,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           data?.membership ||
           (Array.isArray(data?.members)
             ? data.members.find(
-              (member: any) =>
-                member?.user_id === bootstrapResult?.userId ||
-                member?.id === bootstrapResult?.userId,
-            )
+                (member: any) =>
+                  member?.user_id === bootstrapResult?.userId ||
+                  member?.id === bootstrapResult?.userId,
+              )
             : null);
 
         if (membershipRecord?.last_viewed_at || membershipRecord?.last_view_at) {
@@ -455,7 +456,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         const normalizedPosts = _sortPosts(normalizePosts(data));
         setPosts(normalizedPosts);
         _resolveUserProfiles(_collectMissingUserIds(normalizedPosts));
-        
+
         // Collect root_ids and fetch root messages
         const rootIds = new Set<string>();
         normalizedPosts.forEach((post: ChatPost) => {
@@ -463,7 +464,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             rootIds.add(post.root_id);
           }
         });
-        
+
         if (rootIds.size > 0) {
           _fetchRootMessages(Array.from(rootIds));
         }
@@ -702,7 +703,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         rootAuthorId ||
         intl.formatMessage({ id: 'chats.anonymous', defaultMessage: 'Unknown user' });
       const rootBody = rootMessage.message || rootMessage.props?.message || rootMessage.text || '';
-      const rootText = rootBody.length > 100 ? rootBody.substring(0, 100) + '...' : rootBody;
+      const rootText = rootBody.length > 100 ? `${rootBody.substring(0, 100)}...` : rootBody;
 
       return (
         <View
@@ -861,16 +862,9 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             activeOpacity={0.9}
           >
             {item.root_id && _renderReplyPreview(item.root_id, isOwnMessage)}
-            {!isOwnMessage && (
-              <Text style={styles.author}>{author}</Text>
-            )}
+            {!isOwnMessage && <Text style={styles.author}>{author}</Text>}
             {!!messageText && (
-              <Text
-                style={[
-                  styles.body,
-                  isOwnMessage ? styles.bodyOwn : styles.bodyOther,
-                ]}
-              >
+              <Text style={[styles.body, isOwnMessage ? styles.bodyOwn : styles.bodyOther]}>
                 {messageText}
               </Text>
             )}

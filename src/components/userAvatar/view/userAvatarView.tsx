@@ -52,9 +52,10 @@ const UserAvatarView = ({
 
   const _avatar = username
     ? {
-      uri: `${uri}${username === curUsername && avatarCacheStamp ? `?stamp=${avatarCacheStamp}` : ''
+        uri: `${uri}${
+          username === curUsername && avatarCacheStamp ? `?stamp=${avatarCacheStamp}` : ''
         }`,
-    }
+      }
     : DEFAULT_IMAGE;
 
   let _size: number;
