@@ -27,7 +27,6 @@ import showLoginAlert from '../../../utils/showLoginAlert';
 const FeedScreen = () => {
   const intl = useIntl();
   const navigation = useNavigation();
-  const insets = useSafeAreaInsets();
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
@@ -37,7 +36,7 @@ const FeedScreen = () => {
 
   // Calculate FAB offset to account for bottom tab bar
   // On Android, add tab bar height (~50px + padding). On iOS, keep it simple as safe areas are handled properly
-  const fabBottomOffset = Platform.OS === 'android' ? 66 + (insets.bottom || 0) : 16;
+  const fabBottomOffset = 16;
 
   const _lazyLoadContent = () => {
     if (!lazyLoad) {
