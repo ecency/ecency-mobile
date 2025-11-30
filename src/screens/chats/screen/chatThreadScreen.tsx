@@ -203,10 +203,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
   useEffect(() => {
     const bootstrapUser = bootstrapResult?.user;
-    if (bootstrapUser?.id) {
+    if (bootstrapUser?.userId) {
       _mergeUserLookup((prev) => ({
         ...prev,
-        [bootstrapUser.id]: {
+        [bootstrapUser.userId]: {
           ...bootstrapUser,
           hiveUsername: getHiveUsernameFromMattermostUser(bootstrapUser),
         },
@@ -223,7 +223,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           .map((member: any) => member?.user_id || member?.id)
           .filter(Boolean);
 
-        const bootstrapUserId = bootstrapResult?.user?.id;
+        const bootstrapUserId = bootstrapResult?.userId;
         if (!lastViewedAt && bootstrapUserId) {
           const selfMember = members?.find(
             (member: any) => member?.user_id === bootstrapUserId || member?.id === bootstrapUserId,
@@ -397,8 +397,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           (Array.isArray(data?.members)
             ? data.members.find(
               (member: any) =>
-                member?.user_id === bootstrapResult?.user?.id ||
-                member?.id === bootstrapResult?.user?.id,
+                member?.user_id === bootstrapResult?.userId ||
+                member?.id === bootstrapResult?.userId,
             )
             : null);
 
@@ -644,7 +644,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     const timestamp = item.create_at || item.update_at;
     const body = _formatPostBody(item, timestamp);
     const { text: messageText, images: messageImages } = _parseMessageContent(body);
-    const isOwnMessage = authorId && bootstrapResult?.user?.id === authorId;
+    const isOwnMessage = authorId && bootstrapResult?.userId === authorId;
     const showUnreadMarker = firstUnreadIndex !== null && index === firstUnreadIndex;
 
     const _showActions = () => {
@@ -814,51 +814,51 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     return channelName || channelId;
   }, [headerUser, channelName, channelId]);
 
-  const headerUsername = useMemo(() => {
-    if (headerUser?.name) {
-      return headerUser.name.startsWith('@') ? headerUser.name : `@${headerUser.name}`;
-    }
-    return null;
-  }, [headerUser]);
+  // const headerUsername = useMemo(() => {
+  //   if (headerUser?.name) {
+  //     return headerUser.name.startsWith('@') ? headerUser.name : `@${headerUser.name}`;
+  //   }
+  //   return null;
+  // }, [headerUser]);
 
-  const _header = useMemo(
-    () => (
-      <View style={styles.headerContainer}>
-        <View style={styles.basicHeaderContainer}>
-          <View style={styles.basicHeaderBackWrapper}>
-            <IconButton
-              iconStyle={styles.basicHeaderBackIcon}
-              iconType="MaterialIcons"
-              name="arrow-back"
-              onPress={() => navigation.goBack()}
-            />
-            {headerUsername && headerUser ? (
-              <View style={styles.headerTitleContainer}>
-                <UserAvatar
-                  username={headerUser.name}
-                  style={styles.headerAvatar}
-                  disableSize
-                />
-                <View style={styles.headerTitleTextContainer}>
-                  <Text style={styles.headerTitle} numberOfLines={1}>
-                    {headerTitle}
-                  </Text>
-                  <Text style={styles.headerSubtitle} numberOfLines={1}>
-                    {headerUsername}
-                  </Text>
-                </View>
-              </View>
-            ) : (
-              <Text style={styles.basicHeaderTitle} numberOfLines={1}>
-                {headerTitle}
-              </Text>
-            )}
-          </View>
-        </View>
-      </View>
-    ),
-    [headerUser, headerTitle, headerUsername, navigation],
-  );
+  // const _header = useMemo(
+  //   () => (
+  //     <View style={styles.headerContainer}>
+  //       <View style={styles.basicHeaderContainer}>
+  //         <View style={styles.basicHeaderBackWrapper}>
+  //           <IconButton
+  //             iconStyle={styles.basicHeaderBackIcon}
+  //             iconType="MaterialIcons"
+  //             name="arrow-back"
+  //             onPress={() => navigation.goBack()}
+  //           />
+  //           {headerUsername && headerUser ? (
+  //             <View style={styles.headerTitleContainer}>
+  //               <UserAvatar
+  //                 username={headerUser.name}
+  //                 style={styles.headerAvatar}
+  //                 disableSize
+  //               />
+  //               <View style={styles.headerTitleTextContainer}>
+  //                 <Text style={styles.headerTitle} numberOfLines={1}>
+  //                   {headerTitle}
+  //                 </Text>
+  //                 <Text style={styles.headerSubtitle} numberOfLines={1}>
+  //                   {headerUsername}
+  //                 </Text>
+  //               </View>
+  //             </View>
+  //           ) : (
+  //             <Text style={styles.basicHeaderTitle} numberOfLines={1}>
+  //               {headerTitle}
+  //             </Text>
+  //           )}
+  //         </View>
+  //       </View>
+  //     </View>
+  //   ),
+  //   [headerUser, headerTitle, headerUsername, navigation],
+  // );
 
   const _emptyList = useMemo(() => {
     if (isLoading) {
