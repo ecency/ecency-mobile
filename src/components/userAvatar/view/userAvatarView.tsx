@@ -45,18 +45,16 @@ const UserAvatarView = ({
 
   // Component Functions
   const _handleOnAvatarPress = (username: string) => {
-    const name = ROUTES.SCREENS.PROFILE;
-    RootNavigation.navigate(name, { username });
+    RootNavigation.navigate({ name: ROUTES.SCREENS.PROFILE, params: { username }, key: username });
   };
 
   const uri = avatarUrl || getResizedAvatar(username, 'large');
 
   const _avatar = username
     ? {
-        uri: `${uri}${
-          username === curUsername && avatarCacheStamp ? `?stamp=${avatarCacheStamp}` : ''
+      uri: `${uri}${username === curUsername && avatarCacheStamp ? `?stamp=${avatarCacheStamp}` : ''
         }`,
-      }
+    }
     : DEFAULT_IMAGE;
 
   let _size: number;
