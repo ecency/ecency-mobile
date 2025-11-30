@@ -793,7 +793,6 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
                 key={emojiName}
                 style={[
                   styles.reactionPill,
-                  isOwnMessage ? styles.reactionPillOwn : styles.reactionPillOther,
                   hasCurrentUserReaction && styles.reactionPillActive,
                 ]}
               >

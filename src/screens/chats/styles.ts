@@ -406,16 +406,8 @@ export const chatThreadStyles = EStyleSheet.create({
     backgroundColor: '$primaryLightBackground',
     marginHorizontal: 24,
     marginTop: -2,
-    borderWidth: EStyleSheet.hairlineWidth,
-    borderColor: '$borderColor',
-  },
-  reactionPillOwn: {
-    backgroundColor: '$primaryLightBlue',
-    borderColor: '$primaryLightBlue2',
-  },
-  reactionPillOther: {
-    backgroundColor: '$primaryLightBackground',
-    borderColor: '$borderColor',
+    borderWidth: 1,
+    borderColor: '$primaryBackgroundColor',
   },
   reactionPillActive: {
     backgroundColor: '$primaryBlue',
