@@ -45,7 +45,7 @@ export const BottomTabNavigator = () => {
         name={ROUTES.TABBAR.CHATS}
         component={Chats}
         initialParams={{
-          iconName: 'chat-bubble-outline', // read in bottomTabBarView
+          iconName: 'message-text', // read in bottomTabBarView
         }}
       />
 
