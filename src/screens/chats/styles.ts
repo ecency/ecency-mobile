@@ -128,7 +128,7 @@ export const chatsStyles = EStyleSheet.create({
     borderRadius: 16,
     height: 44,
     marginHorizontal: 16,
-    backgroundColor: '$primaryWhiteLightBackground',
+    backgroundColor: '$primaryLightBackground',
     paddingHorizontal: 12,
   },
   searchIcon: {
