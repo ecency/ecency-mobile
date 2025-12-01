@@ -526,14 +526,17 @@ export const chatThreadStyles = EStyleSheet.create({
   inputWrapper: {
     flex: 1,
     flexDirection: 'column',
+    paddingVertical: 4,
+    minHeight: 40,
   },
   input: {
-    flex: 1,
+    flexShrink: 1,
     paddingRight: 12,
     paddingVertical: 10,
     fontSize: 16,
     color: '$primaryBlack',
     minHeight: 40,
+    maxHeight: 120,
   },
 
   sendButton: {
@@ -569,13 +572,27 @@ export const chatThreadStyles = EStyleSheet.create({
     borderTopWidth: 1,
     backgroundColor: '$primaryLightBackground',
   },
+  composerEditingBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 12,
+    minHeight: 40,
+    borderRadius: 8,
+    marginTop: 12,
+    marginRight: 12,
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+  },
   editingLabel: {
     color: '$primaryDarkText',
     fontWeight: '600',
+    fontSize: 13,
   },
   cancelEditButton: {
-    flexDirection: 'row',
+    padding: 4,
+    marginLeft: 4,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   cancelEditLabel: {
     marginLeft: 6,

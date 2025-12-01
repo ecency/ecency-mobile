@@ -54,29 +54,12 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
   const dispatch = useAppDispatch();
 
   const post = payload?.post;
-  const channelId = payload?.channelId;
   const onReply = payload?.onReply;
   const onReaction = payload?.onReaction;
   const onEdit = payload?.onEdit;
   const onRemove = payload?.onRemove;
-  const currentUserId = payload?.currentUserId;
   const isOwnMessage = payload?.isOwnMessage || false;
   const canModerate = payload?.canModerate || false;
-
-  const reactions = useMemo(() => {
-    return post?.metadata?.reactions || post?.props?.reactions || [];
-  }, [post]);
-
-  const groupedReactions = useMemo(() => {
-    const grouped: Record<string, ChatReaction[]> = {};
-    reactions.forEach((reaction) => {
-      if (!grouped[reaction.emoji_name]) {
-        grouped[reaction.emoji_name] = [];
-      }
-      grouped[reaction.emoji_name].push(reaction);
-    });
-    return grouped;
-  }, [reactions]);
 
   const _handleReactionPress = useCallback(
     (emojiName: string) => {
@@ -134,21 +117,16 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
 
   const _renderReactionItem = useCallback(
     ({ item }: { item: { name: string; emoji: string } }) => {
-      const reactionList = groupedReactions[item.name] || [];
-      const hasCurrentUserReaction = reactionList.some((r) => r.user_id === currentUserId);
-      const count = reactionList.length;
-
       return (
         <TouchableOpacity
-          style={[styles.reactionButton, hasCurrentUserReaction && styles.reactionButtonActive]}
+          style={styles.reactionButton}
           onPress={() => _handleReactionPress(item.name)}
         >
           <Text style={styles.reactionEmoji}>{item.emoji}</Text>
-          {count > 0 && <Text style={styles.reactionCount}>{count}</Text>}
         </TouchableOpacity>
       );
     },
-    [groupedReactions, currentUserId, _handleReactionPress],
+    [_handleReactionPress],
   );
 
   const _renderOptionItem = useCallback(

@@ -453,10 +453,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           data?.membership ||
           (Array.isArray(data?.members)
             ? data.members.find(
-                (member: any) =>
-                  member?.user_id === bootstrapResult?.userId ||
-                  member?.id === bootstrapResult?.userId,
-              )
+              (member: any) =>
+                member?.user_id === bootstrapResult?.userId ||
+                member?.id === bootstrapResult?.userId,
+            )
             : null);
 
         if (membershipRecord?.last_viewed_at || membershipRecord?.last_view_at) {
@@ -599,6 +599,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
   const _handleStartEdit = useCallback(
     (post: ChatPost) => {
+      setRootPost(null);
       const timestamp = post.create_at || post.update_at;
       const body = _formatPostBody(post, timestamp);
       setMessage(body);
@@ -787,15 +788,33 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       return null;
     }
 
-    const rootAuthorId = rootPost.user_id || rootPost.user?.id;
-    const isOwnMessage = rootAuthorId && bootstrapResult?.userId === rootAuthorId;
-
     return (
       <View style={styles.composerReplyPreview}>
-        {_renderReplyPreview(rootPost.id, isOwnMessage, true, _cancelReply)}
+        {_renderReplyPreview(rootPost.id, false, true, _cancelReply)}
       </View>
     );
   }, [rootPost, bootstrapResult, _renderReplyPreview, _cancelReply]);
+
+  const _renderEditingBanner = useCallback(() => {
+    if (!editingPostId) {
+      return null;
+    }
+
+    return (
+      <View style={styles.composerEditingBanner}>
+        <Text style={styles.editingLabel}>{intl.formatMessage({ id: 'chats.editing_message', defaultMessage: 'Editing message' })}</Text>
+        <TouchableOpacity onPress={_resetEditing} style={styles.cancelEditButton}>
+          <Icon
+            name="close"
+            iconType="MaterialCommunityIcons"
+            size={18}
+            color={EStyleSheet.value('$primaryDarkText')}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  }, [editingPostId, intl]);
+
 
   const _getEmojiDisplay = useCallback((emojiName: string) => {
     // Map emoji names to actual emoji characters
@@ -907,19 +926,21 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           },
           onEdit: isOwn
             ? () => {
-                _handleStartEdit(post);
-              }
+              _handleStartEdit(post);
+            }
             : undefined,
           onRemove: isOwn || canModerate
             ? () => {
-                _confirmDelete(item);
-              }
+              _confirmDelete(item);
+            }
             : undefined,
         },
       });
     };
 
     const _handleReplyToPost = (post: ChatPost) => {
+      setEditingPostId(null);
+      setMessage('');
       setRootPost(post);
       setTimeout(() => inputRef.current?.focus(), 100);
     };
@@ -1052,9 +1073,9 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
         </View>
         {_renderReactions(
-            item.metadata?.reactions || item.props?.reactions,
-            isOwnMessage,
-          )}
+          item.metadata?.reactions || item.props?.reactions,
+          isOwnMessage,
+        )}
       </View>
     );
   };
@@ -1168,28 +1189,6 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           }
         />
 
-        {editingPostId && (
-          <View style={styles.editingBanner}>
-            <Text style={styles.editingLabel}>
-              {intl.formatMessage({
-                id: 'chats.editing_message',
-                defaultMessage: 'Editing message',
-              })}
-            </Text>
-            <TouchableOpacity onPress={_resetEditing} style={styles.cancelEditButton}>
-              <Icon
-                name="close"
-                iconType="MaterialCommunityIcons"
-                size={18}
-                color={styles.cancelEditIcon.color}
-              />
-              <Text style={styles.cancelEditLabel}>
-                {intl.formatMessage({ id: 'alert.cancel', defaultMessage: 'Cancel' })}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        )}
-
         <View style={styles.composer}>
           <View style={styles.inputContainer}>
             <IconButton
@@ -1204,6 +1203,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             />
 
             <View style={styles.inputWrapper}>
+              {_renderEditingBanner()}
               {_renderComposerReplyPreview()}
               <TextInput
                 ref={inputRef}
@@ -1223,14 +1223,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           <IconButton
             style={[
               styles.sendButton,
-              (!message.trim() || isSending || isUploadingImage ) && styles.sendButtonDisabled,
+              (!message.trim() || isSending || isUploadingImage) && styles.sendButtonDisabled,
             ]}
             iconType="MaterialCommunityIcons"
             name="send"
             color={EStyleSheet.value('$pureWhite')}
             size={20}
             onPress={_handleSend}
-            disabled={!message.trim() || isSending || isUploadingImage }
+            disabled={!message.trim() || isSending || isUploadingImage}
             isLoading={isSending}
           />
         </View>
