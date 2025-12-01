@@ -321,7 +321,8 @@
     "editing_message": "Editing message",
     "unable_to_start_dm": "Unable to start chat. Please try again.",
     "send": "Send",
-    "back": "Back to chats"
+    "back": "Back to chats",
+    "banned_from_chat": "Unusual activity detected. Please try again after some time."
   },
   "profile": {
     "following": "Following",
