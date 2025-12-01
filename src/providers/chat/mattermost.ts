@@ -191,11 +191,27 @@ export const fetchMattermostChannelMembers = async (channelId: string) => {
   return data.members || data;
 };
 
-export const sendMattermostMessage = async (channelId: string, message: string) => {
-  const payload = { message };
-  const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/posts`, payload);
-  return data;
+export const sendMattermostMessage = async (channelId: string, message: string, rootId: string) => {
+  const payload = { message, root_id: rootId };
+  try {
+    const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/posts`, payload);
+    return data;
+  } catch (err: any) {
+    if (
+      axios.isAxiosError(err) &&
+      err.response?.data?.prop === 'ecency_chat_banned_until'
+    ) {
+      const banError: any = new Error(
+        err.response?.data?.error || err.response?.data?.message || 'User is banned from chat'
+      );
+      banError.isBanError = true;
+      throw banError;
+    }
+    throw err;
+  }
 };
+
+
 
 export const fetchMattermostUsersByIds = async (userIds: string[]) => {
   if (!userIds?.length) {

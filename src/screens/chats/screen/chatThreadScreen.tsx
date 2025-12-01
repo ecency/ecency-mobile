@@ -19,6 +19,8 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useAppSelector } from '../../../hooks';
+import { useDispatch } from 'react-redux';
+import { toastNotification } from '../../../redux/actions/uiAction';
 import {
   bootstrapMattermostSession,
   fetchMattermostChannelPosts,
@@ -634,7 +636,19 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       }
       setMessage('');
     } catch (err: any) {
-      setError(err?.message || 'Unable to send your message.');
+      // Check if this is a ban error
+      if (err?.isBanError) {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'chats.banned_from_chat',
+              defaultMessage: 'Unusual activity detected. Please try again after some time.',
+            }),
+          ),
+        );
+      } else {
+        setError(err?.message || 'Unable to send your message.');
+      }
     } finally {
       setIsSending(false);
     }
