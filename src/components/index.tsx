@@ -114,6 +114,7 @@ import { ImageViewer } from './imageViewer';
 import { WalkthroughMarker } from './walkthroughMarker';
 import { LinkPreview } from './linkPreview';
 import { CrossPostModal } from './crossPostModal';
+import { ChatOptionsSheet } from './chatOptionsSheet';
 
 // Basic UI Elements
 import {
@@ -282,4 +283,5 @@ export {
   LinkPreview,
   CrossPostModal,
   CopyModal,
+  ChatOptionsSheet,
 };

@@ -40,6 +40,8 @@ import { signImage } from '../../../providers/hive/dhive';
 import { Icon, UserAvatar, IconButton, BasicHeader } from '../../../components';
 import { chatThreadStyles as styles } from '../styles';
 import { emojifyMessage } from '../../../utils/emoji';
+import { SheetManager } from 'react-native-actions-sheet';
+import { SheetNames } from '../../../navigation/sheets';
 
 interface ChatThreadParams {
   channelId: string;
@@ -139,6 +141,7 @@ const extractImageLinks = (text?: string) => {
 const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) => {
   const intl = useIntl();
   const insets = useSafeAreaInsets();
+  const dispatch = useDispatch();
 
   const { channelId, channelName, bootstrapResult: initialBootstrap } = route.params;
 
@@ -582,6 +585,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     _markChannelViewed(latestPostTimestamp);
   }, [firstUnreadIndex, hasScrolledToUnread, latestPostTimestamp, _markChannelViewed]);
 
+
   const _resetEditing = useCallback(() => {
     setEditingPostId(null);
     setMessage('');
@@ -627,7 +631,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         );
         setEditingPostId(null);
       } else {
-        const response = await sendMattermostMessage(channelId, emojifiedMessage);
+        const response = await sendMattermostMessage(channelId, emojifiedMessage, '');
         const newPost = normalizePost(response);
         if (newPost) {
           setPosts((prev) => _sortPosts([...prev, newPost]));
@@ -850,37 +854,50 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     const showUnreadMarker = firstUnreadIndex !== null && index === firstUnreadIndex;
 
     const _showActions = () => {
-      const actions = [] as any[];
-
-      if (isOwnMessage) {
-        actions.push({
-          text: intl.formatMessage({ id: 'chats.edit_message', defaultMessage: 'Edit message' }),
-          onPress: () => _handleStartEdit(item),
-        });
-      }
-
-      if (canModerate || isOwnMessage) {
-        actions.push({
-          text: intl.formatMessage({ id: 'chats.remove', defaultMessage: 'Remove' }),
-          style: 'destructive',
-          onPress: () => _confirmDelete(),
-        });
-      }
-
-      actions.push({
-        text: intl.formatMessage({ id: 'alert.cancel', defaultMessage: 'Cancel' }),
-        style: 'cancel',
-      });
-
-      Alert.alert(
-        intl.formatMessage({ id: 'chats.message_actions', defaultMessage: 'Message options' }),
-        undefined,
-        actions,
-        { cancelable: true },
-      );
+      _showChatOptionsSheet(item, isOwnMessage);
     };
 
-    const _confirmDelete = () => {
+    const _showChatOptionsSheet = (post: ChatPost, isOwn: boolean) => {
+      SheetManager.show(SheetNames.CHAT_OPTIONS, {
+        payload: {
+          post,
+          channelId,
+          currentUserId: bootstrapResult?.userId,
+          isOwnMessage: isOwn,
+          canModerate,
+          onReply: () => {
+            _handleReplyToPost(post);
+          },
+          onReaction: (emojiName: string) => {
+            _handleAddReaction(post, emojiName);
+          },
+          onEdit: isOwn
+            ? () => {
+                _handleStartEdit(post);
+              }
+            : undefined,
+          onRemove: isOwn || canModerate
+            ? () => {
+                _confirmDelete(item);
+              }
+            : undefined,
+        },
+      });
+    };
+
+    const _handleReplyToPost = (post: ChatPost) => {
+      setMessage(`@${author} `);
+      setTimeout(() => inputRef.current?.focus(), 100);
+    };
+
+    const _handleAddReaction = async (post: ChatPost, emojiName: string) => {
+      // TODO: Implement reaction API call when available
+      console.log('Add reaction', emojiName, 'to post', post.id);
+      // For now, just close the sheet
+      SheetManager.hide(SheetNames.CHAT_OPTIONS);
+    };
+
+    const _confirmDelete = (postToDelete: ChatPost) => {
       Alert.alert(
         intl.formatMessage({ id: 'chats.remove_message', defaultMessage: 'Remove message?' }),
         intl.formatMessage({
@@ -895,7 +912,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           {
             text: intl.formatMessage({ id: 'chats.remove', defaultMessage: 'Remove' }),
             style: 'destructive',
-            onPress: () => _handleRemovePost(item),
+            onPress: () => _handleRemovePost(postToDelete),
           },
         ],
       );
@@ -950,7 +967,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
               styles.messageBubble,
               isOwnMessage ? styles.messageBubbleOwn : styles.messageBubbleOther,
             ]}
-            onLongPress={canModerate || isOwnMessage ? _showActions : undefined}
+            onLongPress={_showActions}
             activeOpacity={0.9}
           >
             {item.root_id && _renderReplyPreview(item.root_id, isOwnMessage)}
@@ -1169,14 +1186,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           <IconButton
             style={[
               styles.sendButton,
-              (!message.trim() || isSending || isUploadingImage) && styles.sendButtonDisabled,
+              (!message.trim() || isSending || isUploadingImage ) && styles.sendButtonDisabled,
             ]}
             iconType="MaterialCommunityIcons"
             name="send"
             color={EStyleSheet.value('$pureWhite')}
             size={20}
             onPress={_handleSend}
-            disabled={!message.trim() || isSending || isUploadingImage}
+            disabled={!message.trim() || isSending || isUploadingImage }
             isLoading={isSending}
           />
         </View>
