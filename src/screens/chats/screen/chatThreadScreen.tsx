@@ -166,6 +166,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const [editingPostId, setEditingPostId] = useState<string | null>(null);
   const [headerUser, setHeaderUser] = useState<any>(null);
   const [rootMessages, setRootMessages] = useState<Record<string, ChatPost>>({});
+  const [rootPost, setRootPost] = useState<ChatPost | null>(null);
 
   const userLookupRef = useRef<Record<string, any>>({});
   const listRef = useRef<FlatList<ChatPost>>(null);
@@ -589,6 +590,11 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const _resetEditing = useCallback(() => {
     setEditingPostId(null);
     setMessage('');
+    setRootPost(null);
+  }, []);
+
+  const _cancelReply = useCallback(() => {
+    setRootPost(null);
   }, []);
 
   const _handleStartEdit = useCallback(
@@ -631,7 +637,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         );
         setEditingPostId(null);
       } else {
-        const response = await sendMattermostMessage(channelId, emojifiedMessage, '');
+        const rootId = rootPost?.id || '';
+        const response = await sendMattermostMessage(channelId, emojifiedMessage, rootId);
         const newPost = normalizePost(response);
         if (newPost) {
           setPosts((prev) => _sortPosts([...prev, newPost]));
@@ -639,6 +646,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         }
       }
       setMessage('');
+      setRootPost(null);
     } catch (err: any) {
       // Check if this is a ban error
       if (err?.isBanError) {
@@ -710,7 +718,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   }, [currentAccount, pinCode]);
 
   const _renderReplyPreview = useCallback(
-    (rootId: string, isOwnMessage: boolean) => {
+    (rootId: string, isOwnMessage: boolean, showCloseButton?: boolean, onClose?: () => void) => {
       const rootMessage = rootMessages[rootId] || posts.find((p: ChatPost) => p.id === rootId);
       if (!rootMessage) {
         return null;
@@ -735,6 +743,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           style={[
             styles.replyPreview,
             isOwnMessage ? styles.replyPreviewOwn : styles.replyPreviewOther,
+            showCloseButton && styles.replyPreviewWithClose,
           ]}
         >
           <View style={styles.replyPreviewLine} />
@@ -757,11 +766,36 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
               {rootText}
             </Text>
           </View>
+          {showCloseButton && onClose && (
+            <TouchableOpacity onPress={onClose} style={styles.cancelReplyButton}>
+              <Icon
+                name="close"
+                iconType="MaterialCommunityIcons"
+                size={18}
+                color={EStyleSheet.value('$primaryDarkText')}
+              />
+            </TouchableOpacity>
+          )}
         </View>
       );
     },
     [rootMessages, posts, userLookup, intl],
   );
+
+  const _renderComposerReplyPreview = useCallback(() => {
+    if (!rootPost?.id) {
+      return null;
+    }
+
+    const rootAuthorId = rootPost.user_id || rootPost.user?.id;
+    const isOwnMessage = rootAuthorId && bootstrapResult?.userId === rootAuthorId;
+
+    return (
+      <View style={styles.composerReplyPreview}>
+        {_renderReplyPreview(rootPost.id, isOwnMessage, true, _cancelReply)}
+      </View>
+    );
+  }, [rootPost, bootstrapResult, _renderReplyPreview, _cancelReply]);
 
   const _getEmojiDisplay = useCallback((emojiName: string) => {
     // Map emoji names to actual emoji characters
@@ -886,7 +920,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     };
 
     const _handleReplyToPost = (post: ChatPost) => {
-      setMessage(`@${author} `);
+      setRootPost(post);
       setTimeout(() => inputRef.current?.focus(), 100);
     };
 
@@ -1162,25 +1196,28 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
               style={[styles.attachButton, isUploadingImage && styles.disabledButton]}
               iconType="MaterialCommunityIcons"
               name="plus"
-              color={EStyleSheet.value('$pureWhite')}
+              color={EStyleSheet.value('$primaryDarkText')}
               size={24}
               onPress={_handleAttachImage}
               disabled={isUploadingImage || isSending}
               isLoading={isUploadingImage}
             />
 
-            <TextInput
-              ref={inputRef}
-              style={styles.input}
-              placeholder={intl.formatMessage({
-                id: 'chats.message_placeholder',
-                defaultMessage: 'Message',
-              })}
-              placeholderTextColor="#788187"
-              value={message}
-              onChangeText={setMessage}
-              multiline
-            />
+            <View style={styles.inputWrapper}>
+              {_renderComposerReplyPreview()}
+              <TextInput
+                ref={inputRef}
+                style={styles.input}
+                placeholder={intl.formatMessage({
+                  id: 'chats.message_placeholder',
+                  defaultMessage: 'Message',
+                })}
+                placeholderTextColor="#788187"
+                value={message}
+                onChangeText={setMessage}
+                multiline
+              />
+            </View>
           </View>
 
           <IconButton

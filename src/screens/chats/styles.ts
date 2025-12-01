@@ -344,19 +344,24 @@ export const chatThreadStyles = EStyleSheet.create({
     paddingTop: 6,
     paddingBottom: 6,
     borderRadius: 8,
-    backgroundColor: '$primaryGrayBackground',
+    alignItems: 'center',
+  },
+  replyPreviewWithClose: {
+    paddingRight: 4,
   },
   replyPreviewOwn: {
-    backgroundColor: '$primaryLightBlue',
+    backgroundColor: 'rgba(0,0,0,0.1)',
   },
   replyPreviewOther: {
-    backgroundColor: '$primaryLightBackground',
+    backgroundColor: 'rgba(0,0,0,0.1)',
   },
   replyPreviewLine: {
     width: 3,
+    minHeight: 40,
     borderRadius: 2,
-    backgroundColor: '$primaryBlue',
+    backgroundColor: '$iconColor',
     marginRight: 8,
+    alignSelf: 'stretch',
   },
   replyPreviewContent: {
     flex: 1,
@@ -518,7 +523,10 @@ export const chatThreadStyles = EStyleSheet.create({
     marginRight: 8,
     minHeight: 40,
   },
-
+  inputWrapper: {
+    flex: 1,
+    flexDirection: 'column',
+  },
   input: {
     flex: 1,
     paddingRight: 12,
@@ -542,7 +550,7 @@ export const chatThreadStyles = EStyleSheet.create({
     elevation: 4,
   },
   sendButtonDisabled: {
-    backgroundColor: '$primaryLightBackground',
+    backgroundColor: '$iconColor',
     shadowColor: '$primaryLightBackground',
     shadowOpacity: 0.1,
   },
@@ -576,6 +584,18 @@ export const chatThreadStyles = EStyleSheet.create({
   },
   cancelEditIcon: {
     color: '$primaryBlue',
+  },
+  composerReplyPreview: {
+    paddingRight: 12,
+    paddingTop: 12,
+    minHeight: 40,
+    borderRadius: 8,
+  },
+  cancelReplyButton: {
+    padding: 4,
+    marginLeft: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   emptyState: {
     marginTop: 32,
