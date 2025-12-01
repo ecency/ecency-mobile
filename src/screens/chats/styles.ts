@@ -387,15 +387,15 @@ export const chatThreadStyles = EStyleSheet.create({
   reactionsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: -8,
+    marginTop: -10,
   },
   reactionsContainerOwn: {
     alignSelf: 'flex-end',
-    marginRight: 0,
+    marginRight: 24,
   },
   reactionsContainerOther: {
     alignSelf: 'flex-start',
-    marginLeft: 40,
+    marginLeft: 64,
   },
   reactionPill: {
     flexDirection: 'row',
@@ -404,13 +404,12 @@ export const chatThreadStyles = EStyleSheet.create({
     paddingVertical: 4,
     borderRadius: 12,
     backgroundColor: '$primaryLightBackground',
-    marginHorizontal: 24,
-    marginTop: -2,
     borderWidth: 1,
     borderColor: '$primaryBackgroundColor',
+    marginHorizontal: 2,
   },
   reactionPillActive: {
-    backgroundColor: '$primaryBlue',
+    // backgroundColor: '$primaryBlue',
     borderColor: '$primaryBlue',
   },
   reactionEmoji: {
