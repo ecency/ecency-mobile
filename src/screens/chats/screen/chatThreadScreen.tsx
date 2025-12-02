@@ -18,8 +18,9 @@ import moment from 'moment';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useAppSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
+import { SheetManager } from 'react-native-actions-sheet';
+import { useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import {
   bootstrapMattermostSession,
@@ -40,8 +41,8 @@ import { signImage } from '../../../providers/hive/dhive';
 import { Icon, UserAvatar, IconButton, BasicHeader } from '../../../components';
 import { chatThreadStyles as styles } from '../styles';
 import { emojifyMessage } from '../../../utils/emoji';
-import { SheetManager } from 'react-native-actions-sheet';
 import { SheetNames } from '../../../navigation/sheets';
+import { extractImageUrls } from '../../../utils/editor';
 
 interface ChatThreadParams {
   channelId: string;
@@ -129,7 +130,7 @@ const normalizeUserLookup = (lookup: Record<string, any> = {}) => {
 const normalizeUsersFromMap = (usersMap?: Record<string, any>) =>
   usersMap ? Object.values(usersMap) : [];
 
-const extractImageLinks = (text?: string) => {
+const extractImageUrl = (text?: string) => {
   if (!text) {
     return [] as string[];
   }
@@ -371,10 +372,26 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   );
 
   const _parseMessageContent = useCallback((rawMessage: string) => {
-    const imageLinks = extractImageLinks(rawMessage);
+    const imageLinks = extractImageUrls({ body: rawMessage })
 
-    const textWithoutImages = rawMessage.replace(/https?:\/\/images\.ecency\.com\S+/gi, ' ').trim();
-    const emojifiedText = emojifyMessage(textWithoutImages);
+    // Only remove links that were found in imageLinks from rawMessage (not all links)
+
+    let textNoImages = rawMessage;
+    if (imageLinks && Array.isArray(imageLinks) && imageLinks.length > 0) {
+      imageLinks.forEach((imgUrl) => {
+
+        // Remove any ![](<url>) occurrence
+        textNoImages = textNoImages.replace(new RegExp(`!\\[.*?\\]\\(${imgUrl}\\)`, 'g'), '');
+        // Remove any [alt](<url>) link for image
+        textNoImages = textNoImages.replace(new RegExp(`\\[.*?\\]\\(${imgUrl}\\)`, 'g'), '');
+        // Remove raw link
+        textNoImages = textNoImages.replace(new RegExp(imgUrl, 'g'), '');
+      });
+    }
+
+
+    const cleanedText = textNoImages.trim();
+    const emojifiedText = emojifyMessage(cleanedText);
 
     return {
       text: emojifiedText,
@@ -585,7 +602,6 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
     _markChannelViewed(latestPostTimestamp);
   }, [firstUnreadIndex, hasScrolledToUnread, latestPostTimestamp, _markChannelViewed]);
-
 
   const _resetEditing = useCallback(() => {
     setEditingPostId(null);
@@ -802,7 +818,9 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
     return (
       <View style={styles.composerEditingBanner}>
-        <Text style={styles.editingLabel}>{intl.formatMessage({ id: 'chats.editing_message', defaultMessage: 'Editing message' })}</Text>
+        <Text style={styles.editingLabel}>
+          {intl.formatMessage({ id: 'chats.editing_message', defaultMessage: 'Editing message' })}
+        </Text>
         <TouchableOpacity onPress={_resetEditing} style={styles.cancelEditButton}>
           <Icon
             name="close"
@@ -814,7 +832,6 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       </View>
     );
   }, [editingPostId, intl]);
-
 
   const _getEmojiDisplay = useCallback((emojiName: string) => {
     // Map emoji names to actual emoji characters
@@ -862,10 +879,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             return (
               <View
                 key={emojiName}
-                style={[
-                  styles.reactionPill,
-                  hasCurrentUserReaction && styles.reactionPillActive,
-                ]}
+                style={[styles.reactionPill, hasCurrentUserReaction && styles.reactionPillActive]}
               >
                 <Text style={styles.reactionEmoji}>{emojiDisplay}</Text>
                 {count > 1 && (
@@ -929,11 +943,12 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
               _handleStartEdit(post);
             }
             : undefined,
-          onRemove: isOwn || canModerate
-            ? () => {
-              _confirmDelete(item);
-            }
-            : undefined,
+          onRemove:
+            isOwn || canModerate
+              ? () => {
+                _confirmDelete(item);
+              }
+              : undefined,
         },
       });
     };
@@ -1070,12 +1085,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
               )}
             </View>
           </TouchableOpacity>
-
         </View>
-        {_renderReactions(
-          item.metadata?.reactions || item.props?.reactions,
-          isOwnMessage,
-        )}
+        {_renderReactions(item.metadata?.reactions || item.props?.reactions, isOwnMessage)}
       </View>
     );
   };
