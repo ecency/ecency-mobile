@@ -4,6 +4,7 @@ import {
   Alert,
   FlatList,
   Image,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   RefreshControl,
@@ -171,6 +172,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const [headerUser, setHeaderUser] = useState<any>(null);
   const [rootMessages, setRootMessages] = useState<Record<string, ChatPost>>({});
   const [rootPost, setRootPost] = useState<ChatPost | null>(null);
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   const userLookupRef = useRef<Record<string, any>>({});
   const listRef = useRef<FlatList<ChatPost>>(null);
@@ -620,6 +623,24 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
     _markChannelViewed(latestPostTimestamp);
   }, [firstUnreadIndex, hasScrolledToUnread, latestPostTimestamp, _markChannelViewed]);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (e) => {
+      setKeyboardVisible(true);
+      setKeyboardHeight(
+        e.endCoordinates.height + Platform.select({ android: insets.bottom, default: 0 }),
+      );
+    });
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', (_) => {
+      setKeyboardVisible(false);
+      setKeyboardHeight(0);
+    });
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, [insets.bottom]);
 
   const _resetEditing = useCallback(() => {
     setEditingPostId(null);
@@ -1207,17 +1228,80 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     [insets.bottom],
   );
 
+  const _renderComposer = useCallback(() => {
+    const composerStyle = {
+      ...styles.composer,
+      marginBottom: Platform.OS === 'android' && Platform.Version < 35 ? 12 : keyboardHeight + 12,
+      paddingBottom: !isKeyboardVisible ? insets.bottom : 0,
+    };
+
+    return (
+      <View style={composerStyle}>
+        <View style={styles.inputContainer}>
+          <IconButton
+            style={[styles.attachButton, isUploadingImage && styles.disabledButton]}
+            iconType="MaterialCommunityIcons"
+            name="plus"
+            color={EStyleSheet.value('$primaryDarkText')}
+            size={24}
+            onPress={_handleAttachImage}
+            disabled={isUploadingImage || isSending}
+            isLoading={isUploadingImage}
+          />
+
+          <View style={styles.inputWrapper}>
+            {_renderEditingBanner()}
+            {_renderComposerReplyPreview()}
+            <TextInput
+              ref={inputRef}
+              style={styles.input}
+              placeholder={intl.formatMessage({
+                id: 'chats.message_placeholder',
+                defaultMessage: 'Message',
+              })}
+              placeholderTextColor="#788187"
+              value={message}
+              onChangeText={setMessage}
+              multiline
+            />
+          </View>
+        </View>
+
+        <IconButton
+          style={[
+            styles.sendButton,
+            (!message.trim() || isSending || isUploadingImage) && styles.sendButtonDisabled,
+          ]}
+          iconType="MaterialCommunityIcons"
+          name="send"
+          color={EStyleSheet.value('$pureWhite')}
+          size={20}
+          onPress={_handleSend}
+          disabled={!message.trim() || isSending || isUploadingImage}
+          isLoading={isSending}
+        />
+      </View>
+    );
+  }, [
+    isUploadingImage,
+    isSending,
+    message,
+    keyboardHeight,
+    isKeyboardVisible,
+    insets.bottom,
+    _handleAttachImage,
+    _renderEditingBanner,
+    _renderComposerReplyPreview,
+    _handleSend,
+    intl,
+  ]);
+
   return (
-    <SafeAreaView style={styles.container}>
-      {/* {_header}
-       */}
+    <View style={styles.container}>
 
       <BasicHeader title={headerTitle} />
 
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
+      <View style={{ flex: 1 }}>
         {isLoading && <ActivityIndicator style={{ marginTop: 16 }} />}
 
         <FlatList
@@ -1239,53 +1323,9 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           }
         />
 
-        <View style={styles.composer}>
-          <View style={styles.inputContainer}>
-            <IconButton
-              style={[styles.attachButton, isUploadingImage && styles.disabledButton]}
-              iconType="MaterialCommunityIcons"
-              name="plus"
-              color={EStyleSheet.value('$primaryDarkText')}
-              size={24}
-              onPress={_handleAttachImage}
-              disabled={isUploadingImage || isSending}
-              isLoading={isUploadingImage}
-            />
-
-            <View style={styles.inputWrapper}>
-              {_renderEditingBanner()}
-              {_renderComposerReplyPreview()}
-              <TextInput
-                ref={inputRef}
-                style={styles.input}
-                placeholder={intl.formatMessage({
-                  id: 'chats.message_placeholder',
-                  defaultMessage: 'Message',
-                })}
-                placeholderTextColor="#788187"
-                value={message}
-                onChangeText={setMessage}
-                multiline
-              />
-            </View>
-          </View>
-
-          <IconButton
-            style={[
-              styles.sendButton,
-              (!message.trim() || isSending || isUploadingImage) && styles.sendButtonDisabled,
-            ]}
-            iconType="MaterialCommunityIcons"
-            name="send"
-            color={EStyleSheet.value('$pureWhite')}
-            size={20}
-            onPress={_handleSend}
-            disabled={!message.trim() || isSending || isUploadingImage}
-            isLoading={isSending}
-          />
-        </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        {_renderComposer()}
+      </View>
+    </View>
   );
 };
 
