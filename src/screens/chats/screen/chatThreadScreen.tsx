@@ -1313,7 +1313,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   ]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
 
       <BasicHeader title={headerTitle} />
 
@@ -1341,7 +1341,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
         {_renderComposer()}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
