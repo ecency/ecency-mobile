@@ -44,6 +44,7 @@ import { chatThreadStyles as styles } from '../styles';
 import { emojifyMessage } from '../../../utils/emoji';
 import { SheetNames } from '../../../navigation/sheets';
 import { extractImageUrls } from '../../../utils/editor';
+import { deepLinkParser } from 'utils/deepLinkParser';
 
 interface ChatThreadParams {
   channelId: string;
@@ -388,6 +389,21 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         // Remove raw link
         textNoImages = textNoImages.replace(new RegExp(imgUrl, 'g'), '');
       });
+    }
+
+    // Check if text already contains /@[username] patterns (existing profile URLs)
+    const hasExistingProfileLinks = /\/@([a-zA-Z0-9\-.]+)/.test(textNoImages);
+
+    // Only replace @[username] with https://ecency.com/@[username] if there are no existing profile links
+    if (!hasExistingProfileLinks) {
+      textNoImages = textNoImages.split(' ').map(word => {
+        // If word starts with http:// or https://, leave it unchanged
+        if (word.match(/^https?:\/\//)) {
+          return word;
+        }
+        // Otherwise, replace @mentions with ecency.com URLs
+        return word.replace(/^@([a-zA-Z0-9\-.]+)/, 'https://ecency.com/@$1');
+      }).join(' ');
     }
 
     const cleanedText = textNoImages.trim();
@@ -988,6 +1004,21 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       );
     };
 
+    const _setLinkText = (url: string) => {
+
+      // Check for exact format: "https://ecency.com/@username" or "https://ecency.com/@username/"
+      // Do NOT match if there are additional path components after the username
+      const ecencyUserPattern = /^https:\/\/ecency\.com\/@([a-zA-Z0-9\-.]+)\/?$/;
+      const match = url.match(ecencyUserPattern);
+      if (match) {
+        const username = match[1];
+        return `@${username}`;
+      }
+
+
+      return url;
+    };
+
     if (isSystemAddMessage) {
       const formattedBody = _formatPostBody(item, timestamp);
       const systemContent = _parseMessageContent(formattedBody);
@@ -1045,7 +1076,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             {!!messageText && (
               <Hyperlink
                 linkStyle={[styles.hyperlink, isOwnMessage ? styles.hyperlinkOwn : styles.hyperlinkOther]}
-                linkText={(url: string) => url}
+                linkText={(url: string) => _setLinkText(url)}
                 onPress={(url: string) => handleLink(url)}
               >
                 <Text style={[styles.body, isOwnMessage ? styles.bodyOwn : styles.bodyOther]}>
