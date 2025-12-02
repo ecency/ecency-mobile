@@ -263,6 +263,28 @@ export const ensureMattermostUsersHaveHiveNames = (users: any[]): Record<string,
   return lookup;
 };
 
+export const addMattermostReaction = async (
+  channelId: string,
+  postId: string,
+  emojiName: string,
+) => {
+  const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/posts/${postId}/reactions`, {
+    emoji: emojiName,
+  });
+  return data.post || data;
+};
+
+export const removeMattermostReaction = async (
+  channelId: string,
+  postId: string,
+  emojiName: string,
+) => {
+  const { data } = await chatApi.delete(
+    `/api/mattermost/channels/${channelId}/posts/${postId}/reactions/${emojiName}`,
+  );
+  return data.post || data;
+};
+
 export const extractHiveCommunityIdentifier = (channel: any): string | undefined => {
   const haystack = `${channel?.name || ''} ${channel?.display_name || ''} ${channel?.header || ''}`;
   const match = haystack.match(/hive-[0-9]+/i);

@@ -37,6 +37,8 @@ import {
   updateMattermostMessage,
   markMattermostChannelViewed,
   fetchMattermostPost,
+  addMattermostReaction,
+  removeMattermostReaction,
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
 import { signImage } from '../../../providers/hive/dhive';
@@ -1016,10 +1018,84 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     };
 
     const _handleAddReaction = async (post: ChatPost, emojiName: string) => {
-      // TODO: Implement reaction API call when available
-      console.log('Add reaction', emojiName, 'to post', post.id);
-      // For now, just close the sheet
-      SheetManager.hide(SheetNames.CHAT_OPTIONS);
+      const currentUserId = bootstrapResult?.userId;
+      if (!post?.id || !currentUserId) {
+        return;
+      }
+
+      try {
+        await _ensureBootstrap();
+
+        const currentReactions = post.metadata?.reactions || post.props?.reactions || [];
+        const hasUserReaction = currentReactions.some(
+          (r: ChatReaction) => r.emoji_name === emojiName && r.user_id === currentUserId,
+        );
+
+        let response: any;
+
+        if (hasUserReaction) {
+          // Remove reaction
+          response = await removeMattermostReaction(channelId, post.id, emojiName);
+        } else {
+          // Add reaction
+          response = await addMattermostReaction(channelId, post.id, emojiName);
+        }
+
+        // Response format: { post_id, emoji_name, user_id, channel_id }
+        // Manually update the reactions array
+        setPosts((prev) =>
+          prev.map((item) => {
+            if (item.id !== post.id) {
+              return item;
+            }
+
+            const existingReactions = item.metadata?.reactions || item.props?.reactions || [];
+            let updatedReactions: ChatReaction[];
+
+            if (hasUserReaction) {
+              // Remove reaction: filter out the reaction matching emoji_name and user_id
+              updatedReactions = existingReactions.filter(
+                (r: ChatReaction) =>
+                  !(r.emoji_name === emojiName && r.user_id === currentUserId),
+              );
+            } else {
+              // Add reaction: add new reaction object
+              updatedReactions = [
+                ...existingReactions,
+                {
+                  emoji_name: emojiName,
+                  user_id: currentUserId,
+                  create_at: Date.now(),
+                },
+              ];
+            }
+
+            return {
+              ...item,
+              metadata: {
+                ...item.metadata,
+                reactions: updatedReactions,
+              },
+              props: {
+                ...item.props,
+                reactions: updatedReactions,
+              },
+            };
+          }),
+        );
+      } catch (error: any) {
+        console.error('Failed to toggle reaction:', error);
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'chats.reaction_error',
+              defaultMessage: 'Failed to update reaction',
+            }),
+          ),
+        );
+      } finally {
+        SheetManager.hide(SheetNames.CHAT_OPTIONS);
+      }
     };
 
     const _confirmDelete = (postToDelete: ChatPost) => {
