@@ -1,8 +1,7 @@
 import React, { Fragment, useMemo, useState } from 'react';
-import { View, Platform } from 'react-native';
+import { View } from 'react-native';
 import get from 'lodash/get';
 import { useNavigation } from '@react-navigation/native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useIntl } from 'react-intl';
 
 // Components

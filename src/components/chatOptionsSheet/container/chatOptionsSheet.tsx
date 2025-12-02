@@ -89,7 +89,7 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
     if (message) {
       SheetManager.hide('chat_options');
       Share.share({
-        message: message,
+        message,
       });
     }
   }, [post]);
@@ -158,12 +158,7 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
           underlayColor={EStyleSheet.value('$primaryLightBackground')}
           onPress={_onPress}
         >
-          <Text
-            style={[
-              styles.optionItem,
-              item.destructive && styles.optionItemDestructive,
-            ]}
-          >
+          <Text style={[styles.optionItem, item.destructive && styles.optionItemDestructive]}>
             {item.label}
           </Text>
         </TouchableHighlight>
@@ -242,4 +237,3 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
 };
 
 export default ChatOptionsSheet;
-

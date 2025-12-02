@@ -197,12 +197,9 @@ export const sendMattermostMessage = async (channelId: string, message: string, 
     const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/posts`, payload);
     return data;
   } catch (err: any) {
-    if (
-      axios.isAxiosError(err) &&
-      err.response?.data?.prop === 'ecency_chat_banned_until'
-    ) {
+    if (axios.isAxiosError(err) && err.response?.data?.prop === 'ecency_chat_banned_until') {
       const banError: any = new Error(
-        err.response?.data?.error || err.response?.data?.message || 'User is banned from chat'
+        err.response?.data?.error || err.response?.data?.message || 'User is banned from chat',
       );
       banError.isBanError = true;
       throw banError;
@@ -210,8 +207,6 @@ export const sendMattermostMessage = async (channelId: string, message: string, 
     throw err;
   }
 };
-
-
 
 export const fetchMattermostUsersByIds = async (userIds: string[]) => {
   if (!userIds?.length) {

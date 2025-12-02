@@ -372,14 +372,13 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   );
 
   const _parseMessageContent = useCallback((rawMessage: string) => {
-    const imageLinks = extractImageUrls({ body: rawMessage })
+    const imageLinks = extractImageUrls({ body: rawMessage });
 
     // Only remove links that were found in imageLinks from rawMessage (not all links)
 
     let textNoImages = rawMessage;
     if (imageLinks && Array.isArray(imageLinks) && imageLinks.length > 0) {
       imageLinks.forEach((imgUrl) => {
-
         // Remove any ![](<url>) occurrence
         textNoImages = textNoImages.replace(new RegExp(`!\\[.*?\\]\\(${imgUrl}\\)`, 'g'), '');
         // Remove any [alt](<url>) link for image
@@ -388,7 +387,6 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         textNoImages = textNoImages.replace(new RegExp(imgUrl, 'g'), '');
       });
     }
-
 
     const cleanedText = textNoImages.trim();
     const emojifiedText = emojifyMessage(cleanedText);
@@ -470,10 +468,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           data?.membership ||
           (Array.isArray(data?.members)
             ? data.members.find(
-              (member: any) =>
-                member?.user_id === bootstrapResult?.userId ||
-                member?.id === bootstrapResult?.userId,
-            )
+                (member: any) =>
+                  member?.user_id === bootstrapResult?.userId ||
+                  member?.id === bootstrapResult?.userId,
+              )
             : null);
 
         if (membershipRecord?.last_viewed_at || membershipRecord?.last_view_at) {
@@ -940,14 +938,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           },
           onEdit: isOwn
             ? () => {
-              _handleStartEdit(post);
-            }
+                _handleStartEdit(post);
+              }
             : undefined,
           onRemove:
             isOwn || canModerate
               ? () => {
-                _confirmDelete(item);
-              }
+                  _confirmDelete(item);
+                }
               : undefined,
         },
       });

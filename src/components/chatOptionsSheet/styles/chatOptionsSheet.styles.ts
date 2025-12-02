@@ -12,7 +12,6 @@ export default EStyleSheet.create({
     paddingBottom: 40,
   },
   reactionsSection: {
-
     marginBottom: 8,
   },
   reactionsList: {
@@ -58,4 +57,3 @@ export default EStyleSheet.create({
     color: '$primaryRed',
   },
 });
-
