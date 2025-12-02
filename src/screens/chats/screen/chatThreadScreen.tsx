@@ -13,6 +13,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import Hyperlink from 'react-native-hyperlink';
 import { useIntl } from 'react-intl';
 import moment from 'moment';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -1041,9 +1042,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             {item.root_id && _renderReplyPreview(item.root_id, isOwnMessage)}
             {!isOwnMessage && <Text style={styles.author}>{author}</Text>}
             {!!messageText && (
-              <Text style={[styles.body, isOwnMessage ? styles.bodyOwn : styles.bodyOther]}>
-                {messageText}
-              </Text>
+              <Hyperlink
+                linkStyle={[styles.hyperlink, isOwnMessage ? styles.hyperlinkOwn : styles.hyperlinkOther]}
+                linkText={(url: string) => url}
+              >
+                <Text style={[styles.body, isOwnMessage ? styles.bodyOwn : styles.bodyOther]}>
+                  {messageText}
+                </Text>
+              </Hyperlink>
             )}
             {messageImages.map((url) => (
               <Image

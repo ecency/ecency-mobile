@@ -336,6 +336,15 @@ export const chatThreadStyles = EStyleSheet.create({
   bodyOther: {
     color: '$primaryBlack',
   },
+  hyperlink: {
+    color: '$primaryBlue',
+  },
+  hyperlinkOwn: {
+    color: '$pureWhite',
+  },
+  hyperlinkOther: {
+    color: '$primaryBlue',
+  },
   replyPreview: {
     flexDirection: 'row',
     marginBottom: 8,
