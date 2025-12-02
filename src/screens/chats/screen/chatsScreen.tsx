@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
+import moment from 'moment';
 
 import ROUTES from '../../../constants/routeNames';
 import { useAppSelector } from '../../../hooks';
@@ -743,6 +744,13 @@ const ChatsScreen = () => {
               />
             )}
           </View>
+          {!!item.last_post_at && (
+            <Text style={styles.channelMeta}>
+              {moment(item.last_post_at).isSame(moment(), 'day')
+                ? moment(item.last_post_at).format('h:mm A')
+                : moment(item.last_post_at).format('MMM D, h:mm A')}
+            </Text>
+          )}
           {!!description && <Text style={styles.channelMeta}>{description}</Text>}
         </View>
         {!!derivedUnreadCount && (

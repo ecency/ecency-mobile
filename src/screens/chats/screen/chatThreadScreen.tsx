@@ -374,7 +374,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     [_formatJoinedMessage],
   );
 
-  const _parseMessageContent = useCallback((rawMessage: string) => {
+  const _parseMessageContent = useCallback((rawMessage: string, parseMentionUrl = true) => {
     const imageLinks = extractImageUrls({ body: rawMessage });
 
     // Only remove links that were found in imageLinks from rawMessage (not all links)
@@ -391,19 +391,21 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       });
     }
 
-    // Check if text already contains /@[username] patterns (existing profile URLs)
-    const hasExistingProfileLinks = /\/@([a-zA-Z0-9\-.]+)/.test(textNoImages);
+    if (parseMentionUrl) {
+      // Check if text already contains /@[username] patterns (existing profile URLs)
+      const hasExistingProfileLinks = /\/@([a-zA-Z0-9\-.]+)/.test(textNoImages);
 
-    // Only replace @[username] with https://ecency.com/@[username] if there are no existing profile links
-    if (!hasExistingProfileLinks) {
-      textNoImages = textNoImages.split(' ').map(word => {
-        // If word starts with http:// or https://, leave it unchanged
-        if (word.match(/^https?:\/\//)) {
-          return word;
-        }
-        // Otherwise, replace @mentions with ecency.com URLs
-        return word.replace(/^@([a-zA-Z0-9\-.]+)/, 'https://ecency.com/@$1');
-      }).join(' ');
+      // Only replace @[username] with https://ecency.com/@[username] if there are no existing profile links
+      if (!hasExistingProfileLinks) {
+        textNoImages = textNoImages.split(' ').map(word => {
+          // If word starts with http:// or https://, leave it unchanged
+          if (word.match(/^https?:\/\//)) {
+            return word;
+          }
+          // Otherwise, replace @mentions with ecency.com URLs
+          return word.replace(/^@([a-zA-Z0-9\-.]+)/, 'https://ecency.com/@$1');
+        }).join(' ');
+      }
     }
 
     const cleanedText = textNoImages.trim();
@@ -486,10 +488,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           data?.membership ||
           (Array.isArray(data?.members)
             ? data.members.find(
-                (member: any) =>
-                  member?.user_id === bootstrapResult?.userId ||
-                  member?.id === bootstrapResult?.userId,
-              )
+              (member: any) =>
+                member?.user_id === bootstrapResult?.userId ||
+                member?.id === bootstrapResult?.userId,
+            )
             : null);
 
         if (membershipRecord?.last_viewed_at || membershipRecord?.last_view_at) {
@@ -956,14 +958,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           },
           onEdit: isOwn
             ? () => {
-                _handleStartEdit(post);
-              }
+              _handleStartEdit(post);
+            }
             : undefined,
           onRemove:
             isOwn || canModerate
               ? () => {
-                  _confirmDelete(item);
-                }
+                _confirmDelete(item);
+              }
               : undefined,
         },
       });
@@ -1021,7 +1023,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
     if (isSystemAddMessage) {
       const formattedBody = _formatPostBody(item, timestamp);
-      const systemContent = _parseMessageContent(formattedBody);
+      const systemContent = _parseMessageContent(formattedBody, false);
 
       return (
         <View>
