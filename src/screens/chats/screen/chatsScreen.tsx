@@ -933,11 +933,17 @@ const ChatsScreen = () => {
     const unread: any[] = [];
     const regular: any[] = [];
     const muted: any[] = [];
-
+  
     channels.forEach((channel) => {
       const unreadMeta = _getUnreadMeta(channel);
-      const enriched = { ...channel, unreadMeta };
-
+      const enriched = { 
+        ...channel, 
+        unreadMeta,
+        // Order by the logged-in user's most recent interaction (last viewed),
+        // falling back to latest post time if we have never opened the channel.
+        lastInteraction: channel.last_viewed_at ?? channel.last_post_at ?? 0
+      };
+  
       if (channel?.is_muted) {
         muted.push(enriched);
       } else if (channel?.is_favorite) {
@@ -948,31 +954,44 @@ const ChatsScreen = () => {
         regular.push(enriched);
       }
     });
-
-    const sortByUnreadThenName = (list: any[]) =>
+  
+    const sortByRecencyThenUnreadThenName = (list: any[]) =>
       list.sort((a, b) => {
+        // First, sort by recency (most recent first)
+        if (a.lastInteraction !== b.lastInteraction) {
+          return b.lastInteraction - a.lastInteraction;
+        }
+  
+        // Then by unread count (highest first)
         const unreadDiff = (b.unreadMeta?.totalUnread || 0) - (a.unreadMeta?.totalUnread || 0);
         if (unreadDiff !== 0) {
           return unreadDiff;
         }
-
+  
+        // Finally by name (alphabetical)
         const nameA = (a.display_name || a.name || '').toLowerCase();
         const nameB = (b.display_name || b.name || '').toLowerCase();
         return nameA.localeCompare(nameB);
       });
-
-    const sortByName = (list: any[]) =>
-      list.sort((a, b) =>
-        (a.display_name || a.name || '')
-          .toLowerCase()
-          .localeCompare((b.display_name || b.name || '').toLowerCase()),
-      );
-
+  
+    const sortByRecencyThenName = (list: any[]) =>
+      list.sort((a, b) => {
+        // First, sort by recency (most recent first)
+        if (a.lastInteraction !== b.lastInteraction) {
+          return b.lastInteraction - a.lastInteraction;
+        }
+  
+        // Then by name (alphabetical)
+        const nameA = (a.display_name || a.name || '').toLowerCase();
+        const nameB = (b.display_name || b.name || '').toLowerCase();
+        return nameA.localeCompare(nameB);
+      });
+  
     return [
-      ...sortByUnreadThenName(favorites),
-      ...sortByUnreadThenName(unread),
-      ...sortByName(regular),
-      ...sortByUnreadThenName(muted),
+      ...sortByRecencyThenUnreadThenName(favorites),
+      ...sortByRecencyThenUnreadThenName(unread),
+      ...sortByRecencyThenName(regular),
+      ...sortByRecencyThenUnreadThenName(muted),
     ];
   }, [channels, _getUnreadMeta]);
 
