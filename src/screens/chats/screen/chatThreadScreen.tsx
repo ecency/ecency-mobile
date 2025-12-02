@@ -630,6 +630,22 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       setKeyboardHeight(
         e.endCoordinates.height + Platform.select({ android: insets.bottom, default: 0 }),
       );
+      
+      // Scroll to bottom when keyboard appears
+      if (posts.length > 0 && listRef.current) {
+        setTimeout(() => {
+          try {
+            listRef.current?.scrollToIndex({
+              index: posts.length - 1,
+              animated: true,
+              viewPosition: 0,
+            });
+          } catch (err) {
+            // Fallback to scrollToEnd if scrollToIndex fails
+            listRef.current?.scrollToEnd({ animated: true });
+          }
+        }, 100);
+      }
     });
     const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', (_) => {
       setKeyboardVisible(false);
@@ -640,7 +656,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       keyboardDidHideListener.remove();
       keyboardDidShowListener.remove();
     };
-  }, [insets.bottom]);
+  }, [insets.bottom, posts.length]);
 
   const _resetEditing = useCallback(() => {
     setEditingPostId(null);
