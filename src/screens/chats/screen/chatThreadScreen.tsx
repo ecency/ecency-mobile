@@ -21,7 +21,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDispatch } from 'react-redux';
 import { SheetManager } from 'react-native-actions-sheet';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector, useLinkProcessor } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import {
   bootstrapMattermostSession,
@@ -144,6 +144,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const intl = useIntl();
   const insets = useSafeAreaInsets();
   const dispatch = useDispatch();
+  const { handleLink } = useLinkProcessor();
 
   const { channelId, channelName, bootstrapResult: initialBootstrap } = route.params;
 
@@ -1045,6 +1046,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
               <Hyperlink
                 linkStyle={[styles.hyperlink, isOwnMessage ? styles.hyperlinkOwn : styles.hyperlinkOther]}
                 linkText={(url: string) => url}
+                onPress={(url: string) => handleLink(url)}
               >
                 <Text style={[styles.body, isOwnMessage ? styles.bodyOwn : styles.bodyOther]}>
                   {messageText}

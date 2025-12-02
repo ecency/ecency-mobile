@@ -614,7 +614,14 @@ export const useLinkProcessor = (onClose?: () => void) => {
       onClose && onClose();
       RootNavigation.navigate(deepLinkData);
     } else {
-      _showInvalidAlert();
+      // Open unsupported links in in-app browser
+      onClose && onClose();
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.WEB_BROWSER,
+        params: {
+          url,
+        },
+      });
     }
   };
 
