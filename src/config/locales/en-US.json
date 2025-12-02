@@ -361,7 +361,8 @@
       "edit_profile": "Edit Profile",
       "cover_img": "Cover Image",
       "profile_img": "Profile Image"
-    }
+    },
+    "message": "Message"
   },
   "settings": {
     "settings": "Settings",

@@ -77,6 +77,10 @@ export default EStyleSheet.create({
     padding: 4,
     paddingHorizontal: 12,
   },
+  messageButton: {
+    marginLeft: 8,
+    padding: 4,
+  },
   editActionWrapper: {
     borderColor: '$primaryDarkGray',
     borderWidth: 1,

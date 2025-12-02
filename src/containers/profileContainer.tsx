@@ -17,6 +17,7 @@ import {
   getRelationship,
   getAccountPosts,
 } from '../providers/hive/dhive';
+import { searchMattermostUsers, startMattermostDirectMessage } from '../providers/chat/mattermost';
 
 // Ecency providers
 import { checkFavorite, addFavorite, deleteFavorite, addReport } from '../providers/ecency/ecency';
@@ -199,6 +200,51 @@ class ProfileContainer extends Component {
       this._muteUser();
     } else {
       this._handleFollowUnfollowUser();
+    }
+  };
+
+  _handleMessage = async () => {
+    const { username } = this.state;
+    const { currentAccount, pinCode, dispatch, intl } = this.props;
+
+    try {
+      // Ensure user is logged in and has access to chat
+      if (!currentAccount?.name) {
+        dispatch(toastNotification(intl.formatMessage({ id: 'login_required' })));
+        return;
+      }
+
+      // INSERT_YOUR_CODE
+
+      // Search Mattermost for the user based on the username and extract the first result if it exists.
+      let mattermostUser = null;
+
+      const results = await searchMattermostUsers(username);
+      if (Array.isArray(results) && results.length > 0) {
+        mattermostUser = results[0];
+      }
+
+      if(!mattermostUser){
+        throw new Error('User not found');
+      }
+
+      // Start DM with the user
+      const dmChannel = await startMattermostDirectMessage(mattermostUser);
+
+      // Navigate to the chat thread
+      const navigation = this.props.navigation;
+      navigation.navigate(ROUTES.SCREENS.CHAT_THREAD, {
+        channelId: dmChannel.id || dmChannel.channelId,
+        channelName: username,
+        bootstrapResult: null, // Will be loaded in chat thread
+      });
+    } catch (error) {
+      console.error('Failed to start DM:', error);
+      dispatch(
+        toastNotification(
+          intl.formatMessage({ id: 'chats.dm_error', defaultMessage: 'Failed to start direct message' })
+        )
+      );
     }
   };
 
@@ -550,6 +596,7 @@ class ProfileContainer extends Component {
         handleOnPressProfileEdit: this._handleOnPressProfileEdit,
         handleReportUser: this._handleReportUser,
         handleDelegateHp: this._handleDelegateHp,
+        handleMessage: this._handleMessage,
         isDarkTheme,
         isFavorite,
         isFollowing,
