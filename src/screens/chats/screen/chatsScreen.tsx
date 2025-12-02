@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
-  Alert,
   FlatList,
   RefreshControl,
   Text,
@@ -12,9 +11,11 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 import moment from 'moment';
+import { SheetManager } from 'react-native-actions-sheet';
 
 import ROUTES from '../../../constants/routeNames';
 import { useAppSelector } from '../../../hooks';
+import { SheetNames } from '../../../navigation/sheets';
 import {
   bootstrapMattermostSession,
   fetchMattermostChannels,
@@ -354,34 +355,30 @@ const ChatsScreen = () => {
   const _confirmChannelOptions = useCallback(
     (channel: any) => {
       const name = channel.display_name || channel.name;
-      Alert.alert(
-        name || intl.formatMessage({ id: 'chats.channel', defaultMessage: 'Channel' }),
-        intl.formatMessage({ id: 'chats.channel_options', defaultMessage: 'Channel options' }),
-        [
-          {
-            text: channel.is_favorite
-              ? intl.formatMessage({ id: 'chats.unfavorite', defaultMessage: 'Remove favorite' })
-              : intl.formatMessage({ id: 'chats.favorite', defaultMessage: 'Favorite' }),
-            onPress: () => _handleToggleFavorite(channel),
-          },
-          {
-            text: channel.is_muted
-              ? intl.formatMessage({ id: 'chats.unmute', defaultMessage: 'Unmute' })
-              : intl.formatMessage({ id: 'chats.mute', defaultMessage: 'Mute' }),
-            onPress: () => _handleToggleMute(channel),
-          },
-          {
-            text: intl.formatMessage({ id: 'chats.leave', defaultMessage: 'Leave channel' }),
-            style: 'destructive',
-            onPress: () => _handleLeaveChannel(channel),
-          },
-          {
-            text: intl.formatMessage({ id: 'alert.cancel', defaultMessage: 'Cancel' }),
-            style: 'cancel',
-          },
-        ],
-        { cancelable: true },
-      );
+      SheetManager.show(SheetNames.ACTION_MODAL, {
+        payload: {
+          title: name + ' - ' + intl.formatMessage({ id: 'chats.channel_options', defaultMessage: 'Channel options' }),
+          buttons: [
+            {
+              text: channel.is_favorite
+                ? intl.formatMessage({ id: 'chats.unfavorite', defaultMessage: 'Remove favorite' })
+                : intl.formatMessage({ id: 'chats.favorite', defaultMessage: 'Favorite' }),
+              onPress: () => _handleToggleFavorite(channel),
+            },
+            {
+              text: channel.is_muted
+                ? intl.formatMessage({ id: 'chats.unmute', defaultMessage: 'Unmute' })
+                : intl.formatMessage({ id: 'chats.mute', defaultMessage: 'Mute' }),
+              onPress: () => _handleToggleMute(channel),
+            },
+            {
+              text: intl.formatMessage({ id: 'chats.leave', defaultMessage: 'Leave channel' }),
+              style: 'destructive',
+              onPress: () => _handleLeaveChannel(channel),
+            },
+          ],
+        },
+      });
     },
     [_handleLeaveChannel, _handleToggleFavorite, _handleToggleMute, intl],
   );
