@@ -20,6 +20,7 @@ const HeaderContainer = ({
   hideUser,
   showQR,
   showBoost,
+  hideSearch,
 }) => {
   const navigation = useNavigation();
 
@@ -71,6 +72,7 @@ const HeaderContainer = ({
             hideUser={hideUser}
             showQR={showQR}
             showBoost={showBoost}
+            hideSearch={hideSearch}
           />
         );
       }}

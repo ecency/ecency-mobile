@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import ROUTES from '../constants/routeNames';
 import { BottomTabBar } from '../components';
-import { Feed, Notification, Wallet } from '../screens';
+import { Chats, Feed, Notification, Wallet } from '../screens';
 import Waves from '../screens/waves';
 
 const Tab = createBottomTabNavigator();
@@ -15,6 +15,10 @@ export const BottomTabNavigator = () => {
       backBehavior="initialRoute"
       initialRouteName={ROUTES.TABBAR.FEED}
       screenOptions={{
+        tabBarStyle: {
+          overflow: 'visible',
+          position: 'absolute',
+        },
         headerShown: false,
         tabBarShowLabel: false,
         tabBarActiveTintColor: '#357ce6',
@@ -25,7 +29,7 @@ export const BottomTabNavigator = () => {
         name={ROUTES.TABBAR.FEED}
         component={Feed}
         initialParams={{
-          iconName: 'view-day', // read in bottomTabBarView
+          iconName: 'home', // read in bottomTabBarView
         }}
       />
 
@@ -38,10 +42,10 @@ export const BottomTabNavigator = () => {
       />
 
       <Tab.Screen
-        name={ROUTES.TABBAR.POST_BUTTON}
-        component={EmptyScreen}
+        name={ROUTES.TABBAR.CHATS}
+        component={Chats}
         initialParams={{
-          iconName: 'pencil', // read in bottomTabBarView
+          iconName: 'message-text', // read in bottomTabBarView
         }}
       />
 
@@ -63,5 +67,3 @@ export const BottomTabNavigator = () => {
     </Tab.Navigator>
   );
 };
-
-const EmptyScreen = () => null;

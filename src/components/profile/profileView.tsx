@@ -111,6 +111,7 @@ class ProfileView extends PureComponent {
       selectedUser,
       votingPower,
       username,
+      handleMessage,
     } = this.props;
 
     const { isSummaryOpen, collapsibleMoreHeight } = this.state;
@@ -135,6 +136,7 @@ class ProfileView extends PureComponent {
           followerCount={follows ? follows.follower_count : 0}
           followingCount={follows ? follows.following_count : 0}
           handleFollowUnfollowUser={handleFollowUnfollowUser}
+          handleMessage={handleMessage}
           handleMuteUnmuteUser={handleMuteUnmuteUser}
           handleOnFavoritePress={handleOnFavoritePress}
           handleOnFollowsPress={handleOnFollowsPress}

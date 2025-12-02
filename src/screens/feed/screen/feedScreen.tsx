@@ -1,10 +1,12 @@
 import React, { Fragment, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import get from 'lodash/get';
+import { useNavigation } from '@react-navigation/native';
+import { useIntl } from 'react-intl';
 
 // Components
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { Header, TabbedPosts } from '../../../components';
+import { Header, TabbedPosts, FabButton } from '../../../components';
 
 // Styles
 import styles from './feedStyles';
@@ -18,14 +20,22 @@ import {
 import { useAppSelector } from '../../../hooks';
 import CommentsTabContent from '../../../components/profile/children/commentsTabContent';
 import { TabItem } from '../../../components/tabbedPosts/types/tabbedPosts.types';
+import ROUTES from '../../../constants/routeNames';
+import showLoginAlert from '../../../utils/showLoginAlert';
 
 const FeedScreen = () => {
+  const intl = useIntl();
+  const navigation = useNavigation();
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
   const mainTabs = useAppSelector((state) => state.customTabs.mainTabs);
 
   const [lazyLoad, setLazyLoad] = useState(false);
+
+  // Calculate FAB offset to account for bottom tab bar
+  // On Android, add tab bar height (~50px + padding). On iOS, keep it simple as safe areas are handled properly
+  const fabBottomOffset = 16;
 
   const _lazyLoadContent = () => {
     if (!lazyLoad) {
@@ -72,6 +82,15 @@ const FeedScreen = () => {
     [feedFilters, currentAccount],
   );
 
+  const _onCreatePress = () => {
+    if (!isLoggedIn) {
+      showLoginAlert({ intl });
+      return;
+    }
+
+    navigation.navigate(ROUTES.SCREENS.EDITOR, { key: 'editor_post' });
+  };
+
   return (
     <Fragment>
       <Header showQR={true} showBoost={true} />
@@ -88,6 +107,7 @@ const FeedScreen = () => {
           />
         )}
       </View>
+      <FabButton bottomOffset={fabBottomOffset} onPress={_onCreatePress} />
     </Fragment>
   );
 };

@@ -4,51 +4,29 @@ import { View, TouchableOpacity } from 'react-native';
 // Constants
 import { useDispatch } from 'react-redux';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { useIntl } from 'react-intl';
+
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SheetManager } from 'react-native-actions-sheet';
+
 import ROUTES from '../../../constants/routeNames';
 
 // Styles
 import styles from './bottomTabBarStyles';
 import Icon, { IconContainer } from '../../icon';
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
-import { useAppSelector } from '../../../hooks';
-import showLoginAlert from '../../../utils/showLoginAlert';
-import { SheetNames } from '../../../navigation/sheets';
 
 const BottomTabBarView = ({
   state: { routes, index },
   navigation,
   descriptors,
 }: BottomTabBarProps) => {
-  const intl = useIntl();
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
   useEffect(() => {
     dispatch(updateActiveBottomTab(routes[index].name));
   }, [index]);
 
   const _jumpTo = (route, isFocused) => {
-    if (route.name === ROUTES.TABBAR.POST_BUTTON) {
-      if (!isLoggedIn) {
-        showLoginAlert({ intl });
-        return;
-      }
-
-      if (routes[index].name === ROUTES.TABBAR.WAVES) {
-        SheetManager.show(SheetNames.QUICK_POST, {
-          payload: { mode: 'wave' },
-        });
-      } else {
-        navigation.navigate(ROUTES.SCREENS.EDITOR, { key: 'editor_post' });
-      }
-
-      return;
-    }
-
     const event = navigation.emit({
       type: 'tabPress',
       target: route.key,
@@ -79,7 +57,10 @@ const BottomTabBarView = ({
       case ROUTES.TABBAR.NOTIFICATION:
         _tabBarIcon = <IconContainer isBadge badgeType="notification" {..._iconProps} />;
         break;
-      case ROUTES.TABBAR.POST_BUTTON:
+      case ROUTES.TABBAR.CHATS:
+        _iconProps.iconType = 'MaterialCommunityIcons';
+        _tabBarIcon = <IconContainer isBadge badgeType="chat" {..._iconProps} />;
+        break;
       case ROUTES.TABBAR.WAVES:
         _iconProps.iconType = 'MaterialCommunityIcons';
         _tabBarIcon = <Icon {..._iconProps} />;
@@ -95,7 +76,7 @@ const BottomTabBarView = ({
 
   const _bottomPadding = insets.bottom || 16;
 
-  return <View style={{ ...styles.wrapper, paddingBottom: _bottomPadding }}>{_tabButtons}</View>;
+  return <View style={[styles.wrapper, { paddingBottom: _bottomPadding }]}>{_tabButtons}</View>;
 };
 
 export default BottomTabBarView;

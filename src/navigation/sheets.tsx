@@ -7,6 +7,7 @@ import {
   CrossPostModal,
   AccountsBottomSheet,
   QRModal,
+  ChatOptionsSheet,
 } from '../components';
 import { ActionModalPayload } from '../components/actionModal/container/actionModalContainer';
 
@@ -18,6 +19,7 @@ export enum SheetNames {
   CROSS_POST = 'cross_post',
   ACCOUNTS_SHEET = 'accounts_sheet',
   QR_SCAN = 'qr_sheet',
+  CHAT_OPTIONS = 'chat_options',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -27,6 +29,7 @@ registerSheet(SheetNames.QUICK_POST, QuickPostModal);
 registerSheet(SheetNames.CROSS_POST, CrossPostModal);
 registerSheet(SheetNames.ACCOUNTS_SHEET, AccountsBottomSheet);
 registerSheet(SheetNames.QR_SCAN, QRModal);
+registerSheet(SheetNames.CHAT_OPTIONS, ChatOptionsSheet);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -58,6 +61,19 @@ declare module 'react-native-actions-sheet' {
     }>;
     [SheetNames.ACCOUNTS_SHEET]: SheetDefinition;
     [SheetNames.QR_SCAN]: SheetDefinition;
+    [SheetNames.CHAT_OPTIONS]: SheetDefinition<{
+      payload: {
+        post: any;
+        channelId: string;
+        onReply?: () => void;
+        onReaction?: (emojiName: string) => void;
+        onEdit?: () => void;
+        onRemove?: () => void;
+        currentUserId?: string;
+        isOwnMessage?: boolean;
+        canModerate?: boolean;
+      };
+    }>;
   }
 }
 

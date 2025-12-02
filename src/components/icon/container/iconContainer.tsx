@@ -11,8 +11,13 @@ class IconContainer extends PureComponent {
   }
 
   render() {
-    const { badgeType, unreadActivityCount } = this.props;
-    const badgeCount = badgeType === 'notification' ? unreadActivityCount : 0;
+    const { badgeType, unreadActivityCount, unreadChatCount } = this.props;
+    const badgeCount =
+      badgeType === 'notification'
+        ? unreadActivityCount
+        : badgeType === 'chat'
+        ? unreadChatCount
+        : 0;
 
     return <Icon badgeCount={badgeCount} {...this.props} />;
   }
@@ -20,6 +25,7 @@ class IconContainer extends PureComponent {
 
 const mapStateToProps = (state) => ({
   unreadActivityCount: state.account.currentAccount.unread_activity_count || 0,
+  unreadChatCount: state.ui.unreadChatCount || 0,
 });
 
 export default connect(mapStateToProps)(IconContainer);

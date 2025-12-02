@@ -8,7 +8,7 @@ import { UploadsGalleryModal } from './uploadsGalleryModal/container/uploadsGall
 import { PollsWizardContent, PollWizardModal } from './pollsWizardModal';
 import { BottomTabBar } from './bottomTabBar';
 import { CheckBox } from './checkbox';
-import { CircularButton, TextButton, SquareButton } from './buttons';
+import { CircularButton, TextButton, SquareButton, FabButton } from './buttons';
 import { CollapsibleCard } from './collapsibleCard';
 import { ContainerHeader } from './containerHeader';
 import { DateTimePicker } from './dateTimePicker';
@@ -114,6 +114,7 @@ import { ImageViewer } from './imageViewer';
 import { WalkthroughMarker } from './walkthroughMarker';
 import { LinkPreview } from './linkPreview';
 import { CrossPostModal } from './crossPostModal';
+import { ChatOptionsSheet } from './chatOptionsSheet';
 
 // Basic UI Elements
 import {
@@ -220,6 +221,7 @@ export {
   SpinGame,
   SpinIndicator,
   SquareButton,
+  FabButton,
   StickyBar,
   StatsPanel,
   SummaryArea,
@@ -281,4 +283,5 @@ export {
   LinkPreview,
   CrossPostModal,
   CopyModal,
+  ChatOptionsSheet,
 };

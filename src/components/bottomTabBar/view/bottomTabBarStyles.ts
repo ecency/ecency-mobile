@@ -11,6 +11,9 @@ export default EStyleSheet.create({
     borderTopWidth: 0.1,
     shadowOpacity: 0.2,
     elevation: 15,
+    position: 'relative',
+    overflow: 'visible',
+    zIndex: 10,
   },
   subContent: {
     flexDirection: 'row',

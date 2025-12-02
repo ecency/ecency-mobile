@@ -8,6 +8,7 @@ import {
   LOGOUT,
   LOGOUT_DONE,
   HIVE_URI_TO_HANDLE,
+  UPDATE_UNREAD_CHAT_COUNT,
 } from '../constants/constants';
 
 export const updateActiveBottomTab = (payload: string) => ({
@@ -51,4 +52,9 @@ export const logoutDone = () => ({
 export const handleDeepLink = (hiveUri: string) => ({
   payload: hiveUri,
   type: HIVE_URI_TO_HANDLE,
+});
+
+export const updateUnreadChatCount = (payload: number) => ({
+  payload,
+  type: UPDATE_UNREAD_CHAT_COUNT,
 });

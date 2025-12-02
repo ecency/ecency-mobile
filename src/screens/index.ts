@@ -8,6 +8,7 @@ import { Login } from './login';
 import { Notification } from './notification';
 import PinCode from './pinCode';
 import { Post } from './post';
+import { Chats, ChatThread } from './chats';
 import { SearchResult } from './searchResult';
 import { Settings } from './settings';
 import { SpinGame } from './spinGame/screen/spinGameScreen';
@@ -63,6 +64,8 @@ export {
   TradeScreen,
   Voters,
   Wallet,
+  Chats,
+  ChatThread,
   TagResult,
   Community,
   Communities,
