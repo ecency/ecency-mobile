@@ -288,6 +288,42 @@
   "messages": {
     "comingsoon": "অতি সোনকালে মেচেজৰ সুবিধা আৰম্ভ কৰা হʼব!"
   },
+  "chats": {
+    "title": "Chats",
+    "subtitle": "Message your communities and friends.",
+    "login_required": "Sign in to start chatting with your communities.",
+    "connecting": "Preparing your chat session…",
+    "connected": "Connected",
+    "refresh": "Refresh channels",
+    "empty": "No chats yet. Join a community to see its channels here.",
+    "thread_empty": "No messages yet. Say hello to get the conversation started.",
+    "anonymous": "Unknown user",
+    "message_placeholder": "Message",
+    "new_messages": "New messages",
+    "search_placeholder": "Search channels or users",
+    "search_channels": "Channels",
+    "search_users": "Users",
+    "join": "Join",
+    "channel": "Channel",
+    "channel_options": "Channel options",
+    "unfavorite": "Remove favorite",
+    "favorite": "Favorite",
+    "unmute": "Unmute",
+    "mute": "Mute",
+    "leave": "Leave channel",
+    "unable_to_join_channel": "Unable to join channel. Please try again.",
+    "unable_to_leave_channel": "Unable to leave channel. Please try again.",
+    "edit_message": "EDIT MESSAGE",
+    "remove": "DELETE MESSAGE",
+    "message_actions": "Message options",
+    "remove_message": "Remove message?",
+    "remove_message_body": "This will delete the message for everyone in the channel.",
+    "editing_message": "Editing message",
+    "unable_to_start_dm": "Unable to start chat. Please try again.",
+    "send": "Send",
+    "back": "Back to chats",
+    "banned_from_chat": "Unusual activity detected. Please try again after some time."
+  },
   "profile": {
     "following": "ফʼলʼ কৰিছে",
     "follower": "অনুসৰণকাৰী",
@@ -325,7 +361,8 @@
       "edit_profile": "Edit Profile",
       "cover_img": "Cover Image",
       "profile_img": "Profile Image"
-    }
+    },
+    "message": "Message"
   },
   "settings": {
     "settings": "চেটিংচ্",
