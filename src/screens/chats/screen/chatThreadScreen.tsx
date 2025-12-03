@@ -960,7 +960,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
   const _renderItem = ({ item, index }: { item: ChatPost; index: number }) => {
     const isSystemAddMessage =
-      item?.type === 'system_add_to_channel' || item?.type === 'system_add_to_team';
+      item?.type === 'system_add_to_channel' || item?.type === 'system_add_to_team' || item?.type === 'system_join_team';
     const authorId = item.user_id || item.user?.id;
     const mappedUser = (authorId && userLookup[authorId]) || item.user;
     const hiveUsername = mappedUser?.hiveUsername || getHiveUsernameFromMattermostUser(mappedUser);
