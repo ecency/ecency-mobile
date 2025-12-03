@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Hyperlink from 'react-native-hyperlink';
+import LinkifyIt from 'linkify-it';
 import { useIntl } from 'react-intl';
 import moment from 'moment';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -135,14 +136,6 @@ const normalizeUserLookup = (lookup: Record<string, any> = {}) => {
 const normalizeUsersFromMap = (usersMap?: Record<string, any>) =>
   usersMap ? Object.values(usersMap) : [];
 
-const extractImageUrl = (text?: string) => {
-  if (!text) {
-    return [] as string[];
-  }
-
-  const matches = text.match(/https?:\/\/images\.ecency\.com\S+/gi);
-  return matches || [];
-};
 
 const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) => {
   const intl = useIntl();
@@ -187,6 +180,12 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     userLookupRef.current = normalized;
     return normalized;
   });
+
+  const linkifyInstance = useMemo(() => {
+    const linkify = new LinkifyIt();
+    linkify.set({ fuzzyLink: false });
+    return linkify;
+  }, []);
 
   const _mergeUserLookup = useCallback(
     (mergeFn: (prev: Record<string, any>) => Record<string, any>) => {
@@ -1120,7 +1119,6 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     };
 
     const _setLinkText = (url: string) => {
-
       // Check for exact format: "https://ecency.com/@username" or "https://ecency.com/@username/"
       // Do NOT match if there are additional path components after the username
       const ecencyUserPattern = /^https:\/\/ecency\.com\/@([a-zA-Z0-9\-.]+)\/?$/;
@@ -1129,8 +1127,6 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         const username = match[1];
         return `@${username}`;
       }
-
-
       return url;
     };
 
@@ -1193,6 +1189,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
                 linkStyle={[styles.hyperlink, isOwnMessage ? styles.hyperlinkOwn : styles.hyperlinkOther]}
                 linkText={(url: string) => _setLinkText(url)}
                 onPress={(url: string) => handleLink(url)}
+                linkify={linkifyInstance}
               >
                 <Text style={[styles.body, isOwnMessage ? styles.bodyOwn : styles.bodyOther]}>
                   {messageText}
