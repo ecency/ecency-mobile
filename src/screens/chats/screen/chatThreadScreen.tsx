@@ -5,7 +5,6 @@ import {
   FlatList,
   Image,
   Keyboard,
-  KeyboardAvoidingView,
   Platform,
   RefreshControl,
   Text,
@@ -15,6 +14,7 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Hyperlink from 'react-native-hyperlink';
+import LinkifyIt from 'linkify-it';
 import { useIntl } from 'react-intl';
 import moment from 'moment';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -47,7 +47,6 @@ import { chatThreadStyles as styles } from '../styles';
 import { emojifyMessage } from '../../../utils/emoji';
 import { SheetNames } from '../../../navigation/sheets';
 import { extractImageUrls } from '../../../utils/editor';
-import { deepLinkParser } from 'utils/deepLinkParser';
 
 interface ChatThreadParams {
   channelId: string;
@@ -135,15 +134,6 @@ const normalizeUserLookup = (lookup: Record<string, any> = {}) => {
 const normalizeUsersFromMap = (usersMap?: Record<string, any>) =>
   usersMap ? Object.values(usersMap) : [];
 
-const extractImageUrl = (text?: string) => {
-  if (!text) {
-    return [] as string[];
-  }
-
-  const matches = text.match(/https?:\/\/images\.ecency\.com\S+/gi);
-  return matches || [];
-};
-
 const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) => {
   const intl = useIntl();
   const insets = useSafeAreaInsets();
@@ -187,6 +177,12 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     userLookupRef.current = normalized;
     return normalized;
   });
+
+  const linkifyInstance = useMemo(() => {
+    const linkify = new LinkifyIt();
+    linkify.set({ fuzzyLink: false });
+    return linkify;
+  }, []);
 
   const _mergeUserLookup = useCallback(
     (mergeFn: (prev: Record<string, any>) => Record<string, any>) => {
@@ -402,14 +398,17 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
       // Only replace @[username] with https://ecency.com/@[username] if there are no existing profile links
       if (!hasExistingProfileLinks) {
-        textNoImages = textNoImages.split(' ').map(word => {
-          // If word starts with http:// or https://, leave it unchanged
-          if (word.match(/^https?:\/\//)) {
-            return word;
-          }
-          // Otherwise, replace @mentions with ecency.com URLs
-          return word.replace(/^@([a-zA-Z0-9\-.]+)/, 'https://ecency.com/@$1');
-        }).join(' ');
+        textNoImages = textNoImages
+          .split(' ')
+          .map((word) => {
+            // If word starts with http:// or https://, leave it unchanged
+            if (word.match(/^https?:\/\//)) {
+              return word;
+            }
+            // Otherwise, replace @mentions with ecency.com URLs
+            return word.replace(/^@([a-zA-Z0-9\-.]+)/, 'https://ecency.com/@$1');
+          })
+          .join(' ');
       }
     }
 
@@ -493,10 +492,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           data?.membership ||
           (Array.isArray(data?.members)
             ? data.members.find(
-              (member: any) =>
-                member?.user_id === bootstrapResult?.userId ||
-                member?.id === bootstrapResult?.userId,
-            )
+                (member: any) =>
+                  member?.user_id === bootstrapResult?.userId ||
+                  member?.id === bootstrapResult?.userId,
+              )
             : null);
 
         if (membershipRecord?.last_viewed_at || membershipRecord?.last_view_at) {
@@ -632,7 +631,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       setKeyboardHeight(
         e.endCoordinates.height + Platform.select({ android: insets.bottom, default: 0 }),
       );
-      
+
       // Scroll to bottom when keyboard appears
       if (posts.length > 0 && listRef.current) {
         setTimeout(() => {
@@ -960,7 +959,9 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
   const _renderItem = ({ item, index }: { item: ChatPost; index: number }) => {
     const isSystemAddMessage =
-      item?.type === 'system_add_to_channel' || item?.type === 'system_add_to_team';
+      item?.type === 'system_add_to_channel' ||
+      item?.type === 'system_add_to_team' ||
+      item?.type === 'system_join_team';
     const authorId = item.user_id || item.user?.id;
     const mappedUser = (authorId && userLookup[authorId]) || item.user;
     const hiveUsername = mappedUser?.hiveUsername || getHiveUsernameFromMattermostUser(mappedUser);
@@ -997,14 +998,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           },
           onEdit: isOwn
             ? () => {
-              _handleStartEdit(post);
-            }
+                _handleStartEdit(post);
+              }
             : undefined,
           onRemove:
             isOwn || canModerate
               ? () => {
-                _confirmDelete(item);
-              }
+                  _confirmDelete(item);
+                }
               : undefined,
         },
       });
@@ -1031,14 +1032,12 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           (r: ChatReaction) => r.emoji_name === emojiName && r.user_id === currentUserId,
         );
 
-        let response: any;
-
         if (hasUserReaction) {
           // Remove reaction
-          response = await removeMattermostReaction(channelId, post.id, emojiName);
+          await removeMattermostReaction(channelId, post.id, emojiName);
         } else {
           // Add reaction
-          response = await addMattermostReaction(channelId, post.id, emojiName);
+          await addMattermostReaction(channelId, post.id, emojiName);
         }
 
         // Response format: { post_id, emoji_name, user_id, channel_id }
@@ -1055,8 +1054,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             if (hasUserReaction) {
               // Remove reaction: filter out the reaction matching emoji_name and user_id
               updatedReactions = existingReactions.filter(
-                (r: ChatReaction) =>
-                  !(r.emoji_name === emojiName && r.user_id === currentUserId),
+                (r: ChatReaction) => !(r.emoji_name === emojiName && r.user_id === currentUserId),
               );
             } else {
               // Add reaction: add new reaction object
@@ -1120,7 +1118,6 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     };
 
     const _setLinkText = (url: string) => {
-
       // Check for exact format: "https://ecency.com/@username" or "https://ecency.com/@username/"
       // Do NOT match if there are additional path components after the username
       const ecencyUserPattern = /^https:\/\/ecency\.com\/@([a-zA-Z0-9\-.]+)\/?$/;
@@ -1129,8 +1126,6 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         const username = match[1];
         return `@${username}`;
       }
-
-
       return url;
     };
 
@@ -1190,9 +1185,13 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             {!isOwnMessage && <Text style={styles.author}>{author}</Text>}
             {!!messageText && (
               <Hyperlink
-                linkStyle={[styles.hyperlink, isOwnMessage ? styles.hyperlinkOwn : styles.hyperlinkOther]}
+                linkStyle={[
+                  styles.hyperlink,
+                  isOwnMessage ? styles.hyperlinkOwn : styles.hyperlinkOther,
+                ]}
                 linkText={(url: string) => _setLinkText(url)}
                 onPress={(url: string) => handleLink(url)}
+                linkify={linkifyInstance}
               >
                 <Text style={[styles.body, isOwnMessage ? styles.bodyOwn : styles.bodyOther]}>
                   {messageText}
@@ -1390,7 +1389,6 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-
       <BasicHeader title={headerTitle} />
 
       <View style={{ flex: 1 }}>

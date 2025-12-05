@@ -357,7 +357,10 @@ const ChatsScreen = () => {
       const name = channel.display_name || channel.name;
       SheetManager.show(SheetNames.ACTION_MODAL, {
         payload: {
-          title: name + ' - ' + intl.formatMessage({ id: 'chats.channel_options', defaultMessage: 'Channel options' }),
+          title: `${name} - ${intl.formatMessage({
+            id: 'chats.channel_options',
+            defaultMessage: 'Channel options',
+          })}`,
           buttons: [
             {
               text: channel.is_favorite
@@ -938,17 +941,17 @@ const ChatsScreen = () => {
     const unread: any[] = [];
     const regular: any[] = [];
     const muted: any[] = [];
-  
+
     channels.forEach((channel) => {
       const unreadMeta = _getUnreadMeta(channel);
-      const enriched = { 
-        ...channel, 
+      const enriched = {
+        ...channel,
         unreadMeta,
         // Order by the logged-in user's most recent interaction (last viewed),
         // falling back to latest post time if we have never opened the channel.
-        lastInteraction: channel.last_viewed_at ?? channel.last_post_at ?? 0
+        lastInteraction: channel.last_viewed_at ?? channel.last_post_at ?? 0,
       };
-  
+
       if (channel?.is_muted) {
         muted.push(enriched);
       } else if (channel?.is_favorite) {
@@ -959,39 +962,39 @@ const ChatsScreen = () => {
         regular.push(enriched);
       }
     });
-  
+
     const sortByRecencyThenUnreadThenName = (list: any[]) =>
       list.sort((a, b) => {
         // First, sort by recency (most recent first)
         if (a.lastInteraction !== b.lastInteraction) {
           return b.lastInteraction - a.lastInteraction;
         }
-  
+
         // Then by unread count (highest first)
         const unreadDiff = (b.unreadMeta?.totalUnread || 0) - (a.unreadMeta?.totalUnread || 0);
         if (unreadDiff !== 0) {
           return unreadDiff;
         }
-  
+
         // Finally by name (alphabetical)
         const nameA = (a.display_name || a.name || '').toLowerCase();
         const nameB = (b.display_name || b.name || '').toLowerCase();
         return nameA.localeCompare(nameB);
       });
-  
+
     const sortByRecencyThenName = (list: any[]) =>
       list.sort((a, b) => {
         // First, sort by recency (most recent first)
         if (a.lastInteraction !== b.lastInteraction) {
           return b.lastInteraction - a.lastInteraction;
         }
-  
+
         // Then by name (alphabetical)
         const nameA = (a.display_name || a.name || '').toLowerCase();
         const nameB = (b.display_name || b.name || '').toLowerCase();
         return nameA.localeCompare(nameB);
       });
-  
+
     return [
       ...sortByRecencyThenUnreadThenName(favorites),
       ...sortByRecencyThenUnreadThenName(unread),

@@ -130,6 +130,7 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
   );
 
   const _renderOptionItem = useCallback(
+    // eslint-disable-next-line react/no-unused-prop-types
     ({ item }: { item: { key: string; label: string; destructive?: boolean } }) => {
       const _onPress = () => {
         switch (item.key) {
