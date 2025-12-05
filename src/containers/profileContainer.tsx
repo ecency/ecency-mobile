@@ -17,7 +17,7 @@ import {
   getRelationship,
   getAccountPosts,
 } from '../providers/hive/dhive';
-import { searchMattermostUsers, startMattermostDirectMessage } from '../providers/chat/mattermost';
+import { startMattermostDirectMessage } from '../providers/chat/mattermost';
 
 // Ecency providers
 import { checkFavorite, addFavorite, deleteFavorite, addReport } from '../providers/ecency/ecency';
@@ -205,7 +205,7 @@ class ProfileContainer extends Component {
 
   _handleMessage = async () => {
     const { username } = this.state;
-    const { currentAccount, pinCode, dispatch, intl } = this.props;
+    const { currentAccount, dispatch, intl } = this.props;
 
     try {
       // Ensure user is logged in and has access to chat
@@ -217,13 +217,12 @@ class ProfileContainer extends Component {
       // Start DM with the user
       const dmChannel = await startMattermostDirectMessage(username);
 
-
       if (!dmChannel.channelId) {
         throw new Error('User has not joined chats');
       }
 
       // Navigate to the chat thread
-      const navigation = this.props.navigation;
+      const { navigation } = this.props;
       navigation.navigate(ROUTES.SCREENS.CHAT_THREAD, {
         channelId: dmChannel.channelId,
         channelName: username,
@@ -233,8 +232,8 @@ class ProfileContainer extends Component {
       console.error('Failed to start DM:', error);
       dispatch(
         toastNotification(
-          intl.formatMessage({ id: 'chats.dm_error', defaultMessage: 'User has not joined chats' })
-        )
+          intl.formatMessage({ id: 'chats.dm_error', defaultMessage: 'User has not joined chats' }),
+        ),
       );
     }
   };

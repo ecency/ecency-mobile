@@ -257,13 +257,14 @@ class ProfileSummaryView extends PureComponent {
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={{...styles.followActionWrapper, marginLeft: 8}}
+                style={{ ...styles.followActionWrapper, marginLeft: 8 }}
                 onPress={handleMessage}
                 disabled={isProfileLoading}
               >
-                <Text style={styles.actionText}>{intl.formatMessage({ id: 'profile.message' })}</Text>
+                <Text style={styles.actionText}>
+                  {intl.formatMessage({ id: 'profile.message' })}
+                </Text>
               </TouchableOpacity>
-
 
               {isProfileLoading ? (
                 <ActivityIndicator

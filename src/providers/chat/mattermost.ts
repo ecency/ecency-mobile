@@ -232,19 +232,16 @@ export const startMattermostDirectMessage = async (
         nickname: string;
         username: string;
       },
-    
 ) => {
+  const payload: { userId?: string; username?: string } = {};
 
-  let payload: { userId?: string; username?: string } = {};
-
-  if(!user){
+  if (!user) {
     throw new Error('Mattermost user object or username is required');
   }
 
-  if(typeof user === 'string'){
+  if (typeof user === 'string') {
     payload.username = user;
   } else {
-
     const userId = user.id;
     const username = user.username || user.nickname || user.first_name || user.last_name || user.id;
 
@@ -255,7 +252,6 @@ export const startMattermostDirectMessage = async (
     payload.userId = userId;
     payload.username = username;
   }
-
 
   const { data } = await chatApi.post('/api/mattermost/direct', payload);
   return data.channel || data;
@@ -284,9 +280,12 @@ export const addMattermostReaction = async (
   postId: string,
   emojiName: string,
 ) => {
-  const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/posts/${postId}/reactions`, {
-    emoji: emojiName,
-  });
+  const { data } = await chatApi.post(
+    `/api/mattermost/channels/${channelId}/posts/${postId}/reactions`,
+    {
+      emoji: emojiName,
+    },
+  );
   return data.post || data;
 };
 

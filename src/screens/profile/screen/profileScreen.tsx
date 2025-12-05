@@ -59,10 +59,10 @@ const ProfileScreen = ({ route }) => (
         follows={follows}
         forceLoadPost={forceLoadPost}
         getReplies={getReplies}
-          handleFollowUnfollowUser={handleFollowUnfollowUser}
-          handleMessage={handleMessage}
-          handleMuteUnmuteUser={handleMuteUnmuteUser}
-          handleOnBackPress={handleOnBackPress}
+        handleFollowUnfollowUser={handleFollowUnfollowUser}
+        handleMessage={handleMessage}
+        handleMuteUnmuteUser={handleMuteUnmuteUser}
+        handleOnBackPress={handleOnBackPress}
         handleOnFavoritePress={handleOnFavoritePress}
         handleOnFollowsPress={handleOnFollowsPress}
         handleOnPressProfileEdit={handleOnPressProfileEdit}
