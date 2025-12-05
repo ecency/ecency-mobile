@@ -472,6 +472,10 @@ export const chatThreadStyles = EStyleSheet.create({
     lineHeight: 20,
     fontStyle: 'italic',
   },
+  systemUsername: {
+    color: '$primaryBlue',
+    fontWeight: '600',
+  },
   timestamp: {
     marginTop: 4,
     fontSize: 11,

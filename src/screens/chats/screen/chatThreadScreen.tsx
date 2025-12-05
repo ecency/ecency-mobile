@@ -166,6 +166,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const [rootPost, setRootPost] = useState<ChatPost | null>(null);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const unreadScrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const userLookupRef = useRef<Record<string, any>>({});
   const listRef = useRef<FlatList<ChatPost>>(null);
@@ -334,8 +335,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     return Array.from(ids);
   }, []);
 
-  const _formatJoinedMessage = useCallback(
-    (post: ChatPost, timestamp?: number) => {
+  const _getAddedUserInfo = useCallback(
+    (post: ChatPost) => {
       const addedUserId =
         (post?.props as any)?.addedUserId ||
         (post?.props as any)?.userId ||
@@ -348,20 +349,38 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           (userLookup[addedUserId]?.hiveUsername ||
             getHiveUsernameFromMattermostUser(userLookup[addedUserId])));
 
-      if (addedUsername) {
-        const normalized = addedUsername.startsWith('@') ? addedUsername : `@${addedUsername}`;
+      const normalizedUsername = addedUsername
+        ? addedUsername.startsWith('@')
+          ? addedUsername
+          : `@${addedUsername}`
+        : null;
+
+      return {
+        addedUserId,
+        addedUsername,
+        normalizedUsername,
+      };
+    },
+    [userLookup],
+  );
+
+  const _formatJoinedMessage = useCallback(
+    (post: ChatPost, timestamp?: number) => {
+      const { normalizedUsername } = _getAddedUserInfo(post);
+
+      if (normalizedUsername) {
         if (timestamp) {
           // Use moment's humanize() to get full format like "2 days ago"
           const duration = moment.duration(moment().diff(moment(timestamp)));
           const timeAgo = duration.humanize();
-          return `${normalized} joined ${timeAgo} ago`;
+          return `${normalizedUsername} joined ${timeAgo} ago`;
         }
-        return `${normalized} joined`;
+        return `${normalizedUsername} joined`;
       }
 
       return post.message || post.props?.message || post.text || '';
     },
-    [userLookup],
+    [_getAddedUserInfo],
   );
 
   const _formatPostBody = useCallback(
@@ -419,6 +438,19 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       text: emojifiedText,
       images: imageLinks,
     };
+  }, []);
+
+  const _showUserProfile = useCallback((username?: string | null) => {
+    const cleanedUsername = (username || '').replace(/^@/, '');
+    if (!cleanedUsername) {
+      return;
+    }
+
+    SheetManager.show(SheetNames.QUICK_PROFILE, {
+      payload: {
+        username: cleanedUsername,
+      },
+    });
   }, []);
 
   const _resolveUserProfiles = useCallback(
@@ -547,26 +579,6 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   }, [channelId, lastViewedAt]);
 
   useEffect(() => {
-    if (firstUnreadIndex === null || hasScrolledToUnread) {
-      return;
-    }
-
-    if (firstUnreadIndex >= 0) {
-      try {
-        listRef.current?.scrollToIndex({
-          index: firstUnreadIndex,
-          animated: true,
-          viewPosition: 0.5,
-        });
-      } catch (err) {
-        // ignore scroll failures; list will remain at the top
-      }
-    }
-
-    setHasScrolledToUnread(true);
-  }, [firstUnreadIndex, hasScrolledToUnread]);
-
-  useEffect(() => {
     if (!posts.length) {
       setFirstUnreadIndex(null);
       return;
@@ -579,6 +591,44 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
     setFirstUnreadIndex(nextIndex >= 0 ? nextIndex : null);
   }, [lastViewedAt, posts]);
+
+  const _clearUnreadScrollTimeout = useCallback(() => {
+    if (unreadScrollTimeoutRef.current) {
+      clearTimeout(unreadScrollTimeoutRef.current);
+      unreadScrollTimeoutRef.current = null;
+    }
+  }, []);
+
+  const _scrollToUnread = useCallback(() => {
+    if (firstUnreadIndex === null || hasScrolledToUnread || !posts.length) {
+      return;
+    }
+
+    const targetIndex = Math.min(Math.max(firstUnreadIndex, 0), posts.length - 1);
+
+    try {
+      listRef.current?.scrollToIndex({
+        index: targetIndex,
+        animated: true,
+        viewPosition: 0.5,
+      });
+      setHasScrolledToUnread(true);
+      _clearUnreadScrollTimeout();
+    } catch (err) {
+      _clearUnreadScrollTimeout();
+      unreadScrollTimeoutRef.current = setTimeout(() => {
+        _scrollToUnread();
+      }, 250);
+    }
+  }, [_clearUnreadScrollTimeout, firstUnreadIndex, hasScrolledToUnread, posts.length]);
+
+  useEffect(() => {
+    _scrollToUnread();
+
+    return () => {
+      _clearUnreadScrollTimeout();
+    };
+  }, [_scrollToUnread, _clearUnreadScrollTimeout]);
 
   const latestPostTimestamp = useMemo(
     () =>
@@ -1132,6 +1182,24 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     if (isSystemAddMessage) {
       const formattedBody = _formatPostBody(item, timestamp);
       const systemContent = _parseMessageContent(formattedBody, false);
+      const addedUserInfo = _getAddedUserInfo(item);
+      const durationSinceJoin = timestamp
+        ? moment.duration(moment().diff(moment(timestamp))).humanize()
+        : null;
+      const joinedSuffix = durationSinceJoin ? `joined ${durationSinceJoin} ago` : 'joined';
+      const joinedContent = addedUserInfo.normalizedUsername ? (
+        <Text style={styles.systemBody}>
+          <Text
+            style={[styles.systemBody, styles.systemUsername]}
+            onPress={() => _showUserProfile(addedUserInfo.normalizedUsername)}
+          >
+            {addedUserInfo.normalizedUsername}
+          </Text>{' '}
+          {joinedSuffix}
+        </Text>
+      ) : (
+        !!systemContent.text && <Text style={styles.systemBody}>{systemContent.text}</Text>
+      );
 
       return (
         <View>
@@ -1145,9 +1213,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             </View>
           )}
           <View style={styles.systemMessageContainer}>
-            <View style={styles.systemMessagePill}>
-              {!!systemContent.text && <Text style={styles.systemBody}>{systemContent.text}</Text>}
-            </View>
+            <View style={styles.systemMessagePill}>{joinedContent}</View>
           </View>
         </View>
       );
@@ -1405,6 +1471,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           }
           contentContainerStyle={listContentStyle}
           keyboardShouldPersistTaps="handled"
+          onContentSizeChange={_scrollToUnread}
           onScrollToIndexFailed={({ index }) =>
             setTimeout(
               () => listRef.current?.scrollToIndex({ index, animated: true, viewPosition: 0.5 }),
