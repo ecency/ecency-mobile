@@ -1,0 +1,58 @@
+diff --git a/node_modules/@ecency/render-helper/src/methods/a.method.ts b/node_modules/@ecency/render-helper/src/methods/a.method.ts
+index c80e09c..af4474a 100644
+--- a/node_modules/@ecency/render-helper/src/methods/a.method.ts
++++ b/node_modules/@ecency/render-helper/src/methods/a.method.ts
+@@ -147,6 +147,13 @@ export function a(el: HTMLElement | null, forApp: boolean, webp: boolean): void
+       el.setAttribute('href', h)
+       el.setAttribute('data-is-inline', '' + isInline)
+     }
++    
++    // Add <br/> before non-inline markdown-post-link to ensure it renders on a new line
++    if (!isInline && el.parentNode) {
++      const br = el.ownerDocument.createElement('br')
++      el.parentNode.insertBefore(br, el)
++    }
++    
+     return
+   }
+ 
+@@ -236,6 +243,12 @@ export function a(el: HTMLElement | null, forApp: boolean, webp: boolean): void
+         el.setAttribute('data-is-inline', '' + isInline)
+       }
+ 
++      // Add <br/> before non-inline markdown-post-link to ensure it renders on a new line
++      if (!isInline && el.parentNode) {
++        const br = el.ownerDocument.createElement('br')
++        el.parentNode.insertBefore(br, el)
++      }
++
+       return
+     }
+   }
+@@ -315,6 +328,12 @@ export function a(el: HTMLElement | null, forApp: boolean, webp: boolean): void
+         el.setAttribute('data-is-inline', '' + isInline)
+       }
+ 
++      // Add <br/> before non-inline markdown-post-link to ensure it renders on a new line
++      if (!isInline && el.parentNode) {
++        const br = el.ownerDocument.createElement('br')
++        el.parentNode.insertBefore(br, el)
++      }
++
+       return
+     }
+   }
+@@ -420,6 +439,13 @@ export function a(el: HTMLElement | null, forApp: boolean, webp: boolean): void
+       el.setAttribute('href', h)
+       el.setAttribute('data-is-inline', '' + isInline)
+     }
++    
++    // Add <br/> before non-inline markdown-post-link to ensure it renders on a new line
++    if (!isInline && el.parentNode) {
++      const br = el.ownerDocument.createElement('br')
++      el.parentNode.insertBefore(br, el)
++    }
++    
+     return
+   }
+ 
