@@ -217,29 +217,45 @@ export const fetchMattermostUsersByIds = async (userIds: string[]) => {
   return data.users || data;
 };
 
+/**
+ * Starts a direct message channel with a user irrespective of whether it is a hive username or mattermost user object
+ * @param user - can be hive username or mattermost user object
+ * @returns mattermost direct message channel object
+ */
 export const startMattermostDirectMessage = async (
   user:
     | string
-    | { id?: string; user_id?: string; username?: string; nickname?: string; name?: string },
+    | {
+        id: string;
+        first_name: string;
+        last_name: string;
+        nickname: string;
+        username: string;
+      },
+    
 ) => {
-  const userId = typeof user === 'string' ? user : user?.id || user?.user_id;
-  const username =
-    typeof user === 'string'
-      ? undefined
-      : user?.username || user?.nickname || user?.name || user?.id || user?.user_id;
 
-  if (!userId && !username) {
-    throw new Error('User id or username required');
+  let payload: { userId?: string; username?: string } = {};
+
+  if(!user){
+    throw new Error('Mattermost user object or username is required');
   }
 
-  const payload: { userId?: string; username?: string } = {};
+  if(typeof user === 'string'){
+    payload.username = user;
+  } else {
 
-  if (userId) {
+    const userId = user.id;
+    const username = user.username || user.nickname || user.first_name || user.last_name || user.id;
+
+    if (!userId && !username) {
+      throw new Error('User id or username required');
+    }
+
     payload.userId = userId;
-  }
-  if (username) {
     payload.username = username;
   }
+
 
   const { data } = await chatApi.post('/api/mattermost/direct', payload);
   return data.channel || data;
