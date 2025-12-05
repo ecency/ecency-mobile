@@ -214,27 +214,18 @@ class ProfileContainer extends Component {
         return;
       }
 
-      // INSERT_YOUR_CODE
-
-      // Search Mattermost for the user based on the username and extract the first result if it exists.
-      let mattermostUser = null;
-
-      const results = await searchMattermostUsers(username);
-      if (Array.isArray(results) && results.length > 0) {
-        mattermostUser = results[0];
-      }
-
-      if(!mattermostUser){
-        throw new Error('User not found');
-      }
-
       // Start DM with the user
-      const dmChannel = await startMattermostDirectMessage(mattermostUser);
+      const dmChannel = await startMattermostDirectMessage(username);
+
+
+      if (!dmChannel.channelId) {
+        throw new Error('User has not joined chats');
+      }
 
       // Navigate to the chat thread
       const navigation = this.props.navigation;
       navigation.navigate(ROUTES.SCREENS.CHAT_THREAD, {
-        channelId: dmChannel.id || dmChannel.channelId,
+        channelId: dmChannel.channelId,
         channelName: username,
         bootstrapResult: null, // Will be loaded in chat thread
       });
@@ -242,7 +233,7 @@ class ProfileContainer extends Component {
       console.error('Failed to start DM:', error);
       dispatch(
         toastNotification(
-          intl.formatMessage({ id: 'chats.dm_error', defaultMessage: 'Failed to start direct message' })
+          intl.formatMessage({ id: 'chats.dm_error', defaultMessage: 'User has not joined chats' })
         )
       );
     }
