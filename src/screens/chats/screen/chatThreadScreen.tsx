@@ -589,9 +589,19 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     }
 
     const lastViewed = unreadAnchor || 0;
-    const nextIndex = posts.findIndex(
-      (post) => (post.create_at || post.update_at || 0) > lastViewed,
-    );
+    // Start from first index, track the last unread index
+    // Stop when we encounter a read message
+    let nextIndex = -1;
+    for (let i = 0; i < posts.length; i++) {
+      const postTimestamp = posts[i].create_at || posts[i].update_at || 0;
+      if (postTimestamp > lastViewed) {
+        // This post is unread, update the last unread index
+        nextIndex = i;
+      } else {
+        // This post is already read, stop and use the last unread index we found
+        break;
+      }
+    }
 
     if (nextIndex >= 0) {
       setFirstUnreadIndex(nextIndex);
