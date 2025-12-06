@@ -334,13 +334,20 @@ class ApplicationContainer extends Component {
   };
 
   _getChannelUnreadTotal = (channel: any) => {
-    const unreadMentions = Number.isFinite(channel?.unread_mentions)
-      ? channel.unread_mentions
-      : Number.isFinite(channel?.mention_count)
-      ? channel.mention_count
-      : Number.isFinite(channel?.mentions_count)
-      ? channel.mentions_count
-      : 0;
+    if (channel?.is_muted) {
+      return 0;
+    }
+
+    const unreadMentionValues = [
+      channel?.unread_mentions,
+      channel?.mention_count,
+      channel?.mentions_count,
+      channel?.mention_count_root,
+      channel?.urgent_mention_count,
+      channel?.channel_wide_mention_count,
+    ].filter((value) => Number.isFinite(value)) as number[];
+
+    const unreadMentions = unreadMentionValues.length ? Math.max(0, ...unreadMentionValues) : 0;
 
     const unreadMessages = Number.isFinite(channel?.unread_messages)
       ? channel.unread_messages
