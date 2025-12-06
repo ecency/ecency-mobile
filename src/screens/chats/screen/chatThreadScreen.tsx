@@ -599,7 +599,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     }
 
     if (unreadAnchor !== null) {
-      setFirstUnreadIndex(posts.length - 1);
+      setFirstUnreadIndex(null);
       return;
     }
 
