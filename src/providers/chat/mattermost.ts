@@ -181,11 +181,6 @@ export const updateMattermostMessage = async (
   return data.post || data;
 };
 
-export const fetchMattermostChannelModeration = async (channelId: string) => {
-  const { data } = await chatApi.get(`/api/mattermost/channels/${channelId}/moderation`);
-  return data;
-};
-
 export const fetchMattermostChannelMembers = async (channelId: string) => {
   const { data } = await chatApi.get(`/api/mattermost/channels/${channelId}/members`);
   return data.members || data;

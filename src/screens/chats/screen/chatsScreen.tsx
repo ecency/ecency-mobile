@@ -472,6 +472,7 @@ const ChatsScreen = () => {
         const joined = await joinMattermostChannel(channelId);
         const joinedId = _getChannelId(joined) || channelId;
         const mergedChannel = { ...resolved?.resolvedChannel, ...channel, ...joined };
+        const communityIdentifier = extractHiveCommunityIdentifier(mergedChannel);
 
         setChannels((prev) => {
           const exists = prev.find(
@@ -494,6 +495,7 @@ const ChatsScreen = () => {
             channelId: joinedId,
             channelName: mergedChannel.display_name || mergedChannel.name || channel.name,
             channelDescription: mergedChannel.header || mergedChannel.purpose,
+            communityIdentifier,
             bootstrapResult,
             userLookup,
             lastViewedAt: mergedChannel.last_viewed_at || mergedChannel.last_view_at,
@@ -629,6 +631,7 @@ const ChatsScreen = () => {
           dmChannel,
           user,
         );
+        const communityIdentifier = extractHiveCommunityIdentifier(resolvedChannel);
 
         navigation.navigate(
           ROUTES.SCREENS.CHAT_THREAD as never,
@@ -636,6 +639,7 @@ const ChatsScreen = () => {
             channelId,
             channelName: getHiveUsernameFromMattermostUser(user) || user.username || user.nickname,
             channelDescription: resolvedChannel.header || resolvedChannel.purpose,
+            communityIdentifier,
             bootstrapResult,
             userLookup,
             lastViewedAt: resolvedChannel.last_viewed_at || resolvedChannel.last_view_at,
@@ -689,6 +693,7 @@ const ChatsScreen = () => {
           channelId,
           channelName: displayName,
           channelDescription: description,
+          communityIdentifier,
           bootstrapResult,
           userLookup,
           lastViewedAt:

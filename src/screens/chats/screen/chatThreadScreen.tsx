@@ -33,7 +33,6 @@ import {
   getHiveUsernameFromMattermostUser,
   ensureMattermostUsersHaveHiveNames,
   deleteMattermostMessage,
-  fetchMattermostChannelModeration,
   updateMattermostMessage,
   markMattermostChannelViewed,
   fetchMattermostPost,
@@ -41,7 +40,7 @@ import {
   removeMattermostReaction,
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
-import { signImage } from '../../../providers/hive/dhive';
+import { signImage, getCommunity } from '../../../providers/hive/dhive';
 import { Icon, UserAvatar, IconButton, BasicHeader } from '../../../components';
 import { chatThreadStyles as styles } from '../styles';
 import { emojifyMessage } from '../../../utils/emoji';
@@ -55,6 +54,7 @@ interface ChatThreadParams {
   bootstrapResult?: any;
   userLookup?: Record<string, any>;
   lastViewedAt?: number;
+  communityIdentifier?: string;
 }
 
 interface ChatReaction {
@@ -140,7 +140,13 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const dispatch = useDispatch();
   const { handleLink } = useLinkProcessor();
 
-  const { channelId, channelName, bootstrapResult: initialBootstrap } = route.params;
+  const {
+    channelId,
+    channelName,
+    channelDescription,
+    communityIdentifier: paramCommunityIdentifier,
+    bootstrapResult: initialBootstrap,
+  } = route.params;
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
@@ -194,6 +200,17 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       });
     },
     [],
+  );
+
+  const derivedCommunityIdentifier = useMemo(
+    () =>
+      paramCommunityIdentifier ||
+      extractHiveCommunityIdentifier({
+        name: channelName,
+        display_name: channelName,
+        header: channelDescription,
+      }),
+    [channelDescription, channelName, paramCommunityIdentifier],
   );
 
   const _sortPosts = useCallback(
@@ -313,19 +330,27 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
   useEffect(() => {
     const resolveModeration = async () => {
+      if (!derivedCommunityIdentifier || !currentAccount?.name) {
+        setCanModerate(false);
+        return;
+      }
+
       try {
-        await _ensureBootstrap();
-        const moderation = await fetchMattermostChannelModeration(channelId);
-        if (typeof moderation?.canModerate === 'boolean') {
-          setCanModerate(moderation.canModerate);
-        }
+        const community = await getCommunity(derivedCommunityIdentifier, currentAccount.name);
+        const team = community?.team || [];
+        const isModerator = team.some(
+          (member: any) =>
+            member?.account === currentAccount.name &&
+            ['mod', 'admin', 'owner'].includes(member?.role as string),
+        );
+        setCanModerate(isModerator);
       } catch (err) {
         setCanModerate(false);
       }
     };
 
     resolveModeration();
-  }, [channelId, _ensureBootstrap]);
+  }, [currentAccount?.name, derivedCommunityIdentifier]);
 
   const _collectMissingUserIds = useCallback((list: ChatPost[]): string[] => {
     const ids = new Set<string>();
@@ -814,6 +839,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
       try {
         await _ensureBootstrap();
+        // Mattermost enforces whether the current user can delete the post, so we
+        // use the same endpoint for author and moderator removals.
         await deleteMattermostMessage(channelId, post.id);
         setPosts((prev) => prev.filter((item) => item.id !== post.id));
       } catch (err: any) {
