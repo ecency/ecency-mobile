@@ -592,7 +592,7 @@ export const chatThreadStyles = EStyleSheet.create({
     paddingHorizontal: 12,
     minHeight: 40,
     borderRadius: 8,
-    marginTop: 12,
+    marginTop: 8,
     marginRight: 12,
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
   },
