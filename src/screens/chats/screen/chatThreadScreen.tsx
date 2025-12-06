@@ -155,9 +155,9 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const [error, setError] = useState<string | null>(null);
   const [hasBootstrapped, setHasBootstrapped] = useState<boolean>(!!initialBootstrap);
   const [canModerate, setCanModerate] = useState<boolean>(false);
-  const [lastViewedAt, setLastViewedAt] = useState<number | null>(
-    route.params?.lastViewedAt ?? null,
-  );
+  const initialLastViewedAt = route.params?.lastViewedAt ?? null;
+  const [lastViewedAt, setLastViewedAt] = useState<number | null>(initialLastViewedAt);
+  const [unreadAnchor, setUnreadAnchor] = useState<number | null>(initialLastViewedAt);
   const [firstUnreadIndex, setFirstUnreadIndex] = useState<number | null>(null);
   const [hasScrolledToUnread, setHasScrolledToUnread] = useState<boolean>(false);
   const [editingPostId, setEditingPostId] = useState<string | null>(null);
@@ -216,12 +216,17 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     setHasBootstrapped(true);
   }, [currentAccount, hasBootstrapped, pinCode]);
 
+  const bootstrapUserId =
+    bootstrapResult?.user?.id || bootstrapResult?.user?.userId || bootstrapResult?.userId;
+
   useEffect(() => {
     const bootstrapUser = bootstrapResult?.user;
-    if (bootstrapUser?.userId) {
+    const userId = bootstrapUser?.id || bootstrapUser?.userId;
+
+    if (userId) {
       _mergeUserLookup((prev) => ({
         ...prev,
-        [bootstrapUser.userId]: {
+        [userId]: {
           ...bootstrapUser,
           hiveUsername: getHiveUsernameFromMattermostUser(bootstrapUser),
         },
@@ -238,7 +243,6 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           .map((member: any) => member?.user_id || member?.id)
           .filter(Boolean);
 
-        const bootstrapUserId = bootstrapResult?.userId;
         if (!lastViewedAt && bootstrapUserId) {
           const selfMember = members?.find(
             (member: any) => member?.user_id === bootstrapUserId || member?.id === bootstrapUserId,
@@ -246,6 +250,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
           if (selfMember?.last_viewed_at) {
             setLastViewedAt(selfMember.last_viewed_at);
+            setUnreadAnchor((prev) => (prev === null ? selfMember.last_viewed_at : prev));
           }
         }
 
@@ -525,8 +530,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           (Array.isArray(data?.members)
             ? data.members.find(
                 (member: any) =>
-                  member?.user_id === bootstrapResult?.userId ||
-                  member?.id === bootstrapResult?.userId,
+                  member?.user_id === bootstrapUserId || member?.id === bootstrapUserId,
               )
             : null);
 
@@ -576,7 +580,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
   useEffect(() => {
     setHasScrolledToUnread(false);
-  }, [channelId, lastViewedAt]);
+  }, [channelId, unreadAnchor]);
 
   useEffect(() => {
     if (!posts.length) {
@@ -584,13 +588,13 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       return;
     }
 
-    const lastViewed = lastViewedAt || 0;
+    const lastViewed = unreadAnchor || 0;
     const nextIndex = posts.findIndex(
       (post) => (post.create_at || post.update_at || 0) > lastViewed,
     );
 
     setFirstUnreadIndex(nextIndex >= 0 ? nextIndex : null);
-  }, [lastViewedAt, posts]);
+  }, [posts, unreadAnchor]);
 
   const _clearUnreadScrollTimeout = useCallback(() => {
     if (unreadScrollTimeoutRef.current) {
@@ -978,9 +982,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           {Object.entries(groupedReactions).map(([emojiName, reactionList]) => {
             const emojiDisplay = _getEmojiDisplay(emojiName);
             const count = reactionList.length;
-            const hasCurrentUserReaction = reactionList.some(
-              (r) => r.user_id === bootstrapResult?.userId,
-            );
+            const hasCurrentUserReaction = reactionList.some((r) => r.user_id === bootstrapUserId);
 
             return (
               <View
@@ -1025,7 +1027,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     const timestamp = item.create_at || item.update_at;
     const body = _formatPostBody(item, timestamp);
     const { text: messageText, images: messageImages } = _parseMessageContent(body);
-    const isOwnMessage = authorId && bootstrapResult?.userId === authorId;
+    const isOwnMessage = authorId && bootstrapUserId === authorId;
     const showUnreadMarker = firstUnreadIndex !== null && index === firstUnreadIndex;
 
     const _showActions = () => {
@@ -1037,7 +1039,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         payload: {
           post,
           channelId,
-          currentUserId: bootstrapResult?.userId,
+          currentUserId: bootstrapUserId,
           isOwnMessage: isOwn,
           canModerate,
           onReply: () => {
@@ -1069,7 +1071,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     };
 
     const _handleAddReaction = async (post: ChatPost, emojiName: string) => {
-      const currentUserId = bootstrapResult?.userId;
+      const currentUserId = bootstrapUserId;
       if (!post?.id || !currentUserId) {
         return;
       }
