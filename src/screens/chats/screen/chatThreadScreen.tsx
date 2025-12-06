@@ -201,7 +201,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       [...list].sort((a, b) => {
         const first = a?.create_at || 0;
         const second = b?.create_at || 0;
-        return first - second;
+        return second - first;
       }),
     [],
   );
@@ -695,22 +695,6 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       setKeyboardHeight(
         e.endCoordinates.height + Platform.select({ android: insets.bottom, default: 0 }),
       );
-
-      // Scroll to bottom when keyboard appears
-      if (posts.length > 0 && listRef.current) {
-        setTimeout(() => {
-          try {
-            listRef.current?.scrollToIndex({
-              index: posts.length - 1,
-              animated: true,
-              viewPosition: 0,
-            });
-          } catch (err) {
-            // Fallback to scrollToEnd if scrollToIndex fails
-            listRef.current?.scrollToEnd({ animated: true });
-          }
-        }, 100);
-      }
     });
     const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', (_) => {
       setKeyboardVisible(false);
@@ -780,6 +764,15 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         if (newPost) {
           setPosts((prev) => _sortPosts([...prev, newPost]));
           _resolveUserProfiles(_collectMissingUserIds([newPost]));
+
+          // Scroll to bottom when new message is sent
+          setTimeout(() => {
+            listRef.current?.scrollToIndex({
+              index: 0,
+              animated: true,
+              viewPosition: 0,
+            });
+          }, 100);
         }
       }
       setMessage('');
@@ -1483,6 +1476,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           }
           contentContainerStyle={listContentStyle}
           keyboardShouldPersistTaps="handled"
+          inverted={true}
           onContentSizeChange={_scrollToUnread}
           onScrollToIndexFailed={({ index }) =>
             setTimeout(
