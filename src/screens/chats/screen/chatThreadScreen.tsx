@@ -593,7 +593,17 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       (post) => (post.create_at || post.update_at || 0) > lastViewed,
     );
 
-    setFirstUnreadIndex(nextIndex >= 0 ? nextIndex : null);
+    if (nextIndex >= 0) {
+      setFirstUnreadIndex(nextIndex);
+      return;
+    }
+
+    if (unreadAnchor !== null) {
+      setFirstUnreadIndex(posts.length - 1);
+      return;
+    }
+
+    setFirstUnreadIndex(null);
   }, [posts, unreadAnchor]);
 
   const _clearUnreadScrollTimeout = useCallback(() => {
