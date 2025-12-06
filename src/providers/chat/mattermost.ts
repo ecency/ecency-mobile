@@ -192,7 +192,7 @@ export const fetchMattermostChannelMembers = async (channelId: string) => {
 };
 
 export const sendMattermostMessage = async (channelId: string, message: string, rootId: string) => {
-  const payload = { message, root_id: rootId };
+  const payload = { message, rootId };
   try {
     const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/posts`, payload);
     return data;
