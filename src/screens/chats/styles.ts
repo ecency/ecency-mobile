@@ -617,7 +617,7 @@ export const chatThreadStyles = EStyleSheet.create({
   },
   composerReplyPreview: {
     paddingRight: 12,
-    paddingTop: 12,
+    paddingTop: 8,
     minHeight: 40,
     borderRadius: 8,
   },
