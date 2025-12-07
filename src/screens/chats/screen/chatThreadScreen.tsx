@@ -193,6 +193,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     return linkify;
   }, []);
 
+  const _safeExtractCommunityIdentifier = useCallback((channel: any) => {
+    try {
+      return extractHiveCommunityIdentifier(channel);
+    } catch (err) {
+      return undefined;
+    }
+  }, []);
+
   const _mergeUserLookup = useCallback(
     (mergeFn: (prev: Record<string, any>) => Record<string, any>) => {
       setUserLookup((prev) => {
@@ -207,12 +215,12 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const derivedCommunityIdentifier = useMemo(
     () =>
       paramCommunityIdentifier ||
-      extractHiveCommunityIdentifier({
+      _safeExtractCommunityIdentifier({
         name: channelName,
         display_name: channelName,
         header: channelDescription,
       }),
-    [channelDescription, channelName, paramCommunityIdentifier],
+    [channelDescription, channelName, paramCommunityIdentifier, _safeExtractCommunityIdentifier],
   );
 
   const _sortPosts = useCallback(

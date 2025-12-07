@@ -57,6 +57,14 @@ const ChatsScreen = () => {
     users: [],
   }));
 
+  const _safeExtractCommunityIdentifier = useCallback((channel: any) => {
+    try {
+      return extractHiveCommunityIdentifier(channel);
+    } catch (err) {
+      return undefined;
+    }
+  }, []);
+
   const userLookupRef = useRef<Record<string, any>>({});
   const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -484,7 +492,7 @@ const ChatsScreen = () => {
         const joined = await joinMattermostChannel(channelId);
         const joinedId = _getChannelId(joined) || channelId;
         const mergedChannel = { ...resolved?.resolvedChannel, ...channel, ...joined };
-        const communityIdentifier = extractHiveCommunityIdentifier(mergedChannel);
+        const communityIdentifier = _safeExtractCommunityIdentifier(mergedChannel);
 
         setChannels((prev) => {
           const exists = prev.find(
@@ -643,7 +651,7 @@ const ChatsScreen = () => {
           dmChannel,
           user,
         );
-        const communityIdentifier = extractHiveCommunityIdentifier(resolvedChannel);
+        const communityIdentifier = _safeExtractCommunityIdentifier(resolvedChannel);
 
         navigation.navigate(
           ROUTES.SCREENS.CHAT_THREAD as never,
@@ -694,7 +702,7 @@ const ChatsScreen = () => {
         item.display_name ||
         name
       : name;
-    const communityIdentifier = extractHiveCommunityIdentifier(item);
+    const communityIdentifier = _safeExtractCommunityIdentifier(item);
 
     const channelInitial = name?.slice(0, 1)?.toUpperCase();
 
@@ -842,7 +850,7 @@ const ChatsScreen = () => {
             </Text>
             {searchResults.channels.map((channel) => {
               const isDirect = channel?.type === 'D';
-              const communityIdentifier = extractHiveCommunityIdentifier(channel);
+              const communityIdentifier = _safeExtractCommunityIdentifier(channel);
               const channelInitial = (channel.display_name || channel.name || '')
                 ?.slice(0, 1)
                 ?.toUpperCase();
