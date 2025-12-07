@@ -18,6 +18,7 @@ import LinkifyIt from 'linkify-it';
 import { useIntl } from 'react-intl';
 import moment from 'moment';
 import ImagePicker from 'react-native-image-crop-picker';
+import axios from 'axios';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDispatch } from 'react-redux';
@@ -38,6 +39,7 @@ import {
   fetchMattermostPost,
   addMattermostReaction,
   removeMattermostReaction,
+  joinMattermostChannel,
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
 import { signImage, getCommunity } from '../../../providers/hive/dhive';
@@ -548,7 +550,19 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
       try {
         await _ensureBootstrap();
-        const data = await fetchMattermostChannelPosts(channelId);
+        let data;
+
+        try {
+          data = await fetchMattermostChannelPosts(channelId);
+        } catch (err: any) {
+          if (axios.isAxiosError(err) && [401, 403, 404].includes(err.response?.status || 0)) {
+            const joined = await joinMattermostChannel(channelId);
+            const resolvedId = joined?.id || joined?.channel_id || joined?.name || channelId;
+            data = await fetchMattermostChannelPosts(resolvedId);
+          } else {
+            throw err;
+          }
+        }
         const membershipRecord =
           data?.member ||
           data?.membership ||
