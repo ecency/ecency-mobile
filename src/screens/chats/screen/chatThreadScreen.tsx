@@ -815,7 +815,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         );
         setEditingPostId(null);
       } else {
-        const rootId = rootPost?.id || '';
+        const rootId = rootPost?.root_id || rootPost?.id || '';
         const response = await sendMattermostMessage(channelId, emojifiedMessage, rootId);
         const newPost = normalizePost(response);
         if (newPost) {
