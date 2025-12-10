@@ -23,6 +23,7 @@ import axios from 'axios';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDispatch } from 'react-redux';
 import { SheetManager } from 'react-native-actions-sheet';
+import unionBy from 'lodash/unionBy';
 import { useAppSelector, useLinkProcessor } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import {
@@ -40,6 +41,7 @@ import {
   addMattermostReaction,
   removeMattermostReaction,
   joinMattermostChannel,
+  extractHiveCommunityIdentifier,
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
 import { signImage, getCommunity } from '../../../providers/hive/dhive';
@@ -65,6 +67,17 @@ interface ChatReaction {
   create_at?: number;
 }
 
+interface ChatParentPreview {
+  parent_id?: string;
+  parent_message?: string;
+  parent_username?: string;
+}
+
+interface ChatPostProps extends ChatParentPreview {
+  message?: string;
+  reactions?: ChatReaction[];
+}
+
 interface ChatPost {
   id?: string;
   message?: string;
@@ -72,11 +85,18 @@ interface ChatPost {
   user?: { username?: string; nickname?: string; name?: string };
   create_at?: number;
   update_at?: number;
-  props?: { message?: string; reactions?: ChatReaction[] };
+  props?: ChatPostProps;
   type?: string;
   text?: string;
   root_id?: string;
   metadata?: { reactions?: ChatReaction[] };
+}
+
+interface GroupedSystemMessage {
+  type: 'grouped_system_add';
+  id: string;
+  posts: ChatPost[];
+  create_at: number;
 }
 
 const normalizePosts = (payload: any): ChatPost[] => {
@@ -174,6 +194,11 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const [rootPost, setRootPost] = useState<ChatPost | null>(null);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const [lastPostId, setLastPostId] = useState<string | null>(null);
+  const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
+  const [memberCount, setMemberCount] = useState<number | null>(null);
+  const [hasMorePosts, setHasMorePosts] = useState<boolean>(true);
+
   const unreadScrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const userLookupRef = useRef<Record<string, any>>({});
@@ -552,6 +577,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
   const _loadPosts = useCallback(
     async (refresh = false) => {
+      if (isRefreshing || isLoading) {
+        return;
+      }
+
+      if (!refresh && !hasMorePosts) {
+        return;
+      }
+
       setIsLoading(!refresh);
       setIsRefreshing(refresh);
       setError(null);
@@ -559,14 +592,15 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       try {
         await _ensureBootstrap();
         let data;
+        const _beforeId = refresh ? null : lastPostId;
 
         try {
-          data = await fetchMattermostChannelPosts(channelId);
+          data = await fetchMattermostChannelPosts(channelId, _beforeId || undefined);
         } catch (err: any) {
           if (axios.isAxiosError(err) && [401, 403, 404].includes(err.response?.status || 0)) {
             const joined = await joinMattermostChannel(channelId);
             const resolvedId = joined?.id || joined?.channel_id || joined?.name || channelId;
-            data = await fetchMattermostChannelPosts(resolvedId);
+            data = await fetchMattermostChannelPosts(resolvedId, _beforeId || undefined);
           } else {
             throw err;
           }
@@ -584,12 +618,35 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         if (membershipRecord?.last_viewed_at || membershipRecord?.last_view_at) {
           setLastViewedAt(membershipRecord.last_viewed_at || membershipRecord.last_view_at || null);
         }
+
+        // Update member count from response
+        if (!!data?.memberCount && memberCount !== data.memberCount) {
+          setMemberCount(data.memberCount);
+        }
+
         const userMap = ensureMattermostUsersHaveHiveNames(normalizeUsersFromMap(data?.users));
         if (Object.keys(userMap).length) {
           _mergeUserLookup((prev) => ({ ...prev, ...userMap }));
         }
         const normalizedPosts = _sortPosts(normalizePosts(data));
-        setPosts(normalizedPosts);
+
+        // Check if we got new posts (for pagination detection)
+        const hasNewPosts = normalizedPosts.length > 0;
+        setHasMorePosts(hasNewPosts);
+
+        setPosts((prev) => {
+          if (refresh) {
+            return normalizedPosts;
+          }
+          return unionBy(prev, normalizedPosts, 'id');
+        });
+        const lastPost = normalizedPosts[normalizedPosts.length - 1];
+        if (lastPost?.id) {
+          setLastPostId(lastPost.id);
+        } else if (!hasNewPosts) {
+          // No more posts available
+          setHasMorePosts(false);
+        }
         _resolveUserProfiles(_collectMissingUserIds(normalizedPosts));
 
         // Collect root_ids and fetch root messages
@@ -618,12 +675,17 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       _mergeUserLookup,
       channelId,
       bootstrapResult,
+      lastPostId,
+      isRefreshing,
+      isLoading,
     ],
   );
 
   useEffect(() => {
+    setHasMorePosts(true);
+    setMemberCount(null);
     _loadPosts(false);
-  }, [_loadPosts]);
+  }, [channelId]);
 
   useEffect(() => {
     setHasScrolledToUnread(false);
@@ -815,8 +877,27 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         );
         setEditingPostId(null);
       } else {
-        const rootId = rootPost?.id || '';
-        const response = await sendMattermostMessage(channelId, emojifiedMessage, rootId);
+        const rootId = rootPost?.root_id || rootPost?.id || '';
+
+        // Get username from userLookup
+        const rootAuthorId = rootPost?.user_id;
+        const rootMappedUser = rootAuthorId && userLookupRef.current[rootAuthorId];
+        const hiveUsername = getHiveUsernameFromMattermostUser(rootMappedUser);
+        const rootUsername =
+          (typeof rootMappedUser?.hiveUsername === 'string' ? rootMappedUser.hiveUsername : null) ||
+          (typeof hiveUsername === 'string' ? hiveUsername : null) ||
+          (typeof rootMappedUser?.nickname === 'string' ? rootMappedUser.nickname : null) ||
+          (typeof rootMappedUser?.username === 'string' ? rootMappedUser.username : null) ||
+          (typeof rootMappedUser?.name === 'string' ? rootMappedUser.name : null) ||
+          '';
+
+        const metadata = rootId && {
+          parent_id: rootPost?.id || '',
+          parent_username: rootUsername,
+          parent_message: typeof rootPost?.message === 'string' ? rootPost.message : '',
+        };
+
+        const response = await sendMattermostMessage(channelId, emojifiedMessage, rootId, metadata);
         const newPost = normalizePost(response);
         if (newPost) {
           setPosts((prev) => _sortPosts([...prev, newPost]));
@@ -907,24 +988,37 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   }, [currentAccount, pinCode]);
 
   const _renderReplyPreview = useCallback(
-    (rootId: string, isOwnMessage: boolean, showCloseButton?: boolean, onClose?: () => void) => {
-      const rootMessage = rootMessages[rootId] || posts.find((p: ChatPost) => p.id === rootId);
-      if (!rootMessage) {
-        return null;
+    (
+      rootId: string,
+      parentPreview: ChatParentPreview | null,
+      isOwnMessage: boolean,
+      showCloseButton?: boolean,
+      onClose?: () => void,
+    ) => {
+      if (!parentPreview) {
+        const rootMessage = rootMessages[rootId];
+        if (!rootMessage) {
+          return null;
+        }
+        // Get username from userLookup
+        const rootAuthorId = rootMessage.user_id;
+        const rootMappedUser = rootAuthorId && userLookup[rootAuthorId];
+        const hiveUsername = getHiveUsernameFromMattermostUser(rootMappedUser);
+
+        parentPreview = {
+          parent_id: rootMessage.id,
+          parent_message: rootMessage.message || '',
+          parent_username: hiveUsername,
+        };
       }
 
-      const rootAuthorId = rootMessage.user_id || rootMessage.user?.id;
-      const rootMappedUser = (rootAuthorId && userLookup[rootAuthorId]) || rootMessage.user;
-      const rootHiveUsername =
-        rootMappedUser?.hiveUsername || getHiveUsernameFromMattermostUser(rootMappedUser);
+      // Ensure rootAuthor is always a string
       const rootAuthor =
-        rootHiveUsername ||
-        rootMappedUser?.nickname ||
-        rootMappedUser?.username ||
-        rootMappedUser?.name ||
-        rootAuthorId ||
-        intl.formatMessage({ id: 'chats.anonymous', defaultMessage: 'Unknown user' });
-      const rootBody = rootMessage.message || rootMessage.props?.message || rootMessage.text || '';
+        typeof parentPreview.parent_username === 'string'
+          ? parentPreview.parent_username
+          : intl.formatMessage({ id: 'chats.anonymous', defaultMessage: 'Unknown user' });
+      const rootBody =
+        typeof parentPreview.parent_message === 'string' ? parentPreview.parent_message : '';
       const rootText = rootBody.length > 100 ? `${rootBody.substring(0, 100)}...` : rootBody;
 
       return (
@@ -976,12 +1070,22 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       return null;
     }
 
+    // Get username from userLookup
+    const rootAuthorId = rootPost.user_id;
+    const rootMappedUser = rootAuthorId && userLookup[rootAuthorId];
+    const hiveUsername = getHiveUsernameFromMattermostUser(rootMappedUser);
+    const parentPreview = {
+      parent_id: rootPost.id,
+      parent_message: rootPost.message || '',
+      parent_username: hiveUsername,
+    } as ChatParentPreview;
+
     return (
       <View style={styles.composerReplyPreview}>
-        {_renderReplyPreview(rootPost.id, false, true, _cancelReply)}
+        {_renderReplyPreview(rootPost.id, parentPreview, false, true, _cancelReply)}
       </View>
     );
-  }, [rootPost, bootstrapResult, _renderReplyPreview, _cancelReply]);
+  }, [rootPost, userLookup, _renderReplyPreview, _cancelReply]);
 
   const _renderEditingBanner = useCallback(() => {
     if (!editingPostId) {
@@ -1071,13 +1175,96 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     [_getEmojiDisplay, bootstrapResult],
   );
 
-  const _renderItem = ({ item, index }: { item: ChatPost; index: number }) => {
+  const _renderItem = ({
+    item,
+    index,
+  }: {
+    item: ChatPost | GroupedSystemMessage;
+    index: number;
+  }) => {
+    // Handle grouped system messages
+    if ('type' in item && item.type === 'grouped_system_add') {
+      const groupedItem = item as GroupedSystemMessage;
+      const userCount = groupedItem.posts.length;
+      const isExpanded = expandedGroupId === groupedItem.id;
+
+      const _toggleExpanded = () => {
+        setExpandedGroupId(isExpanded ? null : groupedItem.id);
+      };
+
+      return (
+        <View>
+          {firstUnreadIndex !== null && index === firstUnreadIndex && (
+            <View style={styles.unreadMarker}>
+              <View style={styles.unreadLine} />
+              <Text style={styles.unreadLabel}>
+                {intl.formatMessage({ id: 'chats.new_messages', defaultMessage: 'New messages' })}
+              </Text>
+              <View style={styles.unreadLine} />
+            </View>
+          )}
+          <View style={styles.systemMessageContainer}>
+            <TouchableOpacity onPress={_toggleExpanded} activeOpacity={0.7}>
+              <View style={styles.systemMessagePill}>
+                <Text style={styles.systemBody}>
+                  {intl.formatMessage(
+                    { id: 'chats.people_joined', defaultMessage: '{count} people joined' },
+                    { count: userCount },
+                  )}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            {isExpanded && (
+              <View style={styles.expandedGroupContainer}>
+                {groupedItem.posts.map((post, postIndex) => {
+                  const addedUserInfo = _getAddedUserInfo(post);
+                  const timestamp = post.create_at || post.update_at;
+                  const durationSinceJoin = timestamp
+                    ? moment.duration(moment().diff(moment(timestamp))).humanize()
+                    : null;
+                  const joinedSuffix = durationSinceJoin
+                    ? `joined ${durationSinceJoin} ago`
+                    : 'joined';
+
+                  return (
+                    <View
+                      key={post.id || postIndex}
+                      style={[styles.systemMessagePill, { marginBottom: 4 }]}
+                    >
+                      {addedUserInfo.normalizedUsername ? (
+                        <Text style={styles.systemBody}>
+                          <Text
+                            style={[styles.systemBody, styles.systemUsername]}
+                            onPress={() => _showUserProfile(addedUserInfo.normalizedUsername)}
+                          >
+                            {addedUserInfo.normalizedUsername}
+                          </Text>{' '}
+                          {joinedSuffix}
+                        </Text>
+                      ) : (
+                        <Text style={styles.systemBody}>
+                          {post.message || post.props?.message || post.text || 'Unknown user'}{' '}
+                          {joinedSuffix}
+                        </Text>
+                      )}
+                    </View>
+                  );
+                })}
+              </View>
+            )}
+          </View>
+        </View>
+      );
+    }
+
+    // Regular post rendering
+    const postItem = item as ChatPost;
     const isSystemAddMessage =
-      item?.type === 'system_add_to_channel' ||
-      item?.type === 'system_add_to_team' ||
-      item?.type === 'system_join_team';
-    const authorId = item.user_id || item.user?.id;
-    const mappedUser = (authorId && userLookup[authorId]) || item.user;
+      postItem?.type === 'system_add_to_channel' ||
+      postItem?.type === 'system_add_to_team' ||
+      postItem?.type === 'system_join_team';
+    const authorId = postItem.user_id || postItem.user?.id;
+    const mappedUser = (authorId && userLookup[authorId]) || postItem.user;
     const hiveUsername = mappedUser?.hiveUsername || getHiveUsernameFromMattermostUser(mappedUser);
     const author =
       hiveUsername ||
@@ -1086,14 +1273,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       mappedUser?.name ||
       authorId ||
       intl.formatMessage({ id: 'chats.anonymous', defaultMessage: 'Unknown user' });
-    const timestamp = item.create_at || item.update_at;
-    const body = _formatPostBody(item, timestamp);
+    const timestamp = postItem.create_at || postItem.update_at;
+    const body = _formatPostBody(postItem, timestamp);
     const { text: messageText, images: messageImages } = _parseMessageContent(body);
     const isOwnMessage = authorId && bootstrapUserId === authorId;
     const showUnreadMarker = firstUnreadIndex !== null && index === firstUnreadIndex;
 
     const _showActions = () => {
-      _showChatOptionsSheet(item, isOwnMessage);
+      _showChatOptionsSheet(postItem, isOwnMessage);
     };
 
     const _showChatOptionsSheet = (post: ChatPost, isOwn: boolean) => {
@@ -1244,9 +1431,9 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     };
 
     if (isSystemAddMessage) {
-      const formattedBody = _formatPostBody(item, timestamp);
+      const formattedBody = _formatPostBody(postItem, timestamp);
       const systemContent = _parseMessageContent(formattedBody, false);
-      const addedUserInfo = _getAddedUserInfo(item);
+      const addedUserInfo = _getAddedUserInfo(postItem);
       const durationSinceJoin = timestamp
         ? moment.duration(moment().diff(moment(timestamp))).humanize()
         : null;
@@ -1311,7 +1498,12 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             onLongPress={_showActions}
             activeOpacity={0.9}
           >
-            {item.root_id && _renderReplyPreview(item.root_id, isOwnMessage)}
+            {postItem.root_id &&
+              _renderReplyPreview(
+                postItem.root_id,
+                postItem.props as ChatParentPreview,
+                isOwnMessage,
+              )}
             {!isOwnMessage && <Text style={styles.author}>{author}</Text>}
             {!!messageText && (
               <Hyperlink
@@ -1367,17 +1559,89 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             </View>
           </TouchableOpacity>
         </View>
-        {_renderReactions(item.metadata?.reactions || item.props?.reactions, isOwnMessage)}
+        {_renderReactions(postItem.metadata?.reactions || postItem.props?.reactions, isOwnMessage)}
       </View>
     );
   };
 
   const headerTitle = useMemo(() => {
+    let title = '';
     if (headerUser) {
-      return headerUser.display_name || headerUser.name || channelName || channelId;
+      title = headerUser.display_name || headerUser.name || channelName || channelId;
+    } else {
+      title = channelName || channelId;
     }
-    return channelName || channelId;
-  }, [headerUser, channelName, channelId]);
+
+    // Append member count if available and more than 2
+    if (!!memberCount && memberCount > 2) {
+      return intl.formatMessage(
+        { id: 'chats.header_with_members', defaultMessage: '{title} - {count} members' },
+        { title, count: memberCount },
+      );
+    }
+
+    return title;
+  }, [headerUser, channelName, channelId, memberCount, intl]);
+
+  // Group consecutive system add messages
+  const processedPosts = useMemo(() => {
+    const result: Array<ChatPost | GroupedSystemMessage> = [];
+    let currentGroup: ChatPost[] = [];
+
+    for (let i = 0; i < posts.length; i++) {
+      const post = posts[i];
+      const isSystemAdd =
+        post?.type === 'system_add_to_channel' ||
+        post?.type === 'system_add_to_team' ||
+        post?.type === 'system_join_team';
+
+      if (isSystemAdd) {
+        currentGroup.push(post);
+      } else {
+        // If we have a group, add it before processing the current post
+        if (currentGroup.length > 1) {
+          result.push({
+            type: 'grouped_system_add',
+            id: `group_${currentGroup[0].id}`,
+            posts: currentGroup.sort((a, b) => (a.create_at || 0) - (b.create_at || 0)),
+            create_at: currentGroup[0].create_at || currentGroup[0].update_at || 0,
+          });
+        } else if (currentGroup.length === 1) {
+          // Single system add message, add it as-is
+          result.push(currentGroup[0]);
+        }
+        currentGroup = [];
+        result.push(post);
+      }
+    }
+
+    // Handle remaining group at the end
+    if (currentGroup.length > 1) {
+      result.push({
+        type: 'grouped_system_add',
+        id: `group_${currentGroup[0].id}`,
+        posts: currentGroup,
+        create_at: currentGroup[0].create_at || currentGroup[0].update_at || 0,
+      });
+    } else if (currentGroup.length === 1) {
+      result.push(currentGroup[0]);
+    }
+
+    return result;
+  }, [posts]);
+
+  // Auto-fetch more posts if processed posts count is less than 15
+  useEffect(() => {
+    if (
+      processedPosts.length < 15 &&
+      !isLoading &&
+      !isRefreshing &&
+      hasMorePosts &&
+      posts.length > 0
+    ) {
+      _loadPosts(false);
+    }
+  }, [processedPosts.length, isLoading, isRefreshing, hasMorePosts, posts.length, _loadPosts]);
 
   // const headerUsername = useMemo(() => {
   //   if (headerUser?.name) {
@@ -1517,25 +1781,53 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     intl,
   ]);
 
+  const _renderFooter = useMemo(() => {
+    if (isLoading) {
+      return <ActivityIndicator style={{ marginVertical: 24 }} />;
+    }
+
+    if (!hasMorePosts) {
+      return (
+        <Text style={styles.no_more_messages}>
+          {intl.formatMessage({
+            id: 'chats.no_more_messages',
+            defaultMessage: 'No more messages here',
+          })}
+        </Text>
+      );
+    }
+
+    return null;
+  }, [isLoading, hasMorePosts]);
+
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <BasicHeader title={headerTitle} />
 
       <View style={{ flex: 1 }}>
-        {isLoading && <ActivityIndicator style={{ marginTop: 16 }} />}
-
         <FlatList
           ref={listRef}
-          data={posts}
-          keyExtractor={(item, index) => (item.id || index).toString()}
+          data={processedPosts}
+          keyExtractor={(item, index) => {
+            if ('type' in item && item.type === 'grouped_system_add') {
+              return item.id;
+            }
+            const postId = (item as ChatPost).id;
+            return postId || `post_${index}`;
+          }}
           renderItem={_renderItem}
           ListEmptyComponent={_emptyList}
+          ListFooterComponent={_renderFooter}
           refreshControl={
             <RefreshControl refreshing={isRefreshing} onRefresh={() => _loadPosts(true)} />
           }
           contentContainerStyle={listContentStyle}
           keyboardShouldPersistTaps="handled"
           inverted={true}
+          onEndReached={() => {
+            _loadPosts();
+          }}
+          onEndReachedThreshold={0.3}
           onContentSizeChange={_scrollToUnread}
           onScrollToIndexFailed={({ index }) =>
             setTimeout(

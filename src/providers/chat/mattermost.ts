@@ -137,8 +137,9 @@ export const leaveMattermostChannel = async (channelId: string) => {
   }
 };
 
-export const fetchMattermostChannelPosts = async (channelId: string) => {
-  const { data } = await chatApi.get(`/api/mattermost/channels/${channelId}/posts`);
+export const fetchMattermostChannelPosts = async (channelId: string, before?: string) => {
+  const params = before !== undefined ? { before } : {};
+  const { data } = await chatApi.get(`/api/mattermost/channels/${channelId}/posts`, { params });
   return data;
 };
 
@@ -174,7 +175,7 @@ export const updateMattermostMessage = async (
   message: string,
 ) => {
   const payload = { message };
-  const { data } = await chatApi.put(
+  const { data } = await chatApi.patch(
     `/api/mattermost/channels/${channelId}/posts/${postId}`,
     payload,
   );
@@ -186,8 +187,13 @@ export const fetchMattermostChannelMembers = async (channelId: string) => {
   return data.members || data;
 };
 
-export const sendMattermostMessage = async (channelId: string, message: string, rootId: string) => {
-  const payload = { message, rootId };
+export const sendMattermostMessage = async (
+  channelId: string,
+  message: string,
+  rootId: string,
+  metadata: any,
+) => {
+  const payload = { message, rootId, props: metadata };
   try {
     const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/posts`, payload);
     return data;
