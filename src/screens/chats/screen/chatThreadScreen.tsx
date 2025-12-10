@@ -185,6 +185,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [lastPostId, setLastPostId] = useState<string | null>(null);
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
+  const [hasMorePosts, setHasMorePosts] = useState<boolean>(true);
 
   const unreadScrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -610,6 +611,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         }
         const normalizedPosts = _sortPosts(normalizePosts(data));
 
+        // Check if we got new posts (for pagination detection)
+        const hasNewPosts = normalizedPosts.length > 0;
+        setHasMorePosts(hasNewPosts);
+
         setPosts((prev) => {
           if (refresh) {
             return normalizedPosts;
@@ -619,6 +624,9 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         const lastPost = normalizedPosts[normalizedPosts.length - 1];
         if (lastPost?.id) {
           setLastPostId(lastPost.id);
+        } else if (!hasNewPosts) {
+          // No more posts available
+          setHasMorePosts(false);
         }
         _resolveUserProfiles(_collectMissingUserIds(normalizedPosts));
 
@@ -655,8 +663,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   );
 
   useEffect(() => {
+    setHasMorePosts(true);
     _loadPosts(false);
-  }, []);
+  }, [channelId]);
+
 
   useEffect(() => {
     setHasScrolledToUnread(false);
@@ -1537,6 +1547,19 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     return result;
   }, [posts]);
 
+  // Auto-fetch more posts if processed posts count is less than 15
+  useEffect(() => {
+    if (
+      processedPosts.length < 15 &&
+      !isLoading &&
+      !isRefreshing &&
+      hasMorePosts &&
+      posts.length > 0
+    ) {
+      _loadPosts(false);
+    }
+  }, [processedPosts.length, isLoading, isRefreshing, hasMorePosts, posts.length, _loadPosts]);
+
   // const headerUsername = useMemo(() => {
   //   if (headerUser?.name) {
   //     return headerUser.name.startsWith('@') ? headerUser.name : `@${headerUser.name}`;
@@ -1701,7 +1724,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           keyboardShouldPersistTaps="handled"
           inverted={true}
           onEndReached={() => {
-            _loadPosts()
+            _loadPosts();
           }}
           onEndReachedThreshold={0.3}
           onContentSizeChange={_scrollToUnread}
