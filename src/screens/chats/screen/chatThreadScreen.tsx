@@ -68,9 +68,9 @@ interface ChatReaction {
 }
 
 interface ChatParentPreview {
-  parent_post_id?: string;
+  parent_id?: string;
   parent_message?: string;
-  parent_user_id?: string;
+  parent_username?: string;
 }
 
 interface ChatPostProps extends ChatParentPreview {
@@ -879,10 +879,22 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       } else {
         const rootId = rootPost?.root_id || rootPost?.id || '';
 
+        // Get username from userLookup
+        const rootAuthorId = rootPost?.user_id;
+        const rootMappedUser = rootAuthorId && userLookupRef.current[rootAuthorId];
+        const hiveUsername = getHiveUsernameFromMattermostUser(rootMappedUser);
+        const rootUsername =
+          (typeof rootMappedUser?.hiveUsername === 'string' ? rootMappedUser.hiveUsername : null) ||
+          (typeof hiveUsername === 'string' ? hiveUsername : null) ||
+          (typeof rootMappedUser?.nickname === 'string' ? rootMappedUser.nickname : null) ||
+          (typeof rootMappedUser?.username === 'string' ? rootMappedUser.username : null) ||
+          (typeof rootMappedUser?.name === 'string' ? rootMappedUser.name : null) ||
+          '';
+
         const metadata = rootId && {
-          parent_post_id: rootPost?.id || '',
-          parent_user_id: rootPost?.user_id || '',
-          parent_message: rootPost?.message || '',
+          parent_id: rootPost?.id || '',
+          parent_username: rootUsername,
+          parent_message: typeof rootPost?.message === 'string' ? rootPost.message : '',
         };
 
         const response = await sendMattermostMessage(channelId, emojifiedMessage, rootId, metadata);
@@ -988,25 +1000,25 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         if (!rootMessage) {
           return null;
         }
+        // Get username from userLookup
+        const rootAuthorId = rootMessage.user_id;
+        const rootMappedUser = rootAuthorId && userLookup[rootAuthorId];
+        const hiveUsername = getHiveUsernameFromMattermostUser(rootMappedUser);
+        
         parentPreview = {
-          parent_post_id: rootMessage.id,
-          parent_message: rootMessage.message,
-          parent_user_id: rootMessage.user_id,
+          parent_id: rootMessage.id,
+          parent_message: rootMessage.message || '',
+          parent_username: hiveUsername,
         };
       }
 
-      const rootAuthorId = parentPreview.parent_user_id;
-      const rootMappedUser = rootAuthorId && userLookup[rootAuthorId];
-      const rootHiveUsername =
-        rootMappedUser?.hiveUsername || getHiveUsernameFromMattermostUser(rootMappedUser);
-      const rootAuthor =
-        rootHiveUsername ||
-        rootMappedUser?.nickname ||
-        rootMappedUser?.username ||
-        rootMappedUser?.name ||
-        rootAuthorId ||
-        intl.formatMessage({ id: 'chats.anonymous', defaultMessage: 'Unknown user' });
-      const rootBody = parentPreview.parent_message || '';
+      // Ensure rootAuthor is always a string
+      const rootAuthor = typeof parentPreview.parent_username === 'string' 
+        ? parentPreview.parent_username 
+        : intl.formatMessage({ id: 'chats.anonymous', defaultMessage: 'Unknown user' });
+      const rootBody = typeof parentPreview.parent_message === 'string' 
+        ? parentPreview.parent_message 
+        : '';
       const rootText = rootBody.length > 100 ? `${rootBody.substring(0, 100)}...` : rootBody;
 
       return (
@@ -1058,10 +1070,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       return null;
     }
 
+    // Get username from userLookup
+    const rootAuthorId = rootPost.user_id;
+    const rootMappedUser = rootAuthorId && userLookup[rootAuthorId];
+    const hiveUsername = getHiveUsernameFromMattermostUser(rootMappedUser);
     const parentPreview = {
-      parent_post_id: rootPost.id,
-      parent_message: rootPost.message,
-      parent_user_id: rootPost.user_id,
+      parent_id: rootPost.id,
+      parent_message: rootPost.message || '',
+      parent_username: hiveUsername,
     } as ChatParentPreview;
 
     return (
@@ -1069,7 +1085,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         {_renderReplyPreview(rootPost.id, parentPreview, false, true, _cancelReply)}
       </View>
     );
-  }, [rootPost, bootstrapResult, _renderReplyPreview, _cancelReply]);
+  }, [rootPost, userLookup, _renderReplyPreview, _cancelReply]);
 
   const _renderEditingBanner = useCallback(() => {
     if (!editingPostId) {
