@@ -618,12 +618,12 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         if (membershipRecord?.last_viewed_at || membershipRecord?.last_view_at) {
           setLastViewedAt(membershipRecord.last_viewed_at || membershipRecord.last_view_at || null);
         }
-        
+
         // Update member count from response
         if (!!data?.memberCount && memberCount !== data.memberCount) {
           setMemberCount(data.memberCount);
         }
-        
+
         const userMap = ensureMattermostUsersHaveHiveNames(normalizeUsersFromMap(data?.users));
         if (Object.keys(userMap).length) {
           _mergeUserLookup((prev) => ({ ...prev, ...userMap }));
@@ -1004,7 +1004,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         const rootAuthorId = rootMessage.user_id;
         const rootMappedUser = rootAuthorId && userLookup[rootAuthorId];
         const hiveUsername = getHiveUsernameFromMattermostUser(rootMappedUser);
-        
+
         parentPreview = {
           parent_id: rootMessage.id,
           parent_message: rootMessage.message || '',
@@ -1013,12 +1013,12 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       }
 
       // Ensure rootAuthor is always a string
-      const rootAuthor = typeof parentPreview.parent_username === 'string' 
-        ? parentPreview.parent_username 
-        : intl.formatMessage({ id: 'chats.anonymous', defaultMessage: 'Unknown user' });
-      const rootBody = typeof parentPreview.parent_message === 'string' 
-        ? parentPreview.parent_message 
-        : '';
+      const rootAuthor =
+        typeof parentPreview.parent_username === 'string'
+          ? parentPreview.parent_username
+          : intl.formatMessage({ id: 'chats.anonymous', defaultMessage: 'Unknown user' });
+      const rootBody =
+        typeof parentPreview.parent_message === 'string' ? parentPreview.parent_message : '';
       const rootText = rootBody.length > 100 ? `${rootBody.substring(0, 100)}...` : rootBody;
 
       return (
@@ -1571,7 +1571,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     } else {
       title = channelName || channelId;
     }
-    
+
     // Append member count if available and more than 2
     if (!!memberCount && memberCount > 2) {
       return intl.formatMessage(
@@ -1579,7 +1579,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         { title, count: memberCount },
       );
     }
-    
+
     return title;
   }, [headerUser, channelName, channelId, memberCount, intl]);
 
