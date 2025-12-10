@@ -175,7 +175,7 @@ export const updateMattermostMessage = async (
   message: string,
 ) => {
   const payload = { message };
-  const { data } = await chatApi.put(
+  const { data } = await chatApi.patch(
     `/api/mattermost/channels/${channelId}/posts/${postId}`,
     payload,
   );
