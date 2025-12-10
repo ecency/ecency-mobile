@@ -67,6 +67,17 @@ interface ChatReaction {
   create_at?: number;
 }
 
+interface ChatParentPreview {
+  parent_post_id?: string;
+  parent_message?: string;
+  parent_user_id?: string;
+}
+
+interface ChatPostProps extends ChatParentPreview {
+  message?: string;
+  reactions?: ChatReaction[];
+}
+
 interface ChatPost {
   id?: string;
   message?: string;
@@ -74,7 +85,7 @@ interface ChatPost {
   user?: { username?: string; nickname?: string; name?: string };
   create_at?: number;
   update_at?: number;
-  props?: { message?: string; reactions?: ChatReaction[] };
+  props?: ChatPostProps,
   type?: string;
   text?: string;
   root_id?: string;
@@ -570,7 +581,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         return;
       }
 
-      if(!refresh && !hasMorePosts){
+      if (!refresh && !hasMorePosts) {
         return;
       }
 
@@ -865,8 +876,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         const rootId = rootPost?.root_id || rootPost?.id || '';
 
         const metadata = rootId && {
-          parent_id: rootPost?.id || '',
-          parent_username: rootPost?.user?.username || '',
+          parent_post_id: rootPost?.id || '',
+          parent_user_id: rootPost?.user_id || '',
           parent_message: rootPost?.message || '',
         };
 
@@ -961,14 +972,23 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   }, [currentAccount, pinCode]);
 
   const _renderReplyPreview = useCallback(
-    (rootId: string, isOwnMessage: boolean, showCloseButton?: boolean, onClose?: () => void) => {
-      const rootMessage = rootMessages[rootId] || posts.find((p: ChatPost) => p.id === rootId);
-      if (!rootMessage) {
-        return null;
+    (rootId: string, parentPreview: ChatParentPreview | null, isOwnMessage: boolean, showCloseButton?: boolean, onClose?: () => void) => {
+
+      if (!parentPreview) {
+        const rootMessage = rootMessages[rootId];
+        if (!rootMessage) {
+          return null;
+        }
+        parentPreview = {
+          parent_post_id: rootMessage.id,
+          parent_message: rootMessage.message,
+          parent_user_id: rootMessage.user_id,
+        };
       }
 
-      const rootAuthorId = rootMessage.user_id || rootMessage.user?.id;
-      const rootMappedUser = (rootAuthorId && userLookup[rootAuthorId]) || rootMessage.user;
+
+      const rootAuthorId = parentPreview.parent_user_id
+      const rootMappedUser = (rootAuthorId && userLookup[rootAuthorId])
       const rootHiveUsername =
         rootMappedUser?.hiveUsername || getHiveUsernameFromMattermostUser(rootMappedUser);
       const rootAuthor =
@@ -978,7 +998,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         rootMappedUser?.name ||
         rootAuthorId ||
         intl.formatMessage({ id: 'chats.anonymous', defaultMessage: 'Unknown user' });
-      const rootBody = rootMessage.message || rootMessage.props?.message || rootMessage.text || '';
+      const rootBody = parentPreview.parent_message || ''
       const rootText = rootBody.length > 100 ? `${rootBody.substring(0, 100)}...` : rootBody;
 
       return (
@@ -1030,9 +1050,15 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       return null;
     }
 
+    const parentPreview = {
+      parent_post_id: rootPost.id,
+      parent_message: rootPost.message,
+      parent_user_id: rootPost.user_id,
+    } as ChatParentPreview;
+
     return (
       <View style={styles.composerReplyPreview}>
-        {_renderReplyPreview(rootPost.id, false, true, _cancelReply)}
+        {_renderReplyPreview(rootPost.id, parentPreview, false, true, _cancelReply)}
       </View>
     );
   }, [rootPost, bootstrapResult, _renderReplyPreview, _cancelReply]);
@@ -1436,7 +1462,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             onLongPress={_showActions}
             activeOpacity={0.9}
           >
-            {postItem.root_id && _renderReplyPreview(postItem.root_id, isOwnMessage)}
+            {postItem.root_id && _renderReplyPreview(postItem.root_id, postItem.props as ChatParentPreview, isOwnMessage)}
             {!isOwnMessage && <Text style={styles.author}>{author}</Text>}
             {!!messageText && (
               <Hyperlink
@@ -1704,11 +1730,11 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
   const _renderFooter = useMemo(() => {
 
-    if(isLoading){
+    if (isLoading) {
       return <ActivityIndicator style={{ marginVertical: 24 }} />;
     }
 
-    if(!hasMorePosts){
+    if (!hasMorePosts) {
       return <Text style={styles.no_more_messages}>{intl.formatMessage({
         id: 'chats.no_more_messages',
         defaultMessage: 'No more messages here',
