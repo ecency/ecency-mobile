@@ -472,6 +472,12 @@ export const chatThreadStyles = EStyleSheet.create({
     lineHeight: 20,
     fontStyle: 'italic',
   },
+  no_more_messages: {
+    color: '$iconColor',
+    alignSelf: 'center',
+    fontStyle: 'italic',
+    marginBottom: 24,
+  },
   expandedGroupContainer:{
     marginTop: 8,
   },

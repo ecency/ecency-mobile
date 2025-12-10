@@ -570,6 +570,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         return;
       }
 
+      if(!refresh && !hasMorePosts){
+        return;
+      }
+
 
       setIsLoading(!refresh);
       setIsRefreshing(refresh);
@@ -1698,13 +1702,27 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     intl,
   ]);
 
+  const _renderFooter = useMemo(() => {
+
+    if(isLoading){
+      return <ActivityIndicator style={{ marginVertical: 24 }} />;
+    }
+
+    if(!hasMorePosts){
+      return <Text style={styles.no_more_messages}>{intl.formatMessage({
+        id: 'chats.no_more_messages',
+        defaultMessage: 'No more messages here',
+      })}</Text>;
+    }
+
+    return null;
+  }, [isLoading, hasMorePosts]);
+
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <BasicHeader title={headerTitle} />
 
       <View style={{ flex: 1 }}>
-        {isLoading && <ActivityIndicator style={{ marginTop: 16 }} />}
-
         <FlatList
           ref={listRef}
           data={processedPosts}
@@ -1717,6 +1735,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           }}
           renderItem={_renderItem}
           ListEmptyComponent={_emptyList}
+          ListFooterComponent={_renderFooter}
           refreshControl={
             <RefreshControl refreshing={isRefreshing} onRefresh={() => _loadPosts(true)} />
           }
