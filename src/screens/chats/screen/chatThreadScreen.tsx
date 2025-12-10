@@ -23,6 +23,7 @@ import axios from 'axios';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDispatch } from 'react-redux';
 import { SheetManager } from 'react-native-actions-sheet';
+import unionBy from 'lodash/unionBy';
 import { useAppSelector, useLinkProcessor } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import {
@@ -49,7 +50,6 @@ import { chatThreadStyles as styles } from '../styles';
 import { emojifyMessage } from '../../../utils/emoji';
 import { SheetNames } from '../../../navigation/sheets';
 import { extractImageUrls } from '../../../utils/editor';
-import unionBy from 'lodash/unionBy';
 
 interface ChatThreadParams {
   channelId: string;
@@ -85,7 +85,7 @@ interface ChatPost {
   user?: { username?: string; nickname?: string; name?: string };
   create_at?: number;
   update_at?: number;
-  props?: ChatPostProps,
+  props?: ChatPostProps;
   type?: string;
   text?: string;
   root_id?: string;
@@ -576,7 +576,6 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
   const _loadPosts = useCallback(
     async (refresh = false) => {
-
       if (isRefreshing || isLoading) {
         return;
       }
@@ -585,16 +584,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         return;
       }
 
-
       setIsLoading(!refresh);
       setIsRefreshing(refresh);
       setError(null);
 
-
       try {
         await _ensureBootstrap();
         let data;
-        let _beforeId = refresh ? null : lastPostId;
+        const _beforeId = refresh ? null : lastPostId;
 
         try {
           data = await fetchMattermostChannelPosts(channelId, _beforeId || undefined);
@@ -612,9 +609,9 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           data?.membership ||
           (Array.isArray(data?.members)
             ? data.members.find(
-              (member: any) =>
-                member?.user_id === bootstrapUserId || member?.id === bootstrapUserId,
-            )
+                (member: any) =>
+                  member?.user_id === bootstrapUserId || member?.id === bootstrapUserId,
+              )
             : null);
 
         if (membershipRecord?.last_viewed_at || membershipRecord?.last_view_at) {
@@ -681,7 +678,6 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     setHasMorePosts(true);
     _loadPosts(false);
   }, [channelId]);
-
 
   useEffect(() => {
     setHasScrolledToUnread(false);
@@ -972,8 +968,13 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   }, [currentAccount, pinCode]);
 
   const _renderReplyPreview = useCallback(
-    (rootId: string, parentPreview: ChatParentPreview | null, isOwnMessage: boolean, showCloseButton?: boolean, onClose?: () => void) => {
-
+    (
+      rootId: string,
+      parentPreview: ChatParentPreview | null,
+      isOwnMessage: boolean,
+      showCloseButton?: boolean,
+      onClose?: () => void,
+    ) => {
       if (!parentPreview) {
         const rootMessage = rootMessages[rootId];
         if (!rootMessage) {
@@ -986,9 +987,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         };
       }
 
-
-      const rootAuthorId = parentPreview.parent_user_id
-      const rootMappedUser = (rootAuthorId && userLookup[rootAuthorId])
+      const rootAuthorId = parentPreview.parent_user_id;
+      const rootMappedUser = rootAuthorId && userLookup[rootAuthorId];
       const rootHiveUsername =
         rootMappedUser?.hiveUsername || getHiveUsernameFromMattermostUser(rootMappedUser);
       const rootAuthor =
@@ -998,7 +998,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         rootMappedUser?.name ||
         rootAuthorId ||
         intl.formatMessage({ id: 'chats.anonymous', defaultMessage: 'Unknown user' });
-      const rootBody = parentPreview.parent_message || ''
+      const rootBody = parentPreview.parent_message || '';
       const rootText = rootBody.length > 100 ? `${rootBody.substring(0, 100)}...` : rootBody;
 
       return (
@@ -1151,7 +1151,13 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     [_getEmojiDisplay, bootstrapResult],
   );
 
-  const _renderItem = ({ item, index }: { item: ChatPost | GroupedSystemMessage; index: number }) => {
+  const _renderItem = ({
+    item,
+    index,
+  }: {
+    item: ChatPost | GroupedSystemMessage;
+    index: number;
+  }) => {
     // Handle grouped system messages
     if ('type' in item && item.type === 'grouped_system_add') {
       const groupedItem = item as GroupedSystemMessage;
@@ -1192,10 +1198,15 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
                   const durationSinceJoin = timestamp
                     ? moment.duration(moment().diff(moment(timestamp))).humanize()
                     : null;
-                  const joinedSuffix = durationSinceJoin ? `joined ${durationSinceJoin} ago` : 'joined';
+                  const joinedSuffix = durationSinceJoin
+                    ? `joined ${durationSinceJoin} ago`
+                    : 'joined';
 
                   return (
-                    <View key={post.id || postIndex} style={[styles.systemMessagePill, { marginBottom: 4 }]}>
+                    <View
+                      key={post.id || postIndex}
+                      style={[styles.systemMessagePill, { marginBottom: 4 }]}
+                    >
                       {addedUserInfo.normalizedUsername ? (
                         <Text style={styles.systemBody}>
                           <Text
@@ -1208,7 +1219,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
                         </Text>
                       ) : (
                         <Text style={styles.systemBody}>
-                          {post.message || post.props?.message || post.text || 'Unknown user'} {joinedSuffix}
+                          {post.message || post.props?.message || post.text || 'Unknown user'}{' '}
+                          {joinedSuffix}
                         </Text>
                       )}
                     </View>
@@ -1263,14 +1275,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           },
           onEdit: isOwn
             ? () => {
-              _handleStartEdit(post);
-            }
+                _handleStartEdit(post);
+              }
             : undefined,
           onRemove:
             isOwn || canModerate
               ? () => {
-                _confirmDelete(item);
-              }
+                  _confirmDelete(item);
+                }
               : undefined,
         },
       });
@@ -1462,7 +1474,12 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             onLongPress={_showActions}
             activeOpacity={0.9}
           >
-            {postItem.root_id && _renderReplyPreview(postItem.root_id, postItem.props as ChatParentPreview, isOwnMessage)}
+            {postItem.root_id &&
+              _renderReplyPreview(
+                postItem.root_id,
+                postItem.props as ChatParentPreview,
+                isOwnMessage,
+              )}
             {!isOwnMessage && <Text style={styles.author}>{author}</Text>}
             {!!messageText && (
               <Hyperlink
@@ -1729,16 +1746,19 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   ]);
 
   const _renderFooter = useMemo(() => {
-
     if (isLoading) {
       return <ActivityIndicator style={{ marginVertical: 24 }} />;
     }
 
     if (!hasMorePosts) {
-      return <Text style={styles.no_more_messages}>{intl.formatMessage({
-        id: 'chats.no_more_messages',
-        defaultMessage: 'No more messages here',
-      })}</Text>;
+      return (
+        <Text style={styles.no_more_messages}>
+          {intl.formatMessage({
+            id: 'chats.no_more_messages',
+            defaultMessage: 'No more messages here',
+          })}
+        </Text>
+      );
     }
 
     return null;
@@ -1757,7 +1777,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
               return item.id;
             }
             const postId = (item as ChatPost).id;
-            return postId ? postId : `post_${index}`;
+            return postId || `post_${index}`;
           }}
           renderItem={_renderItem}
           ListEmptyComponent={_emptyList}

@@ -478,7 +478,7 @@ export const chatThreadStyles = EStyleSheet.create({
     fontStyle: 'italic',
     marginBottom: 24,
   },
-  expandedGroupContainer:{
+  expandedGroupContainer: {
     marginTop: 8,
   },
   systemUsername: {
