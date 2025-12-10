@@ -196,6 +196,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [lastPostId, setLastPostId] = useState<string | null>(null);
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
+  const [memberCount, setMemberCount] = useState<number | null>(null);
   const [hasMorePosts, setHasMorePosts] = useState<boolean>(true);
 
   const unreadScrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -617,6 +618,12 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         if (membershipRecord?.last_viewed_at || membershipRecord?.last_view_at) {
           setLastViewedAt(membershipRecord.last_viewed_at || membershipRecord.last_view_at || null);
         }
+        
+        // Update member count from response
+        if (!!data?.memberCount && memberCount !== data.memberCount) {
+          setMemberCount(data.memberCount);
+        }
+        
         const userMap = ensureMattermostUsersHaveHiveNames(normalizeUsersFromMap(data?.users));
         if (Object.keys(userMap).length) {
           _mergeUserLookup((prev) => ({ ...prev, ...userMap }));
@@ -676,6 +683,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
   useEffect(() => {
     setHasMorePosts(true);
+    setMemberCount(null);
     _loadPosts(false);
   }, [channelId]);
 
@@ -1541,11 +1549,23 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   };
 
   const headerTitle = useMemo(() => {
+    let title = '';
     if (headerUser) {
-      return headerUser.display_name || headerUser.name || channelName || channelId;
+      title = headerUser.display_name || headerUser.name || channelName || channelId;
+    } else {
+      title = channelName || channelId;
     }
-    return channelName || channelId;
-  }, [headerUser, channelName, channelId]);
+    
+    // Append member count if available and more than 2
+    if (!!memberCount && memberCount > 2) {
+      return intl.formatMessage(
+        { id: 'chats.header_with_members', defaultMessage: '{title} - {count} members' },
+        { title, count: memberCount },
+      );
+    }
+    
+    return title;
+  }, [headerUser, channelName, channelId, memberCount, intl]);
 
   // Group consecutive system add messages
   const processedPosts = useMemo(() => {
