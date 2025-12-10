@@ -48,6 +48,7 @@ import { chatThreadStyles as styles } from '../styles';
 import { emojifyMessage } from '../../../utils/emoji';
 import { SheetNames } from '../../../navigation/sheets';
 import { extractImageUrls } from '../../../utils/editor';
+import unionBy from 'lodash/unionBy';
 
 interface ChatThreadParams {
   channelId: string;
@@ -174,6 +175,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const [rootPost, setRootPost] = useState<ChatPost | null>(null);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const [lastPostId, setLastPostId] = useState<string | null>(null);
+
   const unreadScrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const userLookupRef = useRef<Record<string, any>>({});
@@ -552,21 +555,29 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
   const _loadPosts = useCallback(
     async (refresh = false) => {
+
+      if (isRefreshing || isLoading) {
+        return;
+      }
+
+
       setIsLoading(!refresh);
       setIsRefreshing(refresh);
       setError(null);
 
+
       try {
         await _ensureBootstrap();
         let data;
+        let _beforeId = refresh ? null : lastPostId;
 
         try {
-          data = await fetchMattermostChannelPosts(channelId);
+          data = await fetchMattermostChannelPosts(channelId, _beforeId);
         } catch (err: any) {
           if (axios.isAxiosError(err) && [401, 403, 404].includes(err.response?.status || 0)) {
             const joined = await joinMattermostChannel(channelId);
             const resolvedId = joined?.id || joined?.channel_id || joined?.name || channelId;
-            data = await fetchMattermostChannelPosts(resolvedId);
+            data = await fetchMattermostChannelPosts(resolvedId, _beforeId);
           } else {
             throw err;
           }
@@ -576,9 +587,9 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           data?.membership ||
           (Array.isArray(data?.members)
             ? data.members.find(
-                (member: any) =>
-                  member?.user_id === bootstrapUserId || member?.id === bootstrapUserId,
-              )
+              (member: any) =>
+                member?.user_id === bootstrapUserId || member?.id === bootstrapUserId,
+            )
             : null);
 
         if (membershipRecord?.last_viewed_at || membershipRecord?.last_view_at) {
@@ -589,7 +600,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           _mergeUserLookup((prev) => ({ ...prev, ...userMap }));
         }
         const normalizedPosts = _sortPosts(normalizePosts(data));
-        setPosts(normalizedPosts);
+
+        setPosts((prev) => {
+          if (refresh) {
+            return normalizedPosts;
+          }
+          return unionBy(prev, normalizedPosts, 'id');
+        });
+        setLastPostId(normalizedPosts[normalizedPosts.length - 1].id || null);
         _resolveUserProfiles(_collectMissingUserIds(normalizedPosts));
 
         // Collect root_ids and fetch root messages
@@ -618,12 +636,15 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       _mergeUserLookup,
       channelId,
       bootstrapResult,
+      lastPostId,
+      isRefreshing,
+      isLoading,
     ],
   );
 
   useEffect(() => {
     _loadPosts(false);
-  }, [_loadPosts]);
+  }, []);
 
   useEffect(() => {
     setHasScrolledToUnread(false);
@@ -816,7 +837,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         setEditingPostId(null);
       } else {
         const rootId = rootPost?.root_id || rootPost?.id || '';
-        const response = await sendMattermostMessage(channelId, emojifiedMessage, rootId);
+
+        const metadata = rootId && {
+          parent_id: rootPost?.id || '',
+          parent_username: rootPost?.user?.username || '',
+          parent_message: rootPost?.message || '',
+        };
+
+        const response = await sendMattermostMessage(channelId, emojifiedMessage, rootId, metadata);
         const newPost = normalizePost(response);
         if (newPost) {
           setPosts((prev) => _sortPosts([...prev, newPost]));
@@ -1112,14 +1140,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           },
           onEdit: isOwn
             ? () => {
-                _handleStartEdit(post);
-              }
+              _handleStartEdit(post);
+            }
             : undefined,
           onRemove:
             isOwn || canModerate
               ? () => {
-                  _confirmDelete(item);
-                }
+                _confirmDelete(item);
+              }
               : undefined,
         },
       });
@@ -1536,6 +1564,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           contentContainerStyle={listContentStyle}
           keyboardShouldPersistTaps="handled"
           inverted={true}
+          onEndReached={() => {
+            _loadPosts()
+          }}
+          onEndReachedThreshold={0.3}
           onContentSizeChange={_scrollToUnread}
           onScrollToIndexFailed={({ index }) =>
             setTimeout(
