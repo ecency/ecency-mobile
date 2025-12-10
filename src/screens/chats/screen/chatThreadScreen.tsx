@@ -40,6 +40,7 @@ import {
   addMattermostReaction,
   removeMattermostReaction,
   joinMattermostChannel,
+  extractHiveCommunityIdentifier,
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
 import { signImage, getCommunity } from '../../../providers/hive/dhive';
@@ -78,6 +79,13 @@ interface ChatPost {
   text?: string;
   root_id?: string;
   metadata?: { reactions?: ChatReaction[] };
+}
+
+interface GroupedSystemMessage {
+  type: 'grouped_system_add';
+  id: string;
+  posts: ChatPost[];
+  create_at: number;
 }
 
 const normalizePosts = (payload: any): ChatPost[] => {
@@ -176,6 +184,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [lastPostId, setLastPostId] = useState<string | null>(null);
+  const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
 
   const unreadScrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -572,12 +581,12 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         let _beforeId = refresh ? null : lastPostId;
 
         try {
-          data = await fetchMattermostChannelPosts(channelId, _beforeId);
+          data = await fetchMattermostChannelPosts(channelId, _beforeId || undefined);
         } catch (err: any) {
           if (axios.isAxiosError(err) && [401, 403, 404].includes(err.response?.status || 0)) {
             const joined = await joinMattermostChannel(channelId);
             const resolvedId = joined?.id || joined?.channel_id || joined?.name || channelId;
-            data = await fetchMattermostChannelPosts(resolvedId, _beforeId);
+            data = await fetchMattermostChannelPosts(resolvedId, _beforeId || undefined);
           } else {
             throw err;
           }
@@ -607,7 +616,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
           }
           return unionBy(prev, normalizedPosts, 'id');
         });
-        setLastPostId(normalizedPosts[normalizedPosts.length - 1].id || null);
+        const lastPost = normalizedPosts[normalizedPosts.length - 1];
+        if (lastPost?.id) {
+          setLastPostId(lastPost.id);
+        }
         _resolveUserProfiles(_collectMissingUserIds(normalizedPosts));
 
         // Collect root_ids and fetch root messages
@@ -1099,13 +1111,84 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     [_getEmojiDisplay, bootstrapResult],
   );
 
-  const _renderItem = ({ item, index }: { item: ChatPost; index: number }) => {
+  const _renderItem = ({ item, index }: { item: ChatPost | GroupedSystemMessage; index: number }) => {
+    // Handle grouped system messages
+    if ('type' in item && item.type === 'grouped_system_add') {
+      const groupedItem = item as GroupedSystemMessage;
+      const userCount = groupedItem.posts.length;
+      const isExpanded = expandedGroupId === groupedItem.id;
+
+      const _toggleExpanded = () => {
+        setExpandedGroupId(isExpanded ? null : groupedItem.id);
+      };
+
+      return (
+        <View>
+          {firstUnreadIndex !== null && index === firstUnreadIndex && (
+            <View style={styles.unreadMarker}>
+              <View style={styles.unreadLine} />
+              <Text style={styles.unreadLabel}>
+                {intl.formatMessage({ id: 'chats.new_messages', defaultMessage: 'New messages' })}
+              </Text>
+              <View style={styles.unreadLine} />
+            </View>
+          )}
+          <View style={styles.systemMessageContainer}>
+            <TouchableOpacity onPress={_toggleExpanded} activeOpacity={0.7}>
+              <View style={styles.systemMessagePill}>
+                <Text style={styles.systemBody}>
+                  {intl.formatMessage(
+                    { id: 'chats.people_joined', defaultMessage: '{count} people joined' },
+                    { count: userCount },
+                  )}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            {isExpanded && (
+              <View style={styles.expandedGroupContainer}>
+                {groupedItem.posts.map((post, postIndex) => {
+                  const addedUserInfo = _getAddedUserInfo(post);
+                  const timestamp = post.create_at || post.update_at;
+                  const durationSinceJoin = timestamp
+                    ? moment.duration(moment().diff(moment(timestamp))).humanize()
+                    : null;
+                  const joinedSuffix = durationSinceJoin ? `joined ${durationSinceJoin} ago` : 'joined';
+
+                  return (
+                    <View key={post.id || postIndex} style={[styles.systemMessagePill, { marginBottom: 4 }]}>
+                      {addedUserInfo.normalizedUsername ? (
+                        <Text style={styles.systemBody}>
+                          <Text
+                            style={[styles.systemBody, styles.systemUsername]}
+                            onPress={() => _showUserProfile(addedUserInfo.normalizedUsername)}
+                          >
+                            {addedUserInfo.normalizedUsername}
+                          </Text>{' '}
+                          {joinedSuffix}
+                        </Text>
+                      ) : (
+                        <Text style={styles.systemBody}>
+                          {post.message || post.props?.message || post.text || 'Unknown user'} {joinedSuffix}
+                        </Text>
+                      )}
+                    </View>
+                  );
+                })}
+              </View>
+            )}
+          </View>
+        </View>
+      );
+    }
+
+    // Regular post rendering
+    const postItem = item as ChatPost;
     const isSystemAddMessage =
-      item?.type === 'system_add_to_channel' ||
-      item?.type === 'system_add_to_team' ||
-      item?.type === 'system_join_team';
-    const authorId = item.user_id || item.user?.id;
-    const mappedUser = (authorId && userLookup[authorId]) || item.user;
+      postItem?.type === 'system_add_to_channel' ||
+      postItem?.type === 'system_add_to_team' ||
+      postItem?.type === 'system_join_team';
+    const authorId = postItem.user_id || postItem.user?.id;
+    const mappedUser = (authorId && userLookup[authorId]) || postItem.user;
     const hiveUsername = mappedUser?.hiveUsername || getHiveUsernameFromMattermostUser(mappedUser);
     const author =
       hiveUsername ||
@@ -1114,14 +1197,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       mappedUser?.name ||
       authorId ||
       intl.formatMessage({ id: 'chats.anonymous', defaultMessage: 'Unknown user' });
-    const timestamp = item.create_at || item.update_at;
-    const body = _formatPostBody(item, timestamp);
+    const timestamp = postItem.create_at || postItem.update_at;
+    const body = _formatPostBody(postItem, timestamp);
     const { text: messageText, images: messageImages } = _parseMessageContent(body);
     const isOwnMessage = authorId && bootstrapUserId === authorId;
     const showUnreadMarker = firstUnreadIndex !== null && index === firstUnreadIndex;
 
     const _showActions = () => {
-      _showChatOptionsSheet(item, isOwnMessage);
+      _showChatOptionsSheet(postItem, isOwnMessage);
     };
 
     const _showChatOptionsSheet = (post: ChatPost, isOwn: boolean) => {
@@ -1272,9 +1355,9 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     };
 
     if (isSystemAddMessage) {
-      const formattedBody = _formatPostBody(item, timestamp);
+      const formattedBody = _formatPostBody(postItem, timestamp);
       const systemContent = _parseMessageContent(formattedBody, false);
-      const addedUserInfo = _getAddedUserInfo(item);
+      const addedUserInfo = _getAddedUserInfo(postItem);
       const durationSinceJoin = timestamp
         ? moment.duration(moment().diff(moment(timestamp))).humanize()
         : null;
@@ -1339,7 +1422,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             onLongPress={_showActions}
             activeOpacity={0.9}
           >
-            {item.root_id && _renderReplyPreview(item.root_id, isOwnMessage)}
+            {postItem.root_id && _renderReplyPreview(postItem.root_id, isOwnMessage)}
             {!isOwnMessage && <Text style={styles.author}>{author}</Text>}
             {!!messageText && (
               <Hyperlink
@@ -1395,7 +1478,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
             </View>
           </TouchableOpacity>
         </View>
-        {_renderReactions(item.metadata?.reactions || item.props?.reactions, isOwnMessage)}
+        {_renderReactions(postItem.metadata?.reactions || postItem.props?.reactions, isOwnMessage)}
       </View>
     );
   };
@@ -1406,6 +1489,53 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     }
     return channelName || channelId;
   }, [headerUser, channelName, channelId]);
+
+  // Group consecutive system add messages
+  const processedPosts = useMemo(() => {
+    const result: Array<ChatPost | GroupedSystemMessage> = [];
+    let currentGroup: ChatPost[] = [];
+
+    for (let i = 0; i < posts.length; i++) {
+      const post = posts[i];
+      const isSystemAdd =
+        post?.type === 'system_add_to_channel' ||
+        post?.type === 'system_add_to_team' ||
+        post?.type === 'system_join_team';
+
+      if (isSystemAdd) {
+        currentGroup.push(post);
+      } else {
+        // If we have a group, add it before processing the current post
+        if (currentGroup.length > 1) {
+          result.push({
+            type: 'grouped_system_add',
+            id: `group_${currentGroup[0].id}`,
+            posts: currentGroup.sort((a, b) => (a.create_at || 0) - (b.create_at || 0)),
+            create_at: currentGroup[0].create_at || currentGroup[0].update_at || 0,
+          });
+        } else if (currentGroup.length === 1) {
+          // Single system add message, add it as-is
+          result.push(currentGroup[0]);
+        }
+        currentGroup = [];
+        result.push(post);
+      }
+    }
+
+    // Handle remaining group at the end
+    if (currentGroup.length > 1) {
+      result.push({
+        type: 'grouped_system_add',
+        id: `group_${currentGroup[0].id}`,
+        posts: currentGroup,
+        create_at: currentGroup[0].create_at || currentGroup[0].update_at || 0,
+      });
+    } else if (currentGroup.length === 1) {
+      result.push(currentGroup[0]);
+    }
+
+    return result;
+  }, [posts]);
 
   // const headerUsername = useMemo(() => {
   //   if (headerUser?.name) {
@@ -1554,8 +1684,14 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
 
         <FlatList
           ref={listRef}
-          data={posts}
-          keyExtractor={(item, index) => (item.id || index).toString()}
+          data={processedPosts}
+          keyExtractor={(item, index) => {
+            if ('type' in item && item.type === 'grouped_system_add') {
+              return item.id;
+            }
+            const postId = (item as ChatPost).id;
+            return postId ? postId : `post_${index}`;
+          }}
           renderItem={_renderItem}
           ListEmptyComponent={_emptyList}
           refreshControl={

@@ -322,7 +322,8 @@
     "unable_to_start_dm": "Unable to start chat. Please try again.",
     "send": "Send",
     "back": "Back to chats",
-    "banned_from_chat": "Unusual activity detected. Please try again after some time."
+    "banned_from_chat": "Unusual activity detected. Please try again after some time.",
+    "people_joined": "{count} people joined"
   },
   "profile": {
     "following": "Following",
