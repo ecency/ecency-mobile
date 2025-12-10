@@ -322,7 +322,9 @@
     "unable_to_start_dm": "No se puede iniciar el chat. Por favor, inténtalo de nuevo.",
     "send": "Enviar",
     "back": "Volver a chats",
-    "banned_from_chat": "Actividad inusual detectada. Por favor, inténtalo de nuevo después de un tiempo."
+    "banned_from_chat": "Actividad inusual detectada. Por favor, inténtalo de nuevo después de un tiempo.",
+    "people_joined": "{count} people joined",
+    "header_with_members": "{title} - {count} members"
   },
   "profile": {
     "following": "Siguiendo",
