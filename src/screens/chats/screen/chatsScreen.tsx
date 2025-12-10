@@ -30,6 +30,7 @@ import {
   toggleMattermostChannelFavorite,
   toggleMattermostChannelMute,
   leaveMattermostChannel,
+  markMattermostChannelViewed,
 } from '../../../providers/chat/mattermost';
 import { Header, Icon, UserAvatar } from '../../../components';
 import { chatsStyles as styles } from '../styles';
@@ -372,9 +373,52 @@ const ChatsScreen = () => {
     [_ensureBootstrap, _getChannelId, _resolveChannelIdentity, intl],
   );
 
+  const _handleMarkChannelRead = useCallback(
+    async (channel: any) => {
+      try {
+        await _ensureBootstrap();
+        const channelId = _getChannelId(channel);
+
+        if (!channelId) {
+          throw new Error(
+            intl.formatMessage({
+              id: 'chats.unable_to_mark_read',
+              defaultMessage: 'Unable to mark channel as read. Please try again.',
+            }),
+          );
+        }
+
+        await markMattermostChannelViewed(channelId);
+
+        const viewedAt = Math.max(Number(channel?.last_post_at) || 0, Date.now());
+
+        _updateChannelState(channelId, {
+          unread_messages: 0,
+          unread_msg_count: 0,
+          unread_count: 0,
+          unread_mentions: 0,
+          mention_count: 0,
+          mentions_count: 0,
+          mention_count_root: 0,
+          urgent_mention_count: 0,
+          channel_wide_mention_count: 0,
+          last_viewed_at: viewedAt,
+          last_view_at: viewedAt,
+          lastViewedAt: viewedAt,
+          lastViewed: viewedAt,
+        });
+      } catch (err: any) {
+        setError(err?.message || 'Unable to mark channel as read');
+      }
+    },
+    [_ensureBootstrap, _getChannelId, _updateChannelState, intl],
+  );
+
   const _confirmChannelOptions = useCallback(
     (channel: any) => {
       const name = channel.display_name || channel.name;
+      const { totalUnread } = _getUnreadMeta(channel);
+      const hasUnread = (totalUnread || 0) > 0;
       SheetManager.show(SheetNames.ACTION_MODAL, {
         payload: {
           title: `${name} - ${intl.formatMessage({
@@ -382,6 +426,17 @@ const ChatsScreen = () => {
             defaultMessage: 'Channel options',
           })}`,
           buttons: [
+            ...(hasUnread
+              ? [
+                  {
+                    text: intl.formatMessage({
+                      id: 'chats.mark_as_read',
+                      defaultMessage: 'Mark as read',
+                    }),
+                    onPress: () => _handleMarkChannelRead(channel),
+                  },
+                ]
+              : []),
             {
               text: channel.is_favorite
                 ? intl.formatMessage({ id: 'chats.unfavorite', defaultMessage: 'Remove favorite' })
@@ -403,7 +458,14 @@ const ChatsScreen = () => {
         },
       });
     },
-    [_handleLeaveChannel, _handleToggleFavorite, _handleToggleMute, intl],
+    [
+      _getUnreadMeta,
+      _handleLeaveChannel,
+      _handleMarkChannelRead,
+      _handleToggleFavorite,
+      _handleToggleMute,
+      intl,
+    ],
   );
 
   const _search = useCallback(
