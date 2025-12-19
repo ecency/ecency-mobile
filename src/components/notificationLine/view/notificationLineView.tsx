@@ -22,6 +22,22 @@ const NotificationLineView = ({
   const intl = useIntl();
   let titleExtra = '';
   let _moreinfo = '';
+  const _getMessageValues = () => {
+    switch (notification.type) {
+      case 'checkin':
+      case 'monthly_posts': {
+        const count = Number(notification.count) || 0;
+        const suffix = notification.suffix ?? (count === 1 ? '' : 's');
+        return { count, suffix };
+      }
+      case 'payouts':
+        return { amount: notification.amount || '' };
+      default:
+        return {};
+    }
+  };
+
+  const _messageValues = _getMessageValues();
   useEffect(() => {
     setIsRead(notification.read);
   }, [notification]);
@@ -53,9 +69,12 @@ const NotificationLineView = ({
     titleExtra = _percent;
   }
 
-  const _title = `${titleExtra} ${intl.formatMessage({
-    id: `notification.${notification.type}`,
-  })}`;
+  const _title = [
+    titleExtra,
+    intl.formatMessage({ id: `notification.${notification.type}` }, _messageValues),
+  ]
+    .filter((part) => !!part)
+    .join(' ');
 
   if (
     notification.type === 'vote' ||
