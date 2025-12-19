@@ -13,6 +13,7 @@ import { useIntl } from 'react-intl';
 import moment from 'moment';
 import { SheetManager } from 'react-native-actions-sheet';
 
+import EStyleSheet from 'react-native-extended-stylesheet';
 import ROUTES from '../../../constants/routeNames';
 import { useAppSelector } from '../../../hooks';
 import { SheetNames } from '../../../navigation/sheets';
@@ -57,6 +58,7 @@ const ChatsScreen = () => {
     channels: [],
     users: [],
   }));
+  const [sortByName, setSortByName] = useState<boolean>(false);
 
   const _safeExtractCommunityIdentifier = useCallback((channel: any) => {
     try {
@@ -860,37 +862,50 @@ const ChatsScreen = () => {
   const _renderSearchInput = () => {
     return (
       <View style={styles.searchContainer}>
-        <View style={styles.searchInputWrapper}>
-          <Icon
-            iconType="MaterialIcons"
-            name="search"
-            size={20}
-            color="#788187"
-            style={styles.searchIcon}
-          />
-          <TextInput
-            value={searchQuery}
-            onChangeText={(text) => setSearchQuery(text.toLowerCase())}
-            autoCapitalize="none"
-            autoCorrect={false}
-            placeholder={intl.formatMessage({
-              id: 'chats.search_placeholder',
-              defaultMessage: 'Search channels or users',
-            })}
-            placeholderTextColor="#788187"
-            style={styles.searchInput}
-          />
-          {!!searchQuery && (
-            <TouchableOpacity
-              onPress={() => {
-                setSearchQuery('');
-                setSearchResults({ channels: [], users: [] });
-              }}
-              style={styles.clearButton}
-            >
-              <Icon iconType="MaterialIcons" name="close" size={20} color="#788187" />
-            </TouchableOpacity>
-          )}
+        <View style={styles.searchInputRow}>
+          <View style={styles.searchInputWrapper}>
+            <Icon
+              iconType="MaterialIcons"
+              name="search"
+              size={20}
+              color="#788187"
+              style={styles.searchIcon}
+            />
+            <TextInput
+              value={searchQuery}
+              onChangeText={(text) => setSearchQuery(text.toLowerCase())}
+              autoCapitalize="none"
+              autoCorrect={false}
+              placeholder={intl.formatMessage({
+                id: 'chats.search_placeholder',
+                defaultMessage: 'Search channels or users',
+              })}
+              placeholderTextColor="#788187"
+              style={styles.searchInput}
+            />
+            {!!searchQuery && (
+              <TouchableOpacity
+                onPress={() => {
+                  setSearchQuery('');
+                  setSearchResults({ channels: [], users: [] });
+                }}
+                style={styles.clearButton}
+              >
+                <Icon iconType="MaterialIcons" name="close" size={20} color="#788187" />
+              </TouchableOpacity>
+            )}
+          </View>
+          <TouchableOpacity
+            onPress={() => setSortByName(!sortByName)}
+            style={[styles.sortButton, sortByName && styles.sortButtonActive]}
+          >
+            <Icon
+              iconType="MaterialIcons"
+              name="sort-by-alpha"
+              size={20}
+              color={EStyleSheet.value('$iconColor')}
+            />
+          </TouchableOpacity>
         </View>
         {!!searchError && <Text style={styles.errorText}>{searchError}</Text>}
       </View>
@@ -1050,6 +1065,21 @@ const ChatsScreen = () => {
       }
     });
 
+    const getDisplayName = (channel: any): string => {
+      let displayName = channel.display_name || channel.name || '';
+      if (channel?.type === 'D') {
+        displayName = channel.directUser?.username || '';
+      }
+      return displayName;
+    };
+
+    const sortByNameOnly = (list: any[]) =>
+      list.sort((a, b) => {
+        const nameA = getDisplayName(a).toLowerCase();
+        const nameB = getDisplayName(b).toLowerCase();
+        return nameA.localeCompare(nameB);
+      });
+
     const sortByRecencyThenUnreadThenName = (list: any[]) =>
       list.sort((a, b) => {
         // First, sort by recency (most recent first)
@@ -1082,13 +1112,19 @@ const ChatsScreen = () => {
         return nameA.localeCompare(nameB);
       });
 
+    if (sortByName) {
+      // When sorting by name, combine all channels and sort alphabetically
+      const allChannels = [...favorites, ...unread, ...regular, ...muted];
+      return sortByNameOnly(allChannels);
+    }
+
     return [
       ...sortByRecencyThenUnreadThenName(favorites),
       ...sortByRecencyThenUnreadThenName(unread),
       ...sortByRecencyThenName(regular),
       ...sortByRecencyThenUnreadThenName(muted),
     ];
-  }, [channels, _getUnreadMeta]);
+  }, [channels, _getUnreadMeta, sortByName, currentUserId, userLookup]);
 
   return (
     <View style={styles.container}>
