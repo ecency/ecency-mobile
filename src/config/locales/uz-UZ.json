@@ -257,6 +257,9 @@
     "reblog": "qayta bloglandi",
     "transfer": "uzatildi",
     "delegations": "delegatsiyalandi",
+    "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
+    "payouts": "You received {amount} payout.",
+    "monthly_posts": "You created {count} post{suffix} this month. Keep it up!",
     "spin": "Ko'proq ball ishlash vaqti",
     "inactive": "Faol bo'ling! Post yozing, daromad olishda davom eting",
     "referral": "sizning taklif ssilkangiz orqali qo'shildi, uni kutib oling",
@@ -322,7 +325,9 @@
     "unable_to_start_dm": "Unable to start chat. Please try again.",
     "send": "Send",
     "back": "Back to chats",
-    "banned_from_chat": "Unusual activity detected. Please try again after some time."
+    "banned_from_chat": "Unusual activity detected. Please try again after some time.",
+    "people_joined": "{count} people joined",
+    "header_with_members": "{title} - {count} members"
   },
   "profile": {
     "following": "Kuzatish",
