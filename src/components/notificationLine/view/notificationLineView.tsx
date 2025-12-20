@@ -110,15 +110,17 @@ const NotificationLineView = ({
         </TouchableOpacity>
 
         <View style={styles.body}>
-          <View style={styles.titleWrapper}>
+          <Text style={styles.title} numberOfLines={3} ellipsizeMode="tail">
             <Text style={styles.name}>{notification.source} </Text>
-            <Text style={styles.title}>{_title} </Text>
+            {_title}
+          </Text>
+          {_moreinfo ? (
             <Text style={styles.moreinfo} numberOfLines={1} ellipsizeMode="tail">
               {_moreinfo}
             </Text>
-          </View>
+          ) : null}
           {notification.description && (
-            <Text numberOfLines={1} style={styles.description}>
+            <Text numberOfLines={2} style={styles.description} ellipsizeMode="tail">
               {notification.description}
             </Text>
           )}

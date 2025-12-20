@@ -6,8 +6,9 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 64,
+    alignItems: 'flex-start',
+    minHeight: 64,
+    paddingVertical: 12,
     backgroundColor: '$primaryBackgroundColor',
   },
   avatar: {
@@ -28,11 +29,8 @@ export default EStyleSheet.create({
     fontSize: 12,
     marginRight: 28,
     marginLeft: 16,
-    alignSelf: 'center',
-    width: '$deviceWidth / 1.76',
-  },
-  titleWrapper: {
-    flexDirection: 'row',
+    alignSelf: 'flex-start',
+    flexShrink: 1,
   },
   name: {
     fontWeight: 'bold',
@@ -40,15 +38,18 @@ export default EStyleSheet.create({
   },
   title: {
     color: '$primaryDarkGray',
+    flexShrink: 1,
   },
   moreinfo: {
     color: '$primaryBlack',
     flex: 1,
+    marginTop: 2,
   },
   description: {
     color: '$primaryBlack',
     fontSize: 12,
     fontWeight: '500',
+    marginTop: 2,
   },
   isNewNotification: {
     backgroundColor: '$primaryLightBlue',
