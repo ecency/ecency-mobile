@@ -521,12 +521,24 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     ],
   );
 
-  // Initial load effect
+  // Initial load effect - reset state when channel changes
   useEffect(() => {
+    // Clear all channel-specific state to prevent cross-channel bleed
+    setPosts([]);
+    setLastPostId(null);
+    setRootMessages({});
+    setRootPost(null);
+    setFirstUnreadIndex(null);
+    setLastViewedAt(initialLastViewedAt ?? null);
+    setUnreadAnchor(initialLastViewedAt ?? null);
+    setError(null);
     setHasMorePosts(true);
     setMemberCount(null);
+
+    // Load posts for new channel
     _loadPosts(false);
-  }, [channelId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [channelId, initialLastViewedAt]);
 
   // Reset scroll state when channel changes
   useEffect(() => {
