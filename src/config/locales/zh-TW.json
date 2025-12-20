@@ -257,6 +257,9 @@
     "reblog": "已轉發",
     "transfer": "已轉帳",
     "delegations": "代理",
+    "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
+    "payouts": "You received {amount} payout.",
+    "monthly_posts": "You created {count} post{suffix} this month. Keep it up!",
     "spin": "旋轉",
     "inactive": "走起！寫文章吧。我們繼續賺",
     "referral": "根據你的介紹已經加入我們。趕快歡迎他們吧",
@@ -322,7 +325,9 @@
     "unable_to_start_dm": "Unable to start chat. Please try again.",
     "send": "Send",
     "back": "Back to chats",
-    "banned_from_chat": "Unusual activity detected. Please try again after some time."
+    "banned_from_chat": "Unusual activity detected. Please try again after some time.",
+    "people_joined": "{count} people joined",
+    "header_with_members": "{title} - {count} members"
   },
   "profile": {
     "following": "關注",

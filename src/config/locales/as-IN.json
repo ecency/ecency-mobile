@@ -257,6 +257,9 @@
     "reblog": "ৰিব্লগ কৰিছে",
     "transfer": "ট্ৰানষ্ফাৰ্",
     "delegations": "delegated",
+    "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
+    "payouts": "You received {amount} payout.",
+    "monthly_posts": "You created {count} post{suffix} this month. Keep it up!",
     "spin": "অধিক প‌ইন্ট আহৰণ কৰা সময় হৈছে",
     "inactive": "সক্ৰিয় হ‌ওঁক! এটা পোষ্ট লিখক,‌‌ টকা আহৰণ কৰক",
     "referral": "আপোনাৰ ৰেফাৰেলৰ জৰিয়তে যোগদান কৰিলে, স্বাগতম জনাওক",
@@ -322,7 +325,9 @@
     "unable_to_start_dm": "Unable to start chat. Please try again.",
     "send": "Send",
     "back": "Back to chats",
-    "banned_from_chat": "Unusual activity detected. Please try again after some time."
+    "banned_from_chat": "Unusual activity detected. Please try again after some time.",
+    "people_joined": "{count} people joined",
+    "header_with_members": "{title} - {count} members"
   },
   "profile": {
     "following": "ফʼলʼ কৰিছে",

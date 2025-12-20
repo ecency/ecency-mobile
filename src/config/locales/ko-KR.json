@@ -257,6 +257,9 @@
     "reblog": "님이 리블로그하였습니다.",
     "transfer": "님이 송금하였습니다.",
     "delegations": "delegated",
+    "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
+    "payouts": "You received {amount} payout.",
+    "monthly_posts": "You created {count} post{suffix} this month. Keep it up!",
     "spin": "더 많은 포이트를 획득할 시간입니다.",
     "inactive": "포스트를 작성하고 활발하게 활동하여 꾸준하게 수익을 창출하세요.",
     "referral": "귀하의 추천인 링크를 통해 가입한 사용자를 환영해주세요.",
@@ -322,7 +325,9 @@
     "unable_to_start_dm": "Unable to start chat. Please try again.",
     "send": "Send",
     "back": "Back to chats",
-    "banned_from_chat": "Unusual activity detected. Please try again after some time."
+    "banned_from_chat": "Unusual activity detected. Please try again after some time.",
+    "people_joined": "{count} people joined",
+    "header_with_members": "{title} - {count} members"
   },
   "profile": {
     "following": "팔로잉",

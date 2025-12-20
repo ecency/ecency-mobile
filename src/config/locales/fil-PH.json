@@ -257,6 +257,9 @@
     "reblog": "nireblogged",
     "transfer": "nailipat",
     "delegations": "delegated",
+    "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
+    "payouts": "You received {amount} payout.",
+    "monthly_posts": "You created {count} post{suffix} this month. Keep it up!",
     "spin": "Panahon na para kumita ng mas maraming Points",
     "inactive": "Maging aktibo! Magsulat ng post, kumita ng tuloy-tuloy",
     "referral": "sumali gamit ang iyong referral, salubungin sila",
@@ -322,7 +325,9 @@
     "unable_to_start_dm": "Unable to start chat. Please try again.",
     "send": "Send",
     "back": "Back to chats",
-    "banned_from_chat": "Unusual activity detected. Please try again after some time."
+    "banned_from_chat": "Unusual activity detected. Please try again after some time.",
+    "people_joined": "{count} people joined",
+    "header_with_members": "{title} - {count} members"
   },
   "profile": {
     "following": "Sunisundan",

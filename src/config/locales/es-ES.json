@@ -257,6 +257,9 @@
     "reblog": "reblogueado",
     "transfer": "transferido",
     "delegations": "delegado",
+    "checkin": "You checked in {count} day{suffix} this week. Keep it up!",
+    "payouts": "You received {amount} payout.",
+    "monthly_posts": "You created {count} post{suffix} this month. Keep it up!",
     "spin": "Es hora de ganar más puntos",
     "inactive": "¡Estate activo! Escribe un mensaje, sigue ganando",
     "referral": "se unieron con tu enlace de referido, dales la bienvenida!",
@@ -322,7 +325,9 @@
     "unable_to_start_dm": "No se puede iniciar el chat. Por favor, inténtalo de nuevo.",
     "send": "Enviar",
     "back": "Volver a chats",
-    "banned_from_chat": "Actividad inusual detectada. Por favor, inténtalo de nuevo después de un tiempo."
+    "banned_from_chat": "Actividad inusual detectada. Por favor, inténtalo de nuevo después de un tiempo.",
+    "people_joined": "{count} personas se unieron",
+    "header_with_members": "{title} - {count} miembros"
   },
   "profile": {
     "following": "Siguiendo",
