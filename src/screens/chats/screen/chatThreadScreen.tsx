@@ -180,6 +180,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const [isSending, setIsSending] = useState<boolean>(false);
   const [isUploadingImage, setIsUploadingImage] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
+  const [mentionQuery, setMentionQuery] = useState<string | null>(null);
+  const [mentionStartIndex, setMentionStartIndex] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [hasBootstrapped, setHasBootstrapped] = useState<boolean>(!!initialBootstrap);
   const [canModerate, setCanModerate] = useState<boolean>(false);
@@ -211,12 +213,64 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     userLookupRef.current = normalized;
     return normalized;
   });
+  const mentionableUsers = useMemo(() => normalizeUsersFromMap(userLookup), [userLookup]);
 
   const linkifyInstance = useMemo(() => {
     const linkify = new LinkifyIt();
     linkify.set({ fuzzyLink: false });
     return linkify;
   }, []);
+
+  const _getMentionUsername = useCallback(
+    (user: any) =>
+      (typeof user?.hiveUsername === 'string' && user.hiveUsername) ||
+      getHiveUsernameFromMattermostUser(user) ||
+      (typeof user?.username === 'string' && user.username) ||
+      (typeof user?.nickname === 'string' && user.nickname) ||
+      (typeof user?.name === 'string' && user.name) ||
+      '',
+    [],
+  );
+
+  const _updateMentionState = useCallback((text: string) => {
+    const match = text.match(/(^|[\s\n])@([a-zA-Z0-9_.-]*)$/);
+    if (match) {
+      const startIndex = (match.index || 0) + match[1].length;
+      setMentionStartIndex(startIndex);
+      setMentionQuery(match[2]);
+    } else {
+      setMentionStartIndex(null);
+      setMentionQuery(null);
+    }
+  }, []);
+
+  const _handleMessageChange = useCallback(
+    (text: string) => {
+      setMessage(text);
+      _updateMentionState(text);
+    },
+    [_updateMentionState],
+  );
+
+  const mentionSuggestions = useMemo(() => {
+    if (mentionQuery === null) {
+      return [];
+    }
+
+    const query = mentionQuery.toLowerCase();
+    const filtered = mentionableUsers.filter((user) => {
+      const username = _getMentionUsername(user);
+      if (!username) {
+        return false;
+      }
+
+      return query ? username.toLowerCase().includes(query) : true;
+    });
+
+    return filtered
+      .sort((a, b) => _getMentionUsername(a).localeCompare(_getMentionUsername(b)))
+      .slice(0, 8);
+  }, [mentionQuery, mentionableUsers, _getMentionUsername]);
 
   const _safeExtractCommunityIdentifier = useCallback((channel: any) => {
     try {
@@ -829,6 +883,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
   const _resetEditing = useCallback(() => {
     setEditingPostId(null);
     setMessage('');
+    setMentionQuery(null);
+    setMentionStartIndex(null);
     setRootPost(null);
   }, []);
 
@@ -836,16 +892,43 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     setRootPost(null);
   }, []);
 
+  const _handleSelectMention = useCallback(
+    (user: any) => {
+      const username = _getMentionUsername(user);
+      if (!username) {
+        return;
+      }
+
+      setMessage((prev) => {
+        const start = mentionStartIndex ?? prev.length;
+        const queryLength = mentionQuery?.length ?? 0;
+        const afterStart = (mentionStartIndex ?? prev.length) + 1 + queryLength;
+        const before = mentionStartIndex !== null ? prev.slice(0, start) : prev;
+        const after = mentionStartIndex !== null ? prev.slice(afterStart) : '';
+        const mentionText = `@${username}`;
+        const needsSpaceAfter =
+          after.length === 0 ? ' ' : after.startsWith(' ') || after.startsWith('\n') ? '' : ' ';
+        const nextMessage = `${before}${mentionText}${needsSpaceAfter}${after}`;
+        _updateMentionState(nextMessage);
+        return nextMessage;
+      });
+
+      setTimeout(() => inputRef.current?.focus(), 50);
+    },
+    [mentionQuery, mentionStartIndex, _getMentionUsername, _updateMentionState],
+  );
+
   const _handleStartEdit = useCallback(
     (post: ChatPost) => {
       setRootPost(null);
       const timestamp = post.create_at || post.update_at;
       const body = _formatPostBody(post, timestamp);
       setMessage(body);
+      _updateMentionState(body);
       setEditingPostId(post.id || null);
       setTimeout(() => inputRef.current?.focus(), 100);
     },
-    [_formatPostBody],
+    [_formatPostBody, _updateMentionState],
   );
 
   const _handleSend = async () => {
@@ -914,6 +997,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         }
       }
       setMessage('');
+      _updateMentionState('');
       setRootPost(null);
     } catch (err: any) {
       // Check if this is a ban error
@@ -973,7 +1057,11 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       const uploadedUrl = uploadResult?.url || uploadResult?.image || uploadResult?.[0]?.url;
 
       if (uploadedUrl) {
-        setMessage((prev) => (prev ? `${prev.trim()} ${uploadedUrl}` : uploadedUrl));
+        setMessage((prev) => {
+          const next = prev ? `${prev.trim()} ${uploadedUrl}` : uploadedUrl;
+          _updateMentionState(next);
+          return next;
+        });
       } else {
         setError('Unable to attach image.');
       }
@@ -985,7 +1073,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     } finally {
       setIsUploadingImage(false);
     }
-  }, [currentAccount, pinCode]);
+  }, [currentAccount, pinCode, _updateMentionState]);
 
   const _renderReplyPreview = useCallback(
     (
@@ -1108,6 +1196,43 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       </View>
     );
   }, [editingPostId, intl]);
+
+  const _renderMentionSuggestions = useCallback(() => {
+    if (mentionQuery === null || mentionSuggestions.length === 0) {
+      return null;
+    }
+
+    return (
+      <View style={styles.mentionSuggestionsContainer}>
+        {mentionSuggestions.map((user) => {
+          const username = _getMentionUsername(user);
+          const displayName =
+            (typeof user?.nickname === 'string' && user.nickname) ||
+            (typeof user?.name === 'string' && user.name) ||
+            (typeof user?.username === 'string' && user.username) ||
+            username;
+
+          return (
+            <TouchableOpacity
+              key={user?.id || username}
+              style={styles.mentionSuggestionRow}
+              onPress={() => _handleSelectMention(user)}
+            >
+              <UserAvatar username={username} style={styles.mentionSuggestionAvatar} disableSize />
+              <View style={styles.mentionSuggestionContent}>
+                <Text style={styles.mentionSuggestionUsername}>{`@${username}`}</Text>
+                {displayName && displayName !== username ? (
+                  <Text style={styles.mentionSuggestionName} numberOfLines={1}>
+                    {displayName}
+                  </Text>
+                ) : null}
+              </View>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    );
+  }, [mentionQuery, mentionSuggestions, _getMentionUsername, _handleSelectMention]);
 
   const _getEmojiDisplay = useCallback((emojiName: string) => {
     // Map emoji names to actual emoji characters
@@ -1315,6 +1440,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     const _handleReplyToPost = (post: ChatPost) => {
       setEditingPostId(null);
       setMessage('');
+      _updateMentionState('');
       setRootPost(post);
       setTimeout(() => inputRef.current?.focus(), 100);
     };
@@ -1430,6 +1556,88 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
       return url;
     };
 
+    const _renderTextWithBoldMentions = (text: string, textStyle: any) => {
+      // First, detect all URLs in the text to exclude mentions within them
+      const links = linkifyInstance.match(text) || [];
+      const linkRanges: Array<{ start: number; end: number }> = links.map((link) => ({
+        start: link.index,
+        end: link.index + link.raw.length,
+      }));
+
+      // Split text by mentions that have space before @ or are at the start
+      // Pattern: (^|[\s\n])@([a-zA-Z0-9\-.]+)
+      const mentionPattern = /(^|[\s\n])(@[a-zA-Z0-9\-.]+)/g;
+      const parts: Array<{ text: string; isMention: boolean; id: string }> = [];
+      let lastIndex = 0;
+      let match;
+      let partCounter = 0; // Counter for unique IDs
+
+      while ((match = mentionPattern.exec(text)) !== null) {
+        const fullMatch = match[0];
+        const beforeChar = match[1];
+        const mention = match[2];
+        const mentionStart = match.index + beforeChar.length;
+        const mentionEnd = mentionStart + mention.length;
+
+        // Check if this mention is inside a link
+        const isInsideLink = linkRanges.some(
+          (range) => mentionStart >= range.start && mentionEnd <= range.end,
+        );
+
+        // Add text before the match
+        if (match.index > lastIndex) {
+          parts.push({
+            text: text.slice(lastIndex, match.index),
+            isMention: false,
+            id: `part-${partCounter++}`,
+          });
+        }
+
+        // Add the beforeChar (space or newline)
+        if (beforeChar) {
+          parts.push({
+            text: beforeChar,
+            isMention: false,
+            id: `part-${partCounter++}`,
+          });
+        }
+
+        // Add the mention (bold only if not inside a link)
+        parts.push({
+          text: mention,
+          isMention: !isInsideLink,
+          id: `part-${partCounter++}`,
+        });
+
+        lastIndex = match.index + fullMatch.length;
+      }
+
+      // Add remaining text
+      if (lastIndex < text.length) {
+        parts.push({
+          text: text.slice(lastIndex),
+          isMention: false,
+          id: `part-${partCounter++}`,
+        });
+      }
+
+      // If no mentions found, return the plain text
+      if (parts.length === 0) {
+        return text;
+      }
+
+      return parts.map((part) => {
+        if (part.isMention) {
+          return (
+            <Text key={part.id} style={[textStyle, { fontWeight: '700' }]}>
+              {part.text}
+            </Text>
+          );
+        }
+        return part.text;
+      });
+    };
+
     if (isSystemAddMessage) {
       const formattedBody = _formatPostBody(postItem, timestamp);
       const systemContent = _parseMessageContent(formattedBody, false);
@@ -1516,7 +1724,10 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
                 linkify={linkifyInstance}
               >
                 <Text style={[styles.body, isOwnMessage ? styles.bodyOwn : styles.bodyOther]}>
-                  {messageText}
+                  {_renderTextWithBoldMentions(messageText, [
+                    styles.body,
+                    isOwnMessage ? styles.bodyOwn : styles.bodyOther,
+                  ])}
                 </Text>
               </Hyperlink>
             )}
@@ -1721,50 +1932,53 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     };
 
     return (
-      <View style={composerStyle}>
-        <View style={styles.inputContainer}>
-          <IconButton
-            style={[styles.attachButton, isUploadingImage && styles.disabledButton]}
-            iconType="MaterialCommunityIcons"
-            name="plus"
-            color={EStyleSheet.value('$primaryDarkText')}
-            size={24}
-            onPress={_handleAttachImage}
-            disabled={isUploadingImage || isSending}
-            isLoading={isUploadingImage}
-          />
-
-          <View style={styles.inputWrapper}>
-            {_renderEditingBanner()}
-            {_renderComposerReplyPreview()}
-            <TextInput
-              ref={inputRef}
-              style={styles.input}
-              placeholder={intl.formatMessage({
-                id: 'chats.message_placeholder',
-                defaultMessage: 'Message',
-              })}
-              placeholderTextColor="#788187"
-              value={message}
-              onChangeText={setMessage}
-              multiline
+      <View style={styles.composerWrapper}>
+        {_renderMentionSuggestions()}
+        <View style={composerStyle}>
+          <View style={styles.inputContainer}>
+            <IconButton
+              style={[styles.attachButton, isUploadingImage && styles.disabledButton]}
+              iconType="MaterialCommunityIcons"
+              name="plus"
+              color={EStyleSheet.value('$primaryDarkText')}
+              size={24}
+              onPress={_handleAttachImage}
+              disabled={isUploadingImage || isSending}
+              isLoading={isUploadingImage}
             />
-          </View>
-        </View>
 
-        <IconButton
-          style={[
-            styles.sendButton,
-            (!message.trim() || isSending || isUploadingImage) && styles.sendButtonDisabled,
-          ]}
-          iconType="MaterialCommunityIcons"
-          name="send"
-          color={EStyleSheet.value('$pureWhite')}
-          size={20}
-          onPress={_handleSend}
-          disabled={!message.trim() || isSending || isUploadingImage}
-          isLoading={isSending}
-        />
+            <View style={styles.inputWrapper}>
+              {_renderEditingBanner()}
+              {_renderComposerReplyPreview()}
+              <TextInput
+                ref={inputRef}
+                style={styles.input}
+                placeholder={intl.formatMessage({
+                  id: 'chats.message_placeholder',
+                  defaultMessage: 'Message',
+                })}
+                placeholderTextColor="#788187"
+                value={message}
+                onChangeText={_handleMessageChange}
+                multiline
+              />
+            </View>
+          </View>
+
+          <IconButton
+            style={[
+              styles.sendButton,
+              (!message.trim() || isSending || isUploadingImage) && styles.sendButtonDisabled,
+            ]}
+            iconType="MaterialCommunityIcons"
+            name="send"
+            color={EStyleSheet.value('$pureWhite')}
+            size={20}
+            onPress={_handleSend}
+            disabled={!message.trim() || isSending || isUploadingImage}
+            isLoading={isSending}
+          />
+        </View>
       </View>
     );
   }, [
@@ -1778,6 +1992,8 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     _renderEditingBanner,
     _renderComposerReplyPreview,
     _handleSend,
+    _renderMentionSuggestions,
+    _handleMessageChange,
     intl,
   ]);
 

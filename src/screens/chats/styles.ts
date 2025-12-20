@@ -537,6 +537,10 @@ export const chatThreadStyles = EStyleSheet.create({
     color: '$primaryBlue',
     fontWeight: '700',
   },
+  composerWrapper: {
+    position: 'relative',
+    paddingTop: 8,
+  },
   composer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -578,6 +582,47 @@ export const chatThreadStyles = EStyleSheet.create({
     color: '$primaryBlack',
     minHeight: 40,
     maxHeight: 120,
+  },
+  mentionSuggestionsContainer: {
+    position: 'absolute',
+    bottom: '100%',
+    left: 12,
+    right: 12,
+    marginBottom: 8,
+    paddingVertical: 4,
+    paddingHorizontal: 4,
+    backgroundColor: '$primaryLightBackground',
+    borderRadius: 12,
+    shadowColor: '$shadowColor',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 2,
+    maxHeight: 240,
+  },
+  mentionSuggestionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 8,
+  },
+  mentionSuggestionAvatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    marginRight: 10,
+    borderWidth: 0,
+  },
+  mentionSuggestionContent: {
+    flex: 1,
+  },
+  mentionSuggestionUsername: {
+    color: '$primaryBlack',
+    fontWeight: '700',
+  },
+  mentionSuggestionName: {
+    color: '$primaryDarkText',
+    marginTop: 2,
   },
 
   sendButton: {
