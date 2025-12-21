@@ -13,3 +13,4 @@ export * from './SearchBar';
 export * from './ChannelListItem';
 export * from './SearchResults';
 export * from './ChannelList';
+export * from './TypingIndicator';

@@ -456,4 +456,46 @@ export const chatThreadStyles = EStyleSheet.create({
     textAlign: 'center',
     color: '$primaryDarkText',
   },
+
+  // Typing Indicator
+  typingIndicatorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  typingDots: {
+    flexDirection: 'row',
+    marginRight: 8,
+  },
+  typingDot: {
+    fontSize: 18,
+    color: '$primaryBlue',
+    marginHorizontal: 1,
+  },
+  typingText: {
+    fontSize: 13,
+    color: '$primaryDarkText',
+    fontStyle: 'italic',
+  },
+
+  // Pinned Posts
+  pinnedPostsBanner: {
+    backgroundColor: '$primaryLightBackground',
+    borderBottomWidth: 1,
+    borderBottomColor: '$borderColor',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  pinnedPostsTitle: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '$primaryBlue',
+    marginBottom: 4,
+  },
+  pinnedPostText: {
+    fontSize: 13,
+    color: '$primaryDarkText',
+  },
 });
