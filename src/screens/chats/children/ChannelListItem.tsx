@@ -86,7 +86,7 @@ export const ChannelListItem: React.FC<ChannelListItemProps> = React.memo(
                 name="star"
                 iconType="MaterialCommunityIcons"
                 size={14}
-                color={EStyleSheet.value('$primaryBlue')}
+                color="#FFB300"
                 style={styles.channelMetaIcon}
               />
             )}

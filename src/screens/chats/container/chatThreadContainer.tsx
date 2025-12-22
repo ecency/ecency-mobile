@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, FlatList, Keyboard, Platform, TextInput, View } from 'react-native';
+import { Alert, BackHandler, FlatList, Keyboard, Platform, TextInput, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import LinkifyIt from 'linkify-it';
 import { useIntl } from 'react-intl';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -10,6 +11,7 @@ import { SheetManager } from 'react-native-actions-sheet';
 import unionBy from 'lodash/unionBy';
 
 import { useAppSelector, useLinkProcessor } from '../../../hooks';
+import { useMattermostWebSocket } from '../../../hooks/useMattermostWebSocket';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import {
   bootstrapMattermostSession,
@@ -26,10 +28,12 @@ import {
   addMattermostReaction,
   removeMattermostReaction,
   joinMattermostChannel,
+  fetchMattermostPinnedPosts,
+  pinMattermostPost,
+  unpinMattermostPost,
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
 import { signImage, getCommunity } from '../../../providers/hive/dhive';
-import { BasicHeader } from '../../../components';
 import { chatThreadStyles as styles } from '../styles/chatThread.styles';
 import { emojifyMessage } from '../../../utils/emoji';
 import { SheetNames } from '../../../navigation/sheets';
@@ -64,6 +68,10 @@ import { ThreadMessageItem } from '../children/ThreadMessageItem';
 import { GroupedSystemMessages } from '../children/GroupedSystemMessages';
 import { SystemMessageItem } from '../children/SystemMessageItem';
 import { MessageReactions } from '../children/MessageReactions';
+import { ChatHeader } from '../children/ChatHeader';
+import { PinnedMessagesModal } from '../children/PinnedMessagesModal';
+import { OnlineUsersModal } from '../children/OnlineUsersModal';
+import { TypingIndicator } from '../children/TypingIndicator';
 
 interface ChatReaction {
   emoji_name: string;
@@ -106,6 +114,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const intl = useIntl();
   const insets = useSafeAreaInsets();
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const { handleLink } = useLinkProcessor();
 
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
@@ -137,6 +146,12 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const [lastPostId, setLastPostId] = useState<string | null>(null);
   const [memberCount, setMemberCount] = useState<number | null>(null);
   const [hasMorePosts, setHasMorePosts] = useState<boolean>(true);
+  const [pinnedMessagesModalVisible, setPinnedMessagesModalVisible] = useState<boolean>(false);
+  const [onlineUsersModalVisible, setOnlineUsersModalVisible] = useState<boolean>(false);
+  const [pinnedCount, setPinnedCount] = useState<number>(0);
+  const [channelMembers, setChannelMembers] = useState<any[]>([]);
+  const [onlineUserIds, setOnlineUserIds] = useState<string[]>([]);
+  const [wsEnabled, setWsEnabled] = useState<boolean>(true);
 
   // Refs
   const unreadScrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -164,6 +179,138 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const bootstrapUserId =
     bootstrapResult?.user?.id || bootstrapResult?.user?.userId || bootstrapResult?.userId;
 
+  // WebSocket connection for real-time updates
+  const {
+    isConnected: isWsConnected,
+    typingUsers,
+    sendTyping,
+  } = useMattermostWebSocket({
+    enabled: wsEnabled && !!bootstrapResult?.token && !!bootstrapUserId,
+    token: bootstrapResult?.token || null,
+    userId: bootstrapUserId || null,
+    channelId,
+    onNewMessage: useCallback(
+      (post: any) => {
+        const normalized = normalizePost(post);
+        if (!normalized) {
+          return;
+        }
+
+        // Skip messages from current user - they're already added optimistically on send
+        if (post.user_id === bootstrapUserId) {
+          return;
+        }
+
+        setPosts((prevPosts) => {
+          const exists = prevPosts.find((p) => p.id === normalized.id);
+          if (exists) {
+            return prevPosts;
+          }
+          return [normalized, ...prevPosts];
+        });
+
+        // Fetch user if not in lookup
+        if (post.user_id && !userLookupRef.current[post.user_id]) {
+          fetchMattermostUsersByIds([post.user_id])
+            .then((users) => {
+              const userMap = ensureMattermostUsersHaveHiveNames(
+                normalizeUsersFromMap({ [post.user_id]: users[0] }),
+              );
+              setUserLookup((prev) => ({ ...prev, ...userMap }));
+            })
+            .catch(console.error);
+        }
+      },
+      [bootstrapUserId],
+    ),
+    onMessageEdited: useCallback(
+      (post: any) => {
+        const normalized = normalizePost(post);
+        if (!normalized) {
+          return;
+        }
+
+        // Skip edits from current user - they're already updated optimistically
+        if (post.user_id === bootstrapUserId) {
+          return;
+        }
+
+        setPosts((prevPosts) =>
+          prevPosts.map((p) => (p.id === normalized.id ? { ...p, ...normalized } : p)),
+        );
+      },
+      [bootstrapUserId],
+    ),
+    onMessageDeleted: useCallback((postId: string) => {
+      setPosts((prevPosts) => prevPosts.filter((p) => p.id !== postId));
+    }, []),
+    onReactionAdded: useCallback(
+      (reaction: any) => {
+        // Skip reactions from current user - they're already added optimistically
+        if (reaction.user_id === bootstrapUserId) {
+          return;
+        }
+
+        setPosts((prevPosts) =>
+          prevPosts.map((p) => {
+            if (p.id === reaction.post_id) {
+              const reactions = p.metadata?.reactions || p.props?.reactions || [];
+              const exists = reactions.some(
+                (r: any) => r.user_id === reaction.user_id && r.emoji_name === reaction.emoji_name,
+              );
+              if (!exists) {
+                const updatedReactions = [...reactions, reaction];
+                return {
+                  ...p,
+                  metadata: { ...p.metadata, reactions: updatedReactions },
+                  props: { ...p.props, reactions: updatedReactions },
+                };
+              }
+            }
+            return p;
+          }),
+        );
+      },
+      [bootstrapUserId],
+    ),
+    onReactionRemoved: useCallback(
+      (reaction: any) => {
+        // Skip reactions from current user - they're already removed optimistically
+        if (reaction.user_id === bootstrapUserId) {
+          return;
+        }
+
+        setPosts((prevPosts) =>
+          prevPosts.map((p) => {
+            if (p.id === reaction.post_id) {
+              const reactions = (p.metadata?.reactions || p.props?.reactions || []).filter(
+                (r: any) =>
+                  !(r.user_id === reaction.user_id && r.emoji_name === reaction.emoji_name),
+              );
+              return {
+                ...p,
+                metadata: { ...p.metadata, reactions },
+                props: { ...p.props, reactions },
+              };
+            }
+            return p;
+          }),
+        );
+      },
+      [bootstrapUserId],
+    ),
+    onUserTyping: useCallback((userId: string) => {
+      // Hook manages typing state automatically
+      console.log('[Chat] User typing:', userId);
+    }, []),
+    onError: useCallback((error: Error) => {
+      console.error('[Chat] WebSocket error:', error);
+      // Note: HTTP 426 "Upgrade Required" typically means the WebSocket endpoint
+      // is not available or the server doesn't support WebSocket upgrades
+      // This is expected if the backend doesn't have WebSocket support yet
+    }, []),
+  });
+
   // Callbacks
   const _updateMentionState = useCallback((text: string) => {
     const match = text.match(/(^|[\s\n])@([a-zA-Z0-9_.-]*)$/);
@@ -181,8 +328,16 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     (text: string) => {
       setMessage(text);
       _updateMentionState(text);
+
+      // Send typing indicator via WebSocket
+      if (isWsConnected && text.length > 0) {
+        console.log('[Chat] Sending typing indicator');
+        sendTyping();
+      } else if (!isWsConnected && text.length > 0) {
+        console.log('[Chat] Cannot send typing - WebSocket not connected');
+      }
     },
-    [_updateMentionState],
+    [_updateMentionState, isWsConnected, sendTyping],
   );
 
   const mentionSuggestions = useMemo(() => {
@@ -263,6 +418,9 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           .map((member: any) => member?.user_id || member?.id)
           .filter(Boolean);
 
+        // Store members for online users modal
+        setChannelMembers(members || []);
+
         if (!lastViewedAt && bootstrapUserId) {
           const selfMember = members?.find(
             (member: any) => member?.user_id === bootstrapUserId || member?.id === bootstrapUserId,
@@ -328,6 +486,32 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     channelName,
     headerUser,
   ]);
+
+  // Load pinned messages count effect
+  useEffect(() => {
+    const loadPinnedCount = async () => {
+      try {
+        await _ensureBootstrap();
+        const data = await fetchMattermostPinnedPosts(channelId);
+
+        let count = 0;
+        if (Array.isArray(data)) {
+          count = data.length;
+        } else if (data?.order) {
+          count = data.order.length;
+        } else if (data?.posts) {
+          count = Object.keys(data.posts).length;
+        }
+
+        setPinnedCount(count);
+      } catch (err) {
+        // Ignore errors, just keep count at 0
+        setPinnedCount(0);
+      }
+    };
+
+    loadPinnedCount();
+  }, [channelId, _ensureBootstrap]);
 
   // Resolve moderation status effect
   useEffect(() => {
@@ -459,6 +643,11 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         // Update member count from response
         if (!!data?.memberCount && memberCount !== data.memberCount) {
           setMemberCount(data.memberCount);
+        }
+
+        // Update online user IDs from response
+        if (data?.onlineUserIds && Array.isArray(data.onlineUserIds)) {
+          setOnlineUserIds(data.onlineUserIds);
         }
 
         const userMap = ensureMattermostUsersHaveHiveNames(normalizeUsersFromMap(data?.users));
@@ -679,6 +868,29 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       keyboardDidShowListener.remove();
     };
   }, [insets.bottom, posts.length]);
+
+  // Hardware back button handler
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBack);
+    return () => backHandler.remove();
+  }, [handleBack]);
+
+  // Screen focus/blur handler - disconnect websocket when leaving chat
+  useFocusEffect(
+    useCallback(() => {
+      // Screen is focused - enable websocket
+      console.log('[Chat] Screen focused, enabling WebSocket');
+      console.log('[Chat] Bootstrap token:', !!bootstrapResult?.token);
+      console.log('[Chat] Bootstrap user ID:', bootstrapUserId);
+      setWsEnabled(true);
+
+      return () => {
+        // Screen is blurred - disable websocket
+        console.log('[Chat] Screen blurred, disabling WebSocket');
+        setWsEnabled(false);
+      };
+    }, [bootstrapResult, bootstrapUserId]),
+  );
 
   // Edit and reply actions
   const _resetEditing = useCallback(() => {
@@ -999,6 +1211,92 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     [intl, _handleRemovePost],
   );
 
+  const _handlePinPost = useCallback(
+    async (post: ChatPost) => {
+      if (!post?.id) {
+        return;
+      }
+
+      try {
+        await _ensureBootstrap();
+        await pinMattermostPost(post.id);
+
+        // Update the post locally
+        setPosts((prev) =>
+          prev.map((item) => (item.id === post.id ? { ...item, is_pinned: true } : item)),
+        );
+
+        // Update pinned count
+        setPinnedCount((prev) => prev + 1);
+
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.success',
+              defaultMessage: 'Success!',
+            }),
+          ),
+        );
+      } catch (error: any) {
+        console.error('Failed to pin message:', error);
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.error',
+              defaultMessage: 'Error',
+            }),
+          ),
+        );
+      } finally {
+        SheetManager.hide(SheetNames.CHAT_OPTIONS);
+      }
+    },
+    [_ensureBootstrap, dispatch, intl],
+  );
+
+  const _handleUnpinPost = useCallback(
+    async (post: ChatPost) => {
+      if (!post?.id) {
+        return;
+      }
+
+      try {
+        await _ensureBootstrap();
+        await unpinMattermostPost(post.id);
+
+        // Update the post locally
+        setPosts((prev) =>
+          prev.map((item) => (item.id === post.id ? { ...item, is_pinned: false } : item)),
+        );
+
+        // Update pinned count
+        setPinnedCount((prev) => Math.max(0, prev - 1));
+
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.success',
+              defaultMessage: 'Success!',
+            }),
+          ),
+        );
+      } catch (error: any) {
+        console.error('Failed to unpin message:', error);
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.error',
+              defaultMessage: 'Error',
+            }),
+          ),
+        );
+      } finally {
+        SheetManager.hide(SheetNames.CHAT_OPTIONS);
+      }
+    },
+    [_ensureBootstrap, dispatch, intl],
+  );
+
   const _showChatOptionsSheet = useCallback(
     (post: ChatPost, isOwn: boolean) => {
       SheetManager.show(SheetNames.CHAT_OPTIONS, {
@@ -1025,6 +1323,18 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
                   _confirmDelete(post);
                 }
               : undefined,
+          onPin:
+            canModerate && !post.is_pinned
+              ? () => {
+                  _handlePinPost(post);
+                }
+              : undefined,
+          onUnpin:
+            canModerate && post.is_pinned
+              ? () => {
+                  _handleUnpinPost(post);
+                }
+              : undefined,
         },
       });
     },
@@ -1036,6 +1346,8 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       _handleAddReaction,
       _handleStartEdit,
       _confirmDelete,
+      _handlePinPost,
+      _handleUnpinPost,
     ],
   );
 
@@ -1047,17 +1359,56 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     } else {
       title = channelName || channelId;
     }
-
-    // Append member count if available and more than 2
-    if (!!memberCount && memberCount > 2) {
-      return intl.formatMessage(
-        { id: 'chats.header_with_members', defaultMessage: '{title} - {count} members' },
-        { title, count: memberCount },
-      );
-    }
-
     return title;
-  }, [headerUser, channelName, channelId, memberCount, intl]);
+  }, [headerUser, channelName, channelId]);
+
+  // Header handlers
+  const handleBack = useCallback(() => {
+    // Check if any modal is open and close it first
+    if (onlineUsersModalVisible) {
+      setOnlineUsersModalVisible(false);
+      return true;
+    }
+    if (pinnedMessagesModalVisible) {
+      setPinnedMessagesModalVisible(false);
+      return true;
+    }
+    // Navigate back if no modal is open
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+      return true;
+    }
+    return false;
+  }, [onlineUsersModalVisible, pinnedMessagesModalVisible, navigation]);
+
+  const handleScrollToMessage = useCallback(
+    (postId: string) => {
+      const index = posts.findIndex((post) => post.id === postId);
+      if (index >= 0 && listRef.current) {
+        try {
+          listRef.current.scrollToIndex({
+            index,
+            animated: true,
+            viewPosition: 0.5,
+          });
+        } catch (err) {
+          // If scroll fails, try again after a delay
+          setTimeout(() => {
+            try {
+              listRef.current?.scrollToIndex({
+                index,
+                animated: true,
+                viewPosition: 0.5,
+              });
+            } catch (e) {
+              console.log('Failed to scroll to message:', e);
+            }
+          }, 250);
+        }
+      }
+    },
+    [posts],
+  );
 
   // Process and group posts
   const processedPosts = useMemo(() => {
@@ -1298,7 +1649,14 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
 
   return (
     <SafeAreaView style={styles.container} edges={[]}>
-      <BasicHeader title={headerTitle} />
+      <ChatHeader
+        title={headerTitle}
+        memberCount={memberCount || 0}
+        pinnedCount={pinnedCount}
+        onBack={handleBack}
+        onMembersPress={() => setOnlineUsersModalVisible(true)}
+        onPinnedPress={() => setPinnedMessagesModalVisible(true)}
+      />
 
       <View style={{ flex: 1 }}>
         <ThreadMessageList
@@ -1321,6 +1679,13 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           onContentSizeChange={_scrollToUnread}
         />
 
+        <TypingIndicator
+          typingUsers={typingUsers}
+          userLookup={userLookup}
+          currentUserId={bootstrapUserId}
+          getHiveUsername={getHiveUsernameFromMattermostUser}
+        />
+
         <ThreadComposer
           message={message}
           onMessageChange={_handleMessageChange}
@@ -1338,6 +1703,23 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           insets={insets}
         />
       </View>
+
+      <PinnedMessagesModal
+        visible={pinnedMessagesModalVisible}
+        channelId={channelId}
+        userLookup={userLookup}
+        onClose={() => setPinnedMessagesModalVisible(false)}
+        onMessagePress={handleScrollToMessage}
+      />
+
+      <OnlineUsersModal
+        visible={onlineUsersModalVisible}
+        channelMembers={channelMembers}
+        userLookup={userLookup}
+        onlineUserIds={onlineUserIds}
+        onClose={() => setOnlineUsersModalVisible(false)}
+        onUserPress={_showUserProfile}
+      />
     </SafeAreaView>
   );
 };

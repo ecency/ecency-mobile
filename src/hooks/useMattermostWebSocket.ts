@@ -104,8 +104,10 @@ export const useMattermostWebSocket = (options: UseMattermostWebSocketOptions) =
 
         case 'typing': {
           const typingUserId = event.data.user_id;
+          console.log('[useMattermostWS] Typing event received:', event.data);
 
           if (typingUserId && typingUserId !== userIdRef.current) {
+            console.log('[useMattermostWS] User is typing:', typingUserId);
             onUserTyping?.(typingUserId, event.broadcast.channel_id || '');
 
             // Update typing users state
@@ -121,6 +123,7 @@ export const useMattermostWebSocket = (options: UseMattermostWebSocketOptions) =
 
             // Set timeout to remove user from typing after 5 seconds
             typingTimeoutsRef.current[typingUserId] = setTimeout(() => {
+              console.log('[useMattermostWS] Clearing typing for user:', typingUserId);
               setTypingUsers((prev) => {
                 const updated = { ...prev };
                 delete updated[typingUserId];
@@ -147,10 +150,12 @@ export const useMattermostWebSocket = (options: UseMattermostWebSocketOptions) =
   );
 
   const handleReconnect = useCallback(() => {
+    console.log('[useMattermostWS] WebSocket reconnected');
     setIsConnected(true);
   }, []);
 
   const handleClose = useCallback(() => {
+    console.log('[useMattermostWS] WebSocket closed');
     setIsConnected(false);
   }, []);
 
@@ -165,9 +170,18 @@ export const useMattermostWebSocket = (options: UseMattermostWebSocketOptions) =
   // Connect WebSocket
   useEffect(() => {
     if (!enabled || !token || !userId) {
+      console.log(
+        '[useMattermostWS] Not connecting - enabled:',
+        enabled,
+        'token:',
+        !!token,
+        'userId:',
+        !!userId,
+      );
       return;
     }
 
+    console.log('[useMattermostWS] Connecting WebSocket...');
     mattermostWebSocket.connect({
       token,
       userId,
@@ -180,6 +194,7 @@ export const useMattermostWebSocket = (options: UseMattermostWebSocketOptions) =
     setIsConnected(mattermostWebSocket.isConnected());
 
     return () => {
+      console.log('[useMattermostWS] Disconnecting WebSocket...');
       mattermostWebSocket.disconnect();
       // Clear all typing timeouts
       Object.values(typingTimeoutsRef.current).forEach(clearTimeout);
@@ -190,7 +205,10 @@ export const useMattermostWebSocket = (options: UseMattermostWebSocketOptions) =
   const sendTyping = useCallback(
     (parentId?: string) => {
       if (channelId) {
+        console.log('[useMattermostWS] Sending typing event to channel:', channelId);
         mattermostWebSocket.sendTyping(channelId, parentId);
+      } else {
+        console.log('[useMattermostWS] Cannot send typing - no channelId');
       }
     },
     [channelId],

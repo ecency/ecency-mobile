@@ -14,3 +14,6 @@ export * from './ChannelListItem';
 export * from './SearchResults';
 export * from './ChannelList';
 export * from './TypingIndicator';
+export * from './ChatHeader';
+export * from './PinnedMessagesModal';
+export * from './OnlineUsersModal';

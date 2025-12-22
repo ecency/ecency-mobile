@@ -53,6 +53,8 @@ class MattermostWebSocketClient {
 
   private reconnectTimeout: ReturnType<typeof setTimeout> | null = null;
 
+  private connectionTimeout: ReturnType<typeof setTimeout> | null = null;
+
   private isConnecting = false;
 
   private isClosed = false;
@@ -77,13 +79,46 @@ class MattermostWebSocketClient {
       const wsUrl = `${wsProtocol}://${wsHost}/api/mattermost/websocket`;
 
       console.log('[MattermostWS] Connecting to:', wsUrl);
+      console.log('[MattermostWS] User ID:', config.userId);
+      console.log('[MattermostWS] Has token:', !!config.token);
 
+      console.log('[MattermostWS] Creating WebSocket connection...');
       this.ws = new WebSocket(wsUrl);
 
+      console.log('[MattermostWS] WebSocket created, readyState:', this.ws.readyState);
+      console.log('[MattermostWS] readyState 0=CONNECTING, 1=OPEN, 2=CLOSING, 3=CLOSED');
+
+      // Set connection timeout (15 seconds for faster feedback)
+      this.connectionTimeout = setTimeout(() => {
+        if (this.isConnecting && this.ws) {
+          console.error('[MattermostWS] Connection timeout after 15s');
+          console.error('[MattermostWS] WebSocket readyState at timeout:', this.ws.readyState);
+
+          this.isConnecting = false;
+          this.isClosed = true; // Prevent reconnection
+
+          // Clean up the websocket
+          const wsToClose = this.ws;
+          this.ws = null;
+          wsToClose.close(1000, 'Connection timeout');
+
+          config.onError?.(new Error('Timed out connecting to server'));
+        }
+      }, 15000);
+
       this.ws.onopen = () => {
-        console.log('[MattermostWS] Connected');
+        console.log('[MattermostWS] WebSocket connection opened successfully');
+        console.log('[MattermostWS] Final readyState:', this.ws?.readyState);
         this.isConnecting = false;
         this.reconnectAttempts = 0;
+
+        // Clear connection timeout
+        if (this.connectionTimeout) {
+          clearTimeout(this.connectionTimeout);
+          this.connectionTimeout = null;
+        }
+
+        console.log('[MattermostWS] Sending authentication...');
         this._authenticate();
         this._startHeartbeat();
         config.onReconnect?.();
@@ -92,6 +127,12 @@ class MattermostWebSocketClient {
       this.ws.onmessage = (event) => {
         try {
           const message: MattermostWebSocketEvent = JSON.parse(event.data);
+          console.log(
+            '[MattermostWS] Received message, event:',
+            message.event,
+            'seq:',
+            message.seq,
+          );
 
           // Update sequence number
           if (message.seq && message.seq > this.lastSequence) {
@@ -100,7 +141,7 @@ class MattermostWebSocketClient {
 
           // Handle authentication response
           if (message.event === ('hello' as any)) {
-            console.log('[MattermostWS] Authenticated successfully');
+            console.log('[MattermostWS] ✓ Authenticated successfully with server');
             return;
           }
 
@@ -131,19 +172,53 @@ class MattermostWebSocketClient {
       };
 
       this.ws.onerror = (error: any) => {
-        console.error('[MattermostWS] Error:', error);
+        console.error('[MattermostWS] WebSocket error event fired');
+        console.error('[MattermostWS] Error details:', JSON.stringify(error, null, 2));
+        console.error('[MattermostWS] Error message:', error.message);
+        console.error('[MattermostWS] Error type:', error.type);
+        console.error('[MattermostWS] WebSocket readyState:', this.ws?.readyState);
+
         this.isConnecting = false;
+
+        // Clear connection timeout
+        if (this.connectionTimeout) {
+          clearTimeout(this.connectionTimeout);
+          this.connectionTimeout = null;
+        }
+
         config.onError?.(new Error(error.message || 'WebSocket error'));
       };
 
-      this.ws.onclose = () => {
-        console.log('[MattermostWS] Disconnected');
+      this.ws.onclose = (event: any) => {
+        console.log('[MattermostWS] WebSocket close event fired');
+        console.log('[MattermostWS] Close code:', event?.code);
+        console.log('[MattermostWS] Close reason:', event?.reason);
+        console.log('[MattermostWS] Clean close:', event?.wasClean);
+        console.log('[MattermostWS] isClosed flag:', this.isClosed);
+
         this.isConnecting = false;
         this._stopHeartbeat();
 
-        if (!this.isClosed) {
+        // Clear connection timeout
+        if (this.connectionTimeout) {
+          clearTimeout(this.connectionTimeout);
+          this.connectionTimeout = null;
+        }
+
+        // Don't reconnect if we got HTTP 426, 404, 403, 401, 1000 (normal/timeout), or 1006 (abnormal closure)
+        // These indicate the endpoint doesn't support WebSocket, auth failed, or connection issues
+        const doNotReconnectCodes = [426, 404, 403, 401, 1000, 1002, 1003, 1006];
+        const shouldNotReconnect = event?.code && doNotReconnectCodes.includes(event.code);
+
+        if (!this.isClosed && !shouldNotReconnect) {
+          console.log('[MattermostWS] Will attempt to reconnect');
           config.onClose?.();
           this._scheduleReconnect();
+        } else if (shouldNotReconnect) {
+          console.log('[MattermostWS] Not reconnecting due to error code:', event?.code);
+          this.isClosed = true;
+        } else if (this.isClosed) {
+          console.log('[MattermostWS] Not reconnecting - manually closed');
         }
       };
 
@@ -164,6 +239,12 @@ class MattermostWebSocketClient {
     this._removeAppStateListener();
     this._cancelReconnect();
 
+    // Clear connection timeout
+    if (this.connectionTimeout) {
+      clearTimeout(this.connectionTimeout);
+      this.connectionTimeout = null;
+    }
+
     if (this.ws) {
       this.ws.close();
       this.ws = null;
@@ -176,6 +257,12 @@ class MattermostWebSocketClient {
 
   sendTyping(channelId: string, parentId?: string) {
     if (!this.config?.userId) {
+      console.log('[MattermostWS] Cannot send typing - no user ID');
+      return;
+    }
+
+    if (!this.isConnected()) {
+      console.log('[MattermostWS] Cannot send typing - not connected');
       return;
     }
 
@@ -188,6 +275,7 @@ class MattermostWebSocketClient {
       },
     };
 
+    console.log('[MattermostWS] Sending typing event:', message);
     this._send(message);
   }
 
@@ -210,6 +298,7 @@ class MattermostWebSocketClient {
 
   private _authenticate() {
     if (!this.config) {
+      console.error('[MattermostWS] Cannot authenticate - no config');
       return;
     }
 
@@ -221,14 +310,20 @@ class MattermostWebSocketClient {
       },
     };
 
+    console.log('[MattermostWS] Sending authentication message');
+    console.log('[MattermostWS] Auth token length:', this.config.token.length);
+    console.log('[MattermostWS] Auth token prefix:', `${this.config.token.substring(0, 10)}...`);
+    console.log('[MattermostWS] Auth message seq:', authMessage.seq);
+
     this._send(authMessage);
   }
 
   private _send(message: any) {
     if (this.ws?.readyState === WebSocket.OPEN) {
+      console.log('[MattermostWS] Sending:', message.action || 'unknown action');
       this.ws.send(JSON.stringify(message));
     } else {
-      console.warn('[MattermostWS] Cannot send, not connected');
+      console.warn('[MattermostWS] Cannot send, not connected. readyState:', this.ws?.readyState);
     }
   }
 
