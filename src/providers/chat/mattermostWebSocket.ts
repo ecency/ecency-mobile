@@ -126,7 +126,9 @@ class MattermostWebSocketClient {
 
       this.ws.onmessage = (event) => {
         try {
+          console.log('[MattermostWS] Raw message received:', event.data);
           const message: MattermostWebSocketEvent = JSON.parse(event.data);
+          console.log('[MattermostWS] Parsed message:', JSON.stringify(message, null, 2));
           console.log(
             '[MattermostWS] Received message, event:',
             message.event,
