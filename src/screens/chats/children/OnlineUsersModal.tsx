@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { View, Text, Modal, TouchableOpacity, SectionList, Pressable, Image } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, FlatList, Pressable, Image } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
 import Icon from '../../../components/icon';
@@ -13,6 +13,7 @@ interface OnlineUsersModalProps {
   onlineUserIds: string[];
   onClose: () => void;
   onUserPress: (username: string) => void;
+  memberCount?: number;
 }
 
 interface UserStatus {
@@ -30,15 +31,24 @@ export const OnlineUsersModal: React.FC<OnlineUsersModalProps> = ({
   onlineUserIds,
   onClose,
   onUserPress,
+  memberCount,
 }) => {
   const intl = useIntl();
 
   const userStatuses = useMemo<UserStatus[]>(() => {
     const statuses: UserStatus[] = [];
+    const processedUserIds = new Set<string>();
 
-    channelMembers.forEach((member) => {
-      const userId = member?.user_id || member?.id;
-      if (!userId) {
+    // Get all user IDs from userLookup (this should have all channel members)
+    const allUserIds = Object.keys(userLookup);
+
+    console.log('[OnlineUsersModal] Total users in lookup:', allUserIds.length);
+    console.log('[OnlineUsersModal] Channel members count:', channelMembers.length);
+    console.log('[OnlineUsersModal] Member count prop:', memberCount);
+    console.log('[OnlineUsersModal] Online user IDs:', onlineUserIds.length);
+
+    allUserIds.forEach((userId) => {
+      if (processedUserIds.has(userId)) {
         return;
       }
 
@@ -61,9 +71,13 @@ export const OnlineUsersModal: React.FC<OnlineUsersModalProps> = ({
         displayName,
         isOnline,
       });
+
+      processedUserIds.add(userId);
     });
 
-    // Sort: online users first, then alphabetically
+    console.log('[OnlineUsersModal] Total statuses created:', statuses.length);
+
+    // Sort: online users first, then alphabetically within each group
     statuses.sort((a, b) => {
       if (a.isOnline && !b.isOnline) {
         return -1;
@@ -75,33 +89,7 @@ export const OnlineUsersModal: React.FC<OnlineUsersModalProps> = ({
     });
 
     return statuses;
-  }, [channelMembers, userLookup, onlineUserIds]);
-
-  const sections = useMemo(() => {
-    const online = userStatuses.filter((status) => status.isOnline);
-    const offline = userStatuses.filter((status) => !status.isOnline);
-
-    const result = [];
-    if (online.length > 0) {
-      result.push({
-        title: intl.formatMessage(
-          { id: 'chats.online_count', defaultMessage: 'Online ({count})' },
-          { count: online.length },
-        ),
-        data: online,
-      });
-    }
-    if (offline.length > 0) {
-      result.push({
-        title: intl.formatMessage(
-          { id: 'chats.offline_count', defaultMessage: 'Offline ({count})' },
-          { count: offline.length },
-        ),
-        data: offline,
-      });
-    }
-    return result;
-  }, [userStatuses, intl]);
+  }, [userLookup, onlineUserIds, channelMembers.length, memberCount]);
 
   const handleUserPress = useCallback(
     (username: string) => {
@@ -149,15 +137,7 @@ export const OnlineUsersModal: React.FC<OnlineUsersModalProps> = ({
     [handleUserPress],
   );
 
-  const renderSectionHeader = useCallback(
-    // eslint-disable-next-line react/no-unused-prop-types
-    ({ section }: { section: { title: string } }) => (
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>{section.title}</Text>
-      </View>
-    ),
-    [],
-  );
+  const onlineCount = useMemo(() => userStatuses.filter((u) => u.isOnline).length, [userStatuses]);
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
@@ -171,12 +151,23 @@ export const OnlineUsersModal: React.FC<OnlineUsersModalProps> = ({
                 size={20}
                 color={EStyleSheet.value('$primaryBlue')}
               />
-              <Text style={styles.modalTitle}>
-                {intl.formatMessage({
-                  id: 'chats.channel_members',
-                  defaultMessage: 'Channel Members',
-                })}
-              </Text>
+              <View>
+                <Text style={styles.modalTitle}>
+                  {intl.formatMessage({
+                    id: 'chats.channel_members',
+                    defaultMessage: 'Channel Members',
+                  })}
+                </Text>
+                <Text style={styles.modalSubtitle}>
+                  {intl.formatMessage(
+                    {
+                      id: 'chats.members_count_with_online',
+                      defaultMessage: '{total} members • {online} online',
+                    },
+                    { total: userStatuses.length, online: onlineCount },
+                  )}
+                </Text>
+              </View>
             </View>
             <TouchableOpacity onPress={onClose}>
               <Icon
@@ -198,13 +189,11 @@ export const OnlineUsersModal: React.FC<OnlineUsersModalProps> = ({
               </Text>
             </View>
           ) : (
-            <SectionList
-              sections={sections}
+            <FlatList
+              data={userStatuses}
               renderItem={renderUser}
-              renderSectionHeader={renderSectionHeader}
               keyExtractor={(item) => item.userId}
               contentContainerStyle={styles.listContent}
-              stickySectionHeadersEnabled={false}
             />
           )}
         </Pressable>
@@ -245,19 +234,14 @@ const styles = EStyleSheet.create({
     fontWeight: '600',
     color: '$primaryBlack',
   },
+  modalSubtitle: {
+    fontSize: 13,
+    color: '$primaryDarkGray',
+    marginTop: 2,
+  },
   listContent: {
     paddingHorizontal: 16,
     paddingVertical: 8,
-  },
-  sectionHeader: {
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-  },
-  sectionTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '$primaryDarkGray',
-    textTransform: 'uppercase',
   },
   userItem: {
     flexDirection: 'row',

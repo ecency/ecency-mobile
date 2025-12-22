@@ -1717,6 +1717,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         channelMembers={channelMembers}
         userLookup={userLookup}
         onlineUserIds={onlineUserIds}
+        memberCount={memberCount || undefined}
         onClose={() => setOnlineUsersModalVisible(false)}
         onUserPress={_showUserProfile}
       />
