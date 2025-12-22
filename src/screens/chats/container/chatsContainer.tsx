@@ -1,0 +1,1010 @@
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ActivityIndicator, FlatList, RefreshControl, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useIntl } from 'react-intl';
+import { SheetManager } from 'react-native-actions-sheet';
+
+import ROUTES from '../../../constants/routeNames';
+import { useAppSelector } from '../../../hooks';
+import { SheetNames } from '../../../navigation/sheets';
+import {
+  bootstrapMattermostSession,
+  fetchMattermostChannels,
+  fetchMattermostUsersByIds,
+  getHiveUsernameFromMattermostUser,
+  ensureMattermostUsersHaveHiveNames,
+  searchMattermostChannels,
+  searchMattermostUsers,
+  joinMattermostChannel,
+  startMattermostDirectMessage,
+  toggleMattermostChannelFavorite,
+  toggleMattermostChannelMute,
+  leaveMattermostChannel,
+  markMattermostChannelViewed,
+} from '../../../providers/chat/mattermost';
+import { Header } from '../../../components';
+import { chatsStyles as styles } from '../styles/chats.styles';
+import { safeExtractCommunityIdentifier } from '../utils/userLookupHelpers';
+import { StatusPill } from '../children/StatusPill';
+import { SearchBar } from '../children/SearchBar';
+import { ChannelListItem } from '../children/ChannelListItem';
+import { SearchResults } from '../children/SearchResults';
+
+const ChatsContainer = () => {
+  const intl = useIntl();
+  const navigation = useNavigation();
+
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const pinCode = useAppSelector((state) => state.application.pin);
+  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const isConnected = useAppSelector((state) => state.application.isConnected);
+
+  const [bootstrapResult, setBootstrapResult] = useState<any>(null);
+  const [channels, setChannels] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [userLookup, setUserLookup] = useState<Record<string, any>>({});
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchError, setSearchError] = useState<string | null>(null);
+  const [searchResults, setSearchResults] = useState<{ channels: any[]; users: any[] }>(() => ({
+    channels: [],
+    users: [],
+  }));
+  const [sortByName, setSortByName] = useState<boolean>(false);
+
+  const userLookupRef = useRef<Record<string, any>>({});
+  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const currentUserId = bootstrapResult?.user?.id;
+
+  // ============================================================================
+  // Utility Functions
+  // ============================================================================
+
+  const _normalizeChannels = (rawChannels: any): any[] => {
+    if (!rawChannels) {
+      return [];
+    }
+    if (Array.isArray(rawChannels)) {
+      return rawChannels;
+    }
+    if (Array.isArray(rawChannels.channels)) {
+      return rawChannels.channels;
+    }
+    return [];
+  };
+
+  const _collectDmUserIds = (channelList: any[], knownUsers: Record<string, any>): string[] => {
+    const ids = new Set<string>();
+
+    channelList
+      .filter((channel) => channel?.type === 'D')
+      .forEach((channel) => {
+        const teammateId = channel?.teammate_id;
+        if (teammateId && teammateId !== currentUserId && !knownUsers[teammateId]) {
+          ids.add(teammateId);
+        }
+
+        const dmIds = (channel?.name || '').split('__');
+        dmIds.forEach((id: string) => {
+          if (id && id !== currentUserId && !knownUsers[id]) {
+            ids.add(id);
+          }
+        });
+      });
+
+    return Array.from(ids);
+  };
+
+  const _getChannelId = useCallback((channel: any): string | undefined => {
+    if (!channel) {
+      return undefined;
+    }
+
+    return (
+      channel.id ||
+      channel.channel_id ||
+      channel.channelId ||
+      channel.channel?.id ||
+      (typeof channel === 'string' ? channel : undefined)
+    );
+  }, []);
+
+  const _updateChannelState = useCallback((channelId: string, updates: Record<string, any>) => {
+    setChannels((prev) =>
+      prev.map((channel) =>
+        channel.id === channelId || channel.channel_id === channelId || channel.name === channelId
+          ? { ...channel, ...updates }
+          : channel,
+      ),
+    );
+  }, []);
+
+  // ============================================================================
+  // Unread Meta Calculation
+  // ============================================================================
+
+  const _getUnreadMeta = useCallback((channel: any) => {
+    if (channel?.is_muted) {
+      return {
+        unreadMentions: 0,
+        unreadMessages: 0,
+        unreadCount: 0,
+        totalUnread: 0,
+      };
+    }
+
+    const unreadMentionValues = [
+      channel?.unread_mentions,
+      channel?.mention_count,
+      channel?.mentions_count,
+      channel?.mention_count_root,
+      channel?.urgent_mention_count,
+      channel?.channel_wide_mention_count,
+    ].filter((value) => Number.isFinite(value)) as number[];
+
+    const unreadMentions = unreadMentionValues.length ? Math.max(0, ...unreadMentionValues) : 0;
+
+    const unreadMessages = Number.isFinite(channel?.unread_messages)
+      ? channel.unread_messages
+      : Number.isFinite(channel?.unread_msg_count)
+      ? channel.unread_msg_count
+      : Number.isFinite(channel?.unread_count)
+      ? channel.unread_count
+      : 0;
+
+    const unreadCount = unreadMentions || unreadMessages || 0;
+    const totalUnread = Math.max(0, unreadMentions) + Math.max(0, unreadMessages);
+
+    return {
+      unreadMentions,
+      unreadMessages,
+      unreadCount,
+      totalUnread,
+    };
+  }, []);
+
+  // ============================================================================
+  // Bootstrap and Session Management
+  // ============================================================================
+
+  const _ensureBootstrap = useCallback(async () => {
+    if (bootstrapResult) {
+      return bootstrapResult;
+    }
+
+    const session = await bootstrapMattermostSession(currentAccount, pinCode);
+    setBootstrapResult(session);
+    return session;
+  }, [bootstrapResult, currentAccount, pinCode]);
+
+  const _seedDirectUsers = useCallback((channelList: any[]) => {
+    const next: Record<string, any> = {};
+
+    channelList
+      .filter((channel) => channel?.type === 'D' && channel?.directUser?.id)
+      .forEach((channel) => {
+        const { directUser } = channel;
+        next[directUser.id] = {
+          ...directUser,
+          hiveUsername: getHiveUsernameFromMattermostUser(directUser),
+        };
+      });
+
+    if (Object.keys(next).length) {
+      setUserLookup((prev) => {
+        const merged = { ...prev, ...next };
+        userLookupRef.current = merged;
+        return merged;
+      });
+    }
+  }, []);
+
+  const _resolveUserProfiles = useCallback(async (userIds: string[]) => {
+    try {
+      const users = await fetchMattermostUsersByIds(userIds);
+      const usersWithHiveNames = ensureMattermostUsersHaveHiveNames(users);
+      setUserLookup((prev) => {
+        const merged = { ...prev, ...usersWithHiveNames };
+        userLookupRef.current = merged;
+        return merged;
+      });
+    } catch (err) {
+      // silently ignore user lookup errors so channel loading still works
+    }
+  }, []);
+
+  // ============================================================================
+  // Channel Loading
+  // ============================================================================
+
+  const _loadChannels = useCallback(
+    async (refresh = false) => {
+      if (!isLoggedIn) {
+        setError(
+          intl.formatMessage({
+            id: 'chats.login_required',
+            defaultMessage: 'Sign in to start chatting with your communities.',
+          }),
+        );
+        return;
+      }
+
+      if (isConnected === false) {
+        setError(
+          intl.formatMessage({
+            id: 'alert.no_internet',
+            defaultMessage: 'No Internet Connection',
+          }),
+        );
+        return;
+      }
+
+      setError(null);
+      setIsLoading(!refresh);
+      setIsRefreshing(refresh);
+
+      try {
+        const session = await _ensureBootstrap();
+        setBootstrapResult(session);
+
+        const channelResponse = await fetchMattermostChannels();
+        const normalizedChannels = _normalizeChannels(channelResponse);
+        setChannels(normalizedChannels);
+
+        _seedDirectUsers(normalizedChannels);
+
+        const dmUserIds = _collectDmUserIds(normalizedChannels, userLookupRef.current);
+        if (dmUserIds.length) {
+          _resolveUserProfiles(dmUserIds);
+        }
+      } catch (err: any) {
+        setError(err?.message || 'Failed to load chats');
+      } finally {
+        setIsLoading(false);
+        setIsRefreshing(false);
+      }
+    },
+    [_ensureBootstrap, intl, isConnected, isLoggedIn, _resolveUserProfiles],
+  );
+
+  // ============================================================================
+  // Channel Operations (Favorite, Mute, Leave, Mark Read)
+  // ============================================================================
+
+  const _handleToggleFavorite = useCallback(
+    async (channel: any) => {
+      try {
+        await _ensureBootstrap();
+        const shouldFavorite = !channel.is_favorite;
+        const updated = await toggleMattermostChannelFavorite(
+          channel.id || channel.channel_id,
+          shouldFavorite,
+        );
+        _updateChannelState(channel.id || channel.channel_id, {
+          ...updated,
+          is_favorite: shouldFavorite,
+        });
+      } catch (err: any) {
+        setError(err?.message || 'Unable to update favorites');
+      }
+    },
+    [_ensureBootstrap, _updateChannelState],
+  );
+
+  const _handleToggleMute = useCallback(
+    async (channel: any) => {
+      try {
+        await _ensureBootstrap();
+        const shouldMute = !channel.is_muted;
+        const updated = await toggleMattermostChannelMute(
+          channel.id || channel.channel_id,
+          shouldMute,
+        );
+        _updateChannelState(channel.id || channel.channel_id, {
+          ...updated,
+          is_muted: shouldMute,
+        });
+      } catch (err: any) {
+        setError(err?.message || 'Unable to update mute');
+      }
+    },
+    [_ensureBootstrap, _updateChannelState],
+  );
+
+  const _handleLeaveChannel = useCallback(
+    async (channel: any) => {
+      try {
+        await _ensureBootstrap();
+        const resolved = await _resolveChannelIdentity(channel);
+        const channelId = resolved?.channelId || _getChannelId(channel) || channel?.name;
+
+        if (!channelId) {
+          throw new Error(
+            intl.formatMessage({
+              id: 'chats.unable_to_leave_channel',
+              defaultMessage: 'Unable to leave channel. Please try again.',
+            }),
+          );
+        }
+
+        await leaveMattermostChannel(channelId);
+        setChannels((prev) =>
+          prev.filter(
+            (item) =>
+              item.id !== channelId &&
+              item.channel_id !== channelId &&
+              item.name !== channelId &&
+              item.id !== channel.id &&
+              item.channel_id !== channel.channel_id &&
+              item.name !== channel.name,
+          ),
+        );
+      } catch (err: any) {
+        setError(
+          err?.message ||
+            intl.formatMessage({
+              id: 'chats.unable_to_leave_channel',
+              defaultMessage: 'Unable to leave channel. Please try again.',
+            }),
+        );
+      }
+    },
+    [_ensureBootstrap, _getChannelId, _resolveChannelIdentity, intl],
+  );
+
+  const _handleMarkChannelRead = useCallback(
+    async (channel: any) => {
+      try {
+        await _ensureBootstrap();
+        const channelId = _getChannelId(channel);
+
+        if (!channelId) {
+          throw new Error(
+            intl.formatMessage({
+              id: 'chats.unable_to_mark_read',
+              defaultMessage: 'Unable to mark channel as read. Please try again.',
+            }),
+          );
+        }
+
+        await markMattermostChannelViewed(channelId);
+
+        const viewedAt = Math.max(Number(channel?.last_post_at) || 0, Date.now());
+
+        _updateChannelState(channelId, {
+          unread_messages: 0,
+          unread_msg_count: 0,
+          unread_count: 0,
+          unread_mentions: 0,
+          mention_count: 0,
+          mentions_count: 0,
+          mention_count_root: 0,
+          urgent_mention_count: 0,
+          channel_wide_mention_count: 0,
+          last_viewed_at: viewedAt,
+          last_view_at: viewedAt,
+          lastViewedAt: viewedAt,
+          lastViewed: viewedAt,
+        });
+      } catch (err: any) {
+        setError(err?.message || 'Unable to mark channel as read');
+      }
+    },
+    [_ensureBootstrap, _getChannelId, _updateChannelState, intl],
+  );
+
+  const _confirmChannelOptions = useCallback(
+    (channel: any) => {
+      const name = channel.display_name || channel.name;
+      const { totalUnread } = _getUnreadMeta(channel);
+      const hasUnread = (totalUnread || 0) > 0;
+      SheetManager.show(SheetNames.ACTION_MODAL, {
+        payload: {
+          title: `${name} - ${intl.formatMessage({
+            id: 'chats.channel_options',
+            defaultMessage: 'Channel options',
+          })}`,
+          buttons: [
+            ...(hasUnread
+              ? [
+                  {
+                    text: intl.formatMessage({
+                      id: 'chats.mark_as_read',
+                      defaultMessage: 'Mark as read',
+                    }),
+                    onPress: () => _handleMarkChannelRead(channel),
+                  },
+                ]
+              : []),
+            {
+              text: channel.is_favorite
+                ? intl.formatMessage({ id: 'chats.unfavorite', defaultMessage: 'Remove favorite' })
+                : intl.formatMessage({ id: 'chats.favorite', defaultMessage: 'Favorite' }),
+              onPress: () => _handleToggleFavorite(channel),
+            },
+            {
+              text: channel.is_muted
+                ? intl.formatMessage({ id: 'chats.unmute', defaultMessage: 'Unmute' })
+                : intl.formatMessage({ id: 'chats.mute', defaultMessage: 'Mute' }),
+              onPress: () => _handleToggleMute(channel),
+            },
+            {
+              text: intl.formatMessage({ id: 'chats.leave', defaultMessage: 'Leave channel' }),
+              style: 'destructive',
+              onPress: () => _handleLeaveChannel(channel),
+            },
+          ],
+        },
+      });
+    },
+    [
+      _getUnreadMeta,
+      _handleLeaveChannel,
+      _handleMarkChannelRead,
+      _handleToggleFavorite,
+      _handleToggleMute,
+      intl,
+    ],
+  );
+
+  // ============================================================================
+  // Channel Resolution
+  // ============================================================================
+
+  const _resolveChannelIdentity = useCallback(
+    async (channel: any) => {
+      const currentId = _getChannelId(channel);
+      const name = channel?.name || channel?.display_name || currentId;
+
+      if (currentId && name && currentId !== name) {
+        return { channelId: currentId, resolvedChannel: channel };
+      }
+
+      if (!name) {
+        return null;
+      }
+
+      const searched = await searchMattermostChannels(name);
+      const normalized = _normalizeChannels(searched);
+      const match = normalized.find(
+        (item) =>
+          _getChannelId(item) === currentId ||
+          item.name === name ||
+          item.display_name === channel?.display_name,
+      );
+
+      if (!match) {
+        return null;
+      }
+
+      return { channelId: _getChannelId(match) || match.name || name, resolvedChannel: match };
+    },
+    [_getChannelId, _normalizeChannels],
+  );
+
+  const _resolveDirectChannel = useCallback(
+    async (dmChannel: any, user: any) => {
+      const channelId = dmChannel?.id || dmChannel?.channel_id || dmChannel?.name;
+      if (channelId) {
+        setChannels((prev) => {
+          const existing = prev.find(
+            (item) =>
+              item.id === channelId || item.channel_id === channelId || item.name === channelId,
+          );
+
+          if (existing) {
+            return prev.map((item) =>
+              item.id === channelId || item.channel_id === channelId || item.name === channelId
+                ? { ...item, ...dmChannel }
+                : item,
+            );
+          }
+
+          return [dmChannel, ...prev];
+        });
+
+        return { channel: dmChannel, channelId };
+      }
+
+      const userId = user?.id || user?.user_id;
+      if (!userId) {
+        throw new Error(
+          intl.formatMessage({
+            id: 'chats.unable_to_start_dm',
+            defaultMessage: 'Unable to start chat. Please try again.',
+          }),
+        );
+      }
+
+      const channelResponse = await fetchMattermostChannels();
+      const normalizedChannels = _normalizeChannels(channelResponse);
+      const existingDm = normalizedChannels.find(
+        (channel) =>
+          channel?.type === 'D' &&
+          (channel?.teammate_id === userId || (channel?.name || '').split('__').includes(userId)),
+      );
+
+      if (existingDm) {
+        const resolvedId = existingDm.id || existingDm.channel_id || existingDm.name;
+
+        setChannels((prev) => {
+          const already = prev.find(
+            (item) =>
+              item.id === resolvedId || item.channel_id === resolvedId || item.name === resolvedId,
+          );
+
+          if (already) {
+            return prev.map((item) =>
+              item.id === resolvedId || item.channel_id === resolvedId || item.name === resolvedId
+                ? { ...item, ...existingDm }
+                : item,
+            );
+          }
+
+          return [existingDm, ...prev];
+        });
+
+        return { channel: existingDm, channelId: resolvedId };
+      }
+
+      throw new Error(
+        intl.formatMessage({
+          id: 'chats.unable_to_start_dm',
+          defaultMessage: 'Unable to start chat. Please try again.',
+        }),
+      );
+    },
+    [_normalizeChannels, intl],
+  );
+
+  // ============================================================================
+  // Join Channel and Start DM
+  // ============================================================================
+
+  const _handleJoinChannel = useCallback(
+    async (channel: any) => {
+      try {
+        await _ensureBootstrap();
+        const resolved = await _resolveChannelIdentity(channel);
+        const channelId = resolved?.channelId || _getChannelId(channel) || channel?.name;
+
+        if (channelId === channel?.name && (!resolved || resolved.channelId === channel?.name)) {
+          throw new Error(
+            intl.formatMessage({
+              id: 'chats.unable_to_join_channel',
+              defaultMessage: 'Unable to join channel. Please try again.',
+            }),
+          );
+        }
+
+        if (!channelId) {
+          throw new Error(
+            intl.formatMessage({
+              id: 'chats.unable_to_join_channel',
+              defaultMessage: 'Unable to join channel. Please try again.',
+            }),
+          );
+        }
+
+        const joined = await joinMattermostChannel(channelId);
+        const joinedId = _getChannelId(joined) || channelId;
+        const mergedChannel = { ...resolved?.resolvedChannel, ...channel, ...joined };
+        const communityIdentifier = safeExtractCommunityIdentifier(mergedChannel);
+
+        setChannels((prev) => {
+          const exists = prev.find(
+            (item) =>
+              item.id === joinedId || item.channel_id === joinedId || item.name === joinedId,
+          );
+          if (exists) {
+            return prev.map((item) =>
+              item.id === joinedId || item.channel_id === joinedId || item.name === joinedId
+                ? { ...item, ...mergedChannel }
+                : item,
+            );
+          }
+          return [mergedChannel, ...prev];
+        });
+
+        navigation.navigate(
+          ROUTES.SCREENS.CHAT_THREAD as never,
+          {
+            channelId: joinedId,
+            channelName: mergedChannel.display_name || mergedChannel.name || channel.name,
+            channelDescription: mergedChannel.header || mergedChannel.purpose,
+            communityIdentifier,
+            bootstrapResult,
+            userLookup,
+            lastViewedAt: mergedChannel.last_viewed_at || mergedChannel.last_view_at,
+          } as never,
+        );
+      } catch (err: any) {
+        setSearchError(err?.message || 'Unable to join channel');
+      }
+    },
+    [
+      _ensureBootstrap,
+      _getChannelId,
+      _resolveChannelIdentity,
+      bootstrapResult,
+      intl,
+      navigation,
+      userLookup,
+    ],
+  );
+
+  const _handleStartDm = useCallback(
+    async (user: any) => {
+      try {
+        await _ensureBootstrap();
+        const dmChannel = await startMattermostDirectMessage(user);
+        const { channel: resolvedChannel, channelId } = await _resolveDirectChannel(
+          dmChannel,
+          user,
+        );
+        const communityIdentifier = safeExtractCommunityIdentifier(resolvedChannel);
+
+        navigation.navigate(
+          ROUTES.SCREENS.CHAT_THREAD as never,
+          {
+            channelId,
+            channelName: getHiveUsernameFromMattermostUser(user) || user.username || user.nickname,
+            channelDescription: resolvedChannel.header || resolvedChannel.purpose,
+            communityIdentifier,
+            bootstrapResult,
+            userLookup,
+            lastViewedAt: resolvedChannel.last_viewed_at || resolvedChannel.last_view_at,
+          } as never,
+        );
+      } catch (err: any) {
+        setSearchError(err?.message || 'Unable to start chat');
+      }
+    },
+    [_ensureBootstrap, _resolveDirectChannel, bootstrapResult, navigation, userLookup],
+  );
+
+  // ============================================================================
+  // Search
+  // ============================================================================
+
+  const _search = useCallback(
+    async (query: string) => {
+      const trimmed = query.trim();
+      if (trimmed.length < 2) {
+        setSearchResults({ channels: [], users: [] });
+        setSearchError(null);
+        setIsSearching(false);
+        return;
+      }
+
+      try {
+        setIsSearching(true);
+        setSearchError(null);
+        await _ensureBootstrap();
+
+        const lowerQuery = trimmed.toLowerCase();
+
+        // Search existing channels locally
+        const matchingExistingChannels = channels.filter((channel) => {
+          const displayName = (channel?.display_name || channel?.name || '').toLowerCase();
+          return displayName.includes(lowerQuery);
+        });
+
+        // Search API for public channels and users
+        const [channelData, userData] = await Promise.all([
+          searchMattermostChannels(trimmed),
+          searchMattermostUsers(trimmed),
+        ]);
+
+        const apiChannels = _normalizeChannels(channelData);
+        const normalizedUsers = Array.isArray(userData) ? userData : userData?.users || [];
+
+        // Filter users to prefer those with Hive usernames, but show all if needed
+        const usersWithHive: any[] = [];
+        const usersWithoutHive: any[] = [];
+
+        normalizedUsers.forEach((user: any) => {
+          const hiveUsername = getHiveUsernameFromMattermostUser(user);
+          if (hiveUsername) {
+            usersWithHive.push(user);
+          } else {
+            usersWithoutHive.push(user);
+          }
+        });
+
+        // Prioritize users with Hive usernames
+        const sortedUsers = [...usersWithHive, ...usersWithoutHive];
+
+        // Combine and deduplicate channels (existing channels first, then API results)
+        const channelMap = new Map();
+        matchingExistingChannels.forEach((ch) => {
+          const id = ch?.id || ch?.channel_id || ch?.name;
+          if (id) {
+            channelMap.set(id, ch);
+          }
+        });
+        apiChannels.forEach((ch) => {
+          const id = ch?.id || ch?.channel_id || ch?.name;
+          if (id && !channelMap.has(id)) {
+            channelMap.set(id, ch);
+          }
+        });
+
+        const combinedChannels = Array.from(channelMap.values());
+
+        setSearchResults({
+          channels: combinedChannels,
+          users: sortedUsers,
+        });
+      } catch (err: any) {
+        setSearchError(err?.message || 'Unable to search');
+      } finally {
+        setIsSearching(false);
+      }
+    },
+    [_ensureBootstrap, channels],
+  );
+
+  // ============================================================================
+  // Sorting and Rendering
+  // ============================================================================
+
+  const sortedChannels = useMemo(() => {
+    const favorites: any[] = [];
+    const unread: any[] = [];
+    const regular: any[] = [];
+    const muted: any[] = [];
+
+    channels.forEach((channel) => {
+      const unreadMeta = _getUnreadMeta(channel);
+      const enriched = {
+        ...channel,
+        unreadMeta,
+        lastInteraction: channel.last_viewed_at ?? channel.last_post_at ?? 0,
+      };
+
+      if (channel?.is_muted) {
+        muted.push(enriched);
+      } else if (channel?.is_favorite) {
+        favorites.push(enriched);
+      } else if (unreadMeta.unreadCount > 0) {
+        unread.push(enriched);
+      } else {
+        regular.push(enriched);
+      }
+    });
+
+    const getDisplayName = (channel: any): string => {
+      let displayName = channel.display_name || channel.name || '';
+      if (channel?.type === 'D') {
+        displayName = channel.directUser?.username || '';
+      }
+      return displayName;
+    };
+
+    const sortByNameOnly = (list: any[]) =>
+      list.sort((a, b) => {
+        const nameA = getDisplayName(a).toLowerCase();
+        const nameB = getDisplayName(b).toLowerCase();
+        return nameA.localeCompare(nameB);
+      });
+
+    const sortByRecencyThenUnreadThenName = (list: any[]) =>
+      list.sort((a, b) => {
+        if (a.lastInteraction !== b.lastInteraction) {
+          return b.lastInteraction - a.lastInteraction;
+        }
+
+        const unreadDiff = (b.unreadMeta?.totalUnread || 0) - (a.unreadMeta?.totalUnread || 0);
+        if (unreadDiff !== 0) {
+          return unreadDiff;
+        }
+
+        const nameA = (a.display_name || a.name || '').toLowerCase();
+        const nameB = (b.display_name || b.name || '').toLowerCase();
+        return nameA.localeCompare(nameB);
+      });
+
+    const sortByRecencyThenName = (list: any[]) =>
+      list.sort((a, b) => {
+        if (a.lastInteraction !== b.lastInteraction) {
+          return b.lastInteraction - a.lastInteraction;
+        }
+
+        const nameA = (a.display_name || a.name || '').toLowerCase();
+        const nameB = (b.display_name || b.name || '').toLowerCase();
+        return nameA.localeCompare(nameB);
+      });
+
+    if (sortByName) {
+      const allChannels = [...favorites, ...unread, ...regular, ...muted];
+      return sortByNameOnly(allChannels);
+    }
+
+    return [
+      ...sortByRecencyThenUnreadThenName(favorites),
+      ...sortByRecencyThenUnreadThenName(unread),
+      ...sortByRecencyThenName(regular),
+      ...sortByRecencyThenUnreadThenName(muted),
+    ];
+  }, [channels, _getUnreadMeta, sortByName, currentUserId, userLookup]);
+
+  const _listEmpty = useMemo(() => {
+    if (isLoading) {
+      return null;
+    }
+    if (error) {
+      return <Text style={styles.errorText}>{error}</Text>;
+    }
+    if (!isLoggedIn) {
+      return (
+        <Text style={styles.emptyState}>
+          {intl.formatMessage({
+            id: 'chats.login_required',
+            defaultMessage: 'Sign in to start chatting with your communities.',
+          })}
+        </Text>
+      );
+    }
+
+    return (
+      <Text style={styles.emptyState}>
+        {intl.formatMessage({
+          id: 'chats.empty',
+          defaultMessage: 'No chats yet. Join a community to see its channels here.',
+        })}
+      </Text>
+    );
+  }, [error, intl, isLoading, isLoggedIn]);
+
+  const _renderChannel = useCallback(
+    // eslint-disable-next-line react/no-unused-prop-types
+    ({ item }: { item: any }) => (
+      <ChannelListItem
+        channel={item}
+        currentUserId={currentUserId}
+        userLookup={userLookup}
+        getUnreadMeta={_getUnreadMeta}
+        safeExtractCommunityIdentifier={safeExtractCommunityIdentifier}
+        onPress={() => {
+          const channelId = item.id || item.channel_id || item.name;
+          const description = item.header || item.purpose || '';
+          const communityIdentifier = safeExtractCommunityIdentifier(item);
+
+          navigation.navigate(
+            ROUTES.SCREENS.CHAT_THREAD as never,
+            {
+              channelId,
+              channelName: item.display_name || item.name || channelId,
+              channelDescription: description,
+              communityIdentifier,
+              bootstrapResult,
+              userLookup,
+              lastViewedAt:
+                item?.last_viewed_at ||
+                item?.last_view_at ||
+                item?.lastViewedAt ||
+                item?.lastViewed ||
+                null,
+            } as never,
+          );
+        }}
+        onShowOptions={_confirmChannelOptions}
+      />
+    ),
+    [currentUserId, userLookup, _getUnreadMeta, bootstrapResult, navigation],
+  );
+
+  // ============================================================================
+  // Effects
+  // ============================================================================
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      _loadChannels(false);
+    }
+  }, [isLoggedIn, _loadChannels]);
+
+  useEffect(() => {
+    const bootstrapUser = bootstrapResult?.user;
+    if (bootstrapUser?.id) {
+      setUserLookup((prev) => ({
+        ...prev,
+        [bootstrapUser.id]: {
+          ...bootstrapUser,
+          hiveUsername: getHiveUsernameFromMattermostUser(bootstrapUser),
+        },
+      }));
+      userLookupRef.current = {
+        ...userLookupRef.current,
+        [bootstrapUser.id]: {
+          ...bootstrapUser,
+          hiveUsername: getHiveUsernameFromMattermostUser(bootstrapUser),
+        },
+      };
+    }
+  }, [bootstrapResult]);
+
+  useEffect(() => {
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    const trimmedQuery = searchQuery.trim();
+
+    if (trimmedQuery.length < 2) {
+      setSearchResults({ channels: [], users: [] });
+      setSearchError(null);
+      setIsSearching(false);
+      return;
+    }
+
+    searchTimeoutRef.current = setTimeout(() => {
+      _search(trimmedQuery);
+    }, 350);
+
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, [_search, searchQuery]);
+
+  // ============================================================================
+  // Render
+  // ============================================================================
+
+  return (
+    <View style={styles.container}>
+      <Header hideSearch={true} />
+
+      <View style={styles.header}>
+        {error && !isLoading && <Text style={styles.errorText}>{error}</Text>}
+      </View>
+
+      <View style={styles.content}>
+        <SearchBar
+          searchQuery={searchQuery}
+          onSearchChange={(text) => setSearchQuery(text.toLowerCase())}
+          sortByName={sortByName}
+          onToggleSort={() => setSortByName(!sortByName)}
+          searchError={searchError}
+        />
+
+        {(isLoading || isSearching) && <ActivityIndicator style={{ marginTop: 16 }} />}
+
+        <FlatList
+          data={sortedChannels}
+          keyExtractor={(item, index) =>
+            (item.id || item.channel_id || item.name || index).toString()
+          }
+          renderItem={_renderChannel}
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={() => _loadChannels(true)} />
+          }
+          ListHeaderComponent={
+            <SearchResults
+              searchResults={searchResults}
+              safeExtractCommunityIdentifier={safeExtractCommunityIdentifier}
+              onJoinChannel={_handleJoinChannel}
+              onStartDm={_handleStartDm}
+            />
+          }
+          ListEmptyComponent={_listEmpty}
+          contentContainerStyle={
+            !channels.length
+              ? { flex: 1, justifyContent: 'center', paddingBottom: 56 }
+              : { paddingBottom: 56, paddingHorizontal: 16 }
+          }
+        />
+      </View>
+
+      <StatusPill isConnected={!!bootstrapResult} />
+    </View>
+  );
+};
+
+export default ChatsContainer;

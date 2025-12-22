@@ -306,3 +306,18 @@ export const extractHiveCommunityIdentifier = (channel: any): string | undefined
   const match = haystack.match(/hive-[0-9]+/i);
   return match ? match[0] : undefined;
 };
+
+export const pinMattermostPost = async (postId: string): Promise<any> => {
+  const { data } = await chatApi.post(`/api/mattermost/posts/${postId}/pin`);
+  return data;
+};
+
+export const unpinMattermostPost = async (postId: string): Promise<any> => {
+  const { data } = await chatApi.post(`/api/mattermost/posts/${postId}/unpin`);
+  return data;
+};
+
+export const fetchMattermostPinnedPosts = async (channelId: string): Promise<any> => {
+  const { data } = await chatApi.get(`/api/mattermost/channels/${channelId}/pinned`);
+  return data.order || data.posts || data;
+};
