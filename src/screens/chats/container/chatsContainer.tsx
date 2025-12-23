@@ -619,6 +619,7 @@ const ChatsContainer = () => {
             bootstrapResult,
             userLookup,
             lastViewedAt: mergedChannel.last_viewed_at || mergedChannel.last_view_at,
+            channelType: mergedChannel.type || channel.type,
           } as never,
         );
       } catch (err: any) {
@@ -657,6 +658,7 @@ const ChatsContainer = () => {
             bootstrapResult,
             userLookup,
             lastViewedAt: resolvedChannel.last_viewed_at || resolvedChannel.last_view_at,
+            channelType: 'D',
           } as never,
         );
       } catch (err: any) {
@@ -889,6 +891,7 @@ const ChatsContainer = () => {
                 item?.lastViewedAt ||
                 item?.lastViewed ||
                 null,
+              channelType: item.type,
             } as never,
           );
         }}

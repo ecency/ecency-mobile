@@ -307,13 +307,15 @@ export const extractHiveCommunityIdentifier = (channel: any): string | undefined
   return match ? match[0] : undefined;
 };
 
-export const pinMattermostPost = async (postId: string): Promise<any> => {
-  const { data } = await chatApi.post(`/api/mattermost/posts/${postId}/pin`);
+export const pinMattermostPost = async (channelId: string, postId: string): Promise<any> => {
+  const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/posts/${postId}/pin`);
   return data;
 };
 
-export const unpinMattermostPost = async (postId: string): Promise<any> => {
-  const { data } = await chatApi.post(`/api/mattermost/posts/${postId}/unpin`);
+export const unpinMattermostPost = async (channelId: string, postId: string): Promise<any> => {
+  const { data } = await chatApi.delete(
+    `/api/mattermost/channels/${channelId}/posts/${postId}/pin`,
+  );
   return data;
 };
 
