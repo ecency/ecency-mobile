@@ -207,3 +207,23 @@ export enum PointActivityIds {
   VOTE = 120,
   REBLOG = 130,
 }
+
+export interface PostTip {
+  sender: string;
+  receiver: string;
+  amount: number;
+  currency: string;
+  memo: string;
+  source: 'engine' | 'blockchain' | 'points' | string;
+  timestamp: string;
+}
+
+export interface PostTipsMeta {
+  count: number;
+  totals: { [currency: string]: number };
+}
+
+export interface PostTipsResponse {
+  meta: PostTipsMeta;
+  list: PostTip[];
+}

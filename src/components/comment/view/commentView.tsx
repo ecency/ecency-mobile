@@ -96,6 +96,18 @@ const CommentView = ({
     }
   };
 
+  const _handleOnTipPress = () => {
+    if (!isLoggedIn) {
+      console.log('Login required to send tips');
+      return;
+    }
+    SheetManager.show(SheetNames.TIPPING_DIALOG, {
+      payload: {
+        post: comment,
+      },
+    });
+  };
+
   const _renderReadMoreButton = () => (
     <TextWithIcon
       wrapperStyle={styles.rightButton}
@@ -180,6 +192,17 @@ const CommentView = ({
             style={styles.leftButton}
             name="comment-outline"
             onPress={_handleOnReplyPress}
+            iconType="MaterialCommunityIcons"
+          />
+        )}
+
+        {isLoggedIn && (
+          <IconButton
+            size={20}
+            iconStyle={styles.leftIcon}
+            style={styles.leftButton}
+            name="gift-outline"
+            onPress={_handleOnTipPress}
             iconType="MaterialCommunityIcons"
           />
         )}

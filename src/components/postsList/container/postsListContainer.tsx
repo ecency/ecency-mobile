@@ -207,6 +207,14 @@ const postsListContainer = (
           });
         }
         break;
+
+      case PostCardActionIds.TIP:
+        SheetManager.show('tipping_dialog', {
+          payload: {
+            post: content,
+          },
+        });
+        break;
     }
   };
 

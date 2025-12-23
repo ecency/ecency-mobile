@@ -20,6 +20,7 @@ export enum PostCardActionIds {
   UPVOTE = 'UPVOTE',
   PAYOUT_DETAILS = 'PAYOUT_DETAILS',
   NAVIGATE = 'NAVIGATE',
+  TIP = 'TIP',
 }
 
 const PostCard = ({ intl, content, isHideImage, nsfw, pageType, handleCardInteraction }) => {
