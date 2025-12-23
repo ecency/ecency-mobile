@@ -17,6 +17,7 @@ interface ThreadComposerProps {
   isKeyboardVisible: boolean;
   renderEditingBanner: () => JSX.Element | null;
   renderComposerReplyPreview: () => JSX.Element | null;
+  renderLinkPreview: () => JSX.Element | null;
   renderMentionSuggestions: () => JSX.Element | null;
   inputRef: React.RefObject<TextInput>;
   insets: any;
@@ -35,6 +36,7 @@ export const ThreadComposer: React.FC<ThreadComposerProps> = React.memo(
     isKeyboardVisible,
     renderEditingBanner,
     renderComposerReplyPreview,
+    renderLinkPreview,
     renderMentionSuggestions,
     inputRef,
     insets,
@@ -66,6 +68,7 @@ export const ThreadComposer: React.FC<ThreadComposerProps> = React.memo(
             <View style={styles.inputWrapper}>
               {renderEditingBanner()}
               {renderComposerReplyPreview()}
+              {renderLinkPreview()}
               <TextInput
                 ref={inputRef}
                 style={styles.input}

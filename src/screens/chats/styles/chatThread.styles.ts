@@ -56,7 +56,7 @@ export const chatThreadStyles = EStyleSheet.create({
     justifyContent: 'flex-start',
   },
   messageBubble: {
-    maxWidth: '75%',
+    maxWidth: '80%',
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 16,
@@ -324,6 +324,11 @@ export const chatThreadStyles = EStyleSheet.create({
     flexDirection: 'column',
     paddingVertical: 4,
     minHeight: 40,
+  },
+  composerLinkPreview: {
+    marginTop: 8,
+    marginHorizontal: 8,
+    marginBottom: 4,
   },
   input: {
     flexShrink: 1,

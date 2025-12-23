@@ -170,15 +170,18 @@ const ChatsContainer = () => {
   // Bootstrap and Session Management
   // ============================================================================
 
-  const _ensureBootstrap = useCallback(async () => {
-    if (bootstrapResult) {
-      return bootstrapResult;
-    }
+  const _ensureBootstrap = useCallback(
+    async (refresh = false) => {
+      if (bootstrapResult && !refresh) {
+        return bootstrapResult;
+      }
 
-    const session = await bootstrapMattermostSession(currentAccount, pinCode);
-    setBootstrapResult(session);
-    return session;
-  }, [bootstrapResult, currentAccount, pinCode]);
+      const session = await bootstrapMattermostSession(currentAccount, pinCode);
+      setBootstrapResult(session);
+      return session;
+    },
+    [bootstrapResult, currentAccount, pinCode],
+  );
 
   const _seedDirectUsers = useCallback((channelList: any[]) => {
     const next: Record<string, any> = {};
@@ -247,7 +250,7 @@ const ChatsContainer = () => {
       setIsRefreshing(refresh);
 
       try {
-        const session = await _ensureBootstrap();
+        const session = await _ensureBootstrap(refresh);
         setBootstrapResult(session);
 
         const channelResponse = await fetchMattermostChannels();
@@ -906,10 +909,10 @@ const ChatsContainer = () => {
   // ============================================================================
 
   useEffect(() => {
-    if (isLoggedIn) {
-      _loadChannels(false);
+    if (currentAccount) {
+      _loadChannels(true);
     }
-  }, [isLoggedIn, _loadChannels]);
+  }, [currentAccount]);
 
   useEffect(() => {
     const bootstrapUser = bootstrapResult?.user;

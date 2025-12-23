@@ -12,6 +12,7 @@ export interface ChatPost {
   user?: { username?: string; nickname?: string; name?: string };
   create_at?: number;
   update_at?: number;
+  edit_at?: number;
   props?: any;
   type?: string;
   text?: string;

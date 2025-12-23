@@ -9,6 +9,7 @@ export default EStyleSheet.create({
     borderWidth: EStyleSheet.hairlineWidth,
     borderColor: '$iconColor',
     borderRadius: 12,
+    backgroundColor: '$primaryLightBackground',
   } as ViewStyle,
   thumbnail: {
     width: 56,
@@ -30,7 +31,7 @@ export default EStyleSheet.create({
   title: {
     fontWeight: '500',
     fontSize: 14,
-    color: '$primaryBlue',
+    color: '$primaryBlack',
   },
   body: {
     fontSize: 12,

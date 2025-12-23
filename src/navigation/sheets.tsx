@@ -72,6 +72,9 @@ declare module 'react-native-actions-sheet' {
         onReaction?: (emojiName: string) => void;
         onEdit?: () => void;
         onRemove?: () => void;
+        onTranslate?: () => void;
+        onPin?: () => void;
+        onUnpin?: () => void;
         currentUserId?: string;
         isOwnMessage?: boolean;
         canModerate?: boolean;

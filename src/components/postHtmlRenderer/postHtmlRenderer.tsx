@@ -14,7 +14,7 @@ import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
-import { LinkPreview, UserAvatar, VideoPlayer } from '..';
+import { HiveLinkPreview, UserAvatar, VideoPlayer } from '..';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
@@ -272,7 +272,7 @@ export const PostHtmlRenderer = memo(
         const lintMeta = metadata?.links_meta && metadata.links_meta[origUrl || ''];
 
         return (
-          <LinkPreview
+          <HiveLinkPreview
             author={parsedTnode.author}
             permlink={parsedTnode.permlink}
             linkMeta={lintMeta}

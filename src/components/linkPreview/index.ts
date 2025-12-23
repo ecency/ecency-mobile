@@ -1,1 +1,1 @@
-export * from './container/linkPreview';
+export { LinkPreview, HiveLinkPreview } from './container/linkPreview';

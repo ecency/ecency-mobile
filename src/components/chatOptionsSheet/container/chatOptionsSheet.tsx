@@ -21,6 +21,7 @@ interface ChatPost {
   id?: string;
   message?: string;
   user_id?: string;
+  edit_at?: number;
   props?: { message?: string; reactions?: ChatReaction[] };
   metadata?: { reactions?: ChatReaction[] };
 }
@@ -33,6 +34,7 @@ interface ChatOptionsSheetProps {
     onReaction?: (emojiName: string) => void;
     onEdit?: () => void;
     onRemove?: () => void;
+    onTranslate?: () => void;
     onPin?: () => void;
     onUnpin?: () => void;
     currentUserId?: string;
@@ -98,6 +100,15 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
     }
   }, [post]);
 
+  const _handleTranslate = useCallback(() => {
+    SheetManager.hide('chat_options');
+    setTimeout(() => {
+      if (payload?.onTranslate) {
+        payload.onTranslate();
+      }
+    }, 300);
+  }, [payload]);
+
   const _handleReply = useCallback(() => {
     SheetManager.hide('chat_options');
     if (onReply) {
@@ -161,6 +172,9 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
           case 'share':
             _handleShare();
             break;
+          case 'translate':
+            _handleTranslate();
+            break;
           case 'edit':
             _handleEdit();
             break;
@@ -189,7 +203,7 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
         </TouchableHighlight>
       );
     },
-    [_handleReply, _handleCopy, _handleShare, _handleEdit, _handlePin, _handleUnpin, _handleRemove],
+    [_handleReply, _handleCopy, _handleShare, _handleTranslate, _handleEdit, _handlePin, _handleUnpin, _handleRemove],
   );
 
   const options = useMemo(() => {
@@ -205,6 +219,10 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
       {
         key: 'share',
         label: intl.formatMessage({ id: 'chats.share', defaultMessage: 'SHARE' }),
+      },
+      {
+        key: 'translate',
+        label: intl.formatMessage({ id: 'chats.translate', defaultMessage: 'TRANSLATE' }),
       },
     ];
 
