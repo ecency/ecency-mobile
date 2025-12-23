@@ -164,7 +164,7 @@ export const OnlineUsersModal: React.FC<OnlineUsersModalProps> = ({
                       id: 'chats.members_count_with_online',
                       defaultMessage: '{total} members • {online} online',
                     },
-                    { total: userStatuses.length, online: onlineCount },
+                    { total: memberCount || userStatuses.length, online: onlineCount },
                   )}
                 </Text>
               </View>
