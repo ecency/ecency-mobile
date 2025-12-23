@@ -343,7 +343,8 @@
     "share": "SHARE",
     "copy": "COPY",
     "reply": "REPLY",
-    "translate": "TRANSLATE"
+    "translate": "TRANSLATE",
+    "edited": "Edited"
   },
   "profile": {
     "following": "Following",

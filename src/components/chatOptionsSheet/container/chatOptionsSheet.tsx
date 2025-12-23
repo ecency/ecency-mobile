@@ -21,6 +21,7 @@ interface ChatPost {
   id?: string;
   message?: string;
   user_id?: string;
+  edit_at?: number;
   props?: { message?: string; reactions?: ChatReaction[] };
   metadata?: { reactions?: ChatReaction[] };
 }
