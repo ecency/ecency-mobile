@@ -35,6 +35,8 @@ interface ChatOptionsSheetProps {
     onEdit?: () => void;
     onRemove?: () => void;
     onTranslate?: () => void;
+    onPin?: () => void;
+    onUnpin?: () => void;
     currentUserId?: string;
     isOwnMessage?: boolean;
     canModerate?: boolean;
@@ -60,6 +62,8 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
   const onReaction = payload?.onReaction;
   const onEdit = payload?.onEdit;
   const onRemove = payload?.onRemove;
+  const onPin = payload?.onPin;
+  const onUnpin = payload?.onUnpin;
   const isOwnMessage = payload?.isOwnMessage || false;
   const canModerate = payload?.canModerate || false;
 
@@ -126,6 +130,20 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
     }
   }, [onRemove]);
 
+  const _handlePin = useCallback(() => {
+    SheetManager.hide('chat_options');
+    if (onPin) {
+      onPin();
+    }
+  }, [onPin]);
+
+  const _handleUnpin = useCallback(() => {
+    SheetManager.hide('chat_options');
+    if (onUnpin) {
+      onUnpin();
+    }
+  }, [onUnpin]);
+
   const _renderReactionItem = useCallback(
     ({ item }: { item: { name: string; emoji: string } }) => {
       return (
@@ -160,6 +178,12 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
           case 'edit':
             _handleEdit();
             break;
+          case 'pin':
+            _handlePin();
+            break;
+          case 'unpin':
+            _handleUnpin();
+            break;
           case 'remove':
             _handleRemove();
             break;
@@ -179,7 +203,7 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
         </TouchableHighlight>
       );
     },
-    [_handleReply, _handleCopy, _handleShare, _handleTranslate, _handleEdit, _handleRemove],
+    [_handleReply, _handleCopy, _handleShare, _handleTranslate, _handleEdit, _handlePin, _handleUnpin, _handleRemove],
   );
 
   const options = useMemo(() => {
@@ -212,6 +236,26 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
       });
     }
 
+    if (onPin) {
+      opts.push({
+        key: 'pin',
+        label: intl.formatMessage({
+          id: 'chats.pin',
+          defaultMessage: 'PIN',
+        }),
+      });
+    }
+
+    if (onUnpin) {
+      opts.push({
+        key: 'unpin',
+        label: intl.formatMessage({
+          id: 'chats.unpin',
+          defaultMessage: 'UNPIN',
+        }),
+      });
+    }
+
     if ((isOwnMessage || canModerate) && onRemove) {
       opts.push({
         key: 'remove',
@@ -221,7 +265,7 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
     }
 
     return opts;
-  }, [intl, isOwnMessage, canModerate, onEdit, onRemove]);
+  }, [intl, isOwnMessage, canModerate, onEdit, onPin, onUnpin, onRemove]);
 
   return (
     <ActionSheet

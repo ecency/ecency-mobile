@@ -11,6 +11,7 @@ interface ChatThreadParams {
   userLookup?: Record<string, any>;
   lastViewedAt?: number;
   communityIdentifier?: string;
+  channelType?: string;
 }
 
 const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) => {
@@ -22,6 +23,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
     bootstrapResult,
     userLookup,
     lastViewedAt,
+    channelType,
   } = route.params;
 
   return (
@@ -34,6 +36,7 @@ const ChatThreadScreen = ({ route }: { route: { params: ChatThreadParams } }) =>
         initialBootstrap={bootstrapResult}
         initialUserLookup={userLookup}
         initialLastViewedAt={lastViewedAt}
+        channelType={channelType}
       />
     </SafeAreaView>
   );
