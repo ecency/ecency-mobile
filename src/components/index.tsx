@@ -112,7 +112,7 @@ import OrDivider from './orDivider/orDividerView';
 import PostTranslationModal from './post-translation-modal/postTranslationModal';
 import { ImageViewer } from './imageViewer';
 import { WalkthroughMarker } from './walkthroughMarker';
-import { LinkPreview } from './linkPreview';
+import { LinkPreview, HiveLinkPreview } from './linkPreview';
 import { CrossPostModal } from './crossPostModal';
 import { ChatOptionsSheet } from './chatOptionsSheet';
 
@@ -281,6 +281,7 @@ export {
   ProposalVoteRequest,
   HiveAuthModal,
   LinkPreview,
+  HiveLinkPreview,
   CrossPostModal,
   CopyModal,
   ChatOptionsSheet,
