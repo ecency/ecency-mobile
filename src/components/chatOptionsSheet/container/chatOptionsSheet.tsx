@@ -33,6 +33,7 @@ interface ChatOptionsSheetProps {
     onReaction?: (emojiName: string) => void;
     onEdit?: () => void;
     onRemove?: () => void;
+    onTranslate?: () => void;
     currentUserId?: string;
     isOwnMessage?: boolean;
     canModerate?: boolean;
@@ -94,6 +95,15 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
     }
   }, [post]);
 
+  const _handleTranslate = useCallback(() => {
+    SheetManager.hide('chat_options');
+    setTimeout(() => {
+      if (payload?.onTranslate) {
+        payload.onTranslate();
+      }
+    }, 300);
+  }, [payload]);
+
   const _handleReply = useCallback(() => {
     SheetManager.hide('chat_options');
     if (onReply) {
@@ -143,6 +153,9 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
           case 'share':
             _handleShare();
             break;
+          case 'translate':
+            _handleTranslate();
+            break;
           case 'edit':
             _handleEdit();
             break;
@@ -165,7 +178,7 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
         </TouchableHighlight>
       );
     },
-    [_handleReply, _handleCopy, _handleShare, _handleEdit, _handleRemove],
+    [_handleReply, _handleCopy, _handleShare, _handleTranslate, _handleEdit, _handleRemove],
   );
 
   const options = useMemo(() => {
@@ -181,6 +194,10 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
       {
         key: 'share',
         label: intl.formatMessage({ id: 'chats.share', defaultMessage: 'SHARE' }),
+      },
+      {
+        key: 'translate',
+        label: intl.formatMessage({ id: 'chats.translate', defaultMessage: 'TRANSLATE' }),
       },
     ];
 

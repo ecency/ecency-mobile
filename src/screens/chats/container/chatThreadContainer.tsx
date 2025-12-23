@@ -1297,6 +1297,22 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     [_ensureBootstrap, dispatch, intl],
   );
 
+  const _handleTranslateMessage = useCallback(
+    (post: ChatPost) => {
+      const message = post.message || post.props?.message || '';
+      if (message) {
+        SheetManager.show(SheetNames.POST_TRANSLATION, {
+          payload: {
+            content: {
+              body: message,
+            },
+          },
+        });
+      }
+    },
+    [],
+  );
+
   const _showChatOptionsSheet = useCallback(
     (post: ChatPost, isOwn: boolean) => {
       SheetManager.show(SheetNames.CHAT_OPTIONS, {
@@ -1311,6 +1327,9 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           },
           onReaction: (emojiName: string) => {
             _handleAddReaction(post, emojiName);
+          },
+          onTranslate: () => {
+            _handleTranslateMessage(post);
           },
           onEdit: isOwn
             ? () => {
@@ -1344,6 +1363,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       canModerate,
       _handleReplyToPost,
       _handleAddReaction,
+      _handleTranslateMessage,
       _handleStartEdit,
       _confirmDelete,
       _handlePinPost,

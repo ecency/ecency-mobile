@@ -340,9 +340,10 @@
     "no_channels": "No channels yet. Search to join or start a new conversation.",
     "no_more_messages": "No more messages here",
     "reaction_error": "Failed to update reaction",
-    "share": "Share",
-    "copy": "Copy",
-    "reply": "Reply"
+    "share": "SHARE",
+    "copy": "COPY",
+    "reply": "REPLY",
+    "translate": "TRANSLATE"
   },
   "profile": {
     "following": "Following",
