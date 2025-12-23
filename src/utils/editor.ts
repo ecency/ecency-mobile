@@ -164,7 +164,7 @@ export const makeJsonMetadataForUpdate = (oldJson, meta, tags) => {
   return Object.assign({}, oldJson, mergedMeta, { tags });
 };
 
-const extractUrls = (body: string) => {
+export const extractUrls = (body: string) => {
   const urlReg = /(\b(https?|ftp):\/\/[A-Z0-9+&@#/%?=~_|!:,.;-]*[-A-Z0-9+&@#/%=~_|])/gim;
   const mUrls = body && body.match(urlReg);
   return mUrls || [];

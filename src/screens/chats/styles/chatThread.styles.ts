@@ -325,6 +325,11 @@ export const chatThreadStyles = EStyleSheet.create({
     paddingVertical: 4,
     minHeight: 40,
   },
+  composerLinkPreview: {
+    marginTop: 8,
+    marginHorizontal: 8,
+    marginBottom: 4,
+  },
   input: {
     flexShrink: 1,
     paddingRight: 12,

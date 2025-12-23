@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, BackHandler, FlatList, Keyboard, Platform, TextInput, View } from 'react-native';
+import { Alert, BackHandler, Dimensions, FlatList, Keyboard, Platform, TextInput, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import LinkifyIt from 'linkify-it';
@@ -33,9 +33,13 @@ import {
   unpinMattermostPost,
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
-import { signImage, getCommunity } from '../../../providers/hive/dhive';
+import { signImage, getCommunity, getPost } from '../../../providers/hive/dhive';
 import { chatThreadStyles as styles } from '../styles/chatThread.styles';
 import { emojifyMessage } from '../../../utils/emoji';
+import { extractImageUrls, extractUrls } from '../../../utils/editor';
+import postUrlParser from '../../../utils/postUrlParser';
+import { fetchLinkMetadata } from '../../../utils/linkMetadata';
+import { LinkPreview, HiveLinkPreview } from '../../../components';
 import { SheetNames } from '../../../navigation/sheets';
 
 // Import utils
@@ -148,6 +152,13 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const [hasMorePosts, setHasMorePosts] = useState<boolean>(true);
   const [pinnedMessagesModalVisible, setPinnedMessagesModalVisible] = useState<boolean>(false);
   const [onlineUsersModalVisible, setOnlineUsersModalVisible] = useState<boolean>(false);
+  const [linkMeta, setLinkMeta] = useState<{
+    url: string;
+    author?: string;
+    permlink?: string;
+    linkMeta: { title: string; summary: string; image: string };
+  } | null>(null);
+  const [isFetchingLinkMeta, setIsFetchingLinkMeta] = useState<boolean>(false);
   const [pinnedCount, setPinnedCount] = useState<number>(0);
   const [channelMembers, setChannelMembers] = useState<any[]>([]);
   const [onlineUserIds, setOnlineUserIds] = useState<string[]>([]);
@@ -538,6 +549,81 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     resolveModeration();
   }, [currentAccount?.name, derivedCommunityIdentifier]);
 
+  // Detect and fetch link metadata when message changes
+  useEffect(() => {
+    const detectAndFetchLinkMeta = async () => {
+      if (!message.trim()) {
+        setLinkMeta(null);
+        return;
+      }
+
+      const urls = extractUrls(message);
+      const imageUrls = extractImageUrls({ body: message });
+      const nonImageUrls = urls.filter((url) => !imageUrls.includes(url));
+
+      if (nonImageUrls.length === 0) {
+        setLinkMeta(null);
+        return;
+      }
+
+      // Get the first non-image URL
+      const firstUrl = nonImageUrls[0];
+      try {
+        setIsFetchingLinkMeta(true);
+
+        // First, try to parse as Hive post
+        const parsed = postUrlParser(firstUrl);
+        if (parsed?.author && parsed?.permlink) {
+          // It's a Hive post, fetch from Hive
+          const post = await getPost(parsed.author, parsed.permlink, currentAccount?.name);
+
+          if (post && post.title) {
+            setLinkMeta({
+              url: firstUrl,
+              author: parsed.author,
+              permlink: parsed.permlink,
+              linkMeta: {
+                title: post.title || '',
+                summary: post.summary || '',
+                image: post.image || '',
+              },
+            });
+            setIsFetchingLinkMeta(false);
+            return;
+          }
+        }
+
+        // Not a Hive post or Hive post fetch failed, try generic link metadata
+        const metadata = await fetchLinkMetadata(firstUrl);
+
+        if (metadata && (metadata.title || metadata.summary || metadata.image)) {
+          setLinkMeta({
+            url: firstUrl,
+            linkMeta: {
+              title: metadata.title || '',
+              summary: metadata.summary || '',
+              image: metadata.image || '',
+            },
+          });
+        } else {
+          setLinkMeta(null);
+        }
+      } catch (err) {
+        console.log('Error fetching link metadata:', err);
+        setLinkMeta(null);
+      } finally {
+        setIsFetchingLinkMeta(false);
+      }
+    };
+
+    // Debounce the link detection
+    const timeoutId = setTimeout(() => {
+      detectAndFetchLinkMeta();
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [message, currentAccount?.name]);
+
   const _resolveUserProfiles = useCallback(
     async (userIds: string[]) => {
       if (!userIds.length) {
@@ -899,6 +985,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     setMentionQuery(null);
     setMentionStartIndex(null);
     setRootPost(null);
+    setLinkMeta(null);
   }, []);
 
   const _cancelReply = useCallback(() => {
@@ -1012,6 +1099,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       setMessage('');
       _updateMentionState('');
       setRootPost(null);
+      setLinkMeta(null);
     } catch (err: any) {
       // Check if this is a ban error
       if (err?.isBanError) {
@@ -1103,12 +1191,10 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const _handleReplyToPost = useCallback(
     (post: ChatPost) => {
       setEditingPostId(null);
-      setMessage('');
-      _updateMentionState('');
       setRootPost(post);
       setTimeout(() => inputRef.current?.focus(), 100);
     },
-    [_updateMentionState],
+    [],
   );
 
   const _handleAddReaction = useCallback(
@@ -1656,6 +1742,49 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     );
   }, [rootPost, userLookup, rootMessages, _cancelReply]);
 
+  const _renderLinkPreview = useCallback(() => {
+    if (!linkMeta) {
+      return null;
+    }
+
+    // Calculate content width based on screen width minus padding and margins
+    const screenWidth = Dimensions.get('window').width;
+    const contentWidth = screenWidth - 32; // Account for padding
+
+    // Use HiveLinkPreview for Hive posts, LinkPreview for other links
+    if (linkMeta.author && linkMeta.permlink) {
+      return (
+        <View style={styles.composerLinkPreview}>
+          <HiveLinkPreview
+            author={linkMeta.author}
+            permlink={linkMeta.permlink}
+            linkMeta={linkMeta.linkMeta}
+            contentWidth={contentWidth}
+            url={linkMeta.url}
+            onPress={() => {
+              handleLink(linkMeta.url);
+            }}
+          />
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.composerLinkPreview}>
+        <LinkPreview
+          title={linkMeta.linkMeta.title}
+          summary={linkMeta.linkMeta.summary}
+          imageUrl={linkMeta.linkMeta.image}
+          contentWidth={contentWidth}
+          url={linkMeta.url}
+          onPress={() => {
+            handleLink(linkMeta.url);
+          }}
+        />
+      </View>
+    );
+  }, [linkMeta, handleLink]);
+
   const _renderMentionSuggestions = useCallback(() => {
     return (
       <MentionSuggestions
@@ -1718,6 +1847,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           isKeyboardVisible={isKeyboardVisible}
           renderEditingBanner={_renderEditingBanner}
           renderComposerReplyPreview={_renderComposerReplyPreview}
+          renderLinkPreview={_renderLinkPreview}
           renderMentionSuggestions={_renderMentionSuggestions}
           inputRef={inputRef}
           insets={insets}
