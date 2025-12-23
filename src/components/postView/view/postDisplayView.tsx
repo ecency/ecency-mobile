@@ -27,7 +27,7 @@ import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import UpvotePopover from '../../upvotePopover';
 import { PostPoll } from '../../postPoll';
 import QUERIES from '../../../providers/queries/queryKeys';
-import { usePostStatsQuery } from '../../../providers/queries';
+import { usePostStatsQuery, tipsQueries } from '../../../providers/queries';
 import { PostStatsModal } from '../../organisms';
 import { getAbbreviatedNumber } from '../../../utils/number';
 import { SheetNames } from '../../../navigation/sheets';
@@ -54,6 +54,10 @@ const PostDisplayView = ({
   const userActivityMutation = useUserActivityMutation();
   const dims = useWindowDimensions();
   const postStatsQuery = usePostStatsQuery(post?.url || '');
+  const tipsQuery = tipsQueries.usePostTipsQuery({
+    author: post?.author,
+    permlink: post?.permlink,
+  });
 
   const postCommentsRef = useRef<PostComments>(null);
   const upvotePopoverRef = useRef<UpvotePopover>(null);
@@ -126,6 +130,33 @@ const PostDisplayView = ({
     postStatsModalRef.current?.show(post.url);
   };
 
+  const _handleOnTipsListPress = () => {
+    if (tipsQuery.data?.meta?.count > 0) {
+      SheetManager.show(SheetNames.TIPS_LIST, {
+        payload: {
+          author: post.author,
+          permlink: post.permlink,
+        },
+      });
+    }
+  };
+
+  const _handleOnTipPress = () => {
+    if (!isLoggedIn) {
+      // TODO: Show login prompt
+      console.log('Login required to send tips');
+      return;
+    }
+    SheetManager.show(SheetNames.TIPPING_DIALOG, {
+      payload: {
+        post,
+        onSuccess: () => {
+          tipsQuery.refetch();
+        },
+      },
+    });
+  };
+
   const _renderActionPanel = (isFixedFooter = false) => {
     return (
       <StickyBar isFixedFooter={isFixedFooter} style={styles.stickyBar}>
@@ -185,14 +216,15 @@ const PostDisplayView = ({
           )}
 
           <TextWithIcon
-            iconName="eye-outline"
+            iconName="gift-outline"
             iconStyle={styles.barIcons}
             iconType="MaterialCommunityIcons"
             isClickable
-            onPress={_showStatsModal}
-            text={getAbbreviatedNumber(postStatsQuery.data?.pageviews || 0)}
+            onPress={_handleOnTipPress}
+            onLongPress={_handleOnTipsListPress}
+            text={tipsQuery.data?.meta?.count || 0}
             textMarginLeft={20}
-            isLoading={postStatsQuery.isLoading}
+            isLoading={tipsQuery.isLoading}
           />
         </View>
       </StickyBar>
@@ -268,16 +300,30 @@ const PostDisplayView = ({
               <View style={styles.titlePlaceholder} />
             )}
 
-            <PostHeaderDescription
-              date={formatedTime}
-              name={author || post.author}
-              currentAccountUsername={name}
-              reputation={post.author_reputation}
-              size={40}
-              inlineTime={true}
-              customStyle={styles.headerLine}
-              profileOnPress={_showQuickProfileModal}
-            />
+            <View style={styles.headerWithStats}>
+              <PostHeaderDescription
+                date={formatedTime}
+                name={author || post.author}
+                currentAccountUsername={name}
+                reputation={post.author_reputation}
+                size={40}
+                inlineTime={true}
+                customStyle={styles.headerLine}
+                profileOnPress={_showQuickProfileModal}
+              />
+              <View style={styles.viewStatsContainer}>
+                <TextWithIcon
+                  iconName="eye-outline"
+                  iconStyle={styles.viewStatsIcon}
+                  iconType="MaterialCommunityIcons"
+                  isClickable
+                  onPress={_showStatsModal}
+                  text={getAbbreviatedNumber(postStatsQuery.data?.pageviews || 0)}
+                  textMarginLeft={4}
+                  isLoading={postStatsQuery.isLoading}
+                />
+              </View>
+            </View>
             <PostBody
               body={post.body}
               metadata={post.json_metadata}
