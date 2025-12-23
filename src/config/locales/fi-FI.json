@@ -1297,5 +1297,21 @@
     "btn-dismiss": "Hylkää",
     "btn-later": "Muistuta myöhemmin",
     "btn-ignore": "Aina"
+  },
+  "tipping": {
+    "send_tip": "Send Tip",
+    "send_tip_to": "Support @{author}",
+    "tips_received": "Tips Received",
+    "existing_tips": "Existing Tips",
+    "no_tips": "No tips yet",
+    "amount": "Amount",
+    "currency": "Token",
+    "send": "Send Tip",
+    "confirm_title": "Confirm Tip",
+    "confirm_message": "Send {amount} {currency} to @{author}?",
+    "success": "Tip sent successfully!",
+    "error": "Failed to send tip",
+    "invalid_amount": "Please enter a valid amount",
+    "insufficient_balance": "Insufficient balance"
   }
 }
