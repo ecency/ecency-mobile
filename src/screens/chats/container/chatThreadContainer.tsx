@@ -1747,9 +1747,11 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       return null;
     }
 
-    // Calculate content width based on screen width minus padding and margins
+    // Calculate content width based on screen width minus all composer elements
+    // composer paddingHorizontal: 24, attachButton: 44, inputContainer marginRight: 8, 
+    // sendButton: 44, composerLinkPreview marginHorizontal: 16
     const screenWidth = Dimensions.get('window').width;
-    const contentWidth = screenWidth - 32; // Account for padding
+    const contentWidth = screenWidth - 144;
 
     // Use HiveLinkPreview for Hive posts, LinkPreview for other links
     if (linkMeta.author && linkMeta.permlink) {
