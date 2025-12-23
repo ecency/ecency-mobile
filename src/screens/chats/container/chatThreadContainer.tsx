@@ -1781,7 +1781,8 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   }, [rootPost, userLookup, rootMessages, _cancelReply]);
 
   const _renderLinkPreview = useCallback(() => {
-    if (!linkMeta) {
+    // Don't render if not loading and no linkMeta
+    if (!isFetchingLinkMeta && !linkMeta) {
       return null;
     }
 
@@ -1792,7 +1793,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     const contentWidth = screenWidth - 144;
 
     // Use HiveLinkPreview for Hive posts, LinkPreview for other links
-    if (linkMeta.author && linkMeta.permlink) {
+    if (linkMeta?.author && linkMeta?.permlink) {
       return (
         <View style={styles.composerLinkPreview}>
           <HiveLinkPreview
@@ -1804,6 +1805,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
             onPress={() => {
               handleLink(linkMeta.url);
             }}
+            isLoading={isFetchingLinkMeta}
           />
         </View>
       );
@@ -1812,18 +1814,21 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     return (
       <View style={styles.composerLinkPreview}>
         <LinkPreview
-          title={linkMeta.linkMeta.title}
-          summary={linkMeta.linkMeta.summary}
-          imageUrl={linkMeta.linkMeta.image}
+          title={linkMeta?.linkMeta?.title}
+          summary={linkMeta?.linkMeta?.summary}
+          imageUrl={linkMeta?.linkMeta?.image}
           contentWidth={contentWidth}
-          url={linkMeta.url}
+          url={linkMeta?.url}
           onPress={() => {
-            handleLink(linkMeta.url);
+            if (linkMeta?.url) {
+              handleLink(linkMeta.url);
+            }
           }}
+          isLoading={isFetchingLinkMeta}
         />
       </View>
     );
-  }, [linkMeta, handleLink]);
+  }, [linkMeta, isFetchingLinkMeta, handleLink]);
 
   const _renderMentionSuggestions = useCallback(() => {
     return (

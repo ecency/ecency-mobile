@@ -24,6 +24,7 @@ import ListPlaceHolder from './view/placeHolder/listPlaceHolderView';
 import BoostPlaceHolder from './view/placeHolder/boostPlaceHolderView';
 import CommentPlaceHolder from './view/placeHolder/commentPlaceHolderView';
 import CommunitiesPlaceHolder from './view/placeHolder/communitiesPlaceHolder';
+import LinkPreviewPlaceHolder from './view/placeHolder/linkPreviewPlaceHolder';
 
 export {
   Card,
@@ -31,6 +32,7 @@ export {
   CommentPlaceHolder,
   GrayWrapper,
   LineBreak,
+  LinkPreviewPlaceHolder,
   ListItemPlaceHolder,
   ListPlaceHolder,
   BoostPlaceHolder,

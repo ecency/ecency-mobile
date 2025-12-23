@@ -4,6 +4,7 @@ import Placeholder from 'rn-placeholder';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image as ExpoImage } from 'expo-image';
 import { useGetPostQuery } from '../../../providers/queries/postQueries/postQueries';
+import { LinkPreviewPlaceHolder } from '../../basicUIElements';
 import styles from '../styles/linkPreview.styles';
 
 interface LinkPreviewProps {
@@ -14,6 +15,7 @@ interface LinkPreviewProps {
   onPress: () => void;
   url?: string;
   label?: string; // Optional label to display (e.g., "HIVE POST" or domain name)
+  isLoading?: boolean;
 }
 
 export const LinkPreview = ({
@@ -24,6 +26,7 @@ export const LinkPreview = ({
   onPress,
   url,
   label,
+  isLoading = false,
 }: LinkPreviewProps) => {
   const _containerStyle = { ...styles.container, width: contentWidth };
 
@@ -38,6 +41,11 @@ export const LinkPreview = ({
       return 'LINK';
     }
   };
+
+  // Render loading placeholder
+  if (isLoading) {
+    return <LinkPreviewPlaceHolder width={contentWidth} />;
+  }
 
   const _renderPlaceholder = (
     <Placeholder.Box
@@ -57,7 +65,9 @@ export const LinkPreview = ({
           <View style={styles.thumbnail} />
         )}
         <View style={styles.textContainer}>
-          <Text numberOfLines={1} style={styles.hivePost}>{getDomainLabel()}</Text>
+          <Text numberOfLines={1} style={styles.hivePost}>
+            {getDomainLabel()}
+          </Text>
           {!title ? (
             _renderPlaceholder
           ) : (
@@ -91,6 +101,7 @@ interface HiveLinkPreviewProps {
   contentWidth: number;
   onPress: () => void;
   url?: string;
+  isLoading?: boolean;
 }
 
 export const HiveLinkPreview = ({
@@ -100,6 +111,7 @@ export const HiveLinkPreview = ({
   contentWidth,
   onPress,
   url,
+  isLoading = false,
 }: HiveLinkPreviewProps) => {
   // Optionally use post query to get post data if linkMeta is not provided
   const getPostQuery = !linkMeta ? useGetPostQuery({ author, permlink, isPreview: true }) : null;
@@ -117,6 +129,7 @@ export const HiveLinkPreview = ({
       onPress={onPress}
       url={url}
       label="HIVE POST"
+      isLoading={isLoading}
     />
   );
 };
