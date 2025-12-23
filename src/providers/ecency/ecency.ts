@@ -22,6 +22,7 @@ import {
   LatestMarketPrices,
   MediaItem,
   NotificationFilters,
+  PostTipsResponse,
   PurchaseRequestData,
   ReceivedVestingShare,
   Referral,
@@ -1000,6 +1001,40 @@ export const getCommentHistory = async (
   } catch (error) {
     Sentry.captureException(error);
     throw error;
+  }
+};
+
+/**
+ * ************************************
+ * POST TIPS API IMPLEMENTATION
+ * ************************************
+ */
+
+/**
+ * Fetches existing tips for a specific post
+ * @param author post author
+ * @param permlink post permlink
+ * @returns object with meta (count, totals) and list of tips
+ */
+export const getPostTips = async (author: string, permlink: string): Promise<PostTipsResponse> => {
+  try {
+    const data = { author, permlink };
+    const res = await ecencyApi.post('/private-api/post-tips', data);
+
+    if (!res.data) {
+      // Return empty tips data instead of throwing error
+      return { meta: { count: 0, totals: {} }, list: [] };
+    }
+
+    // Ensure data has required structure
+    return {
+      meta: res.data.meta || { count: 0, totals: {} },
+      list: res.data.list || [],
+    };
+  } catch (error) {
+    Sentry.captureException(error);
+    // Return empty tips data on error instead of throwing
+    return { meta: { count: 0, totals: {} }, list: [] };
   }
 };
 

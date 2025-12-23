@@ -15,6 +15,22 @@ export default EStyleSheet.create({
     marginTop: -4,
     marginBottom: 4,
   },
+  headerWithStats: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  viewStatsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 8,
+    marginLeft: 8,
+  },
+  viewStatsIcon: {
+    color: '$primaryDarkGray',
+    fontSize: 14,
+    opacity: 0.6,
+  },
   titlePlaceholder: {
     marginBottom: 4,
   },

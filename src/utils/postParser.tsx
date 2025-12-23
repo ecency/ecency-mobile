@@ -63,7 +63,8 @@ export const parsePost = (
   if (!isList) {
     post.body = renderPostBody({ ...post, last_update: post.updated }, true, webp);
   }
-  post.summary = postBodySummary(post, 150, Platform.OS);
+  // Use description from json_metadata if available, otherwise generate summary from body
+  post.summary = post.json_metadata?.description || postBodySummary(post, 150, Platform.OS);
   post.max_payout = parseAsset(post.max_accepted_payout).amount || 0;
   post.is_declined_payout = post.max_payout === 0;
 

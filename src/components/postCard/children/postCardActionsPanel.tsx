@@ -44,6 +44,10 @@ export const PostCardActionsPanel = ({ content, handleCardInteraction }: Props) 
     });
   };
 
+  const _onTipPress = () => {
+    handleCardInteraction(PostCardActionIds.TIP);
+  };
+
   return (
     <View style={styles.bodyFooter}>
       <View style={styles.leftFooterWrapper}>
@@ -85,6 +89,13 @@ export const PostCardActionsPanel = ({ content, handleCardInteraction }: Props) 
           isClickable
           text={get(content, 'children', 0)}
           onPress={() => handleCardInteraction(PostCardActionIds.REPLY)}
+        />
+        <TextWithIcon
+          iconName="gift-outline"
+          iconStyle={styles.commentIcon}
+          iconType="MaterialCommunityIcons"
+          isClickable
+          onPress={_onTipPress}
         />
       </View>
     </View>
