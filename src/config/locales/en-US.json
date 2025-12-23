@@ -342,7 +342,9 @@
     "reaction_error": "Failed to update reaction",
     "share": "Share",
     "copy": "Copy",
-    "reply": "Reply"
+    "reply": "Reply",
+    "pin": "Pin",
+    "unpin": "Unpin"
   },
   "profile": {
     "following": "Following",

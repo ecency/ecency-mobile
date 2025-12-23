@@ -100,6 +100,7 @@ export interface ChatThreadContainerProps {
   initialUserLookup?: Record<string, any>;
   initialLastViewedAt?: number;
   communityIdentifier?: string;
+  channelType?: string;
 }
 
 export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
@@ -110,6 +111,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   initialUserLookup,
   initialLastViewedAt,
   communityIdentifier: paramCommunityIdentifier,
+  channelType,
 }) => {
   const intl = useIntl();
   const insets = useSafeAreaInsets();
@@ -174,6 +176,10 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     linkify.set({ fuzzyLink: false });
     return linkify;
   }, []);
+
+  // Derive pin/unpin permission: DMs allow both members, channels require moderator status
+  const isDM = channelType === 'D';
+  const canPinUnpin = isDM || canModerate;
 
   // Bootstrap user ID extraction
   const bootstrapUserId =
@@ -1219,7 +1225,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
 
       try {
         await _ensureBootstrap();
-        await pinMattermostPost(post.id);
+        await pinMattermostPost(channelId, post.id);
 
         // Update the post locally
         setPosts((prev) =>
@@ -1251,7 +1257,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         SheetManager.hide(SheetNames.CHAT_OPTIONS);
       }
     },
-    [_ensureBootstrap, dispatch, intl],
+    [_ensureBootstrap, dispatch, intl, channelId],
   );
 
   const _handleUnpinPost = useCallback(
@@ -1262,7 +1268,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
 
       try {
         await _ensureBootstrap();
-        await unpinMattermostPost(post.id);
+        await unpinMattermostPost(channelId, post.id);
 
         // Update the post locally
         setPosts((prev) =>
@@ -1294,7 +1300,48 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         SheetManager.hide(SheetNames.CHAT_OPTIONS);
       }
     },
-    [_ensureBootstrap, dispatch, intl],
+    [_ensureBootstrap, dispatch, intl, channelId],
+  );
+
+  const _handleUnpinPostFromModal = useCallback(
+    async (post: ChatPost) => {
+      if (!post?.id) {
+        return;
+      }
+
+      try {
+        await _ensureBootstrap();
+        await unpinMattermostPost(channelId, post.id);
+
+        // Update the post locally
+        setPosts((prev) =>
+          prev.map((item) => (item.id === post.id ? { ...item, is_pinned: false } : item)),
+        );
+
+        // Update pinned count
+        setPinnedCount((prev) => Math.max(0, prev - 1));
+
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.success',
+              defaultMessage: 'Success!',
+            }),
+          ),
+        );
+      } catch (error: any) {
+        console.error('Failed to unpin message:', error);
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.error',
+              defaultMessage: 'Error',
+            }),
+          ),
+        );
+      }
+    },
+    [_ensureBootstrap, dispatch, intl, channelId],
   );
 
   const _showChatOptionsSheet = useCallback(
@@ -1324,13 +1371,13 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
                 }
               : undefined,
           onPin:
-            canModerate && !post.is_pinned
+            canPinUnpin && !post.is_pinned
               ? () => {
                   _handlePinPost(post);
                 }
               : undefined,
           onUnpin:
-            canModerate && post.is_pinned
+            canPinUnpin && post.is_pinned
               ? () => {
                   _handleUnpinPost(post);
                 }
@@ -1342,6 +1389,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       channelId,
       bootstrapUserId,
       canModerate,
+      canPinUnpin,
       _handleReplyToPost,
       _handleAddReaction,
       _handleStartEdit,
@@ -1710,6 +1758,8 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         userLookup={userLookup}
         onClose={() => setPinnedMessagesModalVisible(false)}
         onMessagePress={handleScrollToMessage}
+        onUnpin={_handleUnpinPostFromModal}
+        canUnpin={(_post: ChatPost) => canPinUnpin}
       />
 
       <OnlineUsersModal

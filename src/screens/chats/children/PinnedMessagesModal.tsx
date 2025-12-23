@@ -23,6 +23,8 @@ interface PinnedMessagesModalProps {
   userLookup: Record<string, any>;
   onClose: () => void;
   onMessagePress: (postId: string) => void;
+  onUnpin: (post: ChatPost) => Promise<void>;
+  canUnpin: (post: ChatPost) => boolean;
 }
 
 export const PinnedMessagesModal: React.FC<PinnedMessagesModalProps> = ({
@@ -31,6 +33,8 @@ export const PinnedMessagesModal: React.FC<PinnedMessagesModalProps> = ({
   userLookup,
   onClose,
   onMessagePress,
+  onUnpin,
+  canUnpin,
 }) => {
   const intl = useIntl();
   const [pinnedPosts, setPinnedPosts] = useState<ChatPost[]>([]);
@@ -86,6 +90,19 @@ export const PinnedMessagesModal: React.FC<PinnedMessagesModalProps> = ({
     [onMessagePress, onClose],
   );
 
+  const handleUnpin = useCallback(
+    async (post: ChatPost) => {
+      try {
+        await onUnpin(post);
+        // Optimistically remove from local list
+        setPinnedPosts((prev) => prev.filter((p) => p.id !== post.id));
+      } catch (err) {
+        // Error already handled by onUnpin callback
+      }
+    },
+    [onUnpin],
+  );
+
   const renderPinnedMessage = useCallback(
     // eslint-disable-next-line react/no-unused-prop-types
     ({ item }: { item: ChatPost }) => {
@@ -99,6 +116,7 @@ export const PinnedMessagesModal: React.FC<PinnedMessagesModalProps> = ({
 
       const timestamp = item.create_at || item.update_at;
       const timeAgo = timestamp ? moment(timestamp).fromNow() : '';
+      const showUnpinButton = canUnpin(item);
 
       return (
         <TouchableOpacity
@@ -108,7 +126,26 @@ export const PinnedMessagesModal: React.FC<PinnedMessagesModalProps> = ({
         >
           <View style={styles.pinnedMessageHeader}>
             <Text style={styles.pinnedMessageUsername}>{username}</Text>
-            <Text style={styles.pinnedMessageTime}>{timeAgo}</Text>
+            <View style={styles.pinnedMessageHeaderRight}>
+              <Text style={styles.pinnedMessageTime}>{timeAgo}</Text>
+              {showUnpinButton && (
+                <TouchableOpacity
+                  onPress={(e) => {
+                    e.stopPropagation();
+                    handleUnpin(item);
+                  }}
+                  style={styles.unpinButton}
+                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                >
+                  <Icon
+                    name="close"
+                    iconType="MaterialIcons"
+                    size={18}
+                    color={EStyleSheet.value('$iconColor')}
+                  />
+                </TouchableOpacity>
+              )}
+            </View>
           </View>
           <Text style={styles.pinnedMessageText} numberOfLines={3}>
             {item.message || item.text || ''}
@@ -116,7 +153,7 @@ export const PinnedMessagesModal: React.FC<PinnedMessagesModalProps> = ({
         </TouchableOpacity>
       );
     },
-    [userLookup, handleMessagePress, intl],
+    [userLookup, handleMessagePress, canUnpin, handleUnpin, intl],
   );
 
   return (
@@ -244,6 +281,16 @@ const styles = EStyleSheet.create({
   pinnedMessageTime: {
     fontSize: 12,
     color: '$primaryDarkGray',
+  },
+  pinnedMessageHeaderRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  unpinButton: {
+    padding: 4,
+    borderRadius: 12,
+    backgroundColor: '$primaryLightBackground',
   },
   pinnedMessageText: {
     fontSize: 14,
