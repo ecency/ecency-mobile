@@ -191,9 +191,9 @@ export const sendMattermostMessage = async (
   channelId: string,
   message: string,
   rootId: string,
-  metadata: any,
+  props: any,
 ) => {
-  const payload = { message, rootId, props: metadata };
+  const payload = { message, rootId, props };
   try {
     const { data } = await chatApi.post(`/api/mattermost/channels/${channelId}/posts`, payload);
     return data;

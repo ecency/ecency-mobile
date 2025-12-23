@@ -28,6 +28,7 @@ interface ThreadMessageItemProps {
     isOwnMessage: boolean,
   ) => JSX.Element | null;
   renderReactions: (reactions: any[] | undefined, isOwnMessage: boolean) => JSX.Element | null;
+  renderLinkPreview: (linkMeta: any) => JSX.Element | null;
   linkifyInstance: any;
   handleLink: (url: string) => void;
 }
@@ -48,6 +49,7 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
     parseMessageContent,
     renderReplyPreview,
     renderReactions,
+    renderLinkPreview,
     linkifyInstance,
     handleLink,
   }) => {
@@ -122,6 +124,13 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
                 resizeMode="cover"
               />
             ))}
+            {post.props?.link_url &&
+              renderLinkPreview({
+                url: post.props?.link_url,
+                title: post.props?.link_title || '',
+                summary: post.props?.link_summary || '',
+                image: post.props?.link_image || '',
+              })}
             <View style={styles.timestampContainer}>
               {timestamp && (
                 <Text

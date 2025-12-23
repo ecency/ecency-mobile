@@ -1083,13 +1083,21 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           (typeof rootMappedUser?.name === 'string' ? rootMappedUser.name : null) ||
           '';
 
-        const metadata = rootId && {
-          parent_id: rootPost?.id || '',
-          parent_username: rootUsername,
-          parent_message: typeof rootPost?.message === 'string' ? rootPost.message : '',
+        const props = {
+          ...(rootId && {
+            parent_id: rootPost?.id || '',
+            parent_username: rootUsername,
+            parent_message: typeof rootPost?.message === 'string' ? rootPost.message : '',
+          }),
+          ...(linkMeta && {
+            link_url: linkMeta.url,
+            link_title: linkMeta.linkMeta.title,
+            link_summary: linkMeta.linkMeta.summary,
+            link_image: linkMeta.linkMeta.image,
+          }),
         };
 
-        const response = await sendMattermostMessage(channelId, emojifiedMessage, rootId, metadata);
+        const response = await sendMattermostMessage(channelId, emojifiedMessage, rootId, props);
         const newPost = normalizePost(response);
         if (newPost) {
           setPosts((prev) => sortPosts([...prev, newPost]));
@@ -1633,6 +1641,31 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     [bootstrapUserId],
   );
 
+  const _renderMessageLinkPreview = useCallback(
+    (messageLinkMeta: any) => {
+      if (!messageLinkMeta?.url) {
+        return null;
+      }
+
+      const screenWidth = Dimensions.get('window').width;
+      const contentWidth = screenWidth * 0.8 - 48; // 80% of screen minus padding
+
+      return (
+        <LinkPreview
+          title={messageLinkMeta.title}
+          summary={messageLinkMeta.summary}
+          imageUrl={messageLinkMeta.image}
+          contentWidth={contentWidth}
+          url={messageLinkMeta.url}
+          onPress={() => {
+            handleLink(messageLinkMeta.url);
+          }}
+        />
+      );
+    },
+    [handleLink],
+  );
+
   // Render item callback
   const _renderItem = useCallback(
     // eslint-disable-next-line react/no-unused-prop-types
@@ -1691,6 +1724,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           parseMessageContent={parseMessageContent}
           renderReplyPreview={_renderReplyPreview}
           renderReactions={_renderReactions}
+          renderLinkPreview={_renderMessageLinkPreview}
           linkifyInstance={linkifyInstance}
           handleLink={handleLink}
         />
@@ -1706,6 +1740,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       _showChatOptionsSheet,
       _renderReplyPreview,
       _renderReactions,
+      _renderMessageLinkPreview,
       linkifyInstance,
       handleLink,
     ],

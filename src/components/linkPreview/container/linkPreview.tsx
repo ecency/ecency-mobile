@@ -57,7 +57,7 @@ export const LinkPreview = ({
           <View style={styles.thumbnail} />
         )}
         <View style={styles.textContainer}>
-          <Text style={styles.hivePost}>{getDomainLabel()}</Text>
+          <Text numberOfLines={1} style={styles.hivePost}>{getDomainLabel()}</Text>
           {!title ? (
             _renderPlaceholder
           ) : (
