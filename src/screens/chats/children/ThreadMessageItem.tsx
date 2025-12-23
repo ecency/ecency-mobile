@@ -132,8 +132,7 @@ export const ThreadMessageItem: React.FC<ThreadMessageItemProps> = React.memo(
                 >
                   {!!post.edit_at && post.edit_at > 0 && (
                     <Text>
-                      {intl.formatMessage({ id: 'chats.edited', defaultMessage: 'Edited' })}
-                      {' '}
+                      {intl.formatMessage({ id: 'chats.edited', defaultMessage: 'Edited' })}{' '}
                     </Text>
                   )}
                   {moment(timestamp).fromNow()}

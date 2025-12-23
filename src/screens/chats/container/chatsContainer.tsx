@@ -170,15 +170,18 @@ const ChatsContainer = () => {
   // Bootstrap and Session Management
   // ============================================================================
 
-  const _ensureBootstrap = useCallback(async (refresh = false) => {
-    if (bootstrapResult && !refresh) {
-      return bootstrapResult;
-    }
+  const _ensureBootstrap = useCallback(
+    async (refresh = false) => {
+      if (bootstrapResult && !refresh) {
+        return bootstrapResult;
+      }
 
-    const session = await bootstrapMattermostSession(currentAccount, pinCode);
-    setBootstrapResult(session);
-    return session;
-  }, [bootstrapResult, currentAccount, pinCode]);
+      const session = await bootstrapMattermostSession(currentAccount, pinCode);
+      setBootstrapResult(session);
+      return session;
+    },
+    [bootstrapResult, currentAccount, pinCode],
+  );
 
   const _seedDirectUsers = useCallback((channelList: any[]) => {
     const next: Record<string, any> = {};
@@ -907,7 +910,6 @@ const ChatsContainer = () => {
       _loadChannels(true);
     }
   }, [currentAccount]);
-
 
   useEffect(() => {
     const bootstrapUser = bootstrapResult?.user;

@@ -64,7 +64,9 @@ export const fetchLinkMetadata = async (url: string): Promise<LinkMetadata | nul
     // Extract image
     let image = extractMetaTag('og:image');
     if (!image) {
-      const imageMatch = html.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i);
+      const imageMatch = html.match(
+        /<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i,
+      );
       image = imageMatch ? imageMatch[1].trim() : '';
     }
 

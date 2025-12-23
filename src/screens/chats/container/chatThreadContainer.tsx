@@ -1,5 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, BackHandler, Dimensions, FlatList, Keyboard, Platform, TextInput, View } from 'react-native';
+import {
+  Alert,
+  BackHandler,
+  Dimensions,
+  FlatList,
+  Keyboard,
+  Platform,
+  TextInput,
+  View,
+} from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import LinkifyIt from 'linkify-it';
@@ -1188,14 +1197,11 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     });
   }, []);
 
-  const _handleReplyToPost = useCallback(
-    (post: ChatPost) => {
-      setEditingPostId(null);
-      setRootPost(post);
-      setTimeout(() => inputRef.current?.focus(), 100);
-    },
-    [],
-  );
+  const _handleReplyToPost = useCallback((post: ChatPost) => {
+    setEditingPostId(null);
+    setRootPost(post);
+    setTimeout(() => inputRef.current?.focus(), 100);
+  }, []);
 
   const _handleAddReaction = useCallback(
     async (post: ChatPost, emojiName: string) => {
@@ -1383,21 +1389,18 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     [_ensureBootstrap, dispatch, intl],
   );
 
-  const _handleTranslateMessage = useCallback(
-    (post: ChatPost) => {
-      const message = post.message || post.props?.message || '';
-      if (message) {
-        SheetManager.show(SheetNames.POST_TRANSLATION, {
-          payload: {
-            content: {
-              body: message,
-            },
+  const _handleTranslateMessage = useCallback((post: ChatPost) => {
+    const message = post.message || post.props?.message || '';
+    if (message) {
+      SheetManager.show(SheetNames.POST_TRANSLATION, {
+        payload: {
+          content: {
+            body: message,
           },
-        });
-      }
-    },
-    [],
-  );
+        },
+      });
+    }
+  }, []);
 
   const _showChatOptionsSheet = useCallback(
     (post: ChatPost, isOwn: boolean) => {
@@ -1748,7 +1751,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     }
 
     // Calculate content width based on screen width minus all composer elements
-    // composer paddingHorizontal: 24, attachButton: 44, inputContainer marginRight: 8, 
+    // composer paddingHorizontal: 24, attachButton: 44, inputContainer marginRight: 8,
     // sendButton: 44, composerLinkPreview marginHorizontal: 16
     const screenWidth = Dimensions.get('window').width;
     const contentWidth = screenWidth - 144;
