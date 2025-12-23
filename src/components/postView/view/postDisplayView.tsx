@@ -130,17 +130,6 @@ const PostDisplayView = ({
     postStatsModalRef.current?.show(post.url);
   };
 
-  const _handleOnTipsListPress = () => {
-    if (tipsQuery.data?.meta?.count > 0) {
-      SheetManager.show(SheetNames.TIPS_LIST, {
-        payload: {
-          author: post.author,
-          permlink: post.permlink,
-        },
-      });
-    }
-  };
-
   const _handleOnTipPress = () => {
     if (!isLoggedIn) {
       // TODO: Show login prompt
@@ -221,7 +210,6 @@ const PostDisplayView = ({
             iconType="MaterialCommunityIcons"
             isClickable
             onPress={_handleOnTipPress}
-            onLongPress={_handleOnTipsListPress}
             text={tipsQuery.data?.meta?.count || 0}
             textMarginLeft={20}
             isLoading={tipsQuery.isLoading}

@@ -9,7 +9,7 @@ import {
   QRModal,
   ChatOptionsSheet,
 } from '../components';
-import { TippingDialog, TipsListModal } from '../components/tipping';
+import { TippingDialog } from '../components/tipping';
 import { ActionModalPayload } from '../components/actionModal/container/actionModalContainer';
 
 export enum SheetNames {
@@ -22,7 +22,6 @@ export enum SheetNames {
   QR_SCAN = 'qr_sheet',
   CHAT_OPTIONS = 'chat_options',
   TIPPING_DIALOG = 'tipping_dialog',
-  TIPS_LIST = 'tips_list',
 }
 
 registerSheet(SheetNames.POST_TRANSLATION, PostTranslationModal);
@@ -34,7 +33,6 @@ registerSheet(SheetNames.ACCOUNTS_SHEET, AccountsBottomSheet);
 registerSheet(SheetNames.QR_SCAN, QRModal);
 registerSheet(SheetNames.CHAT_OPTIONS, ChatOptionsSheet);
 registerSheet(SheetNames.TIPPING_DIALOG, TippingDialog);
-registerSheet(SheetNames.TIPS_LIST, TipsListModal);
 
 // We extend some of the types here to give us great intellisense
 // across the app for all registered sheets.
@@ -83,12 +81,6 @@ declare module 'react-native-actions-sheet' {
       payload: {
         post: any;
         onSuccess?: (data: any) => void;
-      };
-    }>;
-    [SheetNames.TIPS_LIST]: SheetDefinition<{
-      payload: {
-        author: string;
-        permlink: string;
       };
     }>;
   }
