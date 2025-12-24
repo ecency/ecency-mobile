@@ -203,7 +203,16 @@ const ChatOptionsSheet = ({ payload }: ChatOptionsSheetProps) => {
         </TouchableHighlight>
       );
     },
-    [_handleReply, _handleCopy, _handleShare, _handleTranslate, _handleEdit, _handlePin, _handleUnpin, _handleRemove],
+    [
+      _handleReply,
+      _handleCopy,
+      _handleShare,
+      _handleTranslate,
+      _handleEdit,
+      _handlePin,
+      _handleUnpin,
+      _handleRemove,
+    ],
   );
 
   const options = useMemo(() => {

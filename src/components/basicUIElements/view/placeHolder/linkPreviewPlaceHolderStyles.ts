@@ -25,4 +25,3 @@ export default EStyleSheet.create({
     marginTop: 0,
   },
 });
-

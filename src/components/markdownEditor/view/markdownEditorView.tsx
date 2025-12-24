@@ -219,29 +219,14 @@ const MarkdownEditorView = ({
 
   const _handleOnSelectionChange = async (event) => {
     bodySelectionRef.current = event.nativeEvent.selection;
-    if (Platform.OS === 'ios') {
-      setSelection(event.nativeEvent.selection);
-    }
+    setSelection(event.nativeEvent.selection);
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
-    if (Platform.OS === 'ios') {
-      setBodyText(_text);
-      setSelection(_selection);
-    } else {
-      inputRef?.current?.setNativeProps({
-        text: _text,
-      });
-
-      bodySelectionRef.current = _selection;
-      inputRef?.current?.setNativeProps({
-        selection: _selection,
-      });
-      inputRef?.current?.setNativeProps({
-        text: _text,
-      });
-    }
+    setBodyText(_text);
+    setSelection(_selection);
+    bodySelectionRef.current = _selection;
 
     if (isSnippetsOpen) {
       setIsSnippetsOpen(false);
@@ -398,8 +383,8 @@ const MarkdownEditorView = ({
         editable={editable}
         contextMenuHidden={false}
         scrollEnabled={editorScrollEnabled}
-        value={Platform.OS === 'ios' ? bodyText : undefined}
-        selection={Platform.OS === 'ios' ? selection : undefined}
+        value={bodyText}
+        selection={selection}
       />
     </>
   );

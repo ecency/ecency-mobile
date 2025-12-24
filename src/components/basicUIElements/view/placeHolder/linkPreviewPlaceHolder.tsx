@@ -51,4 +51,3 @@ const LinkPreviewPlaceHolder = ({ width }: LinkPreviewPlaceHolderProps) => {
 };
 
 export default LinkPreviewPlaceHolder;
-
