@@ -288,7 +288,12 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
     const cachedVote = cachedVotes[path];
     if (_comments[path]) {
       console.log('injection vote cache');
-      _comments[path] = injectVoteCache(_comments[path], cachedVote);
+      const updatedComment = injectVoteCache(_comments[path], cachedVote);
+      // Only update if injectVoteCache returned a new reference (meaning cache was applied)
+      if (updatedComment !== _comments[path]) {
+        _comments[path] = updatedComment;
+        shouldClone = true;
+      }
     }
   });
 
@@ -343,12 +348,16 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
 };
 
 export const injectVoteCache = (post, voteCache) => {
+  // Clone post to avoid mutations that break React.memo comparisons
   if (voteCache && voteCache.status !== CacheStatus.FAILED) {
-    const _voteIndex = post.active_votes.findIndex((i) => i.voter === voteCache.voter);
+    // Create shallow clone to ensure new reference
+    const clonedPost = { ...post };
+    const _voteIndex = clonedPost.active_votes.findIndex((i) => i.voter === voteCache.voter);
 
     // if vote do not already exist
     if (_voteIndex < 0 && voteCache.status !== CacheStatus.DELETED) {
-      post.total_payout += voteCache.amount * (voteCache.isDownvote ? -1 : 1);
+      clonedPost.total_payout =
+        post.total_payout + voteCache.amount * (voteCache.isDownvote ? -1 : 1);
 
       // calculate updated totalRShares and send to post
       const _totalRShares = post.active_votes.reduce(
@@ -356,34 +365,50 @@ export const injectVoteCache = (post, voteCache) => {
         voteCache.rshares,
       );
       const _newVote = parseVote(voteCache, post, _totalRShares);
-      post.active_votes = [...post.active_votes, _newVote];
+      clonedPost.active_votes = [...post.active_votes, _newVote];
 
       // update vote status here
-      post.isUpVoted = !voteCache.isDownvote;
-      post.isDownVoted = !!voteCache.isDownvote;
+      clonedPost.isUpVoted = !voteCache.isDownvote;
+      clonedPost.isDownVoted = !!voteCache.isDownvote;
+
+      // Clone stats object and update total_votes count
+      if (post.stats) {
+        clonedPost.stats = { ...post.stats, total_votes: clonedPost.active_votes.length };
+      }
+
+      return clonedPost;
     }
 
     // if vote already exist
-    else {
-      const _vote = post.active_votes[_voteIndex];
+    else if (_voteIndex >= 0) {
+      const _vote = clonedPost.active_votes[_voteIndex];
 
       // get older and new reward for the vote
       const _oldReward = calculateVoteReward(_vote.rshares, post);
 
       // update total payout
       const _voteAmount = voteCache.amount * (voteCache.isDownvote ? -1 : 1);
-      post.total_payout += _voteAmount - _oldReward;
+      clonedPost.total_payout = post.total_payout + _voteAmount - _oldReward;
 
       // update vote entry
-      _vote.rshares = voteCache.rshares;
-      _vote.percent100 = _vote.percent && voteCache.percent / 100;
+      const updatedVote = { ..._vote };
+      updatedVote.rshares = voteCache.rshares;
+      updatedVote.percent100 = updatedVote.percent && voteCache.percent / 100;
 
-      post.active_votes[_voteIndex] = _vote;
-      post.active_votes = [...post.active_votes];
+      const updatedVotes = [...post.active_votes];
+      updatedVotes[_voteIndex] = updatedVote;
+      clonedPost.active_votes = updatedVotes;
 
       // update vote status here
-      post.isUpVoted = !voteCache.isDownvote;
-      post.isDownVoted = !!voteCache.isDownvote;
+      clonedPost.isUpVoted = !voteCache.isDownvote;
+      clonedPost.isDownVoted = !!voteCache.isDownvote;
+
+      // Clone stats object (vote count stays same for updates)
+      if (post.stats) {
+        clonedPost.stats = { ...post.stats };
+      }
+
+      return clonedPost;
     }
   }
 
