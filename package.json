@@ -82,7 +82,7 @@
     "expo-image": "~2.4.0",
     "expo-linear-gradient": "~14.1.5",
     "expo-local-authentication": "~16.0.5",
-    "hive-auth-wrapper": "https://github.com/noumantahir/hive-auth-wrapper.git",
+    "hive-auth-wrapper": "git+https://github.com/noumantahir/hive-auth-wrapper.git",
     "hive-uri": "^0.2.5",
     "hivesigner": "^3.3.4",
     "https-browserify": "~1.0.0",
