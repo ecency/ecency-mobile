@@ -106,6 +106,9 @@ const PostCardActionsPanelComponent = ({ content, handleCardInteraction }: Props
 export const PostCardActionsPanel = React.memo(
   PostCardActionsPanelComponent,
   (prevProps, nextProps) => {
-    return prevProps.content === nextProps.content;
+    return (
+      prevProps.content === nextProps.content &&
+      prevProps.handleCardInteraction === nextProps.handleCardInteraction
+    );
   },
 );

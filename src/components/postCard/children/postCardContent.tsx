@@ -173,6 +173,7 @@ export const PostCardContent = React.memo(PostCardContentComponent, (prevProps, 
   return (
     prevProps.content === nextProps.content &&
     prevProps.isHideImage === nextProps.isHideImage &&
-    prevProps.nsfw === nextProps.nsfw
+    prevProps.nsfw === nextProps.nsfw &&
+    prevProps.handleCardInteraction === nextProps.handleCardInteraction
   );
 });

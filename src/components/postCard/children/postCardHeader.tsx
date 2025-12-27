@@ -117,6 +117,7 @@ export const PostCardHeader = React.memo(PostCardHeaderComponent, (prevProps, ne
     prevProps.content === nextProps.content &&
     prevProps.isHideImage === nextProps.isHideImage &&
     prevProps.pageType === nextProps.pageType &&
-    prevProps.intl === nextProps.intl
+    prevProps.intl === nextProps.intl &&
+    prevProps.handleCardInteraction === nextProps.handleCardInteraction
   );
 });
