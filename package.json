@@ -102,7 +102,7 @@
     "react-intl": "^3.9.2",
     "react-native": "0.79.5",
     "react-native-actions-sheet": "^0.9.7",
-    "react-native-actionsheet": "ecency/react-native-actionsheet",
+    "react-native-actionsheet": "git+https://github.com/ecency/react-native-actionsheet",
     "react-native-autoheight-webview": "^1.6.5",
     "react-native-background-timer": "^2.4.1",
     "react-native-bootsplash": "^6.3.10",
