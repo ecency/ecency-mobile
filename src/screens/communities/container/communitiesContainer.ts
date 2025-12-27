@@ -22,6 +22,7 @@ import {
   mergeSubCommunitiesCacheInDiscoverList,
   mergeSubCommunitiesCacheInSubList,
 } from '../../../utils/communitiesUtils';
+import { selectCurrentAccount } from '../../../redux/selectors';
 
 const CommunitiesContainer = ({ children }) => {
   const navigation = useNavigation();
@@ -34,7 +35,7 @@ const CommunitiesContainer = ({ children }) => {
   const [isDiscoversLoading, setIsDiscoversLoading] = useState(true);
   const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
 
-  const currentAccount = useSelector((state) => state.account.currentAccount);
+  const currentAccount = useSelector(selectCurrentAccount);
   const pinCode = useSelector((state) => state.application.pin);
   const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
   const subscribingCommunitiesInDiscoverTab = useSelector(

@@ -18,6 +18,7 @@ export const parsePost = (
   isPromoted,
   isList = false,
   discardBody = false,
+  currentTime?: number, // Optional timestamp to avoid creating new Date for each post
 ) => {
   if (!post) {
     return null;
@@ -87,8 +88,8 @@ export const parsePost = (
   post.isUpVoted = !!vote && vote.rshares > 0;
   post.isDownVoted = !!vote && vote.rshares < 0;
 
-  // stamp posts with fetched time;
-  post.post_fetched_at = new Date().getTime();
+  // stamp posts with fetched time (use provided timestamp or create new one)
+  post.post_fetched_at = currentTime || new Date().getTime();
 
   // discard post body if list
   if (discardBody) {
@@ -216,7 +217,7 @@ export const parseComments = (comments: any[], currentUsername?: string) => {
   return comments.map((comment) => parseComment(comment, currentUsername));
 };
 
-export const parseComment = (comment: any, currentUsername?: string) => {
+export const parseComment = (comment: any, currentUsername?: string, currentTime?: number) => {
   comment.pending_payout_value = parseFloat(get(comment, 'pending_payout_value', 0)).toFixed(3);
   comment.author_reputation = parseReputation(get(comment, 'author_reputation'));
   comment.avatar = getResizedAvatar(get(comment, 'author'));
@@ -265,8 +266,8 @@ export const parseComment = (comment: any, currentUsername?: string) => {
   comment.isUpVoted = !!vote && vote.rshares > 0;
   comment.isDownVoted = !!vote && vote.rshares < 0;
 
-  // stamp comments with fetched time;
-  comment.post_fetched_at = new Date().getTime();
+  // stamp comments with fetched time (use provided timestamp or create new one)
+  comment.post_fetched_at = currentTime || new Date().getTime();
 
   comment.json_metadata = parseLinksMeta(comment.json_metadata);
 

@@ -14,6 +14,7 @@ import {
 } from '../../../../../../redux/actions/communitiesAction';
 import { updateSubscribedCommunitiesCache } from '../../../../../../redux/actions/cacheActions';
 import { statusMessage } from '../../../../../../redux/constants/communitiesConstants';
+import { selectIsLoggedIn, selectCurrentAccount } from '../../../../../../redux/selectors';
 
 const CommunitiesResultsContainer = ({ children, searchValue }) => {
   const intl = useIntl();
@@ -24,8 +25,8 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   const [noResult, setNoResult] = useState(false);
   const [isDiscoversLoading, setIsDiscoversLoading] = useState(false);
   const pinCode = useSelector((state) => state.application.pin);
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
+  const currentAccount = useSelector(selectCurrentAccount);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
   const subscribingCommunities = useSelector(
     (state) => state.communities.subscribingCommunitiesInSearchResultsScreen,

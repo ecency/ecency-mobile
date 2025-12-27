@@ -24,7 +24,7 @@ interface Props {
   handleCardInteraction: (id: PostCardActionIds, payload?: any) => void;
 }
 
-export const PostCardHeader = ({
+const PostCardHeaderComponent = ({
   intl,
   content,
   pageType,
@@ -110,3 +110,13 @@ export const PostCardHeader = ({
     </>
   );
 };
+
+// Memoize to prevent re-renders when content hasn't changed
+export const PostCardHeader = React.memo(PostCardHeaderComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.content === nextProps.content &&
+    prevProps.isHideImage === nextProps.isHideImage &&
+    prevProps.pageType === nextProps.pageType &&
+    prevProps.intl === nextProps.intl
+  );
+});

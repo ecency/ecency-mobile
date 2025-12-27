@@ -3,11 +3,12 @@ import { View } from 'react-native';
 import Placeholder from 'rn-placeholder';
 
 import { useSelector } from 'react-redux';
+import { selectIsDarkTheme } from '../../../../redux/selectors';
 
 import styles from './postCardPlaceHolderStyles';
 // TODO: make container for place holder wrapper after alpha
 const PostCardPlaceHolder = () => {
-  const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useSelector(selectIsDarkTheme);
   const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
   return (
     <View style={styles.container}>

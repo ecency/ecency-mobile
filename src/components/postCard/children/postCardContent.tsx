@@ -28,7 +28,7 @@ interface Props {
   handleCardInteraction: (id: PostCardActionIds, payload?: any) => void;
 }
 
-export const PostCardContent = ({ content, isHideImage, nsfw, handleCardInteraction }: Props) => {
+const PostCardContentComponent = ({ content, isHideImage, nsfw, handleCardInteraction }: Props) => {
   const intl = useIntl();
   const dim = useWindowDimensions();
   const imgRef = useRef<ExpoImage>(null);
@@ -51,18 +51,26 @@ export const PostCardContent = ({ content, isHideImage, nsfw, handleCardInteract
   const _isMuted = content?.isMuted;
   const _isCommunityPost = isCommunity(content?.community);
 
-  const _mutedText = _isMuted
-    ? _isCommunityPost
-      ? intl.formatMessage({ id: 'post.community_muted' })
-      : intl.formatMessage({ id: 'post.muted' })
-    : '';
+  const _mutedText = useMemo(
+    () =>
+      _isMuted
+        ? _isCommunityPost
+          ? intl.formatMessage({ id: 'post.community_muted' })
+          : intl.formatMessage({ id: 'post.muted' })
+        : '',
+    [_isMuted, _isCommunityPost, intl],
+  );
 
-  const _featuredText = [
-    content?.is_promoted && intl.formatMessage({ id: 'post.promoted' }),
-    _isPollPost && intl.formatMessage({ id: 'post.poll' }),
-  ]
-    .filter((i) => !!i)
-    .join(' | ');
+  const _featuredText = useMemo(
+    () =>
+      [
+        content?.is_promoted && intl.formatMessage({ id: 'post.promoted' }),
+        _isPollPost && intl.formatMessage({ id: 'post.poll' }),
+      ]
+        .filter((i) => !!i)
+        .join(' | '),
+    [content?.is_promoted, _isPollPost, intl],
+  );
 
   const _onPress = () => {
     handleCardInteraction(PostCardActionIds.NAVIGATE, {
@@ -76,16 +84,17 @@ export const PostCardContent = ({ content, isHideImage, nsfw, handleCardInteract
     });
   };
 
-  let images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
-  if (!_isMuted && content.thumbnail) {
-    if (nsfw !== '0' && content.nsfw) {
-      images = { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
-    } else {
-      images = { image: content.image, thumbnail: content.thumbnail };
+  const images = useMemo(() => {
+    let imgs = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
+    if (!_isMuted && content.thumbnail) {
+      if (nsfw !== '0' && content.nsfw) {
+        imgs = { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
+      } else {
+        imgs = { image: content.image, thumbnail: content.thumbnail };
+      }
     }
-  } else {
-    images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
-  }
+    return imgs;
+  }, [_isMuted, content.thumbnail, content.nsfw, content.image, nsfw]);
 
   const original = content?.json_metadata?.image?.[0];
   const isGif = useMemo(() => /\.gif$/i.test(original), [original]);
@@ -158,3 +167,12 @@ export const PostCardContent = ({ content, isHideImage, nsfw, handleCardInteract
     </View>
   );
 };
+
+// Memoize to prevent re-renders when content hasn't changed
+export const PostCardContent = React.memo(PostCardContentComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.content === nextProps.content &&
+    prevProps.isHideImage === nextProps.isHideImage &&
+    prevProps.nsfw === nextProps.nsfw
+  );
+});

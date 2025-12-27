@@ -13,6 +13,7 @@ import { getActiveProposalMeta } from '../ecency/ecency';
 import { ProposalMeta } from '../ecency/ecency.types';
 import authType from '../../constants/authType';
 import ROUTES from '../../constants/routeNames';
+import { selectCurrentAccount } from '../../redux/selectors';
 
 // query for getting active proposal meta;
 export const useActiveProposalMetaQuery = () => {
@@ -23,7 +24,7 @@ export const useActiveProposalMetaQuery = () => {
 };
 
 export const useProposalVotedQuery = (proposalId?: number) => {
-  const currentAccount = useSelector((state) => state.account.currentAccount);
+  const currentAccount = useSelector(selectCurrentAccount);
   const proposalsVoteMeta = useSelector((state) => state.cache.proposalsVoteMeta);
 
   // form meta id
@@ -58,7 +59,7 @@ export const useProposalVoteMutation = () => {
   const navigation = useNavigation();
   const intl = useIntl();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const pinHash = useAppSelector((state) => state.application.pin);
 
   return useMutation<any, Error, { proposalId: number }>({

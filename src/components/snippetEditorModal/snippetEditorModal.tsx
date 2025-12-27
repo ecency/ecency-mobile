@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { TextInput } from '..';
 import { Snippet } from '../../models';
 import { editorQueries } from '../../providers/queries';
+import { selectIsDarkTheme } from '../../redux/selectors';
 import { TextButton } from '../buttons';
 import Modal from '../modal';
 import styles from './snippetEditorModalStyles';
@@ -27,7 +28,7 @@ const SnippetEditorModal = ({}, ref) => {
   const [isNewSnippet, setIsNewSnippet] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [titleHeight, setTitleHeight] = useState(0);
-  const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useSelector(selectIsDarkTheme);
 
   useImperativeHandle(ref, () => ({
     showNewModal: () => {

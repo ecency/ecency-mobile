@@ -9,6 +9,7 @@ import { FormInput, MainButton, Modal, SelectCommunityModalContainer, TextButton
 import { repostQueries } from '../../../providers/queries';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
+import { selectCurrentAccount } from '../../../redux/selectors';
 
 export const CrossPostModal = ({ payload }: SheetProps<SheetNames.CROSS_POST>) => {
   const intl = useIntl();
@@ -17,7 +18,7 @@ export const CrossPostModal = ({ payload }: SheetProps<SheetNames.CROSS_POST>) =
 
   const crossPostMutation = repostQueries.useCrossPostMutation();
 
-  const currentAccount = useSelector((state) => state.account.currentAccount);
+  const currentAccount = useSelector(selectCurrentAccount);
 
   const [message, setMessage] = useState('');
   const [selectedCommunityId, setSelectedCommunityId] = useState('');

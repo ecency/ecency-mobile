@@ -10,6 +10,7 @@ import styles from '../styles/feedTabBar.styles';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { WalkthroughMarker } from '../..';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
+import { selectIsLoggedIn } from '../../../redux/selectors';
 
 interface FeedTabBarProps extends TabBarProps<any> {
   pageType?: 'main' | 'community' | 'profile' | 'ownProfile';
@@ -20,7 +21,7 @@ export const FeedTabBar = ({ onFilterSelect, pageType, ...props }: FeedTabBarPro
   const intl = useIntl();
   const layout = useWindowDimensions();
 
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const customiseModalRef = useRef<CustomiseFiltersModalRef>();
 

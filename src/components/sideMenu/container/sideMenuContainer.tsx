@@ -13,13 +13,14 @@ import SideMenuView from '../view/sideMenuView';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { getUser } from '../../../providers/hive/dhive';
 import { SheetNames } from '../../../navigation/sheets';
+import { selectIsLoggedIn, selectCurrentAccount } from '../../../redux/selectors';
 
 const SideMenuContainer = ({ navigation }) => {
   const dispatch = useDispatch();
   const drawerStatus = useDrawerStatus();
 
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
-  const currentAccount = useSelector((state) => state.account.currentAccount);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const currentAccount = useSelector(selectCurrentAccount);
   const prevLoggedInUsers = useSelector((state) => state.account.prevLoggedInUsers);
 
   useEffect(() => {

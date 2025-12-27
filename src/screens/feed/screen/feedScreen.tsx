@@ -82,6 +82,10 @@ const FeedScreen = () => {
     [feedFilters, currentAccount],
   );
 
+  // Create a stable key for TabbedPosts using a simple join
+  // This is much faster than JSON.stringify and still resets when filters change
+  const tabbedPostsKey = useMemo(() => feedFilters.join(','), [feedFilters]);
+
   const _onCreatePress = () => {
     if (!isLoggedIn) {
       showLoginAlert({ intl });
@@ -97,7 +101,7 @@ const FeedScreen = () => {
       <View style={styles.container} onLayout={_lazyLoadContent}>
         {lazyLoad && (
           <TabbedPosts
-            key={JSON.stringify(feedFilters)} // this hack of key change resets tabbedposts whenever filters chanage, effective to remove filter change android bug
+            key={tabbedPostsKey} // Use memoized key to reset tabbedposts when filters change (addresses Android filter change bug)
             tabFilters={tabFilters}
             selectedOptionIndex={isLoggedIn ? 0 : 1}
             feedUsername={get(currentAccount, 'name', null)}

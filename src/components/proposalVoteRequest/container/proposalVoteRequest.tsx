@@ -14,6 +14,7 @@ import {
 } from '../../../providers/queries';
 import { updateProposalVoteMeta } from '../../../redux/actions/cacheActions';
 import { SheetNames } from '../../../navigation/sheets';
+import { selectIsLoggedIn, selectCurrentAccount } from '../../../redux/selectors';
 
 const RE_REQUEST_INTERVAL = 259200000; // 3 days;
 
@@ -29,8 +30,8 @@ export const ProposalVoteRequest = () => {
   const proposalVotedQuery = useProposalVotedQuery(_ecencyProposalId);
   const proposalVoteMutation = useProposalVoteMutation();
 
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
+  const currentAccount = useSelector(selectCurrentAccount);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   // assess if user should be promopted to vote proposal
   // makes sure this logic is only calculated once on launch

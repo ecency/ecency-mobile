@@ -44,4 +44,17 @@ const PostCard = ({ intl, content, isHideImage, nsfw, pageType, handleCardIntera
   );
 };
 
-export default PostCard;
+// Memoize PostCard to prevent unnecessary re-renders
+// Compare content by reference and primitive props
+const MemoizedPostCard = React.memo(PostCard, (prevProps, nextProps) => {
+  return (
+    prevProps.content === nextProps.content &&
+    prevProps.isHideImage === nextProps.isHideImage &&
+    prevProps.nsfw === nextProps.nsfw &&
+    prevProps.pageType === nextProps.pageType &&
+    prevProps.intl === nextProps.intl
+    // Note: handleCardInteraction should be stable via useCallback in parent
+  );
+});
+
+export default MemoizedPostCard;

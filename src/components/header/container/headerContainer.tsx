@@ -12,6 +12,7 @@ import { AccountContainer } from '../../../containers';
 import { parseReputation } from '../../../utils/user';
 import ROUTES from '../../../constants/routeNames';
 import { SheetNames } from '../../../navigation/sheets';
+import { selectIsDarkTheme } from '../../../redux/selectors';
 
 const HeaderContainer = ({
   selectedUser,
@@ -24,7 +25,7 @@ const HeaderContainer = ({
 }) => {
   const navigation = useNavigation();
 
-  const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useSelector(selectIsDarkTheme);
   const _handleOpenDrawer = () => {
     if (has(navigation, 'openDrawer') && typeof get(navigation, 'openDrawer') === 'function') {
       navigation.openDrawer();

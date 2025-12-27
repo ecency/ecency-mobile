@@ -5,6 +5,7 @@ import React, {
   useEffect,
   Fragment,
   useMemo,
+  useCallback,
 } from 'react';
 import { FlatListProps, RefreshControl, ActivityIndicator, View } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -20,6 +21,7 @@ import { PostTypes } from '../../../constants/postTypes';
 import { PostOptionsModal } from '../../postOptionsModal';
 import { PostCardActionIds } from '../../postCard/container/postCard';
 import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
+import { selectHidePostsThumbnails, selectIsDarkTheme } from '../../../redux/selectors';
 
 export interface PostsListRef {
   scrollToTop: () => void;
@@ -60,17 +62,15 @@ const postsListContainer = (
   const upvotePopoverRef = useRef(null);
   const postDropdownRef = useRef(null);
 
-  const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
-  const nsfw = useSelector((state) => state.application.hidePostsThumbnails);
-  const isDarkTheme = useSelector((state) => state.application.isDarkThem);
+  // Use memoized selectors to prevent unnecessary re-renders
+  const isHideImages = useSelector(selectHidePostsThumbnails);
+  const nsfw = useSelector(selectHidePostsThumbnails);
+  const isDarkTheme = useSelector(selectIsDarkTheme);
 
   const cachedPosts = useSelector((state) => {
     return isFeedScreen ? state.posts.feedPosts : state.posts.otherPosts;
   });
-  const votesCache = useSelector((state) => state.cache.votesCollection);
-
-  const mutes = useSelector((state) => state.account.currentAccount.mutes);
-
+  const mutes = useSelector((state) => state.account.currentAccount?.mutes || []);
   const scrollPosition = useSelector((state) => {
     return isFeedScreen ? state.posts.feedScrollPosition : state.posts.otherScrollPosition;
   });
@@ -158,83 +158,84 @@ const postsListContainer = (
     }
   };
 
-  const _handleCardInteraction = (
-    id: PostCardActionIds,
-    payload: any,
-    content: any,
-    onCallback,
-  ) => {
-    switch (id) {
-      case PostCardActionIds.USER:
-        SheetManager.show('quick_profile', {
-          payload: {
-            username: payload,
-          },
-        });
-        break;
-
-      case PostCardActionIds.OPTIONS:
-        if (postDropdownRef.current && content) {
-          postDropdownRef.current.show(content);
-        }
-        break;
-
-      case PostCardActionIds.NAVIGATE:
-        navigation.navigate(payload);
-        break;
-
-      case PostCardActionIds.REPLY:
-        showQuickReplyModal(content);
-        break;
-
-      case PostCardActionIds.UPVOTE:
-        if (upvotePopoverRef.current && payload && content) {
-          upvotePopoverRef.current.showPopover({
-            sourceRef: payload,
-            content,
-            postType: PostTypes.POST,
-            onVotingStart: onCallback,
+  const _handleCardInteraction = useCallback(
+    (id: PostCardActionIds, payload: any, content: any, onCallback) => {
+      switch (id) {
+        case PostCardActionIds.USER:
+          SheetManager.show('quick_profile', {
+            payload: {
+              username: payload,
+            },
           });
-        }
-        break;
+          break;
 
-      case PostCardActionIds.PAYOUT_DETAILS:
-        if (upvotePopoverRef.current && payload && content) {
-          upvotePopoverRef.current.showPopover({
-            sourceRef: payload,
-            content,
-            showPayoutDetails: true,
+        case PostCardActionIds.OPTIONS:
+          if (postDropdownRef.current && content) {
+            postDropdownRef.current.show(content);
+          }
+          break;
+
+        case PostCardActionIds.NAVIGATE:
+          navigation.navigate(payload);
+          break;
+
+        case PostCardActionIds.REPLY:
+          showQuickReplyModal(content);
+          break;
+
+        case PostCardActionIds.UPVOTE:
+          if (upvotePopoverRef.current && payload && content) {
+            upvotePopoverRef.current.showPopover({
+              sourceRef: payload,
+              content,
+              postType: PostTypes.POST,
+              onVotingStart: onCallback,
+            });
+          }
+          break;
+
+        case PostCardActionIds.PAYOUT_DETAILS:
+          if (upvotePopoverRef.current && payload && content) {
+            upvotePopoverRef.current.showPopover({
+              sourceRef: payload,
+              content,
+              showPayoutDetails: true,
+            });
+          }
+          break;
+
+        case PostCardActionIds.TIP:
+          SheetManager.show('tipping_dialog', {
+            payload: {
+              post: content,
+            },
           });
-        }
-        break;
+          break;
+      }
+    },
+    [navigation, showQuickReplyModal],
+  );
 
-      case PostCardActionIds.TIP:
-        SheetManager.show('tipping_dialog', {
-          payload: {
-            post: content,
-          },
-        });
-        break;
-    }
-  };
+  const _renderSeparator = useCallback(() => <Separator style={styles.separator} />, []);
 
-  const _renderSeparator = () => <Separator style={styles.separator} />;
-
-  const _renderItem = ({ item }: { item: any }) => {
-    return (
-      <PostCard
-        intl={intl}
-        key={`${item.author}-${item.permlink}`}
-        content={item}
-        pageType={pageType}
-        isHideImage={isHideImages}
-        nsfw={nsfw}
-        handleCardInteraction={(id: PostCardActionIds, payload: any, onCallback) =>
-          _handleCardInteraction(id, payload, item, onCallback)
-        }
-      />
-    );
-  };
+  const _renderItem = useCallback(
+    ({ item }: { item: any }) => {
+      return (
+        <PostCard
+          intl={intl}
+          key={`${item.author}-${item.permlink}`}
+          content={item}
+          pageType={pageType}
+          isHideImage={isHideImages}
+          nsfw={nsfw}
+          handleCardInteraction={(id: PostCardActionIds, payload: any, onCallback) =>
+            _handleCardInteraction(id, payload, item, onCallback)
+          }
+        />
+      );
+    },
+    [intl, pageType, isHideImages, nsfw, _handleCardInteraction],
+  );
 
   return (
     <Fragment>
@@ -250,7 +251,6 @@ const postsListContainer = (
         ItemSeparatorComponent={_renderSeparator}
         estimatedItemSize={609}
         windowSize={8}
-        extraData={votesCache}
         onEndReached={_onEndReached}
         onMomentumScrollBegin={() => {
           _onEndReachedCalledDuringMomentum = false;

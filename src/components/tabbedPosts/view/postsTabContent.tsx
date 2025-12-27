@@ -14,6 +14,7 @@ import {
 } from '../../../providers/queries/postQueries/feedQueries';
 import { NewPostsPopup, ScrollTopPopup } from '../../atoms';
 import { SheetNames } from '../../../navigation/sheets';
+import { selectIsLoggedIn, selectCurrentAccount } from '../../../redux/selectors';
 
 const ProposalVoteRequest = lazy(() =>
   import('../..').then((mod) => ({ default: mod.ProposalVoteRequest })),
@@ -38,9 +39,9 @@ const PostsTabContent = ({
   handleOnScrollBeginDrag,
 }: PostsTabContentProps) => {
   // redux properties
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const isConnected = useSelector((state) => state.application.isConnected);
-  const currentAccount = useSelector((state) => state.account.currentAccount);
+  const currentAccount = useSelector(selectCurrentAccount);
 
   const { username } = currentAccount;
   const userPinned = currentAccount.about?.profile?.pinned;

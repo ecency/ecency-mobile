@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { View, Text, ScrollView, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
+import { selectIsDarkTheme } from '../../../redux/selectors';
 // Components
 import { Icon } from '../../icon';
 import { MainButton } from '../../mainButton';
@@ -15,7 +16,7 @@ import { WalletContainer } from '../../../containers';
 import styles from './walletStyles';
 
 const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) => {
-  const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useSelector(selectIsDarkTheme);
   const intl = useIntl();
 
   const _getUnclaimedText = (walletData, isPreview) => (
