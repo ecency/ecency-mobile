@@ -32,6 +32,15 @@ import { PostTypes } from '../../../constants/postTypes';
 // Utils
 
 import { calculateEstimatedRShares, getEstimatedAmount } from '../../../utils/vote';
+import {
+  selectIsLoggedIn,
+  selectPostUpvotePercent,
+  selectCommentUpvotePercent,
+  selectWaveUpvotePercent,
+  selectPin,
+  selectCurrentAccount,
+  selectGlobalProps,
+} from '../../../redux/selectors';
 
 // Components
 import { Icon } from '../../icon';
@@ -77,14 +86,14 @@ const UpvotePopover = forwardRef(({}, ref) => {
   const onVotingStartRef = useRef<any>(null);
   const sourceRef = useRef<any>(null);
 
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
-  const postUpvotePercent = useAppSelector((state) => state.application.postUpvotePercent);
-  const commentUpvotePercent = useAppSelector((state) => state.application.commentUpvotePercent);
-  const waveUpvotePercent = useAppSelector((state) => state.application.waveUpvotePercent);
-  const pinCode = useAppSelector((state) => state.application.pin);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const postUpvotePercent = useAppSelector(selectPostUpvotePercent);
+  const commentUpvotePercent = useAppSelector(selectCommentUpvotePercent);
+  const waveUpvotePercent = useAppSelector(selectWaveUpvotePercent);
+  const pinCode = useAppSelector(selectPin);
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const globalProps = useAppSelector((state) => state.account.globalProps);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const globalProps = useAppSelector(selectGlobalProps);
 
   const [content, setContent] = useState<any>(null);
   const [postType, setPostType] = useState<PostTypes>(PostTypes.POST);

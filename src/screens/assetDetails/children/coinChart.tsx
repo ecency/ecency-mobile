@@ -6,6 +6,7 @@ import { useAppSelector } from '../../../hooks';
 import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import { fetchEngineMarketData } from '../../../providers/hive-engine/hiveEngine';
 import styles, { CHART_NEGATIVE_MARGIN } from './children.styles';
+import { selectCurrency } from '../../../redux/selectors';
 
 interface CoinChartProps {
   coinId: string;
@@ -16,7 +17,7 @@ export const CoinChart = ({ coinId, isEngine }: CoinChartProps) => {
   const dim = useWindowDimensions();
 
   const priceHistory = useAppSelector((state) => state.wallet.priceHistories[coinId]);
-  const currency = useAppSelector((state) => state.application.currency);
+  const currency = useAppSelector(selectCurrency);
 
   const [range, setRange] = useState(isEngine ? 0 : 7);
   const [chartData, setChartData] = useState(priceHistory?.data);

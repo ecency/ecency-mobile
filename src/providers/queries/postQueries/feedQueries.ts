@@ -9,6 +9,7 @@ import { getAccountPosts, getRankedPosts } from '../../hive/dhive';
 import { getPromotedEntries } from '../../ecency/ecency';
 import filterNsfwPost from '../../../utils/filterNsfwPost';
 import { useGetPostQuery } from './postQueries';
+import { selectNsfw } from '../../../redux/selectors';
 
 const POSTS_FETCH_COUNT = 10;
 
@@ -40,7 +41,7 @@ export const useFeedQuery = ({
   const cache = useAppSelector((state) => state.cache);
   const cacheRef = useRef(cache);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const nsfw = useAppSelector((state) => state.application.nsfw);
+  const nsfw = useAppSelector(selectNsfw);
   const { mutes } = currentAccount;
 
   const pinnedPostQuery = useGetPostQuery({
@@ -272,7 +273,7 @@ export const useFeedQuery = ({
 /** hook used to return user drafts */
 export const usePromotedPostsQuery = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const nsfw = useAppSelector((state) => state.application.nsfw);
+  const nsfw = useAppSelector(selectNsfw);
 
   const _getPromotedPosts = async () => {
     try {

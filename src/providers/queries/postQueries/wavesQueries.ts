@@ -22,6 +22,11 @@ import {
 import { useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { useBotAuthorsQuery } from './postQueries';
+import {
+  selectCurrentAccount,
+  selectCurrentAccountMutes,
+  selectPin,
+} from '../../../redux/selectors';
 
 export const useWavesQuery = (host: string) => {
   const queryClient = useQueryClient();
@@ -29,9 +34,9 @@ export const useWavesQuery = (host: string) => {
   const intl = useIntl();
 
   const cache = useAppSelector((state) => state.cache);
-  const mutes = useAppSelector((state) => state.account.currentAccount.mutes);
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinCode = useAppSelector((state) => state.application.pin);
+  const mutes = useAppSelector(selectCurrentAccountMutes);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinCode = useAppSelector(selectPin);
 
   // TOTO: import bot authors query here
   const botAuthorsQuery = useBotAuthorsQuery();

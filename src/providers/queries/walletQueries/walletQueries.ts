@@ -18,6 +18,7 @@ import QUERIES from '../queryKeys';
 import { claimRewards } from '../../hive-engine/hiveEngineActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { updateClaimCache } from '../../../redux/actions/cacheActions';
+import { selectCurrentAccount, selectPin, selectGlobalProps } from '../../../redux/selectors';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
 import { fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
 import { recurrentTransferToken } from '../../hive/dhive';
@@ -33,7 +34,7 @@ const ACTIVITIES_FETCH_LIMIT = 50;
 
 /** hook used to return user drafts */
 export const useAssetsQuery = () => {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const selectedAssets: ProfileToken[] = useAppSelector((state) => state.wallet.selectedAssets);
   const claimsCollection: ClaimsCollection = useAppSelector(
     (state) => state.cache.claimsCollection,
@@ -114,8 +115,8 @@ export const useClaimRewardsMutation = () => {
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
   const [isClaimingColl, setIsClaimingColl] = useState<{ [key: string]: boolean }>({});
 
   const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
@@ -239,8 +240,8 @@ export const useClaimRewardsMutation = () => {
 };
 
 export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const globalProps = useAppSelector((state) => state.account.globalProps);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const globalProps = useAppSelector(selectGlobalProps);
 
   const isEngine = layer === 'engine';
 
@@ -329,7 +330,7 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
 
 // added query to tracker recurring transfers]
 export const useRecurringActivitesQuery = (coinId: string) => {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   if (coinId !== ASSET_IDS.HIVE) {
     return null;
@@ -369,7 +370,7 @@ export const useRecurringActivitesQuery = (coinId: string) => {
 };
 
 export const usePendingRequestsQuery = (symbol: string) => {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   return useQuery({
     queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS, currentAccount.username, symbol],
@@ -384,8 +385,8 @@ export const useDeleteRecurrentTransferMutation = () => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
   const queryClient = useQueryClient();
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
 
   const mutation = useMutation<boolean, Error, { recurrentTransfer: RecurrentTransfer }>({
     mutationFn: async ({ recurrentTransfer }) => {
@@ -443,8 +444,8 @@ export const useUpdateProfileTokensMutation = () => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
 
   const mutation = useMutation<any, Error, ProfileToken[]>({
     mutationFn: async (tokens) => {

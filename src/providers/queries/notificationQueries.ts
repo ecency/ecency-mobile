@@ -16,6 +16,7 @@ import { getNotifications, markNotifications } from '../ecency/ecency';
 import { NotificationFilters } from '../ecency/ecency.types';
 import { markHiveNotifications } from '../hive/dhive';
 import QUERIES from './queryKeys';
+import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 
 const FETCH_LIMIT = 20;
 
@@ -82,8 +83,8 @@ export const useNotificationReadMutation = () => {
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinCode = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinCode = useAppSelector(selectPin);
 
   // id is options, if no id is provided program marks all notifications as read;
   const _mutationFn = async (id?: string) => {

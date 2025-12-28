@@ -10,6 +10,7 @@ import { search } from '../../../../../../providers/ecency/ecency';
 import { getAccountPosts, getPost } from '../../../../../../providers/hive/dhive';
 import { postQueries } from '../../../../../../providers/queries';
 import postUrlParser from '../../../../../../utils/postUrlParser';
+import { selectCurrentAccountUsername } from '../../../../../../redux/selectors';
 
 const PostsResultsContainer = ({ children, searchValue }) => {
   const navigation = useNavigation();
@@ -20,7 +21,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   const [scrollId, setScrollId] = useState('');
   const [noResult, setNoResult] = useState(false);
 
-  const currentAccountUsername = useSelector((state) => state.account.currentAccount.username);
+  const currentAccountUsername = useSelector(selectCurrentAccountUsername);
 
   useEffect(() => {
     _fetchResults();

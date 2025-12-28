@@ -9,6 +9,7 @@ import { getPostReblogs, postContent, reblog } from '../../hive/dhive';
 import { PointActivityIds } from '../../ecency/ecency.types';
 import { useUserActivityMutation } from '../pointQueries';
 import { makeJsonMetadata, makeOptions } from '../../../utils/editor';
+import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 
 /** hook used to return post poll */
 export const useGetReblogsQuery = (author: string, permlink: string) => {
@@ -43,8 +44,8 @@ export function useReblogMutation(author: string, permlink: string) {
   const intl = useIntl();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
 
   const userActivityMutation = useUserActivityMutation();
 
@@ -113,8 +114,8 @@ export function useReblogMutation(author: string, permlink: string) {
 export function useCrossPostMutation() {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
 
   const userActivityMutation = useUserActivityMutation();
 
