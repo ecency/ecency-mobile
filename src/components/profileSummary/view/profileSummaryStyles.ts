@@ -18,20 +18,16 @@ export default EStyleSheet.create({
     maxWidth: '100% - 24',
   },
   footer: {
-    width: '100% - 14',
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 10,
-    height: 30,
   },
   leftIcons: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    height: 20,
+    flex: 1,
   },
   rightIcons: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   insetIconStyle: {
@@ -63,7 +59,8 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
   },
   dropdownStyle: {
-    marginLeft: 12,
+    marginLeft: 4,
+    marginRight: -16,
   },
   actionText: {
     alignSelf: 'center',
@@ -76,6 +73,7 @@ export default EStyleSheet.create({
     borderRadius: 16,
     padding: 4,
     paddingHorizontal: 12,
+    marginLeft: 8,
   },
   messageButton: {
     marginLeft: 8,

@@ -14,6 +14,7 @@ import get from 'lodash/get';
 import { Image as ExpoImage } from 'expo-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { proxifyImageSrc } from '@ecency/render-helper';
+import { ScrollView } from 'react-native-gesture-handler';
 import LIGHT_COVER_IMAGE from '../../../assets/default_cover_image.png';
 import DARK_COVER_IMAGE from '../../../assets/dark_cover_image.png';
 
@@ -91,33 +92,121 @@ class ProfileSummaryView extends PureComponent {
     }
   };
 
-  render() {
-    const { isShowPercentText } = this.state;
+  _renderActionPanel = () => {
     const {
-      date,
-      about,
       followerCount,
       followingCount,
       handleFollowUnfollowUser,
       handleMessage,
       handleOnFollowsPress,
       handleOnPressProfileEdit,
-      handleUIChange,
-      hoursRC,
-      hoursVP,
       intl,
-      isDarkTheme,
-      isFavorite,
       isFollowing,
       isLoggedIn,
-      isMuted,
       isOwnProfile,
       isProfileLoading,
-      percentRC,
-      percentVP,
     } = this.props;
 
-    let dropdownOptions = [];
+    const followButtonText = intl.formatMessage({
+      id: !isFollowing ? 'user.follow' : 'user.unfollow',
+    });
+
+    const dropdownOptions = [
+      intl.formatMessage({
+        id: this.props.isFavorite ? 'user.remove_from_favourites' : 'user.add_to_favourites',
+      }),
+      intl.formatMessage({
+        id: 'user.delegate',
+      }),
+      intl.formatMessage({
+        id: !this.props.isMuted ? 'user.mute' : 'user.unmute',
+      }),
+      intl.formatMessage({
+        id: 'user.report',
+      }),
+    ];
+
+    return (
+      <View style={styles.footer}>
+        <ScrollView horizontal style={styles.leftIcons} showsHorizontalScrollIndicator={false}>
+          <TouchableOpacity onPress={() => handleOnFollowsPress(false)}>
+            <View style={styles.followCountWrapper}>
+              <Text style={styles.followCount}>{makeCountFriendly(followerCount)}</Text>
+              <Text style={styles.followText}>
+                {' '}
+                {intl.formatMessage({
+                  id: 'profile.follower',
+                })}
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleOnFollowsPress(true)}>
+            <View style={styles.followCountWrapper}>
+              <Text style={styles.followCount}>{makeCountFriendly(followingCount)}</Text>
+              <Text style={styles.followText}>
+                {intl.formatMessage({
+                  id: 'profile.following',
+                })}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </ScrollView>
+
+        {isLoggedIn && !isOwnProfile ? (
+          <View style={styles.rightIcons}>
+            <TouchableOpacity
+              style={styles.followActionWrapper}
+              onPress={() => handleFollowUnfollowUser(!isFollowing)}
+              disabled={isProfileLoading}
+            >
+              <Text style={styles.actionText}>{followButtonText}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.followActionWrapper}
+              onPress={handleMessage}
+              disabled={isProfileLoading}
+            >
+              <Text style={styles.actionText}>{intl.formatMessage({ id: 'profile.message' })}</Text>
+            </TouchableOpacity>
+
+            {isProfileLoading ? (
+              <ActivityIndicator
+                color={EStyleSheet.value('$primaryBlue')}
+                style={styles.activityIndicator}
+              />
+            ) : (
+              <DropdownButton
+                style={styles.dropdownStyle}
+                iconName="more-vert"
+                iconStyle={styles.dropdownIconStyle}
+                isHasChildIcon
+                noHighlight
+                onSelect={this._handleOnDropdownSelect}
+                options={dropdownOptions}
+              />
+            )}
+          </View>
+        ) : (
+          isOwnProfile && (
+            <View style={styles.rightIcons}>
+              <TouchableOpacity style={styles.editActionWrapper} onPress={handleOnPressProfileEdit}>
+                <Text style={styles.actionText}>
+                  {intl.formatMessage({ id: 'profile.edit_label' })}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )
+        )}
+      </View>
+    );
+  };
+
+  render() {
+    const { isShowPercentText } = this.state;
+    const { date, about, handleUIChange, hoursRC, hoursVP, isDarkTheme, percentRC, percentVP } =
+      this.props;
+
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
     const rcPowerHoursText = hoursRC && `• Full in ${hoursRC} hours`;
@@ -136,9 +225,6 @@ class ProfileSummaryView extends PureComponent {
       (location ? location.length : 0) + (link ? link.length : 0) + (date ? date.length : 0);
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 7.3;
 
-    const followButtonText = intl.formatMessage({
-      id: !isFollowing ? 'user.follow' : 'user.unfollow',
-    });
     let coverImageUrl = proxifyImageSrc(
       coverImage,
       360,
@@ -153,22 +239,6 @@ class ProfileSummaryView extends PureComponent {
     } else {
       coverImageUrl = { uri: coverImageUrl };
     }
-
-    // compile dropdown options
-    dropdownOptions = [
-      intl.formatMessage({
-        id: isFavorite ? 'user.remove_from_favourites' : 'user.add_to_favourites',
-      }),
-      intl.formatMessage({
-        id: 'user.delegate',
-      }),
-      intl.formatMessage({
-        id: !isMuted ? 'user.mute' : 'user.unmute',
-      }),
-      intl.formatMessage({
-        id: 'user.report',
-      }),
-    ];
 
     return (
       <Fragment>
@@ -219,85 +289,7 @@ class ProfileSummaryView extends PureComponent {
             text={rcPowerText}
           />
         </TouchableOpacity>
-        <View style={styles.footer}>
-          <View style={styles.leftIcons}>
-            <Fragment>
-              <TouchableOpacity onPress={() => handleOnFollowsPress(false)}>
-                <View style={styles.followCountWrapper}>
-                  <Text style={styles.followCount}>{makeCountFriendly(followerCount)}</Text>
-                  <Text style={styles.followText}>
-                    {' '}
-                    {intl.formatMessage({
-                      id: 'profile.follower',
-                    })}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleOnFollowsPress(true)}>
-                <View style={styles.followCountWrapper}>
-                  <Text style={styles.followCount}>{makeCountFriendly(followingCount)}</Text>
-                  <Text style={styles.followText}>
-                    {intl.formatMessage({
-                      id: 'profile.following',
-                    })}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </Fragment>
-          </View>
-
-          {isLoggedIn && !isOwnProfile ? (
-            <View style={styles.rightIcons}>
-              <TouchableOpacity
-                style={styles.followActionWrapper}
-                onPress={() => handleFollowUnfollowUser(!isFollowing)}
-                disabled={isProfileLoading}
-              >
-                <Text style={styles.actionText}>{followButtonText}</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={{ ...styles.followActionWrapper, marginLeft: 8 }}
-                onPress={handleMessage}
-                disabled={isProfileLoading}
-              >
-                <Text style={styles.actionText}>
-                  {intl.formatMessage({ id: 'profile.message' })}
-                </Text>
-              </TouchableOpacity>
-
-              {isProfileLoading ? (
-                <ActivityIndicator
-                  color={EStyleSheet.value('$primaryBlue')}
-                  style={styles.activityIndicator}
-                />
-              ) : (
-                <DropdownButton
-                  style={styles.dropdownStyle}
-                  iconName="more-vert"
-                  iconStyle={styles.dropdownIconStyle}
-                  isHasChildIcon
-                  noHighlight
-                  onSelect={this._handleOnDropdownSelect}
-                  options={dropdownOptions}
-                />
-              )}
-            </View>
-          ) : (
-            isOwnProfile && (
-              <View style={styles.rightIcons}>
-                <TouchableOpacity
-                  style={styles.editActionWrapper}
-                  onPress={handleOnPressProfileEdit}
-                >
-                  <Text style={styles.actionText}>
-                    {intl.formatMessage({ id: 'profile.edit_label' })}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )
-          )}
-        </View>
+        {this._renderActionPanel()}
       </Fragment>
     );
   }
