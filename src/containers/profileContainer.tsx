@@ -30,6 +30,7 @@ import { toastNotification, setRcOffer } from '../redux/actions/uiAction';
 import { default as ROUTES } from '../constants/routeNames';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 import { SheetNames } from '../navigation/sheets';
+import { useProfileQueries } from './profileContainerHooks';
 
 class ProfileContainer extends Component {
   constructor(props) {
@@ -69,6 +70,7 @@ class ProfileContainer extends Component {
       isConnected,
       isLoggedIn,
       currentAccount: { name: currentAccountUsername },
+      profileQueries,
     } = this.props;
     const username = route.params?.username || '';
 
@@ -88,7 +90,42 @@ class ProfileContainer extends Component {
       targetUsername = username;
     }
 
-    this._loadProfile(targetUsername);
+    // Use React Query data if available
+    if (profileQueries && profileQueries.selectedUser) {
+      this.setState({
+        user: profileQueries.selectedUser,
+        follows: profileQueries.follows,
+        isFollowing: profileQueries.isFollowing,
+        isMuted: profileQueries.isMuted,
+        isFavorite: profileQueries.isFavorite,
+        isReady: profileQueries.isReady,
+        quickProfile: profileQueries.quickProfile,
+        username: profileQueries.username,
+      });
+      this._getReplies({ author: targetUsername, permlink: undefined });
+    } else {
+      // Fallback to old loading method
+      this._loadProfile(targetUsername);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { profileQueries } = this.props;
+
+    // Update state when React Query data changes
+    if (profileQueries && profileQueries !== prevProps.profileQueries) {
+      if (profileQueries.selectedUser && profileQueries.selectedUser !== this.state.user) {
+        this.setState({
+          user: profileQueries.selectedUser,
+          follows: profileQueries.follows,
+          isFollowing: profileQueries.isFollowing,
+          isMuted: profileQueries.isMuted,
+          isFavorite: profileQueries.isFavorite,
+          isReady: profileQueries.isReady,
+          quickProfile: profileQueries.quickProfile,
+        });
+      }
+    }
   }
 
   _getReplies = async (query) => {
@@ -141,7 +178,7 @@ class ProfileContainer extends Component {
 
   _handleFollowUnfollowUser = async (isFollowAction) => {
     const { isFollowing, username } = this.state;
-    const { currentAccount, pinCode, dispatch, intl } = this.props;
+    const { currentAccount, pinCode, dispatch, intl, profileQueries } = this.props;
     const follower = get(currentAccount, 'name', '');
     const following = username;
 
@@ -174,6 +211,11 @@ class ProfileContainer extends Component {
               isMuted: false,
             });
           }
+        }
+
+        // Invalidate user cache to refresh relationship data
+        if (profileQueries && profileQueries.invalidateUserCache) {
+          profileQueries.invalidateUserCache(username);
         }
 
         dispatch(
@@ -240,7 +282,7 @@ class ProfileContainer extends Component {
 
   _muteUser = () => {
     const { username } = this.state;
-    const { currentAccount, pinCode, dispatch, intl } = this.props;
+    const { currentAccount, pinCode, dispatch, intl, profileQueries } = this.props;
     const follower = currentAccount.name;
     const following = username;
 
@@ -264,6 +306,11 @@ class ProfileContainer extends Component {
           currentAccount.mutes = [username, ...curMutes];
         }
         dispatch(updateCurrentAccount(currentAccount));
+
+        // Invalidate user cache to refresh mute status
+        if (profileQueries && profileQueries.invalidateUserCache) {
+          profileQueries.invalidateUserCache(username);
+        }
 
         dispatch(
           toastNotification(
@@ -398,7 +445,7 @@ class ProfileContainer extends Component {
   };
 
   _handleOnFavoritePress = (isFavorite = false) => {
-    const { dispatch, intl } = this.props;
+    const { dispatch, intl, profileQueries } = this.props;
     const { username } = this.state;
     let favoriteAction;
 
@@ -414,6 +461,11 @@ class ProfileContainer extends Component {
 
     favoriteAction(username)
       .then(() => {
+        // Invalidate user cache to refresh favorite status
+        if (profileQueries && profileQueries.invalidateUserCache) {
+          profileQueries.invalidateUserCache(username);
+        }
+
         dispatch(
           toastNotification(
             intl.formatMessage({
@@ -618,7 +670,9 @@ const mapStateToProps = (state) => ({
 
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  return <ProfileContainer {...props} navigation={navigation} />;
+  const profileQueries = useProfileQueries(props.route);
+
+  return <ProfileContainer {...props} navigation={navigation} profileQueries={profileQueries} />;
 };
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

@@ -61,3 +61,4 @@ export * from './settingsQueries';
 export * from './announcementsQueries';
 export * from './proposalQueries';
 export * from './statsQueries';
+export * from './userQueries';

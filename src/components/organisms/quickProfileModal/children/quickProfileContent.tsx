@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { View, Alert } from 'react-native';
 import { StatsItem } from 'components/statsPanel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Sentry from '@sentry/react-native';
 import { MainButton, StatsPanel } from '../../..';
-import { addFavorite, checkFavorite, deleteFavorite } from '../../../../providers/ecency/ecency';
-import { followUser, getFollows, getRelationship, getUser } from '../../../../providers/hive/dhive';
+import { addFavorite, deleteFavorite } from '../../../../providers/ecency/ecency';
+import { followUser } from '../../../../providers/hive/dhive';
 import { getRcPower, getVotingPower } from '../../../../utils/manaBar';
 import styles from './quickProfileStyles';
 import { ProfileBasic } from './profileBasic';
@@ -17,6 +17,7 @@ import { getTimeFromNowNative } from '../../../../utils/time';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { toastNotification } from '../../../../redux/actions/uiAction';
 import RootNavigation from '../../../../navigation/rootNavigation';
+import { useProfileData, useInvalidateUserCache } from '../../../../providers/queries/userQueries';
 
 interface QuickProfileContentProps {
   username: string;
@@ -32,89 +33,38 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
   const pinCode = useAppSelector((state) => state.application.pin);
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState(null);
-  const [follows, setFollows] = useState(null);
-  const [isFollowing, setIsFollowing] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [isFavourite, setIsFavourite] = useState(false);
+  const [isActionLoading, setIsActionLoading] = useState(false);
 
   const isOwnProfile = currentAccount && currentAccount.name === username;
-  const currentAccountName = currentAccount ? currentAccount.name : null;
+
+  // Use React Query for cached profile data
+  const profileData = useProfileData(username, isOwnProfile);
+  const invalidateUserCache = useInvalidateUserCache();
+
+  // Extract data from React Query
+  const { user } = profileData;
+  const { follows } = profileData;
+  const isFollowing = profileData.relationship?.isFollowing || false;
+  const isMuted = profileData.relationship?.isMuted || false;
+  const isFavourite = profileData.isFavorite || false;
+  const isLoading = profileData.isLoading || isActionLoading;
   const isProfileLoaded = !!(user && follows);
-
-  useEffect(() => {
-    if (username) {
-      _fetchUser();
-      _fetchExtraUserData();
-    } else {
-      setUser(null);
-    }
-  }, [username]);
-
-  // NETWORK CALLS
-  const _fetchUser = async () => {
-    setIsLoading(true);
-    try {
-      const _user = await getUser(username, isOwnProfile);
-      setUser(_user);
-    } catch (error) {
-      setIsLoading(false);
-    }
-  };
-
-  const _fetchExtraUserData = async () => {
-    try {
-      if (username) {
-        let _isFollowing;
-        let _isMuted;
-        let _isFavourite;
-        let follows;
-
-        if (!isOwnProfile) {
-          const res = await getRelationship(currentAccountName, username);
-          _isFollowing = res && res.follows;
-          _isMuted = res && res.ignores;
-          _isFavourite = await checkFavorite(username);
-        }
-
-        try {
-          follows = await getFollows(username);
-        } catch (err) {
-          follows = null;
-        }
-
-        setFollows(follows);
-        setIsFollowing(_isFollowing);
-        setIsMuted(_isMuted);
-        setIsFavourite(_isFavourite);
-        setIsLoading(false);
-      }
-    } catch (error) {
-      console.warn('Failed to fetch complete profile data', error);
-      Alert.alert(
-        intl.formatMessage({
-          id: 'alert.fail',
-        }),
-        error.message || error.toString(),
-      );
-      setIsLoading(false);
-    }
-  };
 
   const _onFollowPress = async () => {
     try {
-      const follower = currentAccountName;
+      const follower = currentAccount.name;
       const following = username;
 
-      setIsLoading(true);
+      setIsActionLoading(true);
       await followUser(currentAccount, pinCode, {
         follower,
         following,
       });
 
-      setIsLoading(false);
-      setIsFollowing(true);
+      // Invalidate cache to refresh relationship data
+      invalidateUserCache(username);
+
+      setIsActionLoading(false);
       dispatch(
         toastNotification(
           intl.formatMessage({
@@ -123,7 +73,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
         ),
       );
     } catch (err) {
-      setIsLoading(false);
+      setIsActionLoading(false);
       console.warn('Failed to follow user', err);
       Sentry.captureException(err);
       Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err.message);
@@ -132,7 +82,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
 
   const _onFavouritePress = async () => {
     try {
-      setIsLoading(true);
+      setIsActionLoading(true);
       let favoriteAction;
 
       if (isFavourite) {
@@ -143,6 +93,9 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
 
       await favoriteAction(username);
 
+      // Invalidate cache to refresh favorite status
+      invalidateUserCache(username);
+
       dispatch(
         toastNotification(
           intl.formatMessage({
@@ -150,11 +103,10 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
           }),
         ),
       );
-      setIsFavourite(!isFavourite);
-      setIsLoading(false);
+      setIsActionLoading(false);
     } catch (error) {
       console.warn('Failed to perform favorite action');
-      setIsLoading(false);
+      setIsActionLoading(false);
       Alert.alert(
         intl.formatMessage({
           id: 'alert.fail',
