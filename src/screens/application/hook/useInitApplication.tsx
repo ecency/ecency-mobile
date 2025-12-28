@@ -28,6 +28,7 @@ import { updateUnreadActivityCount } from '../../../redux/actions/accountAction'
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { useLinkProcessor } from '../../../hooks';
+import { selectCurrentAccount } from '../../../redux/selectors';
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
@@ -36,7 +37,7 @@ export const useInitApplication = () => {
   const { isDarkTheme, colorTheme, isPinCodeOpen, currency } = useAppSelector(
     (state) => state.application,
   );
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const systemColorScheme = useColorScheme();
 
   const appState = useRef(AppState.currentState);

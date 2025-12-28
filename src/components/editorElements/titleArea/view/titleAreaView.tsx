@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
+import { selectIsDarkTheme } from '../../../../redux/selectors';
 // Constants
 
 // Components
@@ -75,7 +76,7 @@ class TitleAreaView extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  isDarkTheme: state.application.isDarkTheme,
+  isDarkTheme: selectIsDarkTheme(state),
 });
 
 export default connect(mapStateToProps)(TitleAreaView);

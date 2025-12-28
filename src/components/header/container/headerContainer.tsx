@@ -3,7 +3,6 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 
 // Component
-import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
 import HeaderView from '../view/headerView';
@@ -13,6 +12,7 @@ import { parseReputation } from '../../../utils/user';
 import ROUTES from '../../../constants/routeNames';
 import { SheetNames } from '../../../navigation/sheets';
 import { selectIsDarkTheme } from '../../../redux/selectors';
+import { useAppSelector } from '../../../hooks';
 
 const HeaderContainer = ({
   selectedUser,
@@ -25,7 +25,7 @@ const HeaderContainer = ({
 }) => {
   const navigation = useNavigation();
 
-  const isDarkTheme = useSelector(selectIsDarkTheme);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const _handleOpenDrawer = () => {
     if (has(navigation, 'openDrawer') && typeof get(navigation, 'openDrawer') === 'function') {
       navigation.openDrawer();

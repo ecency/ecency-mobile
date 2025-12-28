@@ -11,6 +11,7 @@ import { IconButton } from '../../../components';
 import { useAppSelector } from '../../../hooks';
 import { PortfolioItem } from '../../../providers/ecency/ecency.types';
 import { formatAmount } from '../../../utils/number';
+import { selectCurrentAccount } from '../../../redux/selectors';
 
 import styles from './walletHeader.styles';
 
@@ -33,7 +34,7 @@ export const WalletHeader = ({
 }: WalletHeaderProps) => {
   const navigation = useNavigation<any>();
   const intl = useIntl();
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const walletState = useAppSelector((state) => state.wallet);
   const RefreshIconButton = IconButton as any;
   const ManageIconButton = IconButton as any;

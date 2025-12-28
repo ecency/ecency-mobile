@@ -11,6 +11,7 @@ import SnippetItem from './snippetItem';
 import { Snippet } from '../../models';
 import { useAppSelector } from '../../hooks';
 import { editorQueries } from '../../providers/queries';
+import { selectIsLoggedIn } from '../../redux/selectors';
 
 interface SnippetsModalProps {
   handleOnSelect: (snippetText: string) => void;
@@ -20,7 +21,7 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
   const editorRef = useRef<SnippetEditorModalRef>(null);
   const intl = useIntl();
 
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const snippetsQuery = editorQueries.useSnippetsQuery();
 

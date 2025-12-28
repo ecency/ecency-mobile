@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ROUTES from '../constants/routeNames';
 import RootNavigation from '../navigation/rootNavigation';
+import { selectIsLoggedIn } from '../redux/selectors';
 
 import { NoPost } from '../components';
 
@@ -34,7 +35,7 @@ const LoggedInContainer = ({ isLoggedIn, isLoginDone, children }) => {
 };
 
 const mapStateToProps = (state) => ({
-  isLoggedIn: state.application.isLoggedIn,
+  isLoggedIn: selectIsLoggedIn(state),
   isLoginDone: state.application.isLoginDone,
 });
 

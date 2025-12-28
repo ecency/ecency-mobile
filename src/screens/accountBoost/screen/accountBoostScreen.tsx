@@ -18,7 +18,7 @@ import { InAppPurchaseContainer } from '../../../containers';
 import styles from './accountBoostStyles';
 import UserRibbon from '../../../components/userRibbon/userRibbon';
 import { vestsToHp } from '../../../utils/conversions';
-import { selectCurrentAccount } from '../../../redux/selectors';
+import { selectCurrentAccount, selectGlobalProps } from '../../../redux/selectors';
 
 const ITEM_SKUS = Platform.select({
   ios: ['999boosts'],
@@ -30,7 +30,7 @@ const ACCOUNT_BOOST_VESTS = 553311;
 const AccountBoost = ({ route }) => {
   const intl = useIntl();
   const currentAccount = useSelector(selectCurrentAccount);
-  const globalProps = useSelector((state) => state.account.globalProps);
+  const globalProps = useSelector(selectGlobalProps);
 
   const { username } = route.params ?? {};
 

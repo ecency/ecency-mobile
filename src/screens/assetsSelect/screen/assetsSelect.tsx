@@ -16,6 +16,7 @@ import { setSelectedAssets } from '../../../redux/actions/walletActions';
 import { AssetIcon } from '../../../components/atoms';
 import { useUpdateProfileTokensMutation } from '../../../providers/queries/walletQueries/walletQueries';
 import { walletQueries } from '../../../providers/queries';
+import { selectCurrentAccount } from '../../../redux/selectors';
 
 /**
  *  NOTE: using AssetsSelectModal as part of native-stack with modal presentation is important
@@ -56,7 +57,7 @@ const AssetsSelect = ({ navigation }: { navigation: any }) => {
   // const coinsData = useAppSelector((state) => state.wallet.coinsData);
 
   const selectedAssets: AssetBase[] = useAppSelector((state) => state.wallet.selectedAssets);
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const selectionRef = useRef<AssetBase[]>([]);
 

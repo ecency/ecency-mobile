@@ -27,6 +27,7 @@ import {
 
 // Styles
 import { useAppSelector } from '../../../hooks';
+import { selectIsDarkTheme } from '../../../redux/selectors';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
 import { OptionsModal } from '../../atoms';
@@ -65,7 +66,7 @@ const MarkdownEditorView = ({
   onLoadDraftPress,
   setIsUploading,
 }) => {
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const pollDraft = useAppSelector(
     (state) => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID],
   );

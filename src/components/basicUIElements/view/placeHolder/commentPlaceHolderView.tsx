@@ -2,8 +2,8 @@ import React from 'react';
 import { View } from 'react-native';
 
 import LottieView from 'lottie-react-native';
-import { useSelector } from 'react-redux';
 import { selectIsDarkTheme } from '../../../../redux/selectors';
+import { useAppSelector } from '../../../../hooks';
 import styles from './listItemPlaceHolderStyles';
 
 const CommentPlaceHolderView = () => {
@@ -14,7 +14,7 @@ const CommentPlaceHolderView = () => {
     height: _width / 2.8,
   };
 
-  const isDarkTheme = useSelector(selectIsDarkTheme);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
 
   return (

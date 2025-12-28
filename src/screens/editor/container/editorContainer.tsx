@@ -65,6 +65,7 @@ import {
 } from '../../../providers/speak/constants';
 import { ThreeSpeakVideo } from '../../../providers/speak/speak.types';
 import { SheetNames } from '../../../navigation/sheets';
+import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors';
 
 /*
  *            Props Name        Description                                     Value
@@ -1364,9 +1365,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 }
 
 const mapStateToProps = (state) => ({
-  currentAccount: state.account.currentAccount,
+  currentAccount: selectCurrentAccount(state),
   isDefaultFooter: state.account.isDefaultFooter,
-  isLoggedIn: state.application.isLoggedIn,
+  isLoggedIn: selectIsLoggedIn(state),
   pinCode: state.application.pin,
   beneficiariesMap: state.editor.beneficiariesMap,
   pollDraftsMap: state.editor.pollDraftsMap,

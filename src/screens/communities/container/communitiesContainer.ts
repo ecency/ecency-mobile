@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { useIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';
+import { useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
 
 import { getCommunities, getSubscriptions } from '../../../providers/hive/dhive';
@@ -35,16 +36,16 @@ const CommunitiesContainer = ({ children }) => {
   const [isDiscoversLoading, setIsDiscoversLoading] = useState(true);
   const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
 
-  const currentAccount = useSelector(selectCurrentAccount);
-  const pinCode = useSelector(selectPin);
-  const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
-  const subscribingCommunitiesInDiscoverTab = useSelector(
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinCode = useAppSelector(selectPin);
+  const subscribedCommunities = useAppSelector((state) => state.communities.subscribedCommunities);
+  const subscribingCommunitiesInDiscoverTab = useAppSelector(
     (state) => state.communities.subscribingCommunitiesInCommunitiesScreenDiscoverTab,
   );
-  const subscribingCommunitiesInJoinedTab = useSelector(
+  const subscribingCommunitiesInJoinedTab = useAppSelector(
     (state) => state.communities.subscribingCommunitiesInCommunitiesScreenJoinedTab,
   );
-  const subscribedCommunitiesCache = useSelector((state) => state.cache.subscribedCommunities);
+  const subscribedCommunitiesCache = useAppSelector((state) => state.cache.subscribedCommunities);
 
   useEffect(() => {
     _getSubscriptions();

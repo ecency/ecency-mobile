@@ -37,11 +37,12 @@ import ROUTES from '../../constants/routeNames';
 import RootNavigation from '../../navigation/rootNavigation';
 import { useAppSelector } from '../../hooks';
 import { SheetNames } from '../../navigation/sheets';
+import { selectCurrentAccount, selectIsDarkTheme } from '../../redux/selectors';
 
 const ReferScreen = () => {
   const intl = useIntl();
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   const [referralsList, setReferralsList] = useState<Referral[]>([]);
   const [earnedPoints, setEarnedPoint] = useState(0);

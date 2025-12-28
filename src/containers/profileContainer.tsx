@@ -9,6 +9,12 @@ import { injectIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
 import {
+  selectCurrentAccount,
+  selectIsLoggedIn,
+  selectIsDarkTheme,
+  selectCurrency,
+} from '../redux/selectors';
+import {
   followUser,
   unfollowUser,
   ignoreUser,
@@ -606,13 +612,13 @@ class ProfileContainer extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  currency: state.application.currency,
+  currency: selectCurrency(state),
   isConnected: state.application.isConnected,
-  isDarkTheme: state.application.isDarkTheme,
-  isLoggedIn: state.application.isLoggedIn,
+  isDarkTheme: selectIsDarkTheme(state),
+  isLoggedIn: selectIsLoggedIn(state),
   pinCode: state.application.pin,
   activeBottomTab: state.ui.activeBottomTab,
-  currentAccount: state.account.currentAccount,
+  currentAccount: selectCurrentAccount(state),
   isHideImage: state.application.hidePostsThumbnails,
 });
 

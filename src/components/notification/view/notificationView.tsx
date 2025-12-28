@@ -16,6 +16,7 @@ import { isLastWeek, isThisMonth, isThisWeek } from '../../../utils/time';
 // Styles
 import globalStyles from '../../../globalStyles';
 import { useAppSelector } from '../../../hooks';
+import { selectIsDarkTheme } from '../../../redux/selectors';
 import styles from './notificationStyles';
 
 const FILTERS = [
@@ -51,7 +52,7 @@ const NotificationView = ({
 
   const listRef = useRef<SectionList>(null);
 
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const _notifications = useMemo(

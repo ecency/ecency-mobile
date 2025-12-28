@@ -7,6 +7,7 @@ import parseAsset from '../../../utils/parseAsset';
 import { getTimeFromNow } from '../../../utils/time';
 
 import { FormattedCurrency } from '../../formatedElements';
+import { selectGlobalProps } from '../../../redux/selectors';
 // Styles
 import styles from './upvoteStyles';
 
@@ -17,7 +18,7 @@ interface Props {
 export const PayoutDetailsContent = ({ content }: Props) => {
   const intl = useIntl();
 
-  const globalProps = useAppSelector((state) => state.account.globalProps);
+  const globalProps = useAppSelector(selectGlobalProps);
 
   const authorPayout = parseAsset(content.author_payout_value).amount;
   const curationPayout = parseAsset(content.curator_payout_value).amount;

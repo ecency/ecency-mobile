@@ -46,6 +46,12 @@ import { setPushToken, deleteAccount } from '../../../providers/ecency/ecency';
 import { checkClient } from '../../../providers/hive/dhive';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { useGetServersQuery } from '../../../providers/queries';
+import {
+  selectCurrentAccount,
+  selectIsLoggedIn,
+  selectIsDarkTheme,
+  selectLanguage,
+} from '../../../redux/selectors';
 // Middleware
 
 // Constants
@@ -534,13 +540,13 @@ class SettingsContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  isDarkTheme: state.application.isDarkTheme,
+  isDarkTheme: selectIsDarkTheme(state),
   colorTheme: state.application.colorTheme,
   isPinCodeOpen: state.application.isPinCodeOpen,
   encUnlockPin: state.application.encUnlockPin,
   isBiometricEnabled: state.application.isBiometricEnabled,
   isDefaultFooter: state.application.isDefaultFooter,
-  isLoggedIn: state.application.isLoggedIn,
+  isLoggedIn: selectIsLoggedIn(state),
   isNotificationSettingsOpen: state.application.isNotificationOpen,
   nsfw: state.application.nsfw,
   notificationDetails: state.application.notificationDetails,
@@ -553,10 +559,10 @@ const mapStateToProps = (state) => ({
   transfersNotification: state.application.notificationDetails.transfersNotification,
   voteNotification: state.application.notificationDetails.voteNotification,
   selectedApi: state.application.api,
-  selectedCurrency: state.application.currency,
-  selectedLanguage: state.application.language,
-  username: state.account.currentAccount && state.account.currentAccount.name,
-  currentAccount: state.account.currentAccount,
+  selectedCurrency: selectCurrency(state),
+  selectedLanguage: selectLanguage(state),
+  username: selectCurrentAccount(state)?.name,
+  currentAccount: selectCurrentAccount(state),
   otherAccounts: state.account.otherAccounts,
   isHideImages: state.application.hidePostsThumbnails,
 });

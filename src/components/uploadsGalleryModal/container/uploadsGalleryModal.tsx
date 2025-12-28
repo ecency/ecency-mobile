@@ -20,6 +20,7 @@ import { editorQueries, speakQueries } from '../../../providers/queries';
 import { MediaItem } from '../../../providers/ecency/ecency.types';
 import { SpeakUploaderModal } from '../children/speakUploaderModal';
 import { SheetNames } from '../../../navigation/sheets';
+import { selectIsLoggedIn } from '../../../redux/selectors';
 
 export interface UploadsGalleryModalRef {
   showModal: () => void;
@@ -88,7 +89,7 @@ export const UploadsGalleryModal = forwardRef(
     const [mediaUrls, setMediaUrls] = useState<string[]>([]);
     const [isScrolledTop, setIsScrolledTop] = useState(true);
 
-    const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+    const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
     const mediaUploadsQuery = mode === Modes.MODE_VIDEO ? videoUploadsQuery : imageUploadsQuery;
 

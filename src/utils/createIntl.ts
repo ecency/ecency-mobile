@@ -2,6 +2,7 @@ import { createIntl as baseCreateIntl, createIntlCache, IntlShape } from 'react-
 import { flattenMessages } from './flattenMessages';
 import messages from '../config/locales';
 import type { RootState } from '../redux/store/store';
+import { selectLanguage } from '../redux/selectors';
 
 const _createIntl = (): IntlShape => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -9,7 +10,7 @@ const _createIntl = (): IntlShape => {
 
   const state: RootState = store.store.getState();
   const cache = createIntlCache();
-  const locale = state.application.language;
+  const locale = selectLanguage(state);
 
   const intl = baseCreateIntl(
     {

@@ -24,13 +24,13 @@ import { useAppSelector } from './index';
 import authType from '../constants/authType';
 import { getUserDataWithUsername } from '../realm/realm';
 import { decryptKey } from '../utils/crypto';
-import { selectCurrentAccount, selectPin } from '../redux/selectors';
+import { selectCurrentAccount, selectPin, selectIsLoggedIn } from '../redux/selectors';
 
 export const useLinkProcessor = (onClose?: () => void) => {
   const intl = useIntl();
   const dispatch = useDispatch();
 
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const otherAccounts = useAppSelector((state) => state.account.otherAccounts);

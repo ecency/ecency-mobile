@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';
+import { selectCurrentAccount, selectGlobalProps } from '../redux/selectors';
 import { promote, boost, isPostAvailable, boostPlus } from '../providers/hive/dhive';
 import { toastNotification } from '../redux/actions/uiAction';
 
@@ -150,14 +151,14 @@ class RedeemContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  username: state.account.currentAccount.name,
+  username: selectCurrentAccount(state).name,
   activeBottomTab: state.ui.activeBottomTab,
   isConnected: state.application.isConnected,
   accounts: state.account.otherAccounts,
-  currentAccount: state.account.currentAccount,
+  currentAccount: selectCurrentAccount(state),
   pinCode: state.application.pin,
   isPinCodeOpen: state.application.isPinCodeOpen,
-  globalProps: state.account.globalProps,
+  globalProps: selectGlobalProps(state),
 });
 
 const mapHooksToProps = (props) => {

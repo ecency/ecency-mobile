@@ -23,6 +23,7 @@ import {
   setAuthStatus,
 } from '../../../realm/realm';
 import { updateCurrentAccount, removeOtherAccount } from '../../../redux/actions/accountAction';
+import { selectCurrentAccount } from '../../../redux/selectors';
 
 // Utils
 import { encryptKey, decryptKey } from '../../../utils/crypto';
@@ -425,7 +426,7 @@ class PinCodeContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  currentAccount: state.account.currentAccount,
+  currentAccount: selectCurrentAccount(state),
   applicationPinCode: state.application.pin,
   encUnlockPin: state.application.encUnlockPin,
   otherAccounts: state.account.otherAccounts,

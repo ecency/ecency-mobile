@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { selectCurrentAccount, selectIsLoggedIn } from '../redux/selectors';
 
 const AccountContainer = ({
   accounts,
@@ -22,10 +23,10 @@ const AccountContainer = ({
 
 const mapStateToProps = (state) => ({
   accounts: state.account.otherAccounts,
-  currentAccount: state.account.currentAccount,
-  isLoggedIn: state.application.isLoggedIn,
+  currentAccount: selectCurrentAccount(state),
+  isLoggedIn: selectIsLoggedIn(state),
   isLoginDone: state.application.isLoginDone,
-  username: state.account.currentAccount.name,
+  username: selectCurrentAccount(state).name,
 });
 
 export default connect(mapStateToProps)(AccountContainer);

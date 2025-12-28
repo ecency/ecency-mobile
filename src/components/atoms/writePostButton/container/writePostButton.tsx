@@ -5,6 +5,7 @@ import UserAvatar from '../../../userAvatar';
 import styles from '../styles/writePostButton.styles';
 import { useAppSelector } from '../../../../hooks';
 import showLoginAlert from '../../../../utils/showLoginAlert';
+import { selectCurrentAccount, selectIsLoggedIn } from '../../../../redux/selectors';
 
 interface WritePostButtonProps {
   placeholderId: string;
@@ -14,8 +15,8 @@ interface WritePostButtonProps {
 export const WritePostButton = ({ placeholderId: placeholder, onPress }: WritePostButtonProps) => {
   const intl = useIntl();
 
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const _onPress = () => {
     if (!isLoggedIn) {

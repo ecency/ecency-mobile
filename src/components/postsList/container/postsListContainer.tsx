@@ -70,7 +70,8 @@ const postsListContainer = (
   const cachedPosts = useSelector((state) => {
     return isFeedScreen ? state.posts.feedPosts : state.posts.otherPosts;
   });
-  const mutes = useSelector((state) => state.account.currentAccount?.mutes || []);
+  const currentAccount = useSelector(selectCurrentAccount);
+  const mutes = currentAccount?.mutes || [];
   const scrollPosition = useSelector((state) => {
     return isFeedScreen ? state.posts.feedScrollPosition : state.posts.otherScrollPosition;
   });

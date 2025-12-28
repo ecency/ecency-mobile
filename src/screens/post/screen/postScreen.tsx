@@ -11,6 +11,7 @@ import styles from '../styles/postScreen.styles';
 import { postQueries, usePlausibleTracker } from '../../../providers/queries';
 import ROUTES from '../../../constants/routeNames';
 import { useAppSelector } from '../../../hooks';
+import { selectCurrentAccount } from '../../../redux/selectors';
 
 const PostScreen = ({ route }) => {
   const params = route.params || {};
@@ -21,7 +22,7 @@ const PostScreen = ({ route }) => {
   const isNewPost = useRef(route.params?.isNewPost).current;
   const postOptionsModalRef = useRef<typeof PostOptionsModal | null>(null);
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const [author, setAuthor] = useState(params.content?.author || params.author);
   const [permlink, setPermlink] = useState(params.content?.permlink || params.permlink);

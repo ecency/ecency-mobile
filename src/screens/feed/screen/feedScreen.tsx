@@ -22,12 +22,13 @@ import CommentsTabContent from '../../../components/profile/children/commentsTab
 import { TabItem } from '../../../components/tabbedPosts/types/tabbedPosts.types';
 import ROUTES from '../../../constants/routeNames';
 import showLoginAlert from '../../../utils/showLoginAlert';
+import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors';
 
 const FeedScreen = () => {
   const intl = useIntl();
   const navigation = useNavigation();
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const mainTabs = useAppSelector((state) => state.customTabs.mainTabs);
 

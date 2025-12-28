@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { get } from 'lodash';
 import { Text, View, FlatList } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
+import { useAppSelector } from '../../../hooks';
 import { NoPost, PostCardPlaceHolder, UserListItem } from '../..';
 import globalStyles from '../../../globalStyles';
 import { CommunityListItem, EmptyScreen } from '../../basicUIElements';
@@ -31,20 +32,20 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   const navigation = useNavigation();
 
   // redux properties
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const subscribingCommunities = useSelector(
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const subscribingCommunities = useAppSelector(
     (state) => state.communities.subscribingCommunitiesInFeedScreen,
   );
 
-  const prevLoggedInUsers = useSelector((state) => state.account.prevLoggedInUsers);
+  const prevLoggedInUsers = useAppSelector((state) => state.account.prevLoggedInUsers);
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
   const [recommendedUsers, setRecommendedUsers] = useState([]);
-  const followingUsers = useSelector((state) => state.user.followingUsersInFeedScreen);
-  const currentAccount = useSelector(selectCurrentAccount);
-  const pinCode = useSelector(selectPin);
+  const followingUsers = useAppSelector((state) => state.user.followingUsersInFeedScreen);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinCode = useAppSelector(selectPin);
 
-  const leaderboard = useSelector((state) => state.user.leaderboard);
-  const communities = useSelector((state) => state.communities.communities);
+  const leaderboard = useAppSelector((state) => state.user.leaderboard);
+  const communities = useAppSelector((state) => state.communities.communities);
 
   // hooks
 

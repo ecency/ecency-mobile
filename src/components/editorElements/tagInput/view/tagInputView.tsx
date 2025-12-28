@@ -15,12 +15,13 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { Tag } from '../../../basicUIElements';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { toastNotification } from '../../../../redux/actions/uiAction';
+import { selectIsDarkTheme } from '../../../../redux/selectors';
 
 const SEPARATOR_REGEX = /[,\s]/;
 
 const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, setCommunity }) => {
   const dispatch = useAppDispatch();
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   const scrollRef = useRef<ScrollView>();
 

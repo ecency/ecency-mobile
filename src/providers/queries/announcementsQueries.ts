@@ -16,7 +16,7 @@ import { decryptKey } from '../../utils/crypto';
 import { getDigitPinCode } from '../hive/dhive';
 import { SheetNames } from '../../navigation/sheets';
 import { useLinkProcessor } from '../../hooks';
-import { selectPin } from '../../redux/selectors';
+import { selectPin, selectCurrentAccount } from '../../redux/selectors';
 
 const PROMPT_AGAIN_INTERVAL = 48 * 3600 * 1000; // 2 days
 
@@ -30,7 +30,7 @@ export const useAnnouncementsQuery = () => {
   const lastAppVersion = useAppSelector((state) => state.application.lastAppVersion);
   const appVersion = useMemo(() => VersionNumber.appVersion, []);
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const announcementsMeta = useAppSelector((state) => state.cache.announcementsMeta);
 
   const announcmentsQuery = useQuery({

@@ -36,7 +36,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import styles from '../styles/postOptionsModal.styles';
 import { delay } from '../../../utils/editor';
 import { SheetNames } from '../../../navigation/sheets';
-import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
+import { selectCurrentAccount, selectIsLoggedIn, selectPin } from '../../../redux/selectors';
 
 /*
  *            Props Name        Description                                     Value
@@ -62,7 +62,7 @@ const PostOptionsModal = ({ pageType, isWave, isVisibleTranslateModal }: Props, 
   const actionSheetTimer = useRef<any>(null);
   const reportTimer = useRef<any>(null);
 
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinCode = useAppSelector(selectPin);
   const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);

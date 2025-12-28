@@ -8,6 +8,7 @@ import get from 'lodash/get';
 import { useNavigation } from '@react-navigation/native';
 import { Icon, MainButton, DropdownButton, WalletLineItem } from '../..';
 import { useAppSelector } from '../../../hooks';
+import { selectCurrentAccount } from '../../../redux/selectors';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -36,7 +37,7 @@ const WalletHeaderView = ({
   const navigation = useNavigation();
 
   const intl = useIntl();
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const dropdownRef = useRef();
 
   useEffect(() => {

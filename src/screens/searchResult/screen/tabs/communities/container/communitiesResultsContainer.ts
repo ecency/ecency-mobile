@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { shuffle } from 'lodash';
 
 import { useNavigation } from '@react-navigation/native';
+import { useAppSelector } from '../../../../../../hooks';
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { getCommunities } from '../../../../../../providers/hive/dhive';
@@ -28,18 +29,18 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   const [data, setData] = useState([]);
   const [noResult, setNoResult] = useState(false);
   const [isDiscoversLoading, setIsDiscoversLoading] = useState(false);
-  const pinCode = useSelector(selectPin);
-  const currentAccount = useSelector(selectCurrentAccount);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const pinCode = useAppSelector(selectPin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
-  const subscribingCommunities = useSelector(
+  const subscribingCommunities = useAppSelector(
     (state) => state.communities.subscribingCommunitiesInSearchResultsScreen,
   );
-  const subscribingCommunitiesInSearchResultsScreen = useSelector(
+  const subscribingCommunitiesInSearchResultsScreen = useAppSelector(
     (state) => state.communities.subscribingCommunitiesInSearchResultsScreen,
   );
-  const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
-  const subscribedCommunitiesCache = useSelector((state) => state.cache.subscribedCommunities);
+  const subscribedCommunities = useAppSelector((state) => state.communities.subscribedCommunities);
+  const subscribedCommunitiesCache = useAppSelector((state) => state.cache.subscribedCommunities);
 
   // handle cache when searchResultsScreen data updates in communities reducer
   useEffect(() => {

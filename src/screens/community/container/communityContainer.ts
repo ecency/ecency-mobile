@@ -10,6 +10,7 @@ import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/commu
 import ROUTES from '../../../constants/routeNames';
 import { updateSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
 import { statusMessage } from '../../../redux/constants/communitiesConstants';
+import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors';
 
 const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn }) => {
   const navigation = useNavigation();
@@ -122,9 +123,9 @@ const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn
 };
 
 const mapStateToProps = (state) => ({
-  currentAccount: state.account.currentAccount,
+  currentAccount: selectCurrentAccount(state),
   pinCode: state.application.pin,
-  isLoggedIn: state.application.isLoggedIn,
+  isLoggedIn: selectIsLoggedIn(state),
 });
 
 export default connect(mapStateToProps)(CommunityContainer);

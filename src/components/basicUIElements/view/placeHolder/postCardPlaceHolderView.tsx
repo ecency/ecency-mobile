@@ -1,8 +1,8 @@
 import React from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import LottieView from 'lottie-react-native';
-import { useSelector } from 'react-redux';
 import { selectIsDarkTheme } from '../../../../redux/selectors';
+import { useAppSelector } from '../../../../hooks';
 import styles from './postCardPlaceHolderStyles';
 
 const PostCardPlaceHolder = () => {
@@ -13,7 +13,7 @@ const PostCardPlaceHolder = () => {
     height: _width * 2,
   };
 
-  const isDarkTheme = useSelector(selectIsDarkTheme);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
   return (
     <View style={styles.container}>

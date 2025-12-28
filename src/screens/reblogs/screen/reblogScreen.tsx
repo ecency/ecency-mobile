@@ -5,6 +5,11 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import Animated, { BounceInRight } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAppSelector } from '../../../hooks';
+import {
+  selectCurrentAccount,
+  selectIsLoggedIn,
+  selectIsDarkTheme,
+} from '../../../redux/selectors';
 import showLoginAlert from '../../../utils/showLoginAlert';
 
 // Components
@@ -36,9 +41,9 @@ const ReblogScreen = ({ route }) => {
   const author = route.params?.author;
   const permlink = route.params?.permlink;
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   const [isReblogging, setIsReblogging] = useState(false);
 

@@ -1,10 +1,10 @@
 /* eslint-disable radix */
 import React from 'react';
 import { useWindowDimensions, View } from 'react-native';
-import { useSelector } from 'react-redux';
 import times from 'lodash/times';
 import Placeholder from 'rn-placeholder';
 import { selectIsDarkTheme } from '../../../../redux/selectors';
+import { useAppSelector } from '../../../../hooks';
 import styles from './boostPlaceHolderStyles';
 
 const BoostPlaceHolder = () => {
@@ -12,7 +12,7 @@ const BoostPlaceHolder = () => {
 
   const ratio = (dim.height - 300) / 50 / 1.3;
   const listElements = [];
-  const isDarkTheme = useSelector(selectIsDarkTheme);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
   times(parseInt(ratio), (i) => {
     listElements.push(

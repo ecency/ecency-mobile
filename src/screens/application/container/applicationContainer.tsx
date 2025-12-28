@@ -83,6 +83,12 @@ import MigrationHelpers, {
   repairUserAccountData,
 } from '../../../utils/migrationHelpers';
 import { SheetNames } from '../../../navigation/sheets';
+import {
+  selectCurrentAccount,
+  selectIsLoggedIn,
+  selectIsDarkTheme,
+  selectLanguage,
+} from '../../../redux/selectors';
 
 let firebaseOnMessageListener: any = null;
 let appStateSub: NativeEventSubscription | null = null;
@@ -907,12 +913,12 @@ class ApplicationContainer extends Component {
 export default connect(
   (state) => ({
     // Application
-    isDarkTheme: state.application.isDarkTheme,
-    selectedLanguage: state.application.language,
+    isDarkTheme: selectIsDarkTheme(state),
+    selectedLanguage: selectLanguage(state),
     isPinCodeOpen: state.application.isPinCodeOpen,
     encUnlockPin: state.application.encUnlockPin,
 
-    isLoggedIn: state.application.isLoggedIn, // TODO: remove as is not being used in this class
+    isLoggedIn: selectIsLoggedIn(state), // TODO: remove as is not being used in this class
     isConnected: state.application.isConnected,
     api: state.application.api,
     isGlobalRenderRequired: state.application.isRenderRequired,
@@ -923,7 +929,7 @@ export default connect(
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,
-    currentAccount: state.account.currentAccount,
+    currentAccount: selectCurrentAccount(state),
     otherAccounts: state.account.otherAccounts,
     prevLoggedInUsers: state.account.prevLoggedInUsers,
     pinCode: state.application.pin,

@@ -34,6 +34,7 @@ import { default as ROUTES } from '../../constants/routeNames';
 import RootNavigation from '../../navigation/rootNavigation';
 import { Draft } from '../../redux/reducers/cacheReducer';
 import { RootState } from '../../redux/store/store';
+import { selectCurrentAccount } from '../../redux/selectors';
 
 import { postQueries } from '../../providers/queries';
 import { usePostSubmitter } from './usePostSubmitter';
@@ -66,7 +67,7 @@ export const QuickPostModalContent = forwardRef(
     const inputRef = useRef<RNTextInput | null>(null);
     const pollWizardModalRef = useRef(null);
 
-    const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
+    const currentAccount = useSelector(selectCurrentAccount);
     const draftsCollection = useSelector((state: RootState) => state.cache.draftsCollection);
     const pollDraftsMap = useSelector((state: RootState) => state.editor.pollDraftsMap);
 

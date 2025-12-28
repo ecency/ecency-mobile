@@ -10,6 +10,11 @@ import ROUTES from '../../../constants/routeNames';
 import styles from './children.styles';
 import { BasicHeader, Modal, UserListItem } from '../../../components';
 import { useAppSelector } from '../../../hooks';
+import {
+  selectCurrentAccount,
+  selectIsDarkTheme,
+  selectGlobalProps,
+} from '../../../redux/selectors';
 import { getVestingDelegations } from '../../../providers/hive/dhive';
 import { getReceivedVestingShares } from '../../../providers/ecency/ecency';
 import { vestsToHp } from '../../../utils/conversions';
@@ -30,9 +35,9 @@ export const DelegationsModal = forwardRef(({}, ref) => {
   const intl = useIntl();
   const navigation = useNavigation<StackNavigationProp<any>>();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const globalProps = useAppSelector((state) => state.account.globalProps);
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const globalProps = useAppSelector(selectGlobalProps);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   const [delegations, setDelegations] = useState<DelegationItem[]>([]);
   const [showModal, setShowModal] = useState(false);

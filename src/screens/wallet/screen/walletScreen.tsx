@@ -31,6 +31,7 @@ import { walletQueries } from '../../../providers/queries';
 import { migrateSelectedTokens } from '../../../utils/migrationHelpers';
 import { PortfolioItem } from '../../../providers/ecency/ecency.types';
 import { formatAmount } from '../../../utils/number';
+import { selectCurrentAccount, selectIsDarkTheme, selectCurrency } from '../../../redux/selectors';
 
 const WalletScreen = ({ navigation }: { navigation: any }) => {
   const dispatch = useAppDispatch();
@@ -40,12 +41,12 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
   const appState = useRef(AppState.currentState);
 
   // redux
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
-  const currency = useAppSelector((state) => state.application.currency);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
+  const currency = useAppSelector(selectCurrency);
 
   const { selectedAssets, quotes, ...wallet } = useAppSelector((state) => state.wallet);
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   // queries
   const walletQuery = walletQueries.useAssetsQuery();
 

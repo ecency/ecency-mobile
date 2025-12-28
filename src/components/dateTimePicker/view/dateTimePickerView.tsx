@@ -9,10 +9,11 @@ import getLocale from '../../../utils/getLocale';
 // Styles
 import styles from './dateTimePickerStyles';
 import { useAppSelector } from '../../../hooks';
+import { selectIsDarkTheme } from '../../../redux/selectors';
 
 const DateTimePickerView = ({ type, onChanged, selectedDate }: any, _ref: any) => {
   const [date, setDate] = useState(selectedDate ? new Date(selectedDate) : new Date());
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   const _setDate = (_date: Date) => {
     if (_date) {

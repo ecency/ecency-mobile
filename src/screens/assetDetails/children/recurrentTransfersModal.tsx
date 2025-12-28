@@ -13,6 +13,7 @@ import { BasicHeader, Modal, UserListItem } from '../../../components';
 import { useAppSelector } from '../../../hooks';
 import { walletQueries } from '../../../providers/queries';
 import { IconButton } from '../../../components/buttons';
+import { selectIsDarkTheme } from '../../../redux/selectors';
 
 interface RecurrentTransfersModalProps {
   assetId: string;
@@ -25,7 +26,7 @@ export const RecurrentTransfersModal = forwardRef(
 
     const recurringActivitiesQuery = walletQueries.useRecurringActivitesQuery(assetId);
     const delRecurrentTransferMutation = walletQueries.useDeleteRecurrentTransferMutation();
-    const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+    const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
     const [showModal, setShowModal] = useState(false);
 
