@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Modal, TextInput } from '../../components';
 import { useAppSelector } from '../../hooks';
+import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 
 // styles
 import styles from './backupKeysScreenStyles';
@@ -19,8 +20,8 @@ export const ImportPrivateKeyModalModal = forwardRef(({}, ref) => {
   const intl = useIntl();
   const dispatch = useDispatch();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinCode = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinCode = useAppSelector(selectPin);
   const digitPinCode = getDigitPinCode(pinCode);
 
   const [showModal, setShowModal] = useState(false);

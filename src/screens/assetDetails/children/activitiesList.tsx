@@ -5,6 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { useQueryClient } from '@tanstack/react-query';
 import { Transaction } from '../../../components';
 import { useAppSelector } from '../../../hooks';
+import { selectIsDarkTheme, selectCurrentAccount, selectPin } from '../../../redux/selectors';
 import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
 import { limitOrderCancel } from '../../../providers/hive-trade/hiveTrade';
@@ -37,9 +38,9 @@ export const ActivitiesList = ({
   const intl = useIntl();
 
   const queryClient = useQueryClient();
-  const isDarkTheme = useAppSelector((state) => state.ui.isDarkTheme);
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
 
   const [cancellingTrxIndex, setCancellingTrxIndex] = useState(-1);
 

@@ -23,6 +23,7 @@ import { TextButton } from '../../buttons';
 // Providers and hooks
 import { uploadFile, uploadVideoInfo } from '../../../providers/speak/speak';
 import { useAppSelector } from '../../../hooks';
+import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 import QUERIES from '../../../providers/queries/queryKeys';
 
 interface Props {
@@ -37,8 +38,8 @@ export const SpeakUploaderModal = forwardRef(({ setIsUploading, isUploading }: P
 
   const queryClient = useQueryClient();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
 
   const [selectedThumb, setSelectedThumb] = useState<Thumbnail | null>(null);
   const [availableThumbs, setAvailableThumbs] = useState<Thumbnail[]>([]);

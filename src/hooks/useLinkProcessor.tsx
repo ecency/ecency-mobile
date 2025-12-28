@@ -24,6 +24,7 @@ import { useAppSelector } from './index';
 import authType from '../constants/authType';
 import { getUserDataWithUsername } from '../realm/realm';
 import { decryptKey } from '../utils/crypto';
+import { selectCurrentAccount, selectPin } from '../redux/selectors';
 
 export const useLinkProcessor = (onClose?: () => void) => {
   const intl = useIntl();
@@ -31,9 +32,9 @@ export const useLinkProcessor = (onClose?: () => void) => {
 
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const otherAccounts = useAppSelector((state) => state.account.otherAccounts);
-  const pinCode = useAppSelector((state) => state.application.pin);
+  const pinCode = useAppSelector(selectPin);
 
   const _isEcencyLoginDeeplink = (deeplink: string) => {
     try {

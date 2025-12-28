@@ -15,6 +15,7 @@ import { default as ROUTES } from '../../../../constants/routeNames';
 import { ActionPanel } from './actionPanel';
 import { getTimeFromNowNative } from '../../../../utils/time';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
+import { selectCurrentAccount, selectPin, selectIsLoggedIn } from '../../../../redux/selectors';
 import { toastNotification } from '../../../../redux/actions/uiAction';
 import RootNavigation from '../../../../navigation/rootNavigation';
 
@@ -28,9 +29,9 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
   const insets = useSafeAreaInsets();
   const dispatch = useAppDispatch();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinCode = useAppSelector((state) => state.application.pin);
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinCode = useAppSelector(selectPin);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);

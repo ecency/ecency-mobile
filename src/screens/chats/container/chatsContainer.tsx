@@ -6,6 +6,12 @@ import { SheetManager } from 'react-native-actions-sheet';
 
 import ROUTES from '../../../constants/routeNames';
 import { useAppSelector } from '../../../hooks';
+import {
+  selectCurrentAccount,
+  selectPin,
+  selectIsLoggedIn,
+  selectIsConnected,
+} from '../../../redux/selectors';
 import { SheetNames } from '../../../navigation/sheets';
 import {
   bootstrapMattermostSession,
@@ -34,10 +40,10 @@ const ChatsContainer = () => {
   const intl = useIntl();
   const navigation = useNavigation();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinCode = useAppSelector((state) => state.application.pin);
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
-  const isConnected = useAppSelector((state) => state.application.isConnected);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinCode = useAppSelector(selectPin);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const isConnected = useAppSelector(selectIsConnected);
 
   const [bootstrapResult, setBootstrapResult] = useState<any>(null);
   const [channels, setChannels] = useState<any[]>([]);

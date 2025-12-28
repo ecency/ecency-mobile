@@ -16,6 +16,7 @@ import { decryptKey } from '../../utils/crypto';
 import { getDigitPinCode } from '../hive/dhive';
 import { SheetNames } from '../../navigation/sheets';
 import { useLinkProcessor } from '../../hooks';
+import { selectPin } from '../../redux/selectors';
 
 const PROMPT_AGAIN_INTERVAL = 48 * 3600 * 1000; // 2 days
 
@@ -24,7 +25,7 @@ export const useAnnouncementsQuery = () => {
   const dispatch = useDispatch();
   const linkProcessor = useLinkProcessor();
 
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const pinHash = useAppSelector(selectPin);
 
   const lastAppVersion = useAppSelector((state) => state.application.lastAppVersion);
   const appVersion = useMemo(() => VersionNumber.appVersion, []);

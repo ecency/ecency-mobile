@@ -33,6 +33,7 @@ import { PostOptionsModal } from '../../index';
 import { BotCommentsPreview } from '../children/botCommentsPreview';
 import { SheetNames } from '../../../navigation/sheets';
 import { checkViewability } from '../../../hooks/useViewabilityTracker';
+import { selectCurrentAccount, selectPin, selectIsDarkTheme } from '../../../redux/selectors';
 
 const PostComments = forwardRef(
   (
@@ -55,9 +56,9 @@ const PostComments = forwardRef(
     const dispatch = useAppDispatch();
     const navigation = useNavigation();
 
-    const currentAccount = useAppSelector((state) => state.account.currentAccount);
-    const pinHash = useAppSelector((state) => state.application.pin);
-    const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+    const currentAccount = useAppSelector(selectCurrentAccount);
+    const pinHash = useAppSelector(selectPin);
+    const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
     const discussionQuery = postQueries.useDiscussionQuery(author, permlink);
     const postsCachePrimer = postQueries.usePostsCachePrimer();
