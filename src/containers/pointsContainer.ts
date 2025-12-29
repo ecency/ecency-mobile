@@ -14,6 +14,7 @@ import {
   selectIsPinCodeOpen,
   selectOtherAccounts,
   selectIsConnected,
+  selectActiveBottomTab,
 } from '../redux/selectors';
 import { getPointsSummary, claimPoints, getPointsHistory } from '../providers/ecency/ePoint';
 import { getAccount, boost } from '../providers/hive/dhive';
@@ -257,7 +258,7 @@ const PointsContainer = ({
 const mapStateToProps = (state) => ({
   user: selectCurrentAccount(state),
   username: selectCurrentAccount(state).name,
-  activeBottomTab: state.ui.activeBottomTab,
+  activeBottomTab: selectActiveBottomTab(state),
   isConnected: selectIsConnected(state),
   accounts: selectOtherAccounts(state),
   currentAccount: selectCurrentAccount(state),

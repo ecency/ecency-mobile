@@ -931,7 +931,7 @@ export default connect(
     isPinCodeOpen: selectIsPinCodeOpen(state),
     encUnlockPin: selectEncUnlockPin(state),
 
-    isLoggedIn: selectIsLoggedIn(state), // TODO: remove as is not being used in this class
+    isLoggedIn: selectIsLoggedIn(state),
     isConnected: selectIsConnected(state),
     api: selectApi(state),
     isGlobalRenderRequired: selectIsGlobalRenderRequired(state),

@@ -158,7 +158,7 @@ class RedeemContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  username: selectCurrentAccount(state).name,
+  username: selectCurrentAccount(state)?.name || '',
   activeBottomTab: state.ui.activeBottomTab,
   isConnected: selectIsConnected(state),
   accounts: selectOtherAccounts(state),

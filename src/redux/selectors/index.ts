@@ -24,7 +24,8 @@ const getApplicationState = (state: any) => state.application;
 const getAccountState = (state: any) => state.account;
 const getCacheState = (state: any) => state.cache;
 const getPostsState = (state: any) => state.posts;
-// const getUIState = (state: any) => state.ui;
+const getUIState = (state: any) => state.ui;
+const getCommunitiesState = (state: any) => state.communities;
 
 // ===== APPLICATION SELECTORS =====
 
@@ -250,3 +251,22 @@ export const makeSelectVoteForPost = () =>
     [selectVotesCollection, (_state: any, postPath: string) => postPath],
     (votesCollection, postPath) => votesCollection[postPath],
   );
+
+// Communities selectors
+export const selectTopCommunities = createSelector(
+  [getCommunitiesState],
+  (communities) => communities.communities,
+);
+
+export const selectSubscribedCommunities = createSelector(
+  [getCommunitiesState],
+  (communities) => communities.subscribedCommunities,
+);
+
+export const selectSubscribedCommunitiesCache = createSelector(
+  [getCacheState],
+  (cache) => cache.subscribedCommunities,
+);
+
+// UI selectors
+export const selectActiveBottomTab = createSelector([getUIState], (ui) => ui.activeBottomTab);

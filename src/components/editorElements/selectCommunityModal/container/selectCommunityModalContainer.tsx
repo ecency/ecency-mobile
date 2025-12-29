@@ -14,6 +14,11 @@ import {
 } from '../../../../redux/actions/communitiesAction';
 import { mergeSubCommunitiesCacheInSubList } from '../../../../utils/communitiesUtils';
 import { useAppSelector } from '../../../../hooks';
+import {
+  selectTopCommunities,
+  selectSubscribedCommunities,
+  selectSubscribedCommunitiesCache,
+} from '../../../../redux/selectors';
 
 const SelectCommunityModalContainer = ({
   onPressCommunity,
@@ -27,9 +32,9 @@ const SelectCommunityModalContainer = ({
   const [showSearchedCommunities, setShowSearchedCommunities] = useState(false);
   const [subscriptions, setSubscriptions] = useState(null);
 
-  const topCommunities = useAppSelector((state) => state.communities.communities);
-  const subscribedCommunities = useAppSelector((state) => state.communities.subscribedCommunities);
-  const subscribedCommunitiesCache = useAppSelector((state) => state.cache.subscribedCommunities);
+  const topCommunities = useAppSelector(selectTopCommunities);
+  const subscribedCommunities = useAppSelector(selectSubscribedCommunities);
+  const subscribedCommunitiesCache = useAppSelector(selectSubscribedCommunitiesCache);
 
   useEffect(() => {
     callTopCommunities();
