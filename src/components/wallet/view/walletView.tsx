@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { Fragment } from 'react';
 import { View, Text, ScrollView, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
@@ -118,4 +117,3 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
 };
 
 export default WalletView;
-/* eslint-enable */

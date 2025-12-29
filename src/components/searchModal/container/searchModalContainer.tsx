@@ -17,6 +17,7 @@ import postUrlParser from '../../../utils/postUrlParser';
 // Component
 import SearchModalView from '../view/searchModalView';
 import { postQueries } from '../../../providers/queries';
+import { selectIsConnected, selectCurrentAccountName } from '../../../redux/selectors';
 
 /*
  *            Props name        Description                                     Value
@@ -235,8 +236,8 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder 
 };
 
 const mapStateToProps = (state) => ({
-  username: state.account.currentAccount.name,
-  isConnected: state.application.isConnected,
+  username: selectCurrentAccountName(state),
+  isConnected: selectIsConnected(state),
 });
 
 export default connect(mapStateToProps)(SearchModalContainer);

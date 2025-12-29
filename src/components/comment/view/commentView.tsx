@@ -16,7 +16,11 @@ import { TextWithIcon } from '../../basicUIElements';
 // Styles
 import styles from './commentStyles';
 import { useAppSelector } from '../../../hooks';
-import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors';
+import {
+  selectCurrentAccount,
+  selectIsLoggedIn,
+  selectHidePostsThumbnails,
+} from '../../../redux/selectors';
 import { PostTypes } from '../../../constants/postTypes';
 import { UpvoteButton } from '../../postCard/children/upvoteButton';
 import { PostPoll } from '../../postPoll';
@@ -48,7 +52,7 @@ const CommentView = ({
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const isHideImage = useAppSelector((state) => state.application.hidePostsThumbnails);
+  const isHideImage = useAppSelector(selectHidePostsThumbnails);
 
   const isMuted = useMemo(
     () => currentAccount.mutes?.indexOf(comment.author) > -1,

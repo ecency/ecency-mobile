@@ -8,6 +8,7 @@ import { Operation } from '@hiveio/dhive';
 import styles from '../styles/hiveAuthModal.styles';
 import { useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
+import { selectIsPinCodeOpen } from '../../../redux/selectors';
 
 import { ModalHeader } from '../..';
 
@@ -24,7 +25,7 @@ export const HiveAuthModal = forwardRef(({ onClose }: HiveAuthModalProps, ref) =
   const navigation = useNavigation();
   const hiveAuth = useHiveAuth();
 
-  const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
+  const isPinCodeOpen = useAppSelector(selectIsPinCodeOpen);
 
   const bottomSheetModalRef = useRef();
 

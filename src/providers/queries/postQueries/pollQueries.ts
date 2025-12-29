@@ -201,7 +201,7 @@ const injectPollVoteCache = (data: Poll, voteCache: PollVoteCache) => {
   const previousUserChoices = data.poll_choices?.filter((pc) =>
     existingVote?.choices.includes(pc.choice_num),
   );
-  // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+
   const selectedChoices = data.poll_choices.filter((pc) => choices.includes(pc.choice_num))!;
 
   // filtered list to separate untoched multiple choice e.g from old [1,2,3] new [3,4,5], removed would be [1, 2] , new would be [4, 5]

@@ -12,10 +12,12 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
 import moment from 'moment';
 import Icon from '../../../components/icon';
-import { fetchMattermostPinnedPosts } from '../../../providers/chat/mattermost';
+import {
+  fetchMattermostPinnedPosts,
+  getHiveUsernameFromMattermostUser,
+} from '../../../providers/chat/mattermost';
 import { ChatPost } from '../utils/messageFormatters';
 import { normalizePost } from '../utils/postNormalizers';
-import { getHiveUsernameFromMattermostUser } from '../../../providers/chat/mattermost';
 
 interface PinnedMessagesModalProps {
   visible: boolean;

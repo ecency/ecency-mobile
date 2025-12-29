@@ -5,6 +5,7 @@ import { unionBy } from 'lodash';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Comments, NoPost } from '../..';
 import { useAppSelector } from '../../../hooks';
+import { selectHidePostsThumbnails } from '../../../redux/selectors';
 import { getAccountPosts } from '../../../providers/hive/dhive';
 import styles from '../profileStyles';
 
@@ -25,7 +26,7 @@ const CommentsTabContent = ({
 }: CommentsTabContentProps) => {
   const intl = useIntl();
 
-  const isHideImage = useAppSelector((state) => state.application.hidePostsThumbnails);
+  const isHideImage = useAppSelector(selectHidePostsThumbnails);
 
   const [data, setData] = useState([]);
   const [lastAuthor, setLastAuthor] = useState('');

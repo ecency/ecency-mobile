@@ -4,7 +4,6 @@ import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
 // Components
-import { useSelector } from 'react-redux';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
@@ -19,6 +18,7 @@ import styles from './accountBoostStyles';
 import UserRibbon from '../../../components/userRibbon/userRibbon';
 import { vestsToHp } from '../../../utils/conversions';
 import { selectCurrentAccount, selectGlobalProps } from '../../../redux/selectors';
+import { useAppSelector } from '../../../hooks';
 
 const ITEM_SKUS = Platform.select({
   ios: ['999boosts'],
@@ -29,8 +29,8 @@ const ACCOUNT_BOOST_VESTS = 553311;
 
 const AccountBoost = ({ route }) => {
   const intl = useIntl();
-  const currentAccount = useSelector(selectCurrentAccount);
-  const globalProps = useSelector(selectGlobalProps);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const globalProps = useAppSelector(selectGlobalProps);
 
   const { username } = route.params ?? {};
 

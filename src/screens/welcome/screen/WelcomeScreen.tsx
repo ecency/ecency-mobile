@@ -13,6 +13,7 @@ import { ECENCY_TERMS_URL } from '../../../config/ecencyApi';
 import ROUTES from '../../../constants/routeNames';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { setLastAppVersion, setIsTermsAccepted } from '../../../redux/actions/applicationActions';
+import { selectIsTermsAccepted } from '../../../redux/selectors';
 import LaunchScreen from '../../launch';
 
 import styles from '../children/WelcomeScreenStyles';
@@ -27,7 +28,7 @@ const WelcomeScreen = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
-  const isTermsAccepted = useAppSelector((state) => state.application.isTermsAccepted);
+  const isTermsAccepted = useAppSelector(selectIsTermsAccepted);
   const [showAnimation, setShowAnimation] = useState(true);
   const [isConsentChecked, setIsConsentChecked] = useState(isTermsAccepted);
   const [appVersion] = useState(VersionNumber.appVersion);

@@ -5,7 +5,14 @@ import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';
-import { selectCurrentAccount, selectGlobalProps } from '../redux/selectors';
+import {
+  selectCurrentAccount,
+  selectGlobalProps,
+  selectPin,
+  selectIsPinCodeOpen,
+  selectOtherAccounts,
+  selectIsConnected,
+} from '../redux/selectors';
 import { promote, boost, isPostAvailable, boostPlus } from '../providers/hive/dhive';
 import { toastNotification } from '../redux/actions/uiAction';
 
@@ -153,11 +160,11 @@ class RedeemContainer extends Component {
 const mapStateToProps = (state) => ({
   username: selectCurrentAccount(state).name,
   activeBottomTab: state.ui.activeBottomTab,
-  isConnected: state.application.isConnected,
-  accounts: state.account.otherAccounts,
+  isConnected: selectIsConnected(state),
+  accounts: selectOtherAccounts(state),
   currentAccount: selectCurrentAccount(state),
-  pinCode: state.application.pin,
-  isPinCodeOpen: state.application.isPinCodeOpen,
+  pinCode: selectPin(state),
+  isPinCodeOpen: selectIsPinCodeOpen(state),
   globalProps: selectGlobalProps(state),
 });
 

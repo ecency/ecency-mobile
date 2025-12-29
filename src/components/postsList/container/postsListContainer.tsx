@@ -8,7 +8,6 @@ import React, {
   useCallback,
 } from 'react';
 import { FlatListProps, RefreshControl, ActivityIndicator, View } from 'react-native';
-import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useIntl } from 'react-intl';
 import { SheetManager } from 'react-native-actions-sheet';
@@ -21,7 +20,13 @@ import { PostTypes } from '../../../constants/postTypes';
 import { PostOptionsModal } from '../../postOptionsModal';
 import { PostCardActionIds } from '../../postCard/container/postCard';
 import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
-import { selectHidePostsThumbnails, selectIsDarkTheme } from '../../../redux/selectors';
+import {
+  selectHidePostsThumbnails,
+  selectIsDarkTheme,
+  selectCurrentAccount,
+  selectNsfw,
+} from '../../../redux/selectors';
+import { useAppSelector } from '../../../hooks';
 
 export interface PostsListRef {
   scrollToTop: () => void;
@@ -63,16 +68,16 @@ const postsListContainer = (
   const postDropdownRef = useRef(null);
 
   // Use memoized selectors to prevent unnecessary re-renders
-  const isHideImages = useSelector(selectHidePostsThumbnails);
-  const nsfw = useSelector(selectHidePostsThumbnails);
-  const isDarkTheme = useSelector(selectIsDarkTheme);
+  const isHideImages = useAppSelector(selectHidePostsThumbnails);
+  const nsfw = useAppSelector(selectNsfw);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
-  const cachedPosts = useSelector((state) => {
+  const cachedPosts = useAppSelector((state) => {
     return isFeedScreen ? state.posts.feedPosts : state.posts.otherPosts;
   });
-  const currentAccount = useSelector(selectCurrentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const mutes = currentAccount?.mutes || [];
-  const scrollPosition = useSelector((state) => {
+  const scrollPosition = useAppSelector((state) => {
     return isFeedScreen ? state.posts.feedScrollPosition : state.posts.otherScrollPosition;
   });
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 // Components
 import Icon from '../view/iconView';
+import { selectCurrentAccountUnreadActivityCount } from '../../../redux/selectors';
 
 class IconContainer extends PureComponent {
   constructor(props) {
@@ -24,7 +25,7 @@ class IconContainer extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  unreadActivityCount: state.account.currentAccount.unread_activity_count || 0,
+  unreadActivityCount: selectCurrentAccountUnreadActivityCount(state),
   unreadChatCount: state.ui.unreadChatCount || 0,
 });
 

@@ -459,7 +459,7 @@ export const UploadsGalleryModal = forwardRef(
         const item: MediaItem = mediaUploadsQuery.data[index];
         data.push({
           url: mode === Modes.MODE_VIDEO ? item.speakData?._id || '' : item.url,
-          text: mode === Modes.MODE_VIDEO ? `3speak` : '',
+          text: mode === Modes.MODE_VIDEO ? '3speak' : '',
           status: MediaInsertStatus.READY,
           mode,
         });

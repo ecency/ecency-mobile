@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
@@ -139,4 +138,3 @@ const NotificationLineView = ({
 };
 
 export default NotificationLineView;
-/* eslint-enable */

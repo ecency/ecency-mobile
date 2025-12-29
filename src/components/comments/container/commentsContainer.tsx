@@ -24,7 +24,7 @@ import { CacheStatus } from '../../../redux/reducers/cacheReducer';
 import { postQueries } from '../../../providers/queries';
 import { PostTypes } from '../../../constants/postTypes';
 import { SheetNames } from '../../../navigation/sheets';
-import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors';
+import { selectCurrentAccount, selectIsLoggedIn, selectPin } from '../../../redux/selectors';
 
 const CommentsContainer = ({
   author,
@@ -329,7 +329,7 @@ const CommentsContainer = ({
 const mapStateToProps = (state) => ({
   isLoggedIn: selectIsLoggedIn(state),
   currentAccount: selectCurrentAccount(state),
-  pinCode: state.application.pin,
+  pinCode: selectPin(state),
 });
 
 export default connect(mapStateToProps)(injectIntl(CommentsContainer));

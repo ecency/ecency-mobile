@@ -19,7 +19,12 @@ import {
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
 import { getCommunity } from '../../../providers/hive/dhive';
 import { SheetNames } from '../../../navigation/sheets';
-import { selectIsLoggedIn, selectCurrentAccount, selectPin } from '../../../redux/selectors';
+import {
+  selectIsLoggedIn,
+  selectCurrentAccount,
+  selectPin,
+  selectPrevLoggedInUsers,
+} from '../../../redux/selectors';
 
 interface TabEmptyViewProps {
   filterKey: string;
@@ -37,7 +42,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
     (state) => state.communities.subscribingCommunitiesInFeedScreen,
   );
 
-  const prevLoggedInUsers = useAppSelector((state) => state.account.prevLoggedInUsers);
+  const prevLoggedInUsers = useAppSelector(selectPrevLoggedInUsers);
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
   const [recommendedUsers, setRecommendedUsers] = useState([]);
   const followingUsers = useAppSelector((state) => state.user.followingUsersInFeedScreen);

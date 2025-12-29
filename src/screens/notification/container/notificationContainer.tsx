@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-state */
 import React, { useRef, useState } from 'react';
 import get from 'lodash/get';
 
@@ -22,13 +21,14 @@ import {
   selectCurrentAccount,
   selectIsLoggedIn,
   selectGlobalProps,
+  selectIsConnected,
 } from '../../../redux/selectors';
 
 const NotificationContainer = ({ navigation }) => {
   const queryClient = useQueryClient();
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const isConnected = useAppSelector((state) => state.application.isConnected);
+  const isConnected = useAppSelector(selectIsConnected);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const globalProps = useAppSelector(selectGlobalProps);
 
@@ -156,4 +156,3 @@ const NotificationContainer = ({ navigation }) => {
 };
 
 export default gestureHandlerRootHOC(NotificationContainer);
-/* eslint-enable */

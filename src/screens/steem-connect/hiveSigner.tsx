@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { injectIntl } from 'react-intl';
 import { loginWithSC2 } from '../../providers/hive/auth';
 import { hsOptions } from '../../constants/hsOptions';
+import { selectIsPinCodeOpen, selectPrevLoggedInUsers } from '../../redux/selectors';
 
 // Actions
 import {
@@ -126,8 +127,8 @@ class HiveSigner extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  isPinCodeOpen: state.application.isPinCodeOpen,
-  prevLoggedInUsers: state.account.prevLoggedInUsers,
+  isPinCodeOpen: selectIsPinCodeOpen(state),
+  prevLoggedInUsers: selectPrevLoggedInUsers(state),
 });
 
 const mapHooksToProps = (props) => {

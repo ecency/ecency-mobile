@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { useRef, Fragment, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { useIntl } from 'react-intl';
@@ -154,4 +153,3 @@ const WalletHeaderView = ({
 };
 
 export default WalletHeaderView;
-/* eslint-enable */

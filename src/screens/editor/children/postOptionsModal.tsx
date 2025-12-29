@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FlipInEasyX } from 'react-native-reanimated';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   BeneficiarySelectionContent,
   CheckBox,
@@ -19,6 +19,7 @@ import { useSpeakContentBuilder } from '../../../providers/queries/editorQueries
 import { DEFAULT_SPEAK_BENEFICIARIES } from '../../../providers/speak/constants';
 import { Beneficiary } from '../../../redux/reducers/editorReducer';
 import { setDefaultRewardType } from '../../../redux/actions/editorActions';
+import { useAppSelector } from '../../../hooks';
 
 const REWARD_TYPES = [
   {
@@ -79,7 +80,7 @@ const PostOptionsModal = forwardRef(
     const intl = useIntl();
     const dispatch = useDispatch();
     const speakContentBuilder = useSpeakContentBuilder();
-    const defaultRewardType = useSelector((state) => state.editor.defaultRewardType);
+    const defaultRewardType = useAppSelector((state) => state.editor.defaultRewardType);
 
     const [showModal, setShowModal] = useState(false);
     const [rewardTypeIndex, setRewardTypeIndex] = useState(0);

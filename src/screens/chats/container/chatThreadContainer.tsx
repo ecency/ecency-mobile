@@ -828,7 +828,6 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
 
     // Load posts for new channel
     _loadPosts(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channelId, initialLastViewedAt]);
 
   // Reset scroll state when channel changes

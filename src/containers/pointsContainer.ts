@@ -6,7 +6,15 @@ import { useIntl } from 'react-intl';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
-import { selectCurrentAccount, selectGlobalProps, selectCurrency } from '../redux/selectors';
+import {
+  selectCurrentAccount,
+  selectGlobalProps,
+  selectCurrency,
+  selectPin,
+  selectIsPinCodeOpen,
+  selectOtherAccounts,
+  selectIsConnected,
+} from '../redux/selectors';
 import { getPointsSummary, claimPoints, getPointsHistory } from '../providers/ecency/ePoint';
 import { getAccount, boost } from '../providers/hive/dhive';
 import { getUserDataWithUsername } from '../realm/realm';
@@ -250,11 +258,11 @@ const mapStateToProps = (state) => ({
   user: selectCurrentAccount(state),
   username: selectCurrentAccount(state).name,
   activeBottomTab: state.ui.activeBottomTab,
-  isConnected: state.application.isConnected,
-  accounts: state.account.otherAccounts,
+  isConnected: selectIsConnected(state),
+  accounts: selectOtherAccounts(state),
   currentAccount: selectCurrentAccount(state),
-  pinCode: state.application.pin,
-  isPinCodeOpen: state.application.isPinCodeOpen,
+  pinCode: selectPin(state),
+  isPinCodeOpen: selectIsPinCodeOpen(state),
   globalProps: selectGlobalProps(state),
   currency: selectCurrency(state).currency,
 });

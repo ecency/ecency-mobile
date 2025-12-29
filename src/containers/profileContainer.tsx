@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { get, unionBy } from 'lodash';
@@ -13,6 +12,9 @@ import {
   selectIsLoggedIn,
   selectIsDarkTheme,
   selectCurrency,
+  selectPin,
+  selectIsConnected,
+  selectHidePostsThumbnails,
 } from '../redux/selectors';
 import {
   followUser,
@@ -613,13 +615,13 @@ class ProfileContainer extends Component {
 }
 const mapStateToProps = (state) => ({
   currency: selectCurrency(state),
-  isConnected: state.application.isConnected,
+  isConnected: selectIsConnected(state),
   isDarkTheme: selectIsDarkTheme(state),
   isLoggedIn: selectIsLoggedIn(state),
-  pinCode: state.application.pin,
+  pinCode: selectPin(state),
   activeBottomTab: state.ui.activeBottomTab,
   currentAccount: selectCurrentAccount(state),
-  isHideImage: state.application.hidePostsThumbnails,
+  isHideImage: selectHidePostsThumbnails(state),
 });
 
 const mapHooksToProps = (props) => {
@@ -628,4 +630,3 @@ const mapHooksToProps = (props) => {
 };
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
-/* eslint-enable */

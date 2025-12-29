@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { searchTag } from '../../../../../../providers/ecency/ecency';
+import { selectCurrentAccountName } from '../../../../../../redux/selectors';
 
 const OtherResultContainer = ({ children, searchValue }) => {
   const navigation = useNavigation();
@@ -66,7 +67,7 @@ const OtherResultContainer = ({ children, searchValue }) => {
 };
 
 const mapStateToProps = (state) => ({
-  username: state.account.currentAccount.name,
+  username: selectCurrentAccountName(state),
 });
 
 export default connect(mapStateToProps)(OtherResultContainer);

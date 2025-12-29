@@ -88,6 +88,19 @@ import {
   selectIsLoggedIn,
   selectIsDarkTheme,
   selectLanguage,
+  selectPin,
+  selectIsPinCodeOpen,
+  selectOtherAccounts,
+  selectIsConnected,
+  selectPrevLoggedInUsers,
+  selectNotificationDetails,
+  selectEncUnlockPin,
+  selectIsNotificationOpen,
+  selectApi,
+  selectSettingsMigratedV2,
+  selectIsGlobalRenderRequired,
+  selectLastUpdateCheck,
+  selectCurrentAccountUnreadActivityCount,
 } from '../../../redux/selectors';
 
 let firebaseOnMessageListener: any = null;
@@ -915,24 +928,24 @@ export default connect(
     // Application
     isDarkTheme: selectIsDarkTheme(state),
     selectedLanguage: selectLanguage(state),
-    isPinCodeOpen: state.application.isPinCodeOpen,
-    encUnlockPin: state.application.encUnlockPin,
+    isPinCodeOpen: selectIsPinCodeOpen(state),
+    encUnlockPin: selectEncUnlockPin(state),
 
     isLoggedIn: selectIsLoggedIn(state), // TODO: remove as is not being used in this class
-    isConnected: state.application.isConnected,
-    api: state.application.api,
-    isGlobalRenderRequired: state.application.isRenderRequired,
-    lastUpdateCheck: state.application.lastUpdateCheck,
-    settingsMigratedV2: state.application.settingsMigratedV2,
-    isNotificationsEnabled: state.application.isNotificationOpen,
-    notificationDetails: state.application.notificationDetails,
+    isConnected: selectIsConnected(state),
+    api: selectApi(state),
+    isGlobalRenderRequired: selectIsGlobalRenderRequired(state),
+    lastUpdateCheck: selectLastUpdateCheck(state),
+    settingsMigratedV2: selectSettingsMigratedV2(state),
+    isNotificationsEnabled: selectIsNotificationOpen(state),
+    notificationDetails: selectNotificationDetails(state),
 
     // Account
-    unreadActivityCount: state.account.currentAccount.unread_activity_count,
+    unreadActivityCount: selectCurrentAccountUnreadActivityCount(state),
     currentAccount: selectCurrentAccount(state),
-    otherAccounts: state.account.otherAccounts,
-    prevLoggedInUsers: state.account.prevLoggedInUsers,
-    pinCode: state.application.pin,
+    otherAccounts: selectOtherAccounts(state),
+    prevLoggedInUsers: selectPrevLoggedInUsers(state),
+    pinCode: selectPin(state),
 
     // UI
     toastNotification: state.ui.toastNotification,

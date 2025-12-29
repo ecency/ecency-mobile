@@ -15,13 +15,14 @@ import { RegisterAccountModal } from './children/registerAccountModal';
 import { ECENCY_TERMS_URL } from '../../config/ecencyApi';
 import { lookupAccounts } from '../../providers/hive/dhive';
 import { useAppSelector } from '../../hooks';
+import { selectIsConnected } from '../../redux/selectors';
 
 const RegisterScreen = ({ navigation, route }) => {
   const intl = useIntl();
 
   const registerAccountModalRef = useRef(null);
 
-  const isConnected = useAppSelector((state) => state.application.isConnected);
+  const isConnected = useAppSelector(selectIsConnected);
 
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
   const [username, setUsername] = useState(route.params?.username ?? '');

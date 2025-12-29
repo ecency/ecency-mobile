@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { useEffect, useRef, Fragment, useMemo } from 'react';
 import { View, AppState, AppStateStatus } from 'react-native';
 import { isArray } from 'lodash';
@@ -278,4 +277,3 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
 };
 
 export default gestureHandlerRootHOC(WalletScreen);
-/* eslint-enable */

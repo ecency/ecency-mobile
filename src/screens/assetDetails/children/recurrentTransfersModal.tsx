@@ -120,7 +120,7 @@ export const RecurrentTransfersModal = forwardRef(
           <BasicHeader
             backIconName="close"
             isModalHeader={true}
-            title={intl.formatMessage({ id: `recurrent.title` }, { total: data?.length || 0 })}
+            title={intl.formatMessage({ id: 'recurrent.title' }, { total: data?.length || 0 })}
             handleOnPressClose={() => setShowModal(false)}
           />
           <FlatList

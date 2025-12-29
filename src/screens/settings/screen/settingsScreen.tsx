@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { Fragment } from 'react';
 import { ScrollView, View, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
@@ -336,4 +335,3 @@ const SettingsScreen = ({
   );
 };
 export default injectIntl(SettingsScreen);
-/* eslint-enable */

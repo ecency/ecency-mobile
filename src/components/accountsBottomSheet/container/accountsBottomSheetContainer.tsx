@@ -23,7 +23,13 @@ import AUTH_TYPE from '../../../constants/authType';
 import { getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
 
 import { useAppSelector } from '../../../hooks';
-import { selectCurrentAccount, selectPin, selectIsLoggedIn } from '../../../redux/selectors';
+import {
+  selectCurrentAccount,
+  selectPin,
+  selectIsLoggedIn,
+  selectOtherAccounts,
+  selectPrevLoggedInUsers,
+} from '../../../redux/selectors';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import { getUnreadNotificationCount } from '../../../providers/ecency/ecency';
 import { clearSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
@@ -40,9 +46,9 @@ const AccountsBottomSheetContainer = () => {
   const accountsBottomSheetViewRef = useRef<AccountsBottomSheetRef | null>(null);
 
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const accounts = useAppSelector((state) => state.account.otherAccounts);
+  const accounts = useAppSelector(selectOtherAccounts);
   const pinHash = useAppSelector(selectPin);
-  const prevLoggedInUsers = useAppSelector((state) => state.account.prevLoggedInUsers);
+  const prevLoggedInUsers = useAppSelector(selectPrevLoggedInUsers);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const [isSwitching, setIsSwitching] = useState(false);
 

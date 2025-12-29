@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Platform, Alert, EmitterSubscription } from 'react-native';
@@ -379,4 +378,3 @@ const mapHooksToProps = (props) => {
 };
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
-/* eslint-enable */

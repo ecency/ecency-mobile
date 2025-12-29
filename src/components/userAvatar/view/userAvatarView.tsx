@@ -13,6 +13,7 @@ import ROUTES from '../../../constants/routeNames';
 
 import { useAppSelector } from '../../../hooks';
 import { getResizedAvatar } from '../../../utils/image';
+import { selectCurrentAccountName } from '../../../redux/selectors';
 
 import DEFAULT_IMAGE from '../../../assets/avatar_default.png';
 
@@ -40,7 +41,7 @@ const UserAvatarView = ({
   noAction,
   isLoading,
 }: UserAvatarProps) => {
-  const curUsername = useAppSelector((state) => state.account.currentAccount.name);
+  const curUsername = useAppSelector(selectCurrentAccountName);
   const avatarCacheStamp = useAppSelector((state) => state.ui.avatarCacheStamp);
 
   // Component Functions

@@ -9,6 +9,9 @@ import ROUTES from '../../../constants/routeNames';
 // Component
 import WalletDetailsView from '../view/walletDetailsView';
 
+// Selectors
+import { selectIsPinCodeOpen } from '../../../redux/selectors';
+
 /**
  *            Props Name        Description                                     Value
  * @props --> intl              Function for language support                   function
@@ -77,7 +80,7 @@ class WalletContainer extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  isPinCodeOpen: state.application.isPinCodeOpen,
+  isPinCodeOpen: selectIsPinCodeOpen(state),
 });
 
 const mapHooksToProps = (props) => {

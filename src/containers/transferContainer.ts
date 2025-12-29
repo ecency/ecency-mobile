@@ -5,7 +5,12 @@ import get from 'lodash/get';
 
 // Services and Actions
 import * as Sentry from '@sentry/react-native';
-import { selectCurrentAccount, selectGlobalProps } from '../redux/selectors';
+import {
+  selectCurrentAccount,
+  selectGlobalProps,
+  selectPin,
+  selectOtherAccounts,
+} from '../redux/selectors';
 
 import {
   lookupAccounts,
@@ -418,9 +423,9 @@ class TransferContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  accounts: state.account.otherAccounts,
+  accounts: selectOtherAccounts(state),
   currentAccount: selectCurrentAccount(state),
-  pinCode: state.application.pin,
+  pinCode: selectPin(state),
   hivePerMVests: selectGlobalProps(state).hivePerMVests,
   actionModalVisible: state.ui.actionModalVisible,
 });

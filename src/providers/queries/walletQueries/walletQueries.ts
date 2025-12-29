@@ -13,6 +13,7 @@ import {
   getAccount,
   getRecurrentTransfers,
   profileUpdate,
+  recurrentTransferToken,
 } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
 import { claimRewards } from '../../hive-engine/hiveEngineActions';
@@ -21,7 +22,6 @@ import { updateClaimCache } from '../../../redux/actions/cacheActions';
 import { selectCurrentAccount, selectPin, selectGlobalProps } from '../../../redux/selectors';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
 import { fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
-import { recurrentTransferToken } from '../../hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { getPortfolio } from '../../ecency/ecency';
 import { ProfileToken } from '../../../redux/reducers/walletReducer';
@@ -158,7 +158,7 @@ export const useClaimRewardsMutation = () => {
       ]);
 
       if (portfolioData) {
-        let claimedValue = undefined;
+        let claimedValue;
         const updatedPortfolioData = portfolioData.map((item) => {
           if (item.symbol === symbol) {
             claimedValue = item.pendingRewards;

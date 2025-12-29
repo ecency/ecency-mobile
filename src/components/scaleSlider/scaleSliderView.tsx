@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-state */
 import React, { useMemo, useState } from 'react';
 import { View, Text } from 'react-native';
 import MultiSlider from '@esteemapp/react-native-multi-slider';
@@ -74,4 +73,3 @@ const ScaleSliderView = ({ values, LRpadding, handleOnValueChange, activeValue }
 };
 
 export default ScaleSliderView;
-/* eslint-enable */

@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { registerWalkthroughItem } from '../../redux/actions/walkthroughActions';
 import { WalkthroughItem } from '../../redux/reducers/walkthroughReducer';
+import { useAppSelector } from '../../hooks';
 
 interface WalkthroughMarkerProps {
   children: (onIntercept: (props: any) => void) => React.ReactNode; // Render prop pattern with a function as a child
@@ -21,7 +22,7 @@ export const WalkthroughMarker = ({
   onInterceptComplete,
 }: WalkthroughMarkerProps) => {
   const dispatch = useDispatch();
-  const tooltipRegistered = useSelector((state) =>
+  const tooltipRegistered = useAppSelector((state) =>
     state.walkthrough.walkthroughMap.get(walkthroughIndex),
   );
 

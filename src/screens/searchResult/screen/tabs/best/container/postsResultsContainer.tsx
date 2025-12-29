@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { useSelector } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -11,6 +10,7 @@ import { getAccountPosts, getPost } from '../../../../../../providers/hive/dhive
 import { postQueries } from '../../../../../../providers/queries';
 import postUrlParser from '../../../../../../utils/postUrlParser';
 import { selectCurrentAccountUsername } from '../../../../../../redux/selectors';
+import { useAppSelector } from '../../../../../../hooks';
 
 const PostsResultsContainer = ({ children, searchValue }) => {
   const navigation = useNavigation();
@@ -21,7 +21,7 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   const [scrollId, setScrollId] = useState('');
   const [noResult, setNoResult] = useState(false);
 
-  const currentAccountUsername = useSelector(selectCurrentAccountUsername);
+  const currentAccountUsername = useAppSelector(selectCurrentAccountUsername);
 
   useEffect(() => {
     _fetchResults();

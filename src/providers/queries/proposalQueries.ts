@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { ProposalVoteMeta } from 'redux/reducers/cacheReducer';
 import * as hiveuri from 'hive-uri';
@@ -24,8 +23,8 @@ export const useActiveProposalMetaQuery = () => {
 };
 
 export const useProposalVotedQuery = (proposalId?: number) => {
-  const currentAccount = useSelector(selectCurrentAccount);
-  const proposalsVoteMeta = useSelector((state) => state.cache.proposalsVoteMeta);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const proposalsVoteMeta = useAppSelector((state) => state.cache.proposalsVoteMeta);
 
   // form meta id
   const _cacheId = `${proposalId}_${currentAccount.username}`;

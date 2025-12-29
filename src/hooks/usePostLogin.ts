@@ -8,11 +8,12 @@ import {
 import { fetchSubscribedCommunities } from '../redux/actions/communitiesAction';
 import { login as loginAction } from '../redux/actions/applicationActions';
 import { useAppSelector } from './index';
+import { selectPrevLoggedInUsers } from '../redux/selectors';
 
 export const usePostLoginActions = () => {
   const dispatch = useDispatch();
 
-  const prevLoggedInUsers = useAppSelector((state) => state.account.prevLoggedInUsers);
+  const prevLoggedInUsers = useAppSelector(selectPrevLoggedInUsers);
 
   // update previously loggedin users list,
   const _updatePrevLoggedInUsersList = (username) => {

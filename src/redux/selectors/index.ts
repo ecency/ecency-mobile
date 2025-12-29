@@ -146,6 +146,21 @@ export const selectSettingsMigratedV2 = createSelector(
   (application) => application.settingsMigratedV2,
 );
 
+export const selectIsDefaultFooter = createSelector(
+  [getApplicationState],
+  (application) => application.isDefaultFooter,
+);
+
+export const selectIsGlobalRenderRequired = createSelector(
+  [getApplicationState],
+  (application) => application.isRenderRequired,
+);
+
+export const selectLastUpdateCheck = createSelector(
+  [getApplicationState],
+  (application) => application.lastUpdateCheck,
+);
+
 // ===== ACCOUNT SELECTORS =====
 
 export const selectCurrentAccount = createSelector(
@@ -168,6 +183,11 @@ export const selectCurrentAccountName = createSelector(
   (currentAccount) => currentAccount?.name || null,
 );
 
+export const selectCurrentAccountUnreadActivityCount = createSelector(
+  [selectCurrentAccount],
+  (currentAccount) => currentAccount?.unread_activity_count || 0,
+);
+
 export const selectGlobalProps = createSelector(
   [getAccountState],
   (account) => account.globalProps,
@@ -176,6 +196,11 @@ export const selectGlobalProps = createSelector(
 export const selectPrevLoggedInUsers = createSelector(
   [getAccountState],
   (account) => account.prevLoggedInUsers || [],
+);
+
+export const selectOtherAccounts = createSelector(
+  [getAccountState],
+  (account) => account.otherAccounts || [],
 );
 
 // Cache selectors

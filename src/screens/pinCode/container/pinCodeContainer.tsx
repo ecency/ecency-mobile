@@ -23,7 +23,13 @@ import {
   setAuthStatus,
 } from '../../../realm/realm';
 import { updateCurrentAccount, removeOtherAccount } from '../../../redux/actions/accountAction';
-import { selectCurrentAccount } from '../../../redux/selectors';
+import {
+  selectCurrentAccount,
+  selectPin,
+  selectOtherAccounts,
+  selectEncUnlockPin,
+  selectIsBiometricEnabled,
+} from '../../../redux/selectors';
 
 // Utils
 import { encryptKey, decryptKey } from '../../../utils/crypto';
@@ -427,10 +433,10 @@ class PinCodeContainer extends Component {
 
 const mapStateToProps = (state) => ({
   currentAccount: selectCurrentAccount(state),
-  applicationPinCode: state.application.pin,
-  encUnlockPin: state.application.encUnlockPin,
-  otherAccounts: state.account.otherAccounts,
-  isBiometricEnabled: state.application.isBiometricEnabled,
+  applicationPinCode: selectPin(state),
+  encUnlockPin: selectEncUnlockPin(state),
+  otherAccounts: selectOtherAccounts(state),
+  isBiometricEnabled: selectIsBiometricEnabled(state),
 });
 
 const mapHooksToProps = (props) => {

@@ -5,6 +5,7 @@ import ROUTES from '../../../../../../constants/routeNames';
 
 import { lookupAccounts } from '../../../../../../providers/hive/dhive';
 import postUrlParser from '../../../../../../utils/postUrlParser';
+import { selectCurrentAccountName } from '../../../../../../redux/selectors';
 
 const PeopleResultsContainer = ({ children, searchValue }) => {
   const navigation = useNavigation();
@@ -64,7 +65,7 @@ const PeopleResultsContainer = ({ children, searchValue }) => {
 };
 
 const mapStateToProps = (state) => ({
-  username: state.account.currentAccount.name,
+  username: selectCurrentAccountName(state),
 });
 
 export default connect(mapStateToProps)(PeopleResultsContainer);

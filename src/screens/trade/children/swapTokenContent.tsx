@@ -21,7 +21,12 @@ import AUTH_TYPE from '../../../constants/authType';
 import { delay } from '../../../utils/editor';
 import { buildTradeOpsArray } from '../../../utils/transactionOpsBuilder';
 import { SheetNames } from '../../../navigation/sheets';
-import { selectCurrency, selectIsDarkTheme, selectCurrentAccount } from '../../../redux/selectors';
+import {
+  selectCurrency,
+  selectIsDarkTheme,
+  selectCurrentAccount,
+  selectPin,
+} from '../../../redux/selectors';
 
 interface Props {
   initialSymbol: MarketAsset;
@@ -39,7 +44,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
   const currency = useAppSelector(selectCurrency);
 
   // const assetsData = useAppSelector((state) => state.wallet.coinsData);
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const pinHash = useAppSelector(selectPin);
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   const [fromAssetSymbol, setFromAssetSymbol] = useState(initialSymbol || MarketAsset.HIVE);

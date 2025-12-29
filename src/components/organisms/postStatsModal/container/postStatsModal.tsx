@@ -6,7 +6,7 @@ import { PostStatsContent } from '../children';
 import styles from '../styles/postStatsModal.styles';
 import ROUTES from '../../../../constants/routeNames';
 import { useAppSelector } from '../../../../hooks';
-import { selectIsLoggedIn } from '../../../../redux/selectors';
+import { selectIsLoggedIn, selectIsPinCodeOpen } from '../../../../redux/selectors';
 
 interface PostStatsModalProps {
   post: any;
@@ -18,7 +18,7 @@ export const PostStatsModal = forwardRef(({ post }: PostStatsModalProps, ref) =>
   const sheetModalRef = useRef<ActionSheet>();
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
+  const isPinCodeOpen = useAppSelector(selectIsPinCodeOpen);
 
   const [urlPath, setUrlPath] = useState('');
 

@@ -27,7 +27,7 @@ import {
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { SheetNames } from '../../../navigation/sheets';
-import { selectIsDarkTheme } from '../../../redux/selectors';
+import { selectIsDarkTheme, selectIsConnected } from '../../../redux/selectors';
 // import EStyleSheet from 'react-native-extended-stylesheet';
 
 const ApplicationScreen = ({ foregroundNotificationData }) => {
@@ -35,7 +35,7 @@ const ApplicationScreen = ({ foregroundNotificationData }) => {
   const dispatch = useAppDispatch();
 
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
-  const isConnected = useAppSelector((state) => state.application.isConnected);
+  const isConnected = useAppSelector(selectIsConnected);
   const toastNotification = useAppSelector((state) => state.ui.toastNotification);
   const rcOffer = useAppSelector((state) => state.ui.rcOffer);
 

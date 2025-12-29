@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';
@@ -10,7 +10,8 @@ import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/commu
 import ROUTES from '../../../constants/routeNames';
 import { updateSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
 import { statusMessage } from '../../../redux/constants/communitiesConstants';
-import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors';
+import { selectCurrentAccount, selectIsLoggedIn, selectPin } from '../../../redux/selectors';
+import { useAppSelector } from '../../../hooks';
 
 const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn }) => {
   const navigation = useNavigation();
@@ -21,11 +22,11 @@ const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn
   const dispatch = useDispatch();
   const intl = useIntl();
 
-  const subscribingCommunitiesInDiscoverTab = useSelector(
+  const subscribingCommunitiesInDiscoverTab = useAppSelector(
     (state) => state.communities.subscribingCommunitiesInCommunitiesScreenDiscoverTab,
   );
-  const subscribedCommunitiesCache = useSelector((state) => state.cache.subscribedCommunities);
-  const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
+  const subscribedCommunitiesCache = useAppSelector((state) => state.cache.subscribedCommunities);
+  const subscribedCommunities = useAppSelector((state) => state.communities.subscribedCommunities);
 
   useEffect(() => {
     if (subscribingCommunitiesInDiscoverTab && selectedCommunityItem) {
@@ -124,7 +125,7 @@ const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn
 
 const mapStateToProps = (state) => ({
   currentAccount: selectCurrentAccount(state),
-  pinCode: state.application.pin,
+  pinCode: selectPin(state),
   isLoggedIn: selectIsLoggedIn(state),
 });
 

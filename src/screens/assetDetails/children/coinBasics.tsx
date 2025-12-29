@@ -44,7 +44,7 @@ export const CoinBasics = ({
         <Text style={styles.textCoinTitle}>{coinSymbol}</Text>
       </View>
       <TouchableOpacity style={styles.percentEyeContainer} onPress={() => setShowChart(!showChart)}>
-        {!!apr ? (
+        {apr ? (
           <Text style={styles.textHeaderApr}>
             {intl.formatMessage({ id: 'wallet.apr' })} {apr.toFixed(apr < 10 ? 3 : 2)}%
           </Text>

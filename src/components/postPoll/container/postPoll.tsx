@@ -32,7 +32,6 @@ interface PostPoll {
   compactView?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: PostPoll) => {
   if (metadata.content_type !== ContentType.POLL || !metadata.question) {
     return null;
