@@ -39,14 +39,15 @@ export const useAssetsQuery = () => {
   const claimsCollection: ClaimsCollection = useAppSelector(
     (state) => state.cache.claimsCollection,
   );
+  const currency = useAppSelector((state) => state.application.currency);
 
   // TODO: test assets update with currency and quote change
 
   const assetsQuery = useQuery({
-    queryKey: [QUERIES.WALLET.GET, currentAccount.username],
+    queryKey: [QUERIES.WALLET.GET, currentAccount.username, currency.currency],
     queryFn: async () => {
       try {
-        const response = await getPortfolio(currentAccount.username);
+        const response = await getPortfolio(currentAccount.username, currency.currency);
 
         if (!response || response.length === 0) {
           return [];
@@ -117,6 +118,7 @@ export const useClaimRewardsMutation = () => {
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinHash = useAppSelector(selectPin);
+  const currency = useAppSelector((state) => state.application.currency);
   const [isClaimingColl, setIsClaimingColl] = useState<{ [key: string]: boolean }>({});
 
   const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
@@ -155,6 +157,7 @@ export const useClaimRewardsMutation = () => {
       const portfolioData: PortfolioItem[] | undefined = queryClient.getQueryData<any[]>([
         QUERIES.WALLET.GET,
         currentAccount.username,
+        currency.currency,
       ]);
 
       if (portfolioData) {
@@ -173,7 +176,7 @@ export const useClaimRewardsMutation = () => {
         }
 
         queryClient.setQueryData(
-          [QUERIES.WALLET.GET, currentAccount.username],
+          [QUERIES.WALLET.GET, currentAccount.username, currency.currency],
           updatedPortfolioData,
         );
       }
@@ -196,6 +199,7 @@ export const useClaimRewardsMutation = () => {
         const refreshedPortfolio = await queryClient.fetchQuery<PortfolioItem[]>([
           QUERIES.WALLET.GET,
           currentAccount.username,
+          currency.currency,
         ]);
 
         const pointsAsset = refreshedPortfolio?.find((item) => item.symbol === symbol);
