@@ -124,18 +124,24 @@ const TippingDialogContent = forwardRef<any, TippingDialogContentProps>(
         return;
       }
 
+      // Convert comma to period for iOS locale keyboards
+      let normalizedText = text;
+      if (normalizedText.includes(',')) {
+        normalizedText = normalizedText.replace(',', '.');
+      }
+
       // Allow only numbers and single decimal point
-      if (!/^\d*\.?\d*$/.test(text)) {
+      if (!/^\d*\.?\d*$/.test(normalizedText)) {
         return;
       }
 
       // Check decimal places don't exceed currency precision
-      const decimalParts = text.split('.');
+      const decimalParts = normalizedText.split('.');
       if (decimalParts.length > 1 && decimalParts[1].length > currentPrecision) {
         return; // Don't update if exceeds precision
       }
 
-      setAmount(text);
+      setAmount(normalizedText);
     };
 
     const _handleSendTip = () => {

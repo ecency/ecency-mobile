@@ -68,11 +68,11 @@ export const sendTip = async (params: TipParams) => {
   // Route to appropriate transfer method based on currency
   if (currency === 'POINTS') {
     // Ecency Points transfer
-    // Format: "0.002 POINTS"
+    // Note: Backend processes custom_json 'ecency_point_transfer' from blockchain
     return transferPoint(currentAccount, pinCode, {
-      from: currentAccount.username,
+      from: currentAccount.name,
       destination: recipient,
-      amount: `${formattedAmount} POINTS`,
+      amount: `${formattedAmount} POINT`,
       memo,
     });
   }

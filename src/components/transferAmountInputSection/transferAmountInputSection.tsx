@@ -196,7 +196,7 @@ const TransferAmountInputSection = ({
             {_renderDescription(
               `${intl.formatMessage({
                 id: 'transfer.amount_desc',
-              })} ${balance} ${fundType === 'ESTM' ? 'Points' : fundType}`,
+              })} ${balance} ${fundType === 'POINT' ? 'Points' : fundType}`,
             )}
           </TouchableOpacity>
         )}

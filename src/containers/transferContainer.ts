@@ -151,7 +151,7 @@ class TransferContainer extends Component {
         ) {
           balance = account.hbd_balance.replace(fundType, '');
         }
-        if (transferType === TransferTypes.ECENCY_POINT_TRANSFER && fundType === 'ESTM') {
+        if (transferType === TransferTypes.ECENCY_POINT_TRANSFER && fundType === 'POINT') {
           this._getUserPointsBalance(username);
         }
         if (transferType === TransferTypes.TRANSFER_TO_SAVINGS && fundType === 'HIVE') {

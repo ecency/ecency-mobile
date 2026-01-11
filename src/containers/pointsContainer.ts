@@ -90,7 +90,7 @@ const PointsContainer = ({
       navigateTo = ROUTES.SCREENS.TRANSFER;
       navigateParams = {
         transferType: 'points',
-        fundType: 'ESTM',
+        fundType: 'POINT',
         balance,
       };
     }

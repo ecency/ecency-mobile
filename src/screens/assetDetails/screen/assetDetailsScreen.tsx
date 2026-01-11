@@ -131,7 +131,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
     if (assetLayer === TokenLayers.POINTS) {
       switch (transferType) {
         case TransferTypes.ECENCY_POINT_TRANSFER:
-          fundType = 'ESTM';
+          fundType = 'POINT';
           break;
         case TransferTypes.PROMOTE:
         case TransferTypes.BOOST:

@@ -1060,12 +1060,14 @@ export const getPortfolio = async (username: string, currency?: string, onlyEnab
       throw new Error('Username must be passed for fethcing portfolio');
     }
 
+    // Backend expects uppercase currency codes (USD, EUR, etc.)
+    const uppercaseCurrency = currency?.toUpperCase();
+
     const res = await ecencyApi.post('/wallet-api/portfolio-v2', {
       username,
-      currency,
+      currency: uppercaseCurrency,
       onlyEnabled,
     });
-    console.log('portflio fetched', res.data);
 
     if (!res.data || !isArray(res.data.wallets)) {
       throw new Error('invalid portfolio response data');
