@@ -88,6 +88,7 @@ class RedeemContainer extends Component {
         gameRight,
         nextDate,
         isLoading,
+        statusCheck: this._statusCheck,
       })
     );
   }
