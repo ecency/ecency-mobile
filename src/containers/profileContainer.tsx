@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { get, unionBy } from 'lodash';
@@ -8,6 +7,15 @@ import { injectIntl } from 'react-intl';
 // Providers
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
+import {
+  selectCurrentAccount,
+  selectIsLoggedIn,
+  selectIsDarkTheme,
+  selectCurrency,
+  selectPin,
+  selectIsConnected,
+  selectHidePostsThumbnails,
+} from '../redux/selectors';
 import {
   followUser,
   unfollowUser,
@@ -606,14 +614,14 @@ class ProfileContainer extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  currency: state.application.currency,
-  isConnected: state.application.isConnected,
-  isDarkTheme: state.application.isDarkTheme,
-  isLoggedIn: state.application.isLoggedIn,
-  pinCode: state.application.pin,
+  currency: selectCurrency(state),
+  isConnected: selectIsConnected(state),
+  isDarkTheme: selectIsDarkTheme(state),
+  isLoggedIn: selectIsLoggedIn(state),
+  pinCode: selectPin(state),
   activeBottomTab: state.ui.activeBottomTab,
-  currentAccount: state.account.currentAccount,
-  isHideImage: state.application.hidePostsThumbnails,
+  currentAccount: selectCurrentAccount(state),
+  isHideImage: selectHidePostsThumbnails(state),
 });
 
 const mapHooksToProps = (props) => {
@@ -622,4 +630,3 @@ const mapHooksToProps = (props) => {
 };
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
-/* eslint-enable */

@@ -27,14 +27,15 @@ import {
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { SheetNames } from '../../../navigation/sheets';
+import { selectIsDarkTheme, selectIsConnected } from '../../../redux/selectors';
 // import EStyleSheet from 'react-native-extended-stylesheet';
 
 const ApplicationScreen = ({ foregroundNotificationData }) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
-  const isConnected = useAppSelector((state) => state.application.isConnected);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
+  const isConnected = useAppSelector(selectIsConnected);
   const toastNotification = useAppSelector((state) => state.ui.toastNotification);
   const rcOffer = useAppSelector((state) => state.ui.rcOffer);
 

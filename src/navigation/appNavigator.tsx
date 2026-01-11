@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import RNBootSplash from 'react-native-bootsplash';
 import { Linking } from 'react-native';
 import { useAppSelector, useLinkProcessor } from '../hooks';
+import { selectLastAppVersion } from '../redux/selectors';
 
 // Screens
 import { StackNavigator } from './stackNavigator';
@@ -12,7 +13,7 @@ import ROUTES from '../constants/routeNames';
 import parseVersionNumber from '../utils/parseVersionNumber';
 
 export const AppNavigator = () => {
-  const lastAppVersion = useAppSelector((state) => state.application.lastAppVersion);
+  const lastAppVersion = useAppSelector(selectLastAppVersion);
   const linkProcessor = useLinkProcessor();
 
   const [appVersion] = useState(VersionNumber.appVersion);

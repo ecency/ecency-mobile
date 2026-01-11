@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { get } from 'lodash';
 import { Text, View, FlatList } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
+import { useAppSelector } from '../../../hooks';
 import { NoPost, PostCardPlaceHolder, UserListItem } from '../..';
 import globalStyles from '../../../globalStyles';
 import { CommunityListItem, EmptyScreen } from '../../basicUIElements';
@@ -18,6 +19,12 @@ import {
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
 import { getCommunity } from '../../../providers/hive/dhive';
 import { SheetNames } from '../../../navigation/sheets';
+import {
+  selectIsLoggedIn,
+  selectCurrentAccount,
+  selectPin,
+  selectPrevLoggedInUsers,
+} from '../../../redux/selectors';
 
 interface TabEmptyViewProps {
   filterKey: string;
@@ -30,20 +37,20 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   const navigation = useNavigation();
 
   // redux properties
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
-  const subscribingCommunities = useSelector(
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const subscribingCommunities = useAppSelector(
     (state) => state.communities.subscribingCommunitiesInFeedScreen,
   );
 
-  const prevLoggedInUsers = useSelector((state) => state.account.prevLoggedInUsers);
+  const prevLoggedInUsers = useAppSelector(selectPrevLoggedInUsers);
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
   const [recommendedUsers, setRecommendedUsers] = useState([]);
-  const followingUsers = useSelector((state) => state.user.followingUsersInFeedScreen);
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const pinCode = useSelector((state) => state.application.pin);
+  const followingUsers = useAppSelector((state) => state.user.followingUsersInFeedScreen);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinCode = useAppSelector(selectPin);
 
-  const leaderboard = useSelector((state) => state.user.leaderboard);
-  const communities = useSelector((state) => state.communities.communities);
+  const leaderboard = useAppSelector((state) => state.user.leaderboard);
+  const communities = useAppSelector((state) => state.communities.communities);
 
   // hooks
 

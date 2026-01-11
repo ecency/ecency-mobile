@@ -6,8 +6,8 @@ import YoutubeIframe, { InitialPlayerParams } from 'react-native-youtube-iframe'
 import Video from 'react-native-video';
 import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
 import Orientation from 'react-native-orientation-locker';
-import { useSelector } from 'react-redux';
 import { orientations } from '../../redux/constants/orientationsConstants';
+import { useAppSelector } from '../../hooks';
 
 interface VideoPlayerProps {
   mode: 'uri' | 'youtube';
@@ -37,7 +37,7 @@ const VideoPlayer = ({
   const [paused, setPaused] = useState(true);
   const [playerState, setPlayerState] = useState(PLAYER_STATES.PAUSED);
   const [screenType, setScreenType] = useState('contain');
-  const lockedOrientation = useSelector((state) => state.ui.lockedOrientation);
+  const lockedOrientation = useAppSelector((state) => state.ui.lockedOrientation);
 
   const PLAYER_HEIGHT = (contentWidth || dim.width) * (9 / 16);
   const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;

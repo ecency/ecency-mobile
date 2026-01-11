@@ -5,6 +5,7 @@ import React from 'react';
 import { default as ROUTES } from '../../../constants/routeNames';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { setHidePostsThumbnails } from '../../../redux/actions/applicationActions';
+import { selectHidePostsThumbnails } from '../../../redux/selectors';
 
 // Components
 import BasicHeaderView from '../view/basicHeaderView';
@@ -16,7 +17,7 @@ interface BackHeaderProps {
 const BasicHeaderContainer = (props: BackHeaderProps) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
-  const isHideImages = useAppSelector((state) => state.application.hidePostsThumbnails);
+  const isHideImages = useAppSelector(selectHidePostsThumbnails);
 
   const _handleOnPressBackButton = () => {
     const { isNewPost, handleOnBackPress } = props;

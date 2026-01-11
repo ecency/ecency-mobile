@@ -46,6 +46,24 @@ import { setPushToken, deleteAccount } from '../../../providers/ecency/ecency';
 import { checkClient } from '../../../providers/hive/dhive';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { useGetServersQuery } from '../../../providers/queries';
+import {
+  selectCurrentAccount,
+  selectIsLoggedIn,
+  selectIsDarkTheme,
+  selectLanguage,
+  selectCurrency,
+  selectIsPinCodeOpen,
+  selectOtherAccounts,
+  selectHidePostsThumbnails,
+  selectNotificationDetails,
+  selectEncUnlockPin,
+  selectIsNotificationOpen,
+  selectApi,
+  selectIsBiometricEnabled,
+  selectColorTheme,
+  selectNsfw,
+  selectIsDefaultFooter,
+} from '../../../redux/selectors';
 // Middleware
 
 // Constants
@@ -533,33 +551,36 @@ class SettingsContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  isDarkTheme: state.application.isDarkTheme,
-  colorTheme: state.application.colorTheme,
-  isPinCodeOpen: state.application.isPinCodeOpen,
-  encUnlockPin: state.application.encUnlockPin,
-  isBiometricEnabled: state.application.isBiometricEnabled,
-  isDefaultFooter: state.application.isDefaultFooter,
-  isLoggedIn: state.application.isLoggedIn,
-  isNotificationSettingsOpen: state.application.isNotificationOpen,
-  nsfw: state.application.nsfw,
-  notificationDetails: state.application.notificationDetails,
-  commentNotification: state.application.notificationDetails.commentNotification,
-  followNotification: state.application.notificationDetails.followNotification,
-  mentionNotification: state.application.notificationDetails.mentionNotification,
-  favoriteNotification: state.application.notificationDetails.favoriteNotification,
-  bookmarkNotification: state.application.notificationDetails.bookmarkNotification,
-  reblogNotification: state.application.notificationDetails.reblogNotification,
-  transfersNotification: state.application.notificationDetails.transfersNotification,
-  voteNotification: state.application.notificationDetails.voteNotification,
-  selectedApi: state.application.api,
-  selectedCurrency: state.application.currency,
-  selectedLanguage: state.application.language,
-  username: state.account.currentAccount && state.account.currentAccount.name,
-  currentAccount: state.account.currentAccount,
-  otherAccounts: state.account.otherAccounts,
-  isHideImages: state.application.hidePostsThumbnails,
-});
+const mapStateToProps = (state) => {
+  const notificationDetails = selectNotificationDetails(state);
+  return {
+    isDarkTheme: selectIsDarkTheme(state),
+    colorTheme: selectColorTheme(state),
+    isPinCodeOpen: selectIsPinCodeOpen(state),
+    encUnlockPin: selectEncUnlockPin(state),
+    isBiometricEnabled: selectIsBiometricEnabled(state),
+    isDefaultFooter: selectIsDefaultFooter(state),
+    isLoggedIn: selectIsLoggedIn(state),
+    isNotificationSettingsOpen: selectIsNotificationOpen(state),
+    nsfw: selectNsfw(state),
+    notificationDetails,
+    commentNotification: notificationDetails.commentNotification,
+    followNotification: notificationDetails.followNotification,
+    mentionNotification: notificationDetails.mentionNotification,
+    favoriteNotification: notificationDetails.favoriteNotification,
+    bookmarkNotification: notificationDetails.bookmarkNotification,
+    reblogNotification: notificationDetails.reblogNotification,
+    transfersNotification: notificationDetails.transfersNotification,
+    voteNotification: notificationDetails.voteNotification,
+    selectedApi: selectApi(state),
+    selectedCurrency: selectCurrency(state),
+    selectedLanguage: selectLanguage(state),
+    username: selectCurrentAccount(state)?.name,
+    currentAccount: selectCurrentAccount(state),
+    otherAccounts: selectOtherAccounts(state),
+    isHideImages: selectHidePostsThumbnails(state),
+  };
+};
 
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();

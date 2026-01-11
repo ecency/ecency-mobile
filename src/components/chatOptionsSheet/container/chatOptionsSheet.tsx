@@ -2,9 +2,8 @@ import React, { useCallback, useMemo } from 'react';
 import { Share, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import ActionSheet from 'react-native-actions-sheet';
+import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import { FlatList } from 'react-native-gesture-handler';
-import { SheetManager } from 'react-native-actions-sheet';
 
 import { writeToClipboard } from '../../../utils/clipboard';
 import { toastNotification } from '../../../redux/actions/uiAction';

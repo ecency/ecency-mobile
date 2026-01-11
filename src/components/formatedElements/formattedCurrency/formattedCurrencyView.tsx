@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { selectCurrency } from '../../../redux/selectors';
 
 const FormattedCurrency = ({
   value,
@@ -20,7 +21,7 @@ const FormattedCurrency = ({
 };
 
 const mapStateToProps = (state) => ({
-  currency: state.application.currency,
+  currency: selectCurrency(state),
 });
 
 export default connect(mapStateToProps)(FormattedCurrency);

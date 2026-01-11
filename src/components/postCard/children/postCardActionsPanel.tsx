@@ -21,7 +21,7 @@ interface Props {
   ) => void;
 }
 
-export const PostCardActionsPanel = ({ content, handleCardInteraction }: Props) => {
+const PostCardActionsPanelComponent = ({ content, handleCardInteraction }: Props) => {
   const _onVotersPress = () => {
     handleCardInteraction(PostCardActionIds.NAVIGATE, {
       name: ROUTES.SCREENS.VOTERS,
@@ -101,3 +101,14 @@ export const PostCardActionsPanel = ({ content, handleCardInteraction }: Props) 
     </View>
   );
 };
+
+// Memoize to prevent re-renders when content hasn't changed
+export const PostCardActionsPanel = React.memo(
+  PostCardActionsPanelComponent,
+  (prevProps, nextProps) => {
+    return (
+      prevProps.content === nextProps.content &&
+      prevProps.handleCardInteraction === nextProps.handleCardInteraction
+    );
+  },
+);

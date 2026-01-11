@@ -16,14 +16,15 @@ import QUERIES from '../queryKeys';
 import { extract3SpeakIds } from '../../../utils/editor';
 import { ThreeSpeakStatus, ThreeSpeakVideo } from '../../speak/speak.types';
 import { SheetNames } from '../../../navigation/sheets';
+import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 
 /**
  * fetches and caches speak video uploads
  * @returns query instance with data as array of videos as MediaItem[]
  */
 export const useVideoUploadsQuery = () => {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
 
   const _fetchVideoUploads = async () => getAllVideoStatuses(currentAccount, pinHash);
 
@@ -109,8 +110,8 @@ export const useSpeakMutations = () => {
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinCode = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinCode = useAppSelector(selectPin);
 
   // mark as published mutations id is options, if no id is provided program marks all notifications as read;
   const _mutationFn = async (id: string) => {

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
@@ -751,7 +750,7 @@ export const getProposalsVoted = async (username) => {
 
     const filteredProposals = votedProposals.filter((item) => item.voter === username);
 
-    console.log(`Returning filtered proposals`, filteredProposals);
+    console.log('Returning filtered proposals', filteredProposals);
     return filteredProposals;
   } catch (error) {
     captureExceptionWithRpcParams(error, { username });
@@ -828,7 +827,7 @@ export const getPostReblogs = async (author, permlink) => {
       throw new Error('invalid data');
     }
 
-    console.log(`Returning reblogs`, reblogs);
+    console.log('Returning reblogs', reblogs);
     return reblogs;
   } catch (error) {
     captureExceptionWithRpcParams(error, { author, permlink });
@@ -2495,8 +2494,6 @@ export const isHsClientSupported = (authType) => {
       return false;
   }
 };
-
-/* eslint-enable */
 
 export const resolveTransaction = async (parsedTx, parsedParams, signer) => {
   const EXPIRE_TIME = 60 * 1000;

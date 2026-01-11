@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-state */
 import React, { useRef, useState } from 'react';
 import get from 'lodash/get';
 
@@ -18,14 +17,20 @@ import { useNotificationReadMutation, useNotificationsQuery } from '../../../pro
 import { NotificationFilters } from '../../../providers/ecency/ecency.types';
 import QUERIES from '../../../providers/queries/queryKeys';
 import { SheetNames } from '../../../navigation/sheets';
+import {
+  selectCurrentAccount,
+  selectIsLoggedIn,
+  selectGlobalProps,
+  selectIsConnected,
+} from '../../../redux/selectors';
 
 const NotificationContainer = ({ navigation }) => {
   const queryClient = useQueryClient();
 
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
-  const isConnected = useAppSelector((state) => state.application.isConnected);
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const globalProps = useAppSelector((state) => state.account.globalProps);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const isConnected = useAppSelector(selectIsConnected);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const globalProps = useAppSelector(selectGlobalProps);
 
   const unreadCountRef = useRef(currentAccount.unread_acitivity_count || 0);
   const curUsername = useRef(currentAccount.username);
@@ -151,4 +156,3 @@ const NotificationContainer = ({ navigation }) => {
 };
 
 export default gestureHandlerRootHOC(NotificationContainer);
-/* eslint-enable */

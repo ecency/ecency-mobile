@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Image, Text, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { SheetManager } from 'react-native-actions-sheet';
 import styles from '../styles/ProposalVoteRequest.styles';
@@ -14,6 +14,8 @@ import {
 } from '../../../providers/queries';
 import { updateProposalVoteMeta } from '../../../redux/actions/cacheActions';
 import { SheetNames } from '../../../navigation/sheets';
+import { selectIsLoggedIn, selectCurrentAccount } from '../../../redux/selectors';
+import { useAppSelector } from '../../../hooks';
 
 const RE_REQUEST_INTERVAL = 259200000; // 3 days;
 
@@ -29,8 +31,8 @@ export const ProposalVoteRequest = () => {
   const proposalVotedQuery = useProposalVotedQuery(_ecencyProposalId);
   const proposalVoteMutation = useProposalVoteMutation();
 
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   // assess if user should be promopted to vote proposal
   // makes sure this logic is only calculated once on launch

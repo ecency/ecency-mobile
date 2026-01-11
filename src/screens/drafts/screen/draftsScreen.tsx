@@ -26,6 +26,7 @@ import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
 import { useAppSelector } from '../../../hooks';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
+import { selectIsDarkTheme } from '../../../redux/selectors';
 
 const DraftsScreen = ({
   currentAccount,
@@ -48,7 +49,7 @@ const DraftsScreen = ({
   handleBatchDeletePress,
 }) => {
   const actionSheet = useRef(null);
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const draftsCollection = useAppSelector((state) => state.cache.draftsCollection);
 
   const idLessDraft = useMemo(() => {

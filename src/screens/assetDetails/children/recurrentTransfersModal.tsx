@@ -13,6 +13,7 @@ import { BasicHeader, Modal, UserListItem } from '../../../components';
 import { useAppSelector } from '../../../hooks';
 import { walletQueries } from '../../../providers/queries';
 import { IconButton } from '../../../components/buttons';
+import { selectIsDarkTheme } from '../../../redux/selectors';
 
 interface RecurrentTransfersModalProps {
   assetId: string;
@@ -25,7 +26,7 @@ export const RecurrentTransfersModal = forwardRef(
 
     const recurringActivitiesQuery = walletQueries.useRecurringActivitesQuery(assetId);
     const delRecurrentTransferMutation = walletQueries.useDeleteRecurrentTransferMutation();
-    const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+    const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
     const [showModal, setShowModal] = useState(false);
 
@@ -119,7 +120,7 @@ export const RecurrentTransfersModal = forwardRef(
           <BasicHeader
             backIconName="close"
             isModalHeader={true}
-            title={intl.formatMessage({ id: `recurrent.title` }, { total: data?.length || 0 })}
+            title={intl.formatMessage({ id: 'recurrent.title' }, { total: data?.length || 0 })}
             handleOnPressClose={() => setShowModal(false)}
           />
           <FlatList

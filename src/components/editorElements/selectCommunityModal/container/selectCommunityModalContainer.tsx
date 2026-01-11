@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { debounce } from 'lodash';
 
 // HIVE
@@ -13,6 +13,12 @@ import {
   fetchSubscribedCommunities,
 } from '../../../../redux/actions/communitiesAction';
 import { mergeSubCommunitiesCacheInSubList } from '../../../../utils/communitiesUtils';
+import { useAppSelector } from '../../../../hooks';
+import {
+  selectTopCommunities,
+  selectSubscribedCommunities,
+  selectSubscribedCommunitiesCache,
+} from '../../../../redux/selectors';
 
 const SelectCommunityModalContainer = ({
   onPressCommunity,
@@ -26,9 +32,9 @@ const SelectCommunityModalContainer = ({
   const [showSearchedCommunities, setShowSearchedCommunities] = useState(false);
   const [subscriptions, setSubscriptions] = useState(null);
 
-  const topCommunities = useSelector((state) => state.communities.communities);
-  const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
-  const subscribedCommunitiesCache = useSelector((state) => state.cache.subscribedCommunities);
+  const topCommunities = useAppSelector(selectTopCommunities);
+  const subscribedCommunities = useAppSelector(selectSubscribedCommunities);
+  const subscribedCommunitiesCache = useAppSelector(selectSubscribedCommunitiesCache);
 
   useEffect(() => {
     callTopCommunities();

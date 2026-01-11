@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 // Actions
 import { useDrawerStatus } from '@react-navigation/drawer';
@@ -13,14 +13,20 @@ import SideMenuView from '../view/sideMenuView';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { getUser } from '../../../providers/hive/dhive';
 import { SheetNames } from '../../../navigation/sheets';
+import {
+  selectIsLoggedIn,
+  selectCurrentAccount,
+  selectPrevLoggedInUsers,
+} from '../../../redux/selectors';
+import { useAppSelector } from '../../../hooks';
 
 const SideMenuContainer = ({ navigation }) => {
   const dispatch = useDispatch();
   const drawerStatus = useDrawerStatus();
 
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const prevLoggedInUsers = useSelector((state) => state.account.prevLoggedInUsers);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const prevLoggedInUsers = useAppSelector(selectPrevLoggedInUsers);
 
   useEffect(() => {
     if (drawerStatus === 'open') {

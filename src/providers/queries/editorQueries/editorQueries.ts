@@ -21,6 +21,7 @@ import {
 import { MediaItem, Snippet } from '../../ecency/ecency.types';
 import { signImage } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
+import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 
 interface SnippetMutationVars {
   id: string | null;
@@ -81,8 +82,8 @@ export const useMediaUploadMutation = () => {
 
   const addToUploadsMutation = useAddToUploadsMutation();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinCode = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinCode = useAppSelector(selectPin);
 
   // NOTE: temporary removal of background uplaod support uptill upload package is fixed
   // const _uploadMedia = async ({ media }: MediaUploadVars) => {

@@ -9,6 +9,7 @@ import { TextInput, MainButton } from '../../index';
 import { tipsQueries, walletQueries } from '../../../providers/queries';
 import { ActivityIndicator } from '../../basicUIElements';
 import { getCurrencyPrecision } from '../../../services/tippingService';
+import { selectCurrentAccount, selectIsLoggedIn, selectPin } from '../../../redux/selectors';
 
 interface TippingDialogContentProps {
   post: any;
@@ -27,9 +28,9 @@ const TippingDialogContent = forwardRef<any, TippingDialogContentProps>(
   ({ post, onClose, onSuccess }, ref) => {
     const intl = useIntl();
     const insets = useSafeAreaInsets();
-    const currentAccount = useAppSelector((state) => state.account.currentAccount);
-    const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
-    const pinHash = useAppSelector((state) => state.application.pin);
+    const currentAccount = useAppSelector(selectCurrentAccount);
+    const isLoggedIn = useAppSelector(selectIsLoggedIn);
+    const pinHash = useAppSelector(selectPin);
 
     const [currency, setCurrency] = useState('HIVE');
     const [amount, setAmount] = useState('');

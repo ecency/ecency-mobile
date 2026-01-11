@@ -13,6 +13,7 @@ import messages from './config/locales';
 import Application from './screens/application';
 import { persistor, store } from './redux/store/store';
 import { initQueryClient } from './providers/queries';
+import { selectLanguage } from './redux/selectors';
 import './navigation/sheets';
 
 const queryClientProviderProps = initQueryClient();
@@ -37,7 +38,7 @@ const _renderApp = ({ locale }) => (
 );
 
 const mapStateToProps = (state) => ({
-  locale: state.application.language,
+  locale: selectLanguage(state),
 });
 
 const App = connect(mapStateToProps)(_renderApp);

@@ -3,9 +3,8 @@ import { Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import { Edges, SafeAreaView } from 'react-native-safe-area-context';
-import { PollsWizardContent } from '../../../components';
+import { PollsWizardContent, ModalHeader } from '../../../components';
 import styles from '../styles/pollWizardScreen.styles';
-import { ModalHeader } from '../../../components';
 import { DEFAULT_USER_DRAFT_ID } from '../../../redux/constants/constants';
 
 const PollWizardScreen = ({ route }) => {

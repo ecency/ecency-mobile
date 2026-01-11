@@ -12,6 +12,7 @@ import { setBeneficiaries as setBeneficiariesAction } from '../../redux/actions/
 import { DEFAULT_USER_DRAFT_ID } from '../../redux/constants/constants';
 import { Beneficiary } from '../../redux/reducers/editorReducer';
 import { BENEFICIARY_SRC_ENCODER } from '../../providers/speak/constants';
+import { selectCurrentAccountName } from '../../redux/selectors';
 
 interface BeneficiarySelectionContentProps {
   draftId: string;
@@ -40,7 +41,7 @@ const BeneficiarySelectionContent = ({
   const dispatch = useAppDispatch();
 
   const beneficiariesMap = useAppSelector((state) => state.editor.beneficiariesMap);
-  const username = useAppSelector((state) => state.account.currentAccount.name);
+  const username = useAppSelector(selectCurrentAccountName);
   const DEFAULT_BENEFICIARY = { account: username, weight: 10000 };
 
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([

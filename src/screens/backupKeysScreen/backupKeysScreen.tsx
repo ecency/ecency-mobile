@@ -6,6 +6,7 @@ import get from 'lodash/get';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, TextBoxWithCopy } from '../../components';
 import { useAppSelector } from '../../hooks';
+import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 import { getDigitPinCode } from '../../providers/hive/dhive';
 import AUTH_TYPE from '../../constants/authType';
 import { ImportPrivateKeyModalModal } from './importPrivateKeyModal';
@@ -19,8 +20,8 @@ import { decryptKey } from '../../utils/crypto';
 const BackupKeysScreen = () => {
   const intl = useIntl();
   const importKeyModalRef = useRef(null);
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinCode = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinCode = useAppSelector(selectPin);
   const digitPinCode = getDigitPinCode(pinCode);
 
   const [ownerKey, setOwnerKey] = useState('');

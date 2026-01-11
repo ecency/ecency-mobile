@@ -13,14 +13,15 @@ import {
   getAccount,
   getRecurrentTransfers,
   profileUpdate,
+  recurrentTransferToken,
 } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
 import { claimRewards } from '../../hive-engine/hiveEngineActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { updateClaimCache } from '../../../redux/actions/cacheActions';
+import { selectCurrentAccount, selectPin, selectGlobalProps } from '../../../redux/selectors';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
 import { fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
-import { recurrentTransferToken } from '../../hive/dhive';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { getPortfolio } from '../../ecency/ecency';
 import { ProfileToken } from '../../../redux/reducers/walletReducer';
@@ -33,19 +34,20 @@ const ACTIVITIES_FETCH_LIMIT = 50;
 
 /** hook used to return user drafts */
 export const useAssetsQuery = () => {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const selectedAssets: ProfileToken[] = useAppSelector((state) => state.wallet.selectedAssets);
   const claimsCollection: ClaimsCollection = useAppSelector(
     (state) => state.cache.claimsCollection,
   );
+  const currency = useAppSelector((state) => state.application.currency);
 
   // TODO: test assets update with currency and quote change
 
   const assetsQuery = useQuery({
-    queryKey: [QUERIES.WALLET.GET, currentAccount.username],
+    queryKey: [QUERIES.WALLET.GET, currentAccount.username, currency.currency],
     queryFn: async () => {
       try {
-        const response = await getPortfolio(currentAccount.username);
+        const response = await getPortfolio(currentAccount.username, currency.currency);
 
         if (!response || response.length === 0) {
           return [];
@@ -114,8 +116,9 @@ export const useClaimRewardsMutation = () => {
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
+  const currency = useAppSelector((state) => state.application.currency);
   const [isClaimingColl, setIsClaimingColl] = useState<{ [key: string]: boolean }>({});
 
   const _mutationFn = async ({ symbol }: ClaimRewardsMutationVars) => {
@@ -154,10 +157,11 @@ export const useClaimRewardsMutation = () => {
       const portfolioData: PortfolioItem[] | undefined = queryClient.getQueryData<any[]>([
         QUERIES.WALLET.GET,
         currentAccount.username,
+        currency.currency,
       ]);
 
       if (portfolioData) {
-        let claimedValue = undefined;
+        let claimedValue;
         const updatedPortfolioData = portfolioData.map((item) => {
           if (item.symbol === symbol) {
             claimedValue = item.pendingRewards;
@@ -172,7 +176,7 @@ export const useClaimRewardsMutation = () => {
         }
 
         queryClient.setQueryData(
-          [QUERIES.WALLET.GET, currentAccount.username],
+          [QUERIES.WALLET.GET, currentAccount.username, currency.currency],
           updatedPortfolioData,
         );
       }
@@ -195,6 +199,7 @@ export const useClaimRewardsMutation = () => {
         const refreshedPortfolio = await queryClient.fetchQuery<PortfolioItem[]>([
           QUERIES.WALLET.GET,
           currentAccount.username,
+          currency.currency,
         ]);
 
         const pointsAsset = refreshedPortfolio?.find((item) => item.symbol === symbol);
@@ -239,8 +244,8 @@ export const useClaimRewardsMutation = () => {
 };
 
 export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const globalProps = useAppSelector((state) => state.account.globalProps);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const globalProps = useAppSelector(selectGlobalProps);
 
   const isEngine = layer === 'engine';
 
@@ -329,7 +334,7 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
 
 // added query to tracker recurring transfers]
 export const useRecurringActivitesQuery = (coinId: string) => {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   if (coinId !== ASSET_IDS.HIVE) {
     return null;
@@ -369,7 +374,7 @@ export const useRecurringActivitesQuery = (coinId: string) => {
 };
 
 export const usePendingRequestsQuery = (symbol: string) => {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   return useQuery({
     queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS, currentAccount.username, symbol],
@@ -384,8 +389,8 @@ export const useDeleteRecurrentTransferMutation = () => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
   const queryClient = useQueryClient();
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
 
   const mutation = useMutation<boolean, Error, { recurrentTransfer: RecurrentTransfer }>({
     mutationFn: async ({ recurrentTransfer }) => {
@@ -443,8 +448,8 @@ export const useUpdateProfileTokensMutation = () => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
 
   const mutation = useMutation<any, Error, ProfileToken[]>({
     mutationFn: async (tokens) => {

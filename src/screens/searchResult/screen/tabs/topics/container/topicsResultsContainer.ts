@@ -65,8 +65,4 @@ const OtherResultContainer = ({ children, searchValue }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  username: state.account.currentAccount.name,
-});
-
-export default connect(mapStateToProps)(OtherResultContainer);
+export default connect(null)(OtherResultContainer);

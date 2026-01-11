@@ -6,6 +6,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 
 import { useNavigation } from '@react-navigation/native';
+import { selectCurrentAccount, selectIsDarkTheme, selectPin } from '../redux/selectors';
 import { uploadImage } from '../providers/ecency/ecency';
 
 import { profileUpdate, signImage } from '../providers/hive/dhive';
@@ -186,7 +187,7 @@ class ProfileEditContainer extends Component {
       dispatch(setAvatarCacheStamp(new Date().getTime()));
       this.setState({ isLoading: false });
       route.params.fetchUser();
-      if (!!goBack) {
+      if (goBack) {
         navigation.goBack();
       }
     } catch (err) {
@@ -239,9 +240,9 @@ class ProfileEditContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  currentAccount: state.account.currentAccount,
-  isDarkTheme: state.application.isDarkTheme,
-  pinCode: state.application.pin,
+  currentAccount: selectCurrentAccount(state),
+  isDarkTheme: selectIsDarkTheme(state),
+  pinCode: selectPin(state),
 });
 
 const mapHooksToProps = (props) => {

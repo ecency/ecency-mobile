@@ -15,10 +15,9 @@ import { OptionsModal } from '../../../atoms';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
 import { CopyModal, ImageViewer, PostHtmlRenderer, VideoPlayer } from '../../..';
-import { useAppDispatch } from '../../../../hooks';
+import { useAppDispatch, useLinkProcessor } from '../../../../hooks';
 import { isHiveUri } from '../../../../utils/hive-uri';
 import { SheetNames } from '../../../../navigation/sheets';
-import { useLinkProcessor } from '../../../../hooks';
 
 interface PostBodyProps {
   body: string;

@@ -5,6 +5,12 @@ import QRCode from 'react-native-qrcode-svg';
 import { connect } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BasicHeader, TextBoxWithCopy } from '../../../components';
+import {
+  selectGlobalProps,
+  selectCurrency,
+  selectPin,
+  selectIsPinCodeOpen,
+} from '../../../redux/selectors';
 
 import styles from './transferStyles';
 
@@ -81,10 +87,10 @@ const AddressView = ({
 };
 
 const mapStateToProps = (state) => ({
-  pinCode: state.application.pin,
-  globalProps: state.account.globalProps,
-  currency: state.application.currency.currency,
-  isPinCodeOpen: state.application.isPinCodeOpen,
+  pinCode: selectPin(state),
+  globalProps: selectGlobalProps(state),
+  currency: selectCurrency(state).currency,
+  isPinCodeOpen: selectIsPinCodeOpen(state),
 });
 
 export default connect(mapStateToProps)(injectIntl(AddressView));

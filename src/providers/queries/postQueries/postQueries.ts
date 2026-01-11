@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Platform } from 'react-native';
 import { isArray } from 'lodash';
 import { useAppSelector } from '../../../hooks';
+import { selectCurrentAccount } from '../../../redux/selectors';
 import { getDiscussionCollection, getPost } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
 import { Comment, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
@@ -26,7 +27,7 @@ export const useGetPostQuery = ({
   isPinned,
   isPreview,
 }: PostQueryProps) => {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   // post process initial post if available
   const _initialPost = useMemo(() => {
@@ -113,7 +114,7 @@ export const usePostsCachePrimer = () => {
  * @returns raw query with commentsData as extra parameter
  */
 export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const cachedComments: { [key: string]: Comment } = useAppSelector(
     (state) => state.cache.commentsCollection,
   );

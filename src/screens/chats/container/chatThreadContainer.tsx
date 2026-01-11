@@ -20,6 +20,7 @@ import { SheetManager } from 'react-native-actions-sheet';
 import unionBy from 'lodash/unionBy';
 
 import { useAppSelector, useLinkProcessor } from '../../../hooks';
+import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 import { useMattermostWebSocket } from '../../../hooks/useMattermostWebSocket';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import {
@@ -132,8 +133,8 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const navigation = useNavigation();
   const { handleLink } = useLinkProcessor();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinCode = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinCode = useAppSelector(selectPin);
 
   // State management
   const [bootstrapResult, setBootstrapResult] = useState<any>(initialBootstrap);
@@ -827,7 +828,6 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
 
     // Load posts for new channel
     _loadPosts(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channelId, initialLastViewedAt]);
 
   // Reset scroll state when channel changes

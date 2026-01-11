@@ -15,6 +15,7 @@ import { useAppSelector } from '../../../hooks';
 import { MainButton, TextButton } from '../..';
 import ROUTES from '../../../constants/routeNames';
 import { getDaysPassedSince } from '../../../utils/time';
+import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors';
 
 export enum PollModes {
   LOADING = 0,
@@ -31,7 +32,6 @@ interface PostPoll {
   compactView?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: PostPoll) => {
   if (metadata.content_type !== ContentType.POLL || !metadata.question) {
     return null;
@@ -40,8 +40,8 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
   const intl = useIntl();
   const navigation = useNavigation();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const [selection, setSelection] = useState<number[]>([]);
   const [mode, setMode] = useState(initMode || compactView ? PollModes.SELECT : PollModes.LOADING);

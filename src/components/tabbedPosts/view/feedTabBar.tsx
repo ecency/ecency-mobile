@@ -3,13 +3,13 @@ import { useIntl } from 'react-intl';
 import { TabBar, TabBarProps } from 'react-native-tab-view';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useWindowDimensions, View } from 'react-native';
-import { useSelector } from 'react-redux';
-import { CustomiseFiltersModal, IconButton } from '../..';
+import { CustomiseFiltersModal, IconButton, WalkthroughMarker } from '../..';
 import { CustomiseFiltersModalRef } from '../../customiseFiltersModal/customiseFiltersModal';
 import styles from '../styles/feedTabBar.styles';
 import showLoginAlert from '../../../utils/showLoginAlert';
-import { WalkthroughMarker } from '../..';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
+import { selectIsLoggedIn } from '../../../redux/selectors';
+import { useAppSelector } from '../../../hooks';
 
 interface FeedTabBarProps extends TabBarProps<any> {
   pageType?: 'main' | 'community' | 'profile' | 'ownProfile';
@@ -20,7 +20,7 @@ export const FeedTabBar = ({ onFilterSelect, pageType, ...props }: FeedTabBarPro
   const intl = useIntl();
   const layout = useWindowDimensions();
 
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const customiseModalRef = useRef<CustomiseFiltersModalRef>();
 

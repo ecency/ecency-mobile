@@ -5,6 +5,7 @@ import { useAppSelector } from '../../../hooks';
 import { FormattedCurrency } from '../../formatedElements';
 import Icon from '../../icon';
 import styles from '../styles/children.styles';
+import { selectCurrentAccount } from '../../../redux/selectors';
 
 interface UpvoteButtonProps {
   content: any;
@@ -24,7 +25,7 @@ export const UpvoteButton = ({
   const upvoteRef = useRef(null);
   const detailsRef = useRef(null);
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const [isVoted, setIsVoted] = useLayoutState(content.isUpVoted || false);
   const [isDownVoted, setIsDownVoted] = useLayoutState(content.isDownVoted || false);

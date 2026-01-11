@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { ProposalVoteMeta } from 'redux/reducers/cacheReducer';
 import * as hiveuri from 'hive-uri';
@@ -13,6 +12,7 @@ import { getActiveProposalMeta } from '../ecency/ecency';
 import { ProposalMeta } from '../ecency/ecency.types';
 import authType from '../../constants/authType';
 import ROUTES from '../../constants/routeNames';
+import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 
 // query for getting active proposal meta;
 export const useActiveProposalMetaQuery = () => {
@@ -23,8 +23,8 @@ export const useActiveProposalMetaQuery = () => {
 };
 
 export const useProposalVotedQuery = (proposalId?: number) => {
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const proposalsVoteMeta = useSelector((state) => state.cache.proposalsVoteMeta);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const proposalsVoteMeta = useAppSelector((state) => state.cache.proposalsVoteMeta);
 
   // form meta id
   const _cacheId = `${proposalId}_${currentAccount.username}`;
@@ -58,8 +58,8 @@ export const useProposalVoteMutation = () => {
   const navigation = useNavigation();
   const intl = useIntl();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
 
   return useMutation<any, Error, { proposalId: number }>({
     mutationFn: ({ proposalId }) => {

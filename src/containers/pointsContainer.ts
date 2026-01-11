@@ -6,6 +6,16 @@ import { useIntl } from 'react-intl';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
+import {
+  selectCurrentAccount,
+  selectGlobalProps,
+  selectCurrency,
+  selectPin,
+  selectIsPinCodeOpen,
+  selectOtherAccounts,
+  selectIsConnected,
+  selectActiveBottomTab,
+} from '../redux/selectors';
 import { getPointsSummary, claimPoints, getPointsHistory } from '../providers/ecency/ePoint';
 import { getAccount, boost } from '../providers/hive/dhive';
 import { getUserDataWithUsername } from '../realm/realm';
@@ -246,16 +256,16 @@ const PointsContainer = ({
 };
 
 const mapStateToProps = (state) => ({
-  user: state.account.currentAccount,
-  username: state.account.currentAccount.name,
-  activeBottomTab: state.ui.activeBottomTab,
-  isConnected: state.application.isConnected,
-  accounts: state.account.otherAccounts,
-  currentAccount: state.account.currentAccount,
-  pinCode: state.application.pin,
-  isPinCodeOpen: state.application.isPinCodeOpen,
-  globalProps: state.account.globalProps,
-  currency: state.application.currency.currency,
+  user: selectCurrentAccount(state),
+  username: selectCurrentAccount(state).name,
+  activeBottomTab: selectActiveBottomTab(state),
+  isConnected: selectIsConnected(state),
+  accounts: selectOtherAccounts(state),
+  currentAccount: selectCurrentAccount(state),
+  pinCode: selectPin(state),
+  isPinCodeOpen: selectIsPinCodeOpen(state),
+  globalProps: selectGlobalProps(state),
+  currency: selectCurrency(state).currency,
 });
 
 export default connect(mapStateToProps)(PointsContainer);

@@ -3,7 +3,6 @@ import { debounce, get } from 'lodash';
 import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { BounceInRight } from 'react-native-reanimated';
-import { useSelector } from 'react-redux';
 import { SheetManager } from 'react-native-actions-sheet';
 import { Icon } from '../../icon';
 
@@ -27,6 +26,7 @@ import {
 
 // Styles
 import { useAppSelector } from '../../../hooks';
+import { selectIsDarkTheme } from '../../../redux/selectors';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
 import { OptionsModal } from '../../atoms';
@@ -65,7 +65,7 @@ const MarkdownEditorView = ({
   onLoadDraftPress,
   setIsUploading,
 }) => {
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const pollDraft = useAppSelector(
     (state) => state.editor.pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID],
   );
@@ -86,7 +86,7 @@ const MarkdownEditorView = ({
   const bodyTextRef = useRef('');
   const bodySelectionRef = useRef({ start: 0, end: 0 });
 
-  const draftBtnTooltipState = useSelector((state) => state.walkthrough.walkthroughMap);
+  const draftBtnTooltipState = useAppSelector((state) => state.walkthrough.walkthroughMap);
   const draftBtnTooltipRegistered = draftBtnTooltipState.get(walkthrough.EDITOR_DRAFT_BTN);
   const headerText = post && (post.summary || postBodySummary(post, 150, Platform.OS));
 
@@ -196,7 +196,6 @@ const MarkdownEditorView = ({
     [],
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const _changeText = useCallback(
     (input) => {
       // check if draft is just loaded or is updated. Fix for username bar auto loading when draft ends with a username
@@ -222,7 +221,6 @@ const MarkdownEditorView = ({
     setSelection(event.nativeEvent.selection);
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
     setBodyText(_text);
     setSelection(_selection);

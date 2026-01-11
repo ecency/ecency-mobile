@@ -6,7 +6,7 @@ import VersionNumber from 'react-native-version-number';
 import { SheetManager } from 'react-native-actions-sheet';
 import { getAnnouncements } from '../ecency/ecency';
 import QUERIES from './queryKeys';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector, useLinkProcessor } from '../../hooks';
 import { updateAnnoucementsMeta } from '../../redux/actions/cacheActions';
 import { getPostUrl } from '../../utils/post';
 import { delay } from '../../utils/editor';
@@ -15,7 +15,7 @@ import parseVersionNumber from '../../utils/parseVersionNumber';
 import { decryptKey } from '../../utils/crypto';
 import { getDigitPinCode } from '../hive/dhive';
 import { SheetNames } from '../../navigation/sheets';
-import { useLinkProcessor } from '../../hooks';
+import { selectPin, selectCurrentAccount, selectLastAppVersion } from '../../redux/selectors';
 
 const PROMPT_AGAIN_INTERVAL = 48 * 3600 * 1000; // 2 days
 
@@ -24,12 +24,12 @@ export const useAnnouncementsQuery = () => {
   const dispatch = useDispatch();
   const linkProcessor = useLinkProcessor();
 
-  const pinHash = useAppSelector((state) => state.application.pin);
+  const pinHash = useAppSelector(selectPin);
 
-  const lastAppVersion = useAppSelector((state) => state.application.lastAppVersion);
+  const lastAppVersion = useAppSelector(selectLastAppVersion);
   const appVersion = useMemo(() => VersionNumber.appVersion, []);
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const announcementsMeta = useAppSelector((state) => state.cache.announcementsMeta);
 
   const announcmentsQuery = useQuery({

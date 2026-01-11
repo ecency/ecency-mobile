@@ -11,7 +11,7 @@ import React, {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { View, Text, TouchableOpacity, Keyboard, Platform, ActivityIndicator } from 'react-native';
 import { useIntl } from 'react-intl';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { get, debounce } from 'lodash';
 import { postBodySummary } from '@ecency/render-helper';
 import { Image as ExpoImage } from 'expo-image';
@@ -34,6 +34,8 @@ import { default as ROUTES } from '../../constants/routeNames';
 import RootNavigation from '../../navigation/rootNavigation';
 import { Draft } from '../../redux/reducers/cacheReducer';
 import { RootState } from '../../redux/store/store';
+import { selectCurrentAccount } from '../../redux/selectors';
+import { useAppSelector } from '../../hooks';
 
 import { postQueries } from '../../providers/queries';
 import { usePostSubmitter } from './usePostSubmitter';
@@ -66,9 +68,9 @@ export const QuickPostModalContent = forwardRef(
     const inputRef = useRef<RNTextInput | null>(null);
     const pollWizardModalRef = useRef(null);
 
-    const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
-    const draftsCollection = useSelector((state: RootState) => state.cache.draftsCollection);
-    const pollDraftsMap = useSelector((state: RootState) => state.editor.pollDraftsMap);
+    const currentAccount = useAppSelector(selectCurrentAccount);
+    const draftsCollection = useAppSelector((state: RootState) => state.cache.draftsCollection);
+    const pollDraftsMap = useAppSelector((state: RootState) => state.editor.pollDraftsMap);
 
     const [commentValue, setCommentValue] = useState('');
     const [mediaUrls, setMediaUrls] = useState<string[]>([]);

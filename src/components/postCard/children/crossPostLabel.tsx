@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { PostCardActionIds } from '../container/postCard';
 import Icon from '../../icon';

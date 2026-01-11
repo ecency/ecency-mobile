@@ -11,6 +11,7 @@ import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import { useAppSelector } from '../../../hooks';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
+import { selectIsPinCodeOpen } from '../../../redux/selectors';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
 import TransferTypes from '../../../constants/transferTypes';
 import { walletQueries } from '../../../providers/queries';
@@ -56,7 +57,7 @@ const AssetDetailsScreen = ({ navigation, route }: AssetDetailsScreenProps) => {
   //   state.wallet.quotes ? state.wallet.quotes[assetSymbol] : {},
   // );
   const username = useAppSelector((state) => state.wallet.username);
-  const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
+  const isPinCodeOpen = useAppSelector(selectIsPinCodeOpen);
 
   useEffect(() => {
     if (assetsQuery.data != null) {

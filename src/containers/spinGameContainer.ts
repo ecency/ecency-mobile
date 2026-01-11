@@ -6,6 +6,7 @@ import { injectIntl } from 'react-intl';
 
 // Providers
 import { gameStatusCheck, gameClaim } from '../providers/ecency/ePoint';
+import { selectCurrentAccountName } from '../redux/selectors';
 
 class RedeemContainer extends Component {
   constructor(props) {
@@ -87,13 +88,14 @@ class RedeemContainer extends Component {
         gameRight,
         nextDate,
         isLoading,
+        statusCheck: this._statusCheck,
       })
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  username: state.account.currentAccount.name,
+  username: selectCurrentAccountName(state),
 });
 
 export default connect(mapStateToProps)(injectIntl(RedeemContainer));

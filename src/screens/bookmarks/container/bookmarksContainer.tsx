@@ -16,6 +16,7 @@ import {
 import ROUTES from '../../../constants/routeNames';
 
 // Utilities
+import { selectCurrentAccount } from '../../../redux/selectors';
 
 // Component
 import BookmarksScreen from '../screen/bookmarksScreen';
@@ -134,7 +135,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation, route }) => {
 };
 
 const mapStateToProps = (state) => ({
-  currentAccount: state.account.currentAccount,
+  currentAccount: selectCurrentAccount(state),
 });
 
 export default gestureHandlerRootHOC(connect(mapStateToProps)(injectIntl(BookmarksContainer)));

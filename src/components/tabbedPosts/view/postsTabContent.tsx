@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useMemo, Suspense, lazy } from 'react';
-import { useSelector } from 'react-redux';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { debounce } from 'lodash';
 import BackgroundTimer from 'react-native-background-timer';
@@ -14,6 +13,12 @@ import {
 } from '../../../providers/queries/postQueries/feedQueries';
 import { NewPostsPopup, ScrollTopPopup } from '../../atoms';
 import { SheetNames } from '../../../navigation/sheets';
+import {
+  selectIsLoggedIn,
+  selectCurrentAccount,
+  selectIsConnected,
+} from '../../../redux/selectors';
+import { useAppSelector } from '../../../hooks';
 
 const ProposalVoteRequest = lazy(() =>
   import('../..').then((mod) => ({ default: mod.ProposalVoteRequest })),
@@ -38,9 +43,9 @@ const PostsTabContent = ({
   handleOnScrollBeginDrag,
 }: PostsTabContentProps) => {
   // redux properties
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
-  const isConnected = useSelector((state) => state.application.isConnected);
-  const currentAccount = useSelector((state) => state.account.currentAccount);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const isConnected = useAppSelector(selectIsConnected);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const { username } = currentAccount;
   const userPinned = currentAccount.about?.profile?.pinned;

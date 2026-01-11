@@ -2,6 +2,7 @@ import React, { Ref } from 'react';
 import { TextInput, I18nManager, TextInputProps, TextStyle } from 'react-native';
 
 import { useAppSelector } from '../../../hooks';
+import { selectIsDarkTheme } from '../../../redux/selectors';
 
 // Styles
 import styles from './textInputStyles';
@@ -13,7 +14,7 @@ interface Props extends TextInputProps {
 }
 
 const TextInputView = ({ innerRef, height, style, ...props }: Props) => {
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
   return (
     <TextInput
       ref={innerRef}

@@ -78,13 +78,13 @@ const fetchStats = async (
     const data = convertStatsData(rawData);
 
     if (!data) {
-      throw new Error(`Failed to parse stats response data`);
+      throw new Error('Failed to parse stats response data');
     }
 
     return data;
   } catch (error) {
     Sentry.captureException(error);
-    console.error(`Failed to fetch stats:`, error);
+    console.error('Failed to fetch stats:', error);
     throw error;
   }
 };

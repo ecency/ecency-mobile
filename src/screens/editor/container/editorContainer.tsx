@@ -65,6 +65,12 @@ import {
 } from '../../../providers/speak/constants';
 import { ThreeSpeakVideo } from '../../../providers/speak/speak.types';
 import { SheetNames } from '../../../navigation/sheets';
+import {
+  selectCurrentAccount,
+  selectIsLoggedIn,
+  selectPin,
+  selectIsDefaultFooter,
+} from '../../../redux/selectors';
 
 /*
  *            Props Name        Description                                     Value
@@ -100,7 +106,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       post: null,
       uploadedImage: null,
       community: [],
-      rewardType: !!props?.defaultRewardType ? props.defaultRewardType : 'default',
+      rewardType: props?.defaultRewardType ? props.defaultRewardType : 'default',
       sharedSnippetText: null,
       onLoadDraftPress: false,
       thumbUrl: '',
@@ -660,7 +666,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const fields = Object.assign({}, _fieldsBase);
     let beneficiaries = this._extractBeneficiaries();
     const pollDraft = this._extractPollDraft();
-    let videoPublishMeta: ThreeSpeakVideo | undefined = undefined;
+    let videoPublishMeta: ThreeSpeakVideo | undefined;
 
     if (isPostSending) {
       return;
@@ -1364,10 +1370,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 }
 
 const mapStateToProps = (state) => ({
-  currentAccount: state.account.currentAccount,
-  isDefaultFooter: state.account.isDefaultFooter,
-  isLoggedIn: state.application.isLoggedIn,
-  pinCode: state.application.pin,
+  currentAccount: selectCurrentAccount(state),
+  isDefaultFooter: selectIsDefaultFooter(state),
+  isLoggedIn: selectIsLoggedIn(state),
+  pinCode: selectPin(state),
   beneficiariesMap: state.editor.beneficiariesMap,
   pollDraftsMap: state.editor.pollDraftsMap,
   defaultRewardType: state.editor.defaultRewardType,

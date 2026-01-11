@@ -22,6 +22,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 import { DraftTypes } from '../../../constants/draftTypes';
 
 // Utilities
+import { selectCurrentAccount } from '../../../redux/selectors';
 
 // Component
 import DraftsScreen from '../screen/draftsScreen';
@@ -148,7 +149,7 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
 };
 
 const mapStateToProps = (state) => ({
-  currentAccount: state.account.currentAccount,
+  currentAccount: selectCurrentAccount(state),
 });
 
 export default gestureHandlerRootHOC(injectIntl(connect(mapStateToProps)(DraftsContainer)));

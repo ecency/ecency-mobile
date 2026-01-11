@@ -12,6 +12,7 @@ import { vestsToHp } from '../../../utils/conversions';
 import { updatePollVoteCache } from '../../../redux/actions/cacheActions';
 import { CacheStatus, PollVoteCache } from '../../../redux/reducers/cacheReducer';
 import { toastNotification } from '../../../redux/actions/uiAction';
+import { selectCurrentAccount, selectPin, selectGlobalProps } from '../../../redux/selectors';
 
 /** hook used to return post poll */
 export const useGetPollQuery = (_author?: string, _permlink?: string, metadata?: PostMetadata) => {
@@ -64,10 +65,10 @@ export function useVotePollMutation(poll: Poll | null) {
   const intl = useIntl();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const pollVotesCollection = useAppSelector((state) => state.cache.pollVotesCollection);
-  const pinHash = useAppSelector((state) => state.application.pin);
-  const globalProps = useAppSelector((state) => state.account.globalProps);
+  const pinHash = useAppSelector(selectPin);
+  const globalProps = useAppSelector(selectGlobalProps);
 
   return useMutation({
     mutationKey: [QUERIES.POST.SIGN_POLL_VOTE, poll?.author, poll?.permlink],
@@ -200,7 +201,7 @@ const injectPollVoteCache = (data: Poll, voteCache: PollVoteCache) => {
   const previousUserChoices = data.poll_choices?.filter((pc) =>
     existingVote?.choices.includes(pc.choice_num),
   );
-  // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+
   const selectedChoices = data.poll_choices.filter((pc) => choices.includes(pc.choice_num))!;
 
   // filtered list to separate untoched multiple choice e.g from old [1,2,3] new [3,4,5], removed would be [1, 2] , new would be [4, 5]

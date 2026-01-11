@@ -7,6 +7,7 @@ import {
 import { generateRndStr } from '../../utils/editor';
 import { PointActivity, PointActivityIds } from '../ecency/ecency.types';
 import { userActivity } from '../ecency/ePoint';
+import { selectCurrentAccount } from '../../redux/selectors';
 
 interface UserActivityMutationVars {
   pointsTy: PointActivityIds;
@@ -17,7 +18,7 @@ interface UserActivityMutationVars {
 
 export const useUserActivityMutation = () => {
   const dispatch = useAppDispatch();
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const pointActivitiesCache: Map<string, PointActivity> = useAppSelector(
     (state) => state.cache.pointActivities,
   );

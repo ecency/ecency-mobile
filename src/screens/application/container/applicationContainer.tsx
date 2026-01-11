@@ -83,6 +83,25 @@ import MigrationHelpers, {
   repairUserAccountData,
 } from '../../../utils/migrationHelpers';
 import { SheetNames } from '../../../navigation/sheets';
+import {
+  selectCurrentAccount,
+  selectIsLoggedIn,
+  selectIsDarkTheme,
+  selectLanguage,
+  selectPin,
+  selectIsPinCodeOpen,
+  selectOtherAccounts,
+  selectIsConnected,
+  selectPrevLoggedInUsers,
+  selectNotificationDetails,
+  selectEncUnlockPin,
+  selectIsNotificationOpen,
+  selectApi,
+  selectSettingsMigratedV2,
+  selectIsGlobalRenderRequired,
+  selectLastUpdateCheck,
+  selectCurrentAccountUnreadActivityCount,
+} from '../../../redux/selectors';
 
 let firebaseOnMessageListener: any = null;
 let appStateSub: NativeEventSubscription | null = null;
@@ -907,26 +926,26 @@ class ApplicationContainer extends Component {
 export default connect(
   (state) => ({
     // Application
-    isDarkTheme: state.application.isDarkTheme,
-    selectedLanguage: state.application.language,
-    isPinCodeOpen: state.application.isPinCodeOpen,
-    encUnlockPin: state.application.encUnlockPin,
+    isDarkTheme: selectIsDarkTheme(state),
+    selectedLanguage: selectLanguage(state),
+    isPinCodeOpen: selectIsPinCodeOpen(state),
+    encUnlockPin: selectEncUnlockPin(state),
 
-    isLoggedIn: state.application.isLoggedIn, // TODO: remove as is not being used in this class
-    isConnected: state.application.isConnected,
-    api: state.application.api,
-    isGlobalRenderRequired: state.application.isRenderRequired,
-    lastUpdateCheck: state.application.lastUpdateCheck,
-    settingsMigratedV2: state.application.settingsMigratedV2,
-    isNotificationsEnabled: state.application.isNotificationOpen,
-    notificationDetails: state.application.notificationDetails,
+    isLoggedIn: selectIsLoggedIn(state),
+    isConnected: selectIsConnected(state),
+    api: selectApi(state),
+    isGlobalRenderRequired: selectIsGlobalRenderRequired(state),
+    lastUpdateCheck: selectLastUpdateCheck(state),
+    settingsMigratedV2: selectSettingsMigratedV2(state),
+    isNotificationsEnabled: selectIsNotificationOpen(state),
+    notificationDetails: selectNotificationDetails(state),
 
     // Account
-    unreadActivityCount: state.account.currentAccount.unread_activity_count,
-    currentAccount: state.account.currentAccount,
-    otherAccounts: state.account.otherAccounts,
-    prevLoggedInUsers: state.account.prevLoggedInUsers,
-    pinCode: state.application.pin,
+    unreadActivityCount: selectCurrentAccountUnreadActivityCount(state),
+    currentAccount: selectCurrentAccount(state),
+    otherAccounts: selectOtherAccounts(state),
+    prevLoggedInUsers: selectPrevLoggedInUsers(state),
+    pinCode: selectPin(state),
 
     // UI
     toastNotification: state.ui.toastNotification,

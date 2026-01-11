@@ -6,6 +6,7 @@ import { WalletActions, CoinBasics } from '.';
 import { useAppSelector } from '../../../hooks';
 import { formatAmount } from '../../../utils/number';
 import { DataPair } from '../../../redux/reducers/walletReducer';
+import { selectCurrency } from '../../../redux/selectors';
 
 export interface CoinSummaryProps {
   tokenSymbol: string;
@@ -27,7 +28,7 @@ export const CoinSummary = ({
   onInfoPress,
 }: CoinSummaryProps) => {
   const intl = useIntl();
-  const currency = useAppSelector((state) => state.application.currency);
+  const currency = useAppSelector(selectCurrency);
   const { balance, fiatRate, savings, extraData, actions, liquid, staked } = asset;
   const isEngine = asset.layer === 'engine';
 

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet';
-import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { SheetNames } from '../../../navigation/sheets';
 import styles from '../styles/crossPostModal.styles';
@@ -9,6 +8,8 @@ import { FormInput, MainButton, Modal, SelectCommunityModalContainer, TextButton
 import { repostQueries } from '../../../providers/queries';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
+import { selectCurrentAccount } from '../../../redux/selectors';
+import { useAppSelector } from '../../../hooks';
 
 export const CrossPostModal = ({ payload }: SheetProps<SheetNames.CROSS_POST>) => {
   const intl = useIntl();
@@ -17,7 +18,7 @@ export const CrossPostModal = ({ payload }: SheetProps<SheetNames.CROSS_POST>) =
 
   const crossPostMutation = repostQueries.useCrossPostMutation();
 
-  const currentAccount = useSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const [message, setMessage] = useState('');
   const [selectedCommunityId, setSelectedCommunityId] = useState('');

@@ -6,6 +6,7 @@ import * as Sentry from '@sentry/react-native';
 import { store } from '../redux/store/store';
 import { getDigitPinCode } from '../providers/hive/dhive';
 import { decryptKey } from '../utils/crypto';
+import { selectIsLoggedIn } from '../redux/selectors';
 
 export const ECENCY_TERMS_URL = `${Config.ECENCY_BACKEND_API}/terms-of-service`;
 
@@ -53,7 +54,7 @@ ecencyApi.interceptors.request.use((request) => {
       }
       request.data.code = accessToken;
       console.log('Added access token:', accessToken);
-    } else if (state.application.isLoggedIn) {
+    } else if (selectIsLoggedIn(state)) {
       const errMsg = 'Failed to inject accessToken';
       console.warn(errMsg);
       Sentry.captureException(new Error(errMsg), (scope) => {

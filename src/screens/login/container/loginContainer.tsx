@@ -40,6 +40,13 @@ import { UserAvatar } from '../../../components';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 import { SheetNames } from '../../../navigation/sheets';
+import {
+  selectIsPinCodeOpen,
+  selectIsConnected,
+  selectPrevLoggedInUsers,
+  selectNotificationDetails,
+  selectIsNotificationOpen,
+} from '../../../redux/selectors';
 
 /*
  *            Props Name        Description                                     Value
@@ -318,11 +325,11 @@ class LoginContainer extends PureComponent {
 
 const mapStateToProps = (state) => ({
   account: state.accounts,
-  notificationDetails: state.application.notificationDetails,
-  notificationSettings: state.application.isNotificationOpen,
-  isConnected: state.application.isConnected,
-  isPinCodeOpen: state.application.isPinCodeOpen,
-  prevLoggedInUsers: state.account.prevLoggedInUsers,
+  notificationDetails: selectNotificationDetails(state),
+  notificationSettings: selectIsNotificationOpen(state),
+  isConnected: selectIsConnected(state),
+  isPinCodeOpen: selectIsPinCodeOpen(state),
+  prevLoggedInUsers: selectPrevLoggedInUsers(state),
 });
 
 const mapHooksToProps = () => ({

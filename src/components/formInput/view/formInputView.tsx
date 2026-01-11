@@ -13,9 +13,10 @@ import { Image as ExpoImage } from 'expo-image';
 import Popover from 'react-native-popover-view';
 
 // Components
-import { useSelector } from 'react-redux';
 import { TextInput } from '../../textInput';
 import { Icon } from '../../icon';
+import { selectIsDarkTheme } from '../../../redux/selectors';
+import { useAppSelector } from '../../../hooks';
 // Utils
 import { getResizedAvatar } from '../../../utils/image';
 
@@ -68,7 +69,7 @@ const FormInputView = ({
   const [_value, setValue] = useState(value || '');
   const [inputBorderColor, setInputBorderColor] = useState('#e7e7e7');
   const [_isValid, setIsValid] = useState(true);
-  const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const isIos = Platform.OS === 'ios';
 
   const _handleOnChange = (text) => {

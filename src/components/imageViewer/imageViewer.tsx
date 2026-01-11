@@ -1,9 +1,8 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { View, Text, Platform, Share, Alert } from 'react-native';
+import { View, Text, Platform, Share, Alert, PermissionsAndroid } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImageViewing from 'react-native-image-viewing';
 import { useIntl } from 'react-intl';
-import { PermissionsAndroid } from 'react-native';
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import { Image as ExpoImage } from 'expo-image';
 import RNFetchBlob from 'rn-fetch-blob';

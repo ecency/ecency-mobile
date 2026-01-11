@@ -14,7 +14,7 @@ import { isEmpty, some, get } from 'lodash';
 import { getMessaging } from '@react-native-firebase/messaging';
 import BackgroundTimer from 'react-native-background-timer';
 import { Image as ExpoImage } from 'expo-image';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector, useLinkProcessor } from '../../../hooks';
 import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
 import isAndroidTablet from '../../../utils/isAndroidTablet';
@@ -27,7 +27,7 @@ import { markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
-import { useLinkProcessor } from '../../../hooks';
+import { selectCurrentAccount } from '../../../redux/selectors';
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
@@ -36,7 +36,7 @@ export const useInitApplication = () => {
   const { isDarkTheme, colorTheme, isPinCodeOpen, currency } = useAppSelector(
     (state) => state.application,
   );
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const currentAccount = useAppSelector(selectCurrentAccount);
   const systemColorScheme = useColorScheme();
 
   const appState = useRef(AppState.currentState);

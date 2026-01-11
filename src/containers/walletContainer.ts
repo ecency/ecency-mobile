@@ -4,6 +4,13 @@ import { useIntl } from 'react-intl';
 
 import get from 'lodash/get';
 import { toastNotification } from '../redux/actions/uiAction';
+import {
+  selectCurrentAccount,
+  selectGlobalProps,
+  selectCurrency,
+  selectPin,
+  selectIsPinCodeOpen,
+} from '../redux/selectors';
 
 // dhive
 import { getAccount, claimRewardBalance } from '../providers/hive/dhive';
@@ -348,13 +355,13 @@ const WalletContainer = ({
 };
 
 const mapStateToProps = (state) => ({
-  currentAccount: state.account.currentAccount,
-  pinCode: state.application.pin,
-  globalProps: state.account.globalProps,
+  currentAccount: selectCurrentAccount(state),
+  pinCode: selectPin(state),
+  globalProps: selectGlobalProps(state),
   quotes: state.wallet.quotes,
-  currency: state.application.currency.currency,
-  hivePerMVests: state.account.globalProps.hivePerMVests,
-  isPinCodeOpen: state.application.isPinCodeOpen,
+  currency: selectCurrency(state).currency,
+  hivePerMVests: selectGlobalProps(state).hivePerMVests,
+  isPinCodeOpen: selectIsPinCodeOpen(state),
 });
 
 export default connect(mapStateToProps)(WalletContainer);

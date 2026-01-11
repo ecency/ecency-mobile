@@ -1,8 +1,8 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { Fragment } from 'react';
-import { useSelector } from 'react-redux';
 import { View, Text, ScrollView, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
+import { selectIsDarkTheme } from '../../../redux/selectors';
+import { useAppSelector } from '../../../hooks';
 // Components
 import { Icon } from '../../icon';
 import { MainButton } from '../../mainButton';
@@ -15,7 +15,7 @@ import { WalletContainer } from '../../../containers';
 import styles from './walletStyles';
 
 const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) => {
-  const isDarkTheme = useSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
   const intl = useIntl();
 
   const _getUnclaimedText = (walletData, isPreview) => (
@@ -117,4 +117,3 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
 };
 
 export default WalletView;
-/* eslint-enable */

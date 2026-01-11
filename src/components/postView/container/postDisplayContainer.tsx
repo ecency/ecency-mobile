@@ -10,6 +10,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Component
 import PostDisplayView from '../view/postDisplayView';
 import { useAppSelector } from '../../../hooks';
+import { selectCurrentAccount, selectIsLoggedIn } from '../../../redux/selectors';
 
 const PostDisplayContainer = ({
   post,
@@ -25,8 +26,8 @@ const PostDisplayContainer = ({
 }) => {
   const navigation = useNavigation();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const [activeVotes, setActiveVotes] = useState([]);
   const [activeVotesCount, setActiveVotesCount] = useState(0);

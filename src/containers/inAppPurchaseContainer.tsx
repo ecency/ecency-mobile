@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Platform, Alert, EmitterSubscription } from 'react-native';
@@ -10,6 +9,7 @@ import get from 'lodash/get';
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
+import { selectCurrentAccount, selectIsLoggedIn } from '../redux/selectors';
 import { purchaseOrder } from '../providers/ecency/ecency';
 
 // Utilities
@@ -368,8 +368,8 @@ class InAppPurchaseContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  currentAccount: state.account.currentAccount,
-  isLoggedIn: state.application.isLoggedIn,
+  currentAccount: selectCurrentAccount(state),
+  isLoggedIn: selectIsLoggedIn(state),
 });
 
 const mapHooksToProps = (props) => {
@@ -378,4 +378,3 @@ const mapHooksToProps = (props) => {
 };
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
-/* eslint-enable */

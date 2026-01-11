@@ -27,6 +27,7 @@ import WavesHeader from '../children/wavesHeader';
 import { PostTypes } from '../../../constants/postTypes';
 import { NewPostsPopup, ScrollTopPopup } from '../../../components/atoms';
 import { SheetNames } from '../../../navigation/sheets';
+import { selectIsDarkTheme } from '../../../redux/selectors';
 
 const SCROLL_POPUP_THRESHOLD = 5000;
 
@@ -41,7 +42,7 @@ const WavesScreen = ({ route }) => {
 
   const wavesQuery = wavesQueries.useWavesQuery('ecency.waves');
 
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   const navState = useNavigationState((state) => state);
   const insets = useSafeAreaInsets();

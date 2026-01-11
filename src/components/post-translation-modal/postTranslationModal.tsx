@@ -10,6 +10,7 @@ import { getTranslation, fetchSupportedLangs } from '../../providers/translation
 import styles from './postTranslationModalStyle';
 import { useAppSelector } from '../../hooks';
 import { DropdownButton, Icon, ModalHeader } from '..';
+import { selectLanguage } from '../../redux/selectors';
 
 interface Language {
   name: string;
@@ -23,7 +24,7 @@ const PostTranslationModal = ({ payload }: SheetProps<'post_translation'>) => {
   const intl = useIntl();
   const content = payload?.content;
 
-  const appLang = useAppSelector((state) => state.application.language);
+  const appLang = useAppSelector(selectLanguage);
 
   const [translatedPost, setTranslatedPost] = useState('');
   const [originalText, setOriginalText] = useState('');

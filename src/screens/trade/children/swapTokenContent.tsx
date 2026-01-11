@@ -21,6 +21,12 @@ import AUTH_TYPE from '../../../constants/authType';
 import { delay } from '../../../utils/editor';
 import { buildTradeOpsArray } from '../../../utils/transactionOpsBuilder';
 import { SheetNames } from '../../../navigation/sheets';
+import {
+  selectCurrency,
+  selectIsDarkTheme,
+  selectCurrentAccount,
+  selectPin,
+} from '../../../redux/selectors';
 
 interface Props {
   initialSymbol: MarketAsset;
@@ -34,12 +40,12 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
 
   const hiveAuthModalRef = useRef();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const currency = useAppSelector((state) => state.application.currency);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const currency = useAppSelector(selectCurrency);
 
   // const assetsData = useAppSelector((state) => state.wallet.coinsData);
-  const pinHash = useAppSelector((state) => state.application.pin);
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const pinHash = useAppSelector(selectPin);
+  const isDarkTheme = useAppSelector(selectIsDarkTheme);
 
   const [fromAssetSymbol, setFromAssetSymbol] = useState(initialSymbol || MarketAsset.HIVE);
   const [marketPrice, setMarketPrice] = useState(0);

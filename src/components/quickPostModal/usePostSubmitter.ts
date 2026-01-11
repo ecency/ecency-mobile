@@ -11,6 +11,7 @@ import { PointActivityIds, PollDraft } from '../../providers/ecency/ecency.types
 import { usePublishWaveMutation } from '../../providers/queries/postQueries/wavesQueries';
 import { PostTypes } from '../../constants/postTypes';
 import extractHashTags from '../../utils/extractHashTags';
+import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 
 export const usePostSubmitter = () => {
   const dispatch = useDispatch();
@@ -18,8 +19,8 @@ export const usePostSubmitter = () => {
 
   const pusblishWaveMutation = usePublishWaveMutation();
 
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const pinCode = useAppSelector((state) => state.application.pin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinCode = useAppSelector(selectPin);
   const userActivityMutation = useUserActivityMutation();
   const [isSubmitting, setIsSubmitting, getIsSubmittingCurrent] = useStateWithRef(false);
 

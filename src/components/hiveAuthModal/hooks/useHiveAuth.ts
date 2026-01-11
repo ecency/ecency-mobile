@@ -14,6 +14,7 @@ import { useAppSelector, usePostLoginActions } from '../../../hooks';
 import AUTH_TYPE from '../../../constants/authType';
 import { decryptKey } from '../../../utils/crypto';
 import { delay } from '../../../utils/editor';
+import { selectPin, selectCurrentAccount } from '../../../redux/selectors';
 
 const APP_META = {
   name: 'Ecency',
@@ -137,8 +138,8 @@ export const useHiveAuth = () => {
   const intl = useIntl();
   const postLoginActions = usePostLoginActions();
 
-  const pinHash = useAppSelector((state) => state.application.pin);
-  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const pinHash = useAppSelector(selectPin);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const [statusText, setStatusText] = useState('');
   const [status, setStatus] = useState(HiveAuthStatus.INPUT);

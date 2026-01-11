@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -74,4 +73,3 @@ const TransactionView = ({ item, index, cancelling, onCancelPress, onRepeatPress
 };
 
 export default TransactionView;
-/* eslint-enable */
