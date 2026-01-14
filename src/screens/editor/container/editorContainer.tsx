@@ -440,16 +440,22 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
   _extractBeneficiaries = () => {
     const { draftId } = this.state;
-    const { beneficiariesMap } = this.props;
+    const { beneficiariesMap, currentAccount } = this.props;
 
-    return beneficiariesMap[draftId || DEFAULT_USER_DRAFT_ID] || [];
+    // Use same draft ID logic as in _loadMeta to avoid key mismatch
+    const _draftId = draftId || DEFAULT_USER_DRAFT_ID + currentAccount.name;
+
+    return beneficiariesMap[_draftId] || [];
   };
 
   _extractPollDraft = () => {
     const { draftId } = this.state;
-    const { pollDraftsMap } = this.props;
+    const { pollDraftsMap, currentAccount } = this.props;
 
-    return pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID];
+    // Use same draft ID logic as in _loadMeta to avoid key mismatch
+    const _draftId = draftId || DEFAULT_USER_DRAFT_ID + currentAccount.name;
+
+    return pollDraftsMap[_draftId];
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
