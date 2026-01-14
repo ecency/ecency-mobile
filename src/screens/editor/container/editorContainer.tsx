@@ -266,7 +266,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         });
       }
     } else {
-      // TOOD: get draft from redux after reply side is complete
       const _draftId = paramDraft ? paramDraft._id : DEFAULT_USER_DRAFT_ID + username;
       const _localDraft = draftsCollection && draftsCollection[_draftId];
 
@@ -313,6 +312,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   // load meta from local/param drfat into state
   _loadMeta = (draft: any) => {
     const { dispatch, currentAccount } = this.props;
+    const { draftId } = this.state;
+
     // if meta exist on draft, get the index of 1st image in meta from images urls in body
     // const body = draft.body;
     if (draft.meta && draft.meta.image) {
@@ -335,21 +336,20 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       });
     }
 
-    if (draft._id) {
-      if (isArray(draft.meta?.beneficiaries)) {
-        const filteredBeneficiaries = draft.meta.beneficiaries.filter(
-          (item) => item.account !== currentAccount.username,
-        ); // remove default beneficiary from array while saving
+    // Use draft._id if available, otherwise use draftId from state, or fallback to DEFAULT_USER_DRAFT_ID
+    const _draftId = draft._id || draftId || DEFAULT_USER_DRAFT_ID + currentAccount.name;
 
-        dispatch(setBeneficiaries(draft._id || DEFAULT_USER_DRAFT_ID, filteredBeneficiaries));
-      }
+    if (isArray(draft.meta?.beneficiaries)) {
+      const filteredBeneficiaries = draft.meta.beneficiaries.filter(
+        (item) => item.account !== currentAccount.username,
+      ); // remove default beneficiary from array while saving
 
-      if (draft.meta?.poll) {
-        dispatch(setPollDraftAction(draft._id, draft.meta.poll));
-      }
+      dispatch(setBeneficiaries(_draftId, filteredBeneficiaries));
     }
 
-    // TODO: handle poll meta load here load
+    if (draft.meta?.poll) {
+      dispatch(setPollDraftAction(_draftId, draft.meta.poll));
+    }
   };
 
   _requestKeyboardFocus = () => {
@@ -440,16 +440,22 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
   _extractBeneficiaries = () => {
     const { draftId } = this.state;
-    const { beneficiariesMap } = this.props;
+    const { beneficiariesMap, currentAccount } = this.props;
 
-    return beneficiariesMap[draftId || DEFAULT_USER_DRAFT_ID] || [];
+    // Use same draft ID logic as in _loadMeta to avoid key mismatch
+    const _draftId = draftId || DEFAULT_USER_DRAFT_ID + currentAccount.name;
+
+    return beneficiariesMap[_draftId] || [];
   };
 
   _extractPollDraft = () => {
     const { draftId } = this.state;
-    const { pollDraftsMap } = this.props;
+    const { pollDraftsMap, currentAccount } = this.props;
 
-    return pollDraftsMap[draftId || DEFAULT_USER_DRAFT_ID];
+    // Use same draft ID logic as in _loadMeta to avoid key mismatch
+    const _draftId = draftId || DEFAULT_USER_DRAFT_ID + currentAccount.name;
+
+    return pollDraftsMap[_draftId];
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
@@ -570,7 +576,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             dispatch(setPollDraftAction(_resDraft._id, pollDraft));
           }
 
-          // TODO: assess if need to set poll meta here as well
           dispatch(removeEditorCache(DEFAULT_USER_DRAFT_ID));
 
           // clear local copy if darft save is successful
@@ -616,7 +621,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   };
 
   _saveCurrentDraft = async (fields) => {
-    const { draftId, isReply, isEdit, isPostSending } = this.state;
+    const { draftId, isReply, isEdit, isPostSending, rewardType, postDescription, thumbUrl } =
+      this.state;
 
     // skip draft save in case post is sending or is post beign edited
     if (isPostSending || isEdit) {
@@ -626,12 +632,39 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const { currentAccount, dispatch } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
 
+    // Extract beneficiaries and poll data to store in meta
+    const beneficiaries = this._extractBeneficiaries();
+    const pollDraft = this._extractPollDraft();
+
+    // Build meta object with beneficiaries and other settings
+    const meta: any = {};
+
+    if (isArray(beneficiaries) && beneficiaries.length > 0) {
+      meta.beneficiaries = beneficiaries;
+    }
+
+    if (pollDraft) {
+      meta.poll = pollDraft;
+    }
+
+    if (rewardType) {
+      meta.rewardType = rewardType;
+    }
+
+    if (postDescription) {
+      meta.description = postDescription;
+    }
+
+    if (thumbUrl) {
+      meta.image = [thumbUrl];
+    }
+
     const draftField = {
       title: fields.title || '',
       body: fields.body || '',
       tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       author: username,
-      meta: fields.meta && fields.meta,
+      meta: Object.keys(meta).length > 0 ? meta : undefined,
     };
 
     // save reply data or save existing draft data locall
@@ -687,8 +720,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           ];
           beneficiaries = [...encoderBene, ...beneficiaries];
         }
-
-        // TODO: handle poll draft publishing with meta data;
       } catch (err) {
         console.warn('fail', err);
         return;
@@ -722,7 +753,6 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
 
-      // TODO: check if permlink is available github: #314 https://github.com/ecency/ecency-mobile/pull/314
       let permlink = videoPublishMeta
         ? videoPublishMeta.permlink
         : generatePermlink(fields.title || '');
