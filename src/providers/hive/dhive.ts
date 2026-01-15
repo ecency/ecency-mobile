@@ -837,25 +837,33 @@ export const getPostReblogs = async (author, permlink) => {
 
 export const getRankedPosts = async (query: any, currentUserName: string, filterNsfw: string) => {
   try {
-    console.log('Getting ranked posts:', query);
+    console.log('[getRankedPosts] Query:', query);
 
     let posts = await client.call('bridge', 'get_ranked_posts', query);
+
+    console.log('[getRankedPosts] Raw API response:', posts ? posts.length : 0, 'posts');
 
     if (posts) {
       const areComments = query.sort === 'comments' || query.sort === 'replies';
 
       posts = areComments
         ? parseComments(posts, currentUserName)
-        : await resolvePosts(posts, currentUserName, false);
+        : await resolvePosts(posts, currentUserName);
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);
+        console.log(
+          '[getRankedPosts] After NSFW filter:',
+          updatedPosts ? updatedPosts.length : 0,
+          'posts',
+        );
         return updatedPosts;
       }
     }
-    console.log(`Returning fetched posts: ${posts}` ? posts.length : null);
+    console.log('[getRankedPosts] Returning posts:', posts ? posts.length : 0);
     return posts;
   } catch (error) {
+    console.error('[getRankedPosts] Error:', error);
     return error;
   }
 };
@@ -1077,10 +1085,30 @@ const resolvePost = async (
 // resolves posts to be used in the feed,
 const resolvePosts = async (posts, currentUsername) => {
   if (posts) {
-    const formattedPosts = posts.map(async (post) => resolvePost(post, currentUsername));
+    console.log('[resolvePosts] Raw posts from API:', posts.length, 'posts');
+    console.log(
+      '[resolvePosts] First raw post sample:',
+      posts[0]
+        ? { author: posts[0].author, permlink: posts[0].permlink, title: posts[0].title }
+        : 'none',
+    );
 
-    console.log('formatted posts', formattedPosts);
+    const formattedPosts = posts.map(async (post) => resolvePost(post, currentUsername));
     const _formattedPost = await Promise.all(formattedPosts);
+
+    console.log('[resolvePosts] Resolved posts:', _formattedPost.length, 'posts');
+    console.log(
+      '[resolvePosts] First resolved post sample:',
+      _formattedPost[0]
+        ? {
+            author: _formattedPost[0].author,
+            permlink: _formattedPost[0].permlink,
+            title: _formattedPost[0].title,
+            image: _formattedPost[0].image,
+          }
+        : 'none',
+    );
+
     return _formattedPost;
   }
   return null;

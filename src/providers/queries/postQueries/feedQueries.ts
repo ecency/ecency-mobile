@@ -42,7 +42,7 @@ export const useFeedQuery = ({
   const cacheRef = useRef(cache);
   const currentAccount = useAppSelector(selectCurrentAccount);
   const nsfw = useAppSelector(selectNsfw);
-  const { mutes } = currentAccount;
+  const mutes = currentAccount?.mutes || [];
 
   const pinnedPostQuery = useGetPostQuery({
     author: feedUsername,
@@ -98,7 +98,7 @@ export const useFeedQuery = ({
 
     let func = getAccountPosts;
     const options: any = {
-      observer: currentAccount.username || '', // TOOD: add current account username here
+      observer: currentAccount?.username || '', // TOOD: add current account username here
       start_author: startAuthor,
       start_permlink: startPermlink,
       limit: POSTS_FETCH_COUNT,
@@ -106,11 +106,19 @@ export const useFeedQuery = ({
 
     switch (filterKey) {
       case 'friends':
+        if (!feedUsername) {
+          console.warn('Cannot load friends feed without feedUsername');
+          return [];
+        }
         func = getAccountPosts;
         options.sort = 'feed';
         options.account = feedUsername;
         break;
       case 'communities':
+        if (!feedUsername) {
+          console.warn('Cannot load communities feed without feedUsername');
+          return [];
+        }
         func = getRankedPosts;
         options.sort = 'created';
         options.tag = 'my';
@@ -125,12 +133,15 @@ export const useFeedQuery = ({
       default:
         func = getRankedPosts;
         options.sort = filterKey;
-        options.tag = tag;
+        // Only include tag if it's defined (undefined tag can cause API issues)
+        if (tag) {
+          options.tag = tag;
+        }
         break;
     }
 
     // fetching posts
-    const response: any[] = await func(options, currentAccount.username, nsfw); // TODO: which username to add here
+    const response: any[] = await func(options, currentAccount?.username, nsfw); // TODO: which username to add here
 
     if (!Array.isArray(response) || response.length == 0) {
       return [];
@@ -277,7 +288,7 @@ export const usePromotedPostsQuery = () => {
 
   const _getPromotedPosts = async () => {
     try {
-      const posts = await getPromotedEntries(currentAccount.username);
+      const posts = await getPromotedEntries(currentAccount?.username);
 
       return Array.isArray(posts) ? filterNsfwPost(posts, nsfw) : [];
     } catch (err) {
@@ -287,7 +298,7 @@ export const usePromotedPostsQuery = () => {
   };
 
   return useQuery({
-    queryKey: [QUERIES.FEED.GET_PROMOTED, currentAccount.username],
+    queryKey: [QUERIES.FEED.GET_PROMOTED, currentAccount?.username],
     queryFn: _getPromotedPosts,
     initialData: [],
   });

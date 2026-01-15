@@ -47,8 +47,8 @@ const PostsTabContent = ({
   const isConnected = useAppSelector(selectIsConnected);
   const currentAccount = useAppSelector(selectCurrentAccount);
 
-  const { username } = currentAccount;
-  const userPinned = currentAccount.about?.profile?.pinned;
+  const username = currentAccount?.username;
+  const userPinned = currentAccount?.about?.profile?.pinned;
 
   // state
   const [sessionUser, setSessionUser] = useState(username);

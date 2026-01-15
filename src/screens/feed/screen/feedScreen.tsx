@@ -104,7 +104,7 @@ const FeedScreen = () => {
           <TabbedPosts
             key={tabbedPostsKey} // Use memoized key to reset tabbedposts when filters change (addresses Android filter change bug)
             tabFilters={tabFilters}
-            selectedOptionIndex={isLoggedIn ? 0 : 1}
+            selectedOptionIndex={0}
             feedUsername={get(currentAccount, 'name', null)}
             tabContentOverrides={tabContentOverrides}
             isFeedScreen={true}

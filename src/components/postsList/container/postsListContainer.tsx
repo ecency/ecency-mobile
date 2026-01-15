@@ -76,7 +76,7 @@ const postsListContainer = (
     return isFeedScreen ? state.posts.feedPosts : state.posts.otherPosts;
   });
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const mutes = currentAccount?.mutes || [];
+  const mutes = useMemo(() => currentAccount?.mutes || [], [currentAccount?.mutes]);
   const scrollPosition = useAppSelector((state) => {
     return isFeedScreen ? state.posts.feedScrollPosition : state.posts.otherScrollPosition;
   });
@@ -101,15 +101,16 @@ const postsListContainer = (
       return !isMuted && !!item?.author && notInPosts;
     });
 
-    // inject promoted posts in flat list data,
+    // inject promoted posts in flat list data (create a copy to avoid mutation)
+    const result = [..._data];
     _promotedPosts.forEach((pPost, index) => {
       const pIndex = index * 4 + 3;
-      if (_data.length > pIndex) {
-        _data.splice(pIndex, 0, pPost);
+      if (result.length > pIndex) {
+        result.splice(pIndex, 0, pPost);
       }
     });
 
-    return _data;
+    return result;
   }, [posts, promotedPosts, cachedPosts, mutes]);
 
   const cacheInjectedData = useInjectVotesCache(data);

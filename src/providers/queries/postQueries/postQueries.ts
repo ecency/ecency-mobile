@@ -1,6 +1,6 @@
 import { renderPostBody } from '@ecency/render-helper';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { Platform } from 'react-native';
 import { isArray } from 'lodash';
 import { useAppSelector } from '../../../hooks';
@@ -239,22 +239,39 @@ export const useInjectVotesCache = (_data: any | any[]) => {
   const votesCollection = useAppSelector((state) => state.cache.votesCollection);
   const lastUpdate = useAppSelector((state) => state.cache.lastUpdate);
   const [retData, setRetData] = useState<any | any[] | null>(null);
+  const lastProcessedUpdateRef = useRef<string | null>(null);
 
   useEffect(() => {
-    if (retData && lastUpdate && lastUpdate.type === 'vote') {
-      const _postPath = lastUpdate.postPath;
-      const _voteCache = votesCollection[_postPath];
+    if (!lastUpdate || lastUpdate.type !== 'vote') {
+      return;
+    }
+
+    // Create a unique key for this update to prevent reprocessing
+    const updateKey = `${lastUpdate.postPath}-${lastUpdate.updatedAt}`;
+    if (lastProcessedUpdateRef.current === updateKey) {
+      return;
+    }
+    lastProcessedUpdateRef.current = updateKey;
+
+    const _postPath = lastUpdate.postPath;
+    const _voteCache = votesCollection[_postPath];
+
+    // Use functional setState to access current retData without adding it to dependencies
+    setRetData((currentRetData) => {
+      if (!currentRetData) {
+        return currentRetData;
+      }
 
       let _postData: any = null;
       let _postIndex = -1;
 
       // get post data that need updating
       const _comparePath = (item) => _postPath === `${item.author}/${item.permlink}`;
-      if (isArray(retData)) {
-        _postIndex = retData.findIndex(_comparePath);
-        _postData = retData[_postIndex];
-      } else if (retData && _comparePath(retData)) {
-        _postData = retData;
+      if (isArray(currentRetData)) {
+        _postIndex = currentRetData.findIndex(_comparePath);
+        _postData = currentRetData[_postIndex];
+      } else if (currentRetData && _comparePath(currentRetData)) {
+        _postData = currentRetData;
       }
 
       // if post available, inject cache and update state
@@ -263,18 +280,30 @@ export const useInjectVotesCache = (_data: any | any[]) => {
 
         if (_postIndex < 0) {
           console.log('updating data', _postData);
-          setRetData({ ..._postData });
+          return { ..._postData };
         } else {
-          retData[_postIndex] = _postData;
-          setRetData([...retData]);
+          // Create new array with updated post
+          const newRetData = [...currentRetData];
+          newRetData[_postIndex] = _postData;
+          return newRetData;
         }
       }
-    }
-  }, [votesCollection]);
+
+      return currentRetData;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Only trigger on lastUpdate changes to prevent infinite loops
+    // votesCollection is accessed but not a dependency - we read current value from closure
+  }, [lastUpdate]);
 
   useEffect(() => {
     if (!_data) {
-      setRetData(null);
+      setRetData((currentData) => {
+        if (currentData !== null) {
+          lastProcessedUpdateRef.current = null;
+        }
+        return null;
+      });
       return;
     }
 
@@ -289,8 +318,47 @@ export const useInjectVotesCache = (_data: any | any[]) => {
     };
 
     const _cData = isArray(_data) ? _data.map(_itemFunc) : _itemFunc({ ..._data });
-    // console.log('data received', _cData.length, _cData);
-    setRetData(_cData);
+
+    // Only update if data actually changed to prevent unnecessary re-renders
+    setRetData((currentData) => {
+      // If current data is null or empty, always update
+      if (!currentData) {
+        lastProcessedUpdateRef.current = null;
+        return _cData;
+      }
+
+      // If arrays, compare lengths first for quick check
+      if (isArray(currentData) && isArray(_cData)) {
+        if (currentData.length !== _cData.length) {
+          lastProcessedUpdateRef.current = null;
+          return _cData;
+        }
+        // Check if array references are actually different
+        // (simple reference check - if filter/map returned same items, don't update)
+        let hasChanges = false;
+        for (let i = 0; i < _cData.length; i++) {
+          if (currentData[i] !== _cData[i]) {
+            hasChanges = true;
+            break;
+          }
+        }
+        if (hasChanges) {
+          lastProcessedUpdateRef.current = null;
+          return _cData;
+        }
+        return currentData; // No changes, keep current data
+      }
+
+      // For single posts, check if reference changed
+      if (currentData !== _cData) {
+        lastProcessedUpdateRef.current = null;
+        return _cData;
+      }
+
+      return currentData;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // votesCollection is intentionally not a dependency - incremental vote updates are handled by the first useEffect
   }, [_data]);
 
   return retData || _data;
