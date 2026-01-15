@@ -39,14 +39,9 @@ const VideoPlayer = ({
   const [screenType, setScreenType] = useState('contain');
   const lockedOrientation = useAppSelector((state) => state.ui.lockedOrientation);
 
-  // Fix 3speak embed URLs: transform 3speak.tv/embed to play.3speak.tv/embed
-  const normalizedUri =
-    uri?.replace(/^https?:\/\/(www\.)?3speak\.(tv|co)\/embed/gi, 'https://play.3speak.tv/embed') ||
-    uri;
-
   const PLAYER_HEIGHT = (contentWidth || dim.width) * (9 / 16);
   const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;
-  const isExtensionType = mode === 'uri' ? normalizedUri.match(checkSrcRegex) : false;
+  const isExtensionType = mode === 'uri' ? uri.match(checkSrcRegex) : false;
 
   useEffect(() => {
     if (isFullScreen) {
@@ -152,7 +147,7 @@ const VideoPlayer = ({
       <View style={{ flex: 1 }}>
         <Video
           source={{
-            uri: normalizedUri,
+            uri,
           }}
           onEnd={onEnd}
           onLoad={onLoad}
@@ -243,7 +238,7 @@ const VideoPlayer = ({
           />
         </View>
       )}
-      {mode === 'uri' && normalizedUri && (
+      {mode === 'uri' && uri && (
         <View style={[styles.playerWrapper, { height: PLAYER_HEIGHT }]}>
           {isExtensionType ? (
             _renderVideoplayerWithControls()
@@ -259,7 +254,7 @@ const VideoPlayer = ({
               onLoadStart={() => {
                 setIsLoading(true);
               }}
-              source={{ html: htmlIframeVideoPlayer(normalizedUri) }}
+              source={{ html: htmlIframeVideoPlayer(uri) }}
               style={[styles.barkBackground, { width: contentWidth, height: PLAYER_HEIGHT }]}
               startInLoadingState={true}
               onShouldStartLoadWithRequest={() => true}
