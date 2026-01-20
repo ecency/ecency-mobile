@@ -3,7 +3,9 @@ import Config from 'react-native-config';
 import get from 'lodash/get';
 
 import * as Sentry from '@sentry/react-native';
-import { getDigitPinCode, getMutes, getUser } from './dhive';
+import { getMutedUsersQueryOptions } from '@ecency/sdk';
+import { getDigitPinCode, getUser } from './dhive';
+import { getQueryClient } from '../queries';
 import { getPointsSummary } from '../ecency/ePoint';
 import {
   setUserData,
@@ -72,7 +74,10 @@ export const login = async (username, password) => {
     const accessToken = scTokens?.access_token;
     account.unread_activity_count = await getUnreadNotificationCount(accessToken);
     account.pointsSummary = await getPointsSummary(account.username);
-    account.mutes = await getMutes(account.username);
+
+    // Fetch muted users using SDK query
+    const queryClient = getQueryClient();
+    account.mutes = await queryClient.fetchQuery(getMutedUsersQueryOptions(account.username));
   } catch (err) {
     console.warn('Optional user data fetch failed, account can still function without them', err);
   }
@@ -139,7 +144,10 @@ export const loginWithSC2 = async (code) => {
       const accessToken = scTokens ? scTokens.access_token : '';
       account.unread_activity_count = await getUnreadNotificationCount(accessToken);
       account.pointsSummary = await getPointsSummary(account.username);
-      account.mutes = await getMutes(account.username);
+
+      // Fetch muted users using SDK query
+      const queryClient = getQueryClient();
+      account.mutes = await queryClient.fetchQuery(getMutedUsersQueryOptions(account.username));
     } catch (err) {
       console.warn('Optional user data fetch failed, account can still function without them', err);
     }
@@ -210,7 +218,10 @@ export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => 
       const accessToken = scTokens ? scTokens.access_token : '';
       account.unread_activity_count = await getUnreadNotificationCount(accessToken);
       account.pointsSummary = await getPointsSummary(account.username);
-      account.mutes = await getMutes(account.username);
+
+      // Fetch muted users using SDK query
+      const queryClient = getQueryClient();
+      account.mutes = await queryClient.fetchQuery(getMutedUsersQueryOptions(account.username));
     } catch (err) {
       console.warn('Optional user data fetch failed, account can still function without them', err);
     }

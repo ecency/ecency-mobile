@@ -1,4 +1,4 @@
-import { fetchGlobalProps } from '../../providers/hive/dhive';
+import { fetchGlobalProps } from '../../providers/hive/dhiveSDK';
 import {
   ADD_OTHER_ACCOUNT,
   FETCH_ACCOUNT_FAIL,

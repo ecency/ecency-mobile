@@ -11,7 +11,7 @@ import {
   getFeedHistory,
   getOpenOrders,
   getSavingsWithdrawFrom,
-} from '../providers/hive/dhive';
+} from '../providers/hive/dhiveSDK';
 import { getCurrencyTokenRate, getPortfolio } from '../providers/ecency/ecency';
 import { CoinActivity, CoinData, DataPair, QuoteItem } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';

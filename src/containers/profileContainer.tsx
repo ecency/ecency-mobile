@@ -7,6 +7,7 @@ import { injectIntl } from 'react-intl';
 // Providers
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
+import { getFollowCountQueryOptions } from '@ecency/sdk';
 import {
   selectCurrentAccount,
   selectIsLoggedIn,
@@ -16,15 +17,9 @@ import {
   selectIsConnected,
   selectHidePostsThumbnails,
 } from '../redux/selectors';
-import {
-  followUser,
-  unfollowUser,
-  ignoreUser,
-  getFollows,
-  getUser,
-  getRelationship,
-  getAccountPosts,
-} from '../providers/hive/dhive';
+import { followUser, unfollowUser, ignoreUser } from '../providers/hive/dhive';
+import { getUser, getRelationship, getAccountPosts } from '../providers/hive/dhiveSDK';
+import { getQueryClient } from '../providers/queries';
 import { startMattermostDirectMessage } from '../providers/chat/mattermost';
 
 // Ecency providers
@@ -337,7 +332,9 @@ class ProfileContainer extends Component {
         }
 
         try {
-          follows = await getFollows(username);
+          // Fetch follow counts using SDK query
+          const queryClient = getQueryClient();
+          follows = await queryClient.fetchQuery(getFollowCountQueryOptions(username));
         } catch (err) {
           follows = null;
         }

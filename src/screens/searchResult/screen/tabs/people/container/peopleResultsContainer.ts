@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import ROUTES from '../../../../../../constants/routeNames';
 
-import { lookupAccounts } from '../../../../../../providers/hive/dhive';
+import { lookupAccountsQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
+import ROUTES from '../../../../../../constants/routeNames';
 import postUrlParser from '../../../../../../utils/postUrlParser';
 import { selectCurrentAccountName } from '../../../../../../redux/selectors';
 
 const PeopleResultsContainer = ({ children, searchValue }) => {
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
 
   const [users, setUsers] = useState([]);
   const [noResult, setNoResult] = useState(true);
@@ -31,7 +33,7 @@ const PeopleResultsContainer = ({ children, searchValue }) => {
     setUsers([]);
 
     try {
-      const usernames = await lookupAccounts(username);
+      const usernames = await queryClient.fetchQuery(lookupAccountsQueryOptions(username));
       if (!usernames || usernames.length === 0) {
         throw new Error('No users found');
       }

@@ -6,7 +6,7 @@ import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
 import Animated, { BounceInRight } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getWithdrawRoutes } from '../../../providers/hive/dhive';
+import { getWithdrawRoutesQueryOptions } from '@ecency/sdk';
 import AUTH_TYPE from '../../../constants/authType';
 
 import {
@@ -61,22 +61,22 @@ class PowerDownView extends Component {
 
   // Component Functions
 
-  _fetchRoutes = (username) => {
-    return getWithdrawRoutes(username)
-      .then((res) => {
-        const accounts = res.map((item) => ({
-          username: item.to_account,
-          percent: item.percent,
-          autoPowerUp: item.auto_vest,
-        }));
-        this.setState({
-          destinationAccounts: accounts,
-        });
-        return res;
-      })
-      .catch((e) => {
-        alert(e.message || e.toString());
+  _fetchRoutes = async (username) => {
+    try {
+      const { EcencyQueriesManager } = await import('@ecency/sdk');
+      const res = await EcencyQueriesManager.prefetchQuery(getWithdrawRoutesQueryOptions(username));
+      const accounts = res.map((item) => ({
+        username: item.to_account,
+        percent: item.percent,
+        autoPowerUp: item.auto_vest,
+      }));
+      this.setState({
+        destinationAccounts: accounts,
       });
+      return res;
+    } catch (e) {
+      alert(e.message || e.toString());
+    }
   };
 
   _handleTransferAction = () => {

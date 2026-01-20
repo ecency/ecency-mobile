@@ -4,10 +4,12 @@ import { isEmpty } from 'lodash';
 import { useIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';
+import { getCommunitiesQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import { useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
 
-import { getCommunities, getSubscriptions } from '../../../providers/hive/dhive';
+import { getSubscriptions } from '../../../providers/hive/dhiveSDK';
 
 import {
   subscribeCommunity,
@@ -29,6 +31,7 @@ const CommunitiesContainer = ({ children }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const intl = useIntl();
+  const queryClient = useQueryClient();
 
   const [discovers, setDiscovers] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
@@ -147,7 +150,7 @@ const CommunitiesContainer = ({ children }) => {
     }
   }, [subscribingCommunitiesInJoinedTab]);
 
-  const _getSubscriptions = () => {
+  const _getSubscriptions = async () => {
     setIsSubscriptionsLoading(true);
     setIsDiscoversLoading(true);
     if (
@@ -162,33 +165,33 @@ const CommunitiesContainer = ({ children }) => {
       setSubscriptions(updatedSubsList.slice());
       setIsSubscriptionsLoading(false);
     }
-    getSubscriptions(currentAccount.username)
-      .then((subs) => {
-        subs.forEach((item) => item.push(true));
-        _invalidateSubscribedCommunityCache(subs); // invalidate subscribed communities cache item when latest data is available
-        getCommunities('', 50, null, 'rank', currentAccount.name).then((communities) => {
-          communities.forEach((community) =>
-            Object.assign(community, {
-              isSubscribed: subs.some(
-                (subscribedCommunity) => subscribedCommunity[0] === community.name,
-              ),
-            }),
-          );
+    try {
+      const subs = await getSubscriptions(currentAccount.username);
+      subs.forEach((item) => item.push(true));
+      _invalidateSubscribedCommunityCache(subs); // invalidate subscribed communities cache item when latest data is available
 
-          setSubscriptions(mergeSubCommunitiesCacheInSubList(subs, subscribedCommunitiesCache)); // merge cache with fetched data
-          setDiscovers(communities);
-          setIsSubscriptionsLoading(false);
-          setIsDiscoversLoading(false);
-          dispatch(
-            fetchSubscribedCommunitiesSuccess(subs.sort((a, b) => a[1].localeCompare(b[1]))),
-          ); // register subscribed data in communities store
-        });
-      })
-      .catch((err) => {
-        console.warn('Failed to get subscriptions', err);
-        setIsSubscriptionsLoading(false);
-        setIsDiscoversLoading(false);
-      });
+      const communities = await queryClient.fetchQuery(
+        getCommunitiesQueryOptions('rank', undefined, 50, currentAccount.name),
+      );
+
+      communities.forEach((community) =>
+        Object.assign(community, {
+          isSubscribed: subs.some(
+            (subscribedCommunity) => subscribedCommunity[0] === community.name,
+          ),
+        }),
+      );
+
+      setSubscriptions(mergeSubCommunitiesCacheInSubList(subs, subscribedCommunitiesCache)); // merge cache with fetched data
+      setDiscovers(communities);
+      setIsSubscriptionsLoading(false);
+      setIsDiscoversLoading(false);
+      dispatch(fetchSubscribedCommunitiesSuccess(subs.sort((a, b) => a[1].localeCompare(b[1])))); // register subscribed data in communities store
+    } catch (err) {
+      console.warn('Failed to get subscriptions', err);
+      setIsSubscriptionsLoading(false);
+      setIsDiscoversLoading(false);
+    }
   };
 
   const _invalidateSubscribedCommunityCache = (fetchedList) => {

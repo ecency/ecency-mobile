@@ -7,7 +7,8 @@ import get from 'lodash/get';
 import { postBodySummary } from '@ecency/render-helper';
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
-import { getComments, deleteComment } from '../../../providers/hive/dhive';
+import { deleteComment } from '../../../providers/hive/dhive';
+import { getComments } from '../../../providers/hive/dhiveSDK';
 // Services and Actions
 import { writeToClipboard } from '../../../utils/clipboard';
 import { toastNotification } from '../../../redux/actions/uiAction';

@@ -1,37 +1,23 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getReblogsQueryOptions, useBroadcastMutation } from '@ecency/sdk';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { get } from 'lodash';
 import QUERIES from '../queryKeys';
 import { useAppSelector } from '../../../hooks';
 import { setRcOffer, toastNotification } from '../../../redux/actions/uiAction';
-import { getPostReblogs, postContent, reblog } from '../../hive/dhive';
+import { getDigitPinCode } from '../../hive/dhive';
 import { PointActivityIds } from '../../ecency/ecency.types';
 import { useUserActivityMutation } from '../pointQueries';
 import { makeJsonMetadata, makeOptions } from '../../../utils/editor';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
+import authType from '../../../constants/authType';
+import { decryptKey } from '../../../utils/crypto';
 
-/** hook used to return post poll */
+/** hook used to return post reblogs using SDK */
 export const useGetReblogsQuery = (author: string, permlink: string) => {
   const query = useQuery<string[]>({
-    queryKey: [QUERIES.POST.GET_REBLOGS, author, permlink],
-    queryFn: async () => {
-      if (!author || !permlink) {
-        return null;
-      }
-
-      try {
-        const reblogs = await getPostReblogs(author, permlink);
-        if (!reblogs) {
-          new Error('Reblog data unavailable');
-        }
-
-        return reblogs;
-      } catch (err) {
-        console.warn('Failed to get post', err);
-        return [];
-      }
-    },
+    ...getReblogsQueryOptions(author, permlink),
     initialData: [],
     gcTime: 30 * 60 * 1000, // keeps cache for 30 minutes
   });
@@ -40,7 +26,6 @@ export const useGetReblogsQuery = (author: string, permlink: string) => {
 };
 
 export function useReblogMutation(author: string, permlink: string) {
-  // const { activeUser } = useMappedStore();
   const intl = useIntl();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
@@ -49,6 +34,52 @@ export function useReblogMutation(author: string, permlink: string) {
 
   const userActivityMutation = useUserActivityMutation();
 
+  // Prepare auth credentials
+  const digitPinCode = getDigitPinCode(pinHash);
+  const isHiveSigner =
+    currentAccount.local.authType === authType.STEEM_CONNECT ||
+    currentAccount.local.authType === authType.HIVE_AUTH;
+
+  const accessToken = isHiveSigner
+    ? decryptKey(currentAccount.local.accessToken, digitPinCode)
+    : undefined;
+  const postingKey =
+    !isHiveSigner && currentAccount.local.postingKey
+      ? decryptKey(currentAccount.local.postingKey, digitPinCode)
+      : undefined;
+
+  const auth = {
+    postingKey,
+    loginType: isHiveSigner ? 'hs' : 'key',
+  };
+
+  const broadcastMutation = useBroadcastMutation<{ undo: boolean }>(
+    [QUERIES.POST.REBLOG_POST, author, permlink],
+    currentAccount.name,
+    accessToken,
+    ({ undo }) => [
+      [
+        'custom_json',
+        {
+          required_auths: [],
+          required_posting_auths: [currentAccount.name],
+          id: 'follow',
+          json: JSON.stringify([
+            'reblog',
+            {
+              account: currentAccount.name,
+              author,
+              permlink,
+              delete: undo ? 'delete' : undefined,
+            },
+          ]),
+        },
+      ],
+    ],
+    () => {}, // onSuccess callback
+    auth,
+  );
+
   return useMutation({
     mutationKey: [QUERIES.POST.REBLOG_POST],
     mutationFn: async ({ undo }: { undo: boolean }) => {
@@ -56,12 +87,12 @@ export function useReblogMutation(author: string, permlink: string) {
         throw new Error('Not enough data to reblog post');
       }
 
-      const resp = await reblog(currentAccount, pinHash, author, permlink, undo);
+      const resp = await broadcastMutation.mutateAsync({ undo });
 
       // track user activity points ty=130
       userActivityMutation.mutate({
         pointsTy: PointActivityIds.REBLOG,
-        transactionId: resp.id,
+        transactionId: (resp as any)?.id,
       });
 
       return resp;
@@ -99,7 +130,7 @@ export function useReblogMutation(author: string, permlink: string) {
           ),
         );
       } else {
-        if (error && error.jse_shortmsg.split(': ')[1].includes('wait to transact')) {
+        if (error && error.jse_shortmsg?.split(': ')[1]?.includes('wait to transact')) {
           // when RC is not enough, offer boosting account
           dispatch(setRcOffer(true));
         } else {
@@ -119,6 +150,68 @@ export function useCrossPostMutation() {
 
   const userActivityMutation = useUserActivityMutation();
 
+  // Prepare auth credentials
+  const digitPinCode = getDigitPinCode(pinHash);
+  const isHiveSigner =
+    currentAccount.local.authType === authType.STEEM_CONNECT ||
+    currentAccount.local.authType === authType.HIVE_AUTH;
+
+  const accessToken = isHiveSigner
+    ? decryptKey(currentAccount.local.accessToken, digitPinCode)
+    : undefined;
+  const postingKey =
+    !isHiveSigner && currentAccount.local.postingKey
+      ? decryptKey(currentAccount.local.postingKey, digitPinCode)
+      : undefined;
+
+  const auth = {
+    postingKey,
+    loginType: isHiveSigner ? 'hs' : 'key',
+  };
+
+  const broadcastMutation = useBroadcastMutation<{
+    post: any;
+    communityId: string;
+    message: string;
+  }>(
+    [QUERIES.POST.CROSS_POST],
+    currentAccount.name,
+    accessToken,
+    ({ post, communityId, message }) => {
+      const { title } = post;
+      const author = currentAccount.username;
+      const permlink = `${post.permlink}-${communityId}`;
+      const body = makeCrossPostMessage(post, author, message);
+
+      const metadata = {
+        original_author: post.author,
+        original_permlink: post.permlink,
+      };
+
+      const jsonMetadata = makeJsonMetadata(metadata, ['cross-post']);
+      const options = makeOptions({ author, permlink, operationType: 'dp' });
+      options.allow_curation_rewards = false;
+
+      return [
+        [
+          'comment',
+          {
+            parent_author: '',
+            parent_permlink: communityId,
+            author,
+            permlink,
+            title,
+            body,
+            json_metadata: jsonMetadata,
+          },
+        ],
+        ['comment_options', options],
+      ];
+    },
+    () => {}, // onSuccess callback
+    auth,
+  );
+
   return useMutation({
     mutationKey: [QUERIES.POST.CROSS_POST],
     mutationFn: async ({
@@ -134,38 +227,16 @@ export function useCrossPostMutation() {
         throw new Error('Not enough data to make cross post');
       }
 
-      const { title } = post;
-      const author = currentAccount.username;
-      const permlink = `${post.permlink}-${communityId}`;
-
-      const body = makeCrossPostMessage(post, author, message);
-
-      const metadata = {
-        original_author: post.author,
-        original_permlink: post.permlink,
-      };
-
-      const jsonMetadata = makeJsonMetadata(metadata, ['cross-post']);
-
-      const options = makeOptions({ author, permlink, operationType: 'dp' });
-      options.allow_curation_rewards = false;
-
-      const resp = await postContent(
-        currentAccount,
-        pinHash,
-        '',
+      const resp = await broadcastMutation.mutateAsync({
+        post,
         communityId,
-        permlink,
-        title,
-        body,
-        jsonMetadata,
-        options,
-      );
+        message,
+      });
 
       // track user activity points ty=130
       userActivityMutation.mutate({
         pointsTy: PointActivityIds.REBLOG,
-        transactionId: resp.id,
+        transactionId: (resp as any)?.id,
       });
 
       return resp;
@@ -183,7 +254,7 @@ export function useCrossPostMutation() {
       );
     },
     onError: (error) => {
-      if (error?.jse_shortmsg?.split(': ')[1].includes('wait to transact')) {
+      if (error?.jse_shortmsg?.split(': ')[1]?.includes('wait to transact')) {
         // when RC is not enough, offer boosting account
         dispatch(setRcOffer(true));
       } else {
@@ -195,5 +266,6 @@ export function useCrossPostMutation() {
 }
 
 export const makeCrossPostMessage = (post: any, poster: string, message: string) => {
-  return `This is a cross post of [@${post.author}/${post.permlink}](/${post.category}/@${post.author}/${post.permlink}) by @${poster}.<br><br>${message}`;
+  const postLink = `[@${post.author}/${post.permlink}](/${post.category}/@${post.author}/${post.permlink})`;
+  return `This is a cross post of ${postLink} by @${poster}.<br><br>${message}`;
 };

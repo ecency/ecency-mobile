@@ -1,7 +1,7 @@
 import { Alert } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 import { MarketAsset, OrdersDataItem } from '../../../providers/hive-trade/hiveTrade.types';
-import { getOrderBook } from '../../../providers/hive/dhive';
+import { getOrderBook } from '../../../providers/hive/dhiveSDK';
 
 interface ProcessingResult {
   tooMuchSlippage?: boolean;

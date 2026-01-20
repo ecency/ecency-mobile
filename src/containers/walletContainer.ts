@@ -13,7 +13,8 @@ import {
 } from '../redux/selectors';
 
 // dhive
-import { getAccount, claimRewardBalance } from '../providers/hive/dhive';
+import { claimRewardBalance } from '../providers/hive/dhive';
+import { getAccount } from '../providers/hive/dhiveSDK';
 
 // Utils
 import { groomingWalletTabData, groomingTransactionData, transferTypes } from '../utils/wallet';

@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getImagesQueryOptions, getFragmentsQueryOptions } from '@ecency/sdk';
 import { useIntl } from 'react-intl';
 import { Image } from 'react-native-image-crop-picker';
 // import Upload, { UploadOptions } from 'react-native-background-upload';
@@ -13,8 +14,6 @@ import {
   addImage,
   deleteFragment,
   deleteImage,
-  getFragments,
-  getImages,
   updateFragment,
   uploadImage,
 } from '../../ecency/ecency';
@@ -22,6 +21,31 @@ import { MediaItem, Snippet } from '../../ecency/ecency.types';
 import { signImage } from '../../hive/dhive';
 import QUERIES from '../queryKeys';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
+
+/**
+ * EDITOR QUERIES - SDK MIGRATION STATUS
+ *
+ * QUERIES (using SDK):
+ * ✅ useMediaQuery - Uses SDK getImagesQueryOptions
+ * ✅ useSnippetsQuery - Uses SDK getFragmentsQueryOptions
+ *
+ * MUTATIONS (SDK migration status):
+ * ❌ useSnippetsMutation - Cannot migrate (see inline documentation)
+ * ❌ useSnippetDeleteMutation - Cannot migrate (see inline documentation)
+ * ❌ useMediaUploadMutation - Custom Ecency image upload (not in SDK)
+ * ❌ useAddToUploadsMutation - Custom Ecency gallery feature (not in SDK)
+ * ❌ useMediaDeleteMutation - Custom Ecency image deletion (not in SDK)
+ *
+ * SDK HOOKS AVAILABLE BUT NOT USED:
+ * - useAddFragment(username, code) - Requires params at hook init time
+ * - useEditFragment(username, fragmentId, code) - Requires fragmentId at hook init time
+ * - useRemoveFragment(username, fragmentId, code) - Requires fragmentId at hook init time
+ *
+ * ARCHITECTURAL MISMATCH:
+ * The SDK hooks require entity IDs (fragmentId) at hook initialization time, but our
+ * implementation pattern passes IDs dynamically as mutation parameters. This is a
+ * fundamental difference that cannot be bridged without breaking API changes.
+ */
 
 interface SnippetMutationVars {
   id: string | null;
@@ -34,26 +58,31 @@ interface MediaUploadVars {
   addToUploads: boolean;
 }
 
-/** GET QUERIES * */
+/** GET QUERIES (using SDK) */
 
 export const useMediaQuery = () => {
   return useQuery<MediaItem[]>({
-    queryKey: [QUERIES.MEDIA.GET],
-    queryFn: getImages,
+    ...getImagesQueryOptions(),
     initialData: [],
   });
 };
 
 export const useSnippetsQuery = () => {
   return useQuery<Snippet[]>({
-    queryKey: [QUERIES.SNIPPETS.GET],
-    queryFn: getFragments,
+    ...getFragmentsQueryOptions(),
     initialData: [],
   });
 };
 
-/** ADD UPDATE MUTATIONS * */
+/** MUTATIONS (custom Ecency features, not in SDK) */
 
+/**
+ * Mutation hook for adding an image URL to the user's Ecency gallery
+ *
+ * SDK MIGRATION STATUS: N/A - Custom Ecency feature
+ * This is an Ecency-specific feature for managing user image galleries.
+ * No equivalent SDK hook exists.
+ */
 export const useAddToUploadsMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
@@ -76,6 +105,13 @@ export const useAddToUploadsMutation = () => {
   });
 };
 
+/**
+ * Mutation hook for uploading images to Ecency image hosting
+ *
+ * SDK MIGRATION STATUS: N/A - Custom Ecency feature
+ * This handles image uploads to Ecency's image server with signature-based authentication.
+ * No equivalent SDK hook exists.
+ */
 export const useMediaUploadMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
@@ -166,6 +202,25 @@ export const useMediaUploadMutation = () => {
   });
 };
 
+/**
+ * Mutation hook for adding or updating snippets/fragments
+ *
+ * SDK MIGRATION STATUS: NOT MIGRATED
+ *
+ * SDK provides: useAddFragment, useEditFragment
+ * Cannot migrate because:
+ * - SDK hooks require fragmentId parameter at hook initialization:
+ *   useEditFragment(username, fragmentId, code)
+ * - This hook needs to handle both add AND edit operations dynamically
+ *   based on vars.id at mutation time
+ * - React Rules of Hooks prevent conditional hook calls or calling hooks
+ *   inside mutationFn
+ * - Migration would require splitting into separate hooks
+ *   (breaking change for all consumers)
+ *
+ * Current implementation: Uses Ecency API functions (addFragment, updateFragment)
+ * with axios interceptor pattern that automatically injects access token from Redux state.
+ */
 export const useSnippetsMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
@@ -216,8 +271,15 @@ export const useSnippetsMutation = () => {
   });
 };
 
-/** DELETE MUTATIONS * */
+/** DELETE MUTATIONS */
 
+/**
+ * Mutation hook for deleting images from user's Ecency gallery
+ *
+ * SDK MIGRATION STATUS: N/A - Custom Ecency feature
+ * This handles batch deletion of images from Ecency's image hosting.
+ * No equivalent SDK hook exists.
+ */
 export const useMediaDeleteMutation = () => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
@@ -247,6 +309,21 @@ export const useMediaDeleteMutation = () => {
   });
 };
 
+/**
+ * Mutation hook for deleting snippets/fragments
+ *
+ * SDK MIGRATION STATUS: NOT MIGRATED
+ *
+ * SDK provides: useRemoveFragment(username, fragmentId, code)
+ * Cannot migrate because:
+ * - SDK hook requires fragmentId at hook initialization time
+ * - This hook receives fragmentId dynamically as mutation parameter: mutate(fragmentId)
+ * - React Rules of Hooks prevent dynamic hook calls
+ * - Would require creating a new hook instance for each fragment (impractical)
+ *
+ * Current implementation: Uses Ecency API function (deleteFragment) with axios
+ * interceptor pattern that automatically injects access token from Redux state.
+ */
 export const useSnippetDeleteMutation = () => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();

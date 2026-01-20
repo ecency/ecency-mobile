@@ -11,7 +11,7 @@ import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 // Component
 import SideMenuView from '../view/sideMenuView';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
-import { getUser } from '../../../providers/hive/dhive';
+import { getUser } from '../../../providers/hive/dhiveSDK';
 import { SheetNames } from '../../../navigation/sheets';
 import {
   selectIsLoggedIn,

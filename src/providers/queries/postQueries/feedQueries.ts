@@ -1,12 +1,15 @@
-import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { unionBy, isArray } from 'lodash';
 import BackgroundTimer from 'react-native-background-timer';
 import { AppState, NativeEventSubscription } from 'react-native';
+import {
+  getPostsRankedInfiniteQueryOptions,
+  getAccountPostsInfiniteQueryOptions,
+  getPromotedPostsQuery,
+} from '@ecency/sdk';
 import QUERIES from '../queryKeys';
 import { useAppSelector } from '../../../hooks';
-import { getAccountPosts, getRankedPosts } from '../../hive/dhive';
-import { getPromotedEntries } from '../../ecency/ecency';
 import filterNsfwPost from '../../../utils/filterNsfwPost';
 import { useGetPostQuery } from './postQueries';
 import { selectNsfw, selectCurrentAccount } from '../../../redux/selectors';
@@ -32,10 +35,9 @@ export const useFeedQuery = ({
 }: FeedQueryParams) => {
   const postFetchTimerRef = useRef(null);
   const appState = useRef(AppState.currentState);
-  const appStateSubRef = useRef<NativeEventSubscription | null>();
+  const appStateSubRef = useRef<NativeEventSubscription | null>(null);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [pageKeys, setPageKeys] = useState(['']);
   const [latestPosts, setLatestPosts] = useState([]);
 
   const cache = useAppSelector((state) => state.cache);
@@ -52,6 +54,72 @@ export const useFeedQuery = ({
 
   const queryClient = useQueryClient();
 
+  // Determine which query options to use based on filterKey
+  const isAccountBasedFeed =
+    filterKey === 'friends' ||
+    filterKey === 'posts' ||
+    filterKey === 'blog' ||
+    filterKey === 'reblog';
+  const isCommunityFeed = filterKey === 'communities';
+
+  // Map filterKey to SDK sort parameter
+  let sdkSort = filterKey;
+  let sdkTag = tag;
+  const sdkAccount = feedUsername;
+
+  if (filterKey === 'friends') {
+    sdkSort = 'feed';
+  } else if (isCommunityFeed) {
+    sdkSort = 'created';
+    sdkTag = 'my';
+  }
+
+  // Get appropriate query options from SDK
+  const queryOptions = isAccountBasedFeed
+    ? getAccountPostsInfiniteQueryOptions(
+        sdkAccount,
+        sdkSort,
+        POSTS_FETCH_COUNT,
+        currentAccount?.username || '',
+        !!sdkAccount, // enabled only if account is provided
+      )
+    : getPostsRankedInfiniteQueryOptions(
+        sdkSort,
+        sdkTag || '',
+        POSTS_FETCH_COUNT,
+        currentAccount?.username || '',
+        true, // enabled
+      );
+
+  // Override queryKey to match legacy format for cache compatibility
+  const customQueryKey = [
+    QUERIES.FEED.GET,
+    feedUsername || tag,
+    filterKey,
+    currentAccount?.username || '',
+    cachePage,
+  ];
+
+  // Use infinite query with SDK options, but override queryKey and add NSFW filtering
+  const feedQuery = useInfiniteQuery({
+    ...queryOptions,
+    queryKey: customQueryKey,
+    select: (data) => {
+      // Apply NSFW filtering to each page
+      if (!data?.pages) return data;
+
+      const filteredPages = data.pages.map((page) => {
+        if (!Array.isArray(page)) return page;
+        return nsfw !== '0' ? filterNsfwPost(page, nsfw) : page;
+      });
+
+      return {
+        ...data,
+        pages: filteredPages,
+      };
+    },
+  });
+
   // side effects
   useEffect(() => {
     if (enableFetchOnAppState) {
@@ -61,8 +129,8 @@ export const useFeedQuery = ({
   }, []);
 
   // hook to update cache reference,
-  // workaround required since query fucntion do get passed an
-  // updated copy for states that are not part of query key and contexet while conext is not
+  // workaround required since query function do get passed an
+  // updated copy for states that are not part of query key and context while context is not
   // supported by useQueries
   useEffect(() => {
     cacheRef.current = cache;
@@ -83,8 +151,8 @@ export const useFeedQuery = ({
     if (
       appState.current.match(/inactive|background/) &&
       nextAppState === 'active' &&
-      feedQueries[0].data &&
-      feedQueries[0].data.length > 0
+      feedQuery.data?.pages?.[0] &&
+      feedQuery.data.pages[0].length > 0
     ) {
       _fetchLatestPosts();
     }
@@ -92,129 +160,21 @@ export const useFeedQuery = ({
     appState.current = nextAppState;
   };
 
-  const _fetchPosts = async (pageKey: string) => {
-    // console.log('fetching waves from:', host, pagePermlink);
-    const [startAuthor, startPermlink] = _parsePostLocalKey(pageKey);
-
-    let func = getAccountPosts;
-    const options: any = {
-      observer: currentAccount?.username || '', // TOOD: add current account username here
-      start_author: startAuthor,
-      start_permlink: startPermlink,
-      limit: POSTS_FETCH_COUNT,
-    };
-
-    switch (filterKey) {
-      case 'friends':
-        if (!feedUsername) {
-          console.warn('Cannot load friends feed without feedUsername');
-          return [];
-        }
-        func = getAccountPosts;
-        options.sort = 'feed';
-        options.account = feedUsername;
-        break;
-      case 'communities':
-        if (!feedUsername) {
-          console.warn('Cannot load communities feed without feedUsername');
-          return [];
-        }
-        func = getRankedPosts;
-        options.sort = 'created';
-        options.tag = 'my';
-        break;
-      case 'posts':
-      case 'blog':
-      case 'reblog':
-        func = getAccountPosts;
-        options.account = feedUsername;
-        options.sort = filterKey;
-        break;
-      default:
-        func = getRankedPosts;
-        options.sort = filterKey;
-        // Only include tag if it's defined (undefined tag can cause API issues)
-        if (tag) {
-          options.tag = tag;
-        }
-        break;
-    }
-
-    // fetching posts
-    const response: any[] = await func(options, currentAccount?.username, nsfw); // TODO: which username to add here
-
-    if (!Array.isArray(response) || response.length == 0) {
-      return [];
-    }
-
-    if (!pageKey) {
-      _scheduleLatestPostsCheck(response[0]);
-    }
-
-    return response;
-  };
-
-  const _getNextPageParam = (lastPage: any[]) => {
-    const lastPost = !!lastPage?.length && lastPage[lastPage.length - 1];
-
-    console.log('extracting next page parameter', lastPost.url);
-    return _getPostLocalKey(lastPost?.author, lastPost?.permlink);
-  };
-
-  const _getFeedQueryKey = (pageKey: string) => [
-    QUERIES.FEED.GET,
-    feedUsername || tag,
-    filterKey,
-    pageKey,
-    cachePage,
-  ];
-
-  // query initialization
-  const feedQueries = useQueries({
-    queries: pageKeys.map((pageKey) => ({
-      queryKey: _getFeedQueryKey(pageKey),
-      queryFn: () => _fetchPosts(pageKey),
-      initialData: [],
-    })),
-  });
-
-  const _lastPage = feedQueries[feedQueries.length - 1];
-
-  const _refresh = async () => {
-    setIsRefreshing(true);
-    setPageKeys(['']);
-
-    pinnedPostQuery.refetch();
-    await feedQueries[0].refetch();
-
-    setIsRefreshing(false);
-  };
-
-  const _fetchNextPage = () => {
-    if (!_lastPage || _lastPage.isFetching || !isArray(_lastPage.data)) {
-      return;
-    }
-
-    const _pageKey = _getNextPageParam(_lastPage.data);
-    if (_pageKey && !pageKeys.includes(_pageKey)) {
-      pageKeys.push(_pageKey);
-      setPageKeys([...pageKeys]);
-    }
-  };
-
   // schedules post fetch
   const _scheduleLatestPostsCheck = (firstPost?: any) => {
-    if (!firstPost && Array.isArray(feedQueries[0].data)) {
-      [firstPost] = feedQueries[0].data;
+    let postToCheck = firstPost;
+    if (!postToCheck && Array.isArray(feedQuery.data?.pages?.[0])) {
+      // eslint-disable-next-line prefer-destructuring
+      [postToCheck] = feedQuery.data.pages[0];
     }
 
-    if (firstPost) {
+    if (postToCheck) {
       if (postFetchTimerRef.current) {
         BackgroundTimer.clearTimeout(postFetchTimerRef.current);
         postFetchTimerRef.current = null;
       }
 
-      const timeLeft = calculateTimeLeftForPostCheck(firstPost);
+      const timeLeft = calculateTimeLeftForPostCheck(postToCheck);
       postFetchTimerRef.current = BackgroundTimer.setTimeout(() => {
         _fetchLatestPosts();
       }, timeLeft);
@@ -223,8 +183,10 @@ export const useFeedQuery = ({
 
   // fetch and filter posts that are not present in top 5 posts currently in list.
   const _fetchLatestPosts = async () => {
-    const _fetchedPosts = await _fetchPosts('');
-    const _cachedPosts: any[] = queryClient.getQueryData(_getFeedQueryKey('')) || [];
+    await feedQuery.refetch({ cancelRefetch: false });
+
+    const _cachedPosts: any[] = feedQuery.data?.pages?.[0] || [];
+    const _fetchedPosts = _cachedPosts; // After refetch, the first page contains latest data
 
     const _latestPosts = [] as any;
 
@@ -248,9 +210,17 @@ export const useFeedQuery = ({
   };
 
   const _mergeLatestPosts = () => {
-    const _prevData = feedQueries[0].data || [];
-    const _firstPageKey = _getFeedQueryKey('');
-    queryClient.setQueryData(_firstPageKey, [...latestPosts, ..._prevData]);
+    const _prevData = feedQuery.data?.pages?.[0] || [];
+    const updatedPages = [
+      [...latestPosts, ..._prevData],
+      ...(feedQuery.data?.pages?.slice(1) || []),
+    ];
+
+    queryClient.setQueryData(customQueryKey, {
+      ...feedQuery.data,
+      pages: updatedPages,
+    });
+
     _scheduleLatestPostsCheck(latestPosts[0]);
     setLatestPosts([]);
   };
@@ -259,11 +229,25 @@ export const useFeedQuery = ({
     setLatestPosts([]);
   };
 
-  const _data = unionBy(
-    pinnedPostQuery.data ? [pinnedPostQuery.data] : [],
-    ...feedQueries.map((query) => query.data),
-    'url',
-  );
+  const _refresh = async () => {
+    setIsRefreshing(true);
+
+    pinnedPostQuery.refetch();
+    await feedQuery.refetch();
+
+    setIsRefreshing(false);
+  };
+
+  // Flatten pages data
+  const _flatData = useMemo(() => {
+    if (!feedQuery.data?.pages) return [];
+    return feedQuery.data.pages.flat();
+  }, [feedQuery.data?.pages]);
+
+  // Combine pinned post with feed data
+  const _data = unionBy(pinnedPostQuery.data ? [pinnedPostQuery.data] : [], _flatData, 'url');
+
+  // Apply mute filtering
   const _filteredData = useMemo(
     () => _data.filter((post) => (isArray(mutes) ? mutes.indexOf(post?.author) < 0 : true)),
     [mutes, _data],
@@ -272,39 +256,40 @@ export const useFeedQuery = ({
   return {
     data: _filteredData,
     isRefreshing,
-    isLoading: _lastPage.isLoading || _lastPage.isFetching,
+    isLoading: feedQuery.isLoading || feedQuery.isFetching,
     latestPosts,
-    fetchNextPage: _fetchNextPage,
+    fetchNextPage: feedQuery.fetchNextPage,
     mergetLatestPosts: _mergeLatestPosts,
     resetLatestPosts: _resetLatestPosts,
     refresh: _refresh,
   };
 };
 
-/** hook used to return user drafts */
+/** hook used to return promoted posts with NSFW filtering */
 export const usePromotedPostsQuery = () => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const nsfw = useAppSelector(selectNsfw);
 
-  const _getPromotedPosts = async () => {
-    try {
-      const posts = await getPromotedEntries(currentAccount?.username);
-
-      return Array.isArray(posts) ? filterNsfwPost(posts, nsfw) : [];
-    } catch (err) {
-      console.warn('Failed to get promoted posts, ', err);
-      return [];
-    }
-  };
+  // Use SDK query options
+  const queryOptions = getPromotedPostsQuery('feed');
 
   return useQuery({
+    ...queryOptions,
+    // Override queryKey to include username for cache invalidation
     queryKey: [QUERIES.FEED.GET_PROMOTED, currentAccount?.username],
-    queryFn: _getPromotedPosts,
-    initialData: [],
+    // Apply NSFW filtering to results
+    select: (data) => {
+      if (!Array.isArray(data)) return [];
+      return nsfw !== '0' ? filterNsfwPost(data, nsfw) : data;
+    },
+    // Handle errors gracefully
+    meta: {
+      errorMessage: 'Failed to get promoted posts',
+    },
   });
 };
 
-// cacludate posts check refresh time for selected filter;
+// calculate posts check refresh time for selected filter;
 export const calculateTimeLeftForPostCheck = (firstPost: any) => {
   const refetchTime = 600000;
 
@@ -319,7 +304,3 @@ export const calculateTimeLeftForPostCheck = (firstPost: any) => {
   }
   return timeLeft;
 };
-
-const _getPostLocalKey = (author: string, permlink: string) =>
-  author && permlink ? `${author}/${permlink}` : undefined;
-const _parsePostLocalKey = (localKey: string) => (localKey ? localKey.split('/') : ['', '']);

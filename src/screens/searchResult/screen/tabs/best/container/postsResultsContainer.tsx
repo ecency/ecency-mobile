@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { search } from '../../../../../../providers/ecency/ecency';
-import { getAccountPosts, getPost } from '../../../../../../providers/hive/dhive';
+import { getAccountPosts, getPost } from '../../../../../../providers/hive/dhiveSDK';
 import { postQueries } from '../../../../../../providers/queries';
 import postUrlParser from '../../../../../../utils/postUrlParser';
 import { selectCurrentAccountUsername } from '../../../../../../redux/selectors';

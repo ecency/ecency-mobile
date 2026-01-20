@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
-import { getCommunityTitle } from '../../../../providers/hive/dhive';
+import { getCommunityTitle } from '../../../../providers/hive/dhiveSDK';
 // Middleware
 
 // Constants

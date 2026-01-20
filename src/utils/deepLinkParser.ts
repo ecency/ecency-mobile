@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import { getUser } from '../providers/hive/dhive';
+import { getUser } from '../providers/hive/dhiveSDK';
 import postUrlParser from './postUrlParser';
 import parseAuthUrl, { AUTH_MODES } from './parseAuthUrl';
 import ROUTES from '../constants/routeNames';

@@ -8,7 +8,7 @@ import styles from '../styles/pollHeader.styles';
 import { Icon, PopoverWrapper } from '../..';
 import { getTimeFromNow } from '../../../utils/time';
 import { PollPreferredInterpretation, PostMetadata } from '../../../providers/hive/hive.types';
-import { getCommunityTitle } from '../../../providers/hive/dhive';
+import { getCommunityTitle } from '../../../providers/hive/dhiveSDK';
 
 interface PollHeaderProps {
   metadata: PostMetadata;

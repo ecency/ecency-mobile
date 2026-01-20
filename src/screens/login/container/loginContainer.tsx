@@ -11,7 +11,7 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
 import { login, loginWithSC2 } from '../../../providers/hive/auth';
-import { getAccounts } from '../../../providers/hive/dhive';
+import { getAccounts } from '../../../providers/hive/dhiveSDK';
 
 import {
   failedAccount,

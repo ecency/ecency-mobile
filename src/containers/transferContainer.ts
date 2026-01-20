@@ -13,20 +13,18 @@ import {
 } from '../redux/selectors';
 
 import {
-  lookupAccounts,
   transferToken,
   convert,
   transferFromSavings,
   transferToSavings,
   transferToVesting,
-  getAccount,
   transferPoint,
   withdrawVesting,
   delegateVestingShares,
   setWithdrawVestingRoute,
   recurrentTransferToken,
-  getRecurrentTransfers,
 } from '../providers/hive/dhive';
+import { lookupAccounts, getAccount, getRecurrentTransfers } from '../providers/hive/dhiveSDK';
 import { toastNotification } from '../redux/actions/uiAction';
 import { getUserDataWithUsername } from '../realm/realm';
 import { getPointsSummary } from '../providers/ecency/ePoint';

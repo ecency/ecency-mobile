@@ -6,7 +6,7 @@ import { PostCardActionIds } from '../container/postCard';
 import Icon from '../../icon';
 import ROUTES from '../../../constants/routeNames';
 import styles from '../styles/children.styles';
-import { getCommunityTitle } from '../../../providers/hive/dhive';
+import { getCommunityTitle } from '../../../providers/hive/dhiveSDK';
 
 interface CrossPostLabelProps {
   crosspostMeta: {

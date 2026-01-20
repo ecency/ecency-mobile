@@ -13,7 +13,8 @@ import {
   selectOtherAccounts,
   selectIsConnected,
 } from '../redux/selectors';
-import { promote, boost, isPostAvailable, boostPlus } from '../providers/hive/dhive';
+import { promote, boost, boostPlus } from '../providers/hive/dhive';
+import { isPostAvailable } from '../providers/hive/dhiveSDK';
 import { toastNotification } from '../redux/actions/uiAction';
 
 /*

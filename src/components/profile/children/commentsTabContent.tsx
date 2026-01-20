@@ -6,7 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Comments, NoPost } from '../..';
 import { useAppSelector } from '../../../hooks';
 import { selectHidePostsThumbnails } from '../../../redux/selectors';
-import { getAccountPosts } from '../../../providers/hive/dhive';
+import { getAccountPosts } from '../../../providers/hive/dhiveSDK';
 import styles from '../profileStyles';
 
 interface CommentsTabContentProps {

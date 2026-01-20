@@ -5,6 +5,7 @@ import { get, isNull, isEqual } from 'lodash';
 
 // Utils
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { getCommunityQueryOptions } from '@ecency/sdk';
 import { extractMetadata, getWordsCount, makeJsonMetadata } from '../../../utils/editor';
 
 // Components
@@ -16,9 +17,8 @@ import {
   Modal,
 } from '../../../components';
 
-// dhive
-
-import { getCommunity } from '../../../providers/hive/dhive';
+// SDK
+import { getQueryClient } from '../../../providers/queries';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -389,15 +389,17 @@ class EditorScreen extends Component {
     });
   };
 
-  _getCommunity = (hive) => {
+  _getCommunity = async (hive) => {
     const { currentAccount } = this.props;
-    getCommunity(hive, currentAccount.name)
-      .then((community) => {
-        this.setState({ selectedCommunity: community });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      const queryClient = getQueryClient();
+      const community = await queryClient.fetchQuery(
+        getCommunityQueryOptions(hive, currentAccount.name),
+      );
+      this.setState({ selectedCommunity: community });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   _saveDraftToDB(saveAsNew?: boolean) {

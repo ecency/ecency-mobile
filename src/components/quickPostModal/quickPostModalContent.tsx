@@ -16,6 +16,8 @@ import { get, debounce } from 'lodash';
 import { postBodySummary } from '@ecency/render-helper';
 import { Image as ExpoImage } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { getCommunityQueryOptions } from '@ecency/sdk';
+import { useQuery } from '@tanstack/react-query';
 import styles from './quickPostModal.styles';
 import {
   Icon,
@@ -44,7 +46,6 @@ import {
   MediaInsertStatus,
 } from '../uploadsGalleryModal/container/uploadsGalleryModal';
 import { removePollDraft } from '../../redux/actions/editorActions';
-import { getCommunity } from '../../providers/hive/dhive';
 import { CommunityRole, CommunityTypeId } from '../../providers/hive/hive.types';
 
 export interface QuickPostModalContentProps {
@@ -78,9 +79,16 @@ export const QuickPostModalContent = forwardRef(
     const [mediaModalVisible, setMediaModalVisible] = useState(false);
     const [canCommentToCommunity, setCanCommentToCommunity] = useState(true);
     const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+    const [communityToCheck, setCommunityToCheck] = useState<string | null>(null);
 
     const parentAuthor = selectedPost ? selectedPost.author : '';
     const parentPermlink = selectedPost ? selectedPost.permlink : '';
+
+    // Use SDK query to fetch community data
+    const { data: community } = useQuery({
+      ...getCommunityQueryOptions(communityToCheck || undefined, currentAccount.name),
+      enabled: !!communityToCheck,
+    });
 
     const headerText =
       mode === 'wave'
@@ -143,20 +151,22 @@ export const QuickPostModalContent = forwardRef(
 
       // check if user can comment to community
       if (selectedPost?.community) {
-        _checkCanCommentToCommunity(selectedPost.community);
+        setCommunityToCheck(selectedPost.community);
       }
     }, [selectedPost]);
 
-    const _checkCanCommentToCommunity = async (communityName: string) => {
-      const community = await getCommunity(communityName, currentAccount.name);
-      const _canCommentToCommunity =
-        !community ||
-        !(
-          community.type_id === CommunityTypeId.COUNCIL &&
-          community.context?.role === CommunityRole.GUEST
-        );
-      setCanCommentToCommunity(_canCommentToCommunity);
-    };
+    // Check if user can comment based on community data from SDK query
+    useEffect(() => {
+      if (community) {
+        const _canCommentToCommunity =
+          !community ||
+          !(
+            community.type_id === CommunityTypeId.COUNCIL &&
+            community.context?.role === CommunityRole.GUEST
+          );
+        setCanCommentToCommunity(_canCommentToCommunity);
+      }
+    }, [community]);
 
     // add quick comment value into cache
     const _addQuickCommentIntoCache = (value = commentValue) => {

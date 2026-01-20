@@ -10,7 +10,7 @@ import { BasicHeader, FilterBar, VotersDisplay } from '../../../components';
 import AccountListContainer from '../../../containers/accountListContainer';
 
 // Utils
-import { getActiveVotes } from '../../../providers/hive/dhive';
+import { getActiveVotes } from '../../../providers/hive/dhiveSDK';
 import { parseActiveVotes } from '../../../utils/postParser';
 import { useInjectVotesCache } from '../../../providers/queries/postQueries/postQueries';
 import globalStyles from '../../../globalStyles';

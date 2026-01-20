@@ -4,8 +4,10 @@ import get from 'lodash/get';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
+import { lookupAccountsQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import { search } from '../../../providers/ecency/ecency';
-import { lookupAccounts, getTrendingTags, getPurePost } from '../../../providers/hive/dhive';
+import { getTrendingTags, getPurePost } from '../../../providers/hive/dhiveSDK';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -28,6 +30,7 @@ import { selectIsConnected, selectCurrentAccountName } from '../../../redux/sele
 const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder }) => {
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
+  const queryClient = useQueryClient();
 
   const [searchResults, setSearchResults] = useState({});
 
@@ -44,7 +47,8 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder 
     }
     if (text && text !== '@' && text !== '#') {
       if (text[0] === '@') {
-        lookupAccounts(text.substr(1).trim())
+        queryClient
+          .fetchQuery(lookupAccountsQueryOptions(text.substr(1).trim()))
           .then((res) => {
             const users = res
               ? res.map((item) => ({
@@ -106,7 +110,8 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder 
                 })
                 .catch((e) => console.log('getPurePost', e));
             } else {
-              lookupAccounts(author)
+              queryClient
+                .fetchQuery(lookupAccountsQueryOptions(author))
                 .then((res) => {
                   const users = res.map((item) => ({
                     image: getResizedAvatar(item),

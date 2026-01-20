@@ -3,13 +3,11 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Platform } from 'react-native';
 import { isArray } from 'lodash';
+import { getPostQueryOptions, getDiscussionsQueryOptions, getBotsQueryOptions } from '@ecency/sdk';
 import { useAppSelector } from '../../../hooks';
 import { selectCurrentAccount } from '../../../redux/selectors';
-import { getDiscussionCollection, getPost } from '../../hive/dhive';
-import QUERIES from '../queryKeys';
 import { Comment, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
 import { injectPostCache, injectVoteCache } from '../../../utils/postParser';
-import { getBotAuthers } from '../../ecency/ecency';
 
 interface PostQueryProps {
   author?: string;
@@ -45,25 +43,29 @@ export const useGetPostQuery = ({
     return _post;
   }, [initialPost?.body]);
 
+  const sdkQueryOptions = getPostQueryOptions(author, permlink, currentAccount?.username);
+
   const query = useQuery({
-    queryKey: [QUERIES.POST.GET, author, permlink],
+    ...sdkQueryOptions,
     queryFn: async () => {
       if (!author || !permlink) {
         return null;
       }
 
       try {
-        const post = await getPost(author, permlink, currentAccount?.username);
+        // Call SDK's queryFn (SDK queryFn is a parameterless closure)
+        const post: any = await (sdkQueryOptions.queryFn as any)();
+
         if (post?.post_id > 0) {
           // set pinned post flag
           if (isPinned) {
-            post.stats = { is_pinned_blog: true, ...post.stats };
+            post.stats = { ...post.stats, is_pinned_blog: true };
           }
 
           return post;
         }
 
-        new Error('Post unavailable');
+        throw new Error('Post unavailable');
       } catch (err) {
         console.warn('Failed to get post', err);
         throw err;
@@ -98,7 +100,10 @@ export const usePostsCachePrimer = () => {
 
     console.log('priming data', post.author, post.permlink, post);
     post.body = renderPostBody({ ...post, last_update: post.updated }, true, Platform.OS !== 'ios');
-    queryClient.setQueryData([QUERIES.POST.GET, post.author, post.permlink], post);
+
+    // Use SDK query key format
+    const { queryKey } = getPostQueryOptions(post.author, post.permlink);
+    queryClient.setQueryData(queryKey, post);
   };
 
   return {
@@ -132,12 +137,13 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
   const botAuthorsQuery = useBotAuthorsQuery();
 
-  const _fetchComments = async () =>
-    getDiscussionCollection(author, permlink, currentAccount?.username);
-
   const query = useQuery({
-    queryKey: [QUERIES.POST.GET_DISCUSSION, author, permlink],
-    queryFn: _fetchComments,
+    ...getDiscussionsQueryOptions(
+      { author, permlink } as any,
+      'created' as any, // SDK accepts 'created' but TypeScript definitions are strict
+      !!author && !!permlink,
+      currentAccount?.username,
+    ),
     gcTime: 5 * 60 * 1000, // keeps comments cache for 5 minutes
   });
 
@@ -224,8 +230,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
 
 export const useBotAuthorsQuery = () =>
   useQuery({
-    queryKey: [QUERIES.POST.GET_BOT_AUTHERS],
-    queryFn: getBotAuthers,
+    ...getBotsQueryOptions(),
     gcTime: 1000 * 60 * 60 * 24 * 30, // 30 days cache timer
     initialData: [], // TODO: initialise authors with already known bots,
   });

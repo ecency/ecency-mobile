@@ -2,7 +2,9 @@ import { Query, QueryClient } from '@tanstack/react-query';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PersistQueryClientProviderProps } from '@tanstack/react-query-persist-client';
+import { ConfigManager } from '@ecency/sdk';
 import QUERIES from './queryKeys';
+import { initSdkConfig } from './sdk-config';
 
 export const initQueryClient = () => {
   const asyncStoragePersister = createAsyncStoragePersister({
@@ -17,6 +19,9 @@ export const initQueryClient = () => {
       },
     },
   });
+
+  // Initialize SDK configuration
+  initSdkConfig(client);
 
   const _shouldDehdrateQuery = (query: Query) => {
     const _isSuccess = query.state.status === 'success';
@@ -48,6 +53,14 @@ export const initQueryClient = () => {
       },
     },
   } as PersistQueryClientProviderProps;
+};
+
+/**
+ * Get the query client instance from SDK ConfigManager
+ * This is a convenience wrapper for accessing the global query client
+ */
+export const getQueryClient = (): QueryClient => {
+  return ConfigManager.getQueryClient();
 };
 
 export * from './notificationQueries';

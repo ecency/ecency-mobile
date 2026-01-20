@@ -4,10 +4,10 @@ import { useIntl } from 'react-intl';
 import { shuffle } from 'lodash';
 
 import { useNavigation } from '@react-navigation/native';
+import { getCommunitiesQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import { useAppSelector } from '../../../../../../hooks';
 import ROUTES from '../../../../../../constants/routeNames';
-
-import { getCommunities } from '../../../../../../providers/hive/dhive';
 
 import {
   subscribeCommunity,
@@ -25,6 +25,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
 
   const [data, setData] = useState([]);
   const [noResult, setNoResult] = useState(false);
@@ -54,11 +55,20 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   }, [subscribingCommunitiesInSearchResultsScreen]);
 
   useEffect(() => {
-    setData([]);
-    setNoResult(false);
-    setIsDiscoversLoading(true);
-    getCommunities('', searchValue ? 100 : 20, searchValue || null, 'rank', currentAccount.name)
-      .then((communities) => {
+    const fetchCommunities = async () => {
+      setData([]);
+      setNoResult(false);
+      setIsDiscoversLoading(true);
+      try {
+        const communities = await queryClient.fetchQuery(
+          getCommunitiesQueryOptions(
+            'rank',
+            searchValue || undefined,
+            searchValue ? 100 : 20,
+            currentAccount.name,
+          ),
+        );
+
         if (currentAccount && currentAccount.username) {
           if (subscribedCommunities.data && subscribedCommunities.data.length) {
             communities.forEach((community) => {
@@ -92,13 +102,15 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
           }
         }
         setIsDiscoversLoading(false);
-      })
-      .catch(() => {
+      } catch (error) {
         setNoResult(true);
         setData([]);
         setIsDiscoversLoading(false);
-      });
-  }, [searchValue]);
+      }
+    };
+
+    fetchCommunities();
+  }, [searchValue, queryClient, currentAccount, subscribedCommunities, subscribedCommunitiesCache]);
 
   useEffect(() => {
     const communitiesData = [...data];

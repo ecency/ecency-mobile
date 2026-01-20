@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { debounce } from 'lodash';
 
-// HIVE
-import { getCommunities, getCommunity } from '../../../../providers/hive/dhive';
+// SDK
+import { getCommunityQueryOptions, getCommunitiesQueryOptions } from '@ecency/sdk';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import SelectCommunityModalView from '../view/selectCommunityModalView';
 
@@ -27,10 +28,12 @@ const SelectCommunityModalContainer = ({
   showSubscribedOnly,
 }) => {
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const [searchedCommunities, setSearchedCommunities] = useState([]);
   const [showSearchedCommunities, setShowSearchedCommunities] = useState(false);
   const [subscriptions, setSubscriptions] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const topCommunities = useAppSelector(selectTopCommunities);
   const subscribedCommunities = useAppSelector(selectSubscribedCommunities);
@@ -64,6 +67,12 @@ const SelectCommunityModalContainer = ({
     dispatch(fetchSubscribedCommunities(currentAccount.name));
   };
 
+  // Use SDK query for community search
+  const { data: searchResults } = useQuery({
+    ...getCommunitiesQueryOptions('rank', searchQuery, 15, currentAccount.name),
+    enabled: !showSubscribedOnly && searchQuery.length >= 3,
+  });
+
   const handleChangeSearch = (text) => {
     if (showSubscribedOnly) {
       const filteredSubscriptions = subscriptions?.filter((item) =>
@@ -73,22 +82,27 @@ const SelectCommunityModalContainer = ({
       setShowSearchedCommunities(true);
     } else if (text.length >= 3) {
       setShowSearchedCommunities(true);
-      getCommunities('', 15, text, 'rank', currentAccount.name)
-        .then((searcheds) => {
-          setSearchedCommunities(searcheds);
-        })
-        .catch((error) => {
-          console.log(error, 'searcheds error');
-        });
+      setSearchQuery(text);
     } else {
       setShowSearchedCommunities(false);
+      setSearchQuery('');
     }
   };
 
+  // Update search results when SDK query completes
+  useEffect(() => {
+    if (searchResults && searchQuery.length >= 3 && !showSubscribedOnly) {
+      setSearchedCommunities(searchResults);
+    }
+  }, [searchResults, searchQuery, showSubscribedOnly]);
+
   const _onPressCommunity = async (community) => {
-    // intercept press community and fetch complete communit object
+    // intercept press community and fetch complete community object
     if (community && community.name && !community.type_id) {
-      community = await getCommunity(community.name, currentAccount.name);
+      const fullCommunity = await queryClient.fetchQuery(
+        getCommunityQueryOptions(community.name, currentAccount.name),
+      );
+      community = fullCommunity;
     }
 
     onPressCommunity(community);

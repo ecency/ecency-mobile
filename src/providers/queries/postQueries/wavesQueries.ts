@@ -10,15 +10,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { unionBy, isArray } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { getDiscussionCollection, getAccountPosts, deleteComment } from '../../hive/dhive';
+import { getWavesByHostQueryOptions, getAccountPosts, useBroadcastMutation } from '@ecency/sdk';
 
 import QUERIES from '../queryKeys';
 import { delay } from '../../../utils/editor';
-import {
-  injectPostCache,
-  injectVoteCache,
-  mapDiscussionToThreads,
-} from '../../../utils/postParser';
+import { injectVoteCache } from '../../../utils/postParser';
 import { useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { useBotAuthorsQuery } from './postQueries';
@@ -27,16 +23,15 @@ import {
   selectCurrentAccountMutes,
   selectPin,
 } from '../../../redux/selectors';
+import authType from '../../../constants/authType';
+import { decryptKey } from '../../../utils/crypto';
+import { getDigitPinCode } from '../../hive/dhive';
 
 export const useWavesQuery = (host: string) => {
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
-  const intl = useIntl();
 
   const cache = useAppSelector((state) => state.cache);
   const mutes = useAppSelector(selectCurrentAccountMutes);
-  const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinCode = useAppSelector(selectPin);
 
   // TOTO: import bot authors query here
   const botAuthorsQuery = useBotAuthorsQuery();
@@ -61,7 +56,8 @@ export const useWavesQuery = (host: string) => {
   // query initialization
   const wavesQueries = useQueries({
     queries: activePermlinks.map((pagePermlink, index) => ({
-      queryKey: [QUERIES.WAVES.GET, host, pagePermlink, index], // index at end is used to track query hydration
+      // index at end is used to track query hydration
+      queryKey: [QUERIES.WAVES.GET, host, pagePermlink, index],
       queryFn: () => _fetchWaves(pagePermlink),
       initialData: [],
     })),
@@ -178,29 +174,39 @@ export const useWavesQuery = (host: string) => {
 
   const _fetchWaves = async (pagePermlink: string) => {
     console.log('fetching waves from:', host, pagePermlink);
-    const response = await getDiscussionCollection(host, pagePermlink, currentAccount?.username);
 
-    // inject cache here...
-    const _cachedComments = cacheRef.current.commentsCollection;
+    // Use SDK's getWavesByHostQueryOptions to get the query function
+    const sdkQueryOptions = getWavesByHostQueryOptions(host);
+
+    // Call the SDK query function with the pagePermlink as pageParam
+    // The SDK expects a container object with author and permlink
+    const containerParam = pagePermlink ? { author: host, permlink: pagePermlink } : undefined;
+    const response = await sdkQueryOptions.queryFn({ pageParam: containerParam });
+
+    // SDK returns wave entries that are already threaded and filtered
+    // by mapThreadItemsToWaveEntries. We need to inject our local cache for votes
     const _cachedVotes = cacheRef.current.votesCollection;
-    const _lastCacheUpdate = cacheRef.current.lastCacheUpdate;
-    const _cResponse = injectPostCache(response, _cachedComments, _cachedVotes, _lastCacheUpdate);
 
-    const _threadedComments = await mapDiscussionToThreads(_cResponse, host, pagePermlink, 1);
+    // Inject vote cache into the response
+    const _cResponse = response.map((item: any) => {
+      const postPath = `${item.author}/${item.permlink}`;
+      const _voteCache = _cachedVotes[postPath];
+      if (_voteCache) {
+        return injectVoteCache(item, _voteCache);
+      }
+      return item;
+    });
 
-    if (!_threadedComments) {
-      throw new Error('Failed to parse waves');
-    }
-
-    const _filteredComments = _threadedComments.filter(
+    // Apply additional filtering: bot authors and muted content
+    const _filteredComments = _cResponse.filter(
       (item) =>
         item.net_rshares >= 0 &&
         !item.stats?.gray &&
-        !item.stats.hide &&
+        !item.stats?.hide &&
         !botAuthorsQuery.data.includes(item.author),
     );
 
-    _filteredComments.sort((a, b) => (new Date(a.created) > new Date(b.created) ? -1 : 1));
+    // Build index for cache injection later
     _filteredComments.forEach((item) => {
       wavesIndexCollection.current[`${item.author}/${item.permlink}`] = pagePermlink;
     });
@@ -269,19 +275,19 @@ export const useWavesQuery = (host: string) => {
 
     const queryResponse = await _firstQuery.refetch();
 
-    const _newData: any[] = queryResponse.data || [];
+    const _latestData: any[] = queryResponse.data || [];
 
     // check if new waves are available
-    const _lastIndex = _newData?.findIndex(
+    const _lastIndex = _latestData?.findIndex(
       (item) => item.author + item.permlink === _prevLatestWave.author + _prevLatestWave.permlink,
     );
 
     let _newWaves: any[] = [];
     if (_lastIndex && _lastIndex !== 0) {
       if (_lastIndex < 0) {
-        _newWaves = _newData?.slice(0, 5) || [];
+        _newWaves = _latestData?.slice(0, 5) || [];
       } else {
-        _newWaves = _newData?.slice(0, _lastIndex) || [];
+        _newWaves = _latestData?.slice(0, _lastIndex) || [];
       }
     }
 
@@ -289,38 +295,7 @@ export const useWavesQuery = (host: string) => {
   };
 
   // wave delete mutation to delete wave and update query
-  const deleteWave = async ({ _permlink, _parent_permlink }: any) => {
-    const response = await deleteComment(currentAccount, pinCode, _permlink);
-
-    if (!response?.id) {
-      throw new Error('Failed to delete the wave');
-    }
-    return { _permlink, _parent_permlink };
-  };
-
-  const deleteMutation = useMutation({
-    mutationFn: deleteWave,
-    onSuccess: ({ _permlink, _parent_permlink }) => {
-      // find container index based on _parent_permlink of comment/wave being deleted
-      const _containerIndex = activePermlinks.indexOf(_parent_permlink);
-      if (_containerIndex >= 0) {
-        // get query data from wavesQueries based on container index
-        const _qData: any[] | undefined = wavesQueries[_containerIndex].data;
-        // create query key for updating query data
-        const _qKey = [QUERIES.WAVES.GET, host, _parent_permlink, _containerIndex];
-        if (_qData && _qData.length > 0) {
-          // filter out comment/wave which is deleted and set query data
-          const _filteredData = _qData.filter((w) => w.permlink !== _permlink);
-          queryClient.setQueryData(_qKey, _filteredData);
-        }
-      }
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
-    },
-    onError: (error) => {
-      console.log('Failed to delete wave:', error);
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.error' })));
-    },
-  });
+  const deleteMutation = useDeleteWaveMutation(host, activePermlinks, wavesQueries);
 
   return {
     data: _filteredData,
@@ -331,6 +306,95 @@ export const useWavesQuery = (host: string) => {
     refresh: _refresh,
     deleteWave: deleteMutation.mutate,
   };
+};
+
+export const useDeleteWaveMutation = (
+  host: string,
+  activePermlinks: string[],
+  wavesQueries: any[],
+) => {
+  const queryClient = useQueryClient();
+  const dispatch = useDispatch();
+  const intl = useIntl();
+
+  const currentAccount = useAppSelector(selectCurrentAccount);
+  const pinHash = useAppSelector(selectPin);
+
+  // Prepare auth credentials
+  const digitPinCode = getDigitPinCode(pinHash);
+  const isHiveSigner =
+    currentAccount.local.authType === authType.STEEM_CONNECT ||
+    currentAccount.local.authType === authType.HIVE_AUTH;
+
+  const accessToken = isHiveSigner
+    ? decryptKey(currentAccount.local.accessToken, digitPinCode)
+    : undefined;
+  const postingKey =
+    !isHiveSigner && currentAccount.local.postingKey
+      ? decryptKey(currentAccount.local.postingKey, digitPinCode)
+      : undefined;
+
+  const auth = {
+    postingKey,
+    loginType: isHiveSigner ? 'hs' : 'key',
+  };
+
+  const broadcastMutation = useBroadcastMutation<{ permlink: string; parentPermlink: string }>(
+    [QUERIES.WAVES.DELETE],
+    currentAccount.name,
+    accessToken,
+    ({ permlink }) => [
+      [
+        'delete_comment',
+        {
+          author: currentAccount.name,
+          permlink,
+        },
+      ],
+    ],
+    () => {}, // onSuccess callback
+    auth,
+  );
+
+  return useMutation({
+    mutationFn: async ({
+      _permlink,
+      _parent_permlink,
+    }: {
+      _permlink: string;
+      _parent_permlink: string;
+    }) => {
+      const response = await broadcastMutation.mutateAsync({
+        permlink: _permlink,
+        parentPermlink: _parent_permlink,
+      });
+
+      if (!response) {
+        throw new Error('Failed to delete the wave');
+      }
+      return { _permlink, _parent_permlink };
+    },
+    onSuccess: ({ _permlink, _parent_permlink }) => {
+      // find container index based on _parent_permlink of comment/wave being deleted
+      const _containerIndex = activePermlinks.indexOf(_parent_permlink);
+      if (_containerIndex >= 0) {
+        // get query data from wavesQueries based on container index
+        const _qData: any[] | undefined = wavesQueries[_containerIndex]?.data;
+        // create query key for updating query data
+        const _qKey = [QUERIES.WAVES.GET, host, _parent_permlink, _containerIndex];
+        if (_qData && _qData.length > 0) {
+          // filter out comment/wave which is deleted and set query data
+          const _updatedData = _qData.filter((w) => w.permlink !== _permlink);
+          queryClient.setQueryData(_qKey, _updatedData);
+        }
+      }
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
+    },
+    onError: (error) => {
+      console.log('Failed to delete wave:', error);
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.error' })));
+    },
+  });
 };
 
 export const usePublishWaveMutation = () => {

@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+import { getCommunitiesQueryOptions } from '@ecency/sdk';
 import {
   FETCH_COMMUNITIES,
   FETCH_COMMUNITIES_SUCCESS,
@@ -15,19 +16,23 @@ import {
   TOAST_NOTIFICATION,
 } from '../constants/constants';
 
-import {
-  getCommunities,
-  getSubscriptions,
-  subscribeCommunity as subscribeCommunityReq,
-} from '../../providers/hive/dhive';
+import { getQueryClient } from '../../providers/queries';
+import { subscribeCommunity as subscribeCommunityReq } from '../../providers/hive/dhive';
+import { getSubscriptions } from '../../providers/hive/dhiveSDK';
 
 // Fetch Communities
 export const fetchCommunities = (last: any, limit: any, query: any, sort: any, observer: any) => {
-  return (dispatch: Dispatch) => {
+  return async (dispatch: Dispatch) => {
     dispatch({ type: FETCH_COMMUNITIES });
-    getCommunities(last, limit, query, sort, observer)
-      .then((res) => dispatch(fetchCommunitiesSuccess(res)))
-      .catch((err) => dispatch(fetchCommunitiesFail(err)));
+    try {
+      const queryClient = getQueryClient();
+      const res = await queryClient.fetchQuery(
+        getCommunitiesQueryOptions(sort || 'rank', query, limit || 100, observer),
+      );
+      dispatch(fetchCommunitiesSuccess(res));
+    } catch (err) {
+      dispatch(fetchCommunitiesFail(err));
+    }
   };
 };
 

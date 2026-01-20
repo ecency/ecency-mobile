@@ -3,7 +3,8 @@ import { connect, useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';
-import { getCommunity } from '../../../providers/hive/dhive';
+import { getCommunityQueryOptions } from '@ecency/sdk';
+import { useQuery } from '@tanstack/react-query';
 
 import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/communitiesAction';
 
@@ -15,12 +16,14 @@ import { useAppSelector } from '../../../hooks';
 
 const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn }) => {
   const navigation = useNavigation();
-  const [data, setData] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
 
   const dispatch = useDispatch();
   const intl = useIntl();
+
+  // Use SDK query to fetch community data
+  const { data } = useQuery(getCommunityQueryOptions(tag, currentAccount?.name));
 
   const subscribingCommunitiesInDiscoverTab = useAppSelector(
     (state) => state.communities.subscribingCommunitiesInCommunitiesScreenDiscoverTab,
@@ -37,15 +40,7 @@ const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn
     }
   }, [subscribingCommunitiesInDiscoverTab]);
 
-  useEffect(() => {
-    getCommunity(tag)
-      .then((res) => {
-        setData(res);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, [tag]);
+  // No longer need useEffect to fetch community - handled by useQuery
 
   useEffect(() => {
     if (data) {

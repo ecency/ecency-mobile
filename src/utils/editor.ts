@@ -8,7 +8,7 @@ import { PostTypes } from '../constants/postTypes';
 import { ThreeSpeakVideo } from '../providers/speak/speak.types';
 import { PollDraft } from '../providers/ecency/ecency.types';
 import { ContentType, PollMetadata, PostMetadata } from '../providers/hive/hive.types';
-import { getPost } from '../providers/hive/dhive';
+import { getPost } from '../providers/hive/dhiveSDK';
 import postUrlParser from './postUrlParser';
 import { POLLS_PROTOCOL_VERSION } from '../providers/polls/polls';
 

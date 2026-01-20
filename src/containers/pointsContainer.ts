@@ -17,7 +17,8 @@ import {
   selectActiveBottomTab,
 } from '../redux/selectors';
 import { getPointsSummary, claimPoints, getPointsHistory } from '../providers/ecency/ePoint';
-import { getAccount, boost } from '../providers/hive/dhive';
+import { boost } from '../providers/hive/dhive';
+import { getAccount } from '../providers/hive/dhiveSDK';
 import { getUserDataWithUsername } from '../realm/realm';
 import { toastNotification } from '../redux/actions/uiAction';
 

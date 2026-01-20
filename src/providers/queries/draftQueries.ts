@@ -1,25 +1,25 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getDraftsQueryOptions, getSchedulesQueryOptions } from '@ecency/sdk';
 import { useIntl } from 'react-intl';
 import { useAppDispatch } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
-import {
-  addDraft,
-  deleteDraft,
-  deleteScheduledPost,
-  getDrafts,
-  getSchedules,
-  moveScheduledToDraft,
-} from '../ecency/ecency';
+import { addDraft, deleteDraft, deleteScheduledPost, moveScheduledToDraft } from '../ecency/ecency';
 import QUERIES from './queryKeys';
 
-/** hook used to return user drafts */
+/** hook used to return user drafts using SDK */
 export const useGetDraftsQuery = () => {
-  return useQuery({ queryKey: [QUERIES.DRAFTS.GET], queryFn: _getDrafts });
+  return useQuery({
+    ...getDraftsQueryOptions(),
+    select: (data) => _sortData(data || []),
+  });
 };
 
-/** used to return user schedules */
+/** used to return user schedules using SDK */
 export const useGetSchedulesQuery = () => {
-  return useQuery({ queryKey: [QUERIES.SCHEDULES.GET], queryFn: _getSchedules });
+  return useQuery({
+    ...getSchedulesQueryOptions(),
+    select: (data) => _sortDataS(data || []),
+  });
 };
 
 export const useAddDraftMutation = () => {
@@ -142,24 +142,6 @@ export const useMoveScheduleToDraftsMutation = () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     },
   });
-};
-
-const _getDrafts = async () => {
-  try {
-    const data = await getDrafts();
-    return _sortData(data || []);
-  } catch (err) {
-    throw new Error('draft.load_error');
-  }
-};
-
-const _getSchedules = async () => {
-  try {
-    const data = await getSchedules();
-    return _sortDataS(data);
-  } catch (err) {
-    throw new Error('drafts.load_error');
-  }
 };
 
 const _sortDataS = (data) =>

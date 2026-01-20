@@ -311,6 +311,11 @@ export const fetchGlobalProps = async () => {
  * @param {string} username
  * @returns {Promise<OpenOrderItem[]>} array of openorders both hive and hbd
  */
+/**
+ * @deprecated Used in legacy code paths (utils/wallet.ts).
+ * For new code, use getOpenOrdersQueryOptions from @ecency/sdk
+ * @see src/providers/queries/walletQueries/walletQueries.ts (usePendingRequestsQuery) for SDK-based implementation
+ */
 export const getOpenOrders = async (username) => {
   try {
     const rawData = await client.call('condenser_api', 'get_open_orders', [username]);
@@ -328,6 +333,9 @@ export const getOpenOrders = async (username) => {
  * fetchs all pending converstion requests that are yet to be fullfilled
  * @param {string} account
  * @returns {Promise<ConversionRequest[]>}  array of conversion requests
+ * @deprecated Used in legacy code paths (utils/wallet.ts).
+ * For new code, use getConversionRequestsQueryOptions from @ecency/sdk
+ * @see src/providers/queries/walletQueries/walletQueries.ts (usePendingRequestsQuery) for SDK-based implementation
  */
 export const getConversionRequests = async (username) => {
   try {
@@ -348,6 +356,11 @@ export const getConversionRequests = async (username) => {
  * @returns {Promise<SavingsWithdrawRequest[]>}  array of requested savings withdraw
  */
 
+/**
+ * @deprecated Used in legacy code paths (utils/wallet.ts).
+ * For new code, use getSavingsWithdrawFromQueryOptions from @ecency/sdk
+ * @see src/providers/queries/walletQueries/walletQueries.ts (usePendingRequestsQuery) for SDK-based implementation
+ */
 export const getSavingsWithdrawFrom = async (username) => {
   try {
     const rawData = await client.database.call('get_savings_withdraw_from', [username]);
@@ -813,27 +826,8 @@ export const getActiveVotes = (author, permlink) =>
     }
   });
 
-export const getPostReblogs = async (author, permlink) => {
-  try {
-    if (!author || !permlink) {
-      throw new Error('invalid parameters');
-    }
-
-    console.log('Getting post reblogs:', author, permlink);
-
-    const reblogs = await client.call('condenser_api', 'get_reblogged_by', [author, permlink]);
-
-    if (!reblogs) {
-      throw new Error('invalid data');
-    }
-
-    console.log('Returning reblogs', reblogs);
-    return reblogs;
-  } catch (error) {
-    captureExceptionWithRpcParams(error, { author, permlink });
-    return [];
-  }
-};
+// getPostReblogs removed - replaced by getReblogsQueryOptions from @ecency/sdk
+// See src/providers/queries/postQueries/repostQueries.ts for SDK-based implementation
 
 export const getRankedPosts = async (query: any, currentUserName: string, filterNsfw: string) => {
   try {
@@ -1847,6 +1841,11 @@ export const getTrendingTags = async (tag, number = 20) => {
   }
 };
 
+/**
+ * @deprecated Used in legacy code paths (transferContainer.ts).
+ * For new code, use getRecurrentTransfersQueryOptions from @ecency/sdk
+ * @see src/providers/queries/walletQueries/walletQueries.ts (useRecurringActivitesQuery) for SDK-based implementation
+ */
 export const getRecurrentTransfers = async (username) => {
   try {
     const rawData = await client.call('condenser_api', 'find_recurrent_transfers', [username]);

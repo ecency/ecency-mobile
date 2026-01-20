@@ -15,6 +15,7 @@ import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 // Constants
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
+import { getMutedUsersQueryOptions } from '@ecency/sdk';
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
 
@@ -30,7 +31,9 @@ import {
   getLastUpdateCheck,
   setLastUpdateCheck,
 } from '../../../realm/realm';
-import { getUser, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
+import { getDigitPinCode } from '../../../providers/hive/dhive';
+import { getUser } from '../../../providers/hive/dhiveSDK';
+import { getQueryClient } from '../../../providers/queries';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import {
   migrateToMasterKeyWithAccessToken,
@@ -591,7 +594,13 @@ class ApplicationContainer extends Component {
 
       try {
         accountData.unread_activity_count = await getUnreadNotificationCount();
-        accountData.mutes = await getMutes(realmObject.username);
+
+        // Fetch muted users using SDK query
+        const queryClient = getQueryClient();
+        accountData.mutes = await queryClient.fetchQuery(
+          getMutedUsersQueryOptions(realmObject.username),
+        );
+
         accountData.pointsSummary = await getPointsSummary(realmObject.username);
       } catch (err) {
         console.warn(
@@ -834,7 +843,12 @@ class ApplicationContainer extends Component {
       try {
         _currentAccount.unread_activity_count = await getUnreadNotificationCount();
         _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
-        _currentAccount.mutes = await getMutes(_currentAccount.username);
+
+        // Fetch muted users using SDK query
+        const queryClient = getQueryClient();
+        _currentAccount.mutes = await queryClient.fetchQuery(
+          getMutedUsersQueryOptions(_currentAccount.username),
+        );
       } catch (err) {
         console.warn(
           'Optional user data fetch failed, account can still function without them',

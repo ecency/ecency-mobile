@@ -7,9 +7,20 @@ import get from 'lodash/get';
 
 // Services and Actions
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { getFollowers, getFollowing } from '../../../providers/hive/dhive';
+import { getFollowers, getFollowing } from '../../../providers/hive/dhiveSDK';
 // Component
 import FollowsScreen from '../screen/followsScreen';
+
+/**
+ * TODO: Migrate to SDK when refactoring to function component
+ * - Replace getFollowers/getFollowing with getFriendsInfiniteQueryOptions from @ecency/sdk
+ * - Use useInfiniteQuery hook for better pagination and caching
+ * - Mode parameter: "followers" or "following"
+ *
+ * Example:
+ * import { getFriendsInfiniteQueryOptions } from '@ecency/sdk';
+ * const followersQuery = useInfiniteQuery(getFriendsInfiniteQueryOptions(username, "followers"));
+ */
 
 /*
  *            Props Name        Description                                     Value

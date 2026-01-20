@@ -4,6 +4,7 @@ import Config from 'react-native-config';
 // Constants
 import { SheetManager } from 'react-native-actions-sheet';
 import { isArray } from 'lodash';
+import { getMutedUsersQueryOptions } from '@ecency/sdk';
 import THEME_OPTIONS from '../constants/options/theme';
 import { getUnreadNotificationCount } from '../providers/ecency/ecency';
 import { getPointsSummary } from '../providers/ecency/ePoint';
@@ -14,7 +15,8 @@ import {
   refreshSCToken,
   updatePinCode,
 } from '../providers/hive/auth';
-import { getDigitPinCode, getMutes } from '../providers/hive/dhive';
+import { getDigitPinCode } from '../providers/hive/dhive';
+import { getQueryClient } from '../providers/queries';
 import AUTH_TYPE from '../constants/authType';
 
 // Services
@@ -156,7 +158,12 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
   try {
     _currentAccount.unread_activity_count = await getUnreadNotificationCount();
     _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
-    _currentAccount.mutes = await getMutes(_currentAccount.username);
+
+    // Fetch muted users using SDK query
+    const queryClient = getQueryClient();
+    _currentAccount.mutes = await queryClient.fetchQuery(
+      getMutedUsersQueryOptions(_currentAccount.username),
+    );
   } catch (err) {
     console.warn('Optional user data fetch failed, account can still function without them', err);
   }

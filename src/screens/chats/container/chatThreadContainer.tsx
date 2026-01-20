@@ -19,6 +19,8 @@ import { useDispatch } from 'react-redux';
 import { SheetManager } from 'react-native-actions-sheet';
 import unionBy from 'lodash/unionBy';
 
+import { getCommunityQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import { useAppSelector, useLinkProcessor } from '../../../hooks';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 import { useMattermostWebSocket } from '../../../hooks/useMattermostWebSocket';
@@ -43,7 +45,8 @@ import {
   unpinMattermostPost,
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
-import { signImage, getCommunity, getPost } from '../../../providers/hive/dhive';
+import { signImage } from '../../../providers/hive/dhive';
+import { getPost } from '../../../providers/hive/dhiveSDK';
 import { chatThreadStyles as styles } from '../styles/chatThread.styles';
 import { emojifyMessage } from '../../../utils/emoji';
 import { extractImageUrls, extractUrls } from '../../../utils/editor';
@@ -132,6 +135,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { handleLink } = useLinkProcessor();
+  const queryClient = useQueryClient();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinCode = useAppSelector(selectPin);
@@ -549,7 +553,9 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       }
 
       try {
-        const community = await getCommunity(derivedCommunityIdentifier, currentAccount.name);
+        const community = await queryClient.fetchQuery(
+          getCommunityQueryOptions(derivedCommunityIdentifier, currentAccount.name),
+        );
         const team = community?.team || [];
         const isModerator = team.some(
           (member: any) =>
@@ -563,7 +569,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     };
 
     resolveModeration();
-  }, [currentAccount?.name, derivedCommunityIdentifier]);
+  }, [currentAccount?.name, derivedCommunityIdentifier, queryClient]);
 
   // Detect and fetch link metadata when message changes
   useEffect(() => {

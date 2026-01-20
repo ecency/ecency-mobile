@@ -4,9 +4,12 @@ import { View, Alert } from 'react-native';
 import { StatsItem } from 'components/statsPanel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Sentry from '@sentry/react-native';
+import { getFollowCountQueryOptions } from '@ecency/sdk';
 import { MainButton, StatsPanel } from '../../..';
 import { addFavorite, checkFavorite, deleteFavorite } from '../../../../providers/ecency/ecency';
-import { followUser, getFollows, getRelationship, getUser } from '../../../../providers/hive/dhive';
+import { followUser } from '../../../../providers/hive/dhive';
+import { getRelationship, getUser } from '../../../../providers/hive/dhiveSDK';
+import { getQueryClient } from '../../../../providers/queries';
 import { getRcPower, getVotingPower } from '../../../../utils/manaBar';
 import styles from './quickProfileStyles';
 import { ProfileBasic } from './profileBasic';
@@ -80,7 +83,9 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
         }
 
         try {
-          follows = await getFollows(username);
+          // Fetch follow counts using SDK query
+          const queryClient = getQueryClient();
+          follows = await queryClient.fetchQuery(getFollowCountQueryOptions(username));
         } catch (err) {
           follows = null;
         }

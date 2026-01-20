@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { Alert } from 'react-native';
 import { SheetManager } from 'react-native-actions-sheet';
+import { getMutedUsersQueryOptions } from '@ecency/sdk';
 import RootNavigation from '../../../navigation/rootNavigation';
 
 import { setPrevLoggedInUsers, updateCurrentAccount } from '../../../redux/actions/accountAction';
@@ -20,7 +21,8 @@ import AccountsBottomSheet, { AccountsBottomSheetRef } from '../view/accountsBot
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
-import { getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
+import { getDigitPinCode } from '../../../providers/hive/dhive';
+import { getQueryClient } from '../../../providers/queries';
 
 import { useAppSelector } from '../../../hooks';
 import {
@@ -171,7 +173,12 @@ const AccountsBottomSheetContainer = () => {
       const accessToken = decryptKey(encryptedAccessToken, getDigitPinCode(pinHash));
       _currentAccount.unread_activity_count = await getUnreadNotificationCount(accessToken);
       _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
-      _currentAccount.mutes = await getMutes(_currentAccount.username);
+
+      // Fetch muted users using SDK query
+      const queryClient = getQueryClient();
+      _currentAccount.mutes = await queryClient.fetchQuery(
+        getMutedUsersQueryOptions(_currentAccount.username),
+      );
 
       dispatch(updateCurrentAccount(_currentAccount));
       dispatch(clearSubscribedCommunitiesCache());

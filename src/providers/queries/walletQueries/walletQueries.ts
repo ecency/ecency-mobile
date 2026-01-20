@@ -5,13 +5,19 @@ import { unionBy } from 'lodash';
 import { RecurrentTransfer } from 'providers/hive/hive.types';
 import { Alert } from 'react-native';
 import { PortfolioItem, PortfolioLayer } from 'providers/ecency/ecency.types';
+import {
+  getSavingsWithdrawFromQueryOptions,
+  getConversionRequestsQueryOptions,
+  getCollateralizedConversionRequestsQueryOptions,
+  getRecurrentTransfersQueryOptions,
+  getOpenOrdersQueryOptions,
+} from '@ecency/sdk';
 import { ASSET_IDS } from '../../../constants/defaultAssets';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { claimPoints } from '../../ecency/ePoint';
 import {
   claimRewardBalance,
   getAccount,
-  getRecurrentTransfers,
   profileUpdate,
   recurrentTransferToken,
 } from '../../hive/dhive';
@@ -21,7 +27,7 @@ import { toastNotification } from '../../../redux/actions/uiAction';
 import { updateClaimCache } from '../../../redux/actions/cacheActions';
 import { selectCurrentAccount, selectPin, selectGlobalProps } from '../../../redux/selectors';
 import { ClaimsCollection } from '../../../redux/reducers/cacheReducer';
-import { fetchCoinActivities, fetchPendingRequests } from '../../../utils/wallet';
+import { fetchCoinActivities } from '../../../utils/wallet';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { getPortfolio } from '../../ecency/ecency';
 import { ProfileToken } from '../../../redux/reducers/walletReducer';
@@ -332,7 +338,7 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   };
 };
 
-// added query to tracker recurring transfers]
+// added query to tracker recurring transfers using SDK
 export const useRecurringActivitesQuery = (coinId: string) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
 
@@ -341,19 +347,8 @@ export const useRecurringActivitesQuery = (coinId: string) => {
   }
 
   const query = useQuery({
+    ...getRecurrentTransfersQueryOptions(currentAccount.username),
     queryKey: [QUERIES.WALLET.GET_RECURRING_TRANSFERS, coinId, currentAccount.username],
-    queryFn: async () => {
-      if (!currentAccount?.username) {
-        return [];
-      }
-      const recurringTransfers = await getRecurrentTransfers(currentAccount.username);
-
-      if (!recurringTransfers) {
-        return [];
-      }
-
-      return recurringTransfers as RecurrentTransfer[];
-    },
   });
 
   const totalAmount = useMemo(() => {
@@ -373,16 +368,143 @@ export const useRecurringActivitesQuery = (coinId: string) => {
   };
 };
 
+/**
+ * Query hook that fetches pending wallet requests by combining multiple SDK queries:
+ * - Savings withdrawals
+ * - HBD conversion requests
+ * - Collateralized conversion requests
+ * - Open orders (not in SDK, still using legacy method)
+ *
+ * Returns combined list of pending requests sorted by expiration/creation date
+ */
 export const usePendingRequestsQuery = (symbol: string) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
 
-  return useQuery({
-    queryKey: [QUERIES.WALLET.GET_PENDING_REQUESTS, currentAccount.username, symbol],
-    queryFn: async () => {
-      const pendingRequests = await fetchPendingRequests(currentAccount.username, symbol);
-      return pendingRequests;
+  // Use SDK query options for pending requests
+  const savingsQuery = useQuery({
+    ...getSavingsWithdrawFromQueryOptions(currentAccount.username),
+    select: (data) => {
+      // Filter by symbol and transform to CoinActivity format
+      return data
+        .filter((request) => request.amount.includes(symbol))
+        .map((request) => ({
+          iconType: 'MaterialIcons' as const,
+          textKey: 'withdraw_savings',
+          created: request.complete,
+          icon: 'compare-arrows',
+          value: request.amount,
+          details: request.from && request.to ? `@${request.from} to @${request.to}` : null,
+          memo: request.memo || null,
+        }));
     },
   });
+
+  const conversionQuery = useQuery({
+    ...getConversionRequestsQueryOptions(currentAccount.username),
+    select: (data) => {
+      return data
+        .filter((request) => request.amount.includes(symbol))
+        .map((request) => ({
+          iconType: 'MaterialIcons' as const,
+          textKey: 'convert_request',
+          created: request.conversion_date,
+          icon: 'hourglass-full',
+          value: request.amount,
+        }));
+    },
+  });
+
+  const collateralizedConversionQuery = useQuery({
+    ...getCollateralizedConversionRequestsQueryOptions(currentAccount.username),
+    select: (data) => {
+      return data
+        .filter((request) => request.collateral_amount.includes(symbol))
+        .map((request) => ({
+          iconType: 'MaterialIcons' as const,
+          textKey: 'collateralized_convert_request',
+          created: request.conversion_date,
+          icon: 'hourglass-full',
+          value: request.collateral_amount,
+        }));
+    },
+  });
+
+  // Use SDK query options for open orders
+  const openOrdersQuery = useQuery({
+    ...getOpenOrdersQueryOptions(currentAccount.username),
+    select: (data) => {
+      return data
+        .filter((request) => request.sell_price.base.includes(symbol))
+        .map((request) => {
+          const { base, quote } = request?.sell_price || {};
+          const { orderid } = request;
+          return {
+            trxIndex: orderid,
+            iconType: 'MaterialIcons' as const,
+            textKey: 'open_order',
+            expires: request.expiration,
+            created: request.created,
+            icon: 'reorder',
+            value: base || '-- --',
+            details: base && quote ? `@ ${base} = ${quote}` : '',
+            cancelable: true,
+          };
+        });
+    },
+  });
+
+  // Combine all pending requests and sort by date
+  const combinedData = useMemo(() => {
+    const allRequests = [
+      ...(savingsQuery.data || []),
+      ...(conversionQuery.data || []),
+      ...(collateralizedConversionQuery.data || []),
+      ...(openOrdersQuery.data || []),
+    ];
+
+    // Sort by expiration or creation date
+    allRequests.sort((a, b) =>
+      new Date(a.expires || a.created).getTime() > new Date(b.expires || b.created).getTime()
+        ? 1
+        : -1,
+    );
+
+    return allRequests;
+  }, [
+    savingsQuery.data,
+    conversionQuery.data,
+    collateralizedConversionQuery.data,
+    openOrdersQuery.data,
+  ]);
+
+  const isLoading =
+    savingsQuery.isLoading ||
+    conversionQuery.isLoading ||
+    collateralizedConversionQuery.isLoading ||
+    openOrdersQuery.isLoading;
+  const isError =
+    savingsQuery.isError ||
+    conversionQuery.isError ||
+    collateralizedConversionQuery.isError ||
+    openOrdersQuery.isError;
+  const error =
+    savingsQuery.error ||
+    conversionQuery.error ||
+    collateralizedConversionQuery.error ||
+    openOrdersQuery.error;
+
+  return {
+    data: combinedData,
+    isLoading,
+    isError,
+    error,
+    refetch: () => {
+      savingsQuery.refetch();
+      conversionQuery.refetch();
+      collateralizedConversionQuery.refetch();
+      openOrdersQuery.refetch();
+    },
+  };
 };
 
 export const useDeleteRecurrentTransferMutation = () => {

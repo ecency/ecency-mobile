@@ -5,7 +5,8 @@ import { isArray, debounce } from 'lodash';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { lookupAccounts } from '../../providers/hive/dhive';
+import { lookupAccountsQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { FormInput, MainButton, TextButton } from '..';
 
@@ -23,6 +24,7 @@ interface BeneficiaryModal {
 
 const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
   const intl = useIntl();
+  const queryClient = useQueryClient();
 
   const beneficiariesMap = useAppSelector((state) => state.editor.beneficiariesMap);
 
@@ -89,7 +91,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
   };
 
   const _lookupAccounts = debounce((username) => {
-    lookupAccounts(username).then((res) => {
+    queryClient.fetchQuery(lookupAccountsQueryOptions(username)).then((res) => {
       const isValid = res.includes(username);
       // check if username duplicates else lookup contacts, done here to avoid debounce and post call mismatch
       const notExistAlready = !beneficiaries.find((item) => item.account === username);
