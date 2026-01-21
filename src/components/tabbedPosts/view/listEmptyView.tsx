@@ -142,7 +142,7 @@ const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
 
   // fetching
   const _getRecommendedUsers = () => dispatch(fetchLeaderboard());
-  const _getRecommendedCommunities = () => dispatch(fetchCommunities('', 10));
+  const _getRecommendedCommunities = () => dispatch(fetchCommunities(10));
 
   // formating
   const _formatRecommendedCommunities = async (communitiesArray) => {

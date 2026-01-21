@@ -232,10 +232,14 @@ export const useFeedQuery = ({
   const _refresh = async () => {
     setIsRefreshing(true);
 
-    pinnedPostQuery.refetch();
-    await feedQuery.refetch();
-
-    setIsRefreshing(false);
+    try {
+      await pinnedPostQuery.refetch();
+      await feedQuery.refetch();
+    } catch (error) {
+      console.warn('Error refreshing feed:', error);
+    } finally {
+      setIsRefreshing(false);
+    }
   };
 
   // Flatten pages data

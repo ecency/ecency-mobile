@@ -48,6 +48,14 @@ export function useReblogMutation(author: string, permlink: string) {
       ? decryptKey(currentAccount.local.postingKey, digitPinCode)
       : undefined;
 
+  // Validate decrypted credentials
+  if (isHiveSigner && !accessToken) {
+    throw new Error('Failed to decrypt access token. Please check your PIN.');
+  }
+  if (!isHiveSigner && !postingKey) {
+    throw new Error('Failed to decrypt posting key. Please check your PIN.');
+  }
+
   const auth = {
     postingKey,
     loginType: isHiveSigner ? 'hs' : 'key',
@@ -163,6 +171,14 @@ export function useCrossPostMutation() {
     !isHiveSigner && currentAccount.local.postingKey
       ? decryptKey(currentAccount.local.postingKey, digitPinCode)
       : undefined;
+
+  // Validate decrypted credentials
+  if (isHiveSigner && !accessToken) {
+    throw new Error('Failed to decrypt access token. Please check your PIN.');
+  }
+  if (!isHiveSigner && !postingKey) {
+    throw new Error('Failed to decrypt posting key. Please check your PIN.');
+  }
 
   const auth = {
     postingKey,

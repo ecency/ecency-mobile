@@ -201,7 +201,7 @@ export const getAccountHistory = async (
   // Note: SDK's infinite query pattern is different
   // This is a simplified compatibility wrapper
   // For full functionality, use the infinite query hook directly
-  const result = await queryClient.fetchQuery(
+  const result = await queryClient.fetchInfiniteQuery(
     getTransactionsInfiniteQueryOptions(user, operations, limit),
   );
 

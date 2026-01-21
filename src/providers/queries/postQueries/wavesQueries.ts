@@ -33,7 +33,7 @@ export const useWavesQuery = (host: string) => {
   const cache = useAppSelector((state) => state.cache);
   const mutes = useAppSelector(selectCurrentAccountMutes);
 
-  // TOTO: import bot authors query here
+  // TODO: import bot authors query here
   const botAuthorsQuery = useBotAuthorsQuery();
 
   const cacheRef = useRef(cache);
@@ -320,7 +320,46 @@ export const useDeleteWaveMutation = (
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinHash = useAppSelector(selectPin);
 
-  // Prepare auth credentials
+  // Use refs to store latest values to avoid stale credentials
+  const currentAccountRef = useRef(currentAccount);
+  const pinHashRef = useRef(pinHash);
+
+  // Update refs whenever values change
+  useEffect(() => {
+    currentAccountRef.current = currentAccount;
+  }, [currentAccount]);
+
+  useEffect(() => {
+    pinHashRef.current = pinHash;
+  }, [pinHash]);
+
+  // Compute auth credentials using refs to get fresh values
+  const getAuthCredentials = () => {
+    const account = currentAccountRef.current;
+    const pin = pinHashRef.current;
+
+    const digitPinCode = getDigitPinCode(pin);
+    const isHiveSigner =
+      account.local.authType === authType.STEEM_CONNECT ||
+      account.local.authType === authType.HIVE_AUTH;
+
+    const accessToken = isHiveSigner
+      ? decryptKey(account.local.accessToken, digitPinCode)
+      : undefined;
+    const postingKey =
+      !isHiveSigner && account.local.postingKey
+        ? decryptKey(account.local.postingKey, digitPinCode)
+        : undefined;
+
+    return {
+      accessToken,
+      postingKey,
+      loginType: isHiveSigner ? 'hs' : 'key',
+      username: account.name,
+    };
+  };
+
+  // Prepare auth credentials for initial broadcast mutation setup
   const digitPinCode = getDigitPinCode(pinHash);
   const isHiveSigner =
     currentAccount.local.authType === authType.STEEM_CONNECT ||
@@ -343,15 +382,19 @@ export const useDeleteWaveMutation = (
     [QUERIES.WAVES.DELETE],
     currentAccount.name,
     accessToken,
-    ({ permlink }) => [
-      [
-        'delete_comment',
-        {
-          author: currentAccount.name,
-          permlink,
-        },
-      ],
-    ],
+    ({ permlink }) => {
+      // Use fresh credentials at mutation time
+      const freshAuth = getAuthCredentials();
+      return [
+        [
+          'delete_comment',
+          {
+            author: freshAuth.username,
+            permlink,
+          },
+        ],
+      ];
+    },
     () => {}, // onSuccess callback
     auth,
   );

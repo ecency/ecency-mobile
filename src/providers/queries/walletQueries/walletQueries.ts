@@ -370,10 +370,10 @@ export const useRecurringActivitesQuery = (coinId: string) => {
 
 /**
  * Query hook that fetches pending wallet requests by combining multiple SDK queries:
- * - Savings withdrawals
- * - HBD conversion requests
- * - Collateralized conversion requests
- * - Open orders (not in SDK, still using legacy method)
+ * - Savings withdrawals (via getSavingsWithdrawFromQueryOptions)
+ * - HBD conversion requests (via getConversionRequestsQueryOptions)
+ * - Collateralized conversion requests (via getCollateralizedConversionRequestsQueryOptions)
+ * - Open orders (via getOpenOrdersQueryOptions)
  *
  * Returns combined list of pending requests sorted by expiration/creation date
  */

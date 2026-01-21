@@ -1,22 +1,19 @@
-import {
-  QueryKey,
-  useMutation,
-  UseMutationOptions,
-  useQueries,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { unionBy } from 'lodash';
 import * as Sentry from '@sentry/react-native';
+import { useMarkNotificationsRead } from '@ecency/sdk';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { updateUnreadActivityCount } from '../../redux/actions/accountAction';
 import { toastNotification } from '../../redux/actions/uiAction';
-import { getNotifications, markNotifications } from '../ecency/ecency';
+import { getNotifications } from '../ecency/ecency';
 import { NotificationFilters } from '../ecency/ecency.types';
 import { markHiveNotifications } from '../hive/dhive';
 import QUERIES from './queryKeys';
 import { selectCurrentAccount, selectPin } from '../../redux/selectors';
+import { decryptKey } from '../../utils/crypto';
+import { getDigitPinCode } from '../hive/dhive';
 
 const FETCH_LIMIT = 20;
 
@@ -78,65 +75,56 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
   };
 };
 
+/**
+ * Hook to mark notifications as read
+ * Uses SDK's useMarkNotificationsRead with mobile-specific Hive notification marking
+ */
 export const useNotificationReadMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
-  const queryClient = useQueryClient();
-
   const currentAccount = useAppSelector(selectCurrentAccount);
-  const pinCode = useAppSelector(selectPin);
+  const pinHash = useAppSelector(selectPin);
 
-  // id is options, if no id is provided program marks all notifications as read;
-  const _mutationFn = async (id?: string) => {
-    try {
-      const response = await markNotifications(id);
-      console.log('Ecency notifications marked as Read', response);
-      if (!id) {
-        await markHiveNotifications(currentAccount, pinCode);
-        console.log('Hive notifications marked as Read');
-      }
+  // Get auth credentials
+  const digitPinCode = getDigitPinCode(pinHash);
+  const username = currentAccount?.username;
+  const accessToken = currentAccount?.local?.accessToken
+    ? decryptKey(currentAccount.local.accessToken, digitPinCode)
+    : undefined;
 
-      return response.unread || 0;
-    } catch (err) {
-      Sentry.captureException(err);
-    }
-  };
-
-  const _options: UseMutationOptions<number, unknown, string | undefined, void> = {
-    onMutate: async (notificationId) => {
-      // TODO: find a way to optimise mutations by avoiding too many loops
-      console.log('on mutate data', notificationId);
-
-      // update query data
-      const queriesData: [QueryKey, any[] | undefined][] = queryClient.getQueriesData({
-        queryKey: [QUERIES.NOTIFICATIONS.GET],
-      });
-      console.log('query data', queriesData);
-
-      queriesData.forEach(([queryKey, data]) => {
-        if (data) {
-          console.log('mutating data', queryKey);
-          const _mutatedData = data.map((item) => ({
-            ...item,
-            read: !notificationId || notificationId === item.id ? 1 : item.read,
-          }));
-          queryClient.setQueryData(queryKey, _mutatedData);
-        }
-      });
-    },
-
-    onSuccess: async (unreadCount, notificationId) => {
-      console.log('on success data', unreadCount);
-
-      dispatch(updateUnreadActivityCount(unreadCount));
-      if (!notificationId) {
-        queryClient.invalidateQueries({ queryKey: [QUERIES.NOTIFICATIONS.GET] });
+  // Use SDK hook with optimistic updates
+  const sdkMutation = useMarkNotificationsRead(
+    username,
+    accessToken,
+    async (unreadCount) => {
+      // Mobile-specific: Update Redux unread count
+      if (unreadCount !== undefined) {
+        dispatch(updateUnreadActivityCount(unreadCount));
       }
     },
-    onError: () => {
+    (error) => {
+      // Mobile-specific: Show error toast
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      Sentry.captureException(error);
+    },
+  );
+
+  // Wrap SDK mutation to add mobile-specific Hive notification marking
+  return {
+    ...sdkMutation,
+    mutate: async (notificationId?: string) => {
+      // Call SDK mutation (handles optimistic updates and Ecency API)
+      await sdkMutation.mutateAsync({ id: notificationId });
+
+      // Mobile-specific: Also mark Hive notifications when marking all
+      if (!notificationId) {
+        try {
+          await markHiveNotifications(currentAccount, pinHash);
+          console.log('Hive notifications marked as Read');
+        } catch (err) {
+          Sentry.captureException(err);
+        }
+      }
     },
   };
-
-  return useMutation({ mutationFn: _mutationFn, ..._options });
 };

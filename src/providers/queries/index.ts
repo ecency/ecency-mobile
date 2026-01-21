@@ -2,7 +2,7 @@ import { Query, QueryClient } from '@tanstack/react-query';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PersistQueryClientProviderProps } from '@tanstack/react-query-persist-client';
-import { ConfigManager } from '@ecency/sdk';
+import { getQueryClient as getQueryClientFromSDK } from '@ecency/sdk';
 import QUERIES from './queryKeys';
 import { initSdkConfig } from './sdk-config';
 
@@ -20,8 +20,10 @@ export const initQueryClient = () => {
     },
   });
 
-  // Initialize SDK configuration
-  initSdkConfig(client);
+  // Initialize SDK configuration (async, runs in background)
+  initSdkConfig(client).catch((error) => {
+    console.error('Failed to initialize SDK config:', error);
+  });
 
   const _shouldDehdrateQuery = (query: Query) => {
     const _isSuccess = query.state.status === 'success';
@@ -56,12 +58,10 @@ export const initQueryClient = () => {
 };
 
 /**
- * Get the query client instance from SDK ConfigManager
- * This is a convenience wrapper for accessing the global query client
+ * Get the query client instance from SDK
+ * This is a convenience re-export of the SDK's getQueryClient
  */
-export const getQueryClient = (): QueryClient => {
-  return ConfigManager.getQueryClient();
-};
+export const getQueryClient = getQueryClientFromSDK;
 
 export * from './notificationQueries';
 export * from './draftQueries';

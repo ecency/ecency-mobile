@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getOrderBookQueryOptions } from '@ecency/sdk';
 import { MarketAsset, OrdersDataItem } from '../../../providers/hive-trade/hiveTrade.types';
 import { stripDecimalPlaces } from '../../../utils/number';
-import { fetchHiveOrderBook, processHiveOrderBook } from './swapCalculatorHelpers';
+import { processHiveOrderBook } from './swapCalculatorHelpers';
 
 export const useSwapCalculator = (
   asset: MarketAsset,
@@ -11,67 +13,54 @@ export const useSwapCalculator = (
   const [buyOrderBook, setBuyOrderBook] = useState<OrdersDataItem[]>([]);
   const [sellOrderBook, setSellOrderBook] = useState<OrdersDataItem[]>([]);
 
-  const [isLoading, setIsLoading] = useState(false);
   const [toAmount, setToAmount] = useState(0);
   const [tooMuchSlippage, setTooMuchSlippage] = useState(false);
   const [offerUnavailable, setOfferUnavailable] = useState(false);
 
   const assetRef = useRef(asset);
 
-  let updateInterval: any;
+  // Use SDK query options for order book with 60s refetch interval
+  const orderBookQuery = useQuery({
+    ...getOrderBookQueryOptions(),
+    refetchInterval: 60000,
+  });
 
+  // Update order book state when query data changes
   useEffect(() => {
-    fetchOrderBook();
-    updateInterval = setInterval(() => fetchOrderBook(), 60000);
-    return () => {
-      clearInterval(updateInterval);
-    };
-  }, []);
-
-  useEffect(() => {
-    fetchOrderBook().then(() => {
-      if (assetRef.current !== asset) {
-        assetRef.current = asset;
-        onAssetChangeComplete();
-      }
-    });
-  }, [asset]);
-
-  useEffect(() => {
-    processOrderBook();
-  }, [fromAmount]);
-
-  const processOrderBook = () => {
-    const {
-      tooMuchSlippage: _tooMuchSlippage,
-      invalidAmount: _invalidAmount,
-      toAmount: _toAmount,
-    } = processHiveOrderBook(buyOrderBook, sellOrderBook, fromAmount, asset);
-    setTooMuchSlippage(!!_tooMuchSlippage);
-    setOfferUnavailable(!!_invalidAmount);
-    if (_toAmount) {
-      setToAmount(stripDecimalPlaces(_toAmount));
+    if (orderBookQuery.data) {
+      setBuyOrderBook(orderBookQuery.data.bids);
+      setSellOrderBook(orderBookQuery.data.asks);
     }
-  };
+  }, [orderBookQuery.data]);
 
-  const fetchOrderBook = async () => {
-    setIsLoading(true);
-    try {
-      const book = await fetchHiveOrderBook();
-      if (book) {
-        setBuyOrderBook(book.bids);
-        setSellOrderBook(book.asks);
-      }
-      processOrderBook();
-    } finally {
-      setIsLoading(false);
+  // Handle asset changes
+  useEffect(() => {
+    if (orderBookQuery.data && assetRef.current !== asset) {
+      assetRef.current = asset;
+      onAssetChangeComplete();
     }
-  };
+  }, [asset, orderBookQuery.data, onAssetChangeComplete]);
+
+  // Process order book when fromAmount or order book data changes
+  useEffect(() => {
+    if (buyOrderBook.length > 0 && sellOrderBook.length > 0) {
+      const {
+        tooMuchSlippage: _tooMuchSlippage,
+        invalidAmount: _invalidAmount,
+        toAmount: _toAmount,
+      } = processHiveOrderBook(buyOrderBook, sellOrderBook, fromAmount, asset);
+      setTooMuchSlippage(!!_tooMuchSlippage);
+      setOfferUnavailable(!!_invalidAmount);
+      if (_toAmount) {
+        setToAmount(stripDecimalPlaces(_toAmount));
+      }
+    }
+  }, [fromAmount, buyOrderBook, sellOrderBook, asset]);
 
   return {
     toAmount,
     offerUnavailable,
     tooMuchSlippage,
-    isLoading,
+    isLoading: orderBookQuery.isLoading || orderBookQuery.isFetching,
   };
 };

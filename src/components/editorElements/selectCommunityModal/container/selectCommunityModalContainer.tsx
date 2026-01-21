@@ -44,7 +44,7 @@ const SelectCommunityModalContainer = ({
     callSubscribedCommunities();
   }, []);
 
-  const callTopCommunities = () => dispatch(fetchCommunities('', 15, null, 'rank'));
+  const callTopCommunities = () => dispatch(fetchCommunities(15, null, 'rank'));
 
   const callSubscribedCommunities = () => {
     if (
@@ -99,10 +99,15 @@ const SelectCommunityModalContainer = ({
   const _onPressCommunity = async (community) => {
     // intercept press community and fetch complete community object
     if (community && community.name && !community.type_id) {
-      const fullCommunity = await queryClient.fetchQuery(
-        getCommunityQueryOptions(community.name, currentAccount.name),
-      );
-      community = fullCommunity;
+      try {
+        const fullCommunity = await queryClient.fetchQuery(
+          getCommunityQueryOptions(community.name, currentAccount.name),
+        );
+        community = fullCommunity;
+      } catch (error) {
+        console.warn('Failed to fetch full community details, using partial data:', error);
+        // Fall back to original partial community object
+      }
     }
 
     onPressCommunity(community);

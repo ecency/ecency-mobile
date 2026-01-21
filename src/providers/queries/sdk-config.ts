@@ -3,10 +3,37 @@ import Config from 'react-native-config';
 import { QueryClient } from '@tanstack/react-query';
 
 /**
+ * Fetch DMCA filtering lists from Ecency server
+ * Fetches accounts, posts, and tags to filter from DMCA lists
+ */
+const fetchDmcaLists = async (): Promise<{
+  accounts: string[];
+  tags: string[];
+  patterns: string[];
+}> => {
+  try {
+    const [accountsRes, postsRes, tagsRes] = await Promise.all([
+      fetch('https://ecency.com/dmca/dmca-accounts.json'),
+      fetch('https://ecency.com/dmca/dmca-posts.json'),
+      fetch('https://ecency.com/dmca/dmca-tags.json'),
+    ]);
+
+    const accounts = accountsRes.ok ? await accountsRes.json() : [];
+    const patterns = postsRes.ok ? await postsRes.json() : [];
+    const tags = tagsRes.ok ? await tagsRes.json() : [];
+
+    return { accounts, tags, patterns };
+  } catch (error) {
+    console.warn('⚠️ Failed to fetch DMCA lists, continuing without filters:', error);
+    return { accounts: [], tags: [], patterns: [] };
+  }
+};
+
+/**
  * Initializes the Ecency SDK configuration
  * Must be called after QueryClient is created
  */
-export const initSdkConfig = (queryClient: QueryClient) => {
+export const initSdkConfig = async (queryClient: QueryClient) => {
   // Set the query client for SDK to use
   ConfigManager.setQueryClient(queryClient);
 
@@ -16,8 +43,9 @@ export const initSdkConfig = (queryClient: QueryClient) => {
   // Configure image host
   ConfigManager.setImageHost(Config.NEW_IMAGE_API || 'https://images.ecency.com');
 
-  // Initialize DMCA filters
-  ConfigManager.initDmca();
+  // Fetch and configure DMCA filters
+  const dmcaLists = await fetchDmcaLists();
+  ConfigManager.setDmcaLists(dmcaLists.accounts, dmcaLists.tags, dmcaLists.patterns);
 
   console.log('✅ Ecency SDK configured successfully');
 };

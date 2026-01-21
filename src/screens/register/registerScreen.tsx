@@ -139,8 +139,8 @@ const RegisterScreen = ({ navigation, route }) => {
     }
 
     _getAccountsWithUsername(value).then((res) => {
-      const isValid = !res.includes(value);
-      if (!isValid) {
+      const isValid = res ? !res.includes(value) : false;
+      if (!isValid && res) {
         setUsernameError(intl.formatMessage({ id: 'register.validation.username_exists' }));
       }
       setIsUserExist(!isValid);
@@ -157,7 +157,7 @@ const RegisterScreen = ({ navigation, route }) => {
       return;
     }
     _getAccountsWithUsername(value).then((res) => {
-      const isValid = res.includes(value);
+      const isValid = res ? res.includes(value) : false;
       setIsRefUsernameValid(isValid);
     });
   };

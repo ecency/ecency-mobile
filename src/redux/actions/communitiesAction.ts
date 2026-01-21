@@ -21,7 +21,7 @@ import { subscribeCommunity as subscribeCommunityReq } from '../../providers/hiv
 import { getSubscriptions } from '../../providers/hive/dhiveSDK';
 
 // Fetch Communities
-export const fetchCommunities = (last: any, limit: any, query: any, sort: any, observer: any) => {
+export const fetchCommunities = (limit: any, query: any, sort: any, observer: any) => {
   return async (dispatch: Dispatch) => {
     dispatch({ type: FETCH_COMMUNITIES });
     try {

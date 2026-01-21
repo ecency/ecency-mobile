@@ -20,6 +20,10 @@ function calculatePrice(intAmount: number, book: OrdersDataItem[], asset: 'hive'
   return +book[index].real_price;
 }
 
+/**
+ * @deprecated For hook contexts, use getOrderBookQueryOptions from @ecency/sdk
+ * with useQuery instead. This function is kept for non-hook contexts like getNewAmount
+ */
 export async function fetchHiveOrderBook() {
   try {
     return await getOrderBook();
