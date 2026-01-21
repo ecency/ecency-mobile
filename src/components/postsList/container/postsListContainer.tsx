@@ -95,11 +95,14 @@ const postsListContainer = (
       return !isMuted && !!item?.author;
     });
 
-    const _promotedPosts = promotedPosts.filter((item) => {
-      const isMuted = mutes && mutes.indexOf(item.author) > -1;
-      const notInPosts = _data.filter((x) => x.permlink === item.permlink).length <= 0;
-      return !isMuted && !!item?.author && notInPosts;
-    });
+    const _promotedPosts =
+      promotedPosts && Array.isArray(promotedPosts)
+        ? promotedPosts.filter((item) => {
+            const isMuted = mutes && mutes.indexOf(item.author) > -1;
+            const notInPosts = _data.filter((x) => x.permlink === item.permlink).length <= 0;
+            return !isMuted && !!item?.author && notInPosts;
+          })
+        : [];
 
     // inject promoted posts in flat list data (create a copy to avoid mutation)
     const result = [..._data];

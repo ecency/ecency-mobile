@@ -959,12 +959,12 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           if (draftsCollection && draftsCollection[draftId]) {
             dispatch(deleteDraftCacheEntry(draftId));
           }
+
+          this._isSubmitting = false;
         })
         .catch((error) => {
-          this._handleSubmitFailure(error);
-        })
-        .finally(() => {
           this._isSubmitting = false;
+          this._handleSubmitFailure(error);
         });
     }
   };

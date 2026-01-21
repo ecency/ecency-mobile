@@ -778,6 +778,24 @@ class ApplicationContainer extends Component {
     }
 
     try {
+      // Check if we're on iOS simulator where APNS isn't available
+      const isSimulator = await DeviceInfo.isEmulator();
+      if (Platform.OS === 'ios' && isSimulator) {
+        console.log('Skipping FCM token on iOS simulator - APNS not available');
+        return;
+      }
+
+      // Request permission first to ensure APNS is set up on iOS
+      const authStatus = await getMessaging().requestPermission();
+      const enabled =
+        authStatus === 1 || // authorized
+        authStatus === 2; // provisional
+
+      if (!enabled) {
+        console.log('Notification permission not granted');
+        return;
+      }
+
       const token = await getMessaging().getToken();
       console.log('FCM Token:', token);
       setPushToken(
@@ -791,8 +809,13 @@ class ApplicationContainer extends Component {
         accessToken,
       );
     } catch (error) {
-      console.warn('Failed to enable notification:', error);
-      Sentry.captureException(error);
+      // Handle APNS-specific errors gracefully
+      if (error.code === 'messaging/unknown' || error.message?.includes('APNS')) {
+        console.log('APNS not available (likely simulator or development environment)');
+      } else {
+        console.warn('Failed to enable notification:', error);
+        Sentry.captureException(error);
+      }
     }
   };
 

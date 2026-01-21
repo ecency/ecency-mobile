@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Text, View, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
@@ -369,16 +369,14 @@ const PowerDownScreen = ({
   const renderBottomContent = () => (
     <View style={styles.bottomContent}>
       {!poweringDown && (
-        <Fragment>
-          <MainButton
-            style={styles.button}
-            isDisable={hp <= 0 || !isAmountValid}
-            onPress={handleMainBtn}
-            isLoading={isTransfering}
-          >
-            <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
-          </MainButton>
-        </Fragment>
+        <MainButton
+          style={styles.button}
+          isDisable={hp <= 0 || !isAmountValid}
+          onPress={handleMainBtn}
+          isLoading={isTransfering}
+        >
+          <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
+        </MainButton>
       )}
       {poweringDown && (
         <MainButton

@@ -201,7 +201,7 @@ const PostsTabContent = ({
         ref={postsListRef}
         posts={feedQuery.data}
         isFeedScreen={isFeedScreen}
-        promotedPosts={!skipPromotedPosts ? promotedPostsQuery.data : []}
+        promotedPosts={!skipPromotedPosts ? promotedPostsQuery.data || [] : []}
         onLoadPosts={(shouldReset) => {
           if (shouldReset) {
             feedQuery.refresh();

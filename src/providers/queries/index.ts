@@ -28,9 +28,34 @@ export const initQueryClient = () => {
   const _shouldDehdrateQuery = (query: Query) => {
     const _isSuccess = query.state.status === 'success';
 
+    // Don't persist queries with undefined in their query keys
+    if (query.queryKey.some((key) => key === undefined)) {
+      return false;
+    }
+
     if (_isSuccess) {
-      // Cherry pick whihc queries to dehydrate for persistance
-      switch (query.queryKey[0]) {
+      // Cherry pick which queries to dehydrate for persistence
+      const queryKeyType = query.queryKey[0];
+
+      // Skip SDK queries that shouldn't be persisted
+      if (
+        queryKeyType === 'core' ||
+        queryKeyType === 'posts' ||
+        queryKeyType === 'get-account-full' ||
+        queryKeyType === 'notifications'
+      ) {
+        // SDK queries - only persist specific ones
+        if (queryKeyType === 'posts' && query.queryKey[1] === 'entry') {
+          return false; // Don't persist individual post entries from SDK
+        }
+        if (queryKeyType === 'notifications' && query.queryKey[1] === 'announcements') {
+          return false; // Don't persist announcements
+        }
+        return true; // Persist other SDK queries
+      }
+
+      // Handle mobile-specific queries
+      switch (queryKeyType) {
         case QUERIES.WAVES.GET:
           return query.queryKey[3] === 0; // only dehydrate first page of waves
         case QUERIES.NOTIFICATIONS.GET:
@@ -42,7 +67,11 @@ export const initQueryClient = () => {
       }
     }
 
-    console.log('status error for dehydration', query.queryKey);
+    // Only log errors (not pending states) for debugging
+    if (query.state.status === 'error') {
+      console.log('query error for dehydration', query.queryKey, query.state.error);
+    }
+
     return false;
   };
 

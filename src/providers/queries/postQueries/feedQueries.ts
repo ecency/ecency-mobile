@@ -279,8 +279,8 @@ export const usePromotedPostsQuery = () => {
 
   return useQuery({
     ...queryOptions,
-    // Override queryKey to include username for cache invalidation
-    queryKey: [QUERIES.FEED.GET_PROMOTED, currentAccount?.username],
+    // Override queryKey to include username for cache invalidation (use empty string if no account)
+    queryKey: [QUERIES.FEED.GET_PROMOTED, currentAccount?.username || ''],
     // Apply NSFW filtering to results
     select: (data) => {
       if (!Array.isArray(data)) return [];
