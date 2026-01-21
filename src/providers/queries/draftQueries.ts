@@ -1,7 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMemo, useState } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import {
-  getDraftsQueryOptions,
-  getSchedulesQueryOptions,
+  getDraftsInfiniteQueryOptions,
+  getSchedulesInfiniteQueryOptions,
   useAddDraft,
   useUpdateDraft,
   useDeleteDraft,
@@ -33,20 +34,54 @@ const useAuth = () => {
   return { username, code: accessToken };
 };
 
-/** Hook used to return user drafts using SDK */
-export const useGetDraftsQuery = () => {
-  return useQuery({
-    ...getDraftsQueryOptions(),
-    select: (data) => _sortData(data || []),
-  });
+/**
+ * Hook to return user drafts with infinite scroll pagination
+ * Uses SDK's getDraftsInfiniteQueryOptions for efficient data loading
+ *
+ * @param limit - Number of items to load per page (default: 20)
+ * @returns Flattened drafts array with pagination controls
+ */
+export const useGetDraftsQuery = (limit = 20) => {
+  const { username, code } = useAuth();
+
+  const infiniteQuery = useInfiniteQuery(getDraftsInfiniteQueryOptions(username, code, limit));
+
+  // Flatten pages into single array
+  const data = useMemo(() => {
+    if (!infiniteQuery.data?.pages) return [];
+    const flattened = infiniteQuery.data.pages.flatMap((page) => page.data);
+    return _sortData(flattened);
+  }, [infiniteQuery.data?.pages]);
+
+  return {
+    ...infiniteQuery,
+    data,
+  };
 };
 
-/** Hook used to return user schedules using SDK */
-export const useGetSchedulesQuery = () => {
-  return useQuery({
-    ...getSchedulesQueryOptions(),
-    select: (data) => _sortDataS(data || []),
-  });
+/**
+ * Hook to return user schedules with infinite scroll pagination
+ * Uses SDK's getSchedulesInfiniteQueryOptions for efficient data loading
+ *
+ * @param limit - Number of items to load per page (default: 20)
+ * @returns Flattened schedules array with pagination controls
+ */
+export const useGetSchedulesQuery = (limit = 20) => {
+  const { username, code } = useAuth();
+
+  const infiniteQuery = useInfiniteQuery(getSchedulesInfiniteQueryOptions(username, code, limit));
+
+  // Flatten pages into single array
+  const data = useMemo(() => {
+    if (!infiniteQuery.data?.pages) return [];
+    const flattened = infiniteQuery.data.pages.flatMap((page) => page.data);
+    return _sortDataS(flattened);
+  }, [infiniteQuery.data?.pages]);
+
+  return {
+    ...infiniteQuery,
+    data,
+  };
 };
 
 /**
@@ -104,20 +139,28 @@ export const useDraftsBatchDeleteMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const deleteDraftMutation = useDraftDeleteMutation();
+  const [isBatchDeleting, setIsBatchDeleting] = useState(false);
 
   return {
     mutate: async (deleteIds: string[], options?: { onSettled?: () => void }) => {
+      setIsBatchDeleting(true);
       try {
-        // Delete drafts in parallel
-        await Promise.all(deleteIds.map((id) => deleteDraftMutation.mutateAsync({ draftId: id })));
+        // Delete drafts sequentially
+        // eslint-disable-next-line no-restricted-syntax
+        for (const id of deleteIds) {
+          // eslint-disable-next-line no-await-in-loop
+          await deleteDraftMutation.mutateAsync({ draftId: id });
+        }
         options?.onSettled?.();
       } catch (error) {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
         options?.onSettled?.();
+      } finally {
+        setIsBatchDeleting(false);
       }
     },
-    isLoading: deleteDraftMutation.isLoading,
-    isPending: deleteDraftMutation.isPending,
+    isLoading: isBatchDeleting,
+    isPending: isBatchDeleting,
   };
 };
 
@@ -164,20 +207,28 @@ export const useSchedulesBatchDeleteMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   const deleteScheduleMutation = useScheduleDeleteMutation();
+  const [isBatchDeleting, setIsBatchDeleting] = useState(false);
 
   return {
     mutate: async (deleteIds: string[], options?: { onSettled?: () => void }) => {
+      setIsBatchDeleting(true);
       try {
-        // Delete schedules in parallel
-        await Promise.all(deleteIds.map((id) => deleteScheduleMutation.mutateAsync({ id })));
+        // Delete schedules sequentially
+        // eslint-disable-next-line no-restricted-syntax
+        for (const id of deleteIds) {
+          // eslint-disable-next-line no-await-in-loop
+          await deleteScheduleMutation.mutateAsync({ id });
+        }
         options?.onSettled?.();
       } catch (error) {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
         options?.onSettled?.();
+      } finally {
+        setIsBatchDeleting(false);
       }
     },
-    isLoading: deleteScheduleMutation.isLoading,
-    isPending: deleteScheduleMutation.isPending,
+    isLoading: isBatchDeleting,
+    isPending: isBatchDeleting,
   };
 };
 

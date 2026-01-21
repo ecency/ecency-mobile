@@ -296,7 +296,7 @@ export const useInjectVotesCache = (_data: any | any[]) => {
 
       return currentRetData;
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     // Only trigger on lastUpdate changes to prevent infinite loops
     // votesCollection is accessed but not a dependency - we read current value from closure
   }, [lastUpdate]);
@@ -362,7 +362,7 @@ export const useInjectVotesCache = (_data: any | any[]) => {
 
       return currentData;
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     // votesCollection is intentionally not a dependency - incremental vote updates are handled by the first useEffect
   }, [_data]);
 

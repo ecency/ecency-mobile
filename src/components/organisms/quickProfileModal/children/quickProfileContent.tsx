@@ -4,12 +4,15 @@ import { View, Alert } from 'react-native';
 import { StatsItem } from 'components/statsPanel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Sentry from '@sentry/react-native';
-import { getFollowCountQueryOptions } from '@ecency/sdk';
+import {
+  getFollowCountQueryOptions,
+  getAccountFullQueryOptions,
+  getRelationshipBetweenAccountsQueryOptions,
+} from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import { MainButton, StatsPanel } from '../../..';
 import { addFavorite, checkFavorite, deleteFavorite } from '../../../../providers/ecency/ecency';
 import { followUser } from '../../../../providers/hive/dhive';
-import { getRelationship, getUser } from '../../../../providers/hive/dhiveSDK';
-import { getQueryClient } from '../../../../providers/queries';
 import { getRcPower, getVotingPower } from '../../../../utils/manaBar';
 import styles from './quickProfileStyles';
 import { ProfileBasic } from './profileBasic';
@@ -31,6 +34,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
   const intl = useIntl();
   const insets = useSafeAreaInsets();
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
   const currentAccount = useAppSelector(selectCurrentAccount);
   const pinCode = useAppSelector(selectPin);
@@ -60,7 +64,7 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
   const _fetchUser = async () => {
     setIsLoading(true);
     try {
-      const _user = await getUser(username, isOwnProfile);
+      const _user = await queryClient.fetchQuery(getAccountFullQueryOptions(username));
       setUser(_user);
     } catch (error) {
       setIsLoading(false);
@@ -76,7 +80,9 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
         let follows;
 
         if (!isOwnProfile) {
-          const res = await getRelationship(currentAccountName, username);
+          const res = await queryClient.fetchQuery(
+            getRelationshipBetweenAccountsQueryOptions(currentAccountName, username),
+          );
           _isFollowing = res && res.follows;
           _isMuted = res && res.ignores;
           _isFavourite = await checkFavorite(username);
@@ -84,7 +90,6 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
 
         try {
           // Fetch follow counts using SDK query
-          const queryClient = getQueryClient();
           follows = await queryClient.fetchQuery(getFollowCountQueryOptions(username));
         } catch (err) {
           follows = null;

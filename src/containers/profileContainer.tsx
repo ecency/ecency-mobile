@@ -7,7 +7,12 @@ import { injectIntl } from 'react-intl';
 // Providers
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
-import { getFollowCountQueryOptions } from '@ecency/sdk';
+import {
+  getFollowCountQueryOptions,
+  getAccountFullQueryOptions,
+  getRelationshipBetweenAccountsQueryOptions,
+  getAccountPostsQueryOptions,
+} from '@ecency/sdk';
 import {
   selectCurrentAccount,
   selectIsLoggedIn,
@@ -18,7 +23,6 @@ import {
   selectHidePostsThumbnails,
 } from '../redux/selectors';
 import { followUser, unfollowUser, ignoreUser } from '../providers/hive/dhive';
-import { getUser, getRelationship, getAccountPosts } from '../providers/hive/dhiveSDK';
 import { getQueryClient } from '../providers/queries';
 import { startMattermostDirectMessage } from '../providers/chat/mattermost';
 
@@ -101,44 +105,33 @@ class ProfileContainer extends Component {
     } = this.props;
 
     this.setState({ isProfileLoading: true });
-    let repliesAction;
-
-    if (!isOwnProfile) {
-      repliesAction = getAccountPosts;
-      if (query) {
-        query.account = query.author;
-        if (comments.length > 0) {
-          query.start_author = query.author;
-          query.start_permlink = query.permlink;
-        }
-        query.limit = 5;
-        query.observer = currentUsername || ''; // TODO: add current account username here
-        query.sort = 'comments';
-      }
-    } else {
-      repliesAction = getAccountPosts;
-      if (query) {
-        query.account = query.author;
-        if (comments.length > 0) {
-          query.start_author = query.author;
-          query.start_permlink = query.permlink;
-        }
-        query.limit = 5;
-        query.observer = currentUsername || ''; // TODO: add current account username here
-        query.sort = 'replies';
-      }
-    }
 
     if (query) {
-      delete query.author;
-      delete query.permlink;
-      repliesAction(query).then((result) => {
-        const _comments = unionBy(comments, result, 'permlink');
-        this.setState({
-          comments: _comments,
-          isProfileLoading: false,
+      const queryParams = {
+        account: query.author,
+        limit: 5,
+        observer: currentUsername || '',
+        sort: isOwnProfile ? 'replies' : 'comments',
+      };
+
+      if (comments.length > 0) {
+        queryParams.start_author = query.author;
+        queryParams.start_permlink = query.permlink;
+      }
+
+      const queryClient = getQueryClient();
+      queryClient
+        .fetchQuery(getAccountPostsQueryOptions(queryParams))
+        .then((result) => {
+          const _comments = unionBy(comments, result, 'permlink');
+          this.setState({
+            comments: _comments,
+            isProfileLoading: false,
+          });
+        })
+        .catch(() => {
+          this.setState({ isProfileLoading: false });
         });
-      });
     }
   };
 
@@ -324,8 +317,12 @@ class ProfileContainer extends Component {
         let isFavorite;
         let follows;
 
+        const queryClient = getQueryClient();
+
         if (!isOwnProfile) {
-          const res = await getRelationship(currentAccount.name, username);
+          const res = await queryClient.fetchQuery(
+            getRelationshipBetweenAccountsQueryOptions(currentAccount.name, username),
+          );
           _isFollowing = res && res.follows;
           _isMuted = res && res.ignores;
           isFavorite = await checkFavorite(username);
@@ -333,7 +330,6 @@ class ProfileContainer extends Component {
 
         try {
           // Fetch follow counts using SDK query
-          const queryClient = getQueryClient();
           follows = await queryClient.fetchQuery(getFollowCountQueryOptions(username));
         } catch (err) {
           follows = null;
@@ -365,9 +361,9 @@ class ProfileContainer extends Component {
 
   _loadProfile = async (username = null) => {
     let user;
-    const { isOwnProfile } = this.state;
     try {
-      user = await getUser(username, isOwnProfile);
+      const queryClient = getQueryClient();
+      user = await queryClient.fetchQuery(getAccountFullQueryOptions(username));
       this._fetchProfile(username);
     } catch (error) {
       this._profileActionDone({ error });

@@ -1,4 +1,4 @@
-import { fetchGlobalProps } from '../../providers/hive/dhiveSDK';
+import { getQueryClient, getDynamicPropsQueryOptions } from '@ecency/sdk';
 import {
   ADD_OTHER_ACCOUNT,
   FETCH_ACCOUNT_FAIL,
@@ -13,13 +13,35 @@ import {
 } from '../constants/constants';
 import { PrevLoggedInUsers } from '../reducers/accountReducer';
 
-export const fetchGlobalProperties = () => (dispatch) =>
-  fetchGlobalProps().then((res) =>
-    dispatch({
-      type: SET_GLOBAL_PROPS,
-      payload: { ...res },
-    }),
-  );
+export const fetchGlobalProperties = () => async (dispatch) => {
+  const queryClient = getQueryClient();
+  const props: any = await queryClient.fetchQuery(getDynamicPropsQueryOptions());
+
+  // Process and return in the format expected by legacy code
+  const { dynamicProps, rewardFund, feedHistory } = props;
+
+  const hivePerMVests =
+    (parseFloat(dynamicProps.total_vesting_fund_hive) /
+      parseFloat(dynamicProps.total_vesting_shares)) *
+    1e6;
+
+  const base = parseFloat(feedHistory.current_median_history.base.split(' ')[0]);
+  const quote = parseFloat(feedHistory.current_median_history.quote.split(' ')[0]);
+
+  const res = {
+    hivePerMVests,
+    base,
+    quote,
+    fundRecentClaims: rewardFund.recent_claims,
+    fundRewardBalance: parseFloat(rewardFund.reward_balance.split(' ')[0]),
+    hbdPrintRate: dynamicProps.hbd_print_rate,
+  };
+
+  dispatch({
+    type: SET_GLOBAL_PROPS,
+    payload: { ...res },
+  });
+};
 
 export const updateCurrentAccount = (data) => ({
   type: UPDATE_CURRENT_ACCOUNT,

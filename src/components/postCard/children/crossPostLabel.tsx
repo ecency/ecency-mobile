@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
+import { getCommunityQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import { PostCardActionIds } from '../container/postCard';
 import Icon from '../../icon';
 import ROUTES from '../../../constants/routeNames';
 import styles from '../styles/children.styles';
-import { getCommunityTitle } from '../../../providers/hive/dhiveSDK';
 
 interface CrossPostLabelProps {
   crosspostMeta: {
@@ -25,6 +26,7 @@ const CrossPostLabel: React.FC<CrossPostLabelProps> = ({
   }
 
   const intl = useIntl();
+  const queryClient = useQueryClient();
 
   const { author, community } = crosspostMeta;
 
@@ -34,7 +36,10 @@ const CrossPostLabel: React.FC<CrossPostLabelProps> = ({
     const fetchCommunityTitle = async () => {
       try {
         if (!communityTitle) {
-          const title = await getCommunityTitle(community);
+          const communityData = await queryClient.fetchQuery(
+            getCommunityQueryOptions(community, ''),
+          );
+          const title = communityData?.title || community;
           setCommunityTitle(title);
         }
       } catch (error) {

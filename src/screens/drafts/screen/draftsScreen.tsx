@@ -47,6 +47,12 @@ const DraftsScreen = ({
   handleItemLongPress,
   batchSelectedItems,
   handleBatchDeletePress,
+  fetchNextDraftsPage,
+  hasNextDraftsPage,
+  isFetchingNextDraftsPage,
+  fetchNextSchedulesPage,
+  hasNextSchedulesPage,
+  isFetchingNextSchedulesPage,
 }) => {
   const actionSheet = useRef(null);
   const isDarkTheme = useAppSelector(selectIsDarkTheme);
@@ -161,28 +167,44 @@ const DraftsScreen = ({
     return _renderItem(idLessDraft, 'unsaved');
   };
 
-  const _getTabItem = (data, type) => (
-    <View style={globalStyles.lightContainer}>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item._id}
-        removeClippedSubviews={false}
-        renderItem={({ item }) => _renderItem(item, type)}
-        ListHeaderComponent={type === 'drafts' && idLessDraft && _renderHeader}
-        ListEmptyComponent={_renderEmptyContent()}
-        refreshControl={
-          <RefreshControl
-            refreshing={isLoading}
-            onRefresh={onRefresh}
-            progressBackgroundColor="#357CE6"
-            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-            titleColor="#fff"
-            colors={['#fff']}
-          />
-        }
-      />
-    </View>
-  );
+  const _getTabItem = (data, type) => {
+    const isDraftsTab = type === 'drafts';
+    const fetchNextPage = isDraftsTab ? fetchNextDraftsPage : fetchNextSchedulesPage;
+    const hasNextPage = isDraftsTab ? hasNextDraftsPage : hasNextSchedulesPage;
+    const isFetchingNextPage = isDraftsTab ? isFetchingNextDraftsPage : isFetchingNextSchedulesPage;
+
+    const handleLoadMore = () => {
+      if (hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    };
+
+    return (
+      <View style={globalStyles.lightContainer}>
+        <FlatList
+          data={data}
+          keyExtractor={(item) => item._id}
+          removeClippedSubviews={false}
+          renderItem={({ item }) => _renderItem(item, type)}
+          ListHeaderComponent={isDraftsTab && idLessDraft && _renderHeader}
+          ListEmptyComponent={_renderEmptyContent()}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={isFetchingNextPage ? <PostCardPlaceHolder /> : null}
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoading}
+              onRefresh={onRefresh}
+              progressBackgroundColor="#357CE6"
+              tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+              titleColor="#fff"
+              colors={['#fff']}
+            />
+          }
+        />
+      </View>
+    );
+  };
 
   const _renderDeleteButton = () => {
     return (

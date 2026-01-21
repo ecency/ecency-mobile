@@ -44,7 +44,8 @@ const SelectCommunityModalContainer = ({
     callSubscribedCommunities();
   }, []);
 
-  const callTopCommunities = () => dispatch(fetchCommunities(15, null, 'rank'));
+  const callTopCommunities = () =>
+    dispatch(fetchCommunities(15, null, 'rank', currentAccount.name));
 
   const callSubscribedCommunities = () => {
     if (

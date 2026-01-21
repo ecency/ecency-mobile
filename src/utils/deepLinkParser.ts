@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import { getUser } from '../providers/hive/dhiveSDK';
+import { getQueryClient, getAccountFullQueryOptions } from '@ecency/sdk';
 import postUrlParser from './postUrlParser';
 import parseAuthUrl, { AUTH_MODES } from './parseAuthUrl';
 import ROUTES from '../constants/routeNames';
@@ -33,7 +33,8 @@ export const deepLinkParser = async (url) => {
         deepLinkFilter = permlink === 'points' ? 'wallet' : permlink;
       }
 
-      profile = await getUser(author);
+      const queryClient = getQueryClient();
+      profile = await queryClient.fetchQuery(getAccountFullQueryOptions(author));
       routeName = ROUTES.SCREENS.PROFILE;
       params = {
         username: get(profile, 'name'),

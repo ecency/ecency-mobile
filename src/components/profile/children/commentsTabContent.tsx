@@ -3,10 +3,11 @@ import { useIntl } from 'react-intl';
 import { ActivityIndicator, RefreshControl, View } from 'react-native';
 import { unionBy } from 'lodash';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { getAccountPostsQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import { Comments, NoPost } from '../..';
 import { useAppSelector } from '../../../hooks';
 import { selectHidePostsThumbnails } from '../../../redux/selectors';
-import { getAccountPosts } from '../../../providers/hive/dhiveSDK';
 import styles from '../profileStyles';
 
 interface CommentsTabContentProps {
@@ -25,6 +26,7 @@ const CommentsTabContent = ({
   selectedUser,
 }: CommentsTabContentProps) => {
   const intl = useIntl();
+  const queryClient = useQueryClient();
 
   const isHideImage = useAppSelector(selectHidePostsThumbnails);
 
@@ -61,7 +63,7 @@ const CommentsTabContent = ({
       sort: type,
     };
 
-    const result = await getAccountPosts(query);
+    const result = await queryClient.fetchQuery(getAccountPostsQueryOptions(query));
     const _comments: any[] = refresh ? result : unionBy(data, result, 'permlink');
 
     if (Array.isArray(_comments)) {

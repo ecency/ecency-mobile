@@ -1,7 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMemo } from 'react';
+import { useMutation, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import {
-  getImagesQueryOptions,
-  getFragmentsQueryOptions,
+  getImagesInfiniteQueryOptions,
+  getFragmentsInfiniteQueryOptions,
   useAddFragment,
   useEditFragment,
   useRemoveFragment,
@@ -69,18 +70,52 @@ const useAuth = () => {
 
 /** GET QUERIES (using SDK) */
 
-export const useMediaQuery = () => {
-  return useQuery<MediaItem[]>({
-    ...getImagesQueryOptions(),
-    initialData: [],
-  });
+/**
+ * Hook to return user images/gallery with infinite scroll pagination
+ * Uses SDK's getImagesInfiniteQueryOptions for efficient data loading
+ *
+ * @param limit - Number of items to load per page (default: 20)
+ * @returns Flattened images array with pagination controls
+ */
+export const useMediaQuery = (limit = 20) => {
+  const { username, code } = useAuth();
+
+  const infiniteQuery = useInfiniteQuery(getImagesInfiniteQueryOptions(username, code, limit));
+
+  // Flatten pages into single array
+  const data = useMemo(() => {
+    if (!infiniteQuery.data?.pages) return [];
+    return infiniteQuery.data.pages.flatMap((page) => page.data);
+  }, [infiniteQuery.data?.pages]);
+
+  return {
+    ...infiniteQuery,
+    data,
+  };
 };
 
-export const useSnippetsQuery = () => {
-  return useQuery<Snippet[]>({
-    ...getFragmentsQueryOptions(),
-    initialData: [],
-  });
+/**
+ * Hook to return user snippets/fragments with infinite scroll pagination
+ * Uses SDK's getFragmentsInfiniteQueryOptions for efficient data loading
+ *
+ * @param limit - Number of items to load per page (default: 20)
+ * @returns Flattened snippets array with pagination controls
+ */
+export const useSnippetsQuery = (limit = 20) => {
+  const { username, code } = useAuth();
+
+  const infiniteQuery = useInfiniteQuery(getFragmentsInfiniteQueryOptions(username, code, limit));
+
+  // Flatten pages into single array
+  const data = useMemo(() => {
+    if (!infiniteQuery.data?.pages) return [];
+    return infiniteQuery.data.pages.flatMap((page) => page.data);
+  }, [infiniteQuery.data?.pages]);
+
+  return {
+    ...infiniteQuery,
+    data,
+  };
 };
 
 /** MUTATIONS (custom Ecency features, not in SDK) */

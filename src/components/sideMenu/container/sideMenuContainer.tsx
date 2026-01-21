@@ -5,13 +5,14 @@ import { useDispatch } from 'react-redux';
 import { useDrawerStatus } from '@react-navigation/drawer';
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
+import { getAccountFullQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import { logout } from '../../../redux/actions/uiAction';
 import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 
 // Component
 import SideMenuView from '../view/sideMenuView';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
-import { getUser } from '../../../providers/hive/dhiveSDK';
 import { SheetNames } from '../../../navigation/sheets';
 import {
   selectIsLoggedIn,
@@ -23,6 +24,7 @@ import { useAppSelector } from '../../../hooks';
 const SideMenuContainer = ({ navigation }) => {
   const dispatch = useDispatch();
   const drawerStatus = useDrawerStatus();
+  const queryClient = useQueryClient();
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const currentAccount = useAppSelector(selectCurrentAccount);
@@ -39,7 +41,9 @@ const SideMenuContainer = ({ navigation }) => {
   const _updateUserData = async () => {
     try {
       if (currentAccount?.username) {
-        const accountData = await getUser(currentAccount.username);
+        const accountData = await queryClient.fetchQuery(
+          getAccountFullQueryOptions(currentAccount.username),
+        );
         if (accountData) {
           dispatch(updateCurrentAccount({ ...currentAccount, ...accountData }));
         }

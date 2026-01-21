@@ -15,7 +15,7 @@ import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 // Constants
 import { SheetManager } from 'react-native-actions-sheet';
 import * as Sentry from '@sentry/react-native';
-import { getMutedUsersQueryOptions } from '@ecency/sdk';
+import { getMutedUsersQueryOptions, getAccountFullQueryOptions } from '@ecency/sdk';
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
 
@@ -32,7 +32,6 @@ import {
   setLastUpdateCheck,
 } from '../../../realm/realm';
 import { getDigitPinCode } from '../../../providers/hive/dhive';
-import { getUser } from '../../../providers/hive/dhiveSDK';
 import { getQueryClient } from '../../../providers/queries';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import {
@@ -574,7 +573,10 @@ class ApplicationContainer extends Component {
     const { dispatch, intl, pinCode, isPinCodeOpen, encUnlockPin } = this.props;
 
     try {
-      let accountData = await getUser(realmObject.username);
+      const queryClient = getQueryClient();
+      let accountData = await queryClient.fetchQuery(
+        getAccountFullQueryOptions(realmObject.username),
+      );
       accountData.local = realmObject;
 
       // cannot migrate or refresh token since pin would null while pin code modal is open
@@ -596,7 +598,6 @@ class ApplicationContainer extends Component {
         accountData.unread_activity_count = await getUnreadNotificationCount();
 
         // Fetch muted users using SDK query
-        const queryClient = getQueryClient();
         accountData.mutes = await queryClient.fetchQuery(
           getMutedUsersQueryOptions(realmObject.username),
         );
@@ -841,11 +842,11 @@ class ApplicationContainer extends Component {
       _currentAccount = await this._refreshAccessToken(_currentAccount);
 
       try {
+        const queryClient = getQueryClient();
         _currentAccount.unread_activity_count = await getUnreadNotificationCount();
         _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
 
         // Fetch muted users using SDK query
-        const queryClient = getQueryClient();
         _currentAccount.mutes = await queryClient.fetchQuery(
           getMutedUsersQueryOptions(_currentAccount.username),
         );

@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';
+import { getPostQueryOptions } from '@ecency/sdk';
 import {
   selectCurrentAccount,
   selectGlobalProps,
@@ -14,7 +15,7 @@ import {
   selectIsConnected,
 } from '../redux/selectors';
 import { promote, boost, boostPlus } from '../providers/hive/dhive';
-import { isPostAvailable } from '../providers/hive/dhiveSDK';
+import { getQueryClient } from '../providers/queries';
 import { toastNotification } from '../redux/actions/uiAction';
 
 /*
@@ -118,9 +119,18 @@ class RedeemContainer extends Component {
       const separatedPermlink = fullPermlinkOrUsername.split('/');
       _author = get(separatedPermlink, '[0]');
       _permlink = get(separatedPermlink, '[1]');
-      const _isPostAvailable = await isPostAvailable(_author, _permlink);
 
-      if (!_isPostAvailable) {
+      // Check if post is available using SDK
+      const queryClient = getQueryClient();
+      try {
+        const post = await queryClient.fetchQuery(getPostQueryOptions(_author, _permlink, ''));
+        const _isPostAvailable = post && post.post_id !== 0;
+
+        if (!_isPostAvailable) {
+          Alert.alert(intl.formatMessage({ id: 'alert.not_existing_post' }));
+          return;
+        }
+      } catch {
         Alert.alert(intl.formatMessage({ id: 'alert.not_existing_post' }));
         return;
       }

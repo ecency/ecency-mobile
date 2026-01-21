@@ -6,6 +6,11 @@ import get from 'lodash/get';
 // Services and Actions
 import * as Sentry from '@sentry/react-native';
 import {
+  lookupAccountsQueryOptions,
+  getAccountsQueryOptions,
+  getRecurrentTransfersQueryOptions,
+} from '@ecency/sdk';
+import {
   selectCurrentAccount,
   selectGlobalProps,
   selectPin,
@@ -24,7 +29,7 @@ import {
   setWithdrawVestingRoute,
   recurrentTransferToken,
 } from '../providers/hive/dhive';
-import { lookupAccounts, getAccount, getRecurrentTransfers } from '../providers/hive/dhiveSDK';
+import { getQueryClient } from '../providers/queries';
 import { toastNotification } from '../redux/actions/uiAction';
 import { getUserDataWithUsername } from '../realm/realm';
 import { getPointsSummary } from '../providers/ecency/ePoint';
@@ -105,8 +110,11 @@ class TransferContainer extends Component {
   fetchBalance = (username) => {
     const { fundType, transferType, tokenAddress } = this.state;
 
-    // TODO: fetch balance from query data.
-    getAccount(username).then(async (account) => {
+    // Fetch account using SDK
+    const queryClient = getQueryClient();
+
+    queryClient.fetchQuery(getAccountsQueryOptions([username])).then(async (accounts) => {
+      const account = accounts[0];
       let balance;
 
       if (transferType.endsWith('_engine')) {
@@ -187,12 +195,14 @@ class TransferContainer extends Component {
   };
 
   _getAccountsWithUsername = async (username) => {
-    const validUsers = await lookupAccounts(username);
+    const queryClient = getQueryClient();
+    const validUsers = await queryClient.fetchQuery(lookupAccountsQueryOptions(username, 20));
     return validUsers;
   };
 
   _fetchRecurrentTransfers = async (username) => {
-    const recTransfers = await getRecurrentTransfers(username);
+    const queryClient = getQueryClient();
+    const recTransfers = await queryClient.fetchQuery(getRecurrentTransfersQueryOptions(username));
 
     this.setState({
       recurrentTransfers: recTransfers,

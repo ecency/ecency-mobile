@@ -4,12 +4,10 @@ import { isEmpty } from 'lodash';
 import { useIntl } from 'react-intl';
 
 import { useNavigation } from '@react-navigation/native';
-import { getCommunitiesQueryOptions } from '@ecency/sdk';
+import { getCommunitiesQueryOptions, getAccountSubscriptionsQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAppSelector } from '../../../hooks';
 import ROUTES from '../../../constants/routeNames';
-
-import { getSubscriptions } from '../../../providers/hive/dhiveSDK';
 
 import {
   subscribeCommunity,
@@ -166,7 +164,9 @@ const CommunitiesContainer = ({ children }) => {
       setIsSubscriptionsLoading(false);
     }
     try {
-      const subs = await getSubscriptions(currentAccount.username);
+      const subs = await queryClient.fetchQuery(
+        getAccountSubscriptionsQueryOptions(currentAccount.username),
+      );
       subs.forEach((item) => item.push(true));
       _invalidateSubscribedCommunityCache(subs); // invalidate subscribed communities cache item when latest data is available
 

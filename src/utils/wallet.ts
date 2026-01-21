@@ -1,17 +1,18 @@
 import get from 'lodash/get';
 import { operationOrders } from '@hiveio/dhive/lib/utils';
+import {
+  getQueryClient,
+  getAccountsQueryOptions,
+  getTransactionsInfiniteQueryOptions,
+  getConversionRequestsQueryOptions,
+  getDynamicPropsQueryOptions,
+  getOpenOrdersQueryOptions,
+  getSavingsWithdrawFromQueryOptions,
+} from '@ecency/sdk';
 import { SpkApiWallet } from 'providers/hive-spk/hiveSpk.types';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToHp } from './conversions';
-import {
-  getAccount,
-  getAccountHistory,
-  getConversionRequests,
-  getFeedHistory,
-  getOpenOrders,
-  getSavingsWithdrawFrom,
-} from '../providers/hive/dhiveSDK';
 import { getCurrencyTokenRate, getPortfolio } from '../providers/ecency/ecency';
 import { CoinActivity, CoinData, DataPair, QuoteItem } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
@@ -309,7 +310,10 @@ export const groomingWalletTabData = async ({
   }
 
   // TODO: use passed account data if not refreshing
-  const userdata = isRefresh ? await getAccount(get(user, 'name')) : user;
+  const queryClient = getQueryClient();
+  const userdata = isRefresh
+    ? (await queryClient.fetchQuery(getAccountsQueryOptions([get(user, 'name')])))[0]
+    : user;
 
   // const { accounts } = state;
   // if (!accounts) {
@@ -335,7 +339,7 @@ export const groomingWalletTabData = async ({
 
   // use base and quote from account.globalProps redux
   const feedHistory = isRefresh
-    ? await getFeedHistory()
+    ? (await queryClient.fetchQuery(getDynamicPropsQueryOptions())).feedHistory
     : {
         current_median_history: {
           base: globalProps.base,
@@ -380,9 +384,12 @@ export const fetchPendingRequests = async (
   username: string,
   coinSymbol: string,
 ): Promise<CoinActivity[]> => {
-  const _rawConversions = await getConversionRequests(username);
-  const _rawOpenOrdres = await getOpenOrders(username);
-  const _rawWithdrawRequests = await getSavingsWithdrawFrom(username);
+  const queryClient = getQueryClient();
+  const _rawConversions = await queryClient.fetchQuery(getConversionRequestsQueryOptions(username));
+  const _rawOpenOrdres = await queryClient.fetchQuery(getOpenOrdersQueryOptions(username));
+  const _rawWithdrawRequests = await queryClient.fetchQuery(
+    getSavingsWithdrawFromQueryOptions(username),
+  );
 
   console.log('fetched pending requests', _rawConversions, _rawOpenOrdres, _rawWithdrawRequests);
 
@@ -493,54 +500,66 @@ export const fetchCoinActivities = async ({
 
         return completed;
       }
-      case 'HIVE':
-        history = await getAccountHistory(
-          username,
-          [
-            op.transfer, // HIVE
-            op.transfer_to_vesting, // HIVE, HP
-            op.withdraw_vesting, // HIVE, HP
-            op.transfer_to_savings, // HIVE, HBD
-            op.transfer_from_savings, // HIVE, HBD
-            op.fill_order, // HIVE, HBD
-          ],
-          startIndex,
-          limit,
+      case 'HIVE': {
+        const queryClient = getQueryClient();
+        const result = await queryClient.fetchInfiniteQuery(
+          getTransactionsInfiniteQueryOptions(
+            username,
+            [
+              op.transfer, // HIVE
+              op.transfer_to_vesting, // HIVE, HP
+              op.withdraw_vesting, // HIVE, HP
+              op.transfer_to_savings, // HIVE, HBD
+              op.transfer_from_savings, // HIVE, HBD
+              op.fill_order, // HIVE, HBD
+            ],
+            limit,
+          ),
         );
+        history = result.pages?.[0] || [];
         break;
-      case 'HBD':
-        history = await getAccountHistory(
-          username,
-          [
-            op.transfer, // HIVE //HBD
-            op.author_reward, // HBD, HP
-            op.transfer_to_savings, // HIVE, HBD
-            op.transfer_from_savings, // HIVE, HBD
-            op.fill_convert_request, // HBD
-            op.fill_order, // HIVE, HBD
-            op.sps_fund, // HBD
-          ],
-          startIndex,
-          limit,
+      }
+      case 'HBD': {
+        const queryClient = getQueryClient();
+        const result = await queryClient.fetchInfiniteQuery(
+          getTransactionsInfiniteQueryOptions(
+            username,
+            [
+              op.transfer, // HIVE //HBD
+              op.author_reward, // HBD, HP
+              op.transfer_to_savings, // HIVE, HBD
+              op.transfer_from_savings, // HIVE, HBD
+              op.fill_convert_request, // HBD
+              op.fill_order, // HIVE, HBD
+              op.sps_fund, // HBD
+            ],
+            limit,
+          ),
         );
+        history = result.pages?.[0] || [];
         break;
-      case 'HP':
-        history = await getAccountHistory(
-          username,
-          [
-            op.author_reward, // HBD, HP
-            op.curation_reward, // HP
-            op.transfer_to_vesting, // HIVE, HP
-            op.withdraw_vesting, // HIVE, HP
-            op.interest, // HP
-            op.claim_reward_balance, // HP
-            op.comment_benefactor_reward, // HP
-            op.return_vesting_delegation, // HP
-          ],
-          startIndex,
-          limit,
+      }
+      case 'HP': {
+        const queryClient = getQueryClient();
+        const result = await queryClient.fetchInfiniteQuery(
+          getTransactionsInfiniteQueryOptions(
+            username,
+            [
+              op.author_reward, // HBD, HP
+              op.curation_reward, // HP
+              op.transfer_to_vesting, // HIVE, HP
+              op.withdraw_vesting, // HIVE, HP
+              op.interest, // HP
+              op.claim_reward_balance, // HP
+              op.comment_benefactor_reward, // HP
+              op.return_vesting_delegation, // HP
+            ],
+            limit,
+          ),
         );
+        history = result.pages?.[0] || [];
         break;
+      }
       default:
         return [];
     }

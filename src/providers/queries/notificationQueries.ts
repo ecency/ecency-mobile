@@ -9,11 +9,10 @@ import { updateUnreadActivityCount } from '../../redux/actions/accountAction';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { getNotifications } from '../ecency/ecency';
 import { NotificationFilters } from '../ecency/ecency.types';
-import { markHiveNotifications } from '../hive/dhive';
+import { markHiveNotifications, getDigitPinCode } from '../hive/dhive';
 import QUERIES from './queryKeys';
 import { selectCurrentAccount, selectPin } from '../../redux/selectors';
 import { decryptKey } from '../../utils/crypto';
-import { getDigitPinCode } from '../hive/dhive';
 
 const FETCH_LIMIT = 20;
 
@@ -87,10 +86,17 @@ export const useNotificationReadMutation = () => {
 
   // Get auth credentials
   const digitPinCode = getDigitPinCode(pinHash);
+  if (!digitPinCode) {
+    Sentry.captureException(new Error('Failed to derive digitPinCode'));
+  }
   const username = currentAccount?.username;
-  const accessToken = currentAccount?.local?.accessToken
-    ? decryptKey(currentAccount.local.accessToken, digitPinCode)
-    : undefined;
+  const accessToken =
+    currentAccount?.local?.accessToken && digitPinCode
+      ? decryptKey(currentAccount.local.accessToken, digitPinCode)
+      : undefined;
+  if (!accessToken && currentAccount?.local?.accessToken) {
+    Sentry.captureException(new Error('Credential derivation failed'));
+  }
 
   // Use SDK hook with optimistic updates
   const sdkMutation = useMarkNotificationsRead(
@@ -111,20 +117,23 @@ export const useNotificationReadMutation = () => {
 
   // Wrap SDK mutation to add mobile-specific Hive notification marking
   return {
-    ...sdkMutation,
-    mutate: async (notificationId?: string) => {
-      // Call SDK mutation (handles optimistic updates and Ecency API)
-      await sdkMutation.mutateAsync({ id: notificationId });
+    mutate: (notificationId?: string) => {
+      try {
+        const payload = notificationId ? { id: notificationId } : undefined;
+        sdkMutation.mutate(payload);
 
-      // Mobile-specific: Also mark Hive notifications when marking all
-      if (!notificationId) {
-        try {
-          await markHiveNotifications(currentAccount, pinHash);
-          console.log('Hive notifications marked as Read');
-        } catch (err) {
-          Sentry.captureException(err);
+        // Mobile-specific: Also mark Hive notifications when marking all
+        if (!notificationId) {
+          markHiveNotifications(currentAccount, pinHash).catch((err) => {
+            Sentry.captureException(err);
+          });
         }
+      } catch (error) {
+        Sentry.captureException(error);
       }
     },
+    isLoading: sdkMutation.isLoading,
+    isPending: sdkMutation.isPending,
+    // Don't expose mutateAsync
   };
 };

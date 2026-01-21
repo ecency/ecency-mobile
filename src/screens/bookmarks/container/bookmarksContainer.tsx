@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Services and Actions
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import {
-  getFavorites,
-  deleteFavorite,
-  getBookmarks,
-  deleteBookmark,
-} from '../../../providers/ecency/ecency';
+  useGetBookmarksQuery,
+  useGetFavouritesQuery,
+  useDeleteBookmarkMutation,
+  useDeleteFavouriteMutation,
+} from '../../../providers/queries';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -21,71 +20,41 @@ import { selectCurrentAccount } from '../../../redux/selectors';
 // Component
 import BookmarksScreen from '../screen/bookmarksScreen';
 
-const BookmarksContainer = ({ currentAccount, intl, navigation, route }) => {
-  const [favorites, setFavorites] = useState([]);
-  const [bookmarks, setBookmarks] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+const BookmarksContainer = ({ currentAccount, intl: _intl, navigation, route }) => {
+  const {
+    data: bookmarks = [],
+    isLoading: isLoadingBookmarks,
+    refetch: refetchBookmarks,
+    fetchNextPage: fetchNextBookmarksPage,
+    hasNextPage: hasNextBookmarksPage,
+    isFetchingNextPage: isFetchingNextBookmarksPage,
+  } = useGetBookmarksQuery();
 
-  useEffect(() => {
-    _fetchData();
-  }, []);
+  const {
+    data: favorites = [],
+    isLoading: isLoadingFavorites,
+    refetch: refetchFavorites,
+    fetchNextPage: fetchNextFavoritesPage,
+    hasNextPage: hasNextFavoritesPage,
+    isFetchingNextPage: isFetchingNextFavoritesPage,
+  } = useGetFavouritesQuery();
 
-  // Component Functions
+  const deleteBookmarkMutation = useDeleteBookmarkMutation();
+  const deleteFavoriteMutation = useDeleteFavouriteMutation();
+
+  const isLoading = isLoadingBookmarks || isLoadingFavorites;
 
   const _fetchData = () => {
-    _getBookmarks();
-    _getFavorites();
-  };
-
-  const _getFavorites = () => {
-    setIsLoading(true);
-
-    getFavorites()
-      .then((data) => {
-        setFavorites(_sortData(data));
-        setIsLoading(false);
-      })
-      .catch(() => {
-        Alert.alert(intl.formatMessage({ id: 'favorites.load_error' }));
-        setIsLoading(false);
-      });
-  };
-
-  const _getBookmarks = () => {
-    setIsLoading(true);
-
-    getBookmarks()
-      .then((data) => {
-        setBookmarks(_sortData(data));
-        setIsLoading(false);
-      })
-      .catch(() => {
-        Alert.alert(intl.formatMessage({ id: 'bookmarks.load_error' }));
-        setIsLoading(false);
-      });
+    refetchBookmarks();
+    refetchFavorites();
   };
 
   const _removeFavorite = (selectedUsername) => {
-    deleteFavorite(selectedUsername)
-      .then(() => {
-        const newFavorites = [...favorites].filter((fav) => fav.account !== selectedUsername);
-
-        setFavorites(_sortData(newFavorites));
-      })
-      .catch(() => {
-        Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
-      });
+    deleteFavoriteMutation.mutate({ account: selectedUsername });
   };
 
   const _removeBoomark = (id) => {
-    deleteBookmark(id)
-      .then(() => {
-        const newBookmarks = [...bookmarks].filter((bookmark) => bookmark._id !== id);
-        setBookmarks(_sortData(newBookmarks));
-      })
-      .catch(() => {
-        Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
-      });
+    deleteBookmarkMutation.mutate({ bookmarkId: id });
   };
 
   const _handleOnFavoritePress = (username) => {
@@ -110,15 +79,6 @@ const BookmarksContainer = ({ currentAccount, intl, navigation, route }) => {
     }
   };
 
-  const _sortData = (data) => {
-    return data.sort((a, b) => {
-      const dateA = a.timestamp;
-      const dateB = b.timestamp;
-
-      return dateB - dateA;
-    });
-  };
-
   return (
     <BookmarksScreen
       isLoading={isLoading}
@@ -130,6 +90,14 @@ const BookmarksContainer = ({ currentAccount, intl, navigation, route }) => {
       handleOnFavoritePress={_handleOnFavoritePress}
       handleOnBookmarkPress={_handleOnBookmarkPress}
       initialTabIndex={route.params?.showFavorites ? 1 : 0}
+      // Pagination props for bookmarks
+      fetchNextBookmarksPage={fetchNextBookmarksPage}
+      hasNextBookmarksPage={hasNextBookmarksPage}
+      isFetchingNextBookmarksPage={isFetchingNextBookmarksPage}
+      // Pagination props for favorites
+      fetchNextFavoritesPage={fetchNextFavoritesPage}
+      hasNextFavoritesPage={hasNextFavoritesPage}
+      isFetchingNextFavoritesPage={isFetchingNextFavoritesPage}
     />
   );
 };

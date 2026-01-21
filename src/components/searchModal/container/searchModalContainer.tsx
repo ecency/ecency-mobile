@@ -4,10 +4,13 @@ import get from 'lodash/get';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
-import { lookupAccountsQueryOptions } from '@ecency/sdk';
+import {
+  lookupAccountsQueryOptions,
+  getTrendingTagsQueryOptions,
+  getPostQueryOptions,
+} from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import { search } from '../../../providers/ecency/ecency';
-import { getTrendingTags, getPurePost } from '../../../providers/hive/dhiveSDK';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -61,7 +64,8 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder 
           })
           .catch((e) => console.log('lookupAccounts', e));
       } else if (text[0] === '#') {
-        getTrendingTags(text.substr(1).trim())
+        queryClient
+          .fetchQuery(getTrendingTagsQueryOptions(text.substr(1).trim(), 20))
           .then((res) => {
             const tags = res
               ? res.map((item) => ({
@@ -85,9 +89,10 @@ const SearchModalContainer = ({ isConnected, handleOnClose, isOpen, placeholder 
 
           if (author) {
             if (permlink) {
-              getPurePost(author, permlink)
+              queryClient
+                .fetchQuery(getPostQueryOptions(author, permlink, ''))
                 .then((post) => {
-                  if (post.id !== 0) {
+                  if (post.post_id !== 0) {
                     const result = {};
                     let metadata = {};
                     try {

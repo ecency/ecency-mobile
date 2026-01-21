@@ -7,8 +7,9 @@ import get from 'lodash/get';
 import { postBodySummary } from '@ecency/render-helper';
 import { useNavigation } from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
+import { getDiscussionsQueryOptions } from '@ecency/sdk';
+import { useQueryClient } from '@tanstack/react-query';
 import { deleteComment } from '../../../providers/hive/dhive';
-import { getComments } from '../../../providers/hive/dhiveSDK';
 // Services and Actions
 import { writeToClipboard } from '../../../utils/clipboard';
 import { toastNotification } from '../../../redux/actions/uiAction';
@@ -31,7 +32,6 @@ const CommentsContainer = ({
   author,
   permlink,
   selectedFilter,
-  currentAccount: { name },
   isOwnProfile,
   fetchPost,
   currentAccount,
@@ -62,6 +62,7 @@ const CommentsContainer = ({
 }) => {
   const navigation = useNavigation();
   const postsCachePrimer = postQueries.usePostsCachePrimer();
+  const queryClient = useQueryClient();
 
   const [lcomments, setLComments] = useState([]);
   const [propComments, setPropComments] = useState(comments);
@@ -168,7 +169,8 @@ const CommentsContainer = ({
         handleOnCommentsLoaded();
       }
     } else if (author && permlink && !propComments) {
-      await getComments(author, permlink, name)
+      await queryClient
+        .fetchQuery(getDiscussionsQueryOptions(author, permlink))
         .then((__comments) => {
           // favourable place for merging comment cache
           __comments = _sortComments(selectedFilter, __comments);

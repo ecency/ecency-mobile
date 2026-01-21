@@ -19,7 +19,7 @@ import { useDispatch } from 'react-redux';
 import { SheetManager } from 'react-native-actions-sheet';
 import unionBy from 'lodash/unionBy';
 
-import { getCommunityQueryOptions } from '@ecency/sdk';
+import { getCommunityQueryOptions, getPostQueryOptions } from '@ecency/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAppSelector, useLinkProcessor } from '../../../hooks';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
@@ -46,7 +46,6 @@ import {
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
 import { signImage } from '../../../providers/hive/dhive';
-import { getPost } from '../../../providers/hive/dhiveSDK';
 import { chatThreadStyles as styles } from '../styles/chatThread.styles';
 import { emojifyMessage } from '../../../utils/emoji';
 import { extractImageUrls, extractUrls } from '../../../utils/editor';
@@ -597,7 +596,9 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         const parsed = postUrlParser(firstUrl);
         if (parsed?.author && parsed?.permlink) {
           // It's a Hive post, fetch from Hive
-          const post = await getPost(parsed.author, parsed.permlink, currentAccount?.name);
+          const post = await queryClient.fetchQuery(
+            getPostQueryOptions(parsed.author, parsed.permlink, currentAccount?.name),
+          );
 
           if (post && post.title) {
             setLinkMeta({

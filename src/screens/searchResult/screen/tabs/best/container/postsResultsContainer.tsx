@@ -3,11 +3,11 @@ import get from 'lodash/get';
 
 import { useNavigation } from '@react-navigation/native';
 
+import { getPostQueryOptions, getAccountPostsQueryOptions } from '@ecency/sdk';
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { search } from '../../../../../../providers/ecency/ecency';
-import { getAccountPosts, getPost } from '../../../../../../providers/hive/dhiveSDK';
-import { postQueries } from '../../../../../../providers/queries';
+import { getQueryClient, postQueries } from '../../../../../../providers/queries';
 import postUrlParser from '../../../../../../utils/postUrlParser';
 import { selectCurrentAccountUsername } from '../../../../../../redux/selectors';
 import { useAppSelector } from '../../../../../../hooks';
@@ -38,7 +38,10 @@ const PostsResultsContainer = ({ children, searchValue }) => {
 
     // fetch based on post url
     if (author && permlink) {
-      const post = await getPost(author, permlink);
+      const queryClient = getQueryClient();
+      const post = await queryClient.fetchQuery(
+        getPostQueryOptions(author, permlink, currentAccountUsername),
+      );
       _data = post ? [post] : [];
     }
     // search with query
@@ -57,14 +60,17 @@ const PostsResultsContainer = ({ children, searchValue }) => {
   };
 
   const getInitialPosts = async () => {
-    const options = {
-      observer: currentAccountUsername,
-      account: 'ecency',
-      limit: 7,
-      sort: 'blog',
-    };
-
-    return getAccountPosts(options, currentAccountUsername || '');
+    const queryClient = getQueryClient();
+    return queryClient.fetchQuery(
+      getAccountPostsQueryOptions(
+        'ecency',
+        'blog',
+        undefined,
+        undefined,
+        7,
+        currentAccountUsername,
+      ),
+    );
   };
 
   // Component Functions

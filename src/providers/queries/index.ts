@@ -65,6 +65,7 @@ export const getQueryClient = getQueryClientFromSDK;
 
 export * from './notificationQueries';
 export * from './draftQueries';
+export * from './bookmarkQueries';
 export * from './editorQueries';
 export * from './pointQueries';
 export * from './postQueries';

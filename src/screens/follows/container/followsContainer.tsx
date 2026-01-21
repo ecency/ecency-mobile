@@ -21,9 +21,8 @@ const FollowsContainer = ({ route }) => {
   const mode = isFollowingPress ? 'following' : 'followers';
 
   // Use SDK's infinite query for followers/following
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery(
-    getFriendsInfiniteQueryOptions(username, mode),
-  );
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage, error, isError } =
+    useInfiniteQuery(getFriendsInfiniteQueryOptions(username, mode));
 
   // Flatten pages data into a single array
   const users = useMemo(() => {
@@ -33,8 +32,7 @@ const FollowsContainer = ({ route }) => {
 
   // Handle loading more users
   const handleLoadMore = () => {
-    // Only load more if there's a next page, not currently fetching, and count >= 100
-    if (hasNextPage && !isFetchingNextPage && count >= 100) {
+    if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
   };
@@ -68,6 +66,8 @@ const FollowsContainer = ({ route }) => {
       count={count}
       isLoading={isLoading || isFetchingNextPage}
       handleSearch={handleSearch}
+      isError={isError}
+      error={error}
     />
   );
 };

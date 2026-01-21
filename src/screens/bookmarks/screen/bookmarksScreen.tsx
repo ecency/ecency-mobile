@@ -24,6 +24,12 @@ const BookmarksScreen = ({
   removeFavorite,
   removeBookmark,
   initialTabIndex,
+  fetchNextBookmarksPage,
+  hasNextBookmarksPage,
+  isFetchingNextBookmarksPage,
+  fetchNextFavoritesPage,
+  hasNextFavoritesPage,
+  isFetchingNextFavoritesPage,
 }) => {
   const [tabIndex, setTabIndex] = React.useState(initialTabIndex);
   const [routes] = React.useState([
@@ -80,6 +86,17 @@ const BookmarksScreen = ({
 
   const _getTabItem = (data, type) => {
     const isFavorites = type === 'favorites';
+    const fetchNextPage = isFavorites ? fetchNextFavoritesPage : fetchNextBookmarksPage;
+    const hasNextPage = isFavorites ? hasNextFavoritesPage : hasNextBookmarksPage;
+    const isFetchingNextPage = isFavorites
+      ? isFetchingNextFavoritesPage
+      : isFetchingNextBookmarksPage;
+
+    const handleLoadMore = () => {
+      if (hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    };
 
     return (
       <FlatList
@@ -94,6 +111,9 @@ const BookmarksScreen = ({
         removeClippedSubviews={false}
         renderItem={({ item, index }) => _renderItem(item, index, type)}
         ListEmptyComponent={_renderEmptyContent()}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={isFetchingNextPage ? <WalletDetailsPlaceHolder /> : null}
       />
     );
   };

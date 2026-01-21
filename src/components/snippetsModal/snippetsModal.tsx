@@ -82,6 +82,12 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
     );
   };
 
+  const handleLoadMore = () => {
+    if (snippetsQuery.hasNextPage && !snippetsQuery.isFetchingNextPage) {
+      snippetsQuery.fetchNextPage();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.bodyWrapper}>
@@ -90,6 +96,8 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={_renderItem}
           ListEmptyComponent={_renderEmptyContent}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
           refreshControl={
             <RefreshControl
               refreshing={snippetsQuery.isFetching}

@@ -48,14 +48,6 @@ export function useReblogMutation(author: string, permlink: string) {
       ? decryptKey(currentAccount.local.postingKey, digitPinCode)
       : undefined;
 
-  // Validate decrypted credentials
-  if (isHiveSigner && !accessToken) {
-    throw new Error('Failed to decrypt access token. Please check your PIN.');
-  }
-  if (!isHiveSigner && !postingKey) {
-    throw new Error('Failed to decrypt posting key. Please check your PIN.');
-  }
-
   const auth = {
     postingKey,
     loginType: isHiveSigner ? 'hs' : 'key',
@@ -93,6 +85,14 @@ export function useReblogMutation(author: string, permlink: string) {
     mutationFn: async ({ undo }: { undo: boolean }) => {
       if (!author || !permlink || !currentAccount) {
         throw new Error('Not enough data to reblog post');
+      }
+
+      // Validate decrypted credentials
+      if (isHiveSigner && !accessToken) {
+        throw new Error('Failed to decrypt access token. Please check your PIN.');
+      }
+      if (!isHiveSigner && !postingKey) {
+        throw new Error('Failed to decrypt posting key. Please check your PIN.');
       }
 
       const resp = await broadcastMutation.mutateAsync({ undo });
@@ -172,14 +172,6 @@ export function useCrossPostMutation() {
       ? decryptKey(currentAccount.local.postingKey, digitPinCode)
       : undefined;
 
-  // Validate decrypted credentials
-  if (isHiveSigner && !accessToken) {
-    throw new Error('Failed to decrypt access token. Please check your PIN.');
-  }
-  if (!isHiveSigner && !postingKey) {
-    throw new Error('Failed to decrypt posting key. Please check your PIN.');
-  }
-
   const auth = {
     postingKey,
     loginType: isHiveSigner ? 'hs' : 'key',
@@ -241,6 +233,14 @@ export function useCrossPostMutation() {
     }) => {
       if (!communityId || !currentAccount) {
         throw new Error('Not enough data to make cross post');
+      }
+
+      // Validate decrypted credentials
+      if (isHiveSigner && !accessToken) {
+        throw new Error('Failed to decrypt access token. Please check your PIN.');
+      }
+      if (!isHiveSigner && !postingKey) {
+        throw new Error('Failed to decrypt posting key. Please check your PIN.');
       }
 
       const resp = await broadcastMutation.mutateAsync({

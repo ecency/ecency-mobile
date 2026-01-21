@@ -44,7 +44,6 @@ const PowerDownScreen = ({
   const intl = useIntl();
   const queryClient = useQueryClient();
 
-  const [from] = useState(currentAccountName);
   const [amount, setAmount] = useState(0);
   const [hp, setHp] = useState(0.0);
   const [isTransfering, setIsTransfering] = useState(false);
@@ -87,16 +86,16 @@ const PowerDownScreen = ({
       setIsTransfering(false);
     } else if (accountType === AUTH_TYPE.HIVE_AUTH) {
       const opArray = buildTransferOpsArray(TransferTypes.WITHDRAW_VESTING, {
-        from,
+        from: currentAccountName,
         to: destinationAccounts,
         amount: amount.toFixed(6),
         fundType: 'VESTS',
       });
       hiveAuthModalRef.current?.broadcastActiveOps(opArray);
     } else {
-      transferToAccount(from, destinationAccounts, amount, '');
+      transferToAccount(currentAccountName, destinationAccounts, amount, '');
     }
-  }, [accountType, intl, from, destinationAccounts, amount, transferToAccount]);
+  }, [accountType, intl, currentAccountName, destinationAccounts, amount, transferToAccount]);
 
   const validateHP = useCallback(
     ({ value, availableVestingShares }) => {
@@ -105,7 +104,7 @@ const PowerDownScreen = ({
       const amountValid = !(
         Number.isNaN(parsedHpValue) ||
         parsedHpValue < 0.0 ||
-        parsedHpValue >= totalHP
+        parsedHpValue > totalHP
       );
       return amountValid;
     },
@@ -122,7 +121,7 @@ const PowerDownScreen = ({
         setAmount(0);
         setHp(0.0);
         setIsAmountValid(false);
-      } else if (parsedValue >= totalHP) {
+      } else if (parsedValue > totalHP) {
         setAmount(availableVestingShares);
         setHp(totalHP);
         setIsAmountValid(false);
@@ -384,7 +383,6 @@ const PowerDownScreen = ({
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.powerDownKeyboadrAvoidingContainer}
-        keyboardShouldPersistTaps="always"
       >
         <ScrollView
           keyboardShouldPersistTaps="always"

@@ -6,6 +6,7 @@ import { useIntl } from 'react-intl';
 
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
+import { getAccountsQueryOptions } from '@ecency/sdk';
 import {
   selectCurrentAccount,
   selectGlobalProps,
@@ -18,7 +19,7 @@ import {
 } from '../redux/selectors';
 import { getPointsSummary, claimPoints, getPointsHistory } from '../providers/ecency/ePoint';
 import { boost } from '../providers/hive/dhive';
-import { getAccount } from '../providers/hive/dhiveSDK';
+import { getQueryClient } from '../providers/queries';
 import { getUserDataWithUsername } from '../realm/realm';
 import { toastNotification } from '../redux/actions/uiAction';
 
@@ -227,6 +228,12 @@ const PointsContainer = ({
     return points / 150;
   };
 
+  const _getAccount = async (username: string) => {
+    const queryClient = getQueryClient();
+    const accounts = await queryClient.fetchQuery(getAccountsQueryOptions([username]));
+    return accounts[0];
+  };
+
   return (
     children &&
     children({
@@ -237,7 +244,7 @@ const PointsContainer = ({
       currentAccount,
       currentAccountName: currentAccount.name,
       fetchUserActivity: _fetchUserPointActivities,
-      getAccount,
+      getAccount: _getAccount,
       getESTMPrice: _getESTMPrice,
       getUserBalance: _getUserBalance,
       getUserDataWithUsername,

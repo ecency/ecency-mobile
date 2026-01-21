@@ -3,6 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 
 import get from 'lodash/get';
+import { getAccountsQueryOptions } from '@ecency/sdk';
 import { toastNotification } from '../redux/actions/uiAction';
 import {
   selectCurrentAccount,
@@ -12,9 +13,9 @@ import {
   selectIsPinCodeOpen,
 } from '../redux/selectors';
 
-// dhive
+// dhive and SDK
 import { claimRewardBalance } from '../providers/hive/dhive';
-import { getAccount } from '../providers/hive/dhiveSDK';
+import { getQueryClient } from '../providers/queries';
 
 // Utils
 import { groomingWalletTabData, groomingTransactionData, transferTypes } from '../utils/wallet';
@@ -177,8 +178,12 @@ const WalletContainer = ({
 
     await setIsClaiming(true);
 
-    getAccount(currentAccount.name)
-      .then((account) => {
+    const queryClient = getQueryClient();
+
+    queryClient
+      .fetchQuery(getAccountsQueryOptions([currentAccount.name]))
+      .then((accounts) => {
+        const account = accounts[0];
         isHasUnclaimedRewards = _isHasUnclaimedRewards(account);
         if (isHasUnclaimedRewards) {
           const {
@@ -190,7 +195,7 @@ const WalletContainer = ({
         }
         setIsClaiming(false);
       })
-      .then(() => getAccount(currentAccount.name))
+      .then(() => queryClient.fetchQuery(getAccountsQueryOptions([currentAccount.name])))
       .then(() => {
         const _isRefresh = true;
         _getWalletData(selectedUser, _isRefresh);
@@ -226,7 +231,10 @@ const WalletContainer = ({
     if (refreshing) return;
     setRefreshing(true);
 
-    getAccount(selectedUser.name)
+    const queryClient = getQueryClient();
+
+    queryClient
+      .fetchQuery(getAccountsQueryOptions([selectedUser.name]))
       .then(() => {
         const _isRefresh = true;
         _getWalletData(selectedUser, _isRefresh);
