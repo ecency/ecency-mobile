@@ -164,23 +164,22 @@ const CommunitiesContainer = ({ children }) => {
       setIsSubscriptionsLoading(false);
     }
     try {
-      const subs = await queryClient.fetchQuery(
+      const subsData = await queryClient.fetchQuery(
         getAccountSubscriptionsQueryOptions(currentAccount.username),
       );
-      subs.forEach((item) => item.push(true));
+      // Create shallow copy and add subscription flag to avoid mutating cache
+      const subs = subsData.map((item) => [...item, true]);
       _invalidateSubscribedCommunityCache(subs); // invalidate subscribed communities cache item when latest data is available
 
-      const communities = await queryClient.fetchQuery(
-        getCommunitiesQueryOptions('rank', undefined, 50, currentAccount.name),
+      const communitiesData = await queryClient.fetchQuery(
+        getCommunitiesQueryOptions('rank', undefined, 50, currentAccount.username),
       );
 
-      communities.forEach((community) =>
-        Object.assign(community, {
-          isSubscribed: subs.some(
-            (subscribedCommunity) => subscribedCommunity[0] === community.name,
-          ),
-        }),
-      );
+      // Create shallow copy with isSubscribed flag to avoid mutating cache
+      const communities = communitiesData.map((community) => ({
+        ...community,
+        isSubscribed: subs.some((subscribedCommunity) => subscribedCommunity[0] === community.name),
+      }));
 
       setSubscriptions(mergeSubCommunitiesCacheInSubList(subs, subscribedCommunitiesCache)); // merge cache with fetched data
       setDiscovers(communities);

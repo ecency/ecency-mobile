@@ -311,9 +311,20 @@ export const groomingWalletTabData = async ({
 
   // TODO: use passed account data if not refreshing
   const queryClient = getQueryClient();
-  const userdata = isRefresh
-    ? (await queryClient.fetchQuery(getAccountsQueryOptions([get(user, 'name')])))[0]
-    : user;
+  let userdata = user;
+  if (isRefresh) {
+    const accounts = await queryClient.fetchQuery(getAccountsQueryOptions([get(user, 'name')]));
+    if (!accounts || accounts.length === 0) {
+      console.warn(
+        'groomingWalletTabData: fetchQuery returned empty array for user',
+        get(user, 'name'),
+      );
+      // Fall back to passed user data instead of undefined
+      userdata = user;
+    } else {
+      [userdata] = accounts;
+    }
+  }
 
   // const { accounts } = state;
   // if (!accounts) {

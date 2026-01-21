@@ -80,12 +80,18 @@ export const QuickProfileContent = ({ username, onClose }: QuickProfileContentPr
         let follows;
 
         if (!isOwnProfile) {
-          const res = await queryClient.fetchQuery(
-            getRelationshipBetweenAccountsQueryOptions(currentAccountName, username),
-          );
-          _isFollowing = res && res.follows;
-          _isMuted = res && res.ignores;
-          _isFavourite = await checkFavorite(username);
+          if (currentAccountName) {
+            const res = await queryClient.fetchQuery(
+              getRelationshipBetweenAccountsQueryOptions(currentAccountName, username),
+            );
+            _isFollowing = res && res.follows;
+            _isMuted = res && res.ignores;
+            _isFavourite = await checkFavorite(username);
+          } else {
+            _isFollowing = false;
+            _isMuted = false;
+            _isFavourite = false;
+          }
         }
 
         try {

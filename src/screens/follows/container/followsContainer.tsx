@@ -22,7 +22,10 @@ const FollowsContainer = ({ route }) => {
 
   // Use SDK's infinite query for followers/following
   const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage, error, isError } =
-    useInfiniteQuery(getFriendsInfiniteQueryOptions(username, mode));
+    useInfiniteQuery({
+      ...getFriendsInfiniteQueryOptions(username, mode),
+      enabled: !!username,
+    });
 
   // Flatten pages data into a single array
   const users = useMemo(() => {

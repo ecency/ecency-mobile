@@ -34,17 +34,18 @@ export function useReblogMutation(author: string, permlink: string) {
 
   const userActivityMutation = useUserActivityMutation();
 
-  // Prepare auth credentials
-  const digitPinCode = getDigitPinCode(pinHash);
+  // Prepare auth credentials with guards
+  const digitPinCode = pinHash ? getDigitPinCode(pinHash) : '';
   const isHiveSigner =
-    currentAccount.local.authType === authType.STEEM_CONNECT ||
-    currentAccount.local.authType === authType.HIVE_AUTH;
+    currentAccount?.local?.authType === authType.STEEM_CONNECT ||
+    currentAccount?.local?.authType === authType.HIVE_AUTH;
 
-  const accessToken = isHiveSigner
-    ? decryptKey(currentAccount.local.accessToken, digitPinCode)
-    : undefined;
+  const accessToken =
+    isHiveSigner && currentAccount?.local?.accessToken && digitPinCode
+      ? decryptKey(currentAccount.local.accessToken, digitPinCode)
+      : undefined;
   const postingKey =
-    !isHiveSigner && currentAccount.local.postingKey
+    !isHiveSigner && currentAccount?.local?.postingKey && digitPinCode
       ? decryptKey(currentAccount.local.postingKey, digitPinCode)
       : undefined;
 
@@ -55,19 +56,19 @@ export function useReblogMutation(author: string, permlink: string) {
 
   const broadcastMutation = useBroadcastMutation<{ undo: boolean }>(
     [QUERIES.POST.REBLOG_POST, author, permlink],
-    currentAccount.name,
+    currentAccount?.name || '',
     accessToken,
     ({ undo }) => [
       [
         'custom_json',
         {
           required_auths: [],
-          required_posting_auths: [currentAccount.name],
+          required_posting_auths: [currentAccount?.name || ''],
           id: 'follow',
           json: JSON.stringify([
             'reblog',
             {
-              account: currentAccount.name,
+              account: currentAccount?.name || '',
               author,
               permlink,
               delete: undo ? 'delete' : undefined,
@@ -117,11 +118,15 @@ export function useReblogMutation(author: string, permlink: string) {
             return data;
           }
 
-          const _curIndex = data.indexOf(currentAccount.username);
+          const username = currentAccount?.username;
+          if (!username) {
+            return data;
+          }
+          const _curIndex = data.indexOf(username);
           if (vars.undo) {
             data.splice(_curIndex, 1);
           } else if (_curIndex < 0) {
-            data.splice(0, 0, currentAccount.username);
+            data.splice(0, 0, username);
           }
 
           return [...data] as ReturnType<typeof useGetReblogsQuery>['data'];
@@ -158,17 +163,18 @@ export function useCrossPostMutation() {
 
   const userActivityMutation = useUserActivityMutation();
 
-  // Prepare auth credentials
-  const digitPinCode = getDigitPinCode(pinHash);
+  // Prepare auth credentials with guards
+  const digitPinCode = pinHash ? getDigitPinCode(pinHash) : '';
   const isHiveSigner =
-    currentAccount.local.authType === authType.STEEM_CONNECT ||
-    currentAccount.local.authType === authType.HIVE_AUTH;
+    currentAccount?.local?.authType === authType.STEEM_CONNECT ||
+    currentAccount?.local?.authType === authType.HIVE_AUTH;
 
-  const accessToken = isHiveSigner
-    ? decryptKey(currentAccount.local.accessToken, digitPinCode)
-    : undefined;
+  const accessToken =
+    isHiveSigner && currentAccount?.local?.accessToken && digitPinCode
+      ? decryptKey(currentAccount.local.accessToken, digitPinCode)
+      : undefined;
   const postingKey =
-    !isHiveSigner && currentAccount.local.postingKey
+    !isHiveSigner && currentAccount?.local?.postingKey && digitPinCode
       ? decryptKey(currentAccount.local.postingKey, digitPinCode)
       : undefined;
 
@@ -183,11 +189,11 @@ export function useCrossPostMutation() {
     message: string;
   }>(
     [QUERIES.POST.CROSS_POST],
-    currentAccount.name,
+    currentAccount?.name || '',
     accessToken,
     ({ post, communityId, message }) => {
       const { title } = post;
-      const author = currentAccount.username;
+      const author = currentAccount?.username || '';
       const permlink = `${post.permlink}-${communityId}`;
       const body = makeCrossPostMessage(post, author, message);
 
@@ -282,6 +288,7 @@ export function useCrossPostMutation() {
 }
 
 export const makeCrossPostMessage = (post: any, poster: string, message: string) => {
-  const postLink = `[@${post.author}/${post.permlink}](/${post.category}/@${post.author}/${post.permlink})`;
+  const { author, permlink, category } = post;
+  const postLink = `[@${author}/${permlink}](/${category}/@${author}/${permlink})`;
   return `This is a cross post of ${postLink} by @${poster}.<br><br>${message}`;
 };

@@ -28,17 +28,27 @@ const VotersScreen = ({ route }) => {
     id: 'voters.voters_info',
   });
 
+  const author = get(post, 'author');
+  const permlink = get(post, 'permlink');
+
   const { data: activeVotes } = useQuery({
-    ...getEntryActiveVotesQueryOptions(get(post, 'author'), get(post, 'permlink')),
-    enabled: !!route.params?.content && !!get(post, 'author') && !!get(post, 'permlink'),
+    ...(author && permlink ? getEntryActiveVotesQueryOptions(author, permlink) : {}),
+    enabled: !!route.params?.content && !!author && !!permlink,
   });
 
   useEffect(() => {
     if (activeVotes && route.params?.content) {
-      const result = [...activeVotes];
-      result.sort((a, b) => b.rshares - a.rshares);
-      post.active_votes = parseActiveVotes({ ...post, active_votes: result });
-      setPost({ ...post });
+      setPost((prev) => {
+        if (!prev) return prev;
+
+        const sortedVotes = [...activeVotes].sort((a, b) => b.rshares - a.rshares);
+        const parsedVotes = parseActiveVotes({ ...prev, active_votes: sortedVotes });
+
+        return {
+          ...prev,
+          active_votes: parsedVotes,
+        };
+      });
     }
   }, [activeVotes, route.params?.content]);
 

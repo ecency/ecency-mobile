@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getBookmarksInfiniteQueryOptions,
   getFavouritesInfiniteQueryOptions,
@@ -97,11 +97,20 @@ export const useGetFavouritesQuery = (limit = 20) => {
 export const useAddBookmarkMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
   const { username, code } = useAuth();
 
-  return useAccountBookmarkAdd(username, code, undefined, () => {
-    dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-  });
+  return useAccountBookmarkAdd(
+    username,
+    code,
+    () => {
+      queryClient.invalidateQueries({ queryKey: ['bookmarks'] });
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
+    },
+    () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  );
 };
 
 /**
@@ -111,11 +120,20 @@ export const useAddBookmarkMutation = () => {
 export const useDeleteBookmarkMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
   const { username, code } = useAuth();
 
-  return useAccountBookmarkDelete(username, code, undefined, () => {
-    dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-  });
+  return useAccountBookmarkDelete(
+    username,
+    code,
+    () => {
+      queryClient.invalidateQueries({ queryKey: ['bookmarks'] });
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
+    },
+    () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  );
 };
 
 /**
@@ -125,11 +143,20 @@ export const useDeleteBookmarkMutation = () => {
 export const useAddFavouriteMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
   const { username, code } = useAuth();
 
-  return useAccountFavouriteAdd(username, code, undefined, () => {
-    dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-  });
+  return useAccountFavouriteAdd(
+    username,
+    code,
+    () => {
+      queryClient.invalidateQueries({ queryKey: ['favourites'] });
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
+    },
+    () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  );
 };
 
 /**
@@ -139,9 +166,18 @@ export const useAddFavouriteMutation = () => {
 export const useDeleteFavouriteMutation = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
   const { username, code } = useAuth();
 
-  return useAccountFavouriteDelete(username, code, undefined, () => {
-    dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-  });
+  return useAccountFavouriteDelete(
+    username,
+    code,
+    () => {
+      queryClient.invalidateQueries({ queryKey: ['favourites'] });
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.success' })));
+    },
+    () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  );
 };

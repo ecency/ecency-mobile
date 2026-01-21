@@ -155,22 +155,24 @@ const PowerDownScreen = ({
 
   const handleOnSubmit = useCallback(
     (username, percent, autoPowerUp) => {
-      setDestinationAccounts((prev) => {
-        if (!prev.some((item) => item.username === username)) {
-          const newAccounts = [...prev, { username, percent, autoPowerUp }];
-          setWithdrawVestingRoute(currentAccountName, username, percent, autoPowerUp);
-          setIsOpenWithdrawAccount(false);
-          return newAccounts;
-        } else {
-          Alert.alert(
-            intl.formatMessage({ id: 'alert.fail' }),
-            intl.formatMessage({ id: 'alert.same_user' }),
-          );
-          return prev;
-        }
-      });
+      // Check if account already exists before updating state
+      if (destinationAccounts.some((item) => item.username === username)) {
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.fail' }),
+          intl.formatMessage({ id: 'alert.same_user' }),
+        );
+        return;
+      }
+
+      // Update state first
+      const newAccounts = [...destinationAccounts, { username, percent, autoPowerUp }];
+      setDestinationAccounts(newAccounts);
+
+      // Then perform side effects
+      setWithdrawVestingRoute(currentAccountName, username, percent, autoPowerUp);
+      setIsOpenWithdrawAccount(false);
     },
-    [setWithdrawVestingRoute, currentAccountName, intl],
+    [destinationAccounts, setWithdrawVestingRoute, currentAccountName, intl],
   );
 
   useEffect(() => {

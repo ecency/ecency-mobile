@@ -93,7 +93,7 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
       <View style={styles.bodyWrapper}>
         <FlatList
           data={snippetsQuery.data}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item) => item.id}
           renderItem={_renderItem}
           ListEmptyComponent={_renderEmptyContent}
           onEndReached={handleLoadMore}
