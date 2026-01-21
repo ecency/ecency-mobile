@@ -75,6 +75,13 @@ const PowerDownScreen = ({
     [queryClient, intl],
   );
 
+  const handleHiveAuthModalClose = useCallback(() => {
+    setIsTransfering(false);
+    if (handleOnModalClose) {
+      handleOnModalClose();
+    }
+  }, [handleOnModalClose]);
+
   const handleTransferAction = useCallback(() => {
     setIsTransfering(true);
 
@@ -92,14 +99,15 @@ const PowerDownScreen = ({
         fundType: 'VESTS',
       });
       hiveAuthModalRef.current?.broadcastActiveOps(opArray);
-      setIsTransfering(false);
+      // Loading state will be cleared by handleHiveAuthModalClose
     } else {
       transferToAccount(currentAccountName, destinationAccounts, amount, '')
         .then(() => {
           setIsTransfering(false);
         })
-        .catch(() => {
+        .catch((error) => {
           setIsTransfering(false);
+          Alert.alert(intl.formatMessage({ id: 'alert.error' }), error.message || error.toString());
         });
     }
   }, [accountType, intl, currentAccountName, destinationAccounts, amount, transferToAccount]);
@@ -444,7 +452,7 @@ const PowerDownScreen = ({
           handleOnSubmit={handleOnSubmit}
         />
       </Modal>
-      <HiveAuthModal ref={hiveAuthModalRef} onClose={handleOnModalClose} />
+      <HiveAuthModal ref={hiveAuthModalRef} onClose={handleHiveAuthModalClose} />
     </SafeAreaView>
   );
 };
