@@ -70,7 +70,7 @@ The repository follows the typical React Native layout:
 - `__tests__/` – Jest tests
 - `patches/` – patch-package files applied during install
 
-**Note**: The app uses `@ecency/sdk` for all data fetching.
+**Note**: The app primarily uses `@ecency/sdk` for data fetching (with some legacy dhive usage remaining during migration).
 
 ## Development tips
 

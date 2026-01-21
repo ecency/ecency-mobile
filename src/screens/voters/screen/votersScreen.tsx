@@ -41,7 +41,9 @@ const VotersScreen = ({ route }) => {
       setPost((prev) => {
         if (!prev) return prev;
 
-        const sortedVotes = [...activeVotes].sort((a, b) => b.rshares - a.rshares);
+        const sortedVotes = [...activeVotes].sort(
+          (a, b) => parseFloat(b.rshares) - parseFloat(a.rshares),
+        );
         const parsedVotes = parseActiveVotes({ ...prev, active_votes: sortedVotes });
 
         return {

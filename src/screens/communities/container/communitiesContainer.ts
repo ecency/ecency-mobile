@@ -181,11 +181,16 @@ const CommunitiesContainer = ({ children }) => {
         isSubscribed: subs.some((subscribedCommunity) => subscribedCommunity[0] === community.name),
       }));
 
-      setSubscriptions(mergeSubCommunitiesCacheInSubList(subs, subscribedCommunitiesCache)); // merge cache with fetched data
+      const sortedSubs = subs.sort((a, b) => a[1].localeCompare(b[1]));
+      const mergedAndSortedSubs = mergeSubCommunitiesCacheInSubList(
+        sortedSubs,
+        subscribedCommunitiesCache,
+      );
+      setSubscriptions(mergedAndSortedSubs); // merge cache with fetched data
       setDiscovers(communities);
       setIsSubscriptionsLoading(false);
       setIsDiscoversLoading(false);
-      dispatch(fetchSubscribedCommunitiesSuccess(subs.sort((a, b) => a[1].localeCompare(b[1])))); // register subscribed data in communities store
+      dispatch(fetchSubscribedCommunitiesSuccess(sortedSubs)); // register subscribed data in communities store
     } catch (err) {
       console.warn('Failed to get subscriptions', err);
       setIsSubscriptionsLoading(false);

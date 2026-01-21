@@ -14,23 +14,28 @@ import {
 import { PrevLoggedInUsers } from '../reducers/accountReducer';
 
 export const fetchGlobalProperties = () => async (dispatch) => {
-  const queryClient = getQueryClient();
-  const props: DynamicProps = await queryClient.fetchQuery(getDynamicPropsQueryOptions());
+  try {
+    const queryClient = getQueryClient();
+    const props: DynamicProps = await queryClient.fetchQuery(getDynamicPropsQueryOptions());
 
-  // SDK already returns parsed numeric values
-  const res = {
-    hivePerMVests: props.hivePerMVests,
-    base: props.base,
-    quote: props.quote,
-    fundRecentClaims: props.fundRecentClaims,
-    fundRewardBalance: props.fundRewardBalance,
-    hbdPrintRate: props.hbdPrintRate,
-  };
+    // SDK already returns parsed numeric values
+    const res = {
+      hivePerMVests: props.hivePerMVests,
+      base: props.base,
+      quote: props.quote,
+      fundRecentClaims: props.fundRecentClaims,
+      fundRewardBalance: props.fundRewardBalance,
+      hbdPrintRate: props.hbdPrintRate,
+    };
 
-  dispatch({
-    type: SET_GLOBAL_PROPS,
-    payload: { ...res },
-  });
+    dispatch({
+      type: SET_GLOBAL_PROPS,
+      payload: { ...res },
+    });
+  } catch (error) {
+    console.error('Failed to fetch global properties:', error);
+    dispatch(failedAccount(error));
+  }
 };
 
 export const updateCurrentAccount = (data) => ({

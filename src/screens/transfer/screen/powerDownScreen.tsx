@@ -92,8 +92,15 @@ const PowerDownScreen = ({
         fundType: 'VESTS',
       });
       hiveAuthModalRef.current?.broadcastActiveOps(opArray);
+      setIsTransfering(false);
     } else {
-      transferToAccount(currentAccountName, destinationAccounts, amount, '');
+      transferToAccount(currentAccountName, destinationAccounts, amount, '')
+        .then(() => {
+          setIsTransfering(false);
+        })
+        .catch(() => {
+          setIsTransfering(false);
+        });
     }
   }, [accountType, intl, currentAccountName, destinationAccounts, amount, transferToAccount]);
 
@@ -176,6 +183,7 @@ const PowerDownScreen = ({
   );
 
   useEffect(() => {
+    if (!currentAccountName) return;
     fetchRoutes(currentAccountName);
   }, [currentAccountName, fetchRoutes]);
 
