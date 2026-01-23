@@ -21,13 +21,23 @@ import { getDigitPinCode, getClient } from '../hive/dhive';
 import { mapAuthTypeToLoginType } from '../../utils/authMapper';
 
 // query for getting active proposal meta using SDK
-// SDK returns Proposal[], but we select the first active proposal
+// SDK returns Proposal[], but we map to ProposalMeta
 export const useActiveProposalMetaQuery = () => {
   return useQuery({
     ...getProposalsQueryOptions('active'),
     select: (proposals) => {
-      // Return first active proposal as ProposalMeta
-      return proposals?.[0] as ProposalMeta | undefined;
+      // Get first active proposal and map to ProposalMeta
+      const firstProposal = proposals?.[0];
+      if (!firstProposal || !firstProposal.proposal_id) {
+        return undefined;
+      }
+
+      // Explicitly map Proposal.proposal_id to ProposalMeta.id
+      const proposalMeta: ProposalMeta = {
+        id: Number(firstProposal.proposal_id),
+      };
+
+      return proposalMeta;
     },
   });
 };

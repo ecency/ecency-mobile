@@ -343,7 +343,18 @@ export const useDeleteWaveMutation = (
     const account = currentAccountRef.current;
     const pin = pinHashRef.current;
 
+    // Defensive checks: verify account and required fields exist
+    if (!account || !account.local || !account.local.authType || !account.name) {
+      console.error('[WavesQueries] Missing account or auth credentials for wave deletion');
+      return null;
+    }
+
     const digitPinCode = getDigitPinCode(pin);
+    if (!digitPinCode) {
+      console.error('[WavesQueries] Failed to get digit pin code');
+      return null;
+    }
+
     const isHiveSigner =
       account.local.authType === authType.STEEM_CONNECT ||
       account.local.authType === authType.HIVE_AUTH;
@@ -370,6 +381,9 @@ export const useDeleteWaveMutation = (
     ({ permlink }) => {
       // Use fresh credentials at mutation time
       const latestAuth = getAuthCredentials();
+      if (!latestAuth) {
+        throw new Error('Cannot delete wave: authentication credentials are missing');
+      }
       return [
         [
           'delete_comment',
@@ -388,13 +402,16 @@ export const useDeleteWaveMutation = (
       // These are computed at init time but SDK should handle refresh
       // Alternative: use custom broadcast function for truly fresh credentials
       get accessToken() {
-        return getAuthCredentials().accessToken;
+        const auth = getAuthCredentials();
+        return auth?.accessToken;
       },
       get postingKey() {
-        return getAuthCredentials().postingKey;
+        const auth = getAuthCredentials();
+        return auth?.postingKey;
       },
       get loginType() {
-        return getAuthCredentials().loginType;
+        const auth = getAuthCredentials();
+        return auth?.loginType || 'privateKey';
       },
     },
   );

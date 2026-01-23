@@ -27,7 +27,6 @@ import {
   toggleMattermostChannelMute,
   leaveMattermostChannel,
   markMattermostChannelViewed,
-  hideChannel,
 } from '../../../providers/chat/mattermost';
 import { Header } from '../../../components';
 import { chatsStyles as styles } from '../styles/chats.styles';
@@ -365,35 +364,6 @@ const ChatsContainer = () => {
     [_ensureBootstrap, _getChannelId, _resolveChannelIdentity, intl],
   );
 
-  const _handleHideChannel = useCallback(
-    async (channel: any) => {
-      try {
-        await _ensureBootstrap();
-        const channelId = channel.id || channel.channel_id;
-
-        if (!channelId) {
-          throw new Error('Unable to hide channel');
-        }
-
-        await hideChannel(channelId);
-
-        // Remove from local state
-        setChannels((prev) =>
-          prev.filter(
-            (item) =>
-              item.id !== channelId &&
-              item.channel_id !== channelId &&
-              item.id !== channel.id &&
-              item.channel_id !== channel.channel_id,
-          ),
-        );
-      } catch (err: any) {
-        setError(err?.message || 'Unable to hide channel');
-      }
-    },
-    [_ensureBootstrap],
-  );
-
   const _handleMarkChannelRead = useCallback(
     async (channel: any) => {
       try {
@@ -475,14 +445,10 @@ const ChatsContainer = () => {
             {
               text: isDM
                 ? intl.formatMessage({
-                    id: 'chats.hide_conversation',
-                    defaultMessage: 'Hide conversation',
+                    id: 'chats.leave_conversation',
+                    defaultMessage: 'Leave conversation',
                   })
-                : intl.formatMessage({ id: 'chats.hide_channel', defaultMessage: 'Hide channel' }),
-              onPress: () => _handleHideChannel(channel),
-            },
-            {
-              text: intl.formatMessage({ id: 'chats.leave', defaultMessage: 'Leave channel' }),
+                : intl.formatMessage({ id: 'chats.leave', defaultMessage: 'Leave channel' }),
               style: 'destructive',
               onPress: () => _handleLeaveChannel(channel),
             },
@@ -493,7 +459,6 @@ const ChatsContainer = () => {
     [
       _getUnreadMeta,
       _handleLeaveChannel,
-      _handleHideChannel,
       _handleMarkChannelRead,
       _handleToggleFavorite,
       _handleToggleMute,

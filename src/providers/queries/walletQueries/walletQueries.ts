@@ -501,6 +501,25 @@ export const usePendingRequestsQuery = (symbol: string) => {
         .map((request) => {
           const { base, quote } = request?.sell_price || {};
           const { orderid } = request;
+
+          // Determine which side matches the symbol and show that amount as value
+          let value = '-- --';
+          let details = '';
+
+          if (base?.includes(symbol)) {
+            // Symbol matches base, show base amount as value
+            value = base;
+            details = quote ? `@ ${base} = ${quote}` : '';
+          } else if (quote?.includes(symbol)) {
+            // Symbol matches quote, show quote amount as value
+            value = quote;
+            details = base ? `@ ${base} = ${quote}` : '';
+          } else {
+            // Fallback (shouldn't happen due to filter)
+            value = base || quote || '-- --';
+            details = base && quote ? `@ ${base} = ${quote}` : '';
+          }
+
           return {
             trxIndex: orderid,
             iconType: 'MaterialIcons' as const,
@@ -508,8 +527,8 @@ export const usePendingRequestsQuery = (symbol: string) => {
             expires: request.expiration,
             created: request.created,
             icon: 'reorder',
-            value: base || '-- --',
-            details: base && quote ? `@ ${base} = ${quote}` : '',
+            value,
+            details,
             cancelable: true,
           };
         });

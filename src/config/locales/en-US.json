@@ -321,6 +321,7 @@
     "unmute": "Unmute",
     "mute": "Mute",
     "leave": "Leave channel",
+    "leave_conversation": "Leave conversation",
     "unable_to_join_channel": "Unable to join channel. Please try again.",
     "unable_to_leave_channel": "Unable to leave channel. Please try again.",
     "unable_to_mark_read": "Unable to mark channel as read. Please try again.",
@@ -346,17 +347,7 @@
     "copy": "Copy",
     "reply": "Reply",
     "pin": "Pin",
-    "unpin": "Unpin",
-    "hide_conversation": "Hide conversation",
-    "hide_channel": "Hide channel",
-    "conversation_hidden": "Conversation hidden",
-    "hidden_items": "Hidden Items",
-    "hidden_conversations": "Hidden Conversations",
-    "no_hidden_conversations": "No hidden conversations",
-    "restore": "Restore",
-    "clear_all": "Clear All",
-    "confirm_clear_all": "Clear all hidden messages?",
-    "hidden_at": "Hidden {time}"
+    "unpin": "Unpin"
   },
   "profile": {
     "following": "Following",

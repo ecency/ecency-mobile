@@ -43,7 +43,6 @@ import {
   fetchMattermostPinnedPosts,
   pinMattermostPost,
   unpinMattermostPost,
-  hideChannel,
 } from '../../../providers/chat/mattermost';
 import { uploadImage } from '../../../providers/ecency/ecency';
 import { signImage } from '../../../providers/hive/dhive';
@@ -211,6 +210,19 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const bootstrapUserId =
     bootstrapResult?.user?.id || bootstrapResult?.user?.userId || bootstrapResult?.userId;
 
+  // Mention state updater - declared early so WebSocket callbacks can use it
+  const _updateMentionState = useCallback((text: string) => {
+    const match = text.match(/(^|[\s\n])@([a-zA-Z0-9_.-]*)$/);
+    if (match) {
+      const startIndex = (match.index || 0) + match[1].length;
+      setMentionStartIndex(startIndex);
+      setMentionQuery(match[2]);
+    } else {
+      setMentionStartIndex(null);
+      setMentionQuery(null);
+    }
+  }, []);
+
   // WebSocket connection for real-time updates
   const {
     isConnected: isWsConnected,
@@ -361,18 +373,6 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   });
 
   // Callbacks
-  const _updateMentionState = useCallback((text: string) => {
-    const match = text.match(/(^|[\s\n])@([a-zA-Z0-9_.-]*)$/);
-    if (match) {
-      const startIndex = (match.index || 0) + match[1].length;
-      setMentionStartIndex(startIndex);
-      setMentionQuery(match[2]);
-    } else {
-      setMentionStartIndex(null);
-      setMentionQuery(null);
-    }
-  }, []);
-
   const _handleMessageChange = useCallback(
     (text: string) => {
       setMessage(text);
@@ -1452,55 +1452,6 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
     [_ensureBootstrap, dispatch, intl, channelId],
   );
 
-  const _handleHideChannel = useCallback(async () => {
-    try {
-      await _ensureBootstrap();
-      await hideChannel(channelId);
-
-      dispatch(
-        toastNotification(
-          intl.formatMessage({
-            id: 'chats.conversation_hidden',
-            defaultMessage: 'Conversation hidden',
-          }),
-        ),
-      );
-
-      // Navigate back to chats list
-      navigation.goBack();
-    } catch (error: any) {
-      console.error('Failed to hide channel:', error);
-      dispatch(
-        toastNotification(
-          intl.formatMessage({
-            id: 'alert.error',
-            defaultMessage: 'Error',
-          }),
-        ),
-      );
-    }
-  }, [_ensureBootstrap, channelId, dispatch, intl, navigation]);
-
-  const _handleShowChannelOptions = useCallback(() => {
-    SheetManager.show(SheetNames.ACTION_MODAL, {
-      payload: {
-        title: intl.formatMessage({
-          id: 'chats.channel_options',
-          defaultMessage: 'Channel options',
-        }),
-        buttons: [
-          {
-            text: intl.formatMessage({
-              id: 'chats.hide_conversation',
-              defaultMessage: 'Hide conversation',
-            }),
-            onPress: _handleHideChannel,
-          },
-        ],
-      },
-    });
-  }, [intl, _handleHideChannel]);
-
   const _handleUnpinPostFromModal = useCallback(
     async (post: ChatPost) => {
       if (!post?.id) {
@@ -1996,7 +1947,6 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         onBack={handleBack}
         onMembersPress={() => setOnlineUsersModalVisible(true)}
         onPinnedPress={() => setPinnedMessagesModalVisible(true)}
-        onOptionsPress={isDM ? _handleShowChannelOptions : undefined}
         isDM={isDM}
       />
 
