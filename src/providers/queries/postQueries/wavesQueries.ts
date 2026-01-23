@@ -381,15 +381,22 @@ export const useDeleteWaveMutation = (
       ];
     },
     () => {}, // onSuccess callback
-    // Auth object with fresh credentials
-    (() => {
-      const freshAuth = getAuthCredentials();
-      return {
-        accessToken: freshAuth.accessToken,
-        postingKey: freshAuth.postingKey,
-        loginType: freshAuth.loginType, // Map mobile authType to SDK loginType
-      };
-    })(),
+    // Auth object - SDK will use this at mutation time
+    // Note: Cannot use IIFE here as it would capture stale credentials
+    // Instead, relying on SDK's internal handling of accessToken/postingKey
+    {
+      // These are computed at init time but SDK should handle refresh
+      // Alternative: use custom broadcast function for truly fresh credentials
+      get accessToken() {
+        return getAuthCredentials().accessToken;
+      },
+      get postingKey() {
+        return getAuthCredentials().postingKey;
+      },
+      get loginType() {
+        return getAuthCredentials().loginType;
+      },
+    },
   );
 
   return useMutation({
@@ -505,10 +512,10 @@ export const fetchLatestWavesContainer = async (host) => {
   const result = await getAccountPosts(query);
 
   const _latestPost = result[0];
-  console.log('lates waves post', host, _latestPost);
+  console.log('latest waves post', host, _latestPost);
 
   if (!_latestPost) {
-    throw new Error('Lates waves container could be not fetched');
+    throw new Error('Latest waves container could not be fetched');
   }
 
   return _latestPost;

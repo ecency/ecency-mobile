@@ -11,7 +11,7 @@ import { ModalHeader } from '../modalHeader';
 export const HiveSignerModal = ({ route, navigation }) => {
   const intl = useIntl();
 
-  const { hiveuri, onClose } = route.params || {};
+  const { hiveuri, onClose, onSuccess } = route.params || {};
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', () => {
@@ -24,6 +24,18 @@ export const HiveSignerModal = ({ route, navigation }) => {
   const _onClose = () => {
     navigation.goBack();
     onClose && onClose();
+  };
+
+  const _onNavigationStateChange = (navState: any) => {
+    // HiveSigner redirects to a success URL after successful signing
+    // Typically contains 'success' or returns to callback URL
+    const { url } = navState;
+
+    if (url && (url.includes('/sign/success') || url.includes('?success=true'))) {
+      // Transaction was successfully signed
+      navigation.goBack();
+      onSuccess && onSuccess();
+    }
   };
 
   const _hsUri = `${hsOptions.base_url}${hiveuri?.substring(7)}`;
@@ -43,6 +55,7 @@ export const HiveSignerModal = ({ route, navigation }) => {
         javaScriptEnabled
         domStorageEnabled
         startInLoadingState
+        onNavigationStateChange={_onNavigationStateChange}
       />
     </SafeAreaView>
   );

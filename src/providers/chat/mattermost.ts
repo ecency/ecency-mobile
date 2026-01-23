@@ -324,3 +324,22 @@ export const fetchMattermostPinnedPosts = async (channelId: string): Promise<any
   const { data } = await chatApi.get(`/api/mattermost/channels/${channelId}/pinned`);
   return data.order || data.posts || data;
 };
+
+// Hidden Channels
+
+export const getHiddenChannels = async (): Promise<any> => {
+  const { data } = await chatApi.get('/api/mattermost/me/hidden-channels');
+  return data;
+};
+
+export const hideChannel = async (channelId: string): Promise<any> => {
+  const { data } = await chatApi.post('/api/mattermost/me/hidden-channels', {
+    channelId,
+  });
+  return data;
+};
+
+export const unhideChannel = async (channelId: string): Promise<any> => {
+  const { data } = await chatApi.delete(`/api/mattermost/me/hidden-channels/${channelId}`);
+  return data;
+};

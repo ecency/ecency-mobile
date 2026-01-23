@@ -113,16 +113,14 @@ export const ChannelListItem: React.FC<ChannelListItemProps> = React.memo(
           </View>
         )}
 
-        {!isDM && (
-          <TouchableOpacity onPress={() => onShowOptions(channel)} style={styles.channelOptions}>
-            <Icon
-              name="dots-vertical"
-              iconType="MaterialCommunityIcons"
-              size={20}
-              color={EStyleSheet.value('$iconColor')}
-            />
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity onPress={() => onShowOptions(channel)} style={styles.channelOptions}>
+          <Icon
+            name="dots-vertical"
+            iconType="MaterialCommunityIcons"
+            size={20}
+            color={EStyleSheet.value('$iconColor')}
+          />
+        </TouchableOpacity>
       </TouchableOpacity>
     );
   },

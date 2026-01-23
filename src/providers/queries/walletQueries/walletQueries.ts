@@ -56,15 +56,19 @@ export const useAssetsQuery = () => {
         console.warn('[Wallet] No username available for portfolio fetch');
         return [];
       }
-      console.log('[Wallet] Fetching portfolio for:', currentAccount.name, currency.currency);
+      if (__DEV__) {
+        console.log('[Wallet] Fetching portfolio for:', currentAccount.name, currency.currency);
+      }
       try {
         const response = await getPortfolio(currentAccount.name, currency.currency, true);
-        console.log('[Wallet] Portfolio API response:', response?.length || 0, 'items');
-        if (response && response.length > 0) {
-          console.log(
-            '[Wallet] Portfolio symbols:',
-            response.map((r) => r.symbol),
-          );
+        if (__DEV__) {
+          console.log('[Wallet] Portfolio API response:', response?.length || 0, 'items');
+          if (response && response.length > 0) {
+            console.log(
+              '[Wallet] Portfolio symbols:',
+              response.map((r) => r.symbol),
+            );
+          }
         }
 
         if (!response || response.length === 0) {
@@ -86,7 +90,9 @@ export const useAssetsQuery = () => {
           return item;
         });
 
-        console.log('Processed portfolio data:', updatedResponse.length, 'items');
+        if (__DEV__) {
+          console.log('Processed portfolio data:', updatedResponse.length, 'items');
+        }
         return updatedResponse;
       } catch (err) {
         console.error('Failed to get portfolio data:', err);
@@ -99,13 +105,15 @@ export const useAssetsQuery = () => {
   });
 
   const selectedData = useMemo(() => {
-    console.log('[Wallet] Computing selectedData...');
-    console.log('[Wallet] - assetsQuery.data:', assetsQuery.data?.length || 0, 'items');
-    console.log('[Wallet] - selectedAssets:', selectedAssets.length, 'items');
-    console.log(
-      '[Wallet] - selectedAssets symbols:',
-      selectedAssets.map((a) => a.symbol),
-    );
+    if (__DEV__) {
+      console.log('[Wallet] Computing selectedData...');
+      console.log('[Wallet] - assetsQuery.data:', assetsQuery.data?.length || 0, 'items');
+      console.log('[Wallet] - selectedAssets:', selectedAssets.length, 'items');
+      console.log(
+        '[Wallet] - selectedAssets symbols:',
+        selectedAssets.map((a) => a.symbol),
+      );
+    }
 
     if (!assetsQuery.data || !assetsQuery.data.length) {
       console.warn('[Wallet] No portfolio data available from API');
@@ -119,10 +127,14 @@ export const useAssetsQuery = () => {
 
     // filter only selected tokens from portfolio data
     const dataMap = new Map(assetsQuery.data.map((item) => [item.symbol, item]));
-    console.log('[Wallet] - Portfolio symbols:', Array.from(dataMap.keys()));
+    if (__DEV__) {
+      console.log('[Wallet] - Portfolio symbols:', Array.from(dataMap.keys()));
+    }
 
     const filtered = selectedAssets.map((token) => dataMap.get(token.symbol)).filter(Boolean);
-    console.log('[Wallet] - Filtered result:', filtered.length, 'items');
+    if (__DEV__) {
+      console.log('[Wallet] - Filtered result:', filtered.length, 'items');
+    }
 
     return filtered;
   }, [assetsQuery.data, selectedAssets]);
@@ -383,17 +395,13 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
 // added query to tracker recurring transfers using SDK
 export const useRecurringActivitesQuery = (coinId: string) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
-
-  if (coinId !== ASSET_IDS.HIVE) {
-    return null;
-  }
-
   const username = currentAccount?.name;
 
+  // Always call useQuery (Rules of Hooks) - use enabled to control execution
   const query = useQuery({
     ...getRecurrentTransfersQueryOptions(username || ''),
     queryKey: [QUERIES.WALLET.GET_RECURRING_TRANSFERS, coinId, username],
-    enabled: !!username, // Only fetch when username exists
+    enabled: coinId === ASSET_IDS.HIVE && !!username, // Only fetch for HIVE and when username exists
   });
 
   const totalAmount = useMemo(() => {

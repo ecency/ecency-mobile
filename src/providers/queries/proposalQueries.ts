@@ -21,8 +21,15 @@ import { getDigitPinCode, getClient } from '../hive/dhive';
 import { mapAuthTypeToLoginType } from '../../utils/authMapper';
 
 // query for getting active proposal meta using SDK
+// SDK returns Proposal[], but we select the first active proposal
 export const useActiveProposalMetaQuery = () => {
-  return useQuery<ProposalMeta>(getProposalsQueryOptions('active'));
+  return useQuery({
+    ...getProposalsQueryOptions('active'),
+    select: (proposals) => {
+      // Return first active proposal as ProposalMeta
+      return proposals?.[0] as ProposalMeta | undefined;
+    },
+  });
 };
 
 export const useProposalVotedQuery = (proposalId?: number) => {
@@ -154,11 +161,13 @@ export const useProposalVoteMutation = () => {
         return new Promise((resolve, reject) => {
           navigation.navigate(ROUTES.MODALS.HIVE_SIGNER, {
             hiveuri: _enHiveuri,
+            onSuccess: () => {
+              // Transaction was successfully signed
+              resolve(true);
+            },
             onClose: () => {
-              // FIXME: Modal doesn't distinguish between successful signing and user dismissal
-              // For now, reject on close to avoid false positive cache updates
-              // TODO: Implement onSuccess callback in HiveSignerModal to properly handle success
-              reject(new Error('HiveSigner modal closed - unable to confirm transaction success'));
+              // User closed modal without signing
+              reject(new Error('HiveSigner modal closed without signing transaction'));
             },
           });
         });

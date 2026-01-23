@@ -53,14 +53,12 @@ export const useGetPostQuery = ({
         return null;
       }
 
-      // Create shallow copy to avoid mutating cached data
-      let postCopy = post;
-      if (isPinned) {
-        postCopy = {
-          ...post,
-          stats: { ...post.stats, is_pinned_blog: true },
-        };
-      }
+      // Always create shallow copy to avoid mutating cached data (parsePost mutates its input)
+      const postCopy = {
+        ...post,
+        // Override stats if pinned
+        stats: isPinned ? { ...post.stats, is_pinned_blog: true } : post.stats,
+      };
 
       // Process post with parsePost to add all necessary fields
       // isList = false to render full body, discardBody = false to keep body
