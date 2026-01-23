@@ -443,6 +443,7 @@ export const usePendingRequestsQuery = (symbol: string) => {
       return data
         .filter((request) => request.amount.includes(symbol))
         .map((request) => ({
+          trxIndex: request.request_id,
           iconType: 'MaterialIcons' as const,
           textKey: 'withdraw_savings',
           created: request.complete,
@@ -461,6 +462,7 @@ export const usePendingRequestsQuery = (symbol: string) => {
       return data
         .filter((request) => request.amount.includes(symbol))
         .map((request) => ({
+          trxIndex: request.requestid,
           iconType: 'MaterialIcons' as const,
           textKey: 'convert_request',
           created: request.conversion_date,
@@ -477,6 +479,7 @@ export const usePendingRequestsQuery = (symbol: string) => {
       return data
         .filter((request) => request.collateral_amount.includes(symbol))
         .map((request) => ({
+          trxIndex: request.requestid,
           iconType: 'MaterialIcons' as const,
           textKey: 'collateralized_convert_request',
           created: request.conversion_date,

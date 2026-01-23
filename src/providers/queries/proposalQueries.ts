@@ -12,7 +12,6 @@ import { PrivateKey } from '@hiveio/dhive';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { updateProposalVoteMeta } from '../../redux/actions/cacheActions';
-import { ProposalMeta } from '../ecency/ecency.types';
 import authType from '../../constants/authType';
 import ROUTES from '../../constants/routeNames';
 import { selectCurrentAccount, selectPin } from '../../redux/selectors';
@@ -22,22 +21,13 @@ import { mapAuthTypeToLoginType } from '../../utils/authMapper';
 
 // query for getting active proposal meta using SDK
 // SDK returns Proposal[], but we map to ProposalMeta
-export const useActiveProposalMetaQuery = () => {
+export const useActiveProposalMetaQuery = (proposalId?: number) => {
   return useQuery({
     ...getProposalsQueryOptions('active'),
     select: (proposals) => {
-      // Get first active proposal and map to ProposalMeta
-      const firstProposal = proposals?.[0];
-      if (!firstProposal || !firstProposal.proposal_id) {
-        return undefined;
-      }
-
-      // Explicitly map Proposal.proposal_id to ProposalMeta.id
-      const proposalMeta: ProposalMeta = {
-        id: Number(firstProposal.proposal_id),
-      };
-
-      return proposalMeta;
+      if (!proposalId || !proposals) return undefined;
+      const proposal = proposals.find((p) => p.proposal_id === proposalId);
+      return proposal ? { id: proposal.proposal_id } : undefined;
     },
   });
 };

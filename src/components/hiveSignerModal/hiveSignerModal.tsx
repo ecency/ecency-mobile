@@ -7,7 +7,7 @@ import { hsOptions } from '../../constants/hsOptions';
 import styles from './hiveSignerModal.styles';
 import { ModalHeader } from '../modalHeader';
 
-// TODO: later handle other operations liek opsArray and logging in
+// TODO: later handle other operations like opsArray and logging in
 export const HiveSignerModal = ({ route, navigation }) => {
   const intl = useIntl();
 
@@ -70,7 +70,11 @@ export const HiveSignerModal = ({ route, navigation }) => {
       navigation.goBack();
     }
   };
-
+  if (!hiveuri) {
+    navigation.goBack();
+    onClose && onClose();
+    return null;
+  }
   const _hsUri = `${hsOptions.base_url}${hiveuri?.substring(7)}`;
 
   const _safeAreaEdges = Platform.select({ ios: [], default: ['top'] });

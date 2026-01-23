@@ -379,16 +379,17 @@ export const useDeleteWaveMutation = (
     [QUERIES.WAVES.DELETE],
     currentAccount.name,
     ({ permlink }) => {
-      // Use fresh credentials at mutation time
+      // Verify credentials at mutation time
       const latestAuth = getAuthCredentials();
       if (!latestAuth) {
         throw new Error('Cannot delete wave: authentication credentials are missing');
       }
+      // Use currentAccount.name to match mutation key username
       return [
         [
           'delete_comment',
           {
-            author: latestAuth.username,
+            author: currentAccount.name,
             permlink,
           },
         ],
