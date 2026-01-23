@@ -185,6 +185,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const listRef = useRef<FlatList<ChatPost>>(null);
   const inputRef = useRef<TextInput>(null);
   const lastMarkedViewedAtRef = useRef<number | null>(null);
+  const lastSentPendingIdRef = useRef<string | null>(null);
 
   // User lookup state
   const [userLookup, setUserLookup] = useState<Record<string, any>>(() => {
@@ -226,7 +227,24 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           return;
         }
 
-        // Skip messages from current user - they're already added optimistically on send
+        // Clear input when we get confirmation of our own message via WebSocket
+        if (
+          post.user_id === bootstrapUserId &&
+          post.pending_post_id === lastSentPendingIdRef.current
+        ) {
+          setMessage('');
+          _updateMentionState('');
+          setRootPost(null);
+          setLinkMeta(null);
+          setIsSending(false);
+          lastSentPendingIdRef.current = null;
+
+          // Refocus input after sending
+          setTimeout(() => inputRef.current?.focus(), 50);
+          return;
+        }
+
+        // Skip other messages from current user - they're already added optimistically on send
         if (post.user_id === bootstrapUserId) {
           return;
         }
@@ -251,7 +269,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
             .catch(console.error);
         }
       },
-      [bootstrapUserId],
+      [bootstrapUserId, _updateMentionState],
     ),
     onMessageEdited: useCallback(
       (post: any) => {
@@ -1110,7 +1128,21 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           }),
         };
 
-        const response = await sendMattermostMessage(channelId, emojifiedMessage, rootId, props);
+        // Generate unique pending_post_id for idempotency across load-balanced instances
+        const pendingPostId = `${bootstrapUserId || 'user'}_${Date.now()}_${Math.random()
+          .toString(36)
+          .substring(2, 11)}`;
+
+        // Store pending ID for WebSocket confirmation
+        lastSentPendingIdRef.current = pendingPostId;
+
+        const response = await sendMattermostMessage(
+          channelId,
+          emojifiedMessage,
+          rootId,
+          props,
+          pendingPostId,
+        );
         const newPost = normalizePost(response);
         if (newPost) {
           setPosts((prev) => sortPosts([...prev, newPost]));
@@ -1126,11 +1158,20 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           }, 100);
         }
       }
-      setMessage('');
-      _updateMentionState('');
-      setRootPost(null);
-      setLinkMeta(null);
+
+      // Only clear input via HTTP if WebSocket is NOT connected
+      // WebSocket will handle it via onNewMessage callback for instant feedback
+      if (!isWsConnected) {
+        setMessage('');
+        _updateMentionState('');
+        setRootPost(null);
+        setLinkMeta(null);
+        lastSentPendingIdRef.current = null;
+      }
     } catch (err: any) {
+      // Clear pending ID on error so we don't match it later
+      lastSentPendingIdRef.current = null;
+
       // Check if this is a ban error
       if (err?.isBanError) {
         dispatch(

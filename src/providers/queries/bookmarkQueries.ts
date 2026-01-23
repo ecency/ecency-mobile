@@ -3,8 +3,8 @@ import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getBookmarksInfiniteQueryOptions,
   getFavouritesInfiniteQueryOptions,
-  useAccountBookmarkAdd,
-  useAccountBookmarkDelete,
+  useBookmarkAdd,
+  useBookmarkDelete,
   useAccountFavouriteAdd,
   useAccountFavouriteDelete,
 } from '@ecency/sdk';
@@ -24,7 +24,7 @@ const useAuth = () => {
   const pinHash = useAppSelector(selectPin);
   const digitPinCode = getDigitPinCode(pinHash);
 
-  const username = currentAccount?.username;
+  const username = currentAccount?.name;
   const accessToken = currentAccount?.local?.accessToken
     ? decryptKey(currentAccount.local.accessToken, digitPinCode)
     : undefined;
@@ -92,7 +92,7 @@ export const useGetFavouritesQuery = (limit = 20) => {
 
 /**
  * Hook to add a bookmark
- * Uses SDK's useAccountBookmarkAdd hook with mobile-specific error handling
+ * Uses SDK's useBookmarkAdd hook with mobile-specific error handling
  */
 export const useAddBookmarkMutation = () => {
   const intl = useIntl();
@@ -100,7 +100,7 @@ export const useAddBookmarkMutation = () => {
   const queryClient = useQueryClient();
   const { username, code } = useAuth();
 
-  return useAccountBookmarkAdd(
+  return useBookmarkAdd(
     username,
     code,
     () => {
@@ -115,7 +115,7 @@ export const useAddBookmarkMutation = () => {
 
 /**
  * Hook to delete a bookmark
- * Uses SDK's useAccountBookmarkDelete hook with mobile-specific error handling
+ * Uses SDK's useBookmarkDelete hook with mobile-specific error handling
  */
 export const useDeleteBookmarkMutation = () => {
   const intl = useIntl();
@@ -123,7 +123,7 @@ export const useDeleteBookmarkMutation = () => {
   const queryClient = useQueryClient();
   const { username, code } = useAuth();
 
-  return useAccountBookmarkDelete(
+  return useBookmarkDelete(
     username,
     code,
     () => {

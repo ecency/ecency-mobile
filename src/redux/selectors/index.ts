@@ -171,7 +171,7 @@ export const selectCurrentAccount = createSelector(
 
 export const selectCurrentAccountUsername = createSelector(
   [selectCurrentAccount],
-  (currentAccount) => currentAccount?.username || null,
+  (currentAccount) => currentAccount?.name || null,
 );
 
 export const selectCurrentAccountMutes = createSelector(

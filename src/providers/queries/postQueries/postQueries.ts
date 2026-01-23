@@ -7,7 +7,7 @@ import { getPostQueryOptions, getDiscussionsQueryOptions, getBotsQueryOptions } 
 import { useAppSelector } from '../../../hooks';
 import { selectCurrentAccount } from '../../../redux/selectors';
 import { Comment, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
-import { injectPostCache, injectVoteCache } from '../../../utils/postParser';
+import { injectPostCache, injectVoteCache, parsePost } from '../../../utils/postParser';
 
 interface PostQueryProps {
   author?: string;
@@ -47,34 +47,33 @@ export const useGetPostQuery = ({
 
   const query = useQuery({
     ...sdkQueryOptions,
-    queryFn: async () => {
-      if (!author || !permlink) {
+    // Transform data using select instead of overriding queryFn
+    select: (post: any) => {
+      if (!post || post.post_id <= 0) {
         return null;
       }
 
-      try {
-        // Call SDK's queryFn (SDK queryFn is a parameterless closure)
-        const post: any = await (sdkQueryOptions.queryFn as any)();
-
-        if (post?.post_id > 0) {
-          // set pinned post flag
-          if (isPinned) {
-            post.stats = { ...post.stats, is_pinned_blog: true };
-          }
-
-          return post;
-        }
-
-        throw new Error('Post unavailable');
-      } catch (err) {
-        console.warn('Failed to get post', err);
-        throw err;
+      // set pinned post flag
+      if (isPinned) {
+        post.stats = { ...post.stats, is_pinned_blog: true };
       }
+
+      // Process post with parsePost to add all necessary fields
+      // isList = false to render full body, discardBody = false to keep body
+      const processedPost = parsePost(
+        post,
+        currentAccount?.username,
+        false, // not promoted
+        false, // not list view - render full body
+        false, // don't discard body
+      );
+
+      return processedPost;
     },
 
     initialData: _initialPost,
     gcTime: 30 * 60 * 1000, // keeps cache for 30 minutes
-    staleTime: isPreview && currentAccount.username !== author ? 15 * 60 * 1000 : 0, // do not refetch in case of preview only
+    staleTime: isPreview && currentAccount.name !== author ? 15 * 60 * 1000 : 0, // do not refetch in case of preview only
   });
 
   const data = useInjectVotesCache(query.data);

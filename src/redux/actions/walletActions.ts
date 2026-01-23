@@ -79,5 +79,5 @@ export const fetchAndSetCoinsData = () => async (dispatch: AppDispatch, getState
     claimsCache,
   });
 
-  return dispatch(setCoinsData(coinsData, currency.currency, currentAccount.username));
+  return dispatch(setCoinsData(coinsData, currency.currency, currentAccount.name));
 };

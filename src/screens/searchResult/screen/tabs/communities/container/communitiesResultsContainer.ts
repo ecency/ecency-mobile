@@ -69,7 +69,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
           ),
         );
 
-        if (currentAccount && currentAccount.username) {
+        if (currentAccount && currentAccount.name) {
           if (subscribedCommunities.data && subscribedCommunities.data.length) {
             communities.forEach((community) => {
               // first check in cache and then in subscription list

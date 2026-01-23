@@ -341,7 +341,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     if (isArray(draft.meta?.beneficiaries)) {
       const filteredBeneficiaries = draft.meta.beneficiaries.filter(
-        (item) => item.account !== currentAccount.username,
+        (item) => item.account !== currentAccount.name,
       ); // remove default beneficiary from array while saving
 
       dispatch(setBeneficiaries(_draftId, filteredBeneficiaries));
@@ -568,7 +568,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             });
           }
           const filteredBeneficiaries = beneficiaries.filter(
-            (item) => item.account !== currentAccount.username,
+            (item) => item.account !== currentAccount.name,
           ); // remove default beneficiary from array while saving
           dispatch(setBeneficiaries(_resDraft._id, filteredBeneficiaries));
 

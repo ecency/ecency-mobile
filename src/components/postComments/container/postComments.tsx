@@ -141,7 +141,7 @@ const PostComments = forwardRef(
         try {
           await deleteComment(currentAccount, pinHash, _permlink);
           // remove cached entry based on parent
-          const _commentPath = `${currentAccount.username}/${_permlink}`;
+          const _commentPath = `${currentAccount.name}/${_permlink}`;
           console.log('deleted comment', _commentPath);
 
           const _deletedItem = discussionQuery.data[_commentPath];

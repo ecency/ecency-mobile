@@ -13,6 +13,7 @@ import { useAppSelector } from '../../../hooks';
 import filterNsfwPost from '../../../utils/filterNsfwPost';
 import { useGetPostQuery } from './postQueries';
 import { selectNsfw, selectCurrentAccount } from '../../../redux/selectors';
+import { parsePost } from '../../../utils/postParser';
 
 const POSTS_FETCH_COUNT = 10;
 
@@ -77,17 +78,17 @@ export const useFeedQuery = ({
   // Get appropriate query options from SDK
   const queryOptions = isAccountBasedFeed
     ? getAccountPostsInfiniteQueryOptions(
-        sdkAccount,
+        sdkAccount || '',
         sdkSort,
         POSTS_FETCH_COUNT,
-        currentAccount?.username || '',
-        !!sdkAccount, // enabled only if account is provided
+        currentAccount?.name || '',
+        true, // always enabled, let component handle enabling
       )
     : getPostsRankedInfiniteQueryOptions(
         sdkSort,
         sdkTag || '',
         POSTS_FETCH_COUNT,
-        currentAccount?.username || '',
+        currentAccount?.name || '',
         true, // enabled
       );
 
@@ -96,7 +97,7 @@ export const useFeedQuery = ({
     QUERIES.FEED.GET,
     feedUsername || tag,
     filterKey,
-    currentAccount?.username || '',
+    currentAccount?.name || '',
     cachePage,
   ];
 
@@ -105,12 +106,20 @@ export const useFeedQuery = ({
     ...queryOptions,
     queryKey: customQueryKey,
     select: (data) => {
-      // Apply NSFW filtering to each page
+      // Apply NSFW filtering and parsePost to each page
       if (!data?.pages) return data;
 
+      const currentTime = new Date().getTime();
       const filteredPages = data.pages.map((page) => {
         if (!Array.isArray(page)) return page;
-        return nsfw !== '0' ? filterNsfwPost(page, nsfw) : page;
+
+        // Apply NSFW filter
+        const nsfwFiltered = nsfw !== '0' ? filterNsfwPost(page, nsfw) : page;
+
+        // Apply parsePost to add thumbnail, image, and summary fields
+        return nsfwFiltered.map((post) =>
+          parsePost(post, currentAccount?.name, false, true, false, currentTime),
+        );
       });
 
       return {
@@ -280,11 +289,19 @@ export const usePromotedPostsQuery = () => {
   return useQuery({
     ...queryOptions,
     // Override queryKey to include username for cache invalidation (use empty string if no account)
-    queryKey: [QUERIES.FEED.GET_PROMOTED, currentAccount?.username || ''],
-    // Apply NSFW filtering to results
+    queryKey: [QUERIES.FEED.GET_PROMOTED, currentAccount?.name || ''],
+    // Apply NSFW filtering and parsePost to results
     select: (data) => {
       if (!Array.isArray(data)) return [];
-      return nsfw !== '0' ? filterNsfwPost(data, nsfw) : data;
+
+      // Apply NSFW filter
+      const nsfwFiltered = nsfw !== '0' ? filterNsfwPost(data, nsfw) : data;
+
+      // Apply parsePost to add thumbnail, image, and summary fields
+      const currentTime = new Date().getTime();
+      return nsfwFiltered.map((post) =>
+        parsePost(post, currentAccount?.name, true, true, false, currentTime),
+      );
     },
     // Handle errors gracefully
     meta: {

@@ -58,7 +58,7 @@ ecencyApi.interceptors.request.use((request) => {
       const errMsg = 'Failed to inject accessToken';
       console.warn(errMsg);
       Sentry.captureException(new Error(errMsg), (scope) => {
-        scope.setUser({ username: currentAccount.username });
+        scope.setUser({ username: currentAccount.name });
         scope.setTag('context', 'ecency_api_interceptor');
         scope.setContext('meta', {
           url: request.url,

@@ -50,12 +50,25 @@ export const useAssetsQuery = () => {
   // TODO: test assets update with currency and quote change
 
   const assetsQuery = useQuery({
-    queryKey: [QUERIES.WALLET.GET, currentAccount.username, currency.currency],
+    queryKey: [QUERIES.WALLET.GET, currentAccount?.name || '', currency.currency],
     queryFn: async () => {
+      if (!currentAccount?.name) {
+        console.warn('[Wallet] No username available for portfolio fetch');
+        return [];
+      }
+      console.log('[Wallet] Fetching portfolio for:', currentAccount.name, currency.currency);
       try {
-        const response = await getPortfolio(currentAccount.username, currency.currency);
+        const response = await getPortfolio(currentAccount.name, currency.currency, true);
+        console.log('[Wallet] Portfolio API response:', response?.length || 0, 'items');
+        if (response && response.length > 0) {
+          console.log(
+            '[Wallet] Portfolio symbols:',
+            response.map((r) => r.symbol),
+          );
+        }
 
         if (!response || response.length === 0) {
+          console.warn('Empty portfolio response');
           return [];
         }
 
@@ -73,23 +86,45 @@ export const useAssetsQuery = () => {
           return item;
         });
 
+        console.log('Processed portfolio data:', updatedResponse.length, 'items');
         return updatedResponse;
       } catch (err) {
-        console.warn('failed to get query response', err);
-        return [];
+        console.error('Failed to get portfolio data:', err);
+        throw err; // Re-throw to set error state instead of returning empty array
       }
     },
     initialData: [],
+    enabled: !!currentAccount?.name, // Only fetch when logged in
+    retry: 2,
   });
 
   const selectedData = useMemo(() => {
-    if (!assetsQuery.data || !assetsQuery.data.length || selectedAssets.length === 0) {
+    console.log('[Wallet] Computing selectedData...');
+    console.log('[Wallet] - assetsQuery.data:', assetsQuery.data?.length || 0, 'items');
+    console.log('[Wallet] - selectedAssets:', selectedAssets.length, 'items');
+    console.log(
+      '[Wallet] - selectedAssets symbols:',
+      selectedAssets.map((a) => a.symbol),
+    );
+
+    if (!assetsQuery.data || !assetsQuery.data.length) {
+      console.warn('[Wallet] No portfolio data available from API');
+      return [];
+    }
+
+    if (selectedAssets.length === 0) {
+      console.warn('[Wallet] No assets selected in Redux - this is the problem!');
       return [];
     }
 
     // filter only selected tokens from portfolio data
     const dataMap = new Map(assetsQuery.data.map((item) => [item.symbol, item]));
-    return selectedAssets.map((token) => dataMap.get(token.symbol)).filter(Boolean);
+    console.log('[Wallet] - Portfolio symbols:', Array.from(dataMap.keys()));
+
+    const filtered = selectedAssets.map((token) => dataMap.get(token.symbol)).filter(Boolean);
+    console.log('[Wallet] - Filtered result:', filtered.length, 'items');
+
+    return filtered;
   }, [assetsQuery.data, selectedAssets]);
 
   const selectedableData = useMemo(() => {
@@ -162,7 +197,7 @@ export const useClaimRewardsMutation = () => {
       // Update claim cache and set claimed asset to zero in portfolio data (loop only once)
       const portfolioData: PortfolioItem[] | undefined = queryClient.getQueryData<any[]>([
         QUERIES.WALLET.GET,
-        currentAccount.username,
+        currentAccount.name,
         currency.currency,
       ]);
 
@@ -182,7 +217,7 @@ export const useClaimRewardsMutation = () => {
         }
 
         queryClient.setQueryData(
-          [QUERIES.WALLET.GET, currentAccount.username, currency.currency],
+          [QUERIES.WALLET.GET, currentAccount.name, currency.currency],
           updatedPortfolioData,
         );
       }
@@ -204,7 +239,7 @@ export const useClaimRewardsMutation = () => {
         // verify whether pending rewards were actually claimed before surfacing an error.
         const refreshedPortfolio = await queryClient.fetchQuery<PortfolioItem[]>([
           QUERIES.WALLET.GET,
-          currentAccount.username,
+          currentAccount.name,
           currency.currency,
         ]);
 
@@ -284,7 +319,7 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   // query initialization
   const queries = useQueries({
     queries: pageParams.map((pageParam) => ({
-      queryKey: [QUERIES.WALLET.GET_ACTIVITIES, currentAccount.username, symbol, pageParam],
+      queryKey: [QUERIES.WALLET.GET_ACTIVITIES, currentAccount.name, symbol, pageParam],
       queryFn: () => _fetchActivities(pageParam),
       initialData: [],
     })),
@@ -347,8 +382,8 @@ export const useRecurringActivitesQuery = (coinId: string) => {
   }
 
   const query = useQuery({
-    ...getRecurrentTransfersQueryOptions(currentAccount.username),
-    queryKey: [QUERIES.WALLET.GET_RECURRING_TRANSFERS, coinId, currentAccount.username],
+    ...getRecurrentTransfersQueryOptions(currentAccount.name),
+    queryKey: [QUERIES.WALLET.GET_RECURRING_TRANSFERS, coinId, currentAccount.name],
   });
 
   const totalAmount = useMemo(() => {
@@ -382,7 +417,7 @@ export const usePendingRequestsQuery = (symbol: string) => {
 
   // Use SDK query options for pending requests
   const savingsQuery = useQuery({
-    ...getSavingsWithdrawFromQueryOptions(currentAccount.username),
+    ...getSavingsWithdrawFromQueryOptions(currentAccount.name),
     select: (data) => {
       // Filter by symbol and transform to CoinActivity format
       return data
@@ -400,7 +435,7 @@ export const usePendingRequestsQuery = (symbol: string) => {
   });
 
   const conversionQuery = useQuery({
-    ...getConversionRequestsQueryOptions(currentAccount.username),
+    ...getConversionRequestsQueryOptions(currentAccount.name),
     select: (data) => {
       return data
         .filter((request) => request.amount.includes(symbol))
@@ -415,7 +450,7 @@ export const usePendingRequestsQuery = (symbol: string) => {
   });
 
   const collateralizedConversionQuery = useQuery({
-    ...getCollateralizedConversionRequestsQueryOptions(currentAccount.username),
+    ...getCollateralizedConversionRequestsQueryOptions(currentAccount.name),
     select: (data) => {
       return data
         .filter((request) => request.collateral_amount.includes(symbol))
@@ -431,7 +466,7 @@ export const usePendingRequestsQuery = (symbol: string) => {
 
   // Use SDK query options for open orders
   const openOrdersQuery = useQuery({
-    ...getOpenOrdersQueryOptions(currentAccount.username),
+    ...getOpenOrdersQueryOptions(currentAccount.name),
     select: (data) => {
       return data
         .filter((request) => request.sell_price.base.includes(symbol))
@@ -535,7 +570,7 @@ export const useDeleteRecurrentTransferMutation = () => {
       const prevData = queryClient.getQueryData<RecurrentTransfer[]>([
         QUERIES.WALLET.GET_RECURRING_TRANSFERS,
         ASSET_IDS.HIVE,
-        currentAccount.username,
+        currentAccount.name,
       ]);
 
       if (prevData) {
@@ -548,7 +583,7 @@ export const useDeleteRecurrentTransferMutation = () => {
             ),
         );
         queryClient.setQueryData(
-          [QUERIES.WALLET.GET_RECURRING_TRANSFERS, ASSET_IDS.HIVE, currentAccount.username],
+          [QUERIES.WALLET.GET_RECURRING_TRANSFERS, ASSET_IDS.HIVE, currentAccount.name],
           updatedData,
         );
       }

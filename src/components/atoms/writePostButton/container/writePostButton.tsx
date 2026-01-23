@@ -31,7 +31,7 @@ export const WritePostButton = ({ placeholderId: placeholder, onPress }: WritePo
   return (
     <TouchableOpacity onPress={_onPress}>
       <View style={styles.container}>
-        <UserAvatar username={currentAccount.username} />
+        <UserAvatar username={currentAccount.name} />
         <View style={styles.inputContainer}>
           <Text style={styles.inputPlaceholder}>{intl.formatMessage({ id: placeholder })}</Text>
         </View>

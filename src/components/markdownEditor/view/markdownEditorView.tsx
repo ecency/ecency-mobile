@@ -349,9 +349,9 @@ const MarkdownEditorView = ({
         <View style={styles.replySection}>
           <TouchableOpacity style={styles.accountTile} onPress={() => changeUser()}>
             <View style={styles.avatarAndNameContainer}>
-              <UserAvatar noAction username={currentAccount.username} />
+              <UserAvatar noAction username={currentAccount.name} />
               <View style={styles.nameContainer}>
-                <Text style={styles.name}>{`@${currentAccount.username}`}</Text>
+                <Text style={styles.name}>{`@${currentAccount.name}`}</Text>
               </View>
               <Icon
                 size={24}

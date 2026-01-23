@@ -33,7 +33,7 @@ const NotificationContainer = ({ navigation }) => {
   const globalProps = useAppSelector(selectGlobalProps);
 
   const unreadCountRef = useRef(currentAccount.unread_acitivity_count || 0);
-  const curUsername = useRef(currentAccount.username);
+  const curUsername = useRef(currentAccount.name);
 
   const notificationReadMutation = useNotificationReadMutation();
   const allNotificationsQuery = useNotificationsQuery(NotificationFilters.ACTIVITIES);
@@ -50,12 +50,12 @@ const NotificationContainer = ({ navigation }) => {
       : allNotificationsQuery;
 
   useEffect(() => {
-    if (curUsername.current !== currentAccount.username) {
+    if (curUsername.current !== currentAccount.name) {
       queryClient.removeQueries({ queryKey: [QUERIES.NOTIFICATIONS.GET] });
       selectedQuery.refresh();
-      curUsername.current = currentAccount.useranme;
+      curUsername.current = currentAccount.name;
     }
-  }, [currentAccount.username]);
+  }, [currentAccount.name]);
 
   useEffect(() => {
     if (currentAccount.unread_activity_count > unreadCountRef.current) {

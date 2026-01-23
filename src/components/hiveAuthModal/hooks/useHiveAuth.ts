@@ -265,7 +265,7 @@ export const useHiveAuth = () => {
       await delay(1000);
 
       const _hiveAuthObj = {
-        username: currentAccount.username,
+        username: currentAccount.name,
         expiry: currentAccount.local.hiveAuthExpiry,
         key: decryptKey(currentAccount.local.hiveAuthKey, getDigitPinCode(pinHash)),
       };

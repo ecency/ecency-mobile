@@ -10,7 +10,7 @@ const QUERIES = {
     GET: 'QUERY_GET_SCHEDULES',
   },
   NOTIFICATIONS: {
-    GET: 'QERUY_GET_NOTIFICATIONS',
+    GET: 'notifications', // Changed to match SDK query key pattern
   },
   ANNOUNCEMENTS: {
     GET: 'QERUY_GET_ANNOUNCEMENTS',

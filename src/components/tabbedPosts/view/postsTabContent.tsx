@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo, Suspense, lazy } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { debounce } from 'lodash';
 import BackgroundTimer from 'react-native-background-timer';
@@ -19,10 +19,7 @@ import {
   selectIsConnected,
 } from '../../../redux/selectors';
 import { useAppSelector } from '../../../hooks';
-
-const ProposalVoteRequest = lazy(() =>
-  import('../..').then((mod) => ({ default: mod.ProposalVoteRequest })),
-);
+import { ProposalVoteRequest } from '../..';
 
 let scrollOffset = 0;
 let blockPopup = false;
@@ -47,7 +44,7 @@ const PostsTabContent = ({
   const isConnected = useAppSelector(selectIsConnected);
   const currentAccount = useAppSelector(selectCurrentAccount);
 
-  const username = currentAccount?.username;
+  const username = currentAccount?.name;
   const userPinned = currentAccount?.about?.profile?.pinned;
 
   // state
@@ -148,13 +145,9 @@ const PostsTabContent = ({
 
   const _renderHeader = useMemo(() => {
     if (isLoggedIn && pageType === 'main' && isInitialTab) {
-      return (
-        <Suspense>
-          <ProposalVoteRequest />
-        </Suspense>
-      );
+      return <ProposalVoteRequest />;
     }
-  }, [currentAccount.username]);
+  }, [currentAccount.name]);
 
   // view rendereres
   const _renderEmptyContent = () => {

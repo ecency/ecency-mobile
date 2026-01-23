@@ -193,7 +193,7 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
       handleHsTransfer(generateHsSwapTokenPath(currentAccount, data));
     } else if (currentAccount.local.authType === AUTH_TYPE.HIVE_AUTH) {
       await delay(500); // NOTE: it's required to avoid modal mis fire
-      const opsArray = buildTradeOpsArray(currentAccount.username, data);
+      const opsArray = buildTradeOpsArray(currentAccount.name, data);
       hiveAuthModalRef.current?.broadcastActiveOps(opsArray);
     } else {
       try {

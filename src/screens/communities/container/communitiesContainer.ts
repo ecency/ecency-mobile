@@ -165,14 +165,14 @@ const CommunitiesContainer = ({ children }) => {
     }
     try {
       const subsData = await queryClient.fetchQuery(
-        getAccountSubscriptionsQueryOptions(currentAccount.username),
+        getAccountSubscriptionsQueryOptions(currentAccount.name),
       );
       // Create shallow copy and add subscription flag to avoid mutating cache
       const subs = subsData.map((item) => [...item, true]);
       _invalidateSubscribedCommunityCache(subs); // invalidate subscribed communities cache item when latest data is available
 
       const communitiesData = await queryClient.fetchQuery(
-        getCommunitiesQueryOptions('rank', undefined, 50, currentAccount.username),
+        getCommunitiesQueryOptions('rank', undefined, 50, currentAccount.name),
       );
 
       // Create shallow copy with isSubscribed flag to avoid mutating cache

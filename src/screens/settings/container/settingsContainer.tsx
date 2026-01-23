@@ -403,7 +403,7 @@ class SettingsContainer extends Component {
       Platform.Version
     }`;
     const appVersion = `${DeviceInfo.getVersion()} (${DeviceInfo.getBuildNumber()})`;
-    const username = currentAccount?.username || 'Unknown User';
+    const username = currentAccount?.name || 'Unknown User';
 
     const _emailBody = intl.formatMessage(
       { id: 'settings.feedback_body' },
@@ -433,7 +433,7 @@ class SettingsContainer extends Component {
     const { dispatch, intl, currentAccount } = this.props;
 
     const _onConfirm = () => {
-      deleteAccount(currentAccount.username)
+      deleteAccount(currentAccount.name)
         .then(() => {
           dispatch(
             toastNotification(

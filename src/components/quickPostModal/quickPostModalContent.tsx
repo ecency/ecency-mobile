@@ -309,9 +309,9 @@ export const QuickPostModalContent = forwardRef(
 
     const _renderAvatar = () => (
       <View style={styles.avatarAndNameContainer}>
-        <UserAvatar noAction username={currentAccount.username} />
+        <UserAvatar noAction username={currentAccount.name} />
         <View style={styles.nameContainer}>
-          <Text style={styles.name}>{`@${currentAccount.username}`}</Text>
+          <Text style={styles.name}>{`@${currentAccount.name}`}</Text>
         </View>
 
         {!canCommentToCommunity && (
@@ -370,7 +370,7 @@ export const QuickPostModalContent = forwardRef(
           <UploadsGalleryModal
             ref={uploadsGalleryModalRef}
             isPreviewActive={false}
-            username={currentAccount.username}
+            username={currentAccount.name}
             allowMultiple={false}
             hideToolbarExtension={() => {
               setMediaModalVisible(false);

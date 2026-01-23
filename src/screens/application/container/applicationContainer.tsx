@@ -679,7 +679,7 @@ class ApplicationContainer extends Component {
     const { dispatch, intl, otherAccounts, currentAccount, pinCode } = this.props;
 
     // use current account variant if it exist of target account;
-    const _accounts = currentAccount.username === username ? [currentAccount] : otherAccounts;
+    const _accounts = currentAccount.name === username ? [currentAccount] : otherAccounts;
     return repairUserAccountData(username, dispatch, intl, _accounts, pinCode);
   };
 
@@ -715,7 +715,7 @@ class ApplicationContainer extends Component {
       this._updatePrevLoggedInUsersList(username);
 
       const encAccessToken =
-        currentAccount.username === username ? currentAccount?.local?.accessToken : null;
+        currentAccount.name === username ? currentAccount?.local?.accessToken : null;
       this._enableNotification(username, false, null, encAccessToken);
 
       // switch account if other account exist
@@ -831,7 +831,7 @@ class ApplicationContainer extends Component {
       let realmData = await getUserDataWithUsername(targetAccount.username);
 
       let _currentAccount = accountData;
-      _currentAccount.username = accountData.name;
+      _currentAccount.name = accountData.name;
       [_currentAccount.local] = realmData;
 
       if (!realmData[0]) {
@@ -867,11 +867,11 @@ class ApplicationContainer extends Component {
       try {
         const queryClient = getQueryClient();
         _currentAccount.unread_activity_count = await getUnreadNotificationCount();
-        _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
+        _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.name);
 
         // Fetch muted users using SDK query
         _currentAccount.mutes = await queryClient.fetchQuery(
-          getMutedUsersQueryOptions(_currentAccount.username),
+          getMutedUsersQueryOptions(_currentAccount.name),
         );
       } catch (err) {
         console.warn(
@@ -881,7 +881,7 @@ class ApplicationContainer extends Component {
       }
 
       dispatch(updateCurrentAccount(_currentAccount));
-      dispatch(fetchSubscribedCommunities(_currentAccount.username));
+      dispatch(fetchSubscribedCommunities(_currentAccount.name));
     } catch (err) {
       dispatch(
         toastNotification(

@@ -28,12 +28,12 @@ export const useProposalVotedQuery = (proposalId?: number) => {
   const proposalsVoteMeta = useAppSelector((state) => state.cache.proposalsVoteMeta);
 
   // form meta id
-  const _cacheId = `${proposalId}_${currentAccount.username}`;
+  const _cacheId = `${proposalId}_${currentAccount.name}`;
   const _proposalVoteMeta: ProposalVoteMeta | null = proposalsVoteMeta[_cacheId];
 
   // Use SDK to get user's proposal votes, then check if this proposal is voted
   const query = useQuery({
-    ...getUserProposalVotesQueryOptions(currentAccount.username),
+    ...getUserProposalVotesQueryOptions(currentAccount.name),
     select: (votedProposals) => {
       if (!proposalId || !votedProposals) {
         return true;
@@ -88,7 +88,7 @@ export const useProposalVoteMutation = () => {
       [
         'update_proposal_votes',
         {
-          voter: currentAccount.username,
+          voter: currentAccount.name,
           proposal_ids: [proposalId],
           approve: true,
           extensions: [],
@@ -106,7 +106,7 @@ export const useProposalVoteMutation = () => {
         const _enHiveuri = hiveuri.encodeOp([
           'update_proposal_votes',
           {
-            voter: currentAccount.username,
+            voter: currentAccount.name,
             proposal_ids: [proposalId],
             approve: true,
             extensions: [],
@@ -130,7 +130,7 @@ export const useProposalVoteMutation = () => {
     retry: 3,
     onSuccess: (_, { proposalId }) => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.thankyou' })));
-      dispatch(updateProposalVoteMeta(proposalId, currentAccount.username, true));
+      dispatch(updateProposalVoteMeta(proposalId, currentAccount.name, true));
     },
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));

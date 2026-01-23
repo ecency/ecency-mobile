@@ -65,7 +65,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
     const limit = 1000;
 
     const response = await queryClient.fetchQuery(
-      getVestingDelegationsQueryOptions(currentAccount.username, startUsername, limit),
+      getVestingDelegationsQueryOptions(currentAccount.name, startUsername, limit),
     );
 
     resData = response.map(
@@ -86,7 +86,7 @@ export const DelegationsModal = forwardRef(({}, ref) => {
   };
 
   const _getReceivedDelegations = async () => {
-    const response = await getReceivedVestingShares(currentAccount.username);
+    const response = await getReceivedVestingShares(currentAccount.name);
     return response.map((item) => ({
       username: item.delegator,
       vestingShares: item.vesting_shares,

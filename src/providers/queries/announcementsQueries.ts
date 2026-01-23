@@ -63,7 +63,7 @@ export const useAnnouncementsQuery = () => {
     }
 
     _showAnnouncement(firstAnnounce, _metaId);
-  }, [announcmentsQuery.data, currentAccount.username, lastAppVersion]);
+  }, [announcmentsQuery.data, currentAccount.name, lastAppVersion]);
 
   const _showAnnouncement = async (data, metaId) => {
     const _markAsSeen = () => {

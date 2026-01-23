@@ -71,7 +71,7 @@ const PostScreen = ({ route }) => {
         setParentPermlink(post.parent_permlink);
       }
 
-      setIsOwnPost(currentAccount.username === post.author);
+      setIsOwnPost(currentAccount.name === post.author);
     }
   }, [getPostQuery.data]);
 

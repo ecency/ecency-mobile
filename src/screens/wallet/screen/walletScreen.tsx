@@ -74,7 +74,7 @@ const WalletScreen = ({ navigation }: { navigation: any }) => {
   }, []);
 
   useEffect(() => {
-    if (currency.currency !== wallet.vsCurrency || currentAccount.username !== wallet.username) {
+    if (currency.currency !== wallet.vsCurrency || currentAccount.name !== wallet.username) {
       dispatch(resetWalletData());
       _refetchData();
     }

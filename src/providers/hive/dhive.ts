@@ -204,7 +204,7 @@ export const broadcastPostingJSON = async (
       id,
       json: JSON.stringify(json),
       required_auths: [],
-      required_posting_auths: [currentAccount.username],
+      required_posting_auths: [currentAccount.name],
     };
     const opArray: Operation[] = [['custom_json', custom_json] as Operation];
 

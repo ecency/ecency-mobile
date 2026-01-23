@@ -26,7 +26,7 @@ const useAuth = () => {
   const pinHash = useAppSelector(selectPin);
   const digitPinCode = getDigitPinCode(pinHash);
 
-  const username = currentAccount?.username;
+  const username = currentAccount?.name;
   const accessToken = currentAccount?.local?.accessToken
     ? decryptKey(currentAccount.local.accessToken, digitPinCode)
     : undefined;

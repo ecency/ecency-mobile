@@ -10,11 +10,16 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { unionBy, isArray } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { getWavesByHostQueryOptions, getAccountPosts, useBroadcastMutation } from '@ecency/sdk';
+import { useBroadcastMutation } from '@ecency/sdk';
+import { getDiscussionCollection, getAccountPosts } from '../../hive/dhive';
 
 import QUERIES from '../queryKeys';
 import { delay } from '../../../utils/editor';
-import { injectVoteCache } from '../../../utils/postParser';
+import {
+  injectPostCache,
+  injectVoteCache,
+  mapDiscussionToThreads,
+} from '../../../utils/postParser';
 import { useAppSelector } from '../../../hooks';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { useBotAuthorsQuery } from './postQueries';
@@ -32,6 +37,7 @@ export const useWavesQuery = (host: string) => {
 
   const cache = useAppSelector((state) => state.cache);
   const mutes = useAppSelector(selectCurrentAccountMutes);
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   // TODO: import bot authors query here
   const botAuthorsQuery = useBotAuthorsQuery();
@@ -174,39 +180,29 @@ export const useWavesQuery = (host: string) => {
 
   const _fetchWaves = async (pagePermlink: string) => {
     console.log('fetching waves from:', host, pagePermlink);
+    const response = await getDiscussionCollection(host, pagePermlink, currentAccount?.username);
 
-    // Use SDK's getWavesByHostQueryOptions to get the query function
-    const sdkQueryOptions = getWavesByHostQueryOptions(host);
-
-    // Call the SDK query function with the pagePermlink as pageParam
-    // The SDK expects a container object with author and permlink
-    const containerParam = pagePermlink ? { author: host, permlink: pagePermlink } : undefined;
-    const response = await sdkQueryOptions.queryFn({ pageParam: containerParam });
-
-    // SDK returns wave entries that are already threaded and filtered
-    // by mapThreadItemsToWaveEntries. We need to inject our local cache for votes
+    // inject cache here...
+    const _cachedComments = cacheRef.current.commentsCollection;
     const _cachedVotes = cacheRef.current.votesCollection;
+    const _lastCacheUpdate = cacheRef.current.lastCacheUpdate;
+    const _cResponse = injectPostCache(response, _cachedComments, _cachedVotes, _lastCacheUpdate);
 
-    // Inject vote cache into the response
-    const _cResponse = response.map((item: any) => {
-      const postPath = `${item.author}/${item.permlink}`;
-      const _voteCache = _cachedVotes[postPath];
-      if (_voteCache) {
-        return injectVoteCache(item, _voteCache);
-      }
-      return item;
-    });
+    const _threadedComments = await mapDiscussionToThreads(_cResponse, host, pagePermlink, 1);
 
-    // Apply additional filtering: bot authors and muted content
-    const _filteredComments = _cResponse.filter(
+    if (!_threadedComments) {
+      throw new Error('Failed to parse waves');
+    }
+
+    const _filteredComments = _threadedComments.filter(
       (item) =>
         item.net_rshares >= 0 &&
         !item.stats?.gray &&
-        !item.stats?.hide &&
+        !item.stats.hide &&
         !botAuthorsQuery.data.includes(item.author),
     );
 
-    // Build index for cache injection later
+    _filteredComments.sort((a, b) => (new Date(a.created) > new Date(b.created) ? -1 : 1));
     _filteredComments.forEach((item) => {
       wavesIndexCollection.current[`${item.author}/${item.permlink}`] = pagePermlink;
     });
@@ -238,7 +234,10 @@ export const useWavesQuery = (host: string) => {
     setPermlinksBucket([]);
     setActivePermlinks([]);
     await _fetchPermlinks('', true);
-    await wavesQueries[0].refetch();
+    // Wait for next tick to allow activePermlinks to update before refetching
+    if (wavesQueries[0]?.refetch) {
+      await wavesQueries[0].refetch();
+    }
     setIsRefreshing(false);
   };
 

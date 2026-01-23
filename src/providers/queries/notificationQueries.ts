@@ -1,5 +1,5 @@
 import { useQueries } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { unionBy } from 'lodash';
 import * as Sentry from '@sentry/react-native';
@@ -65,8 +65,11 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
 
   const _dataArrs = notificationQueries.map((query) => query.data);
 
+  // Memoize the data array to prevent infinite re-renders in RecyclerView
+  const data = useMemo(() => unionBy(..._dataArrs, 'id'), [_dataArrs]);
+
   return {
-    data: unionBy(..._dataArrs, 'id'),
+    data,
     isRefreshing,
     isLoading: _lastPage.isLoading || _lastPage.isFetching,
     fetchNextPage: _fetchNextPage,
@@ -89,7 +92,7 @@ export const useNotificationReadMutation = () => {
   if (!digitPinCode) {
     Sentry.captureException(new Error('Failed to derive digitPinCode'));
   }
-  const username = currentAccount?.username;
+  const username = currentAccount?.name;
   const accessToken =
     currentAccount?.local?.accessToken && digitPinCode
       ? decryptKey(currentAccount.local.accessToken, digitPinCode)
@@ -119,7 +122,14 @@ export const useNotificationReadMutation = () => {
   return {
     mutate: (notificationId?: string) => {
       try {
-        const payload = notificationId ? { id: notificationId } : undefined;
+        // Validate credentials before attempting mutation
+        if (!username || !accessToken) {
+          console.warn('Cannot mark notifications as read: missing credentials');
+          dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+          return;
+        }
+
+        const payload = notificationId ? { id: notificationId } : {};
         sdkMutation.mutate(payload);
 
         // Mobile-specific: Also mark Hive notifications when marking all
@@ -130,6 +140,7 @@ export const useNotificationReadMutation = () => {
         }
       } catch (error) {
         Sentry.captureException(error);
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       }
     },
     isLoading: sdkMutation.isLoading,

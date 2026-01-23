@@ -371,7 +371,7 @@ const PowerDownScreen = ({
       {!poweringDown && (
         <MainButton
           style={styles.button}
-          isDisable={hp <= 0 || !isAmountValid}
+          isDisable={hp <= 0 || !isAmountValid || _disableDone}
           onPress={handleMainBtn}
           isLoading={isTransfering}
         >

@@ -354,7 +354,7 @@ const UpvotePopover = forwardRef(({}, ref) => {
       rshares,
       percent: Math.round(sliderValue * 100) * 100,
       incrementStep,
-      voter: currentAccount.username,
+      voter: currentAccount.name,
       expiresAt: curTime + 30000,
       status,
     };

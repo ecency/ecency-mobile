@@ -40,9 +40,9 @@ const SideMenuContainer = ({ navigation }) => {
   // fetches and update user data
   const _updateUserData = async () => {
     try {
-      if (currentAccount?.username) {
+      if (currentAccount?.name) {
         const accountData = await queryClient.fetchQuery(
-          getAccountFullQueryOptions(currentAccount.username),
+          getAccountFullQueryOptions(currentAccount.name),
         );
         if (accountData) {
           dispatch(updateCurrentAccount({ ...currentAccount, ...accountData }));
