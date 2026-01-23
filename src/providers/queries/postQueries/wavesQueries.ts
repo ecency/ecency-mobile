@@ -277,6 +277,11 @@ export const useWavesQuery = (host: string) => {
 
     const _latestData: any[] = queryResponse.data || [];
 
+    // Guard against empty _filteredData - if no previous waves, return first 5 new waves
+    if (!_prevLatestWave) {
+      return _latestData?.slice(0, 5) || [];
+    }
+
     // check if new waves are available
     const _lastIndex = _latestData?.findIndex(
       (item) => item.author + item.permlink === _prevLatestWave.author + _prevLatestWave.permlink,

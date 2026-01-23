@@ -82,35 +82,44 @@ const PowerDownScreen = ({
     }
   }, [handleOnModalClose]);
 
-  const handleTransferAction = useCallback(() => {
-    setIsTransfering(true);
+  const handleTransferAction = useCallback(
+    (amountOverride?: number) => {
+      setIsTransfering(true);
 
-    if (accountType === AUTH_TYPE.STEEM_CONNECT) {
-      Alert.alert(
-        intl.formatMessage({ id: 'alert.warning' }),
-        intl.formatMessage({ id: 'transfer.sc_power_down_error' }),
-      );
-      setIsTransfering(false);
-    } else if (accountType === AUTH_TYPE.HIVE_AUTH) {
-      const opArray = buildTransferOpsArray(TransferTypes.WITHDRAW_VESTING, {
-        from: currentAccountName,
-        to: destinationAccounts,
-        amount: amount.toFixed(6),
-        fundType: 'VESTS',
-      });
-      hiveAuthModalRef.current?.broadcastActiveOps(opArray);
-      // Loading state will be cleared by handleHiveAuthModalClose
-    } else {
-      transferToAccount(currentAccountName, destinationAccounts, amount, '')
-        .then(() => {
-          setIsTransfering(false);
-        })
-        .catch((error) => {
-          setIsTransfering(false);
-          Alert.alert(intl.formatMessage({ id: 'alert.error' }), error.message || error.toString());
+      // Use explicit amount override (for stop power down) or current amount state
+      const amountToUse = amountOverride !== undefined ? amountOverride : amount;
+
+      if (accountType === AUTH_TYPE.STEEM_CONNECT) {
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.warning' }),
+          intl.formatMessage({ id: 'transfer.sc_power_down_error' }),
+        );
+        setIsTransfering(false);
+      } else if (accountType === AUTH_TYPE.HIVE_AUTH) {
+        const opArray = buildTransferOpsArray(TransferTypes.WITHDRAW_VESTING, {
+          from: currentAccountName,
+          to: destinationAccounts,
+          amount: amountToUse.toFixed(6),
+          fundType: 'VESTS',
         });
-    }
-  }, [accountType, intl, currentAccountName, destinationAccounts, amount, transferToAccount]);
+        hiveAuthModalRef.current?.broadcastActiveOps(opArray);
+        // Loading state will be cleared by handleHiveAuthModalClose
+      } else {
+        transferToAccount(currentAccountName, destinationAccounts, amountToUse, '')
+          .then(() => {
+            setIsTransfering(false);
+          })
+          .catch((error) => {
+            setIsTransfering(false);
+            Alert.alert(
+              intl.formatMessage({ id: 'alert.error' }),
+              error.message || error.toString(),
+            );
+          });
+      }
+    },
+    [accountType, intl, currentAccountName, destinationAccounts, amount, transferToAccount],
+  );
 
   const validateHP = useCallback(
     ({ value, availableVestingShares }) => {
@@ -248,8 +257,14 @@ const PowerDownScreen = ({
         percent: item.weight / 100,
         autoPowerUp: item.autoPowerUp,
       }));
+
+      // Guard against empty accounts array
+      if (accounts.length === 0) {
+        return;
+      }
+
       const latestDestinationAccount = accounts[accounts.length - 1];
-      if (latestDestinationAccount.username && latestDestinationAccount.percent) {
+      if (latestDestinationAccount?.username && latestDestinationAccount?.percent) {
         handleOnSubmit(
           latestDestinationAccount.username,
           latestDestinationAccount.percent,
@@ -452,7 +467,7 @@ const PowerDownScreen = ({
         onPress={(index) => {
           if (index === 0) {
             setAmount(0);
-            handleTransferAction();
+            handleTransferAction(0); // Explicit 0 for stop power down
           }
         }}
       />

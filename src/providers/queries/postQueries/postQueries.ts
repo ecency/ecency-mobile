@@ -53,15 +53,19 @@ export const useGetPostQuery = ({
         return null;
       }
 
-      // set pinned post flag
+      // Create shallow copy to avoid mutating cached data
+      let postCopy = post;
       if (isPinned) {
-        post.stats = { ...post.stats, is_pinned_blog: true };
+        postCopy = {
+          ...post,
+          stats: { ...post.stats, is_pinned_blog: true },
+        };
       }
 
       // Process post with parsePost to add all necessary fields
       // isList = false to render full body, discardBody = false to keep body
       const processedPost = parsePost(
-        post,
+        postCopy,
         currentAccount?.name,
         false, // not promoted
         false, // not list view - render full body
@@ -142,7 +146,7 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       { author, permlink } as any,
       'created' as any, // SDK accepts 'created' but TypeScript definitions are strict
       !!author && !!permlink,
-      currentAccount?.username,
+      currentAccount?.name,
     ),
     gcTime: 5 * 60 * 1000, // keeps comments cache for 5 minutes
   });

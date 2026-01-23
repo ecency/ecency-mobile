@@ -288,6 +288,7 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const globalProps = useAppSelector(selectGlobalProps);
 
+  const username = currentAccount?.name;
   const isEngine = layer === 'engine';
 
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -297,8 +298,13 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   const _fetchActivities = async (pageParam: number) => {
     console.log('fetching page since:', pageParam);
 
+    if (!username) {
+      console.warn('[Activities] No username available for activities fetch');
+      return [];
+    }
+
     const _activites = await fetchCoinActivities({
-      username: currentAccount.name,
+      username,
       assetSymbol: symbol,
       globalProps,
       startIndex: pageParam,
@@ -319,9 +325,10 @@ export const useActivitiesQuery = (symbol: string, layer: PortfolioLayer) => {
   // query initialization
   const queries = useQueries({
     queries: pageParams.map((pageParam) => ({
-      queryKey: [QUERIES.WALLET.GET_ACTIVITIES, currentAccount.name, symbol, pageParam],
+      queryKey: [QUERIES.WALLET.GET_ACTIVITIES, username, symbol, pageParam],
       queryFn: () => _fetchActivities(pageParam),
       initialData: [],
+      enabled: !!username, // Only fetch when username exists
     })),
   });
 

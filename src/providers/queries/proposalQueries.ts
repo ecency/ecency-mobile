@@ -151,11 +151,14 @@ export const useProposalVoteMutation = () => {
           },
         ]);
 
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
           navigation.navigate(ROUTES.MODALS.HIVE_SIGNER, {
             hiveuri: _enHiveuri,
             onClose: () => {
-              resolve(true);
+              // FIXME: Modal doesn't distinguish between successful signing and user dismissal
+              // For now, reject on close to avoid false positive cache updates
+              // TODO: Implement onSuccess callback in HiveSignerModal to properly handle success
+              reject(new Error('HiveSigner modal closed - unable to confirm transaction success'));
             },
           });
         });
