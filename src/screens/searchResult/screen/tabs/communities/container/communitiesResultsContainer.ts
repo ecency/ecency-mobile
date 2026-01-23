@@ -65,7 +65,7 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
             'rank',
             searchValue || undefined,
             searchValue ? 100 : 20,
-            currentAccount.name,
+            currentAccount?.name || undefined,
           ),
         );
 

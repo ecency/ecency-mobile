@@ -139,7 +139,7 @@ class RedeemContainer extends Component {
     }
 
     const user =
-      selectedUser !== currentAccount.name
+      selectedUser === currentAccount.name
         ? currentAccount
         : accounts.find((item) => item.username === selectedUser);
 

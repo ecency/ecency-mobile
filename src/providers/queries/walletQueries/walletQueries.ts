@@ -381,9 +381,12 @@ export const useRecurringActivitesQuery = (coinId: string) => {
     return null;
   }
 
+  const username = currentAccount?.name;
+
   const query = useQuery({
-    ...getRecurrentTransfersQueryOptions(currentAccount.name),
-    queryKey: [QUERIES.WALLET.GET_RECURRING_TRANSFERS, coinId, currentAccount.name],
+    ...getRecurrentTransfersQueryOptions(username || ''),
+    queryKey: [QUERIES.WALLET.GET_RECURRING_TRANSFERS, coinId, username],
+    enabled: !!username, // Only fetch when username exists
   });
 
   const totalAmount = useMemo(() => {
@@ -414,10 +417,12 @@ export const useRecurringActivitesQuery = (coinId: string) => {
  */
 export const usePendingRequestsQuery = (symbol: string) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
+  const username = currentAccount?.name;
 
   // Use SDK query options for pending requests
   const savingsQuery = useQuery({
-    ...getSavingsWithdrawFromQueryOptions(currentAccount.name),
+    ...getSavingsWithdrawFromQueryOptions(username || ''),
+    enabled: !!username,
     select: (data) => {
       // Filter by symbol and transform to CoinActivity format
       return data
@@ -435,7 +440,8 @@ export const usePendingRequestsQuery = (symbol: string) => {
   });
 
   const conversionQuery = useQuery({
-    ...getConversionRequestsQueryOptions(currentAccount.name),
+    ...getConversionRequestsQueryOptions(username || ''),
+    enabled: !!username,
     select: (data) => {
       return data
         .filter((request) => request.amount.includes(symbol))
@@ -450,7 +456,8 @@ export const usePendingRequestsQuery = (symbol: string) => {
   });
 
   const collateralizedConversionQuery = useQuery({
-    ...getCollateralizedConversionRequestsQueryOptions(currentAccount.name),
+    ...getCollateralizedConversionRequestsQueryOptions(username || ''),
+    enabled: !!username,
     select: (data) => {
       return data
         .filter((request) => request.collateral_amount.includes(symbol))
@@ -466,10 +473,16 @@ export const usePendingRequestsQuery = (symbol: string) => {
 
   // Use SDK query options for open orders
   const openOrdersQuery = useQuery({
-    ...getOpenOrdersQueryOptions(currentAccount.name),
+    ...getOpenOrdersQueryOptions(username || ''),
+    enabled: !!username,
     select: (data) => {
       return data
-        .filter((request) => request.sell_price.base.includes(symbol))
+        .filter(
+          (request) =>
+            request.sell_price &&
+            (request.sell_price.base?.includes(symbol) ||
+              request.sell_price.quote?.includes(symbol)),
+        )
         .map((request) => {
           const { base, quote } = request?.sell_price || {};
           const { orderid } = request;

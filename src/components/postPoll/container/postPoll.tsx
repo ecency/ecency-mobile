@@ -60,9 +60,9 @@ export const PostPoll = ({ author, permlink, metadata, initMode, compactView }: 
 
   const userVote = useMemo(() => {
     if (pollsQuery.data) {
-      return pollsQuery.data.poll_voters.find((voter) => voter.name === currentAccount.name);
+      return pollsQuery.data.poll_voters.find((voter) => voter.name === currentAccount?.name);
     }
-  }, [pollsQuery.data?.poll_voters, currentAccount.name]);
+  }, [pollsQuery.data?.poll_voters, currentAccount?.name]);
 
   const _expired = useMemo(
     () => new Date(metadata.end_time * 1000).getTime() < new Date().getTime(),

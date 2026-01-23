@@ -255,6 +255,11 @@ class MattermostWebSocketClient {
                 disconnectDuration / 1000 / 60,
               )} minutes. Giving up. Please refresh the app.`,
             );
+            this.isClosed = true;
+            if (this.reconnectTimeout) {
+              clearTimeout(this.reconnectTimeout);
+              this.reconnectTimeout = null;
+            }
             config.onClose?.();
             return;
           }

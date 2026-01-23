@@ -147,7 +147,7 @@ const PostsTabContent = ({
     if (isLoggedIn && pageType === 'main' && isInitialTab) {
       return <ProposalVoteRequest />;
     }
-  }, [currentAccount.name]);
+  }, [isLoggedIn, pageType, isInitialTab, currentAccount?.name]);
 
   // view rendereres
   const _renderEmptyContent = () => {

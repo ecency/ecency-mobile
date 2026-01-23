@@ -43,7 +43,7 @@ export const useGetPostQuery = ({
     return _post;
   }, [initialPost?.body]);
 
-  const sdkQueryOptions = getPostQueryOptions(author, permlink, currentAccount?.username);
+  const sdkQueryOptions = getPostQueryOptions(author, permlink, currentAccount?.name);
 
   const query = useQuery({
     ...sdkQueryOptions,
@@ -62,7 +62,7 @@ export const useGetPostQuery = ({
       // isList = false to render full body, discardBody = false to keep body
       const processedPost = parsePost(
         post,
-        currentAccount?.username,
+        currentAccount?.name,
         false, // not promoted
         false, // not list view - render full body
         false, // don't discard body
@@ -73,7 +73,7 @@ export const useGetPostQuery = ({
 
     initialData: _initialPost,
     gcTime: 30 * 60 * 1000, // keeps cache for 30 minutes
-    staleTime: isPreview && currentAccount.name !== author ? 15 * 60 * 1000 : 0, // do not refetch in case of preview only
+    staleTime: isPreview && currentAccount?.name !== author ? 15 * 60 * 1000 : 0, // do not refetch in case of preview only
   });
 
   const data = useInjectVotesCache(query.data);
@@ -91,6 +91,7 @@ export const useGetPostQuery = ({
 
 export const usePostsCachePrimer = () => {
   const queryClient = useQueryClient();
+  const currentAccount = useAppSelector(selectCurrentAccount);
 
   const cachePost = async (post) => {
     if (!post || !post.author || !post.permlink || !post.body) {
@@ -100,8 +101,8 @@ export const usePostsCachePrimer = () => {
     console.log('priming data', post.author, post.permlink, post);
     post.body = renderPostBody({ ...post, last_update: post.updated }, true, Platform.OS !== 'ios');
 
-    // Use SDK query key format
-    const { queryKey } = getPostQueryOptions(post.author, post.permlink);
+    // Use SDK query key format with same account identifier as useGetPostQuery
+    const { queryKey } = getPostQueryOptions(post.author, post.permlink, currentAccount?.name);
     queryClient.setQueryData(queryKey, post);
   };
 

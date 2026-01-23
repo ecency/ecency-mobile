@@ -161,15 +161,26 @@ const PowerDownScreen = ({
   );
 
   const removeDestinationAccount = useCallback(
-    (account) => {
-      setDestinationAccounts((prev) => prev.filter((item) => item.username !== account.username));
-      setWithdrawVestingRoute(currentAccountName, account.username, 0, false);
+    async (account) => {
+      try {
+        // Perform blockchain operation first
+        await setWithdrawVestingRoute(currentAccountName, account.username, 0, false);
+        // Only update state after successful blockchain call
+        setDestinationAccounts((prev) => prev.filter((item) => item.username !== account.username));
+      } catch (error) {
+        console.error('[PowerDown] Failed to remove destination account:', error);
+        // Optionally show user-facing error message here
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.fail' }),
+          error?.message || intl.formatMessage({ id: 'alert.error' }),
+        );
+      }
     },
-    [setWithdrawVestingRoute, currentAccountName],
+    [setWithdrawVestingRoute, currentAccountName, intl],
   );
 
   const handleOnSubmit = useCallback(
-    (username, percent, autoPowerUp) => {
+    async (username, percent, autoPowerUp) => {
       // Check if account already exists before updating state
       if (destinationAccounts.some((item) => item.username === username)) {
         Alert.alert(
@@ -179,13 +190,20 @@ const PowerDownScreen = ({
         return;
       }
 
-      // Update state first
-      const newAccounts = [...destinationAccounts, { username, percent, autoPowerUp }];
-      setDestinationAccounts(newAccounts);
+      try {
+        // Perform blockchain operation first
+        await setWithdrawVestingRoute(currentAccountName, username, percent, autoPowerUp);
 
-      // Then perform side effects
-      setWithdrawVestingRoute(currentAccountName, username, percent, autoPowerUp);
-      setIsOpenWithdrawAccount(false);
+        // Only update state after successful blockchain call
+        setDestinationAccounts([...destinationAccounts, { username, percent, autoPowerUp }]);
+        setIsOpenWithdrawAccount(false);
+      } catch (error) {
+        console.error('[PowerDown] Failed to set withdraw vesting route:', error);
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.fail' }),
+          error?.message || intl.formatMessage({ id: 'alert.error' }),
+        );
+      }
     },
     [destinationAccounts, setWithdrawVestingRoute, currentAccountName, intl],
   );

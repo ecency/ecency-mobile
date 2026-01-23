@@ -264,8 +264,16 @@ export const useHiveAuth = () => {
       setStatusText(intl.formatMessage({ id: 'hiveauth.initiating' }));
       await delay(1000);
 
+      const username = currentAccount.name ?? currentAccount.username;
+      if (!username) {
+        throw new Error(
+          intl.formatMessage({ id: 'alert.auth_expired' }) ||
+            'Account username not found. Please re-login.',
+        );
+      }
+
       const _hiveAuthObj = {
-        username: currentAccount.name,
+        username,
         expiry: currentAccount.local.hiveAuthExpiry,
         key: decryptKey(currentAccount.local.hiveAuthKey, getDigitPinCode(pinHash)),
       };

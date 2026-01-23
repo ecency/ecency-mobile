@@ -128,8 +128,6 @@ const AccountsBottomSheetContainer = () => {
       let _currentAccount = await switchAccount(accountData.username);
       let realmData = await getUserDataWithUsername(accountData.username);
 
-      _currentAccount.name = _currentAccount.name;
-
       if (!realmData[0]) {
         realmData = await repairUserAccountData(
           _currentAccount.name,

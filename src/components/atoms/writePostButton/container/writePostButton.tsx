@@ -5,7 +5,7 @@ import UserAvatar from '../../../userAvatar';
 import styles from '../styles/writePostButton.styles';
 import { useAppSelector } from '../../../../hooks';
 import showLoginAlert from '../../../../utils/showLoginAlert';
-import { selectCurrentAccount, selectIsLoggedIn } from '../../../../redux/selectors';
+import { selectCurrentAccountUsername, selectIsLoggedIn } from '../../../../redux/selectors';
 
 interface WritePostButtonProps {
   placeholderId: string;
@@ -16,7 +16,7 @@ export const WritePostButton = ({ placeholderId: placeholder, onPress }: WritePo
   const intl = useIntl();
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const currentAccount = useAppSelector(selectCurrentAccount);
+  const username = useAppSelector(selectCurrentAccountUsername);
 
   const _onPress = () => {
     if (!isLoggedIn) {
@@ -31,7 +31,7 @@ export const WritePostButton = ({ placeholderId: placeholder, onPress }: WritePo
   return (
     <TouchableOpacity onPress={_onPress}>
       <View style={styles.container}>
-        <UserAvatar username={currentAccount.name} />
+        <UserAvatar username={username} />
         <View style={styles.inputContainer}>
           <Text style={styles.inputPlaceholder}>{intl.formatMessage({ id: placeholder })}</Text>
         </View>

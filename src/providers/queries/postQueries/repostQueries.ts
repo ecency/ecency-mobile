@@ -13,6 +13,7 @@ import { makeJsonMetadata, makeOptions } from '../../../utils/editor';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 import authType from '../../../constants/authType';
 import { decryptKey } from '../../../utils/crypto';
+import { mapAuthTypeToLoginType } from '../../../utils/authMapper';
 
 /** hook used to return post reblogs using SDK */
 export const useGetReblogsQuery = (author: string, permlink: string) => {
@@ -50,14 +51,14 @@ export function useReblogMutation(author: string, permlink: string) {
       : undefined;
 
   const auth = {
+    accessToken,
     postingKey,
-    loginType: isHiveSigner ? 'hs' : 'key',
+    loginType: mapAuthTypeToLoginType(currentAccount.local.authType),
   };
 
   const broadcastMutation = useBroadcastMutation<{ undo: boolean }>(
     [QUERIES.POST.REBLOG_POST, author, permlink],
     currentAccount?.name || '',
-    accessToken,
     ({ undo }) => [
       [
         'custom_json',
@@ -179,8 +180,9 @@ export function useCrossPostMutation() {
       : undefined;
 
   const auth = {
+    accessToken,
     postingKey,
-    loginType: isHiveSigner ? 'hs' : 'key',
+    loginType: mapAuthTypeToLoginType(currentAccount.local.authType),
   };
 
   const broadcastMutation = useBroadcastMutation<{
@@ -190,7 +192,6 @@ export function useCrossPostMutation() {
   }>(
     [QUERIES.POST.CROSS_POST],
     currentAccount?.name || '',
-    accessToken,
     ({ post, communityId, message }) => {
       const { title } = post;
       const author = currentAccount?.username || '';

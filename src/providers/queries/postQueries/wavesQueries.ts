@@ -31,6 +31,7 @@ import {
 import authType from '../../../constants/authType';
 import { decryptKey } from '../../../utils/crypto';
 import { getDigitPinCode } from '../../hive/dhive';
+import { mapAuthTypeToLoginType } from '../../../utils/authMapper';
 
 export const useWavesQuery = (host: string) => {
   const queryClient = useQueryClient();
@@ -353,49 +354,37 @@ export const useDeleteWaveMutation = (
     return {
       accessToken,
       postingKey,
-      loginType: isHiveSigner ? 'hs' : 'key',
+      loginType: mapAuthTypeToLoginType(account.local.authType),
       username: account.name,
     };
-  };
-
-  // Prepare auth credentials for initial broadcast mutation setup
-  const digitPinCode = getDigitPinCode(pinHash);
-  const isHiveSigner =
-    currentAccount.local.authType === authType.STEEM_CONNECT ||
-    currentAccount.local.authType === authType.HIVE_AUTH;
-
-  const accessToken = isHiveSigner
-    ? decryptKey(currentAccount.local.accessToken, digitPinCode)
-    : undefined;
-  const postingKey =
-    !isHiveSigner && currentAccount.local.postingKey
-      ? decryptKey(currentAccount.local.postingKey, digitPinCode)
-      : undefined;
-
-  const auth = {
-    postingKey,
-    loginType: isHiveSigner ? 'hs' : 'key',
   };
 
   const broadcastMutation = useBroadcastMutation<{ permlink: string; parentPermlink: string }>(
     [QUERIES.WAVES.DELETE],
     currentAccount.name,
-    accessToken,
     ({ permlink }) => {
       // Use fresh credentials at mutation time
-      const freshAuth = getAuthCredentials();
+      const latestAuth = getAuthCredentials();
       return [
         [
           'delete_comment',
           {
-            author: freshAuth.username,
+            author: latestAuth.username,
             permlink,
           },
         ],
       ];
     },
     () => {}, // onSuccess callback
-    auth,
+    // Auth object with fresh credentials
+    (() => {
+      const freshAuth = getAuthCredentials();
+      return {
+        accessToken: freshAuth.accessToken,
+        postingKey: freshAuth.postingKey,
+        loginType: freshAuth.loginType, // Map mobile authType to SDK loginType
+      };
+    })(),
   );
 
   return useMutation({
