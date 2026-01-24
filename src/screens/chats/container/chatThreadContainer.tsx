@@ -270,7 +270,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           !pendingPostId &&
           post.user_id === bootstrapUserId &&
           lastSentMessageRef.current !== null &&
-          post.message === lastSentMessageRef.current &&
+          emojifyMessage(post.message) === lastSentMessageRef.current &&
           (post.root_id || '') === (lastSentRootIdRef.current || '') &&
           Math.abs((post.create_at || 0) - lastSentAtRef.current) < 30000;
 
@@ -287,7 +287,8 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
             return [normalized, ...prevPosts];
           });
           const shouldClearComposer =
-            messageRef.current === '' || messageRef.current === lastSentMessageRef.current;
+            messageRef.current === '' ||
+            emojifyMessage(messageRef.current) === lastSentMessageRef.current;
           if (shouldClearComposer) {
             setMessage('');
             _updateMentionState('');

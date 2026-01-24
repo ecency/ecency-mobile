@@ -360,8 +360,8 @@ export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCa
             // Don't mutate parent - create new object with updated replies and children
             _comments[_parentPath] = {
               ...parentComment,
-              replies: [...parentComment.replies, path],
-              children: parentComment.children + 1,
+              replies: [...(parentComment.replies || []), path],
+              children: (parentComment.children ?? 0) + 1,
             };
 
             // if comment was created very recently enable auto reveal
@@ -456,7 +456,8 @@ export const injectVoteCache = (post, voteCache) => {
     // update vote entry
     const updatedVote = { ..._vote };
     updatedVote.rshares = voteCache.rshares;
-    updatedVote.percent100 = updatedVote.percent && voteCache.percent / 100;
+    updatedVote.percent = voteCache.percent ?? updatedVote.percent;
+    updatedVote.percent100 = (voteCache.percent ?? updatedVote.percent) / 100;
 
     const updatedVotes = [...post.active_votes];
     updatedVotes[_voteIndex] = updatedVote;

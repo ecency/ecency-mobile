@@ -7,8 +7,11 @@ export const sortComments = (sortOrder = 'trending', _comments) => {
 
   const sortOrders = {
     trending: (a, b) => {
-      if (a.renderOnTop) {
+      if (a.renderOnTop && !b.renderOnTop) {
         return -1;
+      }
+      if (!a.renderOnTop && b.renderOnTop) {
+        return 1;
       }
 
       if (absNegative(a)) {
@@ -29,8 +32,11 @@ export const sortComments = (sortOrder = 'trending', _comments) => {
       return 0;
     },
     reputation: (a, b) => {
-      if (a.renderOnTop) {
+      if (a.renderOnTop && !b.renderOnTop) {
         return -1;
+      }
+      if (!a.renderOnTop && b.renderOnTop) {
+        return 1;
       }
 
       const keyA = a.author_reputation;
@@ -46,8 +52,11 @@ export const sortComments = (sortOrder = 'trending', _comments) => {
       return 0;
     },
     votes: (a, b) => {
-      if (a.renderOnTop) {
+      if (a.renderOnTop && !b.renderOnTop) {
         return -1;
+      }
+      if (!a.renderOnTop && b.renderOnTop) {
+        return 1;
       }
 
       const keyA = a.active_votes.length;
@@ -63,8 +72,11 @@ export const sortComments = (sortOrder = 'trending', _comments) => {
       return 0;
     },
     age: (a, b) => {
-      if (a.renderOnTop) {
+      if (a.renderOnTop && !b.renderOnTop) {
         return -1;
+      }
+      if (!a.renderOnTop && b.renderOnTop) {
+        return 1;
       }
 
       if (absNegative(a)) {

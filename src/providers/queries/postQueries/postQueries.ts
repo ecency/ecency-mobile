@@ -264,10 +264,12 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
             let commentCopy = processedCommentsCache.current.get(cacheKey);
 
             // Only create new object if cache miss or comment data changed
+            // IMPORTANT: Also check if replies array length changed to detect new nested replies
             if (
               !commentCopy ||
               commentCopy.body !== comment.body ||
-              commentCopy.updated !== comment.updated
+              commentCopy.updated !== comment.updated ||
+              commentCopy.replies?.length !== comment.replies?.length
             ) {
               commentCopy = {
                 ...comment,
@@ -300,10 +302,12 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         let commentCopy = processedCommentsCache.current.get(cacheKey);
 
         // Only create new object if cache miss or comment data changed
+        // IMPORTANT: Also check if replies array length changed to detect new nested replies
         if (
           !commentCopy ||
           commentCopy.body !== comment.body ||
-          commentCopy.updated !== comment.updated
+          commentCopy.updated !== comment.updated ||
+          commentCopy.replies?.length !== comment.replies?.length
         ) {
           commentCopy = {
             ...comment,
@@ -312,14 +316,8 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
             repliesThread: parseReplies(commentsMap, comment.replies, key, 2),
           };
           processedCommentsCache.current.set(cacheKey, commentCopy);
-        } else {
-          // Update replies thread even if cached, as nested comments might have changed
-          commentCopy = {
-            ...commentCopy,
-            repliesThread: parseReplies(commentsMap, comment.replies, key, 2),
-          };
-          processedCommentsCache.current.set(cacheKey, commentCopy);
         }
+        // else: use cached commentCopy as-is since nothing changed
 
         comments.push(commentCopy);
       }
@@ -517,7 +515,7 @@ export const useInjectVotesCache = (_data: any | any[]) => {
       return currentData;
     });
 
-    // votesCollection is intentionally not a dependency - incremental vote updates are handled by the first useEffect
+    // votesCollection is included as a dependency to trigger updates when votes change
   }, [_data, votesCollection]);
 
   return retData || _data;

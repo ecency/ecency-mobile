@@ -64,7 +64,8 @@ export const getRcPower = (rcAccount: any): number => {
 };
 
 /**
- * Calculate downvote power percentage
+ * Calculate downvote power
+ * Returns normalized value (0-1)
  * This matches the SDK's downVotingPower function in account-power.ts
  */
 export const getDownVotingPower = (account: ManabarAccount): number => {
@@ -100,10 +101,10 @@ export const getDownVotingPower = (account: ManabarAccount): number => {
     }
 
     if (currentManaPerc > 100) {
-      return 100;
+      return 1;
     }
 
-    return currentManaPerc;
+    return currentManaPerc / 100;
   } catch (error) {
     console.warn('Failed to calculate downvote power:', error);
     return 0;

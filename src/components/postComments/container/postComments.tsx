@@ -92,9 +92,9 @@ const PostComments = forwardRef(
         }
       },
       scrollToComments: () => {
-        if (commentsListRef.current && !sortedSections.length) {
+        if (commentsListRef.current && !listData.length) {
           commentsListRef.current.scrollToOffset({ offset: headerHeight + 200 });
-        } else if (commentsListRef.current && sortedSections.length) {
+        } else if (commentsListRef.current && listData.length) {
           commentsListRef.current.scrollToIndex({ index: 0, viewOffset: 108 });
         }
       },
@@ -158,7 +158,7 @@ const PostComments = forwardRef(
             const _commentPath = `${currentAccount.name}/${_permlink}`;
             console.log('deleted comment', _commentPath);
 
-            const _deletedItem = discussionQuery.data[_commentPath];
+            const _deletedItem = discussionQuery.data?.[_commentPath];
             if (_deletedItem) {
               // Don't mutate - create new object
               const updatedItem = {

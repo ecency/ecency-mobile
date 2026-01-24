@@ -43,18 +43,18 @@ const PostDisplayContainer = ({
     }
   }, [post]);
 
-  useEffect(() => {
-    if (isFetchPost || isFetchComments) {
-      _fetchPost();
-    }
-  }, [isFetchPost, isFetchComments, _fetchPost]);
-
   // Component Functions
   const _fetchPost = useCallback(async () => {
     if (post) {
       fetchPost(post?.author, post?.permlink);
     }
   }, [post?.author, post?.permlink, fetchPost]);
+
+  useEffect(() => {
+    if (isFetchPost || isFetchComments) {
+      _fetchPost();
+    }
+  }, [isFetchPost, isFetchComments, _fetchPost]);
 
   const _handleOnVotersPress = useCallback(() => {
     navigation.navigate({

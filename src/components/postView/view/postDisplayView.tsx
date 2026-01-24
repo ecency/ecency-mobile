@@ -191,6 +191,23 @@ const PostDisplayView = ({
     }
   }, [handleOnVotersPress]);
 
+  // show quick reply modal
+  const _showQuickReplyModal = useCallback(
+    (_post = post) => {
+      if (isLoggedIn) {
+        SheetManager.show(SheetNames.QUICK_POST, {
+          payload: {
+            mode: 'comment',
+            parentPost: _post,
+          },
+        });
+      } else {
+        console.log('Not LoggedIn');
+      }
+    },
+    [isLoggedIn, post],
+  );
+
   const _renderActionPanel = useMemo(
     () => (
       <StickyBar isFixedFooter={true} style={styles.stickyBar}>
@@ -298,23 +315,6 @@ const PostDisplayView = ({
   const _handleOnPostBodyLoad = useCallback(() => {
     setPostBodyLoading(false);
   }, []);
-
-  // show quick reply modal
-  const _showQuickReplyModal = useCallback(
-    (_post = post) => {
-      if (isLoggedIn) {
-        SheetManager.show(SheetNames.QUICK_POST, {
-          payload: {
-            mode: 'comment',
-            parentPost: _post,
-          },
-        });
-      } else {
-        console.log('Not LoggedIn');
-      }
-    },
-    [isLoggedIn, post],
-  );
 
   // show quick reply modal
   const _showQuickProfileModal = useCallback((username) => {

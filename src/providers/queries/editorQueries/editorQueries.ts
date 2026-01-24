@@ -81,7 +81,7 @@ export const useMediaQuery = (limit = 20) => {
 
   const infiniteQuery = useInfiniteQuery({
     ...getImagesInfiniteQueryOptions(username || '', code, limit),
-    enabled: !!username, // Only fetch when username is available
+    enabled: !!username && !!code, // Only fetch when username and code are available
   });
 
   // Flatten pages into single array
@@ -108,7 +108,7 @@ export const useSnippetsQuery = (limit = 20) => {
 
   const infiniteQuery = useInfiniteQuery({
     ...getFragmentsInfiniteQueryOptions(username || '', code, limit),
-    enabled: !!username, // Only fetch when username is available
+    enabled: !!username && !!code, // Only fetch when username and code are available
   });
 
   // Flatten pages into single array
