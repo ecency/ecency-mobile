@@ -107,7 +107,10 @@ export const useMediaQuery = (limit = 20) => {
 export const useSnippetsQuery = (limit = 20) => {
   const { username, code } = useAuth();
 
-  const infiniteQuery = useInfiniteQuery(getFragmentsInfiniteQueryOptions(username, code, limit));
+  const infiniteQuery = useInfiniteQuery({
+    ...getFragmentsInfiniteQueryOptions(username || '', code, limit),
+    enabled: !!username, // Only fetch when username is available
+  });
 
   // Flatten pages into single array
   const data = useMemo(() => {
@@ -134,6 +137,7 @@ export const useAddToUploadsMutation = () => {
   const { username, code } = useAuth();
 
   const addImageMutation = useAddImage(username, code);
+  const mediaQueryKey = getImagesInfiniteQueryOptions(username || '', code, 20).queryKey;
 
   return useMutation<any[], Error, string>({
     mutationFn: async (url) => {
@@ -141,12 +145,22 @@ export const useAddToUploadsMutation = () => {
     },
     retry: 3,
     onSuccess: (data) => {
-      queryClient.setQueryData([QUERIES.MEDIA.GET], data);
+      // Update infinite query cache structure
+      queryClient.setQueryData(mediaQueryKey, (old: any) => {
+        if (!old?.pages) {
+          return { pages: [{ data }], pageParams: [undefined] };
+        }
+        // Update first page with new data
+        return {
+          ...old,
+          pages: old.pages.map((page: any, idx: number) => (idx === 0 ? { ...page, data } : page)),
+        };
+      });
     },
     onError: (error) => {
       if (error.toString().includes('code 409')) {
         // means image was already present, refresh to get updated order
-        queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET] });
+        queryClient.invalidateQueries({ queryKey: mediaQueryKey });
       } else {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       }
@@ -263,6 +277,7 @@ export const useSnippetsMutation = () => {
 
   const addFragmentMutation = useAddFragment(username, code);
   const editFragmentMutation = useEditFragment(username, code);
+  const snippetsQueryKey = getFragmentsInfiniteQueryOptions(username || '', code, 20).queryKey;
 
   return useMutation<Snippet[], undefined, SnippetMutationVars>({
     mutationFn: async (vars) => {
@@ -292,21 +307,24 @@ export const useSnippetsMutation = () => {
         modified: new Date().toDateString(),
       } as Snippet;
 
-      const data = queryClient.getQueryData<Snippet[]>([QUERIES.SNIPPETS.GET]);
-
-      let _newData: Snippet[] = data ? [...data] : [];
-      if (vars.id) {
-        const snipIndex = _newData.findIndex((item) => vars.id === item.id);
-        _newData[snipIndex] = _newItem;
-      } else {
-        _newData = [_newItem, ..._newData];
-      }
-
-      queryClient.setQueryData([QUERIES.SNIPPETS.GET], _newData);
+      // Update infinite query cache structure
+      queryClient.setQueryData(snippetsQueryKey, (old: any) => {
+        if (!old?.pages) return old;
+        return {
+          ...old,
+          pages: old.pages.map((page: any, idx: number) => {
+            if (idx !== 0) return page;
+            const data = vars.id
+              ? page.data.map((item: Snippet) => (item.id === vars.id ? _newItem : item))
+              : [_newItem, ...page.data];
+            return { ...page, data };
+          }),
+        };
+      });
     },
     onSuccess: (data) => {
       console.log('added/updated snippet', data);
-      queryClient.invalidateQueries({ queryKey: [QUERIES.SNIPPETS.GET] });
+      queryClient.invalidateQueries({ queryKey: snippetsQueryKey });
     },
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'snippets.message_failed' })));
@@ -327,6 +345,7 @@ export const useMediaDeleteMutation = () => {
   const { username, code } = useAuth();
 
   const deleteImageMutation = useDeleteImage(username, code);
+  const mediaQueryKey = getImagesInfiniteQueryOptions(username || '', code, 20).queryKey;
 
   return useMutation<string[], undefined, string[]>({
     mutationFn: async (deleteIds) => {
@@ -341,15 +360,21 @@ export const useMediaDeleteMutation = () => {
     retry: 3,
     onSuccess: (deleteIds) => {
       console.log('Success media deletion delete', deleteIds);
-      const data: MediaItem[] | undefined = queryClient.getQueryData([QUERIES.MEDIA.GET]);
-      if (data) {
-        const _newData = data.filter((item) => !deleteIds.includes(item._id));
-        queryClient.setQueryData([QUERIES.MEDIA.GET], _newData);
-      }
+      // Update infinite query cache structure
+      queryClient.setQueryData(mediaQueryKey, (old: any) => {
+        if (!old?.pages) return old;
+        return {
+          ...old,
+          pages: old.pages.map((page: any) => ({
+            ...page,
+            data: page.data.filter((item: MediaItem) => !deleteIds.includes(item._id)),
+          })),
+        };
+      });
     },
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'uploads_modal.delete_failed' })));
-      queryClient.invalidateQueries({ queryKey: [QUERIES.MEDIA.GET] });
+      queryClient.invalidateQueries({ queryKey: mediaQueryKey });
     },
   });
 };

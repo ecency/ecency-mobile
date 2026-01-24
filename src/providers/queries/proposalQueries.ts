@@ -59,8 +59,10 @@ export const useProposalVotedQuery = (proposalId?: number) => {
       if (!proposalId || !votedProposals || votedProposals.length === 0) {
         return false;
       }
-      const isVoted = votedProposals.some((item) => item.proposal.proposal_id === proposalId);
-      console.log('is proposal voted', isVoted);
+      // Normalize proposal IDs to numbers before comparing
+      const isVoted = votedProposals.some(
+        (item) => Number(item.proposal.proposal_id) === Number(proposalId),
+      );
       return isVoted;
     },
     initialData: false,
@@ -146,13 +148,20 @@ export const useProposalVoteMutation = () => {
   );
 
   return useMutation<any, Error, { proposalId: number }>({
-    mutationFn: ({ proposalId }) => {
+    mutationFn: async ({ proposalId }) => {
+      console.log('[ProposalVote] Starting vote for proposal:', proposalId);
+      console.log('[ProposalVote] Auth type:', currentAccount.local.authType);
+      console.log('[ProposalVote] Has active key:', !!activeKey);
+      console.log('[ProposalVote] Is HiveSigner:', isHiveSigner);
+
       // Validate credentials before attempting broadcast
       if (!isHiveSigner && !activeKey) {
-        throw new Error('Active key required for proposal voting');
+        console.error('[ProposalVote] Missing active key');
+        throw new Error('ACTIVE_KEY_REQUIRED');
       }
       if (isHiveSigner && !accessToken) {
-        throw new Error('Access token required for HiveSigner');
+        console.error('[ProposalVote] Missing access token');
+        throw new Error('ACCESS_TOKEN_REQUIRED');
       }
 
       // For HiveSigner/HiveAuth, use navigation modal instead of direct API call
@@ -160,6 +169,7 @@ export const useProposalVoteMutation = () => {
         currentAccount.local.authType === authType.STEEM_CONNECT ||
         currentAccount.local.authType === authType.HIVE_AUTH
       ) {
+        console.log('[ProposalVote] Using HiveSigner modal');
         const _enHiveuri = hiveuri.encodeOp([
           'update_proposal_votes',
           {
@@ -175,10 +185,12 @@ export const useProposalVoteMutation = () => {
             hiveuri: _enHiveuri,
             onSuccess: () => {
               // Transaction was successfully signed
+              console.log('[ProposalVote] HiveSigner success');
               resolve(true);
             },
             onClose: () => {
               // User closed modal without signing
+              console.log('[ProposalVote] HiveSigner modal closed');
               reject(new Error('HiveSigner modal closed without signing transaction'));
             },
           });
@@ -186,16 +198,53 @@ export const useProposalVoteMutation = () => {
       }
 
       // For other auth types, use SDK broadcast
-      return broadcastMutation.mutateAsync({ proposalId });
+      console.log('[ProposalVote] Using SDK broadcast with active key');
+      try {
+        const result = await broadcastMutation.mutateAsync({ proposalId });
+        console.log('[ProposalVote] Broadcast successful:', result);
+        return result;
+      } catch (error) {
+        console.error('[ProposalVote] Broadcast failed:', error);
+        throw error;
+      }
     },
 
-    retry: 3,
+    retry: (failureCount, error) => {
+      // Don't retry auth errors
+      if (error.message === 'ACTIVE_KEY_REQUIRED' || error.message === 'ACCESS_TOKEN_REQUIRED') {
+        return false;
+      }
+      // Retry network/blockchain errors up to 3 times
+      return failureCount < 3;
+    },
     onSuccess: (_, { proposalId }) => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.thankyou' })));
       dispatch(updateProposalVoteMeta(proposalId, currentAccount.name, true));
     },
-    onError: () => {
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    onError: (error) => {
+      console.error('[ProposalVote] Error:', error);
+      console.error('[ProposalVote] Error message:', error.message);
+      console.error('[ProposalVote] Error stack:', error.stack);
+
+      // Show specific error messages based on error type
+      if (error.message === 'ACTIVE_KEY_REQUIRED') {
+        const message =
+          intl.formatMessage({ id: 'alert.key_warning.active_key' }) ||
+          'Active key required for proposal voting. Please add your active key in settings.';
+        console.log('[ProposalVote] Showing active key required message');
+        dispatch(toastNotification(message));
+      } else if (error.message === 'ACCESS_TOKEN_REQUIRED') {
+        const message = `${intl.formatMessage({ id: 'alert.fail' })}: Access token missing`;
+        console.log('[ProposalVote] Showing access token required message');
+        dispatch(toastNotification(message));
+      } else {
+        // Show the actual error message if available, otherwise generic fail message
+        const message = error.message
+          ? `${intl.formatMessage({ id: 'alert.fail' })}: ${error.message}`
+          : intl.formatMessage({ id: 'alert.fail' });
+        console.log('[ProposalVote] Showing generic error message:', message);
+        dispatch(toastNotification(message));
+      }
     },
   });
 };

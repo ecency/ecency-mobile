@@ -91,7 +91,9 @@ export const UploadsGalleryModal = forwardRef(
 
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
+    // Select query based on mode and extract pagination functions
     const mediaUploadsQuery = mode === Modes.MODE_VIDEO ? videoUploadsQuery : imageUploadsQuery;
+    const { fetchNextPage, hasNextPage, isFetchingNextPage } = mediaUploadsQuery;
 
     useImperativeHandle(ref, () => ({
       toggleModal: (value: boolean, _mode: Modes = mode) => {
@@ -489,6 +491,10 @@ export const UploadsGalleryModal = forwardRef(
             handleOpenGallery={_handleOpenImagePicker}
             handleOpenSpeakUploader={_handleOpenSpeakUploader}
             handleIsScrolledTop={setIsScrolledTop}
+            // Pagination props
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
           />
         )}
         <SpeakUploaderModal

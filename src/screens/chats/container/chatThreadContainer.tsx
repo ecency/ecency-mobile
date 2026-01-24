@@ -186,6 +186,11 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const inputRef = useRef<TextInput>(null);
   const lastMarkedViewedAtRef = useRef<number | null>(null);
   const lastSentPendingIdRef = useRef<string | null>(null);
+  const lastSentMessageRef = useRef<string | null>(null);
+  const lastSentRootIdRef = useRef<string | null>(null);
+  const lastSentAtRef = useRef<number>(0);
+  const confirmedPendingPostIdsRef = useRef<Set<string>>(new Set());
+  const sendTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // User lookup state
   const [userLookup, setUserLookup] = useState<Record<string, any>>(() => {
@@ -241,16 +246,37 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         }
 
         // Clear input when we get confirmation of our own message via WebSocket
-        if (
+        const pendingPostId = post.pending_post_id as string | undefined;
+        const pendingMatch =
+          pendingPostId &&
           post.user_id === bootstrapUserId &&
-          post.pending_post_id === lastSentPendingIdRef.current
-        ) {
+          pendingPostId === lastSentPendingIdRef.current;
+        const fallbackMatch =
+          !pendingPostId &&
+          post.user_id === bootstrapUserId &&
+          lastSentMessageRef.current !== null &&
+          post.message === lastSentMessageRef.current &&
+          (post.root_id || '') === (lastSentRootIdRef.current || '') &&
+          Math.abs((post.create_at || 0) - lastSentAtRef.current) < 30000;
+
+        if (pendingMatch || fallbackMatch) {
+          const confirmedId = lastSentPendingIdRef.current;
+          if (confirmedId) {
+            confirmedPendingPostIdsRef.current.add(confirmedId);
+          }
           setMessage('');
           _updateMentionState('');
           setRootPost(null);
           setLinkMeta(null);
           setIsSending(false);
           lastSentPendingIdRef.current = null;
+          lastSentMessageRef.current = null;
+          lastSentRootIdRef.current = null;
+          lastSentAtRef.current = 0;
+          if (sendTimeoutRef.current) {
+            clearTimeout(sendTimeoutRef.current);
+            sendTimeoutRef.current = null;
+          }
 
           // Refocus input after sending
           setTimeout(() => inputRef.current?.focus(), 50);
@@ -1136,6 +1162,17 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
 
         // Store pending ID for WebSocket confirmation
         lastSentPendingIdRef.current = pendingPostId;
+        lastSentMessageRef.current = emojifiedMessage;
+        lastSentRootIdRef.current = rootId || '';
+        lastSentAtRef.current = Date.now();
+        if (sendTimeoutRef.current) {
+          clearTimeout(sendTimeoutRef.current);
+        }
+        sendTimeoutRef.current = setTimeout(() => {
+          if (lastSentPendingIdRef.current === pendingPostId) {
+            setIsSending(false);
+          }
+        }, 30000);
 
         const response = await sendMattermostMessage(
           channelId,
@@ -1168,23 +1205,42 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         setRootPost(null);
         setLinkMeta(null);
         lastSentPendingIdRef.current = null;
+        lastSentMessageRef.current = null;
+        lastSentRootIdRef.current = null;
+        lastSentAtRef.current = 0;
+        if (sendTimeoutRef.current) {
+          clearTimeout(sendTimeoutRef.current);
+          sendTimeoutRef.current = null;
+        }
       }
     } catch (err: any) {
       // Clear pending ID on error so we don't match it later
-      lastSentPendingIdRef.current = null;
-
-      // Check if this is a ban error
-      if (err?.isBanError) {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'chats.banned_from_chat',
-              defaultMessage: 'Unusual activity detected. Please try again after some time.',
-            }),
-          ),
-        );
+      const pendingId = lastSentPendingIdRef.current;
+      if (pendingId && confirmedPendingPostIdsRef.current.has(pendingId)) {
+        confirmedPendingPostIdsRef.current.delete(pendingId);
       } else {
-        setError(err?.message || 'Unable to send your message.');
+        // Check if this is a ban error
+        if (err?.isBanError) {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'chats.banned_from_chat',
+                defaultMessage: 'Unusual activity detected. Please try again after some time.',
+              }),
+            ),
+          );
+        } else {
+          setError(err?.message || 'Unable to send your message.');
+        }
+      }
+
+      lastSentPendingIdRef.current = null;
+      lastSentMessageRef.current = null;
+      lastSentRootIdRef.current = null;
+      lastSentAtRef.current = 0;
+      if (sendTimeoutRef.current) {
+        clearTimeout(sendTimeoutRef.current);
+        sendTimeoutRef.current = null;
       }
     } finally {
       setIsSending(false);
