@@ -302,9 +302,16 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           return;
         }
 
-        // Skip other messages from current user - they're already added optimistically on send
+        // Skip only messages that match known pending client ids from this device
         if (post.user_id === bootstrapUserId) {
-          return;
+          const pendingId = post.pending_post_id as string | undefined;
+          if (
+            pendingId &&
+            (pendingId === lastSentPendingIdRef.current ||
+              confirmedPendingPostIdsRef.current.has(pendingId))
+          ) {
+            return;
+          }
         }
 
         setPosts((prevPosts) => {

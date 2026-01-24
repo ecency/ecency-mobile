@@ -136,7 +136,7 @@ export const useAddToUploadsMutation = () => {
   const { username, code } = useAuth();
 
   const addImageMutation = useAddImage(username, code);
-  const mediaQueryKey = getImagesInfiniteQueryOptions(username || '', code, 20).queryKey;
+  const mediaQueryKeyPrefix = ['posts', 'images', 'infinite', username || ''];
 
   return useMutation<any[], Error, string>({
     mutationFn: async (url) => {
@@ -145,9 +145,9 @@ export const useAddToUploadsMutation = () => {
     retry: 3,
     onSuccess: (data) => {
       // Update infinite query cache structure
-      queryClient.setQueryData(mediaQueryKey, (old: any) => {
+      queryClient.setQueriesData({ queryKey: mediaQueryKeyPrefix, exact: false }, (old: any) => {
         if (!old?.pages) {
-          return { pages: [{ data }], pageParams: [undefined] };
+          return old;
         }
         // Update first page with new data
         return {
@@ -159,7 +159,7 @@ export const useAddToUploadsMutation = () => {
     onError: (error) => {
       if (error.toString().includes('code 409')) {
         // means image was already present, refresh to get updated order
-        queryClient.invalidateQueries({ queryKey: mediaQueryKey });
+        queryClient.invalidateQueries({ queryKey: mediaQueryKeyPrefix, exact: false });
       } else {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       }
@@ -276,7 +276,7 @@ export const useSnippetsMutation = () => {
 
   const addFragmentMutation = useAddFragment(username, code);
   const editFragmentMutation = useEditFragment(username, code);
-  const snippetsQueryKey = getFragmentsInfiniteQueryOptions(username || '', code, 20).queryKey;
+  const snippetsQueryKeyPrefix = ['posts', 'fragments', 'infinite', username || ''];
 
   return useMutation<Snippet[], undefined, SnippetMutationVars>({
     mutationFn: async (vars) => {
@@ -307,7 +307,7 @@ export const useSnippetsMutation = () => {
       } as Snippet;
 
       // Update infinite query cache structure
-      queryClient.setQueryData(snippetsQueryKey, (old: any) => {
+      queryClient.setQueriesData({ queryKey: snippetsQueryKeyPrefix, exact: false }, (old: any) => {
         if (!old?.pages) return old;
         return {
           ...old,
@@ -323,7 +323,7 @@ export const useSnippetsMutation = () => {
     },
     onSuccess: (data) => {
       console.log('added/updated snippet', data);
-      queryClient.invalidateQueries({ queryKey: snippetsQueryKey });
+      queryClient.invalidateQueries({ queryKey: snippetsQueryKeyPrefix, exact: false });
     },
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'snippets.message_failed' })));
@@ -344,7 +344,7 @@ export const useMediaDeleteMutation = () => {
   const { username, code } = useAuth();
 
   const deleteImageMutation = useDeleteImage(username, code);
-  const mediaQueryKey = getImagesInfiniteQueryOptions(username || '', code, 20).queryKey;
+  const mediaQueryKeyPrefix = ['posts', 'images', 'infinite', username || ''];
 
   return useMutation<string[], undefined, string[]>({
     mutationFn: async (deleteIds) => {
@@ -360,7 +360,7 @@ export const useMediaDeleteMutation = () => {
     onSuccess: (deleteIds) => {
       console.log('Success media deletion delete', deleteIds);
       // Update infinite query cache structure
-      queryClient.setQueryData(mediaQueryKey, (old: any) => {
+      queryClient.setQueriesData({ queryKey: mediaQueryKeyPrefix, exact: false }, (old: any) => {
         if (!old?.pages) return old;
         return {
           ...old,
@@ -373,7 +373,7 @@ export const useMediaDeleteMutation = () => {
     },
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'uploads_modal.delete_failed' })));
-      queryClient.invalidateQueries({ queryKey: mediaQueryKey });
+      queryClient.invalidateQueries({ queryKey: mediaQueryKeyPrefix, exact: false });
     },
   });
 };
@@ -389,7 +389,7 @@ export const useSnippetDeleteMutation = () => {
   const { username, code } = useAuth();
 
   const removeFragmentMutation = useRemoveFragment(username, code);
-  const snippetsQueryKey = getFragmentsInfiniteQueryOptions(username || '', code, 20).queryKey;
+  const snippetsQueryKeyPrefix = ['posts', 'fragments', 'infinite', username || ''];
 
   return useMutation<Snippet[], undefined, string>({
     mutationFn: async (fragmentId) => {
@@ -398,7 +398,7 @@ export const useSnippetDeleteMutation = () => {
     retry: 3,
     onSuccess: (_, fragmentId) => {
       console.log('Success snippet delete', fragmentId);
-      queryClient.setQueryData(snippetsQueryKey, (old: any) => {
+      queryClient.setQueriesData({ queryKey: snippetsQueryKeyPrefix, exact: false }, (old: any) => {
         if (!old?.pages) return old;
         return {
           ...old,
