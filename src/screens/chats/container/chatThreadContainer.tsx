@@ -191,6 +191,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const lastSentAtRef = useRef<number>(0);
   const confirmedPendingPostIdsRef = useRef<Set<string>>(new Set());
   const sendTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const messageRef = useRef<string>('');
 
   useEffect(() => {
     return () => {
@@ -201,6 +202,10 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       lastSentPendingIdRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    messageRef.current = message;
+  }, [message]);
 
   // User lookup state
   const [userLookup, setUserLookup] = useState<Record<string, any>>(() => {
@@ -274,10 +279,14 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           if (confirmedId) {
             confirmedPendingPostIdsRef.current.add(confirmedId);
           }
-          setMessage('');
-          _updateMentionState('');
-          setRootPost(null);
-          setLinkMeta(null);
+          const shouldClearComposer =
+            messageRef.current === '' || messageRef.current === lastSentMessageRef.current;
+          if (shouldClearComposer) {
+            setMessage('');
+            _updateMentionState('');
+            setRootPost(null);
+            setLinkMeta(null);
+          }
           setIsSending(false);
           lastSentPendingIdRef.current = null;
           lastSentMessageRef.current = null;
