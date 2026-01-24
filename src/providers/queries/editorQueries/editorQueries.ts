@@ -136,7 +136,20 @@ export const useAddToUploadsMutation = () => {
   const { username, code } = useAuth();
 
   const addImageMutation = useAddImage(username, code);
-  const mediaQueryKeyPrefix = ['posts', 'images', 'infinite', username || ''];
+  const mediaQueryKeyPrefix = getImagesInfiniteQueryOptions(username || '', code).queryKey.slice(
+    0,
+    -1,
+  );
+
+  const normalizeMediaData = (data: any): MediaItem[] | null => {
+    if (Array.isArray(data)) {
+      return data as MediaItem[];
+    }
+    if (data && Array.isArray(data.data)) {
+      return data.data as MediaItem[];
+    }
+    return null;
+  };
 
   return useMutation<any[], Error, string>({
     mutationFn: async (url) => {
@@ -145,6 +158,10 @@ export const useAddToUploadsMutation = () => {
     retry: 3,
     onSuccess: (data) => {
       // Update infinite query cache structure
+      const normalizedData = normalizeMediaData(data);
+      if (!normalizedData) {
+        return;
+      }
       queryClient.setQueriesData({ queryKey: mediaQueryKeyPrefix, exact: false }, (old: any) => {
         if (!old?.pages) {
           return old;
@@ -152,7 +169,9 @@ export const useAddToUploadsMutation = () => {
         // Update first page with new data
         return {
           ...old,
-          pages: old.pages.map((page: any, idx: number) => (idx === 0 ? { ...page, data } : page)),
+          pages: old.pages.map((page: any, idx: number) =>
+            idx === 0 ? { ...page, data: normalizedData } : page,
+          ),
         };
       });
     },
@@ -276,7 +295,10 @@ export const useSnippetsMutation = () => {
 
   const addFragmentMutation = useAddFragment(username, code);
   const editFragmentMutation = useEditFragment(username, code);
-  const snippetsQueryKeyPrefix = ['posts', 'fragments', 'infinite', username || ''];
+  const snippetsQueryKeyPrefix = getFragmentsInfiniteQueryOptions(
+    username || '',
+    code,
+  ).queryKey.slice(0, -1);
 
   return useMutation<Snippet[], undefined, SnippetMutationVars>({
     mutationFn: async (vars) => {
@@ -344,7 +366,10 @@ export const useMediaDeleteMutation = () => {
   const { username, code } = useAuth();
 
   const deleteImageMutation = useDeleteImage(username, code);
-  const mediaQueryKeyPrefix = ['posts', 'images', 'infinite', username || ''];
+  const mediaQueryKeyPrefix = getImagesInfiniteQueryOptions(username || '', code).queryKey.slice(
+    0,
+    -1,
+  );
 
   return useMutation<string[], undefined, string[]>({
     mutationFn: async (deleteIds) => {
@@ -389,7 +414,10 @@ export const useSnippetDeleteMutation = () => {
   const { username, code } = useAuth();
 
   const removeFragmentMutation = useRemoveFragment(username, code);
-  const snippetsQueryKeyPrefix = ['posts', 'fragments', 'infinite', username || ''];
+  const snippetsQueryKeyPrefix = getFragmentsInfiniteQueryOptions(
+    username || '',
+    code,
+  ).queryKey.slice(0, -1);
 
   return useMutation<Snippet[], undefined, string>({
     mutationFn: async (fragmentId) => {

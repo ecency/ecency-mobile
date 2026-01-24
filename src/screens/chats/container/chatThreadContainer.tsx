@@ -279,6 +279,13 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           if (confirmedId) {
             confirmedPendingPostIdsRef.current.add(confirmedId);
           }
+          setPosts((prevPosts) => {
+            const exists = prevPosts.find((p) => p.id === normalized.id);
+            if (exists) {
+              return prevPosts;
+            }
+            return [normalized, ...prevPosts];
+          });
           const shouldClearComposer =
             messageRef.current === '' || messageRef.current === lastSentMessageRef.current;
           if (shouldClearComposer) {
@@ -1209,17 +1216,22 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         );
         const newPost = normalizePost(response);
         if (newPost) {
-          setPosts((prev) => sortPosts([...prev, newPost]));
-          _resolveUserProfiles(collectMissingUserIds([newPost], userLookupRef.current));
+          const wasConfirmed = confirmedPendingPostIdsRef.current.has(pendingPostId);
+          if (!wasConfirmed) {
+            setPosts((prev) => sortPosts([...prev, newPost]));
+            _resolveUserProfiles(collectMissingUserIds([newPost], userLookupRef.current));
 
-          // Scroll to bottom when new message is sent
-          setTimeout(() => {
-            listRef.current?.scrollToIndex({
-              index: 0,
-              animated: true,
-              viewPosition: 0,
-            });
-          }, 100);
+            // Scroll to bottom when new message is sent
+            setTimeout(() => {
+              listRef.current?.scrollToIndex({
+                index: 0,
+                animated: true,
+                viewPosition: 0,
+              });
+            }, 100);
+          } else {
+            confirmedPendingPostIdsRef.current.delete(pendingPostId);
+          }
         }
       }
 
