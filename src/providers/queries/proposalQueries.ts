@@ -210,8 +210,15 @@ export const useProposalVoteMutation = () => {
     },
 
     retry: (failureCount, error) => {
+      const message = error?.message || '';
       // Don't retry auth errors
-      if (error.message === 'ACTIVE_KEY_REQUIRED' || error.message === 'ACCESS_TOKEN_REQUIRED') {
+      if (message === 'ACTIVE_KEY_REQUIRED' || message === 'ACCESS_TOKEN_REQUIRED') {
+        return false;
+      }
+      if (
+        message === 'HiveSigner modal closed without signing transaction' ||
+        message.includes('HiveSigner modal closed')
+      ) {
         return false;
       }
       // Retry network/blockchain errors up to 3 times

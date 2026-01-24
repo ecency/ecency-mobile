@@ -21,7 +21,6 @@ import { toastNotification } from '../../../redux/actions/uiAction';
 import { uploadImage } from '../../ecency/ecency';
 import { MediaItem, Snippet } from '../../ecency/ecency.types';
 import { signImage, getDigitPinCode } from '../../hive/dhive';
-import QUERIES from '../queryKeys';
 import { selectCurrentAccount, selectPin } from '../../../redux/selectors';
 import { decryptKey } from '../../../utils/crypto';
 
@@ -29,8 +28,8 @@ import { decryptKey } from '../../../utils/crypto';
  * EDITOR QUERIES - SDK MIGRATION STATUS
  *
  * QUERIES (using SDK):
- * ✅ useMediaQuery - Uses SDK getImagesQueryOptions
- * ✅ useSnippetsQuery - Uses SDK getFragmentsQueryOptions
+ * ✅ useMediaQuery - Uses SDK getImagesInfiniteQueryOptions
+ * ✅ useSnippetsQuery - Uses SDK getFragmentsInfiniteQueryOptions
  *
  * MUTATIONS (SDK migration status):
  * ✅ useSnippetsMutation - Migrated to SDK (useAddFragment, useEditFragment)
@@ -390,15 +389,25 @@ export const useSnippetDeleteMutation = () => {
   const { username, code } = useAuth();
 
   const removeFragmentMutation = useRemoveFragment(username, code);
+  const snippetsQueryKey = getFragmentsInfiniteQueryOptions(username || '', code, 20).queryKey;
 
   return useMutation<Snippet[], undefined, string>({
     mutationFn: async (fragmentId) => {
       return removeFragmentMutation.mutateAsync({ fragmentId });
     },
     retry: 3,
-    onSuccess: (data) => {
-      console.log('Success snippet delete', data);
-      queryClient.setQueryData([QUERIES.SNIPPETS.GET], data);
+    onSuccess: (_, fragmentId) => {
+      console.log('Success snippet delete', fragmentId);
+      queryClient.setQueryData(snippetsQueryKey, (old: any) => {
+        if (!old?.pages) return old;
+        return {
+          ...old,
+          pages: old.pages.map((page: any) => ({
+            ...page,
+            data: page.data.filter((item: Snippet) => item.id !== fragmentId),
+          })),
+        };
+      });
     },
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));

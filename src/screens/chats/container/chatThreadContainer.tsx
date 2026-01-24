@@ -192,6 +192,16 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const confirmedPendingPostIdsRef = useRef<Set<string>>(new Set());
   const sendTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  useEffect(() => {
+    return () => {
+      if (sendTimeoutRef.current) {
+        clearTimeout(sendTimeoutRef.current);
+        sendTimeoutRef.current = null;
+      }
+      lastSentPendingIdRef.current = null;
+    };
+  }, []);
+
   // User lookup state
   const [userLookup, setUserLookup] = useState<Record<string, any>>(() => {
     const normalized = normalizeUserLookup(initialUserLookup);
