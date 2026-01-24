@@ -37,7 +37,7 @@ export const limitOrderCreate = (
     [expiration] = expiration.toISOString().split('.');
 
     const data = getLimitOrderCreateOpData(
-      currentAccount.username,
+      currentAccount.name,
       amountToSell,
       minToReceive,
       orderType,
@@ -75,7 +75,7 @@ export const limitOrderCancel = (currentAccount: any, pinHash: string, orderid: 
       [
         'limit_order_cancel',
         {
-          owner: currentAccount.username,
+          owner: currentAccount.name,
           orderid,
         },
       ],
@@ -105,7 +105,7 @@ export const generateHsLimitOrderCreatePath = (
   idPrefix = OrderIdPrefix.EMPTY,
 ) => {
   const data = getLimitOrderCreateOpData(
-    currentAccount.username,
+    currentAccount.name,
     amountToSell,
     minToReceive,
     orderType,

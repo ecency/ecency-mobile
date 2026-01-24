@@ -548,11 +548,19 @@ export const usePendingRequestsQuery = (symbol: string) => {
     ];
 
     // Sort by expiration or creation date
-    allRequests.sort((a, b) =>
-      new Date(a.expires || a.created).getTime() > new Date(b.expires || b.created).getTime()
-        ? 1
-        : -1,
-    );
+    allRequests.sort((a, b) => {
+      const timeA = new Date(a.expires || a.created).getTime();
+      const timeB = new Date(b.expires || b.created).getTime();
+
+      // Handle invalid dates by treating NaN as Infinity (sort to end)
+      const validTimeA = Number.isNaN(timeA) ? Infinity : timeA;
+      const validTimeB = Number.isNaN(timeB) ? Infinity : timeB;
+
+      // Return proper comparator result: -1, 0, or 1
+      if (validTimeA < validTimeB) return -1;
+      if (validTimeA > validTimeB) return 1;
+      return 0;
+    });
 
     return allRequests;
   }, [

@@ -375,21 +375,25 @@ export const useDeleteWaveMutation = (
     };
   };
 
+  // Capture stable username for both mutation key and operation author
+  // to ensure they never diverge even if account changes
+  const usernameForKey = currentAccount.name;
+
   const broadcastMutation = useBroadcastMutation<{ permlink: string; parentPermlink: string }>(
     [QUERIES.WAVES.DELETE],
-    currentAccount.name,
+    usernameForKey,
     ({ permlink }) => {
       // Verify credentials at mutation time
       const latestAuth = getAuthCredentials();
       if (!latestAuth) {
         throw new Error('Cannot delete wave: authentication credentials are missing');
       }
-      // Use currentAccount.name to match mutation key username
+      // Use the same stable username for author to match mutation key
       return [
         [
           'delete_comment',
           {
-            author: currentAccount.name,
+            author: usernameForKey,
             permlink,
           },
         ],

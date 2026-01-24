@@ -85,7 +85,7 @@ export const transferHiveEngine = async (
 ) => {
   const opArray = getEngineActionOpArray(
     EngineActions.TRANSFER,
-    currentAccount.username,
+    currentAccount.name,
     data.destination,
     data.amount,
     data.fundType,
@@ -102,7 +102,7 @@ export const delegateHiveEngine = async (
 ) => {
   const opArray = getEngineActionOpArray(
     EngineActions.DELEGATE,
-    currentAccount.username,
+    currentAccount.name,
     data.destination,
     data.amount,
     data.fundType,
@@ -118,7 +118,7 @@ export const undelegateHiveEngine = async (
 ) => {
   const opArray = getEngineActionOpArray(
     EngineActions.UNDELEGATE,
-    currentAccount.username,
+    currentAccount.name,
     data.destination,
     data.amount,
     data.fundType,
@@ -134,7 +134,7 @@ export const stakeHiveEngine = async (
 ) => {
   const opArray = getEngineActionOpArray(
     EngineActions.STAKE,
-    currentAccount.username,
+    currentAccount.name,
     data.destination,
     data.amount,
     data.fundType,
@@ -150,7 +150,7 @@ export const unstakeHiveEngine = async (
 ) => {
   const opArray = getEngineActionOpArray(
     EngineActions.UNSTAKE,
-    currentAccount.username,
+    currentAccount.name,
     data.destination,
     data.amount,
     data.fundType,

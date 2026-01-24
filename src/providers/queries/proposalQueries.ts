@@ -20,14 +20,26 @@ import { getDigitPinCode, getClient } from '../hive/dhive';
 import { mapAuthTypeToLoginType } from '../../utils/authMapper';
 
 // query for getting active proposal meta using SDK
-// SDK returns Proposal[], but we map to ProposalMeta
-export const useActiveProposalMetaQuery = (proposalId?: number) => {
+// SDK returns Proposal[], but we filter for @ecency creator and map to ProposalMeta
+export const useActiveProposalMetaQuery = () => {
   return useQuery({
     ...getProposalsQueryOptions('active'),
     select: (proposals) => {
-      if (!proposalId || !proposals) return undefined;
-      const proposal = proposals.find((p) => p.proposal_id === proposalId);
-      return proposal ? { id: proposal.proposal_id } : undefined;
+      if (!proposals || proposals.length === 0) return undefined;
+
+      // Find first active proposal created by @ecency account
+      const ecencyProposal = proposals.find((p) => p.creator === 'ecency' && p.status === 'active');
+
+      if (!ecencyProposal) {
+        return undefined;
+      }
+
+      // Map to ProposalMeta format
+      const proposalMeta: ProposalMeta = {
+        id: Number(ecencyProposal.proposal_id),
+      };
+
+      return proposalMeta;
     },
   });
 };

@@ -13,11 +13,21 @@ export const HiveSignerModal = ({ route, navigation }) => {
 
   const { hiveuri, onClose, onSuccess } = route.params || {};
   const successHandledRef = useRef(false);
+  const closedDueToMissingUriRef = useRef(false);
+
+  // Handle missing hiveuri by navigating back and calling onClose
+  useEffect(() => {
+    if (!hiveuri && !closedDueToMissingUriRef.current) {
+      closedDueToMissingUriRef.current = true;
+      navigation.goBack();
+      onClose && onClose();
+    }
+  }, [hiveuri, navigation, onClose]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', () => {
-      // Don't call onClose if success was already handled
-      if (!successHandledRef.current) {
+      // Don't call onClose if success was already handled or closed due to missing URI
+      if (!successHandledRef.current && !closedDueToMissingUriRef.current) {
         onClose && onClose();
       }
     });
@@ -70,12 +80,13 @@ export const HiveSignerModal = ({ route, navigation }) => {
       navigation.goBack();
     }
   };
+
+  // Return null if hiveuri is missing (side effects handled in useEffect above)
   if (!hiveuri) {
-    navigation.goBack();
-    onClose && onClose();
     return null;
   }
-  const _hsUri = `${hsOptions.base_url}${hiveuri?.substring(7)}`;
+
+  const _hsUri = `${hsOptions.base_url}${hiveuri.substring(7)}`;
 
   const _safeAreaEdges = Platform.select({ ios: [], default: ['top'] });
 

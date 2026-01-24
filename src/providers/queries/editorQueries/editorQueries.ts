@@ -60,7 +60,7 @@ const useAuth = () => {
   const pinHash = useAppSelector(selectPin);
   const digitPinCode = getDigitPinCode(pinHash);
 
-  const username = currentAccount?.username;
+  const username = currentAccount?.name;
   const accessToken = currentAccount?.local?.accessToken
     ? decryptKey(currentAccount.local.accessToken, digitPinCode)
     : undefined;
@@ -80,7 +80,10 @@ const useAuth = () => {
 export const useMediaQuery = (limit = 20) => {
   const { username, code } = useAuth();
 
-  const infiniteQuery = useInfiniteQuery(getImagesInfiniteQueryOptions(username, code, limit));
+  const infiniteQuery = useInfiniteQuery({
+    ...getImagesInfiniteQueryOptions(username || '', code, limit),
+    enabled: !!username, // Only fetch when username is available
+  });
 
   // Flatten pages into single array
   const data = useMemo(() => {
