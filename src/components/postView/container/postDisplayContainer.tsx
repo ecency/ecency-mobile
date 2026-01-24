@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import get from 'lodash/get';
 
 // Action
@@ -34,20 +34,29 @@ const PostDisplayContainer = ({
 
   useEffect(() => {
     if (post) {
-      console.log('Gettting reblogs inside postDisplayContainer');
       const votes = get(post, 'active_votes', []);
       const activeVotesCount = get(post, 'stats.total_votes', 0);
-      setActiveVotes(votes);
-      setActiveVotesCount(activeVotesCount);
+      setActiveVotes((prevVotes) => (prevVotes !== votes ? votes : prevVotes));
+      setActiveVotesCount((prevCount) =>
+        prevCount !== activeVotesCount ? activeVotesCount : prevCount,
+      );
     }
   }, [post]);
 
   useEffect(() => {
-    _fetchPost();
-  }, [isFetchPost, isFetchComments]);
+    if (isFetchPost || isFetchComments) {
+      _fetchPost();
+    }
+  }, [isFetchPost, isFetchComments, _fetchPost]);
 
   // Component Functions
-  const _handleOnVotersPress = () => {
+  const _fetchPost = useCallback(async () => {
+    if (post) {
+      fetchPost(post?.author, post?.permlink);
+    }
+  }, [post?.author, post?.permlink, fetchPost]);
+
+  const _handleOnVotersPress = useCallback(() => {
     navigation.navigate({
       name: ROUTES.SCREENS.VOTERS,
       params: {
@@ -55,22 +64,22 @@ const PostDisplayContainer = ({
         content: post,
       },
       // TODO: make unic
-      key: post.permlink + activeVotes.length,
+      key: post?.permlink + activeVotes.length,
     } as never);
-  };
+  }, [navigation, activeVotes, post]);
 
-  const _handleOnReblogsPress = () => {
+  const _handleOnReblogsPress = useCallback(() => {
     navigation.navigate({
       name: ROUTES.SCREENS.REBLOGS,
       params: {
         author,
         permlink,
       },
-      key: post.permlink + post.reblogs.length,
+      key: post?.permlink + post?.reblogs?.length,
     } as never);
-  };
+  }, [navigation, author, permlink, post?.permlink, post?.reblogs?.length]);
 
-  const _handleOnReplyPress = () => {
+  const _handleOnReplyPress = useCallback(() => {
     navigation.navigate({
       name: ROUTES.SCREENS.EDITOR,
       key: 'editor_replay',
@@ -80,13 +89,7 @@ const PostDisplayContainer = ({
         fetchPost: _fetchPost,
       },
     } as never);
-  };
-
-  const _fetchPost = async () => {
-    if (post) {
-      fetchPost(post.author, post.permlink);
-    }
-  };
+  }, [navigation, post, _fetchPost]);
 
   return (
     <PostDisplayView

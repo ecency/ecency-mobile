@@ -1,5 +1,7 @@
 export const sortComments = (sortOrder = 'trending', _comments) => {
-  const sortedComments: any[] = _comments;
+  if (!Array.isArray(_comments) || _comments.length === 0) {
+    return _comments;
+  }
 
   const absNegative = (a) => a.net_rshares < 0;
 
@@ -87,7 +89,24 @@ export const sortComments = (sortOrder = 'trending', _comments) => {
     },
   };
 
-  sortedComments.sort(sortOrders[sortOrder]);
+  const sorter = sortOrders[sortOrder] || sortOrders.trending;
+
+  // Check if array is already sorted to avoid creating new array
+  let needsSort = false;
+  for (let i = 0; i < _comments.length - 1; i++) {
+    if (sorter(_comments[i], _comments[i + 1]) > 0) {
+      needsSort = true;
+      break;
+    }
+  }
+
+  if (!needsSort) {
+    return _comments;
+  }
+
+  // Only create new array if sorting is needed
+  const sortedComments = [..._comments];
+  sortedComments.sort(sorter);
 
   return sortedComments;
 };

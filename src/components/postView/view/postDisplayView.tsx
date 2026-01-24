@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, useWindowDimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -80,12 +80,27 @@ const PostDisplayView = ({
   }, []);
 
   useEffect(() => {
+    console.log('[PostDisplayView] Post changed, updating tags');
     if (post) {
-      const _tags = get(post.json_metadata, 'tags', []);
+      let _tags = get(post.json_metadata, 'tags', []);
+      // Don't mutate the original array - create a new one if needed
       if (post.category && _tags[0] !== post.category && Array.isArray(_tags)) {
-        _tags.splice(0, 0, post.category);
+        _tags = [post.category, ..._tags];
       }
-      setTags(_tags);
+      setTags((prevTags) => {
+        if (prevTags.length !== _tags.length) {
+          console.log('[PostDisplayView] Tags length changed');
+          return _tags;
+        }
+        for (let i = 0; i < _tags.length; i++) {
+          if (prevTags[i] !== _tags[i]) {
+            console.log('[PostDisplayView] Tag value changed at index', i);
+            return _tags;
+          }
+        }
+        console.log('[PostDisplayView] Tags unchanged');
+        return prevTags;
+      });
     }
   }, [post]);
 
@@ -96,41 +111,44 @@ const PostDisplayView = ({
     queryClient.resetQueries({ queryKey: [QUERIES.POST.GET_POLL, author, permlink] });
   }, [fetchPost, queryClient, author, permlink]);
 
-  const _scrollToComments = () => {
+  const _scrollToComments = useCallback(() => {
     if (postCommentsRef.current) {
       postCommentsRef.current.scrollToComments();
     }
-  };
+  }, []);
 
-  const _handleOnReblogsPress = () => {
-    if (post.reblogs > 0 && handleOnReblogsPress) {
+  const _handleOnReblogsPress = useCallback(() => {
+    if (post?.reblogs > 0 && handleOnReblogsPress) {
       handleOnReblogsPress();
     }
-  };
+  }, [post?.reblogs, handleOnReblogsPress]);
 
-  const _onUpvotePress = ({
-    sourceRef,
-    content,
-    onVotingStart,
-    showPayoutDetails = false,
-    postType = isWavePost ? PostTypes.WAVE : parentPost ? PostTypes.COMMENT : PostTypes.POST,
-  }: any) => {
-    if (upvotePopoverRef.current) {
-      upvotePopoverRef.current.showPopover({
-        sourceRef,
-        content,
-        showPayoutDetails,
-        postType,
-        onVotingStart,
-      });
-    }
-  };
+  const _onUpvotePress = useCallback(
+    ({
+      sourceRef,
+      content,
+      onVotingStart,
+      showPayoutDetails = false,
+      postType = isWavePost ? PostTypes.WAVE : parentPost ? PostTypes.COMMENT : PostTypes.POST,
+    }: any) => {
+      if (upvotePopoverRef.current) {
+        upvotePopoverRef.current.showPopover({
+          sourceRef,
+          content,
+          showPayoutDetails,
+          postType,
+          onVotingStart,
+        });
+      }
+    },
+    [isWavePost, parentPost],
+  );
 
-  const _showStatsModal = () => {
-    postStatsModalRef.current?.show(post.url);
-  };
+  const _showStatsModal = useCallback(() => {
+    postStatsModalRef.current?.show(post?.url);
+  }, [post?.url]);
 
-  const _handleOnTipPress = () => {
+  const _handleOnTipPress = useCallback(() => {
     if (!isLoggedIn) {
       // TODO: Show login prompt
       console.log('Login required to send tips');
@@ -144,30 +162,53 @@ const PostDisplayView = ({
         },
       },
     });
-  };
+  }, [isLoggedIn, post, tipsQuery]);
 
-  const _renderActionPanel = (isFixedFooter = false) => {
-    return (
-      <StickyBar isFixedFooter={isFixedFooter} style={styles.stickyBar}>
-        <View style={[styles.stickyWrapper, { paddingBottom: insets.bottom ? insets.bottom : 8 }]}>
+  const stickyWrapperStyle = useMemo(
+    () => [styles.stickyWrapper, { paddingBottom: insets.bottom || 8 }],
+    [insets.bottom],
+  );
+
+  const parentType = useMemo(() => (parentPost ? PostTypes.COMMENT : PostTypes.POST), [parentPost]);
+
+  const handleUpvotePress = useCallback(
+    (sourceRef, onVotingStart) => {
+      _onUpvotePress({ sourceRef, content: post, onVotingStart });
+    },
+    [_onUpvotePress, post],
+  );
+
+  const handlePayoutDetailsPress = useCallback(
+    (sourceRef) => {
+      _onUpvotePress({ sourceRef, content: post, showPayoutDetails: true });
+    },
+    [_onUpvotePress, post],
+  );
+
+  const handleVotersIconPress = useCallback(() => {
+    if (handleOnVotersPress) {
+      handleOnVotersPress();
+    }
+  }, [handleOnVotersPress]);
+
+  const _renderActionPanel = useMemo(
+    () => (
+      <StickyBar isFixedFooter={true} style={styles.stickyBar}>
+        <View style={stickyWrapperStyle}>
           <UpvoteButton
             isShowPayoutValue={true}
             content={post}
-            parentType={parentPost ? PostTypes.COMMENT : PostTypes.POST}
+            parentType={parentType}
             boldPayout={true}
-            onUpvotePress={(sourceRef, onVotingStart) => {
-              _onUpvotePress({ sourceRef, content: post, onVotingStart });
-            }}
-            onPayoutDetailsPress={(sourceRef) => {
-              _onUpvotePress({ sourceRef, content: post, showPayoutDetails: true });
-            }}
+            onUpvotePress={handleUpvotePress}
+            onPayoutDetailsPress={handlePayoutDetailsPress}
           />
           <TextWithIcon
             iconName="heart-outline"
             iconStyle={styles.barIcons}
             iconType="MaterialCommunityIcons"
             isClickable
-            onPress={() => handleOnVotersPress && handleOnVotersPress()}
+            onPress={handleVotersIconPress}
             text={activeVotesCount + cacheVoteIcrement}
             textMarginLeft={20}
           />
@@ -177,7 +218,7 @@ const PostDisplayView = ({
             iconType="MaterialIcons"
             isClickable
             onPress={_handleOnReblogsPress}
-            text={post.reblogs || ''}
+            text={post?.reblogs || ''}
             textMarginLeft={20}
           />
           {isLoggedIn && (
@@ -189,7 +230,7 @@ const PostDisplayView = ({
               text={get(post, 'children', 0)}
               textMarginLeft={20}
               onLongPress={_showQuickReplyModal}
-              onPress={() => _scrollToComments()}
+              onPress={_scrollToComments}
               isLoading={!isLoadedComments}
             />
           )}
@@ -216,8 +257,26 @@ const PostDisplayView = ({
           />
         </View>
       </StickyBar>
-    );
-  };
+    ),
+    [
+      stickyWrapperStyle,
+      post,
+      parentType,
+      handleUpvotePress,
+      handlePayoutDetailsPress,
+      handleVotersIconPress,
+      activeVotesCount,
+      cacheVoteIcrement,
+      _handleOnReblogsPress,
+      isLoggedIn,
+      _showQuickReplyModal,
+      _scrollToComments,
+      isLoadedComments,
+      _handleOnTipPress,
+      tipsQuery.data?.meta?.count,
+      tipsQuery.isLoading,
+    ],
+  );
 
   const { name } = currentAccount;
 
@@ -236,26 +295,29 @@ const PostDisplayView = ({
     );
   }
 
-  const _handleOnPostBodyLoad = () => {
+  const _handleOnPostBodyLoad = useCallback(() => {
     setPostBodyLoading(false);
-  };
+  }, []);
 
   // show quick reply modal
-  const _showQuickReplyModal = (_post = post) => {
-    if (isLoggedIn) {
-      SheetManager.show(SheetNames.QUICK_POST, {
-        payload: {
-          mode: 'comment',
-          parentPost: _post,
-        },
-      });
-    } else {
-      console.log('Not LoggedIn');
-    }
-  };
+  const _showQuickReplyModal = useCallback(
+    (_post = post) => {
+      if (isLoggedIn) {
+        SheetManager.show(SheetNames.QUICK_POST, {
+          payload: {
+            mode: 'comment',
+            parentPost: _post,
+          },
+        });
+      } else {
+        console.log('Not LoggedIn');
+      }
+    },
+    [isLoggedIn, post],
+  );
 
   // show quick reply modal
-  const _showQuickProfileModal = (username) => {
+  const _showQuickProfileModal = useCallback((username) => {
     if (username) {
       SheetManager.show(SheetNames.QUICK_PROFILE, {
         payload: {
@@ -263,89 +325,109 @@ const PostDisplayView = ({
         },
       });
     }
-  };
+  }, []);
 
-  const _handleOnCommentsLoaded = () => {
-    setIsLoadedComments(true);
-  };
+  const _handleOnCommentsLoaded = useCallback(() => {
+    setIsLoadedComments((prev) => prev || true);
+  }, []);
 
-  const _postContentView = (
-    <>
-      {parentPost && <ParentPost post={parentPost} />}
+  const _handleContentLayout = useCallback((event) => {
+    console.log('content view height', event.nativeEvent.layout.height);
+  }, []);
 
-      <View style={styles.header}>
-        {!post ? (
-          <PostPlaceHolder />
-        ) : (
-          <View
-            onLayout={(event) => {
-              console.log('content view height', event.nativeEvent.layout.height);
-            }}
-          >
-            {!!post.title && !post.depth ? (
-              <Text style={styles.title}>{post.title}</Text>
-            ) : (
-              <View style={styles.titlePlaceholder} />
-            )}
+  const _postContentView = useMemo(
+    () => (
+      <>
+        {parentPost && <ParentPost post={parentPost} />}
 
-            <View style={styles.headerWithStats}>
-              <PostHeaderDescription
-                date={formatedTime}
-                name={author || post.author}
-                currentAccountUsername={name}
-                reputation={post.author_reputation}
-                size={40}
-                inlineTime={true}
-                customStyle={styles.headerLine}
-                profileOnPress={_showQuickProfileModal}
+        <View style={styles.header}>
+          {!post ? (
+            <PostPlaceHolder />
+          ) : (
+            <View onLayout={_handleContentLayout}>
+              {!!post.title && !post.depth ? (
+                <Text style={styles.title}>{post.title}</Text>
+              ) : (
+                <View style={styles.titlePlaceholder} />
+              )}
+
+              <View style={styles.headerWithStats}>
+                <PostHeaderDescription
+                  date={formatedTime}
+                  name={author || post.author}
+                  currentAccountUsername={name}
+                  reputation={post.author_reputation}
+                  size={40}
+                  inlineTime={true}
+                  customStyle={styles.headerLine}
+                  profileOnPress={_showQuickProfileModal}
+                />
+                <View style={styles.viewStatsContainer}>
+                  <TextWithIcon
+                    iconName="eye-outline"
+                    iconStyle={styles.viewStatsIcon}
+                    iconType="MaterialCommunityIcons"
+                    isClickable
+                    onPress={_showStatsModal}
+                    text={getAbbreviatedNumber(postStatsQuery.data?.pageviews || 0)}
+                    textMarginLeft={4}
+                    isLoading={postStatsQuery.isLoading}
+                  />
+                </View>
+              </View>
+              <PostBody
+                body={post.body}
+                metadata={post.json_metadata}
+                enableViewabilityTracker={true}
+                onLoadEnd={_handleOnPostBodyLoad}
               />
-              <View style={styles.viewStatsContainer}>
-                <TextWithIcon
-                  iconName="eye-outline"
-                  iconStyle={styles.viewStatsIcon}
-                  iconType="MaterialCommunityIcons"
-                  isClickable
-                  onPress={_showStatsModal}
-                  text={getAbbreviatedNumber(postStatsQuery.data?.pageviews || 0)}
-                  textMarginLeft={4}
-                  isLoading={postStatsQuery.isLoading}
-                />
-              </View>
+
+              <PostPoll author={author} permlink={permlink} metadata={post.json_metadata} />
+
+              {!postBodyLoading && (
+                <View style={styles.footer}>
+                  <Tags tags={tags} />
+                  <Text style={styles.footerText}>
+                    {intl.formatMessage(
+                      { id: 'post.posted_by' },
+                      {
+                        username: author || post.author,
+                        appname: post?.json_metadata?.app
+                          ? capitalize(post?.json_metadata?.app?.split('/')[0])
+                          : 'Ecency',
+                      },
+                    )}
+                    {formatedTime}
+                  </Text>
+                  <WritePostButton
+                    placeholderId="quick_reply.placeholder"
+                    onPress={_showQuickReplyModal}
+                  />
+                </View>
+              )}
             </View>
-            <PostBody
-              body={post.body}
-              metadata={post.json_metadata}
-              enableViewabilityTracker={true}
-              onLoadEnd={_handleOnPostBodyLoad}
-            />
-
-            <PostPoll author={author} permlink={permlink} metadata={post.json_metadata} />
-
-            {!postBodyLoading && (
-              <View style={styles.footer}>
-                <Tags tags={tags} />
-                <Text style={styles.footerText}>
-                  {intl.formatMessage(
-                    { id: 'post.posted_by' },
-                    {
-                      username: author || post.author,
-                      appname: post?.json_metadata?.app
-                        ? capitalize(post?.json_metadata?.app?.split('/')[0])
-                        : 'Ecency',
-                    },
-                  )}
-                  {formatedTime}
-                </Text>
-                <WritePostButton
-                  placeholderId="quick_reply.placeholder"
-                  onPress={_showQuickReplyModal}
-                />
-              </View>
-            )}
-          </View>
-        )}
-      </View>
-    </>
+          )}
+        </View>
+      </>
+    ),
+    [
+      parentPost,
+      post,
+      author,
+      permlink,
+      name,
+      formatedTime,
+      tags,
+      postBodyLoading,
+      postStatsQuery.data?.pageviews,
+      postStatsQuery.isLoading,
+      _showQuickProfileModal,
+      _showStatsModal,
+      _handleOnPostBodyLoad,
+      _showQuickReplyModal,
+      _handleContentLayout,
+      intl,
+    ],
   );
 
   return (
@@ -370,7 +452,7 @@ const PostDisplayView = ({
           onUpvotePress={_onUpvotePress}
         />
       </View>
-      {post && _renderActionPanel(true)}
+      {post && _renderActionPanel}
 
       <UpvotePopover ref={upvotePopoverRef} />
       <PostStatsModal ref={postStatsModalRef} post={post} />

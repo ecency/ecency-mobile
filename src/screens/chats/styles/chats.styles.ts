@@ -247,5 +247,9 @@ export const chatsStyles = EStyleSheet.create({
   emptyState: {
     marginTop: 16,
     color: '$primaryDarkText',
+    textAlign: 'center',
+    alignSelf: 'center',
+    marginHorizontal: 24,
+    lineHeight: 20,
   },
 });

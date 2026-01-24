@@ -276,142 +276,205 @@ export const parseComment = (comment: any, currentUsername?: string, currentTime
 
 export const injectPostCache = (commentsMap, cachedComments, cachedVotes, lastCacheUpdate) => {
   let shouldClone = false;
-  const _comments = commentsMap || {};
+  let _comments = commentsMap || {};
   console.log('updating with cache', _comments, cachedComments);
-  if (!cachedComments || !_comments) {
-    console.log('Skipping cache injection');
+  if (!_comments || Object.keys(_comments).length === 0) {
+    console.log('Skipping cache injection - no comments');
     return _comments;
   }
 
-  // process votes cache
-  Object.keys(cachedVotes).forEach((path) => {
-    const cachedVote = cachedVotes[path];
-    if (_comments[path]) {
-      console.log('injection vote cache');
-      const updatedComment = injectVoteCache(_comments[path], cachedVote);
-      // Only update if injectVoteCache returned a new reference (meaning cache was applied)
-      if (updatedComment !== _comments[path]) {
-        _comments[path] = updatedComment;
-        shouldClone = true;
+  if (!cachedComments && !cachedVotes) {
+    console.log('Skipping cache injection - no cache');
+    return _comments;
+  }
+
+  const commentPaths = Object.keys(_comments);
+
+  // process votes cache - only for comments in this discussion
+  if (cachedVotes) {
+    commentPaths.forEach((path) => {
+      const cachedVote = cachedVotes[path];
+      if (cachedVote) {
+        console.log('injection vote cache');
+        const updatedComment = injectVoteCache(_comments[path], cachedVote);
+        // Only update if injectVoteCache returned a new reference (meaning cache was applied)
+        if (updatedComment !== _comments[path]) {
+          if (!shouldClone) {
+            _comments = { ..._comments };
+            shouldClone = true;
+          }
+          _comments[path] = updatedComment;
+        }
       }
-    }
-  });
+    });
+  }
 
   // process comments cache
+  if (cachedComments) {
+    Object.keys(cachedComments).forEach((path) => {
+      const currentTime = new Date().getTime();
+      const cachedComment = cachedComments[path];
+      const _parentPath = `${cachedComment.parent_author}/${cachedComment.parent_permlink}`;
+      const cacheUpdateTimestamp = new Date(cachedComment.updated || 0).getTime();
 
-  Object.keys(cachedComments).forEach((path) => {
-    const currentTime = new Date().getTime();
-    const cachedComment = cachedComments[path];
-    const _parentPath = `${cachedComment.parent_author}/${cachedComment.parent_permlink}`;
-    const cacheUpdateTimestamp = new Date(cachedComment.updated || 0).getTime();
-
-    switch (cachedComment.status) {
-      case CacheStatus.DELETED:
-        if (_comments && _comments[path]) {
-          delete _comments[path];
-          shouldClone = true;
-        }
-        break;
-      case CacheStatus.UPDATED:
-      case CacheStatus.PENDING:
-        // check if commentKey already exist in comments map,
-        if (_comments[path]) {
-          shouldClone = true;
-          // check if we should update comments map with cached map based on updat timestamp
-          const remoteUpdateTimestamp = new Date(_comments[path].updated).getTime();
-
-          if (cacheUpdateTimestamp > remoteUpdateTimestamp) {
-            _comments[path].body = cachedComment.body;
+      switch (cachedComment.status) {
+        case CacheStatus.DELETED:
+          if (_comments && _comments[path]) {
+            if (!shouldClone) {
+              _comments = { ..._comments };
+              shouldClone = true;
+            }
+            delete _comments[path];
           }
-        }
+          break;
+        case CacheStatus.UPDATED:
+        case CacheStatus.PENDING:
+          // check if commentKey already exist in comments map,
+          if (_comments[path]) {
+            // check if we should update comments map with cached map based on updat timestamp
+            const remoteUpdateTimestamp = new Date(_comments[path].updated).getTime();
 
-        // if comment key do not exist, possiblky comment is a new comment, in this case, check if parent of comment exist in map
-        else if (_comments[_parentPath]) {
-          shouldClone = true;
-          // in this case add comment key in childern and inject cachedComment in commentsMap
-          _comments[path] = cachedComment;
-          _comments[_parentPath].replies.push(path);
-          _comments[_parentPath].children += 1;
-
-          // if comment was created very recently enable auto reveal
-          if (lastCacheUpdate.postPath === path && currentTime - lastCacheUpdate.updatedAt < 5000) {
-            console.log('setting show replies flag');
-            _comments[_parentPath].expandedReplies = true;
-            _comments[path].renderOnTop = true;
+            if (cacheUpdateTimestamp > remoteUpdateTimestamp) {
+              if (!shouldClone) {
+                _comments = { ..._comments };
+                shouldClone = true;
+              }
+              // Don't mutate - create new object
+              _comments[path] = {
+                ..._comments[path],
+                body: cachedComment.body,
+              };
+            }
           }
-        }
-        break;
-    }
-  });
 
-  return shouldClone ? { ..._comments } : _comments;
+          // if comment key do not exist, possibly comment is a new comment, in this case, check if parent of comment exist in map
+          else if (_comments[_parentPath]) {
+            if (!shouldClone) {
+              _comments = { ..._comments };
+              shouldClone = true;
+            }
+            // in this case add comment key in children and inject cachedComment in commentsMap
+            const parentComment = _comments[_parentPath];
+            _comments[path] = cachedComment;
+
+            // Don't mutate parent - create new object with updated replies and children
+            _comments[_parentPath] = {
+              ...parentComment,
+              replies: [...parentComment.replies, path],
+              children: parentComment.children + 1,
+            };
+
+            // if comment was created very recently enable auto reveal
+            if (
+              lastCacheUpdate.postPath === path &&
+              currentTime - lastCacheUpdate.updatedAt < 5000
+            ) {
+              console.log('setting show replies flag');
+              _comments[_parentPath] = {
+                ..._comments[_parentPath],
+                expandedReplies: true,
+              };
+              _comments[path] = {
+                ..._comments[path],
+                renderOnTop: true,
+              };
+            }
+          }
+          break;
+      }
+    });
+  }
+
+  return _comments;
 };
 
 export const injectVoteCache = (post, voteCache) => {
-  // Clone post to avoid mutations that break React.memo comparisons
-  if (voteCache && voteCache.status !== CacheStatus.FAILED) {
-    // Create shallow clone to ensure new reference
-    const clonedPost = { ...post };
-    const _voteIndex = clonedPost.active_votes.findIndex((i) => i.voter === voteCache.voter);
-
-    // if vote do not already exist
-    if (_voteIndex < 0 && voteCache.status !== CacheStatus.DELETED) {
-      clonedPost.total_payout =
-        post.total_payout + voteCache.amount * (voteCache.isDownvote ? -1 : 1);
-
-      // calculate updated totalRShares and send to post
-      const _totalRShares = post.active_votes.reduce(
-        (accumulator: number, item: any) => accumulator + parseFloat(item.rshares),
-        voteCache.rshares,
-      );
-      const _newVote = parseVote(voteCache, post, _totalRShares);
-      clonedPost.active_votes = [...post.active_votes, _newVote];
-
-      // update vote status here
-      clonedPost.isUpVoted = !voteCache.isDownvote;
-      clonedPost.isDownVoted = !!voteCache.isDownvote;
-
-      // Clone stats object and update total_votes count
-      if (post.stats) {
-        clonedPost.stats = { ...post.stats, total_votes: clonedPost.active_votes.length };
-      }
-
-      return clonedPost;
-    }
-
-    // if vote already exist
-    else if (_voteIndex >= 0) {
-      const _vote = clonedPost.active_votes[_voteIndex];
-
-      // get older and new reward for the vote
-      const _oldReward = calculateVoteReward(_vote.rshares, post);
-
-      // update total payout
-      const _voteAmount = voteCache.amount * (voteCache.isDownvote ? -1 : 1);
-      clonedPost.total_payout = post.total_payout + _voteAmount - _oldReward;
-
-      // update vote entry
-      const updatedVote = { ..._vote };
-      updatedVote.rshares = voteCache.rshares;
-      updatedVote.percent100 = updatedVote.percent && voteCache.percent / 100;
-
-      const updatedVotes = [...post.active_votes];
-      updatedVotes[_voteIndex] = updatedVote;
-      clonedPost.active_votes = updatedVotes;
-
-      // update vote status here
-      clonedPost.isUpVoted = !voteCache.isDownvote;
-      clonedPost.isDownVoted = !!voteCache.isDownvote;
-
-      // Clone stats object (vote count stays same for updates)
-      if (post.stats) {
-        clonedPost.stats = { ...post.stats };
-      }
-
-      return clonedPost;
-    }
+  // Defensive checks
+  if (!post || !voteCache || voteCache.status === CacheStatus.FAILED) {
+    return post;
   }
 
+  if (!post.active_votes || !Array.isArray(post.active_votes)) {
+    return post;
+  }
+
+  const _voteIndex = post.active_votes.findIndex((i) => i.voter === voteCache.voter);
+
+  // if vote do not already exist
+  if (_voteIndex < 0 && voteCache.status !== CacheStatus.DELETED) {
+    // Clone post to avoid mutations
+    const clonedPost = { ...post };
+    clonedPost.total_payout =
+      post.total_payout + voteCache.amount * (voteCache.isDownvote ? -1 : 1);
+
+    // calculate updated totalRShares and send to post
+    const _totalRShares = post.active_votes.reduce(
+      (accumulator: number, item: any) => accumulator + parseFloat(item.rshares),
+      voteCache.rshares,
+    );
+    const _newVote = parseVote(voteCache, post, _totalRShares);
+    clonedPost.active_votes = [...post.active_votes, _newVote];
+
+    // update vote status here
+    clonedPost.isUpVoted = !voteCache.isDownvote;
+    clonedPost.isDownVoted = !!voteCache.isDownvote;
+
+    // Clone stats object and update total_votes count
+    if (post.stats) {
+      clonedPost.stats = { ...post.stats, total_votes: clonedPost.active_votes.length };
+    }
+
+    return clonedPost;
+  }
+
+  // if vote already exist
+  if (_voteIndex >= 0) {
+    const _vote = post.active_votes[_voteIndex];
+
+    // Check if vote actually changed before cloning
+    const currentIsUpVoted = !voteCache.isDownvote;
+    const currentIsDownVoted = !!voteCache.isDownvote;
+
+    if (
+      _vote.rshares === voteCache.rshares &&
+      post.isUpVoted === currentIsUpVoted &&
+      post.isDownVoted === currentIsDownVoted
+    ) {
+      return post; // No changes, return original reference
+    }
+
+    // Clone post to avoid mutations
+    const clonedPost = { ...post };
+
+    // get older and new reward for the vote
+    const _oldReward = calculateVoteReward(_vote.rshares, post);
+
+    // update total payout
+    const _voteAmount = voteCache.amount * (voteCache.isDownvote ? -1 : 1);
+    clonedPost.total_payout = post.total_payout + _voteAmount - _oldReward;
+
+    // update vote entry
+    const updatedVote = { ..._vote };
+    updatedVote.rshares = voteCache.rshares;
+    updatedVote.percent100 = updatedVote.percent && voteCache.percent / 100;
+
+    const updatedVotes = [...post.active_votes];
+    updatedVotes[_voteIndex] = updatedVote;
+    clonedPost.active_votes = updatedVotes;
+
+    // update vote status here
+    clonedPost.isUpVoted = !voteCache.isDownvote;
+    clonedPost.isDownVoted = !!voteCache.isDownvote;
+
+    // Clone stats object (vote count stays same for updates)
+    if (post.stats) {
+      clonedPost.stats = { ...post.stats };
+    }
+
+    return clonedPost;
+  }
+
+  // No changes needed
   return post;
 };
 

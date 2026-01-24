@@ -9,7 +9,7 @@ export const CommentsSection = ({ item, ...props }) => {
   const [toggle, setToggle] = useLayoutState(false);
 
   useEffect(() => {
-    if (item.expandedReplies) {
+    if (item.expandedReplies && !toggle) {
       setToggle(true);
     }
   }, [item.expandedReplies]);

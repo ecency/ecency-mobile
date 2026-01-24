@@ -1,13 +1,18 @@
 import { renderPostBody } from '@ecency/render-helper';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { Platform } from 'react-native';
 import { isArray } from 'lodash';
 import { getPostQueryOptions, getDiscussionsQueryOptions, getBotsQueryOptions } from '@ecency/sdk';
 import { useAppSelector } from '../../../hooks';
 import { selectCurrentAccount } from '../../../redux/selectors';
 import { Comment, LastUpdateMeta } from '../../../redux/reducers/cacheReducer';
-import { injectPostCache, injectVoteCache, parsePost } from '../../../utils/postParser';
+import {
+  injectPostCache,
+  injectVoteCache,
+  parsePost,
+  parseComment,
+} from '../../../utils/postParser';
 
 interface PostQueryProps {
   author?: string;
@@ -47,38 +52,41 @@ export const useGetPostQuery = ({
 
   const query = useQuery({
     ...sdkQueryOptions,
-    // Transform data using select instead of overriding queryFn
-    select: (post: any) => {
-      if (!post || post.post_id <= 0) {
-        return null;
-      }
-
-      // Always create shallow copy to avoid mutating cached data (parsePost mutates its input)
-      const postCopy = {
-        ...post,
-        // Override stats if pinned
-        stats: isPinned ? { ...post.stats, is_pinned_blog: true } : post.stats,
-      };
-
-      // Process post with parsePost to add all necessary fields
-      // isList = false to render full body, discardBody = false to keep body
-      const processedPost = parsePost(
-        postCopy,
-        currentAccount?.name,
-        false, // not promoted
-        false, // not list view - render full body
-        false, // don't discard body
-      );
-
-      return processedPost;
-    },
-
     initialData: _initialPost,
     gcTime: 30 * 60 * 1000, // keeps cache for 30 minutes
     staleTime: isPreview && currentAccount?.name !== author ? 15 * 60 * 1000 : 0, // do not refetch in case of preview only
   });
 
-  const data = useInjectVotesCache(query.data);
+  // Process the post data separately with useMemo to avoid recreating on every render
+  const processedPost = useMemo(() => {
+    const post = query.data;
+    if (!post || post.post_id <= 0) {
+      return null;
+    }
+
+    console.log('[useGetPostQuery] Processing post');
+
+    // Always create shallow copy to avoid mutating cached data (parsePost mutates its input)
+    const postCopy = {
+      ...post,
+      // Override stats if pinned
+      stats: isPinned ? { ...post.stats, is_pinned_blog: true } : post.stats,
+    };
+
+    // Process post with parsePost to add all necessary fields
+    // isList = false to render full body, discardBody = false to keep body
+    const processed = parsePost(
+      postCopy,
+      currentAccount?.name,
+      false, // not promoted
+      false, // not list view - render full body
+      false, // don't discard body
+    );
+
+    return processed;
+  }, [query.data, currentAccount?.name, isPinned]);
+
+  const data = useInjectVotesCache(processedPost);
 
   return {
     ...query,
@@ -124,11 +132,16 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const cachedComments: { [key: string]: Comment } = useAppSelector(
     (state) => state.cache.commentsCollection,
+    (a, b) => a === b, // Use reference equality to prevent unnecessary rerenders
   );
   const cachedVotes: { [key: string]: Comment } = useAppSelector(
     (state) => state.cache.votesCollection,
+    (a, b) => a === b, // Use reference equality to prevent unnecessary rerenders
   );
-  const lastCacheUpdate: LastUpdateMeta = useAppSelector((state) => state.cache.lastUpdate);
+  const lastCacheUpdate: LastUpdateMeta = useAppSelector(
+    (state) => state.cache.lastUpdate,
+    (a, b) => a === b, // Use reference equality to prevent unnecessary rerenders
+  );
 
   const [author, setAuthor] = useState(_author);
   const [permlink, setPermlink] = useState(_permlink);
@@ -150,27 +163,92 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
   });
 
   useEffect(() => {
-    const _data = injectPostCache(query.data, cachedComments, cachedVotes, lastCacheUpdate);
-    setData(_data);
-  }, [query.data, cachedComments, cachedVotes]);
+    console.log('[useDiscussionQuery] useEffect triggered', {
+      hasQueryData: !!query.data,
+      cachedCommentsKeys: Object.keys(cachedComments || {}).length,
+      cachedVotesKeys: Object.keys(cachedVotes || {}).length,
+    });
 
-  useEffect(() => {
-    restructureData();
-  }, [data, botAuthorsQuery.data]);
+    if (!query.data) {
+      setData((prev) => {
+        if (Object.keys(prev).length === 0) {
+          return prev;
+        }
+        console.log('[useDiscussionQuery] Clearing data');
+        return {};
+      });
+      return;
+    }
+
+    // Parse SDK comments to convert markdown to HTML using render-helper
+    // IMPORTANT: parseComment mutates its input, so we must create a shallow copy first
+    const parsedComments = {};
+    Object.keys(query.data).forEach((key) => {
+      const comment = query.data[key];
+      if (comment && comment.body) {
+        // Create shallow copy to avoid mutating React Query cache
+        const commentCopy = { ...comment };
+        parsedComments[key] = parseComment(commentCopy, currentAccount?.name);
+      } else {
+        parsedComments[key] = comment;
+      }
+    });
+
+    const _data = injectPostCache(parsedComments, cachedComments, cachedVotes, lastCacheUpdate);
+
+    // Deep check if data actually changed before setting state
+    setData((prev) => {
+      if (prev === _data) {
+        console.log('[useDiscussionQuery] Same reference, skipping update');
+        return prev;
+      }
+
+      // Check if keys changed
+      const prevKeys = Object.keys(prev);
+      const newKeys = Object.keys(_data);
+
+      if (prevKeys.length !== newKeys.length) {
+        console.log('[useDiscussionQuery] Different key count, updating', {
+          prev: prevKeys.length,
+          new: newKeys.length,
+        });
+        return _data;
+      }
+
+      // Quick check if all keys are same
+      const hasChanges = prevKeys.some(
+        (key) => !Object.prototype.hasOwnProperty.call(_data, key) || prev[key] !== _data[key],
+      );
+      if (hasChanges) {
+        console.log('[useDiscussionQuery] Key mismatch or value changed, updating');
+        return _data;
+      }
+
+      // No changes, return previous reference
+      console.log('[useDiscussionQuery] No changes detected, keeping prev');
+      return prev;
+    });
+  }, [query.data, cachedComments, cachedVotes, lastCacheUpdate, currentAccount?.name]);
+
+  // Cache to store processed comments and avoid recreating objects
+  const processedCommentsCache = useRef<Map<string, any>>(new Map());
 
   // traverse discussion collection to curate sections
-  const restructureData = async () => {
+  const restructureData = useCallback(async () => {
     const MAX_THREAD_LEVEL = 3;
     const comments: any = [];
 
     const commentsMap = data;
 
-    if (!commentsMap) {
-      setSectionedData([]);
+    if (!commentsMap || Object.keys(commentsMap).length === 0) {
+      setSectionedData((prev) => (prev.length === 0 ? prev : []));
+      setBotComments((prev) => (prev.length === 0 ? prev : []));
+      processedCommentsCache.current.clear();
       return;
     }
 
     // set replies as data for a section, a single array with level indicating reply placement
+    // IMPORTANT: Reuse cached objects when possible
     const parseReplies = (
       commentsMap: any,
       replyKeys: any[],
@@ -182,16 +260,33 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
         replyKeys.forEach((pathKey) => {
           const comment = commentsMap[pathKey];
           if (comment) {
-            comment.commentKey = commentKey;
-            comment.level = level;
-            replies.push(comment);
+            const cacheKey = `${pathKey}-${commentKey}-${level}`;
+            let commentCopy = processedCommentsCache.current.get(cacheKey);
+
+            // Only create new object if cache miss or comment data changed
+            if (
+              !commentCopy ||
+              commentCopy.body !== comment.body ||
+              commentCopy.updated !== comment.updated
+            ) {
+              commentCopy = {
+                ...comment,
+                commentKey,
+                level,
+              };
+              processedCommentsCache.current.set(cacheKey, commentCopy);
+            }
+
+            replies.push(commentCopy);
             replies = parseReplies(commentsMap, comment.replies, commentKey, level + 1, replies);
-            return comment;
           }
         });
       } else if (level > MAX_THREAD_LEVEL) {
         // makes sure replies data is empty, used to compare with children to decide to show read more comments buttons
-        replies[replies.length - 1].replies = [];
+        const lastReply = replies[replies.length - 1];
+        if (lastReply && lastReply.replies && lastReply.replies.length > 0) {
+          replies[replies.length - 1] = { ...lastReply, replies: [] };
+        }
       }
       return replies;
     };
@@ -199,12 +294,34 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
     Object.keys(commentsMap).forEach((key) => {
       const comment = commentsMap[key];
 
-      // prcoess first level comment
+      // process first level comment
       if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
-        comment.commentKey = key;
-        comment.level = 1;
-        comment.repliesThread = parseReplies(commentsMap, comment.replies, key, comment.level + 1);
-        comments.push(comment);
+        const cacheKey = `${key}-root-1`;
+        let commentCopy = processedCommentsCache.current.get(cacheKey);
+
+        // Only create new object if cache miss or comment data changed
+        if (
+          !commentCopy ||
+          commentCopy.body !== comment.body ||
+          commentCopy.updated !== comment.updated
+        ) {
+          commentCopy = {
+            ...comment,
+            commentKey: key,
+            level: 1,
+            repliesThread: parseReplies(commentsMap, comment.replies, key, 2),
+          };
+          processedCommentsCache.current.set(cacheKey, commentCopy);
+        } else {
+          // Update replies thread even if cached, as nested comments might have changed
+          commentCopy = {
+            ...commentCopy,
+            repliesThread: parseReplies(commentsMap, comment.replies, key, 2),
+          };
+          processedCommentsCache.current.set(cacheKey, commentCopy);
+        }
+
+        comments.push(commentCopy);
       }
     });
 
@@ -216,9 +333,25 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       (comment) => !botAuthorsQuery.data.includes(comment.author),
     );
 
-    setBotComments(_botComments);
-    setSectionedData(_userComments);
-  };
+    const sameListByKey = (prevList: any[], nextList: any[]) => {
+      if (prevList.length !== nextList.length) {
+        return false;
+      }
+      for (let i = 0; i < nextList.length; i++) {
+        if (prevList[i]?.commentKey !== nextList[i]?.commentKey) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    setBotComments((prev) => (sameListByKey(prev, _botComments) ? prev : _botComments));
+    setSectionedData((prev) => (sameListByKey(prev, _userComments) ? prev : _userComments));
+  }, [data, author, permlink, botAuthorsQuery.data]);
+
+  useEffect(() => {
+    restructureData();
+  }, [restructureData]);
 
   return {
     ...query,
@@ -243,10 +376,17 @@ export const useBotAuthorsQuery = () =>
  * @returns post data or array of data with votes cache injected
  */
 export const useInjectVotesCache = (_data: any | any[]) => {
-  const votesCollection = useAppSelector((state) => state.cache.votesCollection);
-  const lastUpdate = useAppSelector((state) => state.cache.lastUpdate);
+  const votesCollection = useAppSelector(
+    (state) => state.cache.votesCollection,
+    (a, b) => a === b,
+  );
+  const lastUpdate = useAppSelector(
+    (state) => state.cache.lastUpdate,
+    (a, b) => a === b,
+  );
   const [retData, setRetData] = useState<any | any[] | null>(null);
   const lastProcessedUpdateRef = useRef<string | null>(null);
+  const lastDataRef = useRef<any>(_data);
 
   useEffect(() => {
     if (!lastUpdate || lastUpdate.type !== 'vote') {
@@ -283,15 +423,20 @@ export const useInjectVotesCache = (_data: any | any[]) => {
 
       // if post available, inject cache and update state
       if (_postData) {
-        _postData = injectVoteCache(_postData, _voteCache);
+        const updatedPost = injectVoteCache(_postData, _voteCache);
+
+        // Only update if injectVoteCache returned a different reference
+        if (updatedPost === _postData) {
+          return currentRetData; // No changes
+        }
 
         if (_postIndex < 0) {
-          console.log('updating data', _postData);
-          return { ..._postData };
+          console.log('updating data', updatedPost);
+          return updatedPost; // injectVoteCache already cloned if needed
         } else {
           // Create new array with updated post
           const newRetData = [...currentRetData];
-          newRetData[_postIndex] = _postData;
+          newRetData[_postIndex] = updatedPost;
           return newRetData;
         }
       }
@@ -304,6 +449,12 @@ export const useInjectVotesCache = (_data: any | any[]) => {
   }, [lastUpdate]);
 
   useEffect(() => {
+    // Only run if _data actually changed reference
+    if (_data === lastDataRef.current) {
+      return;
+    }
+    lastDataRef.current = _data;
+
     if (!_data) {
       setRetData((currentData) => {
         if (currentData !== null) {
@@ -319,12 +470,13 @@ export const useInjectVotesCache = (_data: any | any[]) => {
         const _path = `${item.author}/${item.permlink}`;
         const voteCache = votesCollection[_path];
 
-        item = injectVoteCache(item, voteCache);
+        return injectVoteCache(item, voteCache);
       }
       return item;
     };
 
-    const _cData = isArray(_data) ? _data.map(_itemFunc) : _itemFunc({ ..._data });
+    // Don't create unnecessary new object for single posts
+    const _cData = isArray(_data) ? _data.map(_itemFunc) : _itemFunc(_data);
 
     // Only update if data actually changed to prevent unnecessary re-renders
     setRetData((currentData) => {
@@ -366,7 +518,7 @@ export const useInjectVotesCache = (_data: any | any[]) => {
     });
 
     // votesCollection is intentionally not a dependency - incremental vote updates are handled by the first useEffect
-  }, [_data]);
+  }, [_data, votesCollection]);
 
   return retData || _data;
 };

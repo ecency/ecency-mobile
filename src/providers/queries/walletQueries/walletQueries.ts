@@ -433,6 +433,33 @@ export const useRecurringActivitesQuery = (coinId: string) => {
 export const usePendingRequestsQuery = (symbol: string) => {
   const currentAccount = useAppSelector(selectCurrentAccount);
   const username = currentAccount?.name;
+  const buildCombinedRequests = (
+    savings: any[],
+    conversions: any[],
+    collateralized: any[],
+    openOrders: any[],
+  ) => {
+    const allRequests = [
+      ...(savings || []),
+      ...(conversions || []),
+      ...(collateralized || []),
+      ...(openOrders || []),
+    ];
+
+    allRequests.sort((a, b) => {
+      const timeA = new Date(a.expires || a.created).getTime();
+      const timeB = new Date(b.expires || b.created).getTime();
+
+      const validTimeA = Number.isNaN(timeA) ? Infinity : timeA;
+      const validTimeB = Number.isNaN(timeB) ? Infinity : timeB;
+
+      if (validTimeA < validTimeB) return -1;
+      if (validTimeA > validTimeB) return 1;
+      return 0;
+    });
+
+    return allRequests;
+  };
 
   // Use SDK query options for pending requests
   const savingsQuery = useQuery({
@@ -539,36 +566,21 @@ export const usePendingRequestsQuery = (symbol: string) => {
   });
 
   // Combine all pending requests and sort by date
-  const combinedData = useMemo(() => {
-    const allRequests = [
-      ...(savingsQuery.data || []),
-      ...(conversionQuery.data || []),
-      ...(collateralizedConversionQuery.data || []),
-      ...(openOrdersQuery.data || []),
-    ];
-
-    // Sort by expiration or creation date
-    allRequests.sort((a, b) => {
-      const timeA = new Date(a.expires || a.created).getTime();
-      const timeB = new Date(b.expires || b.created).getTime();
-
-      // Handle invalid dates by treating NaN as Infinity (sort to end)
-      const validTimeA = Number.isNaN(timeA) ? Infinity : timeA;
-      const validTimeB = Number.isNaN(timeB) ? Infinity : timeB;
-
-      // Return proper comparator result: -1, 0, or 1
-      if (validTimeA < validTimeB) return -1;
-      if (validTimeA > validTimeB) return 1;
-      return 0;
-    });
-
-    return allRequests;
-  }, [
-    savingsQuery.data,
-    conversionQuery.data,
-    collateralizedConversionQuery.data,
-    openOrdersQuery.data,
-  ]);
+  const combinedData = useMemo(
+    () =>
+      buildCombinedRequests(
+        savingsQuery.data || [],
+        conversionQuery.data || [],
+        collateralizedConversionQuery.data || [],
+        openOrdersQuery.data || [],
+      ),
+    [
+      savingsQuery.data,
+      conversionQuery.data,
+      collateralizedConversionQuery.data,
+      openOrdersQuery.data,
+    ],
+  );
 
   const isLoading =
     savingsQuery.isLoading ||
@@ -591,11 +603,19 @@ export const usePendingRequestsQuery = (symbol: string) => {
     isLoading,
     isError,
     error,
-    refetch: () => {
-      savingsQuery.refetch();
-      conversionQuery.refetch();
-      collateralizedConversionQuery.refetch();
-      openOrdersQuery.refetch();
+    refetch: async () => {
+      const results = await Promise.all([
+        savingsQuery.refetch(),
+        conversionQuery.refetch(),
+        collateralizedConversionQuery.refetch(),
+        openOrdersQuery.refetch(),
+      ]);
+      return buildCombinedRequests(
+        results[0].data || [],
+        results[1].data || [],
+        results[2].data || [],
+        results[3].data || [],
+      );
     },
   };
 };

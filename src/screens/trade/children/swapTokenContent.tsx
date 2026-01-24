@@ -204,7 +204,9 @@ export const SwapTokenContent = ({ initialSymbol, handleHsTransfer, onSuccess }:
         await delay(1000);
         const _existingPedingCount = pendingRequestsQuery.data?.length || 0;
         const pendingRequests = await pendingRequestsQuery.refetch();
-        const _hasPending = pendingRequests.data?.length !== _existingPedingCount;
+        const _latestPendingCount =
+          pendingRequests?.length ?? pendingRequestsQuery.data?.length ?? 0;
+        const _hasPending = _latestPendingCount !== _existingPedingCount;
 
         onSuccess();
         setSwapping(false);

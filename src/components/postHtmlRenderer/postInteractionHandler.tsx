@@ -24,9 +24,7 @@ interface PostHtmlInteractionHandlerProps {
 }
 
 export const PostHtmlInteractionHandler = forwardRef(
-  ({ postType }: PostHtmlInteractionHandlerProps, ref) => {
-    console.log('Post Type', postType);
-
+  ({ postType: _postType }: PostHtmlInteractionHandlerProps, ref) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const intl = useIntl();
