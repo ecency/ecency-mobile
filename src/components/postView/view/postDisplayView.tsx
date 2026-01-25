@@ -107,9 +107,13 @@ const PostDisplayView = ({
   }, [post]);
 
   // Component Functions
-  const onRefresh = useCallback(() => {
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    fetchPost().then(() => setRefreshing(false));
+    try {
+      await fetchPost();
+    } finally {
+      setRefreshing(false);
+    }
     queryClient.resetQueries({ queryKey: [QUERIES.POST.GET_POLL, author, permlink] });
   }, [fetchPost, queryClient, author, permlink]);
 
@@ -323,7 +327,9 @@ const PostDisplayView = ({
   }, []);
 
   const _handleContentLayout = useCallback((event) => {
-    console.log('content view height', event.nativeEvent.layout.height);
+    if (__DEV__) {
+      console.log('content view height', event.nativeEvent.layout.height);
+    }
   }, []);
 
   const _postContentView = useMemo(

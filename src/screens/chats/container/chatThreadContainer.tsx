@@ -195,6 +195,7 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
   const confirmedPendingPostIdsRef = useRef<Set<string>>(new Set());
   const sendTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const dismissedDmWarningsRef = useRef<Set<string>>(new Set());
+  const repliedChannelsRef = useRef<Set<string>>(new Set());
   const messageRef = useRef<string>('');
 
   useEffect(() => {
@@ -245,7 +246,14 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
       return;
     }
 
-    const hasReplied = posts.some((post) => post.user_id === bootstrapUserId);
+    if (!bootstrapUserId) {
+      setShowDmWarning(false);
+      return;
+    }
+
+    const hasReplied =
+      repliedChannelsRef.current.has(channelId) ||
+      posts.some((post) => post.user_id === bootstrapUserId);
     setShowDmWarning(!hasReplied && posts.length > 0);
   }, [isDM, channelId, posts, bootstrapUserId]);
 
@@ -298,6 +306,9 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
           if (confirmedId) {
             confirmedPendingPostIdsRef.current.add(confirmedId);
           }
+          if (channelId) {
+            repliedChannelsRef.current.add(channelId);
+          }
           setPosts((prevPosts) => {
             const exists = prevPosts.find((p) => p.id === normalized.id);
             if (exists) {
@@ -306,8 +317,8 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
             return [normalized, ...prevPosts];
           });
           const shouldClearComposer =
-            messageRef.current === '' ||
-            emojifyMessage(messageRef.current) === lastSentMessageRef.current;
+            messageRef.current.trim() === '' ||
+            emojifyMessage(messageRef.current.trim()) === lastSentMessageRef.current;
           if (shouldClearComposer) {
             setMessage('');
             _updateMentionState('');
@@ -1236,6 +1247,9 @@ export const ChatThreadContainer: React.FC<ChatThreadContainerProps> = ({
         );
         const newPost = normalizePost(response);
         if (newPost) {
+          if (channelId) {
+            repliedChannelsRef.current.add(channelId);
+          }
           const wasConfirmed = confirmedPendingPostIdsRef.current.has(pendingPostId);
           if (!wasConfirmed) {
             setPosts((prev) => sortPosts([...prev, newPost]));

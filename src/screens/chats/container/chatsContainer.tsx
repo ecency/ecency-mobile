@@ -323,6 +323,59 @@ const ChatsContainer = () => {
     [_ensureBootstrap, _updateChannelState],
   );
 
+  // ============================================================================
+  // Channel Resolution
+  // ============================================================================
+
+  const _resolveChannelIdentity = useCallback(
+    async (channel: any) => {
+      const currentId = _getChannelId(channel);
+      const name = channel?.name || channel?.display_name || currentId;
+
+      if (currentId && name && currentId !== name) {
+        return { channelId: currentId, resolvedChannel: channel };
+      }
+
+      if (!name) {
+        return null;
+      }
+
+      const searched = await searchMattermostChannels(name);
+      const normalized = _normalizeChannels(searched);
+      const match = normalized.find(
+        (item) =>
+          _getChannelId(item) === currentId ||
+          item.name === name ||
+          item.display_name === channel?.display_name,
+      );
+
+      if (match) {
+        return { channelId: _getChannelId(match) || match.name || name, resolvedChannel: match };
+      }
+
+      if (channel?.type === 'D') {
+        const channelResponse = await fetchMattermostChannels();
+        const fallbackChannels = _normalizeChannels(channelResponse);
+        const dmMatch = fallbackChannels.find(
+          (item) =>
+            _getChannelId(item) === currentId ||
+            item.name === name ||
+            item.display_name === channel?.display_name,
+        );
+
+        if (dmMatch) {
+          return {
+            channelId: _getChannelId(dmMatch) || dmMatch.name || name,
+            resolvedChannel: dmMatch,
+          };
+        }
+      }
+
+      return null;
+    },
+    [_getChannelId, _normalizeChannels],
+  );
+
   const _handleLeaveChannel = useCallback(
     async (channel: any) => {
       try {
@@ -437,59 +490,6 @@ const ChatsContainer = () => {
       _handleToggleMute,
       intl,
     ],
-  );
-
-  // ============================================================================
-  // Channel Resolution
-  // ============================================================================
-
-  const _resolveChannelIdentity = useCallback(
-    async (channel: any) => {
-      const currentId = _getChannelId(channel);
-      const name = channel?.name || channel?.display_name || currentId;
-
-      if (currentId && name && currentId !== name) {
-        return { channelId: currentId, resolvedChannel: channel };
-      }
-
-      if (!name) {
-        return null;
-      }
-
-      const searched = await searchMattermostChannels(name);
-      const normalized = _normalizeChannels(searched);
-      const match = normalized.find(
-        (item) =>
-          _getChannelId(item) === currentId ||
-          item.name === name ||
-          item.display_name === channel?.display_name,
-      );
-
-      if (match) {
-        return { channelId: _getChannelId(match) || match.name || name, resolvedChannel: match };
-      }
-
-      if (channel?.type === 'D') {
-        const channelResponse = await fetchMattermostChannels();
-        const fallbackChannels = _normalizeChannels(channelResponse);
-        const dmMatch = fallbackChannels.find(
-          (item) =>
-            _getChannelId(item) === currentId ||
-            item.name === name ||
-            item.display_name === channel?.display_name,
-        );
-
-        if (dmMatch) {
-          return {
-            channelId: _getChannelId(dmMatch) || dmMatch.name || name,
-            resolvedChannel: dmMatch,
-          };
-        }
-      }
-
-      return null;
-    },
-    [_getChannelId, _normalizeChannels],
   );
 
   const _resolveDirectChannel = useCallback(

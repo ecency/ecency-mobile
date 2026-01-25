@@ -231,7 +231,7 @@ export const groomingEngineHistory = (transaction: HistoryItem): CoinActivity | 
   const result: CoinActivity = {
     iconType: 'MaterialIcons',
     trxIndex: blockNumber,
-    engineTrxId: transactionId || transaction._id,
+    engineTrxId: transaction?.id || transaction?._id,
     textKey: operation,
     created: new Date(timestamp).toISOString(),
     value: `${quantity} ${symbol}`,

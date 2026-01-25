@@ -322,9 +322,10 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         if (paramDraft.tags_arr && Array.isArray(paramDraft.tags_arr)) {
           _tags = paramDraft.tags_arr;
         } else if (paramDraft.tags) {
-          _tags = paramDraft.tags.includes(' ')
-            ? paramDraft.tags.split(' ')
-            : paramDraft.tags.split(',');
+          _tags = paramDraft.tags
+            .split(/[,\s]+/)
+            .map((tag) => tag.trim())
+            .filter((tag) => !!tag);
         }
 
         this.setState({
@@ -630,6 +631,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           // Invalidate drafts queries using SDK query key pattern
           // This will invalidate both regular and infinite query variants
           queryClient.invalidateQueries({ queryKey: ['posts', 'drafts', currentAccount.name] });
+          queryClient.invalidateQueries({
+            queryKey: ['posts', 'drafts', 'infinite', currentAccount.name],
+          });
         }
       }
     } catch (err) {
@@ -728,6 +732,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       userActivityMutation,
       speakContentBuilder,
       speakMutations,
+      queryClient,
     } = this.props;
     const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
 

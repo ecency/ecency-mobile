@@ -462,7 +462,7 @@ class SettingsContainer extends Component {
     const { dispatch, intl, currentAccount } = this.props;
 
     const _onConfirm = () => {
-      deleteAccount(currentAccount.name)
+      deleteAccount(currentAccount.name, '')
         .then(() => {
           dispatch(
             toastNotification(

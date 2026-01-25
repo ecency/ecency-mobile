@@ -301,6 +301,25 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
       return;
     }
 
+    const hasVoteDiff = (a: any, b: any) => {
+      if (!a || !b) {
+        return true;
+      }
+
+      const aVotes = Array.isArray(a.active_votes) ? a.active_votes : [];
+      const bVotes = Array.isArray(b.active_votes) ? b.active_votes : [];
+
+      return (
+        aVotes.length !== bVotes.length ||
+        a.isUpVoted !== b.isUpVoted ||
+        a.isDownVoted !== b.isDownVoted ||
+        a.net_votes !== b.net_votes ||
+        a.total_payout !== b.total_payout ||
+        a.pending_payout_value !== b.pending_payout_value ||
+        a.net_rshares !== b.net_rshares
+      );
+    };
+
     // set replies as data for a section, a single array with level indicating reply placement
     // IMPORTANT: Reuse cached objects when possible
     const parseReplies = (
@@ -323,7 +342,8 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
               !commentCopy ||
               commentCopy.body !== comment.body ||
               commentCopy.updated !== comment.updated ||
-              commentCopy.replies?.length !== comment.replies?.length
+              commentCopy.replies?.length !== comment.replies?.length ||
+              hasVoteDiff(commentCopy, comment)
             ) {
               commentCopy = {
                 ...comment,
@@ -374,7 +394,8 @@ export const useDiscussionQuery = (_author?: string, _permlink?: string) => {
           !commentCopy ||
           commentCopy.body !== comment.body ||
           commentCopy.updated !== comment.updated ||
-          commentCopy.replies?.length !== comment.replies?.length
+          commentCopy.replies?.length !== comment.replies?.length ||
+          hasVoteDiff(commentCopy, comment)
         ) {
           commentCopy = {
             ...comment,

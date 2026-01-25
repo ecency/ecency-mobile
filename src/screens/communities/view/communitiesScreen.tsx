@@ -22,8 +22,8 @@ const CommunitiesScreen = () => {
   const intl = useIntl();
 
   const [index, setIndex] = React.useState(0);
-  const joinedListRef = React.useRef<FlatList>(null);
-  const discoverListRef = React.useRef<FlatList>(null);
+  const joinedListRef = React.useRef<FlatList<any>>(null);
+  const discoverListRef = React.useRef<FlatList<any>>(null);
   const [routes] = React.useState([
     {
       key: 'joined',

@@ -176,6 +176,9 @@ export const loginWithSC2 = async (code) => {
     // NOTE: hsApi account data is missing fields like account.username,
     // so we fetch full account data via SDK.
     const account = await fetchAccount(scAccount.account.name);
+    if (!account) {
+      throw new Error('auth.invalid_username');
+    }
     let avatar = '';
 
     try {
@@ -243,6 +246,9 @@ export const loginWithHiveAuth = async (hsCode, hiveAuthKey, hiveAuthExpiry) => 
     // NOTE: hsApi account data is missing fields like account.username,
     // so we fetch full account data via SDK.
     const account = await fetchAccount(scAccount.account.name);
+    if (!account) {
+      throw new Error('auth.invalid_username');
+    }
     let avatar = '';
 
     try {
@@ -412,6 +418,10 @@ export const switchAccount = (username) =>
   new Promise((resolve, reject) => {
     fetchAccount(username)
       .then((account) => {
+        if (!account) {
+          reject(new Error('auth.invalid_username'));
+          return;
+        }
         updateCurrentUsername(username)
           .then(() => {
             resolve(account);

@@ -84,6 +84,9 @@ const NotificationScreen = ({
             {...tabProps}
             onTabPress={({ route }) => {
               if (route.key === 'notifications') {
+                if (!notifications || notifications.length === 0) {
+                  return;
+                }
                 notificationsListRef.current?.scrollToLocation({
                   itemIndex: 0,
                   sectionIndex: 0,
